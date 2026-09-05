@@ -49,4 +49,21 @@ interface Group extends Component
      * Get the actions Dropdown of the group
      */
     public function getActions(): ?Standard;
+
+    /**
+     * Get a group like this with the given heading level for the group title.
+     */
+    public function withHeadingLevel(int $level): Group;
+
+    /**
+     * Get the heading level of the group title.
+     */
+    public function getHeadingLevel(): int;
+
+    /**
+     * Get a group like this with the given items.
+     *
+     * @param Item[] $items
+     */
+    public function withItems(array $items): Group;
 }

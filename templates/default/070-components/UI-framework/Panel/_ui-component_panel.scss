@@ -44,6 +44,14 @@
 			font-weight: $il-font-weight-bold;
 		}
 
+		h4 {
+			margin: 0;
+			color: ls.$il-panel-heading-color;
+			font-size: $il-font-size-xlarge;
+			line-height: $il-line-height-large;
+			font-weight: $il-font-weight-bold;
+		}
+
 		h4, h4.ilBlockHeader {
 			margin: 0;
 			color: ls.$il-panel-heading-color;
@@ -120,6 +128,56 @@
 		flex-grow: 99;
 		flex-shrink: 1;
 		order: 1;
+	}
+}
+
+//Expandable Panels
+.panel-expandable {
+	.panel-toggler {
+		order: 1;
+		flex: 0 1 auto;
+		min-width: 0;
+
+		button {
+			background-color: $il-main-dark-bg;
+			border: none;
+			padding: 0;
+			width: auto;
+			min-height: $il-btn-ctrl-outer-height;
+			font-size: $il-font-size-xlarge;
+			line-height: $il-line-height-large;
+			font-weight: $il-font-weight-bold;
+			text-align: left;
+		}
+	}
+	.panel-viewcontrols {
+		@include break.on-screen-size(large) {
+			flex-shrink: 0;
+		}
+	}
+	span[data-collapse-glyph-visibility="1"] {
+		display: inline;
+	}
+	span[data-collapse-glyph-visibility="0"] {
+		display: none;
+	}
+	span[data-expand-glyph-visibility="1"] {
+		display: inline;
+	}
+	span[data-expand-glyph-visibility="0"] {
+		display: none;
+	}
+	div[data-vc-expanded="1"] {
+		display: flex;
+	}
+	div[data-vc-expanded="0"] {
+		display: none;
+	}
+	div[data-body-expanded="1"] {
+		display: block;
+	}
+	div[data-body-expanded="0"] {
+		display: none;
 	}
 }
 

@@ -21,9 +21,11 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
+use ILIAS\Data;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ComponentDummy implements C\Component
 {
@@ -235,14 +237,14 @@ class PanelTest extends ILIAS_UI_TestBase
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex">
+<div id="id_1" class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-controls">
-            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
-                <ul id="id_3_menu" class="dropdown-menu">
-                    <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-                    <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+            <div class="dropdown" id="id_4"><button class="btn btn-default dropdown-toggle" type="button" aria-label="Actions for Title" aria-expanded="false" aria-controls="id_4_menu"><span class="caret"></span></button>
+                <ul id="id_4_menu" class="dropdown-menu">
+                    <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">ILIAS</button></li>
+                    <li><button class="btn btn-link" data-action="https://www.github.com" id="id_3">GitHub</button></li>
                 </ul>
             </div>
         </div>
@@ -274,7 +276,7 @@ EOT;
     <div class="panel-heading ilBlockHeader">
         <h3>Title</h3>
         <div class="panel-controls">
-            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -361,7 +363,7 @@ EOT;
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-controls">
-            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -480,18 +482,18 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex">
+<div id="id_1" class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
-            <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_1_ctrl">
+            <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_2">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_2_ctrl">
                     <span class="label">vc_sort B</span>
                     <span class="glyphicon-sort"></span>
                 </button>
-                <ul id="id_1_ctrl" class="dropdown-menu">
-                   <li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
-                   <li class="selected"><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
+                <ul id="id_2_ctrl" class="dropdown-menu">
+                   <li><button class="btn btn-link" data-action="?sortation=a" id="id_3">A</button></li>
+                   <li class="selected"><button class="btn btn-link" data-action="?sortation=b" id="id_4">B</button></li>
                 </ul>
             </div>
         </div>
@@ -524,20 +526,20 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex">
+<div id="id_1" class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="il-viewcontrol-pagination l-bar__element">
-                <button class="btn btn-default" aria-label="back" data-action="http://ilias.de?page=0" id="id_6">
+                <button class="btn btn-default" aria-label="back" data-action="http://ilias.de?page=0" id="id_7">
                     <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
                 </button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-                <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
-                <button class="btn btn-default" aria-label="next" data-action="http://ilias.de?page=2" id="id_7">
+                <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_2">1</button>
+                <button class="btn btn-link engaged" aria-current="page" data-action="http://ilias.de?page=1" id="id_3">2</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_4">3</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_5">4</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_6">5</button>
+                <button class="btn btn-default" aria-label="next" data-action="http://ilias.de?page=2" id="id_8">
                     <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
                 </button>
             </div>
@@ -548,6 +550,165 @@ EOT;
 </div>
 EOT;
         $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    private function getDummyURI()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method("getUri")
+            ->willReturn(new class () {
+                public function __toString()
+                {
+                    return 'http://localhost:80';
+                }
+            });
+
+        return $request;
+    }
+
+    public function testWithExpandableExpandedNoActions(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->standard("Title", array(new ComponentDummy()));
+
+        $this->assertEquals(false, $p->isExpandable());
+
+        $p = $p->withExpandable(true, true);
+
+        $this->assertEquals(true, $p->isExpandable());
+        $this->assertEquals(true, $p->isExpanded());
+        $this->assertEquals(null, $p->getExpandAction());
+        $this->assertEquals(null, $p->getCollapseAction());
+    }
+
+    public function testWithExpandableNotExpanded(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->standard("Title", array(new ComponentDummy()))
+                ->withExpandable(true);
+
+        $this->assertEquals(true, $p->isExpandable());
+        $this->assertEquals(false, $p->isExpanded());
+    }
+
+    public function testWithNotExpandable(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->standard("Title", array(new ComponentDummy()))
+                ->withExpandable(true);
+
+        $this->assertEquals(true, $p->isExpandable());
+
+        $p = $p->withExpandable(false);
+
+        $this->assertEquals(false, $p->isExpandable());
+    }
+
+    public function testWithExpandableCollapsedActions(): void
+    {
+        $fp = $this->getPanelFactory();
+        $df = new Data\Factory();
+        $uri1 = $df->uri("http://localhost/ilias.php&expand=1");
+        $uri2 = $df->uri("http://localhost/ilias.php&collapse=1");
+
+        $p = $fp->standard("Title", array(new ComponentDummy()));
+
+        $this->assertEquals(false, $p->isExpandable());
+
+        $p = $p->withExpandable(true, false, $uri1, $uri2);
+
+        $this->assertEquals(true, $p->isExpandable());
+        $this->assertEquals(false, $p->isExpanded());
+        $this->assertEquals($uri1, $p->getExpandAction());
+        $this->assertEquals($uri2, $p->getCollapseAction());
+    }
+
+    public function testRenderWithExpanded(): void
+    {
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+        $p = $f->standard("Title", [])
+               ->withExpandable(true, true);
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div id="id_1" class="panel panel-primary panel-flex panel-expandable">
+    <div class="panel-heading ilHeader">
+        <div class="panel-toggler">
+            <h2>
+                <button aria-expanded="true" aria-controls="body_id_1" id="header_id_1">
+				    <span>
+                        <span data-collapse-glyph-visibility="1">
+                            <span class="glyph" aria-hidden="true">
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </span>
+                        </span>
+                        <span data-expand-glyph-visibility="0">
+                            <span class="glyph" aria-hidden="true">
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            </span>
+                        </span>Title
+                    </span>
+			    </button>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-body" id="body_id_1" aria-labelledby="header_id_1" data-body-expanded="1"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderWithCollapsed(): void
+    {
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+        $p = $f->standard("Title", [])
+               ->withExpandable(true, false);
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div id="id_1" class="panel panel-primary panel-flex panel-expandable">
+    <div class="panel-heading ilHeader">
+        <div class="panel-toggler">
+            <h2>
+                <button aria-expanded="false" aria-controls="body_id_1" id="header_id_1">
+				    <span>
+                        <span data-collapse-glyph-visibility="0">
+                            <span class="glyph" aria-hidden="true">
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </span>
+                        </span>
+                        <span data-expand-glyph-visibility="1">
+                            <span class="glyph" aria-hidden="true">
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            </span>
+                        </span>Title
+                    </span>
+			    </button>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-body" id="body_id_1" aria-labelledby="header_id_1" data-body-expanded="0"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
             $this->brutallyTrimHTML($expected_html),
             $this->brutallyTrimHTML($html)
         );

@@ -38,8 +38,8 @@ function with_lead_text()
     $renderer = $DIC->ui()->renderer();
 
     $actions = $f->dropdown()->standard(array(
-        $f->button()->shy("ILIAS", "https://www.ilias.de"),
-        $f->button()->shy("GitHub", "https://www.github.com")
+        $f->link()->standard("ILIAS", "https://www.ilias.de")->withOpenInNewViewport(true),
+        $f->link()->standard("GitHub", "https://www.github.com")->withOpenInNewViewport(true)
     ));
 
     $df = new \ILIAS\Data\Factory();
