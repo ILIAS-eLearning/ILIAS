@@ -316,7 +316,6 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("general_settings");
-                $this->getTabs();
                 $gui = $this->gui->settings()->settingsGUI(
                     $this->object->getId(),
                     $this->object->getRefId()
