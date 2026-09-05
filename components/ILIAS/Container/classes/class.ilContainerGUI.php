@@ -973,6 +973,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     // as they don't have the possibility to use the multi-download-capability of the manage-tab
     public function enableMultiDownloadObject(): void
     {
+        if ($this->user->isAnonymous()) {
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+            return;
+        }
+
         $this->multi_download_enabled = true;
         $this->renderObject();
     }
@@ -1127,7 +1133,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function downloadObject(): void
     {
-        if (in_array($this->user->getId(), [ANONYMOUS_USER_ID, 0], true)) {
+        if ($this->user->isAnonymous() || $this->user->getId() === 0) {
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
             return;
         }
 
