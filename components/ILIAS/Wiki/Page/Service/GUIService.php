@@ -96,4 +96,18 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function contributorsTableBuilder(
+        int $wiki_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): ContributorsTableBuilder {
+        return new ContributorsTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $wiki_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

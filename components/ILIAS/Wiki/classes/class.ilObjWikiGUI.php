@@ -790,15 +790,112 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->checkPermission("write");
         $ilTabs->activateTab("wiki_contributors");
 
-        $table_gui = new ilWikiContributorsTableGUI(
+        $table = $this->gui->page()->contributorsTableBuilder(
+            $this->object->getId(),
             $this,
-            "listContributors",
-            $this->object->getId()
-        );
+            "listContributors"
+        )->getTable();
 
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
 
         $this->setSideBlock();
+    }
+
+    public function editGrading(int $user_id): void
+    {
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("wiki_grading"))
+            ->form($this->getContributorGradingForm($user_id))
+            ->send();
+    }
+
+    protected function getContributorGradingForm(int $user_id): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "user", $user_id);
+        $status = ilWikiContributor::_lookupStatus($this->object->getId(), $user_id);
+        $status ??= ilWikiContributor::STATUS_NOT_GRADED;
+
+        return $this->gui->form([self::class], "saveContributorGrading")
+            ->select(
+                "status",
+                $this->lng->txt("status"),
+                [
+                    (string) ilWikiContributor::STATUS_NOT_GRADED => $this->lng->txt("wiki_notgraded"),
+                    (string) ilWikiContributor::STATUS_PASSED => $this->lng->txt("wiki_passed"),
+                    (string) ilWikiContributor::STATUS_FAILED => $this->lng->txt("wiki_failed")
+                ],
+                "",
+                (string) $status
+            )
+            ->textarea(
+                "lcomment",
+                $this->lng->txt("wiki_comment_for_learner"),
+                "",
+                ilLPMarks::_lookupComment($user_id, $this->object->getId())
+            );
+    }
+
+    public function saveContributorGradingObject(): void
+    {
+        $this->checkPermission("write");
+        $user_id = $this->edit_request->getUserId();
+        $form = $this->getContributorGradingForm($user_id);
+
+        if ($form->isValid()) {
+            $marks = new ilLPMarks($this->object->getId(), $user_id);
+            $new_status = (int) $form->getData("status");
+            $new_comment = $form->getData("lcomment");
+            if ($marks->getComment() !== $new_comment ||
+                (int) ilWikiContributor::_lookupStatus($this->object->getId(), $user_id) !== $new_status) {
+                ilWikiContributor::_writeStatus($this->object->getId(), $user_id, $new_status);
+                $marks->setComment($new_comment);
+                $marks->update();
+            }
+        }
+
+        $this->ctrl->redirect($this, "listContributors");
+    }
+
+    public function editMark(int $user_id): void
+    {
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("wiki_mark"))
+            ->form($this->getContributorMarkForm($user_id))
+            ->send();
+    }
+
+    protected function getContributorMarkForm(int $user_id): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "user", $user_id);
+
+        return $this->gui->form([self::class], "saveContributorMark")
+            ->text(
+                "mark",
+                $this->lng->txt("wiki_mark"),
+                "",
+                ilLPMarks::_lookupMark($user_id, $this->object->getId())
+            );
+    }
+
+    public function saveContributorMarkObject(): void
+    {
+        $this->checkPermission("write");
+        $user_id = $this->edit_request->getUserId();
+        $form = $this->getContributorMarkForm($user_id);
+
+        if ($form->isValid()) {
+            $marks = new ilLPMarks($this->object->getId(), $user_id);
+            $new_mark = $form->getData("mark");
+            if ($marks->getMark() !== $new_mark) {
+                $marks->setMark($new_mark);
+                $marks->update();
+            }
+        }
+
+        $this->ctrl->redirect($this, "listContributors");
     }
 
     public function saveGradingObject(): void

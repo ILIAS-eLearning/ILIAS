@@ -95,6 +95,11 @@ class DomainService
         return new RecentChangesRetrieval($this->domain_service, $ref_id);
     }
 
+    public function contributorsRetrieval(int $wiki_id): ContributorsRetrieval
+    {
+        return new ContributorsRetrieval($wiki_id);
+    }
+
     public function importResolver(): ImportResolver
     {
         return new ImportResolver(
