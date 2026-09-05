@@ -123,7 +123,14 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
         if ($this->testrequest->strVal($this->action_parameter_token->getName()) === ScoringByQuestionTable::ACTION_SCORING) {
             $affected_rows = $this->testrequest->raw($this->row_id_token->getName());
-            $this->getAnswerDetail($question_id, $affected_rows[0]);
+            [$active_id, $attempt] = explode('_', $affected_rows[0]);
+
+            if ($this->isAttemptFinished((int) $active_id, (int) $attempt)) {
+                $this->getAnswerDetail($question_id, $affected_rows[0]);
+                return;
+            }
+
+            $this->http->close();
         }
 
         $content = [
@@ -158,8 +165,12 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $active_id = $this->testrequest->getActiveId();
         $question_id = $this->testrequest->getQuestionId();
         $attempt = $this->testrequest->getPassId();
-        if ($active_id === 0 || $question_id === 0
-            || !$this->test_access->checkScoreParticipantsAccessForActiveId($active_id, $this->object->getTestId())) {
+        if (
+            $active_id === 0
+            || $question_id === 0
+            || !$this->test_access->checkScoreParticipantsAccessForActiveId($active_id, $this->object->getTestId())
+            || !$this->isAttemptFinished($active_id, $attempt)
+        ) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirectByClass(\ilObjTestGUI::class);
         }
@@ -270,7 +281,10 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             $this->refinery->kindlyTo()->int()
         )->transform($row_info_array);
 
-        if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id, $this->object->getTestId())) {
+        if (
+            !$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id, $this->object->getTestId())
+            || !$this->isAttemptFinished($active_id, $attempt)
+        ) {
             $this->http->close();
         }
 
@@ -486,6 +500,16 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         );
         $this->ctrl->clearParameterByClass(self::class, 'q_id');
         return $dropdown;
+    }
+
+    private function isAttemptFinished(int $active_id, int $attempt): bool
+    {
+        $pass_data = $this->object
+            ->getCompleteEvaluationData()
+            ->getParticipant($active_id)
+            ?->getPass($attempt);
+
+        return $pass_data !== null && $pass_data->getStatusOfAttempt()->isFinished();
     }
 
     private function buildQuestionTitleWithPoints(TestQuestionProperties $test_question_properties): string
