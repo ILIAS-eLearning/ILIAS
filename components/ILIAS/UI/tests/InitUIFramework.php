@@ -193,7 +193,13 @@ class InitUIFramework
         };
         $c["ui.factory.table.column"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Table\Column\Factory(
-                $c["lng"]
+                $c["lng"],
+                new class () implements \ILIAS\UI\UserTimezone {
+                    public function getTimezone(): \DateTimeZone
+                    {
+                        return new DateTimeZone(date_default_timezone_get());
+                    }
+                }
             );
         };
         $c["ui.factory.table.action"] = function ($c) {

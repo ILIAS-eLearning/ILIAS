@@ -27,6 +27,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Implementation\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\UserTimezone;
 
 /**
  * Basic Tests for all Tables.
@@ -79,7 +80,7 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             $this->getViewControlFactory(),
             $this->getViewControlContainerFactory(),
             new \ILIAS\Data\Factory(),
-            new C\Table\Column\Factory($this->getLanguage()),
+            new C\Table\Column\Factory($this->getLanguage(), $this->getMockUserTimezone()),
             new C\Table\Action\Factory(),
             $this->getMockStorage(),
             new C\Table\DataRowBuilder(),
@@ -109,6 +110,16 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             public function offsetUnset(mixed $offset): void
             {
                 unset($this->data[$offset]);
+            }
+        };
+    }
+
+    protected function getMockUserTimezone(): UserTimezone
+    {
+        return new class () implements UserTimezone {
+            public function getTimezone(): \DateTimeZone
+            {
+                return new \DateTimeZone(date_default_timezone_get());
             }
         };
     }
