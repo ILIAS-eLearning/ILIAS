@@ -215,7 +215,7 @@ class Repository implements RepositoryInterface
             ->withMark($row['mark'])
             ->withComment($row['u_comment'])
             ->withStatus((int) $row['status'])
-            ->withStatusChanged($row['status_changed'])
+            ->withStatusChanged((string) ($row['status_changed'] ?? ''))
             ->withStatusDirty((int) $row['status_dirty'])
             ->withPercentage((int) $row['percentage']);
     }
