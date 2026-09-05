@@ -4297,7 +4297,7 @@ class ilObjTest extends ilObject
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
 				WHERE tst_active.test_fi = %s
-				ORDER BY usr_data.lastname
+				ORDER BY usr_data.lastname, usr_data.firstname, tst_active.active_id
 			";
             $result = $this->db->queryF(
                 $query,
@@ -4321,7 +4321,7 @@ class ilObjTest extends ilObject
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
 				WHERE tst_active.test_fi = %s
-				ORDER BY usr_data.lastname
+				ORDER BY usr_data.lastname, usr_data.firstname, tst_active.active_id
 			";
             $result = $this->db->queryF(
                 $query,
