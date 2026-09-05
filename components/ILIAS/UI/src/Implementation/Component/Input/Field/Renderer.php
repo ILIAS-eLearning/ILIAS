@@ -906,19 +906,15 @@ class Renderer extends AbstractComponentRenderer
         $input = $this->initClientsideFileInput($input);
 
         // display the action button (to choose files).
-        $template->setVariable('ACTION_BUTTON', $default_renderer->render(
-            $this->getUIFactory()->button()->shy(
-                $input->getMaxFiles() <= 1
-                    ? $this->txt('select_file_from_computer')
-                    : $this->txt('select_files_from_computer'),
-                '#'
-            )
-        ));
+        $action_button_id = $this->createId();
+        $template->setVariable('SELECT_FILE_LABEL', $this->txt($input->getMaxFiles() <= 1 ? 'select_file_from_computer' : 'select_files_from_computer'));
+        $template->setVariable('SELECT_FILE_ID', $action_button_id);
 
         return $this->wrapInFormContext(
             $input,
             $input->getLabel(),
             $template->get(),
+            $action_button_id
         );
     }
 
