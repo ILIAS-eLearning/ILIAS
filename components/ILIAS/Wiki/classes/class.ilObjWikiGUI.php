@@ -1246,14 +1246,17 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->addPagesSubTabs();
 
-        $table_gui = new ilWikiRecentChangesTableGUI(
+        $table = $this->gui->page()->recentChangesTableBuilder(
+            $this->object->getRefId(),
             $this,
-            "recentChanges",
-            $this->object->getId()
-        );
+            "recentChanges"
+        )->getTable();
 
         //$this->setSideBlock();
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     public function setSideBlock(int $a_wpg_id = 0): void

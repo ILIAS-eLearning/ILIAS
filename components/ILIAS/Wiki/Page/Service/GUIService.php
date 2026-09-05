@@ -82,4 +82,18 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function recentChangesTableBuilder(
+        int $ref_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): RecentChangesTableBuilder {
+        return new RecentChangesTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $ref_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

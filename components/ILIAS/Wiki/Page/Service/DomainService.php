@@ -90,6 +90,11 @@ class DomainService
         );
     }
 
+    public function recentChangesRetrieval(int $ref_id): RecentChangesRetrieval
+    {
+        return new RecentChangesRetrieval($this->domain_service, $ref_id);
+    }
+
     public function importResolver(): ImportResolver
     {
         return new ImportResolver(
