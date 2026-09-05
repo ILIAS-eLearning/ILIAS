@@ -13076,6 +13076,8 @@ news#:#news_block_information#:#Der Block "Neuigkeiten" zeigt chronologisch alle
 news#:#news_block_news_for_context#:#Neuigkeiten
 news#:#news_cache#:#Neuigkeiten-Cache (Minuten)
 news#:#news_cache_info#:#Aktualisierung des Blocks "Neuigkeiten" alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
+news#:#news_co_period#:#Zeitraum für Neuigkeitenanzeige in Container-Objekten
+news#:#news_co_period_info#:#Zeitraum, der für Neuigkeiten in Container-Objekten berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
 news#:#news_default_visibility#:#Voreinstellung Zugriff
 news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
@@ -13094,7 +13096,12 @@ news#:#news_get_priv_feed_info#:#Sie haben ein Passwort für Ihren privaten News
 news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
 news#:#news_hide_news_block#:#Block "Neuigkeiten" verbergen
 news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Block "Neuigkeiten" wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
+news#:#news_hide_news_by_period#:#Zeitraum für Neuigkeiten
+news#:#news_hide_news_by_period_info#:#Es werden nur Neuigkeiten in einem bestimmten Zeitraum angezeigt.
 news#:#news_hide_news_date#:#Startdatum
+news#:#news_hide_news_global#:#Benutze globale Einstellung
+news#:#news_hide_news_mode#:#Anzeige von Neuigkeiten einschränken
+news#:#news_hide_news_none#:#Neuigkeiten nicht einschränken
 news#:#news_hide_news_per_date#:#Neuigkeiten ab Datum anzeigen
 news#:#news_hide_news_per_date_info#:#Es werden nur Neuigkeiten ab einem bestimmten Datum angezeigt.
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
