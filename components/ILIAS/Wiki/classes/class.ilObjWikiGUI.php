@@ -1589,9 +1589,23 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilTabs->activateTab("settings");
         $this->setSettingsSubTabs("imp_pages");
 
-        $imp_table = new ilImportantPagesTableGUI($this, "editImportantPages");
+        $table = $this->getImportantPagesTable();
+        if ($table->handleCommand()) {
+            return;
+        }
 
-        $tpl->setContent($imp_table->getHTML());
+        $tpl->setContent($table->render());
+    }
+
+    protected function getImportantPagesTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        return $this->gui->page()->importantPagesTableBuilder(
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->object->getStartPage(),
+            $this,
+            "editImportantPages"
+        )->getTable();
     }
 
     public function addImportantPageObject(): void
@@ -1609,13 +1623,128 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editImportantPages");
     }
 
+    public function editIndentation(int $page_id): void
+    {
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("wiki_indentation"))
+            ->form($this->getImportantPageIndentationForm($page_id))
+            ->send();
+    }
+
+    protected function getImportantPageIndentationForm(
+        int $page_id,
+        string $cmd = "saveIndentation"
+    ): \ILIAS\Repository\Form\FormAdapterGUI {
+        $this->ctrl->setParameterByClass(self::class, "imp_page_id", $page_id);
+        $indentation = 0;
+        foreach ($this->imp_pages->getList() as $page) {
+            if ($page->getId() === $page_id) {
+                $indentation = $page->getIndent();
+                break;
+            }
+        }
+
+        return $this->gui->form([self::class], $cmd)
+            ->select(
+                "indentation",
+                $this->lng->txt("wiki_indentation"),
+                [0 => "0", 1 => "1", 2 => "2"],
+                "",
+                (string) $indentation
+            );
+    }
+
+    public function saveIndentationObject(): void
+    {
+        $this->checkPermission("edit_wiki_navigation");
+        $page_id = $this->edit_request->getImportantPageId();
+        $form = $this->getImportantPageIndentationForm($page_id);
+        if ($page_id > 0 && $form->isValid()) {
+            $this->imp_pages->saveOrderingAndIndentation(
+                [],
+                [$page_id => (int) $form->getData("indentation")]
+            );
+        }
+        $this->ctrl->redirect($this, "editImportantPages");
+    }
+
+    public function confirmRemoveImportantPages(array $ids = []): void
+    {
+        var_dump("1");
+        exit;
+        $ids = array_values(array_filter(
+            array_map("intval", $ids),
+            static fn(int $id): bool => $id > 0
+        ));
+        if (count($ids) === 0) {
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "editImportantPages");
+            return;
+        }
+
+        $items = [];
+        foreach ($ids as $id) {
+            $items[$id] = ilWikiPage::lookupTitle($id);
+        }
+        $this->getImportantPagesTable()->renderDeletionConfirmation(
+            $this->lng->txt("wiki_sure_remove_imp_pages"),
+            $this->lng->txt("wiki_sure_remove_imp_pages"),
+            "removeImportantPages",
+            $items
+        );
+    }
+
+    public function removeImportantPages(array $ids = []): void
+    {
+        $this->checkPermission("edit_wiki_navigation");
+        if (count($ids) === 0) {
+            $ids = $this->getImportantPagesTable()->getItemIds();
+        }
+        foreach ($ids as $id) {
+            if ((int) $id > 0) {
+                $this->imp_pages->removeImportantPage((int) $id);
+            }
+        }
+        $this->tpl->setOnScreenMessage(
+            "success",
+            $this->lng->txt("wiki_removed_imp_pages"),
+            true
+        );
+        $this->ctrl->redirect($this, "editImportantPages");
+    }
+
+    public function setAsStartPage(array $ids = []): void
+    {
+        $this->checkPermission("edit_wiki_navigation");
+        $ids = array_values(array_filter(
+            array_map("intval", $ids),
+            static fn(int $id): bool => $id > 0
+        ));
+        if (count($ids) !== 1) {
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt("wiki_select_one_item"), true);
+        } else {
+            $this->imp_pages->removeImportantPage($ids[0]);
+            $this->object->setStartPage(ilWikiPage::lookupTitle($ids[0]));
+            $this->object->update();
+            $this->tpl->setOnScreenMessage(
+                "success",
+                $this->lng->txt("msg_obj_modified"),
+                true
+            );
+        }
+        $this->ctrl->redirect($this, "editImportantPages");
+    }
+
     public function confirmRemoveImportantPagesObject(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        $imp_page_ids = $this->edit_request->getImportantPageIds();
+        $imp_page_ids = $this->getImportantPagesTable()->getItemIds();
+        if (count($imp_page_ids) === 0) {
+            $imp_page_ids = $this->edit_request->getImportantPageIds();
+        }
         if (count($imp_page_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editImportantPages");
@@ -1641,7 +1770,10 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->checkPermission("edit_wiki_navigation");
 
-        $imp_page_ids = $this->edit_request->getImportantPageIds();
+        $imp_page_ids = $this->getImportantPagesTable()->getItemIds();
+        if (count($imp_page_ids) === 0) {
+            $imp_page_ids = $this->edit_request->getImportantPageIds();
+        }
         foreach ($imp_page_ids as $i) {
             $this->imp_pages->removeImportantPage($i);
         }
@@ -1653,12 +1785,22 @@ class ilObjWikiGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-
         $this->checkPermission("edit_wiki_navigation");
 
-        $ordering = $this->edit_request->getImportantPageOrdering();
-        $indentation = $this->edit_request->getImportantPageIndentation();
-        $this->imp_pages->saveOrderingAndIndentation($ordering, $indentation);
+        $table = $this->getImportantPagesTable();
+        $ordered_ids = $table->getData();
+        $ordering = [];
+        $order = 10;
+        if (is_array($ordered_ids)) {
+            foreach ($ordered_ids as $page_id) {
+                $page_id = (int) $page_id;
+                if ($page_id > 0) {
+                    $ordering[$page_id] = $order;
+                    $order += 10;
+                }
+            }
+        }
+        $this->imp_pages->saveOrderingAndIndentation($ordering, []);
         $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_ordering_and_indent_saved"), true);
         $ilCtrl->redirect($this, "editImportantPages");
     }

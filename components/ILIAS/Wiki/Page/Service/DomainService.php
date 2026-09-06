@@ -100,6 +100,19 @@ class DomainService
         return new ContributorsRetrieval($wiki_id);
     }
 
+    public function importantPagesRetrieval(
+        int $ref_id,
+        int $wiki_id,
+        string $start_page
+    ): ImportantPagesRetrieval {
+        return new ImportantPagesRetrieval(
+            $this->domain_service,
+            $ref_id,
+            $wiki_id,
+            $start_page
+        );
+    }
+
     public function importResolver(): ImportResolver
     {
         return new ImportResolver(

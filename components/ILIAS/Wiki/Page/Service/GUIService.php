@@ -110,4 +110,22 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function importantPagesTableBuilder(
+        int $ref_id,
+        int $wiki_id,
+        string $start_page,
+        object $parent_gui,
+        string $parent_cmd
+    ): ImportantPagesTableBuilder {
+        return new ImportantPagesTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $ref_id,
+            $wiki_id,
+            $start_page,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }
