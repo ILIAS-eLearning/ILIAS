@@ -1505,38 +1505,6 @@ class ilObjWikiGUI extends ilObjectGUI
         $print_view->sendPrintView();
     }
 
-    public function performSearchObject(): void
-    {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $this->checkPermission("read");
-
-        $ilTabs->setTabActive("wiki_search_results");
-
-        if ($this->edit_request->getSearchTerm() === "") {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("wiki_please_enter_search_term"), true);
-            $ilCtrl->redirectByClass("ilwikipagegui", "preview");
-        }
-
-        $search_results = ilObjWiki::_performSearch(
-            $this->object->getId(),
-            $this->edit_request->getSearchTerm()
-        );
-        $table_gui = new ilWikiSearchResultsTableGUI(
-            $this,
-            "performSearch",
-            $this->object->getId(),
-            $search_results,
-            $this->edit_request->getSearchTerm()
-        );
-
-        $this->setSideBlock();
-        $tpl->setContent($table_gui->getHTML());
-    }
-
     public function setContentStyleSheet(): void
     {
         $tpl = $this->tpl;
