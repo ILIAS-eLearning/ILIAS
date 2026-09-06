@@ -197,6 +197,24 @@ class InternalGUIService
         );
     }
 
+    public function teamMembersTableBuilder(
+        \ilExAssignmentTeam $team,
+        int $parent_ref_id,
+        bool $read_only,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\Team\TeamMembersTableBuilder {
+        return new \ILIAS\Exercise\Team\TeamMembersTableBuilder(
+            $this->domain_service,
+            $this,
+            $team,
+            $parent_ref_id,
+            $read_only,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function peerReviewOverviewTableBuilder(
         \ilExAssignment $assignment,
         object $parent_gui,

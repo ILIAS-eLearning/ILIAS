@@ -346,16 +346,19 @@ class ilExSubmissionTeamGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("exc_no_team_yet_info_tutor"));
         }
 
-        $tbl = new ilExAssignmentTeamTableGUI(
-            $this,
-            "submissionScreenTeam",
-            ilExAssignmentTeamTableGUI::MODE_EDIT,
-            $this->exercise->getRefId(),
+        $table = $this->gui->teamMembersTableBuilder(
             $this->team,
-            $read_only
-        );
+            $this->exercise->getRefId(),
+            $read_only,
+            $this,
+            "submissionScreenTeam"
+        )->getTable();
 
-        $this->tpl->setContent($tbl->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($table->render());
     }
 
     /**
@@ -409,27 +412,34 @@ class ilExSubmissionTeamGUI
      */
     public function confirmDeleteTeamObject(): void
     {
-        $this->confirmRemoveTeamMemberObject(true);
+        $this->confirmRemoveTeamMemberObject(0, true);
+    }
+
+    public function confirmRemoveTeamMember(int $user_id): void
+    {
+        $this->confirmRemoveTeamMemberObject($user_id);
     }
 
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
     public function confirmRemoveTeamMemberObject(
+        int $a_user_id = 0,
         bool $a_full_delete = false
     ): void {
         $ilUser = $this->user;
         $tpl = $this->tpl;
 
-        if (!$this->submission->isTutor()) {
-            $ids = $a_full_delete ? $this->team->getMembers() : $this->requested_team_ids;
+        $ids = $a_full_delete
+            ? $this->team->getMembers()
+            : ($a_user_id > 0 ? [$a_user_id] : $this->requested_team_ids);
 
+        if (!$this->submission->isTutor()) {
             if ([] === $ids) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "submissionScreenTeam");
             }
         } else {
-            $ids = $this->requested_team_ids;
             if ([] === $ids) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->returnToParentObject();
@@ -440,7 +450,7 @@ class ilExSubmissionTeamGUI
         if (count($members) <= count($ids)) {
             if (count($members) == 1 && $members[0] == $ilUser->getId()) {
                 // direct team deletion - no confirmation
-                $this->removeTeamMemberObject($a_full_delete);
+                $this->removeTeamMemberObject($a_user_id, $a_full_delete);
                 return;
             } else {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_team_at_least_one"), true);
@@ -480,6 +490,7 @@ class ilExSubmissionTeamGUI
      * @throws ilExcUnknownAssignmentTypeException
      */
     public function removeTeamMemberObject(
+        int $a_user_id = 0,
         bool $a_full_delete = false
     ): void {
         $ilUser = $this->user;
@@ -491,6 +502,8 @@ class ilExSubmissionTeamGUI
         $ids = [];
         if ($a_full_delete) {
             $ids = $this->team->getMembers();
+        } elseif ($a_user_id > 0) {
+            $ids = [$a_user_id];
         } else {
             $ids = $this->requested_team_ids;
         }

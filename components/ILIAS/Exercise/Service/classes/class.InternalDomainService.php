@@ -30,6 +30,7 @@ use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
 use ILIAS\Exercise\Submission\TextSubmissionsRetrieval;
 use ILIAS\Exercise\Team\TeamLogRetrieval;
+use ILIAS\Exercise\Team\TeamMembersRetrieval;
 use ILIAS\Exercise\PeerReview\PeerReviewOverviewRetrieval;
 use ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationRetrieval;
 use ILIAS\Exercise\PeerReview\DomainService;
@@ -100,6 +101,19 @@ class InternalDomainService
     public function teamLogRetrieval(\ilExAssignmentTeam $team): TeamLogRetrieval
     {
         return new TeamLogRetrieval($this, $team);
+    }
+
+    public function teamMembersRetrieval(
+        \ilExAssignmentTeam $team,
+        int $parent_ref_id,
+        bool $edit_permission
+    ): TeamMembersRetrieval {
+        return new TeamMembersRetrieval(
+            $this,
+            $team,
+            $parent_ref_id,
+            $edit_permission
+        );
     }
 
     public function peerReviewOverviewRetrieval(
