@@ -29,6 +29,7 @@ use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
 use ILIAS\Exercise\Submission\TextSubmissionsRetrieval;
+use ILIAS\Exercise\Team\TeamLogRetrieval;
 use ILIAS\Exercise\PeerReview\PeerReviewOverviewRetrieval;
 use ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationRetrieval;
 use ILIAS\Exercise\PeerReview\DomainService;
@@ -94,6 +95,11 @@ class InternalDomainService
         bool $show_peer_review
     ): TextSubmissionsRetrieval {
         return new TextSubmissionsRetrieval($this, $assignment, $show_peer_review);
+    }
+
+    public function teamLogRetrieval(\ilExAssignmentTeam $team): TeamLogRetrieval
+    {
+        return new TeamLogRetrieval($this, $team);
     }
 
     public function peerReviewOverviewRetrieval(

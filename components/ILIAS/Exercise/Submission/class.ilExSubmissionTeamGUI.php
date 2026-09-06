@@ -547,13 +547,17 @@ class ilExSubmissionTeamGUI
     {
         $this->tabs_gui->activateTab("log");
 
-        $tbl = new ilExAssignmentTeamLogTableGUI(
+        $table = $this->gui->teamLogTableBuilder(
+            $this->team,
             $this,
-            "submissionScreenTeamLog",
-            $this->team
-        );
+            "submissionScreenTeamLog"
+        )->getTable();
 
-        $this->tpl->setContent($tbl->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($table->render());
     }
 
     public function createSingleMemberTeamObject(): void
@@ -569,8 +573,17 @@ class ilExSubmissionTeamGUI
 
     public function showTeamLogObject(): void
     {
-        $tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog", $this->team);
-        $this->tpl->setContent($tbl->getHTML());
+        $table = $this->gui->teamLogTableBuilder(
+            $this->team,
+            $this,
+            "showTeamLog"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($table->render());
     }
 
     /**

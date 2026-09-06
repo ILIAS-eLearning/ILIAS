@@ -183,6 +183,20 @@ class InternalGUIService
         );
     }
 
+    public function teamLogTableBuilder(
+        \ilExAssignmentTeam $team,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\Team\TeamLogTableBuilder {
+        return new \ILIAS\Exercise\Team\TeamLogTableBuilder(
+            $this->domain_service,
+            $this,
+            $team,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function peerReviewOverviewTableBuilder(
         \ilExAssignment $assignment,
         object $parent_gui,
