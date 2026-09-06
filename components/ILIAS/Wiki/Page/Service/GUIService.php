@@ -111,6 +111,22 @@ class GUIService
         );
     }
 
+    public function exportOrderTableBuilder(
+        array $all_pages,
+        array $page_ids,
+        object $parent_gui,
+        string $parent_cmd
+    ): ExportOrderTableBuilder {
+        return new ExportOrderTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $all_pages,
+            $page_ids,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function importantPagesTableBuilder(
         int $ref_id,
         int $wiki_id,

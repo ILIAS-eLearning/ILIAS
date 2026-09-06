@@ -1670,8 +1670,6 @@ class ilObjWikiGUI extends ilObjectGUI
 
     public function confirmRemoveImportantPages(array $ids = []): void
     {
-        var_dump("1");
-        exit;
         $ids = array_values(array_filter(
             array_map("intval", $ids),
             static fn(int $id): bool => $id > 0

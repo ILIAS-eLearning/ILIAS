@@ -100,6 +100,13 @@ class DomainService
         return new ContributorsRetrieval($wiki_id);
     }
 
+    public function exportOrderRetrieval(
+        array $all_pages,
+        array $page_ids
+    ): ExportOrderRetrieval {
+        return new ExportOrderRetrieval($all_pages, $page_ids);
+    }
+
     public function importantPagesRetrieval(
         int $ref_id,
         int $wiki_id,
