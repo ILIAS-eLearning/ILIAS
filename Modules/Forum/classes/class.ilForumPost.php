@@ -344,6 +344,11 @@ class ilForumPost
         return $this->forum_id;
     }
 
+    public function belongsToForum(int $forum_id): bool
+    {
+        return $this->id > 0 && $forum_id > 0 && $this->forum_id === $forum_id;
+    }
+
     public function setThreadId(int $a_thread_id): void
     {
         $this->thread_id = $a_thread_id;
@@ -352,6 +357,11 @@ class ilForumPost
     public function getThreadId(): int
     {
         return $this->thread_id;
+    }
+
+    public function belongsToThread(int $thread_id): bool
+    {
+        return $this->id > 0 && $thread_id > 0 && $this->thread_id === $thread_id;
     }
 
     public function getRCID(): string
