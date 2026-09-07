@@ -14,11 +14,19 @@
 ## About this Document
 [//]: # (BEGIN about)
 This document describes the cybersecurity policy for the core of the open source 
-learning management system ILIAS. The document provides information on how security 
-issues and incidents should be reported and how they are handled by the responsible 
-team, the ILIAS Security Group.
+learning management system ILIAS. 
 
-This document is not a guideline on how to set up and operate an ILIAS installation 
+* This policy is to foster the development of a secure product.
+* It outlines how vulnerabilities should be handled by developers.
+* This policy outlines how security issues and incidents should be reported effectively and 
+how they are handled by the responsible team, the ILIAS Security Group.
+* It includes aspects of documenting, adressing and remediating vulnerabilities and promotes 
+the sharing of information concerning vulnerabilities
+
+This document is NOT a guideline on how to set up and operate an ILIAS installation
+securely. 
+
+This document is NOT a guideline on how to set up and operate an ILIAS installation 
 securely. Such instructions can be found in [docs/configuration/secure.md](../configuration/secure.md).
 
 [//]: # (END about)
@@ -66,10 +74,10 @@ to everyone (full disclosure about one week after the new release is published).
 You will receive an automatic e-mail as confirmation of this.
 3. In the next step, the ILIAS Security Group will assign an issue manager.
 4. The issue manager will look into the issue and try to reproduce the problem.
-5. In accordance with the CRA's guidelines, the issue manager gives an early warning 
-about an actively exploited vulnerability and/or severe incident to ENISA's single 
-reporting platform within 24 hours of becoming aware of it.
-6. In case of questions, the issue manager will contact you on behalf of the ILIAS 
+5. In case of an actively exploited vulnerability and/or severe incident, the issue
+manager gives an early warning to ENISA's single reporting platform within 24 hours 
+of becoming aware of it as required by the CRA regulations.
+7. In case of questions, the issue manager will contact you on behalf of the ILIAS 
 association by email. We are grateful for any further help/information you can 
 provide during the analysis and bugfixing process.
 
@@ -98,14 +106,13 @@ possible.
 provides general information and an initial assessment to ENISA.
 4. Depending on the severity and impact of the reported and fixed issues, the 
 ILIAS release manager will build a new release or continue with the default roadmap.
-5. In case of a vulnerability that has been reported to ENISA, the Security Group
-provides a final report to ENISA no later than 14 days after the security bugfix 
-release has been made available.
+5. In case of an actively exploited vulnerability that has been reported to ENISA, 
+the Security Group provides a final report to ENISA no later than 14 days after the 
+security bugfix release has been made available.
 6. In case of a reported severe incident, the Security Group will provide a final report
 to ENISA within one month after the severe incident notification.
 
 [//]: # (END addressing)
-
 
 ## Process for Fixing Security Issues
 [//]: # (BEGIN fixing)
@@ -205,8 +212,8 @@ which provides more details on affected and fixed versions of ILIAS.
 * Tim Bongers, CaT Concepts and Training GmbH, Cologne, Germany
 * Alex Hartwig, Qualitus GmbH, Cologne, Germany
 * Matthias Kunkel, ILIAS open source e-Learning e.V., Cologne, Germany
-* André Schweigert, FAU Kompetenzzentrum Lehre, Fürth, Germany
 * Lukas Scharmer, Databay AG, Würselen, Germany
+* André Schweigert, FAU Kompetenzzentrum Lehre, Fürth, Germany
 * David Tokar, WEKA Media GmbH & Co. KG, Kissing, Germany
 * Guido Vollbach, Databay AG, Würselen, Germany
 
