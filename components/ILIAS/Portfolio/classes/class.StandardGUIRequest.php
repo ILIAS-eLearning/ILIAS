@@ -136,12 +136,6 @@ class StandardGUIRequest
     }
 
     /** @return string[] */
-    public function getRoleTemplateIds(): array
-    {
-        return $this->strArray("role_template_ids");
-    }
-
-    /** @return string[] */
     public function getObjIds(): array
     {
         return $this->strArray("obj_id");

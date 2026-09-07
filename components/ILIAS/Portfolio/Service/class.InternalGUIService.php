@@ -22,6 +22,7 @@ namespace ILIAS\Portfolio;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentTableBuilder;
 use ILIAS\Portfolio\Page\PortfolioPageTableBuilder;
 
 class InternalGUIService
@@ -64,6 +65,20 @@ class InternalGUIService
             $this->domain_service,
             $this,
             $portfolio_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function portfolioRoleAssignmentTableBuilder(
+        bool $has_write_permission,
+        object $parent_gui,
+        string $parent_cmd
+    ): PortfolioRoleAssignmentTableBuilder {
+        return new PortfolioRoleAssignmentTableBuilder(
+            $this->domain_service,
+            $this,
+            $has_write_permission,
             $parent_gui,
             $parent_cmd
         );

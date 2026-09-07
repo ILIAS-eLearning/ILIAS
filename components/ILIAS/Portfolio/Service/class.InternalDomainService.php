@@ -24,6 +24,8 @@ use ILIAS\DI\Container;
 //use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Portfolio\Settings\SettingsManager;
+use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager;
+use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentRetrieval;
 use ILIAS\Portfolio\Page\PortfolioPageRetrieval;
 
 class InternalDomainService
@@ -58,5 +60,12 @@ class InternalDomainService
     public function portfolioPageRetrieval(int $portfolio_id): PortfolioPageRetrieval
     {
         return new PortfolioPageRetrieval($portfolio_id);
+    }
+
+    public function portfolioRoleAssignmentRetrieval(): PortfolioRoleAssignmentRetrieval
+    {
+        return new PortfolioRoleAssignmentRetrieval(
+            new PortfolioRoleAssignmentManager()
+        );
     }
 }
