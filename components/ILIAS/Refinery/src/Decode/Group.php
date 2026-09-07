@@ -23,7 +23,7 @@ namespace ILIAS\Refinery\Decode;
 use ILIAS\Refinery\Decode\Transformation\Json;
 use ILIAS\Refinery\Transformation;
 
-final class Group
+class Group
 {
     /**
      * Decodes a JSON string into native PHP values, JSON objects become associative arrays.
