@@ -215,21 +215,23 @@ The project is also actively maintained.
 The http-message package contains the specified interfaces of the php-fig which defined psr-7.
 
 # DropInReplacements
-With ILIAS 8, the Technical Board has decided to replace the [`Superglobals`](https://www.php.net/manual/en/language.variables.superglobals.php)
-`$_GET`, `$_POST`, `$_COOKIE` and `$_REQUEST` with so called `SuperGlobalDropInReplacement` instances.
-These are `ArrayAccess` wrappers for the respective `Superglobals`. They contain the [`Refinery`](../Refinery/README.md)
-and run values on readout through the `->kindlyTo()->string()` `transformation` respectively.
-Furthermore, the `SuperGlobalDropInReplacement` should prevent that values in the `Superglobals` are manually
-assigned or modified/overwritten, because this violates the immutability of these values in the HTTP request.
-The general replacement of the `Superglobals` for some 3rd-Party-Libraries however leads to problems, because these
-require an `array` and no `ArrayAccess` object (currently known for `SimpleSAMLphp`). Therefore, there is the
-possibility to override the `Superglobals` via an ini setting in the `client.ini.php` file.
+With ILIAS 8, the Technical Board decided to replace the [`Superglobals`](https://www.php.net/manual/en/language.variables.superglobals.php)
+`$_GET`, `$_POST`, `$_COOKIE` and `$_REQUEST` with so-called `SuperGlobalDropInReplacement` instances.
+These are `ArrayAccess` wrappers for the respective `Superglobals`. They use the [`Refinery`](../Refinery/README.md)
+to sanitize values on readout via the `->kindlyTo()->string()` transformation.
+`SuperGlobalDropInReplacement` also prevents values in the `Superglobals` from being manually assigned or
+overwritten, since this would violate the immutability of HTTP request values.
+Globally replacing the `Superglobals` causes problems with some third-party libraries that require a plain
+`array` rather than an `ArrayAccess` object (currently known for `SimpleSAMLphp`). Therefore, the replacement
+can be disabled via an ini setting in `client.ini.php`.
+
+As of ILIAS 11, this setting is only applied when `DEVMODE` is enabled.
 
 ```
 [server]
 prevent_super_global_replacement = 1
 ```
 
-Furthermore, the `SuperGlobalDropInReplacement` behave in such a way when `DEVMODE` is enabled that overwriting a value
+Furthermore, the `SuperGlobalDropInReplacement` behave in such a way that overwriting a value
 in one of the `Superglobals` leads to a `\OutOfBoundsException`.
 
