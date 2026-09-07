@@ -20,14 +20,11 @@ learning management system ILIAS.
 * It outlines how vulnerabilities should be handled by developers.
 * This policy outlines how security issues and incidents should be reported effectively and 
 how they are handled by the responsible team, the ILIAS Security Group.
-* It includes aspects of documenting, adressing and remediating vulnerabilities and promotes 
+* It includes aspects of documenting, addressing and remediating vulnerabilities and promotes 
 the sharing of information concerning vulnerabilities
 
-This document is NOT a guideline on how to set up and operate an ILIAS installation
-securely. 
-
 This document is NOT a guideline on how to set up and operate an ILIAS installation 
-securely. Such instructions can be found in [docs/configuration/secure.md](../configuration/secure.md).
+securely. Such instructions can be found in [docs/configuration/secure.md](docs/configuration/secure.md).
 
 [//]: # (END about)
 
