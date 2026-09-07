@@ -24,6 +24,7 @@ use ILIAS\KeyValueStorage\Repository;
 use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\SessionRepository;
 use ILIAS\KeyValueStorage\Store;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @internal
@@ -39,10 +40,11 @@ final class StorageServices implements Services
 
     public function __construct(
         private readonly SessionRepository $session,
-        private readonly Repository $persistent
+        private readonly Repository $persistent,
+        Refinery $refinery
     ) {
         $this->key_rules = new KeyRules();
-        $this->values = new Values();
+        $this->values = new Values($refinery);
     }
 
     public function session(array $namespace): Store

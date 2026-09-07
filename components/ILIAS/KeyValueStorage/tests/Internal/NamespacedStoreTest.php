@@ -47,7 +47,7 @@ class NamespacedStoreTest extends TestCase
 
     private function storeFor(StorageNamespace $namespace): NamespacedStore
     {
-        return new NamespacedStore($namespace, $this->repository, new KeyRules(), new Values());
+        return new NamespacedStore($namespace, $this->repository, new KeyRules(), new Values($this->refinery()));
     }
 
     public function testValuesAreStoredEncodedAndReadBackDecoded(): void

@@ -22,16 +22,19 @@ namespace ILIAS\Tests\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Exception\InvalidStoredValueException;
 use ILIAS\KeyValueStorage\Internal\Values;
+use ILIAS\Tests\KeyValueStorage\RefineryHelper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ValuesTest extends TestCase
 {
+    use RefineryHelper;
+
     private Values $values;
 
     protected function setUp(): void
     {
-        $this->values = new Values();
+        $this->values = new Values($this->refinery());
     }
 
     #[DataProvider('roundTrippableValues')]

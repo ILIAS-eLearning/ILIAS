@@ -41,7 +41,7 @@ class StorageServicesTest extends TestCase
         $this->session = new class () extends InMemoryRepository implements SessionRepository {
         };
         $this->persistent = new InMemoryRepository();
-        $this->services = new StorageServices($this->session, $this->persistent);
+        $this->services = new StorageServices($this->session, $this->persistent, $this->refinery());
     }
 
     public function testTheScopesUseSeparateRepositories(): void

@@ -52,7 +52,7 @@ class UiStorageAdapterTest extends TestCase
                 new StorageNamespace(['ui', 'storage']),
                 new SessionRepository(),
                 new KeyRules(),
-                new Values()
+                new Values($refinery)
             ),
             $refinery
         );
