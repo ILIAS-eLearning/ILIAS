@@ -223,6 +223,39 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
     }
 
+    public function ensurePostingBelongsToForum(int $obj_id, ilForumPost $posting): void
+    {
+        $forum_id = ilObjForum::lookupForumIdByObjId($obj_id);
+        if (!$posting->belongsToForum($forum_id)) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+    }
+
+    public function ensurePostingBelongsToThread(ilForumTopic $thread, ilForumPost $posting): void
+    {
+        if (!$posting->belongsToThread($thread->getId())) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+    }
+
+    private function ensureAttachmentSelectorsMatchCurrentForum(): void
+    {
+        $this->ensurePostingBelongsToForum($this->object->getId(), $this->objCurrentPost);
+
+        if ($this->objCurrentTopic->getId() > 0) {
+            $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentTopic);
+            $this->ensurePostingBelongsToThread($this->objCurrentTopic, $this->objCurrentPost);
+        }
+    }
+
+    private function ensureDraftSelectorsMatchCurrentForum(ilForumPostDraft $draft): void
+    {
+        $forum_id = ilObjForum::lookupForumIdByObjId($this->object->getId());
+        if ($draft->getForumId() !== $forum_id || $draft->getPostAuthorId() !== $this->user->getId()) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+    }
+
     private function decorateWithAutosave(ilPropertyFormGUI $form): void
     {
         if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
@@ -3122,7 +3155,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if (isset($this->httpRequest->getQueryParams()['file'])) {
             $file_obj_for_delivery = $file_obj;
             if ($selected_draft_id > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {
+                $this->ensureDraftSelectorsMatchCurrentForum(
+                    ilForumPostDraft::newInstanceByDraftId($selected_draft_id)
+                );
                 $file_obj_for_delivery = new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id);
+            } else {
+                $this->ensureAttachmentSelectorsMatchCurrentForum();
             }
             $file_obj_for_delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
         }
@@ -4783,6 +4821,7 @@ EOD
 
         $draft = ilForumPostDraft::newInstanceByDraftId($this->retrieveDraftId());
         $this->checkDraftAccess($draft);
+        $this->ensureDraftSelectorsMatchCurrentForum($draft);
         $fileData = new ilFileDataForumDrafts(0, $draft->getDraftId());
         if (!$fileData->deliverZipFile()) {
             $this->ctrl->redirect($this);
@@ -4796,6 +4835,7 @@ EOD
         }
 
         $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentPost->getThread());
+        $this->ensurePostingBelongsToForum($this->object->getId(), $this->objCurrentPost);
 
         $fileData = new ilFileDataForum($this->object->getId(), $this->objCurrentPost->getId());
         if (!$fileData->deliverZipFile()) {
