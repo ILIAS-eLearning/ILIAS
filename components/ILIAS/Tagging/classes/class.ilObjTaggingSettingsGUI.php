@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Tagging\User\UsersForTagTableBuilder;
+
 /**
  * Media Cast Settings.
  *
@@ -346,12 +348,17 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
         if ($a_search) {
             $ilCtrl->setParameter($this, "tag", $tag);
-            $table = new ilUserForTagTableGUI(
+            $table = (new UsersForTagTableBuilder(
+                $tag,
+                $lng->txt("tagging_users_using_tag"),
+                $lng->txt("user"),
                 $this,
-                "searchUsersForTag",
-                $tag
-            );
-            $tpl->setContent($table->getHTML());
+                "searchUsersForTag"
+            ))->getTable();
+            if ($table->handleCommand()) {
+                return;
+            }
+            $tpl->setContent($table->render());
         }
     }
 
