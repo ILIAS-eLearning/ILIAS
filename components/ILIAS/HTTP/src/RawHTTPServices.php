@@ -39,14 +39,18 @@ class RawHTTPServices implements GlobalHttpState
     private ?ResponseInterface $response = null;
 
 
-    /**
-     * RawHTTPServices constructor.
-     *
-     * @param ResponseSenderStrategy $sender A response sender strategy.
-     * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
-     */
-    public function __construct(private ResponseSenderStrategy $sender, private CookieJarFactory $cookieJarFactory, private RequestFactory $requestFactory, private ResponseFactory $responseFactory, private DurationFactory $durationFactory)
+    public function __construct(
+        private ResponseSenderStrategy $sender,
+        private CookieJarFactory $cookieJarFactory,
+        private RequestFactory $requestFactory,
+        private ResponseFactory $responseFactory,
+        private DurationFactory $durationFactory
+    ) {
+    }
+
+    public function sender(): ResponseSenderStrategy
     {
+        return $this->sender;
     }
 
     public function durations(): DurationFactory

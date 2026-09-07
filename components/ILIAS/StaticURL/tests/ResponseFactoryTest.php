@@ -20,8 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Tests;
 
-use ILIAS\DI\Container;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\StaticURL\Builder\URIBuilder;
 use ILIAS\StaticURL\Context;
+use ILIAS\StaticURL\Legacy\CtrlProxy;
+use ILIAS\StaticURL\Legacy\LanguageProxy;
+use ILIAS\StaticURL\Legacy\MainTemplateProxy;
+use ILIAS\StaticURL\Legacy\RepositoryTreeProxy;
+use ILIAS\StaticURL\Legacy\SettingsProxy;
+use ILIAS\StaticURL\Legacy\UserProxy;
 use ILIAS\StaticURL\Response\CannotReach;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Response\MaybeCanHandlerAfterLogin;
@@ -35,14 +44,22 @@ final class ResponseFactoryTest extends Base
 {
     private function buildContext(bool $logged_in): Context
     {
-        $user = $this->createMock(\ilObjUser::class);
+        $user = $this->createMock(UserProxy::class);
         $user->method('isAnonymous')->willReturn(!$logged_in);
         $user->method('getId')->willReturn($logged_in ? 42 : 0);
 
-        $container = $this->createMock(Container::class);
-        $container->method('user')->willReturn($user);
-
-        return new Context($container);
+        return new Context(
+            $this->createMock(GlobalHttpState::class),
+            $this->createMock(Refinery::class),
+            $this->createMock(Access::class),
+            $this->createMock(URIBuilder::class),
+            $user,
+            $this->createMock(RepositoryTreeProxy::class),
+            $this->createMock(LanguageProxy::class),
+            $this->createMock(MainTemplateProxy::class),
+            $this->createMock(CtrlProxy::class),
+            $this->createMock(SettingsProxy::class),
+        );
     }
 
     public function testCannotReturnsCannotHandle(): void

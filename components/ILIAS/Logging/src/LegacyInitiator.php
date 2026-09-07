@@ -45,13 +45,7 @@ class LegacyInitiator
 
     protected Container $dic;
 
-    protected BasicConfigInterface $basic_config;
     protected ComponentConfigRepoInterface $component_config_repo;
-    protected ComponentConfigInterface $component_config;
-    protected LazyInternalFactoryInterface $lazy_internal_factory;
-    protected LevelFetcherFactoryInterface $level_fetcher_factory;
-    protected LoggerFactoryInterface $logger_factory;
-    protected DefaultConfigLoggerFactoryInterface $default_config_logger_factory;
 
     protected function __construct(
     ) {
@@ -67,41 +61,7 @@ class LegacyInitiator
 
     public function basicConfig(): BasicConfigInterface
     {
-        if (isset($this->basic_config)) {
-            return $this->basic_config;
-        }
-        /**
-         * This exists purely to appease unit tests in other components,
-         * which somehow depend on the dependencies of ilLoggerFactory.
-         */
-        if ($this->dic->offsetExists('ilIliasIniFile')) {
-            $basic_config = new BasicConfig(new IniReader($this->dic->iliasIni()));
-        } else {
-            $basic_config = new class () implements BasicConfigInterface {
-                public function isLoggingEnabled(): bool
-                {
-                    return (bool) ILIAS_LOG_ENABLED;
-                }
-
-                public function pathToLogFile(): string
-                {
-                    return rtrim(ILIAS_LOG_DIR, '/') . '/' .
-                        ltrim(ILIAS_LOG_FILE, '/');
-                }
-
-                public function pathToLogDirectory(): string
-                {
-                    return ILIAS_LOG_DIR;
-                }
-
-                public function defaultLevel(): ILIASLogLevel
-                {
-                    return ILIASLogLevel::INFO;
-                }
-            };
-        }
-
-        return $this->basic_config = $basic_config;
+        return $this->dic['logging.config']->basic();
     }
 
     public function componentConfigRepository(): ComponentConfigRepoInterface
@@ -113,40 +73,16 @@ class LegacyInitiator
 
     public function componentConfig(): ComponentConfigInterface
     {
-        return $this->component_config ??= new ComponentConfig(
-            $this->componentConfigRepository(),
-            $this->basicConfig()
-        );
-    }
-
-    protected function lazyInternalFactory(): LazyInternalFactoryInterface
-    {
-        return $this->lazy_internal_factory ??= new LazyInternalFactory(
-            new MonologFactory(),
-            $this->basicConfig()
-        );
-    }
-
-    protected function levelFetcherFactory(): LevelFetcherFactoryInterface
-    {
-        return $this->level_fetcher_factory ??= new LevelFetcherFactory();
+        return $this->dic['logging.config']->byComponent();
     }
 
     public function loggerFactory(): LoggerFactoryInterface
     {
-        return $this->logger_factory ??= new LoggerFactory(
-            $this->lazyInternalFactory(),
-            $this->componentConfig(),
-            $this->levelFetcherFactory()
-        );
+        return $this->dic['logging.factory'];
     }
 
     public function defaultConfigLoggerFactory(): DefaultConfigLoggerFactoryInterface
     {
-        return $this->default_config_logger_factory ??= new DefaultConfigLoggerFactory(
-            $this->lazyInternalFactory(),
-            $this->basicConfig(),
-            $this->levelFetcherFactory()
-        );
+        return $this->dic['logging.defaultConfigFactory'];
     }
 }

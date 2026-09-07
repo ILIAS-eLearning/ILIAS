@@ -24,6 +24,8 @@ use ILIAS\ResourceStorage\Services;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\Filesystem\Security\Sanitizing\DefaultFilenameSanitizer;
 
 /**
  * Class AbstractCtrlAwareIRSSUploadHandler
@@ -32,7 +34,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploadHandler
 {
-    protected \ilFileServicesFilenameSanitizer $sanitizer;
+    protected FilenameSanitizer $sanitizer;
     protected \ilLanguage $language;
     protected Services $irss;
     protected ResourceStakeholder $stakeholder;
@@ -41,16 +43,14 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
 
     public function __construct()
     {
-        global $DIC;
+        global $DIC; // TODO remove service locator
 
         $this->irss = $DIC->resourceStorage();
         $this->stakeholder = $this->getStakeholder();
         $this->temp_filesystem = $DIC->filesystem()->temp();
         $this->class_path = $this->getClassPath();
         $this->language = $DIC->language();
-        $this->sanitizer = new \ilFileServicesFilenameSanitizer(
-            $DIC->fileServiceSettings()
-        );
+        $this->sanitizer = new DefaultFilenameSanitizer($DIC->fileServiceSettings());
 
         parent::__construct();
     }
@@ -174,6 +174,6 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
 
     public function getInfoForExistingFiles(array $file_ids): array
     {
-        return array_map(fn($file_id): FileInfoResult => $this->getInfoResult($file_id), $file_ids);
+        return array_map($this->getInfoResult(...), $file_ids);
     }
 }

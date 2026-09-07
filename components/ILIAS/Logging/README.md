@@ -30,15 +30,23 @@ ILIAS (via Monolog) supports the following log levels defined in [RFC 5424](http
 
 ## Using the Logging Service
 
-work in progress
+Logging exposes the following interfaces through [`Logging.php`](Logging.php):
+
+- [`LoggerFactory`](src/Logger/LoggerFactoryInterface.php)
+- [`DefaultConfigLoggerFactory`](src/Logger/DefaultConfigLoggerFactoryInterface.php)
+- [`Config`](src/Config/ConfigInterface.php)
 
 Loggers are available via their ID through the [`LoggerFactory`](src/Logger/LoggerFactoryInterface.php). To get the
 logger for your component or plugin, with its own log level, use its respective ID. The factory also gives out loggers
 for any other ID, the default log level is then used.
 
+The loggers only fully instantiate themselves when they are used the first time, so they can safely be grabbed from
+the factories directly in your `Component.php`:
+
 ```php
-$logger = $factory->getLazy('crs');
-$logger->info('Lorem ipsum');
+$implement[SomeInterface::class] = static fn(): Access => new SomeImplementationThatNeedsALogger(
+    $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('crs'),
+);
 ```
 
 Logging also offers a [`DefaultConfigLoggerFactory`](src/Logger/DefaultConfigLoggerFactoryInterface.php), which does not
@@ -48,6 +56,9 @@ As a tradeoff, its loggers will always use the default log level, no matter the 
 Note that both factories share the same cache, so it's not possible to get two different loggers with the same ID. If
 your component needs to use both a database-unaware logger and a logger with the correct log level, use a different ID
 for the former (e.g. `crs_default`).
+
+Temporarily, the Logging services are also available through `$DIC['logging.factory']`, `$DIC['logging.defaultConfigFactory']`,
+and `$DIC['logging.config]`, but bootstrapping via your `Component.php` should be preferred.
 
 ### Using Placeholders
 

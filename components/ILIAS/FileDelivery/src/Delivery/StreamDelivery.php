@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Delivery;
 
-use ILIAS\HTTP\Services;
-use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
@@ -29,6 +27,8 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Token\Signer\Payload\ShortFilePayload;
 use ILIAS\Filesystem\Stream\ZIPStream;
 use ILIAS\FileDelivery\Isolation\IsolationConfig;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\FileDelivery\Token\DataSigning;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -41,8 +41,8 @@ final class StreamDelivery extends BaseDelivery
     public const SUBREQUEST_SEPARATOR = '/-/';
 
     public function __construct(
-        private DataSigner $data_signer,
-        Services $http,
+        private DataSigning $data_signer,
+        GlobalHttpState $http,
         ResponseBuilder $response_builder,
         ResponseBuilder $fallback_response_builder,
         IsolationConfig $isolation = new IsolationConfig(false, null, null),

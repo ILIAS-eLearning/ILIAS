@@ -16,41 +16,34 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Logging\Configuration\LoggingConfig;
+
 /**
- * Settings for the error protcoll system
+ * Settings for the error protocol system.
  *
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ * @deprecated Read directly from {@see LoggingConfig} (`getErrorDirectory()` /
+ * `getErrorRecipient()`) instead.
  */
 class ilLoggingErrorSettings
 {
-    protected string $folder = '';
-    protected string $mail = '';
-    protected ?ilIniFile $ilias_ini = null;
-    protected ?ilIniFile $gClientIniFile = null;
+    private string $folder;
+    private string $mail;
 
-    protected function __construct()
+    public function __construct(LoggingConfig $config)
+    {
+        $this->folder = $config->getErrorDirectory();
+        $this->mail = $config->getErrorRecipient();
+    }
+
+    public static function getInstance(): self
     {
         global $DIC;
-
-        if ($DIC->offsetExists('ilIliasIniFile')) {
-            $this->ilias_ini = $DIC->iliasIni();
-        } elseif ($DIC->offsetExists('ini')) {
-            $this->ilias_ini = $DIC['ini'];
+        if ($DIC instanceof \Pimple\Container && isset($DIC['logging.services'])) {
+            return new self($DIC['logging.services']->getConfig());
         }
-        if ($DIC->offsetExists('ilClientIniFile')) {
-            $this->gClientIniFile = $DIC->clientIni();
-        }
-        $this->read();
-    }
-
-    public static function getInstance(): ilLoggingErrorSettings
-    {
-        return new ilLoggingErrorSettings();
-    }
-
-    protected function setFolder(string $folder): void
-    {
-        $this->folder = $folder;
+        return new self(new \ILIAS\Logging\Configuration\NullLoggingConfig());
     }
 
     public function setMail(string $mail): void
@@ -69,27 +62,21 @@ class ilLoggingErrorSettings
     }
 
     /**
-     * reads the values from ilias.ini.php
-     */
-    protected function read(): void
-    {
-        if ($this->ilias_ini instanceof ilIniFile) {
-            $this->setFolder((string) $this->ilias_ini->readVariable("log", "error_path"));
-        }
-        if ($this->gClientIniFile instanceof \ilIniFile) {
-            $this->setMail((string) $this->gClientIniFile->readVariable("log", "error_recipient"));
-        }
-    }
-
-    /**
-     * writes mail recipient into client.ini.php
+     * Persist the mail recipient back into client.ini.php.
+     *
+     * Kept for the GUI flow which still calls this; uses the legacy
+     * {@see \ilIniFile} bridge in $DIC to write back.
      */
     public function update(): void
     {
-        if ($this->gClientIniFile instanceof \ilIniFile) {
-            $this->gClientIniFile->addGroup("log");
-            $this->gClientIniFile->setVariable("log", "error_recipient", trim($this->mail()));
-            $this->gClientIniFile->write();
+        global $DIC;
+        if (!isset($DIC['ilClientIniFile']) || !$DIC['ilClientIniFile'] instanceof \ilIniFile) {
+            return;
         }
+
+        $client_ini = $DIC['ilClientIniFile'];
+        $client_ini->addGroup('log');
+        $client_ini->setVariable('log', 'error_recipient', trim($this->mail));
+        $client_ini->write();
     }
 }

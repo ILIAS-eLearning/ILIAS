@@ -55,6 +55,18 @@ class WikiUtilTest extends TestCase
             "ilDB",
             $db_mock
         );
+        $this->setGlobalVariable(
+            'logging.factory',
+            $this->createStub(ILIAS\Logging\Logger\LoggerFactoryInterface::class)
+        );
+        $this->setGlobalVariable(
+            'logging.defaultConfigFactory',
+            $this->createStub(ILIAS\Logging\Logger\DefaultConfigLoggerFactoryInterface::class)
+        );
+        $this->setGlobalVariable(
+            'logging.config',
+            $this->createStub(ILIAS\Logging\Config\ConfigInterface::class)
+        );
     }
 
     protected function tearDown(): void

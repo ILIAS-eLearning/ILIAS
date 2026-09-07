@@ -21,18 +21,19 @@ declare(strict_types=1);
 namespace ILIAS\Repository\Resources;
 
 use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 
 class DomainService
 {
     protected LegacyArchives $legacy_archives;
     protected Archives $archives;
-    protected \ilFileServicesSettings $file_service_settings;
+    protected FilesystemConfig $file_service_settings;
 
     public function __construct(
         Archives $archives,
         LegacyArchives $legacy_archives,
-        \ilFileServicesSettings $file_service_settings
+        FilesystemConfig $file_service_settings
     ) {
         $this->archives = $archives;
         $this->legacy_archives = $legacy_archives;

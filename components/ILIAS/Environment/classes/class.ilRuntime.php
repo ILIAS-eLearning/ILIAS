@@ -18,15 +18,22 @@
 
 declare(strict_types=1);
 
+use ILIAS\Environment\Configuration\Server\PhpServerConfiguration;
+
+/**
+ * @deprecated Use \ILIAS\Environment\Configuration\Server\ServerConfiguration instead
+ */
 final class ilRuntime implements Stringable
 {
     private static ?self $instance = null;
+    private PhpServerConfiguration $server;
 
     /**
      * The runtime is a constant state during one request, so please use the public static getInstance() to instantiate the runtime
      */
     private function __construct()
     {
+        $this->server = new PhpServerConfiguration();
     }
 
     public static function getInstance(): self
@@ -50,7 +57,7 @@ final class ilRuntime implements Stringable
 
     public function isFPM(): bool
     {
-        return PHP_SAPI === 'fpm-fcgi';
+        return $this->server->isFpm();
     }
 
     public function getVersion(): string
@@ -59,7 +66,7 @@ final class ilRuntime implements Stringable
             return HHVM_VERSION;
         }
 
-        return PHP_VERSION;
+        return $this->server->getPhpVersion();
     }
 
     public function getName(): string
@@ -82,7 +89,7 @@ final class ilRuntime implements Stringable
             return (int) ini_get('hhvm.log.runtime_error_reporting_level');
         }
 
-        return (int) ini_get('error_reporting');
+        return $this->server->getErrorReportingLevel();
     }
 
     public function shouldLogErrors(): bool
@@ -91,7 +98,7 @@ final class ilRuntime implements Stringable
             return (bool) ini_get('hhvm.log.use_log_file');
         }
 
-        return (bool) ini_get('log_errors');
+        return $this->server->isErrorLoggingEnabled();
     }
 
     public function shouldDisplayErrors(): bool
@@ -100,27 +107,11 @@ final class ilRuntime implements Stringable
             return (bool) ini_get('hhvm.debug.server_error_message');
         }
 
-        return (bool) ini_get('display_errors');
+        return $this->server->isErrorDisplayEnabled();
     }
 
     public function getBinary(): string
     {
-        if (defined('PHP_BINARY') && PHP_BINARY !== '') {
-            return escapeshellarg(PHP_BINARY);
-        }
-
-        $possibleBinaryLocations = [
-            PHP_BINDIR . '/php',
-            PHP_BINDIR . '/php-cli.exe',
-            PHP_BINDIR . '/php.exe',
-        ];
-
-        foreach ($possibleBinaryLocations as $binary) {
-            if (is_readable($binary)) {
-                return escapeshellarg($binary);
-            }
-        }
-
-        return 'php';
+        return $this->server->getPhpBinary();
     }
 }

@@ -18,13 +18,10 @@
 
 namespace ILIAS\components\File\Settings;
 
-use ILIAS\Administration\Setting;
-use ilSetting;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class General extends ilSetting implements Setting
+class General
 {
     public const MODULE_NAME = 'file_access';
     public const F_BG_LIMIT = 'bg_limit';
@@ -45,10 +42,64 @@ class General extends ilSetting implements Setting
         'png',
     ];
 
-    public function __construct()
+    /**
+     * @var array<string, ?string>|null null until the settings have been read
+     */
+    private ?array $setting = null;
+
+    public function __construct(private readonly \ilDBInterface $db)
     {
-        parent::__construct(self::MODULE_NAME, false);
     }
+
+    /**
+     * Reads this module's settings, replacing whatever was read before.
+     */
+    public function read(): void
+    {
+        $this->setting = [];
+
+        $res = $this->db->queryF(
+            "SELECT keyword, value FROM settings WHERE module = %s",
+            ['text'],
+            [self::MODULE_NAME]
+        );
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $this->setting[$row["keyword"]] = $row["value"];
+        }
+    }
+
+    public function get(
+        string $keyword,
+        ?string $default_value = null
+    ): ?string {
+        if ($this->setting === null) {
+            $this->read();
+        }
+
+        return $this->setting[$keyword] ?? $default_value;
+    }
+
+    public function set(string $keyword, string $value): void
+    {
+        if ($this->setting === null) {
+            $this->read();
+        }
+
+        $this->db->replace(
+            'settings',
+            [
+                'module' => ['text', self::MODULE_NAME],
+                'keyword' => ['text', $keyword],
+            ],
+            [
+                'value' => ['text', $value],
+            ]
+        );
+
+        $this->setting[$keyword] = $value;
+    }
+
 
     public function isDownloadWithAsciiFileName(): bool
     {
@@ -72,7 +123,10 @@ class General extends ilSetting implements Setting
 
     public function setInlineFileExtensions(array $extensions): void
     {
-        $extensions = array_map(fn(string $extension): string => strtolower(trim($extension, " \t\n\r\0\x0B,")), $extensions);
+        $extensions = array_map(
+            fn(string $extension): string => strtolower(trim($extension, " \t\n\r\0\x0B,")),
+            $extensions
+        );
 
         $this->set(self::F_INLINE_FILE_EXTENSIONS, $this->arrayToStr($extensions));
     }
@@ -99,7 +153,7 @@ class General extends ilSetting implements Setting
 
     // HELPERS
 
-    private function strToBool(string $value): bool
+    private function strToBool(?string $value): bool
     {
         return $value === '1';
     }
@@ -114,7 +168,7 @@ class General extends ilSetting implements Setting
         return (string) $int;
     }
 
-    private function strToInt(string $str): int
+    private function strToInt(?string $str): int
     {
         return (int) $str;
     }
@@ -124,8 +178,8 @@ class General extends ilSetting implements Setting
         return implode(self::SEPARATOR, $array);
     }
 
-    private function strToArray(string $str): array
+    private function strToArray(?string $str): array
     {
-        return explode(self::SEPARATOR, $str);
+        return explode(self::SEPARATOR, (string) $str);
     }
 }

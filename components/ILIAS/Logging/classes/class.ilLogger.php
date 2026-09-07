@@ -25,7 +25,8 @@ use Monolog\Processor\MemoryPeakUsageProcessor;
  * Component logger with individual log levels by component id
  *
  * @deprecated Please use {@see \ILIAS\Logging\Logger\LoggerInterface} via
- *  {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
+ *   {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
+ *   Ideally in your Component.php. If that's not possible then via $DIC['logging.factory'].
  *
  * @author Stefan Meyer
  */

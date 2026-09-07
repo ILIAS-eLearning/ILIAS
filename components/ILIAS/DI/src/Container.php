@@ -25,6 +25,8 @@ use ILIAS\Cache\Services;
 use ILIAS\Filesystem\Util\Convert\Converters;
 use ILIAS\Repository;
 use ILIAS\Skill\Service\SkillService;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -34,8 +36,6 @@ use ILIAS\Skill\Service\SkillService;
  */
 class Container extends \Pimple\Container
 {
-    private ?\ilFileServicesSettings $file_service_settings = null;
-
     /**
      * Get interface to the Database.
      */
@@ -54,7 +54,7 @@ class Container extends \Pimple\Container
      */
     public function rbac(): \ILIAS\DI\RBACServices
     {
-        return new RBACServices($this);
+        return $this[RBACServices::class] ?? new RBACServicesLegacyProxy($this);
     }
 
     /**
@@ -402,16 +402,9 @@ class Container extends \Pimple\Container
         return new \ILIAS\InfoScreen\Service($this);
     }
 
-    public function fileServiceSettings(): \ilFileServicesSettings
+    public function fileServiceSettings(): FilesystemConfig
     {
-        if ($this->file_service_settings === null) {
-            $this->file_service_settings = new \ilFileServicesSettings(
-                $this->settings(),
-                $this->clientIni(),
-                $this->database()
-            );
-        }
-        return $this->file_service_settings;
+        return $this[FilesystemConfig::class];
     }
 
 

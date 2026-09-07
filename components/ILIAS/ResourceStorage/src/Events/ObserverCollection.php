@@ -16,17 +16,29 @@
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+declare(strict_types=1);
+
+namespace ILIAS\ResourceStorage\Events;
 
 /**
- * Class ilFileServicesFilenameSanitizer
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author       Fabian Schmid <fabian@sr.solutions>
+ * @internal
  */
-class ilFileServicesFilenameSanitizer extends FilenameSanitizerImpl
+final class ObserverCollection
 {
-    public function __construct(ilFileServicesSettings $settings)
+    /**
+     * @var Observer[]
+     */
+    private array $observers;
+
+    public function __construct(
+        Observer ...$observers
+    ) {
+        $this->observers = $observers;
+    }
+
+    public function get(): array
     {
-        parent::__construct(array_diff($settings->getWhiteListedSuffixes(), $settings->getBlackListedSuffixes()));
+        return $this->observers;
     }
 }

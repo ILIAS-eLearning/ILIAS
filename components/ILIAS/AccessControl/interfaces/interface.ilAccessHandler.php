@@ -19,9 +19,9 @@
 declare(strict_types=1);
 
 /**
- * Interface ilAccessHandler
- * This interface combines all available interfaces which can be called via global $ilAccess
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * Combines all available interfaces which can be called via global $ilAccess.
+ *
+ * @deprecated Use {@see \ILIAS\AccessControl\PublicInterface\Access} instead.
  */
 interface ilAccessHandler extends ilRBACAccessHandler, ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
 {

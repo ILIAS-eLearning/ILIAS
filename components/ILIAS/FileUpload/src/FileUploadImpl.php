@@ -35,6 +35,7 @@ use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use ILIAS\HTTP\GlobalHttpState;
 use ilFileUtils;
+use ILIAS\UI\Component\Input\Field\PhpUploadLimit;
 
 /**
  * Class FileUploadImpl
@@ -70,8 +71,12 @@ final class FileUploadImpl implements FileUpload
      * @param Filesystems         $filesystems      The Filesystems implementation which should be used.
      * @param GlobalHttpState     $globalHttpState  The http implementation which should be used to detect the uploaded files.
      */
-    public function __construct(private PreProcessorManager $processorManager, private Filesystems $filesystems, private GlobalHttpState $globalHttpState)
-    {
+    public function __construct(
+        private PreProcessorManager $processorManager,
+        private Filesystems $filesystems,
+        private GlobalHttpState $globalHttpState,
+        private ?PhpUploadLimit $upload_limit = null
+    ) {
     }
 
     /**
@@ -224,7 +229,7 @@ final class FileUploadImpl implements FileUpload
      */
     public function uploadSizeLimit(): int
     {
-        return ilFileUtils::getPhpUploadSizeLimitInBytes();
+        return $this->upload_limit?->getPhpUploadLimitInBytes() ?? ilFileUtils::getPhpUploadSizeLimitInBytes();
     }
 
 
@@ -346,7 +351,7 @@ final class FileUploadImpl implements FileUpload
     }
 
 
-    protected function flattenUploadedFiles(array $uploadedFiles): array
+    private function flattenUploadedFiles(array $uploadedFiles): array
     {
         $recursiveIterator = new RecursiveIteratorIterator(
             new RecursiveArrayIterator(

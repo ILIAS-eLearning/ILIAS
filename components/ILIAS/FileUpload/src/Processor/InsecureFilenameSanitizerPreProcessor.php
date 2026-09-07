@@ -16,42 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\FileUpload\Processor;
 
+use ILIAS\Filesystem\Upload\InsecureFilenameSanitizerPreProcessor as NewInsecureFilenameSanitizerPreProcessor;
+
 /**
- * Class InsecureFilenameSanitizerPreProcessor
- *
- * PreProcessor which checks for file with potentially dangerous names
- *
- * @author Fabian Schmid <fabian@sr.solutions>
+ * @deprecated Use {@see \ILIAS\Filesystem\Upload\InsecureFilenameSanitizerPreProcessor} instead.
  */
-final class InsecureFilenameSanitizerPreProcessor extends AbstractRecursiveZipPreProcessor implements PreProcessor
+class InsecureFilenameSanitizerPreProcessor extends NewInsecureFilenameSanitizerPreProcessor
 {
-    private array $prohibited_names = [
-        '...'
-    ];
-
-    protected function checkPath(string $path): bool
-    {
-        $path = str_replace('\\', '/', $path);
-        $path = preg_replace('/\/+/', '/', $path);
-        $path = trim((string) $path, '/');
-        $parts = explode('/', $path);
-        foreach ($parts as $part) {
-            if (in_array($part, $this->prohibited_names)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    protected function getRejectionMessage(): string
-    {
-        return 'A Security Issue has been detected, File-upload aborted...';
-    }
-
-    protected function getOKMessage(): string
-    {
-        return 'Extension is not blacklisted.';
-    }
 }

@@ -22,19 +22,15 @@ namespace ILIAS\StaticURL;
 
 use ILIAS\StaticURL\Handler\HandlerService;
 use ILIAS\StaticURL\Builder\URIBuilder;
-use ILIAS\StaticURL\Response\Factory;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class Services
+class Services implements StaticURLServices
 {
-    private Factory $response_factory;
-
     public function __construct(
         private HandlerService $handler_service,
-        private URIBuilder $uri_builder,
-        private Context $context
+        private URIBuilder $uri_builder
     ) {
     }
 

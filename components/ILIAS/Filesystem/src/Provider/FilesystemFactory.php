@@ -28,11 +28,9 @@ use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 interface FilesystemFactory
 {
     /**
-     * Creates a local filesystem instance with the given configuration.
-     *
-     * @param LocalConfig $config The local configuration which should be used to create the local filesystem.
-     *
-     *
+     * @deprecated use buildFor() instead
      */
     public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem;
+
+    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem;
 }
