@@ -73,9 +73,20 @@ class InternalGUIService
         );
     }
 
-    public function getMediaCastManageTableGUI(\ilObjMediaCastGUI $gui, string $table_cmd): \ilMediaCastManageTableGUI
-    {
-        return new \ilMediaCastManageTableGUI($gui, $table_cmd);
+    public function mediaCastTableBuilder(
+        \ilObjMediaCast $media_cast,
+        bool $edit_order,
+        object $parent_gui,
+        string $parent_cmd
+    ): MediaCastTableBuilder {
+        return new MediaCastTableBuilder(
+            $this->domain_service,
+            $this,
+            $media_cast,
+            $edit_order,
+            $parent_gui,
+            $parent_cmd
+        );
     }
 
     public function comments(): Comments\GUIService
