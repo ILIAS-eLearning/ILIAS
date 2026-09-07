@@ -152,7 +152,7 @@ class ilRepositoryObjectDetailSearch
                 $detail_search_result->addResultSet(
                     array(
                             'obj_id' => $entry['obj_id'],
-                            'item_id' => $child
+                            'item_id' => $child['id']
                         )
                 );
             }
