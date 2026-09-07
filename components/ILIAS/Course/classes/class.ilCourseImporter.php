@@ -96,6 +96,12 @@ class ilCourseImporter extends ilXmlImporter
                 $a_id . ':0:crs',
                 $this->course->getId() . ':0:crs'
             );
+            $a_mapping->addMapping(
+                "components/ILIAS/Tracking",
+                "obj",
+                $a_id,
+                (string) $this->course->getId()
+            );
         } catch (ilSaxParserException|Exception $e) {
             $this->logger->error('Parsing failed with message, "' . $e->getMessage() . '".');
         }

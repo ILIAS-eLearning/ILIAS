@@ -67,5 +67,11 @@ class ilFileImporter extends ilXmlImporter
             $a_id . ":0:file",
             $newObj->getId() . ":0:file"
         );
+        $a_mapping->addMapping(
+            "components/ILIAS/Tracking",
+            "obj",
+            $a_id,
+            (string) $newObj->getId()
+        );
     }
 }

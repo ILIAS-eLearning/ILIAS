@@ -95,6 +95,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->prepareLocalSourceStorage();
         $this->parseXmlFileProperties();
         $this->updateNewObj();
+        $a_mapping->addMapping("components/ILIAS/Tracking", "obj", $a_id, (string) $this->_cmixObj->getId());
     }
 
     /**

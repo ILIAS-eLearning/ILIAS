@@ -613,6 +613,12 @@ class ilExerciseDataSet extends ilDataSet
                     $a_rec["Id"] . ":0:exc",
                     $newObj->getId() . ":0:exc"
                 );
+                $a_mapping->addMapping(
+                    "components/ILIAS/Tracking",
+                    "obj",
+                    (string) $a_rec["Id"],
+                    (string) $newObj->getId()
+                );
                 break;
 
             case "exc_assignment":

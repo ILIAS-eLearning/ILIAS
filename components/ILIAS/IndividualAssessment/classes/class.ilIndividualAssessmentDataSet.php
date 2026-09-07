@@ -160,6 +160,12 @@ class ilIndividualAssessmentDataSet extends ilDataSet
             $newObj->update();
             $newObj->updateInfo();
             $a_mapping->addMapping("components/ILIAS/IndividualAssessment", "iass", $a_rec["id"], (string) $newObj->getId());
+            $a_mapping->addMapping(
+                "components/ILIAS/Tracking",
+                "obj",
+                (string) $a_rec["id"],
+                (string) $newObj->getId()
+            );
         }
     }
 }
