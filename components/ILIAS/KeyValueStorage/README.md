@@ -74,10 +74,11 @@ state under ids like
 
 `null`, scalars, arrays of those, and objects implementing `JsonSerializable`.
 
-Values are stored as JSON. `serialize()` / `unserialize()` are never used, so
-reading a value can never instantiate an object. An object handed to `set()`
-therefore reads back as the array `json_encode()` made of it - within the same
-request as well as in the next one.
+Values are stored as JSON via Refinery `encode()->json()` / `decode()->json()`.
+`serialize()` / `unserialize()` are never used, so reading a value can never
+instantiate an object. An object handed to `set()` therefore reads back as the
+array the JSON round-trip produced - within the same request as well as in the
+next one.
 
 Anything else raises `\InvalidArgumentException`. A stored value that cannot be
 decoded anymore raises `InvalidStoredValueException`.
@@ -140,7 +141,7 @@ An implementation must keep the namespaces apart, must return `null` from
 |---|---|
 | `$define` | `Services`, `SessionRepository` |
 | `$implement` | `Services` |
-| `$pull` | `ILIAS\Database\Connection`, `ILIAS\Refinery\Factory` (setup agent) |
+| `$pull` | `ILIAS\Database\Connection`, `ILIAS\Refinery\Factory` |
 | `$contribute` | `ILIAS\Setup\Agent` |
 
 ```mermaid

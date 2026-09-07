@@ -21,19 +21,30 @@ declare(strict_types=1);
 namespace ILIAS\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Exception\InvalidStoredValueException;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Translates between the values a consumer works with and the strings a
  * repository stores.
  *
- * Values are stored as JSON. serialize()/unserialize() are never used, so
- * reading a value can never instantiate an object.
+ * Values are stored as JSON via Refinery encode/decode transformations.
+ * serialize()/unserialize() are never used, so reading a value can never
+ * instantiate an object.
  *
  * @internal
  */
 final readonly class Values
 {
-    private const int MAX_DEPTH = 512;
+    private Transformation $encode;
+
+    private Transformation $decode;
+
+    public function __construct(Refinery $refinery)
+    {
+        $this->encode = $refinery->encode()->json();
+        $this->decode = $refinery->decode()->json();
+    }
 
     /**
      * @throws \InvalidArgumentException if the value cannot be stored
@@ -43,7 +54,7 @@ final readonly class Values
         $this->checkEncodable($value);
 
         try {
-            return \json_encode($value, JSON_THROW_ON_ERROR, self::MAX_DEPTH);
+            return $this->encode->transform($value);
         } catch (\JsonException $e) {
             throw new \InvalidArgumentException(
                 'The value could not be encoded: ' . $e->getMessage(),
@@ -59,8 +70,8 @@ final readonly class Values
     public function decode(string $value): mixed
     {
         try {
-            return \json_decode($value, true, self::MAX_DEPTH, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
+            return $this->decode->transform($value);
+        } catch (\InvalidArgumentException $e) {
             throw new InvalidStoredValueException('The stored value is not valid JSON.', 0, $e);
         }
     }

@@ -46,7 +46,8 @@ class KeyValueStorage implements Component
         $implement[KeyValueStorage\Services::class] = static fn() =>
             new KeyValueStorage\Internal\StorageServices(
                 $use[KeyValueStorage\SessionRepository::class],
-                $internal[KeyValueStorage\Internal\DatabaseRepository::class]
+                $internal[KeyValueStorage\Internal\DatabaseRepository::class],
+                $pull[Refinery::class]
             );
 
         $contribute[Agent::class] = static fn(): Agent =>
