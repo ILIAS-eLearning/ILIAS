@@ -91,10 +91,47 @@ if ($isContentSelection) {
 } else {
     $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
 }
+
+function buildSameSiteNoneSessionCookieHeader(): ?string
+{
+    if (session_status() !== PHP_SESSION_ACTIVE || session_id() === '') {
+        return null;
+    }
+
+    $cookie_params = session_get_cookie_params();
+    if (!(bool) ($cookie_params['secure'] ?? false)) {
+        return null;
+    }
+
+    $cookie_parts = [
+        rawurlencode(session_name()) . '=' . rawurlencode(session_id()),
+        'Path=' . (string) ($cookie_params['path'] ?? '/'),
+        'Secure',
+        'SameSite=None'
+    ];
+
+    $domain = (string) ($cookie_params['domain'] ?? '');
+    if ($domain !== '') {
+        $cookie_parts[] = 'Domain=' . $domain;
+    }
+    if ((bool) ($cookie_params['httponly'] ?? true)) {
+        $cookie_parts[] = 'HttpOnly';
+    }
+
+    return implode('; ', $cookie_parts);
+}
+
+$response = $DIC->http()->response()
+    ->withStatus(302)
+    ->withAddedHeader('Location', $url);
+
+$session_cookie_header = buildSameSiteNoneSessionCookieHeader();
+if ($session_cookie_header !== null) {
+    $response = $response->withAddedHeader('Set-Cookie', $session_cookie_header);
+}
+
 $DIC->http()->saveResponse(
-    $DIC->http()->response()
-        ->withStatus(302)
-        ->withAddedHeader('Location', $url)
+    $response
 );
 try {
     $DIC->http()->sendResponse();

@@ -710,7 +710,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $err = $DIC['ilErr'];
         /* @var ilErrorHandling $err */
         $ctrl = $DIC->ctrl();
-        $request = $DIC->http()->request();
         $access = $DIC->access();
         $lng = $DIC->language();
 
@@ -724,6 +723,20 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         if ($access->checkAccess('read', '', $id)) {
             $ctrl->setTargetScript('ilias.php');
             $ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', $id);
+            if (session_status() === PHP_SESSION_ACTIVE && session_id() !== '') {
+                $cookie_params = session_get_cookie_params();
+                if ((bool) ($cookie_params['secure'] ?? false)) {
+                    setcookie(session_name(), session_id(), [
+                        'expires' => 0,
+                        'path' => (string) ($cookie_params['path'] ?? '/'),
+                        'domain' => (string) ($cookie_params['domain'] ?? ''),
+                        'secure' => true,
+                        'httponly' => (bool) ($cookie_params['httponly'] ?? true),
+                        'samesite' => 'None'
+                    ]);
+                }
+            }
+
             $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class]);
         } elseif ($access->checkAccess('visible', '', $id)) {
             ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
