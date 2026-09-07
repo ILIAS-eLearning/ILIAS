@@ -13908,6 +13908,7 @@ prtf#:#prtf_edit_content#:#Edit Content
 prtf#:#prtf_edit_data#:#Edit Data
 prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"
 prtf#:#prtf_edit_portfolio#:#Edit Portfolio
+prtf#:#prtf_edit_title#:#Edit Title
 prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of exercise "%s".
 prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files.
 prtf#:#prtf_existing_portfolio#:#Existing Portfolio

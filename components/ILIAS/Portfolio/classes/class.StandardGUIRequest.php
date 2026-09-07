@@ -100,6 +100,11 @@ class StandardGUIRequest
         return $this->int("ppage");
     }
 
+    public function getEditPageId(): int
+    {
+        return $this->int("edit_id");
+    }
+
     public function getUserPage(): int
     {
         return $this->int("user_page");

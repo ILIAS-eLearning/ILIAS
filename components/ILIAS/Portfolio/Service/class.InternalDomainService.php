@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 //use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Portfolio\Settings\SettingsManager;
+use ILIAS\Portfolio\Page\PortfolioPageRetrieval;
 
 class InternalDomainService
 {
@@ -52,5 +53,10 @@ class InternalDomainService
     public function notes(): \ILIAS\Notes\DomainService
     {
         return $this->dic->notes()->domain();
+    }
+
+    public function portfolioPageRetrieval(int $portfolio_id): PortfolioPageRetrieval
+    {
+        return new PortfolioPageRetrieval($portfolio_id);
     }
 }

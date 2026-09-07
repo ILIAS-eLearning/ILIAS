@@ -22,6 +22,7 @@ namespace ILIAS\Portfolio;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Portfolio\Page\PortfolioPageTableBuilder;
 
 class InternalGUIService
 {
@@ -51,6 +52,20 @@ class InternalGUIService
             $this->data_service,
             $this->domain_service,
             $this
+        );
+    }
+
+    public function portfolioPageTableBuilder(
+        int $portfolio_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): PortfolioPageTableBuilder {
+        return new PortfolioPageTableBuilder(
+            $this->domain_service,
+            $this,
+            $portfolio_id,
+            $parent_gui,
+            $parent_cmd
         );
     }
 
