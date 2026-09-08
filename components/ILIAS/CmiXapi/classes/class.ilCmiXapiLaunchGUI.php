@@ -152,9 +152,10 @@ class ilCmiXapiLaunchGUI
     protected function buildAuthTokenFetchParam(): string
     {
         $params = [
-            session_name() => session_id(),
+//            session_name() => session_id(),
             'obj_id' => $this->object->getId(),
             'ref_id' => $this->object->getRefId(),
+            'usr_id' => $this->user->getId(),
             'ilClientId' => CLIENT_ID
         ];
 
