@@ -2206,6 +2206,7 @@ background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#proceed_job#:#Weiter
+background_tasks#:#progress#:#Fortschritt der Aufgabe
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#task_might_be_failed#:#Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig.
 background_tasks#:#ui_msg_files_violate_maxsize#:#Die Gesamtdownloadgröße überschreitet das globale Limit. Der Download wird abgebrochen.

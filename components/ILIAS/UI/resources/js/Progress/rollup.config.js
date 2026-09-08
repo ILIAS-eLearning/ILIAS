@@ -26,19 +26,20 @@ export default {
     'ilias',
   ],
   output: {
-    file: './dist/progress.min.js',
+    file: '../../../../../../public/assets/js/progress.min.js',
+    // file: './dist/progress.min.js',
     format: 'iife',
     globals: {
       document: 'document',
       ilias: 'il',
     },
     banner: copyright,
-    plugins: [
-      terser({
-        format: {
-          comments: preserveCopyright,
-        },
-      }),
-    ],
+    // plugins: [
+    //   terser({
+    //     format: {
+    //       comments: preserveCopyright,
+    //     },
+    //   }),
+    // ],
   },
 };

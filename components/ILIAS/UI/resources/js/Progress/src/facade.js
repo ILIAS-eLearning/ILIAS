@@ -18,12 +18,14 @@
 import il from 'ilias';
 import document from 'document';
 import AsyncRenderer from '../../Core/src/AsyncRenderer.js';
-import createProgressBar from './createProgressBar';
+import createProgressBar from './createProgressBar.js';
 import createAsyncProgressBar from './createAsyncProgressBar.js';
 import GlobalProgressBarSignalDispatcher from './GlobalProgressBarSignalDispatcher.js';
 
 const asyncRenderer = new AsyncRenderer(document);
 const signalDispatcher = new GlobalProgressBarSignalDispatcher();
+/** @var {Map<string, ProgressBar>} */
+const progressBarMap = new Map();
 
 il.UI = il.UI || {};
 il.UI.Progress = {};
@@ -37,6 +39,12 @@ il.UI.Progress.Bar = {
     progress,
     message,
   ),
+  addUpdateListener: (id, listener) => {
+    if (!progressBarMap.has(id)) {
+      throw new Error(`No progress bar with id '${id}' found.`);
+    }
+    progressBarMap.get(id).addUpdateListener(listener);
+  },
   createAsync: (element, updateSignal, refreshRateInMs) => {
     const asyncProgressBar = createAsyncProgressBar(
       asyncRenderer,
@@ -45,11 +53,13 @@ il.UI.Progress.Bar = {
       refreshRateInMs,
     );
     signalDispatcher.register(asyncProgressBar, updateSignal);
+    progressBarMap.set(element.id, asyncProgressBar);
     return asyncProgressBar;
   },
   create: (element, updateSignal) => {
     const progressBar = createProgressBar(document, element);
     signalDispatcher.register(progressBar, updateSignal);
+    progressBarMap.set(element.id, progressBar);
     return progressBar;
   },
 };
