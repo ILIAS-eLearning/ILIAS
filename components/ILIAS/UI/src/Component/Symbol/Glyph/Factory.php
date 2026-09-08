@@ -1831,4 +1831,76 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function location(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Select Glyph indicates a chosen status (e.g. selected/included).
+     *   composition: >
+     *      The Select Glyph uses a checkmark.
+     * context:
+     *    - The Select Glyph can be used in combination with the Unselect Glyph & Clear Glyph to display a selection state of multiple items.
+     * rules:
+     *   accessibility:
+     *      1: >
+     *         The aria-label MUST be 'select'.
+     *   style:
+     *      1: >
+     *         The Select Glyph SHOULD display a checkmark.
+     *   usage:
+     *      1: >
+     *         The Select Glyph SHOULD be used to display a selection of multiple items.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function select(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Unselect Glyph indicates that something does not belong to a selection or that nothing is selected.
+     *   composition: >
+     *      The Unselect Glyph uses an empty box.
+     * context:
+     *    - The Unselect Glyph can be used in combination with the Select & Clear Glyph to display a selection state of multiple items.
+     * rules:
+     *   accessibility:
+     *      1: >
+     *         The aria-label MUST be 'unselect'.
+     *   style:
+     *      1: >
+     *         The Unselect Glyph SHOULD display an empty box.
+     *   usage:
+     *      1: >
+     *         The Unselect Glyph SHOULD be used to display a selection state of multiple items.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function unselect(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Clear Glyph indicates that a selection can be cleared.
+     *   composition: >
+     *      The Clear Glyph uses a horizontal line.
+     * context:
+     *    - The Clear Glyph can be used in combination with the Select & Unselect Glyph to display a selection state of multiple items.
+     * rules:
+     *   accessibility:
+     *      1: >
+     *         The aria-label MUST be 'clear'.
+     *   style:
+     *      1: >
+     *         The Clear Glyph SHOULD display a horizontal line.
+     *   usage:
+     *      1: >
+     *         The Clear Glyph SHOULD be used to display a selection state of multiple items.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function clear(): Glyph;
 }
