@@ -64,6 +64,22 @@ class InternalGUIService
         );
     }
 
+    public function workspaceAccessTableBuilder(
+        \ilWorkspaceAccessHandler|\ilPortfolioAccessHandler $handler,
+        int $node_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): WorkspaceAccessTableBuilder {
+        return new WorkspaceAccessTableBuilder(
+            $this->domain_service,
+            $this,
+            $handler,
+            $node_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function standardRequest(): StandardGUIRequest
     {
         return new StandardGUIRequest(

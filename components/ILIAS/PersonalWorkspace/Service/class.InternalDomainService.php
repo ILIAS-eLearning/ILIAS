@@ -58,4 +58,15 @@ class InternalDomainService
             $this->lng()
         );
     }
+
+    public function workspaceAccessRetrieval(
+        \ilWorkspaceAccessHandler|\ilPortfolioAccessHandler $handler,
+        int $node_id
+    ): WorkspaceAccessRetrieval {
+        return new WorkspaceAccessRetrieval(
+            $handler,
+            $node_id,
+            $this->lng()
+        );
+    }
 }
