@@ -22,15 +22,14 @@ use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 
 /**
- * Class ilObjWorkspaceFolderGUI
- *
- * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- *
  * @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
  */
 class ilObjWorkspaceFolderGUI extends ilObject2GUI
 {
+    protected \ILIAS\PersonalWorkspace\InternalGUIService $workspace_gui;
+    protected \ILIAS\WorkspaceFolder\InternalDomainService $domain;
+    protected \ILIAS\WorkspaceFolder\InternalGUIService $gui;
     protected \ILIAS\Repository\ExternalGUIService $repo_gui_service;
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;
@@ -46,15 +45,20 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         global $DIC;
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
+        $service = new \ILIAS\WorkspaceFolder\Service($DIC);
+        $this->gui = $service->internal()->gui();
+        $this->workspace_gui = $DIC->personalWorkspace()->internal()->gui();
+        $this->domain = $service->internal()->domain();
+
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("pwsp");
-        $this->help = $DIC["ilHelp"];
+        $this->help = $this->gui->help();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
         $this->tabs = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
         $this->ui = $DIC->ui();
-        $this->session_repo = new WorkspaceSessionRepository();
+        $this->session_repo = $service->internal()->repo()->workspaceSession();
         $this->repo_gui_service = $DIC->repository()->gui();
 
         $this->std_request = new StandardGUIRequest(
@@ -687,28 +691,55 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
     public function share(bool $a_load_data = true): void
     {
-        $tpl = $this->tpl;
+        $work_gui = $this->workspace_gui;
+        $filter = $work_gui->workspaceShareFilter(
+            "workspace_share_0_filter",
+            $this,
+            "share",
+            $this->getAccessHandler(),
+            false,
+            $this->node_id
+        );
+        $filter_data = $filter->getData() ?? [];
+        $show_data = $a_load_data || $this->hasShareFilterData($filter_data);
+        $content = $filter->render();
 
-        $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id, $a_load_data);
-        $tpl->setContent($tbl->getHTML());
+        if ($show_data) {
+            $table = $work_gui->workspaceShareTableBuilder(
+                $this->getAccessHandler(),
+                false,
+                $this->node_id,
+                $this,
+                "share"
+            )->getTable()->filterData($filter_data);
+            if ($table->handleCommand()) {
+                return;
+            }
+            $content .= $table->render();
+        }
+
+        $this->tpl->setContent($content);
     }
 
     public function applyShareFilter(): void
     {
-        $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
-        $tbl->resetOffset();
-        $tbl->writeFilterToSession();
-
         $this->share();
     }
 
     public function resetShareFilter(): void
     {
-        $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
-        $tbl->resetOffset();
-        $tbl->resetFilter();
-
         $this->shareFilter();
+    }
+
+    protected function hasShareFilterData(array $filter_data): bool
+    {
+        foreach (["user", "title", "acl_type", "acl_date"] as $key) {
+            if (!empty($filter_data[$key])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function passwordForm(int $a_node_id, ?ilPropertyFormGUI $form = null): void
@@ -804,10 +835,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
     public function listSharedResourcesOfOtherUser(): void
     {
-        $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
-        $tbl->resetOffset();
-        $tbl->resetFilter();
-        $tbl->writeFilterToSession();
         $this->share();
     }
 

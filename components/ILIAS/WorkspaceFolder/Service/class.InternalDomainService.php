@@ -18,44 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\PersonalWorkspace;
+namespace ILIAS\WorkspaceFolder;
 
-use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\DI;
+use ILIAS\Repository;
 
-/**
- * PersonalWorkspace internal domain service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
-    use GlobalDICDomainServices;
+    use Repository\GlobalDICDomainServices;
 
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
 
     public function __construct(
+        DI\Container $DIC,
         InternalRepoService $repo_service,
         InternalDataService $data_service
     ) {
-        global $DIC;
-
-        $this->initDomainServices($DIC);
         $this->repo_service = $repo_service;
         $this->data_service = $data_service;
-    }
-
-    public function workspaceShareRetrieval(
-        \ilWorkspaceAccessHandler|\ilPortfolioAccessHandler $handler,
-        bool $portfolio_mode,
-        array $crs_ids,
-        array $grp_ids
-    ): WorkspaceShareRetrieval {
-        return new WorkspaceShareRetrieval(
-            $handler,
-            $portfolio_mode,
-            $crs_ids,
-            $grp_ids,
-            $this->lng()
-        );
+        $this->initDomainServices($DIC);
     }
 }
