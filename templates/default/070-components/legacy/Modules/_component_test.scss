@@ -179,7 +179,13 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
       }
   
       .ilc_answers.answers.ilAssClozeTest div input[type=text] {
-        width: 100%;
+        @supports (field-sizing: content) {
+                field-sizing: content;
+                min-width: 10%;
+        }
+        @supports not (field-sizing: content) {
+                width: 100%;
+        }
       }
     }
   }
