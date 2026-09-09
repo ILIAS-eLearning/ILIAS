@@ -94,7 +94,7 @@ class QuestionsTable implements Viewable, DataRetrieval
         foreach ($this->questions_repository->getQuestionDataOnlyForAllQuestions(
             $range,
             $order,
-            $filter_data
+            $filter_data ?? []
         ) as $question) {
             $table_row = $question->toTableRow(
                 $row_builder,
@@ -114,7 +114,7 @@ class QuestionsTable implements Viewable, DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return $this->questions_repository->getQuestionsCount($filter_data);
+        return $this->questions_repository->getQuestionsCount($filter_data ?? []);
     }
 
     private function buildTable(): array
@@ -152,13 +152,11 @@ class QuestionsTable implements Viewable, DataRetrieval
             )
         );
 
-        $active = array_fill(0, count($filter_inputs), true);
-
         $filter = $this->ui_service->filter()->standard(
             'question_table_filter_id',
             $action,
             $filter_inputs,
-            $active,
+            array_fill(0, count($filter_inputs), true),
             true,
             true
         );
