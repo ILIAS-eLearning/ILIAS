@@ -115,6 +115,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	}
 
 	ul.c-field-multiselect,
+    div.c-field-duration,
 	.il-filter-add-list ul{
 		list-style: none;
 		margin: $il-standard-filter-add-input-popover-list-margin;
@@ -134,6 +135,11 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 			width: $il-standard-filter-add-input-popover-list-button-width;
 		}
 	}
+
+    div.c-field-duration > fieldset > label {
+        margin-bottom: auto;
+        margin-top: auto;
+    }
 
 	span[data-collapse-glyph-visibility="1"] {
 		display: inline;
