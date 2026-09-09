@@ -28,6 +28,7 @@ use ILIAS\Style\Content\Object\ObjectManager;
 use ilRbacSystem;
 use ILIAS\Style\Content\Style\CSSBuilder;
 use ILIAS\Style\Content\Style\StyleManager;
+use ILIAS\Style\Content\Images\ImageRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -100,6 +101,11 @@ class InternalDomainService
             $this->repo_service,
             new \ilContentStyleStakeholder()
         );
+    }
+
+    public function imageRetrieval(ImageManager $image_manager): ImageRetrieval
+    {
+        return new ImageRetrieval($image_manager);
     }
 
     public function repositoryContainer(int $ref_id): ContainerManager

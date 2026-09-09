@@ -22,6 +22,7 @@ namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Access\StyleAccessManager;
 use ilContentStyleImageGUI;
+use ILIAS\Style\Content\Images\ImageTableBuilder;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -48,6 +49,22 @@ class ImageUIFactory
             $this->gui_service,
             $access_manager,
             $image_manager
+        );
+    }
+
+    public function imageTableBuilder(
+        StyleAccessManager $access_manager,
+        ImageManager $image_manager,
+        object $parent_gui,
+        string $parent_cmd
+    ): ImageTableBuilder {
+        return new ImageTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $access_manager,
+            $image_manager,
+            $parent_gui,
+            $parent_cmd
         );
     }
 }
