@@ -25,6 +25,7 @@ use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\Properties as TestQuestionProperties;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Listing\Property as PropertyListing;
 use ILIAS\UI\Component\Table\Ordering;
 use ILIAS\UI\Component\Table\OrderingBinding;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
@@ -33,6 +34,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class QuestionsTable implements OrderingBinding
 {
+    private ?array $records = null;
     /**
      * @param array $data <string, mixed>
      */
@@ -48,10 +50,40 @@ class QuestionsTable implements OrderingBinding
     ) {
     }
 
+    public function getSummary(): PropertyListing
+    {
+        $this->loadRecords();
+
+        $listing = $this->ui_factory->listing()->property()
+            ->withProperty(
+                $this->lng->txt('tst_num_questions'),
+                $this->refinery->kindlyTo()->string()->transform(
+                    $this->test_obj->getQuestionCount()
+                )
+            );
+
+        if ($this->test_obj->isRandomTest()) {
+            return $listing;
+        }
+
+        return $listing->withProperty(
+            $this->lng->txt('maximum_points'),
+            $this->refinery->kindlyTo()->string()->transform(
+                array_reduce(
+                    $this->records,
+                    fn(float $c, TestQuestionProperties $v): float
+                        => $c + $v->getGeneralQuestionProperties()->getAvailablePoints(),
+                    0.0
+                )
+            )
+        );
+
+    }
+
     public function getTableComponent(): Ordering
     {
         $table = $this->ui_factory->table()->ordering(
-            $this->lng->txt('list_of_questions'),
+            '',
             $this->getColumns(),
             $this,
             $this->table_actions->getOrderActionUrl()
@@ -59,6 +91,8 @@ class QuestionsTable implements OrderingBinding
         ->withId((string) $this->test_obj->getId())
         ->withActions($this->table_actions->getActions())
         ->withRequest($this->request);
+
+
 
         if ($this->test_obj->isRandomTest()
             || $this->test_obj->evalTotalPersons() !== 0) {
@@ -124,13 +158,20 @@ class QuestionsTable implements OrderingBinding
 
     private function getRecords(): \Generator
     {
-        $records = $this->questionrepository
+        if ($this->records === null) {
+            $this->loadRecords();
+        }
+        yield from $this->records;
+    }
+
+    private function loadRecords(): void
+    {
+        $this->records = $this->questionrepository
             ->getQuestionPropertiesWithAggregatedResultsForTest($this->test_obj);
         usort(
-            $records,
+            $this->records,
             static fn(TestQuestionProperties $a, TestQuestionProperties $b): int =>
                 $a->getSequenceInformation()?->getPlaceInSequence() <=> $b->getSequenceInformation()?->getPlaceInSequence()
         );
-        yield from $records;
     }
 }

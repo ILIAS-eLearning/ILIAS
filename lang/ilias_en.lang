@@ -591,6 +591,7 @@ assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
+assessment#:#contained_question_types#:#Contained Question Types
 assessment#:#coordinates#:#Coordinates
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
