@@ -1158,7 +1158,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
         $out[] = $this->getTable();
-        $this->tpl->setContent(implode('', $out));
+        $content_tpl = new ilTemplate(
+            'tpl.il_as_qpl_questions.html',
+            true,
+            true,
+            'components/ILIAS/TestQuestionPool'
+        );
+
+        $content_tpl->setVariable('TITLE', $this->lng->txt('questions'));
+        $content_tpl->setVariable('QUESTIONBROWSER', implode('', $out));
+
+        $this->tpl->setContent($content_tpl->get());
     }
 
     protected function fetchAuthoringQuestionIdParamater(): int
@@ -1871,6 +1881,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
 
         return $r->render([
+            $table->getSummary(),
             $filter,
             $table->getTable()
             ->withRequest($this->request)

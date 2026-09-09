@@ -26,6 +26,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
@@ -55,13 +56,54 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     ) {
         $lng->loadLanguageModule('qpl');
         parent::__construct($db, $lng, $refinery, $component_repository, $notes_service);
+        $this->setParentObjId($this->parent_obj_id);
         $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
+    }
+
+    public function getSummary(): DescriptiveListing
+    {
+        $questions = $this->getSummaryInformation();
+
+        $info = [
+            $this->lng->txt('tst_num_questions') => $this->refinery->kindlyTo()->string()->transform(
+                count($questions)
+            )
+        ];
+
+        $info[$this->lng->txt('maximum_points')] = $this->refinery->kindlyTo()->string()->transform(
+            array_reduce(
+                $questions,
+                fn(float $c, array $v): float => $c + $v['points'],
+                0.0
+            )
+        );
+
+        $types = array_reduce(
+            $questions,
+            function (array $c, array $v): array {
+                if (!in_array($v['ttype'], $c)) {
+                    $c[] = $v['ttype'];
+                }
+
+                return $c;
+            },
+            []
+        );
+
+        natsort($types);
+
+        $info[$this->lng->txt('contained_question_types')] = implode(
+            ', ',
+            $types
+        );
+
+        return $this->ui_factory->listing()->descriptive($info);
     }
 
     public function getTable(): Table\Data
     {
         return $this->ui_factory->table()->data(
-            $this->lng->txt('questions'),
+            '',
             $this->getColumns(),
             $this
         )
@@ -310,15 +352,17 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): ?int {
-        $this->setParentObjId($this->parent_obj_id);
-        $this->load();
+        if ($this->questions === []) {
+            $this->load();
+        }
         return count($this->getQuestionDataArray());
     }
 
     protected function getData(Order $order, Range $range): array
     {
-        $this->setParentObjId($this->parent_obj_id);
-        $this->load();
+        if ($this->questions === []) {
+            $this->load();
+        }
         $data = $this->postOrder($this->getQuestionDataArray(), $order);
         [$offset, $length] = $range->unpack();
         $length = $length > 0 ? $length : null;
@@ -396,5 +440,38 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     {
         return $this->notes_service->domain()->commentsActive($this->parent_obj_id)
             || $this->rbac->checkAccess('write', $this->request_ref_id);
+    }
+
+    private function getSummaryInformation(): array
+    {
+        $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
+
+        $questions = [];
+
+        $res = $this->db->query(
+            "{$this->buildBasicQuery()} AND {$this->getParentObjFilterExpression()}"
+        );
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $row = \ilAssQuestionType::completeMissingPluginName($row);
+
+            if (!$this->isActiveQuestionType($row)) {
+                continue;
+            }
+
+            $row['title'] = $tags_trafo->transform($row['title'] ?? '&nbsp;');
+            $row['ttype'] = $this->getQuestionTypeTranslation($row);
+
+            if (
+                $this->filter_comments === self::QUESTION_COMMENTED_ONLY && $row['comments'] === 0
+                || $this->filter_comments === self::QUESTION_COMMENTED_EXCLUDED && $row['comments'] > 0
+            ) {
+                continue;
+            }
+
+            $questions[$row['question_id']] = $row;
+        }
+
+        return $questions;
     }
 }
