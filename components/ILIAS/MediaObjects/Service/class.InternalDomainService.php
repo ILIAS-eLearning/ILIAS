@@ -22,6 +22,7 @@ namespace ILIAS\MediaObjects;
 
 use ILIAS\DI\Container;
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
+use ILIAS\MediaObjects\ImageMap\ImageMapRetrieval;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
@@ -60,6 +61,14 @@ class InternalDomainService
     {
         return new ImageMapManager(
             $this->repo_service->imageMap()
+        );
+    }
+
+    public function imageMapRetrieval(
+        \ilObjMediaObject $media_object
+    ): ImageMapRetrieval {
+        return new ImageMapRetrieval(
+            $media_object
         );
     }
 

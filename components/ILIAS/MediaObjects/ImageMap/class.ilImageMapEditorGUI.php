@@ -18,6 +18,8 @@
 
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
 use ILIAS\MediaObjects\ImageMap\ImageMapGUIRequest;
+use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Table\TableAdapterGUI;
 
 /**
  * User interface class for map editor
@@ -35,6 +37,7 @@ class ilImageMapEditorGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
+    protected \ILIAS\MediaObjects\InternalGUIService $media_gui;
 
     public function __construct(
         ilObjMediaObject $a_media_object
@@ -45,6 +48,7 @@ class ilImageMapEditorGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
+        $this->media_gui = $DIC->mediaObjects()->internal()->gui();
         $this->media_object = $a_media_object;
 
         $this->map = $DIC->mediaObjects()
@@ -99,6 +103,10 @@ class ilImageMapEditorGUI
     public function editMapAreas(): string
     {
         $ilCtrl = $this->ctrl;
+        $table_html = $this->getImageMapTableHTML();
+        if ($table_html === "") {
+            return "";
+        }
 
         $this->map->setTargetScript(
             $ilCtrl->getLinkTarget(
@@ -123,7 +131,7 @@ class ilImageMapEditorGUI
         $this->tpl->setVariable("TOOLBAR", $this->getToolbar()->getHTML());
 
         // table
-        $this->tpl->setVariable("MAP_AREA_TABLE", $this->getImageMapTableHTML());
+        $this->tpl->setVariable("MAP_AREA_TABLE", $table_html);
 
         return $this->tpl->get();
     }
@@ -157,10 +165,153 @@ class ilImageMapEditorGUI
     }
 
 
+    protected function getImageMapTable(): TableAdapterGUI
+    {
+        return $this->media_gui->imageMap()->imageMapTableBuilder(
+            $this->media_object,
+            $this,
+            "editMapAreas"
+        )->getTable();
+    }
+
     public function getImageMapTableHTML(): string
     {
-        $image_map_table = new ilImageMapTableGUI($this, "editMapAreas", $this->media_object);
-        return $image_map_table->getHTML();
+        $table = $this->getImageMapTable();
+        if ($table->handleCommand()) {
+            return "";
+        }
+        return $table->render();
+    }
+
+    protected function getMapArea(int $area_nr): ilMapArea
+    {
+        $item = $this->media_object->getMediaItem("Standard");
+        return new ilMapArea($item->getId(), $area_nr);
+    }
+
+    protected function getAreaTitleForm(int $area_nr, string $cmd = "saveTitle"): FormAdapterGUI
+    {
+        $this->ctrl->setParameterByClass(self::class, "area_nr", $area_nr);
+        return $this->media_gui
+            ->form([self::class], $cmd)
+            ->text(
+                "title",
+                $this->lng->txt("cont_name"),
+                "",
+                $this->getMapArea($area_nr)->getTitle(),
+                200
+            );
+    }
+
+    public function editTitle(int $area_nr): void
+    {
+        $this->media_gui->clearAsnyOnloadCode();
+        $modal = $this->media_gui
+            ->modal($this->lng->txt("cont_name"))
+            ->form($this->getAreaTitleForm($area_nr));
+        $modal->send();
+    }
+
+    public function saveTitle(): void
+    {
+        $area_nr = $this->request->getAreaNr();
+        $form = $this->getAreaTitleForm($area_nr);
+        if ($form->isValid()) {
+            $title = $form->getData("title");
+            $area = $this->getMapArea($area_nr);
+            $area->setTitle($title === "" ? " " : $title);
+            $area->update();
+        }
+        $this->main_tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "editMapAreas");
+    }
+
+    protected function getAreaHighlightForm(
+        int $area_nr,
+        string $field,
+        string $label,
+        string $cmd,
+        array $options,
+        string $value
+    ): FormAdapterGUI {
+        $this->ctrl->setParameterByClass(self::class, "area_nr", $area_nr);
+        return $this->media_gui
+            ->form([self::class], $cmd)
+            ->select($field, $this->lng->txt($label), $options, "", $value);
+    }
+
+    public function editHighlightMode(int $area_nr): void
+    {
+        $area = $this->getMapArea($area_nr);
+        $this->media_gui->clearAsnyOnloadCode();
+        $modal = $this->media_gui
+            ->modal($this->lng->txt("cont_highlight_mode"))
+            ->form($this->getAreaHighlightForm(
+                $area_nr,
+                "highlight_mode",
+                "cont_highlight_mode",
+                "saveHighlightMode",
+                ilMapArea::getAllHighlightModes(),
+                $area->getHighlightMode()
+            ));
+        $modal->send();
+    }
+
+    public function saveHighlightMode(): void
+    {
+        $area_nr = $this->request->getAreaNr();
+        $form = $this->getAreaHighlightForm(
+            $area_nr,
+            "highlight_mode",
+            "cont_highlight_mode",
+            "saveHighlightMode",
+            ilMapArea::getAllHighlightModes(),
+            $this->getMapArea($area_nr)->getHighlightMode()
+        );
+        if ($form->isValid()) {
+            $area = $this->getMapArea($area_nr);
+            $area->setHighlightMode((string) $form->getData("highlight_mode"));
+            $area->update();
+        }
+        $this->main_tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "editMapAreas");
+    }
+
+    public function editHighlightClass(int $area_nr): void
+    {
+        $area = $this->getMapArea($area_nr);
+        $this->media_gui->clearAsnyOnloadCode();
+        $modal = $this->media_gui
+            ->modal($this->lng->txt("cont_highlight_class"))
+            ->form($this->getAreaHighlightForm(
+                $area_nr,
+                "highlight_class",
+                "cont_highlight_class",
+                "saveHighlightClass",
+                ilMapArea::getAllHighlightClasses(),
+                $area->getHighlightClass()
+            ));
+        $modal->send();
+    }
+
+    public function saveHighlightClass(): void
+    {
+        $area_nr = $this->request->getAreaNr();
+        $form = $this->getAreaHighlightForm(
+            $area_nr,
+            "highlight_class",
+            "cont_highlight_class",
+            "saveHighlightClass",
+            ilMapArea::getAllHighlightClasses(),
+            $this->getMapArea($area_nr)->getHighlightClass()
+        );
+        if ($form->isValid()) {
+            $area = $this->getMapArea($area_nr);
+            $area->setHighlightClass((string) $form->getData("highlight_class"));
+            $area->update();
+        }
+        $this->main_tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "editMapAreas");
     }
 
     public function handleMapParameters(): void
@@ -929,31 +1080,24 @@ class ilImageMapEditorGUI
     /**
      * Delete map areas
      */
-    public function deleteAreas(): void
+    public function deleteAreas(int $area_nr = 0): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $area = $this->request->getArea();
-        if (count($area) == 0) {
+        if ($area_nr === 0) {
+            $area_nr = $this->request->getAreaNr();
+        }
+
+        if ($area_nr === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
         $st_item = $this->media_object->getMediaItem("Standard");
-        $max = ilMapArea::_getMaxNr($st_item->getId());
-
-        if (count($area) > 0) {
-            $i = 0;
-
-            foreach ($area as $area_nr) {
-                $st_item->deleteMapArea($area_nr - $i);
-                $i++;
-            }
-
-            $this->media_object->update();
-            $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
-        }
+        $st_item->deleteMapArea($area_nr);
+        $this->media_object->update();
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
 
         $ilCtrl->redirect($this, "editMapAreas");
     }
@@ -961,18 +1105,26 @@ class ilImageMapEditorGUI
     /**
      * Edit existing link
      */
-    public function editLink(): string
+    public function editLink(int $area_nr = 0): string
     {
         $this->map->clear();
+        if ($area_nr === 0) {
+            $area_nr = $this->request->getAreaNr();
+        }
+        $this->map->setAreaNr($area_nr);
         return $this->setLink(false);
     }
 
     /**
      * Edit an existing shape (make it a whole picture link)
      */
-    public function editShapeWholePicture(): string
+    public function editShapeWholePicture(int $area_nr = 0): string
     {
         $this->clearSessionVars();
+        if ($area_nr === 0) {
+            $area_nr = $this->request->getAreaNr();
+        }
+        $this->map->setAreaNr($area_nr);
         $this->map->setAreaType("WholePicture");
         return $this->setShape(false);
     }
@@ -980,9 +1132,13 @@ class ilImageMapEditorGUI
     /**
      * Edit an existing shape (make it a rectangle)
      */
-    public function editShapeRectangle(): string
+    public function editShapeRectangle(int $area_nr = 0): string
     {
         $this->clearSessionVars();
+        if ($area_nr === 0) {
+            $area_nr = $this->request->getAreaNr();
+        }
+        $this->map->setAreaNr($area_nr);
         $this->map->setAreaType("Rect");
         return $this->setShape(false);
     }
@@ -990,9 +1146,13 @@ class ilImageMapEditorGUI
     /**
      * Edit an existing shape (make it a circle)
      */
-    public function editShapeCircle(): string
+    public function editShapeCircle(int $area_nr = 0): string
     {
         $this->clearSessionVars();
+        if ($area_nr === 0) {
+            $area_nr = $this->request->getAreaNr();
+        }
+        $this->map->setAreaNr($area_nr);
         $this->map->setAreaType("Circle");
         return $this->setShape(false);
     }
@@ -1000,9 +1160,13 @@ class ilImageMapEditorGUI
     /**
      * Edit an existing shape (make it a polygon)
      */
-    public function editShapePolygon(): string
+    public function editShapePolygon(int $area_nr = 0): string
     {
         $this->clearSessionVars();
+        if ($area_nr === 0) {
+            $area_nr = $this->request->getAreaNr();
+        }
+        $this->map->setAreaNr($area_nr);
         $this->map->setAreaType("Poly");
         return $this->setShape(false);
     }

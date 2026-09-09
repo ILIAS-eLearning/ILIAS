@@ -46,4 +46,18 @@ class GUIService
             $this->domain_service->refinery()
         );
     }
+
+    public function imageMapTableBuilder(
+        \ilObjMediaObject $media_object,
+        object $parent_gui,
+        string $parent_cmd
+    ): ImageMapTableBuilder {
+        return new ImageMapTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $media_object,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

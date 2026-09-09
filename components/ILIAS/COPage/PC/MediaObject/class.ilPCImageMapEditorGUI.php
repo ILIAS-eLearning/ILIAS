@@ -18,6 +18,7 @@
 
 use ILIAS\COPage\PC\EditGUIRequest;
 use ILIAS\COPage\PC\MapEditorSessionRepository;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * User interface class for page content map editor
@@ -32,6 +33,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     protected ilPageObject $page;
     protected ilPCInteractiveImage|ilPCMediaObject $content_obj;
     protected EditGUIRequest $edit_request;
+    protected \ILIAS\COPage\InternalGUIService $copage_gui;
 
     /**
      * @param ilPCMediaObject|ilPCInteractiveImage $a_content_obj
@@ -46,6 +48,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         $this->content_obj = $a_content_obj;
         $this->page = $a_page;
         $this->edit_request = $request;
+        $this->copage_gui = $DIC->copage()->internal()->gui();
         parent::__construct($a_content_obj->getMediaObject());
 
         $this->std_alias_item = new ilMediaAliasItem(
@@ -70,13 +73,159 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
     public function getImageMapTableHTML(): string
     {
-        $image_map_table = new ilPCImageMapTableGUI(
-            $this,
-            "editMapAreas",
+        $table = $this->copage_gui->pc()->imageMapTableBuilder(
             $this->content_obj,
-            $this->getParentNodeName()
+            $this->getParentNodeName(),
+            $this,
+            "editMapAreas"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return "";
+        }
+        return $table->render();
+    }
+
+    protected function getAliasMapArea(int $area_nr): array
+    {
+        foreach ($this->std_alias_item->getMapAreas() as $area) {
+            if ((int) $area["Nr"] === $area_nr) {
+                return $area;
+            }
+        }
+        return [];
+    }
+
+    protected function getAliasAreaTitleForm(int $area_nr): FormAdapterGUI
+    {
+        $this->ctrl->setParameterByClass(self::class, "area_nr", $area_nr);
+        return $this->media_gui
+            ->form([self::class], "saveTitle")
+            ->text(
+                "title",
+                $this->lng->txt("cont_name"),
+                "",
+                $this->getAliasMapArea($area_nr)["Link"]["Title"] ?? "",
+                200
+            );
+    }
+
+    public function editTitle(int $area_nr): void
+    {
+        $this->media_gui->clearAsnyOnloadCode();
+        $modal = $this->media_gui
+            ->modal($this->lng->txt("cont_name"))
+            ->form($this->getAliasAreaTitleForm($area_nr));
+        $modal->send();
+    }
+
+    public function saveTitle(): void
+    {
+        $area_nr = $this->request->getAreaNr();
+        $form = $this->getAliasAreaTitleForm($area_nr);
+        if ($form->isValid()) {
+            $title = $form->getData("title");
+            $this->std_alias_item->setAreaTitle(
+                $area_nr,
+                $title === "" ? " " : (string) $title
+            );
+            $this->page->update();
+        }
+        $this->main_tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "editMapAreas");
+    }
+
+    protected function getAliasAreaHighlightForm(
+        int $area_nr,
+        string $field,
+        string $label,
+        string $cmd,
+        array $options,
+        string $value
+    ): FormAdapterGUI {
+        $this->ctrl->setParameterByClass(self::class, "area_nr", $area_nr);
+        return $this->media_gui
+            ->form([self::class], $cmd)
+            ->select($field, $this->lng->txt($label), $options, "", $value);
+    }
+
+    public function editHighlightMode(int $area_nr): void
+    {
+        $this->media_gui->clearAsnyOnloadCode();
+        $area = $this->getAliasMapArea($area_nr);
+        $modal = $this->media_gui
+            ->modal($this->lng->txt("cont_highlight_mode"))
+            ->form($this->getAliasAreaHighlightForm(
+                $area_nr,
+                "highlight_mode",
+                "cont_highlight_mode",
+                "saveHighlightMode",
+                \ilMapArea::getAllHighlightModes(),
+                $area["HighlightMode"] ?? ""
+            ));
+        $modal->send();
+    }
+
+    public function saveHighlightMode(): void
+    {
+        $area_nr = $this->request->getAreaNr();
+        $area = $this->getAliasMapArea($area_nr);
+        $form = $this->getAliasAreaHighlightForm(
+            $area_nr,
+            "highlight_mode",
+            "cont_highlight_mode",
+            "saveHighlightMode",
+            \ilMapArea::getAllHighlightModes(),
+            $area["HighlightMode"] ?? ""
         );
-        return $image_map_table->getHTML();
+        if ($form->isValid()) {
+            $this->std_alias_item->setAreaHighlightMode(
+                $area_nr,
+                (string) $form->getData("highlight_mode")
+            );
+            $this->page->update();
+        }
+        $this->main_tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "editMapAreas");
+    }
+
+    public function editHighlightClass(int $area_nr): void
+    {
+        $this->media_gui->clearAsnyOnloadCode();
+        $area = $this->getAliasMapArea($area_nr);
+        $modal = $this->media_gui
+            ->modal($this->lng->txt("cont_highlight_class"))
+            ->form($this->getAliasAreaHighlightForm(
+                $area_nr,
+                "highlight_class",
+                "cont_highlight_class",
+                "saveHighlightClass",
+                \ilMapArea::getAllHighlightClasses(),
+                $area["HighlightClass"] ?? ""
+            ));
+        $modal->send();
+    }
+
+    public function saveHighlightClass(): void
+    {
+        $area_nr = $this->request->getAreaNr();
+        $area = $this->getAliasMapArea($area_nr);
+        $form = $this->getAliasAreaHighlightForm(
+            $area_nr,
+            "highlight_class",
+            "cont_highlight_class",
+            "saveHighlightClass",
+            \ilMapArea::getAllHighlightClasses(),
+            $area["HighlightClass"] ?? ""
+        );
+        if ($form->isValid()) {
+            $this->std_alias_item->setAreaHighlightClass(
+                $area_nr,
+                (string) $form->getData("highlight_class")
+            );
+            $this->page->update();
+        }
+        $this->main_tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "editMapAreas");
     }
 
     /**
@@ -176,10 +325,22 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Delete map areas
      */
-    public function deleteAreas(): void
+    public function deleteAreas(int $area_nr = 0): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
+
+        if ($area_nr === 0) {
+            $area_nr = $this->request->getAreaNr();
+        }
+
+        if ($area_nr > 0) {
+            $this->std_alias_item->deleteMapArea($area_nr);
+            $this->page->update();
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
+            $ilCtrl->redirect($this, "editMapAreas");
+            return;
+        }
 
         $areas = $this->edit_request->getStringArray("area");
         if (count($areas) == 0) {
