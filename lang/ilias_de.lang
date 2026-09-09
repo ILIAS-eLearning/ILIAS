@@ -591,6 +591,7 @@ assessment#:#concatenation#:#Verknüpfung
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
 assessment#:#confirm_log_deletion#:#Sind Sie sicher, dass Sie die ausgewählten Protokolleinträge löschen möchten? Die gelöschten Einträge werden unwiderruflich gelöscht.
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
+assessment#:#contained_question_types#:#Enthaltene Fragentypen
 assessment#:#coordinates#:#Koordinaten
 assessment#:#copy_and_link_to_questionpool#:#Zu Fragenpool hinzufügen
 assessment#:#copy_no_questions_selected#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.

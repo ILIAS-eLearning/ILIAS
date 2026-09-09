@@ -591,6 +591,7 @@ assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
+assessment#:#contained_question_types#:#Contained Question Types
 assessment#:#coordinates#:#Coordinates
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
@@ -15094,7 +15095,7 @@ rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do so, there
 rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from those available, for example a learning module or a forum.
 rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and select "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
-rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu. 
+rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu.
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
