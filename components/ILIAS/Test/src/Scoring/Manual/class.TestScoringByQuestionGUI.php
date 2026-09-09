@@ -110,6 +110,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $question_id = $this->testrequest->getQuestionId();
         if ($question_id === 0) {
             $question_id = reset($test_question_properties)->getQuestionId();
+        } else {
+            $this->ctrl->setParameterByClass(self::class, 'q_id', $question_id);
         }
 
         $table = new ScoringByQuestionTable(
