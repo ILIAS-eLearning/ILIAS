@@ -60,6 +60,7 @@ try {
     //        $_COOKIE['ilClientId'] = $param['ilClientId'];
     $objId = $param['obj_id'];
     $refId = $param['ref_id'];
+    $usrId = $param['usr_id'];
 } catch (ilCmiXapiException $e) {
     $error = array('error-code' => '3','error-text' => 'internal server error');
     send($error);
@@ -67,7 +68,7 @@ try {
 
 try {
     $object = ilObjectFactory::getInstanceByObjId($objId, false);
-    $token = ilCmiXapiAuthToken::getInstanceByObjIdAndRefIdAndUsrId($objId, $refId, $DIC->user()->getId());
+    $token = ilCmiXapiAuthToken::getInstanceByObjIdAndRefIdAndUsrId($objId, $refId, $usrId);
     if ($object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
         $tokenCmi5Session = $token->getCmi5Session();
         $alreadyReturnedCmi5Session = $token->getReturnedForCmi5Session();

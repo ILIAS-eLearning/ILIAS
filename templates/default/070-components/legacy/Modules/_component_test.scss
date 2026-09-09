@@ -123,5 +123,6 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
 }
 
 .ilc_qanswer_Answer.ilc_answers.answers.ilAssClozeTest p input[type=text] {
-	width: 100%;
+	width: auto;
+	max-width: min(65vw, 100%);
 }

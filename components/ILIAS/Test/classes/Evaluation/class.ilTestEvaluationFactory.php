@@ -115,6 +115,10 @@ class ilTestEvaluationFactory
                 $attempt = $this->buildBasicAttemptEvaluationDataFromDB($row);
             }
 
+            if (!isset($attempt)) {
+                continue;
+            }
+
             $attempt = $this->addQuestionToAttempt($attempt, $row);
             $user_eval_data->addPass($pass, $attempt);
             $participants[$active_id] = $user_eval_data;
@@ -130,7 +134,7 @@ class ilTestEvaluationFactory
         $current_attempt = null;
 
         foreach ($eval_data_rows as $row) {
-            if($row['pass'] === null) {
+            if ($row['pass'] === null) {
                 continue;
             }
 
