@@ -26,6 +26,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Listing\Property as PropertyListing;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
@@ -55,14 +56,37 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     ) {
         $lng->loadLanguageModule('qpl');
         parent::__construct($db, $lng, $refinery, $component_repository, $notes_service);
+        $this->setParentObjId($this->parent_obj_id);
         $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
+    }
+
+    public function getSummary(): PropertyListing
+    {
+        $questions = $this->getData(null, null);
+
+        return $this->ui_factory->listing()->property()
+            ->withProperty(
+                $this->lng->txt('tst_num_questions'),
+                $this->refinery->kindlyTo()->string()->transform(
+                    count($questions)
+                )
+            )->withProperty(
+                $this->lng->txt('maximum_points'),
+                $this->refinery->kindlyTo()->string()->transform(
+                    array_reduce(
+                        $questions,
+                        fn(float $c, array $v): float => $c + $v['points'],
+                        0.0
+                    )
+                )
+            );
     }
 
     public function getTable(): Table\Data
     {
         return $this->ui_factory->table()->data(
             $this,
-            $this->lng->txt('questions'),
+            '',
             $this->getColumns()
         )
         ->withActions($this->getActions())
@@ -311,19 +335,35 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        $this->setParentObjId($this->parent_obj_id);
-        $this->load();
+        if ($this->questions === []) {
+            $this->load();
+        }
         return count($this->getQuestionDataArray());
     }
 
-    protected function getData(Order $order, Range $range): array
-    {
-        $this->setParentObjId($this->parent_obj_id);
-        $this->load();
-        $data = $this->postOrder($this->getQuestionDataArray(), $order);
+    protected function getData(
+        ?Order $order,
+        ?Range $range
+    ): array {
+        if ($this->questions === []) {
+            $this->load();
+        }
+
+        $data = $this->getQuestionDataArray();
+        if ($order !== null) {
+            $data = $this->postOrder($data, $order);
+        }
+
+        if ($range === null) {
+            return $data;
+        }
+
         [$offset, $length] = $range->unpack();
-        $length = $length > 0 ? $length : null;
-        return array_slice($data, $offset, $length);
+        return array_slice(
+            $data,
+            $offset,
+            $length > 0 ? $length : null
+        );
     }
 
     protected function getActions(): array
