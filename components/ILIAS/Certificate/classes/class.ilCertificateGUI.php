@@ -386,11 +386,7 @@ class ilCertificateGUI
 
         $new_background_rid = $current_background_rid && !$should_delete_background ? $current_background_rid :
             $this->global_certificate_settings->getBackgroundImageIdentification();
-        if (
-            is_string($new_background_rid) &&
-            is_string($this->global_certificate_settings->getBackgroundImageIdentification()) &&
-            $new_background_rid === $this->global_certificate_settings->getBackgroundImageIdentification()
-        ) {
+        if (is_string($new_background_rid)) {
             if ($this->file_system->has($new_background_rid)) {
                 $new_background_rid = $this->irss->manage()->stream(
                     $this->file_system->readStream($new_background_rid),
@@ -448,7 +444,7 @@ class ilCertificateGUI
                         $xslfo,
                         isset($new_background_rid) ? $new_background_rid->serialize() : '',
                         $jsonEncodedTemplateValues,
-                        isset($new_thumbnail_rid) ? $new_background_rid->serialize() : '',
+                        isset($new_thumbnail_rid) ? $new_thumbnail_rid->serialize() : '',
                         $old_background_image, $old_thumbnail_image
                     ])
                 );
