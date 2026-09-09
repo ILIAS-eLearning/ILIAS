@@ -584,35 +584,45 @@ class Question implements Clonable
     public function addAwardedPointsToResponse(
         Response $response
     ): Response {
-        return $response->withAwardedPoints(
-            array_reduce(
-                $this->answer_forms,
-                function (?float $c, AnswerFormProperties $v) use ($response): ?float {
-                    /** @var Marking $marking */
-                    $marking = $v->getDefinition()->getCapability(
-                        MarkingAllowingPartialPoints::getIdentifier()
-                    );
+        $awarded_points = $this->calculateAwardedPoints($response);
 
-                    if ($marking === null) {
-                        return $c;
-                    }
+        return $awarded_points === null
+            ? $response
+            : $response->withAwardedPoints(
+                $awarded_points
+            );
+    }
 
-                    $points_from_form = $marking->calculateAwardedPoints(
-                        $v,
-                        $response->getAnswerFormResponse($v->getAnswerFormId())
-                    );
+    private function calculateAwardedPoints(
+        Response $response
+    ): ?float {
+        return array_reduce(
+            $this->answer_forms,
+            function (?float $c, AnswerFormProperties $v) use ($response): ?float {
+                /** @var Marking $marking */
+                $marking = $v->getDefinition()->getCapability(
+                    MarkingAllowingPartialPoints::getIdentifier()
+                );
 
-                    if ($points_from_form === null) {
-                        return $c;
-                    }
-
-                    if ($c === null) {
-                        return $points_from_form;
-                    }
-
-                    return $c + $points_from_form;
+                if ($marking === null) {
+                    return $c;
                 }
-            )
+
+                $points_from_form = $marking->calculateAwardedPoints(
+                    $v,
+                    $response->getAnswerFormResponse($v->getAnswerFormId())
+                );
+
+                if ($points_from_form === null) {
+                    return $c;
+                }
+
+                if ($c === null) {
+                    return $points_from_form;
+                }
+
+                return $c + $points_from_form;
+            }
         );
     }
 
