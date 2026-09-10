@@ -59,23 +59,4 @@ class CharacteristicUIFactory
         );
     }
 
-    // characteristics table
-    public function CharacteristicTableGUI(
-        object $a_parent_obj,
-        string $a_parent_cmd,
-        string $a_super_type,
-        ilObjStyleSheet $a_style,
-        CharacteristicManager $manager,
-        Access\StyleAccessManager $access_manager
-    ): CharacteristicTableGUI {
-        return new CharacteristicTableGUI(
-            $this->gui_service,
-            $a_parent_obj,
-            $a_parent_cmd,
-            $a_super_type,
-            $a_style,
-            $manager,
-            $access_manager
-        );
-    }
 }

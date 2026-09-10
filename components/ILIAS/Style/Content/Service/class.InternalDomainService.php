@@ -30,6 +30,7 @@ use ILIAS\Style\Content\Style\CSSBuilder;
 use ILIAS\Style\Content\Style\StyleManager;
 use ILIAS\Style\Content\Images\ImageRetrieval;
 use ILIAS\Style\Content\Color\ColorRetrieval;
+use ILIAS\Style\Content\Characteristic\CharacteristicRetrieval;
 use ILIAS\Style\Content\Template\TemplateRetrieval;
 use ILIAS\Style\Content\MediaQuery\MediaQueryRetrieval;
 
@@ -80,6 +81,13 @@ class InternalDomainService
             $this->repo_service->color(),
             $this->user()
         );
+    }
+
+    public function characteristicRetrieval(
+        CharacteristicManager $manager,
+        string $super_type
+    ): CharacteristicRetrieval {
+        return new CharacteristicRetrieval($manager, $super_type);
     }
 
     public function color(

@@ -22,6 +22,7 @@ namespace ILIAS\Style\Content;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Style\Content\Characteristic\CharacteristicTableBuilder;
 use ILIAS\Style\Content\Color\ColorTableBuilder;
 use ILIAS\Style\Content\MediaQuery\MediaQueryTableBuilder;
 use ILIAS\Style\Content\Template\TemplateTableBuilder;
@@ -67,6 +68,23 @@ class InternalGUIService
     public function image(
     ): ImageUIFactory {
         return $this->image;
+    }
+
+    public function characteristicTableBuilder(
+        string $super_type,
+        CharacteristicManager $manager,
+        Access\StyleAccessManager $access_manager,
+        object $parent_gui,
+        string $parent_cmd
+    ): CharacteristicTableBuilder {
+        return new CharacteristicTableBuilder(
+            $this->domain_service,
+            $super_type,
+            $manager,
+            $access_manager,
+            $parent_gui,
+            $parent_cmd
+        );
     }
 
     public function colorTableBuilder(
