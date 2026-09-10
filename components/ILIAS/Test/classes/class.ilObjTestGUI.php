@@ -2766,7 +2766,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->getTestObject()->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed(),
                 $this->getTestObject()->evalTotalPersons() !== 0,
                 $this->getTestObject()->isRandomTest(),
-                $this->test_question_set_config_factory
+                $this->test_question_set_config_factory,
+                $this->response_handler
             );
         }
         return $this->table_actions;
