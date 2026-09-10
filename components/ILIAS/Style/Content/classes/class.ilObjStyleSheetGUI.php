@@ -797,13 +797,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             );
         }
 
-        $table_gui = new ilStyleColorTableGUI(
-            $this,
-            "listColors",
+        $table = $this->getColorTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getColorTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        return $this->gui_service->color()->colorTableBuilder(
             $this->getStyleSheet(),
-            $this->access_manager
-        );
-        $tpl->setContent($table_gui->getHTML());
+            $this->access_manager,
+            $this,
+            "listColors"
+        )->getTable();
     }
 
     public function addColorObject(): void
@@ -968,6 +976,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
     }
 
+    public function confirmDeleteColors(array $colors): void
+    {
+        if (count($colors) === 0) {
+            $this->ctrl->redirect($this, "listColors");
+            return;
+        }
+
+        $this->getColorTable()->renderDeletionConfirmation(
+            $this->lng->txt("sty_confirm_color_deletion"),
+            $this->lng->txt("info_delete_sure"),
+            "deleteColor",
+            array_combine($colors, $colors)
+        );
+    }
+
     /**
      * Cancel color deletion
      */
@@ -981,7 +1004,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $colors = $this->style_request->getColors();
+        $colors = $this->getColorTable()->getItemIds();
+        if (count($colors) === 0) {
+            $colors = $this->style_request->getColors();
+        }
         foreach ($colors as $c) {
             $this->object->removeColor($c);
         }

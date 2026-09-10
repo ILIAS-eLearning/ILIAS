@@ -37,6 +37,7 @@ class InternalGUIService
 
     protected CharacteristicUIFactory $characteristic;
     protected ImageUIFactory $image;
+    protected ColorUIFactory $color;
 
     public function __construct(
         Container $DIC,
@@ -54,6 +55,7 @@ class InternalGUIService
             $this->domain_service,
             $this
         );
+        $this->color = new ColorUIFactory($this->domain_service);
     }
 
     public function characteristic(
@@ -64,6 +66,11 @@ class InternalGUIService
     public function image(
     ): ImageUIFactory {
         return $this->image;
+    }
+
+    public function color(
+    ): ColorUIFactory {
+        return $this->color;
     }
 
     public function standardRequest(

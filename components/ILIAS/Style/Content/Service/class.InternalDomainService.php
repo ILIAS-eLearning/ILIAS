@@ -29,6 +29,7 @@ use ilRbacSystem;
 use ILIAS\Style\Content\Style\CSSBuilder;
 use ILIAS\Style\Content\Style\StyleManager;
 use ILIAS\Style\Content\Images\ImageRetrieval;
+use ILIAS\Style\Content\Color\ColorRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -106,6 +107,11 @@ class InternalDomainService
     public function imageRetrieval(ImageManager $image_manager): ImageRetrieval
     {
         return new ImageRetrieval($image_manager);
+    }
+
+    public function colorRetrieval(\ilObjStyleSheet $style_obj): ColorRetrieval
+    {
+        return new ColorRetrieval($style_obj);
     }
 
     public function repositoryContainer(int $ref_id): ContainerManager
