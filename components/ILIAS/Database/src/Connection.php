@@ -21,14 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Database;
 
 /**
- * Hands out the database connection of the current client.
- *
- * Components that are wired through the component bootstrap must not resolve
- * the connection while they are being built - at that point there is no client
- * and no database yet. They pull this accessor instead and ask it for the
- * connection when they actually need it.
+ * Wrapper for the Setup to work, as they require a namespace.
  */
-interface Connection
+interface Connection extends \ilDBInterface
 {
-    public function get(): \ilDBInterface;
+
 }

@@ -417,7 +417,7 @@ class ilSession
     {
         return array_values(array_filter(
             array_keys($_SESSION ?? []),
-            static fn($key): bool => is_string($key)
+            is_string(...)
         ));
     }
 

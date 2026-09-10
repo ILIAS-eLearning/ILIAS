@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\KeyValueStorage\Internal;
 
-use ILIAS\Database\Connection;
 use ILIAS\KeyValueStorage\Repository;
 
 /**
@@ -36,7 +35,7 @@ final readonly class DatabaseRepository implements Repository
 {
     public const string TABLE = 'kvs_store';
 
-    public function __construct(private Connection $connection)
+    public function __construct(private \ilDBInterface $connection)
     {
     }
 
@@ -47,7 +46,7 @@ final readonly class DatabaseRepository implements Repository
 
     public function read(StorageNamespace $namespace, string $key): ?string
     {
-        $db = $this->connection->get();
+        $db = $this->connection;
 
         $result = $db->queryF(
             'SELECT value FROM ' . self::TABLE . ' WHERE namespace = %s AND keyword = %s',
@@ -62,7 +61,7 @@ final readonly class DatabaseRepository implements Repository
 
     public function write(StorageNamespace $namespace, string $key, string $value): void
     {
-        $this->connection->get()->replace(
+        $this->connection->replace(
             self::TABLE,
             [
                 'namespace' => [\ilDBConstants::T_TEXT, $namespace->value()],
@@ -76,7 +75,7 @@ final readonly class DatabaseRepository implements Repository
 
     public function remove(StorageNamespace $namespace, string $key): void
     {
-        $this->connection->get()->manipulateF(
+        $this->connection->manipulateF(
             'DELETE FROM ' . self::TABLE . ' WHERE namespace = %s AND keyword = %s',
             [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
             [$namespace->value(), $key]
@@ -85,7 +84,7 @@ final readonly class DatabaseRepository implements Repository
 
     public function removeAll(StorageNamespace $namespace): void
     {
-        $this->connection->get()->manipulateF(
+        $this->connection->manipulateF(
             'DELETE FROM ' . self::TABLE . ' WHERE namespace = %s',
             [\ilDBConstants::T_TEXT],
             [$namespace->value()]
