@@ -379,7 +379,7 @@ class ilTestCorrectionsGUI
             return false;
         }
 
-        if (!$this->supportsAdjustment($this->question_gui)) {
+        if (!$this->question_gui?->supportsAdjustment()) {
             return false;
         }
 
@@ -450,9 +450,7 @@ class ilTestCorrectionsGUI
         return array_reduce(
             $this->test_obj->getTestQuestions(),
             function (array $c, array $v): array {
-                $question_gui = $this->getQuestionGUI($v['question_id']);
-
-                if (!$this->supportsAdjustment($question_gui)) {
+                if (!$this->getQuestionGUI($v['question_id'])?->supportsAdjustment()) {
                     return $c;
                 }
 
@@ -461,20 +459,5 @@ class ilTestCorrectionsGUI
             },
             []
         );
-    }
-
-    /**
-     * Returns if the given question object support scoring adjustment.
-     *
-     * @param $question_object assQuestionGUI
-     *
-     * @return bool True, if relevant interfaces are implemented to support scoring adjustment.
-     */
-    protected function supportsAdjustment(\assQuestionGUI $question_object): bool
-    {
-        return ($question_object instanceof ilGuiQuestionScoringAdjustable
-                || $question_object instanceof ilGuiAnswerScoringAdjustable)
-            && ($question_object->getObject() instanceof ilObjQuestionScoringAdjustable
-                || $question_object->getObject() instanceof ilObjAnswerScoringAdjustable);
     }
 }
