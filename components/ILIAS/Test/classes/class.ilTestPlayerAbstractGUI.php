@@ -1839,14 +1839,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $starting_time = $this->object->getStartingTimeOfUser($active_id);
         $working_time = new WorkingTime(
             $this->lng,
-            $this->ui_factory,
-            $this->ui_renderer,
             $starting_time,
             $this->object->getProcessingTimeInSeconds($active_id)
         );
 
         $this->tpl->setCurrentBlock('enableprocessingtime');
-        $this->tpl->setVariable('USER_WORKING_TIME_MESSAGE_BOX', $working_time->getMessageBox($verbose));
+        $this->tpl->setVariable(
+            'USER_WORKING_TIME_MESSAGE_BOX',
+            $this->ui_renderer->render(
+                $working_time->getMessageBox($this->ui_factory, $verbose)
+            )
+        );
         $this->tpl->parseCurrentBlock();
 
         $working_time_js_template = $working_time->prepareWorkingTimeJsTemplate(
