@@ -31,6 +31,7 @@ use ILIAS\Style\Content\Style\StyleManager;
 use ILIAS\Style\Content\Images\ImageRetrieval;
 use ILIAS\Style\Content\Color\ColorRetrieval;
 use ILIAS\Style\Content\Template\TemplateRetrieval;
+use ILIAS\Style\Content\MediaQuery\MediaQueryRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -120,6 +121,12 @@ class InternalDomainService
         string $temp_type
     ): TemplateRetrieval {
         return new TemplateRetrieval($style_obj, $temp_type);
+    }
+
+    public function mediaQueryRetrieval(
+        \ilObjStyleSheet $style_obj
+    ): MediaQueryRetrieval {
+        return new MediaQueryRetrieval($style_obj);
     }
 
     public function repositoryContainer(int $ref_id): ContainerManager

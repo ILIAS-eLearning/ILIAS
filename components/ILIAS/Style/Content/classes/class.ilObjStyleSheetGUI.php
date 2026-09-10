@@ -1032,13 +1032,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             );
         }
 
-        $table_gui = new ilStyleMediaQueryTableGUI(
-            $this,
-            "listMediaQueries",
+        $table = $this->getMediaQueryTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getMediaQueryTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        return $this->gui_service->mediaQuery()->mediaQueryTableBuilder(
             $this->getStyleSheet(),
-            $this->access_manager
-        );
-        $tpl->setContent($table_gui->getHTML());
+            $this->access_manager,
+            $this,
+            "listMediaQueries"
+        )->getTable();
     }
 
     public function addMediaQueryObject(): void
@@ -1146,35 +1154,39 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
     public function deleteMediaQueryConfirmationObject(): void
     {
+        $this->deleteMediaQueryConfirmation($this->style_request->getMediaQueryIds());
+    }
+
+    public function deleteMediaQueryConfirmation(array $mq_ids): void
+    {
         $ilCtrl = $this->ctrl;
-        $tpl = $this->gui_service->ui()->mainTemplate();
-        $lng = $this->lng;
-
-        $mq_ids = $this->style_request->getMediaQueryIds();
-        if (count($mq_ids) == 0) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
+        if (count($mq_ids) === 0) {
             $ilCtrl->redirect($this, "listMediaQueries");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("sty_sure_del_mqueries"));
-            $cgui->setCancel($lng->txt("cancel"), "listMediaQueries");
-            $cgui->setConfirm($lng->txt("delete"), "deleteMediaQueries");
-
-            foreach ($mq_ids as $i) {
-                $mq = $this->object->getMediaQueryForId($i);
-                $cgui->addItem("mq_id[]", (string) $i, $mq["mquery"]);
-            }
-
-            $tpl->setContent($cgui->getHTML());
+            return;
         }
+
+        $items = [];
+        foreach ($mq_ids as $mq_id) {
+            $media_query = $this->object->getMediaQueryForId($mq_id);
+            $items[$mq_id] = $media_query["mquery"] ?? "";
+        }
+
+        $this->getMediaQueryTable()->renderDeletionConfirmation(
+            $this->lng->txt("sty_sure_del_mqueries"),
+            $this->lng->txt("info_delete_sure"),
+            "deleteMediaQueries",
+            $items
+        );
     }
 
     public function deleteMediaQueriesObject(): void
     {
         $ilCtrl = $this->ctrl;
 
-        $mq_ids = $this->style_request->getMediaQueryIds();
+        $mq_ids = $this->getMediaQueryTable()->getItemIds();
+        if (count($mq_ids) === 0) {
+            $mq_ids = $this->style_request->getMediaQueryIds();
+        }
         if ($this->access_manager->checkWrite()) {
             foreach ($mq_ids as $id) {
                 $this->object->deleteMediaQuery($id);
@@ -1193,7 +1205,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
         $ilCtrl->redirect($this, "listMediaQueries");
     }
-
 
     //
     // Templates management

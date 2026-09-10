@@ -39,6 +39,7 @@ class InternalGUIService
     protected ImageUIFactory $image;
     protected ColorUIFactory $color;
     protected TemplateUIFactory $template;
+    protected MediaQueryUIFactory $media_query;
 
     public function __construct(
         Container $DIC,
@@ -58,6 +59,7 @@ class InternalGUIService
         );
         $this->color = new ColorUIFactory($this->domain_service);
         $this->template = new TemplateUIFactory($this->domain_service);
+        $this->media_query = new MediaQueryUIFactory($this->domain_service);
     }
 
     public function characteristic(
@@ -78,6 +80,11 @@ class InternalGUIService
     public function template(
     ): TemplateUIFactory {
         return $this->template;
+    }
+
+    public function mediaQuery(
+    ): MediaQueryUIFactory {
+        return $this->media_query;
     }
 
     public function standardRequest(
