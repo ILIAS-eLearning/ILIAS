@@ -1217,6 +1217,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->setTemplatesSubTabs();
         $ilCtrl->setParameter($this, "temp_type", $ctype);
         $ilTabs->setSubTabActive("sty_" . $ctype . "_templates");
+        ilAccordionGUI::addCss();
 
         // action commands
         if ($this->access_manager->checkWrite()) {
@@ -1235,14 +1236,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 
         $this->includeCSS();
-        $table_gui = new ilTableTemplatesTableGUI(
-            $ctype,
-            $this,
-            "listTemplates",
+        $table = $this->getTemplateTable($ctype);
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getTemplateTable(
+        string $temp_type
+    ): \ILIAS\Repository\Table\TableAdapterGUI {
+        return $this->gui_service->template()->templateTableBuilder(
             $this->getStyleSheet(),
-            $this->access_manager
-        );
-        $tpl->setContent($table_gui->getHTML());
+            $temp_type,
+            $this->access_manager,
+            $this,
+            "listTemplates"
+        )->getTable();
     }
 
     public function addTemplateObject(): void
@@ -1584,11 +1594,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
      */
     public function deleteTemplateConfirmationObject(): void
     {
+        $this->deleteTemplateConfirmation($this->style_request->getTemplateIds());
+    }
+
+    public function deleteTemplateConfirmation(array $tids): void
+    {
         $ilCtrl = $this->ctrl;
         $tpl = $this->gui_service->ui()->mainTemplate();
         $lng = $this->lng;
 
-        $tids = $this->style_request->getTemplateIds();
         if (count($tids) == 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTemplates");

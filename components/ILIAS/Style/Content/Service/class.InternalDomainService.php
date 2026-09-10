@@ -30,6 +30,7 @@ use ILIAS\Style\Content\Style\CSSBuilder;
 use ILIAS\Style\Content\Style\StyleManager;
 use ILIAS\Style\Content\Images\ImageRetrieval;
 use ILIAS\Style\Content\Color\ColorRetrieval;
+use ILIAS\Style\Content\Template\TemplateRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -112,6 +113,13 @@ class InternalDomainService
     public function colorRetrieval(\ilObjStyleSheet $style_obj): ColorRetrieval
     {
         return new ColorRetrieval($style_obj);
+    }
+
+    public function templateRetrieval(
+        \ilObjStyleSheet $style_obj,
+        string $temp_type
+    ): TemplateRetrieval {
+        return new TemplateRetrieval($style_obj, $temp_type);
     }
 
     public function repositoryContainer(int $ref_id): ContainerManager
