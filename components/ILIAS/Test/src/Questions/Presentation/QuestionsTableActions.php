@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Questions\Presentation;
 
+use ILIAS\Test\Questions\Properties\Properties;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\ResponseHandler;
 use ILIAS\UI\Factory as UIFactory;
@@ -75,7 +76,8 @@ class QuestionsTableActions
     }
 
     public function setDisabledActions(
-        OrderingRow $row
+        OrderingRow $row,
+        Properties $record
     ): OrderingRow {
         $disable_default_actions = $this->is_in_test_with_random_question_set
             || $this->is_in_test_with_results;
@@ -87,7 +89,11 @@ class QuestionsTableActions
         ->withDisabledAction(self::ACTION_EDIT_PAGE, $disable_default_actions)
         ->withDisabledAction(
             self::ACTION_ADJUST,
-            !$this->is_adjusting_questions_with_results_allowed || !$this->is_in_test_with_results
+            !$this->is_adjusting_questions_with_results_allowed
+                || !$this->is_in_test_with_results
+                || !\assQuestion::instantiateQuestionGUI(
+                    $record->getGeneralQuestionProperties()->getQuestionId()
+                )->supportsAdjustment()
         )->withDisabledAction(self::ACTION_FEEDBACK, $disable_default_actions)
         ->withDisabledAction(self::ACTION_PRINT_ANSWERS, !$this->is_in_test_with_results)
         ->withDisabledAction(
