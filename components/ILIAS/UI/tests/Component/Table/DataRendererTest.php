@@ -58,9 +58,10 @@ class DTRenderer extends I\Table\Renderer
         TestDefaultRenderer $default_renderer,
         I\Table\Data $component,
         $tpl,
-        ?I\Signal $sortation_signal
+        ?I\Signal $sortation_signal,
+        array $header_summary
     ) {
-        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal, 1);
+        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal, 1, $header_summary);
     }
     public function p_renderActionsHeader(
         TestDefaultRenderer $default_renderer,
@@ -197,7 +198,13 @@ class DataRendererTest extends TableRendererTestBase
         $sortation_signal->addOption('value', 'f1:ASC');
         $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
-        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
+        $renderer->p_renderTableHeader(
+            $this->getDefaultRenderer(),
+            $table,
+            $tpl,
+            $sortation_signal,
+            []
+        );
 
         $actual = $this->brutallyTrimHTML($tpl->get());
         $expected = <<<EOT
@@ -282,7 +289,7 @@ EOT;
 
         $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
-        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
+        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal, []);
         $actual = $this->brutallyTrimHTML($tpl->get());
         $expected = <<<EOT
 <div class="c-table-data" id="{ID}">
@@ -389,7 +396,7 @@ EOT;
             'a2' => $f->standard('label2', $builder, $token)
         ];
 
-        $rb = (new I\Table\DataRowBuilder())
+        $rb = (new I\Table\DataRowBuilder($this->getDataFactory()))
             ->withMultiActionsPresent(true)
             ->withSingleActions($actions)
             ->withVisibleColumns($columns);
@@ -505,4 +512,111 @@ EOT;
         // check that the cell contains the default message.
         $this->assertTrue(str_contains($html, $translation));
     }
+
+    #[\PHPUnit\Framework\Attributes\Depends('testDataTableRowBuilder')]
+    public function testDataTableSummaryRowFromBuilder(array $params): I\Table\SummaryRow
+    {
+        list($rb, $columns, $actions) = $params;
+        $record = [
+            'f2' => 'v2',
+        ];
+        $row = $rb->buildSummaryRow($record);
+
+        $this->assertEquals(
+            $columns,
+            $row->getColumns()
+        );
+        $this->assertInstanceOf(
+            \ILIAS\Data\Text\WordOnlyMarkdown::class,
+            $row->getCellContent('f2')
+        );
+        $this->assertEquals(
+            "<p>{$record['f2']}</p>\n",
+            $row->getCellContent('f2')->toHTML()->__toString()
+        );
+        return $row;
+    }
+
+    #[\PHPUnit\Framework\Attributes\Depends('testDataTableSummaryRowFromBuilder')]
+    public function testDataTableRenderSummaryRow(I\Table\SummaryRow $row): void
+    {
+        $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($row));
+        $expected = <<<EOT
+<td class="c-table-data__cell c-table-data__rowselection"></td>
+<td class="c-table-data__cell c-table-data__cell--text " tabindex="-1"><span class="c-table-data__cell__col-title">Field 1:</span></td>
+<td class="c-table-data__cell c-table-data__cell--text " tabindex="-1"><span class="c-table-data__cell__col-title">Field 2:</span>
+    <p>v2</p>
+</td>
+<td class="c-table-data__cell c-table-data__cell--number " tabindex="-1"><span class="c-table-data__cell__col-title">Field 3:</span></td>
+<td class="c-table-data__cell c-table-data__rowaction"></td>
+EOT;
+        $expected = $this->brutallyTrimHTML($expected);
+        $this->assertEquals($expected, $actual);
+    }
+
+
+
+    public function testDataTableRenderHeaderSummaryRow(): void
+    {
+        $data = new class () implements ILIAS\UI\Component\Table\DataRetrievalWithHeaderSummary {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
+            ): \Generator {
+                yield from [];
+            }
+            public function getTotalRowCount(
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
+            ): ?int {
+                return 0;
+            }
+            public function getHeaderSummary(
+                \ILIAS\Data\Factory $data_factory,
+                array $visible_column_ids,
+                mixed $filter_data,
+                mixed $additional_parameters
+            ): array {
+                return [
+                    'f1' => $data_factory->text()->markdown()->wordOnly('Summary F1'),
+                    'f2' => $data_factory->text()->markdown()->wordOnly('Summary F2')
+                ];
+            }
+
+        };
+
+        $f = $this->getColumnFactory();
+        $columns = [
+            'f1' => $f->text("Field 1")->withIndex(1),
+            'f2' => $f->text("Field 2")->withIndex(2)->withIsSortable(false),
+            'f3' => $f->number("Field 3")->withIndex(3)
+        ];
+        $table = $this->getUIFactory()->table()->data($data, '', $columns)
+            ->withRequest($this->getDummyRequest());
+
+        $actual = $this->brutallyTrimHTML(
+            $this->getDefaultRenderer()->render($table)
+        );
+        $expected = <<<EOT
+                <tr>
+                    <td>
+                        <p>Summary F1</p>
+                    </td>
+                    <td>
+                        <p>Summary F2</p>
+                    </td>
+                    <td></td>
+                </tr>
+            </thead>
+EOT;
+        $expected = $this->brutallyTrimHTML($expected);
+        $this->assertStringContainsString($expected, $actual);
+    }
+
 }

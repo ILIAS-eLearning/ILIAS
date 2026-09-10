@@ -20,15 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-interface DataRowBuilder
+use ILIAS\Data\Range;
+use ILIAS\Data\Text\WordOnlyMarkdown;
+use ILIAS\Data\Factory as DataFactory;
+
+interface DataRetrievalWithHeaderSummary extends DataRetrieval
 {
     /**
-     * @param array<string, mixed> $record
+     * Add a summary to the Table's header for specified columns.
+     *
+     * @param string[] $visible_column_ids
+     * @return array<string, WordOnlyMarkdown>
      */
-    public function buildDataRow(string $id, array $record): DataRow;
-
-    /**
-     * @param array<string, mixed> $record
-     */
-    public function buildSummaryRow(array $record): SummaryRow;
+    public function getHeaderSummary(
+        DataFactory $data_factory,
+        array $visible_column_ids,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): array;
 }

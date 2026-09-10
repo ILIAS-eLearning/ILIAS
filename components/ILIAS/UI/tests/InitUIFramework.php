@@ -177,7 +177,9 @@ class InitUIFramework
             );
         };
         $c["ui.factory.table"] = function ($c) {
-            $data_row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder();
+            $data_row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder(
+                $c["ui.data_factory"]
+            );
             $ordering_row_builder = new ILIAS\UI\Implementation\Component\Table\OrderingRowBuilder();
             return new ILIAS\UI\Implementation\Component\Table\Factory(
                 $c["ui.signal_generator"],

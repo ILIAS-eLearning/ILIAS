@@ -391,7 +391,9 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Table\Action\Factory::class] = static fn() =>
             new UI\Implementation\Component\Table\Action\Factory();
         $internal[UI\Implementation\Component\Table\DataRowBuilder::class] = static fn() =>
-            new UI\Implementation\Component\Table\DataRowBuilder();
+            new UI\Implementation\Component\Table\DataRowBuilder(
+                $pull[Data\Factory::class]
+            );
         $internal[UI\Implementation\Component\Table\OrderingRowBuilder::class] = static fn() =>
             new UI\Implementation\Component\Table\OrderingRowBuilder();
 

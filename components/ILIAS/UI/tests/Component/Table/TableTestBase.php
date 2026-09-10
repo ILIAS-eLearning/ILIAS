@@ -82,7 +82,9 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             new C\Table\Column\Factory($this->getLanguage()),
             new C\Table\Action\Factory(),
             $this->getMockStorage(),
-            new C\Table\DataRowBuilder(),
+            new C\Table\DataRowBuilder(
+                new \ILIAS\Data\Factory()
+            ),
             new C\Table\OrderingRowBuilder()
         );
     }
@@ -97,7 +99,7 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             }
             public function offsetGet(mixed $offset): mixed
             {
-                if(!$this->offsetExists($offset)) {
+                if (!$this->offsetExists($offset)) {
                     return null;
                 }
                 return $this->data[$offset];
