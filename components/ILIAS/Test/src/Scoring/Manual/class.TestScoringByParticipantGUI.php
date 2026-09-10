@@ -329,9 +329,11 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $notification->send();
         }
 
-        $scorer = new TestScoring($this->object, $this->user, $this->db, $this->lng);
-        $scorer->setPreserveManualScores(true);
-        $scorer->recalculateSolution($active_id, $attempt);
+        (new TestScoring(
+            $this->object,
+            $this->user,
+            $this->db
+        ))->recalculateSolution($active_id, $attempt);
 
         if ($this->object->getAnonymity() == 0) {
             $user_name = \ilObjUser::_lookupName(\ilObjTestAccess::_getParticipantId($active_id));

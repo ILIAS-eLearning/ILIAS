@@ -44,8 +44,6 @@ use ILIAS\Test\Logging\TestScoringInteractionTypes;
  */
 class TestScoring
 {
-    private bool $preserve_manual_scores = false;
-    private int $question_id = 0;
     private \ilTestEvaluationFactory $evaluation_factory;
 
     /**
@@ -56,39 +54,25 @@ class TestScoring
     public function __construct(
         private \ilObjTest $test,
         private \ilObjUser $scorer,
-        private \ilDBInterface $db,
-        private \ilLanguage $lng
+        private \ilDBInterface $db
     ) {
         $this->evaluation_factory = new \ilTestEvaluationFactory($this->db, $this->test);
     }
 
-    public function setPreserveManualScores(bool $preserve_manual_scores): void
-    {
-        $this->preserve_manual_scores = $preserve_manual_scores;
-    }
-
-    public function getPreserveManualScores(): bool
-    {
-        return $this->preserve_manual_scores;
-    }
-
-    public function getQuestionId(): int
-    {
-        return $this->question_id;
-    }
-
-    public function setQuestionId(int $question_id): void
-    {
-        $this->question_id = $question_id;
-    }
-
-    public function recalculateSolutions(): array
-    {
+    public function recalculateSolutions(
+        bool $preserve_manual_scoring = false,
+        ?int $question_id = null
+    ): array {
         $participants = $this->evaluation_factory->getCorrectionsEvaluationData()->getParticipants();
 
         foreach ($participants as $active_id => $userdata) {
             if ($userdata instanceof \ilTestEvaluationUserData) {
-                $this->recalculatePasses($userdata, $active_id);
+                $this->recalculatePasses(
+                    $userdata,
+                    $active_id,
+                    $preserve_manual_scoring,
+                    $question_id
+                );
                 \ilLPStatusWrapper::_updateStatus($this->test->getId(), $userdata->getUserID());
             }
         }
@@ -108,16 +92,29 @@ class TestScoring
             $user_data->getPass($pass),
             $user_data->getUserID(),
             $active_id,
-            $pass
+            $pass,
+            true,
+            null
         );
         $this->test->updateTestResultCache($active_id);
     }
 
-    private function recalculatePasses(\ilTestEvaluationUserData $userdata, int $active_id): void
-    {
+    private function recalculatePasses(
+        \ilTestEvaluationUserData $userdata,
+        int $active_id,
+        bool $preserve_manual_scoring,
+        ?int $question_id
+    ): void {
         foreach ($userdata->getPasses() as $pass => $passdata) {
             if ($passdata instanceof \ilTestEvaluationPassData) {
-                $this->recalculatePass($passdata, $userdata->getUserID(), $active_id, $pass);
+                $this->recalculatePass(
+                    $passdata,
+                    $userdata->getUserID(),
+                    $active_id,
+                    $pass,
+                    $preserve_manual_scoring,
+                    $question_id
+                );
             }
         }
         $this->test->updateTestResultCache($active_id);
@@ -127,11 +124,15 @@ class TestScoring
         \ilTestEvaluationPassData $passdata,
         int $user_id,
         int $active_id,
-        int $pass
+        int $pass,
+        bool $preserve_manual_scoring,
+        ?int $question_id
     ): void {
         $reached_points_changed = false;
         foreach ($passdata->getAnsweredQuestions() as $question_data) {
-            if ($this->getQuestionId() !== 0 || $this->getQuestionId() === $question_data['id']) {
+            if ($question_id === null && $question_data['manual'] !== 1
+                || $question_id === $question_data['id']
+                    && (!$preserve_manual_scoring || $question_data['manual'] !== 1)) {
                 $reached_points_changed = $this->recalculateQuestionScore(
                     $user_id,
                     $active_id,
@@ -149,10 +150,6 @@ class TestScoring
         int $pass,
         array $questiondata
     ): bool {
-        if ($this->preserve_manual_scores && $questiondata['manual'] === 1) {
-            return false;
-        }
-
         $q_id = $questiondata['id'];
         $this->question_cache[$q_id] ??= $this->test->createQuestionGUI('', $q_id)->getObject();
         /** @var \assQuestion $question */
@@ -293,30 +290,28 @@ class TestScoring
         }
     }
 
-    public function getNumManualScorings(): int
-    {
-        $query = "
-			SELECT COUNT(*) num_manual_scorings
-                FROM tst_test_result tres
-			INNER JOIN tst_active tact
-                ON tact.active_id = tres.active_fi
-			WHERE tact.test_fi = %s
-			AND tres.manual = 1
-		";
-
-        $types = ['integer'];
-        $values = [$this->test->getTestId()];
-
-        if ($this->getQuestionId()) {
-            $query .= "
-				AND tres.question_fi = %s
-			";
-
-            $types[] = 'integer';
-            $values[] = $this->getQuestionId();
-        }
-
-        $res = $this->db->queryF($query, $types, $values);
+    public function getNumManualScorings(
+        int $question_id
+    ): int {
+        $res = $this->db->queryF(
+            "
+                SELECT COUNT(*) num_manual_scorings
+                    FROM tst_test_result tres
+                INNER JOIN tst_active tact
+                    ON tact.active_id = tres.active_fi
+                WHERE tact.test_fi = %s
+                AND tres.manual = 1
+                AND tres.question_fi = %s
+            ",
+            [
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER
+            ],
+            [
+                $this->test->getTestId(),
+                $question_id
+            ]
+        );
 
         while ($row = $this->db->fetchAssoc($res)) {
             return (int) $row['num_manual_scorings'];

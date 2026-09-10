@@ -35,29 +35,12 @@ class TestScoringTest extends ilTestBaseTestCase
         $this->testObj = new TestScoring(
             $this->getTestObjMock(),
             $this->createMock(ilObjUser::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilLanguage::class)
+            $this->createMock(ilDBInterface::class)
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(TestScoring::class, $this->testObj);
-    }
-
-    public function testPreserveManualScores(): void
-    {
-        $this->testObj->setPreserveManualScores(false);
-        $this->assertFalse($this->testObj->getPreserveManualScores());
-
-        $this->testObj->setPreserveManualScores(true);
-        $this->assertTrue($this->testObj->getPreserveManualScores());
-    }
-
-    public function testQuestionId(): void
-    {
-        $questionId = 20;
-        $this->testObj->setQuestionId($questionId);
-        $this->assertEquals($questionId, $this->testObj->getQuestionId());
     }
 }
