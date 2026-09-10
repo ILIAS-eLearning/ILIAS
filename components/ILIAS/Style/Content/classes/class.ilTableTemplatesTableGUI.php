@@ -84,10 +84,19 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $preview = $this->style_obj->lookupTemplatePreview((int) $a_set["id"]);
+        if ($preview === "") {
+            $preview = ilObjStyleSheetGUI::_getTemplatePreview(
+                $this->style_obj,
+                $this->temp_type,
+                (int) $a_set["id"],
+                true
+            );
+        }
 
         $this->tpl->setVariable(
             "T_PREVIEW",
-            $this->style_obj->lookupTemplatePreview((int) $a_set["id"])
+            $preview
         );
         $this->tpl->setVariable("TID", $a_set["id"]);
         $this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);
