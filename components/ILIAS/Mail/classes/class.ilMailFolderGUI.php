@@ -490,7 +490,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         $message_box = null;
         if ($this->folder->isInbox()) {
             $mail_options = new ilMailOptions($this->user->getId());
-            if ($mail_options->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
+            if ($mail_options->getIncomingType() === ilMailOptions::INCOMING_EMAIL) {
                 $message_box = $this->ui_factory->messageBox()->info($this->lng->txt('incoming_local_no_new_mails_inbox'));
                 $components = [$message_box, ...$components];
             }
