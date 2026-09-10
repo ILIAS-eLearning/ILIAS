@@ -106,9 +106,10 @@ class ilTestCorrectionsGUI
             $this->database,
             $this->test_result_repository
         );
-        $scoring->setQuestionId($question_gui->getObject()->getId());
 
-        if ($scoring->getNumManualScorings()) {
+        if ($scoring->getNumManualScorings(
+            $question_gui->getObject()->getId()
+        )) {
             $form->addCommandButton('confirmManualScoringReset', $this->language->txt('save'));
         } else {
             $form->addCommandButton('saveQuestion', $this->language->txt('save'));
@@ -127,11 +128,12 @@ class ilTestCorrectionsGUI
             $this->database,
             $this->test_result_repository
         );
-        $scoring->setQuestionId($this->question_gui->getObject()->getId());
 
         $confirmation = sprintf(
             $this->language->txt('tst_corrections_manscore_reset_warning'),
-            $scoring->getNumManualScorings(),
+            $scoring->getNumManualScorings(
+                $this->question_gui->getObject()->getId()
+            ),
             $this->question_gui->getObject()->getTitleForHTMLOutput(),
             $this->question_gui->getObject()->getId()
         );
@@ -166,15 +168,15 @@ class ilTestCorrectionsGUI
         $question_gui->setObject($question);
         $question_gui->getObject()->saveToDb();
 
-        $scoring = new TestScoring(
+        (new TestScoring(
             $this->test_obj,
             $this->scorer,
             $this->database,
             $this->test_result_repository
+        ))->recalculateSolutions(
+            false,
+            $question_gui->getObject()->getId()
         );
-        $scoring->setPreserveManualScores(false);
-        $scoring->setQuestionId($question_gui->getObject()->getId());
-        $scoring->recalculateSolutions();
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
@@ -295,15 +297,12 @@ class ilTestCorrectionsGUI
             $question->saveToDb();
         }
 
-        $scoring = new TestScoring(
+        $participant_results = (new TestScoring(
             $this->test_obj,
             $this->scorer,
             $this->database,
             $this->test_result_repository
-        );
-        $scoring->setPreserveManualScores(true);
-        $scoring->setQuestionId($question_index);
-        $participant_results = $scoring->recalculateSolutions();
+        ))->recalculateSolutions(true, $question_index);
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
