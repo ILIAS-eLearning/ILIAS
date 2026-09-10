@@ -252,8 +252,15 @@ const ClozeQuestionGapBuilder = (function () {
     });
 
     ed.on('paste', (event) => {
+      // gibb: only take the paste over when the clipboard really carries text.
+      // An image has no text/plain representation, so cancelling the event
+      // unconditionally dropped it before TinyMCE ever saw it.
+      const clipboard_data = (event.originalEvent || event).clipboardData;
+      if (!clipboard_data || clipboard_data.getData('text/plain') === '') {
+        return;
+      }
       event.preventDefault();
-      let clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
+      let clipboard_text = clipboard_data.getData('text/plain');
       clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
       const text = pro.getTextAreaValue();
       const textBefore = text.substring(0, ClozeGlobals.cursor_pos);
@@ -640,8 +647,15 @@ const ClozeQuestionGapBuilder = (function () {
       return false;
     });
     cloze_text_selector.on('paste', (event) => {
+      // gibb: only take the paste over when the clipboard really carries text.
+      // An image has no text/plain representation, so cancelling the event
+      // unconditionally dropped it before TinyMCE ever saw it.
+      const clipboard_data = (event.originalEvent || event).clipboardData;
+      if (!clipboard_data || clipboard_data.getData('text/plain') === '') {
+        return;
+      }
       event.preventDefault();
-      let clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
+      let clipboard_text = clipboard_data.getData('text/plain');
       clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
       const text = pro.getTextAreaValue();
       const textBefore = text.substring(0, ClozeGlobals.cursor_pos);
