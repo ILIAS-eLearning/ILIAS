@@ -22,6 +22,9 @@ namespace ILIAS\Style\Content;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Style\Content\Color\ColorTableBuilder;
+use ILIAS\Style\Content\MediaQuery\MediaQueryTableBuilder;
+use ILIAS\Style\Content\Template\TemplateTableBuilder;
 use ilObjectContentStyleSettingsGUI;
 
 /**
@@ -37,9 +40,6 @@ class InternalGUIService
 
     protected CharacteristicUIFactory $characteristic;
     protected ImageUIFactory $image;
-    protected ColorUIFactory $color;
-    protected TemplateUIFactory $template;
-    protected MediaQueryUIFactory $media_query;
 
     public function __construct(
         Container $DIC,
@@ -57,9 +57,6 @@ class InternalGUIService
             $this->domain_service,
             $this
         );
-        $this->color = new ColorUIFactory($this->domain_service);
-        $this->template = new TemplateUIFactory($this->domain_service);
-        $this->media_query = new MediaQueryUIFactory($this->domain_service);
     }
 
     public function characteristic(
@@ -72,19 +69,71 @@ class InternalGUIService
         return $this->image;
     }
 
-    public function color(
-    ): ColorUIFactory {
-        return $this->color;
+    public function colorTableBuilder(
+        \ilObjStyleSheet $style_obj,
+        Access\StyleAccessManager $access_manager,
+        object $parent_gui,
+        string $parent_cmd
+    ): ColorTableBuilder {
+        return new ColorTableBuilder(
+            $this->domain_service,
+            $style_obj,
+            $access_manager,
+            $parent_gui,
+            $parent_cmd
+        );
     }
 
-    public function template(
-    ): TemplateUIFactory {
-        return $this->template;
+    public function templateTableBuilder(
+        \ilObjStyleSheet $style_obj,
+        string $temp_type,
+        Access\StyleAccessManager $access_manager,
+        object $parent_gui,
+        string $parent_cmd
+    ): TemplateTableBuilder {
+        return new TemplateTableBuilder(
+            $this->domain_service,
+            $style_obj,
+            $temp_type,
+            $access_manager,
+            $parent_gui,
+            $parent_cmd
+        );
     }
 
-    public function mediaQuery(
-    ): MediaQueryUIFactory {
-        return $this->media_query;
+    public function mediaQueryTableBuilder(
+        \ilObjStyleSheet $style_obj,
+        Access\StyleAccessManager $access_manager,
+        object $parent_gui,
+        string $parent_cmd
+    ): MediaQueryTableBuilder {
+        return new MediaQueryTableBuilder(
+            $this->domain_service,
+            $style_obj,
+            $access_manager,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function contentStylesTableBuilder(
+        array $data,
+        int $default_style,
+        int $fixed_style,
+        Access\StyleAccessManager $access_manager,
+        object $parent_gui,
+        string $parent_cmd
+    ): ContentStylesTableBuilder {
+        return new ContentStylesTableBuilder(
+            $this->domain_service,
+            $this,
+            $data,
+            $default_style,
+            $fixed_style,
+            $access_manager,
+            $parent_gui,
+            $parent_cmd
+        );
     }
 
     public function standardRequest(

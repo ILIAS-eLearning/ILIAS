@@ -806,7 +806,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
     protected function getColorTable(): \ILIAS\Repository\Table\TableAdapterGUI
     {
-        return $this->gui_service->color()->colorTableBuilder(
+        return $this->gui_service->colorTableBuilder(
             $this->getStyleSheet(),
             $this->access_manager,
             $this,
@@ -1041,7 +1041,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
     protected function getMediaQueryTable(): \ILIAS\Repository\Table\TableAdapterGUI
     {
-        return $this->gui_service->mediaQuery()->mediaQueryTableBuilder(
+        return $this->gui_service->mediaQueryTableBuilder(
             $this->getStyleSheet(),
             $this->access_manager,
             $this,
@@ -1257,7 +1257,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     protected function getTemplateTable(
         string $temp_type
     ): \ILIAS\Repository\Table\TableAdapterGUI {
-        return $this->gui_service->template()->templateTableBuilder(
+        return $this->gui_service->templateTableBuilder(
             $this->getStyleSheet(),
             $temp_type,
             $this->access_manager,

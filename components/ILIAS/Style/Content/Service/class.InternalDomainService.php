@@ -123,6 +123,11 @@ class InternalDomainService
         return new TemplateRetrieval($style_obj, $temp_type);
     }
 
+    public function contentStylesRetrieval(array $data): ContentStylesRetrieval
+    {
+        return new ContentStylesRetrieval($data);
+    }
+
     public function mediaQueryRetrieval(
         \ilObjStyleSheet $style_obj
     ): MediaQueryRetrieval {
