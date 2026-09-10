@@ -25,7 +25,7 @@ use ILIAS\Data;
 
 class HasSpecialChars extends Constraint
 {
-    private const ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/u';
+    private const ALLOWED_CHARS = '/[-_~+*?!%#§&$@\/,.:;=^(){}[\]<>|\']/u';
 
     public function __construct(Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
