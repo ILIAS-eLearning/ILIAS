@@ -181,6 +181,12 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $per_sel->setValue((string) ilNewsItem::_lookupDefaultPDPeriod());
         $form->addItem($per_sel);
 
+        $per_sel = new ilSelectInputGUI($lng->txt("news_co_period"), "news_co_period");
+        $per_sel->setInfo($lng->txt("news_co_period_info"));
+        $per_sel->setOptions([-1 => $lng->txt("news_hide_news_none")] + $per_opts);
+        $per_sel->setValue((string) ilNewsItem::_lookupDefaultCOPeriod());
+        $form->addItem($per_sel);
+
         // Allow user to choose lower values
         $sp_prop = new ilCheckboxInputGUI(
             $lng->txt("news_allow_shorter_periods"),
@@ -291,6 +297,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $news_set->set("max_items", $form->getInput("news_max_items"));
             $news_set->set("acc_cache_mins", $form->getInput("news_acc_cache_mins"));
             $news_set->set("pd_period", $form->getInput("news_pd_period"));
+            $news_set->set("co_period", $form->getInput("news_co_period"));
             $news_set->set("default_visibility", $form->getInput("news_default_visibility"));
             $news_set->set("allow_shorter_periods", $form->getInput("allow_shorter_periods"));
             $news_set->set("allow_longer_periods", $form->getInput("allow_longer_periods"));
