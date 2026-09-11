@@ -97,6 +97,7 @@ class LocalDIC extends PimpleContainer
             new DatabaseProfileDataRepository(
                 $DIC['ilDB'],
                 $DIC['resource_storage'],
+                $DIC[\ILIAS\Data\Privacy\Services::class],
                 $c[ProfileFieldsConfigurationRepository::class]
             );
         $this[ProfileFieldsConfigurationRepository::class] = fn($c): ProfileFieldsConfigurationRepository =>
@@ -136,10 +137,22 @@ class LocalDIC extends PimpleContainer
                     ),
                     new Standard\Institution(),
                     new Standard\Department(),
-                    new Standard\Street(),
-                    new Standard\ZipCode(),
-                    new Standard\City(),
-                    new Standard\Country(),
+                    new Standard\Street(
+                        $DIC[\ILIAS\Data\Privacy\Purpose\Purposes::class],
+                        $DIC[\ILIAS\Data\Privacy\Source\Sources::class]
+                    ),
+                    new Standard\ZipCode(
+                        $DIC[\ILIAS\Data\Privacy\Purpose\Purposes::class],
+                        $DIC[\ILIAS\Data\Privacy\Source\Sources::class]
+                    ),
+                    new Standard\City(
+                        $DIC[\ILIAS\Data\Privacy\Purpose\Purposes::class],
+                        $DIC[\ILIAS\Data\Privacy\Source\Sources::class]
+                    ),
+                    new Standard\Country(
+                        $DIC[\ILIAS\Data\Privacy\Purpose\Purposes::class],
+                        $DIC[\ILIAS\Data\Privacy\Source\Sources::class]
+                    ),
                     new Standard\PhoneOffice(),
                     new Standard\PhoneHome(),
                     new Standard\PhoneMobile(),
@@ -150,7 +163,9 @@ class LocalDIC extends PimpleContainer
                     new Standard\ReferralComment(),
                     new Standard\Matriculation(),
                     new Standard\ClientIP(),
-                    \ilMapUtil::isActivated() ? new Standard\Location() : null
+                    \ilMapUtil::isActivated()
+                        ? new Standard\Location($DIC[\ILIAS\Data\Privacy\Purpose\Purposes::class])
+                        : null
                 ])
             );
         $this['profile.fields.changelisteners'] = fn($c): array =>

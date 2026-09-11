@@ -1,0 +1,24 @@
+# Privacy data type linting rules.
+#
+# Include this configuration (or register the services below) in a PHPStan
+# run to enforce correct usage of ILIAS\Data\Privacy types:
+#
+#   ./vendor/composer/vendor/bin/phpstan analyse \
+#       -c components/ILIAS/Data/PHPStan/Privacy/privacy.neon \
+#       --autoload-file=vendor/composer/vendor/autoload.php \
+#       components/ILIAS/<Component>
+services:
+    -
+        class: ILIAS\Data\Privacy\PHPStan\Rules\NoRawValueAccessRule
+        tags: [phpstan.rules.rule]
+    -
+        class: ILIAS\Data\Privacy\PHPStan\Rules\StoreInTableTargetRule
+        tags: [phpstan.rules.rule]
+    -
+        class: ILIAS\Data\Privacy\PHPStan\Rules\PreferKnownSourcesRule
+        tags: [phpstan.rules.rule]
+
+parameters:
+    level: 0
+    bootstrapFiles:
+        - ../../../../../scripts/PHPStan/constants.php

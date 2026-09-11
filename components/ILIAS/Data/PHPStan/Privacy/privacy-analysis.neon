@@ -1,0 +1,22 @@
+# Collection-only configuration for the privacy documentation generator
+# (scripts/Privacy/generate-privacy-docs.php). Collects every resolve()
+# call on a PrivacyDataType and emits it as a report message so it
+# survives into PHPStan's JSON output.
+#
+# Never include this in a linting configuration — the report rule emits
+# one "error" per resolve() call by design.
+services:
+    -
+        class: ILIAS\Data\Privacy\PHPStan\Collector\PrivacyResolveCollector
+        tags: [phpstan.collector]
+    -
+        class: ILIAS\Data\Privacy\PHPStan\Collector\PrivacyResolveReportRule
+        tags: [phpstan.rules.rule]
+
+parameters:
+    level: 0
+    bootstrapFiles:
+        - ../../../../../scripts/PHPStan/constants.php
+    excludePaths:
+        - '*/tests/*'
+        - '*/test/*'

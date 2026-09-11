@@ -24,6 +24,7 @@ use ilCtrl;
 use ILIAS\Refinery\ByTrying;
 use ilSetting;
 use ilObjectDataCache;
+use ILIAS\Data\Privacy\Purpose\Purposes;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
@@ -56,7 +57,10 @@ class ConsumerTest extends TestCase
             'settings' => $settings,
             'refinery' => ['byTrying' => $by_trying],
         ]);
-        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->exactly(2))->method('offsetGet')->willReturnCallback(fn(string $id) => match ($id) {
+            'ilObjDataCache' => $this->mock(ilObjectDataCache::class),
+            Purposes::class => new Purposes(),
+        });
 
         $slot = $this->mock(UseSlot::class);
         $slot->expects($this->once())->method('hasDocuments')->willReturn($slot);
@@ -88,7 +92,10 @@ class ConsumerTest extends TestCase
             'refinery' => ['byTrying' => $by_trying],
             'ctrl' => $this->mock(ilCtrl::class),
         ]);
-        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->exactly(2))->method('offsetGet')->willReturnCallback(fn(string $id) => match ($id) {
+            'ilObjDataCache' => $this->mock(ilObjectDataCache::class),
+            Purposes::class => new Purposes(),
+        });
 
         $slot = $this->mock(UseSlot::class);
         $slot->expects($this->once())->method('hasDocuments')->willReturn($slot);
@@ -123,7 +130,10 @@ class ConsumerTest extends TestCase
             'refinery' => ['byTrying' => $by_trying],
             'ctrl' => $this->mock(ilCtrl::class),
         ]);
-        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->exactly(2))->method('offsetGet')->willReturnCallback(fn(string $id) => match ($id) {
+            'ilObjDataCache' => $this->mock(ilObjectDataCache::class),
+            Purposes::class => new Purposes(),
+        });
 
         $slot = $this->mock(UseSlot::class);
         $slot->expects($this->once())->method('hasDocuments')->willReturn($slot);

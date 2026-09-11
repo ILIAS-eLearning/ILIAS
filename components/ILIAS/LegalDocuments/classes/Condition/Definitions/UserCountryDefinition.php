@@ -27,6 +27,7 @@ use ILIAS\LegalDocuments\Condition\UserCountry;
 use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\Data\Privacy\Purpose\Purposes;
 use ilCountry;
 use Closure;
 
@@ -35,8 +36,11 @@ class UserCountryDefinition implements ConditionDefinition
     /**
      * @param Closure(array<string, mixed>): Constraint $required
      */
-    public function __construct(private readonly UI $ui, private readonly Closure $required)
-    {
+    public function __construct(
+        private readonly UI $ui,
+        private readonly Closure $required,
+        private readonly Purposes $purposes
+    ) {
     }
 
     public function formGroup(array $arguments = []): Group
@@ -54,7 +58,7 @@ class UserCountryDefinition implements ConditionDefinition
 
     public function withCriterion(CriterionContent $criterion): Condition
     {
-        return new UserCountry($criterion, $this, $this->ui->create());
+        return new UserCountry($criterion, $this, $this->ui->create(), $this->purposes);
     }
 
     public function translatedType(): string

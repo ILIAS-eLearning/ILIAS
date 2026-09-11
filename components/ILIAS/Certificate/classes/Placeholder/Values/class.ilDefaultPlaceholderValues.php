@@ -36,6 +36,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
     private readonly Factory $uuid_factory;
+    private readonly \ILIAS\Data\Privacy\Purpose\Purposes $purposes;
     private ?ilLanguage $user_language = null;
 
 
@@ -48,7 +49,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
         ?ILIAS\Data\UUID\Factory $uuid_factory = null,
-        ?int $birthdayDateFormat = null
+        ?int $birthdayDateFormat = null,
+        ?ILIAS\Data\Privacy\Purpose\Purposes $purposes = null
     ) {
         $this->objectHelper = $objectHelper ?? new ilCertificateObjectHelper();
         $this->dateHelper = $dateHelper ?? new ilCertificateDateHelper();
@@ -76,6 +78,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 new ilCertificateUtilHelper()
             );
         $this->uuid_factory = $uuid_factory ?? new ILIAS\Data\UUID\Factory();
+        $this->purposes = $purposes ?? $DIC[\ILIAS\Data\Privacy\Purpose\Purposes::class];
 
         $this->placeholder = [
             'CERTIFICATE_ID' => '',
@@ -140,10 +143,13 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholder['USER_BIRTHDAY'] = $this->utilHelper->prepareFormOutput((trim($birthday)));
         $placeholder['USER_INSTITUTION'] = $this->utilHelper->prepareFormOutput((trim($user->getInstitution())));
         $placeholder['USER_DEPARTMENT'] = $this->utilHelper->prepareFormOutput((trim($user->getDepartment())));
-        $placeholder['USER_STREET'] = $this->utilHelper->prepareFormOutput((trim($user->getStreet())));
-        $placeholder['USER_CITY'] = $this->utilHelper->prepareFormOutput((trim($user->getCity())));
-        $placeholder['USER_ZIPCODE'] = $this->utilHelper->prepareFormOutput((trim($user->getZipcode())));
-        $placeholder['USER_COUNTRY'] = $this->utilHelper->prepareFormOutput((trim($user->getCountry())));
+        $postal_address = $user->getProfileData()->getPostalAddress()?->resolve(
+            $this->purposes->passToComponent('Certificate', 'certificate_placeholders')
+        );
+        $placeholder['USER_STREET'] = $this->utilHelper->prepareFormOutput(trim($postal_address?->street ?? ''));
+        $placeholder['USER_CITY'] = $this->utilHelper->prepareFormOutput(trim($postal_address?->city ?? ''));
+        $placeholder['USER_ZIPCODE'] = $this->utilHelper->prepareFormOutput(trim($postal_address?->zipcode ?? ''));
+        $placeholder['USER_COUNTRY'] = $this->utilHelper->prepareFormOutput(trim($postal_address?->country ?? ''));
         $placeholder['USER_MATRICULATION'] = $this->utilHelper->prepareFormOutput((trim($user->getMatriculation())));
         $placeholder['DATE'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
             time(),

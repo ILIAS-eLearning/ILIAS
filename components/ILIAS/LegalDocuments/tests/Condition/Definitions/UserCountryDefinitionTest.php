@@ -39,7 +39,8 @@ class UserCountryDefinitionTest extends TestCase
     {
         $this->assertInstanceOf(UserCountryDefinition::class, new UserCountryDefinition(
             $this->mock(UI::class),
-            $this->fail(...)
+            $this->fail(...),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         ));
     }
 
@@ -47,7 +48,8 @@ class UserCountryDefinitionTest extends TestCase
     {
         $instance = new UserCountryDefinition(
             $this->mock(UI::class),
-            fn() => $this->mock(Constraint::class)
+            fn() => $this->mock(Constraint::class),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         );
 
         $this->assertInstanceOf(Group::class, $instance->formGroup());
@@ -55,19 +57,19 @@ class UserCountryDefinitionTest extends TestCase
 
     public function testWithCriterion(): void
     {
-        $instance = new UserCountryDefinition($this->mock(UI::class), $this->fail(...));
+        $instance = new UserCountryDefinition($this->mock(UI::class), $this->fail(...), new \ILIAS\Data\Privacy\Purpose\Purposes());
         $this->assertInstanceOf(UserCountry::class, $instance->withCriterion($this->mock(CriterionContent::class)));
     }
 
     public function testTranslatedType(): void
     {
-        $instance = new UserCountryDefinition($this->mockMethod(UI::class, 'txt', ['crit_type_usr_country'], 'foo'), $this->fail(...));
+        $instance = new UserCountryDefinition($this->mockMethod(UI::class, 'txt', ['crit_type_usr_country'], 'foo'), $this->fail(...), new \ILIAS\Data\Privacy\Purpose\Purposes());
         $this->assertSame('foo', $instance->translatedType());
     }
 
     public function testTranslatedCountry(): void
     {
-        $instance = new UserCountryDefinition($this->mockMethod(UI::class, 'txt', ['meta_c_FOO'], 'foo'), $this->fail(...));
+        $instance = new UserCountryDefinition($this->mockMethod(UI::class, 'txt', ['meta_c_FOO'], 'foo'), $this->fail(...), new \ILIAS\Data\Privacy\Purpose\Purposes());
         $this->assertSame('foo', $instance->translatedCountry('foo'));
     }
 }

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Privacy\Purpose\Purposes;
+
 /**
  * User interface class for OpenLayers maps
  */
@@ -104,19 +106,28 @@ class ilOpenLayersMapGUI extends ilMapGUI
                         $info .= $delim . htmlspecialchars($user->getDepartment());
                     }
                     $delim = "<br />";
+                    $postal_address = null;
+                    if ($user->getPref("public_street") == "y"
+                        || $user->getPref("public_zip") == "y"
+                        || $user->getPref("public_city") == "y"
+                        || $user->getPref("public_country") == "y") {
+                        global $DIC;
+                        $postal_address = $user->getProfileData()->getPostalAddress()
+                            ?->resolve($DIC[Purposes::class]->displayToUser('map_user_info'));
+                    }
                     if ($user->getPref("public_street") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getStreet());
+                        $info .= $delim . htmlspecialchars($postal_address?->street ?? '');
                     }
                     if ($user->getPref("public_zip") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getZipcode());
+                        $info .= $delim . htmlspecialchars($postal_address?->zipcode ?? '');
                         $delim = " ";
                     }
                     if ($user->getPref("public_city") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getCity());
+                        $info .= $delim . htmlspecialchars($postal_address?->city ?? '');
                     }
                     $delim = "<br />";
                     if ($user->getPref("public_country") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getCountry());
+                        $info .= $delim . htmlspecialchars($postal_address?->country ?? '');
                     }
                     $js_tpl->setVariable(
                         "USER_INFO",

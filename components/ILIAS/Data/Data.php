@@ -34,5 +34,31 @@ class Data implements Component\Component
     ): void {
         $provide[\ILIAS\Data\Factory::class] = static fn() =>
             new \ILIAS\Data\Factory();
+
+        $define[] = \ILIAS\Data\Privacy\Services::class;
+
+        $implement[\ILIAS\Data\Privacy\Services::class] = static fn() =>
+            new \ILIAS\Data\Privacy\ServicesImpl(
+                $internal[\ILIAS\Data\Privacy\Logger\CompositeLogger::class],
+                $internal[\ILIAS\Data\Privacy\Source\Sources::class],
+                $internal[\ILIAS\Data\Privacy\Purpose\Purposes::class],
+            );
+
+        $internal[\ILIAS\Data\Privacy\Logger\CompositeLogger::class] = static fn() =>
+            new \ILIAS\Data\Privacy\Logger\CompositeLogger(
+                $seek[\ILIAS\Data\Privacy\Logger\PrivacyLogger::class]
+            );
+
+        $internal[\ILIAS\Data\Privacy\Source\Sources::class] = static fn() =>
+            new \ILIAS\Data\Privacy\Source\Sources();
+
+        $internal[\ILIAS\Data\Privacy\Purpose\Purposes::class] = static fn() =>
+            new \ILIAS\Data\Privacy\Purpose\Purposes();
+
+        $provide[\ILIAS\Data\Privacy\Source\Sources::class] = static fn() =>
+            $internal[\ILIAS\Data\Privacy\Source\Sources::class];
+
+        $provide[\ILIAS\Data\Privacy\Purpose\Purposes::class] = static fn() =>
+            $internal[\ILIAS\Data\Privacy\Purpose\Purposes::class];
     }
 }

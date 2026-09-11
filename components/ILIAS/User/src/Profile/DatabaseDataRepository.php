@@ -30,6 +30,8 @@ use ILIAS\User\Search\AutocompleteQuery;
 use ILIAS\User\Search\DefaultAutocompleteItem;
 use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\Data\Privacy\Services as PrivacyServices;
+use ILIAS\Data\Privacy\Types\PostalAddressValue;
 
 class DatabaseDataRepository implements DataRepository
 {
@@ -48,13 +50,19 @@ class DatabaseDataRepository implements DataRepository
 
     public function __construct(
         private readonly \ilDBInterface $db,
-        private readonly ResourceStorage $irss
+        private readonly ResourceStorage $irss,
+        private readonly PrivacyServices $privacy
     ) {
     }
 
     public function getDefault(): Data
     {
-        return new Data();
+        return new Data(
+            postal_address: $this->privacy->factory()->postalAddress(
+                new PostalAddressValue(),
+                $this->privacy->sources()->legacy('default_profile_data')
+            )
+        );
     }
 
     public function getSingle(int $id): Data
@@ -110,6 +118,9 @@ class DatabaseDataRepository implements DataRepository
     public function store(Data $user_data): void
     {
         $system_information = $user_data->getSystemInformation();
+        $postal_address = $user_data->getPostalAddress()?->resolve(
+            $this->privacy->purposes()->storeInTable($this->privacy->sources()->user()->postalAddress())
+        ) ?? new PostalAddressValue();
         $this->db->replace(
             self::USER_BASE_TABLE,
             [
@@ -130,10 +141,10 @@ class DatabaseDataRepository implements DataRepository
                 'hobby' => [\ilDBConstants::T_TEXT, $user_data->getHobby()],
                 'institution' => [\ilDBConstants::T_TEXT, $user_data->getInstitution()],
                 'department' => [\ilDBConstants::T_TEXT, $user_data->getDepartment()],
-                'street' => [\ilDBConstants::T_TEXT, $user_data->getStreet()],
-                'city' => [\ilDBConstants::T_TEXT, $user_data->getCity()],
-                'zipcode' => [\ilDBConstants::T_TEXT, $user_data->getZipcode()],
-                'country' => [\ilDBConstants::T_TEXT, $user_data->getCountry()],
+                'street' => [\ilDBConstants::T_TEXT, $postal_address->street],
+                'city' => [\ilDBConstants::T_TEXT, $postal_address->city],
+                'zipcode' => [\ilDBConstants::T_TEXT, $postal_address->zipcode],
+                'country' => [\ilDBConstants::T_TEXT, $postal_address->country],
                 'phone_office' => [\ilDBConstants::T_TEXT, $user_data->getPhoneOffice()],
                 'phone_home' => [\ilDBConstants::T_TEXT, $user_data->getPhoneHome()],
                 'phone_mobile' => [\ilDBConstants::T_TEXT, $user_data->getPhoneMobile()],
@@ -331,10 +342,15 @@ class DatabaseDataRepository implements DataRepository
                 : null,
             $base_data->institution ?? '',
             $base_data->department ?? '',
-            $base_data->street ?? '',
-            $base_data->city ?? '',
-            $base_data->zipcode ?? '',
-            $base_data->country ?? '',
+            $this->privacy->factory()->postalAddress(
+                new PostalAddressValue(
+                    $base_data->street ?? '',
+                    $base_data->city ?? '',
+                    $base_data->zipcode ?? '',
+                    $base_data->country ?? ''
+                ),
+                $this->privacy->sources()->user()->postalAddress()
+            ),
             $base_data->email ?? '',
             $base_data->second_email,
             $base_data->phone_office ?? '',
