@@ -78,6 +78,6 @@ final class LegacyDelivery extends BaseDelivery
             $r,
             Streams::ofResource(fopen($path_to_file, 'rb'))
         );
-        $this - $this->saveAndClose($r, $delete_file ? $path_to_file : null);
+        $this->saveAndClose($r, $delete_file ? $path_to_file : null);
     }
 }
