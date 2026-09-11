@@ -645,18 +645,8 @@ class ilObjForum extends ilObject
 
     public function createSettings(): void
     {
-        global $DIC;
-
-        $ref_id = 0;
-        if ($DIC->http()->wrapper()->query()->has('ref_id')) {
-            $ref_id = $DIC->http()->wrapper()->query()->retrieve(
-                'ref_id',
-                $DIC->refinery()->kindlyTo()->int()
-            );
-        }
-
         // news settings (public notifications yes/no)
-        $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($ref_id);
+        $default_visibility = ilNewsItem::getDefaultVisibility();
         if ($default_visibility === 'public') {
             ilBlockSetting::_write('news', 'public_notifications', '1', 0, $this->getId());
         }

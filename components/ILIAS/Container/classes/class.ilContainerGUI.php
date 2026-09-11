@@ -1910,7 +1910,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $column_gui->setBlockProperty("news", "settings", '1');
             //$column_gui->setBlockProperty("news", "public_notifications_option", true);
-            $column_gui->setBlockProperty("news", "default_visibility_option", '1');
             $column_gui->setBlockProperty("news", "hide_news_block_option", '1');
         }
 

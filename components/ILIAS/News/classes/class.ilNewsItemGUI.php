@@ -233,7 +233,7 @@ class ilNewsItemGUI
         $radio_group->addOption($radio_option);
         $radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
         $radio_group->setRequired(false);
-        $radio_group->setValue("users");
+        $radio_group->setValue(ilNewsItem::getDefaultVisibility());
         $form->addItem($radio_group);
 
         // media
@@ -261,7 +261,7 @@ class ilNewsItemGUI
         } else {
             $nv = $form->getItemByPostVar("news_visibility");
             if (is_object($nv)) {
-                $nv->setValue(ilNewsItem::_getDefaultVisibilityForRefId($a_ref_id));
+                $nv->setValue(ilNewsItem::getDefaultVisibility());
             }
         }
 
