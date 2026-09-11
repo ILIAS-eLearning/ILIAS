@@ -154,13 +154,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->CharSet = 'utf-8';
 
         $this->mailer->Debugoutput = static function (string $message, $level): void {
-            if (
-                strpos($message, 'Invalid address') ||
-                strpos($message, 'Message body empty')
-            ) {
-                ilLoggerFactory::getLogger('mail')->warning($message);
+            if (str_contains($message, 'Invalid address') ||
+                str_contains($message, 'Message body empty')) {
+                ilLoggerFactory::getLogger('mail')->warning('{message}', ['message' => $message]);
             } else {
-                ilLoggerFactory::getLogger('mail')->debug($message);
+                ilLoggerFactory::getLogger('mail')->debug('{message}', ['message' => $message]);
             }
         };
 
