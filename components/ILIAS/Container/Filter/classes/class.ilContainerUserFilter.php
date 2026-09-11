@@ -38,6 +38,17 @@ class ilContainerUserFilter
         return $this->data;
     }
 
+    /**
+     * Whether the UI filter is currently applied.
+     *
+     * `ilUIFilterService::getData()` returns null when the filter toggle is off.
+     * That is distinct from an activated filter whose fields are all empty.
+     */
+    public function isActivated(): bool
+    {
+        return is_array($this->data);
+    }
+
     public function isEmpty(): bool
     {
         $empty = true;

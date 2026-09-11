@@ -2709,11 +2709,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             $main_tpl = $this->tpl;
             $main_tpl->setFilter($renderer->render($this->ui_filter));
-            if ($this->container_user_filter->isEmpty() && !ilContainer::_lookupContainerSetting(
-                $this->object->getId(),
-                "filter_show_empty",
-                '0'
-            )) {
+            if ($this->container_user_filter->isActivated() &&
+                $this->container_user_filter->isEmpty() &&
+                !ilContainer::_lookupContainerSetting(
+                    $this->object->getId(),
+                    "filter_show_empty",
+                    '0'
+                )) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_filter_empty"));
             }
         }

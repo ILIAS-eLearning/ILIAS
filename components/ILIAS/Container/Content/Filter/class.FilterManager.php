@@ -62,7 +62,7 @@ class FilterManager
         $obj_repo = $this->repo_service->filter()->object();
         $member_repo = $this->repo_service->filter()->member();
 
-        if (is_null($container_user_filter)) {
+        if (is_null($container_user_filter) || !$container_user_filter->isActivated()) {
             return $this->objects;
         }
 
