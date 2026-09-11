@@ -216,13 +216,6 @@ class RoundTrip extends Modal implements M\RoundTrip
         return $this->form->getError();
     }
 
-    public function withAdditionalFormAction(string $action, string $label): static
-    {
-        $clone = clone $this;
-        $clone->form = $clone->form->withAdditionalFormAction($action, $label);
-        return $clone;
-    }
-
     /**
      * @inheritDoc
      */
@@ -260,21 +253,5 @@ class RoundTrip extends Modal implements M\RoundTrip
     public function withDedicatedName(string $dedicated_name): self
     {
         return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPromptButtons(): array
-    {
-        return $this->buttons;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPromptTitle(): string
-    {
-        return $this->type;
     }
 }

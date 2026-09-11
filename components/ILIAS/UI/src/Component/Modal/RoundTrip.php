@@ -21,12 +21,12 @@ namespace ILIAS\UI\Component\Modal;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\ReplaceSignal;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Component\Input\Container\Container;
 
 /**
  * @package ILIAS\UI\Component\Modal
  */
-interface RoundTrip extends Modal, Standard
+interface RoundTrip extends Modal, Container
 {
     /**
      * Get the title of the modal
@@ -65,6 +65,11 @@ interface RoundTrip extends Modal, Standard
      * The closing button has "Cancel" by default
      */
     public function withCancelButtonLabel(string $label): RoundTrip;
+
+    /**
+     * Get a modal like this with the provided submit button string.
+     */
+    public function withSubmitLabel(string $label): self;
 
     /**
      * Get the signal to replace the content of this modal.
