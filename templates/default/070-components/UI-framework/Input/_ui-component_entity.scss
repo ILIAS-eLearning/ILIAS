@@ -1,0 +1,37 @@
+@use "../../../050-layout/basics/" as l;
+
+// Entity Input is not user-operated; render full-width without the form label column.
+.c-form .c-input[data-il-ui-component="entity-field-input"].c-input {
+	display: flex;
+	flex-direction: column;
+
+	> label:empty {
+		display: none;
+	}
+
+	> label:not(:empty) {
+		width: 100%;
+		padding-right: 0;
+		margin-bottom: l.$il-margin-base-vertical;
+	}
+
+	> .c-input__help-byline,
+	> .c-input__error-msg,
+	> .c-input__field {
+		width: 100%;
+	}
+}
+
+.c-form ul.c-input-entity {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: l.$il-margin-large-vertical;
+
+	> li {
+		margin: 0;
+		padding: 0;
+	}
+}

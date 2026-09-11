@@ -18,25 +18,42 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Implementation\Component\Listing;
-use ILIAS\UI\Implementation\Component\Entity;
-use ILIAS\UI\Component as I;
-use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use ILIAS\UI\Component as I;
+use ILIAS\UI\Implementation\Component\Entity;
+use ILIAS\UI\Implementation\Component\Listing;
 
 class EntityListingTest extends ILIAS_UI_TestBase
 {
-    public function getEntityMapping(): I\Listing\Entity\RecordToEntity
+    public function getEntityRetrieval(): I\Entity\EntityRetrieval
     {
-        return new class () implements I\Listing\Entity\RecordToEntity {
-            public function map(
-                UIFactory $ui_factory,
-                mixed $record
-            ): Entity\Entity {
-                return $ui_factory->entity()->standard('primary', 'secondary');
+        return new class () implements I\Entity\EntityRetrieval {
+            public function getEntities(
+                ILIAS\UI\Factory $ui_factory,
+                Range $range,
+                Order $order,
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters,
+            ): Generator {
+                for ($i = 1; $i <= 3; $i++) {
+                    yield $ui_factory->entity()->standard($i, 'primary ' . $i, 'secondary ' . $i);
+                }
+            }
+
+            public function getEntitiesByIds(
+                ILIAS\UI\Factory $ui_factory,
+                Order $order,
+                array $entity_ids,
+            ): Generator {
+                foreach ($entity_ids as $entity_id) {
+                    yield $ui_factory->entity()->standard($entity_id, 'primary ' . $entity_id, 'secondary ' . $entity_id);
+                }
             }
         };
     }
+
     public function getUIFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
@@ -48,6 +65,7 @@ class EntityListingTest extends ILIAS_UI_TestBase
                     new Listing\Entity\Factory(),
                 );
             }
+
             public function entity(): Entity\Factory
             {
                 return new Entity\Factory();
@@ -59,34 +77,18 @@ class EntityListingTest extends ILIAS_UI_TestBase
     {
         $this->assertInstanceOf(
             I\Listing\Entity\EntityListing::class,
-            $this->getUIFactory()->listing()->entity()->standard($this->getEntityMapping())
+            $this->getUIFactory()->listing()->entity()->standard($this->getEntityRetrieval())
         );
     }
 
     public function testEntityListingYieldingEntities(): void
     {
-        $data = new class () implements I\Listing\Entity\DataRetrieval {
-            protected $data = [1,2,3];
-
-            public function getEntities(
-                I\Listing\Entity\Mapping $mapping,
-                ?Range $range,
-                ?array $additional_parameters
-            ): \Generator {
-                foreach ($this->data as $entry) {
-                    yield $mapping->map($entry);
-                }
-            }
-        };
-
         $listing = $this->getUIFactory()->listing()->entity()
-            ->standard($this->getEntityMapping())
-            ->withData($data);
+            ->standard($this->getEntityRetrieval());
 
         $entities = iterator_to_array($listing->getEntities($this->getUIFactory()));
 
         $this->assertCount(3, $entities);
-
         $this->assertInstanceOf(I\Entity\Entity::class, array_pop($entities));
     }
 }

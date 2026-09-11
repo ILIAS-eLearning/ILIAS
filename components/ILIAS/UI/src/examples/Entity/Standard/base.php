@@ -59,6 +59,7 @@ function base()
 
     // creating the entity object now so it can be filled in the logic section
     $entity = $f->entity()->standard(
+        'event-demo',
         $primary_id,
         $secondary_id
     );

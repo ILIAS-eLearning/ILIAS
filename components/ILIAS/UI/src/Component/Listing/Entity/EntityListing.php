@@ -23,14 +23,8 @@ namespace ILIAS\UI\Component\Listing\Entity;
 use ILIAS\UI\Component\Component;
 
 /**
- * This is what an EntityListings looks like
+ * This is what an Entity Listing looks like.
  */
 interface EntityListing extends Component
 {
-    /**
-     * An Entity Listing is constructed with an instance of RecordToEntity,
-     * which is the mapping of a single record to an Entity.
-     * Data retrieval will accumulate/consolidate the records.
-     */
-    public function withData(DataRetrieval $data): self;
 }

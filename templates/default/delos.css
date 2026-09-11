@@ -8571,6 +8571,36 @@ button .minimize, button .close {
   width: 100%;
 }
 
+.c-form .c-input[data-il-ui-component=entity-field-input].c-input {
+  display: flex;
+  flex-direction: column;
+}
+.c-form .c-input[data-il-ui-component=entity-field-input].c-input > label:empty {
+  display: none;
+}
+.c-form .c-input[data-il-ui-component=entity-field-input].c-input > label:not(:empty) {
+  width: 100%;
+  padding-right: 0;
+  margin-bottom: 3px;
+}
+.c-form .c-input[data-il-ui-component=entity-field-input].c-input > .c-input__help-byline,
+.c-form .c-input[data-il-ui-component=entity-field-input].c-input > .c-input__error-msg,
+.c-form .c-input[data-il-ui-component=entity-field-input].c-input > .c-input__field {
+  width: 100%;
+}
+.c-form ul.c-input-entity {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.c-form ul.c-input-entity > li {
+  margin: 0;
+  padding: 0;
+}
+
 .c-form ul.c-field-multiselect {
   list-style: none;
   padding: 0;
@@ -9765,11 +9795,11 @@ ul.c-input--has-mustache-variables__definitions > li {
   }
 }
 
-.c-input:not([data-il-ui-component=section-field-input]):hover {
+.c-input:not([data-il-ui-component=section-field-input]):not([data-il-ui-component=entity-field-input]):hover {
   box-shadow: 0px 0px 0px 9px #f9f9f9;
   background-color: #f9f9f9;
 }
-.c-input:not([data-il-ui-component=section-field-input]):has(:focus-visible) {
+.c-input:not([data-il-ui-component=section-field-input]):not([data-il-ui-component=entity-field-input]):has(:focus-visible) {
   box-shadow: 0px 0px 0px 9px rgb(226.2857142857, 231.6428571429, 238.7142857143);
   background-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
 }
@@ -9795,7 +9825,7 @@ ul.c-input--has-mustache-variables__definitions > li {
 .c-form .c-input__error-msg {
   margin-bottom: 0;
 }
-.c-form .c-input[data-il-ui-component]:not([data-il-ui-component=section-field-input]):has(> .c-input__error-msg) {
+.c-form .c-input[data-il-ui-component]:not([data-il-ui-component=section-field-input]):not([data-il-ui-component=entity-field-input]):has(> .c-input__error-msg) {
   border-inline-start: 6px solid rgb(255, 214.54, 214.54);
   padding-left: 9px;
 }

@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Listing\Entity;
+namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Entity\Entity;
+use ILIAS\UI\Component\Entity\EntityRetrieval;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
- * Listings will have to map records to Entities.
+ * Carries entity identifiers through a form roundtrip and visualises them.
  */
-interface RecordToEntity
+interface Entity extends FormInput
 {
-    public function map(UIFactory $ui_factory, mixed $record): Entity;
+    public function getEntityRetrieval(): EntityRetrieval;
 }
