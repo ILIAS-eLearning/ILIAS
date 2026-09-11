@@ -70,13 +70,19 @@ export default class Prompt {
         const buttons = doc.querySelector('section[data-section="il-prompt-state__buttons"]');
         const command = doc.querySelector('section[data-section="il-prompt-state__command"]');
         const parameters = doc.querySelector('section[data-section="il-prompt-state__parameters"]');
-        const scripts = doc.querySelector('script');
+        const scripts = doc.querySelector('script[data-replace-marker="script"]');
         const dialogTitle = this.#prompt.querySelector('span.il-prompt__title');
         const dialogContents = this.#prompt.querySelector('div.il-prompt__contents');
         const dialogButtons = this.#prompt.querySelector('div.il-prompt__buttons');
-        dialogTitle.innerHTML = title.innerHTML;
-        dialogContents.innerHTML = contents.innerHTML;
-        dialogButtons.innerHTML = buttons.innerHTML;
+        if (title) {
+          dialogTitle.innerHTML = title.innerHTML;
+        }
+        if (contents) {
+          dialogContents.innerHTML = contents.innerHTML;
+        }
+        if (buttons) {
+          dialogButtons.innerHTML = buttons.innerHTML;
+        }
 
         this.#captureForms(dialogContents);
         this.#captureLinks(dialogContents);
@@ -85,14 +91,16 @@ export default class Prompt {
         }
 
         const params = [];
-        parameters.querySelectorAll('data').forEach(
-          (data) => {
-            params[data.innerHTML.trim()] = data.getAttribute('value');
-          },
-        );
+        if (parameters) {
+          parameters.querySelectorAll('data').forEach(
+            (data) => {
+              params[data.innerHTML.trim()] = data.getAttribute('value');
+            },
+          );
+        }
 
         return {
-          cmd: command.innerHTML.trim(),
+          cmd: command ? command.innerHTML.trim() : '',
           params,
         };
       })
@@ -117,7 +125,12 @@ export default class Prompt {
   #appendScript(js) {
     const dialogScript = this.#component.querySelector('section.il-prompt__scripts');
     const script = document.createElement('script');
-    script.text = js;
+    script.text = js
+      .replace(/il\.UI\.prompt\.init\([^)]*\);?/g, '')
+      .replace(
+        /\$\(this\)\.trigger\('(il_signal_[^']+)'/g,
+        "$(document).trigger('$1'",
+      );
     dialogScript.innerHTML = '';
     dialogScript.appendChild(script);
   }
@@ -127,8 +140,7 @@ export default class Prompt {
    * @return {void}
    */
   #captureForms(doc) {
-    const forms = doc.getElementsByTagName('form');
-    forms.forEach(
+    doc.querySelectorAll('form').forEach(
       (form) => {
         form.addEventListener('submit', (e) => {
           e.preventDefault();
@@ -146,8 +158,7 @@ export default class Prompt {
    * @return {void}
    */
   #captureLinks(doc) {
-    const links = doc.getElementsByTagName('a');
-    links.forEach(
+    doc.querySelectorAll('a').forEach(
       (lnk) => {
         const { target } = lnk;
         if (target !== '_blank') {
