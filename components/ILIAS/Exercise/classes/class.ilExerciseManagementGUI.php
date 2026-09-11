@@ -2170,6 +2170,17 @@ class ilExerciseManagementGUI
             //$obj_dir .
             DIRECTORY_SEPARATOR .
             "index.html";
+        // (migrated) pre ilias 10, esp. portfolio
+        $index_html_file_old =
+            ILIAS_WEB_DIR .
+            DIRECTORY_SEPARATOR .
+            CLIENT_ID .
+            DIRECTORY_SEPARATOR .
+            dirname($zip_internal_path) .
+            DIRECTORY_SEPARATOR .
+            $obj_dir .
+            DIRECTORY_SEPARATOR .
+            "index.html";
         $this->log->debug("index html file: " . $index_html_file);
 
         $web_filesystem = $DIC->filesystem()->web();
@@ -2190,6 +2201,9 @@ class ilExerciseManagementGUI
 
             $submission_repository = $this->service->repo()->submission();
             $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
+            if (!is_file($index_html_file) && is_file($index_html_file_old)) {
+                $index_html_file = $index_html_file_old;
+            }
             ilWACSignedPath::signFolderOfStartFile($index_html_file);
             ilUtil::redirect($index_html_file . "?" . time());
         }
