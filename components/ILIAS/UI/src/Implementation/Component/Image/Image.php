@@ -46,6 +46,7 @@ class Image implements C\Image\Image
     private array $additional_high_res_sources = [];
     private string $alt;
     protected ?string $action = '';
+    protected bool $open_in_new_viewport = false;
 
     public function __construct(string $type, string $source, string $alt)
     {
@@ -164,5 +165,23 @@ class Image implements C\Image\Image
     public function appendOnClick(Signal $signal): C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withOpenInNewViewport(bool $open_in_new_viewport): C\Image\Image
+    {
+        $clone = clone $this;
+        $clone->open_in_new_viewport = $open_in_new_viewport;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getOpenInNewViewport(): bool
+    {
+        return $this->open_in_new_viewport;
     }
 }

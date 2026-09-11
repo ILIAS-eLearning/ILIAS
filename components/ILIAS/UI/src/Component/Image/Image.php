@@ -99,4 +99,14 @@ interface Image extends Component, JavaScriptBindable, Clickable, Block
      * @return string|Signal[]
      */
     public function getAction();
+
+    /**
+     * Set if the image action should be opened in a new viewport.
+     */
+    public function withOpenInNewViewport(bool $open_in_new_viewport): Image;
+
+    /**
+     * Get if the image action should be opened in a new viewport.
+     */
+    public function getOpenInNewViewport(): bool;
 }
