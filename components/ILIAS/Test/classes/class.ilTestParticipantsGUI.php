@@ -181,6 +181,7 @@ class ilTestParticipantsGUI
             $this->ui_factory,
             $this->ui_service,
             $this->lng,
+            $this->ctrl,
             $this->test_access,
             $this->testrequest,
             $this->participant_access_filter,

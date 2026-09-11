@@ -154,6 +154,10 @@ class ScoringByQuestionTableBinder implements DataRetrieval
                 array $c,
                 \ilTestEvaluationPassData $pd
             ) use ($question_id, $active_id, $filtered_participants, $complete_feedback): array {
+                if (!$pd->getStatusOfAttempt()->isFinished()) {
+                    return $c;
+                }
+
                 $question_result = $pd->getAnsweredQuestionByQuestionId($question_id);
                 $feedback_data = $complete_feedback[$active_id][$pd->getPass()][$question_id] ?? [];
                 if ($this->isFilteredAttempt($pd, $question_result, $feedback_data)) {
