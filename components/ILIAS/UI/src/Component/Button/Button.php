@@ -77,4 +77,14 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, En
      * Get the aria-label on the button.
      */
     public function getAriaLabel(): string;
+
+    /**
+     * Get a button like this with an aria-current value (e.g. "page" for pagination).
+     */
+    public function withAriaCurrent(string $aria_current): Button;
+
+    /**
+     * Get the aria-current value on the button, or null if not set.
+     */
+    public function getAriaCurrent(): ?string;
 }

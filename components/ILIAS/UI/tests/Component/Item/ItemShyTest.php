@@ -137,10 +137,10 @@ EOT;
 	<div class="content">
 		<div class="il-item-title">shy</div>
 		<hr class="il-item-divider" />
-		<div class="il-item-properties">
-            <div class="il-item-property-name">name</div>
-            <div class="il-item-property-value">value</div>
-		</div>
+		<dl class="il-item-properties">
+			<dt class="il-item-property-name">name</dt>
+			<dd class="il-item-property-value">value</dd>
+		</dl>
 	</div>
 </div>
 EOT;
