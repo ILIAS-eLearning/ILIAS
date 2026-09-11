@@ -320,18 +320,12 @@ class ilDclRecordEditGUI
                     } else {
                         $item->setValue((string) $default_value->getValue());
                     }
-                } else {
-                    if ($item instanceof ilDclTextInputGUI) {
-                        $item->setValue("");
-                    }
                 }
             }
             if (!$ui || $field_setting->isVisibleInForm(!$this->record_id)) {
                 $this->form->addItem($item);
             } else {
-                $hidden = new ilHiddenInputGUI($item->getPostVar());
-                $hidden->setValue((string) $item->getValue());
-                $this->form->addItem($hidden);
+                $this->form->addItem(new ilHiddenInputGUI($item->getPostVar()));
             }
         }
 
