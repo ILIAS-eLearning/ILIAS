@@ -158,7 +158,18 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             'title' => $f->link($this->lng->txt('title')),
             'description' => $f->text($this->lng->txt('description'))->withIsOptional(true, true),
             'ttype' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
-            'points' => $f->number($this->lng->txt('points'))->withDecimals(2)->withIsOptional(true, true),
+            'points' => $f->number(
+                sprintf(
+                    "%s (%s: %d)",
+                    $this->lng->txt('points'),
+                    $this->lng->txt('total'),
+                    array_reduce(
+                        $this->getData(),
+                        static fn($total, $item) => $total + $item['points'],
+                        0
+                    )
+                )
+            )->withDecimals(2)->withIsOptional(true, true),
             'author' => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle'))->withIsOptional(true, true),
             'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))->withIsOptional(true, true),
@@ -315,11 +326,20 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         return count($this->getQuestionDataArray());
     }
 
-    protected function getData(Order $order, Range $range): array
+    protected function getData(?Order $order = null, ?Range $range = null): array
     {
         $this->setParentObjId($this->parent_obj_id);
         $this->load();
-        $data = $this->postOrder($this->getQuestionDataArray(), $order);
+        $data = $this->getQuestionDataArray();
+
+        if ($order !== null) {
+            $data = $this->postOrder($data, $order);
+        }
+
+        if ($range === null) {
+            return $data;
+        }
+
         [$offset, $length] = $range->unpack();
         $length = $length > 0 ? $length : null;
         return array_slice($data, $offset, $length);
