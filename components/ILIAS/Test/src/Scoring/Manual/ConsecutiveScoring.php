@@ -29,6 +29,11 @@ use ILIAS\Test\TestManScoringDoneHelper;
 
 class ConsecutiveScoring
 {
+    /**
+     * @var int[]
+     */
+    private array $anon_only_participant_ids;
+
     public function __construct(
         private readonly Positions $positions,
         private readonly \ilObjTest $object,
@@ -37,10 +42,10 @@ class ConsecutiveScoring
         private TestScoring $scorer,
         private TestManScoringDoneHelper $scoring_done_helper,
         private \ilObjUser $current_user,
-        private readonly \ilTestAccess $test_access,
         private readonly ParticipantRepository $participant_repository,
         private readonly Language $lng,
     ) {
+        $this->anon_only_participant_ids = $this->object->getAnonOnlyParticipantIds();
     }
 
     public function getPositions(): Positions
@@ -92,13 +97,11 @@ class ConsecutiveScoring
         int $usr_active_id,
         string $attempt
     ): string {
-        if ($this->object->getAnonymity()
-            || !$this->test_access->checkScoreParticipantsAccess()
-        ) {
+        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $usr_active_id);
+
+        if ($this->shouldUsePseudonymousParticipantLabel($participant->getUserId())) {
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
-
-        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $usr_active_id);
         $importname = $participant->getImportname();
         $user_id = $participant->getUserId();
         if ($user_id === ANONYMOUS_USER_ID && $importname !== null && $importname !== '') {
@@ -119,12 +122,22 @@ class ConsecutiveScoring
         int $usr_active_id,
         string $attempt,
     ): string {
-        if ($this->object->getAnonymity()
-            || !$this->test_access->checkScoreParticipantsAccess()
-        ) {
+        $user_id = $this->object->_getUserIdFromActiveId($usr_active_id);
+
+        if ($this->shouldUsePseudonymousParticipantLabel($user_id)) {
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
-        return (string) $this->object->_getUserIdFromActiveId($usr_active_id);
+
+        return (string) $user_id;
+    }
+
+    private function shouldUsePseudonymousParticipantLabel(int $user_id): bool
+    {
+        if ($this->object->getAnonymity()) {
+            return true;
+        }
+
+        return in_array($user_id, $this->anon_only_participant_ids, true);
     }
 
     public function getSingleManualFeedback(int $qid, int $usr_active_id, int $attempt_id): array
