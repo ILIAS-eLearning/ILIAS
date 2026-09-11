@@ -36,6 +36,9 @@ class Database implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $provide[Database\Connection::class] = static fn(): Database\Connection =>
+            new Database\LazyConnection();
+
         $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent =>
             new \ilDatabaseSetupAgent(
                 $pull[Factory::class]
