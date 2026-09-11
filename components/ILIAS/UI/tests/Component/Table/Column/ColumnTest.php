@@ -36,6 +36,7 @@ use ILIAS\Language\Language;
 class ColumnTest extends ILIAS_UI_TestBase
 {
     protected Language $lng;
+    protected \DateTimeZone $timezone;
 
     public function setUp(): void
     {
@@ -44,6 +45,8 @@ class ColumnTest extends ILIAS_UI_TestBase
             ->getMock();
         $lng->method('txt')->willReturnCallback(fn($v) => $v);
         $this->lng = $lng;
+
+        $this->timezone = new \DateTimeZone(date_default_timezone_get());
     }
 
     public function testDataTableColumnsAttributes(): void
@@ -104,8 +107,22 @@ class ColumnTest extends ILIAS_UI_TestBase
         $df = new \ILIAS\Data\Factory();
         $format = $df->dateFormat()->germanShort();
         $dat = new \DateTimeImmutable();
-        $col = new Column\Date($this->lng, 'col', $format);
+        $tz = $dat->getTimezone();
+        $col = new Column\Date($this->lng, 'col', $format, $tz);
         $this->assertEquals($dat->format($format->toString()), $col->format($dat));
+    }
+
+    public function testDataTableColumnDateFormatWithTZ(): void
+    {
+        $df = new \ILIAS\Data\Factory();
+        $format = $df->dateFormat()->germanShort();
+        $dat = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        $tz = new \DateTimeZone('Europe/Berlin');
+        $expected = $dat->setTimezone($tz)->format($format->toString());
+
+        $col = new Column\Date($this->lng, 'col', $format, $tz);
+        $this->assertEquals($expected, $col->format($dat));
     }
 
     public function testDataTableColumnTimespanFormat(): void

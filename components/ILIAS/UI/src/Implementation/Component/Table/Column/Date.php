@@ -29,7 +29,8 @@ class Date extends Column implements C\Date
     public function __construct(
         Language $lng,
         string $title,
-        protected DateFormat $format
+        protected DateFormat $format,
+        protected \DateTimeZone $timezone
     ) {
         parent::__construct($lng, $title);
     }
@@ -39,10 +40,22 @@ class Date extends Column implements C\Date
         return $this->format;
     }
 
+    public function withTimeZone(\DateTimeZone $timezone): C\Date
+    {
+        $clone = clone $this;
+        $clone->timezone = $timezone;
+        return $clone;
+    }
+
+    public function getTimeZone(): \DateTimeZone
+    {
+        return $this->timezone;
+    }
+
     public function format($value): string
     {
         $this->checkArgInstanceOf('value', $value, \DateTimeImmutable::class);
-        return $value->format($this->getFormat()->toString());
+        return $value->setTimezone($this->getTimeZone())->format($this->getFormat()->toString());
     }
 
     /**

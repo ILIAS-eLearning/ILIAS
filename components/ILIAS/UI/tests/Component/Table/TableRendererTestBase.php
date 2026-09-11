@@ -41,7 +41,8 @@ class TableRendererTestBase extends TableTestBase
     protected function getColumnFactory()
     {
         return new I\Table\Column\Factory(
-            $this->getLanguage()
+            $this->getLanguage(),
+            $this->getMockUserTimezone()
         );
     }
 
