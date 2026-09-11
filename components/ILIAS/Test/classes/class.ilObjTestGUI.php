@@ -1903,12 +1903,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->tabs_manager->activateSubTab(TabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
         $this->tpl->setCurrentBlock('adm_content');
-        $this->tpl->setVariable('ACTION_QUESTION_FORM', $this->ctrl->getFormAction($this));
+        $this->tpl->setVariable('TITLE', $this->lng->txt('list_of_questions'));
+
+        $table = $this->getTable();
         $this->tpl->setVariable(
             'QUESTIONBROWSER',
-            $this->ui_renderer->render(
-                $this->getTable()->getTableComponent()
-            )
+            $this->ui_renderer->render([
+                $table->getSummary(),
+                $table->getTableComponent()
+            ])
         );
         $this->tpl->parseCurrentBlock();
     }
