@@ -22,9 +22,11 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
 {
     private const SESSION_TARGET = 'oidc_target';
     private const QUERY_PARAM_TARGET = 'target';
+    private const QUERY_PARAM_REGISTER = 'register';
 
     private readonly ilOpenIdConnectSettings $settings;
     private ?string $target = null;
+    private bool $registration_requested = false;
 
     public function __construct()
     {
@@ -37,6 +39,12 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
         if ($httpquery->has(self::QUERY_PARAM_TARGET)) {
             $this->target = $httpquery->retrieve(self::QUERY_PARAM_TARGET, $DIC->refinery()->to()->string());
         }
+        if ($httpquery->has(self::QUERY_PARAM_REGISTER)) {
+            $this->registration_requested = $httpquery->retrieve(
+                self::QUERY_PARAM_REGISTER,
+                $DIC->refinery()->kindlyTo()->bool()
+            );
+        }
     }
 
     protected function getSettings(): ilOpenIdConnectSettings
@@ -47,6 +55,11 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
     public function getRedirectionTarget(): ?string
     {
         return $this->target;
+    }
+
+    public function isRegistrationRequested(): bool
+    {
+        return $this->registration_requested;
     }
 
     public function initFromRequest(): void
