@@ -879,7 +879,7 @@ export default class TinyWrapper {
   // scrolls position of editor under editor menu
   autoScroll() {
     const tiny_el = document.getElementById('tinytarget_div');
-    const content_el = document.querySelector('main.il-layout-page-content');
+    const content_el = document.querySelector('.il-layout-page-content');
     const tiny_rect = tiny_el.getBoundingClientRect();
 
     let scroll = false;
