@@ -136,9 +136,11 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJavaScript($component);
 
         $expander = $f->symbol()->glyph()->expand("#")
-            ->withOnClick($sig_show);
+            ->withOnClick($sig_show)
+            ->withAriaExpanded("false");
         $collapser = $f->symbol()->glyph()->collapse("#")
-            ->withOnClick($sig_hide);
+            ->withOnClick($sig_hide)
+            ->withAriaExpanded("true");
         $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "#")
             ->withOnClick($sig_show);
 
