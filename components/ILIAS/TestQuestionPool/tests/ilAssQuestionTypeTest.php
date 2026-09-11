@@ -22,8 +22,6 @@
 * @author Matheus Zych <mzych@databay.de>
 *
 * @ingroup components\ILIASTestQuestionPool
-*
-* This test was automatically generated.
 */
 class ilAssQuestionTypeTest extends assBaseTestCase
 {
@@ -41,5 +39,50 @@ class ilAssQuestionTypeTest extends assBaseTestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(ilAssQuestionType::class, $this->object);
+    }
+
+    public function testCompleteMissingPluginNameFillsEmptyPluginNameFromQuestionType(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => true,
+            'plugin_name' => '',
+            'question_type' => 'assExamplePluginQuestion',
+        ]);
+
+        $this->assertSame('assExamplePluginQuestion', $result['plugin_name']);
+    }
+
+    public function testCompleteMissingPluginNameFillsNullPluginNameFromQuestionType(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => true,
+            'plugin_name' => null,
+            'question_type' => 'assExamplePluginQuestion',
+        ]);
+
+        $this->assertSame('assExamplePluginQuestion', $result['plugin_name']);
+    }
+
+    public function testCompleteMissingPluginNameKeepsExistingPluginName(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => true,
+            'plugin_name' => 'ExampleQuestionPlugin',
+            'question_type' => 'assExamplePluginQuestion',
+        ]);
+
+        $this->assertSame('ExampleQuestionPlugin', $result['plugin_name']);
+    }
+
+    public function testCompleteMissingPluginNameDoesNotTouchNonPluginData(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => false,
+            'plugin_name' => null,
+            'question_type' => 'assSingleChoice',
+        ]);
+
+        $this->assertNull($result['plugin_name']);
+        $this->assertSame('assSingleChoice', $result['question_type']);
     }
 }
