@@ -67,13 +67,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 
 // viewcontrols as single buttons
 // should in the future be done by using btn-ctrl class on these buttons
-.il-viewcontrol-sortation,
-.il-viewcontrol-sortation .dropdown,
-.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element {
-	> .btn-default.btn {
-		@extend .btn-ctrl;
-		border-radius: $il-border-radius-secondary-large;
-	}
+@mixin il-viewcontrol-dropdown-selected-item {
 	li .btn.btn-link {
 		padding-left: $il-padding-large-horizontal * 3;
 	}
@@ -85,6 +79,20 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 		color: $il-btn-ctrl-color;
 		content: "\e013";
 	}
+}
+
+.il-viewcontrol-sortation,
+.il-viewcontrol-sortation .dropdown,
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element {
+	> .btn-default.btn {
+		@extend .btn-ctrl;
+		border-radius: $il-border-radius-secondary-large;
+	}
+	@include il-viewcontrol-dropdown-selected-item;
+}
+
+.il-viewcontrol-pagination__num-of-items {
+	@include il-viewcontrol-dropdown-selected-item;
 }
 
 .il-viewcontrol-fieldselection .dropdown-menu {

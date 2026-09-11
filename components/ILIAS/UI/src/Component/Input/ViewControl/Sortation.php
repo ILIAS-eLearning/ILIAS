@@ -27,4 +27,8 @@ use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
  */
 interface Sortation extends ViewControlInput
 {
+    /**
+     * Set the prefix of the label
+     */
+    public function withLabelPrefix(string $label_prefix): self;
 }
