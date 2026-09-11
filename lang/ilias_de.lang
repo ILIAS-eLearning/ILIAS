@@ -3981,7 +3981,7 @@ common#:#didactic_template#:#Didaktische Vorlage
 common#:#disable#:#ausschalten
 common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Eweiterte Sprachenverwaltung deaktivieren
-common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
+common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigungen deaktivieren
 common#:#disabled#:#Ausgeschaltet
 common#:#disclose#:#Aufdecken
 common#:#dislike#:#Dislike
@@ -4044,7 +4044,7 @@ common#:#enable_download_folder_info#:#Aktiviert die Option „Herunterladen“ 
 common#:#enable_export_scorm_desc#:#Anzeige persönlicher Daten in den Protokolldaten (SCORM)
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
 common#:#enable_fora_statistics_desc#:#Nur wenn diese aktiviert ist, kann auf die Forenstatistik zugegriffen werden.
-common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
+common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigungen nicht deaktivieren
 common#:#enable_multi_download#:#„Mehrere Objekte herunterladen“ aktivieren
 common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner bzw. Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunterzuladen.
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
@@ -4251,6 +4251,7 @@ common#:#frm_added#:#Forum angelegt
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_import#:#Forum importieren
 common#:#frm_latest_postings#:#Letzte Beiträge
+common#:#frm_member_may_disable_noti#:#Mitglied darf Benachrichtigungen deaktivieren
 common#:#frm_new#:#Neues Forum anlegen
 common#:#frm_no_threads#:#Aktuell ist kein Thema verfügbar.
 common#:#from#:#Von

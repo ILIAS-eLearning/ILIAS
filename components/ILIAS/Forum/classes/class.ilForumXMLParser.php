@@ -269,6 +269,10 @@ class ilForumXMLParser extends ilSaxParser
                 $propertyValue['ToggleNotification'] = $this->cdata;
                 break;
 
+            case 'MemberMayDeactivateNotification':
+                $propertyValue['MemberMayDeactivateNotification'] = $this->cdata;
+                break;
+
             case 'LastPost':
                 $propertyValue['LastPost'] = $this->cdata;
                 break;
@@ -345,8 +349,15 @@ class ilForumXMLParser extends ilSaxParser
                         ) ?? NotificationType::ALL_USERS
                     );
                     $newObjProp->setInterestedEvents((int) ($this->forumArray['NotificationEvents'] ?? 0));
-                    $newObjProp->setAdminForceNoti((bool) ($this->forumArray['ForceNotification'] ?? false));
-                    $newObjProp->setUserToggleNoti((bool) ($this->forumArray['ToggleNotification'] ?? false));
+                    $newObjProp->setContainerEnforcingForumNotification((bool) ($this->forumArray['ForceNotification'] ?? false));
+                    if (array_key_exists('MemberMayDeactivateNotification', $this->forumArray)) {
+                        $newObjProp->setMemberMayDeactivateForumNotification(
+                            (bool) (int) ($this->forumArray['MemberMayDeactivateNotification'] ?? 0)
+                        );
+                    } else {
+                        $legacy_toggle = (bool) ($this->forumArray['ToggleNotification'] ?? false);
+                        $newObjProp->setMemberMayDeactivateForumNotification(!$legacy_toggle);
+                    }
                     $newObjProp->setFileUploadAllowed((bool) ($this->forumArray['FileUpload'] ?? false));
                     $newObjProp->setMarkModeratorPosts((bool) ($this->forumArray['MarkModeratorPosts'] ?? false));
                     $newObjProp->update();

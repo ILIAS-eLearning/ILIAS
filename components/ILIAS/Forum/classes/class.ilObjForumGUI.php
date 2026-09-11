@@ -4554,7 +4554,7 @@ EOD
             return true;
         }
 
-        if (!$this->objProperties->isUserToggleNoti() &&
+        if ($this->objProperties->isMemberMayDeactivateForumNotification() &&
             $this->objProperties->getNotificationType() === NotificationType::ALL_USERS) {
             return true;
         }
@@ -4564,7 +4564,7 @@ EOD
             $frm_noti = new ilForumNotification($this->object->getRefId());
             $frm_noti->setUserId($this->user->getId());
 
-            return !$frm_noti->isUserToggleNotification();
+            return $frm_noti->isMemberMayDeactivateNotificationPersisted();
         }
 
         return false;

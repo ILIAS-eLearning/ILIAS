@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Forum\Notification\NotificationType;
+use ILIAS\Forum\Notification\ForumNotificationMembershipRow;
 
 /**
  * Class ilForumNotification
@@ -39,10 +40,11 @@ class ilForumNotification
     private ?int $user_id = null;
     private int $forum_id;
     private int $thread_id;
-    private bool $admin_force = false;
-    private bool $user_toggle = false;
+    private bool $container_enforces_noti = false;
+    private bool $member_may_disable_noti = false;
     private int $interested_events = 0;
     private int $user_id_noti;
+    private bool $user_deactivated_noti = false;
 
     public function __construct(private int $ref_id)
     {
@@ -103,24 +105,24 @@ class ilForumNotification
         return $this->interested_events;
     }
 
-    public function setAdminForce(bool $a_admin_force): void
+    public function setContainerEnforcesNotification(bool $container_enforces): void
     {
-        $this->admin_force = $a_admin_force;
+        $this->container_enforces_noti = $container_enforces;
     }
 
-    public function getAdminForce(): bool
+    public function getContainerEnforcesNotification(): bool
     {
-        return $this->admin_force;
+        return $this->container_enforces_noti;
     }
 
-    public function setUserToggle(bool $a_user_toggle): void
+    public function setMemberMayDisableNotification(bool $member_may_disable): void
     {
-        $this->user_toggle = $a_user_toggle;
+        $this->member_may_disable_noti = $member_may_disable;
     }
 
-    public function getUserToggle(): bool
+    public function getMemberMayDisableNotification(): bool
     {
-        return $this->user_toggle;
+        return $this->member_may_disable_noti;
     }
 
     public function setForumRefId(int $a_ref_id): void
@@ -145,11 +147,21 @@ class ilForumNotification
         return $this->user_id_noti;
     }
 
-    public function isAdminForceNotification(): bool
+    public function setUserDeactivatedNotification(bool $user_deactivated_noti): void
+    {
+        $this->user_deactivated_noti = $user_deactivated_noti;
+    }
+
+    public function getUserDeactivatedNotification(): bool
+    {
+        return $this->user_deactivated_noti;
+    }
+
+    public function isContainerEnforcingNotificationPersisted(): bool
     {
         $res = $this->db->queryF(
             '
-			SELECT admin_force_noti FROM frm_notification
+			SELECT container_enforces_noti FROM frm_notification
 			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s ',
@@ -158,17 +170,17 @@ class ilForumNotification
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
-            return (bool) $row['admin_force_noti'];
+            return (bool) $row['container_enforces_noti'];
         }
 
         return false;
     }
 
-    public function isUserToggleNotification(): bool
+    public function isMemberMayDeactivateNotificationPersisted(): bool
     {
         $res = $this->db->queryF(
             '
-			SELECT user_toggle_noti FROM frm_notification
+			SELECT member_may_disable_noti FROM frm_notification
 			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s',
@@ -177,12 +189,12 @@ class ilForumNotification
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
-            return (bool) $row['user_toggle_noti'];
+            return (bool) $row['member_may_disable_noti'];
         }
         return false;
     }
 
-    public function insertAdminForce(): void
+    public function insertContainerMembershipNotification(): void
     {
         $next_id = $this->db->nextId('frm_notification');
         $this->setNotificationId($next_id);
@@ -190,56 +202,57 @@ class ilForumNotification
         $this->db->manipulateF(
             '
 			INSERT INTO frm_notification
-				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, interested_events, user_id_noti)
-			VALUES(%s, %s, %s, %s, %s, %s, %s)',
-            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+				(notification_id, user_id, frm_id, container_enforces_noti, member_may_disable_noti, interested_events, user_id_noti, user_deactivated_noti)
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
             [
                 $next_id,
                 (int) $this->getUserId(),
                 $this->getForumId(),
-                $this->getAdminForce(),
-                $this->getUserToggle(),
+                (int) $this->getContainerEnforcesNotification(),
+                (int) $this->getMemberMayDisableNotification(),
                 $this->getInterestedEvents(),
-                $this->user->getId()
+                $this->user->getId(),
+                (int) $this->getUserDeactivatedNotification()
             ]
         );
     }
 
-    public function deleteAdminForce(): void
+    public function deleteContainerEnforcedMembershipNotification(): void
     {
         $this->db->manipulateF(
             '
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
 			AND		frm_id = %s
-			AND		admin_force_noti = %s
+			AND		container_enforces_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer'],
             [(int) $this->getUserId(), $this->getForumId(), 1, 0]
         );
     }
 
-    public function deleteUserToggle(): void
+    public function deleteProvisioningRowRestrictingMemberDeactivate(): void
     {
         $this->db->manipulateF(
             '
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
 			AND		frm_id = %s
-			AND		admin_force_noti = %s
-			AND		user_toggle_noti = %s
+			AND		container_enforces_noti = %s
+			AND		member_may_disable_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer', 'integer'],
-            [(int) $this->getUserId(), $this->getForumId(), 1, 1, 0]
+            [(int) $this->getUserId(), $this->getForumId(), 1, 0, 0]
         );
     }
 
-    public function updateUserToggle(): void
+    public function updateMemberMayDisableOnContainerEnforcedRow(): void
     {
         $this->db->manipulateF(
-            'UPDATE frm_notification SET user_toggle_noti = %s WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
+            'UPDATE frm_notification SET member_may_disable_noti = %s WHERE user_id = %s AND frm_id = %s AND container_enforces_noti = %s',
             ['integer', 'integer', 'integer', 'integer'],
-            [$this->getUserToggle(), (int) $this->getUserId(), $this->getForumId(), 1]
+            [(int) $this->getMemberMayDisableNotification(), (int) $this->getUserId(), $this->getForumId(), 1]
         );
     }
 
@@ -266,15 +279,15 @@ class ilForumNotification
 
             $properties = ilForumProperties::getInstance((int) $data['obj_id']);
             if ($properties->getNotificationType() !== NotificationType::DEFAULT) {
-                if ($properties->isAdminForceNoti()) {
+                if ($properties->isContainerEnforcingForumNotification()) {
                     $frm_noti->setInterestedEvents($properties->getInterestedEvents());
                 }
 
-                $frm_noti->setAdminForce($properties->isAdminForceNoti());
-                $frm_noti->setUserToggle($properties->isUserToggleNoti());
+                $frm_noti->setContainerEnforcesNotification($properties->isContainerEnforcingForumNotification());
+                $frm_noti->setMemberMayDisableNotification($properties->isMemberMayDeactivateForumNotification());
                 $frm_noti->setForumId($properties->getObjId());
-                if (!$frm_noti->existsNotification()) {
-                    $frm_noti->insertAdminForce();
+                if (!$frm_noti->hasContainerProvisionedMembershipNotification()) {
+                    $frm_noti->insertContainerMembershipNotification();
                 }
             }
         }
@@ -301,7 +314,7 @@ class ilForumNotification
 
             $frm_noti->setForumId((int) $data['obj_id']);
             if (!in_array($frm_noti->getUserId(), $moderator_ids, true)) {
-                $frm_noti->deleteAdminForce();
+                $frm_noti->deleteContainerEnforcedMembershipNotification();
             }
         }
     }
@@ -352,7 +365,7 @@ class ilForumNotification
         $source_forum = ilObjectFactory::getInstanceByRefId((int) $move_tree_event['source_id']);
         if ($source_forum->isParentMembershipEnabledContainer()) {
             $ilDB->manipulateF(
-                'DELETE FROM frm_notification WHERE frm_id = %s AND admin_force_noti = %s',
+                'DELETE FROM frm_notification WHERE frm_id = %s AND container_enforces_noti = %s',
                 ['integer', 'integer'],
                 [$source_forum->getId(), 1]
             );
@@ -362,12 +375,12 @@ class ilForumNotification
     public function update(): void
     {
         $this->db->manipulateF(
-            'UPDATE frm_notification SET admin_force_noti = %s, user_toggle_noti = %s, ' .
+            'UPDATE frm_notification SET container_enforces_noti = %s, member_may_disable_noti = %s, ' .
             'interested_events = %s WHERE user_id = %s AND frm_id = %s',
             ['integer', 'integer', 'integer', 'integer', 'integer'],
             [
-                (int) $this->getAdminForce(),
-                (int) $this->getUserToggle(),
+                (int) $this->getContainerEnforcesNotification(),
+                (int) $this->getMemberMayDisableNotification(),
                 $this->getInterestedEvents(),
                 (int) $this->getUserId(),
                 $this->getForumId()
@@ -385,7 +398,7 @@ class ilForumNotification
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return array<int, ForumNotificationMembershipRow>
      */
     public function read(): array
     {
@@ -393,19 +406,52 @@ class ilForumNotification
 
         $result = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $result[(int) $row['user_id']] = [
-                'notification_id' => (int) $row['notification_id'],
-                'user_id' => (int) $row['user_id'],
-                'frm_id' => (int) $row['frm_id'],
-                'thread_id' => (int) $row['thread_id'],
-                'admin_force_noti' => (int) $row['admin_force_noti'],
-                'user_toggle_noti' => (int) $row['user_toggle_noti'],
-                'interested_events' => (int) $row['interested_events'],
-                'user_id_noti' => (int) $row['user_id_noti']
-            ];
+            $result[(int) $row['user_id']] = new ForumNotificationMembershipRow($row);
         }
 
         return $result;
+    }
+
+    /**
+     * Forum-level membership rows only (`thread_id = 0`). Use this when reading
+     * admin-controlled flags such as {@see ForumNotificationMembershipRow::$member_may_disable_noti};
+     * {@see read()} may otherwise pick an arbitrary thread row as the last row per user.
+     *
+     * @return array<int, ForumNotificationMembershipRow>
+     */
+    public function readForumLevelMembershipRows(): array
+    {
+        $res = $this->db->queryF(
+            'SELECT * FROM frm_notification WHERE frm_id = %s AND thread_id = %s',
+            ['integer', 'integer'],
+            [$this->getForumId(), 0]
+        );
+
+        $result = [];
+        while ($row = $this->db->fetchAssoc($res)) {
+            $result[(int) $row['user_id']] = new ForumNotificationMembershipRow($row);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return list<int>
+     */
+    public function getDistinctForumNotificationUserIds(): array
+    {
+        $res = $this->db->queryF(
+            'SELECT DISTINCT user_id FROM frm_notification WHERE frm_id = %s ORDER BY user_id ASC',
+            ['integer'],
+            [$this->getForumId()]
+        );
+
+        $ids = [];
+        while ($row = $this->db->fetchAssoc($res)) {
+            $ids[] = (int) $row['user_id'];
+        }
+
+        return $ids;
     }
 
     public static function mergeThreadNotifications($merge_source_thread_id, $merge_target_thread_id): void
@@ -448,12 +494,12 @@ class ilForumNotification
         }
     }
 
-    public function existsNotification(): bool
+    public function hasContainerProvisionedMembershipNotification(): bool
     {
         $res = $this->db->queryF(
-            'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
-            ['integer', 'integer', 'integer'],
-            [(int) $this->getUserId(), $this->getForumId(), (int) $this->getAdminForce()]
+            'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND user_id_noti > %s AND thread_id = %s',
+            ['integer', 'integer', 'integer', 'integer'],
+            [(int) $this->getUserId(), $this->getForumId(), 0, 0]
         );
 
         return $this->db->numRows($res) > 0;
@@ -466,12 +512,13 @@ class ilForumNotification
 
         foreach ($records as $usrId => $row) {
             $this->setUserId($usrId);
-            $this->setAdminForce((bool) $row['admin_force_noti']);
-            $this->setUserToggle((bool) $row['user_toggle_noti']);
-            $this->setUserIdNoti((int) $row['user_id_noti']);
-            $this->setInterestedEvents((int) $row['interested_events']);
+            $this->setContainerEnforcesNotification($row->container_enforces_noti);
+            $this->setMemberMayDisableNotification($row->member_may_disable_noti);
+            $this->setUserIdNoti($row->user_id_noti);
+            $this->setInterestedEvents($row->interested_events);
+            $this->setUserDeactivatedNotification($row->user_deactivated_noti);
 
-            $this->insertAdminForce();
+            $this->insertContainerMembershipNotification();
         }
     }
 
@@ -508,9 +555,9 @@ class ilForumNotification
     public function readAllForcedEvents(): array
     {
         $res = $this->db->queryF(
-            'SELECT * FROM frm_notification WHERE admin_force_noti = %s AND frm_id = %s',
+            'SELECT * FROM frm_notification WHERE frm_id = %s AND thread_id = %s',
             ['integer', 'integer'],
-            [1, $this->forum_id]
+            [$this->forum_id, 0]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -518,9 +565,11 @@ class ilForumNotification
             $notificationConfig->setNotificationId((int) $row['notification_id']);
             $notificationConfig->setUserId((int) $row['user_id']);
             $notificationConfig->setForumId((int) $row['frm_id']);
-            $notificationConfig->setAdminForce((bool) $row['admin_force_noti']);
-            $notificationConfig->setUserToggle((bool) $row['user_toggle_noti']);
+            $notificationConfig->setThreadId((int) ($row['thread_id'] ?? 0));
+            $notificationConfig->setContainerEnforcesNotification((bool) $row['container_enforces_noti']);
+            $notificationConfig->setMemberMayDisableNotification((bool) $row['member_may_disable_noti']);
             $notificationConfig->setInterestedEvents((int) $row['interested_events']);
+            $notificationConfig->setUserDeactivatedNotification((bool) (int) ($row['user_deactivated_noti'] ?? 0));
 
             self::$forced_events_cache[(int) $row['user_id']] = $notificationConfig;
         }
@@ -535,18 +584,24 @@ class ilForumNotification
         }
 
         if (!isset(self::$forced_events_cache[$user_id])) {
-            self::$forced_events_cache[$user_id] = $this->createMissingNotification($user_id);
+            self::$forced_events_cache[$user_id] = $this->createDisplayOnlyForumNotification($user_id);
         }
 
         return self::$forced_events_cache[$user_id];
     }
 
-    private function createMissingNotification(int $user_id): self
+    private function createDisplayOnlyForumNotification(int $user_id): self
     {
         $new_object = new self($this->ref_id);
+        $new_object->setNotificationId(0);
         $new_object->setUserId($user_id);
         $new_object->setForumId($this->forum_id);
-        $new_object->insertAdminForce();
+        $new_object->setThreadId(0);
+
+        $props = ilForumProperties::getInstance($this->forum_id);
+        $new_object->setContainerEnforcesNotification($props->isContainerEnforcingForumNotification());
+        $new_object->setMemberMayDisableNotification(true);
+        $new_object->setInterestedEvents(ilForumNotificationEvents::DEACTIVATED);
 
         return $new_object;
     }
@@ -563,13 +618,21 @@ class ilForumNotification
         ilForumProperties $effective_properties,
         ?ilForumProperties $former_properties = null
     ): void {
-        $existing_notification_records = $this->read();
+        $forum_level_rows = $this->readForumLevelMembershipRows();
+        $distinct_user_ids = $this->getDistinctForumNotificationUserIds();
+
         if ($effective_properties->getNotificationType() === NotificationType::DEFAULT) {
-            foreach ($existing_notification_records as $user_id => $row) {
+            foreach ($distinct_user_ids as $user_id) {
                 $this->setUserId($user_id);
-                $this->setAdminForce($effective_properties->isAdminForceNoti());
-                $this->setUserToggle($effective_properties->isUserToggleNoti());
-                $this->setInterestedEvents((int) $row['interested_events']);
+                $this->setContainerEnforcesNotification($effective_properties->isContainerEnforcingForumNotification());
+                $row = $forum_level_rows[$user_id] ?? null;
+                if ($row !== null) {
+                    $this->setMemberMayDisableNotification($row->member_may_disable_noti);
+                    $this->setInterestedEvents($row->interested_events);
+                } else {
+                    $this->setMemberMayDisableNotification($effective_properties->isMemberMayDeactivateForumNotification());
+                    $this->setInterestedEvents($effective_properties->getInterestedEvents());
+                }
                 $this->update();
             }
 
@@ -577,65 +640,86 @@ class ilForumNotification
         }
 
         if ($effective_properties->getNotificationType() === NotificationType::ALL_USERS) {
-            foreach ($existing_notification_records as $user_id => $row) {
-                $this->setUserId($user_id);
-                $this->setAdminForce($effective_properties->isAdminForceNoti());
-                $this->setUserToggle($effective_properties->isUserToggleNoti());
+            if (!$effective_properties->isMemberMayDeactivateForumNotification()) {
+                $this->db->manipulateF(
+                    'UPDATE frm_notification SET user_deactivated_noti = %s WHERE frm_id = %s AND thread_id = %s',
+                    ['integer', 'integer', 'integer'],
+                    [0, $this->getForumId(), 0]
+                );
+            }
 
-                if ($effective_properties->isUserToggleNoti()) {
-                    // If the user is not allowed to change subscription settings, we reset the "Events of Interest" to default
+            foreach ($distinct_user_ids as $user_id) {
+                $this->setUserId($user_id);
+                $this->setContainerEnforcesNotification($effective_properties->isContainerEnforcingForumNotification());
+                $this->setMemberMayDisableNotification($effective_properties->isMemberMayDeactivateForumNotification());
+                $row = $forum_level_rows[$user_id] ?? null;
+
+                if (!$effective_properties->isMemberMayDeactivateForumNotification()) {
                     $this->setInterestedEvents($effective_properties->getInterestedEvents());
                 } else {
-                    // We keep existing "Events of Interest" if the user is still allowed to change subcription settings
-                    $this->setInterestedEvents((int) $row['interested_events']);
+                    $this->setInterestedEvents(
+                        $row !== null
+                            ? $row->interested_events
+                            : $effective_properties->getInterestedEvents()
+                    );
                 }
 
                 $this->update();
             }
 
             foreach ($all_context_usr_ids as $user_id) {
-                if (array_key_exists($user_id, $existing_notification_records)) {
+                if (array_key_exists($user_id, $forum_level_rows)) {
                     continue;
                 }
 
                 $this->setUserId($user_id);
-                $this->setAdminForce($effective_properties->isAdminForceNoti());
-                $this->setUserToggle($effective_properties->isUserToggleNoti());
+                $this->setContainerEnforcesNotification($effective_properties->isContainerEnforcingForumNotification());
+                $this->setMemberMayDisableNotification($effective_properties->isMemberMayDeactivateForumNotification());
                 $this->setInterestedEvents($effective_properties->getInterestedEvents());
-                $this->insertAdminForce();
+                $this->insertContainerMembershipNotification();
             }
 
             return;
         }
 
         if ($effective_properties->getNotificationType() === NotificationType::PER_USER) {
-            foreach ($existing_notification_records as $user_id => $row) {
-                $this->setUserId($user_id);
-                $this->setAdminForce($effective_properties->isAdminForceNoti());
-                // For existing users, we keep the flag whether the user is albe to change subcription settings
-                $this->setUserToggle((bool) $row['user_toggle_noti']);
+            $user_ids_with_any_frm_noti_row = array_fill_keys($distinct_user_ids, true);
 
-                if ((int) $row['user_toggle_noti'] === 1) {
-                    // If the user is not allowed to change subscription settings, we reset the "Events of Interest" to default
+            foreach ($distinct_user_ids as $user_id) {
+                $this->setUserId($user_id);
+                $this->setContainerEnforcesNotification($effective_properties->isContainerEnforcingForumNotification());
+                $row = $forum_level_rows[$user_id] ?? null;
+
+                if ($row === null) {
+                    $this->setMemberMayDisableNotification($effective_properties->isMemberMayDeactivateForumNotification());
                     $this->setInterestedEvents($effective_properties->getInterestedEvents());
                 } else {
-                    // We keep existing "Events of Interest" if the user is still allowed to change subcription settings
-                    $this->setInterestedEvents((int) $row['interested_events']);
+                    $this->setMemberMayDisableNotification($row->member_may_disable_noti);
+
+                    if (!$row->member_may_disable_noti) {
+                        $this->setInterestedEvents($effective_properties->getInterestedEvents());
+                    } else {
+                        $this->setInterestedEvents($row->interested_events);
+                    }
                 }
 
                 $this->update();
             }
 
             foreach ($all_context_usr_ids as $user_id) {
-                if (array_key_exists($user_id, $existing_notification_records)) {
+                if (array_key_exists($user_id, $forum_level_rows)) {
+                    continue;
+                }
+
+                if (!isset($user_ids_with_any_frm_noti_row[$user_id])) {
                     continue;
                 }
 
                 $this->setUserId($user_id);
-                $this->setAdminForce($effective_properties->isAdminForceNoti());
-                $this->setUserToggle($effective_properties->isUserToggleNoti());
+                $this->setContainerEnforcesNotification($effective_properties->isContainerEnforcingForumNotification());
+                $this->setMemberMayDisableNotification($effective_properties->isMemberMayDeactivateForumNotification());
                 $this->setInterestedEvents($effective_properties->getInterestedEvents());
-                $this->insertAdminForce();
+                $this->insertContainerMembershipNotification();
             }
         }
     }
