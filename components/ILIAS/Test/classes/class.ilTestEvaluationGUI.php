@@ -18,8 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\Test\Presentation\PrintLayoutProvider;
+use ILIAS\Test\TestDIC;
 use ILIAS\UI\Component\ViewControl\Mode as ViewControlMode;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Panel\Sub as SubPanel;
@@ -138,10 +140,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $attempt_id = ilObjTest::_getResultPass($value);
                     $components = $this->buildAttemptComponents($value, $attempt_id, false, true);
                     return $this->ui_factory->panel()->sub(
-                        $this->buildResultsTitle(
-                            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($value)),
-                            $attempt_id
-                        ),
+                        $this->buildResultsTitle($value, $attempt_id),
                         $components
                     );
                 },
@@ -195,10 +194,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $results_panel = $this->ui_factory->panel()->report(
-            $this->buildResultsTitle(
-                ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($current_active_id)),
-                $attempt_id
-            ),
+            $this->buildResultsTitle($current_active_id, $attempt_id),
             $this->buildAttemptComponents($current_active_id, $attempt_id, true, false)
         );
 
@@ -341,7 +337,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 true
             ),
             $settings,
-            $this->buildResultsTitle($this->user->getFullname(), $pass),
+            $this->buildResultsTitle($active_id, $pass),
             false
         );
 
@@ -827,7 +823,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->http->close();
     }
 
-    protected function buildResultsTitle(string $fullname, int $pass): string
+    protected function buildResultsTitle(int $active_id, int $pass): string
     {
         if ($this->object->getAnonymity()) {
             return sprintf(
@@ -838,7 +834,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
-            $fullname
+            $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName($this->lng)
         );
     }
 
