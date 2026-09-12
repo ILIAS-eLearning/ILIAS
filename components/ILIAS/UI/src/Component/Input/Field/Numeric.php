@@ -28,6 +28,15 @@ use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 interface Numeric extends FilterInput
 {
     /**
+     * Returns the step size used for this numeric input field.
+     * This value specifies the step size used when incrementing or decrementing the field's value
+     * via arrow controls, or during validation checks.
+     *
+     * @return int|float The configured step size of the input field.
+     */
+    public function getStepSize(): int|float;
+
+    /**
      * This will not only set the steps for the input's arrow controls,
      * but will also alter the field's transformation.
      * The value will be the same type as the parameter given here,
