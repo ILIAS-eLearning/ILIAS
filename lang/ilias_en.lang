@@ -17403,8 +17403,8 @@ ui#:#datatable_multiactionmodal_listentry#:#Actions for Entire Table
 ui#:#datatable_multiactionmodal_msg#:#Selected action will affect all entries in this table.
 ui#:#datatable_multiactionmodal_title#:#Actions for Entire Table
 ui#:#drilldown_no_items#:#No Matching Elements
-ui#:#duration_default_label_end#:#end
-ui#:#duration_default_label_start#:#start
+ui#:#duration_default_label_end#:#End
+ui#:#duration_default_label_start#:#Start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
 ui#:#filter_nodes_in#:#Filter Nodes in %s
 ui#:#footer_icons#:#Footer Icons

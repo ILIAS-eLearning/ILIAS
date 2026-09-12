@@ -4898,6 +4898,7 @@ hr.il-divider-with-label {
   padding-left: 9px;
 }
 .il-filter ul.c-field-multiselect,
+.il-filter div.c-field-duration,
 .il-filter .il-filter-add-list ul {
   list-style: none;
   margin: 0;
@@ -4910,6 +4911,10 @@ hr.il-divider-with-label {
   padding: 6px 9px;
   display: block;
   width: 100%;
+}
+.il-filter div.c-field-duration > fieldset > label {
+  margin-bottom: auto;
+  margin-top: auto;
 }
 .il-filter span[data-collapse-glyph-visibility="1"] {
   display: inline;
