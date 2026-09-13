@@ -217,7 +217,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 false,
                 $this->enable_public_notes,
                 $may_delete_comments,
-                $callback
+                $callback,
+                false,
+                !$this->isInWorkspace()
             ));
         }
         // permanent link
@@ -869,7 +871,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $this->enable_public_notes,
             false,
             null,
-            true
+            true,
+            !$this->isInWorkspace()
         );
     }
 
