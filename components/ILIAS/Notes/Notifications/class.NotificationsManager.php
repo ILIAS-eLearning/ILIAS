@@ -30,17 +30,20 @@ class NotificationsManager
     protected InternalDomainService $domain;
     protected InternalRepoService $repo;
     protected InternalDataService $data;
+    protected \ILIAS\Blog\InternalGUIService $blog_gui;
 
     public function __construct(
         InternalDataService $data,
         InternalRepoService $repo,
-        InternalDomainService $domain
+        InternalDomainService $domain,
+        \ILIAS\Blog\InternalGUIService $blog_gui
     ) {
         $this->data = $data;
         $this->repo = $repo;
         $this->domain = $domain;
         $this->settings = $domain->settings();
         $this->access = $domain->access();
+        $this->blog_gui = $blog_gui;
     }
 
     /**
@@ -78,13 +81,23 @@ class NotificationsManager
         $sub_obj_id = $context->getSubObjId();
         $obj_type = $context->getType();
 
-        // repository objects, no blogs
+        // resolve repository references for object-specific notifications
         $ref_ids = array();
-        if (($sub_obj_id === 0 && $obj_type !== "blp") || in_array($obj_type, array("pg", "wpg"), true)) {
+        $wsp_id = 0;
+        if (
+            ($obj_type === "blp" && $context->getInRepository())
+            || ($sub_obj_id === 0 && $obj_type !== "blp")
+            || in_array($obj_type, array("pg", "wpg"), true)
+        ) {
             $obj_title = \ilObject::_lookupTitle($rep_obj_id);
             $type_lv = "obj_" . $obj_type;
             $ref_ids = \ilObject::_getAllReferences($rep_obj_id);
         }
+        if ($obj_type === "blp" && !$context->getInRepository()) {
+            $wsp_id = (new \ilWorkspaceTree(0))->lookupNodeId($rep_obj_id);
+        }
+        $wsp_tree = $wsp_id > 0 ? new \ilWorkspaceTree(0) : null;
+        $wsp_access = $wsp_tree === null ? null : new \ilWorkspaceAccessHandler($wsp_tree);
 
         if ($obj_type === "wpg") {
             $type_lv = "obj_wiki";
@@ -109,6 +122,13 @@ class NotificationsManager
             $login = trim($r);
             if (($user_id = \ilObjUser::_lookupId($login)) > 0) {
                 $link = "";
+                if ($wsp_id > 0 && $wsp_tree !== null && $wsp_access !== null) {
+                    if ($wsp_access->checkAccessOfUser($wsp_tree, $user_id, "read", "", $wsp_id)) {
+                        $link = $this->blog_gui
+                            ->permanentLink(0, $wsp_id)
+                            ->getPermanentLink($sub_obj_id);
+                    }
+                }
                 foreach ($ref_ids as $ref_id) {
                     if ($access->checkAccessOfUser($user_id, "read", "", $ref_id)) {
                         if ($sub_obj_id === 0 && $obj_type !== "blog") {
@@ -123,11 +143,12 @@ class NotificationsManager
                             );
                         } elseif ($obj_type === "pg") {
                             $link = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . "&target=pg_" . $sub_obj_id . "_" . $ref_id;
+                        } elseif ($obj_type === "blp") {
+                            $link = $this->blog_gui
+                                ->permanentLink($ref_id)
+                                ->getPermanentLink($sub_obj_id);
                         }
                     }
-                }
-                if ($obj_type === "blp") {
-                    // todo
                 }
                 if ($obj_type === "pfpg") {
                     $link = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . "&target=prtf_" . $rep_obj_id;
