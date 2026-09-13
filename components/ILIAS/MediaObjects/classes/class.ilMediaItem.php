@@ -736,7 +736,19 @@ class ilMediaItem
      */
     public function getMapWorkCopyType(): string
     {
-        return self::getGDSupportedImageType($this->getSuffix());
+        $type = self::getGDSupportedImageType($this->getSuffix());
+        if ($type !== "") {
+            return $type;
+        }
+
+        $type = match ($this->getFormat()) {
+            "image/jpeg" => "jpg",
+            "image/gif" => "gif",
+            "image/png", "image/svg+xml" => "png",
+            default => ""
+        };
+
+        return self::getGDSupportedImageType($type);
     }
 
     /**
