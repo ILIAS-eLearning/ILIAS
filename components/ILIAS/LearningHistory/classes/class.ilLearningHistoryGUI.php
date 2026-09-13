@@ -198,8 +198,12 @@ class ilLearningHistoryGUI
         $timeline = ilTimelineGUI::getInstance();
         $cnt = 0;
 
+        $max = self::MAX;
+        if (in_array($mode, ['print', 'offline'])) {
+            $max = 10000;
+        }
         reset($entries);
-        while (($e = current($entries)) && $cnt < self::MAX) {
+        while (($e = current($entries)) && $cnt < $max) {
             /** @var ilLearningHistoryEntry $e */
             $timeline->addItem(new ilLearningHistoryTimelineItem(
                 $e,
