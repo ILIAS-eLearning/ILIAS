@@ -335,6 +335,7 @@ export default class PageUI {
 
       const originalHTML = area.innerHTML;
       area.innerHTML = uiModel.dropdown;
+      il.UI.dropdown.init(area.querySelector('div.dropdown'));
 
       this.log(uiModel.dropdown);
 
