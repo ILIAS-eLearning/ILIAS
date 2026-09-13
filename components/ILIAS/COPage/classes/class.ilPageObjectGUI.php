@@ -2579,14 +2579,9 @@ class ilPageObjectGUI
         bool $a_enable_private_notes = true,
         bool $a_enable_public_notes = false,
         bool $a_enable_notes_deletion = false,
-<<<<<<< HEAD
-        ?callable $a_callback = null,
-        bool $export = false
-=======
         callable $a_callback = null,
         bool $export = false,
         bool $a_repository_mode = true
->>>>>>> 149fa416583 (48301: Link to Blog is Missing in the Mail for general notifications about all comments2)
     ): string {
         // scorm 2004 page gui
         if (!$a_content_object) {
