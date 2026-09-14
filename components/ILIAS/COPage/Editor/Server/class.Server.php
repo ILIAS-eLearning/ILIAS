@@ -60,19 +60,14 @@ class Server
     {
         $this->log->debug("Start replying...");
         $query = $this->request->getQueryParams();
-        $post = $this->request->getParsedBody();
 
         try {
-            if (isset($post) && is_array($post) && count($post) > 0) {
-                $body = $post;
-            } else {
-                $body = json_decode($this->request->getBody()->getContents(), true);
-            }
             if (isset($query["component"])) {
                 $action_handler = $this->getActionHandlerForQuery($query);
                 $response = $action_handler->handle($query);
             } else {
                 //sleep(5);
+                $body = $this->getCommandBody($this->request->getParsedBody());
                 $action_handler = $this->getActionHandlerForCommand($query, $body);
                 $response = $action_handler->handle($query, $body);
             }
@@ -88,6 +83,23 @@ class Server
 
         $this->log->debug("... sending response");
         $response->send();
+    }
+
+    /**
+     * @param mixed $post
+     */
+    protected function getCommandBody(mixed $post): array
+    {
+        if (is_array($post) && count($post) > 0) {
+            return $post;
+        }
+
+        $body = json_decode($this->request->getBody()->getContents(), true);
+        if (!is_array($body)) {
+            throw new Exception("Invalid command request body");
+        }
+
+        return $body;
     }
 
     protected function getActionHandlerForQuery(
@@ -115,8 +127,13 @@ class Server
         array $body
     ): CommandActionHandler {
         $handler = null;
+        $component = $body["component"] ?? null;
 
-        switch ($body["component"]) {
+        if (!is_string($component) || $component === "") {
+            throw new Exception("Missing component in command request");
+        }
+
+        switch ($component) {
             case "Paragraph":
                 $handler = new ParagraphCommandActionHandler($this->page_gui);
                 break;
@@ -157,7 +174,7 @@ class Server
         }
 
         if ($handler === null) {
-            throw new Exception("Unknown component " . ((string) $body["component"]));
+            throw new Exception("Unknown component " . $component);
         }
         return $handler;
     }
