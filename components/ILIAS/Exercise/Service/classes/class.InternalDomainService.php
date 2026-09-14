@@ -30,6 +30,7 @@ use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\Submission\DeliveredFilesRetrieval;
 use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
 use ILIAS\Exercise\Submission\TextSubmissionsRetrieval;
+use ILIAS\Exercise\Grades\GradesRetrieval;
 use ILIAS\Exercise\Team\TeamLogRetrieval;
 use ILIAS\Exercise\Team\TeamMembersRetrieval;
 use ILIAS\Exercise\PeerReview\PeerReviewOverviewRetrieval;
@@ -102,6 +103,17 @@ class InternalDomainService
         bool $show_peer_review
     ): TextSubmissionsRetrieval {
         return new TextSubmissionsRetrieval($this, $assignment, $show_peer_review);
+    }
+
+    /**
+     * @param \ilExAssignment[] $assignments
+     */
+    public function gradesRetrieval(
+        \ilObjExercise $exercise,
+        \ilExerciseMembers $members,
+        array $assignments
+    ): GradesRetrieval {
+        return new GradesRetrieval($this, $exercise, $members, $assignments);
     }
 
     public function teamLogRetrieval(\ilExAssignmentTeam $team): TeamLogRetrieval

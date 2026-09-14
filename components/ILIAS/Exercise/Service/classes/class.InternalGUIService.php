@@ -197,6 +197,27 @@ class InternalGUIService
         );
     }
 
+    /**
+     * @param \ilExAssignment[] $assignments
+     */
+    public function gradesTableBuilder(
+        \ilObjExercise $exercise,
+        \ilExerciseMembers $members,
+        array $assignments,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\Grades\GradesTableBuilder {
+        return new \ILIAS\Exercise\Grades\GradesTableBuilder(
+            $this->domain_service,
+            $this,
+            $exercise,
+            $members,
+            $assignments,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function teamLogTableBuilder(
         \ilExAssignmentTeam $team,
         object $parent_gui,
