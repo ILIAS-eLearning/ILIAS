@@ -34,7 +34,7 @@ interface Component
     /**
      * The scheme starts at the leaves of the structure and applies the function
      * to each leave and moves up the tree recursively.
-     * @param Closure(Component, array): mixed $fn
+     * @param \Closure(Component, array): mixed $fn
      */
     public function reduceWith(\Closure $fn): mixed;
 
