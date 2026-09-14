@@ -263,7 +263,7 @@ class ItemsTable implements DataRetrieval
             return $this->records;
         }
 
-        $assigned_items = $this->item_group_items->getItems();
+        $assigned_items = $this->item_group_items->getValidItems();
         $records = [];
 
         foreach ($this->item_group_items->getAssignableItems() as $item) {
