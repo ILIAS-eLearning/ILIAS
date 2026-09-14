@@ -418,7 +418,7 @@ class ilSurveyEditorGUI
                 if (preg_match("/^cb_(\d+)$/", $target, $matches)) {
                     // questions in blocks are not allowed
                     if (in_array($matches[1], $items["questions"])) {
-                        $insert_id = $matches[1];
+                        $insert_id = (int) $matches[1];
                     }
                 }
                 if (!$insert_id && preg_match("/^cb_qb_(\d+)$/", $target, $matches)) {
@@ -575,6 +575,7 @@ class ilSurveyEditorGUI
         $pool_id = ilObject::_lookupObjId($this->request->getSelectedPool());
 
         foreach ($question_ids as $qid) {
+            $qid = (int) $qid;
             // create copy (== pool "original")
             $new_question = ilObjSurvey::_instanciateQuestion($qid);
             $new_question->setId();
