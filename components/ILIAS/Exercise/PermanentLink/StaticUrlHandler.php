@@ -40,7 +40,6 @@ class StaticURLHandler extends BaseHandler implements Handler
         $main_tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
         $uri = null;
-        $exc_domain = $DIC->exercise()->internal()->domain();
 
         $ref_id = $request->getReferenceId()?->toInt() ?? 0;
         $additional_params = $request->getAdditionalParameters() ?? [];
@@ -51,6 +50,11 @@ class StaticURLHandler extends BaseHandler implements Handler
         $ass_id = (int) ($additional_params[0] ?? 0);
         $action = null;
         $member = null;
+
+        if (!$context->exists($ref_id) || ($ass_id > 0
+            && \ilExAssignment::lookupExerciseId($ass_id) !== \ilObject::_lookupObjectId($ref_id))) {
+            return $response_factory->cannot();
+        }
 
         switch ($last) {
             case "download":
@@ -138,11 +142,10 @@ class StaticURLHandler extends BaseHandler implements Handler
             );
         }
         if (is_null($uri)) {
-            if ($exc_domain->user()->isAnonymous() || $exc_domain->user()->getId() == 0) {
+            if (!$context->isUserLoggedIn()) {
                 return $response_factory->loginFirst();
-            } else {
-                return $response_factory->cannot();
             }
+            return $response_factory->cannotReach();
         }
         return $response_factory->can($uri);
     }
