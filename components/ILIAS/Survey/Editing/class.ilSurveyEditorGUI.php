@@ -418,7 +418,7 @@ class ilSurveyEditorGUI
                 if (preg_match("/^cb_(\d+)$/", $target, $matches)) {
                     // questions in blocks are not allowed
                     if (in_array($matches[1], $items["questions"])) {
-                        $insert_id = $matches[1];
+                        $insert_id = (int) $matches[1];
                     }
                 }
                 if (!$insert_id && preg_match("/^cb_qb_(\d+)$/", $target, $matches)) {
