@@ -17089,7 +17089,7 @@ svy#:#svy_status_in_progress#:#En progreso
 svy#:#svy_status_invited#:#Añadido a tareas
 svy#:#svy_user_added_appraisee#:#Encuesta ‘%1’
 svy#:#svy_user_added_appraisee_close_mail#:#La encuesta ha sido cerrada para sus evaluadores.
-svy#:#svy_user_added_appraisee_mail#:#Se le ha añadido a la encuesta como persona evaluada.
+svy#:#svy_user_added_appraisee_mail#:#Se le ha añadido como persona evaluada a la siguiente encuesta. Para acceder a la encuesta, haga clic en el enlace que aparece a continuación.
 svy#:#svy_user_added_rater#:#Encuesta ‘%1’
 svy#:#svy_user_added_rater_mail#:#Se le ha añadido como evaluador a la encuesta.
 svy#:#svy_user_added_rater_reminder_mail#:#Por favor, no olvide evaluar a las siguientes personas:
