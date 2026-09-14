@@ -575,6 +575,7 @@ class ilSurveyEditorGUI
         $pool_id = ilObject::_lookupObjId($this->request->getSelectedPool());
 
         foreach ($question_ids as $qid) {
+            $qid = (int) $qid;
             // create copy (== pool "original")
             $new_question = ilObjSurvey::_instanciateQuestion($qid);
             $new_question->setId();
