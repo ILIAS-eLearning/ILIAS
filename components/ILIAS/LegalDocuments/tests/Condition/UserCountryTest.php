@@ -41,7 +41,8 @@ class UserCountryTest extends TestCase
         $this->assertInstanceOf(UserCountry::class, new UserCountry(
             $this->mock(CriterionContent::class),
             $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UIFactory::class),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         ));
     }
 
@@ -57,7 +58,8 @@ class UserCountryTest extends TestCase
         $instance = new UserCountry(
             $this->mockTree(CriterionContent::class, ['arguments' => ['country' => 'foo']]),
             $this->mock(UserCountryDefinition::class),
-            $this->mockTree(UIFactory::class, ['legacy' => $legacy_factory])
+            $this->mockTree(UIFactory::class, ['legacy' => $legacy_factory]),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         );
 
         $this->assertSame($legacy, $instance->asComponent());
@@ -68,10 +70,18 @@ class UserCountryTest extends TestCase
         $instance = new UserCountry(
             $this->mockTree(CriterionContent::class, ['arguments' => ['country' => 'foo']]),
             $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UIFactory::class),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         );
 
-        $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, ['getCountry' => 'foo'])));
+        $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, [
+            'getProfileData' => new \ILIAS\User\Profile\Data(
+                postal_address: new \ILIAS\Data\Privacy\Types\PostalAddress(
+                    new \ILIAS\Data\Privacy\Types\PostalAddressValue(country: 'foo'),
+                    new \ILIAS\Data\Privacy\Fixtures\UnitTestSource('user_country_condition')
+                )
+            )
+        ])));
     }
 
     public function testDefinition(): void
@@ -80,7 +90,8 @@ class UserCountryTest extends TestCase
         $instance = new UserCountry(
             $this->mock(CriterionContent::class),
             $definition,
-            $this->mock(UIFactory::class)
+            $this->mock(UIFactory::class),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         );
 
         $this->assertSame($definition, $instance->definition());
@@ -91,13 +102,15 @@ class UserCountryTest extends TestCase
         $instance = new UserCountry(
             $this->mock(CriterionContent::class),
             $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UIFactory::class),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         );
 
         $second = new UserCountry(
             $this->mock(CriterionContent::class),
             $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UIFactory::class),
+            new \ILIAS\Data\Privacy\Purpose\Purposes()
         );
 
         $this->assertTrue($instance->knownToNeverMatchWith($second));

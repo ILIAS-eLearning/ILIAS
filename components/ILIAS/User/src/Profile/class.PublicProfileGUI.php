@@ -24,6 +24,7 @@ use ILIAS\User\LocalDIC;
 use ILIAS\User\Context;
 use ILIAS\Badge\PublicUserProfileBadgesRenderer;
 use ILIAS\Language\Language;
+use ILIAS\Data\Privacy\Purpose\Purposes;
 
 /**
  * GUI class for public user profile presentation.
@@ -50,6 +51,7 @@ class PublicProfileGUI
     private \ilRbacSystem $rbac_system;
     private Language $lng;
     private PublicUserProfileBadgesRenderer $badges_renderer;
+    private Purposes $purposes;
 
     public function __construct(int $a_user_id = 0)
     {
@@ -66,6 +68,7 @@ class PublicProfileGUI
         $this->lng = $DIC['lng'];
 
         $this->profile = LocalDIC::dic()[Profile::class];
+        $this->purposes = $DIC[Purposes::class];
 
         $this->profile_request = new GUIRequest(
             $DIC->http(),
@@ -367,16 +370,17 @@ class PublicProfileGUI
             $this->getPublicPref($user, 'public_city') == 'y' ||
             $this->getPublicPref($user, 'public_country') == 'y') {
             $address = [];
+            $postal_address = $user->getProfileData()->getPostalAddress()
+                ?->resolve($this->purposes->displayToUser('public_profile'));
             $val_arr = [
-                'getStreet' => 'street',
-                'getZipcode' => 'zipcode',
-                'getCity' => 'city',
-                'getCountry' => 'country'
+                'street' => $postal_address?->street ?? '',
+                'zipcode' => $postal_address?->zipcode ?? '',
+                'city' => $postal_address?->city ?? '',
+                'country' => $postal_address?->country ?? ''
             ];
-            foreach ($val_arr as $key => $value) {
+            foreach ($val_arr as $value => $address_value) {
                 // if value 'y' show information
                 if ($this->getPublicPref($user, 'public_' . $value) == 'y') {
-                    $address_value = $user->$key();
 
                     // only if set
                     if (trim($address_value) != '') {
@@ -612,6 +616,14 @@ class PublicProfileGUI
 
         $org = [];
         $adr = [];
+        $postal_address = null;
+        if ($user->getPref('public_street') == 'y'
+            || $user->getPref('public_zipcode') == 'y'
+            || $user->getPref('public_city') == 'y'
+            || $user->getPref('public_country') == 'y') {
+            $postal_address = $user->getProfileData()->getPostalAddress()
+                ?->resolve($this->purposes->displayToUser('vcard'));
+        }
         foreach ($val_arr as $key => $value) {
             // if value 'y' show information
             if ($user->getPref('public_' . $value) == 'y') {
@@ -623,16 +635,16 @@ class PublicProfileGUI
                         $org[1] = $user->$key();
                         break;
                     case 'street':
-                        $adr[2] = $user->$key();
+                        $adr[2] = $postal_address?->street ?? '';
                         break;
                     case 'zipcode':
-                        $adr[5] = $user->$key();
+                        $adr[5] = $postal_address?->zipcode ?? '';
                         break;
                     case 'city':
-                        $adr[3] = $user->$key();
+                        $adr[3] = $postal_address?->city ?? '';
                         break;
                     case 'country':
-                        $adr[6] = $user->$key();
+                        $adr[6] = $postal_address?->country ?? '';
                         break;
                     case 'phone_office':
                         $vcard->setPhone($user->$key(), VCard::TEL_TYPE_WORK);

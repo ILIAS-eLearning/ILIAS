@@ -101,6 +101,9 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected \ILIAS\UI\Implementation\Render\JavaScriptBinding $ui_java_script_binding,
         protected \ILIAS\UI\Implementation\Component\SignalGeneratorInterface $ui_signal_generator,
         protected \ILIAS\UI\Implementation\Render\TemplateFactory $ui_template_factory,
+        protected \ILIAS\Data\Privacy\Services $privacy_services,
+        protected \ILIAS\Data\Privacy\Source\Sources $privacy_sources,
+        protected \ILIAS\Data\Privacy\Purpose\Purposes $privacy_purposes,
     ) {
     }
 
@@ -182,6 +185,9 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['ui.javascript_binding'] = fn() => $this->ui_java_script_binding;
         $DIC['ui.signal_generator'] = fn() => $this->ui_signal_generator;
         $DIC['ui.template_factory'] = fn() => $this->ui_template_factory;
+        $DIC[\ILIAS\Data\Privacy\Services::class] = fn() => $this->privacy_services;
+        $DIC[\ILIAS\Data\Privacy\Source\Sources::class] = fn() => $this->privacy_sources;
+        $DIC[\ILIAS\Data\Privacy\Purpose\Purposes::class] = fn() => $this->privacy_purposes;
     }
 
     public function getName(): string

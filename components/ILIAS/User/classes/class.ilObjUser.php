@@ -27,6 +27,7 @@ use ILIAS\User\Profile\Fields\Standard\Interests;
 use ILIAS\User\Profile\Fields\Standard\HelpOffered;
 use ILIAS\User\Profile\Fields\Standard\HelpLookedFor;
 use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
+use ILIAS\Data\Privacy\Purpose\Purposes;
 use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -543,6 +544,16 @@ class ilObjUser extends ilObject
         return $this->profile_data;
     }
 
+    /**
+     * In-place replacement for subclasses that mutate profile data with
+     * a proper privacy source (e.g. authentication providers). Prefer
+     * {@see withProfileData()} where the caller controls the instance.
+     */
+    protected function replaceProfileData(Data $profile_data): void
+    {
+        $this->profile_data = $profile_data;
+    }
+
     public function setLogin(string $login): void
     {
         $this->profile_data = $this->profile_data->withAlias($login);
@@ -636,41 +647,65 @@ class ilObjUser extends ilObject
         return $this->profile_data->getDepartment();
     }
 
+    /**
+     * @deprecated Derive the postal address of {@see getProfileData()} with a real privacy source instead.
+     */
     public function setStreet(string $street): void
     {
         $this->profile_data = $this->profile_data->withStreet($street);
     }
 
+    /**
+     * @deprecated Resolve the postal address of {@see getProfileData()} with a real privacy purpose instead.
+     */
     public function getStreet(): string
     {
         return $this->profile_data->getStreet();
     }
 
+    /**
+     * @deprecated Derive the postal address of {@see getProfileData()} with a real privacy source instead.
+     */
     public function setCity(string $city): void
     {
         $this->profile_data = $this->profile_data->withCity($city);
     }
 
+    /**
+     * @deprecated Resolve the postal address of {@see getProfileData()} with a real privacy purpose instead.
+     */
     public function getCity(): string
     {
         return $this->profile_data->getCity();
     }
 
+    /**
+     * @deprecated Derive the postal address of {@see getProfileData()} with a real privacy source instead.
+     */
     public function setZipcode(string $zipcode): void
     {
         $this->profile_data = $this->profile_data->withZipcode($zipcode);
     }
 
+    /**
+     * @deprecated Resolve the postal address of {@see getProfileData()} with a real privacy purpose instead.
+     */
     public function getZipcode(): string
     {
         return $this->profile_data->getZipcode();
     }
 
+    /**
+     * @deprecated Derive the postal address of {@see getProfileData()} with a real privacy source instead.
+     */
     public function setCountry(string $country): void
     {
         $this->profile_data = $this->profile_data->withCountry($country);
     }
 
+    /**
+     * @deprecated Resolve the postal address of {@see getProfileData()} with a real privacy purpose instead.
+     */
     public function getCountry(): string
     {
         return $this->profile_data->getCountry();
@@ -1543,17 +1578,22 @@ class ilObjUser extends ilObject
         if ($this->getDepartment() !== '') {
             $body .= ($language->txt('department') . ': ' . $this->getDepartment() . "\n");
         }
-        if ($this->getStreet() !== '') {
-            $body .= ($language->txt('street') . ': ' . $this->getStreet() . "\n");
-        }
-        if ($this->getCity() !== '') {
-            $body .= ($language->txt('city') . ': ' . $this->getCity() . "\n");
-        }
-        if ($this->getZipcode() !== '') {
-            $body .= ($language->txt('zipcode') . ': ' . $this->getZipcode() . "\n");
-        }
-        if ($this->getCountry() !== '') {
-            $body .= ($language->txt('country') . ': ' . $this->getCountry() . "\n");
+        $postal_address = $this->profile_data->getPostalAddress()?->resolve(
+            $DIC[Purposes::class]->passToComponent('Mail', 'profile_mail_body')
+        );
+        if ($postal_address !== null) {
+            if ($postal_address->street !== '') {
+                $body .= ($language->txt('street') . ': ' . $postal_address->street . "\n");
+            }
+            if ($postal_address->city !== '') {
+                $body .= ($language->txt('city') . ': ' . $postal_address->city . "\n");
+            }
+            if ($postal_address->zipcode !== '') {
+                $body .= ($language->txt('zipcode') . ': ' . $postal_address->zipcode . "\n");
+            }
+            if ($postal_address->country !== '') {
+                $body .= ($language->txt('country') . ': ' . $postal_address->country . "\n");
+            }
         }
         if ($this->getPhoneOffice() !== '') {
             $body .= ($language->txt('phone_office') . ': ' . $this->getPhoneOffice() . "\n");
