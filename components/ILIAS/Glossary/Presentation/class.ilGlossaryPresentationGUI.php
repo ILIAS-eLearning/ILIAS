@@ -47,7 +47,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected \ilLanguage $lng;
     protected int $tax_node;
     protected int $tax_id;
-    protected \ilObjTaxonomy $tax;
+    protected ?\ilObjTaxonomy $tax = null;
     protected int $term_id;
     protected int $requested_ref_id;
     protected string $requested_letter;
@@ -133,7 +133,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             $this->tax = new ilObjTaxonomy($this->tax_id);
         }
         $requested_tax_node = $request->getTaxNode();
-        if ($requested_tax_node > 1 && $this->tax->getTree()->readRootId() != $requested_tax_node) {
+        if (!is_null($this->tax) && $requested_tax_node > 1 && $this->tax->getTree()->readRootId() != $requested_tax_node) {
             $this->tax_node = $requested_tax_node;
         }
 
