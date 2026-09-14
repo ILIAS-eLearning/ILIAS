@@ -17130,7 +17130,7 @@ svy#:#svy_status_in_progress#:#In progress
 svy#:#svy_status_invited#:#Added to tasks
 svy#:#svy_user_added_appraisee#:#Survey ‘%1’
 svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.
-svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.
+svy#:#svy_user_added_appraisee_mail#:#You have been added to the following survey as an appraisee. To be taken to the survey, click on the link below.
 svy#:#svy_user_added_rater#:#Survey ‘%1’
 svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.
 svy#:#svy_user_added_rater_reminder_mail#:#Please don’t forget to rate the following appraisees:
