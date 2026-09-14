@@ -231,12 +231,42 @@ class ilObjFileBasedLM extends ilObject
         }
 
         // copy content
-        $new_obj->populateByDirectoy($this->getDataDirectory());
+        $this->cloneContainerResource($new_obj);
+
+        // copy legacy content (only relevant for not yet migrated modules)
+        if (is_dir($this->getDataDirectory())) {
+            $new_obj->populateByDirectoy($this->getDataDirectory());
+        }
 
         $new_obj->setStartFile((string) $this->getStartFile());
         $new_obj->update();
 
         return $new_obj;
+    }
+
+    /**
+     * Replace the empty container resource of the target object (created in
+     * ilObjFileBasedLM::create()) by a clone of this object's container.
+     */
+    protected function cloneContainerResource(ilObjFileBasedLM $new_obj): void
+    {
+        $source = $this->getResource();
+        if ($source === null) {
+            return;
+        }
+
+        $target = $new_obj->getResource();
+        if ($target !== null) {
+            $this->irss->manageContainer()->remove(
+                $target->getIdentification(),
+                new ilHTLMStakeholder()
+            );
+        }
+
+        $cloned_rid = $this->irss->manageContainer()->clone(
+            $source->getIdentification()
+        );
+        $new_obj->setRID($cloned_rid->serialize());
     }
 
     public function isInfoEnabled(): bool
