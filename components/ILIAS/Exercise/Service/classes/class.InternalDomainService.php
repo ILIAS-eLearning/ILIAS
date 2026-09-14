@@ -27,6 +27,7 @@ use ILIAS\Exercise\Notification\NotificationManager;
 use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 use ILIAS\Exercise\Submission\SubmissionManager;
+use ILIAS\Exercise\Submission\DeliveredFilesRetrieval;
 use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
 use ILIAS\Exercise\Submission\TextSubmissionsRetrieval;
 use ILIAS\Exercise\Team\TeamLogRetrieval;
@@ -89,6 +90,11 @@ class InternalDomainService
     public function publicSubmissionsRetrieval(\ilExAssignment $assignment): PublicSubmissionsRetrieval
     {
         return new PublicSubmissionsRetrieval($this, $assignment);
+    }
+
+    public function deliveredFilesRetrieval(\ilExSubmission $submission): DeliveredFilesRetrieval
+    {
+        return new DeliveredFilesRetrieval($this, $submission);
     }
 
     public function textSubmissionsRetrieval(

@@ -169,6 +169,20 @@ class InternalGUIService
         );
     }
 
+    public function deliveredFilesTableBuilder(
+        \ilExSubmission $submission,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\Submission\DeliveredFilesTableBuilder {
+        return new \ILIAS\Exercise\Submission\DeliveredFilesTableBuilder(
+            $this->domain_service,
+            $this,
+            $submission,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function textSubmissionsTableBuilder(
         \ilExAssignment $assignment,
         object $parent_gui,
