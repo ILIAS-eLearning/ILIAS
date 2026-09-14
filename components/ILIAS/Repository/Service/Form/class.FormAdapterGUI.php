@@ -252,12 +252,16 @@ class FormAdapterGUI
         string $key,
         string $title,
         string $description = "",
-        ?string $value = null
+        ?string $value = null,
+        ?int $max_limit = null
     ): self {
         $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->textarea($title, $description)
             ->withoutStripTags()
             ->withAdditionalTransformation(new TagsSpaceTransformation());
+        if ($max_limit !== null) {
+            $field = $field->withMaxLimit($max_limit);
+        }
         if (!is_null($value)) {
             $field = $field->withValue($value);
         }

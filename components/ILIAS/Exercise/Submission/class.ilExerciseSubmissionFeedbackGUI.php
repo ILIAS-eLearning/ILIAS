@@ -26,6 +26,8 @@ use ILIAS\Exercise\InternalGUIService;
  */
 class ilExerciseSubmissionFeedbackGUI
 {
+    private const MAX_COMMENT_LENGTH = 4000;
+
     protected InternalDomainService $domain;
     protected InternalGUIService $gui;
     protected ?ilObjExercise $exercise;
@@ -114,7 +116,8 @@ class ilExerciseSubmissionFeedbackGUI
                 "comment",
                 $lng->txt("exc_comment_for_learner"),
                 $lng->txt("exc_comment_for_learner_info"),
-                $ass->getMemberStatus($user_id)->getComment()
+                $ass->getMemberStatus($user_id)->getComment(),
+                self::MAX_COMMENT_LENGTH
             );
 
         return $form;
