@@ -32,7 +32,6 @@ class UpdateStepsV12 implements \ilDatabaseUpdateSteps
     public function step_1(): void
     {
         $this->db->modifyTableColumn('il_resource_flavour', 'variant', [
-            'notnull' => false,
             'length' => 638,
             'type' => \ilDBConstants::T_TEXT,
         ]);
