@@ -24,6 +24,7 @@ use ILIAS\Exercise\InternalDomainService;
 use ILIAS\Exercise\PeerReview\Criteria\CriteriaFileManager;
 use ILIAS\Exercise\InternalRepoService;
 use ILIAS\Exercise\PeerReview\Criteria\CriteriaCatalogueRetrieval;
+use ILIAS\Exercise\PeerReview\Criteria\CriteriaRetrieval;
 
 class DomainService
 {
@@ -54,6 +55,11 @@ class DomainService
     public function criteriaCatalogueRetrieval(int $exc_id): CriteriaCatalogueRetrieval
     {
         return new CriteriaCatalogueRetrieval($this->domain_service, $exc_id);
+    }
+
+    public function criteriaRetrieval(int $cat_id): CriteriaRetrieval
+    {
+        return new CriteriaRetrieval($this->domain_service, $cat_id);
     }
 
 }
