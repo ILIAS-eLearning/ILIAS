@@ -60,6 +60,11 @@ class DomainService
         );
     }
 
+    public function assignmentsRetrieval(int $exercise_id): AssignmentsRetrieval
+    {
+        return new AssignmentsRetrieval($this->domain_service, $exercise_id);
+    }
+
     /**
      * Get random assignment manager.
      * The manager is used if the "Pass Mode" is set to "Random Selection" in the exercise settings.

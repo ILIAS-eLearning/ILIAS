@@ -94,6 +94,20 @@ class GUIService
         );
     }
 
+    public function assignmentsTableBuilder(
+        int $exercise_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): AssignmentsTableBuilder {
+        return new AssignmentsTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $exercise_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function getRandomAssignmentGUI(?\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
     {
         if ($exc === null) {
