@@ -1004,6 +1004,14 @@ class ilExerciseManagementGUI
 
     // Add user as member
 
+    public function showClipboardObject(): void
+    {
+        $rep_search = new ilRepositorySearchGUI();
+        $rep_search->setCallback($this, 'addMembersObject');
+        $this->ctrl->setReturn($this, 'members');
+        $this->ctrl->forwardCommand($rep_search);
+    }
+
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
