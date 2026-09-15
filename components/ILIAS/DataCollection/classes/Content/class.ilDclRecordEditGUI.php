@@ -271,7 +271,7 @@ class ilDclRecordEditGUI
      * init Form
      * @move move parts to RecordRepresentationGUI
      */
-    public function initForm(bool $ui = true): void
+    public function initForm(): void
     {
         $this->form = new ilDclPropertyFormGUI();
         $prefix = ($this->ctrl->isAsynch()) ? 'dclajax' : 'dcl'; // Used by datacolleciton.js to select input elements
@@ -295,37 +295,35 @@ class ilDclRecordEditGUI
         $inline_css = '';
         foreach ($allFields as $field) {
             $field_setting = $field->getViewSetting($this->tableview_id);
-            $item = ilDclCache::getFieldRepresentation($field)->getInputField($this->form, $this->record_id);
-            if ($item === null) {
-                continue; // Fields calculating values at runtime, e.g. ilDclFormulaFieldModel do not have input
-            }
+            if ($field_setting->isVisibleInForm(!$this->record_id)) {
+                $item = ilDclCache::getFieldRepresentation($field)->getInputField($this->form, $this->record_id);
+                if ($item === null) {
+                    continue; // Fields calculating values at runtime, e.g. ilDclFormulaFieldModel do not have input
+                }
 
-            if (!ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()) && $field_setting->isLocked(!$this->record_id)) {
-                $item->setDisabled(true);
-            }
+                if (!ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()) && $field_setting->isLocked(!$this->record_id)) {
+                    $item->setDisabled(true);
+                }
 
-            $item->setRequired($field_setting->isRequired(!$this->record_id));
-            $default_value = null;
+                $item->setRequired($field_setting->isRequired(!$this->record_id));
+                $default_value = null;
 
-            // If creation mode
-            if (!$this->record_id) {
-                $default_value = ilDclTableViewBaseDefaultValue::findSingle(
-                    $field_setting->getFieldObject()->getDatatypeId(),
-                    $field_setting->getId()
-                );
+                // If creation mode
+                if (!$this->record_id) {
+                    $default_value = ilDclTableViewBaseDefaultValue::findSingle(
+                        $field_setting->getFieldObject()->getDatatypeId(),
+                        $field_setting->getId()
+                    );
 
-                if ($default_value !== null) {
-                    if ($item instanceof ilDclCheckboxInputGUI) {
-                        $item->setChecked((bool) $default_value->getValue());
-                    } else {
-                        $item->setValue((string) $default_value->getValue());
+                    if ($default_value !== null) {
+                        if ($item instanceof ilDclCheckboxInputGUI) {
+                            $item->setChecked((bool) $default_value->getValue());
+                        } else {
+                            $item->setValue((string) $default_value->getValue());
+                        }
                     }
                 }
-            }
-            if (!$ui || $field_setting->isVisibleInForm(!$this->record_id)) {
                 $this->form->addItem($item);
-            } else {
-                $this->form->addItem(new ilHiddenInputGUI($item->getPostVar()));
             }
         }
 
@@ -485,7 +483,7 @@ class ilDclRecordEditGUI
         global $DIC;
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-        $this->initForm(false);
+        $this->initForm();
         $this->setFormValues();
 
         // if save confirmation is enabled: Temporary file-uploads need to be handled
@@ -546,7 +544,7 @@ class ilDclRecordEditGUI
                 } catch (ilDclInputException $e) {
                     $valid = false;
                     $item = $this->form->getItemByPostVar('field_' . $field->getId());
-                    $item->setAlert($e->getMessage());
+                    $item?->setAlert($e->getMessage());
                 }
             }
         }
@@ -675,7 +673,7 @@ class ilDclRecordEditGUI
         if ($this->ctrl->isAsynch()) {
             // If ajax request, return the form in edit mode again
             $this->record_id = $record_obj->getId();
-            $this->initForm(false);
+            $this->initForm();
             $this->setFormValues();
             echo ilUtil::getSystemMessageHTML(
                 $this->lng->txt('msg_obj_modified'),
