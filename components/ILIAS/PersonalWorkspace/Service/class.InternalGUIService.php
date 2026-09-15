@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\PersonalWorkspace;
 
+use ILIAS\PersonalWorkspace\PermanentLink\PermanentLinkManager;
 use ILIAS\Repository\GlobalDICGUIServices;
 
 /**
@@ -40,5 +41,10 @@ class InternalGUIService
 
         $this->initGUIServices($DIC);
         $this->domain_service = $domain_service;
+    }
+
+    public function permanentLink(int $wsp_id): PermanentLinkManager
+    {
+        return new PermanentLinkManager($this->DIC['static_url'], $wsp_id);
     }
 }
