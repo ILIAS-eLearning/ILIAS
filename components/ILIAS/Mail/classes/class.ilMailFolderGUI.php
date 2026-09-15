@@ -855,10 +855,12 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
-            $linked_fullname = $sender->getPublicName();
+            $public_name = $sender->getPublicName();
+            $public_name_as_html = $this->encodeForHtml($public_name);
+            $linked_fullname = $public_name_as_html;
             $avatar = $this->ui_factory->symbol()->avatar()->picture(
                 $sender->getPersonalPicturePath('xsmall'),
-                $sender->getPublicName()
+                $public_name
             );
 
             if (in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), ['y', 'g'])) {
@@ -868,7 +870,9 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 $linked_fullname = '<br /><a class="mailusername" href="' . $this->ctrl->getLinkTarget(
                     $this,
                     self::CMD_SHOW_USER
-                ) . '" title="' . $linked_fullname . '">' . $linked_fullname . '</a>';
+                ) . '" title="'
+                    . $this->refinery->encode()->htmlAttributeValue()->transform($public_name)
+                    . '">' . $public_name_as_html . '</a>';
                 $this->ctrl->clearParameters($this);
             }
 
@@ -876,48 +880,36 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             $from->setHtml($this->ui_renderer->render($avatar) . ' ' . $linked_fullname);
         } elseif (!$sender || !$sender->getId()) {
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
-            $from->setHtml(trim(($mailData['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')'));
+            $from->setHtml($this->encodeForHtml(
+                trim(($mailData['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
+            ));
         } else {
+            $mailer_name = ilMail::_getIliasMailerName();
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml(
                 $this->ui_renderer->render(
                     $this->ui_factory
                         ->symbol()
                         ->avatar()
-                        ->picture(ilUtil::getImagePath('logo/HeaderIconAvatar.svg'), ilMail::_getIliasMailerName())
-                ) . '<br />' . ilMail::_getIliasMailerName()
+                        ->picture(ilUtil::getImagePath('logo/HeaderIconAvatar.svg'), $mailer_name)
+                ) . '<br />' . $this->encodeForHtml($mailer_name)
             );
         }
         $form->addItem($from);
 
         $to = new ilCustomInputGUI($this->lng->txt('mail_to') . ':');
-        $to->setHtml(
-            ilUtil::htmlencodePlainString(
-                $this->umail->formatNamesForOutput($mailData['rcp_to'] ?? ''),
-                false
-            )
-        );
+        $to->setHtml($this->encodeRecipientsForHtml($mailData['rcp_to'] ?? ''));
         $form->addItem($to);
 
         if ($mailData['rcp_cc']) {
             $cc = new ilCustomInputGUI($this->lng->txt('mail_cc') . ':');
-            $cc->setHtml(
-                ilUtil::htmlencodePlainString(
-                    $this->umail->formatNamesForOutput($mailData['rcp_cc']),
-                    false
-                )
-            );
+            $cc->setHtml($this->encodeRecipientsForHtml($mailData['rcp_cc'] ?? ''));
             $form->addItem($cc);
         }
 
         if ($mailData['rcp_bcc']) {
             $bcc = new ilCustomInputGUI($this->lng->txt('mail_bcc') . ':');
-            $bcc->setHtml(
-                ilUtil::htmlencodePlainString(
-                    $this->umail->formatNamesForOutput($mailData['rcp_bcc']),
-                    false
-                )
-            );
+            $bcc->setHtml($this->encodeRecipientsForHtml($mailData['rcp_bcc'] ?? ''));
             $form->addItem($bcc);
         }
 
@@ -1110,35 +1102,37 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
 
         $tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));
         if ($sender instanceof ilObjUser && $sender->getId() !== 0 && !$sender->isAnonymous()) {
-            $tplprint->setVariable('FROM', $sender->getPublicName());
+            $tplprint->setVariable('FROM', $this->encodeForHtml($sender->getPublicName()));
         } elseif (!$sender instanceof ilObjUser || 0 === $sender->getId()) {
             $tplprint->setVariable(
                 'FROM',
-                trim(($mailData['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
+                $this->encodeForHtml(
+                    trim(($mailData['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
+                )
             );
         } else {
-            $tplprint->setVariable('FROM', ilMail::_getIliasMailerName());
+            $tplprint->setVariable('FROM', $this->encodeForHtml(ilMail::_getIliasMailerName()));
         }
 
         $tplprint->setVariable('TXT_TO', $this->lng->txt('mail_to'));
-        $tplprint->setVariable('TO', $mailData['rcp_to']);
+        $tplprint->setVariable('TO', $this->encodeForHtml($mailData['rcp_to'] ?? ''));
 
         if ($mailData['rcp_cc']) {
             $tplprint->setCurrentBlock('cc');
             $tplprint->setVariable('TXT_CC', $this->lng->txt('mail_cc'));
-            $tplprint->setVariable('CC', $mailData['rcp_cc']);
+            $tplprint->setVariable('CC', $this->encodeRecipientsForHtml($mailData['rcp_cc'] ?? ''));
             $tplprint->parseCurrentBlock();
         }
 
         if ($mailData['rcp_bcc']) {
             $tplprint->setCurrentBlock('bcc');
             $tplprint->setVariable('TXT_BCC', $this->lng->txt('mail_bcc'));
-            $tplprint->setVariable('BCC', $mailData['rcp_bcc']);
+            $tplprint->setVariable('BCC', $this->encodeRecipientsForHtml($mailData['rcp_bcc'] ?? ''));
             $tplprint->parseCurrentBlock();
         }
 
         $tplprint->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
-        $tplprint->setVariable('SUBJECT', htmlspecialchars($mailData['m_subject']));
+        $tplprint->setVariable('SUBJECT', $this->encodeRecipientsForHtml($mailData['m_subject'] ?? ''));
 
         $tplprint->setVariable('TXT_DATE', $this->lng->txt('date'));
         $tplprint->setVariable(
@@ -1147,7 +1141,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         );
 
         $tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
-        $tplprint->setVariable('MAIL_MESSAGE', nl2br(htmlspecialchars($mailData['m_message'])));
+        $tplprint->setVariable('MAIL_MESSAGE', nl2br($this->encodeForHtml($mailData['m_message'] ?? '')));
 
         $tplprint->show();
     }
@@ -1174,8 +1168,10 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
 
         try {
             if ($mailId > 0 && $filename !== '') {
-                while (str_contains((string) $filename, '..')) {
-                    $filename = str_replace('..', '', $filename);
+                $mail_data = $this->umail->getMail($mailId);
+                if ($mail_data === null ||
+                    !in_array($filename, array_map('md5', (array) ($mail_data['attachments'] ?? [])), true)) {
+                    throw new ilMailException('mail_error_reading_attachment');
                 }
 
                 $mailFileData = new ilFileDataMail($this->user->getId());
@@ -1244,5 +1240,15 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);
             $this->redirectToFolder();
         }
+    }
+
+    private function encodeRecipientsForHtml(string $recipients): string
+    {
+        return $this->encodeForHtml($this->umail->formatNamesForOutput($recipients));
+    }
+
+    private function encodeForHtml(string $value): string
+    {
+        return $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($value);
     }
 }
