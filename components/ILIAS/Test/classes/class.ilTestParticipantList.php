@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
+
 /**
  * Class ilTestParticipantList
  *
@@ -38,7 +40,8 @@ class ilTestParticipantList implements Iterator
         private ilObjTest $test_obj,
         private ilObjUser $user,
         private ilLanguage $lng,
-        private ilDBInterface $db
+        private ilDBInterface $db,
+        private ParticipantRepository $participant_repository
     ) {
     }
 
@@ -140,7 +143,13 @@ class ilTestParticipantList implements Iterator
     {
         $usr_ids = $user_access_filter($this->getAllUserIds());
 
-        $access_filtered_list = new self($this->getTestObj(), $this->user, $this->lng, $this->db);
+        $access_filtered_list = new self(
+            $this->getTestObj(),
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
 
         foreach ($this as $participant) {
             if (in_array($participant->getUsrId(), $usr_ids)) {
@@ -199,7 +208,13 @@ class ilTestParticipantList implements Iterator
 
     public function getScoredParticipantList(): ilTestParticipantList
     {
-        $scored_participant_list = new self($this->getTestObj(), $this->user, $this->lng, $this->db);
+        $scored_participant_list = new self(
+            $this->getTestObj(),
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
 
         $res = $this->db->query($this->buildScoringsQuery());
 
@@ -254,15 +269,30 @@ class ilTestParticipantList implements Iterator
         $rows = [];
 
         foreach ($this as $participant) {
-            $row = [
+            $firstname = $participant->getFirstname();
+            $lastname = $participant->getLastname();
+
+            if ($participant->getUsrId() === ANONYMOUS_USER_ID) {
+                $name = explode(
+                    ',',
+                    $this->participant_repository->getParticipantByActiveId(
+                        $this->test_obj->getTestId(),
+                        $participant->getActiveId()
+                    )->getDisplayName($this->lng)
+                );
+                if (isset($name[0], $name[1])) {
+                    $firstname = explode(' ', trim($name[1]))[0] ?? '';
+                    $lastname = explode(' ', trim($name[0]))[0] ?? '';
+                }
+            }
+
+            $rows[] = [
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
-                'firstname' => $participant->getFirstname(),
-                'lastname' => $participant->getLastname()
+                'firstname' => $firstname,
+                'lastname' => $lastname
             ];
-
-            $rows[] = $row;
         }
 
         return $rows;

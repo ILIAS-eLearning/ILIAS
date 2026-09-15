@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\Data\Range;
@@ -36,6 +37,7 @@ class ScoringByQuestionTableBinder implements DataRetrieval
         private readonly \DateTimeZone $timezone,
         private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private readonly \ilObjTest $test_obj,
+        private readonly ParticipantRepository $participant_repository,
         private readonly int $question_id
     ) {
     }
@@ -169,7 +171,7 @@ class ScoringByQuestionTableBinder implements DataRetrieval
 
                 $row = [
                     "{$active_id}_{$pd->getPass()}",
-                    ScoringByQuestionTable::COLUMN_NAME => $this->buildParticipantName($current_participant),
+                    ScoringByQuestionTable::COLUMN_NAME => $this->buildParticipantName($current_participant, $active_id),
                     ScoringByQuestionTable::COLUMN_ATTEMPT => $pd->getPass() + 1,
                     ScoringByQuestionTable::COLUMN_POINTS_REACHED => $current_pass->getStatusOfAttempt()->isFinished() ? ($question_result['reached'] ?? 0.0) : 0.0,
                     ScoringByQuestionTable::COLUMN_POINTS_AVAILABLE => $current_participant->getQuestionByAttemptAndId($pd->getPass(), $question_id)['points'] ?? 0.0,
@@ -236,12 +238,13 @@ class ScoringByQuestionTableBinder implements DataRetrieval
         );
     }
 
-    private function buildParticipantName(\ilTestEvaluationUserData $participant_data): string
+    private function buildParticipantName(\ilTestEvaluationUserData $participant_data, int $active_id): string
     {
-        if ($this->test_obj->getAnonymity()) {
-            return $this->lng->txt('anonymous');
-        }
-        return $participant_data->getName();
+        $participant = $this->participant_repository->getParticipantByActiveId($this->test_obj->getTestId(), $active_id);
+        $importname = $participant->getImportname();
+        return $participant->getUserId() === ANONYMOUS_USER_ID && $importname !== null && $importname !== ''
+            ? $participant->getDisplayName($this->lng)
+            : $participant_data->getName();
     }
 
     private function buildFinalizedByName(array $feedback_data): string
