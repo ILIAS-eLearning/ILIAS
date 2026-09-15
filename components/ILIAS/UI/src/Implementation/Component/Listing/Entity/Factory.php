@@ -21,16 +21,17 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Listing\Entity;
 
 use ILIAS\UI\Component\Listing\Entity as I;
+use ILIAS\UI\Component\Entity\EntityRetrieval;
 
 class Factory implements I\Factory
 {
-    public function standard(I\RecordToEntity $mapping): Standard
+    public function standard(EntityRetrieval $entity_retrieval): Standard
     {
-        return new Standard($mapping);
+        return new Standard($entity_retrieval);
     }
 
-    public function grid(I\RecordToEntity $mapping): Grid
+    public function grid(EntityRetrieval $entity_retrieval): Grid
     {
-        return new Grid($mapping);
+        return new Grid($entity_retrieval);
     }
 }
