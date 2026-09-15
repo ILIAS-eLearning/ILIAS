@@ -172,7 +172,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $this->join_obj_data = $a_val;
     }
 
-    private function getParentObjFilterExpression(): ?string
+    protected function getParentObjFilterExpression(): ?string
     {
         if ($this->parentObjId) {
             return "qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, ilDBConstants::T_INTEGER)}";
@@ -514,7 +514,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return "CASE WHEN EXISTS ($tax_subquery) THEN TRUE ELSE FALSE END AS taxonomies";
     }
 
-    private function buildBasicQuery(): string
+    protected function buildBasicQuery(): string
     {
         return "{$this->getSelectFieldsExpression()} FROM qpl_questions {$this->getTableJoinExpression()} WHERE qpl_questions.tstamp > 0";
     }
@@ -676,7 +676,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $tax_assignment_data;
     }
 
-    private function isActiveQuestionType(array $questionData): bool
+    protected function isActiveQuestionType(array $questionData): bool
     {
         if (!isset($questionData['plugin'])) {
             return false;
@@ -703,7 +703,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             ->isActive();
     }
 
-    private function getQuestionTypeTranslation(array $question_data): string
+    protected function getQuestionTypeTranslation(array $question_data): string
     {
         if (!($question_data['plugin'] ?? false)) {
             return $this->lng->txt($question_data['type_tag']);
