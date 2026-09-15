@@ -1161,6 +1161,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
     public function saveApacheSettingsObject(): void
     {
+        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
+            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+        }
+
         $form = (new ApacheAuthSettingsForm(
             $this->ref_id,
             $this,
