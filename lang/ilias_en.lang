@@ -1695,6 +1695,8 @@ assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Questions f
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
+assessment#:#tst_participant_last_attempts#:#Last Attempts
+assessment#:#tst_participant_scored_attempts#:#Scored Attempts
 assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Attempt
