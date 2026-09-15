@@ -257,6 +257,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         } else {
                             $link = "lm_pg_" . $a_obj_id . $lang_suffix . ".html";
                         }
+                        if ($a_anchor !== "") {
+                            $link .= "#" . rawurlencode("copganc_" . $a_anchor);
+                        }
                     }
                     break;
 
