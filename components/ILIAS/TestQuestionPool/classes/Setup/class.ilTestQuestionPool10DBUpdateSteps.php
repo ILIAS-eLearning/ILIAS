@@ -47,4 +47,23 @@ class ilTestQuestionPool10DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('qpl_questionpool', 'show_taxonomies');
         }
     }
+
+    /**
+     * Composite index supporting the paginated question browser query
+     * (ilAssQuestionList two-phase loading, phase A) which filters by
+     * obj_fi (eq / IN) and original_id IS NULL and commonly orders by
+     * title. Covers both the pool-internal view (obj_fi = X) and the
+     * "add from pool" browser (obj_fi IN (...)) of ilObjTestGUI.
+     *
+     * Note: ILIAS' ilDBPdoFieldDefinition::checkIndexName limits index
+     * names to 3 characters, hence the short name "i6" (the existing
+     * i1_idx..i5_idx on this table predate that constraint).
+     */
+    public function step_3(): void
+    {
+        $fields = ['obj_fi', 'original_id', 'title'];
+        if (!$this->db->indexExistsByFields('qpl_questions', $fields)) {
+            $this->db->addIndex('qpl_questions', $fields, 'i6');
+        }
+    }
 }
