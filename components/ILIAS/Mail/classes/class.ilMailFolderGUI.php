@@ -1132,7 +1132,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         }
 
         $tplprint->setVariable('TXT_TO', $this->lng->txt('mail_to'));
-        $tplprint->setVariable('TO', $this->encodeForHtml($mail_data['rcp_to'] ?? ''));
+        $tplprint->setVariable('TO', $this->encodeRecipientsForHtml($mail_data['rcp_to'] ?? ''));
 
         if ($mail_data['rcp_cc']) {
             $tplprint->setCurrentBlock('cc');
