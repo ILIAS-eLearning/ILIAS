@@ -26,21 +26,21 @@ use ILIAS\Data\URI;
 
 class Factory implements I\State\Factory
 {
-    public function show(I\IsPromptContent $content): State
-    {
-        return new State($content);
+    public function show(
+        I\IsPromptContent $primary_content,
+        I\IsPromptContent ...$secondary_content
+    ): State {
+        return new State($primary_content)->withSecondaryContent(...$secondary_content);
     }
 
     public function close(): State
     {
-        return (new State(null))
-            ->withCloseModal(true);
+        return new State(null)->withCloseModal(true);
     }
 
     public function redirect(URI $redirect): State
     {
-        return (new State(null))
-            ->withRedirect($redirect);
+        return new State(null)->withRedirect($redirect);
     }
 
 }

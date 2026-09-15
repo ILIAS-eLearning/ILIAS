@@ -127,7 +127,7 @@ export default class Prompt {
    * @return {void}
    */
   #captureForms(doc) {
-    const forms = doc.getElementsByTagName('form');
+    const forms = doc.querySelectorAll('form');
     forms.forEach(
       (form) => {
         form.addEventListener('submit', (e) => {
@@ -146,7 +146,7 @@ export default class Prompt {
    * @return {void}
    */
   #captureLinks(doc) {
-    const links = doc.getElementsByTagName('a');
+    const links = doc.querySelectorAll('a');
     links.forEach(
       (lnk) => {
         const { target } = lnk;
