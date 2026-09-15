@@ -23,6 +23,14 @@ declare(strict_types=1);
  */
 class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 {
+    private ilSearchSettings $search_settings;
+
+    public function __construct(string $quoted_term, string $term)
+    {
+        parent::__construct($quoted_term, $term);
+        $this->search_settings = ilSearchSettings::getInstance();
+    }
+
     /**
      * @return array{login: string, firstname: string, lastname:string}
      */
@@ -110,7 +118,18 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     {
         $outer_conditions = [];
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
-        $outer_conditions[] = 'usr_data.active != ' . $this->db->quote(0, 'integer');
+        if (!$this->search_settings->isInactiveUserVisible()) {
+            $outer_conditions[] = 'usr_data.active != ' . $this->db->quote(0, 'integer');
+        }
+
+        if (!$this->search_settings->isLimitedUserVisible()) {
+            $outer_conditions[] = sprintf(
+                '(usr_data.time_limit_unlimited = %s OR (time_limit_from < %s AND time_limit_until > %s))',
+                $this->db->quote(1, ilDBConstants::T_INTEGER),
+                $this->db->quote(time(), ilDBConstants::T_INTEGER),
+                $this->db->quote(time(), ilDBConstants::T_INTEGER)
+            );
+        }
 
         $field_conditions = [];
         foreach ($this->getFields() as $field) {
