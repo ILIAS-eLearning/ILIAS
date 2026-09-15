@@ -543,7 +543,7 @@ class ilDclRecordEditGUI
                 } catch (ilDclInputException $e) {
                     $valid = false;
                     $item = $this->form->getItemByPostVar('field_' . $field->getId());
-                    $item->setAlert($e->getMessage());
+                    $item?->setAlert($e->getMessage());
                 }
             }
         }
