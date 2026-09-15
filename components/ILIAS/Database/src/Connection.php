@@ -18,15 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Database\PDO;
+namespace ILIAS\Database;
 
-use ilDBInterface;
-use ilDBPdoInterface;
-use ILIAS\Database\FieldDefinition;
-use ILIAS\Database\Connection;
-
-interface Internal extends Connection, ilDBPdoInterface
+/**
+ * Wrapper for the Setup to work, as they require a namespace.
+ */
+interface Connection extends \ilDBInterface
 {
-    public function getFieldDefinition(): ?FieldDefinition;
-    public function getIndexName(string $index_name_base): string;
+
 }

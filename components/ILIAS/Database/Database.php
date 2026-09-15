@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Component\Component;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\Database\Connection;
 
 class Database implements Component
 {
@@ -36,6 +37,9 @@ class Database implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $provide[Connection::class] = static fn(): \ilDBInterface =>
+            (new \ReflectionClass(\ilDBPdo::class))->newLazyProxy(fn() => $GLOBALS['DIC']->database());
+
         $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent =>
             new \ilDatabaseSetupAgent(
                 $pull[Factory::class]
