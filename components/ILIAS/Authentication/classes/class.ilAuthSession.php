@@ -141,7 +141,7 @@ class ilAuthSession
 
     public function isFullyAuthenticated(): bool
     {
-        return $this->isValid() && $this->user_id !== ANONYMOUS_USER_ID;
+        return $this->isValid() && $this->user_id !== ANONYMOUS_USER_ID && $this->user_id > 0;
     }
 
     public function isAnonymouslyAuthenticated(): bool
