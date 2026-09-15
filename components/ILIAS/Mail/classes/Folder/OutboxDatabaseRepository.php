@@ -25,6 +25,7 @@ use Generator;
 use DateTimeZone;
 use ilDBConstants;
 use ilDBInterface;
+use ilFileDataMail;
 use MailDeliveryData;
 use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockFactory;
@@ -88,11 +89,6 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         }
     }
 
-    public function deleteOutboxMail(int $user_id, int $mail_id): void
-    {
-        (new ilMail($user_id))->deleteMails([$mail_id]);
-    }
-
     public function deleteOrphanScheduledMail(int $mail_id): void
     {
         $res = $this->db->queryF(
@@ -106,10 +102,17 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         }
 
         $user_id = (int) ($row['user_id'] ?? 0);
-        if ($user_id <= 0) {
+        if ($user_id > 0) {
+            (new ilMail($user_id))->deleteMails([$mail_id]);
+
             return;
         }
 
-        (new ilMail($user_id))->deleteMails([$mail_id]);
+        (new ilFileDataMail(0))->deassignAttachmentFromDirectory($mail_id);
+        $this->db->manipulateF(
+            'DELETE FROM mail WHERE mail_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$mail_id]
+        );
     }
 }

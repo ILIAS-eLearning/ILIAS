@@ -22,10 +22,10 @@ namespace ILIAS\Mail\Cron;
 
 use ilMail;
 use ilLogger;
-use ilMailError;
 use ilObjUser;
 use Throwable;
 use ilLanguage;
+use ilMailError;
 use ilFormatMail;
 use ilLoggerFactory;
 use MailDeliveryData;
@@ -166,7 +166,7 @@ class ScheduledMailsCron extends CronJob
                 }
 
                 if ($internal_mail_id > 0) {
-                    $this->outbox_repository->deleteOutboxMail($owner_id, $internal_mail_id);
+                    $mailer->deleteMails([$internal_mail_id]);
                 }
                 $sent_count++;
             } catch (Throwable $e) {

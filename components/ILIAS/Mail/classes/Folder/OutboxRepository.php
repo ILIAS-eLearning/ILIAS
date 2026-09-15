@@ -30,7 +30,5 @@ interface OutboxRepository
      */
     public function getOutboxMails(): Generator;
 
-    public function deleteOutboxMail(int $user_id, int $mail_id): void;
-
     public function deleteOrphanScheduledMail(int $mail_id): void;
 }
