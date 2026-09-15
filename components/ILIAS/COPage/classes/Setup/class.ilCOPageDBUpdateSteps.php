@@ -286,4 +286,8 @@ EOT;
             $this->db->manipulate($query);
         }
     }
+    public function step_15(): void
+    {
+        $this->db->modifyTableColumn('page_qst_answer', 'try', ['length' => 4]);
+    }
 }
