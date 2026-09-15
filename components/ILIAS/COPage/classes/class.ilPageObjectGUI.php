@@ -2579,7 +2579,7 @@ class ilPageObjectGUI
         bool $a_enable_private_notes = true,
         bool $a_enable_public_notes = false,
         bool $a_enable_notes_deletion = false,
-        callable $a_callback = null,
+        ?callable $a_callback = null,
         bool $export = false,
         bool $a_repository_mode = true
     ): string {
