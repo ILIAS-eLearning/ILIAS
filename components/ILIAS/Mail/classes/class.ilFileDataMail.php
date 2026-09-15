@@ -99,9 +99,15 @@ class ilFileDataMail extends ilFileData
     public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mailId): array
     {
         $res = $this->db->queryF(
-            "SELECT path FROM mail_attachment WHERE mail_id = %s",
-            ['integer'],
-            [$mailId]
+            '
+                SELECT mail_attachment.path
+                FROM mail_attachment
+                INNER JOIN mail ON mail.mail_id = mail_attachment.mail_id
+                WHERE mail_attachment.mail_id = %s
+                AND mail.user_id = %s
+            ',
+            ['integer', 'integer'],
+            [$mailId, $this->user_id]
         );
 
         if (1 !== $this->db->numRows($res)) {
@@ -313,8 +319,13 @@ class ilFileDataMail extends ilFileData
 
     public function unlinkFile(string $a_filename): bool
     {
-        if (is_file($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename))) {
-            return unlink($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename));
+        if (!$this->isValidAttachmentPoolFilename($a_filename)) {
+            return false;
+        }
+
+        $path = $this->getAbsoluteAttachmentPoolPathByFilename($a_filename);
+        if (is_file($path)) {
+            return unlink($path);
         }
 
         return false;
@@ -324,9 +335,21 @@ class ilFileDataMail extends ilFileData
      * Resolves a path for a passed filename in regards of a user's mail attachment pool,
      * meaning attachments not being sent
      */
-    public function getAbsoluteAttachmentPoolPathByFilename(string $fileName): string
+    public function getAbsoluteAttachmentPoolPathByFilename(string $filename): string
     {
-        return $this->getAbsoluteAttachmentPoolPathPrefix() . $fileName;
+        if (!$this->isValidAttachmentPoolFilename($filename)) {
+            throw new InvalidArgumentException('The passed filename must not contain path separators.');
+        }
+
+        return $this->getAbsoluteAttachmentPoolPathPrefix() . $filename;
+    }
+
+    private function isValidAttachmentPoolFilename(string $filename): bool
+    {
+        return $filename !== '' &&
+            !str_contains($filename, "\0") &&
+            !str_contains($filename, '/') &&
+            !str_contains($filename, '\\');
     }
 
     /**
