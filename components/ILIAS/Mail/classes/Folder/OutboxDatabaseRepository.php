@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Folder;
 
+use ilMail;
 use Generator;
 use DateTimeZone;
 use ilDBConstants;
 use ilDBInterface;
+use ilFileDataMail;
 use MailDeliveryData;
 use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockFactory;
-use ilMail;
 
 readonly class OutboxDatabaseRepository implements OutboxRepository
 {
@@ -46,7 +47,8 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         $res = $this->db->queryF(
             <<<'SQL'
             SELECT 
-                mail_id, 
+                mail_id,
+                mail.user_id,
                 rcp_to, 
                 rcp_cc, 
                 rcp_bcc, 
@@ -80,9 +82,37 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                     $row['m_message'],
                     $row['attachments'],
                     (bool) ($row['use_placeholders'] ?? false),
-                    isset($row['mail_id']) ? (int) $row['mail_id'] : null
+                    (int) $row['mail_id'],
+                    (int) $row['user_id']
                 );
             }
         }
+    }
+
+    public function deleteOrphanScheduledMail(int $mail_id): void
+    {
+        $res = $this->db->queryF(
+            'SELECT user_id FROM mail WHERE mail_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$mail_id]
+        );
+        $row = $this->db->fetchAssoc($res);
+        if (!is_array($row)) {
+            return;
+        }
+
+        $user_id = (int) ($row['user_id'] ?? 0);
+        if ($user_id > 0) {
+            (new ilMail($user_id))->deleteMails([$mail_id]);
+
+            return;
+        }
+
+        (new ilFileDataMail(0))->deassignAttachmentFromDirectory($mail_id);
+        $this->db->manipulateF(
+            'DELETE FROM mail WHERE mail_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$mail_id]
+        );
     }
 }

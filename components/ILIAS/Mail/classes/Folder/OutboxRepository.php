@@ -29,4 +29,6 @@ interface OutboxRepository
      * @return Generator<MailDeliveryData>
      */
     public function getOutboxMails(): Generator;
+
+    public function deleteOrphanScheduledMail(int $mail_id): void;
 }
