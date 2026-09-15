@@ -148,3 +148,12 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 .panel-viewcontrols {
 	z-index: $il-z-index-content;
 }
+
+.panel-viewcontrols > .btn {
+    margin-right: var(--l-bar__gap--elements);
+    margin-bottom: var(--l-bar__element__margin-bottom);
+}
+
+.panel-viewcontrols > .btn:last-child {
+    margin-right: 0;
+}

@@ -13304,6 +13304,15 @@ tr.c-table-data__row.c-table-data__row--drag-settle {
   z-index: 994;
 }
 
+.panel-viewcontrols > .btn {
+  margin-right: var(--l-bar__gap--elements);
+  margin-bottom: var(--l-bar__element__margin-bottom);
+}
+
+.panel-viewcontrols > .btn:last-child {
+  margin-right: 0;
+}
+
 /* Component parts from old delos.scss */
 div#agreement {
   width: 100%;

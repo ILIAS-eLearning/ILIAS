@@ -381,7 +381,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 }
                 $this->addSortOption(
                     $sorting,
-                    '<span data-action="' . $sorting . '">' . $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting) . '</span>',
+                    $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
                     $sorting === $this->view_settings->getEffectiveSortingMode()
                 );
             }
@@ -540,20 +540,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     public function getViewControlsForPanel(): array
     {
         global $DIC;
-        if (!$this->manual_sort_modal) {
+        $sorting = $this->view_settings->getEffectiveSortingMode();
+        if (!$this->manual_sort_modal || ilPDSelectedItemsBlockConstants::SORT_MANUALLY !== $sorting) {
             return parent::getViewControlsForPanel();
         }
-        $show = $this->manual_sort_modal->getShowSignal();
-        $modal_signals = json_encode(['manually' => (string) $show]);
-        $url = json_encode($this->ctrl->getLinkTarget($this, 'changePDItemSorting'));
-        $signal = $this->signal_generator->create();
-        $code = fn($id) => "il.Dashboard.showModalOnSort($id, $url, '$signal', $modal_signals)";
-        $compontents = array_map(
-            fn($x) => $x instanceof Sortation ? $x->withOnSort($signal)->withAdditionalOnLoadCode($code) : $x,
-            parent::getViewControlsForPanel()
-        );
 
-        return $compontents;
+        $components = parent::getViewControlsForPanel();
+        $components[] = $this->ui->factory()->button()->standard($this->lng->txt('sort'), '')
+            ->withOnClick($show = $this->manual_sort_modal->getShowSignal());
+
+        return $components;
     }
 
     public function viewDashboardObject(): void
