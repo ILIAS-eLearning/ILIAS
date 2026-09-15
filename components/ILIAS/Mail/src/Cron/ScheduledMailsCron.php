@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Cron;
 
 use ilMail;
+use ilLogger;
+use ilMailError;
 use ilObjUser;
 use Throwable;
 use ilLanguage;
@@ -106,29 +108,29 @@ class ScheduledMailsCron extends CronJob
         $job_result = new JobResult();
         $job_result->setStatus(JobResult::STATUS_OK);
 
-        ilLoggerFactory::getLogger('mail')->info('Start sending scheduled mails from all users.');
+        $this->getLogger()->info('Start sending scheduled mails from all users.');
 
         $mails = $this->outbox_repository->getOutboxMails();
         $sent_count = 0;
+        /** @var list<string> $problem_summaries */
         $problem_summaries = [];
         /** @var array<int, ilFormatMail> $format_mails_by_owner */
         $format_mails_by_owner = [];
-        /** @var array<int, ilMail> $mails_by_owner */
-        $mails_by_owner = [];
 
         foreach ($mails as $mail) {
             /** @var MailDeliveryData $mail */
             $owner_id = $mail->getUserId();
-            $internal_mail_id = $mail->getInternalMailId();
-            $mail_id_label = (string) ($internal_mail_id ?? 'unknown');
+            $internal_mail_id = $mail->getInternalMailId() ?? 0;
 
-            if ($owner_id === null) {
-                $problem = 'Scheduled mail ' . $mail_id_label . ': missing owner user_id.';
-                ilLoggerFactory::getLogger('mail')->error($problem);
-                if ($internal_mail_id !== null) {
-                    $this->deleteOrphanScheduledMail($internal_mail_id);
+            if ($owner_id <= 0) {
+                $this->getLogger()->error(
+                    'Scheduled mail {mail_id} has no valid owner user_id.',
+                    ['mail_id' => $internal_mail_id]
+                );
+                if ($internal_mail_id > 0) {
+                    $this->outbox_repository->deleteOrphanScheduledMail($internal_mail_id);
                 }
-                $problem_summaries[] = $problem;
+                $problem_summaries[] = $this->buildShortProblemSummary($internal_mail_id, 'missing owner');
 
                 continue;
             }
@@ -151,23 +153,38 @@ class ScheduledMailsCron extends CronJob
                 );
 
                 if ($errors !== []) {
-                    $problem = 'Scheduled mail ' . $mail_id_label . ': ' . implode(', ', $errors);
-                    ilLoggerFactory::getLogger('mail')->error($problem);
-                    $problem_summaries[] = $problem;
+                    $this->getLogger()->error(
+                        'Scheduled mail {mail_id} could not be sent: {errors}',
+                        [
+                            'mail_id' => $internal_mail_id,
+                            'errors' => $this->formatMailErrorsForLog($errors),
+                        ]
+                    );
+                    $problem_summaries[] = $this->buildShortProblemSummary($internal_mail_id, 'not sent');
 
                     continue;
                 }
 
-                if ($internal_mail_id !== null) {
-                    ($mails_by_owner[$owner_id] ??= new ilMail($owner_id))->deleteMails([$internal_mail_id]);
+                if ($internal_mail_id > 0) {
+                    $this->outbox_repository->deleteOutboxMail($owner_id, $internal_mail_id);
                 }
                 $sent_count++;
             } catch (Throwable $e) {
-                $problem = 'Scheduled mail ' . $mail_id_label . ': ' . $e->getMessage();
-                ilLoggerFactory::getLogger('mail')->error(
-                    $problem . "\n" . $e->getTraceAsString()
+                $this->getLogger()->error(
+                    'Scheduled mail {mail_id} could not be sent: {message}',
+                    [
+                        'mail_id' => $internal_mail_id,
+                        'message' => $e->getMessage(),
+                    ]
                 );
-                $problem_summaries[] = $problem;
+                $this->getLogger()->error(
+                    'Scheduled mail {mail_id} stack trace: {trace}',
+                    [
+                        'mail_id' => $internal_mail_id,
+                        'trace' => $e->getTraceAsString(),
+                    ]
+                );
+                $problem_summaries[] = $this->buildShortProblemSummary($internal_mail_id, 'error');
             } finally {
                 if ($mailer !== null) {
                     $mailer->autoresponder()->disableAutoresponder();
@@ -175,8 +192,9 @@ class ScheduledMailsCron extends CronJob
             }
         }
 
-        ilLoggerFactory::getLogger('mail')->info(
-            'Sent ' . $sent_count . ' scheduled mails and removed them from outbox.'
+        $this->getLogger()->info(
+            'Sent {sent_count} scheduled mails and removed them from outbox.',
+            ['sent_count' => $sent_count]
         );
         $job_result->setMessage($this->buildResultMessage($sent_count, $problem_summaries));
 
@@ -199,14 +217,30 @@ class ScheduledMailsCron extends CronJob
         );
     }
 
-    private function deleteOrphanScheduledMail(int $mail_id): void
+    private function buildShortProblemSummary(int $mail_id, string $reason): string
     {
-        global $DIC;
+        return 'Mail ' . ($mail_id > 0 ? (string) $mail_id : 'unknown') . ': ' . $reason;
+    }
 
-        $DIC->database()->manipulateF(
-            'DELETE FROM mail WHERE mail_id = %s',
-            ['integer'],
-            [$mail_id]
-        );
+    /**
+     * @param list<ilMailError> $errors
+     */
+    private function formatMailErrorsForLog(array $errors): string
+    {
+        $formatted_errors = [];
+        foreach ($errors as $error) {
+            $formatted_error = $error->getLanguageVariable();
+            if ($error->getPlaceHolderValues() !== []) {
+                $formatted_error .= ' (' . implode(', ', $error->getPlaceHolderValues()) . ')';
+            }
+            $formatted_errors[] = $formatted_error;
+        }
+
+        return implode('; ', $formatted_errors);
+    }
+
+    private function getLogger(): ilLogger
+    {
+        return ilLoggerFactory::getLogger('mail');
     }
 }

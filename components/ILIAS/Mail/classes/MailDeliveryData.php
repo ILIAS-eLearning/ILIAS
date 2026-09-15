@@ -29,7 +29,7 @@ final class MailDeliveryData
         private readonly array $attachments,
         private readonly bool $use_placeholder,
         private ?int $internal_mail_id = null,
-        private readonly ?int $user_id = null
+        private readonly int $user_id = 0
     ) {
     }
 
@@ -63,7 +63,7 @@ final class MailDeliveryData
         return $this->attachments;
     }
 
-    public function getUserId(): ?int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -82,6 +82,7 @@ final class MailDeliveryData
     {
         $clone = clone $this;
         $clone->internal_mail_id = $internal_mail_id;
+
         return $clone;
     }
 }

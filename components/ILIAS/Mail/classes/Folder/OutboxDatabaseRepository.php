@@ -81,10 +81,35 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                     $row['m_message'],
                     $row['attachments'],
                     (bool) ($row['use_placeholders'] ?? false),
-                    isset($row['mail_id']) ? (int) $row['mail_id'] : null,
-                    isset($row['user_id']) ? (int) $row['user_id'] : null
+                    (int) $row['mail_id'],
+                    (int) $row['user_id']
                 );
             }
         }
+    }
+
+    public function deleteOutboxMail(int $user_id, int $mail_id): void
+    {
+        (new ilMail($user_id))->deleteMails([$mail_id]);
+    }
+
+    public function deleteOrphanScheduledMail(int $mail_id): void
+    {
+        $res = $this->db->queryF(
+            'SELECT user_id FROM mail WHERE mail_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$mail_id]
+        );
+        $row = $this->db->fetchAssoc($res);
+        if (!is_array($row)) {
+            return;
+        }
+
+        $user_id = (int) ($row['user_id'] ?? 0);
+        if ($user_id <= 0) {
+            return;
+        }
+
+        (new ilMail($user_id))->deleteMails([$mail_id]);
     }
 }
