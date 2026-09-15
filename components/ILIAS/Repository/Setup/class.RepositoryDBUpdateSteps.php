@@ -43,4 +43,23 @@ class RepositoryDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->manipulateF('DELETE FROM il_new_item_grp WHERE type = %s', ['integer'], [2]);
         $this->db->dropTableColumn('il_new_item_grp', 'type');
     }
+
+    public function step_3(): void
+    {
+        $res = $this->db->queryF(
+            'SELECT obj_id FROM object_data WHERE type = %s',
+            ['text'],
+            ['root']
+        );
+        $row = $this->db->fetchAssoc($res);
+        if (!isset($row['obj_id'])) {
+            return;
+        }
+
+        $this->db->update('object_data', [
+            'description' => ['text', ''],
+        ], [
+            'obj_id' => ['integer', (int) $row['obj_id']],
+        ]);
+    }
 }
