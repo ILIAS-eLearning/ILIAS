@@ -47,6 +47,7 @@ class ilBookingGatewayGUI
     protected ilObjUseBookDBRepository $use_book_repo;
     protected string $return_to = "";
     protected ilBookingHelpAdapter $help;
+    protected BookingManager\Access\AccessManager $access;
 
     public function __construct(
         ilObjectGUI $parent_gui,
@@ -67,6 +68,7 @@ class ilBookingGatewayGUI
             ->bookingManager()
             ->internal()
             ->domain();
+        $this->access = $this->domain->access();
 
         $this->lng->loadLanguageModule("book");
 
@@ -147,11 +149,14 @@ class ilBookingGatewayGUI
     {
         $ctrl = $this->ctrl;
 
+        $this->checkRead();
+
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
 
         switch ($next_class) {
             case "ilpropertyformgui":
+                $this->checkManageSettings();
                 $form = $this->initSettingsForm();
                 $ctrl->setReturn($this, 'settings');
                 $ctrl->forwardCommand($form);
@@ -184,7 +189,7 @@ class ilBookingGatewayGUI
 
 
             default:
-                if (in_array($cmd, array("show", "settings", "saveSettings", "selectPool"))) {
+                if (in_array($cmd, array("show", "settings", "saveSettings", "selectPool"), true)) {
                     $this->$cmd();
                 }
         }
@@ -236,7 +241,9 @@ class ilBookingGatewayGUI
                 $ctrl->getLinkTargetByClass("ilbookingreservationsgui", "")
             );
         }
-        if ($this->ref_id === $this->main_host_ref_id) {
+        if ($this->ref_id === $this->main_host_ref_id
+            && $this->access->canManageSettings($this->main_host_ref_id)
+        ) {
             $tabs->addSubTab(
                 "settings",
                 $lng->txt("settings"),
@@ -252,7 +259,9 @@ class ilBookingGatewayGUI
         $ctrl = $this->ctrl;
         if ($this->pools_selected) {
             $ctrl->redirectByClass("ilbookingobjectservicegui");
-        } elseif ($this->ref_id === $this->main_host_ref_id) {
+        } elseif ($this->ref_id === $this->main_host_ref_id
+            && $this->access->canManageSettings($this->main_host_ref_id)
+        ) {
             $ctrl->redirect($this, "settings");
         }
 
@@ -265,6 +274,7 @@ class ilBookingGatewayGUI
 
     protected function settings(): void
     {
+        $this->checkManageSettings();
         $this->setSubTabs("settings");
         $main_tpl = $this->main_tpl;
         $form = $this->initSettingsForm();
@@ -297,6 +307,8 @@ class ilBookingGatewayGUI
 
     public function saveSettings(): void
     {
+        $this->checkManageSettings();
+
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $main_tpl = $this->main_tpl;
@@ -309,6 +321,10 @@ class ilBookingGatewayGUI
                     return (int) $i;
                 }, $b_ids)
                 : [];
+            $b_ids = array_values(array_filter(
+                $b_ids,
+                static fn(int $ref_id): bool => $ref_id > 0 && ilObject::_lookupType($ref_id, true) === "book"
+            ));
 
             if (!$this->checkBookingPoolsForSchedules($b_ids)) {
                 $this->main_tpl->setOnScreenMessage('failure', $lng->txt("book_all_pools_need_schedules"));
@@ -331,6 +347,25 @@ class ilBookingGatewayGUI
         } else {
             $form->setValuesByPost();
             $main_tpl->setContent($form->getHTML());
+        }
+    }
+
+    protected function checkRead(): void
+    {
+        if (!$this->access->canRead($this->ref_id)) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
+            $this->ctrl->redirectByClass('ilrepositorygui', '');
+        }
+    }
+
+    protected function checkManageSettings(): void
+    {
+        if ($this->ref_id !== $this->main_host_ref_id
+            || !$this->access->canManageSettings($this->main_host_ref_id)
+        ) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirect($this, 'show');
         }
     }
 
