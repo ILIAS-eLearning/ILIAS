@@ -34,6 +34,7 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
     public const ACTIVATE = 'activate';
     public const DEACTIVATE = 'deactivate';
     public const EDIT = 'edit';
+    public const PREVIEW = 'preview';
 
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;
@@ -48,7 +49,8 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory,
         private readonly \ILIAS\UI\Renderer $ui_renderer,
-        private readonly AuthPageEditorContext $context
+        private readonly AuthPageEditorContext $context,
+        private readonly bool $has_write_access
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
@@ -113,23 +115,31 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
             'key'
         );
 
-        return [
-            self::EDIT => $this->ui_factory->table()->action()->single(
-                $this->lng->txt('edit'),
-                $overview_url_builder->withParameter($overview_action_parameter, self::EDIT),
-                $overview_row_id
+        $actions = [];
+        $actions[self::EDIT] = $this->ui_factory->table()->action()->single(
+            $this->lng->txt($this->has_write_access ? 'edit' : 'preview'),
+            $overview_url_builder->withParameter(
+                $overview_action_parameter,
+                $this->has_write_access ? self::EDIT : self::PREVIEW
             ),
-            self::ACTIVATE => $this->ui_factory->table()->action()->standard(
+            $overview_row_id
+        );
+
+        if ($this->has_write_access) {
+            $actions[self::ACTIVATE] = $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_activate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::ACTIVATE),
                 $overview_row_id
-            ),
-            self::DEACTIVATE => $this->ui_factory->table()->action()->standard(
+            );
+
+            $actions[self::DEACTIVATE] = $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_deactivate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::DEACTIVATE),
                 $overview_row_id
-            )
-        ];
+            );
+        }
+
+        return $actions;
     }
 
     private function initRecords(): void
