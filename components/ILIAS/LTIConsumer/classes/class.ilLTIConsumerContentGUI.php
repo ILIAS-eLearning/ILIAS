@@ -157,70 +157,12 @@ class ilLTIConsumerContentGUI
 
     protected function getStartButtonTxt11(): string
     {
-        if ($this->object->getOfflineStatus() ||
-            $this->object->isLaunchMethodEmbedded() ||
-            $this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
-            return "";
-        }
-
-        $cmixUser = new ilCmiXapiUser(
-            $this->object->getId(),
-            $this->user->getId(),
-            $this->object->getProvider()->getPrivacyIdent()
+        return \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::renderStartButton(
+            $this->object,
+            $this,
+            $this->dic,
+            $this->lng
         );
-        $user_ident = $cmixUser->getUsrIdent();
-        if ($user_ident == '' || $user_ident == null) {
-            $user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $this->dic->user());
-            $cmixUser->setUsrIdent($user_ident);
-            $cmixUser->save();
-        }
-        $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
-        $context = $ilLTIConsumerLaunch->getContext();
-        $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
-        $contextId = (string) $context["id"];
-        $contextTitle = $context["title"];
-
-        $token = ilCmiXapiAuthToken::fillToken(
-            $this->dic->user()->getId(),
-            $this->object->getRefId(),
-            $this->object->getId()
-        );
-
-        $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
-            '&amp;',
-            '&',
-            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
-        );
-
-        $launchParameters = $this->object->buildLaunchParameters(
-            $cmixUser,
-            $token,
-            $contextType,
-            $contextId,
-            $contextTitle,
-            $returnUrl
-        );
-
-        $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
-        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("show_content") . '" />';
-        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        foreach ($launchParameters as $field => $value) {
-            $output .= sprintf(
-                '<input type="hidden" name="%s" value="%s" />',
-                htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
-                htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
-            ) . "\n";
-        }
-        $output .= $button;
-        $output .= '</form>';
-        $output .= '<span id ="lti_launched" style="display:none">' . $this->lng->txt("launched") . '</span>';
-        $output .= '<script type="text/javascript">
-        function ltilaunch() {
-            document.lti_launch_form.submit();
-            document.getElementById("lti_launch_form").style.display = "none";
-            document.getElementById("lti_launched").style.display = "inline";
-        }</script>';
-        return($output);
     }
 
     protected function getStartButtonTxt13(): string
@@ -349,25 +291,10 @@ class ilLTIConsumerContentGUI
 
     protected function getLaunchParameters(): array
     {
-        $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
-        $launchContext = $ilLTIConsumerLaunch->getContext();
-
-        $launchContextType = ilLTIConsumerLaunch::getLTIContextType($launchContext["type"]);
-        $launchContextId = (string) $launchContext["id"];
-        $launchContextTitle = $launchContext["title"];
-
-        $token = ilCmiXapiAuthToken::fillToken(
-            $this->dic->user()->getId(),
-            $this->object->getRefId(),
-            $this->object->getId()
-        );
-
-        return $this->object->buildLaunchParameters(
+        return \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::resolveLaunchParameters(
+            $this->object,
             $this->cmixUser,
-            $token,
-            $launchContextType,
-            $launchContextId,
-            $launchContextTitle
+            $this->dic
         );
     }
 

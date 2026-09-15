@@ -274,7 +274,7 @@ class ilLTIConsumerResultService
      */
     protected function loadResponse($a_name): string
     {
-        return file_get_contents(__DIR__ . '/../responses/' . $a_name);
+        return file_get_contents(__DIR__ . '/responses/' . $a_name);
     }
 
 

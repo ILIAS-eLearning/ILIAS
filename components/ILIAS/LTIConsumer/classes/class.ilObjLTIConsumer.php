@@ -700,126 +700,28 @@ class ilObjLTIConsumer extends ilObject2
         string $contextTitle,
         ?string $returnUrl = ''
     ): array {
-        global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
-        $DIC->user()->setExternalAccount($cmixUser->getUsrIdent());
-
-        $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
-        //todo if object is in course or group, roles would have to be taken from there s. Mantis 35435 - if necessary Jour Fixe topic
-        //$roles = "Administrator";
-
-        if ($this->getProvider()->getAlwaysLearner() == true) {
-            $roles = "Learner";
-        }
-
-        $resource_link_id = $this->getRefId();
-        if ($this->getProvider()->getUseProviderId() == true) {
-            $resource_link_id = 'p' . $this->getProvider()->getId();
-        }
-
-        $usrImage = '';
-        if ($this->getProvider()->getIncludeUserPicture()) {
-            $usrImage = self::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
-        }
-
-        $documentTarget = "window";
-        if ($this->getLaunchMethod() == self::LAUNCH_METHOD_EMBEDDED) {
-            $documentTarget = "iframe";
-        }
-
-        $nameGiven = '-';
-        $nameFamily = '-';
-        $nameFull = '-';
-        switch ($this->getProvider()->getPrivacyName()) {
-            case ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME:
-                $nameGiven = $DIC->user()->getFirstname();
-                $nameFull = $DIC->user()->getFirstname();
-                break;
-            case ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME:
-                $usrName = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
-                $usrName .= $DIC->user()->getLastname();
-                $nameFamily = $usrName;
-                $nameFull = $usrName;
-                break;
-            case ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME:
-                $nameGiven = $DIC->user()->getFirstname();
-                $nameFamily = $DIC->user()->getLastname();
-                $nameFull = $DIC->user()->getFullname();
-                break;
-        }
-
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
-
-        $emailPrimary = $cmixUser->getUsrIdent();
-        if ($this->getProvider()->getPrivacyIdent() == ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
-            $userIdLTI = strstr($emailPrimary, '@' . ilCmiXapiUser::getIliasUuid(), true);
-        }
-
-        ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
-
-        //ToDo: Check!
-        $provider_custom_params = self::getProviderCustomParamsArray($this->getProvider());
-        $custom_params = $this->getCustomParamsArray();
-        $merged_params = array_merge($provider_custom_params, $custom_params);
-
-        $toolConsumerInstanceGuid = CLIENT_ID . ".";
-        $parseIliasUrl = parse_url(self::getIliasHttpPath());
-        if (array_key_exists("path", $parseIliasUrl)) {
-            $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
-        }
-        $toolConsumerInstanceGuid .= $parseIliasUrl["host"];
-
-        $launch_vars = [
-            "lti_message_type" => "basic-lti-launch-request",
-            "lti_version" => "LTI-1p0",
-            "resource_link_id" => $resource_link_id,
-            "resource_link_title" => $this->getTitle(),
-            "resource_link_description" => $this->getDescription(),
-            "user_id" => $userIdLTI,
-            "user_image" => $usrImage,
-            "roles" => $roles,
-            "lis_person_name_given" => $nameGiven,
-            "lis_person_name_family" => $nameFamily,
-            "lis_person_name_full" => $nameFull,
-            "lis_person_contact_email_primary" => $emailPrimary,
-            "context_id" => $contextId,
-            "context_title" => $contextTitle,
-            "context_label" => $contextType . " " . $contextId,
-            "launch_presentation_locale" => $this->lng->getLangKey(),
-            "launch_presentation_document_target" => $documentTarget,
-            //"launch_presentation_width" => "",
-            //recommended
-            //"launch_presentation_height" => "",
-            //recommended
-            "launch_presentation_return_url" => $returnUrl,
-            "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
-            "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
-                "short_inst_name"
-            ) : CLIENT_ID,
-            "tool_consumer_instance_description" => ilObjSystemFolder::_getHeaderTitle(),
-            "tool_consumer_instance_url" => ilLink::_getLink(ROOT_FOLDER_ID, "root"),
-            //ToDo? "https://vb52p70.example.com/release_5-3/goto.php?target=root_1&client_id=inno",
-            "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
-            "launch_presentation_css_url" => "",
-            "tool_consumer_info_product_family_code" => "ilias",
-            "tool_consumer_info_version" => ILIAS_VERSION,
-            "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => self::getIliasHttpPath(
-            ) . "/ltiresult.php?client_id=" . CLIENT_ID
-        ];
-
-        $OAuthParams = [
-            "url" => $this->getProvider()->getProviderUrl(),
-            "key" => $this->getLaunchKey(),
-            "secret" => $this->getLaunchSecret(),
-            "callback" => "about:blank",
-            "http_method" => "POST",
-            "sign_method" => "HMAC_SHA1",
-            "token" => null,
-            "data" => ($launch_vars + $merged_params)
-        ];
-
-        return ilLTIConsumerLaunch::signOAuth($OAuthParams);
+        // LTI-1p0 basic launch: building the request is entirely owned by
+        // LTI1p1\Consumer now (decisiones.md 2026-09-15). This object still
+        // supplies the per-object/per-provider data because getProvider()'s
+        // privacy/UX fields are genuinely shared with buildLaunchParametersLTI13(),
+        // not 1.1-specific.
+        return \ILIAS\LTI\LTI1p1\Consumer\LaunchParameterBuilder::build(
+            $this->getProvider(),
+            $this->getRefId(),
+            $this->getId(),
+            $this->getTitle(),
+            $this->getDescription(),
+            $this->getLaunchMethod(),
+            $this->getLaunchKey(),
+            $this->getLaunchSecret(),
+            $this->getCustomParamsArray(),
+            $cmixUser,
+            $token,
+            $contextType,
+            $contextId,
+            $contextTitle,
+            $returnUrl
+        );
     }
 
     /**
