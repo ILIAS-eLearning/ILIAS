@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
  * Class ilTestCtrlForwarder
@@ -32,6 +33,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 class ilAssQuestionPageCommandForwarder
 {
     private int $question_id;
+    private readonly ContentStyle $content_style;
 
     public function __construct(
         private readonly ilObjTest $test_obj,
@@ -41,6 +43,9 @@ class ilAssQuestionPageCommandForwarder
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
         private readonly RequestDataCollector $testrequest
     ) {
+        global $DIC;
+
+        $this->content_style = $DIC->contentStyle();
         $this->question_id = $this->testrequest->getQuestionId();
     }
 
@@ -50,12 +55,11 @@ class ilAssQuestionPageCommandForwarder
             $this->ctrl->setParameter($this, 'prev_qid', $this->testrequest->raw('prev_qid'));
         }
 
-        $this->tpl->setCurrentBlock("ContentStyle");
-        $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
-        );
-        $this->tpl->parseCurrentBlock();
+        $this->content_style->gui()->addCss($this->tpl, $this->test_obj->getRefId());
+        $style_id = $this->content_style
+            ->domain()
+            ->styleForRefId($this->test_obj->getRefId())
+            ->getEffectiveStyleId();
 
         // syntax style
         $this->tpl->setCurrentBlock("SyntaxStyle");
@@ -83,6 +87,7 @@ class ilAssQuestionPageCommandForwarder
         $this->ctrl->setReturnByClass(ilAssQuestionPageGUI::class, 'view');
         $this->ctrl->setReturnByClass(ilObjTestGUI::class, ilObjTestGUI::SHOW_QUESTIONS_CMD);
         $page_gui = new ilAssQuestionPageGUI($this->testrequest->getQuestionId());
+        $page_gui->setStyleId($style_id);
 
         $page_gui->setEditPreview(true);
         $page_gui->setQuestionHTML([$q_gui->getObject()->getId() => $q_gui->getPreview(true)]);
