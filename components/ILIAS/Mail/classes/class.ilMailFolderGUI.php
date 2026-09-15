@@ -1115,7 +1115,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         }
 
         $tplprint->setVariable('TXT_TO', $this->lng->txt('mail_to'));
-        $tplprint->setVariable('TO', $this->encodeForHtml($mailData['rcp_to'] ?? ''));
+        $tplprint->setVariable('TO', $this->encodeRecipientsForHtml($mailData['rcp_to'] ?? ''));
 
         if ($mailData['rcp_cc']) {
             $tplprint->setCurrentBlock('cc');
@@ -1132,7 +1132,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         }
 
         $tplprint->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
-        $tplprint->setVariable('SUBJECT', $this->encodeRecipientsForHtml($mailData['m_subject'] ?? ''));
+        $tplprint->setVariable('SUBJECT', $this->encodeForHtml($mailData['m_subject'] ?? ''));
 
         $tplprint->setVariable('TXT_DATE', $this->lng->txt('date'));
         $tplprint->setVariable(
