@@ -182,25 +182,45 @@ class ilFFmpeg
         string $path,
         int $sec = 1
     ): string {
-        $zip = self::escapeShellArg($zip);
+        $zip_archive = new \ZipArchive();
+        if ($zip_archive->open($zip) !== true) {
+            return "";
+        }
+
         $tfile = ilFileUtils::ilTempnam();
-        $tmp_file = self::escapeShellArg($tfile);
 
         $path = ltrim($path, "/");
+        $video_stream = false;
         foreach ([$path, "/" . $path] as $path_in_zip) {
-            $command1 = "unzip -p $zip " . self::escapeShellArg($path_in_zip) . " > $tmp_file";
-            shell_exec($command1);
-            clearstatcache(true, $tfile);
-            if (is_file($tfile) && filesize($tfile) > 0) {
+            $video_stream = $zip_archive->getStream($path_in_zip);
+            if (is_resource($video_stream)) {
                 break;
             }
         }
 
+        if (!is_resource($video_stream)) {
+            $zip_archive->close();
+            return "";
+        }
+
+        $tmp_stream = fopen($tfile, "wb");
+        if (!is_resource($tmp_stream)) {
+            fclose($video_stream);
+            $zip_archive->close();
+            return "";
+        }
+        stream_copy_to_stream($video_stream, $tmp_stream);
+        fclose($tmp_stream);
+        fclose($video_stream);
+        $zip_archive->close();
+
+        clearstatcache(true, $tfile);
         if (!is_file($tfile) || filesize($tfile) === 0) {
             unlink($tfile);
             return "";
         }
 
+        $tmp_file = self::escapeShellArg($tfile);
         $command2 = self::getCmd() . " -i $tmp_file -f image2 -vframes 1 -ss $sec -vcodec png pipe:1";
 
         $ret = (string) shell_exec($command2);
