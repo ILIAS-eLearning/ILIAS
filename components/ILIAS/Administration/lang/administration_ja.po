@@ -522,6 +522,10 @@ msgstr "言語設定"
 msgid "language_statistics"
 msgstr "統計"
 
+#, fuzzy
+msgid "language_too_many_entries_selected"
+msgstr "Too many entries were selected to save at once. Please narrow your filter and edit the entries in smaller groups."
+
 msgid "language_translation"
 msgstr "ページ翻訳"
 

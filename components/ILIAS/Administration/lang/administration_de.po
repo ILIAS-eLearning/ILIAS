@@ -521,6 +521,9 @@ msgstr "Spracheinstellungen"
 msgid "language_statistics"
 msgstr "Statistik"
 
+msgid "language_too_many_entries_selected"
+msgstr "Es wurden zu viele Einträge zum gleichzeitigen Speichern ausgewählt. Bitte grenzen Sie den Filter weiter ein und bearbeiten Sie die Einträge in kleineren Gruppen."
+
 msgid "language_translation"
 msgstr "Seitenübersetzung"
 

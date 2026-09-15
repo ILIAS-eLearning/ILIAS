@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\UI\URLBuilderToken;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +31,7 @@ class ilObjLanguageExtGUIDispatchTest extends TestCase
     use ilObjLanguageGuiTestSupport;
 
     private const array COMMANDS = [
-        'applyFilter', 'resetFilter', 'save', 'import', 'upload', 'export', 'download', 'maintain',
+        'saveEditedEntries', 'import', 'upload', 'export', 'download', 'maintain',
         'maintainExecute', 'settings', 'saveSettings', 'statistics', 'addNewEntry', 'saveNewEntry',
     ];
 
@@ -64,6 +66,11 @@ class ilObjLanguageExtGUIDispatchTest extends TestCase
             ->onlyMethods(array_map(static fn(string $command): string => $command . 'Object', [...self::COMMANDS, 'view']))
             ->getMock();
         $this->inject($gui, 'ctrl', $ctrl);
+        // no table action in the request: the command dispatch is reached
+        $action_token = $this->createStub(URLBuilderToken::class);
+        $action_token->method('getName')->willReturn('table_action');
+        $this->inject($gui, 'action_token', $action_token);
+        $this->inject($gui, 'request_wrapper', $this->createStub(RequestWrapper::class));
 
         return $gui;
     }

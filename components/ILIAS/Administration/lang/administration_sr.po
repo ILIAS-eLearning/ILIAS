@@ -686,6 +686,10 @@ msgid "language_statistics"
 msgstr "Statistics"
 
 #, fuzzy
+msgid "language_too_many_entries_selected"
+msgstr "Too many entries were selected to save at once. Please narrow your filter and edit the entries in smaller groups."
+
+#, fuzzy
 msgid "language_translation"
 msgstr "Page translation"
 

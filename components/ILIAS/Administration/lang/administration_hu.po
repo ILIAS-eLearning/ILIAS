@@ -522,6 +522,10 @@ msgstr "Nyelvi beállítások"
 msgid "language_statistics"
 msgstr "Statisztika"
 
+#, fuzzy
+msgid "language_too_many_entries_selected"
+msgstr "Too many entries were selected to save at once. Please narrow your filter and edit the entries in smaller groups."
+
 msgid "language_translation"
 msgstr "Oldalfordító"
 

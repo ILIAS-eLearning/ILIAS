@@ -17,6 +17,9 @@
 * Plural forms for modules maintained in PO files: `txt($a_topic, $n)`, `Plural-Forms` evaluated by
   `ILIAS\Language\ComponentTranslation\PluralForms` (pilot modules `tos` and `poll`, see
   [Translations Maintained in PO Files](README.md#translations-maintained-in-po-files))
+* Replaced the deprecated `ilLanguageExtTableGUI` (`ilTable2GUI`) with a read-only KS Data Table
+  (`ilLanguageEntriesTable`) plus a separate `ilPropertyFormGUI` edit screen for the selected entries (KS Data Table
+  has no editable column type)
 
 ## Short Term
 
@@ -35,9 +38,6 @@
 
 ## Mid Term
 
-* Move LegacyUI Table2GUI to KS Data Table - `ilLanguageFolderTable` and `ilLanguageStatisticsTable`
-  already implement the KS `DataRetrieval` table; only `ilLanguageExtTableGUI` (still `extends ilTable2GUI`,
-  used by `ilObjLanguageExtGUI::getViewTable()`) remains to be migrated
 * Remove unused language variables from language files
 * Improving export and import of customised language files
 * Improving online translation tool

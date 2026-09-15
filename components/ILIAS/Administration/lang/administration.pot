@@ -518,6 +518,9 @@ msgstr ""
 msgid "language_statistics"
 msgstr ""
 
+msgid "language_too_many_entries_selected"
+msgstr ""
+
 msgid "language_translation"
 msgstr ""
 

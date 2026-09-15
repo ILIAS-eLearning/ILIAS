@@ -51,20 +51,25 @@ class ilObjLanguageExtGUISaveObjectTest extends TestCase
     }
 
     /**
-     * Partial mock with viewObject() stubbed so its call arguments can be captured.
+     * Partial mock with initEditEntriesForm() stubbed so the arguments of a rejected save can be captured.
      *
-     * @param array<string, string|list<string>> $parsed_body
+     * @param array<string, mixed> $parsed_body
      * @return ilObjLanguageExtGUI&MockObject
      */
-    private function createGuiForSaveObjectWithParsedBody(array $parsed_body): ilObjLanguageExtGUI
-    {
+    private function createGuiForSaveObjectWithParsedBody(
+        array $parsed_body,
+        ilGlobalTemplateInterface $tpl,
+        ilCtrl $ctrl
+    ): ilObjLanguageExtGUI {
         /** @var ilObjLanguageExtGUI&MockObject $gui */
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['viewObject'])
+            ->onlyMethods(['initEditEntriesForm'])
             ->getMock();
 
         $this->inject($gui, 'http', $this->mockHttpWithParsedBody($parsed_body));
+        $this->inject($gui, 'tpl', $tpl);
+        $this->inject($gui, 'ctrl', $ctrl);
         $this->inject($gui, 'lng', $this->createLanguageMockReturningTopicAsIs());
         $this->inject($gui, 'object', $this->createFakeLanguageObject('de'));
         $this->inject($gui, 'refinery', new \ILIAS\Refinery\Factory(
@@ -73,6 +78,22 @@ class ilObjLanguageExtGUISaveObjectTest extends TestCase
         ));
 
         return $gui;
+    }
+
+    private function templateExpectingTheSavedSuccess(): ilGlobalTemplateInterface
+    {
+        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $tpl->expects($this->once())->method('setOnScreenMessage')->with('success', 'language_variables_saved', true);
+
+        return $tpl;
+    }
+
+    private function ctrlExpectingTheRedirectToView(): ilCtrl
+    {
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->expects($this->once())->method('redirect')->with($this->isInstanceOf(ilObjLanguageExtGUI::class), 'view');
+
+        return $ctrl;
     }
 
     /** Seeds the static cache of ilLanguageFile::_getGlobalLanguageFile() with an empty fake: findInvalidMarkupOfChangedValues() reads the shipped value from it. */
@@ -102,7 +123,7 @@ class ilObjLanguageExtGUISaveObjectTest extends TestCase
         return $db;
     }
 
-    public function testSaveObjectRejectsEverythingWhenAnyValueHasDisallowedMarkupAndNamesEveryAffectedKeyEscaped(): void
+    public function testSaveEditedEntriesRejectsEverythingWhenAnyValueHasDisallowedMarkupAndNamesEveryAffectedKeyEscaped(): void
     {
         $this->seedEmptyGlobalLanguageFile('de');
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
@@ -112,34 +133,41 @@ class ilObjLanguageExtGUISaveObjectTest extends TestCase
         $logger_factory->method('getComponentLogger')->willReturn($this->createStub(ilLogger::class));
         $GLOBALS['DIC']['ilLoggerFactory'] = static fn() => $logger_factory;
 
-        $gui = $this->createGuiForSaveObjectWithParsedBody([
-            'common#:#yes' => '<script>alert(1)</script>',
-            'common#:#yes#:#comment' => '',
-            // the KEY itself contains HTML-significant characters (a form field name)
-            'other<b>#:#x' => '<script>alert(2)</script>',
-            'other<b>#:#x#:#comment' => '',
-        ]);
-        $this->inject($gui, 'object', $this->createFakeLanguageObject('de'));
-        $gui->expects($this->once())->method('viewObject')->with(
-            0,
-            [],
-            $this->callback(static function (array $messages): bool {
-                $message = $messages[0] ?? '';
+        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $tpl->expects($this->once())->method('setOnScreenMessage')->with(
+            'failure',
+            $this->callback(static function (string $message): bool {
                 return str_contains($message, 'common#:#yes')
                     && str_contains($message, '&lt;b&gt;')
                     && !str_contains($message, '<b>#:#x')
                     && !str_contains($message, 'alert(1)')
                     && !str_contains($message, 'alert(2)')
                     && str_contains($message, 'common#:#yes: &lt;script&gt;');
-            }),
+            })
+        );
+        $tpl->expects($this->once())->method('setContent');
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->expects($this->never())->method('redirect');
+
+        $gui = $this->createGuiForSaveObjectWithParsedBody([
+            // the name itself contains HTML-significant characters
+            'entry_name' => ['common#:#yes', 'other<b>#:#x'],
+            'translation' => ['<script>alert(1)</script>', '<script>alert(2)</script>'],
+            'comment' => ['', ''],
+            'expected_entry_count' => '2',
+        ], $tpl, $ctrl);
+        $this->inject($gui, 'object', $this->createFakeLanguageObject('de'));
+        // shown again with the input of this save
+        $gui->expects($this->once())->method('initEditEntriesForm')->with(
+            ['common#:#yes', 'other<b>#:#x'],
             $this->callback(static fn(array $values): bool => ($values['common#:#yes'] ?? null) === '<script>alert(1)</script>'),
             $this->identicalTo(['common#:#yes' => '', 'other<b>#:#x' => ''])
-        );
+        )->willReturn($this->createStub(ilPropertyFormGUI::class));
 
-        $gui->saveObject();
+        $gui->saveEditedEntriesObject();
     }
 
-    public function testSaveObjectTransformsLineBreaksAndDoubleLessThanBeforeCheckingThenSaves(): void
+    public function testSaveEditedEntriesTransformsLineBreaksAndDoubleLessThanBeforeCheckingThenSaves(): void
     {
         if (!defined('ILIAS_ABSOLUTE_PATH')) {
             define('ILIAS_ABSOLUTE_PATH', realpath(__DIR__ . '/../../../../'));
@@ -181,35 +209,39 @@ class ilObjLanguageExtGUISaveObjectTest extends TestCase
 
         $lng = $GLOBALS['DIC']->language();
         $gui = $this->createGuiForSaveObjectWithParsedBody([
-            'testmodule' . $lng->separator . 'greeting' => "<b>x</b>\r\n",
-            'testmodule' . $lng->separator . 'greeting' . $lng->separator . 'comment' => '',
-        ]);
+            'entry_name' => ['testmodule' . $lng->separator . 'greeting'],
+            'translation' => ["<b>x</b>\r\n"],
+            'comment' => [''],
+            'expected_entry_count' => '1',
+        ], $this->templateExpectingTheSavedSuccess(), $this->ctrlExpectingTheRedirectToView());
         $this->inject($gui, 'object', $this->createFakeLanguageObject('zz_saveobject_test'));
-        $gui->expects($this->once())->method('viewObject')->with(1, []);
+        $gui->expects($this->never())->method('initEditEntriesForm');
 
-        $gui->saveObject();
+        $gui->saveEditedEntriesObject();
 
         $this->assertSame(['greeting' => '<b>x</b><br />'], $captured_lang_array);
     }
 
-    public function testSaveObjectIgnoresAValueAndACommentSentAsArray(): void
+    public function testSaveEditedEntriesIgnoresAValueAndACommentSentAsArray(): void
     {
         $this->seedEmptyGlobalLanguageFile('de');
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
         $GLOBALS['DIC']['ilDB'] = fn() => $this->databaseThatMustNeverBeWrittenTo();
         $GLOBALS['DIC']['lng'] = fn() => $this->createStub(ilLanguage::class);
         $gui = $this->createGuiForSaveObjectWithParsedBody([
-            'common#:#yes' => ['x'],
-            'common#:#yes#:#comment' => ['y'],
-        ]);
-        $gui->expects($this->once())->method('viewObject')->with(1, []);
+            'entry_name' => ['common#:#yes'],
+            'translation' => [['x']],
+            'comment' => [['y']],
+            'expected_entry_count' => '1',
+        ], $this->templateExpectingTheSavedSuccess(), $this->ctrlExpectingTheRedirectToView());
+        $gui->expects($this->never())->method('initEditEntriesForm');
         $warnings = [];
         set_error_handler(static function (int $number, string $message) use (&$warnings): bool {
             $warnings[] = $message;
             return true;
         });
         try {
-            $gui->saveObject();
+            $gui->saveEditedEntriesObject();
         } finally {
             restore_error_handler();
         }
