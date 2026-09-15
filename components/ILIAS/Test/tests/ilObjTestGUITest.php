@@ -134,4 +134,63 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         ;
         $testObj->cancelCreateQuestionObject();
     }
+
+    public function testDispatchQuestionPreviewCommandDirectly(): void
+    {
+        $ctrl_mock = $this->createMock(ilCtrl::class);
+        $this->setGlobalVariable('ilCtrl', $ctrl_mock);
+        $testObj = $this->getNewTestGUI();
+        $preview_gui = $this->getMockBuilder(ilAssQuestionPreviewGUI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['showCmd'])
+            ->getMock();
+
+        $ctrl_mock
+            ->expects($this->once())
+            ->method('getNextClass')
+            ->with($preview_gui)
+            ->willReturn('');
+        $ctrl_mock
+            ->expects($this->never())
+            ->method('forwardCommand');
+        $preview_gui
+            ->expects($this->once())
+            ->method('showCmd');
+
+        self::callMethod(
+            $testObj,
+            'dispatchQuestionPreviewCommand',
+            [$preview_gui, ilAssQuestionPreviewGUI::CMD_SHOW]
+        );
+    }
+
+    public function testDispatchQuestionPreviewCommandToChildGui(): void
+    {
+        $ctrl_mock = $this->createMock(ilCtrl::class);
+        $this->setGlobalVariable('ilCtrl', $ctrl_mock);
+        $testObj = $this->getNewTestGUI();
+        $preview_gui = $this->getMockBuilder(ilAssQuestionPreviewGUI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['showCmd'])
+            ->getMock();
+
+        $ctrl_mock
+            ->expects($this->once())
+            ->method('getNextClass')
+            ->with($preview_gui)
+            ->willReturn(strtolower(ilAssQuestionHintRequestGUI::class));
+        $ctrl_mock
+            ->expects($this->once())
+            ->method('forwardCommand')
+            ->with($preview_gui);
+        $preview_gui
+            ->expects($this->never())
+            ->method('showCmd');
+
+        self::callMethod(
+            $testObj,
+            'dispatchQuestionPreviewCommand',
+            [$preview_gui, ilAssQuestionPreviewGUI::CMD_SHOW]
+        );
+    }
 }
