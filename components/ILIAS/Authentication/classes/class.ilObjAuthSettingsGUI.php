@@ -886,7 +886,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('authentication_settings');
                 $this->tabs_gui->setSubTabActive('logout_behaviour');
 
-                $gui = new ilAuthLogoutBehaviourGUI();
+                $gui = new ilAuthLogoutBehaviourGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -1055,6 +1055,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
     public function saveApacheSettingsObject(): void
     {
+        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
+            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+        }
+
         $form = $this->getApacheAuthSettingsForm();
         $form->setValuesByPost();
         if ($form->checkInput()) {
