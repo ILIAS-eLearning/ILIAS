@@ -28,7 +28,8 @@ final class MailDeliveryData
         private readonly string $message,
         private readonly array $attachments,
         private readonly bool $use_placeholder,
-        private ?int $internal_mail_id = null
+        private ?int $internal_mail_id = null,
+        private readonly ?int $user_id = null
     ) {
     }
 
@@ -60,6 +61,11 @@ final class MailDeliveryData
     public function getAttachments(): array
     {
         return $this->attachments;
+    }
+
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
     }
 
     public function getInternalMailId(): ?int

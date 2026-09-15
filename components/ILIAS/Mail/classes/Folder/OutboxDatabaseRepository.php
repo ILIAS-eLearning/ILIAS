@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Folder;
 
+use ilMail;
 use Generator;
 use DateTimeZone;
 use ilDBConstants;
@@ -27,7 +28,6 @@ use ilDBInterface;
 use MailDeliveryData;
 use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockFactory;
-use ilMail;
 
 readonly class OutboxDatabaseRepository implements OutboxRepository
 {
@@ -46,7 +46,8 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         $res = $this->db->queryF(
             <<<'SQL'
             SELECT 
-                mail_id, 
+                mail_id,
+                mail.user_id,
                 rcp_to, 
                 rcp_cc, 
                 rcp_bcc, 
@@ -80,7 +81,8 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                     $row['m_message'],
                     $row['attachments'],
                     (bool) ($row['use_placeholders'] ?? false),
-                    isset($row['mail_id']) ? (int) $row['mail_id'] : null
+                    isset($row['mail_id']) ? (int) $row['mail_id'] : null,
+                    isset($row['user_id']) ? (int) $row['user_id'] : null
                 );
             }
         }

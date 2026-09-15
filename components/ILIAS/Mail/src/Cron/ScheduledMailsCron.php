@@ -21,35 +21,25 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Cron;
 
 use ilMail;
-use Generator;
 use ilContext;
 use ilObjUser;
 use Throwable;
 use ilLanguage;
-use DateTimeZone;
 use ilFormatMail;
-use ilDBConstants;
-use ilDBInterface;
 use ilLoggerFactory;
-use DateTimeImmutable;
+use MailDeliveryData;
 use ILIAS\Cron\CronJob;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Data\Clock\ClockFactory;
-use ILIAS\Mail\Folder\MailFolderType;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Cron\Job\Schedule\JobScheduleType;
-use MailDeliveryData;
-use ILIAS\Mail\Folder\OutboxDatabaseRepository;
 use ILIAS\Mail\Folder\OutboxRepository;
-use ILIAS\Mail\Folder\MailScheduleData;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Mail\Folder\OutboxDatabaseRepository;
 
 class ScheduledMailsCron extends CronJob
 {
     private readonly ilLanguage $lng;
     private readonly ilObjUser $user;
     private bool $init_done = false;
-    private readonly ilMail $mail;
-    private readonly ilFormatMail $umail;
     private OutboxRepository $outbox_repository;
 
     private function init(): void
@@ -59,15 +49,13 @@ class ScheduledMailsCron extends CronJob
         if (!$this->init_done) {
             $this->lng = $DIC->language();
             $this->user = $DIC->user();
-            $this->mail = new ilMail($this->user->getId());
-            $this->umail = new ilFormatMail($this->user->getId());
 
             $this->lng->loadLanguageModule('mail');
             $this->init_done = true;
             $this->outbox_repository = new OutboxDatabaseRepository(
                 $DIC->database(),
                 (new DataFactory())->clock(),
-                $this->mail
+                new ilMail($this->user->getId())
             );
         }
     }
@@ -121,16 +109,28 @@ class ScheduledMailsCron extends CronJob
         ilLoggerFactory::getLogger('mail')->info('Start sending scheduled mails from all users.');
 
         $mails = $this->outbox_repository->getOutboxMails();
-        $sent_mail_ids = [];
+        $sent_count = 0;
         foreach ($mails as $mail) {
             /** @var MailDeliveryData $mail */
+            $owner_id = $mail->getUserId();
+            if ($owner_id === null) {
+                ilLoggerFactory::getLogger('mail')->error(
+                    'Scheduled mail with id ' . (string) ($mail->getInternalMailId() ?? 'unknown') . ' has no owner user_id.'
+                );
+                $job_result->setStatus(JobResult::STATUS_FAIL);
+
+                continue;
+            }
+
+            $mailer = null;
+
             try {
-                $mailer = $this->umail
+                $mailer = (new ilFormatMail($owner_id))
                     ->withContextId(ilContext::CONTEXT_CRON);
 
                 $mailer->setSaveInSentbox(true);
-
                 $mailer->autoresponder()->enableAutoresponder();
+
                 $errors = $mailer->enqueue(
                     $mail->getTo(),
                     $mail->getCc(),
@@ -141,27 +141,39 @@ class ScheduledMailsCron extends CronJob
                     $mail->isUsePlaceholder()
                 );
 
-                if (empty($errors)) {
-                    $sent_mail_ids[] = $mail->getInternalMailId();
+                if (!empty($errors)) {
+                    ilLoggerFactory::getLogger('mail')->error(
+                        'Error sending scheduled mail with id ' . (string) ($mail->getInternalMailId() ?? 'unknown') . ': ' .
+                        implode(', ', $errors)
+                    );
+                    $job_result->setStatus(JobResult::STATUS_FAIL);
+
+                    continue;
                 }
+
+                $internal_mail_id = $mail->getInternalMailId();
+                if ($internal_mail_id !== null) {
+                    (new ilMail($owner_id))->deleteMails([$internal_mail_id]);
+                }
+                $sent_count++;
             } catch (Throwable $e) {
                 $job_result->setStatus(JobResult::STATUS_FAIL);
                 ilLoggerFactory::getLogger('mail')->error(
-                    'Error sending scheduled mail with id ' . ((string) ($mail->getInternalMailId() ?? 'unknown')) . ': ' .
-                    $e->getMessage() . '\n' . $e->getTraceAsString()
+                    'Error sending scheduled mail with id ' . (string) ($mail->getInternalMailId() ?? 'unknown') . ': ' .
+                    $e->getMessage() . "\n" . $e->getTraceAsString()
                 );
-                $job_result->setMessage(mb_substr($e->getMessage() . ' ' . $e->getTraceAsString(), 0, 4000));
 
-                return $job_result;
+                continue;
             } finally {
-                $mailer->autoresponder()->disableAutoresponder();
-                $this->mail->deleteMails($sent_mail_ids);
+                if ($mailer !== null) {
+                    $mailer->autoresponder()->disableAutoresponder();
+                }
             }
         }
         ilLoggerFactory::getLogger('mail')->info(
-            'Sent ' . count($sent_mail_ids) . ' scheduled mails and removed them from outbox.'
+            'Sent ' . $sent_count . ' scheduled mails and removed them from outbox.'
         );
-        $job_result->setMessage('Processed ' . count($sent_mail_ids) . ' mails.');
+        $job_result->setMessage('Processed ' . $sent_count . ' mails.');
 
         return $job_result;
     }
