@@ -952,7 +952,7 @@ class ilMailFormGUI
             try {
                 $files = $this->handleAttachments($result['attachments']->getValue());
             } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
                 $this->showForm();
                 return;
             }
@@ -994,7 +994,7 @@ class ilMailFormGUI
         try {
             return $this->handleAttachments($attachments);
         } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
             $this->showForm($form);
             return null;
         }
