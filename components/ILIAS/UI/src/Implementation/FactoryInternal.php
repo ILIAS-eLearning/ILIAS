@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 
 interface FactoryInternal extends \ILIAS\UI\Factory
 {
@@ -89,4 +90,6 @@ interface FactoryInternal extends \ILIAS\UI\Factory
     public function prompt(): I\Prompt\Factory;
 
     public function navigation(): I\Navigation\Factory;
+
+    public function transfer(): I\Transfer\Factory;
 }

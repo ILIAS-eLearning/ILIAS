@@ -12,41 +12,36 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ******************************************************************** */
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
 
 import terser from '@rollup/plugin-terser';
 import copyright from '../../../../../../scripts/Copyright-Checker/copyright.js';
 import preserveCopyright from '../../../../../../scripts/Copyright-Checker/preserveCopyright.js';
 
-export default [
-  {
-    input: './src/mainbar.js',
-    output: {
-      file: './dist/mainbar.js',
-      format: 'es',
-      banner: copyright,
+export default {
+  input: './src/facade.js',
+  external: [
+    'ilias',
+    'document',
+    'window',
+  ],
+  output: {
+    // file: '../../../../../../public/assets/js/transfer.min.js',
+    file: './dist/transfer.min.js',
+    format: 'iife',
+    banner: copyright,
+    globals: {
+      ilias: 'il',
+      document: 'document',
+      window: 'window',
     },
+    plugins: [
+      terser({
+        format: {
+          comments: preserveCopyright,
+        },
+      }),
+    ],
   },
-
-  {
-    input: './src/maincontrols.js',
-    output: {
-      file: './dist/maincontrols.min.js',
-      format: 'iife',
-      banner: copyright,
-      plugins: [
-        terser({
-          format: {
-            comments: preserveCopyright,
-          },
-        }),
-      ],
-      globals: {
-        il: 'il',
-        jquery: '$',
-      },
-    },
-    external: ['il', 'jquery'],
-  },
-
-];
+};
