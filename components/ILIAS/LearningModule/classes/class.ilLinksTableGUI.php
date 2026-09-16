@@ -86,7 +86,7 @@ class ilLinksTableGUI extends ilTable2GUI
             $target = $link["Target"];
             if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);
-                $target_id = $target_arr[count($target_arr) - 1];
+                $target_id = (int) $target_arr[count($target_arr) - 1];
                 $type = $link["Type"];
 
                 switch ($type) {

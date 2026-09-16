@@ -87,7 +87,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
             $target = $int_link["Target"];
             if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);
-                $target_id = $target_arr[count($target_arr) - 1];
+                $target_id = (int) $target_arr[count($target_arr) - 1];
                 $type = $int_link["Type"];
 
                 $targetframe = ($int_link["TargetFrame"] != "")
@@ -125,7 +125,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                                 [$target_id]
                             ) . $anc_add;
                         }
-                        if ($lm_id == "") {
+                        if ($lm_id === 0) {
                             $href = "";
                         }
                         break;
