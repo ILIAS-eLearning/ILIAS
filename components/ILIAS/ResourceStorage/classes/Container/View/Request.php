@@ -35,8 +35,8 @@ final class Request
     public const MODE_AS_PRESENTATION_TABLE = 2;
     public const MODE_AS_ITEMS = 3;
     public const MODE_AS_DECK = 4;
-    public const P_PAGE = 'page';
-    public const P_SORTATION = 'sort';
+    public const P_PAGE = 'irss_page';
+    public const P_SORTATION = 'irss_sort';
     public const BY_CREATION_DATE_DESC = 'by_creation_date_desc';
     public const BY_CREATION_DATE_ASC = 'by_creation_date_asc';
     public const BY_TITLE_DESC = 'by_title_desc';
@@ -45,7 +45,7 @@ final class Request
     public const BY_SIZE_ASC = 'by_size_asc';
     public const BY_TYPE_DESC = 'by_type_desc';
     public const BY_TYPE_ASC = 'by_type_asc';
-    public const P_MODE = 'mode';
+    public const P_MODE = 'irss_view_mode';
     public const P_PATH = 'path';
     private const BASE = './';
     private Mode $mode;
