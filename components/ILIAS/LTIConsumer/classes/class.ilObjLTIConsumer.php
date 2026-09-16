@@ -60,9 +60,7 @@ class ilObjLTIConsumer extends ilObject2
 
     protected string $launchMethod = self::LAUNCH_METHOD_NEW_WIN;
 
-    protected string $customLaunchKey = '';
-
-    protected string $customLaunchSecret = '';
+    protected ?\ILIAS\LTI\LTI1p1\Consumer\ObjectCredentials $lti_1p1_credentials = null;
 
     protected string $customParams = '';
 
@@ -246,24 +244,29 @@ class ilObjLTIConsumer extends ilObject2
         $this->launchMethod = $launchMethod;
     }
 
+    public function getLti1p1Credentials(): \ILIAS\LTI\LTI1p1\Consumer\ObjectCredentials
+    {
+        return $this->lti_1p1_credentials ??= new \ILIAS\LTI\LTI1p1\Consumer\ObjectCredentials();
+    }
+
     public function getCustomLaunchKey(): string
     {
-        return $this->customLaunchKey;
+        return $this->getLti1p1Credentials()->getKey();
     }
 
     public function setCustomLaunchKey(string $customLaunchKey): void
     {
-        $this->customLaunchKey = $customLaunchKey;
+        $this->getLti1p1Credentials()->setKey($customLaunchKey);
     }
 
     public function getCustomLaunchSecret(): string
     {
-        return $this->customLaunchSecret;
+        return $this->getLti1p1Credentials()->getSecret();
     }
 
     public function setCustomLaunchSecret(string $customLaunchSecret): void
     {
-        $this->customLaunchSecret = $customLaunchSecret;
+        $this->getLti1p1Credentials()->setSecret($customLaunchSecret);
     }
 
     public function getCustomParams(): string
@@ -398,8 +401,7 @@ class ilObjLTIConsumer extends ilObject2
 
             $this->setLaunchMethod($row['launch_method']);
 
-            $this->setCustomLaunchKey((string) $row['launch_key']);
-            $this->setCustomLaunchSecret((string) $row['launch_secret']);
+            $this->getLti1p1Credentials()->assignFromDbRow($row);
             $this->setCustomParams((string) $row['custom_params']);
 
             $this->setUseXapi((bool) $row['use_xapi']);
@@ -434,11 +436,9 @@ class ilObjLTIConsumer extends ilObject2
 
         $DIC->database()->replace($this->dbTableName(), [
             'obj_id' => ['integer', $this->getId()]
-        ], [
+        ], $this->getLti1p1Credentials()->getDbFields() + [
             'provider_id' => ['integer', $this->getProviderId()],
             'launch_method' => ['text', $this->getLaunchMethod()],
-            'launch_key' => ['text', $this->getCustomLaunchKey()],
-            'launch_secret' => ['text', $this->getCustomLaunchSecret()],
             'custom_params' => ['text', $this->getCustomParams()],
             'use_xapi' => ['integer', $this->getUseXapi()],
             'activity_id' => ['text', $this->getCustomActivityId()],

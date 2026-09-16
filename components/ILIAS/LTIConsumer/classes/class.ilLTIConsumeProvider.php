@@ -49,11 +49,7 @@ class ilLTIConsumeProvider
 
     protected string $provider_url = '';
 
-    protected string $provider_key = '';
-
-    protected string $provider_secret = '';
-
-    protected bool $provider_key_customizable = true;
+    protected ?\ILIAS\LTI\LTI1p1\Consumer\ProviderCredentials $lti_1p1_credentials = null;
 
     protected string $provider_icon_filename = '';
 
@@ -307,34 +303,39 @@ class ilLTIConsumeProvider
         $this->provider_url = $this->preventClientIdInUrl($provider_url);
     }
 
+    public function getLti1p1Credentials(): \ILIAS\LTI\LTI1p1\Consumer\ProviderCredentials
+    {
+        return $this->lti_1p1_credentials ??= new \ILIAS\LTI\LTI1p1\Consumer\ProviderCredentials();
+    }
+
     public function getProviderKey(): string
     {
-        return $this->provider_key;
+        return $this->getLti1p1Credentials()->getKey();
     }
 
     public function setProviderKey(string $provider_key): void
     {
-        $this->provider_key = $provider_key;
+        $this->getLti1p1Credentials()->setKey($provider_key);
     }
 
     public function getProviderSecret(): string
     {
-        return $this->provider_secret;
+        return $this->getLti1p1Credentials()->getSecret();
     }
 
     public function setProviderSecret(string $provider_secret): void
     {
-        $this->provider_secret = $provider_secret;
+        $this->getLti1p1Credentials()->setSecret($provider_secret);
     }
 
     public function isProviderKeyCustomizable(): bool
     {
-        return $this->provider_key_customizable;
+        return $this->getLti1p1Credentials()->isKeyCustomizable();
     }
 
     public function setProviderKeyCustomizable(bool $provider_key_customizable): void
     {
-        $this->provider_key_customizable = $provider_key_customizable;
+        $this->getLti1p1Credentials()->setKeyCustomizable($provider_key_customizable);
     }
 
     public function getProviderIconFilename(): string
@@ -865,12 +866,6 @@ class ilLTIConsumeProvider
                     break;
                 case 'provider_url': $this->setProviderUrl($value);
                     break;
-                case 'provider_key': $this->setProviderKey($value);
-                    break;
-                case 'provider_secret': $this->setProviderSecret($value);
-                    break;
-                case 'provider_key_customizable': $this->setProviderKeyCustomizable((bool) $value);
-                    break;
                 case 'provider_icon': $this->setProviderIconFilename($value);
                     break;
                 case 'category': $this->setCategory($value);
@@ -947,6 +942,7 @@ class ilLTIConsumeProvider
                     break;
             }
         }
+        $this->getLti1p1Credentials()->assignFromDbRow($dbRow);
 
         $this->setProviderIcon(new ilLTIConsumeProviderIcon($this->getId()));
         $this->getProviderIcon()->setFilename($this->getProviderIconFilename());
@@ -1035,7 +1031,7 @@ class ilLTIConsumeProvider
     protected function getInsertUpdateFields(): array
     {
         // dump($this->getProviderUrl());exit();
-        return array(
+        return $this->getLti1p1Credentials()->getDbFields() + array(
             'id' => array('integer', $this->getId()),
             'title' => array('text', $this->getTitle()),
             'description' => array('text', $this->getDescription()),
@@ -1043,9 +1039,6 @@ class ilLTIConsumeProvider
             'remarks' => array('text', $this->getRemarks()),
             'time_to_delete' => array('integer', $this->getTimeToDelete()),
             'provider_url' => array('text', $this->getProviderUrl()),
-            'provider_key' => array('text', $this->getProviderKey()),
-            'provider_secret' => array('text', $this->getProviderSecret()),
-            'provider_key_customizable' => array('integer', $this->isProviderKeyCustomizable()),
             'provider_icon' => array('text', $this->getProviderIconFilename()),
             'category' => array('text', $this->getCategory()),
             'provider_xml' => array('text', $this->getProviderXml()),
