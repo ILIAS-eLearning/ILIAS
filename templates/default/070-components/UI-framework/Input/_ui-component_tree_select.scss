@@ -116,7 +116,7 @@
         ~ .c-input-node__select {
           background: $c-drilldown-engaged-bg;
         }
-        > li {
+        &:not(.c-drilldown__menulevel--engagedparent) > li {
           > .c-input-node__select {
             background-color: $c-drilldown-selected-bg;
             position: relative;
@@ -129,7 +129,7 @@
         }
       }
 
-      &.c-drilldown__menulevel--engaged {
+      .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged {
         > .c-drilldown__branch {
           > .c-input-node__select {
             background-color: $c-drilldown-engaged-bg;
