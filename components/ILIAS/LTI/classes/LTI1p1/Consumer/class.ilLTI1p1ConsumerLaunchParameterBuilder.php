@@ -47,7 +47,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
     /**
      * @throws ilWACException
-     * @return array<string, string>
+     * @return array
      */
     public static function build(
         ilLTIConsumeProvider $provider,

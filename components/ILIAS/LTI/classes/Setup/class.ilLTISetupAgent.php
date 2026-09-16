@@ -32,7 +32,7 @@ class ilLTISetupAgent implements Setup\Agent
 
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        throw new \LogicException("Agent has no config.");
+        throw new LogicException("Agent has no config.");
     }
 
     public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
@@ -58,7 +58,7 @@ class ilLTISetupAgent implements Setup\Agent
     }
 
     /**
-     * @return mixed[]
+     * @return array
      */
     public function getMigrations(): array
     {

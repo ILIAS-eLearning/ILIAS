@@ -58,7 +58,7 @@ final class ilLTI1p1ConsumerObjectCredentials
     }
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array
      */
     public function getDbFields(): array
     {

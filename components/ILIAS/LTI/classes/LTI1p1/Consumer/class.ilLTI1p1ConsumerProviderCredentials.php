@@ -72,7 +72,7 @@ final class ilLTI1p1ConsumerProviderCredentials
     }
 
     /**
-     * @return array<string, array{0: string, 1: string|int}>
+     * @return array
      */
     public function getDbFields(): array
     {
