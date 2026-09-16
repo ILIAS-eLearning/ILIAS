@@ -61,12 +61,39 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             $page
         );
         $resource_injector = new COPage\ResourcesInjector($resource_collector);
+        $document_title = $this->getDocumentTitle();
+        $document_language = $this->getDocumentLanguage();
 
         return [
-            function ($tpl) use ($resource_injector) {
+            function ($tpl) use ($resource_injector, $document_title, $document_language) {
+                $tpl->setHeaderPageTitle($document_title);
+                $tpl->setContentLanguage($document_language);
                 $resource_injector->inject($tpl);
             }
         ];
+    }
+
+    private function getDocumentTitle(): string
+    {
+        if (count($this->selected_pages) !== 1) {
+            return $this->wiki->getTitle();
+        }
+
+        $page_title = \ilWikiPage::lookupTitle($this->selected_pages[0]);
+        return $page_title === null
+            ? $this->wiki->getTitle()
+            : $this->wiki->getTitle() . " - " . $page_title;
+    }
+
+    private function getDocumentLanguage(): string
+    {
+        $language = $this->wiki->getObjectProperties()
+            ->getPropertyTranslations()
+            ->getBaseLanguage();
+
+        return $language !== ""
+            ? $language
+            : $this->lng->getContentLanguage();
     }
 
     public function getPages(): array
