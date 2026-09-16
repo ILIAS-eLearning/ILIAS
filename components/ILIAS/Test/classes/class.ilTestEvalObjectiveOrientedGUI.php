@@ -41,7 +41,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
                     $this->lng,
                     $this->ctrl,
                     $this->tpl,
-                    $this->questionrepository,
+                    $this->content_style,
                     $this->testrequest
                 );
                 $forwarder->forward();
