@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
  * Class ilMyTestResultsGUI
@@ -46,7 +46,7 @@ class ilMyTestResultsGUI
         private readonly ilLanguage $lng,
         private readonly ilCtrlInterface $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly ContentStyle $content_style,
         private readonly RequestDataCollector $testrequest
     ) {
     }
@@ -71,7 +71,7 @@ class ilMyTestResultsGUI
                     $this->lng,
                     $this->ctrl,
                     $this->tpl,
-                    $this->questionrepository,
+                    $this->content_style,
                     $this->testrequest,
                     $this->user->getId()
                 );

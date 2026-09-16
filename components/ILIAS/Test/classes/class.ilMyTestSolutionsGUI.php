@@ -19,8 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
  * Class ilMyTestSolutionsGUI
@@ -39,12 +39,10 @@ class ilMyTestSolutionsGUI
 
     public function __construct(
         private readonly ?ilObjTest $test_obj,
-        private readonly ilTestAccess $test_access,
-        private readonly ilTestObjectiveOrientedContainer $objective_parent,
         private readonly ilLanguage $lng,
         private readonly ilCtrlInterface $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly ContentStyle $content_style,
         private readonly RequestDataCollector $testrequest
     ) {
     }
@@ -67,7 +65,7 @@ class ilMyTestSolutionsGUI
                     $this->lng,
                     $this->ctrl,
                     $this->tpl,
-                    $this->questionrepository,
+                    $this->content_style,
                     $this->testrequest
                 );
                 $forwarder->forward();

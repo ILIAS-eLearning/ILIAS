@@ -26,24 +26,18 @@ class ilMyTestSolutionsGUITest extends ilTestBaseTestCase
 {
     private ilMyTestSolutionsGUI $testObj;
     private ilObjTest $test;
-    private ilTestAccess $access;
-    private ilTestObjectiveOrientedContainer $objective_parent;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->test = $this->getTestObjMock();
-        $this->access = $this->createMock(ilTestAccess::class);
-        $this->objective_parent = $this->createMock(ilTestObjectiveOrientedContainer::class);
         $this->testObj = new ilMyTestSolutionsGUI(
             $this->test,
-            $this->access,
-            $this->objective_parent,
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrlInterface::class),
             $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(ILIAS\Style\Content\Service::class),
             $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );
     }
