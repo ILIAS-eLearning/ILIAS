@@ -5273,6 +5273,7 @@ common#:#online_time#:#Czas online (DD:HH:MM:SS)
 common#:#only_active#:#Only Active###07 02 2020 new variable
 common#:#only_inactive#:#Only Inactive###07 02 2020 new variable
 common#:#open#:#Open
+common#:#open_link#:#Open link###05 08 2026 new variable
 common#:#operation#:#Operacja
 common#:#optimize#:#Optymalizuj
 common#:#option#:#Opcja

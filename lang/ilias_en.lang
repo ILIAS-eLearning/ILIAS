@@ -5274,6 +5274,7 @@ common#:#online_time#:#Time online (DD:HH:MM:SS)
 common#:#only_active#:#Only Active
 common#:#only_inactive#:#Only Inactive
 common#:#open#:#Open
+common#:#open_link#:#Open link
 common#:#operation#:#Operation
 common#:#optimize#:#Optimize
 common#:#option#:#Option

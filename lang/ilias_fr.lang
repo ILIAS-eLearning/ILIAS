@@ -5258,6 +5258,7 @@ common#:#online_time#:#Temps en-ligne (JJ:HH:MM:SS)
 common#:#only_active#:#Only Active
 common#:#only_inactive#:#Only Inactive
 common#:#open#:#Open
+common#:#open_link#:#Open link###05 08 2026 new variable
 common#:#operation#:#Opération
 common#:#optimize#:#Optimiser
 common#:#option#:#Option
