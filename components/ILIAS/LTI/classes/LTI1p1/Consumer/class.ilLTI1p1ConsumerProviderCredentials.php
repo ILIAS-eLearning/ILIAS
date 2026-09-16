@@ -18,13 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LTI\LTI1p1\Consumer;
-
 /**
  * OAuth1 key and secret of an external tool. They share the lti_ext_provider row
  * with the LTI Advantage settings of the same provider.
  */
-final class ProviderCredentials
+final class ilLTI1p1ConsumerProviderCredentials
 {
     private string $key = '';
     private string $secret = '';

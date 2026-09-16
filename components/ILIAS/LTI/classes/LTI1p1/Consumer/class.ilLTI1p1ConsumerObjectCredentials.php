@@ -18,13 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LTI\LTI1p1\Consumer;
-
 /**
  * OAuth1 key and secret set on a single LTI consumer object, used instead of the provider
  * credentials when the provider allows customizing them. Stored in lti_consumer_settings.
  */
-final class ObjectCredentials
+final class ilLTI1p1ConsumerObjectCredentials
 {
     private string $key = '';
     private string $secret = '';

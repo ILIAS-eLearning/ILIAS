@@ -18,18 +18,16 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LTI\LTI1p1\Consumer;
-
 use ceLTIc\LTI\OAuth\OAuthConsumer;
 use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 
-final class LaunchParameterBuilder
+final class ilLTI1p1ConsumerLaunchParameterBuilder
 {
     /**
      * OAuth1 consumer key: per object when the provider allows customizing it, global otherwise.
      */
-    public static function resolveLaunchKey(\ilLTIConsumeProvider $provider, string $customLaunchKey): string
+    public static function resolveLaunchKey(ilLTIConsumeProvider $provider, string $customLaunchKey): string
     {
         if ($provider->isProviderKeyCustomizable()) {
             return $customLaunchKey;
@@ -38,7 +36,7 @@ final class LaunchParameterBuilder
         return $provider->getProviderKey();
     }
 
-    public static function resolveLaunchSecret(\ilLTIConsumeProvider $provider, string $customLaunchSecret): string
+    public static function resolveLaunchSecret(ilLTIConsumeProvider $provider, string $customLaunchSecret): string
     {
         if ($provider->isProviderKeyCustomizable()) {
             return $customLaunchSecret;
@@ -48,11 +46,11 @@ final class LaunchParameterBuilder
     }
 
     /**
-     * @throws \ilWACException
+     * @throws ilWACException
      * @return array<string, string>
      */
     public static function build(
-        \ilLTIConsumeProvider $provider,
+        ilLTIConsumeProvider $provider,
         int $refId,
         int $objId,
         string $title,
@@ -61,7 +59,7 @@ final class LaunchParameterBuilder
         string $launchKey,
         string $launchSecret,
         array $customParamsArray,
-        \ilCmiXapiUser $cmixUser,
+        ilCmiXapiUser $cmixUser,
         string $token,
         string $contextType,
         string $contextId,
@@ -69,7 +67,7 @@ final class LaunchParameterBuilder
         ?string $returnUrl = ''
     ): array {
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
+        /* @var ILIAS\DI\Container $DIC */
         $DIC->user()->setExternalAccount($cmixUser->getUsrIdent());
 
         $roles = $DIC->access()->checkAccess('write', '', $refId) ? "Instructor" : "Learner";
@@ -84,11 +82,11 @@ final class LaunchParameterBuilder
 
         $usrImage = '';
         if ($provider->getIncludeUserPicture()) {
-            $usrImage = \ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
+            $usrImage = ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
         }
 
         $documentTarget = "window";
-        if ($launchMethod == \ilObjLTIConsumer::LAUNCH_METHOD_EMBEDDED) {
+        if ($launchMethod == ilObjLTIConsumer::LAUNCH_METHOD_EMBEDDED) {
             $documentTarget = "iframe";
         }
 
@@ -96,37 +94,37 @@ final class LaunchParameterBuilder
         $nameFamily = '-';
         $nameFull = '-';
         switch ($provider->getPrivacyName()) {
-            case \ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME:
+            case ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME:
                 $nameGiven = $DIC->user()->getFirstname();
                 $nameFull = $DIC->user()->getFirstname();
                 break;
-            case \ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME:
+            case ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME:
                 $usrName = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
                 $usrName .= $DIC->user()->getLastname();
                 $nameFamily = $usrName;
                 $nameFull = $usrName;
                 break;
-            case \ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME:
+            case ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME:
                 $nameGiven = $DIC->user()->getFirstname();
                 $nameFamily = $DIC->user()->getLastname();
                 $nameFull = $DIC->user()->getFullname();
                 break;
         }
 
-        $userIdLTI = \ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
+        $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
 
         $emailPrimary = $cmixUser->getUsrIdent();
-        if ($provider->getPrivacyIdent() == \ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
-            $userIdLTI = strstr($emailPrimary, '@' . \ilCmiXapiUser::getIliasUuid(), true);
+        if ($provider->getPrivacyIdent() == ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
+            $userIdLTI = strstr($emailPrimary, '@' . ilCmiXapiUser::getIliasUuid(), true);
         }
 
-        \ilLTIConsumerResult::getByKeys($objId, $DIC->user()->getId(), true);
+        ilLTIConsumerResult::getByKeys($objId, $DIC->user()->getId(), true);
 
-        $provider_custom_params = \ilObjLTIConsumer::getProviderCustomParamsArray($provider);
+        $provider_custom_params = ilObjLTIConsumer::getProviderCustomParamsArray($provider);
         $merged_params = array_merge($provider_custom_params, $customParamsArray);
 
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
-        $parseIliasUrl = parse_url(\ilObjLTIConsumer::getIliasHttpPath());
+        $parseIliasUrl = parse_url(ilObjLTIConsumer::getIliasHttpPath());
         if (array_key_exists("path", $parseIliasUrl)) {
             $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
         }
@@ -155,14 +153,14 @@ final class LaunchParameterBuilder
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
                 "short_inst_name"
             ) : CLIENT_ID,
-            "tool_consumer_instance_description" => \ilObjSystemFolder::_getHeaderTitle(),
-            "tool_consumer_instance_url" => \ilLink::_getLink(ROOT_FOLDER_ID, "root"),
+            "tool_consumer_instance_description" => ilObjSystemFolder::_getHeaderTitle(),
+            "tool_consumer_instance_url" => ilLink::_getLink(ROOT_FOLDER_ID, "root"),
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => \ilObjLTIConsumer::getIliasHttpPath() . "/ltiresult.php?client_id=" . CLIENT_ID
+            "lis_outcome_service_url" => ilObjLTIConsumer::getIliasHttpPath() . "/ltiresult.php?client_id=" . CLIENT_ID
         ];
 
         $OAuthParams = [
@@ -191,7 +189,7 @@ final class LaunchParameterBuilder
      *                )
      *
      * @return array    signed data
-     * @throws \Exception
+     * @throws Exception
      */
     public static function signOAuth(array $a_params): array
     {
@@ -200,7 +198,7 @@ final class LaunchParameterBuilder
                 $method = new OAuthSignatureMethod_HMAC_SHA1();
                 break;
             default:
-                throw new \Exception("Unknown signature method: " . $a_params['sign_method']);
+                throw new Exception("Unknown signature method: " . $a_params['sign_method']);
         }
 
         $consumer = new OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);

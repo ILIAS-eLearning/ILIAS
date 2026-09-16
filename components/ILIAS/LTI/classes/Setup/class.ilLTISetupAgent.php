@@ -18,12 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LTI\Setup;
-
 use ILIAS\Setup;
 use ILIAS\Refinery;
 
-class SetupAgent implements Setup\Agent
+class ilLTISetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
@@ -44,8 +42,8 @@ class SetupAgent implements Setup\Agent
 
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(
-            new \ilLTIDatabaseUpdateSteps()
+        return new ilDatabaseUpdateStepsExecutedObjective(
+            new ilLTIDatabaseUpdateSteps()
         );
     }
 
@@ -56,7 +54,7 @@ class SetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLTIDatabaseUpdateSteps());
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLTIDatabaseUpdateSteps());
     }
 
     /**

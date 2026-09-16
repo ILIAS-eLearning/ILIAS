@@ -18,13 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LTI\Shared\Consumer;
-
 /**
  * Provider availability and mastery score of an LTI consumer object, used to
  * evaluate incoming results from both Basic Outcomes (LTI1p1) and AGS (LTIAdvantage).
  */
-final class ResultProperties
+final class ilLTIConsumerResultProperties
 {
     private function __construct(
         private int $availability,

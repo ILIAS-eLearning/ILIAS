@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-use ILIAS\LTI\Setup\SetupAgent;
-
 class LTI implements Component\Component
 {
     public function init(
@@ -34,7 +32,7 @@ class LTI implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new SetupAgent();
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ilLTISetupAgent();
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "ltiresult.php");

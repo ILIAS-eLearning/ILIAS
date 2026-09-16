@@ -341,7 +341,7 @@ class ilLTIConsumerResultService
      */
     public function readProperties(int $a_obj_id): void
     {
-        $properties = \ILIAS\LTI\Shared\Consumer\ResultProperties::forObject($a_obj_id);
+        $properties = ilLTIConsumerResultProperties::forObject($a_obj_id);
         $this->setAvailability($properties->getAvailability());
         $this->setMasteryScore($properties->getMasteryScore());
     }

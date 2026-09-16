@@ -18,24 +18,22 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LTI\LTI1p1\Consumer;
-
-final class ContentGUI
+final class ilLTI1p1ConsumerLaunchRenderer
 {
     public static function renderLaunch(
-        \ilObjLTIConsumer $object,
-        \ilLTIConsumerContentGUI $guiObject,
-        \ILIAS\DI\Container $dic,
-        \ilLanguage $lng
+        ilObjLTIConsumer $object,
+        ilLTIConsumerContentGUI $guiObject,
+        ILIAS\DI\Container $dic,
+        ilLanguage $lng
     ): void {
-        $logger = \ilLoggerFactory::getLogger('lti');
+        $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 renderLaunch: ref_id=' . $object->getRefId() . ' launch_method=' . $object->getLaunchMethod());
 
         if ($object->isLaunchMethodEmbedded()) {
-            $tpl = new \ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
+            $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
             $tpl->setVariable("EMBEDDED_IFRAME_SRC", $dic->ctrl()->getLinkTarget(
                 $guiObject,
-                \ilLTIConsumerContentGUI::CMD_SHOW_EMBEDDED
+                ilLTIConsumerContentGUI::CMD_SHOW_EMBEDDED
             ));
             $dic->ui()->mainTemplate()->setContent($tpl->get());
         } else {
@@ -47,14 +45,14 @@ final class ContentGUI
      * Sends the auto-submitting launch page for the iframe and ends the request.
      */
     public static function renderEmbeddedLaunch(
-        \ilObjLTIConsumer $object,
-        \ilCmiXapiUser $cmixUser,
-        \ILIAS\DI\Container $dic
+        ilObjLTIConsumer $object,
+        ilCmiXapiUser $cmixUser,
+        ILIAS\DI\Container $dic
     ): void {
-        $logger = \ilLoggerFactory::getLogger('lti');
+        $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 renderEmbeddedLaunch: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
 
-        $tpl = new \ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTI');
+        $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTI');
         foreach (self::resolveLaunchParameters($object, $cmixUser, $dic) as $field => $value) {
             $tpl->setCurrentBlock('launch_parameter');
             $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
@@ -66,7 +64,7 @@ final class ContentGUI
         $tpl->setVariable("DELOS_CSS_HREF", 'assets/css/delos.css' . $v);
         $tpl->setVariable("JQUERY_SRC", 'assets/js/jquery.js' . $v);
 
-        $tpl->setVariable("LOADER_ICON_SRC", \ilUtil::getImagePath("media/loader.svg"));
+        $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
         $tpl->setVariable('LAUNCH_URL', $object->getProvider()->getProviderUrl());
 
         echo $tpl->get();
@@ -74,43 +72,43 @@ final class ContentGUI
     }
 
     public static function renderStartButton(
-        \ilObjLTIConsumer $object,
-        \ilLTIConsumerContentGUI $guiObject,
-        \ILIAS\DI\Container $dic,
-        \ilLanguage $lng
+        ilObjLTIConsumer $object,
+        ilLTIConsumerContentGUI $guiObject,
+        ILIAS\DI\Container $dic,
+        ilLanguage $lng
     ): string {
-        $logger = \ilLoggerFactory::getLogger('lti');
+        $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 renderStartButton: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
 
         if (
             $object->getOfflineStatus() ||
             $object->isLaunchMethodEmbedded() ||
-            $object->getProvider()->getAvailability() == \ilLTIConsumeProvider::AVAILABILITY_NONE
+            $object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE
         ) {
             $logger->info('LTI1p1 renderStartButton: skipped (offline, embedded or provider unavailable)');
             return "";
         }
 
-        $cmixUser = new \ilCmiXapiUser(
+        $cmixUser = new ilCmiXapiUser(
             $object->getId(),
             $dic->user()->getId(),
             $object->getProvider()->getPrivacyIdent()
         );
         $user_ident = $cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
-            $user_ident = \ilCmiXapiUser::getIdent($object->getProvider()->getPrivacyIdent(), $dic->user());
+            $user_ident = ilCmiXapiUser::getIdent($object->getProvider()->getPrivacyIdent(), $dic->user());
             $cmixUser->setUsrIdent($user_ident);
             $cmixUser->save();
             $logger->info('LTI1p1 renderStartButton: created new cmix user identity for usr_id=' . $dic->user()->getId());
         }
 
-        $ilLTIConsumerLaunch = new \ilLTIConsumerLaunch($object->getRefId());
+        $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($object->getRefId());
         $context = $ilLTIConsumerLaunch->getContext();
         $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
         $contextId = (string) $context["id"];
         $contextTitle = $context["title"];
 
-        $token = \ilCmiXapiAuthToken::fillToken(
+        $token = ilCmiXapiAuthToken::fillToken(
             $dic->user()->getId(),
             $object->getRefId(),
             $object->getId()
@@ -119,7 +117,7 @@ final class ContentGUI
         $returnUrl = !$object->isLaunchMethodOwnWin() ? '' : str_replace(
             '&amp;',
             '&',
-            \ilObjLTIConsumer::getIliasHttpPath() . "/" . $dic->ctrl()->getLinkTarget($guiObject, "", "", false)
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $dic->ctrl()->getLinkTarget($guiObject, "", "", false)
         );
 
         $logger->info('LTI1p1 renderStartButton: building launch parameters for context_type=' . $contextType . ' context_id=' . $contextId);
@@ -158,21 +156,21 @@ final class ContentGUI
     }
 
     public static function resolveLaunchParameters(
-        \ilObjLTIConsumer $object,
-        \ilCmiXapiUser $cmixUser,
-        \ILIAS\DI\Container $dic
+        ilObjLTIConsumer $object,
+        ilCmiXapiUser $cmixUser,
+        ILIAS\DI\Container $dic
     ): array {
-        $logger = \ilLoggerFactory::getLogger('lti');
+        $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 resolveLaunchParameters: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
 
-        $ilLTIConsumerLaunch = new \ilLTIConsumerLaunch($object->getRefId());
+        $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($object->getRefId());
         $launchContext = $ilLTIConsumerLaunch->getContext();
 
         $launchContextType = $ilLTIConsumerLaunch::getLTIContextType($launchContext["type"]);
         $launchContextId = (string) $launchContext["id"];
         $launchContextTitle = $launchContext["title"];
 
-        $token = \ilCmiXapiAuthToken::fillToken(
+        $token = ilCmiXapiAuthToken::fillToken(
             $dic->user()->getId(),
             $object->getRefId(),
             $object->getId()

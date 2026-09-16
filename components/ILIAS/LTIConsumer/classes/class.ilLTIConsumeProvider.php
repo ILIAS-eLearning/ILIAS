@@ -49,7 +49,7 @@ class ilLTIConsumeProvider
 
     protected string $provider_url = '';
 
-    protected ?\ILIAS\LTI\LTI1p1\Consumer\ProviderCredentials $lti_1p1_credentials = null;
+    protected ?ilLTI1p1ConsumerProviderCredentials $lti_1p1_credentials = null;
 
     protected string $provider_icon_filename = '';
 
@@ -303,9 +303,9 @@ class ilLTIConsumeProvider
         $this->provider_url = $this->preventClientIdInUrl($provider_url);
     }
 
-    public function getLti1p1Credentials(): \ILIAS\LTI\LTI1p1\Consumer\ProviderCredentials
+    public function getLti1p1Credentials(): ilLTI1p1ConsumerProviderCredentials
     {
-        return $this->lti_1p1_credentials ??= new \ILIAS\LTI\LTI1p1\Consumer\ProviderCredentials();
+        return $this->lti_1p1_credentials ??= new ilLTI1p1ConsumerProviderCredentials();
     }
 
     public function getProviderKey(): string

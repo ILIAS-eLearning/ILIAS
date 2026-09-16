@@ -83,7 +83,7 @@ class ilLTIConsumerContentGUI
     protected function launch(): void
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
-            \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::renderLaunch(
+            ilLTI1p1ConsumerLaunchRenderer::renderLaunch(
                 $this->object,
                 $this,
                 $this->dic,
@@ -247,7 +247,7 @@ class ilLTIConsumerContentGUI
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
             $this->initCmixUser();
-            \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::renderEmbeddedLaunch(
+            ilLTI1p1ConsumerLaunchRenderer::renderEmbeddedLaunch(
                 $this->object,
                 $this->cmixUser,
                 $this->dic

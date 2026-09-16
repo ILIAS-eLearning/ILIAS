@@ -18,9 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LTI\LTI1p1\Provider;
-
-final class LaunchRequestUri
+final class ilLTI1p1ProviderLaunchRequestUri
 {
     /**
      * Removes the client_id query parameter from REQUEST_URI before the OAuth1 signature of a basic launch is checked.

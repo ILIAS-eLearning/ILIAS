@@ -60,7 +60,7 @@ class ilObjLTIConsumer extends ilObject2
 
     protected string $launchMethod = self::LAUNCH_METHOD_NEW_WIN;
 
-    protected ?\ILIAS\LTI\LTI1p1\Consumer\ObjectCredentials $lti_1p1_credentials = null;
+    protected ?ilLTI1p1ConsumerObjectCredentials $lti_1p1_credentials = null;
 
     protected string $customParams = '';
 
@@ -244,9 +244,9 @@ class ilObjLTIConsumer extends ilObject2
         $this->launchMethod = $launchMethod;
     }
 
-    public function getLti1p1Credentials(): \ILIAS\LTI\LTI1p1\Consumer\ObjectCredentials
+    public function getLti1p1Credentials(): ilLTI1p1ConsumerObjectCredentials
     {
-        return $this->lti_1p1_credentials ??= new \ILIAS\LTI\LTI1p1\Consumer\ObjectCredentials();
+        return $this->lti_1p1_credentials ??= new ilLTI1p1ConsumerObjectCredentials();
     }
 
     public function getCustomLaunchKey(): string
@@ -281,7 +281,7 @@ class ilObjLTIConsumer extends ilObject2
 
     public function getLaunchKey(): string
     {
-        return \ILIAS\LTI\LTI1p1\Consumer\LaunchParameterBuilder::resolveLaunchKey(
+        return ilLTI1p1ConsumerLaunchParameterBuilder::resolveLaunchKey(
             $this->getProvider(),
             $this->getCustomLaunchKey()
         );
@@ -289,7 +289,7 @@ class ilObjLTIConsumer extends ilObject2
 
     public function getLaunchSecret(): string
     {
-        return \ILIAS\LTI\LTI1p1\Consumer\LaunchParameterBuilder::resolveLaunchSecret(
+        return ilLTI1p1ConsumerLaunchParameterBuilder::resolveLaunchSecret(
             $this->getProvider(),
             $this->getCustomLaunchSecret()
         );
@@ -703,7 +703,7 @@ class ilObjLTIConsumer extends ilObject2
         // supplies the per-object/per-provider data because getProvider()'s
         // privacy/UX fields are genuinely shared with buildLaunchParametersLTI13(),
         // not 1.1-specific.
-        return \ILIAS\LTI\LTI1p1\Consumer\LaunchParameterBuilder::build(
+        return ilLTI1p1ConsumerLaunchParameterBuilder::build(
             $this->getProvider(),
             $this->getRefId(),
             $this->getId(),
