@@ -44,8 +44,14 @@ class SetupAgent implements Setup\Agent
 
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(
-            new DatabaseUpdateSteps()
+        // ilLTIConsumerDatabaseUpdateSteps and ilLTIDatabaseUpdateSteps keep their class names:
+        // il_db_steps tracks executed steps by class, so installations updated from ILIAS 11 do not run them again.
+        return new Setup\ObjectiveCollection(
+            'LTI',
+            false,
+            new \ilDatabaseUpdateStepsExecutedObjective(new \ilLTIConsumerDatabaseUpdateSteps()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new \ilLTIDatabaseUpdateSteps()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new DatabaseUpdateSteps())
         );
     }
 
@@ -56,7 +62,13 @@ class SetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new DatabaseUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'LTI',
+            true,
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLTIConsumerDatabaseUpdateSteps()),
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ilLTIDatabaseUpdateSteps()),
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new DatabaseUpdateSteps())
+        );
     }
 
     /**
