@@ -66,6 +66,17 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->renderLabel($component, $tpl);
 
+        if (!$this instanceof ButtonContextRenderer
+            && ($component->getType() === Component\Symbol\Glyph\Glyph::EXPAND
+                || $component->getType() === Component\Symbol\Glyph\Glyph::COLLAPSE)) {
+            $tpl->setCurrentBlock("with_aria_expanded");
+            $tpl->setVariable(
+                "ARIA_EXPANDED",
+                $component->getType() === Component\Symbol\Glyph\Glyph::COLLAPSE ? "true" : "false"
+            );
+            $tpl->parseCurrentBlock();
+        }
+
         $id = $this->bindJavaScript($component);
 
         if ($id !== null) {
