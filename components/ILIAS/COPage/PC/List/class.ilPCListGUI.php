@@ -92,12 +92,18 @@ class ilPCListGUI extends ilPageContentGUI
                 $this->content_obj->setStyleClass(
                     $this->form->getInput("bullet_style")
                 );
+                $this->content_obj->setItemStyleClass(
+                    $this->form->getInput("item_style_1")
+                );
             } else {
                 $this->content_obj->setNumberingType(
                     $this->form->getInput("numbering_type")
                 );
                 $this->content_obj->setStyleClass(
                     $this->form->getInput("number_style")
+                );
+                $this->content_obj->setItemStyleClass(
+                    $this->form->getInput("item_style_2")
                 );
             }
             $this->updated = $this->pg_obj->update();
