@@ -232,7 +232,10 @@ class ilMailFormGUI
     {
         $files = [];
         if (count($form_values['attachments']) > 0) {
-            $files = $this->handleAttachments($form_values['attachments']);
+            $files = $this->tryHandleAttachments($form_values['attachments'], $form);
+            if ($files === null) {
+                return;
+            }
         }
 
         $rcp_to = '';
@@ -326,7 +329,10 @@ class ilMailFormGUI
 
         $files = [];
         if (count($value['attachments']) > 0) {
-            $files = $this->handleAttachments($value['attachments']);
+            $files = $this->tryHandleAttachments($value['attachments'], $form);
+            if ($files === null) {
+                return;
+            }
         }
 
         $mailer = $this->umail
@@ -422,7 +428,10 @@ class ilMailFormGUI
         }
         $files = [];
         if (count($value['attachments']) > 0) {
-            $files = $this->handleAttachments($value['attachments']);
+            $files = $this->tryHandleAttachments($value['attachments'], $form);
+            if ($files === null) {
+                return;
+            }
         }
 
         $draft_folder_id = $this->mbox->getDraftsFolder();
@@ -940,7 +949,13 @@ class ilMailFormGUI
 
         $resource_collection_id = null;
         if (!empty($result['attachments']->getValue())) {
-            $files = $this->handleAttachments($result['attachments']->getValue());
+            try {
+                $files = $this->handleAttachments($result['attachments']->getValue());
+            } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
+                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
+                $this->showForm();
+                return;
+            }
             $resource_collection_id = $this->getIdforCollection($files);
         }
 
@@ -968,6 +983,21 @@ class ilMailFormGUI
 
         $this->ctrl->setParameterByClass(ilMailingListsGUI::class, 'ref', 'mail');
         $this->ctrl->redirectByClass(ilMailingListsGUI::class);
+    }
+
+    /**
+     * @param array<string, mixed> $attachments
+     * @return list<string>|null
+     */
+    protected function tryHandleAttachments(array $attachments, ?Form $form = null): ?array
+    {
+        try {
+            return $this->handleAttachments($attachments);
+        } catch (ilMailAttachmentsTotalSizeLimitExceededException $e) {
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $e->getMessage());
+            $this->showForm($form);
+            return null;
+        }
     }
 
     /**
@@ -1038,6 +1068,11 @@ class ilMailFormGUI
             $this->upload_handler,
             $this->lng->txt('attachments')
         )->withMaxFiles(10);
+
+        $attachment_total_size_limit = $this->fdm->getAttachmentsTotalSizeLimit();
+        if ($attachment_total_size_limit !== null) {
+            $attachments = $attachments->withMaxFileSize((int) $attachment_total_size_limit);
+        }
 
         if (isset($mail_data['attachments']) && $has_files) {
             if ($mail_data['attachments'] instanceof \ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification) {
