@@ -97,7 +97,7 @@ class ilLTITool extends Tool
         $_GET = $DIC->http()->request()->getQueryParams();
 
         if (isset($_POST['lti_version']) && $_POST['lti_version'] === 'LTI-1p0') {
-            $_SERVER['REQUEST_URI'] = rtrim(preg_replace('/([?&])client_id=[^&]+(&|$)/', '$1', $_SERVER['REQUEST_URI']), '?&');
+            \ILIAS\LTI\LTI1p1\Provider\LaunchRequestUri::stripClientId();
         }
 
         self::$authenticateUsingGet = true;
