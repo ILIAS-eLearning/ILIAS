@@ -6,9 +6,7 @@ The LTI component connects ILIAS with external tools and platforms via
 * **Consumer**: ILIAS launches external tools (repository object `lti`).
 * **Provider**: external platforms launch ILIAS objects (administration node `ltis`).
 
-It replaces `LTIConsumer` and `LTIProvider`. Until the migration is finished, those
-components still register the objects, events and cron job, and contain code that
-has not been reworked yet.
+It replaces the former `LTIConsumer` and `LTIProvider` components.
 
 The key words “MUST”, “MUST NOT”, “SHOULD” and “MAY” in this document are to be
 interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
@@ -25,7 +23,9 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 ```text
 LTI/
 ├── LTI.php                   Component definition
+├── module.xml                Object types (ltis)
 ├── classes/
+│   ├── Administration/       Administration > LTI (ltis), shared by LTI 1.1 and LTI Advantage
 │   ├── LTI1p1/               LTI 1.1, kept for compatibility
 │   │   ├── Consumer/
 │   │   └── Provider/
@@ -46,6 +46,7 @@ LTI/
   split by service (`Launch`, `DynamicRegistration`, `DeepLinking`, `AGS`, `NRPS`).
   Protocol handling MUST be delegated to the `celtic/lti` library instead of being reimplemented.
 * **LTIAdvantage/Common**: only what the Advantage consumer and provider both use.
+* **Administration**: the administration node (`ilObjLTIAdministration*`). Its screens serve LTI 1.1 and LTI Advantage.
 
 LTI1p1 and LTIAdvantage MUST NOT share classes. When both need the same logic, each keeps
 its own copy, so LTI1p1 can be removed without touching LTIAdvantage.
