@@ -26,6 +26,8 @@ use ILIAS\UI\Component\Table\Action\Action;
 
 class DataRowBuilder extends RowBuilder implements T\DataRowBuilder
 {
+    protected array $highlighted_rows = [];
+
     /**
      * @param array<string, mixed> $record
      */
@@ -37,7 +39,15 @@ class DataRowBuilder extends RowBuilder implements T\DataRowBuilder
             $this->columns,
             $this->row_actions,
             $id,
-            $record
+            $record,
+            in_array($id, $this->highlighted_rows)
         );
+    }
+
+    public function withHighlightedRows(array $highlighted_rows): self
+    {
+        $clone = clone $this;
+        $clone->highlighted_rows = $highlighted_rows;
+        return $clone;
     }
 }
