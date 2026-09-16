@@ -18,12 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
+
 /**
  * @noinspection AutoloadingIssuesInspection
  */
 class ilDclFileFieldModel extends ilDclBaseFieldModel
 {
-    protected ilFileServicesSettings $file_settings;
+    protected FilesystemConfig $file_settings;
 
     public function __construct(int $a_id = 0)
     {

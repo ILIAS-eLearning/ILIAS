@@ -24,6 +24,7 @@ use ILIAS\Logging\Logger\LegacyInitiator;
 
 /**
  * @deprecated Please use {@see \ILIAS\Logging\Config\ConfigInterface} instead.
+ *     Ideally in your Component.php. If that's not possible then via $DIC['logging.config'].
  *
  * @defgroup ServicesLogging Services/Logging
  *

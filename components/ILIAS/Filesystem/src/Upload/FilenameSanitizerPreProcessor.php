@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Filesystem\Upload;
+
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\Filesystem\Util;
+use ILIAS\FileUpload\DTO\Metadata;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileUpload\Processor\PreProcessor;
+
+class FilenameSanitizerPreProcessor implements PreProcessor
+{
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
+    {
+        $metadata->setFilename(Util::sanitizeFileName($metadata->getFilename()));
+        return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
+    }
+}

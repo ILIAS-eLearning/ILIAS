@@ -41,7 +41,7 @@ use ILIAS\FileDelivery\Token\Signer\Algorithm\Algorithm;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-final class DataSigner
+final class DataSigner implements DataSigning
 {
     private SigningSerializer $signing_serializer;
     private Factory $salt_factory;

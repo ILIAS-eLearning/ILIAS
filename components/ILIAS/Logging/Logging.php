@@ -32,20 +32,20 @@ class Logging implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        /*$define[] = Logging\Logger\LoggerFactoryInterface::class;
+        $define[] = Logging\Logger\LoggerFactoryInterface::class;
         $define[] = Logging\Logger\DefaultConfigLoggerFactoryInterface::class;
         $define[] = Logging\Config\ConfigInterface::class;
 
         $internal[Logging\Config\Basic\ConfigInterface::class] = static fn() =>
             new Logging\Config\Basic\Config(
                 new Logging\Config\Basic\IniReader(
-                    $use[\ilIniFile::class] // TODO change to whatever this is now called
+                    $use[Environment\Configuration\Installation\IliasIni::class]
                 )
             );
         $internal[Logging\Config\ByComponent\ConfigInterface::class] = static fn() =>
             new Logging\Config\ByComponent\Config(
                 new Logging\Config\ByComponent\DBRepository(
-                    $use[\ilDBInterface::class] // TODO change to whatever this is now called
+                    $use[Database\PDO\External::class]
                 ),
                 $internal[Logging\Config\Basic\ConfigInterface::class]
             );
@@ -73,7 +73,7 @@ class Logging implements Component\Component
             new Logging\Config\Config(
                 $internal[Logging\Config\Basic\ConfigInterface::class],
                 $internal[Logging\Config\ByComponent\ConfigInterface::class]
-            );*/
+            );
 
         $contribute[Setup\Agent::class] = static fn() =>
             new Logging\Setup\Agent(

@@ -35,20 +35,22 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
     public const VERSIONS = 'versions';
     public const EDIT = 'edit';
     public const VIEW = 'view';
-    private readonly CapabilityBuilder $capabilities;
+    private ?CapabilityBuilder $capabilities = null;
 
-    public function __construct()
+    private function capabilities(): CapabilityBuilder
     {
-        global $DIC;
-        parent::__construct();
-        $this->capabilities = new CapabilityBuilder(
-            new ilObjFileInfoRepository(),
-            $DIC->access(),
-            $DIC->ctrl(),
-            new ActionDBRepository($DIC->database()),
-            $DIC->http(),
-            $DIC['static_url.uri_builder']
-        );
+        if ($this->capabilities === null) {
+            global $DIC;
+            $this->capabilities = new CapabilityBuilder(
+                new ilObjFileInfoRepository(),
+                $DIC->access(),
+                $DIC->ctrl(),
+                new ActionDBRepository($DIC->database()),
+                $DIC->http(),
+                $DIC['static_url.uri_builder']
+            );
+        }
+        return $this->capabilities;
     }
 
     public function getNamespace(): string
@@ -76,7 +78,7 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
             \ILIAS\File\Capabilities\Context::CONTEXT_REPO
         );
 
-        $capabilities = $this->capabilities->get($capability_context);
+        $capabilities = $this->capabilities()->get($capability_context);
 
         // special case for cloned objects
         $forced = null;

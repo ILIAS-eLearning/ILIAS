@@ -39,7 +39,6 @@ use ILIAS\WebDAV\Objects\Filter\CharacterFilter;
 use ILIAS\WebDAV\AccessCheck;
 use ILIAS\WebDAV\RBACAccessCheckLegacyProxy;
 use ILIAS\WebDAV\Objects\Filter\RBACFilter;
-use ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKey;
 use ILIAS\WebDAV\Setup\KeyRotationObjective;
 use ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKeyRotation;
 use ILIAS\WebDAV\Mount\UriBuilder;
@@ -92,18 +91,9 @@ class WebDAV implements Component
             $internal[Config::class]->getEndpoint()
         );
 
-        $internal[SecretKeyRotation::class] = static function (): SecretKeyRotation {
-            $keys = array_map(
-                static fn(string $key): SecretKey => new SecretKey($key),
-                (@include KeyRotationObjective::PATH()) ?: []
-            );
-            $current_key = array_shift($keys) ?? new SecretKey(bin2hex(random_bytes(32)));
-
-            return new SecretKeyRotation(
-                $current_key,
-                ... $keys
-            );
-        };
+        $internal[SecretKeyRotation::class] = static fn() => SecretKeyRotation::fromArtefact(
+            KeyRotationObjective::PATH()
+        );
 
         $internal[UriBuilder::class] = static fn(): UriBuilder => new UriBuilder(
             $use[ServerRequestInterface::class],

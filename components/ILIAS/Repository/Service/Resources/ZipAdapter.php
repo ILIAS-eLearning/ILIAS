@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Repository\Resources;
 
 use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Export\ImportStatus\Exception\ilException;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
@@ -31,12 +32,12 @@ class ZipAdapter
 {
     protected Archives $archives;
     protected LegacyArchives $legacy_archives;
-    protected \ilFileServicesSettings $file_service_settings;
+    protected FilesystemConfig $file_service_settings;
 
     public function __construct(
         Archives $archives,
         LegacyArchives $legacy_archives,
-        \ilFileServicesSettings $file_service_settings
+        FilesystemConfig $file_service_settings
     ) {
         $this->archives = $archives;
         $this->legacy_archives = $legacy_archives;

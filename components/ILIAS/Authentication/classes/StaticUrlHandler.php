@@ -30,13 +30,15 @@ use ilLanguage;
 
 class StaticUrlHandler extends BaseHandler implements Handler
 {
-    private readonly ilLanguage $language;
+    private ?ilLanguage $language = null;
 
-    public function __construct()
+    private function language(): ilLanguage
     {
-        global $DIC;
-        $this->language = $DIC->language();
-        parent::__construct();
+        if ($this->language === null) {
+            global $DIC;
+            $this->language = $DIC->language();
+        }
+        return $this->language;
     }
 
     public function getNamespace(): string
@@ -51,7 +53,7 @@ class StaticUrlHandler extends BaseHandler implements Handler
         return match ($additional_params) {
             'login' => $response_factory->can('login.php?' . http_build_query([
                 'cmd' => 'force_login',
-                'lang' => $this->language->getLangKey(),
+                'lang' => $this->language()->getLangKey(),
             ])),
         };
     }

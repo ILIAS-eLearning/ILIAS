@@ -40,14 +40,16 @@ use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\Events\Event;
 use ILIAS\ResourceStorage\Manager\ContainerManager;
+use ILIAS\ResourceStorage\Events\ObserverCollection;
 
 /**
  * Class Services
  * @public
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class Services
+class Services implements IRSSServices
 {
     protected Subject $events;
     protected Manager $manager;
@@ -69,7 +71,8 @@ class Services
         StreamAccess $stream_access,
         Factory $machine_factory,
         ?SrcBuilder $src_builder = null,
-        ?RepositoryPreloader $preloader = null
+        ?RepositoryPreloader $preloader = null,
+        ?ObserverCollection $observers = null,
     ) {
         $this->events = new Subject();
         $src_builder ??= new InlineSrcBuilder();
@@ -129,6 +132,15 @@ class Services
             $flavour_builder,
             $resource_builder
         );
+
+        if ($observers !== null) {
+            foreach ($observers as $observer) {
+                $this->events->attach(
+                    $observer,
+                    Event::ALL
+                );
+            }
+        }
     }
 
     public function manage(): Manager

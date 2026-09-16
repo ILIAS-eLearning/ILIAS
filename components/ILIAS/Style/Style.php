@@ -47,5 +47,7 @@ class Style implements Component\Component
 
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Style\System\UserSettings\Settings();
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
+            new \ilKSDocumentationGotoLink();
     }
 }

@@ -19,19 +19,13 @@
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\DI\Container;
-use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
-use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
-use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
-use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Transformation;
-use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 use ILIAS\User\PublicInterface as UserPublicInterface;
@@ -100,264 +94,33 @@ class ilInitialisation
     }
 
     /**
-     * This method provides a global instance of class ilIniFile for the
-     * ilias.ini.php file in variable $ilIliasIniFile.
-     * It initializes a lot of constants accordingly to the settings in
-     * the ilias.ini.php file.
+     * Define legacy constants from ilias.ini.php using bootstrapped services already in $DIC.
+     * Called early in initCore() — AllModernComponents has populated $DIC before ilInitialisation runs.
      */
     protected static function initIliasIniFile(): void
     {
-        $ilIliasIniFile = new ilIniFile(__DIR__ . "/../../../../ilias.ini.php");
-        $ilIliasIniFile->read();
-        self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
-
-        // initialize constants
-        // aka internal data directory
-        if (!defined('ILIAS_DATA_DIR')) {
-            define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
-        }
-        // aka Public Web Directory in Web, relative path to the webroot (public).
-        if (!defined('ILIAS_WEB_DIR')) {
-            $from_ilias_ini = $ilIliasIniFile->readVariable("clients", "path");
-            $from_ilias_ini = str_replace('public/', '', $from_ilias_ini);
-            define("ILIAS_WEB_DIR", $from_ilias_ini);
-        }
-        if (!defined("ILIAS_ABSOLUTE_PATH")) {
-            define("ILIAS_ABSOLUTE_PATH", $ilIliasIniFile->readVariable('server', 'absolute_path'));
-        }
-
-        // logging
-        define("ILIAS_LOG_DIR", $ilIliasIniFile->readVariable("log", "path"));
-        define("ILIAS_LOG_FILE", $ilIliasIniFile->readVariable("log", "file"));
-        if (!defined("ILIAS_LOG_ENABLED")) {
-            define("ILIAS_LOG_ENABLED", $ilIliasIniFile->readVariable("log", "enabled"));
-        }
-        define("ILIAS_LOG_LEVEL", $ilIliasIniFile->readVariable("log", "level"));
-
-        // read path + command for third party tools from ilias.ini
-        define("PATH_TO_CONVERT", $ilIliasIniFile->readVariable("tools", "convert"));
-        define("PATH_TO_FFMPEG", $ilIliasIniFile->readVariable("tools", "ffmpeg"));
-        define("PATH_TO_ZIP", $ilIliasIniFile->readVariable("tools", "zip"));
-        define("PATH_TO_MKISOFS", $ilIliasIniFile->readVariable("tools", "mkisofs"));
-        define("PATH_TO_UNZIP", $ilIliasIniFile->readVariable("tools", "unzip"));
-        define("PATH_TO_GHOSTSCRIPT", $ilIliasIniFile->readVariable("tools", "ghostscript"));
-        define("PATH_TO_JAVA", $ilIliasIniFile->readVariable("tools", "java"));
-        define("PATH_TO_FOP", $ilIliasIniFile->readVariable("tools", "fop"));
-        define("PATH_TO_SCSS", $ilIliasIniFile->readVariable("tools", "scss"));
-
-        if ($ilIliasIniFile->groupExists('error')) {
-            if ($ilIliasIniFile->variableExists('error', 'editor_url')) {
-                define("ERROR_EDITOR_URL", $ilIliasIniFile->readVariable('error', 'editor_url'));
-            }
-
-            if ($ilIliasIniFile->variableExists('error', 'editor_path_translations')) {
-                define(
-                    "ERROR_EDITOR_PATH_TRANSLATIONS",
-                    $ilIliasIniFile->readVariable('error', 'editor_path_translations')
-                );
-            }
-        }
-
-        // read virus scanner settings
-        switch ($ilIliasIniFile->readVariable("tools", "vscantype")) {
-            case "sophos":
-                define("IL_VIRUS_SCANNER", "Sophos");
-                define("IL_VIRUS_SCAN_COMMAND", $ilIliasIniFile->readVariable("tools", "scancommand"));
-                define("IL_VIRUS_CLEAN_COMMAND", $ilIliasIniFile->readVariable("tools", "cleancommand"));
-                break;
-
-            case "antivir":
-                define("IL_VIRUS_SCANNER", "AntiVir");
-                define("IL_VIRUS_SCAN_COMMAND", $ilIliasIniFile->readVariable("tools", "scancommand"));
-                define("IL_VIRUS_CLEAN_COMMAND", $ilIliasIniFile->readVariable("tools", "cleancommand"));
-                break;
-
-            case "clamav":
-                define("IL_VIRUS_SCANNER", "ClamAV");
-                define("IL_VIRUS_SCAN_COMMAND", $ilIliasIniFile->readVariable("tools", "scancommand"));
-                define("IL_VIRUS_CLEAN_COMMAND", $ilIliasIniFile->readVariable("tools", "cleancommand"));
-                break;
-            case "icap":
-                define("IL_VIRUS_SCANNER", "icap");
-                define("IL_ICAP_HOST", $ilIliasIniFile->readVariable("tools", "icap_host"));
-                define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "icap_port"));
-                define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "icap_service_name"));
-                define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "icap_client_path"));
-                break;
-
-            default:
-                define("IL_VIRUS_SCANNER", "None");
-                define("IL_VIRUS_CLEAN_COMMAND", '');
-                break;
-        }
-
-        $tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
-        define("IL_TIMEZONE", $tz);
-    }
-
-    protected static function initResourceStorage(): void
-    {
         global $DIC;
-        (new InitResourceStorage())->init($DIC);
+        $GLOBALS['ilIliasIniFile'] = $DIC['ilIliasIniFile'];
+        self::defineLegacyConstantsFromIliasIni($DIC['ilIliasIniFile']);
     }
 
     /**
-     * Bootstraps the ILIAS filesystem abstraction.
-     * The bootstrapped abstraction are:
-     *  - temp
-     *  - web
-     *  - storage
-     *  - customizing
-     * @return void
-     * @since 5.3
-     */
-    public static function bootstrapFilesystems(): void
-    {
-        global $DIC;
-
-        $DIC['filesystem.security.sanitizing.filename'] = function (Container $c) {
-            return new ilFileServicesFilenameSanitizer(
-                $c->fileServiceSettings()
-            );
-        };
-
-        $DIC['filesystem.factory'] = function ($c) {
-            return new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory($c['filesystem.security.sanitizing.filename']);
-        };
-
-        $DIC['filesystem.web'] = function ($c) {
-            //web
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
-            return $delegatingFactory->getLocal($webConfiguration);
-        };
-
-        $DIC['filesystem.storage'] = function ($c) {
-            //storage
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR . '/' . CLIENT_ID);
-            return $delegatingFactory->getLocal($storageConfiguration);
-        };
-
-        $DIC['filesystem.temp'] = function ($c) {
-            //temp
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR . '/' . CLIENT_ID . '/temp');
-            return $delegatingFactory->getLocal($tempConfiguration);
-        };
-
-        $DIC['filesystem.customizing'] = function ($c) {
-            //customizing
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . 'Customizing');
-            return $delegatingFactory->getLocal($customizingConfiguration);
-        };
-
-        $DIC['filesystem.libs'] = function ($c) {
-            //customizing
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'vendor');
-            return $delegatingFactory->getLocal($customizingConfiguration, true);
-        };
-
-        $DIC['filesystem.node_modules'] = function ($c) {
-            //customizing
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'node_modules');
-            return $delegatingFactory->getLocal($customizingConfiguration, true);
-        };
-
-        $DIC['filesystem'] = function ($c) {
-            return new \ILIAS\Filesystem\FilesystemsImpl(
-                $c['filesystem.storage'],
-                $c['filesystem.web'],
-                $c['filesystem.temp'],
-                $c['filesystem.customizing'],
-                $c['filesystem.libs'],
-                $c['filesystem.node_modules']
-            );
-        };
-    }
-
-    /**
-     * Initializes the file upload service.
-     * This service requires the http and filesystem service.
-     * @param \ILIAS\DI\Container $dic The dependency container which should be used to load the file upload service.
-     * @return void
+     * @deprecated Pre-processors are now contributed via the component bootstrap $contribute/$seek mechanism.
+     *             This method is no longer called and will be removed.
      */
     public static function initFileUploadService(\ILIAS\DI\Container $dic): void
     {
-        $dic['upload.processor-manager'] = function ($c) {
-            return new PreProcessorManagerImpl();
-        };
-
-        $dic['upload'] = function (\ILIAS\DI\Container $c) {
-            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl(
-                $c['upload.processor-manager'],
-                $c['filesystem'],
-                $c['http']
-            );
-            if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_SCANNER_TYPE') && IL_SCANNER_TYPE == "1")) {
-                $fileUploadImpl->register(new ilVirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
-            }
-
-            $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(
-                new ilFileServicesPreProcessor(
-                    $c->fileServiceSettings(),
-                    $c->language()->txt("msg_info_blacklisted")
-                )
-            );
-            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(new SVGBlacklistPreProcessor(
-                $c->language()->txt("upload_svg_rejection_message"),
-                $c->language()->txt("upload_svg_rejection_message_script"),
-                $c->language()->txt("upload_svg_rejection_message_base64"),
-                $c->language()->txt("upload_svg_rejection_message_foreign_object"),
-                $c->language()->txt("upload_svg_rejection_message_elements")
-            ));
-
-            return $fileUploadImpl;
-        };
     }
 
     protected static function initUploadPolicies(\ILIAS\DI\Container $dic): void
     {
-        $dic['upload_policy_repository'] = static function ($dic) {
-            return new UploadPolicyDBRepository($dic->database());
-        };
+        $dic['upload_policy_repository'] = (static fn($dic) => new UploadPolicyDBRepository($dic->database()));
 
-        $dic['upload_policy_resolver'] = static function ($dic): UploadPolicyResolver {
-            return new UploadPolicyResolver(
-                $dic->rbac()->review(),
-                $dic->user(),
-                $dic['upload_policy_repository']->getAll(),
-            );
-        };
+        $dic['upload_policy_resolver'] = (static fn($dic): UploadPolicyResolver => new UploadPolicyResolver(
+            $dic->rbac()->review(),
+            $dic->user(),
+            $dic['upload_policy_repository']->getAll(),
+        ));
     }
 
     protected static function buildHTTPPath(): bool
@@ -486,89 +249,156 @@ class ilInitialisation
     }
 
     /**
-     * This method provides a global instance of class ilIniFile for the
-     * client.ini.php file in variable $ilClientIniFile.
-     * It initializes a lot of constants accordingly to the settings in
-     * the client.ini.php file.
-     * Preconditions: ILIAS_WEB_DIR and CLIENT_ID must be set.
-     * @return    void        true, if no error occured with client init file
-     *                        otherwise false
+     * Define legacy constants from client.ini.php using bootstrapped services already in $DIC.
+     * Called in initClient() after determineClient() — CLIENT_ID and ILIAS_* constants are set.
      */
     protected static function initClientIniFile(): void
     {
-        global $ilIliasIniFile;
+        global $DIC;
+        $GLOBALS['ilClientIniFile'] = $DIC['ilClientIniFile'];
+        self::defineLegacyConstantsFromClientIni($DIC['ilClientIniFile']);
+    }
 
-        // check whether ILIAS_WEB_DIR is set.
-        if (!defined('ILIAS_WEB_DIR') || empty(ILIAS_WEB_DIR)) {
-            self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile called without ILIAS_WEB_DIR.");
+    /**
+     * Define legacy constants derived from ilias.ini.php.
+     * Called from AllModernComponents after the bootstrapped IliasIni service is available.
+     */
+    public static function defineLegacyConstantsFromIliasIni(\ilIniFile $ini): void
+    {
+        if (!defined('ILIAS_DATA_DIR')) {
+            define('ILIAS_DATA_DIR', $ini->readVariable('clients', 'datadir'));
         }
-
-        // check whether CLIENT_ID is set.
-        if (CLIENT_ID == "") {
-            self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile called without CLIENT_ID.");
+        if (!defined('ILIAS_WEB_DIR')) {
+            define('ILIAS_WEB_DIR', str_replace('public/', '', $ini->readVariable('clients', 'path')));
         }
-
-        $ini_file = "/client.ini.php";
-        if (defined('CLIENT_WEB_DIR')) {
-            $ini_file = CLIENT_WEB_DIR . $ini_file;
-        } else {
-            $ini_file = __DIR__ . '/../../../../public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . '/client.ini.php';
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            define('ILIAS_ABSOLUTE_PATH', $ini->readVariable('server', 'absolute_path'));
         }
-
-        $ilClientIniFile = new ilIniFile($ini_file);
-        $ilClientIniFile->read();
-
-        // invalid client id / client ini
-        if ($ilClientIniFile->ERROR != "") {
-            $default_client = $ilIliasIniFile->readVariable("clients", "default");
-            if (CLIENT_ID !== "") {
-                $mess = array("en" => "Client does not exist.",
-                              "de" => "Mandant ist ungültig."
-                );
-                self::redirect("index.php?client_id=" . $default_client, '', $mess);
-            } else {
-                self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: " . $ilClientIniFile->ERROR);
+        if (!defined('ILIAS_LOG_DIR')) {
+            define('ILIAS_LOG_DIR', $ini->readVariable('log', 'path'));
+        }
+        if (!defined('ILIAS_LOG_FILE')) {
+            define('ILIAS_LOG_FILE', $ini->readVariable('log', 'file'));
+        }
+        if (!defined('ILIAS_LOG_ENABLED')) {
+            define('ILIAS_LOG_ENABLED', $ini->readVariable('log', 'enabled'));
+        }
+        if (!defined('ILIAS_LOG_LEVEL')) {
+            define('ILIAS_LOG_LEVEL', $ini->readVariable('log', 'level'));
+        }
+        if (!defined('PATH_TO_CONVERT')) {
+            define('PATH_TO_CONVERT', $ini->readVariable('tools', 'convert'));
+        }
+        if (!defined('PATH_TO_FFMPEG')) {
+            define('PATH_TO_FFMPEG', $ini->readVariable('tools', 'ffmpeg'));
+        }
+        if (!defined('PATH_TO_ZIP')) {
+            define('PATH_TO_ZIP', $ini->readVariable('tools', 'zip'));
+        }
+        if (!defined('PATH_TO_UNZIP')) {
+            define('PATH_TO_UNZIP', $ini->readVariable('tools', 'unzip'));
+        }
+        if (!defined('PATH_TO_GHOSTSCRIPT')) {
+            define('PATH_TO_GHOSTSCRIPT', $ini->readVariable('tools', 'ghostscript'));
+        }
+        if (!defined('PATH_TO_JAVA')) {
+            define('PATH_TO_JAVA', $ini->readVariable('tools', 'java'));
+        }
+        if (!defined('PATH_TO_FOP')) {
+            define('PATH_TO_FOP', $ini->readVariable('tools', 'fop'));
+        }
+        if (!defined('PATH_TO_MKISOFS')) {
+            define('PATH_TO_MKISOFS', $ini->readVariable('tools', 'mkisofs'));
+        }
+        if (!defined('PATH_TO_SCSS')) {
+            define('PATH_TO_SCSS', $ini->readVariable('tools', 'scss'));
+        }
+        if (!defined('ERROR_EDITOR_URL') && $ini->variableExists('error', 'editor_url')) {
+            define('ERROR_EDITOR_URL', $ini->readVariable('error', 'editor_url'));
+        }
+        if (!defined('ERROR_EDITOR_PATH_TRANSLATIONS') && $ini->variableExists('error', 'editor_path_translations')) {
+            define('ERROR_EDITOR_PATH_TRANSLATIONS', $ini->readVariable('error', 'editor_path_translations'));
+        }
+        if (!defined('IL_VIRUS_SCANNER')) {
+            switch ($ini->readVariable('tools', 'vscantype')) {
+                case 'sophos':
+                    define('IL_VIRUS_SCANNER', 'Sophos');
+                    define('IL_VIRUS_SCAN_COMMAND', $ini->readVariable('tools', 'scancommand'));
+                    define('IL_VIRUS_CLEAN_COMMAND', $ini->readVariable('tools', 'cleancommand'));
+                    break;
+                case 'antivir':
+                    define('IL_VIRUS_SCANNER', 'AntiVir');
+                    define('IL_VIRUS_SCAN_COMMAND', $ini->readVariable('tools', 'scancommand'));
+                    define('IL_VIRUS_CLEAN_COMMAND', $ini->readVariable('tools', 'cleancommand'));
+                    break;
+                case 'clamav':
+                    define('IL_VIRUS_SCANNER', 'ClamAV');
+                    define('IL_VIRUS_SCAN_COMMAND', $ini->readVariable('tools', 'scancommand'));
+                    define('IL_VIRUS_CLEAN_COMMAND', $ini->readVariable('tools', 'cleancommand'));
+                    break;
+                case 'icap':
+                    define('IL_VIRUS_SCANNER', 'icap');
+                    define('IL_ICAP_HOST', $ini->readVariable('tools', 'icap_host'));
+                    define('IL_ICAP_PORT', $ini->readVariable('tools', 'icap_port'));
+                    define('IL_ICAP_AV_COMMAND', $ini->readVariable('tools', 'icap_service_name'));
+                    define('IL_ICAP_CLIENT', $ini->readVariable('tools', 'icap_client_path'));
+                    break;
+                default:
+                    define('IL_VIRUS_SCANNER', 'None');
+                    define('IL_VIRUS_CLEAN_COMMAND', '');
+                    break;
             }
         }
-
-        self::initGlobal("ilClientIniFile", $ilClientIniFile);
-        // set constants
-        define("DEVMODE", (int) $ilClientIniFile->readVariable("system", "DEVMODE"));
-        define("SHOWNOTICES", (int) $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
-        if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
+        if (!defined('IL_TIMEZONE')) {
+            $tz = $ini->readVariable('server', 'timezone') ?: 'UTC';
+            date_default_timezone_set($tz);
+            define('IL_TIMEZONE', $tz);
         }
-        if (!defined("SYSTEM_FOLDER_ID")) {
-            define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
-        }
-        if (!defined("ROLE_FOLDER_ID")) {
-            define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
-        }
-        define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
-        $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
-        define("ERROR_HANDLER", $error_handler ?: "PRETTY_PAGE");
+    }
 
-        // this is for the online help installation, which sets OH_REF_ID to the
-        // ref id of the online module
-        define("OH_REF_ID", (int) $ilClientIniFile->readVariable("system", "OH_REF_ID"));
-
-        // see ilObject::TITLE_LENGTH, ilObject::DESC_LENGTH
-        // define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
-        // define ("MAXLENGTH_OBJ_DESC",$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_DESC'));
-
-        if (!defined("CLIENT_DATA_DIR")) {
-            define("CLIENT_DATA_DIR", ILIAS_DATA_DIR . "/" . CLIENT_ID);
+    /**
+     * Define legacy constants derived from client.ini.php.
+     * Precondition: ILIAS_DATA_DIR, ILIAS_ABSOLUTE_PATH, ILIAS_WEB_DIR, CLIENT_ID already defined.
+     */
+    public static function defineLegacyConstantsFromClientIni(\ilIniFile $ini): void
+    {
+        if (!defined('DEVMODE')) {
+            define('DEVMODE', (int) $ini->readVariable('system', 'DEVMODE'));
         }
-        if (!defined("CLIENT_WEB_DIR")) {
-            define("CLIENT_WEB_DIR", ILIAS_ABSOLUTE_PATH . "/public/" . ILIAS_WEB_DIR . "/" . CLIENT_ID);
+        if (!defined('SHOWNOTICES')) {
+            define('SHOWNOTICES', (int) $ini->readVariable('system', 'SHOWNOTICES'));
         }
-        define("CLIENT_NAME", $ilClientIniFile->readVariable('client', 'name')); // Change SS
-
-        $db_type = $ilClientIniFile->readVariable("db", "type");
-        if ($db_type === "") {
-            define("IL_DB_TYPE", ilDBConstants::TYPE_INNODB);
-        } else {
-            define("IL_DB_TYPE", $db_type);
+        if (!defined('ROOT_FOLDER_ID')) {
+            define('ROOT_FOLDER_ID', (int) $ini->readVariable('system', 'ROOT_FOLDER_ID'));
+        }
+        if (!defined('SYSTEM_FOLDER_ID')) {
+            define('SYSTEM_FOLDER_ID', (int) $ini->readVariable('system', 'SYSTEM_FOLDER_ID'));
+        }
+        if (!defined('ROLE_FOLDER_ID')) {
+            define('ROLE_FOLDER_ID', (int) $ini->readVariable('system', 'ROLE_FOLDER_ID'));
+        }
+        if (!defined('MAIL_SETTINGS_ID')) {
+            define('MAIL_SETTINGS_ID', (int) $ini->readVariable('system', 'MAIL_SETTINGS_ID'));
+        }
+        if (!defined('ERROR_HANDLER')) {
+            $error_handler = $ini->readVariable('system', 'ERROR_HANDLER');
+            define('ERROR_HANDLER', $error_handler !== '' ? $error_handler : 'PRETTY_PAGE');
+        }
+        if (!defined('OH_REF_ID')) {
+            define('OH_REF_ID', (int) $ini->readVariable('system', 'OH_REF_ID'));
+        }
+        if (!defined('CLIENT_NAME')) {
+            define('CLIENT_NAME', $ini->readVariable('client', 'name'));
+        }
+        if (!defined('IL_DB_TYPE')) {
+            $db_type = $ini->readVariable('db', 'type');
+            define('IL_DB_TYPE', $db_type !== '' ? $db_type : \ilDBConstants::TYPE_INNODB);
+        }
+        if (!defined('CLIENT_DATA_DIR')) {
+            define('CLIENT_DATA_DIR', rtrim(ILIAS_DATA_DIR, '/') . '/' . CLIENT_ID);
+        }
+        if (!defined('CLIENT_WEB_DIR')) {
+            define('CLIENT_WEB_DIR', ILIAS_ABSOLUTE_PATH . '/public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
         }
     }
 
@@ -876,8 +706,6 @@ class ilInitialisation
                 }
                 $context_init = true;
             }
-            // init console log handler
-            ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
             \ilOnlineTracking::updateAccess($DIC->user());
         } else {
             if (is_object($GLOBALS['ilLog'])) {
@@ -1046,29 +874,7 @@ class ilInitialisation
      */
     protected static function initAccessHandling(): void
     {
-        self::initGlobal(
-            "rbacreview",
-            "ilRbacReview",
-            "./components/ILIAS/AccessControl/classes/class.ilRbacReview.php",
-            true
-        );
-
-        $rbacsystem = ilRbacSystem::getInstance();
-        self::initGlobal('rbacsystem', $rbacsystem, null, true);
-
-        self::initGlobal(
-            "rbacadmin",
-            "ilRbacAdmin",
-            "./components/ILIAS/AccessControl/classes/class.ilRbacAdmin.php",
-            true
-        );
-
-        self::initGlobal(
-            "ilAccess",
-            "ilAccess",
-            "./components/ILIAS/AccessControl/classes/class.ilAccess.php",
-            true
-        );
+        // Migrated to ILIAS\AccessControl bootstrap wiring.
     }
 
     /**
@@ -1168,7 +974,6 @@ class ilInitialisation
         self::initHTTPServices($GLOBALS["DIC"]);
         if (ilContext::initClient()) {
             self::initFileUploadService($GLOBALS["DIC"]);
-            Init::init($GLOBALS["DIC"]);
             self::initClient();
             self::initSession();
 
@@ -1238,6 +1043,8 @@ class ilInitialisation
 
         self::handleErrorReporting();
 
+        self::initIliasIniFile();
+
         self::requireCommonIncludes();
         $GLOBALS["DIC"]["ilias.version"] = $GLOBALS["DIC"][\ILIAS\Data\Factory::class]->version(ILIAS_VERSION_NUMERIC);
 
@@ -1249,8 +1056,6 @@ class ilInitialisation
         );
 
         self::removeUnsafeCharacters();
-
-        self::initIliasIniFile();
 
         define('IL_INITIAL_WD', getcwd());
 
@@ -1268,10 +1073,6 @@ class ilInitialisation
         self::setCookieConstants();
 
         self::determineClient();
-
-        self::bootstrapFilesystems();
-
-        self::initResourceStorage();
 
         self::initClientIniFile();
 
@@ -1484,13 +1285,10 @@ class ilInitialisation
 
     /**
      * @param \ILIAS\DI\Container $container
+     * @deprecated StaticURL is now bootstrapped via the component mechanism; $DIC['static_url'] is populated by AllModernComponents.
      */
     protected static function initHTTPServices(\ILIAS\DI\Container $container): void
     {
-        $init_http = new InitHttpServices();
-        $init_http->init($container);
-
-        \ILIAS\StaticURL\Init::init($container);
     }
 
     /**
