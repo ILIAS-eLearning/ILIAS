@@ -27,19 +27,19 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
     /**
      * OAuth1 consumer key: per object when the provider allows customizing it, global otherwise.
      */
-    public static function resolveLaunchKey(ilLTIConsumeProvider $provider, string $customLaunchKey): string
+    public static function resolveLaunchKey(ilLTIConsumeProvider $provider, string $custom_launch_key): string
     {
         if ($provider->isProviderKeyCustomizable()) {
-            return $customLaunchKey;
+            return $custom_launch_key;
         }
 
         return $provider->getProviderKey();
     }
 
-    public static function resolveLaunchSecret(ilLTIConsumeProvider $provider, string $customLaunchSecret): string
+    public static function resolveLaunchSecret(ilLTIConsumeProvider $provider, string $custom_launch_secret): string
     {
         if ($provider->isProviderKeyCustomizable()) {
-            return $customLaunchSecret;
+            return $custom_launch_secret;
         }
 
         return $provider->getProviderSecret();
@@ -51,84 +51,84 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
      */
     public static function build(
         ilLTIConsumeProvider $provider,
-        int $refId,
-        int $objId,
+        int $ref_id,
+        int $obj_id,
         string $title,
         string $description,
-        string $launchMethod,
-        string $launchKey,
-        string $launchSecret,
-        array $customParamsArray,
-        ilCmiXapiUser $cmixUser,
+        string $launch_method,
+        string $launch_key,
+        string $launch_secret,
+        array $custom_params_array,
+        ilCmiXapiUser $cmix_user,
         string $token,
-        string $contextType,
-        string $contextId,
-        string $contextTitle,
-        ?string $returnUrl = ''
+        string $context_type,
+        string $context_id,
+        string $context_title,
+        ?string $return_url = ''
     ): array {
         global $DIC;
         /* @var ILIAS\DI\Container $DIC */
-        $DIC->user()->setExternalAccount($cmixUser->getUsrIdent());
+        $DIC->user()->setExternalAccount($cmix_user->getUsrIdent());
 
-        $roles = $DIC->access()->checkAccess('write', '', $refId) ? "Instructor" : "Learner";
+        $roles = $DIC->access()->checkAccess('write', '', $ref_id) ? "Instructor" : "Learner";
         if ($provider->getAlwaysLearner() == true) {
             $roles = "Learner";
         }
 
-        $resource_link_id = $refId;
+        $resource_link_id = $ref_id;
         if ($provider->getUseProviderId() == true) {
             $resource_link_id = 'p' . $provider->getId();
         }
 
-        $usrImage = '';
+        $usr_image = '';
         if ($provider->getIncludeUserPicture()) {
-            $usrImage = ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
+            $usr_image = ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
         }
 
-        $documentTarget = "window";
-        if ($launchMethod == ilObjLTIConsumer::LAUNCH_METHOD_EMBEDDED) {
-            $documentTarget = "iframe";
+        $document_target = "window";
+        if ($launch_method == ilObjLTIConsumer::LAUNCH_METHOD_EMBEDDED) {
+            $document_target = "iframe";
         }
 
-        $nameGiven = '-';
-        $nameFamily = '-';
-        $nameFull = '-';
+        $name_given = '-';
+        $name_family = '-';
+        $name_full = '-';
         switch ($provider->getPrivacyName()) {
             case ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME:
-                $nameGiven = $DIC->user()->getFirstname();
-                $nameFull = $DIC->user()->getFirstname();
+                $name_given = $DIC->user()->getFirstname();
+                $name_full = $DIC->user()->getFirstname();
                 break;
             case ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME:
-                $usrName = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
-                $usrName .= $DIC->user()->getLastname();
-                $nameFamily = $usrName;
-                $nameFull = $usrName;
+                $usr_name = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
+                $usr_name .= $DIC->user()->getLastname();
+                $name_family = $usr_name;
+                $name_full = $usr_name;
                 break;
             case ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME:
-                $nameGiven = $DIC->user()->getFirstname();
-                $nameFamily = $DIC->user()->getLastname();
-                $nameFull = $DIC->user()->getFullname();
+                $name_given = $DIC->user()->getFirstname();
+                $name_family = $DIC->user()->getLastname();
+                $name_full = $DIC->user()->getFullname();
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
+        $user_id_lti = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
 
-        $emailPrimary = $cmixUser->getUsrIdent();
+        $email_primary = $cmix_user->getUsrIdent();
         if ($provider->getPrivacyIdent() == ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
-            $userIdLTI = strstr($emailPrimary, '@' . ilCmiXapiUser::getIliasUuid(), true);
+            $user_id_lti = strstr($email_primary, '@' . ilCmiXapiUser::getIliasUuid(), true);
         }
 
-        ilLTIConsumerResult::getByKeys($objId, $DIC->user()->getId(), true);
+        ilLTIConsumerResult::getByKeys($obj_id, $DIC->user()->getId(), true);
 
         $provider_custom_params = ilObjLTIConsumer::getProviderCustomParamsArray($provider);
-        $merged_params = array_merge($provider_custom_params, $customParamsArray);
+        $merged_params = array_merge($provider_custom_params, $custom_params_array);
 
-        $toolConsumerInstanceGuid = CLIENT_ID . ".";
-        $parseIliasUrl = parse_url(ilObjLTIConsumer::getIliasHttpPath());
-        if (array_key_exists("path", $parseIliasUrl)) {
-            $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
+        $tool_consumer_instance_guid = CLIENT_ID . ".";
+        $parse_ilias_url = parse_url(ilObjLTIConsumer::getIliasHttpPath());
+        if (array_key_exists("path", $parse_ilias_url)) {
+            $tool_consumer_instance_guid .= implode(".", array_reverse(explode("/", $parse_ilias_url["path"])));
         }
-        $toolConsumerInstanceGuid .= $parseIliasUrl["host"];
+        $tool_consumer_instance_guid .= $parse_ilias_url["host"];
 
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
@@ -136,20 +136,20 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             "resource_link_id" => $resource_link_id,
             "resource_link_title" => $title,
             "resource_link_description" => $description,
-            "user_id" => $userIdLTI,
-            "user_image" => $usrImage,
+            "user_id" => $user_id_lti,
+            "user_image" => $usr_image,
             "roles" => $roles,
-            "lis_person_name_given" => $nameGiven,
-            "lis_person_name_family" => $nameFamily,
-            "lis_person_name_full" => $nameFull,
-            "lis_person_contact_email_primary" => $emailPrimary,
-            "context_id" => $contextId,
-            "context_title" => $contextTitle,
-            "context_label" => $contextType . " " . $contextId,
+            "lis_person_name_given" => $name_given,
+            "lis_person_name_family" => $name_family,
+            "lis_person_name_full" => $name_full,
+            "lis_person_contact_email_primary" => $email_primary,
+            "context_id" => $context_id,
+            "context_title" => $context_title,
+            "context_label" => $context_type . " " . $context_id,
             "launch_presentation_locale" => $DIC->language()->getLangKey(),
-            "launch_presentation_document_target" => $documentTarget,
-            "launch_presentation_return_url" => $returnUrl,
-            "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
+            "launch_presentation_document_target" => $document_target,
+            "launch_presentation_return_url" => $return_url,
+            "tool_consumer_instance_guid" => $tool_consumer_instance_guid,
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
                 "short_inst_name"
             ) : CLIENT_ID,
@@ -163,10 +163,10 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             "lis_outcome_service_url" => ilObjLTIConsumer::getIliasHttpPath() . "/ltiresult.php?client_id=" . CLIENT_ID
         ];
 
-        $OAuthParams = [
+        $oauth_params = [
             "url" => $provider->getProviderUrl(),
-            "key" => $launchKey,
-            "secret" => $launchSecret,
+            "key" => $launch_key,
+            "secret" => $launch_secret,
             "callback" => "about:blank",
             "http_method" => "POST",
             "sign_method" => "HMAC_SHA1",
@@ -174,7 +174,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             "data" => ($launch_vars + $merged_params)
         ];
 
-        return self::signOAuth($OAuthParams);
+        return self::signOAuth($oauth_params);
     }
 
     /**

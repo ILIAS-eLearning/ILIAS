@@ -22,7 +22,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
 {
     public static function renderLaunch(
         ilObjLTIConsumer $object,
-        ilLTIConsumerContentGUI $guiObject,
+        ilLTIConsumerContentGUI $gui_object,
         ILIAS\DI\Container $dic,
         ilLanguage $lng
     ): void {
@@ -32,12 +32,12 @@ final class ilLTI1p1ConsumerLaunchRenderer
         if ($object->isLaunchMethodEmbedded()) {
             $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
             $tpl->setVariable("EMBEDDED_IFRAME_SRC", $dic->ctrl()->getLinkTarget(
-                $guiObject,
+                $gui_object,
                 ilLTIConsumerContentGUI::CMD_SHOW_EMBEDDED
             ));
             $dic->ui()->mainTemplate()->setContent($tpl->get());
         } else {
-            $dic->toolbar()->addText(self::renderStartButton($object, $guiObject, $dic, $lng));
+            $dic->toolbar()->addText(self::renderStartButton($object, $gui_object, $dic, $lng));
         }
     }
 
@@ -46,14 +46,14 @@ final class ilLTI1p1ConsumerLaunchRenderer
      */
     public static function renderEmbeddedLaunch(
         ilObjLTIConsumer $object,
-        ilCmiXapiUser $cmixUser,
+        ilCmiXapiUser $cmix_user,
         ILIAS\DI\Container $dic
     ): void {
         $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 renderEmbeddedLaunch: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
 
         $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTI');
-        foreach (self::resolveLaunchParameters($object, $cmixUser, $dic) as $field => $value) {
+        foreach (self::resolveLaunchParameters($object, $cmix_user, $dic) as $field => $value) {
             $tpl->setCurrentBlock('launch_parameter');
             $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
             $tpl->setVariable('LAUNCH_PARAM_VALUE', htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
@@ -73,7 +73,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
 
     public static function renderStartButton(
         ilObjLTIConsumer $object,
-        ilLTIConsumerContentGUI $guiObject,
+        ilLTIConsumerContentGUI $gui_object,
         ILIAS\DI\Container $dic,
         ilLanguage $lng
     ): string {
@@ -89,24 +89,24 @@ final class ilLTI1p1ConsumerLaunchRenderer
             return "";
         }
 
-        $cmixUser = new ilCmiXapiUser(
+        $cmix_user = new ilCmiXapiUser(
             $object->getId(),
             $dic->user()->getId(),
             $object->getProvider()->getPrivacyIdent()
         );
-        $user_ident = $cmixUser->getUsrIdent();
+        $user_ident = $cmix_user->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
             $user_ident = ilCmiXapiUser::getIdent($object->getProvider()->getPrivacyIdent(), $dic->user());
-            $cmixUser->setUsrIdent($user_ident);
-            $cmixUser->save();
+            $cmix_user->setUsrIdent($user_ident);
+            $cmix_user->save();
             $logger->info('LTI1p1 renderStartButton: created new cmix user identity for usr_id=' . $dic->user()->getId());
         }
 
-        $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($object->getRefId());
-        $context = $ilLTIConsumerLaunch->getContext();
-        $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
-        $contextId = (string) $context["id"];
-        $contextTitle = $context["title"];
+        $lti_consumer_launch = new ilLTIConsumerLaunch($object->getRefId());
+        $context = $lti_consumer_launch->getContext();
+        $context_type = $lti_consumer_launch::getLTIContextType($context["type"]);
+        $context_id = (string) $context["id"];
+        $context_title = $context["title"];
 
         $token = ilCmiXapiAuthToken::fillToken(
             $dic->user()->getId(),
@@ -114,29 +114,29 @@ final class ilLTI1p1ConsumerLaunchRenderer
             $object->getId()
         );
 
-        $returnUrl = !$object->isLaunchMethodOwnWin() ? '' : str_replace(
+        $return_url = !$object->isLaunchMethodOwnWin() ? '' : str_replace(
             '&amp;',
             '&',
-            ilObjLTIConsumer::getIliasHttpPath() . "/" . $dic->ctrl()->getLinkTarget($guiObject, "", "", false)
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $dic->ctrl()->getLinkTarget($gui_object, "", "", false)
         );
 
-        $logger->info('LTI1p1 renderStartButton: building launch parameters for context_type=' . $contextType . ' context_id=' . $contextId);
+        $logger->info('LTI1p1 renderStartButton: building launch parameters for context_type=' . $context_type . ' context_id=' . $context_id);
 
-        $launchParameters = $object->buildLaunchParameters(
-            $cmixUser,
+        $launch_parameters = $object->buildLaunchParameters(
+            $cmix_user,
             $token,
-            $contextType,
-            $contextId,
-            $contextTitle,
-            $returnUrl
+            $context_type,
+            $context_id,
+            $context_title,
+            $return_url
         );
 
-        $logger->info('LTI1p1 renderStartButton: launch parameters built (' . count($launchParameters) . ' fields), rendering form');
+        $logger->info('LTI1p1 renderStartButton: launch parameters built (' . count($launch_parameters) . ' fields), rendering form');
 
         $target = $object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $lng->txt("show_content") . '" />';
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        foreach ($launchParameters as $field => $value) {
+        foreach ($launch_parameters as $field => $value) {
             $output .= sprintf(
                 '<input type="hidden" name="%s" value="%s" />',
                 htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
@@ -157,18 +157,18 @@ final class ilLTI1p1ConsumerLaunchRenderer
 
     public static function resolveLaunchParameters(
         ilObjLTIConsumer $object,
-        ilCmiXapiUser $cmixUser,
+        ilCmiXapiUser $cmix_user,
         ILIAS\DI\Container $dic
     ): array {
         $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 resolveLaunchParameters: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
 
-        $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($object->getRefId());
-        $launchContext = $ilLTIConsumerLaunch->getContext();
+        $lti_consumer_launch = new ilLTIConsumerLaunch($object->getRefId());
+        $launch_context = $lti_consumer_launch->getContext();
 
-        $launchContextType = $ilLTIConsumerLaunch::getLTIContextType($launchContext["type"]);
-        $launchContextId = (string) $launchContext["id"];
-        $launchContextTitle = $launchContext["title"];
+        $launch_context_type = $lti_consumer_launch::getLTIContextType($launch_context["type"]);
+        $launch_context_id = (string) $launch_context["id"];
+        $launch_context_title = $launch_context["title"];
 
         $token = ilCmiXapiAuthToken::fillToken(
             $dic->user()->getId(),
@@ -177,11 +177,11 @@ final class ilLTI1p1ConsumerLaunchRenderer
         );
 
         $params = $object->buildLaunchParameters(
-            $cmixUser,
+            $cmix_user,
             $token,
-            $launchContextType,
-            $launchContextId,
-            $launchContextTitle
+            $launch_context_type,
+            $launch_context_id,
+            $launch_context_title
         );
 
         $logger->info('LTI1p1 resolveLaunchParameters: resolved ' . count($params) . ' launch parameters');
