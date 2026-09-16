@@ -290,9 +290,11 @@ class ilPCSectionGUI extends ilPageContentGUI
             $this->getPageConfig()->getIntLinkHelpDefaultType(),
             $this->getPageConfig()->getIntLinkHelpDefaultId()
         );
-        $link_types = array();
-        foreach ($this->getPageConfig()->getIntLinkFilters() as $f) {
-            $link_types[] = $f;
+        $link_types = $this->getPageConfig()->getIntLinkFilters();
+        if ($this->getPageConfig()->getIntLinkFilterWhiteList()) {
+            $link_types = array_diff($link_types, ["User"]);
+        } else {
+            $link_types[] = "User";
         }
         $ac->setInternalLinkFilterTypes($link_types);
         $ac->setFilterWhiteList(
