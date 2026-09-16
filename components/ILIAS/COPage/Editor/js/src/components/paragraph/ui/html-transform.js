@@ -64,9 +64,9 @@ export default class HTMLTransform {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
 
-    // Entfernt alle Tags außer <p>
+    // Entfernt alle Tags außer <p>, <br> und Listen-Tags
     tempDiv.querySelectorAll('*').forEach((node) => {
-      if (!['p', 'li', 'ol', 'ul'].includes(node.tagName.toLowerCase())) { // see #0046876
+      if (!['p', 'br', 'li', 'ol', 'ul'].includes(node.tagName.toLowerCase())) { // see #0046876, #0047804
         node.replaceWith(...node.childNodes); // Ersetzt das Element mit seinem Inhalt
       }
     });
