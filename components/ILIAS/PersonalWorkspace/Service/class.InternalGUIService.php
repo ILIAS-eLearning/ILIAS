@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\PersonalWorkspace;
 
+use ILIAS\PersonalWorkspace\PermanentLink\PermanentLinkManager;
 use ILIAS\Repository\GlobalDICGUIServices;
 
 /**
@@ -170,5 +171,10 @@ class InternalGUIService
             \ilParticipants::_getMembershipByType($user_id, ["crs"]),
             \ilParticipants::_getMembershipByType($user_id, ["grp"])
         ];
+    }
+
+    public function permanentLink(int $wsp_id): PermanentLinkManager
+    {
+        return new PermanentLinkManager($this->DIC['static_url'], $wsp_id);
     }
 }
