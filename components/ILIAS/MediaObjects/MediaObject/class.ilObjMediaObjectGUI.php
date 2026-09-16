@@ -1039,11 +1039,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $this->object->setDescription($format);
             // determine width and height of known image types
             $wh_input = $form->getInput("standard_width_height");
+            $source = $std_item->getOriginalSource();
+            if ($source === "" && $std_item->getLocationType() === "LocalFile") {
+                $source = $mob_dir . "/" . $location;
+            }
             $wh = ilObjMediaObject::_determineWidthHeight(
                 $format,
                 $form->getInput("standard_type"),
-                $mob_dir . "/" . $location,
-                $std_item->getLocation(),
+                $source,
+                $source,
                 (bool) ($wh_input["constr_prop"] ?? false),
                 ($form->getInput("standard_size") == "original"),
                 ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
@@ -1163,11 +1167,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
                 // determine width and height of known image types
                 $wh_input = $form->getInput("full_width_height");
+                $source = $full_item->getOriginalSource();
+                if ($source === "" && $full_item->getLocationType() === "LocalFile") {
+                    $source = $mob_dir . "/" . $location;
+                }
                 $wh = ilObjMediaObject::_determineWidthHeight(
                     $format,
                     $type,
-                    $mob_dir . "/" . $location,
-                    $full_item->getLocation(),
+                    $source,
+                    $source,
                     (bool) ($wh_input["constr_prop"] ?? false),
                     ($form->getInput("full_size") == "original"),
                     ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
