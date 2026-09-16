@@ -646,10 +646,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         // standard size
         $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "st_derive_size");
-        $default_size = $this->getDefaultSize($std_item);
-        $add_str = (!is_null($default_size))
-            ? " (" . $default_size["width"] . " x " . $default_size["height"] . ")"
-            : "";
+        $add_str = $this->getDefaultSizeLabel($std_item);
         $op1 = new ilRadioOption($lng->txt("cont_default") . $add_str, "y");
         $op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
         $radio_size->addOption($op1);
@@ -769,10 +766,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
             // full size
             $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_derive_size");
-            $default_size = $this->getDefaultSize($full_item);
-            $add_str = (!is_null($default_size))
-                ? " (" . $default_size["width"] . " x " . $default_size["height"] . ")"
-                : "";
+            $add_str = $this->getDefaultSizeLabel($full_item);
             $op1 = new ilRadioOption($lng->txt("cont_default") . $add_str, "y");
             $op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
             $radio_size->addOption($op1);
@@ -889,6 +883,20 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
 
         return $media_item->getOriginalSize();
+    }
+
+    protected function getDefaultSizeLabel(ilMediaItem $media_item): string
+    {
+        $default_size = $this->getDefaultSize($media_item);
+        if (is_null($default_size)) {
+            return "";
+        }
+
+        $fixed = ($media_item->getWidth() !== "" || $media_item->getHeight() !== "")
+            ? " - " . $this->lng->txt("cont_custom_size")
+            : "";
+
+        return " (" . $default_size["width"] . " x " . $default_size["height"] . $fixed . ")";
     }
 
     public function getAliasValues(): void
