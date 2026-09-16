@@ -260,7 +260,6 @@ class ilLocatorGUI
     ): void {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $ltiview = $DIC['lti'];
 
         $this->init();
 
@@ -268,10 +267,6 @@ class ilLocatorGUI
 
         if ($a_ref_id > 0 && !$ilAccess->checkAccess("visible", "", $a_ref_id)) {
             return;
-        }
-        // LTI
-        if ($ltiview->isActive()) {
-            $a_frame = "_self";
         }
         $this->entries[] = array(
             "title" => $DIC->refinery()->encode()->htmlSpecialCharsAsEntities()->transform(
