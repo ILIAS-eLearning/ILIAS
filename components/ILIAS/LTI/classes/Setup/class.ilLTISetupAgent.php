@@ -25,6 +25,8 @@ use ILIAS\Refinery;
  * Setup agent of the LTI component: runs the LTI database update steps.
  *
  * It replaces the former agents of LTIConsumer and LTIProvider, whose steps were merged into ilLTIDatabaseUpdateSteps.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 class ilLTISetupAgent implements Setup\Agent
 {

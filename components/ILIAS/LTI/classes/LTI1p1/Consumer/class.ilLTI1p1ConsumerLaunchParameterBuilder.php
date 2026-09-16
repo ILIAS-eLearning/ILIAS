@@ -22,6 +22,9 @@ use ceLTIc\LTI\OAuth\OAuthConsumer;
 use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 
+/**
+ * @author Saúl Díaz <sdiaz@surlabs.com>
+ */
 final class ilLTI1p1ConsumerLaunchParameterBuilder
 {
     /**

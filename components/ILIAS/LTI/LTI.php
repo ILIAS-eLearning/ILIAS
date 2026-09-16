@@ -23,6 +23,8 @@ namespace ILIAS;
 /**
  * LTI component: LTI 1.1 (classes/LTI1p1) and LTI Advantage (classes/LTIAdvantage) for ILIAS as consumer and provider.
  * See README.md for the structure.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 class LTI implements Component\Component
 {

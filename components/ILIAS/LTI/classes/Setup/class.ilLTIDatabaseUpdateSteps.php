@@ -28,6 +28,8 @@ declare(strict_types=1);
  *
  * New steps are only appended at the end and must check the schema as well.
  * Never renumber the steps or rename this class.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {

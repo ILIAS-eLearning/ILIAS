@@ -21,6 +21,8 @@ declare(strict_types=1);
 /**
  * OAuth1 key and secret of an external tool. They share the lti_ext_provider row
  * with the LTI Advantage settings of the same provider.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 final class ilLTI1p1ConsumerProviderCredentials
 {

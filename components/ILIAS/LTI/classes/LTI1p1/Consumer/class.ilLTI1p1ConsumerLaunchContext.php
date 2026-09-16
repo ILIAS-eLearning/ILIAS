@@ -21,6 +21,7 @@ declare(strict_types=1);
 /**
  * LTI 1.1 copy of ilLTIConsumerLaunch, so that LTI1p1 does not depend on other LTI code.
  *
+ * @author      Saúl Díaz <sdiaz@surlabs.com>
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  */

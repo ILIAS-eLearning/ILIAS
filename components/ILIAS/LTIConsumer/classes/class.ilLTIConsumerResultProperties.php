@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 /**
  * Provider availability and mastery score of an LTI consumer object, used by ilLTIConsumerGradeServiceScores.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 final class ilLTIConsumerResultProperties
 {

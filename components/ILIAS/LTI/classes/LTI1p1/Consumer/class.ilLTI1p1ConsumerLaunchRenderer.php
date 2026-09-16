@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @author Saúl Díaz <sdiaz@surlabs.com>
+ */
 final class ilLTI1p1ConsumerLaunchRenderer
 {
     public static function renderLaunch(

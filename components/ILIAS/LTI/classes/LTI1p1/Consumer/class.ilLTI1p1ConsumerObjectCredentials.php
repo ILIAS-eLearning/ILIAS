@@ -21,6 +21,8 @@ declare(strict_types=1);
 /**
  * OAuth1 key and secret set on a single LTI consumer object, used instead of the provider
  * credentials when the provider allows customizing them. Stored in lti_consumer_settings.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 final class ilLTI1p1ConsumerObjectCredentials
 {
