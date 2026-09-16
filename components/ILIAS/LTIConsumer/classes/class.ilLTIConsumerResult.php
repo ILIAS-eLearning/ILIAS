@@ -195,7 +195,7 @@ class ilLTIConsumerResult
 
         $results = [];
 
-        if ($row = $DIC->database()->fetchAssoc($res)) {
+        while ($row = $DIC->database()->fetchAssoc($res)) {
             $resObj = new ilLTIConsumerResult();
             $resObj->fillData($row);
 
