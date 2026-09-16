@@ -342,7 +342,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             $target = $int_link["Target"];
             if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);
-                $target_id = $target_arr[count($target_arr) - 1];
+                $target_id = (int) $target_arr[count($target_arr) - 1];
                 $type = $int_link["Type"];
                 $targetframe = ($int_link["TargetFrame"] != "")
                     ? $int_link["TargetFrame"]
