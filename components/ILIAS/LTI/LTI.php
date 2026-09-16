@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+/**
+ * LTI component: LTI 1.1 (classes/LTI1p1) and LTI Advantage (classes/LTIAdvantage) for ILIAS as consumer and provider.
+ * See README.md for the structure.
+ */
 class LTI implements Component\Component
 {
     public function init(

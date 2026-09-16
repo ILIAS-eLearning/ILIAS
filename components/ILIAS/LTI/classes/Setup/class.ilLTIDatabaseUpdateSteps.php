@@ -25,6 +25,9 @@ declare(strict_types=1);
  * il_db_steps records executed steps per class, and ILIAS 11 installations already ran them.
  * Steps 10-29 are the former ilLTIConsumerDatabaseUpdateSteps 1-20, step 30 is the first LTIAdvantage step.
  * Every step checks the current schema first, so running one again changes nothing.
+ *
+ * New steps are only appended at the end and must check the schema as well.
+ * Never renumber the steps or rename this class.
  */
 class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {

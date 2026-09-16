@@ -19,8 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Provider availability and mastery score of an LTI consumer object, used to
- * evaluate incoming results from both Basic Outcomes (LTI1p1) and AGS (LTIAdvantage).
+ * Provider availability and mastery score of an LTI consumer object, used by ilLTIConsumerGradeServiceScores.
  */
 final class ilLTIConsumerResultProperties
 {
@@ -30,6 +29,9 @@ final class ilLTIConsumerResultProperties
     ) {
     }
 
+    /**
+     * Reads the properties of an object. Without settings the object counts as unavailable with mastery score 1.
+     */
     public static function forObject(int $a_obj_id): self
     {
         global $DIC;
@@ -55,6 +57,9 @@ final class ilLTIConsumerResultProperties
         return $this->availability;
     }
 
+    /**
+     * False when the provider availability is ilLTIConsumeProvider::AVAILABILITY_NONE.
+     */
     public function isAvailable(): bool
     {
         return $this->availability != 0;

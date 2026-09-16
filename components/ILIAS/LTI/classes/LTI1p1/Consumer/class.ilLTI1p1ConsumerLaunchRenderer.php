@@ -30,7 +30,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $logger->info('LTI1p1 renderLaunch: ref_id=' . $object->getRefId() . ' launch_method=' . $object->getLaunchMethod());
 
         if ($object->isLaunchMethodEmbedded()) {
-            $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
+            $tpl = new ilTemplate('tpl.lti1p1_content.html', true, true, 'components/ILIAS/LTI');
             $tpl->setVariable("EMBEDDED_IFRAME_SRC", $dic->ctrl()->getLinkTarget(
                 $gui_object,
                 ilLTIConsumerContentGUI::CMD_SHOW_EMBEDDED
@@ -52,7 +52,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 renderEmbeddedLaunch: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
 
-        $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTI');
+        $tpl = new ilTemplate('tpl.lti1p1_embedded.html', true, true, 'components/ILIAS/LTI');
         foreach (self::resolveLaunchParameters($object, $cmix_user, $dic) as $field => $value) {
             $tpl->setCurrentBlock('launch_parameter');
             $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
@@ -102,7 +102,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
             $logger->info('LTI1p1 renderStartButton: created new cmix user identity for usr_id=' . $dic->user()->getId());
         }
 
-        $lti_consumer_launch = new ilLTIConsumerLaunch($object->getRefId());
+        $lti_consumer_launch = new ilLTI1p1ConsumerLaunchContext($object->getRefId());
         $context = $lti_consumer_launch->getContext();
         $context_type = $lti_consumer_launch::getLTIContextType($context["type"]);
         $context_id = (string) $context["id"];
@@ -163,7 +163,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $logger = ilLoggerFactory::getLogger('lti');
         $logger->info('LTI1p1 resolveLaunchParameters: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
 
-        $lti_consumer_launch = new ilLTIConsumerLaunch($object->getRefId());
+        $lti_consumer_launch = new ilLTI1p1ConsumerLaunchContext($object->getRefId());
         $launch_context = $lti_consumer_launch->getContext();
 
         $launch_context_type = $lti_consumer_launch::getLTIContextType($launch_context["type"]);

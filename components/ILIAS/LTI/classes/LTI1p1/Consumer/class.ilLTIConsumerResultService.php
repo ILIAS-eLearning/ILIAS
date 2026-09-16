@@ -35,9 +35,9 @@ use ceLTIc\LTI\OAuthDataStore;
 class ilLTIConsumerResultService
 {
     /**
-     * @var ilLTIConsumerResult
+     * @var ilLTI1p1ConsumerResult
      */
-    protected ?ilLTIConsumerResult $result = null;
+    protected ?ilLTI1p1ConsumerResult $result = null;
 
     /**
      * @var integer
@@ -120,7 +120,7 @@ class ilLTIConsumerResultService
             $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 
             $logger->info("LTI Consumer Result Service: token loaded");
-            $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
+            $this->result = ilLTI1p1ConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
                 $logger->error('LTI Consumer Result Service: Incoming request');
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
@@ -341,9 +341,21 @@ class ilLTIConsumerResultService
      */
     public function readProperties(int $a_obj_id): void
     {
-        $properties = ilLTIConsumerResultProperties::forObject($a_obj_id);
-        $this->setAvailability($properties->getAvailability());
-        $this->setMasteryScore($properties->getMasteryScore());
+        global $DIC;
+
+        $query = "
+			SELECT lti_ext_provider.availability, lti_consumer_settings.mastery_score
+			FROM lti_ext_provider, lti_consumer_settings
+			WHERE lti_ext_provider.id = lti_consumer_settings.provider_id
+			AND lti_consumer_settings.obj_id = %s
+		";
+
+        $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
+
+        if ($row = $DIC->database()->fetchAssoc($res)) {
+            $this->setAvailability((int) $row['availability']);
+            $this->setMasteryScore((float) $row['mastery_score']);
+        }
     }
 
     /**
@@ -409,7 +421,7 @@ class ilLTIConsumerResultService
 
     protected function updateLP(): void
     {
-        if (!($this->result instanceof ilLTIConsumerResult)) {
+        if (!($this->result instanceof ilLTI1p1ConsumerResult)) {
             return;
         }
 
