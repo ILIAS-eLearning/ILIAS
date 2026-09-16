@@ -104,7 +104,7 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
 
         $upload_handler = $this->createMock(ilMailFormUploadHandlerGUI::class);
         $upload_handler->method('getInfoResult')->willReturnCallback(
-            static fn (string $id): FileInfoResult => $infos[$id]
+            static fn(string $id): FileInfoResult => $infos[$id]
         );
         if ($expect_store) {
             $consumer = $this->createMock(FileStreamConsumer::class);
