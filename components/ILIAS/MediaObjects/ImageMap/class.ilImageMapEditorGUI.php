@@ -85,6 +85,7 @@ class ilImageMapEditorGUI
                     )
                 );
                 $link_gui->filterLinkType("File");
+                $link_gui->filterLinkType("User");
                 $ret = $ilCtrl->forwardCommand($link_gui);
                 break;
 
