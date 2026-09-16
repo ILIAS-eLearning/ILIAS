@@ -341,22 +341,9 @@ class ilLTIConsumerResultService
      */
     public function readProperties(int $a_obj_id): void
     {
-        global $DIC;
-
-        $query = "
-			SELECT lti_ext_provider.availability, lti_consumer_settings.mastery_score 
-			FROM lti_ext_provider, lti_consumer_settings
-			WHERE lti_ext_provider.id = lti_consumer_settings.provider_id
-			AND lti_consumer_settings.obj_id = %s
-		";
-
-        $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
-
-        if ($row = $DIC->database()->fetchAssoc($res)) {
-            //$this->properties = $row;
-            $this->setAvailability((int) $row['availability']);
-            $this->setMasteryScore((float) $row['mastery_score']);
-        }
+        $properties = \ILIAS\LTI\Shared\Consumer\ResultProperties::forObject($a_obj_id);
+        $this->setAvailability($properties->getAvailability());
+        $this->setMasteryScore($properties->getMasteryScore());
     }
 
     /**

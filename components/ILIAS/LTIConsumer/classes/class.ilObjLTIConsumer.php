@@ -278,20 +278,18 @@ class ilObjLTIConsumer extends ilObject2
 
     public function getLaunchKey(): string
     {
-        if ($this->getProvider()->isProviderKeyCustomizable()) {
-            return $this->getCustomLaunchKey();
-        }
-
-        return $this->getProvider()->getProviderKey();
+        return \ILIAS\LTI\LTI1p1\Consumer\LaunchParameterBuilder::resolveLaunchKey(
+            $this->getProvider(),
+            $this->getCustomLaunchKey()
+        );
     }
 
     public function getLaunchSecret(): string
     {
-        if ($this->getProvider()->isProviderKeyCustomizable()) {
-            return $this->getCustomLaunchSecret();
-        }
-
-        return $this->getProvider()->getProviderSecret();
+        return \ILIAS\LTI\LTI1p1\Consumer\LaunchParameterBuilder::resolveLaunchSecret(
+            $this->getProvider(),
+            $this->getCustomLaunchSecret()
+        );
     }
 
     public function getUseXapi(): bool

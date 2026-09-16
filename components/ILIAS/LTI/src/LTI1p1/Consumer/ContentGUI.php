@@ -22,6 +22,57 @@ namespace ILIAS\LTI\LTI1p1\Consumer;
 
 final class ContentGUI
 {
+    public static function renderLaunch(
+        \ilObjLTIConsumer $object,
+        \ilLTIConsumerContentGUI $guiObject,
+        \ILIAS\DI\Container $dic,
+        \ilLanguage $lng
+    ): void {
+        $logger = \ilLoggerFactory::getLogger('lti');
+        $logger->info('LTI1p1 renderLaunch: ref_id=' . $object->getRefId() . ' launch_method=' . $object->getLaunchMethod());
+
+        if ($object->isLaunchMethodEmbedded()) {
+            $tpl = new \ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
+            $tpl->setVariable("EMBEDDED_IFRAME_SRC", $dic->ctrl()->getLinkTarget(
+                $guiObject,
+                \ilLTIConsumerContentGUI::CMD_SHOW_EMBEDDED
+            ));
+            $dic->ui()->mainTemplate()->setContent($tpl->get());
+        } else {
+            $dic->toolbar()->addText(self::renderStartButton($object, $guiObject, $dic, $lng));
+        }
+    }
+
+    /**
+     * Sends the auto-submitting launch page for the iframe and ends the request.
+     */
+    public static function renderEmbeddedLaunch(
+        \ilObjLTIConsumer $object,
+        \ilCmiXapiUser $cmixUser,
+        \ILIAS\DI\Container $dic
+    ): void {
+        $logger = \ilLoggerFactory::getLogger('lti');
+        $logger->info('LTI1p1 renderEmbeddedLaunch: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
+
+        $tpl = new \ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTI');
+        foreach (self::resolveLaunchParameters($object, $cmixUser, $dic) as $field => $value) {
+            $tpl->setCurrentBlock('launch_parameter');
+            $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+            $tpl->setVariable('LAUNCH_PARAM_VALUE', htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+            $tpl->parseCurrentBlock();
+        }
+
+        $v = DEVMODE ? '?vers=' . time() : '?vers=' . ILIAS_VERSION_NUMERIC;
+        $tpl->setVariable("DELOS_CSS_HREF", 'assets/css/delos.css' . $v);
+        $tpl->setVariable("JQUERY_SRC", 'assets/js/jquery.js' . $v);
+
+        $tpl->setVariable("LOADER_ICON_SRC", \ilUtil::getImagePath("media/loader.svg"));
+        $tpl->setVariable('LAUNCH_URL', $object->getProvider()->getProviderUrl());
+
+        echo $tpl->get();
+        exit; //TODO: no exit
+    }
+
     public static function renderStartButton(
         \ilObjLTIConsumer $object,
         \ilLTIConsumerContentGUI $guiObject,

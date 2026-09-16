@@ -215,9 +215,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             return;
         }
 
-        $ltiObjRes = new ilLTIConsumerResultService();
-
-        $ltiObjRes->readProperties($objId);
+        $ltiObjRes = \ILIAS\LTI\Shared\Consumer\ResultProperties::forObject($objId);
         // check the object status
         if (!$ltiObjRes->isAvailable()) {
             throw ilLTIConsumerHttpException::notFound('Tool for Object not available');

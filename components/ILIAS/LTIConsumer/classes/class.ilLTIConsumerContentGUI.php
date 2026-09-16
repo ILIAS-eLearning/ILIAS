@@ -83,16 +83,12 @@ class ilLTIConsumerContentGUI
     protected function launch(): void
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
-            if ($this->object->isLaunchMethodEmbedded()) {
-                $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
-                $tpl->setVariable("EMBEDDED_IFRAME_SRC", $this->dic->ctrl()->getLinkTarget(
-                    $this,
-                    self::CMD_SHOW_EMBEDDED
-                ));
-                $this->dic->ui()->mainTemplate()->setContent($tpl->get());
-            } else {
-                $this->dic->toolbar()->addText($this->getStartButtonTxt11());
-            }
+            \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::renderLaunch(
+                $this->object,
+                $this,
+                $this->dic,
+                $this->lng
+            );
         } else {
             if ($this->object->isLaunchMethodEmbedded() && (ilSession::get('lti13_login_data') == null)) {
                 $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
@@ -153,16 +149,6 @@ class ilLTIConsumerContentGUI
             return $r;
         }
         return null;
-    }
-
-    protected function getStartButtonTxt11(): string
-    {
-        return \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::renderStartButton(
-            $this->object,
-            $this,
-            $this->dic,
-            $this->lng
-        );
     }
 
     protected function getStartButtonTxt13(): string
@@ -261,41 +247,17 @@ class ilLTIConsumerContentGUI
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
             $this->initCmixUser();
-            $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTIConsumer');
-            foreach ($this->getLaunchParameters() as $field => $value) {
-                $tpl->setCurrentBlock('launch_parameter');
-                $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
-                $tpl->setVariable('LAUNCH_PARAM_VALUE', htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
-                $tpl->parseCurrentBlock();
-            }
-
-            $v = DEVMODE ? '?vers=' . time() : '?vers=' . ILIAS_VERSION_NUMERIC;
-            $tpl->setVariable("DELOS_CSS_HREF", 'assets/css/delos.css' . $v);
-            $tpl->setVariable("JQUERY_SRC", 'assets/js/jquery.js' . $v);
-
-            $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
-            $tpl->setVariable('LAUNCH_URL', $this->object->getProvider()->getProviderUrl());
-
-            #$DIC->ui()->mainTemplate()->getStandardTemplate();
-            #$DIC->ui()->mainTemplate()->setContent($tpl->get());
-
-            echo $tpl->get();
-            exit; //TODO: no exit
+            \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::renderEmbeddedLaunch(
+                $this->object,
+                $this->cmixUser,
+                $this->dic
+            );
         } else {
             $response = $this->dic->http()->response()->withBody(ILIAS\Filesystem\Stream\Streams::ofString($this->getEmbeddedAutoStartFormular()));
             $this->dic->http()->saveResponse($response);
             $this->dic->http()->sendResponse();
             $this->dic->http()->close();
         }
-    }
-
-    protected function getLaunchParameters(): array
-    {
-        return \ILIAS\LTI\LTI1p1\Consumer\ContentGUI::resolveLaunchParameters(
-            $this->object,
-            $this->cmixUser,
-            $this->dic
-        );
     }
 
     protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null): ?array

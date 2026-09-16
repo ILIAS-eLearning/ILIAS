@@ -20,8 +20,33 @@ declare(strict_types=1);
 
 namespace ILIAS\LTI\LTI1p1\Consumer;
 
+use ceLTIc\LTI\OAuth\OAuthConsumer;
+use ceLTIc\LTI\OAuth\OAuthRequest;
+use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+
 final class LaunchParameterBuilder
 {
+    /**
+     * OAuth1 consumer key: per object when the provider allows customizing it, global otherwise.
+     */
+    public static function resolveLaunchKey(\ilLTIConsumeProvider $provider, string $customLaunchKey): string
+    {
+        if ($provider->isProviderKeyCustomizable()) {
+            return $customLaunchKey;
+        }
+
+        return $provider->getProviderKey();
+    }
+
+    public static function resolveLaunchSecret(\ilLTIConsumeProvider $provider, string $customLaunchSecret): string
+    {
+        if ($provider->isProviderKeyCustomizable()) {
+            return $customLaunchSecret;
+        }
+
+        return $provider->getProviderSecret();
+    }
+
     /**
      * @throws \ilWACException
      * @return array<string, string>
@@ -151,6 +176,37 @@ final class LaunchParameterBuilder
             "data" => ($launch_vars + $merged_params)
         ];
 
-        return \ilLTIConsumerLaunch::signOAuth($OAuthParams);
+        return self::signOAuth($OAuthParams);
+    }
+
+    /**
+     * sign request data with OAuth
+     *
+     * @param array $a_params (    "method => signature methos
+     *                    "key" => consumer key
+     *                    "secret" => shared secret
+     *                    "token"    => request token
+     *                    "url" => request url
+     *                    data => array (key => value)
+     *                )
+     *
+     * @return array    signed data
+     * @throws \Exception
+     */
+    public static function signOAuth(array $a_params): array
+    {
+        switch ($a_params['sign_method']) {
+            case "HMAC_SHA1":
+                $method = new OAuthSignatureMethod_HMAC_SHA1();
+                break;
+            default:
+                throw new \Exception("Unknown signature method: " . $a_params['sign_method']);
+        }
+
+        $consumer = new OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
+        $request = OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
+        $request->sign_request($method, $consumer, $a_params["token"]);
+
+        return $request->get_parameters();
     }
 }

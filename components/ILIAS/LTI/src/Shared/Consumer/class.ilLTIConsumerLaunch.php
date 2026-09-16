@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-use ceLTIc\LTI\OAuth\OAuthConsumer;
-use ceLTIc\LTI\OAuth\OAuthRequest;
-use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
-
 /**
  * Class ilObjLTIConsumerLaunch
  *
@@ -95,41 +91,5 @@ class ilLTIConsumerLaunch
             default:
                 return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
         }
-    }
-
-
-    /**
-     * sign request data with OAuth
-     *
-     * @param array $a_params (    "method => signature methos
-     *                    "key" => consumer key
-     *                    "secret" => shared secret
-     *                    "token"    => request token
-     *                    "url" => request url
-     *                    data => array (key => value)
-     *                )
-     *
-     * @return array    signed data
-     * @throws Exception
-     */
-    public static function signOAuth(array $a_params): array
-    {
-        switch ($a_params['sign_method']) {
-            case "HMAC_SHA1":
-                $method = new OAuthSignatureMethod_HMAC_SHA1();
-                break;
-            default:
-                throw new Exception("Unknown signature method: " . $a_params['sign_method']);
-        }
-
-        $consumer = new OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
-        $request = OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
-        $request->sign_request($method, $consumer, $a_params["token"]);
-
-        // Pass this back up "out of band" for debugging
-        //        self::$last_oauth_base_string = $request->get_signature_base_string();
-        // die(self::$last_oauth_base_string);
-
-        return $request->get_parameters();
     }
 }
