@@ -166,14 +166,22 @@ class ilContainerRenderer
 
     public function addTypeBlock(
         string $a_type,
+<<<<<<< HEAD
         ?string $a_prefix = null,
         ?string $a_postfix = null
+=======
+        string $a_prefix = null,
+        string $a_postfix = null,
+        ?string $a_block_id = null
+>>>>>>> 677e3d10af4 (45434: Actions not working with multiple object-blocks)
     ): bool {
+        $block_id = $a_block_id ?? $a_type;
         if ($a_type !== "itgr" &&
-            !$this->hasTypeBlock($a_type)) {
-            $this->type_blocks[$a_type] = [
+            !$this->hasTypeBlock($block_id)) {
+            $this->type_blocks[$block_id] = [
                 "prefix" => $a_prefix
                 ,"postfix" => $a_postfix
+                ,"type" => $a_type
             ];
             return true;
         }
@@ -507,7 +515,7 @@ class ilContainerRenderer
     ): bool {
         if ($this->hasTypeBlock($a_type)) {
             $block = $this->type_blocks[$a_type];
-            $block["type"] = $a_type;
+            $block["type"] = $block["type"] ?? $a_type;
             return $this->renderHelperGeneric($a_block_tpl, $a_type, $block, $a_is_single, $is_exhausted);
         }
         return false;
@@ -876,9 +884,14 @@ class ilContainerRenderer
         $preloader->preload();
 
         $embedded_block_ids = $this->item_presentation->getPageEmbeddedBlockIds();
+        $page_block_instance = 0;
         foreach ($sequence->getBlocks() as $block) {
             $block_id = "";
+            $render_block_id = $block->getRenderId();
             $force_item_even_if_already_rendered = false;
+            if ($block->getPageEmbedded()) {
+                $page_block_instance++;
+            }
             if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
                 $block_id = (string) $block->getBlock()->getRefId();
                 $force_item_even_if_already_rendered = true;
@@ -918,7 +931,8 @@ class ilContainerRenderer
                 $this->addTypeBlock(
                     $block_id,
                     $this->getBlockPrefix($block_id),
-                    $this->getBlockPostfix($block_id)
+                    $this->getBlockPostfix($block_id),
+                    $render_block_id
                 );
             }
 
@@ -934,6 +948,9 @@ class ilContainerRenderer
                 $item_data = $this->item_presentation->getRawDataByRefId($ref_id);
                 if ($item_data === null) {
                     continue;
+                }
+                if ($block->getPageEmbedded()) {
+                    $item_data["parent"] = -$page_block_instance;
                 }
                 $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
                 if ($this->container_gui->isActiveAdministrationPanel()) {
@@ -966,7 +983,7 @@ class ilContainerRenderer
                 );
                 if ($html != "") {
                     $this->addItemToBlock(
-                        $block_id,
+                        $render_block_id,
                         $item_data["type"],
                         $item_data["child"],
                         $html,
@@ -981,8 +998,9 @@ class ilContainerRenderer
                     $block->getBlock() instanceof \ILIAS\Container\Content\SessionBlock) {
                     $page_html = preg_replace(
                         '~\[list-' . $block->getId() . '\]~i',
-                        $this->renderSingleTypeBlock($block->getId(), $block->getLimitExhausted()),
-                        $page_html
+                        $this->renderSingleTypeBlock($render_block_id, $block->getLimitExhausted()),
+                        $page_html,
+                        1
                     );
                     $valid = true;
                 } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
