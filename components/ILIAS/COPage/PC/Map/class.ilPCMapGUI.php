@@ -116,7 +116,6 @@ class ilPCMapGUI extends ilPageContentGUI
         );
         $width_prop->setSize(4);
         $width_prop->setMaxLength(4);
-        $width_prop->setRequired(true);
         $width_prop->setMinValue(250);
         $this->form->addItem($width_prop);
 
@@ -127,7 +126,6 @@ class ilPCMapGUI extends ilPageContentGUI
         );
         $height_prop->setSize(4);
         $height_prop->setMaxLength(4);
-        $height_prop->setRequired(true);
         $height_prop->setMinValue(200);
         $this->form->addItem($height_prop);
 
