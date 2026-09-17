@@ -176,7 +176,16 @@ class Init implements Component\Component
                 $use[Logging\Config\ConfigInterface::class],
                 $use[ConditionTypes::class],
                 $use[\ILIAS\LTI\View::class],
-                $use[\ILIAS\KeyValueStorage\Services::class]
+                $use[\ILIAS\KeyValueStorage\Services::class],
+                $pull[\ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager::class],
+                $pull[\ILIAS\Language\Activities\InstallLanguage::class],
+                $pull[\ILIAS\Language\Activities\UpdateLanguage::class],
+                $pull[\ILIAS\Language\Activities\UninstallLanguage::class],
+                $pull[\ILIAS\Language\Activities\RemoveLocalLanguageChanges::class],
+                $pull[\ILIAS\Language\Activities\AddLanguageEntry::class],
+                $pull[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class],
+                $pull[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class],
+                $use[\ILIAS\Language\Language::class],
             );
     }
 }

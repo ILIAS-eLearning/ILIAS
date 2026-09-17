@@ -148,7 +148,16 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected Logging\Config\ConfigInterface $logging_config,
         protected ConditionTypes $lso_condition_types,
         protected \ILIAS\LTI\View $lti_view,
-        protected KeyValueStorage $key_value_storage
+        protected KeyValueStorage $key_value_storage,
+        protected \ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager $language_file_directory_manager,
+        protected \ILIAS\Language\Activities\InstallLanguage $install_language,
+        protected \ILIAS\Language\Activities\UpdateLanguage $update_language,
+        protected \ILIAS\Language\Activities\UninstallLanguage $uninstall_language,
+        protected \ILIAS\Language\Activities\RemoveLocalLanguageChanges $remove_local_language_changes,
+        protected \ILIAS\Language\Activities\AddLanguageEntry $add_language_entry,
+        protected \ILIAS\Language\Activities\SetLanguageDetectionEnabled $set_language_detection_enabled,
+        protected \ILIAS\Language\Activities\SetLanguageTranslationEnabled $set_language_translation_enabled,
+        protected \ILIAS\Language\Language $language,
     ) {
     }
 
@@ -263,6 +272,15 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC[ConditionTypes::class] = fn(): ConditionTypes => $this->lso_condition_types;
         $DIC['lti'] = fn(): \ILIAS\LTI\View => $this->lti_view;
         $DIC[KeyValueStorage::class] = fn(): KeyValueStorage => $this->key_value_storage;
+        $DIC[\ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager::class] = fn(): \ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager => $this->language_file_directory_manager;
+        $DIC[\ILIAS\Language\Activities\InstallLanguage::class] = fn(): \ILIAS\Language\Activities\InstallLanguage => $this->install_language;
+        $DIC[\ILIAS\Language\Activities\UpdateLanguage::class] = fn(): \ILIAS\Language\Activities\UpdateLanguage => $this->update_language;
+        $DIC[\ILIAS\Language\Activities\UninstallLanguage::class] = fn(): \ILIAS\Language\Activities\UninstallLanguage => $this->uninstall_language;
+        $DIC[\ILIAS\Language\Activities\RemoveLocalLanguageChanges::class] = fn(): \ILIAS\Language\Activities\RemoveLocalLanguageChanges => $this->remove_local_language_changes;
+        $DIC[\ILIAS\Language\Activities\AddLanguageEntry::class] = fn(): \ILIAS\Language\Activities\AddLanguageEntry => $this->add_language_entry;
+        $DIC[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageDetectionEnabled => $this->set_language_detection_enabled;
+        $DIC[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageTranslationEnabled => $this->set_language_translation_enabled;
+        $DIC[\ILIAS\Language\Language::class] = fn(): \ILIAS\Language\Language => $this->language;
     }
 
     public function getName(): string

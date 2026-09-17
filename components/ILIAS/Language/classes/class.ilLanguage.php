@@ -255,7 +255,7 @@ class ilLanguage implements \ILIAS\Language\Language
             return;
         }
 
-        $q = "SELECT * FROM lng_modules " .
+        $q = "SELECT lang_array FROM lng_modules " .
                 "WHERE lang_key = " . $ilDB->quote($lang_key, "text") . " AND module = " .
                 $ilDB->quote($a_module, "text");
         $r = $ilDB->query($q);
@@ -287,6 +287,12 @@ class ilLanguage implements \ILIAS\Language\Language
 
     /**
      * Get installed languages
+     *
+     * Deliberately separate from ilSetupLanguage::getInstalledLanguages():
+     * this one relies on ilObject::_getObjectsByType(), which needs the full
+     * runtime object repository and is unavailable during Setup, whereas
+     * ilSetupLanguage's variant uses a raw object_data query that works
+     * before that machinery exists. Do not merge the two.
      */
     public static function _getInstalledLanguages(): array
     {
@@ -308,7 +314,7 @@ class ilLanguage implements \ILIAS\Language\Language
         $ilDB = $DIC->database();
 
         $set = $ilDB->query($q = sprintf(
-            "SELECT * FROM lng_data WHERE module = %s " .
+            "SELECT value FROM lng_data WHERE module = %s " .
             "AND lang_key = %s AND identifier = %s",
             $ilDB->quote($a_mod, "text"),
             $ilDB->quote($a_lang_key, "text"),
