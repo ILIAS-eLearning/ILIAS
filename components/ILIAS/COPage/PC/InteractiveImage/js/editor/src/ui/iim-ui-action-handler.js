@@ -131,10 +131,9 @@ export default class IIMUIActionHandler {
           break;
 
         case ACTIONS.E_TRIGGER_DELETE:
-          this.sendTriggerDeleteCommand(
-            params,
-            model,
-          );
+          this.ui.showDeleteConfirmation(() => {
+            this.sendTriggerDeleteCommand(params, model);
+          });
           break;
 
         case ACTIONS.E_TRIGGER_OVERLAY_ADD:
@@ -168,7 +167,9 @@ export default class IIMUIActionHandler {
           break;
 
         case ACTIONS.E_POPUP_DELETE:
-          this.sendDeletePopup(params, model);
+          this.ui.showDeleteConfirmation(() => {
+            this.sendDeletePopup(params, model);
+          });
           break;
 
         case ACTIONS.E_OVERLAY_UPLOAD:
@@ -176,7 +177,9 @@ export default class IIMUIActionHandler {
           break;
 
         case ACTIONS.E_OVERLAY_DELETE:
-          this.sendDeleteOverlay(params, model);
+          this.ui.showDeleteConfirmation(() => {
+            this.sendDeleteOverlay(params, model);
+          });
           break;
 
         case ACTIONS.E_SAVE_SETTINGS:
