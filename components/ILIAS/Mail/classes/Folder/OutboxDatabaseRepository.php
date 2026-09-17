@@ -20,22 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Folder;
 
-use ilMail;
 use Generator;
 use DateTimeZone;
 use ilDBConstants;
 use ilDBInterface;
-use ilFileDataMail;
 use MailDeliveryData;
 use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockFactory;
+use ILIAS\Mail\Message\MailRecordMapper;
 
 readonly class OutboxDatabaseRepository implements OutboxRepository
 {
     public function __construct(
         private ilDBInterface $db,
         private ClockFactory $clock,
-        private ilMail $mail,
+        private MailRecordMapper $mail_record_mapper,
     ) {
     }
 
@@ -47,8 +46,9 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         $res = $this->db->queryF(
             <<<'SQL'
             SELECT 
-                mail_id,
+                mail.mail_id,
                 mail.user_id,
+                mail.folder_id,
                 rcp_to, 
                 rcp_cc, 
                 rcp_bcc, 
@@ -60,6 +60,7 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                 schedule_timezone
             FROM mail 
             INNER JOIN mail_obj_data ON mail.folder_id = mail_obj_data.obj_id AND mail.user_id = mail_obj_data.user_id
+            INNER JOIN usr_data ON usr_data.usr_id = mail.user_id
                  WHERE mail_obj_data.m_type = %s 
                    AND schedule_datetime IS NOT NULL
             SQL,
@@ -68,51 +69,44 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         );
         $current_time = $this->clock->utc()->now();
 
-        while ($row = $this->mail->fetchMailData($this->db->fetchAssoc($res))) {
-            $schedule_datetime = new DateTimeImmutable(
-                $row['schedule_datetime'],
-                new DateTimeZone($row['schedule_timezone'])
-            );
-            if ($schedule_datetime <= $current_time) {
-                yield new MailDeliveryData(
-                    $row['rcp_to'],
-                    $row['rcp_cc'],
-                    $row['rcp_bcc'],
-                    $row['m_subject'],
-                    $row['m_message'],
-                    $row['attachments'],
-                    (bool) ($row['use_placeholders'] ?? false),
-                    (int) $row['mail_id'],
-                    (int) $row['user_id']
-                );
+        while ($row = $this->db->fetchAssoc($res)) {
+            if (!is_array($row)) {
+                continue;
             }
+
+            $schedule_datetime = new DateTimeImmutable(
+                (string) $row['schedule_datetime'],
+                new DateTimeZone((string) $row['schedule_timezone'])
+            );
+            if ($schedule_datetime > $current_time) {
+                continue;
+            }
+
+            $row = $this->mail_record_mapper->normalizeRow($row);
+            if ($row === null) {
+                continue;
+            }
+
+            yield new MailDeliveryData(
+                (string) $row['rcp_to'],
+                (string) $row['rcp_cc'],
+                (string) $row['rcp_bcc'],
+                (string) $row['m_subject'],
+                (string) $row['m_message'],
+                is_array($row['attachments']) ? $row['attachments'] : [],
+                (bool) ($row['use_placeholders'] ?? false),
+                (int) $row['mail_id'],
+                (int) $row['user_id']
+            );
         }
     }
 
-    public function deleteOrphanScheduledMail(int $mail_id): void
+    public function markAsDelivered(int $owner_id, int $mail_id): void
     {
-        $res = $this->db->queryF(
-            'SELECT user_id FROM mail WHERE mail_id = %s',
-            [ilDBConstants::T_INTEGER],
-            [$mail_id]
-        );
-        $row = $this->db->fetchAssoc($res);
-        if (!is_array($row)) {
-            return;
-        }
-
-        $user_id = (int) ($row['user_id'] ?? 0);
-        if ($user_id > 0) {
-            (new ilMail($user_id))->deleteMails([$mail_id]);
-
-            return;
-        }
-
-        (new ilFileDataMail(0))->deassignAttachmentFromDirectory($mail_id);
         $this->db->manipulateF(
-            'DELETE FROM mail WHERE mail_id = %s',
-            [ilDBConstants::T_INTEGER],
-            [$mail_id]
+            'UPDATE mail SET schedule_datetime = NULL, schedule_timezone = NULL WHERE mail_id = %s AND user_id = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$mail_id, $owner_id]
         );
     }
 }

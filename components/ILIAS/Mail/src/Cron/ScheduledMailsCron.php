@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Cron;
 
-use ilMail;
 use ilLogger;
 use ilObjUser;
 use Throwable;
@@ -33,6 +32,7 @@ use ILIAS\Cron\CronJob;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Mail\Folder\OutboxRepository;
+use ILIAS\Mail\Message\MailRecordMapper;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Mail\Folder\OutboxDatabaseRepository;
 
@@ -57,7 +57,7 @@ class ScheduledMailsCron extends CronJob
             $this->outbox_repository = new OutboxDatabaseRepository(
                 $DIC->database(),
                 (new DataFactory())->clock(),
-                new ilMail($this->user->getId())
+                new MailRecordMapper()
             );
         }
     }
@@ -122,19 +122,6 @@ class ScheduledMailsCron extends CronJob
             $owner_id = $mail->getUserId();
             $internal_mail_id = $mail->getInternalMailId() ?? 0;
 
-            if ($owner_id <= 0) {
-                $this->getLogger()->error(
-                    'Scheduled mail {mail_id} has no valid owner user_id.',
-                    ['mail_id' => $internal_mail_id]
-                );
-                if ($internal_mail_id > 0) {
-                    $this->outbox_repository->deleteOrphanScheduledMail($internal_mail_id);
-                }
-                $problem_summaries[] = $this->buildShortProblemSummary($internal_mail_id, 'missing owner');
-
-                continue;
-            }
-
             $mailer = null;
 
             try {
@@ -166,7 +153,7 @@ class ScheduledMailsCron extends CronJob
                 }
 
                 if ($internal_mail_id > 0) {
-                    $mailer->deleteMails([$internal_mail_id]);
+                    $this->outbox_repository->markAsDelivered($owner_id, $internal_mail_id);
                 }
                 $sent_count++;
             } catch (Throwable $e) {
@@ -193,7 +180,7 @@ class ScheduledMailsCron extends CronJob
         }
 
         $this->getLogger()->info(
-            'Sent {sent_count} scheduled mails and removed them from outbox.',
+            'Sent {sent_count} scheduled mails and marked them as delivered.',
             ['sent_count' => $sent_count]
         );
         $job_result->setMessage($this->buildResultMessage($sent_count, $problem_summaries));
