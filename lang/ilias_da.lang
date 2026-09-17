@@ -12916,7 +12916,6 @@ news#:#news_allow_shorter_periods#:#Tillad kortere perioder
 news#:#news_allow_shorter_periods_info#:#Brugere må vælge kortere nyhedsperioder på skrivebordet.
 news#:#news_attached_to#:#Attached to###16 07 2010 new variable
 news#:#news_block_information#:#<b>Nyhedsblokken</b> viser alle de nyheder som er relateret til dine <i>personlige</i> ting som du har valgt på dit skrivebord.
-news#:#news_block_news_for_context#:#Nyheder
 news#:#news_cache#:#Nyhedscache (minutter)
 news#:#news_cache_info#:#Opdater nyhedsblok alle x minutter '0' er hver gang. Højere værdier forbedrer systemets ydelse, men kan vise utilgængelige emner på listen.
 news#:#news_default_visibility#:#Standard adgang

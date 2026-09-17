@@ -12916,7 +12916,6 @@ news#:#news_allow_shorter_periods#:#Tillåt kortare perioder
 news#:#news_allow_shorter_periods_info#:#Användare kan välja kortare nyhetsperioder för sina favoriter.
 news#:#news_attached_to#:#Tilldelad till
 news#:#news_block_information#:#I blocket "Nyheter" visas alla <b>nyheter</b> om dina favoriter i kronologisk ordning.
-news#:#news_block_news_for_context#:#Nyheter
 news#:#news_cache#:#Cache för nyheter (minuter)
 news#:#news_cache_info#:#Uppdatera blocket "Nyheter" var x:e minut. 0' betyder när som helst. Värden större än noll ökar prestandan i motsvarande grad. I enskilda fall kan dock länkar hänvisa till objekt som inte längre är tillgängliga.
 news#:#news_default_visibility#:#Förvald åtkomst

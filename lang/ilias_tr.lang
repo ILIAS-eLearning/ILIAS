@@ -12916,7 +12916,6 @@ news#:#news_allow_shorter_periods#:#kısa süreli sahip
 news#:#news_allow_shorter_periods_info#:#Kullanıcılar kişisel masaüstünde kısa haberler dönemlerde seçebilirsiniz.
 news#:#news_attached_to#:#Bağlı
 news#:#news_block_information#:#<b> Haberler </ b> blok <b> Kişisel Öğeler ile ilgili tüm haberler listeler </ b> kişisel masaüstünde seçtiniz.
-news#:#news_block_news_for_context#:#Haberleri
 news#:#news_cache#:#Haberler Önbellek (Dakika)
 news#:#news_cache_info#:#Güncelleme haberler bloklar her x dakika. '0 'Her anlamına gelir. Yüksek değerler performansını artırmak, ancak haber erişilebilir olmayan ürün bağlantı verebilirsiniz.
 news#:#news_default_visibility#:#Standart Erişim
