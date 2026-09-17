@@ -13111,6 +13111,8 @@ news#:#news_period_x_months#:#Last %s Months
 news#:#news_period_x_weeks#:#Last %s Weeks
 news#:#news_public_feed#:#Extra RSS Feed
 news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed button will be provided.
+news#:#news_public_feed_info_container#:#Make an RSS feed for this object's news available. The feed URL can be accessed via the news block's ▼ menu.
+news#:#news_public_feed_info_frm#:#Make an RSS feed for the latest posts available. The feed URL can be accessed via the 'Latest Posts' block's ▼ menu.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS Period
