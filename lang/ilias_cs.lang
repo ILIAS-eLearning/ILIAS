@@ -12999,7 +12999,6 @@ news#:#news_allow_shorter_periods#:#Umožnit kratší periody
 news#:#news_allow_shorter_periods_info#:#Uživatelé mohou vybrat kratší periody zpráv na osobní pracovní ploše.
 news#:#news_attached_to#:#Připojený k
 news#:#news_block_information#:#Blok zpráv zobrazuje všechny <b>Zprávy</b> v chronologickém pořadí, které jsou vztaženy k Vámi <b>vybraným položkám</b> na Osobní pracovní ploše.
-news#:#news_block_news_for_context#:#Zprávy
 news#:#news_cache#:#Vyrovnávací paměť zpráv (Minuty)
 news#:#news_cache_info#:#Aktualizovat bloky zpráv každé x minuty. '0' znamená vždy. Vyšší hodnoty vylepšují výkon, ale zprávy mohou odkazovat na nedostupné položky.
 news#:#news_default_visibility#:#Výchozí přístup

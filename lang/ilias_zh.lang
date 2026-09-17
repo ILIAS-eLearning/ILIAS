@@ -12998,7 +12998,6 @@ news#:#news_allow_shorter_periods#:#允许更短的时间区间
 news#:#news_allow_shorter_periods_info#:#用户能在个人桌面上选择更短的新闻时间区间。
 news#:#news_attached_to#:#已附加到
 news#:#news_block_information#:#在个人桌面上，<b>新闻</b>区块列出所有已关联到<b>个人项目</b>的您已选择的新闻。
-news#:#news_block_news_for_context#:#新闻
 news#:#news_cache#:#新闻缓存
 news#:#news_cache_info#:#更新新闻块x分钟。'0'表示每次。更高的值将提高性能，但新闻可能链接到不可访问项。
 news#:#news_default_visibility#:#默认访问

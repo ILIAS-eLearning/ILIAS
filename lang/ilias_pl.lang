@@ -12999,7 +12999,6 @@ news#:#news_allow_shorter_periods#:#Zezwól na krótsze okresy czasu
 news#:#news_allow_shorter_periods_info#:#Użytkownicy mogą wybrać krótsze okresy czasu dla nowości na osobistym pulpicie.
 news#:#news_attached_to#:#Przydzielono do
 news#:#news_block_information#:#Sekcja "Nowości" przedstawia wszystkie <b>nowości</b> dotyczące obiektów znajdujących się na osobistym pulpicie w bloku <b>Wybrane oferty/b> w porządku chronologicznym.
-news#:#news_block_news_for_context#:#Wiadomości
 news#:#news_cache#:#Pamięć podręczna nowości (minuty)
 news#:#news_cache_info#:#Aktualizacja sekcji "Nowości" następuje co x minut. '0' oznacza w każdej chwili. Wartości większe niż zero odpowiednio zwiększają moc obliczeniową. W pojedynczych przypadkach linki mogą odsyłać do już niedostępnych obiektów.
 news#:#news_default_visibility#:#Dostęp domyślny

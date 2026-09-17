@@ -12998,7 +12998,6 @@ news#:#news_allow_shorter_periods#:#Permetti periodi più corti
 news#:#news_allow_shorter_periods_info#:#Gli utenti posso scegliere periodi di News, sul proprio Desktop Personale, più corti.
 news#:#news_attached_to#:#Assegnato a
 news#:#news_block_information#:#Il blocco delle <b>News</b> mostra cronologicamente l'elenco di tutte le news che sono relazionate ai <b>Contenuti personali</b> che hai selezionato nel Desktop Personale.
-news#:#news_block_news_for_context#:#Notizie
 news#:#news_cache#:#Cache delle notizie (Minuti)
 news#:#news_cache_info#:#Aggiorna notizie blocca tutti i x minuti. '0' significa ogni volta. Valori più alti migliorano le prestazioni, ma le notizie potrebbero essere collegate ad elementi non accessibili.
 news#:#news_default_visibility#:#Accesso predefinito
