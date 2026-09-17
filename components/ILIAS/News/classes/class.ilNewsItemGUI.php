@@ -96,13 +96,6 @@ class ilNewsItemGUI
         $ilCtrl->saveParameter($this, "add_mode");
     }
 
-    public function getHTML(): string
-    {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("news");
-        return $this->getNewsForContextBlock();
-    }
-
     public function executeCommand(): string
     {
         // check, if news item id belongs to context
@@ -501,33 +494,6 @@ class ilNewsItemGUI
 
         return $this->editNews();
     }
-
-    public function getNewsForContextBlock(): string
-    {
-        $lng = $this->lng;
-
-        $block_gui = new ilNewsForContextBlockGUI();
-
-        $block_gui->setEnableEdit($this->getEnableEdit());
-
-
-        $news_item = new ilNewsItem();
-
-        // changed
-        $news_item->setContextObjId($this->getContextObjId());
-        $news_item->setContextObjType($this->getContextObjType());
-        $news_item->setContextSubObjId($this->getContextSubObjId());
-        $news_item->setContextSubObjType($this->getContextSubObjType());
-
-        $data = $news_item->queryNewsForContext();
-
-        $block_gui->setTitle($lng->txt("news_block_news_for_context"));
-        $block_gui->setRowTemplate("tpl.block_row_news_for_context.html", "components/ILIAS/News");
-        $block_gui->setData($data);
-
-        return $block_gui->getHTML();
-    }
-
 
     public function getNewsForContextTable(): string
     {
