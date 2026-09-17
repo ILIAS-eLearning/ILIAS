@@ -166,14 +166,9 @@ class ilContainerRenderer
 
     public function addTypeBlock(
         string $a_type,
-<<<<<<< HEAD
         ?string $a_prefix = null,
-        ?string $a_postfix = null
-=======
-        string $a_prefix = null,
-        string $a_postfix = null,
+        ?string $a_postfix = null,
         ?string $a_block_id = null
->>>>>>> 677e3d10af4 (45434: Actions not working with multiple object-blocks)
     ): bool {
         $block_id = $a_block_id ?? $a_type;
         if ($a_type !== "itgr" &&
