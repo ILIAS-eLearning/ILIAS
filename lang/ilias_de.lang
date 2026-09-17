@@ -11390,6 +11390,7 @@ lti#:#lti_13_step1_info#:#Tragen Sie bei der initiierenden Plattform (Consumer) 
 lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_13_step2_info#:#Von der initiierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
 lti#:#lti_13_token_url#:#URL für den Zugriffstoken###04 12 2025 new variable
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 wurde von 1EdTech abgekündigt und wird in einer zukünftigen Version aus ILIAS entfernt. Bitte verwenden Sie LTI Advantage (1.3), wann immer das andere System es unterstützt.###17 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
 lti#:#lti_action_delete_providers#:#Provider löschen
@@ -11399,6 +11400,8 @@ lti#:#lti_action_reset_providers_to_user_scope#:#Globale Provider bzw. Tools zu 
 lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
 lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
 lti#:#lti_admin#:#LTI-Rolle „Administrator“
+lti#:#lti_at_least_one_not_acceptable_as_global#:#Mindestens eines der ausgewählten Tools kann nicht als globales Tool übernommen werden, da es keinen Ersteller hat oder bereits global ist.###17 09 2026 new variable
+lti#:#lti_at_least_one_not_resetable_to_usr_def#:#Mindestens eines der ausgewählten Tools kann nicht auf ein benutzerdefiniertes Tool zurückgesetzt werden, da es keinen Ersteller hat oder bereits benutzerdefiniert ist.###17 09 2026 new variable
 lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht gelöscht werden, da dieser Provider von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
@@ -11524,6 +11527,7 @@ lti#:#lti_obj_version_11#:#Version 1.1
 lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
+lti#:#lti_platform_registration#:#LTI-Advantage-Registrierung###17 09 2026 new variable
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
 lti#:#lti_provider_not_set_msg#:#LTI-Provider/-tool ist noch nicht vollständig konfiguriert.
@@ -11541,6 +11545,8 @@ lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich geändert zu lokalen Prov
 lti#:#lti_tutor#:#LTI-Rolle „Teaching Assistant“ / „Mentor“
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
+lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (veraltet)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
 lti#:#mastery_score#:#Mastery Score
 lti#:#mastery_score_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
 lti#:#obj_tile_image_info#:#Ein Bild im quadratischen Format verwenden

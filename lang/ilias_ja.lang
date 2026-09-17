@@ -11297,6 +11297,7 @@ lti#:#lti_13_step1_info#:#プラットフォーム(comsumer)起動には、次�
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#次のフィールドへ入力する事により起動プラットフォーム(Concumer)から情報を受け取ります。保存するとLTI 1.3機能が利用可能になります。
 lti#:#lti_13_token_url#:#アクセストークンURL
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated by 1EdTech and will be removed from ILIAS in a future version. Please use LTI Advantage (1.3) whenever the other system supports it.###17 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#全ユーザ用のグローバルプロバイダーとしてプロバイダを承認
 lti#:#lti_action_accept_providers_as_global#:#グローバルとしてプロバイダーを承認
 lti#:#lti_action_delete_providers#:#プロバイダーを削除
@@ -11306,6 +11307,8 @@ lti#:#lti_action_reset_providers_to_user_scope#:#ユーザ定義のプロバイ�
 lti#:#lti_add_global_provider#:#全ユーザ用のグローバルプロバイダーを追加
 lti#:#lti_add_own_provider#:#自身のプロバイダー(全ユーザ用ではない)を追加
 lti#:#lti_admin#:#LTI管理者
+lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
+lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
 lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダーの使用歴(ゴミ箱内の可能性)があるので削除できませんでした。
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
 lti#:#lti_con_content_item#:#ディープリンクのサポート
@@ -11431,6 +11434,7 @@ lti#:#lti_obj_version_11#:#Version 1.1
 lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#LTI Releasesを編集
+lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
 lti#:#lti_provider#:#LTI Releases
 lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
 lti#:#lti_provider_not_set_msg#:#LTIプロバイダー / ツール構成が完全に終了していません。
@@ -11448,6 +11452,8 @@ lti#:#lti_success_reset_to_usr_def_multi#:#ユーザ定義のプロバイダー�
 lti#:#lti_tutor#:#LTIインストラクター
 lti#:#lti_user_role_created#:#LTIユーザの推奨グローバル役割が作成されました。
 lti#:#lti_user_role_info#:#LTIユーザの推奨グローバル役割がこのシステムではまだ作成されていません。この特別グローバル役割は、リポジトリとカテゴリのアクセス権'表示する' が入っているのみです。
+lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
 lti#:#mastery_score#:#習熟度スコア
 lti#:#mastery_score_info#:#学習進捗はProvider Outcome Serviceと習熟度スコアスレッショールドから評価されます。
 lti#:#obj_tile_image_info#:#四角形のイメージを使用

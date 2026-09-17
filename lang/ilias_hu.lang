@@ -11345,6 +11345,7 @@ lti#:#lti_13_step1_info#:#A kezdeményező platform (fogyasztó) esetében adja 
 lti#:#lti_13_step2#:#2. lépés
 lti#:#lti_13_step2_info#:#A kezdeményező platformtól (Fogyasztó) kap információkat, amelyeket a következő mezőkbe kell beírnia. Mentés után elérhetők az LTI 1.3 funkciói.
 lti#:#lti_13_token_url#:#Hozzáférési token URL-je
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated by 1EdTech and will be removed from ILIAS in a future version. Please use LTI Advantage (1.3) whenever the other system supports it.###17 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#A Kiszolgáló elfogadás mint Global Kiszolgáló az összes felhasználó számára
 lti#:#lti_action_accept_providers_as_global#:#Kiszolgálók elfogadás mint Globális
 lti#:#lti_action_delete_providers#:#Kiszolgálós törlése
@@ -11354,6 +11355,8 @@ lti#:#lti_action_reset_providers_to_user_scope#:#Reset Kiszolgálók as User Def
 lti#:#lti_add_global_provider#:#Globális Kiszolgáló hozzáadása az összes felhasználónak
 lti#:#lti_add_own_provider#:#Saját Kiszolgáló létrehozása (nem az összes felhasználónak)
 lti#:#lti_admin#:#LTI-rendszergazda
+lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
+lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
 lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be deleted because this provider has usages (might be in trash).
 lti#:#lti_auth_failed_invalid_key#:#A hitelesítés sikertelen, nem jó a fogyasztói kulcs.
 lti#:#lti_con_content_item#:#Deep Linking támogatása##XXX
@@ -11479,6 +11482,7 @@ lti#:#lti_obj_version_11#:#Version 1.1
 lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI-fogyasztók
 lti#:#lti_object_release_settings_form#:#LTI-megosztások módosítása
+lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
 lti#:#lti_provider#:#LTI-megosztások
 lti#:#lti_provider_not_avail_msg#:#Az LTI-kiszolgáló / -Eszköz értéke ‘Nem érhető el’
 lti#:#lti_provider_not_set_msg#:#Az LTI-kiszolgáló / -eszköz beállítása még nem teljes.
@@ -11496,6 +11500,8 @@ lti#:#lti_success_reset_to_usr_def_multi#:#Sikeresen reszetelte mint a felhaszn�
 lti#:#lti_tutor#:#LTI-instruktor
 lti#:#lti_user_role_created#:#Az LTI-felhasználónak ajánlott globális szerepkört sikeresen létrehozta.
 lti#:#lti_user_role_info#:#Ajánlott globális szerepkör még nem létezik az LTI-felhasználónak. Ez a speciális szerepkör csak a Tartalomtár és kategóriák ‘látható’ jogosultságát tartalmazza.
+lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
 lti#:#mastery_score#:#Kötelező pontszám
 lti#:#mastery_score_info#:#A tanulási haladást a Kiszolgáló kimeneti szolgáltatása és a kötelező pontszám határozza meg.
 lti#:#obj_tile_image_info#:#Kép használata négyzet formában

@@ -41,6 +41,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     private const VERSION_1P1 = "LTI-1p0";
     private const VERSION_ADVANTAGE = "1.3.0";
     private const CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
+    private const ACTION_EDIT = "edit";
     private const ACTION_ACCEPT = "accept";
     private const ACTION_RESET = "reset";
     private const ACTION_CONFIRM_DELETE = "confirm_delete";
@@ -73,9 +74,9 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     }
 
     /**
-     * Executes the table action of the current request, if any, and redirects to the given command.
+     * Executes the table action of the current request, if any, and redirects to the given commands.
      */
-    public function handleAction(object $gui, string $return_cmd): void
+    public function handleAction(object $gui, string $return_cmd, string $edit_cmd): void
     {
         $query = $this->request->getQueryParams();
         $action = $query[$this->action_token->getName()] ?? null;
@@ -90,13 +91,31 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         $in_ids = $this->db->in("id", $ids, false, "integer");
 
         switch ($action) {
+            case self::ACTION_EDIT:
+                $this->ctrl->setParameter($gui, "provider_id", reset($ids));
+                $this->ctrl->redirect($gui, $edit_cmd);
+                break;
+
             case self::ACTION_ACCEPT:
             case self::ACTION_RESET:
                 $accept = $action === self::ACTION_ACCEPT;
+                // as in ILIAS 11, nothing changes if one of the selected providers has no creator or already has the scope
+                $invalid = $this->db->query(
+                    "SELECT COUNT(*) cnt FROM lti_ext_provider WHERE " . $in_ids
+                    . " AND (creator IS NULL OR creator = 0 OR global = " . $this->db->quote((int) $accept, "integer") . ")"
+                );
+                if ((int) $this->db->fetchAssoc($invalid)["cnt"] > 0) {
+                    $this->tpl->setOnScreenMessage(
+                        "failure",
+                        $this->lng->txt($accept ? "lti_at_least_one_not_acceptable_as_global" : "lti_at_least_one_not_resetable_to_usr_def"),
+                        true
+                    );
+                    break;
+                }
                 $this->db->manipulate(
                     "UPDATE lti_ext_provider SET global = " . $this->db->quote((int) $accept, "integer")
                     . ", accepted_by = " . $this->db->quote($accept ? $this->user->getId() : 0, "integer")
-                    . " WHERE creator > 0 AND " . $in_ids
+                    . " WHERE " . $in_ids
                 );
                 $this->tpl->setOnScreenMessage(
                     "success",
@@ -255,6 +274,11 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         $scope_label = $this->global ? "lti_action_reset_provider_to_user_scope" : "lti_action_accept_provider_as_global";
 
         return [
+            self::ACTION_EDIT => $action->single(
+                $this->lng->txt("edit"),
+                $this->url_builder->withParameter($this->action_token, self::ACTION_EDIT),
+                $this->id_token
+            ),
             $scope_action => $action->standard(
                 $this->lng->txt($scope_label),
                 $this->url_builder->withParameter($this->action_token, $scope_action),
@@ -355,8 +379,8 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     public static function getVersionOptions(ilLanguage $lng): array
     {
         return [
-            self::VERSION_1P1 => $lng->txt("lti_con_version_1.1"),
-            self::VERSION_ADVANTAGE => $lng->txt("lti_con_version_1.3"),
+            self::VERSION_1P1 => $lng->txt("lti_version_1p1_deprecated"),
+            self::VERSION_ADVANTAGE => $lng->txt("lti_version_advantage"),
         ];
     }
 

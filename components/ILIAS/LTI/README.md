@@ -71,6 +71,9 @@ Installations updated from ILIAS 11 MUST keep working:
 * Public endpoints keep their URLs (e.g. `ltiresult.php`, `lti.php`).
 * Class names stored in the database or used by other components do not change,
   e.g. `ilLTIDatabaseUpdateSteps`, `ilLTICronOutcomeService` and `ilLTIConsumerResult`.
+* An LTI Advantage platform that launches ILIAS is registered once, in `lti2_consumer` with `ref_id` 0.
+  ILIAS 11 registered it per released object (`ref_id` > 0). Those rows MUST still be accepted
+  when looking up a platform, as fallback after the registration of the platform.
 
 ## Removing LTI 1.1
 

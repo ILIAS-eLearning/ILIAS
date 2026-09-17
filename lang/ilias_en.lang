@@ -11302,13 +11302,13 @@ lti#:#conf_user_name_lastname#:#Title and last name
 lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
 lti#:#conf_user_name_none#:#No one
 lti#:#conf_user_name_none_info#:#Sends '-' instead of a name
-lti#:#consumers#:#Consumers
+lti#:#consumers#:#Platforms (Consumers)
 lti#:#description_info#:#The description will be shown below the title.
 lti#:#field_provider_xml#:#XML-File
 lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.
 lti#:#form_import_provider#:#Import Global Provider
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
-lti#:#global_provider_subtab#:#Global Providers/Tools for all Users
+lti#:#global_provider_subtab#:#Global Tools for all Users
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress
 lti#:#grade_activity_progress_completed#:#Completed
 lti#:#grade_activity_progress_initialized#:#Initialized
@@ -11362,16 +11362,19 @@ lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the foll
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
 lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
-lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated by 1EdTech and will be removed from ILIAS in a future version. Please use LTI Advantage (1.3) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_action_accept_provider_as_global#:#Accept Tool as Global Tool for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
 lti#:#lti_action_edit_provider#:#Edit Provider
-lti#:#lti_action_reset_provider_to_user_scope#:#Reset Provider as User Defined Provider
+lti#:#lti_action_reset_provider_to_user_scope#:#Reset Tool to User Defined Tool
 lti#:#lti_action_reset_providers_to_user_scope#:#Reset Providers as User Defined
-lti#:#lti_add_global_provider#:#Add Global Provider for all Users
+lti#:#lti_add_global_provider#:#Add Global Tool for all Users
 lti#:#lti_add_own_provider#:#Add Own Provider (not for all Users)
 lti#:#lti_admin#:#LTI Administrator
-lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be deleted because this provider has usages (might be in trash).
+lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
+lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
+lti#:#lti_at_least_one_prov_has_usages#:#At least one tool could not be deleted because it has usages (might be in trash).
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
 lti#:#lti_con_content_item#:#Support for Deep Linking
 lti#:#lti_con_content_item_url#:#Content URL
@@ -11385,7 +11388,7 @@ lti#:#lti_con_key_type_rsa#:#RSA-Key
 lti#:#lti_con_key_type_rsa_public_key#:#Public Key
 lti#:#lti_con_key_type_rsa_public_key_info#:#Insert the key provided by the tool (provider) in PEM format here.
 lti#:#lti_con_prov_always_learner#:#LTI User is always Learner
-lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Provider, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.
+lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Tool, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.
 lti#:#lti_con_prov_authentication#:#Authentication
 lti#:#lti_con_prov_availability#:#Availability
 lti#:#lti_con_prov_availability_create#:#For Creating Objects
@@ -11393,18 +11396,18 @@ lti#:#lti_con_prov_availability_existing#:#Only for existing Objects
 lti#:#lti_con_prov_availability_non#:#not available
 lti#:#lti_con_prov_category#:#Category
 lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer Object is created.
-lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
+lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Tool
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Description
 lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
 lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
 lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
-lti#:#lti_con_prov_external_provider#:#External Provider
-lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
-lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
-lti#:#lti_con_prov_has_outcome_service#:#Provider supports Outcome Service
-lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Provider returns a value between 0 and 1 to indicate the Learning Progress.
+lti#:#lti_con_prov_external_provider#:#External Tool
+lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Tool. An external Tool is characterized by insufficient influence on the Tool by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
+lti#:#lti_con_prov_group_options#:#Options to group and filter Tools
+lti#:#lti_con_prov_has_outcome_service#:#Tool supports Outcome Service
+lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Tool returns a value between 0 and 1 to indicate the Learning Progress.
 lti#:#lti_con_prov_hints#:#Hints
 lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#Send User Picture
@@ -11419,24 +11422,24 @@ lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon
 lti#:#lti_con_prov_launch_options#:#Launch Options
 lti#:#lti_con_prov_learning_progress_options#:#Options for Learning Progress
 lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score
-lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.
+lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Tool Outcome Service and the mastery score threshold.
 lti#:#lti_con_prov_privacy_setting_conf#:#Configuration Options
 lti#:#lti_con_prov_privacy_setting_default#:#Default Settings, changeable for Objects
 lti#:#lti_con_prov_privacy_setting_force#:#Settings are not changeable for Objects
 lti#:#lti_con_prov_privacy_setting_info#:#Configuration Options for Privacy Settings
 lti#:#lti_con_prov_privacy_settings#:#Privacy Settings
 lti#:#lti_con_prov_provider_key_global#:#Predefined Key and Secret
-lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the provider.
+lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the tool.
 lti#:#lti_con_prov_remarks#:#Internal Remarks
 lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Title
-lti#:#lti_con_prov_url#:#URL of LTI Provider
-lti#:#lti_con_prov_use_provider_id#:#Use Provider ID
-lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-ID of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-ID with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
-lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements
-lti#:#lti_con_prov_use_xapi_info#:#Provider supports xAPI-Statements
+lti#:#lti_con_prov_url#:#URL of LTI Tool
+lti#:#lti_con_prov_use_provider_id#:#Use Tool ID
+lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-ID of the LTI Consumer object is transferred to the Tool. Some Tools map this Ref-ID with the Resource of the Tool. To get always the same Resource for these Tools this Option should be activated.
+lti#:#lti_con_prov_use_xapi#:#Tool supports request of xAPI-Statements
+lti#:#lti_con_prov_use_xapi_info#:#Tool supports xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
-lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity ID is unique! If nothing is entered here, the Activity ID can be entered in LTI Consumer. The Activity ID could be requested from the LTI Provider.
+lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the tool's resource to an Activity ID is unique! If nothing is entered here, the Activity ID can be entered in LTI Consumer. The Activity ID could be requested from the LTI Tool.
 lti#:#lti_con_prov_xapi_launch_key#:#Key of LRS Endpoint
 lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint
@@ -11449,18 +11452,18 @@ lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
 lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.
-lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?
+lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following tool(s)?
 lti#:#lti_consumer#:#Release for
-lti#:#lti_consumer_created#:#Consumer created
-lti#:#lti_consumer_deleted#:#Consumer deleted
+lti#:#lti_consumer_created#:#Platform created
+lti#:#lti_consumer_deleted#:#Platform deleted
 lti#:#lti_consumer_key#:#Consumer Key
 lti#:#lti_consumer_secret#:#Consumer Secret
-lti#:#lti_consumer_set_active#:#Consumer activated
-lti#:#lti_consumer_set_inactive#:#Consumer deactivated
-lti#:#lti_consumer_updated#:#Consumer updated
-lti#:#lti_consuming_tab#:#ILIAS as LTI Consumer
+lti#:#lti_consumer_set_active#:#Platform activated
+lti#:#lti_consumer_set_inactive#:#Platform deactivated
+lti#:#lti_consumer_updated#:#Platform updated
+lti#:#lti_consuming_tab#:#ILIAS as LTI Platform (Consumer)
 lti#:#lti_copy#:#Copy Consumer
-lti#:#lti_create_consumer#:#Create Consumer
+lti#:#lti_create_consumer#:#Add Platform
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
@@ -11468,15 +11471,15 @@ lti#:#lti_custom_new#:#Create Own Provider Settings
 lti#:#lti_deep_linking_not_available_for_admin_objects#:#Consumers created in Administration do not allow content selection
 lti#:#lti_delete_consume_provider#:#Delete Provider
 lti#:#lti_delete_consume_providers#:#Delete Providers
-lti#:#lti_delete_provider#:#Delete Provider
+lti#:#lti_delete_provider#:#Delete Tool
 lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
-lti#:#lti_edit_consumer#:#Edit LTI Consumer
+lti#:#lti_edit_consumer#:#Edit LTI Platform
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
 lti#:#lti_form_provider_content_selection#:#Content Selection
-lti#:#lti_form_provider_create#:#Create Provider Settings
-lti#:#lti_form_provider_edit#:#Edit Provider Settings
+lti#:#lti_form_provider_create#:#Create Tool Settings
+lti#:#lti_form_provider_edit#:#Edit Tool Settings
 lti#:#lti_form_section_appearance#:#Options for launch
 lti#:#lti_global_settings_form#:#Global Settings
 lti#:#lti_import_global_provider#:#Import Global Provider for all Users with XML-File
@@ -11487,32 +11490,35 @@ lti#:#lti_info_privacy_section#:#Info about personal data transmitted to the pro
 lti#:#lti_launch_url#:#Url
 lti#:#lti_member#:#LTI Member / Learner
 lti#:#lti_navigation#:#Navigation
-lti#:#lti_no_provider_selected#:#No provider selected
+lti#:#lti_no_provider_selected#:#No tool selected
 lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
 lti#:#lti_obj_active#:#LTI-Tool Provider
 lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
 lti#:#lti_obj_version#:#LTI Version
 lti#:#lti_obj_version_11#:#Version 1.1
 lti#:#lti_obj_version_13#:#Version 1.3
-lti#:#lti_object_consumer#:#LTI Consumers
+lti#:#lti_object_consumer#:#LTI Platforms
 lti#:#lti_object_release_settings_form#:#Edit LTI Releases
+lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
 lti#:#lti_provider#:#LTI Releases
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.
-lti#:#lti_providing_tab#:#ILIAS as LTI Provider
+lti#:#lti_providing_tab#:#ILIAS as LTI Tool (Provider)
 lti#:#lti_released_objects#:#Object Releases
 lti#:#lti_select_provider#:#Select Provider
 lti#:#lti_session#:#LTI Session
 lti#:#lti_settings#:#LTI Settings
 lti#:#lti_settings_form#:#Object Settings
-lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Provider for all Users
+lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Tool for all Users
 lti#:#lti_success_accept_as_global_multi#:#Successfully accepted as Global Provider for all Users
 lti#:#lti_success_delete_provider#:#Successfully deleted
-lti#:#lti_success_reset_to_usr_def#:#Successfully reseted as User Defined Provider
+lti#:#lti_success_reset_to_usr_def#:#Successfully reset to User Defined Tool
 lti#:#lti_success_reset_to_usr_def_multi#:#Successfully reseted as User Defined Provider
 lti#:#lti_tutor#:#LTI Instructor
 lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.
 lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.
+lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
 lti#:#mastery_score#:#Mastery Score
 lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
@@ -11543,27 +11549,27 @@ lti#:#tbl_lti_prov_availability#:#Availability
 lti#:#tbl_lti_prov_category#:#Category
 lti#:#tbl_lti_prov_description#:#Description
 lti#:#tbl_lti_prov_icon#:#Icon
-lti#:#tbl_lti_prov_internal#:#Internal Provider
+lti#:#tbl_lti_prov_internal#:#Internal Tool
 lti#:#tbl_lti_prov_keyword#:#Keyword
 lti#:#tbl_lti_prov_keywords#:#Keywords
 lti#:#tbl_lti_prov_outcome#:#Outcome Service
-lti#:#tbl_lti_prov_own_provider#:#Own Provider
+lti#:#tbl_lti_prov_own_provider#:#Own Tool
 lti#:#tbl_lti_prov_provider_creator#:#Creator
-lti#:#tbl_lti_prov_title#:#Title of Provider
+lti#:#tbl_lti_prov_title#:#Title of Tool
 lti#:#tbl_lti_prov_usages#:#Usages
 lti#:#tbl_lti_prov_usages_trashed#:#Trashed Usages
 lti#:#tbl_lti_prov_usages_untrashed#:#Repository Usages
-lti#:#tbl_lti_prov_used_by#:#Provider Used by Objects in Tree
+lti#:#tbl_lti_prov_used_by#:#Tool Used by Objects in Tree
 lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret
-lti#:#tbl_provider_header#:#LTI Provider
-lti#:#tbl_provider_usage_header#:#LTI Provider
+lti#:#tbl_provider_header#:#LTI Tools
+lti#:#tbl_provider_usage_header#:#LTI Tool Usages
 lti#:#tbl_provider_usage_header_info#:#Before deleting providers, trashed usages must also be deleted.
 lti#:#title_info#:#Give the object a title.
 lti#:#usage_subtab#:#Usage
 lti#:#use_xapi#:#Use xAPI-Support
 lti#:#use_xapi_info#:#This LTI Provider supports xAPI-Statements.
 lti#:#user_lng#:#User Languague
-lti#:#user_provider_subtab#:#Providers Defined by Users
+lti#:#user_provider_subtab#:#Tools Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder

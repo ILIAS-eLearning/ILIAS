@@ -11253,6 +11253,7 @@ lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the foll
 lti#:#lti_13_step2#:#Step 2###31 10 2023 new variable
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###31 10 2023 new variable
 lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated by 1EdTech and will be removed from ILIAS in a future version. Please use LTI Advantage (1.3) whenever the other system supports it.###17 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
@@ -11262,6 +11263,8 @@ lti#:#lti_action_reset_providers_to_user_scope#:#Reset Providers as User Defined
 lti#:#lti_add_global_provider#:#Add Global Provider for all Users
 lti#:#lti_add_own_provider#:#Add Own Provider (not for all Users)
 lti#:#lti_admin#:#Administrateur LTI
+lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
+lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
 lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be deleted because this provider has usages (might be in trash).
 lti#:#lti_auth_failed_invalid_key#:#Authentification échouée, aucune clé consommateur valide donnée.
 lti#:#lti_con_content_item#:#Support for Deep Linking###31 10 2023 new variable
@@ -11387,6 +11390,7 @@ lti#:#lti_obj_version_11#:#Version 1.1###31 10 2023 new variable
 lti#:#lti_obj_version_13#:#Version 1.3###31 10 2023 new variable
 lti#:#lti_object_consumer#:#Consommateurs LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
+lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###29 10 2025 new variable
@@ -11404,6 +11408,8 @@ lti#:#lti_success_reset_to_usr_def_multi#:#Successfully reseted as User Defined 
 lti#:#lti_tutor#:#Instructeur LTI
 lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.
 lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.
+lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
 lti#:#mastery_score#:#Mastery Score
 lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
