@@ -291,16 +291,24 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $title = $result->getName();
         if ($result->isOK()) {
             $subm = $this->domain->submission($this->assignment->getId());
-            $subm->addUpload(
+            if ($subm->addUpload(
                 $this->user->getId(),
                 $result,
                 $title
-            );
+            )) {
+                return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+                    'filename',
+                    \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+                    $title,
+                    ''
+                );
+            }
+
             return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
-                'filename',
-                \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+                '',
+                \ILIAS\FileUpload\Handler\HandlerResult::STATUS_FAILED,
                 $title,
-                ''
+                $this->lng->txt("exc_cannot_submit_any_files")
             );
         }
         return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
