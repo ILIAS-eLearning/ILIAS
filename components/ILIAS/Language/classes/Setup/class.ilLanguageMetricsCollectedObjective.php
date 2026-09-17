@@ -19,17 +19,18 @@
 declare(strict_types=1);
 
 use ILIAS\Setup;
+use ILIAS\Language\Setup\InstalledLanguageRepository;
 
 class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    protected \ilSetupLanguage $il_setup_language;
+    protected InstalledLanguageRepository $repository;
 
     public function __construct(
         Setup\Metrics\Storage $storage,
-        \ilSetupLanguage $il_setup_language
+        InstalledLanguageRepository $repository
     ) {
         parent::__construct($storage);
-        $this->il_setup_language = $il_setup_language;
+        $this->repository = $repository;
     }
 
     /**
@@ -61,15 +62,16 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         if (!($db instanceof \ilDBInterface)) {
             return;
         }
-        $this->il_setup_language->setDbHandler($db);
 
-        // TODO: Remove this once ilSetupLanguage (or a successor) supports proper
-        // DI for all methods.
+        // InstalledLanguageRepository resolves its database lazily via
+        // $GLOBALS['ilDB'] ?? $DIC->database(), so it picks up the
+        // Setup-provided database resource as soon as it is assigned here -
+        // see components/ILIAS/Language/Language.php.
         $GLOBALS["ilDB"] = $db;
 
         $installed_languages = [];
-        $local_languages = $this->il_setup_language->getLocalLanguages();
-        foreach ($this->il_setup_language->getInstalledLanguages() as $lang) {
+        $local_languages = $this->repository->getLocalLanguages();
+        foreach ($this->repository->getInstalledLanguages() as $lang) {
             $local_file = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_STABLE,
                 Setup\Metrics\Metric::TYPE_BOOL,
@@ -79,7 +81,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             $local_changes = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_STABLE,
                 Setup\Metrics\Metric::TYPE_BOOL,
-                count($this->il_setup_language->getLocalChanges($lang)) > 0,
+                count($this->repository->getLocalChanges($lang)) > 0,
                 "Are there local changes for the language?"
             );
             $installed_languages[$lang] = new Setup\Metrics\Metric(
