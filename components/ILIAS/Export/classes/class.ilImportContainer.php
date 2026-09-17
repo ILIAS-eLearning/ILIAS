@@ -46,7 +46,7 @@ class ilImportContainer extends ilImport
         // all container have container export sets
         $all_importers = array();
         if (!$parser->getExportSets()) {
-            $this->createDummy($a_type);
+            $this->createDummy($a_type, $parser->getTitle());
             $import_info = parent::doImportObject($dir, $a_type);
             $all_importers = array_merge($all_importers, $import_info['importers']);
             return $import_info;
@@ -70,16 +70,13 @@ class ilImportContainer extends ilImport
         return $ret;
     }
 
-    protected function createDummy(string $a_type): ilObject
+    protected function createDummy(string $a_type, string $a_title): ilObject
     {
         $class_name = "ilObj" . $this->objDefinition->getClassName($a_type);
 
         $new = new $class_name();
 
-        # Patch Start: Fix multilingualism replaces course title
-        $new->setTitle('NO TITLE');
-        # Patch End: Fix multilingualism replaces course title
-
+        $new->setTitle($a_title !== '' ? $a_title : 'NO TITLE');
         $new->create(true);
         $new->createReference();
         $new->putInTree($this->getMapping()->getTargetId());
