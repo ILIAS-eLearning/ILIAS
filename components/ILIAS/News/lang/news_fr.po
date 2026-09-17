@@ -280,6 +280,12 @@ msgstr "Flux RSS Dédié"
 msgid "news_public_feed_info"
 msgstr "Si actif, une URL du flux d'actualités (RSS) distincte pour cet article est créée."
 
+msgid "news_public_feed_info_container"
+msgstr "Rendez disponible un flux RSS pour les actualités de cet objet. L'URL du flux est accessible via le menu ▼ du bloc « Actualités internes »."
+
+msgid "news_public_feed_info_frm"
+msgstr "Rendez disponible un flux RSS pour les derniers articles. L'URL du flux est accessible via le menu ▼ du bloc « Derniers Articles »."
+
 msgid "news_really_delete_news"
 msgstr "Voulez-vous vraiment supprimer cet article de nouvelles?"
 

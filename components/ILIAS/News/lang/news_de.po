@@ -257,6 +257,12 @@ msgstr "Eigener Webfeed"
 msgid "news_public_feed_info"
 msgstr "Stellt einen RSS-Feed für die Neuigkeiten dieses Objekts bereit, der über das ▼-Menü aufgerufen werden kann."
 
+msgid "news_public_feed_info_container"
+msgstr "Stellen Sie einen RSS-Feed für die Neuigkeiten dieses Objekts bereit. Die Feed-URL finden Sie im ▼-Menü des Neuigkeiten-Blocks."
+
+msgid "news_public_feed_info_frm"
+msgstr "Stellen Sie einen RSS-Feed für die letzten Beiträge bereit. Die Feed-URL finden Sie im ▼-Menü des Blocks „Letzte Beiträge“."
+
 msgid "news_really_delete_news"
 msgstr "Soll dieser Beitrag wirklich gelöscht werden?"
 

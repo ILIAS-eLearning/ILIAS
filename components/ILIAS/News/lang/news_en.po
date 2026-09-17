@@ -257,6 +257,12 @@ msgstr "Extra RSS Feed"
 msgid "news_public_feed_info"
 msgstr "Make an RSS feed for this object’s news available. This can be accessed via the ▼ menu."
 
+msgid "news_public_feed_info_container"
+msgstr "Make an RSS feed for this object's news available. The feed URL can be accessed via the news block's ▼ menu."
+
+msgid "news_public_feed_info_frm"
+msgstr "Make an RSS feed for the latest posts available. The feed URL can be accessed via the 'Latest Posts' block's ▼ menu."
+
 msgid "news_really_delete_news"
 msgstr "Are you sure you want to delete this news item?"
 

@@ -254,6 +254,12 @@ msgstr ""
 msgid "news_public_feed_info"
 msgstr ""
 
+msgid "news_public_feed_info_container"
+msgstr ""
+
+msgid "news_public_feed_info_frm"
+msgstr ""
+
 msgid "news_really_delete_news"
 msgstr ""
 
