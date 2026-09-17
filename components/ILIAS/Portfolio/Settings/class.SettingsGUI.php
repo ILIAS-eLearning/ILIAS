@@ -139,7 +139,7 @@ class SettingsGUI
             } else {
                 $form->saveStdTitle($this->obj_id, "prtf");
             }
-            $form->saveOnline($this->obj_id, "mep");
+            $form->saveOnline($this->obj_id, "prtf");
 
             $this->notes->activateComments(
                 $this->obj_id,

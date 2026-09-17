@@ -27,6 +27,16 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
         $this->type = "prtf";
     }
 
+    protected function doCreate(bool $clone_mode = false): void
+    {
+        parent::doCreate($clone_mode);
+
+        $properties = $this->getObjectProperties();
+        $properties->storePropertyIsOnline(
+            $properties->getPropertyIsOnline()->withOnline()
+        );
+    }
+
 
     protected function deleteAllPages(): void
     {
