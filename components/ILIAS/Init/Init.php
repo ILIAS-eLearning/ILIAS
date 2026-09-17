@@ -173,7 +173,16 @@ class Init implements Component\Component
                 $use[Logging\Logger\LoggerFactoryInterface::class],
                 $use[Logging\Logger\DefaultConfigLoggerFactoryInterface::class],
                 $use[Logging\Config\ConfigInterface::class],
-                $use[\ILIAS\LTI\View::class]
+                $use[\ILIAS\LTI\View::class],
+                $pull[\ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager::class],
+                $pull[\ILIAS\Language\Activities\InstallLanguage::class],
+                $pull[\ILIAS\Language\Activities\UpdateLanguage::class],
+                $pull[\ILIAS\Language\Activities\UninstallLanguage::class],
+                $pull[\ILIAS\Language\Activities\RemoveLocalLanguageChanges::class],
+                $pull[\ILIAS\Language\Activities\AddLanguageEntry::class],
+                $pull[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class],
+                $pull[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class],
+                $use[\ILIAS\Language\Language::class],
             );
     }
 }
