@@ -224,7 +224,12 @@ class LMHtmlExport
 
         $this->export_util->exportSystemStyle(
             [
-                "icon_lm.svg"
+                "icon_lm.svg",
+                "icon_tool.svg",
+                "icon_chp.svg",
+                "icon_glo.svg",
+                "icon_mdia.svg",
+                "icon_faq.svg"
             ]
         );
         $this->export_util->exportCOPageFiles($this->content_style_domain->getEffectiveStyleId(), "lm");
