@@ -75,15 +75,8 @@ class ilImportContainer extends ilImport
         $class_name = "ilObj" . $this->objDefinition->getClassName($a_type);
 
         $new = new $class_name();
-<<<<<<< HEAD
 
-        # Patch Start: Fix multilingualism replaces course title
-        $new->setTitle('NO TITLE');
-        # Patch End: Fix multilingualism replaces course title
-
-=======
-        $new->setTitle($a_title !== '' ? $a_title : 'Import');
->>>>>>> 82edc140d63 (export: 43358: Failed test: Kurs exportieren)
+        $new->setTitle($a_title !== '' ? $a_title : 'NO TITLE');
         $new->create(true);
         $new->createReference();
         $new->putInTree($this->getMapping()->getTargetId());
