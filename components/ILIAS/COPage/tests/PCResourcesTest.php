@@ -97,4 +97,23 @@ EOT;
             $page->getXMLFromDom()
         );
     }
+
+    public function testResourceManagerPreservesRepeatedResourceLists(): void
+    {
+        $dom = new DOMDocument();
+        $dom->loadXML(
+            '<PageObject><PageContent><Resources><ResourceList Type="crs"/></Resources>' .
+            '<Resources><ResourceList Type="crs"/></Resources></PageContent></PageObject>'
+        );
+
+        $manager = (new ReflectionClass(\ILIAS\COPage\PC\Resources\ResourcesManager::class))
+            ->newInstanceWithoutConstructor();
+        $property = new ReflectionProperty(\ILIAS\COPage\PC\Resources\ResourcesManager::class, "dom_util");
+        $property->setValue($manager, new \ILIAS\COPage\Dom\DomUtil());
+
+        $this->assertSame(
+            ["crs", "crs"],
+            $manager->getResourceIds($dom)
+        );
+    }
 }

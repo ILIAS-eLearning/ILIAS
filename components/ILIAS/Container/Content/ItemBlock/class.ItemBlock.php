@@ -36,6 +36,7 @@ class ItemBlock
     protected array $item_ref_ids = [];
     protected Block $block;
     protected string $block_id = "";
+    protected string $render_id = "";
     protected bool $limit_exhausted = false;
 
     public function __construct(
@@ -46,6 +47,7 @@ class ItemBlock
         array $objective_ids = []
     ) {
         $this->block_id = $block_id;
+        $this->render_id = $block_id;
         $this->block = $block;
         $this->item_ref_ids = $item_ref_ids;
         $this->limit_exhausted = $limit_exhausted;
@@ -54,6 +56,16 @@ class ItemBlock
     public function getId(): string
     {
         return $this->block_id;
+    }
+
+    public function setRenderId(string $render_id): void
+    {
+        $this->render_id = $render_id;
+    }
+
+    public function getRenderId(): string
+    {
+        return $this->render_id;
     }
 
     public function getBlock(): Block
