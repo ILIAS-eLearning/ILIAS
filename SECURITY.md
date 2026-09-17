@@ -211,7 +211,7 @@ which provides more details on affected and fixed versions of ILIAS.
 * Matthias Kunkel, ILIAS open source e-Learning e.V., Cologne, Germany
 * Lukas Scharmer, Databay AG, Würselen, Germany
 * André Schweigert, FAU Kompetenzzentrum Lehre, Fürth, Germany
-* David Tokar, WEKA Media GmbH & Co. KG, Kissing, Germany
+* David Tokar, WEKA Intelligence GmbH & Co. KG, Kissing, Germany
 * Guido Vollbach, Databay AG, Würselen, Germany
 
 [//]: # (END contributors)
