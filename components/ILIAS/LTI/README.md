@@ -14,6 +14,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 **Table of Contents**
 * [Structure](#structure)
 * [Where does a class go?](#where-does-a-class-go)
+* [Globals and request input](#globals-and-request-input)
 * [Database](#database)
 * [Compatibility](#compatibility)
 * [Removing LTI 1.1](#removing-lti-11)
@@ -52,6 +53,19 @@ LTI1p1 and LTIAdvantage MUST NOT share classes. When both need the same logic, e
 its own copy, so LTI1p1 can be removed without touching LTIAdvantage.
 
 Classes follow the usual component naming: `class.ilLTI<Area><Name>.php`, without namespace.
+
+## Globals and request input
+
+* No global variable other than the ILIAS service locator is used. `$_GET`, `$_POST`, `$_REQUEST`,
+  `$_SESSION`, `$_COOKIE`, `$_FILES` and `$GLOBALS` MUST NOT be read or written, as required by the
+  review criteria in `docs/development/review.md`.
+* Parameters come from the HTTP service, `$DIC->http()->wrapper()->query()` and `->post()`, refined with
+  `$DIC->refinery()`. A GUI reads the request wrapper in its constructor. The request body comes from
+  `$DIC->http()->request()` instead of `php://input`, and session data from `ilSession`.
+* The one exception is `ilLTI1p1ProviderLaunchRequestUri`, which rewrites `$_SERVER['REQUEST_URI']`:
+  `celtic/lti` builds the URL it checks the OAuth1 signature against from that value
+  (`OAuth\OAuthRequest::from_request()`), so there is no API to override it. Any further exception MUST be
+  explained in a comment next to the access.
 
 ## Database
 

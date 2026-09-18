@@ -28,6 +28,8 @@ final class ilLTI1p1ProviderLaunchRequestUri
      */
     public static function stripClientId(): void
     {
+        // celtic/lti builds the signed URL from $_SERVER['REQUEST_URI'] in OAuth\OAuthRequest::from_request(),
+        // so there is no API to override it: this is the only superglobal access of the component.
         $_SERVER['REQUEST_URI'] = rtrim(preg_replace('/([?&])client_id=[^&]+(&|$)/', '$1', $_SERVER['REQUEST_URI']), '?&');
     }
 }
