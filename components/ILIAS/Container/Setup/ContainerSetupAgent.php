@@ -40,7 +40,8 @@ class ContainerSetupAgent extends NullAgent
             new WebFeedCreationDeletedObjective('cat', 'create_feed'),
             new WebFeedCreationDeletedObjective('grp', 'create_feed'),
             new WebFeedCreationDeletedObjective('crs', 'create_feed'),
-            new WebFeedCreationDeletedObjective('fold', 'create_feed')
+            new WebFeedCreationDeletedObjective('fold', 'create_feed'),
+            new \ilDatabaseUpdateStepsExecutedObjective(new \ilBlockDBUpdateSteps())
         );
     }
 
