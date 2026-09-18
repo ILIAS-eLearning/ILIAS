@@ -106,4 +106,12 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 
         return null;
     }
+
+    public function setDisabled(bool $a_disabled): void
+    {
+        parent::setDisabled($a_disabled);
+        foreach ($this->getSubItems() as $sub_item) {
+            $sub_item->setDisabled($a_disabled);
+        }
+    }
 }
