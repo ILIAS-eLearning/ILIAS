@@ -944,6 +944,10 @@ class ilContainerRenderer
                 if ($item_data === null) {
                     continue;
                 }
+                // use block_id as parent for unique IDs when item appears in multiple blocks
+                if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+                    $item_data["block_parent"] = (int) $block_id;
+                }
                 if ($block->getPageEmbedded()) {
                     $item_data["parent"] = -$page_block_instance;
                 }

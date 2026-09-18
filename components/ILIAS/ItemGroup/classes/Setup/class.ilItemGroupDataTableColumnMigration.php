@@ -82,6 +82,14 @@ class ilItemGroupDataTableColumnMigration implements Migration
 
     private function isDataMigrationRequired(): bool
     {
+        if (
+            !$this->db->tableColumnExists('itgr_data', 'hide_title')
+            || !$this->db->tableColumnExists('itgr_data', 'behaviour')
+        ) {
+            return false;
+        }
+
+
         $result = $this->db->queryF(
             'SELECT COUNT(id) AS cnt FROM itgr_data WHERE hide_title <> %s AND behaviour <> %s',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
