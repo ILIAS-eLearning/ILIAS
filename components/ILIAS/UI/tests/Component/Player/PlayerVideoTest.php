@@ -98,6 +98,15 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertEquals(["en" => ["file" => "subtitles.vtt", "label" => "English"]], $video->getSubtitleFiles());
     }
 
+    public function testGetTitleGetSubtitleFileWithoutLabel(): void
+    {
+        $f = $this->getFactory();
+
+        $video = $f->video("/foo")->withAdditionalSubtitleFile("en", "subtitles.vtt");
+
+        $this->assertEquals(["en" => ["file" => "subtitles.vtt", "label" => ""]], $video->getSubtitleFiles());
+    }
+
     public function testRenderVideo(): void
     {
         $f = $this->getFactory();

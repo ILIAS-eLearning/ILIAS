@@ -35,7 +35,7 @@ class Video extends Player implements C\Player\Video
     private string $poster = "";
     private array $subtitle_files = [];
 
-    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label): C\Player\Video
+    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label = ""): C\Player\Video
     {
         $clone = clone $this;
         $clone->subtitle_files[$lang_key] = [

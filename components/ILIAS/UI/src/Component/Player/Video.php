@@ -32,8 +32,9 @@ interface Video extends Player
      * Set a subtitle file path (vtt file). For WebVTT format, see https://en.wikipedia.org/wiki/WebVTT.
      * @param string $lang_key two letter lang key, e.g. "de", "en"
      * @param string $subtitle_file relative web root path of a vtt file
+     * @param string $label label for the subtitle track
      */
-    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label): \ILIAS\UI\Component\Player\Video;
+    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label = ""): \ILIAS\UI\Component\Player\Video;
 
     /**
      * Get subtitle files
