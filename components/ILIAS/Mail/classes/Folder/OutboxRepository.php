@@ -29,4 +29,6 @@ interface OutboxRepository
      * @return Generator<MailDeliveryData>
      */
     public function getOutboxMails(): Generator;
+
+    public function markAsDelivered(int $owner_id, int $mail_id): void;
 }
