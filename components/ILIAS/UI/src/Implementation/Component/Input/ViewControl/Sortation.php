@@ -37,6 +37,7 @@ class Sortation extends ViewControlInput implements VCInterface\Sortation, HasIn
     protected Signal $internal_selection_signal;
     protected string $aspect;
     protected string $direction;
+    protected ?string $label_prefix = null;
 
     /**
      * @var array<string, Order>
@@ -99,5 +100,17 @@ class Sortation extends ViewControlInput implements VCInterface\Sortation, HasIn
         $clone = clone $this;
         $clone->label = $label;
         return $clone;
+    }
+
+    public function withLabelPrefix(string $label_prefix): self
+    {
+        $clone = clone $this;
+        $clone->label_prefix = $label_prefix;
+        return $clone;
+    }
+
+    public function getLabelPrefix(): ?string
+    {
+        return $this->label_prefix;
     }
 }
