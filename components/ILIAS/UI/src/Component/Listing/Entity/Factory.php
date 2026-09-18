@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing\Entity;
 
+use ILIAS\UI\Component\Entity\EntityRetrieval;
+
 /**
  * This is what a factory for EntityListings looks like
  */
@@ -36,10 +38,10 @@ interface Factory
      *      the space optimally. The design of the entity is one that favors a more horizontal representation.
      *
      * ---
-     * @param \ILIAS\UI\Component\Listing\Entity\RecordToEntity $entity_mapping
+     * @param \ILIAS\UI\Component\Entity\EntityRetrieval $entity_retrieval
      * @return \ILIAS\UI\Component\Listing\Entity\Standard
      */
-    public function standard(RecordToEntity $entity_mapping): Standard;
+    public function standard(EntityRetrieval $entity_retrieval): Standard;
 
     /**
      * ---
@@ -57,8 +59,8 @@ interface Factory
      *          with the same height.
      *
      * ---
-     * @param \ILIAS\UI\Component\Listing\Entity\RecordToEntity $entity_mapping
+     * @param \ILIAS\UI\Component\Entity\EntityRetrieval $entity_retrieval
      * @return \ILIAS\UI\Component\Listing\Entity\Grid
      */
-    public function grid(RecordToEntity $entity_mapping): Grid;
+    public function grid(EntityRetrieval $entity_retrieval): Grid;
 }

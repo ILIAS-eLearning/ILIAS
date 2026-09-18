@@ -22,6 +22,7 @@ namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Node\NodeRetrieval;
+use ILIAS\UI\Component\Entity\EntityRetrieval;
 use ILIAS\Data\ImagePurpose;
 
 /**
@@ -808,6 +809,48 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Hidden
      */
     public function hidden(): Hidden;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Entity Input carries technical identifiers of entities through a
+     *      form roundtrip and visualises those entities. Users must not operate
+     *      this input. Typical context is a confirmation prompt: a Standard Form
+     *      in a Prompt State contains this input (withValue of the affected ids)
+     *      so the posted payload and the shown entities cannot diverge. Additional
+     *      operable fields (e.g. type the object title) can sit in the same form.
+     *      A confirmation Message Box as sibling Prompt content depends on
+     *      secondary Prompt content (follow-up to GitHub issue 11105:
+     *      show($primary, ...$secondary)).
+     *   composition: >
+     *      An unordered list of Entity components, each paired with a Hidden Input
+     *      generated via withValue() (HasDynamicInputs). There is no user control.
+     *   effect: >
+     *      Submitting the enclosing form posts the entity ids in the request body.
+     *      Consumers read them from the form getData() for this field.
+     *   rivals:
+     *      Hidden: Hidden transmits a value without visualisation. Entity Input also shows the entities.
+     *      Entity Listing: Entity Listing is a listing, not a form field, and has its own retrieval lifecycle.
+     *
+     * context:
+     *   - The Entity Input is used in UI-forms, especially confirmation prompts.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *        The Entity Input MUST NOT be operated by the user.
+     *     2: >
+     *        Consumers MUST set the identifiers with withValue() before rendering
+     *        and MUST read them from the enclosing form getData() after withRequest().
+     *     3: >
+     *        Entity ids MUST be posted in the request body, never attached to the
+     *        form action URL.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Input\Field\Entity
+     */
+    public function entity(EntityRetrieval $entity_retrieval): Entity;
 
     /**
      * ---

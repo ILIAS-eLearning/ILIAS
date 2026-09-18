@@ -38,6 +38,7 @@ use ILIAS\UI\Implementation\Component\Input\Input;
 use ILIAS\Data\FiveStarRatingScale;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\ProxyFilterField;
 use ILIAS\Data\URI;
+use ILIAS\Data\Order;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
@@ -156,6 +157,9 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\Hidden):
                 return $this->renderHiddenField($component);
+
+            case ($component instanceof F\Entity):
+                return $this->renderEntityField($component, $default_renderer);
 
             case ($component instanceof F\ColorSelect):
                 return $this->renderColorSelectField($component, $default_renderer);
@@ -932,6 +936,28 @@ class Renderer extends AbstractComponentRenderer
         }
         $this->bindJSandApplyId($input, $template);
         return $template->get();
+    }
+
+    protected function renderEntityField(F\Entity $component, RendererInterface $default_renderer): string
+    {
+        $template = $this->getTemplate('tpl.entity.html', true, true);
+
+        $dynamic_inputs = (static fn() => yield from $component->getGeneratedDynamicInputs())();
+        $entities = $component->getEntityRetrieval()->getEntitiesByIds(
+            $this->getUIFactory(),
+            new Order('id', Order::ASC),
+            array_values($component->getValue()),
+        );
+
+        foreach ($this->iterateGeneratorsInLockstep($entities, $dynamic_inputs) as [$entity, $dynamic_input]) {
+            $this->checkArgInstanceOf('entity', $entity, Component\Entity\Entity::class);
+            $template->setCurrentBlock('entity');
+            $template->setVariable('ENTITY', $default_renderer->render($entity));
+            $template->setVariable('INPUT', $default_renderer->render($dynamic_input));
+            $template->parseCurrentBlock();
+        }
+
+        return $this->wrapInFormContext($component, $component->getLabel(), $template->get());
     }
 
     /**

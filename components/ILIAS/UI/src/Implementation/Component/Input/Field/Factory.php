@@ -179,6 +179,19 @@ class Factory implements I\Factory
         return new Hidden($this->data_factory, $this->refinery);
     }
 
+    public function entity(\ILIAS\UI\Component\Entity\EntityRetrieval $entity_retrieval): Entity
+    {
+        return new Entity(
+            $this->lng,
+            $this->data_factory,
+            $this->refinery,
+            $this->hidden(),
+            $entity_retrieval,
+            '',
+            null,
+        );
+    }
+
     public function colorSelect(string $label, ?string $byline = null): ColorSelect
     {
         return new ColorSelect($this->data_factory, $this->refinery, $label, $byline);
