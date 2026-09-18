@@ -22,7 +22,6 @@ namespace ILIAS\Test\ExportImport;
 
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Language\Language;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Test\Participants\ParticipantRepository;

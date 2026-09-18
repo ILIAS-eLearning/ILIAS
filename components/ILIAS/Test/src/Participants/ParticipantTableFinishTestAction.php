@@ -90,7 +90,7 @@ class ParticipantTableFinishTestAction implements TableAction
                 array_map(
                     fn(Participant $participant) => $this->ui_factory->modal()->interruptiveItem()->standard(
                         (string) $participant->getUser()->getUserId(),
-                        (new \ilObjUser($participant->getUser()->getUserId()))->getPublicName()
+                        $participant->getUser()->getDisplayName($this->lng, $this->test_obj->getAnonymity())
                     ),
                     $selected_participants
                 )
@@ -185,7 +185,7 @@ class ParticipantTableFinishTestAction implements TableAction
         if (count($selected_participants) === 1) {
             return sprintf(
                 $this->lng->txt('finish_test_single'),
-                (new \ilObjUser($selected_participants[0]->getUser()->getUserId()))->getPublicName()
+                $selected_participants[0]->getUser()->getDisplayName($this->lng, $this->test_obj->getAnonymity())
             );
         }
 

@@ -55,10 +55,22 @@ class UserTest extends \ilTestBaseTestCase
     public function testGetDisplayNameForImportedAnonymousUser(): void
     {
         // Arrange
-        $user = new User(ANONYMOUS_USER_ID, importname: 'Imported Participant');
+        $user = new User(ANONYMOUS_USER_ID, '', '', '', '', 'Imported Participant');
 
         // Act
         $display_name = $user->getDisplayName($this->lng);
+
+        // Assert
+        $this->assertSame('Imported Participant (imported)', $display_name);
+    }
+
+    public function testGetDisplayNameForImportedAnonymousUserInAnonymousTest(): void
+    {
+        // Arrange
+        $user = new User(ANONYMOUS_USER_ID, '', '', '', '', 'Imported Participant');
+
+        // Act
+        $display_name = $user->getDisplayName($this->lng, true);
 
         // Assert
         $this->assertSame('Imported Participant (imported)', $display_name);

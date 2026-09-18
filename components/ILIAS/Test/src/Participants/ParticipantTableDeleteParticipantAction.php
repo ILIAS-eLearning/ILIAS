@@ -80,9 +80,7 @@ class ParticipantTableDeleteParticipantAction implements TableAction
             array_map(
                 fn(Participant $v) => $this->ui_factory->modal()->interruptiveItem()->standard(
                     (string) $v->getUser()->getUserId(),
-                    $this->test_obj->getAnonymity()
-                        ? $this->lng->txt('anonymous')
-                        : \ilObjUser::_lookupFullname($v->getUser()->getUserId())
+                    $v->getUser()->getDisplayName($this->lng, $this->test_obj->getAnonymity())
                 ),
                 $selected_participants
             )
