@@ -22,7 +22,14 @@ require_once '../vendor/composer/vendor/autoload.php';
 require_once __DIR__ . '/../artifacts/bootstrap_default.php';
 entry_point('ILIAS Legacy Initialisation Adapter');
 
-if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
+global $DIC;
+
+$client_id = $DIC->http()->wrapper()->query()->retrieve(
+    'client_id',
+    $DIC->refinery()->byTrying([$DIC->refinery()->kindlyTo()->string(), $DIC->refinery()->always('')])
+);
+
+if ($client_id === '') {
     $log = ilLoggerFactory::getLogger('lti');
     $log->error("HTTP/1.1 401 Authorization Required");
     header('HTTP/1.1 401 Authorization Required');
@@ -31,7 +38,6 @@ if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
 
 \ilContext::init(\ilContext::CONTEXT_SCORM);
 
-$dic = $GLOBALS['DIC'];
 $log = ilLoggerFactory::getLogger('lti');
 $log->info("LTI result init successful");
 $service = new ilLTIConsumerResultService();
