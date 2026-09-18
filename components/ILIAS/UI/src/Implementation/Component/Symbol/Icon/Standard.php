@@ -95,7 +95,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::DCL,
         self::POLL,
         self::HLPS,
-        self::ITGR,
+        self::OBGR,
         self::RCAT,
         self::RWIK,
         self::RLM,

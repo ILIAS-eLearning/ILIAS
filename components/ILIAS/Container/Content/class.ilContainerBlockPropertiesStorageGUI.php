@@ -23,7 +23,7 @@ use ILIAS\Container\Content\BlockSessionRepository;
 
 /**
  * Save container block property
- * Mainly used for item group expand/collapse
+ * Mainly used for object group expand/collapse
  *
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContainerBlockPropertiesStorageGUI: ilContainerBlockPropertiesStorageGUI

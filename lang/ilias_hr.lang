@@ -4422,8 +4422,6 @@ common#:#ip_address#:#IP adresa
 common#:#is_already_your#:#već je vaš
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 2024 new variable
 common#:#item#:#Stavka
-common#:#itgr_add#:#Dodaj blok stavki
-common#:#itgr_new#:#Novi blok stavki
 common#:#java_server#:#Java poslužitelj
 common#:#java_server_host#:#Domaćin
 common#:#java_server_info#:#Ako je aktivirano, moguće je pretraživanje u PDF-u, HTML datotekama i HTML modulima za učenje
@@ -4855,6 +4853,8 @@ common#:#nr_following_sessions#:#Sljedeće sesije: %1d ...
 common#:#num_of_selected_files#:#Odabrane su %s datoteke
 common#:#num_users#:#Broj korisnika
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###26 08 2024 new variable
+common#:#obgr_add#:#Dodaj blok stavki
+common#:#obgr_new#:#Novi blok stavki
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Pristupačnost
 common#:#obj_accs_desc#:#Postavke za značajke pristupačnosti.
@@ -4959,7 +4959,6 @@ common#:#obj_htlm_duplicate#:#Kopiraj HTML modul za učenja
 common#:#obj_iass#:#Individualna procjena
 common#:#obj_iass_duplicate#:#Kopiraj pojedinačnu procjenu
 common#:#obj_iass_select#:#- Odaberite jednu pojedinačnu procjenu -
-common#:#obj_itgr#:#Skupina stavki
 common#:#obj_ldap_desc#:#Ovdje konfigurirajte globalne postavke LDAP-a.
 common#:#obj_lhts#:#Learning History###04 06 2021 new variable
 common#:#obj_lhts_desc#:#Learning history settings###04 06 2021 new variable
@@ -5001,6 +5000,7 @@ common#:#obj_nots#:#Notes###04 06 2021 new variable
 common#:#obj_nots_desc#:#Notes settings###04 06 2021 new variable
 common#:#obj_nwss#:#Vijesti i web sažeci
 common#:#obj_nwss_desc#:#Postavke za interne vijesti i vanjske web sažetke.
+common#:#obj_obgr#:#Skupina stavki
 common#:#obj_objf#:#Definicije objekata
 common#:#obj_objf_desc#:#Upravljanje vrstama objekata ILIAS i dozvolama objekata. (samo za stručnjake!)
 common#:#obj_orgu#:#Organizacijska jedinica
@@ -5169,7 +5169,6 @@ common#:#objs_grp#:#Skupine
 common#:#objs_grpr#:#Poveznice na skupine
 common#:#objs_htlm#:#HTML moduli za učenje
 common#:#objs_iass#:#Pojedinačne procjene
-common#:#objs_itgr#:#Skupine stavki
 common#:#objs_lm#:#Moduli za učenje ILIAS
 common#:#objs_lres#:#Resursi za učenje
 common#:#objs_lso#:#Sekvence učenja
@@ -5177,6 +5176,7 @@ common#:#objs_lti#:#LTI Consumers###04 06 2021 new variable
 common#:#objs_mail#:#E-pošta
 common#:#objs_mcst#:#Mediacastovi (medijske emisije)
 common#:#objs_mep#:#Bazeni medija
+common#:#objs_obgr#:#Skupine stavki
 common#:#objs_orgu#:#Organizacijske jedinice
 common#:#objs_poll#:#Glasovanja
 common#:#objs_prg#:#Studijski programi
@@ -6726,7 +6726,6 @@ content#:#cont_lrs_settings#:#Postavke
 content#:#cont_lvalue#:#Element podataka
 content#:#cont_maintenance#:#Održavanje
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Create Item Group###26 08 2024 new variable
 content#:#cont_map_file_not_generated#:#Žao mi je. Nije moguće generirati datoteku karte za uređivanje.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Glavni jezik za prevođenje
@@ -10718,26 +10717,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Uvijek otvoreno
-itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
-itgr#:#itgr_assigned_materials#:#Dodijeljeni materijali
-itgr#:#itgr_assignment#:#Zadatak
-itgr#:#itgr_behaviour#:#Blokiraj ponašanje
-itgr#:#itgr_behaviour_info#:#Sustav će pohraniti otvoreno/zatvoreno stanje za trenutnog korisnika do odjave.
-itgr#:#itgr_desc_info#:#Opis neće biti dio prezentacije predmeta grupe u njezinom spremniku.
-itgr#:#itgr_edit#:#Uredi stavke grupe
-itgr#:#itgr_expandable_closed#:#Proširivo (inicijalno zatvoreno)
-itgr#:#itgr_expandable_open#:#Proširivo (inicijalno otvoreno)
-itgr#:#itgr_item#:#Stavka
-itgr#:#itgr_list#:#List###29 07 2022 new variable
-itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
-itgr#:#itgr_materials#:#Materijali
-itgr#:#itgr_show_title#:#Prikaži naslov
-itgr#:#itgr_show_title_info#:#Prikazuje naslov grupe predmeta u prezentaciji za sudionike.
-itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#O kalendaru
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa najnoviju verziju posjetite: http://dynarch.com/mishoo/calendar.epl\nDistributed pod GNU LGPL. Za detalje vidi http://gnu.org/licenses/lgpl.html.\n\nOdabir datuma:\n- Pomoću gumba Â«, Â» odaberite godinu\n-Pomoću gumba <,> odaberite mjesec\n-Držite tipku miša na bilo kojoj od gore navedenih tipki za brži odabir.
 jscalendar#:#about_time#:#\n\nOdabir vremena:\n-Kliknite na bilo koji od dijelova vremena kako biste ga povećali\n-ili kliknite Shift kako biste ga smanjili\n- ili kliknite i povucite za brži odabir.
@@ -13079,6 +13058,24 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
+obgr#:#obgr_always_open#:#Uvijek otvoreno
+obgr#:#obgr_assign_materials#:#Assign Materials###29 07 2022 new variable
+obgr#:#obgr_assigned_materials#:#Dodijeljeni materijali
+obgr#:#obgr_assignment#:#Zadatak
+obgr#:#obgr_behaviour#:#Blokiraj ponašanje
+obgr#:#obgr_behaviour_info#:#Sustav će pohraniti otvoreno/zatvoreno stanje za trenutnog korisnika do odjave.
+obgr#:#obgr_desc_info#:#Opis neće biti dio prezentacije predmeta grupe u njezinom spremniku.
+obgr#:#obgr_edit#:#Uredi stavke grupe
+obgr#:#obgr_expandable_closed#:#Proširivo (inicijalno zatvoreno)
+obgr#:#obgr_expandable_open#:#Proširivo (inicijalno otvoreno)
+obgr#:#obgr_item#:#Stavka
+obgr#:#obgr_list#:#List###29 07 2022 new variable
+obgr#:#obgr_list_default#:#Default###29 07 2022 new variable
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
+obgr#:#obgr_list_presentation#:#Item Presentation###29 07 2022 new variable
+obgr#:#obgr_materials#:#Materijali
+obgr#:#obgr_tile#:#Tiles###29 07 2022 new variable
+obgr#:#obgr_tile_size#:#Tile Size###29 07 2022 new variable
 obj#:#activation_visible_when_disabled#:#Vidljivost
 obj#:#activation_visible_when_disabled_info#:#Ako je odabran, materijal je vidljiv i izvan zadane dostupnosti.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###26 08 2024 new variable
@@ -14366,12 +14363,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###29 10 2
 rbac#:#info_user_view_changed#:#Korisnički prikaz promijenjen
 rbac#:#internal_mail#:#Interna pošta
 rbac#:#invite#:#Pozivanje na anketu
-rbac#:#itgr_copy#:#Korisnik može kopirati grupu stavki
-rbac#:#itgr_delete#:#Korisnik može premjestiti ili izbrisati grupu stavki
-rbac#:#itgr_edit_permission#:#Korisnik može promijeniti postavke dozvole
-rbac#:#itgr_read#:#Korisnik može vidjeti stavke u grupi predmeta
-rbac#:#itgr_visible#:#Grupa stavki je vidljiva
-rbac#:#itgr_write#:#Korisnik može uređivati sadržaj i postavke grupe stavki
 rbac#:#leave#:#Otkaži članstvo
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###04 06 2021 new variable
 rbac#:#lhts_read#:#User has read access to Learning History administration.###04 06 2021 new variable
@@ -14486,6 +14477,12 @@ rbac#:#nwss_edit_permission#:#Korisnik može promijeniti postavke dozvole u admi
 rbac#:#nwss_read#:#Korisnik ima pristup za čitanje administracije vijesti i web feedova
 rbac#:#nwss_visible#:#Vidljiva je administracija vijestima i web feedovima
 rbac#:#nwss_write#:#Korisnik može uređivati postavke u administraciji vijesti i web feedova
+rbac#:#obgr_copy#:#Korisnik može kopirati grupu stavki
+rbac#:#obgr_delete#:#Korisnik može premjestiti ili izbrisati grupu stavki
+rbac#:#obgr_edit_permission#:#Korisnik može promijeniti postavke dozvole
+rbac#:#obgr_read#:#Korisnik može vidjeti stavke u grupi predmeta
+rbac#:#obgr_visible#:#Grupa stavki je vidljiva
+rbac#:#obgr_write#:#Korisnik može uređivati sadržaj i postavke grupe stavki
 rbac#:#obj_skee#:#Competence Tree###29 07 2022 new variable
 rbac#:#org_op_access_results#:#Pristupite rezultatima podređenih korisnika
 rbac#:#org_op_edit_submissions_grades#:#Uredi predane testove drugih korisnika
@@ -14624,12 +14621,12 @@ rbac#:#rbac_create_grp#:#Kreiraj grupu
 rbac#:#rbac_create_grpr#:#Kreiraj poveznicu na grupu
 rbac#:#rbac_create_htlm#:#Kreiraj HTML modul za učenje
 rbac#:#rbac_create_iass#:#Kreiraj individualnu procjenu
-rbac#:#rbac_create_itgr#:#Kreiraj grupu predmeta
 rbac#:#rbac_create_lm#:#Kreiraj ILIAS modul za učenje
 rbac#:#rbac_create_lso#:#Kreiraj sekvencu učenja
 rbac#:#rbac_create_lti#:#Create LTI Consumer###04 06 2021 new variable
 rbac#:#rbac_create_mcst#:#Kreiraj mediacast
 rbac#:#rbac_create_mep#:#Kreiraj bazen za medije
+rbac#:#rbac_create_obgr#:#Kreiraj grupu predmeta
 rbac#:#rbac_create_orgu#:#Kreiraj organizacijske jedinice
 rbac#:#rbac_create_poll#:#Kreiraj glasovanje
 rbac#:#rbac_create_prg#:#Kreiraj studijski program

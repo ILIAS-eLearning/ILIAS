@@ -4422,8 +4422,6 @@ common#:#ip_address#:#Naslov IP
 common#:#is_already_your#:#je že Vaš
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 2024 new variable
 common#:#item#:#Pojem
-common#:#itgr_add#:#Dodaj blok objektov
-common#:#itgr_new#:#Nov blok objektov
 common#:#java_server#:#Strežnik Java
 common#:#java_server_host#:#Gostitelj
 common#:#java_server_info#:#Če je aktivirano, so možna iskanja v učnih modulih HTML kot tudi v datotekah PDF.
@@ -4855,6 +4853,8 @@ common#:#nr_following_sessions#:#%1d naslednja/-e seja/-e...
 common#:#num_of_selected_files#:#%s datotek/-a je izbrana/-ih
 common#:#num_users#:#Število uporabnikov
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###26 08 2024 new variable
+common#:#obgr_add#:#Dodaj blok objektov
+common#:#obgr_new#:#Nov blok objektov
 common#:#obj#:#Object
 common#:#obj_accs#:#Dostopnost
 common#:#obj_accs_desc#:#Nastavitve dostopnosti
@@ -4959,7 +4959,6 @@ common#:#obj_htlm_duplicate#:#Kopiraj učni modul HTML
 common#:#obj_iass#:#Individualna ocena
 common#:#obj_iass_duplicate#:#Kopiraj individualno oceno
 common#:#obj_iass_select#:#-- Izberite individualno oceno --
-common#:#obj_itgr#:#Blok objektov
 common#:#obj_ldap_desc#:#Globalna konfiguracija LDAP.
 common#:#obj_lhts#:#Learning History
 common#:#obj_lhts_desc#:#Learning history settings
@@ -5001,6 +5000,7 @@ common#:#obj_nots#:#Notes
 common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nwss#:#Novosti in spletni viri
 common#:#obj_nwss_desc#:#Nastavitve za notranje novosti in zunanje spletne vire
+common#:#obj_obgr#:#Blok objektov
 common#:#obj_objf#:#Definicije objektov
 common#:#obj_objf_desc#:#Tipi objektov in pravice za objekte ILIAS (Samo za strokovnjake!)
 common#:#obj_orgu#:#Organizacijska enota
@@ -5169,7 +5169,6 @@ common#:#objs_grp#:#Skupine
 common#:#objs_grpr#:#Povezave do skupin
 common#:#objs_htlm#:#Učni moduli HTML
 common#:#objs_iass#:#Individualne ocene
-common#:#objs_itgr#:#Bloki objektov
 common#:#objs_lm#:#Učni moduli ILIAS
 common#:#objs_lres#:#Učno gradivo
 common#:#objs_lso#:#Učna zaporedja
@@ -5177,6 +5176,7 @@ common#:#objs_lti#:#LTI Consumers
 common#:#objs_mail#:#E-pošta
 common#:#objs_mcst#:#Predvajanje medijskih vsebin
 common#:#objs_mep#:#Skupine medijev
+common#:#objs_obgr#:#Bloki objektov
 common#:#objs_orgu#:#Organizacijske enote
 common#:#objs_poll#:#Glasovanja
 common#:#objs_prg#:#Študijski programi
@@ -6726,7 +6726,6 @@ content#:#cont_lrs_settings#:#Nastavitve
 content#:#cont_lvalue#:#Podatkovni element
 content#:#cont_maintenance#:#Vzdrževanje
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Create Item Group###26 08 2024 new variable
 content#:#cont_map_file_not_generated#:#Datoteke s slikovnim zemljevidom žal ni bilo mogoče generirati.
 content#:#cont_marker#:#Točka za označevanje
 content#:#cont_master_language_only#:#Glavni jezik za prevajanje - master
@@ -10718,26 +10717,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Vedno odprto
-itgr#:#itgr_assign_materials#:#Assign Materials###19 08 2022 new variable
-itgr#:#itgr_assigned_materials#:#Objekti v bloku objektov
-itgr#:#itgr_assignment#:#Vključeno
-itgr#:#itgr_behaviour#:#Vedenje
-itgr#:#itgr_behaviour_info#:#Sistem si zapomni stanje (odprto/zaprto) uporabnika, dokler se ta ne odjavi (logout).
-itgr#:#itgr_desc_info#:#Opis ne bo izpisan v objavi bloka objektov.
-itgr#:#itgr_edit#:#Uredi blok objektov
-itgr#:#itgr_expandable_closed#:#Razširljivo (sprva zaprto)
-itgr#:#itgr_expandable_open#:#Razširljivo (sprva odprto)
-itgr#:#itgr_item#:#Objekti, ki bi lahko bili vključeni
-itgr#:#itgr_list#:#List###19 08 2022 new variable
-itgr#:#itgr_list_default#:#Default###19 08 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###19 08 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###19 08 2022 new variable
-itgr#:#itgr_materials#:#Objekti
-itgr#:#itgr_show_title#:#Prikaži naslov
-itgr#:#itgr_show_title_info#:#Naslov bloka objektov se prikaže v predstavitvi za učence.
-itgr#:#itgr_tile#:#Tiles###19 08 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###19 08 2022 new variable
 jscalendar#:#about_calendar#:#O koledarju
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. Za podrobnosti glej http://gnu.org/licenses/lgpl.html.  Izbira datuma: - Uporabite gumba «, », da izberete leto - Uporabite gumba <, >, da izberete mesec - Za hitrejšo izbiro pridržite gumb miške nad vsakim od zgornjih gumbov.
 jscalendar#:#about_time#:#  Izbira časa: - Kliknite na polje za čas, da povečate vrednost - ali Shift+klikajte, da vrednost zmanjšate - ali kliknite in povlecite za hitrejšo izbiro.
@@ -13079,6 +13058,24 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
+obgr#:#obgr_always_open#:#Vedno odprto
+obgr#:#obgr_assign_materials#:#Assign Materials###19 08 2022 new variable
+obgr#:#obgr_assigned_materials#:#Objekti v bloku objektov
+obgr#:#obgr_assignment#:#Vključeno
+obgr#:#obgr_behaviour#:#Vedenje
+obgr#:#obgr_behaviour_info#:#Sistem si zapomni stanje (odprto/zaprto) uporabnika, dokler se ta ne odjavi (logout).
+obgr#:#obgr_desc_info#:#Opis ne bo izpisan v objavi bloka objektov.
+obgr#:#obgr_edit#:#Uredi blok objektov
+obgr#:#obgr_expandable_closed#:#Razširljivo (sprva zaprto)
+obgr#:#obgr_expandable_open#:#Razširljivo (sprva odprto)
+obgr#:#obgr_item#:#Objekti, ki bi lahko bili vključeni
+obgr#:#obgr_list#:#List###19 08 2022 new variable
+obgr#:#obgr_list_default#:#Default###19 08 2022 new variable
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.###19 08 2022 new variable
+obgr#:#obgr_list_presentation#:#Item Presentation###19 08 2022 new variable
+obgr#:#obgr_materials#:#Objekti
+obgr#:#obgr_tile#:#Tiles###19 08 2022 new variable
+obgr#:#obgr_tile_size#:#Tile Size###19 08 2022 new variable
 obj#:#activation_visible_when_disabled#:#Vidnost
 obj#:#activation_visible_when_disabled_info#:#Če je aktivirano, je učno gradivo vidno tudi zunaj predvidene razpoložljivosti.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###26 08 2024 new variable
@@ -14366,12 +14363,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###29 10 2
 rbac#:#info_user_view_changed#:#Uporabniški pogled spremenjen
 rbac#:#internal_mail#:#Notranji sistem pošte
 rbac#:#invite#:#Povabi k anketi
-rbac#:#itgr_copy#:#Kopiraj blok objektov
-rbac#:#itgr_delete#:#Izbriši ali premakni blok objektov
-rbac#:#itgr_edit_permission#:#Spremeni nastavitve pravic bloka objektov
-rbac#:#itgr_read#:#Bralni dostop do bloka objektov
-rbac#:#itgr_visible#:#Blok objektov je viden
-rbac#:#itgr_write#:#Uredi vsebino in nastavitve bloka objektov
 rbac#:#leave#:#Prekini članstvo
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###19 08 2022 new variable
 rbac#:#lhts_read#:#User has read access to Learning History administration.###19 08 2022 new variable
@@ -14486,6 +14477,12 @@ rbac#:#nwss_edit_permission#:#Spremeni nastavitve pravic v administraciji novic 
 rbac#:#nwss_read#:#Bralni dostop do administracije novic in spletnih virov
 rbac#:#nwss_visible#:#Administracija novic in spletnih virov je vidna
 rbac#:#nwss_write#:#Uredi nastavitve v administraciji novic in spletnih virov
+rbac#:#obgr_copy#:#Kopiraj blok objektov
+rbac#:#obgr_delete#:#Izbriši ali premakni blok objektov
+rbac#:#obgr_edit_permission#:#Spremeni nastavitve pravic bloka objektov
+rbac#:#obgr_read#:#Bralni dostop do bloka objektov
+rbac#:#obgr_visible#:#Blok objektov je viden
+rbac#:#obgr_write#:#Uredi vsebino in nastavitve bloka objektov
 rbac#:#obj_skee#:#Competence Tree###19 08 2022 new variable
 rbac#:#org_op_access_results#:#Dostop do rezultatov podrejenih uporabnikov
 rbac#:#org_op_edit_submissions_grades#:#Uredi oddaje drugih uporabnikov
@@ -14624,12 +14621,12 @@ rbac#:#rbac_create_grp#:#Ustvari skupino
 rbac#:#rbac_create_grpr#:#Ustvari povezavo do skupine
 rbac#:#rbac_create_htlm#:#Ustvari učni modul HTML
 rbac#:#rbac_create_iass#:#Ustvari individualno oceno
-rbac#:#rbac_create_itgr#:#Ustvari blok objektov
 rbac#:#rbac_create_lm#:#Ustvari učni modul ILIAS
 rbac#:#rbac_create_lso#:#Ustvari zaporedje učenja
 rbac#:#rbac_create_lti#:#Create LTI Consumer
 rbac#:#rbac_create_mcst#:#Ustvari predvajanje medijskih vsebin
 rbac#:#rbac_create_mep#:#Ustvari skupino medijev
+rbac#:#rbac_create_obgr#:#Ustvari blok objektov
 rbac#:#rbac_create_orgu#:#Ustvari organizacijske enote
 rbac#:#rbac_create_poll#:#Ustvari glasovanje
 rbac#:#rbac_create_prg#:#Ustvari študijski program

@@ -44,7 +44,7 @@ class SimpleViewManager implements ViewManager
     public function getBlockSequence(): BlockSequence
     {
         $blocks = [];
-        $blocks[] = $this->data->itemGroupBlocks();
+        $blocks[] = $this->data->objectGroupBlocks();
         $blocks[] = $this->data->otherBlock();
         return $this->data->blockSequence($blocks);
     }

@@ -4432,8 +4432,6 @@ common#:#ip_address#:#Dirección IP
 common#:#is_already_your#:#ya es su
 common#:#italic_action#:#Insertar cursiva - Haga clic para insertar texto en cursiva.
 common#:#item#:#Elemento
-common#:#itgr_add#:#Añadir grupo de elementos
-common#:#itgr_new#:#Nuevo grupo de elementos
 common#:#java_server#:#Servidor Java
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Si se activa, es posible realizar búsquedas en archivos PDF, HTML y módulos de aprendizaje HTML.
@@ -4866,6 +4864,8 @@ common#:#nr_following_sessions#:#%1d sesión(es) siguiente(s)...
 common#:#num_of_selected_files#:#%s archivo(s) seleccionado(s)
 common#:#num_users#:#Número de usuarios
 common#:#numberedlist_action#:#Insertar lista numerada - Haga clic para insertar una lista numerada.
+common#:#obgr_add#:#Añadir grupo de elementos
+common#:#obgr_new#:#Nuevo grupo de elementos
 common#:#obj#:#Objeto
 common#:#obj_accs#:#Accesibilidad
 common#:#obj_accs_desc#:#Configuración de las funciones de accesibilidad.
@@ -4970,7 +4970,6 @@ common#:#obj_htlm_duplicate#:#Copiar módulo de aprendizaje HTML
 common#:#obj_iass#:#Evaluación individual
 common#:#obj_iass_duplicate#:#Copiar evaluación individual
 common#:#obj_iass_select#:#-- Por favor, seleccione una evaluación individual --
-common#:#obj_itgr#:#Grupo de elementos
 common#:#obj_ldap_desc#:#Configure los ajustes globales de LDAP aquí.
 common#:#obj_lhts#:#Historial de aprendizaje
 common#:#obj_lhts_desc#:#Ajustes del historial de aprendizaje
@@ -5012,6 +5011,7 @@ common#:#obj_nots#:#Notas
 common#:#obj_nots_desc#:#Ajustes de notas
 common#:#obj_nwss#:#Noticias y canales web
 common#:#obj_nwss_desc#:#Ajustes para noticias internas y canales web externos.
+common#:#obj_obgr#:#Grupo de elementos
 common#:#obj_objf#:#Definiciones de objetos
 common#:#obj_objf_desc#:#Gestionar los tipos de objetos de ILIAS y los permisos de los mismos. (¡Solo para expertos!)
 common#:#obj_orgu#:#Unidad organizativa
@@ -5180,7 +5180,6 @@ common#:#objs_grp#:#Grupos
 common#:#objs_grpr#:#Enlaces a grupos
 common#:#objs_htlm#:#Módulos de aprendizaje HTML
 common#:#objs_iass#:#Evaluaciones individuales
-common#:#objs_itgr#:#Grupos de elementos
 common#:#objs_lm#:#Módulos de aprendizaje de ILIAS
 common#:#objs_lres#:#Recursos de aprendizaje
 common#:#objs_lso#:#Secuencias de aprendizaje
@@ -5188,6 +5187,7 @@ common#:#objs_lti#:#Consumidores LTI
 common#:#objs_mail#:#Correo
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Repositorios de objetos multimedia
+common#:#objs_obgr#:#Grupos de elementos
 common#:#objs_orgu#:#Unidades organizativas
 common#:#objs_poll#:#Encuestas
 common#:#objs_prg#:#Programas de estudio
@@ -6743,7 +6743,6 @@ content#:#cont_lrs_settings#:#Configuración
 content#:#cont_lvalue#:#Elemento de datos
 content#:#cont_maintenance#:#Mantenimiento
 content#:#cont_manifest#:#Manifiesto
-content#:#cont_manual_item_group#:#Grupo de elementos creado manualmente
 content#:#cont_map_file_not_generated#:#Lo sentimos. No se puede generar el archivo de mapa para la edición.
 content#:#cont_marker#:#Marcador
 content#:#cont_master_language_only#:#Idioma maestro para traducción
@@ -10768,26 +10767,6 @@ irss#:#title_manage_container#:#Gestionar archivos y carpetas
 irss#:#type#:#Tipo de archivo
 irss#:#upload_field_title#:#Archivos seleccionados
 irss#:#upload_modal_title#:#Añadir archivos
-itgr#:#itgr_always_open#:#Siempre abierto
-itgr#:#itgr_assign_materials#:#Asignar materiales
-itgr#:#itgr_assigned_materials#:#Materiales asignados
-itgr#:#itgr_assignment#:#Asignado
-itgr#:#itgr_behaviour#:#Comportamiento del bloque
-itgr#:#itgr_behaviour_info#:#El sistema almacenará el estado abierto/cerrado para el usuario actual hasta que cierre la sesión.
-itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de elementos en su contenedor.
-itgr#:#itgr_edit#:#Editar grupos de elementos
-itgr#:#itgr_expandable_closed#:#Expandible (inicialmente cerrado)
-itgr#:#itgr_expandable_open#:#Expandible (inicialmente abierto)
-itgr#:#itgr_item#:#Elemento
-itgr#:#itgr_list#:#Lista
-itgr#:#itgr_list_default#:#Predeterminado
-itgr#:#itgr_list_default_info#:#Hereda el valor del contenedor superior.
-itgr#:#itgr_list_presentation#:#Presentación de elementos
-itgr#:#itgr_materials#:#Materiales
-itgr#:#itgr_show_title#:#Mostrar título
-itgr#:#itgr_show_title_info#:#Muestra el título del grupo de elementos en la presentación para el alumno.
-itgr#:#itgr_tile#:#Mosaicos
-itgr#:#itgr_tile_size#:#Tamaño del mosaico
 jscalendar#:#about_calendar#:#Acerca del calendario
 jscalendar#:#about_calendar_long#:#Selector de fecha/hora DHTML © dynarch.com 2002-2003 Para la versión más reciente visite: http://dynarch.com/mishoo/calendar.epl Distribuido bajo GNU LGPL. Consulte http://gnu.org/licenses/lgpl.html para más detalles. Selección de fecha: - Use los botones « y » para seleccionar el año - Use los botones < y > para seleccionar el mes - Mantenga presionado el botón del ratón en cualquiera de los botones anteriores para una selección más rápida.
 jscalendar#:#about_time#:#  Selección de hora: - Haga clic en cualquier parte de la hora para aumentarla - o Shift-clic para disminuirla - o haga clic y arrastre para una selección más rápida.
@@ -13144,6 +13123,24 @@ notifications_adm#:#push_settings#:#Push Notifications
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.
 notifications_adm#:#user_settings#:#Configuración del usuario
+obgr#:#obgr_always_open#:#Siempre abierto
+obgr#:#obgr_assign_materials#:#Asignar materiales
+obgr#:#obgr_assigned_materials#:#Materiales asignados
+obgr#:#obgr_assignment#:#Asignado
+obgr#:#obgr_behaviour#:#Comportamiento del bloque
+obgr#:#obgr_behaviour_info#:#El sistema almacenará el estado abierto/cerrado para el usuario actual hasta que cierre la sesión.
+obgr#:#obgr_desc_info#:#La descripción no formará parte de la presentación del grupo de elementos en su contenedor.
+obgr#:#obgr_edit#:#Editar grupos de elementos
+obgr#:#obgr_expandable_closed#:#Expandible (inicialmente cerrado)
+obgr#:#obgr_expandable_open#:#Expandible (inicialmente abierto)
+obgr#:#obgr_item#:#Elemento
+obgr#:#obgr_list#:#Lista
+obgr#:#obgr_list_default#:#Predeterminado
+obgr#:#obgr_list_default_info#:#Hereda el valor del contenedor superior.
+obgr#:#obgr_list_presentation#:#Presentación de elementos
+obgr#:#obgr_materials#:#Materiales
+obgr#:#obgr_tile#:#Mosaicos
+obgr#:#obgr_tile_size#:#Tamaño del mosaico
 obj#:#activation_visible_when_disabled#:#Visibilidad
 obj#:#activation_visible_when_disabled_info#:#El elemento es visible fuera del periodo de disponibilidad seleccionado, pero no se puede abrir.
 obj#:#availability_period_changed#:#El periodo de disponibilidad para los objetos seleccionados se ha cambiado correctamente.
@@ -14431,12 +14428,6 @@ rbac#:#impr_write#:#El usuario puede editar el contenido y la configuración del
 rbac#:#info_user_view_changed#:#Vista de usuario cambiada
 rbac#:#internal_mail#:#Correo interno
 rbac#:#invite#:#Invitando a la encuesta
-rbac#:#itgr_copy#:#El usuario puede copiar el grupo de elementos
-rbac#:#itgr_delete#:#El usuario puede mover o eliminar el grupo de elementos
-rbac#:#itgr_edit_permission#:#El usuario puede cambiar la configuración de permisos
-rbac#:#itgr_read#:#El usuario puede ver los elementos en el grupo de elementos
-rbac#:#itgr_visible#:#El grupo de elementos es visible
-rbac#:#itgr_write#:#El usuario puede editar el contenido y la configuración del grupo de elementos
 rbac#:#leave#:#Darse de baja
 rbac#:#lhts_edit_permissions#:#El usuario puede cambiar la configuración de permisos de la administración del Historial de Aprendizaje.
 rbac#:#lhts_read#:#El usuario tiene acceso de lectura a la administración del Historial de Aprendizaje.
@@ -14551,6 +14542,12 @@ rbac#:#nwss_edit_permission#:#El usuario puede cambiar los ajustes de permisos e
 rbac#:#nwss_read#:#El usuario tiene acceso de lectura a la administración de Noticias y Canales Web
 rbac#:#nwss_visible#:#La administración de Noticias y Canales Web es visible
 rbac#:#nwss_write#:#El usuario puede editar los ajustes en la administración de Noticias y Canales Web
+rbac#:#obgr_copy#:#El usuario puede copiar el grupo de elementos
+rbac#:#obgr_delete#:#El usuario puede mover o eliminar el grupo de elementos
+rbac#:#obgr_edit_permission#:#El usuario puede cambiar la configuración de permisos
+rbac#:#obgr_read#:#El usuario puede ver los elementos en el grupo de elementos
+rbac#:#obgr_visible#:#El grupo de elementos es visible
+rbac#:#obgr_write#:#El usuario puede editar el contenido y la configuración del grupo de elementos
 rbac#:#obj_skee#:#Árbol de Competencias
 rbac#:#org_op_access_results#:#Acceder a los resultados de los usuarios subordinados
 rbac#:#org_op_edit_submissions_grades#:#Editar entregas de otros usuarios
@@ -14689,12 +14686,12 @@ rbac#:#rbac_create_grp#:#Crear grupo
 rbac#:#rbac_create_grpr#:#Crear enlace a grupo
 rbac#:#rbac_create_htlm#:#Crear módulo de aprendizaje HTML
 rbac#:#rbac_create_iass#:#Crear evaluación individual
-rbac#:#rbac_create_itgr#:#Crear grupo de ítems
 rbac#:#rbac_create_lm#:#Crear módulo de aprendizaje ILIAS
 rbac#:#rbac_create_lso#:#Crear secuencia de aprendizaje
 rbac#:#rbac_create_lti#:#Crear consumidor LTI
 rbac#:#rbac_create_mcst#:#Crear Mediacast
 rbac#:#rbac_create_mep#:#Crear Pool de medios
+rbac#:#rbac_create_obgr#:#Crear grupo de ítems
 rbac#:#rbac_create_orgu#:#Crear Unidades Organizativas
 rbac#:#rbac_create_poll#:#Crear Encuesta
 rbac#:#rbac_create_prg#:#Crear Programa de estudios

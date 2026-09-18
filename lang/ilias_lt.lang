@@ -4422,8 +4422,6 @@ common#:#ip_address#:#IP Adresas
 common#:#is_already_your#:#jau jūsų
 common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 2024 new variable
 common#:#item#:#Objektas
-common#:#itgr_add#:#Add Item Group###28 08 2012 new variable
-common#:#itgr_new#:#New Item Group###28 08 2012 new variable
 common#:#java_server#:#Java-Serveris
 common#:#java_server_host#:#Hostas
 common#:#java_server_info#:#Jei aktyvuota, atsiranda galimybė ieškoti PDF, HTML failuose ir HTML-Mokymo moduliuose
@@ -4855,6 +4853,8 @@ common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new va
 common#:#num_of_selected_files#:#%s file(s) selected###24 10 2013 new variable
 common#:#num_users#:#Vartotojų skaičius
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.###26 08 2024 new variable
+common#:#obgr_add#:#Add Object Group###28 08 2012 new variable
+common#:#obgr_new#:#New Object Group###28 08 2012 new variable
 common#:#obj#:#Objektas
 common#:#obj_accs#:#Accessibility###30 04 2009 new variable
 common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
@@ -4959,7 +4959,6 @@ common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variabl
 common#:#obj_iass#:#Individual Assessment###07 02 2017 new variable
 common#:#obj_iass_duplicate#:#Copy Individual Assessment###07 02 2017 new variable
 common#:#obj_iass_select#:#-- Please select one individual assessment --###07 02 2017 new variable
-common#:#obj_itgr#:#Item Group###28 08 2012 new variable
 common#:#obj_ldap_desc#:#Sukonfigūruokite globalius LDAP Nustatymus.
 common#:#obj_lhts#:#Learning History###07 02 2020 new variable
 common#:#obj_lhts_desc#:#Learning history settings###07 02 2020 new variable
@@ -5001,6 +5000,7 @@ common#:#obj_nots#:#Notes###07 02 2020 new variable
 common#:#obj_nots_desc#:#Notes settings###07 02 2020 new variable
 common#:#obj_nwss#:#News and Web Feeds Settings###25 02 2007 new variable
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.###25 02 2007 new variable
+common#:#obj_obgr#:#Object Group###28 08 2012 new variable
 common#:#obj_objf#:#Objekto apibrėžimai
 common#:#obj_objf_desc#:#Tvarkyti ILIAS objektų tipus ir objektų leidimus. (tik ekspertams!)
 common#:#obj_orgu#:#Organisational Unit###24 10 2013 new variable
@@ -5169,7 +5169,6 @@ common#:#objs_grp#:#Grupės
 common#:#objs_grpr#:#Group References###25 10 2016 new variable
 common#:#objs_htlm#:#HTML Mokymo Moduliai
 common#:#objs_iass#:#Individual Assessments###07 02 2017 new variable
-common#:#objs_itgr#:#Item Groups###28 08 2012 new variable
 common#:#objs_lm#:#ILIAS Mokymo Moduliai
 common#:#objs_lres#:#Mokymosi Resursai
 common#:#objs_lso#:#Learning Sequences###10 11 2018 new variable
@@ -5177,6 +5176,7 @@ common#:#objs_lti#:#LTI Consumers###07 02 2020 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#objs_mcst#:#MediaCasts###25 02 2007 new variable
 common#:#objs_mep#:#Media Apklausos
+common#:#objs_obgr#:#Object Groups###28 08 2012 new variable
 common#:#objs_orgu#:#Organisational Unit###24 10 2013 new variable
 common#:#objs_poll#:#Polls###28 08 2012 new variable
 common#:#objs_prg#:#Study Programmes###30 08 2015 new variable
@@ -6726,7 +6726,6 @@ content#:#cont_lrs_settings#:#Settings###24 02 2009 new variable
 content#:#cont_lvalue#:#Duomenų elementai
 content#:#cont_maintenance#:#Maintenance###18 07 2011 new variable
 content#:#cont_manifest#:#Manifestas
-content#:#cont_manual_item_group#:#Manually Create Item Group###26 08 2024 new variable
 content#:#cont_map_file_not_generated#:#Atsiprašome. Negalime sugeneruoti žemėlapio failo redagavimui.
 content#:#cont_marker#:#Marker###12 06 2011 new variable
 content#:#cont_master_language_only#:#Master Language for Translation###30 08 2015 new variable
@@ -10718,26 +10717,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
-itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
-itgr#:#itgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
-itgr#:#itgr_assignment#:#Assignment###28 08 2012 new variable
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-itgr#:#itgr_edit#:#Edit Item Groups###28 08 2012 new variable
-itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
-itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
-itgr#:#itgr_item#:#Item###28 08 2012 new variable
-itgr#:#itgr_list#:#List###29 07 2022 new variable
-itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
-itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
-itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#Apie kalendorių
 jscalendar#:#about_calendar_long#:#DHTML Datos/Laiko Parinkėjas\n(c) dynarch.com 2002-2003\nNaujasią versiją rasite: http://dynarch.com/mishoo/calendar.epl\nPlatinama pagal GNU LGPL.  Žiūrėti http://gnu.org/licenses/lgpl.html .\n\nDatos parinkimas:\n- Naudokite «, » mygtukus metų parinkimui\n- Naudokite <, > bygtukus mėnesio parinkimui\n- Laikykyte pelės mygtuką ant aukščiau esančių mygtukų greitesnei parinkčiai.
 jscalendar#:#about_time#:#\n\nLaiko pasirinkimas:\n- Norėdami padidinti laiką, paspauskite ant bet kurios laiko dalies.\n- arba Shift-paspaudimas norint jį sumažinti\n- ar paspauskite ir paleiskite greitesniai parinkčiai.
@@ -13079,6 +13058,24 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
+obgr#:#obgr_always_open#:#Always Open###31 08 2017 new variable
+obgr#:#obgr_assign_materials#:#Assign Materials###29 07 2022 new variable
+obgr#:#obgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
+obgr#:#obgr_assignment#:#Assignment###28 08 2012 new variable
+obgr#:#obgr_behaviour#:#Block Behaviour###31 08 2017 new variable
+obgr#:#obgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
+obgr#:#obgr_desc_info#:#The description will not be a part of the object group's presentation in its container.###25 10 2016 new variable
+obgr#:#obgr_edit#:#Edit Object Groups###28 08 2012 new variable
+obgr#:#obgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
+obgr#:#obgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
+obgr#:#obgr_item#:#Item###28 08 2012 new variable
+obgr#:#obgr_list#:#List###29 07 2022 new variable
+obgr#:#obgr_list_default#:#Default###29 07 2022 new variable
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
+obgr#:#obgr_list_presentation#:#Item Presentation###29 07 2022 new variable
+obgr#:#obgr_materials#:#Materials###28 08 2012 new variable
+obgr#:#obgr_tile#:#Tiles###29 07 2022 new variable
+obgr#:#obgr_tile_size#:#Tile Size###29 07 2022 new variable
 obj#:#activation_visible_when_disabled#:#Visibility###06 11 2008 new variable
 obj#:#activation_visible_when_disabled_info#:#Matomumas
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###26 08 2024 new variable
@@ -14366,12 +14363,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice###29 10 2
 rbac#:#info_user_view_changed#:#Vartotojo rodymas pakeistas
 rbac#:#internal_mail#:#Internal Mail###28 08 2012 new variable
 rbac#:#invite#:#Inviting to survey###12 06 2011 new variable
-rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
-rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
-rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#itgr_read#:#User can read item group###28 08 2012 new variable
-rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
-rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 2012 new variable
 rbac#:#leave#:#Palikti
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###29 07 2022 new variable
 rbac#:#lhts_read#:#User has read access to Learning History administration.###29 07 2022 new variable
@@ -14486,6 +14477,12 @@ rbac#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 rbac#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
+rbac#:#obgr_copy#:#User can copy object group###28 08 2012 new variable
+rbac#:#obgr_delete#:#User can move or delete object group###28 08 2012 new variable
+rbac#:#obgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
+rbac#:#obgr_read#:#User can read object group###28 08 2012 new variable
+rbac#:#obgr_visible#:#Object group is visible###14 01 2013 new variable
+rbac#:#obgr_write#:#User can edit content and settings of object group###28 08 2012 new variable
 rbac#:#obj_skee#:#Competence Tree###29 07 2022 new variable
 rbac#:#org_op_access_results#:#Access Results of Subordinated Users###10 11 2018 new variable
 rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users###22 11 2017 new variable
@@ -14624,12 +14621,12 @@ rbac#:#rbac_create_grp#:#Create Group###16 09 2009 new variable
 rbac#:#rbac_create_grpr#:#Create Group Reference###25 10 2016 new variable
 rbac#:#rbac_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
 rbac#:#rbac_create_iass#:#Create Individual Assessment###07 02 2017 new variable
-rbac#:#rbac_create_itgr#:#Create Item Group###28 08 2012 new variable
 rbac#:#rbac_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
 rbac#:#rbac_create_lso#:#Create Learning Sequence###10 11 2018 new variable
 rbac#:#rbac_create_lti#:#Create LTI Consumer###07 02 2020 new variable
 rbac#:#rbac_create_mcst#:#Create Mediacast###16 09 2009 new variable
 rbac#:#rbac_create_mep#:#Create Media Pool###16 09 2009 new variable
+rbac#:#rbac_create_obgr#:#Create Object Group###28 08 2012 new variable
 rbac#:#rbac_create_orgu#:#Create Organisational Units###11 03 2014 new variable
 rbac#:#rbac_create_poll#:#Create Poll###28 08 2012 new variable
 rbac#:#rbac_create_prg#:#Create Study Programme###08 10 2015 new variable

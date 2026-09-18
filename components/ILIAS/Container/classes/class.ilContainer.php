@@ -486,8 +486,8 @@ class ilContainer extends ilObject
         // fix internal links to other objects
         self::fixInternalLinksAfterCopy($target_id, $copy_id, $this->getRefId());
 
-        // fix item group references in page content
-        ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $copy_id);
+        // fix object group references in page content
+        ilObjObjectGroup::fixContainerObjectGroupRefsAfterCloning($this, $copy_id);
 
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();

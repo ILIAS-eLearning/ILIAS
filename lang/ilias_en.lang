@@ -4481,8 +4481,6 @@ common#:#ip_address#:#IP Address
 common#:#is_already_your#:#is already your
 common#:#italic_action#:#Insert Italic - Click to insert italic text.
 common#:#item#:#Item
-common#:#itgr_add#:#Add Item Group
-common#:#itgr_new#:#New Item Group
 common#:#java_server#:#PDF Configuration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###Needs to be adapted to new content of German lang file.
@@ -4917,6 +4915,8 @@ common#:#nr_following_sessions#:#%1d following session(s)...
 common#:#num_of_selected_files#:#%s file(s) selected
 common#:#num_users#:#Number of Users
 common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.
+common#:#obgr_add#:#Add Object Group
+common#:#obgr_new#:#New Object Group
 common#:#obj#:#Object
 common#:#obj_accs#:#Accessibility
 common#:#obj_accs_desc#:#Settings for accessibility features.
@@ -5019,7 +5019,6 @@ common#:#obj_htlm_duplicate#:#Copy HTML Learning Module
 common#:#obj_iass#:#Individual Assessment
 common#:#obj_iass_duplicate#:#Copy Individual Assessment
 common#:#obj_iass_select#:#-- Please select one individual assessment --
-common#:#obj_itgr#:#Item Group
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
 common#:#obj_lhts#:#Learning History
 common#:#obj_lhts_desc#:#Learning history settings
@@ -5061,6 +5060,7 @@ common#:#obj_nots#:#Notes
 common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nwss#:#News and Web Feeds
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.
+common#:#obj_obgr#:#Object Group
 common#:#obj_objf#:#Object Definitions
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
@@ -5227,7 +5227,6 @@ common#:#objs_grp#:#Groups
 common#:#objs_grpr#:#Group Links
 common#:#objs_htlm#:#HTML Learning Modules
 common#:#objs_iass#:#Individual Assessments
-common#:#objs_itgr#:#Item Groups
 common#:#objs_lm#:#ILIAS Learning Modules
 common#:#objs_lres#:#Learning Resources
 common#:#objs_lso#:#Learning Sequences
@@ -5235,6 +5234,7 @@ common#:#objs_lti#:#LTI Consumers
 common#:#objs_mail#:#Mail
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Media Pools
+common#:#objs_obgr#:#Object Groups
 common#:#objs_orgu#:#Organisational Units
 common#:#objs_poll#:#Polls
 common#:#objs_prg#:#Study Programmes
@@ -6792,7 +6792,7 @@ content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Created Item Group
+content#:#cont_manual_object_group#:#Manually Created Object Group
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Master Language for Translation
@@ -10794,38 +10794,6 @@ irss#:#title_manage_container#:#Manage files and folders
 irss#:#type#:#File Type
 irss#:#upload_field_title#:#Selected Files
 irss#:#upload_modal_title#:#Add Files
-itgr#:#itgr_always_open#:#Always Open
-itgr#:#itgr_assign#:#Assign
-itgr#:#itgr_assign_materials#:#Organize Objects
-itgr#:#itgr_assigned_first#:#Assigned First
-itgr#:#itgr_assigned_materials#:#Assigned Objects
-itgr#:#itgr_assignment#:#Assigned to this Object Group
-itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Object Group
-itgr#:#itgr_behaviour#:#Block Behaviour
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
-itgr#:#itgr_create_and_assign_object#:#Create and Assign Object
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
-itgr#:#itgr_display#:#Display
-itgr#:#itgr_display_with_title#:#With Title
-itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened
-itgr#:#itgr_display_without_title#:#Without Title
-itgr#:#itgr_edit#:#Edit Object Groups
-itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
-itgr#:#itgr_expandable_open#:#Expandable (initially opened)
-itgr#:#itgr_item#:#Item
-itgr#:#itgr_list#:#List
-itgr#:#itgr_list_default#:#Default
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.
-itgr#:#itgr_list_presentation#:#Item Presentation
-itgr#:#itgr_materials#:#Materials
-itgr#:#itgr_organise_objects#:#Manage Objects
-itgr#:#itgr_tile#:#Tiles
-itgr#:#itgr_tile_size#:#Tile Size
-itgr#:#itgr_unassign#:#Unassign
-itgr#:#itgr_unassigned_first#:#Unassigned First
 jscalendar#:#about_calendar#:#About the calendar
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the buttons « and » to select year - Use the buttons < and > to select month - Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection.
@@ -13214,6 +13182,38 @@ notifications_adm#:#push_settings#:#Push Notifications
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.
 notifications_adm#:#user_settings#:#User Settings
+obgr#:#obgr_always_open#:#Always Open
+obgr#:#obgr_assign#:#Assign
+obgr#:#obgr_assign_materials#:#Organize Objects
+obgr#:#obgr_assigned_first#:#Assigned First
+obgr#:#obgr_assigned_materials#:#Assigned Objects
+obgr#:#obgr_assignment#:#Assigned to this Object Group
+obgr#:#obgr_assignment_to_other_obgr#:#Already assigned to another Object Group
+obgr#:#obgr_behaviour#:#Behaviour
+obgr#:#obgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
+obgr#:#obgr_create_and_assign_object#:#Create and Assign Object
+obgr#:#obgr_desc_info#:#The description will not be a part of the object group's presentation in its container.
+obgr#:#obgr_display#:#Display
+obgr#:#obgr_display_with_title#:#With Title
+obgr#:#obgr_display_with_title_and_toggleable#:#With Title, Object Group collapsible
+obgr#:#obgr_display_with_title_and_toggleable_initially#:#Initial state
+obgr#:#obgr_display_with_title_and_toggleable_initially_closed#:#initially closed
+obgr#:#obgr_display_with_title_and_toggleable_initially_open#:#initially opened
+obgr#:#obgr_display_without_title#:#Without Title
+obgr#:#obgr_edit#:#Edit Object Groups
+obgr#:#obgr_expandable_closed#:#Expandable (initially closed)
+obgr#:#obgr_expandable_open#:#Expandable (initially opened)
+obgr#:#obgr_item#:#Object
+obgr#:#obgr_list#:#List
+obgr#:#obgr_list_default#:#Default
+obgr#:#obgr_list_default_info#:#Inherits value from upper container.
+obgr#:#obgr_list_presentation#:#Object Presentation
+obgr#:#obgr_materials#:#Materials
+obgr#:#obgr_organise_objects#:#Manage Objects
+obgr#:#obgr_tile#:#Tiles
+obgr#:#obgr_tile_size#:#Tile Size
+obgr#:#obgr_unassign#:#Unassign
+obgr#:#obgr_unassigned_first#:#Unassigned First
 obj#:#activation_visible_when_disabled#:#Visibility
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.
@@ -14491,12 +14491,6 @@ rbac#:#impr_write#:#User can edit content and settings of Legal Notice
 rbac#:#info_user_view_changed#:#User view changed
 rbac#:#internal_mail#:#Internal Mail
 rbac#:#invite#:#Inviting to survey
-rbac#:#itgr_copy#:#User can copy item group
-rbac#:#itgr_delete#:#User can move or delete item group
-rbac#:#itgr_edit_permission#:#User can change permission settings
-rbac#:#itgr_read#:#User can see items in item group
-rbac#:#itgr_visible#:#Item group is visible
-rbac#:#itgr_write#:#User can edit content and settings of item group
 rbac#:#leave#:#Unsubscribe
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.
 rbac#:#lhts_read#:#User has read access to Learning History administration.
@@ -14611,6 +14605,12 @@ rbac#:#nwss_edit_permission#:#User can change permission settings in News and We
 rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible
 rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
+rbac#:#obgr_copy#:#User can copy object group
+rbac#:#obgr_delete#:#User can move or delete object group
+rbac#:#obgr_edit_permission#:#User can change permission settings
+rbac#:#obgr_read#:#User can see objects in object group
+rbac#:#obgr_visible#:#Object group is visible
+rbac#:#obgr_write#:#User can edit content and settings of object group
 rbac#:#obj_skee#:#Competence Tree
 rbac#:#org_op_access_results#:#Access Results of Subordinated Users
 rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users
@@ -14752,12 +14752,12 @@ rbac#:#rbac_create_grp#:#Create Group
 rbac#:#rbac_create_grpr#:#Create Group Link
 rbac#:#rbac_create_htlm#:#Create HTML Learning Module
 rbac#:#rbac_create_iass#:#Create Individual Assessment
-rbac#:#rbac_create_itgr#:#Create Item Group
 rbac#:#rbac_create_lm#:#Create ILIAS Learning Module
 rbac#:#rbac_create_lso#:#Create Learning Sequence
 rbac#:#rbac_create_lti#:#Create LTI Consumer
 rbac#:#rbac_create_mcst#:#Create Mediacast
 rbac#:#rbac_create_mep#:#Create Media Pool
+rbac#:#rbac_create_obgr#:#Create Object Group
 rbac#:#rbac_create_orgu#:#Create Organisational Units
 rbac#:#rbac_create_poll#:#Create Poll
 rbac#:#rbac_create_prg#:#Create Study Programme

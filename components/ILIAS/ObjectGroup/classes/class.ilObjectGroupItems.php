@@ -1,0 +1,284 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Object group items.
+ * This class is used to store the materials (items) that are assigned
+ * to an object group. Main table used is object_group_item
+ * @author Alexander Killing <killing@leifos.de>
+ */
+class ilObjectGroupItems
+{
+    protected ilDBInterface $db;
+    protected ilObjectDefinition $obj_def;
+    protected ilObjectDataCache $obj_data_cache;
+    protected ilLogger $log;
+    protected ilAccessHandler $access;
+    public ilTree $tree;
+    public ilLanguage $lng;
+    public int $object_group_id = 0;
+    public int $object_group_ref_id = 0;
+    public array $items = array();
+
+    public function __construct(
+        int $a_object_group_ref_id = 0
+    ) {
+        global $DIC;
+
+        $this->obj_data_cache = $DIC["ilObjDataCache"];
+        $this->log = $DIC["ilLog"];
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
+        $this->obj_def = $DIC["objDefinition"];
+        $this->access = $DIC->access();
+
+        $this->setObjectGroupRefId($a_object_group_ref_id);
+        if ($this->getObjectGroupRefId() > 0) {
+            $this->setObjectGroupId(ilObject::_lookupObjId($a_object_group_ref_id));
+        }
+
+        if ($this->getObjectGroupId() > 0) {
+            $this->read();
+        }
+    }
+
+    public function setObjectGroupId(int $a_val): void
+    {
+        $this->object_group_id = $a_val;
+    }
+
+    public function getObjectGroupId(): int
+    {
+        return $this->object_group_id;
+    }
+
+    public function setObjectGroupRefId(int $a_val): void
+    {
+        $this->object_group_ref_id = $a_val;
+    }
+
+    public function getObjectGroupRefId(): int
+    {
+        return $this->object_group_ref_id;
+    }
+
+    /**
+     * @param int[] $a_val items (array of ref ids)
+     */
+    public function setItems(array $a_val): void
+    {
+        $this->items = $a_val;
+    }
+
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function addItem(int $a_object_ref_id): void
+    {
+        if (!in_array($a_object_ref_id, $this->items)) {
+            $this->items[] = $a_object_ref_id;
+        }
+    }
+
+    public function delete(): void
+    {
+        $query = "DELETE FROM object_group_item " .
+            "WHERE object_group_id = " . $this->db->quote($this->getObjectGroupId(), 'integer');
+        $this->db->manipulate($query);
+    }
+
+    public function update(): void
+    {
+        $this->delete();
+
+        foreach ($this->items as $item) {
+            $query = "INSERT INTO object_group_item (object_group_id,object_ref_id) " .
+                "VALUES( " .
+                $this->db->quote($this->getObjectGroupId(), 'integer') . ", " .
+                $this->db->quote($item, 'integer') . " " .
+                ")";
+            $this->db->manipulate($query);
+        }
+    }
+
+    public function read(): void
+    {
+        $this->items = array();
+        $set = $this->db->query(
+            "SELECT * FROM object_group_item " .
+            " WHERE object_group_id = " . $this->db->quote($this->getObjectGroupId(), "integer")
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $this->items[] = $rec["object_ref_id"];
+        }
+    }
+
+    public function getAssignableItems(): array
+    {
+        if ($this->getObjectGroupRefId() <= 0) {
+            return array();
+        }
+
+        $parent_node = $this->tree->getNodeData(
+            $this->tree->getParentId($this->getObjectGroupRefId())
+        );
+
+        $materials = array();
+        $nodes = $this->tree->getChilds($parent_node["child"]);
+
+        foreach ($nodes as $node) {
+            // filter side blocks and session, object groups and role folder
+            if ($node['child'] == $parent_node["child"] ||
+                $this->obj_def->isSideBlock($node['type']) ||
+                in_array($node['type'], array('sess', 'obgr', 'rolf', 'adm'))) {
+                continue;
+            }
+
+            // filter hidden files
+            // see http://www.ilias.de/mantis/view.php?id=10269
+            if ($node['type'] == "file" &&
+                ilObjFileAccess::_isFileHidden((string) $node['title'])) {
+                continue;
+            }
+
+            if ($this->obj_def->isInactivePlugin((string) $node['type'])) {
+                continue;
+            }
+
+            if (!$this->access->checkAccess('visible', '', $node['ref_id'])) {
+                continue;
+            }
+
+            $materials[] = $node;
+        }
+
+        $materials = ilArrayUtil::sortArray($materials, "title", "asc");
+
+        return $materials;
+    }
+
+    public function getValidItems(): array
+    {
+        if ($this->getObjectGroupRefId() <= 0) {
+            return $this->items;
+        }
+
+        return $this->filterValidRefIds($this->items);
+    }
+
+    /**
+     * @param int[] $items
+     * @return int[]
+     */
+    protected function filterValidRefIds(array $items): array
+    {
+        $valid_items = [];
+        foreach ($this->getAssignableItems() as $assignable_item) {
+            if (!in_array($assignable_item['ref_id'], $items, true)) {
+                continue;
+            }
+
+            $valid_items[] = $assignable_item['ref_id'];
+        }
+
+        return $valid_items;
+    }
+
+    public function cloneItems(
+        int $a_source_id,
+        int $a_copy_id
+    ): void {
+        $ilLog = $this->log;
+
+        $ilLog->info('Begin cloning object group materials ... -' . $a_source_id . '-');
+
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $mappings = $cwo->getMappings();
+
+        $new_items = array();
+        // check: is this a ref id!?
+        $source_ig = new ilObjectGroupItems($a_source_id);
+        foreach ($source_ig->getValidItems() as $object_ref_id) {
+            if (isset($mappings[$object_ref_id]) and $mappings[$object_ref_id]) {
+                $ilLog->info('Clone object group item nr. ' . $object_ref_id);
+                $new_items[] = $mappings[$object_ref_id];
+            } else {
+                $ilLog->info('No mapping found for object group item nr. ' . $object_ref_id);
+            }
+        }
+        $this->setItems($new_items);
+        $this->update();
+        $ilLog->info('Finished cloning object group items ...');
+    }
+
+    public static function _getItemsOfContainer(int $a_ref_id): array
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+        $tree = $DIC->repositoryTree();
+
+        $obgr_ids = [];
+        $obgr_nodes = $tree->getChildsByType($a_ref_id, 'obgr');
+        foreach ($obgr_nodes as $node) {
+            $obgr_ids[] = $node['obj_id'];
+        }
+        $query = "SELECT object_ref_id FROM object_group_item " .
+            "WHERE " . $ilDB->in('object_group_id', $obgr_ids, false, 'integer');
+
+
+        $res = $ilDB->query($query);
+        $items = [];
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $items[] = $row->object_ref_id;
+        }
+
+        $container_child_ref_ids = [];
+        foreach ($tree->getChilds($a_ref_id) as $node) {
+            $container_child_ref_ids[] = (int) ($node['ref_id'] ?? $node['child']);
+        }
+
+        return array_values(array_intersect($items, $container_child_ref_ids));
+    }
+
+    public static function getObjectGroupsAssociatedWithItem(int $ref_id, int $filter_object_group_id = 0): array
+    {
+        global $DIC;
+        $database = $DIC->database();
+
+        $object_groups = [];
+        $statement = $database->queryF(
+            'SELECT ref_id, title FROM object_group_item '
+            . 'LEFT JOIN object_data ON object_group_item.object_group_id = object_data.obj_id '
+            . 'LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id '
+            . 'WHERE object_ref_id = %s '
+            . 'AND object_group_id != %s '
+            . 'AND object_data.type = \'obgr\'',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$ref_id, $filter_object_group_id]
+        );
+        while ($row = $database->fetchAssoc($statement)) {
+            $object_groups[$row['ref_id']] = $row['title'];
+        }
+
+        return $object_groups;
+    }
+}

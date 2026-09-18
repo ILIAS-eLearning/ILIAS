@@ -223,6 +223,11 @@ class LegacyGotoHandler implements Handler
                 \ilCertificate::_goto($target_id);
                 break;
 
+                // former item group type, now object group
+            case 'itgr':
+                \ilObjObjectGroupGUI::_goto($rest);
+                break;
+
                 //
                 // default implementation (should be used by all new object types)
                 //
