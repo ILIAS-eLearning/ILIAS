@@ -33,6 +33,14 @@ use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
 use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
+use ILIAS\Mail\Mime\Presentation\MailBodyComposer;
+use ILIAS\Mail\Mime\Presentation\HtmlMailBodyComposer;
+use ILIAS\Mail\Mime\Presentation\PlainTextMailBodyComposer;
+use ILIAS\Mail\Mime\Presentation\ConfiguredMailBodyComposer;
+use ILIAS\Mail\Mime\Presentation\Asset\MailAssets;
+use ILIAS\Mail\Mime\Presentation\Asset\LogoByFileName;
+use ILIAS\Mail\Mime\Presentation\Asset\SkinnedMailAssets;
+use ILIAS\Mail\Mime\Presentation\Asset\PublishedMailAssets;
 
 class MailService
 {
@@ -105,6 +113,42 @@ class MailService
 
         $container['mail.template_engine.factory'] = static function (Container $c): MustacheTemplateEngineFactory {
             return new MustacheTemplateEngineFactory();
+        };
+
+        $container[MailAssets::class] = static function (Container $c): MailAssets {
+            $root = rtrim($c->iliasIni()->readVariable('server', 'absolute_path'), '/');
+
+            return new SkinnedMailAssets(
+                new PublishedMailAssets($root . '/public'),
+                $root . '/public/Customizing/skin',
+                new LogoByFileName(),
+                $c->clientIni()->readVariable('layout', 'skin'),
+                $c->clientIni()->readVariable('layout', 'style')
+            );
+        };
+
+        $container[PlainTextMailBodyComposer::class] = static fn(): PlainTextMailBodyComposer =>
+            new PlainTextMailBodyComposer();
+
+        $container[HtmlMailBodyComposer::class] = static function (Container $c): HtmlMailBodyComposer {
+            return new HtmlMailBodyComposer(
+                $c[MailAssets::class],
+                $c[PlainTextMailBodyComposer::class],
+                $c->ui()->factory(),
+                $c->ui()->renderer(),
+                $c->refinery(),
+                new DataFactory(),
+                \ilObjSystemFolder::_getHeaderTitle(),
+                \ilUtil::_getHttpPath()
+            );
+        };
+
+        $container[MailBodyComposer::class] = static function (Container $c): MailBodyComposer {
+            return new ConfiguredMailBodyComposer(
+                $c->settings(),
+                static fn(): MailBodyComposer => $c[HtmlMailBodyComposer::class],
+                $c[PlainTextMailBodyComposer::class]
+            );
         };
 
         $container['mail.signature.service'] = static function (Container $c): MailSignatureService {
