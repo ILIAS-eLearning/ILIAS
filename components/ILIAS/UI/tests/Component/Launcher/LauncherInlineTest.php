@@ -228,12 +228,12 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     </div>
     <button class="btn btn-bulky" id="id_5" disabled="disabled"><span class="glyph" role="img"><span class="glyphicon glyphicon-launch" aria-hidden="true"></span></span><span class="bulky-label">different label</span></button>
     <div class="c-launcher__form">
-        <dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1">
+        <dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1" aria-modal="true" aria-labelledby="id_1_title">
             <div class="modal-dialog" role="document" data-replace-marker="component">
                 <div class="modal-content">
                     <div class="modal-header">
                         <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
-                        <h1 class="modal-title">different label</h1>
+                        <h1 id="id_1_title" class="modal-title">different label</h1>
                     </div>
                     <div class="modal-body">$msg_html
                         <form id="id_3" class="c-form c-form--horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post">
