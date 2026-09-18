@@ -1863,8 +1863,8 @@ msgid "cont_manifest"
 msgstr "Manifest"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "Tyvärr kunde bildkartfilen inte genereras."
@@ -3733,3 +3733,5 @@ msgstr "Alternativ text"
 
 msgid "text_repr_info"
 msgstr "Används när grafiken inte kan visas."
+
+

@@ -102,7 +102,7 @@ class ilFavouritesDBRepository
             $items = $all_parent_path = [];
             while ($item_rec = $ilDB->fetchAssoc($item_set)) {
                 if ($item_rec['type'] !== 'rolf' &&
-                    $item_rec['type'] !== 'itgr' &&
+                    $item_rec['type'] !== 'obgr' &&
                     $tree->isInTree((int) $item_rec['ref_id'])) { // due to bug 11508
                     $parent_ref = $tree->getParentId((int) $item_rec['ref_id']);
 
@@ -133,7 +133,7 @@ class ilFavouritesDBRepository
         } else {
             $items = [];
             foreach ($a_types as $a_type) {
-                if ($a_type === 'itgr') {
+                if ($a_type === 'obgr') {
                     continue;
                 }
                 $item_set = $ilDB->queryF(

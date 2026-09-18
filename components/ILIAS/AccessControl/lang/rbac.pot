@@ -1040,24 +1040,6 @@ msgstr ""
 msgid "invite"
 msgstr ""
 
-msgid "itgr_copy"
-msgstr ""
-
-msgid "itgr_delete"
-msgstr ""
-
-msgid "itgr_edit_permission"
-msgstr ""
-
-msgid "itgr_read"
-msgstr ""
-
-msgid "itgr_visible"
-msgstr ""
-
-msgid "itgr_write"
-msgstr ""
-
 msgid "leave"
 msgstr ""
 
@@ -1398,6 +1380,24 @@ msgid "nwss_visible"
 msgstr ""
 
 msgid "nwss_write"
+msgstr ""
+
+msgid "obgr_copy"
+msgstr ""
+
+msgid "obgr_delete"
+msgstr ""
+
+msgid "obgr_edit_permission"
+msgstr ""
+
+msgid "obgr_read"
+msgstr ""
+
+msgid "obgr_visible"
+msgstr ""
+
+msgid "obgr_write"
 msgstr ""
 
 msgid "obj_skee"
@@ -1823,9 +1823,6 @@ msgstr ""
 msgid "rbac_create_iass"
 msgstr ""
 
-msgid "rbac_create_itgr"
-msgstr ""
-
 msgid "rbac_create_lm"
 msgstr ""
 
@@ -1839,6 +1836,9 @@ msgid "rbac_create_mcst"
 msgstr ""
 
 msgid "rbac_create_mep"
+msgstr ""
+
+msgid "rbac_create_obgr"
 msgstr ""
 
 msgid "rbac_create_orgu"
@@ -2803,3 +2803,4 @@ msgstr ""
 
 msgid "write"
 msgstr ""
+

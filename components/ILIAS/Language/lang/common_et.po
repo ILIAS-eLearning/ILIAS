@@ -3090,12 +3090,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Objekt"
 
-msgid "itgr_add"
-msgstr "Add Item Group"
-
-msgid "itgr_new"
-msgstr "New Item Group"
-
 msgid "java_server"
 msgstr "Java-Server"
 
@@ -4505,6 +4499,12 @@ msgstr "Kasutajate arv"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Add Object Group"
+
+msgid "obgr_new"
+msgstr "New Object Group"
+
 msgid "obj"
 msgstr "Objekt"
 
@@ -4850,9 +4850,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-msgid "obj_itgr"
-msgstr "Item Group"
-
 msgid "obj_ldap_desc"
 msgstr "Configure global LDAP Settings here."
 
@@ -4994,6 +4991,9 @@ msgstr "Uudiste ja veebivoogude seaded"
 
 msgid "obj_nwss_desc"
 msgstr "Süsteemisiseste uudiste ja väliste veebivoogude seaded."
+
+msgid "obj_obgr"
+msgstr "Object Group"
 
 msgid "obj_objf"
 msgstr "Objektide definitsioonid"
@@ -5546,9 +5546,6 @@ msgstr "HTML õppemoodulid"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-msgid "objs_itgr"
-msgstr "Item Groups"
-
 msgid "objs_lm"
 msgstr "ILIAS õppemoodulid"
 
@@ -5571,6 +5568,9 @@ msgstr "Meediavood"
 
 msgid "objs_mep"
 msgstr "Meediavaramud"
+
+msgid "objs_obgr"
+msgstr "Object Groups"
 
 msgid "objs_orgu"
 msgstr "Organisational Unit"
@@ -8325,3 +8325,4 @@ msgstr "Zip-test ebaõnnestus. Võtke ühendust ILIASe administraatoriga."
 
 msgid "zipcode"
 msgstr "Postiindeks"
+

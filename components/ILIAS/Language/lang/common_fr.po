@@ -3006,12 +3006,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Objet"
 
-msgid "itgr_add"
-msgstr "Ajouter Groupe d'Objets"
-
-msgid "itgr_new"
-msgstr "Nouveau Groupe d'Objets"
-
 msgid "java_server"
 msgstr "Serveur Java"
 
@@ -4344,6 +4338,12 @@ msgstr "Nombre d'Utilisateurs"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Ajouter Groupe d'Objets"
+
+msgid "obgr_new"
+msgstr "Nouveau Groupe d'Objets"
+
 msgid "obj"
 msgstr "Objet"
 
@@ -4661,9 +4661,6 @@ msgstr "Copier l’évaluation individuelle"
 msgid "obj_iass_select"
 msgstr "-- Veuillez sélectionner une évaluation individuelle --"
 
-msgid "obj_itgr"
-msgstr "Groupe d'Objets"
-
 msgid "obj_ldap_desc"
 msgstr "Configurer les paramètres généraux LDAP ici."
 
@@ -4791,6 +4788,9 @@ msgstr "Actualités et Flux RSS"
 
 msgid "obj_nwss_desc"
 msgstr "Paramétrage des actualités et flux RSS"
+
+msgid "obj_obgr"
+msgstr "Groupe d'Objets"
 
 msgid "obj_objf"
 msgstr "Définitions d'éléments"
@@ -5300,9 +5300,6 @@ msgstr "Modules HTML"
 msgid "objs_iass"
 msgstr "Évaluations individuelles"
 
-msgid "objs_itgr"
-msgstr "Groupes d'objets"
-
 msgid "objs_lm"
 msgstr "Modules ILIAS"
 
@@ -5323,6 +5320,9 @@ msgstr "Mediacasts"
 
 msgid "objs_mep"
 msgstr "Galeries de médias"
+
+msgid "objs_obgr"
+msgstr "Groupes d'objets"
 
 msgid "objs_orgu"
 msgstr "Unité organisationnelle"
@@ -7979,3 +7979,4 @@ msgstr "Le test ZIP a échoué. Veuillez contacter votre administrateur ILIAS."
 
 msgid "zipcode"
 msgstr "Code postal"
+

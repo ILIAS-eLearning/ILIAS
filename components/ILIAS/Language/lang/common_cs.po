@@ -3040,12 +3040,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Položka"
 
-msgid "itgr_add"
-msgstr "Přidat položku Skupina"
-
-msgid "itgr_new"
-msgstr "Nová položka skupiny"
-
 msgid "java_server"
 msgstr "Java-server"
 
@@ -4422,6 +4416,12 @@ msgstr "Počet uživatelů"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Přidat položku Skupina"
+
+msgid "obgr_new"
+msgstr "Nová položka skupiny"
+
 msgid "obj"
 msgstr "Objekt"
 
@@ -4753,9 +4753,6 @@ msgstr "Kopírovat individuální hodnocení"
 msgid "obj_iass_select"
 msgstr "-- Vyberte jedno individuální hodnocení --"
 
-msgid "obj_itgr"
-msgstr "Položka skupiny"
-
 msgid "obj_ldap_desc"
 msgstr "Zde zkonfigurujte globální nastavení LDAP."
 
@@ -4890,6 +4887,9 @@ msgstr "Nastavení zpráv a webového zásobníku"
 
 msgid "obj_nwss_desc"
 msgstr "Nastavení pro interní nebo externí zprávy a webový zásobník."
+
+msgid "obj_obgr"
+msgstr "Položka skupiny"
 
 msgid "obj_objf"
 msgstr "Definice objektů"
@@ -5430,9 +5430,6 @@ msgstr "Výukové moduly HTML"
 msgid "objs_iass"
 msgstr "Individuální hodnocení"
 
-msgid "objs_itgr"
-msgstr "Položka skupiny"
-
 msgid "objs_lm"
 msgstr "Výukové moduly ILIAS"
 
@@ -5454,6 +5451,9 @@ msgstr "MediaCasty"
 
 msgid "objs_mep"
 msgstr "Zásobníky multimédií"
+
+msgid "objs_obgr"
+msgstr "Položka skupiny"
 
 msgid "objs_orgu"
 msgstr "Organizační jednotka"
@@ -8172,3 +8172,4 @@ msgstr "Zip-Test selhal. Kontaktujte prosím správce ILIAS"
 
 msgid "zipcode"
 msgstr "Poštovní směrovací číslo"
+

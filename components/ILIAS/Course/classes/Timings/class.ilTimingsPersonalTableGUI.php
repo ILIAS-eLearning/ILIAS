@@ -194,8 +194,8 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 
             $current_row = array();
 
-            // no item groups
-            if ($item['type'] == 'itgr') {
+            // no object groups
+            if ($item['type'] == 'obgr') {
                 continue;
             }
             $current_row['ref_id'] = $item['ref_id'];

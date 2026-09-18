@@ -3041,12 +3041,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Item"
 
-msgid "itgr_add"
-msgstr "Adicionar item grupo"
-
-msgid "itgr_new"
-msgstr "Novo item grupo"
-
 #, fuzzy
 msgid "java_server"
 msgstr "PDF Configuration"
@@ -4429,6 +4423,12 @@ msgstr "Número de utilizadores"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Adicionar item grupo"
+
+msgid "obgr_new"
+msgstr "Novo item grupo"
+
 msgid "obj"
 msgstr "Posição"
 
@@ -4761,9 +4761,6 @@ msgstr "Copiar avaliação individual"
 msgid "obj_iass_select"
 msgstr "-- Selecione uma avaliação individual --"
 
-msgid "obj_itgr"
-msgstr "Grupo de itens"
-
 msgid "obj_ldap_desc"
 msgstr "Direitos"
 
@@ -4898,6 +4895,9 @@ msgstr "Mudar atribuição de funções ao utilizador"
 
 msgid "obj_nwss_desc"
 msgstr "Definições para notícias internas e web feeds externos."
+
+msgid "obj_obgr"
+msgstr "Grupo de itens"
 
 msgid "obj_objf"
 msgstr "Acesso de leitura a funções/modelos de funções"
@@ -5444,9 +5444,6 @@ msgstr "Perfil"
 msgid "objs_iass"
 msgstr "Avaliações individuais"
 
-msgid "objs_itgr"
-msgstr "Grupos de item"
-
 msgid "objs_lm"
 msgstr "Acesso anónimo"
 
@@ -5468,6 +5465,9 @@ msgstr "Adicionar teste banco de perguntas"
 
 msgid "objs_mep"
 msgstr "Novo teste banco de perguntas"
+
+msgid "objs_obgr"
+msgstr "Grupos de item"
 
 msgid "objs_orgu"
 msgstr "Pergunta"
@@ -8194,3 +8194,4 @@ msgstr "Teste Zip falhou. Entre em contacto com o seu administrador ILIAS."
 
 msgid "zipcode"
 msgstr "Idioma usado para textos predefinidos, p. ex. \"Anterior\" e \"Próximo\"."
+

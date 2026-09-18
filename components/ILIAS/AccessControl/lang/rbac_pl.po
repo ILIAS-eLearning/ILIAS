@@ -1103,24 +1103,6 @@ msgstr "Wewnętrzny system mailowy"
 msgid "invite"
 msgstr "Zaproś do ankiety"
 
-msgid "itgr_copy"
-msgstr "Kopiuj sekcję obiektów"
-
-msgid "itgr_delete"
-msgstr "Usuń lub przesuń sekcję obiektów"
-
-msgid "itgr_edit_permission"
-msgstr "Zmień ustawienia uprawnień dotyczące sekcji obiektów"
-
-msgid "itgr_read"
-msgstr "Prawo czytania sekcji obiektów"
-
-msgid "itgr_visible"
-msgstr "Sekcja obiektów jest widoczna"
-
-msgid "itgr_write"
-msgstr "Edytuj treść i ustawienia sekcji obiektów"
-
 msgid "leave"
 msgstr "Opuść"
 
@@ -1504,6 +1486,24 @@ msgstr "Wiadomości i kanały komunikacji są widoczne"
 
 msgid "nwss_write"
 msgstr "Edycja ustawień wiadomości i Web Feeds"
+
+msgid "obgr_copy"
+msgstr "Kopiuj sekcję obiektów"
+
+msgid "obgr_delete"
+msgstr "Usuń lub przesuń sekcję obiektów"
+
+msgid "obgr_edit_permission"
+msgstr "Zmień ustawienia uprawnień dotyczące sekcji obiektów"
+
+msgid "obgr_read"
+msgstr "Prawo czytania sekcji obiektów"
+
+msgid "obgr_visible"
+msgstr "Sekcja obiektów jest widoczna"
+
+msgid "obgr_write"
+msgstr "Edytuj treść i ustawienia sekcji obiektów"
 
 #, fuzzy
 msgid "obj_skee"
@@ -1953,9 +1953,6 @@ msgstr "Utwórz moduł nauczania HTML"
 msgid "rbac_create_iass"
 msgstr "Utwórz indywidualną ocenę"
 
-msgid "rbac_create_itgr"
-msgstr "Utwórz sekcję obiektów"
-
 msgid "rbac_create_lm"
 msgstr "Utwórz moduł nauczania ILIAS"
 
@@ -1971,6 +1968,9 @@ msgstr "Utwórz MediaCast"
 
 msgid "rbac_create_mep"
 msgstr "Utwórz pulę mediów"
+
+msgid "rbac_create_obgr"
+msgstr "Utwórz sekcję obiektów"
 
 msgid "rbac_create_orgu"
 msgstr "Utwórz jednostkę organizacyjną"
@@ -2991,3 +2991,4 @@ msgstr "Edytuj ustawienia w menu zarządzania Wiki"
 
 msgid "write"
 msgstr "Edycja ustawień"
+

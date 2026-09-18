@@ -1920,8 +1920,8 @@ msgid "cont_manifest"
 msgstr "Informação importante"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Created Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "Lamentamos. Incapaz de criar ficheiro de mapeamento para editar."
@@ -3823,3 +3823,5 @@ msgstr "Representação de texto"
 
 msgid "text_repr_info"
 msgstr "Curso orientado por objetivos de aprendizagem"
+
+

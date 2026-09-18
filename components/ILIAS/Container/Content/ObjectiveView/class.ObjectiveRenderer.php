@@ -285,7 +285,7 @@ class ObjectiveRenderer
                 if ($a_mode == self::MATERIALS_TESTS and $item_data['type'] != 'tst') {
                     continue;
                 }
-                if ($item_data['type'] == 'itgr') {
+                if ($item_data['type'] == 'obgr') {
                     continue;
                 }
                 if (!$a_is_manage) {
@@ -333,7 +333,7 @@ class ObjectiveRenderer
 
                     // :TODO:
                     if ($a_mode != self::MATERIALS_TESTS) {
-                        $pos = $this->getItemGroupsHTML();
+                        $pos = $this->getObjectGroupsHTML();
                     }
 
                     foreach ($item_r as $h) {

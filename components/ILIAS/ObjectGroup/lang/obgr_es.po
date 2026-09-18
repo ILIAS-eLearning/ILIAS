@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: obgr\n"
+
+msgid "obgr_always_open"
+msgstr "Siempre abierto"
+
+#, fuzzy
+msgid "obgr_assign"
+msgstr "Assign"
+
+msgid "obgr_assign_materials"
+msgstr "Asignar materiales"
+
+#, fuzzy
+msgid "obgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "obgr_assigned_materials"
+msgstr "Materiales asignados"
+
+msgid "obgr_assignment"
+msgstr "Asignado"
+
+#, fuzzy
+msgid "obgr_assignment_to_other_obgr"
+msgstr "Already assigned to another Object Group"
+
+msgid "obgr_behaviour"
+msgstr "Comportamiento del bloque"
+
+msgid "obgr_behaviour_info"
+msgstr "El sistema almacenará el estado abierto/cerrado para el usuario actual hasta que cierre la sesión."
+
+#, fuzzy
+msgid "obgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "obgr_desc_info"
+msgstr "La descripción no formará parte de la presentación del grupo de elementos en su contenedor."
+
+#, fuzzy
+msgid "obgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "obgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable"
+msgstr "With Title, Object Group collapsible"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "obgr_display_without_title"
+msgstr "Without Title"
+
+msgid "obgr_edit"
+msgstr "Editar grupos de elementos"
+
+msgid "obgr_expandable_closed"
+msgstr "Expandible (inicialmente cerrado)"
+
+msgid "obgr_expandable_open"
+msgstr "Expandible (inicialmente abierto)"
+
+msgid "obgr_item"
+msgstr "Elemento"
+
+msgid "obgr_list"
+msgstr "Lista"
+
+msgid "obgr_list_default"
+msgstr "Predeterminado"
+
+msgid "obgr_list_default_info"
+msgstr "Hereda el valor del contenedor superior."
+
+msgid "obgr_list_presentation"
+msgstr "Presentación de elementos"
+
+msgid "obgr_materials"
+msgstr "Materiales"
+
+#, fuzzy
+msgid "obgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "obgr_tile"
+msgstr "Mosaicos"
+
+msgid "obgr_tile_size"
+msgstr "Tamaño del mosaico"
+
+#, fuzzy
+msgid "obgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "obgr_unassigned_first"
+msgstr "Unassigned First"
+

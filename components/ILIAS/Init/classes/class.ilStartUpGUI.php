@@ -1350,6 +1350,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $type = 'glo';
         }
 
+        // Item groups (itgr) were renamed to object groups (obgr).
+        if ($type === 'itgr') {
+            $type = 'obgr';
+        }
+
         if ($type === 'pg' | $type === 'st') {
             $type = 'lm';
         }

@@ -1326,30 +1326,6 @@ msgid "invite"
 msgstr "Inviting to survey"
 
 #, fuzzy
-msgid "itgr_copy"
-msgstr "User can copy item group"
-
-#, fuzzy
-msgid "itgr_delete"
-msgstr "User can move or delete item group"
-
-#, fuzzy
-msgid "itgr_edit_permission"
-msgstr "User can change permission settings"
-
-#, fuzzy
-msgid "itgr_read"
-msgstr "User can read item group"
-
-#, fuzzy
-msgid "itgr_visible"
-msgstr "Item group is visible"
-
-#, fuzzy
-msgid "itgr_write"
-msgstr "User can edit content and settings of item group"
-
-#, fuzzy
 msgid "leave"
 msgstr "Leave"
 
@@ -1787,6 +1763,30 @@ msgstr "News and Web Feeds Settings are visible"
 #, fuzzy
 msgid "nwss_write"
 msgstr "Edit News and Web Feeds Settings"
+
+#, fuzzy
+msgid "obgr_copy"
+msgstr "User can copy object group"
+
+#, fuzzy
+msgid "obgr_delete"
+msgstr "User can move or delete object group"
+
+#, fuzzy
+msgid "obgr_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "obgr_read"
+msgstr "User can read object group"
+
+#, fuzzy
+msgid "obgr_visible"
+msgstr "Object group is visible"
+
+#, fuzzy
+msgid "obgr_write"
+msgstr "User can edit content and settings of object group"
 
 #, fuzzy
 msgid "obj_skee"
@@ -2346,10 +2346,6 @@ msgid "rbac_create_iass"
 msgstr "Create Individual Assessment"
 
 #, fuzzy
-msgid "rbac_create_itgr"
-msgstr "Create Item Group"
-
-#, fuzzy
 msgid "rbac_create_lm"
 msgstr "Create ILIAS Learning Module"
 
@@ -2368,6 +2364,10 @@ msgstr "Create Mediacast"
 #, fuzzy
 msgid "rbac_create_mep"
 msgstr "Create Media Pool"
+
+#, fuzzy
+msgid "rbac_create_obgr"
+msgstr "Create Object Group"
 
 #, fuzzy
 msgid "rbac_create_orgu"
@@ -3615,3 +3615,4 @@ msgstr "Edit settings in Wiki administration"
 #, fuzzy
 msgid "write"
 msgstr "Edit Settings"
+

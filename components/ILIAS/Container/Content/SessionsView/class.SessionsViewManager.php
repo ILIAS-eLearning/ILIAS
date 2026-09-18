@@ -45,7 +45,7 @@ class SessionsViewManager implements ViewManager
     {
         $blocks = [];
         $blocks[] = $this->data->sessionBlock();
-        $blocks[] = $this->data->itemGroupBlocks();
+        $blocks[] = $this->data->objectGroupBlocks();
         $blocks[] = $this->data->otherBlock();
         return $this->data->blockSequence($blocks);
     }

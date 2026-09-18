@@ -3013,12 +3013,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Pojem"
 
-msgid "itgr_add"
-msgstr "Dodaj blok objektov"
-
-msgid "itgr_new"
-msgstr "Nov blok objektov"
-
 msgid "java_server"
 msgstr "Strežnik Java"
 
@@ -4352,6 +4346,12 @@ msgstr "Število uporabnikov"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Dodaj blok objektov"
+
+msgid "obgr_new"
+msgstr "Nov blok objektov"
+
 msgid "obj"
 msgstr "Object"
 
@@ -4675,9 +4675,6 @@ msgstr "Kopiraj individualno oceno"
 msgid "obj_iass_select"
 msgstr "-- Izberite individualno oceno --"
 
-msgid "obj_itgr"
-msgstr "Blok objektov"
-
 msgid "obj_ldap_desc"
 msgstr "Globalna konfiguracija LDAP."
 
@@ -4805,6 +4802,9 @@ msgstr "Novosti in spletni viri"
 
 msgid "obj_nwss_desc"
 msgstr "Nastavitve za notranje novosti in zunanje spletne vire"
+
+msgid "obj_obgr"
+msgstr "Blok objektov"
 
 msgid "obj_objf"
 msgstr "Definicije objektov"
@@ -5345,9 +5345,6 @@ msgstr "Učni moduli HTML"
 msgid "objs_iass"
 msgstr "Individualne ocene"
 
-msgid "objs_itgr"
-msgstr "Bloki objektov"
-
 msgid "objs_lm"
 msgstr "Učni moduli ILIAS"
 
@@ -5368,6 +5365,9 @@ msgstr "Predvajanje medijskih vsebin"
 
 msgid "objs_mep"
 msgstr "Skupine medijev"
+
+msgid "objs_obgr"
+msgstr "Bloki objektov"
 
 msgid "objs_orgu"
 msgstr "Organizacijske enote"
@@ -8046,3 +8046,4 @@ msgstr "Test ZIP ni bil uspešen. Obrnite se na svojega administratorja ILIAS."
 
 msgid "zipcode"
 msgstr "Poštna številka"
+
