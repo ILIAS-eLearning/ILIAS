@@ -274,6 +274,15 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                         sprintf($lng->txt("rating_rate_x_of_5"), $i)
                     );
 
+                    if ($add_tooltip) {
+                        $topics = $this->getTooltipTopics(
+                            (int) ($overall_rating["cnt"] ?? 0),
+                            (float) ($overall_rating["avg"] ?? 0),
+                            (int) ($rating ?? 0)
+                        );
+                        $b = $b->withHelpTopics(...$f->helpTopics(...$topics));
+                    }
+
                     $star_html = $this->ui->renderer()->render($b);
                     $star_html = str_replace("###star###", $star_tpl->get(), $star_html);
 
@@ -317,19 +326,6 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                     $overall_rating["cnt"]) {
                     $ttpl->setCurrentBlock("number_votes_simple");
                     $ttpl->setVariable("NUMBER_VOTES_SIMPLE", $overall_rating["cnt"]);
-                    $ttpl->parseCurrentBlock();
-                }
-
-                if ($add_tooltip) {
-                    $ttpl->setCurrentBlock("rating_simple_tooltip");
-                    $ttpl->setVariable(
-                        "TOOLTIP",
-                        $this->getTooltipText(
-                            (int) ($overall_rating["cnt"] ?? 0),
-                            (float) ($overall_rating["avg"] ?? 0),
-                            (int) ($rating ?? 0)
-                        )
-                    );
                     $ttpl->parseCurrentBlock();
                 }
 
@@ -427,6 +423,14 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                         $ttpl->setVariable("ICON_MOUSEACTION", " onmouseover=\"il.Rating.toggleIcon(this," . $i . ")\"" .
                             " onmouseout=\"il.Rating.toggleIcon(this," . $i . ",1)\"");*/
                     }
+                    if ($add_tooltip) {
+                        $topics = $this->getTooltipTopics(
+                            (int) ($overall_rating["cnt"] ?? 0),
+                            (float) ($overall_rating["avg"] ?? 0),
+                            (int) ($user_rating ?? 0)
+                        );
+                        $b = $b->withHelpTopics(...$f->helpTopics(...$topics));
+                    }
                     $button_html = $r->render($b);
                     $button_html = str_replace("###star###", $star_tpl->get(), $button_html);
                     $ttpl->setVariable("RATE_BUTTON", $button_html);
@@ -438,18 +442,6 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                     $ttpl->setVariable("JS_ID", $a_js_id);
                     $ttpl->setVariable("CATEGORY_ID", $category["id"]);
                     $ttpl->setVariable("CATEGORY_VALUE", $user_rating);
-                    if ($add_tooltip) {
-                        $ttpl->setCurrentBlock("category_tooltip");
-                        $ttpl->setVariable(
-                            "TOOLTIP",
-                            $this->getTooltipText(
-                                (int) ($overall_rating["cnt"] ?? 0),
-                                (float) ($overall_rating["avg"] ?? 0),
-                                (int) ($user_rating ?? 0)
-                            )
-                        );
-                        $ttpl->parseCurrentBlock();
-                    }
                     $ttpl->parseCurrentBlock();
                 }
 
@@ -612,15 +604,13 @@ class ilRatingGUI implements ilCtrlSecurityInterface
         // (2) user rating
 
         $ttpl->setVariable("TTID", $unique_id);
-        $ttpl->setVariable(
-            "TOOLTIP",
-            $this->getTooltipText(
-                (int) ($rating["cnt"] ?? 0),
-                (float) ($rating["avg"] ?? 0),
-                (int) ($user_rating ?? 0)
-            )
-        );
         $rating_html = $ttpl->get();
+
+        $tt_topics = $this->getTooltipTopics(
+            (int) ($rating["cnt"] ?? 0),
+            (float) ($rating["avg"] ?? 0),
+            (int) ($user_rating ?? 0)
+        );
 
 
         $button = $f->button()->shy('###button###', '#')
@@ -637,11 +627,17 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                 $f->legacy()->content($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
             );
             $button = $button->withOnClick($popover->getShowSignal());
+            $button = $button->withHelpTopics(
+                ...$f->helpTopics(...$tt_topics)
+            );
             $elements = [$popover, $button];
         } else {
             /*$button = $button->withOnLoadCode(function ($id) {
                 return "";
             });*/
+            $button = $button->withHelpTopics(
+                ...$f->helpTopics(...$tt_topics)
+            );
             $elements = [$button];
         }
         $html = $this->async_rendering
@@ -675,18 +671,6 @@ class ilRatingGUI implements ilCtrlSecurityInterface
             $topics[] = $lng->txt("rating_personal_rating") . ": " . $user;
         }
         return $topics;
-    }
-
-    protected function getTooltipText(
-        int $cnt = 0,
-        float $avg = 0,
-        int $user = 0
-    ): string {
-        return htmlspecialchars(
-            implode(", ", $this->getTooltipTopics($cnt, $avg, $user)),
-            ENT_QUOTES | ENT_SUBSTITUTE,
-            "UTF-8"
-        );
     }
 
     public function getBlockHTML(string $a_title): string
