@@ -511,23 +511,31 @@ class SettingsMainGUI extends TestSettingsGUI
     private function getAvailabilitySettingsSection(): Section
     {
         $input_factory = $this->ui_factory->input();
+        $question_set_config_complete = $this->isQuestionSetConfigComplete();
 
         $inputs['is_online'] = $this->getIsOnlineSettingInput();
         $inputs['timebased_availability'] = $this->getTimebasedAvailabilityInputs();
 
-        return $input_factory->field()->section(
+        $section = $input_factory->field()->section(
             $inputs,
             $this->lng->txt('rep_activation_availability')
         );
+
+        if (!$question_set_config_complete) {
+            $message = $this->lng->txt('cannot_switch_to_online_no_questions_andor_no_mark_steps');
+            $section = $section->withByline(
+                '<span class="sr-only">' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</span>'
+            );
+        }
+
+        return $section;
     }
 
     private function getIsOnlineSettingInput(): Checkbox
     {
         $field_factory = $this->ui_factory->input()->field();
 
-        $question_set_config_complete = $this->test_object->isComplete(
-            $this->testQuestionSetConfigFactory->getQuestionSetConfig()
-        );
+        $question_set_config_complete = $this->isQuestionSetConfigComplete();
 
         $is_online = $this->test_object->getObjectProperties()->getPropertyIsOnline()
             ->toForm($this->lng, $field_factory, $this->refinery);
@@ -545,6 +553,13 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         return $is_online;
+    }
+
+    private function isQuestionSetConfigComplete(): bool
+    {
+        return $this->test_object->isComplete(
+            $this->testQuestionSetConfigFactory->getQuestionSetConfig()
+        );
     }
 
     private function getTimebasedAvailabilityInputs(): OptionalGroup
