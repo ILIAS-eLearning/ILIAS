@@ -27,14 +27,14 @@ use ilDBInterface;
 use MailDeliveryData;
 use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockFactory;
-use ilMail;
+use ILIAS\Mail\Message\MailRecordMapper;
 
 readonly class OutboxDatabaseRepository implements OutboxRepository
 {
     public function __construct(
         private ilDBInterface $db,
         private ClockFactory $clock,
-        private ilMail $mail,
+        private MailRecordMapper $mail_record_mapper,
     ) {
     }
 
@@ -46,7 +46,9 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         $res = $this->db->queryF(
             <<<'SQL'
             SELECT 
-                mail_id, 
+                mail.mail_id,
+                mail.user_id,
+                mail.folder_id,
                 rcp_to, 
                 rcp_cc, 
                 rcp_bcc, 
@@ -58,6 +60,7 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                 schedule_timezone
             FROM mail 
             INNER JOIN mail_obj_data ON mail.folder_id = mail_obj_data.obj_id AND mail.user_id = mail_obj_data.user_id
+            INNER JOIN usr_data ON usr_data.usr_id = mail.user_id
                  WHERE mail_obj_data.m_type = %s 
                    AND schedule_datetime IS NOT NULL
             SQL,
@@ -66,23 +69,46 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         );
         $current_time = $this->clock->utc()->now();
 
-        while ($row = $this->mail->fetchMailData($this->db->fetchAssoc($res))) {
-            $schedule_datetime = new DateTimeImmutable(
-                $row['schedule_datetime'],
-                new DateTimeZone($row['schedule_timezone'])
-            );
-            if ($schedule_datetime <= $current_time) {
-                yield new MailDeliveryData(
-                    $row['rcp_to'],
-                    $row['rcp_cc'],
-                    $row['rcp_bcc'],
-                    $row['m_subject'],
-                    $row['m_message'],
-                    $row['attachments'],
-                    (bool) ($row['use_placeholders'] ?? false),
-                    isset($row['mail_id']) ? (int) $row['mail_id'] : null
-                );
+        while ($row = $this->db->fetchAssoc($res)) {
+            if (!is_array($row)) {
+                continue;
             }
+
+            $schedule_datetime = new DateTimeImmutable(
+                (string) $row['schedule_datetime'],
+                new DateTimeZone((string) $row['schedule_timezone'])
+            );
+            if ($schedule_datetime > $current_time) {
+                continue;
+            }
+
+            $record = $this->mail_record_mapper->fromRow($row);
+            if ($record === null) {
+                continue;
+            }
+
+            $attachments = $record->getAttachments();
+
+            yield new MailDeliveryData(
+                $record->getRcpTo() ?? '',
+                $record->getRcpCc() ?? '',
+                $record->getRcpBc() ?? '',
+                $record->getSubject() ?? '',
+                $record->getMessage() ?? '',
+                is_array($attachments) ? $attachments : [],
+                (bool) $record->getUsePlaceholders(),
+                $record->getMailId(),
+                $record->getUserId()
+            );
         }
+    }
+
+    public function markAsDelivered(int $owner_id, int $mail_id): void
+    {
+        $this->db->manipulateF(
+            'UPDATE mail SET schedule_datetime = NULL, schedule_timezone = NULL WHERE mail_id = %s AND user_id = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$mail_id, $owner_id]
+        );
     }
 }
