@@ -322,7 +322,7 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
         $ilDB->method('query')->willReturnCallback(function ($query): ilDBStatement {
             $statement = $this->createMock(ilDBStatement::class);
 
-            if (str_contains($query, 'SELECT * FROM lng_modules')) {
+            if (str_contains($query, 'FROM lng_modules')) {
                 $statement->method('numRows')->willReturn(1);
                 $statement->method('fetchRow')->willReturn([
                     'lang_array' => serialize([

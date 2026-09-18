@@ -362,7 +362,7 @@ class ilObjLanguageExt extends ilObjLanguage
         $ilDB = $DIC->database();
         $lng = $DIC->language();
 
-        $q = "SELECT * FROM lng_data WHERE" .
+        $q = "SELECT module, identifier, value FROM lng_data WHERE" .
             " lang_key = " . $ilDB->quote($a_lang_key, "text") . " ";
 
         if (is_array($a_modules) && count($a_modules) > 0) {
@@ -449,7 +449,7 @@ class ilObjLanguageExt extends ilObjLanguage
         // save the serialized module entries in lng_modules
         foreach ($save_array as $module => $entries) {
             $set = $ilDB->query(sprintf(
-                "SELECT * FROM lng_modules " .
+                "SELECT lang_array FROM lng_modules " .
                 "WHERE lang_key = %s AND module = %s",
                 $ilDB->quote($a_lang_key, "text"),
                 $ilDB->quote($module, "text")
@@ -522,7 +522,7 @@ class ilObjLanguageExt extends ilObjLanguage
         // save the serialized module entries in lng_modules
         foreach ($delete_array as $module => $entries) {
             $set = $ilDB->query(sprintf(
-                "SELECT * FROM lng_modules " .
+                "SELECT lang_array FROM lng_modules " .
                 "WHERE lang_key = %s AND module = %s",
                 $ilDB->quote($a_lang_key, "text"),
                 $ilDB->quote($module, "text")

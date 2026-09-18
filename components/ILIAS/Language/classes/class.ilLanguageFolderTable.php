@@ -186,24 +186,25 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
             }
 
             $record['users'] = ilObjLanguage::countUsers($record["key"]);
+            $last_local_change = '';
             if ($record["desc"] !== "not_installed") {
                 if ($this->access->checkAccess('write', '', $this->folder->getId())) {
                     $record['language'] = $record['language']->withDisabled(false);
                 }
                 $record['last_refresh'] = ilDatePresentation::formatDate(new ilDateTime($record["last_update"], IL_CAL_DATETIME, 'UTC'));
 
-                $last_change = ilObjLanguage::_getLastLocalChange($record["key"]);
-                $record['last_change'] = ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME, 'UTC'));
+                $last_local_change = ilObjLanguage::_getLastLocalChange($record["key"]);
+                $record['last_change'] = ilDatePresentation::formatDate(new ilDateTime($last_local_change, IL_CAL_DATETIME, 'UTC'));
             }
 
             yield $row_builder->buildDataRow($obj_id, $record)
+                              ->withDisabledAction('install', ($record['desc'] !== 'not_installed'))
+                              ->withDisabledAction('install_local', !str_starts_with($record['desc'], 'installed'))
                               ->withDisabledAction('setSystemLanguage', ($record['desc'] === 'not_installed') || ($record['key'] === $this->lng->getDefaultLanguage()))
                               ->withDisabledAction('setUserLanguage', ($record['desc'] === 'not_installed') || ($record['key'] === $this->lng->getUserLanguage()))
                               ->withDisabledAction('refresh', ($record['desc'] === 'not_installed'))
                               ->withDisabledAction('uninstall', ($record['desc'] === 'not_installed'))
-                              ->withDisabledAction('lang_uninstall_changes', ($record['desc'] === 'not_installed'))
-                              ->withDisabledAction('install', ($record['desc'] !== 'not_installed'))
-                              ->withDisabledAction('install_local', ($record['desc'] !== 'not_installed'));
+                              ->withDisabledAction('lang_uninstall_changes', !str_starts_with($record['desc'], 'installed') || $last_local_change === '');
         }
     }
 

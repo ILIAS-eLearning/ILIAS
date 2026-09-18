@@ -71,14 +71,19 @@ Only a defined set of HTML tags are allowed to be used within the `text_content`
 
 All other HTML tags are unsupported and will be removed by `ilUtil::stripSlashes`.
 
-## Using the Global Language Object
-The global language object can be retrieved from the dependency injection container by using/calling `$DIC['lng']` or
-`$DIC->language()`. This is an instance of class `ilLanguage` and provides methods to access these strings in the 
-language of the user within the current authentication process. This is done by using the functions
- `loadLanguageModule()` and `txt()`.
+## Using the Language Service
+New component-revision code should depend on `ILIAS\Language\Language`. During the legacy bootstrap this interface is
+provided through a lazy bridge and delegates to the active `ilLanguage` runtime instance after the legacy container has
+been initialised.
 
-        $lng->loadLanguageModule("frm");
-        $tpl->setVariable("TEXT", $lng->txt("frm_new_posting"));    
+Legacy components may continue to use `$DIC['lng']` or `$DIC->language()` during the transition. These access paths
+are compatibility provisions for non-migrated code and are not the preferred API for new components.
+
+Setup code uses the separate `ilSetupLanguage` implementation. It is intentionally independent of runtime user,
+session, and container state and must not be selected for normal runtime initialisation.
+
+        $language->loadLanguageModule("frm");
+        $tpl->setVariable("TEXT", $language->txt("frm_new_posting"));
 
 # Roles
 The language handling process in ILIAS knows four distinct roles:

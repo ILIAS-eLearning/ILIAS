@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 
+/**
+ * Not every Objective in this component installs/updates languages (e.g.
+ * ilDefaultLanguageSetObjective does not), so the "install languages via
+ * ilSetupLanguage/InstallLanguage" dependencies and helper are not on this
+ * common base - see ilLanguagesInstalledAndUpdatedObjective, the only
+ * Objective that needs them.
+ */
 abstract class ilLanguageObjective implements Setup\Objective
 {
     public function __construct()
