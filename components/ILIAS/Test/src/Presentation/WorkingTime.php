@@ -20,33 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Presentation;
 
-use ilDatePresentation;
-use ilDateTime;
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
-use ilLanguage;
-use ilObjTest;
-use ilTemplate;
+use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\UI\Factory as UIFactory;
 
 class WorkingTime
 {
     public function __construct(
-        private readonly ilLanguage $lng,
-        private readonly Factory $ui_factory,
-        private readonly Renderer $ui_renderer,
-        private readonly int $starting_time,
+        private readonly \ilLanguage $lng,
+        private readonly ?int $starting_time,
         private readonly int $processing_time
     ) {
     }
 
     public function prepareWorkingTimeJsTemplate(
-        ilObjTest $object,
+        \ilObjTest $object,
         array $date,
         string $check_url,
         string $redirect_url
-    ): ilTemplate {
+    ): \ilTemplate {
         [$processing_time_minutes, $processing_time_seconds] = $this->getUserProcessingTimeMinutesAndSeconds();
-        $template = new ilTemplate('tpl.workingtime.js', true, true, 'components/ILIAS/Test');
+        $template = new \ilTemplate('tpl.workingtime.js', true, true, 'components/ILIAS/Test');
         $template->setVariable('STRING_MINUTE', $this->lng->txt('minute'));
         $template->setVariable('STRING_MINUTES', $this->lng->txt('minutes'));
         $template->setVariable('STRING_SECOND', $this->lng->txt('second'));
@@ -60,7 +53,7 @@ class WorkingTime
         $template->setVariable('MINUTE', $date['minutes']);
         $template->setVariable('SECOND', $date['seconds']);
         if ($object->isEndingTimeEnabled()) {
-            $date_time = new ilDateTime($object->getEndingTime(), IL_CAL_UNIX);
+            $date_time = new \ilDateTime($object->getEndingTime(), IL_CAL_UNIX);
             preg_match('/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/', $date_time->get(IL_CAL_TIMESTAMP), $matches);
             if ($matches !== []) {
                 $template->setVariable('ENDYEAR', $matches[1]);
@@ -87,12 +80,22 @@ class WorkingTime
         return $template;
     }
 
-    public function getMessageBox(bool $verbose): string
+    public function getMessageBox(
+        UIFactory $ui_factory,
+        bool $verbose
+    ): MessageBox {
+        return $ui_factory->messageBox()->info(
+            $verbose
+                ? $this->getMessage($verbose)
+                : "<div class='ilTstWorkingFormBlock_WorkingTime'>{$this->getMessage($verbose)}</div>"
+        );
+    }
+
+    public function getMessage(bool $verbose): string
     {
-        $message_text = $verbose
-            ? $this->getUserProcessingTimeString() . ' <span id="timeleft">' . $this->getUserRemainingTimeString() . '</span>'
-            : '<div class="ilTstWorkingFormBlock_WorkingTime"><span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">' . $this->getUserRemainingTimeString() . '</span></div>';
-        return $this->ui_renderer->render($this->ui_factory->messageBox()->info($message_text));
+        return $verbose
+            ? "{$this->getUserProcessingTimeString()} <span id='timeleft'>{$this->getUserRemainingTimeString()}</span>"
+            : "<span id='timeleft' class='ilTstWorkingFormInfo_ProcessTimeLeft'>{$this->getUserRemainingTimeString()}</span>";
     }
 
     private function getUserProcessingTimeMinutesAndSeconds(): array
@@ -105,6 +108,10 @@ class WorkingTime
 
     private function getUserProcessingTimeString(): string
     {
+        if ($this->starting_time === null) {
+            return '';
+        }
+
         [$processing_time_minutes, $processing_time_seconds] = $this->getUserProcessingTimeMinutesAndSeconds();
 
         $str_processing_time = '';
@@ -121,14 +128,16 @@ class WorkingTime
 
         return sprintf(
             $this->lng->txt('tst_time_already_spent'),
-            ilDatePresentation::formatDate(new ilDateTime(getdate($this->starting_time), IL_CAL_FKT_GETDATE)),
+            \ilDatePresentation::formatDate(new \ilDateTime(getdate($this->starting_time), IL_CAL_FKT_GETDATE)),
             $str_processing_time
         );
     }
 
     private function getUserRemainingTimeString(): string
     {
-        $time_left = $this->starting_time + $this->processing_time - time();
+        $time_left = $this->starting_time === null
+            ? $this->processing_time
+            : $this->starting_time + $this->processing_time - time();
         $time_left_minutes = floor($time_left / 60);
         $time_left_seconds = $time_left - $time_left_minutes * 60;
         $str_time_left = '';

@@ -10794,12 +10794,15 @@ irss#:#type#:#File Type
 irss#:#upload_field_title#:#Selected Files
 irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
-itgr#:#itgr_assign_materials#:#Assign Materials
-itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assigned to this Item Group
-itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group
+itgr#:#itgr_assign#:#Assign
+itgr#:#itgr_assign_materials#:#Organize Objects
+itgr#:#itgr_assigned_first#:#Assigned First
+itgr#:#itgr_assigned_materials#:#Assigned Objects
+itgr#:#itgr_assignment#:#Assigned to this Object Group
+itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Object Group
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
+itgr#:#itgr_create_and_assign_object#:#Create and Assign Object
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
 itgr#:#itgr_display#:#Display
 itgr#:#itgr_display_with_title#:#With Title
@@ -10808,7 +10811,7 @@ itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state
 itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed
 itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened
 itgr#:#itgr_display_without_title#:#Without Title
-itgr#:#itgr_edit#:#Edit Item Groups
+itgr#:#itgr_edit#:#Edit Object Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
 itgr#:#itgr_item#:#Item
@@ -10817,8 +10820,11 @@ itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
 itgr#:#itgr_list_presentation#:#Item Presentation
 itgr#:#itgr_materials#:#Materials
+itgr#:#itgr_organise_objects#:#Manage Objects
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
+itgr#:#itgr_unassign#:#Unassign
+itgr#:#itgr_unassigned_first#:#Unassigned First
 jscalendar#:#about_calendar#:#About the calendar
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the buttons « and » to select year - Use the buttons < and > to select month - Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection.
@@ -11686,6 +11692,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.
 mail#:#mail_incoming#:#Incoming Mail
 mail#:#mail_incoming_both#:#Receive Mail Locally and Forward to:
 mail#:#mail_incoming_local#:#Receive Mail Locally Only
@@ -13909,6 +13916,7 @@ prtf#:#prtf_edit_content#:#Edit Content
 prtf#:#prtf_edit_data#:#Edit Data
 prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"
 prtf#:#prtf_edit_portfolio#:#Edit Portfolio
+prtf#:#prtf_edit_title#:#Edit Title
 prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of exercise "%s".
 prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files.
 prtf#:#prtf_existing_portfolio#:#Existing Portfolio
@@ -15225,7 +15233,7 @@ rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do so, there
 rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from those available, for example a learning module or a forum.
 rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and select "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
-rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu. 
+rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu.
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
@@ -17129,7 +17137,7 @@ svy#:#svy_status_in_progress#:#In progress
 svy#:#svy_status_invited#:#Added to tasks
 svy#:#svy_user_added_appraisee#:#Survey ‘%1’
 svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.
-svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.
+svy#:#svy_user_added_appraisee_mail#:#You have been added to the following survey as an appraisee. To be taken to the survey, click on the link below.
 svy#:#svy_user_added_rater#:#Survey ‘%1’
 svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.
 svy#:#svy_user_added_rater_reminder_mail#:#Please don’t forget to rate the following appraisees:
@@ -17853,6 +17861,8 @@ wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hello %s,
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
 wiki#:#wiki_changed_by#:#Changed by
+wiki#:#wiki_comment#:#Comment
+wiki#:#wiki_comment_for_learner#:#Feedback for contributor
 wiki#:#wiki_commented_by#:#Commented by
 wiki#:#wiki_contributor#:#Contributor
 wiki#:#wiki_contributors#:#Contributors

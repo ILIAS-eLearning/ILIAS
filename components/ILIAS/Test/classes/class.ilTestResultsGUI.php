@@ -22,7 +22,6 @@ use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
@@ -32,6 +31,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Skill\Service\SkillService;
+use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
  * Class ilTestResultsGUI
@@ -68,7 +68,7 @@ class ilTestResultsGUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly SkillService $skills_service,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly ContentStyle $content_style,
         private readonly TestTopListRepository $toplist_repository,
         private readonly RequestDataCollector $testrequest,
         private readonly GlobalHttpState $http,
@@ -103,7 +103,7 @@ class ilTestResultsGUI
                     $this->lng,
                     $this->ctrl,
                     $this->main_tpl,
-                    $this->questionrepository,
+                    $this->content_style,
                     $this->testrequest
                 );
                 $this->ctrl->forwardCommand($gui);

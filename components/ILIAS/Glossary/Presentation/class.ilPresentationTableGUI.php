@@ -31,6 +31,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilPresentationTableGUI
 {
+    protected \ILIAS\Glossary\Term\TermManager $term_manager;
     protected \ILIAS\Style\Content\Service $content_style;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
@@ -73,18 +74,19 @@ class ilPresentationTableGUI
         $this->glossary = $glossary;
         $this->offline = $offline;
         $this->tax_node = $tax_node;
+        $domain = $DIC->glossary()
+                      ->internal()
+                      ->domain();
         $this->pres_gui_request = $DIC->glossary()
                                       ->internal()
                                       ->gui()
                                       ->presentation()
                                       ->request();
-        $this->manager = $DIC->glossary()
-                             ->internal()
-                             ->domain()
-                             ->presentation($this->glossary);
+        $this->manager = $domain->presentation($this->glossary);
         $this->filter_service = $DIC->uiService()->filter();
         $this->adv_md_service = new \ILIAS\AdvancedMetaData\Services\Services();
         $this->content_style = $DIC->contentStyle();
+        $this->term_manager = $domain->term($this->glossary);
     }
 
     public function executeCommand(): void
@@ -299,6 +301,9 @@ class ilPresentationTableGUI
         );
         $data = [];
         foreach ($terms_sliced as $term) {
+            if (!$this->term_manager->checkTermPage((int) $term["id"])) {
+                continue;
+            }
             $data[] = [
                 "term_id" => (int) $term["id"],
                 "term" => $term["term"],

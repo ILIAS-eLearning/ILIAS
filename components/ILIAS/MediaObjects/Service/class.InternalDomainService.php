@@ -22,11 +22,13 @@ namespace ILIAS\MediaObjects;
 
 use ILIAS\DI\Container;
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
+use ILIAS\MediaObjects\ImageMap\ImageMapRetrieval;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
 use ILIAS\MediaObjects\Thumbs\ThumbsManager;
+use ILIAS\MediaObjects\Usage\UsageRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -62,6 +64,14 @@ class InternalDomainService
         );
     }
 
+    public function imageMapRetrieval(
+        \ilObjMediaObject $media_object
+    ): ImageMapRetrieval {
+        return new ImageMapRetrieval(
+            $media_object
+        );
+    }
+
     public function mediaType(): MediaTypeManager
     {
         return new MediaTypeManager();
@@ -84,6 +94,17 @@ class InternalDomainService
         return new ThumbsManager(
             $this->data_service,
             $this->repo_service,
+            $this
+        );
+    }
+
+    public function mediaObjectUsagesRetrieval(
+        \ilObjMediaObject $media_object,
+        bool $include_hist
+    ): UsageRetrieval {
+        return new UsageRetrieval(
+            $media_object,
+            $include_hist,
             $this
         );
     }

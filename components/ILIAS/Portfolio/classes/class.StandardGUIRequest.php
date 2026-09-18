@@ -100,6 +100,11 @@ class StandardGUIRequest
         return $this->int("ppage");
     }
 
+    public function getEditPageId(): int
+    {
+        return $this->int("edit_id");
+    }
+
     public function getUserPage(): int
     {
         return $this->int("user_page");
@@ -128,12 +133,6 @@ class StandardGUIRequest
     public function getVerificationId(): int
     {
         return $this->int("dlid");
-    }
-
-    /** @return string[] */
-    public function getRoleTemplateIds(): array
-    {
-        return $this->strArray("role_template_ids");
     }
 
     /** @return string[] */

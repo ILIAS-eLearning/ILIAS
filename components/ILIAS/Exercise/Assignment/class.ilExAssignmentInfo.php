@@ -57,6 +57,17 @@ class ilExAssignmentInfo
         return [];
     }
 
+    public function areInstructionFilesVisible(): bool
+    {
+        if ($this->state->areInstructionsVisible()) {
+            $ass_files = $this->ass->getFiles();
+            if (count($ass_files) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getInstructionFileInfo(int $readable_ref_id = 0): array
     {
         $ctrl = $this->ctrl;

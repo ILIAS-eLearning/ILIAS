@@ -196,16 +196,27 @@ class ilStyleCharacteristicGUI
             );
         }
 
-        $table_gui = $this->gui_service->characteristic()->CharacteristicTableGUI(
-            $this,
-            "edit",
-            $style_type,
-            $this->object,
-            $this->manager,
-            $this->access_manager
+        $table = $this->getCharacteristicTable(
+            $style_type
         );
 
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
+    }
+
+    protected function getCharacteristicTable(
+        string $super_type
+    ): \ILIAS\Repository\Table\TableAdapterGUI {
+        return $this->gui_service->characteristicTableBuilder(
+            $super_type,
+            $this->manager,
+            $this->access_manager,
+            $this,
+            "listCharacteristics"
+        )->getTable();
     }
 
     public function setListSubTabs(): void
@@ -267,13 +278,27 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function deleteCharacteristicConfirmation(): void
+    public function deleteCharacteristicConfirmation(string $id = ""): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $tpl = $this->gui_service->mainTemplate();
         $lng = $this->domain_service->lng();
 
-        //var_dump($_POST);
+        if ($id !== "") {
+            $char_parts = $this->getCharacteristicParts($id);
+            if (ilObjStyleSheet::isCoreStyle($char_parts[0], $char_parts[2])) {
+                $this->deleteCoreCharMessage();
+                return;
+            }
+
+            $this->getCharacteristicTable($this->super_type)->renderDeletionConfirmation(
+                $lng->txt("sty_confirm_char_deletion"),
+                $lng->txt("info_delete_sure"),
+                "deleteCharacteristic",
+                [$id => $char_parts[2]]
+            );
+            return;
+        }
 
         $chars = $this->request->getCharacteristics();
         if (count($chars) == 0) {
@@ -356,11 +381,16 @@ class ilStyleCharacteristicGUI
      * Delete one or multiple style characteristic
      * @throws Content\ContentStyleNoPermissionException
      */
-    public function deleteCharacteristic(): void
+    public function deleteCharacteristic(string $id = ""): void
     {
         $ilCtrl = $this->gui_service->ctrl();
 
-        $chars = $this->request->getCharacteristics();
+        $chars = $id !== ""
+            ? [$id]
+            : $this->getCharacteristicTable($this->super_type)->getItemIds();
+        if (count($chars) === 0) {
+            $chars = $this->request->getCharacteristics();
+        }
         foreach ($chars as $char) {
             $char_comp = explode(".", $char);
             $type = $char_comp[0];
@@ -374,6 +404,29 @@ class ilStyleCharacteristicGUI
         }
 
         $ilCtrl->redirect($this, "listCharacteristics");
+    }
+
+    public function hideCharacteristic(string $id): void
+    {
+        $parts = $this->getCharacteristicParts($id);
+        $this->manager->saveHidden($parts[0], $parts[2], true);
+        $this->gui_service->ctrl()->redirect($this, "listCharacteristics");
+    }
+
+    public function showCharacteristic(string $id): void
+    {
+        $parts = $this->getCharacteristicParts($id);
+        $this->manager->saveHidden($parts[0], $parts[2], false);
+        $this->gui_service->ctrl()->redirect($this, "listCharacteristics");
+    }
+
+    protected function getCharacteristicParts(string $id): array
+    {
+        $parts = explode(".", $id, 3);
+        if (count($parts) !== 3) {
+            throw new \InvalidArgumentException("Invalid characteristic id: " . $id);
+        }
+        return $parts;
     }
 
     /**
@@ -492,8 +545,18 @@ class ilStyleCharacteristicGUI
         $ctrl->setParameter($this, "tag", $this->request->getTag());
     }
 
-    protected function editTagStyle(): void
+    public function editTagStyle(string $id = ""): void
     {
+        if ($id !== "") {
+            $parts = $this->getCharacteristicParts($id);
+            $ctrl = $this->gui_service->ctrl();
+            $ctrl->setParameter($this, "tag", $parts[1] . "." . $parts[2]);
+            $ctrl->setParameter($this, "style_type", $parts[0]);
+            $ctrl->setParameter($this, "char", $parts[2]);
+            $ctrl->redirect($this, "editTagStyle");
+            return;
+        }
+
         $ilToolbar = $this->gui_service->toolbar();
         $lng = $this->domain_service->lng();
         $ilCtrl = $this->gui_service->ctrl();
@@ -970,32 +1033,15 @@ class ilStyleCharacteristicGUI
         $ilCtrl = $this->gui_service->ctrl();
         $lng = $this->domain_service->lng();
 
-        $all_chars = $this->request->getAllCharacteristics();
-        $hidden = $this->request->getHidden();
-        $order = $this->request->getOrder();
-
-        // save hide status
-        foreach ($all_chars as $char) {
-            $ca = explode(".", $char);
-            $this->manager->saveHidden(
-                $ca[0],
-                $ca[2],
-                (in_array($char, $hidden))
-            );
-        }
-
-        // save order
-        if (count($order) > 0) {
+        $ordered_ids = $this->getCharacteristicTable($this->super_type)->getData();
+        if (is_array($ordered_ids) && count($ordered_ids) > 0) {
             $order_by_type = [];
-            foreach ($order as $char => $order_nr) {
-                $ca = explode(".", $char);
-                $order_by_type[$ca[0]][$ca[2]] = $order_nr;
+            foreach (array_values($ordered_ids) as $position => $id) {
+                $parts = $this->getCharacteristicParts((string) $id);
+                $order_by_type[$parts[0]][$parts[2]] = ($position + 1) * 10;
             }
             foreach ($order_by_type as $type => $order_nrs) {
-                $this->manager->saveOrderNrs(
-                    $type,
-                    $order_nrs
-                );
+                $this->manager->saveOrderNrs($type, $order_nrs);
             }
         }
 
@@ -1003,12 +1049,12 @@ class ilStyleCharacteristicGUI
         $ilCtrl->redirect($this, "listCharacteristics");
     }
 
-    protected function setOutdated(): void
+    public function setOutdated(string $id = ""): void
     {
         $lng = $this->domain_service->lng();
         $ctrl = $this->gui_service->ctrl();
 
-        $chars = $this->request->getCharacteristics();
+        $chars = $id !== "" ? [$id] : $this->request->getCharacteristics();
         if (count($chars) > 0) {
             foreach ($chars as $c) {
                 $c_parts = explode(".", $c);
@@ -1033,11 +1079,11 @@ class ilStyleCharacteristicGUI
         $ctrl->redirect($this, "listCharacteristics");
     }
 
-    protected function removeOutdated(): void
+    public function removeOutdated(string $id = ""): void
     {
         $lng = $this->domain_service->lng();
         $ctrl = $this->gui_service->ctrl();
-        $chars = $this->request->getCharacteristics();
+        $chars = $id !== "" ? [$id] : $this->request->getCharacteristics();
 
         if (count($chars) > 0) {
             foreach ($chars as $c) {
@@ -1063,12 +1109,12 @@ class ilStyleCharacteristicGUI
         $ctrl->redirect($this, "listCharacteristics");
     }
 
-    public function copyCharacteristics(): void
+    public function copyCharacteristics(string $id = ""): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $lng = $this->domain_service->lng();
 
-        $chars = $this->request->getCharacteristics();
+        $chars = $id !== "" ? [$id] : $this->request->getCharacteristics();
 
         // check, if type can be copied (is expanable)
         foreach ($chars as $c) {

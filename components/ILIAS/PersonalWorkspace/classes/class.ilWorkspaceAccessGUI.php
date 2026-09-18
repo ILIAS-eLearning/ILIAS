@@ -237,8 +237,17 @@ class ilWorkspaceAccessGUI
             "addpermissionhandler"
         )->submit()->toToolbar(true);
 
-        $table = new ilWorkspaceAccessTableGUI($this, "share", $this->node_id, $this->getAccessHandler());
-        $tpl->setContent($table->getHTML() . $this->footer);
+        $table = $this->gui->workspaceAccessTableBuilder(
+            $this->getAccessHandler(),
+            $this->node_id,
+            $this,
+            "share"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render() . $this->footer);
     }
 
     public function addPermissionHandler(): void
@@ -281,9 +290,8 @@ class ilWorkspaceAccessGUI
         }
     }
 
-    public function removePermission(): void
+    public function removePermission(int $obj_id): void
     {
-        $obj_id = $this->std_request->getObjId();
         if ($obj_id !== 0) {
             $this->getAccessHandler()->removePermission($this->node_id, $obj_id);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_removed"), true);

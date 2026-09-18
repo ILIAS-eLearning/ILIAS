@@ -51,7 +51,7 @@ The Accessibility and Language Expert Group is concerned with the entire ILIAS u
 ### Security Expert Group
 The Security Expert Group can be reached through its own email address (security@lists.ilias.de).
 More information on the Security Expert Group can be found in the
-[Documentation of the Security Group](security.md).
+[Documentation of the Security Group](../../SECURITY.md).
 
 ### Privacy Expert Group
 The Privacy Expert Group provides specialized expertise to help solve specific data privacy problems as well as assist with general data privacy-related issues. The group can be reached directly via email at privacy@lists.ilias.de.

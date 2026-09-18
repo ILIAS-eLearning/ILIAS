@@ -975,6 +975,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
 
             case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->checkPermission('write');
                 $this->setTitleAndDescription();
                 $this->setSubTabs('authSettings');
                 $this->tabs_gui->activateTab('authentication_settings');
@@ -1122,11 +1123,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 ''
             );
 
-            $this->tabs_gui->addSubTab(
-                'style',
-                $this->lng->txt('cont_style'),
-                $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
-            );
+            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+                $this->tabs_gui->addSubTab(
+                    'style',
+                    $this->lng->txt('cont_style'),
+                    $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
+                );
+            }
         }
     }
 
@@ -1161,6 +1164,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
     public function saveApacheSettingsObject(): void
     {
+        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
+            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+        }
+
         $form = (new ApacheAuthSettingsForm(
             $this->ref_id,
             $this,

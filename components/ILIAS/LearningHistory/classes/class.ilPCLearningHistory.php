@@ -178,7 +178,7 @@ class ilPCLearningHistory extends ilPageContent
         string $a_mode
     ): string {
         $user_id = 0;
-        if ($a_mode === "preview" || $a_mode === "presentation" || $a_mode === "print") {
+        if ($a_mode === "preview" || $a_mode === "presentation" || $a_mode === "print" || $a_mode === "offline") {
             if ($this->getPage()->getParentType() === "prtf") {
                 $user_id = ilObject::_lookupOwner($this->getPage()->getPortfolioId());
             }

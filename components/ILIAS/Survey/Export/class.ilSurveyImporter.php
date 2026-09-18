@@ -96,6 +96,12 @@ class ilSurveyImporter extends ilXmlImporter
                 throw new ilObjectNotFoundException("Could not create or load survey " . $a_id);
             }
             $a_mapping->addMapping('components/ILIAS/Survey', 'svy', $a_id, (string) $newObj->getId());
+            $a_mapping->addMapping(
+                "components/ILIAS/Tracking",
+                "obj",
+                $a_id,
+                (string) $newObj->getId()
+            );
             $this->setSurvey($newObj);
 
 

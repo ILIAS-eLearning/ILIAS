@@ -2596,36 +2596,21 @@ class ilPageObjectGUI
         bool $a_enable_public_notes = false,
         bool $a_enable_notes_deletion = false,
         ?callable $a_callback = null,
-        bool $export = false
+        bool $export = false,
+        bool $a_repository_mode = true
     ): string {
         // scorm 2004 page gui
         if (!$a_content_object) {
             throw new ilException("No content object given.");
-            /*
-            $notes_gui = new ilNoteGUI(
-                $this->notes_parent_id,
-                $this->obj->getId(),
-                "pg"
-            );
-
-            $a_enable_private_notes = true;
-            $a_enable_public_notes = true;
-            $a_enable_notes_deletion = false;
-            $notes_gui->setUseObjectTitleHeader(false);*/
         }
         // wiki page gui, blog posting gui
         else {
-            /*
-            $notes_gui = new ilNoteGUI(
-                $a_content_object->getParentId(),
-                $a_content_object->getId(),
-                $a_content_object->getParentType()
-            );*/
             $comments_gui = $this->notes->gui()->getCommentsGUI(
                 $a_content_object->getParentId(),
                 $a_content_object->getId(),
                 $a_content_object->getParentType()
             );
+            $comments_gui->setRepositoryMode($a_repository_mode);
             $comments_gui->setUseObjectTitleHeader(false);
         }
 

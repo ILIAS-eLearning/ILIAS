@@ -26,6 +26,8 @@ use ILIAS\Portfolio\StandardGUIRequest;
  */
 class ilPortfolioRepositoryGUI
 {
+    protected \ILIAS\PersonalWorkspace\InternalGUIService $workspace_gui;
+    protected \ILIAS\Portfolio\InternalDomainService $domain;
     protected \ILIAS\Portfolio\InternalGUIService $gui;
     protected StandardGUIRequest $port_request;
     protected ilLanguage $lng;
@@ -45,31 +47,30 @@ class ilPortfolioRepositoryGUI
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
-        $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC["tpl"];
-        $this->tabs = $DIC->tabs();
-        $this->help = $DIC["ilHelp"];
-        $this->locator = $DIC["ilLocator"];
-        $this->toolbar = $DIC->toolbar();
-        $this->settings = $DIC->settings();
-        $this->ui = $DIC->ui();
-        $lng = $DIC->language();
-        $ilUser = $DIC->user();
+        $service = $DIC->portfolio()->internal();
+        $this->workspace_gui = $DIC->personalWorkspace()->internal()->gui();
+        $this->domain = $service->domain();
+        $this->gui = $service->gui();
 
-        $lng->loadLanguageModule("prtf");
-        $lng->loadLanguageModule("user");
+        $this->lng = $this->domain->lng();
+        $this->user = $this->domain->user();
+        $this->ctrl = $this->gui->ctrl();
+        $this->tpl = $this->gui->ui()->mainTemplate();
+        $this->tabs = $this->gui->tabs();
+        $this->help = $this->gui->help();
+        $this->locator = $this->gui->locator();
+        $this->toolbar = $this->gui->toolbar();
+        $this->settings = $this->domain->settings();
+        $this->ui = $this->gui->ui();
+
+        $this->lng->loadLanguageModule("prtf");
+        $this->lng->loadLanguageModule("user");
 
         $this->access_handler = new ilPortfolioAccessHandler();
 
-        $this->port_request = $DIC->portfolio()
-            ->internal()
-            ->gui()
-            ->standardRequest();
+        $this->port_request = $this->gui->standardRequest();
 
-        $this->user_id = $ilUser->getId();
-        $this->gui = $DIC->portfolio()->internal()->gui();
+        $this->user_id = $this->user->getId();
     }
 
     public function executeCommand(): void
@@ -452,35 +453,52 @@ class ilPortfolioRepositoryGUI
     protected function showOther(
         bool $a_load_data = true
     ): void {
-        $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $ilTabs->activateTab("otpf");
-        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess(), null, $a_load_data);
-        $tpl->setContent($tbl->getHTML());
+        $work_gui = $this->workspace_gui;
+        $filter = $work_gui->workspaceShareFilter(
+            "workspace_share_1_filter",
+            $this,
+            "showOther",
+            $this->getWorkspaceAccess(),
+            true
+        );
+        $filter_data = $filter->getData() ?? [];
+        $show_data = $a_load_data || $this->hasShareFilterData($filter_data);
+        $content = $filter->render();
+
+        if ($show_data) {
+            $table = $work_gui->workspaceShareTableBuilder(
+                $this->getWorkspaceAccess(),
+                true,
+                0,
+                $this,
+                "showOther"
+            )->getTable()->filterData($filter_data);
+            if ($table->handleCommand()) {
+                return;
+            }
+            $content .= $table->render();
+        }
+
+        $this->tpl->setContent($content);
     }
 
     protected function applyShareFilter(): void
     {
-        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess());
-        $tbl->resetOffset();
-        $tbl->writeFilterToSession();
-
         $this->showOther();
     }
 
     protected function resetShareFilter(): void
     {
-        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess());
-        $tbl->resetOffset();
-        $tbl->resetFilter();
-
         $this->showOther(false);
     }
 
-    public function redirectSendMailToSharer(): void
+    public function redirectSendMailToSharer(string $share_id): void
     {
-        $owner_id = $this->port_request->getOwnerId();
-        $prt_id = $this->port_request->getPortfolioId();
+        $parts = explode("_", $share_id);
+        $owner_id = isset($parts[0]) && ctype_digit($parts[0]) ? (int) $parts[0] : 0;
+        $prt_id = isset($parts[1]) && ctype_digit($parts[1]) ? (int) $parts[1] : 0;
 
         if ($owner_id > 0) {
             $login = ilObjUser::_lookupLogin($owner_id);
@@ -503,6 +521,17 @@ class ilPortfolioRepositoryGUI
                 )
             ));
         }
+    }
+
+    protected function hasShareFilterData(array $filter_data): bool
+    {
+        foreach (["user", "title", "acl_type", "acl_date"] as $key) {
+            if (!empty($filter_data[$key])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

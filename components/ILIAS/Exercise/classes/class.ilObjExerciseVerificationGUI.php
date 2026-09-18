@@ -33,17 +33,8 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 
     public function create(): void
     {
-        $ilTabs = $this->tabs_gui;
-
-        $this->lng->loadLanguageModule("excv");
-
-        $ilTabs->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "cancel")
-        );
-
-        $table = new ilExerciseVerificationTableGUI($this, "create");
-        $this->tpl->setContent($table->getHTML());
+        // creation has been deactivated with f63a5364231eb0a4cd4f19de1474c8915f63bbef
+        return;
     }
 
     /**

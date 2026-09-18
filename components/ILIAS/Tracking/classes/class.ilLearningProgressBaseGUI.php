@@ -123,11 +123,29 @@ abstract class ilLearningProgressBaseGUI
 
     final public function executeCommand(): void
     {
-        $has_access = ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
+        $has_access = false;
+        if ($this->getMode() === self::LP_CONTEXT_REPOSITORY) {
+            $has_access = ilLearningProgressAccess::checkAccess($this->getRefId());
+        } elseif ($this->getMode() === self::LP_CONTEXT_ADMINISTRATION) {
+            $has_access = ilObjUserTracking::_hasLearningProgressOtherUsers();
+        } elseif ($this->getMode() === self::LP_CONTEXT_USER_FOLDER) {
+            $has_access = $this->access->checkAccess('read', '', $this->getRefId());
+        } elseif ($this->getMode() === self::LP_CONTEXT_ORG_UNIT) {
+            $has_access = ilObjOrgUnitAccess::_checkAccessToUserLearningProgress($this->getRefId(), $this->getUserId());
+        } elseif ($this->getMode() === self::LP_CONTEXT_PERSONAL_DESKTOP) {
+            if ($this instanceof ilLPListOfProgressGUI ||
+                (
+                    $this instanceof ilLearningProgressGUI && ($this->__getNextClass() === strtolower(ilLPListOfProgressGUI::class))
+                )
+            ) {
+                $has_access = ilObjUserTracking::_hasLearningProgressLearner();
+            } else {
+                $has_access = ilObjUserTracking::_hasLearningProgressOtherUsers();
+            }
+        }
         if ($has_access) {
             $this->handleCommand();
-        }
-        if (!$has_access) {
+        } else {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
     }

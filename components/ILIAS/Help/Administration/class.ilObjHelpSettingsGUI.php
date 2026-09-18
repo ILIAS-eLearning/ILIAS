@@ -130,9 +130,17 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         }
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this), true);
 
-        $table = new ilHelpModuleTableGUI($this, "editSettings", $this->checkPermissionBool("write"));
+        $table = $this->gui->moduleTableBuilder(
+            $this->checkPermissionBool("write"),
+            $this,
+            "editSettings"
+        )->getTable();
 
-        $this->tpl->setContent($table->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($table->render());
     }
 
     public function getAdminTabs(): void
@@ -173,52 +181,44 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "editSettings");
     }
 
-    public function confirmHelpModulesDeletion(): void
+    public function confirmHelpModuleDeletion(int $module_id): void
     {
         $this->checkPermission("write");
 
-        $ids = $this->help_request->getIds();
-
-        if (count($ids) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "editSettings");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($this->ctrl->getFormAction($this));
-            $cgui->setHeaderText($this->lng->txt("help_sure_delete_help_modules"));
-            $cgui->setCancel($this->lng->txt("cancel"), "editSettings");
-            $cgui->setConfirm($this->lng->txt("delete"), "deleteHelpModules");
-
-            foreach ($ids as $i) {
-                $cgui->addItem("id[]", $i, $this->domain->module()->lookupModuleLmId($i));
-            }
-
-            $this->tpl->setContent($cgui->getHTML());
-        }
+        $this->ctrl->setParameterByClass(self::class, "hm_id", $module_id);
+        $this->gui->moduleTableBuilder(
+            true,
+            $this,
+            "editSettings"
+        )->getTable()->renderDeletionConfirmation(
+            $this->lng->txt("help_sure_delete_help_modules"),
+            $this->lng->txt("help_sure_delete_help_modules"),
+            "deleteHelpModule",
+            [
+                $module_id => $this->domain->module()->lookupModuleTitle($module_id)
+            ]
+        );
     }
 
-    public function deleteHelpModules(): void
+    public function deleteHelpModule(): void
     {
         $this->checkPermission("write");
-        $ids = $this->help_request->getIds();
-        foreach ($ids as $i) {
-            $this->domain->module()->deleteModule((int) $i);
-        }
+        $this->domain->module()->deleteModule($this->help_request->getHelpModuleId());
         $this->ctrl->redirect($this, "editSettings");
     }
 
-    public function activateModule(): void
+    public function activateModule(int $module_id): void
     {
         $this->checkPermission("write");
-        $this->domain->module()->activate($this->help_request->getHelpModuleId());
+        $this->domain->module()->activate($module_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editSettings");
     }
 
-    public function deactivateModule(): void
+    public function deactivateModule(int $module_id): void
     {
         $this->checkPermission("write");
-        $this->domain->module()->deactivate($this->help_request->getHelpModuleId());
+        $this->domain->module()->deactivate($module_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editSettings");
     }
@@ -240,7 +240,15 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
     public function saveOrdering(): void
     {
         $this->checkPermission("write");
-        $this->domain->module()->saveOrder($this->help_request->getOrder());
+        $table = $this->gui->moduleTableBuilder(true, $this, "editSettings")->getTable();
+        $data = $table->getData();
+        $order = [];
+        if (is_array($data)) {
+            foreach ($data as $position => $module_id) {
+                $order[(int) $module_id] = ($position + 1) * 10;
+            }
+        }
+        $this->domain->module()->saveOrder($order);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editSettings");
     }

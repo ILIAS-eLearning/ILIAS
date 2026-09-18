@@ -335,6 +335,7 @@ export default class PageUI {
 
       const originalHTML = area.innerHTML;
       area.innerHTML = uiModel.dropdown;
+      il.UI.dropdown.init(area.querySelector('div.dropdown'));
 
       this.log(uiModel.dropdown);
 
@@ -768,7 +769,7 @@ export default class PageUI {
     single.classList.remove('engaged');
     multi.disabled = false;
     single.disabled = false;
-    if (model.getState() === model.STATE_PAGE) {
+    if (model.getState() !== model.STATE_MULTI_ACTION) {
       // multi.disabled = false;
       // single.disabled = true;
       single.classList.add('engaged');

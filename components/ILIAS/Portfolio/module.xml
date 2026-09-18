@@ -7,8 +7,8 @@
 	</baseclasses>
 	<objects>
 		<object id="prtf" class_name="Portfolio" dir="classes"
-			checkbox="0" inherit="0" translate="0" rbac="0" workspace="0" repository="0">
-			<sub_type id="pfpg" amet="1" offline_handling="1" />
+			checkbox="0" inherit="0" translate="0" rbac="0" workspace="0" repository="0" offline_handling="1">
+			<sub_type id="pfpg" amet="1" />
 		</object>
 		<object id="prtt" class_name="PortfolioTemplate" dir="Template" default_pos="500" default_pres_pos="500"
 			checkbox="1" inherit="0" translate="0" allow_link="1" allow_copy="1"

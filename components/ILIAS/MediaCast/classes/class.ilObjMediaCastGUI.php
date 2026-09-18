@@ -251,53 +251,32 @@ class ilObjMediaCastGUI extends ilObjectGUI
         ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $new_object->getRefId() . "&cmd=editSettings");
     }
 
-    public function listItemsObject(bool $a_presentation_mode = false): void
+    public function listItemsObject(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-        $ilAccess = $this->access;
-        $ilToolbar = $this->toolbar;
-
+        $il_toolbar = $this->toolbar;
         $this->checkPermission("write");
 
-        if ($a_presentation_mode) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("mcst_view_abandoned"));
-            return;
-        }
+        $this->addContentSubTabs("manage");
 
-        if ($a_presentation_mode) {
-            $this->addContentSubTabs("content");
+        if (in_array($this->object->getViewMode(), [
+            ilObjMediaCast::VIEW_VCAST,
+            ilObjMediaCast::VIEW_IMG_GALLERY,
+            ilObjMediaCast::VIEW_PODCAST
+        ], true)) {
+            $il_toolbar->addButton(
+                $lng->txt("add"),
+                $this->ctrl->getLinkTargetByClass("ilMediaCreationGUI", "")
+            );
         } else {
-            $this->addContentSubTabs("manage");
-        }
-
-        $med_items = $this->object->getSortedItemsArray();
-
-        if ($a_presentation_mode) {
-            $table_gui = new ilMediaCastTableGUI($this, "showContent", false, true);
-        } else {
-            $table_gui = new ilMediaCastTableGUI($this, "listItems");
-        }
-
-        $table_gui->setData($med_items);
-
-        if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) && !$a_presentation_mode) {
-            if (in_array($this->object->getViewMode(), [
-                ilObjMediaCast::VIEW_VCAST,
-                ilObjMediaCast::VIEW_IMG_GALLERY,
-                ilObjMediaCast::VIEW_PODCAST
-            ], true)) {
-                $ilToolbar->addButton($lng->txt("add"), $this->ctrl->getLinkTargetByClass("ilMediaCreationGUI", ""));
-            } else {
-                $ilToolbar->addButton($lng->txt("add"), $this->ctrl->getLinkTarget($this, "addCastItem"));
-            }
-
-            $table_gui->addMultiCommand("confirmDeletionItems", $lng->txt("delete"));
-            $table_gui->setSelectAllCheckbox("item_id");
+            $il_toolbar->addButton(
+                $lng->txt("add"),
+                $this->ctrl->getLinkTarget($this, "addCastItem")
+            );
         }
 
         $new_table = $this->getManageTableGUI();
-
         $script = <<<EOT
 <script>
     window.addEventListener('load', (event) => {
@@ -310,7 +289,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
     });
 </script>
 EOT;
-        $tpl->setContent($this->gui->ui()->renderer()->render($new_table->get()) . $script);
+        if ($new_table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($new_table->render() . $script);
     }
 
     public function tableCommandObject(): void
@@ -319,9 +301,14 @@ EOT;
         $new_table->handleCommand();
     }
 
-    protected function getManageTableGUI(): ilMediaCastManageTableGUI
+    protected function getManageTableGUI(): \ILIAS\Repository\Table\TableAdapterGUI
     {
-        return $this->gui->getMediaCastManageTableGUI($this, "tableCommand");
+        return $this->gui->mediaCastTableBuilder(
+            $this->object,
+            $this->object->getOrder() === ilObjMediaCast::ORDER_MANUAL,
+            $this,
+            "tableCommand"
+        )->getTable();
     }
 
     public function getFeedLink(): string
@@ -357,9 +344,9 @@ EOT;
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    public function editCastItemObject(): void
+    public function editCastItemObject(?int $item_id = null): void
     {
-        $item_id = $this->mc_request->getItemId();
+        $item_id ??= $this->mc_request->getItemId();
         $this->ctrl->setParameterByClass(self::class, "item_id", $item_id);
 
         $tpl = $this->tpl;
@@ -368,9 +355,7 @@ EOT;
 
         $this->checkPermission("write");
 
-        $this->mcst_item = new ilNewsItem(
-            $this->mc_request->getItemId()
-        );
+        $this->mcst_item = new ilNewsItem($item_id);
 
         // conversion toolbar
         $this->video_gui->addPreviewExtractionToToolbar(
@@ -833,10 +818,10 @@ EOT;
         }
     }
 
-    public function showCastItemObject(): void
+    public function showCastItemObject(?int $item_id = null): void
     {
         $f = $this->gui->ui()->factory();
-        $item_id = $this->mc_request->getItemId();
+        $item_id ??= $this->mc_request->getItemId();
         $news = new ilNewsItem($item_id);
         $mob = new ilObjMediaObject($news->getMobId());
         $med = $mob->getMediaItem("Standard");
@@ -861,12 +846,12 @@ EOT;
         )->content([$comp])->send();
     }
 
-    public function confirmItemDeletionObject(): void
+    public function confirmItemDeletionObject(?int $item_id = null): void
     {
         $items = [];
         $f = $this->gui->ui()->factory();
         $r = $this->gui->ui()->renderer();
-        $ids = $this->mc_request->getItemIds();
+        $ids = $item_id === null ? $this->mc_request->getItemIds() : [$item_id];
         if (current($ids) === 'ALL_OBJECTS') {
             $arr = $this->object->getSortedItemsArray();
             $ids = array_keys($arr);
@@ -944,13 +929,13 @@ EOT;
     /**
      * Download news media item
      */
-    public function downloadItemObject(): void
+    public function downloadItemObject(?int $item_id = null): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
         $this->checkPermission("read");
-        $news_item = new ilNewsItem($this->mc_request->getItemId());
+        $news_item = new ilNewsItem($item_id ?? $this->mc_request->getItemId());
         $this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
         if (!$news_item->deliverMobFile(
             "Standard",
@@ -961,12 +946,12 @@ EOT;
         exit;
     }
 
-    public function determinePlaytimeObject(): void
+    public function determinePlaytimeObject(?int $item_id = null): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $mc_item = new ilNewsItem($this->mc_request->getItemId());
+        $mc_item = new ilNewsItem($item_id ?? $this->mc_request->getItemId());
         $mob = $mc_item->getMobId();
         $mob = new ilObjMediaObject($mob);
         $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
@@ -1134,14 +1119,6 @@ EOT;
                 $lng->txt("mcst_manage"),
                 $this->ctrl->getLinkTarget($this, "listItems")
             );
-
-            if ($this->object->getOrder() == ilObjMediaCast::ORDER_MANUAL) {
-                $ilTabs->addSubTab(
-                    "sorting",
-                    $lng->txt("mcst_ordering"),
-                    $this->ctrl->getLinkTarget($this, "editOrder")
-                );
-            }
         }
 
         $ilTabs->activateSubTab($a_active);
@@ -1232,55 +1209,23 @@ EOT;
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    protected function editOrderObject(): void
-    {
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-
-        $this->checkPermission("write");
-        $ilTabs->activateTab("edit_content");
-
-        $this->addContentSubTabs("sorting");
-
-        // sort by order setting
-        switch ($this->object->getOrder()) {
-            case ilObjMediaCast::ORDER_TITLE:
-            case ilObjMediaCast::ORDER_CREATION_DATE_ASC:
-            case ilObjMediaCast::ORDER_CREATION_DATE_DESC:
-                $this->listItemsObject();
-                return;
-
-            case ilObjMediaCast::ORDER_MANUAL:
-                // sub-tabs
-                break;
-        }
-
-        $table_gui = new ilMediaCastTableGUI($this, "editOrder", true);
-
-        $table_gui->setTitle($lng->txt("mcst_media_cast"));
-        $table_gui->setData($this->object->getSortedItemsArray());
-
-        $table_gui->addCommandButton("saveOrder", $lng->txt("mcst_save_order"));
-
-        $tpl->setContent($table_gui->getHTML());
-    }
-
     public function saveOrderObject(): void
     {
         $lng = $this->lng;
 
-        $ids = $this->mc_request->getItemIds();
-        asort($ids);
-
-        $items = array();
-        foreach (array_keys($ids) as $id) {
-            $items[] = $id;
+        $table = $this->gui->mediaCastTableBuilder(
+            $this->object,
+            true,
+            $this,
+            "listItems"
+        )->getTable();
+        $items = $table->getData();
+        if (is_array($items)) {
+            $this->object->saveOrder(array_map('intval', $items));
         }
-        $this->object->saveOrder($items);
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
-        $this->ctrl->redirect($this, "editOrder");
+        $this->ctrl->redirect($this, "listItems");
     }
 
     ////
@@ -1335,8 +1280,6 @@ EOT;
                 false
             ));
             $view->show();
-        } else {
-            $this->listItemsObject(true);
         }
 
         $tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());

@@ -435,6 +435,9 @@ class IRSSWrapper
             $this->irss->consume()->stream($this->getResourceIdForIdString($container_id))->getStream()
         );
         [$stream, $info] = $reader->getItem($path);
+        if (!isset($info['basename']) && !str_starts_with($path, "/")) {
+            [$stream, $info] = $reader->getItem("/" . $path);   // try "/" variant
+        }
 
         $this->file_delivery->delivery()->deliver(
             $stream,

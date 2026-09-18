@@ -14,4 +14,7 @@
 			<parent id="root">root</parent>		
 		</object>	
 	</objects>
+	<events>
+		<event type="listen" id="components/ILIAS/ILIASObject" />
+	</events>
 </module>

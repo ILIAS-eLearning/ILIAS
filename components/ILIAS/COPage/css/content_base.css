@@ -258,3 +258,9 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 .il-copg-mob-fullscreen {
 	height: calc(90vh - 160px);
 }
+
+/* 48324 */
+.ilc_Mob .il-video-container video,
+.ilc_Mob .il-video-container iframe {
+	display: block;
+}

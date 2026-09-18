@@ -436,7 +436,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $subtypes
             )]
         );
-        $gui->render();
+        $gui->renderToolbarAction();
     }
 
     public function getCreatableObjectTypes(): array

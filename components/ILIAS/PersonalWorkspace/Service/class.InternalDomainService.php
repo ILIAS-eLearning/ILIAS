@@ -43,4 +43,30 @@ class InternalDomainService
         $this->repo_service = $repo_service;
         $this->data_service = $data_service;
     }
+
+    public function workspaceShareRetrieval(
+        \ilWorkspaceAccessHandler|\ilPortfolioAccessHandler $handler,
+        bool $portfolio_mode,
+        array $crs_ids,
+        array $grp_ids
+    ): WorkspaceShareRetrieval {
+        return new WorkspaceShareRetrieval(
+            $handler,
+            $portfolio_mode,
+            $crs_ids,
+            $grp_ids,
+            $this->lng()
+        );
+    }
+
+    public function workspaceAccessRetrieval(
+        \ilWorkspaceAccessHandler|\ilPortfolioAccessHandler $handler,
+        int $node_id
+    ): WorkspaceAccessRetrieval {
+        return new WorkspaceAccessRetrieval(
+            $handler,
+            $node_id,
+            $this->lng()
+        );
+    }
 }

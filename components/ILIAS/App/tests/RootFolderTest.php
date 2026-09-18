@@ -46,6 +46,7 @@ final class RootFolderTest extends TestCase
         'package.json',
         'package_new.json',
         'README.md',
+        'SECURITY.md',
         'unzip_test_file.zip',
         '.DS_Store',
         '.buildpath',

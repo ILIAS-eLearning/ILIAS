@@ -19,6 +19,8 @@
 use ILIAS\Portfolio\StandardGUIRequest;
 use ILIAS\Portfolio\PortfolioPrintViewProviderGUI;
 use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Table\TableAdapterGUI;
 
 /**
  * Portfolio view gui base class
@@ -275,6 +277,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
     abstract public function getPageGUIClassName(): string;
 
+    protected function getPortfolioPageTable(): TableAdapterGUI
+    {
+        return $this->gui->portfolioPageTableBuilder(
+            $this->getObject()->getId(),
+            $this,
+            "view"
+        )->getTable();
+    }
+
     /**
      * Show list of portfolio pages
      */
@@ -334,10 +345,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $ilToolbar->addComponent($modal_elements->button);
         }
 
-        $table = new ilPortfolioPageTableGUI($this, "view");
+        $table = $this->getPortfolioPageTable();
+        if ($table->handleCommand()) {
+            return;
+        }
 
-
-        $this->tpl->setContent($table->getHTML() . $modal_html);
+        $this->tpl->setContent($table->render() . $modal_html);
     }
 
     public function getPrintView(): \ILIAS\Export\PrintProcessGUI
@@ -476,39 +489,48 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             return;
         }
 
-        $title_changes = array();
-
-        $order = $this->port_request->getOrder();
-        $titles = $this->port_request->getTitles();
-        if (count($order) > 0) {
-            foreach ($order as $k => $v) {
-                $page = $this->getPageInstance(ilUtil::stripSlashes($k));
-                if ($titles[$k] ?? "") {
-                    $new_title = $titles[$k] ?? "";
-                    if ($page->getTitle() != $new_title) {
-                        $title_changes[$page->getId()] = array("old" => $page->getTitle(), "new" => $new_title);
-                        $page->setTitle($new_title);
-                    }
+        $order = $this->getPortfolioPageTable()->getData();
+        if (is_array($order)) {
+            $order_nr = 10;
+            foreach ($order as $id) {
+                $page = $this->getPageInstance((int) $id);
+                if ($page->getPortfolioId() !== $this->object->getId()) {
+                    continue;
                 }
-                $page->setOrderNr(ilUtil::stripSlashes($v));
+                $page->setOrderNr($order_nr);
                 $page->update();
+                $order_nr += 10;
             }
             ilPortfolioPage::fixOrdering($this->object->getId());
         }
-
-        $this->object->fixLinksOnTitleChange($title_changes);
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "view");
     }
 
-    public function confirmPortfolioPageDeletion(): void
+    public function confirmPortfolioPageDeletion(?int $page_id = null): void
     {
-        $prtf_pages = $this->port_request->getPortfolioPageIds();
+        $prtf_pages = $page_id !== null
+            ? [$page_id]
+            : $this->port_request->getPortfolioPageIds();
+
+        if ($page_id !== null) {
+            $page = $this->getPageInstance($page_id);
+            if ($page->getPortfolioId() !== $this->object->getId()) {
+                $prtf_pages = [];
+            }
+        }
 
         if (count($prtf_pages) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "view");
+        } elseif ($page_id !== null) {
+            $this->getPortfolioPageTable()->renderDeletionConfirmation(
+                $this->lng->txt("prtf_sure_delete_portfolio_pages"),
+                $this->lng->txt("prtf_sure_delete_portfolio_pages"),
+                "deletePortfolioPages",
+                [$page_id => $this->getPageInstance($page_id)->getTitle()]
+            );
         } else {
             $this->tabs_gui->activateTab("pages");
 
@@ -538,12 +560,68 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             return;
         }
 
-        $page_ids = $this->port_request->getPortfolioPageIds();
+        $page_ids = $this->getPortfolioPageTable()->getItemIds();
+        if (count($page_ids) === 0) {
+            $page_ids = $this->port_request->getPortfolioPageIds();
+        }
         foreach ($page_ids as $id) {
             $page = $this->getPageInstance($id);
             $page->delete();
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_page_deleted"), true);
+        $this->ctrl->redirect($this, "view");
+    }
+
+    protected function getEditTitleForm(int $page_id): FormAdapterGUI
+    {
+        $this->ctrl->setParameterByClass(static::class, "edit_id", $page_id);
+        return $this->gui->form([static::class], "saveTitle")
+            ->text(
+                "title",
+                $this->lng->txt("title"),
+                "",
+                $this->getPageInstance($page_id)->getTitle(),
+                200
+            );
+    }
+
+    public function editTitle(int $page_id): void
+    {
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("edit_page"))
+            ->form($this->getEditTitleForm($page_id))
+            ->send();
+    }
+
+    public function saveTitle(): void
+    {
+        if (!$this->checkPermissionBool("write")) {
+            return;
+        }
+
+        $page_id = $this->port_request->getEditPageId();
+        $page = $this->getPageInstance($page_id);
+        if ($page->getPortfolioId() !== $this->object->getId()) {
+            $this->ctrl->redirect($this, "view");
+        }
+
+        $form = $this->getEditTitleForm($page_id);
+        if ($form->isValid()) {
+            $new_title = $form->getData("title");
+            $title_changes = [];
+            if ($page->getTitle() !== $new_title) {
+                $title_changes[$page_id] = [
+                    "old" => $page->getTitle(),
+                    "new" => $new_title
+                ];
+                $page->setTitle($new_title);
+                $page->update();
+                $this->object->fixLinksOnTitleChange($title_changes);
+            }
+        }
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->setParameterByClass(self::class, "edit_id", "");
         $this->ctrl->redirect($this, "view");
     }
 
@@ -814,9 +892,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      * Select target portfolio for page(s) copy
      */
     public function copyPageForm(
-        ?ilPropertyFormGUI $a_form = null
+        int|ilPropertyFormGUI|null $page_id_or_form = null
     ): void {
-        $prtf_pages = $this->port_request->getPortfolioPageIds();
+        $a_form = $page_id_or_form instanceof ilPropertyFormGUI
+            ? $page_id_or_form
+            : null;
+        $prtf_pages = is_int($page_id_or_form)
+            ? [$page_id_or_form]
+            : $this->port_request->getPortfolioPageIds();
 
         if (count($prtf_pages) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);

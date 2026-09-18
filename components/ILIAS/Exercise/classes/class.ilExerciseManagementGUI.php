@@ -580,6 +580,97 @@ class ilExerciseManagementGUI
         $ilCtrl->redirect($this, "showGradesOverview");
     }
 
+    public function editMark(int $user_id): void
+    {
+        $this->ctrl->setParameter($this, "part_id", $user_id);
+        $this->gui
+            ->modal($this->lng->txt("exc_mark"))
+            ->form($this->getMarkForm($user_id))
+            ->send();
+    }
+
+    protected function getMarkForm(int $user_id): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "part_id", $user_id);
+
+        return $this->gui
+            ->form([self::class], "saveMark")
+            ->asyncModal()
+            ->text(
+                "mark",
+                $this->lng->txt("exc_mark"),
+                "",
+                (string) ilLPMarks::_lookupMark($user_id, $this->exercise->getId())
+            );
+    }
+
+    public function saveMarkObject(): void
+    {
+        $user_id = $this->request->getParticipantId();
+        $form = $this->getMarkForm($user_id);
+        if (!$form->isValid()) {
+            $this->gui
+                ->modal($this->lng->txt("exc_mark"))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        $marks_obj = new ilLPMarks($this->exercise->getId(), $user_id);
+        $marks_obj->setMark($form->getData("mark"));
+        $marks_obj->update();
+        $this->sendGradesModalRedirect();
+    }
+
+    public function editRemark(int $user_id): void
+    {
+        $this->ctrl->setParameter($this, "part_id", $user_id);
+        $this->gui
+            ->modal($this->lng->txt("trac_comment"))
+            ->form($this->getRemarkForm($user_id))
+            ->send();
+    }
+
+    protected function getRemarkForm(int $user_id): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $this->lng->loadLanguageModule("trac");
+        $this->ctrl->setParameter($this, "part_id", $user_id);
+
+        return $this->gui
+            ->form([self::class], "saveRemark")
+            ->asyncModal()
+            ->textarea(
+                "remark",
+                $this->lng->txt("trac_comment"),
+                "",
+                (string) ilLPMarks::_lookupComment($user_id, $this->exercise->getId())
+            );
+    }
+
+    public function saveRemarkObject(): void
+    {
+        $user_id = $this->request->getParticipantId();
+        $form = $this->getRemarkForm($user_id);
+        if (!$form->isValid()) {
+            $this->gui
+                ->modal($this->lng->txt("trac_comment"))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        $marks_obj = new ilLPMarks($this->exercise->getId(), $user_id);
+        $marks_obj->setComment($form->getData("remark"));
+        $marks_obj->update();
+        $this->sendGradesModalRedirect();
+    }
+
+    protected function sendGradesModalRedirect(): void
+    {
+        $target = $this->ctrl->getLinkTarget($this, "showGradesOverview");
+        $this->gui->send("<script>window.location.href = '" . $target . "';</script>");
+    }
+
 
     // TEXT ASSIGNMENT ?!
 
@@ -913,6 +1004,14 @@ class ilExerciseManagementGUI
 
     // Add user as member
 
+    public function showClipboardObject(): void
+    {
+        $rep_search = new ilRepositorySearchGUI();
+        $rep_search->setCallback($this, 'addMembersObject');
+        $this->ctrl->setReturn($this, 'members');
+        $this->ctrl->forwardCommand($rep_search);
+    }
+
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
@@ -1130,13 +1229,19 @@ class ilExerciseManagementGUI
 
         $this->ctrl->setParameter($this, "vw", self::VIEW_GRADES);
 
-        $grades_tab = new ilExGradesTableGUI(
+        $assignments = ilExAssignment::getInstancesByExercise($this->exercise->getId());
+        $grades_table = $this->gui->gradesTableBuilder(
+            $this->exercise,
+            $mem_obj,
+            $assignments,
             $this,
-            "showGradesOverview",
-            $this->service,
-            $mem_obj
-        );
-        $tpl->setContent($grades_tab->getHTML());
+            "showGradesOverview"
+        )->getTable();
+        if ($grades_table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($grades_table->render());
     }
 
     /**
@@ -2193,6 +2298,17 @@ class ilExerciseManagementGUI
             //$obj_dir .
             DIRECTORY_SEPARATOR .
             "index.html";
+        // (migrated) pre ilias 10, esp. portfolio
+        $index_html_file_old =
+            ILIAS_WEB_DIR .
+            DIRECTORY_SEPARATOR .
+            CLIENT_ID .
+            DIRECTORY_SEPARATOR .
+            dirname($zip_internal_path) .
+            DIRECTORY_SEPARATOR .
+            $obj_dir .
+            DIRECTORY_SEPARATOR .
+            "index.html";
         $this->log->debug("index html file: " . $index_html_file);
 
         $web_filesystem = $DIC->filesystem()->web();
@@ -2213,6 +2329,9 @@ class ilExerciseManagementGUI
 
             $submission_repository = $this->service->repo()->submission();
             $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
+            if (!is_file($index_html_file) && is_file($index_html_file_old)) {
+                $index_html_file = $index_html_file_old;
+            }
             ilWACSignedPath::signFolderOfStartFile($index_html_file);
             ilUtil::redirect($index_html_file . "?" . time());
         }

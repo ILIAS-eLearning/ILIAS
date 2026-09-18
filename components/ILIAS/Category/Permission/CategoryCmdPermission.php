@@ -23,6 +23,7 @@ namespace ILIAS\Category\Permission;
 use ILIAS\Repository\Permission\CmdPermission;
 use ILIAS\Category\StandardGUIRequest;
 use ILIAS\Repository\Permission\CmdEntity;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 class CategoryCmdPermission extends CmdPermission
 {
@@ -123,7 +124,7 @@ class CategoryCmdPermission extends CmdPermission
                 \ilObjectContentStyleSettingsGUI::class,
                 \ilDidacticTemplateGUI::class,
                 \ilExportGUI::class,
-                \ilObjectTranslationGUI::class,
+                TranslationGUI::class,
                 \ilTaxonomySettingsGUI::class,
                 \ilObjectMetaDataGUI::class,
                 \ilContainerNewsSettingsGUI::class,

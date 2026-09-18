@@ -34,8 +34,10 @@ class LPMark implements LPMarkInterface
 
     public function __construct()
     {
+        $this->status_changed = '';
         $this->comment = null;
         $this->mark = null;
+        $this->status = 0;
         $this->status_dirty = 0;
         $this->percentage = 0;
         $this->completed = false;

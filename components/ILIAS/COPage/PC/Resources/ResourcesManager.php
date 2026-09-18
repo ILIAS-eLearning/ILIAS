@@ -44,7 +44,7 @@ class ResourcesManager
             if (is_object($c) && $c->nodeName === "ItemGroup") {
                 $id = $c->getAttribute("RefId");
             }
-            if ($id !== "" && !in_array($id, $r_ids)) {
+            if ($id !== "") {
                 $r_ids[] = $id;
             }
         }

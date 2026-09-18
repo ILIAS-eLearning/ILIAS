@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Exercise\GUIRequest;
+use ILIAS\Exercise\PeerReview\Criteria\CriteriaTableBuilder;
 
 /**
  * Class ilExcCriteriaGUI
@@ -34,6 +35,8 @@ class ilExcCriteriaGUI
     protected ilGlobalTemplateInterface $tpl;
     protected int $cat_id;
     protected GUIRequest $request;
+    protected ?CriteriaTableBuilder $table_builder = null;
+    protected ?\ILIAS\Repository\Table\TableAdapterGUI $table = null;
 
     public function __construct(int $a_cat_id)
     {
@@ -85,8 +88,26 @@ class ilExcCriteriaGUI
             "add"
         )->submit()->toToolbar(true);
 
-        $tbl = new ilExcCriteriaTableGUI($this, "view", $this->cat_id);
-        $tpl->setContent($tbl->getHTML());
+        $table = $this->getCriteriaTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
+    }
+
+    protected function getCriteriaTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        if ($this->table === null) {
+            $this->table_builder = $this->gui->peerReview()->criteriaTableBuilder(
+                $this->cat_id,
+                $this,
+                'view'
+            );
+            $this->table = $this->table_builder->getTable();
+        }
+
+        return $this->table;
     }
 
     protected function saveOrder(): void
@@ -97,13 +118,14 @@ class ilExcCriteriaGUI
         $all_cat = ilExcCriteria::getInstancesByParentId($this->cat_id);
 
         $pos = 0;
-        $req_positions = $this->request->getPositions();
-        asort($req_positions);
-        foreach (array_keys($req_positions) as $id) {
-            if (array_key_exists($id, $all_cat)) {
-                $pos += 10;
-                $all_cat[$id]->setPosition($pos);
-                $all_cat[$id]->update();
+        $order = $this->getCriteriaTable()->getData();
+        if (is_array($order)) {
+            foreach ($order as $id) {
+                if (array_key_exists($id, $all_cat)) {
+                    $pos += 10;
+                    $all_cat[$id]->setPosition($pos);
+                    $all_cat[$id]->update();
+                }
             }
         }
 
@@ -111,13 +133,13 @@ class ilExcCriteriaGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    protected function confirmDeletion(): void
+    public function confirmDeletion(array $ids = []): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        $ids = $this->request->getCriteriaIds();
+        $ids = $ids ?: $this->request->getCriteriaIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "view");

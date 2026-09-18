@@ -224,7 +224,12 @@ class LMHtmlExport
 
         $this->export_util->exportSystemStyle(
             [
-                "icon_lm.svg"
+                "icon_lm.svg",
+                "icon_tool.svg",
+                "icon_chp.svg",
+                "icon_glo.svg",
+                "icon_mdia.svg",
+                "icon_faq.svg"
             ]
         );
         $this->export_util->exportCOPageFiles($this->content_style_domain->getEffectiveStyleId(), "lm");
@@ -465,7 +470,7 @@ class LMHtmlExport
         $this->initScreen($lm_page_id, $frame);
 
         if ($frame == "") {
-            if (is_array($exp_id_map) && isset($a_exp_id_map[$lm_page_id])) {
+            if (is_array($exp_id_map) && isset($exp_id_map[$lm_page_id])) {
                 $file = "lm_pg_" . $exp_id_map[$lm_page_id] . $lang_suffix . ".html";
             } else {
                 $file = "lm_pg_" . $lm_page_id . $lang_suffix . ".html";

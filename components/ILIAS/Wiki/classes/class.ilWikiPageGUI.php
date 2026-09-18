@@ -192,7 +192,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 break;
 
             default:
-
                 if (strtolower($ilCtrl->getNextClass()) === "ilpageeditorgui") {
                     self::initEditingJS($this->tpl);
                 }
@@ -611,16 +610,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $tpl = $this->tpl;
 
         //$this->setSideBlock();
-        $table_gui = new ilWikiPagesTableGUI(
-            $this,
-            "whatLinksHere",
-            $this->getWikiPage()->getWikiId(),
-            IL_WIKI_WHAT_LINKS_HERE,
+        $table = $this->wiki_gui->page()->pagesTableBuilder(
+            $this->getWikiRefId(),
+            \ILIAS\Wiki\Page\PagesTableBuilder::MODE_WHAT_LINKS_HERE,
             $this->getId(),
-            $this->wiki_request->getTranslation()
-        );
+            $this->wiki_request->getTranslation(),
+            $this,
+            "whatLinksHere"
+        )->getTable();
 
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     public function getTabs(
@@ -767,7 +769,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         // coming from type selection
         $ordering = $this->wiki_request->getPrintOrdering();
-        if (count($ordering) === 0) {
+        if (count($ordering) === 0 &&
+            $this->wiki_request->getPrintPageSel() != 1) {
             switch ($this->wiki_request->getSelectedPrintType()) {
                 case "wiki":
                     foreach ($this->wiki_pm->getWikiPages($this->getLanguage()) as $p) {
@@ -819,13 +822,32 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
         }
 
-        $tbl = new ilWikiExportOrderTableGUI(
-            $this,
-            "printViewOrderList",
+        $this->ctrl->setParameterByClass(ilObjWikiGUI::class, "print_page_sel", "1");
+        $this->wiki_request->getAllIds();
+        $table = $this->wiki_gui->page()->exportOrderTableBuilder(
             $all_pages,
-            $pg_ids
-        );
-        $this->tpl->setContent($tbl->getHTML());
+            $pg_ids,
+            $this,
+            "printViewOrderList"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $ordered_ids = $table->getData();
+        if ($this->wiki_request->getPrintPageSel() == 1 &&
+            is_array($ordered_ids) && count($ordered_ids) > 0) {
+
+            $page_ids = array_values(array_filter(
+                array_map(static fn($page_id): int => (int) $page_id, $ordered_ids),
+                static fn(int $page_id): bool => $page_id > 0
+            ));
+            $this->ctrl->setParameterByClass("ilObjWikiGUI", "wordr", implode(",", $page_ids));
+            $this->ctrl->redirectByClass("ilObjWikiGUI", "printView");
+        }
+
+        $this->tpl->setContent($table->render());
     }
 
 

@@ -176,6 +176,15 @@ final class ilObjCronGUI extends ilObjectGUI
         return implode('_', array_merge(self::TABLE_ACTION_NAMESPACE, [self::TABLE_ACTION_IDENTIFIER_NAME]));
     }
 
+    private function replaceAdminTabsWithBackToOverview(): void
+    {
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, self::VIEW)
+        );
+    }
+
     /**
      * @param mixed $default
      * @return mixed|null
@@ -223,7 +232,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
         switch (strtolower($class)) {
             case strtolower(ilPropertyFormGUI::class):
-                $this->tabs_gui->activateTab(self::VIEW);
+                $this->replaceAdminTabsWithBackToOverview();
                 $entity = $this->cron_repository->getEntityById(
                     ilUtil::stripSlashes(
                         $this->getRequestValue($this->getJobIdParameterName(), $this->refinery->kindlyTo()->string())
@@ -351,6 +360,7 @@ final class ilObjCronGUI extends ilObjectGUI
             $form = $this->buildForm($entity);
         }
 
+        $this->replaceAdminTabsWithBackToOverview();
         $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
@@ -375,6 +385,7 @@ final class ilObjCronGUI extends ilObjectGUI
             $a_form = $this->initLegacyEditForm($entity);
         }
 
+        $this->replaceAdminTabsWithBackToOverview();
         $this->tpl->setContent($a_form->getHTML());
     }
 

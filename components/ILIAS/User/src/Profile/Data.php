@@ -349,7 +349,7 @@ class Data
         return $this->additional_fields[$identifier] ?? null;
     }
 
-    public function withAdditionalFieldByIdentifier(string $identifier, mixed $value): self
+    public function withAdditionalFieldByIdentifier(string $identifier, array $value): self
     {
         $clone = clone $this;
         $clone->additional_fields[$identifier] = $value;
@@ -363,8 +363,11 @@ class Data
                 array_keys($this->additional_fields),
                 fn(string $c, string $field_id) => $c . array_reduce(
                     $this->additional_fields[$field_id],
-                    fn(string $ci, string $value) => $ci . "({$db->quote($this->id, \ilDBConstants::T_INTEGER)}, "
-                    . "{$db->quote($field_id, \ilDBConstants::T_TEXT)}, {$db->quote($value, \ilDBConstants::T_TEXT)}),",
+                    fn(string $ci, ?string $value) => $value === null
+                        ? $ci
+                        : $ci . "({$db->quote($this->id, \ilDBConstants::T_INTEGER)}," . PHP_EOL
+                            . "{$db->quote($field_id, \ilDBConstants::T_TEXT)}," . PHP_EOL
+                            . "{$db->quote($value, \ilDBConstants::T_TEXT)}),",
                     ''
                 ),
                 ''

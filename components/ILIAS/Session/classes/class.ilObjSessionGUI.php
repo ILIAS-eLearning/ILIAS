@@ -1118,7 +1118,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->object->getRefId()
             )
         );
-        $gui->render();
+        $gui->renderToolbarAction();
         $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
 
         $this->event_items = new ilEventItems($this->object->getId());

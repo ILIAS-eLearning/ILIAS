@@ -82,6 +82,11 @@ class ilSessionExporter extends ilXmlExporter
             "entity" => "tile",
             "ids" => $a_ids);
 
+        $deps[] = [
+            "component" => "components/ILIAS/Tracking",
+            "entity" => "lpsettings",
+            "ids" => $a_ids
+        ];
         return $deps;
     }
 

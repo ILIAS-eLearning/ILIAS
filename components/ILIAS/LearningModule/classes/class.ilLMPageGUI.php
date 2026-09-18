@@ -89,14 +89,18 @@ class ilLMPageGUI extends ilPageObjectGUI
 
         parent::processAnswer();
 
-        //
-        // Send notifications to authors that want to be informed on blocked users
-        //
-
         $parent_id = ilPageObject::lookupParentId(
             $this->pres_request->getQuestionPageId(),
             "lm"
         );
+
+        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+            ilLPStatusWrapper::_updateStatus($parent_id, $ilUser->getId());
+        }
+
+        //
+        // Send notifications to authors that want to be informed on blocked users
+        //
 
         // is restriction mode set?
         if (ilObjContentObject::_lookupRestrictForwardNavigation($parent_id)) {

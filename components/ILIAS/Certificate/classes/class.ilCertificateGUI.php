@@ -417,7 +417,7 @@ class ilCertificateGUI
                         $xslfo,
                         isset($new_background_rid) ? $new_background_rid->serialize() : '',
                         $jsonEncodedTemplateValues,
-                        isset($new_tile_rid) ? $new_background_rid->serialize() : ''
+                        isset($new_tile_rid) ? $new_tile_rid->serialize() : ''
                     ])
                 );
 

@@ -75,4 +75,19 @@ class ilItemGroupDBUpdateSteps implements \ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_4(): void
+    {
+        if ($this->db->tableColumnExists('itgr_data', 'hide_title')) {
+            $this->db->modifyTableColumn('itgr_data', 'hide_title', [
+                'default' => ilItemGroupDisplayMigration::MIGRATED_MARKER,
+            ]);
+        }
+
+        if ($this->db->tableColumnExists('itgr_data', 'behaviour')) {
+            $this->db->modifyTableColumn('itgr_data', 'behaviour', [
+                'default' => ilItemGroupDisplayMigration::MIGRATED_MARKER,
+            ]);
+        }
+    }
 }

@@ -48,4 +48,100 @@ class GUIService
     ): \ilWikiPageGUI {
         return new \ilWikiPageGUI($pg_id, $old_nr, $ref_id, $lang);
     }
+
+    public function pageTemplateTableBuilder(
+        int $wiki_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): PageTemplateTableBuilder {
+        return new PageTemplateTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $wiki_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function pagesTableBuilder(
+        int $ref_id,
+        string $mode,
+        int $page_id,
+        string $lang,
+        object $parent_gui,
+        string $parent_cmd
+    ): PagesTableBuilder {
+        return new PagesTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $ref_id,
+            $mode,
+            $page_id,
+            $lang,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function recentChangesTableBuilder(
+        int $ref_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): RecentChangesTableBuilder {
+        return new RecentChangesTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $ref_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function contributorsTableBuilder(
+        int $wiki_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): ContributorsTableBuilder {
+        return new ContributorsTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $wiki_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function exportOrderTableBuilder(
+        array $all_pages,
+        array $page_ids,
+        object $parent_gui,
+        string $parent_cmd
+    ): ExportOrderTableBuilder {
+        return new ExportOrderTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $all_pages,
+            $page_ids,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function importantPagesTableBuilder(
+        int $ref_id,
+        int $wiki_id,
+        string $start_page,
+        object $parent_gui,
+        string $parent_cmd
+    ): ImportantPagesTableBuilder {
+        return new ImportantPagesTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $ref_id,
+            $wiki_id,
+            $start_page,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

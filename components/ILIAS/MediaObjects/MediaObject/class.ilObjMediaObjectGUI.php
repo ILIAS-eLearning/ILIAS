@@ -30,6 +30,7 @@ use ILIAS\components\ResourceStorage\Container\View\Mode;
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
     protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
+    protected \ILIAS\MediaObjects\InternalGUIService $media_gui;
     protected \ILIAS\MediaObjects\Video\GUIService $video_gui;
     protected ilFileServicesSettings $file_service_settings;
     protected SubtitlesGUIRequest $sub_title_request;
@@ -75,6 +76,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $domain = $DIC->mediaObjects()
                       ->internal()
                       ->domain();
+        $this->media_gui = $DIC->mediaObjects()->internal()->gui();
         $this->media_type = $domain->mediaType();
 
         $this->ctrl = $ilCtrl;
@@ -1037,11 +1039,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $this->object->setDescription($format);
             // determine width and height of known image types
             $wh_input = $form->getInput("standard_width_height");
+            $source = $std_item->getOriginalSource();
+            if ($source === "" && $std_item->getLocationType() === "LocalFile") {
+                $source = $mob_dir . "/" . $location;
+            }
             $wh = ilObjMediaObject::_determineWidthHeight(
                 $format,
                 $form->getInput("standard_type"),
-                $mob_dir . "/" . $location,
-                $std_item->getLocation(),
+                $source,
+                $source,
                 (bool) ($wh_input["constr_prop"] ?? false),
                 ($form->getInput("standard_size") == "original"),
                 ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
@@ -1161,11 +1167,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
                 // determine width and height of known image types
                 $wh_input = $form->getInput("full_width_height");
+                $source = $full_item->getOriginalSource();
+                if ($source === "" && $full_item->getLocationType() === "LocalFile") {
+                    $source = $mob_dir . "/" . $location;
+                }
                 $wh = ilObjMediaObject::_determineWidthHeight(
                     $format,
                     $type,
-                    $mob_dir . "/" . $location,
-                    $full_item->getLocation(),
+                    $source,
+                    $source,
                     (bool) ($wh_input["constr_prop"] ?? false),
                     ($form->getInput("full_size") == "original"),
                     ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
@@ -1247,13 +1257,18 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         /** @var ilObjMediaObject $mob */
         $mob = $this->object;
-        $usages_table = new ilMediaObjectUsagesTableGUI(
-            $this,
-            $cmd,
+        $table = $this->media_gui->mediaObjectUsagesTableBuilder(
             $mob,
-            $a_all
-        );
-        $tpl->setContent($usages_table->getHTML());
+            $a_all,
+            $this,
+            $cmd
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     /**

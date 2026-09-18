@@ -66,7 +66,7 @@ class ilWikiPageTemplateGUI
         switch ($nc) {
             default:
                 $cmd = $this->ctrl->getCmd("listTemplates");
-                if (in_array($cmd, array("listTemplates", "add", "remove", "saveTemplateSettings", "addPageTemplateFromPageAction", "removePageTemplateFromPageAction"))) {
+                if (in_array($cmd, array("listTemplates", "add", "remove", "confirmRemove", "toggleNewPages", "toggleAddToPage", "saveTemplateSettings", "addPageTemplateFromPageAction", "removePageTemplateFromPageAction"))) {
                     $this->$cmd();
                 }
                 break;
@@ -103,10 +103,12 @@ class ilWikiPageTemplateGUI
         $this->toolbar->addInputItem($cb, true);
         $this->toolbar->addFormButton($this->lng->txt("save"), "saveTemplateSettings");
 
-        $tab = new ilWikiPageTemplatesTableGUI($this, "listTemplates", $this->wiki->getId());
-        $tab->setOpenFormTag(false);
-        $tab->setCloseFormTag(true);
-        $this->tpl->setContent($tab->getHTML());
+        $table = $this->getPageTemplateTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($table->render() . "</form>");
     }
 
     public function add(): void
@@ -117,16 +119,81 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
 
-    public function remove(): void
+    protected function getPageTemplateTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        global $DIC;
+
+        return $DIC->wiki()->internal()->gui()->page()->pageTemplateTableBuilder(
+            $this->wiki->getId(),
+            $this,
+            "listTemplates"
+        )->getTable();
+    }
+
+    public function confirmRemove(array $ids = []): void
+    {
+        if (count($ids) === 0) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listTemplates");
+        }
+
+        $items = [];
+        $templates = new ilWikiPageTemplate($this->wiki->getId());
+        foreach ($templates->getAllInfo() as $template) {
+            if (in_array((int) $template['wpage_id'], $ids, true)) {
+                $items[(int) $template['wpage_id']] = $template['title'];
+            }
+        }
+
+        $this->getPageTemplateTable()->renderDeletionConfirmation(
+            $this->lng->txt("wiki_remove_template_status"),
+            $this->lng->txt("wiki_remove_template_status"),
+            "remove",
+            $items
+        );
+    }
+
+    public function remove(array $ids = []): void
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
 
-        $ids = $this->request->getIds();
+        if (count($ids) === 0) {
+            $ids = $this->getPageTemplateTable()->getItemIds();
+        }
         if (count($ids) > 0) {
             foreach ($ids as $id) {
                 $wpt->remove((int) $id);
             }
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("wiki_template_status_removed"), true);
+        }
+
+        $this->ctrl->redirect($this, "listTemplates");
+    }
+
+    public function toggleNewPages(int $id): void
+    {
+        $this->toggleTemplateSetting($id, true);
+    }
+
+    public function toggleAddToPage(int $id): void
+    {
+        $this->toggleTemplateSetting($id, false);
+    }
+
+    protected function toggleTemplateSetting(int $id, bool $new_pages): void
+    {
+        $templates = new ilWikiPageTemplate($this->wiki->getId());
+        foreach ($templates->getAllInfo() as $template) {
+            if ((int) $template['wpage_id'] !== $id) {
+                continue;
+            }
+
+            $templates->save(
+                $id,
+                (int) ($new_pages ? !(bool) $template['new_pages'] : (int) $template['new_pages']),
+                (int) ($new_pages ? (int) $template['add_to_page'] : !(bool) $template['add_to_page'])
+            );
+            break;
         }
 
         $this->ctrl->redirect($this, "listTemplates");

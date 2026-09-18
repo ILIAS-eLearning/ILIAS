@@ -255,6 +255,10 @@ abstract class ilAssQuestionFeedback
                 $property->setUseRte(true);
                 $property->setRteTags(ilRTESettings::_getUsedHTMLTags("assessment"));
                 $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
+                $property->usePurifier(true);
+                $property->setPurifier(
+                    $this->questionOBJ->getHtmlQuestionContentPurifier()
+                );
             } else {
                 $property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
                 $property->setUseTagsForRteOnly(false);

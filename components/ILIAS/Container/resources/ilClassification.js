@@ -76,8 +76,8 @@ class Classification {
   }
 
   toggle(para) {
-    this.loader(`${this.ajax_block_id}_loader`);
-    this.loader(this.ajax_content_id);
+    this.loader(`${this.ajaxBlockId}_loader`);
+    this.loader(this.ajaxContentId);
     if (para.event) {
       para.event.preventDefault();
       para.event.stopPropagation();
@@ -133,5 +133,7 @@ class Classification {
 
 window.addEventListener('load', () => {
   const c = new Classification();
+  window.il = window.il || {};
+  window.il.Classification = c;
   c.init();
 }, false);

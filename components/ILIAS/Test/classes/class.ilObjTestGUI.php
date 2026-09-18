@@ -476,7 +476,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->skills_service,
-                    $this->questionrepository,
+                    $this->content_style,
                     $this->toplist_repository,
                     $this->testrequest,
                     $this->http,
@@ -830,7 +830,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->lng,
                     $this->ctrl,
                     $this->tpl,
-                    $this->questionrepository,
+                    $this->content_style,
                     $this->testrequest
                 );
                 $forwarder->forward();
@@ -1184,6 +1184,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function executeAfterQuestionSaveTasks(assQuestionGUI $question_gui): void
     {
+        $this->addQuestionTitleToObjectTitle($question_gui->getObject()->getTitle());
         if ($this->getTestObject()->getTestLogger()->isLoggingEnabled()) {
             $this->getTestObject()->getTestLogger()->logQuestionAdministrationInteraction(
                 $question_gui->getObject()->toQuestionAdministrationInteraction(
@@ -2768,7 +2769,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->getTestObject()->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed(),
                 $this->getTestObject()->evalTotalPersons() !== 0,
                 $this->getTestObject()->isRandomTest(),
-                $this->test_question_set_config_factory
+                $this->test_question_set_config_factory,
+                $this->response_handler
             );
         }
         return $this->table_actions;

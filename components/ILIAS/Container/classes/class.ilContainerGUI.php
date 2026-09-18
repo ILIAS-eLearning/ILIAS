@@ -355,7 +355,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             $this->buildAddNewItemElements($this->getCreatableObjectTypes())
         );
-        $gui->render();
+        $gui->renderToolbarAction();
     }
 
     public function getContentGUI(): ilContainerContentGUI
@@ -1529,12 +1529,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $suffix = 's';
             }
 
-            $mbox = $ui->factory()->messageBox()->success(
-                $this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix)
-            )
-                       ->withLinks($links);
+            $list = $ui->factory()->listing()->unordered($links);
 
-            $this->tpl->setOnScreenMessage('success', $ui->renderer()->render($mbox), true);
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix) .
+                $ui->renderer()->render($list),
+                true
+            );
         } // END LINK
 
         // clear clipboard

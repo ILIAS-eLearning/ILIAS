@@ -25,6 +25,7 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Help\Map\MapManager;
 use ILIAS\Help\Tooltips\TooltipsManager;
 use ILIAS\Help\Module\ModuleManager;
+use ILIAS\Help\Module\ModuleRetrieval;
 use ILIAS\Help\Presentation\PresentationManager;
 
 class InternalDomainService
@@ -84,6 +85,11 @@ class InternalDomainService
             );
         }
         return $this->container["module"];
+    }
+
+    public function moduleRetrieval(): ModuleRetrieval
+    {
+        return new ModuleRetrieval($this);
     }
 
     public function presentation(): PresentationManager
