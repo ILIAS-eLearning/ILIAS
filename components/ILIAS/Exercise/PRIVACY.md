@@ -2,18 +2,19 @@
 
 > **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
 
-## Integrated Services
+## Integrated Components
 
-- The Exercise component employs the following services, please consult the respective privacy.mds
-- The **Learning Progress** service manages data on access time specifically last time, number of accesses and the progress status specifically in progress, completed for each user accessing the object.
-- The **Metadata** service contains two branches: LOM and custom metdata. The LOM offers storing person dates like author. Custom metadata do contain user-created metadata sets which may contain personal data, which must be individually checked in the global administration.)
+- The Exercise component employs the following services, please consult the respective `PRIVACY.md` files.
+- The **Tracking** service manages data on access time specifically last time, number of accesses and the progress status specifically in progress, completed for each user accessing the object.
+- [Learning Object Metadata](../MetaData/PRIVACY.md)
 - The **Object** service stores the account which created the
-  object as it's owner and creation and update timestamps for the
+  object as its owner and creation and update timestamps for the
   object.
-- [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
-- [Info Screen Service](../../ILIAS/InfoScreen/PRIVACY.md)
-- Dedicated assignment types allow to submit exported ILIAS objects as zip files. These objects are **Portfolios**, **Blogs**, **Wikis**.
-- Evaluation statements and notifications can be sent using the **Mail** service.
+- [AccessControl](../AccessControl/PRIVACY.md)
+- [Info Screen Service](../InfoScreen/PRIVACY.md)
+- [Certificate](../Certificate/PRIVACY.md)
+- Dedicated assignment types allow to submit exported ILIAS objects as zip files. These objects are [Portfolios](../Portfolio/PRIVACY.md), [Blogs](../Blog/PRIVACY.md), [Wikis](../Wiki/PRIVACY.md).
+- Evaluation statements and notifications can be sent using the [Mail](../Mail/PRIVACY.md) service.
 
 ## Configuration
 
