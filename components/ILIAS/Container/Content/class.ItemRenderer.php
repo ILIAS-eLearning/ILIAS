@@ -284,8 +284,7 @@ class ItemRenderer
             $item_list_gui = $this->list_gui[$item_data["type"]];
         }
 
-        // unique js-ids
-        $item_list_gui->setParentRefId((int) ($item_data["parent"] ?? 0));
+        $item_list_gui->setParentRefId((int) ($item_data["block_parent"] ?? $item_data["parent"] ?? 0));
 
         $item_list_gui->setDefaultCommandParameters(array());
         $item_list_gui->disableTitleLink(false);
