@@ -408,9 +408,9 @@ abstract class ilContainerContentGUI
             }
         }
 
-        // determine item groups
+        // determine object groups
         while (preg_match('~\[(item-group-([0-9]*))\]~i', $a_container_page_html, $found)) {
-            $this->addEmbeddedBlock("itgr", (int) $found[2]);
+            $this->addEmbeddedBlock("obgr", (int) $found[2]);
 
             $html = ''; // This was never defined before
             $a_container_page_html = preg_replace('~\[' . $found[1] . '\]~i', $html, $a_container_page_html);
@@ -436,18 +436,18 @@ abstract class ilContainerContentGUI
 
     public function renderPageEmbeddedBlocks(): void
     {
-        // item groups
-        if (isset($this->embedded_block["itgr"]) && is_array($this->embedded_block["itgr"])) {
-            $item_groups = [];
-            if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
-                foreach ($this->items["itgr"] as $ig) {
-                    $item_groups[$ig["ref_id"]] = $ig;
+        // object groups
+        if (isset($this->embedded_block["obgr"]) && is_array($this->embedded_block["obgr"])) {
+            $object_groups = [];
+            if (isset($this->items["obgr"]) && is_array($this->items["obgr"])) {
+                foreach ($this->items["obgr"] as $ig) {
+                    $object_groups[$ig["ref_id"]] = $ig;
                 }
             }
 
-            foreach ($this->embedded_block["itgr"] as $ref_id) {
-                if (isset($item_groups[$ref_id])) {
-                    $this->renderItemGroup($item_groups[$ref_id]);
+            foreach ($this->embedded_block["obgr"] as $ref_id) {
+                if (isset($object_groups[$ref_id])) {
+                    $this->renderObjectGroup($object_groups[$ref_id]);
                 }
             }
         }
@@ -491,7 +491,7 @@ abstract class ilContainerContentGUI
         int $a_position = 0,
         bool $a_force_icon = false,
         string $a_pos_prefix = "",
-        string $item_group_list_presentation = ""
+        string $object_group_list_presentation = ""
     ): RepositoryObject|string|null {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -502,8 +502,8 @@ abstract class ilContainerContentGUI
         }
 
         $view_mode = $this->getViewMode();
-        if ($item_group_list_presentation != "") {
-            $view_mode = ($item_group_list_presentation === "tile")
+        if ($object_group_list_presentation != "") {
+            $view_mode = ($object_group_list_presentation === "tile")
                 ? self::VIEW_MODE_TILE
                 : self::VIEW_MODE_LIST;
         }
@@ -688,13 +688,13 @@ abstract class ilContainerContentGUI
             }
         }
 
-        // insert all item groups
+        // insert all object groups
         while (preg_match('~\[(item-group-([0-9]*))\]~i', $a_output_html, $found)) {
-            $itgr_ref_id = (int) $found[2];
+            $obgr_ref_id = (int) $found[2];
 
             $a_output_html = preg_replace(
                 '~\[' . $found[1] . '\]~i',
-                $this->renderer->renderSingleCustomBlock($itgr_ref_id),
+                $this->renderer->renderSingleCustomBlock($obgr_ref_id),
                 $a_output_html
             );
         }
@@ -752,29 +752,29 @@ abstract class ilContainerContentGUI
         return $tpl->get();
     }
 
-    public function getItemGroupsHTML(int $a_pos = 0): int
+    public function getObjectGroupsHTML(int $a_pos = 0): int
     {
-        if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
-            foreach ($this->items["itgr"] as $itgr) {
-                if (!$this->renderer->hasCustomBlock($itgr["child"])) {
-                    $this->renderItemGroup($itgr);
+        if (isset($this->items["obgr"]) && is_array($this->items["obgr"])) {
+            foreach ($this->items["obgr"] as $obgr) {
+                if (!$this->renderer->hasCustomBlock($obgr["child"])) {
+                    $this->renderObjectGroup($obgr);
 
-                    $this->renderer->setBlockPosition($itgr["ref_id"], ++$a_pos);
+                    $this->renderer->setBlockPosition($obgr["ref_id"], ++$a_pos);
                 }
             }
         }
         return $a_pos;
     }
 
-    public function renderItemGroup(array $a_itgr): void
+    public function renderObjectGroup(array $a_obgr): void
     {
         $ilAccess = $this->access;
         $ilUser = $this->user;
         // #16493
-        $perm_ok = ($ilAccess->checkAccess("visible", "", $a_itgr['ref_id']) &&
-             $ilAccess->checkAccess("read", "", $a_itgr['ref_id']));
+        $perm_ok = ($ilAccess->checkAccess("visible", "", $a_obgr['ref_id']) &&
+             $ilAccess->checkAccess("read", "", $a_obgr['ref_id']));
 
-        $items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
+        $items = ilObjectActivation::getItemsByObjectGroup($a_obgr['ref_id']);
 
         // get all valid ids (this is filtered)
         $all_ids = array_map(static function (array $i): int {
@@ -795,59 +795,59 @@ abstract class ilContainerContentGUI
             return;
         }
 
-        $item_list_gui = $this->getItemGUI($a_itgr);
+        $item_list_gui = $this->getItemGUI($a_obgr);
         $item_list_gui->enableNotes(false);
         $item_list_gui->enableTags(false);
         $item_list_gui->enableComments(false);
         $item_list_gui->enableTimings(false);
         $item_list_gui->getListItemHTML(
-            $a_itgr["ref_id"],
-            $a_itgr["obj_id"],
-            $a_itgr["title"],
-            $a_itgr["description"]
+            $a_obgr["ref_id"],
+            $a_obgr["obj_id"],
+            $a_obgr["title"],
+            $a_obgr["description"]
         );
 
         // determine behaviour
-        $item_group = new ilObjItemGroup($a_itgr['ref_id']);
-        $opened = $this->block_repo->getProperty("itgr_{$a_itgr['ref_id']}", $ilUser->getId(), 'opened');
+        $object_group = new ilObjObjectGroup($a_obgr['ref_id']);
+        $opened = $this->block_repo->getProperty("obgr_{$a_obgr['ref_id']}", $ilUser->getId(), 'opened');
 
-        $this->ctrl->setParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id', "itgr_{$a_itgr['ref_id']}");
+        $this->ctrl->setParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id', "obgr_{$a_obgr['ref_id']}");
         $store_url = $this->ctrl->getLinkTargetByClass(ilContainerBlockPropertiesStorageGUI::class, 'store');
         $this->ctrl->clearParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id');
 
         $this->renderer->addCustomBlock(
-            $a_itgr["ref_id"],
-            $item_group->getShowTitle() || $this->container_gui->isActiveAdministrationPanel() ? $a_itgr['title'] : '',
-            $item_list_gui->getCommandsHTML($a_itgr['title'], false),
+            $a_obgr["ref_id"],
+            $object_group->getShowTitle() || $this->container_gui->isActiveAdministrationPanel() ? $a_obgr['title'] : '',
+            $item_list_gui->getCommandsHTML($a_obgr['title'], false),
             [
-                'behaviour' => $item_group->getBehaviour(in_array($opened, ['0', '1'], true) ? (bool) $opened : null),
+                'behaviour' => $object_group->getBehaviour(in_array($opened, ['0', '1'], true) ? (bool) $opened : null),
                 'store-url' => "./{$store_url}"
             ]
         );
 
-        // render item group sub items
+        // render object group sub items
 
         $items = ilContainerSorting::_getInstance(
             $this->getContainerObject()->getId()
-        )->sortSubItems('itgr', $a_itgr['obj_id'], $items);
+        )->sortSubItems('obgr', $a_obgr['obj_id'], $items);
 
         // #18285
         $items = ilContainer::getCompleteDescriptions($items);
 
         $position = 1;
         foreach ($items as $item) {
-            // we are NOT using hasItem() here, because item might be in multiple item groups
+            // we are NOT using hasItem() here, because item might be in multiple object groups
 
-            $it_pres = $item_group->getListPresentation();
+            $it_pres = $object_group->getListPresentation();
             if ($this->getContainerGUI()->isActiveOrdering() ||
                 $this->getContainerGUI()->isActiveAdministrationPanel()) {
                 $it_pres = "list";
             }
 
-            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]", $it_pres);
+            $html2 = $this->renderItem($item, $position++, false, "[obgr][" . $a_obgr['obj_id'] . "]", $it_pres);
             if ($html2 != "") {
                 // :TODO: show it multiple times?
-                $this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);
+                $this->renderer->addItemToBlock($a_obgr["ref_id"], $item["type"], $item["child"], $html2, true);
             }
         }
     }

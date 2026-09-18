@@ -63,8 +63,8 @@ class Manager
             $new_parent_id = 0;
             if ($grouping->getParentID()) {
                 // see bug #20347
-                // at least in the case of sessions and item groups parent_ids in container sorting are object IDs but $mappings store references
-                if (in_array($grouping->getParentType(), ["sess", "itgr"])) {
+                // at least in the case of sessions and object groups parent_ids in container sorting are object IDs but $mappings store references
+                if (in_array($grouping->getParentType(), ["sess", "obgr"])) {
                     $par_refs = ilObject::_getAllReferences($grouping->getParentID());
                     $par_ref_id = current($par_refs);			// should be only one
                     $logger->debug("Got ref id: " . $par_ref_id . " for obj_id " . $grouping->getParentID() . " map ref id: " . ($mappings[$par_ref_id] ?? "") . ".");

@@ -2043,8 +2043,8 @@ msgid "cont_manifest"
 msgstr "Manifest"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "Sorry. Unable to generate map file for editing."
@@ -4100,3 +4100,5 @@ msgstr "نمایش متن"
 
 msgid "text_repr_info"
 msgstr "برای ویژگی 'alt' عکس مورد استفاده قرار می گیرد."
+
+

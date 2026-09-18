@@ -495,7 +495,7 @@ class ilLOEditorGUI
     {
         $this->tabs->activateSubTab('materials');
 
-        $this->parent_gui->renderAddNewItem('itgr');
+        $this->parent_gui->renderAddNewItem('obgr');
 
         $this->tpl->setOnScreenMessage(
             'info',

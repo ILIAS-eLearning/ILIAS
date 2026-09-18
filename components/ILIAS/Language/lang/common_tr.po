@@ -3131,12 +3131,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Ürün"
 
-msgid "itgr_add"
-msgstr "Öğe Ekle Grubu"
-
-msgid "itgr_new"
-msgstr "Yeni Ürün Grubu"
-
 msgid "java_server"
 msgstr "Java Sunucu"
 
@@ -4549,6 +4543,12 @@ msgstr "Kullanıcı sayısı"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Öğe Ekle Grubu"
+
+msgid "obgr_new"
+msgstr "Yeni Ürün Grubu"
+
 msgid "obj"
 msgstr "Nesne"
 
@@ -4904,9 +4904,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-msgid "obj_itgr"
-msgstr "Ürün Grubu"
-
 msgid "obj_ldap_desc"
 msgstr "Burada küresel LDAP Ayarlarını Yapılandırma."
 
@@ -5048,6 +5045,9 @@ msgstr "Haber ve Web Beslemeleri"
 
 msgid "obj_nwss_desc"
 msgstr "İç haber ve dış web yayınları için ayarlar."
+
+msgid "obj_obgr"
+msgstr "Ürün Grubu"
 
 msgid "obj_objf"
 msgstr "Nesne Tanımlar"
@@ -5615,9 +5615,6 @@ msgstr "HTML Öğrenme Modülleri"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-msgid "objs_itgr"
-msgstr "Ürün Grupları"
-
 msgid "objs_lm"
 msgstr "ILIAS Öğrenme Modülleri"
 
@@ -5640,6 +5637,9 @@ msgstr "Mediacasts"
 
 msgid "objs_mep"
 msgstr "Medya Havuzları"
+
+msgid "objs_obgr"
+msgstr "Ürün Grupları"
 
 #, fuzzy
 msgid "objs_orgu"
@@ -8443,3 +8443,4 @@ msgstr "Zip-Test başarısız. ILIAS yöneticinize başvurun."
 
 msgid "zipcode"
 msgstr "Posta Kodu"
+

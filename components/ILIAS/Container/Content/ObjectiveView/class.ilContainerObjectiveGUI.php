@@ -339,7 +339,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 if ($a_mode === self::MATERIALS_TESTS && $item_data['type'] !== 'tst') {
                     continue;
                 }
-                if ($item_data['type'] === 'itgr') {
+                if ($item_data['type'] === 'obgr') {
                     continue;
                 }
                 if (!$a_is_manage) {
@@ -387,7 +387,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
                     // :TODO:
                     if ($a_mode !== self::MATERIALS_TESTS) {
-                        $pos = $this->getItemGroupsHTML();
+                        $pos = $this->getObjectGroupsHTML();
                     }
 
                     foreach ($item_r as $h) {

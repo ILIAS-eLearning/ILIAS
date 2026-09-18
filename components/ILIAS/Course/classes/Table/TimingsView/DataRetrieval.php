@@ -43,7 +43,7 @@ class DataRetrieval implements DataRetrievalInterface
     protected const string KEY_ROW_ID = 'row_id';
     protected const string KEY_TITLE_LINK = 'title_link';
     protected const string KEY_TITLE = 'title';
-    protected const string ITEM_GROUP_TYPE = 'itgr';
+    protected const string OBJECT_GROUP_TYPE = 'obgr';
     protected array $rows;
     protected string $username;
 
@@ -68,8 +68,8 @@ class DataRetrieval implements DataRetrievalInterface
             if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                 continue;
             }
-            // no item groups
-            if ($item['type'] == self::ITEM_GROUP_TYPE) {
+            // no object groups
+            if ($item['type'] == self::OBJECT_GROUP_TYPE) {
                 continue;
             }
             # Title

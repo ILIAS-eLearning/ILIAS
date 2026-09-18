@@ -3131,12 +3131,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "条目"
 
-msgid "itgr_add"
-msgstr "添加项目(item)组"
-
-msgid "itgr_new"
-msgstr "新项目(item)组"
-
 msgid "java_server"
 msgstr "Java-服务器"
 
@@ -4549,6 +4543,12 @@ msgstr "用户数"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "添加项目(item)组"
+
+msgid "obgr_new"
+msgstr "新项目(item)组"
+
 msgid "obj"
 msgstr "对象"
 
@@ -4904,9 +4904,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-msgid "obj_itgr"
-msgstr "项目(Item)组"
-
 msgid "obj_ldap_desc"
 msgstr "在此配置LDAP"
 
@@ -5048,6 +5045,9 @@ msgstr "新闻和Web Feeds设置"
 
 msgid "obj_nwss_desc"
 msgstr "内部新闻和外部web Feeds设置。"
+
+msgid "obj_obgr"
+msgstr "项目(Item)组"
 
 msgid "obj_objf"
 msgstr "对象定义"
@@ -5615,9 +5615,6 @@ msgstr "HTML 学习模块"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-msgid "objs_itgr"
-msgstr "项目(Item)组"
-
 msgid "objs_lm"
 msgstr "学习模块"
 
@@ -5640,6 +5637,9 @@ msgstr "媒介画面"
 
 msgid "objs_mep"
 msgstr "媒介工具"
+
+msgid "objs_obgr"
+msgstr "项目(Item)组"
 
 #, fuzzy
 msgid "objs_orgu"
@@ -8442,3 +8442,4 @@ msgstr "zip压缩测试失败。请联系您的ILIAS管理员。"
 
 msgid "zipcode"
 msgstr "邮政编码"
+

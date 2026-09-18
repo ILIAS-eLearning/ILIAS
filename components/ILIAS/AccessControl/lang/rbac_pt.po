@@ -1102,24 +1102,6 @@ msgstr "Mail interno"
 msgid "invite"
 msgstr "Convidar para inquérito"
 
-msgid "itgr_copy"
-msgstr "O utilizador pode copiar grupo de itens"
-
-msgid "itgr_delete"
-msgstr "O utilizador pode mover ou apagar grupo de itens"
-
-msgid "itgr_edit_permission"
-msgstr "O utilizador pode mudar as definições de permissões"
-
-msgid "itgr_read"
-msgstr "Selecionar os itens que determinam o estado geral do progresso de aprendizagem."
-
-msgid "itgr_visible"
-msgstr "O grupo de itens está visível"
-
-msgid "itgr_write"
-msgstr "O utilizador pode editar conteúdo e definições do grupo de itens"
-
 msgid "leave"
 msgstr "Progresso de aprendizagem dos objetos de recipiente Atop"
 
@@ -1490,6 +1472,24 @@ msgstr "Selecionar um teste concluído para criar um certificado para ele."
 
 msgid "nwss_write"
 msgstr "Frequência com que a eliminação e a distribuição de e-mail será testada."
+
+msgid "obgr_copy"
+msgstr "O utilizador pode copiar grupo de itens"
+
+msgid "obgr_delete"
+msgstr "O utilizador pode mover ou apagar grupo de itens"
+
+msgid "obgr_edit_permission"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "obgr_read"
+msgstr "Selecionar os itens que determinam o estado geral do progresso de aprendizagem."
+
+msgid "obgr_visible"
+msgstr "O grupo de itens está visível"
+
+msgid "obgr_write"
+msgstr "O utilizador pode editar conteúdo e definições do grupo de itens"
 
 #, fuzzy
 msgid "obj_skee"
@@ -1939,9 +1939,6 @@ msgstr "Criar módulo de aprendizagem HTML"
 msgid "rbac_create_iass"
 msgstr "Criar avaliação individual"
 
-msgid "rbac_create_itgr"
-msgstr "Criar grupo de itens"
-
 msgid "rbac_create_lm"
 msgstr "Criar módulo de aprendizagem ILIAS"
 
@@ -1957,6 +1954,9 @@ msgstr "Criar Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Criar banco de media"
+
+msgid "rbac_create_obgr"
+msgstr "Criar grupo de itens"
 
 msgid "rbac_create_orgu"
 msgstr "Criar unidades organizacionais"
@@ -2975,3 +2975,4 @@ msgstr "Editar definições na administração de wiki"
 
 msgid "write"
 msgstr "Editar configurações"
+

@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: obgr\n"
+
+msgid "obgr_always_open"
+msgstr "Immer offen"
+
+msgid "obgr_assign"
+msgstr "Zuordnen"
+
+msgid "obgr_assign_materials"
+msgstr "Objekte auswählen"
+
+msgid "obgr_assigned_first"
+msgstr "Zugewiesene zuerst"
+
+msgid "obgr_assigned_materials"
+msgstr "Objekte im Objekteblock"
+
+msgid "obgr_assignment"
+msgstr "Eingebunden in diesem Objekteblock"
+
+msgid "obgr_assignment_to_other_obgr"
+msgstr "Bereits einem anderen Objekteblock zugeordnet"
+
+msgid "obgr_behaviour"
+msgstr "Verhalten"
+
+msgid "obgr_behaviour_info"
+msgstr "Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout)."
+
+msgid "obgr_create_and_assign_object"
+msgstr "Objekt erstellen und zuweisen"
+
+msgid "obgr_desc_info"
+msgstr "Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben."
+
+msgid "obgr_display"
+msgstr "Anzeige"
+
+msgid "obgr_display_with_title"
+msgstr "Mit Titel"
+
+msgid "obgr_display_with_title_and_toggleable"
+msgstr "Mit Titel, Objekteblock ein- und ausklappbar"
+
+msgid "obgr_display_with_title_and_toggleable_initially"
+msgstr "Ausgangszustand"
+
+msgid "obgr_display_with_title_and_toggleable_initially_closed"
+msgstr "zunächst geschlossen"
+
+msgid "obgr_display_with_title_and_toggleable_initially_open"
+msgstr "zunächst geöffnet"
+
+msgid "obgr_display_without_title"
+msgstr "Ohne Titel"
+
+msgid "obgr_edit"
+msgstr "Einstellungen des Objekteblocks"
+
+msgid "obgr_expandable_closed"
+msgstr "Ausklappbar (zunächst geschlossen)"
+
+msgid "obgr_expandable_open"
+msgstr "Ausklappbar (zunächst geöffnet)"
+
+msgid "obgr_item"
+msgstr "Objekte, die eingebunden werden können"
+
+msgid "obgr_list"
+msgstr "Liste"
+
+msgid "obgr_list_default"
+msgstr "Standard"
+
+msgid "obgr_list_default_info"
+msgstr "Übernimmt die Einstellung des übergeordneten Containers."
+
+msgid "obgr_list_presentation"
+msgstr "Präsentationsansicht für Inhalte"
+
+msgid "obgr_materials"
+msgstr "Objekte"
+
+msgid "obgr_organise_objects"
+msgstr "Objekte verwalten"
+
+msgid "obgr_tile"
+msgstr "Kacheln"
+
+msgid "obgr_tile_size"
+msgstr "Kachelgröße"
+
+msgid "obgr_unassign"
+msgstr "Zuordnung aufheben"
+
+msgid "obgr_unassigned_first"
+msgstr "Nicht zugewiesene zuerst"
+

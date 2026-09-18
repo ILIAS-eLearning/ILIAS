@@ -1446,11 +1446,11 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 [//]: # (END Init)
 
 
-[//]: # (BEGIN ItemGroup)
+[//]: # (BEGIN ObjectGroup)
 
-#### [ItemGroup](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/ItemGroup)
+#### [ObjectGroup](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/ObjectGroup)
 
-*Belongs to:* ItemGroup
+*Belongs to:* ObjectGroup
 
 * Authority to Sign off on Conceptual Changes: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
 * Authority to Sign off on Code Changes: [thojou](https://docu.ilias.de/go/usr/103745)
@@ -1459,7 +1459,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Assignee for Issues: [thojou](https://docu.ilias.de/go/usr/103745)
 * Assignee for Security Reports: [thojou](https://docu.ilias.de/go/usr/103745)
 
-[//]: # (END ItemGroup)
+[//]: # (END ObjectGroup)
 
 
 [//]: # (BEGIN JavaScript)

@@ -2942,12 +2942,6 @@ msgstr "Kursiv einfügen - Klicken Sie um kursiven Text einzufügen."
 msgid "item"
 msgstr "Begriff"
 
-msgid "itgr_add"
-msgstr "Objekteblock anlegen"
-
-msgid "itgr_new"
-msgstr "Neuen Objekteblock anlegen"
-
 msgid "java_server"
 msgstr "PDF-Konfiguration"
 
@@ -4254,6 +4248,12 @@ msgstr "Anzahl Benutzer"
 msgid "numberedlist_action"
 msgstr "Nummerierte Liste List - Klicken Sie um eine nummerierte liste einzufügen."
 
+msgid "obgr_add"
+msgstr "Objekteblock anlegen"
+
+msgid "obgr_new"
+msgstr "Neuen Objekteblock anlegen"
+
 msgid "obj"
 msgstr "Objekt"
 
@@ -4561,9 +4561,6 @@ msgstr "Individuelle Bewertung kopieren"
 msgid "obj_iass_select"
 msgstr "-- Wählen Sie eine Individuelle Bewertung aus --"
 
-msgid "obj_itgr"
-msgstr "Objekteblock"
-
 msgid "obj_ldap_desc"
 msgstr "Globale LDAP-Konfiguration"
 
@@ -4686,6 +4683,9 @@ msgstr "Neuigkeiten und Webfeeds"
 
 msgid "obj_nwss_desc"
 msgstr "Einstellungen für interne Neuigkeiten und externe Webfeeds"
+
+msgid "obj_obgr"
+msgstr "Objekteblock"
 
 msgid "obj_objf"
 msgstr "Objektdefinitionen"
@@ -5185,9 +5185,6 @@ msgstr "HTML-Lernmodule"
 msgid "objs_iass"
 msgstr "Individuelle Bewertungen"
 
-msgid "objs_itgr"
-msgstr "Objekteblöcke"
-
 msgid "objs_lm"
 msgstr "ILIAS-Lernmodule"
 
@@ -5208,6 +5205,9 @@ msgstr "Mediacasts"
 
 msgid "objs_mep"
 msgstr "Medienpools"
+
+msgid "objs_obgr"
+msgstr "Objekteblöcke"
 
 msgid "objs_orgu"
 msgstr "Organisationseinheiten"
@@ -7816,3 +7816,4 @@ msgstr "Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische 
 
 msgid "zipcode"
 msgstr "Postleitzahl"
+

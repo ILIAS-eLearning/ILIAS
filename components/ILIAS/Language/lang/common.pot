@@ -2939,12 +2939,6 @@ msgstr ""
 msgid "item"
 msgstr ""
 
-msgid "itgr_add"
-msgstr ""
-
-msgid "itgr_new"
-msgstr ""
-
 msgid "java_server"
 msgstr ""
 
@@ -4248,6 +4242,12 @@ msgstr ""
 msgid "numberedlist_action"
 msgstr ""
 
+msgid "obgr_add"
+msgstr ""
+
+msgid "obgr_new"
+msgstr ""
+
 msgid "obj"
 msgstr ""
 
@@ -4554,9 +4554,6 @@ msgstr ""
 msgid "obj_iass_select"
 msgstr ""
 
-msgid "obj_itgr"
-msgstr ""
-
 msgid "obj_ldap_desc"
 msgstr ""
 
@@ -4678,6 +4675,9 @@ msgid "obj_nwss"
 msgstr ""
 
 msgid "obj_nwss_desc"
+msgstr ""
+
+msgid "obj_obgr"
 msgstr ""
 
 msgid "obj_objf"
@@ -5178,9 +5178,6 @@ msgstr ""
 msgid "objs_iass"
 msgstr ""
 
-msgid "objs_itgr"
-msgstr ""
-
 msgid "objs_lm"
 msgstr ""
 
@@ -5200,6 +5197,9 @@ msgid "objs_mcst"
 msgstr ""
 
 msgid "objs_mep"
+msgstr ""
+
+msgid "objs_obgr"
 msgstr ""
 
 msgid "objs_orgu"
@@ -7807,3 +7807,4 @@ msgstr ""
 
 msgid "zipcode"
 msgstr ""
+

@@ -1197,24 +1197,6 @@ msgstr "内部邮件"
 msgid "invite"
 msgstr "邀请调查"
 
-msgid "itgr_copy"
-msgstr "用户能复制项目(item)组"
-
-msgid "itgr_delete"
-msgstr "用户能移动或删除项目(item)组"
-
-msgid "itgr_edit_permission"
-msgstr "用户能更改权限设置"
-
-msgid "itgr_read"
-msgstr "用户可以读项目(Item)组"
-
-msgid "itgr_visible"
-msgstr "项目(item)组是可见的"
-
-msgid "itgr_write"
-msgstr "用户可以编辑内容和项目(item)组的设置"
-
 msgid "leave"
 msgstr "离开"
 
@@ -1616,6 +1598,24 @@ msgstr "新闻和Web Feeds 设置可见"
 
 msgid "nwss_write"
 msgstr "编辑新闻和Web Feeds 设置"
+
+msgid "obgr_copy"
+msgstr "用户能复制项目(item)组"
+
+msgid "obgr_delete"
+msgstr "用户能移动或删除项目(item)组"
+
+msgid "obgr_edit_permission"
+msgstr "用户能更改权限设置"
+
+msgid "obgr_read"
+msgstr "用户可以读项目(Item)组"
+
+msgid "obgr_visible"
+msgstr "项目(item)组是可见的"
+
+msgid "obgr_write"
+msgstr "用户可以编辑内容和项目(item)组的设置"
 
 #, fuzzy
 msgid "obj_skee"
@@ -2106,9 +2106,6 @@ msgstr "创建HTML学习模块"
 msgid "rbac_create_iass"
 msgstr "Create Individual Assessment"
 
-msgid "rbac_create_itgr"
-msgstr "创建项目(Item)组"
-
 msgid "rbac_create_lm"
 msgstr "创建ILIAS学习模块"
 
@@ -2125,6 +2122,9 @@ msgstr "创建媒体广播"
 
 msgid "rbac_create_mep"
 msgstr "创建媒体池"
+
+msgid "rbac_create_obgr"
+msgstr "创建项目(Item)组"
 
 #, fuzzy
 msgid "rbac_create_orgu"
@@ -3212,3 +3212,4 @@ msgstr "Edit settings in Wiki administration"
 
 msgid "write"
 msgstr "编辑设置"
+

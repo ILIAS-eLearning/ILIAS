@@ -72,7 +72,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 
         $white = array();
         foreach ($objDefinition->getSubObjectsRecursively("root") as $rtype) {
-            if ($rtype["name"] !== "itgr" && !$objDefinition->isSideBlock($rtype["name"])) {
+            if ($rtype["name"] !== "obgr" && !$objDefinition->isSideBlock($rtype["name"])) {
                 $white[] = $rtype["name"];
             }
         }

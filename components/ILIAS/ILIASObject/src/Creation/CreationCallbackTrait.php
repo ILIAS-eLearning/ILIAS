@@ -34,7 +34,7 @@ trait CreationCallbackTrait
         $callback_type = \ilObject::_lookupType((int) $requested_crtcb, true);
         $class_name = 'ilObj' . $obj_definition->getClassName($callback_type) . 'GUI';
 
-        if (strtolower($class_name) === 'ilobjitemgroupgui') {
+        if (strtolower($class_name) === strtolower(\ilObjObjectGroupGUI::class)) {
             $callback_obj = new $class_name((int) $requested_crtcb);
         } else {
             $callback_obj = new $class_name(null, $requested_crtcb, true, false);

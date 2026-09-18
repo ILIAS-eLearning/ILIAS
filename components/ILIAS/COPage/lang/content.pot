@@ -1817,7 +1817,7 @@ msgstr ""
 msgid "cont_manifest"
 msgstr ""
 
-msgid "cont_manual_item_group"
+msgid "cont_manual_object_group"
 msgstr ""
 
 msgid "cont_map_file_not_generated"
@@ -3646,3 +3646,4 @@ msgstr ""
 
 msgid "text_repr_info"
 msgstr ""
+

@@ -1102,24 +1102,6 @@ msgstr "Interna pošta"
 msgid "invite"
 msgstr "Pozivanje na anketu"
 
-msgid "itgr_copy"
-msgstr "Korisnik može kopirati grupu stavki"
-
-msgid "itgr_delete"
-msgstr "Korisnik može premjestiti ili izbrisati grupu stavki"
-
-msgid "itgr_edit_permission"
-msgstr "Korisnik može promijeniti postavke dozvole"
-
-msgid "itgr_read"
-msgstr "Korisnik može vidjeti stavke u grupi predmeta"
-
-msgid "itgr_visible"
-msgstr "Grupa stavki je vidljiva"
-
-msgid "itgr_write"
-msgstr "Korisnik može uređivati sadržaj i postavke grupe stavki"
-
 msgid "leave"
 msgstr "Otkaži članstvo"
 
@@ -1490,6 +1472,24 @@ msgstr "Vidljiva je administracija vijestima i web feedovima"
 
 msgid "nwss_write"
 msgstr "Korisnik može uređivati postavke u administraciji vijesti i web feedova"
+
+msgid "obgr_copy"
+msgstr "Korisnik može kopirati grupu stavki"
+
+msgid "obgr_delete"
+msgstr "Korisnik može premjestiti ili izbrisati grupu stavki"
+
+msgid "obgr_edit_permission"
+msgstr "Korisnik može promijeniti postavke dozvole"
+
+msgid "obgr_read"
+msgstr "Korisnik može vidjeti stavke u grupi predmeta"
+
+msgid "obgr_visible"
+msgstr "Grupa stavki je vidljiva"
+
+msgid "obgr_write"
+msgstr "Korisnik može uređivati sadržaj i postavke grupe stavki"
 
 #, fuzzy
 msgid "obj_skee"
@@ -1939,9 +1939,6 @@ msgstr "Kreiraj HTML modul za učenje"
 msgid "rbac_create_iass"
 msgstr "Kreiraj individualnu procjenu"
 
-msgid "rbac_create_itgr"
-msgstr "Kreiraj grupu predmeta"
-
 msgid "rbac_create_lm"
 msgstr "Kreiraj ILIAS modul za učenje"
 
@@ -1957,6 +1954,9 @@ msgstr "Kreiraj mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Kreiraj bazen za medije"
+
+msgid "rbac_create_obgr"
+msgstr "Kreiraj grupu predmeta"
 
 msgid "rbac_create_orgu"
 msgstr "Kreiraj organizacijske jedinice"
@@ -2974,3 +2974,4 @@ msgstr "Uredi postavke u administraciji Wiki-ja"
 
 msgid "write"
 msgstr "Uredi postavke"
+

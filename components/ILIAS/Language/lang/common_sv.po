@@ -3003,12 +3003,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Term"
 
-msgid "itgr_add"
-msgstr "Skapa objektblock"
-
-msgid "itgr_new"
-msgstr "Skapa nytt objektblock"
-
 msgid "java_server"
 msgstr "Java-server"
 
@@ -4339,6 +4333,12 @@ msgstr "Antal användare"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Skapa objektblock"
+
+msgid "obgr_new"
+msgstr "Skapa nytt objektblock"
+
 msgid "obj"
 msgstr "Objekt"
 
@@ -4655,9 +4655,6 @@ msgstr "Kopiera individuell utvärdering"
 msgid "obj_iass_select"
 msgstr "-- Välj ett individuellt betyg --."
 
-msgid "obj_itgr"
-msgstr "Objektblock"
-
 msgid "obj_ldap_desc"
 msgstr "Global LDAP-konfiguration"
 
@@ -4783,6 +4780,9 @@ msgstr "Nyheter och webbflöden"
 
 msgid "obj_nwss_desc"
 msgstr "Inställningar för interna nyheter och externa webbflöden"
+
+msgid "obj_obgr"
+msgstr "Objektblock"
 
 msgid "obj_objf"
 msgstr "Definitioner av objekt"
@@ -5288,9 +5288,6 @@ msgstr "HTML utbildningsmoduler"
 msgid "objs_iass"
 msgstr "Individuella bedömningar"
 
-msgid "objs_itgr"
-msgstr "Objektblock"
-
 msgid "objs_lm"
 msgstr "ILIAS utbildningsmoduler"
 
@@ -5311,6 +5308,9 @@ msgstr "Mediakaster"
 
 msgid "objs_mep"
 msgstr "mediepooler"
+
+msgid "objs_obgr"
+msgstr "Objektblock"
 
 msgid "objs_orgu"
 msgstr "Organisatoriska enheter"
@@ -7963,3 +7963,4 @@ msgstr "ZIP-testet har misslyckats. Vänligen kontakta din ILIAS-administratör.
 
 msgid "zipcode"
 msgstr "Postnummer"
+

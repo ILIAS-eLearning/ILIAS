@@ -54,14 +54,14 @@ class DataService
         return new SessionBlock();
     }
 
-    public function itemGroupBlock(int $ref_id): ItemGroupBlock
+    public function objectGroupBlock(int $ref_id): ObjectGroupBlock
     {
-        return new ItemGroupBlock($ref_id);
+        return new ObjectGroupBlock($ref_id);
     }
 
-    public function itemGroupBlocks(): ItemGroupBlocks
+    public function objectGroupBlocks(): ObjectGroupBlocks
     {
-        return new ItemGroupBlocks();
+        return new ObjectGroupBlocks();
     }
 
     /**

@@ -1200,25 +1200,6 @@ msgstr "Dahili Posta"
 msgid "invite"
 msgstr "Ankete davet"
 
-msgid "itgr_copy"
-msgstr "Kullanıcı madde grubu kopyalayabilirsiniz"
-
-msgid "itgr_delete"
-msgstr "Kullanıcı madde grubu taşıyabilir veya silebilirsiniz"
-
-msgid "itgr_edit_permission"
-msgstr "Kullanıcı izin ayarlarını değiştirebilir"
-
-msgid "itgr_read"
-msgstr "Kullanıcı madde grubu okuyabilir"
-
-#, fuzzy
-msgid "itgr_visible"
-msgstr "Item group is visible"
-
-msgid "itgr_write"
-msgstr "Kullanıcı içeriği ve ürün grubu ayarlarını düzenleyebilirsiniz"
-
 msgid "leave"
 msgstr "bırakın"
 
@@ -1620,6 +1601,25 @@ msgstr "Haber ve Web Beslemeleri yönetim görülebilir"
 
 msgid "nwss_write"
 msgstr "Kullanıcı Haber ve Web Beslemeleri yönetiminde ayarlarını düzenleyebilirsiniz"
+
+msgid "obgr_copy"
+msgstr "Kullanıcı madde grubu kopyalayabilirsiniz"
+
+msgid "obgr_delete"
+msgstr "Kullanıcı madde grubu taşıyabilir veya silebilirsiniz"
+
+msgid "obgr_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "obgr_read"
+msgstr "Kullanıcı madde grubu okuyabilir"
+
+#, fuzzy
+msgid "obgr_visible"
+msgstr "Object group is visible"
+
+msgid "obgr_write"
+msgstr "Kullanıcı içeriği ve ürün grubu ayarlarını düzenleyebilirsiniz"
 
 #, fuzzy
 msgid "obj_skee"
@@ -2126,10 +2126,6 @@ msgid "rbac_create_iass"
 msgstr "Create Individual Assessment"
 
 #, fuzzy
-msgid "rbac_create_itgr"
-msgstr "Create Item Group"
-
-#, fuzzy
 msgid "rbac_create_lm"
 msgstr "Create ILIAS Learning Module"
 
@@ -2148,6 +2144,10 @@ msgstr "Create Mediacast"
 #, fuzzy
 msgid "rbac_create_mep"
 msgstr "Create Media Pool"
+
+#, fuzzy
+msgid "rbac_create_obgr"
+msgstr "Create Object Group"
 
 #, fuzzy
 msgid "rbac_create_orgu"
@@ -3245,3 +3245,4 @@ msgstr "Edit settings in Wiki administration"
 
 msgid "write"
 msgstr "Ayarları Düzenle"
+

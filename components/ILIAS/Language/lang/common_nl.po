@@ -3090,12 +3090,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Onderdeel"
 
-msgid "itgr_add"
-msgstr "Toevoegen Item Groep"
-
-msgid "itgr_new"
-msgstr "Nieuwe Item Groep"
-
 msgid "java_server"
 msgstr "Java-Server"
 
@@ -4506,6 +4500,12 @@ msgstr "Aantal gebruikers"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Toevoegen Item Groep"
+
+msgid "obgr_new"
+msgstr "Nieuwe Item Groep"
+
 msgid "obj"
 msgstr "Object"
 
@@ -4851,9 +4851,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-msgid "obj_itgr"
-msgstr "Item Groep"
-
 msgid "obj_ldap_desc"
 msgstr "Configureer de globale LDAP-instellingen hier."
 
@@ -4995,6 +4992,9 @@ msgstr "Nieuws en Web Feeds Instellingen"
 
 msgid "obj_nwss_desc"
 msgstr "Instellingen voor intern nieuws en externe web feeds."
+
+msgid "obj_obgr"
+msgstr "Item Groep"
 
 msgid "obj_objf"
 msgstr "Objectdefinities"
@@ -5547,9 +5547,6 @@ msgstr "HTML Lesmodules"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-msgid "objs_itgr"
-msgstr "Item Groepen"
-
 msgid "objs_lm"
 msgstr "lesmodules"
 
@@ -5572,6 +5569,9 @@ msgstr "MediaCasts"
 
 msgid "objs_mep"
 msgstr "mediapoolen"
+
+msgid "objs_obgr"
+msgstr "Item Groepen"
 
 msgid "objs_orgu"
 msgstr "Organisatorische Eenheid"
@@ -8328,3 +8328,4 @@ msgstr "Zip-test faalt. Neem contact op met de ILIAS beheerder."
 
 msgid "zipcode"
 msgstr "Postcode"
+
