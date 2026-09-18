@@ -59,9 +59,9 @@ class ilCommentGUI extends ilNoteGUI
         throw new ilException("Call to getCommentsHTML is deprecated");
     }
 
-    protected function getNoEntriesText(bool $search): string
+    protected function getNoEntriesText(bool $search): ?string
     {
-        return $search ? $this->lng->txt("notes_no_comments_found") : "";
+        return $search ? $this->lng->txt("notes_no_comments_found") : null;
     }
 
     protected function getItemGroupTitle(int $obj_id = 0): string

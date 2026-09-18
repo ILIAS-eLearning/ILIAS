@@ -511,25 +511,23 @@ class ilNoteGUI
             $html = str_replace($text_placeholders, $texts, $html);
             $tpl->setVariable("NOTES_LIST", $html);
         } elseif (!is_array($this->rep_obj_id)) {
-            $it_group_title = $this->getItemGroupTitle($this->rep_obj_id);
-            $item_groups = [$f->item()->group($it_group_title, [])];
-            $panel = $f->panel()->listing()->standard("", $item_groups);
-            $mess_txt = "";
+            $html = '';
             if ($this->show_empty_list_message) {
                 $mess_txt = $this->getNoEntriesText($this->search_text !== "");
-                if ($mess_txt !== "") {
-                    $mess = $f->messageBox()->info($mess_txt);
-                    //$html = $this->renderComponents([$panel, $mess]);
-                    $html = $this->renderComponents([$mess]);
-                    $tpl->setVariable("NOTES_LIST", $html);
+                if ($mess_txt !== null && trim($mess_txt) !== '') {
+                    $html = $this->renderComponents([$f->messageBox()->info($mess_txt)]);
                 }
             }
+            $tpl->setVariable("NOTES_LIST", $html);
         } elseif ($this->search_text !== "") {
+            $html = '';
             $mess_txt = $this->getNoEntriesText(true);
-            if ($mess_txt !== "") {
-                $mess = $f->messageBox()->info($mess_txt);
-                $tpl->setVariable("NOTES_LIST", $this->renderComponents([$mess]));
+            if ($mess_txt !== null && trim($mess_txt) !== '') {
+                $html = $this->renderComponents([$f->messageBox()->info($mess_txt)]);
             }
+            $tpl->setVariable("NOTES_LIST", $html);
+        } else {
+            $tpl->setVariable("NOTES_LIST", '');
         }
 
         ilDatePresentation::setUseRelativeDates($reldates);
@@ -610,7 +608,7 @@ class ilNoteGUI
         return $this->lng->txt("notes_add_edit_note");
     }
 
-    protected function getNoEntriesText(bool $search): string
+    protected function getNoEntriesText(bool $search): ?string
     {
         if (!$search) {
             $mess_txt = $this->lng->txt("notes_no_notes");

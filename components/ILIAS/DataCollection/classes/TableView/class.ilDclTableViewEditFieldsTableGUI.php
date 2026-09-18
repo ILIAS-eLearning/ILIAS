@@ -164,8 +164,9 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
             }
         } else {
             // add standard no items text (please tell me, if it messes something up, alex, 29.8.2008)
-            $no_items_text = (trim($this->getNoEntriesText()) != '')
-                ? $this->getNoEntriesText()
+            $no_entries_text = $this->getNoEntriesText();
+            $no_items_text = ($no_entries_text !== null && trim($no_entries_text) !== '')
+                ? $no_entries_text
                 : $lng->txt("no_items");
 
             $this->css_row = ($this->css_row !== "tblrow1")

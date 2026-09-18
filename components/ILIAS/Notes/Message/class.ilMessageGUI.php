@@ -55,7 +55,7 @@ class ilMessageGUI extends ilNoteGUI
         throw new ilException("Call to getCommentsHTML is deprecated");
     }
 
-    protected function getNoEntriesText(bool $search): string
+    protected function getNoEntriesText(bool $search): ?string
     {
         if (!$search) {
             $mess_txt = $this->lng->txt("notes_no_messages");

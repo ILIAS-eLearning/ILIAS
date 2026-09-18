@@ -86,7 +86,7 @@ class ilTable2GUI extends ilTableGUI
     protected bool $select_all_on_top = false;
     protected array $sel_buttons = [];
     protected string $nav_value = '';
-    protected string $noentriestext = '';
+    protected ?string $noentriestext = null;
     protected string $css_row = '';
     protected bool $display_as_block = false;
     protected string $description = '';
@@ -390,7 +390,7 @@ class ilTable2GUI extends ilTableGUI
         $this->noentriestext = $a_text;
     }
 
-    public function getNoEntriesText(): string
+    public function getNoEntriesText(): ?string
     {
         return $this->noentriestext;
     }
@@ -1354,8 +1354,9 @@ class ilTable2GUI extends ilTableGUI
             }
         } else {
             // add standard no items text (please tell me, if it messes something up, alex, 29.8.2008)
-            $no_items_text = (trim($this->getNoEntriesText()) != '')
-                ? $this->getNoEntriesText()
+            $no_entries_text = $this->getNoEntriesText();
+            $no_items_text = ($no_entries_text !== null && trim($no_entries_text) !== '')
+                ? $no_entries_text
                 : $lng->txt("no_items");
 
             $this->css_row = ($this->css_row !== "tblrow1")
