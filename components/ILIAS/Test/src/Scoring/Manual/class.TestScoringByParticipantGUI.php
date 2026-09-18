@@ -181,7 +181,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $table->setTitle(
             sprintf(
                 $this->lng->txt('tst_pass_overview_for_participant'),
-                $user?->getDisplayName($this->lng) ?? ''
+                $user?->getDisplayName($this->lng, $this->object->getAnonymity()) ?? ''
             )
         );
 

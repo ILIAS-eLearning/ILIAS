@@ -287,10 +287,13 @@ class ilTestParticipantList implements Iterator
             if ($participant->getUsrId() === ANONYMOUS_USER_ID) {
                 $user = $users_by_active_id[$participant->getActiveId()] ?? null;
                 if ($user !== null) {
-                    $name = explode(',', $user->getDisplayName($this->lng));
-                    if (isset($name[0], $name[1])) {
-                        $firstname = explode(' ', trim($name[1]))[0] ?? '';
-                        $lastname = explode(' ', trim($name[0]))[0] ?? '';
+                    $importname = $user->getImportname();
+                    if ($importname !== null && $importname !== '') {
+                        $name = explode(',', $importname);
+                        if (isset($name[0], $name[1])) {
+                            $firstname = explode(' ', trim($name[1]))[0] ?? '';
+                            $lastname = explode(' ', trim($name[0]))[0] ?? '';
+                        }
                     }
                 }
             }
