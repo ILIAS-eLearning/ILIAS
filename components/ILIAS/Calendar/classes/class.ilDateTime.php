@@ -328,10 +328,6 @@ class ilDateTime
         ?int $a_sec = null,
         ?string $a_timezone = null
     ): ?DateTime {
-        $a_year = $a_year;
-        $a_month = $a_month;
-        $a_day = $a_day;
-
         if (!$a_year) {
             return null;
         }
