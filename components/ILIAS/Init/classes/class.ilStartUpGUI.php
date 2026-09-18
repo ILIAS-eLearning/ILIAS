@@ -996,7 +996,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $page_gui = new ($ipe_context->pageUiClass())(ilLanguage::lookupId($ipe_language));
 
-        $page_gui->setStyleId(0);
+        $page_gui->setStyleId(
+            $this->dic->contentStyle()->domain()->styleForRefId(
+                ilObjAuthSettings::getAuthSettingsRefId()
+            )->getEffectiveStyleId()
+        );
 
         $page_gui->setPresentationTitle('');
         $page_gui->setTemplateOutput(false);

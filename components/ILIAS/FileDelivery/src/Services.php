@@ -80,11 +80,17 @@ class Services
 
     protected function getBaseURI(): string
     {
+        $request_uri = $this->http->request()->getUri();
+        $request_path = $request_uri->getPath();
+        $base_path = pathinfo($request_path, PATHINFO_EXTENSION) === ''
+            ? $request_path
+            : dirname($request_path);
+
         return $this->base_uri ?? $this->base_uri = rtrim(
-            $this->http->request()->getUri()->getScheme()
-            . '://' . $this->http->request()->getUri()->getHost()
-            . ($this->http->request()->getUri()->getPort() ? ':' . $this->http->request()->getUri()->getPort() : '')
-            . dirname($this->http->request()->getUri()->getPath()),
+            $request_uri->getScheme()
+            . '://' . $request_uri->getHost()
+            . ($request_uri->getPort() ? ':' . $request_uri->getPort() : '')
+            . $base_path,
             "/"
         );
     }
