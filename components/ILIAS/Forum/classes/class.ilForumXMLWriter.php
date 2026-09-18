@@ -117,8 +117,9 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement('PresetRe', null, (int) $row->add_re_subject);
         $this->xmlElement('NotificationType', null, $row->notification_type);
         $this->xmlElement('NotificationEvents', null, (int) $row->interested_events);
-        $this->xmlElement('ForceNotification', null, (int) $row->admin_force_noti);
-        $this->xmlElement('ToggleNotification', null, (int) $row->user_toggle_noti);
+        $this->xmlElement('ForceNotification', null, (int) $row->container_enforces_noti);
+        $this->xmlElement('MemberMayDeactivateNotification', null, (int) $row->member_may_disable_noti);
+        $this->xmlElement('ToggleNotification', null, (int) (1 - (int) $row->member_may_disable_noti));
         $this->xmlElement('LastPost', null, $row->top_last_post);
         $this->xmlElement('Moderator', null, (int) $row->top_mods);
         $this->xmlElement('CreateDate', null, $row->top_date);

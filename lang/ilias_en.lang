@@ -3982,7 +3982,7 @@ common#:#didactic_template#:#Didactic Template
 common#:#disable#:#disable
 common#:#disable_check#:#Disable check
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
-common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
+common#:#disable_hide_user_toggle#:#Member may deactivate notifications
 common#:#disabled#:#Disabled
 common#:#disclose#:#Disclose
 common#:#dislike#:#Dislike
@@ -4045,7 +4045,7 @@ common#:#enable_download_folder_info#:#Enables a 'Download' option inside the Ac
 common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Data (SCORM)
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
-common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
+common#:#enable_hide_user_toggle#:#Member may not deactivate notifications
 common#:#enable_multi_download#:#'Download of multiple objects' enabled
 common#:#enable_multi_download_info#:#Multiple folders/files can be selected and downloaded as zip archive.
 common#:#enable_password_assistance#:#Enable Password Assistance
@@ -4252,6 +4252,7 @@ common#:#frm_added#:#Forum added
 common#:#frm_edit#:#Edit Forum
 common#:#frm_import#:#Import Forum
 common#:#frm_latest_postings#:#Latest Posts
+common#:#frm_member_may_disable_noti#:#Member may deactivate notifications
 common#:#frm_new#:#New Forum
 common#:#frm_no_threads#:#There are no threads available at the moment.
 common#:#from#:#From
@@ -5953,7 +5954,7 @@ common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_other#:#Other Information
 common#:#user_send_new_account_mail#:#Send new account e-mail
 common#:#user_status#:#User Status
-common#:#user_toggle_noti#:#Member is not allowed to deactivate notification
+common#:#user_toggle_noti#:#Notifications cannot be deactivated
 common#:#userfolder_export_csv#:#Comma Separated Values
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#File
