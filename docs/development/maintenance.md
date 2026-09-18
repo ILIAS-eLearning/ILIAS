@@ -1498,6 +1498,22 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 [//]: # (END jQuery)
 
 
+[//]: # (BEGIN KeyValueStorage)
+
+#### [KeyValueStorage](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/KeyValueStorage)
+
+*Belongs to:* KeyValueStorage
+
+* Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784), [fschmid](https://docu.ilias.de/go/usr/21087)
+* Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784), [fschmid](https://docu.ilias.de/go/usr/21087)
+* Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784), [fschmid](https://docu.ilias.de/go/usr/21087)
+* Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784), [fschmid](https://docu.ilias.de/go/usr/21087)
+* Assignee for Issues: [mjansen](https://docu.ilias.de/go/usr/8784), [fschmid](https://docu.ilias.de/go/usr/21087)
+* Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784), [fschmid](https://docu.ilias.de/go/usr/21087)
+
+[//]: # (END KeyValueStorage)
+
+
 [//]: # (BEGIN KioskMode)
 
 #### [KioskMode](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/KioskMode)

@@ -389,3 +389,35 @@ $q = "SELECT * FROM " . $DIC->database()->quoteIdentifier('select');
 ...
 
 ```
+
+## Getting the connection in a bootstrapped component
+
+A component that is wired through the component bootstrap must not resolve the
+database while it is being built: at that point there is no client and no
+connection yet. Database therefore provides an accessor that is asked for the
+connection when it is actually needed:
+
+```php
+// MyComponent.php
+$internal[MyComponent\MyRepository::class] = static fn() =>
+    new MyComponent\MyRepository($pull[\ILIAS\Database\Connection::class]);
+```
+
+```php
+final readonly class MyRepository
+{
+    public function __construct(private Connection $connection)
+    {
+    }
+
+    public function read(): void
+    {
+        $db = $this->connection->get();
+        // ...
+    }
+}
+```
+
+`ILIAS\Database\LazyConnection` resolves it from the legacy container on first
+use. This is a stopgap: it goes away once Database offers `ilDBInterface`
+through the bootstrap itself.
