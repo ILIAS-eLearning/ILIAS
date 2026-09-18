@@ -82,21 +82,23 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                 continue;
             }
 
-            $row = $this->mail_record_mapper->normalizeRow($row);
-            if ($row === null) {
+            $record = $this->mail_record_mapper->fromRow($row);
+            if ($record === null) {
                 continue;
             }
 
+            $attachments = $record->getAttachments();
+
             yield new MailDeliveryData(
-                (string) $row['rcp_to'],
-                (string) $row['rcp_cc'],
-                (string) $row['rcp_bcc'],
-                (string) $row['m_subject'],
-                (string) $row['m_message'],
-                is_array($row['attachments']) ? $row['attachments'] : [],
-                (bool) ($row['use_placeholders'] ?? false),
-                (int) $row['mail_id'],
-                (int) $row['user_id']
+                $record->getRcpTo() ?? '',
+                $record->getRcpCc() ?? '',
+                $record->getRcpBc() ?? '',
+                $record->getSubject() ?? '',
+                $record->getMessage() ?? '',
+                is_array($attachments) ? $attachments : [],
+                (bool) $record->getUsePlaceholders(),
+                $record->getMailId(),
+                $record->getUserId()
             );
         }
     }

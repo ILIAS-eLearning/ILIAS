@@ -154,6 +154,7 @@ class ScheduledMailsCron extends CronJob
 
                 if ($internal_mail_id > 0) {
                     $this->outbox_repository->markAsDelivered($owner_id, $internal_mail_id);
+                    $mailer->deleteMails([$internal_mail_id]);
                 }
                 $sent_count++;
             } catch (Throwable $e) {
@@ -180,7 +181,7 @@ class ScheduledMailsCron extends CronJob
         }
 
         $this->getLogger()->info(
-            'Sent {sent_count} scheduled mails and marked them as delivered.',
+            'Sent {sent_count} scheduled mails, marked them as delivered and removed them from outbox.',
             ['sent_count' => $sent_count]
         );
         $job_result->setMessage($this->buildResultMessage($sent_count, $problem_summaries));
