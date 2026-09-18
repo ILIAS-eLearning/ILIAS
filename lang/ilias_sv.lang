@@ -11268,7 +11268,8 @@ lti#:#lti_13_step1_info#:#För den initierande plattformen (konsumenten), ange f
 lti#:#lti_13_step2#:#Steg 2
 lti#:#lti_13_step2_info#:#Du kommer att få information från den initierande plattformen (konsumenten) som du måste ange i följande fält. Efter att ha sparat är LTI 1.3-funktionerna tillgängliga.
 lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
-lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated by 1EdTech and will be removed from ILIAS in a future version. Please use LTI Advantage (1.3) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated: 1EdTech ended all support for it on 30 June 2022 and it will be removed from ILIAS in a future version. Please use LTI 1.3 (LTI Advantage) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedule for Early Versions of LTI###18 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Tillämpa leverantören eller verktyget globalt för alla användare.
 lti#:#lti_action_accept_providers_as_global#:#Ta över leverantören eller verktyget som en global leverantör eller ett globalt verktyg.
 lti#:#lti_action_delete_providers#:#Ta bort leverantör eller verktyg
@@ -11424,7 +11425,7 @@ lti#:#lti_tutor#:#LTI roll som handledare
 lti#:#lti_user_role_created#:#Den rekommenderade globala rollen för LTI-användare har skapats.
 lti#:#lti_user_role_info#:#I denna installation har den rekommenderade globala rollen för LTI-användare ännu inte skapats. Denna speciella globala roll innehåller skrivskyddade rättigheter för magasin och kategorier.
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
-lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Mastery Resultat
 lti#:#mastery_score_info#:#När inlärningsprocessen är aktiverad anses objektet vara slutfört när resultatet av LTI Outcome Service är minst lika högt som Mastery Score.
 lti#:#obj_tile_image_info#:#Använd en bild i kvadratiskt format

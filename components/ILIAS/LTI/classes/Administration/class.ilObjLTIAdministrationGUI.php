@@ -47,6 +47,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     private const VERSION_1P1 = "1p1";
     private const VERSION_ADVANTAGE = "advantage";
     private const LTI_USER_ROLE = "il_lti_global_role";
+    private const LTI_1P1_DEPRECATION_URL = "https://www.1edtech.org/lti-security-announcement-and-deprecation-schedule";
 
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -300,7 +301,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             return [$form];
         }
 
-        return [$DIC->ui()->factory()->messageBox()->confirmation($this->lng->txt("lti_1p1_deprecated_info")), $form];
+        $factory = $DIC->ui()->factory();
+        $link = $factory->link()->standard($this->lng->txt("lti_1p1_deprecated_link"), self::LTI_1P1_DEPRECATION_URL)
+            ->withOpenInNewViewport(true);
+
+        return [
+            $factory->messageBox()->confirmation($this->lng->txt("lti_1p1_deprecated_info"))->withLinks([$link]),
+            $form,
+        ];
     }
 
     /**

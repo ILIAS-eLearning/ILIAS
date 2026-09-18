@@ -11345,7 +11345,8 @@ lti#:#lti_13_step1_info#:#A kezdeményező platform (fogyasztó) esetében adja 
 lti#:#lti_13_step2#:#2. lépés
 lti#:#lti_13_step2_info#:#A kezdeményező platformtól (Fogyasztó) kap információkat, amelyeket a következő mezőkbe kell beírnia. Mentés után elérhetők az LTI 1.3 funkciói.
 lti#:#lti_13_token_url#:#Hozzáférési token URL-je
-lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated by 1EdTech and will be removed from ILIAS in a future version. Please use LTI Advantage (1.3) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated: 1EdTech ended all support for it on 30 June 2022 and it will be removed from ILIAS in a future version. Please use LTI 1.3 (LTI Advantage) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedule for Early Versions of LTI###18 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#A Kiszolgáló elfogadás mint Global Kiszolgáló az összes felhasználó számára
 lti#:#lti_action_accept_providers_as_global#:#Kiszolgálók elfogadás mint Globális
 lti#:#lti_action_delete_providers#:#Kiszolgálós törlése
@@ -11501,7 +11502,7 @@ lti#:#lti_tutor#:#LTI-instruktor
 lti#:#lti_user_role_created#:#Az LTI-felhasználónak ajánlott globális szerepkört sikeresen létrehozta.
 lti#:#lti_user_role_info#:#Ajánlott globális szerepkör még nem létezik az LTI-felhasználónak. Ez a speciális szerepkör csak a Tartalomtár és kategóriák ‘látható’ jogosultságát tartalmazza.
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
-lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Kötelező pontszám
 lti#:#mastery_score_info#:#A tanulási haladást a Kiszolgáló kimeneti szolgáltatása és a kötelező pontszám határozza meg.
 lti#:#obj_tile_image_info#:#Kép használata négyzet formában

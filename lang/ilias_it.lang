@@ -11271,7 +11271,8 @@ lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the foll
 lti#:#lti_13_step2#:#Step 2###31 03 2023 new variable
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###31 03 2023 new variable
 lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
-lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated by 1EdTech and will be removed from ILIAS in a future version. Please use LTI Advantage (1.3) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated: 1EdTech ended all support for it on 30 June 2022 and it will be removed from ILIAS in a future version. Please use LTI 1.3 (LTI Advantage) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedule for Early Versions of LTI###18 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accetta fornitori come globali per tutti gli utenti
 lti#:#lti_action_accept_providers_as_global#:#Accetta fornitori come globali
 lti#:#lti_action_delete_providers#:#Cancella fornitore
@@ -11427,7 +11428,7 @@ lti#:#lti_tutor#:#Istruttore LTI
 lti#:#lti_user_role_created#:#Il ruolo globale raccomandato per gli utenti LTI è stato creato.
 lti#:#lti_user_role_info#:#Il ruolo globale raccomandato per gli utenti LTI non è ancora stato creato in questa installazione. Questo ruolo globale speciale contiene solo il permesso 'visibile' per il repository e per le categorie.
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
-lti#:#lti_version_advantage#:#LTI Advantage (1.3)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Punteggio di padronanza
 lti#:#mastery_score_info#:#Il progresso dell'apprendimento sarà valutato in base al servizio di risultato del fornitore e alla soglia del punteggio di padronanza.
 lti#:#obj_tile_image_info#:#Utilizzare un'immagine quadrata
