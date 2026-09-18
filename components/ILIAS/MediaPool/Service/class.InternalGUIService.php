@@ -29,12 +29,14 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
     protected static array $instance = [];
+    protected Container $dic;
 
     public function __construct(
         Container $DIC,
         protected InternalDataService $data_service,
         protected InternalDomainService $domain_service
     ) {
+        $this->dic = $DIC;
         $this->initGUIServices($DIC);
     }
 
@@ -50,7 +52,9 @@ class InternalGUIService
     {
         return self::$instance["clipboard"] ??= new GUIService(
             $this->domain_service,
-            $this
+            $this,
+            $this->dic->user(),
+            $this->dic->mediaObjects()->internal()->gui()->thumbs()
         );
     }
 
