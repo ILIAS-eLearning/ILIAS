@@ -457,7 +457,7 @@ main {
 		flex-direction: column;
 		min-height: calc(100vh -  $il-standard-page-small-header-height);
 		padding-bottom: $il-standard-page-small-mainbar-height;
-		> div {
+		> main {
 			flex-grow: 1;
 		}
 	}
