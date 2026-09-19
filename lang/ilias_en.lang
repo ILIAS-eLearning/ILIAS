@@ -13161,8 +13161,6 @@ notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
 notes#:#notes_add_edit_message#:#Add/Edit Message
 notes#:#notes_add_edit_note#:#Add/Edit Note
-notes#:#notes_all_comments#:#All Comments
-notes#:#notes_comment#:#Comment
 notes#:#notes_comment_deleted#:#Comment deleted.
 notes#:#notes_comments#:#Comments
 notes#:#notes_comments_deleted#:#Comments deleted.
@@ -13170,15 +13168,12 @@ notes#:#notes_deactivate_comments#:#Deactivate Public Comments
 notes#:#notes_delete_comment#:#Are you sure you want to delete this comment?
 notes#:#notes_delete_message#:#Are you sure you want to delete this message?
 notes#:#notes_delete_note#:#Are you sure you want to delete this note?
-notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
 notes#:#notes_latest_message#:#Latest Message
-notes#:#notes_message_author_counterpart#:#Respondent
 notes#:#notes_message_author_you#:#You
 notes#:#notes_message_deleted#:#Message deleted.
 notes#:#notes_messages#:#Messages
-notes#:#notes_my_comments#:#My Comments
 notes#:#notes_no_comments#:#No comments have been posted yet.
 notes#:#notes_no_comments_found#:#No comments found that match your search criteria.
 notes#:#notes_no_messages#:#No messages have been left yet.
@@ -13189,7 +13184,6 @@ notes#:#notes_note_deleted#:#Note deleted.
 notes#:#notes_notes_deleted#:#Notes deleted.
 notes#:#notes_origin#:#Origin
 notes#:#notes_public_comments#:#Public Comments
-notes#:#notes_show_comments#:#Show Comments
 notes#:#notes_sort_asc#:#Sort Ascending
 notes#:#notes_sort_desc#:#Sort Descending
 notes#:#notes_text#:#Text
