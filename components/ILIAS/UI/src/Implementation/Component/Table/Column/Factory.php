@@ -24,11 +24,13 @@ use ILIAS\UI\Component\Table\Column as I;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\Language\Language;
+use ILIAS\UI\UserTimezone;
 
 class Factory implements I\Factory
 {
     public function __construct(
-        protected Language $lng
+        protected Language $lng,
+        protected UserTimezone $user_timezone,
     ) {
     }
 
@@ -45,7 +47,7 @@ class Factory implements I\Factory
 
     public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): Date
     {
-        return new Date($this->lng, $title, $format);
+        return new Date($this->lng, $title, $format, $this->user_timezone->getTimezone());
     }
 
     public function status(string $title): Status
