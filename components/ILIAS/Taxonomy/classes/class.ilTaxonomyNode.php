@@ -271,12 +271,18 @@ class ilTaxonomyNode
             $a_parent_id = $tax_tree->readRootId();
         }
         $childs = $tax_tree->getChilds($a_parent_id);
+        return self::calculateNextOrderNr($childs);
+    }
+
+    /**
+     * @param array<int, array{order_nr: int|string}> $a_childs
+     */
+    protected static function calculateNextOrderNr(array $a_childs): int
+    {
         $max = 0;
 
-        foreach ($childs as $c) {
-            if ((int) $c["order_nr"] > $max) {
-                $max = (int) $c["order_nr"] + 10;
-            }
+        foreach ($a_childs as $child) {
+            $max = max($max, (int) $child["order_nr"] + 10);
         }
 
         return $max;
