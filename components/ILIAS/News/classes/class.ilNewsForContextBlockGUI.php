@@ -142,19 +142,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 ->withDescription($this->lng->txt('news_sorry_not_accessible_anymore'));
         }
 
-
-        $props = [
-            $this->lng->txt('date') => $info['creation_date'] ?? ''
-        ];
-
         $item = $this->ui->factory()->item()->standard(
             $this->ui->factory()->link()->standard($info['news_title'] ?? '', $info['url'] ?? '')
-        )->withProperties($props);
+        );
+
+        $properties = [];
 
         if ($info['ref_id'] > 0) {
-            $item = $item->withDescription($info['type_txt'] . ': ' . $info['obj_title']);
+            $properties[$info['type_txt']] = $info['obj_title'];
         }
-        return $item;
+
+        $properties[$this->lng->txt('date')] = $info['creation_date'] ?? '';
+
+        return $item->withProperties($properties);
     }
 
     private function getNewsForId(int $news_id): array
