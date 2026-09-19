@@ -26,8 +26,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function array_map;
-
 class RequestDataCollector
 {
     use BaseGUIRequest;
@@ -95,6 +93,11 @@ class RequestDataCollector
     public function getPassId(): int
     {
         return $this->int('pass_id');
+    }
+
+    public function getViewMode(): string
+    {
+        return $this->str('view_mode');
     }
 
     public function retrieveBoolFromPost(string $key): ?bool
