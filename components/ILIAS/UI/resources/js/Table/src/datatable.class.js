@@ -164,8 +164,7 @@ export default class DataTable {
    * @return {void}
    */
   #disableRowSelection(flag) {
-    const rows = this.#table.getElementsByClassName('c-table-data__row-selector');
-    rows.forEach(
+    this.#table.querySelectorAll('.c-table-data__row-selector').forEach(
       (chk) => {
         chk.disabled = (flag === true && !chk.checked);
       },
@@ -206,10 +205,9 @@ export default class DataTable {
    * @return {string[]}
    */
   collectSelectedRowIds() {
-    const rows = this.#table.getElementsByClassName('c-table-data__row-selector');
     const ret = [];
 
-    rows.forEach(
+    this.#table.querySelectorAll('.c-table-data__row-selector').forEach(
       (chk) => {
         if (chk.checked) {
           ret.push(chk.value);
