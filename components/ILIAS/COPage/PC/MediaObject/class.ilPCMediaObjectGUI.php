@@ -32,6 +32,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     protected ilToolbarGUI $toolbar;
     protected ilObjUser $user;
     protected \ILIAS\DI\UIServices $ui;
+    protected \ILIAS\MediaPool\InternalGUIService $media_pool_gui;
     protected string $pool_view = "";
     public string $header = "";
     protected string $sub_cmd = "";
@@ -53,6 +54,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $this->ui = $DIC->ui();
+        $this->media_pool_gui = $DIC->mediaPool()->internal()->gui();
 
         $request = $DIC
             ->copage()
@@ -393,44 +395,25 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 ? "changeObjectReference"
                 : "insert";
             $tmode = ($a_change_obj_ref)
-                ? ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE
-                : ilMediaPoolTableGUI::IL_MEP_SELECT;
+                ? "selectsingle"
+                : "select";
 
-            // handle table sub commands and get the table
-            if ($this->getSubCmd() == "applyFilter") {
-                $mpool_table = new ilMediaPoolTableGUI(
-                    $this,
-                    $tcmd,
-                    $pool,
-                    "mep_folder",
-                    $tmode,
-                    $this->pool_view == "all"
-                );
-                $mpool_table->resetOffset();
-                $mpool_table->writeFilterToSession();
-            }
-            if ($this->getSubCmd() == "resetFilter") {
-                $mpool_table = new ilMediaPoolTableGUI(
-                    $this,
-                    $tcmd,
-                    $pool,
-                    "mep_folder",
-                    $tmode,
-                    $this->pool_view == "all"
-                );
-                $mpool_table->resetOffset();
-                $mpool_table->resetFilter();
-            }
-            $mpool_table = new ilMediaPoolTableGUI(
-                $this,
-                $tcmd,
+            $table_builder = $this->media_pool_gui->mediaPoolTableBuilder(
                 $pool,
                 "mep_folder",
                 $tmode,
-                $this->pool_view == "all"
+                $this->pool_view == "all",
+                $this->pool_view == "all" ? "insert_applyFilter" : null,
+                $this->pool_view == "all" ? "insert_resetFilter" : null,
+                $tmode === "selectsingle" ? "selectObjectReference" : "create_mob",
+                $this,
+                $tcmd
             );
 
-            $html .= $mpool_table->getHTML();
+            if ($table_builder->getTable()->handleCommand()) {
+                return;
+            }
+            $html .= $table_builder->render();
 
             $tpl->setContent($html);
         } else {

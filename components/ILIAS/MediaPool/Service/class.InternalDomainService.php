@@ -30,14 +30,12 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
     protected static array $instance = [];
-    protected Container $dic;
 
     public function __construct(
         Container $DIC,
         protected InternalRepoService $repo_service,
         protected InternalDataService $data_service
     ) {
-        $this->dic = $DIC;
         $this->initDomainServices($DIC);
     }
 

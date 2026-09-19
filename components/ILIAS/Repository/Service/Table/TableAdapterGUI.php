@@ -122,6 +122,14 @@ class TableAdapterGUI
         return $this;
     }
 
+    public function column(
+        string $key,
+        Column $column
+    ): self {
+        $this->addColumn($key, $column);
+        return $this;
+    }
+
     public function linkColumn(
         string $key,
         string $title,
