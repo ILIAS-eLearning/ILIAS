@@ -209,7 +209,6 @@ class ilRepositoryTrashGUI
         $form_name = "cgui_" . md5(uniqid('', true));
         $cgui->setFormName($form_name);
 
-        $deps = [];
         foreach ($a_ids as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);
             $type = ilObject::_lookupType($obj_id);
@@ -226,17 +225,9 @@ class ilRepositoryTrashGUI
                 ilObject::_getIcon($obj_id, "small", $type),
                 $alt
             );
-
-            ilObject::collectDeletionDependencies($deps, $ref_id, $obj_id, $type);
-        }
-        $deps_html = "";
-
-        if (is_array($deps) && count($deps) > 0) {
-            $tab = new ilRepDependenciesTableGUI($deps);
-            $deps_html = "<br/><br/>" . $tab->getHTML();
         }
 
-        $tpl->setContent($cgui->getHTML() . $deps_html);
+        $tpl->setContent($cgui->getHTML());
         return true;
     }
 

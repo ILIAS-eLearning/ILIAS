@@ -23,6 +23,7 @@ namespace ILIAS\Repository;
 use ILIAS\DI\Container;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Repository\Deletion;
+use ILIAS\Repository\Administration\Table\NewItemGroupRetrieval;
 
 class InternalDomainService
 {
@@ -53,5 +54,10 @@ class InternalDomainService
         return self::$instance["clipboard"] ??= new ClipboardManager(
             $this->repo_service->clipboard()
         );
+    }
+
+    public function newItemGroupRetrieval(): NewItemGroupRetrieval
+    {
+        return new NewItemGroupRetrieval();
     }
 }

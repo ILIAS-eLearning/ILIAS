@@ -42,12 +42,6 @@ class AdministrationGUIRequest
     }
 
     /** @return int[] */
-    public function getNewItemGroupIds(): array
-    {
-        return $this->intArray("grp_ids");
-    }
-
-    /** @return int[] */
     public function getNewItemPositions(): array
     {
         return $this->intArray("obj_pos");
@@ -65,9 +59,4 @@ class AdministrationGUIRequest
         return $this->intArray("obj_enbl_creation");
     }
 
-    /** @return int[] */
-    public function getNewItemGroupOrder(): array
-    {
-        return $this->intArray("grp_order");
-    }
 }

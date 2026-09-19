@@ -36,6 +36,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 {
     protected ilRbacSystem $rbacsystem;
     protected AdministrationGUIRequest $admin_gui_request;
+    protected \ILIAS\Repository\InternalGUIService $repository_gui;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
     protected UIFactory $factory;
@@ -73,6 +74,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             ->gui()
             ->administration()
             ->request();
+        $this->repository_gui = $DIC->repository()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -679,9 +681,16 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
         }
 
-        $grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups", $has_write);
+        $grp_table = $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder($has_write, $this, "listNewItemGroups")
+            ->getTable();
 
-        $this->tpl->setContent($grp_table->getHTML());
+        if ($grp_table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($grp_table->render());
     }
 
     protected function initNewItemGroupForm(int $a_grp_id = 0): ilPropertyFormGUI
@@ -806,7 +815,18 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     {
         $ilSetting = $this->settings;
 
-        $group_order = $this->admin_gui_request->getNewItemGroupOrder();
+        $table = $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder(true, $this, "listNewItemGroups")
+            ->getTable();
+        $group_order = [];
+        $ordered_group_ids = $table->getData();
+        if (is_array($ordered_group_ids)) {
+            foreach ($ordered_group_ids as $position => $group_id) {
+                $group_order[(int) $group_id] = ($position + 1) * 10;
+            }
+        }
+
         if (count($group_order) > 0) {
             ilObjRepositorySettings::updateNewItemGroupOrder($group_order);
 
@@ -834,10 +854,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
 
-    protected function confirmDeleteNewItemGroup(): void
+    public function confirmDeleteNewItemGroup(int $group_id): void
     {
-        $group_ids = $this->admin_gui_request->getNewItemGroupIds();
-        if (count($group_ids) === 0) {
+        $groups = ilObjRepositorySettings::getNewItemGroups();
+        if (!isset($groups[$group_id])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listNewItemGroups();
             return;
@@ -845,25 +865,25 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $this->setModuleSubTabs("new_item_groups");
 
-        $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt("rep_new_item_group_delete_sure"));
-
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt("cancel"), "listNewItemGroups");
-        $cgui->setConfirm($this->lng->txt("confirm"), "deleteNewItemGroup");
-
-        $groups = ilObjRepositorySettings::getNewItemGroups();
-
-        foreach ($group_ids as $grp_id) {
-            $cgui->addItem("grp_ids[]", (string) $grp_id, $groups[$grp_id]["title"]);
-        }
-
-        $this->tpl->setContent($cgui->getHTML());
+        $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder(true, $this, "listNewItemGroups")
+            ->getTable()
+            ->renderDeletionConfirmation(
+                $this->lng->txt("delete"),
+                $this->lng->txt("rep_new_item_group_delete_sure"),
+                "deleteNewItemGroup",
+                [$group_id => $groups[$group_id]["title"]]
+            );
     }
 
     protected function deleteNewItemGroup(): void
     {
-        $group_ids = $this->admin_gui_request->getNewItemGroupIds();
+        $group_ids = $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder(true, $this, "listNewItemGroups")
+            ->getTable()
+            ->getItemIds();
         if (count($group_ids) === 0) {
             $this->listNewItemGroups();
             return;
