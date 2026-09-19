@@ -61,12 +61,7 @@ class ilCommentGUI extends ilNoteGUI
 
     protected function getNoEntriesText(bool $search): string
     {
-        if (!$search) {
-            $mess_txt = $this->lng->txt("notes_no_comments");
-        } else {
-            $mess_txt = $this->lng->txt("notes_no_comments_found");
-        }
-        return $mess_txt;
+        return $search ? $this->lng->txt("notes_no_comments_found") : "";
     }
 
     protected function getItemGroupTitle(int $obj_id = 0): string
