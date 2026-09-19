@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Tests\ExportImport;
 
 use ILIAS\Test\ExportImport\Factory;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
@@ -46,7 +47,8 @@ class ExportFactoryTest extends \ilTestBaseTestCase
             $this->createMock(\ILIAS\FileDelivery\Services::class),
             $this->createMock(\ilObjUser::class),
             $this->createMock(GeneralQuestionPropertiesRepository::class),
-            $this->createMock(\ILIAS\ResourceStorage\Services::class)
+            $this->createMock(\ILIAS\ResourceStorage\Services::class),
+            $this->createMock(ParticipantRepository::class)
         );
     }
 

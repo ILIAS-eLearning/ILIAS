@@ -22,6 +22,7 @@ namespace ILIAS\Test\ExportImport;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 
@@ -39,7 +40,8 @@ class Factory
         private readonly FileDeliveryServices $file_delivery,
         private readonly \ilObjUser $current_user,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
-        private readonly ResourceStorage $irss
+        private readonly ResourceStorage $irss,
+        private readonly ParticipantRepository $participant_repository
     ) {
     }
 
@@ -98,7 +100,8 @@ class Factory
                     $this->file_delivery,
                     $test_obj,
                     $this->irss,
-                    $this->current_user
+                    $this->current_user,
+                    $this->participant_repository
                 );
 
                 return $export->withResultExportingEnabled($export_type === Types::XML_WITH_RESULTS);

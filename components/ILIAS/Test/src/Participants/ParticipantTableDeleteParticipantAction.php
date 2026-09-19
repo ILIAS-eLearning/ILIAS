@@ -79,10 +79,8 @@ class ParticipantTableDeleteParticipantAction implements TableAction
         )->withAffectedItems(
             array_map(
                 fn(Participant $v) => $this->ui_factory->modal()->interruptiveItem()->standard(
-                    (string) $v->getUserId(),
-                    $this->test_obj->getAnonymity()
-                        ? $this->lng->txt('anonymous')
-                        : \ilObjUser::_lookupFullname($v->getUserId())
+                    (string) $v->getUser()->getUserId(),
+                    $v->getUser()->getDisplayName($this->lng, $this->test_obj->getAnonymity())
                 ),
                 $selected_participants
             )
