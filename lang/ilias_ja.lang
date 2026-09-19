@@ -12931,7 +12931,6 @@ news#:#news_allow_shorter_periods#:#短めの時間を許可
 news#:#news_allow_shorter_periods_info#:#ユーザはパーソナルデスクトップ上で短めのニュース期間選択が可能です。
 news#:#news_attached_to#:#添付
 news#:#news_block_information#:#<b>ニュース</b>ブロックは、パーソナルデスクトップ上で選択した<b>パーソナルアイテム</b>に関係する全てのニュースをリストします。
-news#:#news_block_news_for_context#:#ニュース
 news#:#news_cache#:#新規キャッシュ(分)
 news#:#news_cache_info#:#ニュースブロックをx分すべてアップデートします。 '0'は毎回を意味します。 値を上げるとパフォーマンスは上がりますが、ニュースが非アクセスアイテムへリンクされる事につながります。
 news#:#news_default_visibility#:#アクセス初期設定
