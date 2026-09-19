@@ -1280,42 +1280,11 @@ class ilNewsItem
     }
 
     /**
-     * Get default visibility for reference id
-     * @deprecated will move to ilNewsData
+     * Get global default visibility for news items.
      */
-    public static function _getDefaultVisibilityForRefId(int $a_ref_id): string
+    public static function getDefaultVisibility(): string
     {
-        global $DIC;
-
-        $tree = $DIC->repositoryTree();
-
-        $news_set = new ilSetting("news");
-        $default_visibility = ($news_set->get("default_visibility") != "")
-                ? $news_set->get("default_visibility")
-                : "users";
-
-        if ($tree->isInTree($a_ref_id)) {
-            $path = $tree->getPathFull($a_ref_id);
-
-            foreach ($path as $key => $row) {
-                if (!in_array($row["type"], ["root", "cat", "crs", "fold", "grp"], true)) {
-                    continue;
-                }
-
-                $visibility = ilBlockSetting::_lookup(
-                    "news",
-                    "default_visibility",
-                    0,
-                    (int) $row["obj_id"]
-                );
-
-                if ($visibility != "") {
-                    $default_visibility = $visibility;
-                }
-            }
-        }
-
-        return $default_visibility;
+        return (new ilSetting('news'))->get('default_visibility', NEWS_USERS);
     }
 
 
