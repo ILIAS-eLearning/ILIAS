@@ -175,7 +175,7 @@ class ViewControlPaginationTest extends ViewControlTestBase
         <span class="il-viewcontrol-pagination__spacer">...</span>
         <button class="btn btn-link" id="id_2">5</button>
         <button class="btn btn-link" id="id_3">6</button>
-        <button class="btn btn-link engaged" aria-pressed="true" id="id_4">7</button>
+        <button class="btn btn-link engaged" aria-current="page" id="id_4">7</button>
         <button class="btn btn-link" id="id_5">8</button>
         <button class="btn btn-link" id="id_6">9</button>
         <span class="il-viewcontrol-pagination__spacer">...</span>
