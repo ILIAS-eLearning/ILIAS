@@ -3407,6 +3407,7 @@ cmps#:#cmps_db_update#:#Skript für Datenbankaktualisierung
 cmps#:#cmps_deactivate#:#Deaktivieren
 cmps#:#cmps_detailed_information#:#Detaillierte Informationen
 cmps#:#cmps_dir#:#Verzeichnis
+cmps#:#cmps_disable_creation#:#Erstellung ausschalten
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_file_version#:#Dateiversion aktualisieren
 cmps#:#cmps_group#:#Gruppe

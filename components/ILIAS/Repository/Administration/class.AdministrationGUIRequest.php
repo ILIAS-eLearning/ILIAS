@@ -41,6 +41,16 @@ class AdministrationGUIRequest
         return $this->int("grp_id");
     }
 
+    public function getModuleGroupId(): int
+    {
+        return $this->int("group_id");
+    }
+
+    public function getModuleType(): string
+    {
+        return $this->str("obj_type");
+    }
+
     /** @return int[] */
     public function getNewItemPositions(): array
     {
