@@ -1309,60 +1309,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-
-    ////
-    //// Upload directory handling
-    ////
-
-    /**
-     * Select files from upload directory
-     */
-    public function selectUploadDirFiles(
-        ?array $a_files = null
-    ): void {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilToolbar = $this->toolbar;
-
-
-        if (!$a_files) {
-            $a_files = $this->mep_request->getFiles();
-        }
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
-            $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "listMedia")
-        );
-
-        $this->checkPermission("write");
-
-        if ($this->rbac_system->checkAccess("visible", SYSTEM_FOLDER_ID)) {
-            $tb = new ilToolbarGUI();
-            // action type
-            $options = array(
-                "rename" => $lng->txt("mep_up_dir_move"),
-                "copy" => $lng->txt("mep_up_dir_copy"),
-                );
-            $si = new ilSelectInputGUI("", "action");
-            $si->setOptions($options);
-            $tb->addInputItem($si);
-            $tb->setCloseFormTag(false);
-            $tb->setFormAction($ilCtrl->getFormAction($this));
-            $tb->setFormName("mep_up_form");
-
-            $tab = new ilUploadDirFilesTableGUI(
-                $this,
-                "selectUploadDirFiles",
-                $a_files
-            );
-            $tab->setFormName("mep_up_form");
-            $tpl->setContent($tb->getHTML() . $tab->getHTML());
-        }
-    }
-
     /**
      * Get preview modal html
      */
