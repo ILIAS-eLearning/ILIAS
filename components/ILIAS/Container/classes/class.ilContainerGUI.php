@@ -64,6 +64,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected ?ModeManager $mode_manager = null;
     protected ilComponentFactory $component_factory;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
+    protected \ILIAS\Repository\InternalGUIService $repository_gui;
 
     public function __construct(
         $a_data,
@@ -126,6 +127,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->content_style_gui = $cs->gui();
         $this->content_style_domain = $cs->domain();
         $this->gui = $DIC->container()->internal()->gui();
+        $this->repository_gui = $DIC->repository()->internal()->gui();
     }
 
     protected function getModeManager(): ModeManager
@@ -2591,14 +2593,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->lng->loadLanguageModule('cont');
         $tpl->setOnScreenMessage('info', $this->lng->txt('cont_trash_general_usage'));
 
-        $trash_table = new ilTrashTableGUI($this, 'trash', $this->object->getRefId());
-        $trash_table->init();
-        $trash_table->parse();
+        $trash_table_builder = $this->repository_gui
+            ->trash()
+            ->trashTableBuilder($this->object->getRefId(), $this, 'trash');
+        $trash_table = $trash_table_builder->getTable();
+        if ($trash_table->handleCommand()) {
+            return;
+        }
 
-        $trash_table->setFilterCommand('trashApplyFilter');
-        $trash_table->setResetCommand('trashResetFilter');
-
-        $tpl->setContent($trash_table->getHTML());
+        $tpl->setContent($trash_table_builder->getFilter()->render() . $trash_table->render());
     }
 
     public function trashApplyFilterObject(): void
@@ -2616,61 +2619,55 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected function trashHandleFilter(bool $action_apply, bool $action_reset): void
     {
         $this->checkTrashAccess();
-        $trash_table = new ilTrashTableGUI($this, 'trash', $this->object->getRefId());
-        $trash_table->init();
-        $trash_table->resetOffset();
-        if ($action_reset) {
-            $trash_table->resetFilter();
-        }
-        if ($action_apply) {
-            $trash_table->writeFilterToSession();
-        }
         $this->trashObject();
     }
 
-    public function removeFromSystemObject(): void
+    public function removeFromSystemObject(?int $trash_id = null): void
     {
         $this->checkPermission("write");
         $ru = new ilRepositoryTrashGUI($this);
-        $ru->removeObjectsFromSystem($this->std_request->getTrashIds());
+        $trash_ids = $trash_id === null ? $this->std_request->getTrashIds() : [$trash_id];
+        $ru->removeObjectsFromSystem($trash_ids);
         $this->ctrl->redirect($this, "trash");
     }
 
-    protected function restoreToNewLocationObject(?ilPropertyFormGUI $form = null): void
+    public function restoreToNewLocationObject(?int $trash_id = null): void
     {
         $this->checkTrashAccess();
         $this->tabs_gui->activateTab('trash');
 
         $ru = new ilRepositoryTrashGUI($this);
-        $ru->restoreToNewLocation();
+        $ru->restoreToNewLocation(null, $trash_id === null ? [] : [$trash_id]);
     }
 
     /**
      * Get objects back from trash
      */
-    public function undeleteObject(): void
+    public function undeleteObject(?int $trash_id = null): void
     {
         $this->checkTrashAccess();
         $ru = new ilRepositoryTrashGUI($this);
+        $trash_ids = $trash_id === null ? $this->std_request->getTrashIds() : [$trash_id];
         $ru->restoreObjects(
             $this->requested_ref_id,
-            $this->std_request->getTrashIds()
+            $trash_ids
         );
         $this->ctrl->redirect($this, "trash");
     }
 
-    public function confirmRemoveFromSystemObject(): void
+    public function confirmRemoveFromSystemObject(?int $trash_id = null): void
     {
         $this->checkTrashAccess();
         $lng = $this->lng;
         $this->checkPermission("write");
-        if (count($this->std_request->getTrashIds()) == 0) {
+        $trash_ids = $trash_id === null ? $this->std_request->getTrashIds() : [$trash_id];
+        if (count($trash_ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "trash");
         }
 
         $ru = new ilRepositoryTrashGUI($this);
-        $ru->confirmRemoveFromSystemObject($this->std_request->getTrashIds());
+        $ru->confirmRemoveFromSystemObject($trash_ids);
     }
 
     protected function getTreeSelectorGUI(string $cmd): ilTreeExplorerGUI

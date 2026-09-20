@@ -36,6 +36,7 @@ class ilRepositoryTrashGUI
     protected ilTree $tree;
     protected ?ilLogger $logger = null;
     protected TrashGUIRequest $request;
+    protected \ILIAS\Repository\InternalGUIService $repository_gui;
     protected object $parent_gui;
     protected string $parent_cmd;
 
@@ -57,6 +58,7 @@ class ilRepositoryTrashGUI
         $this->parent_cmd = $a_parent_cmd;
 
         $this->logger = $DIC->logger()->rep();
+        $this->repository_gui = $DIC->repository()->internal()->gui();
         $this->request = $DIC->repository()
             ->internal()
             ->gui()
@@ -90,11 +92,14 @@ class ilRepositoryTrashGUI
     }
 
     public function restoreToNewLocation(
-        ?ilPropertyFormGUI $form = null
+        ?ilPropertyFormGUI $form = null,
+        array $trash_ids = []
     ): void {
         $this->lng->loadLanguageModule('rep');
 
-        $trash_ids = $this->request->getTrashIds();
+        if ($trash_ids === []) {
+            $trash_ids = $this->request->getTrashIds();
+        }
 
         $this->ctrl->setParameter($this, 'trash_ids', implode(',', $trash_ids));
 
@@ -333,20 +338,15 @@ class ilRepositoryTrashGUI
     public function showTrashTable(
         int $a_ref_id
     ): void {
-        $tpl = $this->tpl;
-        $tree = $this->tree;
-        $lng = $this->lng;
-
-        $objects = $tree->getSavedNodeData($a_ref_id);
-
-        if (count($objects) === 0) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_trash_empty"));
+        $table_builder = $this->repository_gui
+            ->trash()
+            ->trashTableBuilder($a_ref_id, $this->parent_gui, 'trash');
+        $table = $table_builder->getTable();
+        if ($table->handleCommand()) {
             return;
         }
-        $ttab = new ilTrashTableGUI($this->parent_gui, "trash", $a_ref_id);
-        $ttab->setData($objects);
 
-        $tpl->setContent($ttab->getHTML());
+        $this->tpl->setContent($table_builder->getFilter()->render() . $table->render());
     }
 
     /**
