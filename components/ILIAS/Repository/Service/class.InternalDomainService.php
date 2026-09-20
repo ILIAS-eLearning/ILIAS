@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Repository\Deletion;
 use ILIAS\Repository\Administration\Table\NewItemGroupRetrieval;
+use ILIAS\Repository\RecommendedContent\RoleRecommendationRetrieval;
 
 class InternalDomainService
 {
@@ -59,5 +60,16 @@ class InternalDomainService
     public function newItemGroupRetrieval(): NewItemGroupRetrieval
     {
         return new NewItemGroupRetrieval();
+    }
+
+    public function recommendedContentRoleRetrieval(
+        int $role_id,
+        \ilRecommendedContentManager $manager
+    ): RoleRecommendationRetrieval {
+        return new RoleRecommendationRetrieval(
+            $manager,
+            $this->repositoryTree(),
+            $role_id
+        );
     }
 }
