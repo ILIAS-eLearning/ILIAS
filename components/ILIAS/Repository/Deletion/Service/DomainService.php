@@ -53,7 +53,8 @@ class DomainService
             new PermissionStandardAdapter(
                 $this->domain->access(),
                 $this->domain->rbac()->admin(),
-                $this->tree()
+                $this->tree(),
+                $this->domain->objectDefinition()
             );
     }
 
