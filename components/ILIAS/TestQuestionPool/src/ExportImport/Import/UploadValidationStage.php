@@ -36,11 +36,6 @@ use Psr\Log\LoggerInterface;
  */
 class UploadValidationStage implements ImportStage
 {
-    public const string FILE_TO_IMPORT = 'file_to_import';
-    public const string COMPONENT_IMPORT_FILE = 'component_import_file';
-    public const string IMPORT_BASE_DIR = 'import_base_dir';
-    public const string INSTALL_ID = 'install_id';
-
     private const string IMPORT_TEMP_DIR = CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'temp';
 
     public function __construct(
@@ -68,23 +63,23 @@ class UploadValidationStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        $file_to_import = $context->get(self::FILE_TO_IMPORT);
         if (
-            $file_to_import === null
-            || !is_file($file_to_import)
-            || !str_ends_with(strtolower($file_to_import), '.zip')
+            !$context->hasFileToImport()
+            || !is_file($context->fileToImport())
+            || !str_ends_with(strtolower($context->fileToImport()), '.zip')
         ) {
-            $this->log->error("Invalid import file: {$file_to_import}");
+            $this->log->error("Invalid import file: {$context->fileToImport()}");
             return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
         }
 
-        $subdir = basename($file_to_import, '.zip');
+        $subdir = basename($context->fileToImport(), '.zip');
         $import_base_dir = self::IMPORT_TEMP_DIR . DIRECTORY_SEPARATOR . $subdir;
 
         $options = (new UnzipOptions())->withZipOutputPath(self::IMPORT_TEMP_DIR);
-        $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
+        $handle = fopen($context->fileToImport(), 'r');
+        $unzip = $this->archives->unzip(Streams::ofResource($handle), $options);
         $unzip->extract();
-        $this->log->info("Extracted import file: {$file_to_import} -> {$import_base_dir}");
+        $this->log->info("Extracted import file: {$context->fileToImport()} -> {$import_base_dir}");
 
         $manifest = new ilManifestParser($import_base_dir . DIRECTORY_SEPARATOR . 'manifest.xml');
         $export_file = array_find(
@@ -103,14 +98,9 @@ class UploadValidationStage implements ImportStage
 
         return StageResult::advance(
             $context
-                ->with(self::COMPONENT_IMPORT_FILE, $component_import_file)
-                ->with(self::IMPORT_BASE_DIR, $import_base_dir)
-                ->with(self::INSTALL_ID, $manifest->getInstallId())
+                ->withComponentImportFile($component_import_file)
+                ->withImportBaseDir($import_base_dir)
+                ->withInstallId((int) $manifest->getInstallId())
         );
-    }
-
-    public static function getInstallId(ImportContext $context): int
-    {
-        return intval($context->get(self::INSTALL_ID));
     }
 }
