@@ -241,6 +241,10 @@ export default class PageUIActionHandler {
         this.ui.setMediaFormat(model.getMediaFormat());
         break;
 
+      case 'format.table':
+        this.ui.setTableFormat(model.getTableFormat());
+        break;
+
       case 'format.save':
         this.sendFormatCommand(params);
         break;
@@ -366,6 +370,7 @@ export default class PageUIActionHandler {
       params.parFormat,
       params.secFormat,
       params.medFormat,
+      params.tableFormat,
     );
 
     this.client.sendCommand(drop_action).then((result) => {

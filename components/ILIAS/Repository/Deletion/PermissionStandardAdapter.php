@@ -25,7 +25,8 @@ class PermissionStandardAdapter implements PermissionInterface
     public function __construct(
         protected \ilAccess $access,
         protected \ilRbacAdmin $rbacadmin,
-        protected TreeInterface $tree
+        protected TreeInterface $tree,
+        protected \ilObjectDefinition $obj_definition
     ) {
     }
 
@@ -37,9 +38,17 @@ class PermissionStandardAdapter implements PermissionInterface
     public function getRefIdsWithoutDeletePermission(array $ids): array
     {
         $not_deletable = [];
+        $deactivated_plugin_types = [];
         foreach ($ids as $id) {
             if (!$this->access->checkAccess('delete', "", $id)) {
-                $not_deletable[] = (int) $id;
+                $node_data = $this->tree->isInTree($id)
+                    ? $this->tree->getNodeData($id)
+                    : [];
+                if ($this->isDeactivatedPlugin($node_data)) {
+                    $deactivated_plugin_types[$node_data['type']][] = (int) $id;
+                } else {
+                    $not_deletable[] = (int) $id;
+                }
             }
 
             if ($this->tree->isInTree($id)) {
@@ -51,13 +60,34 @@ class PermissionStandardAdapter implements PermissionInterface
                         continue;
                     }
                     if (!$this->access->checkAccess('delete', "", $node["child"])) {
-                        $not_deletable[] = (int) $node["child"];
+                        if ($this->isDeactivatedPlugin($node)) {
+                            $deactivated_plugin_types[$node['type']][] = (int) $node['child'];
+                        } else {
+                            $not_deletable[] = (int) $node["child"];
+                        }
                     }
                 }
             }
         }
 
+        if ($deactivated_plugin_types !== []) {
+            $plugin_messages = [];
+            foreach ($deactivated_plugin_types as $type => $ref_ids) {
+                $plugin_messages[] = $type . ' (' . implode(', ', array_unique($ref_ids)) . ')';
+            }
+            throw new MissingPermissionException(
+                'Deletion: The following plugin types are deactivated: ' . implode(', ', $plugin_messages) .
+                '. Please activate the listed plugin(s) before deleting their objects.'
+            );
+        }
+
         return array_unique($not_deletable);
+    }
+
+    protected function isDeactivatedPlugin(array $node): bool
+    {
+        $type = (string) ($node['type'] ?? '');
+        return $this->obj_definition->isPluginTypeName($type) && !$this->obj_definition->isPlugin($type);
     }
 
     public function revokePermission(int $ref_id): void
