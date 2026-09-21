@@ -691,7 +691,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         ilObjMediaObjectGUI::includePresentationJS($this->tpl);
         $media_obj = new ilObjMediaObject($mob_id);
+        $media_item = $media_obj->getMediaItem("Standard");
 
+        if ($this->ctrl->getCmd() === "showPreview" && $media_item->getFormat() === "text/html") {
+            $this->tpl->addInlineCss(
+                "figure.ilc_media_cont_MediaContainer { height: 100%; }"
+            );
+        }
 
         $this->tpl->setVariable("TITLE", " - " . $media_obj->getTitle());
 
