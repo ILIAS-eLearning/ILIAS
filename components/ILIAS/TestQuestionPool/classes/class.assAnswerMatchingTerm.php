@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 
 /**
@@ -29,7 +29,7 @@ use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @ingroup components\ILIASTestQuestionPool
 */
-class assAnswerMatchingTerm implements Normalizable
+class assAnswerMatchingTerm implements ToNormalized, FromNormalized
 {
     protected string $text;
     protected string $picture;
@@ -85,26 +85,30 @@ class assAnswerMatchingTerm implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(array $context): array => [
+        return [
             'text' => $this->text,
             'picture' => $this->picture
-                ? $tt->normalize(new QuestionImage($this->picture, $context['question_id'] ?? null))
+                ? $transformations->normalize(new QuestionImage($this->picture, $context['question_id'] ?? null))
                 : null,
             'identifier' => $this->identifier,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            return $this->withText($tt->string($normalized['text']))
-                ->withPicture($tt->denormalize($normalized['picture'], QuestionImage::class)?->getFilename() ?? '')
-                ->withIdentifier($tt->int($normalized['identifier']));
-        });
+        return $this->withText($transformations->string($normalized['text']))
+            ->withPicture($transformations->denormalize($normalized['picture'], QuestionImage::class)?->getFilename() ?? '')
+            ->withIdentifier($transformations->int($normalized['identifier']));
     }
 }

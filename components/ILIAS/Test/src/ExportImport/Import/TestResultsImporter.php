@@ -31,7 +31,7 @@ use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
 use ILIAS\Test\Results\Data\AttemptResult;
 use ILIAS\Test\Results\Data\ParticipantResult;
 use ILIAS\Test\TestManScoringDoneHelper;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ilTestSequence;
 use Psr\Log\LoggerInterface;
@@ -74,7 +74,7 @@ class TestResultsImporter
     public function importTestSequences(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces ActiveID and QuestionIDs
+            // The mapping processor replaces ActiveID and QuestionIDs
             $sequence = $tt->denormalize($normalized, ilTestSequence::class);
             $sequence->saveToDb();
             $this->log->debug("Stored test sequence in database: {$sequence->getActiveId()} (Active ID), {$sequence->getPass()} (Pass)");
@@ -84,7 +84,7 @@ class TestResultsImporter
     public function importSolutions(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces ActiveID and QuestionID
+            // The mapping processor replaces ActiveID and QuestionID
             $solution = $tt->denormalize($normalized, Solution::class);
 
             $next_id = $this->database->nextId('tst_solutions');
@@ -110,7 +110,7 @@ class TestResultsImporter
     public function importQuestionResults(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces ActiveID and QuestionID
+            // The mapping processor replaces ActiveID and QuestionID
             $result = $tt->denormalize($normalized, QuestionResult::class);
 
             $next_id = $this->database->nextId('tst_test_result');
@@ -134,7 +134,7 @@ class TestResultsImporter
     public function importAttemptResults(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces ActiveID
+            // The mapping processor replaces ActiveID
             $attempt = $tt->denormalize($normalized, AttemptResult::class);
 
             $this->database->insert(
@@ -163,7 +163,7 @@ class TestResultsImporter
             return;
         }
 
-        // The mapping pipe replaces ActiveID
+        // The mapping processor replaces ActiveID
         $result = $tt->denormalize($normalized, ParticipantResult::class);
 
         $this->database->insert(
@@ -186,7 +186,7 @@ class TestResultsImporter
     public function importWorkingTimes(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces ActiveID
+            // The mapping processor replaces ActiveID
             $working_time = $tt->denormalize($normalized, WorkingTime::class);
 
             $next_id = $this->database->nextId('tst_times');
@@ -208,7 +208,7 @@ class TestResultsImporter
     public function importManualFeedback(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces ActiveID, QuestionID and UserID
+            // The mapping processor replaces ActiveID, QuestionID and UserID
             $manual_feedback = $tt->denormalize($normalized, ManualFeedback::class);
 
             $next_id = $this->database->nextId('tst_manual_fb');
@@ -232,7 +232,7 @@ class TestResultsImporter
 
     public function importManualScoring(array $normalized, Transformations $tt): void
     {
-        // The mapping pipe replaces ActiveID, QuestionID and UserID
+        // The mapping processor replaces ActiveID, QuestionID and UserID
         $active_id = $tt->denormalize($normalized['active_id'], Id::class)->getId();
 
         (new TestManScoringDoneHelper())->setDone($active_id, $tt->bool($normalized['done']));
@@ -242,7 +242,7 @@ class TestResultsImporter
     public function importAdditionalWorkingTimes(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces UserID and TestID
+            // The mapping processor replaces UserID and TestID
             $time = $tt->denormalize($normalized, AdditionalWorkingTime::class);
 
             $this->database->insert(
@@ -261,7 +261,7 @@ class TestResultsImporter
     public function importRandomTestQuestions(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // The mapping pipe replaces ActiveID, QuestionID and SourcePoolDefinitionID
+            // The mapping processor replaces ActiveID, QuestionID and SourcePoolDefinitionID
             $question = $tt->denormalize($normalized, RandomTestQuestion::class);
 
             $next_id = $this->database->nextId('tst_test_rnd_qst');

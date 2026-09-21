@@ -22,18 +22,17 @@ namespace ILIAS\TestQuestionPool\ExportImport\Pipes;
 
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 
 /**
- * Pipe that enriches QuestionImage envelopes with UUID-based IDs and records source-to-target file mappings during
- * normalization.
+ * Enriches question images with UUIDs and records their source-to-target file mappings.
  */
-class CollectQuestionImages implements Pipe
+class CollectQuestionImages implements Processor
 {
     private readonly QuestionFiles $question_files;
 
@@ -57,17 +56,19 @@ class CollectQuestionImages implements Pipe
     /**
      * @inheritDoc
      */
-    public function handle(mixed $passable, \Closure $next): mixed
+    public function process(object $carry): void
     {
-        if ($passable instanceof NormalizeCarry && $passable->value instanceof QuestionImage) {
-            $this->handleNormalization($passable->value);
+        if ($carry instanceof NormalizeCarry && $carry->value() instanceof QuestionImage) {
+            $this->handleNormalization($carry->value());
         }
 
-        if ($passable instanceof DenormalizeCarry && $passable->expected === QuestionImage::class) {
-            $this->handleDenormalization($passable);
+        if (
+            $carry instanceof DenormalizeCarry
+            && $carry->expected() === QuestionImage::class
+            && $carry->hasResult()
+        ) {
+            $this->handleDenormalization($carry);
         }
-
-        return $next($passable);
     }
 
     private function handleNormalization(QuestionImage $envelope): void
@@ -93,6 +94,9 @@ class CollectQuestionImages implements Pipe
     private function handleDenormalization(DenormalizeCarry $passable): void
     {
         $envelope = $passable->result();
+        if ($envelope === null) {
+            return;
+        }
         if (!$envelope instanceof QuestionImage) {
             throw new NormalizingException('Expected question image envelope, got ' . get_debug_type($envelope));
         }

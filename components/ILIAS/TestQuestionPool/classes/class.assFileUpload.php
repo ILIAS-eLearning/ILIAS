@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -38,7 +38,7 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType, Normalizable
+class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType, ToNormalized, FromNormalized
 {
     public const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
     public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
@@ -957,28 +957,32 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
     * @inheritDoc
     */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'maxsize' => $this->maxsize,
             'allowedextensions' => $this->allowedextensions,
             'completion_by_submission' => $this->completion_by_submission,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->maxsize = $tt->nullableInt($normalized['maxsize']);
-            $clone->allowedextensions = $tt->string($normalized['allowedextensions']);
-            $clone->completion_by_submission = $tt->bool($normalized['completion_by_submission']);
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->maxsize = $transformations->nullableInt($normalized['maxsize']);
+        $clone->allowedextensions = $transformations->string($normalized['allowedextensions']);
+        $clone->completion_by_submission = $transformations->bool($normalized['completion_by_submission']);
 
-            return $clone;
-        });
+        return $clone;
     }
 }

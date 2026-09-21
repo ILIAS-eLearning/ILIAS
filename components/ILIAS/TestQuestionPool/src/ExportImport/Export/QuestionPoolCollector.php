@@ -22,7 +22,6 @@ namespace ILIAS\TestQuestionPool\ExportImport\Export;
 
 use ilDBInterface;
 use ILIAS\Data\ObjectId;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilObjQuestionPool;
@@ -30,7 +29,7 @@ use ilObjQuestionPool;
 /**
  * Collector to aggregate data from the question pool for export.
  */
-class QuestionPoolCollector implements DataCollector
+class QuestionPoolCollector
 {
     use CollectsQuestions;
 

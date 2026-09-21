@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 
 /**
@@ -31,7 +31,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 * @version		$Id$
 * @package		Modules/TestQuestionPool
 */
-class ilAssOrderingElement implements Normalizable
+class ilAssOrderingElement implements ToNormalized, FromNormalized
 {
     public const EXPORT_IDENT_PROPERTY_SEPARATOR = '_';
 
@@ -450,40 +450,44 @@ class ilAssOrderingElement implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(array $options): array => [
-            'id' => $tt->normalize(new Id($this->id, 'ordering')),
+        return [
+            'id' => $transformations->normalize(new Id($this->id, 'ordering')),
             'random_identifier' => $this->random_identifier,
             'solution_identifier' => $this->solution_identifier,
             'position' => $this->position,
             'indentation' => $this->indentation,
-            'content' => $this->content ? $tt->normalize(
-                new QuestionImage($this->content, $options['question_id'] ?? null)
+            'content' => $this->content ? $transformations->normalize(
+                new QuestionImage($this->content, $context['question_id'] ?? null)
             ) : null,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = $this->withRandomIdentifier($tt->int($normalized['random_identifier']))
-                        ->withSolutionIdentifier($tt->int($normalized['solution_identifier']))
-                        ->withPosition($tt->int($normalized['position']))
-                        ->withIndentation($tt->int($normalized['indentation']));
+        $clone = $this->withRandomIdentifier($transformations->int($normalized['random_identifier']))
+                    ->withSolutionIdentifier($transformations->int($normalized['solution_identifier']))
+                    ->withPosition($transformations->int($normalized['position']))
+                    ->withIndentation($transformations->int($normalized['indentation']));
 
-            if (is_array($normalized['content'])) {
-                $clone->setContent($tt->denormalize($normalized['content'], QuestionImage::class)?->getFilename());
-            } else {
-                $clone->setContent((string) $normalized['content']);
-            }
+        if (is_array($normalized['content'])) {
+            $clone->setContent($transformations->denormalize($normalized['content'], QuestionImage::class)?->getFilename());
+        } else {
+            $clone->setContent((string) $normalized['content']);
+        }
 
-            $clone->setId($tt->denormalize($normalized['id'], Id::class)->getId());
+        $clone->setId($transformations->denormalize($normalized['id'], Id::class)->getId());
 
-            return $clone;
-        });
+        return $clone;
     }
 }

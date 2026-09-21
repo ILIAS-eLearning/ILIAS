@@ -16,8 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\Refinery\Transformation;
 
 /**
@@ -32,7 +33,7 @@ use ILIAS\Refinery\Transformation;
  *
  * @ingroup components\ILIASTestQuestionPool
 */
-class assClozeGap implements Normalizable
+class assClozeGap implements ToNormalized, FromNormalized
 {
     public const TYPE_TEXT = 0;
     public const TYPE_SELECT = 1;
@@ -459,31 +460,35 @@ class assClozeGap implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
+        return [
             'type' => $this->type,
             'shuffle' => $this->shuffle,
             'gap_size' => $this->gap_size,
-            'items' => $tt->normalize($this->items),
-        ]);
+            'items' => $transformations->normalize($this->items),
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = new self($normalized['type']);
-            $clone->setShuffle($normalized['shuffle']);
-            $clone->setGapSize($normalized['gap_size']);
-            $clone->items = array_map(
-                fn(array $item) => $tt->denormalize($item, new assAnswerCloze()),
-                $normalized['items']
-            );
+        $clone = new self($normalized['type']);
+        $clone->setShuffle($normalized['shuffle']);
+        $clone->setGapSize($normalized['gap_size']);
+        $clone->items = array_map(
+            fn(array $item) => $transformations->denormalize($item, new assAnswerCloze()),
+            $normalized['items']
+        );
 
-            return $clone;
-        });
+        return $clone;
     }
 }

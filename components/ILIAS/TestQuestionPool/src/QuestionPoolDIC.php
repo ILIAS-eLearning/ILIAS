@@ -22,11 +22,11 @@ namespace ILIAS\TestQuestionPool;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
+use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use ILIAS\TestQuestionPool\ExportImport\LoggingProvider;
 use Pimple\Container as PimpleContainer;
@@ -78,16 +78,13 @@ class QuestionPoolDIC extends PimpleContainer
 
         $dic['exportimport.logging'] = static fn($c): LoggingProvider =>
             new LoggingProvider();
-        $dic['exportimport.builder'] = static fn($c): Builder =>
-            new Builder(
-                $DIC,
-                $c
-            );
+        $dic['exportimport.transformations_builder'] = static fn($c): TransformationsBuilder =>
+            new TransformationsBuilder($DIC);
         $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
             new StateHolder();
         $dic['exportimport.exporter'] = static fn($c): QuestionPoolExporter =>
             new QuestionPoolExporter(
-                $c['exportimport.builder'],
+                $c['exportimport.transformations_builder'],
                 new DataFactory(),
                 $c['question.general_properties.repository'],
                 $DIC->database(),
@@ -117,7 +114,7 @@ class QuestionPoolDIC extends PimpleContainer
             );
         $dic['exportimport.importer'] = static fn($c): QuestionPoolImporter =>
             new QuestionPoolImporter(
-                $c['exportimport.builder'],
+                $c['exportimport.transformations_builder'],
                 $c['exportimport.logging'](),
                 new DataFactory(),
                 $c['exportimport.questions_importer'],

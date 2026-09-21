@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Refinery\Transformation;
 
 /**
  * Class for horizontal ordering questions
@@ -36,7 +36,7 @@ use ILIAS\Refinery\Transformation;
  *
  * @ingroup	ModulesTestQuestionPool
  */
-class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, Normalizable
+class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
     protected const DEFAULT_TEXT_SIZE = 100;
@@ -589,30 +589,34 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     /**
     * @inheritDoc
     */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'ordertext' => $this->ordertext,
             'textsize' => $this->textsize,
             'separator' => $this->separator,
             'answer_separator' => $this->answer_separator,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->ordertext = $tt->string($normalized['ordertext']);
-            $clone->textsize = $tt->float($normalized['textsize']);
-            $clone->separator = $tt->string($normalized['separator']);
-            $clone->answer_separator = $tt->string($normalized['answer_separator']);
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->ordertext = $transformations->string($normalized['ordertext']);
+        $clone->textsize = $transformations->float($normalized['textsize']);
+        $clone->separator = $transformations->string($normalized['separator']);
+        $clone->answer_separator = $transformations->string($normalized['answer_separator']);
 
-            return $clone;
-        });
+        return $clone;
     }
 }
