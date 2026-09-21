@@ -38,7 +38,7 @@ class StateHolder
         ExportConfig $config,
         string $option = ''
     ): ExportState {
-        return $this->export_state ??= new ExportState($target, $config, $option);
+        return $this->export_state = new ExportState($target, $config, $option);
     }
 
     public function exists(): bool
@@ -57,5 +57,10 @@ class StateHolder
     public function set(ExportState $export_state): void
     {
         $this->export_state = $export_state;
+    }
+
+    public function clear(): void
+    {
+        $this->export_state = null;
     }
 }
