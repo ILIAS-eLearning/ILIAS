@@ -174,6 +174,10 @@ export default class ModelActionHandler {
         this.model.setParagraphFormat(params.format);
         break;
 
+      case 'format.table':
+        this.model.setTableFormat(params.format);
+        break;
+
       case 'format.save':
         let m; let
           i;
