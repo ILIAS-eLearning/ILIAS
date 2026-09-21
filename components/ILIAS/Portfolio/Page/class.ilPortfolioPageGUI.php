@@ -1119,7 +1119,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     public function getPagePermaLink(): string
     {
         $pid = ilPortfolioPage::findPortfolioForPage($this->getId());
-        return ilLink::_getStaticLink($pid, "prtf", true, "_" . $this->getId());
+        return ilLink::_getStaticLink($pid, "prtf", true, (string) $this->getId());
     }
 
     private function createPersistentCertificateUrl(

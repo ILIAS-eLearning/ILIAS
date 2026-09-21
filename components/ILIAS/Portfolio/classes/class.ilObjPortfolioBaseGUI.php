@@ -626,7 +626,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         if (count($this->perma_link) === 0) {
             if ($this->getType() === "prtf") {
-                $this->tpl->setPermanentLink($this->getType(), $this->object->getId(), "_" . $current_page);
+                $this->tpl->setPermanentLink($this->getType(), $this->object->getId(), (string) $current_page);
             } else {
                 $this->tpl->setPermanentLink($this->getType(), $this->object->getRefId());
             }
