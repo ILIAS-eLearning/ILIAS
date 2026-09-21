@@ -362,7 +362,7 @@ export default class PageUI {
             newItemAfter: il.Language.txt('cont_ed_new_item_after'),
             newItemBefore: il.Language.txt('cont_ed_new_item_before'),
           };
-          const li1 = b.closest('li.ilc_list_item_StandardListItem');
+          const li1 = b.closest('li[class*="ilc_list_item_"]');
           if (li1.previousSibling || li1.nextSibling) {
             list_commands.deleteItem = il.Language.txt('cont_ed_delete_item');
           }
