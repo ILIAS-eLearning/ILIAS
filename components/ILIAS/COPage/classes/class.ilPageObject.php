@@ -3069,7 +3069,8 @@ s     */
         array $targets,
         string $char_par,
         string $char_sec,
-        string $char_med
+        string $char_med,
+        string $char_tab = ""
     ) {
         if (is_array($targets)) {
             foreach ($targets as $t) {
@@ -3083,6 +3084,13 @@ s     */
                 }
                 if (is_object($cont_obj) && $cont_obj->getType() == "media") {
                     $cont_obj->setClass($char_med);
+                }
+                if (is_object($cont_obj) && in_array($cont_obj->getType(), ["tab", "dtab"])) {
+                    $table_format = explode(":", $char_tab, 3);
+                    if (count($table_format) === 3 && $table_format[0] === "t") {
+                        $cont_obj->setTemplate($table_format[2]);
+                        $cont_obj->setClass("");
+                    }
                 }
             }
             return $this->update();

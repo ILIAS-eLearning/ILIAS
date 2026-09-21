@@ -12,30 +12,29 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import EditorAction from "../../../actions/editor-action.js";
-import ACTIONS from "./page-action-types.js";
+import EditorAction from '../../../actions/editor-action.js';
+import ACTIONS from './page-action-types.js';
 
 /**
  * COPage action factory
  *
  */
 export default class PageEditorActionFactory {
-
-  //COMPONENT = "Page";
+  // COMPONENT = "Page";
 
   /**
    * @type {EditorActionFactory}
    */
-  //editorActionFactory;
+  // editorActionFactory;
 
   /**
    *
    * @param {EditorActionFactory} editorActionFactory
    */
   constructor(editorActionFactory) {
-    this.COMPONENT = "Page";
+    this.COMPONENT = 'Page';
     this.editorActionFactory = editorActionFactory;
   }
 
@@ -58,8 +57,8 @@ export default class PageEditorActionFactory {
    */
   dndDrop(target, source) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.DND_DROP, {
-      target: target,
-      source: source
+      target,
+      source,
     });
   }
 
@@ -68,11 +67,11 @@ export default class PageEditorActionFactory {
    */
   componentInsert(cname, pcid, hierid, pluginName, fromPlaceholder) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_INSERT, {
-      cname: cname,
-      pcid: pcid,
-      hierid: hierid,
-      pluginName: pluginName,
-      fromPlaceholder: fromPlaceholder
+      cname,
+      pcid,
+      hierid,
+      pluginName,
+      fromPlaceholder,
     });
   }
 
@@ -81,9 +80,9 @@ export default class PageEditorActionFactory {
    */
   componentEdit(cname, pcid, hierid) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_EDIT, {
-      cname: cname,
-      pcid: pcid,
-      hierid: hierid
+      cname,
+      pcid,
+      hierid,
     });
   }
 
@@ -92,9 +91,9 @@ export default class PageEditorActionFactory {
    */
   componentForm(cname, pcid, hierid) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_FORM, {
-      cname: cname,
-      pcid: pcid,
-      hierid: hierid
+      cname,
+      pcid,
+      hierid,
     });
   }
 
@@ -103,13 +102,13 @@ export default class PageEditorActionFactory {
    */
   componentSwitch(cname, state, oldPcid, oldPara, newPcid, newHierid, switchToEnd = false) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_SWITCH, {
-      cname: cname,
+      cname,
       oldComponentState: state,
-      oldPcid: oldPcid,
+      oldPcid,
       oldParameters: oldPara,
-      newPcid: newPcid,
-      newHierid: newHierid,
-      switchToEnd: switchToEnd
+      newPcid,
+      newHierid,
+      switchToEnd,
     });
   }
 
@@ -132,10 +131,10 @@ export default class PageEditorActionFactory {
    */
   componentSave(afterPcid, pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_SAVE, {
-      afterPcid: afterPcid,
-      pcid: pcid,
-      component: component,
-      data: data
+      afterPcid,
+      pcid,
+      component,
+      data,
     });
   }
 
@@ -144,10 +143,10 @@ export default class PageEditorActionFactory {
    */
   componentAfterSave(afterPcid, pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_AFTER_SAVE, {
-      afterPcid: afterPcid,
-      pcid: pcid,
-      component: component,
-      data: data
+      afterPcid,
+      pcid,
+      component,
+      data,
     });
   }
 
@@ -156,7 +155,7 @@ export default class PageEditorActionFactory {
    */
   componentFormLoaded(component) {
     return this.editorActionFactory.action(component, ACTIONS.COMPONENT_FORM_LOADED, {
-      component: component
+      component,
     });
   }
 
@@ -165,9 +164,9 @@ export default class PageEditorActionFactory {
    */
   componentUpdate(pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_UPDATE, {
-      pcid: pcid,
-      component: component,
-      data: data
+      pcid,
+      component,
+      data,
     });
   }
 
@@ -176,9 +175,9 @@ export default class PageEditorActionFactory {
    */
   componentUpdateBack(pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_UPDATE_BACK, {
-      pcid: pcid,
-      component: component,
-      data: data
+      pcid,
+      component,
+      data,
     });
   }
 
@@ -187,9 +186,9 @@ export default class PageEditorActionFactory {
    */
   componentSettings(cname, pcid, hierid) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_SETTINGS, {
-      cname: cname,
-      pcid: pcid,
-      hierid: hierid
+      cname,
+      pcid,
+      hierid,
     });
   }
 
@@ -198,9 +197,9 @@ export default class PageEditorActionFactory {
    */
   multiToggle(ctype, pcid, hierid) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MULTI_TOGGLE, {
-      ctype: ctype,
-      pcid: pcid,
-      hierid: hierid
+      ctype,
+      pcid,
+      hierid,
     });
   }
 
@@ -209,7 +208,7 @@ export default class PageEditorActionFactory {
    */
   multiAction(type) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MULTI_ACTION, {
-      type: type
+      type,
     });
   }
 
@@ -218,21 +217,22 @@ export default class PageEditorActionFactory {
    */
   multiPaste(pcid, hierid, mode) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MULTI_PASTE, {
-      pcid: pcid,
-      hierid: hierid,
-      mode: mode
+      pcid,
+      hierid,
+      mode,
     });
   }
 
   /**
    * @returns {EditorAction}
    */
-  formatSave(pcids, parFormat, secFormat, medFormat) {
+  formatSave(pcids, parFormat, secFormat, medFormat, tableFormat) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_SAVE, {
-      pcids: pcids,
-      parFormat: parFormat,
-      secFormat: secFormat,
-      medFormat: medFormat
+      pcids,
+      parFormat,
+      secFormat,
+      medFormat,
+      tableFormat,
     });
   }
 
@@ -248,7 +248,7 @@ export default class PageEditorActionFactory {
    */
   multiDelete(pcids) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MULTI_DELETE, {
-      pcids: pcids
+      pcids,
     });
   }
 
@@ -257,7 +257,7 @@ export default class PageEditorActionFactory {
    */
   multiActivate(pcids) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MULTI_ACTIVATE, {
-      pcids: pcids
+      pcids,
     });
   }
 
@@ -266,25 +266,34 @@ export default class PageEditorActionFactory {
    */
   formatParagraph(format) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_PARAGRAPH, {
-      format: format
+      format,
     });
   }
 
   /**
    * @returns {EditorAction}
    */
-    formatSection(format) {
+  formatSection(format) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_SECTION, {
-      format: format
+      format,
     });
   }
 
   /**
    * @returns {EditorAction}
    */
-    formatMedia(format) {
+  formatMedia(format) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_MEDIA, {
-      format: format
+      format,
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  formatTable(format) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_TABLE, {
+      format,
     });
   }
 
@@ -314,9 +323,8 @@ export default class PageEditorActionFactory {
    */
   editListItem(listCmd, pcid) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_EDIT, {
-      listCmd: listCmd,
-      pcid: pcid
+      listCmd,
+      pcid,
     });
   }
-
 }

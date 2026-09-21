@@ -800,6 +800,12 @@ export default class PageUI {
       .style.display = 'none';
     document.querySelector('#il-copg-format-media')
       .style.display = 'none';
+    document.querySelector('#il-copg-format-table')
+      .style.display = 'none';
+    document.querySelector('#il-copg-format-error')
+      .style.display = 'none';
+    const saveButton = document.querySelector("[data-copg-ed-action='format.save']");
+    let hasSupportedSelection = false;
     this.log('***INIT FORMAT');
     this.log(selected);
     selected.forEach((id) => {
@@ -808,17 +814,33 @@ export default class PageUI {
         case 'MediaObject':
           document.querySelector('#il-copg-format-media')
             .style.display = '';
+          hasSupportedSelection = true;
           break;
         case 'Section':
           document.querySelector('#il-copg-format-section')
             .style.display = '';
+          hasSupportedSelection = true;
           break;
         case 'Paragraph':
           document.querySelector('#il-copg-format-paragraph')
             .style.display = '';
+          hasSupportedSelection = true;
+          break;
+        case 'Table':
+        case 'DataTable':
+          document.querySelector('#il-copg-format-table')
+            .style.display = '';
+          hasSupportedSelection = hasSupportedSelection
+            || document.querySelectorAll('#il-copg-format-table div.dropdown ul li button').length > 0;
           break;
       }
     });
+    if (!hasSupportedSelection) {
+      document.querySelector('#il-copg-format-error').style.display = '';
+    }
+    if (saveButton) {
+      saveButton.style.display = hasSupportedSelection ? '' : 'none';
+    }
 
     document.querySelectorAll("[data-copg-ed-type='format']").forEach((multi_button) => {
       const act = multi_button.dataset.copgEdAction;
@@ -843,6 +865,12 @@ export default class PageUI {
           });
           break;
 
+        case 'format.table':
+          multi_button.addEventListener('click', (event) => {
+            dispatch.dispatch(action.page().editor().formatTable(format));
+          });
+          break;
+
         case 'format.save':
           multi_button.addEventListener('click', (event) => {
             const pcids = new Set(this.model.getSelected());
@@ -851,6 +879,7 @@ export default class PageUI {
               model.getParagraphFormat(),
               model.getSectionFormat(),
               model.getMediaFormat(),
+              model.getTableFormat(),
             ));
           });
           break;
@@ -865,19 +894,32 @@ export default class PageUI {
 
     // get first values and dispatch their selection
     const b1 = document.querySelector('#il-copg-format-paragraph div.dropdown ul li button');
-    const f1 = b1.dataset.copgEdParFormat;
-    if (f1) {
-      dispatch.dispatch(action.page().editor().formatParagraph(f1));
+    if (b1) {
+      const f1 = b1.dataset.copgEdParFormat;
+      if (f1) {
+        dispatch.dispatch(action.page().editor().formatParagraph(f1));
+      }
     }
     const b2 = document.querySelector('#il-copg-format-section div.dropdown ul li button');
-    const f2 = b2.dataset.copgEdParFormat;
-    if (f2) {
-      dispatch.dispatch(action.page().editor().formatSection(f2));
+    if (b2) {
+      const f2 = b2.dataset.copgEdParFormat;
+      if (f2) {
+        dispatch.dispatch(action.page().editor().formatSection(f2));
+      }
     }
     const b3 = document.querySelector('#il-copg-format-media div.dropdown ul li button');
-    const f3 = b3.dataset.copgEdParFormat;
-    if (f3) {
-      dispatch.dispatch(action.page().editor().formatMedia(f3));
+    if (b3) {
+      const f3 = b3.dataset.copgEdParFormat;
+      if (f3) {
+        dispatch.dispatch(action.page().editor().formatMedia(f3));
+      }
+    }
+    const b4 = document.querySelector('#il-copg-format-table div.dropdown ul li button');
+    if (b4) {
+      const f4 = b4.dataset.copgEdParFormat;
+      if (f4) {
+        dispatch.dispatch(action.page().editor().formatTable(f4));
+      }
     }
   }
 
@@ -899,6 +941,14 @@ export default class PageUI {
     const b3 = document.querySelector('#il-copg-format-media div.dropdown > button');
     if (b3) {
       b3.firstChild.textContent = `${format} `;
+    }
+  }
+
+  setTableFormat(format) {
+    const b4 = document.querySelector('#il-copg-format-table div.dropdown > button');
+    if (b4) {
+      const formatName = format.startsWith('t:') ? format.substring(format.indexOf(':', 2) + 1) : format;
+      b4.firstChild.textContent = `${formatName} `;
     }
   }
 

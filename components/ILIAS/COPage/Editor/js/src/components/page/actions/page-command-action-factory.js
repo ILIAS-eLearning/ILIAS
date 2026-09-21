@@ -12,27 +12,26 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import ACTIONS from "./page-action-types.js";
+import ACTIONS from './page-action-types.js';
 
 /**
  * COPage command actions being sent to the server
  */
 export default class PageCommandActionFactory {
-
-  //COMPONENT = "Page";
+  // COMPONENT = "Page";
 
   /**
    * @type {ClientActionFactory}
    */
-  //clientActionFactory;
+  // clientActionFactory;
 
   /**
    * @param {ClientActionFactory} clientActionFactory
    */
   constructor(clientActionFactory) {
-    this.COMPONENT = "Page";
+    this.COMPONENT = 'Page';
     this.clientActionFactory = clientActionFactory;
   }
 
@@ -45,11 +44,11 @@ export default class PageCommandActionFactory {
    */
   createLegacy(ctype, pcid, hier_id, pluginName) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.CREATE_LEGACY, {
-      cmd: "insert",
-      ctype: ctype,
-      pcid: pcid,
-      hier_id: hier_id,
-      pluginName: pluginName
+      cmd: 'insert',
+      ctype,
+      pcid,
+      hier_id,
+      pluginName,
     });
   }
 
@@ -61,10 +60,10 @@ export default class PageCommandActionFactory {
    */
   editLegacy(cname, pcid, hier_id) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.EDIT_LEGACY, {
-      cmd: "edit",
-      cname: cname,
-      pcid: pcid,
-      hier_id: hier_id
+      cmd: 'edit',
+      cname,
+      pcid,
+      hier_id,
     });
   }
 
@@ -76,7 +75,7 @@ export default class PageCommandActionFactory {
   multiLegacy(type, ids) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.MULTI_LEGACY, {
       cmd: type,
-      ids: ids
+      ids,
     });
   }
 
@@ -87,7 +86,7 @@ export default class PageCommandActionFactory {
    */
   paste(target_pcid) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.PASTE, {
-      target_pcid: target_pcid
+      target_pcid,
     });
   }
 
@@ -97,7 +96,7 @@ export default class PageCommandActionFactory {
    */
   cut(pcids) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.CUT, {
-      pcids: pcids
+      pcids,
     });
   }
 
@@ -107,7 +106,7 @@ export default class PageCommandActionFactory {
    */
   copy(pcids) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.COPY, {
-      pcids: pcids
+      pcids,
     });
   }
 
@@ -118,8 +117,8 @@ export default class PageCommandActionFactory {
    */
   dragDrop(target, source) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.DRAG_DROP, {
-      target: target,
-      source: source
+      target,
+      source,
     });
   }
 
@@ -128,14 +127,16 @@ export default class PageCommandActionFactory {
    * @param {string} paragraph_format
    * @param {string} section_format
    * @param {string} media_format
+   * @param {string} table_format
    * @return {CommandAction}
    */
-  format(pcids, paragraph_format, section_format, media_format) {
+  format(pcids, paragraph_format, section_format, media_format, table_format) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.FORMAT, {
-      pcids: pcids,
-      paragraph_format: paragraph_format,
-      section_format: section_format,
-      media_format: media_format
+      pcids,
+      paragraph_format,
+      section_format,
+      media_format,
+      table_format,
     });
   }
 
@@ -145,7 +146,7 @@ export default class PageCommandActionFactory {
    */
   delete(pcids) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.DELETE, {
-      pcids: pcids
+      pcids,
     });
   }
 
@@ -155,7 +156,7 @@ export default class PageCommandActionFactory {
    */
   activate(pcids) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.ACTIVATE, {
-      pcids: pcids
+      pcids,
     });
   }
 
@@ -168,8 +169,8 @@ export default class PageCommandActionFactory {
    * @return {CommandAction}
    */
   insert(after_pcid, pcid, component, data) {
-    data.append("after_pcid", after_pcid);
-    data.append("pcid", pcid);
+    data.append('after_pcid', after_pcid);
+    data.append('pcid', pcid);
     return this.clientActionFactory.formCommand(component, ACTIONS.INSERT, data);
   }
 
@@ -181,7 +182,7 @@ export default class PageCommandActionFactory {
    * @return {CommandAction}
    */
   update(pcid, component, data) {
-    data.append("pcid", pcid);
+    data.append('pcid', pcid);
     return this.clientActionFactory.formCommand(component, ACTIONS.UPDATE, data);
   }
 
@@ -193,10 +194,9 @@ export default class PageCommandActionFactory {
    */
   editListItem(listCmd, component, pcid) {
     return this.clientActionFactory.command(component, ACTIONS.LIST_EDIT, {
-      cmd: "editListItem",
+      cmd: 'editListItem',
       list_cmd: listCmd,
-      pcid: pcid
+      pcid,
     });
   }
-
 }
