@@ -25,9 +25,8 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLSerializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLFileDeserializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLMemoryDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlSerializer;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
@@ -127,7 +126,7 @@ class ExportImportCharacterizationTest extends assBaseTestCase
 
     public function testXmlStringAndFileDeserializersProduceTheSameData(): void
     {
-        $serializer = (new SimpleXMLSerializer())->open('');
+        $serializer = XmlSerializer::inMemory();
         $serializer->createDocument('Export/import characterization');
         $serializer->group('sample_group', function () use ($serializer): void {
             $serializer->append('sample', [
@@ -146,11 +145,11 @@ class ExportImportCharacterizationTest extends assBaseTestCase
 
         try {
             $from_string = $this->deserializeGroup(
-                (new XMLMemoryDeserializer())->open($xml),
+                XmlDeserializer::fromString($xml),
                 'sample_group'
             );
             $from_file = $this->deserializeGroup(
-                (new XMLFileDeserializer())->open($path),
+                XmlDeserializer::fromFile($path),
                 'sample_group'
             );
         } finally {
@@ -171,7 +170,7 @@ class ExportImportCharacterizationTest extends assBaseTestCase
     public function testXmlMemoryDeserializerProcessesDocumentFragments(): void
     {
         $groups = [];
-        $deserializer = (new XMLMemoryDeserializer())->open(
+        $deserializer = XmlDeserializer::fromString(
             '<?xml version="1.0" encoding="UTF-8"?>'
             . '<sample-group><sample><value>first</value></sample></sample-group>'
             . '<sample-group><sample><value>second</value></sample></sample-group>'
@@ -198,12 +197,12 @@ class ExportImportCharacterizationTest extends assBaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        (new XMLFileDeserializer())->open(__DIR__ . '/missing.xml');
+        XmlDeserializer::fromFile(__DIR__ . '/missing.xml');
     }
 
     public function testXmlSerializerRejectsMismatchedGroups(): void
     {
-        $serializer = (new SimpleXMLSerializer())->open('');
+        $serializer = XmlSerializer::inMemory();
         $serializer->startGroup('expected');
 
         $this->expectException(LogicException::class);
