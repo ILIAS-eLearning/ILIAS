@@ -511,23 +511,21 @@ class ilNoteGUI
             $html = str_replace($text_placeholders, $texts, $html);
             $tpl->setVariable("NOTES_LIST", $html);
         } elseif (!is_array($this->rep_obj_id)) {
-            $html = '';
+            $it_group_title = $this->getItemGroupTitle($this->rep_obj_id);
+            $item_groups = [$f->item()->group($it_group_title, [])];
+            $panel = $f->panel()->listing()->standard("", $item_groups);
+            $mess_txt = "";
             if ($this->show_empty_list_message) {
                 $mess_txt = $this->getNoEntriesText($this->search_text !== "");
-                if ($mess_txt !== null && trim($mess_txt) !== '') {
-                    $html = $this->renderComponents([$f->messageBox()->info($mess_txt)]);
-                }
+                $mess = $f->messageBox()->info($mess_txt);
+                //$html = $this->renderComponents([$panel, $mess]);
+                $html = $this->renderComponents([$mess]);
+                $tpl->setVariable("NOTES_LIST", $html);
             }
-            $tpl->setVariable("NOTES_LIST", $html);
         } elseif ($this->search_text !== "") {
-            $html = '';
             $mess_txt = $this->getNoEntriesText(true);
-            if ($mess_txt !== null && trim($mess_txt) !== '') {
-                $html = $this->renderComponents([$f->messageBox()->info($mess_txt)]);
-            }
-            $tpl->setVariable("NOTES_LIST", $html);
-        } else {
-            $tpl->setVariable("NOTES_LIST", '');
+            $mess = $f->messageBox()->info($mess_txt);
+            $tpl->setVariable("NOTES_LIST", $this->renderComponents([$mess]));
         }
 
         ilDatePresentation::setUseRelativeDates($reldates);
@@ -608,7 +606,7 @@ class ilNoteGUI
         return $this->lng->txt("notes_add_edit_note");
     }
 
-    protected function getNoEntriesText(bool $search): ?string
+    protected function getNoEntriesText(bool $search): string
     {
         if (!$search) {
             $mess_txt = $this->lng->txt("notes_no_notes");
@@ -1507,32 +1505,32 @@ class ilNoteGUI
         $ctrl->setParameter($this, "hash", $hash);
         $update_url = $ctrl->getLinkTarget($this, "updateWidget", "", true, false);
         $query_url = $ctrl->getLinkTarget($this, "getListHtml", "", true, false);
-        $comps = array();
+
+        $additional_on_load_code = static fn(string $id): string => <<<JS
+            $('#$id').attr('data-note-key','{$hash}');
+            $('#$id').attr('data-note-ui-type','trigger');
+            $('#$id').attr('data-note-query-url','{$query_url}');
+            $('#$id').click((event) => ilNotes.clickTrigger(event));
+        JS;
+
         if ($cnt > 0) {
-            $c = $f->counter()->status((int) $cnt);
-            $comps[] = $f->button()->shy('', '#')
-                ->withSymbol($f->symbol()->glyph()->comment()->withCounter($c))
-                ->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
-                    $code = "$('#$id').attr('data-note-key','$hash');\n";
-                    $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
-                    $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
-                    $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
-                    return $code;
-                });
-            $tpl->setVariable("GLYPH", $r->render($comps));
+            $b = $f
+                ->button()
+                ->shy('', '#')
+                ->withSymbol(
+                    $f->symbol()->glyph()->comment()->withCounter(
+                        $f->counter()->status((int) $cnt)
+                    )
+                )
+                ->withAdditionalOnLoadCode($additional_on_load_code);
+
+            $tpl->setVariable("GLYPH", $r->render($b));
             $tpl->setVariable("TXT_LATEST", $this->getLatestItemText());
         } else {
             $b = $f
                 ->button()
-                ->standard($this->getAddEditItemText(), "#")
-                ->withAdditionalOnLoadCode(
-                    fn(string $id) => <<<JS
-                        $('#{$id}').attr('data-note-key','{$hash}');
-                        $('#{$id}').attr('data-note-ui-type','trigger');
-                        $('#{$id}').attr('data-note-query-url','{$query_url}');
-                        $('#{$id}').click((event) => ilNotes.clickTrigger(event));
-                    JS
-                );
+                ->standard($this->getAddEditItemText(), '#')
+                ->withAdditionalOnLoadCode($additional_on_load_code);
 
             $tpl->setVariable("SHY_BUTTON", $ctrl->isAsynch() ? $r->renderAsync($b) : $r->render($b));
         }
