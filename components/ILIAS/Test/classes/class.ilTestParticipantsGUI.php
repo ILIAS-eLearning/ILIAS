@@ -160,8 +160,25 @@ class ilTestParticipantsGUI
             $components[] = $modal;
         }
 
-        $this->main_tpl->setContent(
+        $tpl = new ilTemplate(
+            'tpl.il_as_tst_participants.html',
+            true,
+            true,
+            'components/ILIAS/Test'
+        );
+
+        $tpl->setVariable(
+            'TITLE',
+            $this->lng->txt('list_of_participants')
+        );
+
+        $tpl->setVariable(
+            'CONTENT',
             $this->ui_renderer->render($components)
+        );
+
+        $this->main_tpl->setContent(
+            $tpl->get()
         );
     }
 
