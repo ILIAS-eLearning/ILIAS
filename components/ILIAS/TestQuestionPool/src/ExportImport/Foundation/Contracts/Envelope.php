@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts;
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * An envelope carries intermediate data between pipes before the final normalization step.

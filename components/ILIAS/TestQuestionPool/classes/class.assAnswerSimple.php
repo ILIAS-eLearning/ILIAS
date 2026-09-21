@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
-use ILIAS\Refinery\Transformation;
 
 /**
  * Class for simple answers
@@ -31,7 +31,7 @@ use ILIAS\Refinery\Transformation;
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class ASS_AnswerSimple implements Normalizable
+class ASS_AnswerSimple implements ToNormalized, FromNormalized
 {
     protected string $answertext;
 
@@ -220,26 +220,32 @@ class ASS_AnswerSimple implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            'id' => $tt->normalize(new Id($this->id, 'answer')),
+        return [
+            'id' => $transformations->normalize(new Id($this->id, 'answer')),
             'answertext' => $this->answertext,
             'points' => $this->points,
             'order' => $this->order,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(fn(array $normalized): static => new static(
-            $tt->string($normalized['answertext']),
-            $tt->float($normalized['points']),
-            $tt->int($normalized['order']),
-            $tt->denormalize($normalized['id'], Id::class)->getId()
-        ));
+        return new static(
+            $transformations->string($normalized['answertext']),
+            $transformations->float($normalized['points']),
+            $transformations->int($normalized['order']),
+            $transformations->denormalize($normalized['id'], Id::class)->getId()
+        );
     }
 }

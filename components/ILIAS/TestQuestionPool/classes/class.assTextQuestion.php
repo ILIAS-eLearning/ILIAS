@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
@@ -38,7 +38,7 @@ use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, QuestionLMExportable, QuestionAutosaveable, Normalizable
+class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
 
@@ -862,40 +862,44 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'word_counter_enabled' => $this->word_counter_enabled,
             'max_num_of_chars' => $this->max_num_of_chars,
             'text_rating' => $this->text_rating,
             'matchcondition' => $this->matchcondition,
             'keyword_relation' => $this->keyword_relation,
-            'answers' => $tt->normalize($this->answers),
-        ]);
+            'answers' => $transformations->normalize($this->answers),
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->word_counter_enabled = $tt->bool($normalized['word_counter_enabled']);
-            $clone->max_num_of_chars = $tt->int($normalized['max_num_of_chars']);
-            $clone->text_rating = $tt->string($normalized['text_rating']);
-            $clone->matchcondition = $tt->int($normalized['matchcondition']);
-            $clone->keyword_relation = $tt->string($normalized['keyword_relation']);
-            $clone->answers = array_map(
-                static fn(array $answer): ASS_AnswerMultipleResponseImage => $tt->denormalize(
-                    $answer,
-                    new ASS_AnswerMultipleResponseImage()
-                ),
-                $normalized['answers']
-            );
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->word_counter_enabled = $transformations->bool($normalized['word_counter_enabled']);
+        $clone->max_num_of_chars = $transformations->int($normalized['max_num_of_chars']);
+        $clone->text_rating = $transformations->string($normalized['text_rating']);
+        $clone->matchcondition = $transformations->int($normalized['matchcondition']);
+        $clone->keyword_relation = $transformations->string($normalized['keyword_relation']);
+        $clone->answers = array_map(
+            static fn(array $answer): ASS_AnswerMultipleResponseImage => $transformations->denormalize(
+                $answer,
+                new ASS_AnswerMultipleResponseImage()
+            ),
+            $normalized['answers']
+        );
 
-            return $clone;
-        });
+        return $clone;
     }
 }

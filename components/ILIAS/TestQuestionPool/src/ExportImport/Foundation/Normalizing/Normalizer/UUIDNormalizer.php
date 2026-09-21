@@ -23,13 +23,11 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 
 /**
  * @implements Normalizer<Uuid, string>
  */
-#[Normalizes(Uuid::class)]
 class UUIDNormalizer implements Normalizer
 {
     private readonly Factory $factory;

@@ -20,32 +20,37 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Normalizer;
 
-use ILIAS\DI\Container;
+use ilComponentRepository;
+use ilDBInterface;
 use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
-use ILIAS\Test\TestDIC;
+use ILIAS\Test\Logging\TestLogger;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ilLanguage;
 use ilObjTest;
 use ilTestException;
 use ilTestFixedQuestionSetConfig;
 use ilTestRandomQuestionSetConfig;
 use ilTestQuestionSetConfig;
 use ilTestRandomQuestionSetSourcePoolDefinition;
-use ReflectionClass;
+use ilTree;
 
 /**
  * @implements Normalizer<QuestionSetConfig, array>
  */
-#[Normalizes(QuestionSetConfig::class)]
 class QuestionSetConfigNormalizer implements Normalizer
 {
     public function __construct(
         private readonly Transformations $tt,
-        private readonly Container $dic,
-        private readonly TestDIC $test_dic,
+        private readonly ilDBInterface $db,
+        private readonly ilLanguage $lng,
+        private readonly ilTree $tree,
+        private readonly ilComponentRepository $component_repository,
+        private readonly TestLogger $logger,
+        private readonly GeneralQuestionPropertiesRepository $repository,
     ) {
     }
 
@@ -111,13 +116,7 @@ class QuestionSetConfigNormalizer implements Normalizer
 
     private function normalizeTestObj(ilTestQuestionSetConfig $config): array
     {
-        $reflection = new ReflectionClass($config);
-        $property = $reflection->getProperty('test_obj');
-        $test_obj = $property->getValue($config);
-
-        if (!$test_obj instanceof ilObjTest) {
-            throw new NormalizingException('Invalid test object', $test_obj);
-        }
+        $test_obj = $config->getTestObject();
 
         return [
             'obj_id' => $this->tt->normalize(new Id($test_obj->getId(), 'object')),
@@ -154,24 +153,24 @@ class QuestionSetConfigNormalizer implements Normalizer
     {
         if($normalized['type'] === ilObjTest::QUESTION_SET_TYPE_FIXED) {
             return new ilTestFixedQuestionSetConfig(
-                $this->dic->repositoryTree(),
-                $this->dic->database(),
-                $this->dic->language(),
-                $this->test_dic['logging.logger'],
-                $this->dic['component.repository'],
+                $this->tree,
+                $this->db,
+                $this->lng,
+                $this->logger,
+                $this->component_repository,
                 $test_obj,
-                $this->test_dic['question.general_properties.repository']
+                $this->repository
             );
         }
 
         $config = new ilTestRandomQuestionSetConfig(
-            $this->dic->repositoryTree(),
-            $this->dic->database(),
-            $this->dic->language(),
-            $this->test_dic['logging.logger'],
-            $this->dic['component.repository'],
+            $this->tree,
+            $this->db,
+            $this->lng,
+            $this->logger,
+            $this->component_repository,
             $test_obj,
-            $this->test_dic['question.general_properties.repository']
+            $this->repository
         );
 
         $amount_mode = $this->tt->string($normalized['amount_mode']);
@@ -190,7 +189,7 @@ class QuestionSetConfigNormalizer implements Normalizer
     private function denormalizeSourcePoolDefinition(array $normalized, ilObjTest $test_obj): ilTestRandomQuestionSetSourcePoolDefinition
     {
         $definition = new ilTestRandomQuestionSetSourcePoolDefinition(
-            $this->dic->database(),
+            $this->db,
             $test_obj
         );
 

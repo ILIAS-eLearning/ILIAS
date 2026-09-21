@@ -21,12 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport\Normalizer;
 
 use ilDBInterface;
-use ILIAS\DI\Container;
-use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilTestSequence;
@@ -34,19 +31,13 @@ use ilTestSequence;
 /**
  * @implements Normalizer<ilTestSequence, array>
  */
-#[Normalizes(ilTestSequence::class)]
 class ilTestSequenceNormalizer implements Normalizer
 {
-    private readonly ilDBInterface $db;
-    private readonly GeneralQuestionPropertiesRepository $repository;
-
     public function __construct(
         private readonly Transformations $tt,
-        Container $dic,
-        TestDIC $local_dic,
+        private readonly ilDBInterface $db,
+        private readonly GeneralQuestionPropertiesRepository $repository,
     ) {
-        $this->db = $dic->database();
-        $this->repository = $local_dic['question.general_properties.repository'];
     }
 
     /**

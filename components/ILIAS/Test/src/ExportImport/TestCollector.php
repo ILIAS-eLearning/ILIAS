@@ -41,7 +41,6 @@ use ILIAS\Test\Results\Data\Repository as ResultsRepository;
 use ILIAS\Test\Settings\GlobalSettings\UserIdentifiers;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\TestQuestionPool\ExportImport\Export\CollectsQuestions;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilObjTest;
@@ -57,7 +56,7 @@ use ilTree;
 /**
  * Collector to aggregate data from the test object for export.
  */
-class TestCollector implements DataCollector
+class TestCollector
 {
     use CollectsQuestions;
 

@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -37,7 +37,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, Normalizable
+class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     protected const ERROR_TYPE_WORD = 1;
     protected const ERROR_TYPE_PASSAGE = 2;
@@ -1007,33 +1007,37 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * @inheritDoc
     */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'errortext' => $this->errortext,
             'errortext_parsed' => $this->parsed_errortext,
-            'errordata' => $tt->normalize($this->errordata),
+            'errordata' => $transformations->normalize($this->errordata),
             'points_wrong' => $this->points_wrong,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->errortext = $tt->string($normalized['errortext']);
-            $clone->parsed_errortext = $normalized['errortext_parsed'];
-            $clone->points_wrong = $tt->nullableFloat($normalized['points_wrong']);
-            $clone->errordata = array_map(
-                fn(array $error) => $tt->denormalize($error, new assAnswerErrorText()),
-                $normalized['errordata']
-            );
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->errortext = $transformations->string($normalized['errortext']);
+        $clone->parsed_errortext = $normalized['errortext_parsed'];
+        $clone->points_wrong = $transformations->nullableFloat($normalized['points_wrong']);
+        $clone->errordata = array_map(
+            fn(array $error) => $transformations->denormalize($error, new assAnswerErrorText()),
+            $normalized['errordata']
+        );
 
-            return $clone;
-        });
+        return $clone;
     }
 }

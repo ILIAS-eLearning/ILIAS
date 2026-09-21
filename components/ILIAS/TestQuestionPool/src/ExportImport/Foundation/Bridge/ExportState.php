@@ -24,25 +24,23 @@ use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as Ex
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ExportWriter;
 use ILIAS\Export\ExportHandler\I\Info\Export\Path\HandlerInterface as ExportPath;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ExportTarget;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ExportDependencies;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use Psr\Log\LoggerInterface as Logger;
 use RuntimeException;
 
-class ExportState implements ExportDependencies
+class ExportState
 {
     private ExportStep $step = ExportStep::INIT;
     private ?Logger $logger = null;
     private ?ExportPath $path_info = null;
     private ?Transformations $transformations = null;
-    private ?DataCollector $collector = null;
+    private ?object $collector = null;
     private ?Serializer $serializer = null;
     private ?ExportWriter $writer = null;
 
     /**
-     * @var array<string, array{component: string, entity: string, ids: array<string>}> $dependencies
+     * @var array<string, array{component: string, entity: string, ids: list<int|string>}> $dependencies
      */
     private array $dependencies = [];
 
@@ -109,13 +107,13 @@ class ExportState implements ExportDependencies
         $this->path_info = $path_info;
     }
 
-    public function collector(): DataCollector
+    public function collector(): object
     {
         $this->assertNotNull($this->collector, 'collector');
         return $this->collector;
     }
 
-    public function setCollector(DataCollector $collector): void
+    public function setCollector(object $collector): void
     {
         $this->collector = $collector;
     }
@@ -153,11 +151,13 @@ class ExportState implements ExportDependencies
         $this->writer = $writer;
     }
 
+    /** @return list<array{component: string, entity: string, ids: list<int|string>}> */
     public function getDependencies(): array
     {
         return array_values($this->dependencies);
     }
 
+    /** @param list<int|string> $ids */
     public function addDependency(string $component, string $entity, array $ids): void
     {
         $key = "{$component}::{$entity}";

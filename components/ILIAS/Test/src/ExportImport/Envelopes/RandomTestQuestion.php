@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport\Envelopes;
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Envelope;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 
 class RandomTestQuestion implements Envelope

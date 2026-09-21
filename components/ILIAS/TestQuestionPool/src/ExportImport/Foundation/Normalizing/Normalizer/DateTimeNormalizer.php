@@ -23,13 +23,11 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer;
 use DateTime;
 use DateTimeImmutable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 
 /**
- * @implements Normalizer<DateTimeImmutable|DateTime, string>
+ * @implements Normalizer<DateTime|DateTimeImmutable, string>
  */
-#[Normalizes(DateTime::class, DateTimeImmutable::class)]
 class DateTimeNormalizer implements Normalizer
 {
     /**

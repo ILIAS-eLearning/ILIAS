@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * Formula Question Variable
@@ -28,7 +28,7 @@ use ILIAS\Refinery\Transformation;
  * @version       $Id: class.assFormulaQuestionVariable.php 465 2009-06-29 08:27:36Z hschottm $
  * @ingroup components\ILIASTestQuestionPool
  * */
-class assFormulaQuestionVariable implements Normalizable
+class assFormulaQuestionVariable implements ToNormalized, FromNormalized
 {
     private $value = null;
     private float $range_min;
@@ -205,37 +205,41 @@ class assFormulaQuestionVariable implements Normalizable
     /**
     * @inheritDoc
     */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
+        return [
             'variable' => $this->variable,
             'range_min' => $this->range_min,
             'range_max' => $this->range_max,
             'range_min_txt' => $this->range_min_txt,
             'range_max_txt' => $this->range_max_txt,
-            'unit' => $tt->normalize($this->unit),
+            'unit' => $transformations->normalize($this->unit),
             'precision' => $this->precision,
             'intprecision' => $this->intprecision,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = clone $this;
-            $clone->variable = $tt->string($normalized['variable']);
-            $clone->range_min = $tt->float($normalized['range_min']);
-            $clone->range_max = $tt->float($normalized['range_max']);
-            $clone->range_min_txt = $tt->string($normalized['range_min_txt']);
-            $clone->range_max_txt = $tt->string($normalized['range_max_txt']);
-            $clone->unit = $tt->denormalize($normalized['unit'], new assFormulaQuestionUnit());
-            $clone->precision = $tt->int($normalized['precision']);
-            $clone->intprecision = $tt->int($normalized['intprecision']);
+        $clone = clone $this;
+        $clone->variable = $transformations->string($normalized['variable']);
+        $clone->range_min = $transformations->float($normalized['range_min']);
+        $clone->range_max = $transformations->float($normalized['range_max']);
+        $clone->range_min_txt = $transformations->string($normalized['range_min_txt']);
+        $clone->range_max_txt = $transformations->string($normalized['range_max_txt']);
+        $clone->unit = $transformations->denormalize($normalized['unit'], new assFormulaQuestionUnit());
+        $clone->precision = $transformations->int($normalized['precision']);
+        $clone->intprecision = $transformations->int($normalized['intprecision']);
 
-            return $clone;
-        });
+        return $clone;
     }
 }

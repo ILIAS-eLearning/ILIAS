@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * Class for true/false or yes/no answers
@@ -154,23 +153,27 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'correctness' => $this->correctness,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->setCorrectness($tt->string($normalized['correctness']));
-            return $clone;
-        });
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setCorrectness($transformations->string($normalized['correctness']));
+        return $clone;
     }
 }

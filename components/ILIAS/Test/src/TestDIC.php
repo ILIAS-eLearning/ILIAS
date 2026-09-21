@@ -48,13 +48,13 @@ use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\Factory as InteractionFactory;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\DBRepository as ExportImportRepository;
+use ILIAS\Test\ExportImport\TransformationsBuilder;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseRepository;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
@@ -254,15 +254,12 @@ class TestDIC extends PimpleContainer
         $dic['exportimport.session'] = static fn($c): ImportSessionRepository =>
             new ImportSessionRepository('tst');
 
-        $dic['exportimport.builder'] = static fn($c): Builder =>
-            new Builder(
-                $DIC,
-                $c
-            );
+        $dic['exportimport.transformations_builder'] = static fn($c): TransformationsBuilder =>
+            new TransformationsBuilder($DIC, $c);
 
         $dic['exportimport.exporter'] = static fn($c): TestExporter =>
             new TestExporter(
-                $c['exportimport.builder'],
+                $c['exportimport.transformations_builder'],
                 new DataFactory(),
                 $DIC->database(),
                 $DIC->repositoryTree(),
@@ -322,7 +319,7 @@ class TestDIC extends PimpleContainer
 
         $dic['exportimport.importer'] = static fn($c): TestImporter =>
             new TestImporter(
-                $c['exportimport.builder'],
+                $c['exportimport.transformations_builder'],
                 $DIC->database(),
                 $c['exportimport.logging'](),
                 $DIC->resourceStorage(),

@@ -22,8 +22,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Normalizer;
 
 use DateTimeImmutable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
@@ -32,9 +31,7 @@ use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionFile;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionLink;
 
 /**
- * @implements Normalizer<SuggestedSolution, array>
  */
-#[Normalizes(SuggestedSolution::class)]
 class SuggestedSolutionNormalizer implements Normalizer
 {
     public function __construct(

@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
-use ILIAS\Refinery\Transformation;
 
 /**
  * Class for matching questions
@@ -40,7 +40,7 @@ use ILIAS\Refinery\Transformation;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMatchingQuestion extends assQuestion implements ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, Normalizable
+class assMatchingQuestion extends assQuestion implements ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     public const MT_TERMS_PICTURES = 0;
     public const MT_TERMS_DEFINITIONS = 1;
@@ -1430,40 +1430,44 @@ class assMatchingQuestion extends assQuestion implements ilObjAnswerScoringAdjus
     /**
     * @inheritDoc
     */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'shuffle_mode' => $this->shufflemode,
             'matching_mode' => $this->matching_mode,
             'matching_type' => $this->matching_type,
             'thumb_geometry' => $this->thumb_geometry,
-            'matching_pairs' => $tt->normalize($this->matchingpairs, ['question_id' => $this->getId()]),
-        ]);
+            'matching_pairs' => $transformations->normalize($this->matchingpairs, ['question_id' => $this->getId()]),
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->shufflemode = $tt->int($normalized['shuffle_mode']);
-            $clone->matching_mode = $tt->string($normalized['matching_mode']);
-            $clone->matching_type = $tt->int($normalized['matching_type']);
-            $clone->thumb_geometry = $tt->int($normalized['thumb_geometry']);
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->shufflemode = $transformations->int($normalized['shuffle_mode']);
+        $clone->matching_mode = $transformations->string($normalized['matching_mode']);
+        $clone->matching_type = $transformations->int($normalized['matching_type']);
+        $clone->thumb_geometry = $transformations->int($normalized['thumb_geometry']);
 
-            foreach ($normalized['matching_pairs'] as $matching_pair) {
-                $term = $tt->denormalize($matching_pair['term'], new assAnswerMatchingTerm());
-                $definition = $tt->denormalize($matching_pair['definition'], new assAnswerMatchingDefinition());
+        foreach ($normalized['matching_pairs'] as $matching_pair) {
+            $term = $transformations->denormalize($matching_pair['term'], new assAnswerMatchingTerm());
+            $definition = $transformations->denormalize($matching_pair['definition'], new assAnswerMatchingDefinition());
 
-                $clone->matchingpairs[] = new assAnswerMatchingPair($term, $definition, $tt->float($matching_pair['points']));
-                $clone->terms[] = $term;
-                $clone->definitions[] = $definition;
-            }
+            $clone->matchingpairs[] = new assAnswerMatchingPair($term, $definition, $transformations->float($matching_pair['points']));
+            $clone->terms[] = $term;
+            $clone->definitions[] = $definition;
+        }
 
-            return $clone;
-        });
+        return $clone;
     }
 }

@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * Class for error text answers
@@ -28,7 +28,7 @@ use ILIAS\Refinery\Transformation;
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class assAnswerErrorText implements Normalizable
+class assAnswerErrorText implements ToNormalized, FromNormalized
 {
     protected string $text_wrong;
     protected string $text_correct;
@@ -102,26 +102,32 @@ class assAnswerErrorText implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
+        return [
             'text_wrong' => $this->text_wrong,
             'text_correct' => $this->text_correct,
             'points' => $this->points,
             'position' => $this->position,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
     {
-        return $tt->custom()->transformation(fn(array $normalized): self => new self(
-            $tt->string($normalized['text_wrong']),
-            $tt->string($normalized['text_correct']),
-            $tt->float($normalized['points']),
-            $tt->int($normalized['position'])
-        ));
+        return new self(
+            $transformations->string($normalized['text_wrong']),
+            $transformations->string($normalized['text_correct']),
+            $transformations->float($normalized['points']),
+            $transformations->int($normalized['position'])
+        );
     }
 }

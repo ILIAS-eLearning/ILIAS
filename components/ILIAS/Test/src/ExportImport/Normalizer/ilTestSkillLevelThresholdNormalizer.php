@@ -22,26 +22,20 @@ namespace ILIAS\TestQuestionPool\ExportImport\Normalizer;
 
 use ilTestSkillLevelThreshold;
 use ilDBInterface;
-use ILIAS\DI\Container;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 
 /**
  * @implements Normalizer<ilTestSkillLevelThreshold, array>
  */
-#[Normalizes(ilTestSkillLevelThreshold::class)]
 class ilTestSkillLevelThresholdNormalizer implements Normalizer
 {
-    private readonly ilDBInterface $db;
-
     public function __construct(
         private readonly Transformations $tt,
-        Container $dic
+        private readonly ilDBInterface $db,
     ) {
-        $this->db = $dic->database();
     }
 
     /**

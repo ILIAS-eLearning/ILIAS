@@ -1,9 +1,9 @@
 <?php
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +27,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
  *
  * @package components\ILIAS/Test
  */
-class ilAssKprimChoiceAnswer implements Normalizable
+class ilAssKprimChoiceAnswer implements ToNormalized, FromNormalized
 {
     private $position;
 
@@ -151,27 +151,31 @@ class ilAssKprimChoiceAnswer implements Normalizable
         return $this->getImageWebDir() . $this->getThumbPrefix() . $this->getImageFile();
     }
 
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(array $context): array => [
+        return [
             'position' => $this->position,
             'answertext' => $this->answertext,
             'image' => $this->imageFile
-                ? $tt->normalize(new QuestionImage($this->imageFile, $context['question_id'] ?? null))
+                ? $transformations->normalize(new QuestionImage($this->imageFile, $context['question_id'] ?? null))
                 : null,
             'correctness' => $this->correctness,
-        ]);
+        ];
     }
 
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = clone $this;
-            $clone->position = $tt->int($normalized['position']);
-            $clone->answertext = $tt->nullableString($normalized['answertext']);
-            $clone->imageFile = $tt->denormalize($normalized['image'], QuestionImage::class)?->getFilename();
-            $clone->correctness = $tt->int($normalized['correctness']);
-            return $clone;
-        });
+        $clone = clone $this;
+        $clone->position = $transformations->int($normalized['position']);
+        $clone->answertext = $transformations->nullableString($normalized['answertext']);
+        $clone->imageFile = $transformations->denormalize($normalized['image'], QuestionImage::class)?->getFilename();
+        $clone->correctness = $transformations->int($normalized['correctness']);
+        return $clone;
     }
 }

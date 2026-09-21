@@ -22,20 +22,16 @@ namespace ILIAS\Test\ExportImport\Normalizer;
 
 use ILIAS\Test\Results\Data\AttemptResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 
 /**
  * @implements Normalizer<AttemptResult, array>
  */
-#[Normalizes(AttemptResult::class)]
 class AttemptResultNormalizer implements Normalizer
 {
-    public function __construct(
-        private readonly Transformations $tt,
-    ) {
+    public function __construct(private readonly Transformations $transformations) {
     }
 
     /**
@@ -48,7 +44,7 @@ class AttemptResultNormalizer implements Normalizer
         }
 
         return [
-            'active_id' => $this->tt->normalize(new Id($value->getActiveId(), 'participant')),
+            'active_id' => $this->transformations->normalize(new Id($value->getActiveId(), 'participant')),
             'attempt' => $value->getAttempt(),
             'max_points' => $value->getMaxPoints(),
             'reached_points' => $value->getReachedPoints(),
@@ -71,16 +67,16 @@ class AttemptResultNormalizer implements Normalizer
         }
 
         return new AttemptResult(
-            $this->tt->denormalize($value['active_id'], Id::class)->getId(),
-            $this->tt->int($value['attempt']),
-            $this->tt->float($value['max_points']),
-            $this->tt->float($value['reached_points']),
-            $this->tt->int($value['question_count']),
-            $this->tt->int($value['answered_questions']),
-            $this->tt->int($value['working_time']),
-            $this->tt->int($value['timestamp']),
-            $this->tt->string($value['exam_id']),
-            $this->tt->string($value['finalized_by']),
+            $this->transformations->denormalize($value['active_id'], Id::class)->getId(),
+            $this->transformations->int($value['attempt']),
+            $this->transformations->float($value['max_points']),
+            $this->transformations->float($value['reached_points']),
+            $this->transformations->int($value['question_count']),
+            $this->transformations->int($value['answered_questions']),
+            $this->transformations->int($value['working_time']),
+            $this->transformations->int($value['timestamp']),
+            $this->transformations->string($value['exam_id']),
+            $this->transformations->string($value['finalized_by']),
         );
     }
 }

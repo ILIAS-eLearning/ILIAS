@@ -23,25 +23,23 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Data\UUID\Factory;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingPipe;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingProcessor;
+use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ilImportMapping;
 use ilObjQuestionPool;
 use Psr\Log\LoggerInterface;
 
 /**
- * Orchestrates the import of a question pool. It uses the Builder to create a pipeline of transformations that are used
- * to normalize the data provided by the deserializer. It imports the question pool object and its content (questions,
- * skill assignments, etc.) into the database using repository classes and legacy active record models.
+ * Orchestrates denormalization and persistence of a question pool import.
  */
 class QuestionPoolImporter
 {
     public function __construct(
-        private readonly Builder $builder,
+        private readonly TransformationsBuilder $builder,
         private readonly LoggerInterface $log,
         private readonly DataFactory $data_factory,
         private readonly QuestionsImporter $questions_importer,
@@ -59,16 +57,19 @@ class QuestionPoolImporter
         ReferenceId $parent_id,
         ImportContext $context
     ): ImportContext {
-        $id_mapping_pipe = new IdMappingPipe($mapping, 'components/ILIAS/TestQuestionPool', $this->log);
-        $images_pipe = new CollectQuestionImages(new Factory(), $this->data_factory->objId(0));
-        $tt = $this->builder->withAdditionalPipes(append: [$id_mapping_pipe, $images_pipe])->create();
+        $images_collector = new CollectQuestionImages(new Factory(), $this->data_factory->objId(0));
+        $transformations = $this->builder->forImport(
+            null,
+            new IdMappingProcessor($mapping, 'components/ILIAS/TestQuestionPool', $this->log),
+            $images_collector
+        );
 
         $deserializer->addHandler(
             'general',
-            function (array $objects) use ($tt, $mapping, $parent_id, &$context): void {
+            function (array $objects) use ($transformations, $mapping, $parent_id, &$context): void {
                 $new_pool_id = $this->importQuestionPool(
                     array_pop($objects),
-                    $tt,
+                    $transformations,
                     $mapping,
                     $parent_id
                 );
@@ -78,11 +79,11 @@ class QuestionPoolImporter
 
         $deserializer->addHandler(
             'questions',
-            function (array $questions) use ($tt, $mapping, $context): void {
+            function (array $questions) use ($transformations, $mapping, $context): void {
                 foreach ($questions as $question) {
                     $this->questions_importer->importQuestion(
                         $question,
-                        $tt,
+                        $transformations,
                         $mapping,
                         $context->selectedQuestionIds()
                     );
@@ -92,11 +93,11 @@ class QuestionPoolImporter
 
         $deserializer->addHandler(
             'skill_assignments',
-            function (array $assignments) use ($tt, $mapping, &$context): void {
+            function (array $assignments) use ($transformations, $mapping, &$context): void {
                 $result = $this->skill_importer->import(
                     $assignments,
                     $context->installId(),
-                    $tt,
+                    $transformations,
                     $mapping,
                 );
                 $context = $context->withSkillAssignments($result);
@@ -112,7 +113,7 @@ class QuestionPoolImporter
             $context->poolObjId(),
             $mapping,
             $context,
-            $images_pipe
+            $images_collector
         );
         $this->log->info('...Finished importing question images');
 

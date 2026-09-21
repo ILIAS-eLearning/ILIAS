@@ -36,7 +36,7 @@ namespace ILIAS\Test\ExportImport;
  * data array, without relying on external services, database connections, or any other context.
  * ---
  *
- * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable instead
+ * @deprecated 12: Use the direction-specific normalization contracts instead.
  */
 interface Exportable
 {

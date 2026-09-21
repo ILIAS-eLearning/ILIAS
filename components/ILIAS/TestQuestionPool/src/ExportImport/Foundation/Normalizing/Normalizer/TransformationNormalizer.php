@@ -20,25 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer;
 
-use ILIAS\DI\Container;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
 /**
- * @implements Normalizer<Transformation, string>
+ * @implements Normalizer<Transformation, mixed>
  */
-#[Normalizes(Transformation::class)]
 class TransformationNormalizer implements Normalizer
 {
-    private readonly Refinery $refinery;
-
-    public function __construct(
-        Container $dic
-    ) {
-        $this->refinery = $dic->refinery();
+    public function __construct(private readonly Refinery $refinery) {
     }
 
     /**

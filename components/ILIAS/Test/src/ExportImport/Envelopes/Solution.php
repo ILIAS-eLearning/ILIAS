@@ -22,7 +22,7 @@ namespace ILIAS\Test\ExportImport\Envelopes;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Envelope;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer\ResourceNormalizer;
 

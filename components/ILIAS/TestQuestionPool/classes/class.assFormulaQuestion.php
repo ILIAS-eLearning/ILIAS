@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
@@ -31,7 +31,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup components\ILIASTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion implements iQuestionCondition, QuestionAutosaveable, Normalizable
+class assFormulaQuestion extends assQuestion implements iQuestionCondition, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     private array $variables;
     private array $results;
@@ -1490,34 +1490,38 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     /**
     * @inheritDoc
     */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
-            'variables' => $tt->normalize($this->variables),
-            'results' => $tt->normalize($this->results)
-        ]);
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'variables' => $transformations->normalize($this->variables),
+            'results' => $transformations->normalize($this->results)
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
+        $clone = parent::fromNormalized($normalized, $transformations);
 
-            foreach ($normalized['variables'] as $key => $data) {
-                $dummy = new assFormulaQuestionVariable('', '', '');
-                $clone->variables[$key] = $tt->denormalize($data, $dummy);
-            }
+        foreach ($normalized['variables'] as $key => $data) {
+            $dummy = new assFormulaQuestionVariable('', '', '');
+            $clone->variables[$key] = $transformations->denormalize($data, $dummy);
+        }
 
-            foreach ($normalized['results'] as $key => $data) {
-                $dummy = new assFormulaQuestionResult('', '', '', 0, null, '', 0, 0);
-                $clone->results[$key] = $tt->denormalize($data, $dummy);
-            }
+        foreach ($normalized['results'] as $key => $data) {
+            $dummy = new assFormulaQuestionResult('', '', '', 0, null, '', 0, 0);
+            $clone->results[$key] = $transformations->denormalize($data, $dummy);
+        }
 
-            return $clone;
-        });
+        return $clone;
     }
 }

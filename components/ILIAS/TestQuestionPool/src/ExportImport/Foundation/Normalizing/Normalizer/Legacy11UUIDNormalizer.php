@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer;
 
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\NormalizesLegacy;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 
 /**
@@ -34,7 +33,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingExcept
  * In this case the normalizer is a subclass of the UUIDNormalizer. This may be useful if you want to reuse basic
  * functionality. You can also implement the Normalizer interface directly if you don't need to reuse functionality.
  */
-#[NormalizesLegacy('11', Uuid::class)]
 class Legacy11UUIDNormalizer extends UUIDNormalizer
 {
     /**

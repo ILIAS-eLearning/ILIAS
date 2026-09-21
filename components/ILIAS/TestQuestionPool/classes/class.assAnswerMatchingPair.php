@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
 * Class for matching question pairs
@@ -28,7 +28,7 @@ use ILIAS\Refinery\Transformation;
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @ingroup components\ILIASTestQuestionPool
 */
-class assAnswerMatchingPair implements Normalizable
+class assAnswerMatchingPair implements ToNormalized, FromNormalized
 {
     protected assAnswerMatchingTerm $term;
     protected assAnswerMatchingDefinition $definition;
@@ -80,24 +80,28 @@ class assAnswerMatchingPair implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(array $context): array => [
+        return [
             'points' => $this->points,
-            'term' => $tt->normalize($this->term, $context),
-            'definition' => $tt->normalize($this->definition, $context),
-        ]);
+            'term' => $transformations->normalize($this->term, $context),
+            'definition' => $transformations->normalize($this->definition, $context),
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            return $this->withPoints($tt->float($normalized['points']))
-                ->withTerm($tt->denormalize($normalized['term'], $this->term))
-                ->withDefinition($tt->denormalize($normalized['definition'], $this->definition));
-        });
+        return $this->withPoints($transformations->float($normalized['points']))
+            ->withTerm($transformations->denormalize($normalized['term'], $this->term))
+            ->withDefinition($transformations->denormalize($normalized['definition'], $this->definition));
     }
 }

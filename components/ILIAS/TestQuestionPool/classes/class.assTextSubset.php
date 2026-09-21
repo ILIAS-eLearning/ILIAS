@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
@@ -40,7 +40,7 @@ use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, Normalizable
+class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     public array $answers = [];
     public int $correctanswers = 0;
@@ -762,33 +762,37 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'text_rating' => $this->text_rating,
             'correct_answers' => $this->correctanswers,
-            'answers' => $tt->normalize($this->answers),
-        ]);
+            'answers' => $transformations->normalize($this->answers),
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->text_rating = $tt->string($normalized['text_rating']);
-            $clone->correctanswers = $tt->int($normalized['correct_answers']);
-            $clone->answers = array_map(
-                static fn(array $answer): ASS_AnswerBinaryStateImage => $tt->denormalize(
-                    $answer,
-                    new ASS_AnswerBinaryStateImage()
-                ),
-                $normalized['answers']
-            );
-            return $clone;
-        });
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->text_rating = $transformations->string($normalized['text_rating']);
+        $clone->correctanswers = $transformations->int($normalized['correct_answers']);
+        $clone->answers = array_map(
+            static fn(array $answer): ASS_AnswerBinaryStateImage => $transformations->denormalize(
+                $answer,
+                new ASS_AnswerBinaryStateImage()
+            ),
+            $normalized['answers']
+        );
+        return $clone;
     }
 }

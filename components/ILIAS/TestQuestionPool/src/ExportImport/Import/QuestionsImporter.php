@@ -35,7 +35,7 @@ use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 use ILIAS\Filesystem\Util\Convert\Images;
 use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\Feedback;
@@ -108,11 +108,11 @@ class QuestionsImporter
         int $parent_obj_id,
         ilImportMapping $mapping,
         ImportContext $context,
-        CollectQuestionImages $pipe,
+        CollectQuestionImages $collector,
     ): void {
         $import_dir = dirname($context->componentImportFile()) . '/expDir_1';
 
-        foreach ($pipe->getEnvelopes() as $filename => $envelope) {
+        foreach ($collector->getEnvelopes() as $filename => $envelope) {
             $source_path = $import_dir . DIRECTORY_SEPARATOR . $filename;
             if (!file_exists($source_path)) {
                 $this->log->error("Imported image path does not exist: {$source_path}");
@@ -293,7 +293,7 @@ class QuestionsImporter
             $mapping->addMapping($this->component, 'unit_category', (string) $old_category_id, (string) $category->getId());
         }
 
-        // Ensure base units are imported first so they can be referenced by the units. The mapping pipe will ensure
+        // Ensure base units are imported first so they can be referenced by the units. The mapping processor will ensure
         // that the category id, question id and base unit id are mapped to the new ids.
         $normalized_units = array_merge($formula['base_units'], $formula['units']);
         foreach ($normalized_units as $normalized_unit) {

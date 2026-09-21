@@ -20,34 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer;
 
-use ILIAS\DI\Container;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Resource\ResourceType;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
-use InitResourceStorage;
 
 /**
- * @implements Normalizer<ResourceIdentification|StorableResource, string>
+ * @implements Normalizer<ResourceIdentification|StorableResource, array>
  */
-#[Normalizes(ResourceIdentification::class, StorableResource::class)]
 class ResourceNormalizer implements Normalizer
 {
     private const string KEY_TYPE = 'type';
     private const string TYPE_RID = 'rid';
     private const string TYPE_RESOURCE = 'resource';
 
-    private readonly ResourceRepository $resource_repository;
-
     public function __construct(
-        private readonly Transformations $tt,
-        Container $dic
+        private readonly Transformations $transformations,
+        private readonly ResourceRepository $resource_repository
     ) {
-        $this->resource_repository = $dic[InitResourceStorage::D_REPOSITORIES]->getResourceRepository();
     }
 
     /**
@@ -84,7 +77,7 @@ class ResourceNormalizer implements Normalizer
             'title' => $resource->getCurrentRevision()->getTitle(),
             'mime_type' => $resource->getCurrentRevision()->getInformation()->getMimeType(),
             'suffix' => $resource->getCurrentRevision()->getInformation()->getSuffix(),
-            'creation_date' => $this->tt->normalize($resource->getCurrentRevision()->getInformation()->getCreationDate()),
+            'creation_date' => $this->transformations->normalize($resource->getCurrentRevision()->getInformation()->getCreationDate()),
         ];
     }
 
@@ -98,7 +91,7 @@ class ResourceNormalizer implements Normalizer
         }
 
         if ($type === StorableResource::class) {
-            $this->denormalizeResource($value);
+            return $this->denormalizeResource($value);
         }
 
         throw new NormalizingException('Invalid type', $type);

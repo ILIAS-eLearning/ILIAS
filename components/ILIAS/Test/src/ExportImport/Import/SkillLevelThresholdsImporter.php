@@ -25,7 +25,7 @@ use ilImportMapping;
 use ilSkillTreeRepository;
 use ilTestSkillLevelThreshold;
 use ilTestSkillLevelThresholdList;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -65,7 +65,7 @@ class SkillLevelThresholdsImporter
         $threshold_list = new ilTestSkillLevelThresholdList($this->db);
 
         foreach ($normalized_thresholds as $item) {
-            // The mapping pipe replaces TestID and Skill BaseID/TRefID
+            // The mapping processor replaces TestID and Skill BaseID/TRefID
             $threshold = $transformations->denormalize($item, ilTestSkillLevelThreshold::class);
 
             $local_level_id = $this->getLevelIdMapping($import_install_id, $threshold->getSkillLevelId());

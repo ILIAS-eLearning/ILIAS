@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Pipes;
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
 
 /**
- * Pipe stores all user IDs during normalization. This is used to export user information the test object has references
+ * Collects user IDs during normalization. This is used to export user information the test object has references
  * to (e.g. participants, feedback authors).
  */
-class CollectUserIds implements Pipe
+class CollectUserIds implements Processor
 {
     /**
      * @var array<int, true> $ids
@@ -38,17 +38,15 @@ class CollectUserIds implements Pipe
     /**
      * @inheritDoc
      */
-    public function handle(mixed $passable, \Closure $next): mixed
+    public function process(object $carry): void
     {
         if (
-            $passable instanceof NormalizeCarry
-            && $passable->value instanceof Id
-            && $passable->value->getObject() === 'user'
+            $carry instanceof NormalizeCarry
+            && $carry->value() instanceof Id
+            && $carry->value()->getObject() === 'user'
         ) {
-            $this->ids[$passable->value->getId()] = true;
+            $this->ids[$carry->value()->getId()] = true;
         }
-
-        return $next($passable);
     }
 
     /**

@@ -22,14 +22,12 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer;
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Envelope;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 
 /**
  * @implements Normalizer<Envelope, array>
  */
-#[Normalizes(Envelope::class)]
 class EnvelopeNormalizer implements Normalizer
 {
     public function __construct(

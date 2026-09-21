@@ -20,25 +20,25 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes;
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
 
 /**
  * Finalize the normalization of the value by ensuring that the value is normalized. It will check on the top level
  * structure by recursively iterating over the normalized value. If the value is neither a scalar nor an array, an
  * exception will be thrown.
  */
-class FinalizeNormalizing implements Pipe
+final class FinalizeNormalizing implements Processor
 {
-    public function handle(mixed $passable, \Closure $next): mixed
+    public function process(object $carry): void
     {
-        if (!$passable instanceof NormalizeCarry) {
-            return $next($passable);
+        if (!($carry instanceof NormalizeCarry)) {
+            return;
         }
 
-        $this->ensureNormalized($passable->result());
-        return $next($passable);
+        if ($carry->hasResult()) {
+            $this->ensureNormalized($carry->result());
+        }
     }
 
     private function ensureNormalized(mixed $value): mixed

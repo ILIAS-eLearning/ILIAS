@@ -23,16 +23,15 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services as IRSS;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
 use Psr\Log\LoggerInterface;
 
 /**
- * Pipe that collects all resources by their identification during normalization. During denormalization, it will replace
- * the resource ids with the mapped new resource ids.
+ * Collects resources during normalization and replaces mapped IDs during denormalization.
  */
-class CollectResources implements Pipe
+class CollectResources implements Processor
 {
     /**
      * @var array<string, StorableResource> $resources
@@ -73,17 +72,19 @@ class CollectResources implements Pipe
     /**
      * @inheritDoc
      */
-    public function handle(mixed $passable, \Closure $next): mixed
+    public function process(object $carry): void
     {
-        if ($passable instanceof NormalizeCarry && $passable->value instanceof ResourceIdentification) {
-            $this->handleNormalization($passable->value);
+        if ($carry instanceof NormalizeCarry && $carry->value() instanceof ResourceIdentification) {
+            $this->handleNormalization($carry->value());
         }
 
-        if ($passable instanceof DenormalizeCarry && $passable->expected === ResourceIdentification::class) {
-            $passable->setResult($this->replaceRid($passable->result()));
+        if (
+            $carry instanceof DenormalizeCarry
+            && $carry->expected() === ResourceIdentification::class
+            && $carry->hasResult()
+        ) {
+            $carry->setResult($this->replaceRid($carry->result()));
         }
-
-        return $next($passable);
     }
 
     private function handleNormalization(ResourceIdentification $rid): void
