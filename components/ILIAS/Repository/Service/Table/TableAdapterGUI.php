@@ -122,6 +122,14 @@ class TableAdapterGUI
         return $this;
     }
 
+    public function column(
+        string $key,
+        Column $column
+    ): self {
+        $this->addColumn($key, $column);
+        return $this;
+    }
+
     public function linkColumn(
         string $key,
         string $title,
@@ -172,9 +180,10 @@ class TableAdapterGUI
 
     public function standardAction(
         string $action,
-        string $title
+        string $title,
+        bool $async = false
     ): self {
-        $this->addAction(self::STANDARD, $action, $title);
+        $this->addAction(self::STANDARD, $action, $title, $async);
         return $this;
     }
 

@@ -6410,6 +6410,7 @@ content#:#cont_def_organization#:#alapértelmezett
 content#:#cont_default#:#Alapértelmezett
 content#:#cont_definition#:#Meghatározás
 content#:#cont_delete_content#:#Tartalom törlése
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Törlés
 content#:#cont_delete_style#:#Stílus törlése
 content#:#cont_delete_track_data#:#Nyomkövetési adatok törlése
@@ -12997,7 +12998,6 @@ news#:#news_allow_shorter_periods#:#Rövidebb időszak engedélyezése
 news#:#news_allow_shorter_periods_info#:#A felhasználók választhatnak rövidebb időszakot a műszerfalon.
 news#:#news_attached_to#:#Ehhez kapcsolva:
 news#:#news_block_information#:#A <b>Hírek</b> blokk megjelenít minden olyan hírt, amely a <b>Kedvencek</b> elemeihez kapcsolódik.
-news#:#news_block_news_for_context#:#Hírek
 news#:#news_cache#:#Hírek gyorsítótárazása (perc)
 news#:#news_cache_info#:#Hírblokk frissítése x percenként. A ‘0’ azt jelenti, mindig. Magasabb érték növeli a teljesítményt, de lehet, hogy a hírek nem elérhető helyre linkelnek.
 news#:#news_default_visibility#:#Alapértelmezett elérés

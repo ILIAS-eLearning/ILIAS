@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\MediaPool;
 
 use ILIAS\DI\Container;
+use ILIAS\AdvancedMetaData\Services\ServicesInterface;
+use ILIAS\MediaObjects\Thumbs\ThumbsGUI;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\MediaPool\Clipboard\GUIService;
 use ILIAS\MediaPool\PermanentLink\PermanentLinkManager;
@@ -33,7 +35,11 @@ class InternalGUIService
     public function __construct(
         Container $DIC,
         protected InternalDataService $data_service,
-        protected InternalDomainService $domain_service
+        protected InternalDomainService $domain_service,
+        protected MediaPoolRepository $media_pool_repository,
+        protected ServicesInterface $advanced_metadata,
+        protected \ilObjUser $user,
+        protected ThumbsGUI $thumbs_gui
     ) {
         $this->initGUIServices($DIC);
     }
@@ -50,7 +56,40 @@ class InternalGUIService
     {
         return self::$instance["clipboard"] ??= new GUIService(
             $this->domain_service,
-            $this
+            $this,
+            $this->user,
+            $this->thumbs_gui
+        );
+    }
+
+    public function mediaPoolTableBuilder(
+        \ilObjMediaPool $media_pool,
+        string $folder_par,
+        string $mode,
+        bool $all_objects,
+        ?string $filter_command,
+        ?string $reset_command,
+        string $insert_command,
+        object $parent_gui,
+        string $parent_cmd,
+        ?string $filter_title = null
+    ): MediaPoolTableBuilder {
+        return new MediaPoolTableBuilder(
+            $this->domain_service,
+            $this,
+            $this->thumbs_gui,
+            $this->media_pool_repository,
+            $this->advanced_metadata,
+            $media_pool,
+            $folder_par,
+            $mode,
+            $all_objects,
+            $filter_command,
+            $reset_command,
+            $insert_command,
+            $parent_gui,
+            $parent_cmd,
+            $filter_title
         );
     }
 

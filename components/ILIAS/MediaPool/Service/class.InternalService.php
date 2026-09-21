@@ -36,6 +36,8 @@ class InternalService
     public function __construct(Container $DIC)
     {
         $this->data = new InternalDataService();
+        $media_pool_repository = new MediaPoolRepository($DIC->database());
+        $advanced_metadata = new \ILIAS\AdvancedMetaData\Services\Services();
 
         $this->repo = new InternalRepoService(
             $this->data(),
@@ -49,7 +51,11 @@ class InternalService
         $this->gui = new InternalGUIService(
             $DIC,
             $this->data,
-            $this->domain
+            $this->domain,
+            $media_pool_repository,
+            $advanced_metadata,
+            $DIC->user(),
+            $DIC->mediaObjects()->internal()->gui()->thumbs()
         );
     }
 

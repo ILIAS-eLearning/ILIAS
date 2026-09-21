@@ -6366,6 +6366,7 @@ content#:#cont_def_organization#:#predeterminado
 content#:#cont_default#:#Predeterminado
 content#:#cont_definition#:#Definición
 content#:#cont_delete_content#:#Eliminar contenido
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Eliminar
 content#:#cont_delete_style#:#Eliminar estilo
 content#:#cont_delete_track_data#:#Eliminar datos de seguimiento
@@ -12976,7 +12977,6 @@ news#:#news_allow_shorter_periods#:#Permitir periodos más cortos
 news#:#news_allow_shorter_periods_info#:#Los usuarios pueden seleccionar periodos de noticias más cortos en el tablero.
 news#:#news_attached_to#:#Adjunto a
 news#:#news_block_information#:#El bloque de <b>Noticias</b> enumera todas las noticias relacionadas con sus <b>Favoritos</b>.
-news#:#news_block_news_for_context#:#Noticias
 news#:#news_cache#:#Caché de noticias (minutos)
 news#:#news_cache_info#:#Actualizar los bloques de noticias cada x minutos. '0' significa cada vez. Valores más altos mejoran el rendimiento, pero las noticias pueden enlazar a elementos no accesibles.
 news#:#news_default_visibility#:#Acceso predeterminado

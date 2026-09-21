@@ -6349,6 +6349,7 @@ content#:#cont_def_organization#:#default
 content#:#cont_default#:#Default
 content#:#cont_definition#:#تعريف
 content#:#cont_delete_content#:#Delete Content###29 07 2022 new variable
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#حذف
 content#:#cont_delete_style#:#Delete Style
 content#:#cont_delete_track_data#:#حذف بيانات المتابعة
@@ -12915,7 +12916,6 @@ news#:#news_allow_shorter_periods#:#السماح بمدة اقصر
 news#:#news_allow_shorter_periods_info#:#سيختار المستخدمون مدة الاخبار الاقصر على اجهزتهم الشخصية
 news#:#news_attached_to#:#Attached to
 news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.
-news#:#news_block_news_for_context#:#أخبار
 news#:#news_cache#:#اخبار الكاش- دقائق
 news#:#news_cache_info#:#تحديث الاخبار في كل الدقائق السابقة. 0 يعني في كل وقت. تحسن القيم العليا العرض لكن الاخبار يمكن ان تتصل بعناصر غير قابلة للوصول
 news#:#news_default_visibility#:#الوصول الافتراضي

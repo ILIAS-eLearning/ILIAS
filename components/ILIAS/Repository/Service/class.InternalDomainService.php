@@ -23,6 +23,9 @@ namespace ILIAS\Repository;
 use ILIAS\DI\Container;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Repository\Deletion;
+use ILIAS\Repository\Administration\Table\NewItemGroupRetrieval;
+use ILIAS\Repository\Administration\Table\ModulesRetrieval;
+use ILIAS\Repository\RecommendedContent\RoleRecommendationRetrieval;
 
 class InternalDomainService
 {
@@ -52,6 +55,33 @@ class InternalDomainService
     {
         return self::$instance["clipboard"] ??= new ClipboardManager(
             $this->repo_service->clipboard()
+        );
+    }
+
+    public function newItemGroupRetrieval(): NewItemGroupRetrieval
+    {
+        return new NewItemGroupRetrieval();
+    }
+
+    public function modulesRetrieval(int $group_id): ModulesRetrieval
+    {
+        return new ModulesRetrieval(
+            $this->objectDefinition(),
+            $this->settings(),
+            $this->componentRepository(),
+            $this->lng(),
+            $group_id
+        );
+    }
+
+    public function recommendedContentRoleRetrieval(
+        int $role_id,
+        \ilRecommendedContentManager $manager
+    ): RoleRecommendationRetrieval {
+        return new RoleRecommendationRetrieval(
+            $manager,
+            $this->repositoryTree(),
+            $role_id
         );
     }
 }

@@ -119,11 +119,9 @@ class InternalGUIService
                 }
                 $options[$type] = $lng->txt("wsp_type_" . $type);
             }
-        } else {
-            $options = ["prtf" => $lng->txt("obj_prtf")];
+            asort($options);
+            $filter = $filter->select("obj_type", $lng->txt("wsp_shared_object_type"), $options);
         }
-        asort($options);
-        $filter = $filter->select("obj_type", $lng->txt("wsp_shared_object_type"), $options);
 
         $permission_options = [
             /* "" => $lng->txt("search_any"), */

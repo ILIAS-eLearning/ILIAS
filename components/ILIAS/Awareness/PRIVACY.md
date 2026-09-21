@@ -1,12 +1,10 @@
 # Awareness Privacy
 
-This documentation does not warrant completeness or correctness. Please report any
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
 
 ## Integrated Services
 
-- The Awareness component employs the following services, please consult the respective privacy.mds
+- The Awareness component employs the following services, please consult the respective `PRIVACY.md` files.
     - The **User** service provides account data, profile-publication information, profile pictures, user preferences and the current list of online users.
     - The **User Action** service provides actions available for listed users. These actions may contain additional action-specific data depending on the enabled action providers.
     - [Contact](../Contact/PRIVACY.md) provides contact requests and approved contacts.
@@ -35,6 +33,7 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
 - **Default visibility of the own online status**: Administrators can define whether users are shown in the awareness list by default.
 - **User privacy setting**: Users can override the default in their privacy settings and choose whether their own online status is shown in the awareness list or hidden.
 - **Provider activation modes**: Administrators can configure each awareness provider as inactive, online users only, or including offline users. This controls which user groups can appear in the awareness list.
+- **User actions**: Administrators can configure which interaction options are offered for listed users. The actions require the corresponding service and permissions to be available.
 
 ## Data being stored
 
@@ -69,7 +68,7 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
 - If the user's profile is public, the overlay additionally presents **first name** and **last name** and uses them for sorting and filtering.
 - The overlay presents the user's **profile picture** path loaded from the User service.
 - The overlay presents whether the user is currently **online**. Online status is derived from the ILIAS online-user handling and the configured inactivity time.
-- The overlay presents user actions provided by the User Action service. Depending on the active action providers, these actions can include action text, links and action-specific data.
+- The overlay presents user actions provided by the User Action service. Depending on the active action providers, these actions can include action text, links and action-specific data for contact requests, mail, profile viewing, access to shared resources, invitations to public rooms or on-screen chats, adding users to groups and invitations to talks.
 - Users can filter the awareness list. The filter value is returned in the AJAX response for display; it is not persisted by the Awareness component.
 - The metabar counter presents only the number of available awareness entries and highlighted entries, not names or account data.
 

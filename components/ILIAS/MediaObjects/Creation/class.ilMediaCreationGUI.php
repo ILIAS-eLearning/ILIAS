@@ -40,6 +40,7 @@ class ilMediaCreationGUI
     public const POOL_VIEW_ALL = "all";
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $type_manager;
     protected InternalGUIService $gui;
+    protected \ILIAS\MediaPool\InternalGUIService $media_pool_gui;
     protected ?FormAdapterGUI $bulk_upload_form = null;
     protected CreationGUIRequest $request;
 
@@ -87,6 +88,7 @@ class ilMediaCreationGUI
         $this->ui = $DIC->ui();
         $this->upload = $DIC->upload();
         $this->mob_log = $DIC->logger()->mob();
+        $this->media_pool_gui = $DIC->mediaPool()->internal()->gui();
 
         $this->accept_types = $accept_types;
         $this->after_upload = $after_upload;
@@ -695,8 +697,11 @@ class ilMediaCreationGUI
             $html = $tb->getHTML();
 
             $pool_table = $this->getPoolTable();
+            if ($pool_table->getTable()->handleCommand()) {
+                return;
+            }
 
-            $html .= $pool_table->getHTML();
+            $html .= $pool_table->render();
 
             $main_tpl->setContent($html);
         }
@@ -704,35 +709,28 @@ class ilMediaCreationGUI
 
     protected function applyFilter(): void
     {
-        $mpool_table = $this->getPoolTable();
-        $mpool_table->resetOffset();
-        $mpool_table->writeFilterToSession();
         $this->ctrl->redirect($this, "listPoolItems");
     }
 
     protected function resetFilter(): void
     {
-        $mpool_table = $this->getPoolTable();
-        $mpool_table->resetOffset();
-        $mpool_table->resetFilter();
         $this->ctrl->redirect($this, "listPoolItems");
     }
 
-    protected function getPoolTable(): ilMediaPoolTableGUI
+    protected function getPoolTable(): \ILIAS\MediaPool\MediaPoolTableBuilder
     {
         $pool = new ilObjMediaPool($this->requested_mep);
-        $mpool_table = new ilMediaPoolTableGUI(
-            $this,
-            "listPoolItems",
+        return $this->media_pool_gui->mediaPoolTableBuilder(
             $pool,
             "mep_folder",
-            ilMediaPoolTableGUI::IL_MEP_SELECT,
-            $this->pool_view == self::POOL_VIEW_ALL
+            "select",
+            $this->pool_view == self::POOL_VIEW_ALL,
+            "applyFilter",
+            "resetFilter",
+            "insertFromPool",
+            $this,
+            "listPoolItems"
         );
-        $mpool_table->setFilterCommand("applyFilter");
-        $mpool_table->setResetCommand("resetFilter");
-        $mpool_table->setInsertCommand("insertFromPool");
-        return $mpool_table;
     }
 
     /**
@@ -767,9 +765,9 @@ class ilMediaCreationGUI
     /**
      * Insert media from pool
      */
-    protected function insertFromPool(): void
+    protected function insertFromPool(?array $ids = null): void
     {
-        $ids = $this->request->getIds();
+        $ids ??= $this->request->getIds();
         if (count($ids) == 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listPoolItems();

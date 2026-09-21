@@ -6334,6 +6334,7 @@ content#:#cont_def_organization#:#défaut
 content#:#cont_default#:#Par Défaut
 content#:#cont_definition#:#Définition
 content#:#cont_delete_content#:#Delete Content
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Supprimer
 content#:#cont_delete_style#:#Supprimer style
 content#:#cont_delete_track_data#:#Supprimer Données de Suivi
@@ -12900,7 +12901,6 @@ news#:#news_allow_shorter_periods#:#Autoriser une Période plus Courte
 news#:#news_allow_shorter_periods_info#:#Les utilisateurs peuvent choisir une période d'actualités plus courte sur leur bureau personnel.
 news#:#news_attached_to#:#Attaché à
 news#:#news_block_information#:#Le bloc <b>Actualités</b> affiche toutes les informations relatives aux objets figurant sur le Bureau Personnel.
-news#:#news_block_news_for_context#:#Actualités
 news#:#news_cache#:#Cache des articles (Minutes)
 news#:#news_cache_info#:#Mettre à  jour les blocs des articles toutes les x minutes. '0' signifie continuellement. Des valeurs hautes augmentent la performance, mais les articles peuvent être liés à  des items inaccessibles.
 news#:#news_default_visibility#:#Accès par Défaut

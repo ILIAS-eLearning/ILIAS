@@ -29,12 +29,21 @@ const presentation = (function () {
     container.style.height = `${maxHeight}px`;
   }
 
-  function hideAllTabs(tabsContainer, contentClass, activeHeadClass) {
-    tabsContainer.querySelectorAll(`.${contentClass}`).forEach((content) => {
+  function getDirectTabElements(tabsContainer, className) {
+    return Array.from(tabsContainer.children)
+      .map((tab) => Array.from(tab.children).find((child) => child.classList.contains(className)))
+      .filter((element) => element !== undefined);
+  }
+
+  function hideAllTabs(tabsContainer, contentClass, toggleClass, activeHeadClass) {
+    getDirectTabElements(tabsContainer, contentClass).forEach((content) => {
       content.classList.add('ilAccHideContent');
     });
-    tabsContainer.querySelectorAll(`.${activeHeadClass}`).forEach((head) => {
-      head.classList.remove(activeHeadClass);
+    getDirectTabElements(tabsContainer, toggleClass).forEach((toggler) => {
+      const head = toggler.querySelector(`.${activeHeadClass}`);
+      if (head) {
+        head.classList.remove(activeHeadClass);
+      }
     });
   }
 
@@ -47,17 +56,18 @@ const presentation = (function () {
   function clickHandler(e, toggler, contentClass, toggleClass, toggleActClass, activeHeadClass) {
     const togglerParent = toggler.parentNode;
     const tabsContainer = togglerParent.parentNode;
-    const contentNode = togglerParent.querySelector(`.${contentClass}`);
+    const contentNode = Array.from(togglerParent.children)
+      .find((child) => child.classList.contains(contentClass));
 
     e.preventDefault();
 
     if (contentNode.classList.contains('ilAccHideContent')) {
       // tab was hidden
       // hide all
-      hideAllTabs(tabsContainer, contentClass, activeHeadClass);
+      hideAllTabs(tabsContainer, contentClass, toggleClass, activeHeadClass);
       showTab(toggler, contentNode, activeHeadClass);
     } else {
-      hideAllTabs(tabsContainer, contentClass, activeHeadClass);
+      hideAllTabs(tabsContainer, contentClass, toggleClass, activeHeadClass);
     }
   }
 
@@ -141,7 +151,7 @@ const presentation = (function () {
 
         // register click handler (if not all opened is forced)
         if (behaviour !== 'ForceAllOpen') {
-          tabContainer.querySelectorAll(`.${toggleClass}`).forEach((toggler) => {
+          getDirectTabElements(tabContainer, toggleClass).forEach((toggler) => {
             if (toggler.dataset.isInitialised) {
               return;
             }
@@ -159,10 +169,11 @@ const presentation = (function () {
             toggler.dataset.isInitialised = true;
           });
           if (behaviour === 'FirstOpen') {
-            const firstToggler = tabContainer.querySelector(`.${toggleClass}`);
+            const firstToggler = getDirectTabElements(tabContainer, toggleClass)[0];
             if (firstToggler) {
               const firstTogglerParent = firstToggler.parentNode;
-              const firstContentNode = firstTogglerParent.querySelector(`.${contentClass}`);
+              const firstContentNode = Array.from(firstTogglerParent.children)
+                .find((child) => child.classList.contains(contentClass));
               showTab(firstToggler, firstContentNode, activeHeadClass);
             }
           }

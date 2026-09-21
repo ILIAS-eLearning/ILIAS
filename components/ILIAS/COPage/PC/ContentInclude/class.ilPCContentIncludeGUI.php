@@ -26,6 +26,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 {
     protected ilAccessHandler $access;
     protected ilTabsGUI $tabs;
+    protected \ILIAS\MediaPool\InternalGUIService $media_pool_gui;
 
 
     public function __construct(
@@ -41,6 +42,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
         $this->tabs = $DIC->tabs();
         $this->tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
+        $this->media_pool_gui = $DIC->mediaPool()->internal()->gui();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
@@ -106,16 +108,22 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 
             $pool = new ilObjMediaPool($this->edit_repo->getMediaPool());
             $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
-            $mpool_table = new ilMediaPoolTableGUI(
-                $this,
-                "insert",
+            $table_builder = $this->media_pool_gui->mediaPoolTableBuilder(
                 $pool,
                 "mep_folder",
-                ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT
+                "selectc",
+                false,
+                null,
+                null,
+                "create",
+                $this,
+                "insert"
             );
-            $mpool_table->setInsertCommand("create");
+            if ($table_builder->getTable()->handleCommand()) {
+                return;
+            }
 
-            $html .= $mpool_table->getHTML();
+            $html .= $table_builder->render();
 
             $tpl->setContent($html);
         } else {

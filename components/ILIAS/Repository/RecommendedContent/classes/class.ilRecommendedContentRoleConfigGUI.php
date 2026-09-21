@@ -35,6 +35,7 @@ class ilRecommendedContentRoleConfigGUI
     protected ilGlobalTemplateInterface $main_tpl;
     protected ilRecommendedContentManager $manager;
     protected int $requested_item_ref_id;
+    protected \ILIAS\Repository\InternalGUIService $repository_gui;
 
     public function __construct(int $role_id, int $node_ref_id)
     {
@@ -50,7 +51,8 @@ class ilRecommendedContentRoleConfigGUI
         $this->toolbar = $DIC->toolbar();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->manager = new ilRecommendedContentManager();
-        $request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->repository_gui = $DIC->repository()->internal()->gui();
+        $request = $this->repository_gui->standardRequest();
         $this->requested_item_ref_id = $request->getItemRefId();
         $this->requested_item_ref_ids = $request->getItemRefIds();
     }
@@ -64,7 +66,15 @@ class ilRecommendedContentRoleConfigGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, ["listItems", "selectItem", "assignItem", "confirmRemoveItems", "removeItems"])) {
+                if (in_array($cmd, [
+                    "listItems",
+                    "selectItem",
+                    "assignItem",
+                    "confirmRemoveItems",
+                    "removeItems",
+                    "confirmRemoveItem",
+                    "removeItem"
+                ])) {
                     $this->$cmd();
                 }
                 break;
@@ -89,14 +99,47 @@ class ilRecommendedContentRoleConfigGUI
                     'selectItem'
                 ));
             }
-            $tbl = new ilRecommendedContentRoleTableGUI(
-                $this,
-                'listItems',
-                $this->role_id,
-                $this->manager
-            );
-            $main_tpl->setContent($tbl->getHTML());
+            $table = $this->repository_gui
+                ->recommendedContent()
+                ->roleRecommendationTableBuilder($this->role_id, $this->manager, $this, 'listItems')
+                ->getTable();
+            if ($table->handleCommand()) {
+                return;
+            }
+            $main_tpl->setContent($table->render());
         }
+    }
+
+    public function confirmRemoveItem(int $item_ref_id): void
+    {
+        $this->checkPushPermission();
+
+        $this->repository_gui
+            ->recommendedContent()
+            ->roleRecommendationTableBuilder($this->role_id, $this->manager, $this, 'listItems')
+            ->getTable()
+            ->renderDeletionConfirmation(
+                $this->lng->txt('rep_remove_rec_content'),
+                $this->lng->txt('info_delete_sure'),
+                'removeItem',
+                [$item_ref_id => ilObject::_lookupTitle(ilObject::_lookupObjectId($item_ref_id))]
+            );
+    }
+
+    public function removeItem(): void
+    {
+        $this->checkPushPermission();
+
+        $table = $this->repository_gui
+            ->recommendedContent()
+            ->roleRecommendationTableBuilder($this->role_id, $this->manager, $this, 'listItems')
+            ->getTable();
+        foreach ($table->getItemIds() as $item_ref_id) {
+            $this->manager->removeRoleRecommendation($this->role_id, $item_ref_id);
+        }
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_rec_content_removed'));
+        $this->listItems();
     }
 
     public function confirmRemoveItems(): void

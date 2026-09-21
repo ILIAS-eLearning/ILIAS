@@ -6349,6 +6349,7 @@ content#:#cont_def_organization#:#vaikimisi
 content#:#cont_default#:#Vaikimisi
 content#:#cont_definition#:#Definitsioon
 content#:#cont_delete_content#:#Delete Content###29 07 2022 new variable
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Kustuta
 content#:#cont_delete_style#:#Kustuta kujunduslaad
 content#:#cont_delete_track_data#:#Kustuta jälgimisandmed
@@ -12915,7 +12916,6 @@ news#:#news_allow_shorter_periods#:#Luba lühemad perioodid
 news#:#news_allow_shorter_periods_info#:#Kasutajad võivad töölauale valida lühemad uudiste perioodid.
 news#:#news_attached_to#:#Lisatud
 news#:#news_block_information#:#<b>Uudiste</b> plokk kuvab kõik uued elemendid, mis on seotud <b>Minu asjadega</b> isiklikul töölaual.
-news#:#news_block_news_for_context#:#Uudised
 news#:#news_cache#:#Uudiste vahemälu (minutit)
 news#:#news_cache_info#:#Uuenda uudisteplokid iga x minut. '0' tähendab kogu aeg. Higher values improve performance, but news may link to non-accessible items.
 news#:#news_default_visibility#:#Juurdepääs vaikimisi

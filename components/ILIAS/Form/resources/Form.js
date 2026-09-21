@@ -182,7 +182,8 @@ il.Form = {
   //
 
   initLinkInput() {
-    $('a.ilLinkInputRemove').click(function (e) {
+    $(document).on('click', 'a.ilLinkInputRemove', function (e) {
+      e.preventDefault();
       let { id } = this.parentNode;
       id = id.substr(0, id.length - 4);
       $(`input[name=${il.Form.escapeSelector(id)}_ajax_type]`).val('');

@@ -566,8 +566,21 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             }
         }
 
-        $mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->getMediaPool(), "mepitem_id");
-        $tpl->setContent($mep_table_gui->getHTML());
+        $table_builder = $this->gui->mediaPoolTableBuilder(
+            $this->getMediaPool(),
+            "mepitem_id",
+            "edit",
+            false,
+            null,
+            null,
+            "",
+            $this,
+            "listMedia"
+        );
+        if ($table_builder->getTable()->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table_builder->render());
     }
 
     protected function toggleExplorerNodeState(): void
@@ -592,32 +605,25 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ilTabs->setTabActive("content");
         $this->setContentSubTabs("mep_all_mobs");
 
-        $mep_table_gui = new ilMediaPoolTableGUI(
-            $this,
-            "allMedia",
+        $filter_title = $this->mep_request->getForceFilter() > 0
+            ? ilMediaPoolItem::lookupTitle($this->mep_request->getForceFilter())
+            : null;
+        $table_builder = $this->gui->mediaPoolTableBuilder(
             $this->getMediaPool(),
             "mepitem_id",
-            ilMediaPoolTableGUI::IL_MEP_EDIT,
-            true
+            "edit",
+            true,
+            "applyFilter",
+            "resetFilter",
+            "",
+            $this,
+            "allMedia",
+            $filter_title
         );
-
-        if ($this->mep_request->getForceFilter() > 0) {
-            $mep_table_gui->setTitleFilter(
-                ilMediaPoolItem::lookupTitle($this->mep_request->getForceFilter())
-            );
-
-            // Read again
-            $mep_table_gui = new ilMediaPoolTableGUI(
-                $this,
-                "allMedia",
-                $this->getMediaPool(),
-                "mepitem_id",
-                ilMediaPoolTableGUI::IL_MEP_EDIT,
-                true
-            );
+        if ($table_builder->getTable()->handleCommand()) {
+            return;
         }
-
-        $tpl->setContent($mep_table_gui->getHTML());
+        $tpl->setContent($table_builder->render());
     }
 
     /**
@@ -625,31 +631,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
      */
     public function applyFilter(): void
     {
-        $mtab = new ilMediaPoolTableGUI(
-            $this,
-            "allMedia",
-            $this->getMediaPool(),
-            "mepitem_id",
-            ilMediaPoolTableGUI::IL_MEP_EDIT,
-            true
-        );
-        $mtab->writeFilterToSession();
-        $mtab->resetOffset();
         $this->allMedia();
     }
 
     public function resetFilter(): void
     {
-        $mtab = new ilMediaPoolTableGUI(
-            $this,
-            "allMedia",
-            $this->getMediaPool(),
-            "mepitem_id",
-            ilMediaPoolTableGUI::IL_MEP_EDIT,
-            true
-        );
-        $mtab->resetFilter();
-        $mtab->resetOffset();
         $this->allMedia();
     }
 
@@ -801,14 +787,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     /**
      * confirm remove of mobs
      */
-    public function confirmRemove(): void
+    public function confirmRemove(?array $ids = null): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $this->checkPermission("write");
 
-        $ids = $this->mep_request->getItemIds();
+        $ids ??= $this->mep_request->getItemIds();
         if (count($ids) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "");
@@ -901,11 +887,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->ctrl->redirect($this, $this->mode);
     }
 
-    public function remove(): void
+    public function remove(?array $ids = null): void
     {
         $this->checkPermission("write");
 
-        $ids = $this->mep_request->getItemIds();
+        $ids ??= $this->mep_request->getItemIds();
         foreach ($ids as $obj_id) {
             $this->object->deleteChild($obj_id);
         }
@@ -918,13 +904,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     /**
      * copy media objects to clipboard
      */
-    public function copyToClipboard(): void
+    public function copyToClipboard(?array $ids = null): void
     {
         $ilUser = $this->user;
 
         $this->checkPermission("write");
 
-        $ids = $this->mep_request->getItemIds();
+        $ids ??= $this->mep_request->getItemIds();
         if (count($ids) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, $this->mode);
@@ -1323,60 +1309,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-
-    ////
-    //// Upload directory handling
-    ////
-
-    /**
-     * Select files from upload directory
-     */
-    public function selectUploadDirFiles(
-        ?array $a_files = null
-    ): void {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilToolbar = $this->toolbar;
-
-
-        if (!$a_files) {
-            $a_files = $this->mep_request->getFiles();
-        }
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
-            $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "listMedia")
-        );
-
-        $this->checkPermission("write");
-
-        if ($this->rbac_system->checkAccess("visible", SYSTEM_FOLDER_ID)) {
-            $tb = new ilToolbarGUI();
-            // action type
-            $options = array(
-                "rename" => $lng->txt("mep_up_dir_move"),
-                "copy" => $lng->txt("mep_up_dir_copy"),
-                );
-            $si = new ilSelectInputGUI("", "action");
-            $si->setOptions($options);
-            $tb->addInputItem($si);
-            $tb->setCloseFormTag(false);
-            $tb->setFormAction($ilCtrl->getFormAction($this));
-            $tb->setFormName("mep_up_form");
-
-            $tab = new ilUploadDirFilesTableGUI(
-                $this,
-                "selectUploadDirFiles",
-                $a_files
-            );
-            $tab->setFormName("mep_up_form");
-            $tpl->setContent($tb->getHTML() . $tab->getHTML());
-        }
-    }
-
     /**
      * Get preview modal html
      */
@@ -1658,9 +1590,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ctrl->redirect($this, "listMedia");
     }
 
-    protected function move(): void
+    protected function move(?array $ids = null): void
     {
-        ilSession::set("mep_move_ids", $this->mep_request->getItemIds());
+        ilSession::set("mep_move_ids", $ids ?? $this->mep_request->getItemIds());
         $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("mep_move_select_insert"), true);
         $this->ctrl->redirect($this, "listMedia");
     }

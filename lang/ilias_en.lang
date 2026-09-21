@@ -3408,6 +3408,7 @@ cmps#:#cmps_db_update#:#DB Update Script
 cmps#:#cmps_deactivate#:#Deactivate
 cmps#:#cmps_detailed_information#:#Detailed Informationen
 cmps#:#cmps_dir#:#Directory
+cmps#:#cmps_disable_creation#:#Disable Creation
 cmps#:#cmps_enable_creation#:#Enable Creation
 cmps#:#cmps_file_version#:#Update File Version
 cmps#:#cmps_group#:#Group
@@ -6413,6 +6414,7 @@ content#:#cont_def_organization#:#default
 content#:#cont_default#:#Default
 content#:#cont_definition#:#Definition
 content#:#cont_delete_content#:#Delete Content
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?
 content#:#cont_delete_selected#:#Delete
 content#:#cont_delete_style#:#Delete Style
 content#:#cont_delete_track_data#:#Delete Tracking Data
@@ -13051,7 +13053,6 @@ news#:#news_allow_shorter_periods#:#Allow Shorter Periods
 news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on the dashboard.
 news#:#news_attached_to#:#Attached to
 news#:#news_block_information#:#The <b>News</b> block lists all news that are related to your <b>Favourites</b>.
-news#:#news_block_news_for_context#:#News
 news#:#news_cache#:#News Cache (Minutes)
 news#:#news_cache_info#:#Update news blocks all x minutes. ‘0’ means every time. Higher values improve performance, but news may link to non-accessible items.
 news#:#news_default_visibility#:#Default Access
@@ -13162,8 +13163,6 @@ notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
 notes#:#notes_add_edit_message#:#Add/Edit Message
 notes#:#notes_add_edit_note#:#Add/Edit Note
-notes#:#notes_all_comments#:#All Comments
-notes#:#notes_comment#:#Comment
 notes#:#notes_comment_deleted#:#Comment deleted.
 notes#:#notes_comments#:#Comments
 notes#:#notes_comments_deleted#:#Comments deleted.
@@ -13171,15 +13170,12 @@ notes#:#notes_deactivate_comments#:#Deactivate Public Comments
 notes#:#notes_delete_comment#:#Are you sure you want to delete this comment?
 notes#:#notes_delete_message#:#Are you sure you want to delete this message?
 notes#:#notes_delete_note#:#Are you sure you want to delete this note?
-notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
 notes#:#notes_latest_message#:#Latest Message
-notes#:#notes_message_author_counterpart#:#Respondent
 notes#:#notes_message_author_you#:#You
 notes#:#notes_message_deleted#:#Message deleted.
 notes#:#notes_messages#:#Messages
-notes#:#notes_my_comments#:#My Comments
 notes#:#notes_no_comments#:#No comments have been posted yet.
 notes#:#notes_no_comments_found#:#No comments found that match your search criteria.
 notes#:#notes_no_messages#:#No messages have been left yet.
@@ -13190,7 +13186,6 @@ notes#:#notes_note_deleted#:#Note deleted.
 notes#:#notes_notes_deleted#:#Notes deleted.
 notes#:#notes_origin#:#Origin
 notes#:#notes_public_comments#:#Public Comments
-notes#:#notes_show_comments#:#Show Comments
 notes#:#notes_sort_asc#:#Sort Ascending
 notes#:#notes_sort_desc#:#Sort Descending
 notes#:#notes_text#:#Text

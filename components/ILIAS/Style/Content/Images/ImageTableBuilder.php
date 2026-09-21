@@ -101,7 +101,7 @@ class ImageTableBuilder extends CommonTableBuilder
         if ($this->access_manager->checkWrite()) {
             $table = $table
                 ->singleAction("resizeImageForm", $lng->txt("sty_resize"))
-                ->multiAction("confirmDeleteImages", $lng->txt("delete"), true);
+                ->singleAction("confirmDeleteImage", $lng->txt("delete"), true);
         }
 
         return $table;

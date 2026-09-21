@@ -6364,6 +6364,7 @@ content#:#cont_def_organization#:#初期設定
 content#:#cont_default#:#初期設定
 content#:#cont_definition#:#定義
 content#:#cont_delete_content#:#コンテンツを削除
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#削除
 content#:#cont_delete_style#:#スタイル削除
 content#:#cont_delete_track_data#:#追跡データを削除
@@ -12995,7 +12996,6 @@ news#:#news_allow_shorter_periods#:#短めの時間を許可
 news#:#news_allow_shorter_periods_info#:#ユーザはパーソナルデスクトップ上で短めのニュース期間選択が可能です。
 news#:#news_attached_to#:#添付
 news#:#news_block_information#:#<b>ニュース</b>ブロックは、パーソナルデスクトップ上で選択した<b>パーソナルアイテム</b>に関係する全てのニュースをリストします。
-news#:#news_block_news_for_context#:#ニュース
 news#:#news_cache#:#新規キャッシュ(分)
 news#:#news_cache_info#:#ニュースブロックをx分すべてアップデートします。 '0'は毎回を意味します。 値を上げるとパフォーマンスは上がりますが、ニュースが非アクセスアイテムへリンクされる事につながります。
 news#:#news_default_visibility#:#アクセス初期設定

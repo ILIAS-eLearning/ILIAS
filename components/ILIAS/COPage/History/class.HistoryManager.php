@@ -68,6 +68,28 @@ class HistoryManager
         return $deleted;
     }
 
+    public function deleteHistoryEntries(
+        string $parent_type,
+        int $page_id,
+        string $lang
+    ): void {
+        $max_nr = $this->history_repo->getMaxDeletableNr(0, $parent_type, $page_id, $lang);
+        if ($max_nr > 0) {
+            $defs = $this->pc_definition->getPCDefinitions();
+            foreach ($defs as $def) {
+                $cl = $def["pc_class"];
+                $cl::deleteHistoryLowerEqualThan(
+                    $parent_type,
+                    $page_id,
+                    $lang,
+                    $max_nr
+                );
+            }
+        }
+
+        $this->history_repo->deleteHistoryEntries($parent_type, $page_id, $lang);
+    }
+
 
     protected function deleteHistoryEntriesOlderEqualThanNr(
         int $delete_lower_than_nr,

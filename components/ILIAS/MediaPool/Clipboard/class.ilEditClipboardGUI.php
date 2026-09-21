@@ -167,8 +167,14 @@ class ilEditClipboardGUI
             $ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create")
         )->toToolbar();
 
-        $table_gui = new ilClipboardTableGUI($this, "view");
-        $tpl->setContent($table_gui->getHTML());
+        $table = $this->gui->clipboard()->clipboardTableBuilder(
+            $this,
+            "view"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
 
@@ -182,14 +188,14 @@ class ilEditClipboardGUI
     /**
      * remove item from clipboard
      */
-    public function remove(): void
+    public function remove(?array $ids = null): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         // check number of objects
-        $ids = $this->request->getItemIds();
+        $ids ??= $this->request->getItemIds();
 
         if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
@@ -210,7 +216,12 @@ class ilEditClipboardGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    public function insert(): void
+    public function removeSingle(string $id): void
+    {
+        $this->remove([$id]);
+    }
+
+    public function insert(?array $ids = null): void
     {
         $lng = $this->lng;
 
@@ -219,7 +230,7 @@ class ilEditClipboardGUI
             $return .= "&pc_id=" . $this->requested_pcid;
         }
 
-        $ids = $this->request->getItemIds();
+        $ids ??= $this->request->getItemIds();
 
         // check number of objects
         if (count($ids) === 0) {
@@ -234,6 +245,11 @@ class ilEditClipboardGUI
 
         $this->clipboard_manager->setIds($ids);
         ilUtil::redirect($return);
+    }
+
+    public function insertSingle(string $id): void
+    {
+        $this->insert([$id]);
     }
 
     public static function _getSelectedIDs(): array

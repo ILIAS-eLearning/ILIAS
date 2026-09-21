@@ -3407,6 +3407,7 @@ cmps#:#cmps_db_update#:#Skript für Datenbankaktualisierung
 cmps#:#cmps_deactivate#:#Deaktivieren
 cmps#:#cmps_detailed_information#:#Detaillierte Informationen
 cmps#:#cmps_dir#:#Verzeichnis
+cmps#:#cmps_disable_creation#:#Erstellung ausschalten
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_file_version#:#Dateiversion aktualisieren
 cmps#:#cmps_group#:#Gruppe
@@ -6412,6 +6413,7 @@ content#:#cont_def_organization#:#Standard
 content#:#cont_default#:#Standard
 content#:#cont_definition#:#Erklärung
 content#:#cont_delete_content#:#Inhalte löschen
+content#:#cont_delete_file_item_confirm#:#Möchten Sie die ausgewählten Dateien wirklich löschen?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Löschen
 content#:#cont_delete_style#:#Style Löschen
 content#:#cont_delete_track_data#:#Lösche Trackingdaten
@@ -9424,10 +9426,10 @@ exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Bewertungsdateien
 exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann die Datei in der Übersicht der Übungseinheiten herunterladen und einsehen.
 exc#:#exc_feedback#:#Rückmeldungen
-exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
+exc#:#exc_feedback_notification_body#:#Die Musterlösung zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da Sie an der oben genannten Übung teilnehmen.
-exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung „%s“ freigeschaltet
+exc#:#exc_feedback_notification_subject#:#Musterlösung für Übungseinheit der Übung „%s“ freigeschaltet
 exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
 exc#:#exc_fixed_date#:#Festes Datum
@@ -13081,7 +13083,6 @@ news#:#news_allow_shorter_periods#:#Kürzere Zeiträume zulassen
 news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Neuigkeiten ihrer Favoriten auswählen.
 news#:#news_attached_to#:#Zugeordnet zu
 news#:#news_block_information#:#Der Block "Neuigkeiten" zeigt chronologisch alle <b>Neuigkeiten</b> zu Ihren Favoriten an.
-news#:#news_block_news_for_context#:#Neuigkeiten
 news#:#news_cache#:#Neuigkeiten-Cache (Minuten)
 news#:#news_cache_info#:#Aktualisierung des Blocks "Neuigkeiten" alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
 news#:#news_default_visibility#:#Voreinstellung Zugriff
