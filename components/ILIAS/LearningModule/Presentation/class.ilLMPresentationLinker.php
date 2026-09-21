@@ -102,7 +102,8 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         string $a_type = "",
         string $a_back_link = "append",
         string $a_anchor = "",
-        string $a_srcstring = ""
+        string $a_srcstring = "",
+        int $a_ref_id = 0
     ): string {
         if ($a_cmd == "") {
             $a_cmd = "layout";
@@ -170,7 +171,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             if ($a_srcstring != "") {
                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "srcstring", $a_srcstring);
             }
-            $this->ctrl->setParameterByClass(self::TARGET_GUI, "ref_id", $this->lm->getRefId());
+            $this->ctrl->setParameterByClass(
+                self::TARGET_GUI,
+                "ref_id",
+                $a_ref_id > 0 ? $a_ref_id : $this->lm->getRefId()
+            );
             switch ($a_cmd) {
                 case "fullscreen":
                     $link = $this->ctrl->getLinkTargetByClass(self::TARGET_GUI, "fullscreen", "", false, false);
@@ -359,8 +364,18 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     case "PageObject":
                     case "StructureObject":
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
+                        $target_ref_id = $this->lm->getRefId();
+                        if ($lm_id > 0 && $lm_id !== $this->lm->getId() &&
+                            $targetframe != "None" && $targetframe != "New") {
+                            foreach (ilObject::_getAllReferences($lm_id) as $ref_id) {
+                                if (!ilObject::_isInTrash($ref_id)) {
+                                    $target_ref_id = $ref_id;
+                                    break;
+                                }
+                            }
+                        }
                         if ($lm_id == $this->lm->getId() ||
-                            ($targetframe != "None" && $targetframe != "New")) {
+                            ($targetframe != "None" && $targetframe != "New" && $target_ref_id > 0)) {
                             $ltarget = $a_layoutframes[$targetframe]["Frame"] ?? "";
                             $nframe = ($ltarget == "")
                                 ? ""
@@ -380,7 +395,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                     $nframe,
                                     $type,
                                     "append",
-                                    $anc
+                                    $anc,
+                                    "",
+                                    $target_ref_id
                                 );
                             if ($lm_id === 0) {
                                 $href = "";
