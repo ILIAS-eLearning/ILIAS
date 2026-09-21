@@ -42,6 +42,8 @@ class ParticipantTable implements DataRetrieval
     private ?iterable $records = null;
     private bool $scoring_enabled = false;
 
+    private ?int $total_row_count = null;
+
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
@@ -69,6 +71,14 @@ class ParticipantTable implements DataRetrieval
      */
     public function getComponents(URLBuilder $url_builder, string $filter_url): array
     {
+        $summary_information = $this->ui_factory->listing()->property()
+            ->withProperty(
+                $this->lng->txt('tst_stat_result_total_participants'),
+                (string) $this->repository->countParticipants(
+                    $this->test_object->getTestId(),
+                    null
+                )
+            );
         $filter = $this->getFilterComponent($filter_url, $this->test_request->getRequest());
         $table = $this->getTableComponent(
             $this->test_request->getRequest(),
@@ -76,6 +86,7 @@ class ParticipantTable implements DataRetrieval
         );
 
         return [
+            $summary_information,
             $filter,
             $table->withActions($this->table_actions->getEnabledActions(...$this->acquireParameters($url_builder)))
         ];
@@ -349,8 +360,8 @@ class ParticipantTable implements DataRetrieval
             ->table()
             ->data(
                 $this,
-                $this->lng->txt('list_of_participants'),
-                $this->getColumns(),
+                '',
+                $this->getColumns()
             )
             ->withId(self::ID)
             ->withRequest($request)
