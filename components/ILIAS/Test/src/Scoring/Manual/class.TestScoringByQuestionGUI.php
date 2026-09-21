@@ -94,6 +94,12 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $test_question_properties = $this->testquestionsrepository
             ->getQuestionPropertiesForTest($this->object);
 
+        uasort(
+            $test_question_properties,
+            fn(TestQuestionProperties $a, TestQuestionProperties $b): int
+                => $a->getSequenceInformation()->getPlaceInSequence() <=> $b->getSequenceInformation()->getPlaceInSequence()
+        );
+
         if ($test_question_properties === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('manscoring_questions_not_found'));
             return;
