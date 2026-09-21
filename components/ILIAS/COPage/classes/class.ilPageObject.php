@@ -106,6 +106,7 @@ abstract class ilPageObject
     protected \ILIAS\COPage\Page\PageManager $page_manager;
     protected \ILIAS\COPage\Style\StyleManager $style_manager;
     protected \ILIAS\COPage\PC\DomainService $pc_service;
+    protected \ILIAS\COPage\History\HistoryManager $history_manager;
 
     final public function __construct(
         int $a_id = 0,
@@ -162,6 +163,7 @@ abstract class ilPageObject
             ->contentIds($this);
         $this->page_manager = $domain->page();
         $this->pc_service = $domain->pc();
+        $this->history_manager = $domain->history();
         $this->pc_definition = $domain->pc()->definition();
         $this->link = $domain->link();
         $this->style_manager = $domain->style();
@@ -1655,6 +1657,13 @@ s     */
         $this->db->manipulate("DELETE FROM page_object " .
             "WHERE page_id = " . $this->db->quote($this->getId(), "integer") .
             " AND parent_type= " . $this->db->quote($this->getParentType(), "text") . $and);
+
+        // delete page history entries
+        $this->history_manager->deleteHistoryEntries(
+            $this->getParentType(),
+            $this->getId(),
+            $this->getLanguage()
+        );
 
         // delete media objects
         foreach ($mobs as $mob_id) {
