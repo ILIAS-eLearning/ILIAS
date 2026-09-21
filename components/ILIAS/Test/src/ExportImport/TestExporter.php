@@ -42,7 +42,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Exporter;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\CollectResources;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLSerializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlSerializer;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilTree;
@@ -420,7 +420,7 @@ class TestExporter implements Exporter
         Transformations $transformations,
         ExportDependencies $state
     ): void {
-        $serializer = new SimpleXMLSerializer()->open('memory');
+        $serializer = XmlSerializer::inMemory();
         $serializer->createDocument('Test Export Mappings');
         $serializer->startGroup('mappings');
 

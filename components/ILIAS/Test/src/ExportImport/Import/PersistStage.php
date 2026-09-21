@@ -25,7 +25,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLFileDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ilImport;
@@ -91,7 +91,7 @@ class PersistStage implements ImportStage
             return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
         }
 
-        $deserializer = new XMLFileDeserializer()->open($mappings_file);
+        $deserializer = XmlDeserializer::fromFile($mappings_file);
         $deserializer->addHandler('mappings', function (array $mappings) use (&$context) {
             $context = $context->with('mappings', $mappings);
         });

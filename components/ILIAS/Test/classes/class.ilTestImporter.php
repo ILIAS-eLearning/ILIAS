@@ -22,7 +22,7 @@ use ILIAS\Data\ReferenceId;
 use ILIAS\Test\ExportImport\Import\TestImporter;
 use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLMemoryDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 
 class ilTestImporter extends ilXmlImporter
@@ -71,7 +71,7 @@ class ilTestImporter extends ilXmlImporter
         }
 
         $result = $this->importer->import(
-            new XMLMemoryDeserializer()->open($a_xml),
+            XmlDeserializer::fromString($a_xml),
             $a_mapping,
             new ReferenceId($a_mapping->getTargetId()),
             $context,
