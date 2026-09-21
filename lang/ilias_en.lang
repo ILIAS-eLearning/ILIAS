@@ -10088,7 +10088,6 @@ forum#:#forums_enable_notification#:#Enable Notification for this Thread
 forum#:#forums_forum_notification#:#Send Forum Notifications
 forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new posts in this forum.
-forum#:#forums_forum_push_notification_desc#:#Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Please provide a reason for hiding this post.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
@@ -10141,6 +10140,7 @@ forum#:#frm_default_view#:#Default View
 forum#:#frm_edit_title#:#Edit Title
 forum#:#frm_enable_print_option#:#Enable print option
 forum#:#frm_enable_print_option_desc#:#If disabled, nobody is able to select the print option in Forum.
+forum#:#frm_forum_push_notification_info#:#Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead.
 forum#:#frm_mark_as_read#:#Mark as read
 forum#:#frm_mark_as_unread#:#Mark as unread
 forum#:#frm_max_notification_age#:#Max. Notification Age

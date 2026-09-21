@@ -10114,7 +10114,6 @@ forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
 forum#:#forums_forum_notification#:#Foren-Benachrichtigungen versenden
 forum#:#forums_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
-forum#:#forums_forum_push_notification_desc#:#Foren-Benachrichtigungen werden als Push-Benachrichtigungen statt per E-Mail versendet. Wenn die Push-Benachrichtigung nicht zugestellt werden kann, wird stattdessen eine E-Mail versendet.
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_censor_post#:#Geben Sie eine Begründung für die Zensur an.
 forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
@@ -10167,6 +10166,7 @@ forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_edit_title#:#Titel bearbeiten
 forum#:#frm_enable_print_option#:#Druckoption aktivieren
 forum#:#frm_enable_print_option_desc#:#Wenn diese Funktion deaktiviert ist, kann niemand die Druckoption im Forum auswählen.
+forum#:#frm_forum_push_notification_info#:#Foren-Benachrichtigungen werden als Push-Benachrichtigungen statt per E-Mail versendet. Wenn die Push-Benachrichtigung nicht zugestellt werden kann, wird stattdessen eine E-Mail versendet.
 forum#:#frm_mark_as_read#:#Als gelesen markieren
 forum#:#frm_mark_as_unread#:#Als ungelesen markieren
 forum#:#frm_max_notification_age#:#Schwellenwert für Benachrichtigungen
@@ -17362,7 +17362,7 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet 
+trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
 trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen

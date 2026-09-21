@@ -26,6 +26,7 @@ use ILIAS\Notifications\Provider\NotificationsPushProvider;
 final class ilForumPushProvider implements PushProviderInterface
 {
     public const string IDENTIFIER = 'forum';
+    public array $lang_cache = [];
 
     private ?NotificationsPushProvider $push_provider = null;
 
@@ -45,7 +46,7 @@ final class ilForumPushProvider implements PushProviderInterface
     {
         $lng->loadLanguageModule('forum');
 
-        return $lng->txt('forums_forum_push_notification_desc');
+        return $lng->txt('frm_forum_push_notification_info');
     }
 
     /**
@@ -60,8 +61,11 @@ final class ilForumPushProvider implements PushProviderInterface
     ): array {
         global $DIC;
 
-        if (!$DIC->settings()->get('forum_notification', '0')) {
-            return [];
+        if (
+            !$DIC->settings()->get('forum_notification', '0') ||
+            new ilSetting('notifications')->get('enable_push') !== '1'
+        ) {
+            return $recipients;
         }
 
         $mail_recipients = [];
@@ -69,10 +73,10 @@ final class ilForumPushProvider implements PushProviderInterface
         foreach ($recipients as $recipient_id) {
             if ($this->sendPush($recipient_id, $provider, $notification_type)) {
                 $logger->debug(sprintf('Push notification sent to user "%s".', $recipient_id));
-                continue;
+            } else {
+                $logger->debug(sprintf('Push notification not sent to user "%s". Fallback to mail if possible.', $recipient_id));
+                $mail_recipients[] = $recipient_id;
             }
-
-            $mail_recipients[] = $recipient_id;
         }
 
         return $mail_recipients;
@@ -88,8 +92,13 @@ final class ilForumPushProvider implements PushProviderInterface
             return false;
         }
 
-        $lng = ilLanguageFactory::_getLanguageOfUser($recipient_id);
-        $lng->loadLanguageModule('forum');
+        if (isset($this->lang_cache[$user->getLanguage()])) {
+            $lng = $this->lang_cache[$user->getLanguage()];
+        } else {
+            $lng = ilLanguageFactory::_getLanguageOfUser($recipient_id);
+            $lng->loadLanguageModule('forum');
+            $this->lang_cache[$user->getLanguage()] = $lng;
+        }
 
         $content = $this->buildPushContent($provider, $notification_type, $lng);
         if ($content === null) {
@@ -100,7 +109,7 @@ final class ilForumPushProvider implements PushProviderInterface
             $user,
             $content['title'],
             $content['description'],
-            $this->buildPushLink($provider)
+            $this->buildPushLink($provider, $lng)
         );
     }
 
@@ -190,7 +199,7 @@ final class ilForumPushProvider implements PushProviderInterface
         };
     }
 
-    private function buildPushLink(ilForumNotificationMailData $provider): ilNotificationLink
+    private function buildPushLink(ilForumNotificationMailData $provider, ilLanguage $lng): ilNotificationLink
     {
         $url = rtrim(ilUtil::_getHttpPath(), '/') . '/goto.php?target=frm_' . implode('_', [
             $provider->getRefId(),
@@ -199,7 +208,7 @@ final class ilForumPushProvider implements PushProviderInterface
         ]) . '&client_id=' . CLIENT_ID;
 
         return new ilNotificationLink(
-            new ilNotificationParameter('forums_notification_show_post', [], 'forum'),
+            new ilNotificationParameter(sprintf($lng->txt('forums_notification_show_post'), $provider->getPostTitle()), [], 'forum'),
             $url
         );
     }
