@@ -129,19 +129,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             true
         );
 
-        $selected_active_ids = explode(',', $this->testrequest->strVal('active_ids'));
+        $selected_active_ids = array_map('intval', explode(',', $this->testrequest->strVal('active_ids')));
+        $users_by_active_id = $this->participant_repository->getUsersByActiveIds(
+            $this->object->getTestId(),
+            $selected_active_ids
+        );
         $results_panel = $this->ui_factory->panel()->report(
             $this->lng->txt('tst_results'),
             array_map(
-                function (string $v): SubPanel {
-                    $value = (int) $v;
+                function (int $value) use ($users_by_active_id): SubPanel {
                     $attempt_id = ilObjTest::_getResultPass($value);
                     $components = $this->buildAttemptComponents($value, $attempt_id, false, true);
                     return $this->ui_factory->panel()->sub(
-                        $this->buildResultsTitle(
-                            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($value)),
-                            $attempt_id
-                        ),
+                        $this->buildResultsTitle($value, $attempt_id, $users_by_active_id),
                         $components
                     );
                 },
@@ -195,10 +195,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $results_panel = $this->ui_factory->panel()->report(
-            $this->buildResultsTitle(
-                ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($current_active_id)),
-                $attempt_id
-            ),
+            $this->buildResultsTitle($current_active_id, $attempt_id),
             $this->buildAttemptComponents($current_active_id, $attempt_id, true, false)
         );
 
@@ -341,7 +338,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 true
             ),
             $settings,
-            $this->buildResultsTitle($this->user->getFullname(), $pass),
+            $this->buildResultsTitle($active_id, $pass),
             false
         );
 
@@ -827,7 +824,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->http->close();
     }
 
-    protected function buildResultsTitle(string $fullname, int $pass): string
+    protected function buildResultsTitle(int $active_id, int $pass, array $users_by_active_id = []): string
     {
         if ($this->object->getAnonymity()) {
             return sprintf(
@@ -835,10 +832,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $pass + 1
             );
         }
+
+        $user = $users_by_active_id[$active_id]
+            ?? $this->participant_repository->getUsersByActiveIds($this->object->getTestId(), [$active_id])[$active_id] ?? null;
+
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
-            $fullname
+            $user?->getDisplayName($this->lng) ?? ''
         );
     }
 

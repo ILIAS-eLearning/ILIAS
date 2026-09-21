@@ -107,8 +107,8 @@ class ParticipantTableIpRangeAction implements TableAction
         $participant_rows = array_map(
             fn(Participant $participant) => sprintf(
                 '%s, %s',
-                $participant->getLastname(),
-                $participant->getFirstname()
+                $participant->getUser()->getLastname(),
+                $participant->getUser()->getFirstname()
             ),
             $selected_participants
         );
