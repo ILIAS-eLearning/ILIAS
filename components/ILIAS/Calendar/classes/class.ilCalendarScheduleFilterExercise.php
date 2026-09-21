@@ -13,6 +13,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 {
     protected int $user_id;
     protected ilLogger $logger;
+    protected ILIAS\Exercise\Assignment\DomainService $assignment_domain_service;
 
     public function __construct(int $a_user_id)
     {
@@ -20,6 +21,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 
         $this->user_id = $a_user_id;
         $this->logger = $DIC->logger()->exc();
+        $this->assignment_domain_service = $DIC->exercise()->internal()->domain()->assignment();
     }
 
     public function getLogger(): ilLogger
@@ -48,6 +50,9 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
             $context_id = $a_event->getContextId();
             $subtype = (int) substr((string) $context_id, -1);
             $ass_id = (int) substr((string) $context_id, 0, -1);
+            if (!$this->isAssignmentVisibleForUser($exc_obj_id, $ass_id)) {
+                return null;
+            }
             // 1 is peer review deadline
             if ($subtype != 1) {
                 $ass = new ilExAssignment($ass_id);
@@ -85,6 +90,9 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 
             $calc_dead = null;
             foreach (ilExAssignment::getInstancesByExercise($exc_obj_id) as $ass) {
+                if (!$this->isAssignmentVisibleForUser($exc_obj_id, $ass->getId())) {
+                    continue;
+                }
                 $idl = $ass->getPersonalDeadline($this->user_id);
 
                 $has_individual_deadline = ($idl && $idl != $ass->getDeadline());
@@ -131,6 +139,15 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
             }
         }
         return $all_events;
+    }
+
+    protected function isAssignmentVisibleForUser(int $exc_obj_id, int $ass_id): bool
+    {
+        $exercise = new ilObjExercise($exc_obj_id, false);
+
+        return $this->assignment_domain_service
+            ->randomAssignments($exercise)
+            ->isAssignmentVisible($ass_id, $this->user_id);
     }
 
     /**
