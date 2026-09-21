@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -66,7 +67,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
-            if ($rbacsystem->checkAccess('read', $ref_id)) {
+            // use explicit user as the rbacsystem singleton may hold a stale user
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', $ref_id)) {
                 $permission_ok = true;
                 break;
             }
@@ -132,7 +134,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             return $this->raiseError("Parent with ID $ref_id has been deleted.", 'Client');
         }
 
-        if (!$rbacsystem->checkAccess('read', $ref_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', $ref_id)) {
             return $this->raiseError(
                 'No permission to read the object with id: ' . $ref_id,
                 'Server'
@@ -163,7 +166,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (!$rbacsystem->checkAccess('read', $a_ref_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', $a_ref_id)) {
             return $this->raiseError(
                 'No permission to read the object with id: ' . $a_ref_id,
                 'Server'

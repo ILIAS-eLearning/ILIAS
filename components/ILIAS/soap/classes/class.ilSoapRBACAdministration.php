@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -605,7 +606,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
                 // check access for user folder
                 $tmpUser = new ilObjUser($user_id);
                 $timelimitOwner = $tmpUser->getTimeLimitOwner();
-                if (!$rbacsystem->checkAccess('read', $timelimitOwner)) {
+                // use explicit user as the rbacsystem singleton may hold a stale user
+                if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', $timelimitOwner)) {
                     return $this->raiseError('Check access for time limit owner failed.', 'Server');
                 }
             }
@@ -641,7 +643,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             }
         } elseif ($id === -1) {
             // get all roles of system role folder
-            if (!$rbacsystem->checkAccess('read', ROLE_FOLDER_ID)) {
+            if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', ROLE_FOLDER_ID)) {
                 return $this->raiseError('Check access failed.', 'Server');
             }
 
@@ -649,7 +651,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         } else {
             // get local roles for a specific repository object
             // needs permission to read permissions of this object
-            if (!$rbacsystem->checkAccess('edit_permission', $id)) {
+            if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'edit_permission', $id)) {
                 return $this->raiseError('Check access for local roles failed.', 'Server');
             }
 
