@@ -3,25 +3,23 @@
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing;
 
 use Generator;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipeline;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
-use ILIAS\Refinery\Custom\Group;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Queue;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations as TransformationsContract;
-use InvalidArgumentException;
 
 /**
  * Provides a set of transformations for normalizing and denormalizing values. It uses the Refinery library to perform
  * the transformations. It also provides a registry of normalizers, which are used to handle the normalization and
  * denormalization of complex objects.
  */
-class Transformations implements TransformationsContract
+final class Transformations
 {
     public function __construct(
-        protected readonly Refinery $refinery,
-        protected readonly Pipeline $pipeline
+        private readonly Refinery $refinery,
+        private readonly Queue $normalization_queue,
+        private readonly Queue $denormalization_queue
     ) {
     }
 
@@ -30,14 +28,11 @@ class Transformations implements TransformationsContract
     */
 
     /**
-     * @inheritDoc
+     * @param array<string, mixed> $context
+     * @return array<array-key, mixed>|float|bool|int|string|null
      */
     public function normalize(mixed $value, array $context = []): array|float|bool|int|string|null
     {
-        if ($value === null) {
-            return null;
-        }
-
         if (is_object($value) && $value instanceof Generator) {
             $value = iterator_to_array($value);
         }
@@ -46,47 +41,28 @@ class Transformations implements TransformationsContract
             return array_map(fn(mixed $value) => $this->normalize($value, $context), $value);
         }
 
-        return $this->pipeline->send(new NormalizeCarry($this, $value, $context))
-                ->then(static fn(NormalizeCarry $carry): mixed => $carry->result());
+        $carry = new NormalizeCarry($this, $value, $context);
+        $this->normalization_queue->process($carry);
+        return $carry->result();
     }
 
     /**
-     * @inheritDoc
+     * @param array<array-key, mixed>|float|bool|int|string|null $normalized
      */
     public function denormalize(array|float|bool|int|string|null $normalized, string|object $expected): mixed
     {
-        if ($normalized === null) {
-            return null;
-        }
-
-        return $this->pipeline->send(new DenormalizeCarry($this, $normalized, $expected))
-                ->then(static fn(DenormalizeCarry $carry): mixed => $carry->result());
+        $carry = new DenormalizeCarry($this, $normalized, $expected);
+        $this->denormalization_queue->process($carry);
+        return $carry->result();
     }
 
-    /*
-        Transformations
-    */
-
-    /**
-     * @inheritDoc
-     */
-    public function context(string $pipe_class): Pipe
+    public function normalizationProcessor(string $processor_class): Processor
     {
-        foreach ($this->pipeline->pipes() as $pipe) {
-            if ($pipe instanceof $pipe_class) {
-                return $pipe;
-            }
-        }
-        throw new InvalidArgumentException("Pipe {$pipe_class} not found");
-    }
-
-    public function custom(): Group
-    {
-        return $this->refinery->custom();
+        return $this->normalization_queue->get($processor_class);
     }
 
     /**
-     * @throws InvalidArgumentException if the value cannot be transformed into an integer
+     * @throws \InvalidArgumentException if the value cannot be transformed into an integer
      */
     public function int(mixed $value): int
     {
@@ -94,7 +70,7 @@ class Transformations implements TransformationsContract
     }
 
     /**
-     * @throws InvalidArgumentException if the value cannot be transformed into a float
+     * @throws \InvalidArgumentException if the value cannot be transformed into a float
      */
     public function float(mixed $value): float
     {
@@ -102,7 +78,7 @@ class Transformations implements TransformationsContract
     }
 
     /**
-     * @throws InvalidArgumentException if the value cannot be transformed into a string
+     * @throws \InvalidArgumentException if the value cannot be transformed into a string
      */
     public function string(mixed $value): string
     {
@@ -110,7 +86,7 @@ class Transformations implements TransformationsContract
     }
 
     /**
-     * @throws InvalidArgumentException if the value cannot be transformed into a boolean
+     * @throws \InvalidArgumentException if the value cannot be transformed into a boolean
      */
     public function bool(mixed $value): bool
     {

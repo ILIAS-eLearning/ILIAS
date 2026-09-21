@@ -16,16 +16,16 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * Class ilAssQuestionLifecycle
  * @author      Björn Heyser <info@bjoernheyser.de>
  * @package components\ILIAS/TestQuestionPool
  */
-class ilAssQuestionLifecycle implements Normalizable
+class ilAssQuestionLifecycle implements ToNormalized, FromNormalized
 {
     public const DRAFT = 'draft';
     public const REVIEW = 'review';
@@ -161,20 +161,24 @@ class ilAssQuestionLifecycle implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
+        return [
             'identifier' => $this->getIdentifier(),
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
     {
-        return $tt->custom()->transformation(
-            static fn(array $normalized): ilAssQuestionLifecycle => self::getInstance($normalized['identifier'])
-        );
+        return self::getInstance($normalized['identifier']);
     }
 }

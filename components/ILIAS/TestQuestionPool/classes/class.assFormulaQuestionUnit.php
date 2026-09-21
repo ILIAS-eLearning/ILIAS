@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Transformation;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 
 /**
@@ -28,7 +28,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ingroup components\ILIASTestQuestionPool
  */
-class assFormulaQuestionUnit implements Normalizable
+class assFormulaQuestionUnit implements ToNormalized, FromNormalized
 {
     private int $id = 0;
     private string $unit = '';
@@ -168,35 +168,39 @@ class assFormulaQuestionUnit implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            'id' => $tt->normalize(new Id($this->id, 'unit')),
+        return [
+            'id' => $transformations->normalize(new Id($this->id, 'unit')),
             'unit' => $this->unit,
             'factor' => $this->factor,
-            'category_id' => $tt->normalize(new Id($this->category, 'unit_category')),
+            'category_id' => $transformations->normalize(new Id($this->category, 'unit_category')),
             'sequence' => $this->sequence,
-            'baseunit' => $tt->normalize(new Id($this->baseunit, 'unit')),
+            'baseunit' => $transformations->normalize(new Id($this->baseunit, 'unit')),
             'baseunit_title' => $this->baseunit_title,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = clone $this;
-            $clone->id = $tt->denormalize($normalized['id'], Id::class)->getId();
-            $clone->unit = $tt->string($normalized['unit']);
-            $clone->factor = $tt->float($normalized['factor']);
-            $clone->category = $tt->denormalize($normalized['category_id'], Id::class)->getId();
-            $clone->sequence = $tt->int($normalized['sequence']);
-            $clone->baseunit = $tt->denormalize($normalized['baseunit'], Id::class)->getId();
-            $clone->baseunit_title = $tt->string($normalized['baseunit_title']);
+        $clone = clone $this;
+        $clone->id = $transformations->denormalize($normalized['id'], Id::class)->getId();
+        $clone->unit = $transformations->string($normalized['unit']);
+        $clone->factor = $transformations->float($normalized['factor']);
+        $clone->category = $transformations->denormalize($normalized['category_id'], Id::class)->getId();
+        $clone->sequence = $transformations->int($normalized['sequence']);
+        $clone->baseunit = $transformations->denormalize($normalized['baseunit'], Id::class)->getId();
+        $clone->baseunit_title = $transformations->string($normalized['baseunit_title']);
 
-            return $clone;
-        });
+        return $clone;
     }
 }

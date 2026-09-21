@@ -23,14 +23,12 @@ namespace ILIAS\Test\ExportImport\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ilObjTest;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer\IlObjectNormalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 
 /**
  * @implements Normalizer<ilObjTest, array>
  */
-#[Normalizes(ilObjTest::class)]
 class ilObjTestNormalizer extends IlObjectNormalizer implements Normalizer
 {
     /**

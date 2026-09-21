@@ -20,16 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts;
 
-/**
- * Interface for data collectors that extract and assemble data relevant for
- * question exports into exportable structures.
- *
- * Implementations use the provided repositories and domain objects as return
- * values and follow a builder-style API: configuration methods are fluent and
- * return the collector instance itself, while query methods typically expose
- * generators to stream potentially large data sets efficiently for export.
- */
-interface DataCollector
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
+
+interface ToNormalized
 {
-    //
+    /**
+     * Convert the internal state of the implementing object into a language-neutral array structure. The resulting
+     * array must contain only null, scalar values (string, int, float, bool) and nested arrays following the same
+     * rules. 
+     * 
+     * @param array<string, mixed> $context
+     * @return array<array-key, mixed>|float|bool|int|string|null
+     */
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null;
 }

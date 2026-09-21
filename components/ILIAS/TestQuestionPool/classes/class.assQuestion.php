@@ -36,7 +36,7 @@ use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
@@ -2965,13 +2965,17 @@ abstract class assQuestion implements Question
     }
 
     /**
-     * @inheritDoc
+     * @param array<string, mixed> $context
+     * @return array<array-key, mixed>|float|bool|int|string|null
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            'id' => $tt->normalize(new Id($this->id, 'question')),
-            'parent_id' => $tt->normalize(new Id($this->obj_id, 'object')),
+        return [
+            'id' => $transformations->normalize(new Id($this->id, 'question')),
+            'parent_id' => $transformations->normalize(new Id($this->obj_id, 'object')),
             'original_id' => $this->original_id,
             'external_id' => $this->external_id,
             'type' => $this->getQuestionType(),
@@ -2981,49 +2985,48 @@ abstract class assQuestion implements Question
             'question_text' => $this->question,
             'available_points' => $this->points,
             'nr_of_tries' => $this->nr_of_tries,
-            'lifecycle' => $tt->normalize($this->lifecycle),
+            'lifecycle' => $transformations->normalize($this->lifecycle),
             'author' => $this->author,
             'updated_timestamp' => $this->lastChange,
             'additional_content_editing_mode' => $this->additionalContentEditingMode,
             'thumb_size' => $this->thumb_size,
             'shuffle' => $this->shuffle,
-            'suggested_solutions' => $tt->normalize($this->suggested_solutions),
-        ]);
+            'suggested_solutions' => $transformations->normalize($this->suggested_solutions),
+        ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function fromNormalized(Transformations $tt): Transformation
+    /** @param array<array-key, mixed> $normalized */
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = clone $this;
-            $clone->id = $tt->denormalize($normalized['id'], Id::class)->getId();
-            $clone->obj_id = $tt->denormalize($normalized['parent_id'], Id::class)->getId();
-            $clone->original_id = $tt->nullableInt($normalized['original_id']);
-            $clone->external_id = $tt->nullableString($normalized['external_id']);
-            $clone->owner = $tt->int($normalized['owner']);
-            $clone->title = $tt->string($normalized['title']);
-            $clone->comment = $tt->string($normalized['description']);
-            $clone->question = $tt->string($normalized['question_text']);
-            $clone->points = $tt->float($normalized['available_points']);
-            $clone->nr_of_tries = $tt->int($normalized['nr_of_tries']);
-            $clone->lifecycle = $tt->denormalize($normalized['lifecycle'], $clone->lifecycle);
-            $clone->author = $tt->string($normalized['author']);
-            $clone->lastChange = $tt->nullableInt($normalized['updated_timestamp']);
-            $clone->additionalContentEditingMode = $tt->string($normalized['additional_content_editing_mode']);
-            $clone->thumb_size = $tt->int($normalized['thumb_size']);
-            $clone->shuffle = $tt->bool($normalized['shuffle']);
+        $clone = clone $this;
+        $clone->id = $transformations->denormalize($normalized['id'], Id::class)->getId();
+        $clone->obj_id = $transformations->denormalize($normalized['parent_id'], Id::class)->getId();
+        $clone->original_id = $transformations->nullableInt($normalized['original_id']);
+        $clone->external_id = $transformations->nullableString($normalized['external_id']);
+        $clone->owner = $transformations->int($normalized['owner']);
+        $clone->title = $transformations->string($normalized['title']);
+        $clone->comment = $transformations->string($normalized['description']);
+        $clone->question = $transformations->string($normalized['question_text']);
+        $clone->points = $transformations->float($normalized['available_points']);
+        $clone->nr_of_tries = $transformations->int($normalized['nr_of_tries']);
+        $clone->lifecycle = $transformations->denormalize($normalized['lifecycle'], $clone->lifecycle);
+        $clone->author = $transformations->string($normalized['author']);
+        $clone->lastChange = $transformations->nullableInt($normalized['updated_timestamp']);
+        $clone->additionalContentEditingMode = $transformations->string($normalized['additional_content_editing_mode']);
+        $clone->thumb_size = $transformations->int($normalized['thumb_size']);
+        $clone->shuffle = $transformations->bool($normalized['shuffle']);
 
-            $clone->suggested_solutions = array_map(
-                static fn(array $suggested_solution): SuggestedSolution => $tt->denormalize(
-                    $suggested_solution,
-                    SuggestedSolution::class
-                ),
-                $normalized['suggested_solutions']
-            );
+        $clone->suggested_solutions = array_map(
+            static fn(array $suggested_solution): SuggestedSolution => $transformations->denormalize(
+                $suggested_solution,
+                SuggestedSolution::class
+            ),
+            $normalized['suggested_solutions']
+        );
 
-            return $clone;
-        });
+        return $clone;
     }
 }

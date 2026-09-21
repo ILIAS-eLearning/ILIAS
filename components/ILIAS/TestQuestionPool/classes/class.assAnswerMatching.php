@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
 * Class for matching question answers
@@ -28,7 +28,7 @@ use ILIAS\Refinery\Transformation;
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @ingroup components\ILIASTestQuestionPool
 */
-class ASS_AnswerMatching implements Normalizable
+class ASS_AnswerMatching implements ToNormalized, FromNormalized
 {
     public float $points;
 
@@ -244,28 +244,32 @@ class ASS_AnswerMatching implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
+        return [
             'points' => $this->points,
             'picture_or_definition' => $this->picture_or_definition,
             'picture_or_definition_id' => $this->picture_or_definition_id,
             'term_id' => $this->term_id,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = clone $this;
-            $clone->setPoints($tt->float($normalized['points']));
-            $clone->setPicture($tt->string($normalized['picture_or_definition']));
-            $clone->setPictureId($tt->int($normalized['picture_or_definition_id']));
-            $clone->setTermId($tt->int($normalized['term_id']));
-            return $clone;
-        });
+        $clone = clone $this;
+        $clone->setPoints($transformations->float($normalized['points']));
+        $clone->setPicture($transformations->string($normalized['picture_or_definition']));
+        $clone->setPictureId($transformations->int($normalized['picture_or_definition_id']));
+        $clone->setTermId($transformations->int($normalized['term_id']));
+        return $clone;
     }
 }

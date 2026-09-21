@@ -18,9 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * Class for answers with a binary state indicator
@@ -84,25 +83,29 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
     /**
     * @inheritDoc
     */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(array $context): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'image' => $this->image ?
-                $tt->normalize(new QuestionImage($this->image, $context['question_id'] ?? null))
+                $transformations->normalize(new QuestionImage($this->image, $context['question_id'] ?? null))
                 : null,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->setImage($tt->denormalize($normalized['image'], QuestionImage::class)?->getFilename());
-            return $clone;
-        });
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setImage($transformations->denormalize($normalized['image'], QuestionImage::class)?->getFilename());
+        return $clone;
     }
 }

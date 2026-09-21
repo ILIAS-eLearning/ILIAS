@@ -35,13 +35,13 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Settings\GlobalSettings\UserIdentifiers;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
+use ILIAS\Test\ExportImport\TransformationsBuilder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\CollectResources;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingPipe;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingProcessor;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
@@ -51,15 +51,12 @@ use ilTestPage;
 use Psr\Log\LoggerInterface;
 
 /**
- * Orchestrates the import of a test. It uses the Builder to create a pipeline of transformations that are used to normalize
- * the data provided by the deserializer. It imports the test object, related resources (file uploads, question images,
- * etc.), resolves the user mappings from the import mapping and imports the test content (settings, questions,
- * participants, results, etc.) into the database.
+ * Orchestrates denormalization and persistence of a test import and its related resources.
  */
 class TestImporter
 {
     public function __construct(
-        private readonly Builder $builder,
+        private readonly TransformationsBuilder $builder,
         private readonly ilDBInterface $database,
         private readonly LoggerInterface $log,
         private readonly IRSS $irss,
@@ -84,21 +81,25 @@ class TestImporter
         ReferenceId $parent_id,
         ImportContext $context
     ): ImportContext {
-        $resource_pipe = new CollectResources($this->irss, $this->log);
-        $id_mapping_pipe = new IdMappingPipe($mapping, 'components/ILIAS/Test', $this->log);
-        $question_images_pipe = new CollectQuestionImages(new UUIDFactory(), $this->data_factory->objId(0));
+        $resource_collector = new CollectResources($this->irss, $this->log);
+        $question_images_collector = new CollectQuestionImages(new UUIDFactory(), $this->data_factory->objId(0));
 
-        $tt = $this->builder->withAdditionalPipes(append: [$id_mapping_pipe, $question_images_pipe, $resource_pipe])->create();
+        $transformations = $this->builder->forImport(
+            null,
+            new IdMappingProcessor($mapping, 'components/ILIAS/Test', $this->log),
+            $question_images_collector,
+            $resource_collector
+        );
 
         /** @var ilObjTest|null $test_object */
         $test_object = null;
 
         $deserializer->addHandler(
             'general',
-            function (array $objects) use ($tt, $mapping, $parent_id, &$test_object): void {
+            function (array $objects) use ($transformations, $mapping, $parent_id, &$test_object): void {
                 $test_object = $this->importTest(
                     array_pop($objects),
-                    $tt,
+                    $transformations,
                     $mapping,
                     $parent_id
                 );
@@ -107,10 +108,10 @@ class TestImporter
 
         $deserializer->addHandler(
             'settings',
-            function (array $settings) use ($tt, $mapping, &$test_object): void {
+            function (array $settings) use ($transformations, $mapping, &$test_object): void {
                 $this->importSettings(
                     $settings,
-                    $tt,
+                    $transformations,
                     $mapping,
                     $test_object
                 );
@@ -119,10 +120,10 @@ class TestImporter
 
         $deserializer->addHandler(
             'questions',
-            function (array $normalized) use ($tt, $mapping, $context, &$test_object): void {
+            function (array $normalized) use ($transformations, $mapping, $context, &$test_object): void {
                 $this->importQuestions(
                     $normalized,
-                    $tt,
+                    $transformations,
                     $mapping,
                     $context,
                     $test_object
@@ -132,10 +133,10 @@ class TestImporter
 
         $deserializer->addHandler(
             'question_set_config',
-            function (array $normalized) use ($tt, $mapping, $context, &$test_object): void {
+            function (array $normalized) use ($transformations, $mapping, $context, &$test_object): void {
                 $this->importQuestionSetConfig(
                     reset($normalized),
-                    $tt,
+                    $transformations,
                     $mapping,
                     $test_object
                 );
@@ -144,11 +145,11 @@ class TestImporter
 
         $deserializer->addHandler(
             'skill_assignments',
-            function (array $assignments) use ($tt, $mapping, &$context): void {
+            function (array $assignments) use ($transformations, $mapping, &$context): void {
                 $result = $this->skill_importer->import(
                     $assignments,
                     $context->installId(),
-                    $tt,
+                    $transformations,
                     $mapping,
                 );
                 $context = $context->withSkillAssignments($result);
@@ -157,11 +158,11 @@ class TestImporter
 
         $deserializer->addHandler(
             'skill_thresholds',
-            function (array $thresholds) use ($tt, $mapping, &$context): void {
+            function (array $thresholds) use ($transformations, $mapping, &$context): void {
                 $result = $this->skill_thresholds_importer->import(
                     $thresholds,
                     $context->installId(),
-                    $tt,
+                    $transformations,
                     $mapping,
                 );
                 $context = $context->withSkillThresholds($result);
@@ -170,10 +171,10 @@ class TestImporter
 
         $deserializer->addHandler(
             'participants',
-            function (array $participants) use ($tt, $mapping): void {
+            function (array $participants) use ($transformations, $mapping): void {
                 $this->importParticipants(
                     $participants,
-                    $tt,
+                    $transformations,
                     $mapping,
                 );
             }
@@ -181,26 +182,26 @@ class TestImporter
 
         $deserializer->addHandler(
             'results',
-            function (array $results) use ($tt): void {
+            function (array $results) use ($transformations): void {
                 $this->test_results_importer->import(
                     $results,
-                    $tt,
+                    $transformations,
                 );
             }
         );
 
         $deserializer->addHandler(
             'additional_working_times',
-            function (array $times) use ($tt): void {
+            function (array $times) use ($transformations): void {
                 $this->test_results_importer->importAdditionalWorkingTimes(
                     $times,
-                    $tt,
+                    $transformations,
                 );
             }
         );
 
         $this->log->info('Importing users and resources mappings...');
-        $this->importMappings($mapping, $resource_pipe, $context);
+        $this->importMappings($mapping, $resource_collector, $context);
         $this->log->info('...Finished importing users and resources mappings');
 
         $this->log->info('Importing test export file...');
@@ -212,7 +213,7 @@ class TestImporter
             $test_object->getId(),
             $mapping,
             $context,
-            $question_images_pipe
+            $question_images_collector
         );
         $this->log->info('...Finished importing question images');
 
@@ -236,7 +237,7 @@ class TestImporter
 
     private function importMappings(
         ilImportMapping $mapping,
-        CollectResources $resource_pipe,
+        CollectResources $resource_collector,
         ImportContext $context
     ): void {
         $user_mapping = $context->userMappings();
@@ -265,7 +266,7 @@ class TestImporter
                 new assFileUploadStakeholder(),
                 $resource['title']
             );
-            $resource_pipe->storeMapping($resource['id'], $new_id);
+            $resource_collector->storeMapping($resource['id'], $new_id);
             $this->log->debug("Imported resource: {$resource_path} -> {$new_id->serialize()}");
         }
         $this->log->info('...Finished importing resources and storing mappings');
@@ -273,11 +274,11 @@ class TestImporter
 
     private function importTest(
         array $normalized,
-        Transformations $tt,
+        Transformations $transformations,
         ilImportMapping $mapping,
         ReferenceId $parent_id
     ): ilObjTest {
-        $test_object = $tt->denormalize($normalized, ilObjTest::class);
+        $test_object = $transformations->denormalize($normalized, ilObjTest::class);
         $old_obj_id = $test_object->getId();
         $old_test_id = $test_object->getTestId();
 
@@ -301,15 +302,15 @@ class TestImporter
 
     private function importSettings(
         array $list,
-        Transformations $tt,
+        Transformations $transformations,
         ilImportMapping $mapping,
         ilObjTest $test_object
     ): void {
         $settings_id = $test_object->getMainSettings()->getId();
 
-        $main_settings = $tt->denormalize($list[0], MainSettings::class)->withId($settings_id);
-        $scoring_settings = $tt->denormalize($list[1], ScoreSettings::class)->withId($settings_id);
-        $mark_schema = $tt->denormalize($list[2], MarkSchema::class)->withTestId($test_object->getTestId());
+        $main_settings = $transformations->denormalize($list[0], MainSettings::class)->withId($settings_id);
+        $scoring_settings = $transformations->denormalize($list[1], ScoreSettings::class)->withId($settings_id);
+        $mark_schema = $transformations->denormalize($list[2], MarkSchema::class)->withTestId($test_object->getTestId());
 
         if ($intro_page_id = $main_settings->getIntroductionSettings()->getIntroductionPageId()) {
             $new_page_id = $this->createPage($intro_page_id, $test_object->getId(), $mapping);
@@ -351,7 +352,7 @@ class TestImporter
 
     private function importQuestions(
         array $list,
-        Transformations $tt,
+        Transformations $transformations,
         ilImportMapping $mapping,
         ImportContext $context,
         ilObjTest $test_object
@@ -359,7 +360,7 @@ class TestImporter
         foreach ($list as $normalized) {
             $question = $this->questions_importer->importQuestion(
                 $normalized, 
-                $tt, 
+                $transformations, 
                 $mapping, 
                 $context->selectedQuestionIds()
             );
@@ -367,7 +368,7 @@ class TestImporter
                 continue;
             }
 
-            $sequence = $tt->int($normalized['sequence']);
+            $sequence = $transformations->int($normalized['sequence']);
             $test_object->questions[$sequence] = $question->getId();
             $this->log->debug("Stored question {$question->getId()} at sequence {$sequence} in test");
         }
@@ -378,32 +379,32 @@ class TestImporter
 
     private function importQuestionSetConfig(
         array $normalized,
-        Transformations $tt,
+        Transformations $transformations,
         ilImportMapping $mapping,
         ilObjTest $test_object
     ): void {
-        $config = $tt->denormalize($normalized, QuestionSetConfig::class);
+        $config = $transformations->denormalize($normalized, QuestionSetConfig::class);
 
         if ($config->isRandom()) {
             $this->random_test_config_importer->import($config, $mapping, $test_object);
         }
     }
 
-    private function importParticipants(array $list, Transformations $tt, ilImportMapping $mapping): void
+    private function importParticipants(array $list, Transformations $transformations, ilImportMapping $mapping): void
     {
         foreach ($list as $normalized) {
             if ($normalized['active_id'] === null) {
-                $this->importInvitedParticipant($normalized, $tt);
+                $this->importInvitedParticipant($normalized, $transformations);
                 continue;
             }
 
-            $old_active_id = $tt->denormalize($normalized['active_id'], Id::class)->getId();
+            $old_active_id = $transformations->denormalize($normalized['active_id'], Id::class)->getId();
             $new_active_id = $this->database->nextId('tst_active');
             $mapping->addMapping('components/ILIAS/Test', 'participant', (string) $old_active_id, (string) $new_active_id);
             $this->log->debug("Stored participant/test session mapping: {$old_active_id} -> {$new_active_id}");
 
-            // The mapping pipe replaces TestID, UserID and ActiveID
-            $participant = $tt->denormalize($normalized, Participant::class);
+            // The mapping processor replaces TestID, UserID and ActiveID
+            $participant = $transformations->denormalize($normalized, Participant::class);
 
             $this->database->insert(
                 'tst_active',
@@ -418,20 +419,20 @@ class TestImporter
                     'last_started_pass' => [ilDBConstants::T_INTEGER, $participant->getLastStartedAttempt()],
                     'importname' => [ilDBConstants::T_TEXT, "{$participant->getFirstname()} {$participant->getLastname()}"],
                     'tstamp' => [ilDBConstants::T_INTEGER, time()],
-                    'submittimestamp' => [ilDBConstants::T_TIMESTAMP, $tt->nullableString($normalized['submittimestamp'])],
-                    'lastindex' => [ilDBConstants::T_INTEGER, $tt->nullableInt($normalized['lastindex'])],
-                    'objective_container' => [ilDBConstants::T_INTEGER, $tt->nullableInt($normalized['objective_container'])],
-                    'start_lock' => [ilDBConstants::T_TEXT, $tt->nullableString($normalized['start_lock'])],
+                    'submittimestamp' => [ilDBConstants::T_TIMESTAMP, $transformations->nullableString($normalized['submittimestamp'])],
+                    'lastindex' => [ilDBConstants::T_INTEGER, $transformations->nullableInt($normalized['lastindex'])],
+                    'objective_container' => [ilDBConstants::T_INTEGER, $transformations->nullableInt($normalized['objective_container'])],
+                    'start_lock' => [ilDBConstants::T_TEXT, $transformations->nullableString($normalized['start_lock'])],
                 ]
             );
             $this->log->debug("Stored test session in database: {$new_active_id} (Active ID)");
         }
     }
 
-    private function importInvitedParticipant(array $normalized, Transformations $tt): void
+    private function importInvitedParticipant(array $normalized, Transformations $transformations): void
     {
-        // The mapping pipe replaces TestID and UserID
-        $participant = $tt->denormalize($normalized, Participant::class);
+        // The mapping processor replaces TestID and UserID
+        $participant = $transformations->denormalize($normalized, Participant::class);
 
         $this->database->insert(
             'tst_invited_user',

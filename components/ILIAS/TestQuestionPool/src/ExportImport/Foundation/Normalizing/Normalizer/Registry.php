@@ -26,96 +26,65 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingExcept
 /**
  * Registry for normalizers. It is used to register and lookup normalizers for specific class types.
  */
-class Registry
+final class Registry
 {
-    /**
-     * @var array<class-string, Normalizer|callable():Normalizer>
-     */
+    /** @var array<class-string, array<string, Normalizer>> */
     private array $type_map = [];
 
-    /**
-    * Register a normalizer resolving callable for a type. The callable allows to defer the instantiation of the
-    * normalizer until it is actually needed.
-    *
-    * @param class-string $type
-    * @param callable():Normalizer $normalizer
-    *
-    * @throws NormalizingException if the type is already registered
-    */
-    public function registerNormalizer(string $type, callable $normalizer): void
+    public function register(
+        string $type,
+        Normalizer $normalizer,
+        ?string $legacy_version = null
+    ): void
     {
-        if ($this->hasNormalizer($type)) {
-            throw new NormalizingException("Type {$type} is already registered");
-        }
-        $this->type_map[$type] = $normalizer;
-    }
-
-    /**
-     * Check if a normalizer is registered for a type.
-     *
-     * @param class-string $type
-     */
-    public function hasNormalizer(string $type): bool
-    {
-        return isset($this->type_map[$type]);
-    }
-
-    /**
-     * Return the normalizer that should handle the given type. Resolves to the most specific
-     * registered type (child classes / implementing classes before parents/interfaces).
-     *
-     * @param class-string $type
-     * @return Normalizer|null null if no normalizer supports this type
-     */
-    public function getNormalizerFor(string $type): ?Normalizer
-    {
-        $candidates = $this->findCandidateTypes($type);
-        if ($candidates === []) {
-            return null;
-        }
-        $key = $this->selectMostSpecificType($type, $candidates);
-
-        // Instantiate the normalizer on demand
-        if (is_callable($this->type_map[$key])) {
-            $this->type_map[$key] = $this->type_map[$key]();
+        $version = $legacy_version ?? '';
+        if (isset($this->type_map[$type][$version])) {
+            $label = $legacy_version === null ? 'current' : $legacy_version;
+            throw new NormalizingException("Type {$type} and version {$label} are already registered");
         }
 
-        return $this->type_map[$key];
+        $this->type_map[$type][$version] = $normalizer;
     }
 
-    /**
-     * Types S from registry such that $type is assignable to S (same class or subclass/implementation).
-     *
-     * @param class-string $type
-     * @return list<class-string>
-     */
-    private function findCandidateTypes(string $type): array
+    public function forNormalization(string $type): ?Normalizer
     {
-        $candidates = [];
-        foreach (array_keys($this->type_map) as $registeredType) {
-            if ($type === $registeredType || is_subclass_of($type, $registeredType)) {
-                $candidates[] = $registeredType;
+        return $this->normalizerFor($type, null);
+    }
+
+    public function forDenormalization(string $type, ?string $legacy_version): ?Normalizer
+    {
+        return $this->normalizerFor($type, $legacy_version);
+    }
+
+    private function normalizerFor(string $type, ?string $legacy_version): ?Normalizer
+    {
+        foreach ($this->candidateTypes($type) as $candidate) {
+            $versions = $this->type_map[$candidate];
+            if ($legacy_version !== null) {
+                $legacy_key = $this->resolveLegacyVersion($legacy_version, $versions);
+                if ($legacy_key !== null) {
+                    return $versions[$legacy_key];
+                }
+            }
+
+            if (isset($versions[''])) {
+                return $versions[''];
             }
         }
 
-        return $candidates;
+        return null;
     }
 
-    /**
-     * Among candidate types (all are assignable from $type), return the most specific one
-     * (the one closest to $type: child classes before parent classes/interfaces).
-     *
-     * @param class-string $type
-     * @param list<class-string> $candidate_types
-     * @return class-string
-     */
-    private function selectMostSpecificType(string $type, array $candidate_types): string
+    /** @return list<class-string> */
+    private function candidateTypes(string $type): array
     {
-        if (count($candidate_types) === 1) {
-            return $candidate_types[0];
-        }
+        $candidates = array_values(array_filter(
+            array_keys($this->type_map),
+            static fn(string $registered_type): bool =>
+                $type === $registered_type || is_subclass_of($type, $registered_type)
+        ));
 
-        usort($candidate_types, function (string $a, string $b): int {
+        usort($candidates, static function (string $a, string $b): int {
             if ($a === $b) {
                 return 0;
             }
@@ -128,6 +97,51 @@ class Registry
             return 0;
         });
 
-        return $candidate_types[0];
+        return $candidates;
+    }
+
+    /**
+     * @param array<string, Normalizer> $versions
+     */
+    private function resolveLegacyVersion(string $requested, array $versions): ?string
+    {
+        if (isset($versions[$requested])) {
+            return $requested;
+        }
+
+        $requested_major = explode('.', $requested, 2)[0];
+        $best = null;
+        foreach (array_keys($versions) as $version_key) {
+            $version = (string) $version_key;
+            if ($version === '' || $this->isWildcard($version)) {
+                continue;
+            }
+
+            $major = explode('.', $version, 2)[0];
+            if (
+                $major === $requested_major
+                && version_compare($version, $requested, '<=')
+                && ($best === null || version_compare($version, $best, '>'))
+            ) {
+                $best = $version;
+            }
+        }
+
+        if ($best !== null) {
+            return $best;
+        }
+
+        foreach (["{$requested_major}.*", $requested_major] as $wildcard) {
+            if (isset($versions[$wildcard])) {
+                return $wildcard;
+            }
+        }
+
+        return null;
+    }
+
+    private function isWildcard(string $version): bool
+    {
+        return !str_contains($version, '.') || str_ends_with($version, '.*');
     }
 }
