@@ -22,39 +22,24 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing;
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 
-/**
- * Simple serializer that creates an XML string in memory. Due to its simplicity, it is not suitable for large datasets.
- */
-class SimpleXMLSerializer implements Serializer
+final class XmlSerializer implements Serializer
 {
-    private readonly \XMLWriter $writer;
-
     private bool $has_document = false;
-
     private string $current_group = '';
 
-    public function __construct()
+    private function __construct(private readonly \XMLWriter $writer)
     {
-        $this->writer = new \XMLWriter();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function open(string $path): static
+    public static function inMemory(): self
     {
-        $clone = clone $this;
-        $clone->writer->openMemory();
-        $clone->writer->setIndent(true);
-        return $clone;
+        $writer = new \XMLWriter();
+        $writer->openMemory();
+        $writer->setIndent(true);
+
+        return new self($writer);
     }
 
-    /**
-     * Start a new xml document in the current writer. if a document has already been started, an exception will be
-     * thrown.
-     *
-     * @throws \LogicException if a document has already been started
-     */
     public function createDocument(string $comment): void
     {
         if ($this->has_document) {
@@ -66,19 +51,14 @@ class SimpleXMLSerializer implements Serializer
         $this->has_document = true;
     }
 
-
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function startGroup(string $name): void
     {
         $this->current_group = $name;
         $this->writer->startElement($this->formatName($name));
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function endGroup(string $name): void
     {
         if ($this->current_group !== $name) {
@@ -89,9 +69,7 @@ class SimpleXMLSerializer implements Serializer
         $this->writer->endElement();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function group(string $name, callable $callback): void
     {
         $this->startGroup($name);
@@ -99,9 +77,7 @@ class SimpleXMLSerializer implements Serializer
         $this->endGroup($name);
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function append(string $name, array $data): void
     {
         $this->writer->startElement($this->formatName($name));
@@ -113,9 +89,7 @@ class SimpleXMLSerializer implements Serializer
         $this->writer->endElement();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function write(): string
     {
         if ($this->has_document) {
@@ -145,15 +119,13 @@ class SimpleXMLSerializer implements Serializer
             }
 
             if (!$is_nested) {
-                $value = match (gettype($value)) {
+                $this->writer->writeRaw(match (gettype($value)) {
                     'NULL' => 'NULL',
                     'integer' => (string) $value,
                     'float' => (string) $value,
                     'boolean' => $value ? '1' : '0',
                     default => htmlspecialchars((string) $value),
-                };
-
-                $this->writer->writeRaw($value);
+                });
             } else {
                 if ($value === []) {
                     $this->writer->writeAttribute('type', 'empty-array');
@@ -181,7 +153,6 @@ class SimpleXMLSerializer implements Serializer
 
     private function formatName(int|string $name): string
     {
-        // Transform key to kebab-case
         $output = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', str_replace(['_', ' '], '-', (string) $name)));
         return trim(preg_replace('/-+/', '-', $output), '-');
     }

@@ -23,7 +23,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge;
 use ILIAS\Export\ExportHandler\Factory as ExportHandler;
 use ILIAS\Export\ExportHandler\Info\Export\Path\Handler as ExportPath;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Exporter;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLSerializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlSerializer;
 use Psr\Log\LoggerInterface as Logger;
 
 /**
@@ -60,7 +60,7 @@ trait XmlExporterBridge
 
         if ($state->getStep()->value < ExportStep::PROCESS->value) {
             $this->logger->debug("Processing export for component {$state->target()->getComponent()}...");
-            $state->setSerializer((new SimpleXMLSerializer())->open('memory'));
+            $state->setSerializer(XmlSerializer::inMemory());
             $this->exporter->process($state);
             $this->logger->debug('...Finished processing export');
         }

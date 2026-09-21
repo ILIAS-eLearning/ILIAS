@@ -27,22 +27,9 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts;
 interface Deserializer
 {
     /**
-     * Open the source (file path or string content) and prepare the deserializer for reading. This method should be
-     * called before any other method. If the deserializer is used for reading from memory, the path parameter may
-     * contain the raw content (e.g. JSON string) instead of a file path.
+     * Registers a handler that is invoked during process() with the data of the matching group.
      *
-     * @param string $path The path to the file to read from or the raw content (e.g. when reading from memory)
-     *
-     * @return static
-     */
-    public function open(string $path): static;
-
-    /**
-     * Register a handler for a group of data. When process() is called, the handler will be invoked with the data of
-     * the matching group.
-     *
-     * @param string $group The name of the group
-     * @param callable(array): void $handler Callable that receives the group data
+     * @param callable(array): void $handler
      */
     public function addHandler(string $group, callable $handler): void;
 
