@@ -33,6 +33,7 @@ class ScoringByQuestionTable
     public const ACTION_SCORING = 'getAnswerDetail';
 
     public const COLUMN_NAME = 'name';
+    public const COLUMN_LOGIN = 'login';
     public const COLUMN_ATTEMPT = 'attempt';
     public const COLUMN_POINTS_REACHED = 'points_reached';
     public const COLUMN_POINTS_AVAILABLE = 'points_available';
@@ -68,6 +69,7 @@ class ScoringByQuestionTable
             $title,
             [
                 self::COLUMN_NAME => $f->column()->text($this->lng->txt('name'))->withIsSortable(true),
+                self::COLUMN_LOGIN => $f->column()->text($this->lng->txt('login'))->withIsSortable(true),
                 self::COLUMN_ATTEMPT => $f->column()->number($this->lng->txt('tst_attempt')),
                 self::COLUMN_POINTS_REACHED => $f
                     ->column()

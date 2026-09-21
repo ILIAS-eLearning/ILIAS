@@ -170,6 +170,7 @@ class ScoringByQuestionTableBinder implements DataRetrieval
                 $row = [
                     "{$active_id}_{$pd->getPass()}",
                     ScoringByQuestionTable::COLUMN_NAME => $this->buildParticipantName($current_participant),
+                    ScoringByQuestionTable::COLUMN_LOGIN => $current_participant->getLogin(),
                     ScoringByQuestionTable::COLUMN_ATTEMPT => $pd->getPass() + 1,
                     ScoringByQuestionTable::COLUMN_POINTS_REACHED => $current_pass->getStatusOfAttempt()->isFinished() ? ($question_result['reached'] ?? 0.0) : 0.0,
                     ScoringByQuestionTable::COLUMN_POINTS_AVAILABLE => $current_participant->getQuestionByAttemptAndId($pd->getPass(), $question_id)['points'] ?? 0.0,
