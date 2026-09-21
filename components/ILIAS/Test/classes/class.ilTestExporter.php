@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Export\ExportHandler\Factory as ExportHandler;
 use ILIAS\Test\ExportImport\Types;
 use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportStep;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\XmlExporterBridge;
 
 class ilTestExporter extends ilXmlExporter
@@ -65,7 +66,10 @@ class ilTestExporter extends ilXmlExporter
         }
 
         // If the default export option was used, the state is not initialized yet.
-        if (!$this->state_holder->exists()) {
+        if (
+            !$this->state_holder->exists()
+            || $this->state_holder->get()->getStep() !== ExportStep::INIT
+        ) {
             $this->initExportState(
                 'components/ILIAS/Test',
                 $a_target_release,
