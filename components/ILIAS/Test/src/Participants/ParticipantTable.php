@@ -41,8 +41,6 @@ class ParticipantTable implements DataRetrieval
     private const ID = 'pt';
     private ?iterable $records = null;
 
-    private ?int $total_row_count = null;
-
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,

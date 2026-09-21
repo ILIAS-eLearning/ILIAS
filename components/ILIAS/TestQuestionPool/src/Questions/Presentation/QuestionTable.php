@@ -62,7 +62,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
 
     public function getSummary(): PropertyListing
     {
-        $questions = $this->getData(null, null);
+        $questions = $this->getSummaryData();
 
         return $this->ui_factory->listing()->property()
             ->withProperty(
@@ -341,28 +341,38 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     }
 
     protected function getData(
-        ?Order $order,
-        ?Range $range
+        Order $order,
+        Range $range
     ): array {
         if ($this->questions === []) {
             $this->load();
         }
 
-        $data = $this->getQuestionDataArray();
-        if ($order !== null) {
-            $data = $this->postOrder($data, $order);
-        }
-
-        if ($range === null) {
-            return $data;
-        }
-
         [$offset, $length] = $range->unpack();
         return array_slice(
-            $data,
+            $this->postOrder(
+                $this->getQuestionDataArray(),
+                $order
+            ),
             $offset,
             $length > 0 ? $length : null
         );
+    }
+
+    private function getSummaryData(): array
+    {
+        $questions = [];
+        $res = $this->db->query(
+            "{$this->buildBasicQuery()} AND {$this->getParentObjFilterExpression()}"
+        );
+        while (($row = $this->db->fetchAssoc($res)) !== null) {
+            if (!$this->isActiveQuestionType($row)) {
+                continue;
+            }
+
+            $questions[$row['question_id']] = $row;
+        }
+        return $questions;
     }
 
     protected function getActions(): array
