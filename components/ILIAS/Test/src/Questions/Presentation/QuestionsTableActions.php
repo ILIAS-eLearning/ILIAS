@@ -280,6 +280,7 @@ class QuestionsTableActions
                 $protect_by_write_protection();
                 $this->test_obj->copyQuestions($row_ids);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('copy_questions_success'), true);
+                $this->ctrl->redirectByClass(\ilObjTestGUI::class, 'showQuestions');
                 return true;
 
             case self::ACTION_ADD_TO_POOL:
