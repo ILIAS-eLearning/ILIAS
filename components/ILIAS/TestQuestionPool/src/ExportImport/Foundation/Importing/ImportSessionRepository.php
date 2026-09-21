@@ -51,19 +51,21 @@ class ImportSessionRepository
 
     public function getContext(): ImportContext
     {
-        if (\ilSession::has($this->key_context)) {
-            return unserialize(
-                \ilSession::get($this->key_context),
-                ['allowed_classes' => [ImportContext::class]]
-            );
+        if (!\ilSession::has($this->key_context)) {
+            return new ImportContext();
         }
 
-        return new ImportContext([]);
+        $payload = \ilSession::get($this->key_context);
+        if (!is_string($payload)) {
+            return new ImportContext();
+        }
+
+        return ImportContext::fromJson($payload);
     }
 
     public function setContext(ImportContext $context): void
     {
-        \ilSession::set($this->key_context, serialize($context));
+        \ilSession::set($this->key_context, $context->toJson());
     }
 
     public function clear(): void

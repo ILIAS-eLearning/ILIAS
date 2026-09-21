@@ -26,8 +26,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
-use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ilImport;
 use Psr\Log\LoggerInterface;
 
@@ -63,7 +61,7 @@ class PersistStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        if (!DetectLegacyImportStage::isLegacyImport($context)) {
+        if (!$context->isLegacyImport()) {
             if ($result = $this->importMappingsFile($context)) {
                 return $result;
             }
@@ -71,8 +69,8 @@ class PersistStage implements ImportStage
 
         (new ilImport($this->requested_ref_id))->importObject(
             null,
-            $context->get(UploadValidationStage::FILE_TO_IMPORT),
-            basename($context->get(UploadValidationStage::FILE_TO_IMPORT)),
+            $context->fileToImport(),
+            basename($context->fileToImport()),
             'tst',
             'components/ILIAS/Test',
             true,
@@ -84,7 +82,7 @@ class PersistStage implements ImportStage
 
     private function importMappingsFile(ImportContext $context): ?StageResult
     {
-        $component_import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE));
+        $component_import_dir = dirname($context->componentImportFile());
         $mappings_file = "{$component_import_dir}/mappings.xml";
         if (!is_file($mappings_file)) {
             $this->log->error("Mappings file not found: {$mappings_file}");
@@ -92,8 +90,16 @@ class PersistStage implements ImportStage
         }
 
         $deserializer = XmlDeserializer::fromFile($mappings_file);
-        $deserializer->addHandler('mappings', function (array $mappings) use (&$context) {
-            $context = $context->with('mappings', $mappings);
+        $deserializer->addHandler('mappings', function (array $mappings) use (&$context): void {
+            $user_mappings = $mappings[0] ?? null;
+            $resource_mappings = $mappings[1] ?? [];
+            if (!is_array($user_mappings) || !is_array($resource_mappings)) {
+                return;
+            }
+
+            $context = $context
+                ->withUserMappings($user_mappings)
+                ->withResourceMappings($resource_mappings);
         });
 
         $deserializer->process();

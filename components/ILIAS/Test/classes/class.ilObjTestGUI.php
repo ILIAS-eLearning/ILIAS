@@ -1384,7 +1384,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $this->import_session_repository->clear();
 
-        $context = new ImportContext([UploadValidationStage::FILE_TO_IMPORT => $file_to_import]);
+        $context = (new ImportContext())->withFileToImport($file_to_import);
         $this->import_session_repository->setContext($context);
         $this->import_session_repository->setCurrentStageIndex(0);
 
@@ -1429,8 +1429,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private function afterImportCompleted(ImportContext $context): void
     {
         $new_obj = new ilObjTest(0, false);
-        $new_obj->setId($context->get('test_obj_id'));
-        $new_obj->setRefId($context->get('test_ref_id'));
+        $new_obj->setId($context->testObjId() ?? 0);
+        $new_obj->setRefId($context->testRefId() ?? 0);
 
         if ($new_obj->getTestLogger()->isLoggingEnabled()) {
             $new_obj->getTestLogger()->logTestAdministrationInteraction(

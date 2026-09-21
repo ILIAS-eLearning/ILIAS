@@ -19,8 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
-use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 
@@ -57,12 +55,10 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
         $a_mapping->addMapping('components/ILIAS/TestQuestionPool', 'qpl', $a_id, (string) $this->pool_obj->getId());
 
         $context = $this->session->getContext();
-        $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
-        $xml_file = $context->get(DetectLegacyImportStage::LEGACY_XML_FILE);
-        $context = $context->with('pool_obj_id', $this->pool_obj->getId());
+        $context = $context->withPoolObjId($this->pool_obj->getId());
         $this->session->setContext($context);
 
-        $qpl_parser = new ilObjQuestionPoolXMLParser($this->pool_obj, $xml_file);
+        $qpl_parser = new ilObjQuestionPoolXMLParser($this->pool_obj, $context->legacyXmlFile());
         $qpl_parser->startParsing();
 
         // set another question pool name (if possible)
@@ -75,15 +71,19 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
         $this->pool_obj->saveToDb();
 
         $qti_parser = new ilQTIParser(
-            $import_base_dir,
-            $context->get(DetectLegacyImportStage::LEGACY_QTI_FILE),
+            $context->importBaseDir(),
+            $context->legacyQtiFile(),
             ilQTIParser::IL_MO_PARSE_QTI,
             $this->pool_obj->getId(),
-            $context->get('selected_questions')
+            $context->selectedQuestionIds()
         );
         $qti_parser->startParsing();
 
-        $page_parser = new ilQuestionPageParser($this->pool_obj, $xml_file, $import_base_dir);
+        $page_parser = new ilQuestionPageParser(
+            $this->pool_obj, 
+            $context->legacyXmlFile(), 
+            $context->importBaseDir()
+            );
         $page_parser->setQuestionMapping($qti_parser->getImportMapping());
         $page_parser->startParsing();
 
@@ -113,7 +113,7 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
             );
         }
 
-        $this->importQuestionSkillAssignments($xml_file, $a_mapping, $this->pool_obj->getId());
+        $this->importQuestionSkillAssignments($context->legacyXmlFile(), $a_mapping, $this->pool_obj->getId());
 
         $a_mapping->addMapping(
             'components/ILIAS/MetaData',

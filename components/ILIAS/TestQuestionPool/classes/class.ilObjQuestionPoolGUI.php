@@ -1121,7 +1121,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         $this->import_session_repository->clear();
 
-        $context = new ImportContext([UploadValidationStage::FILE_TO_IMPORT => $file_to_import]);
+        $context = (new ImportContext())->withFileToImport($file_to_import);
         $this->import_session_repository->setContext($context);
         $this->import_session_repository->setCurrentStageIndex(0);
 
@@ -1199,7 +1199,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     private function renderImportSuccess(StageResult $result): void
     {
-        $pool_obj_id = $this->data_factory->objId($result->context->get('pool_obj_id'));
+        $pool_obj_id = $this->data_factory->objId($result->context->poolObjId());
         $pool_ref_id = $pool_obj_id->toReferenceIds()[0]->toInt();
 
         $this->tpl->setOnScreenMessage(

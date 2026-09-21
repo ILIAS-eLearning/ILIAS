@@ -30,9 +30,6 @@ use Psr\Log\LoggerInterface;
  */
 class DetectLegacyImportStage implements ImportStage
 {
-    public const string LEGACY_QTI_FILE = 'legacy_qti_file';
-    public const string LEGACY_XML_FILE = 'legacy_xml_file';
-
     public function __construct(
         private readonly LoggerInterface $log,
     ) {
@@ -55,11 +52,10 @@ class DetectLegacyImportStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
-        $import_name = basename($import_base_dir);
+        $import_name = basename($context->importBaseDir());
 
-        $xml_file = $import_base_dir . DIRECTORY_SEPARATOR . "{$import_name}.xml";
-        $qti_file = $import_base_dir . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
+        $xml_file = $context->importBaseDir() . DIRECTORY_SEPARATOR . "{$import_name}.xml";
+        $qti_file = $context->importBaseDir() . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
 
         if (!file_exists($qti_file) || !file_exists($xml_file)) {
             $this->log->debug("No legacy import files found for {$import_name}");
@@ -68,12 +64,7 @@ class DetectLegacyImportStage implements ImportStage
 
         $this->log->info("Detected legacy import files for {$import_name}");
         return StageResult::advance(
-            $context->with(self::LEGACY_QTI_FILE, $qti_file)->with(self::LEGACY_XML_FILE, $xml_file)
+            $context->withLegacyQtiFile($qti_file)->withLegacyXmlFile($xml_file)
         );
-    }
-
-    public static function isLegacyImport(ImportContext $context): bool
-    {
-        return $context->has(self::LEGACY_QTI_FILE) && $context->has(self::LEGACY_XML_FILE);
     }
 }

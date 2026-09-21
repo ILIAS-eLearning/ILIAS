@@ -110,7 +110,7 @@ class QuestionsImporter
         ImportContext $context,
         CollectQuestionImages $pipe,
     ): void {
-        $import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE)) . '/expDir_1';
+        $import_dir = dirname($context->componentImportFile()) . '/expDir_1';
 
         foreach ($pipe->getEnvelopes() as $filename => $envelope) {
             $source_path = $import_dir . DIRECTORY_SEPARATOR . $filename;
