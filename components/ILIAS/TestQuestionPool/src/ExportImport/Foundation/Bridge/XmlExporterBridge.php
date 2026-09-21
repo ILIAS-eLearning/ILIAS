@@ -60,7 +60,7 @@ trait XmlExporterBridge
 
         if ($state->getStep()->value < ExportStep::PROCESS->value) {
             $this->logger->debug("Processing export for component {$state->target()->getComponent()}...");
-            $state->setSerializer(new SimpleXMLSerializer()->open('memory'));
+            $state->setSerializer((new SimpleXMLSerializer())->open('memory'));
             $this->exporter->process($state);
             $this->logger->debug('...Finished processing export');
         }
@@ -86,7 +86,7 @@ trait XmlExporterBridge
             $this->logger->debug('...Finished writing export');
         }
 
-        $this->state_holder->set($state);
+        $this->state_holder->clear();
         return $state;
     }
 
@@ -97,6 +97,7 @@ trait XmlExporterBridge
         array $object_ids,
         string $option = ''
     ): ExportState {
+        $object_ids = array_slice($object_ids, 0, 1);
         $target = $this->export_handler->target()->handler()
             ->withType($type)
             ->withTargetRelease($target_release)
