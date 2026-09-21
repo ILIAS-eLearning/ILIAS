@@ -19,7 +19,8 @@
 declare(strict_types=1);
 
 /**
- * LTI 1.1 copy of ilLTIConsumerResult (table lti_consumer_results), so that LTI1p1 does not depend on other LTI code.
+ * LTI 1.1 copy of the former ilLTIConsumerResult (table lti_consumer_results), so that LTI1p1
+ * does not depend on other LTI code.
  *
  * @author      Saúl Díaz <sdiaz@surlabs.com>
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>

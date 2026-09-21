@@ -33,7 +33,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Table of the global or user defined providers of ILIAS as LTI consumer (LTI 1.1 and LTI Advantage).
- * Shows the same columns, filters and actions as the ILIAS 11 table, plus the LTI version.
+ * Shows the columns, filters and actions of the former table, plus the LTI version.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -101,7 +101,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
             case self::ACTION_ACCEPT:
             case self::ACTION_RESET:
                 $accept = $action === self::ACTION_ACCEPT;
-                // as in ILIAS 11, nothing changes if one of the selected providers has no creator or already has the scope
+                // nothing changes if one of the selected providers has no creator or already has the scope
                 $invalid = $this->db->query(
                     "SELECT COUNT(*) cnt FROM lti_ext_provider WHERE " . $in_ids
                     . " AND (creator IS NULL OR creator = 0 OR global = " . $this->db->quote((int) $accept, "integer") . ")"

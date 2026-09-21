@@ -24,11 +24,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Create and edit form of a platform (LTI consumer) that may launch ILIAS as LTI provider.
- * LTI 1.1 and LTI Advantage platforms get separate forms. Both have the fields of the ILIAS 11 form, stored in
+ * LTI 1.1 and LTI Advantage platforms get separate forms. Both have the fields of the former form, stored in
  * lti_ext_consumer and lti_ext_consumer_otype. An LTI Advantage platform additionally stores its registration
  * once in lti2_consumer with ref_id 0, the table ceLTIc reads platforms from, with the URLs in the ceLTIc settings.
- * ILIAS 11 stored the LTI 1.3 registration per released object (ref_id > 0): those rows are read as fallback
- * and never changed, so released objects of ILIAS 11 keep working.
+ * Older installations stored the LTI 1.3 registration per released object (ref_id > 0): those rows are read
+ * as fallback and never changed, so their released objects keep working.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -50,7 +50,7 @@ class ilLTIAdministrationProviderPlatformForm
 
     /**
      * Returns the LTI version of an existing platform: LTI Advantage if it has an LTI 1.3 registration,
-     * either for the whole platform or, as in ILIAS 11, for a released object.
+     * either for the whole platform or, in older installations, for a released object.
      */
     public static function lookupVersion(ilDBInterface $db, int $platform_id): string
     {
@@ -208,7 +208,7 @@ class ilLTIAdministrationProviderPlatformForm
      */
     private function readRegistration(): array
     {
-        // the registration of the platform, or the one of its first released object in ILIAS 11
+        // the registration of the platform, or the one of its first released object in older installations
         $this->db->setLimit(1);
         $row = $this->platform_id > 0 ? $this->db->fetchAssoc($this->db->query(
             "SELECT platform_id, client_id, deployment_id, settings FROM lti2_consumer WHERE lti_version = "

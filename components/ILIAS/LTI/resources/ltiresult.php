@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+/**
+ * Endpoint of the LTI 1.1 Basic Outcomes service: a tool posts here to read, replace or delete the result
+ * of the object it was launched from. Its URL must not change: updated installations keep it.
+ */
+
 require_once '../vendor/composer/vendor/autoload.php';
 require_once __DIR__ . '/../artifacts/bootstrap_default.php';
 entry_point('ILIAS Legacy Initialisation Adapter');

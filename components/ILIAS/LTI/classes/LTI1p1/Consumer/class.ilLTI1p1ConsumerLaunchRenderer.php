@@ -19,6 +19,9 @@
 declare(strict_types=1);
 
 /**
+ * Renders the three ways of launching an LTI 1.1 object: the launch page, the embedded iframe and the
+ * start button that submits the launch form.
+ *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 final class ilLTI1p1ConsumerLaunchRenderer

@@ -19,6 +19,9 @@
 declare(strict_types=1);
 
 /**
+ * Adapts the request URI of an incoming LTI 1.1 launch so that celtic/lti checks its OAuth1 signature
+ * against the URL the platform signed.
+ *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 final class ilLTI1p1ProviderLaunchRequestUri

@@ -25,12 +25,12 @@ use ceLTIc\LTI\OAuth\OAuthUtil;
 use ceLTIc\LTI\OAuthDataStore;
 
 /**
- * Class ilObjLTIConsumerLaunch
+ * Basic Outcomes service of LTI 1.1: reads, replaces and deletes the result of an object from the POX
+ * requests of a tool, after checking their OAuth1 signature.
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
- *
- * @package components\ILIAS/LTIConsumer
+ * @author      Saúl Díaz <sdiaz@surlabs.com>
  */
 class ilLTIConsumerResultService
 {

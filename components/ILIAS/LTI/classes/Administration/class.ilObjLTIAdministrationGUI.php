@@ -22,7 +22,8 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use ILIAS\UI\Component\Component;
 
 /**
- * Administration > LTI.
+ * Administration > LTI: platforms that launch ILIAS and their released objects, providers of external
+ * tools and their usages. The screens serve both LTI 1.1 and LTI Advantage.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  *
@@ -369,7 +370,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     }
 
     /**
-     * Creates the recommended global role for LTI users, as in ILIAS 11.
+     * Creates the recommended global role for LTI users.
      * @throws ilCtrlException
      */
     private function createLtiUserRole(): void

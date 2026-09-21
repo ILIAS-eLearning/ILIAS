@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * LTI 1.1 copy of ilLTIConsumerLaunch, so that LTI1p1 does not depend on other LTI code.
+ * LTI 1.1 copy of the former ilLTIConsumerLaunch, so that LTI1p1 does not depend on other LTI code.
  *
  * @author      Saúl Díaz <sdiaz@surlabs.com>
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -30,18 +30,14 @@ class ilLTI1p1ConsumerLaunchContext
     private ?array $context = null;
     protected int $ref_id;
 
-    /**
-     * ilObjLTIConsumerLaunch constructor.
-     */
     public function __construct(int $a_ref_id)
     {
         $this->ref_id = $a_ref_id;
     }
 
     /**
-     * get info about the context in which the link is used
-     * The most outer matching course or group is used
-     * If not found the most inner category or root node is used
+     * Returns the context in which the object is launched: the outermost matching course or group,
+     * or the innermost category or the root node when there is none.
      *
      * @param array|null $a_valid_types  list of valid types
      * @return array|null  context array ("ref_id", "title", "type")

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Database update steps of the whole LTI component.
  *
  * Steps 1-9 were written for LTIProvider and must keep their class name and numbers:
- * il_db_steps records executed steps per class, and ILIAS 11 installations already ran them.
+ * il_db_steps records executed steps per class, and existing installations already ran them.
  * Steps 10-29 are the former ilLTIConsumerDatabaseUpdateSteps 1-20, step 30 is the first LTIAdvantage step.
  * Every step checks the current schema first, so running one again changes nothing.
  *

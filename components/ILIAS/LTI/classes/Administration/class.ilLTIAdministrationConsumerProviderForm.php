@@ -27,8 +27,8 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Create and edit form of a global provider of ILIAS as LTI consumer, stored in lti_ext_provider.
  * LTI 1.1 and LTI Advantage providers get separate forms: both share the general, privacy, learning progress,
- * launch and grouping fields of ILIAS 11 and only differ in the authentication section.
- * The provider icon and the XML import of ILIAS 11 are not supported yet.
+ * launch and grouping fields of the former form and only differ in the authentication section.
+ * The provider icon and the XML import are not supported yet.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -374,7 +374,7 @@ class ilLTIAdministrationConsumerProviderForm
             "content_item" => ["integer", (int) ($data["content_item"] !== null)],
             "content_item_url" => ["text", $data["content_item"]["content_item_url"] ?? ""],
             "grade_synchronization" => ["integer", (int) $data["grade_synchronization"]],
-            // as in ILIAS 11, the LTI 1.1 key of an LTI Advantage provider stays empty and customizable
+            // an LTI Advantage provider keeps the LTI 1.1 key empty and customizable
             "provider_key_customizable" => ["integer", 1],
             "provider_key" => ["text", ""],
             "provider_secret" => ["text", ""],

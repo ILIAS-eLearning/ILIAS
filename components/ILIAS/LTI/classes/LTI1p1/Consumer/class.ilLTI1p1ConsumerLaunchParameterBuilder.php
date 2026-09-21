@@ -23,6 +23,9 @@ use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 
 /**
+ * Builds the parameters of an LTI 1.1 launch and signs them with OAuth1, using the credentials of the
+ * provider or the ones set on the object.
+ *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 final class ilLTI1p1ConsumerLaunchParameterBuilder

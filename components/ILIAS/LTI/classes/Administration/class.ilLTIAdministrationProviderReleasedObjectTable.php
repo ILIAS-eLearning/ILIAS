@@ -31,7 +31,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Table of the repository objects released for a platform that launches ILIAS as LTI provider.
- * Shows the same columns as the ILIAS 11 table.
+ * Shows the columns of the former table.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -97,7 +97,7 @@ readonly class ilLTIAdministrationProviderReleasedObjectTable implements DataRet
 
     private function getFrom(): string
     {
-        // as in ILIAS 11, releases of objects that no longer exist are listed too;
+        // releases of objects that no longer exist are listed too;
         // ref_id 0 is the LTI Advantage registration of a platform, not a released object
         return " FROM lti2_consumer l"
             . " JOIN lti_ext_consumer c ON c.id = l.ext_consumer_id"

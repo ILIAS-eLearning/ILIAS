@@ -32,7 +32,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Table of the platforms (LTI consumers) that may launch ILIAS as LTI provider (LTI 1.1 and LTI Advantage).
- * Shows the same columns and actions as the ILIAS 11 table.
+ * Shows the columns and actions of the former table.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -108,7 +108,7 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
                 exit();
 
             case self::ACTION_DELETE:
-                // as in ILIAS 11, the released objects of the platform are removed with it
+                // the released objects go with the platform
                 $this->db->manipulate("DELETE FROM lti_ext_consumer WHERE " . $this->db->in("id", $ids, false, "integer"));
                 $this->db->manipulate("DELETE FROM lti_ext_consumer_otype WHERE " . $this->db->in("consumer_id", $ids, false, "integer"));
                 $this->db->manipulate("DELETE FROM lti2_consumer WHERE " . $this->db->in("ext_consumer_id", $ids, false, "integer"));
@@ -169,7 +169,7 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
         $this->db->setLimit($range->getLength(), $range->getStart());
         $result = $this->db->query(
             "SELECT c.id, c.active, c.title, c.description, c.prefix, c.user_language, r.title role_title,"
-            // LTI Advantage registrations are stored per platform, or per released object in ILIAS 11
+            // LTI Advantage registrations are stored per platform, or per released object in older installations
             . " (SELECT COUNT(*) FROM lti2_consumer l WHERE l.ext_consumer_id = c.id AND l.lti_version = "
             . $this->db->quote(ilLTIAdministrationProviderPlatformForm::VERSION_ADVANTAGE, "text") . ") advantage"
             . " FROM lti_ext_consumer c LEFT JOIN object_data r ON r.obj_id = c.role AND r.type = 'role'"

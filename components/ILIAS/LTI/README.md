@@ -74,11 +74,11 @@ All schema changes are in `classes/Setup/class.ilLTIDatabaseUpdateSteps.php`:
 * Steps 1–9 come from `LTIProvider`, steps 10–29 from `LTIConsumer`, step 30 onwards belongs to LTI Advantage.
 * New steps MUST be appended and MUST check the current schema before changing it.
 * The class MUST NOT be renamed and its steps MUST NOT be renumbered: `il_db_steps` stores
-  the executed steps by class name, so installations updated from ILIAS 11 would run them again.
+  the executed steps by class name, so updated installations would run them again.
 
 ## Compatibility
 
-Installations updated from ILIAS 11 MUST keep working:
+Installations updated from an earlier release MUST keep working:
 
 * The object types `lti`, `ltiv` and `ltis` do not change.
 * No table or column is removed or renamed.
@@ -86,13 +86,14 @@ Installations updated from ILIAS 11 MUST keep working:
 * Class names stored in the database or used by other components do not change,
   e.g. `ilLTIDatabaseUpdateSteps`, `ilLTICronOutcomeService` and `ilLTIConsumerResult`.
 * An LTI Advantage platform that launches ILIAS is registered once, in `lti2_consumer` with `ref_id` 0.
-  ILIAS 11 registered it per released object (`ref_id` > 0). Those rows MUST still be accepted
+  Earlier releases registered it per released object (`ref_id` > 0). Those rows MUST still be accepted
   when looking up a platform, as fallback after the registration of the platform.
 
 ## Removing LTI 1.1
 
-LTI1p1 only uses its own classes and the LTI object model (`ilObjLTIConsumer`, `ilLTIConsumeProvider`,
-`ilLTIPlatform`). To remove LTI 1.1:
+LTI1p1 uses its own classes, the LTI object model (`ilObjLTIConsumer`, `ilLTIConsumeProvider`,
+`ilLTIPlatform`, `ilLTIConsumerContentGUI`) and general ILIAS services, never anything from LTIAdvantage.
+To remove LTI 1.1:
 
 1. Delete `classes/LTI1p1/`.
 2. Delete `templates/default/tpl.lti1p1_*.html`.

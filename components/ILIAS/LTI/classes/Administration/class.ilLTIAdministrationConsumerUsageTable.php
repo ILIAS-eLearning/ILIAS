@@ -31,7 +31,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Table of the repository objects that use a global provider of ILIAS as LTI consumer.
- * Shows the same columns as the ILIAS 11 table, plus the LTI version.
+ * Shows the columns of the former table, plus the LTI version.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
