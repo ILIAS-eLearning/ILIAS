@@ -23,7 +23,12 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Poll\Image\I\FactoryInterface as PollImageFactoryInterface;
 use ILIAS\Poll\Image\Factory as PollImageFactory;
+use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Poll\GUI\Results\ByAnswer\DataRetrieval as ResultsByAnswerDataRetrieval;
+use ILIAS\Poll\GUI\Results\ByAnswer\TableBuilder as ResultsByAnswerTableBuilder;
+use ILIAS\Poll\GUI\Results\ByUser\DataRetrieval as ResultsByUserDataRetrieval;
+use ILIAS\Poll\GUI\Results\ByUser\TableBuilder as ResultsByUserTableBuilder;
 
 /**
  * Class ilObjPollGUI
@@ -41,6 +46,7 @@ class ilObjPollGUI extends ilObject2GUI
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected DataFactory $data_factory;
+    protected HTTPServices $http_services;
     protected PollImageFactoryInterface $poll_image_factory;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
@@ -59,6 +65,7 @@ class ilObjPollGUI extends ilObject2GUI
         $this->locator = $DIC["ilLocator"];
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->http_services = $DIC->http();
         $this->poll_image_factory = new PollImageFactory();
         $this->data_factory = new DataFactory();
 
@@ -502,9 +509,19 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tabs->activateTab("participants");
         $this->setParticipantsSubTabs("result_answers");
 
-        $tbl = new ilPollAnswerTableGUI($this, "showParticipants");
+        /** @var ilObjPoll $poll */
+        $poll = $this->object;
+        $data_retrieval = new ResultsByAnswerDataRetrieval(
+            $poll
+        );
+        $tbl = new ResultsByAnswerTableBuilder(
+            $data_retrieval,
+            $this->ui_factory,
+            $this->lng,
+            $this->http_services
+        )->get();
 
-        if ($tbl->getItems()) {
+        if ($poll->countVotes() > 0) {
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->lng->txt("poll_delete_votes"),
@@ -513,7 +530,7 @@ class ilObjPollGUI extends ilObject2GUI
             );
         }
 
-        $this->tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($tbl));
     }
 
     public function showParticipantVotes(): void
@@ -527,8 +544,21 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tabs->activateTab("participants");
         $this->setParticipantsSubTabs("result_users");
 
-        $tbl = new ilPollUserTableGUI($this, "showParticipantVotes");
-        $this->tpl->setContent($tbl->getHTML());
+        /** @var ilObjPoll $poll */
+        $poll = $this->object;
+        $data_retrieval = new ResultsByUserDataRetrieval(
+            $poll,
+            $this->ui_factory,
+            $this->lng
+        );
+        $tbl = new ResultsByUserTableBuilder(
+            $data_retrieval,
+            $this->ui_factory,
+            $this->lng,
+            $this->http_services
+        )->get();
+
+        $this->tpl->setContent($this->ui_renderer->render($tbl));
     }
 
     public function confirmDeleteAllVotes(): void
