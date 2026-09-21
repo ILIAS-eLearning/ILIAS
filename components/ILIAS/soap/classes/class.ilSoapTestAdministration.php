@@ -589,7 +589,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
-            if ($rbacsystem->checkAccess('write', $ref_id)) {
+            // use explicit user as the rbacsystem singleton may hold a stale user
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'write', $ref_id)) {
                 $permission_ok = true;
                 break;
             }

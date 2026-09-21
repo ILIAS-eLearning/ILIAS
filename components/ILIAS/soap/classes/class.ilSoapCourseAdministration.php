@@ -53,7 +53,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_OBJECT_DELETED');
         }
 
-        if (!$rbacsystem->checkAccess('create', $target_id, 'crs')) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'create', $target_id, 'crs')) {
             return $this->raiseError('Check access failed. No permission to create courses', 'Server');
         }
 
@@ -100,7 +101,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             }
         }
 
-        if (!$rbacsystem->checkAccess('delete', $course_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'delete', $course_id)) {
             return $this->raiseError('Check access failed. No permission to delete course', 'Server');
         }
 
@@ -153,7 +155,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             }
         }
 
-        if (!$rbacsystem->checkAccess('manage_members', $course_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'manage_members', $course_id)) {
             return $this->raiseError('Check access failed. No permission to write to course', 'Server');
         }
 
@@ -235,7 +238,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Cannot create course instance!', 'Server');
         }
 
-        if (!$rbacsystem->checkAccess('manage_members', $course_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'manage_members', $course_id)) {
             return $this->raiseError('Check access failed. No permission to write to course', 'Server');
         }
 
@@ -283,7 +287,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Cannot create course instance!', 'Server');
         }
 
-        if (!$rbacsystem->checkAccess('manage_members', $course_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'manage_members', $course_id)) {
             return $this->raiseError('Check access failed. No permission to write to course', 'Server');
         }
 
@@ -360,7 +365,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Cannot create course instance!', 'Server');
         }
 
-        if (!$rbacsystem->checkAccess('write', $course_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'write', $course_id)) {
             return $this->raiseError('Check access failed. No permission to write course', 'Server');
         }
 

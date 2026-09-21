@@ -212,7 +212,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
             }
 
             // check access to folder
-            if (!$rbacsystem->checkAccess('create_usr', $folder_id)) {
+            // use explicit user as the rbacsystem singleton may hold a stale user
+            if (!$rbacsystem->checkAccessOfUser($ilUser->getId(), 'create_usr', $folder_id)) {
                 return $this->raiseError(
                     'Missing permission for creating users within ' . $import_folder->getTitle(),
                     'Server'
@@ -298,7 +299,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 } else {
                     $rolf = $rbacreview->getFoldersAssignedToRole($role_id, true);
                     if ($rbacreview->isDeleted($rolf[0])
-                        || !$rbacsystem->checkAccess('write', $rolf[0])) {
+                        || !$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'write', $rolf[0])) {
                         return $this->raiseError(
                             $lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
                             "Server"
@@ -389,7 +390,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
             // We also don't show the roles which are in the ROLE_FOLDER_ID folder.
             // (The ROLE_FOLDER_ID folder contains the global roles).
             if ($rbacreview->isDeleted($rolf)
-                || !$rbacsystem->checkAccess('edit_permission', $rolf)) {
+                // use explicit user as the rbacsystem singleton may hold a stale user
+                || !$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'edit_permission', $rolf)) {
                 $ilLog->write(__METHOD__ . ': Role deleted or no permission.');
                 $checked_roles[$a_role] = false;
                 return false;

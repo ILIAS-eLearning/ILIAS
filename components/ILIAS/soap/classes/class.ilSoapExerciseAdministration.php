@@ -56,7 +56,8 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
             );
         }
 
-        if (!$rbacsystem->checkAccess('create', $target_id, "exc")) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'create', $target_id, "exc")) {
             return $this->raiseError('No permission to create exercises in target  ' . $target_id . '!', 'Client');
         }
 
@@ -120,7 +121,8 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
-            if ($rbacsystem->checkAccess('edit', $ref_id)) {
+            // use explicit user as the rbacsystem singleton may hold a stale user
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'edit', $ref_id)) {
                 $permission_ok = true;
                 break;
             }
@@ -197,11 +199,12 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
         $permission_ok = false;
         $write_permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
-            if ($rbacsystem->checkAccess('write', $ref_id)) {  // #14299
+            // use explicit user as the rbacsystem singleton may hold a stale user
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'write', $ref_id)) {  // #14299
                 $write_permission_ok = true;
                 break;
             }
-            if ($rbacsystem->checkAccess('read', $ref_id)) {
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', $ref_id)) {
                 $permission_ok = true;
                 break;
             }

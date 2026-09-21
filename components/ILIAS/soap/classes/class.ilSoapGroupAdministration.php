@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -43,7 +44,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (!$rbacsystem->checkAccess('create', $target_id, 'grp')) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'create', $target_id, 'grp')) {
             return $this->raiseError('Check access failed. No permission to create groups', 'Server');
         }
 
@@ -79,7 +81,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (!$rbacsystem->checkAccess('write', $ref_id, 'grp')) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'write', $ref_id, 'grp')) {
             return $this->raiseError('Check access failed. No permission to edit groups', 'Server');
         }
 
@@ -183,7 +186,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             }
         }
 
-        if (!$rbacsystem->checkAccess('manage_members', $group_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'manage_members', $group_id)) {
             return $this->raiseError('Check access failed. No permission to write to group', 'Server');
         }
 
@@ -258,7 +262,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             return $this->raiseError('Cannot create group instance!', 'Server');
         }
 
-        if (!$rbacsystem->checkAccess('manage_members', $group_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'manage_members', $group_id)) {
             return $this->raiseError('Check access failed. No permission to write to group', 'Server');
         }
 
@@ -302,7 +307,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             return $this->raiseError('Cannot create group instance!', 'Server');
         }
 
-        if (!$rbacsystem->checkAccess('read', $group_id)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', $group_id)) {
             return $this->raiseError('Check access failed. No permission to read group data', 'Server');
         }
 
