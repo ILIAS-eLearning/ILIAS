@@ -29,6 +29,7 @@ use ILIAS\Repository\Table\TableAdapterGUI;
 class ilImageMapEditorGUI
 {
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
+    protected ilObjectDefinition $obj_definition;
     protected ilObjMediaObject $media_object;
     protected ImageMapGUIRequest $request;
     protected ImageMapManager $map;
@@ -47,6 +48,7 @@ class ilImageMapEditorGUI
         $this->ctrl = $DIC->ctrl();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
+        $this->obj_definition = $DIC["objDefinition"];
         $this->toolbar = $DIC->toolbar();
         $this->media_gui = $DIC->mediaObjects()->internal()->gui();
         $this->media_object = $a_media_object;
@@ -814,7 +816,11 @@ class ilImageMapEditorGUI
                         $title = ilObject::_lookupTitle(
                             $obj_id
                         );
-                        $link_str = $lng->txt("obj_" . $t_arr[count($t_arr) - 2]) .
+                        $type = $t_arr[count($t_arr) - 2];
+                        $type_title = $this->obj_definition->isPlugin($type)
+                            ? ilObjectPlugin::lookupTxtById($type, "obj_" . $type)
+                            : $lng->txt("obj_" . $type);
+                        $link_str = $type_title .
                             ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
                     }
                 } else {
