@@ -279,7 +279,7 @@ class ilObjStyleSheet extends ilObject
         "flist" => array("flist_cont", "flist_head", "flist", "flist_li", "flist_a"),
         "media" => array("media_cont", "media_caption", "iim", "marker"),
         "tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
-            "ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont", "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"),
+            "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"),
         "question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
             "qimg", "qordul", "qordli", "qimgd", "qetitem", "qetcorr", "qover"),
         "page" => array("page_cont", "page_title", "page_fn")
@@ -291,7 +291,6 @@ class ilObjStyleSheet extends ilObject
             "text_inline", "section", "media_cont", "media_caption", "table", "table_cell", "flist_li", "table_caption",
                 "list_o", "list_u", "list_item",
                 "va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
-                "ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont",
                 "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"
         );
 
@@ -355,12 +354,6 @@ class ilObjStyleSheet extends ilObject
         "va_ihead" => "div",
         "va_iheada" => "div",
         "va_ihcap" => "div",
-        "ha_cntr" => "div",
-        "ha_icntr" => "div",
-        "ha_icont" => "div",
-        "ha_iheada" => "div",
-        "ha_ihcap" => "div",
-        "ha_ihead" => "div",
         "ca_cntr" => "div",
         "ca_icntr" => "div",
         "ca_ihead" => "div",
@@ -471,14 +464,6 @@ class ilObjStyleSheet extends ilObject
             "va_ihcap" => "va_ihcap",
             "va_icont" => "va_icont"
             ),
-        "haccordion" => array(
-            "ha_cntr" => "ha_cntr",
-            "ha_icntr" => "ha_icntr",
-            "ha_ihead" => "ha_ihead",
-            "ha_iheada" => "ha_iheada",
-            "ha_ihcap" => "ha_ihcap",
-            "ha_icont" => "ha_icont"
-        ),
         "carousel" => array(
             "ca_cntr" => "ca_cntr",
             "ca_icntr" => "ca_icntr",
