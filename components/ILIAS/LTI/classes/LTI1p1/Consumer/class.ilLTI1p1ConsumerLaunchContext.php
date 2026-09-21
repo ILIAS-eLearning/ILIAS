@@ -48,7 +48,7 @@ class ilLTI1p1ConsumerLaunchContext
      */
     public function getContext(?array $a_valid_types = array('crs', 'grp', 'cat', 'root')): ?array
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
         $tree = $DIC->repositoryTree();
 
         if (!isset($this->context)) {
@@ -79,16 +79,9 @@ class ilLTI1p1ConsumerLaunchContext
 
     public static function getLTIContextType(string $a_type): string
     {
-        switch ($a_type) {
-            case "crs":
-                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
-            case "grp":
-                return "http://purl.imsglobal.org/vocab/lis/v2/course#Group";
-            case "root":
-                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
-            case "cat":
-            default:
-                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
-        }
+        return match ($a_type) {
+            "grp" => "https://purl.imsglobal.org/vocab/lis/v2/course#Group",
+            default => "https://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering",
+        };
     }
 }

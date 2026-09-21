@@ -35,14 +35,14 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIAdministrationConsumerUsageTable implements DataRetrieval
+readonly class ilLTIAdministrationConsumerUsageTable implements DataRetrieval
 {
     public function __construct(
-        private readonly ilDBInterface $db,
-        private readonly ilLanguage $lng,
-        private readonly Factory $ui_factory,
-        private readonly ilUIService $ui_service,
-        private readonly StaticUrl $static_url
+        private ilDBInterface $db,
+        private ilLanguage $lng,
+        private Factory $ui_factory,
+        private ilUIService $ui_service,
+        private StaticUrl $static_url
     ) {
     }
 
@@ -85,9 +85,9 @@ class ilLTIAdministrationConsumerUsageTable implements DataRetrieval
                     $this->lng->txt("tbl_lti_prov_usages_trashed"),
                     $icon->custom("assets/images/standard/icon_ok.svg", $this->lng->txt("icon_ok")),
                     $icon->custom("assets/images/standard/icon_not_ok.svg", $this->lng->txt("icon_not_ok"))
-                )->withIsOptional(true, true),
-                "used_by" => $column->link($this->lng->txt("tbl_lti_prov_used_by"))->withIsOptional(true, true),
-                "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true, true),
+                )->withIsOptional(true),
+                "used_by" => $column->link($this->lng->txt("tbl_lti_prov_used_by"))->withIsOptional(true),
+                "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true),
             ]
         )
             ->withId("lti_consumer_usage_table")

@@ -31,23 +31,23 @@ use ILIAS\UI\Component\Component;
  */
 class ilObjLTIAdministrationGUI extends ilObjectGUI
 {
-    private const CMD_LIST_PLATFORMS = "listConsumers";
-    private const CMD_CREATE_PLATFORM = "createConsumer";
-    private const CMD_EDIT_PLATFORM = "editConsumer";
-    private const CMD_SAVE_PLATFORM = "saveConsumer";
-    private const CMD_CREATE_USER_ROLE = "createLtiUserRole";
-    private const CMD_SHOW_RELEASED_OBJECTS = "releasedObjects";
-    private const CMD_SHOW_GLOBAL_PROVIDERS = "showGlobalProviders";
-    private const CMD_SHOW_USER_PROVIDERS = "showUserProviders";
-    private const CMD_SHOW_USAGES = "showUsages";
-    private const CMD_CREATE_PROVIDER = "createProvider";
-    private const CMD_EDIT_PROVIDER = "editProvider";
-    private const CMD_SAVE_PROVIDER = "saveProvider";
-    private const VERSION_PARAM = "version";
-    private const VERSION_1P1 = "1p1";
-    private const VERSION_ADVANTAGE = "advantage";
-    private const LTI_USER_ROLE = "il_lti_global_role";
-    private const LTI_1P1_DEPRECATION_URL = "https://www.1edtech.org/lti-security-announcement-and-deprecation-schedule";
+    private const string CMD_LIST_PLATFORMS = "listConsumers";
+    private const string CMD_CREATE_PLATFORM = "createConsumer";
+    private const string CMD_EDIT_PLATFORM = "editConsumer";
+    private const string CMD_SAVE_PLATFORM = "saveConsumer";
+    private const string CMD_CREATE_USER_ROLE = "createLtiUserRole";
+    private const string CMD_SHOW_RELEASED_OBJECTS = "releasedObjects";
+    private const string CMD_SHOW_GLOBAL_PROVIDERS = "showGlobalProviders";
+    private const string CMD_SHOW_USER_PROVIDERS = "showUserProviders";
+    private const string CMD_SHOW_USAGES = "showUsages";
+    private const string CMD_CREATE_PROVIDER = "createProvider";
+    private const string CMD_EDIT_PROVIDER = "editProvider";
+    private const string CMD_SAVE_PROVIDER = "saveProvider";
+    private const string VERSION_PARAM = "version";
+    private const string VERSION_1P1 = "1p1";
+    private const string VERSION_ADVANTAGE = "advantage";
+    private const string LTI_USER_ROLE = "il_lti_global_role";
+    private const string LTI_1P1_DEPRECATION_URL = "https://www.1edtech.org/lti-security-announcement-and-deprecation-schedule";
 
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -56,6 +56,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("lti");
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function executeCommand(): void
     {
         $this->checkPermission("read");
@@ -83,6 +86,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function getAdminTabs(): void
     {
         $this->tabs_gui->addTab(
@@ -105,6 +111,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showPlatforms(): void
     {
         global $DIC;
@@ -118,7 +127,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $DIC->ui()->renderer(),
             $this->tpl,
             $this->ctrl,
-            $DIC->http()->request(),
+            $this->request,
             $this->checkPermissionBool("write")
         );
         $table->handleAction($this, self::CMD_LIST_PLATFORMS, self::CMD_EDIT_PLATFORM);
@@ -141,6 +150,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($DIC->ui()->renderer()->render($content));
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showPlatformForm(?Form $form = null): void
     {
         global $DIC;
@@ -153,13 +165,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($DIC->ui()->renderer()->render($this->withDeprecationInfo($form, $platform_form->isAdvantage())));
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function savePlatform(): void
     {
-        global $DIC;
-
         $this->checkPermission("write");
 
-        $form = $this->getPlatformForm()->save($this->getPlatformFormAction(), $DIC->http()->request());
+        $form = $this->getPlatformForm()->save($this->getPlatformFormAction(), $this->request);
         if ($form !== null) {
             $this->showPlatformForm($form);
             return;
@@ -197,6 +210,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function getPlatformFormAction(): string
     {
         $this->keepFormParameters("cid");
@@ -209,13 +225,16 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         return $this->getIntParameter("cid");
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showProviderForm(?Form $form = null): void
     {
         global $DIC;
 
         $this->checkPermission("write");
         $provider_id = $this->getIntParameter("provider_id");
-        $global = $provider_id === 0 || (bool) ($DIC->database()->fetchAssoc($DIC->database()->query(
+        $global = $provider_id === 0 || ($DIC->database()->fetchAssoc($DIC->database()->query(
             "SELECT global FROM lti_ext_provider WHERE id = " . $DIC->database()->quote($provider_id, "integer")
         ))["global"] ?? true);
         $this->activateConsumerSubTab($global ? "global_provider" : "user_provider");
@@ -225,13 +244,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($DIC->ui()->renderer()->render($this->withDeprecationInfo($form, $provider_form->isAdvantage())));
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function saveProvider(): void
     {
-        global $DIC;
-
         $this->checkPermission("write");
 
-        $form = $this->getProviderForm()->save($this->getProviderFormAction(), $DIC->http()->request());
+        $form = $this->getProviderForm()->save($this->getProviderFormAction(), $this->request);
         if ($form !== null) {
             $this->showProviderForm($form);
             return;
@@ -265,6 +285,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function getProviderFormAction(): string
     {
         $this->keepFormParameters("provider_id");
@@ -274,6 +297,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     /**
      * Dropdown to create an LTI Advantage or an LTI 1.1 entry, with LTI 1.1 marked as deprecated.
+     *
+     * @throws ilCtrlException
      */
     private function getCreateDropdown(string $label, string $cmd): Component
     {
@@ -291,6 +316,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     }
 
     /**
+     * @param Form $form
+     * @param bool $advantage
      * @return array
      */
     private function withDeprecationInfo(Form $form, bool $advantage): array
@@ -313,6 +340,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     /**
      * Keeps the id of the edited entry, or the requested version of a new one, in the form action.
+     * @throws ilCtrlException
      */
     private function keepFormParameters(string $id_parameter): void
     {
@@ -342,6 +370,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     /**
      * Creates the recommended global role for LTI users, as in ILIAS 11.
+     * @throws ilCtrlException
      */
     private function createLtiUserRole(): void
     {
@@ -351,17 +380,20 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $role->setTitle(self::LTI_USER_ROLE);
         $role->setDescription("This global role should only contain the permission 'read' for repository and categories. Do not rename this role.");
         $role->create();
-        $this->rbac_admin->assignRoleToFolder($role->getId(), ROLE_FOLDER_ID, "y");
+        $this->rbac_admin->assignRoleToFolder($role->getId(), ROLE_FOLDER_ID);
         $this->rbac_admin->setProtected(ROLE_FOLDER_ID, $role->getId(), "y");
         $this->rbac_admin->setRolePermission($role->getId(), "root", [3], ROLE_FOLDER_ID);
         $this->rbac_admin->setRolePermission($role->getId(), "cat", [3], ROLE_FOLDER_ID);
         $this->rbac_admin->grantPermission($role->getId(), [3], ROOT_FOLDER_ID);
-        $role->changeExistingObjects(ROOT_FOLDER_ID, ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES, ["cat"], []);
+        $role->changeExistingObjects(ROOT_FOLDER_ID, ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES, ["cat"]);
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("lti_user_role_created"), true);
         $this->ctrl->redirect($this, self::CMD_LIST_PLATFORMS);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showReleasedObjects(): void
     {
         global $DIC;
@@ -374,9 +406,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $DIC->ui()->factory(),
             $DIC["static_url"]
         );
-        $this->tpl->setContent($DIC->ui()->renderer()->render($table->getTable($DIC->http()->request())));
+        $this->tpl->setContent($DIC->ui()->renderer()->render($table->getTable($this->request)));
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showProviders(bool $global): void
     {
         global $DIC;
@@ -393,7 +428,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $DIC->uiService(),
             $this->tpl,
             $this->ctrl,
-            $DIC->http()->request(),
+            $this->request,
             $global,
             $this->checkPermissionBool("write")
         );
@@ -407,6 +442,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($DIC->ui()->renderer()->render([$filter, $table->getTable($filter)]));
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showUsages(): void
     {
         global $DIC;
@@ -421,9 +459,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $DIC["static_url"]
         );
         $filter = $table->getFilter($this->ctrl->getLinkTarget($this, self::CMD_SHOW_USAGES));
-        $this->tpl->setContent($DIC->ui()->renderer()->render([$filter, $table->getTable($filter, $DIC->http()->request())]));
+        $this->tpl->setContent($DIC->ui()->renderer()->render([$filter, $table->getTable($filter, $this->request)]));
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function activateProviderSubTab(string $sub_tab): void
     {
         $this->tabs_gui->activateTab("lti_providing");
@@ -436,6 +477,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tabs_gui->activateSubTab($sub_tab);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function activateConsumerSubTab(string $sub_tab): void
     {
         $this->tabs_gui->activateTab("lti_consuming");

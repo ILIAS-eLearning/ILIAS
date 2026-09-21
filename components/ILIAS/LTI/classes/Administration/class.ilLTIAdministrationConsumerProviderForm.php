@@ -34,11 +34,11 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilLTIAdministrationConsumerProviderForm
 {
-    public const VERSION_1P1 = "LTI-1p0";
-    public const VERSION_ADVANTAGE = "1.3.0";
+    public const string VERSION_1P1 = "LTI-1p0";
+    public const string VERSION_ADVANTAGE = "1.3.0";
 
-    private const CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
-    private const PRIVACY_IDENTS = [
+    private const array CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
+    private const array PRIVACY_IDENTS = [
         0 => "il_uuid_user_id",
         2 => "il_uuid_login",
         1 => "il_uuid_ext_account",
@@ -47,9 +47,9 @@ class ilLTIAdministrationConsumerProviderForm
         4 => "il_uuid_random",
         3 => "real_email",
     ];
-    private const PRIVACY_NAMES = [0 => "none", 1 => "firstname", 2 => "lastname", 3 => "fullname"];
-    private const KEY_TYPE_RSA = "RSA_KEY";
-    private const KEY_TYPE_JWK = "JWK_KEYSET";
+    private const array PRIVACY_NAMES = [0 => "none", 1 => "firstname", 2 => "lastname", 3 => "fullname"];
+    private const string KEY_TYPE_RSA = "RSA_KEY";
+    private const string KEY_TYPE_JWK = "JWK_KEYSET";
 
     public function __construct(
         private readonly ilDBInterface $db,
@@ -280,6 +280,7 @@ class ilLTIAdministrationConsumerProviderForm
     }
 
     /**
+     * @param array $data
      * @return array
      */
     private function get1p1Fields(array $data): array
@@ -355,6 +356,7 @@ class ilLTIAdministrationConsumerProviderForm
     }
 
     /**
+     * @param array $data
      * @return array
      */
     private function getAdvantageFields(array $data): array

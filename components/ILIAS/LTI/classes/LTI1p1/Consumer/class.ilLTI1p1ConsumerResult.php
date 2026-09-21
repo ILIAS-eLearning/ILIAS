@@ -74,7 +74,10 @@ class ilLTI1p1ConsumerResult
 
     /**
      * Get a result by object and user key
-     * @return ilLTI1p1ConsumerResult
+     * @param int $a_obj_id
+     * @param int $a_usr_id
+     * @param bool|null $a_create
+     * @return ilLTI1p1ConsumerResult|null
      */
     public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false): ?ilLTI1p1ConsumerResult
     {
@@ -106,7 +109,7 @@ class ilLTI1p1ConsumerResult
 
     /**
      * Fill the properties with data from an array
-     * @param array assoc data
+     * @param array $data
      */
     protected function fillData(array $data): void
     {
@@ -122,7 +125,7 @@ class ilLTI1p1ConsumerResult
      */
     public function save(): bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
 
         $logger = $DIC->logger()->forComponent('lti');
 

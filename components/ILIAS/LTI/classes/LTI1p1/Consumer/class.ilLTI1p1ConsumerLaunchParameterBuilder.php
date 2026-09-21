@@ -50,7 +50,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
     /**
      * @throws ilWACException
-     * @return array
+     * @throws Exception
      */
     public static function build(
         ilLTIConsumeProvider $provider,
@@ -74,18 +74,18 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
         $DIC->user()->setExternalAccount($cmix_user->getUsrIdent());
 
         $roles = $DIC->access()->checkAccess('write', '', $ref_id) ? "Instructor" : "Learner";
-        if ($provider->getAlwaysLearner() == true) {
+        if ($provider->getAlwaysLearner()) {
             $roles = "Learner";
         }
 
         $resource_link_id = $ref_id;
-        if ($provider->getUseProviderId() == true) {
+        if ($provider->getUseProviderId()) {
             $resource_link_id = 'p' . $provider->getId();
         }
 
         $usr_image = '';
         if ($provider->getIncludeUserPicture()) {
-            $usr_image = ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
+            $usr_image = ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath();
         }
 
         $document_target = "window";
@@ -181,28 +181,18 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
     }
 
     /**
-     * sign request data with OAuth
+     * Signs the launch data with OAuth 1.
      *
-     * @param array $a_params (    "method => signature methos
-     *                    "key" => consumer key
-     *                    "secret" => shared secret
-     *                    "token"    => request token
-     *                    "url" => request url
-     *                    data => array (key => value)
-     *                )
-     *
-     * @return array    signed data
+     * @param array $a_params sign_method, key, secret, token, callback, http_method, url and data
+     * @return array
      * @throws Exception
      */
     public static function signOAuth(array $a_params): array
     {
-        switch ($a_params['sign_method']) {
-            case "HMAC_SHA1":
-                $method = new OAuthSignatureMethod_HMAC_SHA1();
-                break;
-            default:
-                throw new Exception("Unknown signature method: " . $a_params['sign_method']);
-        }
+        $method = match ($a_params['sign_method']) {
+            "HMAC_SHA1" => new OAuthSignatureMethod_HMAC_SHA1(),
+            default => throw new Exception("Unknown signature method: " . $a_params['sign_method']),
+        };
 
         $consumer = new OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
         $request = OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);

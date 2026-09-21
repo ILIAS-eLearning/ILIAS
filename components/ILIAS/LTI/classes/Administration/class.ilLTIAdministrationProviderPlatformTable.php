@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Table\Data as DataTable;
@@ -37,11 +38,11 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
 {
-    private const ACTION_EDIT = "edit";
-    private const ACTION_ACTIVATE = "activate";
-    private const ACTION_DEACTIVATE = "deactivate";
-    private const ACTION_CONFIRM_DELETE = "confirm_delete";
-    private const ACTION_DELETE = "delete";
+    private const string ACTION_EDIT = "edit";
+    private const string ACTION_ACTIVATE = "activate";
+    private const string ACTION_DEACTIVATE = "deactivate";
+    private const string ACTION_CONFIRM_DELETE = "confirm_delete";
+    private const string ACTION_DELETE = "delete";
 
     private URLBuilder $url_builder;
     private URLBuilderToken $action_token;
@@ -57,7 +58,7 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
         private readonly ServerRequestInterface $request,
         private readonly bool $writable
     ) {
-        $this->url_builder = new URLBuilder((new ILIAS\Data\Factory())->uri((string) $this->request->getUri()));
+        $this->url_builder = new URLBuilder(new DataFactory()->uri((string) $this->request->getUri()));
         [$this->url_builder, $this->action_token, $this->id_token] = $this->url_builder->acquireParameters(
             ["lti", "platform"],
             "action",
@@ -67,6 +68,7 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
 
     /**
      * Executes the table action of the current request, if any, and redirects to the given commands.
+     * @throws ilCtrlException
      */
     public function handleAction(object $gui, string $return_cmd, string $edit_cmd): void
     {
@@ -103,7 +105,7 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
 
             case self::ACTION_CONFIRM_DELETE:
                 $this->showDeleteModal($ids);
-                break;
+                exit();
 
             case self::ACTION_DELETE:
                 // as in ILIAS 11, the released objects of the platform are removed with it
@@ -128,12 +130,12 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
                 $icon->custom("assets/images/standard/icon_not_ok.svg", $this->lng->txt("inactive"))
             ),
             "title" => $column->text($this->lng->txt("title")),
-            "description" => $column->text($this->lng->txt("description"))->withIsOptional(true, true),
-            "prefix" => $column->text($this->lng->txt("prefix"))->withIsOptional(true, true),
-            "language" => $column->text($this->lng->txt("user_language"))->withIsOptional(true, true),
-            "objects" => $column->listing($this->lng->txt("objects"))->withIsOptional(true, true),
-            "role" => $column->text($this->lng->txt("role"))->withIsOptional(true, true),
-            "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true, true),
+            "description" => $column->text($this->lng->txt("description"))->withIsOptional(true),
+            "prefix" => $column->text($this->lng->txt("prefix"))->withIsOptional(true),
+            "language" => $column->text($this->lng->txt("user_language"))->withIsOptional(true),
+            "objects" => $column->listing($this->lng->txt("objects"))->withIsOptional(true),
+            "role" => $column->text($this->lng->txt("role"))->withIsOptional(true),
+            "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true),
         ])
             ->withId("lti_provider_platform_table")
             ->withOrder(new Order("title", Order::ASC))
@@ -213,11 +215,12 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
                 $this->lng->txt("delete"),
                 $url(self::ACTION_CONFIRM_DELETE),
                 $this->id_token
-            )->withAsync(true),
+            )->withAsync(),
         ];
     }
 
     /**
+     * @param int $platform_id
      * @return array
      */
     private function getObjectTypes(int $platform_id): array
@@ -255,6 +258,5 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
                 (string) $delete_url
             )->withAffectedItems($items)
         );
-        exit();
     }
 }

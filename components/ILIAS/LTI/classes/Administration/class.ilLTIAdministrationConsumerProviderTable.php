@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
@@ -38,14 +39,14 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
 {
-    private const VERSION_1P1 = "LTI-1p0";
-    private const VERSION_ADVANTAGE = "1.3.0";
-    private const CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
-    private const ACTION_EDIT = "edit";
-    private const ACTION_ACCEPT = "accept";
-    private const ACTION_RESET = "reset";
-    private const ACTION_CONFIRM_DELETE = "confirm_delete";
-    private const ACTION_DELETE = "delete";
+    private const string VERSION_1P1 = "LTI-1p0";
+    private const string VERSION_ADVANTAGE = "1.3.0";
+    private const array CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
+    private const string ACTION_EDIT = "edit";
+    private const string ACTION_ACCEPT = "accept";
+    private const string ACTION_RESET = "reset";
+    private const string ACTION_CONFIRM_DELETE = "confirm_delete";
+    private const string ACTION_DELETE = "delete";
 
     private URLBuilder $url_builder;
     private URLBuilderToken $action_token;
@@ -65,7 +66,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         private readonly bool $writable
     ) {
         $this->lng->loadLanguageModule("rep");
-        $this->url_builder = new URLBuilder((new ILIAS\Data\Factory())->uri((string) $this->request->getUri()));
+        $this->url_builder = new URLBuilder(new DataFactory()->uri((string) $this->request->getUri()));
         [$this->url_builder, $this->action_token, $this->id_token] = $this->url_builder->acquireParameters(
             ["lti", "provider"],
             "action",
@@ -75,6 +76,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
 
     /**
      * Executes the table action of the current request, if any, and redirects to the given commands.
+     * @throws ilCtrlException
      */
     public function handleAction(object $gui, string $return_cmd, string $edit_cmd): void
     {
@@ -126,7 +128,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
 
             case self::ACTION_CONFIRM_DELETE:
                 $this->showDeleteModal($in_ids);
-                break;
+                exit();
 
             case self::ACTION_DELETE:
                 $usages = $this->db->query(
@@ -172,18 +174,18 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         // every column but the title can be hidden; category and keywords are hidden by default because they are rarely used
         $table = $this->ui_factory->table()->data($this, $this->lng->txt("tbl_provider_header"), [
             "title" => $column->text($this->lng->txt("title")),
-            "description" => $column->text($this->lng->txt("tbl_lti_prov_description"))->withIsOptional(true, true),
+            "description" => $column->text($this->lng->txt("tbl_lti_prov_description"))->withIsOptional(true),
             "category" => $column->text($this->lng->txt("tbl_lti_prov_category"))->withIsOptional(true, false),
             "keywords" => $column->listing($this->lng->txt("tbl_lti_prov_keywords"))->withIsOptional(true, false),
             "outcome" => $column->text($this->lng->txt("tbl_lti_prov_outcome"))->withIsOptional(true, false),
             "internal" => $column->text($this->lng->txt("tbl_lti_prov_internal"))->withIsOptional(true, false),
-            "with_key" => $column->text($this->lng->txt("tbl_lti_prov_with_key"))->withIsOptional(true, true),
-            "availability" => $column->text($this->lng->txt("tbl_lti_prov_availability"))->withIsOptional(true, true),
+            "with_key" => $column->text($this->lng->txt("tbl_lti_prov_with_key"))->withIsOptional(true),
+            "availability" => $column->text($this->lng->txt("tbl_lti_prov_availability"))->withIsOptional(true),
             "own_provider" => $column->text($this->lng->txt("tbl_lti_prov_own_provider"))->withIsOptional(true, false),
             "provider_creator" => $column->text($this->lng->txt("tbl_lti_prov_provider_creator"))->withIsOptional(true, false),
-            "usages_untrashed" => $column->number($this->lng->txt("tbl_lti_prov_usages_untrashed"))->withIsOptional(true, true),
+            "usages_untrashed" => $column->number($this->lng->txt("tbl_lti_prov_usages_untrashed"))->withIsOptional(true),
             "usages_trashed" => $column->number($this->lng->txt("tbl_lti_prov_usages_trashed"))->withIsOptional(true, false),
-            "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true, true),
+            "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true),
         ])
             ->withId("lti_consumer_provider_table_" . ($this->global ? "global" : "user"))
             ->withOrder(new Order("title", Order::ASC))
@@ -288,7 +290,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
                 $this->lng->txt("lti_delete_provider"),
                 $this->url_builder->withParameter($this->action_token, self::ACTION_CONFIRM_DELETE),
                 $this->id_token
-            )->withAsync(true),
+            )->withAsync(),
         ];
     }
 
@@ -313,7 +315,6 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
                 (string) $delete_url
             )->withAffectedItems($items)
         );
-        exit();
     }
 
     private function getWhere(mixed $filter_data): string
@@ -366,6 +367,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     }
 
     /**
+     * @param string $keywords
      * @return array
      */
     private function getKeywords(string $keywords): array
@@ -374,6 +376,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     }
 
     /**
+     * @param ilLanguage $lng
      * @return array
      */
     public static function getVersionOptions(ilLanguage $lng): array

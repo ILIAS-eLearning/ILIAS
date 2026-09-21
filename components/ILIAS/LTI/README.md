@@ -8,7 +8,7 @@ The LTI component connects ILIAS with external tools and platforms via
 
 It replaces the former `LTIConsumer` and `LTIProvider` components.
 
-The key words “MUST”, “MUST NOT”, “SHOULD” and “MAY” in this document are to be
+The keywords “MUST”, “MUST NOT”, “SHOULD” and “MAY” in this document are to be
 interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 **Table of Contents**

@@ -35,13 +35,13 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIAdministrationProviderReleasedObjectTable implements DataRetrieval
+readonly class ilLTIAdministrationProviderReleasedObjectTable implements DataRetrieval
 {
     public function __construct(
-        private readonly ilDBInterface $db,
-        private readonly ilLanguage $lng,
-        private readonly Factory $ui_factory,
-        private readonly StaticUrl $static_url
+        private ilDBInterface $db,
+        private ilLanguage $lng,
+        private Factory $ui_factory,
+        private StaticUrl $static_url
     ) {
     }
 

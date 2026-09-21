@@ -34,8 +34,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilLTIAdministrationProviderPlatformForm
 {
-    public const VERSION_1P1 = "LTI-1p0";
-    public const VERSION_ADVANTAGE = "1.3.0";
+    public const string VERSION_1P1 = "LTI-1p0";
+    public const string VERSION_ADVANTAGE = "1.3.0";
 
     public function __construct(
         private readonly ilDBInterface $db,
@@ -163,6 +163,7 @@ class ilLTIAdministrationProviderPlatformForm
     }
 
     /**
+     * @param int $platform_id
      * @param array $general
      * @param array $registration
      */
@@ -170,7 +171,7 @@ class ilLTIAdministrationProviderPlatformForm
     {
         $now = date("Y-m-d H:i:s");
         $fields = [
-            "name" => ["text", mb_substr($general["title"], 0, 50)],
+            "name" => ["text", ilStr::subStr($general["title"], 0, 50)],
             "lti_version" => ["text", self::VERSION_ADVANTAGE],
             "signature_method" => ["text", "RS256"],
             "enabled" => ["integer", (int) $general["active"]],
@@ -208,7 +209,7 @@ class ilLTIAdministrationProviderPlatformForm
     private function readRegistration(): array
     {
         // the registration of the platform, or the one of its first released object in ILIAS 11
-        $this->db->setLimit(1, 0);
+        $this->db->setLimit(1);
         $row = $this->platform_id > 0 ? $this->db->fetchAssoc($this->db->query(
             "SELECT platform_id, client_id, deployment_id, settings FROM lti2_consumer WHERE lti_version = "
             . $this->db->quote(self::VERSION_ADVANTAGE, "text") . " AND ext_consumer_id = "

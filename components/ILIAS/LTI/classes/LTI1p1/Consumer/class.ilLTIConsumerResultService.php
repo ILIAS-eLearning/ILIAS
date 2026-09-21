@@ -34,9 +34,6 @@ use ceLTIc\LTI\OAuthDataStore;
  */
 class ilLTIConsumerResultService
 {
-    /**
-     * @var ilLTI1p1ConsumerResult
-     */
     protected ?ilLTI1p1ConsumerResult $result = null;
 
     /**
@@ -120,7 +117,7 @@ class ilLTIConsumerResultService
             $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 
             $logger->info("LTI Consumer Result Service: token loaded");
-            $this->result = ilLTI1p1ConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
+            $this->result = ilLTI1p1ConsumerResult::getByKeys($token->getObjId(), $token->getUsrId());
             if (empty($this->result)) {
                 $logger->error('LTI Consumer Result Service: Incoming request');
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
@@ -152,7 +149,7 @@ class ilLTIConsumerResultService
             // Dispatch the operation
             switch ($this->operation) {
                 case 'readResult':
-                    $this->readResult($request);
+                    $this->readResult();
                     break;
 
                 case 'replaceResult':
@@ -161,7 +158,7 @@ class ilLTIConsumerResultService
                     break;
 
                 case 'deleteResult':
-                    $this->deleteResult($request);
+                    $this->deleteResult();
                     $this->updateLP();
                     break;
 
@@ -177,22 +174,15 @@ class ilLTIConsumerResultService
     /**
      * Read a stored result
      */
-    protected function readResult(\SimpleXMLElement $request): void
+    protected function readResult(): void
     {
-        $response = $this->loadResponse('readResult.xml');
-        $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
-        $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
-        $response = str_replace('{operation}', $this->operation, $response);
-        $response = str_replace('{result}', (string) $this->result->result, $response);
-
-        header('Content-type: application/xml');
-        echo $response;
+        $this->respond('readResult.xml', ['{result}' => (string) $this->result->result]);
     }
 
     /**
      * Replace a stored result
      */
-    protected function replaceResult(\SimpleXMLElement $request): void
+    protected function replaceResult(SimpleXMLElement $request): void
     {
         global $DIC;
         $logger = $DIC->logger()->forComponent('lti');
@@ -227,22 +217,17 @@ class ilLTIConsumerResultService
             $description = sprintf("Score for %s is now %s", $this->result->id, $this->result->result);
         }
 
-        $response = $this->loadResponse('replaceResult.xml');
-        $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
-        $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
-        $response = str_replace('{operation}', $this->operation, $response);
-        $response = str_replace('{code}', $code, $response);
-        $response = str_replace('{severity}', $severity, $response);
-        $response = str_replace('{description}', $description, $response);
-
-        header('Content-type: application/xml');
-        echo $response;
+        $this->respond('replaceResult.xml', [
+            '{code}' => $code,
+            '{severity}' => $severity,
+            '{description}' => $description,
+        ]);
     }
 
     /**
      * Delete a stored result
      */
-    protected function deleteResult(\SimpleXMLElement $request): void
+    protected function deleteResult(): void
     {
         $this->result->result = null;
         $this->result->setAttended(false);
@@ -255,26 +240,34 @@ class ilLTIConsumerResultService
         $code = "success";
         $severity = "status";
 
-        $response = $this->loadResponse('deleteResult.xml');
-        $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
-        $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
-        $response = str_replace('{operation}', $this->operation, $response);
-        $response = str_replace('{code}', $code, $response);
-        $response = str_replace('{severity}', $severity, $response);
-
-        header('Content-type: application/xml');
-        echo $response;
+        $this->respond('deleteResult.xml', ['{code}' => $code, '{severity}' => $severity]);
     }
 
 
     /**
      * Load the XML template for the response
-     * @param string    file name
-     * @return string   file content
      */
-    protected function loadResponse($a_name): string
+    protected function loadResponse(string $a_name): string
     {
         return file_get_contents(__DIR__ . '/responses/' . $a_name);
+    }
+
+    /**
+     * Sends a response template, with the placeholders every response shares and the given ones replaced.
+     *
+     * @param string $a_name
+     * @param array $replacements
+     */
+    private function respond(string $a_name, array $replacements = []): void
+    {
+        $replacements = array_merge([
+            '{message_id}' => md5((string) rand(0, 999_999_999)),
+            '{message_ref_id}' => $this->message_ref_id,
+            '{operation}' => $this->operation,
+        ], $replacements);
+
+        header('Content-type: application/xml');
+        echo str_replace(array_keys($replacements), array_values($replacements), $this->loadResponse($a_name));
     }
 
 
@@ -284,27 +277,15 @@ class ilLTIConsumerResultService
      */
     protected function respondUnsupported(): void
     {
-        $response = $this->loadResponse('unsupported.xml');
-        $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
-        $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
-        $response = str_replace('{operation}', $this->operation, $response);
-
-        header('Content-type: application/xml');
-        echo $response;
+        $this->respond('unsupported.xml');
     }
 
     /**
-     * Send a "unknown operation" response
+     * Send an "unknown operation" response
      */
     protected function respondUnknown(): void
     {
-        $response = $this->loadResponse('unknown.xml');
-        $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
-        $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
-        $response = str_replace('{operation}', $this->operation, $response);
-
-        header('Content-type: application/xml');
-        echo $response;
+        $this->respond('unknown.xml');
     }
 
     /**
@@ -395,7 +376,7 @@ class ilLTIConsumerResultService
     private function checkSignature(string $a_key, string $a_secret): void
     {
         global $DIC;
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('root');
         $platform = new ilLTIPlatform();
 
         $platform->setKey($a_key);
