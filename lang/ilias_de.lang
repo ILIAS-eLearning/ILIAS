@@ -9425,10 +9425,10 @@ exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Bewertungsdateien
 exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann die Datei in der Übersicht der Übungseinheiten herunterladen und einsehen.
 exc#:#exc_feedback#:#Rückmeldungen
-exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
+exc#:#exc_feedback_notification_body#:#Die Musterlösung zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da Sie an der oben genannten Übung teilnehmen.
-exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung „%s“ freigeschaltet
+exc#:#exc_feedback_notification_subject#:#Musterlösung für Übungseinheit der Übung „%s“ freigeschaltet
 exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
 exc#:#exc_fixed_date#:#Festes Datum
