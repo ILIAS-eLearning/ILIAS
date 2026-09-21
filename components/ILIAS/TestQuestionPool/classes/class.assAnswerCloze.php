@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
  * Class for cloze question numeric answers
@@ -157,27 +156,31 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'lower_bound' => $this->lowerBound,
             'upper_bound' => $this->upperBound,
             'gap_size' => $this->gap_size,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->lowerBound = $tt->nullableString($normalized['lower_bound']);
-            $clone->upperBound = $tt->nullableString($normalized['upper_bound']);
-            $clone->gap_size = $tt->int($normalized['gap_size']);
-            return $clone;
-        });
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->lowerBound = $transformations->nullableString($normalized['lower_bound']);
+        $clone->upperBound = $transformations->nullableString($normalized['upper_bound']);
+        $clone->gap_size = $transformations->int($normalized['gap_size']);
+        return $clone;
     }
 }

@@ -18,22 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts;
+namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Queue;
 
-/**
- * A pipe is responsible for processing the passable object. It can manipulate the passable object and pass it to the
- * next pipe.
- *
- * @template TPassable
- */
-interface Pipe
+interface Processor
 {
-    /**
-     * Handle the passable object and return it
-     *
-     * @param TPassable $passable
-     * @param \Closure $next
-     * @return TPassable
-     */
-    public function handle(mixed $passable, \Closure $next): mixed;
+    public function process(object $carry): void;
 }

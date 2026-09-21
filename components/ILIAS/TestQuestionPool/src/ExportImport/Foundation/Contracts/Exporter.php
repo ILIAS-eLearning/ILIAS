@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts;
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportState;
+
 /**
  * An Exporter is responsible for orchestrating the export process. It prepares the dependencies, collects the data to
  * export, transforms the data and writes the data to the serializer and the file system.
@@ -34,7 +36,7 @@ interface Exporter
      *  - Config
      *  - Logger
      */
-    public function prepare(ExportDependencies $state): void;
+    public function prepare(ExportState $state): void;
 
     /**
      * Processes the export by collecting the data to export, transforming the data and writing the data to the
@@ -46,7 +48,7 @@ interface Exporter
      *  - Logger
      *  - Serializer
      */
-    public function process(ExportDependencies $state): void;
+    public function process(ExportState $state): void;
 
     /**
      * Finalizes the export by persisting additional data (which cannot be provided by the serializer) to the file
@@ -60,5 +62,5 @@ interface Exporter
      *  - Writer
      *  - Path
      */
-    public function write(ExportDependencies $state): void;
+    public function write(ExportState $state): void;
 }

@@ -31,8 +31,7 @@ use ILIAS\ILIASObject\Properties\Properties;
 use ILIAS\ILIASObject\Properties\Property;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 use ilObject;
 use ilObjectFactory;
@@ -40,7 +39,6 @@ use ilObjectFactory;
 /**
  * @implements Normalizer<ilObject, array>
  */
-#[Normalizes(ilObject::class)]
 class IlObjectNormalizer implements Normalizer
 {
     public function __construct(

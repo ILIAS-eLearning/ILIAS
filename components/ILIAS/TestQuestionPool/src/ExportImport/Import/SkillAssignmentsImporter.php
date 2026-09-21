@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
 use ilAssQuestionSkillAssignment;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\Skill\Service\SkillUsageService;
 use ilImportMapping;
 use ilSkillTreeRepository;
@@ -60,7 +60,7 @@ class SkillAssignmentsImporter
         $result = ['failed' => [], 'success' => []];
 
         foreach ($normalized_assignments as $item) {
-            // The mapping pipe replaces ParentObjID and QuestionID
+            // The mapping processor replaces ParentObjID and QuestionID.
             $assignment = $transformations->denormalize($item, ilAssQuestionSkillAssignment::class);
 
             $skill_data = $this->getSkillIdMapping(

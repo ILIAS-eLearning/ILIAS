@@ -36,11 +36,10 @@ use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Questions\Properties\Repository as QuestionsRepository;
 use ILIAS\Test\Results\Data\Repository as ResultsRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportStep;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ExportDependencies;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportState;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Exporter;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\CollectResources;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlSerializer;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
@@ -50,7 +49,7 @@ use ilTree;
 class TestExporter implements Exporter
 {
     public function __construct(
-        private readonly Builder $builder,
+        private readonly TransformationsBuilder $builder,
         private readonly DataFactory $data_factory,
         private readonly ilDBInterface $db,
         private readonly ilTree $tree,
@@ -69,7 +68,7 @@ class TestExporter implements Exporter
     /**
      * @inheritDoc
      */
-    public function prepare(ExportDependencies $state): void
+    public function prepare(ExportState $state): void
     {
         $state->logger()->info('Preparing test export (1/3)...');
         $state->assertStep(ExportStep::INIT);
@@ -94,25 +93,23 @@ class TestExporter implements Exporter
         );
         $state->setCollector($collector);
 
-        $transformations = $this->builder
-            ->withAdditionalPipes([
-                new CollectUserIds(),
-                new CollectQuestionImages(
-                    new UUIDFactory(),
-                    $object_id
-                ),
-                new CollectResources(
-                    $this->irss,
-                    $this->logger
-                ),
-            ])
-            ->create();
+        $transformations = $this->builder->forExport(
+            new CollectUserIds(),
+            new CollectQuestionImages(
+                new UUIDFactory(),
+                $object_id
+            ),
+            new CollectResources(
+                $this->irss,
+                $this->logger
+            )
+        );
 
         $state->setTransformations($transformations);
         $state->logger()->info('...Finished preparing test export (1/3)');
     }
 
-    private function extractObjectId(ExportDependencies $state): ?ObjectId
+    private function extractObjectId(ExportState $state): ?ObjectId
     {
         $target_ids = $state->target()->getObjectIds();
 
@@ -130,10 +127,20 @@ class TestExporter implements Exporter
         return $this->data_factory->objId(array_shift($target_ids));
     }
 
+    private function collector(ExportState $state): TestCollector
+    {
+        $collector = $state->collector();
+        if (!($collector instanceof TestCollector)) {
+            throw new \LogicException('Unexpected test collector');
+        }
+
+        return $collector;
+    }
+
     /**
      * @inheritDoc
      */
-    public function process(ExportDependencies $state): void
+    public function process(ExportState $state): void
     {
         $state->logger()->info('Processing test export (2/3)...');
         $state->assertStep(ExportStep::PREPARE);
@@ -142,7 +149,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'general',
             fn() => $this->exportObject(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer(),
                 $state
@@ -151,7 +158,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'settings',
             fn() => $this->exportSettings(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer(),
                 $state
@@ -160,7 +167,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'questions',
             fn() => $this->exportQuestions(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer(),
                 $state
@@ -169,7 +176,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'question_set_config',
             fn() => $this->exportQuestionSetConfig(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer(),
             )
@@ -177,7 +184,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'additional_working_times',
             fn() => $this->exportAdditionalWorkingTimes(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer(),
             )
@@ -185,7 +192,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'skill_assignments',
             fn() => $this->exportSkillAssignments(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer(),
             )
@@ -193,7 +200,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'skill_thresholds',
             fn() => $this->exportSkillLevelThresholds(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer(),
             )
@@ -208,12 +215,12 @@ class TestExporter implements Exporter
         $state->logger()->info('...Finished processing test export (2/3)');
     }
 
-    private function processResults(ExportDependencies $state): void
+    private function processResults(ExportState $state): void
     {
         $state->serializer()->group(
             'participants',
             fn() => $this->exportParticipants(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer()
             )
@@ -221,7 +228,7 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'results',
             fn() => $this->exportResults(
-                $state->collector(),
+                $this->collector($state),
                 $state->transformations(),
                 $state->serializer()
             )
@@ -231,17 +238,26 @@ class TestExporter implements Exporter
     /**
      * @inheritDoc
      */
-    public function write(ExportDependencies $state): void
+    public function write(ExportState $state): void
     {
         $state->logger()->info('Writing test export (3/3)...');
         $state->assertStep(ExportStep::PROCESS);
         $state->setStep(ExportStep::WRITE);
 
         $export_dir = $state->path()->getPathToComponentExpDirInContainer();
-        $question_image_pipe = $state->transformations()->context(CollectQuestionImages::class);
-        $resource_pipe = $state->transformations()->context(CollectResources::class);
+        $question_image_collector = $state->transformations()
+            ->normalizationProcessor(CollectQuestionImages::class);
+        if (!($question_image_collector instanceof CollectQuestionImages)) {
+            throw new \LogicException('Unexpected question image processor');
+        }
 
-        foreach ($question_image_pipe->getFiles() as $file) {
+        $resource_collector = $state->transformations()
+            ->normalizationProcessor(CollectResources::class);
+        if (!($resource_collector instanceof CollectResources)) {
+            throw new \LogicException('Unexpected resource processor');
+        }
+
+        foreach ($question_image_collector->getFiles() as $file) {
             if (!file_exists($file['from'])) {
                 $state->logger()->warning('Question image file not found: ' . $file['from']);
                 continue;
@@ -254,7 +270,7 @@ class TestExporter implements Exporter
             $state->logger()->debug("Copied question image {$file['from']} to {$export_dir}/{$file['to']}");
         }
 
-        foreach ($resource_pipe->getResources() as $id => $resource) {
+        foreach ($resource_collector->getResources() as $id => $resource) {
             $clean_id = str_replace(['-', '_'], '', $id);
             $file = "{$clean_id}.{$resource->getCurrentRevision()->getInformation()->getSuffix()}";
 
@@ -266,7 +282,7 @@ class TestExporter implements Exporter
         }
 
         $this->writeMappings(
-            $state->collector(),
+            $this->collector($state),
             $state->transformations(),
             $state
         );
@@ -280,7 +296,7 @@ class TestExporter implements Exporter
         TestCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportDependencies $state
+        ExportState $state
     ): void {
         $serializer->append('object', $transformations->normalize($collector->getObject()));
 
@@ -298,7 +314,7 @@ class TestExporter implements Exporter
         TestCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportDependencies $state
+        ExportState $state
     ): void {
         $test = $collector->getObject();
         $main_settings = $test->getMainSettings();
@@ -319,7 +335,7 @@ class TestExporter implements Exporter
         TestCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportDependencies $state
+        ExportState $state
     ): void {
         $question_properties = $collector->getTestQuestionProperties();
 
@@ -418,16 +434,24 @@ class TestExporter implements Exporter
     private function writeMappings(
         TestCollector $collector,
         Transformations $transformations,
-        ExportDependencies $state
+        ExportState $state
     ): void {
         $serializer = XmlSerializer::inMemory();
         $serializer->createDocument('Test Export Mappings');
         $serializer->startGroup('mappings');
 
-        $user_ids = $transformations->context(CollectUserIds::class)->getIds();
+        $user_id_processor = $transformations->normalizationProcessor(CollectUserIds::class);
+        if (!($user_id_processor instanceof CollectUserIds)) {
+            throw new \LogicException('Unexpected user ID processor');
+        }
+        $user_ids = $user_id_processor->getIds();
         $serializer->append('users', $collector->getUserMapping($user_ids));
 
-        $resources = $transformations->context(CollectResources::class)->getResources();
+        $resource_processor = $transformations->normalizationProcessor(CollectResources::class);
+        if (!($resource_processor instanceof CollectResources)) {
+            throw new \LogicException('Unexpected resource processor');
+        }
+        $resources = $resource_processor->getResources();
         $serializer->append(
             'resources',
             array_map($transformations->normalize(...), $resources)

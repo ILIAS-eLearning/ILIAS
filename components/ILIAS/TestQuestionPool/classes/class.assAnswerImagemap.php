@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
 
 /**
 * Class for true/false or yes/no answers
@@ -149,27 +148,31 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     /**
      * @inheritDoc
      */
-    public function toNormalized(Transformations $tt): Transformation
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        return $tt->custom()->transformation(fn(): array => [
-            ...$tt->normalize(parent::toNormalized($tt)),
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'coords' => $this->coords,
             'area' => $this->area,
             'points_unchecked' => $this->points_unchecked,
-        ]);
+        ];
     }
 
     /**
      * @inheritDoc
      */
-    public function fromNormalized(Transformations $tt): Transformation
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
     {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = parent::fromNormalized($tt)->transform($normalized);
-            $clone->setCoords($tt->string($normalized['coords']));
-            $clone->setArea($tt->string($normalized['area']));
-            $clone->setPointsUnchecked($tt->float($normalized['points_unchecked']));
-            return $clone;
-        });
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setCoords($transformations->string($normalized['coords']));
+        $clone->setArea($transformations->string($normalized['area']));
+        $clone->setPointsUnchecked($transformations->float($normalized['points_unchecked']));
+        return $clone;
     }
 }

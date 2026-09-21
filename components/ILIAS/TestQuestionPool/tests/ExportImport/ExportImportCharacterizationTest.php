@@ -20,13 +20,19 @@ declare(strict_types=1);
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Test\ExportImport\TransformationsBuilder as TestTransformationsBuilder;
+use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlSerializer;
+use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
@@ -50,6 +56,9 @@ class ExportImportCharacterizationTest extends assBaseTestCase
             'refinery',
             new RefineryFactory(new DataFactory(), $GLOBALS['DIC']['lng'])
         );
+        $this->addGlobal_mail();
+        (new ReflectionClass(QuestionPoolDIC::class))->getProperty('dic')->setValue(null, null);
+        (new ReflectionClass(TestDIC::class))->getProperty('dic')->setValue(null, null);
     }
 
     protected function tearDown(): void
@@ -81,9 +90,9 @@ class ExportImportCharacterizationTest extends assBaseTestCase
             new UUIDFactory(),
             (new DataFactory())->objId(42)
         );
-        $export_transformations = (new Builder($DIC, QuestionPoolDIC::dic()))
-            ->withAdditionalPipes([$export_images])
-            ->create();
+        $factory = QuestionPoolDIC::dic()['exportimport.transformations_builder'];
+        $this->assertInstanceOf(TransformationsBuilder::class, $factory);
+        $export_transformations = $factory->forExport($export_images);
 
         $normalized = $export_transformations->normalize($question);
 
@@ -102,9 +111,7 @@ class ExportImportCharacterizationTest extends assBaseTestCase
             new UUIDFactory(),
             (new DataFactory())->objId(0)
         );
-        $import_transformations = (new Builder($DIC, QuestionPoolDIC::dic()))
-            ->withAdditionalPipes(append: [$import_images])
-            ->create();
+        $import_transformations = $factory->forImport(null, $import_images);
 
         $restored = $import_transformations->denormalize($normalized, new assSingleChoice());
 
@@ -121,6 +128,72 @@ class ExportImportCharacterizationTest extends assBaseTestCase
         $this->assertArrayHasKey(
             $normalized['answers'][0]['image']['id'] . '.png',
             $import_images->getEnvelopes()
+        );
+    }
+
+    public function testTransformationFactoriesKeepRuntimeProcessorsInTheirDirection(): void
+    {
+        global $DIC;
+
+        $processor = new class () implements Processor {
+            public int $normalized = 0;
+            public int $denormalized = 0;
+
+            public function process(object $carry): void
+            {
+                if ($carry instanceof NormalizeCarry) {
+                    ++$this->normalized;
+                    $carry->setResult('runtime result');
+                }
+                if ($carry instanceof DenormalizeCarry) {
+                    ++$this->denormalized;
+                }
+            }
+        };
+        $factory = new TransformationsBuilder($DIC);
+
+        $this->assertSame('value', $factory->forExport($processor)->normalize('value'));
+        $this->assertSame(1, $processor->normalized);
+        $this->assertSame(0, $processor->denormalized);
+
+        $factory->forImport(null, $processor)->denormalize(
+            '123e4567-e89b-12d3-a456-426614174000',
+            Uuid::class
+        );
+        $this->assertSame(1, $processor->normalized);
+        $this->assertSame(1, $processor->denormalized);
+    }
+
+    public function testLegacyNormalizerSelectionIsLimitedToImport(): void
+    {
+        global $DIC;
+
+        $factory = new TransformationsBuilder($DIC);
+        $uuid = '123e4567_e89b_12d3_a456_426614174000';
+
+        $this->assertNull($factory->forExport()->normalize(null));
+        $this->assertNull($factory->forImport(null)->denormalize(null, Uuid::class));
+        $this->assertSame(
+            '123e4567-e89b-12d3-a456-426614174000',
+            $factory->forImport('11.7')->denormalize($uuid, Uuid::class)->toString()
+        );
+        $this->assertSame(
+            '123e4567-e89b-12d3-a456-426614174000',
+            $factory->forExport()->normalize(
+                $factory->forImport('11.7')->denormalize($uuid, Uuid::class)
+            )
+        );
+    }
+
+    public function testTestDicProvidesConfiguredTransformationsFactory(): void
+    {
+        $factory = TestDIC::dic()['exportimport.transformations_builder'];
+        $uuid = (new UUIDFactory())->uuid4();
+
+        $this->assertInstanceOf(TestTransformationsBuilder::class, $factory);
+        $this->assertSame(
+            $uuid->toString(),
+            $factory->forExport()->normalize($uuid)
         );
     }
 
