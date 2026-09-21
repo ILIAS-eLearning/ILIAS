@@ -42,8 +42,6 @@ class ParticipantTable implements DataRetrieval
     private ?iterable $records = null;
     private bool $scoring_enabled = false;
 
-    private ?int $total_row_count = null;
-
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
