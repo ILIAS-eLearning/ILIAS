@@ -86,7 +86,7 @@ class ilContentStyleImageGUI
 
             default:
                 if (in_array($cmd, [
-                    "listImages", "addImage", "cancelUpload", "uploadImage", "deleteImage",
+                    "listImages", "addImage", "cancelUpload", "uploadImage", "confirmDeleteImage", "deleteImage",
                     "resizeImageForm", "resizeImage"
                 ])) {
                     $this->$cmd();
@@ -178,9 +178,9 @@ class ilContentStyleImageGUI
         );
     }
 
-    public function confirmDeleteImages(array $files): void
+    public function confirmDeleteImage(string $file): void
     {
-        if (count($files) === 0) {
+        if ($file === "") {
             $this->gui->ctrl()->redirect($this, "listImages");
             return;
         }
@@ -189,15 +189,16 @@ class ilContentStyleImageGUI
             $this->lng->txt("delete"),
             $this->lng->txt("info_delete_sure"),
             "deleteImage",
-            array_combine($files, $files)
+            [$file => $file]
         );
     }
 
     public function deleteImage(): void
     {
         $ilCtrl = $this->gui->ctrl();
-        foreach ($this->getImageTable()->getItemIds() as $i) {
-            $this->manager->deleteByFilename($i);
+        $files = $this->getImageTable()->getItemIds();
+        if (count($files) === 1) {
+            $this->manager->deleteByFilename($files[0]);
         }
         $ilCtrl->redirect($this, "listImages");
     }
