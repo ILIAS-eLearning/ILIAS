@@ -63,8 +63,6 @@ class QuestionPoolImporter
         $images_pipe = new CollectQuestionImages(new Factory(), $this->data_factory->objId(0));
         $tt = $this->builder->withAdditionalPipes(append: [$id_mapping_pipe, $images_pipe])->create();
 
-        $selected_questions = QuestionSelectionStage::getSelectedQuestions($context);
-
         $deserializer->addHandler(
             'general',
             function (array $objects) use ($tt, $mapping, $parent_id, &$context): void {
@@ -74,19 +72,19 @@ class QuestionPoolImporter
                     $mapping,
                     $parent_id
                 );
-                $context = $context->with('pool_obj_id', $new_pool_id);
+                $context = $context->withPoolObjId($new_pool_id);
             }
         );
 
         $deserializer->addHandler(
             'questions',
-            function (array $questions) use ($tt, $mapping, $selected_questions): void {
+            function (array $questions) use ($tt, $mapping, $context): void {
                 foreach ($questions as $question) {
                     $this->questions_importer->importQuestion(
                         $question,
                         $tt,
                         $mapping,
-                        $selected_questions
+                        $context->selectedQuestionIds()
                     );
                 }
             }
@@ -97,11 +95,11 @@ class QuestionPoolImporter
             function (array $assignments) use ($tt, $mapping, &$context): void {
                 $result = $this->skill_importer->import(
                     $assignments,
-                    UploadValidationStage::getInstallId($context),
+                    $context->installId(),
                     $tt,
                     $mapping,
                 );
-                $context = $context->with('skill_assignments', $result);
+                $context = $context->withSkillAssignments($result);
             }
         );
 
@@ -111,14 +109,14 @@ class QuestionPoolImporter
 
         $this->log->info('Importing question images...');
         $this->questions_importer->importQuestionImages(
-            $context->get('pool_obj_id'),
+            $context->poolObjId(),
             $mapping,
             $context,
             $images_pipe
         );
         $this->log->info('...Finished importing question images');
 
-        $this->log->info("Finished importing question pool {$context->get('pool_obj_id')} (Object ID)");
+        $this->log->info("Finished importing question pool {$context->poolObjId()} (Object ID)");
         return $context;
     }
 

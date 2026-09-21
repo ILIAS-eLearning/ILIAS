@@ -42,16 +42,13 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\CollectResources;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingPipe;
-use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
-use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ilImportMapping;
 use ilObjTest;
 use ilTestPage;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 
 /**
  * Orchestrates the import of a test. It uses the Builder to create a pipeline of transformations that are used to normalize
@@ -150,11 +147,11 @@ class TestImporter
             function (array $assignments) use ($tt, $mapping, &$context): void {
                 $result = $this->skill_importer->import(
                     $assignments,
-                    UploadValidationStage::getInstallId($context),
+                    $context->installId(),
                     $tt,
                     $mapping,
                 );
-                $context = $context->with('skill_assignments', $result);
+                $context = $context->withSkillAssignments($result);
             }
         );
 
@@ -163,11 +160,11 @@ class TestImporter
             function (array $thresholds) use ($tt, $mapping, &$context): void {
                 $result = $this->skill_thresholds_importer->import(
                     $thresholds,
-                    UploadValidationStage::getInstallId($context),
+                    $context->installId(),
                     $tt,
                     $mapping,
                 );
-                $context = $context->with('skill_thresholds', $result);
+                $context = $context->withSkillThresholds($result);
             }
         );
 
@@ -220,7 +217,7 @@ class TestImporter
         $this->log->info('...Finished importing question images');
 
         $this->log->info("Finished importing test {$test_object->getTestId()} (Test ID), {$test_object->getId()} (Object ID)");
-        return $context->with('test_obj_id', $test_object->getId())->with('test_ref_id', $test_object->getRefId());
+        return $context->withTestObjId($test_object->getId())->withTestRefId($test_object->getRefId());
     }
 
     /**
@@ -242,11 +239,7 @@ class TestImporter
         CollectResources $resource_pipe,
         ImportContext $context
     ): void {
-        $mappings = $context->get('mappings');
-        if (count($mappings) < 2) {
-            throw new RuntimeException('Invalid mappings: Expected at least 2 mappings, got ' . count($mappings));
-        }
-        [$user_mapping, $resource_mapping] = $mappings;
+        $user_mapping = $context->userMappings();
 
         $this->log->info('Importing user mappings...');
         $user_resolver = new UserImportResolver($this->database, $this->log);
@@ -258,8 +251,8 @@ class TestImporter
         $this->log->info('...Finished importing user mappings');
 
         $this->log->info('Importing resources and storing mappings...');
-        $import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE)) . '/expDir_1';
-        foreach ($resource_mapping as $resource) {
+        $import_dir = dirname($context->componentImportFile()) . '/expDir_1';
+        foreach ($context->resourceMappings() as $resource) {
             $clean_id = str_replace(['-', '_'], '', $resource['id']);
             $resource_path = "$import_dir/resources/{$clean_id}.{$resource['suffix']}";
             if (!file_exists($resource_path)) {
@@ -363,10 +356,13 @@ class TestImporter
         ImportContext $context,
         ilObjTest $test_object
     ): void {
-        $selected_questions = QuestionSelectionStage::getSelectedQuestions($context);
-
         foreach ($list as $normalized) {
-            $question = $this->questions_importer->importQuestion($normalized, $tt, $mapping, $selected_questions);
+            $question = $this->questions_importer->importQuestion(
+                $normalized, 
+                $tt, 
+                $mapping, 
+                $context->selectedQuestionIds()
+            );
             if (!$question instanceof \assQuestion || $normalized['sequence'] === null) {
                 continue;
             }

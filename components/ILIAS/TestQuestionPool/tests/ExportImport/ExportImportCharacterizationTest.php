@@ -210,29 +210,137 @@ class ExportImportCharacterizationTest extends assBaseTestCase
         $serializer->endGroup('actual');
     }
 
-    public function testImportSessionRepositoryPreservesCurrentContextBehavior(): void
+    public function testImportSessionRepositoryPersistsNamedContextAsJson(): void
     {
         $repository = new ImportSessionRepository('characterization');
-        $context = (new ImportContext())
-            ->with('file_to_import', '/tmp/import.zip')
-            ->with('selected_question_ids', ['12', '27'])
-            ->with('unknown_field', 'preserved');
+        $original = new ImportContext();
+        $context = $original
+            ->withFileToImport('/tmp/import.zip')
+            ->withComponentImportFile('/tmp/import/qpl_data.xml')
+            ->withImportBaseDir('/tmp/import')
+            ->withInstallId(123)
+            ->withLegacyQtiFile('/tmp/import/qti.xml')
+            ->withLegacyXmlFile('/tmp/import/qpl.xml')
+            ->withSelectableQuestionIds([11, 12])
+            ->withSelectedQuestionIds([12])
+            ->withPoolObjId(45)
+            ->withTestObjId(88)
+            ->withTestRefId(99)
+            ->withUserMappings(['identifier' => 'login', 'mapping' => ['alice' => 'alice']])
+            ->withResourceMappings([['id' => 'rid', 'suffix' => 'png', 'title' => 'img']])
+            ->withSkillAssignments([
+                'failed' => [],
+                'success' => [['skill_id' => 1, 'tref_id' => 0, 'title' => 'Skill', 'path' => '/']],
+            ])
+            ->withSkillThresholds([
+                'failed' => [],
+                'success' => [[
+                    'skill_base_id' => 1,
+                    'skill_tref_id' => 0,
+                    'skill_level_id' => 4,
+                    'threshold' => 50,
+                ]],
+            ]);
 
         $repository->setCurrentStageIndex(3);
         $repository->setContext($context);
 
+        $this->assertFalse($original->hasFileToImport());
+        $this->assertSame('/tmp/import.zip', $context->fileToImport());
+
+        $payload = ilSession::get('import_stage_characterization_context');
+        $this->assertIsString($payload);
+        $decoded = json_decode($payload, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('/tmp/import.zip', $decoded['file_to_import']);
+        $this->assertSame(123, $decoded['install_id']);
+
         $restored = $repository->getContext();
         $this->assertSame(3, $repository->getCurrentStageIndex());
-        $this->assertSame('/tmp/import.zip', $restored->get('file_to_import'));
-        $this->assertSame(['12', '27'], $restored->get('selected_question_ids'));
-        $this->assertSame('preserved', $restored->get('unknown_field'));
-        $this->assertNull($restored->get('missing'));
-        $this->assertSame('fallback', $restored->get('missing', 'fallback'));
+        $this->assertSame('/tmp/import.zip', $restored->fileToImport());
+        $this->assertSame('/tmp/import/qpl_data.xml', $restored->componentImportFile());
+        $this->assertSame('/tmp/import', $restored->importBaseDir());
+        $this->assertSame(123, $restored->installId());
+        $this->assertSame('/tmp/import/qti.xml', $restored->legacyQtiFile());
+        $this->assertSame('/tmp/import/qpl.xml', $restored->legacyXmlFile());
+        $this->assertTrue($restored->isLegacyImport());
+        $this->assertSame([11, 12], $restored->selectableQuestionIds());
+        $this->assertSame([12], $restored->selectedQuestionIds());
+        $this->assertSame(45, $restored->poolObjId());
+        $this->assertSame(88, $restored->testObjId());
+        $this->assertSame(99, $restored->testRefId());
+        $this->assertSame(
+            ['identifier' => 'login', 'mapping' => ['alice' => 'alice']],
+            $restored->userMappings()
+        );
+        $this->assertSame(
+            [['id' => 'rid', 'suffix' => 'png', 'title' => 'img']],
+            $restored->resourceMappings()
+        );
+        $this->assertSame(
+            [
+                'failed' => [],
+                'success' => [['skill_id' => 1, 'tref_id' => 0, 'title' => 'Skill', 'path' => '/']],
+            ],
+            $restored->skillAssignments()
+        );
+        $this->assertSame(
+            [
+                'failed' => [],
+                'success' => [[
+                    'skill_base_id' => 1,
+                    'skill_tref_id' => 0,
+                    'skill_level_id' => 4,
+                    'threshold' => 50,
+                ]],
+            ],
+            $restored->skillThresholds()
+        );
 
         $repository->clear();
 
         $this->assertSame(0, $repository->getCurrentStageIndex());
-        $this->assertFalse($repository->getContext()->has('file_to_import'));
+        $empty = $repository->getContext();
+        $this->assertFalse($empty->hasFileToImport());
+        $this->assertSame([], $empty->selectedQuestionIds());
+        $this->assertFalse($empty->isLegacyImport());
+    }
+
+    public function testImportSessionRepositoryIgnoresUnknownJsonKeys(): void
+    {
+        $repository = new ImportSessionRepository('characterization');
+        ilSession::set(
+            'import_stage_characterization_context',
+            json_encode([
+                'file_to_import' => '/tmp/import.zip',
+                'bridge_tmp' => 'ignored',
+            ], JSON_THROW_ON_ERROR)
+        );
+
+        $restored = $repository->getContext();
+        $decoded = json_decode($restored->toJson(), true);
+
+        $this->assertSame('/tmp/import.zip', $restored->fileToImport());
+        $this->assertNull($decoded['component_import_file']);
+        $this->assertArrayNotHasKey('bridge_tmp', $decoded);
+    }
+
+    public function testImportContextIsLegacyImportOnlyWhenBothLegacyPathsAreSet(): void
+    {
+        $repository = new ImportSessionRepository('characterization');
+        $repository->setContext(
+            (new ImportContext())->withLegacyQtiFile('/tmp/qti.xml')
+        );
+
+        $this->assertFalse($repository->getContext()->isLegacyImport());
+
+        $repository->setContext(
+            (new ImportContext())
+                ->withLegacyQtiFile('/tmp/qti.xml')
+                ->withLegacyXmlFile('/tmp/qpl.xml')
+        );
+
+        $this->assertTrue($repository->getContext()->isLegacyImport());
     }
 
     private function deserializeGroup(Deserializer $deserializer, string $group): array

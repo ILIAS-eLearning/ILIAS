@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\Data\ReferenceId;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
-use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
@@ -56,7 +55,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
     ): void {
         // Check if forward to legacy importer is needed
         $context = $this->session->getContext();
-        if (DetectLegacyImportStage::isLegacyImport($context)) {
+        if ($context->isLegacyImport()) {
             $this->legacy_importer->setInstallId($this->getInstallId());
             $this->legacy_importer->setInstallUrl($this->getInstallUrl());
             $this->legacy_importer->setSchemaVersion($this->getSchemaVersion());
@@ -78,7 +77,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
     {
         // Check if forward to legacy importer is needed
         $context = $this->session->getContext();
-        if (DetectLegacyImportStage::isLegacyImport($context)) {
+        if ($context->isLegacyImport()) {
             $this->legacy_importer->finalProcessing($a_mapping);
             return;
         }
