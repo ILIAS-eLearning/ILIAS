@@ -6349,6 +6349,7 @@ content#:#cont_def_organization#:#Standard
 content#:#cont_default#:#Standard
 content#:#cont_definition#:#Definition
 content#:#cont_delete_content#:#Ta bort innehåll
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Radera
 content#:#cont_delete_style#:#Style Radera
 content#:#cont_delete_track_data#:#Radera spårningsdata

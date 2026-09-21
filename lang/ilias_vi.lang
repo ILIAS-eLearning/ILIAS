@@ -6351,6 +6351,7 @@ content#:#cont_def_organization#:#mặc định
 content#:#cont_default#:#Default###24 02 2009 new variable
 content#:#cont_definition#:#Định nghĩa
 content#:#cont_delete_content#:#Delete Content###29 07 2022 new variable
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Delete###25 02 2007 new variable
 content#:#cont_delete_style#:#Delete Style###24 02 2009 new variable
 content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable

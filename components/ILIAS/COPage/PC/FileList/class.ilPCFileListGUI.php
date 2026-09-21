@@ -553,19 +553,26 @@ class ilPCFileListGUI extends ilPageContentGUI
         $this->ctrl->redirect($this, "editFiles");
     }
 
-    public function confirmDeletionFileItem(): void
+    public function confirmDeletionFileItem(string|array $ids = []): void
     {
+        if (is_string($ids)) {
+            $ids = [$ids];
+        }
         $table = $this->getFileListTable();
-        $ids = $table->getItemIds();
+        if (count($ids) === 0) {
+            $ids = $table->getItemIds();
+        }
 
         if (count($ids) === 0) {
             $this->ctrl->redirect($this, "editFiles");
+            return;
         }
 
         $retrieval = $this->domain->pc()->fileListRetrieval($this->content_obj);
         $data = $retrieval->getData([]);
+        $items = [];
         foreach ($data as $row) {
-            if (in_array($row["id"], $ids)) {
+            if (in_array($row["id"], $ids, true)) {
                 $items[$row["id"]] = $row["file_name"];
             }
         }

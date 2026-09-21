@@ -6348,6 +6348,7 @@ content#:#cont_def_organization#:#默认组织
 content#:#cont_default#:#默认
 content#:#cont_definition#:#定义
 content#:#cont_delete_content#:#Delete Content###29 07 2022 new variable
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#删除
 content#:#cont_delete_style#:#删除样式
 content#:#cont_delete_track_data#:#删除跟踪数据

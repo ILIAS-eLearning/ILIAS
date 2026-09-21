@@ -6414,6 +6414,7 @@ content#:#cont_def_organization#:#default
 content#:#cont_default#:#Default
 content#:#cont_definition#:#Definition
 content#:#cont_delete_content#:#Delete Content
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?
 content#:#cont_delete_selected#:#Delete
 content#:#cont_delete_style#:#Delete Style
 content#:#cont_delete_track_data#:#Delete Tracking Data

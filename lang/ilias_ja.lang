@@ -6364,6 +6364,7 @@ content#:#cont_def_organization#:#初期設定
 content#:#cont_default#:#初期設定
 content#:#cont_definition#:#定義
 content#:#cont_delete_content#:#コンテンツを削除
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#削除
 content#:#cont_delete_style#:#スタイル削除
 content#:#cont_delete_track_data#:#追跡データを削除

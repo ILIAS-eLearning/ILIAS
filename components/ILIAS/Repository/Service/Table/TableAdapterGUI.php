@@ -180,9 +180,10 @@ class TableAdapterGUI
 
     public function standardAction(
         string $action,
-        string $title
+        string $title,
+        bool $async = false
     ): self {
-        $this->addAction(self::STANDARD, $action, $title);
+        $this->addAction(self::STANDARD, $action, $title, $async);
         return $this;
     }
 

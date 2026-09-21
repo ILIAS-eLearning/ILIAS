@@ -6413,6 +6413,7 @@ content#:#cont_def_organization#:#Standard
 content#:#cont_default#:#Standard
 content#:#cont_definition#:#Erklärung
 content#:#cont_delete_content#:#Inhalte löschen
+content#:#cont_delete_file_item_confirm#:#Möchten Sie die ausgewählten Dateien wirklich löschen?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Löschen
 content#:#cont_delete_style#:#Style Löschen
 content#:#cont_delete_track_data#:#Lösche Trackingdaten

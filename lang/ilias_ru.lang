@@ -6349,6 +6349,7 @@ content#:#cont_def_organization#:#другой
 content#:#cont_default#:#Default
 content#:#cont_definition#:#Формулировка
 content#:#cont_delete_content#:#Delete Content###29 07 2022 new variable
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Delete
 content#:#cont_delete_style#:#Delete Style
 content#:#cont_delete_track_data#:#Delete Tracking Data

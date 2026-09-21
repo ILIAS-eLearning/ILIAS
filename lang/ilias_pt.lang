@@ -6397,6 +6397,7 @@ content#:#cont_def_organization#:#Recurso
 content#:#cont_default#:#Predefinição
 content#:#cont_definition#:#Referência
 content#:#cont_delete_content#:#Delete Content###30 04 2021 new variable
+content#:#cont_delete_file_item_confirm#:#Do you really want to delete the selected file(s)?###21 09 2026 new variable
 content#:#cont_delete_selected#:#Apagar
 content#:#cont_delete_style#:#Apagar estilo
 content#:#cont_delete_track_data#:#Apagar dados de rastreio
