@@ -78,4 +78,11 @@ class InternalDomainService
     {
         return new Editing\ExportIds\Retrieval($lm_id);
     }
+
+    public function shortTitlesRetrieval(
+        int $lm_id,
+        string $lang
+    ): Editing\ShortTitles\Retrieval {
+        return new Editing\ShortTitles\Retrieval($lm_id, $lang);
+    }
 }

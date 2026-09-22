@@ -92,4 +92,19 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function shortTitlesTableBuilder(
+        int $lm_id,
+        string $lang,
+        object $parent_gui,
+        string $parent_cmd
+    ): ShortTitles\TableBuilder {
+        return new ShortTitles\TableBuilder(
+            $this->domain,
+            $lm_id,
+            $lang,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }
