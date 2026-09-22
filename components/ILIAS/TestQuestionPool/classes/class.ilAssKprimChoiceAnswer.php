@@ -1,9 +1,9 @@
 <?php
 
-use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\QuestionImage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 
 /**
  * This file is part of ILIAS, a powerful learning management system

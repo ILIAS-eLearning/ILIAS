@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use Psr\Log\LoggerInterface;
 
 /**

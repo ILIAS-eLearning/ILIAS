@@ -30,8 +30,8 @@ use ilAssQuestionSkillAssignmentList;
 use ilAssSpecificFeedbackIdentifierList;
 use ilDBInterface;
 use ILIAS\Data\ObjectId;
-use ILIAS\TestQuestionPool\ExportImport\Envelopes\Feedback;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\Feedback;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ilUnitConfigurationRepository;
 
