@@ -352,6 +352,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
             case "illearningprogressgui":
                 $this->initScreenHead("learning_progress");
+                $this->ctrl->setParameterByClass(
+                    ilLMPresentationGUI::class,
+                    "obj_id",
+                    $this->requested_obj_id
+                );
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->requested_ref_id,

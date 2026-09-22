@@ -225,7 +225,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $this->addLocations();
                 $this->setTabs("learning_progress");
-
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->lm->getRefId());
                 $this->ctrl->forwardCommand($new_gui);
 
