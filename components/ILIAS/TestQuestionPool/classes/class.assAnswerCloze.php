@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 
 /**
  * Class for cloze question numeric answers

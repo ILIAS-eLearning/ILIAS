@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
 use ilAssQuestionSkillAssignment;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\Skill\Service\SkillUsageService;
 use ilImportMapping;
 use ilSkillTreeRepository;

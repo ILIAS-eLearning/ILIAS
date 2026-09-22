@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Logging\TestLogger;

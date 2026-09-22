@@ -21,11 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport;
 
 use ILIAS\DI\Container;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer\Registry;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Normalizer\ilAssQuestionSkillAssignmentNormalizer;
-use ILIAS\TestQuestionPool\ExportImport\Normalizer\ilObjQuestionPoolNormalizer;
-use ILIAS\TestQuestionPool\ExportImport\Normalizer\SuggestedSolutionNormalizer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\Registry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer\ilAssQuestionSkillAssignmentNormalizer;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer\ilObjQuestionPoolNormalizer;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer\SuggestedSolutionNormalizer;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 
 final class QuestionPoolNormalizerRegistration

@@ -21,8 +21,8 @@ declare(strict_types=1);
 use ILIAS\Export\ExportHandler\Factory as ExportHandler;
 use ILIAS\Test\ExportImport\Types;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportStep;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\XmlExporterBridge;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportStep;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\XmlExporterBridge;
 
 class ilTestExporter extends ilXmlExporter
 {

@@ -26,13 +26,13 @@ use ilDBConstants;
 use ilDBInterface;
 use ILIAS\Data\ObjectId;
 use ILIAS\Language\Language;
-use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
-use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
-use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
-use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
-use ILIAS\Test\ExportImport\Envelopes\RandomTestQuestion;
-use ILIAS\Test\ExportImport\Envelopes\Solution;
-use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\AdditionalWorkingTime;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\ManualFeedback;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionResult;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionSetConfig;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\RandomTestQuestion;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\Attempt;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\WorkingTime;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Questions\Properties\Properties;
@@ -41,7 +41,7 @@ use ILIAS\Test\Results\Data\Repository as ResultsRepository;
 use ILIAS\Test\Settings\GlobalSettings\UserIdentifiers;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\TestQuestionPool\ExportImport\Export\CollectsQuestions;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilObjTest;
 use ilTestQuestionSetConfigFactory;
@@ -300,7 +300,7 @@ class TestCollector
         $attempt_results = $this->results_repository->getTestAttemptResults($participant_id);
         $set = [
             'sequences' => $this->getSequences($participant_id, array_keys($attempt_results)),
-            'solutions' => $this->getSolutions($participant_id),
+            'question_attempts' => $this->getQuestionAttempts($participant_id),
             'results' => $this->getQuestionResults($participant_id),
             'attempts' => $attempt_results,
             'test_result' => $this->results_repository->getTestResult($participant_id),
@@ -319,9 +319,9 @@ class TestCollector
     }
 
     /**
-     * @return list<Solution>
+     * @return list<Attempt>
      */
-    public function getSolutions(int $participant_id): array
+    public function getQuestionAttempts(int $participant_id): array
     {
         $query = $this->db->queryF(
             "SELECT * FROM tst_solutions WHERE active_fi = %s",
@@ -330,7 +330,7 @@ class TestCollector
         );
 
         return array_map(
-            fn(array $row): Solution => Solution::fromRow($row),
+            fn(array $row): Attempt => Attempt::fromRow($row),
             $this->db->fetchAll($query)
         );
     }

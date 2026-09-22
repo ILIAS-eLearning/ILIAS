@@ -17,8 +17,8 @@
  *********************************************************************/
 
 use ILIAS\Export\ExportHandler\Factory as ExportHandler;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportStep;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\XmlExporterBridge;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportStep;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\XmlExporterBridge;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 class ilTestQuestionPoolExporter extends ilXmlExporter

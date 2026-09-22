@@ -54,8 +54,8 @@ use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseR
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use ILIAS\Test\ExportImport\Import\TestImporter;

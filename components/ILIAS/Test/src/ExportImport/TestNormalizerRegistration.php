@@ -21,21 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport;
 
 use ILIAS\DI\Container;
-use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
-use ILIAS\Test\ExportImport\Normalizer\AttemptResultNormalizer;
-use ILIAS\Test\ExportImport\Normalizer\ExportableNormalizer;
-use ILIAS\Test\ExportImport\Normalizer\ParticipantNormalizer;
-use ILIAS\Test\ExportImport\Normalizer\ParticipantResultNormalizer;
-use ILIAS\Test\ExportImport\Normalizer\QuestionSetConfigNormalizer;
-use ILIAS\Test\ExportImport\Normalizer\ilObjTestNormalizer;
-use ILIAS\Test\ExportImport\Normalizer\ilTestSequenceNormalizer;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionSetConfig;
+use ILIAS\Test\ExportImport\Normalize\Normalizer\AttemptResultNormalizer;
+use ILIAS\Test\ExportImport\Normalize\Normalizer\ExportableNormalizer;
+use ILIAS\Test\ExportImport\Normalize\Normalizer\ParticipantNormalizer;
+use ILIAS\Test\ExportImport\Normalize\Normalizer\ParticipantResultNormalizer;
+use ILIAS\Test\ExportImport\Normalize\Normalizer\QuestionSetConfigNormalizer;
+use ILIAS\Test\ExportImport\Normalize\Normalizer\ilObjTestNormalizer;
+use ILIAS\Test\ExportImport\Normalize\Normalizer\ilTestSequenceNormalizer;
 use ILIAS\Test\Participants\Participant;
 use ILIAS\Test\Results\Data\AttemptResult;
 use ILIAS\Test\Results\Data\ParticipantResult;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer\Registry;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Normalizer\ilTestSkillLevelThresholdNormalizer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\Registry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer\ilTestSkillLevelThresholdNormalizer;
 
 final class TestNormalizerRegistration
 {

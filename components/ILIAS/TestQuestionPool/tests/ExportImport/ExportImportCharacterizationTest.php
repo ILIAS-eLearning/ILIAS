@@ -24,16 +24,16 @@ use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Test\ExportImport\TransformationsBuilder as TestTransformationsBuilder;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\Deserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlSerializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\DenormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\NormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlSerializer;
 use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
-use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
+use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 class ExportImportCharacterizationTest extends assBaseTestCase
@@ -238,6 +238,36 @@ class ExportImportCharacterizationTest extends assBaseTestCase
         ]];
         $this->assertSame($expected, $from_string);
         $this->assertSame($expected, $from_file);
+    }
+
+    public function testResultXmlOnlyRenamesSolutionsToQuestionAttempts(): void
+    {
+        $serializer = XmlSerializer::inMemory();
+        $serializer->createDocument('Result terminology characterization');
+        $serializer->group('results', function () use ($serializer): void {
+            $serializer->append('set', [
+                'sequences' => [],
+                'question_attempts' => [['attempt' => 1]],
+                'results' => [],
+                'attempts' => [['attempt' => 1]],
+            ]);
+        });
+
+        $sets = $this->deserializeGroup(
+            XmlDeserializer::fromString($serializer->write()),
+            'results'
+        );
+
+        $this->assertSame(
+            [[
+                'sequences' => [],
+                'question_attempts' => [['attempt' => '1']],
+                'results' => [],
+                'attempts' => [['attempt' => '1']],
+            ]],
+            $sets
+        );
+        $this->assertArrayNotHasKey('solutions', $sets[0]);
     }
 
     public function testXmlMemoryDeserializerProcessesDocumentFragments(): void

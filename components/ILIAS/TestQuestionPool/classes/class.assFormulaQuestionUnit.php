@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\FromNormalized;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ToNormalized;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 
 /**
  * Formula Question Unit

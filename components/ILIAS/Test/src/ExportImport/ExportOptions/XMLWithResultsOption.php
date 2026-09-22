@@ -28,7 +28,7 @@ use ILIAS\DI\Container;
 use ILIAS\Language\Language;
 use ILIAS\Test\ExportImport\Types;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
 
 class XMLWithResultsOption extends BasicLegacyExportOption
 {

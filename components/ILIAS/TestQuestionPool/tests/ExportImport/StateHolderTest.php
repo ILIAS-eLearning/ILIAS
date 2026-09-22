@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfig;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ExportTarget;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
 
 class StateHolderTest extends assBaseTestCase
 {
