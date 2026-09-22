@@ -1644,13 +1644,13 @@ class ilLTIDataConnector extends DataConnector
                 $ilDB->quote($userresult->getRecordId(), 'integer') . ', ' .
                 $ilDB->quote($rid, 'integer') . ', ' .
                 $ilDB->quote($uid, 'text') . ', ' .
-                $ilDB->quote($userresult->ltiResultSourcedId, 'text') . ', ' .
+                $ilDB->quote($userresult->ltiResultSourcedId ?? '', 'text') . ', ' .
                 $ilDB->quote($now, 'text') . ', ' .
                 $ilDB->quote($now, 'text') .
                 ')';
         } else {
             $query = 'UPDATE ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-                'SET lti_result_sourcedid = ' . $ilDB->quote($userresult->ltiResultSourcedId, 'text') . ', ' .
+                'SET lti_result_sourcedid = ' . $ilDB->quote($userresult->ltiResultSourcedId ?? '', 'text') . ', ' .
                 'updated = ' . $ilDB->quote($now, 'text') . ' ' .
                 'WHERE user_pk = ' . $ilDB->quote($userresult->getRecordId(), 'integer');
         }
