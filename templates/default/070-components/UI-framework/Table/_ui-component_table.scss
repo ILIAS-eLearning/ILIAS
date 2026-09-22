@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../../../010-settings/" as *;
 @use "../../../030-tools/_tool_buttons" as *;
 @use "../../../030-tools/_tool_browser-prefixes" as *;
@@ -145,12 +146,90 @@ $table-ordering__inset-row__shadow: inset 0px 0px 14px 2px #00000063;
     }
 }
 
+
 .c-table-data__cell {
-    background-color: $il-main-bg; // so sticky cells can cover up cells underneath them
     padding: $il-padding-large-vertical $il-padding-large-horizontal;
     border: 1px solid $il-main-border-color;
     &--multiaction {
         padding-bottom: $il-padding-large-vertical;
+    }
+}
+
+.c-table-data .c-table-data__row:not(.highlighted) {
+    .c-table-data__cell {
+        background-color: $il-main-bg; // so sticky cells can cover up cells underneath them
+    }
+}
+
+// Highlighted Rows
+$highlighted-color: $il-alert-info-bg;
+
+.c-table-data .c-table-data__row.highlighted {
+    background-color: $highlighted-color;
+    animation: highlight-callout 5s 1.2s ease-in-out, highlight-settle .6s .6s;
+    animation-fill-mode: both;
+    position: relative;
+    td:first-child::before {
+        position: absolute;
+        content: "";
+        left: -4px;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background-color: $il-info-color;
+    }
+}
+
+@keyframes highlight-callout {
+    0% {
+        background-color: color.change($highlighted-color, $alpha: 1);
+    }
+    5% {
+        background-color: color.change($highlighted-color, $alpha: 1);
+    }
+    10% {
+        background-color: color.change($highlighted-color, $alpha: 0);
+    }
+    15% {
+        background-color: color.change($highlighted-color, $alpha: 0);
+    }
+    20% {
+        background-color: color.change($highlighted-color, $alpha: 1);
+    }
+    25% {
+        background-color: color.change($highlighted-color, $alpha: 1);
+    }
+    30% {
+        background-color: color.change($highlighted-color, $alpha: 0);
+    }
+    35% {
+        background-color: color.change($highlighted-color, $alpha: 0);
+    }
+    40% {
+        background-color: color.change($highlighted-color, $alpha: 1);
+    }
+    45% {
+        background-color: color.change($highlighted-color, $alpha: 1);
+    }
+    100% {
+        background-color: color.change($highlighted-color, $alpha: 0);
+    }
+}
+@keyframes highlight-settle {
+    0% {
+        transform: translateX(-10px);
+        animation-timing-function: ease-in-out;
+    }
+    45% {
+        transform: translateX(-15px);
+        animation-timing-function: ease-in;
+    }
+    55% {
+        transform: translateX(-15px);
+        animation-timing-function: ease-in;
+    }
+    100% {
+        transform: translateX(0);
     }
 }
 
@@ -359,9 +438,12 @@ td.c-table-data__cell--number {
 }
 
 // Highlighted Columns
-td.c-table-data__cell--highlighted {
-    background-color: $il-main-dark-bg;
+.c-table-data .c-table-data__row :not(.highlighted) {
+    td.c-table-data__cell--highlighted {
+        background-color: $il-main-dark-bg;
+    }
 }
+
 // hover on larger screens only
 .c-table-data .c-table-data__row:hover td.c-table-data__cell--highlighted,
 .c-table-ordering:not(.dragInProgress) .c-table-data__row:hover td.c-table-data__cell--highlighted {
