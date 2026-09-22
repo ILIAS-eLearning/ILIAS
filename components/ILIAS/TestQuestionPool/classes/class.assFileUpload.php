@@ -167,9 +167,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->setCompletionBySubmission($data['compl_by_submission'] == 1 ? true : false);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
