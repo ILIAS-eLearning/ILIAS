@@ -92,9 +92,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->setTextRating($data['textgap_rating'] ?? assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {

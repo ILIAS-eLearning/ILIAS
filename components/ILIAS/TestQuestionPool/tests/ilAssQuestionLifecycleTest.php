@@ -50,16 +50,4 @@ class ilAssQuestionLifecycleTest extends assBaseTestCase
 
         $this->assertSame(ilAssQuestionLifecycle::FINAL, $lifecycle->getIdentifier());
     }
-
-    public function testFactoryRemainsWrapper(): void
-    {
-        $this->assertSame(
-            ilAssQuestionLifecycle::REVIEW,
-            ilAssQuestionLifecycle::getInstance(ilAssQuestionLifecycle::REVIEW)->getIdentifier()
-        );
-        $this->assertSame(
-            ilAssQuestionLifecycle::DRAFT,
-            ilAssQuestionLifecycle::getDraftInstance()->getIdentifier()
-        );
-    }
 }

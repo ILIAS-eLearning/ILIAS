@@ -127,9 +127,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->feedback_setting = $data['feedback_setting'] ?? self::FEEDBACK_MODE_SELECTED_ANSWERS;
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {

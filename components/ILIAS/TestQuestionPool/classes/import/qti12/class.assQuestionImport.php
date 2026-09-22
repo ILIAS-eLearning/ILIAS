@@ -211,7 +211,7 @@ class assQuestionImport
     protected function fetchLifecycle(ilQTIItem $item): ilAssQuestionLifecycle
     {
         try {
-            $lifecycle = ilAssQuestionLifecycle::getInstance(
+            $lifecycle = new ilAssQuestionLifecycle(
                 $item->getMetadataEntry('ilias_lifecycle')
             );
         } catch (ilTestQuestionPoolInvalidArgumentException $e) {
@@ -220,11 +220,11 @@ class assQuestionImport
                     $item->getMetadataEntry('lifecycle')
                 );
 
-                $lifecycle = ilAssQuestionLifecycle::getInstance(
+                $lifecycle = new ilAssQuestionLifecycle(
                     $lomLifecycle->getMappedIliasLifecycleIdentifer()
                 );
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $lifecycle = ilAssQuestionLifecycle::getDraftInstance();
+                $lifecycle = new ilAssQuestionLifecycle();
             }
         }
 

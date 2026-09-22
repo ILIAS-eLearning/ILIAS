@@ -164,7 +164,7 @@ abstract class assQuestion implements Question
         $this->questionActionCmd = 'handleQuestionAction';
         $this->export_image_path = '';
         $this->shuffler = $DIC->refinery()->random()->dontShuffle();
-        $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
+        $this->lifecycle = new ilAssQuestionLifecycle();
         $this->skillUsageService = $DIC->skills()->usage();
 
         $this->test_result_repository = TestDIC::dic()['results.data.repository'];

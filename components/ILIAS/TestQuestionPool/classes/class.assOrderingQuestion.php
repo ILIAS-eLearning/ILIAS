@@ -149,9 +149,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->element_height = $data["element_height"] ? (int) $data['element_height'] : null;
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
