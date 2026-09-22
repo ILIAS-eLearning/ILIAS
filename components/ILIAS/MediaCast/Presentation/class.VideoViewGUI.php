@@ -96,18 +96,16 @@ class VideoViewGUI
         $renderer = $this->ui->renderer();
 
         if ($video_cnt > 1) {
-            $back = $factory->button()->standard(
-                "<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>",
-                ""
-            )
+            $back = $factory->button()->standard("", "")
+                            ->withSymbol($factory->symbol()->glyph()->back())
+                            ->withAriaLabel($lng->txt("previous"))
                             ->withOnLoadCode(function ($id) {
                                 return
                                     "$(\"#$id\").click(function() { il.VideoWidget.previous(\"" . $this->video_wrapper_id . "\"); return false;});";
                             });
-            $next = $factory->button()->standard(
-                "<span class=\"glyphicon glyphicon-chevron-right \" aria-hidden=\"true\"></span>",
-                ""
-            )
+            $next = $factory->button()->standard("", "")
+                            ->withSymbol($factory->symbol()->glyph()->next())
+                            ->withAriaLabel($lng->txt("next"))
                             ->withOnLoadCode(function ($id) {
                                 return
                                     "$(\"#$id\").click(function() { il.VideoWidget.next(\"" . $this->video_wrapper_id . "\"); return false;});";
