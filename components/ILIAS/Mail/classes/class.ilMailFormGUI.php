@@ -745,6 +745,26 @@ class ilMailFormGUI
             case self::MAIL_FORM_TYPE_OUTBOX:
                 ilSession::set('outbox', $mail_id);
                 $mail_data = $this->umail->getMail($mail_id);
+
+                if ($mail_data['attachments'] instanceof MailAttachments && !$mail_data['attachments']->isEmpty()) {
+                    $stage_attachments = $this->stageAttachmentsFromMailAttachments($mail_data['attachments']);
+                    $this->umail->persistToStage(
+                        $this->user->getId(),
+                        (string) ($mail_data['rcp_to'] ?? ''),
+                        (string) ($mail_data['rcp_cc'] ?? ''),
+                        (string) ($mail_data['rcp_bcc'] ?? ''),
+                        (string) ($mail_data['m_subject'] ?? ''),
+                        (string) ($mail_data['m_message'] ?? ''),
+                        $stage_attachments,
+                        (bool) ($mail_data['use_placeholders'] ?? false),
+                        $mail_data['tpl_ctx_id'] ?? null,
+                        (array) ($mail_data['tpl_ctx_params'] ?? [])
+                    );
+                    $mail_data['attachments'] = $this->formRidsFromMailAttachments($stage_attachments);
+                } else {
+                    $mail_data['attachments'] = [];
+                }
+
                 ilMailFormCall::setContextId($mail_data['tpl_ctx_id']);
                 ilMailFormCall::setContextParameters($mail_data['tpl_ctx_params']);
                 break;
