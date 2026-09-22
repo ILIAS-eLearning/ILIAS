@@ -71,4 +71,17 @@ class InternalGUIService
             $parent_cmd
         );
     }
+
+    public function questionStatisticsTableBuilder(
+        int $lm_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): Question\Statistics\TableBuilder {
+        return new Question\Statistics\TableBuilder(
+            $this->domain_service,
+            $lm_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

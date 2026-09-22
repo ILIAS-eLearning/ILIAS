@@ -64,6 +64,11 @@ class InternalDomainService
         return new Question\BlockedUsers\Retrieval($ref_id);
     }
 
+    public function questionStatisticsRetrieval(int $lm_id): Question\Statistics\Retrieval
+    {
+        return new Question\Statistics\Retrieval($lm_id, $this->DIC->testQuestion());
+    }
+
     public function translation(int $lm_id): Translations
     {
         return (new CachedRepository($this->database()))->getFor($lm_id);

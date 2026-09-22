@@ -1611,8 +1611,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->setTabs("questions");
         $this->setQuestionsSubTabs("question_stats");
 
-        $table = new ilLMQuestionListTableGUI($this, "listQuestions", $this->lm);
-        $tpl->setContent($table->getHTML());
+        $table = $this->gui->questionStatisticsTableBuilder(
+            $this->lm->getId(),
+            $this,
+            "listQuestions"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     public function listQuestionUsages(): void
