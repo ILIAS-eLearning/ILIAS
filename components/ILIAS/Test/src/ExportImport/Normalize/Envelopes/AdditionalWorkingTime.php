@@ -34,10 +34,8 @@ class AdditionalWorkingTime implements Envelope
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toArray(Transformations $tt): array
+    #[\Override]
+    public function unpack(Transformations $tt): array
     {
         return [
             'user_id' => $tt->normalize($this->user_id),
@@ -47,10 +45,8 @@ class AdditionalWorkingTime implements Envelope
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromArray(array $value, Transformations $tt): static
+    #[\Override]
+    public static function pack(array $value, Transformations $tt): static
     {
         return new self(
             $tt->denormalize($value['user_id'], Id::class),

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer;
 
-use DateTimeImmutable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
@@ -40,12 +39,10 @@ class SuggestedSolutionNormalizer implements Normalizer
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof SuggestedSolution) {
+        if (!($value instanceof SuggestedSolution)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -77,9 +74,7 @@ class SuggestedSolutionNormalizer implements Normalizer
         return $normalized;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): SuggestedSolution
     {
         if ($type !== SuggestedSolution::class && !in_array(SuggestedSolution::class, class_parents($type))) {
@@ -103,7 +98,7 @@ class SuggestedSolutionNormalizer implements Normalizer
         $question_id = $this->tt->denormalize($value['question_id'], Id::class)->getId();
         $subquestion_index = $this->tt->int($value['subquestion_index']);
         $import_id = $this->tt->string($value['import_id']);
-        $last_update = $this->tt->denormalize($value['last_update'], DateTimeImmutable::class);
+        $last_update = $this->tt->denormalize($value['last_update'], \DateTimeImmutable::class);
 
         switch ($type) {
             case SuggestedSolutionFile::class:

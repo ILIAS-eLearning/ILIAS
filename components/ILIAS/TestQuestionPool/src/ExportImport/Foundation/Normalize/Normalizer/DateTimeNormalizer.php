@@ -20,36 +20,30 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 
-use DateTime;
-use DateTimeImmutable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 
 /**
- * @implements Normalizer<DateTime|DateTimeImmutable, string>
+ * @implements Normalizer<\DateTime|\DateTimeImmutable, string>
  */
 class DateTimeNormalizer implements Normalizer
 {
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if ($value instanceof DateTimeImmutable || $value instanceof DateTime) {
+        if ($value instanceof \DateTimeImmutable || $value instanceof \DateTime) {
             return $value->format(DATE_ATOM);
         }
 
         throw new NormalizingException('Invalid datetime value', $value);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function denormalize(array|float|bool|int|string|null $value, string $type): DateTime|DateTimeImmutable
+    #[\Override]
+    public function denormalize(array|float|bool|int|string|null $value, string $type): \DateTime|\DateTimeImmutable
     {
         return match ($type) {
-            DateTimeImmutable::class => DateTimeImmutable::createFromFormat(DATE_ATOM, $value),
-            DateTime::class => DateTime::createFromFormat(DATE_ATOM, $value),
+            \DateTimeImmutable::class => \DateTimeImmutable::createFromFormat(DATE_ATOM, $value),
+            \DateTime::class => \DateTime::createFromFormat(DATE_ATOM, $value),
             default => throw new NormalizingException("Invalid type for datetime: {$type}")
         };
     }

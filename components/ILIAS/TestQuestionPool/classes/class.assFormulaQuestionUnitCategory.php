@@ -92,9 +92,7 @@ class assFormulaQuestionUnitCategory implements ToNormalized, FromNormalized
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -107,9 +105,7 @@ class assFormulaQuestionUnitCategory implements ToNormalized, FromNormalized
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

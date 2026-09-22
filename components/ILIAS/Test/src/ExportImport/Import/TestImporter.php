@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Import;
 
-use assFileUploadStakeholder;
-use ilDBConstants;
-use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
@@ -45,9 +42,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\IdMappin
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
-use ilImportMapping;
-use ilObjTest;
-use ilTestPage;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -57,7 +51,7 @@ class TestImporter
 {
     public function __construct(
         private readonly TransformationsBuilder $builder,
-        private readonly ilDBInterface $database,
+        private readonly \ilDBInterface $database,
         private readonly LoggerInterface $log,
         private readonly IRSS $irss,
         private readonly DataFactory $data_factory,
@@ -77,7 +71,7 @@ class TestImporter
      */
     public function import(
         Deserializer $deserializer,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         ReferenceId $parent_id,
         ImportContext $context
     ): ImportContext {
@@ -91,7 +85,7 @@ class TestImporter
             $resource_collector
         );
 
-        /** @var ilObjTest|null $test_object */
+        /** @var \ilObjTest|null $test_object */
         $test_object = null;
 
         $deserializer->addHandler(
@@ -226,7 +220,7 @@ class TestImporter
      * It will replace the old question ids with the new question ids in the test pages and remap taxonomy IDs in random
      * question set source pool definitions.
      */
-    public function finalize(ilImportMapping $mapping): void
+    public function finalize(\ilImportMapping $mapping): void
     {
         $this->log->info('Finalizing test import...');
         $this->questions_importer->finalizeQuestionPages($mapping);
@@ -236,7 +230,7 @@ class TestImporter
 
 
     private function importMappings(
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         CollectResources $resource_collector,
         ImportContext $context
     ): void {
@@ -263,7 +257,7 @@ class TestImporter
 
             $new_id = $this->irss->manage()->stream(
                 Streams::ofResource(fopen($resource_path, 'rb')),
-                new assFileUploadStakeholder(),
+                new \assFileUploadStakeholder(),
                 $resource['title']
             );
             $resource_collector->storeMapping($resource['id'], $new_id);
@@ -275,10 +269,10 @@ class TestImporter
     private function importTest(
         array $normalized,
         Transformations $transformations,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         ReferenceId $parent_id
-    ): ilObjTest {
-        $test_object = $transformations->denormalize($normalized, ilObjTest::class);
+    ): \ilObjTest {
+        $test_object = $transformations->denormalize($normalized, \ilObjTest::class);
         $old_obj_id = $test_object->getId();
         $old_test_id = $test_object->getTestId();
 
@@ -303,8 +297,8 @@ class TestImporter
     private function importSettings(
         array $list,
         Transformations $transformations,
-        ilImportMapping $mapping,
-        ilObjTest $test_object
+        \ilImportMapping $mapping,
+        \ilObjTest $test_object
     ): void {
         $settings_id = $test_object->getMainSettings()->getId();
 
@@ -312,7 +306,8 @@ class TestImporter
         $scoring_settings = $transformations->denormalize($list[1], ScoreSettings::class)->withId($settings_id);
         $mark_schema = $transformations->denormalize($list[2], MarkSchema::class)->withTestId($test_object->getTestId());
 
-        if ($intro_page_id = $main_settings->getIntroductionSettings()->getIntroductionPageId()) {
+        $intro_page_id = $main_settings->getIntroductionSettings()->getIntroductionPageId();
+        if ($intro_page_id !== null && $intro_page_id !== 0) {
             $new_page_id = $this->createPage($intro_page_id, $test_object->getId(), $mapping);
             $main_settings = $main_settings->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()->withIntroductionPageId($new_page_id)
@@ -320,7 +315,8 @@ class TestImporter
             $this->log->debug("Imported introduction page: {$intro_page_id} -> {$new_page_id}");
         }
 
-        if ($concluding_page_id = $main_settings->getFinishingSettings()->getConcludingRemarksPageId()) {
+        $concluding_page_id = $main_settings->getFinishingSettings()->getConcludingRemarksPageId();
+        if ($concluding_page_id !== null && $concluding_page_id !== 0) {
             $new_page_id = $this->createPage($concluding_page_id, $test_object->getId(), $mapping);
             $main_settings = $main_settings->withFinishingSettings(
                 $main_settings->getFinishingSettings()->withConcludingRemarksPageId($new_page_id)
@@ -334,9 +330,9 @@ class TestImporter
         $this->log->debug("Imported test settings and mark schema: {$settings_id} (Settings ID)");
     }
 
-    private function createPage(int $imported_page_id, int $parent_id, ilImportMapping $mapping): int
+    private function createPage(int $imported_page_id, int $parent_id, \ilImportMapping $mapping): int
     {
-        $page = new ilTestPage();
+        $page = new \ilTestPage();
         $page->setParentId($parent_id);
         $page->createPageWithNextId();
 
@@ -353,9 +349,9 @@ class TestImporter
     private function importQuestions(
         array $list,
         Transformations $transformations,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         ImportContext $context,
-        ilObjTest $test_object
+        \ilObjTest $test_object
     ): void {
         foreach ($list as $normalized) {
             $question = $this->questions_importer->importQuestion(
@@ -364,7 +360,7 @@ class TestImporter
                 $mapping, 
                 $context->selectedQuestionIds()
             );
-            if (!$question instanceof \assQuestion || $normalized['sequence'] === null) {
+            if (!($question instanceof \assQuestion) || $normalized['sequence'] === null) {
                 continue;
             }
 
@@ -380,8 +376,8 @@ class TestImporter
     private function importQuestionSetConfig(
         array $normalized,
         Transformations $transformations,
-        ilImportMapping $mapping,
-        ilObjTest $test_object
+        \ilImportMapping $mapping,
+        \ilObjTest $test_object
     ): void {
         $config = $transformations->denormalize($normalized, QuestionSetConfig::class);
 
@@ -390,7 +386,7 @@ class TestImporter
         }
     }
 
-    private function importParticipants(array $list, Transformations $transformations, ilImportMapping $mapping): void
+    private function importParticipants(array $list, Transformations $transformations, \ilImportMapping $mapping): void
     {
         foreach ($list as $normalized) {
             if ($normalized['active_id'] === null) {
@@ -409,20 +405,20 @@ class TestImporter
             $this->database->insert(
                 'tst_active',
                 [
-                    'active_id' => [ilDBConstants::T_INTEGER, $new_active_id],
-                    'user_fi' => [ilDBConstants::T_INTEGER, $participant->getUserId()],
-                    'test_fi' => [ilDBConstants::T_INTEGER, $participant->getTestId()],
-                    'anonymous_id' => [ilDBConstants::T_TEXT, $participant->getAnonymousId()],
-                    'tries' => [ilDBConstants::T_INTEGER, $participant->getAttempts()],
-                    'submitted' => [ilDBConstants::T_INTEGER, $participant->getSubmitted() ? 1 : 0],
-                    'last_finished_pass' => [ilDBConstants::T_INTEGER, $participant->getLastFinishedAttempt()],
-                    'last_started_pass' => [ilDBConstants::T_INTEGER, $participant->getLastStartedAttempt()],
-                    'importname' => [ilDBConstants::T_TEXT, "{$participant->getFirstname()} {$participant->getLastname()}"],
-                    'tstamp' => [ilDBConstants::T_INTEGER, time()],
-                    'submittimestamp' => [ilDBConstants::T_TIMESTAMP, $transformations->nullableString($normalized['submittimestamp'])],
-                    'lastindex' => [ilDBConstants::T_INTEGER, $transformations->nullableInt($normalized['lastindex'])],
-                    'objective_container' => [ilDBConstants::T_INTEGER, $transformations->nullableInt($normalized['objective_container'])],
-                    'start_lock' => [ilDBConstants::T_TEXT, $transformations->nullableString($normalized['start_lock'])],
+                    'active_id' => [\ilDBConstants::T_INTEGER, $new_active_id],
+                    'user_fi' => [\ilDBConstants::T_INTEGER, $participant->getUserId()],
+                    'test_fi' => [\ilDBConstants::T_INTEGER, $participant->getTestId()],
+                    'anonymous_id' => [\ilDBConstants::T_TEXT, $participant->getAnonymousId()],
+                    'tries' => [\ilDBConstants::T_INTEGER, $participant->getAttempts()],
+                    'submitted' => [\ilDBConstants::T_INTEGER, $participant->getSubmitted() === true ? 1 : 0],
+                    'last_finished_pass' => [\ilDBConstants::T_INTEGER, $participant->getLastFinishedAttempt()],
+                    'last_started_pass' => [\ilDBConstants::T_INTEGER, $participant->getLastStartedAttempt()],
+                    'importname' => [\ilDBConstants::T_TEXT, "{$participant->getFirstname()} {$participant->getLastname()}"],
+                    'tstamp' => [\ilDBConstants::T_INTEGER, time()],
+                    'submittimestamp' => [\ilDBConstants::T_TIMESTAMP, $transformations->nullableString($normalized['submittimestamp'])],
+                    'lastindex' => [\ilDBConstants::T_INTEGER, $transformations->nullableInt($normalized['lastindex'])],
+                    'objective_container' => [\ilDBConstants::T_INTEGER, $transformations->nullableInt($normalized['objective_container'])],
+                    'start_lock' => [\ilDBConstants::T_TEXT, $transformations->nullableString($normalized['start_lock'])],
                 ]
             );
             $this->log->debug("Stored test session in database: {$new_active_id} (Active ID)");
@@ -437,11 +433,11 @@ class TestImporter
         $this->database->insert(
             'tst_invited_user',
             [
-                'test_fi' => [ilDBConstants::T_INTEGER, $participant->getTestId()],
-                'user_fi' => [ilDBConstants::T_INTEGER, $participant->getUserId()],
-                'ip_range_from' => [ilDBConstants::T_TEXT, $participant->getClientIpFrom()],
-                'ip_range_to' => [ilDBConstants::T_TEXT, $participant->getClientIpTo()],
-                'tstamp' => [ilDBConstants::T_INTEGER, $participant->getInvitationDate()],
+                'test_fi' => [\ilDBConstants::T_INTEGER, $participant->getTestId()],
+                'user_fi' => [\ilDBConstants::T_INTEGER, $participant->getUserId()],
+                'ip_range_from' => [\ilDBConstants::T_TEXT, $participant->getClientIpFrom()],
+                'ip_range_to' => [\ilDBConstants::T_TEXT, $participant->getClientIpTo()],
+                'tstamp' => [\ilDBConstants::T_INTEGER, $participant->getInvitationDate()],
             ]
         );
         $this->log->debug("Stored invited participant in database: {$participant->getUserId()} (User ID), {$participant->getTestId()} (Test ID)");

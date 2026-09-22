@@ -37,12 +37,10 @@ class ParticipantResultNormalizer implements Normalizer
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof ParticipantResult) {
+        if (!($value instanceof ParticipantResult)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -57,9 +55,7 @@ class ParticipantResultNormalizer implements Normalizer
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): ParticipantResult
     {
         if ($type !== ParticipantResult::class) {

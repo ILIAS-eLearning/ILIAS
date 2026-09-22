@@ -35,27 +35,23 @@ class EnvelopeNormalizer implements Normalizer
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof Envelope) {
+        if (!($value instanceof Envelope)) {
             throw new NormalizingException('Invalid envelope value', $value);
         }
 
-        return $value->toArray($this->tt);
+        return $value->unpack($this->tt);
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): Envelope
     {
         if (!in_array(Envelope::class, class_implements($type))) {
             throw new NormalizingException('Invalid envelope type', $type);
         }
 
-        return $type::fromArray($value, $this->tt);
+        return $type::pack($value, $this->tt);
     }
 }

@@ -202,9 +202,7 @@ class assFormulaQuestionVariable implements ToNormalized, FromNormalized
         return $this->range_min_txt;
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -222,9 +220,7 @@ class assFormulaQuestionVariable implements ToNormalized, FromNormalized
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

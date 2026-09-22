@@ -21,22 +21,19 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport\Normalize\Normalizer;
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
-use ilObjTest;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\IlObjectNormalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 
 /**
- * @implements Normalizer<ilObjTest, array>
+ * @implements Normalizer<\ilObjTest, array>
  */
 class ilObjTestNormalizer extends IlObjectNormalizer implements Normalizer
 {
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof ilObjTest) {
+        if (!($value instanceof \ilObjTest)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -46,17 +43,15 @@ class ilObjTestNormalizer extends IlObjectNormalizer implements Normalizer
         return $normalized;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function denormalize(array|float|bool|int|string|null $value, string $type): ilObjTest
+    #[\Override]
+    public function denormalize(array|float|bool|int|string|null $value, string $type): \ilObjTest
     {
-        if ($type !== ilObjTest::class) {
+        if ($type !== \ilObjTest::class) {
             throw new NormalizingException("Invalid type for ilObjTest: {$type}");
         }
 
-        /** @var ilObjTest $object */
-        $object = parent::denormalize($value, ilObjTest::class);
+        /** @var \ilObjTest $object */
+        $object = parent::denormalize($value, \ilObjTest::class);
         $object->setTestId(
             $this->tt->denormalize($value['test_id'], Id::class)->getId()
         );

@@ -77,9 +77,7 @@ class assAnswerMatchingPair implements ToNormalized, FromNormalized
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -92,9 +90,7 @@ class assAnswerMatchingPair implements ToNormalized, FromNormalized
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

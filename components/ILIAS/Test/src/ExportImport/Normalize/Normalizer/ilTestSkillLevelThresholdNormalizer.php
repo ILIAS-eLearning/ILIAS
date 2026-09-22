@@ -20,30 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer;
 
-use ilTestSkillLevelThreshold;
-use ilDBInterface;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 
 /**
- * @implements Normalizer<ilTestSkillLevelThreshold, array>
+ * @implements Normalizer<\ilTestSkillLevelThreshold, array>
  */
 class ilTestSkillLevelThresholdNormalizer implements Normalizer
 {
     public function __construct(
         private readonly Transformations $tt,
-        private readonly ilDBInterface $db,
+        private readonly \ilDBInterface $db,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof ilTestSkillLevelThreshold) {
+        if (!($value instanceof \ilTestSkillLevelThreshold)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -56,16 +52,14 @@ class ilTestSkillLevelThresholdNormalizer implements Normalizer
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function denormalize(array|float|bool|int|string|null $value, string $type): ilTestSkillLevelThreshold
+    #[\Override]
+    public function denormalize(array|float|bool|int|string|null $value, string $type): \ilTestSkillLevelThreshold
     {
-        if ($type !== ilTestSkillLevelThreshold::class) {
+        if ($type !== \ilTestSkillLevelThreshold::class) {
             throw new NormalizingException("Invalid type for ilTestSkillLevelThreshold: {$type}");
         }
 
-        $threshold = new ilTestSkillLevelThreshold($this->db);
+        $threshold = new \ilTestSkillLevelThreshold($this->db);
         $threshold->setSkillLevelId($this->tt->denormalize($value['id'], Id::class)->getId());
         $threshold->setTestId($this->tt->denormalize($value['test_id'], Id::class)->getId());
         $threshold->setSkillBaseId($this->tt->denormalize($value['skill_base_id'], Id::class)->getId());

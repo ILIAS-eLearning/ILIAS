@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Normalize\Normalizer;
 
-use DateTimeImmutable;
 use ILIAS\Test\Participants\Participant;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
@@ -37,12 +36,10 @@ class ParticipantNormalizer implements Normalizer
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof Participant) {
+        if (!($value instanceof Participant)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -73,9 +70,7 @@ class ParticipantNormalizer implements Normalizer
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): Participant
     {
         if ($type !== Participant::class) {
@@ -103,8 +98,8 @@ class ParticipantNormalizer implements Normalizer
             $this->tt->nullableInt($value['last_started_attempt']),
             $this->tt->nullableInt($value['last_finished_attempt']),
             $this->tt->bool($value['unfinished_attempts']),
-            $this->tt->denormalize($value['first_access'], DateTimeImmutable::class),
-            $this->tt->denormalize($value['last_access'], DateTimeImmutable::class),
+            $this->tt->denormalize($value['first_access'], \DateTimeImmutable::class),
+            $this->tt->denormalize($value['last_access'], \DateTimeImmutable::class),
             $this->tt->bool($value['scoring_finalized']),
         );
     }

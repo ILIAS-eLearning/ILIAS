@@ -35,9 +35,7 @@ class CollectUserIds implements Processor
      */
     private array $ids = [];
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function process(object $carry): void
     {
         if (
