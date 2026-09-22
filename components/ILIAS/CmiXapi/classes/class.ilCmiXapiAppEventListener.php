@@ -27,14 +27,18 @@ declare(strict_types=1);
 
 class ilCmiXapiAppEventListener
 {
+    /** @var array<int, array<int, true>> */
+    private static array $containerXapiObjectIds = [];
+
     /**
      * @throws ilException
+     * @param array<string, mixed> $parameter
      */
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
         switch ($component) {
             case "components/ILIAS/User":
-                if ($event == "deleteUser") {
+                if ($event === "deleteUser") {
                     self::onServiceUserDeleteUser($parameter);
                 }
                 break;
@@ -48,19 +52,13 @@ class ilCmiXapiAppEventListener
                 break;
 
             case "components/ILIAS/Course":
-                if ($event == "deleteParticipant") {
-                    self::removeMembers(
-                        'crs',
-                        $parameter
-                    );
+                if ($event === "deleteParticipant") {
+                    self::removeMember($parameter);
                 }
                 break;
             case "components/ILIAS/Group":
-                if ($event == "deleteParticipant") {
-                    self::removeMembers(
-                        'grp',
-                        $parameter
-                    );
+                if ($event === "deleteParticipant") {
+                    self::removeMember($parameter);
                 }
                 break;
 
@@ -71,36 +69,22 @@ class ilCmiXapiAppEventListener
         }
     }
 
+    /**
+     * @param array<string, mixed> $parameter
+     */
     private static function onServiceUserDeleteUser(array $parameter): void
     {
-        $usr_id = $parameter['usr_id'];
+        $usr_id = (int) $parameter['usr_id'];
         $model = ilCmiXapiDelModel::init();
 
-        // null or array with objIds, if are going to need more
-        $xapiObjUser = $model->getXapiObjIdForUser($usr_id);
-        if (!is_null($xapiObjUser)) {
-            for ((int) $i = 0; $i < count($xapiObjUser); $i++) {
-                $xapiObject = $model->getXapiObjectData($xapiObjUser[$i]);
-                if (!is_null($xapiObject)) {
-                    if ((int) $xapiObject['delete_data'] != 0) {
-                        if ((int) $xapiObject['delete_data'] < 10) {
-                            //remove only ident
-                            $model->removeCmixUsersForObjectAndUser($xapiObjUser[$i], $usr_id);
-                        } else {
-                            // add obj as deleted
-                            $model->setXapiObjAsDeletedForUser($xapiObjUser[$i], $xapiObject['lrs_type_id'], $xapiObject['activity_id'], $usr_id);
-                        }
-                    }
-                }
-            }
+        foreach ($model->getXapiObjectsByUser($usr_id) as $xapiObject) {
+            self::deleteUserDataForObject($model, $xapiObject, $usr_id);
         }
-
-        //       if(!is_null($xapiObjUser)) {
-        //            // add user as deleted
-        //            $model->setXapiUserAsDeleted($usr_id);
-        //        }
     }
 
+    /**
+     * @param array<string, mixed> $parameter
+     */
     private static function onServiceObjectDeleteOrToTrash(array $parameter): void
     {
         if (ilObject::_lookupType((int) $parameter["ref_id"], true) !== "cmix") {
@@ -111,57 +95,98 @@ class ilCmiXapiAppEventListener
         $objId = (int) $parameter['obj_id'];
         $xapiObject = $model->getXapiObjectData($objId);
 
-        if (!is_null($xapiObject)) {
-            if ((int) $xapiObject['delete_data'] != 0) {
-                if ((int) $xapiObject['delete_data'] < 10) {
-                    //remove only ident
-                    $model->removeCmixUsersForObject($objId);
-                } else {
-                    // add obj as deleted
-                    $model->setXapiObjAsDeleted($objId, $xapiObject['lrs_type_id'], $xapiObject['activity_id']);
-                }
+        if ($xapiObject === null || (int) $xapiObject['delete_data'] === 0) {
+            return;
+        }
+
+        if ((int) $xapiObject['delete_data'] < 10) {
+            $model->removeCmixUsersForObject($objId);
+            return;
+        }
+
+        $model->setXapiObjAsDeleted(
+            $objId,
+            (int) $xapiObject['lrs_type_id'],
+            (string) $xapiObject['activity_id']
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $parameter
+     */
+    private static function removeMember(array $parameter): void
+    {
+        $usr_id = (int) $parameter['usr_id'];
+        $container_id = (int) $parameter['obj_id'];
+        $xapiObjectIds = self::getContainerXapiObjectIds($container_id);
+        if ($xapiObjectIds === []) {
+            return;
+        }
+
+        $model = ilCmiXapiDelModel::init();
+        foreach ($model->getXapiObjectsByUser($usr_id) as $xapiObject) {
+            if (isset($xapiObjectIds[(int) $xapiObject['obj_id']])) {
+                self::deleteUserDataForObject($model, $xapiObject, $usr_id);
             }
         }
     }
 
-    private static function removeMembers(string $src_type, array $parameter): void
+    /**
+     * @return array<int, true>
+     */
+    private static function getContainerXapiObjectIds(int $containerId): array
     {
+        if (isset(self::$containerXapiObjectIds[$containerId])) {
+            return self::$containerXapiObjectIds[$containerId];
+        }
+
         global $DIC;
         $tree = $DIC->repositoryTree();
+        $xapiObjectIds = [];
 
-        $usr_id = $parameter['usr_id'];
-        $crs_id = $parameter['obj_id'];
-        if (
-            $src_type === 'grp' || $src_type === 'crs'
-        ) {
-            $crs_ref_ids = ilObject::_getAllReferences($crs_id);
-            $idc = array_shift($crs_ref_ids);
+        foreach (ilObject::_getAllReferences($containerId) as $containerRefId) {
+            $containerNode = $tree->getNodeData($containerRefId);
+            if ($containerNode === []) {
+                continue;
+            }
 
-            //Todo check Verknüpfungen?
-            $ref_ids = $tree->getSubTreeIds($idc);
-            for ((int) $i = 0; $i < count($ref_ids); $i++) {
-                if (ilObject::_lookupType($ref_ids[$i], true) == "cmix") {
-                    $objId = ilObject::_lookupObjectId($ref_ids[$i]);
-                    $model = ilCmiXapiDelModel::init();
-                    $xapiObject = $model->getXapiObjectData($objId);
-                    if (!is_null($xapiObject)) {
-                        $xapiObjUser = $model->getXapiObjIdForUser($usr_id);
-                        if (!is_null($xapiObjUser)) {
-                            // add user as deleted
-                            if ((int) $xapiObject['delete_data'] != 0) {
-                                if ((int) $xapiObject['delete_data'] < 10) {
-                                    //remove only ident
-                                    $model->removeCmixUsersForObjectAndUser($objId, $usr_id);
-                                } else {
-                                    // add obj as deleted
-                                    $model->setXapiObjAsDeletedForUser($objId, $xapiObject['lrs_type_id'], $xapiObject['activity_id'], $usr_id);
-                                }
-                            }
-                        }
-                    }
-                }
+            foreach ($tree->getSubTree($containerNode, false, ['cmix']) as $xapiRefId) {
+                $xapiObjectIds[ilObject::_lookupObjectId($xapiRefId)] = true;
             }
         }
+
+        return self::$containerXapiObjectIds[$containerId] = $xapiObjectIds;
     }
 
+    /**
+     * @param array{
+     *     obj_id: int|string,
+     *     lrs_type_id: int|string,
+     *     activity_id: string,
+     *     delete_data: int|string
+     * } $xapiObject
+     */
+    private static function deleteUserDataForObject(
+        ilCmiXapiDelModel $model,
+        array $xapiObject,
+        int $usrId
+    ): void {
+        $deleteData = (int) $xapiObject['delete_data'];
+        if ($deleteData === 0) {
+            return;
+        }
+
+        $objId = (int) $xapiObject['obj_id'];
+        if ($deleteData < 10) {
+            $model->removeCmixUsersForObjectAndUser($objId, $usrId);
+            return;
+        }
+
+        $model->setXapiObjAsDeletedForUser(
+            $objId,
+            (int) $xapiObject['lrs_type_id'],
+            (string) $xapiObject['activity_id'],
+            $usrId
+        );
+    }
 }

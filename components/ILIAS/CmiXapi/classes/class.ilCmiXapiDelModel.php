@@ -41,6 +41,11 @@ class ilCmiXapiDelModel
 
     protected ilLogger $log;
 
+    /** @var array<int, array<string, mixed>|null> */
+    private array $xapiObjectData = [];
+
+    private ?bool $deletionCronActive = null;
+
     public function __construct()
     {
         global $DIC;
@@ -118,18 +123,24 @@ class ilCmiXapiDelModel
         return $data;
     }
 
+    /**
+     * @return list<array{
+     *     obj_id: int|string,
+     *     lrs_type_id: int|string,
+     *     activity_id: string,
+     *     delete_data: int|string
+     * }>
+     */
     public function getXapiObjectsByUser(int $userId): array
     {
         $data = [];
-        $result = $this->db->query("SELECT obj.obj_id, obj.lrs_type_id, obj.activity_id FROM " .
-            self::DB_TABLE_NAME . " obj, " .
-            self::DB_USERS_TABLE_NAME . " usr" .
-            #" INNER JOIN " . self::DB_DEL_USERS . " del ON usr.usr_id = xdel.usr_id" .
-            " WHERE usr.usr_id = " . $this->db->quote($userId, 'integer') . " AND obj.obj_id = usr.obj_id");
+        $result = $this->db->query(
+            "SELECT obj.obj_id, obj.lrs_type_id, obj.activity_id, obj.delete_data" .
+            " FROM " . self::DB_TABLE_NAME . " obj" .
+            " INNER JOIN " . self::DB_USERS_TABLE_NAME . " usr ON obj.obj_id = usr.obj_id" .
+            " WHERE usr.usr_id = " . $this->db->quote($userId, 'integer')
+        );
         while ($row = $this->db->fetchAssoc($result)) {
-            if (is_null($data)) {
-                $data = [];
-            }
             $data[] = $row;
         }
         return $data;
@@ -157,15 +168,22 @@ class ilCmiXapiDelModel
 
     // XXCF OBJECTS
 
-    public function getXapiObjectData(int $objId)
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getXapiObjectData(int $objId): ?array
     {
+        if (array_key_exists($objId, $this->xapiObjectData)) {
+            return $this->xapiObjectData[$objId];
+        }
+
         $data = null;
         $where = $this->db->quote($objId, 'integer');
         $result = $this->db->query("SELECT lrs_type_id, activity_id, delete_data FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $where);
         while ($row = $this->db->fetchAssoc($result)) {
             $data = $row;
         }
-        return $data;
+        return $this->xapiObjectData[$objId] = $data;
     }
 
     public function getAllXapiDelObjectData(): array
@@ -201,45 +219,41 @@ class ilCmiXapiDelModel
 
     public function setXapiObjAsDeleted(int $objId, int $typeId, string $actId): void
     {
-        if (!$this->dic->cron()->manager()->isJobActive('xapi_deletion_cron')) {
+        if (!$this->isDeletionCronActive()) {
             $xapiDelete = new ilCmiXapiStatementsDeleteRequest($objId, $typeId, $actId, null, ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_ALL);
             $xapiDelete->delete();
         } else {
-            $values = [
+            $this->db->replace(self::DB_DEL_OBJ, [
                 'obj_id' => ['integer', $objId],
                 'type_id' => ['integer', $typeId],
-                'activity_id' => ['string', $actId],
-                'added' => ['timestamp', date('Y-m-d H:i:s')]
-            ];
-            $this->db->insert(self::DB_DEL_OBJ, $values);
+                'activity_id' => ['text', $actId]
+            ], [
+                'added' => ['timestamp', date('Y-m-d H:i:s')],
+                'updated' => ['timestamp', null]
+            ]);
         }
     }
 
     public function setXapiObjAsDeletedForUser(int $objId, int $typeId, string $actId, int $usrId): void
     {
-        if (!$this->dic->cron()->manager()->isJobActive('xapi_deletion_cron')) {
+        if (!$this->isDeletionCronActive()) {
             $xapiDelete = new ilCmiXapiStatementsDeleteRequest($objId, $typeId, $actId, $usrId, ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_ALL);
             $xapiDelete->delete();
         } else {
-            $counter = 0;
-            $result = $this->db->queryF(
-                'SELECT count(*) as counter FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s AND obj_id = %s',
-                ['integer', 'integer'],
-                [$usrId, $objId]
-            );
-            while ($row = $this->db->fetchAssoc($result)) {
-                $counter = $row['counter'];
-            }
-
-            if ($counter == 0) {
-                $values = [
-                    'usr_id' => ['integer', $usrId],
-                    'obj_id' => ['integer', $objId],
-                    'added' => ['timestamp', date('Y-m-d H:i:s')]
-                ];
-                $this->db->insert(self::DB_DEL_USERS, $values);
-            }
+            $this->db->replace(self::DB_DEL_USERS, [
+                'usr_id' => ['integer', $usrId],
+                'obj_id' => ['integer', $objId]
+            ], [
+                'added' => ['timestamp', date('Y-m-d H:i:s')],
+                'updated' => ['timestamp', null]
+            ]);
         }
+    }
+
+    private function isDeletionCronActive(): bool
+    {
+        return $this->deletionCronActive ??=
+            $this->dic->cron()->manager()->isJobActive('xapi_deletion_cron');
     }
 
 
