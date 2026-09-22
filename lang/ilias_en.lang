@@ -8281,7 +8281,6 @@ dateplaner#:#cal_cache_enabled#:#Enabled
 dateplaner#:#cal_cache_info#:#If activated, personal calendar appointments and appointments in the repository are calculated only every x-minutes.
 dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted
-dateplaner#:#cal_cal_details#:#Calendar Details
 dateplaner#:#cal_cal_shared_with#:#Users calendar is shared with
 dateplaner#:#cal_cal_sync_success#:#Synchronised calendar successfully
 dateplaner#:#cal_cal_synchronize#:#Synchronise Calendar
@@ -8427,7 +8426,6 @@ dateplaner#:#cal_def_view#:#Default Calendar View
 dateplaner#:#cal_def_week_start#:#Default Week Start
 dateplaner#:#cal_default_calendar#:#Personal Appointments
 dateplaner#:#cal_default_settings#:#Default settings
-dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
 dateplaner#:#cal_delete_app_sure#:#Do you really want to delete the following appointments?
 dateplaner#:#cal_delete_booking_info#:#Please confirm the deletion of this booking

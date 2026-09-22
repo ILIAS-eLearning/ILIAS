@@ -8280,7 +8280,6 @@ dateplaner#:#cal_cache_enabled#:#Eingeschaltet
 dateplaner#:#cal_cache_info#:#Wenn aktiviert, wird die Anzeige des Kalenders nur alle x-Minuten aktualisiert.
 dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_cal_deleted#:#Die Kalender wurden gelöscht.
-dateplaner#:#cal_cal_details#:#Kalenderdetails
 dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
 dateplaner#:#cal_cal_sync_success#:#Die Kalendertermine wurden aktualisiert.
 dateplaner#:#cal_cal_synchronize#:#Kalender synchronisieren
@@ -8426,7 +8425,6 @@ dateplaner#:#cal_def_view#:#Default-Kalenderansicht
 dateplaner#:#cal_def_week_start#:#Default-Wochenbeginn
 dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_default_settings#:#Standardwerte
-dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_del_cal_sure#:#Möchten Sie wirklich die ausgewählten Kalender löschen?
 dateplaner#:#cal_delete_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_delete_booking_info#:#Bitte bestätigen Sie das Löschen diese Termins
@@ -17361,7 +17359,7 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet 
+trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
 trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen
