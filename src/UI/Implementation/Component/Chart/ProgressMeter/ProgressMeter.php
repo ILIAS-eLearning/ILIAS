@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
@@ -35,6 +35,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     private int $required;
     protected int $main;
     protected int $comparison;
+    protected bool $has_comparison;
 
     public function __construct(int $maximum, int $main, int $required = null, int $comparison = null)
     {
@@ -46,9 +47,11 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
         } else {
             $this->required = $this->getSafe($maximum);
         }
-        if ($comparison != null) {
+        if ($comparison !== null) {
+            $this->has_comparison = true;
             $this->comparison = $this->getSafe($comparison);
         } else {
+            $this->has_comparison = false;
             $this->comparison = 0;
         }
     }

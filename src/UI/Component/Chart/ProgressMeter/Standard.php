@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Chart\ProgressMeter;
 
 /**
@@ -30,10 +30,13 @@ interface Standard extends ProgressMeter
      * Get comparison value
      *
      * This value is represented as the second progress meter bar.
-     *
-     * @return int|float|null
      */
-    public function getComparison();
+    public function getComparison(): int;
+
+    /**
+     * Should a second progress meter bar be shown?
+     */
+    public function hasComparison(): bool;
 
     /**
      * Get clone of Progress Meter with main text

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
@@ -64,10 +64,9 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderStandard(Component\Chart\ProgressMeter\Standard $component): string
     {
-        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
-        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
+        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $component->hasComparison());
 
         return $tpl->get();
     }
@@ -77,14 +76,13 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component): string
     {
-        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
         $tpl->setCurrentBlock('fixed');
         $tpl->setVariable('FIXED_CLASS', 'fixed-size');
         $tpl->parseCurrentBlock();
 
-        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
+        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $component->hasComparison());
 
         return $tpl->get();
     }
