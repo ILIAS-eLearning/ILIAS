@@ -20,12 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize;
 
-use InvalidArgumentException;
 
 /**
  * Exception thrown when a value cannot be normalized or denormalized.
  */
-class NormalizingException extends InvalidArgumentException
+class NormalizingException extends \InvalidArgumentException
 {
     public function __construct(string $message, mixed $value = null)
     {

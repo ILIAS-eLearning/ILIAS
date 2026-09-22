@@ -960,9 +960,7 @@ class assMultipleChoice extends assQuestion implements ilObjAnswerScoringAdjusta
         );
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -976,9 +974,7 @@ class assMultipleChoice extends assQuestion implements ilObjAnswerScoringAdjusta
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

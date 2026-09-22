@@ -35,17 +35,13 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingExceptio
  */
 class Legacy11UUIDNormalizer extends UUIDNormalizer
 {
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
         throw new NormalizingException('Normalizing of legacy data is not supported');
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): Uuid
     {
         return parent::denormalize(str_replace('_', '-', (string) $value), $type);

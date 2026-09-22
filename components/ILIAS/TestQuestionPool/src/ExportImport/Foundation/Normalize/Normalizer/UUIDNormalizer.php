@@ -37,9 +37,7 @@ class UUIDNormalizer implements Normalizer
         $this->factory = new Factory();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
         if ($value instanceof Uuid) {
@@ -49,9 +47,7 @@ class UUIDNormalizer implements Normalizer
         throw new NormalizingException('Invalid UUID value', $value);
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): Uuid
     {
         return $this->factory->fromString((string) $value);

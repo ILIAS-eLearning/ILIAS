@@ -586,9 +586,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         return $this->getOrderText();
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -603,9 +601,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

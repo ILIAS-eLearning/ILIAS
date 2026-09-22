@@ -924,9 +924,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         );
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -945,9 +943,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

@@ -33,7 +33,7 @@ interface Envelope
      * @param Transformations $tt Transformation helpers used for value casting and mapping.
      * @return array<string, mixed> Language-neutral normalized representation.
      */
-    public function toArray(Transformations $tt): array;
+    public function unpack(Transformations $tt): array;
 
     /**
      * Reconstruct an envelope instance from its normalized array representation.
@@ -42,5 +42,5 @@ interface Envelope
      * @param Transformations $tt Transformation helpers used for value casting and mapping.
      * @return static Reconstructed envelope instance.
      */
-    public static function fromArray(array $value, Transformations $tt): static;
+    public static function pack(array $value, Transformations $tt): static;
 }

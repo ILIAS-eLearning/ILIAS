@@ -61,6 +61,7 @@ class ExportImportCharacterizationTest extends assBaseTestCase
         (new ReflectionClass(TestDIC::class))->getProperty('dic')->setValue(null, null);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $_SESSION = $this->session;

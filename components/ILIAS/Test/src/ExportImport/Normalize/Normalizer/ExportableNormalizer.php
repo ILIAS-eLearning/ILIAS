@@ -29,21 +29,17 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingExceptio
  */
 class ExportableNormalizer implements Normalizer
 {
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof Exportable) {
+        if (!($value instanceof Exportable)) {
             throw new NormalizingException('Invalid exportable value', $value);
         }
 
         return $value->toExport();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): Exportable
     {
         if (!in_array(Exportable::class, class_implements($type))) {

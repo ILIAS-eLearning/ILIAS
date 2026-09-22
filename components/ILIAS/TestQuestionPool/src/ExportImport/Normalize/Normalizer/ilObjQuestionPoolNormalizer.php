@@ -20,22 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer;
 
-use ilObjQuestionPool;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\IlObjectNormalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 
 /**
- * @implements Normalizer<ilObjQuestionPool, array>
+ * @implements Normalizer<\ilObjQuestionPool, array>
  */
 class ilObjQuestionPoolNormalizer extends IlObjectNormalizer implements Normalizer
 {
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof ilObjQuestionPool) {
+        if (!($value instanceof \ilObjQuestionPool)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -45,17 +42,15 @@ class ilObjQuestionPoolNormalizer extends IlObjectNormalizer implements Normaliz
         return $normalized;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function denormalize(array|float|bool|int|string|null $value, string $type): ilObjQuestionPool
+    #[\Override]
+    public function denormalize(array|float|bool|int|string|null $value, string $type): \ilObjQuestionPool
     {
-        if ($type !== ilObjQuestionPool::class) {
+        if ($type !== \ilObjQuestionPool::class) {
             throw new NormalizingException("Invalid type for ilObjQuestionPool: {$type}");
         }
 
-        /** @var ilObjQuestionPool $object */
-        $object = parent::denormalize($value, ilObjQuestionPool::class);
+        /** @var \ilObjQuestionPool $object */
+        $object = parent::denormalize($value, \ilObjQuestionPool::class);
         $object->setSkillServiceEnabled($this->tt->bool($value['skill_service_enabled']));
 
         return $object;

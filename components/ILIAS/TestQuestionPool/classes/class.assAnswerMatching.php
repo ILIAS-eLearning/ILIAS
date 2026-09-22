@@ -241,9 +241,7 @@ class ASS_AnswerMatching implements ToNormalized, FromNormalized
         $this->points = $points;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -257,9 +255,7 @@ class ASS_AnswerMatching implements ToNormalized, FromNormalized
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

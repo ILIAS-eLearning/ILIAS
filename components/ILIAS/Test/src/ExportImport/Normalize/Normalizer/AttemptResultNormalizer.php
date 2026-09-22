@@ -34,12 +34,10 @@ class AttemptResultNormalizer implements Normalizer
     public function __construct(private readonly Transformations $transformations) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof AttemptResult) {
+        if (!($value instanceof AttemptResult)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -57,9 +55,7 @@ class AttemptResultNormalizer implements Normalizer
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): AttemptResult
     {
         if ($type !== AttemptResult::class) {

@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport;
 
-use assFormulaQuestion;
-use ilComponentRepository;
-use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
@@ -44,18 +41,17 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\CollectR
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlSerializer;
 use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ilTree;
 
 class TestExporter implements Exporter
 {
     public function __construct(
         private readonly TransformationsBuilder $builder,
         private readonly DataFactory $data_factory,
-        private readonly ilDBInterface $db,
-        private readonly ilTree $tree,
+        private readonly \ilDBInterface $db,
+        private readonly \ilTree $tree,
         private readonly Language $lng,
         private readonly TestLogger $logger,
-        private readonly ilComponentRepository $component_repository,
+        private readonly \ilComponentRepository $component_repository,
         private readonly IRSS $irss,
         private readonly ParticipantRepository $participant_repository,
         private readonly ResultsRepository $results_repository,
@@ -65,9 +61,6 @@ class TestExporter implements Exporter
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function prepare(ExportState $state): void
     {
         $state->logger()->info('Preparing test export (1/3)...');
@@ -137,9 +130,6 @@ class TestExporter implements Exporter
         return $collector;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function process(ExportState $state): void
     {
         $state->logger()->info('Processing test export (2/3)...');
@@ -235,9 +225,6 @@ class TestExporter implements Exporter
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function write(ExportState $state): void
     {
         $state->logger()->info('Writing test export (3/3)...');
@@ -323,10 +310,12 @@ class TestExporter implements Exporter
         $serializer->append('scoring', $transformations->normalize($test->getScoreSettings()));
         $serializer->append('marks', $transformations->normalize($test->getMarkSchema()));
 
-        if ($intro_page_id = $main_settings->getIntroductionSettings()->getIntroductionPageId()) {
+        $intro_page_id = $main_settings->getIntroductionSettings()->getIntroductionPageId();
+        if ($intro_page_id !== null && $intro_page_id !== 0) {
             $state->addDependency('components/ILIAS/COPage', 'pg', ["tst:{$intro_page_id}"]);
         }
-        if ($concluding_page_id = $main_settings->getFinishingSettings()->getConcludingRemarksPageId()) {
+        $concluding_page_id = $main_settings->getFinishingSettings()->getConcludingRemarksPageId();
+        if ($concluding_page_id !== null && $concluding_page_id !== 0) {
             $state->addDependency('components/ILIAS/COPage', 'pg', ["tst:{$concluding_page_id}"]);
         }
     }
@@ -348,7 +337,7 @@ class TestExporter implements Exporter
                 'sequence' => $question_properties[$question->getId()]->getSequenceInformation()?->getPlaceInSequence(),
             ];
 
-            if ($question instanceof assFormulaQuestion) {
+            if ($question instanceof \assFormulaQuestion) {
                 $data = $collector->getUnitsAndCategories($question->getId());
                 $normalized['formula_data'] = $transformations->normalize($data);
             }

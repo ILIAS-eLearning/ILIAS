@@ -475,9 +475,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements ToNormalized, FromN
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -520,9 +518,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements ToNormalized, FromN
         return $normalized;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

@@ -65,10 +65,8 @@ class QuestionImage implements Envelope
         $this->id = $id;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toArray(Transformations $tt): array
+    #[\Override]
+    public function unpack(Transformations $tt): array
     {
         return [
             'filename' => $this->filename,
@@ -78,10 +76,8 @@ class QuestionImage implements Envelope
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromArray(array $value, Transformations $tt): static
+    #[\Override]
+    public static function pack(array $value, Transformations $tt): static
     {
         return new self(
             $value['filename'],

@@ -33,11 +33,9 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
-use ilObject;
-use ilObjectFactory;
 
 /**
- * @implements Normalizer<ilObject, array>
+ * @implements Normalizer<\ilObject, array>
  */
 class IlObjectNormalizer implements Normalizer
 {
@@ -46,12 +44,10 @@ class IlObjectNormalizer implements Normalizer
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof ilObject) {
+        if (!($value instanceof \ilObject)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -121,18 +117,16 @@ class IlObjectNormalizer implements Normalizer
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function denormalize(array|float|bool|int|string|null $value, string $type): ilObject
+    #[\Override]
+    public function denormalize(array|float|bool|int|string|null $value, string $type): \ilObject
     {
-        if ($type !== ilObject::class && !in_array(ilObject::class, class_parents($type))) {
+        if ($type !== \ilObject::class && !in_array(\ilObject::class, class_parents($type))) {
             throw new NormalizingException("Invalid type for ilObject: {$type}");
         }
 
         // Validate the class of the object by its type field
         $object_type = $this->tt->string($value['type']);
-        $object_class = ilObjectFactory::getClassByType($object_type);
+        $object_class = \ilObjectFactory::getClassByType($object_type);
         if ($object_class !== $type) {
             throw new NormalizingException("Expected {$type}, got object of type {$object_type} ({$object_class})");
         }
