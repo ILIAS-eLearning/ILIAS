@@ -34,11 +34,12 @@ class ilAssQuestionLifecycle implements ToNormalized, FromNormalized
     public const SHARABLE = 'sharable';
     public const OUTDATED = 'outdated';
 
-    protected string $identifier;
+    private string $identifier;
 
-    private function __construct()
+    public function __construct($identifier = self::DRAFT)
     {
-        $this->setIdentifier(self::DRAFT);
+        $this->validateIdentifier($identifier);
+        $this->setIdentifier($identifier);
     }
 
     public function getIdentifier(): string
@@ -136,31 +137,7 @@ class ilAssQuestionLifecycle implements ToNormalized, FromNormalized
         }
     }
 
-    /**
-     * @param mixed $identifier
-     * @return self
-     * @throws ilTestQuestionPoolInvalidArgumentException
-     */
-    public static function getInstance($identifier): self
-    {
-        $lifecycle = new self();
-        $lifecycle->validateIdentifier($identifier);
-        $lifecycle->setIdentifier($identifier);
-
-        return $lifecycle;
-    }
-
-    public static function getDraftInstance(): self
-    {
-        $lifecycle = new self();
-        $lifecycle->setIdentifier(self::DRAFT);
-
-        return $lifecycle;
-    }
-
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -171,14 +148,12 @@ class ilAssQuestionLifecycle implements ToNormalized, FromNormalized
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations
     ): self
     {
-        return self::getInstance($normalized['identifier']);
+        return new self($normalized['identifier']);
     }
 }
