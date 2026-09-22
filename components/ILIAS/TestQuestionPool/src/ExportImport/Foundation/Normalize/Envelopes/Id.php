@@ -54,10 +54,8 @@ class Id implements Envelope
         return $this->object;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toArray(Transformations $tt): array
+    #[\Override]
+    public function unpack(Transformations $tt): array
     {
         if (is_object($this->id)) {
             return [
@@ -74,10 +72,8 @@ class Id implements Envelope
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromArray(array $value, Transformations $tt): static
+    #[\Override]
+    public static function pack(array $value, Transformations $tt): static
     {
         $raw_id = $value['id'];
         $type = $value['type'];

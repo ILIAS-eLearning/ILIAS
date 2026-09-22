@@ -954,9 +954,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return '';
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -970,9 +968,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

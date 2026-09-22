@@ -78,9 +78,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
         return $this->image !== null;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -94,9 +92,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

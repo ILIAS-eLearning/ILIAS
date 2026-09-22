@@ -20,20 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Export;
 
-use assFormulaQuestionUnit;
-use assFormulaQuestionUnitCategory;
-use assQuestion;
-use Generator;
-use ilAssClozeTestFeedback;
-use ilAssMultiOptionQuestionFeedback;
-use ilAssQuestionSkillAssignmentList;
-use ilAssSpecificFeedbackIdentifierList;
-use ilDBInterface;
 use ILIAS\Data\ObjectId;
 use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\Feedback;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
-use ilUnitConfigurationRepository;
 
 /**
  * Trait to collect questions and related data from a question pool or test object.
@@ -55,20 +45,20 @@ trait CollectsQuestions
     /**
      * Get the database interface.
      */
-    abstract private function database(): ilDBInterface;
+    abstract private function database(): \ilDBInterface;
 
 
-    private ?ilAssQuestionSkillAssignmentList $skill_assignments = null;
+    private ?\ilAssQuestionSkillAssignmentList $skill_assignments = null;
 
     /**
     * Collect the question objects by instantiating the question objects.
     *
-    * @return Generator<assQuestion>
+    * @return \Generator<\assQuestion>
     */
-    public function getQuestionObjects(): Generator
+    public function getQuestionObjects(): \Generator
     {
         foreach ($this->getQuestionProperties() as $question) {
-            yield assQuestion::instantiateQuestion($question->getQuestionId());
+            yield \assQuestion::instantiateQuestion($question->getQuestionId());
         }
     }
 
@@ -79,11 +69,11 @@ trait CollectsQuestions
     /**
      * Get all unit categories and units for a formula question.
      *
-     * @return array{categories: list<assFormulaQuestionUnitCategory>, base_units: list<assFormulaQuestionUnit>, units: list<assFormulaQuestionUnit>}
+     * @return array{categories: list<\assFormulaQuestionUnitCategory>, base_units: list<\assFormulaQuestionUnit>, units: list<\assFormulaQuestionUnit>}
      */
     public function getUnitsAndCategories(int $question_id): array
     {
-        $repository = new ilUnitConfigurationRepository($question_id);
+        $repository = new \ilUnitConfigurationRepository($question_id);
         $data = [
             'categories' => [],
             'base_units' => [],
@@ -91,11 +81,11 @@ trait CollectsQuestions
         ];
 
         foreach ($repository->getCategorizedUnits() as $item) {
-            if ($item instanceof assFormulaQuestionUnitCategory) {
+            if ($item instanceof \assFormulaQuestionUnitCategory) {
                 $data['categories'][] = $item;
             }
 
-            if (!$item instanceof assFormulaQuestionUnit) {
+            if (!($item instanceof \assFormulaQuestionUnit)) {
                 continue;
             }
 
@@ -116,7 +106,7 @@ trait CollectsQuestions
     /**
      * Collect the feedback content for a question and return it as a Feedback transfer object.
      */
-    public function getFeedback(assQuestion $question): Feedback
+    public function getFeedback(\assQuestion $question): Feedback
     {
         return new Feedback(
             new Id($question->getId(), 'question'),
@@ -126,11 +116,11 @@ trait CollectsQuestions
         );
     }
 
-    private function loadSpecificFeedback(assQuestion $question): array
+    private function loadSpecificFeedback(\assQuestion $question): array
     {
         // Skip if specific feedback is not available or supported by the question type.
         if (
-            !$question->feedbackOBJ instanceof ilAssMultiOptionQuestionFeedback ||
+            !($question->feedbackOBJ instanceof \ilAssMultiOptionQuestionFeedback) ||
             !$question->feedbackOBJ->isSpecificAnswerFeedbackAvailable($question->getId())
         ) {
             return [];
@@ -139,8 +129,8 @@ trait CollectsQuestions
         $feedback = [];
 
         // Cloze question type specific feedback uses the identifier list to load the answer-specific feedback.
-        if ($question->feedbackOBJ instanceof ilAssClozeTestFeedback) {
-            $feedback_list = new ilAssSpecificFeedbackIdentifierList();
+        if ($question->feedbackOBJ instanceof \ilAssClozeTestFeedback) {
+            $feedback_list = new \ilAssSpecificFeedbackIdentifierList();
             $feedback_list->load($question->getId());
 
             foreach ($feedback_list as $identifier) {
@@ -183,7 +173,7 @@ trait CollectsQuestions
     public function getSkillAssignments(): array
     {
         if ($this->skill_assignments === null) {
-            $this->skill_assignments = new ilAssQuestionSkillAssignmentList($this->database());
+            $this->skill_assignments = new \ilAssQuestionSkillAssignmentList($this->database());
             $this->skill_assignments->setParentObjId($this->getObjectId()->toInt());
             $this->skill_assignments->loadFromDb();
             $this->skill_assignments->loadAdditionalSkillData();

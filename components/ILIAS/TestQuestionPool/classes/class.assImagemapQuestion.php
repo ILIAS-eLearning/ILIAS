@@ -932,9 +932,7 @@ class assImagemapQuestion extends assQuestion implements ilObjAnswerScoringAdjus
         );
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -948,9 +946,7 @@ class assImagemapQuestion extends assQuestion implements ilObjAnswerScoringAdjus
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

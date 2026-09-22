@@ -20,11 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Export;
 
-use ilDBInterface;
 use ILIAS\Data\ObjectId;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ilObjQuestionPool;
 
 /**
  * Collector to aggregate data from the question pool for export.
@@ -35,11 +33,11 @@ class QuestionPoolCollector
 
     /** @var array<int, GeneralQuestionProperties> $questions */
     private ?array $questions = null;
-    private ?ilObjQuestionPool $pool_object = null;
+    private ?\ilObjQuestionPool $pool_object = null;
 
     public function __construct(
         private readonly GeneralQuestionPropertiesRepository $question_repository,
-        private readonly ilDBInterface $db,
+        private readonly \ilDBInterface $db,
         private readonly ObjectId $pool_id
     ) {
     }
@@ -49,6 +47,7 @@ class QuestionPoolCollector
      *
      * @return ObjectId
      */
+    #[\Override]
     public function getObjectId(): ObjectId
     {
         return $this->pool_id;
@@ -57,10 +56,10 @@ class QuestionPoolCollector
     /**
      * Get the object of the question pool. It will be loaded from the database if not already loaded.
      */
-    public function getObject(): ilObjQuestionPool
+    public function getObject(): \ilObjQuestionPool
     {
         if ($this->pool_object === null) {
-            $this->pool_object = new ilObjQuestionPool($this->pool_id->toInt(), false);
+            $this->pool_object = new \ilObjQuestionPool($this->pool_id->toInt(), false);
             $this->pool_object->read();
         }
 
@@ -77,7 +76,7 @@ class QuestionPoolCollector
         return $this->questions ??= $this->question_repository->getForParentObjectId($this->pool_id->toInt());
     }
 
-    private function database(): ilDBInterface
+    private function database(): \ilDBInterface
     {
         return $this->db;
     }

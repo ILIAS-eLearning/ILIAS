@@ -20,31 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Normalize\Normalizer;
 
-use ilAssQuestionSkillAssignment;
-use ilAssQuestionSolutionComparisonExpression;
-use ilDBInterface;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 
 /**
- * @implements Normalizer<ilAssQuestionSkillAssignment, array>
+ * @implements Normalizer<\ilAssQuestionSkillAssignment, array>
  */
 class ilAssQuestionSkillAssignmentNormalizer implements Normalizer
 {
     public function __construct(
         private readonly Transformations $tt,
-        private readonly ilDBInterface $db
+        private readonly \ilDBInterface $db
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof ilAssQuestionSkillAssignment) {
+        if (!($value instanceof \ilAssQuestionSkillAssignment)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -59,18 +54,18 @@ class ilAssQuestionSkillAssignmentNormalizer implements Normalizer
         ];
 
         switch ($value->getEvalMode()) {
-            case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT:
+            case \ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT:
                 $normalized['points'] = $value->getSkillPoints();
                 break;
 
-            case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION:
+            case \ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION:
                 $normalized['solution_comparison_expressions'] = $this->normalizeExpressionList($value);
                 break;
         }
         return $normalized;
     }
 
-    private function normalizeExpressionList(ilAssQuestionSkillAssignment $value): array
+    private function normalizeExpressionList(\ilAssQuestionSkillAssignment $value): array
     {
         $value->initSolutionComparisonExpressionList();
 
@@ -86,16 +81,14 @@ class ilAssQuestionSkillAssignmentNormalizer implements Normalizer
         return $list;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function denormalize(array|float|bool|int|string|null $value, string $type): ilAssQuestionSkillAssignment
+    #[\Override]
+    public function denormalize(array|float|bool|int|string|null $value, string $type): \ilAssQuestionSkillAssignment
     {
-        if ($type !== ilAssQuestionSkillAssignment::class) {
+        if ($type !== \ilAssQuestionSkillAssignment::class) {
             throw new NormalizingException("Invalid type for ilAssQuestionSkillAssignment: {$type}");
         }
 
-        $assignment = new ilAssQuestionSkillAssignment($this->db);
+        $assignment = new \ilAssQuestionSkillAssignment($this->db);
         $assignment->setParentObjId($this->tt->denormalize($value['parent_id'], Id::class)->getId());
         $assignment->setQuestionId($this->tt->denormalize($value['question_id'], Id::class)->getId());
         $assignment->setSkillBaseId($this->tt->denormalize($value['base_id'], Id::class)->getId());
@@ -106,11 +99,11 @@ class ilAssQuestionSkillAssignmentNormalizer implements Normalizer
         $assignment->initSolutionComparisonExpressionList();
 
         switch ($assignment->getEvalMode()) {
-            case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT:
+            case \ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT:
                 $assignment->setSkillPoints($this->tt->int($value['points']));
                 break;
 
-            case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION:
+            case \ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION:
                 $list = $assignment->getSolutionComparisonExpressionList();
                 foreach ($value['solution_comparison_expressions'] as $normalized) {
                     $list->add($this->denormalizeExpression($normalized, $assignment));
@@ -123,9 +116,9 @@ class ilAssQuestionSkillAssignmentNormalizer implements Normalizer
 
     private function denormalizeExpression(
         array $normalized,
-        ilAssQuestionSkillAssignment $assignment
-    ): ilAssQuestionSolutionComparisonExpression {
-        $expression = new ilAssQuestionSolutionComparisonExpression();
+        \ilAssQuestionSkillAssignment $assignment
+    ): \ilAssQuestionSolutionComparisonExpression {
+        $expression = new \ilAssQuestionSolutionComparisonExpression();
         $expression->setQuestionId($assignment->getQuestionId());
         $expression->setSkillBaseId($assignment->getSkillBaseId());
         $expression->setSkillTrefId($assignment->getSkillTrefId());

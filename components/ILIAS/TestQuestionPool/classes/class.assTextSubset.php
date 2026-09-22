@@ -759,9 +759,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $this->getAvailableAnswers();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -775,9 +773,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

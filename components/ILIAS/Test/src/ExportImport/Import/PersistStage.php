@@ -26,12 +26,11 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlDeserializer;
-use ilImport;
 use Psr\Log\LoggerInterface;
 
 /**
  * Final stage of the test import process. Imports the head dependencies (user and resource mappings) and then
- * imports the test object and all its dependencies using `ilImport`. It will delegate the import to the
+ * imports the test object and all its dependencies using `\ilImport`. It will delegate the import to the
  * `ilTestImporter` class.
  */
 class PersistStage implements ImportStage
@@ -62,12 +61,13 @@ class PersistStage implements ImportStage
     public function process(ImportContext $context): StageResult
     {
         if (!$context->isLegacyImport()) {
-            if ($result = $this->importMappingsFile($context)) {
+            $result = $this->importMappingsFile($context);
+            if ($result !== null) {
                 return $result;
             }
         }
 
-        (new ilImport($this->requested_ref_id))->importObject(
+        (new \ilImport($this->requested_ref_id))->importObject(
             null,
             $context->fileToImport(),
             basename($context->fileToImport()),

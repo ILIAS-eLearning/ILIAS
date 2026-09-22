@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Normalize\Normalizer;
 
-use ilComponentRepository;
-use ilDBInterface;
 use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionSetConfig;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
@@ -29,14 +27,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ilLanguage;
-use ilObjTest;
-use ilTestException;
-use ilTestFixedQuestionSetConfig;
-use ilTestRandomQuestionSetConfig;
-use ilTestQuestionSetConfig;
-use ilTestRandomQuestionSetSourcePoolDefinition;
-use ilTree;
 
 /**
  * @implements Normalizer<QuestionSetConfig, array>
@@ -45,21 +35,19 @@ class QuestionSetConfigNormalizer implements Normalizer
 {
     public function __construct(
         private readonly Transformations $tt,
-        private readonly ilDBInterface $db,
-        private readonly ilLanguage $lng,
-        private readonly ilTree $tree,
-        private readonly ilComponentRepository $component_repository,
+        private readonly \ilDBInterface $db,
+        private readonly \ilLanguage $lng,
+        private readonly \ilTree $tree,
+        private readonly \ilComponentRepository $component_repository,
         private readonly TestLogger $logger,
         private readonly GeneralQuestionPropertiesRepository $repository,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof QuestionSetConfig) {
+        if (!($value instanceof QuestionSetConfig)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -76,17 +64,17 @@ class QuestionSetConfigNormalizer implements Normalizer
         return $normalized;
     }
 
-    private function normalizeQuestionSetConfig(ilTestQuestionSetConfig $config): array
+    private function normalizeQuestionSetConfig(\ilTestQuestionSetConfig $config): array
     {
-        if ($config instanceof ilTestFixedQuestionSetConfig) {
+        if ($config instanceof \ilTestFixedQuestionSetConfig) {
             return [
-                'type' => ilObjTest::QUESTION_SET_TYPE_FIXED,
+                'type' => \ilObjTest::QUESTION_SET_TYPE_FIXED,
             ];
         }
 
-        if ($config instanceof ilTestRandomQuestionSetConfig) {
+        if ($config instanceof \ilTestRandomQuestionSetConfig) {
             return [
-                'type' => ilObjTest::QUESTION_SET_TYPE_RANDOM,
+                'type' => \ilObjTest::QUESTION_SET_TYPE_RANDOM,
                 'homogeneous' => $config->arePoolsWithHomogeneousScoredQuestionsRequired(),
                 'amount_mode' => $config->getQuestionAmountConfigurationMode(),
                 'amount' => $config->getQuestionAmountPerTest(),
@@ -114,7 +102,7 @@ class QuestionSetConfigNormalizer implements Normalizer
         return $normalized;
     }
 
-    private function normalizeTestObj(ilTestQuestionSetConfig $config): array
+    private function normalizeTestObj(\ilTestQuestionSetConfig $config): array
     {
         $test_obj = $config->getTestObject();
 
@@ -124,9 +112,7 @@ class QuestionSetConfigNormalizer implements Normalizer
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): mixed
     {
         if ($type !== QuestionSetConfig::class) {
@@ -136,7 +122,7 @@ class QuestionSetConfigNormalizer implements Normalizer
         $test_obj = $this->denormalizeTestObj($value['test_obj']);
         $config = $this->denormalizeQuestionSetConfig($value['config'], $test_obj);
 
-        if (!$config instanceof ilTestRandomQuestionSetConfig) {
+        if (!($config instanceof \ilTestRandomQuestionSetConfig)) {
             return new QuestionSetConfig($config);
         }
 
@@ -149,10 +135,10 @@ class QuestionSetConfigNormalizer implements Normalizer
         return new QuestionSetConfig($config, $definitions, $staging_pools);
     }
 
-    private function denormalizeQuestionSetConfig(array $normalized, ilObjTest $test_obj): ilTestQuestionSetConfig
+    private function denormalizeQuestionSetConfig(array $normalized, \ilObjTest $test_obj): \ilTestQuestionSetConfig
     {
-        if($normalized['type'] === ilObjTest::QUESTION_SET_TYPE_FIXED) {
-            return new ilTestFixedQuestionSetConfig(
+        if($normalized['type'] === \ilObjTest::QUESTION_SET_TYPE_FIXED) {
+            return new \ilTestFixedQuestionSetConfig(
                 $this->tree,
                 $this->db,
                 $this->lng,
@@ -163,7 +149,7 @@ class QuestionSetConfigNormalizer implements Normalizer
             );
         }
 
-        $config = new ilTestRandomQuestionSetConfig(
+        $config = new \ilTestRandomQuestionSetConfig(
             $this->tree,
             $this->db,
             $this->lng,
@@ -174,8 +160,8 @@ class QuestionSetConfigNormalizer implements Normalizer
         );
 
         $amount_mode = $this->tt->string($normalized['amount_mode']);
-        if (!$config->isValidQuestionAmountConfigurationMode($amount_mode)) {
-            throw new ilTestException("Invalid random test question set config amount mode given: {$amount_mode}");
+        if ($config->isValidQuestionAmountConfigurationMode($amount_mode) === false) {
+            throw new \ilTestException("Invalid random test question set config amount mode given: {$amount_mode}");
         }
 
         $config->setQuestionAmountConfigurationMode($amount_mode);
@@ -186,9 +172,9 @@ class QuestionSetConfigNormalizer implements Normalizer
         return $config;
     }
 
-    private function denormalizeSourcePoolDefinition(array $normalized, ilObjTest $test_obj): ilTestRandomQuestionSetSourcePoolDefinition
+    private function denormalizeSourcePoolDefinition(array $normalized, \ilObjTest $test_obj): \ilTestRandomQuestionSetSourcePoolDefinition
     {
-        $definition = new ilTestRandomQuestionSetSourcePoolDefinition(
+        $definition = new \ilTestRandomQuestionSetSourcePoolDefinition(
             $this->db,
             $test_obj
         );
@@ -210,9 +196,9 @@ class QuestionSetConfigNormalizer implements Normalizer
         return $staging_pools;
     }
 
-    private function denormalizeTestObj(array $normalized): ilObjTest
+    private function denormalizeTestObj(array $normalized): \ilObjTest
     {
-        $test_obj = new ilObjTest(0, false);
+        $test_obj = new \ilObjTest(0, false);
         $test_obj->setTestId($this->tt->denormalize($normalized['test_id'], Id::class)->getId());
         $test_obj->setId($this->tt->denormalize($normalized['obj_id'], Id::class)->getId());
 

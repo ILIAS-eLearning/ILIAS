@@ -27,7 +27,6 @@ use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
-use ilManifestParser;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -81,7 +80,7 @@ class UploadValidationStage implements ImportStage
         $unzip->extract();
         $this->log->info("Extracted import file: {$context->fileToImport()} -> {$import_base_dir}");
 
-        $manifest = new ilManifestParser($import_base_dir . DIRECTORY_SEPARATOR . 'manifest.xml');
+        $manifest = new \ilManifestParser($import_base_dir . DIRECTORY_SEPARATOR . 'manifest.xml');
         $export_file = array_find(
             $manifest->getExportFiles(),
             fn(array $file): bool => $file['component'] === $this->component

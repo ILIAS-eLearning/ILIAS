@@ -948,9 +948,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         );
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -963,9 +961,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $normalized;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

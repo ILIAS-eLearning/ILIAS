@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport;
 
-use Generator;
-use ilComponentRepository;
-use ilDBConstants;
-use ilDBInterface;
 use ILIAS\Data\ObjectId;
 use ILIAS\Language\Language;
 use ILIAS\Test\ExportImport\Normalize\Envelopes\AdditionalWorkingTime;
@@ -43,15 +39,6 @@ use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\TestQuestionPool\ExportImport\Export\CollectsQuestions;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ilObjTest;
-use ilTestQuestionSetConfigFactory;
-use ilTestRandomQuestionSetSourcePoolDefinitionFactory;
-use ilTestRandomQuestionSetSourcePoolDefinitionList;
-use ilTestRandomQuestionSetStagingPoolQuestionList;
-use ilTestSequence;
-use ilTestSkillLevelThreshold;
-use ilTestSkillLevelThresholdList;
-use ilTree;
 
 /**
  * Collector to aggregate data from the test object for export.
@@ -64,7 +51,7 @@ class TestCollector
 
     /** @var array<int, Properties> $questions */
     private ?array $questions = null;
-    private ?ilObjTest $test = null;
+    private ?\ilObjTest $test = null;
     private ?array $participants = null;
 
 
@@ -73,17 +60,17 @@ class TestCollector
         private readonly ResultsRepository $results_repository,
         private readonly QuestionsRepository $questions_repository,
         private readonly GeneralQuestionPropertiesRepository $general_questions_repository,
-        private readonly ilDBInterface $db,
-        private readonly ilTree $tree,
+        private readonly \ilDBInterface $db,
+        private readonly \ilTree $tree,
         private readonly Language $lng,
         private readonly TestLogger $logger,
-        private readonly ilComponentRepository $component_repository,
+        private readonly \ilComponentRepository $component_repository,
         private readonly ObjectId $object_id
     ) {
         $this->manual_scoring = new TestManScoringDoneHelper($this->db);
     }
 
-    private function database(): ilDBInterface
+    private function database(): \ilDBInterface
     {
         return $this->db;
     }
@@ -98,9 +85,9 @@ class TestCollector
         return $this->getObject()->getTestId();
     }
 
-    public function getObject(): ilObjTest
+    public function getObject(): \ilObjTest
     {
-        return $this->test ??= new ilObjTest($this->object_id->toInt(), false);
+        return $this->test ??= new \ilObjTest($this->object_id->toInt(), false);
     }
 
     public function getSettings(): array
@@ -126,7 +113,7 @@ class TestCollector
         if ($export_identifier === UserIdentifiers::USER_ID) {
             $mapping = array_combine($user_ids, $user_ids);
         } else {
-            $in_clause = $this->db->in('usr_id', $user_ids, false, ilDBConstants::T_INTEGER);
+            $in_clause = $this->db->in('usr_id', $user_ids, false, \ilDBConstants::T_INTEGER);
             $query = $this->db->query("SELECT usr_id, {$export_identifier->value} FROM usr_data WHERE {$in_clause}");
 
             foreach ($this->db->fetchAll($query) as $row) {
@@ -144,9 +131,6 @@ class TestCollector
         Questions
     */
 
-    /**
-     * @inheritDoc
-     */
     public function getQuestionProperties(): array
     {
         return array_map(
@@ -164,11 +148,11 @@ class TestCollector
     }
 
     /**
-     * @return list<ilTestSkillLevelThreshold>
+     * @return list<\ilTestSkillLevelThreshold>
      */
     public function getSkillLevelThresholds(): array
     {
-        $threshold_list = new ilTestSkillLevelThresholdList($this->database());
+        $threshold_list = new \ilTestSkillLevelThresholdList($this->database());
         $threshold_list->setTestId($this->getTestId());
         $threshold_list->loadFromDb();
 
@@ -189,7 +173,7 @@ class TestCollector
      */
     public function getQuestionSetConfig(): QuestionSetConfig
     {
-        $factory = new ilTestQuestionSetConfigFactory(
+        $factory = new \ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
             $this->lng,
@@ -200,16 +184,16 @@ class TestCollector
         );
 
         $config = new QuestionSetConfig($factory->getQuestionSetConfig());
-        if (!$config->isRandom()) {
+        if ($config->isRandom() === false) {
             return $config;
         }
 
-        $definition_factory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+        $definition_factory = new \ilTestRandomQuestionSetSourcePoolDefinitionFactory(
             $this->db,
             $this->getObject()
         );
 
-        $definition_list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+        $definition_list = new \ilTestRandomQuestionSetSourcePoolDefinitionList(
             $this->db,
             $this->getObject(),
             $definition_factory
@@ -230,7 +214,7 @@ class TestCollector
      */
     private function getStagingPoolQuestions(int $pool_id): array
     {
-        $question_list = new ilTestRandomQuestionSetStagingPoolQuestionList(
+        $question_list = new \ilTestRandomQuestionSetStagingPoolQuestionList(
             $this->db,
             $this->component_repository
         );
@@ -246,9 +230,9 @@ class TestCollector
     */
 
     /**
-     * @return Generator<int, \ILIAS\Test\Participants\Participant>
+     * @return \Generator<int, \ILIAS\Test\Participants\Participant>
      */
-    public function getParticipants(): Generator
+    public function getParticipants(): \Generator
     {
         return $this->participant_repository->getParticipants($this->getTestId());
     }
@@ -280,7 +264,7 @@ class TestCollector
      */
     public function getAdditionalParticipantData(array $participant_ids): array
     {
-        $in_clause = $this->db->in('active_id', $participant_ids, false, ilDBConstants::T_INTEGER);
+        $in_clause = $this->db->in('active_id', $participant_ids, false, \ilDBConstants::T_INTEGER);
         $query = $this->db->query("SELECT active_id AS mapping_id, submittimestamp, lastindex, objective_container, start_lock FROM tst_active WHERE {$in_clause}");
 
         $data = [];
@@ -321,11 +305,11 @@ class TestCollector
     /**
      * @return list<Attempt>
      */
-    public function getQuestionAttempts(int $participant_id): array
+    private function getQuestionAttempts(int $participant_id): array
     {
         $query = $this->db->queryF(
             "SELECT * FROM tst_solutions WHERE active_fi = %s",
-            [ilDBConstants::T_INTEGER],
+            [\ilDBConstants::T_INTEGER],
             [$participant_id]
         );
 
@@ -342,7 +326,7 @@ class TestCollector
     {
         $query = $this->db->queryF(
             "SELECT * FROM tst_test_result WHERE active_fi = %s",
-            [ilDBConstants::T_INTEGER],
+            [\ilDBConstants::T_INTEGER],
             [$participant_id]
         );
 
@@ -355,11 +339,11 @@ class TestCollector
     /**
      * @return list<WorkingTime>
      */
-    public function getWorkingTimes(int $participant_id): array
+    private function getWorkingTimes(int $participant_id): array
     {
         $query = $this->db->queryF(
             "SELECT * FROM tst_times WHERE active_fi = %s",
-            [ilDBConstants::T_INTEGER],
+            [\ilDBConstants::T_INTEGER],
             [$participant_id]
         );
 
@@ -376,7 +360,7 @@ class TestCollector
     {
         $query = $this->db->queryF(
             "SELECT * FROM tst_manual_fb WHERE active_fi = %s",
-            [ilDBConstants::T_INTEGER],
+            [\ilDBConstants::T_INTEGER],
             [$participant_id]
         );
 
@@ -388,12 +372,12 @@ class TestCollector
 
     /**
      * @param list<int> $attempts
-     * @return list<ilTestSequence>
+     * @return list<\ilTestSequence>
      */
-    public function getSequences(int $participant_id, array $attempts): array
+    private function getSequences(int $participant_id, array $attempts): array
     {
         foreach ($attempts as $attempt) {
-            $test_sequence = new ilTestSequence($this->db, $participant_id, $attempt, $this->general_questions_repository);
+            $test_sequence = new \ilTestSequence($this->db, $participant_id, $attempt, $this->general_questions_repository);
             $test_sequence->loadFromDb();
             $sequences[] = $test_sequence;
         }
@@ -409,7 +393,7 @@ class TestCollector
     {
         $query = $this->db->queryF(
             "SELECT * FROM tst_addtime WHERE test_fi = %s",
-            [ilDBConstants::T_INTEGER],
+            [\ilDBConstants::T_INTEGER],
             [$this->getTestId()]
         );
 
@@ -422,11 +406,11 @@ class TestCollector
     /**
      * @return list<RandomTestQuestion>
      */
-    public function getRandomTestQuestions(int $participant_id): array
+    private function getRandomTestQuestions(int $participant_id): array
     {
         $query = $this->db->queryF(
             "SELECT * FROM tst_test_rnd_qst WHERE active_fi = %s",
-            [ilDBConstants::T_INTEGER],
+            [\ilDBConstants::T_INTEGER],
             [$participant_id]
         );
 

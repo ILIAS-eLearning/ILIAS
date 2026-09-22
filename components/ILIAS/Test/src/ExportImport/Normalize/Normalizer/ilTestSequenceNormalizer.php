@@ -20,32 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Normalize\Normalizer;
 
-use ilDBInterface;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\NormalizingException;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ilTestSequence;
 
 /**
- * @implements Normalizer<ilTestSequence, array>
+ * @implements Normalizer<\ilTestSequence, array>
  */
 class ilTestSequenceNormalizer implements Normalizer
 {
     public function __construct(
         private readonly Transformations $tt,
-        private readonly ilDBInterface $db,
+        private readonly \ilDBInterface $db,
         private readonly GeneralQuestionPropertiesRepository $repository,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
-        if (!$value instanceof ilTestSequence) {
+        if (!($value instanceof \ilTestSequence)) {
             throw new NormalizingException('Invalid value', $value);
         }
 
@@ -68,19 +64,17 @@ class ilTestSequenceNormalizer implements Normalizer
         );
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function denormalize(array|float|bool|int|string|null $value, string $type): ilTestSequence
+    #[\Override]
+    public function denormalize(array|float|bool|int|string|null $value, string $type): \ilTestSequence
     {
-        if ($type !== ilTestSequence::class) {
+        if ($type !== \ilTestSequence::class) {
             throw new NormalizingException("Invalid type for ilTestSequence: {$type}");
         }
 
         $active_id = $this->tt->denormalize($value['active_id'], Id::class)->getId();
         $attempt = $this->tt->int($value['attempt']);
 
-        $sequence = new ilTestSequence($this->db, $active_id, $attempt, $this->repository);
+        $sequence = new \ilTestSequence($this->db, $active_id, $attempt, $this->repository);
 
         $sequence->setAnsweringOptionalQuestionsConfirmed($this->tt->bool($value['ans_opt_confirmed']));
         $sequence->sequencedata['sequence'] = $this->denormalizeSequence($value['sequence']);
