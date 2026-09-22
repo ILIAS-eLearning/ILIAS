@@ -1488,7 +1488,8 @@ class ilObjWikiGUI extends ilObjectGUI
             $this->lng,
             $this->ctrl,
             $this->object->getRefId(),
-            $page_ids
+            $page_ids,
+            $this->edit_request->getTranslation()
         );
 
         return new \ILIAS\Export\PrintProcessGUI(

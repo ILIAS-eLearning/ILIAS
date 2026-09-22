@@ -537,7 +537,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $this->lng,
             $this->ctrl,
             $this->getWikiPage()->getWikiRefId(),
-            []
+            [],
+            $this->getLanguage()
         );
 
         return new \ILIAS\Export\PrintProcessGUI(
@@ -819,7 +820,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
         );
 
         if (!count($all_pages)) {
-            $all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
+            $all_pages = ilWikiPage::getAllWikiPages(
+                $this->getPageObject()->getWikiId(),
+                $this->getLanguage()
+            );
         }
 
         $this->ctrl->setParameterByClass(ilObjWikiGUI::class, "print_page_sel", "1");
