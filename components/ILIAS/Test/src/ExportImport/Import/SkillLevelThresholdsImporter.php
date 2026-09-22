@@ -25,7 +25,7 @@ use ilImportMapping;
 use ilSkillTreeRepository;
 use ilTestSkillLevelThreshold;
 use ilTestSkillLevelThresholdList;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use Psr\Log\LoggerInterface;
 
 /**

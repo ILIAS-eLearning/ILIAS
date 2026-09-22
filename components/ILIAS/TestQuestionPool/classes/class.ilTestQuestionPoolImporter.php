@@ -19,8 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Data\ReferenceId;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlDeserializer;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 

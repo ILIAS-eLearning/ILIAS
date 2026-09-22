@@ -22,17 +22,17 @@ namespace ILIAS\Test\ExportImport\Import;
 
 use ilDBConstants;
 use ilDBInterface;
-use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
-use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
-use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
-use ILIAS\Test\ExportImport\Envelopes\RandomTestQuestion;
-use ILIAS\Test\ExportImport\Envelopes\Solution;
-use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\AdditionalWorkingTime;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\ManualFeedback;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionResult;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\RandomTestQuestion;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\Attempt;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\WorkingTime;
 use ILIAS\Test\Results\Data\AttemptResult;
 use ILIAS\Test\Results\Data\ParticipantResult;
 use ILIAS\Test\TestManScoringDoneHelper;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ilTestSequence;
 use Psr\Log\LoggerInterface;
 
@@ -48,7 +48,7 @@ class TestResultsImporter
     }
 
     /**
-     * Import test results from a list of normalized data. It will import the test sequences, solutions and evaluation
+     * Import test results from a list of normalized data. It will import the test sequences, attempts and evaluation
      * results, as well as the working times and manual feedback.
      */
     public function import(array $list, Transformations $tt): void
@@ -57,7 +57,7 @@ class TestResultsImporter
             foreach ($set as $name => $data) {
                 match($name) {
                     'sequences' => $this->importTestSequences($data, $tt),
-                    'solutions' => $this->importSolutions($data, $tt),
+                    'question_attempts' => $this->importQuestionAttempts($data, $tt),
                     'results' => $this->importQuestionResults($data, $tt),
                     'attempts' => $this->importAttemptResults($data, $tt),
                     'test_result' => $this->importTestResult($data, $tt),
@@ -81,29 +81,29 @@ class TestResultsImporter
         }
     }
 
-    public function importSolutions(array $list, Transformations $tt): void
+    public function importQuestionAttempts(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
             // The mapping processor replaces ActiveID and QuestionID
-            $solution = $tt->denormalize($normalized, Solution::class);
+            $attempt = $tt->denormalize($normalized, Attempt::class);
 
             $next_id = $this->database->nextId('tst_solutions');
             $this->database->insert(
                 'tst_solutions',
                 [
                     'solution_id' => [ilDBConstants::T_INTEGER, $next_id],
-                    'active_fi' => [ilDBConstants::T_INTEGER, $solution->active_id->getId()],
-                    'question_fi' => [ilDBConstants::T_INTEGER, $solution->question_id->getId()],
-                    'pass' => [ilDBConstants::T_INTEGER, $solution->attempt],
-                    'value1' => [ilDBConstants::T_TEXT, $solution->value1 !== null ? (string) $solution->value1 : null],
-                    'value2' => [ilDBConstants::T_TEXT, $solution->value2],
-                    'points' => [ilDBConstants::T_FLOAT, $solution->points],
-                    'step' => [ilDBConstants::T_INTEGER, $solution->step],
-                    'authorized' => [ilDBConstants::T_INTEGER, $solution->authorized ? 1 : 0],
+                    'active_fi' => [ilDBConstants::T_INTEGER, $attempt->active_id->getId()],
+                    'question_fi' => [ilDBConstants::T_INTEGER, $attempt->question_id->getId()],
+                    'pass' => [ilDBConstants::T_INTEGER, $attempt->attempt],
+                    'value1' => [ilDBConstants::T_TEXT, $attempt->value1 !== null ? (string) $attempt->value1 : null],
+                    'value2' => [ilDBConstants::T_TEXT, $attempt->value2],
+                    'points' => [ilDBConstants::T_FLOAT, $attempt->points],
+                    'step' => [ilDBConstants::T_INTEGER, $attempt->step],
+                    'authorized' => [ilDBConstants::T_INTEGER, $attempt->authorized ? 1 : 0],
                     'tstamp' => [ilDBConstants::T_INTEGER, time()],
                 ]
             );
-            $this->log->debug("Stored solution in database: {$next_id}");
+            $this->log->debug("Stored attempt in database: {$next_id}");
         }
     }
 

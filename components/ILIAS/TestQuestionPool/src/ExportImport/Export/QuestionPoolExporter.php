@@ -26,13 +26,13 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 use ILIAS\Taxonomy\DomainService as Taxonomy;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportStep;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportState;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Exporter;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportStep;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\ExportState;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\Exporter;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\Serializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
-use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
+use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**

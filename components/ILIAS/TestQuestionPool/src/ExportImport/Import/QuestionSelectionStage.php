@@ -22,10 +22,10 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
 use ilComponentFactory;
 use ILIAS\Language\Language;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XmlDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\XmlDeserializer;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Factory as UIFactory;
 use Psr\Http\Message\ServerRequestInterface;

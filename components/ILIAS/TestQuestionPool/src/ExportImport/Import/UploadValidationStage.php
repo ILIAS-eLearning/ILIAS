@@ -24,9 +24,9 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Language\Language;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use ilManifestParser;
 use Psr\Log\LoggerInterface;
 
