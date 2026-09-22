@@ -1639,16 +1639,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->setTabs("questions");
         $this->setQuestionsSubTabs("blocked_users");
 
-        $table = new ilLMBlockedUsersTableGUI($this, "listBlockedUsers", $this->lm);
-        $tpl->setContent($table->getHTML());
+        $table = $this->gui->blockedUsersTableBuilder(
+            $this->lm->getRefId(),
+            $this,
+            "listBlockedUsers"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
-    public function resetNumberOfTries(): void
+    public function resetNumberOfTries(string|array $user_q_ids = []): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        $user_q_ids = $this->normalizeBlockedUserIds($user_q_ids);
         if (count($user_q_ids) > 0) {
             foreach ($user_q_ids as $uqid) {
                 $uqid = explode(":", $uqid);
@@ -1659,12 +1666,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    public function unlockQuestion(): void
+    public function unlockQuestion(string|array $user_q_ids = []): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        $user_q_ids = $this->normalizeBlockedUserIds($user_q_ids);
         if (count($user_q_ids) > 0) {
             foreach ($user_q_ids as $uqid) {
                 $uqid = explode(":", $uqid);
@@ -1675,11 +1682,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    public function sendMailToBlockedUsers(): void
+    public function sendMailToBlockedUsers(string|array $user_q_ids = []): void
     {
         $ilCtrl = $this->ctrl;
 
-        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        $user_q_ids = $this->normalizeBlockedUserIds($user_q_ids);
         if (count($user_q_ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), 1);
             $ilCtrl->redirect($this, "listBlockedUsers");
@@ -1703,6 +1710,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 'sig' => $this->getBlockedUsersMailSignature()
             )
         ));
+    }
+
+    protected function normalizeBlockedUserIds(string|array $user_q_ids): array
+    {
+        if (is_string($user_q_ids)) {
+            $user_q_ids = $user_q_ids === "" ? [] : [$user_q_ids];
+        }
+        return $user_q_ids;
     }
 
     protected function getBlockedUsersMailSignature(): string

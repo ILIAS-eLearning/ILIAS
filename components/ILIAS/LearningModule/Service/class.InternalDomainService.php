@@ -59,6 +59,11 @@ class InternalDomainService
             );
     }
 
+    public function blockedUsersRetrieval(int $ref_id): Question\BlockedUsers\Retrieval
+    {
+        return new Question\BlockedUsers\Retrieval($ref_id);
+    }
+
     public function translation(int $lm_id): Translations
     {
         return (new CachedRepository($this->database()))->getFor($lm_id);
