@@ -837,9 +837,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return $correct_answers;
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -856,9 +854,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

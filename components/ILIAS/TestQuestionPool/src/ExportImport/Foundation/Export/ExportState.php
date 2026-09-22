@@ -27,7 +27,6 @@ use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ExportTarget;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serialize\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use Psr\Log\LoggerInterface as Logger;
-use RuntimeException;
 
 class ExportState
 {
@@ -79,7 +78,7 @@ class ExportState
     public function assertStep(ExportStep $step): void
     {
         if ($this->step->value < $step->value) {
-            throw new RuntimeException("Expected step {$step->name}, but got {$this->step->name} instead");
+            throw new \RuntimeException("Expected step {$step->name}, but got {$this->step->name} instead");
         }
 
         $this->step = $step;
@@ -184,7 +183,7 @@ class ExportState
     private function assertNotNull(mixed $value, string $property): void
     {
         if ($value === null) {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 "{$property} not set. This may happen if the exporter steps are not executed in the correct order."
             );
         }

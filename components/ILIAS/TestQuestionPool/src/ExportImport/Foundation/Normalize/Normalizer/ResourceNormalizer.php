@@ -43,9 +43,7 @@ class ResourceNormalizer implements Normalizer
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
         if ($value instanceof ResourceIdentification) {
@@ -81,9 +79,7 @@ class ResourceNormalizer implements Normalizer
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): ResourceIdentification|StorableResource
     {
         if ($type === ResourceIdentification::class) {
@@ -129,7 +125,7 @@ class ResourceNormalizer implements Normalizer
     /**
      * Returns true if the value is a normalized storable resource.
      */
-    public static function isStorableResource(mixed $value): bool
+    private static function isStorableResource(mixed $value): bool
     {
         return ($value[self::KEY_TYPE] ?? false) === self::TYPE_RESOURCE;
     }

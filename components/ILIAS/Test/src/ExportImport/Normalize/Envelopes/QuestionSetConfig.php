@@ -20,33 +20,30 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Normalize\Envelopes;
 
-use ilTestQuestionSetConfig;
-use ilTestRandomQuestionSetConfig;
-use ilTestRandomQuestionSetSourcePoolDefinition;
 
 class QuestionSetConfig
 {
     public function __construct(
-        private readonly ilTestQuestionSetConfig $config,
-        /** @var list<ilTestRandomQuestionSetSourcePoolDefinition> */
+        private readonly \ilTestQuestionSetConfig $config,
+        /** @var list<\ilTestRandomQuestionSetSourcePoolDefinition> */
         private array $definitions = [],
         /** @var array<int, list<int>> */
         private array $staging_pools = [],
     ) {
     }
 
-    public function getConfig(): ilTestQuestionSetConfig
+    public function getConfig(): \ilTestQuestionSetConfig
     {
         return $this->config;
     }
 
     public function isRandom(): bool
     {
-        return $this->config instanceof ilTestRandomQuestionSetConfig;
+        return $this->config instanceof \ilTestRandomQuestionSetConfig;
     }
 
     /**
-     * @return list<ilTestRandomQuestionSetSourcePoolDefinition>
+     * @return list<\ilTestRandomQuestionSetSourcePoolDefinition>
      */
     public function getDefinitions(): array
     {
@@ -54,7 +51,7 @@ class QuestionSetConfig
     }
 
     /**
-     * @param list<ilTestRandomQuestionSetSourcePoolDefinition> $definitions
+     * @param list<\ilTestRandomQuestionSetSourcePoolDefinition> $definitions
      */
     public function setDefinitions(array $definitions): void
     {

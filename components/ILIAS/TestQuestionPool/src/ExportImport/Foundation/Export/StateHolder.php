@@ -22,7 +22,6 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Export;
 
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ExportTarget;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfig;
-use RuntimeException;
 
 /**
  * State management for the export process. It is used to pass the export target, config and tools between the ILIAS
@@ -49,7 +48,7 @@ class StateHolder
     public function get(): ExportState
     {
         if ($this->export_state === null) {
-            throw new RuntimeException('Export state not found. You need to create the state first.');
+            throw new \RuntimeException('Export state not found. You need to create the state first.');
         }
         return $this->export_state;
     }

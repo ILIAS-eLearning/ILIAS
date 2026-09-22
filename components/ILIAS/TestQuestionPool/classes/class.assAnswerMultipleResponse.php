@@ -100,9 +100,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
         return $this->getPoints();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -114,9 +112,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

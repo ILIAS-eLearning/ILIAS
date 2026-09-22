@@ -34,7 +34,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\Registry
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\ResourceNormalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\TransformationNormalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Normalizer\UUIDNormalizer;
-use InitResourceStorage;
 
 final class FoundationNormalizerRegistration
 {
@@ -54,10 +53,10 @@ final class FoundationNormalizerRegistration
         $registry->register(Envelope::class, new EnvelopeNormalizer($transformations));
         $registry->register(Transformation::class, new TransformationNormalizer($this->dic->refinery()));
 
-        if (isset($this->dic[InitResourceStorage::D_REPOSITORIES])) {
+        if (isset($this->dic[\InitResourceStorage::D_REPOSITORIES])) {
             $resource = new ResourceNormalizer(
                 $transformations,
-                $this->dic[InitResourceStorage::D_REPOSITORIES]->getResourceRepository()
+                $this->dic[\InitResourceStorage::D_REPOSITORIES]->getResourceRepository()
             );
             $registry->register(ResourceIdentification::class, $resource);
             $registry->register(StorableResource::class, $resource);

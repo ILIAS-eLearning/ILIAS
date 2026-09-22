@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Export;
 
-use assFormulaQuestion;
-use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
@@ -44,7 +42,7 @@ class QuestionPoolExporter implements Exporter
         private readonly TransformationsBuilder $builder,
         private readonly DataFactory $data_factory,
         private readonly GeneralQuestionPropertiesRepository $question_repository,
-        private readonly ilDBInterface $db,
+        private readonly \ilDBInterface $db,
         private readonly Taxonomy $taxonomy
     ) {
     }
@@ -207,7 +205,7 @@ class QuestionPoolExporter implements Exporter
                 'feedback' => $transformations->normalize($collector->getFeedback($question))
             ];
 
-            if ($question instanceof assFormulaQuestion) {
+            if ($question instanceof \assFormulaQuestion) {
                 $normalized['formula_data'] = $transformations->normalize(
                     $collector->getUnitsAndCategories($question->getId())
                 );

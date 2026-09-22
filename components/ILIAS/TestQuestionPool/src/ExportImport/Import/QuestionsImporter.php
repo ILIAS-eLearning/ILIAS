@@ -20,13 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
-use assFormulaQuestion;
-use assFormulaQuestionUnit;
-use assFormulaQuestionUnitCategory;
-use assQuestion;
-use ilAssQuestionPage;
-use ilCtrl;
-use ilDBInterface;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\Filesystem\Stream\FileStream;
@@ -40,8 +33,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\Feedback;
 use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
-use ilImportMapping;
-use ilUnitConfigurationRepository;
 use Psr\Log\LoggerInterface;
 
 class QuestionsImporter
@@ -51,8 +42,8 @@ class QuestionsImporter
     public function __construct(
         private readonly string $component,
         private readonly string $parent_type,
-        private readonly ilCtrl $ctrl,
-        private readonly ilDBInterface $database,
+        private readonly \ilCtrl $ctrl,
+        private readonly \ilDBInterface $database,
         private readonly Language $language,
         private readonly LoggerInterface $log,
         private readonly Images $image_converter,
@@ -64,15 +55,15 @@ class QuestionsImporter
     public function importQuestion(
         array $normalized,
         Transformations $transformations,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         array $selected_questions
-    ): ?assQuestion {
+    ): ?\assQuestion {
         $question_class = $normalized['type'];
         if (!class_exists($question_class)) {
             throw new \InvalidArgumentException("Question class {$question_class} does not exist");
         }
 
-        /** @var assQuestion $question */
+        /** @var \assQuestion $question */
         $question = $transformations->denormalize($normalized, new $question_class());
         $old_question_id = $question->getId();
         if (!in_array($old_question_id, $selected_questions)) {
@@ -89,7 +80,7 @@ class QuestionsImporter
         $this->log->debug("Created new question: {$old_question_id} -> {$new_question_id}");
         $this->storeQuestionMappings($mapping, $old_question_id, $new_question_id, $question->getObjId());
 
-        if ($question instanceof assFormulaQuestion) {
+        if ($question instanceof \assFormulaQuestion) {
             $this->importFormulaQuestion($normalized, $question, $transformations, $mapping, );
         }
 
@@ -106,7 +97,7 @@ class QuestionsImporter
 
     public function importQuestionImages(
         int $parent_obj_id,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         ImportContext $context,
         CollectQuestionImages $collector,
     ): void {
@@ -131,7 +122,7 @@ class QuestionsImporter
             $this->log->debug("Imported question image: {$source_path} -> {$image_path}");
 
             $thumbnail = $this->generateThumbnail($input_stream);
-            if (!$thumbnail instanceof FileStream) {
+            if (!($thumbnail instanceof FileStream)) {
                 continue;
             }
 
@@ -144,10 +135,10 @@ class QuestionsImporter
         }
     }
 
-    private function buildImageBasePath(int $parent_obj_id, QuestionImage $envelope, ilImportMapping $mapping): ?string
+    private function buildImageBasePath(int $parent_obj_id, QuestionImage $envelope, \ilImportMapping $mapping): ?string
     {
         $question_id = $mapping->getMapping($this->component, 'question', (string) $envelope->getQuestionId());
-        if (!$question_id) {
+        if ($question_id === null || $question_id === '') {
             $this->log->error("Question ID mapping not found for {$envelope->getQuestionId()}");
             return null;
         }
@@ -176,7 +167,7 @@ class QuestionsImporter
     /**
      * Finalize the imported question pages by replacing the old question ids with the new question ids.
      */
-    public function finalizeQuestionPages(ilImportMapping $mapping): void
+    public function finalizeQuestionPages(\ilImportMapping $mapping): void
     {
         $page_mappings = $mapping->getMappingsOfEntity('components/ILIAS/COPage', 'pg');
 
@@ -192,7 +183,7 @@ class QuestionsImporter
             $new_question_id = $new_matches[1];
             $this->log->debug("Finalizing question page: {$old_question_id} -> {$new_question_id}");
 
-            $page = new ilAssQuestionPage((int) $new_question_id);
+            $page = new \ilAssQuestionPage((int) $new_question_id);
             $xml = preg_replace(
                 '/il_\d+_qst_' . preg_quote($old_question_id, '/') . '\b/',
                 "il__qst_{$new_question_id}",
@@ -219,7 +210,7 @@ class QuestionsImporter
     }
 
     private function storeQuestionMappings(
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         int $old_question_id,
         int $new_question_id,
         int $parent_obj_id,
@@ -256,7 +247,7 @@ class QuestionsImporter
         );
     }
 
-    private function importFeedback(Feedback $feedback, assQuestion $question): void
+    private function importFeedback(Feedback $feedback, \assQuestion $question): void
     {
         $question_id = $question->getId();
         $question->feedbackOBJ->importGenericFeedback($question_id, false, $feedback->getGenericUncompleted());
@@ -276,16 +267,16 @@ class QuestionsImporter
 
     private function importFormulaQuestion(
         array $normalized,
-        assFormulaQuestion $question,
+        \assFormulaQuestion $question,
         Transformations $transformations,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
     ): void {
         $formula = $normalized['formula_data'];
-        $repository = new ilUnitConfigurationRepository($question->getId());
+        $repository = new \ilUnitConfigurationRepository($question->getId());
 
         // First, import the unit categories which are referenced by the units
         foreach ($formula['categories'] as $normalized_category) {
-            $category = $transformations->denormalize($normalized_category, new assFormulaQuestionUnitCategory());
+            $category = $transformations->denormalize($normalized_category, new \assFormulaQuestionUnitCategory());
             $old_category_id = $category->getId();
 
             $repository->saveNewUnitCategory($category);
@@ -299,7 +290,7 @@ class QuestionsImporter
         foreach ($normalized_units as $normalized_unit) {
             $old_unit_id = $transformations->denormalize($normalized_unit['id'], Id::class)->getId();
 
-            $unit = new assFormulaQuestionUnit();
+            $unit = new \assFormulaQuestionUnit();
             $repository->createNewUnit($unit);
             $mapping->addMapping($this->component, 'unit', (string) $old_unit_id, (string) $unit->getId());
 

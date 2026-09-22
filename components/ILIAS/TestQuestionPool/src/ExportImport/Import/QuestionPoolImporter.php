@@ -29,8 +29,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\IdMappingProcessor;
 use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
 use TestQuestionPool\ExportImport\Normalize\Processors\CollectQuestionImages;
-use ilImportMapping;
-use ilObjQuestionPool;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -53,7 +51,7 @@ class QuestionPoolImporter
      */
     public function import(
         Deserializer $deserializer,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         ReferenceId $parent_id,
         ImportContext $context
     ): ImportContext {
@@ -125,20 +123,20 @@ class QuestionPoolImporter
      * Finalize the import after all dependencies have been imported.
      * It will replace the old question ids with the new question ids in the question pages.
      */
-    public function finalize(ilImportMapping $mapping): void
+    public function finalize(\ilImportMapping $mapping): void
     {
         $this->log->info('Finalizing question pool import...');
         $this->questions_importer->finalizeQuestionPages($mapping);
         $this->log->info('...Finished finalizing question pool');
     }
 
-    protected function importQuestionPool(
+    private function importQuestionPool(
         array $normalized,
         Transformations $transformations,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
         ReferenceId $parent_id
     ): int {
-        $pool_object = $transformations->denormalize($normalized, ilObjQuestionPool::class);
+        $pool_object = $transformations->denormalize($normalized, \ilObjQuestionPool::class);
         $old_pool_id = $pool_object->getId();
 
         $pool_object->setTitle($pool_object->getTitle());

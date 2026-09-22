@@ -145,9 +145,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
         }
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -161,9 +159,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

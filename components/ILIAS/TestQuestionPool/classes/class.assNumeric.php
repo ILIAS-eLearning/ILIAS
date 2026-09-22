@@ -467,9 +467,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return "{$this->getLowerLimit()}-{$this->getUpperLimit()}";
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -483,9 +481,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

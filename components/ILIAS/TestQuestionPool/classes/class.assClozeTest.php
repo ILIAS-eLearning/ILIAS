@@ -1771,9 +1771,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $answers;
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -1792,9 +1790,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

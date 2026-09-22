@@ -1487,9 +1487,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         );
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -1502,9 +1500,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

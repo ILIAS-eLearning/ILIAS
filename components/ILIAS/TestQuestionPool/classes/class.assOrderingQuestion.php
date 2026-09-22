@@ -1369,9 +1369,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -1387,9 +1385,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

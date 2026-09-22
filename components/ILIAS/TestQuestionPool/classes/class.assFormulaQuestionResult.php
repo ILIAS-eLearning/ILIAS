@@ -842,9 +842,7 @@ class assFormulaQuestionResult implements ToNormalized, FromNormalized
         return $this->available_units;
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -870,9 +868,7 @@ class assFormulaQuestionResult implements ToNormalized, FromNormalized
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

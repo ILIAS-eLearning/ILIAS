@@ -56,10 +56,8 @@ class Feedback implements Envelope
         return $this->specific_feedback;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toArray(Transformations $tt): array
+    #[\Override]
+    public function unpack(Transformations $tt): array
     {
         return [
             'question_id' => $tt->normalize($this->question_id),
@@ -69,10 +67,8 @@ class Feedback implements Envelope
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromArray(array $value, Transformations $tt): static
+    #[\Override]
+    public static function pack(array $value, Transformations $tt): static
     {
         return new self(
             $tt->denormalize($value['question_id'], Id::class),

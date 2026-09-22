@@ -20,15 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Import;
 
-use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionSetConfig;
-use ilImportMapping;
-use ilObjTest;
-use ilTestRandomQuestionSetSourcePoolDefinition;
-use ilTestRandomQuestionSetSourcePoolDefinitionFactory;
-use ilTestRandomQuestionSetSourcePoolDefinitionList;
-use ilTestRandomQuestionSetStagingPoolQuestion;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -38,7 +31,7 @@ use Psr\Log\LoggerInterface;
 class RandomTestConfigImporter
 {
     public function __construct(
-        private readonly ilDBInterface $database,
+        private readonly \ilDBInterface $database,
         private readonly LoggerInterface $log,
         private readonly DataFactory $data_factory
     ) {
@@ -50,8 +43,8 @@ class RandomTestConfigImporter
      */
     public function import(
         QuestionSetConfig $config,
-        ilImportMapping $mapping,
-        ilObjTest $test_object
+        \ilImportMapping $mapping,
+        \ilObjTest $test_object
     ): void {
         if (!$config->isRandom()) {
             throw new \InvalidArgumentException('Expected random question set config');
@@ -72,8 +65,8 @@ class RandomTestConfigImporter
     private function importRandomQuestionStagingPool(
         int $old_pool_id,
         array $questions,
-        ilImportMapping $mapping,
-        ilObjTest $test_object
+        \ilImportMapping $mapping,
+        \ilObjTest $test_object
     ): void {
         $new_pool_id = $this->database->nextId('object_data');
         $mapping->addMapping(
@@ -86,7 +79,7 @@ class RandomTestConfigImporter
 
         // QuestionID was mapped during question set config denormalization
         foreach ($questions as $question_id) {
-            $question = new ilTestRandomQuestionSetStagingPoolQuestion($this->database);
+            $question = new \ilTestRandomQuestionSetStagingPoolQuestion($this->database);
             $question->setTestId($test_object->getTestId());
             $question->setPoolId($new_pool_id);
             $question->setQuestionId($question_id);
@@ -96,8 +89,8 @@ class RandomTestConfigImporter
     }
 
     private function importSourcePoolDefinition(
-        ilTestRandomQuestionSetSourcePoolDefinition $definition,
-        ilImportMapping $mapping,
+        \ilTestRandomQuestionSetSourcePoolDefinition $definition,
+        \ilImportMapping $mapping,
     ): void {
         // New PoolID was not available during denormalization, so we have to map it here
         $old_pool_id = $definition->getPoolId();
@@ -130,7 +123,7 @@ class RandomTestConfigImporter
      * Taxonomy mappings are only available after the Taxonomy component has finished its import, so this must run
      * during finalProcessing().
      */
-    public function finalizeTaxonomyFilters(ilImportMapping $mapping): void
+    public function finalizeTaxonomyFilters(\ilImportMapping $mapping): void
     {
         $tst_mappings = $mapping->getMappingsOfEntity('components/ILIAS/Test', 'tst');
 
@@ -139,13 +132,13 @@ class RandomTestConfigImporter
                 continue;
             }
 
-            $test_obj = new ilObjTest(0, false);
+            $test_obj = new \ilObjTest(0, false);
             $test_obj->setTestId((int) $new_test_id);
 
-            $definition_list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+            $definition_list = new \ilTestRandomQuestionSetSourcePoolDefinitionList(
                 $this->database,
                 $test_obj,
-                new ilTestRandomQuestionSetSourcePoolDefinitionFactory($this->database, $test_obj)
+                new \ilTestRandomQuestionSetSourcePoolDefinitionFactory($this->database, $test_obj)
             );
             $definition_list->loadDefinitions();
 
@@ -162,7 +155,7 @@ class RandomTestConfigImporter
         }
     }
 
-    private function remapTaxonomyFilter(ilImportMapping $mapping, array $filter): array
+    private function remapTaxonomyFilter(\ilImportMapping $mapping, array $filter): array
     {
         $remapped = [];
         foreach ($filter as $tax_id => $node_ids) {

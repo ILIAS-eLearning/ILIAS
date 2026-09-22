@@ -20,11 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Import;
 
-use ilDBInterface;
-use ilImportMapping;
-use ilSkillTreeRepository;
-use ilTestSkillLevelThreshold;
-use ilTestSkillLevelThresholdList;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use Psr\Log\LoggerInterface;
 
@@ -33,7 +28,7 @@ use Psr\Log\LoggerInterface;
  * the source installation id. If a skill level cannot be mapped, the threshold is added to the failed list.
  *
  * Depends on SkillAssignmentsImporter having run first, so that skill_base and skill_tref id mappings are already
- * registered in ilImportMapping before thresholds are denormalized.
+ * registered in \ilImportMapping before thresholds are denormalized.
  *
  * @phpstan-type ImportResultData array{skill_base_id: int, skill_tref_id: int, skill_level_id: int, threshold: int}
  */
@@ -41,8 +36,8 @@ class SkillLevelThresholdsImporter
 {
     public function __construct(
         private readonly LoggerInterface $log,
-        private readonly ilDBInterface $db,
-        private readonly ilSkillTreeRepository $skill_repo,
+        private readonly \ilDBInterface $db,
+        private readonly \ilSkillTreeRepository $skill_repo,
         private readonly string $component,
         private readonly int $local_install_id
     ) {
@@ -59,14 +54,14 @@ class SkillLevelThresholdsImporter
         array $normalized_thresholds,
         int $import_install_id,
         Transformations $transformations,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
     ): array {
         $result = ['failed' => [], 'success' => []];
-        $threshold_list = new ilTestSkillLevelThresholdList($this->db);
+        $threshold_list = new \ilTestSkillLevelThresholdList($this->db);
 
         foreach ($normalized_thresholds as $item) {
             // The mapping processor replaces TestID and Skill BaseID/TRefID
-            $threshold = $transformations->denormalize($item, ilTestSkillLevelThreshold::class);
+            $threshold = $transformations->denormalize($item, \ilTestSkillLevelThreshold::class);
 
             $local_level_id = $this->getLevelIdMapping($import_install_id, $threshold->getSkillLevelId());
             if ($local_level_id === null) {
@@ -94,7 +89,7 @@ class SkillLevelThresholdsImporter
         return $result;
     }
 
-    protected function getLevelIdMapping(int $import_install_id, int $import_level_id): ?int
+    private function getLevelIdMapping(int $import_install_id, int $import_level_id): ?int
     {
         if ($import_install_id === $this->local_install_id) {
             return $import_level_id;
@@ -112,7 +107,7 @@ class SkillLevelThresholdsImporter
     /**
      * @return ImportResultData
      */
-    private function buildResultData(ilTestSkillLevelThreshold $threshold): array
+    private function buildResultData(\ilTestSkillLevelThreshold $threshold): array
     {
         return [
             'skill_base_id' => $threshold->getSkillBaseId() ?? 0,

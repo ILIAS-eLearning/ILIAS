@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
-use ilComponentFactory;
 use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
@@ -54,7 +53,7 @@ class QuestionSelectionStage implements ImportStage
     public function __construct(
         private readonly Language $lng,
         private readonly LoggerInterface $log,
-        private readonly ilComponentFactory $component_factory,
+        private readonly \ilComponentFactory $component_factory,
         private readonly UIFactory $ui_factory,
         private readonly ServerRequestInterface $request,
         private readonly string $form_action,

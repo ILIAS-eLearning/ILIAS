@@ -99,9 +99,7 @@ class assAnswerErrorText implements ToNormalized, FromNormalized
         return $this->length;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -115,9 +113,7 @@ class assAnswerErrorText implements ToNormalized, FromNormalized
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

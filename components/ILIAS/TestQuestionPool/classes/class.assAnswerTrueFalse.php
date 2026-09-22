@@ -150,9 +150,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
         $this->correctness = "0";
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -164,9 +162,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

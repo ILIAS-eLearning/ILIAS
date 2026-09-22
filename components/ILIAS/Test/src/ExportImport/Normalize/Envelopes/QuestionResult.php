@@ -38,10 +38,8 @@ class QuestionResult implements Envelope
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toArray(Transformations $tt): array
+    #[\Override]
+    public function unpack(Transformations $tt): array
     {
         return [
             'active_id' => $tt->normalize($this->active_id),
@@ -55,10 +53,8 @@ class QuestionResult implements Envelope
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromArray(array $value, Transformations $tt): static
+    #[\Override]
+    public static function pack(array $value, Transformations $tt): static
     {
         return new self(
             $tt->denormalize($value['active_id'], Id::class),

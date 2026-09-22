@@ -153,9 +153,7 @@ class assAnswerCloze extends ASS_AnswerSimple
         return $this->gap_size;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -169,9 +167,7 @@ class assAnswerCloze extends ASS_AnswerSimple
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

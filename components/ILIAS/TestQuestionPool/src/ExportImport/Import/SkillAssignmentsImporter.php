@@ -20,11 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
-use ilAssQuestionSkillAssignment;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\Skill\Service\SkillUsageService;
-use ilImportMapping;
-use ilSkillTreeRepository;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -37,7 +34,7 @@ class SkillAssignmentsImporter
 {
     public function __construct(
         private readonly LoggerInterface $log,
-        private readonly ilSkillTreeRepository $skill_repo,
+        private readonly \ilSkillTreeRepository $skill_repo,
         private readonly SkillUsageService $skill_usage_service,
         private readonly string $component,
         private readonly int $local_install_id
@@ -55,13 +52,13 @@ class SkillAssignmentsImporter
         array $normalized_assignments,
         int $import_install_id,
         Transformations $transformations,
-        ilImportMapping $mapping,
+        \ilImportMapping $mapping,
     ): array {
         $result = ['failed' => [], 'success' => []];
 
         foreach ($normalized_assignments as $item) {
             // The mapping processor replaces ParentObjID and QuestionID.
-            $assignment = $transformations->denormalize($item, ilAssQuestionSkillAssignment::class);
+            $assignment = $transformations->denormalize($item, \ilAssQuestionSkillAssignment::class);
 
             $skill_data = $this->getSkillIdMapping(
                 $assignment->getSkillBaseId(),
@@ -112,7 +109,7 @@ class SkillAssignmentsImporter
         return $result;
     }
 
-    protected function getSkillIdMapping(int $skill_base_id, int $skill_tref_id, int $import_install_id): ?array
+    private function getSkillIdMapping(int $skill_base_id, int $skill_tref_id, int $import_install_id): ?array
     {
         if ($import_install_id === $this->local_install_id) {
             return [
@@ -138,7 +135,7 @@ class SkillAssignmentsImporter
     /**
      * @return ImportResultData
      */
-    protected function buildResultData(ilAssQuestionSkillAssignment $assignment): array
+    private function buildResultData(\ilAssQuestionSkillAssignment $assignment): array
     {
         return [
             'skill_id' => $assignment->getSkillBaseId(),

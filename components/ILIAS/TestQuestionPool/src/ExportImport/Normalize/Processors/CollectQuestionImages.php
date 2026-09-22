@@ -53,9 +53,7 @@ class CollectQuestionImages implements Processor
         $this->question_files = new QuestionFiles();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function process(object $carry): void
     {
         if ($carry instanceof NormalizeCarry && $carry->value() instanceof QuestionImage) {
@@ -97,7 +95,7 @@ class CollectQuestionImages implements Processor
         if ($envelope === null) {
             return;
         }
-        if (!$envelope instanceof QuestionImage) {
+        if (!($envelope instanceof QuestionImage)) {
             throw new NormalizingException('Expected question image envelope, got ' . get_debug_type($envelope));
         }
 

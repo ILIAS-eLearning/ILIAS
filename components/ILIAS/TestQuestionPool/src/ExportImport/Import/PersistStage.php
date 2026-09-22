@@ -26,11 +26,10 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\StageResult;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-use ilImport;
 
 /**
  * Final stage of the question pool import process. Imports the question pool object and all its questions and other
- * dependencies using `ilImport`. It will delegate the import to the `ilTestQuestionPoolImporter` class.
+ * dependencies using `\ilImport`. It will delegate the import to the `ilTestQuestionPoolImporter` class.
  */
 class PersistStage implements ImportStage
 {
@@ -58,7 +57,7 @@ class PersistStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        $importer = new ilImport($this->request_data_collector->getRefId());
+        $importer = new \ilImport($this->request_data_collector->getRefId());
         $importer->importObject(
             null,
             $context->fileToImport(),

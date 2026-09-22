@@ -2,7 +2,6 @@
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize;
 
-use Generator;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\DenormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Processors\NormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Queue\Processor;
@@ -33,7 +32,7 @@ final class Transformations
      */
     public function normalize(mixed $value, array $context = []): array|float|bool|int|string|null
     {
-        if (is_object($value) && $value instanceof Generator) {
+        if (is_object($value) && $value instanceof \Generator) {
             $value = iterator_to_array($value);
         }
 

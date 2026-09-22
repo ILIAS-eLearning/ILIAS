@@ -69,9 +69,6 @@ class CollectResources implements Processor
         $this->import_mapping[$old_id] = $new_id;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function process(object $carry): void
     {
         if ($carry instanceof NormalizeCarry && $carry->value() instanceof ResourceIdentification) {

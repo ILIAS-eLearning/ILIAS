@@ -183,9 +183,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
         $this->checked = false;
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -197,9 +195,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations

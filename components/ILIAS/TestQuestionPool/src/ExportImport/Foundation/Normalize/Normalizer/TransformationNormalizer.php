@@ -33,9 +33,7 @@ class TransformationNormalizer implements Normalizer
     public function __construct(private readonly Refinery $refinery) {
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize($value): array|float|bool|int|string|null
     {
         if ($value instanceof Transformation) {
@@ -45,9 +43,7 @@ class TransformationNormalizer implements Normalizer
         throw new NormalizingException('Invalid transformation value', $value);
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function denormalize(array|float|bool|int|string|null $value, string $type): Transformation
     {
         return $this->refinery->custom()->transformation(static fn() => $value);

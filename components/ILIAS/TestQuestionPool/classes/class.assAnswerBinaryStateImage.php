@@ -80,9 +80,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
         return $this->image !== null;
     }
 
-    /**
-    * @inheritDoc
-    */
+    #[\Override]
     public function toNormalized(
         Transformations $transformations,
         array $context = []
@@ -96,9 +94,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function fromNormalized(
         array $normalized,
         Transformations $transformations
