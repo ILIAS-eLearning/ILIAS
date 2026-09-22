@@ -460,8 +460,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements ToNormalized, FromN
     public function toNormalized(
         Transformations $transformations,
         array $context = []
-    ): array|float|bool|int|string|null
-    {
+    ): array|float|bool|int|string|null {
         $normalized = [
             'id' => $transformations->normalize(new Id($this->getId(), 'rnd_src_pool_def')),
             'pool_id' => $transformations->normalize(new Id($this->getPoolId(), 'qpl')),
@@ -503,8 +502,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements ToNormalized, FromN
     public function fromNormalized(
         array $normalized,
         Transformations $transformations
-    ): static
-    {
+    ): static {
         $clone = clone $this;
         $clone->setId($transformations->denormalize($normalized['id'], Id::class)->getId());
         $clone->setPoolId($transformations->denormalize($normalized['pool_id'], Id::class)->getId());
