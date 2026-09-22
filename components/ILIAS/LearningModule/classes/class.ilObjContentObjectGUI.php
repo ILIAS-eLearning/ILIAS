@@ -22,6 +22,7 @@ use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRe
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 use ILIAS\LearningModule\Media\PageRetrieval;
 use ILIAS\LearningModule\Question\Usage\TableBuilder as QuestionUsageTableBuilder;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * Class ilObjContentObjectGUI
@@ -2443,7 +2444,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             $tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation);
         } else {
-            $tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation, false);
+            $tbl = $this->gui->editing()->exportIdsTableBuilder(
+                $this->lm->getId(),
+                $this,
+                "showExportIDsOverview"
+            )->getTable();
+            if ($tbl->handleCommand()) {
+                return;
+            }
+            $tpl->setContent($tbl->render());
+            return;
         }
 
         $tpl->setContent($tbl->getHTML());
@@ -2456,41 +2466,71 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "showExportIDsOverview");
     }
 
-    public function saveExportIds(): void
+    public function editExportId(int $id): void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("cont_export_id"))
+            ->form($this->getExportIdForm($id))
+            ->send();
+    }
 
-        // check all export ids
-        $ok = true;
-        foreach ($this->edit_request->getExportIds() as $exp_id) {
-            if ($exp_id != "" && !preg_match(
-                "/^([a-zA-Z]+)[0-9a-zA-Z_]*$/",
-                trim($exp_id)
-            )) {
-                $ok = false;
-            }
-        }
-        if (!$ok) {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_exp_ids_not_resp_format1") . ": a-z, A-Z, 0-9, '_'. " .
-                $lng->txt("cont_exp_ids_not_resp_format3") . " " .
-                $lng->txt("cont_exp_ids_not_resp_format2"));
-            $this->showExportIDsOverview(true);
+    protected function getExportIdForm(int $id): FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "id", $id);
+        $form = $this->gui->form([ilLMEditorGUI::class, $this::class], "saveExportId")
+            ->text(
+                "exportid",
+                $this->lng->txt("cont_export_id"),
+                "",
+                ilLMPageObject::getExportId(
+                    $this->lm->getId(),
+                    $id,
+                    ilLMObject::_lookupType($id)
+                )
+            );
+
+        return $form;
+    }
+
+    public function saveExportId(): void
+    {
+        $id = $this->edit_request->getExportIdPageId();
+        $form = $this->getExportIdForm($id);
+        if (!$form->isValid()) {
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("cont_export_id"))
+                ->form($form)
+                ->send();
             return;
         }
 
-
-        foreach ($this->edit_request->getExportIds() as $pg_id => $exp_id) {
-            ilLMPageObject::saveExportId(
-                $this->lm->getId(),
-                $pg_id,
-                ilUtil::stripSlashes($exp_id),
-                ilLMObject::_lookupType($pg_id)
+        $exp_id = ilUtil::stripSlashes((string) $form->getData("exportid"));
+        if ($exp_id !== "" && !preg_match(
+            "/^([a-zA-Z]+)[0-9a-zA-Z_]*$/",
+            trim($exp_id)
+        )) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("cont_exp_ids_not_resp_format1") . ": a-z, A-Z, 0-9, '_'. " .
+                $this->lng->txt("cont_exp_ids_not_resp_format3") . " " .
+                $this->lng->txt("cont_exp_ids_not_resp_format2")
             );
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("cont_export_id"))
+                ->form($form)
+                ->send();
+            return;
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_saved_export_ids"), true);
-        $ilCtrl->redirect($this, "showExportIdsOverview");
+        ilLMPageObject::saveExportId(
+            $this->lm->getId(),
+            $id,
+            $exp_id,
+            ilLMObject::_lookupType($id)
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_saved_export_ids"), true);
+        $this->ctrl->redirect($this, "showExportIDsOverview");
     }
 
     public function saveHelpMapping(): void

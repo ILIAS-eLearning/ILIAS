@@ -74,4 +74,8 @@ class InternalDomainService
         return (new CachedRepository($this->database()))->getFor($lm_id);
     }
 
+    public function exportIdsRetrieval(int $lm_id): Editing\ExportIds\Retrieval
+    {
+        return new Editing\ExportIds\Retrieval($lm_id);
+    }
 }

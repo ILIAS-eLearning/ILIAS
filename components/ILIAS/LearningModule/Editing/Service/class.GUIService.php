@@ -79,4 +79,17 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function exportIdsTableBuilder(
+        int $lm_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): ExportIds\TableBuilder {
+        return new ExportIds\TableBuilder(
+            $this->domain,
+            $lm_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }
