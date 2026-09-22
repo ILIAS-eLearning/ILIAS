@@ -295,6 +295,7 @@ class TestExporter implements Exporter
             'tax',
             $this->taxonomy->getUsageOfObject($obj_id)
         );
+        $state->addDependency('components/ILIAS/Tracking', 'lpsettings', [$obj_id]);
     }
 
     private function exportSettings(
