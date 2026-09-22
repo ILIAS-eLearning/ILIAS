@@ -1393,8 +1393,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function processImportObject(): void
     {
-        $permission = $this->creation_mode ? 'create' : 'read';
-        if (!$this->checkPermissionBool($permission, '', $this->object->getType())) {
+        if (!$this->checkPermissionBool('write', '', $this->object->getType())) {
             $this->redirectAfterMissingWrite();
             return;
         }
