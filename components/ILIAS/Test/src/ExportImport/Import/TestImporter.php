@@ -290,7 +290,8 @@ class TestImporter
         $mapping->addMapping('components/ILIAS/Test', 'tst', (string) $old_test_id, (string) $test_object->getTestId());
         $mapping->addMapping('components/ILIAS/Test', 'object', (string) $old_obj_id, (string) $new_obj_id);
         $mapping->addMapping('components/ILIAS/MetaData', 'md', "{$old_obj_id}:0:tst", "{$new_obj_id}:0:tst");
-
+        $mapping->addMapping('components/ILIAS/Tracking', 'lpsettings', (string) $old_obj_id, (string) $new_obj_id);
+        
         return $test_object;
     }
 
