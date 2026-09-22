@@ -32,38 +32,9 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     protected array|null $selected_pages = null;
     protected \ilObjWiki $wiki;
     protected \ilCtrl $ctrl;
-
-<<<<<<< HEAD
-=======
-    /**
-     * @var array|null
-     */
-    protected $selected_pages = null;
-
-    /**
-     * @var \ilObjWiki
-     */
-    protected $wiki;
-
-    /**
-     * @var string
-     */
     protected string $translation;
 
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
 
-    /**
-     * PrintView constructor.
-     * @param \ilLanguage $lng
-     * @param \ilCtrl     $ctrl
-     * @param int         $wiki_ref_id
-     * @param array       $selected_pages
-     * @param string      $translation
-     */
->>>>>>> 504c8c7621d (47674: The wiki print function does only print the master language)
     public function __construct(
         \ilLanguage $lng,
         \ilCtrl $ctrl,
