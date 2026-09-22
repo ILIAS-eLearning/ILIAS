@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool;
 
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;

@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\QuestionImage;
 
 /**
 * ASS_AnswerBinaryStateImage is a class for answers with a binary state

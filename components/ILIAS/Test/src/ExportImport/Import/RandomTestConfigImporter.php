@@ -22,7 +22,7 @@ namespace ILIAS\Test\ExportImport\Import;
 
 use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
+use ILIAS\Test\ExportImport\Normalize\Envelopes\QuestionSetConfig;
 use ilImportMapping;
 use ilObjTest;
 use ilTestRandomQuestionSetSourcePoolDefinition;
