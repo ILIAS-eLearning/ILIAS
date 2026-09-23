@@ -59,6 +59,14 @@ class InternalDomainService
             );
     }
 
+    public function pagesRetrieval(
+        int $lm_id,
+        string $lm_type,
+        bool $layout_per_page
+    ): Editing\PagesRetrieval {
+        return new Editing\PagesRetrieval($lm_id, $lm_type, $layout_per_page);
+    }
+
     public function blockedUsersRetrieval(int $ref_id): Question\BlockedUsers\Retrieval
     {
         return new Question\BlockedUsers\Retrieval($ref_id);

@@ -1038,9 +1038,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * confirm deletion screen for free pages (other usages do not apply anymore)
      */
-    public function delete(int $a_parent_subobj_id = 0): void
-    {
-        $ids = $this->edit_request->getIds();
+    public function delete(
+        int $a_parent_subobj_id = 0,
+        ?int $page_id = null
+    ): void {
+        $ids = $page_id === null
+            ? $this->edit_request->getIds()
+            : [$page_id];
 
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
@@ -1082,6 +1086,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
 
         $this->tpl->setContent($cgui->getHTML());
+    }
+
+    public function deletePage(int $id): void
+    {
+        $this->delete(0, $id);
     }
 
     public function cancelDelete(): void
@@ -1237,8 +1246,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
         $ilCtrl->setParameterByClass("illmpageobjectgui", "new_type", "");
 
-        $t = new ilLMPagesTableGUI($this, "pages", $this->lm);
-        $tpl->setContent($t->getHTML());
+        $table = $this->gui->editing()->pagesTableBuilder(
+            $this->lm,
+            $this,
+            "pages"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -1284,9 +1302,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * activates or deactivates pages
      */
-    public function activatePages(): void
+    public function activatePages(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         foreach ($ids as $id) {
             $act = ilLMPage::_lookupActive($id, $this->lm->getType());
             ilLMPage::_writeActive($id, $this->lm->getType(), !$act);
@@ -1298,7 +1316,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * paste page
      */
-    public function pastePage(): void
+    public function pastePage(int $id = 0): void
     {
         if (ilEditClipboard::getContentObjectType() != "pg") {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_page_in_clipboard"), true);
@@ -1352,9 +1370,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "pages");
     }
 
-    public function copyPage(): void
+    public function copyPage(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->ctrl->redirect($this, "pages");
@@ -1480,9 +1498,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->insertChapterClip();
     }
 
-    public function movePage(): void
+    public function movePage(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "pages");
@@ -2264,9 +2282,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * select page as header
      */
-    public function selectHeader(): void
+    public function selectHeader(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "pages");
@@ -2287,9 +2305,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * select page as footer
      */
-    public function selectFooter(): void
+    public function selectFooter(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "pages");
@@ -2797,36 +2815,43 @@ class ilObjContentObjectGUI extends ilObjectGUI
      * Set layout for multiple pages
      */
     public function setPageLayout(
-        bool $a_in_hierarchy = false
+        int|bool $a_in_hierarchy = false
     ): void {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->edit_request->getIds();
+        $is_in_hierarchy = is_bool($a_in_hierarchy)
+            ? $a_in_hierarchy
+            : false;
+        $ids = is_int($a_in_hierarchy) && $a_in_hierarchy > 0
+            ? [$a_in_hierarchy]
+            : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
 
-            if ($a_in_hierarchy) {
+            if ($is_in_hierarchy) {
                 $ilCtrl->redirect($this, "chapters");
             } else {
                 $ilCtrl->redirect($this, "pages");
             }
         }
 
-        $this->initSetPageLayoutForm();
+        $this->initSetPageLayoutForm($ids);
 
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initSetPageLayoutForm(): void
+    public function initSetPageLayoutForm(array $ids = []): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $this->form = new ilPropertyFormGUI();
 
-        $ids = $this->edit_request->getIds();
+        if (count($ids) === 0) {
+            $ids = $this->edit_request->getIds();
+        }
         foreach ($ids as $id) {
             $hi = new ilHiddenInputGUI("id[]");
             $hi->setValue($id);

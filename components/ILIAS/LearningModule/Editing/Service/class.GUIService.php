@@ -80,6 +80,20 @@ class GUIService
         );
     }
 
+    public function pagesTableBuilder(
+        \ilObjLearningModule $lm,
+        object $parent_gui,
+        string $parent_cmd
+    ): PagesTableBuilder {
+        return new PagesTableBuilder(
+            $this->domain,
+            $this->gui,
+            $lm,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function exportIdsTableBuilder(
         int $lm_id,
         object $parent_gui,
