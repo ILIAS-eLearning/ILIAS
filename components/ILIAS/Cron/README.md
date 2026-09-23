@@ -15,6 +15,7 @@ described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   * [Customizing](#custimizing) 
   * [Misc](#misc)
 * [Cron Job Execution](#cron-job-execution)
+  * [Choosing the Executing User](#choosing-the-executing-user)
 * [Permission Context](#permission-context)
 
 
@@ -183,6 +184,34 @@ The `<client_id>` MUST be the client id of the ILIAS installation.
 
 The system crontab SHOULD invoke this command every few minutes. Individual cron-jobs
 are then executed according to their configured schedule.
+
+### Choosing the Executing User
+
+The user account should be chosen carefully, because some preconditions MUST be
+fulfilled and it directly affects the security posture of your installation.
+
+The account must use the `ILIAS Auth` authentication mode (local auth) and must be
+active. This is enforced by ILIAS's underlying authentication chain for any
+CLI-executed account. Its password, however, is never actually checked, and no RBAC
+role or permission is required either, since cron-jobs MUST NOT rely on any specific
+permissions.
+
+Because of this, many installations simply reuse the default super-admin account (e.g.
+`root`) as the `<user>` argument, since it already satisfies these requirements.
+
+If you don't want to use this account, because it should remain deactivated for
+security reasons, you should set up a dedicated, unprivileged user instead:
+- Create a new user (e.g. `cron-user`) via the ILIAS Administration UI.
+- Set its authentication mode to `ILIAS Auth` and make sure it is active.
+- Assign any complex password; since it is never checked during `run-jobs`, it can be set once
+  and forgotten.
+- Assign a minimally privileged role, e.g. the built-in `Guest` global role.
+- Use this account's login as the `<user>` argument for `cli/cron.php run-jobs`.
+
+Even though its password is never checked by `run-jobs`, this account remains reachable
+through the regular web login form. Should it ever be compromised there, a
+low-privileged `cron-user` is a much smaller risk than exposing the super-admin account
+this way.
 
 ## Permission Context
 
