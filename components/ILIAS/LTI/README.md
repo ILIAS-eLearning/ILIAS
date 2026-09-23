@@ -14,6 +14,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 **Table of Contents**
 * [Structure](#structure)
 * [Where does a class go?](#where-does-a-class-go)
+* [User interface](#user-interface)
 * [Globals and request input](#globals-and-request-input)
 * [Database](#database)
 * [Compatibility](#compatibility)
@@ -24,9 +25,12 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 ```text
 LTI/
 ├── LTI.php                   Component definition
-├── module.xml                Object types (ltis)
+├── module.xml                Object types (lti, ltiv, ltis), event listeners and cron jobs
+├── LuceneObjectDefinition.xml    What the search indexes of an LTI object
 ├── classes/
 │   ├── Administration/       Administration > LTI (ltis), shared by LTI 1.1 and LTI Advantage
+│   ├── Object/               LTI object model (lti, ltiv, tools and platforms), shared by LTI 1.1 and LTI Advantage
+│   │   └── Verification/     Certificate verification of an LTI object (ltiv)
 │   ├── LTI1p1/               LTI 1.1, kept for compatibility
 │   │   ├── Consumer/
 │   │   └── Provider/
@@ -48,11 +52,34 @@ LTI/
   Protocol handling MUST be delegated to the `celtic/lti` library instead of being reimplemented.
 * **LTIAdvantage/Common**: only what the Advantage consumer and provider both use.
 * **Administration**: the administration node (`ilObjLTIAdministration*`). Its screens serve LTI 1.1 and LTI Advantage.
+* **Object**: the LTI object model, that is the objects and records LTI itself owns and both LTI
+  versions read and write: the repository object `lti` (`ilObjLTIConsumer` and its GUI, access and
+  list classes), its certificate verification `ltiv` in `Object/Verification`, the tools ILIAS
+  launches (`ilLTITool`, table `lti_ext_provider`) and the platforms that launch ILIAS
+  (`ilLTIPlatform`, table `lti2_consumer`). It holds no protocol logic and MUST NOT depend on
+  LTI1p1 or LTIAdvantage, so that the model still describes the same objects when one of the two
+  versions is removed.
+
+  New code names the two counterparties as LTI Advantage does, tool and platform. The names of the
+  LTI 1.1 era survive only where they are data: the tables `lti_ext_provider`, `lti_ext_consumer`
+  and `lti2_consumer`, their columns, the language variables, and the class names an updated
+  installation depends on, such as `ilObjLTIConsumer`.
 
 LTI1p1 and LTIAdvantage MUST NOT share classes. When both need the same logic, each keeps
-its own copy, so LTI1p1 can be removed without touching LTIAdvantage.
+its own copy, so LTI1p1 can be removed without touching LTIAdvantage. That rule is about the
+protocol. The object model and the administration screens are the two areas both versions use,
+because an LTI object and an administered tool are the same thing whichever version launches them.
 
 Classes follow the usual component naming: `class.ilLTI<Area><Name>.php`, without namespace.
+
+## User interface
+
+New screens are built with the Kitchen Sink components of `$DIC->ui()->factory()`.
+
+The one exception is the accordion of the creation screen of an `lti` object, `ilAccordionGUI`. The
+screen offers the ways of creating the object as one section each, with the first one open, and the
+Kitchen Sink has nothing that does that. The class is not deprecated and other components still use
+it. Any further exception MUST be explained here.
 
 ## Globals and request input
 
@@ -91,8 +118,7 @@ Installations updated from an earlier release MUST keep working:
 
 ## Removing LTI 1.1
 
-LTI1p1 uses its own classes, the LTI object model (`ilObjLTIConsumer`, `ilLTIConsumeProvider`,
-`ilLTIPlatform`, `ilLTIConsumerContentGUI`) and general ILIAS services, never anything from LTIAdvantage.
+LTI1p1 uses its own classes, `classes/Object` and general ILIAS services, never anything from LTIAdvantage.
 To remove LTI 1.1:
 
 1. Delete `classes/LTI1p1/`.

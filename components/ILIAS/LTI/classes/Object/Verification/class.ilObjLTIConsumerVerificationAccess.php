@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+/**
+ * Access checks of the object type ltiv.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
+ */
+class ilObjLTIConsumerVerificationAccess extends ilObjectAccess
+{
+    /**
+     * @return array
+     */
+    public static function _getCommands(): array
+    {
+        return [
+            [
+                'permission' => 'read',
+                'cmd' => 'view',
+                'lang_var' => 'show',
+                'default' => true,
+            ],
+        ];
+    }
+
+    public static function _checkGoto(string $target): bool
+    {
+        global $DIC;
+
+        $parts = explode('_', $target);
+
+        // a verification shared in the personal workspace is read without the usual repository login
+        if (($parts[2] ?? '') === 'wsp') {
+            return ilSharedResourceGUI::hasAccess((int) $parts[1]);
+        }
+
+        return $DIC->access()->checkAccess('read', '', (int) $parts[1]);
+    }
+}

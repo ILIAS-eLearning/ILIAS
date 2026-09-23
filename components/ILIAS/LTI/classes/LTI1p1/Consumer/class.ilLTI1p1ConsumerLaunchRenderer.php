@@ -32,7 +32,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
      */
     public static function renderLaunch(
         ilObjLTIConsumer $object,
-        ilLTIConsumerContentGUI $gui_object,
+        ilLTIToolLaunchGUI $gui_object,
         ILIAS\DI\Container $dic,
         ilLanguage $lng
     ): void {
@@ -43,7 +43,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
             $tpl = new ilTemplate('tpl.lti1p1_content.html', true, true, 'components/ILIAS/LTI');
             $tpl->setVariable("EMBEDDED_IFRAME_SRC", $dic->ctrl()->getLinkTarget(
                 $gui_object,
-                ilLTIConsumerContentGUI::CMD_SHOW_EMBEDDED
+                ilLTIToolLaunchGUI::CMD_SHOW_EMBEDDED
             ));
             $dic->ui()->mainTemplate()->setContent($tpl->get());
         } else {
@@ -78,7 +78,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $tpl->setVariable("JQUERY_SRC", 'assets/js/jquery.js' . $v);
 
         $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
-        $tpl->setVariable('LAUNCH_URL', $object->getProvider()->getProviderUrl());
+        $tpl->setVariable('LAUNCH_URL', $object->getTool()->getUrl());
 
         echo $tpl->get();
         exit; //TODO: no exit
@@ -89,7 +89,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
      */
     public static function renderStartButton(
         ilObjLTIConsumer $object,
-        ilLTIConsumerContentGUI $gui_object,
+        ilLTIToolLaunchGUI $gui_object,
         ILIAS\DI\Container $dic,
         ilLanguage $lng
     ): string {
@@ -99,7 +99,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         if (
             $object->getOfflineStatus() ||
             $object->isLaunchMethodEmbedded() ||
-            $object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE
+            $object->getTool()->getAvailability() == ilLTITool::AVAILABILITY_NONE
         ) {
             $logger->info('LTI1p1 renderStartButton: skipped (offline, embedded or provider unavailable)');
             return "";
@@ -108,11 +108,11 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $cmix_user = new ilCmiXapiUser(
             $object->getId(),
             $dic->user()->getId(),
-            $object->getProvider()->getPrivacyIdent()
+            $object->getTool()->getPrivacyIdent()
         );
         $user_ident = $cmix_user->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
-            $user_ident = ilCmiXapiUser::getIdent($object->getProvider()->getPrivacyIdent(), $dic->user());
+            $user_ident = ilCmiXapiUser::getIdent($object->getTool()->getPrivacyIdent(), $dic->user());
             $cmix_user->setUsrIdent($user_ident);
             $cmix_user->save();
             $logger->info('LTI1p1 renderStartButton: created new cmix user identity for usr_id=' . $dic->user()->getId());
@@ -130,7 +130,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
 
         $target = $object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $lng->txt("show_content") . '" />';
-        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $object->getTool()->getUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         foreach ($launch_parameters as $field => $value) {
             $output .= sprintf(
                 '<input type="hidden" name="%s" value="%s" />',
