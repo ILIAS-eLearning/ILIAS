@@ -2378,6 +2378,33 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function addLocatorItems(): void
     {
+        $next_class = $this->ctrl->getNextClass();
+        $class_parents = class_exists($next_class)
+            ? get_parent_class($next_class)
+            : '';
+
+        if (in_array(
+            strtolower($next_class),
+            [
+                strtolower(ilAssQuestionPreviewGUI::class),
+                strtolower(ilTestQuestionBrowserTableGUI::class),
+                strtolower(ilAssQuestionPageGUI::class),
+                strtolower(ilAssQuestionFeedbackEditingGUI::class),
+                strtolower(ilAssQuestionHintsGUI::class)
+            ]
+        ) || $class_parents === assQuestionGUI::class) {
+            $this->locator->addItem(
+                $this->getTestObject()->getTitle(),
+                $this->ctrl->getLinkTargetByClass(
+                    self::class,
+                    self::SHOW_QUESTIONS_CMD
+                ),
+                '',
+                $this->testrequest->getRefId()
+            );
+            return;
+        }
+
         switch ($this->ctrl->getCmd()) {
             case "run":
             case "infoScreen":
