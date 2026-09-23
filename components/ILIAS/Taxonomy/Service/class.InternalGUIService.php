@@ -48,6 +48,20 @@ class InternalGUIService
         );
     }
 
+    public function repositoryTaxonomiesTableBuilder(
+        \ilObjTaxonomyAdministration $obj,
+        object $parent_gui,
+        string $parent_cmd
+    ): Administration\RepositoryTaxonomies\TableBuilder {
+        return new Administration\RepositoryTaxonomies\TableBuilder(
+            $this->domain_service,
+            $this,
+            $obj,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function getObjTaxonomyGUI(int $rep_obj_id): \ilObjTaxonomyGUI
     {
         $tax_gui = new \ilObjTaxonomyGUI();

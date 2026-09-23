@@ -53,4 +53,12 @@ class InternalDomainService
             $this->repo_service->usage()
         );
     }
+
+    public function repositoryTaxonomiesRetrieval(
+        \ilObjTaxonomyAdministration $obj
+    ): Administration\RepositoryTaxonomies\Retrieval {
+        return new Administration\RepositoryTaxonomies\Retrieval(
+            $obj->getRepositoryTaxonomies()
+        );
+    }
 }
