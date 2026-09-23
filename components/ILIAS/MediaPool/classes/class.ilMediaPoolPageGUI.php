@@ -27,6 +27,7 @@ use ILIAS\MediaPool;
 class ilMediaPoolPageGUI extends ilPageObjectGUI
 {
     protected \ILIAS\Style\Content\GUIService $cs_gui;
+    protected MediaPool\InternalGUIService $mep_gui;
     protected MediaPool\StandardGUIRequest $mep_request;
     protected ilTabsGUI $tabs;
     protected ?ilObjMediaPoolGUI $pool_gui = null;
@@ -59,10 +60,8 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->cs_gui = $DIC->contentStyle()->gui();
 
         $this->setEditPreview(true);
-        $this->mep_request = $DIC->mediaPool()
-            ->internal()
-            ->gui()
-            ->standardRequest();
+        $this->mep_gui = $DIC->mediaPool()->internal()->gui();
+        $this->mep_request = $this->mep_gui->standardRequest();
     }
 
     public function setMediaPoolPage(
@@ -333,9 +332,18 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 
         $this->getTabs();
         $page = new ilMediaPoolPage($this->mep_request->getItemId());
-        $table = new ilMediaPoolPageUsagesTableGUI($this, $cmd, $page, $a_all);
+        $table = $this->mep_gui->mediaPoolPageUsagesTableBuilder(
+            $page,
+            $a_all,
+            $this,
+            $cmd
+        )->getTable();
 
-        $tpl->setContent($table->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     public function finishEditing(): void

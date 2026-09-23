@@ -25,6 +25,7 @@ use ILIAS\AdvancedMetaData\Services\ServicesInterface;
 use ILIAS\MediaObjects\Thumbs\ThumbsGUI;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\MediaPool\Clipboard\GUIService;
+use ILIAS\MediaPool\PageUsage\TableBuilder;
 use ILIAS\MediaPool\PermanentLink\PermanentLinkManager;
 
 class InternalGUIService
@@ -90,6 +91,22 @@ class InternalGUIService
             $parent_gui,
             $parent_cmd,
             $filter_title
+        );
+    }
+
+    public function mediaPoolPageUsagesTableBuilder(
+        \ilMediaPoolPage $page,
+        bool $include_hist,
+        object $parent_gui,
+        string $parent_cmd
+    ): TableBuilder {
+        return new TableBuilder(
+            $this->domain_service,
+            $this,
+            $page,
+            $include_hist,
+            $parent_gui,
+            $parent_cmd
         );
     }
 
