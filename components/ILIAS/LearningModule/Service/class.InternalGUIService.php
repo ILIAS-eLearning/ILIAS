@@ -97,4 +97,20 @@ class InternalGUIService
             $parent_cmd
         );
     }
+
+    public function linksTableBuilder(
+        int $lm_id,
+        string $lm_type,
+        object $parent_gui,
+        string $parent_cmd
+    ): Links\TableBuilder {
+        return new Links\TableBuilder(
+            $this->domain_service,
+            $this,
+            $lm_id,
+            $lm_type,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

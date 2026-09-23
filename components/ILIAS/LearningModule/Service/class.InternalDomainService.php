@@ -86,6 +86,18 @@ class InternalDomainService
         return new Editing\ShortTitles\Retrieval($lm_id, $lang);
     }
 
+    public function linksRetrieval(
+        int $lm_id,
+        string $lm_type
+    ): Links\Retrieval {
+        return new Links\Retrieval(
+            $lm_id,
+            $lm_type,
+            $this->DIC->ctrl(),
+            $this->lng()
+        );
+    }
+
     public function helpTooltipRetrieval(
         string $component
     ): HelpTooltip\Retrieval {

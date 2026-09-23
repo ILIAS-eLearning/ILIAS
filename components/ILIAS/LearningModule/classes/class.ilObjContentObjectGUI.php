@@ -1251,14 +1251,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->setTabs();
         $this->setContentSubTabs("internal_links");
 
-        $table_gui = new ilLinksTableGUI(
-            $this,
-            "listLinks",
+        $table = $this->gui->linksTableBuilder(
             $this->lm->getId(),
-            $this->lm->getType()
-        );
+            $this->lm->getType(),
+            $this,
+            "listLinks"
+        )->getTable();
 
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     /**
