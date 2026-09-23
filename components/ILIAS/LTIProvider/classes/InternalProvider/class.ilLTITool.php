@@ -22,6 +22,7 @@ use ceLTIc\LTI\Context;
 use ceLTIc\LTI\ResourceLink;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\User;
+use ceLTIc\LTI\Util;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
@@ -100,6 +101,35 @@ class ilLTITool extends Tool
 
         self::$authenticateUsingGet = true;
 
-        parent::handleRequest($strictMode, $disableCookieCheck, $generateWarnings);
+        // The LTI library ends the request itself once the message has been processed. ILIAS still
+        // has to authenticate the user and forward them to the requested object, so the library is
+        // asked to throw instead of exiting.
+        $this->onExitExceptionClass = ilLTIExitException::class;
+
+        try {
+            parent::handleRequest($strictMode, $disableCookieCheck, $generateWarnings);
+        } catch (ilLTIExitException $e) {
+            $this->sendPendingResponse();
+        }
+    }
+
+    /**
+     * Send whatever the LTI library prepared for the platform before it tried to end the request.
+     *
+     * A redirect back to the platform carries an error message, an output body is either an error
+     * page or one of the self submitting forms used for the browser storage and cookie checks. A
+     * successfully processed launch leaves both of them empty, which is the only case where the
+     * control flow returns to ILIAS.
+     */
+    private function sendPendingResponse(): void
+    {
+        if (!is_null($this->redirectUrl)) {
+            Util::redirect($this->redirectUrl);
+        }
+
+        if (!is_null($this->output)) {
+            echo $this->output;
+            exit;
+        }
     }
 }
