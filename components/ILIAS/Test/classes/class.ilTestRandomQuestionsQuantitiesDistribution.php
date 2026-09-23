@@ -27,12 +27,12 @@ declare(strict_types=1);
 class ilTestRandomQuestionsQuantitiesDistribution
 {
     /**
-     * @var array[ $questionId => ilTestRandomQuestionSetSourcePoolDefinitionList ]
+     * @var array[ $question_id => ilTestRandomQuestionSetSourcePoolDefinitionList ]
      */
     protected array $quest_related_src_pool_def_register = [];
 
     /**
-     * @var array[ $definitionId => ilTestRandomSetQuestionCollection ]
+     * @var array[ $definition_id => ilTestRandomSetQuestionCollection ]
      */
     protected array $src_pool_def_related_quest_register = [];
 
@@ -94,13 +94,13 @@ class ilTestRandomQuestionsQuantitiesDistribution
     }
 
     /**
-     * @param $questionId
+     * @param $question_id
      * @return ilTestRandomQuestionSetSourcePoolDefinitionList
      */
-    protected function getQuestRelatedSrcPoolDefinitionList($questionId): ?ilTestRandomQuestionSetSourcePoolDefinitionList
+    protected function getQuestRelatedSrcPoolDefinitionList($question_id): ?ilTestRandomQuestionSetSourcePoolDefinitionList
     {
-        if (isset($this->quest_related_src_pool_def_register[$questionId])) {
-            return $this->quest_related_src_pool_def_register[$questionId];
+        if (isset($this->quest_related_src_pool_def_register[$question_id])) {
+            return $this->quest_related_src_pool_def_register[$question_id];
         }
 
         return null;
@@ -165,24 +165,24 @@ class ilTestRandomQuestionsQuantitiesDistribution
 
     protected function getExclusiveQuestionCollection(int $definition_id): ilTestRandomQuestionSetQuestionCollection
     {
-        $exclusiveQstCollection = $this->buildRandomQuestionCollectionInstance();
+        $exclusive_qst_collection = $this->buildRandomQuestionCollectionInstance();
 
         foreach ($this->getSrcPoolDefRelatedQuestionCollection($definition_id) as $question) {
             if ($this->isQuestionUsedByMultipleSrcPoolDefinitions($question)) {
                 continue;
             }
 
-            $exclusiveQstCollection->addQuestion($question);
+            $exclusive_qst_collection->addQuestion($question);
         }
 
-        return $exclusiveQstCollection;
+        return $exclusive_qst_collection;
     }
 
     protected function getSharedQuestionCollection(int $definition_id): ilTestRandomQuestionSetQuestionCollection
     {
-        $srcPoolDefRelatedQstCollection = $this->getSrcPoolDefRelatedQuestionCollection($definition_id);
-        $exclusiveQstCollection = $this->getExclusiveQuestionCollection($definition_id);
-        return $srcPoolDefRelatedQstCollection->getRelativeComplementCollection($exclusiveQstCollection);
+        $src_pool_def_related_qst_collection = $this->getSrcPoolDefRelatedQuestionCollection($definition_id);
+        $exclusive_qst_collection = $this->getExclusiveQuestionCollection($definition_id);
+        return $src_pool_def_related_qst_collection->getRelativeComplementCollection($exclusive_qst_collection);
     }
 
     protected function getIntersectionQuestionCollection(
@@ -198,35 +198,35 @@ class ilTestRandomQuestionsQuantitiesDistribution
     }
 
     /**
-     * @return array[ $definitionId => ilTestRandomQuestionSetQuestionCollection ]
+     * @return array[ $definition_id => ilTestRandomQuestionSetQuestionCollection ]
      */
     protected function getIntersectionQstCollectionByDefinitionMap(
         ilTestRandomQuestionSetSourcePoolDefinition $definition
     ): array {
-        $intersectionQstCollectionsByDefId = [];
+        $intersection_qst_collections_by_def_id = [];
 
-        $sharedQuestionCollection = $this->getSharedQuestionCollection($definition->getId());
-        foreach ($sharedQuestionCollection as $sharedQuestion) {
-            $relatedSrcPoolDefList = $this->getQuestRelatedSrcPoolDefinitionList($sharedQuestion->getQuestionId());
-            foreach ($relatedSrcPoolDefList as $otherDefinition) {
-                if ($otherDefinition->getId() == $definition->getId()) {
+        $shared_question_collection = $this->getSharedQuestionCollection($definition->getId());
+        foreach ($shared_question_collection as $shared_question) {
+            $related_src_pool_def_list = $this->getQuestRelatedSrcPoolDefinitionList($shared_question->getQuestionId());
+            foreach ($related_src_pool_def_list as $other_definition) {
+                if ($other_definition->getId() == $definition->getId()) {
                     continue;
                 }
 
-                if (isset($intersectionQstCollectionsByDefId[$otherDefinition->getId()])) {
+                if (isset($intersection_qst_collections_by_def_id[$other_definition->getId()])) {
                     continue;
                 }
 
-                $intersectionQuestionCollection = $this->getIntersectionQuestionCollection(
+                $intersection_question_collection = $this->getIntersectionQuestionCollection(
                     $definition->getId(),
-                    $otherDefinition->getId()
+                    $other_definition->getId()
                 );
 
-                $intersectionQstCollectionsByDefId[$otherDefinition->getId()] = $intersectionQuestionCollection;
+                $intersection_qst_collections_by_def_id[$other_definition->getId()] = $intersection_question_collection;
             }
         }
 
-        return $intersectionQstCollectionsByDefId;
+        return $intersection_qst_collections_by_def_id;
     }
 
     /**
@@ -235,24 +235,24 @@ class ilTestRandomQuestionsQuantitiesDistribution
      */
     protected function getIntersectionQuestionCollectionSubsetApplicationList(ilTestRandomQuestionSetSourcePoolDefinition $definition): ilTestRandomQuestionCollectionSubsetApplicationList
     {
-        $qstCollectionSubsetApplicationList = $this->buildQuestionCollectionSubsetApplicationListInstance();
+        $qst_collection_subset_application_list = $this->buildQuestionCollectionSubsetApplicationListInstance();
 
-        $intersectionQstCollectionByDefIdMap = $this->getIntersectionQstCollectionByDefinitionMap($definition);
-        foreach ($intersectionQstCollectionByDefIdMap as $otherDefinitionId => $intersectionCollection) {
-            /* @var ilTestRandomQuestionSetQuestionCollection $intersectionCollection */
+        $intersection_qst_collection_by_def_id_map = $this->getIntersectionQstCollectionByDefinitionMap($definition);
+        foreach ($intersection_qst_collection_by_def_id_map as $other_definition_id => $intersection_collection) {
+            /* @var ilTestRandomQuestionSetQuestionCollection $intersection_collection */
 
-            $qstCollectionSubsetApplication = $this->buildQuestionCollectionSubsetApplicationInstance();
-            $qstCollectionSubsetApplication->setQuestions($intersectionCollection->getQuestions());
-            $qstCollectionSubsetApplication->setApplicantId($otherDefinitionId);
+            $qst_collection_subset_application = $this->buildQuestionCollectionSubsetApplicationInstance();
+            $qst_collection_subset_application->setQuestions($intersection_collection->getQuestions());
+            $qst_collection_subset_application->setApplicantId($other_definition_id);
 
-            $qstCollectionSubsetApplication->setRequiredAmount(
-                $this->source_pool_definition_list->getDefinition($otherDefinitionId)->getQuestionAmount()
+            $qst_collection_subset_application->setRequiredAmount(
+                $this->source_pool_definition_list->getDefinition($other_definition_id)->getQuestionAmount()
             );
 
-            $qstCollectionSubsetApplicationList->addCollectionSubsetApplication($qstCollectionSubsetApplication);
+            $qst_collection_subset_application_list->addCollectionSubsetApplication($qst_collection_subset_application);
         }
 
-        return $qstCollectionSubsetApplicationList;
+        return $qst_collection_subset_application_list;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -263,25 +263,25 @@ class ilTestRandomQuestionsQuantitiesDistribution
      */
     protected function getIntersectionSharingDefinitionList(ilTestRandomQuestionSetSourcePoolDefinition $definition): ilTestRandomQuestionSetSourcePoolDefinitionList
     {
-        $intersectionSharingDefinitionList = $this->buildSourcePoolDefinitionListInstance();
+        $intersection_sharing_definition_list = $this->buildSourcePoolDefinitionListInstance();
 
-        $sharedQuestionCollection = $this->getSharedQuestionCollection($definition->getId());
-        foreach ($sharedQuestionCollection as $sharedQuestion) {
-            $relatedSrcPoolDefList = $this->getQuestRelatedSrcPoolDefinitionList($sharedQuestion->getQuestionId());
-            foreach ($relatedSrcPoolDefList as $otherDefinition) {
-                if ($otherDefinition->getId() == $definition->getId()) {
+        $shared_question_collection = $this->getSharedQuestionCollection($definition->getId());
+        foreach ($shared_question_collection as $shared_question) {
+            $related_src_pool_def_list = $this->getQuestRelatedSrcPoolDefinitionList($shared_question->getQuestionId());
+            foreach ($related_src_pool_def_list as $other_definition) {
+                if ($other_definition->getId() == $definition->getId()) {
                     continue;
                 }
 
-                if ($intersectionSharingDefinitionList->hasDefinition($otherDefinition->getId())) {
+                if ($intersection_sharing_definition_list->hasDefinition($other_definition->getId())) {
                     continue;
                 }
 
-                $intersectionSharingDefinitionList->addDefinition($otherDefinition);
+                $intersection_sharing_definition_list->addDefinition($other_definition);
             }
         }
 
-        return $intersectionSharingDefinitionList;
+        return $intersection_sharing_definition_list;
     }
 
     /**
@@ -290,9 +290,9 @@ class ilTestRandomQuestionsQuantitiesDistribution
      */
     protected function isQuestionUsedByMultipleSrcPoolDefinitions(ilTestRandomQuestionSetQuestion $question): bool
     {
-        /* @var ilTestRandomQuestionSetSourcePoolDefinitionList $qstRelatedSrcPoolDefList */
-        $qstRelatedSrcPoolDefList = $this->quest_related_src_pool_def_register[$question->getQuestionId()];
-        return $qstRelatedSrcPoolDefList->getDefinitionCount() > 1;
+        /* @var ilTestRandomQuestionSetSourcePoolDefinitionList $qst_related_src_pool_def_list */
+        $qst_related_src_pool_def_list = $this->quest_related_src_pool_def_register[$question->getQuestionId()];
+        return $qst_related_src_pool_def_list->getDefinitionCount() > 1;
     }
 
     /**
@@ -314,17 +314,17 @@ class ilTestRandomQuestionsQuantitiesDistribution
 
     /**
      * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
-     * @return integer $availableSharedQuestionAmount
+     * @return integer $available_shared_question_amount
      */
     protected function getAvailableSharedQuestionAmount(ilTestRandomQuestionSetSourcePoolDefinition $definition): int
     {
-        $intersectionSubsetApplicationList = $this->getIntersectionQuestionCollectionSubsetApplicationList($definition);
+        $intersection_subset_application_list = $this->getIntersectionQuestionCollectionSubsetApplicationList($definition);
 
-        foreach ($this->getSharedQuestionCollection($definition->getId()) as $sharedQuestion) {
-            $intersectionSubsetApplicationList->handleQuestionRequest($sharedQuestion);
+        foreach ($this->getSharedQuestionCollection($definition->getId()) as $shared_question) {
+            $intersection_subset_application_list->handleQuestionRequest($shared_question);
         }
 
-        return $intersectionSubsetApplicationList->getNonReservedQuestionAmount();
+        return $intersection_subset_application_list->getNonReservedQuestionAmount();
     }
 
     /**
@@ -333,9 +333,9 @@ class ilTestRandomQuestionsQuantitiesDistribution
      */
     protected function getRequiredSharedQuestionAmount(ilTestRandomQuestionSetSourcePoolDefinition $definition): int
     {
-        $exclusiveQstCollection = $this->getExclusiveQuestionCollection($definition->getId());
-        $missingExclsuiveQstCount = $exclusiveQstCollection->getMissingCount($definition->getQuestionAmount());
-        return $missingExclsuiveQstCount;
+        $exclusive_qst_collection = $this->getExclusiveQuestionCollection($definition->getId());
+        $missing_exclsuive_qst_count = $exclusive_qst_collection->getMissingCount($definition->getQuestionAmount());
+        return $missing_exclsuive_qst_count;
     }
 
     /**
@@ -367,17 +367,17 @@ class ilTestRandomQuestionsQuantitiesDistribution
      */
     public function calculateQuantities(ilTestRandomQuestionSetSourcePoolDefinition $definition): ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     {
-        $quantityCalculation = new ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation($definition);
+        $quantity_calculation = new ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation($definition);
 
-        $quantityCalculation->setOverallQuestionAmount($this->getSrcPoolDefRelatedQuestionAmount($definition));
-        $quantityCalculation->setExclusiveQuestionAmount($this->getExclusiveQuestionAmount($definition));
-        $quantityCalculation->setAvailableSharedQuestionAmount($this->getAvailableSharedQuestionAmount($definition));
+        $quantity_calculation->setOverallQuestionAmount($this->getSrcPoolDefRelatedQuestionAmount($definition));
+        $quantity_calculation->setExclusiveQuestionAmount($this->getExclusiveQuestionAmount($definition));
+        $quantity_calculation->setAvailableSharedQuestionAmount($this->getAvailableSharedQuestionAmount($definition));
 
-        $quantityCalculation->setIntersectionQuantitySharingDefinitionList(
+        $quantity_calculation->setIntersectionQuantitySharingDefinitionList(
             $this->getIntersectionSharingDefinitionList($definition)
         );
 
-        return $quantityCalculation;
+        return $quantity_calculation;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

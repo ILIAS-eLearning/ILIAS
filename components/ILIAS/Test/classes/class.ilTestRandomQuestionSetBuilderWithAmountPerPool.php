@@ -28,72 +28,72 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 {
     public function checkBuildable(): bool
     {
-        $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution(
+        $quantities_distribution = new ilTestRandomQuestionsQuantitiesDistribution(
             $this->db,
             $this,
-            $this->sourcePoolDefinitionList
+            $this->source_pool_definition_list
         );
-        $quantitiesDistribution->initialise();
+        $quantities_distribution->initialise();
 
         $is_buildable = true;
-        foreach ($this->sourcePoolDefinitionList as $definition) {
-            $quantityCalculation = $quantitiesDistribution->calculateQuantities($definition);
-            if ($quantityCalculation->isRequiredAmountGuaranteedAvailable()) {
+        foreach ($this->source_pool_definition_list as $definition) {
+            $quantity_calculation = $quantities_distribution->calculateQuantities($definition);
+            if ($quantity_calculation->isRequiredAmountGuaranteedAvailable()) {
                 continue;
             }
             $is_buildable = false;
-            $this->checkMessages[] = $quantityCalculation->getDistributionReport($this->lng);
+            $this->check_messages[] = $quantity_calculation->getDistributionReport($this->lng);
         }
 
         return $is_buildable;
     }
 
-    public function performBuild(ilTestSession $testSession)
+    public function performBuild(ilTestSession $test_session)
     {
-        $questionSet = new ilTestRandomQuestionSetQuestionCollection();
+        $question_set = new ilTestRandomQuestionSetQuestionCollection();
 
-        foreach ($this->sourcePoolDefinitionList as $definition) {
+        foreach ($this->source_pool_definition_list as $definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
 
-            $requiredQuestionAmount = $definition->getQuestionAmount();
+            $required_question_amount = $definition->getQuestionAmount();
 
-            $potentialQuestionStage = $this->getSrcPoolDefRelatedQuestCollection($definition);
+            $potential_question_stage = $this->getSrcPoolDefRelatedQuestCollection($definition);
 
-            $actualQuestionStage = $potentialQuestionStage->getRelativeComplementCollection($questionSet);
+            $actual_question_stage = $potential_question_stage->getRelativeComplementCollection($question_set);
 
-            if ($actualQuestionStage->isGreaterThan($requiredQuestionAmount)) {
-                $questions = $this->fetchQuestionsFromStageRandomly($actualQuestionStage, $requiredQuestionAmount);
+            if ($actual_question_stage->isGreaterThan($required_question_amount)) {
+                $questions = $this->fetchQuestionsFromStageRandomly($actual_question_stage, $required_question_amount);
             } else {
                 // fau: fixRandomTestBuildable - log missing questions for a random test rule
-                if ($actualQuestionStage->isSmallerThan($requiredQuestionAmount)) {
+                if ($actual_question_stage->isSmallerThan($required_question_amount)) {
                     if (!isset($translator)) {
                         $translator = new ilTestQuestionFilterLabelTranslator($this->db, $this->lng);
-                        $translator->loadLabels($this->sourcePoolDefinitionList);
+                        $translator->loadLabels($this->source_pool_definition_list);
                     }
                     $this->logger->info("RANDOM TEST: missing questions for: "
                         . implode(" - ", [$definition->getPoolTitle(), $translator->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter())]));
                 }
                 // fau.
-                $questions = $actualQuestionStage;
+                $questions = $actual_question_stage;
             }
 
-            $questionSet->mergeQuestionCollection($questions);
+            $question_set->mergeQuestionCollection($questions);
         }
 
-        $requiredQuestionAmount = $this->sourcePoolDefinitionList->getQuestionAmount();
+        $required_question_amount = $this->source_pool_definition_list->getQuestionAmount();
 
-        if ($questionSet->isSmallerThan($requiredQuestionAmount)) {
-            $missingQuestionCount = $questionSet->getMissingCount($requiredQuestionAmount);
+        if ($question_set->isSmallerThan($required_question_amount)) {
+            $missing_question_count = $question_set->getMissingCount($required_question_amount);
             // fau: fixRandomTestBuildable - avoid already chosen questions being used as fillers
-            $potentialQuestionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
-            $actualQuestionStage = $potentialQuestionStage->getRelativeComplementCollection($questionSet);
-            $questions = $this->fetchQuestionsFromStageRandomly($actualQuestionStage, $missingQuestionCount);
+            $potential_question_stage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->source_pool_definition_list);
+            $actual_question_stage = $potential_question_stage->getRelativeComplementCollection($question_set);
+            $questions = $this->fetchQuestionsFromStageRandomly($actual_question_stage, $missing_question_count);
             // fau.
-            $questionSet->mergeQuestionCollection($questions);
+            $question_set->mergeQuestionCollection($questions);
         }
 
-        $this->handleQuestionOrdering($questionSet);
+        $this->handleQuestionOrdering($question_set);
 
-        $this->storeQuestionSet($testSession, $questionSet);
+        $this->storeQuestionSet($test_session, $question_set);
     }
 }
