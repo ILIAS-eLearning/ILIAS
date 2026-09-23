@@ -971,18 +971,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         $ilToolbar->addFormButton($this->lng->txt("add_menu_entry"), "addMenuEntry");
-        $ilToolbar->setCloseFormTag(false);
 
         $form = $this->initMenuForm();
-        $form->setOpenTag(false);
-        $form->setCloseTag(false);
 
-        $this->__initLMMenuEditor();
-        $entries = $this->lmme_obj->getMenuEntries();
-        $table = new ilLMMenuItemsTableGUI($this, "editMenuProperties", $this->lmme_obj);
-        $table->setOpenFormTag(false);
+        $table = $this->getMenuItemsTable();
 
-        $tpl->setContent($form->getHTML() . "<br />" . $table->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($form->getHTML() . "<br />" . $table->render());
     }
 
     public function saveMenuProperties(): void
@@ -996,9 +994,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->setHideHeaderFooterPrint((int) $form->getInput("hide_head_foot_print"));
             $this->lm->updateProperties();
         }
-
-        $this->__initLMMenuEditor();
-        $this->lmme_obj->updateActiveStatus($this->edit_request->getMenuEntries());
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editMenuProperties");
@@ -2119,7 +2114,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         if ($a_mode == "edit") {
             $this->__initLMMenuEditor();
-            $this->lmme_obj->readEntry($this->edit_request->getMenuEntry());
+            $this->lmme_obj->readEntry($this->requested_menu_entry);
             $ti->setValue($this->lmme_obj->getTitle());
             $ta->setValue($this->lmme_obj->getTarget());
         }
@@ -2180,19 +2175,93 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function deleteMenuEntry(): void
+    protected function getMenuItemsTable(): TableAdapterGUI
     {
-        if (empty($this->requested_menu_entry)) {
+        $this->__initLMMenuEditor();
+        return $this->gui->editing()->menuItemsTableBuilder(
+            $this->lmme_obj->getMenuEntries(),
+            $this,
+            "editMenuProperties"
+        )->getTable();
+    }
+
+    protected function getMenuEntryData(int $id): ?array
+    {
+        $this->__initLMMenuEditor();
+        foreach ($this->lmme_obj->getMenuEntries() as $entry) {
+            if ((int) $entry["id"] === $id) {
+                return $entry;
+            }
+        }
+        return null;
+    }
+
+    public function confirmDeleteMenuEntry(int $id): void
+    {
+        $entry = $this->getMenuEntryData($id);
+        if ($entry === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
             $this->ctrl->redirect($this, "editMenuProperties");
+            return;
         }
 
-        $this->__initLMMenuEditor();
-        $this->lmme_obj->delete($this->requested_menu_entry);
+        $this->getMenuItemsTable()->renderDeletionConfirmation(
+            $this->lng->txt("delete"),
+            $this->lng->txt("info_delete_sure"),
+            "confirmedDeleteMenuEntry",
+            [$id => (string) $entry["title"]]
+        );
+    }
+
+    public function confirmedDeleteMenuEntry(): void
+    {
+        $table = $this->getMenuItemsTable();
+        $ids = $table->getItemIds();
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
+            return;
+        }
+
+        $valid_ids = [];
+        foreach ($ids as $id) {
+            if ($this->getMenuEntryData((int) $id) !== null) {
+                $valid_ids[] = (int) $id;
+            }
+        }
+        if ($valid_ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
+            return;
+        }
+
+        foreach ($valid_ids as $id) {
+            $this->lmme_obj->delete($id);
+        }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_entry_removed"), true);
         $this->ctrl->redirect($this, "editMenuProperties");
     }
+
+    public function activateMenuEntry(int $id): void
+    {
+        ilLMMenuEditor::writeActive($id, true);
+        $this->ctrl->redirect($this, "editMenuProperties");
+    }
+
+    public function deactivateMenuEntry(int $id): void
+    {
+        ilLMMenuEditor::writeActive($id, false);
+        $this->ctrl->redirect($this, "editMenuProperties");
+    }
+
+    public function editMenuEntryFromTable(int $id): void
+    {
+        $this->requested_menu_entry = $id;
+        $this->ctrl->setParameter($this, "menu_entry", $id);
+        $this->editMenuEntry();
+    }
+
 
     public function editMenuEntry(?ilPropertyFormGUI $form = null): void
     {
@@ -2227,13 +2296,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         $form = $this->initMenuEntryForm("edit");
         if ($form->checkInput()) {
-            if ($this->edit_request->getMenuEntry() == "") {
+            if (empty($this->requested_menu_entry)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
                 $this->ctrl->redirect($this, "editMenuProperties");
+                return;
             }
 
             $this->__initLMMenuEditor();
-            $this->lmme_obj->readEntry($this->edit_request->getMenuEntry());
+            $this->lmme_obj->readEntry($this->requested_menu_entry);
             $this->lmme_obj->setTitle($form->getInput("title"));
             $this->lmme_obj->setTarget($form->getInput("target"));
             if ($form->getInput("link_ref_id")) {

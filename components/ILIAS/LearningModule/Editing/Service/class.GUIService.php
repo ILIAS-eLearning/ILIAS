@@ -107,6 +107,20 @@ class GUIService
         );
     }
 
+    public function menuItemsTableBuilder(
+        array $entries,
+        object $parent_gui,
+        string $parent_cmd
+    ): MenuItemsTableBuilder {
+        return new MenuItemsTableBuilder(
+            $this->domain,
+            $this->gui,
+            $entries,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function exportIdsTableBuilder(
         int $lm_id,
         object $parent_gui,
