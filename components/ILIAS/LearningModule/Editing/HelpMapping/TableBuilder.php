@@ -8,7 +8,6 @@
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with
  * the source code, too.
- *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
@@ -18,7 +17,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LearningModule\Links;
+namespace ILIAS\LearningModule\Editing\HelpMapping;
 
 use ILIAS\LearningModule\InternalDomainService;
 use ILIAS\LearningModule\InternalGUIService;
@@ -32,8 +31,8 @@ class TableBuilder extends CommonTableBuilder
     public function __construct(
         protected InternalDomainService $domain,
         protected InternalGUIService $gui,
-        protected int $lm_id,
-        protected string $lm_type,
+        protected \ilObjLearningModule $lm,
+        protected int $chapter_id,
         object $parent_gui,
         string $parent_cmd
     ) {
@@ -42,34 +41,31 @@ class TableBuilder extends CommonTableBuilder
 
     protected function getId(): string
     {
-        return "lm_links";
+        return "lm_help_map";
     }
 
     protected function getTitle(): string
     {
-        return $this->domain->lng()->txt("cont_internal_links");
+        return $this->domain->lng()->txt("help_assign_help_ids");
     }
 
     protected function getRetrieval(): RetrievalInterface
     {
-        return $this->domain->linksRetrieval($this->lm_id, $this->lm_type);
+        return $this->domain->helpMappingRetrieval($this->lm, $this->chapter_id);
     }
 
     protected function transformRow(array $data_row): array
     {
         return [
             "id" => $data_row["id"],
-            "page" => $this->gui->ui()->factory()->link()->standard(
-                $data_row["title"],
-                $data_row["page_link"]
-            ),
-            "links" => $this->buildLinkListing($data_row["links"])
+            "title" => $data_row["title"],
+            "screen_ids" => $this->buildScreenIdListing($data_row["screen_ids"])
         ];
     }
 
-    protected function buildLinkListing(array $links): Unordered
+    protected function buildScreenIdListing(array $screen_ids): Unordered
     {
-        return $this->gui->ui()->factory()->listing()->unordered($links);
+        return $this->gui->ui()->factory()->listing()->unordered($screen_ids);
     }
 
     protected function build(TableAdapterGUI $table): TableAdapterGUI
@@ -77,7 +73,8 @@ class TableBuilder extends CommonTableBuilder
         $lng = $this->domain->lng();
 
         return $table
-            ->linkColumn("page", $lng->txt("pg"))
-            ->listingColumn("links", $lng->txt("cont_internal_links"));
+            ->textColumn("title", $lng->txt("st"), true)
+            ->listingColumn("screen_ids", $lng->txt("cont_screen_ids"))
+            ->singleAction("editHelpMapping", $lng->txt("edit"), true);
     }
 }

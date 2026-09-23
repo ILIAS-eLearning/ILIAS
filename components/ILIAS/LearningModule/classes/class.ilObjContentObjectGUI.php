@@ -2535,7 +2535,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilToolbar->addInputItem($si, true);
             $ilToolbar->addFormButton($lng->txt("help_filter"), "filterHelpChapters");
 
-            $tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation);
+            $tbl = $this->getHelpMappingTable();
+            if ($tbl->handleCommand()) {
+                return;
+            }
+            $tpl->setContent($tbl->render());
+            return;
         } else {
             $tbl = $this->gui->editing()->exportIdsTableBuilder(
                 $this->lm->getId(),
@@ -2549,7 +2554,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
             return;
         }
 
-        $tpl->setContent($tbl->getHTML());
+    }
+
+    protected function getHelpMappingTable(): TableAdapterGUI
+    {
+        return $this->gui->editing()->helpMappingTableBuilder(
+            $this->lm,
+            (int) ilSession::get("help_chap"),
+            $this,
+            "showExportIDsOverview"
+        )->getTable();
     }
 
     public function filterHelpChapters(): void
@@ -2628,16 +2642,55 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     public function saveHelpMapping(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $help_map = $this->help->internal()->domain()->map();
-
-        foreach ($this->edit_request->getScreenIds() as $chap => $ids) {
-            $ids = explode("\n", $ids);
-            $help_map->saveScreenIdsForChapter($chap, $ids);
+        $id = $this->edit_request->getEditId();
+        if ($id <= 0 || ilLMObject::_lookupContObjID($id) !== $this->lm->getId()) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showExportIDsOverview");
+            return;
         }
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        $ilCtrl->redirect($this, "showExportIdsOverview");
+
+        $form = $this->getHelpMappingForm($id);
+        if (!$form->isValid()) {
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("cont_screen_ids"))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        $help_map = $this->help->internal()->domain()->map();
+        $ids = explode("\n", (string) $form->getData("screen_ids"));
+        $help_map->saveScreenIdsForChapter($id, $ids);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "showExportIDsOverview");
+    }
+
+    public function editHelpMapping(int $id): void
+    {
+        if ($id <= 0 || ilLMObject::_lookupContObjID($id) !== $this->lm->getId()) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showExportIDsOverview");
+            return;
+        }
+
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("cont_screen_ids"))
+            ->form($this->getHelpMappingForm($id))
+            ->send();
+    }
+
+    protected function getHelpMappingForm(int $id): FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "edit_id", $id);
+        $screen_ids = $this->help->internal()->domain()->map()->getScreenIdsOfChapter($id);
+
+        return $this->gui->form([ilLMEditorGUI::class, $this::class], "saveHelpMapping")
+            ->textarea(
+                "screen_ids",
+                $this->lng->txt("cont_screen_ids"),
+                "",
+                implode("\n", $screen_ids)
+            );
     }
 
     ////

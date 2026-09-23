@@ -134,6 +134,22 @@ class GUIService
         );
     }
 
+    public function helpMappingTableBuilder(
+        \ilObjLearningModule $lm,
+        int $chapter_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): HelpMapping\TableBuilder {
+        return new HelpMapping\TableBuilder(
+            $this->domain,
+            $this->gui,
+            $lm,
+            $chapter_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function shortTitlesTableBuilder(
         int $lm_id,
         string $lang,

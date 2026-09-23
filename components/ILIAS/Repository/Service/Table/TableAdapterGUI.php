@@ -140,7 +140,7 @@ class TableAdapterGUI
         return $this;
     }
 
-    public function linkListingColumn(
+    public function listingColumn(
         string $key,
         string $title,
         bool $sortable = false
@@ -148,6 +148,14 @@ class TableAdapterGUI
         $column = $this->ui->factory()->table()->column()->listing($title)->withIsSortable($sortable);
         $this->addColumn($key, $column);
         return $this;
+    }
+
+    public function linkListingColumn(
+        string $key,
+        string $title,
+        bool $sortable = false
+    ): self {
+        return $this->listingColumn($key, $title, $sortable);
     }
 
     public function singleAction(

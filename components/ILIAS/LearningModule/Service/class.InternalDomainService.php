@@ -93,6 +93,17 @@ class InternalDomainService
         return new Editing\ExportIds\Retrieval($lm_id);
     }
 
+    public function helpMappingRetrieval(
+        \ilObjLearningModule $lm,
+        int $chapter_id
+    ): Editing\HelpMapping\Retrieval {
+        return new Editing\HelpMapping\Retrieval(
+            $lm,
+            $chapter_id,
+            $this->DIC->help()->internal()->domain()->map()
+        );
+    }
+
     public function shortTitlesRetrieval(
         int $lm_id,
         string $lang
