@@ -23,6 +23,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 use ILIAS\LearningModule\Media\PageRetrieval;
 use ILIAS\LearningModule\Question\Usage\TableBuilder as QuestionUsageTableBuilder;
 use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Table\TableAdapterGUI;
 
 /**
  * Class ilObjContentObjectGUI
@@ -2579,9 +2580,130 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
 
-        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", (string) ilSession::get("help_tt_comp"));
+        $tbl = $this->gui->helpTooltipTableBuilder(
+            (string) ilSession::get("help_tt_comp"),
+            $this,
+            "showTooltipList"
+        )->getTable();
 
-        $tpl->setContent($tbl->getHTML());
+        if ($tbl->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($tbl->render());
+    }
+
+    protected function getTooltipTable(): TableAdapterGUI
+    {
+        return $this->gui->helpTooltipTableBuilder(
+            (string) ilSession::get("help_tt_comp"),
+            $this,
+            "showTooltipList"
+        )->getTable();
+    }
+
+    protected function getTooltip(int $id): ?array
+    {
+        $component = (string) ilSession::get("help_tt_comp");
+        foreach ($this->help->internal()->domain()->tooltips()->getAllTooltips($component) as $tooltip) {
+            if ((int) $tooltip["id"] === $id) {
+                return $tooltip;
+            }
+        }
+
+        return null;
+    }
+
+    public function editTooltip(int $id): void
+    {
+        if ($this->getTooltip($id) === null) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showTooltipList");
+            return;
+        }
+
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("edit"))
+            ->form($this->getTooltipForm($id))
+            ->send();
+    }
+
+    protected function getTooltipForm(int $id): FormAdapterGUI
+    {
+        $tooltip = $this->getTooltip($id) ?? ["tt_id" => "", "text" => ""];
+        $this->ctrl->setParameter($this, "edit_id", $id);
+
+        return $this->gui->form([ilLMEditorGUI::class, $this::class], "saveTooltip")
+            ->text(
+                "tt_id",
+                $this->lng->txt("help_tooltip_id"),
+                "",
+                (string) $tooltip["tt_id"],
+                200
+            )
+            ->textarea(
+                "text",
+                $this->lng->txt("help_tt_text"),
+                "",
+                (string) $tooltip["text"]
+            );
+    }
+
+    public function saveTooltip(): void
+    {
+        $id = $this->edit_request->getEditId();
+        if ($this->getTooltip($id) === null) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showTooltipList");
+            return;
+        }
+
+        $form = $this->getTooltipForm($id);
+        if (!$form->isValid()) {
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("edit"))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        $this->help->internal()->domain()->tooltips()->updateTooltip(
+            $id,
+            (string) $form->getData("text"),
+            (string) $form->getData("tt_id")
+        );
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "showTooltipList");
+    }
+
+    public function deleteTooltip(int $id): void
+    {
+        $tooltip = $this->getTooltip($id);
+        if ($tooltip === null) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showTooltipList");
+            return;
+        }
+
+        $this->getTooltipTable()->renderDeletionConfirmation(
+            $this->lng->txt("delete"),
+            $this->lng->txt("info_delete_sure"),
+            "confirmedDeleteTooltip",
+            [$id => (string) $tooltip["tt_id"]]
+        );
+    }
+
+    public function confirmedDeleteTooltip(): void
+    {
+        $ids = $this->getTooltipTable()->getItemIds();
+        foreach ($ids as $id) {
+            if ($this->getTooltip((int) $id) !== null) {
+                $this->help->internal()->domain()->tooltips()->deleteTooltip((int) $id);
+            }
+        }
+
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "showTooltipList");
     }
 
     public function addTooltip(): void
@@ -2616,37 +2738,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "showTooltipList");
     }
 
-    public function saveTooltips(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $tooltip_ids = $this->edit_request->getTooltipIds();
-        foreach ($this->edit_request->getTooltipTexts() as $id => $text) {
-            $this->help->internal()->domain()->tooltips()->updateTooltip(
-                (int) $id,
-                $text,
-                $tooltip_ids[(int) $id]
-            );
-        }
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        $ilCtrl->redirect($this, "showTooltipList");
-    }
-
-    public function deleteTooltips(): void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $ids = $this->edit_request->getIds();
-        if (count($ids) > 0) {
-            foreach ($ids as $id) {
-                $this->help->internal()->domain()->tooltips()->deleteTooltip($id);
-            }
-            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        }
-        $ilCtrl->redirect($this, "showTooltipList");
-    }
 
     ////
     //// Set layout

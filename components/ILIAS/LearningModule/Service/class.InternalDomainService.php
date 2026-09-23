@@ -85,4 +85,13 @@ class InternalDomainService
     ): Editing\ShortTitles\Retrieval {
         return new Editing\ShortTitles\Retrieval($lm_id, $lang);
     }
+
+    public function helpTooltipRetrieval(
+        string $component
+    ): HelpTooltip\Retrieval {
+        return new HelpTooltip\Retrieval(
+            $this->DIC->help()->internal()->domain()->tooltips(),
+            $component
+        );
+    }
 }

@@ -84,4 +84,17 @@ class InternalGUIService
             $parent_cmd
         );
     }
+
+    public function helpTooltipTableBuilder(
+        string $component,
+        object $parent_gui,
+        string $parent_cmd
+    ): HelpTooltip\TableBuilder {
+        return new HelpTooltip\TableBuilder(
+            $this->domain_service,
+            $component,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }
