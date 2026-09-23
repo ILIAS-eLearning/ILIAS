@@ -115,7 +115,7 @@ class ilKioskPageRenderer
             $this->tpl->setCurrentBlock('obj_desc');
             $this->tpl->setVariable(
                 'OBJECT_DESCRIPTION',
-                nl2br(ilLegacyFormElementsUtil::prepareFormOutput($obj_description, true))
+                nl2br($obj_description)
             );
             $this->tpl->parseCurrentBlock();
         }
