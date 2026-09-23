@@ -10171,6 +10171,7 @@ forum#:#frm_noti_subject_new_post#:#New post in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_uncens_post#:#Post uncensored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_upt_post#:#Post modified in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_notification_activated#:#Notification Activated
+forum#:#frm_notification_bg_task_title#:#Forum notification delivery
 forum#:#frm_notification_deactivated#:#Notification Deactivated
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
 forum#:#frm_posts#:#Forum Posts

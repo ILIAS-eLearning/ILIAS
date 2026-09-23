@@ -546,13 +546,8 @@ class ilForumAppEventListener implements ilAppEventListener
                 );
             }
 
-            $push_provider = new ilForumPushProvider();
-            $recipients = $push_provider->filterMailRecipients($recipients, $provider, $notificationTypes, $logger);
-
-            $mailNotification = new ilForumMailEventNotificationSender($provider, $logger);
-            $mailNotification->setType($notificationTypes);
-            $mailNotification->setRecipients($recipients);
-            $mailNotification->send();
+            $processor = new ilForumNotificationTaskProcessor($logger);
+            $processor->run($provider, $notificationTypes, $recipients);
         } else {
             $logger->debug('No recipients found, skipped notification delivery.');
         }
