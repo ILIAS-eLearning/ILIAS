@@ -295,12 +295,6 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $this->outputSuffixes($template, "allowed_image_suffixes");
 
         if ($this->getImage() != "") {
-            if (strlen($this->getValue())) {
-                $template->setCurrentBlock("has_value");
-                $template->setVariable("TEXT_IMAGE_NAME", $this->getValue());
-                $template->setVariable("POST_VAR_D", $this->getPostVar());
-                $template->parseCurrentBlock();
-            }
             $template->setCurrentBlock("image");
             if (count($this->getAreas())) {
                 $preview = new ilImagemapPreview($this->getImagePath() . $this->getValue());
