@@ -4578,6 +4578,8 @@ common#:#lso_edit#:#Inquéritos
 common#:#lso_import#:#Testes
 common#:#lso_new#:#Weblinks
 common#:#lso_wizard_page#:#Administração
+common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
+common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#Notificação do progresso de aprendizagem LTI
 common#:#lti_outcome_info#:#Envia o estado do progresso da aprendizagem dos utilizadores LTI ao LTI Tool Consumer.
 common#:#mail#:#Principal pasta de definições do sistema contendo todos os painéis para administrar a sua instalação do ILIAS.

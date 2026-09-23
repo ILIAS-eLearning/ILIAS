@@ -4537,6 +4537,8 @@ common#:#lso_edit#:#Uredi učno zaporedje
 common#:#lso_import#:#Uvozi učno zaporedje
 common#:#lso_new#:#Novo učno zaporedje
 common#:#lso_wizard_page#:#Kopiraj učno zaporedje (2/2 korak)
+common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
+common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#Obveščanje o učnem napredku v LTI
 common#:#lti_outcome_info#:#Uporabnikom orodja LTI pošlje status učnega napredka uporabnikov LTI.
 common#:#mail#:#E-pošta

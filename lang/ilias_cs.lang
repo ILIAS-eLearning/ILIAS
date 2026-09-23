@@ -4537,6 +4537,8 @@ common#:#lso_edit#:#Upravit sekvenci učení
 common#:#lso_import#:#Importovat sekvenci učení
 common#:#lso_new#:#Nová sekvence učení
 common#:#lso_wizard_page#:#Kopírovat sekvenci učení (krok 2/2)
+common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
+common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#LTI oznámení o studijním pokroku
 common#:#lti_outcome_info#:#Odesílá stav studijního pokroku uživatelů LTI spotřebiteli LTI nástroje.
 common#:#mail#:#Zpráva

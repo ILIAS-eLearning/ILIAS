@@ -4595,6 +4595,8 @@ common#:#lso_edit#:#Lernsequenz bearbeiten
 common#:#lso_import#:#Lernsequenz importieren
 common#:#lso_new#:#Neue Lernsequenz anlegen
 common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+common#:#lti_add#:#LTI-Tool (Konsument) anlegen###22 09 2026 new variable
+common#:#lti_new#:#Neues LTI-Tool (Konsument)###22 09 2026 new variable
 common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
 common#:#mail#:#Mail
@@ -5012,7 +5014,7 @@ common#:#obj_lso#:#Lernsequenz
 common#:#obj_lso_duplicate#:#Lernsequenz kopieren
 common#:#obj_lsos#:#Lernsequenz
 common#:#obj_lsos_desc#:#Einstellungen für den Objekttyp Lernsequenz
-common#:#obj_lti#:#LTI-Konsument
+common#:#obj_lti#:#LTI-Tool (Konsument)
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#obj_mail#:#Mail
@@ -5208,7 +5210,7 @@ common#:#objs_itgr#:#Objekteblöcke
 common#:#objs_lm#:#ILIAS-Lernmodule
 common#:#objs_lres#:#Lernmaterialien
 common#:#objs_lso#:#Lernsequenzen
-common#:#objs_lti#:#LTI-Konsumenten
+common#:#objs_lti#:#LTI-Tools (Konsument)
 common#:#objs_mail#:#Mail
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Medienpools

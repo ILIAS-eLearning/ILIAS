@@ -4547,6 +4547,8 @@ common#:#lso_edit#:#Editar Secuencia de Aprendizaje
 common#:#lso_import#:#Importar Secuencia de Aprendizaje
 common#:#lso_new#:#Nueva Secuencia de Aprendizaje
 common#:#lso_wizard_page#:#Copiar Secuencia de Aprendizaje (Paso 2/2)
+common#:#lti_add#:#Añadir herramienta LTI (consumidor)###22 09 2026 new variable
+common#:#lti_new#:#Nueva herramienta LTI (consumidor)###22 09 2026 new variable
 common#:#lti_outcome#:#Notificación de progreso de aprendizaje LTI
 common#:#lti_outcome_info#:#Envía el estado del progreso de aprendizaje de los usuarios LTI al Consumidor de Herramientas LTI.
 common#:#mail#:#Correo
@@ -4966,7 +4968,7 @@ common#:#obj_lso#:#Secuencia de aprendizaje
 common#:#obj_lso_duplicate#:#Copiar secuencia de aprendizaje
 common#:#obj_lsos#:#Secuencias de aprendizaje
 common#:#obj_lsos_desc#:#Ajustes generales para secuencias de aprendizaje
-common#:#obj_lti#:#Consumidor LTI
+common#:#obj_lti#:#Herramienta LTI (consumidor)
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Interoperabilidad de herramientas de aprendizaje (LTI)
 common#:#obj_mail#:#Correo
@@ -5163,7 +5165,7 @@ common#:#objs_itgr#:#Grupos de elementos
 common#:#objs_lm#:#Módulos de aprendizaje de ILIAS
 common#:#objs_lres#:#Recursos de aprendizaje
 common#:#objs_lso#:#Secuencias de aprendizaje
-common#:#objs_lti#:#Consumidores LTI
+common#:#objs_lti#:#Herramientas LTI (consumidor)
 common#:#objs_mail#:#Correo
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Repositorios de objetos multimedia

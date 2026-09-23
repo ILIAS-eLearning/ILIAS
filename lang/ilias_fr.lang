@@ -4522,6 +4522,8 @@ common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
+common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
+common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#Notification de la progression d’apprentissage LTI
 common#:#lti_outcome_info#:#Envoyer le statut de progression d’apprentissage des utilisateurs LTI au consommateur d’outils LTI.
 common#:#mail#:#Messagerie e-mail

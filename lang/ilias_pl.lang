@@ -4537,6 +4537,8 @@ common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
+common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
+common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#Przekazanie statusu postępu w nauce
 common#:#lti_outcome_info#:#Przesyła status postępu w nauce od użytkowników LTI do odbiorców LTI
 common#:#mail#:#Poczta elektroniczna

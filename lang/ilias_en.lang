@@ -4596,6 +4596,8 @@ common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
+common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
+common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.
 common#:#mail#:#Mail
@@ -5014,7 +5016,7 @@ common#:#obj_lso#:#Learning Sequence
 common#:#obj_lso_duplicate#:#Copy Learning Sequence
 common#:#obj_lsos#:#Learning Sequences
 common#:#obj_lsos_desc#:#General settings for Learning Sequences
-common#:#obj_lti#:#LTI Consumer
+common#:#obj_lti#:#LTI Tool (Consumer)
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#obj_mail#:#Mail
@@ -5209,7 +5211,7 @@ common#:#objs_itgr#:#Item Groups
 common#:#objs_lm#:#ILIAS Learning Modules
 common#:#objs_lres#:#Learning Resources
 common#:#objs_lso#:#Learning Sequences
-common#:#objs_lti#:#LTI Consumers
+common#:#objs_lti#:#LTI Tools (Consumer)
 common#:#objs_mail#:#Mail
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Media Pools

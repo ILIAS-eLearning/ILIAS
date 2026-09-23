@@ -4595,6 +4595,8 @@ common#:#lso_edit#:#Tanulási sor módosítása
 common#:#lso_import#:#Tanulási sor importálása
 common#:#lso_new#:#Új tanulási sor
 common#:#lso_wizard_page#:#Tanulási sor másolása (2/2 lépés)
+common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
+common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#LTI Tanulási haladási értesítő
 common#:#lti_outcome_info#:#LTI-felhasználó tanulási haladási állapotának megküldése LTI-eszközfogyasztó / LTI-Platform részére..
 common#:#mail#:#Levelek
