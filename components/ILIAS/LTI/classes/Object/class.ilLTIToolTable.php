@@ -32,15 +32,14 @@ use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Table of the global or user defined providers of ILIAS as LTI consumer (LTI 1.1 and LTI Advantage).
- * Shows the columns, filters and actions of the former table, plus the LTI version.
+ * Table of the external tools ILIAS may launch (LTI 1.1 and LTI Advantage). It serves two screens:
+ * the administration lists the global or the user defined tools and acts on them, and the creation of
+ * an LTI object lists the tools the user may pick and links each title to the command that creates it.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
+class ilLTIToolTable implements DataRetrieval
 {
-    private const string VERSION_1P1 = "LTI-1p0";
-    private const string VERSION_ADVANTAGE = "1.3.0";
     private const array CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
     private const string ACTION_EDIT = "edit";
     private const string ACTION_ACCEPT = "accept";
@@ -52,8 +51,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     private URLBuilderToken $action_token;
     private URLBuilderToken $id_token;
 
-    public function __construct(
-        private readonly ilDBInterface $db,
+    private function __construct(
         private readonly ilLanguage $lng,
         private readonly ilObjUser $user,
         private readonly Factory $ui_factory,
@@ -62,15 +60,75 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly ilCtrlInterface $ctrl,
         private readonly ServerRequestInterface $request,
-        private readonly bool $global,
-        private readonly bool $writable
+        private readonly int $scope,
+        private readonly bool $writable,
+        private readonly ?object $select_gui = null,
+        private readonly string $select_cmd = ''
     ) {
         $this->lng->loadLanguageModule("rep");
         $this->url_builder = new URLBuilder(new DataFactory()->uri((string) $this->request->getUri()));
         [$this->url_builder, $this->action_token, $this->id_token] = $this->url_builder->acquireParameters(
-            ["lti", "provider"],
+            ["lti", "tool"],
             "action",
             "ids"
+        );
+    }
+
+    public static function forAdministration(
+        ilLanguage $lng,
+        ilObjUser $user,
+        Factory $ui_factory,
+        Renderer $ui_renderer,
+        ilUIService $ui_service,
+        ilGlobalTemplateInterface $tpl,
+        ilCtrlInterface $ctrl,
+        ServerRequestInterface $request,
+        bool $global,
+        bool $writable
+    ): self {
+        return new self(
+            $lng,
+            $user,
+            $ui_factory,
+            $ui_renderer,
+            $ui_service,
+            $tpl,
+            $ctrl,
+            $request,
+            $global ? ilLTITool::SCOPE_GLOBAL : ilLTITool::SCOPE_USER,
+            $writable
+        );
+    }
+
+    /**
+     * Lists the tools the user may create an object for. Each title links to the given command of the
+     * given GUI, with the tool in the parameter tool_id.
+     */
+    public static function forSelection(
+        ilLanguage $lng,
+        ilObjUser $user,
+        Factory $ui_factory,
+        Renderer $ui_renderer,
+        ilUIService $ui_service,
+        ilGlobalTemplateInterface $tpl,
+        ilCtrlInterface $ctrl,
+        ServerRequestInterface $request,
+        object $gui,
+        string $cmd
+    ): self {
+        return new self(
+            $lng,
+            $user,
+            $ui_factory,
+            $ui_renderer,
+            $ui_service,
+            $tpl,
+            $ctrl,
+            $request,
+            ilLTITool::SCOPE_SELECTABLE,
+            false,
+            $gui,
+            $cmd
         );
     }
 
@@ -90,11 +148,10 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("lti_no_provider_selected"), true);
             $this->ctrl->redirect($gui, $return_cmd);
         }
-        $in_ids = $this->db->in("id", $ids, false, "integer");
 
         switch ($action) {
             case self::ACTION_EDIT:
-                $this->ctrl->setParameter($gui, "provider_id", reset($ids));
+                $this->ctrl->setParameter($gui, "tool_id", reset($ids));
                 $this->ctrl->redirect($gui, $edit_cmd);
                 break;
 
@@ -102,11 +159,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
             case self::ACTION_RESET:
                 $accept = $action === self::ACTION_ACCEPT;
                 // nothing changes if one of the selected providers has no creator or already has the scope
-                $invalid = $this->db->query(
-                    "SELECT COUNT(*) cnt FROM lti_ext_provider WHERE " . $in_ids
-                    . " AND (creator IS NULL OR creator = 0 OR global = " . $this->db->quote((int) $accept, "integer") . ")"
-                );
-                if ((int) $this->db->fetchAssoc($invalid)["cnt"] > 0) {
+                if (ilLTITool::countWithFixedScope($ids, $accept) > 0) {
                     $this->tpl->setOnScreenMessage(
                         "failure",
                         $this->lng->txt($accept ? "lti_at_least_one_not_acceptable_as_global" : "lti_at_least_one_not_resetable_to_usr_def"),
@@ -114,11 +167,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
                     );
                     break;
                 }
-                $this->db->manipulate(
-                    "UPDATE lti_ext_provider SET global = " . $this->db->quote((int) $accept, "integer")
-                    . ", accepted_by = " . $this->db->quote($accept ? $this->user->getId() : 0, "integer")
-                    . " WHERE " . $in_ids
-                );
+                ilLTITool::updateScope($ids, $accept, $this->user->getId());
                 $this->tpl->setOnScreenMessage(
                     "success",
                     $this->lng->txt($accept ? "lti_success_accept_as_global" : "lti_success_reset_to_usr_def"),
@@ -127,18 +176,15 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
                 break;
 
             case self::ACTION_CONFIRM_DELETE:
-                $this->showDeleteModal($in_ids);
+                $this->showDeleteModal($ids);
                 exit();
 
             case self::ACTION_DELETE:
-                $usages = $this->db->query(
-                    "SELECT COUNT(*) cnt FROM lti_consumer_settings WHERE " . $this->db->in("provider_id", $ids, false, "integer")
-                );
-                if ((int) $this->db->fetchAssoc($usages)["cnt"] > 0) {
+                if (ilLTITool::countUsages($ids) > 0) {
                     $this->tpl->setOnScreenMessage("failure", $this->lng->txt("lti_at_least_one_prov_has_usages"), true);
                     break;
                 }
-                $this->db->manipulate("DELETE FROM lti_ext_provider WHERE " . $in_ids);
+                ilLTITool::delete($ids);
                 $this->tpl->setOnScreenMessage("success", $this->lng->txt("lti_success_delete_provider"), true);
                 break;
         }
@@ -160,7 +206,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         ];
 
         return $this->ui_service->filter()->standard(
-            "lti_consumer_provider_table_" . ($this->global ? "global" : "user"),
+            "lti_tool_table_" . $this->tableSuffix(),
             $action,
             $inputs,
             array_fill(0, count($inputs), true),
@@ -173,7 +219,9 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         $column = $this->ui_factory->table()->column();
         // every column but the title can be hidden; category and keywords are hidden by default because they are rarely used
         $table = $this->ui_factory->table()->data($this, $this->lng->txt("tbl_provider_header"), [
-            "title" => $column->text($this->lng->txt("title")),
+            "title" => $this->select_gui === null
+                ? $column->text($this->lng->txt("title"))
+                : $column->link($this->lng->txt("title")),
             "description" => $column->text($this->lng->txt("tbl_lti_prov_description"))->withIsOptional(true),
             "category" => $column->text($this->lng->txt("tbl_lti_prov_category"))->withIsOptional(true, false),
             "keywords" => $column->listing($this->lng->txt("tbl_lti_prov_keywords"))->withIsOptional(true, false),
@@ -187,7 +235,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
             "usages_trashed" => $column->number($this->lng->txt("tbl_lti_prov_usages_trashed"))->withIsOptional(true, false),
             "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true),
         ])
-            ->withId("lti_consumer_provider_table_" . ($this->global ? "global" : "user"))
+            ->withId("lti_tool_table_" . $this->tableSuffix())
             ->withOrder(new Order("title", Order::ASC))
             ->withRange(new Range(0, 20))
             ->withFilter($this->ui_service->filter()->getData($filter))
@@ -223,23 +271,19 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         ];
         $order_by = ($order_columns[$order_field] ?? "p.title") . ($order_direction === Order::DESC ? " DESC" : " ASC");
 
-        $this->db->setLimit($range->getLength(), $range->getStart());
-        $result = $this->db->query(
-            "SELECT p.id, p.title, p.description, p.category, p.keywords, p.has_outcome, p.external_provider,"
-            . " p.provider_key_customizable, p.availability, p.creator, p.lti_version,"
-            . " p.creator = " . $this->db->quote($this->user->getId(), "integer") . " own_provider,"
-            . " u.usr_id creator_exists, TRIM(CONCAT_WS(' ', u.title, u.firstname, u.lastname)) creator_name,"
-            . " (" . $this->getUsagesQuery(false) . ") usages_untrashed,"
-            . " (" . $this->getUsagesQuery(true) . ") usages_trashed"
-            . " FROM lti_ext_provider p LEFT JOIN usr_data u ON u.usr_id = p.creator"
-            . " WHERE " . $this->getWhere($filter_data)
-            . " ORDER BY " . $order_by
+        $rows = ilLTITool::getRows(
+            $this->scope,
+            $this->buildFilter($filter_data),
+            $this->user->getId(),
+            $order_by,
+            $range->getLength(),
+            $range->getStart()
         );
 
         $categories = $this->getCategoryOptions();
-        while ($row = $this->db->fetchAssoc($result)) {
+        foreach ($rows as $row) {
             yield $row_builder->buildDataRow((string) $row["id"], [
-                "title" => htmlspecialchars((string) $row["title"]),
+                "title" => $this->buildTitle((int) $row["id"], (string) $row["title"]),
                 "description" => htmlspecialchars((string) $row["description"]),
                 "category" => $categories[$row["category"]] ?? "",
                 "keywords" => $this->ui_factory->listing()->unordered($this->getKeywords((string) $row["keywords"])),
@@ -261,9 +305,7 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        $result = $this->db->query("SELECT COUNT(*) cnt FROM lti_ext_provider p WHERE " . $this->getWhere($filter_data));
-
-        return (int) $this->db->fetchAssoc($result)["cnt"];
+        return ilLTITool::countRows($this->scope, $this->buildFilter($filter_data), $this->user->getId());
     }
 
     /**
@@ -272,8 +314,9 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     private function getActions(): array
     {
         $action = $this->ui_factory->table()->action();
-        $scope_action = $this->global ? self::ACTION_RESET : self::ACTION_ACCEPT;
-        $scope_label = $this->global ? "lti_action_reset_provider_to_user_scope" : "lti_action_accept_provider_as_global";
+        $global = $this->scope === ilLTITool::SCOPE_GLOBAL;
+        $scope_action = $global ? self::ACTION_RESET : self::ACTION_ACCEPT;
+        $scope_label = $global ? "lti_action_reset_provider_to_user_scope" : "lti_action_accept_provider_as_global";
 
         return [
             self::ACTION_EDIT => $action->single(
@@ -294,18 +337,15 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         ];
     }
 
-    private function showDeleteModal(string $in_ids): void
+    private function showDeleteModal(array $ids): void
     {
         $items = [];
-        $ids = [];
-        $result = $this->db->query("SELECT id, title FROM lti_ext_provider WHERE " . $in_ids);
-        while ($row = $this->db->fetchAssoc($result)) {
-            $ids[] = (string) $row["id"];
-            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard((string) $row["id"], (string) $row["title"]);
+        foreach (ilLTITool::lookupTitles($ids) as $id => $title) {
+            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard((string) $id, $title);
         }
         $delete_url = $this->url_builder
             ->withParameter($this->action_token, self::ACTION_DELETE)
-            ->withParameter($this->id_token, $ids)
+            ->withParameter($this->id_token, array_map("strval", $ids))
             ->buildURI();
 
         echo $this->ui_renderer->renderAsync(
@@ -317,40 +357,35 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
         );
     }
 
-    private function getWhere(mixed $filter_data): string
+    /**
+     * Translates the filter of the table into the columns of lti_ext_provider.
+     *
+     * @param mixed $filter_data
+     * @return array
+     */
+    private function buildFilter(mixed $filter_data): array
     {
-        $filter = is_array($filter_data) ? $filter_data : [];
-        $conditions = ["p.global = " . $this->db->quote((int) $this->global, "integer")];
+        $input = is_array($filter_data) ? $filter_data : [];
+        $filter = [
+            "title" => (string) ($input["title"] ?? ""),
+            "keywords" => (string) ($input["keywords"] ?? ""),
+        ];
 
-        if ((string) ($filter["title"] ?? "") !== "") {
-            $conditions[] = $this->db->like("p.title", "text", "%" . $filter["title"] . "%");
-        }
-        if ((string) ($filter["keywords"] ?? "") !== "") {
-            $conditions[] = $this->db->like("p.keywords", "text", "%" . $filter["keywords"] . "%");
-        }
-        $yes_no_columns = ["outcome" => "p.has_outcome", "internal" => "p.external_provider", "with_key" => "p.provider_key_customizable"];
-        foreach ($yes_no_columns as $input => $db_column) {
-            if (in_array($filter[$input] ?? "", ["yes", "no"], true)) {
+        $yes_no_columns = ["outcome" => "has_outcome", "internal" => "external_provider", "with_key" => "provider_key_customizable"];
+        foreach ($yes_no_columns as $name => $column) {
+            if (in_array($input[$name] ?? "", ["yes", "no"], true)) {
                 // internal and with_key are shown as the negation of the stored flag
-                $value = ($filter[$input] === "yes") === ($input === "outcome");
-                $conditions[] = $db_column . " = " . $this->db->quote((int) $value, "integer");
+                $filter[$column] = ($input[$name] === "yes") === ($name === "outcome");
             }
         }
-        if (in_array($filter["category"] ?? "", self::CATEGORIES, true)) {
-            $conditions[] = "p.category = " . $this->db->quote($filter["category"], "text");
+        if (in_array($input["category"] ?? "", self::CATEGORIES, true)) {
+            $filter["category"] = $input["category"];
         }
-        if (isset(self::getVersionOptions($this->lng)[$filter["version"] ?? ""])) {
-            $conditions[] = "p.lti_version = " . $this->db->quote($filter["version"], "text");
+        if (isset(self::getVersionOptions($this->lng)[$input["version"] ?? ""])) {
+            $filter["lti_version"] = $input["version"];
         }
 
-        return implode(" AND ", $conditions);
-    }
-
-    private function getUsagesQuery(bool $trashed): string
-    {
-        return "SELECT COUNT(s.obj_id) FROM lti_consumer_settings s"
-            . " JOIN object_reference r ON r.obj_id = s.obj_id AND r.deleted IS " . ($trashed ? "NOT NULL" : "NULL")
-            . " WHERE s.provider_id = p.id";
+        return $filter;
     }
 
     /**
@@ -382,8 +417,8 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
     public static function getVersionOptions(ilLanguage $lng): array
     {
         return [
-            self::VERSION_1P1 => $lng->txt("lti_version_1p1_deprecated"),
-            self::VERSION_ADVANTAGE => $lng->txt("lti_version_advantage"),
+            ilLTITool::VERSION_1P1 => $lng->txt("lti_version_1p1_deprecated"),
+            ilLTITool::VERSION_ADVANTAGE => $lng->txt("lti_version_advantage"),
         ];
     }
 
@@ -395,6 +430,32 @@ class ilLTIAdministrationConsumerProviderTable implements DataRetrieval
             0 => $this->lng->txt("lti_con_prov_availability_non"),
             default => "",
         };
+    }
+
+    private function tableSuffix(): string
+    {
+        return match ($this->scope) {
+            ilLTITool::SCOPE_USER => "user",
+            ilLTITool::SCOPE_SELECTABLE => "select",
+            default => "global",
+        };
+    }
+
+    /**
+     * The escaped title, or a link that creates an object for the tool when the table is a selection.
+     */
+    private function buildTitle(int $id, string $title): mixed
+    {
+        if ($this->select_gui === null) {
+            return htmlspecialchars($title);
+        }
+
+        $this->ctrl->setParameter($this->select_gui, "tool_id", $id);
+
+        return $this->ui_factory->link()->standard(
+            $title,
+            $this->ctrl->getLinkTarget($this->select_gui, $this->select_cmd)
+        );
     }
 
     private function getCreator(int $creator, bool $exists, string $name): string

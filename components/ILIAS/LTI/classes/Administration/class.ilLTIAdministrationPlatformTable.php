@@ -31,12 +31,12 @@ use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Table of the platforms (LTI consumers) that may launch ILIAS as LTI provider (LTI 1.1 and LTI Advantage).
+ * Table of the platforms that may launch ILIAS as an LTI tool (LTI 1.1 and LTI Advantage).
  * Shows the columns and actions of the former table.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
+class ilLTIAdministrationPlatformTable implements DataRetrieval
 {
     private const string ACTION_EDIT = "edit";
     private const string ACTION_ACTIVATE = "activate";
@@ -171,7 +171,7 @@ class ilLTIAdministrationProviderPlatformTable implements DataRetrieval
             "SELECT c.id, c.active, c.title, c.description, c.prefix, c.user_language, r.title role_title,"
             // LTI Advantage registrations are stored per platform, or per released object in older installations
             . " (SELECT COUNT(*) FROM lti2_consumer l WHERE l.ext_consumer_id = c.id AND l.lti_version = "
-            . $this->db->quote(ilLTIAdministrationProviderPlatformForm::VERSION_ADVANTAGE, "text") . ") advantage"
+            . $this->db->quote(ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE, "text") . ") advantage"
             . " FROM lti_ext_consumer c LEFT JOIN object_data r ON r.obj_id = c.role AND r.type = 'role'"
             . " ORDER BY " . $order_by
         );

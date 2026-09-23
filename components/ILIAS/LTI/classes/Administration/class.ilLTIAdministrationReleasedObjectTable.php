@@ -30,12 +30,12 @@ use ILIAS\UI\Factory;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Table of the repository objects released for a platform that launches ILIAS as LTI provider.
+ * Table of the repository objects released for the platforms that launch ILIAS as an LTI tool.
  * Shows the columns of the former table.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-readonly class ilLTIAdministrationProviderReleasedObjectTable implements DataRetrieval
+readonly class ilLTIAdministrationReleasedObjectTable implements DataRetrieval
 {
     public function __construct(
         private ilDBInterface $db,

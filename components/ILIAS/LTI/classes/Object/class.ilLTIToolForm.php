@@ -25,18 +25,15 @@ use ILIAS\UI\Factory;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Create and edit form of a global provider of ILIAS as LTI consumer, stored in lti_ext_provider.
- * LTI 1.1 and LTI Advantage providers get separate forms: both share the general, privacy, learning progress,
+ * Create and edit form of an external tool ILIAS may launch, stored in lti_ext_provider.
+ * LTI 1.1 and LTI Advantage tools get separate forms: both share the general, privacy, learning progress,
  * launch and grouping fields of the former form and only differ in the authentication section.
- * The provider icon and the XML import are not supported yet.
+ * The tool icon and the XML import are not supported yet.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIAdministrationConsumerProviderForm
+class ilLTIToolForm
 {
-    public const string VERSION_1P1 = "LTI-1p0";
-    public const string VERSION_ADVANTAGE = "1.3.0";
-
     private const array CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
     private const array PRIVACY_IDENTS = [
         0 => "il_uuid_user_id",
@@ -50,34 +47,26 @@ class ilLTIAdministrationConsumerProviderForm
     private const array PRIVACY_NAMES = [0 => "none", 1 => "firstname", 2 => "lastname", 3 => "fullname"];
     private const string KEY_TYPE_RSA = "RSA_KEY";
     private const string KEY_TYPE_JWK = "JWK_KEYSET";
+    private const string DEPRECATION_URL = "https://www.1edtech.org/lti-security-announcement-and-deprecation-schedule";
+
+    private int $saved_id = 0;
 
     public function __construct(
-        private readonly ilDBInterface $db,
         private readonly ilLanguage $lng,
         private readonly Factory $ui_factory,
         private readonly Refinery $refinery,
         private readonly ilObjUser $user,
-        private readonly int $provider_id,
+        private readonly int $tool_id,
         private readonly string $version
     ) {
     }
 
-    /**
-     * Returns the LTI version of an existing provider.
-     */
-    public static function lookupVersion(ilDBInterface $db, int $provider_id): string
-    {
-        $row = $db->fetchAssoc($db->query("SELECT lti_version FROM lti_ext_provider WHERE id = " . $db->quote($provider_id, "integer")));
-
-        return ($row["lti_version"] ?? "") === self::VERSION_ADVANTAGE ? self::VERSION_ADVANTAGE : self::VERSION_1P1;
-    }
-
     public function isAdvantage(): bool
     {
-        return $this->version === self::VERSION_ADVANTAGE;
+        return $this->version === ilLTITool::VERSION_ADVANTAGE;
     }
 
-    public function getForm(string $action): Form
+    public function getForm(string $action, string $submit_label = ''): Form
     {
         $field = $this->ui_factory->input()->field();
         $row = $this->read();
@@ -93,7 +82,7 @@ class ilLTIAdministrationConsumerProviderForm
                 ->withOption("0", $this->lng->txt("lti_con_prov_availability_non"))
                 ->withRequired(true)
                 ->withValue((string) ($row["availability"] ?? 2)),
-        ], $this->lng->txt($this->provider_id > 0 ? "lti_form_provider_edit" : "lti_form_provider_create"));
+        ], $this->lng->txt($this->tool_id > 0 ? "lti_form_provider_edit" : "lti_form_provider_create"));
 
         // the byline ends with the unique ILIAS platform id used in the generated user identifiers
         $privacy_ident = $field->radio(
@@ -195,23 +184,29 @@ class ilLTIAdministrationConsumerProviderForm
             "remarks" => $field->textarea($this->lng->txt("lti_con_prov_remarks"))->withValue($text("remarks")),
         ], $this->lng->txt("lti_con_prov_hints"));
 
-        return $this->ui_factory->input()->container()->form()->standard($action, [
+        $form = $this->ui_factory->input()->container()->form()->standard($action, [
             "general" => $general,
-            "authentication" => $this->isAdvantage() ? $this->getAdvantageSection($row) : $this->get1p1Section($row),
+            "authentication" => $this->getAuthentication($row),
             "privacy" => $privacy,
             "learning_progress" => $learning_progress,
             "launch" => $launch,
             "group" => $group,
             "hints" => $hints,
         ]);
+
+        return $submit_label === '' ? $form : $form->withSubmitLabel($submit_label);
     }
 
     /**
      * Stores the submitted form. Returns the form with its errors if the input is not valid, null otherwise.
      */
-    public function save(string $action, ServerRequestInterface $request): ?Form
+    /**
+     * Stores the submitted form. Returns the form with its errors if the input is not valid, null otherwise.
+     * An own tool belongs to its creator and is only offered for creating objects, whatever the form says.
+     */
+    public function save(string $action, ServerRequestInterface $request, bool $own_tool = false): ?Form
     {
-        $form = $this->getForm($action)->withRequest($request);
+        $form = $this->getForm($action, $own_tool ? $this->lng->txt("lti_add_own_provider") : "")->withRequest($request);
         $data = $form->getData();
         if ($data === null) {
             return $form;
@@ -245,24 +240,72 @@ class ilLTIAdministrationConsumerProviderForm
             ? $this->getAdvantageFields($data["authentication"])
             : $this->get1p1Fields($data["authentication"]));
 
-        if ($this->provider_id > 0) {
-            $this->db->update("lti_ext_provider", $fields, ["id" => ["integer", $this->provider_id]]);
+        if ($own_tool) {
+            $fields["availability"] = ["integer", ilLTITool::AVAILABILITY_CREATE];
+        }
+
+        if ($this->tool_id > 0) {
+            ilLTITool::update($this->tool_id, $fields);
+            $this->saved_id = $this->tool_id;
             return null;
         }
 
-        $this->db->insert("lti_ext_provider", $fields + [
-            "id" => ["integer", $this->db->nextId("lti_ext_provider")],
-            "creator" => ["integer", $this->user->getId()],
-            "global" => ["integer", 1],
-            "privacy_comment_default" => ["text", ""],
-            "launch_method" => ["text", "newWin"],
-            "client_id" => ["text", Util::getRandomString(15)],
-        ]);
+        $this->saved_id = ilLTITool::create(
+            $fields + ["client_id" => ["text", Util::getRandomString(15)]],
+            $this->user->getId(),
+            !$own_tool
+        );
 
         return null;
     }
 
-    private function get1p1Section(array $row): ILIAS\UI\Component\Input\Field\Section
+    /**
+     * The tool the last successful save stored.
+     */
+    public function getSavedId(): int
+    {
+        return $this->saved_id;
+    }
+
+    /**
+     * The credentials of the tool, which are the only fields the two LTI versions do not share.
+     */
+    private function getAuthentication(array $row): ILIAS\UI\Component\Input\Field\Section
+    {
+        return $this->ui_factory->input()->field()->section(
+            $this->isAdvantage() ? $this->getAdvantageInputs($row) : $this->get1p1Inputs($row),
+            $this->lng->txt("lti_con_prov_authentication"),
+            $this->isAdvantage() ? $this->getAdvantageByline() : ""
+        );
+    }
+
+    /**
+     * The warning an LTI 1.1 tool carries, which its form shows above itself.
+     */
+    public static function getDeprecationNotice(
+        ILIAS\UI\Factory $ui_factory,
+        ilLanguage $lng,
+        string $version
+    ): ?ILIAS\UI\Component\MessageBox\MessageBox {
+        if ($version === ilLTITool::VERSION_ADVANTAGE) {
+            return null;
+        }
+
+        $link = $ui_factory->link()->standard($lng->txt("lti_1p1_deprecated_link"), self::DEPRECATION_URL)
+            ->withOpenInNewViewport(true);
+
+        return $ui_factory->messageBox()->confirmation($lng->txt("lti_1p1_deprecated_info"))->withLinks([$link]);
+    }
+
+    private function getAdvantageByline(): string
+    {
+        return $this->lng->txt($this->tool_id === 0 ? "lti_con_version_1.3_before_id" : "lti13_hints");
+    }
+
+    /**
+     * @return array
+     */
+    private function get1p1Inputs(array $row): array
     {
         $field = $this->ui_factory->input()->field();
         $key_global = $field->optionalGroup([
@@ -272,11 +315,11 @@ class ilLTIAdministrationConsumerProviderForm
                 ->withRequired(true)->withValue((string) ($row["provider_secret"] ?? "")),
         ], $this->lng->txt("lti_con_prov_provider_key_global"), $this->lng->txt("lti_con_prov_provider_key_global_info"));
 
-        return $field->section([
+        return [
             "provider_url" => $field->text($this->lng->txt("lti_con_prov_url"))
                 ->withRequired(true)->withValue((string) ($row["provider_url"] ?? "")),
             "key_global" => ($row["provider_key_customizable"] ?? 1) ? $key_global->withValue(null) : $key_global,
-        ], $this->lng->txt("lti_con_prov_authentication"));
+        ];
     }
 
     /**
@@ -293,7 +336,10 @@ class ilLTIAdministrationConsumerProviderForm
         ];
     }
 
-    private function getAdvantageSection(array $row): ILIAS\UI\Component\Input\Field\Section
+    /**
+     * @return array
+     */
+    private function getAdvantageInputs(array $row): array
     {
         $field = $this->ui_factory->input()->field();
         $content_item = $field->optionalGroup([
@@ -331,19 +377,15 @@ class ilLTIAdministrationConsumerProviderForm
             )->withValue((bool) ($row["grade_synchronization"] ?? false)),
         ];
 
-        if ($this->provider_id === 0) {
-            return $field->section(
-                $inputs,
-                $this->lng->txt("lti_con_prov_authentication"),
-                $this->lng->txt("lti_con_version_1.3_before_id")
-            );
+        if ($this->tool_id === 0) {
+            return $inputs;
         }
 
         // read only data the tool needs when it is registered without dynamic registration
         $platform_data = [
             "lti_13_platform_id" => ILIAS_HTTP_PATH,
             "lti_13_client_id" => (string) ($row["client_id"] ?? ""),
-            "lti_13_deployment_id" => (string) $this->provider_id,
+            "lti_13_deployment_id" => (string) $this->tool_id,
             "lti_13_keyset_url" => ILIAS_HTTP_PATH . "/lticerts.php",
             "lti_13_token_url" => ILIAS_HTTP_PATH . "/ltitoken.php",
             "lti_13_authentication_url" => ILIAS_HTTP_PATH . "/ltiauth.php",
@@ -352,7 +394,7 @@ class ilLTIAdministrationConsumerProviderForm
             $inputs[$txt] = $field->text($this->lng->txt($txt))->withValue($value)->withDisabled(true);
         }
 
-        return $field->section($inputs, $this->lng->txt("lti_con_prov_authentication"), $this->lng->txt("lti13_hints"));
+        return $inputs;
     }
 
     /**
@@ -374,7 +416,7 @@ class ilLTIAdministrationConsumerProviderForm
             "content_item" => ["integer", (int) ($data["content_item"] !== null)],
             "content_item_url" => ["text", $data["content_item"]["content_item_url"] ?? ""],
             "grade_synchronization" => ["integer", (int) $data["grade_synchronization"]],
-            // an LTI Advantage provider keeps the LTI 1.1 key empty and customizable
+            // an LTI Advantage tool keeps the LTI 1.1 key empty and customizable
             "provider_key_customizable" => ["integer", 1],
             "provider_key" => ["text", ""],
             "provider_secret" => ["text", ""],
@@ -386,12 +428,6 @@ class ilLTIAdministrationConsumerProviderForm
      */
     private function read(): array
     {
-        if ($this->provider_id === 0) {
-            return [];
-        }
-
-        return $this->db->fetchAssoc($this->db->query(
-            "SELECT * FROM lti_ext_provider WHERE id = " . $this->db->quote($this->provider_id, "integer")
-        )) ?? [];
+        return $this->tool_id === 0 ? [] : ilLTITool::read($this->tool_id);
     }
 }

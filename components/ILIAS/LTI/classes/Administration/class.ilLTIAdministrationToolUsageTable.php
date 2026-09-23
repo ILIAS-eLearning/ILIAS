@@ -30,15 +30,14 @@ use ILIAS\UI\Factory;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Table of the repository objects that use a global provider of ILIAS as LTI consumer.
+ * Table of the repository objects that use an external tool released for everybody.
  * Shows the columns of the former table, plus the LTI version.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-readonly class ilLTIAdministrationConsumerUsageTable implements DataRetrieval
+readonly class ilLTIAdministrationToolUsageTable implements DataRetrieval
 {
     public function __construct(
-        private ilDBInterface $db,
         private ilLanguage $lng,
         private Factory $ui_factory,
         private ilUIService $ui_service,
@@ -58,7 +57,7 @@ readonly class ilLTIAdministrationConsumerUsageTable implements DataRetrieval
             ]),
             "version" => $field->select(
                 $this->lng->txt("lti_con_version"),
-                ilLTIAdministrationConsumerProviderTable::getVersionOptions($this->lng)
+                ilLTIToolTable::getVersionOptions($this->lng)
             ),
         ];
 
@@ -115,14 +114,14 @@ readonly class ilLTIAdministrationConsumerUsageTable implements DataRetrieval
         ];
         $order_by = ($order_columns[$order_field] ?? "p.title") . ($order_direction === Order::DESC ? " DESC" : " ASC");
 
-        $this->db->setLimit($range->getLength(), $range->getStart());
-        $result = $this->db->query(
-            "SELECT p.title, p.lti_version, r.ref_id, r.deleted IS NOT NULL trashed, od.type, od.title used_by"
-            . $this->getFrom($filter_data)
-            . " ORDER BY " . $order_by
+        $rows = ilLTITool::getUsageRows(
+            $this->buildFilter($filter_data),
+            $order_by,
+            $range->getLength(),
+            $range->getStart()
         );
-        $versions = ilLTIAdministrationConsumerProviderTable::getVersionOptions($this->lng);
-        while ($row = $this->db->fetchAssoc($result)) {
+        $versions = ilLTIToolTable::getVersionOptions($this->lng);
+        foreach ($rows as $row) {
             $link = (string) $this->static_url->builder()->build((string) $row["type"], new ReferenceId((int) $row["ref_id"]));
             yield $row_builder->buildDataRow((string) $row["ref_id"], [
                 "title" => htmlspecialchars((string) $row["title"]),
@@ -138,31 +137,30 @@ readonly class ilLTIAdministrationConsumerUsageTable implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return (int) $this->db->fetchAssoc($this->db->query("SELECT COUNT(*) cnt" . $this->getFrom($filter_data)))["cnt"];
+        return ilLTITool::countUsageRows($this->buildFilter($filter_data));
     }
 
-    private function getFrom(mixed $filter_data): string
+    /**
+     * Translates the filter of the table into the one of the usage query.
+     *
+     * @param mixed $filter_data
+     * @return array
+     */
+    private function buildFilter(mixed $filter_data): array
     {
-        $filter = is_array($filter_data) ? $filter_data : [];
-        $conditions = ["p.global = 1"];
+        $input = is_array($filter_data) ? $filter_data : [];
+        $filter = [
+            "title" => (string) ($input["title"] ?? ""),
+            "used_by" => (string) ($input["used_by"] ?? ""),
+        ];
 
-        if ((string) ($filter["title"] ?? "") !== "") {
-            $conditions[] = $this->db->like("p.title", "text", "%" . $filter["title"] . "%");
+        if (in_array($input["trashed"] ?? "", ["yes", "no"], true)) {
+            $filter["trashed"] = $input["trashed"] === "yes";
         }
-        if ((string) ($filter["used_by"] ?? "") !== "") {
-            $conditions[] = $this->db->like("od.title", "text", "%" . $filter["used_by"] . "%");
-        }
-        if (in_array($filter["trashed"] ?? "", ["yes", "no"], true)) {
-            $conditions[] = "r.deleted IS " . ($filter["trashed"] === "yes" ? "NOT NULL" : "NULL");
-        }
-        if (isset(ilLTIAdministrationConsumerProviderTable::getVersionOptions($this->lng)[$filter["version"] ?? ""])) {
-            $conditions[] = "p.lti_version = " . $this->db->quote($filter["version"], "text");
+        if (isset(ilLTIToolTable::getVersionOptions($this->lng)[$input["version"] ?? ""])) {
+            $filter["lti_version"] = $input["version"];
         }
 
-        return " FROM lti_ext_provider p"
-            . " JOIN lti_consumer_settings s ON s.provider_id = p.id"
-            . " JOIN object_reference r ON r.obj_id = s.obj_id"
-            . " JOIN object_data od ON od.obj_id = s.obj_id"
-            . " WHERE " . implode(" AND ", $conditions);
+        return $filter;
     }
 }

@@ -22,8 +22,8 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use ILIAS\UI\Component\Component;
 
 /**
- * Administration > LTI: platforms that launch ILIAS and their released objects, providers of external
- * tools and their usages. The screens serve both LTI 1.1 and LTI Advantage.
+ * Administration > LTI: the platforms that launch ILIAS and their released objects, and the external
+ * tools ILIAS launches and their usages. The screens serve both LTI 1.1 and LTI Advantage.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  *
@@ -32,23 +32,22 @@ use ILIAS\UI\Component\Component;
  */
 class ilObjLTIAdministrationGUI extends ilObjectGUI
 {
-    private const string CMD_LIST_PLATFORMS = "listConsumers";
-    private const string CMD_CREATE_PLATFORM = "createConsumer";
-    private const string CMD_EDIT_PLATFORM = "editConsumer";
-    private const string CMD_SAVE_PLATFORM = "saveConsumer";
+    private const string CMD_LIST_PLATFORMS = "listPlatforms";
+    private const string CMD_CREATE_PLATFORM = "createPlatform";
+    private const string CMD_EDIT_PLATFORM = "editPlatform";
+    private const string CMD_SAVE_PLATFORM = "savePlatform";
     private const string CMD_CREATE_USER_ROLE = "createLtiUserRole";
     private const string CMD_SHOW_RELEASED_OBJECTS = "releasedObjects";
-    private const string CMD_SHOW_GLOBAL_PROVIDERS = "showGlobalProviders";
-    private const string CMD_SHOW_USER_PROVIDERS = "showUserProviders";
+    private const string CMD_SHOW_GLOBAL_TOOLS = "showGlobalTools";
+    private const string CMD_SHOW_USER_TOOLS = "showUserTools";
     private const string CMD_SHOW_USAGES = "showUsages";
-    private const string CMD_CREATE_PROVIDER = "createProvider";
-    private const string CMD_EDIT_PROVIDER = "editProvider";
-    private const string CMD_SAVE_PROVIDER = "saveProvider";
+    private const string CMD_CREATE_TOOL = "createTool";
+    private const string CMD_EDIT_TOOL = "editTool";
+    private const string CMD_SAVE_TOOL = "saveTool";
     private const string VERSION_PARAM = "version";
     private const string VERSION_1P1 = "1p1";
     private const string VERSION_ADVANTAGE = "advantage";
     private const string LTI_USER_ROLE = "il_lti_global_role";
-    private const string LTI_1P1_DEPRECATION_URL = "https://www.1edtech.org/lti-security-announcement-and-deprecation-schedule";
 
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -77,11 +76,11 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                     self::CMD_SAVE_PLATFORM => $this->savePlatform(),
                     self::CMD_CREATE_USER_ROLE => $this->createLtiUserRole(),
                     self::CMD_SHOW_RELEASED_OBJECTS => $this->showReleasedObjects(),
-                    self::CMD_SHOW_GLOBAL_PROVIDERS => $this->showProviders(true),
-                    self::CMD_SHOW_USER_PROVIDERS => $this->showProviders(false),
+                    self::CMD_SHOW_GLOBAL_TOOLS => $this->showTools(true),
+                    self::CMD_SHOW_USER_TOOLS => $this->showTools(false),
                     self::CMD_SHOW_USAGES => $this->showUsages(),
-                    self::CMD_CREATE_PROVIDER, self::CMD_EDIT_PROVIDER => $this->showProviderForm(),
-                    self::CMD_SAVE_PROVIDER => $this->saveProvider(),
+                    self::CMD_CREATE_TOOL, self::CMD_EDIT_TOOL => $this->showToolForm(),
+                    self::CMD_SAVE_TOOL => $this->saveTool(),
                     default => $this->showPlatforms(),
                 };
         }
@@ -100,7 +99,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tabs_gui->addTab(
             "lti_consuming",
             $this->lng->txt("lti_consuming_tab"),
-            $this->ctrl->getLinkTarget($this, self::CMD_SHOW_GLOBAL_PROVIDERS)
+            $this->ctrl->getLinkTarget($this, self::CMD_SHOW_GLOBAL_TOOLS)
         );
 
         if ($this->rbac_system->checkAccess("edit_permission", $this->object->getRefId())) {
@@ -119,9 +118,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->activateProviderSubTab("consumers");
+        $this->activatePlatformSubTab("consumers");
 
-        $table = new ilLTIAdministrationProviderPlatformTable(
+        $table = new ilLTIAdministrationPlatformTable(
             $DIC->database(),
             $this->lng,
             $DIC->ui()->factory(),
@@ -159,7 +158,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         global $DIC;
 
         $this->checkPermission("write");
-        $this->activateProviderSubTab("consumers");
+        $this->activatePlatformSubTab("consumers");
 
         $platform_form = $this->getPlatformForm();
         $form ??= $platform_form->getForm($this->getPlatformFormAction());
@@ -189,18 +188,18 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_LIST_PLATFORMS);
     }
 
-    private function getPlatformForm(): ilLTIAdministrationProviderPlatformForm
+    private function getPlatformForm(): ilLTIAdministrationPlatformForm
     {
         global $DIC;
 
         $platform_id = $this->getIntParameter("cid");
         $version = $platform_id > 0
-            ? ilLTIAdministrationProviderPlatformForm::lookupVersion($DIC->database(), $platform_id)
+            ? ilLTIAdministrationPlatformForm::lookupVersion($DIC->database(), $platform_id)
             : ($this->isAdvantageRequested()
-                ? ilLTIAdministrationProviderPlatformForm::VERSION_ADVANTAGE
-                : ilLTIAdministrationProviderPlatformForm::VERSION_1P1);
+                ? ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE
+                : ilLTIAdministrationPlatformForm::VERSION_1P1);
 
-        return new ilLTIAdministrationProviderPlatformForm(
+        return new ilLTIAdministrationPlatformForm(
             $DIC->database(),
             $this->lng,
             $DIC->ui()->factory(),
@@ -229,59 +228,56 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    private function showProviderForm(?Form $form = null): void
+    private function showToolForm(?Form $form = null): void
     {
         global $DIC;
 
         $this->checkPermission("write");
-        $provider_id = $this->getIntParameter("provider_id");
-        $global = $provider_id === 0 || ($DIC->database()->fetchAssoc($DIC->database()->query(
-            "SELECT global FROM lti_ext_provider WHERE id = " . $DIC->database()->quote($provider_id, "integer")
-        ))["global"] ?? true);
-        $this->activateConsumerSubTab($global ? "global_provider" : "user_provider");
+        $tool_id = $this->getIntParameter("tool_id");
+        $global = $tool_id === 0 || (ilLTITool::read($tool_id)["global"] ?? true);
+        $this->activateToolSubTab($global ? "global_provider" : "user_provider");
 
-        $provider_form = $this->getProviderForm();
-        $form ??= $provider_form->getForm($this->getProviderFormAction());
-        $this->tpl->setContent($DIC->ui()->renderer()->render($this->withDeprecationInfo($form, $provider_form->isAdvantage())));
+        $tool_form = $this->getToolForm();
+        $form ??= $tool_form->getForm($this->getToolFormAction());
+        $this->tpl->setContent($DIC->ui()->renderer()->render($this->withDeprecationInfo($form, $tool_form->isAdvantage())));
     }
 
     /**
      * @throws ilCtrlException
      */
-    private function saveProvider(): void
+    private function saveTool(): void
     {
         $this->checkPermission("write");
 
-        $form = $this->getProviderForm()->save($this->getProviderFormAction(), $this->request);
+        $form = $this->getToolForm()->save($this->getToolFormAction(), $this->request);
         if ($form !== null) {
-            $this->showProviderForm($form);
+            $this->showToolForm($form);
             return;
         }
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("settings_saved"), true);
-        $this->ctrl->clearParameterByClass(self::class, "provider_id");
+        $this->ctrl->clearParameterByClass(self::class, "tool_id");
         $this->ctrl->clearParameterByClass(self::class, self::VERSION_PARAM);
-        $this->ctrl->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDERS);
+        $this->ctrl->redirect($this, self::CMD_SHOW_GLOBAL_TOOLS);
     }
 
-    private function getProviderForm(): ilLTIAdministrationConsumerProviderForm
+    private function getToolForm(): ilLTIToolForm
     {
         global $DIC;
 
-        $provider_id = $this->getIntParameter("provider_id");
-        $version = $provider_id > 0
-            ? ilLTIAdministrationConsumerProviderForm::lookupVersion($DIC->database(), $provider_id)
+        $tool_id = $this->getIntParameter("tool_id");
+        $version = $tool_id > 0
+            ? ilLTITool::lookupVersion($tool_id)
             : ($this->isAdvantageRequested()
-                ? ilLTIAdministrationConsumerProviderForm::VERSION_ADVANTAGE
-                : ilLTIAdministrationConsumerProviderForm::VERSION_1P1);
+                ? ilLTITool::VERSION_ADVANTAGE
+                : ilLTITool::VERSION_1P1);
 
-        return new ilLTIAdministrationConsumerProviderForm(
-            $DIC->database(),
+        return new ilLTIToolForm(
             $this->lng,
             $DIC->ui()->factory(),
             $this->refinery,
             $DIC->user(),
-            $provider_id,
+            $tool_id,
             $version
         );
     }
@@ -289,11 +285,11 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    private function getProviderFormAction(): string
+    private function getToolFormAction(): string
     {
-        $this->keepFormParameters("provider_id");
+        $this->keepFormParameters("tool_id");
 
-        return $this->ctrl->getFormAction($this, self::CMD_SAVE_PROVIDER);
+        return $this->ctrl->getFormAction($this, self::CMD_SAVE_TOOL);
     }
 
     /**
@@ -321,22 +317,20 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      * @param bool $advantage
      * @return array
      */
+    /**
+     * @return array
+     */
     private function withDeprecationInfo(Form $form, bool $advantage): array
     {
         global $DIC;
 
-        if ($advantage) {
-            return [$form];
-        }
+        $notice = ilLTIToolForm::getDeprecationNotice(
+            $DIC->ui()->factory(),
+            $this->lng,
+            $advantage ? ilLTITool::VERSION_ADVANTAGE : ilLTITool::VERSION_1P1
+        );
 
-        $factory = $DIC->ui()->factory();
-        $link = $factory->link()->standard($this->lng->txt("lti_1p1_deprecated_link"), self::LTI_1P1_DEPRECATION_URL)
-            ->withOpenInNewViewport(true);
-
-        return [
-            $factory->messageBox()->confirmation($this->lng->txt("lti_1p1_deprecated_info"))->withLinks([$link]),
-            $form,
-        ];
+        return $notice === null ? [$form] : [$notice, $form];
     }
 
     /**
@@ -399,9 +393,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->activateProviderSubTab("releasedObjects");
+        $this->activatePlatformSubTab("releasedObjects");
 
-        $table = new ilLTIAdministrationProviderReleasedObjectTable(
+        $table = new ilLTIAdministrationReleasedObjectTable(
             $DIC->database(),
             $this->lng,
             $DIC->ui()->factory(),
@@ -413,15 +407,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    private function showProviders(bool $global): void
+    private function showTools(bool $global): void
     {
         global $DIC;
 
-        $cmd = $global ? self::CMD_SHOW_GLOBAL_PROVIDERS : self::CMD_SHOW_USER_PROVIDERS;
-        $this->activateConsumerSubTab($global ? "global_provider" : "user_provider");
+        $cmd = $global ? self::CMD_SHOW_GLOBAL_TOOLS : self::CMD_SHOW_USER_TOOLS;
+        $this->activateToolSubTab($global ? "global_provider" : "user_provider");
 
-        $table = new ilLTIAdministrationConsumerProviderTable(
-            $DIC->database(),
+        $table = ilLTIToolTable::forAdministration(
             $this->lng,
             $DIC->user(),
             $DIC->ui()->factory(),
@@ -433,10 +426,10 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $global,
             $this->checkPermissionBool("write")
         );
-        $table->handleAction($this, $cmd, self::CMD_EDIT_PROVIDER);
+        $table->handleAction($this, $cmd, self::CMD_EDIT_TOOL);
 
         if ($global && $this->checkPermissionBool("write")) {
-            $this->toolbar->addComponent($this->getCreateDropdown("lti_add_global_provider", self::CMD_CREATE_PROVIDER));
+            $this->toolbar->addComponent($this->getCreateDropdown("lti_add_global_provider", self::CMD_CREATE_TOOL));
         }
 
         $filter = $table->getFilter($this->ctrl->getLinkTarget($this, $cmd));
@@ -450,10 +443,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->activateConsumerSubTab("usage");
+        $this->activateToolSubTab("usage");
 
-        $table = new ilLTIAdministrationConsumerUsageTable(
-            $DIC->database(),
+        $table = new ilLTIAdministrationToolUsageTable(
             $this->lng,
             $DIC->ui()->factory(),
             $DIC->uiService(),
@@ -466,7 +458,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    private function activateProviderSubTab(string $sub_tab): void
+    private function activatePlatformSubTab(string $sub_tab): void
     {
         $this->tabs_gui->activateTab("lti_providing");
         $this->tabs_gui->addSubTab("consumers", $this->lng->txt("consumers"), $this->ctrl->getLinkTarget($this, self::CMD_LIST_PLATFORMS));
@@ -481,12 +473,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    private function activateConsumerSubTab(string $sub_tab): void
+    private function activateToolSubTab(string $sub_tab): void
     {
         $this->tabs_gui->activateTab("lti_consuming");
         $sub_tabs = [
-            "global_provider" => self::CMD_SHOW_GLOBAL_PROVIDERS,
-            "user_provider" => self::CMD_SHOW_USER_PROVIDERS,
+            "global_provider" => self::CMD_SHOW_GLOBAL_TOOLS,
+            "user_provider" => self::CMD_SHOW_USER_TOOLS,
             "usage" => self::CMD_SHOW_USAGES,
         ];
         foreach ($sub_tabs as $id => $cmd) {
