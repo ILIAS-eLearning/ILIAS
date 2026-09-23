@@ -28,6 +28,7 @@ use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
 use ILIAS\MediaObjects\Thumbs\ThumbsManager;
+use ILIAS\MediaObjects\SubTitles\MultiSrtConfirmationRetrieval;
 use ILIAS\MediaObjects\SubTitles\Retrieval as SubTitlesRetrieval;
 use ILIAS\MediaObjects\Usage\UsageRetrieval;
 
@@ -114,6 +115,12 @@ class InternalDomainService
         \ilObjMediaObject $media_object
     ): SubTitlesRetrieval {
         return new SubTitlesRetrieval($media_object);
+    }
+
+    public function multiSrtConfirmationRetrieval(
+        \ilMobMultiSrtUpload $multi_srt
+    ): MultiSrtConfirmationRetrieval {
+        return new MultiSrtConfirmationRetrieval($multi_srt);
     }
 
 }
