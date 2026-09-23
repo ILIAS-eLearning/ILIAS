@@ -18,7 +18,9 @@
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCertificates\ilMStListCertificatesTableGUI;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\HTTP\Services as HTTP;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\MyStaff\ListCertificates\ilMStListCertificates;
 
 /**
  * Class ilMStListCertificatesGUI
@@ -38,6 +40,9 @@ class ilMStListCertificatesGUI
     private ilGlobalTemplateInterface $main_tpl;
     private ilCtrlInterface $ctrl;
     private ilLanguage $language;
+    private HTTP $http;
+    private Refinery $refinery;
+    private ilMStListCertificates $certificates_fetcher;
 
     public function __construct()
     {
@@ -46,6 +51,9 @@ class ilMStListCertificatesGUI
         $this->ctrl = $DIC->ctrl();
         $this->language = $DIC->language();
         $this->access = ilMyStaffAccess::getInstance();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->certificates_fetcher = new ilMStListCertificates($DIC);
     }
 
     protected function checkAccessOrFail(): void
@@ -56,6 +64,36 @@ class ilMStListCertificatesGUI
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
+    }
+
+    protected function getCertificateIDFromQuery(): ?int
+    {
+        /*
+         * The parameter certificate_id is handled by the certificate component,
+         * but at this point we can only get to it via the query.
+         */
+        if (!$this->http->wrapper()->query()->has('certificate_id')) {
+            return null;
+        }
+        return $this->http->wrapper()->query()->retrieve(
+            'certificate_id',
+            $this->refinery->kindlyTo()->int()
+        );
+    }
+
+    protected function checkAccessToCertificateOrFail(): void
+    {
+        $certificate_id = $this->getCertificateIDFromQuery();
+        if ($certificate_id === null || !$this->hasAccessToCertificate($certificate_id)) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
+            $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
+        }
+    }
+
+    protected function hasAccessToCertificate(int $certificate_id): bool
+    {
+        $valid_certificates = $this->certificates_fetcher->getData();
+        return key_exists($certificate_id, $valid_certificates);
     }
 
     final public function executeCommand(): void
@@ -73,6 +111,7 @@ class ilMStListCertificatesGUI
                 break;
             case strtolower(ilUserCertificateApiGUI::class):
                 $this->checkAccessOrFail();
+                $this->checkAccessToCertificateOrFail();
                 $this->ctrl->forwardCommand(new ilUserCertificateApiGUI());
                 break;
             default:
