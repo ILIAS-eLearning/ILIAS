@@ -59,6 +59,12 @@ class InternalDomainService
             );
     }
 
+    public function glossariesRetrieval(
+        \ilObjLearningModule $lm
+    ): Editing\GlossariesRetrieval {
+        return new Editing\GlossariesRetrieval($lm);
+    }
+
     public function pagesRetrieval(
         int $lm_id,
         string $lm_type,

@@ -2919,9 +2919,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilCtrl->getLinkTarget($this, "showLMGlossarySelector")
         );
 
-        $tab = new ilLMGlossaryTableGUI($this->lm, $this, "editGlossaries");
+        $table = $this->getGlossariesTable();
 
-        $tpl->setContent($tab->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
+    }
+
+    protected function getGlossariesTable(): TableAdapterGUI
+    {
+        return $this->gui->editing()->glossariesTableBuilder(
+            $this->lm,
+            $this,
+            "editGlossaries"
+        )->getTable();
     }
 
     public function showLMGlossarySelector(): void
@@ -2989,12 +3002,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editGlossaries");
     }
 
+    public function confirmRemoveLMGlossary(int $glo_id): void
+    {
+        $this->getGlossariesTable()->renderDeletionConfirmation(
+            $this->lng->txt("remove"),
+            $this->lng->txt("info_delete_sure"),
+            "removeLMGlossary",
+            [$glo_id => ilObject::_lookupTitle($glo_id)]
+        );
+    }
+
     public function removeLMGlossary(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $this->lm->removeAutoGlossary($this->requested_glo_id);
+        foreach ($this->getGlossariesTable()->getItemIds() as $glo_id) {
+            $this->lm->removeAutoGlossary((int) $glo_id);
+        }
         $this->lm->update();
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

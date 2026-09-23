@@ -80,6 +80,19 @@ class GUIService
         );
     }
 
+    public function glossariesTableBuilder(
+        \ilObjLearningModule $lm,
+        object $parent_gui,
+        string $parent_cmd
+    ): GlossariesTableBuilder {
+        return new GlossariesTableBuilder(
+            $this->domain,
+            $lm,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function pagesTableBuilder(
         \ilObjLearningModule $lm,
         object $parent_gui,
