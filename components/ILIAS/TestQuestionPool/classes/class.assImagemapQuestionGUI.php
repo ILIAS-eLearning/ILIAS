@@ -119,9 +119,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        if ($this->ctrl->getCmd() !== 'deleteImage' && $_FILES['image']['tmp_name'] === '') {
-            $this->object->setImageFilename($this->request_data_collector->string('image_name'));
-        }
         if ($_FILES['image']['tmp_name'] !== '') {
             if ($this->object->getId() < 1) {
                 $this->object->createNewQuestion();
