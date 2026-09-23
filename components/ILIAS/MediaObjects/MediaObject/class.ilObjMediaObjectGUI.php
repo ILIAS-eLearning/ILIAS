@@ -20,6 +20,7 @@ use ILIAS\MediaObjects\SubTitles\SubtitlesGUIRequest;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
 use ILIAS\components\ResourceStorage\Container\View\Configuration;
 use ILIAS\components\ResourceStorage\Container\View\Mode;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
@@ -1679,12 +1680,37 @@ class ilObjMediaObjectGUI extends ilObjectGUI
      */
     public function showMultiSubtitleConfirmationTableObject(): void
     {
-        $tpl = $this->tpl;
-
         $this->setPropertiesSubTabs("subtitles");
 
-        $tab = new ilMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
-        $tpl->setContent($tab->getHTML());
+        $this->toolbar->addButton(
+            $this->lng->txt("cancel"),
+            $this->ctrl->getLinkTarget($this, "cancelMultiSrt")
+        );
+
+        $this->tpl->setContent($this->getMultiSubtitleConfirmationForm()->render());
+    }
+
+    protected function getMultiSubtitleConfirmationForm(): FormAdapterGUI
+    {
+        $lng = $this->lng;
+        $form = $this->media_gui
+            ->form([self::class], "saveMultiSrt", $lng->txt("save"))
+            ->section("files", $lng->txt("mob_multi_srt_files"));
+
+        foreach ($this->object->getMultiSrtFiles() as $index => $srt_file) {
+            if ($srt_file["lang"] === "") {
+                continue;
+            }
+
+            $form->checkbox(
+                "file_" . $index,
+                $srt_file["filename"],
+                $lng->txt("meta_l_" . $srt_file["lang"]),
+                true
+            );
+        }
+
+        return $form;
     }
 
     /**
@@ -1703,11 +1729,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
         $srt_files = $this->object->getMultiSrtFiles();
-        $files = $this->sub_title_request->getFiles();
-        foreach ($files as $f) {
-            foreach ($srt_files as $srt_file) {
-                if ($f == $srt_file["filename"]) {
-                    $this->object->uploadSrtFile($this->object->getMultiSrtUploadDir() . "/" . $srt_file["filename"], $srt_file["lang"], "rename");
+        $form = $this->getMultiSubtitleConfirmationForm();
+        if ($form->isValid()) {
+            foreach ($srt_files as $index => $srt_file) {
+                if ($srt_file["lang"] !== "" && $form->getData("file_" . $index)) {
+                    $this->object->uploadSrtFile(
+                        $this->object->getMultiSrtUploadDir() . "/" . $srt_file["filename"],
+                        $srt_file["lang"],
+                        "rename"
+                    );
                 }
             }
         }
