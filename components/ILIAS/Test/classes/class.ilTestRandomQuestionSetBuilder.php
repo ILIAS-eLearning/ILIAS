@@ -28,35 +28,35 @@ use ILIAS\Test\Logging\TestLogger;
  */
 abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolDefinitionQuestionCollectionProvider
 {
-    protected $checkMessages = [];
+    protected $check_messages = [];
 
     protected function __construct(
         protected ilDBInterface $db,
         protected ilLanguage $lng,
         protected TestLogger $logger,
-        protected ilObjTest $testOBJ,
-        protected ilTestRandomQuestionSetConfig $questionSetConfig,
-        protected ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
-        protected ilTestRandomQuestionSetStagingPoolQuestionList $stagingPoolQuestionList
+        protected ilObjTest $test_obj,
+        protected ilTestRandomQuestionSetConfig $question_set_config,
+        protected ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list,
+        protected ilTestRandomQuestionSetStagingPoolQuestionList $staging_pool_question_list
     ) {
-        $this->stagingPoolQuestionList->setTestObjId($this->testOBJ->getId());
-        $this->stagingPoolQuestionList->setTestId($this->testOBJ->getTestId());
+        $this->staging_pool_question_list->setTestObjId($this->test_obj->getId());
+        $this->staging_pool_question_list->setTestId($this->test_obj->getTestId());
     }
 
     abstract public function checkBuildable();
 
-    abstract public function performBuild(ilTestSession $testSession);
+    abstract public function performBuild(ilTestSession $test_session);
 
-    public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): ilTestRandomQuestionSetQuestionCollection
+    public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list): ilTestRandomQuestionSetQuestionCollection
     {
-        $questionStage = new ilTestRandomQuestionSetQuestionCollection();
+        $question_stage = new ilTestRandomQuestionSetQuestionCollection();
 
-        foreach ($sourcePoolDefinitionList as $definition) {
+        foreach ($source_pool_definition_list as $definition) {
             $questions = $this->getSrcPoolDefRelatedQuestCollection($definition);
-            $questionStage->mergeQuestionCollection($questions);
+            $question_stage->mergeQuestionCollection($questions);
         }
 
-        return $questionStage;
+        return $question_stage;
     }
 
     /**
@@ -65,69 +65,69 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
      */
     public function getSrcPoolDefRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition): ilTestRandomQuestionSetQuestionCollection
     {
-        $questionIds = $this->getQuestionIdsForSourcePoolDefinitionIds($definition);
-        $questionStage = $this->buildSetQuestionCollection($definition, $questionIds);
+        $question_ids = $this->getQuestionIdsForSourcePoolDefinitionIds($definition);
+        $question_stage = $this->buildSetQuestionCollection($definition, $question_ids);
 
-        return $questionStage;
+        return $question_stage;
     }
 
     // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
     /**
-     * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
+     * @param ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list
      * @return ilTestRandomQuestionSetQuestionCollection
      */
-    public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): ilTestRandomQuestionSetQuestionCollection
+    public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list): ilTestRandomQuestionSetQuestionCollection
     {
-        $combinationCollection = $this->getSrcPoolDefListRelatedQuestCombinationCollection($sourcePoolDefinitionList);
-        return $combinationCollection->getUniqueQuestionCollection();
+        $combination_collection = $this->getSrcPoolDefListRelatedQuestCombinationCollection($source_pool_definition_list);
+        return $combination_collection->getUniqueQuestionCollection();
     }
     // hey.
 
     private function getQuestionIdsForSourcePoolDefinitionIds(ilTestRandomQuestionSetSourcePoolDefinition $definition): array
     {
-        $this->stagingPoolQuestionList->resetQuestionList();
+        $this->staging_pool_question_list->resetQuestionList();
 
-        $this->stagingPoolQuestionList->setPoolId($definition->getPoolId());
+        $this->staging_pool_question_list->setPoolId($definition->getPoolId());
 
         if ($this->hasTaxonomyFilter($definition)) {
-            foreach ($definition->getMappedTaxonomyFilter() as $taxId => $nodeIds) {
-                $taxId = (int) $taxId;
-                if ($taxId < 1) {
+            foreach ($definition->getMappedTaxonomyFilter() as $tax_id => $node_ids) {
+                $tax_id = (int) $tax_id;
+                if ($tax_id < 1) {
                     continue;
                 }
-                $this->stagingPoolQuestionList->addTaxonomyFilter($taxId, $nodeIds);
+                $this->staging_pool_question_list->addTaxonomyFilter($tax_id, $node_ids);
             }
         }
 
         if (count($definition->getLifecycleFilter())) {
-            $this->stagingPoolQuestionList->setLifecycleFilter($definition->getLifecycleFilter());
+            $this->staging_pool_question_list->setLifecycleFilter($definition->getLifecycleFilter());
         }
 
         // fau: taxFilter/typeFilter - use type filter
         if ($this->hasTypeFilter($definition)) {
-            $this->stagingPoolQuestionList->setTypeFilter($definition->getTypeFilter());
+            $this->staging_pool_question_list->setTypeFilter($definition->getTypeFilter());
         }
         // fau.
 
-        $this->stagingPoolQuestionList->loadQuestions();
+        $this->staging_pool_question_list->loadQuestions();
 
-        return $this->stagingPoolQuestionList->getQuestions();
+        return $this->staging_pool_question_list->getQuestions();
     }
 
-    private function buildSetQuestionCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition, $questionIds): ilTestRandomQuestionSetQuestionCollection
+    private function buildSetQuestionCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition, $question_ids): ilTestRandomQuestionSetQuestionCollection
     {
-        $setQuestionCollection = new ilTestRandomQuestionSetQuestionCollection();
+        $set_question_collection = new ilTestRandomQuestionSetQuestionCollection();
 
-        foreach ($questionIds as $questionId) {
-            $setQuestion = new ilTestRandomQuestionSetQuestion();
+        foreach ($question_ids as $question_id) {
+            $set_question = new ilTestRandomQuestionSetQuestion();
 
-            $setQuestion->setQuestionId($questionId);
-            $setQuestion->setSourcePoolDefinitionId($definition->getId());
+            $set_question->setQuestionId($question_id);
+            $set_question->setSourcePoolDefinitionId($definition->getId());
 
-            $setQuestionCollection->addQuestion($setQuestion);
+            $set_question_collection->addQuestion($set_question);
         }
 
-        return $setQuestionCollection;
+        return $set_question_collection;
     }
 
     private function hasTaxonomyFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition): bool
@@ -149,45 +149,45 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     }
     //	fau.
 
-    protected function storeQuestionSet(ilTestSession $testSession, $questionSet)
+    protected function storeQuestionSet(ilTestSession $test_session, $question_set)
     {
         $position = 0;
 
-        foreach ($questionSet->getQuestions() as $setQuestion) {
-            /* @var ilTestRandomQuestionSetQuestion $setQuestion */
+        foreach ($question_set->getQuestions() as $set_question) {
+            /* @var ilTestRandomQuestionSetQuestion $set_question */
 
-            $setQuestion->setSequencePosition($position++);
+            $set_question->setSequencePosition($position++);
 
-            $this->storeQuestion($testSession, $setQuestion);
+            $this->storeQuestion($test_session, $set_question);
         }
     }
 
-    private function storeQuestion(ilTestSession $testSession, ilTestRandomQuestionSetQuestion $setQuestion)
+    private function storeQuestion(ilTestSession $test_session, ilTestRandomQuestionSetQuestion $set_question)
     {
-        $nextId = $this->db->nextId('tst_test_rnd_qst');
+        $next_id = $this->db->nextId('tst_test_rnd_qst');
 
         $this->db->insert('tst_test_rnd_qst', [
-            'test_random_question_id' => ['integer', $nextId],
-            'active_fi' => ['integer', $testSession->getActiveId()],
-            'question_fi' => ['integer', $setQuestion->getQuestionId()],
-            'sequence' => ['integer', $setQuestion->getSequencePosition()],
-            'pass' => ['integer', $testSession->getPass()],
+            'test_random_question_id' => ['integer', $next_id],
+            'active_fi' => ['integer', $test_session->getActiveId()],
+            'question_fi' => ['integer', $set_question->getQuestionId()],
+            'sequence' => ['integer', $set_question->getSequencePosition()],
+            'pass' => ['integer', $test_session->getPass()],
             'tstamp' => ['integer', time()],
-            'src_pool_def_fi' => ['integer', $setQuestion->getSourcePoolDefinitionId()]
+            'src_pool_def_fi' => ['integer', $set_question->getSourcePoolDefinitionId()]
         ]);
     }
 
-    protected function fetchQuestionsFromStageRandomly(ilTestRandomQuestionSetQuestionCollection $questionStage, $requiredQuestionAmount): ilTestRandomQuestionSetQuestionCollection
+    protected function fetchQuestionsFromStageRandomly(ilTestRandomQuestionSetQuestionCollection $question_stage, $required_question_amount): ilTestRandomQuestionSetQuestionCollection
     {
-        $questionSet = $questionStage->getRandomQuestionCollection($requiredQuestionAmount);
+        $question_set = $question_stage->getRandomQuestionCollection($required_question_amount);
 
-        return $questionSet;
+        return $question_set;
     }
 
-    protected function handleQuestionOrdering(ilTestRandomQuestionSetQuestionCollection $questionSet)
+    protected function handleQuestionOrdering(ilTestRandomQuestionSetQuestionCollection $question_set)
     {
-        if ($this->testOBJ->getShuffleQuestions()) {
-            $questionSet->shuffleQuestions();
+        if ($this->test_obj->getShuffleQuestions()) {
+            $question_set->shuffleQuestions();
         }
     }
 
@@ -197,20 +197,20 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         ilDBInterface $db,
         ilLanguage $lng,
         TestLogger $logger,
-        ilObjTest $testOBJ,
-        ilTestRandomQuestionSetConfig $questionSetConfig,
-        ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
-        ilTestRandomQuestionSetStagingPoolQuestionList $stagingPoolQuestionList
+        ilObjTest $test_obj,
+        ilTestRandomQuestionSetConfig $question_set_config,
+        ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list,
+        ilTestRandomQuestionSetStagingPoolQuestionList $staging_pool_question_list
     ) {
-        if ($questionSetConfig->isQuestionAmountConfigurationModePerPool()) {
+        if ($question_set_config->isQuestionAmountConfigurationModePerPool()) {
             return new ilTestRandomQuestionSetBuilderWithAmountPerPool(
                 $db,
                 $lng,
                 $logger,
-                $testOBJ,
-                $questionSetConfig,
-                $sourcePoolDefinitionList,
-                $stagingPoolQuestionList
+                $test_obj,
+                $question_set_config,
+                $source_pool_definition_list,
+                $staging_pool_question_list
             );
         }
 
@@ -218,10 +218,10 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
             $db,
             $lng,
             $logger,
-            $testOBJ,
-            $questionSetConfig,
-            $sourcePoolDefinitionList,
-            $stagingPoolQuestionList
+            $test_obj,
+            $question_set_config,
+            $source_pool_definition_list,
+            $staging_pool_question_list
         );
     }
 
@@ -231,7 +231,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
      */
     public function getCheckMessages(): array
     {
-        return $this->checkMessages;
+        return $this->check_messages;
     }
     // fau.
 }
