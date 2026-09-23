@@ -1523,6 +1523,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $this->setPropertiesSubTabs("subtitles");
         $this->media_manager->generateMissingVTT($this->object->getId());
+        $lng->loadLanguageModule("meta");
 
         if (!in_array("vtt", $this->file_service_settings->getWhiteListedSuffixes())) {
             $tpl->setOnScreenMessage("info", $lng->txt("mob_srt_not_allowed"));
@@ -1550,11 +1551,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             //$ilToolbar->addFormButton($lng->txt("mob_generate_vtt"), "generateVTT");
         }
 
-        /** @var ilObjMediaObject $mob */
-        $mob = $this->object;
-        $tab = new ilMobSubtitleTableGUI($this, "listSubtitleFiles", $mob);
+        $table = $this->media_gui->subTitles()->subtitleTableBuilder(
+            $this->object,
+            $this,
+            "listSubtitleFiles"
+        )->getTable();
 
-        $tpl->setContent($tab->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     public function uploadSubtitleFileObject(): void
@@ -1571,57 +1578,70 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listSubtitleFiles");
     }
 
-    /**
-     * Confirm srt file deletion
-     */
-    public function confirmSrtDeletionObject(): void
+    protected function getSubtitleTable(): \ILIAS\Repository\Table\TableAdapterGUI
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
+        return $this->media_gui->subTitles()->subtitleTableBuilder(
+            $this->object,
+            $this,
+            "listSubtitleFiles"
+        )->getTable();
+    }
 
-        $lng->loadLanguageModule("meta");
-
-        $srts = $this->sub_title_request->getSrtFiles();
-        if (count($srts) == 0) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            $ilCtrl->redirect($this, "listSubtitleFiles");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("mob_really_delete_srt"));
-            $cgui->setCancel($lng->txt("cancel"), "listSubtitleFiles");
-            $cgui->setConfirm($lng->txt("delete"), "deleteSrtFiles");
-            foreach ($srts as $i) {
-                $p = explode(":", $i);
-                $cgui->addItem("srt[]", $i, "subtitle_" . $p[0] . "." . $p[1] . " (" . $lng->txt("meta_l_" . $p[0]) . ")");
-            }
-
-            $tpl->setContent($cgui->getHTML());
+    public function confirmSrtDeletion(string $id): void
+    {
+        $this->lng->loadLanguageModule("meta");
+        $subtitle = $this->getSubtitleFile($id);
+        if ($subtitle === null) {
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listSubtitleFiles");
+            return;
         }
+
+        $this->getSubtitleTable()->renderDeletionConfirmation(
+            $this->lng->txt("mob_really_delete_srt"),
+            $this->lng->txt("mob_really_delete_srt"),
+            "deleteSrtFile",
+            [$id => $this->getSubtitleFileTitle($subtitle)]
+        );
     }
 
     /**
-     * Delete srt files
+     * Delete an srt file
      */
-    public function deleteSrtFilesObject(): void
+    public function deleteSrtFileObject(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $ids = $this->getSubtitleTable()->getItemIds();
+        $subtitle = $this->getSubtitleFile($ids[0] ?? "");
+        if ($subtitle === null) {
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listSubtitleFiles");
+            return;
+        }
 
-        $srts = $this->sub_title_request->getSrtFiles();
-        $deleted = false;
-        foreach ($srts as $i) {
-            if (strlen($i) == 6 && !is_int(strpos($i, "."))) {
-                $p = explode(":", $i);
-                $this->object->removeAdditionalFile("srt/subtitle_" . $p[0] . "." . $p[1]);
-                $deleted = true;
+        $this->object->removeAdditionalFile("srt/" . $subtitle["file"]);
+        $this->tpl->setOnScreenMessage(
+            "success",
+            $this->lng->txt("mob_srt_files_deleted"),
+            true
+        );
+        $this->ctrl->redirect($this, "listSubtitleFiles");
+    }
+
+    protected function getSubtitleFile(string $id): ?array
+    {
+        foreach ($this->object->getSrtFiles() as $subtitle) {
+            if (($subtitle["file"] ?? "") === $id) {
+                return $subtitle;
             }
         }
-        if ($deleted) {
-            $this->tpl->setOnScreenMessage('success', $lng->txt("mob_srt_files_deleted"), true);
-        }
-        $ilCtrl->redirect($this, "listSubtitleFiles");
+        return null;
+    }
+
+    protected function getSubtitleFileTitle(array $subtitle): string
+    {
+        $extension = pathinfo($subtitle["file"], PATHINFO_EXTENSION);
+        return "subtitle_" . $subtitle["language"] . "." . $extension . " ("
+            . $this->lng->txt("meta_l_" . $subtitle["language"]) . ")";
     }
 
     public function uploadMultipleSubtitleFileFormObject(): void

@@ -28,6 +28,7 @@ use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
 use ILIAS\MediaObjects\Thumbs\ThumbsManager;
+use ILIAS\MediaObjects\SubTitles\Retrieval as SubTitlesRetrieval;
 use ILIAS\MediaObjects\Usage\UsageRetrieval;
 
 /**
@@ -107,6 +108,12 @@ class InternalDomainService
             $include_hist,
             $this
         );
+    }
+
+    public function subTitlesRetrieval(
+        \ilObjMediaObject $media_object
+    ): SubTitlesRetrieval {
+        return new SubTitlesRetrieval($media_object);
     }
 
 }
