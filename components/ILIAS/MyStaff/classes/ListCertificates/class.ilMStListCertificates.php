@@ -76,18 +76,18 @@ class ilMStListCertificates
                 $operation_access
             ));
 
-            if (!empty($options['filters']['user'])) {
+            if (!empty($options['filters']['user'] ?? null)) {
                 $usr_data_filter = $usr_data_filter->withUserIdentification($options['filters']['user']);
             }
-            if (!empty($options['filters']['obj_title'])) {
+            if (!empty($options['filters']['obj_title'] ?? null)) {
                 $usr_data_filter = $usr_data_filter->withObjectTitle($options['filters']['obj_title']);
             }
-            if (!empty($options['filters']['org_unit'])) {
+            if (!empty($options['filters']['org_unit'] ?? null)) {
                 $org_unit_id = (int) $options['filters']['org_unit'];
                 $usr_data_filter = $usr_data_filter->withOrgUnitIds([$org_unit_id]);
             }
 
-            if (!empty($options['sort']['field']) && !empty($options['sort']['direction'])) {
+            if (!empty($options['sort']['field'] ?? null) && !empty($options['sort']['direction'] ?? null)) {
                 if ($options['sort']['field'] === "objectTitle" && $options['sort']['direction'] === "asc") {
                     $usr_data_filter = $usr_data_filter->withSortedObjectTitles(UserDataFilter::SORT_DIRECTION_ASC);
                 } elseif ($options['sort']['field'] === "objectTitle" && $options['sort']['direction'] === "desc") {
@@ -115,8 +115,8 @@ class ilMStListCertificates
                 }
             }
 
-            if ((!empty($options['limit']['start']) || $options['limit']['start'] === 0)
-                && !empty($options['limit']['end'])
+            if ((!empty($options['limit']['start'] ?? null) || ($options['limit']['start'] ?? null) === 0)
+                && !empty($options['limit']['end'] ?? null)
             ) {
                 $usr_data_filter = $usr_data_filter->withLimitOffset((int) $options['limit']['start']);
                 $usr_data_filter = $usr_data_filter->withLimitCount((int) $options['limit']['end']);
