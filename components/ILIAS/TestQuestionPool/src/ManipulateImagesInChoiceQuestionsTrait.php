@@ -29,9 +29,10 @@ trait ManipulateImagesInChoiceQuestionsTrait
      */
     protected function deleteImage($image_filename): void
     {
+        $cleaned_image_file_name = basename($image_filename);
         $imagepath = $this->getImagePath();
-        @unlink($imagepath . $image_filename);
-        $thumbpath = $imagepath . $this->getThumbPrefix() . $image_filename;
+        @unlink($imagepath . $cleaned_image_file_name);
+        $thumbpath = $imagepath . $this->getThumbPrefix() . $cleaned_image_file_name;
         @unlink($thumbpath);
     }
 
