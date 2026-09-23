@@ -28,9 +28,11 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
  * @author Saúl Díaz <sdiaz@surlabs.com>
  *
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIObjectSettingsGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIToolLaunchGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIToolSettingsGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilPermissionGUI
  */
 class ilObjLTIConsumerGUI extends ilObject2GUI
@@ -40,7 +42,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     private const string CMD_SAVE_OWN_TOOL = 'saveOwnTool';
     private const string VERSION_PARAM = 'version';
     private const string TAB_CONTENT = 'tab_content';
+    private const string TAB_INFO = 'tab_info';
     private const string TAB_SETTINGS = 'tab_settings';
+    private const string TAB_METADATA = 'meta_data';
     private const string TAB_PERMISSIONS = 'id_permissions';
 
     public function getType(): string
@@ -67,6 +71,19 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand(new ilLTIToolLaunchGUI($this->getLTIObject()));
                 break;
 
+            case strtolower(ilInfoScreenGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_INFO);
+                $info = new ilInfoScreenGUI($this);
+                $this->configureInfoScreen($info);
+                $this->ctrl->forwardCommand($info);
+                break;
+
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission('write');
+                $this->tabs_gui->activateTab(self::TAB_METADATA);
+                $this->ctrl->forwardCommand(new ilObjectMetaDataGUI($this->getLTIObject()));
+                break;
+
             case strtolower(ilLTIObjectSettingsGUI::class):
                 $this->checkPermission('write');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
@@ -85,7 +102,12 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 break;
 
             default:
-                $this->{$this->ctrl->getCmd(self::CMD_LAUNCH)}();
+                $cmd = $this->ctrl->getCmd(self::CMD_LAUNCH);
+                // an object without content to launch opens on its info screen
+                if ($cmd === self::CMD_LAUNCH && $this->object instanceof ilObjLTIConsumer && !$this->isContentAvailable()) {
+                    $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+                }
+                $this->{$cmd}();
         }
     }
 
@@ -94,20 +116,36 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
      */
     protected function setTabs(): void
     {
-        if ($this->object instanceof ilObjLTIConsumer && $this->checkPermissionBool('read')) {
+        if (!$this->object instanceof ilObjLTIConsumer) {
+            parent::setTabs();
+            return;
+        }
+
+        if ($this->checkPermissionBool('read') && $this->isContentAvailable()) {
             $this->tabs_gui->addTab(
                 self::TAB_CONTENT,
-                $this->lng->txt('tab_content'),
+                $this->lng->txt(self::TAB_CONTENT),
                 $this->ctrl->getLinkTarget($this, self::CMD_LAUNCH)
             );
         }
 
-        if ($this->object instanceof ilObjLTIConsumer && $this->checkPermissionBool('write')) {
+        $this->tabs_gui->addTab(
+            self::TAB_INFO,
+            $this->lng->txt(self::TAB_INFO),
+            $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class, 'showSummary')
+        );
+
+        if ($this->checkPermissionBool('write')) {
             $this->tabs_gui->addTab(
                 self::TAB_SETTINGS,
-                $this->lng->txt('tab_settings'),
+                $this->lng->txt(self::TAB_SETTINGS),
                 $this->ctrl->getLinkTargetByClass(ilLTIObjectSettingsGUI::class, ilLTIObjectSettingsGUI::CMD_SHOW)
             );
+
+            $metadata_link = new ilObjectMetaDataGUI($this->object)->getTab();
+            if ($metadata_link !== null && $metadata_link !== '') {
+                $this->tabs_gui->addTab(self::TAB_METADATA, $this->lng->txt(self::TAB_METADATA), $metadata_link);
+            }
         }
 
         parent::setTabs();
@@ -215,6 +253,16 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
+     * The command the info action of the listing calls.
+     *
+     * @throws ilCtrlException
+     */
+    protected function infoScreen(): void
+    {
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+    }
+
+    /**
      * @throws ilCtrlException
      * @throws ilObjectException
      */
@@ -249,9 +297,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return [$filter, $table->getTable($filter)];
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     /**
      * Each LTI version has its own form, because they authenticate the tool differently. The control on
      * top switches between them.
@@ -348,6 +393,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $object->setDescription($tool->getDescription());
         $object->setToolId($tool->getId());
         $object->create();
+        $this->initMetaData($object, $tool);
 
         $this->ctrl->setParameter($this, 'new_type', '');
         $this->putObjectInTree($object);
@@ -359,6 +405,87 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             [ilObjLTIConsumerGUI::class, ilLTIObjectSettingsGUI::class],
             ilLTIObjectSettingsGUI::CMD_SHOW
         );
+    }
+
+    /**
+     * The metadata of a new object start from its title, with the keywords of its tool.
+     */
+    private function initMetaData(ilObjLTIConsumer $object, ilLTITool $tool): void
+    {
+        global $DIC;
+
+        $object->createMetaData();
+
+        $keywords = $tool->getKeywords();
+        if ($keywords === []) {
+            return;
+        }
+
+        $lom = $DIC->learningObjectMetadata();
+        $lom->manipulate($object->getId(), 0, $object->getType())
+            ->prepareCreateOrUpdate($lom->paths()->keywords(), ...$keywords)
+            ->execute();
+    }
+
+    /**
+     * Launching needs the object online and a tool that is still available.
+     *
+     * @throws ilObjectException
+     */
+    private function isContentAvailable(): bool
+    {
+        $object = $this->getLTIObject();
+
+        return !$object->getOfflineStatus()
+            && $object->getTool()->getAvailability() !== ilLTITool::AVAILABILITY_NONE;
+    }
+
+    /**
+     * What the info screen tells about the tool is what a user needs to judge the data it receives.
+     *
+     * @throws ilObjectException
+     */
+    private function configureInfoScreen(ilInfoScreenGUI $info): void
+    {
+        if (!$this->checkPermissionBool('visible') && !$this->checkPermissionBool('read')) {
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+        }
+
+        $object = $this->getLTIObject();
+        $tool = $object->getTool();
+
+        if ($tool->getUrl() === '') {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_provider_not_set_msg'));
+        } elseif ($tool->getAvailability() === ilLTITool::AVAILABILITY_NONE) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_provider_not_avail_msg'));
+        }
+
+        $info->enablePrivateNotes();
+        $info->enableNews($this->checkPermissionBool('read'));
+        $info->enableNewsEditing(false);
+        if ($this->checkPermissionBool('write') && new ilSetting('news')->get('enable_rss_for_internal')) {
+            $info->setBlockProperty('news', 'settings', 'true');
+            $info->setBlockProperty('news', 'public_notifications_option', 'true');
+        }
+
+        $info->addMetaDataSections($object->getId(), 0, $object->getType());
+
+        $info->addSection($this->lng->txt('lti_info_privacy_section'));
+        $info->addProperty($this->lng->txt('lti_con_prov_url'), $tool->getUrl());
+        $info->addProperty(
+            $this->lng->txt('conf_privacy_name'),
+            $this->lng->txt('conf_privacy_name_' . ilObjCmiXapiGUI::getPrivacyNameString($tool->getPrivacyName()))
+        );
+        $info->addProperty(
+            $this->lng->txt('conf_privacy_ident'),
+            $this->lng->txt('conf_privacy_ident_' . ilObjCmiXapiGUI::getPrivacyIdentString($tool->getPrivacyIdent()))
+        );
+        if ($tool->isExternal()) {
+            $info->addProperty(
+                $this->lng->txt('lti_info_external_provider_label'),
+                $this->lng->txt('lti_info_external_provider_info')
+            );
+        }
     }
 
     private function getIntParameter(string $name): int

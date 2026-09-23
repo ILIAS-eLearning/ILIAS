@@ -29,12 +29,15 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
     {
         $this->type = 'lti';
         $this->gui_class_name = ilObjLTIConsumerGUI::class;
+        $this->static_link_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
-        $this->copy_enabled = false;
+        $this->copy_enabled = true;
         $this->link_enabled = true;
-        $this->subscribe_enabled = true;
-        $this->info_screen_enabled = false;
+        $this->subscribe_enabled = false;
+        $this->progress_enabled = true;
+        $this->notice_properties_enabled = true;
+        $this->info_screen_enabled = true;
         $this->commands = ilObjLTIConsumerAccess::_getCommands();
     }
 }

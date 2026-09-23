@@ -34,8 +34,13 @@ class ilObjLTIConsumerAccess extends ilObjectAccess
             [
                 'permission' => 'read',
                 'cmd' => ilObjLTIConsumerGUI::CMD_LAUNCH,
-                'lang_var' => 'show',
+                'lang_var' => '',
                 'default' => true,
+            ],
+            [
+                'permission' => 'write',
+                'cmd' => ilLTIObjectSettingsGUI::class . '::' . ilLTIObjectSettingsGUI::CMD_SHOW,
+                'lang_var' => 'settings',
             ],
         ];
     }

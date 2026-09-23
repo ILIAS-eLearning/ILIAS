@@ -70,6 +70,8 @@ class ilLTITool
     private int $privacy_name = self::PRIVACY_NAME_NONE;
     private string $lti_version = self::VERSION_1P1;
     private int $creator = 0;
+    private bool $external = false;
+    private string $keywords = '';
     private bool $global = false;
     private bool $include_user_picture = false;
     private bool $always_learner = false;
@@ -105,6 +107,25 @@ class ilLTITool
     public function getCreator(): int
     {
         return $this->creator;
+    }
+
+    /**
+     * True when the operator of the installation has no say over the tool, which users are warned about.
+     */
+    public function isExternal(): bool
+    {
+        return $this->external;
+    }
+
+    /**
+     * @return array the keywords to find the tool by, which a new object also takes as its own
+     */
+    public function getKeywords(): array
+    {
+        return array_values(array_filter(
+            array_map('trim', explode(';', $this->keywords)),
+            static fn(string $keyword): bool => $keyword !== ''
+        ));
     }
 
     /**
@@ -197,6 +218,8 @@ class ilLTITool
         $this->availability = (int) ($row['availability'] ?? self::AVAILABILITY_NONE);
         $this->lti_version = (string) ($row['lti_version'] ?? self::VERSION_1P1);
         $this->creator = (int) ($row['creator'] ?? 0);
+        $this->external = (bool) ($row['external_provider'] ?? false);
+        $this->keywords = (string) ($row['keywords'] ?? '');
         $this->global = (bool) ($row['global'] ?? false);
         $this->url = (string) ($row['provider_url'] ?? '');
         $this->privacy_ident = (int) ($row['privacy_ident'] ?? self::PRIVACY_IDENT_IL_UUID_USER_ID);
