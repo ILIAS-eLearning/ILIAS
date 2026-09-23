@@ -65,7 +65,9 @@ class ilAssKprimChoiceAnswer
 
     public function getImageFile(): ?string
     {
-        return $this->imageFile;
+        return $this->imageFile !== null
+            ? basename($this->imageFile)
+            : null;
     }
 
     // sk 2023-12-01: These are proxy functions to make things work like the other answertypes for Choice Questions

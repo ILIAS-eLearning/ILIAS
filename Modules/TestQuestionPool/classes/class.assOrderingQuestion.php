@@ -801,8 +801,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
 
-        $result = @unlink($this->getImagePath() . $imageFilename);
-        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $imageFilename);
+        $cleaned_image_file_name = basename($imageFilename);
+        $result = @unlink($this->getImagePath() . $cleaned_image_file_name);
+        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $cleaned_image_file_name);
 
         return $result;
     }
