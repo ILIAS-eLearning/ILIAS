@@ -8240,7 +8240,6 @@ dateplaner#:#back_to_grp#:#Gruppeninhalt
 dateplaner#:#back_to_pd#:#zurück
 dateplaner#:#btn_ical#:#Abonnieren
 dateplaner#:#c_date#:#erstelle Termin
-dateplaner#:#cal_accepted#:#Angenommen
 dateplaner#:#cal_add_appointment#:#Termin anlegen
 dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
 dateplaner#:#cal_add_category#:#Neuen Kalender anlegen
@@ -8412,7 +8411,6 @@ dateplaner#:#cal_day_selection#:#Tagesauswahl
 dateplaner#:#cal_day_start#:#Tagesbeginn
 dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
 dateplaner#:#cal_deadline#:#Endtermin
-dateplaner#:#cal_declined#:#Abgelehnt
 dateplaner#:#cal_def_date_format#:#Default-Datums-Eingabeformat
 dateplaner#:#cal_def_date_format_info#:#Bitte wählen Sie ein Format für die Darstellung von Daten aus.
 dateplaner#:#cal_def_day_end#:#Default-Tagesende
@@ -17361,7 +17359,7 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet 
+trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
 trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen

@@ -8241,7 +8241,6 @@ dateplaner#:#back_to_grp#:#Go to Group
 dateplaner#:#back_to_pd#:#Back
 dateplaner#:#btn_ical#:#Subscribe
 dateplaner#:#c_date#:#Create Event
-dateplaner#:#cal_accepted#:#Accepted
 dateplaner#:#cal_add_appointment#:#Create Appointment
 dateplaner#:#cal_add_calendar#:#Add Calendar
 dateplaner#:#cal_add_category#:#Create New Calendar
@@ -8413,7 +8412,6 @@ dateplaner#:#cal_day_selection#:#Select Day
 dateplaner#:#cal_day_start#:#Day Start
 dateplaner#:#cal_day_week_view#:#Day/Week View Settings
 dateplaner#:#cal_deadline#:#Deadline
-dateplaner#:#cal_declined#:#Declined
 dateplaner#:#cal_def_date_format#:#Default Date Input Format
 dateplaner#:#cal_def_date_format_info#:#Please choose a format for the input of dates.
 dateplaner#:#cal_def_day_end#:#Default Day End
