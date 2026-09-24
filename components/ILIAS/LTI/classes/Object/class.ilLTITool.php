@@ -77,6 +77,15 @@ class ilLTITool
     private bool $always_learner = false;
     private bool $use_tool_id = false;
     private string $custom_params = '';
+    private bool $has_outcome = false;
+    private float $mastery_score = 0.8;
+    private bool $use_xapi = false;
+    private string $xapi_launch_url = '';
+    private string $xapi_launch_key = '';
+    private string $xapi_launch_secret = '';
+    private string $xapi_activity_id = '';
+    private bool $grade_synchronization = false;
+    private bool $content_item = false;
     private ?ilLTI1p1ConsumerProviderCredentials $lti_1p1_credentials = null;
 
     public function __construct(int $id = 0)
@@ -142,6 +151,16 @@ class ilLTITool
     }
 
     /**
+     * True when the given user may create an object for the tool, the same rule as SCOPE_SELECTABLE.
+     */
+    public function isSelectableBy(int $user_id): bool
+    {
+        return $this->id > 0
+            && $this->availability === self::AVAILABILITY_CREATE
+            && ($this->global || $this->creator === $user_id);
+    }
+
+    /**
      * Which of the two LTI versions the tool speaks, and with it how it authenticates.
      */
     public function getLtiVersion(): string
@@ -187,6 +206,83 @@ class ilLTITool
         return $this->custom_params;
     }
 
+    /**
+     * True when the tool reports results, which is what the learning progress of its objects builds on.
+     */
+    public function hasOutcome(): bool
+    {
+        return $this->has_outcome;
+    }
+
+    /**
+     * The share of the maximum result, between 0 and 1, a new object requires by default.
+     */
+    public function getMasteryScore(): float
+    {
+        return $this->mastery_score;
+    }
+
+    /**
+     * True when the tool sends xAPI statements to the LRS below, which its objects can report on.
+     */
+    public function getUseXapi(): bool
+    {
+        return $this->use_xapi;
+    }
+
+    public function getXapiLaunchUrl(): string
+    {
+        return $this->xapi_launch_url;
+    }
+
+    /**
+     * Where the reports on the statements of the tool are queried. The tool only gives the statements
+     * endpoint of its LRS, from which the aggregation endpoint of the LRS is derived.
+     */
+    public function getXapiAggregateEndpoint(): string
+    {
+        return str_replace('data/xAPI', 'api/statements/aggregate', $this->xapi_launch_url);
+    }
+
+    public function getXapiBasicAuth(): string
+    {
+        return ilCmiXapiLrsType::buildBasicAuth($this->xapi_launch_key, $this->xapi_launch_secret);
+    }
+
+    public function getXapiLaunchKey(): string
+    {
+        return $this->xapi_launch_key;
+    }
+
+    public function getXapiLaunchSecret(): string
+    {
+        return $this->xapi_launch_secret;
+    }
+
+    /**
+     * The xAPI activity of the tool, empty when each object has to name its own.
+     */
+    public function getXapiActivityId(): string
+    {
+        return $this->xapi_activity_id;
+    }
+
+    /**
+     * True when the tool sends grades through LTI Advantage Assignment and Grade Services.
+     */
+    public function isGradeSynchronization(): bool
+    {
+        return $this->grade_synchronization;
+    }
+
+    /**
+     * True when the tool lets the user pick its content through LTI Advantage Deep Linking.
+     */
+    public function isContentItem(): bool
+    {
+        return $this->content_item;
+    }
+
     public function getLti1p1Credentials(): ilLTI1p1ConsumerProviderCredentials
     {
         return $this->lti_1p1_credentials ??= new ilLTI1p1ConsumerProviderCredentials();
@@ -228,6 +324,15 @@ class ilLTITool
         $this->always_learner = (bool) ($row['always_learner'] ?? false);
         $this->use_tool_id = (bool) ($row['use_provider_id'] ?? false);
         $this->custom_params = (string) ($row['custom_params'] ?? '');
+        $this->has_outcome = (bool) ($row['has_outcome'] ?? false);
+        $this->mastery_score = (float) ($row['mastery_score'] ?? 0.8);
+        $this->use_xapi = (bool) ($row['use_xapi'] ?? false);
+        $this->xapi_launch_url = (string) ($row['xapi_launch_url'] ?? '');
+        $this->xapi_launch_key = (string) ($row['xapi_launch_key'] ?? '');
+        $this->xapi_launch_secret = (string) ($row['xapi_launch_secret'] ?? '');
+        $this->xapi_activity_id = (string) ($row['xapi_activity_id'] ?? '');
+        $this->grade_synchronization = (bool) ($row['grade_synchronization'] ?? false);
+        $this->content_item = (bool) ($row['content_item'] ?? false);
         $this->getLti1p1Credentials()->assignFromDbRow($row);
     }
 

@@ -20,12 +20,15 @@ declare(strict_types=1);
 
 use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use ILIAS\UI\Component\Input\Field\OptionalGroup;
 
 /**
  * Settings of an LTI object: what it is called, whether it is online, how it launches its tool and
  * the credentials it launches with. The tool itself is not changed here, only how this object uses it.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
+ *
+ * @ilCtrl_Calls ilLTIObjectSettingsGUI: ilCertificateGUI
  */
 class ilLTIObjectSettingsGUI
 {
@@ -34,6 +37,7 @@ class ilLTIObjectSettingsGUI
 
     private const string SUBTAB_OBJECT = 'subtab_object_settings';
     private const string SUBTAB_TOOL = 'subtab_provider_settings';
+    private const string SUBTAB_CERTIFICATE = 'certificate';
 
     private readonly ILIAS\DI\Container $dic;
 
@@ -49,7 +53,12 @@ class ilLTIObjectSettingsGUI
      */
     public function executeCommand(): void
     {
-        $this->initSubTabs();
+        $this->addSubTabs();
+
+        if ($this->dic->ctrl()->getNextClass($this) === strtolower(ilCertificateGUI::class)) {
+            $this->forwardToCertificate();
+            return;
+        }
 
         match ($this->dic->ctrl()->getCmd(self::CMD_SHOW)) {
             self::CMD_SAVE => $this->save(),
@@ -90,8 +99,21 @@ class ilLTIObjectSettingsGUI
             $this->object->getLti1p1Credentials()->setSecret($data['authentication']['secret']);
         }
 
+        $previous_mastery_score = $this->object->getMasteryScore();
+        if (isset($data['learning_progress'])) {
+            $this->object->setMasteryScore(round((float) $data['learning_progress']['mastery_score'], 2) / 100);
+        }
+        if ($this->object->getTool()->getUseXapi()) {
+            $this->saveXapi($data['appearance']['use_xapi']);
+        }
+
         $this->object->update();
         $this->object->getObjectProperties()->storePropertyIsOnline(new Online((bool) $data['general']['online']));
+
+        // a new mastery score changes who has completed the object
+        if ($this->object->getMasteryScore() !== $previous_mastery_score) {
+            ilLPStatusWrapper::_refreshStatus($this->object->getId());
+        }
 
         $this->dic->ui()->mainTemplate()->setOnScreenMessage('success', $this->dic->language()->txt('settings_saved'), true);
         $this->dic->ctrl()->redirect($this, self::CMD_SHOW);
@@ -113,6 +135,7 @@ class ilLTIObjectSettingsGUI
                     ->withDisabled(true),
                 'title' => $field->text($lng->txt('title'), $lng->txt('title_info'))
                     ->withRequired(true)
+                    ->withMaxLength(128)
                     ->withValue($this->object->getTitle()),
                 'description' => $field->textarea($lng->txt('description'), $lng->txt('description_info'))
                     ->withValue($this->object->getDescription()),
@@ -133,6 +156,18 @@ class ilLTIObjectSettingsGUI
             ], $lng->txt('lti_con_prov_authentication'));
         }
 
+        // the mastery score only makes sense when the tool reports results
+        if ($tool->hasOutcome()) {
+            $sections['learning_progress'] = $field->section([
+                'mastery_score' => $field->numeric($lng->txt('mastery_score'), $lng->txt('mastery_score_info'))
+                    ->withStepSize(0.01)
+                    ->withRequired(true)
+                    ->withAdditionalTransformation($this->dic->refinery()->int()->isGreaterThanOrEqual(0))
+                    ->withAdditionalTransformation($this->dic->refinery()->int()->isLessThanOrEqual(100))
+                    ->withValue(round(100 * $this->object->getMasteryScore(), 2)),
+            ], $lng->txt('learning_progress_options'));
+        }
+
         $launch_method = $field->radio($lng->txt('launch_method'))->withRequired(true);
         foreach ([
             ilObjLTIConsumer::LAUNCH_METHOD_OWN_WIN => 'launch_method_own_win',
@@ -148,7 +183,7 @@ class ilLTIObjectSettingsGUI
                 $lng->txt('lti_con_prov_custom_params'),
                 $lng->txt('lti_con_prov_custom_params_info')
             )->withValue($this->object->getCustomParams()),
-        ], $lng->txt('lti_form_section_appearance'));
+        ] + ($tool->getUseXapi() ? ['use_xapi' => $this->buildXapiInput()] : []), $lng->txt('lti_form_section_appearance'));
 
         return $this->dic->ui()->factory()->input()->container()->form()->standard(
             $this->dic->ctrl()->getFormAction($this, self::CMD_SAVE),
@@ -157,17 +192,116 @@ class ilLTIObjectSettingsGUI
     }
 
     /**
+     * The reports on the xAPI statements of a tool that sends them: the statements themselves and a ranking.
+     */
+    private function buildXapiInput(): OptionalGroup
+    {
+        $lng = $this->dic->language();
+        $field = $this->dic->ui()->factory()->input()->field();
+        $object = $this->object;
+
+        $mode = $field->radio($lng->txt('highscore_mode'))->withRequired(true);
+        foreach ([
+            ilObjLTIConsumer::HIGHSCORE_SHOW_OWN_TABLE => 'highscore_own_table',
+            ilObjLTIConsumer::HIGHSCORE_SHOW_TOP_TABLE => 'highscore_top_table',
+            ilObjLTIConsumer::HIGHSCORE_SHOW_ALL_TABLES => 'highscore_all_tables',
+        ] as $value => $txt) {
+            $mode = $mode->withOption((string) $value, $lng->txt($txt), $lng->txt($txt . '_description'));
+        }
+
+        $highscore = $field->optionalGroup([
+            'highscore_mode' => $mode->withValue((string) $object->getHighscoreMode()),
+            'highscore_top_num' => $field->numeric(
+                $lng->txt('highscore_top_num'),
+                $lng->txt('highscore_top_num_description')
+            )->withRequired(true)
+                ->withAdditionalTransformation($this->dic->refinery()->int()->isGreaterThanOrEqual(1))
+                ->withValue($object->getHighscoreTopNum()),
+            'highscore_achieved_ts' => $field->checkbox(
+                $lng->txt('highscore_achieved_ts'),
+                $lng->txt('highscore_achieved_ts_description')
+            )->withValue($object->getHighscoreAchievedTS()),
+            'highscore_percentage' => $field->checkbox(
+                $lng->txt('highscore_percentage'),
+                $lng->txt('highscore_percentage_description')
+            )->withValue($object->getHighscorePercentage()),
+            'highscore_wtime' => $field->checkbox(
+                $lng->txt('highscore_wtime'),
+                $lng->txt('highscore_wtime_description')
+            )->withValue($object->getHighscoreWTime()),
+        ], $lng->txt('highscore_enabled'), $lng->txt('highscore_description'));
+
+        $inputs = [];
+        // an object only names its activity when the tool does not
+        if ($object->getTool()->getXapiActivityId() === '') {
+            $inputs['activity_id'] = $field->text($lng->txt('activity_id'), $lng->txt('activity_id_info'))
+                ->withRequired(true)
+                ->withMaxLength(128)
+                ->withValue($object->getCustomActivityId());
+        }
+        $inputs['show_statements'] = $field->checkbox($lng->txt('show_statements'), $lng->txt('show_statements_info'))
+            ->withValue($object->isStatementsReportEnabled());
+        $inputs['highscore'] = $object->getHighscoreEnabled() ? $highscore : $highscore->withValue(null);
+
+        $xapi = $field->optionalGroup($inputs, $lng->txt('use_xapi'), $lng->txt('use_xapi_info'));
+
+        return $object->getUseXapi() ? $xapi : $xapi->withValue(null);
+    }
+
+    /**
+     * Stores what the xAPI input returned, null when the object does not use xAPI. Settings of an
+     * option switched off are kept for when it is switched on again.
+     */
+    private function saveXapi(?array $xapi): void
+    {
+        $this->object->setUseXapi($xapi !== null);
+        if ($xapi === null) {
+            return;
+        }
+
+        if (isset($xapi['activity_id'])) {
+            $this->object->setCustomActivityId($xapi['activity_id']);
+        }
+        $this->object->setStatementsReportEnabled($xapi['show_statements']);
+        $this->object->setHighscoreEnabled($xapi['highscore'] !== null);
+        if ($xapi['highscore'] === null) {
+            return;
+        }
+
+        $this->object->setHighscoreMode((int) $xapi['highscore']['highscore_mode']);
+        $this->object->setHighscoreTopNum((int) $xapi['highscore']['highscore_top_num']);
+        $this->object->setHighscoreAchievedTS($xapi['highscore']['highscore_achieved_ts']);
+        $this->object->setHighscorePercentage($xapi['highscore']['highscore_percentage']);
+        $this->object->setHighscoreWTime($xapi['highscore']['highscore_wtime']);
+    }
+
+    /**
+     * @throws ilCtrlException
+     * @throws ilObjectException
+     */
+    private function forwardToCertificate(): void
+    {
+        if (!new ilCertificateActiveValidator()->validate()) {
+            throw new ilObjectException('certificates are not active');
+        }
+
+        $this->dic->tabs()->activateSubTab(self::SUBTAB_CERTIFICATE);
+        $this->dic->ctrl()->forwardCommand(new ilCertificateGUIFactory()->create($this->object));
+    }
+
+    /**
      * The tool of an object only has settings of its own when it belongs to the user reading them.
+     * ilLTIToolSettingsGUI shows the same subtabs.
      *
      * @throws ilCtrlException
      */
-    private function initSubTabs(): void
+    public function addSubTabs(): void
     {
         $tabs = $this->dic->tabs();
         $tabs->addSubTab(
             self::SUBTAB_OBJECT,
             $this->dic->language()->txt(self::SUBTAB_OBJECT),
-            $this->dic->ctrl()->getLinkTarget($this, self::CMD_SHOW)
+            $this->dic->ctrl()->getLinkTargetByClass(self::class, self::CMD_SHOW)
         );
 
         $tool = $this->object->getTool();
@@ -176,6 +310,14 @@ class ilLTIObjectSettingsGUI
                 self::SUBTAB_TOOL,
                 $this->dic->language()->txt(self::SUBTAB_TOOL),
                 $this->dic->ctrl()->getLinkTargetByClass(ilLTIToolSettingsGUI::class, ilLTIToolSettingsGUI::CMD_SHOW)
+            );
+        }
+
+        if (new ilCertificateActiveValidator()->validate()) {
+            $tabs->addSubTab(
+                self::SUBTAB_CERTIFICATE,
+                $this->dic->language()->txt(self::SUBTAB_CERTIFICATE),
+                $this->dic->ctrl()->getLinkTargetByClass([ilObjLTIConsumerGUI::class, self::class, ilCertificateGUI::class], 'certificateEditor')
             );
         }
     }

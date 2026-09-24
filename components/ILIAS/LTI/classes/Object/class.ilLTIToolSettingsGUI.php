@@ -74,6 +74,10 @@ class ilLTIToolSettingsGUI
             return;
         }
 
+        // setting the id again drops the tool read before saving, so the keywords are the new ones
+        $this->object->setToolId($this->object->getToolId());
+        $this->object->syncKeywordsFromTool();
+
         $this->dic->ui()->mainTemplate()->setOnScreenMessage('success', $this->dic->language()->txt('settings_saved'), true);
         $this->dic->ctrl()->redirect($this, self::CMD_SHOW);
     }

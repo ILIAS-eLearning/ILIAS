@@ -18,17 +18,138 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+
 /**
- * Screens of the object type ltiv: they deliver the stored certificate and link to it from a portfolio
- * page. Creating a verification needs the certificate of an LTI object, which is not supported yet.
+ * Screens of the object type ltiv: a verification is created in the personal workspace from the
+ * certificate of an LTI object, delivers the stored certificate and is linked from portfolio pages.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
+class ilObjLTIConsumerVerificationGUI extends ilObject2GUI implements DataRetrieval
 {
+    private const string OBJECT_PARAM = 'lti_id';
+
     public function getType(): string
     {
         return 'ltiv';
+    }
+
+    /**
+     * The certificates of LTI objects the user has, to pick the one to keep.
+     *
+     * @throws ilCtrlException
+     */
+    public function create(): void
+    {
+        $this->lng->loadLanguageModule('ltiv');
+        $this->tabs_gui->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'cancel'));
+
+        $column = $this->ui_factory->table()->column();
+        $table = $this->ui_factory->table()->data($this, $this->lng->txt('ltiv_create'), [
+            'title' => $column->link($this->lng->txt('title')),
+            'passed' => $column->text($this->lng->txt('passed')),
+        ])
+            ->withId('ltiv_create')
+            ->withRequest($this->request);
+
+        $this->tpl->setContent($this->ui_renderer->render([
+            $this->ui_factory->messageBox()->info($this->lng->txt('ltiv_create_info')),
+            $table,
+        ]));
+    }
+
+    /**
+     * Stores the certificate of the chosen LTI object as a verification in the workspace.
+     *
+     * @throws ilCtrlException
+     */
+    public function save(): void
+    {
+        $obj_id = $this->request_wrapper->has(self::OBJECT_PARAM)
+            ? $this->request_wrapper->retrieve(self::OBJECT_PARAM, $this->refinery->kindlyTo()->int())
+            : 0;
+        if ($obj_id === 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
+            $this->create();
+            return;
+        }
+
+        $verification = null;
+        try {
+            $certificate = new ilUserCertificateRepository()->fetchActiveCertificateForPresentation($this->user->getId(), $obj_id);
+            $verification = $this->getFileService()->createFile($certificate);
+        } catch (Exception) {
+            $this->lng->loadLanguageModule('cert');
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
+            $this->create();
+            return;
+        }
+
+        if ($verification === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_failed'));
+            $this->create();
+            return;
+        }
+
+        $parent_id = $this->node_id;
+        $this->node_id = null;
+        $this->putObjectInTree($verification, $parent_id);
+        $this->afterSave($verification);
+    }
+
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
+        foreach (array_slice($this->getCertificates(), $range->getStart(), $range->getLength()) as $certificate) {
+            $obj_id = $certificate->getUserCertificate()->getObjId();
+            $this->ctrl->setParameter($this, self::OBJECT_PARAM, $obj_id);
+            yield $row_builder->buildDataRow((string) $obj_id, [
+                'title' => $this->ui_factory->link()->standard(
+                    $certificate->getObjectTitle(),
+                    $this->ctrl->getLinkTarget($this, 'save')
+                ),
+                'passed' => $this->lng->txt('yes'),
+            ]);
+        }
+        $this->ctrl->setParameter($this, self::OBJECT_PARAM, null);
+    }
+
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
+        return count($this->getCertificates());
+    }
+
+    /**
+     * @return array
+     */
+    private function getCertificates(): array
+    {
+        return new ilUserCertificateRepository()->fetchActiveCertificatesByTypeForPresentation($this->user->getId(), 'lti');
+    }
+
+    private function getFileService(): ilCertificateVerificationFileService
+    {
+        global $DIC;
+
+        return new ilCertificateVerificationFileService(
+            $this->lng,
+            $DIC->database(),
+            $DIC->logger()->root(),
+            new ilCertificateVerificationClassMap()
+        );
     }
 
     /**

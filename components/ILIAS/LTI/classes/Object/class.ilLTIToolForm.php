@@ -57,7 +57,8 @@ class ilLTIToolForm
         private readonly Refinery $refinery,
         private readonly ilObjUser $user,
         private readonly int $tool_id,
-        private readonly string $version
+        private readonly string $version,
+        private readonly bool $in_administration = false
     ) {
     }
 
@@ -73,16 +74,23 @@ class ilLTIToolForm
         $text = fn(string $column) => (string) ($row[$column] ?? "");
         $flag = fn(string $column) => (bool) ($row[$column] ?? false);
 
-        $general = $field->section([
+        $general_inputs = [
             "title" => $field->text($this->lng->txt("lti_con_prov_title"))->withRequired(true)->withValue($text("title")),
             "description" => $field->text($this->lng->txt("lti_con_prov_description"))->withValue($text("description")),
-            "availability" => $field->radio($this->lng->txt("lti_con_prov_availability"))
+        ];
+        // whether a tool may still be used is decided by the administration only
+        if ($this->in_administration) {
+            $general_inputs["availability"] = $field->radio($this->lng->txt("lti_con_prov_availability"))
                 ->withOption("2", $this->lng->txt("lti_con_prov_availability_create"))
                 ->withOption("1", $this->lng->txt("lti_con_prov_availability_existing"))
                 ->withOption("0", $this->lng->txt("lti_con_prov_availability_non"))
                 ->withRequired(true)
-                ->withValue((string) ($row["availability"] ?? 2)),
-        ], $this->lng->txt($this->tool_id > 0 ? "lti_form_provider_edit" : "lti_form_provider_create"));
+                ->withValue((string) ($row["availability"] ?? 2));
+        }
+        $general = $field->section(
+            $general_inputs,
+            $this->lng->txt($this->tool_id > 0 ? "lti_form_provider_edit" : "lti_form_provider_create")
+        );
 
         // the byline ends with the unique ILIAS platform id used in the generated user identifiers
         $privacy_ident = $field->radio(
@@ -199,9 +207,6 @@ class ilLTIToolForm
 
     /**
      * Stores the submitted form. Returns the form with its errors if the input is not valid, null otherwise.
-     */
-    /**
-     * Stores the submitted form. Returns the form with its errors if the input is not valid, null otherwise.
      * An own tool belongs to its creator and is only offered for creating objects, whatever the form says.
      */
     public function save(string $action, ServerRequestInterface $request, bool $own_tool = false): ?Form
@@ -215,7 +220,6 @@ class ilLTIToolForm
         $fields = [
             "title" => ["text", $data["general"]["title"]],
             "description" => ["text", $data["general"]["description"]],
-            "availability" => ["integer", (int) $data["general"]["availability"]],
             "privacy_ident" => ["integer", (int) $data["privacy"]["privacy_ident"]],
             "instructor_send_email" => ["integer", (int) $data["privacy"]["instructor_email"]],
             "privacy_name" => ["integer", (int) $data["privacy"]["privacy_name"]],
@@ -240,7 +244,9 @@ class ilLTIToolForm
             ? $this->getAdvantageFields($data["authentication"])
             : $this->get1p1Fields($data["authentication"]));
 
-        if ($own_tool) {
+        if ($this->in_administration) {
+            $fields["availability"] = ["integer", (int) $data["general"]["availability"]];
+        } elseif ($this->tool_id === 0) {
             $fields["availability"] = ["integer", ilLTITool::AVAILABILITY_CREATE];
         }
 

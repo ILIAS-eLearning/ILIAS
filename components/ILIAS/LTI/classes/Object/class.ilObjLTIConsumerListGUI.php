@@ -32,12 +32,47 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
-        $this->copy_enabled = true;
+        $this->copy_enabled = false;
         $this->link_enabled = true;
         $this->subscribe_enabled = false;
         $this->progress_enabled = true;
         $this->notice_properties_enabled = true;
         $this->info_screen_enabled = true;
         $this->commands = ilObjLTIConsumerAccess::_getCommands();
+    }
+
+    /**
+     * Besides the common properties the type, and the certificate once the user has one.
+     *
+     * @throws ilCtrlException
+     */
+    public function getProperties(): array
+    {
+        global $DIC;
+
+        $properties = parent::getProperties();
+        $properties[] = [
+            'alert' => false,
+            'property' => $this->lng->txt('type'),
+            'value' => $this->lng->txt('obj_lti'),
+        ];
+
+        if (new ilCertificateDownloadValidator()->isCertificateDownloadable($this->user->getId(), $this->obj_id)) {
+            $this->lng->loadLanguageModule('certificate');
+            $this->ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', $this->ref_id);
+            $properties[] = [
+                'alert' => false,
+                'property' => $this->lng->txt('certificate'),
+                'value' => $DIC->ui()->renderer()->render($DIC->ui()->factory()->link()->standard(
+                    $this->lng->txt('download_certificate'),
+                    $this->ctrl->getLinkTargetByClass(
+                        [ilRepositoryGUI::class, ilObjLTIConsumerGUI::class],
+                        ilObjLTIConsumerGUI::CMD_DELIVER_CERTIFICATE
+                    )
+                )),
+            ];
+        }
+
+        return $properties;
     }
 }

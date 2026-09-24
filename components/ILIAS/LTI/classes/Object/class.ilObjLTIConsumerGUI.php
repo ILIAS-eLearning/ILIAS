@@ -29,6 +29,10 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
  *
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerXapiStatementsGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIObjectGradebookGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIObjectRankingGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIObjectSettingsGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIToolLaunchGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIToolSettingsGUI
@@ -38,18 +42,61 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {
     public const string CMD_LAUNCH = 'launch';
+    public const string CMD_DELIVER_CERTIFICATE = 'deliverCertificate';
 
     private const string CMD_SAVE_OWN_TOOL = 'saveOwnTool';
+    private const string CMD_REGISTER_TOOL = 'registerTool';
     private const string VERSION_PARAM = 'version';
     private const string TAB_CONTENT = 'tab_content';
     private const string TAB_INFO = 'tab_info';
     private const string TAB_SETTINGS = 'tab_settings';
+    private const string TAB_STATEMENTS = 'tab_statements';
+    private const string TAB_RANKING = 'tab_scoring';
+    private const string TAB_GRADEBOOK = 'tab_grade_synchronization';
+    private const string TAB_LEARNING_PROGRESS = 'learning_progress';
     private const string TAB_METADATA = 'meta_data';
     private const string TAB_PERMISSIONS = 'id_permissions';
 
     public function getType(): string
     {
         return 'lti';
+    }
+
+    /**
+     * Permanent link of an object: it opens with the permission to read, its info screen with the
+     * permission to see it only.
+     *
+     * @throws ilCtrlException
+     */
+    public static function _goto(string $a_target): void
+    {
+        global $DIC;
+
+        $access = $DIC->access();
+        $lng = $DIC->language();
+        $error = $DIC['ilErr'];
+        $ref_id = (int) explode('_', $a_target)[0];
+
+        if ($ref_id > 0 && $access->checkAccess('read', '', $ref_id)) {
+            $DIC->ctrl()->setTargetScript('ilias.php');
+            $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $ref_id);
+            $DIC->ctrl()->redirectByClass([ilRepositoryGUI::class, self::class]);
+        }
+
+        if ($ref_id > 0 && $access->checkAccess('visible', '', $ref_id)) {
+            ilObjectGUI::_gotoRepositoryNode($ref_id, 'infoScreen');
+        }
+
+        if ($ref_id > 0 && $access->checkAccess('read', '', ROOT_FOLDER_ID)) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'info',
+                sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))),
+                true
+            );
+            ilObjectGUI::_gotoRepositoryRoot();
+        }
+
+        $error->raiseError($lng->txt('msg_no_perm_read_lm'), $error->FATAL);
     }
 
     /**
@@ -60,6 +107,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     {
         $this->lng->loadLanguageModule('lti');
         $this->prepareOutput();
+        $this->trackReadEvent();
 
         switch ($this->ctrl->getNextClass($this)) {
             case strtolower(ilCommonActionDispatcherGUI::class):
@@ -78,6 +126,32 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($info);
                 break;
 
+            case strtolower(ilLTIConsumerXapiStatementsGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_STATEMENTS);
+                $this->ctrl->forwardCommand(new ilLTIConsumerXapiStatementsGUI($this->getLTIObject()));
+                break;
+
+            case strtolower(ilLTIObjectRankingGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_RANKING);
+                $this->ctrl->forwardCommand(new ilLTIObjectRankingGUI($this->getLTIObject()));
+                break;
+
+            case strtolower(ilLTIObjectGradebookGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_GRADEBOOK);
+                $this->ctrl->forwardCommand(new ilLTIObjectGradebookGUI($this->getLTIObject()));
+                break;
+
+            case strtolower(ilLearningProgressGUI::class):
+                if (!ilObjLTIConsumerAccess::hasLearningProgressAccess($this->getLTIObject())) {
+                    $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+                }
+                $this->tabs_gui->activateTab(self::TAB_LEARNING_PROGRESS);
+                $this->ctrl->forwardCommand(new ilLearningProgressGUI(
+                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    $this->object->getRefId()
+                ));
+                break;
+
             case strtolower(ilObjectMetaDataGUI::class):
                 $this->checkPermission('write');
                 $this->tabs_gui->activateTab(self::TAB_METADATA);
@@ -93,6 +167,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             case strtolower(ilLTIToolSettingsGUI::class):
                 $this->checkPermission('write');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
+                new ilLTIObjectSettingsGUI($this->getLTIObject())->addSubTabs();
                 $this->ctrl->forwardCommand(new ilLTIToolSettingsGUI($this->getLTIObject()));
                 break;
 
@@ -141,7 +216,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 $this->lng->txt(self::TAB_SETTINGS),
                 $this->ctrl->getLinkTargetByClass(ilLTIObjectSettingsGUI::class, ilLTIObjectSettingsGUI::CMD_SHOW)
             );
+        }
 
+        $this->addReportTabs();
+
+        if ($this->checkPermissionBool('write')) {
             $metadata_link = new ilObjectMetaDataGUI($this->object)->getTab();
             if ($metadata_link !== null && $metadata_link !== '') {
                 $this->tabs_gui->addTab(self::TAB_METADATA, $this->lng->txt(self::TAB_METADATA), $metadata_link);
@@ -149,6 +228,47 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         parent::setTabs();
+    }
+
+    /**
+     * The reports on what users did in the tool, each one only where the tool provides its data.
+     *
+     * @throws ilCtrlException
+     * @throws ilObjectException
+     */
+    private function addReportTabs(): void
+    {
+        $object = $this->getLTIObject();
+        $reports = [
+            self::TAB_STATEMENTS => [ilLTIConsumerXapiStatementsGUI::class, ilObjLTIConsumerAccess::hasStatementsAccess($object)],
+            self::TAB_RANKING => [ilLTIObjectRankingGUI::class, ilObjLTIConsumerAccess::hasRankingAccess($object)],
+            self::TAB_GRADEBOOK => [ilLTIObjectGradebookGUI::class, $object->getTool()->isGradeSynchronization()],
+            self::TAB_LEARNING_PROGRESS => [ilLearningProgressGUI::class, ilObjLTIConsumerAccess::hasLearningProgressAccess($object)],
+        ];
+
+        foreach ($reports as $tab => [$class, $available]) {
+            if ($available) {
+                $this->tabs_gui->addTab($tab, $this->lng->txt($tab), $this->ctrl->getLinkTargetByClass($class));
+            }
+        }
+    }
+
+    /**
+     * Opening an object counts as reading it, which the learning progress takes into account.
+     */
+    private function trackReadEvent(): void
+    {
+        if ($this->creation_mode || !$this->object instanceof ilObjLTIConsumer) {
+            return;
+        }
+
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+        ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
     }
 
     /**
@@ -163,13 +283,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->ctrl->saveParameter($this, 'crtptrefid');
-        $this->ctrl->saveParameter($this, 'crtcb');
-        $this->ctrl->setParameter($this, 'new_type', $this->getType());
-        $this->tpl->setTitleIcon(ilObject::getIconForType($this->getType()));
-        $this->tpl->setTitle($this->lng->txt('obj_' . $this->getType()));
-        $this->tabs_gui->setBackTarget($this->lng->txt('cancel'), $this->ctrl->getLinkTargetByClass(static::class, 'cancel'));
-
         $this->renderCreation();
     }
 
@@ -180,8 +293,14 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
      *
      * @throws ilCtrlException
      */
-    private function renderCreation(?Form $own_form = null): void
+    private function renderCreation(?Form $own_form = null, ?Form $registration_form = null): void
     {
+        $this->ctrl->saveParameter($this, 'crtptrefid');
+        $this->ctrl->saveParameter($this, 'crtcb');
+        $this->ctrl->setParameter($this, 'new_type', $this->getType());
+        $this->tpl->setTitleIcon(ilObject::getIconForType($this->getType()));
+        $this->tpl->setTitle($this->lng->txt('obj_' . $this->getType()));
+        $this->tabs_gui->setBackTarget($this->lng->txt('cancel'), $this->ctrl->getLinkTargetByClass(static::class, 'cancel'));
         $this->tpl->addCss('./assets/css/lti_creation.css');
 
         $accordion = new ilAccordionGUI();
@@ -196,6 +315,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
 
         if (ilObjLTIAdministrationAccess::hasOwnToolCreationAccess()) {
+            $accordion->addItem(
+                $this->lng->txt('lti_dynamic_registration'),
+                $this->ui_renderer->render($registration_form ?? $this->buildRegistrationForm()),
+                $registration_form !== null
+            );
             $accordion->addItem(
                 $this->lng->txt('lti_custom_new'),
                 $this->ui_renderer->render($this->buildOwnTool($own_form)),
@@ -219,7 +343,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         $tool = new ilLTITool($this->getIntParameter('tool_id'));
-        if ($tool->getId() === 0) {
+        if (!$tool->isSelectableBy($this->user->getId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_no_provider_selected'));
             $this->create();
             return;
@@ -250,6 +374,92 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         $this->createForTool(new ilLTITool($form->getSavedId()));
+    }
+
+    /**
+     * Where a tool of the user is registered through LTI Advantage Dynamic Registration. The registration
+     * itself comes with LTI Advantage: for now the request is only validated.
+     *
+     * @throws ilCtrlException
+     */
+    protected function registerTool(): void
+    {
+        if (!ilObjLTIAdministrationAccess::hasOwnToolCreationAccess()) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
+        $this->ctrl->setParameter($this, 'new_type', $this->getType());
+        $form = $this->buildRegistrationForm()->withRequest($this->request);
+        if ($form->getData() !== null) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('not_available'));
+        }
+
+        $this->renderCreation(null, $form);
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function buildRegistrationForm(): Form
+    {
+        $field = $this->ui_factory->input()->field();
+        // the tool of the last row of the selection must not end up in the action of this form
+        $this->ctrl->setParameter($this, 'tool_id', null);
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, self::CMD_REGISTER_TOOL),
+            [
+                'url' => $field->url($this->lng->txt('lti_con_prov_dyn_reg_url'), $this->lng->txt('lti_con_prov_dyn_reg_url_info'))
+                    ->withRequired(true),
+                'params' => $field->text($this->lng->txt('lti_con_prov_dyn_reg_params'), $this->lng->txt('lti_con_prov_dyn_reg_params_info')),
+            ]
+        )->withSubmitLabel($this->lng->txt('add'));
+    }
+
+    /**
+     * The certificate of the current user, once they have one.
+     *
+     * @throws ilCtrlException
+     */
+    protected function deliverCertificate(): void
+    {
+        if (!new ilCertificateDownloadValidator()->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+        }
+
+        $this->lng->loadLanguageModule('certificate');
+        new ilCertificatePdfAction(
+            new ilPdfGenerator(new ilUserCertificateRepository()),
+            new ilCertificateUtilHelper(),
+            $this->lng->txt('error_creating_certificate_pdf')
+        )->downloadPdf($this->user->getId(), $this->object->getId());
+    }
+
+    /**
+     * The header offers the certificate of the current user, once they have one.
+     */
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
+    {
+        $header_action = parent::initHeaderAction($sub_type, $sub_id);
+        if ($header_action === null || $this->creation_mode
+            || !new ilCertificateDownloadValidator()->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
+            return $header_action;
+        }
+
+        $this->lng->loadLanguageModule('certificate');
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_DELIVER_CERTIFICATE);
+        $header_action->addCustomCommand($link, 'download_certificate');
+        $header_action->addHeaderIcon(
+            'cert_icon',
+            ilUtil::getImagePath('standard/icon_cert.svg'),
+            $this->lng->txt('download_certificate'),
+            null,
+            null,
+            $link
+        );
+
+        return $header_action;
     }
 
     /**
@@ -392,8 +602,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $object->setTitle($tool->getTitle());
         $object->setDescription($tool->getDescription());
         $object->setToolId($tool->getId());
+        $object->setMasteryScore($tool->getMasteryScore());
         $object->create();
-        $this->initMetaData($object, $tool);
+        $object->createMetaData();
+        $object->syncKeywordsFromTool();
 
         $this->ctrl->setParameter($this, 'new_type', '');
         $this->putObjectInTree($object);
@@ -405,26 +617,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             [ilObjLTIConsumerGUI::class, ilLTIObjectSettingsGUI::class],
             ilLTIObjectSettingsGUI::CMD_SHOW
         );
-    }
-
-    /**
-     * The metadata of a new object start from its title, with the keywords of its tool.
-     */
-    private function initMetaData(ilObjLTIConsumer $object, ilLTITool $tool): void
-    {
-        global $DIC;
-
-        $object->createMetaData();
-
-        $keywords = $tool->getKeywords();
-        if ($keywords === []) {
-            return;
-        }
-
-        $lom = $DIC->learningObjectMetadata();
-        $lom->manipulate($object->getId(), 0, $object->getType())
-            ->prepareCreateOrUpdate($lom->paths()->keywords(), ...$keywords)
-            ->execute();
     }
 
     /**
@@ -470,6 +662,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
         $info->addMetaDataSections($object->getId(), 0, $object->getType());
 
+        if ($tool->hasOutcome() && (ilLPObjSettings::_lookupDBMode($object->getId()) ?? ilLPObjSettings::LP_MODE_DEACTIVATED) !== ilLPObjSettings::LP_MODE_DEACTIVATED) {
+            $info->addSection($this->lng->txt('lti_info_learning_progress_section'));
+            $info->addProperty($this->lng->txt('mastery_score'), round(100 * $object->getMasteryScore(), 2) . ' %');
+        }
+
         $info->addSection($this->lng->txt('lti_info_privacy_section'));
         $info->addProperty($this->lng->txt('lti_con_prov_url'), $tool->getUrl());
         $info->addProperty(
@@ -485,6 +682,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 $this->lng->txt('lti_info_external_provider_label'),
                 $this->lng->txt('lti_info_external_provider_info')
             );
+        }
+        if ($tool->getUseXapi()) {
+            $info->addProperty($this->lng->txt('lti_con_prov_xapi_launch_url'), $tool->getXapiLaunchUrl());
         }
     }
 

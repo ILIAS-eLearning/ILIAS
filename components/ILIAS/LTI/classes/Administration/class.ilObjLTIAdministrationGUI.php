@@ -278,7 +278,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $this->refinery,
             $DIC->user(),
             $tool_id,
-            $version
+            $version,
+            true
         );
     }
 

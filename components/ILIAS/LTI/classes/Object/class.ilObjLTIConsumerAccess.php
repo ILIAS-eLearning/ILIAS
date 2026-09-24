@@ -19,12 +19,58 @@
 declare(strict_types=1);
 
 /**
- * Access checks of the repository object type lti.
+ * Access checks of the repository object type lti. An object completed by a user can also be the
+ * precondition of another one.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerAccess extends ilObjectAccess
+class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandling
 {
+    /**
+     * @return array
+     */
+    public static function getConditionOperators(): array
+    {
+        return [ilConditionHandler::OPERATOR_PASSED];
+    }
+
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
+    {
+        return $a_operator === ilConditionHandler::OPERATOR_PASSED
+            && ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
+    }
+
+    /**
+     * The learning progress only exists for a tool that reports results.
+     */
+    public static function hasLearningProgressAccess(ilObjLTIConsumer $object): bool
+    {
+        return $object->getTool()->hasOutcome() && ilLearningProgressAccess::checkAccess($object->getRefId());
+    }
+
+    /**
+     * The statements are shown to everybody when the object says so, otherwise to who may read the outcomes.
+     */
+    public static function hasStatementsAccess(ilObjLTIConsumer $object): bool
+    {
+        return $object->getUseXapi() && ($object->isStatementsReportEnabled() || self::hasOutcomesAccess($object));
+    }
+
+    /**
+     * The ranking is shown to everybody when the object enables it, otherwise to who may read the outcomes.
+     */
+    public static function hasRankingAccess(ilObjLTIConsumer $object): bool
+    {
+        return $object->getUseXapi() && ($object->getHighscoreEnabled() || self::hasOutcomesAccess($object));
+    }
+
+    public static function hasOutcomesAccess(ilObjLTIConsumer $object): bool
+    {
+        global $DIC;
+
+        return $DIC->access()->checkAccess('read_outcomes', '', $object->getRefId());
+    }
+
     /**
      * @return array
      */
