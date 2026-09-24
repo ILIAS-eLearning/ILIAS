@@ -16,6 +16,7 @@
     <events>
         <event type="raise" id="delete"/>
         <event type="listen" id="components/ILIAS/Tree"/>
+        <event type="listen" id="components/ILIAS/AdvancedMetaData" />
     </events>
     <pluginslots>
         <pluginslot id="orgutypehk" name="OrgUnitTypeHook"/>
