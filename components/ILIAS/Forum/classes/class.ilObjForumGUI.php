@@ -647,7 +647,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $frm->setMDB2Wherecondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
         // Import information: Topic (variable $topicData) means frm object, not thread
         $frm_object = $frm->getOneTopic();
-        if ($frm_object->getTopPk() > 0) {
+        if ($frm_object !== null) {
             $frm->setDbTable('frm_data');
             $frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [$frm_object->getTopPk()]);
             $frm->updateVisits($frm_object->getTopPk());
@@ -694,6 +694,28 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->ctrl->getLinkTargetByClass(ilForumPageGUI::class, 'edit')
                 )
             );
+        }
+
+        if ($frm_object === null) {
+            $this->initStyleSheets();
+            $forwarder = new ilForumPageCommandForwarder(
+                $GLOBALS['DIC']['http'],
+                $this->ctrl,
+                $this->tabs_gui,
+                $this->lng,
+                $this->object,
+                $this->user,
+                $this->content_style_domain
+            );
+            $forwarder->setPresentationMode(ilForumPageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
+            $empty_overview = $this->renderer->render(
+                $this->factory->panel()->listing()->standard(
+                    $this->lng->txt('thread_overview'),
+                    [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]
+                )
+            );
+            $this->tpl->setContent($forwarder->forward() . $empty_overview);
+            return '';
         }
 
         $tbl = new ilForumThreadObjectTableGUI(
@@ -2058,7 +2080,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $frm->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$forumObj->getId()]);
                 $topicData = $frm->getOneTopic();
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_post_deleted'), true);
-                if ($topicData->getTopNumThreads() > 0) {
+                if ($topicData === null || $topicData->getTopNumThreads() > 0) {
                     $this->ctrl->redirect($this, 'showThreads');
                 } else {
                     $this->ctrl->redirect($this, 'createThread');
@@ -2818,6 +2840,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $frm = $oForumObjects['frm'];
             $frm->setMDB2WhereCondition(' top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
             $topicData = $frm->getOneTopic();
+            if ($topicData === null) {
+                $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+                return;
+            }
 
             $autosave_draft_id = $this->http->wrapper()->post()->retrieve(
                 'draft_id',
@@ -4081,6 +4107,10 @@ EOD
         $frm->setForumRefId($this->object->getRefId());
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
         $topicData = $frm->getOneTopic();
+        if ($topicData === null) {
+            $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+            return;
+        }
 
         $form = $this->buildThreadForm($createFromDraft);
         $minimal_form = $this->buildMinimalThreadForm($createFromDraft);
@@ -4214,6 +4244,10 @@ EOD
         $frm->setForumRefId($this->object->getRefId());
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
         $topicData = $frm->getOneTopic();
+        if ($topicData === null) {
+            $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+            return;
+        }
 
         $form = $this->buildThreadForm();
         $minimal_form = $this->buildMinimalThreadForm();
@@ -4706,7 +4740,7 @@ EOD
         );
 
         $topicData = $frm->getOneTopic();
-        if ($topicData->getTopPk() > 0) {
+        if ($topicData !== null) {
             $this->ctrl->setParameter($this, 'merge_thread_id', $threadIdToMerge);
             $tbl = new ilForumTopicTableGUI(
                 $this,
@@ -4965,6 +4999,10 @@ EOD
         $form = $this->buildThreadForm();
         if ($form->checkInput()) {
             if ($autosave_draft_id === 0) {
+                if ($topicData === null) {
+                    $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+                    return;
+                }
                 $draft = new ilForumPostDraft();
                 $draft->setForumId($topicData->getTopPk());
                 $draft->setThreadId(0);
@@ -5150,6 +5188,10 @@ EOD
                 } else {
                     $draftObj = new ilForumPostDraft();
                     $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentPost->getThread());
+                    if ($topicData === null) {
+                        $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+                        return;
+                    }
                     $draftObj->setForumId($topicData->getTopPk());
                     $draftObj->setThreadId($this->objCurrentTopic->getId());
                     $draftObj->setPostId($this->objCurrentPost->getId());
