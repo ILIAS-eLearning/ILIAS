@@ -15,6 +15,7 @@ described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   * [Customizing](#custimizing) 
   * [Misc](#misc)
 * [Cron Job Execution](#cron-job-execution)
+  * [Choosing the Executing User](#choosing-the-executing-user)
 * [Permission Context](#permission-context)
 
 
@@ -183,6 +184,45 @@ The `<client_id>` MUST be the client id of the ILIAS installation.
 
 The system crontab SHOULD invoke this command every few minutes. Individual cron-jobs
 are then executed according to their configured schedule.
+
+### Choosing the Executing User
+
+The user account SHOULD be chosen carefully, because some preconditions MUST be
+fulfilled and it directly affects the security posture of your installation.
+
+The account MUST use the `ILIAS Auth` authentication mode (local auth) and MUST
+be active. This is enforced by ILIAS's underlying authentication chain for any
+CLI-executed account. Its password, however, is never actually checked.
+
+As described in [Permission Context](#permission-context), cron-jobs MUST NOT
+rely on any specific permissions — so the account only needs a low-privileged
+role, not an elevated one.
+
+Many installations simply reuse the default super-admin account (e.g. `root`) as
+the `<user>` argument, since it already uses local auth and is active — even
+though its elevated role is unnecessary here and violates the principle of least
+privilege.
+
+If `root` should stay deactivated, or you want to avoid its elevated
+role, you SHOULD set up a dedicated, unprivileged cron user instead:
+- Create a new user (e.g. `cron-user`) via the ILIAS Administration UI.
+- Set its authentication mode to `ILIAS Auth` and make sure it is active.
+- Assign any complex password; since it is never checked during `run-jobs`, it
+  can be set once and forgotten.
+- Assign a minimally privileged role, e.g. the built-in `Guest` global role.
+- Use this account's login as the `<user>` argument for `cli/cron.php run-jobs`.
+
+Even though its password is never checked by `run-jobs`, this account remains
+reachable through the regular web login form. Should it ever be compromised
+there, a low-privileged `cron-user` is a much smaller risk than exposing the
+super-admin account this way.
+
+This remaining web-login risk can be reduced further by restricting the
+account's `Client IP` field (in its user account settings) to the trusted
+addresses it should be reachable from. This restriction is enforced by
+`checkIp()` during a regular web login, but the CLI authentication path skips it
+entirely, since no client IP is available on the CLI. So it has no effect on
+`run-jobs`.
 
 ## Permission Context
 
