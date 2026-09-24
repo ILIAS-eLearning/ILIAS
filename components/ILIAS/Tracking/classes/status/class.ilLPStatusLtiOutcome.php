@@ -118,7 +118,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
 
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
         if ($ltiResult instanceof ilLTIConsumerResult) {
-            return (int) $ltiResult->getResult() * 100;
+            return (int) round((float) $ltiResult->getResult() * 100);
         }
         return 0;
     }
