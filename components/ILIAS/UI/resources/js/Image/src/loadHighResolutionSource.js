@@ -43,10 +43,30 @@ function determineBestSource(highResDefinitions, imageWidth) {
 /**
  * Loads the best fitting high resolution source for the given image element.
  *
+ * @param {IntersectionObserver} intersectionObserver
  * @param {HTMLImageElement} imageElement
  * @param {Map<number, string>} highResDefinitions min-width in px => source mapping
  */
-export default function loadHighResolutionSource(imageElement, highResDefinitions) {
+export default function loadHighResolutionSource(
+  intersectionObserver,
+  imageElement,
+  highResDefinitions,
+) {
+  if (!imageElement.checkVisibility()) {
+    const visibilityObserver = new intersectionObserver(
+      (elements, observer) => {
+        loadHighResolutionSource(intersectionObserver, imageElement, highResDefinitions);
+        observer.unobserve(imageElement);
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1,
+      },
+    );
+    visibilityObserver.observe(imageElement);
+    return;
+  }
   const optimalSource = determineBestSource(highResDefinitions, imageElement.width);
   if (optimalSource !== null) {
     const highResolutionImage = imageElement.cloneNode();
