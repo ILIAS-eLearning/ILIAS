@@ -128,6 +128,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function printResults(): void
     {
+        if (!$this->testAccess->checkManageParticipantsAccess()
+            && !$this->testAccess->checkParticipantsResultsAccess()) {
+            ilObjTestGUI::accessViolationRedirect();
+        }
+
         $this->ctrl->saveParameterByClass(self::class, 'active_ids');
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             PrintLayoutProvider::TEST_CONTEXT_PRINT,
@@ -163,6 +168,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function showResults(): void
     {
+        if (!$this->testAccess->checkManageParticipantsAccess()
+            && !$this->testAccess->checkParticipantsResultsAccess()) {
+            ilObjTestGUI::accessViolationRedirect();
+        }
+
         $this->setCss();
         $this->ctrl->saveParameterByClass(self::class, 'active_ids');
 
@@ -1035,14 +1045,28 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         foreach ($this->participant_repository->getParticipants(
             $this->object->getTestId(),
             [
-                'active_ids' => array_map(
-                    fn(string $v): int => $int_trafo->transform($v),
-                    explode(',', $this->testrequest->strVal('active_ids'))
+                'active_ids' => $this->filterSelectedActiveIdsByAccess(
+                    array_map(
+                        fn(string $v): int => $int_trafo->transform($v),
+                        explode(',', $this->testrequest->strVal('active_ids'))
+                    )
                 )
             ]
         ) as $participant) {
             $selected_participants[$participant->getActiveId()] = $participant->getDisplayName($this->lng);
         }
         return $selected_participants;
+    }
+
+    private function filterSelectedActiveIdsByAccess(
+        array $selected_active_ids
+    ): array {
+        return array_filter(
+            $selected_active_ids,
+            fn(int $v): bool => $this->testAccess->checkResultsAccessForActiveId(
+                $v,
+                $this->object->getTestId()
+            )
+        );
     }
 }
