@@ -68,11 +68,12 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         $write_permission_ok = false;
         $ref_ids = ilObject::_getAllReferences($obj_id);
         foreach ($ref_ids as $ref_id) {
-            if ($rbacsystem->checkAccess('edit', $ref_id)) {
+            // use explicit user as the rbacsystem singleton may hold a stale user
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'edit', $ref_id)) {
                 $write_permission_ok = true;
                 break;
             }
-            if ($rbacsystem->checkAccess('read', $ref_id)) {
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'read', $ref_id)) {
                 $permission_ok = true;
                 break;
             }
@@ -131,7 +132,8 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
             );
         }
 
-        if (!$rbacsystem->checkAccess('create', $target_id, "webr")) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'create', $target_id, "webr")) {
             return $this->raiseError('No permission to create weblink in target  ' . $target_id . '!', 'Client');
         }
 
@@ -189,7 +191,8 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         // Check access
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
-            if ($rbacsystem->checkAccess('edit', $ref_id)) {
+            // use explicit user as the rbacsystem singleton may hold a stale user
+            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'edit', $ref_id)) {
                 $permission_ok = true;
                 break;
             }
