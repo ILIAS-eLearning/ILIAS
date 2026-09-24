@@ -130,6 +130,23 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public const SHOW_QUESTIONS_CMD = 'showQuestions';
     private const SHOW_LOGS_CMD = 'history';
 
+    private const array QUESTION_FUNCTIONS_NEEDING_WRITE = [
+        'editQuestion',
+        'previewQuestion',
+        'save',
+        'saveReturn',
+        'uploadImage',
+        'removeImage',
+        'syncQuestion',
+        'syncQuestionReturn',
+        'suggestedsolution',
+        'uploadchoice',
+        'changeToPictures',
+        'uploadElementImage',
+        'uploadterms',
+        'uploaddefintions'
+    ];
+
     private const QUESTION_CREATION_POOL_SELECTION_NO_POOL = 1;
     private const QUESTION_CREATION_POOL_SELECTION_NEW_POOL = 2;
     private const QUESTION_CREATION_POOL_SELECTION_EXISTING_POOL = 3;
@@ -978,8 +995,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 if (in_array(
                     $cmd,
-                    ['editQuestion', 'previewQuestion', 'save', 'saveReturn', 'uploadImage',
-                            'removeImage', 'syncQuestion', 'syncQuestionReturn', 'suggestedsolution']
+                    self::QUESTION_FUNCTIONS_NEEDING_WRITE
                 )
                     && !$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
                     $this->redirectAfterMissingWrite();
