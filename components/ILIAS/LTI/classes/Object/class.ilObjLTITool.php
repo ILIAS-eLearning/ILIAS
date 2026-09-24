@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumer extends ilObject2
+class ilObjLTITool extends ilObject2
 {
     public const string TABLE_NAME = 'lti_consumer_settings';
 

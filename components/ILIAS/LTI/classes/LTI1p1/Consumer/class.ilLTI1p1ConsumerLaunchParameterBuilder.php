@@ -88,11 +88,11 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
         $usr_image = '';
         if ($tool->getIncludeUserPicture()) {
-            $usr_image = ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath();
+            $usr_image = ilObjLTITool::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath();
         }
 
         $document_target = "window";
-        if ($launch_method == ilObjLTIConsumer::LAUNCH_METHOD_EMBEDDED) {
+        if ($launch_method == ilObjLTITool::LAUNCH_METHOD_EMBEDDED) {
             $document_target = "iframe";
         }
 
@@ -126,11 +126,11 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
         ilLTI1p1ConsumerResult::getByKeys($obj_id, $DIC->user()->getId(), true);
 
-        $tool_custom_params = ilObjLTIConsumer::getToolCustomParamsArray($tool);
+        $tool_custom_params = ilObjLTITool::getToolCustomParamsArray($tool);
         $merged_params = array_merge($tool_custom_params, $custom_params_array);
 
         $tool_consumer_instance_guid = CLIENT_ID . ".";
-        $parse_ilias_url = parse_url(ilObjLTIConsumer::getIliasHttpPath());
+        $parse_ilias_url = parse_url(ilObjLTITool::getIliasHttpPath());
         if (array_key_exists("path", $parse_ilias_url)) {
             $tool_consumer_instance_guid .= implode(".", array_reverse(explode("/", $parse_ilias_url["path"])));
         }
@@ -166,7 +166,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => ilObjLTIConsumer::getIliasHttpPath() . "/ltiresult.php?client_id=" . CLIENT_ID
+            "lis_outcome_service_url" => ilObjLTITool::getIliasHttpPath() . "/ltiresult.php?client_id=" . CLIENT_ID
         ];
 
         $oauth_params = [

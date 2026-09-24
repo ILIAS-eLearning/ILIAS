@@ -19,21 +19,26 @@
 declare(strict_types=1);
 
 /**
- * The activityProgress of an Assignment and Grade Services score, as stored in lti_consumer_grades.
- * The learning progress (ilLPStatusLtiOutcome) reads it by this name.
+ * The certificate a user earned in an LTI object, kept as a file in the personal workspace so that it
+ * can be shown in a portfolio. It is a snapshot: it does not change when the object changes.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-enum ilLTIConsumerActivityProgress: string
+class ilObjLTIToolVerification extends ilVerificationObject
 {
-    case INITIALIZED = 'Initialized';
-    case STARTED = 'Started';
-    case IN_PROGRESS = 'InProgress';
-    case SUBMITTED = 'Submitted';
-    case COMPLETED = 'Completed';
-
-    public function isInProgress(): bool
+    protected function initType(): void
     {
-        return $this === self::STARTED || $this === self::IN_PROGRESS;
+        $this->type = 'ltiv';
+    }
+
+    /**
+     * @return array
+     */
+    protected function getPropertyMap(): array
+    {
+        return [
+            'issued_on' => self::TYPE_DATE,
+            'file' => self::TYPE_STRING,
+        ];
     }
 }

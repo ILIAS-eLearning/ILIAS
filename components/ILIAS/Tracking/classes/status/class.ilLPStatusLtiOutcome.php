@@ -31,20 +31,20 @@ class ilLPStatusLtiOutcome extends ilLPStatus
     private function getLtiUserResult(
         int $objId,
         int $usrId
-    ): ?ilLTIConsumerResult {
+    ): ?ilLTIToolResult {
         if (!isset(self::$userResultCache[$objId])) {
             self::$userResultCache[$objId] = [];
         }
         if (!isset(self::$userResultCache[$objId][$usrId])) {
-            $ltiUserResult = ilLTIConsumerResult::getByKeys($objId, $usrId);
+            $ltiUserResult = ilLTIToolResult::getByKeys($objId, $usrId);
             self::$userResultCache[$objId][$usrId] = $ltiUserResult;
         }
         return self::$userResultCache[$objId][$usrId];
     }
 
-    private function ensureObject(int $objId, $object): ilObjLTIConsumer
+    private function ensureObject(int $objId, $object): ilObjLTITool
     {
-        if (!($object instanceof ilObjLTIConsumer)) {
+        if (!($object instanceof ilObjLTITool)) {
             $object = ilObjectFactory::getInstanceByObjId($objId);
         }
         return $object;
@@ -79,18 +79,18 @@ class ilLPStatusLtiOutcome extends ilLPStatus
 
         $latestGrade = $this->getLatestAgsGrade($a_obj_id, $a_usr_id);
         if ($latestGrade !== null) {
-            $activityProgress = ilLTIConsumerActivityProgress::tryFrom((string) ($latestGrade['activity_progress'] ?? ''));
-            $gradingProgress = ilLTIConsumerGradingProgress::tryFrom((string) ($latestGrade['grading_progress'] ?? ''));
+            $activityProgress = ilLTIToolActivityProgress::tryFrom((string) ($latestGrade['activity_progress'] ?? ''));
+            $gradingProgress = ilLTIToolGradingProgress::tryFrom((string) ($latestGrade['grading_progress'] ?? ''));
 
             if (($activityProgress?->isInProgress() ?? false) ||
-                ($activityProgress === ilLTIConsumerActivityProgress::SUBMITTED && $gradingProgress?->isPending()) ||
+                ($activityProgress === ilLTIToolActivityProgress::SUBMITTED && $gradingProgress?->isPending()) ||
                 ($gradingProgress?->isPending() ?? false)) {
                 return self::LP_STATUS_IN_PROGRESS_NUM;
             }
         }
 
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
-        if ($ltiResult instanceof ilLTIConsumerResult) {
+        if ($ltiResult instanceof ilLTIToolResult) {
             $object = $this->ensureObject($a_obj_id, $a_obj);
             $ltiMasteryScore = $object->getMasteryScore();
             if ($ltiResult->getResult() >= $ltiMasteryScore) {
@@ -117,7 +117,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         }
 
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
-        if ($ltiResult instanceof ilLTIConsumerResult) {
+        if ($ltiResult instanceof ilLTIToolResult) {
             return (int) round((float) $ltiResult->getResult() * 100);
         }
         return 0;

@@ -137,10 +137,10 @@ class ilCertificateGUIFactory
 
                 break;
             case 'lti':
-                $placeholderDescriptionObject = new ilLTIConsumerPlaceholderDescription();
-                $placeholderValuesObject = new ilLTIConsumerPlaceholderValues();
+                $placeholderDescriptionObject = new ilLTIToolPlaceholderDescription();
+                $placeholderValuesObject = new ilLTIToolPlaceholderValues();
 
-                $formFactory = new ilCertificateSettingsLTIConsumerFormRepository(
+                $formFactory = new ilCertificateSettingsLTIToolFormRepository(
                     $object,
                     $certificatePath,
                     true,

@@ -27,19 +27,19 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  *
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLearningProgressGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerXapiStatementsGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIObjectGradebookGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIObjectRankingGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIObjectSettingsGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIToolLaunchGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIToolSettingsGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilObjectMetaDataGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilLTIToolXapiStatementsGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilLTIObjectGradebookGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilLTIObjectRankingGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilLTIObjectSettingsGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilLTIToolLaunchGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilLTIToolSettingsGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjLTIToolGUI: ilPermissionGUI
  */
-class ilObjLTIConsumerGUI extends ilObject2GUI
+class ilObjLTIToolGUI extends ilObject2GUI
 {
     public const string CMD_LAUNCH = 'launch';
     public const string CMD_DELIVER_CERTIFICATE = 'deliverCertificate';
@@ -126,9 +126,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($info);
                 break;
 
-            case strtolower(ilLTIConsumerXapiStatementsGUI::class):
+            case strtolower(ilLTIToolXapiStatementsGUI::class):
                 $this->tabs_gui->activateTab(self::TAB_STATEMENTS);
-                $this->ctrl->forwardCommand(new ilLTIConsumerXapiStatementsGUI($this->getLTIObject()));
+                $this->ctrl->forwardCommand(new ilLTIToolXapiStatementsGUI($this->getLTIObject()));
                 break;
 
             case strtolower(ilLTIObjectRankingGUI::class):
@@ -142,7 +142,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 break;
 
             case strtolower(ilLearningProgressGUI::class):
-                if (!ilObjLTIConsumerAccess::hasLearningProgressAccess($this->getLTIObject())) {
+                if (!ilObjLTIToolAccess::hasLearningProgressAccess($this->getLTIObject())) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
                 $this->tabs_gui->activateTab(self::TAB_LEARNING_PROGRESS);
@@ -179,7 +179,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             default:
                 $cmd = $this->ctrl->getCmd(self::CMD_LAUNCH);
                 // an object without content to launch opens on its info screen
-                if ($cmd === self::CMD_LAUNCH && $this->object instanceof ilObjLTIConsumer && !$this->isContentAvailable()) {
+                if ($cmd === self::CMD_LAUNCH && $this->object instanceof ilObjLTITool && !$this->isContentAvailable()) {
                     $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
                 }
                 $this->{$cmd}();
@@ -191,7 +191,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
      */
     protected function setTabs(): void
     {
-        if (!$this->object instanceof ilObjLTIConsumer) {
+        if (!$this->object instanceof ilObjLTITool) {
             parent::setTabs();
             return;
         }
@@ -240,10 +240,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     {
         $object = $this->getLTIObject();
         $reports = [
-            self::TAB_STATEMENTS => [ilLTIConsumerXapiStatementsGUI::class, ilObjLTIConsumerAccess::hasStatementsAccess($object)],
-            self::TAB_RANKING => [ilLTIObjectRankingGUI::class, ilObjLTIConsumerAccess::hasRankingAccess($object)],
+            self::TAB_STATEMENTS => [ilLTIToolXapiStatementsGUI::class, ilObjLTIToolAccess::hasStatementsAccess($object)],
+            self::TAB_RANKING => [ilLTIObjectRankingGUI::class, ilObjLTIToolAccess::hasRankingAccess($object)],
             self::TAB_GRADEBOOK => [ilLTIObjectGradebookGUI::class, $object->getTool()->isGradeSynchronization()],
-            self::TAB_LEARNING_PROGRESS => [ilLearningProgressGUI::class, ilObjLTIConsumerAccess::hasLearningProgressAccess($object)],
+            self::TAB_LEARNING_PROGRESS => [ilLearningProgressGUI::class, ilObjLTIToolAccess::hasLearningProgressAccess($object)],
         ];
 
         foreach ($reports as $tab => [$class, $available]) {
@@ -258,7 +258,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
      */
     private function trackReadEvent(): void
     {
-        if ($this->creation_mode || !$this->object instanceof ilObjLTIConsumer) {
+        if ($this->creation_mode || !$this->object instanceof ilObjLTITool) {
             return;
         }
 
@@ -596,7 +596,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
      */
     private function createForTool(ilLTITool $tool): void
     {
-        $object = new ilObjLTIConsumer();
+        $object = new ilObjLTITool();
         $object->setType($this->getType());
         $object->processAutoRating();
         $object->setTitle($tool->getTitle());
@@ -614,7 +614,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->setParameterByClass(ilLTIObjectSettingsGUI::class, 'ref_id', $object->getRefId());
         $this->ctrl->redirectByClass(
-            [ilObjLTIConsumerGUI::class, ilLTIObjectSettingsGUI::class],
+            [ilObjLTIToolGUI::class, ilLTIObjectSettingsGUI::class],
             ilLTIObjectSettingsGUI::CMD_SHOW
         );
     }
@@ -698,9 +698,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     /**
      * @throws ilObjectException
      */
-    private function getLTIObject(): ilObjLTIConsumer
+    private function getLTIObject(): ilObjLTITool
     {
-        if (!$this->object instanceof ilObjLTIConsumer) {
+        if (!$this->object instanceof ilObjLTITool) {
             throw new ilObjectException('no LTI object given');
         }
 

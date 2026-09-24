@@ -3,8 +3,10 @@
 The LTI component connects ILIAS with external tools and platforms via
 [LTI](https://www.1edtech.org/standards/lti):
 
-* **Consumer**: ILIAS launches external tools (repository object `lti`).
-* **Provider**: external platforms launch ILIAS objects (administration node `ltis`).
+* **Platform**: ILIAS launches external tools (repository object `lti`).
+* **Tool**: external platforms launch ILIAS objects (administration node `ltis`).
+
+LTI 1.1 calls these roles consumer and provider.
 
 It replaces the former `LTIConsumer` and `LTIProvider` components.
 
@@ -30,14 +32,16 @@ LTI/
 ├── classes/
 │   ├── Administration/       Administration > LTI (ltis), shared by LTI 1.1 and LTI Advantage
 │   ├── Object/               LTI object model (lti, ltiv, tools and platforms), shared by LTI 1.1 and LTI Advantage
+│   │   ├── Certificate/      Certificate placeholders and settings of an LTI object
 │   │   └── Verification/     Certificate verification of an LTI object (ltiv)
+│   ├── Outcome/              Learning progress reported back to the platforms that launch ILIAS (event listener, cron job), shared by LTI 1.1 and LTI Advantage
 │   ├── LTI1p1/               LTI 1.1, kept for compatibility
 │   │   ├── Consumer/
 │   │   └── Provider/
 │   ├── LTIAdvantage/         LTI Advantage (LTI 1.3 and its services)
 │   │   ├── Common/
-│   │   ├── Consumer/         Launch, DynamicRegistration, DeepLinking, AGS, NRPS
-│   │   └── Provider/         Launch, DynamicRegistration, DeepLinking, AGS, NRPS
+│   │   ├── Platform/         ILIAS launches tools: Launch, DynamicRegistration, DeepLinking, AGS, NRPS
+│   │   └── Tool/             Platforms launch ILIAS: Launch, DynamicRegistration, DeepLinking, AGS, NRPS
 │   └── Setup/                Setup agent and database update steps
 ├── resources/                Endpoints
 └── templates/default/        Templates of LTI 1.1 are prefixed with tpl.lti1p1_
@@ -50,10 +54,10 @@ LTI/
 * **LTIAdvantage**: code that only serves LTI Advantage. Inside each role the code is
   split by service (`Launch`, `DynamicRegistration`, `DeepLinking`, `AGS`, `NRPS`).
   Protocol handling MUST be delegated to the `celtic/lti` library instead of being reimplemented.
-* **LTIAdvantage/Common**: only what the Advantage consumer and provider both use.
+* **LTIAdvantage/Common**: only what the Advantage platform and tool roles both use.
 * **Administration**: the administration node (`ilObjLTIAdministration*`). Its screens serve LTI 1.1 and LTI Advantage.
 * **Object**: the LTI object model, that is the objects and records LTI itself owns and both LTI
-  versions read and write: the repository object `lti` (`ilObjLTIConsumer` and its GUI, access and
+  versions read and write: the repository object `lti` (`ilObjLTITool` and its GUI, access and
   list classes), its certificate verification `ltiv` in `Object/Verification`, the tools ILIAS
   launches (`ilLTITool`, table `lti_ext_provider`) and the platforms that launch ILIAS
   (`ilLTIPlatform`, table `lti2_consumer`). It holds no protocol logic and MUST NOT depend on
@@ -62,8 +66,12 @@ LTI/
 
   New code names the two counterparties as LTI Advantage does, tool and platform. The names of the
   LTI 1.1 era survive only where they are data: the tables `lti_ext_provider`, `lti_ext_consumer`
-  and `lti2_consumer`, their columns, the language variables, and the class names an updated
-  installation depends on, such as `ilObjLTIConsumer`.
+  and `lti2_consumer`, their columns, the language variables, and the ids of tabs that equal their
+  language variable. In LTI1p1 consumer and provider are the terms of the LTI 1.1 standard and stay.
+
+  The repository object is `ilObjLTITool`, the external tool it launches `ilLTITool`, as ILIAS does
+  with `ilObjForum` and `ilForum`. The classes ILIAS derives from the object class carry its name:
+  `ilLTIToolLP`, `ilLTIToolResult`, `ilLTIToolPlaceholderValues` and so on.
 
 LTI1p1 and LTIAdvantage MUST NOT share classes. When both need the same logic, each keeps
 its own copy, so LTI1p1 can be removed without touching LTIAdvantage. That rule is about the
@@ -99,6 +107,8 @@ it. Any further exception MUST be explained here.
 All schema changes are in `classes/Setup/class.ilLTIDatabaseUpdateSteps.php`:
 
 * Steps 1–9 come from `LTIProvider`, steps 10–29 from `LTIConsumer`, step 30 onwards belongs to LTI Advantage.
+* Step 31 is the one data change: it renames the placeholder class the certificate queue stores,
+  as Certificate itself does for courses and exercises.
 * New steps MUST be appended and MUST check the current schema before changing it.
 * The class MUST NOT be renamed and its steps MUST NOT be renumbered: `il_db_steps` stores
   the executed steps by class name, so updated installations would run them again.
@@ -110,11 +120,23 @@ Installations updated from an earlier release MUST keep working:
 * The object types `lti`, `ltiv` and `ltis` do not change.
 * No table or column is removed or renamed.
 * Public endpoints keep their URLs (e.g. `ltiresult.php`, `lti.php`).
-* Class names stored in the database or used by other components do not change,
-  e.g. `ilLTIDatabaseUpdateSteps`, `ilLTICronOutcomeService` and `ilLTIConsumerResult`.
+* Class names stored in the database do not change: `ilLTIDatabaseUpdateSteps` (`il_db_steps`) and
+  `ilLTICronOutcomeService` (`cron_job`).
+* Other components address classes of LTI by name, so renaming one means changing them too:
+  `ilLTIToolLP` (ilObjectLP), `ilLTIToolResult`, `ilLTIToolActivityProgress` and
+  `ilLTIToolGradingProgress` (ilLPStatusLtiOutcome), `ilLTIToolPlaceholderDescription`,
+  `ilLTIToolPlaceholderValues` and `ilCertificateSettingsLTIToolFormRepository` (Certificate),
+  `ilLTIAppEventListener` (SCORM), and
+  the methods of `ilObjLTITool` the xAPI reports of CmiXapi call (`getInstance`, `isMixedContentType`,
+  `getContentType`, `getActivityId`, `getProvider`). Earlier releases named them after `LTIConsumer`.
 * An LTI Advantage platform that launches ILIAS is registered once, in `lti2_consumer` with `ref_id` 0.
   Earlier releases registered it per released object (`ref_id` > 0). Those rows MUST still be accepted
   when looking up a platform, as fallback after the registration of the platform.
+* The LTI version of a tool is fixed once the tool exists. Earlier releases let the creator switch it
+  when editing, which left the credentials of the other version behind; a tool for the other version is
+  defined anew instead.
+* Columns of `lti_consumer_settings` that `ilObjLTITool` does not know are never written, so that
+  saving an object keeps the settings it came with.
 
 ## Removing LTI 1.1
 

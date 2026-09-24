@@ -78,10 +78,10 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
         return $this->aggregateEndPoint;
     }
 
-    public function getObj(): ilObjLTIConsumer|ilObjCmiXapi
+    public function getObj(): ilObjLTITool|ilObjCmiXapi
     {
         if (ilObject::_lookupType($this->getObjId()) == 'lti') {
-            return ilObjLTIConsumer::getInstance($this->getObjId(), false);
+            return ilObjLTITool::getInstance($this->getObjId(), false);
         }
         return ilObjCmiXapi::getInstance($this->getObjId(), false);
     }

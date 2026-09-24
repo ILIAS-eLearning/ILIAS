@@ -31,7 +31,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
      * @throws ilTemplateException
      */
     public static function renderLaunch(
-        ilObjLTIConsumer $object,
+        ilObjLTITool $object,
         ilLTIToolLaunchGUI $gui_object,
         ILIAS\DI\Container $dic,
         ilLanguage $lng
@@ -56,7 +56,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
      * @throws ilTemplateException
      */
     public static function renderEmbeddedLaunch(
-        ilObjLTIConsumer $object,
+        ilObjLTITool $object,
         ilCmiXapiUser $cmix_user,
         ILIAS\DI\Container $dic
     ): never {
@@ -88,7 +88,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
      * @throws ilCtrlException
      */
     public static function renderStartButton(
-        ilObjLTIConsumer $object,
+        ilObjLTITool $object,
         ilLTIToolLaunchGUI $gui_object,
         ILIAS\DI\Container $dic,
         ilLanguage $lng
@@ -121,7 +121,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $return_url = !$object->isLaunchMethodOwnWin() ? '' : str_replace(
             '&amp;',
             '&',
-            ilObjLTIConsumer::getIliasHttpPath() . "/" . $dic->ctrl()->getLinkTarget($gui_object, "", "")
+            ilObjLTITool::getIliasHttpPath() . "/" . $dic->ctrl()->getLinkTarget($gui_object, "", "")
         );
 
         $launch_parameters = self::resolveLaunchParameters($object, $cmix_user, $dic, $return_url);
@@ -151,7 +151,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
     }
 
     public static function resolveLaunchParameters(
-        ilObjLTIConsumer $object,
+        ilObjLTITool $object,
         ilCmiXapiUser $cmix_user,
         ILIAS\DI\Container $dic,
         string $return_url = ''

@@ -23,19 +23,19 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerVerificationListGUI extends ilObjectListGUI
+class ilObjLTIToolVerificationListGUI extends ilObjectListGUI
 {
     public function init(): void
     {
         $this->type = 'ltiv';
-        $this->gui_class_name = ilObjLTIConsumerVerificationGUI::class;
+        $this->gui_class_name = ilObjLTIToolVerificationGUI::class;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
         $this->copy_enabled = true;
         $this->link_enabled = false;
         $this->subscribe_enabled = false;
         $this->info_screen_enabled = false;
-        $this->commands = ilObjLTIConsumerVerificationAccess::_getCommands();
+        $this->commands = ilObjLTIToolVerificationAccess::_getCommands();
     }
 
     /**

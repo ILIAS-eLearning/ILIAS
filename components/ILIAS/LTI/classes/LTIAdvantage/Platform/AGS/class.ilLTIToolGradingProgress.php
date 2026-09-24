@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-enum ilLTIConsumerGradingProgress: string
+enum ilLTIToolGradingProgress: string
 {
     case FULLY_GRADED = 'FullyGraded';
     case PENDING = 'Pending';

@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandling
+class ilObjLTIToolAccess extends ilObjectAccess implements ilConditionHandling
 {
     /**
      * @return array
@@ -43,7 +43,7 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
     /**
      * The learning progress only exists for a tool that reports results.
      */
-    public static function hasLearningProgressAccess(ilObjLTIConsumer $object): bool
+    public static function hasLearningProgressAccess(ilObjLTITool $object): bool
     {
         return $object->getTool()->hasOutcome() && ilLearningProgressAccess::checkAccess($object->getRefId());
     }
@@ -51,7 +51,7 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
     /**
      * The statements are shown to everybody when the object says so, otherwise to who may read the outcomes.
      */
-    public static function hasStatementsAccess(ilObjLTIConsumer $object): bool
+    public static function hasStatementsAccess(ilObjLTITool $object): bool
     {
         return $object->getUseXapi() && ($object->isStatementsReportEnabled() || self::hasOutcomesAccess($object));
     }
@@ -59,12 +59,12 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
     /**
      * The ranking is shown to everybody when the object enables it, otherwise to who may read the outcomes.
      */
-    public static function hasRankingAccess(ilObjLTIConsumer $object): bool
+    public static function hasRankingAccess(ilObjLTITool $object): bool
     {
         return $object->getUseXapi() && ($object->getHighscoreEnabled() || self::hasOutcomesAccess($object));
     }
 
-    public static function hasOutcomesAccess(ilObjLTIConsumer $object): bool
+    public static function hasOutcomesAccess(ilObjLTITool $object): bool
     {
         global $DIC;
 
@@ -79,7 +79,7 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
         return [
             [
                 'permission' => 'read',
-                'cmd' => ilObjLTIConsumerGUI::CMD_LAUNCH,
+                'cmd' => ilObjLTIToolGUI::CMD_LAUNCH,
                 'lang_var' => '',
                 'default' => true,
             ],

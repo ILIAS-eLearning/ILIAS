@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIConsumerResult
+class ilLTIToolResult
 {
     private const string TABLE_NAME = 'lti_consumer_results';
 

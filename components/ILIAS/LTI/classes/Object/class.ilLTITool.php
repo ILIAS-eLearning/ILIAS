@@ -414,7 +414,7 @@ class ilLTITool
     {
         $db = self::db();
         $result = $db->query(
-            'SELECT COUNT(*) cnt FROM ' . ilObjLTIConsumer::TABLE_NAME
+            'SELECT COUNT(*) cnt FROM ' . ilObjLTITool::TABLE_NAME
             . ' WHERE ' . $db->in('provider_id', $ids, false, 'integer')
         );
 
@@ -578,7 +578,7 @@ class ilLTITool
         }
 
         return ' FROM ' . self::TABLE_NAME . ' p'
-            . ' JOIN ' . ilObjLTIConsumer::TABLE_NAME . ' s ON s.provider_id = p.id'
+            . ' JOIN ' . ilObjLTITool::TABLE_NAME . ' s ON s.provider_id = p.id'
             . ' JOIN object_reference r ON r.obj_id = s.obj_id'
             . ' JOIN object_data od ON od.obj_id = s.obj_id'
             . ' WHERE ' . implode(' AND ', $conditions);
@@ -586,7 +586,7 @@ class ilLTITool
 
     private static function getUsagesQuery(bool $trashed): string
     {
-        return 'SELECT COUNT(s.obj_id) FROM ' . ilObjLTIConsumer::TABLE_NAME . ' s'
+        return 'SELECT COUNT(s.obj_id) FROM ' . ilObjLTITool::TABLE_NAME . ' s'
             . ' JOIN object_reference r ON r.obj_id = s.obj_id AND r.deleted IS ' . ($trashed ? 'NOT NULL' : 'NULL')
             . ' WHERE s.provider_id = p.id';
     }

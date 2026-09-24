@@ -23,12 +23,12 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerListGUI extends ilObjectListGUI
+class ilObjLTIToolListGUI extends ilObjectListGUI
 {
     public function init(): void
     {
         $this->type = 'lti';
-        $this->gui_class_name = ilObjLTIConsumerGUI::class;
+        $this->gui_class_name = ilObjLTIToolGUI::class;
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -38,7 +38,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         $this->progress_enabled = true;
         $this->notice_properties_enabled = true;
         $this->info_screen_enabled = true;
-        $this->commands = ilObjLTIConsumerAccess::_getCommands();
+        $this->commands = ilObjLTIToolAccess::_getCommands();
     }
 
     /**
@@ -59,15 +59,15 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
 
         if (new ilCertificateDownloadValidator()->isCertificateDownloadable($this->user->getId(), $this->obj_id)) {
             $this->lng->loadLanguageModule('certificate');
-            $this->ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', $this->ref_id);
+            $this->ctrl->setParameterByClass(ilObjLTIToolGUI::class, 'ref_id', $this->ref_id);
             $properties[] = [
                 'alert' => false,
                 'property' => $this->lng->txt('certificate'),
                 'value' => $DIC->ui()->renderer()->render($DIC->ui()->factory()->link()->standard(
                     $this->lng->txt('download_certificate'),
                     $this->ctrl->getLinkTargetByClass(
-                        [ilRepositoryGUI::class, ilObjLTIConsumerGUI::class],
-                        ilObjLTIConsumerGUI::CMD_DELIVER_CERTIFICATE
+                        [ilRepositoryGUI::class, ilObjLTIToolGUI::class],
+                        ilObjLTIToolGUI::CMD_DELIVER_CERTIFICATE
                     )
                 )),
             ];

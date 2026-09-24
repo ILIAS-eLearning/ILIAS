@@ -470,4 +470,21 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $this->db->addPrimaryKey('lti2_tool', ['tool_pk']);
         $this->db->createSequence('lti2_tool');
     }
+
+    /**
+     * The certificates of LTI objects still waiting in the queue name the class of their placeholder
+     * values, which has been renamed.
+     */
+    public function step_31(): void
+    {
+        if (!$this->db->tableExists('il_cert_cron_queue')) {
+            return;
+        }
+
+        $this->db->update(
+            'il_cert_cron_queue',
+            ['adapter_class' => [ilDBConstants::T_TEXT, ilLTIToolPlaceholderValues::class]],
+            ['adapter_class' => [ilDBConstants::T_TEXT, 'ilLTIConsumerPlaceholderValues']]
+        );
+    }
 }

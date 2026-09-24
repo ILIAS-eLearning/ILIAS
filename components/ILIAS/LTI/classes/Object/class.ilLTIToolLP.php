@@ -19,26 +19,36 @@
 declare(strict_types=1);
 
 /**
- * The certificate a user earned in an LTI object, kept as a file in the personal workspace so that it
- * can be shown in a portfolio. It is a snapshot: it does not change when the object changes.
+ * Learning progress of an LTI object: none, or completed once the result the tool reports reaches the
+ * mastery score. ilObjectLP looks the class up by this name.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerVerification extends ilVerificationObject
+class ilLTIToolLP extends ilObjectLP
 {
-    protected function initType(): void
+    private const array MODES = [
+        ilLPObjSettings::LP_MODE_DEACTIVATED,
+        ilLPObjSettings::LP_MODE_LTI_OUTCOME,
+    ];
+
+    /**
+     * @return array
+     */
+    public static function getDefaultModes(bool $a_lp_active): array
     {
-        $this->type = 'ltiv';
+        return self::MODES;
+    }
+
+    public function getDefaultMode(): int
+    {
+        return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
     /**
      * @return array
      */
-    protected function getPropertyMap(): array
+    public function getValidModes(): array
     {
-        return [
-            'issued_on' => self::TYPE_DATE,
-            'file' => self::TYPE_STRING,
-        ];
+        return self::MODES;
     }
 }

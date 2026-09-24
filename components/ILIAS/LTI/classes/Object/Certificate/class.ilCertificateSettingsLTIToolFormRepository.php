@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFormRepository
+class ilCertificateSettingsLTIToolFormRepository implements ilCertificateFormRepository
 {
     private readonly ilCertificateSettingsFormRepository $settings_form_repository;
 

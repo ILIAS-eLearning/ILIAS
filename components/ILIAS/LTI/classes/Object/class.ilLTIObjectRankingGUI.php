@@ -35,7 +35,7 @@ class ilLTIObjectRankingGUI
 
     private readonly ILIAS\DI\Container $dic;
 
-    public function __construct(private readonly ilObjLTIConsumer $object)
+    public function __construct(private readonly ilObjLTITool $object)
     {
         global $DIC;
 
@@ -47,7 +47,7 @@ class ilLTIObjectRankingGUI
      */
     public function executeCommand(): void
     {
-        if (!ilObjLTIConsumerAccess::hasRankingAccess($this->object)) {
+        if (!ilObjLTIToolAccess::hasRankingAccess($this->object)) {
             throw new ilObjectException('no access to the ranking of this object');
         }
 
@@ -137,7 +137,7 @@ class ilLTIObjectRankingGUI
      */
     private function prepareRows(array $rows): array
     {
-        $resolve_names = ilObjLTIConsumerAccess::hasOutcomesAccess($this->object);
+        $resolve_names = ilObjLTIToolAccess::hasOutcomesAccess($this->object);
 
         return array_map(function (array $row) use ($resolve_names): array {
             $participant = (string) $row['user'];

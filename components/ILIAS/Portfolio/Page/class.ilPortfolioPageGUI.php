@@ -441,7 +441,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     {
         $id = $this->port_request->getVerificationId();
         if ($id) {
-            $verification = new ilObjLTIConsumerVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+            $verification = new ilObjLTIToolVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
             $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }

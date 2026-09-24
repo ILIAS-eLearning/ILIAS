@@ -16,7 +16,7 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
       - ILIAS/Test
       - ILIAS/ScormAicc
       - ILIAS/CmiXapi
-      - ILIAS/LTIConsumer
+      - ILIAS/LTI
 
   feature an additional sub-tab "Certificate" in the "Settings" tab.
 - Accounts with the permission "Edit Settings" for these particular objects can configure and activate certificates.

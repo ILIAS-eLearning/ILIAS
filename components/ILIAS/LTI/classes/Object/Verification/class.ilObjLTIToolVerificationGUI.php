@@ -29,7 +29,7 @@ use ILIAS\UI\Component\Table\DataRowBuilder;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerVerificationGUI extends ilObject2GUI implements DataRetrieval
+class ilObjLTIToolVerificationGUI extends ilObject2GUI implements DataRetrieval
 {
     private const string OBJECT_PARAM = 'lti_id';
 
@@ -221,9 +221,9 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI implements DataRetrie
     /**
      * @throws ilObjectException
      */
-    private function getVerification(): ilObjLTIConsumerVerification
+    private function getVerification(): ilObjLTIToolVerification
     {
-        if (!$this->object instanceof ilObjLTIConsumerVerification) {
+        if (!$this->object instanceof ilObjLTIToolVerification) {
             throw new ilObjectException('no LTI verification given');
         }
 

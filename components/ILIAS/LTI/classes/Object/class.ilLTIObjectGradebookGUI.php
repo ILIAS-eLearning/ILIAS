@@ -38,7 +38,7 @@ class ilLTIObjectGradebookGUI implements DataRetrieval
     private readonly ILIAS\DI\Container $dic;
     private ?array $records = null;
 
-    public function __construct(private readonly ilObjLTIConsumer $object)
+    public function __construct(private readonly ilObjLTITool $object)
     {
         global $DIC;
 
@@ -125,7 +125,7 @@ class ilLTIObjectGradebookGUI implements DataRetrieval
 
         $db = $this->dic->database();
         $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE obj_id = ' . $db->quote($this->object->getId(), 'integer');
-        if (!ilObjLTIConsumerAccess::hasOutcomesAccess($this->object)) {
+        if (!ilObjLTIToolAccess::hasOutcomesAccess($this->object)) {
             $query .= ' AND usr_id = ' . $db->quote($this->dic->user()->getId(), 'integer');
         }
         $result = $db->query($query . ' ORDER BY lti_timestamp DESC, stored DESC, id DESC');

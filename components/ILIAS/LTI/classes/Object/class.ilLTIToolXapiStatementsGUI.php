@@ -34,7 +34,7 @@ use ILIAS\UI\URLBuilderToken;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIConsumerXapiStatementsGUI implements DataRetrieval
+class ilLTIToolXapiStatementsGUI implements DataRetrieval
 {
     public const string CMD_SHOW = 'show';
 
@@ -51,7 +51,7 @@ class ilLTIConsumerXapiStatementsGUI implements DataRetrieval
     private readonly URLBuilderToken $id_token;
     private bool $failure_shown = false;
 
-    public function __construct(private readonly ilObjLTIConsumer $object)
+    public function __construct(private readonly ilObjLTITool $object)
     {
         global $DIC;
 
@@ -70,7 +70,7 @@ class ilLTIConsumerXapiStatementsGUI implements DataRetrieval
      */
     public function executeCommand(): void
     {
-        if (!ilObjLTIConsumerAccess::hasStatementsAccess($this->object)) {
+        if (!ilObjLTIToolAccess::hasStatementsAccess($this->object)) {
             throw new ilObjectException('no access to the statements of this object');
         }
 
@@ -90,7 +90,7 @@ class ilLTIConsumerXapiStatementsGUI implements DataRetrieval
         $filter = $this->buildFilter();
 
         $columns = ['date' => $column->date($lng->txt('tbl_statements_date'), $this->dic->user()->getDateTimeFormat())];
-        if (ilObjLTIConsumerAccess::hasOutcomesAccess($this->object)) {
+        if (ilObjLTIToolAccess::hasOutcomesAccess($this->object)) {
             $columns['actor'] = $column->text($lng->txt('tbl_statements_actor'));
         }
         $columns['verb'] = $column->text($lng->txt('tbl_statements_verb'));
@@ -191,7 +191,7 @@ class ilLTIConsumerXapiStatementsGUI implements DataRetrieval
         $privacy_ident = $this->object->getTool()->getPrivacyIdent();
         $login = trim((string) ($data['actor'] ?? ''));
 
-        if (!ilObjLTIConsumerAccess::hasOutcomesAccess($this->object)) {
+        if (!ilObjLTIToolAccess::hasOutcomesAccess($this->object)) {
             $filter->setActor(new ilCmiXapiUser($this->object->getId(), $this->dic->user()->getId(), $privacy_ident));
         } elseif ($login !== '') {
             $usr_id = ilObjUser::getUserIdByLogin($login);
@@ -244,7 +244,7 @@ class ilLTIConsumerXapiStatementsGUI implements DataRetrieval
         unset($verbs['']);
 
         $inputs = [];
-        if (ilObjLTIConsumerAccess::hasOutcomesAccess($this->object)) {
+        if (ilObjLTIToolAccess::hasOutcomesAccess($this->object)) {
             $inputs['actor'] = $field->text($lng->txt('tbl_statements_actor'));
         }
         $inputs['verb'] = $field->select($lng->txt('tbl_statements_verb'), $verbs);

@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilObjLTIConsumerVerificationAccess extends ilObjectAccess
+class ilObjLTIToolVerificationAccess extends ilObjectAccess
 {
     /**
      * @return array

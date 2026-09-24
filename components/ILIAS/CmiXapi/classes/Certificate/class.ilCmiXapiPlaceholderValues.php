@@ -124,7 +124,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
-        /* @var ilObjLTIConsumer $object */
+        /* @var ilObjLTITool $object */
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
         $placeholders['OBJECT_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());

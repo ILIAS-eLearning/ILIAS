@@ -39,7 +39,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     private ilLanguage $language;
 
     /**
-     * @param ilCmiXapiStatementsGUI|ilLTIConsumerXapiStatementsGUI $a_parent_obj
+     * @param ilCmiXapiStatementsGUI|ilLTIToolXapiStatementsGUI $a_parent_obj
      * @param string                                                $a_parent_cmd
      * @param bool                                                  $isMultiActorReport
      * @throws ilCtrlException
@@ -101,7 +101,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         }
 
         $si = new ilSelectInputGUI('Used Verb', "verb");
-        if (strtolower($this->ctrl->getCmdClass()) == "illticonsumerxapistatementsgui") {
+        if (strtolower($this->ctrl->getCmdClass()) == "illtitoolxapistatementsgui") {
             $si->setOptions(ilCmiXapiVerbList::getInstance()->getSelectOptions());
         } else { //xapi
             $verbs = $this->parent_obj->getVerbs(); // ToDo: Caching

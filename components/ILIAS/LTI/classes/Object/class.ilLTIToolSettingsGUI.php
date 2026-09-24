@@ -33,7 +33,7 @@ class ilLTIToolSettingsGUI
 
     private readonly ILIAS\DI\Container $dic;
 
-    public function __construct(private readonly ilObjLTIConsumer $object)
+    public function __construct(private readonly ilObjLTITool $object)
     {
         global $DIC;
 

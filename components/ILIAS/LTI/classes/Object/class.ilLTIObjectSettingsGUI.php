@@ -41,7 +41,7 @@ class ilLTIObjectSettingsGUI
 
     private readonly ILIAS\DI\Container $dic;
 
-    public function __construct(private readonly ilObjLTIConsumer $object)
+    public function __construct(private readonly ilObjLTITool $object)
     {
         global $DIC;
 
@@ -170,9 +170,9 @@ class ilLTIObjectSettingsGUI
 
         $launch_method = $field->radio($lng->txt('launch_method'))->withRequired(true);
         foreach ([
-            ilObjLTIConsumer::LAUNCH_METHOD_OWN_WIN => 'launch_method_own_win',
-            ilObjLTIConsumer::LAUNCH_METHOD_NEW_WIN => 'launch_method_new_win',
-            ilObjLTIConsumer::LAUNCH_METHOD_EMBEDDED => 'launch_method_embedded',
+            ilObjLTITool::LAUNCH_METHOD_OWN_WIN => 'launch_method_own_win',
+            ilObjLTITool::LAUNCH_METHOD_NEW_WIN => 'launch_method_new_win',
+            ilObjLTITool::LAUNCH_METHOD_EMBEDDED => 'launch_method_embedded',
         ] as $method => $txt) {
             $launch_method = $launch_method->withOption($method, $lng->txt($txt), $lng->txt($txt . '_info'));
         }
@@ -202,9 +202,9 @@ class ilLTIObjectSettingsGUI
 
         $mode = $field->radio($lng->txt('highscore_mode'))->withRequired(true);
         foreach ([
-            ilObjLTIConsumer::HIGHSCORE_SHOW_OWN_TABLE => 'highscore_own_table',
-            ilObjLTIConsumer::HIGHSCORE_SHOW_TOP_TABLE => 'highscore_top_table',
-            ilObjLTIConsumer::HIGHSCORE_SHOW_ALL_TABLES => 'highscore_all_tables',
+            ilObjLTITool::HIGHSCORE_SHOW_OWN_TABLE => 'highscore_own_table',
+            ilObjLTITool::HIGHSCORE_SHOW_TOP_TABLE => 'highscore_top_table',
+            ilObjLTITool::HIGHSCORE_SHOW_ALL_TABLES => 'highscore_all_tables',
         ] as $value => $txt) {
             $mode = $mode->withOption((string) $value, $lng->txt($txt), $lng->txt($txt . '_description'));
         }
@@ -317,7 +317,7 @@ class ilLTIObjectSettingsGUI
             $tabs->addSubTab(
                 self::SUBTAB_CERTIFICATE,
                 $this->dic->language()->txt(self::SUBTAB_CERTIFICATE),
-                $this->dic->ctrl()->getLinkTargetByClass([ilObjLTIConsumerGUI::class, self::class, ilCertificateGUI::class], 'certificateEditor')
+                $this->dic->ctrl()->getLinkTargetByClass([ilObjLTIToolGUI::class, self::class, ilCertificateGUI::class], 'certificateEditor')
             );
         }
     }

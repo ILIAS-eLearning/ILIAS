@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDescription
+class ilLTIToolPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private readonly ilLanguage $language;
     private readonly array $placeholders;

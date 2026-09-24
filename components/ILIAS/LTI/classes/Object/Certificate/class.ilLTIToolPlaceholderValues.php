@@ -19,12 +19,12 @@
 declare(strict_types=1);
 
 /**
- * The values of the placeholders of ilLTIConsumerPlaceholderDescription for a user of an LTI object.
+ * The values of the placeholders of ilLTIToolPlaceholderDescription for a user of an LTI object.
  * The certificate GUI and the certificate cron job (ilCertificateTypeClassMap) create it by this name.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
+class ilLTIToolPlaceholderValues implements ilCertificatePlaceholderValues
 {
     private readonly ilLanguage $language;
     private readonly ilDefaultPlaceholderValues $default_values;
@@ -57,10 +57,10 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders['OBJECT_TITLE'] = $this->util_helper->prepareFormOutput($object->getTitle());
         $placeholders['OBJECT_DESCRIPTION'] = $this->util_helper->prepareFormOutput($object->getDescription());
         $placeholders['MASTERY_SCORE'] = $this->util_helper->prepareFormOutput(
-            $object instanceof ilObjLTIConsumer ? $this->formatPercentage($object->getMasteryScore()) : ''
+            $object instanceof ilObjLTITool ? $this->formatPercentage($object->getMasteryScore()) : ''
         );
 
-        $result = ilLTIConsumerResult::getByKeys($objId, $userId)?->getResult();
+        $result = ilLTIToolResult::getByKeys($objId, $userId)?->getResult();
         $placeholders['REACHED_SCORE'] = $this->util_helper->prepareFormOutput(
             $result === null ? '' : $this->formatPercentage($result)
         );
