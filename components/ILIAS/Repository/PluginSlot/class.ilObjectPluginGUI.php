@@ -174,7 +174,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 break;
         }
 
-        if (!$this->getCreationMode()) {
+        if (!$this->getCreationMode() && strtolower($this->slot_request->getBaseClass()) !== "iladministrationgui") {
             $tpl->printToStdout();
         }
     }

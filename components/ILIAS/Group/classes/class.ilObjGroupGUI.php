@@ -438,6 +438,11 @@ class ilObjGroupGUI extends ilContainerGUI
      */
     public function viewObject(): void
     {
+        if (strtolower($this->std_request->getBaseClass()) === "iladministrationgui") {
+            parent::viewObject();
+            return;
+        }
+
         ilLearningProgress::_tracProgress(
             $this->user->getId(),
             $this->object->getId(),

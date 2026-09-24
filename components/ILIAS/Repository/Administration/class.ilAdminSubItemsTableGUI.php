@@ -158,13 +158,6 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        //build link
-        $class_name = $objDefinition->getClassName($a_set["type"]);
-        $class = strtolower("ilObj" . $class_name . "GUI");
-        $ilCtrl->setParameterByClass($class, "ref_id", $a_set["ref_id"]);
-        $this->tpl->setVariable("HREF_TITLE", $ilCtrl->getLinkTargetByClass($class, "view"));
-        $ilCtrl->setParameterByClass($class, "ref_id", $this->ref_id);
-
         // TODO: broken! fix me
         $title = $a_set["title"];
         if ($this->clipboard->hasEntries() && in_array($a_set["ref_id"], $this->clipboard->getRefIds())) {
@@ -182,7 +175,19 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
                     break;
             }
         }
+
+        if ($objDefinition->isContainer($a_set["type"])) {
+            $class_name = $objDefinition->getClassName($a_set["type"]);
+            $class = strtolower("ilObj" . $class_name . "GUI");
+            $ilCtrl->setParameterByClass($class, "ref_id", $a_set["ref_id"]);
+            $this->tpl->setVariable("HREF_TITLE", $ilCtrl->getLinkTargetByClass($class, "view"));
+            $ilCtrl->setParameterByClass($class, "ref_id", $this->ref_id);
+            $this->tpl->setCurrentBlock("title_linked");
+        } else {
+            $this->tpl->setCurrentBlock("title_plain");
+        }
         $this->tpl->setVariable("VAL_TITLE", $title);
+        $this->tpl->parseCurrentBlock();
         $this->tpl->setVariable("VAL_DESC", ilStr::shortenTextExtended($a_set["desc"], ilObject::DESC_LENGTH, true));
         $this->tpl->setVariable("VAL_LAST_CHANGE", ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"], IL_CAL_DATETIME)));
         $alt = ($objDefinition->isPlugin($a_set["type"]))
