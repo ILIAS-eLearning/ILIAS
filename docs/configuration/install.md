@@ -704,17 +704,26 @@ php /var/www/ilias/cli/cron.php run-jobs <user>
 
 The `<user>` is a valid, arbitrary user account within the ILIAS installation.
 
-To configure automated Cron Jobs in your system, you need to create a user in ILIAS, for example named `cron`.
-Then create a new file in the Linux Cron configuration for ILIAS at `/etc/cron.d/ilias`,
-including a line to execute `./cli/cron.php` every 5 minutes.
-Other methods for executing Linux cron tasks, such as using the user crontab, can also be utilized.
+To configure automated Cron Jobs in your system, you need to create a user in
+ILIAS, for example named `cron-user`. Then create a new file in the Linux Cron
+configuration for ILIAS at `/etc/cron.d/ilias`, including a line to execute
+`./cli/cron.php` every 5 minutes. Other methods for executing Linux cron tasks,
+such as using the user crontab, can also be utilized.
 
 ```cron
-*/5 * * * * www-data /usr/bin/php /var/www/ilias/cli/cron.php run-jobs cron > /dev/null 2>&1
+*/5 * * * * www-data /usr/bin/php /var/www/ilias/cli/cron.php run-jobs cron-user > /dev/null 2>&1
 ```
 
-You can verify the proper automatic execution in the ILIAS Administration section by checking the timestamp
-displayed at `Last Automatic Execution of Cron Job Script` after some time.
+You can verify the proper automatic execution in the ILIAS Administration
+section by checking the timestamp displayed at `Last Automatic Execution of Cron
+Job Script` after some time.
+
+**Choosing the executing user**
+
+The user account should be chosen carefully, because some preconditions must be
+fulfilled and it directly affects the security posture of your installation. See
+[Choosing the Executing User](../../components/ILIAS/Cron/README.md#choosing-the-executing-user)
+in the Cron documentation for the full guidance.
 
 
 <a name="webdav-configuration"></a>
