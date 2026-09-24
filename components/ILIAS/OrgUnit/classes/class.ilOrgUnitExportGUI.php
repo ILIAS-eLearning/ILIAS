@@ -33,8 +33,6 @@ class ilOrgUnitExportGUI extends ilExportGUI
 
     public function __construct(ilObjOrgUnitGUI $a_parent_gui, /*null|ilObject|ilObjOrgUnit*/ ?ilObject $a_main_obj = null)
     {
-        parent::__construct($a_parent_gui, $a_main_obj, false, false);
-
         global $DIC;
         $ilToolbar = $DIC->toolbar();
         $lng = $DIC->language();
@@ -46,6 +44,7 @@ class ilOrgUnitExportGUI extends ilExportGUI
         $this->ui_factory = $DIC['ui.factory'];
 
         $this->ilObjOrgUnit = $a_parent_gui->getObject();
+        parent::__construct($a_parent_gui, $a_main_obj, false, !$this->isRoot());
     }
 
     public function executeCommand(): void
@@ -56,14 +55,23 @@ class ilOrgUnitExportGUI extends ilExportGUI
             $cmd === "simpleExportExcel"
         ) {
             $this->$cmd();
-            return;
         }
-        parent::executeCommand();
+
+        if ($cmd === '' && $this->isRoot()) {
+            $this->initToolbar();
+        } else {
+            parent::executeCommand();
+        }
+    }
+
+    private function isRoot(): bool
+    {
+        return $this->ilObjOrgUnit->getRefId() === ilObjOrgUnit::getRootOrgRefId();
     }
 
     public function listExportFiles(): void
     {
-        if ($this->ilObjOrgUnit->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
+        if (!$this->isRoot()) {
             parent::listExportFiles();
         }
     }
