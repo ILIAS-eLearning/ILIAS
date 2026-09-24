@@ -157,7 +157,7 @@ class ilTestEvaluationFactory
         $current_attempt = null;
 
         foreach ($eval_data_rows as $row) {
-            if($row['pass'] === null) {
+            if ($row['pass'] === null) {
                 continue;
             }
 
@@ -386,7 +386,10 @@ class ilTestEvaluationFactory
             );
 
             while ($seqrow = $this->db->fetchAssoc($seqresult)) {
-                $questionsequence = unserialize($seqrow['sequence']);
+                $questionsequence = unserialize($seqrow['sequence'], ['allowed_classes' => false]);
+                if (!is_array($questionsequence)) {
+                    continue;
+                }
                 foreach ($questionsequence as $sidx => $seq) {
                     if (!isset($questionsbysequence[$seq])) {
                         continue;

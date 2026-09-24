@@ -221,9 +221,9 @@ class ilTestResultsImportParser extends ilSaxParser
                         $affectedRows = $this->db->insert("tst_sequence", array(
                             "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
                             "pass" => array("integer", $a_attribs['pass']),
-                            "sequence" => array("clob", $a_attribs['sequence']),
-                            "postponed" => array("text", (strlen($a_attribs['postponed'])) ? $a_attribs['postponed'] : null),
-                            "hidden" => array("text", (strlen($a_attribs['hidden'])) ? $a_attribs['hidden'] : null),
+                            "sequence" => array("clob", $this->sanitizeSerializedIntList($a_attribs['sequence'] ?? '', 'a:0:{}')),
+                            "postponed" => array("text", $this->sanitizeSerializedIntList($a_attribs['postponed'] ?? '')),
+                            "hidden" => array("text", $this->sanitizeSerializedIntList($a_attribs['hidden'] ?? '')),
                             "tstamp" => array("integer", $a_attribs['tstamp'])
                         ));
                         break;
@@ -284,6 +284,18 @@ class ilTestResultsImportParser extends ilSaxParser
     public function handlerParseCharacterData($a_xml_parser, $a_data): void
     {
         // do nothing
+    }
+
+    private function sanitizeSerializedIntList(string $value, ?string $default = null): ?string
+    {
+        $value = trim($value);
+
+        $data = unserialize($value, ['allowed_classes' => false]);
+        if (!is_array($data)) {
+            return $default;
+        }
+
+        return serialize(array_filter($data, static fn(mixed $item): bool => is_int($item)));
     }
 
     private function fetchAttribute($attributes, $name)
