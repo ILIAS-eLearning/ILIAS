@@ -123,13 +123,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function printResults(): void
     {
+        if (!$this->testAccess->checkManageParticipantsAccess()
+            && !$this->testAccess->checkParticipantsResultsAccess()) {
+            ilObjTestGUI::accessViolationRedirect();
+        }
+
         $this->ctrl->saveParameterByClass(self::class, 'active_ids');
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             PrintLayoutProvider::TEST_CONTEXT_PRINT,
             true
         );
 
-        $selected_active_ids = explode(',', $this->testrequest->strVal('active_ids'));
+        $selected_active_ids = $this->filterSelectedActiveIdsByAccess(
+            explode(',', $this->testrequest->strVal('active_ids'))
+        );
         $results_panel = $this->ui_factory->panel()->report(
             $this->lng->txt('tst_results'),
             array_map(
@@ -162,9 +169,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function showResults(): void
     {
+        if (!$this->testAccess->checkManageParticipantsAccess()
+            && !$this->testAccess->checkParticipantsResultsAccess()) {
+            ilObjTestGUI::accessViolationRedirect();
+        }
+
         $this->setCss();
         $this->ctrl->saveParameterByClass(self::class, 'active_ids');
-        $selected_active_ids = explode(',', $this->testrequest->strVal('active_ids'));
+        $selected_active_ids = $this->filterSelectedActiveIdsByAccess(
+            explode(',', $this->testrequest->strVal('active_ids'))
+        );
 
         $this->addPrintResultsButtonToToolbar();
         $this->addToggleBestSolutionButtonToToolbar();
@@ -1047,5 +1061,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ),
             $this->lng->txt('select_attempt')
         )->withActive("{$this->lng->txt('tst_attempt')} {$selected_attempt}");
+    }
+
+    private function filterSelectedActiveIdsByAccess(
+        array $selected_active_ids
+    ): array {
+        return array_filter(
+            $selected_active_ids,
+            fn(string $v): bool => $this->testAccess->checkResultsAccessForActiveId(
+                (int) $v,
+                $this->object->getTestId()
+            )
+        );
     }
 }
