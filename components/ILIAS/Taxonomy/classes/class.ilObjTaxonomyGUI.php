@@ -143,19 +143,13 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     {
         $ilCtrl = $this->ctrl;
         $this->tabs->activateSubTab("tax_settings");
-
-        $cmd = $ilCtrl->getCmd("listTaxonomies");
+        $cmd = $ilCtrl->getCmd();
         $this->$cmd();
     }
 
     ////
     //// Features that work on the base of an assigned object (AO)
     ////
-
-    public function editAOTaxonomySettings(): void
-    {
-        $this->listTaxonomies();
-    }
 
     public function getCurrentTaxonomyId(): ?int
     {
@@ -761,36 +755,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("tax_tax_deleted"), true);
         $this->returnToSettingsParent();
-    }
-
-    /**
-     * List taxonomies
-     */
-    public function listTaxonomies(): void
-    {
-        $tpl = $this->tpl;
-        $ilToolbar = $this->toolbar;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $tax_ids = ilObjTaxonomy::getUsageOfObject($this->getAssignedObject());
-        if (count($tax_ids) == 0 || $this->getMultiple()) {
-            $ilToolbar->addButton(
-                $lng->txt("tax_add_taxonomy"),
-                $ilCtrl->getLinkTarget($this, "createAssignedTaxonomy")
-            );
-        } else {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("tax_max_one_tax"));
-        }
-
-        $tab = new ilTaxonomyListTableGUI(
-            $this,
-            "listTaxonomies",
-            $this->getAssignedObject(),
-            $this->getListInfo()
-        );
-
-        $tpl->setContent($tab->getHTML());
     }
 
     protected function getSettingsBackUrl(): string
