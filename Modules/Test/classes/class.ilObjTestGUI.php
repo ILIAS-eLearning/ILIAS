@@ -806,10 +806,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ctrl->redirectByClass('ilassquestionpreviewgui', ilAssQuestionPreviewGUI::CMD_SHOW);
                     break;
                 }
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
-                }
-                if ($cmd === 'edit' && !$this->access->checkAccess('write', '', $this->testrequest->getRefId())) {
+                if (!$this->access->checkAccess('write', '', $this->testrequest->getRefId())) {
                     $this->redirectAfterMissingWrite();
                 }
                 $this->prepareOutput();
