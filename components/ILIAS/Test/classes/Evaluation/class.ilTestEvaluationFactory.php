@@ -358,7 +358,10 @@ class ilTestEvaluationFactory
             );
 
             while ($seqrow = $this->db->fetchAssoc($seqresult)) {
-                $questionsequence = unserialize($seqrow["sequence"]);
+                $questionsequence = unserialize($seqrow["sequence"], ['allowed_classes' => false]);
+                if (!is_array($questionsequence)) {
+                    continue;
+                }
                 foreach ($questionsequence as $sidx => $seq) {
                     if (!isset($questionsbysequence[$seq])) {
                         continue;

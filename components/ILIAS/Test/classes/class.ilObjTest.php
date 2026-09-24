@@ -6506,9 +6506,9 @@ class ilObjTest extends ilObject
             );
 
             while ($row = $this->db->fetchAssoc($partRes)) {
-                $sequence = @unserialize($row['sequence']);
+                $sequence = unserialize($row['sequence'], ['allowed_classes' => false]);
 
-                if (!$sequence) {
+                if (!is_array($sequence)) {
                     $sequence = [];
                 }
 
