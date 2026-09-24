@@ -15,9 +15,9 @@
 
 export default class Prompt {
   /**
-   * @type {DOMParser}
+   * @type {import('../../Core/src/AsyncRenderer.js').default}
    */
-  #DOMParser;
+  #asyncRenderer;
 
   /**
    * @type {HTMLDivElement}
@@ -30,12 +30,12 @@ export default class Prompt {
   #prompt;
 
   /**
-   * @param {DOMParser} DOMParser
+   * @param {import('../../Core/src/AsyncRenderer.js').default} asyncRenderer
    * @param {string} componentId
    * @throws {Error} if DOM element is missing
    */
-  constructor(DOMParser, componentId) {
-    this.#DOMParser = DOMParser;
+  constructor(asyncRenderer, componentId) {
+    this.#asyncRenderer = asyncRenderer;
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a Prompt for id '${componentId}'.`);
@@ -60,11 +60,8 @@ export default class Prompt {
   }
 
   async load(url, par = {}) {
-    await fetch(url, par)
-      .then((resp) => resp.text())
-      .then((html) => {
-        const parser = new this.#DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+    await this.#asyncRenderer.loadContent(url, par)
+      .then((doc) => {
         const title = doc.querySelector('section[data-section="il-prompt-state__title"]');
         const contents = doc.querySelector('section[data-section="il-prompt-state__contents"]');
         const buttons = doc.querySelector('section[data-section="il-prompt-state__buttons"]');
