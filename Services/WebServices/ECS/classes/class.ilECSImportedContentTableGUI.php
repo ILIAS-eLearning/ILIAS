@@ -155,31 +155,29 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
         }
         $content = array();
         foreach ($obj_ids as $obj_id => $obj_id) {
-            //$rcourse = new ilObjRemoteCourse($obj_id, false);
+            $rcourse = new ilObjRemoteCourse($obj_id, false);
             $tmp_arr['obj_id'] = $obj_id;
             $tmp_arr['sid'] = ilECSImportManager::getInstance()->lookupServerId($obj_id);
             $tmp_arr['title'] = $this->objDataCache->lookupTitle($obj_id);
             $tmp_arr['desc'] = $this->objDataCache->lookupDescription($obj_id);
             $tmp_arr['md'] = '';
 
-            //$mid = ilECSImportManager::getInstance()->
-            $tmp_arr['from'] = "Broken with ILIAS8";
+            $tmp_arr['from'] = "";
             $tmp_arr['from_info'] = "";
-            /*if ($tmp_arr['sid']) {
+            if ($tmp_arr['sid']) {
                 try {
                     $reader = ilECSCommunityReader::getInstanceByServerId($tmp_arr['sid']);
                 } catch (ilECSConnectorException $e) {
                     $reader = null;
                 }
 
-                if ($reader && ($participant = $reader->getParticipantByMID($mid))) {
+                if ($reader && ($participant = $reader->getParticipantByMID($rcourse->getMID()))) {
                     $tmp_arr['from'] = $participant->getParticipantName();
                     $tmp_arr['from_info'] = $participant->getDescription();
                 }
             } else {
                 $tmp_arr['from'] = $this->lng->txt("ecs_server_deleted");
-                $tmp_arr['from_info'] = "";
-            }*/
+            }
 
             $tmp_arr['last_update'] = $this->objDataCache->lookupLastUpdate((int) $obj_id);
             $content[] = $tmp_arr;
