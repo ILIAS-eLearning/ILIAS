@@ -144,7 +144,7 @@ class ilForum
         return $this->pageHits;
     }
 
-    public function getOneTopic(): ForumDto
+    public function getOneTopic(): ?ForumDto
     {
         $data_type = [];
         $data_value = [];
@@ -162,7 +162,7 @@ class ilForum
         $row = $this->db->fetchAssoc($res);
 
         if (!is_array($row) || $row === []) {
-            return ForumDto::getEmptyInstance();
+            return null;
         }
 
         return ForumDto::getInstanceFromArray($row);
@@ -366,7 +366,7 @@ class ilForum
         $this->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$target_obj_id]);
         $newFrmData = $this->getOneTopic();
 
-        if (!$oldFrmData->getTopPk() || !$newFrmData->getTopPk()) {
+        if ($oldFrmData === null || $newFrmData === null) {
             return $errorMessages;
         }
 

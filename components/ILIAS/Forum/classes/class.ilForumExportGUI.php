@@ -279,7 +279,7 @@ class ilForumExportGUI
         )]);
         $frmData = $this->frm->getOneTopic();
 
-        if ($frmData->getTopPk() > 0) {
+        if ($frmData !== null) {
             $topic = new ilForumTopic($this->http->wrapper()->query()->retrieve(
                 'print_thread',
                 $this->refinery->kindlyTo()->int()
@@ -330,7 +330,7 @@ class ilForumExportGUI
         )]);
         $frmData = $this->frm->getOneTopic();
 
-        if ($frmData->getTopPk() > 0) {
+        if ($frmData !== null) {
             $post = new ilForumPost($this->http->wrapper()->query()->retrieve(
                 'print_post',
                 $this->refinery->kindlyTo()->int()
@@ -392,7 +392,7 @@ class ilForumExportGUI
             $this->frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [$topic->getForumId()]);
             $frmData = $this->frm->getOneTopic();
 
-            if ($frmData->getTopPk() > 0) {
+            if ($frmData !== null) {
                 if (0 === $i) {
                     $tpl->setVariable('TITLE', $frmData->getTopName());
                 }

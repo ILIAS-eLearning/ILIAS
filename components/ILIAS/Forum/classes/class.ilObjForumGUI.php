@@ -656,7 +656,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $frm->setMDB2Wherecondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
         // Import information: Topic (variable $topicData) means frm object, not thread
         $frm_object = $frm->getOneTopic();
-        if ($frm_object->getTopPk() > 0) {
+        if ($frm_object !== null) {
             $frm->setDbTable('frm_data');
             $frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [$frm_object->getTopPk()]);
             $frm->updateVisits($frm_object->getTopPk());
@@ -709,91 +709,100 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return '';
     }
 
-    private function renderThreadOverview(ilForum $frm, ForumDto $frm_object): void
+    private function renderThreadOverview(ilForum $frm, ?ForumDto $frm_object): void
     {
-        $threads_page = $this->forum_thread_table_session_storage->fetchData($frm, $frm_object);
-
-        $sticky_threads = [];
-        $regular_threads = [];
-
-        if (count($threads_page->getForumTopics()) > 0) {
-            foreach ($threads_page->getForumTopics() as $thread) {
-                $ref_id = $this->object->getRefId();
-                $subject = $thread->getSubject();
-                if ($thread->isClosed()) {
-                    $subject .= ' (' . $this->lng->txt('forums_closed') . ')';
-                }
-
-                $link = $this->getLinkActionForThread($ref_id, $subject, 'viewThread', $thread->getId());
-                $actions = $this->getActionsForThreadOverview($ref_id, $thread);
-
-                $list_item = $this->factory
-                    ->item()
-                    ->standard($link)
-                    ->withActions($actions)
-                    ->withProperties($this->getThreadProperties($thread));
-                $list_item = $this->markTopThreadInOverview($thread, $list_item);
-                if ($thread->isSticky()) {
-                    $sticky_threads[] = $list_item;
-                } else {
-                    $regular_threads[] = $list_item;
-                }
-            }
-        }
-
-        $sticky_threads_item_group = null;
-        if (count($sticky_threads) > 0) {
-            $sticky_threads_item_group = $this->factory->item()->group(
-                count($regular_threads) > 0 ? $this->lng->txt('top_thema') : '',
-                $sticky_threads
-            );
-        }
-
-        $regular_threads_item_group = null;
-        if (count($regular_threads) > 0) {
-            $regular_threads_item_group = $this->factory->item()->group(
-                count($sticky_threads) > 0 ? $this->lng->txt('thema') : '',
-                $regular_threads
-            );
-        }
-
-        $url = $this->http->request()->getRequestTarget();
-        $current_page = 0;
-        if ($this->http->wrapper()->query()->has(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)) {
-            $current_page = $this->http->wrapper()->query()->retrieve(
-                ilForumProperties::PAGE_NAME_THREAD_OVERVIEW,
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-
-        $view_controls[] = $this->getSortationViewControl(
-            $this->forum_thread_table_session_storage->getThreadPage(),
-            $this->forum_thread_table_session_storage->getThreadSortation()
-        );
-        $view_controls[] = $this->factory
-            ->viewControl()
-            ->pagination()
-            ->withTargetURL($url, ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)
-            ->withTotalEntries($frm_object->getTopNumThreads())
-            ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
-            ->withMaxPaginationButtons(5)
-            ->withCurrentPage($current_page);
-
-        $item_groups = array_filter([$sticky_threads_item_group, $regular_threads_item_group]);
-        if ($item_groups === []) {
+        if ($frm_object === null) {
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
                 [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]
             );
+            $default_html = $this->renderer->render($vc_container);
+            $modals = '';
         } else {
-            $vc_container = $this->factory->panel()->listing()->standard(
-                $this->lng->txt('thread_overview'),
-                $item_groups
-            )->withViewControls($view_controls);
-        }
+            $threads_page = $this->forum_thread_table_session_storage->fetchData($frm, $frm_object);
 
-        $default_html = $this->renderer->render($vc_container);
-        $modals = $this->renderer->render($this->modal_collection);
+            $sticky_threads = [];
+            $regular_threads = [];
+
+            if (count($threads_page->getForumTopics()) > 0) {
+                foreach ($threads_page->getForumTopics() as $thread) {
+                    $ref_id = $this->object->getRefId();
+                    $subject = $thread->getSubject();
+                    if ($thread->isClosed()) {
+                        $subject .= ' (' . $this->lng->txt('forums_closed') . ')';
+                    }
+
+                    $link = $this->getLinkActionForThread($ref_id, $subject, 'viewThread', $thread->getId());
+                    $actions = $this->getActionsForThreadOverview($ref_id, $thread);
+
+                    $list_item = $this->factory
+                        ->item()
+                        ->standard($link)
+                        ->withActions($actions)
+                        ->withProperties($this->getThreadProperties($thread));
+                    $list_item = $this->markTopThreadInOverview($thread, $list_item);
+                    if ($thread->isSticky()) {
+                        $sticky_threads[] = $list_item;
+                    } else {
+                        $regular_threads[] = $list_item;
+                    }
+                }
+            }
+
+            $sticky_threads_item_group = null;
+            if (count($sticky_threads) > 0) {
+                $sticky_threads_item_group = $this->factory->item()->group(
+                    count($regular_threads) > 0 ? $this->lng->txt('top_thema') : '',
+                    $sticky_threads
+                );
+            }
+
+            $regular_threads_item_group = null;
+            if (count($regular_threads) > 0) {
+                $regular_threads_item_group = $this->factory->item()->group(
+                    count($sticky_threads) > 0 ? $this->lng->txt('thema') : '',
+                    $regular_threads
+                );
+            }
+
+            $url = $this->http->request()->getRequestTarget();
+            $current_page = 0;
+            if ($this->http->wrapper()->query()->has(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)) {
+                $current_page = $this->http->wrapper()->query()->retrieve(
+                    ilForumProperties::PAGE_NAME_THREAD_OVERVIEW,
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
+
+            $view_controls[] = $this->getSortationViewControl(
+                $this->forum_thread_table_session_storage->getThreadPage(),
+                $this->forum_thread_table_session_storage->getThreadSortation()
+            );
+            $view_controls[] = $this->factory
+                ->viewControl()
+                ->pagination()
+                ->withTargetURL($url, ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)
+                ->withTotalEntries($frm_object->getTopNumThreads())
+                ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
+                ->withMaxPaginationButtons(5)
+                ->withCurrentPage($current_page);
+
+            $item_groups = array_filter([$sticky_threads_item_group, $regular_threads_item_group]);
+            if ($item_groups === []) {
+                $vc_container = $this->factory->panel()->listing()->standard(
+                    $this->lng->txt('thread_overview'),
+                    [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]
+                );
+            } else {
+                $vc_container = $this->factory->panel()->listing()->standard(
+                    $this->lng->txt('thread_overview'),
+                    $item_groups
+                )->withViewControls($view_controls);
+            }
+
+            $default_html = $this->renderer->render($vc_container);
+            $modals = $this->renderer->render($this->modal_collection);
+        }
 
         $this->initStyleSheets();
 
@@ -1996,7 +2005,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $frm->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$forumObj->getId()]);
                 $topicData = $frm->getOneTopic();
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_post_deleted'), true);
-                if ($topicData->getTopNumThreads() > 0) {
+                if ($topicData === null || $topicData->getTopNumThreads() > 0) {
                     $this->ctrl->redirect($this, 'showThreads');
                 } else {
                     $this->ctrl->redirect($this, 'createThread');
@@ -2757,6 +2766,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $frm = $oForumObjects['frm'];
             $frm->setMDB2WhereCondition(' top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
             $topicData = $frm->getOneTopic();
+            if ($topicData === null) {
+                $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+                return;
+            }
 
             $autosave_draft_id = $this->http->wrapper()->post()->retrieve(
                 'draft_id',
@@ -3997,6 +4010,10 @@ EOD
         $frm->setForumRefId($this->object->getRefId());
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
         $topicData = $frm->getOneTopic();
+        if ($topicData === null) {
+            $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+            return;
+        }
 
         $form = $this->buildThreadForm($createFromDraft);
         $minimal_form = $this->buildMinimalThreadForm($createFromDraft);
@@ -4130,6 +4147,10 @@ EOD
         $frm->setForumRefId($this->object->getRefId());
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
         $topicData = $frm->getOneTopic();
+        if ($topicData === null) {
+            $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+            return;
+        }
 
         $form = $this->buildThreadForm();
         $minimal_form = $this->buildMinimalThreadForm();
@@ -4622,7 +4643,7 @@ EOD
         );
 
         $topicData = $frm->getOneTopic();
-        if ($topicData->getTopPk() > 0) {
+        if ($topicData !== null) {
             $this->ctrl->setParameter($this, 'merge_thread_id', $threadIdToMerge);
             $tbl = new ilForumTopicTableGUI(
                 $this,
@@ -4878,6 +4899,10 @@ EOD
         $form = $this->buildThreadForm();
         if ($form->checkInput()) {
             if ($autosave_draft_id === 0) {
+                if ($topicData === null) {
+                    $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+                    return;
+                }
                 $draft = new ilForumPostDraft();
                 $draft->setForumId($topicData->getTopPk());
                 $draft->setThreadId(0);
@@ -5063,6 +5088,10 @@ EOD
                 } else {
                     $draftObj = new ilForumPostDraft();
                     $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentPost->getThread());
+                    if ($topicData === null) {
+                        $this->error->raiseError($this->lng->txt('obj_not_found'), $this->error->MESSAGE);
+                        return;
+                    }
                     $draftObj->setForumId($topicData->getTopPk());
                     $draftObj->setThreadId($this->objCurrentTopic->getId());
                     $draftObj->setPostId($this->objCurrentPost->getId());
