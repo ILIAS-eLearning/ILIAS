@@ -97,8 +97,11 @@ describe('Tag Input Field', () => {
   };
   const urlBuilderTokenMock = {};
 
+  const customElementsMock = {get: () => false, define: () => {}};
+  const HTMLElementMock = function(){};
+
   it('should call the provided async endpoint.', () => {
-    init(tagifyMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
+    init(tagifyMock, customElementsMock, HTMLElementMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
 
     assert.strict.equal(tagifyInstanceMock.on.mock.callCount(), 1);
     assert.strict.equal(tagifyInstanceMock.on.mock.calls[0].arguments[0], 'input');
@@ -131,7 +134,7 @@ describe('Tag Input Field', () => {
   });
 
   it('should build correct settings.', () => {
-    init(tagifyMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
+    init(tagifyMock, customElementsMock, HTMLElementMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
 
     assert.strict.equal(tagifyInstanceMock.settings.whitelist, pseudoConfig.options);
     assert.strict.equal(tagifyInstanceMock.settings.enforceWhitelist, !pseudoConfig.userInput);
@@ -148,7 +151,7 @@ describe('Tag Input Field', () => {
   it('should apply label relation to editable input.', () => {
     mock.reset();
     labelMock.id = '';
-    init(tagifyMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
+    init(tagifyMock, customElementsMock, HTMLElementMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
 
     assert.ok(editableInputMock.setAttribute.mock.callCount() > 0);
     const latestCall = editableInputMock.setAttribute.mock.calls[
@@ -174,7 +177,7 @@ describe('Tag Input Field', () => {
       {value: '<sieben, acht>'},
       {value: '<test>'},
     ];
-    init(tagifyMock, inputMock, pseudoConfig, userInput, urlBuilderMock, urlBuilderTokenMock);
+    init(tagifyMock, customElementsMock, HTMLElementMock, inputMock, pseudoConfig, userInput, urlBuilderMock, urlBuilderTokenMock);
 
     userInput.forEach((v) => {
       const display = v.value;
@@ -185,9 +188,9 @@ describe('Tag Input Field', () => {
     mock.reset();
   });
 
-  it('should wrapp in div with attributes.', () => {
+  it('should wrap in ui-tags-input with attributes.', () => {
     const tagData = {value: 'test', display: 'test', tagifySuggestionIdx: 'test'};
-    init(tagifyMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
+    init(tagifyMock, customElementsMock, HTMLElementMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
 
     const input = {className: 'test'};
 
@@ -197,8 +200,8 @@ describe('Tag Input Field', () => {
     ];
 
     const result = [
-      `<div class="all_false  test" tabIndex="-1">\u200B</div>`.replace(/ /g, ''),
-      `<div class="all_true strict_mode test" readonly disabled required tabIndex="-1">\u200B</div>`.replace(/ /g, ''),
+      `<ui-tags-input class="all_false  test" tabIndex="-1">\u200B</ui-tags-input>`.replace(/ /g, ''),
+      `<ui-tags-input class="all_true strict_mode test" readonly disabled required tabIndex="-1">\u200B</ui-tags-input>`.replace(/ /g, ''),
     ];
 
     config.forEach(
@@ -223,13 +226,13 @@ describe('Tag Input Field', () => {
     mock.reset();
   });
 
-  it('should build correct tags as divs.', () => {
+  it('should build correct tags as ui-tag-input.', () => {
     const tagData = {value: 'test', display: 'test', tagifySuggestionIdx: 'test'};
-    init(tagifyMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
+    init(tagifyMock, customElementsMock, HTMLElementMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
 
     assert.strict.equal(
       tagifyInstanceMock.settings.templates.tag(tagData),
-      `<div contenteditable='false'
+      `<ui-tag-input contenteditable='false'
           spellcheck="false" class='tagify__tag'
           value="${tagData.value}"
           tabindex="0">
@@ -237,21 +240,21 @@ describe('Tag Input Field', () => {
           <div>
               <span class='tagify__tag-text'>${tagData.display}</span>
           </div>
-        </div>`
+        </ui-tag-input>`
     );
 
     mock.reset();
   });
 
-  it('should build correct dropdowns as divs.', () => {
+  it('should build correct dropdowns as ui-tag-dropdown-item.', () => {
     const tagData = {value: 'test', display: 'test', tagifySuggestionIdx: 'test'};
-    init(tagifyMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
+    init(tagifyMock, customElementsMock, HTMLElementMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
 
     assert.strict.equal(
       tagifyInstanceMock.settings.templates.dropdownItem(tagData),
-      `<div class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}" value="${tagData.value}">
+      `<ui-tag-dropdown-item class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}" value="${tagData.value}">
           <span>${tagData.display}</span>
-          </div>`
+          </ui-tag-dropdown-item>`
     );
 
     mock.reset();
