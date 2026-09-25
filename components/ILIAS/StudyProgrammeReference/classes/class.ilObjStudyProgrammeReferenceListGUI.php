@@ -75,7 +75,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         $this->subscribe_enabled = false;
         $this->link_enabled = false;
 
-        $this->type = "prgr";
+        $this->type = "prg";
         $this->gui_class_name = "ilobjstudyprogrammegui";
 
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
