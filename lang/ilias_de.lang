@@ -13141,6 +13141,8 @@ news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
 news#:#news_public_feed#:#Eigener Webfeed
 news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt.
+news#:#news_public_feed_info_container#:#Stellen Sie einen RSS-Feed für die Neuigkeiten dieses Objekts bereit. Die Feed-URL finden Sie im ▼-Menü des Neuigkeiten-Blocks.
+news#:#news_public_feed_info_frm#:#Stellen Sie einen RSS-Feed für die letzten Beiträge bereit. Die Feed-URL finden Sie im ▼-Menü des Blocks „Letzte Beiträge“.
 news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS-Zeitraum
