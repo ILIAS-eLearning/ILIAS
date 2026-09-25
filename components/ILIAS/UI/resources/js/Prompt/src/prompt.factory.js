@@ -13,13 +13,13 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import Prompt from './prompt.class';
+import Prompt from './prompt.class.js';
 
 export default class PromptFactory {
   /**
-   * @type {DOMParser}
-   */
-  #DOMParser;
+    * @type {import('../../Core/src/AsyncRenderer.js').default}
+    */
+  #asyncRenderer;
 
   /**
    * @type {Array<string, Prompt>}
@@ -27,10 +27,10 @@ export default class PromptFactory {
   #instances = [];
 
   /**
-   * @param {DOMParser} DOMParser
+   * @param {import('../../Core/src/AsyncRenderer.js').default} asyncRenderer
    */
-  constructor(DOMParser) {
-    this.#DOMParser = DOMParser;
+  constructor(asyncRenderer) {
+    this.#asyncRenderer = asyncRenderer;
   }
 
   /**
@@ -40,10 +40,14 @@ export default class PromptFactory {
    */
   init(id) {
     if (this.#instances[id] !== undefined) {
-      throw new Error(`Prompt with id '${id}' has already been initialized.`);
+      return;
     }
 
-    this.#instances[id] = new Prompt(this.#DOMParser, id);
+    try {
+      this.#instances[id] = new Prompt(this.#asyncRenderer, id);
+    } catch (error) {
+      // Prompt element may not exist yet during async content replacement.
+    }
   }
 
   /**
