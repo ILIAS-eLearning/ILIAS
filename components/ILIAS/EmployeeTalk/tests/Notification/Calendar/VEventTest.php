@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,58 +16,218 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\EmployeeTalk\Notification\Calendar;
 
-use PHPUnit\Framework\TestCase;
+require_once __DIR__ . '/CalendarIcsTestCase.php';
 
-class VEventTest extends TestCase
+class VEventTest extends CalendarIcsTestCase
 {
-    public function testVEventRenderingWithValidDataWhichShouldSucceed(): void
+    public function testUsesCrlfLineEndings(): void
     {
-        $expected_start = "BEGIN:VEVENT\r\n";
-        $expected_start .= "UID: unique-id-of-some-sort\r\n";
-        $expected_start .= "DESCRIPTION:test description\r\n";
-        $expected_start .= "DTSTART;TZID=Europe/Paris:19700101T010010\r\n";
-        $expected_start .= "DTEND;TZID=Europe/Paris:19700101T010020\r\n";
-        // Timestamps in between which breaks the test because they are changing
-        $expected_end = "ORGANIZER;CN=\"organiser-name\":MAILTO:org@anizer.local\r\n";
-        $expected_end .= "ATTENDEE;CN=\"attendee-name\";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:at@tendee.local\r\n";
-        $expected_end .= "SUMMARY:event summery\r\n";
-        $expected_end .= "LOCATION:Bern\r\n";
-        $expected_end .= "SEQUENCE:1\r\n";
-        $expected_end .= "PRIORITY:5\r\n";
-        $expected_end .= "STATUS:CONFIRMED\r\n";
-        $expected_end .= "TRANSP:OPAQUE\r\n";
-        $expected_end .= "X-MICROSOFT-CDO-BUSYSTATUS:BUSY\r\n";
-        $expected_end .= "CLASS:PUBLIC\r\n";
-        $expected_end .= "X-MICROSOFT-DISALLOW-COUNTER:TRUE\r\n";
-        $expected_end .= "BEGIN:VALARM\r\n";
-        $expected_end .= "DESCRIPTION:event summery\r\n";
-        $expected_end .= "TRIGGER:-PT15M\r\n";
-        $expected_end .= "ACTION:DISPLAY\r\n";
-        $expected_end .= "END:VALARM\r\n";
-        $expected_end .= "END:VEVENT\r\n";
+        $ics = $this->renderEvent();
 
-        $subject = new VEvent(
-            "unique-id-of-some-sort",
-            "test description",
-            "event summery",
-            1,
-            EventStatus::CONFIRMED,
-            "organiser-name",
-            "org@anizer.local",
-            "attendee-name",
-            "at@tendee.local",
-            10,
-            20,
-            false,
-            'https://ilias.de',
-            'Bern'
+        self::assertSame(0, substr_count(str_replace("\r\n", '', $ics), "\n"));
+        self::assertStringEndsWith("\r\n", $ics);
+    }
+
+    public function testUidHasNoSpaceAfterColon(): void
+    {
+        $ics = $this->renderEvent(['uid' => 'talk-42@ilias.example']);
+
+        self::assertSame('UID:talk-42@ilias.example', $this->propertyLine($ics, 'UID'));
+    }
+
+    public function testDtstampAndLastModifiedAreFrozenUtcWithZ(): void
+    {
+        $ics = $this->renderEvent();
+
+        self::assertSame('DTSTAMP:20260925T123456Z', $this->propertyLine($ics, 'DTSTAMP'));
+        self::assertSame(
+            'LAST-MODIFIED:20260925T123456Z',
+            $this->propertyLine($ics, 'LAST-MODIFIED')
         );
+    }
 
-        $result = $subject->render();
+    public function testConvertsGeneratedAtToUtc(): void
+    {
+        $ics = $this->renderEvent([
+            'generated_at' => new \DateTimeImmutable('2026-09-25 14:34:56', new \DateTimeZone('Europe/Paris')),
+        ]);
 
-        $this->assertStringStartsWith($expected_start, $result);
-        $this->assertStringEndsWith($expected_end, $result);
+        self::assertSame('DTSTAMP:20260925T123456Z', $this->propertyLine($ics, 'DTSTAMP'));
+    }
+
+    public function testTimedEventUsesTzidDateTimeWithoutUtcZ(): void
+    {
+        $ics = $this->renderEvent(['startTime' => 10, 'endTime' => 20, 'allDay' => false]);
+
+        self::assertSame(
+            'DTSTART;TZID=Europe/Paris:19700101T010010',
+            $this->propertyLine($ics, 'DTSTART')
+        );
+        self::assertSame(
+            'DTEND;TZID=Europe/Paris:19700101T010020',
+            $this->propertyLine($ics, 'DTEND')
+        );
+    }
+
+    public function testAllDayEventUsesDateValuesAndExclusiveEnd(): void
+    {
+        $ics = $this->renderEvent(['startTime' => 0, 'endTime' => 0, 'allDay' => true]);
+
+        self::assertSame('DTSTART;VALUE=DATE:19700101', $this->propertyLine($ics, 'DTSTART'));
+        self::assertSame('DTEND;VALUE=DATE:19700102', $this->propertyLine($ics, 'DTEND'));
+    }
+
+    public function testAllDayEventMustNotCombineTzidWithDate(): void
+    {
+        $ics = $this->renderEvent(['allDay' => true, 'startTime' => 0, 'endTime' => 0]);
+
+        self::assertStringNotContainsString('TZID=', $this->propertyLine($ics, 'DTSTART'));
+        self::assertStringNotContainsString('TZID=', $this->propertyLine($ics, 'DTEND'));
+    }
+
+    public function testAllDayEventEmitsMicrosoftAllDayHintWithoutSpaceAfterColon(): void
+    {
+        $ics = $this->renderEvent(['allDay' => true, 'startTime' => 0, 'endTime' => 0]);
+
+        self::assertSame(
+            'X-MICROSOFT-CDO-ALLDAYEVENT:TRUE',
+            $this->propertyLine($ics, 'X-MICROSOFT-CDO-ALLDAYEVENT')
+        );
+    }
+
+    public function testTimedEventOmitsMicrosoftAllDayHint(): void
+    {
+        $ics = $this->renderEvent(['allDay' => false]);
+
+        self::assertStringNotContainsString('X-MICROSOFT-CDO-ALLDAYEVENT', $ics);
+    }
+
+    public function testPublishEventOmitsAttendee(): void
+    {
+        $ics = $this->renderEvent(['attendeeEmail' => 'at@tendee.local']);
+
+        self::assertStringNotContainsString('ATTENDEE', $ics);
+    }
+
+    public function testOrganizerUsesMailtoWhenEmailIsPresent(): void
+    {
+        $ics = $this->renderEvent([
+            'organiserName' => 'organiser-name',
+            'organiserEmail' => 'org@anizer.local',
+        ]);
+
+        self::assertSame(
+            'ORGANIZER;CN="organiser-name":mailto:org@anizer.local',
+            $this->propertyLine($ics, 'ORGANIZER')
+        );
+    }
+
+    public function testOmitsOrganizerWhenEmailIsEmpty(): void
+    {
+        $ics = $this->renderEvent(['organiserEmail' => '']);
+
+        self::assertStringNotContainsString('ORGANIZER', $ics);
+        self::assertStringNotContainsString('mailto:', $ics);
+    }
+
+    public function testEscapesQuotedOrganizerName(): void
+    {
+        $ics = $this->renderEvent(['organiserName' => 'Ann "The Boss"']);
+
+        self::assertSame(
+            'ORGANIZER;CN="Ann \\"The Boss\\"":mailto:org@anizer.local',
+            $this->propertyLine($ics, 'ORGANIZER')
+        );
+    }
+
+    public function testEscapesBackslashInText(): void
+    {
+        $ics = $this->renderEvent(['location' => 'Room A\\B']);
+
+        self::assertSame('LOCATION:Room A\\\\B', $this->propertyLine($ics, 'LOCATION'));
+    }
+
+    public function testEscapesSemicolonInText(): void
+    {
+        $ics = $this->renderEvent(['location' => 'Room; A']);
+
+        self::assertSame('LOCATION:Room\\; A', $this->propertyLine($ics, 'LOCATION'));
+    }
+
+    public function testEscapesCommaInText(): void
+    {
+        $ics = $this->renderEvent(['summary' => 'Talk, Q3']);
+
+        self::assertSame('SUMMARY:Talk\\, Q3', $this->propertyLine($ics, 'SUMMARY'));
+    }
+
+    public function testEscapesNewlineInTextAsLiteralN(): void
+    {
+        $ics = $this->renderEvent(['description' => "Title: Talk\nLocation: Room"]);
+
+        self::assertSame(
+            'DESCRIPTION:Title: Talk\\nLocation: Room',
+            $this->propertyLine($ics, 'DESCRIPTION')
+        );
+    }
+
+    public function testPreservesAlreadyEscapedIcalNewlines(): void
+    {
+        $ics = $this->renderEvent(['description' => 'Title: Talk' . '\n' . 'Location: Room']);
+
+        self::assertSame(
+            'DESCRIPTION:Title: Talk\\nLocation: Room',
+            $this->propertyLine($ics, 'DESCRIPTION')
+        );
+    }
+
+    public function testSequenceAndStatusAreRenderedLiterally(): void
+    {
+        $ics = $this->renderEvent([
+            'sequence' => 7,
+            'status' => EventStatus::TENTATIVE,
+        ]);
+
+        self::assertSame('SEQUENCE:7', $this->propertyLine($ics, 'SEQUENCE'));
+        self::assertSame('STATUS:TENTATIVE', $this->propertyLine($ics, 'STATUS'));
+    }
+
+    public function testMicrosoftBusyAndCounterHintsUseBooleanTrueWithoutSpaces(): void
+    {
+        $ics = $this->renderEvent();
+
+        self::assertSame(
+            'X-MICROSOFT-CDO-BUSYSTATUS:BUSY',
+            $this->propertyLine($ics, 'X-MICROSOFT-CDO-BUSYSTATUS')
+        );
+        self::assertSame(
+            'X-MICROSOFT-DISALLOW-COUNTER:TRUE',
+            $this->propertyLine($ics, 'X-MICROSOFT-DISALLOW-COUNTER')
+        );
+    }
+
+    public function testAlarmDescribesTheSummary(): void
+    {
+        $ics = $this->renderEvent(['summary' => 'event summary']);
+        $lines = $this->contentLines($ics);
+        $alarm_start = array_search('BEGIN:VALARM', $lines, true);
+        $alarm_end = array_search('END:VALARM', $lines, true);
+
+        self::assertIsInt($alarm_start);
+        self::assertIsInt($alarm_end);
+        self::assertSame(
+            [
+                'BEGIN:VALARM',
+                'DESCRIPTION:event summary',
+                'TRIGGER:-PT15M',
+                'ACTION:DISPLAY',
+                'END:VALARM',
+            ],
+            array_slice($lines, $alarm_start, $alarm_end - $alarm_start + 1)
+        );
     }
 }

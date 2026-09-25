@@ -41,14 +41,15 @@ class VCalendar
 
     public function render(): string
     {
-        return 'BEGIN:VCALENDAR' . "\r\n" .
+        return $this->foldContent(
+            'BEGIN:VCALENDAR' . "\r\n" .
             'PRODID:-//ILIAS' . "\r\n" .
             'VERSION:2.0' . "\r\n" .
-            'UID:' . $this->uid . "\r\n" .
-            'X-WR-RELCALID:' . $this->uid . "\r\n" .
-            'NAME:' . $this->name . "\r\n" .
-            'X-WR-CALNAME:' . $this->name . "\r\n" .
-            'LAST-MODIFIED:' . date("Ymd\THis") . "\r\n" .
+            'UID:' . $this->escapeText($this->uid) . "\r\n" .
+            'X-WR-RELCALID:' . $this->escapeText($this->uid) . "\r\n" .
+            'NAME:' . $this->escapeText($this->name) . "\r\n" .
+            'X-WR-CALNAME:' . $this->escapeText($this->name) . "\r\n" .
+            'LAST-MODIFIED:' . gmdate('Ymd\THis\Z') . "\r\n" .
             'METHOD:' . $this->method->value . "\r\n" .
             'BEGIN:VTIMEZONE' . "\r\n" .
             'TZID:Europe/Paris' . "\r\n" .
@@ -71,7 +72,8 @@ class VCalendar
 
             $this->renderVEvents() .
 
-            'END:VCALENDAR' . "\r\n";
+            'END:VCALENDAR' . "\r\n"
+        );
     }
 
     private function renderVEvents(): string
@@ -82,5 +84,56 @@ class VCalendar
         }
 
         return $eventString;
+    }
+
+    private function escapeText(string $text): string
+    {
+        return str_replace(
+            ['\\', ';', ',', "\r\n", "\n"],
+            ['\\\\', '\\;', '\\,', '\\n', '\\n'],
+            $text
+        );
+    }
+
+    private function foldContent(string $content): string
+    {
+        $folded = '';
+        foreach (preg_split("/\r\n/", rtrim($content, "\r\n")) as $line) {
+            $folded .= $this->foldLine($line);
+        }
+
+        return $folded;
+    }
+
+    private function foldLine(string $line): string
+    {
+        $result = '';
+        $first = true;
+        while ($line !== '') {
+            $max_octets = $first ? 75 : 74;
+            $chunk = $this->takeUtf8Octets($line, $max_octets);
+            $result .= ($first ? '' : ' ') . $chunk . "\r\n";
+            $line = substr($line, \strlen($chunk));
+            $first = false;
+        }
+
+        return $result;
+    }
+
+    private function takeUtf8Octets(string $value, int $max_octets): string
+    {
+        if (\strlen($value) <= $max_octets) {
+            return $value;
+        }
+
+        $chunk = substr($value, 0, $max_octets);
+        while ($chunk !== '' && (\ord($chunk[\strlen($chunk) - 1]) & 0xC0) === 0x80) {
+            $chunk = substr($chunk, 0, -1);
+        }
+        if ($chunk !== '' && \ord($chunk[\strlen($chunk) - 1]) >= 0xC0) {
+            $chunk = substr($chunk, 0, -1);
+        }
+
+        return $chunk !== '' ? $chunk : $value[0];
     }
 }
