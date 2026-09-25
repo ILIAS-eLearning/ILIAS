@@ -710,8 +710,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->object->getOrgUnitTypeId()
         );
         $gui->setPropertyForm($form);
-        $form->checkInput();
         $gui->parse();
+
+        $form->checkInput();
         if ($gui->importEditFormPostValues()) {
             $gui->writeEditForm();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
