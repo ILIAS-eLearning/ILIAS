@@ -401,10 +401,6 @@ class ilAuthProviderECS extends ilAuthProvider
 
         $this->getLogger()->info('Created new remote user with usr_id: ' . $user->getImportId());
 
-        // Send Mail
-        #$this->sendNotification($userObj);
-        $this->resetMailOptions($userObj->getId());
-
         return $userObj->getLogin();
     }
 
@@ -436,20 +432,7 @@ class ilAuthProviderECS extends ilAuthProvider
             );
         }
 
-        $this->resetMailOptions($a_local_user_id);
-
         $this->getLogger()->debug('Finished update of remote user with usr_id: ' . $user->getImportId());
         return $user_obj->getLogin();
-    }
-
-    /**
-     * Reset mail options to "local only"
-     *
-     */
-    protected function resetMailOptions(int $a_usr_id): void
-    {
-        $options = new ilMailOptions($a_usr_id);
-        $options->setIncomingType(ilMailOptions::INCOMING_LOCAL);
-        $options->updateOptions();
     }
 }
