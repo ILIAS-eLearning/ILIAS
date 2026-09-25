@@ -128,10 +128,14 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 $url
             );
         }
+        $this->ctrl->clearParameterByClass($this->getParentObject()::class, 'category_id');
 
         // delete
         if ($this->actions->checkDeleteCal($a_set['id'])) {
+            $this->ctrl->setParameter($this->getParentObject(), 'selected_cat_id', $a_set['id']);
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete');
+            $this->ctrl->clearParameterByClass($this->getParentObject()::class, 'selected_cat_id');
+
             $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('delete'),
                 $url
@@ -141,8 +145,6 @@ class ilCalendarManageTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
             $this->tpl->parseCurrentBlock();
         }
-
-        $this->ctrl->setParameter($this->getParentObject(), 'category_id', '');
 
         switch ($a_set['type']) {
             case ilCalendarCategory::TYPE_GLOBAL:

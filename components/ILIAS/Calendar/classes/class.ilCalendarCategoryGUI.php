@@ -129,6 +129,17 @@ class ilCalendarCategoryGUI
         return [];
     }
 
+    protected function initSelectedCategoryIdFromGet(): int
+    {
+        if ($this->http->wrapper()->query()->has('selected_cat_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'selected_cat_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -334,15 +345,15 @@ class ilCalendarCategoryGUI
     protected function confirmDelete(): void
     {
         $cat_ids = $this->initSelectedCategoryIdsFromPost();
-        if (
-            !count($cat_ids) &&
-            $this->initCategoryIdFromQuery() > 0
-        ) {
-            $cat_ids = [$this->initCategoryIdFromQuery()];
+        $selected_cat_id = $this->initSelectedCategoryIdFromGet();
+
+        if (!count($cat_ids) && $selected_cat_id > 0) {
+            $cat_ids = [$selected_cat_id];
         }
         if (!count($cat_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->manage();
+            return;
         }
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));

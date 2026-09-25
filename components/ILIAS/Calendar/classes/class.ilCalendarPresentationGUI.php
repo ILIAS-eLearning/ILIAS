@@ -730,7 +730,7 @@ class ilCalendarPresentationGUI
 
             // delete action
             if ($this->actions->checkDeleteCal($this->category_id)) {
-                $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
+                $ctrl->setParameterByClass("ilcalendarcategorygui", "selected_cat_id", $this->category_id);
                 $dropDownItems[] = $this->ui_factory->button()->shy(
                     $this->lng->txt("cal_delete_cal"),
                     $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete")
