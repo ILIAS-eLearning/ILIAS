@@ -3250,8 +3250,11 @@
 				<xsl:attribute name="style">margin-right: 0px; style="float:right;</xsl:attribute>
 			</xsl:if>
 			<figure>
-				<xsl:attribute name="style">width: <xsl:value-of select="./Layout[1]/@Width"/>px</xsl:attribute>
+				<xsl:attribute name="style">width: 100%;<xsl:if test="string-length(normalize-space(./Layout[1]/@Width)) &gt; 0"> max-width: <xsl:value-of select="./Layout[1]/@Width"/>px;</xsl:if><xsl:if test="string-length(normalize-space(./Layout[1]/@Height)) = 0"> aspect-ratio: 16 / 9;</xsl:if> margin: 0;</xsl:attribute>
 				<div class="ilc_Mob">
+					<xsl:if test="string-length(normalize-space(./Layout[1]/@Height)) = 0">
+						<xsl:attribute name="style">height: 100%;</xsl:attribute>
+					</xsl:if>
 					[[[[[Map;<xsl:value-of select="@Latitude"/>;<xsl:value-of select="@Longitude"/>;<xsl:value-of select="@Zoom"/>;<xsl:value-of select="./Layout[1]/@Width"/>;<xsl:value-of select="./Layout[1]/@Height"/>]]]]]
 					<xsl:call-template name="EditReturnAnchors"/>
 				</div>
