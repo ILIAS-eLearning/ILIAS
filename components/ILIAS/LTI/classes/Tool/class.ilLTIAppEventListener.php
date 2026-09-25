@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\Enum\LtiVersion;
 use ceLTIc\LTI\Enum\ServiceAction;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\UserResult;
 
 /**
@@ -184,6 +186,27 @@ class ilLTIAppEventListener implements ilAppEventListener
     }
 
     /**
+     * The Assignment and Grade Services of an LTI Advantage platform need an access token, which the
+     * library requests signed as its default tool.
+     */
+    private function signAsIlias(): bool
+    {
+        try {
+            $tool = new Tool(new ilLTIDataConnector());
+            ilLTIAdvantageKeyPair::applyTo($tool);
+            Tool::$defaultTool = $tool;
+
+            return true;
+        } catch (ilException $e) {
+            global $DIC;
+
+            $DIC->logger()->forComponent('lti')->error($e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
      * Sends the score through the outcome service of the resource link, which celtic/lti picks from what
      * the platform offered at the launch. Nothing is sent before the user has a result.
      */
@@ -195,6 +218,9 @@ class ilLTIAppEventListener implements ilAppEventListener
 
         $link = ResourceLink::fromRecordId($resource_link, new ilLTIDataConnector());
         if (!$link->hasOutcomesService()) {
+            return;
+        }
+        if ($link->getPlatform()->ltiVersion === LtiVersion::V1P3 && !$this->signAsIlias()) {
             return;
         }
 

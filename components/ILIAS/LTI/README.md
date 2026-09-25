@@ -16,6 +16,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 **Table of Contents**
 * [Structure](#structure)
 * [Where does a class go?](#where-does-a-class-go)
+* [LTI Advantage security](#lti-advantage-security)
 * [User interface](#user-interface)
 * [Globals and request input](#globals-and-request-input)
 * [Database](#database)
@@ -87,6 +88,33 @@ because an LTI object and an administered tool are the same thing whichever vers
 
 Classes follow the usual component naming: `class.ilLTI<Area><Name>.php`, without namespace.
 
+## LTI Advantage security
+
+celtic/lti checks and signs every LTI Advantage message and token. ILIAS gives it the keys, the data and
+the endpoints:
+
+* **Key pair:** `ilLTIAdvantageKeyPair` (`LTIAdvantage/Common`) holds the one RSA key ILIAS signs with as
+  platform and as tool. It is created when first needed and stored in the settings as `lti_1_3_privatekey`
+  and `lti_1_3_kid`, the names of earlier releases, so tools and platforms configured against an updated
+  installation keep verifying it. `lticerts.php` publishes it as JSON Web Key Set.
+* **ILIAS as platform:** `ilLTIAdvantagePlatformConnection` sets up the library for one tool: ILIAS is the
+  platform, with the client id it gave the tool and the id of the tool as deployment id, and the tool is the
+  default tool of the library, with its PEM key or key set URL. A launch starts the OpenID Connect login at
+  the tool, which gets the id_token from `ltiauth.php`; the login waits in the session and is used once.
+  Tools often ask `ltiauth.php` with a POST from their own site, which does not carry a SameSite=Lax cookie,
+  so the page that starts the launch sends the session cookie again as SameSite=None, as `ilStartUpGUI`
+  does for LTI sessions. An embedded launch also offers the platform storage of LTI (`Platform::getStorageJS()`
+  of celtic/lti in the page around the iframe), for tools that cannot keep a cookie inside an iframe.
+  `ltitoken.php` checks the client assertion of a tool and issues access tokens for the Assignment and
+  Grade Services.
+* **ILIAS as tool:** `lti.php` takes the OpenID Connect login and the id_token of a platform as well as an
+  LTI 1.1 launch. `ilLTIDataConnector` finds the platform by issuer, client id and deployment id, keeps the
+  key the library fetched from the key set of the platform and the access tokens of its services. The
+  object launched is the one the target link names (`lti.php?ref_id=N`); it must be released to the platform.
+  A launch only needs a user id and a resource link id, as long as the columns they are kept in allow (250 and
+  255 characters). Name, email and roles are optional, since platforms leave them out for privacy, and the
+  login of a new user is built so that it is always valid.
+
 ## User interface
 
 New screens are built with the Kitchen Sink components of `$DIC->ui()->factory()`.
@@ -106,6 +134,9 @@ it. Any further exception MUST be explained here.
   `$DIC->http()->request()` instead of `php://input`, and session data from `ilSession`.
 * `resources/lti.php` sets the command in `$_GET` and `$_POST` before ILIAS starts: ilCtrl takes it from the
   request, and a platform cannot send it. celtic/lti checks the signature against the raw body.
+* `resources/ltiauth.php`, and `resources/lti.php` for an OpenID Connect login, remove `client_id` from `$_GET`
+  before ILIAS starts: it is the client id ILIAS gave the tool or the platform gave ILIAS, and ILIAS would
+  take it for the id of its own client. The query is read back as it came from the request URI.
 * The other exception is `ilLTI1p1ProviderLaunchRequestUri`, which rewrites `$_SERVER['REQUEST_URI']`:
   `celtic/lti` builds the URL it checks the OAuth1 signature against from that value
   (`OAuth\OAuthRequest::from_request()`), so there is no API to override it. Any further exception MUST be
@@ -128,7 +159,9 @@ Installations updated from an earlier release MUST keep working:
 
 * The object types `lti`, `ltiv` and `ltis` do not change.
 * No table or column is removed or renamed.
-* Public endpoints keep their URLs (e.g. `ltiresult.php`, `lti.php`).
+* Public endpoints keep their URLs (`ltiresult.php`, `lti.php`, `lticerts.php`, `ltiauth.php`, `ltitoken.php`).
+* The LTI Advantage key of ILIAS stays in the settings `lti_1_3_privatekey` and `lti_1_3_kid`, and the
+  deployment id of a tool is still its id.
 * Class names stored in the database do not change: `ilLTIDatabaseUpdateSteps` (`il_db_steps`) and
   `ilLTICronOutcomeService` (`cron_job`).
 * Other components address classes of LTI by name, so renaming one means changing them too:
@@ -157,6 +190,6 @@ To remove LTI 1.1:
 3. Delete `resources/ltiresult.php` and its endpoint in `LTI.php`.
 4. Remove the calls into LTI1p1. Search for `ilLTI1p1` and `ilLTIConsumerResultService` outside `classes/LTI1p1/`.
    On the tool side these are the key and secret an object is released with (`ilLTIProviderObjectSettingGUI`,
-   which then lists no LTI 1.1 platform) and the request URI fix in `ilLTILaunchReceiver`. `ilLTIDataConnector`
+   which then offers only LTI Advantage platforms) and the request URI fix in `ilLTILaunchReceiver`. `ilLTIDataConnector`
    also finds a platform by its consumer key, which only LTI 1.1 uses.
 5. Keep the database tables and columns until a separate, explicit migration removes them.

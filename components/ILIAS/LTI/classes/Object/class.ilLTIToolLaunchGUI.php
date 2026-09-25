@@ -28,6 +28,7 @@ class ilLTIToolLaunchGUI
 {
     public const string CMD_LAUNCH = 'launch';
     public const string CMD_SHOW_EMBEDDED = 'showEmbedded';
+    public const string CMD_START_ADVANTAGE_LAUNCH = 'startAdvantageLaunch';
 
     private readonly ILIAS\DI\Container $dic;
 
@@ -44,11 +45,11 @@ class ilLTIToolLaunchGUI
      */
     public function executeCommand(): void
     {
-        if ($this->dic->ctrl()->getCmd(self::CMD_LAUNCH) === self::CMD_SHOW_EMBEDDED) {
-            $this->showEmbedded();
-        }
-
-        $this->launch();
+        match ($this->dic->ctrl()->getCmd(self::CMD_LAUNCH)) {
+            self::CMD_SHOW_EMBEDDED => $this->showEmbedded(),
+            self::CMD_START_ADVANTAGE_LAUNCH => $this->startAdvantageLaunch(),
+            default => $this->launch(),
+        };
     }
 
     /**
@@ -57,7 +58,42 @@ class ilLTIToolLaunchGUI
      */
     private function launch(): void
     {
+        $this->showToolMessages();
+
+        if ($this->object->getTool()->getLtiVersion() === ilLTITool::VERSION_ADVANTAGE) {
+            ilLTIAdvantagePlatformLaunchRenderer::renderLaunch($this->object, $this, $this->dic);
+            return;
+        }
+
         ilLTI1p1ConsumerLaunchRenderer::renderLaunch($this->object, $this, $this->dic, $this->dic->language());
+    }
+
+    /**
+     * A tool that sends the user back to the return URL of the launch may add a message and an error for the
+     * user, as the LTI standard defines them.
+     */
+    private function showToolMessages(): void
+    {
+        $query = $this->dic->http()->wrapper()->query();
+        $string = $this->dic->refinery()->kindlyTo()->string();
+        foreach (['lti_msg' => 'info', 'lti_errormsg' => 'failure'] as $parameter => $type) {
+            $message = $query->has($parameter) ? trim($query->retrieve($parameter, $string)) : '';
+            if ($message !== '') {
+                $this->dic->ui()->mainTemplate()->setOnScreenMessage($type, htmlspecialchars($message, ENT_QUOTES));
+            }
+        }
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function startAdvantageLaunch(): never
+    {
+        // a tool opened in the same window may send the user back here
+        $return_url = !$this->object->isLaunchMethodOwnWin() ? '' : ilObjLTITool::getIliasHttpPath() . '/'
+            . $this->dic->ctrl()->getLinkTarget($this, self::CMD_LAUNCH, '', false, false);
+
+        ilLTIAdvantagePlatformLaunchRenderer::sendLaunchPage($this->object, $this->getCmixUser(), $return_url, $this->dic);
     }
 
     /**

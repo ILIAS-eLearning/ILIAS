@@ -35,6 +35,13 @@ class ilLTITool
     public const string VERSION_ADVANTAGE = '1.3.0';
 
     /**
+     * How an LTI Advantage tool publishes the key its messages are signed with: a PEM public key, or the
+     * URL of its JSON Web Key Set.
+     */
+    public const string KEY_TYPE_RSA = 'RSA_KEY';
+    public const string KEY_TYPE_JWK = 'JWK_KEYSET';
+
+    /**
      * The tool is no longer available, neither for new nor for existing objects. The value 1 in
      * between means that only the objects already using it may launch it.
      */
@@ -86,6 +93,12 @@ class ilLTITool
     private string $xapi_activity_id = '';
     private bool $grade_synchronization = false;
     private bool $content_item = false;
+    private string $client_id = '';
+    private string $key_type = self::KEY_TYPE_RSA;
+    private string $public_key = '';
+    private string $public_keyset = '';
+    private string $initiate_login = '';
+    private string $redirection_uris = '';
     private ?ilLTI1p1ConsumerProviderCredentials $lti_1p1_credentials = null;
 
     public function __construct(int $id = 0)
@@ -283,6 +296,46 @@ class ilLTITool
         return $this->content_item;
     }
 
+    /**
+     * The LTI Advantage client id ILIAS gave the tool.
+     */
+    public function getClientId(): string
+    {
+        return $this->client_id;
+    }
+
+    /**
+     * The PEM public key of the tool, empty when it publishes a key set instead.
+     */
+    public function getPublicKey(): string
+    {
+        return $this->key_type === self::KEY_TYPE_RSA ? $this->public_key : '';
+    }
+
+    /**
+     * The URL of the JSON Web Key Set of the tool, empty when it gave a PEM public key instead.
+     */
+    public function getPublicKeysetUrl(): string
+    {
+        return $this->key_type === self::KEY_TYPE_JWK ? $this->public_keyset : '';
+    }
+
+    /**
+     * Where an LTI Advantage launch starts: the OpenID Connect login initiation URL of the tool.
+     */
+    public function getInitiateLoginUrl(): string
+    {
+        return $this->initiate_login;
+    }
+
+    /**
+     * @return array the URLs the tool may receive an id_token at
+     */
+    public function getRedirectionUris(): array
+    {
+        return array_values(array_filter(array_map('trim', explode(',', $this->redirection_uris))));
+    }
+
     public function getLti1p1Credentials(): ilLTI1p1ConsumerProviderCredentials
     {
         return $this->lti_1p1_credentials ??= new ilLTI1p1ConsumerProviderCredentials();
@@ -333,6 +386,12 @@ class ilLTITool
         $this->xapi_activity_id = (string) ($row['xapi_activity_id'] ?? '');
         $this->grade_synchronization = (bool) ($row['grade_synchronization'] ?? false);
         $this->content_item = (bool) ($row['content_item'] ?? false);
+        $this->client_id = (string) ($row['client_id'] ?? '');
+        $this->key_type = (string) ($row['key_type'] ?? '') === self::KEY_TYPE_JWK ? self::KEY_TYPE_JWK : self::KEY_TYPE_RSA;
+        $this->public_key = (string) ($row['public_key'] ?? '');
+        $this->public_keyset = (string) ($row['public_keyset'] ?? '');
+        $this->initiate_login = (string) ($row['initiate_login'] ?? '');
+        $this->redirection_uris = (string) ($row['redirection_uris'] ?? '');
         $this->getLti1p1Credentials()->assignFromDbRow($row);
     }
 
@@ -346,6 +405,21 @@ class ilLTITool
         return $db->fetchAssoc($db->query(
             'SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = ' . $db->quote($id, 'integer')
         )) ?? [];
+    }
+
+    /**
+     * The LTI Advantage tool ILIAS gave the client id, 0 when there is none.
+     */
+    public static function lookupIdByClientId(string $client_id): int
+    {
+        $db = self::db();
+        $row = $db->fetchAssoc($db->queryF(
+            'SELECT id FROM ' . self::TABLE_NAME . ' WHERE client_id = %s AND lti_version = %s',
+            ['text', 'text'],
+            [$client_id, self::VERSION_ADVANTAGE]
+        ));
+
+        return (int) ($row['id'] ?? 0);
     }
 
     public static function lookupVersion(int $id): string

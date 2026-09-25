@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\AccessToken;
 use ceLTIc\LTI\Context;
 use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\Enum\IdScope;
@@ -56,12 +57,14 @@ class ilLTIDataConnector extends DataConnector
     }
 
     /**
-     * By record id, or by consumer key for an LTI 1.1 launch.
+     * By record id, by issuer, client id and deployment id for an LTI Advantage launch, or by consumer key
+     * for an LTI 1.1 launch.
      */
     public function loadPlatform(Platform $platform): bool
     {
         $row = match (true) {
             $platform->getRecordId() !== null => $this->fetch('lti2_consumer', 'consumer_pk', $platform->getRecordId(), 'integer'),
+            $platform->platformId !== null && $platform->platformId !== '' => $this->fetchAdvantagePlatform($platform),
             $platform->getKey() !== null && $platform->getKey() !== '' => $this->fetch('lti2_consumer', 'consumer_key', $platform->getKey(), 'text'),
             default => null,
         };
@@ -96,8 +99,9 @@ class ilLTIDataConnector extends DataConnector
     }
 
     /**
-     * A launch only updates what the platform tells about itself. The platforms are defined in the
-     * administration and when an object is released, never here.
+     * A launch only updates what the platform tells about itself, and the public key celtic/lti fetched
+     * from the key set of an LTI Advantage platform, which it keeps with its kid. The platforms are
+     * defined in the administration and when an object is released, never here.
      */
     public function savePlatform(Platform $platform): bool
     {
@@ -106,7 +110,12 @@ class ilLTIDataConnector extends DataConnector
         }
 
         $platform->updated = time();
+        $this->fixPlatformSettings($platform, true);
+        $settings = $platform->getSettings();
+        $this->fixPlatformSettings($platform, false);
         $this->database->update('lti2_consumer', [
+            'public_key' => ['clob', $platform->rsaKey],
+            'settings' => ['clob', json_encode($settings, JSON_UNESCAPED_SLASHES)],
             'consumer_name' => ['text', $platform->consumerName],
             'consumer_version' => ['text', $platform->consumerVersion],
             'consumer_guid' => ['text', $platform->consumerGuid],
@@ -322,6 +331,66 @@ class ilLTIDataConnector extends DataConnector
         );
 
         return true;
+    }
+
+    /**
+     * The access token ILIAS got from an LTI Advantage platform for its services, one per platform.
+     */
+    public function loadAccessToken(AccessToken $accessToken): bool
+    {
+        $row = $this->fetch('lti2_access_token', 'consumer_pk', (int) $accessToken->getPlatform()->getRecordId(), 'integer');
+        if ($row === null) {
+            return false;
+        }
+
+        $scopes = Util::jsonDecode((string) $row['scopes'], true);
+        $accessToken->scopes = is_array($scopes) ? $scopes : [];
+        $accessToken->token = (string) $row['token'];
+        $accessToken->expires = $this->toTimestamp($row['expires']);
+        $accessToken->created = $this->toTimestamp($row['created']);
+        $accessToken->updated = $this->toTimestamp($row['updated']);
+
+        return true;
+    }
+
+    public function saveAccessToken(AccessToken $accessToken): bool
+    {
+        $consumer_pk = (int) $accessToken->getPlatform()->getRecordId();
+        $now = date(self::DATE_FORMAT);
+        $this->database->replace('lti2_access_token', ['consumer_pk' => ['integer', $consumer_pk]], [
+            'scopes' => ['clob', json_encode($accessToken->scopes, JSON_UNESCAPED_SLASHES)],
+            'token' => ['text', $accessToken->token],
+            'expires' => ['timestamp', date(self::DATE_FORMAT, (int) $accessToken->expires)],
+            'created' => ['timestamp', $accessToken->created === null ? $now : date(self::DATE_FORMAT, $accessToken->created)],
+            'updated' => ['timestamp', $now],
+        ]);
+
+        return true;
+    }
+
+    /**
+     * The registration of the platform (ref_id 0) comes first. Earlier releases registered an LTI
+     * Advantage platform once per released object (ref_id > 0): those rows are the fallback.
+     * The library leaves out client id and deployment id when the request does not give them.
+     *
+     * @return array|null
+     */
+    private function fetchAdvantagePlatform(Platform $platform): ?array
+    {
+        $where = ['platform_id = ' . $this->database->quote($platform->platformId, 'text')];
+        if ($platform->clientId !== null && $platform->clientId !== '') {
+            $where[] = 'client_id = ' . $this->database->quote($platform->clientId, 'text');
+            if ($platform->deploymentId !== null && $platform->deploymentId !== '') {
+                $where[] = 'deployment_id = ' . $this->database->quote($platform->deploymentId, 'text');
+            }
+        }
+        $this->database->setLimit(1);
+
+        return $this->database->fetchAssoc($this->database->query(
+            'SELECT * FROM lti2_consumer WHERE ' . implode(' AND ', $where)
+            . ' AND lti_version = ' . $this->database->quote(LtiVersion::V1P3->value, 'text')
+            . ' ORDER BY ref_id, consumer_pk'
+        ));
     }
 
     /**

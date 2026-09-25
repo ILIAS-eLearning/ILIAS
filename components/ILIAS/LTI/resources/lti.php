@@ -28,6 +28,12 @@ declare(strict_types=1);
 $_GET['cmd'] = 'post';
 $_POST['cmd'] = 'doLTIAuthentication';
 
+// The OpenID Connect login of an LTI Advantage launch sends the client id the platform gave ILIAS, which ILIAS
+// would take for the id of its own client. ilLTILaunchReceiver reads it from the query as it came.
+if (isset($_GET['iss'], $_GET['login_hint'])) {
+    unset($_GET['client_id']);
+}
+
 require_once '../vendor/composer/vendor/autoload.php';
 require_once __DIR__ . '/../artifacts/bootstrap_default.php';
 entry_point('ILIAS Legacy Initialisation Adapter');

@@ -39,11 +39,11 @@ class ilLTILaunchReceiver extends Tool
     {
         parent::__construct($data_connector);
 
-        // what ILIAS needs to create the user of the launch
-        $this->setParameterConstraint('resource_link_id', true, 50, [self::MESSAGE_LAUNCH]);
-        $this->setParameterConstraint('user_id', true, 64, [self::MESSAGE_LAUNCH]);
-        $this->setParameterConstraint('roles', true, null, [self::MESSAGE_LAUNCH]);
-        $this->setParameterConstraint('lis_person_contact_email_primary', true, 80, [self::MESSAGE_LAUNCH]);
+        // What ILIAS needs to create the user of the launch, as long as the columns that keep the ids. The name,
+        // the email and the roles are optional: platforms leave them out for privacy, and LTI Advantage sends
+        // no role for a user without one in the context.
+        $this->setParameterConstraint('resource_link_id', true, 255, [self::MESSAGE_LAUNCH]);
+        $this->setParameterConstraint('user_id', true, 250, [self::MESSAGE_LAUNCH]);
     }
 
     /**
@@ -56,13 +56,38 @@ class ilLTILaunchReceiver extends Tool
         // the library reads $_GET and $_POST unless it is handed the parameters, and ILIAS replaces both
         $request = $DIC->http()->request();
         $body = $request->getParsedBody();
-        Util::$requestParameters = array_merge($request->getQueryParams(), is_array($body) ? $body : []);
+        // lti.php hides the client id of an OpenID Connect login from ILIAS, which would take it for the id
+        // of its own client, so the query of such a login is read as it came
+        parse_str($request->getUri()->getQuery(), $query);
+        if (!isset($query['iss'])) {
+            $query = $request->getQueryParams();
+        }
+        Util::$requestParameters = array_merge($query, is_array($body) ? $body : []);
 
         if ((Util::$requestParameters['lti_version'] ?? '') === LtiVersion::V1->value) {
             ilLTI1p1ProviderLaunchRequestUri::stripClientId();
+        } else {
+            $this->signAsIlias();
         }
 
         $this->handleRequest();
+    }
+
+    /**
+     * What ILIAS sends to an LTI Advantage platform is signed with its key, the requests for the access
+     * tokens of the platform services included, which the library signs as its default tool. Checking the
+     * launch does not need it, so a missing key only stops what is sent later.
+     */
+    private function signAsIlias(): void
+    {
+        try {
+            ilLTIAdvantageKeyPair::applyTo($this);
+            Tool::$defaultTool = $this;
+        } catch (ilException $e) {
+            global $DIC;
+
+            $DIC->logger()->forComponent('lti')->error($e->getMessage());
+        }
     }
 
     /**

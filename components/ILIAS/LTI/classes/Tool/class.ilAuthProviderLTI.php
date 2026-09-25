@@ -93,7 +93,7 @@ class ilAuthProviderLTI extends ilAuthProvider
             return $this->handleAuthenticationFail($status, 'empty_lti_message_parameters');
         }
 
-        $release = $this->lookupRelease((int) $receiver->platform->getRecordId());
+        $release = $this->lookupRelease((int) $receiver->platform->getRecordId(), $parameters);
         if ($release === null || $release['ref_id'] === 0) {
             return $this->handleAuthenticationFail($status, 'lti_auth_failed_invalid_key');
         }
@@ -112,9 +112,14 @@ class ilAuthProviderLTI extends ilAuthProvider
     }
 
     /**
-     * @return array|null the platform and the object a registration of lti2_consumer belongs to
+     * The platform and the object a launch is for. A registration of lti2_consumer for a single object
+     * (ref_id > 0) is for that object. The registration of an LTI Advantage platform (ref_id 0) is for
+     * the object its target link names, as long as the object is released to the platform.
+     *
+     * @param array $parameters
+     * @return array|null
      */
-    private function lookupRelease(int $record_id): ?array
+    private function lookupRelease(int $record_id, array $parameters): ?array
     {
         global $DIC;
 
@@ -130,6 +135,12 @@ class ilAuthProviderLTI extends ilAuthProvider
         }
 
         $ref_id = (int) $row['ref_id'];
+        if ($ref_id === 0) {
+            $ref_id = $this->getTargetRefId($parameters);
+            if (!new ilLTIRelease($ref_id, (int) $row['id'])->isReleased()) {
+                $ref_id = 0;
+            }
+        }
 
         return [
             'ref_id' => $ref_id > 0 && ilObject::_exists($ref_id, true) ? $ref_id : 0,
@@ -151,15 +162,16 @@ class ilAuthProviderLTI extends ilAuthProvider
     {
         global $DIC;
 
-        $account = $this->getCredentials()->getUsername();
+        // the id the platform gives the user: user_id of LTI 1.1, the claim sub of LTI Advantage
+        $account = (string) ($parameters['user_id'] ?? '');
         $auth_mode = self::AUTH_MODE_PREFIX . $release['platform_id'];
         $login = ilObjUser::_checkExternalAuthAccount($auth_mode, $account);
         $session_expire = (int) $DIC['ilClientIniFile']->readVariable('session', 'expire');
 
         $user = $login ? new ilObjUser(ilObjUser::_lookupId($login)) : new ilObjUser();
-        $user->setFirstname((string) ($parameters['lis_person_name_given'] ?? '-'));
-        $user->setLastname((string) ($parameters['lis_person_name_family'] ?? '-'));
-        $user->setEmail((string) ($parameters['lis_person_contact_email_primary'] ?? ''));
+        $user->setFirstname($this->getProfileValue($parameters, 'lis_person_name_given', '-'));
+        $user->setLastname($this->getProfileValue($parameters, 'lis_person_name_family', '-'));
+        $user->setEmail($this->getProfileValue($parameters, 'lis_person_contact_email_primary', ''));
         $user->setActive(true);
         $user->setTimeLimitUnlimited(false);
         if ($user->getTimeLimitUntil() < time() + $session_expire) {
@@ -171,7 +183,7 @@ class ilAuthProviderLTI extends ilAuthProvider
             $user->update();
             $user->refreshLogin();
         } else {
-            $user->setLogin(ilAuthUtils::_generateLogin($release['prefix'] . '_' . $account));
+            $user->setLogin(ilAuthUtils::_generateLogin($this->buildLogin($release['prefix'], $account)));
             $user->setPasswd('', ilObjUser::PASSWD_CRYPTED);
             $user->setAuthMode($auth_mode);
             $user->setExternalAccount($account);
@@ -194,6 +206,31 @@ class ilAuthProviderLTI extends ilAuthProvider
         }
 
         return $user->getId();
+    }
+
+    /**
+     * A value of the profile the platform sent, or the default when it sent none or one longer than ILIAS
+     * keeps (128 characters for names and email).
+     *
+     * @param array $parameters
+     */
+    private function getProfileValue(array $parameters, string $name, string $default): string
+    {
+        $value = trim((string) ($parameters[$name] ?? ''));
+
+        return $value === '' || ilStr::strLen($value) > 128 ? $default : $value;
+    }
+
+    /**
+     * The login of a new user: the prefix of the platform and the id it gives the user. That id may be long or
+     * hold characters a login does not allow, which are replaced; the external account keeps it as it came.
+     */
+    private function buildLogin(string $prefix, string $account): string
+    {
+        $login = (string) preg_replace('/[^A-Za-z0-9_.+*@!$%~-]/', '_', $prefix . '_' . $account);
+
+        // below the 190 characters of the column, leaving room for the number _generateLogin() may append
+        return strlen($login) > 180 ? substr($prefix, 0, 40) . '_' . hash('sha256', $account) : $login;
     }
 
     /**
@@ -233,6 +270,18 @@ class ilAuthProviderLTI extends ilAuthProvider
             'resource_link_title' => (string) ($parameters['resource_link_title'] ?? ''),
         ]);
         ilSession::set('lti_init_target', ilObject::_lookupType($ref_id, true) . '_' . $ref_id);
+    }
+
+    /**
+     * The object an LTI Advantage launch is for, from the target link ILIAS gives out: lti.php?ref_id=N.
+     *
+     * @param array $parameters
+     */
+    private function getTargetRefId(array $parameters): int
+    {
+        parse_str((string) parse_url((string) ($parameters['target_link_uri'] ?? ''), PHP_URL_QUERY), $query);
+
+        return (int) ($query['ref_id'] ?? 0);
     }
 
     /**

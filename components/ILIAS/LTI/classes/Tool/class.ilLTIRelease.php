@@ -33,6 +33,7 @@ class ilLTIRelease
     private int $admin_role = 0;
     private int $tutor_role = 0;
     private int $member_role = 0;
+    private bool $released = false;
 
     public function __construct(private readonly int $ref_id, private readonly int $platform_id)
     {
@@ -45,6 +46,7 @@ class ilLTIRelease
             [$ref_id, $platform_id]
         ));
         if ($row !== null) {
+            $this->released = true;
             $this->admin_role = (int) $row['admin'];
             $this->tutor_role = (int) $row['tutor'];
             $this->member_role = (int) $row['member'];
@@ -73,6 +75,14 @@ class ilLTIRelease
         }
 
         return $platforms;
+    }
+
+    /**
+     * True when the object is released to the platform.
+     */
+    public function isReleased(): bool
+    {
+        return $this->released;
     }
 
     public function getAdminRole(): int
@@ -107,6 +117,22 @@ class ilLTIRelease
                 'member' => ['integer', $member_role],
             ]
         );
+    }
+
+    /**
+     * Withdraws the object from an LTI Advantage platform. An LTI 1.1 platform keeps the row: its
+     * registration for the object is disabled instead.
+     */
+    public function delete(): void
+    {
+        global $DIC;
+
+        $DIC->database()->manipulateF(
+            'DELETE FROM ' . self::TABLE_NAME . ' WHERE ref_id = %s AND ext_consumer_id = %s',
+            ['integer', 'integer'],
+            [$this->ref_id, $this->platform_id]
+        );
+        $this->released = false;
     }
 
     /**

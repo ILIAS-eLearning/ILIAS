@@ -112,6 +112,12 @@ class ilLTIAdministrationPlatformForm
                     ->withRequired(true)->withValue($registration["token_url"]),
                 "authentication_url" => $field->text($this->lng->txt("lti_13_authentication_url"))
                     ->withRequired(true)->withValue($registration["authentication_url"]),
+                // read only data the platform needs: where it starts the login and posts the launch, and the
+                // key set of ILIAS. The objects released to the platform show their target link.
+                "launch_url" => $field->text($this->lng->txt("lti_launch_url"))
+                    ->withValue(ILIAS_HTTP_PATH . "/lti.php")->withDisabled(true),
+                "ilias_keyset_url" => $field->text($this->lng->txt("lti_con_key_type_jwk"))
+                    ->withValue(ilLTIAdvantageKeyPair::getJwksUrl())->withDisabled(true),
             ], $this->lng->txt("lti_platform_registration"));
         }
 
@@ -183,6 +189,8 @@ class ilLTIAdministrationPlatformForm
                 "_oauth2_access_token_url" => $registration["token_url"],
                 "_authentication_request_url" => $registration["authentication_url"],
             ])],
+            // the key celtic/lti fetched from the key set is a cache: it is fetched again from the saved URL
+            "public_key" => ["clob", null],
             "updated" => ["timestamp", $now],
         ];
 

@@ -124,6 +124,12 @@ class ilLTIProviderObjectSettingGUI
                     (int) $release['member']
                 );
             }
+            if ($this->isAdvantage($platform_id)) {
+                if ($release === null) {
+                    new ilLTIRelease($this->ref_id, $platform_id)->delete();
+                }
+                continue;
+            }
             new ilLTI1p1ProviderObjectCredentials($this->ref_id, $platform_id)->save($release ?? [], $release !== null);
         }
 
@@ -150,16 +156,27 @@ class ilLTIProviderObjectSettingGUI
         $inputs = [];
         foreach ($this->getPlatforms() as $platform_id => $title) {
             $release = new ilLTIRelease($this->ref_id, $platform_id);
-            $credentials = new ilLTI1p1ProviderObjectCredentials($this->ref_id, $platform_id);
             $role = fn(string $txt, int $value) => $field->select($lng->txt($txt), $options)
                 ->withValue(isset($options[(string) $value]) ? (string) $value : null);
-
-            $group = $field->optionalGroup([
+            $roles = [
                 'admin' => $role('lti_admin', $release->getAdminRole()),
                 'tutor' => $role('lti_tutor', $release->getTutorRole()),
                 'member' => $role('lti_member', $release->getMemberRole()),
-            ] + $credentials->getInputs($lng, $factory), $title);
+            ];
 
+            if ($this->isAdvantage($platform_id)) {
+                // the target link the platform launches the object with, see ilAuthProviderLTI
+                $group = $field->optionalGroup($roles + [
+                    'launch_url' => $field->text($lng->txt('lti_launch_url'))
+                        ->withValue(ILIAS_HTTP_PATH . '/lti.php?ref_id=' . $this->ref_id)
+                        ->withDisabled(true),
+                ], $title);
+                $inputs['platform_' . $platform_id] = $release->isReleased() ? $group : $group->withValue(null);
+                continue;
+            }
+
+            $credentials = new ilLTI1p1ProviderObjectCredentials($this->ref_id, $platform_id);
+            $group = $field->optionalGroup($roles + $credentials->getInputs($lng, $factory), $title);
             $inputs['platform_' . $platform_id] = $credentials->isEnabled() ? $group : $group->withValue(null);
         }
 
@@ -170,20 +187,23 @@ class ilLTIProviderObjectSettingGUI
     }
 
     /**
-     * The platforms the object can be released to with LTI 1.1.
+     * The platforms the object can be released to.
      *
      * @return array titles by id
      */
     private function getPlatforms(): array
     {
-        return array_filter(
-            ilLTIRelease::getPlatformsForType(ilObject::_lookupType($this->ref_id, true)),
-            fn(int $platform_id): bool => ilLTIAdministrationPlatformForm::lookupVersion(
-                $this->dic->database(),
-                $platform_id
-            ) === ilLTIAdministrationPlatformForm::VERSION_1P1,
-            ARRAY_FILTER_USE_KEY
-        );
+        return ilLTIRelease::getPlatformsForType(ilObject::_lookupType($this->ref_id, true));
+    }
+
+    /**
+     * An LTI Advantage platform is registered once for all the objects released to it, so releasing an
+     * object only sets the roles. An LTI 1.1 platform gets a registration with a key and secret per object.
+     */
+    private function isAdvantage(int $platform_id): bool
+    {
+        return ilLTIAdministrationPlatformForm::lookupVersion($this->dic->database(), $platform_id)
+            === ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE;
     }
 
     private function createLocalRoles(): void

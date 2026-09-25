@@ -45,8 +45,6 @@ class ilLTIToolForm
         3 => "real_email",
     ];
     private const array PRIVACY_NAMES = [0 => "none", 1 => "firstname", 2 => "lastname", 3 => "fullname"];
-    private const string KEY_TYPE_RSA = "RSA_KEY";
-    private const string KEY_TYPE_JWK = "JWK_KEYSET";
     private const string DEPRECATION_URL = "https://www.1edtech.org/lti-security-announcement-and-deprecation-schedule";
 
     private int $saved_id = 0;
@@ -353,18 +351,18 @@ class ilLTIToolForm
                 ->withValue((string) ($row["content_item_url"] ?? "")),
         ], $this->lng->txt("lti_con_content_item"));
         $key_type = $field->switchableGroup([
-            self::KEY_TYPE_RSA => $field->group([
+            ilLTITool::KEY_TYPE_RSA => $field->group([
                 "public_key" => $field->textarea(
                     $this->lng->txt("lti_con_key_type_rsa_public_key"),
                     $this->lng->txt("lti_con_key_type_rsa_public_key_info")
                 )->withRequired(true)->withValue((string) ($row["public_key"] ?? "")),
             ], $this->lng->txt("lti_con_key_type_rsa")),
-            self::KEY_TYPE_JWK => $field->group([
+            ilLTITool::KEY_TYPE_JWK => $field->group([
                 "public_keyset" => $field->text($this->lng->txt("lti_con_key_type_jwk_url"))
                     ->withRequired(true)->withValue((string) ($row["public_keyset"] ?? "")),
             ], $this->lng->txt("lti_con_key_type_jwk")),
         ], $this->lng->txt("lti_con_key_type"))->withRequired(true);
-        if (in_array($row["key_type"] ?? "", [self::KEY_TYPE_RSA, self::KEY_TYPE_JWK], true)) {
+        if (in_array($row["key_type"] ?? "", [ilLTITool::KEY_TYPE_RSA, ilLTITool::KEY_TYPE_JWK], true)) {
             $key_type = $key_type->withValue($row["key_type"]);
         }
 
