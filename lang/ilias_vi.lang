@@ -5275,6 +5275,7 @@ common#:#online_time#:#Time online (DD:HH:MM:SS)###25 02 2007 new variable
 common#:#only_active#:#Only Active###07 02 2020 new variable
 common#:#only_inactive#:#Only Inactive###07 02 2020 new variable
 common#:#open#:#Open###10 11 2018 new variable
+common#:#open_link#:#Open link###05 08 2026 new variable
 common#:#operation#:#Thao tác
 common#:#optimize#:#Lạc quan
 common#:#option#:#Option###26 03 2010 new variable

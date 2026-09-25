@@ -5272,6 +5272,7 @@ common#:#online_time#:#在线时间(DD:HH:MM:SS)
 common#:#only_active#:#Only Active###07 02 2020 new variable
 common#:#only_inactive#:#Only Inactive###07 02 2020 new variable
 common#:#open#:#Open###10 11 2018 new variable
+common#:#open_link#:#Open link###05 08 2026 new variable
 common#:#operation#:#操作
 common#:#optimize#:#优化
 common#:#option#:#选项

@@ -5273,6 +5273,7 @@ common#:#online_time#:#Online töltött idő (NN:ÓÓ:PP:MM)
 common#:#only_active#:#Csak aktív
 common#:#only_inactive#:#Csak inaktív
 common#:#open#:#Kinyitni
+common#:#open_link#:#Link megnyitása
 common#:#operation#:#Művelet
 common#:#optimize#:#Optimalizálás
 common#:#option#:#Beállítás
