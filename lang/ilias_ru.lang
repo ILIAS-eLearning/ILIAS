@@ -422,7 +422,6 @@ adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#activate_logging#:#Активировать тестирование
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable
-assessment#:#addSuggestedSolution#:#Добавить предполагаемое решение
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Добавить зону в виде круга
 assessment#:#add_gap#:#Добавить пропущенный текст
@@ -447,7 +446,6 @@ assessment#:#answer_is_not_correct_but_positive#:#Вы получили балл
 assessment#:#answer_is_right#:#Ваше решение верно
 assessment#:#answer_is_wrong#:#Ваше решение ошибочно
 assessment#:#answer_of#:#Answer of###07 02 2020 new variable
-assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#answer_question#:#Answer Question###30 08 2015 new variable
 assessment#:#answer_text#:#Текст ответа
 assessment#:#answer_types#:#Типы ответа
@@ -501,7 +499,6 @@ assessment#:#ass_completion_by_submission#:#Completed by Submission
 assessment#:#ass_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
 assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###25 10 2016 new variable
 assessment#:#ass_create_export_test_archive#:#Создать файл архива теста
-assessment#:#ass_create_question#:#Создать вопрос
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###25 10 2016 new variable
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.###25 10 2016 new variable
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.###25 10 2016 new variable
@@ -571,10 +568,6 @@ assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer t
 assessment#:#cloze_fixed_textlength#:#Длинна текстового поля
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value.
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.###26 09 2014 new variable
-assessment#:#cloze_text#:#Текст с пропусками
-assessment#:#cloze_textgap_case_insensitive#:#Нечувствительный к регистру
-assessment#:#cloze_textgap_case_sensitive#:#Чувствительный к регистру
-assessment#:#cloze_textgap_levenshtein_of#:#Расстояние Левинштейна %s
 assessment#:#code#:#Код
 assessment#:#codebase#:#Кодовая база
 assessment#:#concatenation#:#Конкатенация
@@ -757,9 +750,7 @@ assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), 
 assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button "Parse Question" to create editing forms for variables and results.
-assessment#:#gap#:#Пропуск
 assessment#:#gap_combination#:#Gap Combination###26 09 2014 new variable
-assessment#:#gaps#:#Gaps###29 10 2025 new variable
 assessment#:#glossary_term#:#Термин глоссария
 assessment#:#goto_first_question#:#Show First Question###29 10 2025 new variable
 assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;###26 09 2014 new variable
@@ -777,7 +768,6 @@ assessment#:#info_answer_type_change#:#The question already contains images. You
 assessment#:#info_text_upload#:#Choose an answer file to upload###30 08 2015 new variable
 assessment#:#insert_after#:#Вставить после
 assessment#:#insert_before#:#Вставить перед
-assessment#:#insert_gap#:#Вставить пропуск
 assessment#:#interaction_type#:#Interaction Type###26 08 2024 new variable
 assessment#:#internal_links#:#Внутренние связи
 assessment#:#intprecision#:#Divisible By
@@ -889,7 +879,6 @@ assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test 
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Обслуживание
 assessment#:#manscoring#:#Ручная проверка
 assessment#:#manscoring_done#:#Оцененые участники
@@ -916,7 +905,6 @@ assessment#:#maximum_nr_of_tries_reached#:#Вы достигли максима�
 assessment#:#maximum_points#:#Максимальное число баллов
 assessment#:#maxsize#:#Максимальный размер загружаемого файла
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
-assessment#:#min_auto_complete#:#Autocomplete###25 10 2016 new variable
 assessment#:#min_ip_label#:#Lowest IP With Access###26 08 2024 new variable
 assessment#:#min_percentage_ne_0#:#Вы должны определить минимальное значение как 0 процентов. Схема оценки не сохранена.
 assessment#:#misc#:#Прочие опции
@@ -925,7 +913,6 @@ assessment#:#mode_onebyone#:#One by One###29 10 2025 new variable
 assessment#:#mode_question#:#Question oriented###29 10 2025 new variable
 assessment#:#mode_user#:#Participant oriented###29 10 2025 new variable
 assessment#:#msg_circle_added#:#Круг добавлен
-assessment#:#msg_no_questions_selected#:#No questions were selected.###26 08 2024 new variable
 assessment#:#msg_number_of_terms_too_low#:#Число терминов должно быть больше или равно числу определений.
 assessment#:#msg_poly_added#:#Многогранник добавлен
 assessment#:#msg_questions_moved#:#Вопрос(ы) перемещены
@@ -984,7 +971,6 @@ assessment#:#order#:#Order###26 08 2024 new variable
 assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.
 assessment#:#ordertext#:#Упорядоченный текст
 assessment#:#ordertext_info#:#Пожалуйста введите текст который был бы упорядочен горизонтально. Упорядоченный текст должен быть разделен пробелами. Если вам нужен другой разделитель, вы можете использовать %s для отделение ваших блоков текста.
-assessment#:#out_of_range#:#Out of range###27 01 2015 new variable
 assessment#:#output#:#Вывод
 assessment#:#output_mode#:#Режим вывода
 assessment#:#parseQuestion#:#Разобрать вопрос
@@ -1053,7 +1039,6 @@ assessment#:#qpl_bulk_save_add#:#Add###28 10 2024 new variable
 assessment#:#qpl_bulk_save_overwrite#:#Overwrite###28 10 2024 new variable
 assessment#:#qpl_bulkedit_success#:#Modifications saved.###28 10 2024 new variable
 assessment#:#qpl_cancel_skill_assigns_update#:#Cancel###30 08 2015 new variable
-assessment#:#qpl_confirm_delete_questions#:#Вы действительно желаете удалить следующие вопрос(ы)?
 assessment#:#qpl_copy_insert_clipboard#:#Выбранные вопросы скопированы в буфер обмена
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 assessment#:#qpl_delete_rbac_error#:#У вас нет прав удаления этого вопроса!
@@ -1106,7 +1091,6 @@ assessment#:#qpl_qst_skl_usg_skill_col#:#Competence###30 08 2015 new variable
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence###30 08 2015 new variable
 assessment#:#qpl_question_is_in_use#:#Вопрос, который вы выбрали на редактирование существует в %s тесте(ах). Если вы измените этот вопрос, то вы не сможете изменить вопрос(ы) в тесте(ах), потому, что система создает копию этого вопроса, когда добавляет его в тест!
 assessment#:#qpl_questions_deleted#:#Вопрос(ы) удален(ы).
-assessment#:#qpl_reset_preview#:#Reset Preview###26 09 2014 new variable
 assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08 2015 new variable
 assessment#:#qpl_settings_availability#:#Availability###26 08 2024 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
@@ -1136,14 +1120,6 @@ assessment#:#qst_essay_chars_remaining#:#Remaining characters:###07 02 2020 new 
 assessment#:#qst_essay_wordcounter_enabled#:#Count Words###07 02 2020 new variable
 assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.###07 02 2020 new variable
 assessment#:#qst_essay_written_words#:#Number of entered words:###07 02 2020 new variable
-assessment#:#qst_lifecycle#:#Lifecycle###07 02 2020 new variable
-assessment#:#qst_lifecycle_draft#:#Draft###07 02 2020 new variable
-assessment#:#qst_lifecycle_filter_all#:#All Lifecycles###07 02 2020 new variable
-assessment#:#qst_lifecycle_final#:#Final###07 02 2020 new variable
-assessment#:#qst_lifecycle_outdated#:#Outdated###07 02 2020 new variable
-assessment#:#qst_lifecycle_rejected#:#Rejected###07 02 2020 new variable
-assessment#:#qst_lifecycle_review#:#To be Reviewed###07 02 2020 new variable
-assessment#:#qst_lifecycle_sharable#:#Sharable###07 02 2020 new variable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
 assessment#:#qst_nr_of_tries#:#Число попыток
@@ -1167,17 +1143,14 @@ assessment#:#question_title#:#Название вопроса
 assessment#:#question_type#:#Тип вопроса
 assessment#:#questionpool_not_entered#:#Пожалуйста, задайте имя для набора вопросов!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
-assessment#:#questions#:#Questions###26 08 2024 new variable
 assessment#:#questions_from#:#форма вопросов
 assessment#:#questions_per_page_view#:#Page View
 assessment#:#random_accept_sample#:#Взять пример
 assessment#:#random_another_sample#:#Взять другой пример
 assessment#:#random_selection#:#Случайный выбор
 assessment#:#range#:#Диапазон
-assessment#:#range_lower_limit#:#Нижняя граница
 assessment#:#range_max#:#Range (Maximum)
 assessment#:#range_min#:#Range (Minimum)
-assessment#:#range_upper_limit#:#Верхняя граница
 assessment#:#rated_sign#:#Sign
 assessment#:#rated_unit#:#Unit
 assessment#:#rated_value#:#Value
@@ -1253,7 +1226,6 @@ assessment#:#search_roles#:#Поиск ролей
 assessment#:#search_term#:#Поиск терминов
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
 assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###29 10 2025 new variable
-assessment#:#select_gap#:#Выберите пропуск
 assessment#:#select_max_one_item#:#Пожалуйста, выберите только один пункт
 assessment#:#select_one_user#:#Please select at least one user.
 assessment#:#select_question#:#Select a Question###28 10 2024 new variable
@@ -1280,7 +1252,6 @@ assessment#:#show_old_introduction#:#Show old introduction###26 08 2024 new vari
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
 assessment#:#show_results#:#Show Results###28 10 2024 new variable
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
-assessment#:#shuffle_answers#:#Перемешать ответы
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solution#:#Solution###28 10 2024 new variable
 assessment#:#solutionText#:#Текст
@@ -13988,6 +13959,35 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
 qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
+qsts#:#answer_options#:#Answer Options ###23 12 2015 new variable
+qsts#:#cloze_text#:#Текст с пропусками
+qsts#:#cloze_textgapcase_insensitive#:#Нечувствительный к регистру
+qsts#:#cloze_textgapcase_sensitive#:#Чувствительный к регистру
+qsts#:#cloze_textgaplevenshtein_of#:#Расстояние Левинштейна %s
+qsts#:#confirm_delete_questions#:#Вы действительно желаете удалить следующие вопрос(ы)?
+qsts#:#create_question#:#Создать вопрос
+qsts#:#gap#:#Пропуск
+qsts#:#gaps#:#Gaps###29 10 2025 new variable
+qsts#:#insert_gap#:#Вставить пропуск
+qsts#:#min_auto_complete#:#Autocomplete###25 10 2016 new variable
+qsts#:#msg_no_questions_selected#:#No questions were selected.###26 08 2024 new variable
+qsts#:#out_of_range#:#Out of range###27 01 2015 new variable
+qsts#:#qst_lifecycle#:#Lifecycle###07 02 2020 new variable
+qsts#:#qst_lifecycle_draft#:#Draft###07 02 2020 new variable
+qsts#:#qst_lifecycle_filter_all#:#All Lifecycles###07 02 2020 new variable
+qsts#:#qst_lifecycle_final#:#Final###07 02 2020 new variable
+qsts#:#qst_lifecycle_outdated#:#Outdated###07 02 2020 new variable
+qsts#:#qst_lifecycle_rejected#:#Rejected###07 02 2020 new variable
+qsts#:#qst_lifecycle_review#:#To be Reviewed###07 02 2020 new variable
+qsts#:#qst_lifecycle_sharable#:#Sharable###07 02 2020 new variable
+qsts#:#questionlist#:#Questionlist###26 08 2024 new variable
+qsts#:#questions#:#Questions###26 08 2024 new variable
+qsts#:#range_lower_limit#:#Нижняя граница
+qsts#:#range_upper_limit#:#Верхняя граница
+qsts#:#reset_preview#:#Reset Preview###26 09 2014 new variable
+qsts#:#select_gap#:#Выберите пропуск
+qsts#:#shuffle_answers#:#Перемешать ответы
+qsts#:#suggested_learning_content#:#Добавить предполагаемое решение
 rating#:#rat_not_rated_yet#:#Not Rated Yet
 rating#:#rat_nr_ratings#:#%s Ratings
 rating#:#rat_one_rating#:#One Rating
@@ -16637,7 +16637,6 @@ survey#:#questionblock#:#Блок вопроса
 survey#:#questionblock_inserted#:#Question Block inserted
 survey#:#questionblocks#:#Блоки вопроса
 survey#:#questionblocks_inserted#:#Question Blocks inserted
-survey#:#questions#:#Вопросы
 survey#:#questions_inserted#:#Вопрос(ы) вставлен(ы)!
 survey#:#questions_removed#:#Вопрос(ы) и/или удаленный блок(и) вопроса!
 survey#:#questiontype#:#Тип вопроса
@@ -16938,6 +16937,7 @@ survey#:#svy_please_select_unused_codes#:#Please select at least one unused code
 survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
 survey#:#svy_print_show_labels#:#Show labels###31 08 2017 new variable
 survey#:#svy_privacy_info#:#Privacy###29 07 2022 new variable
+survey#:#svy_questions#:#Вопросы
 survey#:#svy_rater#:#Rater###29 07 2022 new variable
 survey#:#svy_rater_see_app_info#:#The names of appraisees will be presented to raters to enable them evaluating the questions.###29 07 2022 new variable
 survey#:#svy_reminder_mail_template#:#Mail Template###25 10 2016 new variable

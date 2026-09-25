@@ -29,6 +29,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
 
         $this->initLanguage($this->getRecipient());
         $this->getLanguage()->loadLanguageModule('assessment');
+        $this->getLanguage()->loadLanguageModule('qsts');
 
         $this->initMail();
     }

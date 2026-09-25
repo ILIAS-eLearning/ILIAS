@@ -263,6 +263,7 @@ class AdditionalInformationGenerator
         private readonly GeneralQuestionPropertiesRepository $questions_repo
     ) {
         $lng->loadLanguageModule('assessment');
+        $lng->loadLanguageModule('qsts');
         $lng->loadLanguageModule('crs');
         $this->tags = $this->buildTags();
     }

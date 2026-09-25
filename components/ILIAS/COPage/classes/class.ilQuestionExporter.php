@@ -62,6 +62,7 @@ class ilQuestionExporter
         $this->lng = $lng;
 
         $this->lng->loadLanguageModule('assessment');
+        $this->lng->loadLanguageModule('qsts');
 
         $this->inst_id = IL_INST_ID;
 

@@ -16237,6 +16237,19 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   visibility: hidden;
 }
 
+.c-questions__solution-value {
+  background: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+  padding: 3px;
+}
+
+.c-questions__async-answerform {
+  padding-bottom: 6px;
+}
+
+.c-questions_async-answerform-feedback {
+  padding-top: 6px;
+}
+
 /* Modules/ScormAicc */
 table.il_ScormTable {
   color: #161616;

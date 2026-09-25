@@ -1259,7 +1259,7 @@ abstract class assQuestionGUI
             $formchange = new ilPropertyFormGUI();
             $formchange->setFormAction($this->ctrl->getFormAction($this));
 
-            $title = $solution ? $this->lng->txt('changeSuggestedSolution') : $this->lng->txt('addSuggestedSolution');
+            $title = $solution ? $this->lng->txt('changeSuggestedSolution') : $this->lng->txt('suggested_learning_content');
             $formchange->setTitle($title);
             $formchange->setMultipart(false);
             $formchange->setTableWidth('100%');
