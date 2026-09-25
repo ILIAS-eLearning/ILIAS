@@ -16,6 +16,45 @@ $il-characteristic-value-border-color: $il-main-border-color;
 .il-listing-characteristic-value-row:first-child {
   border-top: none;
 }
+
+$il-listing-characteristic-row-gap: 4px;
+$il-listing-characteristic-column-gap: 16px;
+$il-listing-characteristic-column-gap-mobile: 12px;
+
+/* reset */
+.il-listing-characteristic-value {
+  margin: 0;
+  padding: 0;
+}
+
+/* layout */
+.il-listing-characteristic-value .il-listing-characteristic-value-row {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: $il-listing-characteristic-row-gap $il-listing-characteristic-column-gap;
+}
+
+/* disable float layout */
+.il-listing-characteristic-value
+  .il-listing-characteristic-value-label,
+.il-listing-characteristic-value
+  .il-listing-characteristic-value-item {
+  float: none;
+  width: auto;
+  left: auto;
+  right: auto;
+  padding-left: 0;
+}
+
+/* mobile */
+@media (max-width: $il-grid-float-breakpoint-max) {
+  .il-listing-characteristic-value .il-listing-characteristic-value-row {
+    gap: $il-listing-characteristic-row-gap
+      $il-listing-characteristic-column-gap-mobile;
+  }
+}
+
 .il-listing-characteristic-value-label {
   @include ilFloatLeft;
   width: 50%;
