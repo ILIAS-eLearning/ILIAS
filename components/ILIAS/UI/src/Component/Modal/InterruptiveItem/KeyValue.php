@@ -24,6 +24,8 @@ namespace ILIAS\UI\Component\Modal\InterruptiveItem;
  * Interface InterruptiveItem
  *
  * Represents a key-value item to be displayed inside an interruptive modal
+ *
+ * @deprecated use {@see \ILIAS\UI\Component\Prompt\State\State} instead
  */
 interface KeyValue extends InterruptiveItem
 {

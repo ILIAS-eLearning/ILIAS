@@ -26,6 +26,8 @@ use ILIAS\UI\Component\Image\Image;
  * Interface InterruptiveItem
  *
  * Represents an object to be displayed inside an interruptive modal
+ *
+ * @deprecated use {@see \ILIAS\UI\Component\Prompt\State\State} instead
  */
 interface Standard extends InterruptiveItem
 {

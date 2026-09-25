@@ -72,6 +72,8 @@ interface Factory
      * @param string $message A plain string informing the user about the critical situation
      * @param string $form_action The URL where the modal posts its form data
      * @return \ILIAS\UI\Component\Modal\Interruptive
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Prompt\Prompt} instead
      */
     public function interruptive(string $title, string $message, string $form_action): Interruptive;
 
@@ -93,6 +95,8 @@ interface Factory
      *       An interruptive item MUST have an ID.
      * ---
      * @return \ILIAS\UI\Component\Modal\InterruptiveItem\Factory
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Prompt\State\Factory} instead
      */
     public function interruptiveItem(): InterruptiveItem\Factory;
 
@@ -148,6 +152,8 @@ interface Factory
      * @param Component\Input\Container\Form\FormInput[] $inputs
      * @param string|null $post_url
      * @return \ILIAS\UI\Component\Modal\RoundTrip
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Prompt\Prompt} instead
      */
     public function roundtrip(string $title, Component\Component|array|null $content, array $inputs = [], ?string $post_url = null): RoundTrip;
 

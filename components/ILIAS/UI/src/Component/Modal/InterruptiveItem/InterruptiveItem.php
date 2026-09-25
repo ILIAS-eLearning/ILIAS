@@ -26,6 +26,8 @@ use ILIAS\UI\Component\Component;
  * Interface InterruptiveItem
  *
  * Represents an item to be displayed inside an interruptive modal
+ *
+ * @deprecated use {@see \ILIAS\UI\Component\Prompt\State\State} instead
  */
 interface InterruptiveItem extends Component
 {

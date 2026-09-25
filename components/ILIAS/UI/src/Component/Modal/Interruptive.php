@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem;
 /**
  * Interface Interruptive
  *
- * @package ILIAS\UI\Component\Modal
+ * @deprecated use {@see \ILIAS\UI\Component\Prompt\Prompt} instead
  */
 interface Interruptive extends Modal
 {

@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Image\Image;
 /**
  * Interface Factory
  *
- * @package ILIAS\UI\Component\Modal
+ * @deprecated use {@see \ILIAS\UI\Component\Prompt\State\Factory} instead
  */
 interface Factory
 {
@@ -56,6 +56,8 @@ interface Factory
      * @param Image $icon
      * @param string $description
      * @return \ILIAS\UI\Component\Modal\InterruptiveItem\Standard
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Prompt\State\State} instead
      */
     public function standard(
         string $id,
@@ -93,6 +95,8 @@ interface Factory
      * @param string $key
      * @param string $value
      * @return \ILIAS\UI\Component\Modal\InterruptiveItem\KeyValue
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Prompt\State\State} instead
      */
     public function keyValue(
         string $id,
