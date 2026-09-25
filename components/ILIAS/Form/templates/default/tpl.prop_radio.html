@@ -1,4 +1,5 @@
-<div id="{ID}">
+<fieldset id="{ID}" style="border:0;margin:0;padding:0;min-width:0;">
+	<legend class="ilAccHeadingHidden">{GROUP_LABEL}</legend>
 	<!-- BEGIN prop_radio_option -->
 		<div class="radio">
 			<label class="radio-inline"><input <!-- BEGIN described_by -->aria-describedby="desc_{DESCRIBED_BY_FIELD_ID}" <!-- END described_by -->type="radio" onclick="il.Form.showSubForm('subform_{OP_ID}', '{FID}', null);" name="{POST_VAR}" id="{OP_ID}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION} {DISABLED}/>
@@ -12,4 +13,4 @@
 		<!-- END radio_option_subform -->
 	<!-- END prop_radio_option -->
 	{HIDDEN_INPUT}
-</div>
+</fieldset>
