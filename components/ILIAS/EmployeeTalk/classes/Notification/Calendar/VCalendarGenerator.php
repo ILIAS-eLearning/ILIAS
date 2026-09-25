@@ -61,7 +61,7 @@ class VCalendarGenerator implements VCalendarGeneratorInterface
         //The string \n must not be parsed by PHP, the email / calendar clients handel the line breaks by them self
         $description = $this->lng->txt('title') . ': ' . $talk->getTitle() . '\n';
         $description .= $this->lng->txt('desc') . ': ' . $talk->getLongDescription() . '\n';
-        $description .= $this->lng->txt('location') . ': ' . $talk->getLongDescription() . '\n';
+        $description .= $this->lng->txt('location') . ': ' . $data->getLocation() . '\n';
         $description .= $this->lng->txt('il_orgu_superior') . ': ' . $superior->getFullname() . '\n';
         $description .= $this->lng->txt('il_orgu_employee') . ': ' . $employee->getFullname() . '\n';
 
