@@ -68,10 +68,12 @@ class MigrateMailAttachmentsToIRSS implements Migration
     {
         $db = $this->helper->getDatabase();
         $res = $db->query(
-            'SELECT path FROM mail_attachment
-             WHERE (rcid IS NULL OR rcid = "")
-             AND path IS NOT NULL AND path != ""
-             GROUP BY path
+            'SELECT ma.path FROM mail_attachment ma
+             LEFT JOIN mail m ON m.mail_id = ma.mail_id
+             WHERE (ma.rcid IS NULL OR ma.rcid = "")
+             AND ma.path IS NOT NULL AND ma.path != ""
+             GROUP BY ma.path
+             ORDER BY MAX(m.send_time) DESC
              LIMIT ' . self::PATHS_PER_STEP
         );
 
@@ -111,6 +113,7 @@ class MigrateMailAttachmentsToIRSS implements Migration
         $res = $db->query(
             'SELECT mail_id, user_id, attachments FROM mail
              WHERE attachments LIKE ' . $db->quote('a:%', 'text') . '
+             ORDER BY send_time DESC, mail_id DESC
              LIMIT ' . self::MAILS_PER_STEP
         );
 
