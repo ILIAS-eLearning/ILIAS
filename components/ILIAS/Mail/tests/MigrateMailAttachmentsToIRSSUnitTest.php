@@ -169,6 +169,43 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         ]);
     }
 
+    public function testMigrateSerializedMailAttachmentsSelectsNewestMailsFirst(): void
+    {
+        $captured_sql = '';
+        $statement = $this->createMock(ilDBStatement::class);
+        $this->db->method('quote')->willReturnCallback(static fn(string $value): string => "'" . $value . "'");
+        $this->db->expects($this->once())
+            ->method('query')
+            ->willReturnCallback(function (string $sql) use ($statement, &$captured_sql): ilDBStatement {
+                $captured_sql = $sql;
+
+                return $statement;
+            });
+        $this->db->method('fetchObject')->willReturn(null);
+
+        $this->invokePrivate('migrateSerializedMailAttachments', []);
+
+        $this->assertStringContainsString('ORDER BY send_time DESC', $captured_sql);
+    }
+
+    public function testMigrateSentAttachmentDirectoriesSelectsPathsOfNewestMailsFirst(): void
+    {
+        $captured_sql = '';
+        $statement = $this->createMock(ilDBStatement::class);
+        $this->db->expects($this->once())
+            ->method('query')
+            ->willReturnCallback(function (string $sql) use ($statement, &$captured_sql): ilDBStatement {
+                $captured_sql = $sql;
+
+                return $statement;
+            });
+        $this->db->method('fetchObject')->willReturn(null);
+
+        $this->invokePrivate('migrateSentAttachmentDirectories', []);
+
+        $this->assertStringContainsString('ORDER BY MAX(m.send_time) DESC', $captured_sql);
+    }
+
     public function testMarkPathAsSkippedWritesDashMarker(): void
     {
         $this->db->expects($this->once())
