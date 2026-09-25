@@ -39,6 +39,7 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
     public const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
     public const FNAME_OFFSET = 'offset';
     public const FNAME_LIMIT = 'limit';
+    private const FNAME_PAGINATION = 'pag';
     protected const NUMBER_OF_VISIBLE_SECTIONS = 7;
 
     protected Signal $internal_selection_signal;
@@ -57,9 +58,10 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
 
         $this->setInputGroup(
             $field_factory->group([
-                self::FNAME_OFFSET => $field_factory->hidden(),
-                self::FNAME_LIMIT => $field_factory->hidden(),
+                self::FNAME_OFFSET => $field_factory->hidden()->withDedicatedName(self::FNAME_OFFSET),
+                self::FNAME_LIMIT => $field_factory->hidden()->withDedicatedName(self::FNAME_LIMIT),
             ])
+            ->withDedicatedName(self::FNAME_PAGINATION)
             ->withAdditionalTransformation($this->getRangeTransform())
             ->withAdditionalTransformation($this->getCorrectOffsetForPageSize())
         );
@@ -87,12 +89,12 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
         return $this->refinery->custom()->transformation(
             function ($v): Range {
                 list($offset, $limit) = $v->unpack();
-                if($limit === 0) {
+                if ($limit === 0) {
                     $limit = current($this->getLimitOptions());
                 }
                 $current_page = floor($offset / $limit);
                 $offset = $current_page * $limit;
-                return $this->data_factory->range((int)$offset, $limit);
+                return $this->data_factory->range((int) $offset, $limit);
             }
         );
     }

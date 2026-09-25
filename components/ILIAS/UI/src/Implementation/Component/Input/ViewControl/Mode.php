@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Input\Input;
 
 class Mode extends ViewControlInput implements VCInterface\Mode
 {
+    private const FNAME_MODE = 'mode';
+
     public function __construct(
         DataFactory $data_factory,
         Refinery $refinery,
@@ -47,6 +49,7 @@ class Mode extends ViewControlInput implements VCInterface\Mode
             )
         );
         parent::__construct($data_factory, $refinery);
+        $this->dedicated_name = self::FNAME_MODE;
     }
 
     protected function isClientSideValueOk($value): bool

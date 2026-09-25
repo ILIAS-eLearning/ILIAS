@@ -41,6 +41,8 @@ abstract class ViewControl extends Container implements I\ViewControl
 {
     use JavaScriptBindable;
 
+    private const FNAME_CONTAINER = 'vc';
+
     protected Signal $submit_signal;
     protected ?ServerRequestInterface $request = null;
     protected Input\ArrayInputData $stored_input;
@@ -55,7 +57,12 @@ abstract class ViewControl extends Container implements I\ViewControl
         array $controls
     ) {
         parent::__construct($name_source);
-        $this->setInputGroup($view_control_factory->group($controls)->withDedicatedName('view_control'));
+        $this->setInputGroup(
+            $view_control_factory->group($controls)
+                ->withDedicatedName(
+                    self::FNAME_CONTAINER
+                )
+        );
         $this->submit_signal = $signal_generator->create();
         $this->stored_input = new Input\ArrayInputData([]);
     }
