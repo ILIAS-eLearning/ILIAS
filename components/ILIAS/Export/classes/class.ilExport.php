@@ -140,33 +140,6 @@ class ilExport
     }
 
     /**
-     * Get a list of subitems of a repository resource, that implement
-     * the export. Includes also information on last export file.
-     * @return array<int, array<string, int|string>>
-     */
-    public static function _getValidExportSubItems(int $a_ref_id): array
-    {
-        global $DIC;
-
-        $tree = $DIC->repositoryTree();
-
-        $valid_items = array();
-        $sub_items = $tree->getSubTree($tree->getNodeData($a_ref_id));
-        foreach ($sub_items as $sub_item) {
-            if (in_array($sub_item["type"], self::$export_implementer)) {
-                $valid_items[] = [
-                    "type" => (string) $sub_item["type"],
-                    "title" => (string) $sub_item["title"],
-                    "ref_id" => (int) $sub_item["child"],
-                    "obj_id" => (int) $sub_item["obj_id"],
-                    "timestamp" => ilExport::_getLastExportFileDate($sub_item["obj_id"], "xml", $sub_item["type"])
-                ];
-            }
-        }
-        return $valid_items;
-    }
-
-    /**
      * @depricated
      * Get date of last export file
      * @param int    $a_obj_id   object id

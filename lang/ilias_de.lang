@@ -9868,7 +9868,6 @@ export#:#exp_size#:#Dateigröße (MB)
 export#:#exp_timestamp#:#Erstellungsdatum
 export#:#exp_toggle_public_access#:#Öffentlichen Zugriff (de-)aktivieren
 export#:#exp_type#:#Type
-export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
 export#:#export_export_date#:#Exportdatum
@@ -9876,10 +9875,7 @@ export#:#export_info_public_access#:#Öffentliche Exportdatei
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Letzter Export
 export#:#export_last_export_file#:#Letzte Exportdatei benutzen
-export#:#export_last_file#:#Letzte Datei
-export#:#export_omit#:#Auslassen
 export#:#export_omit_resource#:#Objekt auslassen
-export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
