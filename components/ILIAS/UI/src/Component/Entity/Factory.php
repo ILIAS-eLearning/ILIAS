@@ -37,10 +37,14 @@ interface Factory
      *     The Standard Entity can (and should) be used to list system entities
      *     such as repository objects, users and similar.
      * ---
+     * @param string|int                            $technical_identifier
+     * @param Symbol|Image|ShyButton|ShyLink|string $primary_visual_identifier
+     * @param Symbol|Image|ShyButton|ShyLink|string $secondary_visual_identifier
      * @return \ILIAS\UI\Component\Entity\Standard
      */
     public function standard(
-        Symbol | Image | ShyButton | ShyLink | string $primary_identifier,
-        Symbol | Image | ShyButton | ShyLink | string $secondary_identifier
+        string|int $technical_identifier,
+        Symbol|Image|ShyButton|ShyLink|string $primary_visual_identifier,
+        Symbol|Image|ShyButton|ShyLink|string $secondary_visual_identifier,
     ): Standard;
 }

@@ -24,4 +24,8 @@ use ILIAS\UI\Component\Component;
 
 interface State extends Component
 {
+    /**
+     * Get a Prompts State like this, but provide it with an explicit title.
+     */
+    public function withTitle(string $title): self;
 }
