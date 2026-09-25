@@ -315,12 +315,14 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
             ->modal()
             ->lightbox([$this->uiFactory->modal()->lightboxTextPage($row['text'], $row['title'])]);
 
+        $this->uiComponents[] = $modal;
+
         $titleLink = $this->uiFactory
             ->button()
             ->shy($row[$column], '#')
             ->withOnClick($modal->getShowSignal());
 
-        return $this->uiRenderer->render([$titleLink, $modal]);
+        return $this->uiRenderer->render($titleLink);
     }
 
     protected function formatSorting(array $row): string
