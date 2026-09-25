@@ -46,32 +46,33 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 
     protected array $rte_tag_set = array(
         "mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
-        "standard" => array("strong", "em", "u", "ol", "li", "ul", "p", "div",
-            "i", "b", "code", "sup", "sub", "pre", "strike", "gap"),
+        // #48391: TinyMCE 7 uses span[style=text-decoration] and <s> (not only u/strike)
+        "standard" => array("strong", "em", "u", "s", "ol", "li", "ul", "p", "div",
+            "i", "b", "code", "sup", "sub", "pre", "strike", "gap", "span"),
         "extended" => array(
             "a","blockquote","br","cite","code","div","em","h1","h2","h3",
             "h4","h5","h6","hr","li","ol","p",
-            "pre","span","strike","strong","sub","sup","u","ul",
+            "pre","span","s","strike","strong","sub","sup","u","ul",
             "i", "b", "gap"),
         "extended_img" => array(
             "a","blockquote","br","cite","code","div","em","h1","h2","h3",
             "h4","h5","h6","hr","img","li","ol","p",
-            "pre","span","strike","strong","sub","sup","u","ul",
+            "pre","span","s","strike","strong","sub","sup","u","ul",
             "i", "b", "gap"),
         "extended_table" => array(
             "a","blockquote","br","cite","code","div","em","h1","h2","h3",
             "h4","h5","h6","hr","li","ol","p",
-            "pre","span","strike","strong","sub","sup","table","td",
+            "pre","span","s","strike","strong","sub","sup","table","td",
             "tr","u","ul", "i", "b", "gap"),
         "extended_table_img" => array(
             "a","blockquote","br","cite","code","div","em","h1","h2","h3",
             "h4","h5","h6","hr","img","li","ol","p",
-            "pre","span","strike","strong","sub","sup","table","td",
+            "pre","span","s","strike","strong","sub","sup","table","td",
             "tr","u","ul", "i", "b", "gap"),
         "full" => array(
             "a","blockquote","br","cite","code","div","em","h1","h2","h3",
             "h4","h5","h6","hr","img","li","ol","p",
-            "pre","span","strike","strong","sub","sup","table","td",
+            "pre","span","s","strike","strong","sub","sup","table","td",
             "tr","u","ul","ruby","rbc","rtc","rb","rt","rp", "i", "b", "gap"));
 
     public function __construct(
