@@ -159,6 +159,9 @@ class NoUIFactory implements FactoryInternal
     public function navigation(): I\Navigation\Factory
     {
     }
+    public function transfer(): I\Transfer\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry

@@ -95,6 +95,9 @@ class Glyph implements C\Symbol\Glyph\Glyph
         self::OWNER,
         self::DATE,
         self::LOCATION,
+        self::COPY,
+        self::QR_CODE,
+        self::SHARE,
     ];
 
     private string $type;

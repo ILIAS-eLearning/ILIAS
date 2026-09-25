@@ -1142,4 +1142,40 @@ interface Factory
      */
     public function navigation(): C\Navigation\Factory;
 
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Transfer components allow users to transfer information from one context or
+     *     medium to another. Transfer components are always initiated by the user.
+     *   composition: >
+     *     Transfer components consist of the information which should be transfered
+     *     and a primary transfering mechanism (e.g. clipboard).
+     *   effect: >
+     *     Interacting with a Transfer component will transfer information from one
+     *     context or medium to another.
+     *   rivals:
+     *     Button: >
+     *       Button components should be used for actions where the information is acted
+     *       upon, while Transfer components should be used to let users transfer it.
+     *     Link: >
+     *       Link components should be used for navigation and when the information is
+     *       accessed directly, i.e. not transfered.
+     *
+     * rules:
+     *   usage:
+     *     1: Transfer components SHOULD be preferred over isolated copy actions.
+     *     2: >
+     *       Transfer components MUST NOT be used to trigger protocol-based
+     *       actions such as "mailto:" or "tel:". These are navigational
+     *       interactions and SHOULD be implemented using Link components.
+     *   interaction:
+     *     1: Feedback MUST be provided after a transfer was initiated/completed.
+     *   accessibility:
+     *     1: All transfer mechanisms MUST be operable by keyboard only.
+     *     2: Feedback of interactions MUST be conveyed to assistive technologies.
+     * ---
+     * @return \ILIAS\UI\Component\Transfer\Factory
+     */
+    public function transfer(): C\Transfer\Factory;
 }

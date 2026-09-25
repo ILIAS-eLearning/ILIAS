@@ -46,6 +46,7 @@ class ListingRendererFactory extends DefaultRendererFactory
                 $this->data_factory,
                 $this->help_text_retriever,
                 $this->upload_limit_resolver,
+                $this->refinery,
             );
         }
 

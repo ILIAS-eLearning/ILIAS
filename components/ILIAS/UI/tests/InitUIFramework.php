@@ -63,6 +63,7 @@ class InitUIFramework
                 $c["ui.factory.entity"],
                 $c["ui.factory.prompt"],
                 $c["ui.factory.navigation"],
+                new ILIAS\UI\Implementation\Component\Transfer\Factory(),
             );
         };
         $c["ui.upload_limit_resolver"] = function ($c) {
@@ -329,7 +330,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Button\ButtonRendererFactory(
                             $c["ui.factory"],
@@ -339,7 +341,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -349,7 +352,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
                             $c["ui.factory"],
@@ -359,7 +363,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
                             $c["ui.factory"],
@@ -369,7 +374,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Menu\MenuRendererFactory(
                             $c["ui.factory"],
@@ -379,7 +385,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Listing\ListingRendererFactory(
                             $c["ui.factory"],
