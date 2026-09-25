@@ -22,6 +22,8 @@ namespace ILIAS\EmployeeTalk\Notification\Calendar;
 
 class VEvent
 {
+    private const TIMEZONE = 'Europe/Paris';
+
     protected string $uid;
     protected string $description;
     protected string $summary;
@@ -36,6 +38,7 @@ class VEvent
     protected bool $all_day;
     protected string $url;
     protected string $location;
+    protected \DateTimeImmutable $generated_at;
 
     public function __construct(
         string $uid,
@@ -51,7 +54,8 @@ class VEvent
         int $endTime,
         bool $allDay,
         string $url,
-        string $location
+        string $location,
+        ?\DateTimeImmutable $generated_at = null
     ) {
         $this->uid = $uid;
         $this->description = $description;
@@ -67,53 +71,79 @@ class VEvent
         $this->all_day = $allDay;
         $this->url = $url;
         $this->location = $location;
+        $this->generated_at = ($generated_at ?? new \DateTimeImmutable('now'))
+            ->setTimezone(new \DateTimeZone('UTC'));
     }
 
     protected function renderStartAndEndDates(): string
     {
-        // creating DateTimes from Unix timestamps automatically sets the initial timezone to UTC
-        $start = new \DateTimeImmutable('@' . $this->start_time);
-        $start = $start->setTimezone(new \DateTimeZone('Europe/Paris'));
-        $end = new \DateTimeImmutable('@' . $this->end_time);
-        $end = $end->setTimezone(new \DateTimeZone('Europe/Paris'));
+        $timezone = new \DateTimeZone(self::TIMEZONE);
+        $start = (new \DateTimeImmutable('@' . $this->start_time))->setTimezone($timezone);
+        $end = (new \DateTimeImmutable('@' . $this->end_time))->setTimezone($timezone);
 
         if ($this->all_day) {
-            return  'DTSTART;TZID=Europe/Paris;VALUE=DATE:' . $start->format('Ymd') . "\r\n" .
-                    'DTEND;TZID=Europe/Paris;VALUE=DATE:' . $end->format('Ymd') . "\r\n" .
-                    "X-MICROSOFT-CDO-ALLDAYEVENT: TRUE\r\n";
-        } else {
-            return  'DTSTART;TZID=Europe/Paris:' . $start->format('Ymd\THis') . "\r\n" .
-                    'DTEND;TZID=Europe/Paris:' . $end->format('Ymd\THis') . "\r\n";
+            $end_exclusive = $end->modify('+1 day');
+
+            return 'DTSTART;VALUE=DATE:' . $start->format('Ymd') . "\r\n" .
+                'DTEND;VALUE=DATE:' . $end_exclusive->format('Ymd') . "\r\n" .
+                "X-MICROSOFT-CDO-ALLDAYEVENT:TRUE\r\n";
         }
+
+        return 'DTSTART;TZID=' . self::TIMEZONE . ':' . $start->format('Ymd\THis') . "\r\n" .
+            'DTEND;TZID=' . self::TIMEZONE . ':' . $end->format('Ymd\THis') . "\r\n";
     }
 
     public function render(): string
     {
+        $stamp = $this->generated_at->format('Ymd\THis\Z');
+
         return 'BEGIN:VEVENT' . "\r\n" .
-        'UID: ' . $this->uid . "\r\n" .
-        'DESCRIPTION:' . $this->description . "\r\n" .
-        $this->renderStartAndEndDates() .
-        'DTSTAMP:' . date("Ymd\THis") . "\r\n" .
-        'LAST-MODIFIED:' . date("Ymd\THis") . "\r\n" .
-        'ORGANIZER;CN="' . $this->organiser_name . '":MAILTO:' . $this->organiser_email . "\r\n" .
-        'ATTENDEE;CN="' . $this->attendee_name . '";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:' . $this->attendee_email . "\r\n" .
-        'SUMMARY:' . $this->summary . "\r\n" .
-        'LOCATION:' . $this->location . "\r\n" .
-        'SEQUENCE:' . $this->sequence . "\r\n" .
-        "PRIORITY:5\r\n" .
-        'STATUS:' . $this->status->value . "\r\n" .
-        "TRANSP:OPAQUE\r\n" .
-        "X-MICROSOFT-CDO-BUSYSTATUS:BUSY\r\n" .
-        'CLASS:PUBLIC' . "\r\n" .
-        "X-MICROSOFT-DISALLOW-COUNTER:TRUE\r\n" .
-        //'URL:'. $this->url . "\r\n" .
+            'UID:' . $this->escapeText($this->uid) . "\r\n" .
+            'DESCRIPTION:' . $this->escapeText($this->description) . "\r\n" .
+            $this->renderStartAndEndDates() .
+            'DTSTAMP:' . $stamp . "\r\n" .
+            'LAST-MODIFIED:' . $stamp . "\r\n" .
+            $this->renderOrganizer() .
+            'SUMMARY:' . $this->escapeText($this->summary) . "\r\n" .
+            'LOCATION:' . $this->escapeText($this->location) . "\r\n" .
+            'SEQUENCE:' . $this->sequence . "\r\n" .
+            "PRIORITY:5\r\n" .
+            'STATUS:' . $this->status->value . "\r\n" .
+            "TRANSP:OPAQUE\r\n" .
+            "X-MICROSOFT-CDO-BUSYSTATUS:BUSY\r\n" .
+            'CLASS:PUBLIC' . "\r\n" .
+            "X-MICROSOFT-DISALLOW-COUNTER:TRUE\r\n" .
+            'BEGIN:VALARM' . "\r\n" .
+            'DESCRIPTION:' . $this->escapeText($this->summary) . "\r\n" .
+            'TRIGGER:-PT15M' . "\r\n" .
+            'ACTION:DISPLAY' . "\r\n" .
+            'END:VALARM' . "\r\n" .
+            'END:VEVENT' . "\r\n";
+    }
 
-        'BEGIN:VALARM' . "\r\n" .
-        'DESCRIPTION:' . $this->summary . "\r\n" .
-        'TRIGGER:-PT15M' . "\r\n" .
-        'ACTION:DISPLAY' . "\r\n" .
-        'END:VALARM' . "\r\n" .
+    private function renderOrganizer(): string
+    {
+        if ($this->organiser_email === '') {
+            return '';
+        }
 
-        'END:VEVENT' . "\r\n";
+        return 'ORGANIZER;CN="' . $this->escapeQuoted($this->organiser_name) .
+            '":mailto:' . $this->organiser_email . "\r\n";
+    }
+
+    private function escapeText(string $text): string
+    {
+        $newline = "\x00n\x00";
+
+        return str_replace(
+            ['\\n', '\\N', "\r\n", "\n", '\\', ';', ',', $newline],
+            [$newline, $newline, $newline, $newline, '\\\\', '\\;', '\\,', '\\n'],
+            $text
+        );
+    }
+
+    private function escapeQuoted(string $text): string
+    {
+        return str_replace(['\\', '"'], ['\\\\', '\\"'], $text);
     }
 }
