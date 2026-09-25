@@ -21,6 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\MyStaff\ListUsers;
 
 use ilObjUser;
+use ILIAS\Data\Privacy\Purpose\LegacyAccess;
+use ILIAS\Data\Privacy\Source\LegacySource;
+use ILIAS\Data\Privacy\Types\PostalAddress;
+use ILIAS\Data\Privacy\Types\PostalAddressValue;
 
 /**
  * Class ilMStListUser
@@ -36,10 +40,7 @@ final class ilMStListUser
     private string $hobby;
     private string $institution;
     private string $department;
-    private string $street;
-    private string $zipcode;
-    private string $city;
-    private string $country;
+    private ?PostalAddress $postal_address = null;
     private string $matriculation;
     private string $firstname;
     private string $lastname;
@@ -166,44 +167,94 @@ final class ilMStListUser
         $this->department = $department;
     }
 
+    public function getPostalAddress(): ?PostalAddress
+    {
+        return $this->postal_address;
+    }
+
+    public function setPostalAddress(?PostalAddress $postal_address): void
+    {
+        $this->postal_address = $postal_address;
+    }
+
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getStreet(): string
     {
-        return $this->street;
+        return $this->resolveAddressForLegacyGetter()->street;
     }
 
+    /**
+     * @deprecated Use {@see setPostalAddress()} with a real source instead.
+     */
     public function setStreet(string $street): void
     {
-        $this->street = $street;
+        $this->postal_address = $this->postalAddressForLegacySetter()
+            ->withStreet($street, new LegacySource('mst_list_user_setter'));
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getZipcode(): string
     {
-        return $this->zipcode;
+        return $this->resolveAddressForLegacyGetter()->zipcode;
     }
 
+    /**
+     * @deprecated Use {@see setPostalAddress()} with a real source instead.
+     */
     public function setZipcode(string $zipcode): void
     {
-        $this->zipcode = $zipcode;
+        $this->postal_address = $this->postalAddressForLegacySetter()
+            ->withZipcode($zipcode, new LegacySource('mst_list_user_setter'));
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getCity(): string
     {
-        return $this->city;
+        return $this->resolveAddressForLegacyGetter()->city;
     }
 
+    /**
+     * @deprecated Use {@see setPostalAddress()} with a real source instead.
+     */
     public function setCity(string $city): void
     {
-        $this->city = $city;
+        $this->postal_address = $this->postalAddressForLegacySetter()
+            ->withCity($city, new LegacySource('mst_list_user_setter'));
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getCountry(): string
     {
-        return $this->country;
+        return $this->resolveAddressForLegacyGetter()->country;
     }
 
+    /**
+     * @deprecated Use {@see setPostalAddress()} with a real source instead.
+     */
     public function setCountry(string $country): void
     {
-        $this->country = $country;
+        $this->postal_address = $this->postalAddressForLegacySetter()
+            ->withCountry($country, new LegacySource('mst_list_user_setter'));
+    }
+
+    private function resolveAddressForLegacyGetter(): PostalAddressValue
+    {
+        return $this->postal_address?->resolve(new LegacyAccess('mst_list_user_getter'))
+            ?? new PostalAddressValue();
+    }
+
+    private function postalAddressForLegacySetter(): PostalAddress
+    {
+        return $this->postal_address
+            ?? new PostalAddress(new PostalAddressValue(), new LegacySource('mst_list_user_setter'));
     }
 
     public function getMatriculation(): string

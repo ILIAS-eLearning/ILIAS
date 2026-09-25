@@ -37,10 +37,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                     'getBirthday',
                     'getInstitution',
                     'getDepartment',
-                    'getStreet',
-                    'getCity',
-                    'getZipcode',
-                    'getCountry',
+                    'getProfileData',
                     'getMatriculation'
                 ]
             )
@@ -83,20 +80,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $objectMock->expects($this->once())
-            ->method('getStreet')
-            ->willReturn('');
-
-        $objectMock->expects($this->once())
-            ->method('getCity')
-            ->willReturn('');
-
-        $objectMock->expects($this->once())
-            ->method('getZipcode')
-            ->willReturn('');
-
-        $objectMock->expects($this->once())
-            ->method('getCountry')
-            ->willReturn('');
+            ->method('getProfileData')
+            ->willReturn(new ILIAS\User\Profile\Data());
 
         $objectMock->expects($this->once())
             ->method('getMatriculation')
@@ -164,7 +149,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,
-            2
+            2,
+            new ILIAS\Data\Privacy\Purpose\Purposes()
         );
         $placeHolderObject->setUserLanguage($language);
 
@@ -253,7 +239,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,
-            2
+            2,
+            new ILIAS\Data\Privacy\Purpose\Purposes()
         );
 
         $result = $placeHolderObject->getPlaceholderValuesForPreview(

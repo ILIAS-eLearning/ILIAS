@@ -25,10 +25,18 @@ use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
+use ILIAS\Data\Privacy\Purpose\Purposes;
+use ILIAS\Data\Privacy\Source\Sources;
 
 class Country implements FieldDefinition
 {
     use NoOverrides;
+
+    public function __construct(
+        private readonly Purposes $purposes,
+        private readonly Sources $sources,
+    ) {
+    }
 
     public function getIdentifier(): string
     {
@@ -60,7 +68,8 @@ class Country implements FieldDefinition
             return $input;
         }
         $input->setValue(
-            $this->retrieveValueFromUser($user)
+            $user->getProfileData()->getPostalAddress()
+                ?->resolve($this->purposes->displayToUser('profile_form'))->country ?? ''
         );
         return $input;
     }
@@ -70,8 +79,15 @@ class Country implements FieldDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $user->setCountry($input);
-        return $user;
+        $address = $user->getProfileData()->getPostalAddress()
+            ?->withCountry((string) $input, $this->sources->userInput('profile_form'));
+        if ($address === null) {
+            $user->setCountry($input);
+            return $user;
+        }
+        return $user->withProfileData(
+            $user->getProfileData()->withPostalAddress($address)
+        );
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): string
