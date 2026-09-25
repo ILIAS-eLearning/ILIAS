@@ -67,7 +67,7 @@ class ilCalendarRecurrenceExclusion
         $this->exclusion = $dt;
     }
 
-    public function toICal(): string
+    public function toICal(string $a_tz = ''): string
     {
         $entry = new ilCalendarEntry($this->getEntryId());
         $start = $entry->getStart();
@@ -75,9 +75,13 @@ class ilCalendarRecurrenceExclusion
         if ($entry->isFullday()) {
             return 'EXDATE;VALUE=DATE:' . $this->getDate()->get(IL_CAL_FKT_DATE, 'Ymd');
         } else {
+            $tz = $a_tz ?: ilTimeZone::UTC;
+            $local_time = $start->get(IL_CAL_FKT_DATE, 'H:i:s', $tz);
+            $excl_date = $this->getDate()->get(IL_CAL_FKT_DATE, 'Y-m-d');
+            $excl_dt = new ilDateTime($excl_date . ' ' . $local_time, IL_CAL_DATETIME, $tz);
             return 'EXDATE:' .
-                $this->getDate()->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC) .
-                'T' . $start->get(IL_CAL_FKT_DATE, 'His', ilTimeZone::UTC) . 'Z';
+                $excl_dt->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC) .
+                'T' . $excl_dt->get(IL_CAL_FKT_DATE, 'His', ilTimeZone::UTC) . 'Z';
         }
     }
 
