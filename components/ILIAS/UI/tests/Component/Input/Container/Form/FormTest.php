@@ -42,6 +42,11 @@ class FixedNameSource implements NameSource
     {
         return $this->name;
     }
+
+    public function withReset(): static
+    {
+        return $this;
+    }
 }
 
 class ConcreteForm extends Form

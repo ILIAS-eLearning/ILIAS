@@ -70,6 +70,13 @@ class DefNamesource implements NameSource
 
         return $name;
     }
+
+    public function withReset(): static
+    {
+        $clone = clone $this;
+        $clone->count = 0;
+        return $clone;
+    }
 }
 
 class DefInputData implements InputData

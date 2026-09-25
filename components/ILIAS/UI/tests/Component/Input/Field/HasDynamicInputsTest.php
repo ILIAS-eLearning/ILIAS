@@ -157,6 +157,10 @@ class HasDynamicInputsTest extends TestCase
             {
                 return 'test_name';
             }
+            public function withReset(): static
+            {
+                return $this;
+            }
         };
     }
 
