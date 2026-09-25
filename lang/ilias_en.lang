@@ -9842,7 +9842,6 @@ export#:#exp_size#:#File Size (MB)
 export#:#exp_timestamp#:#Creation Date
 export#:#exp_toggle_public_access#:#Toggle Public Access
 export#:#exp_type#:#Type
-export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
 export#:#export_export_date#:#Export Date
@@ -9850,10 +9849,7 @@ export#:#export_info_public_access#:#Public Export
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Last Export
 export#:#export_last_export_file#:#Use Last Export File
-export#:#export_last_file#:#Last File
-export#:#export_omit#:#Omit
 export#:#export_omit_resource#:#Omit Resource
-export#:#export_resource#:#Resource
 export#:#export_save_selection#:#Start Export
 export#:#export_select_resources#:#Select Resources
 export#:#no_file#:#No file
