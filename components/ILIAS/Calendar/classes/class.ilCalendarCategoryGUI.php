@@ -161,8 +161,6 @@ class ilCalendarCategoryGUI
         }
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
-                $this->ctrl->setReturn($this, 'details');
-
                 $app_id = 0;
                 if ($this->http->wrapper()->query()->has('app_id')) {
                     $app_id = $this->http->wrapper()->query()->retrieve(
@@ -177,9 +175,6 @@ class ilCalendarCategoryGUI
             default:
                 $cmd = $this->ctrl->getCmd("show");
                 $this->$cmd();
-                if (!in_array($cmd, array("details", "askDeleteAppointments", "deleteAppointments"))) {
-                    return;
-                }
         }
     }
 
@@ -336,25 +331,6 @@ class ilCalendarCategoryGUI
             $form = $this->initFormCategory('edit');
         }
         $this->tpl->setContent($form->getHTML());
-    }
-
-    protected function details(): void
-    {
-        if (!$this->category_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->returnToParent($this);
-        }
-
-        $this->readPermissions();
-        $this->checkVisible();
-
-        // Non editable category
-        $info = new ilInfoScreenGUI($this);
-        $info->setFormAction($this->ctrl->getFormAction($this));
-
-        $info->addSection($this->lng->txt('cal_cal_details'));
-
-        $this->tpl->setContent($info->getHTML() . $this->showAssignedAppointments());
     }
 
     protected function synchroniseCalendar(): void
@@ -914,74 +890,6 @@ class ilCalendarCategoryGUI
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'manage');
-    }
-
-    protected function showAssignedAppointments(): string
-    {
-        $table_gui = new ilCalendarAppointmentsTableGUI($this, 'details', $this->category_id);
-        $table_gui->setTitle($this->lng->txt('cal_assigned_appointments'));
-        $table_gui->setAppointments(
-            ilCalendarCategoryAssignments::_getAssignedAppointments(
-                ilCalendarCategories::_getInstance()->getSubitemCategories($this->category_id)
-            )
-        );
-        return $table_gui->getHTML();
-    }
-
-    protected function askDeleteAppointments(): void
-    {
-        $appointments = [];
-        if ($this->http->wrapper()->post()->has('appointments')) {
-            $appointments = $this->http->wrapper()->post()->retrieve(
-                'appointments',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        if (!count($appointments)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->details();
-            return;
-        }
-
-        $confirmation_gui = new ilConfirmationGUI();
-        $this->ctrl->setParameter($this, 'category_id', $this->category_id);
-        $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
-        $confirmation_gui->setHeaderText($this->lng->txt('cal_del_app_sure'));
-        $confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteAppointments');
-        $confirmation_gui->setCancel($this->lng->txt('cancel'), 'details');
-
-        foreach ($appointments as $app_id) {
-            $app = new ilCalendarEntry($app_id);
-            $confirmation_gui->addItem('appointments[]', (string) $app_id, $app->getTitle());
-        }
-        $this->tpl->setContent($confirmation_gui->getHTML());
-    }
-
-    protected function deleteAppointments(): void
-    {
-        $appointments = [];
-        if ($this->http->wrapper()->post()->has('appointments')) {
-            $appointments = $this->http->wrapper()->post()->retrieve(
-                'appointments',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        if (!count($appointments)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->details();
-            return;
-        }
-        foreach ($appointments as $app_id) {
-            $app = new ilCalendarEntry($app_id);
-            $app->delete();
-            ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        $this->details();
     }
 
     public function getHTML(): string
