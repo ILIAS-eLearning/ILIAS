@@ -109,4 +109,27 @@ class SectionInputTest extends ILIAS_UI_TestBase
         $this->assertStringContainsString('<h3>Middle Section</h3>', $nested_sections_html);
         $this->assertStringContainsString('<h4>Inner Section</h4>', $nested_sections_html);
     }
+
+    public function testNestedSectionInsideGroupRendering(): void
+    {
+        $f = $this->getFieldFactory();
+        $inputs_level6 = [$f->text("input3", "input3 byline")];
+        $section_level6 = $f->section($inputs_level6, "Inner Section");
+
+        $group_level5 = $f->group([$section_level6]);
+
+        $inputs_level4 = [$f->text("input2", "input2 byline"), $group_level5];
+        $section_level4 = $f->section($inputs_level4, "Middle Section");
+
+        $group_level3 = $f->group([$section_level4]);
+
+        $inputs_level2 = [$f->text("input1", "input1 byline"), $group_level3];
+        $section_level2 = $f->section($inputs_level2, "Outermost Section");
+
+        $nested_sections_html = $this->render($section_level2);
+
+        $this->assertStringContainsString('<h2>Outermost Section</h2>', $nested_sections_html);
+        $this->assertStringContainsString('<h3>Middle Section</h3>', $nested_sections_html);
+        $this->assertStringContainsString('<h4>Inner Section</h4>', $nested_sections_html);
+    }
 }
