@@ -592,7 +592,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             . self::FIELD_VQ_RESTART_PERIOD
             . ' FROM ' . self::TABLE . PHP_EOL
             . ' WHERE ' . self::FIELD_STATUS . ' = ' . ilStudyProgrammeSettings::STATUS_ACTIVE
-            . ' AND ' . self::FIELD_VQ_RESTART_PERIOD . ' >= 0';
+            . ' AND ' . self::FIELD_VQ_RESTART_PERIOD . ' > 0';
 
         $return = [];
         $res = $this->db->query($query);
