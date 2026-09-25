@@ -36,7 +36,5 @@ class BackgroundTasks_ implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[PublicAsset::class] = fn(): ComponentJS =>
-            new ComponentJS($this, "background_task_refresh.js");
     }
 }
