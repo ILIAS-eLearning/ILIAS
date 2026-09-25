@@ -1,0 +1,115 @@
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+********************************************************************
+*/
+/**
+* ILIAS language file
+*
+* @module		language file German
+* @modulegroup	language
+* @author 		Matthias Kunkel <mkunkel@me.com>
+* @version		$Id$
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+add_icon#:#Icon hinzufügen
+amount_of_downloads#:#Downloads
+amount_of_downloads_since#:#%d seit %s
+copyright_custom#:#Benutzerdefiniert
+copyright_custom_info#:#Lizenz auswählen, welche auf alle entpackten Dateien dieses Archivs angewandt wird.
+copyright_inherited#:#Vererbt
+copyright_inherited_info#:#Lizenz des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Lizenz des Zip-Archivs: %s.
+could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
+de_activate_icon#:#(De-)Aktivieren
+download_ascii_filename#:#Nur ASCII-Zeichen im Download
+download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
+file_action_download#:#Datei herunterladen oder Inhalt anzeigen
+file_action_download_info#:#Wenn WOPI aktiviert ist und die Berechtigung „Inhalt anzeigen“ erteilt wurde, wird die Datei auf der Registerkarte „Inhalt“ angezeigt. Wenn nicht, wird die Datei zum direkten Download angeboten.
+file_action_show#:#Zunächst Reiter „Info“ anzeigen
+file_action_show_info#:#Der Reiter „Info“ wird angezeigt, wo die Datei in einem zweiten Schritt heruntergeladen werden kann.
+file_btn_lp_toggle_state_completed#:#Auf „Nicht bearbeitet“ setzen
+file_btn_lp_toggle_state_not_completed#:#Auf „Bearbeitet“ setzen
+file_copy#:#Datei kopieren
+file_download#:#Datei herunterladen
+file_import#:#Dateiimport
+file_new_version#:#Neue Version anlegen
+file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
+file_publish#:#Entwurf veröffentlichen
+file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert.
+file_rollback_same_version#:#Dies ist bereits die veröffentlichte Version
+file_unpublish#:#Als Entwurf markieren
+file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s
+file_uploaded_by#:#Hochgeladen von
+file_version_draft#:#Entwurf
+file_version_draft_info#:#Die aktuellste Version ist im Status „Entwurf“. Solange diese Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuell veröffentlichte Version.
+form_icon_creation#:#Icon erstellen
+form_icon_updating#:#Icon aktualisieren
+general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
+important_info#:#Wichtige Informationen
+important_info_byline#:#Die Angaben werden im Reiter „Info“ angezeigt.
+input_active#:#Aktiv
+input_desc_active#:#Dieses Icon aktivieren.
+input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
+input_desc_suffixes#:#Liste Komma-separierter Suffixe (Nur Buchstaben und Zahlen ohne vorangehenden Punkt).
+input_icon#:#Icon
+input_suffixes#:#Suffix(e)
+migrated#:#Status
+mime_type#:#MIME-Type
+msg_cant_unpublish#:#Aktion konnte nicht ausgeführt werden
+msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
+msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nicht genutzt werden.
+msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.
+msg_error_active_suffixes_not_whitelisted#:#Die gewählte Dateiendung ist nicht auf der globalen Whitelist, beim Download werden die Dateine zu .sec. umbenannt.
+msg_error_duplicate_suffix_entries#:#Fehler: Die Komma-separierte Suffix-Liste enthält Duplikate.
+msg_error_icon_deletion#:#Fehler: Icon Löschung fehlgeschlagen.
+msg_error_suffixes_with_forbidden_characters#:#Fehler: unerlaubte Zeichen. Nur Buchstaben, Nummern, Leerzeichen und Kommas sind erlaubt.
+msg_icon_missing_from_db#:#Icon ist nicht in der Datenbank.
+msg_icon_missing_from_irss#:#Icon ist nicht im Resource Storage.
+msg_success_icon_activated#:#Icon erfolgreich aktiviert.
+msg_success_icon_created#:#Icon erfolgreich erstellt.
+msg_success_icon_deactivated#:#Icon erfolgreich deaktiviert.
+msg_success_icon_deletion#:#Icon erfolgreich gelöscht.
+msg_success_icon_updated#:#Icon erfolgreich aktualisiert.
+msg_unzip_success#:#Archiv wurde erfolreich entpackt.
+on_click_action#:#Klick auf Titel
+preview_caption#:#Vorschau %svon %s
+preview_image_size_info#:#Die Vorschauversionen der Bilder werden je nach Bedarf verkleinert oder vergrößert, so dass ihre längste Seite der hier eingegebenen Länge (in px) entspricht.
+preview_persisting#:#Vorschaubilder speichern
+preview_persisting_info#:#Vorschaubilder werden generiert und gespeichert. Sie müssen nicht mehr bei jedem Aufruf neu erzeugt werden. Das verbessert die Performanz.
+previews_for_tiles#:#Kachelbilder
+previews_for_tiles_info#:#Verwende Vorschaubilder für Kacheln.
+publish_before_delete#:#Version(en) konnte(n) nicht gelöscht werden, da ein noch unveröffentlichter Entwurf existiert.
+replace_file_info#:#Alle früheren Dateiversionen werden gelöscht.
+resource_id#:#Ressourcen ID
+service_settings#:#Weitere Funktionen
+service_settings_saved#:#Gespeichert
+set_license_for_all_files#:#Lizenz für alle Dateien festlegen
+show_amount_of_downloads#:#Anzahl Downloads anzeigen
+show_amount_of_downloads_info#:#Die Anzahl der Downloads wird im Reiter „Info“ des Dateiobjekts angezeigt.
+storage_id#:#Storage ID
+suffix_specific_icons#:#Suffix-spezifische Icons
+suffixes#:#Suffix(e)
+upload_files#:#Dateien hochladen
+upload_files_limit#:#Die maximale Größe einer Datei beträgt %s.
+upload_files_title#:#Dateien hochladen
+upload_info#:#Datei
+upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
+version_uploaded#:#Version hochgeladen am
+versionname#:#Angezeigter Titel
