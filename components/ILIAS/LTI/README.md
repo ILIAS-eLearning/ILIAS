@@ -34,7 +34,7 @@ LTI/
 │   ├── Object/               LTI object model (lti, ltiv, tools and platforms), shared by LTI 1.1 and LTI Advantage
 │   │   ├── Certificate/      Certificate placeholders and settings of an LTI object
 │   │   └── Verification/     Certificate verification of an LTI object (ltiv)
-│   ├── Outcome/              Learning progress reported back to the platforms that launch ILIAS (event listener, cron job), shared by LTI 1.1 and LTI Advantage
+│   ├── Tool/                 ILIAS as the tool platforms launch: launch, login, LTI view, object releases, learning progress sent back; shared by LTI 1.1 and LTI Advantage
 │   ├── LTI1p1/               LTI 1.1, kept for compatibility
 │   │   ├── Consumer/
 │   │   └── Provider/
@@ -56,6 +56,13 @@ LTI/
   Protocol handling MUST be delegated to the `celtic/lti` library instead of being reimplemented.
 * **LTIAdvantage/Common**: only what the Advantage platform and tool roles both use.
 * **Administration**: the administration node (`ilObjLTIAdministration*`). Its screens serve LTI 1.1 and LTI Advantage.
+* **Tool**: ILIAS as the tool a platform launches. celtic/lti checks a launch of either version by its
+  data, so the launch (`ilLTILaunchReceiver`, `ilLTIDataConnector`), the login (`ilAuthProviderLTI`), the
+  LTI view (`ilLTIViewGUI`), the releases of objects (`ilLTIProviderObjectSettingGUI`, `ilLTIRelease`) and
+  the learning progress sent back (`ilLTIAppEventListener`, `ilLTICronOutcomeService`) are shared. Only
+  what a version adds on top goes to LTI1p1 or LTIAdvantage. Several of these names are fixed by the core:
+  `ilAuthProviderLTI`, `ilAuthFrontendCredentialsLTI`, `ilLTIProviderObjectSettingGUI`,
+  `ilLTIAppEventListener`, `ilLTICronOutcomeService` and `$DIC['lti']`.
 * **Object**: the LTI object model, that is the objects and records LTI itself owns and both LTI
   versions read and write: the repository object `lti` (`ilObjLTITool` and its GUI, access and
   list classes), its certificate verification `ltiv` in `Object/Verification`, the tools ILIAS
@@ -97,7 +104,9 @@ it. Any further exception MUST be explained here.
 * Parameters come from the HTTP service, `$DIC->http()->wrapper()->query()` and `->post()`, refined with
   `$DIC->refinery()`. A GUI reads the request wrapper in its constructor. The request body comes from
   `$DIC->http()->request()` instead of `php://input`, and session data from `ilSession`.
-* The one exception is `ilLTI1p1ProviderLaunchRequestUri`, which rewrites `$_SERVER['REQUEST_URI']`:
+* `resources/lti.php` sets the command in `$_GET` and `$_POST` before ILIAS starts: ilCtrl takes it from the
+  request, and a platform cannot send it. celtic/lti checks the signature against the raw body.
+* The other exception is `ilLTI1p1ProviderLaunchRequestUri`, which rewrites `$_SERVER['REQUEST_URI']`:
   `celtic/lti` builds the URL it checks the OAuth1 signature against from that value
   (`OAuth\OAuthRequest::from_request()`), so there is no API to override it. Any further exception MUST be
   explained in a comment next to the access.
@@ -147,4 +156,7 @@ To remove LTI 1.1:
 2. Delete `templates/default/tpl.lti1p1_*.html`.
 3. Delete `resources/ltiresult.php` and its endpoint in `LTI.php`.
 4. Remove the calls into LTI1p1. Search for `ilLTI1p1` and `ilLTIConsumerResultService` outside `classes/LTI1p1/`.
+   On the tool side these are the key and secret an object is released with (`ilLTIProviderObjectSettingGUI`,
+   which then lists no LTI 1.1 platform) and the request URI fix in `ilLTILaunchReceiver`. `ilLTIDataConnector`
+   also finds a platform by its consumer key, which only LTI 1.1 uses.
 5. Keep the database tables and columns until a separate, explicit migration removes them.

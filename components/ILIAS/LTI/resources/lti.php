@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+/**
+ * Endpoint a platform launches ILIAS objects at, with any LTI version: the launch logs the user in through
+ * ilStartUpGUI::doLTIAuthentication() and ilAuthProviderLTI. Its URL must not change: platforms keep it.
+ */
+
+// ilCtrl takes the command from the request, and a platform cannot send it: it is set before ILIAS starts.
+// celtic/lti checks the signature against the raw body, which this does not change.
+$_GET['cmd'] = 'post';
+$_POST['cmd'] = 'doLTIAuthentication';
+
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
+
+ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
+
+global $DIC;
+
+$DIC->ctrl()->setTargetScript('ilias.php');
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);

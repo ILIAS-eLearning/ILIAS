@@ -1,0 +1,4 @@
+/* the exit button of the LTI view keeps its label, it is the only entry of the meta bar */
+.il-maincontrols-metabar .btn-bulky .bulky-label {
+    display: block !important;
+}

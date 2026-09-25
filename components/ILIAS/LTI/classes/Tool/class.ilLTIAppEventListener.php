@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\Enum\ServiceAction;
+use ceLTIc\LTI\Outcome;
+use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\UserResult;
+
 /**
  * Reports the learning progress of the users who came through LTI back to the platform they came from.
  * It works for both LTI versions: which service is used depends on the resource link, as celtic/lti
@@ -179,22 +184,29 @@ class ilLTIAppEventListener implements ilAppEventListener
     }
 
     /**
-     * Sends the score through the outcome service of the resource link, with the progress the status
-     * stands for when there is one (LTI Advantage Assignment and Grade Services).
-     *
-     * The resource link is read through the data connector of ILIAS as a tool, which comes with the
-     * launch of ILIAS as a tool. Until then nothing is sent.
+     * Sends the score through the outcome service of the resource link, which celtic/lti picks from what
+     * the platform offered at the launch. Nothing is sent before the user has a result.
      */
     private function sendOutcome(int $resource_link, string $account, ?float $score, ?int $status): void
     {
-        global $DIC;
+        if ($score === null) {
+            return;
+        }
 
-        $DIC->logger()->root()->debug(sprintf(
-            'LTI outcome for resource link %d and user %s not sent (score %s, status %s): ILIAS as a tool cannot read resource links yet.',
-            $resource_link,
-            $account,
-            var_export($score, true),
-            var_export($status, true)
-        ));
+        $link = ResourceLink::fromRecordId($resource_link, new ilLTIDataConnector());
+        if (!$link->hasOutcomesService()) {
+            return;
+        }
+
+        if (!$link->doOutcomesService(ServiceAction::Write, new Outcome($score), UserResult::fromResourceLink($link, $account))) {
+            global $DIC;
+
+            $DIC->logger()->root()->warning(sprintf(
+                'The platform did not accept the LTI outcome of resource link %d. Request: %s Response: %s',
+                $resource_link,
+                is_string($link->extRequest) ? $link->extRequest : json_encode($link->extRequest),
+                (string) $link->extResponse
+            ));
+        }
     }
 }
