@@ -95,15 +95,18 @@ class ilContainerNewsSettingsGUI
         //from crs/grp/cat settings - additional feature - news
 
         if ($this->setting->get('block_activated_news')) {
-            $news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
+            $label = $this->has_block_forced
+                ? 'frm_latest_postings_block'
+                : 'news_news_block';
+            $news = new ilCheckboxInputGUI($this->lng->txt($label), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
             $news->setValue('1');
             if ($this->has_block_forced) {
                 $news->setChecked(true);
                 $news->setDisabled(true);
             } else {
                 $news->setChecked($this->object->getNewsBlockActivated());
+                $news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
             }
-            $news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
             ilNewsForContextBlockGUI::addToSettingsForm($news);
             $form->addItem($news);
         }
