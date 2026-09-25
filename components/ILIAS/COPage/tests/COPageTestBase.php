@@ -130,10 +130,17 @@ class COPageTestBase extends TestCase
             $refinery_mock
         );
 
-        $ini_reader_mock = $this->createStub(ilIniFile::class);
         $this->setGlobalVariable(
-            "ilIliasIniFile",
-            $ini_reader_mock
+            'logging.factory',
+            $this->createStub(ILIAS\Logging\Logger\LoggerFactoryInterface::class)
+        );
+        $this->setGlobalVariable(
+            'logging.defaultConfigFactory',
+            $this->createStub(ILIAS\Logging\Logger\DefaultConfigLoggerFactoryInterface::class)
+        );
+        $this->setGlobalVariable(
+            'logging.config',
+            $this->createStub(ILIAS\Logging\Config\ConfigInterface::class)
         );
 
         $this->pc_cnt = 1;

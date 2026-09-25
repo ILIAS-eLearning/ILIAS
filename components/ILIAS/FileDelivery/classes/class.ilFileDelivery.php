@@ -165,7 +165,7 @@ final class ilFileDelivery implements ilFileDeliveryService
             $delivery->setMimeType($a_mime);
         }
 
-        $settings = new General();
+        $settings = new General($DIC->database());
         $delivery->setDownloadFileName($a_filename);
         $delivery->setConvertFileNameToAsci($settings->isDownloadWithAsciiFileName());
         $delivery->setDeleteFile($removeAfterDelivery);

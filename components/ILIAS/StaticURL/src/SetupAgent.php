@@ -33,12 +33,6 @@ use ILIAS\StaticURL\Setup\Shortlinks\ShortlinksDBSteps11;
 class SetupAgent extends NullAgent implements Agent
 {
     #[\Override]
-    public function getBuildObjective(): Objective
-    {
-        return new ArtifactObjective();
-    }
-
-    #[\Override]
     public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(

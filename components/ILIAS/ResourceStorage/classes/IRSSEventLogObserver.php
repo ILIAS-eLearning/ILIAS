@@ -21,13 +21,14 @@ namespace ILIAS\ResourceStorage;
 use ILIAS\ResourceStorage\Events\Observer;
 use ILIAS\ResourceStorage\Events\Event;
 use ILIAS\ResourceStorage\Events\Data;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class IRSSEventLogObserver implements Observer
 {
-    public function __construct(private \ilLogger $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
     }
 
@@ -38,7 +39,7 @@ class IRSSEventLogObserver implements Observer
 
     private function appendData(string $to_message, ?Data $data = null): string
     {
-        return $to_message . ': ' . ($data ? json_encode($data->getArrayCopy()) : '');
+        return $to_message . ': ' . ($data instanceof Data ? json_encode($data->getArrayCopy()) : '');
     }
 
 

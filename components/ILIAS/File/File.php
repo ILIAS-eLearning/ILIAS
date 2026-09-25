@@ -38,12 +38,15 @@ class File implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Agent::class] = static fn(): \ilFileObjectAgent =>
+        $contribute[Agent::class] = static fn() =>
             new \ilFileObjectAgent(
                 $pull[Factory::class]
             );
 
-        $contribute[PublicAsset::class] = fn(): PublicAsset =>
+        $contribute[PublicAsset::class] = fn() =>
             new OfComponent($this, "default_file_icons", "assets");
+
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
+            new \ilFileStaticURLHandler();
     }
 }

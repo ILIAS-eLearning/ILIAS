@@ -25,6 +25,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Duration\DurationFactory;
+use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 
 /**
  * Interface GlobalHttpState
@@ -91,6 +92,8 @@ interface GlobalHttpState
      * @throws ResponseSendingException Each subsequent call will throw this exception.
      */
     public function sendResponse(): void;
+
+    public function sender(): ResponseSenderStrategy;
 
 
     public function close(): never;

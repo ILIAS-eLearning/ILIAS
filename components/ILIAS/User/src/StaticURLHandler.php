@@ -48,16 +48,32 @@ class StaticURLHandler extends BaseHandler implements Handler
     public const CONTACT_APPROVE_OPERATION = '_contact_approved';
     public const CONTACT_IGNORE_OPERATION = '_contact_ignored';
 
-    private readonly LegalDocumentsConductor $legal_documents;
-    private readonly \ilObjUser $user;
-    private readonly StartingPointRepository $starting_point_repository;
+    private ?LegalDocumentsConductor $legal_documents = null;
+    private ?\ilObjUser $user = null;
+    private ?StartingPointRepository $starting_point_repository = null;
 
-    public function __construct()
+    private function legalDocuments(): LegalDocumentsConductor
     {
-        global $DIC;
-        $this->legal_documents = $DIC['legalDocuments'];
-        $this->user = $DIC['ilUser'];
-        $this->starting_point_repository = LocalDIC::dic()[StartingPointRepository::class];
+        if ($this->legal_documents === null) {
+            global $DIC;
+            $this->legal_documents = $DIC['legalDocuments'];
+        }
+        return $this->legal_documents;
+    }
+
+    private function user(): \ilObjUser
+    {
+        if ($this->user === null) {
+            global $DIC;
+            $this->user = $DIC['ilUser'];
+        }
+        return $this->user;
+    }
+
+    private function startingPointRepository(): StartingPointRepository
+    {
+        $this->starting_point_repository ??= LocalDIC::dic()[StartingPointRepository::class];
+        return $this->starting_point_repository;
     }
 
     public function getNamespace(): string
@@ -138,7 +154,7 @@ class StaticURLHandler extends BaseHandler implements Handler
         Context $context
     ): string {
         if ($context->getUserId() !== ANONYMOUS_USER_ID
-            && $this->user->hasDeletionFlag()) {
+            && $this->user()->hasDeletionFlag()) {
             $context->ctrl()->setTargetScript('ilias.php');
             return $context->ctrl()->getLinkTargetByClass(
                 [\ilDashboardGUI::class, PersonalSettingsGUI::class, DeleteAccountGUI::class],
@@ -151,7 +167,7 @@ class StaticURLHandler extends BaseHandler implements Handler
             $context->lng()->txt('account_not_flagged_for_deletion'),
             true
         );
-        return $this->starting_point_repository->getValidAndAccessibleStartingPointAsUrl();
+        return $this->startingPointRepository()->getValidAndAccessibleStartingPointAsUrl();
     }
 
     private function getRedirectToOtherComponentsOrProfile(
@@ -163,7 +179,7 @@ class StaticURLHandler extends BaseHandler implements Handler
             return $ctrl->getLinkTargetByClass(\ilDashboardGUI::class, 'jumpToBadges');
         }
 
-        $legal_documents_target = $this->legal_documents->findGotoLink($cmd);
+        $legal_documents_target = $this->legalDocuments()->findGotoLink($cmd);
         if ($legal_documents_target->isOK()) {
             $ctrl->setTargetScript('ilias.php');
             foreach ($legal_documents_target->value()->queryParams() as $key => $value) {

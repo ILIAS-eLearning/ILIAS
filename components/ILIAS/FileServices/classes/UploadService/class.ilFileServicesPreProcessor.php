@@ -16,31 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
-use ILIAS\FileUpload\DTO\Metadata;
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileServices\Upload\FileServicesPreProcessor;
 
 /**
- * Class ilFileServicesPolicy
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Use {@see FileServicesPreProcessor} instead.
  */
-class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
+class ilFileServicesPreProcessor extends FileServicesPreProcessor
 {
-    public function __construct(
-        private ilFileServicesSettings $settings,
-        string $reason = 'Extension is blacklisted.'
-    ) {
-        parent::__construct($this->settings->getBlackListedSuffixes(), $reason);
-    }
-
-    #[\Override]
-    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
-    {
-        if ($this->settings->isByPassAllowedForCurrentUser()) {
-            return new ProcessingStatus(ProcessingStatus::OK, 'Blacklist override by RBAC');
-        }
-        return parent::process($stream, $metadata);
-    }
 }

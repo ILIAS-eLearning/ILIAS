@@ -20,6 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\FileDelivery\FileDeliveryServices;
+use ILIAS\FileDelivery\Token\DataSigning;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\FileSystems\FilesystemWeb;
+use ILIAS\Filesystem\FileSystems\FilesystemStorage;
+use ILIAS\Filesystem\FileSystems\FilesystemTemp;
+use ILIAS\Filesystem\FileSystems\FilesystemCustomizing;
+use ILIAS\Filesystem\FileSystems\FilesystemLibs;
+use ILIAS\Filesystem\FileSystems\FilesystemNodeModules;
+use ILIAS\ResourceStorage\IRSSServices;
+use ILIAS\FileUpload\FileUpload as FileUploadInterface;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
+use ILIAS\Environment\Configuration\Installation\ClientIni;
+use ILIAS\StaticURL\StaticURLServices;
+use ILIAS\Logging;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\AccessControl\PublicInterface\RBAC;
+
 class Init implements Component\Component
 {
     public function init(
@@ -127,6 +148,28 @@ class Init implements Component\Component
                 $pull[\ILIAS\UI\Implementation\Render\JavaScriptBinding::class],
                 $pull[\ILIAS\UI\Implementation\Component\SignalGeneratorInterface::class],
                 $pull[\ILIAS\UI\Implementation\Render\TemplateFactory::class],
+                $use[GlobalHttpState::class],
+                $use[FileDeliveryServices::class],
+                $use[DataSigning::class],
+                $use[FilenameSanitizer::class],
+                $use[FilesystemConfig::class],
+                $use[Filesystems::class],
+                $use[FilesystemWeb::class],
+                $use[FilesystemStorage::class],
+                $use[FilesystemTemp::class],
+                $use[FilesystemCustomizing::class],
+                $use[FilesystemLibs::class],
+                $use[FilesystemNodeModules::class],
+                $use[IRSSServices::class],
+                $use[FileUploadInterface::class],
+                $use[IliasIni::class],
+                $use[ClientIni::class],
+                $use[StaticURLServices::class],
+                $use[RBAC::class],
+                $use[Access::class],
+                $use[Logging\Logger\LoggerFactoryInterface::class],
+                $use[Logging\Logger\DefaultConfigLoggerFactoryInterface::class],
+                $use[Logging\Config\ConfigInterface::class]
             );
     }
 }
