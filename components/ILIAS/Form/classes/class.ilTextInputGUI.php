@@ -29,7 +29,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     /**
      * @var string|array
      */
-    protected $value = null;
+    protected $value = '';
     protected ?int $maxlength = 200;
     protected int $size = 40;
     protected string $validationRegexp = "";
