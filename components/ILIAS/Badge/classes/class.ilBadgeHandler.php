@@ -21,6 +21,7 @@ use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationParameter;
 use ILIAS\Badge\GlobalScreen\BadgeNotificationProvider;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * Class ilBadgeHandler
@@ -537,7 +538,7 @@ class ilBadgeHandler
                     '',
                     $lng->txt('badge_notification_subject'),
                     $ntf->composeAndGetMessage($user_id, null, 'read', true),
-                    []
+                    MailAttachments::empty()
                 );
 
 

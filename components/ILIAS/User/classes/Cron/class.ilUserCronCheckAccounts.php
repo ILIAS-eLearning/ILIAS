@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * This cron send notifications about expiring user accounts
@@ -133,7 +134,7 @@ class ilUserCronCheckAccounts extends CronJob
                 '',
                 $lng->txt('account_expires_subject'),
                 $body,
-                []
+                MailAttachments::empty()
             );
 
             // set status 'mail sent'

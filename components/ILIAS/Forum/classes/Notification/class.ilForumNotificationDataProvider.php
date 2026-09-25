@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+
 /**
  * Class ilForumNotificationDataProvider
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -35,6 +38,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     protected string $thread_title = '';
     /** @var array<string, string> */
     protected array $attachments = [];
+    private ?MailAttachments $mail_attachments = null;
     private readonly ilDBInterface $db;
     private readonly ilAccessHandler $access;
     private readonly ilObjUser $user;
@@ -146,6 +150,11 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     public function getAttachments(): array
     {
         return $this->attachments;
+    }
+
+    public function getMailAttachments(): MailAttachments
+    {
+        return $this->mail_attachments ?? MailAttachments::empty();
     }
 
     public function getPosUserAlias(): string
@@ -314,17 +323,23 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
 
     private function readAttachments(): void
     {
-        if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
-            $fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
-            $filesOfPost = $fileDataForum->getFilesOfPost();
-
-            $fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
-
-            foreach ($filesOfPost as $attachment) {
-                $this->attachments[$attachment['path']] = $attachment['name'];
-                $fileDataMail->copyAttachmentFile($attachment['path'], $attachment['name']);
-            }
+        if (!ilForumProperties::isSendAttachmentsByMailEnabled()) {
+            return;
         }
+
+        $fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
+        foreach ($fileDataForum->getFilesOfPost() as $attachment) {
+            $this->attachments[$attachment['path']] = $attachment['name'];
+        }
+
+        $rcid_string = $this->objPost->getRCID();
+        if ($rcid_string === '' || $rcid_string === ilForumPost::NO_RCID) {
+            return;
+        }
+
+        $this->mail_attachments = MailAttachments::fromIrss(
+            new ResourceCollectionIdentification($rcid_string)
+        );
     }
 
     /**

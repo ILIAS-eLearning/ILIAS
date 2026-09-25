@@ -26,7 +26,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use ILIAS\Data\Order;
 use ilUserSearchOptions;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 class MailBoxQuery
 {
@@ -52,9 +52,8 @@ class MailBoxQuery
     private string $order_direction = self::DEFAULT_ORDER_DIRECTION;
     private ?bool $scheduled_only = null;
 
-    public function __construct(
-        private readonly int $user_id,
-    ) {
+    public function __construct(private readonly int $user_id)
+    {
         global $DIC;
         $this->db = $DIC->database();
     }
@@ -287,11 +286,8 @@ class MailBoxQuery
 
         $set = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            if (isset($row['attachments']) && \is_string($row['attachments']) && str_contains($row['attachments'], '{')) {
-                $unserialized_attachments = unserialize($row['attachments'], ['allowed_classes' => false]);
-                $row['attachments'] = \is_array($unserialized_attachments) ? $unserialized_attachments : null;
-            } elseif (isset($row['attachments']) && \is_string($row['attachments']) && $row['attachments'] !== '') {
-                $row['attachments'] = new ResourceCollectionIdentification($row['attachments']);
+            if (isset($row['attachments']) && is_string($row['attachments'])) {
+                $row['attachments'] = MailAttachments::fromDb($row['attachments']);
             } else {
                 $row['attachments'] = null;
             }

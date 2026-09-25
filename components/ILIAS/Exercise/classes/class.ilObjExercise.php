@@ -23,6 +23,8 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
+use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 /**
  * Class ilObjExercise
@@ -454,17 +456,11 @@ class ilObjExercise extends ilObject
 
         // instruction files
         $if = $this->service->domain()->assignment()->instructionFiles($a_ass->getId());
-        $files = $if->getFiles();
-        $file_names = [];
-        if (count($files) > 0) {
-            $mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
-            foreach ($if->getFiles() as $file) {
-                $file_names[] = $file["name"];
-                $mfile_obj->storeAsAttachment(
-                    $file["name"],
-                    $if->getStream($file["rid"])->getContents()
-                );
-            }
+        $attachments = MailAttachments::empty();
+        if ($if->getFiles() !== []) {
+            $attachments = MailAttachments::fromIrss(
+                new ResourceCollectionIdentification($if->getCollectionIdString())
+            );
         }
 
         // recipients
@@ -485,15 +481,9 @@ class ilObjExercise extends ilObject
             "",
             $subject,
             $body,
-            $file_names
+            $attachments
         );
         unset($tmp_mail_obj);
-
-        // remove tmp files
-        if (count($file_names) && $mfile_obj) {
-            $mfile_obj->unlinkFiles($file_names);
-            unset($mfile_obj);
-        }
 
         // set recipients mail status
         foreach ($a_members as $member_id) {

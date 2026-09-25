@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * Distributes calendar mail notifications
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -448,8 +450,6 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->sendMail(array($user_id), true);
                 break;
         }
-
-        $this->deleteAttachments();
     }
 
     protected function addAttachment(): void
@@ -462,17 +462,15 @@ class ilCalendarMailNotification extends ilMailNotification
         $ics_filename = 'appointment_' . (new DateTimeImmutable('now'))->format('Ymd_His_u') . '.ics';
 
         $attachment = new ilFileDataMail($this->getSender());
-        $effective_ics_filename = $attachment->storeAsAttachment(
+        $rcid = $attachment->createCollectionFromContent(
             $ics_filename,
             $export->getExportString()
         );
 
-        $this->setAttachments([$effective_ics_filename]);
-    }
-
-    protected function deleteAttachments(): void
-    {
-        $attachment = new ilFileDataMail($this->getSender());
-        $attachment->unlinkFiles($this->getAttachments());
+        $this->setAttachments(
+            $rcid !== null
+                ? MailAttachments::fromIrss($rcid)
+                : MailAttachments::empty()
+        );
     }
 }

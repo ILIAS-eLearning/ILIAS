@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * Class ilTestMailNotification
  * @author Nadia Ahmad <nahmad@databay.de>
@@ -100,7 +102,15 @@ class ilTestMailNotification extends ilMailNotification
         $this->appendBody($this->language->txt('tst_notification_explanation_admin'));
         $this->appendBody("\n");
 
-        $this->setAttachments($file_names);
+        $attachments = MailAttachments::empty();
+        if ($file_names !== []) {
+            $file_data_mail = new ilFileDataMail(ANONYMOUS_USER_ID);
+            $rcid = $file_data_mail->createCollectionFromPoolFilenames($file_names);
+            if ($rcid !== null) {
+                $attachments = MailAttachments::fromIrss($rcid);
+            }
+        }
+        $this->setAttachments($attachments);
         $this->getMail()->appendInstallationSignature(true);
 
         $this->sendMail([$owner_id]);

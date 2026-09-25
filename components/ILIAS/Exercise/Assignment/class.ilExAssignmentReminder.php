@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  *
  * TODO: import/export reminder data with the exercise/assignment.
@@ -561,7 +563,7 @@ class ilExAssignmentReminder
                 "",
                 $subject,
                 $message,
-                array()
+                MailAttachments::empty()
             );
         }
 

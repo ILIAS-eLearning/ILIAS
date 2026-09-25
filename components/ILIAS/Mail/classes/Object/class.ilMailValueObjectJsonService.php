@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 class ilMailValueObjectJsonService
 {
     /**
@@ -32,7 +34,7 @@ class ilMailValueObjectJsonService
             $mail_data['recipients'] = $mail_value_object->getRecipients();
             $mail_data['recipients_cc'] = $mail_value_object->getRecipientsCC();
             $mail_data['recipients_bcc'] = $mail_value_object->getRecipientsBCC();
-            $mail_data['attachments'] = $mail_value_object->getAttachments();
+            $mail_data['attachments'] = $mail_value_object->getAttachments()->toBackgroundTask();
             $mail_data['body'] = $mail_value_object->getBody();
             $mail_data['subject'] = $mail_value_object->getSubject();
             $mail_data['is_using_placholders'] = $mail_value_object->isUsingPlaceholders();
@@ -60,12 +62,25 @@ class ilMailValueObjectJsonService
                 $object_values['recipients_bcc'],
                 ilStr::strLen($object_values['subject']) > 255 ? ilStr::substr($object_values['subject'], 0, 255) : $object_values['subject'],
                 $object_values['body'],
-                $object_values['attachments'],
+                $this->attachmentsFromJson($object_values['attachments'] ?? null),
                 $object_values['is_using_placholders'],
                 $object_values['should_save_in_sent_box']
             );
         }
 
         return $result;
+    }
+
+    private function attachmentsFromJson(mixed $attachments): MailAttachments
+    {
+        if (is_string($attachments)) {
+            return MailAttachments::fromBackgroundTask($attachments);
+        }
+
+        if (is_array($attachments)) {
+            return MailAttachments::fromLegacyFilenames($attachments);
+        }
+
+        return MailAttachments::empty();
     }
 }
