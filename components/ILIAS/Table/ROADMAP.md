@@ -13,3 +13,9 @@ The Legacy-Table-Service has been lingering and causing problems for user experi
 ## Rules and Guidelines
 * If a feature should be implemented in a component still relying on the Table-Service, this reliance MUST be removed first.
 * There will be no ILIAS 12 with the ILIAS/Table in it. If a component cannot be moved, it MUST be abandoned.
+
+## Removal
+
+### ILIAS 13
+* TableGUI
+* Table2GUI
