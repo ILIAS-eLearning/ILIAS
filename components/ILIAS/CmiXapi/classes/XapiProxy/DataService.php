@@ -20,8 +20,11 @@ declare(strict_types=1);
 
 namespace XapiProxy;
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 class DataService
 {
+    #[AllowSuperglobalWrite('the client id has to be visible to ilInitialisation, which runs before the HTTP service exists.', 12)]
     public static function initIlias(string $client_id): void
     {
         define("CLIENT_ID", $client_id);

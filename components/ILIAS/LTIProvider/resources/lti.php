@@ -19,7 +19,9 @@
 declare(strict_types=1);
 
 
+// @phpstan-ignore ilias.superglobalWrite.v12 (pins the command for the LTI entry point before ilInitialisation runs, so no HTTP service exists yet)
 $_GET['cmd'] = 'post';
+// @phpstan-ignore ilias.superglobalWrite.v12 (pins the command for the LTI entry point before ilInitialisation runs, so no HTTP service exists yet)
 $_POST['cmd'] = 'doLTIAuthentication';
 
 require_once '../vendor/composer/vendor/autoload.php';

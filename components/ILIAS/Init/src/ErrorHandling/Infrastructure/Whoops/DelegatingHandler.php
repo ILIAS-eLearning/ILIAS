@@ -23,6 +23,7 @@ namespace ILIAS\Init\ErrorHandling\Infrastructure\Whoops;
 use ILIAS\Init\ErrorHandling\Application\ContextErrorHandlerProvider;
 use Whoops\Handler\Handler;
 use Whoops\Handler\HandlerInterface;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * A Whoops error handler that delegates calls on it self to another handler that is created only in the
@@ -34,6 +35,7 @@ use Whoops\Handler\HandlerInterface;
  * This class is not ment to be extended, as the definition of error handlers should be handled in one place
  * in ilErrorHandling, so this class acts rather dump and asks ilErrorHandling for a handler.
  */
+#[AllowSuperglobalWrite('The error handler needs to write to SuperGlobals to remove secret data.', 12)]
 final class DelegatingHandler extends Handler
 {
     private ?HandlerInterface $current_handler = null;

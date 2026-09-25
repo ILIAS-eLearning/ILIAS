@@ -2606,9 +2606,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         $question_pool = $this->createQuestionPool($title, $this->testrequest->raw('description'));
-        $_REQUEST['sel_qpl'] = $question_pool->getRefId();
 
-        $this->copyAndLinkQuestionsToPoolObject();
+        $this->copyAndLinkQuestionsToPoolObject($question_pool->getRefId());
     }
 
     /**

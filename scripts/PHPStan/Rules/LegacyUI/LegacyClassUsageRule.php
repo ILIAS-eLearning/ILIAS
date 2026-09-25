@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
 use PhpParser\Node\Expr\CallLike;
 use PHPStan\Reflection\ReflectionProvider;

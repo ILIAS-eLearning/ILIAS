@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
@@ -24,21 +24,21 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyTableUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyCheckboxListUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Table Usages';
+        return 'Legacy Checkbox List Usages';
     }
 
     protected function getRelevantILIASVersion(): int
     {
-        return 10;
+        return 9;
     }
 
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilTable2GUI', 'ilTableGUI'];
+        return ['ilCheckboxListOverlayGUI'];
     }
 }

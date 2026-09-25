@@ -23,6 +23,7 @@ use ceLTIc\LTI\ResourceLink;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\User;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * LTI provider for LTI launch
@@ -87,6 +88,7 @@ class ilLTITool extends Tool
         return $res;
     }
 
+    #[AllowSuperglobalWrite('the celtic/lti library reads the request from the superglobals, so the parsed PSR-7 request has to be written back into them.', 12)]
     public function handleRequest(?bool $strictMode = null, bool $disableCookieCheck = false, bool $generateWarnings = false): void
     {
         global $DIC;

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 /**
  * Class ilDclPropertyFormGUI
  * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
@@ -71,6 +73,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @throws ilDclException
      */
+    #[AllowSuperglobalWrite('re-injects files uploaded in an earlier step of the same form, because the file inputs read them from $_FILES.', 12)]
     public static function rebuildTempFileByHash(string $hash): void
     {
         $temp_path = ilFileUtils::getDataDir() . "/temp";

@@ -21,6 +21,7 @@ use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
 * This class represents an image map file property in a property form.
@@ -177,6 +178,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
+    #[AllowSuperglobalWrite('sanitises the uploaded file name in place, because the inherited getInput() hands $_FILES[postVar] on to every caller.', 12)]
     public function checkInput(): bool
     {
         $lng = $this->lng;
