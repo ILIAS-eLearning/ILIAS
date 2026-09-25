@@ -60,8 +60,8 @@ class ilUITestRailExampleTestCasesObjective extends Setup\Artifact\BuildArtifact
         $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
 
-        $path = 'components/ILIAS/Style/classes/Setup/templates/testrail.case.xml';
-        $tpl = new ilTemplate($path, true, true);
+        $path = 'testrail.case.xml';
+        $tpl = new ilTemplate($path, true, true, 'components/ILIAS/Style/classes/Setup');
         $parser = new Crawler\ExamplesYamlParser();
         $testcases = new TestRailXMLWriter($tpl, $parser, $this->only_new_cases);
 
