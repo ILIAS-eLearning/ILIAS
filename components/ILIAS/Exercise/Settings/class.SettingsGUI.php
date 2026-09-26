@@ -188,7 +188,11 @@ class SettingsGUI
             $this->obj_id,
             [
                 \ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+<<<<<<< HEAD
                 \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+=======
+                \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+>>>>>>> b6955f5184d (44234: Failed test: Global activation of the 'positions' for exercises)
             ]
         );
 
@@ -244,7 +248,11 @@ class SettingsGUI
                 $this->obj_id,
                 [
                     \ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+<<<<<<< HEAD
                     \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+=======
+                    \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+>>>>>>> b6955f5184d (44234: Failed test: Global activation of the 'positions' for exercises)
                 ]
             );
 
