@@ -9657,6 +9657,7 @@ exc#:#exc_reminder_submit_setting#:#An Abgabe erinnern
 exc#:#exc_reminder_submit_subject#:#Übungseinheit „%s“ wurde noch nicht abgegeben
 exc#:#exc_reminders_cron#:#Erinnerungen für Übungseinheiten
 exc#:#exc_reminders_cron_info#:#Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks
+exc#:#exc_reminders_cron_not_active#:#Hinweis: Benachrichtigungen werden erst versendet, wenn der Cron-Job „Erinnerungen für Übungseinheiten“ aktiviert ist. Aktuell ist der Cron-Job deaktiviert.
 exc#:#exc_request_deadline#:#Abgabefrist anfragen
 exc#:#exc_requirement#:#Anforderung
 exc#:#exc_review_anytime#:#Jederzeit Feedback geben

@@ -9631,6 +9631,7 @@ exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
 exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
 exc#:#exc_reminders_cron#:#Reminders for Assignments
 exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.
 exc#:#exc_request_deadline#:#Request Deadline
 exc#:#exc_requirement#:#Requirement
 exc#:#exc_review_anytime#:#Give Feedback Anytime

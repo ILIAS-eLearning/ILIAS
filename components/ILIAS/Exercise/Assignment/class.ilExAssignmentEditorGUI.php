@@ -43,6 +43,7 @@ class ilExAssignmentEditorGUI
     protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilSetting $settings;
+    protected ilCronManager $cron_manager;
     protected ilHelpGUI $help;
     protected int $exercise_id;
     protected ?ilExAssignment $assignment;
@@ -72,6 +73,7 @@ class ilExAssignmentEditorGUI
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->settings = $DIC->settings();
+        $this->cron_manager = $DIC->cron()->manager();
         $this->help = $DIC["ilHelp"];
         $this->exercise_id = $a_exercise_id;
         $this->assignment = $a_ass;
@@ -462,6 +464,9 @@ class ilExAssignmentEditorGUI
 
         // submit reminder
         $rmd_submit = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_submit_setting"), "rmd_submit_status");
+        if (!$this->cron_manager->isJobActive("exc_reminders")) {
+            $rmd_submit->setInfo($this->lng->txt("exc_reminders_cron_not_active"));
+        }
 
         $rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_submit_start");
         $rmd_submit_start->setSize(3);
@@ -488,6 +493,9 @@ class ilExAssignmentEditorGUI
 
         // grade reminder
         $rmd_grade = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_grade_setting"), "rmd_grade_status");
+        if (!$this->cron_manager->isJobActive("exc_reminders")) {
+            $rmd_grade->setInfo($this->lng->txt("exc_reminders_cron_not_active"));
+        }
 
         $rmd_grade_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_grade_freq");
         $rmd_grade_frequency->setSize(3);
@@ -1396,6 +1404,9 @@ class ilExAssignmentEditorGUI
 
         //feedback reminders
         $rmd_feedback = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_feedback_setting"), "rmd_peer_status");
+        if (!$this->cron_manager->isJobActive("exc_reminders")) {
+            $rmd_feedback->setInfo($this->lng->txt("exc_reminders_cron_not_active"));
+        }
 
         $rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_feedback_start"), "rmd_peer_start");
         $rmd_submit_start->setSize(3);
