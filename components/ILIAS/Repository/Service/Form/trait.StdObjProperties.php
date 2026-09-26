@@ -225,19 +225,12 @@ trait StdObjProperties
             );
         }
 
-<<<<<<< HEAD
-        if (\in_array(\ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS, $services, true)) {
-=======
-        // organisational unit position access
-        $key = \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS;
-        if (in_array($key, $services)) {
->>>>>>> b6955f5184d (44234: Failed test: Global activation of the 'positions' for exercises)
+        if (in_array(\ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS, $services, true)) {
             $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
                 \ilObject::_lookupType($obj_id)
             );
             if ($position_settings->isActive()) {
                 $form = $this->checkbox(
-<<<<<<< HEAD
                     \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
                     $lng->txt('obj_orgunit_positions'),
                     $lng->txt('obj_orgunit_positions_info'),
@@ -246,19 +239,6 @@ trait StdObjProperties
                 );
             }
         }
-=======
-                    $key,
-                    $lng->txt('obj_orgunit_positions'),
-                    $lng->txt('obj_orgunit_positions_info'),
-                    \ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($obj_id)
-                );
-                if (!$position_settings->isChangeableForObject()) {
-                    $form = $this->disabled();
-                }
-            }
-        }
-
->>>>>>> b6955f5184d (44234: Failed test: Global activation of the 'positions' for exercises)
 
         return $form;
     }
