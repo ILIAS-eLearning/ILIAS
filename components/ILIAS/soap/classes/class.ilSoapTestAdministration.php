@@ -29,8 +29,10 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 class ilSoapTestAdministration extends ilSoapAdministration
 {
     private GeneralQuestionPropertiesRepository $questionrepository;
+
     public function __construct(bool $use_nusoap = true)
     {
+        $this->initIlias();
         $this->questionrepository = TestDIC::dic()['question.general_properties.repository'];
         parent::__construct($use_nusoap);
     }
@@ -127,7 +129,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, array $solution)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -212,7 +213,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function saveQuestionSolution(string $sid, int $active_id, int $question_id, int $pass, int $solution)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -284,7 +284,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function getQuestionSolution(string $sid, int $active_id, int $question_id, int $pass)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -347,7 +346,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function getTestUserData(string $sid, int $active_id)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -416,7 +414,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function getPositionOfQuestion(string $sid, int $active_id, int $question_id, int $pass)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -451,7 +448,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function getPreviousReachedPoints(string $sid, int $active_id, int $question_id, int $pass)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -507,7 +503,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function getNrOfQuestionsInPass(string $sid, int $active_id, int $pass)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -542,7 +537,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function removeTestResults(string $sid, int $test_ref_id, array $a_user_ids)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -555,9 +549,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
+        $ilAccess = $DIC['ilAccess'];
 
         if (!$this->checkManageParticipantsAccess($test_ref_id)) {
             return $this->raiseError('no permission. Aborting!', 'Client');
@@ -570,6 +562,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             );
         }
 
+        /** @var ?ilObjTest $tst */
         if (!$tst = ilObjectFactory::getInstanceByRefId($test_ref_id, false)) {
             return $this->raiseError('No test found for id: ' . $test_ref_id, 'Client');
         }
@@ -587,7 +580,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $part = new ilTestParticipantData($GLOBALS['DIC']['ilDB'], $GLOBALS['DIC']['lng']);
         $part->setParticipantAccessFilter(
-            ilTestParticipantAccessFilter::getManageParticipantsUserFilter($test_ref_id)
+            (new ilTestParticipantAccessFilterFactory($ilAccess))->getManageParticipantsUserFilter($test_ref_id)
         );
         $part->setUserIdsFilter((array) $a_user_ids);
         $part->load($tst->getTestId());
@@ -602,7 +595,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
     public function getTestResults(string $sid, int $test_ref_id, bool $sum_only)
     {
         $this->initAuth($sid);
-        $this->initIlias();
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
@@ -616,8 +608,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
+        $ilAccess = $DIC['ilAccess'];
+        $ilUser = $DIC['ilUser'];
+        $ilLanguage = $DIC['lng'];
+        $ilDB = $DIC['ilDB'];
 
         if (ilObject::_isInTrash($test_ref_id)) {
             return $this->raiseError(
@@ -661,8 +655,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $test_obj = new ilObjTest($obj_id, false);
         $participants = $test_obj->getTestParticipants();
 
-        $accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($test_ref_id);
-        $participantList = new ilTestParticipantList($test_obj);
+        $accessFilter = (new ilTestParticipantAccessFilterFactory($ilAccess))->getAccessResultsUserFilter($test_ref_id);
+        $participantList = new ilTestParticipantList($test_obj, $ilUser, $ilLanguage, $ilDB);
         $participantList->initializeFromDbRows($participants);
         $participantList = $participantList->getAccessFilteredList($accessFilter);
         $participantList = $participantList->getScoredParticipantList();
