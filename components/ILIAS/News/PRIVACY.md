@@ -56,7 +56,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
 
 - News related to an object are deleted on final object deletion. Users need the
   **Delete** permission for this action.
-
+- The cron job `ilNewsCronDeleteOldItems` automatically removes outdated news articles and associated data, such as comments.
 
 ## Data Export
 

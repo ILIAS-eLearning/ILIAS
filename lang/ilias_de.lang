@@ -13067,6 +13067,15 @@ mst#:#mst_profile_fulfilled#:#Erreicht
 mst#:#mst_profile_not_fulfilled#:#Noch nicht erreicht
 mst#:#mst_select_course#:#Kurs auswählen
 mst#:#mst_show_courses#:#Einschreibungen
+news#:#cron_news_delete_old#:#Alte Neuigkeiten löschen
+news#:#cron_news_delete_old_desc#:#Löscht Neuigkeiten, die älter als der konfigurierte Schwellenwert sind. MediaCast-Neuigkeiten (context_obj_type mcst) werden immer ausgeschlossen.
+news#:#cron_news_delete_old_result#:#%s Neuigkeit(en) gelöscht.
+news#:#cron_news_delete_old_scope#:#Umfang
+news#:#cron_news_delete_old_scope_auto#:#Automatische Neuigkeiten löschen
+news#:#cron_news_delete_old_scope_both#:#Automatische und manuelle Neuigkeiten löschen
+news#:#cron_news_delete_old_scope_manual#:#Manuelle Neuigkeiten löschen
+news#:#cron_news_delete_old_threshold#:#Schwellenwert
+news#:#cron_news_delete_old_threshold_info#:#Alle Neuigkeiten, die älter als der angegebene Zeitraum sind, werden gelöscht. Als Kriterium wird das Erstellungsdatum verwendet. Kommentare oder angehängte Medien von manuell erstellten Neuigkeiten werden ebenfalls dauerhaft gelöscht.
 news#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
 news#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 news#:#new_test_online#:#Der Test wurde online geschaltet.

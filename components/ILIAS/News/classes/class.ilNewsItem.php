@@ -1327,6 +1327,18 @@ class ilNewsItem
     {
         $ilDB = $this->db;
 
+        $this->db->manipulateF(
+            'DELETE FROM note WHERE news_id = %s',
+            [\ilDBConstants::T_INTEGER],
+            [$this->getId()]
+        );
+
+        $this->db->manipulateF(
+            'DELETE FROM like_data WHERE news_id = %s',
+            [\ilDBConstants::T_INTEGER],
+            [$this->getId()]
+        );
+
         // delete il_news_read entries
         $ilDB->manipulate("DELETE FROM il_news_read " .
             " WHERE news_id = " . $ilDB->quote($this->getId(), "integer"));

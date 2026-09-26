@@ -13037,6 +13037,15 @@ mst#:#mst_profile_fulfilled#:#Not met, yet
 mst#:#mst_profile_not_fulfilled#:#Fulfilled
 mst#:#mst_select_course#:#Select Course
 mst#:#mst_show_courses#:#Course Memberships
+news#:#cron_news_delete_old#:#Delete old News Items
+news#:#cron_news_delete_old_desc#:#Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded.
+news#:#cron_news_delete_old_result#:#%s news item(s) deleted.
+news#:#cron_news_delete_old_scope#:#Scope
+news#:#cron_news_delete_old_scope_auto#:#Delete automatic news items
+news#:#cron_news_delete_old_scope_both#:#Delete both automatic and manual news items
+news#:#cron_news_delete_old_scope_manual#:#Delete manual news items
+news#:#cron_news_delete_old_threshold#:#Threshold
+news#:#cron_news_delete_old_threshold_info#:#All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted.
 news#:#lso_news_online_title#:#A new learning sequence object is online!
 news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 news#:#new_test_online#:#The test was set online.
