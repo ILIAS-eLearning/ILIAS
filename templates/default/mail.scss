@@ -1,4 +1,10 @@
-@use "010-settings/"as *;
+/*
+ATTENTION!
+This file belongs to the new ‘UI/Layout/Page/Mail’ component.
+This will be used to generate emails starting with ILIAS 12 and currently does NOT affect the styling of emails.
+*/
+
+@use "010-settings/" as *;
 
 $il-mail-page-logo-width: $il-standard-page-logo-width !default;
 $il-mail-page-logo-height: $il-standard-page-logo-height !default;
@@ -18,7 +24,7 @@ $il-mail-page-logo-height: $il-standard-page-logo-height !default;
 }
 
 .image-data {
-  width: 90px;
+  width: calc($il-mail-page-logo-width + 15px);
 }
 
 td.spacing {
@@ -45,15 +51,11 @@ td.spacing {
 }
 
 .content .spacing {
-  padding: 80px 0;
+  padding: 60px 0;
 }
 
 .content td td {
   background-color: $il-main-bg;
-}
-
-.text-color {
-  color: $il-main-color;
 }
 
 .footer .font-definition {
@@ -62,9 +64,12 @@ td.spacing {
 
 .font-definition {
   font-family:'Open Sans', Arial, Helvetica, sans-serif;
-  font-size:16px;
-  line-height:22px;
   padding:30px;
+
+  &p {
+    line-height:22px;
+    font-size:16px;
+  }
 }
 
 body {
@@ -72,6 +77,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100% !important;
+  color: $il-text-color;
   mso-margin-top-alt: 0px;
   mso-margin-bottom-alt: 0px;
   mso-padding-alt: 0px 0px 0px 0px;
@@ -85,14 +91,13 @@ body {
   margin-right: auto;
 }
 
-.w-750 {
-  width: 750px;
+.w-mail {
+  width: 80%;
 }
 
-.link-color {
+a {
   color: $il-link-color;
 }
-
 
 table {
   mso-table-lspace: 0pt;
@@ -113,15 +118,17 @@ img {
   -ms-interpolation-mode: bicubic;
 }
 
-
 body, table, td, th, p, a, li {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
-
 @media only screen and (max-width: 760px) {
-  .w-750 {
-    width: 100%;
+  .w-mail {
+    width: 90%;
+  }
+
+  .content .spacing {
+    padding: 40px 0;
   }
 }
