@@ -12972,8 +12972,6 @@ news#:#news_period_1_month#:#Escolha o operador padrão para consultas booleanas
 news#:#news_period_1_week#:#Insira o caminho absoluto para um ficheiro, no qual serão escritas mensagem de registo. Se o ficheiro não existir, será criado automaticamente.
 news#:#news_period_1_year#:#Tamanho máximo do ficheiro (em MB)
 news#:#news_period_x_days#:#Número de subitens
-news#:#news_period_x_months#:#Insira o número máximo de subitens (tópicos de fórum, termos do glossário...) que são apresentados por defeito.
-news#:#news_period_x_weeks#:#Estado online
 news#:#news_public_feed#:#Suporta questões de variável de prefixo: ‘*LIAS’ encontra ‘ILIAS’
 news#:#news_public_feed_info#:#Mostrar relevância de subitem
 news#:#news_really_delete_news#:#Tem a certeza que quer apagar este item de notícias?

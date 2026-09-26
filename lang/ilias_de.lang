@@ -12989,8 +12989,6 @@ news#:#news_period_1_month#:#Letzter Monat
 news#:#news_period_1_week#:#Letzte Woche
 news#:#news_period_1_year#:#Letztes Jahr
 news#:#news_period_x_days#:#Letzte %s Tage
-news#:#news_period_x_months#:#Letzte %s Monate
-news#:#news_period_x_weeks#:#Letzte %s Wochen
 news#:#news_public_feed#:#Eigener Webfeed
 news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt.
 news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?

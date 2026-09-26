@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Poslední měsíc
 news#:#news_period_1_week#:#Poslední týden
 news#:#news_period_1_year#:#Poslední rok
 news#:#news_period_x_days#:#Poslední %s dny
-news#:#news_period_x_months#:#Poslední %s měsíce
-news#:#news_period_x_weeks#:#Poslední %s týdny
 news#:#news_public_feed#:#URL zvláštního zásobníku
 news#:#news_public_feed_info#:#Pokud je tato volba zapnuta, jednotlivé zásobníky RSS jsou poskytovány pro tuto položku.
 news#:#news_really_delete_news#:#Opravdu chcete smazat tuto zprávu?
