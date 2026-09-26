@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Component\Dependencies;
 
 use ILIAS\Component\Component;
+use ILIAS\Component\Dependencies\Mocks\EvalLightMockBuilder;
+use ILIAS\Component\Dependencies\Mocks\MockBuilder;
 
 class Reader
 {
@@ -37,6 +39,11 @@ class Reader
     protected array $internal_out;
     protected array $internal_in;
     protected ?array $internal_in_temp = [];
+
+    public function __construct(
+        protected MockBuilder $mock_builder
+    ) {
+    }
 
     /**
      * @return Dependency[]
@@ -352,14 +359,6 @@ class Reader
 
     protected function createMock(string $class_name): object
     {
-        $mock_builder = new \PHPUnit\Framework\MockObject\MockBuilder(new class ('dummy') extends \PHPUnit\Framework\TestCase {
-            public function dummy()
-            {
-            }
-        }, $class_name);
-        return $mock_builder
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->getMock();
+        return $this->mock_builder->create($class_name);
     }
 }
