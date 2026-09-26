@@ -23,6 +23,7 @@
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
+    protected \ILIAS\Style\Content\Preview\PreviewGUI $style_preview;
     protected \ILIAS\HTTP\Services $http;
     protected ilGlobalTemplateInterface $main_tpl;
 
@@ -42,6 +43,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->http = $DIC->http();
+        $this->style_preview = $DIC->contentStyle()->gui()->preview();
     }
 
     protected function getFormTitle(string $a_mode = "edit"): string
@@ -318,7 +320,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $form->addItem($rows);
 
         // table templates and table classes
-        $char_prop = new ilSelectInputGUI(
+        $char_prop = new ilRadioGroupInputGUI(
             $this->lng->txt("cont_table_style"),
             "characteristic"
         );
@@ -337,16 +339,28 @@ class ilPCDataTableGUI extends ilPCTableGUI
         foreach ($chars as $k => $char) {
             if (strpos($k, ":") > 0) {
                 $t = explode(":", $k);
-                $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both;" class="small">' . $char . "</div>";
+                $html = $this->style_preview->getTemplatePreview(
+                    $this->style->getId(),
+                    "table",
+                    $t[1],
+                    true
+                );
+                $html .= '<div>' . $char . "</div>";
             } else {
-                $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
-                    $char . '</td></tr></table>';
+                $html = $this->style_preview->getTemplatePreview(
+                    $this->style->getId(),
+                    "table",
+                    0,
+                    true
+                );
+                $html .= '<div>' . $char . "</div>";
             }
             //$char_prop->addOption($k, $char, $html);
             $options[$k] = $char;
+            $ro = new ilRadioOption($html, $k);
+            $char_prop->addOption($ro);
         }
         if (count($chars) > 1) {
-            $char_prop->setOptions($options);
             $char_prop->setValue("StandardTable");
             $form->addItem($char_prop);
         }
@@ -375,7 +389,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $form->setTitle($this->getFormTitle("edit"));
 
         // table templates and table classes
-        $char_prop = new ilSelectInputGUI(
+        $char_prop = new ilRadioGroupInputGUI(
             $this->lng->txt("cont_table_style"),
             "characteristic"
         );
@@ -394,15 +408,27 @@ class ilPCDataTableGUI extends ilPCTableGUI
         foreach ($chars as $k => $char) {
             if (strpos($k, ":") > 0) {
                 $t = explode(":", $k);
-                $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both;" class="small">' . $char . "</div>";
+                $html = $this->style_preview->getTemplatePreview(
+                    $this->style->getId(),
+                    "table",
+                    $t[1],
+                    true
+                );
+                $html .= '<div>' . $char . "</div>";
             } else {
-                $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
-                    $char . '</td></tr></table>';
+                $html = $this->style_preview->getTemplatePreview(
+                    $this->style->getId(),
+                    "table",
+                    0,
+                    true
+                );
+                $html .= '<div>' . $char . "</div>";
             }
-            //$char_prop->addOption($k, $char, $html);
             $options[$k] = $char;
+            $ro = new ilRadioOption($html, $k);
+            $char_prop->addOption($ro);
         }
-        $char_prop->setOptions($options);
+        //$char_prop->setOptions($options);
         if (count($chars) > 1) {
             if ($this->content_obj->getTemplate() !== "") {
                 $val = "t:" .

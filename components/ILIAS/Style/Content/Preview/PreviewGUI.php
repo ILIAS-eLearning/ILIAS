@@ -39,10 +39,10 @@ class PreviewGUI
     ): string {
 
         $a_style = new \ilObjStyleSheet($style_id);
-        $html = $a_style->lookupTemplatePreview($a_t_id);
-        if ($html !== "") {
-            //            return $html;
-        }
+        //$html = $a_style->lookupTemplatePreview($a_t_id);
+        //if ($html !== "") {
+        //            return $html;
+        //}
         $lng = $this->domain->lng();
         $p_content = "";
 
@@ -53,7 +53,7 @@ class PreviewGUI
         }
 
         $ts = $a_style->getTemplate($a_t_id);
-        $t = $ts["classes"];
+        $t = $ts["classes"] ?? [];
 
         // preview
         if ($a_type == "table") {
@@ -143,5 +143,4 @@ class PreviewGUI
         //echo htmlentities($r_content); exit;
         return $r_content;
     }
-
 }

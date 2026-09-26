@@ -2842,7 +2842,7 @@ class ilObjStyleSheet extends ilObject
      */
     public function lookupTemplateName(int $a_t_id): string
     {
-        return self::_lookupTemplateName($a_t_id);
+        return (string) self::_lookupTemplateName($a_t_id);
     }
 
     /**

@@ -23,6 +23,21 @@
 	right: auto;
 }
 
+/* workaround for style selection */
+#copg-editor-slate-content .form-group div#characteristic {
+	max-height: 200px;
+	overflow: auto;
+	border: 1px solid #f0f0f0;
+	padding: 10px;
+}
+#copg-editor-slate-content .form-group div#characteristic label.radio-inline {
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+	align-items: center;
+	margin-top: 15px;
+}
+
 /* see #41844 and #46127 */
 #copg-editor-slate-content p, #iltinymenu .il-copg-button-group p {
 	background-color: transparent;
