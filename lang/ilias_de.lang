@@ -12919,8 +12919,6 @@ mst#:#mst_profile_fulfilled#:#Erreicht
 mst#:#mst_profile_not_fulfilled#:#Noch nicht erreicht
 mst#:#mst_select_course#:#Kurs auswählen
 mst#:#mst_show_courses#:#Einschreibungen
-news#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
-news#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 news#:#new_test_online#:#Der Test wurde online geschaltet.
 news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
 news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.

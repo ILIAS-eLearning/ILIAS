@@ -12917,8 +12917,6 @@ mst#:#mst_profile_fulfilled#:#未確認
 mst#:#mst_profile_not_fulfilled#:#履行
 mst#:#mst_select_course#:#コースを選択
 mst#:#mst_show_courses#:#登録
-news#:#lso_news_online_title#:#新しい学習シーケンスオブジェクトはオンラインです!
-news#:#lso_news_online_txt#:#学習シーケンス用の新しいオブジェクトは公開されたばかりです。
 news#:#new_test_online#:#オンラインに設定されました。
 news#:#news_1_file_created#:#ファイルが1個追加されました。
 news#:#news_1_file_updated#:#ファイルが1個更新されました。
