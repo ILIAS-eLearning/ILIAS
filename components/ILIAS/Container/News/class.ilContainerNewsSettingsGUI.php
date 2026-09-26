@@ -216,7 +216,6 @@ class ilContainerNewsSettingsGUI
                 //save contextblock settings
                 $context_block_settings = [
                     "public_feed" => $form->getInput("notifications_public_feed") ?? "",
-                    "default_visibility" => $form->getInput("default_visibility"),
                     "hide_news_per_date" => $form->getInput("hide_news_per_date"),
                     "hide_news_date" => $form->getInput("hide_news_date")
                 ];
