@@ -34,6 +34,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected array $type_grps = [];
     protected array $session_materials = [];
     protected string $highlighted_node = "";
+    protected ?int $context_highlight_node = null;
+    protected bool $context_highlight_node_determined = false;
     protected array $clickable_types = [];
     protected array $selectable_types = [];
     protected ilAccessHandler $access;
@@ -160,11 +162,47 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             return false;
         }
 
-        if ((int) $a_node["child"] === $this->cur_ref_id ||
-            ($this->cur_ref_id === 0 && (int) $a_node["child"] === (int) $this->getNodeId($this->getRootNode()))) {
-            return true;
+        return (int) $a_node["child"] === $this->getContextHighlightNode();
+    }
+
+    protected function getContextHighlightNode(): int
+    {
+        if ($this->context_highlight_node_determined) {
+            return $this->context_highlight_node ?? 0;
         }
-        return false;
+
+        $this->context_highlight_node_determined = true;
+        $ref_id = $this->cur_ref_id;
+        if ($ref_id === 0) {
+            $this->context_highlight_node = (int) $this->getNodeId($this->getRootNode());
+            return $this->context_highlight_node;
+        }
+
+        while ($ref_id > 0) {
+            $node = $this->tree->getNodeData($ref_id);
+            if (is_array($node) && $this->isNodeIncludedInTree($node)) {
+                $this->context_highlight_node = $ref_id;
+                return $ref_id;
+            }
+
+            $ref_id = $this->tree->getParentId($ref_id);
+        }
+
+        return 0;
+    }
+
+    protected function isNodeIncludedInTree(array $node): bool
+    {
+        $type_white_list = $this->getTypeWhiteList();
+        if (count($type_white_list) > 0 && !in_array($node["type"], $type_white_list, true)) {
+            return false;
+        }
+
+        if (in_array($node["type"], $this->getTypeBlackList(), true)) {
+            return false;
+        }
+
+        return $this->isNodeVisible($node);
     }
 
     public function getNodeHref($a_node): string
