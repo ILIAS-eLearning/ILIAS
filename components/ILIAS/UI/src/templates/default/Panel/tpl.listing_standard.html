@@ -1,14 +1,8 @@
-<div class="panel panel-flex il-panel-listing-std-container clearfix">
-    <!-- BEGIN heading -->
-    <div class="panel-heading ilHeader">
-        <div class="panel-title"><h2>{TITLE}</h2></div>
-        <!-- BEGIN vc_container -->
-        <div class="panel-viewcontrols l-bar__space-keeper"><!-- BEGIN view_controls -->{VIEW_CONTROL}<!-- END view_controls --></div>
-        <!-- END vc_container -->
-        <div class="panel-controls">{ACTIONS}</div>
+<div id="{ID}" class="panel panel-flex<!-- BEGIN panel_expandable --> panel-expandable<!-- END panel_expandable --> il-panel-listing-std-container clearfix">
+    {HEADING}
+    <div class="panel-listing-body"<!-- BEGIN body_expandable --> id="body_{PANEL_ID}" aria-labelledby="header_{PANEL_ID}" data-body-expanded="{BODY_EXPANDED}"<!-- END body_expandable -->>
+        <!-- BEGIN group -->
+        {ITEM_GROUP}
+        <!-- END group -->
     </div>
-    <!-- END heading -->
-    <!-- BEGIN group -->
-    {ITEM_GROUP}
-    <!-- END group -->
 </div>

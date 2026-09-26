@@ -248,7 +248,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				</button>
 				<div class="il-item-description">description</div>
 				<div class="dropdown" id="id">
-					<button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_menu">
+					<button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-expanded="false" aria-controls="id_menu">
 						<span class="caret"></span>
 					</button>
 					<ul id="id_menu" class="dropdown-menu">
@@ -262,14 +262,16 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				</div>
 				<div class="il-item-additional-content">someContent</div>
 				<hr class="il-item-divider">
-					<div class="row il-item-properties">
+				<dl class="il-item-properties">
+					<div class="row">
                         <div class="col-sm-12 il-multi-line-cap-3">
-                            <span class="il-item-property-name">prop1</span><span class="il-item-property-value">val1</span>
+                            <dt class="il-item-property-name">prop1</dt><dd class="il-item-property-value">val1</dd>
                         </div>
                         <div class="col-sm-12 il-multi-line-cap-3">
-                            <span class="il-item-property-name">prop2</span><span class="il-item-property-value">val2</span>
+                            <dt class="il-item-property-name">prop2</dt><dd class="il-item-property-value">val2</dd>
                         </div>
 					</div>
+				</dl>
 					<div class="il-aggregate-notifications" data-aggregatedby="id">
 						<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 							<div class="il-maincontrols-slate-notification-title">
