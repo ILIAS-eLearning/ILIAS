@@ -27,6 +27,7 @@ use ILIAS\Style\Content;
  */
 class ilTableTemplatesTableGUI extends ilTable2GUI
 {
+    protected Content\Preview\PreviewGUI $preview_gui;
     protected string $temp_type;
     protected ilObjStyleSheet $style_obj;
     protected ilAccessHandler $access;
@@ -41,7 +42,6 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
         Content\Access\StyleAccessManager $access_manager
     ) {
         global $DIC;
-
         $this->access_manager = $access_manager;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -49,6 +49,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
         $this->rbacsystem = $DIC->rbac()->system();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->preview_gui = $DIC->contentStyle()->gui()->preview();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -87,7 +88,11 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable(
             "T_PREVIEW",
-            $this->style_obj->lookupTemplatePreview((int) $a_set["id"])
+            $this->preview_gui->getTemplatePreview(
+                $this->style_obj->getId(),
+                $this->temp_type,
+                (int) $a_set["id"]
+            )
         );
         $this->tpl->setVariable("TID", $a_set["id"]);
         $this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);
