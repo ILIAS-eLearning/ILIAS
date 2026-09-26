@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Table\Column;
+namespace ILIAS\User\Settings\User;
 
-use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\UI\UserTimezone;
 
-interface Date extends Column
+class UserTimezoneProvider implements UserTimezone
 {
-    public function getFormat(): DateFormat;
+    public function getTimezone(): \DateTimeZone
+    {
+        global $DIC;
 
-    /**
-     * You may want to specify a timezone for the date to be formatted in. By default, the user's timezone is used.
-     */
-    public function withTimeZone(\DateTimeZone $timezone): Date;
+        return new \DateTimeZone($DIC->user()->getTimezone());
+    }
 }
