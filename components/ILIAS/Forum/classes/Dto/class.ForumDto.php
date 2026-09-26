@@ -184,9 +184,4 @@ class ForumDto
 
         return $instance;
     }
-
-    public static function getEmptyInstance(): self
-    {
-        return new self();
-    }
 }
