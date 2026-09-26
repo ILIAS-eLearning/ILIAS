@@ -56,15 +56,12 @@ class TemplateTableBuilder extends CommonTableBuilder
 
     protected function transformRow(array $data_row): array
     {
-        $preview = (string) $data_row["preview"];
-        if ($preview === "") {
-            $preview = \ilObjStyleSheetGUI::_getTemplatePreview(
-                $this->style_obj,
-                $this->temp_type,
-                (int) $data_row["id"],
-                true
-            );
-        }
+        $preview = \ilObjStyleSheetGUI::_getTemplatePreview(
+            $this->style_obj,
+            $this->temp_type,
+            (int) $data_row["id"],
+            false
+        );
 
         return [
             "id" => (int) $data_row["id"],
