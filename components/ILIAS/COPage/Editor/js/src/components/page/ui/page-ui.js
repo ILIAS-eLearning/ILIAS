@@ -561,9 +561,12 @@ export default class PageUI {
       }
 
       draggableElement.setAttribute('draggable', true);
+      draggableElement.querySelectorAll('.ilEditLabel').forEach((label) => {
+        label.style.pointerEvents = 'none';
+      });
 
       draggableElement.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text/plain', event.target.id);
+        event.dataTransfer.setData('text/plain', event.currentTarget.id);
         event.dataTransfer.effectAllowed = 'move';
         event.stopPropagation();
         // Create a transparent clone for the drag image
