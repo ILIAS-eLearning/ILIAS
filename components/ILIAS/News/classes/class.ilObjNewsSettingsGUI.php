@@ -166,6 +166,11 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $min_sel->setValue((string) $news_set->get("acc_cache_mins"));
         $form->addItem($min_sel);
 
+        // Section Header: Visibility Settings of News on Dashboard
+        $sh = new ilFormSectionHeaderGUI();
+        $sh->setTitle($lng->txt("news_dashboard_visibility_settings"));
+        $form->addItem($sh);
+
         // PD News Period
         $per_opts = [
             7 => "1 " . $lng->txt("week"),
@@ -200,6 +205,17 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $lp_prop->setInfo($lng->txt("news_allow_longer_periods_info"));
         $lp_prop->setChecked((bool) $allow_longer_periods);
         $form->addItem($lp_prop);
+
+        // Section Header: Visibility Settings of News on Container-Objects
+        $sh = new ilFormSectionHeaderGUI();
+        $sh->setTitle($lng->txt("news_container_object_visibility_settings"));
+        $form->addItem($sh);
+
+        $per_sel = new ilSelectInputGUI($lng->txt("news_co_period"), "news_co_period");
+        $per_sel->setInfo($lng->txt("news_co_period_info"));
+        $per_sel->setOptions([-1 => $lng->txt("news_hide_news_none")] + $per_opts);
+        $per_sel->setValue((string) ilNewsItem::_lookupDefaultCOPeriod());
+        $form->addItem($per_sel);
 
         // Enable rss for internal news
         $cb_prop = new ilCheckboxInputGUI(
@@ -291,6 +307,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $news_set->set("max_items", $form->getInput("news_max_items"));
             $news_set->set("acc_cache_mins", $form->getInput("news_acc_cache_mins"));
             $news_set->set("pd_period", $form->getInput("news_pd_period"));
+            $news_set->set("co_period", $form->getInput("news_co_period"));
             $news_set->set("default_visibility", $form->getInput("news_default_visibility"));
             $news_set->set("allow_shorter_periods", $form->getInput("allow_shorter_periods"));
             $news_set->set("allow_longer_periods", $form->getInput("allow_longer_periods"));

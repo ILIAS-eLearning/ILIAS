@@ -13053,7 +13053,11 @@ news#:#news_attached_to#:#Attached to
 news#:#news_block_information#:#The <b>News</b> block lists all news that are related to your <b>Favourites</b>.
 news#:#news_cache#:#News Cache (Minutes)
 news#:#news_cache_info#:#Update news blocks all x minutes. ‘0’ means every time. Higher values improve performance, but news may link to non-accessible items.
-news#:#news_default_visibility#:#Default Access
+news#:#news_co_period#:#Container-Objects News Period
+news#:#news_co_period_info#:#Defines the time period used for news in Container-Objects. Select lower values, if you experience any performance problems.
+news#:#news_container_object_visibility_settings#:#Visibility Settings of News on Container-Objects
+news#:#news_dashboard_visibility_settings#:#Visibility Settings of News on Dashboard
+news#:#news_default_visibility#:#Default Access Value
 news#:#news_edit_news_settings#:#Edit Settings
 news#:#news_enable_internal_news#:#Enable Internal News
 news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the dashboard.
@@ -13071,7 +13075,12 @@ news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The f
 news#:#news_get_priv_feed_title#:#Personal private Feed-URL
 news#:#news_hide_news_block#:#Hide News Block
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
+news#:#news_hide_news_by_period#:#Show News by Period
+news#:#news_hide_news_by_period_info#:#Only news that are in the given period will be displayed.
 news#:#news_hide_news_date#:#Starting Date
+news#:#news_hide_news_global#:#Use global setting
+news#:#news_hide_news_mode#:#Limit news display
+news#:#news_hide_news_none#:#Do not limit news
 news#:#news_hide_news_per_date#:#Show News After
 news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
@@ -13099,10 +13108,11 @@ news#:#news_not_available#:#Unavailable News
 news#:#news_notifications#:#Notifications
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
-news#:#news_nr_of_items#:#Number of Maximum News Items per Object
+news#:#news_nr_of_items#:#Number of Maximum Stored News Items per Object
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of sub-objects.
+news#:#news_old_period#:#Value for '%s': %s
 news#:#news_pd_period#:#Dashboard News Period
-news#:#news_pd_period_info#:#Defines the time period used for news on the dashboard. Select lower values, if you experience any performance problems.
+news#:#news_pd_period_info#:#Defines the time period used for news on the Dashboard. Select lower values, if you experience any performance problems.
 news#:#news_period_1_month#:#Last Month
 news#:#news_period_1_week#:#Last Week
 news#:#news_period_1_year#:#Last Year
@@ -13117,7 +13127,7 @@ news#:#news_rss_period#:#RSS Period
 news#:#news_rss_title_format#:#Title Format of RSS Entries
 news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)
 news#:#news_rss_title_format_obj_news#:#Object Title - News Headline
-news#:#news_settings#:#News Settings
+news#:#news_settings#:#General Settings of News
 news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.
 news#:#news_time_period#:#Time Period
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
