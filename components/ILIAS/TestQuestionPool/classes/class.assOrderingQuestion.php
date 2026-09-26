@@ -18,10 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
-use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\TestQuestionPool\Questions\Ordering\OrderingQuestionDatabaseRepository as OQRepository;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\Questions\Ordering\OrderingQuestionDatabaseRepository as OQRepository;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
  * Class for ordering questions
@@ -37,7 +40,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
+class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     public const ORDERING_ELEMENT_FORM_FIELD_POSTVAR = 'order_elems';
 
@@ -146,9 +149,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->element_height = $data["element_height"] ? (int) $data['element_height'] : null;
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -1364,5 +1367,38 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             },
             $elements
         );
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'ordering_type' => $this->ordering_type,
+            'ordering_elements' => $transformations->normalize(
+                $this->getOrderingElementList()->getElements(),
+                ['question_id' => $this->getId()]
+            ),
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->ordering_type = $transformations->int($normalized['ordering_type']);
+        $denormalized_elements = array_map(
+            static fn(array $element): ilAssOrderingElement => $transformations->denormalize($element, new ilAssOrderingElement()),
+            $normalized['ordering_elements']
+        );
+        $clone->element_list_for_deferred_saving = new ilAssOrderingElementList(null, $denormalized_elements);
+
+        return $clone;
     }
 }

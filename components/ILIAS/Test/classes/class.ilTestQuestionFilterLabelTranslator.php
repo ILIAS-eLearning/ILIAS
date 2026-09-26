@@ -149,7 +149,7 @@ class ilTestQuestionFilterLabelTranslator
 
     public function getLifecycleFilterLabel(array $filter = []): string
     {
-        $lifecycle_translations = ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng);
+        $lifecycle_translations = new ilAssQuestionLifecycle()->getSelectOptions($this->lng);
 
         $lifecycles = [];
         foreach ($filter as $lifecycle) {

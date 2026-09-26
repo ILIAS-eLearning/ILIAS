@@ -33,10 +33,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 class ilObjQuestionPool extends ilObject
 {
     private ilComponentRepository $component_repository;
-    private ilBenchmark $benchmark;
 
-    private array $mob_ids;
-    private array $file_ids;
     private bool $skill_service_enabled;
     private GeneralQuestionPropertiesRepository $questionrepository;
 
@@ -44,7 +41,6 @@ class ilObjQuestionPool extends ilObject
     {
         global $DIC;
         $this->component_repository = $DIC['component.repository'];
-        $this->benchmark = $DIC['ilBench'];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
@@ -306,246 +302,6 @@ class ilObjQuestionPool extends ilObject
     }
 
     /**
-     * @param ilXmlWriter $xmlWriter
-     */
-    private function exportXMLSettings($xmlWriter): void
-    {
-        $xmlWriter->xmlStartTag('Settings');
-        $xmlWriter->xmlElement('SkillService', null, (int) $this->isSkillServiceEnabled());
-        $xmlWriter->xmlEndTag('Settings');
-    }
-
-    /**
-     * export pages of test to xml (see ilias_co.dtd)
-     *
-     * @param object $a_xml_writer            ilXmlWriter object that receives the
-     *                                        xml data
-     */
-    public function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions): void
-    {
-        $ilBench = $this->benchmark;
-
-        $this->mob_ids = [];
-        $this->file_ids = [];
-
-        $attrs = [];
-        $attrs['Type'] = 'Questionpool_Test';
-        $a_xml_writer->xmlStartTag('ContentObject', $attrs);
-
-        // MetaData
-        $this->exportTitleAndDescription($a_xml_writer);
-
-        // Settings
-        $this->exportXMLSettings($a_xml_writer);
-
-        // PageObjects
-        $expLog->write(date('[y-m-d H:i:s] ') . 'Start Export Page Objects');
-        $ilBench->start('ContentObjectExport', 'exportPageObjects');
-        $this->exportXMLPageObjects($a_xml_writer, $a_inst, $expLog, $questions);
-        $ilBench->stop('ContentObjectExport', 'exportPageObjects');
-        $expLog->write(date('[y-m-d H:i:s] ') . 'Finished Export Page Objects');
-
-        // MediaObjects
-        $expLog->write(date('[y-m-d H:i:s] ') . 'Start Export Media Objects');
-        $ilBench->start('ContentObjectExport', 'exportMediaObjects');
-        $this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
-        $ilBench->stop('ContentObjectExport', 'exportMediaObjects');
-        $expLog->write(date('[y-m-d H:i:s] ') . 'Finished Export Media Objects');
-
-        // FileItems
-        $expLog->write(date('[y-m-d H:i:s] ') . 'Start Export File Items');
-        $ilBench->start('ContentObjectExport', 'exportFileItems');
-        $this->exportFileItems($a_target_dir, $expLog);
-        $ilBench->stop('ContentObjectExport', 'exportFileItems');
-        $expLog->write(date('[y-m-d H:i:s] ') . 'Finished Export File Items');
-
-        // skill assignments
-        $this->populateQuestionSkillAssignmentsXml($a_xml_writer, $questions);
-
-        $a_xml_writer->xmlEndTag('ContentObject');
-    }
-
-    /**
-     * @param ilXmlWriter $a_xml_writer
-     * @param             $questions
-     */
-    protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions): void
-    {
-        $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-        $assignmentList->setParentObjId($this->getId());
-        $assignmentList->loadFromDb();
-        $assignmentList->loadAdditionalSkillData();
-
-        $skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
-        $skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
-        $skillQuestionAssignmentExporter->setQuestionIds($questions);
-        $skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
-        $skillQuestionAssignmentExporter->export();
-    }
-
-    public function exportTitleAndDescription(ilXmlWriter &$a_xml_writer): void
-    {
-        $a_xml_writer->xmlElement('Title', null, $this->getTitle());
-        $a_xml_writer->xmlElement('Description', null, $this->getDescription());
-    }
-
-    public function modifyExportIdentifier($a_tag, $a_param, $a_value)
-    {
-        if ($a_tag == 'Identifier' && $a_param == 'Entry') {
-            $a_value = ilUtil::insertInstIntoID($a_value);
-        }
-
-        return $a_value;
-    }
-
-    /**
-     * export page objects to xml (see ilias_co.dtd)
-     *
-     * @param object $a_xml_writer            ilXmlWriter object that receives the
-     *                                        xml data
-     */
-    public function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions): void
-    {
-        $ilBench = $this->benchmark;
-
-        foreach ($questions as $question_id) {
-            $ilBench->start('ContentObjectExport', 'exportPageObject');
-            $expLog->write(date('[y-m-d H:i:s] ') . 'Page Object ' . $question_id);
-
-            $attrs = [];
-            $a_xml_writer->xmlStartTag('PageObject', $attrs);
-
-            // export xml to writer object
-            $ilBench->start('ContentObjectExport', 'exportPageObject_XML');
-            $page_object = new ilAssQuestionPage($question_id);
-            $page_object->buildDom();
-            $page_object->insertInstIntoIDs($a_inst);
-            $mob_ids = $page_object->collectMediaObjects(false);
-            $file_ids = ilPCFileList::collectFileItems($page_object, $page_object->getDomDoc());
-            $xml = $page_object->getXMLFromDom(false, false, false, '', true);
-            $xml = str_replace('&', '&amp;', $xml);
-            $a_xml_writer->appendXML($xml);
-            $page_object->freeDom();
-            unset($page_object);
-            $ilBench->stop('ContentObjectExport', 'exportPageObject_XML');
-
-            $ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
-            foreach ($mob_ids as $mob_id) {
-                $this->mob_ids[$mob_id] = $mob_id;
-            }
-            $ilBench->stop('ContentObjectExport', 'exportPageObject_CollectMedia');
-
-            // collect all file items
-            $ilBench->start('ContentObjectExport', 'exportPageObject_CollectFileItems');
-            //$file_ids = $page_obj->getFileItemIds();
-            foreach ($file_ids as $file_id) {
-                $this->file_ids[$file_id] = $file_id;
-            }
-            $ilBench->stop('ContentObjectExport', 'exportPageObject_CollectFileItems');
-
-            $a_xml_writer->xmlEndTag("PageObject");
-
-            $ilBench->stop('ContentObjectExport', 'exportPageObject');
-        }
-    }
-
-    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog): void
-    {
-        foreach ($this->mob_ids as $mob_id) {
-            $expLog->write(date('[y-m-d H:i:s] ') . 'Media Object ' . $mob_id);
-            if (ilObjMediaObject::_exists((int) $mob_id)) {
-                $target_dir = $a_target_dir . DIRECTORY_SEPARATOR . 'objects'
-                    . DIRECTORY_SEPARATOR . 'il_' . IL_INST_ID . '_mob_' . $mob_id;
-                ilFileUtils::createDirectory($target_dir);
-                $media_obj = new ilObjMediaObject((int) $mob_id);
-                $media_obj->exportXML($a_xml_writer, (int) $a_inst);
-                foreach ($media_obj->getMediaItems() as $item) {
-                    $stream = $item->getLocationStream();
-                    file_put_contents($target_dir . DIRECTORY_SEPARATOR . $item->getLocation(), $stream);
-                    $stream->close();
-                }
-                unset($media_obj);
-            }
-        }
-    }
-
-    /**
-     * export files of file itmes
-     *
-     */
-    public function exportFileItems($target_dir, &$expLog): void
-    {
-        foreach ($this->file_ids as $file_id) {
-            $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
-            $file_dir = $target_dir . '/objects/il_' . IL_INST_ID . '_file_' . $file_id;
-            ilFileUtils::makeDir($file_dir);
-            $file_obj = new ilObjFile((int) $file_id, false);
-            $source_file = $file_obj->getFile($file_obj->getVersion());
-            if (!is_file($source_file)) {
-                $source_file = $file_obj->getFile();
-            }
-            if (is_file($source_file)) {
-                copy($source_file, $file_dir . '/' . $file_obj->getFileName());
-            }
-            unset($file_obj);
-        }
-    }
-
-    /**
-     * creates data directory for export files
-     * (data_dir/qpl_data/qpl_<id>/export, depending on data
-     * directory that is set in ILIAS setup/ini)
-     */
-    public function createExportDirectory(): void
-    {
-        $qpl_data_dir = ilFileUtils::getDataDir() . '/qpl_data';
-        ilFileUtils::makeDir($qpl_data_dir);
-        if (!is_writable($qpl_data_dir)) {
-            $this->error->raiseError(
-                'Questionpool Data Directory (' . $qpl_data_dir
-                . ') not writeable.',
-                $this->error->FATAL
-            );
-        }
-
-        // create learning module directory (data_dir/lm_data/lm_<id>)
-        $qpl_dir = $qpl_data_dir . '/qpl_' . $this->getId();
-        ilFileUtils::makeDir($qpl_dir);
-        if (!@is_dir($qpl_dir)) {
-            $this->error->raiseError('Creation of Questionpool Directory failed.', $this->error->FATAL);
-        }
-        // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-        ilFileUtils::makeDir($this->getExportDirectory('xlsx'));
-        if (!@is_dir($this->getExportDirectory('xlsx'))) {
-            $this->error->raiseError('Creation of Export Directory failed.', $this->error->FATAL);
-        }
-        ilFileUtils::makeDir($this->getExportDirectory('zip'));
-        if (!@is_dir($this->getExportDirectory('zip'))) {
-            $this->error->raiseError('Creation of Export Directory failed.', $this->error->FATAL);
-        }
-    }
-
-    /**
-     * get export directory of questionpool
-     */
-    public function getExportDirectory($type = ''): string
-    {
-        switch ($type) {
-            case 'xml':
-                $export_dir = ilExport::_getExportDirectory($this->getId(), $type, $this->getType());
-                break;
-            case 'xlsx':
-            case 'zip':
-                $export_dir = ilFileUtils::getDataDir() . "/qpl_data/qpl_{$this->getId()}/export_{$type}";
-                break;
-            default:
-                $export_dir = ilFileUtils::getDataDir() . '/qpl_data' . '/qpl_' . $this->getId() . '/export';
-                break;
-        }
-        return $export_dir;
-    }
-
-    /**
      * Retrieve an array containing all question ids of the questionpool
      *
      * @return array An array containing all question ids of the questionpool
@@ -600,20 +356,13 @@ class ilObjQuestionPool extends ilObject
     }
 
     /**
-     * get array of (two) new created questions for
-     * import id
-     */
-    public function getImportMapping(): array
-    {
-        return [];
-    }
-
-    /**
      * Returns a QTI xml representation of a list of questions
      *
      * @param array $questions An array containing the question ids of the questions
      * @return string The QTI xml representation of the questions
      * @access public
+     *
+     * @deprecated 12: Use ILIAS\Test\ExportImport\TestExporter instead
      */
     public function questionsToXML($questions): string
     {
@@ -1241,11 +990,5 @@ class ilObjQuestionPool extends ilObject
         }
 
         return self::$isSkillManagementGloballyActivated;
-    }
-
-    public function fromXML(?string $xml_file): void
-    {
-        $parser = new ilObjQuestionPoolXMLParser($this, $xml_file);
-        $parser->startParsing();
     }
 }

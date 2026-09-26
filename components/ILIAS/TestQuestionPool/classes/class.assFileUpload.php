@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -35,7 +38,7 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType
+class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType, ToNormalized, FromNormalized
 {
     public const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
     public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
@@ -164,9 +167,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->setCompletionBySubmission($data['compl_by_submission'] == 1 ? true : false);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -949,5 +952,33 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
     {
         return '';
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'maxsize' => $this->maxsize,
+            'allowedextensions' => $this->allowedextensions,
+            'completion_by_submission' => $this->completion_by_submission,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->maxsize = $transformations->nullableInt($normalized['maxsize']);
+        $clone->allowedextensions = $transformations->string($normalized['allowedextensions']);
+        $clone->completion_by_submission = $transformations->bool($normalized['completion_by_submission']);
+
+        return $clone;
     }
 }

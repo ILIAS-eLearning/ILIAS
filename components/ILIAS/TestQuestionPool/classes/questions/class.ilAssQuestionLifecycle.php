@@ -16,12 +16,16 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
  * Class ilAssQuestionLifecycle
  * @author      Björn Heyser <info@bjoernheyser.de>
  * @package components\ILIAS/TestQuestionPool
  */
-class ilAssQuestionLifecycle
+class ilAssQuestionLifecycle implements ToNormalized, FromNormalized
 {
     public const DRAFT = 'draft';
     public const REVIEW = 'review';
@@ -30,11 +34,12 @@ class ilAssQuestionLifecycle
     public const SHARABLE = 'sharable';
     public const OUTDATED = 'outdated';
 
-    protected string $identifier;
+    private string $identifier;
 
-    private function __construct()
+    public function __construct($identifier = self::DRAFT)
     {
-        $this->setIdentifier(self::DRAFT);
+        $this->validateIdentifier($identifier);
+        $this->setIdentifier($identifier);
     }
 
     public function getIdentifier(): string
@@ -132,25 +137,23 @@ class ilAssQuestionLifecycle
         }
     }
 
-    /**
-     * @param mixed $identifier
-     * @return self
-     * @throws ilTestQuestionPoolInvalidArgumentException
-     */
-    public static function getInstance($identifier): self
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
     {
-        $lifecycle = new self();
-        $lifecycle->validateIdentifier($identifier);
-        $lifecycle->setIdentifier($identifier);
-
-        return $lifecycle;
+        return [
+            'identifier' => $this->getIdentifier(),
+        ];
     }
 
-    public static function getDraftInstance(): self
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
     {
-        $lifecycle = new self();
-        $lifecycle->setIdentifier(self::DRAFT);
-
-        return $lifecycle;
+        return new self($normalized['identifier']);
     }
 }

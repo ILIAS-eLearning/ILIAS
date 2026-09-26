@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\QuestionImage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
  * Class for answers with a binary state indicator
  *
@@ -43,12 +46,18 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      * @param string  $answertext A string defining the answer text
      * @param double  $points     The number of points given for the selected answer
      * @param integer $order      A nonnegative value representing a possible display or sort order
-     * @param integer $state      A integer value indicating the state of the answer
-     * @param string  $a_image    The image filename
+     * @param bool    $state      A boolen value indicating the state of the answer
+     * @param ?string  $a_image    The image filename
      * @param integer $id         The database id of the answer
      */
-    public function __construct($answertext = "", $points = 0.0, $order = 0, $state = false, ?string $a_image = null, int $id = -1)
-    {
+    public function __construct(
+        string $answertext = '',
+        float $points = 0.0,
+        int $order = 0,
+        bool $state = false,
+        ?string $a_image = null,
+        int $id = -1
+    ) {
         parent::__construct($answertext, (float) $points, $order, $state, $id);
         $this->setImage($a_image);
     }
@@ -69,5 +78,30 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
     public function hasImage(): bool
     {
         return $this->image !== null;
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'image' => $this->image ?
+                $transformations->normalize(new QuestionImage($this->image, $context['question_id'] ?? null))
+                : null,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setImage($transformations->denormalize($normalized['image'], QuestionImage::class)?->getFilename());
+        return $clone;
     }
 }

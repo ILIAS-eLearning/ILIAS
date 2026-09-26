@@ -19,8 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Interface ilQTIMaterialAware
- * @author Michael Jansen <mjansen@databay.de>
+ * @deprecated 12: QTI export is no longer supported
  */
 interface ilQTIMaterialAware
 {

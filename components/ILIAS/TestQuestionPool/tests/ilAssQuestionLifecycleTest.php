@@ -35,15 +35,19 @@ class ilAssQuestionLifecycleTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class () extends ilAssQuestionLifecycle {
-            public function __construct()
-            {
-            }
-        };
+        $this->object = new ilAssQuestionLifecycle();
     }
 
     public function testConstruct(): void
     {
         $this->assertInstanceOf(ilAssQuestionLifecycle::class, $this->object);
+        $this->assertSame(ilAssQuestionLifecycle::DRAFT, $this->object->getIdentifier());
+    }
+
+    public function testConstructAcceptsIdentifier(): void
+    {
+        $lifecycle = new ilAssQuestionLifecycle(ilAssQuestionLifecycle::FINAL);
+
+        $this->assertSame(ilAssQuestionLifecycle::FINAL, $lifecycle->getIdentifier());
     }
 }

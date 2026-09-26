@@ -43,4 +43,5 @@ It is possible to delete questions. Within this the personal data at the field '
 ## Data being exported
 
 - The XML export of the question pool contains the personal data 'Author' of the questions and of the question pool itself within the metadata.
+- In addition the XML export contains the 'User ID' of the owner of each question (see 'Ownership of Questions' above).
 - It's purpose is to being imported in ILIAS again, although the contained personal data is easily accesible. Including this information ensures that the authorship of the question is not lost after import. In addition it is possible to contact the author, e.g. if there are problems with the question or the configuration of it.

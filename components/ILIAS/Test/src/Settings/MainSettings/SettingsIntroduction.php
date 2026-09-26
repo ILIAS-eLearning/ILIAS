@@ -122,7 +122,7 @@ class SettingsIntroduction extends TestSettings implements Exportable
     {
         return new self(
             (bool) $data['intro_enabled'],
-            $data['introduction_page_id'],
+            $data['introduction_page_id'] !== null ? (int) $data['introduction_page_id'] : null,
             (bool) $data['conditions_checkbox_enabled'],
         );
     }

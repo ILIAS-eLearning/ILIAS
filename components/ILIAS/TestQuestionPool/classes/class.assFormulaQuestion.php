@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
@@ -28,7 +31,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup components\ILIASTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion implements iQuestionCondition, QuestionAutosaveable
+class assFormulaQuestion extends assQuestion implements iQuestionCondition, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     private array $variables;
     private array $results;
@@ -708,9 +711,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             $this->setOwner($data["owner"]);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -1482,5 +1485,39 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 'pass' => $pass
             ]
         );
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'variables' => $transformations->normalize($this->variables),
+            'results' => $transformations->normalize($this->results)
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+
+        foreach ($normalized['variables'] as $key => $data) {
+            $dummy = new assFormulaQuestionVariable('', '', '');
+            $clone->variables[$key] = $transformations->denormalize($data, $dummy);
+        }
+
+        foreach ($normalized['results'] as $key => $data) {
+            $dummy = new assFormulaQuestionResult('', '', '', 0, null, '', 0, 0);
+            $clone->results[$key] = $transformations->denormalize($data, $dummy);
+        }
+
+        return $clone;
     }
 }

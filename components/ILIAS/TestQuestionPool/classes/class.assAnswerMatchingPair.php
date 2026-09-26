@@ -18,13 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
 * Class for matching question pairs
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @ingroup components\ILIASTestQuestionPool
 */
-class assAnswerMatchingPair
+class assAnswerMatchingPair implements ToNormalized, FromNormalized
 {
     protected assAnswerMatchingTerm $term;
     protected assAnswerMatchingDefinition $definition;
@@ -71,5 +75,29 @@ class assAnswerMatchingPair
         $clone = clone $this;
         $clone->points = $points;
         return $clone;
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            'points' => $this->points,
+            'term' => $transformations->normalize($this->term, $context),
+            'definition' => $transformations->normalize($this->definition, $context),
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): self
+    {
+        return $this->withPoints($transformations->float($normalized['points']))
+            ->withTerm($transformations->denormalize($normalized['term'], $this->term))
+            ->withDefinition($transformations->denormalize($normalized['definition'], $this->definition));
     }
 }

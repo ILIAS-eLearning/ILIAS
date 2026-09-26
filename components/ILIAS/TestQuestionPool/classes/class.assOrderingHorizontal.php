@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -33,7 +36,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup	ModulesTestQuestionPool
  */
-class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
+class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
     protected const DEFAULT_TEXT_SIZE = 100;
@@ -129,9 +132,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             $this->setTextSize($data["textsize"]);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -581,5 +584,35 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
     {
         return $this->getOrderText();
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'ordertext' => $this->ordertext,
+            'textsize' => $this->textsize,
+            'separator' => $this->separator,
+            'answer_separator' => $this->answer_separator,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->ordertext = $transformations->string($normalized['ordertext']);
+        $clone->textsize = $transformations->float($normalized['textsize']);
+        $clone->separator = $transformations->string($normalized['separator']);
+        $clone->answer_separator = $transformations->string($normalized['answer_separator']);
+
+        return $clone;
     }
 }
