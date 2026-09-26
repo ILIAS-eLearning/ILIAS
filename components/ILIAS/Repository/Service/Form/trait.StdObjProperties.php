@@ -225,6 +225,25 @@ trait StdObjProperties
             );
         }
 
+        // organisational unit position access
+        $key = \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS;
+        if (in_array($key, $services)) {
+            $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+                \ilObject::_lookupType($obj_id)
+            );
+            if ($position_settings->isActive()) {
+                $form = $this->checkbox(
+                    $key,
+                    $lng->txt('obj_orgunit_positions'),
+                    $lng->txt('obj_orgunit_positions_info'),
+                    \ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($obj_id)
+                );
+                if (!$position_settings->isChangeableForObject()) {
+                    $form = $this->disabled();
+                }
+            }
+        }
+
 
         return $form;
     }
@@ -237,6 +256,18 @@ trait StdObjProperties
         $key = \ilObjectServiceSettingsGUI::CUSTOM_METADATA;
         if (in_array($key, $services)) {
             \ilContainer::_writeContainerSetting($obj_id, $key, (string) $this->getData($key));
+        }
+
+        $key = \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS;
+        if (in_array($key, $services)) {
+            $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+                \ilObject::_lookupType($obj_id)
+            );
+            if ($position_settings->isActive() && $position_settings->isChangeableForObject()) {
+                $object_setting = new \ilOrgUnitObjectPositionSetting($obj_id);
+                $object_setting->setActive((bool) $this->getData($key));
+                $object_setting->update();
+            }
         }
         // taxonomies
         $key = \ilObjectServiceSettingsGUI::TAXONOMIES;
@@ -367,7 +398,7 @@ trait StdObjProperties
         }
     }
 
-    public function getDidacticTemplateIdFromRequest() : ?int
+    public function getDidacticTemplateIdFromRequest(): ?int
     {
         $new_tpl_id = null;
         if ($this->http->wrapper()->query()->has('didactic_template_id')) {
