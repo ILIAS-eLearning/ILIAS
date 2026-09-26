@@ -148,7 +148,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     {
         $query = "
 			SELECT		qpl_questions.question_id,
-						qpl_qst_type.type_tag,
+						qpl_qst_type.type_tag AS question_type,
 						qpl_qst_type.plugin,
 						qpl_qst_type.plugin_name
 

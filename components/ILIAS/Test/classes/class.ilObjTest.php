@@ -2761,7 +2761,7 @@ class ilObjTest extends ilObject
 
         $query_result = $this->db->query("
 			SELECT		qpl_questions.*, qpl_questions.tstamp,
-						qpl_qst_type.type_tag, qpl_qst_type.plugin, qpl_qst_type.plugin_name,
+						qpl_qst_type.type_tag AS question_type, qpl_qst_type.plugin, qpl_qst_type.plugin_name,
 						object_data.title parent_title
 			FROM		qpl_questions, qpl_qst_type, object_data
 			WHERE $original_clause $available
@@ -2777,7 +2777,7 @@ class ilObjTest extends ilObject
                 $row = ilAssQuestionType::completeMissingPluginName($row);
 
                 if (!$row['plugin']) {
-                    $row[ 'ttype' ] = $this->lng->txt($row[ "type_tag" ]);
+                    $row[ 'ttype' ] = $this->lng->txt($row[ "question_type" ]);
 
                     $rows[] = $row;
                     continue;
