@@ -7162,7 +7162,7 @@ content#:#cont_standard#:#Standard
 content#:#cont_start#:#Start
 content#:#cont_start_file_set_to#:#%s has been set as start file.
 content#:#cont_start_value#:#Start Value
-content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.
+content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1. If you use an own counter via ::before, the start value will only be used, if you use the internal 'list-item' counter.
 content#:#cont_startfile#:#Start File
 content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
