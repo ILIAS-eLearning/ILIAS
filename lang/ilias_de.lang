@@ -7166,7 +7166,7 @@ content#:#cont_standard#:#Standard
 content#:#cont_start#:#Start
 content#:#cont_start_file_set_to#:#%s wurde als Startdatei festgelegt.
 content#:#cont_start_value#:#Startwert
-content#:#cont_start_value_info#:#Geben Sie eine Startwert als Dezimalzahl ein. Standardwert ist 1.
+content#:#cont_start_value_info#:#Geben Sie eine Startwert als Dezimalzahl ein. Standardwert ist 1. Falls Sie einen eigenen counter() über ::before nutzen, wirkt sich der Startwert nur aus, wenn Sie denn internen 'list-item' counter verwenden.
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardansicht liegt im Verzeichnis.
