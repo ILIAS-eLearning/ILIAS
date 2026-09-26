@@ -1238,10 +1238,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_edit_style"));
         // characteristic selection
-        $char_prop = new ilSelectInputGUI(
+        $char_prop = new ilRadioGroupInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
         );
+
 
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
@@ -1264,8 +1265,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $char . '</div>';
             //$char_prop->addOption($k, $char, $html);
             $options[$k] = $char;
+            $ro = new ilRadioOption($html, $k);
+            $char_prop->addOption($ro);
         }
-        $char_prop->setOptions($options);
+        //$char_prop->setOptions($options);
 
         $char_prop->setValue($selected);
         $form->addItem($char_prop);
@@ -1296,10 +1299,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    public function getStyleInput(): ilSelectInputGUI
+    public function getStyleInput(): ilRadioGroupInputGUI
     {
         // characteristic selection
-        $char_prop = new ilSelectInputGUI(
+        $char_prop = new ilRadioGroupInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
         );
@@ -1323,10 +1326,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         foreach ($chars as $k => $char) {
             $html = '<div class="ilCOPgEditStyleSelectionItem">' .
                 $char . '</div>';
-            //$char_prop->addOption($k, $char, $html);
             $options[$k] = $char;
+            $ro = new ilRadioOption($html, $k);
+            $char_prop->addOption($ro);
         }
-        $char_prop->setOptions($options);
+        //$char_prop->setOptions($options);
         $char_prop->setValue($selected);
 
         return $char_prop;
