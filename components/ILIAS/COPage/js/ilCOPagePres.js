@@ -327,7 +327,10 @@ il.COPagePres = {
     }
   },
 
+  fullscreen_signals: {},
+
   setFullscreenModalShowSignal(signal, suffix) {
+    il.COPagePres.fullscreen_signals[suffix] = signal;
     il.COPagePres.fullscreen_signal = signal;
     il.COPagePres.fullscreen_suffix = suffix;
     $(`#il-copg-mob-fullscreen${suffix}`).closest('.modal').on('shown.bs.modal', () => {
@@ -345,18 +348,20 @@ il.COPagePres = {
     }
   },
 
-  openFullScreenModal(target) {
+  openFullScreenModal(target, suffix) {
     // see 32198
     if (il.COPagePres.inIframe()) {
-      window.parent.il.COPagePres.openFullScreenModal(target);
+      window.parent.il.COPagePres.openFullScreenModal(target, suffix);
       return;
     }
-    $(`#il-copg-mob-fullscreen${il.COPagePres.fullscreen_suffix}`).attr('src', target);
+    const modalSuffix = suffix || il.COPagePres.fullscreen_suffix;
+    const signal = il.COPagePres.fullscreen_signals[modalSuffix] || il.COPagePres.fullscreen_signal;
+    $(`#il-copg-mob-fullscreen${modalSuffix}`).attr('src', target);
     // workaround for media pool full screen view
     $('#ilMepPreviewContent').attr('src', target);
-    if (il.COPagePres.fullscreen_signal) {
-      $(document).trigger(il.COPagePres.fullscreen_signal, {
-        id: il.COPagePres.fullscreen_signal,
+    if (signal) {
+      $(document).trigger(signal, {
+        id: signal,
         event: 'click',
         triggerer: $(document),
         options: JSON.parse('[]'),
