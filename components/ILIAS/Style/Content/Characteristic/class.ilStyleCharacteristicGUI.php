@@ -1098,10 +1098,16 @@ class ilStyleCharacteristicGUI
     public function pasteCharacteristicsOverview(): void
     {
         $tpl = $this->gui_service->mainTemplate();
-        $ilTabs = $this->gui_service->tabs();
+        $tabs = $this->gui_service->tabs();
+        $ctrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
         $ui = $this->gui_service->ui();
 
-        $ilTabs->clearTargets();
+        $tabs->clearTargets();
+        $tabs->setBackTarget(
+            $lng->txt("back"),
+            $ctrl->getLinkTarget($this, "listCharacteristics")
+        );
 
         if ($this->manager->getCopyCharacteristicStyleId() ==
         $this->object->getId()) {
