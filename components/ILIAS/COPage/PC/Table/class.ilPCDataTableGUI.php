@@ -289,6 +289,31 @@ class ilPCDataTableGUI extends ilPCTableGUI
         return $s_text;
     }
 
+    protected function getCharacteristicPreview(string $key, string $characteristic): string
+    {
+        $style = $this->getStyle();
+        if ($style === null) {
+            $html = '<table class="ilc_table_' . $key . '"><tr><td>&nbsp;</td></tr></table>';
+        } elseif (strpos($key, ":") > 0) {
+            $template = explode(":", $key);
+            $html = $this->style_preview->getTemplatePreview(
+                $style->getId(),
+                "table",
+                (int) $template[1],
+                true
+            );
+        } else {
+            $html = $this->style_preview->getTemplatePreview(
+                $style->getId(),
+                "table",
+                0,
+                true
+            );
+        }
+
+        return $html . '<div>' . $characteristic . "</div>";
+    }
+
     public function initCreationForm(
     ): ilPropertyFormGUI {
 
@@ -337,24 +362,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         }
         $options = [];
         foreach ($chars as $k => $char) {
-            if (strpos($k, ":") > 0) {
-                $t = explode(":", $k);
-                $html = $this->style_preview->getTemplatePreview(
-                    $this->style->getId(),
-                    "table",
-                    $t[1],
-                    true
-                );
-                $html .= '<div>' . $char . "</div>";
-            } else {
-                $html = $this->style_preview->getTemplatePreview(
-                    $this->style->getId(),
-                    "table",
-                    0,
-                    true
-                );
-                $html .= '<div>' . $char . "</div>";
-            }
+            $html = $this->getCharacteristicPreview($k, $char);
             //$char_prop->addOption($k, $char, $html);
             $options[$k] = $char;
             $ro = new ilRadioOption($html, $k);
@@ -406,24 +414,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         }
         $options = [];
         foreach ($chars as $k => $char) {
-            if (strpos($k, ":") > 0) {
-                $t = explode(":", $k);
-                $html = $this->style_preview->getTemplatePreview(
-                    $this->style->getId(),
-                    "table",
-                    $t[1],
-                    true
-                );
-                $html .= '<div>' . $char . "</div>";
-            } else {
-                $html = $this->style_preview->getTemplatePreview(
-                    $this->style->getId(),
-                    "table",
-                    0,
-                    true
-                );
-                $html .= '<div>' . $char . "</div>";
-            }
+            $html = $this->getCharacteristicPreview($k, $char);
             $options[$k] = $char;
             $ro = new ilRadioOption($html, $k);
             $char_prop->addOption($ro);
