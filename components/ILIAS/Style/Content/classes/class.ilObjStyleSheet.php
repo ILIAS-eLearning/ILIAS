@@ -1296,7 +1296,7 @@ class ilObjStyleSheet extends ilObject
         $this->chars_by_type = array();
         $q = "SELECT * FROM style_char WHERE style_id = " .
             $ilDB->quote($this->getId(), "integer") .
-            " ORDER BY type ASC, characteristic ASC";
+            " ORDER BY type ASC, order_nr ASC, characteristic ASC";
         $par_set = $ilDB->query($q);
         while ($par_rec = $ilDB->fetchAssoc($par_set)) {
             $this->chars[] = array("type" => $par_rec["type"], "class" => $par_rec["characteristic"], "hide" => $par_rec["hide"]);
