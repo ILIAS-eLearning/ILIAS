@@ -1658,6 +1658,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $is_child = [];
         $not_allowed_subobject = [];
 
+        if (!$this->clipboard->hasEntries()) {
+            $ilCtrl->returnToParent($this);
+            return;
+        }
 
         if (!in_array($this->clipboard->getCmd(), ["cut", "link", "copy"])) {
             $message = get_class(
