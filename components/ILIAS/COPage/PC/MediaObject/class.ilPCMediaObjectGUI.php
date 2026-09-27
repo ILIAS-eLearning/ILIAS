@@ -1459,7 +1459,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 } else {
                     $new_chars[$char] = $char;
                 }
-                asort($new_chars);
             }
             $chars = $new_chars;
         }
