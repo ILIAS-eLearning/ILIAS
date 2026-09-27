@@ -576,7 +576,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if (in_array(strtolower($ilCtrl->getNextClass($this)), [strtolower(SettingsGUI::class), strtolower(ilMediaObjectOverviewGUI::class)]) ||
             in_array(
                 strtolower($ilCtrl->getCmdClass()),
-                array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
+                array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui", "illtiproviderobjectsettinggui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
             "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilmdeditorgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui')
             ) || in_array($ilCtrl->getNextClass(), ["ilpermissiongui", strtolower(TranslationGUI::class)])) {
