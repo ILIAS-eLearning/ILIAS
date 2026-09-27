@@ -425,11 +425,11 @@ class ilContainerRenderer
     /**
      * @param mixed $a_id
      */
-    public function renderSingleCustomBlock($a_id): string
+    public function renderSingleCustomBlock($a_id, bool $exhausted = false): string
     {
         $block_tpl = $this->initBlockTemplate();
 
-        if ($this->renderHelperCustomBlock($block_tpl, $a_id, true)) {
+        if ($this->renderHelperCustomBlock($block_tpl, $a_id, true, $exhausted)) {
             return $block_tpl->get();
         }
         return "";
@@ -1005,7 +1005,7 @@ class ilContainerRenderer
                 } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
                     $page_html = preg_replace(
                         '~\[item-group-' . $block->getId() . '\]~i',
-                        $this->renderSingleCustomBlock((int) $block->getId()),
+                        $this->renderSingleCustomBlock((int) $block->getId(), $block->getLimitExhausted()),
                         $page_html
                     );
                     $valid = true;
