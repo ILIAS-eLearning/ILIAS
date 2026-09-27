@@ -93,8 +93,12 @@ const presentation = (function () {
     window.dispatchEvent(new Event('resize'));
   }
 
-  function init(node) {
+  function init(node = document) {
     node.querySelectorAll('[data-copg-tabs-type]').forEach((tabContainer) => {
+      if (tabContainer.dataset.copgTabsInitialised) {
+        return;
+      }
+
       const type = tabContainer.dataset.copgTabsType;
       if (type === 'Carousel') {
         // +
@@ -180,6 +184,8 @@ const presentation = (function () {
           }
         }
       }
+
+      tabContainer.dataset.copgTabsInitialised = true;
     });
   }
 
@@ -187,6 +193,8 @@ const presentation = (function () {
     init,
   };
 }());
+window.il = window.il || {};
+window.il.COPageTabsPresentation = presentation;
 window.addEventListener('load', () => {
   presentation.init(document);
 }, false);
