@@ -28,8 +28,6 @@ abstract class _DiffOp
     public $type;
     public $orig;
     public $closing;
-
-    abstract public function reverse();
 }
 
 /**
@@ -49,11 +47,6 @@ class _DiffOp_Copy extends _DiffOp
         $this->orig = $orig;
         $this->closing = $closing;
     }
-
-    public function reverse()
-    {
-        return new _DiffOp_Copy($this->closing, $this->orig);
-    }
 }
 
 /**
@@ -69,11 +62,6 @@ class _DiffOp_Delete extends _DiffOp
     {
         $this->orig = $lines;
         $this->closing = false;
-    }
-
-    public function reverse()
-    {
-        return new _DiffOp_Add($this->orig);
     }
 }
 
@@ -91,11 +79,6 @@ class _DiffOp_Add extends _DiffOp
         $this->closing = $lines;
         $this->orig = false;
     }
-
-    public function reverse()
-    {
-        return new _DiffOp_Delete($this->closing);
-    }
 }
 
 /**
@@ -111,11 +94,6 @@ class _DiffOp_Change extends _DiffOp
     {
         $this->orig = $orig;
         $this->closing = $closing;
-    }
-
-    public function reverse()
-    {
-        return new _DiffOp_Change($this->closing, $this->orig);
     }
 }
 
@@ -158,8 +136,6 @@ class _DiffEngine
 
     public function diff($from_lines, $to_lines)
     {
-        $fname = '_DiffEngine::diff';
-        //wfProfileIn( $fname );
 
         $n_from = sizeof($from_lines);
         $n_to = sizeof($to_lines);
@@ -255,7 +231,6 @@ class _DiffEngine
                 $edits[] = new _DiffOp_Add($add);
             }
         }
-        //wfProfileOut( $fname );
         return $edits;
     }
 
@@ -290,8 +265,6 @@ class _DiffEngine
      */
     public function _diag($xoff, $xlim, $yoff, $ylim, $nchunks)
     {
-        $fname = '_DiffEngine::_diag';
-        //wfProfileIn( $fname );
         $flip = false;
 
         if ($xlim - $xoff > $ylim - $yoff) {
@@ -320,7 +293,6 @@ class _DiffEngine
         $numer = $xlim - $xoff + $nchunks - 1;
         $x = $xoff;
         for ($chunk = 0; $chunk < $nchunks; $chunk++) {
-            //wfProfileIn( "$fname-chunk" );
             if ($chunk > 0) {
                 for ($i = 0; $i <= $this->lcs; $i++) {
                     $ymids[$i][$chunk - 1] = $this->seq[$i];
@@ -358,7 +330,6 @@ class _DiffEngine
                     }
                 }
             }
-            //wfProfileOut( "$fname-chunk" );
         }
 
         $seps[] = $flip ? array($yoff, $xoff) : array($xoff, $yoff);
@@ -370,20 +341,16 @@ class _DiffEngine
         }
         $seps[] = $flip ? array($ylim, $xlim) : array($xlim, $ylim);
 
-        //wfProfileOut( $fname );
         return array($this->lcs, $seps);
     }
 
     public function _lcs_pos($ypos)
     {
-        $fname = '_DiffEngine::_lcs_pos';
-        //wfProfileIn( $fname );
 
         $end = $this->lcs;
         if ($end == 0 || $ypos > $this->seq[$end]) {
             $this->seq[++$this->lcs] = $ypos;
             $this->in_seq[$ypos] = 1;
-            //wfProfileOut( $fname );
             return $this->lcs;
         }
 
@@ -402,7 +369,6 @@ class _DiffEngine
         $this->in_seq[$this->seq[$end]] = false;
         $this->seq[$end] = $ypos;
         $this->in_seq[$ypos] = 1;
-        //wfProfileOut( $fname );
         return $end;
     }
 
@@ -419,8 +385,6 @@ class _DiffEngine
      */
     public function _compareseq($xoff, $xlim, $yoff, $ylim)
     {
-        $fname = '_DiffEngine::_compareseq';
-        //wfProfileIn( $fname );
 
         // Slide down the bottom initial diagonal.
         while ($xoff < $xlim && $yoff < $ylim
@@ -465,7 +429,6 @@ class _DiffEngine
                 $pt1 = $pt2;
             }
         }
-        //wfProfileOut( $fname );
     }
 
     /* Adjust inserts/deletes of identical lines to join changes
@@ -482,8 +445,6 @@ class _DiffEngine
      */
     public function _shift_boundaries($lines, &$changed, $other_changed)
     {
-        $fname = '_DiffEngine::_shift_boundaries';
-        //wfProfileIn( $fname );
         $i = 0;
         $j = 0;
 
@@ -595,7 +556,6 @@ class _DiffEngine
                 USE_ASSERTS && assert($j >= 0 && !$other_changed[$j]);
             }
         }
-        //wfProfileOut( $fname );
     }
 }
 
@@ -621,138 +581,6 @@ class Diff
     {
         $eng = new _DiffEngine();
         $this->edits = $eng->diff($from_lines, $to_lines);
-        //$this->_check($from_lines, $to_lines);
-    }
-
-    /**
-     * Compute reversed Diff.
-     *
-     * SYNOPSIS:
-     *
-     *	$diff = new Diff($lines1, $lines2);
-     *	$rev = $diff->reverse();
-     * @return object A Diff object representing the inverse of the
-     *				  original diff.
-     */
-    public function reverse()
-    {
-        $rev = $this;
-        $rev->edits = array();
-        foreach ($this->edits as $edit) {
-            $rev->edits[] = $edit->reverse();
-        }
-        return $rev;
-    }
-
-    /**
-     * Check for empty diff.
-     *
-     * @return bool True iff two sequences were identical.
-     */
-    public function isEmpty()
-    {
-        foreach ($this->edits as $edit) {
-            if ($edit->type != 'copy') {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Compute the length of the Longest Common Subsequence (LCS).
-     *
-     * This is mostly for diagnostic purposed.
-     *
-     * @return int The length of the LCS.
-     */
-    public function lcs()
-    {
-        $lcs = 0;
-        foreach ($this->edits as $edit) {
-            if ($edit->type == 'copy') {
-                $lcs += sizeof($edit->orig);
-            }
-        }
-        return $lcs;
-    }
-
-    /**
-     * Get the original set of lines.
-     *
-     * This reconstructs the $from_lines parameter passed to the
-     * constructor.
-     *
-     * @return array The original sequence of strings.
-     */
-    public function orig()
-    {
-        $lines = array();
-
-        foreach ($this->edits as $edit) {
-            if ($edit->orig) {
-                array_splice($lines, sizeof($lines), 0, $edit->orig);
-            }
-        }
-        return $lines;
-    }
-
-    /**
-     * Get the closing set of lines.
-     *
-     * This reconstructs the $to_lines parameter passed to the
-     * constructor.
-     *
-     * @return array The sequence of strings.
-     */
-    public function closing()
-    {
-        $lines = array();
-
-        foreach ($this->edits as $edit) {
-            if ($edit->closing) {
-                array_splice($lines, sizeof($lines), 0, $edit->closing);
-            }
-        }
-        return $lines;
-    }
-
-    /**
-     * Check a Diff for validity.
-     *
-     * This is here only for debugging purposes.
-     */
-    public function _check($from_lines, $to_lines)
-    {
-        $fname = 'Diff::_check';
-        //wfProfileIn( $fname );
-        if (serialize($from_lines) != serialize($this->orig())) {
-            throw new \LogicException("Reconstructed original doesn't match");
-        }
-        if (serialize($to_lines) != serialize($this->closing())) {
-            throw new \LogicException("Reconstructed closing doesn't match");
-        }
-
-        $rev = $this->reverse();
-        if (serialize($to_lines) != serialize($rev->orig())) {
-            throw new \LogicException("Reversed original doesn't match");
-        }
-        if (serialize($from_lines) != serialize($rev->closing())) {
-            throw new \LogicException("Reversed closing doesn't match");
-        }
-
-
-        $prevtype = 'none';
-        foreach ($this->edits as $edit) {
-            if ($prevtype == $edit->type) {
-                throw new \RuntimeException("Edit sequence is non-optimal");
-            }
-            $prevtype = $edit->type;
-        }
-
-        $lcs = $this->lcs();
-        trigger_error('Diff okay: LCS = ' . $lcs, E_USER_NOTICE);
-        //wfProfileOut( $fname );
     }
 }
 
@@ -792,9 +620,6 @@ class MappedDiff extends Diff
         $mapped_from_lines,
         $mapped_to_lines
     ) {
-        $fname = 'MappedDiff::MappedDiff';
-        //wfProfileIn( $fname );
-
         assert(sizeof($from_lines) == sizeof($mapped_from_lines));
         assert(sizeof($to_lines) == sizeof($mapped_to_lines));
 
@@ -814,199 +639,8 @@ class MappedDiff extends Diff
                 $yi += sizeof($closing);
             }
         }
-        //wfProfileOut( $fname );
     }
 }
-
-/**
- * A class to format Diffs
- *
- * This class formats the diff in classic diff format.
- * It is intended that this class be customized via inheritance,
- * to obtain fancier outputs.
- * @todo document
- * @private
- * @addtogroup DifferenceEngine
- */
-class DiffFormatter
-{
-    /**
-     * Number of leading context "lines" to preserve.
-     *
-     * This should be left at zero for this class, but subclasses
-     * may want to set this to other values.
-     */
-    public $leading_context_lines = 0;
-
-    /**
-     * Number of trailing context "lines" to preserve.
-     *
-     * This should be left at zero for this class, but subclasses
-     * may want to set this to other values.
-     */
-    public $trailing_context_lines = 0;
-
-    /**
-     * Format a diff.
-     *
-     * @param $diff object A Diff object.
-     * @return string The formatted output.
-     */
-    public function format($diff)
-    {
-        $fname = 'DiffFormatter::format';
-        //wfProfileIn( $fname );
-
-        $xi = $yi = 1;
-        $block = false;
-        $context = array();
-
-        $nlead = $this->leading_context_lines;
-        $ntrail = $this->trailing_context_lines;
-
-        $this->_start_diff();
-
-        foreach ($diff->edits as $edit) {
-            if ($edit->type == 'copy') {
-                if (is_array($block)) {
-                    if (sizeof($edit->orig) <= $nlead + $ntrail) {
-                        $block[] = $edit;
-                    } else {
-                        if ($ntrail) {
-                            $context = array_slice($edit->orig, 0, $ntrail);
-                            $block[] = new _DiffOp_Copy($context);
-                        }
-                        $this->_block(
-                            $x0,
-                            $ntrail + $xi - $x0,
-                            $y0,
-                            $ntrail + $yi - $y0,
-                            $block
-                        );
-                        $block = false;
-                    }
-                }
-                $context = $edit->orig;
-            } else {
-                if (!is_array($block)) {
-                    $context = array_slice($context, sizeof($context) - $nlead);
-                    $x0 = $xi - sizeof($context);
-                    $y0 = $yi - sizeof($context);
-                    $block = array();
-                    if ($context) {
-                        $block[] = new _DiffOp_Copy($context);
-                    }
-                }
-                $block[] = $edit;
-            }
-
-            if ($edit->orig) {
-                $xi += sizeof($edit->orig);
-            }
-            if ($edit->closing) {
-                $yi += sizeof($edit->closing);
-            }
-        }
-
-        if (is_array($block)) {
-            $this->_block(
-                $x0,
-                $xi - $x0,
-                $y0,
-                $yi - $y0,
-                $block
-            );
-        }
-
-        $end = $this->_end_diff();
-        //wfProfileOut( $fname );
-        return $end;
-    }
-
-    public function _block($xbeg, $xlen, $ybeg, $ylen, $edits)
-    {
-        $fname = 'DiffFormatter::_block';
-        //wfProfileIn( $fname );
-        $this->_start_block($this->_block_header($xbeg, $xlen, $ybeg, $ylen));
-        foreach ($edits as $edit) {
-            if ($edit->type == 'copy') {
-                $this->_context($edit->orig);
-            } elseif ($edit->type == 'add') {
-                $this->_added($edit->closing);
-            } elseif ($edit->type == 'delete') {
-                $this->_deleted($edit->orig);
-            } elseif ($edit->type == 'change') {
-                $this->_changed($edit->orig, $edit->closing);
-            } else {
-                throw new \RuntimeException('Unknown edit type');
-            }
-        }
-        $this->_end_block();
-        //wfProfileOut( $fname );
-    }
-
-    public function _start_diff()
-    {
-        ob_start();
-    }
-
-    public function _end_diff()
-    {
-        $val = ob_get_contents();
-        ob_end_clean();
-        return $val;
-    }
-
-    public function _block_header($xbeg, $xlen, $ybeg, $ylen)
-    {
-        if ($xlen > 1) {
-            $xbeg .= "," . ($xbeg + $xlen - 1);
-        }
-        if ($ylen > 1) {
-            $ybeg .= "," . ($ybeg + $ylen - 1);
-        }
-
-        return $xbeg . ($xlen ? ($ylen ? 'c' : 'd') : 'a') . $ybeg;
-    }
-
-    public function _start_block($header)
-    {
-        echo $header;
-    }
-
-    public function _end_block()
-    {
-    }
-
-    public function _lines($lines, $prefix = ' ')
-    {
-        foreach ($lines as $line) {
-            echo "$prefix $line\n";
-        }
-    }
-
-    public function _context($lines)
-    {
-        $this->_lines($lines);
-    }
-
-    public function _added($lines)
-    {
-        $this->_lines($lines, '>');
-    }
-    public function _deleted($lines)
-    {
-        $this->_lines($lines, '<');
-    }
-
-    public function _changed($orig, $closing)
-    {
-        $this->_deleted($orig);
-        echo "---\n";
-        $this->_added($closing);
-    }
-}
-
 
 /**
  *	Additions by Axel Boldt follow, partly taken from diff.php, phpwiki-1.3.3
@@ -1102,9 +736,6 @@ class WordLevelDiff extends MappedDiff
 
     public function __construct($orig_lines, $closing_lines)
     {
-        $fname = 'WordLevelDiff::WordLevelDiff';
-        //wfProfileIn( $fname );
-
         list($orig_words, $orig_stripped) = $this->_split($orig_lines);
         list($closing_words, $closing_stripped) = $this->_split($closing_lines);
 
@@ -1114,14 +745,10 @@ class WordLevelDiff extends MappedDiff
             $orig_stripped,
             $closing_stripped
         );
-        //wfProfileOut( $fname );
     }
 
     public function _split($lines)
     {
-        $fname = 'WordLevelDiff::_split';
-        //wfProfileIn( $fname );
-
         $words = array();
         $stripped = array();
         $first = true;
@@ -1149,14 +776,11 @@ class WordLevelDiff extends MappedDiff
                 }
             }
         }
-        //wfProfileOut( $fname );
         return array($words, $stripped);
     }
 
     public function orig()
     {
-        $fname = 'WordLevelDiff::orig';
-        //wfProfileIn( $fname );
         $orig = new _HWLDF_WordAccumulator();
 
         foreach ($this->edits as $edit) {
@@ -1167,14 +791,11 @@ class WordLevelDiff extends MappedDiff
             }
         }
         $lines = $orig->getLines();
-        //wfProfileOut( $fname );
         return $lines;
     }
 
     public function closing()
     {
-        $fname = 'WordLevelDiff::closing';
-        //wfProfileIn( $fname );
         $closing = new _HWLDF_WordAccumulator();
 
         foreach ($this->edits as $edit) {
@@ -1185,7 +806,6 @@ class WordLevelDiff extends MappedDiff
             }
         }
         $lines = $closing->getLines();
-        //wfProfileOut( $fname );
         return $lines;
     }
 }
