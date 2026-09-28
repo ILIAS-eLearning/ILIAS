@@ -452,7 +452,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $reached_points_input->setDisabled($finalized);
         $reached_points_input->setValue((string) $reached_points);
         $reached_points_input->setClientSideValidation(true);
-        $reached_points_input->setRequired(true);
+        $reached_points_input->setRequired(!$finalized);
 
         $form->addItem($reached_points_input);
 
