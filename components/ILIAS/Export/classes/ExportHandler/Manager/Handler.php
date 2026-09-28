@@ -193,9 +193,10 @@ class Handler implements ilExportHandlerManagerInterface
         # write files from legacy export run dir to irss
         # tmp solution, remove later if no longer needed
         $writer = $this->export_handler->consumer()->handler()->exportWriter($element);
+        $is_container_export = $element->getIRSS()->isContainerExport();
         $writer->writeDirectoryRecursive(
             $export_info->getLegacyExportRunDir(),
-            $export_info->getExportFolderName()
+            ($is_container_export) ? '' : $export_info->getExportFolderName()
         );
 
         # delete legacy export run dir
