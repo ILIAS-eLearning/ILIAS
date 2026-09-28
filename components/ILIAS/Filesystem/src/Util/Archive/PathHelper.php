@@ -29,7 +29,8 @@ trait PathHelper
 {
     protected function isPathIgnored(string $path, Options $options): bool
     {
-        $regex = '(' . implode('|', $options->getIgnoredPathSnippets()) . ')';
+        $ignored_path_snippets = array_map('preg_quote', $options->getIgnoredPathSnippets());
+        $regex = '(' . implode('|', $ignored_path_snippets) . ')';
         return preg_match($regex, $path) > 0;
     }
 
