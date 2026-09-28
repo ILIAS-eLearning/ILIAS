@@ -82,7 +82,7 @@ class SurveyCategories
     }
 
     public function addCategory(
-        string $categoryname,
+        ?string $categoryname,
         int $other = 0,
         int $neutral = 0,
         ?string $label = null,
