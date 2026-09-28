@@ -109,7 +109,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->test_session = $testSessionFactory->getSession($this->testrequest->int('active_id'));
 
         $this->ensureExistingTestSession($this->test_session);
-        $this->checkTestSessionUser($this->test_session);
+        $this->test_session->checkAccess($this->object);
 
         $this->initProcessLocker($this->test_session->getActiveId());
 
@@ -281,13 +281,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         if (!$executable['executable']) {
             $this->tpl->setOnScreenMessage('info', $executable['errormessage'], true);
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, TestScreenGUI::class]);
-        }
-    }
-
-    protected function checkTestSessionUser(ilTestSession $test_session): void
-    {
-        if ($test_session->getUserId() != $this->user->getId()) {
-            throw new ilTestException('active id given does not relate to current user!');
         }
     }
 

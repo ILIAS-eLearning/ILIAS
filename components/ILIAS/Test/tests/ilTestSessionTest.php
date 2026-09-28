@@ -30,6 +30,14 @@ class ilTestSessionTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
+        $this->addGlobal_ilTabs();
+        $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_rbacsystem();
+        $this->addGlobal_ilHelp();
+        $this->addGlobal_ilToolbar();
+        $this->addGlobal_GlobalScreenService();
+        $this->addGlobal_ilNavigationHistory();
+
         $this->testObj = new ilTestSession(
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilObjUser::class)
@@ -179,5 +187,119 @@ class ilTestSessionTest extends ilTestBaseTestCase
         $this->testObj->setPasswordChecked(true);
         $this->assertTrue(ilSession::get("pw_checked_$active_id"));
         $this->assertTrue($this->testObj->isPasswordChecked());
+    }
+
+    public function testCheckAccessRejectsAnonymousActiveIdWithoutAccessCode(): void
+    {
+        ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, []);
+
+        $this->expectException(ilTestException::class);
+        $this->expectExceptionMessage('active id given does not relate to current anonymous session!');
+
+        $this->createTestSession(ANONYMOUS_USER_ID, 99, 42, 'victim-code')->checkAccess(
+            $this->getTestObject(42)
+        );
+    }
+
+    public function testCheckAccessRejectsAnonymousActiveIdWithForeignAccessCode(): void
+    {
+        $session = $this->createTestSession(ANONYMOUS_USER_ID, 99, 42, 'victim-code');
+        $session->setAccessCodeToSession('attacker-code');
+
+        $this->expectException(ilTestException::class);
+        $this->expectExceptionMessage('active id given does not relate to current anonymous session!');
+
+        $session->checkAccess(
+            $this->getTestObject(42)
+        );
+    }
+
+    public function testCheckAccessAcceptsAnonymousActiveIdWithMatchingAccessCode(): void
+    {
+        $session = $this->createTestSession(ANONYMOUS_USER_ID, 99, 42, 'matching-code');
+        $session->setAccessCodeToSession('matching-code');
+
+        $session->checkAccess(
+            $this->getTestObject(42)
+        );
+
+        $this->addToAssertionCount(1);
+    }
+
+    public function testCheckAccessRejectsActiveIdFromDifferentTest(): void
+    {
+        $session = $this->createTestSession(ANONYMOUS_USER_ID, 99, 99, 'matching-code');
+        $session->setAccessCodeToSession('matching-code');
+
+        $this->expectException(ilTestException::class);
+        $this->expectExceptionMessage('active id given does not relate to current test!');
+        $session->checkAccess(
+            $this->getTestObject(42)
+        );
+    }
+
+    public function testCheckAccessAllowsAuthenticatedUsers(): void
+    {
+        $this->createTestSession(6, 99, 42)->checkAccess(
+            $this->getTestObject(42)
+        );
+
+        $this->addToAssertionCount(1);
+    }
+
+    public function testCheckAccessRejectsAuthenticatedUsersWithInconsistentUserId(): void
+    {
+        $session = $this->createTestSession(6, 99, 42);
+        $session->setUserId(2);
+
+        $this->expectException(ilTestException::class);
+        $this->expectExceptionMessage('active id given does not relate to current user!');
+
+        $session->checkAccess(
+            $this->getTestObject(42)
+        );
+
+        $this->addToAssertionCount(1);
+    }
+
+    public function testCheckAccessAllowsAnonymousWithoutActiveId(): void
+    {
+        $this->createTestSession(ANONYMOUS_USER_ID, 0, 42)->checkAccess(
+            $this->getTestObject(42)
+        );
+
+        $this->addToAssertionCount(1);
+    }
+
+    private function getTestObject(int $test_id): ilObjTest
+    {
+        $test = $this->getTestObjMock();
+        $test->method('getTestId')->willReturn($test_id);
+        return $test;
+    }
+
+    private function createTestSession(
+        int $user_id,
+        int $active_id,
+        int $test_id,
+        ?string $access_code = null
+    ): ilTestSession {
+        $user = $this->createMock(ilObjUser::class);
+        $user->method('getId')->willReturn($user_id);
+        $this->setGlobalVariable('ilUser', $user);
+
+        $session = new ilTestSession(
+            $this->createMock(ilDBInterface::class),
+            $user
+        );
+        $session->setUserId($user_id);
+        $session->setTestId($test_id);
+        $session->active_id = $active_id;
+
+        if ($access_code !== null) {
+            $session->setAnonymousId($access_code);
+        }
+
+        return $session;
     }
 }
