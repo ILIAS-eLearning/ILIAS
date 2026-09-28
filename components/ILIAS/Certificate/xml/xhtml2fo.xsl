@@ -182,45 +182,18 @@
 					</xsl:call-template>
 				</xsl:attribute>
 			</xsl:if>
+			<!-- CSS text-align wins over a stale HTML align attribute. TinyMCE updates
+			     the style and leaves align behind after fo2xhtml loaded the editor. -->
+			<xsl:variable name="styleAlign" select="normalize-space(substring-before(concat(substring-after(@style, 'text-align:'), ';'), ';'))"/>
 			<xsl:choose>
-				<xsl:when test="@align='left'">
+				<xsl:when test="$styleAlign='left' or $styleAlign='right' or $styleAlign='center' or $styleAlign='justify'">
 					<xsl:attribute name="text-align">
-						<xsl:text>left</xsl:text>
+						<xsl:value-of select="$styleAlign"/>
 					</xsl:attribute>
 				</xsl:when>
-				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'left')">
+				<xsl:when test="@align='left' or @align='right' or @align='center' or @align='justify'">
 					<xsl:attribute name="text-align">
-						<xsl:text>left</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="@align='right'">
-					<xsl:attribute name="text-align">
-						<xsl:text>right</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'right')">
-					<xsl:attribute name="text-align">
-						<xsl:text>right</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="@align='center'">
-					<xsl:attribute name="text-align">
-						<xsl:text>center</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'center')">
-					<xsl:attribute name="text-align">
-						<xsl:text>center</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="@align='justify'">
-					<xsl:attribute name="text-align">
-						<xsl:text>justify</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'justify')">
-					<xsl:attribute name="text-align">
-						<xsl:text>justify</xsl:text>
+						<xsl:value-of select="@align"/>
 					</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='emptyrow'">
