@@ -86,13 +86,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
     }
 
-    protected function checkTestSessionUser(ilTestSession $test_session): void
-    {
-        if ($test_session->getUserId() != $this->user->getId()) {
-            throw new ilTestException('active id given does not relate to current user!');
-        }
-    }
-
     protected function ensureExistingTestSession(ilTestSession $test_session): void
     {
         if ($test_session->getActiveId()) {
