@@ -174,7 +174,6 @@ class ilLTIViewGUI
 
         $this->dic['ilAuthSession']->setExpired(true);
         session_destroy();
-        ilUtil::setCookie('ilClientId');
-        ilUtil::setCookie('PHPSESSID');
+        ilLTISessionCookie::remove();
     }
 }

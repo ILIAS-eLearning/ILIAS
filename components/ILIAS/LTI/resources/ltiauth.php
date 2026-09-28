@@ -57,4 +57,9 @@ if ($connection === null || !$connection->isRedirectionUri((string) (Util::$requ
     $DIC->http()->close();
 }
 
+// the answer goes to the site of the tool, and the next launch or login of the same user may come from there too
+if (!$DIC->user()->isAnonymous()) {
+    ilLTISessionCookie::allowCrossSite();
+}
+
 $connection->handleRequest();

@@ -624,14 +624,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $frontend->authenticate();
 
-        setcookie(session_name(), session_id(), [
-            'expires' => 0,
-            'path' => rtrim(IL_COOKIE_PATH, '/'),
-            'domain' => IL_COOKIE_DOMAIN,
-            'secure' => true,
-            'httponly' => true,
-            'samesite' => 'None'
-        ]);
+        ilLTISessionCookie::allowCrossSite();
 
         $lti_context_ids = ilSession::get("lti_context_ids");
         $lti_target = '';

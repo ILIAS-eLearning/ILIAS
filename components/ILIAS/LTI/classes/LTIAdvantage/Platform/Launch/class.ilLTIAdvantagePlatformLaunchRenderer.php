@@ -106,14 +106,7 @@ final class ilLTIAdvantagePlatformLaunchRenderer
         // The tool asks ltiauth.php for the id_token from its own site, often with a POST, which does not carry
         // the session cookie of ILIAS while it is SameSite=Lax. The login the launch starts waits in that
         // session, so the cookie is sent again as SameSite=None, as ilStartUpGUI does for LTI sessions.
-        setcookie(session_name(), session_id(), [
-            'expires' => 0,
-            'path' => rtrim(IL_COOKIE_PATH, '/'),
-            'domain' => IL_COOKIE_DOMAIN,
-            'secure' => true,
-            'httponly' => true,
-            'samesite' => 'None',
-        ]);
+        ilLTISessionCookie::allowCrossSite();
 
         $dic->http()->saveResponse(
             $dic->http()->response()->withStatus($status)->withBody(Streams::ofString($page))
