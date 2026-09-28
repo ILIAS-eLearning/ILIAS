@@ -172,6 +172,7 @@ class ilTaggingGUI
     protected function getTagsFromInput(string $input): array
     {
         $input = ilUtil::stripSlashes($input);
+        $input = str_replace(["\\", '"', "'"], "", $input);
         $input = str_replace("\r", "\n", $input);
         $input = str_replace("\n\n", "\n", $input);
         $input = str_replace("\n", ",", $input);
