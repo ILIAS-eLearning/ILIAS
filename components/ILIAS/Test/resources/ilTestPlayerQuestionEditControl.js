@@ -189,6 +189,7 @@ il.TestPlayerQuestionEditControl = new function() {
         // This gives question scripts some time to initialize
         setTimeout(startTimers, START_TIMERS_DELAY);
 
+        removeFormElementsFromPageModals();
     };
 
     /**
@@ -242,6 +243,25 @@ il.TestPlayerQuestionEditControl = new function() {
     this.confirmNextLocksChanged = function () {
         saveWithNavigation();
     };
+
+    function removeFormElementsFromPageModals() {
+      [...document.querySelectorAll('#ilc_Page .modal-header form, #ilc_Page .modal-footer form')].forEach(
+        (node) => {
+          const fragment = document.createDocumentFragment();
+          while (node.firstChild) {
+              fragment.appendChild(node.firstChild);
+          }
+
+          node.parentNode.replaceChild(fragment, node);
+        }
+      );
+
+      [...document.querySelectorAll('#ilc_Page .modal-header [formmethod="dialog"], #ilc_Page .modal-footer [formmethod="dialog"]')].forEach(
+        (button) => {
+          button.addEventListener('click', () => button.closest('dialog').close());
+        }
+      );
+    }
 
     /**
      * Delayed start of timer functions (change detection, auto save)
