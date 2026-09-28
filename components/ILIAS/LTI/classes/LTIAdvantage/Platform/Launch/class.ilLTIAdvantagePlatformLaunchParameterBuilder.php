@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\ReferenceId;
+
 /**
  * The message of an LTI Advantage launch of an LTI object. The parameters carry their LTI 1.1 names, which
  * celtic/lti turns into the claims of the id_token. They follow the privacy settings of the tool, as an
@@ -73,7 +75,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             'tool_consumer_instance_guid' => (string) ilCmiXapiUser::getIliasUuid(),
             'tool_consumer_instance_name' => (string) ($DIC->settings()->get('short_inst_name') ?: CLIENT_ID),
             'tool_consumer_instance_description' => ilObjSystemFolder::_getHeaderTitle(),
-            'tool_consumer_instance_url' => ilLink::_getLink(ROOT_FOLDER_ID, 'root'),
+            'tool_consumer_instance_url' => (string) $DIC['static_url']->builder()->build('root', new ReferenceId(ROOT_FOLDER_ID)),
             'tool_consumer_instance_contact_email' => (string) $DIC->settings()->get('admin_email'),
             'tool_consumer_info_product_family_code' => 'ilias',
             'tool_consumer_info_version' => ILIAS_VERSION,

@@ -75,9 +75,16 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
             throw new ilObjectException('no access to the statements of this object');
         }
 
-        $query = $this->dic->http()->request()->getQueryParams();
-        if (($query[$this->action_token->getName()] ?? '') === self::ACTION_RAW) {
-            $this->showRawStatement((string) (((array) ($query[$this->id_token->getName()] ?? []))[0] ?? ''));
+        $query = $this->dic->http()->wrapper()->query();
+        $string = $this->dic->refinery()->kindlyTo()->string();
+        $action = $query->has($this->action_token->getName())
+            ? $query->retrieve($this->action_token->getName(), $string)
+            : '';
+        if ($action === self::ACTION_RAW) {
+            $ids = $query->has($this->id_token->getName())
+                ? $query->retrieve($this->id_token->getName(), $this->dic->refinery()->kindlyTo()->listOf($string))
+                : [];
+            $this->showRawStatement($ids[0] ?? '');
         }
 
         $this->show();

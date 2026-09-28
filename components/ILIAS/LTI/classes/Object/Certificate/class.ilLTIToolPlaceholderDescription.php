@@ -46,8 +46,9 @@ readonly class ilLTIToolPlaceholderDescription implements ilCertificatePlacehold
             'DATETIME_COMPLETED' => 'certificate_ph_datetime_completed',
         ];
 
+        $util_helper = new ilCertificateUtilHelper();
         $this->placeholders = $default->getPlaceholderDescriptions() + array_map(
-            fn(string $txt): string => ilLegacyFormElementsUtil::prepareFormOutput($this->language->txt($txt)),
+            fn(string $txt): string => $util_helper->prepareFormOutput($this->language->txt($txt)),
             $own
         );
     }

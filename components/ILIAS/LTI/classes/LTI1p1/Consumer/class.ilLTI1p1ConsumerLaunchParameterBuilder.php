@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\OAuth\OAuthConsumer;
 use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use ILIAS\Data\ReferenceId;
 
 /**
  * Builds the parameters of an LTI 1.1 launch and signs them with OAuth1, using the credentials of the
@@ -160,7 +161,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
                 "short_inst_name"
             ) : CLIENT_ID,
             "tool_consumer_instance_description" => ilObjSystemFolder::_getHeaderTitle(),
-            "tool_consumer_instance_url" => ilLink::_getLink(ROOT_FOLDER_ID, "root"),
+            "tool_consumer_instance_url" => (string) $DIC["static_url"]->builder()->build("root", new ReferenceId(ROOT_FOLDER_ID)),
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
