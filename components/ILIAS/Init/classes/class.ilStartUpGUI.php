@@ -661,15 +661,21 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         ]);
 
         $lti_context_ids = ilSession::get("lti_context_ids");
+        $lti_target = '';
 
         if (is_array($lti_context_ids) && isset($lti_context_ids[0])) {
             $ref_id = $lti_context_ids[0];
             $obj_type = ilObject::_lookupType($ref_id, true);
-            ilSession::set('orig_request_target', "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $ref_id);
+            $lti_target = "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $ref_id;
+            ilSession::set('orig_request_target', $lti_target);
         }
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
+                if ($lti_target !== '') {
+                    ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to LTI target: ' . $lti_target);
+                    $this->ctrl->redirectToURL($lti_target);
+                }
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
                 ilInitialisation::redirectToStartingPage();
 
