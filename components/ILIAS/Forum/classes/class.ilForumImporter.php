@@ -18,9 +18,19 @@
 
 declare(strict_types=1);
 
+use ILIAS\COPage\Page\PageManagerInterface;
+
 class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 {
+    protected PageManagerInterface $page_manager;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
+    }
 
     public function init(): void
     {
@@ -65,7 +75,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
         foreach ($copaMap as $newCopaId) {
             $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
-            ilForumPage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
+            $this->page_manager->writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
         }
 
         $style_map = $a_mapping->getMappingsOfEntity('components/ILIAS/Style', 'sty');

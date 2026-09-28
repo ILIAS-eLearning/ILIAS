@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\COPage\Page\PageManagerInterface;
+
 /**
  * Importer class for blog
  *
@@ -26,12 +28,15 @@ declare(strict_types=1);
 class ilBlogImporter extends ilXmlImporter
 {
     protected \ILIAS\Blog\InternalService $blog_service;
+    protected PageManagerInterface $page_manager;
     protected ilBlogDataSet $ds;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function __construct()
     {
+        parent::__construct();
         global $DIC;
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
@@ -69,7 +74,7 @@ class ilBlogImporter extends ilXmlImporter
         foreach ($blp_map as $blp_id) {
             $blp_id = (int) substr($blp_id, 4);
             $blog_id = $this->blog_service->domain()->posting()->lookupBlogId($blp_id);
-            ilBlogPosting::_writeParentId("blp", $blp_id, (int) $blog_id);
+            $this->page_manager->writeParentId("blp", $blp_id, (int) $blog_id);
         }
 
         $sty_map = $a_mapping->getMappingsOfEntity("components/ILIAS/Style", "sty");

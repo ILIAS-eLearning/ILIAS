@@ -26,11 +26,12 @@ namespace ILIAS\COPage\Page;
 class PageManager implements PageManagerInterface
 {
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+    protected PageDBRepository $repo;
 
-    public function __construct()
+    public function __construct(PageDBRepository $repo, \ILIAS\COPage\Dom\DomUtil $dom_util)
     {
-        global $DIC;
-        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
+        $this->repo = $repo;
+        $this->dom_util = $dom_util;
     }
 
     public function get(
@@ -45,6 +46,16 @@ class PageManager implements PageManagerInterface
             $old_nr,
             $lang
         );
+    }
+
+    public function lookupParentId(int $a_id, string $a_type): int
+    {
+        return $this->repo->lookupParentId($a_id, $a_type);
+    }
+
+    public function writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void
+    {
+        $this->repo->writeParentId($a_parent_type, $a_pg_id, $a_par_id);
     }
 
     public function content(\DOMDocument $dom): PageContentManager

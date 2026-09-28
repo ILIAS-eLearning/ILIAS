@@ -43,4 +43,13 @@ class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
     ): ilPageObject {
         return $this->test_get;
     }
+
+    public function lookupParentId(int $a_id, string $a_type): int
+    {
+        return 0;
+    }
+
+    public function writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void
+    {
+    }
 }

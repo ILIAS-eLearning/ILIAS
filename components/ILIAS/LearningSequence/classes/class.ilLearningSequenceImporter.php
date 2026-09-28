@@ -18,13 +18,23 @@
 
 declare(strict_types=1);
 
+use ILIAS\COPage\Page\PageManagerInterface;
+
 class ilLearningSequenceImporter extends ilXmlImporter
 {
+    protected PageManagerInterface $page_manager;
     protected ilObjUser $user;
     protected ilRbacAdmin $rbac_admin;
     protected ilLogger $log;
     protected ilObject $obj;
     protected array $data;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
+    }
 
     public function init(): void
     {
@@ -101,7 +111,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
             $parts = explode(':', $new_pg_id);
             $new_pg_id = array_pop($parts);
             $new_obj_id = $this->obj->getId();
-            ilPageObject::_writeParentId($pg_type, (int) $new_pg_id, (int) $new_obj_id);
+            $this->page_manager->writeParentId($pg_type, (int) $new_pg_id, (int) $new_obj_id);
         }
     }
 

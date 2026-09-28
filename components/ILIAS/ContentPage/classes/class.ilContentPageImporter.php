@@ -21,12 +21,21 @@ declare(strict_types=1);
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 class ilContentPageImporter extends ilXmlImporter implements ilContentPageObjectConstants
 {
     protected ilContentPageDataSet $ds;
+    protected PageManagerInterface $page_manager;
     private PageMetricsService $pageMetricsService;
     private \ILIAS\Style\Content\DomainService $content_style_domain;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
+    }
 
     public function init(): void
     {
@@ -59,7 +68,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         foreach ($copaMap as $oldCopaId => $newCopaId) {
             $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
-            ilContentPagePage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
+            $this->page_manager->writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
 
             $translations = ilContentPagePage::lookupTranslations(self::OBJ_TYPE, $newCopaId);
             foreach ($translations as $language) {

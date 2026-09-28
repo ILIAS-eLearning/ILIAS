@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\COPage\Page\PageManagerInterface;
+
 /**
  * Importer class for portfolio
  * Only for portfolio templates!
@@ -23,7 +25,15 @@
  */
 class ilPortfolioImporter extends ilXmlImporter
 {
+    protected PageManagerInterface $page_manager;
     protected ilPortfolioDataSet $ds;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
+    }
 
     public function init(): void
     {
@@ -54,7 +64,7 @@ class ilPortfolioImporter extends ilXmlImporter
         foreach ($prttpg_map as $prttpg_id) {
             $prttpg_id = (int) substr($prttpg_id, 5);
             $prtt_id = ilPortfolioTemplatePage::findPortfolioForPage($prttpg_id);
-            ilPortfolioTemplatePage::_writeParentId("prtt", $prttpg_id, $prtt_id);
+            $this->page_manager->writeParentId("prtt", $prttpg_id, $prtt_id);
         }
     }
 }

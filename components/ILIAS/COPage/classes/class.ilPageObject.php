@@ -652,31 +652,6 @@ abstract class ilPageObject
         return $rec;
     }
 
-    public static function lookupParentId(int $a_id, string $a_type): int
-    {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        $res = $db->query("SELECT parent_id FROM page_object WHERE page_id = " . $db->quote($a_id, "integer") . " " .
-            "AND parent_type=" . $db->quote($a_type, "text"));
-        $rec = $db->fetchAssoc($res);
-        return (int) ($rec["parent_id"] ?? 0);
-    }
-
-    public static function _writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void
-    {
-        global $DIC;
-
-        $db = $DIC->database();
-        $db->manipulateF(
-            "UPDATE page_object SET parent_id = %s WHERE page_id = %s" .
-            " AND parent_type = %s",
-            array("integer", "integer", "text"),
-            array($a_par_id, $a_pg_id, $a_parent_type)
-        );
-    }
-
     /**
      * @param string $a_activationstart IL_CAL_DATETIME format
      */

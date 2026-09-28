@@ -1011,6 +1011,8 @@ class ilObjMediaObject extends ilObject
         array $a_usage,
         bool $a_include_all_access_obj_ids = false
     ): ?int {
+        global $DIC;
+
         $cont_type = "";
         if (is_int(strpos($a_usage["type"], ":"))) {
             $us_arr = explode(":", $a_usage["type"]);
@@ -1030,7 +1032,6 @@ class ilObjMediaObject extends ilObject
                 switch ($cont_type) {
                     case "qpl":
                         // Question Pool *Question* Text (Test)
-                        global $DIC;
                         $qinfo = $DIC->testQuestion()->getGeneralQuestionProperties($id);
                         if ($qinfo->getOriginalId() > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
@@ -1117,7 +1118,7 @@ class ilObjMediaObject extends ilObject
                     case "qpl":
 
                         if ($cont_type == "qfbg") {
-                            $id = ilPageObject::lookupParentId($id, 'qfbg');
+                            $id = $DIC->copage()->internal()->domain()->page()->lookupParentId($id, 'qfbg');
                         }
 
                         // Question Pool Question Pages
@@ -1154,7 +1155,7 @@ class ilObjMediaObject extends ilObject
                     case "sahs":
                         // sahs page
                         // can this implementation be used for other content types, too?
-                        $obj_id = ilPageObject::lookupParentId($id, 'sahs');
+                        $obj_id = $DIC->copage()->internal()->domain()->page()->lookupParentId($id, 'sahs');
                         break;
 
                     case "prtf":
@@ -1178,7 +1179,7 @@ class ilObjMediaObject extends ilObject
                         break;
 
                     default:
-                        $obj_id = ilPageObject::lookupParentId($id, $cont_type);
+                        $obj_id = $DIC->copage()->internal()->domain()->page()->lookupParentId($id, $cont_type);
                         break;
                 }
                 break;

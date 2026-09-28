@@ -16,14 +16,19 @@
  *
  *********************************************************************/
 
-/**
- * Importer class for wikis
- *
- * @author Alexander Killing <killing@leifos.de>
- */
+use ILIAS\COPage\Page\PageManagerInterface;
+
 class ilWikiImporter extends ilXmlImporter
 {
+    protected PageManagerInterface $page_manager;
     protected ilWikiDataSet $ds;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
+    }
 
     public function init(): void
     {
@@ -53,7 +58,7 @@ class ilWikiImporter extends ilXmlImporter
 
         foreach ($wpg_map as $wpg_id) {
             $wiki_id = ilWikiPage::lookupWikiId($wpg_id);
-            ilWikiPage::_writeParentId("wpg", $wpg_id, $wiki_id);
+            $this->page_manager->writeParentId("wpg", $wpg_id, $wiki_id);
         }
     }
 }

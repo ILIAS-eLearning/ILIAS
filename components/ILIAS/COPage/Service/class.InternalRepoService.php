@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\COPage;
 
 use ILIAS\COPage\History\HistoryDBRepository;
+use ILIAS\COPage\Page\PageDBRepository;
 use ILIAS\COPage\Usage\UsageDBRepository;
 
 /**
@@ -59,6 +60,11 @@ class InternalRepoService
     public function history(): HistoryDBRepository
     {
         return new HistoryDBRepository($this->db);
+    }
+
+    public function page(): PageDBRepository
+    {
+        return new PageDBRepository($this->db);
     }
 
     public function usage(): UsageDBRepository

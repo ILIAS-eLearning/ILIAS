@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\COPage\Page\PageManagerInterface;
 use ILIAS\LearningModule\ReadingTime\ReadingTimeManager;
 
 /**
@@ -25,11 +26,19 @@ use ILIAS\LearningModule\ReadingTime\ReadingTimeManager;
  */
 class ilLearningModuleImporter extends ilXmlImporter
 {
+    protected PageManagerInterface $page_manager;
     protected ReadingTimeManager $reading_time_manager;
     protected array $qtis;
     protected ilLearningModuleDataSet $ds;
     protected ilImportConfig $config;
     protected ilLogger $log;
+
+    public function __construct()
+    {
+        parent::__construct();
+        global $DIC;
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
+    }
 
     public function init(): void
     {
@@ -129,7 +138,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         $this->log->debug("pg map entries: " . count($pg_map));
         foreach ($pg_map as $pg_id) {
             $lm_id = ilLMPageObject::_lookupContObjID($pg_id);
-            ilLMPage::_writeParentId("lm", $pg_id, $lm_id);
+            $this->page_manager->writeParentId("lm", $pg_id, $lm_id);
             $this->log->debug("write parent id, pg id: " . $pg_id . ", lm id: " . $lm_id);
         }
 

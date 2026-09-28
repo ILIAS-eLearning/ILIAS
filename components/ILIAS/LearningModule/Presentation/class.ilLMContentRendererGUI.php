@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\COPage\Page\PageManagerInterface;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
@@ -55,6 +56,7 @@ class ilLMContentRendererGUI
     protected ilLMPresentationLinker $linker;
     protected string $requested_frame;
     protected Translations $ot;
+    protected PageManagerInterface $page_manager;
     protected string $concrete_lang = "";
 
     public function __construct(
@@ -68,6 +70,8 @@ class ilLMContentRendererGUI
         ilHelpGUI $help,
         int $requested_obj_id
     ) {
+        global $DIC;
+
         $this->access = $access;
         $this->user = $user;
         $this->help = $help;
@@ -92,6 +96,7 @@ class ilLMContentRendererGUI
         $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
         $this->requested_frame = $service->getRequest()->getFrame();
         $this->navigation_status = $service->getNavigationStatus();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
     }
 
     protected function initHelp(): void
@@ -108,7 +113,7 @@ class ilLMContentRendererGUI
 
         $status = self::STATUS_ACCESS;
         // check page id
-        $requested_page_lm = ilLMPage::lookupParentId($this->current_page, "lm");
+        $requested_page_lm = $this->page_manager->lookupParentId($this->current_page, "lm");
         if ($requested_page_lm != $this->lm->getId()) {
             $status = self::STATUS_NO_ACCESS;
         }

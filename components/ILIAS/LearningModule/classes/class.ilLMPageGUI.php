@@ -89,7 +89,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 
         parent::processAnswer();
 
-        $parent_id = ilPageObject::lookupParentId(
+        $parent_id = $this->page_manager->lookupParentId(
             $this->pres_request->getQuestionPageId(),
             "lm"
         );

@@ -30,9 +30,6 @@ use ILIAS\COPage\Link\LinkManager;
 use ILIAS\COPage\Style\StyleManager;
 use ILIAS\COPage\WordDiff\WordDiff;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
@@ -93,7 +90,10 @@ class InternalDomainService
 
     public function page(): Page\PageManagerInterface
     {
-        return new Page\PageManager();
+        return new Page\PageManager(
+            $this->repo_service->page(),
+            $this->domUtil()
+        );
     }
 
     public function pageConfig(string $parent_type): \ilPageConfig

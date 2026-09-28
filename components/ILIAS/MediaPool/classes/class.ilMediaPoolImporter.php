@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\COPage\Page\PageManagerInterface;
+
 /**
  * Importer class for media pools
  *
@@ -23,8 +25,16 @@
  */
 class ilMediaPoolImporter extends ilXmlImporter
 {
+    protected PageManagerInterface $page_manager;
     protected ilImportConfig $config;
     protected ilMediaPoolDataSet $ds;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
+    }
 
     public function init(): void
     {
@@ -71,7 +81,7 @@ class ilMediaPoolImporter extends ilXmlImporter
         foreach ($pg_map as $pg_id) {
             $mep_id = ilMediaPoolItem::getPoolForItemId($pg_id);
             $mep_id = current($mep_id);
-            ilMediaPoolPage::_writeParentId("mep", $pg_id, $mep_id);
+            $this->page_manager->writeParentId("mep", $pg_id, $mep_id);
         }
     }
 }

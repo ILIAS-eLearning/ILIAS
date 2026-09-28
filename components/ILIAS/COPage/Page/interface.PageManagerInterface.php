@@ -31,4 +31,8 @@ interface PageManagerInterface
         int $old_nr = 0,
         string $lang = "-"
     ): \ilPageObject;
+
+    public function lookupParentId(int $a_id, string $a_type): int;
+
+    public function writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void;
 }
