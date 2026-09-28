@@ -29,8 +29,8 @@ class ilOrgUnitImporter extends ilXmlImporter
     public array $errors = [];
     /* @var array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */
     public array $warnings = [];
-    /* @var array keys in {updated, edited, deleted} */
-    public array $stats;
+    /* @var array keys in {created, updated, deleted}, subclasses may use other keys */
+    public array $stats = ["created" => 0, "updated" => 0, "deleted" => 0];
     private ilDBInterface $database;
 
     public function __construct()
