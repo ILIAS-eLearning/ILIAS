@@ -162,8 +162,6 @@ class LinkManagerTest extends \COPageTestBase
 
     public function testResolveInternalLinks(): void
     {
-        $this->markTestSkipped('Failed for some unknown reason.');
-
         $lm = new LinkManager();
 
         $cases = [
@@ -192,8 +190,9 @@ class LinkManagerTest extends \COPageTestBase
             $page->insertPCIds();
 
             $dom = $page->getDomDoc();
-            $links = $lm->resolveIntLinks($dom, $case["map"]);
+            $changed = $lm->resolveIntLinks($dom, $case["map"]);
 
+            $this->assertTrue($changed);
             $this->assertStringContainsString(
                 $case["expected"],
                 $page->getXMLFromDom()
