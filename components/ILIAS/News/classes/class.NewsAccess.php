@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\News\Access;
 
+use ILIAS\News\Data\NewsItem;
+
 class NewsAccess
 {
     protected int $current_user_id;
@@ -81,7 +83,7 @@ class NewsAccess
         );
     }
 
-    public function canEdit(\ilNewsItem $i, $user_id = 0): bool
+    public function canEdit(\ilNewsItem|NewsItem $i, $user_id = 0): bool
     {
         return (
             $i->getPriority() === 1 &&
@@ -89,7 +91,7 @@ class NewsAccess
         );
     }
 
-    public function canDelete(\ilNewsItem $i, $user_id = 0): bool
+    public function canDelete(\ilNewsItem|NewsItem $i, $user_id = 0): bool
     {
         return $this->canEdit($i, $user_id);
     }
