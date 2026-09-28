@@ -2011,7 +2011,7 @@ assessment#:#uploaded_material#:#Odeslaný materiál
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.###26 08 2024 new variable
 assessment#:#user_not_invited#:#K této zkoušce nejste připuštěn.
 assessment#:#usr_manscoring_complete#:#Marke as 'scored'###29 10 2025 new variable
 assessment#:#value_between_x_and_y#:#Hodnota by měla být mezi %s až %s
