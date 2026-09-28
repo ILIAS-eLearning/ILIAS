@@ -242,7 +242,8 @@ class ilSoapAdministration
                 'CLIENT_OBJECT_WRONG_TYPE'
             );
         }
-        if (!$rbacsystem->checkAccess($permission, $ref_id, $type)) {
+        // use explicit user as the rbacsystem singleton may hold a stale user
+        if (!$rbacsystem->checkAccessOfUser($DIC->user()->getId(), $permission, $ref_id, $type)) {
             return $this->raiseError(
                 'Missing permission $permission for type $type.',
                 'CLIENT_OBJECT_WRONG_PERMISSION'
