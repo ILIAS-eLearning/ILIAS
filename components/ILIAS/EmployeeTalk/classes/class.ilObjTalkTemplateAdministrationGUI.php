@@ -131,7 +131,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
                 $subtypes
             )]
         );
-        $gui->render();
+        $gui->renderToolbarAction();
     }
 
     protected function getCreatableObjectTypes(): array

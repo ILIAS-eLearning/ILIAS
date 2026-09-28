@@ -590,10 +590,10 @@ class SubmissionManager
 
                 // handle duplicates
                 if (array_key_exists($targetfile, $duplicates)) {
-                    $suffix = strrpos($targetfile, ".");
-                    $targetfile = substr($targetfile, 0, $suffix) .
-                        " (" . (++$duplicates[$targetfile]) . ")" .
-                        substr($targetfile, $suffix);
+                    $targetfile = $this->getFilenameWithDuplicateSuffix(
+                        $targetfile,
+                        ++$duplicates[$targetfile]
+                    );
                 } else {
                     $duplicates[$targetfile] = 1;
                 }
@@ -621,10 +621,24 @@ class SubmissionManager
                 \ilFileUtils::makeDirParents($dir);
                 $file = $dir . DIRECTORY_SEPARATOR . $targetfile;
                 if (!is_null($stream)) {
-                    file_put_contents(
-                        $file,
-                        $stream->getContents()
-                    );
+                    $source_stream = $stream->detach();
+                    if (!is_resource($source_stream)) {
+                        throw new \RuntimeException('Unable to read submission stream.');
+                    }
+
+                    $target_stream = fopen($file, 'wb');
+                    if ($target_stream === false) {
+                        throw new \RuntimeException("Unable to open file for writing: $file");
+                    }
+
+                    try {
+                        stream_copy_to_stream(
+                            $source_stream,
+                            $target_stream
+                        );
+                    } finally {
+                        fclose($target_stream);
+                    }
                 }
 
                 // unzip blog/portfolio
@@ -645,6 +659,20 @@ class SubmissionManager
             trim($userName["login"]) . "_" .
             $userName["user_id"]
         );
+    }
+
+    protected function getFilenameWithDuplicateSuffix(
+        string $filename,
+        int $duplicate_number
+    ): string {
+        $suffix = strrpos($filename, ".");
+        if ($suffix === false) {
+            return $filename . " (" . $duplicate_number . ")";
+        }
+
+        return substr($filename, 0, $suffix) .
+            " (" . $duplicate_number . ")" .
+            substr($filename, $suffix);
     }
 
     public function deliverSubmissions(
@@ -732,10 +760,10 @@ class SubmissionManager
                     // #11070
                     $chkName = strtolower($newFilename);
                     if (array_key_exists($chkName, $duplicates)) {
-                        $suffix = strrpos($newFilename, ".");
-                        $newFilename = substr($newFilename, 0, $suffix) .
-                            " (" . (++$duplicates[$chkName]) . ")" .
-                            substr($newFilename, $suffix);
+                        $newFilename = $this->getFilenameWithDuplicateSuffix(
+                            $newFilename,
+                            ++$duplicates[$chkName]
+                        );
                     } else {
                         $duplicates[$chkName] = 1;
                     }

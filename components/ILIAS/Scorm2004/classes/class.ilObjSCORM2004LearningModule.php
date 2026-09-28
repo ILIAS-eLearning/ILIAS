@@ -274,7 +274,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
         //transform manifest file
         $this->totransform = $doc;
-        $ilLog->write("SCORM: about to transform to SCORM 2004");
+        $ilLog->info("SCORM: about to transform to SCORM 2004");
 
         $xsl = new DOMDocument();
         //        $xsl->async = false;
@@ -284,7 +284,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
         file_put_contents($this->imsmanifestFile, $prc->transformToXML($this->totransform));
 
-        $ilLog->write("SCORM: Transformation completed");
+        $ilLog->info("SCORM: Transformation completed");
     }
 
     /**

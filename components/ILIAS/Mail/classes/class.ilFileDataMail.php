@@ -92,9 +92,15 @@ class ilFileDataMail extends ilFileData
     public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mail_id): array
     {
         $res = $this->db->queryF(
-            'SELECT path FROM mail_attachment WHERE mail_id = %s',
-            ['integer'],
-            [$mail_id]
+            '
+                SELECT mail_attachment.path
+                FROM mail_attachment
+                INNER JOIN mail ON mail.mail_id = mail_attachment.mail_id
+                WHERE mail_attachment.mail_id = %s
+                AND mail.user_id = %s
+            ',
+            ['integer', 'integer'],
+            [$mail_id, $this->user_id]
         );
 
         if ($this->db->numRows($res) !== 1) {
@@ -300,8 +306,13 @@ class ilFileDataMail extends ilFileData
 
     public function unlinkFile(string $a_filename): bool
     {
-        if (is_file($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename))) {
-            return unlink($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename));
+        if (!$this->isValidAttachmentPoolFilename($a_filename)) {
+            return false;
+        }
+
+        $path = $this->getAbsoluteAttachmentPoolPathByFilename($a_filename);
+        if (is_file($path)) {
+            return unlink($path);
         }
 
         return false;
@@ -313,7 +324,19 @@ class ilFileDataMail extends ilFileData
      */
     public function getAbsoluteAttachmentPoolPathByFilename(string $filename): string
     {
+        if (!$this->isValidAttachmentPoolFilename($filename)) {
+            throw new InvalidArgumentException('The passed filename must not contain path separators.');
+        }
+
         return $this->getAbsoluteAttachmentPoolPathPrefix() . $filename;
+    }
+
+    private function isValidAttachmentPoolFilename(string $filename): bool
+    {
+        return $filename !== '' &&
+            !str_contains($filename, "\0") &&
+            !str_contains($filename, '/') &&
+            !str_contains($filename, '\\');
     }
 
     /**

@@ -174,11 +174,16 @@ class TestScreenGUI
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_password');
         }
 
-        if ($test_behaviour_settings->getProcessingTimeEnabled() && !$this->isUserOutOfProcessingTime()) {
-            $message_box_message_elements[] = sprintf(
-                $this->lng->txt('tst_time_limit_message'),
-                $test_behaviour_settings->getProcessingTimeAsMinutes()
-            );
+        if ($test_behaviour_settings->getProcessingTimeEnabled()
+            && !$this->isUserOutOfProcessingTime()
+            && $this->hasAvailablePasses()) {
+            $active_id = $this->test_session->getActiveId();
+            $starting_time = $this->object->getStartingTimeOfUser($active_id);
+            $message_box_message_elements[] = (new WorkingTime(
+                $this->lng,
+                $starting_time === false ? null : $starting_time,
+                $this->object->getProcessingTimeInSeconds($active_id)
+            ))->getMessage(false);
         }
 
         $nr_of_tries = $this->object->getNrOfTries();

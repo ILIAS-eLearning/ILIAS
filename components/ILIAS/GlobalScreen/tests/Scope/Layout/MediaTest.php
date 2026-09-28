@@ -44,6 +44,8 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\AbstractCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\DeliverPhpFilter;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\VersionParameterFilter;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 require_once('./vendor/composer/vendor/autoload.php');
 
@@ -133,6 +135,67 @@ final class MediaTest extends TestCase
         $this->assertInstanceOf(Js::class, $first_item);
         $this->assertSame($path_with_query . '&' . self::VERSION . '=' . $this->version, $first_item->getContent());
         $this->assertSame(2, $first_item->getBatch());
+    }
+
+    /**
+     * A plugin only knows its own absolute location, see ilPlugin::getDirectory(). Such a
+     * path must not end up in the markup verbatim, it has to be cut down to the web root.
+     * See 0044340.
+     *
+     * ILIAS_ABSOLUTE_PATH has to be defined for this, and other tests read that constant,
+     * hence the isolation.
+     */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
+    public function testAbsolutePathBelowTheWebRootBecomesAWebPath(): void
+    {
+        $web_path = 'Customizing/global/plugins/Services/Repository/RepositoryObject/Example/js/example.js';
+
+        $this->meta_content->addJs($this->webRoot() . $web_path);
+        $collection = $this->meta_content->getJs();
+
+        $first_item = iterator_to_array($collection->getItems())[$web_path];
+        $this->assertInstanceOf(Js::class, $first_item);
+        $this->assertSame($web_path . '?' . self::VERSION . '=' . $this->version, $first_item->getContent());
+    }
+
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
+    public function testAbsolutePathBelowTheWebRootBecomesAWebPathForCssAsWell(): void
+    {
+        $web_path = 'Customizing/global/plugins/Services/Repository/RepositoryObject/Example/css/example.css';
+
+        $this->meta_content->addCss($this->webRoot() . $web_path);
+        $collection = $this->meta_content->getCss();
+
+        $iterator_to_array = iterator_to_array($collection->getItems());
+        $first_item = array_shift($iterator_to_array);
+        $this->assertInstanceOf(Css::class, $first_item);
+        $this->assertSame($web_path . '?' . self::VERSION . '=' . $this->version, $first_item->getContent());
+    }
+
+    public function testPathOutsideOfTheWebRootIsKept(): void
+    {
+        $path = '/somewhere/else/example.js';
+
+        $this->meta_content->addJs($path);
+        $collection = $this->meta_content->getJs();
+
+        $first_item = iterator_to_array($collection->getItems())[$path];
+        $this->assertSame($path . '?' . self::VERSION . '=' . $this->version, $first_item->getContent());
+    }
+
+    /**
+     * Other tests define ILIAS_ABSOLUTE_PATH as well, so its value depends on the order in
+     * which they run. Read it instead of assuming one.
+     */
+    private function webRoot(): string
+    {
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            define('ILIAS_ABSOLUTE_PATH', '/var/www/ilias');
+        }
+
+        return rtrim(ILIAS_ABSOLUTE_PATH, '/') . '/public/';
     }
 
     public function testDeliverPhpCssIsExcludedFromVersionParameter(): void

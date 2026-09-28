@@ -500,7 +500,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 
         // we use the oldest share date
         $sql .= " ORDER BY acl.tstamp";
-
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             if (!isset($res[$row["obj_id"]])) {

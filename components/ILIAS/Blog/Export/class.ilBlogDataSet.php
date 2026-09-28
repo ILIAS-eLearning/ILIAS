@@ -45,14 +45,14 @@ class ilBlogDataSet extends ilDataSet
         global $DIC;
         parent::__construct();
 
-        $blog_service = $DIC->blog()->internal();
+        $this->service = $DIC->blog()->internal();
 
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
         $this->notes = $DIC->notes();
-        $this->reading_time = $blog_service->domain()->readingTime();
-        $this->blog_settings = $blog_service->domain()->blogSettings();
+        $this->reading_time = $this->service->domain()->readingTime();
+        $this->blog_settings = $this->service->domain()->blogSettings();
     }
 
     public function getSupportedVersions(): array

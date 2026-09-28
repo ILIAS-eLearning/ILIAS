@@ -170,7 +170,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         $on_load_code = $this->getInitializationOnLoadCode();
 
         $this->global_tpl->addJavascript("assets/js/Explorer2.js");
-        $this->global_tpl->addJavascript("asserts/js/LegacyModal.js");
+        $this->global_tpl->addJavascript("assets/js/LegacyModal.js");
         $this->global_tpl->addOnLoadCode($on_load_code);
 
         $tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "components/ILIAS/UIComponent/Explorer2");

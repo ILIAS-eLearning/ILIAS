@@ -66,6 +66,8 @@ class ilObjLTIConsumer extends ilObject2
 
     protected string $customParams = '';
 
+    protected float $scoreMaximum = 1.0;
+
     protected ?int $ref_id = 0;
 
     //Highscore
@@ -104,6 +106,24 @@ class ilObjLTIConsumer extends ilObject2
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         parent::__construct($a_id, $a_reference);
+    }
+
+    public static function getRefIdOfConsumerByDeploymentId(string $dep_id): int|null
+    {
+        global $ilDB;
+        $refId = null;
+        $refIds = array();
+        $query = /** @lang text */
+            'SELECT ref_id from lti_consumer_settings join object_reference on lti_consumer_settings.obj_id=object_reference.obj_id where provider_id = ' . $dep_id;
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $refIds[] = $row->ref_id;
+        }
+
+        if (!empty($refIds)) {
+            $refId = $refIds[0];
+        }
+        return $refId;
     }
 
     protected function initType(): void
@@ -169,6 +189,16 @@ class ilObjLTIConsumer extends ilObject2
     public function setMasteryScorePercent(float $mastery_score_percent): void
     {
         $this->mastery_score = $mastery_score_percent / 100;
+    }
+
+    public function getScoreMaximum(): float
+    {
+        return $this->scoreMaximum;
+    }
+
+    public function setScoreMaximum(float $scoreMaximum): void
+    {
+        $this->scoreMaximum = $scoreMaximum;
     }
 
     public function getProviderId(): int
@@ -386,6 +416,9 @@ class ilObjLTIConsumer extends ilObject2
             $this->setHighscoreTopNum((int) $row['highscore_top_num']);
 
             $this->setMasteryScore((float) $row['mastery_score']);
+            if (isset($row['score_maximum'])) {
+                $this->setScoreMaximum((float) $row['score_maximum']);
+            }
         }
 
         $this->loadRepositoryActivationSettings();
@@ -419,7 +452,8 @@ class ilObjLTIConsumer extends ilObject2
             'highscore_own_table' => ['integer', (int) $this->getHighscoreOwnTable()],
             'highscore_top_table' => ['integer', (int) $this->getHighscoreTopTable()],
             'highscore_top_num' => ['integer', $this->getHighscoreTopNum()],
-            'mastery_score' => ['float', $this->getMasteryScore()]
+            'mastery_score' => ['float', $this->getMasteryScore()],
+            'score_maximum' => ['float', $this->getScoreMaximum()]
         ]);
 
         $this->saveRepositoryActivationSettings();
@@ -749,7 +783,6 @@ class ilObjLTIConsumer extends ilObject2
             "lis_person_name_full" => $nameFull,
             "lis_person_contact_email_primary" => $emailPrimary,
             "context_id" => $contextId,
-            "context_type" => $contextType,
             "context_title" => $contextTitle,
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
@@ -772,8 +805,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => self::getIliasHttpPath(
-            ) . "/ltiresult.php?client_id=" . CLIENT_ID,
-            "role_scope_mentor" => ""
+            ) . "/ltiresult.php?client_id=" . CLIENT_ID
         ];
 
         $OAuthParams = [
@@ -804,7 +836,8 @@ class ilObjLTIConsumer extends ilObject2
         string $contextType,
         string $contextId,
         string $contextTitle,
-        ?string $returnUrl = ''
+        ?string $returnUrl = '',
+        ?array $additionalArguments = null
     ): ?array {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -852,9 +885,11 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
-
         $emailPrimary = $cmixUser->getUsrIdent();
+        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
+        if ($this->getProvider()->getPrivacyIdent() == ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
+            $userIdLTI = strstr($emailPrimary, '@' . ilCmiXapiUser::getIliasUuid(), true);
+        }
 
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
 
@@ -865,7 +900,7 @@ class ilObjLTIConsumer extends ilObject2
         }
         $toolConsumerInstanceGuid .= $parseIliasUrl["host"];
         $launch_vars = [
-            "lti_message_type" => "basic-lti-launch-request",
+            "lti_message_type" => "LtiResourceLinkRequest",
             "lti_version" => "1.3.0",
             "resource_link_id" => (string) $resource_link_id,
             "resource_link_title" => $this->getTitle(),
@@ -898,11 +933,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
-            "tool_consumer_info_version" => ILIAS_VERSION,
-            "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => self::getIliasHttpPath(
-            ) . "/ltiresult.php?client_id=" . CLIENT_ID,
-            "role_scope_mentor" => ""
+            "tool_consumer_info_version" => ILIAS_VERSION
         ];
 
         $provider_custom_params = self::getProviderCustomParamsArray($this->getProvider());
@@ -912,24 +943,39 @@ class ilObjLTIConsumer extends ilObject2
             $launch_vars['custom_' . $key] = $value;
         }
 
-        if ($this->getProvider()->isGradeSynchronization()) {
+        if ($this->getProvider()->isGradeSynchronization() || $this->getProvider()->getHasOutcome()) {
             $gradeservice = new ilLTIConsumerGradeService();
-            $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath(
-            ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+            // the launch claim and the id the tool reads back from the service must be
+            // identical (AGS 2.0 §3.3.4.3), so both go through the same builder
+            $lineitemUrl = ilLTIConsumerGradeServiceLineItem::buildLineItemUrl((int) $contextId, (int) $this->id);
+            $lineitemsUrl = ilLTIConsumerGradeServiceLineItem::buildLineItemsUrl((int) $contextId);
+
+            $launch_vars['custom_lineitem_url'] = $lineitemUrl;
 
             // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
             // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
-            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath(
-            ) . "/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
+
+            $launch_vars['custom_lineitems_url'] = $lineitemsUrl;
 
             $launch_vars['custom_ags_scopes'] = implode(",", $gradeservice->getPermittedScopes());
+
+            if ($additionalArguments === null) {
+                $additionalArguments = [];
+            }
+            if (!isset($additionalArguments[self::LTI_JWT_CLAIM_PREFIX . '/claim/message_type'])) {
+                $additionalArguments['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'] = [
+                    'scope' => $gradeservice->getPermittedScopes(),
+                    'lineitems' => $lineitemsUrl,
+                    'lineitem' => $lineitemUrl
+                ];
+            }
         }
 
         if (!empty(self::verifyPrivateKey())) {
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', 'ERROR_OPEN_SSL_CONF', true);
             return null;
         }
-        return self::LTISignJWT($launch_vars, $endpoint, $clientId, $deploymentId, $nonce);
+        return self::LTISignJWT($launch_vars, $endpoint, $clientId, $deploymentId, $nonce, $additionalArguments);
     }
 
     /**
@@ -984,8 +1030,8 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
-        $emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
+        $userIdLTI = self::getDeepLinkingUserIdentifier($provider, $DIC->user());
+        $emailPrimary = self::getDeepLinkingUserEmail($provider, $DIC->user());
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
         $parseIliasUrl = parse_url(self::getIliasHttpPath());
         if (array_key_exists("path", $parseIliasUrl)) {
@@ -1038,7 +1084,17 @@ class ilObjLTIConsumer extends ilObject2
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', 'ERROR_OPEN_SSL_CONF', true);
             return null;
         }
-        return self::LTISignJWT($content_select_vars, '', $clientId, $deploymentId, $nonce);
+        return self::LTISignJWT($content_select_vars, $provider->getContentItemUrl(), $clientId, $deploymentId, $nonce);
+    }
+
+    public static function getDeepLinkingUserIdentifier(ilLTIConsumeProvider $provider, ilObjUser $user): string
+    {
+        return ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $user);
+    }
+
+    public static function getDeepLinkingUserEmail(ilLTIConsumeProvider $provider, ilObjUser $user): string
+    {
+        return ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $user);
     }
 
     public static function LTISignJWT(
@@ -1046,7 +1102,8 @@ class ilObjLTIConsumer extends ilObject2
         string $endpoint,
         string $oAuthConsumerKey,
         $typeId = 0,
-        string $nonce = ''
+        string $nonce = '',
+        ?array $additionalPayload = null,
     ): array {
         if (empty($typeId)) {
             $typeId = 0;
@@ -1089,6 +1146,28 @@ class ilObjLTIConsumer extends ilObject2
             $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/target_link_uri'] = $endpoint;
         }
 
+        if (!empty($parms['custom_lineitem_url']) || !empty($parms['custom_lineitems_url']) || !empty($parms['custom_ags_scopes'])) {
+            $ags_claim = [];
+
+            if (!empty($parms['custom_lineitem_url'])) {
+                $ags_claim['lineitem'] = $parms['custom_lineitem_url'];
+            }
+            if (!empty($parms['custom_lineitems_url'])) {
+                $ags_claim['lineitems'] = $parms['custom_lineitems_url'];
+            }
+            if (!empty($parms['custom_ags_scopes'])) {
+                // scopes are comma-separated in launch_vars
+                $ags_claim['scope'] = array_values(array_filter(array_map('trim', explode(',', $parms['custom_ags_scopes']))));
+            }
+
+            if (!empty($ags_claim)) {
+                $payLoad['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'] = $ags_claim;
+            }
+
+            // prevent them from also being added to custom/claim/custom later
+            unset($parms['custom_lineitem_url'], $parms['custom_lineitems_url'], $parms['custom_ags_scopes']);
+        }
+
         foreach ($parms as $key => $value) {
             $claim = self::LTI_JWT_CLAIM_PREFIX;
             if (array_key_exists($key, $claimMapping)) {
@@ -1118,11 +1197,13 @@ class ilObjLTIConsumer extends ilObject2
                 $payLoad["{$claim}/claim/ext"][substr($key, 4)] = $value;
             }
         }
-        //self::getLogger()->debug(json_encode($payLoad,JSON_PRETTY_PRINT));
         if (!empty(self::verifyPrivateKey())) {
             throw new DomainException(self::ERROR_OPEN_SSL_CONF);
         }
         $privateKey = self::getPrivateKey();
+        if (isset($additionalPayload)) {
+            $payLoad = array_merge($payLoad, $additionalPayload);
+        }
         $jwt = Firebase\JWT\JWT::encode($payLoad, $privateKey['key'], 'RS256', $privateKey['kid']);
         $newParms = array();
         $newParms['id_token'] = $jwt;
@@ -1204,7 +1285,14 @@ class ilObjLTIConsumer extends ilObject2
     {
         global $DIC;
 
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('lti');
+        $f = new \ILIAS\Data\Factory();
+
+        if (!ilContext::usesHTTP() || !isset($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'])) {
+            $iliasHttpPath = ilContext::modifyHttpPath($DIC['ilIliasIniFile']->readVariable('server', 'http_path'));
+            $uri = $f->uri(rtrim($iliasHttpPath, "/"));
+            return $uri->getBaseURI();
+        }
 
         if ($DIC['https']->isDetected()) {
             $protocol = 'https://';
@@ -1231,7 +1319,6 @@ class ilObjLTIConsumer extends ilObject2
         $uri = str_replace("components/ILIAS/LTIConsumer", "", $uri);
         $logger->info("URI --- 2: " . $uri);
         $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
-        $f = new \ILIAS\Data\Factory();
         $uri = $f->uri(rtrim($iliasHttpPath, "/"));
         return $uri->getBaseURI();
     }
@@ -1254,6 +1341,34 @@ class ilObjLTIConsumer extends ilObject2
     public static function getPublicKeysetUrl(): string
     {
         return self::getIliasHttpPath() . "/lticerts.php";
+    }
+
+    public static function fetchPublicKeyset(string $url): string
+    {
+        $connection = new ilCurlConnection($url);
+
+        try {
+            $connection->init();
+            $connection->setOpt(CURLOPT_RETURNTRANSFER, true);
+            $connection->setOpt(CURLOPT_FOLLOWLOCATION, true);
+            $connection->setOpt(CURLOPT_MAXREDIRS, 3);
+            $connection->setOpt(CURLOPT_CONNECTTIMEOUT, 10);
+            $connection->setOpt(CURLOPT_TIMEOUT, 20);
+            $connection->setOpt(CURLOPT_HTTPHEADER, array(
+                'Accept: application/json, application/jwk-set+json',
+                'User-Agent: ILIAS LTI Consumer'
+            ));
+
+            $keyset = $connection->exec();
+            $status = (int) $connection->getInfo(CURLINFO_RESPONSE_CODE);
+            if ($status < 200 || $status >= 300 || !is_string($keyset)) {
+                throw new ilLtiConsumerException('cannot fetch public keyset');
+            }
+
+            return $keyset;
+        } finally {
+            $connection->close();
+        }
     }
 
     public static function getRegistrationUrl(): string
@@ -1321,7 +1436,11 @@ class ilObjLTIConsumer extends ilObject2
         $reponseData = $data;
         $provider = new ilLTIConsumeProvider();
         $toolConfig = $data['https://purl.imsglobal.org/spec/lti-tool-configuration'];
-        $provider->setTitle(strip_tags($data['client_name'], ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
+        $provider->setTitle(
+            $DIC->refinery()->encode()->htmlSpecialCharsAsEntities()->transform(
+                $data['client_name']
+            )
+        );
         $provider->setProviderUrl($toolConfig['target_link_uri']);
         $provider->setInitiateLogin($data['initiate_login_uri']);
         $provider->setRedirectionUris(implode(",", $data['redirect_uris']));
@@ -1332,6 +1451,9 @@ class ilObjLTIConsumer extends ilObject2
             if (isset($message['type']) && $message['type'] === 'LtiDeepLinkingRequest') {
                 $provider->setContentItemUrl($message['target_link_uri']);
             }
+        }
+        if (self::registrationRequestsAgs($data, $toolConfig)) {
+            $provider->setGradeSynchronization(true);
         }
         /*
         if (isset($data['logo_uri'])) { // needs to be uploaded and then assign filepath
@@ -1348,6 +1470,42 @@ class ilObjLTIConsumer extends ilObject2
         $reponseData['client_id'] = $tokenObj->aud;
         $reponseData['https://purl.imsglobal.org/spec/lti-tool-configuration']['deployment_id'] = $provider->getId();
         return $reponseData;
+    }
+
+    private static function registrationRequestsAgs(array $data, array $toolConfig): bool
+    {
+        $requestedScopes = [];
+        foreach ([$data['scope'] ?? null, $data['scopes'] ?? null] as $scopeValue) {
+            $requestedScopes = array_merge($requestedScopes, self::normalizeRegistrationScopes($scopeValue));
+        }
+
+        if (isset($toolConfig['services']) && is_array($toolConfig['services'])) {
+            foreach ($toolConfig['services'] as $service) {
+                if (!is_array($service)) {
+                    continue;
+                }
+                $requestedScopes = array_merge(
+                    $requestedScopes,
+                    self::normalizeRegistrationScopes($service['scope'] ?? null),
+                    self::normalizeRegistrationScopes($service['scopes'] ?? null)
+                );
+            }
+        }
+
+        $requestedScopes = array_unique($requestedScopes);
+        $agsScopes = (new ilLTIConsumerGradeService())->getPermittedScopes();
+        return !empty(array_intersect($requestedScopes, $agsScopes));
+    }
+
+    private static function normalizeRegistrationScopes(mixed $scopeValue): array
+    {
+        if (is_string($scopeValue)) {
+            return preg_split('/\s+/', trim($scopeValue)) ?: [];
+        }
+        if (is_array($scopeValue)) {
+            return array_values(array_filter($scopeValue, static fn($scope): bool => is_string($scope) && $scope !== ''));
+        }
+        return [];
     }
 
     public static function getNewClientId(): string
@@ -1403,7 +1561,7 @@ class ilObjLTIConsumer extends ilObject2
         return file_get_contents('php://input');
     }
 
-    public static function getTokenObject(string $token): ?object
+    public static function getTokenObject(string $token): ?stdClass
     {
         try {
             $keys = JWK::parseKeySet(self::getJwks());
@@ -1420,6 +1578,8 @@ class ilObjLTIConsumer extends ilObject2
         if (count($auth) < 1) {
             self::sendResponseError(405, "missing Authorization header");
         }
+        $logger = $DIC->logger()->root();
+        $logger->info("Verifying token: " . json_encode($auth) . " HEADER: " . json_encode($DIC->http()->request()->getHeaders()) . " REQUEST getParsedBody: " . json_encode($DIC->http()->request()->getParsedBody()) . " REQUEST getParsedBody" . json_encode($DIC->http()->request()->getQueryParams()));
         preg_match('/Bearer\s+(.+)$/i', $auth[0], $matches);
         if (count($matches) != 2) {
             self::sendResponseError(405, "missing required Authorization Baerer token");

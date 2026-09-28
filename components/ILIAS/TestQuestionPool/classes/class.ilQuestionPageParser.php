@@ -147,7 +147,7 @@ class ilQuestionPageParser extends ilSaxParser
                     switch ($pg['type']) {
                         case 'pg_alias':
                             if ($this->pg_mapping[$pg['id']] == '') {
-                                $ilLog->write('LM Import: No PageObject for PageAlias ' .
+                                $ilLog->info('LM Import: No PageObject for PageAlias ' .
                                               $pg['id'] . ' found! (Please update export installation to ILIAS 3.3.0)');
 
                                 // Jump two levels up. First level is switch

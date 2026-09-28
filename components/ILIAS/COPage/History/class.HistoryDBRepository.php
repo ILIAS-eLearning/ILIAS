@@ -105,6 +105,18 @@ class HistoryDBRepository
         $db->manipulate($q);
     }
 
+    public function deleteHistoryEntries(
+        string $parent_type,
+        int $page_id,
+        string $lang
+    ): void {
+        $this->db->manipulateF(
+            "DELETE FROM page_history WHERE parent_type = %s AND page_id = %s AND lang = %s",
+            ["text", "integer", "text"],
+            [$parent_type, $page_id, $lang]
+        );
+    }
+
     public function getHistoryNumbersOlderEqualThanNr(
         int $delete_lower_than_nr,
         string $parent_type,

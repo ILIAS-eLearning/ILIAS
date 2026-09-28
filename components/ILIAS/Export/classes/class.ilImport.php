@@ -240,9 +240,11 @@ class ilImport
     protected function checkStatuses(ilImportStatusHandlerCollectionInterface $import_status_collection): void
     {
         if ($import_status_collection->hasStatusType(StatusType::FAILED)) {
-            throw new ilImportException($import_status_collection
+            $exception = new ilImportException($import_status_collection
                 ->withNumberingEnabled(true)
                 ->toString(StatusType::FAILED));
+            $this->log->error($exception->getMessage());
+            throw $exception;
         }
     }
 
@@ -283,6 +285,7 @@ class ilImport
             }
         } catch (Exception $e) {
             $this->filesystem->temp()->deleteDir($delete_dir_info->getFilename());
+            $this->log->error($e->getMessage());
             throw $e;
         }
         // Delete tmp files

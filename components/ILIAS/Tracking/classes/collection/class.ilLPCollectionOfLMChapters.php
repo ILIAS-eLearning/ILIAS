@@ -18,11 +18,6 @@
 
 declare(strict_types=0);
 
-/**
- * LP collection of learning module chapters
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
 class ilLPCollectionOfLMChapters extends ilLPCollection
 {
     protected static array $possible_items = array();
@@ -65,8 +60,6 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
     {
         $data = array();
 
-        $parent_type = ilObject::_lookupType($a_parent_ref_id, true);
-
         foreach ($this->getPossibleItems($a_parent_ref_id) as $item) {
             $tmp = array();
             $tmp['id'] = $item['obj_id'];
@@ -77,10 +70,10 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 
             // #12158
             $tmp['url'] = ilLink::_getLink(
-                $a_parent_ref_id,
-                $parent_type,
+                null,
+                'st',
                 [],
-                "_" . $tmp['id']
+                $tmp['id'] . '_' . $a_parent_ref_id
             );
 
             if ($this->mode == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {

@@ -99,8 +99,8 @@ class DashboardNewsManager
         );
 
         $options = [];
-        foreach ($context_count as [$context, $count]) {
-            $options[$context->getRefId()] = \ilObject::_lookupTitle($context->getObjId()) . " ({$count})";
+        foreach ($context_count as [$context]) {
+            $options[$context->getRefId()] = \ilObject::_lookupTitle($context->getObjId());
         }
         asort($options);
 

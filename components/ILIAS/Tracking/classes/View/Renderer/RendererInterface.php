@@ -20,12 +20,12 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\Renderer;
 
+use ILIAS\Data\URI;
 use ILIAS\Tracking\View\DataRetrieval\Info\LPInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\ObjectDataInterface;
 use ILIAS\Tracking\View\PropertyList\PropertyListInterface;
-use ILIAS\UI\Component\Item\Standard as UIStandardItem;
 use ILIAS\UI\Component\Chart\ProgressMeter\Standard as UIStandardProgressMeter;
-use ILIAS\Data\URI;
+use ILIAS\UI\Component\Item\Standard as UIStandardItem;
 
 interface RendererInterface
 {

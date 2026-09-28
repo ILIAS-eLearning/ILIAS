@@ -50,14 +50,15 @@
 
 	@include brk.on-screen-size(large) {
 		font-size: $il-font-size-small;
-		&-grid {
+      &-grid--sm {
 			grid-template-columns: repeat(4, 1fr);
 		}
 	}
 
 	@include brk.on-screen-size(small) {
 		font-size: $il-font-size-base;
-		&-grid {
+		&-grid--sm,
+        &-grid--md {
 			grid-template-columns: repeat(1, 1fr);
 		}
 		& ul li {

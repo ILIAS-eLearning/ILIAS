@@ -40,7 +40,6 @@ class RunActiveJobsCommand extends Command
         $this->setDescription('Runs cron jobs depending on the respective schedule');
 
         $this->addArgument('user', InputArgument::REQUIRED, 'The ILIAS user the script is executed with');
-        $this->addArgument('client_id', InputArgument::REQUIRED, 'The ILIAS client_id');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -48,7 +47,6 @@ class RunActiveJobsCommand extends Command
         $this->style = new SymfonyStyle($input, $output);
 
         $cron = new \ILIAS\Cron\CLI\StartUp(
-            $input->getArgument('client_id'),
             $input->getArgument('user')
         );
 

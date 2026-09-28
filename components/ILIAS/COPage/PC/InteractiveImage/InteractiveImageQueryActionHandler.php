@@ -88,6 +88,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         $o->uiModel->popupForm = $this->getPopupForm();
         $o->uiModel->backgroundProperties = $this->getBackgroundProperties();
         $o->uiModel->modal = $this->getModalTemplate();
+        $o->uiModel->confirmation = $this->getConfirmationTemplate();
         $o->uiModel->loader = $this->getLoader();
         $o->uiModel->popupDummy = $this->getPopupDummy();
         $o->uiModel->lore = $this->getLore();
@@ -502,6 +503,13 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         $modalt["template"] = $ui->renderer()->renderAsync($modal);
 
         return $modalt;
+    }
+
+    public function getConfirmationTemplate(): string
+    {
+        $confirmation = $this->ui->factory()->messageBox()->confirmation("#text#");
+
+        return $this->ui->renderer()->renderAsync($confirmation);
     }
 
     protected function getPCInteractiveImageGUI(): \ilPCInteractiveImageGUI

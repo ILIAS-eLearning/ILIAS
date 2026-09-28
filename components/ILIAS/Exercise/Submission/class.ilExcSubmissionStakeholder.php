@@ -81,7 +81,7 @@ class ilExcSubmissionStakeholder extends AbstractResourceStakeholder
     {
         $this->initDB();
         $r = $this->database->queryF(
-            "SELECT obj_id FROM exc_returned WHERE exc_returned.solution_rid = %s;",
+            "SELECT obj_id FROM exc_returned WHERE exc_returned.rid = %s;",
             ['text'],
             [$identification->serialize()]
         );

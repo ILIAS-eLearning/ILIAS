@@ -123,10 +123,14 @@ abstract class ilPlugin
 
     public function getRelativeDirectory(): string
     {
+        $path = $this->getPluginInfo()->getPath();
+
         return str_replace(
             ILIAS_ABSOLUTE_PATH . "/public/",
             "",
-            realpath($this->getPluginInfo()->getPath())
+            // realpath only resolves symlinks here, the path itself is already normalized.
+            // It returns false for a plugin which is not installed, keep the path in that case.
+            realpath($path) ?: $path
         );
     }
 

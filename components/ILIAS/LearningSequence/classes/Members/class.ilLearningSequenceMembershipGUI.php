@@ -113,6 +113,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         $object = $this->getParentObject();
         $members = $this->getParentObject()->getLSParticipants();
 
+        $user_ids = array_diff($user_ids, [ANONYMOUS_USER_ID]);
         if (count($user_ids) == 0) {
             $this->lng->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
@@ -311,7 +312,9 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             if (array_key_exists('access_time', $data)) {
                 $data['access'] = $data['access_time'];
             }
-            $data['progress'] = $this->lng->txt($data['progress']);
+            if (array_key_exists('progress', $data)) {
+                $data['progress'] = $this->lng->txt($data['progress']);
+            }
         }
 
         return $data;

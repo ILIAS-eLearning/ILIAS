@@ -18,11 +18,6 @@
 
 declare(strict_types=0);
 
-/**
- * LP collection of SCOs
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
 class ilLPCollectionOfSCOs extends ilLPCollection
 {
     protected static array $possible_items = array();

@@ -16,21 +16,21 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * LP handler class for plugins
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ServicesTracking
- */
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+use ILIAS\Tracking\DB\Factory as TrackingDBFactory;
+
 class ilLPStatusPlugin extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_plugin';
+    protected const string LNG_TEXT_INFO = '';
+    protected ilLanguage $lng;
+
     /**
-     * Get ilObjectPlugin for object id
-     * @param int $a_obj_id
-     * @return ilObjectPlugin|int
      * @todo refactor return type
      */
-    protected static function initPluginObj(int $a_obj_id)
+    protected static function initPluginObj(int $a_obj_id): ilObjectPlugin|int
     {
         $olp = ilObjectLP::getInstance($a_obj_id);
         return $olp->getPluginInstance();
@@ -50,7 +50,7 @@ class ilLPStatusPlugin extends ilLPStatus
                 );
             }
         }
-        return array();
+        return [];
     }
 
     public static function _getInProgress(int $a_obj_id): array
@@ -67,7 +67,7 @@ class ilLPStatusPlugin extends ilLPStatus
                 );
             }
         }
-        return array();
+        return [];
     }
 
     public static function _getCompleted(int $a_obj_id): array
@@ -84,7 +84,7 @@ class ilLPStatusPlugin extends ilLPStatus
                 );
             }
         }
-        return array();
+        return [];
     }
 
     public static function _getFailed(int $a_obj_id): array
@@ -101,7 +101,7 @@ class ilLPStatusPlugin extends ilLPStatus
                 );
             }
         }
-        return array();
+        return [];
     }
 
     public function determineStatus(
@@ -142,53 +142,22 @@ class ilLPStatusPlugin extends ilLPStatus
         return 0;
     }
 
-    /**
-     * Read existing LP status data
-     */
     protected static function getLPStatusData(
         int $a_obj_id,
         int $a_status
     ): array {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $all = array();
-        $set = $ilDB->query(
-            "SELECT usr_id" .
-            " FROM ut_lp_marks" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND status = " . $ilDB->quote($a_status, "integer")
-        );
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $all[] = (int) $row["usr_id"];
-        }
-        return $all;
+        return (new TrackingDBFactory($DIC->database()))->lpMarks()->repository()->readAllEntriesWithStatusOfObject($a_obj_id, $a_status)
+            ->asUserIdArray();
     }
 
-    /**
-     * Read existing LP status data for user
-     */
     protected static function getLPDataForUser(
         int $a_obj_id,
         int $a_user_id
     ): int {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $set = $ilDB->query(
-            "SELECT status" .
-            " FROM ut_lp_marks" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
-        );
-        $row = $ilDB->fetchAssoc($set);
-        $status = $row["status"];
-        if (!$status) {
-            $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        }
-        return $status;
+        $lp_mark = (new TrackingDBFactory($DIC->database()))->lpMarks()->repository()->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        return is_null($lp_mark) ? self::LP_STATUS_NOT_ATTEMPTED_NUM : $lp_mark->getStatus();
     }
 
     protected static function getPercentageForUser(
@@ -196,16 +165,28 @@ class ilLPStatusPlugin extends ilLPStatus
         int $a_user_id
     ): int {
         global $DIC;
+        $lp_mark = (new TrackingDBFactory($DIC->database()))->lpMarks()->repository()->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        return is_null($lp_mark) ? 0 : $lp_mark->getPercentage();
+    }
 
-        $ilDB = $DIC['ilDB'];
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
 
-        $set = $ilDB->query(
-            "SELECT percentage" .
-            " FROM ut_lp_marks" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
-        );
-        $row = $ilDB->fetchAssoc($set);
-        return (int) ($row["percentage"] ?? 0);
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_PLUGIN;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

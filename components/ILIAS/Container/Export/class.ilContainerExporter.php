@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Container\Sorting\Export\DataSet as SortingDataSet;
+
 /**
  * container structure export
  *
@@ -25,15 +27,20 @@ class ilContainerExporter extends ilXmlExporter
 {
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
+    protected SortingDataSet $sorting_data_set;
+
     public function __construct()
     {
         global $DIC;
-        $this->content_style_domain = $DIC->contentStyle()
-            ->domain();
+
+        $this->content_style_domain = $DIC->contentStyle()->domain();
+        $this->sorting_data_set = $DIC->container()->internal()->domain()->sorting()->dataSet();
     }
 
     public function init(): void
     {
+        $this->sorting_data_set->initByExporter($this);
+        $this->sorting_data_set->setDSPrefix("ds");
     }
 
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
@@ -117,6 +124,18 @@ class ilContainerExporter extends ilXmlExporter
             "ids" => $a_ids
         ];
 
+        // sorting
+        $res[] = [
+            "component" => "components/ILIAS/Container",
+            "entity" => "sorting",
+            "ids" => $a_ids
+        ];
+        $res[] = [
+            "component" => "components/ILIAS/Container",
+            "entity" => "sorting_settings",
+            "ids" => $a_ids
+        ];
+
         return $res;
     }
 
@@ -124,13 +143,22 @@ class ilContainerExporter extends ilXmlExporter
     {
         global $DIC;
 
-        $log = $DIC->logger()->root();
+        $log = $DIC->logger()->forComponent('exp');
         if ($a_entity === 'struct') {
             $log->debug(__METHOD__ . ': Received id = ' . $a_id);
             $ref_ids = ilObject::_getAllReferences((int) $a_id);
             $writer = new ilContainerXmlWriter(end($ref_ids));
             $writer->write();
             return $writer->xmlDumpMem(false);
+        } elseif ($a_entity === 'sorting' || $a_entity === 'sorting_settings') {
+            return $this->sorting_data_set->getXmlRepresentation(
+                $a_entity,
+                $a_schema_version,
+                [$a_id],
+                '',
+                true,
+                true
+            );
         }
         return "";
     }
@@ -143,14 +171,33 @@ class ilContainerExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return [
-            "4.1.0" => [
-                "namespace" => "https://www.ilias.de/Modules/Folder/fold/4_1",
-                "xsd_file" => "ilias_fold_4_1.xsd",
-                "uses_dataset" => false,
-                "min" => "4.1.0",
-                "max" => ""
-            ]
-        ];
+        if ($a_entity === "struct") {
+            return [
+                "4.1.0" => [
+                    "namespace" => "https://www.ilias.de/Modules/Folder/fold/4_1",
+                    "xsd_file" => "ilias_fold_4_1.xsd",
+                    "uses_dataset" => false,
+                    "min" => "4.1.0",
+                    "max" => ""
+                ]
+            ];
+        } elseif ($a_entity === "sorting") {
+            return [
+                "12.0" => [
+                    "uses_dataset" => true,
+                    "min" => "12.0",
+                    "max" => ""
+                ]
+            ];
+        } elseif ($a_entity === "sorting_settings") {
+            return [
+                "12.0" => [
+                    "uses_dataset" => true,
+                    "min" => "12.0",
+                    "max" => ""
+                ]
+            ];
+        }
+        return [];
     }
 }

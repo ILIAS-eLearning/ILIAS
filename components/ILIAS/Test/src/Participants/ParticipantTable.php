@@ -69,6 +69,14 @@ class ParticipantTable implements DataRetrieval
      */
     public function getComponents(URLBuilder $url_builder, string $filter_url): array
     {
+        $summary_information = $this->ui_factory->listing()->property()
+            ->withProperty(
+                $this->lng->txt('tst_stat_result_total_participants'),
+                (string) $this->repository->countParticipants(
+                    $this->test_object->getTestId(),
+                    null
+                )
+            );
         $filter = $this->getFilterComponent($filter_url, $this->test_request->getRequest());
         $table = $this->getTableComponent(
             $this->test_request->getRequest(),
@@ -76,6 +84,7 @@ class ParticipantTable implements DataRetrieval
         );
 
         return [
+            $summary_information,
             $filter,
             $table->withActions($this->table_actions->getEnabledActions(...$this->acquireParameters($url_builder)))
         ];
@@ -151,7 +160,7 @@ class ParticipantTable implements DataRetrieval
                     $record->getAttemptOverviewInformation()?->getNrOfAnsweredQuestions(),
                     $record->getAttemptOverviewInformation()?->getNrOfTotalQuestions()
                 );
-                $row['percent_of_available_points'] = $record->getAttemptOverviewInformation()?->getReachedPointsInPercent();
+                $row['percent_of_available_points'] = $record->getAttemptOverviewInformation()?->getReachedPointsInPercent() ?? 0.0;
             }
 
             if ($status_of_attempt->isFinished()) {
@@ -349,8 +358,8 @@ class ParticipantTable implements DataRetrieval
             ->table()
             ->data(
                 $this,
-                $this->lng->txt('list_of_participants'),
-                $this->getColumns(),
+                '',
+                $this->getColumns()
             )
             ->withId(self::ID)
             ->withRequest($request)

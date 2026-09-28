@@ -107,4 +107,20 @@ class GUIService
         );
     }
 
+    public function imageMapTableBuilder(
+        \ilPCInteractiveImage|\ilPCMediaObject $content_obj,
+        string $parent_node_name,
+        object $parent_gui,
+        string $parent_cmd
+    ): MediaObject\ImageMapTableBuilder {
+        return new MediaObject\ImageMapTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $content_obj,
+            $parent_node_name,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
 }

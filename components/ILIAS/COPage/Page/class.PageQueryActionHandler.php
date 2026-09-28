@@ -20,6 +20,7 @@ namespace ILIAS\COPage\Page;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
+use ILIAS\COPage\PC\Table\TableStyleSelector;
 use ParagraphStyleSelector;
 use SectionStyleSelector;
 use MediaObjectStyleSelector;
@@ -540,6 +541,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $tpl->setVariable("TXT_PAR", $lng->txt("cont_choose_characteristic_text"));
         $tpl->setVariable("TXT_SECTION", $lng->txt("cont_choose_characteristic_section"));
         $tpl->setVariable("TXT_MEDIA", $lng->txt("cont_media"));
+        $tpl->setVariable("TXT_TABLE", $lng->txt("cont_table"));
 
         $par_sel = new ParagraphStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
         $tpl->setVariable("PAR_SELECTOR", $ui->renderer()->renderAsync($par_sel->getStyleSelector(" ", "format", "format.paragraph", "format")));
@@ -549,6 +551,14 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         $med_sel = new MediaObjectStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
         $tpl->setVariable("MEDIA_SELECTOR", $ui->renderer()->renderAsync($med_sel->getStyleSelector(" ", "format", "format.media", "format")));
+
+        $tab_sel = new TableStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
+        $tpl->setVariable("TABLE_SELECTOR", $ui->renderer()->renderAsync($tab_sel->getStyleSelector(" ", "format", "format.table", "format")));
+
+        $tpl->setVariable(
+            "FORMAT_ERROR",
+            $this->ui_wrapper->getRenderedInfoBox($lng->txt("cont_cp_question_diff_formats_info"))
+        );
 
         $tpl->setVariable(
             "SAVE_BUTTON",

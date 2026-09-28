@@ -46,4 +46,32 @@ class GUIService
             $this->domain_service->refinery()
         );
     }
+
+    public function subtitleTableBuilder(
+        \ilObjMediaObject $media_object,
+        object $parent_gui,
+        string $parent_cmd
+    ): TableBuilder {
+        return new TableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $media_object,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function multiSrtConfirmationTableBuilder(
+        \ilMobMultiSrtUpload $multi_srt,
+        object $parent_gui,
+        string $parent_cmd
+    ): MultiSrtConfirmationTableBuilder {
+        return new MultiSrtConfirmationTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $multi_srt,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
  * Class ilTestCtrlForwarder
@@ -38,7 +38,7 @@ class ilAssQuestionPageCommandForwarder
         private readonly ilLanguage $lng,
         private readonly ilCtrlInterface $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly ContentStyle $content_style,
         private readonly RequestDataCollector $testrequest
     ) {
         $this->question_id = $this->testrequest->getQuestionId();
@@ -50,12 +50,10 @@ class ilAssQuestionPageCommandForwarder
             $this->ctrl->setParameter($this, 'prev_qid', $this->testrequest->raw('prev_qid'));
         }
 
-        $this->tpl->setCurrentBlock("ContentStyle");
-        $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
+        $this->content_style->gui()->addCss(
+            $this->tpl,
+            $this->test_obj->getRefId()
         );
-        $this->tpl->parseCurrentBlock();
 
         // syntax style
         $this->tpl->setCurrentBlock("SyntaxStyle");
@@ -95,6 +93,12 @@ class ilAssQuestionPageCommandForwarder
             $question->getTitle()
             . ' [' . $this->lng->txt('question_id_short')
             . ': ' . $question->getId() . ']'
+        );
+        $page_gui->setStyleId(
+            $this->content_style
+                ->domain()
+                ->styleForRefId($this->test_obj->getRefId())
+                ->getEffectiveStyleId()
         );
 
         $html = $this->ctrl->forwardCommand($page_gui);

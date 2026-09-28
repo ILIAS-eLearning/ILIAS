@@ -27,20 +27,24 @@ class DomainService
 {
     protected LegacyArchives $legacy_archives;
     protected Archives $archives;
+    protected \ilFileServicesSettings $file_service_settings;
 
     public function __construct(
         Archives $archives,
-        LegacyArchives $legacy_archives
+        LegacyArchives $legacy_archives,
+        \ilFileServicesSettings $file_service_settings
     ) {
         $this->archives = $archives;
         $this->legacy_archives = $legacy_archives;
+        $this->file_service_settings = $file_service_settings;
     }
 
     public function zip(): ZipAdapter
     {
         return new ZipAdapter(
             $this->archives,
-            $this->legacy_archives
+            $this->legacy_archives,
+            $this->file_service_settings
         );
     }
 }

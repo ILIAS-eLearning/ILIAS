@@ -115,6 +115,7 @@ export default class PageModel {
       sectionFormat: '',
       paragraphFormat: '',
       mediaFormat: '',
+      tableFormat: '',
       addedSection: false,
       pasting: false,
       autoSavedPCID: null,
@@ -470,6 +471,14 @@ export default class PageModel {
 
   getParagraphFormat() {
     return this.model.paragraphFormat;
+  }
+
+  setTableFormat(format) {
+    this.model.tableFormat = format;
+  }
+
+  getTableFormat() {
+    return this.model.tableFormat;
   }
 
   setSplitPCIds(splitIds) {

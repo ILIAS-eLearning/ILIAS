@@ -667,7 +667,7 @@ class ilUtil
                 $a_str
             );
             if ($old_str == $a_str) {
-                $ilLog->write(
+                $ilLog->info(
                     "ilUtil::maskA-" . htmlentities($old_str) . " == " .
                     htmlentities($a_str)
                 );
@@ -700,7 +700,7 @@ class ilUtil
                 $a_str
             );
             if ($old_str == $a_str) {
-                $ilLog->write(
+                $ilLog->info(
                     "ilUtil::unmaskA-" . htmlentities($old_str) . " == " .
                     htmlentities($a_str)
                 );

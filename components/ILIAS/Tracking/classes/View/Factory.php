@@ -25,12 +25,11 @@ use ILIAS\DI\UIServices;
 use ILIAS\Tracking\View\DataRetrieval\Factory as DataRetrievalFactory;
 use ILIAS\Tracking\View\DataRetrieval\FactoryInterface as DataRetrievalFactoryInterface;
 use ILIAS\Tracking\View\FactoryInterface as ViewFactoryInterface;
-use ILIAS\Tracking\View\PropertyList\FactoryInterface as PropertyListFactoryInterface;
-use ILIAS\Tracking\View\PropertyList\Factory as PropertyListFactory;
-use ILIAS\Tracking\View\Renderer\FactoryInterface as RendererFactoryInterface;
-use ILIAS\Tracking\View\Renderer\Factory as RendererFactory;
-use ILIAS\Tracking\View\ProgressBlock\FactoryInterface as ProgressBlockFactoryInterface;
 use ILIAS\Tracking\View\ProgressBlock\Factory as ProgressBlockFactory;
+use ILIAS\Tracking\View\PropertyList\Factory as PropertyListFactory;
+use ILIAS\Tracking\View\PropertyList\FactoryInterface as PropertyListFactoryInterface;
+use ILIAS\Tracking\View\Renderer\Factory as RendererFactory;
+use ILIAS\Tracking\View\Renderer\FactoryInterface as RendererFactoryInterface;
 
 class Factory implements ViewFactoryInterface
 {

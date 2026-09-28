@@ -22,6 +22,8 @@ use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRe
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 use ILIAS\LearningModule\Media\PageRetrieval;
 use ILIAS\LearningModule\Question\Usage\TableBuilder as QuestionUsageTableBuilder;
+use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Table\TableAdapterGUI;
 
 /**
  * Class ilObjContentObjectGUI
@@ -225,7 +227,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $this->addLocations();
                 $this->setTabs("learning_progress");
-
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->lm->getRefId());
                 $this->ctrl->forwardCommand($new_gui);
 
@@ -970,18 +971,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         $ilToolbar->addFormButton($this->lng->txt("add_menu_entry"), "addMenuEntry");
-        $ilToolbar->setCloseFormTag(false);
 
         $form = $this->initMenuForm();
-        $form->setOpenTag(false);
-        $form->setCloseTag(false);
 
-        $this->__initLMMenuEditor();
-        $entries = $this->lmme_obj->getMenuEntries();
-        $table = new ilLMMenuItemsTableGUI($this, "editMenuProperties", $this->lmme_obj);
-        $table->setOpenFormTag(false);
+        $table = $this->getMenuItemsTable();
 
-        $tpl->setContent($form->getHTML() . "<br />" . $table->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($form->getHTML() . "<br />" . $table->render());
     }
 
     public function saveMenuProperties(): void
@@ -995,9 +994,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->setHideHeaderFooterPrint((int) $form->getInput("hide_head_foot_print"));
             $this->lm->updateProperties();
         }
-
-        $this->__initLMMenuEditor();
-        $this->lmme_obj->updateActiveStatus($this->edit_request->getMenuEntries());
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editMenuProperties");
@@ -1037,9 +1033,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * confirm deletion screen for free pages (other usages do not apply anymore)
      */
-    public function delete(int $a_parent_subobj_id = 0): void
-    {
-        $ids = $this->edit_request->getIds();
+    public function delete(
+        int $a_parent_subobj_id = 0,
+        ?int $page_id = null
+    ): void {
+        $ids = $page_id === null
+            ? $this->edit_request->getIds()
+            : [$page_id];
 
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
@@ -1081,6 +1081,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
 
         $this->tpl->setContent($cgui->getHTML());
+    }
+
+    public function deletePage(int $id): void
+    {
+        $this->delete(0, $id);
     }
 
     public function cancelDelete(): void
@@ -1236,8 +1241,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
         $ilCtrl->setParameterByClass("illmpageobjectgui", "new_type", "");
 
-        $t = new ilLMPagesTableGUI($this, "pages", $this->lm);
-        $tpl->setContent($t->getHTML());
+        $table = $this->gui->editing()->pagesTableBuilder(
+            $this->lm,
+            $this,
+            "pages"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -1250,14 +1264,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->setTabs();
         $this->setContentSubTabs("internal_links");
 
-        $table_gui = new ilLinksTableGUI(
-            $this,
-            "listLinks",
+        $table = $this->gui->linksTableBuilder(
             $this->lm->getId(),
-            $this->lm->getType()
-        );
+            $this->lm->getType(),
+            $this,
+            "listLinks"
+        )->getTable();
 
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -1279,9 +1297,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * activates or deactivates pages
      */
-    public function activatePages(): void
+    public function activatePages(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         foreach ($ids as $id) {
             $act = ilLMPage::_lookupActive($id, $this->lm->getType());
             ilLMPage::_writeActive($id, $this->lm->getType(), !$act);
@@ -1293,7 +1311,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * paste page
      */
-    public function pastePage(): void
+    public function pastePage(int $id = 0): void
     {
         if (ilEditClipboard::getContentObjectType() != "pg") {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_page_in_clipboard"), true);
@@ -1347,9 +1365,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "pages");
     }
 
-    public function copyPage(): void
+    public function copyPage(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->ctrl->redirect($this, "pages");
@@ -1475,9 +1493,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->insertChapterClip();
     }
 
-    public function movePage(): void
+    public function movePage(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "pages");
@@ -1612,8 +1630,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->setTabs("questions");
         $this->setQuestionsSubTabs("question_stats");
 
-        $table = new ilLMQuestionListTableGUI($this, "listQuestions", $this->lm);
-        $tpl->setContent($table->getHTML());
+        $table = $this->gui->questionStatisticsTableBuilder(
+            $this->lm->getId(),
+            $this,
+            "listQuestions"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     public function listQuestionUsages(): void
@@ -1640,16 +1665,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->setTabs("questions");
         $this->setQuestionsSubTabs("blocked_users");
 
-        $table = new ilLMBlockedUsersTableGUI($this, "listBlockedUsers", $this->lm);
-        $tpl->setContent($table->getHTML());
+        $table = $this->gui->blockedUsersTableBuilder(
+            $this->lm->getRefId(),
+            $this,
+            "listBlockedUsers"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
-    public function resetNumberOfTries(): void
+    public function resetNumberOfTries(string|array $user_q_ids = []): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        $user_q_ids = $this->normalizeBlockedUserIds($user_q_ids);
         if (count($user_q_ids) > 0) {
             foreach ($user_q_ids as $uqid) {
                 $uqid = explode(":", $uqid);
@@ -1660,12 +1692,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    public function unlockQuestion(): void
+    public function unlockQuestion(string|array $user_q_ids = []): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        $user_q_ids = $this->normalizeBlockedUserIds($user_q_ids);
         if (count($user_q_ids) > 0) {
             foreach ($user_q_ids as $uqid) {
                 $uqid = explode(":", $uqid);
@@ -1676,11 +1708,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    public function sendMailToBlockedUsers(): void
+    public function sendMailToBlockedUsers(string|array $user_q_ids = []): void
     {
         $ilCtrl = $this->ctrl;
 
-        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        $user_q_ids = $this->normalizeBlockedUserIds($user_q_ids);
         if (count($user_q_ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), 1);
             $ilCtrl->redirect($this, "listBlockedUsers");
@@ -1704,6 +1736,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 'sig' => $this->getBlockedUsersMailSignature()
             )
         ));
+    }
+
+    protected function normalizeBlockedUserIds(string|array $user_q_ids): array
+    {
+        if (is_string($user_q_ids)) {
+            $user_q_ids = $user_q_ids === "" ? [] : [$user_q_ids];
+        }
+        return $user_q_ids;
     }
 
     protected function getBlockedUsersMailSignature(): string
@@ -2074,7 +2114,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         if ($a_mode == "edit") {
             $this->__initLMMenuEditor();
-            $this->lmme_obj->readEntry($this->edit_request->getMenuEntry());
+            $this->lmme_obj->readEntry($this->requested_menu_entry);
             $ti->setValue($this->lmme_obj->getTitle());
             $ta->setValue($this->lmme_obj->getTarget());
         }
@@ -2135,19 +2175,93 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function deleteMenuEntry(): void
+    protected function getMenuItemsTable(): TableAdapterGUI
     {
-        if (empty($this->requested_menu_entry)) {
+        $this->__initLMMenuEditor();
+        return $this->gui->editing()->menuItemsTableBuilder(
+            $this->lmme_obj->getMenuEntries(),
+            $this,
+            "editMenuProperties"
+        )->getTable();
+    }
+
+    protected function getMenuEntryData(int $id): ?array
+    {
+        $this->__initLMMenuEditor();
+        foreach ($this->lmme_obj->getMenuEntries() as $entry) {
+            if ((int) $entry["id"] === $id) {
+                return $entry;
+            }
+        }
+        return null;
+    }
+
+    public function confirmDeleteMenuEntry(int $id): void
+    {
+        $entry = $this->getMenuEntryData($id);
+        if ($entry === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
             $this->ctrl->redirect($this, "editMenuProperties");
+            return;
         }
 
-        $this->__initLMMenuEditor();
-        $this->lmme_obj->delete($this->requested_menu_entry);
+        $this->getMenuItemsTable()->renderDeletionConfirmation(
+            $this->lng->txt("delete"),
+            $this->lng->txt("info_delete_sure"),
+            "confirmedDeleteMenuEntry",
+            [$id => (string) $entry["title"]]
+        );
+    }
+
+    public function confirmedDeleteMenuEntry(): void
+    {
+        $table = $this->getMenuItemsTable();
+        $ids = $table->getItemIds();
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
+            return;
+        }
+
+        $valid_ids = [];
+        foreach ($ids as $id) {
+            if ($this->getMenuEntryData((int) $id) !== null) {
+                $valid_ids[] = (int) $id;
+            }
+        }
+        if ($valid_ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
+            return;
+        }
+
+        foreach ($valid_ids as $id) {
+            $this->lmme_obj->delete($id);
+        }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_entry_removed"), true);
         $this->ctrl->redirect($this, "editMenuProperties");
     }
+
+    public function activateMenuEntry(int $id): void
+    {
+        ilLMMenuEditor::writeActive($id, true);
+        $this->ctrl->redirect($this, "editMenuProperties");
+    }
+
+    public function deactivateMenuEntry(int $id): void
+    {
+        ilLMMenuEditor::writeActive($id, false);
+        $this->ctrl->redirect($this, "editMenuProperties");
+    }
+
+    public function editMenuEntryFromTable(int $id): void
+    {
+        $this->requested_menu_entry = $id;
+        $this->ctrl->setParameter($this, "menu_entry", $id);
+        $this->editMenuEntry();
+    }
+
 
     public function editMenuEntry(?ilPropertyFormGUI $form = null): void
     {
@@ -2182,13 +2296,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         $form = $this->initMenuEntryForm("edit");
         if ($form->checkInput()) {
-            if ($this->edit_request->getMenuEntry() == "") {
+            if (empty($this->requested_menu_entry)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
                 $this->ctrl->redirect($this, "editMenuProperties");
+                return;
             }
 
             $this->__initLMMenuEditor();
-            $this->lmme_obj->readEntry($this->edit_request->getMenuEntry());
+            $this->lmme_obj->readEntry($this->requested_menu_entry);
             $this->lmme_obj->setTitle($form->getInput("title"));
             $this->lmme_obj->setTarget($form->getInput("target"));
             if ($form->getInput("link_ref_id")) {
@@ -2237,9 +2352,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * select page as header
      */
-    public function selectHeader(): void
+    public function selectHeader(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "pages");
@@ -2260,9 +2375,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * select page as footer
      */
-    public function selectFooter(): void
+    public function selectFooter(int $id = 0): void
     {
-        $ids = $this->edit_request->getIds();
+        $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "pages");
@@ -2420,12 +2535,35 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilToolbar->addInputItem($si, true);
             $ilToolbar->addFormButton($lng->txt("help_filter"), "filterHelpChapters");
 
-            $tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation);
+            $tbl = $this->getHelpMappingTable();
+            if ($tbl->handleCommand()) {
+                return;
+            }
+            $tpl->setContent($tbl->render());
+            return;
         } else {
-            $tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation, false);
+            $tbl = $this->gui->editing()->exportIdsTableBuilder(
+                $this->lm->getId(),
+                $this,
+                "showExportIDsOverview"
+            )->getTable();
+            if ($tbl->handleCommand()) {
+                return;
+            }
+            $tpl->setContent($tbl->render());
+            return;
         }
 
-        $tpl->setContent($tbl->getHTML());
+    }
+
+    protected function getHelpMappingTable(): TableAdapterGUI
+    {
+        return $this->gui->editing()->helpMappingTableBuilder(
+            $this->lm,
+            (int) ilSession::get("help_chap"),
+            $this,
+            "showExportIDsOverview"
+        )->getTable();
     }
 
     public function filterHelpChapters(): void
@@ -2435,55 +2573,124 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "showExportIDsOverview");
     }
 
-    public function saveExportIds(): void
+    public function editExportId(int $id): void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("cont_export_id"))
+            ->form($this->getExportIdForm($id))
+            ->send();
+    }
 
-        // check all export ids
-        $ok = true;
-        foreach ($this->edit_request->getExportIds() as $exp_id) {
-            if ($exp_id != "" && !preg_match(
-                "/^([a-zA-Z]+)[0-9a-zA-Z_]*$/",
-                trim($exp_id)
-            )) {
-                $ok = false;
-            }
-        }
-        if (!$ok) {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_exp_ids_not_resp_format1") . ": a-z, A-Z, 0-9, '_'. " .
-                $lng->txt("cont_exp_ids_not_resp_format3") . " " .
-                $lng->txt("cont_exp_ids_not_resp_format2"));
-            $this->showExportIDsOverview(true);
+    protected function getExportIdForm(int $id): FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "id", $id);
+        $form = $this->gui->form([ilLMEditorGUI::class, $this::class], "saveExportId")
+            ->text(
+                "exportid",
+                $this->lng->txt("cont_export_id"),
+                "",
+                ilLMPageObject::getExportId(
+                    $this->lm->getId(),
+                    $id,
+                    ilLMObject::_lookupType($id)
+                )
+            );
+
+        return $form;
+    }
+
+    public function saveExportId(): void
+    {
+        $id = $this->edit_request->getExportIdPageId();
+        $form = $this->getExportIdForm($id);
+        if (!$form->isValid()) {
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("cont_export_id"))
+                ->form($form)
+                ->send();
             return;
         }
 
-
-        foreach ($this->edit_request->getExportIds() as $pg_id => $exp_id) {
-            ilLMPageObject::saveExportId(
-                $this->lm->getId(),
-                $pg_id,
-                ilUtil::stripSlashes($exp_id),
-                ilLMObject::_lookupType($pg_id)
+        $exp_id = ilUtil::stripSlashes((string) $form->getData("exportid"));
+        if ($exp_id !== "" && !preg_match(
+            "/^([a-zA-Z]+)[0-9a-zA-Z_]*$/",
+            trim($exp_id)
+        )) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("cont_exp_ids_not_resp_format1") . ": a-z, A-Z, 0-9, '_'. " .
+                $this->lng->txt("cont_exp_ids_not_resp_format3") . " " .
+                $this->lng->txt("cont_exp_ids_not_resp_format2")
             );
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("cont_export_id"))
+                ->form($form)
+                ->send();
+            return;
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_saved_export_ids"), true);
-        $ilCtrl->redirect($this, "showExportIdsOverview");
+        ilLMPageObject::saveExportId(
+            $this->lm->getId(),
+            $id,
+            $exp_id,
+            ilLMObject::_lookupType($id)
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_saved_export_ids"), true);
+        $this->ctrl->redirect($this, "showExportIDsOverview");
     }
 
     public function saveHelpMapping(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $help_map = $this->help->internal()->domain()->map();
-
-        foreach ($this->edit_request->getScreenIds() as $chap => $ids) {
-            $ids = explode("\n", $ids);
-            $help_map->saveScreenIdsForChapter($chap, $ids);
+        $id = $this->edit_request->getEditId();
+        if ($id <= 0 || ilLMObject::_lookupContObjID($id) !== $this->lm->getId()) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showExportIDsOverview");
+            return;
         }
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        $ilCtrl->redirect($this, "showExportIdsOverview");
+
+        $form = $this->getHelpMappingForm($id);
+        if (!$form->isValid()) {
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("cont_screen_ids"))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        $help_map = $this->help->internal()->domain()->map();
+        $ids = explode("\n", (string) $form->getData("screen_ids"));
+        $help_map->saveScreenIdsForChapter($id, $ids);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "showExportIDsOverview");
+    }
+
+    public function editHelpMapping(int $id): void
+    {
+        if ($id <= 0 || ilLMObject::_lookupContObjID($id) !== $this->lm->getId()) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showExportIDsOverview");
+            return;
+        }
+
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("cont_screen_ids"))
+            ->form($this->getHelpMappingForm($id))
+            ->send();
+    }
+
+    protected function getHelpMappingForm(int $id): FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "edit_id", $id);
+        $screen_ids = $this->help->internal()->domain()->map()->getScreenIdsOfChapter($id);
+
+        return $this->gui->form([ilLMEditorGUI::class, $this::class], "saveHelpMapping")
+            ->textarea(
+                "screen_ids",
+                $this->lng->txt("cont_screen_ids"),
+                "",
+                implode("\n", $screen_ids)
+            );
     }
 
     ////
@@ -2518,9 +2725,130 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
 
-        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", (string) ilSession::get("help_tt_comp"));
+        $tbl = $this->gui->helpTooltipTableBuilder(
+            (string) ilSession::get("help_tt_comp"),
+            $this,
+            "showTooltipList"
+        )->getTable();
 
-        $tpl->setContent($tbl->getHTML());
+        if ($tbl->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($tbl->render());
+    }
+
+    protected function getTooltipTable(): TableAdapterGUI
+    {
+        return $this->gui->helpTooltipTableBuilder(
+            (string) ilSession::get("help_tt_comp"),
+            $this,
+            "showTooltipList"
+        )->getTable();
+    }
+
+    protected function getTooltip(int $id): ?array
+    {
+        $component = (string) ilSession::get("help_tt_comp");
+        foreach ($this->help->internal()->domain()->tooltips()->getAllTooltips($component) as $tooltip) {
+            if ((int) $tooltip["id"] === $id) {
+                return $tooltip;
+            }
+        }
+
+        return null;
+    }
+
+    public function editTooltip(int $id): void
+    {
+        if ($this->getTooltip($id) === null) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showTooltipList");
+            return;
+        }
+
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("edit"))
+            ->form($this->getTooltipForm($id))
+            ->send();
+    }
+
+    protected function getTooltipForm(int $id): FormAdapterGUI
+    {
+        $tooltip = $this->getTooltip($id) ?? ["tt_id" => "", "text" => ""];
+        $this->ctrl->setParameter($this, "edit_id", $id);
+
+        return $this->gui->form([ilLMEditorGUI::class, $this::class], "saveTooltip")
+            ->text(
+                "tt_id",
+                $this->lng->txt("help_tooltip_id"),
+                "",
+                (string) $tooltip["tt_id"],
+                200
+            )
+            ->textarea(
+                "text",
+                $this->lng->txt("help_tt_text"),
+                "",
+                (string) $tooltip["text"]
+            );
+    }
+
+    public function saveTooltip(): void
+    {
+        $id = $this->edit_request->getEditId();
+        if ($this->getTooltip($id) === null) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showTooltipList");
+            return;
+        }
+
+        $form = $this->getTooltipForm($id);
+        if (!$form->isValid()) {
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("edit"))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        $this->help->internal()->domain()->tooltips()->updateTooltip(
+            $id,
+            (string) $form->getData("text"),
+            (string) $form->getData("tt_id")
+        );
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "showTooltipList");
+    }
+
+    public function deleteTooltip(int $id): void
+    {
+        $tooltip = $this->getTooltip($id);
+        if ($tooltip === null) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "showTooltipList");
+            return;
+        }
+
+        $this->getTooltipTable()->renderDeletionConfirmation(
+            $this->lng->txt("delete"),
+            $this->lng->txt("info_delete_sure"),
+            "confirmedDeleteTooltip",
+            [$id => (string) $tooltip["tt_id"]]
+        );
+    }
+
+    public function confirmedDeleteTooltip(): void
+    {
+        $ids = $this->getTooltipTable()->getItemIds();
+        foreach ($ids as $id) {
+            if ($this->getTooltip((int) $id) !== null) {
+                $this->help->internal()->domain()->tooltips()->deleteTooltip((int) $id);
+            }
+        }
+
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "showTooltipList");
     }
 
     public function addTooltip(): void
@@ -2555,37 +2883,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "showTooltipList");
     }
 
-    public function saveTooltips(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $tooltip_ids = $this->edit_request->getTooltipIds();
-        foreach ($this->edit_request->getTooltipTexts() as $id => $text) {
-            $this->help->internal()->domain()->tooltips()->updateTooltip(
-                (int) $id,
-                $text,
-                $tooltip_ids[(int) $id]
-            );
-        }
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        $ilCtrl->redirect($this, "showTooltipList");
-    }
-
-    public function deleteTooltips(): void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $ids = $this->edit_request->getIds();
-        if (count($ids) > 0) {
-            foreach ($ids as $id) {
-                $this->help->internal()->domain()->tooltips()->deleteTooltip($id);
-            }
-            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        }
-        $ilCtrl->redirect($this, "showTooltipList");
-    }
 
     ////
     //// Set layout
@@ -2641,36 +2938,43 @@ class ilObjContentObjectGUI extends ilObjectGUI
      * Set layout for multiple pages
      */
     public function setPageLayout(
-        bool $a_in_hierarchy = false
+        int|bool $a_in_hierarchy = false
     ): void {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->edit_request->getIds();
+        $is_in_hierarchy = is_bool($a_in_hierarchy)
+            ? $a_in_hierarchy
+            : false;
+        $ids = is_int($a_in_hierarchy) && $a_in_hierarchy > 0
+            ? [$a_in_hierarchy]
+            : $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
 
-            if ($a_in_hierarchy) {
+            if ($is_in_hierarchy) {
                 $ilCtrl->redirect($this, "chapters");
             } else {
                 $ilCtrl->redirect($this, "pages");
             }
         }
 
-        $this->initSetPageLayoutForm();
+        $this->initSetPageLayoutForm($ids);
 
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initSetPageLayoutForm(): void
+    public function initSetPageLayoutForm(array $ids = []): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $this->form = new ilPropertyFormGUI();
 
-        $ids = $this->edit_request->getIds();
+        if (count($ids) === 0) {
+            $ids = $this->edit_request->getIds();
+        }
         foreach ($ids as $id) {
             $hi = new ilHiddenInputGUI("id[]");
             $hi->setValue($id);
@@ -2738,9 +3042,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilCtrl->getLinkTarget($this, "showLMGlossarySelector")
         );
 
-        $tab = new ilLMGlossaryTableGUI($this->lm, $this, "editGlossaries");
+        $table = $this->getGlossariesTable();
 
-        $tpl->setContent($tab->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
+    }
+
+    protected function getGlossariesTable(): TableAdapterGUI
+    {
+        return $this->gui->editing()->glossariesTableBuilder(
+            $this->lm,
+            $this,
+            "editGlossaries"
+        )->getTable();
     }
 
     public function showLMGlossarySelector(): void
@@ -2808,12 +3125,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editGlossaries");
     }
 
+    public function confirmRemoveLMGlossary(int $glo_id): void
+    {
+        $this->getGlossariesTable()->renderDeletionConfirmation(
+            $this->lng->txt("remove"),
+            $this->lng->txt("info_delete_sure"),
+            "removeLMGlossary",
+            [$glo_id => ilObject::_lookupTitle($glo_id)]
+        );
+    }
+
     public function removeLMGlossary(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $this->lm->removeAutoGlossary($this->requested_glo_id);
+        foreach ($this->getGlossariesTable()->getItemIds() as $glo_id) {
+            $this->lm->removeAutoGlossary((int) $glo_id);
+        }
         $this->lm->update();
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

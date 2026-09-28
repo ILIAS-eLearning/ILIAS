@@ -328,7 +328,7 @@ class assClozeTestImport extends assQuestionImport
             foreach (ilSession::get('import_mob_xhtml') as $mob) {
                 $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob['uri'];
                 global $DIC;
-                $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
+                $DIC['ilLog']->info('import mob from dir: ' . $importfile);
 
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 $questiontext = str_replace('src="' . $mob['mob'] . '"', 'src="' . 'il_' . IL_INST_ID . '_mob_' . $media_object->getId() . '"', $questiontext);

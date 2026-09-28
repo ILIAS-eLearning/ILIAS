@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -50,7 +52,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 
         // values
         if ($this->object->getMaxChars() > 0) {
-            $maxchars->setValue($this->object->getMaxChars());
+            $maxchars->setValue((string) $this->object->getMaxChars());
         }
     }
 
@@ -66,7 +68,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
     ): array {
         $res = array();
         if (is_array($a_working_data) && isset($a_working_data[0])) {
-            $res[] = array("textanswer" => trim($a_working_data[0]["textanswer"] ?? ""));
+            $res[] = array("textanswer" => trim((string) ($a_working_data[0]["textanswer"] ?? "")));
         }
 
         return $res;
@@ -93,7 +95,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
         $template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-        if (is_array($working_data) && trim($user_answer)) {
+        if (is_array($working_data) && trim((string) $user_answer)) {
             $template->setVariable("TEXT", nl2br($user_answer));
         } else {
             $template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
@@ -125,7 +127,10 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 
         $template->setCurrentBlock("textarea");
         if (is_array($working_data) && isset($working_data[0]["textanswer"])) {
-            $template->setVariable("VALUE_ANSWER", ilLegacyFormElementsUtil::prepareFormOutput($working_data[0]["textanswer"]));
+            $template->setVariable(
+                "VALUE_ANSWER",
+                ilLegacyFormElementsUtil::prepareFormOutput((string) $working_data[0]["textanswer"])
+            );
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
 

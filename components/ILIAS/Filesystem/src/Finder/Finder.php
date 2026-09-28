@@ -20,55 +20,30 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder;
 
-use ILIAS\Filesystem\Finder\Iterator\FileTypeFilterIterator;
-use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
-use ILIAS\Filesystem\Finder\Comparator\DateComparator;
-use ILIAS\Filesystem\Finder\Iterator\RecursiveDirectoryIterator;
-use ILIAS\Filesystem\Finder\Iterator\ExcludeDirectoryFilterIterator;
-use ILIAS\Filesystem\Finder\Iterator\DepthRangeFilterIterator;
-use ILIAS\Filesystem\Finder\Iterator\DateRangeFilterIterator;
-use ILIAS\Filesystem\Finder\Iterator\SizeRangeFilterIterator;
-use AppendIterator;
-use ArrayIterator;
-use Closure;
-use Countable;
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\MetadataType;
-use InvalidArgumentException;
-use Iterator as PhpIterator;
-use IteratorAggregate;
-use LogicException;
-use RecursiveIteratorIterator;
 use ILIAS\Filesystem\Finder\Iterator\SortableIterator;
+use ILIAS\Filesystem\Finder\Iterator\LazyIterator;
 
 /**
- * Class Finder
  * Port of the Symfony2 bundle to work with the ILIAS FileSystem abstraction
- * @package ILIAS\Filesystem\Finder
- * @see     : https://github.com/symfony/finder
- * @author  Michael Jansen <mjansen@databay.de>
+ * @see https://github.com/symfony/finder
+ * @implements \IteratorAggregate<non-empty-string, Metadata>
  */
-final class Finder implements IteratorAggregate, Countable
+final class Finder implements \IteratorAggregate, \Countable
 {
-    /**
-     * @var int
-     */
     private const IGNORE_VCS_FILES = 1;
-    /**
-     * @var int
-     */
     private const IGNORE_DOT_FILES = 2;
-    /** @var string[] */
+    /** @var list<string> */
     private array $vcsPatterns = ['.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
-    /** @var PhpIterator[] */
+    /** @var list<\Iterator> */
     private array $iterators = [];
-    /** @var string[] */
+    /** @var list<string> */
     protected array $dirs = [];
-    /** @var string[] */
+    /** @var list<string> */
     private array $exclude = [];
-    private int $ignore = 0;
-    private int $mode = FileTypeFilterIterator::ALL;
+    private int $ignore;
+    private int $mode = Iterator\FileTypeFilterIterator::ALL;
     private bool $reverseSorting = false;
     /** @var Comparator\DateComparator[] */
     private array $dates = [];
@@ -78,8 +53,9 @@ final class Finder implements IteratorAggregate, Countable
     private array $depths = [];
     /** @var int|Closure */
     private $sort = SortableIterator::SORT_BY_NONE;
+    private ?int $limit = null;
 
-    public function __construct(private Filesystem $filesystem)
+    public function __construct(private readonly Filesystem $filesystem)
     {
         $this->ignore = self::IGNORE_VCS_FILES | self::IGNORE_DOT_FILES;
     }
@@ -87,7 +63,7 @@ final class Finder implements IteratorAggregate, Countable
     public function files(): self
     {
         $clone = clone $this;
-        $clone->mode = FileTypeFilterIterator::ONLY_FILES;
+        $clone->mode = Iterator\FileTypeFilterIterator::ONLY_FILES;
 
         return $clone;
     }
@@ -95,7 +71,7 @@ final class Finder implements IteratorAggregate, Countable
     public function directories(): self
     {
         $clone = clone $this;
-        $clone->mode = FileTypeFilterIterator::ONLY_DIRECTORIES;
+        $clone->mode = Iterator\FileTypeFilterIterator::ONLY_DIRECTORIES;
 
         return $clone;
     }
@@ -103,20 +79,20 @@ final class Finder implements IteratorAggregate, Countable
     public function allTypes(): self
     {
         $clone = clone $this;
-        $clone->mode = FileTypeFilterIterator::ALL;
+        $clone->mode = Iterator\FileTypeFilterIterator::ALL;
 
         return $clone;
     }
 
     /**
-     * @param string[] $directories
-     * @throws InvalidArgumentException
+     * @param list<string> $directories
+     * @throws \InvalidArgumentException
      */
     public function exclude(array $directories): self
     {
         array_walk($directories, static function ($directory): void {
-            if (!is_string($directory)) {
-                throw new InvalidArgumentException(sprintf('Invalid directory given: %s', $directory::class));
+            if (!\is_string($directory)) {
+                throw new \InvalidArgumentException(\sprintf('Invalid directory given: %s', $directory::class));
             }
         });
 
@@ -127,14 +103,14 @@ final class Finder implements IteratorAggregate, Countable
     }
 
     /**
-     * @param string[] $directories
-     * @throws InvalidArgumentException
+     * @param list<string> $directories
+     * @throws \InvalidArgumentException
      */
     public function in(array $directories): self
     {
         array_walk($directories, static function ($directory): void {
-            if (!is_string($directory)) {
-                throw new InvalidArgumentException(sprintf('Invalid directory given: %s', $directory::class));
+            if (!\is_string($directory)) {
+                throw new \InvalidArgumentException(sprintf('Invalid directory given: %s', $directory::class));
             }
         });
 
@@ -158,7 +134,7 @@ final class Finder implements IteratorAggregate, Countable
     public function depth(string|int $level): self
     {
         $clone = clone $this;
-        $clone->depths[] = new NumberComparator((string) $level);
+        $clone->depths[] = new Comparator\NumberComparator((string) $level);
 
         return $clone;
     }
@@ -181,7 +157,7 @@ final class Finder implements IteratorAggregate, Countable
     public function date(string $date): self
     {
         $clone = clone $this;
-        $clone->dates[] = new DateComparator($date);
+        $clone->dates[] = new Comparator\DateComparator($date);
 
         return $clone;
     }
@@ -201,12 +177,12 @@ final class Finder implements IteratorAggregate, Countable
      */
     public function size(string|int|array $sizes): self
     {
-        $sizes = is_array($sizes) ? $sizes : [$sizes];
+        $sizes = \is_array($sizes) ? $sizes : [$sizes];
 
         $clone = clone $this;
 
         foreach ($sizes as $size) {
-            $clone->sizes[] = new NumberComparator((string) $size);
+            $clone->sizes[] = new Comparator\NumberComparator((string) $size);
         }
 
         return $clone;
@@ -218,6 +194,35 @@ final class Finder implements IteratorAggregate, Countable
         $clone->reverseSorting = true;
 
         return $clone;
+    }
+
+    public function limit(int $limit): self
+    {
+        if ($limit < 0) {
+            throw new \InvalidArgumentException('Limit must be greater than or equal to 0.');
+        }
+
+        $clone = clone $this;
+        $clone->limit = $limit;
+
+        return $clone;
+    }
+
+    /**
+     * Checks whether at least one entry matches the current finder criteria.
+     */
+    public function hasAny(): bool
+    {
+        $clone = clone $this;
+        $clone->sort = SortableIterator::SORT_BY_NONE;
+        $clone->reverseSorting = false;
+        $clone->limit = 1;
+
+        foreach ($clone->getIterator() as $_) {
+            return true;
+        }
+
+        return false;
     }
 
     public function ignoreVCS(bool $ignoreVCS): self
@@ -233,14 +238,14 @@ final class Finder implements IteratorAggregate, Countable
     }
 
     /**
-     * @param string[] $pattern
-     * @throws InvalidArgumentException
+     * @param list<string> $pattern
+     * @throws \InvalidArgumentException
      */
     public function addVCSPattern(array $pattern): self
     {
         array_walk($pattern, static function ($p): void {
-            if (!is_string($p)) {
-                throw new InvalidArgumentException(sprintf('Invalid pattern given: %s', $p::class));
+            if (!\is_string($p)) {
+                throw new \InvalidArgumentException(\sprintf('Invalid pattern given: %s', $p::class));
             }
         });
 
@@ -259,7 +264,7 @@ final class Finder implements IteratorAggregate, Countable
      * The anonymous function receives two Metadata instances to compare.
      * This can be slow as all the matching files and directories must be retrieved for comparison.
      */
-    public function sort(Closure $closure): self
+    public function sort(\Closure $closure): self
     {
         $clone = clone $this;
         $clone->sort = $closure;
@@ -270,9 +275,9 @@ final class Finder implements IteratorAggregate, Countable
     public function sortByName(bool $useNaturalSort = false): self
     {
         $clone = clone $this;
-        $clone->sort = SortableIterator::SORT_BY_NAME;
+        $clone->sort = Iterator\SortableIterator::SORT_BY_NAME;
         if ($useNaturalSort) {
-            $clone->sort = SortableIterator::SORT_BY_NAME_NATURAL;
+            $clone->sort = Iterator\SortableIterator::SORT_BY_NAME_NATURAL;
         }
 
         return $clone;
@@ -281,7 +286,7 @@ final class Finder implements IteratorAggregate, Countable
     public function sortByType(): self
     {
         $clone = clone $this;
-        $clone->sort = SortableIterator::SORT_BY_TYPE;
+        $clone->sort = Iterator\SortableIterator::SORT_BY_TYPE;
 
         return $clone;
     }
@@ -289,117 +294,121 @@ final class Finder implements IteratorAggregate, Countable
     public function sortByTime(): self
     {
         $clone = clone $this;
-        $clone->sort = SortableIterator::SORT_BY_TIME;
+        $clone->sort = Iterator\SortableIterator::SORT_BY_TIME;
 
         return $clone;
     }
 
     /**
      * Appends an existing set of files/directories to the finder.
-     * The set can be another Finder, an Iterator, an IteratorAggregate, or even a plain array.
-     * @throws InvalidArgumentException when the given argument is not iterable
+     * The set can be another {@see Finder}, an {@see \Iterator}, an {@see \IteratorAggregate}, or even a plain array.
+     * @param iterable<non-empty-string, Metadata> $iterator
+     * @throws \InvalidArgumentException when the given argument is not iterable
      */
     public function append(iterable $iterator): self
     {
         $clone = clone $this;
-
-        if ($iterator instanceof IteratorAggregate) {
-            $clone->iterators[] = $iterator->getIterator();
-        } elseif ($iterator instanceof PhpIterator) {
-            $clone->iterators[] = $iterator;
-        } elseif (is_iterable($iterator)) {
-            $it = new ArrayIterator();
-            foreach ($iterator as $file) {
-                if ($file instanceof MetadataType) {
-                    $it->append($file);
-                } else {
-                    throw new InvalidArgumentException(
-                        'Finder::append() method wrong argument type in passed iterator.'
-                    );
-                }
-            }
-            $clone->iterators[] = $it;
-        } else {
-            throw new InvalidArgumentException('Finder::append() method wrong argument type.');
-        }
+        $clone->iterators[] = $iterator;
 
         return $clone;
     }
 
     private function searchInDirectory(string $dir): \Traversable
     {
+        $exclude = $this->exclude;
+
         if (self::IGNORE_VCS_FILES === (self::IGNORE_VCS_FILES & $this->ignore)) {
-            $this->exclude = array_merge($this->exclude, $this->vcsPatterns);
+            $exclude = array_merge($exclude, $this->vcsPatterns);
         }
 
-        $iterator = new RecursiveDirectoryIterator($this->filesystem, $dir);
+        $iterator = new Iterator\RecursiveDirectoryIterator($this->filesystem, $dir);
 
-        if ($this->exclude) {
-            $iterator = new ExcludeDirectoryFilterIterator($iterator, $this->exclude);
+        if ($exclude) {
+            $iterator = new Iterator\ExcludeDirectoryFilterIterator($iterator, ...$exclude);
         }
 
-        $iterator = new RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::SELF_FIRST);
+        $iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::SELF_FIRST);
 
         if ($this->depths) {
-            $iterator = new DepthRangeFilterIterator($iterator, $this->depths);
+            $iterator = new Iterator\DepthRangeFilterIterator($iterator, ...$this->depths);
         }
 
         if ($this->mode !== 0) {
-            $iterator = new FileTypeFilterIterator($iterator, $this->mode);
+            $iterator = new Iterator\FileTypeFilterIterator($iterator, $this->mode);
         }
 
         if ($this->dates) {
-            $iterator = new DateRangeFilterIterator($this->filesystem, $iterator, $this->dates);
+            $iterator = new Iterator\DateRangeFilterIterator($this->filesystem, $iterator, ...$this->dates);
         }
 
         if ($this->sizes) {
-            $iterator = new SizeRangeFilterIterator($this->filesystem, $iterator, $this->sizes);
+            $iterator = new Iterator\SizeRangeFilterIterator($this->filesystem, $iterator, ...$this->sizes);
+        }
+
+        return $iterator;
+    }
+
+    /**
+     * @return \Iterator<non-empty-string, Metadata>
+     * @throws \LogicException
+     */
+    public function getIterator(): \Iterator
+    {
+        if ([] === $this->dirs && [] === $this->iterators) {
+            throw new \LogicException('You must call one of in() or append() methods before iterating over a Finder.');
+        }
+
+        if ($this->limit === 0) {
+            return new \EmptyIterator();
+        }
+
+        if (1 === count($this->dirs) && [] === $this->iterators) {
+            $iterator = $this->searchInDirectory($this->dirs[0]);
+        } else {
+            $iterator = new \AppendIterator();
+            foreach ($this->dirs as $dir) {
+                $iterator->append(new \IteratorIterator(new LazyIterator(fn() => $this->searchInDirectory($dir))));
+            }
+
+            foreach ($this->iterators as $it) {
+                $iterator->append(
+                    new \IteratorIterator(
+                        new LazyIterator(
+                            static function () use ($it) {
+                                foreach ($it as $key => $value) {
+                                    yield $key => $value;
+                                }
+                            }
+                        )
+                    )
+                );
+            }
         }
 
         if ($this->sort || $this->reverseSorting) {
-            $iteratorAggregate = new SortableIterator(
+            $iterator = (new SortableIterator(
                 $this->filesystem,
                 $iterator,
                 $this->sort,
                 $this->reverseSorting
+            ))->getIterator();
+        }
+
+        if ($this->limit === 0) {
+            return new \EmptyIterator();
+        }
+
+        if ($this->limit !== null) {
+            $iterator = new \LimitIterator(
+                $iterator instanceof \Iterator ? $iterator : new \IteratorIterator($iterator),
+                0,
+                $this->limit
             );
-            $iterator = $iteratorAggregate->getIterator();
         }
 
         return $iterator;
     }
 
-    /**
-     * @inheritdoc
-     * @return PhpIterator|Metadata[]
-     * @throws LogicException
-     */
-    #[\ReturnTypeWillChange]
-    public function getIterator(): \Iterator
-    {
-        if ([] === $this->dirs && [] === $this->iterators) {
-            throw new LogicException('You must call one of in() or append() methods before iterating over a Finder.');
-        }
-
-        if (1 === count($this->dirs) && [] === $this->iterators) {
-            return $this->searchInDirectory($this->dirs[0]);
-        }
-
-        $iterator = new AppendIterator();
-        foreach ($this->dirs as $dir) {
-            $iterator->append($this->searchInDirectory($dir));
-        }
-
-        foreach ($this->iterators as $it) {
-            $iterator->append($it);
-        }
-
-        return $iterator;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function count(): int
     {
         return iterator_count($this->getIterator());

@@ -6,5 +6,4 @@
 	<events>
 		<event type="listen" id="components/ILIAS/Chatroom" />
 	</events>
-	<logging />
 </service>

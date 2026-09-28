@@ -28,7 +28,7 @@ use ILIAS\User\Profile\Profile;
 */
 class ilLDAPAttributeToUser
 {
-    public const MODE_INITIALIZE_ROLES = 1;
+    public const int MODE_INITIALIZE_ROLES = 1;
 
     private array $modes = [];
     private ilLDAPServer $server_settings;
@@ -38,8 +38,9 @@ class ilLDAPAttributeToUser
     private string $new_user_auth_mode = 'ldap';
     private ilLogger $logger;
     private ilXmlWriter $writer;
+    private readonly ilLanguage $lng;
     /**
-     * @var array<string, ILIAS\User\Profile\Field>|null
+     * @var array<string, \ILIAS\User\Profile\Fields\Field>|null
      */
     private ?array $user_defined_fields = null;
 
@@ -53,6 +54,7 @@ class ilLDAPAttributeToUser
 
         $this->logger = $DIC->logger()->auth();
         $this->profile = $DIC['user']->getProfile();
+        $this->lng = $DIC['lng'];
 
         $this->server_settings = $a_server;
 
@@ -228,7 +230,7 @@ class ilLDAPAttributeToUser
                 $rules = $this->mapping->getRules(true);
             }
 
-            $this->writer->xmlElement('Active', [], "true");
+            $this->writer->xmlElement('Active', [], 'true');
             $this->writer->xmlElement('TimeLimitOwner', [], 7);
             $this->writer->xmlElement('TimeLimitUnlimited', [], 1);
             $this->writer->xmlElement('TimeLimitFrom', [], time());
@@ -340,7 +342,7 @@ class ilLDAPAttributeToUser
 
                     default:
                         // Handle user defined fields
-                        if (strpos($field, 'udf_') !== 0) {
+                        if (!str_starts_with($field, 'udf_')) {
                             continue 2;
                         }
                         $id_data = explode('_', $field);
@@ -350,7 +352,7 @@ class ilLDAPAttributeToUser
                         $this->initUserDefinedFields();
                         if (!isset($this->user_defined_fields[$id_data[1]])) {
                             $this->logger->warning(sprintf(
-                                "Invalid/Orphaned UD field mapping detected: %s",
+                                'Invalid/Orphaned UD field mapping detected: %s',
                                 $field
                             ));
                             break;
@@ -360,7 +362,7 @@ class ilLDAPAttributeToUser
                             'UserDefinedField',
                             [
                                 'Id' => $this->user_defined_fields[$id_data[1]]->getIdentifier(),
-                                'Name' => $this->user_defined_fields[$id_data[1]]->getLabel()
+                                'Name' => $this->user_defined_fields[$id_data[1]]->getLabel($this->lng)
                             ],
                             $value
                         );
@@ -399,7 +401,7 @@ class ilLDAPAttributeToUser
     {
         $mapping = strtolower(trim($rule['value']));
 
-        if (strpos($mapping, ',') === false) {
+        if (!str_contains($mapping, ',')) {
             return $this->convertInput($user[$mapping] ?? '');
         }
         // Is multiple mapping

@@ -205,7 +205,7 @@ class ilICalParser
 
         // Return if there are no values
         if (!count($items)) {
-            $this->log->write(__METHOD__ . ': Cannot parse parameter: ' . $a_param_part . ', value: ' . $a_value_part);
+            $this->log->info('Cannot parse parameter: ' . $a_param_part . ', value: ' . $a_value_part);
             return;
         }
 

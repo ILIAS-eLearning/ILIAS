@@ -28,7 +28,6 @@
 		<context id="svy_context_rmd" class="ilSurveyMailTemplateReminderContext" />
 		<context id="svy_rater_inv" class="ilSurveyMailTemplateRaterInvitationContext" />
 	</mailtemplates>
-	<logging />
 	<events>
 		<event type="listen" id="components/ILIAS/Skill" />
 	</events>

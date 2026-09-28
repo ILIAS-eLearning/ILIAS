@@ -16,71 +16,65 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
 
 /**
- * Seems to only be used for collections of LM chapters.
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ilias-tracking
  */
 class ilLPStatusCollectionTLT extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_collection_tlt';
+    protected const string LNG_TEXT_INFO = 'trac_mode_collection_tlt_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-
-        $users = array();
+        $users = [];
         if (isset($status_info['in_progress'])) {
             foreach ($status_info['in_progress'] as $in_progress) {
                 $users = array_merge($users, $in_progress);
             }
             $users = array_unique($users);
         }
-
-        $users = array_diff(
+        return array_diff(
             $users,
             ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
-
-        return $users;
     }
 
     public static function _getCompleted(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-
         $counter = 0;
-        $users = array();
+        $users = [];
         foreach ($status_info['items'] as $item_id) {
             $tmp_users = $status_info['completed'][$item_id];
-
             if (!$counter++) {
                 $users = $tmp_users;
             } else {
                 $users = array_intersect($users, $tmp_users);
             }
         }
-        $users = array_unique($users);
-
-        return $users;
+        return array_unique($users);
     }
 
     public static function _getStatusInfo(int $a_obj_id): array
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-        $status_info = array();
+        $status_info = [];
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
             // @todo check if obj_id can be removed
             $status_info["items"] = $collection->getItems($a_obj_id);
-
             foreach ($status_info["items"] as $item_id) {
-                $status_info["in_progress"][$item_id] = array();
-                $status_info["completed"][$item_id] = array();
-
+                $status_info["in_progress"][$item_id] = [];
+                $status_info["completed"][$item_id] = [];
                 /*
                  * Seems to only be used for collections of LM chapters,
                  * so we manually set 'st' for chapters here.
@@ -91,7 +85,6 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                     $item_id
                 );
             }
-
             $ref_ids = ilObject::_getAllReferences($a_obj_id);
             $ref_id = end($ref_ids);
             $possible_items = $collection->getPossibleItems($ref_id);
@@ -99,10 +92,8 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 array_keys($possible_items),
                 $status_info["items"]
             );
-
             // fix order (adapt from possible items)
             $status_info["items"] = $chapter_ids;
-
             if ($chapter_ids) {
                 foreach ($chapter_ids as $item_id) {
                     $status_info["item_titles"][$item_id] = $possible_items[$item_id]["title"];
@@ -131,9 +122,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $info = self::_getStatusInfo($a_obj_id);
-
         $completed_once = false;
-
         if (isset($info["completed"])) {
             $completed = true;
             foreach ($info["completed"] as $user_ids) {
@@ -149,12 +138,10 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 return self::LP_STATUS_COMPLETED_NUM;
             }
         }
-
         // #14997
         if ($completed_once) {
             return self::LP_STATUS_IN_PROGRESS_NUM;
         }
-
         if (isset($info["in_progress"])) {
             foreach ($info["in_progress"] as $user_ids) {
                 if (in_array($a_usr_id, $user_ids)) {
@@ -162,7 +149,28 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 }
             }
         }
-
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_COLLECTION_TLT;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

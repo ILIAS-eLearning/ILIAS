@@ -40,7 +40,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
     private bool $force_new_account = false;
     private string $migration_account = '';
     /**
-     * @var array<string, ILIAS\User\Profile\Field>|null
+     * @var array<string, \ILIAS\User\Profile\Fields\Field>|null
      */
     private ?array $user_defined_fields = null;
 
@@ -269,7 +269,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             return true;
         }
 
-        ilLoggerFactory::getLogger(self::LOG_COMPONENT)->debug("SAML user synchronisation is not enabled, auth failed.");
+        ilLoggerFactory::getLogger(self::LOG_COMPONENT)->debug('SAML user synchronisation is not enabled, auth failed.');
         $this->handleAuthenticationFail($status, 'err_auth_saml_no_ilias_user');
 
         return false;
@@ -345,7 +345,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
                 'Action' => 'Assign'
             ]);
 
-            $xml_writer->xmlElement('Active', [], "true");
+            $xml_writer->xmlElement('Active', [], 'true');
             $xml_writer->xmlElement('TimeLimitOwner', [], USER_FOLDER_ID);
             $xml_writer->xmlElement('TimeLimitUnlimited', [], 1);
             $xml_writer->xmlElement('TimeLimitFrom', [], time());
@@ -511,7 +511,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
                 $field = $this->user_defined_fields[$udf_data[1]] ?? null;
                 if ($field === null) {
                     ilLoggerFactory::getLogger('auth')->warning(sprintf(
-                        "Invalid/Orphaned UD field mapping detected: %s",
+                        'Invalid/Orphaned UD field mapping detected: %s',
                         $rule->getAttribute()
                     ));
                     break;

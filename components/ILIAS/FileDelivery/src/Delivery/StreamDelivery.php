@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\FileDelivery\Delivery;
 
 use ILIAS\HTTP\Services;
-use Psr\Http\Message\ResponseInterface;
 use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\Filesystem\Stream\FileStream;
@@ -29,6 +28,7 @@ use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Token\Signer\Payload\ShortFilePayload;
 use ILIAS\Filesystem\Stream\ZIPStream;
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -45,18 +45,9 @@ final class StreamDelivery extends BaseDelivery
         Services $http,
         ResponseBuilder $response_builder,
         ResponseBuilder $fallback_response_builder,
+        IsolationConfig $isolation = new IsolationConfig(false, null, null),
     ) {
-        parent::__construct($http, $response_builder, $fallback_response_builder);
-    }
-
-    /**
-     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
-     */
-    private function notFound(ResponseInterface $r): void
-    {
-        $this->http->saveResponse($r->withStatus(404));
-        $this->http->sendResponse();
-        $this->http->close();
+        parent::__construct($http, $response_builder, $fallback_response_builder, $isolation);
     }
 
     public function attached(
@@ -116,6 +107,12 @@ final class StreamDelivery extends BaseDelivery
 
     public function deliverFromToken(string $token): never
     {
+        $r = $this->http->response();
+
+        if (!$this->isRequestHostAllowed()) {
+            $this->notFound($r);
+        }
+
         // check if $token has a sub-request, such as .../index.html
         $parts = explode(self::SUBREQUEST_SEPARATOR, $token);
         $sub_request = null;
@@ -124,7 +121,6 @@ final class StreamDelivery extends BaseDelivery
             $sub_request = implode('/', array_slice($parts, 1));
         }
 
-        $r = $this->http->response();
         $payload = $this->data_signer->verifyStreamToken($token);
 
         switch (true) {

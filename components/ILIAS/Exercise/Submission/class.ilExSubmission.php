@@ -595,18 +595,17 @@ class ilExSubmission
         $ass_id = $this->assignment->getId();
 
         foreach ($this->getUserIds() as $user_id) {
-            $ilDB->manipulateF(
-                "DELETE FROM exc_usr_tutor " .
-                "WHERE ass_id = %s AND usr_id = %s AND tutor_id = %s",
-                array("integer", "integer", "integer"),
-                array($ass_id, $user_id, $ilUser->getId())
-            );
-
-            $ilDB->manipulateF(
-                "INSERT INTO exc_usr_tutor (ass_id, obj_id, usr_id, tutor_id, download_time) VALUES " .
-                "(%s, %s, %s, %s, %s)",
-                array("integer", "integer", "integer", "integer", "timestamp"),
-                array($ass_id, $exc_id, $user_id, $ilUser->getId(), ilUtil::now())
+            $ilDB->replace(
+                "exc_usr_tutor",
+                [
+                    "ass_id" => ["integer", $ass_id],
+                    "usr_id" => ["integer", $user_id],
+                    "tutor_id" => ["integer", $ilUser->getId()],
+                ],
+                [
+                    "obj_id" => ["integer", $exc_id],
+                    "download_time" => ["timestamp", ilUtil::now()],
+                ]
             );
         }
     }

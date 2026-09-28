@@ -51,11 +51,11 @@ final class Request
     /**
      * @var string
      */
-    public const P_PAGE = 'page';
+    public const P_PAGE = 'irss_page';
     /**
      * @var string
      */
-    public const P_SORTATION = 'sort';
+    public const P_SORTATION = 'irss_sort';
     /**
      * @var string
      */
@@ -91,7 +91,7 @@ final class Request
     /**
      * @var string
      */
-    public const P_MODE = 'mode';
+    public const P_MODE = 'irss_view_mode';
     /**
      * @var string
      */

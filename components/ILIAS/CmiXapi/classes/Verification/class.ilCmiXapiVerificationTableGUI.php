@@ -59,7 +59,7 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
 
         $userCertificateRepository = new ilUserCertificateRepository(
             $DIC->database(),
-            $DIC->logger()->root()
+            $DIC->logger()->forComponent('cmix')
         );
 
         $certificateArray = $userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(

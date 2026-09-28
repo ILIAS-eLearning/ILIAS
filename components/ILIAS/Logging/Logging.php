@@ -32,9 +32,52 @@ class Logging implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ilLoggingSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+        /*$define[] = Logging\Logger\LoggerFactoryInterface::class;
+        $define[] = Logging\Logger\DefaultConfigLoggerFactoryInterface::class;
+        $define[] = Logging\Config\ConfigInterface::class;
+
+        $internal[Logging\Config\Basic\ConfigInterface::class] = static fn() =>
+            new Logging\Config\Basic\Config(
+                new Logging\Config\Basic\IniReader(
+                    $use[\ilIniFile::class] // TODO change to whatever this is now called
+                )
+            );
+        $internal[Logging\Config\ByComponent\ConfigInterface::class] = static fn() =>
+            new Logging\Config\ByComponent\Config(
+                new Logging\Config\ByComponent\DBRepository(
+                    $use[\ilDBInterface::class] // TODO change to whatever this is now called
+                ),
+                $internal[Logging\Config\Basic\ConfigInterface::class]
+            );
+        $internal[Logging\Logger\LevelFetcher\LevelFetcherFactory::class] = static fn() =>
+            new Logging\Logger\LevelFetcher\LevelFetcherFactory();
+        $internal[Logging\Logger\LazyInternalFactoryInterface::class] = static fn() =>
+            new Logging\Logger\LazyInternalFactory(
+                new Logging\Logger\Monolog\Factory(),
+                $internal[Logging\Config\Basic\ConfigInterface::class]
+            );
+
+        $implement[Logging\Logger\LoggerFactoryInterface::class] = static fn() =>
+            new Logging\Logger\LoggerFactory(
+                $internal[Logging\Logger\LazyInternalFactoryInterface::class],
+                $internal[Logging\Config\ByComponent\ConfigInterface::class],
+                $internal[Logging\Logger\LevelFetcher\LevelFetcherFactory::class]
+            );
+        $implement[Logging\Logger\DefaultConfigLoggerFactoryInterface::class] = static fn() =>
+            new Logging\Logger\DefaultConfigLoggerFactory(
+                $internal[Logging\Logger\LazyInternalFactoryInterface::class],
+                $internal[Logging\Config\Basic\ConfigInterface::class],
+                $internal[Logging\Logger\LevelFetcher\LevelFetcherFactory::class]
+            );
+        $implement[Logging\Config\ConfigInterface::class] = static fn() =>
+            new Logging\Config\Config(
+                $internal[Logging\Config\Basic\ConfigInterface::class],
+                $internal[Logging\Config\ByComponent\ConfigInterface::class]
+            );*/
+
+        $contribute[Setup\Agent::class] = static fn() =>
+            new Logging\Setup\Agent(
+                $pull[Refinery\Factory::class]
             );
     }
 }

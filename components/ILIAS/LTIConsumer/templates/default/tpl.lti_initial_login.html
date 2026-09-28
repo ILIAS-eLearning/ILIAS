@@ -5,6 +5,7 @@
     <input type="hidden" name="lti_message_hint" value="{LTI_MESSAGE_HINT}" /><!--$ltiMessageHint-->
     <input type="hidden" name="client_id" value="{CLIENT_ID}" /><!--$this->object->getProvider()->getClientId())-->
     <input type="hidden" name="lti_deployment_id" value="{LTI_DEPLOYMENT_ID}" /><!--$this->object->getProvider()->getId()-->
+    <input type="hidden" name="state" value="{STATE}" />
 </form>
 <script>
   document.ltiInitialLoginForm.submit();

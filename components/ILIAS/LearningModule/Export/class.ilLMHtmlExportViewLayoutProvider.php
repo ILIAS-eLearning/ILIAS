@@ -92,6 +92,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                     // get tool ids for offline use from lm tools provider
                     $lm_tools = new ilLMGSToolProvider($DIC);
                     $ids = $lm_tools->getOfflineToolIds();
+                    $active_tool_id = null;
 
                     // copy all offline tools from original main bar to offline main bar
                     foreach ($current->getToolEntries() as $id => $te) {
@@ -100,7 +101,14 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                                 $id,
                                 $te
                             );
+                            if ($id === $ids[0]) {
+                                $active_tool_id = $id;
+                            }
                         }
+                    }
+
+                    if ($active_tool_id !== null) {
+                        $offline_main_bar = $offline_main_bar->withActive($active_tool_id);
                     }
 
                     return $offline_main_bar;

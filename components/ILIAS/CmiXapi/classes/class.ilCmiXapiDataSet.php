@@ -164,7 +164,7 @@ class ilCmiXapiDataSet extends ilDataSet
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
 
-        $GLOBALS["ilLog"]->write(json_encode($this->getTypes("cmix", "5.1.0"), JSON_PRETTY_PRINT));
+        $GLOBALS["ilLog"]->info(json_encode($this->getTypes("cmix", "5.1.0"), JSON_PRETTY_PRINT));
 
         $this->dircnt = 1;
 

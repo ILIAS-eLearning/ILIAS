@@ -178,13 +178,13 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             $starting_time = $this->object->getStartingTimeOfUser($active_id);
             $working_time = new WorkingTime(
                 $this->lng,
-                $this->ui_factory,
-                $this->ui_renderer,
                 $starting_time,
                 $this->object->getProcessingTimeInSeconds($active_id)
             );
 
-            $html .= $working_time->getMessageBox(true);
+            $html .= $this->ui_renderer->render(
+                $working_time->getMessageBox($this->ui_factory, true)
+            );
 
             $class = $this->getObject()->isFixedTest()
                 ? ilTestPlayerFixedQuestionSetGUI::class

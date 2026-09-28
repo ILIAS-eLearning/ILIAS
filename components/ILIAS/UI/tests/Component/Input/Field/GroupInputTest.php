@@ -171,6 +171,35 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->group, $new_group);
     }
 
+    public function testGroupForwardsNullWithoutValidationOnWithValue(): void
+    {
+        $this->child1
+            ->expects($this->once())
+            ->method("withValue")
+            ->with(1)
+            ->willReturn($this->child2);
+        $this->child1
+            ->expects($this->once())
+            ->method("isClientSideValueOk")
+            ->with(1)
+            ->willReturn(true);
+        $this->child2
+            ->expects($this->once())
+            ->method("withValue")
+            ->with(null)
+            ->willReturn($this->child1);
+        $this->child2
+            ->expects($this->never())
+            ->method("isClientSideValueOk")
+            ->with(null)
+            ->willReturn(true);
+
+        $new_group = $this->group->withValue([1, null]);
+
+        $this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
+        $this->assertNotSame($this->group, $new_group);
+    }
+
     public function testWithValuePreservesKeys(): void
     {
         $this->assertNotSame($this->child1, $this->child2);

@@ -1076,6 +1076,9 @@ class ilPCParagraph extends ilPageContent
                         $rtype = ($target[count($target) - 2] ?? "");
                         $target_type = $rtype;
                     }
+                    if ($target_type === "") {
+                        $target_type = "obj";
+                    }
                     $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "$target_type=\"" . $target_id . "\"" . $tframestr . "]", $a_text);
                     break;
 
@@ -1567,6 +1570,12 @@ class ilPCParagraph extends ilPageContent
      */
     public static function handleAjaxContentPost(string $text): string
     {
+        // #48126
+        $text = str_replace(
+            ["&lt;li/&gt;"],
+            ["&lt;li&gt; &lt;/li&gt;"],
+            $text
+        );
         $text = str_replace(
             array("&lt;ul&gt;", "&lt;/ul&gt;"),
             array("<SimpleBulletList>", "</SimpleBulletList>"),

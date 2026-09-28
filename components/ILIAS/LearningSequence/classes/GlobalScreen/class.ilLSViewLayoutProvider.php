@@ -139,7 +139,9 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
 
         $exit = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS)['exit'];
-        $label = $this->dic['lng']->txt('lso_player_viewmodelabel');
+
+        $label = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_TITLE)
+            ?? $this->dic['lng']->txt('lso_player_viewmodelabel');
 
         $lnk = new URI($exit->getAction());
 

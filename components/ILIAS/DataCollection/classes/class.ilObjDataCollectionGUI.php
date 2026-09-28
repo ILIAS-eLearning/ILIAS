@@ -315,6 +315,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->checkPermission('write');
                 $this->prepareOutput();
                 $this->setEditTabs();
                 $this->tabs->activateTab('settings');
@@ -488,9 +489,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     public function edit(): void
     {
-        if (!$this->checkPermissionBool('write')) {
-            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('permission_denied'));
-        }
+        $this->checkPermission('write');
 
         $this->setEditTabs();
         $this->tabs->activateTab(self::TAB_EDIT_DCL);
@@ -500,9 +499,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     public function update(): void
     {
-        if (!$this->checkPermissionBool('write')) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
+        $this->checkPermission('write');
 
         $this->setEditTabs();
         $this->tabs->activateTab(self::TAB_EDIT_DCL);

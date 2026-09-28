@@ -9,9 +9,8 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<events>		
+	<events>
 		<event type="raise" id="readNews" />
 		<event type="raise" id="unreadNews" />
 	</events>
-	<logging />
 </service>

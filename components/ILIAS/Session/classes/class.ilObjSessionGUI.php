@@ -1118,7 +1118,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->object->getRefId()
             )
         );
-        $gui->render();
+        $gui->renderToolbarAction();
         $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
 
         $this->event_items = new ilEventItems($this->object->getId());
@@ -1570,7 +1570,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 )
         );
 
-        $gallery = new ilCheckboxInputGUI($this->lng->txt('sess_show_members'), 'show_members');
+        $gallery = new ilCheckboxInputGUI($this->lng->txt('sess_members_gallery'), 'show_members');
         $gallery->setChecked($this->object->getShowMembers());
         $gallery->setInfo($this->lng->txt('sess_show_participants_info'));
         $this->form->addItem($gallery);

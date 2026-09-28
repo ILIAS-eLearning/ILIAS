@@ -341,7 +341,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                     }
                 }
             } else {
-                $hidden = $this->getHiddenTag($postvar, $this->getValue());
+                $hidden = $this->getHiddenTag($postvar, (string) $this->getValue());
             }
             if ($hidden) {
                 $tpl->setVariable("HIDDEN_INPUT", $hidden);

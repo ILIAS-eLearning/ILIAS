@@ -1172,14 +1172,15 @@ class ilExPeerReviewGUI
             $this->returnToParentObject();
         }
 
-        $tbl = new ilExAssignmentPeerReviewOverviewTableGUI(
+        $retrieval = $this->domain->peerReviewOverviewRetrieval($this->ass);
+        $table = $this->gui->peerReviewOverviewTableBuilder(
+            $this->ass,
             $this,
-            "showPeerReviewOverview",
-            $this->ass
-        );
+            "showPeerReviewOverview"
+        )->getTable();
 
         $panel = "";
-        $panel_data = $tbl->getPanelInfo();
+        $panel_data = $retrieval->getPanelInfo();
         if (is_array($panel_data) && count($panel_data) > 0) {
             $ptpl = new ilTemplate("tpl.exc_peer_review_overview_panel.html", true, true, "components/ILIAS/Exercise");
             foreach ($panel_data as $item) {
@@ -1204,7 +1205,16 @@ class ilExPeerReviewGUI
             $panel = $r->render($p);
         }
 
-        $tpl->setContent($tbl->getHTML() . $panel);
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->gui->button(
+            $this->lng->txt("exc_peer_review_reset"),
+            $this->ctrl->getLinkTarget($this, "confirmResetPeerReview")
+        )->toToolbar();
+
+        $tpl->setContent($table->render() . $panel);
     }
 
     public function confirmResetPeerReviewObject(): void

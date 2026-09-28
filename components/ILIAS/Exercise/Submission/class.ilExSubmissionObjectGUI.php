@@ -28,6 +28,7 @@ use ILIAS\Portfolio\Export\PortfolioHtmlExport;
  */
 class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 {
+    protected \ILIAS\Blog\Export\ExportManager $blog_export_manager;
     protected int $user_id;
     protected int $selected_wsp_obj_id;
 
@@ -44,6 +45,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
         parent::__construct($a_exercise, $a_submission);
         $this->selected_wsp_obj_id = $this->request->getSelectedWspObjId();
+        $this->blog_export_manager = $DIC->blog()->internal()->domain()->export()->manager();
     }
 
     public function executeCommand(): void
@@ -729,7 +731,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
         // submit current version of blog
         if ($this->request->getBlogId() > 0) {
-            $success = $this->submitBlog($this->request->getBlogId());
+            $success = $this->submitBlog($this->request->getBlogId(), $this->submission->getUserId());
             $this->ctrl->setParameter($this, "blog_id", "");
         }
         // submit current version of portfolio
@@ -752,7 +754,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
      * @throws ilException
      */
     public function submitBlog(
-        int $a_blog_id
+        int $node_id,
+        int $owner_id
     ): bool {
         if (!$this->submission->canSubmit()) {
             return false;
@@ -760,11 +763,13 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
         $subm = $this->domain->submission($this->submission->getAssignment()->getId());
 
-        $blog_id = $a_blog_id;
-
-        $blog_gui = new ilObjBlogGUI($blog_id, ilObject2GUI::WORKSPACE_NODE_ID);
-        if ($blog_gui->getObject()) {
-            $export = $blog_gui->buildExportFile();
+        if ($node_id > 0) {
+            $export = $this->blog_export_manager->buildHtml(
+                $node_id,
+                $owner_id,
+                "",
+                false
+            );
             $file = $export->getFilePath();
             $size = filesize($file);
             if ($size) {
@@ -773,19 +778,26 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $subm->addLocalFile(
                     $this->user_id,
                     $file,
-                    $blog_id . ".zip"
+                    $node_id . ".zip"
                 );
                 $export->delete();
 
                 // print version
-                $export = $blog_gui->buildExportFile(false, true);
+                $export = $this->blog_export_manager->buildHtml(
+                    $node_id,
+                    $owner_id,
+                    "",
+                    false,
+                    false,
+                    true
+                );
                 $file = $export->getFilePath();
                 $size = filesize($file);
                 if ($size) {
                     $subm->addLocalFile(
                         $this->user_id,
                         $file,
-                        $blog_id . "print.zip"
+                        $node_id . "print.zip"
                     );
                     $export->delete();
                 }

@@ -161,6 +161,12 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     $newObject->getId() . ':0:' . self::OBJ_TYPE
                 );
                 $a_mapping->addMapping(
+                    "components/ILIAS/Tracking",
+                    "obj",
+                    $a_rec['id'],
+                    (string) $newObject->getId()
+                );
+                $a_mapping->addMapping(
                     "components/ILIAS/ILIASObject",
                     "obj",
                     $a_rec["id"],

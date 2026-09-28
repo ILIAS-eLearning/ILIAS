@@ -99,7 +99,6 @@ class ilContentStyleSettingsGUI
                                          "toggleGlobalFixed",
                                          "setScope",
                                          "saveScope",
-                                         "saveActiveStyles",
                                          "createStyle",
                                          "moveLMStyles",
                                          "moveIndividualStyles",
@@ -169,7 +168,7 @@ class ilContentStyleSettingsGUI
         if ($fixed_style <= 0) {
             $data[-1] =
                 array("title" => $this->lng->txt("sty_individual_styles"),
-                    "id" => 0, "lm_nr" => $this->domain->object(0)->countOverallOwned());
+                    "id" => -1, "lm_nr" => $this->domain->object(0)->countOverallOwned());
             //$from_styles[-1] = $this->lng->txt("sty_individual_styles");
         }
 
@@ -212,8 +211,26 @@ class ilContentStyleSettingsGUI
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
         }
 
-        $table = new ilContentStylesTableGUI($this, "edit", $data);
-        $this->tpl->setContent($table->getHTML() . $rendered_modal);
+        $access_manager = $this->domain->access(
+            $this->ref_id,
+            $this->domain->user()->getId()
+        );
+        $access_manager->enableWrite(
+            $this->checkPermission("sty_write_content", false)
+        );
+        $table = $this->gui->contentStylesTableBuilder(
+            $data,
+            (int) $this->settings->get("default_content_style_id"),
+            (int) $this->settings->get("fixed_content_style_id"),
+            $access_manager,
+            $this,
+            "edit"
+        )
+            ->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $this->tpl->setContent($table->render() . $rendered_modal);
     }
 
     protected function getImportForm(): FormAdapterGUI
@@ -298,11 +315,11 @@ class ilContentStyleSettingsGUI
     /**
      * display deletion confirmation screen
      */
-    public function deleteStyle(): void
+    public function deleteStyle(int $id = 0): void
     {
         $this->checkPermission("sty_write_content");
 
-        $ids = $this->request->getIds();
+        $ids = $id > 0 ? [$id] : $this->request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "edit");
@@ -347,19 +364,20 @@ class ilContentStyleSettingsGUI
     /**
      * Toggle global default style
      */
-    public function toggleGlobalDefault(): void
+    public function toggleGlobalDefault(int $id = 0): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
 
         $this->checkPermission("sty_write_content");
 
-        if ($this->request->getId() > 0) {
+        $id = $id > 0 ? $id : $this->request->getId();
+        if ($id > 0) {
             $ilSetting->delete("fixed_content_style_id");
             $def_style = $ilSetting->get("default_content_style_id");
 
-            if ($def_style != $this->request->getId()) {
-                $ilSetting->set("default_content_style_id", (string) $this->request->getId());
+            if ($def_style != $id) {
+                $ilSetting->set("default_content_style_id", (string) $id);
             } else {
                 $ilSetting->delete("default_content_style_id");
             }
@@ -368,80 +386,66 @@ class ilContentStyleSettingsGUI
         ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
+    public function makeGlobalDefault(int $id): void
+    {
+        $this->toggleGlobalDefault($id);
+    }
+
+    public function removeGlobalDefault(int $id): void
+    {
+        $this->toggleGlobalDefault($id);
+    }
+
     /**
      * Toggle global fixed style
      */
-    public function toggleGlobalFixed(): void
+    public function toggleGlobalFixed(int $id = 0): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
 
         $this->checkPermission("sty_write_content");
 
-        if ($this->request->getId() > 0) {
+        $id = $id > 0 ? $id : $this->request->getId();
+        if ($id > 0) {
             $ilSetting->delete("default_content_style_id");
             $fixed_style = $ilSetting->get("fixed_content_style_id");
-            if ($fixed_style == $this->request->getId()) {
+            if ($fixed_style == $id) {
                 $ilSetting->delete("fixed_content_style_id");
             } else {
-                $ilSetting->set("fixed_content_style_id", (string) $this->request->getId());
+                $ilSetting->set("fixed_content_style_id", (string) $id);
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
-    public function saveActiveStyles(): void
+    public function makeGlobalFixed(int $id): void
     {
-        $styles = $this->cs_settings->getStyles();
-        foreach ($styles as $style) {
-            if ($this->request->getSelectedStandard($style["id"]) == 1) {
-                ilObjStyleSheet::_writeActive((int) $style["id"], true);
-            } else {
-                ilObjStyleSheet::_writeActive((int) $style["id"], false);
-            }
-        }
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
+        $this->toggleGlobalFixed($id);
     }
 
-    /**
-     * show possible action (form buttons)
-     */
-    public function showActions(bool $with_subobjects = false): void
+    public function removeGlobalFixed(int $id): void
     {
-        // delete
-        $this->tpl->setCurrentBlock("tbl_action_btn");
-        $this->tpl->setVariable("BTN_NAME", "deleteStyle");
-        $this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-        $this->tpl->parseCurrentBlock();
+        $this->toggleGlobalFixed($id);
+    }
 
-        // set global default
-        $this->tpl->setCurrentBlock("tbl_action_btn");
-        $this->tpl->setVariable("BTN_NAME", "toggleGlobalDefault");
-        $this->tpl->setVariable("BTN_VALUE", $this->lng->txt("toggleGlobalDefault"));
-        $this->tpl->parseCurrentBlock();
+    public function activateStyle(int $id): void
+    {
+        $this->checkPermission("sty_write_content");
+        if ($id > 0) {
+            ilObjStyleSheet::_writeActive($id, true);
+        }
+        $this->ctrl->redirect($this, "edit");
+    }
 
-        // set global default
-        $this->tpl->setCurrentBlock("tbl_action_btn");
-        $this->tpl->setVariable("BTN_NAME", "toggleGlobalFixed");
-        $this->tpl->setVariable("BTN_VALUE", $this->lng->txt("toggleGlobalFixed"));
-        $this->tpl->parseCurrentBlock();
-
-        // set global default
-        $this->tpl->setCurrentBlock("tbl_action_btn");
-        $this->tpl->setVariable("BTN_NAME", "setScope");
-        $this->tpl->setVariable("BTN_VALUE", $this->lng->txt("sty_set_scope"));
-        $this->tpl->parseCurrentBlock();
-
-        // save active styles
-        $this->tpl->setCurrentBlock("tbl_action_btn");
-        $this->tpl->setVariable("BTN_NAME", "saveActiveStyles");
-        $this->tpl->setVariable("BTN_VALUE", $this->lng->txt("sty_save_active_styles"));
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock("tbl_action_row");
-        $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
-        $this->tpl->parseCurrentBlock();
+    public function deactivateStyle(int $id): void
+    {
+        $this->checkPermission("sty_write_content");
+        if ($id > 0) {
+            ilObjStyleSheet::_writeActive($id, false);
+        }
+        $this->ctrl->redirect($this, "edit");
     }
 
     public function cancelDelete(): void
@@ -450,14 +454,18 @@ class ilContentStyleSettingsGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function setScope(): void
+    public function setScope(int $id = 0): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
 
         $this->checkPermission("sty_write_content");
 
-        $ilCtrl->saveParameter($this, "id");
+        if ($id > 0) {
+            $ilCtrl->setParameter($this, "id", $id);
+        } else {
+            $ilCtrl->saveParameter($this, "id");
+        }
         $exp = new ilRepositorySelectorExplorerGUI(
             $this,
             "setScope",

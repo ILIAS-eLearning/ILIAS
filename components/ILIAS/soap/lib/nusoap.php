@@ -2370,7 +2370,7 @@ class soap_transport_http extends nusoap_base
 
             // set response timeout
             $this->debug('set response timeout to ' . $response_timeout);
-            socket_set_timeout($this->fp, $response_timeout);
+            stream_set_timeout($this->fp, $response_timeout);
 
             $this->debug('socket connected');
             return true;

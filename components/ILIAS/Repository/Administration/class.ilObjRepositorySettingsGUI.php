@@ -25,6 +25,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as RefFactory;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Constraint;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * Repository settings.
@@ -36,6 +37,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 {
     protected ilRbacSystem $rbacsystem;
     protected AdministrationGUIRequest $admin_gui_request;
+    protected \ILIAS\Repository\InternalGUIService $repository_gui;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
     protected UIFactory $factory;
@@ -73,6 +75,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             ->gui()
             ->administration()
             ->request();
+        $this->repository_gui = $DIC->repository()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -607,10 +610,21 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->setModuleSubTabs("list_mods");
 
         $has_write = $ilAccess->checkAccess('write', '', $this->object->getRefId());
+        $group_id = $this->admin_gui_request->getModuleGroupId();
+        $this->ctrl->setParameter($this, 'group_id', $group_id);
+        $this->ctrl->setParameter($this, 'obj_type', '');
+        $this->addModuleGroupSelector($group_id);
 
-        $comp_table = new ilModulesTableGUI($this, "listModules", $has_write);
+        $comp_table = $this->repository_gui
+            ->administration()
+            ->modulesTableBuilder($group_id, $has_write, $this, 'listModules')
+            ->getTable();
 
-        $this->tpl->setContent($comp_table->getHTML());
+        if ($comp_table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($comp_table->render());
     }
 
     protected function saveModules(): void
@@ -620,10 +634,20 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilAccess = $this->access;
 
-        $item_groups = $this->admin_gui_request->getNewItemGroups();
-        $item_positions = $this->admin_gui_request->getNewItemPositions();
+        $group_id = $this->admin_gui_request->getModuleGroupId();
+        $table = $this->repository_gui
+            ->administration()
+            ->modulesTableBuilder(
+                $group_id,
+                true,
+                $this,
+                'listModules'
+            )
+            ->getTable();
+        $ordered_types = $table->getData();
 
-        if (count($item_groups) === 0 || count($item_positions) === 0 ||
+        if (!is_array($ordered_types) ||
+            count($ordered_types) === 0 ||
             !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "listModules");
         }
@@ -633,34 +657,183 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $grp_pos_map[$item["id"]] = $item["pos"];
         }
 
-        $type_pos_map = [];
-        $item_enablings = $this->admin_gui_request->getNewItemEnablings();
-        foreach ($item_positions as $obj_type => $pos) {
-            $grp_id = ($item_groups[$obj_type] ?? 0);
-            $type_pos_map[$grp_id][$obj_type] = $pos;
-
-            // enable creation?
-            $ilSetting->set(
-                "obj_dis_creation_" . $obj_type,
-                (string) ((int) (!($item_enablings[$obj_type] ?? false)))
-            );
-        }
-
-        foreach ($type_pos_map as $grp_id => $obj_types) {
-            $grp_pos = str_pad((string) $grp_pos_map[$grp_id], 4, "0", STR_PAD_LEFT);
-
-            asort($obj_types);
-            $pos = 0;
-            foreach (array_keys($obj_types) as $obj_type) {
-                $pos += 10;
-                $type_pos = $grp_pos . str_pad((string) $pos, 4, "0", STR_PAD_LEFT);
-                $ilSetting->set("obj_add_new_pos_" . $obj_type, (string) $type_pos);
-                $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, (string) $grp_id);
-            }
+        $grp_pos = str_pad((string) ($grp_pos_map[$group_id] ?? 9999), 4, "0", STR_PAD_LEFT);
+        $pos = 0;
+        foreach ($ordered_types as $obj_type) {
+            $pos += 10;
+            $type_pos = $grp_pos . str_pad((string) $pos, 4, "0", STR_PAD_LEFT);
+            $ilSetting->set("obj_add_new_pos_" . $obj_type, (string) $type_pos);
+            $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, (string) $group_id);
         }
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        $ilCtrl->setParameter($this, 'group_id', $group_id);
         $ilCtrl->redirect($this, "listModules");
+    }
+
+    public function toggleModuleCreation(string $object_type): void
+    {
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->ctrl->redirect($this, 'listModules');
+        }
+
+        $creation_enabled = !(int) $this->settings->get(
+            'obj_dis_creation_' . $object_type,
+            '0'
+        );
+        $this->settings->set(
+            'obj_dis_creation_' . $object_type,
+            (string) (int) !$creation_enabled
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->setParameter(
+            $this,
+            'group_id',
+            $this->admin_gui_request->getModuleGroupId()
+        );
+        $this->ctrl->setParameter($this, 'obj_type', '');
+        $this->ctrl->redirect($this, 'listModules');
+    }
+
+    public function enableModuleCreation(string $object_type): void
+    {
+        $this->setModuleCreation($object_type, true);
+    }
+
+    public function disableModuleCreation(string $object_type): void
+    {
+        $this->setModuleCreation($object_type, false);
+    }
+
+    protected function setModuleCreation(string $object_type, bool $enabled): void
+    {
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->ctrl->redirect($this, 'listModules');
+        }
+
+        $this->settings->set(
+            'obj_dis_creation_' . $object_type,
+            (string) (int) !$enabled
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->setParameter(
+            $this,
+            'group_id',
+            $this->admin_gui_request->getModuleGroupId()
+        );
+        $this->ctrl->setParameter($this, 'obj_type', '');
+        $this->ctrl->redirect($this, 'listModules');
+    }
+
+    public function moveModuleToGroup(string $object_type): void
+    {
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->ctrl->redirect($this, 'listModules');
+            return;
+        }
+
+        $this->ctrl->setParameter($this, 'obj_type', $object_type);
+        $this->repository_gui->clearAsnyOnloadCode();
+        $this->repository_gui
+            ->modal($this->lng->txt('move'))
+            ->form($this->getModuleMoveForm())
+            ->send();
+    }
+
+    public function moveModule(): void
+    {
+        $object_type = $this->admin_gui_request->getModuleType();
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId()) || $object_type === '') {
+            $this->ctrl->redirect($this, 'listModules');
+            return;
+        }
+
+        $form = $this->getModuleMoveForm();
+        if (!$form->isValid()) {
+            $this->repository_gui
+                ->modal($this->lng->txt('move'))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        $group_id = (int) $form->getData('target_group_id');
+        $group_options = $this->getModuleMoveGroupOptions();
+        if (!array_key_exists($group_id, $group_options)) {
+            $this->ctrl->redirect($this, 'listModules');
+            return;
+        }
+
+        $group_positions = [0 => 9999];
+        foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
+            $group_positions[(int) $item['id']] = (int) $item['pos'];
+        }
+
+        $max_position = 0;
+        $group_items = ilObjRepositorySettings::getNewItemGroupSubItems()[$group_id] ?? [];
+        foreach ($group_items as $item_type) {
+            if ($item_type === $object_type) {
+                continue;
+            }
+            $position = $this->settings->get('obj_add_new_pos_' . $item_type);
+            if ((int) $this->settings->get('obj_add_new_pos_grp_' . $item_type, '0') === $group_id) {
+                $max_position = max($max_position, (int) substr((string) $position, 4));
+            }
+        }
+
+        $position = min(9999, $max_position + 10);
+        $group_position = str_pad((string) ($group_positions[$group_id] ?? 9999), 4, '0', STR_PAD_LEFT);
+        $this->settings->set(
+            'obj_add_new_pos_' . $object_type,
+            $group_position . str_pad((string) $position, 4, '0', STR_PAD_LEFT)
+        );
+        $this->settings->set('obj_add_new_pos_grp_' . $object_type, (string) $group_id);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->setParameter($this, 'group_id', $group_id);
+        $this->ctrl->setParameter($this, 'obj_type', '');
+        $this->ctrl->redirect($this, 'listModules');
+    }
+
+    protected function addModuleGroupSelector(int $group_id): void
+    {
+        $selector = new ilSelectInputGUI($this->lng->txt('cmps_group'), 'group_id');
+        $selector->setOptions($this->getModuleGroupOptions());
+        $selector->setValue((string) $group_id);
+        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
+        $this->toolbar->addInputItem($selector, true);
+        $this->toolbar->addFormButton($this->lng->txt('apply'), 'listModules');
+    }
+
+    /** @return array<int, string> */
+    protected function getModuleGroupOptions(): array
+    {
+        $options = [0 => $this->lng->txt('rep_new_item_group_unassigned')];
+        foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
+            $options[(int) $item['id']] = $item['title'];
+        }
+        return $options;
+    }
+
+    /** @return array<int, string> */
+    protected function getModuleMoveGroupOptions(): array
+    {
+        $options = $this->getModuleGroupOptions();
+        unset($options[$this->admin_gui_request->getModuleGroupId()]);
+        return $options;
+    }
+
+    protected function getModuleMoveForm(): FormAdapterGUI
+    {
+        return $this->repository_gui
+            ->form([self::class], 'moveModule', $this->lng->txt('move'))
+            ->select(
+                'target_group_id',
+                $this->lng->txt('cmps_group'),
+                $this->getModuleMoveGroupOptions()
+            );
     }
 
     protected function listNewItemGroups(): void
@@ -679,9 +852,16 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
         }
 
-        $grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups", $has_write);
+        $grp_table = $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder($has_write, $this, "listNewItemGroups")
+            ->getTable();
 
-        $this->tpl->setContent($grp_table->getHTML());
+        if ($grp_table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($grp_table->render());
     }
 
     protected function initNewItemGroupForm(int $a_grp_id = 0): ilPropertyFormGUI
@@ -806,7 +986,18 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     {
         $ilSetting = $this->settings;
 
-        $group_order = $this->admin_gui_request->getNewItemGroupOrder();
+        $table = $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder(true, $this, "listNewItemGroups")
+            ->getTable();
+        $group_order = [];
+        $ordered_group_ids = $table->getData();
+        if (is_array($ordered_group_ids)) {
+            foreach ($ordered_group_ids as $position => $group_id) {
+                $group_order[(int) $group_id] = ($position + 1) * 10;
+            }
+        }
+
         if (count($group_order) > 0) {
             ilObjRepositorySettings::updateNewItemGroupOrder($group_order);
 
@@ -834,10 +1025,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
 
-    protected function confirmDeleteNewItemGroup(): void
+    public function confirmDeleteNewItemGroup(int $group_id): void
     {
-        $group_ids = $this->admin_gui_request->getNewItemGroupIds();
-        if (count($group_ids) === 0) {
+        $groups = ilObjRepositorySettings::getNewItemGroups();
+        if (!isset($groups[$group_id])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listNewItemGroups();
             return;
@@ -845,25 +1036,25 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $this->setModuleSubTabs("new_item_groups");
 
-        $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt("rep_new_item_group_delete_sure"));
-
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt("cancel"), "listNewItemGroups");
-        $cgui->setConfirm($this->lng->txt("confirm"), "deleteNewItemGroup");
-
-        $groups = ilObjRepositorySettings::getNewItemGroups();
-
-        foreach ($group_ids as $grp_id) {
-            $cgui->addItem("grp_ids[]", (string) $grp_id, $groups[$grp_id]["title"]);
-        }
-
-        $this->tpl->setContent($cgui->getHTML());
+        $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder(true, $this, "listNewItemGroups")
+            ->getTable()
+            ->renderDeletionConfirmation(
+                $this->lng->txt("delete"),
+                $this->lng->txt("rep_new_item_group_delete_sure"),
+                "deleteNewItemGroup",
+                [$group_id => $groups[$group_id]["title"]]
+            );
     }
 
     protected function deleteNewItemGroup(): void
     {
-        $group_ids = $this->admin_gui_request->getNewItemGroupIds();
+        $group_ids = $this->repository_gui
+            ->administration()
+            ->newItemGroupTableBuilder(true, $this, "listNewItemGroups")
+            ->getTable()
+            ->getItemIds();
         if (count($group_ids) === 0) {
             $this->listNewItemGroups();
             return;

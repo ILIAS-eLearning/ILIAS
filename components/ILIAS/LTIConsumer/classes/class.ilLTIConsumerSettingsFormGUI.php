@@ -143,7 +143,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         $item->addOption($optEmbedded);
         $this->addItem($item);
 
-        $customParams = new ilTextAreaInputGUI($DIC->language()->txt('launch_custom_params'), 'custom_params');
+        $customParams = new ilTextAreaInputGUI($DIC->language()->txt('lti_con_prov_custom_params'), 'custom_params');
         $customParams->setRows(6);
         $customParams->setValue($this->object->getCustomParams());
         $customParams->setInfo($DIC->language()->txt('lti_con_prov_custom_params_info'));

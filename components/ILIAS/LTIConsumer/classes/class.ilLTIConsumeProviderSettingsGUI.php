@@ -99,6 +99,71 @@ class ilLTIConsumeProviderSettingsGUI
         $this->showSettingsCmd($form);
     }
 
+    private function getClientIdFromProviderUrl(string $providerUrl): string
+    {
+        $res = "";
+        $first = explode(".", $providerUrl)[0];
+        $secondSplit = explode("//", $first);
+        if (count($secondSplit) > 1) {
+            $res = $secondSplit[1];
+        }
+        return $res;
+    }
+
+    protected function startDeepLinkingCmd(): never
+    {
+        global $DIC;
+        $provider = $this->object->getProvider();
+
+        $platform_client_id = $provider->getClientId();
+        $deployment_id = $provider->getId();
+        $user_id = ilObjLTIConsumer::getDeepLinkingUserIdentifier($provider, $DIC->user());                          // or whatever you used as login_hint
+
+        $lti_message_hint = json_encode([
+            'deployment_id' => $deployment_id,
+        ]);
+        $state = bin2hex(random_bytes(32));
+        $consumerRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $deployment_id);
+        ilSession::set('lti13_deep_linking_state', [
+            'state' => $state,
+            'provider_id' => $deployment_id,
+            'ref_id' => $consumerRefId === null ? 0 : $DIC->repositoryTree()->getParentId($consumerRefId),
+            'flow' => 'content_selection',
+            'created_at' => time()
+        ]);
+
+
+        $params = [
+            'login_hint' => $user_id,
+            'iss' => ilObjLTIConsumer::getPlattformId(),
+            'lti_message_hint' => $lti_message_hint,
+            'target_link_uri' => $provider->getContentItemUrl(),
+            'id' => $platform_client_id, // Instead of client_id due to ILIAS redirection system
+            'lti_deployment_id' => $deployment_id,
+            'state' => $state,
+        ];
+
+
+        $join = (str_contains($provider->getInitiateLogin(), '?')) ? '&' : '?';
+        $url = $provider->getInitiateLogin() . $join . http_build_query($params);
+        $urlSafe = htmlspecialchars($url, ENT_QUOTES);
+        $html = <<<HTML
+        <!doctype html>
+        <html>
+          <body onload="window.location.href='{$urlSafe}'">
+            <noscript>
+              <p>Continue to deep linking...</p>
+              <a href="{$urlSafe}">Continue</a>
+            </noscript>
+          </body>
+        </html>
+        HTML;
+        $response = $DIC->http()->response()->withBody(ILIAS\Filesystem\Stream\Streams::ofString($html));
+        $DIC->http()->saveResponse($response);
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+
+    }
 
     /**
      * @throws ilMDServicesException
@@ -130,7 +195,6 @@ class ilLTIConsumeProviderSettingsGUI
     protected function buildForm(ilLTIConsumeProvider $provider): ilLTIConsumeProviderFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $form = new ilLTIConsumeProviderFormGUI($provider);
         $form->initForm(
             $DIC->ctrl()->getFormAction($this),

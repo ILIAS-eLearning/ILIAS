@@ -20,11 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\Editing;
 
+use ILIAS\Blog\BlogGUIContext;
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
-use ILIAS\File\Capabilities\Permissions;
-use ILIAS\Blog\Permission\PermissionManager;
 
 class GUIService
 {
@@ -36,23 +35,15 @@ class GUIService
     }
 
     public function editingGUI(
-        int $node_id,
-        int $id_type,
-        PermissionManager $perm,
-        ?string $month,
-        \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
-        \ilObjBlogGUI $parent_gui
+        BlogGUIContext $context,
+        \ILIAS\Style\Content\Service $cs
     ): EditingGUI {
         return new EditingGUI(
             $this->data,
             $this->domain,
             $this->gui,
-            $node_id,
-            $id_type,
-            $perm,
-            $month,
-            $content_style_domain,
-            $parent_gui
+            $context,
+            $cs
         );
     }
 }

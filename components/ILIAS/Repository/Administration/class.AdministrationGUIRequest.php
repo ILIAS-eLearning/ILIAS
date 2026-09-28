@@ -41,10 +41,14 @@ class AdministrationGUIRequest
         return $this->int("grp_id");
     }
 
-    /** @return int[] */
-    public function getNewItemGroupIds(): array
+    public function getModuleGroupId(): int
     {
-        return $this->intArray("grp_ids");
+        return $this->int("group_id");
+    }
+
+    public function getModuleType(): string
+    {
+        return $this->str("obj_type");
     }
 
     /** @return int[] */
@@ -65,9 +69,4 @@ class AdministrationGUIRequest
         return $this->intArray("obj_enbl_creation");
     }
 
-    /** @return int[] */
-    public function getNewItemGroupOrder(): array
-    {
-        return $this->intArray("grp_order");
-    }
 }

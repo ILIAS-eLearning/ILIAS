@@ -28,6 +28,11 @@ use ILIAS\Style\Content\Object\ObjectManager;
 use ilRbacSystem;
 use ILIAS\Style\Content\Style\CSSBuilder;
 use ILIAS\Style\Content\Style\StyleManager;
+use ILIAS\Style\Content\Images\ImageRetrieval;
+use ILIAS\Style\Content\Color\ColorRetrieval;
+use ILIAS\Style\Content\Characteristic\CharacteristicRetrieval;
+use ILIAS\Style\Content\Template\TemplateRetrieval;
+use ILIAS\Style\Content\MediaQuery\MediaQueryRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -78,6 +83,13 @@ class InternalDomainService
         );
     }
 
+    public function characteristicRetrieval(
+        CharacteristicManager $manager,
+        string $super_type
+    ): CharacteristicRetrieval {
+        return new CharacteristicRetrieval($manager, $super_type);
+    }
+
     public function color(
         int $style_id,
         StyleAccessManager $access_manager
@@ -100,6 +112,34 @@ class InternalDomainService
             $this->repo_service,
             new \ilContentStyleStakeholder()
         );
+    }
+
+    public function imageRetrieval(ImageManager $image_manager): ImageRetrieval
+    {
+        return new ImageRetrieval($image_manager);
+    }
+
+    public function colorRetrieval(\ilObjStyleSheet $style_obj): ColorRetrieval
+    {
+        return new ColorRetrieval($style_obj);
+    }
+
+    public function templateRetrieval(
+        \ilObjStyleSheet $style_obj,
+        string $temp_type
+    ): TemplateRetrieval {
+        return new TemplateRetrieval($style_obj, $temp_type);
+    }
+
+    public function contentStylesRetrieval(array $data): ContentStylesRetrieval
+    {
+        return new ContentStylesRetrieval($data);
+    }
+
+    public function mediaQueryRetrieval(
+        \ilObjStyleSheet $style_obj
+    ): MediaQueryRetrieval {
+        return new MediaQueryRetrieval($style_obj);
     }
 
     public function repositoryContainer(int $ref_id): ContainerManager

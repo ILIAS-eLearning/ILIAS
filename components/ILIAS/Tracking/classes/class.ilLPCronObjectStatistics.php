@@ -18,10 +18,10 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
-use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\CronJob;
 use ILIAS\Cron\Job\JobManager;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
 
 /**
  * Cron for lp object statistics

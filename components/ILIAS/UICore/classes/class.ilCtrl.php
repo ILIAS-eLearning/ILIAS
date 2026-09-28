@@ -34,6 +34,8 @@ use GuzzleHttp\Psr7\Response;
  */
 class ilCtrl implements ilCtrlInterface
 {
+    use ilCtrlNamespaceEncoding;
+
     protected ?object $exec_object = null;
     protected ?string $command = null;
 
@@ -868,7 +870,7 @@ class ilCtrl implements ilCtrlInterface
         $target_url = $this->appendParameterString(
             $target_url,
             self::PARAM_BASE_CLASS,
-            urlencode($base_class), // encode in case of namespaced classes
+            $this->encodeNamespaceForUrl($base_class), // encode in case of namespaced classes
             $is_escaped
         );
 
@@ -889,7 +891,7 @@ class ilCtrl implements ilCtrlInterface
             $target_url = $this->appendParameterString(
                 $target_url,
                 self::PARAM_CMD_CLASS,
-                urlencode($cmd_class), // encode in case of namespaced classes
+                $this->encodeNamespaceForUrl($cmd_class), // encode in case of namespaced classes
                 $is_escaped
             );
         }

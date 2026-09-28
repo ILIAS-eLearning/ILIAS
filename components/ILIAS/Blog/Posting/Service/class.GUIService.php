@@ -58,7 +58,7 @@ class GUIService
     }
 
     public function postingList(
-        \ilObjBlogGUI $parent_gui,
+        int $blog_id,
         PermissionManager $perm,
         ?string $current_month = null,
         ?int $node_id = null,
@@ -68,7 +68,7 @@ class GUIService
             $this->data,
             $this->domain,
             $this->gui,
-            $parent_gui,
+            $blog_id,
             $perm,
             $current_month,
             $node_id,

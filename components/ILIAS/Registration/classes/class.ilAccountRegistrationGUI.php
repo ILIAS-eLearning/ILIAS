@@ -500,8 +500,6 @@ class ilAccountRegistrationGUI
         $this->userObj->updateOwner();
 
         // setup user preferences
-        $this->userObj->setLanguage($this->form->getInput('usr_language'));
-
         global $DIC;
         $DIC['legalDocuments']->selfRegistration()->userCreation($this->userObj);
 

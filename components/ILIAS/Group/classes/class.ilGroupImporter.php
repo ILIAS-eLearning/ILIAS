@@ -72,7 +72,12 @@ class ilGroupImporter extends ilXmlImporter
                 $a_id . ':0:grp',
                 $this->group->getId() . ':0:grp'
             );
-
+            $a_mapping->addMapping(
+                "components/ILIAS/Tracking",
+                "obj",
+                $a_id,
+                (string) $this->group->getId()
+            );
         } catch (ilSaxParserException | ilWebLinkXmlParserException $e) {
             $GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "' . $e->getMessage() . '".');
         }

@@ -99,7 +99,7 @@ class ilPRGMail
             $mail->enqueue($login, '', '', $subject, $body, []);
             return true;
         } catch (Exception $e) {
-            $this->log->write($e->getMessage());
+            $this->log->info($e->getMessage());
             return false;
         }
     }
@@ -109,7 +109,7 @@ class ilPRGMail
         list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
 
         if (! $prg->getSettings()->getAutoMailSettings()->getReminderNotRestartedByUserDays() > 0) {
-            $this->log->write("Send info to re-assign mail is deactivated in study programme settings");
+            $this->log->info("Send info to re-assign mail is deactivated in study programme settings");
             return;
         }
 
@@ -138,7 +138,7 @@ class ilPRGMail
         list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
 
         if (! $prg->getSettings()->getAutoMailSettings()->getProcessingEndsNotSuccessfulDays() > 0) {
-            $this->log->write("Send risky to fail mail is deactivated in study programme settings");
+            $this->log->info("Send risky to fail mail is deactivated in study programme settings");
             return;
         }
 
@@ -167,7 +167,7 @@ class ilPRGMail
         list($ass, $prg) = $this->getAssignmentAndProgramme($assignment_id, $root_prg_id);
 
         if (! $prg->getSettings()->getAutoMailSettings()->getSendReAssignedMail()) {
-            $this->log->write("Send re assign mail is deactivated in study programme settings");
+            $this->log->info("Send re assign mail is deactivated in study programme settings");
             return false;
         }
 

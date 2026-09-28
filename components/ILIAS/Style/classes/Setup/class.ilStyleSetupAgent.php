@@ -98,7 +98,6 @@ class ilStyleSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [
-            new ilStyleIRSSMigration()
         ];
     }
 

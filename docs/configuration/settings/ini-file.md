@@ -39,7 +39,7 @@ to the webserver. These files are located here:
 | path                            | "/var/iliasdata"                   |             |
 | file                            | "ilias.log"                        |             |
 | enabled                         | "1"                                |             |
-| level                           | "WARNING"                          |             |
+| default_level                   | "WARNING"                          |             |
 | error_path                      | "/var/iliasdata"                   |             |
 | [debian]                        |                                    |             |
 | data_dir                        | "/var/opt/ilias"                   |             |

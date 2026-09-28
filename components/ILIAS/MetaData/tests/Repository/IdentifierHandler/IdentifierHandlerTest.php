@@ -32,6 +32,11 @@ use ILIAS\MetaData\Paths\BuilderInterface as PathBuilder;
 use ILIAS\MetaData\Paths\NullBuilder as NullPathBuilder;
 use ILIAS\MetaData\Paths\Filters\FilterType;
 use ILIAS\MetaData\Paths\NullPath;
+use ILIAS\MetaData\Paths\Navigator\NullNavigatorFactory;
+use ILIAS\MetaData\Paths\Navigator\NavigatorInterface;
+use ILIAS\MetaData\Elements\ElementInterface;
+use ILIAS\MetaData\Paths\Navigator\NullNavigator;
+use ILIAS\MetaData\Elements\NullElement;
 
 class IdentifierHandlerTest extends TestCase
 {
@@ -69,7 +74,7 @@ class IdentifierHandlerTest extends TestCase
         };
     }
 
-    protected function getIdentifierHandler(): IdentifierHandler
+    protected function getIdentifierHandler(bool $title_exists = false): IdentifierHandler
     {
         $manipulator = new class () extends NullManipulator {
             public function prepareCreateOrUpdate(
@@ -149,7 +154,33 @@ class IdentifierHandlerTest extends TestCase
             }
         };
 
-        return new class ($manipulator, $path_factory) extends IdentifierHandler {
+        $navigator_factory = new class ($title_exists) extends NullNavigatorFactory {
+            public function __construct(
+                protected bool $title_exists
+            ) {
+            }
+
+            public function navigator(PathInterface $path, ElementInterface $start_element): NavigatorInterface
+            {
+                return new class ($path, $this->title_exists) extends NullNavigator {
+                    public function __construct(
+                        protected PathInterface $path,
+                        protected bool $title_exists
+                    ) {
+                    }
+
+                    public function lastElementAtFinalStep(): ?ElementInterface
+                    {
+                        if ($this->title_exists && $this->path->toString() === '~start~%general%title%string') {
+                            return new NullElement();
+                        }
+                        return null;
+                    }
+                };
+            }
+        };
+
+        return new class ($manipulator, $path_factory, $navigator_factory) extends IdentifierHandler {
             protected function getInstallID(): string
             {
                 return 'MockInstID';
@@ -199,5 +230,31 @@ class IdentifierHandlerTest extends TestCase
         $this->assertCount(2, $prepared_changes);
         $this->assertContains($expected_entry_changes, $prepared_changes);
         $this->assertContains($expected_catalog_changes, $prepared_changes);
+    }
+
+    public function testPreparePlaceholderTitleIfEmptyWhenNotEmpty(): void
+    {
+        $set = $this->getSet();
+        $identifier_handler = $this->getIdentifierHandler(true);
+
+        $prepared_set = $identifier_handler->preparePlaceholderTitleIfEmpty($set);
+
+        $prepared_changes = $prepared_set->prepared_changes;
+        $this->assertEmpty($prepared_changes);
+    }
+
+    public function testPreparePlaceholderTitleIfEmptyWhenEmpty(): void
+    {
+        $set = $this->getSet();
+        $identifier_handler = $this->getIdentifierHandler(false);
+
+        $prepared_set = $identifier_handler->preparePlaceholderTitleIfEmpty($set);
+
+        $expected_change = [
+            'path' => '~start~%general%title%string',
+            'values' => ['PLACEHOLDER']
+        ];
+        $prepared_changes = $prepared_set->prepared_changes;
+        $this->assertSame([$expected_change], $prepared_changes);
     }
 }

@@ -20,18 +20,15 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\Renderer;
 
+use ILIAS\Data\URI;
+use ILIAS\DI\UIServices;
 use ILIAS\Tracking\View\DataRetrieval\Info\LPInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\ObjectDataInterface;
 use ILIAS\Tracking\View\PropertyList\PropertyListInterface;
-use ILIAS\Tracking\View\Renderer\RendererInterface;
 use ILIAS\UI\Component\Chart\ProgressMeter\Standard as UIStandardProgressMeter;
 use ILIAS\UI\Component\Item\Standard as UIStandardItem;
-use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Symbol\Icon\Icon as UIIconIcon;
-use ILIAS\UI\Component\Symbol\Icon\Standard as UIStandardIcon;
-use ilLPObjSettings;
 use ilLPStatus;
-use ILIAS\Data\URI;
 
 class Renderer implements RendererInterface
 {

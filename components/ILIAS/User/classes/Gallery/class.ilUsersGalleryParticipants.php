@@ -43,6 +43,10 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
                 continue;
             }
 
+            if (!ilObjUser::userExists([$usr_id])) {
+                continue;
+            }
+
             if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false)) || !($user instanceof ilObjUser)) {
                 continue;
             }

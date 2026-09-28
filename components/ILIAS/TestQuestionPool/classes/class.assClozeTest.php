@@ -889,12 +889,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function getTextgapPoints($a_original, $a_entered, $max_points): float
     {
-        global $DIC;
-        $refinery = $DIC->refinery();
-        $result = 0;
-        $gaprating = $this->getTextgapRating();
-
-        switch ($gaprating) {
+        $result = 0.0;
+        switch ($this->textgap_rating) {
             case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
                 if (strcmp(ilStr::strToLower($a_original), ilStr::strToLower($a_entered)) == 0) {
                     $result = $max_points;
@@ -906,19 +902,19 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 1);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 1);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 2);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 2);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 3);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 3);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 4);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 4);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 5);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 5);
                 break;
         }
 
@@ -927,6 +923,50 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $result = $max_points;
         }
         return $result;
+    }
+
+    /**
+     *
+     * @param array<int, assAnswerCloze> $answer_options
+     */
+    public function getAnswerOptionIndexForTextGapAnswer(
+        array $answer_options,
+        string $response
+    ): ?int {
+        $levenshtein_distance = match ($this->textgap_rating) {
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1 => 1,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2 => 2,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3 => 3,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4 => 4,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5 => 5,
+            default => null
+        };
+
+        if ($levenshtein_distance !== null) {
+            foreach ($answer_options as $answer_index => $answer_option) {
+                if ($this->refinery->string()->levenshtein()->standard(
+                    $answer_option->getAnswertext(),
+                    $levenshtein_distance
+                )->transform($response) >= 0) {
+                    return $answer_index;
+                }
+            }
+        } elseif ($this->textgap_rating === assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE) {
+            $response_to_lower = strtolower($response);
+            foreach ($answer_options as $answer_index => $answer_option) {
+                if (strtolower($answer_option->getAnswertext()) === $response_to_lower) {
+                    return $answer_index;
+                }
+            }
+        } elseif ($this->textgap_rating === assClozeGap::TEXTGAP_RATING_CASESENSITIVE) {
+            foreach ($answer_options as $answer_index => $answer_option) {
+                if ($answer_option->getAnswertext() === $response) {
+                    return $answer_index;
+                }
+            }
+        }
+
+        return null;
     }
 
 

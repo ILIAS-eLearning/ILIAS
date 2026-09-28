@@ -308,7 +308,7 @@ class ilSCORMItem extends ilSCORMObject
             array($this->getId())
         );
 
-        $ilLog->write("SAHS Delete(ScormItem): " .
+        $ilLog->info("SAHS Delete(ScormItem): " .
             'DELETE FROM scorm_tracking WHERE sco_id = ' . $this->getId() . ' AND obj_id = ' . $this->getSLMId());
         $ilDB->manipulateF(
             'DELETE FROM scorm_tracking WHERE sco_id = %s AND obj_id = %s',

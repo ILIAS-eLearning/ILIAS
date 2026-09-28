@@ -16,17 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * @author  Stefan Meyer <meyer@leifos.com>
- * @package ilias-tracking
- */
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+
 class ilLPStatusExerciseReturned extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_exercise_returned';
+    protected const string LNG_TEXT_INFO = 'trac_mode_exercise_returned_info';
+    protected ilLanguage $lng;
+
     public static function _getNotAttempted(int $a_obj_id): array
     {
-        $users = array();
-
+        $users = [];
         $members = self::getMembers($a_obj_id);
         if ($members) {
             $users = array_diff(
@@ -50,18 +52,15 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         $users = ilExerciseMembers::_getReturned($a_obj_id);
         $all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         $users = $users + $all;
-
         $users = array_diff(
             $users,
             ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
-
         if ($users) {
             // Exclude all non members
             $users = array_intersect(self::getMembers($a_obj_id), $users);
         }
-
         return $users;
     }
 
@@ -83,35 +82,26 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
-            case 'exc':
-                if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id) ||
-                    ilExerciseMembers::_hasReturned($a_obj_id, $a_usr_id)) {
-                    $status = self::LP_STATUS_IN_PROGRESS_NUM;
-                }
-                $ex_stat = ilExerciseMembers::_lookupStatus(
-                    $a_obj_id,
-                    $a_usr_id
-                );
-                if ($ex_stat == "passed") {
-                    $status = self::LP_STATUS_COMPLETED_NUM;
-                }
-                if ($ex_stat == "failed") {
-                    $status = self::LP_STATUS_FAILED_NUM;
-                }
-                break;
+        if (strcmp($this->ilObjDataCache->lookupType($a_obj_id), 'exc') === 0) {
+            if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id) ||
+                ilExerciseMembers::_hasReturned($a_obj_id, $a_usr_id)) {
+                $status = self::LP_STATUS_IN_PROGRESS_NUM;
+            }
+            $ex_stat = ilExerciseMembers::_lookupStatus(
+                $a_obj_id,
+                $a_usr_id
+            );
+            if ($ex_stat == "passed") {
+                $status = self::LP_STATUS_COMPLETED_NUM;
+            }
+            if ($ex_stat == "failed") {
+                $status = self::LP_STATUS_FAILED_NUM;
+            }
         }
         return $status;
     }
 
-    /**
-     * Get members for object
-     */
     protected static function getMembers(int $a_obj_id)
     {
         return ilExerciseMembers::_getMembers($a_obj_id);
@@ -127,7 +117,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
-                return array();
+                return [];
             }
         }
         return self::_lookupStatusForObject(
@@ -147,7 +137,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
-                return array();
+                return [];
             }
         }
         return self::_lookupStatusForObject(
@@ -167,7 +157,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
-                return array();
+                return [];
             }
         }
         return self::_lookupStatusForObject(
@@ -175,5 +165,27 @@ class ilLPStatusExerciseReturned extends ilLPStatus
             self::LP_STATUS_IN_PROGRESS_NUM,
             $a_user_ids
         );
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_EXERCISE_RETURNED;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

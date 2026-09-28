@@ -640,6 +640,24 @@ export default class UI {
     }
   }
 
+  showDeleteConfirmation(onConfirm) {
+    const content = this.uiModel.confirmation.replace(
+      '#text#',
+      il.Language.txt('copg_confirm_el_deletion'),
+    );
+
+    this.util.showModal(
+      this.uiModel.modal,
+      il.Language.txt('cont_delete_content'),
+      content,
+      il.Language.txt('delete'),
+      () => {
+        this.util.hideModal(this.uiModel.modal);
+        onConfirm();
+      },
+    );
+  }
+
   refreshTriggerViewControl() {
     const model = this.iimModel;
     const prop = document.querySelector(

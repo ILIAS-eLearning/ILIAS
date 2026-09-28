@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -164,8 +166,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
             default:
                 $q_gui = SurveyQuestionGUI::_getQuestionGUI(
-                    $q_type,
-                    $this->edit_request->getQuestionId()
+                    (string) $q_type,
+                    (int) $this->edit_request->getQuestionId()
                 );
                 $this->log->debug("- This is the switch/case default, going to question id =" . $this->edit_request->getQuestionId());
                 $q_gui->setQuestionTabs();
@@ -277,12 +279,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $infos = $this->object->getQuestionInfos($checked_questions);
         foreach ($infos as $data) {
             $txt = $data["title"] . " (" .
-                SurveyQuestion::_getQuestionTypeName($data["type_tag"]) . ")";
+                SurveyQuestion::_getQuestionTypeName((string) $data["type_tag"]) . ")";
             if ($data["description"]) {
                 $txt .= "<div class=\"small\">" . $data["description"] . "</div>";
             }
 
-            $cgui->addItem("q_id[]", $data["id"], $txt);
+            $cgui->addItem("q_id[]", (string) $data["id"], $txt);
         }
 
         $this->tpl->setContent($cgui->getHTML());
@@ -353,13 +355,23 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $form = $this->getImportForm();
         if ($form->checkInput()) {
             // check if file was uploaded
-            $source = $_FILES["qtidoc"]["tmp_name"];
+            $upload = $_FILES["qtidoc"] ?? null;
+            $source = is_array($upload) && is_string($upload["tmp_name"] ?? null)
+                ? $upload["tmp_name"]
+                : "";
+            $name = is_array($upload) && is_string($upload["name"] ?? null)
+                ? $upload["name"]
+                : "";
+            $type = is_array($upload) && is_string($upload["type"] ?? null)
+                ? $upload["type"]
+                : "";
+            $upload_error = is_array($upload) ? (int) ($upload["error"] ?? UPLOAD_ERR_NO_FILE) : UPLOAD_ERR_NO_FILE;
             $error = 0;
-            if (($source === 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK) {
+            if (($source === 'none') || (!$source) || $upload_error > UPLOAD_ERR_OK) {
                 $error = 1;
             }
             // check correct file type
-            if (!$error && strpos("xml", $_FILES["qtidoc"]["type"]) !== false) {
+            if (!$error && strpos("xml", $type) !== false) {
                 $error = 1;
             }
             if (!$error) {
@@ -368,11 +380,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 $this->object->createImportDirectory();
 
                 // copy uploaded file to import directory
-                $full_path = $this->object->getImportDirectory() . "/" . $_FILES["qtidoc"]["name"];
+                $full_path = $this->object->getImportDirectory() . "/" . $name;
 
                 ilFileUtils::moveUploadedFile(
-                    $_FILES["qtidoc"]["tmp_name"],
-                    $_FILES["qtidoc"]["name"],
+                    $source,
+                    $name,
                     $full_path
                 );
                 $source = $full_path;
@@ -531,7 +543,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         foreach ($files as $exp_file) {
             $file_arr = explode("__", $exp_file);
             $data[] = array('file' => $exp_file,
-                            'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
+                            'date' => ilDatePresentation::formatDate(new ilDateTime((int) $file_arr[0], IL_CAL_UNIX)),
                             'size' => filesize($export_dir . "/" . $exp_file)
             );
         }
@@ -577,7 +589,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         );
 
         $q_gui = SurveyQuestionGUI::_getQuestionGUI(
-            $this->edit_request->getSelectedQuestionTypes()
+            (string) $this->edit_request->getSelectedQuestionTypes()
         );
         $q_gui->object->setObjId($this->object->getId());
         $q_gui->object->createNewQuestion();
@@ -598,7 +610,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     {
         $q_gui = SurveyQuestionGUI::_getQuestionGUI(
             "",
-            $this->edit_request->getPreview()
+            (int) $this->edit_request->getPreview()
         );
         $this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
         $this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $this->edit_request->getPreview());
@@ -764,15 +776,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $ctrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
+        $ref_id = (int) $a_target;
 
-        if ($ilAccess->checkAccess("visible", "", $a_target) ||
-            $ilAccess->checkAccess("read", "", $a_target)) {
-            $ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "ref_id", $a_target);
+        if ($ilAccess->checkAccess("visible", "", $ref_id) ||
+            $ilAccess->checkAccess("read", "", $ref_id)) {
+            $ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "ref_id", $ref_id);
             $ctrl->redirectByClass("ilObjSurveyQuestionPoolGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
             ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }

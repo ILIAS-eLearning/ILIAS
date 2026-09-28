@@ -121,12 +121,35 @@ class MetaContent
 
     public function addCss(string $path, string $media = self::MEDIA_SCREEN): void
     {
-        $this->css->addItem(new Css($path, $this->resource_version, $media));
+        $this->css->addItem(new Css($this->toWebPath($path), $this->resource_version, $media));
     }
 
     public function addJs(string $path, bool $add_version_number = false, int $batch = 2): void
     {
-        $this->js->addItem(new Js($path, $this->resource_version, $add_version_number, $batch));
+        $this->js->addItem(
+            new Js($this->toWebPath($path), $this->resource_version, $add_version_number, $batch)
+        );
+    }
+
+    /**
+     * Resources are delivered relative to the web root, but components which know their own
+     * location - plugins in particular, see ilPlugin::getDirectory() - only have an absolute
+     * one at hand. Such a path would be written into the markup verbatim and could never be
+     * requested by a browser, so cut the web root off instead.
+     */
+    private function toWebPath(string $path): string
+    {
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            return $path;
+        }
+
+        $web_root = rtrim(ILIAS_ABSOLUTE_PATH, '/') . '/public/';
+
+        if (str_starts_with($path, $web_root)) {
+            return substr($path, strlen($web_root));
+        }
+
+        return $path;
     }
 
     public function addInlineCss(string $content, string $media = self::MEDIA_SCREEN): void

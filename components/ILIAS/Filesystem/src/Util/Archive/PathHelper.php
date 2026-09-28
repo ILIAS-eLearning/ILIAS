@@ -29,7 +29,8 @@ trait PathHelper
 {
     protected function isPathIgnored(string $path, Options $options): bool
     {
-        $regex = '(' . implode('|', $options->getIgnoredPathSnippets()) . ')';
+        $ignored_path_snippets = array_map('preg_quote', $options->getIgnoredPathSnippets());
+        $regex = '(' . implode('|', $ignored_path_snippets) . ')';
         return preg_match($regex, $path) > 0;
     }
 
@@ -76,7 +77,11 @@ trait PathHelper
             $path = $realpath;
         }
 
-        $normalized = preg_replace('#\p{C}+|^\./#u', '', (string) $path);
+        // only NUL bytes are removed here: $path points to an existing location in the file
+        // system and control characters such as \x0b are valid parts of a directory name.
+        // Removing them would make the path point to nothing, see
+        // https://mantis.ilias.de/view.php?id=30709
+        $normalized = preg_replace('#\x00+|^\./#', '', (string) $path);
         $normalized = preg_replace('#/\.(?=/)|^\./|\./$#', '', (string) $normalized);
         $regex = '#\/*[^/\.]+/\.\.#Uu';
 

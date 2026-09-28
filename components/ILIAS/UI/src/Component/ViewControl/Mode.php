@@ -24,6 +24,8 @@ use ILIAS\UI\Component\Component;
 
 /**
  * This describes a Mode Control
+ *
+ * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Mode}
  */
 interface Mode extends Component
 {

@@ -18,8 +18,14 @@
 
 declare(strict_types=0);
 
+use ILIAS\DI\Container;
+
 class ilLPStatusIndividualAssessment extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_individual_assessment';
+    protected const string LNG_TEXT_INFO = 'trac_mode_individual_assessment_info';
+    protected ilLanguage $lng;
+
     public static function _getNotAttempted(int $a_obj_id): array
     {
         return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn(
@@ -92,5 +98,26 @@ class ilLPStatusIndividualAssessment extends ilLPStatus
             default:
                 return self::LP_STATUS_NOT_ATTEMPTED_NUM;
         }
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_INDIVIDUAL_ASSESSMENT;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

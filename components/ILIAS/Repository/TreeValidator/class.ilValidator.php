@@ -898,11 +898,7 @@ class ilValidator
         removal starts here
         ********************/
 
-        $message = sprintf(
-            '%s::removeInvalidReferences(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // to make sure
         $this->filterWorkspaceObjects($a_invalid_refs);
@@ -913,11 +909,10 @@ class ilValidator
             $res = $ilDB->manipulate($query);
 
             $message = sprintf(
-                '%s::removeInvalidReferences(): Reference %s removed',
-                get_class($this),
+                'Reference %s removed',
                 $entry["ref_id"]
             );
-            $ilLog->write($message, $ilLog->WARNING);
+            $ilLog->warning($message);
 
             $this->writeScanLogLine("Entry " . $entry["ref_id"] . " removed");
         }
@@ -962,22 +957,17 @@ class ilValidator
         removal starts here
         ********************/
 
-        $message = sprintf(
-            '%s::removeInvalidChilds(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         foreach ($a_invalid_childs as $entry) {
             $q = "DELETE FROM tree WHERE child='" . $entry["child"] . "'";
             $this->db->query($q);
 
             $message = sprintf(
-                '%s::removeInvalidChilds(): Entry child=%s removed',
-                get_class($this),
+                'Entry child=%s removed',
                 $entry["child"]
             );
-            $ilLog->write($message, $ilLog->WARNING);
+            $ilLog->warning($message);
 
             $this->writeScanLogLine("Entry " . $entry["child"] . " removed");
         }
@@ -1025,11 +1015,7 @@ class ilValidator
 
         $removed = false;
 
-        $message = sprintf(
-            '%s::removeInvalidRolefolders(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // to make sure
         $this->filterWorkspaceObjects($a_invalid_rolefolders);
@@ -1096,11 +1082,7 @@ class ilValidator
 
         $restored = false;
 
-        $message = sprintf(
-            '%s::restoreMissingObjects(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // to make sure
         $this->filterWorkspaceObjects($a_missing_objects);
@@ -1153,12 +1135,11 @@ class ilValidator
         $res = $ilDB->manipulate($query);
 
         $message = sprintf(
-            '%s::restoreReference(): new reference %s for obj_id %s created',
-            get_class($this),
+            'new reference %s for obj_id %s created',
             $next_id,
             $a_obj_id
         );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning($message);
 
         return $next_id;
     }
@@ -1190,11 +1171,7 @@ class ilValidator
             return false;
         }
 
-        $message = sprintf(
-            '%s::restoreUnboundObjects(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // start restore process
         return $this->restoreSubTrees($a_unbound_objects);
@@ -1228,11 +1205,7 @@ class ilValidator
             return false;
         }
 
-        $message = sprintf(
-            '%s::restoreTrash(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // start restore process
         $restored = $this->restoreDeletedObjects($a_deleted_objects);
@@ -1241,11 +1214,7 @@ class ilValidator
             $q = "DELETE FROM tree WHERE tree!=1";
             $this->db->query($q);
 
-            $message = sprintf(
-                '%s::restoreTrash(): Removed all trees with tree id <> 1',
-                get_class($this)
-            );
-            $ilLog->write($message, $ilLog->WARNING);
+            $ilLog->warning('Removed all trees with tree id <> 1');
 
             $this->writeScanLogLine("Old tree entries removed");
         }
@@ -1279,11 +1248,7 @@ class ilValidator
             return false;
         }
 
-        $message = sprintf(
-            '%s::restoreDeletedObjects()): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // first delete all rolefolders
         // don't save rolefolders, remove them
@@ -1344,11 +1309,7 @@ class ilValidator
         $subnodes = [];
         $topnode = [];
 
-        $message = sprintf(
-            '%s::restoreSubTrees(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // process move subtree
         foreach ($a_nodes as $node) {
@@ -1425,11 +1386,7 @@ class ilValidator
         if ($a_nodes === null && isset($this->deleted_objects)) {
             $a_nodes = $this->deleted_objects;
         }
-        $message = sprintf(
-            '%s::purgeTrash(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // start purge process
         return $this->purgeObjects($a_nodes);
@@ -1456,11 +1413,7 @@ class ilValidator
             $a_nodes = $this->unbound_objects;
         }
 
-        $message = sprintf(
-            '%s::purgeUnboundObjects(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // start purge process
         return $this->purgeObjects($a_nodes);
@@ -1487,11 +1440,7 @@ class ilValidator
             $a_nodes = $this->missing_objects;
         }
 
-        $message = sprintf(
-            '%s::purgeMissingObjects(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // start purge process
         return $this->purgeObjects($a_nodes);
@@ -1564,12 +1513,11 @@ class ilValidator
             }
 
             $message = sprintf(
-                '%s::purgeObjects(): Removing object (id:%s ref:%s)',
-                get_class($this),
+                'Removing object (id:%s ref:%s)',
                 $ref_id,
                 $node_obj->getId()
             );
-            $ilLog->write($message, $ilLog->WARNING);
+            $ilLog->warning($message);
 
             $startTime = microtime(true);
             $node_obj->delete();
@@ -1601,11 +1549,7 @@ class ilValidator
         $tree = $this->tree;
         $ilLog = $this->log;
 
-        $message = sprintf(
-            '%s::initGapsInTree(): Started...',
-            get_class($this)
-        );
-        $ilLog->write($message, $ilLog->WARNING);
+        $ilLog->warning('Started...');
 
         // check mode: clean
         if ($this->mode["clean"] !== true) {

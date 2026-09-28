@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Component\Activities;
 
+use ILIAS\Data\Range;
+
 class StaticRepository implements Repository
 {
     protected array $activities = [];

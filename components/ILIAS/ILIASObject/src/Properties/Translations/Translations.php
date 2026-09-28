@@ -20,11 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Properties\Translations;
 
-use ILIAS\ILIASObject\Properties\Property;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
-use ILIAS\Refinery\Factory as Refinery;
-
 /**
  * Class handles translation mode for an object.
  *
@@ -84,7 +79,9 @@ class Translations
     public function withDefaultLanguage(string $default_language): self
     {
         $clone = clone $this;
-        $clone->languages[$clone->default_language] = $clone->languages[$clone->default_language]->withDefault(false);
+        if (isset($clone->languages[$clone->default_language])) {
+            $clone->languages[$clone->default_language] = $clone->languages[$clone->default_language]->withDefault(false);
+        }
         $clone->languages[$default_language] = $clone->languages[$default_language]->withDefault(true);
         $clone->default_language = $default_language;
         return $clone;

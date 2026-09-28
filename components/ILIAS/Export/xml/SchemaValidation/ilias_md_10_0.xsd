@@ -197,7 +197,7 @@
  <xs:element name="lom">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="general"/>
+    <xs:element ref="general" minOccurs="0" maxOccurs="1"/>
     <xs:element ref="lifeCycle" minOccurs="0" maxOccurs="1"/>
     <xs:element ref="metaMetadata" minOccurs="0" maxOccurs="1"/>
     <xs:element ref="technical" minOccurs="0" maxOccurs="1"/>
@@ -215,7 +215,7 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element name="title" type="LangString"/>
+    <xs:element name="title" type="LangString" minOccurs="0" maxOccurs="1"/>
     <xs:element name="language" type="LanguageCode" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="keyword" type="LangString" minOccurs="0" maxOccurs="unbounded"/>

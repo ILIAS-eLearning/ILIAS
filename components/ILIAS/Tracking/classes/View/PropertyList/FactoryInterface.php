@@ -20,8 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\PropertyList;
 
-use ILIAS\Tracking\View\PropertyList\BuilderInterface;
-
 interface FactoryInterface
 {
     public function builder(): BuilderInterface;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -53,7 +55,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             //"6" => "matrix_subtype_time"
         );
         foreach ($subtypes as $idx => $st) {
-            $subtype->addOption(new ilRadioOption($this->lng->txt($st), $idx));
+            $subtype->addOption(new ilRadioOption($this->lng->txt($st), (string) $idx));
         }
         $a_form->addItem($subtype);
 
@@ -64,21 +66,21 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
         // column separators
         $column_separators = new ilCheckboxInputGUI($this->lng->txt("matrix_column_separators"), "column_separators");
-        $column_separators->setValue(1);
+        $column_separators->setValue('1');
         $column_separators->setInfo($this->lng->txt("matrix_column_separators_description"));
         $column_separators->setRequired(false);
         $a_form->addItem($column_separators);
 
         // row separators
         $row_separators = new ilCheckboxInputGUI($this->lng->txt("matrix_row_separators"), "row_separators");
-        $row_separators->setValue(1);
+        $row_separators->setValue('1');
         $row_separators->setInfo($this->lng->txt("matrix_row_separators_description"));
         $row_separators->setRequired(false);
         $a_form->addItem($row_separators);
 
         // neutral column separators
         $neutral_column_separator = new ilCheckboxInputGUI($this->lng->txt("matrix_neutral_column_separator"), "neutral_column_separator");
-        $neutral_column_separator->setValue(1);
+        $neutral_column_separator->setValue('1');
         $neutral_column_separator->setInfo($this->lng->txt("matrix_neutral_column_separator_description"));
         $neutral_column_separator->setRequired(false);
         $a_form->addItem($neutral_column_separator);
@@ -135,7 +137,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
 
         // values
-        $subtype->setValue($this->object->getSubtype());
+        $subtype->setValue((string) $this->object->getSubtype());
         $column_separators->setChecked($this->object->getColumnSeparators());
         $row_separators->setChecked($this->object->getRowSeparators());
         $neutral_column_separator->setChecked($this->object->getNeutralColumnSeparator());
@@ -156,31 +158,41 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
     protected function importEditFormValues(ilPropertyFormGUI $a_form): void
     {
-        $this->object->setSubtype($a_form->getInput("type"));
-        $this->object->setRowSeparators($a_form->getInput("row_separators") ? 1 : 0);
-        $this->object->setColumnSeparators($a_form->getInput("column_separators") ? 1 : 0);
-        $this->object->setNeutralColumnSeparator($a_form->getInput("neutral_column_separator") ? 1 : 0);
+        $this->object->setSubtype((int) $a_form->getInput("type"));
+        $this->object->setRowSeparators((bool) $a_form->getInput("row_separators"));
+        $this->object->setColumnSeparators((bool) $a_form->getInput("column_separators"));
+        $this->object->setNeutralColumnSeparator((bool) $a_form->getInput("neutral_column_separator"));
 
         // Set bipolar adjectives
-        $this->object->setBipolarAdjective(0, $a_form->getInput("bipolar1"));
-        $this->object->setBipolarAdjective(1, $a_form->getInput("bipolar2"));
+        $this->object->setBipolarAdjective(0, (string) $a_form->getInput("bipolar1"));
+        $this->object->setBipolarAdjective(1, (string) $a_form->getInput("bipolar2"));
 
         // set columns
         $this->object->flushColumns();
 
         $columns = $this->request->getColumns();
         foreach ($columns['answer'] as $key => $value) {
-            if (strlen($value ?? "")) {
-                $this->object->getColumns()->addCategory($value, $columns['other'][$key] ?? 0, 0, null, $columns['scale'][$key]);
+            if (strlen((string) ($value ?? ""))) {
+                $this->object->getColumns()->addCategory(
+                    (string) $value,
+                    (int) ($columns['other'][$key] ?? 0),
+                    0,
+                    null,
+                    isset($columns['scale'][$key]) && $columns['scale'][$key] !== ''
+                        ? (int) $columns['scale'][$key]
+                        : null
+                );
             }
         }
-        if (isset($columns["neutral"][0]) && trim($columns["neutral"][0]) !== "") {
+        if (isset($columns["neutral"][0]) && trim((string) $columns["neutral"][0]) !== "") {
             $this->object->getColumns()->addCategory(
-                $columns['neutral'][0],
+                (string) $columns['neutral'][0],
                 0,
                 1,
                 null,
-                $this->request->getColumnNeutralScale()
+                $this->request->getColumnNeutralScale() !== ''
+                    ? (int) $this->request->getColumnNeutralScale()
+                    : null
             );
         }
 
@@ -188,8 +200,13 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $this->object->flushRows();
         $rows = $this->request->getRows();
         foreach ($rows['answer'] as $key => $value) {
-            if (strlen($value ?? "")) {
-                $this->object->getRows()->addCategory($value, $rows['other'][$key] ?? 0, 0, $rows['label'][$key] ?? null);
+            if (strlen((string) ($value ?? ""))) {
+                $this->object->getRows()->addCategory(
+                    (string) $value,
+                    (int) ($rows['other'][$key] ?? 0),
+                    0,
+                    isset($rows['label'][$key]) ? (string) $rows['label'][$key] : null
+                );
             }
         }
     }
@@ -228,7 +245,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
                 if (!$a_only_user_anwers || $checked === "checked") {
                     $cols[$value] = array(
-                        "title" => trim($cat->title)
+                        "title" => trim((string) $cat->title)
                         ,"neutral" => (bool) $cat->neutral
                         ,"checked" => $checked
                     );
@@ -238,7 +255,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             if ($a_only_user_anwers || count($cols) || $text) {
                 $row_idx = $i;
                 $options[$row_idx] = array(
-                    "title" => trim($rowobj->title)
+                    "title" => trim((string) $rowobj->title)
                     ,"other" => (bool) $rowobj->other
                     ,"textanswer" => $text
                     ,"cols" => $cols
@@ -428,7 +445,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             #22526
             $row_title = ilLegacyFormElementsUtil::prepareFormOutput($rowobj->title);
             if ($question_title === 3) {
-                if (trim($rowobj->label)) {
+                if (trim((string) $rowobj->label)) {
                     $row_title .= ' <span class="questionLabel">(' . ilLegacyFormElementsUtil::prepareFormOutput(
                         $rowobj->label
                     ) . ')</span>';

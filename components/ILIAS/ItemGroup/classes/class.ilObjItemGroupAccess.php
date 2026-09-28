@@ -42,13 +42,13 @@ class ilObjItemGroupAccess extends ilObjectAccess
         global $DIC;
 
         $DIC->language()->loadLanguageModule("itgr");
-        $commands = array(
-            array("permission" => "read", "cmd" => "gotoParent", "lang_var" => "", "default" => true),
-            array("permission" => "write", "cmd" => "listMaterials", "lang_var" => "itgr_assign_materials", "default" => false),
-            array("permission" => "write", "cmd" => "edit", "lang_var" => "settings", "default" => false)
-        );
 
-        return $commands;
+        return [
+            ["permission" => "read", "cmd" => "gotoParent", "lang_var" => "", "default" => true],
+            ["permission" => "write", "cmd" => "addOrAssignObject", "lang_var" => "itgr_create_and_assign_object", "default" => false],
+            ["permission" => "write", "cmd" => "listMaterials", "lang_var" => "itgr_assign_materials", "default" => false],
+            ["permission" => "write", "cmd" => "edit", "lang_var" => "settings", "default" => false]
+        ];
     }
 
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool

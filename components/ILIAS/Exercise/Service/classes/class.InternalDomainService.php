@@ -27,6 +27,14 @@ use ILIAS\Exercise\Notification\NotificationManager;
 use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 use ILIAS\Exercise\Submission\SubmissionManager;
+use ILIAS\Exercise\Submission\DeliveredFilesRetrieval;
+use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
+use ILIAS\Exercise\Submission\TextSubmissionsRetrieval;
+use ILIAS\Exercise\Grades\GradesRetrieval;
+use ILIAS\Exercise\Team\TeamLogRetrieval;
+use ILIAS\Exercise\Team\TeamMembersRetrieval;
+use ILIAS\Exercise\PeerReview\PeerReviewOverviewRetrieval;
+use ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationRetrieval;
 use ILIAS\Exercise\PeerReview\DomainService;
 use ILIAS\Exercise\Settings\SettingsManager;
 use ILIAS\Exercise\User\UserEvent;
@@ -78,6 +86,64 @@ class InternalDomainService
             new \ilExcSubmissionStakeholder(),
             $ass_id
         );
+    }
+
+    public function publicSubmissionsRetrieval(\ilExAssignment $assignment): PublicSubmissionsRetrieval
+    {
+        return new PublicSubmissionsRetrieval($this, $assignment);
+    }
+
+    public function deliveredFilesRetrieval(\ilExSubmission $submission): DeliveredFilesRetrieval
+    {
+        return new DeliveredFilesRetrieval($this, $submission);
+    }
+
+    public function textSubmissionsRetrieval(
+        \ilExAssignment $assignment,
+        bool $show_peer_review
+    ): TextSubmissionsRetrieval {
+        return new TextSubmissionsRetrieval($this, $assignment, $show_peer_review);
+    }
+
+    /**
+     * @param \ilExAssignment[] $assignments
+     */
+    public function gradesRetrieval(
+        \ilObjExercise $exercise,
+        \ilExerciseMembers $members,
+        array $assignments
+    ): GradesRetrieval {
+        return new GradesRetrieval($this, $exercise, $members, $assignments);
+    }
+
+    public function teamLogRetrieval(\ilExAssignmentTeam $team): TeamLogRetrieval
+    {
+        return new TeamLogRetrieval($this, $team);
+    }
+
+    public function teamMembersRetrieval(
+        \ilExAssignmentTeam $team,
+        int $parent_ref_id,
+        bool $edit_permission
+    ): TeamMembersRetrieval {
+        return new TeamMembersRetrieval(
+            $this,
+            $team,
+            $parent_ref_id,
+            $edit_permission
+        );
+    }
+
+    public function peerReviewOverviewRetrieval(
+        \ilExAssignment $assignment
+    ): PeerReviewOverviewRetrieval {
+        return new PeerReviewOverviewRetrieval($this, $assignment);
+    }
+
+    public function multiFeedbackConfirmationRetrieval(
+        \ilExAssignment $assignment
+    ): MultiFeedbackConfirmationRetrieval {
+        return new MultiFeedbackConfirmationRetrieval($this, $assignment);
     }
 
     public function peerReview(): DomainService

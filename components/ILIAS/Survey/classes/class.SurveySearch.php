@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -62,7 +64,11 @@ class SurveySearch
 
         $this->search_terms = explode(" +", $search_text);
         $this->concatenation = $concatenation;
-        $this->search_field = $search_field;
+        $this->search_field = in_array(
+            $search_field,
+            ["all", "title", "description", "author", "questiontext"],
+            true
+        ) ? $search_field : "all";
         $this->search_type = $search_type;
         $this->search_results = array();
     }
@@ -115,7 +121,7 @@ class SurveySearch
         $rbacsystem = $this->rbacsystem;
         if ($result->numRows() > 0) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                if (((int) $row["complete"]) === 1 && $rbacsystem->checkAccess('write', $row["ref_id"])) {
+                if (((int) $row["complete"]) === 1 && $rbacsystem->checkAccess('write', (int) $row["ref_id"])) {
                     $result_array[] = $row;
                 }
             }

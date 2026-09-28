@@ -16,17 +16,30 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * @author     Stefan Meyer <meyer@leifos.com>
- * @ingroup    ServicesTracking
- */
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+use ILIAS\Tracking\DB\Factory as TrackingDBFactory;
+use ILIAS\Tracking\DB\FactoryInterface as TrackingDBFactoryInterface;
+
 class ilLPStatusManual extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_manual';
+    protected const string LNG_TEXT_INFO = 'trac_mode_manual_info';
+    protected ilLanguage $lng;
+
+    protected TrackingDBFactoryInterface $tracking_db_factory;
+
+    public function __construct(int $a_obj_id)
+    {
+        global $DIC;
+        parent::__construct($a_obj_id);
+        $this->tracking_db_factory = new TrackingDBFactory($DIC->database());
+    }
+
     public static function _getInProgress(int $a_obj_id): array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-
         // Exclude all users with status completed.
         return array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
     }
@@ -34,76 +47,56 @@ class ilLPStatusManual extends ilLPStatus
     public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $usr_ids = array();
-
-        $query = "SELECT DISTINCT(usr_id) user_id FROM ut_lp_marks " .
-            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
-            "AND completed = '1' ";
-
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $usr_ids[] = (int) $row->user_id;
-        }
-        return $usr_ids;
+        return (new TrackingDBFactory($DIC->database()))->lpMarks()->repository()->readAllEntriesOfObject($a_obj_id)
+            ->getSubCollectionOfElementsByCompletedStatus(true)
+            ->getSubCollectionOfElementsWithDistinctUsers()
+            ->asUserIdArray();
     }
 
-    /**
-     * Determine status
-     */
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilDB = $DIC['ilDB'];
-
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
-            case 'lm':
-            case 'copa':
-            case 'file':
-            case 'htlm':
-                if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
-                    $status = self::LP_STATUS_IN_PROGRESS_NUM;
-
-                    // completed?
-                    $set = $this->db->query(
-                        $q = "SELECT usr_id FROM ut_lp_marks " .
-                            "WHERE obj_id = " . $this->db->quote(
-                                $a_obj_id,
-                                'integer'
-                            ) . " " .
-                            "AND usr_id = " . $this->db->quote(
-                                $a_usr_id,
-                                'integer'
-                            ) . " " .
-                            "AND completed = '1' "
-                    );
-                    if ($rec = $this->db->fetchAssoc($set)) {
-                        $status = self::LP_STATUS_COMPLETED_NUM;
-                    }
-                }
-                break;
+        if (
+            in_array($this->ilObjDataCache->lookupType($a_obj_id), ['lm', 'copa', 'file', 'htlm']) &&
+            ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)
+        ) {
+            $lp_mark = $this->tracking_db_factory->lpMarks()->repository()->readEntryForUserOfObject(
+                $a_obj_id,
+                $a_usr_id
+            );
+            $status = $lp_mark->isCompleted() ? self::LP_STATUS_COMPLETED_NUM : self::LP_STATUS_IN_PROGRESS_NUM;
         }
         return $status;
     }
 
-    /**
-     * Get failed users for object
-     * @param int $a_obj_id
-     * @param array|null $a_user_ids
-     * @return array
-     */
     public static function _lookupFailedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
     ): array {
-        return array();
+        return [];
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_MANUAL;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

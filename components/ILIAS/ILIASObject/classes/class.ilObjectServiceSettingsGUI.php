@@ -108,7 +108,8 @@ class ilObjectServiceSettingsGUI
             $info->setValue("1");
             $info->setChecked((bool) ilContainer::_lookupContainerSetting(
                 $obj_id,
-                self::INFO_TAB_VISIBILITY
+                self::INFO_TAB_VISIBILITY,
+                '1'
             ));
             //$info->setOptionTitle($lng->txt('obj_tool_setting_info_tab'));
             $info->setInfo($lng->txt('obj_tool_setting_info_tab_info'));

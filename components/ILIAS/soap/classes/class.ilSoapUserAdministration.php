@@ -348,37 +348,37 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         // global role
         if ($location == ROLE_FOLDER_ID) {
-            $ilLog->write(__METHOD__ . ': Check global role');
+            $ilLog->info('Check global role');
             // check assignment permission if called from local admin
 
             if ($a_folder !== self::USER_FOLDER_ID && $a_folder !== 0) {
-                $ilLog->write(__METHOD__ . ': ' . $a_folder);
+                $ilLog->info($a_folder);
                 if (!ilObjRole::_getAssignUsersStatus($a_role)) {
-                    $ilLog->write(__METHOD__ . ': No assignment allowed');
+                    $ilLog->info('No assignment allowed');
                     $checked_roles[$a_role] = false;
                     return false;
                 }
             }
             // exclude anonymous role from list
             if ($a_role === ANONYMOUS_ROLE_ID) {
-                $ilLog->write(__METHOD__ . ': Anonymous role chosen.');
+                $ilLog->info('Anonymous role chosen.');
                 $checked_roles[$a_role] = false;
                 return false;
             }
             // do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
             if ($a_role === SYSTEM_ROLE_ID &&
                 !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
-                $ilLog->write(__METHOD__ . ': System role assignment forbidden.');
+                $ilLog->info('System role assignment forbidden.');
                 $checked_roles[$a_role] = false;
                 return false;
             }
 
             // Global role assignment ok
-            $ilLog->write(__METHOD__ . ': Assignment allowed.');
+            $ilLog->info('Assignment allowed.');
             $checked_roles[$a_role] = true;
             return true;
         } elseif ($location) {
-            $ilLog->write(__METHOD__ . ': Check local role.');
+            $ilLog->info('Check local role.');
 
             // It's a local role
             $rolfs = $rbacreview->getFoldersAssignedToRole($a_role, true);
@@ -390,7 +390,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             // (The ROLE_FOLDER_ID folder contains the global roles).
             if ($rbacreview->isDeleted($rolf)
                 || !$rbacsystem->checkAccess('edit_permission', $rolf)) {
-                $ilLog->write(__METHOD__ . ': Role deleted or no permission.');
+                $ilLog->info('Role deleted or no permission.');
                 $checked_roles[$a_role] = false;
                 return false;
             }
@@ -403,11 +403,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
             // with false, and only set to true if we find the object id of the
             // locally administrated category in the tree path to the local role.
             if ($a_folder !== self::USER_FOLDER_ID && $a_folder !== 0 && !$tree->isGrandChild($a_folder, $rolf)) {
-                $ilLog->write(__METHOD__ . ': Not in path of category.');
+                $ilLog->info('Not in path of category.');
                 $checked_roles[$a_role] = false;
                 return false;
             }
-            $ilLog->write(__METHOD__ . ': Assignment allowed.');
+            $ilLog->info('Assignment allowed.');
             $checked_roles[$a_role] = true;
             return true;
         }

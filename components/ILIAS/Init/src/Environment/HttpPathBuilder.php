@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Init\Environment;
 
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
+
 final class HttpPathBuilder
 {
     /**
@@ -30,7 +32,8 @@ final class HttpPathBuilder
         private readonly \ilSetting $settings,
         private readonly \ilHTTPS $https,
         private readonly \ilIniFile $ini,
-        private readonly array|\ArrayAccess $server_data
+        private readonly array|\ArrayAccess $server_data,
+        private readonly ?IsolationConfig $isolation = null,
     ) {
     }
 
@@ -99,6 +102,19 @@ final class HttpPathBuilder
 
         if (!\in_array($uri->getHost(), $allowed_hosts, true)) {
             throw new \RuntimeException('Request rejected, the given HTTP host is not in the "allowed_hosts" list');
+        }
+
+        // IRSS User Content Isolation: when active, the content domain is
+        // reserved for asset delivery via deliver.php and must not be used
+        // to access the regular ILIAS application.
+        if ($this->isolation !== null
+            && $this->isolation->isActivated()
+            && ($content_host = $this->isolation->getContentHost()) !== null
+            && strcasecmp($uri->getHost(), $content_host) === 0
+        ) {
+            throw new \RuntimeException(
+                'Request rejected, the configured content domain is reserved for asset delivery.'
+            );
         }
 
         return $uri;

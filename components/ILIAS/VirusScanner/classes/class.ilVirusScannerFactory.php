@@ -38,7 +38,7 @@ class ilVirusScannerFactory
 
                 case 'AntiVir':
                     global $DIC;
-                    $DIC->logger()->root()->error('AntiVir is deprecated, please install and use a different virus scanner.');
+                    $DIC->logger()->forComponent('virusscanner')->error('AntiVir is deprecated, please install and use a different virus scanner.');
                     $vs = new ilVirusScannerAntiVir(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
                     break;
 

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -93,7 +95,7 @@ class ilSumScoreTableGUI extends ilTable2GUI
         if ($a_set['score'] === null) {
             $a_set['score'] = "n.a.";
         }
-        $a_csv->addColumn($a_set["title"]);
-        $a_csv->addColumn($a_set["score"]);
+        $a_csv->addColumn((string) $a_set["username"]);
+        $a_csv->addColumn((string) $a_set["score"]);
     }
 }

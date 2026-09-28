@@ -34,6 +34,11 @@ class Service
         $this->DIC = $DIC;
     }
 
+    public function domain(): DomainService
+    {
+        return new DomainService($this->internal());
+    }
+
     /**
      * Internal service, do not use in other components
      */

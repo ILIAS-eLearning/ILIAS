@@ -389,7 +389,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
             return false;
         }
 
-        $cmd = $this->request_data_collector->strArray('cmd', 3);
+        $cmd = $this->request_data_collector->strArray('cmd', 4);
 
         if (!isset($cmd[$this->getImageRemovalCommand()])) {
             return false;

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Skill tresholds for 360 surveys
  * @author Alexander Killing <killing@leifos.de>

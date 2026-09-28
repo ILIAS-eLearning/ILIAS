@@ -38,7 +38,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
         $ilCtrl = $DIC->ctrl();
         $database = $DIC->database();
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('sahs');
 
         if (null === $userCertificateRepository) {
             $userCertificateRepository = new ilUserCertificateRepository($database, $logger);

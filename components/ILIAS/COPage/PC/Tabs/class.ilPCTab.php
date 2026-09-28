@@ -104,6 +104,13 @@ EOT;
             $script .= "</script>";
         }
 
+        if (!$a_abstract_only && $a_mode === ilPageObjectGUI::PRESENTATION
+            && in_array($this->getPage()->getParentType(), ["qfbg", "qfbs"], true)) {
+            $script .= '<script>if (window.il && window.il.COPageTabsPresentation) {'
+                . 'window.il.COPageTabsPresentation.init();'
+                . '}</script>';
+        }
+
         return $a_output . $script;
     }
 }

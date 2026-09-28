@@ -28,6 +28,8 @@ use ILIAS\Blog\Posting\Posting;
  */
 class InternalDataService
 {
+    protected static array $instance = [];
+
     // protected ...\DataFactory ..._factory;
 
     public function __construct()

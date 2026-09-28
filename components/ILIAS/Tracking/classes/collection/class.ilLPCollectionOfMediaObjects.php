@@ -17,11 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=0);
-/**
- * LP collection of media objects
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
+
 class ilLPCollectionOfMediaObjects extends ilLPCollection
 {
     protected static array $possible_items = array();

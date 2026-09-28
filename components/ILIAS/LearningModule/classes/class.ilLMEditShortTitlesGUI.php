@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
+use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Table\TableAdapterGUI;
 
 class ilLMEditShortTitlesGUI
 {
@@ -27,6 +29,7 @@ class ilLMEditShortTitlesGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected EditingGUIRequest $request;
+    protected \ILIAS\LearningModule\InternalGUIService $gui;
 
     public function __construct(
         ilObjLearningModuleGUI $a_lm_gui,
@@ -40,6 +43,7 @@ class ilLMEditShortTitlesGUI
             ->gui()
             ->editing()
             ->request();
+        $this->gui = $DIC->learningModule()->internal()->gui();
 
         $this->ctrl = $DIC->ctrl();
         /** @var ilObjLearningModule $lm */
@@ -61,7 +65,11 @@ class ilLMEditShortTitlesGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("listShortTitles", "save"))) {
+                if (in_array($cmd, [
+                    "listShortTitles",
+                    "editShortTitle",
+                    "saveShortTitle"
+                ])) {
                     $this->$cmd();
                 }
         }
@@ -71,19 +79,78 @@ class ilLMEditShortTitlesGUI
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_short_title_info"));
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->lm->getId(), $this->lm_gui, "short_titles");
-        $tab = new ilLMEditShortTitlesTableGUI($this, "listShortTitles", $this->lm, $this->lang);
-        $this->tpl->setContent($ml_head . $tab->getHTML());
+        $table = $this->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $this->tpl->setContent($ml_head . $table->render());
     }
 
-    public function save(): void
+    protected function getTable(): TableAdapterGUI
     {
-        $short_titles = $this->request->getShortTitles();
+        return $this->gui->editing()
+            ->shortTitlesTableBuilder(
+                $this->lm->getId(),
+                $this->lang,
+                $this,
+                "listShortTitles"
+            )
+            ->getTable();
+    }
 
-        foreach ($short_titles as $id => $title) {
-            if (ilLMObject::_lookupContObjID($id) == $this->lm->getId()) {
-                ilLMObject::writeShortTitle($id, ilUtil::stripSlashes($title), $this->lang);
+    public function editShortTitle(int $id): void
+    {
+        $this->ctrl->setParameterByClass(self::class, "edit_id", $id);
+        $this->gui->clearAsnyOnloadCode();
+        $this->gui->modal($this->lng->txt("cont_short_title"))
+            ->form($this->getShortTitleForm($id))
+            ->send();
+    }
+
+    protected function getShortTitleForm(int $id): FormAdapterGUI
+    {
+        $short_title = "";
+        foreach (ilLMObject::getShortTitles($this->lm->getId(), $this->lang) as $data) {
+            if ((int) $data["obj_id"] === $id) {
+                $short_title = (string) $data["short_title"];
+                break;
             }
         }
+
+        $this->ctrl->setParameterByClass(self::class, "edit_id", $id);
+        return $this->gui->form([self::class], "saveShortTitle")
+            ->text(
+                "short_title",
+                $this->lng->txt("cont_short_title"),
+                "",
+                $short_title,
+                200
+            );
+    }
+
+    public function saveShortTitle(): void
+    {
+        $id = $this->request->getEditId();
+        if ((int) ilLMObject::_lookupContObjID($id) !== $this->lm->getId()) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listShortTitles");
+            return;
+        }
+
+        $form = $this->getShortTitleForm($id);
+        if (!$form->isValid()) {
+            $this->gui->clearAsnyOnloadCode();
+            $this->gui->modal($this->lng->txt("cont_short_title"))
+                ->form($form)
+                ->send();
+            return;
+        }
+
+        ilLMObject::writeShortTitle(
+            $id,
+            ilUtil::stripSlashes((string) $form->getData("short_title")),
+            $this->lang
+        );
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listShortTitles");
     }

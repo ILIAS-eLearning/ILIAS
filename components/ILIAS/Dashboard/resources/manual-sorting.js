@@ -35,9 +35,10 @@ il.Dashboard.showModalOnSort = function(node, url, selectSignal, signals){
 };
 
 il.Dashboard.moveModalButtons = function(node){
-  const cancel = node.querySelectorAll('form')[3].querySelector('button');
+  const form = node.querySelectorAll('form')[4];
+  const cancel = form.querySelector('button');
   const save = node.querySelector('button.btn-default');
-  node.querySelectorAll('form')[3].insertBefore(save, cancel);
+  form.insertBefore(save, cancel);
   save.addEventListener('click', e => {
     e.preventDefault();
     node.querySelectorAll('form')[2].submit();

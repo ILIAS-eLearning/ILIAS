@@ -22,11 +22,15 @@ namespace ILIAS\MediaObjects;
 
 use ILIAS\DI\Container;
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
+use ILIAS\MediaObjects\ImageMap\ImageMapRetrieval;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
 use ILIAS\MediaObjects\Thumbs\ThumbsManager;
+use ILIAS\MediaObjects\SubTitles\MultiSrtConfirmationRetrieval;
+use ILIAS\MediaObjects\SubTitles\Retrieval as SubTitlesRetrieval;
+use ILIAS\MediaObjects\Usage\UsageRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -62,6 +66,14 @@ class InternalDomainService
         );
     }
 
+    public function imageMapRetrieval(
+        \ilObjMediaObject $media_object
+    ): ImageMapRetrieval {
+        return new ImageMapRetrieval(
+            $media_object
+        );
+    }
+
     public function mediaType(): MediaTypeManager
     {
         return new MediaTypeManager();
@@ -86,6 +98,29 @@ class InternalDomainService
             $this->repo_service,
             $this
         );
+    }
+
+    public function mediaObjectUsagesRetrieval(
+        \ilObjMediaObject $media_object,
+        bool $include_hist
+    ): UsageRetrieval {
+        return new UsageRetrieval(
+            $media_object,
+            $include_hist,
+            $this
+        );
+    }
+
+    public function subTitlesRetrieval(
+        \ilObjMediaObject $media_object
+    ): SubTitlesRetrieval {
+        return new SubTitlesRetrieval($media_object);
+    }
+
+    public function multiSrtConfirmationRetrieval(
+        \ilMobMultiSrtUpload $multi_srt
+    ): MultiSrtConfirmationRetrieval {
+        return new MultiSrtConfirmationRetrieval($multi_srt);
     }
 
 }

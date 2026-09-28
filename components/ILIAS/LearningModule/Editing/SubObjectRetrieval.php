@@ -27,7 +27,6 @@ use ILIAS\Repository\RetrievalInterface;
 class SubObjectRetrieval implements RetrievalInterface
 {
     protected \ilLanguage $lng;
-    protected \ILIAS\UI\Factory $f;
     protected ?array $childs = null;
 
     public function __construct(
@@ -37,7 +36,6 @@ class SubObjectRetrieval implements RetrievalInterface
         protected $transl = ""
     ) {
         global $DIC;
-        $this->f = $DIC->ui()->factory();
         $this->lng = $DIC->language();
     }
 

@@ -273,6 +273,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             $objDefinition::getGroupedRepositoryObjectTypes($parent_type);
 
         // #14465 - item groups
+        $type_white_list = $this->getTypeWhiteList();
         $group = [];
         $igroup = []; // used for item groups, see bug #0015978
         $in_any_group = [];
@@ -294,6 +295,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                     }
 
                     foreach ($items as $item) {
+                        if (count($type_white_list) > 0 && !in_array($item["type"], $type_white_list, true)) {
+                            continue;
+                        }
                         $in_any_group[] = $item["child"];
 
                         if ($may_read) {

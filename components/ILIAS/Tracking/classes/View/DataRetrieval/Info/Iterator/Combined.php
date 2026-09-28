@@ -21,7 +21,6 @@ declare(strict_types=0);
 namespace ILIAS\Tracking\View\DataRetrieval\Info\Iterator;
 
 use ILIAS\Tracking\View\DataRetrieval\Info\CombinedInterface as CombinedInfoInterface;
-use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\CombinedInterface;
 
 class Combined implements CombinedInterface
 {

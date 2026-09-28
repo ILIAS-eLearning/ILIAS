@@ -1044,7 +1044,7 @@ class ilCourseObjectivesGUI
         $limit = 0;
 
         foreach ($tests as $test) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . print_r($test, true));
+            $GLOBALS['DIC']['ilLog']->info(print_r($test, true));
 
             $limit = $test['limit'];
 

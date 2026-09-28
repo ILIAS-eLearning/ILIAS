@@ -134,7 +134,8 @@ trait GlobalDICDomainServices
     {
         return new DomainService(
             $this->DIC->archives(),
-            $this->DIC->legacyArchives()
+            $this->DIC->legacyArchives(),
+            $this->DIC->fileServiceSettings()
         );
     }
 

@@ -20,48 +20,31 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
 
-use FilterIterator;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Finder\Comparator\DateComparator;
 use ILIAS\Filesystem\DTO\Metadata;
-use InvalidArgumentException;
-use Iterator as PhpIterator;
 
 /**
- * Class DateRangeFilterIterator
- * @package ILIAS\Filesystem\Finder\Iterator
- * @author  Michael Jansen <mjansen@databay.de>
+ * @extends \FilterIterator<non-empty-string, Metadata>
  */
-class DateRangeFilterIterator extends FilterIterator
+class DateRangeFilterIterator extends \FilterIterator
 {
-    /** @var DateComparator[] */
-    private array $comparators = [];
+    /** @var list<DateComparator> */
+    private array $comparators;
 
     /**
-     * @param PhpIterator      $iterator    The Iterator to filter
-     * @param DateComparator[] $comparators An array of DateComparator instances
-     * @throws InvalidArgumentException
+     * @param \Iterator<non-empty-string, Metadata> $iterator The Iterator to filter
      */
-    public function __construct(private Filesystem $filesystem, PhpIterator $iterator, array $comparators)
-    {
-        array_walk($comparators, static function ($comparator): void {
-            if (!($comparator instanceof DateComparator)) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        'Invalid comparator given: %s',
-                        $comparator::class
-                    )
-                );
-            }
-        });
+    public function __construct(
+        private readonly Filesystem $filesystem,
+        \Iterator $iterator,
+        DateComparator ...$comparators
+    ) {
         $this->comparators = $comparators;
 
         parent::__construct($iterator);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function accept(): bool
     {
         /** @var Metadata $metadata */

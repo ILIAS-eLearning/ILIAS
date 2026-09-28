@@ -472,6 +472,8 @@ class PropertyAndActionBuilderUI
                 "",
                 $inst["instruction"]["value"]
             );
+        }
+        if (count($inst) > 0 || $this->info->areInstructionFilesVisible()) {
             $link = $this->gui->ui()->factory()->link()->standard(
                 $this->lng->txt("exc_show_instructions"),
                 $this->ctrl->getLinkTargetByClass(\ilAssignmentPresentationGUI::class, "")

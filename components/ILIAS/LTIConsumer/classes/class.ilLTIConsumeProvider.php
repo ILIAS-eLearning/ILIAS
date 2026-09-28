@@ -174,6 +174,50 @@ class ilLTIConsumeProvider
         }
     }
 
+    private function preventClientIdInUrl(string $url): string
+    {
+        if (str_contains($url, ',')) {
+            return implode(',', array_map([$this, 'preventClientIdInUrl'], explode(',', $url)));
+        }
+
+        $parts = parse_url($url);
+        if ($parts === false || !isset($parts['query'])) {
+            return $url;
+        }
+
+        parse_str($parts['query'], $query);
+        unset($query['client_id']);
+
+        $result = '';
+        if (isset($parts['scheme'])) {
+            $result .= $parts['scheme'] . '://';
+        }
+        if (isset($parts['user'])) {
+            $result .= $parts['user'];
+            if (isset($parts['pass'])) {
+                $result .= ':' . $parts['pass'];
+            }
+            $result .= '@';
+        }
+        if (isset($parts['host'])) {
+            $result .= $parts['host'];
+        }
+        if (isset($parts['port'])) {
+            $result .= ':' . $parts['port'];
+        }
+        $result .= $parts['path'] ?? '';
+
+        $queryString = http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+        if ($queryString !== '') {
+            $result .= '?' . $queryString;
+        }
+        if (isset($parts['fragment'])) {
+            $result .= '#' . $parts['fragment'];
+        }
+
+        return $result;
+    }
+
     /**
      * Inits class static
      * @throws IOException
@@ -255,12 +299,12 @@ class ilLTIConsumeProvider
 
     public function getProviderUrl(): string
     {
-        return $this->provider_url;
+        return $this->preventClientIdInUrl($this->provider_url);
     }
 
     public function setProviderUrl(string $provider_url): void
     {
-        $this->provider_url = $provider_url;
+        $this->provider_url = $this->preventClientIdInUrl($provider_url);
     }
 
     public function getProviderKey(): string
@@ -737,22 +781,22 @@ class ilLTIConsumeProvider
 
     public function getInitiateLogin(): string
     {
-        return $this->initiate_login;
+        return $this->preventClientIdInUrl($this->initiate_login);
     }
 
     public function setInitiateLogin(string $initiate_login): void
     {
-        $this->initiate_login = $initiate_login;
+        $this->initiate_login = $this->preventClientIdInUrl($initiate_login);
     }
 
     public function getRedirectionUris(): string
     {
-        return $this->redirection_uris;
+        return $this->preventClientIdInUrl($this->redirection_uris);
     }
 
     public function setRedirectionUris(string $redirection_uris): void
     {
-        $this->redirection_uris = $redirection_uris;
+        $this->redirection_uris = $this->preventClientIdInUrl($redirection_uris);
     }
 
     public function isContentItem(): bool
@@ -767,12 +811,12 @@ class ilLTIConsumeProvider
 
     public function getContentItemUrl(): string
     {
-        return $this->content_item_url;
+        return $this->preventClientIdInUrl($this->content_item_url);
     }
 
     public function setContentItemUrl(string $content_item_url): void
     {
-        $this->content_item_url = $content_item_url;
+        $this->content_item_url = $this->preventClientIdInUrl($content_item_url);
     }
 
     public function isGradeSynchronization(): bool
@@ -990,6 +1034,7 @@ class ilLTIConsumeProvider
      */
     protected function getInsertUpdateFields(): array
     {
+        // dump($this->getProviderUrl());exit();
         return array(
             'id' => array('integer', $this->getId()),
             'title' => array('text', $this->getTitle()),

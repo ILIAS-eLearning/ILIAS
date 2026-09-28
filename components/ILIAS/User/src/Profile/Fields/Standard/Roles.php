@@ -31,6 +31,7 @@ class Roles implements FieldDefinition
     use NoOverrides;
 
     public function __construct(
+        private readonly \ilAuthSession $auth_session,
         private readonly \ilObjectDataCache $object_cache
     ) {
     }
@@ -108,7 +109,7 @@ class Roles implements FieldDefinition
         if ($user !== null) {
             return $this->buildNonEditableInput($lng, $user);
         }
-        return $this->buildMultiselect($lng);
+        return $this->buildMultiselect($lng, $context);
     }
 
     public function addValueToUserObject(
@@ -156,18 +157,31 @@ class Roles implements FieldDefinition
         return $input;
     }
 
-    private function buildMultiSelect(Language $lng): \ilFormPropertyGUI
-    {
+    private function buildMultiSelect(
+        Language $lng,
+        Context $context
+    ): \ilFormPropertyGUI {
         $rbac_review = new \ilRbacReview();
+
         $input = new \ilMultiSelectInputGUI($this->getLabel($lng));
         $input->setOptions(
             array_reduce(
                 $rbac_review->getGlobalRolesArray(),
-                function (array $c, array $v): array {
-                    if ($v['obj_id'] === ANONYMOUS_ROLE_ID) {
+                function (array $c, array $v) use ($context, $rbac_review): array {
+                    if ($v['obj_id'] === ANONYMOUS_ROLE_ID
+                        || (
+                            $context === Context::LocalUserAdministration
+                            && ($v['obj_id'] === SYSTEM_ROLE_ID
+                            && !$rbac_review->isAssigned(
+                                $this->auth_session->getUserId(),
+                                SYSTEM_ROLE_ID
+                            ))
+                        )) {
                         return $c;
                     }
+
                     $c[$v['obj_id']] = $this->object_cache->lookupTitle($v['obj_id']);
+
                     return $c;
                 },
                 []

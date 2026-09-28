@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Used for container export with tests
  *
@@ -32,7 +34,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
         string $a_schema_version,
         string $a_id
     ): string {
-        $spl = new ilObjSurveyQuestionPool($a_id, false);
+        $spl = new ilObjSurveyQuestionPool((int) $a_id, false);
         $spl->loadFromDb();
         return $spl->toXmlForExport();
     }

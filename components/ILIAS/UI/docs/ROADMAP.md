@@ -362,6 +362,19 @@ different to system administrators, who want to find specific data fast, than fo
 browse the data slowly. There could be such enumerations that are viable for all components, but also
 enumerations which are specific to a component. Appropriate namespaces should be chosen.
 
+### Implement external link safeguard (beginner, ~2d)
+
+The `UI\Component\Link` component family should provide a possible safeguard for links that point to
+external resources. The safeguard should be used whenever such a link is built and the safeguard should
+prompt the user to confirm, whether its OK to open this link or not.
+
+Since the factory accepts `string` and `Data\URI` for resources, we cannot easily derive this information
+without some obscure dependencies to ILIAS. Therefore we may introduce an additional flag inside each
+factory method, that stays optional but should be required in the future.
+
+The safeguard itself could be implemented as prompt, modal, or even as a popover. Some research and
+accessibility evaluations should provide some insight into what is most suitable there.
+
 ## Long Term
 
 ### Mark Some Components as Internal

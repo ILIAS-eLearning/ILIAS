@@ -426,21 +426,21 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         }
 
         if (!$filter || in_array(self::PROGRESS_FILTER_ALL, $filter)) {
-            $GLOBALS['DIC']['log']->write(__METHOD__ . ': Deleting all progress data');
+            $GLOBALS['DIC']['log']->info('Deleting all progress data');
             return $all_users;
         }
 
         $filter_users = array();
         if (in_array(self::PROGRESS_FILTER_IN_PROGRESS, $filter)) {
-            $GLOBALS['DIC']['log']->write(__METHOD__ . ': Filtering  in progress.');
+            $GLOBALS['DIC']['log']->info('Filtering  in progress.');
             $filter_users = array_merge($filter, ilLPStatusWrapper::_getInProgress($obj_id));
         }
         if (in_array(self::PROGRESS_FILTER_COMPLETED, $filter)) {
-            $GLOBALS['DIC']['log']->write(__METHOD__ . ': Filtering  completed.');
+            $GLOBALS['DIC']['log']->info('Filtering  completed.');
             $filter_users = array_merge($filter, ilLPStatusWrapper::_getCompleted($obj_id));
         }
         if (in_array(self::PROGRESS_FILTER_FAILED, $filter)) {
-            $GLOBALS['DIC']['log']->write(__METHOD__ . ': Filtering  failed.');
+            $GLOBALS['DIC']['log']->info('Filtering  failed.');
             $filter_users = array_merge($filter, ilLPStatusWrapper::_getFailed($obj_id));
         }
 

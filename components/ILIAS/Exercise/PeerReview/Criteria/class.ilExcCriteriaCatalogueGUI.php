@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Exercise\GUIRequest;
+use ILIAS\Exercise\PeerReview\Criteria\CriteriaCatalogueTableBuilder;
 
 /**
  * Class ilExcCriteriaCatalogueGUI
@@ -33,6 +34,9 @@ class ilExcCriteriaCatalogueGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjExercise $exc_obj;
     protected GUIRequest $request;
+    protected \ILIAS\Exercise\InternalGUIService $exercise_gui;
+    protected ?CriteriaCatalogueTableBuilder $catalogue_table_builder = null;
+    protected ?\ILIAS\Repository\Table\TableAdapterGUI $catalogue_table = null;
 
     public function __construct(ilObjExercise $a_exc_obj)
     {
@@ -45,6 +49,7 @@ class ilExcCriteriaCatalogueGUI
         $this->toolbar = $DIC->toolbar();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->exc_obj = $a_exc_obj;
+        $this->exercise_gui = $DIC->exercise()->internal()->gui();
 
         $this->request = $DIC->exercise()->internal()->gui()->request();
     }
@@ -93,8 +98,12 @@ class ilExcCriteriaCatalogueGUI
             $ilCtrl->getLinkTarget($this, "add")
         );
 
-        $tbl = new ilExcCriteriaCatalogueTableGUI($this, "view", $this->exc_obj->getId());
-        $tpl->setContent($tbl->getHTML());
+        $table = $this->getCatalogueTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     protected function saveOrder(): void
@@ -105,13 +114,15 @@ class ilExcCriteriaCatalogueGUI
         $all_cat = ilExcCriteriaCatalogue::getInstancesByParentId($this->exc_obj->getId());
 
         $pos = 0;
-        $req_positions = $this->request->getPositions();
-        asort($req_positions);
-        foreach (array_keys($req_positions) as $id) {
-            if (array_key_exists($id, $all_cat)) {
+        $order = $this->getCatalogueTable()->getData();
+        if (is_array($order)) {
+            foreach ($order as $id) {
+                if (!array_key_exists($id, $all_cat)) {
+                    continue;
+                }
                 $pos += 10;
-                $all_cat[$id]->setPosition($pos);
-                $all_cat[$id]->update();
+                $all_cat[(int) $id]->setPosition($pos);
+                $all_cat[(int) $id]->update();
             }
         }
 
@@ -119,13 +130,13 @@ class ilExcCriteriaCatalogueGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    protected function confirmDeletion(): void
+    public function confirmDeletion(array $ids = []): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        $ids = $this->request->getCatalogueIds();
+        $ids = $ids ?: $this->request->getCatalogueIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "view");
@@ -164,6 +175,26 @@ class ilExcCriteriaCatalogueGUI
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "view");
+    }
+
+    protected function getCatalogueTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        if ($this->catalogue_table === null) {
+            $this->catalogue_table_builder = $this->exercise_gui->peerReview()->criteriaCatalogueTableBuilder(
+                $this->exc_obj->getId(),
+                $this,
+                'view'
+            );
+            $this->catalogue_table = $this->catalogue_table_builder->getTable();
+            if ($this->catalogue_table_builder->hasProtectedAssignments()) {
+                $this->tpl->setOnScreenMessage(
+                    'info',
+                    $this->lng->txt('exc_crit_cat_protected_assignment_info')
+                );
+            }
+        }
+
+        return $this->catalogue_table;
     }
 
 

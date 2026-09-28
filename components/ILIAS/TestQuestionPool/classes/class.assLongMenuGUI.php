@@ -420,7 +420,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         if ($show_question_text) {
             $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         }
-        $template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution, true, $graphical_output));
+        $template->setVariable(
+            'LONGMENU_TEXT_SOLUTION',
+            $this->renderLatex(
+                $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution, true, $graphical_output)
+            )
+        );
 
         $solution_template = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $question_output = $template->get();

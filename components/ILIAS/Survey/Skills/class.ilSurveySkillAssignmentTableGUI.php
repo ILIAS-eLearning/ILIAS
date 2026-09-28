@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Skill\Service\SkillTreeService;
 
 /**
@@ -76,7 +78,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                     $supported = true;
                 }
 
-                $id = $data["question_id"];
+                $id = (int) $data["question_id"];
 
                 $table_data[$id] = array("id" => $id,
                     "type" => "question",
@@ -95,8 +97,9 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $question_id = (int) $a_set["id"];
 
-        $ilCtrl->setParameter($this->parent_obj, "q_id", $a_set["id"]);
+        $ilCtrl->setParameter($this->parent_obj, "q_id", $question_id);
 
         if ($a_set["supported"]) {
             $this->tpl->setCurrentBlock("cmd");
@@ -110,7 +113,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_CMD", $lng->txt("survey_assign_competence"));
             $this->tpl->parseCurrentBlock();
 
-            if ($s = $this->skill_survey->getSkillForQuestion($a_set["id"])) {
+            if ($s = $this->skill_survey->getSkillForQuestion($question_id)) {
                 $this->tpl->setCurrentBlock("cmd");
                 $this->tpl->setVariable(
                     "HREF_CMD",
@@ -132,11 +135,11 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                 $path_nodes = array();
                 foreach ($path as $p) {
                     if ($p["child"] > 1 && $p["skill_id"] != $s["base_skill_id"]) {
-                        $path_nodes[] = ilBasicSkill::_lookupTitle($p["skill_id"], $p["tref_id"]);
+                        $path_nodes[] = ilBasicSkill::_lookupTitle((int) $p["skill_id"], (int) $p["tref_id"]);
                     }
                 }
                 $this->tpl->setVariable("PATH", implode(" > ", $path_nodes));
-                $this->tpl->setVariable("COMP_ID", "comp_" . $a_set["id"]);
+                $this->tpl->setVariable("COMP_ID", "comp_" . $question_id);
             }
         } else {
             $this->tpl->setVariable("NOT_SUPPORTED", $lng->txt("svy_skl_comp_assignm_not_supported"));

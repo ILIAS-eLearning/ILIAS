@@ -22,6 +22,7 @@ namespace ILIAS\MediaPool\Clipboard;
 
 use ILIAS\MediaPool\InternalGUIService;
 use ILIAS\MediaPool\InternalDomainService;
+use ILIAS\MediaObjects\Thumbs\ThumbsGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -30,13 +31,19 @@ class GUIService
 {
     protected InternalGUIService $gui_service;
     protected InternalDomainService $domain_service;
+    protected \ilObjUser $user;
+    protected ThumbsGUI $thumbs_gui;
 
     public function __construct(
         InternalDomainService $domain_service,
-        InternalGUIService $gui_service
+        InternalGUIService $gui_service,
+        \ilObjUser $user,
+        ThumbsGUI $thumbs_gui
     ) {
         $this->gui_service = $gui_service;
         $this->domain_service = $domain_service;
+        $this->user = $user;
+        $this->thumbs_gui = $thumbs_gui;
     }
 
     public function request(
@@ -48,6 +55,20 @@ class GUIService
             $this->domain_service->refinery(),
             $passed_query_params,
             $passed_post_data
+        );
+    }
+
+    public function clipboardTableBuilder(
+        object $parent_gui,
+        string $parent_cmd
+    ): ClipboardTableBuilder {
+        return new ClipboardTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $this->user,
+            $this->thumbs_gui,
+            $parent_gui,
+            $parent_cmd
         );
     }
 }

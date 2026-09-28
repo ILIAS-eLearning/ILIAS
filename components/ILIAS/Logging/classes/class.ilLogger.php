@@ -18,16 +18,20 @@
 
 declare(strict_types=1);
 
-use Monolog\Logger;
+use ILIAS\Logging\Logger\LoggerInterface;
 use Monolog\Processor\MemoryPeakUsageProcessor;
 
 /**
  * Component logger with individual log levels by component id
+ *
+ * @deprecated Please use {@see \ILIAS\Logging\Logger\LoggerInterface} via
+ *  {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
+ *
  * @author Stefan Meyer
  */
 abstract class ilLogger
 {
-    public function __construct(private readonly Logger $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
     }
 
@@ -36,7 +40,7 @@ abstract class ilLogger
      */
     public function isHandling(int $level): bool
     {
-        return $this->getLogger()->isHandling($level);
+        return $this->getLogger()->isHandlingLogLevel($level);
     }
 
     public function log(string $message, int $level = ilLogLevel::INFO, array $context = []): void
@@ -91,31 +95,9 @@ abstract class ilLogger
         $this->getLogger()->emergency($message, $context);
     }
 
-    public function getLogger(): Logger
+    protected function getLogger(): LoggerInterface
     {
         return $this->logger;
-    }
-
-    /**
-     * write log message
-     * @deprecated since version 5.1
-     * @see ilLogger->info(), ilLogger()->debug(), ...
-     */
-    public function write(string $message, $level = ilLogLevel::INFO, array $context = []): void
-    {
-        if (!in_array($level, ilLogLevel::getLevels())) {
-            $level = ilLogLevel::INFO;
-        }
-        $this->getLogger()->log((int) $level, $message, $context);
-    }
-
-    /**
-     * Write language log
-     * @deprecated since version 5.1
-     */
-    public function writeLanguageLog(string $topic, string $lang_key): void
-    {
-        $this->getLogger()->debug("Language (" . $lang_key . "): topic -" . $topic . "- not present");
     }
 
     public function logStack(?int $level = null, string $message = '', array $context = []): void
@@ -128,22 +110,6 @@ abstract class ilLogger
             $level = ilLogLevel::INFO;
         }
 
-
-        try {
-            throw new Exception($message);
-        } catch (Exception $ex) {
-            $this->getLogger()->log($level, $message . "\n" . $ex->getTraceAsString(), $context);
-        }
-    }
-
-    /**
-     * Write memory peak usage
-     * Automatically called at end of script
-     */
-    public function writeMemoryPeakUsage(int $level): void
-    {
-        $this->getLogger()->pushProcessor(new MemoryPeakUsageProcessor());
-        $this->getLogger()->log($level, 'Memory usage: ');
-        $this->getLogger()->popProcessor();
+        $this->getLogger()->logStack($level, $message, $context);
     }
 }

@@ -81,27 +81,22 @@ class UploadPolicyResolver
 
     protected function isPolicyActiveAndValid(UploadPolicy $policy): bool
     {
+        if (!$policy->isActive()) {
+            return false;
+        }
+
         $valid_from = $policy->getValidFrom();
         $valid_until = $policy->getValidUntil();
-
-        if (null === $valid_from && null === $valid_until) {
-            return $policy->isActive();
-        }
-
         $today = new \DateTimeImmutable('today midnight');
 
-        if (null !== $valid_from && null !== $valid_until) {
-            return $policy->isActive() && $valid_from >= $today && $today < $valid_until;
+        if (null !== $valid_from && $today < $valid_from) {
+            return false;
         }
 
-        if (null !== $valid_until && null === $valid_from) {
-            return $policy->isActive() && $today <= $valid_until;
+        if (null !== $valid_until && $today > $valid_until) {
+            return false;
         }
 
-        if (null !== $valid_from && null === $valid_until) {
-            return $policy->isActive() && $today >= $valid_from;
-        }
-
-        return false;
+        return true;
     }
 }

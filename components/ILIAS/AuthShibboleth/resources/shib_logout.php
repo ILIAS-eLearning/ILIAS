@@ -16,162 +16,17 @@
  *
  *********************************************************************/
 
+// A real Shib-Logout ("front" or "back" channel was never implemented resp. removed in ILIAS, because the front-channel
+// also had problems concerning the security. If a logout mechanism is desired, please revisit the feature request
+// https://docu.ilias.de/goto_docu_wiki_wpage_4657_1357.html and bring it as a suggestion to the community:
+// https://docu.ilias.de/goto.php?target=wiki_5307&client_id=docu#ilPageTocA129
+/** @noRector */
 require_once("../vendor/composer/vendor/autoload.php");
 ilContext::init(ilContext::CONTEXT_SHIBBOLETH);
 require_once("../artifacts/bootstrap_default.php");
+entry_point("ILIAS Legacy Initialisation Adapter");
 
 global $DIC;
 
-$q = $DIC->http()->wrapper()->query();
-if (
-    $q->has('return')
-    && $q->has('action')
-    && $q->retrieve('action', $DIC->refinery()->to()->string()) === 'logout'
-) {
-    entry_point("ILIAS Legacy Initialisation Adapter");
-    // Logout out user from application
-    // Destroy application session/cookie etc
-    $GLOBALS['DIC']['ilAuthSession']->logout();
-
-    // Finally, send user to the return URL
-    ilUtil::redirect($q->retrieve('action', $DIC->refinery()->kindlyTo()->string()));
-}
-
-// Back channel logout //
-
-// Note: This is the preferred logout channel because it also allows
-//       administrative logout. However, it requires your application to be
-//       adapated in the sense that the user's Shibboleth session ID must be
-//       stored in the application's session data.
-//       See function LogoutNotification below
-
-elseif (!empty(file_get_contents('php://input'))) {
-    ilContext::init(ilContext::CONTEXT_SOAP);
-
-    // Load ILIAS libraries and initialise ILIAS in non-web context
-    entry_point("ILIAS Legacy Initialisation Adapter");
-
-    // Set SOAP header
-    $server = new SoapServer('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/LogoutNotification.wsdl');
-    $server->addFunction("LogoutNotification");
-    $server->handle();
-}
-
-// Return WSDL
-
-// Note: This is needed for the PHP SoapServer class.
-//       Since I'm not a web service guru it might be that the code below is not
-//       absolutely correct but at least it seems to to its job properly when it
-//       comes to Shibboleth logout
-
-else {
-    header('Content-Type: text/xml');
-
-    $url = filter_var("https://{$_SERVER['HTTP_HOST']}/shib_logout.php", FILTER_SANITIZE_URL);
-
-    echo <<<WSDL
-<?xml version ="1.0" encoding ="UTF-8" ?>
-<definitions name="LogoutNotification" targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
-	xmlns:notify="urn:mace:shibboleth:2.0:sp:notify"
-	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns="http://schemas.xmlsoap.org/wsdl/">
-
-	<types>
-		<schema targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
-			xmlns="http://www.w3.org/2000/10/XMLSchema"
-			xmlns:notify="urn:mace:shibboleth:2.0:sp:notify">
-
-			<simpleType name="string">
-				<restriction base="string">
-					<minLength value="1"/>
-				</restriction>
-			</simpleType>
-
-			<element name="OK" type="notify:OKType"/>
-			<complexType name="OKType">
-				<sequence/>
-			</complexType>
-
-		</schema>
-	</types>
-
-	<message name="getLogoutNotificationRequest">
-		<part name="SessionID" type="notify:string" />
-	</message>
-
-	<message name="getLogoutNotificationResponse">
-		<part name="OK"/>
-	</message>
-
-	<portType name="LogoutNotificationPortType">
-		<operation name="LogoutNotification">
-			<input message="getLogoutNotificationRequest"/>
-			<output message="getLogoutNotificationResponse"/>
-		</operation>
-	</portType>
-
-	<binding name="LogoutNotificationBinding" type="notify:LogoutNotificationPortType">
-		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-		<operation name="LogoutNotification">
-			<soap:operation soapAction="urn:xmethods-logout-notification#LogoutNotification"/>
-		</operation>
-	</binding>
-
-	<service name="LogoutNotificationService">
-		<port name="LogoutNotificationPort" binding="notify:LogoutNotificationBinding">
-			<soap:address location="{$url}"/>
-		</port>
-	</service>
-</definitions>
-WSDL;
-    exit;
-}
-
-/******************************************************************************/
-/// This function does the actual logout
-function LogoutNotification($SessionID): ?\SoapFault
-{
-    // Delete session of user using $SessionID to locate the user's session file
-    // on the file system or in the database
-    // Then delete this entry or record to clear the session
-    // However, for that to work it is essential that the user's Shibboleth
-    // SessionID is stored in the user session data!
-
-    global $ilDB;
-
-    $q = "SELECT session_id, data FROM usr_session WHERE expires > 'NOW()'";
-    $r = $ilDB->query($q);
-
-    while ($session = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-        $session_data = unserializesession($session['data']);
-        // Delete this session entry
-        if (
-            is_array($session_data)
-            && array_key_exists('shibboleth_session_id', $session_data)
-            && $session_data['shibboleth_session_id'] === $SessionID
-            && !ilSession::_destroy($session['session_id']
-            )
-        ) {
-            return new SoapFault('LogoutError', 'Could not delete session entry in database.');
-        }
-    }
-    // If no SoapFault is returned, all is fine
-    return null;
-}
-
-/******************************************************************************/
-// Deserializes session data and returns it in a hash array of arrays
-/**
- * @return mixed[]
- */
-function unserializesession($serialized_string): array
-{
-    $variables = [];
-    $a = preg_split("/(\w+)\|/", (string) $serialized_string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-    $counter = count($a);
-    for ($i = 0; $i < $counter; $i += 2) {
-        $variables[$a[$i]] = unserialize($a[$i + 1]);
-    }
-
-    return ($variables);
-}
+$GLOBALS['DIC']['ilAuthSession']->logout();
+ilUtil::redirect('login.php');

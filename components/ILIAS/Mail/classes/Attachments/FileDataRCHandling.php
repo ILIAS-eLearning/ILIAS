@@ -113,9 +113,24 @@ trait FileDataRCHandling
     /**
      * @param array<string, mixed> $attachments
      * @return list<string>
+     * @throws ilMailAttachmentsTotalSizeLimitExceededException
      */
     protected function handleAttachments(array $attachments): array
     {
+        $limit = $this->fdm->getAttachmentsTotalSizeLimit();
+        $total_size = 0;
+        foreach ($attachments as $attachment) {
+            $info = $this->upload_handler->getInfoResult($attachment);
+            if ($info->getFileIdentifier() !== 'unknown') {
+                $total_size += $info->getSize();
+            }
+        }
+        if ($limit !== null && $total_size > $limit) {
+            throw new ilMailAttachmentsTotalSizeLimitExceededException(
+                $this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilUtil::formatSize((int) $limit)
+            );
+        }
+
         $files = [];
         foreach ($attachments as $attachment) {
             $info = $this->upload_handler->getInfoResult($attachment);

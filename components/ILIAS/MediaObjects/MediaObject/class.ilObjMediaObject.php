@@ -1701,6 +1701,12 @@ class ilObjMediaObject extends ilObject
             $ppics[] = $med->getLocation();
         }
         foreach ($ppics as $p) {
+            if ($this->manager->hasLocalFile($this->getId(), $p)) {
+                if ($a_filename_only) {
+                    return $p;
+                }
+                return $this->manager->getLocalSrc($this->getId(), $p);
+            }
             if (is_file($dir . "/" . $p)) {
                 if ($a_filename_only) {
                     return $p;

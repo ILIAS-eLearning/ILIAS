@@ -1782,14 +1782,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $starting_time = $this->object->getStartingTimeOfUser($active_id);
         $working_time = new WorkingTime(
             $this->lng,
-            $this->ui_factory,
-            $this->ui_renderer,
             $starting_time,
             $this->object->getProcessingTimeInSeconds($active_id)
         );
 
         $this->tpl->setCurrentBlock('enableprocessingtime');
-        $this->tpl->setVariable('USER_WORKING_TIME_MESSAGE_BOX', $working_time->getMessageBox($verbose));
+        $this->tpl->setVariable(
+            'USER_WORKING_TIME_MESSAGE_BOX',
+            $this->ui_renderer->render(
+                $working_time->getMessageBox($this->ui_factory, $verbose)
+            )
+        );
         $this->tpl->parseCurrentBlock();
 
         $working_time_js_template = $working_time->prepareWorkingTimeJsTemplate(
@@ -3058,8 +3061,12 @@ JS;
             // this is a placeholder solution with inline html tags to differentiate the different elements
             // should be removed when a title component with grouping and visual weighting is available
             // see:  https://github.com/ILIAS-eLearning/ILIAS/pull/7311
-            $pax_name_value = "<span class='il-test-kiosk-head__participant-name'>"
-                . $this->user->getFullname() . "</span>";
+            $pax_name_value = $this->ui_factory->legacy()->content(
+                sprintf(
+                    "<span class='il-test-kiosk-head__participant-name'>%s</span>",
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($this->user->getFullname())
+                )
+            );
             $title_content = $title_content->withProperty($pax_name_label, $pax_name_value, false);
         }
 

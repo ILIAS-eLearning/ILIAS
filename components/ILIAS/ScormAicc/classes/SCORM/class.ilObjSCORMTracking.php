@@ -75,7 +75,7 @@ class ilObjSCORMTracking
         }
 
         if ($obj_id <= 1) {
-            $ilLog->write("ScormAicc: storeJsApi: Error: No valid obj_id given.");
+            $ilLog->info("ScormAicc: storeJsApi: Error: No valid obj_id given.");
         } else {
             foreach ($aa_data as $a_data) {
                 $set = $ilDB->queryF(
@@ -155,7 +155,7 @@ class ilObjSCORMTracking
         $ilDB = $DIC->database();
         $ilLog = ilLoggerFactory::getLogger('sahs');
         $saved_global_status = $data->saved_global_status;
-        $ilLog->write("saved_global_status=" . $saved_global_status);
+        $ilLog->info("saved_global_status=" . $saved_global_status);
 
         // get attempts
         if (!isset($data->packageAttempts)) {
@@ -580,7 +580,7 @@ class ilObjSCORMTracking
         $ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());
         if ($obj_id <= 1) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
+            $GLOBALS['DIC']['ilLog']->info('no valid obj_id');
         } else {
             $last_visited = "";
             if ($DIC->http()->wrapper()->query()->has('last_visited')) {

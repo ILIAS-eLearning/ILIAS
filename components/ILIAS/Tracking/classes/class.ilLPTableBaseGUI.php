@@ -18,11 +18,11 @@
 
 declare(strict_types=0);
 
-use ILIAS\User\Profile\Profile;
+use ILIAS\HTTP\Services as HttpService;
+use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\AvailableSections;
-use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\HTTP\Services as HttpService;
+use ILIAS\User\Profile\Profile;
 
 /**
  * TableGUI class for learning progress

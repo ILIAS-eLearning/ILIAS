@@ -13,7 +13,6 @@
 			<parent id="skmg" max="1">skmg</parent>
 		</object>
 	</objects>
-	<logging />
 	<events>
 		<event type="listen" id="components/ILIAS/Tracking" />
 		<event type="listen" id="components/ILIAS/ILIASObject" />

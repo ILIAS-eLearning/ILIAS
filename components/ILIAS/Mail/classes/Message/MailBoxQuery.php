@@ -50,6 +50,7 @@ class MailBoxQuery
     private int $offset = 0;
     private MailBoxOrderColumn $order_column = self::DEFAULT_ORDER_COLUMN;
     private string $order_direction = self::DEFAULT_ORDER_DIRECTION;
+    private ?bool $scheduled_only = null;
 
     public function __construct(
         private readonly int $user_id,
@@ -185,6 +186,14 @@ class MailBoxQuery
         } else {
             $clone->order_direction = self::DEFAULT_ORDER_DIRECTION;
         }
+
+        return $clone;
+    }
+
+    public function withScheduledOnly(?bool $scheduled_only): MailBoxQuery
+    {
+        $clone = clone $this;
+        $clone->scheduled_only = $scheduled_only;
 
         return $clone;
     }
@@ -405,6 +414,10 @@ class MailBoxQuery
                     ->format('Y-m-d H:i:s'),
                 ilDBConstants::T_TIMESTAMP
             );
+        }
+
+        if ($this->scheduled_only === true) {
+            $parts[] = 'm.schedule_datetime IS NOT NULL';
         }
 
         if (!empty($this->filtered_ids)) {

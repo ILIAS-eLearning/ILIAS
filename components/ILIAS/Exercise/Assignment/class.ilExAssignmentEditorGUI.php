@@ -43,6 +43,7 @@ class ilExAssignmentEditorGUI
     protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilSetting $settings;
+    protected ilCronManager $cron_manager;
     protected ilHelpGUI $help;
     protected int $exercise_id;
     protected ?ilExAssignment $assignment;
@@ -53,14 +54,7 @@ class ilExAssignmentEditorGUI
     protected ilExAssignmentTypesGUI $type_guis;
     protected string $requested_ass_type;
     protected int $requested_type;
-    /**
-     * @var int[]
-     */
-    protected array $requested_ass_ids;
-    /**
-     * @var int[]
-     */
-    protected array $requested_order;
+    protected ?\ILIAS\Repository\Table\TableAdapterGUI $assignment_table = null;
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\FileUpload\FileUpload $upload;
 
@@ -79,6 +73,7 @@ class ilExAssignmentEditorGUI
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->settings = $DIC->settings();
+        $this->cron_manager = $DIC->cron()->manager();
         $this->help = $DIC["ilHelp"];
         $this->exercise_id = $a_exercise_id;
         $this->assignment = $a_ass;
@@ -96,8 +91,6 @@ class ilExAssignmentEditorGUI
             $request->getExercise()
         );
         $this->domain = $DIC->exercise()->internal()->domain();
-        $this->requested_ass_ids = $request->getAssignmentIds();
-        $this->requested_order = $request->getOrder();
         $this->irss = $DIC->resourceStorage();
         $this->access = $DIC->access();
         $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
@@ -180,8 +173,31 @@ class ilExAssignmentEditorGUI
             "addAssignment"
         )->submit()->toToolbar(true);
 
-        $t = new ilAssignmentsTableGUI($this, "listAssignments", $this->exercise_id);
-        $tpl->setContent($t->getHTML());
+        $ilToolbar->addSeparator();
+        $this->gui->button(
+            $this->lng->txt("exc_order_by_deadline"),
+            "orderAssignmentsByDeadline"
+        )->submit()->toToolbar(true);
+
+        $table = $this->getAssignmentTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
+    }
+
+    protected function getAssignmentTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        if ($this->assignment_table === null) {
+            $this->assignment_table = $this->gui->assignment()->assignmentsTableBuilder(
+                $this->exercise_id,
+                $this,
+                'listAssignments'
+            )->getTable();
+        }
+
+        return $this->assignment_table;
     }
 
     /**
@@ -448,6 +464,9 @@ class ilExAssignmentEditorGUI
 
         // submit reminder
         $rmd_submit = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_submit_setting"), "rmd_submit_status");
+        if (!$this->cron_manager->isJobActive("exc_reminders")) {
+            $rmd_submit->setInfo($this->lng->txt("exc_reminders_cron_not_active"));
+        }
 
         $rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_submit_start");
         $rmd_submit_start->setSize(3);
@@ -474,6 +493,9 @@ class ilExAssignmentEditorGUI
 
         // grade reminder
         $rmd_grade = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_grade_setting"), "rmd_grade_status");
+        if (!$this->cron_manager->isJobActive("exc_reminders")) {
+            $rmd_grade->setInfo($this->lng->txt("exc_reminders_cron_not_active"));
+        }
 
         $rmd_grade_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_grade_freq");
         $rmd_grade_frequency->setSize(3);
@@ -1222,51 +1244,31 @@ class ilExAssignmentEditorGUI
         }
     }
 
-    public function confirmAssignmentsDeletionObject(): void
+    public function confirmAssignmentDeletion(int $id): void
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
-        $ilCtrl->setParameterByClass(ilObjExerciseGUI::class, "ass_id", null);
-        if (count($this->requested_ass_ids) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
-            $ilCtrl->redirect($this, "listAssignments");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("exc_conf_del_assignments"));
-            $cgui->setCancel($lng->txt("cancel"), "listAssignments");
-            $cgui->setConfirm($lng->txt("delete"), "deleteAssignments");
-
-            foreach ($this->requested_ass_ids as $i) {
-                $cgui->addItem("id[]", $i, ilExAssignment::lookupTitle($i));
-            }
-
-            $tpl->setContent($cgui->getHTML());
-        }
+        $this->getAssignmentTable()->renderDeletionConfirmation(
+            $this->lng->txt('exc_conf_del_assignments'),
+            $this->lng->txt('info_delete_sure'),
+            'deleteAssignment',
+            [$id => ilExAssignment::lookupTitle($id)]
+        );
     }
 
     /**
      * @throws ilExcUnknownAssignmentTypeException
      * @throws ilDateTimeException
      */
-    public function deleteAssignmentsObject(): void
+    public function deleteAssignmentObject(): void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $delete = false;
-        foreach ($this->requested_ass_ids as $id) {
-            $ass = new ilExAssignment(ilUtil::stripSlashes($id));
+        $ids = $this->getAssignmentTable()->getItemIds();
+        foreach ($ids as $id) {
+            $ass = new ilExAssignment((int) $id);
             $ass->delete($this->exc);
-            $delete = true;
         }
 
-        if ($delete) {
-            $this->tpl->setOnScreenMessage('success', $lng->txt("exc_assignments_deleted"), true);
-        }
-        $ilCtrl->setParameter($this, "ass_id", "");
-        $ilCtrl->redirect($this, "listAssignments");
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('exc_assignments_deleted'), true);
+        $this->ctrl->setParameter($this, 'ass_id', '');
+        $this->ctrl->redirect($this, 'listAssignments');
     }
 
     public function saveAssignmentOrderObject(): void
@@ -1276,7 +1278,7 @@ class ilExAssignmentEditorGUI
 
         ilExAssignment::saveAssOrderOfExercise(
             $this->exercise_id,
-            $this->requested_order
+            $this->getAssignmentTable()->getData() ?? []
         );
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("exc_saved_order"), true);
@@ -1402,6 +1404,9 @@ class ilExAssignmentEditorGUI
 
         //feedback reminders
         $rmd_feedback = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_feedback_setting"), "rmd_peer_status");
+        if (!$this->cron_manager->isJobActive("exc_reminders")) {
+            $rmd_feedback->setInfo($this->lng->txt("exc_reminders_cron_not_active"));
+        }
 
         $rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_feedback_start"), "rmd_peer_start");
         $rmd_submit_start->setSize(3);

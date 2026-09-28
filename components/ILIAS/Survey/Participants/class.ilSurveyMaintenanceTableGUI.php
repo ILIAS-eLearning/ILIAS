@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */

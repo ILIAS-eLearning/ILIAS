@@ -20,8 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\Renderer;
 
-use ILIAS\Tracking\View\Renderer\RendererInterface;
-
 interface FactoryInterface
 {
     public function service(): RendererInterface;

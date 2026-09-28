@@ -18,13 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\Profile\Profile;
 use ILIAS\Language\Language;
 
 class ilOpenIdConnectUserSync
 {
-    public const AUTH_MODE = 'oidc';
-    private const UDF_STRING = 'udf_';
+    public const string AUTH_MODE = 'oidc';
+    private const string UDF_STRING = 'udf_';
 
     private readonly ilLogger $logger;
     private readonly Language $lng;
@@ -33,7 +32,7 @@ class ilOpenIdConnectUserSync
     private string $int_account = '';
     private int $usr_id = 0;
     /**
-     * @var array<string, ILIAS\User\Profile\Field>|null
+     * @var array<string, \ILIAS\User\Profile\Fields\Field>
      */
     private array $user_defined_fields;
 
@@ -255,7 +254,7 @@ class ilOpenIdConnectUserSync
                         continue 2;
                     }
 
-                    $field = $this->user_defined_fields[$id_data[1]] ?? null;
+                    $definition = $this->user_defined_fields[$id_data[1]] ?? null;
                     if ($definition === null) {
                         $this->logger->warning(
                             sprintf(
@@ -269,8 +268,8 @@ class ilOpenIdConnectUserSync
                     $this->writer->xmlElement(
                         'UserDefinedField',
                         [
-                            'Id' => $field->getIdentifier(),
-                            'Name' => $field->getLabel($this->lng)
+                            'Id' => $definition->getIdentifier(),
+                            'Name' => $definition->getLabel($this->lng)
                         ],
                         $value
                     );

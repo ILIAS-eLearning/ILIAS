@@ -68,20 +68,20 @@ class ilContainerXmlWriter extends ilXmlWriter
 
         $obj_id = ilObject::_lookupObjId($a_ref_id);
 
-        $atts = [];
-        $atts['RefId'] = $a_ref_id;
-        $atts['Id'] = $obj_id;
-        $atts['Title'] = ilObject::_lookupTitle($obj_id);
-        $atts['Type'] = ilObject::_lookupType($obj_id);
-        $atts['Page'] = ilContainerPage::_exists('cont', $obj_id);
-        $atts['StartPage'] = ilContainerStartObjectsPage::_exists('cstr', $obj_id);
-        $atts['Style'] = ilObjStyleSheet::lookupObjectStyle($obj_id);
-        if ($this->objDefinition->supportsOfflineHandling($atts['Type'])) {
-            $atts['Offline'] = ilObject::lookupOfflineStatus($obj_id) ? '1' : '0';
+        $attrs = [];
+        $attrs['RefId'] = $a_ref_id;
+        $attrs['Id'] = $obj_id;
+        $attrs['Title'] = ilObject::_lookupTitle($obj_id);
+        $attrs['Type'] = ilObject::_lookupType($obj_id);
+        $attrs['Page'] = ilContainerPage::_exists('cont', $obj_id);
+        $attrs['StartPage'] = ilContainerStartObjectsPage::_exists('cstr', $obj_id);
+        $attrs['Style'] = ilObjStyleSheet::lookupObjectStyle($obj_id);
+        if ($this->objDefinition->supportsOfflineHandling($attrs['Type'])) {
+            $attrs['Offline'] = ilObject::lookupOfflineStatus($obj_id) ? '1' : '0';
         }
         $this->xmlStartTag(
             'Item',
-            $atts
+            $attrs
         );
         $this->writeCourseItemInformation($a_ref_id);
 

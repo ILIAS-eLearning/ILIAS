@@ -236,4 +236,80 @@ class ilLTIConsumerDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex("lti_consumer_grades", array("obj_id","usr_id"), 'i1');
         }
     }
+
+    public function step_16(): void
+    {
+        if (!$this->db->tableColumnExists('lti_consumer_results', 'attended')) {
+            $this->db->addTableColumn('lti_consumer_results', 'attended', [
+                'type' => 'integer',
+                'notnull' => true,
+                'length' => 1,
+                'default' => 0
+            ]);
+
+            $query = /** @lang sql */
+                "
+                UPDATE lti_consumer_results
+                SET attended = 1
+                WHERE result IS NOT NULL AND result > 0
+            ";
+            $this->db->manipulate($query);
+        }
+    }
+
+    public function step_17(): void
+    {
+        if (!$this->db->tableColumnExists('lti_consumer_settings', 'score_maximum')) {
+            $this->db->addTableColumn('lti_consumer_settings', 'score_maximum', [
+                'type' => 'float',
+                'notnull' => false,
+                'default' => 1
+            ]);
+        }
+    }
+
+    public function step_18(): void
+    {
+        if (!$this->db->tableExists('lti_consumer_lineitems')) {
+            $values = [
+                'id' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
+                'context_id' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
+                'obj_id' => ['type' => 'integer', 'length' => 4, 'notnull' => false],
+                'client_id' => ['type' => 'text', 'length' => 255, 'notnull' => false],
+                'label' => ['type' => 'text', 'length' => 255, 'notnull' => false],
+                'score_maximum' => ['type' => 'float', 'notnull' => false, 'default' => 1],
+                'resource_id' => ['type' => 'text', 'length' => 255, 'notnull' => false],
+                'resource_link_id' => ['type' => 'text', 'length' => 255, 'notnull' => false],
+                'tag' => ['type' => 'text', 'length' => 255, 'notnull' => false],
+                'enabled' => ['type' => 'integer', 'length' => 1, 'notnull' => true, 'default' => 1]
+            ];
+            $this->db->createTable('lti_consumer_lineitems', $values);
+            $this->db->addPrimaryKey('lti_consumer_lineitems', ['id']);
+            $this->db->createSequence('lti_consumer_lineitems');
+        }
+    }
+
+    public function step_19(): void
+    {
+        if ($this->db->tableExists('lti_consumer_lineitems') &&
+            !$this->db->tableColumnExists('lti_consumer_lineitems', 'resource_link_id')) {
+            $this->db->addTableColumn('lti_consumer_lineitems', 'resource_link_id', [
+                'type' => 'text',
+                'length' => 255,
+                'notnull' => false
+            ]);
+        }
+    }
+
+    public function step_20(): void
+    {
+        if ($this->db->tableExists('lti_consumer_lineitems') &&
+            !$this->db->tableColumnExists('lti_consumer_lineitems', 'client_id')) {
+            $this->db->addTableColumn('lti_consumer_lineitems', 'client_id', [
+                'type' => 'text',
+                'length' => 255,
+                'notnull' => false
+            ]);
+        }
+    }
 }

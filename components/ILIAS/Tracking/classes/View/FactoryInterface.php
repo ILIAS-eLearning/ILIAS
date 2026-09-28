@@ -20,10 +20,10 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View;
 
-use ILIAS\Tracking\View\Renderer\FactoryInterface as RendererFactoryInterface;
 use ILIAS\Tracking\View\DataRetrieval\FactoryInterface as DataRetrievalFactoryInterface;
-use ILIAS\Tracking\View\PropertyList\FactoryInterface as PropertyListFactoryInterface;
 use ILIAS\Tracking\View\ProgressBlock\FactoryInterface as ProgressBlockFactoryInterface;
+use ILIAS\Tracking\View\PropertyList\FactoryInterface as PropertyListFactoryInterface;
+use ILIAS\Tracking\View\Renderer\FactoryInterface as RendererFactoryInterface;
 
 interface FactoryInterface
 {

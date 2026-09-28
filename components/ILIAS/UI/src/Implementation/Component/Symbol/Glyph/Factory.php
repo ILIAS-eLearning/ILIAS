@@ -328,4 +328,24 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::UNCHECKED, $this->language->txt("unchecked"));
     }
+
+    public function presenter(): G\Glyph
+    {
+        return new Glyph(G\Glyph::PRESENTER, "presenter");
+    }
+
+    public function owner(): G\Glyph
+    {
+        return new Glyph(G\Glyph::OWNER, "owner");
+    }
+
+    public function date(): G\Glyph
+    {
+        return new Glyph(G\Glyph::DATE, "date");
+    }
+
+    public function location(): G\Glyph
+    {
+        return new Glyph(G\Glyph::LOCATION, "location");
+    }
 }

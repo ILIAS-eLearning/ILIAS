@@ -341,7 +341,8 @@ class ilLMNavigationRendererGUI
                 $text .= " (" . $this->lng->txt("cont_no_access") . ")";
             }
 
-            $href = $this->linker->getLink("layout", $node["obj_id"]);
+            $type = $node["type"] === "st" ? "StructureObject" : "";
+            $href = $this->linker->getLink("layout", $node["obj_id"], "", $type);
 
             if ($text !== "") {
                 if ($this->lm->getTOCMode() === "pages" && $this->current_page == $node["obj_id"]) {

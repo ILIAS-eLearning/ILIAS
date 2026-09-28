@@ -33,6 +33,65 @@ class PCPluggedTest extends COPageTestBase
         );
     }
 
+    public function testModifyPageContentPostXslRendersPluginAfterEmptyPlugin(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+
+        $first_plugin_info = $this->createConfiguredMock(
+            ilPluginInfo::class,
+            [
+                "isActive" => true,
+                "getId" => "first_plugin",
+            ]
+        );
+        $second_plugin_info = $this->createConfiguredMock(
+            ilPluginInfo::class,
+            [
+                "isActive" => true,
+                "getId" => "second_plugin",
+            ]
+        );
+
+        $first_plugin_gui = $this->createMock(ilPageComponentPluginGUI::class);
+        $first_plugin_gui->method("getElementHTML")
+            ->willReturn("");
+        $first_plugin = $this->createMock(ilPageComponentPlugin::class);
+        $first_plugin->method("getUIClassInstance")
+            ->willReturn($first_plugin_gui);
+
+        $second_plugin_gui = $this->createMock(ilPageComponentPluginGUI::class);
+        $second_plugin_gui->method("getElementHTML")
+            ->willReturn("second plugin html");
+        $second_plugin = $this->createMock(ilPageComponentPlugin::class);
+        $second_plugin->method("getUIClassInstance")
+            ->willReturn($second_plugin_gui);
+
+        $component_repository = $this->createMock(ilComponentRepository::class);
+        $component_repository->method("getPluginByName")
+            ->willReturnMap([
+                ["First", $first_plugin_info],
+                ["Second", $second_plugin_info],
+            ]);
+        $this->setGlobalVariable("component.repository", $component_repository);
+
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getPlugin")
+            ->willReturnMap([
+                ["first_plugin", $first_plugin],
+                ["second_plugin", $second_plugin],
+            ]);
+        $this->setGlobalVariable("component.factory", $component_factory);
+
+        $pc = new ilPCPlugged($page);
+        $first_marker = "{{{{{Plugged<pl/>First<pl/>1.0}}}}}";
+        $second_marker = "{{{{{Plugged<pl/>Second<pl/>1.0}}}}}";
+
+        $this->assertEquals(
+            "second plugin html",
+            $pc->modifyPageContentPostXsl($first_marker . $second_marker, "presentation")
+        );
+    }
+
     public function testCreate(): void
     {
         $page = $this->getEmptyPageWithDom();

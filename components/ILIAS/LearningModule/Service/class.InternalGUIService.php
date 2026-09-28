@@ -58,4 +58,59 @@ class InternalGUIService
             $this
         );
     }
+
+    public function blockedUsersTableBuilder(
+        int $ref_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): Question\BlockedUsers\TableBuilder {
+        return new Question\BlockedUsers\TableBuilder(
+            $this->domain_service,
+            $ref_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function questionStatisticsTableBuilder(
+        int $lm_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): Question\Statistics\TableBuilder {
+        return new Question\Statistics\TableBuilder(
+            $this->domain_service,
+            $lm_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function helpTooltipTableBuilder(
+        string $component,
+        object $parent_gui,
+        string $parent_cmd
+    ): HelpTooltip\TableBuilder {
+        return new HelpTooltip\TableBuilder(
+            $this->domain_service,
+            $component,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function linksTableBuilder(
+        int $lm_id,
+        string $lm_type,
+        object $parent_gui,
+        string $parent_cmd
+    ): Links\TableBuilder {
+        return new Links\TableBuilder(
+            $this->domain_service,
+            $this,
+            $lm_id,
+            $lm_type,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

@@ -797,13 +797,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             );
         }
 
-        $table_gui = new ilStyleColorTableGUI(
-            $this,
-            "listColors",
+        $table = $this->getColorTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getColorTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        return $this->gui_service->colorTableBuilder(
             $this->getStyleSheet(),
-            $this->access_manager
-        );
-        $tpl->setContent($table_gui->getHTML());
+            $this->access_manager,
+            $this,
+            "listColors"
+        )->getTable();
     }
 
     public function addColorObject(): void
@@ -968,6 +976,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
     }
 
+    public function confirmDeleteColors(array $colors): void
+    {
+        if (count($colors) === 0) {
+            $this->ctrl->redirect($this, "listColors");
+            return;
+        }
+
+        $this->getColorTable()->renderDeletionConfirmation(
+            $this->lng->txt("sty_confirm_color_deletion"),
+            $this->lng->txt("info_delete_sure"),
+            "deleteColor",
+            array_combine($colors, $colors)
+        );
+    }
+
     /**
      * Cancel color deletion
      */
@@ -981,7 +1004,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $colors = $this->style_request->getColors();
+        $colors = $this->getColorTable()->getItemIds();
+        if (count($colors) === 0) {
+            $colors = $this->style_request->getColors();
+        }
         foreach ($colors as $c) {
             $this->object->removeColor($c);
         }
@@ -1006,13 +1032,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             );
         }
 
-        $table_gui = new ilStyleMediaQueryTableGUI(
-            $this,
-            "listMediaQueries",
+        $table = $this->getMediaQueryTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getMediaQueryTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        return $this->gui_service->mediaQueryTableBuilder(
             $this->getStyleSheet(),
-            $this->access_manager
-        );
-        $tpl->setContent($table_gui->getHTML());
+            $this->access_manager,
+            $this,
+            "listMediaQueries"
+        )->getTable();
     }
 
     public function addMediaQueryObject(): void
@@ -1120,35 +1154,39 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
     public function deleteMediaQueryConfirmationObject(): void
     {
+        $this->deleteMediaQueryConfirmation($this->style_request->getMediaQueryIds());
+    }
+
+    public function deleteMediaQueryConfirmation(array $mq_ids): void
+    {
         $ilCtrl = $this->ctrl;
-        $tpl = $this->gui_service->ui()->mainTemplate();
-        $lng = $this->lng;
-
-        $mq_ids = $this->style_request->getMediaQueryIds();
-        if (count($mq_ids) == 0) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
+        if (count($mq_ids) === 0) {
             $ilCtrl->redirect($this, "listMediaQueries");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("sty_sure_del_mqueries"));
-            $cgui->setCancel($lng->txt("cancel"), "listMediaQueries");
-            $cgui->setConfirm($lng->txt("delete"), "deleteMediaQueries");
-
-            foreach ($mq_ids as $i) {
-                $mq = $this->object->getMediaQueryForId($i);
-                $cgui->addItem("mq_id[]", (string) $i, $mq["mquery"]);
-            }
-
-            $tpl->setContent($cgui->getHTML());
+            return;
         }
+
+        $items = [];
+        foreach ($mq_ids as $mq_id) {
+            $media_query = $this->object->getMediaQueryForId($mq_id);
+            $items[$mq_id] = $media_query["mquery"] ?? "";
+        }
+
+        $this->getMediaQueryTable()->renderDeletionConfirmation(
+            $this->lng->txt("sty_sure_del_mqueries"),
+            $this->lng->txt("info_delete_sure"),
+            "deleteMediaQueries",
+            $items
+        );
     }
 
     public function deleteMediaQueriesObject(): void
     {
         $ilCtrl = $this->ctrl;
 
-        $mq_ids = $this->style_request->getMediaQueryIds();
+        $mq_ids = $this->getMediaQueryTable()->getItemIds();
+        if (count($mq_ids) === 0) {
+            $mq_ids = $this->style_request->getMediaQueryIds();
+        }
         if ($this->access_manager->checkWrite()) {
             foreach ($mq_ids as $id) {
                 $this->object->deleteMediaQuery($id);
@@ -1167,7 +1205,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
         $ilCtrl->redirect($this, "listMediaQueries");
     }
-
 
     //
     // Templates management
@@ -1191,6 +1228,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->setTemplatesSubTabs();
         $ilCtrl->setParameter($this, "temp_type", $ctype);
         $ilTabs->setSubTabActive("sty_" . $ctype . "_templates");
+        ilAccordionGUI::addCss();
 
         // action commands
         if ($this->access_manager->checkWrite()) {
@@ -1209,14 +1247,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 
         $this->includeCSS();
-        $table_gui = new ilTableTemplatesTableGUI(
-            $ctype,
-            $this,
-            "listTemplates",
+        $table = $this->getTemplateTable($ctype);
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getTemplateTable(
+        string $temp_type
+    ): \ILIAS\Repository\Table\TableAdapterGUI {
+        return $this->gui_service->templateTableBuilder(
             $this->getStyleSheet(),
-            $this->access_manager
-        );
-        $tpl->setContent($table_gui->getHTML());
+            $temp_type,
+            $this->access_manager,
+            $this,
+            "listTemplates"
+        )->getTable();
     }
 
     public function addTemplateObject(): void
@@ -1266,105 +1313,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     ): string {
         global $DIC;
 
-        $lng = $DIC->language();
-        $p_content = "";
-
-        $kr = $kc = 7;
-        if ($a_small_mode) {
-            $kr = 6;
-            $kc = 5;
-        }
-
-        $ts = $a_style->getTemplate($a_t_id);
-        $t = $ts["classes"];
-
-        // preview
-        if ($a_type == "table") {
-            $p_content = '<PageContent><Table DataTable="y"';
-            $t["row_head"] = $t["row_head"] ?? "";
-            $t["row_foot"] = $t["row_foot"] ?? "";
-            $t["col_head"] = $t["col_head"] ?? "";
-            $t["col_foot"] = $t["col_foot"] ?? "";
-            if ($t["row_head"] != "") {
-                $p_content .= ' HeaderRows="1"';
-            }
-            if ($t["row_foot"] != "") {
-                $p_content .= ' FooterRows="1"';
-            }
-            if ($t["col_head"] != "") {
-                $p_content .= ' HeaderCols="1"';
-            }
-            if ($t["col_foot"] != "") {
-                $p_content .= ' FooterCols="1"';
-            }
-            $p_content .= ' Template="' . $a_style->lookupTemplateName($a_t_id) . '">';
-            if (!$a_small_mode) {
-                $p_content .= '<Caption>' . $lng->txt("sty_caption") . '</Caption>';
-            }
-            for ($i = 1; $i <= $kr; $i++) {
-                $p_content .= '<TableRow>';
-                for ($j = 1; $j <= $kc; $j++) {
-                    if ($a_small_mode) {
-                        $cell = '&lt;div style="height:2px;"&gt;&lt;/div&gt;';
-                    } else {
-                        $cell = 'xxx';
-                    }
-                    $p_content .= '<TableData><PageContent><Paragraph Characteristic="TableContent">' . $cell . '</Paragraph></PageContent></TableData>';
-                }
-                $p_content .= '</TableRow>';
-            }
-            $p_content .= '</Table></PageContent>';
-        }
-
-        if ($a_type == "vaccordion" || $a_type == "haccordion" || $a_type == "carousel") {
-            ilAccordionGUI::addCss();
-
-            if ($a_small_mode) {
-                $c = '&amp;nbsp;';
-                $h = '&amp;nbsp;';
-            } else {
-                $c = 'xxx';
-                $h = 'head';
-            }
-            if ($a_type == "vaccordion") {
-                $p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="VerticalAccordion" ';
-                if ($a_small_mode) {
-                    $p_content .= ' ContentWidth="70"';
-                }
-            } elseif ($a_type == "haccordion") {
-                $p_content = '<PageContent><Tabs Type="HorizontalAccordion"';
-                $p_content .= ' ContentHeight="40"';
-                if ($a_small_mode) {
-                    $p_content .= ' ContentWidth="70"';
-                    $c = '&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;';
-                }
-            } elseif ($a_type == "carousel") {
-                $p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="Carousel" ';
-                if ($a_small_mode) {
-                    $p_content .= ' ContentWidth="70"';
-                }
-            }
-
-
-            $p_content .= ' Template="' . $a_style->lookupTemplateName($a_t_id) . '">';
-            $p_content .= '<Tab><PageContent><Paragraph>' . $c . '</Paragraph></PageContent>';
-            $p_content .= '<TabCaption>' . $h . '</TabCaption>';
-            $p_content .= '</Tab>';
-            $p_content .= '</Tabs></PageContent>';
-        }
-        //echo htmlentities($p_content);
-        $txml = $a_style->getTemplateXML();
-        //echo htmlentities($txml); exit;
-        $p_content .= $txml;
-        $r_content = ilPCTableGUI::_renderTable($p_content, "");
-
-        // fix carousel template visibility
-        if ($a_type == "carousel") {
-            $r_content .= "<style>.owl-carousel{ display:block !important; }</style>";
-        }
-
-        //echo htmlentities($r_content); exit;
-        return $r_content;
+        $preview_gui = $DIC->contentStyle()->gui()->preview();
+        return $preview_gui->getTemplatePreview(
+            $a_style->getId(),
+            $a_type,
+            $a_t_id,
+            $a_small_mode
+        );
     }
 
     /**
@@ -1558,11 +1513,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
      */
     public function deleteTemplateConfirmationObject(): void
     {
+        $this->deleteTemplateConfirmation($this->style_request->getTemplateIds());
+    }
+
+    public function deleteTemplateConfirmation(array $tids): void
+    {
         $ilCtrl = $this->ctrl;
         $tpl = $this->gui_service->ui()->mainTemplate();
         $lng = $this->lng;
 
-        $tids = $this->style_request->getTemplateIds();
         if (count($tids) == 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTemplates");

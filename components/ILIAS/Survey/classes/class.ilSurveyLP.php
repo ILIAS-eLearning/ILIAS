@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Survey to lp connector
  *
@@ -59,7 +61,7 @@ class ilSurveyLP extends ilObjectLP
         $set = $ilDB->query("SELECT ss.obj_fi" .
             " FROM svy_finished sf" .
             " JOIN svy_svy ss ON (ss.survey_id = sf.survey_fi)" .
-            " WHERE " . $ilDB->in("ss.obj_fi", $obj_ids, "", "integer") .
+            " WHERE " . $ilDB->in("ss.obj_fi", $obj_ids, false, "integer") .
             " AND sf.user_fi = " . $ilDB->quote($usr_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[(int) $row["obj_fi"]] = true;

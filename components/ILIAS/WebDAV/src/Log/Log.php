@@ -71,12 +71,12 @@ class Log extends ServerPlugin
 
         $called_by = $e->getTrace()[0] ?? null;
         if ($called_by && isset($called_by['class'], $called_by['function'])) {
-            $this->logger->write(
+            $this->logger->info(
                 'WEBDAV: Exception in ' . $called_by['class'] . '::' . $called_by['function'] . ' - ' . $e->getMessage(
                 ),
             );
         } else {
-            $this->logger->write(
+            $this->logger->info(
                 'WEBDAV: Uncaught exception - ' . $e->getMessage(),
             );
         }

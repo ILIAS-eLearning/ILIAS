@@ -80,7 +80,7 @@ you have been successfull and can move on to the next step.
 ### Create a Configuration
 
 To install ILIAS you need a configuration file that contains basic configuration
-for your installation. Create a copy of the file `components/ILIAS/setup_/minimal-config.json`.
+for your installation. Create a copy of the file `components/ILIAS/Setup/minimal-config.json`.
 Open the file in a text editor and adjust it according to your requirements. Have
 a look into [the documentation of the setup](../../../../../components/ILIAS/Setup/README.md#about-the-config-file)
 for additional configuration variables.

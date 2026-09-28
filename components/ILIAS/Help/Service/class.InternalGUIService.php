@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\Export\PrintProcessGUI;
 use ilGuidedTourGUI;
+use ILIAS\Help\Module\ModuleTableBuilder;
 
 class InternalGUIService
 {
@@ -44,6 +45,20 @@ class InternalGUIService
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function moduleTableBuilder(
+        bool $has_write_permission,
+        object $parent_gui,
+        string $parent_cmd
+    ): ModuleTableBuilder {
+        return new ModuleTableBuilder(
+            $this->domain_service,
+            $this,
+            $has_write_permission,
+            $parent_gui,
+            $parent_cmd
         );
     }
 

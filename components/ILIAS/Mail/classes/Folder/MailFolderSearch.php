@@ -61,6 +61,10 @@ class MailFolderSearch
             ->withIsSystem($this->filter->isSystem())
             ->withHasAttachment($this->filter->hasAttachment());
 
+        if ($this->folder->isOutbox()) {
+            $this->mailbox_query = $this->mailbox_query->withScheduledOnly(true);
+        }
+
         if ($this->lucene_enabled && (
             ($this->filter->getSender() ?? '') !== '' ||
             ($this->filter->getRecipients() ?? '') !== '' ||

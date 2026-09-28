@@ -40,6 +40,7 @@ class Unzip
     protected bool $error_reading_zip = false;
     protected string $path_to_zip;
     private int $amount_of_entries = 0;
+    private ?bool $within_limits = null;
 
     public function __construct(
         protected UnzipOptions $options,
@@ -74,7 +75,7 @@ class Unzip
      */
     public function getPaths(): \Generator
     {
-        if (!$this->error_reading_zip) {
+        if (!$this->error_reading_zip && $this->isWithinLimits()) {
             for ($i = 0, $i_max = $this->amount_of_entries; $i < $i_max; $i++) {
                 $path = $this->zip->getNameIndex($i, \ZipArchive::FL_UNCHANGED);
                 if ($this->isPathIgnored($path, $this->options)) {
@@ -192,9 +193,65 @@ class Unzip
         return false;
     }
 
+    /**
+     * Guards against decompression bombs by checking the archive metadata (entry count, total
+     * uncompressed size and the uncompressed/compressed ratio) before any data is handed out.
+     * The sizes are read from the central directory via statIndex(); a crafted archive that lies
+     * about these sizes fails during the subsequent extraction anyway.
+     *
+     * An archive that exceeds the limits behaves like an empty one: extract() returns false and
+     * all generators (getPaths(), getFiles(), getStreams(), getFileStreams(), ...) yield nothing.
+     * Callers that consume the streams themselves should ask this method first, so they can tell
+     * a rejected archive from an empty one and report it to the user.
+     */
+    public function isWithinLimits(): bool
+    {
+        return $this->within_limits ??= $this->calculateIsWithinLimits();
+    }
+
+    private function calculateIsWithinLimits(): bool
+    {
+        $max_entries = $this->options->getMaxAmountOfEntries();
+        if ($max_entries > UnzipOptions::UNLIMITED && $this->amount_of_entries > $max_entries) {
+            return false;
+        }
+
+        $total_compressed = 0;
+        $total_uncompressed = 0;
+        for ($i = 0; $i < $this->amount_of_entries; $i++) {
+            $stat = $this->zip->statIndex($i, \ZipArchive::FL_UNCHANGED);
+            if ($stat === false) {
+                continue;
+            }
+            $total_compressed += max(0, (int) ($stat['comp_size'] ?? 0));
+            $total_uncompressed += max(0, (int) ($stat['size'] ?? 0));
+        }
+
+        $max_uncompressed = $this->options->getMaxUncompressedSize();
+        if ($max_uncompressed > UnzipOptions::UNLIMITED && $total_uncompressed > $max_uncompressed) {
+            return false;
+        }
+
+        $max_ratio = $this->options->getMaxCompressionRatio();
+        if (
+            $max_ratio > UnzipOptions::UNLIMITED
+            && $total_compressed > 0
+            && $total_uncompressed > $this->options->getRatioCheckMinUncompressedSize()
+            && ($total_uncompressed / $total_compressed) > $max_ratio
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function extract(): bool
     {
         if ($this->error_reading_zip) {
+            return false;
+        }
+
+        if (!$this->isWithinLimits()) {
             return false;
         }
 

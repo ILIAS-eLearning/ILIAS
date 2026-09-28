@@ -38,5 +38,7 @@ class OrgUnit implements Component\Component
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "authority.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "position_multi_line_input.js");
     }
 }

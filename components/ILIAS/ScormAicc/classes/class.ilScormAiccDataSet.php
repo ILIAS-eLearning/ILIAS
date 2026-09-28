@@ -155,7 +155,7 @@ class ilScormAiccDataSet extends ilDataSet
                 }
             }
         } else {
-            $ilLog->write("no module properties for imported object");
+            $ilLog->info("no module properties for imported object");
         }
     }
 
@@ -175,7 +175,7 @@ class ilScormAiccDataSet extends ilDataSet
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sahs');
 
-        $ilLog->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
+        $ilLog->info(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
         $this->dircnt = 1;
 

@@ -122,7 +122,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Node already deleted', 'Client');
         }
 
-        $log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id " . $course_id . " to trash");
+        $log->info("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id " . $course_id . " to trash");
         return true;
     }
 
@@ -370,8 +370,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if (!$rbacsystem->checkAccess('write', $course_id)) {
             return $this->raiseError('Check access failed. No permission to write course', 'Server');
         }
-
-        ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
 
         ilCourseWaitingList::_deleteAll($tmp_course->getId());
 

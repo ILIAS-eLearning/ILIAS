@@ -352,6 +352,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
             case "illearningprogressgui":
                 $this->initScreenHead("learning_progress");
+                $this->ctrl->setParameterByClass(
+                    ilLMPresentationGUI::class,
+                    "obj_id",
+                    $this->requested_obj_id
+                );
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->requested_ref_id,
@@ -759,6 +764,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     {
         $this->tpl->setTitle($this->getLMPresentationTitle());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
+        $this->tpl->setDescription($this->lm->getLongDescription());
     }
 
     /**
@@ -1358,8 +1364,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->renderPageTitle();
 
         $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitle($this->getLMPresentationTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
+        $this->setHeader();
 
         $this->renderTabs($a_active_tab, 0);
 

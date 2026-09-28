@@ -76,6 +76,8 @@ class ControlCenterGUI
     {
         $next_class = $this->ctrl->getNextClass($this);
 
+        $this->clearAsyncOnloadCode();
+
         $cmd = Command::tryFrom($this->ctrl->getCmd());
         switch ($next_class) {
             default:
@@ -231,6 +233,18 @@ class ControlCenterGUI
             GlobalTemplate::MESSAGE_TYPE_SUCCESS,
             $this->content_factory->getSuccessMessage($action),
             true
+        );
+    }
+
+    /**
+     * This is a workaround to get rid of unwanted onload code, from classes down the Ctrl path
+     * rendering UI components prematurely. Scripts are not attached twice when async rendering
+     * multiple times in a row, so we render a dummy components before the actually important components.
+     */
+    public function clearAsyncOnloadCode(): void
+    {
+        $this->ui_renderer->renderAsync(
+            $this->ui_factory->legacy()->content('')
         );
     }
 }

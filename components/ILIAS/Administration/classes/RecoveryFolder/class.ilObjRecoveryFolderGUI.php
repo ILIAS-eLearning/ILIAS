@@ -57,10 +57,13 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
         exit();
     }
 
-    public function removeFromSystemObject(): void
+    public function removeFromSystemObject(?int $trash_id = null): void
     {
         $ru = new ilRepositoryTrashGUI($this);
-        $ru->removeObjectsFromSystem($this->admin_request->getSelectedIds(), true);
+        $selected_ids = $trash_id === null
+            ? $this->admin_request->getSelectedIds()
+            : [$trash_id];
+        $ru->removeObjectsFromSystem($selected_ids, true);
         $this->ctrl->redirect($this, "view");
     }
 

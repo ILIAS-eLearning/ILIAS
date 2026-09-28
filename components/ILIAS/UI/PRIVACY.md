@@ -1,8 +1,7 @@
 # UI Privacy
 
-Disclaimer: This documentation does not guarantee completeness or correctness. Please report any missing or incorrect
-information using the ILIAS issue tracker or contribute a fix via Pull Request (
-docs/development/contributing.md#pull-request-to-the-repositories).
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+
 
 ## General Information
 
@@ -17,8 +16,8 @@ same component, looks different in seperate contexts.
 The UICore component employs the following components, please consult the respective `PRIVACY.md`:
 
 * Authentication: for storing values inside the session
-* [Component](../Component/PRIVACY.md):: for exposing public resources 
-* [Data](../Data/PRIVACY.md):: for representing structured data
+* [Component](../Component/PRIVACY.md): for exposing public resources 
+* [Data](../Data/PRIVACY.md): for representing structured data
 * [FileServices](../FileServices/PRIVACY.md): for php upload limit
 * [Help](../Help/PRIVACY.md): for retrieving help texts
 * Language: for translations

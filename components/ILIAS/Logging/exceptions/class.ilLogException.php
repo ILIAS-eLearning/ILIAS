@@ -21,6 +21,8 @@
 /**
  * ILIAS Log exception class
  *
+ * @deprecated
+ *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id:$
  * @ingroup ServicesLogging

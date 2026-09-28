@@ -86,6 +86,10 @@ interface Glyph extends Symbol
     public const DRAG_HANDLE = "dragHandle";
     public const CHECKED = "checked";
     public const UNCHECKED = "unchecked";
+    public const PRESENTER = "presenter";
+    public const OWNER = "owner";
+    public const DATE = "date";
+    public const LOCATION = "location";
 
     /**
      * Override the default label text with a more specific one

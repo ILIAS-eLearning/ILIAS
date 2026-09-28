@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="Folder">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="Title" type="Title"/>
+                <xs:element name="Description" type="xs:string"/>
+            </xs:all>
+            <xs:attribute name="Id" type="xs:nonNegativeInteger"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="Title">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

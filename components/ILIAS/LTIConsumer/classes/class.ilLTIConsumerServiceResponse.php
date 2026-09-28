@@ -195,14 +195,12 @@ class ilLTIConsumerServiceResponse
         $this->body = $body;
     }
 
-    /**
-     * Add an additional header.
-     */
-    /*
-    public function add_additional_header(string $header): void {
+    /** Add an additional header. */
+    public function addAdditionalHeader(string $header): void
+    {
         $this->additionalheaders[] = $header;
     }
-    */
+
     /**
      * Send the response.
      */

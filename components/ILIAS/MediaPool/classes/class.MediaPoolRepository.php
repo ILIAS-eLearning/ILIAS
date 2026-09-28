@@ -48,7 +48,9 @@ class MediaPoolRepository
         string $title_filter = "",
         string $format_filter = "",
         string $keyword_filter = '',
-        string $caption_filter = ""
+        string $caption_filter = "",
+        array $advanced_metadata_filter = [],
+        int $ref_id = 0
     ): array {
         $db = $this->db;
 
@@ -100,7 +102,20 @@ class MediaPoolRepository
                     $filtered[] = $obj;
                 }
             }
-            return (array) $filtered;
+            $objs = $filtered;
+        }
+        if ($advanced_metadata_filter !== []) {
+            $objs = \ilAdvancedMDValues::queryForRecords(
+                $ref_id,
+                'mep',
+                'mob',
+                [0],
+                'mob',
+                $objs,
+                '',
+                'foreign_id',
+                $this->getAdvancedMDSearchBridges($advanced_metadata_filter)
+            );
         }
         return $objs;
     }
@@ -113,7 +128,9 @@ class MediaPoolRepository
         string $title_filter = "",
         string $format_filter = "",
         string $keyword_filter = '',
-        string $caption_filter = ""
+        string $caption_filter = "",
+        array $advanced_metadata_filter = [],
+        int $ref_id = 0
     ): array {
         // format filter snippets come with internal "pg" format
         if (!in_array($format_filter, ["pg", ""])) {
@@ -158,7 +175,20 @@ class MediaPoolRepository
                     $filtered[] = $obj;
                 }
             }
-            return $filtered;
+            $objs = $filtered;
+        }
+        if ($advanced_metadata_filter !== []) {
+            $objs = \ilAdvancedMDValues::queryForRecords(
+                $ref_id,
+                'mep',
+                'mpg',
+                [$pool_id],
+                'mpg',
+                $objs,
+                'mep_id',
+                'obj_id',
+                $this->getAdvancedMDSearchBridges($advanced_metadata_filter)
+            );
         }
         return $objs;
     }
@@ -171,14 +201,18 @@ class MediaPoolRepository
         string $title_filter = "",
         string $format_filter = "",
         string $keyword_filter = "",
-        string $caption_filter = ""
+        string $caption_filter = "",
+        array $advanced_metadata_filter = [],
+        int $ref_id = 0
     ): array {
         $mobs = $this->getMediaObjects(
             $pool_id,
             $title_filter,
             $format_filter,
             $keyword_filter,
-            $caption_filter
+            $caption_filter,
+            $advanced_metadata_filter,
+            $ref_id
         );
 
         $snippets = $this->getContentSnippets(
@@ -186,10 +220,92 @@ class MediaPoolRepository
             $title_filter,
             $format_filter,
             $keyword_filter,
-            $caption_filter
+            $caption_filter,
+            $advanced_metadata_filter,
+            $ref_id
         );
 
         return \ilArrayUtil::sortArray(array_merge($mobs, $snippets), "title", "asc");
+    }
+
+    protected function getAdvancedMDSearchBridges(array $filter_data): array
+    {
+        $bridges = [];
+        foreach ($filter_data as $input_key => $value) {
+            if (!str_starts_with((string) $input_key, 'adv_md_') || !$value) {
+                continue;
+            }
+
+            $field_id = substr((string) $input_key, 7);
+            $field = \ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
+            $field_form = \ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                $field->getADTDefinition(),
+                true,
+                false
+            );
+
+            if (is_array($value)) {
+                switch (true) {
+                    case $field_form instanceof \ilADTDateSearchBridgeRange:
+                        $start = $value[0] ?? null;
+                        $end = $value[1] ?? null;
+                        if ($start) {
+                            $field_form->getLowerADT()->setDate(new \ilDate($start, IL_CAL_DATE));
+                        }
+                        if ($end) {
+                            $field_form->getUpperADT()->setDate(new \ilDate($end, IL_CAL_DATE));
+                        }
+                        if ($start || $end) {
+                            $bridges[$field_id] = $field_form;
+                        }
+                        break;
+                    case $field_form instanceof \ilADTDateTimeSearchBridgeRange:
+                        $start = $value[0] ?? null;
+                        $end = $value[1] ?? null;
+                        if ($start) {
+                            $field_form->getLowerADT()->setDate(new \ilDateTime(strtotime($start), IL_CAL_UNIX));
+                        }
+                        if ($end) {
+                            $field_form->getUpperADT()->setDate(new \ilDateTime(strtotime($end), IL_CAL_UNIX));
+                        }
+                        if ($start || $end) {
+                            $bridges[$field_id] = $field_form;
+                        }
+                        break;
+                    case $field_form instanceof \ilADTEnumSearchBridgeMulti:
+                        $field_form->getADT()->setSelections($value);
+                        $bridges[$field_id] = $field_form;
+                        break;
+                }
+                continue;
+            }
+
+            switch (true) {
+                case $field_form instanceof \ilADTTextSearchBridgeSingle:
+                    $field_form->getADT()->setText($value);
+                    $bridges[$field_id] = $field_form;
+                    break;
+                case $field_form instanceof \ilADTFloatSearchBridgeSingle:
+                case $field_form instanceof \ilADTIntegerSearchBridgeSingle:
+                    $field_form->getADT()->setNumber($value);
+                    $bridges[$field_id] = $field_form;
+                    break;
+                case $field_form instanceof \ilADTEnumSearchBridgeSingle:
+                    $field_form->getADT()->setSelection($value);
+                    $bridges[$field_id] = $field_form;
+                    break;
+                case $field_form instanceof \ilADTExternalLinkSearchBridgeSingle:
+                    $field_form->getADT()->setUrl($value);
+                    $bridges[$field_id] = $field_form;
+                    break;
+                case $field_form instanceof \ilADTInternalLinkSearchBridgeSingle:
+                    $field_form->getADT()->setTargetRefId(1);
+                    $field_form->setTitleQuery($value);
+                    $bridges[$field_id] = $field_form;
+                    break;
+            }
+        }
+        return $bridges;
     }
 
     /**

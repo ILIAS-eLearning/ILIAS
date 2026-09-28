@@ -214,10 +214,9 @@ class EditingGUIRequest
         return $this->str("help_chap");
     }
 
-    /** @return string[] */
-    public function getExportIds(): array
+    public function getExportIdPageId(): int
     {
-        return $this->strArray("exportid");
+        return $this->int("id");
     }
 
     /** @return string[] */

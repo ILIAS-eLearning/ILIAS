@@ -58,6 +58,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 {
     use ilTableCommandHelper;
 
+    private const string REDIRECT_TO_SETTINGS_CMD = 'showSettings';
+
     public const USER_FIELD_TRANSLATION_MAPPING = [
         'visible' => 'user_visible_in_profile',
         'changeable' => 'changeable',
@@ -335,6 +337,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             default:
+                if ($cmd === self::REDIRECT_TO_SETTINGS_CMD) {
+                    $this->ctrl->redirectByClass(AdminSettingsGUI::class, 'show');
+                }
+
                 if (!$cmd) {
                     $cmd = 'view';
                 }
@@ -815,8 +821,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'show'
             );
         } else {
-            $this->ctrl->redirect(
-                $this,
+            $this->ctrl->redirectByClass(
+                self::class,
                 'view'
             );
         }
@@ -2315,7 +2321,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ];
                 $fields['ps_security_protection'] = [null, null, $subitems];
 
-                return [['generalSettings', $fields]];
+                return [[self::REDIRECT_TO_SETTINGS_CMD, $fields]];
         }
         return [];
     }

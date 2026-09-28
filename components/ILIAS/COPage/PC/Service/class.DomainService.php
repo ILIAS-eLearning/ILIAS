@@ -32,6 +32,7 @@ use ILIAS\COPage\PC\Question\QuestionManager;
 use ILIAS\COPage\PC\Resources\ResourcesManager;
 use ILIAS\COPage\PC\Plugged\PluggedManager;
 use ILIAS\COPage\PC\Grid\GridCellRetrieval;
+use ILIAS\COPage\PC\MediaObject\ImageMapRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -129,6 +130,16 @@ class DomainService
     {
         return new GridCellRetrieval(
             $grid
+        );
+    }
+
+    public function imageMapRetrieval(
+        \ilPCInteractiveImage|\ilPCMediaObject $content_obj,
+        string $parent_node_name
+    ): ImageMapRetrieval {
+        return new ImageMapRetrieval(
+            $content_obj,
+            $parent_node_name
         );
     }
 

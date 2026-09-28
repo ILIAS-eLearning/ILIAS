@@ -51,7 +51,7 @@ class ilBadge
 
         $this->db = $container->database();
         $this->resource_storage = $container->resourceStorage();
-        $this->log = $container->logger()->root();
+        $this->log = $container->logger()->forComponent('badge');
         if ($a_id) {
             $this->read($a_id);
         }

@@ -257,7 +257,7 @@ class ilDBUpdateNewObjectType
             . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
             . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
-        $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $sql);
+        $GLOBALS['ilLog']->info($sql);
         $ilDB->manipulate($sql);
 
         self::deleteRBACTemplateOperation($type, $ops_id);
@@ -281,7 +281,7 @@ class ilDBUpdateNewObjectType
             . "WHERE type = " . $ilDB->quote($type, "text") . PHP_EOL
             . "ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
-        $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $sql);
+        $GLOBALS['ilLog']->info($sql);
         $ilDB->manipulate($sql);
     }
 

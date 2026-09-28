@@ -100,7 +100,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends CronJob
                 $assignment = $assignment->invalidate($this->settings_repo);
                 $this->assignment_repo->store($assignment);
             } catch (ilException $e) {
-                $this->log->write('an error occured: ' . $e->getMessage());
+                $this->log->info('an error occured: ' . $e->getMessage());
                 $result->setStatus(JobResult::STATUS_FAIL);
                 return $result;
             }

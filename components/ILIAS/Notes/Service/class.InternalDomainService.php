@@ -66,7 +66,8 @@ class InternalDomainService
         return new NotificationsManager(
             $this->data_service,
             $this->repo_service,
-            $this
+            $this,
+            $this->DIC->blog()->internal()->gui()
         );
     }
 }

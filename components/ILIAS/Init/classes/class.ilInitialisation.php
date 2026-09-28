@@ -36,6 +36,7 @@ use ILIAS\LegalDocuments\Conductor;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 use ILIAS\User\PublicInterface as UserPublicInterface;
 use ILIAS\Mail\Service\MailService;
+use ILIAS\Init\AllModernComponents;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -370,7 +371,8 @@ class ilInitialisation
                 $DIC->settings(),
                 $DIC['https'],
                 $DIC['ilIliasIniFile'],
-                $_SERVER
+                $_SERVER,
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::fromArtefact()
             ))->build()->getBaseURI()
         );
     }
@@ -1074,7 +1076,7 @@ class ilInitialisation
      */
     protected static function initLog(): void
     {
-        $log = ilLoggerFactory::getRootLogger();
+        $log = ilLoggerFactory::getLogger('legacy_root');
 
         self::initGlobal("ilLog", $log);
         // deprecated
@@ -1111,7 +1113,7 @@ class ilInitialisation
     protected static function abortAndDie(string $a_message): void
     {
         if (isset($GLOBALS['ilLog'])) {
-            $GLOBALS['ilLog']->write("Fatal Error: ilInitialisation - " . $a_message);
+            $GLOBALS['ilLog']->info("Fatal Error: ilInitialisation - " . $a_message);
             $GLOBALS['ilLog']->logStack();
         }
         die($a_message);
@@ -1146,7 +1148,9 @@ class ilInitialisation
     }
 
     /**
-     * ilias initialisation
+     * @deprecated since ILIAS 12; please use the {@see AllModernComponents} entry point instead.
+     *             See `components/ILIAS/Component/docs/component-bootstrap-migration.md` for a
+     *             more detailed description.
      */
     public static function initILIAS(): void
     {

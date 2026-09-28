@@ -508,7 +508,7 @@ class ilSCORMPresentationGUI
         $certValidator = new ilCertificateDownloadValidator();
         $allowed = $certValidator->isCertificateDownloadable($ilUser->getId(), $obj_id);
         if ($allowed) {
-            $certificateLogger = $DIC->logger()->root();
+            $certificateLogger = $DIC->logger()->forComponent('sahs');
 
             $ilUserCertificateRepository = new ilUserCertificateRepository();
             $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MediaObjects\InternalGUIService;
+
 /**
  * Upload SRT files to a set of media objects
  *
@@ -27,6 +29,7 @@ class ilMobMultiSrtUploadGUI
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
     protected ilGlobalTemplateInterface $tpl;
+    protected InternalGUIService $media_gui;
     public ilMobMultiSrtUpload $multi_srt;
 
     public function __construct(ilMobMultiSrtInt $a_multi_srt)
@@ -43,6 +46,7 @@ class ilMobMultiSrtUploadGUI
         $this->ctrl = $ilCtrl;
         $this->multi_srt = new ilMobMultiSrtUpload($a_multi_srt);
         $this->toolbar = $ilToolbar;
+        $this->media_gui = $DIC->mediaObjects()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -86,8 +90,26 @@ class ilMobMultiSrtUploadGUI
      */
     public function showMultiSubtitleConfirmationTable(): void
     {
-        $tab = new ilMobMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
-        $this->tpl->setContent($tab->getHTML());
+        $this->toolbar->addButton(
+            $this->lng->txt("save"),
+            $this->ctrl->getLinkTarget($this, "saveMultiSrt")
+        );
+        $this->toolbar->addButton(
+            $this->lng->txt("cancel"),
+            $this->ctrl->getLinkTarget($this, "cancelMultiSrt")
+        );
+
+        $table = $this->media_gui->subTitles()->multiSrtConfirmationTableBuilder(
+            $this->multi_srt,
+            $this,
+            "showMultiSubtitleConfirmationTable"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($table->render());
     }
 
     public function cancelMultiSrt(): void

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -69,6 +71,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("obligatory"), "");
 
         foreach ($this->getSelectedColumns() as $c) {
+            $c = (string) $c;
             if (strcmp($c, 'description') === 0) {
                 $this->addColumn($this->lng->txt("description"), 'description', '');
             }
@@ -195,7 +198,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
     {
         $ui_factory = $this->ui_factory;
         $ui_renderer = $this->renderer;
-        $class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
+        $class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId((int) $a_set["question_id"]));
         $guiclass = $class . "GUI";
         $this->ctrl->setParameterByClass(strtolower($guiclass), "q_id", $a_set["question_id"]);
         $url_edit = "";
@@ -220,6 +223,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
 
         foreach ($this->getSelectedColumns() as $c) {
+            $c = (string) $c;
             if (strcmp($c, 'description') === 0) {
                 $this->tpl->setCurrentBlock('description');
                 $this->tpl->setVariable("QUESTION_COMMENT", ($a_set["description"] ?? '') !== '' ? $a_set["description"] : "&nbsp;");
@@ -227,7 +231,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
             }
             if (strcmp($c, 'type') === 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($a_set["type_tag"]));
+                $this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName((string) $a_set["type_tag"]));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'author') === 0) {

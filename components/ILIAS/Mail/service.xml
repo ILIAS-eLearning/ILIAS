@@ -23,5 +23,4 @@
 		<event type="raise" id="sentInternalMail" />
 		<event type="listen" id="components/ILIAS/User" />
 	</events>
-	<logging />
 </service>

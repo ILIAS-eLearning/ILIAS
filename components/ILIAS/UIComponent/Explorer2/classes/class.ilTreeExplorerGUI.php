@@ -430,7 +430,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
                 $tree->getNodeData($tree->readRootId())
             );
         } else {
-            $data = $tree->getChilds($tree->readRootId());
+            $data = $this->getChildsOfNode($tree->readRootId());
         }
 
         $label = $this->getTreeLabel();

@@ -15,8 +15,7 @@
 			<parent id="root">root</parent>
 		</object>
 	</objects>
-	<events>		
+	<events>
 		<event type="raise" id="delete" />
 	</events>
-	<logging/>
 </module>

@@ -16,24 +16,27 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ItemGroup\Setup;
 
-use ILIAS\Setup;
+use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Objective;
+use ilDatabaseUpdateStepsExecutedObjective;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
-class Agent extends Setup\Agent\NullAgent
+class Agent extends NullAgent
 {
-    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilItemGroupDBUpdateSteps());
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilItemGroupDBUpdateSteps());
     }
 
     public function getMigrations(): array
     {
         return [
-            new ilItemGroupDisplayMigration()
+            new ilItemGroupDisplayMigration(),
+            new ilItemGroupDataTableColumnMigration(),
         ];
     }
 }

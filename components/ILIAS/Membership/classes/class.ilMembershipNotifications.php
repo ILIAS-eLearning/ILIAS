@@ -448,9 +448,6 @@ class ilMembershipNotifications
                     );
                     $option->addSubItem($changeable);
                 }
-            } elseif ($noti->isValidMode(self::MODE_ALL)) {
-                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_all"), (string) self::MODE_ALL);
-                $force_noti->addOption($option);
             }
 
             // set current mode

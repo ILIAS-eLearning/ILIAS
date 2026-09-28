@@ -20,8 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\DataRetrieval;
 
-use ILIAS\Tracking\View\DataRetrieval\FilterInterface;
-
 class Filter implements FilterInterface
 {
     /**

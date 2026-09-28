@@ -2067,6 +2067,14 @@ abstract class assQuestionGUI
         return $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile');
     }
 
+    public function supportsAdjustment(): bool
+    {
+        return ($this instanceof ilGuiQuestionScoringAdjustable
+                || $this instanceof ilGuiAnswerScoringAdjustable)
+            && ($this->getObject() instanceof ilObjQuestionScoringAdjustable
+                || $this->getObject() instanceof ilObjAnswerScoringAdjustable);
+    }
+
     protected function resetSavedPreviewSession(): void
     {
         $this->preview_session = new ilAssQuestionPreviewSession(

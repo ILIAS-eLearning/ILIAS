@@ -26,5 +26,4 @@
 	<mailtemplates>
 		<context id="sess_context_participant_manual" class="ilSessionMailTemplateParticipantContext" />
 	</mailtemplates>
-	<logging />
 </module>

@@ -51,6 +51,5 @@
 		<context id="crs_context_tutor_manual" class="ilCourseMailTemplateTutorContext" />
 		<context id="crs_context_member_manual" class="ilCourseMailTemplateMemberContext" />
 	</mailtemplates>
-	<logging />
 	<badges />
 </module>

@@ -20,6 +20,7 @@ use ILIAS\MediaObjects\SubTitles\SubtitlesGUIRequest;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
 use ILIAS\components\ResourceStorage\Container\View\Configuration;
 use ILIAS\components\ResourceStorage\Container\View\Mode;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
@@ -30,6 +31,7 @@ use ILIAS\components\ResourceStorage\Container\View\Mode;
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
     protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
+    protected \ILIAS\MediaObjects\InternalGUIService $media_gui;
     protected \ILIAS\MediaObjects\Video\GUIService $video_gui;
     protected ilFileServicesSettings $file_service_settings;
     protected SubtitlesGUIRequest $sub_title_request;
@@ -75,6 +77,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $domain = $DIC->mediaObjects()
                       ->internal()
                       ->domain();
+        $this->media_gui = $DIC->mediaObjects()->internal()->gui();
         $this->media_type = $domain->mediaType();
 
         $this->ctrl = $ilCtrl;
@@ -1037,11 +1040,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $this->object->setDescription($format);
             // determine width and height of known image types
             $wh_input = $form->getInput("standard_width_height");
+            $source = $std_item->getOriginalSource();
+            if ($source === "" && $std_item->getLocationType() === "LocalFile") {
+                $source = $mob_dir . "/" . $location;
+            }
             $wh = ilObjMediaObject::_determineWidthHeight(
                 $format,
                 $form->getInput("standard_type"),
-                $mob_dir . "/" . $location,
-                $std_item->getLocation(),
+                $source,
+                $source,
                 (bool) ($wh_input["constr_prop"] ?? false),
                 ($form->getInput("standard_size") == "original"),
                 ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
@@ -1161,11 +1168,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
                 // determine width and height of known image types
                 $wh_input = $form->getInput("full_width_height");
+                $source = $full_item->getOriginalSource();
+                if ($source === "" && $full_item->getLocationType() === "LocalFile") {
+                    $source = $mob_dir . "/" . $location;
+                }
                 $wh = ilObjMediaObject::_determineWidthHeight(
                     $format,
                     $type,
-                    $mob_dir . "/" . $location,
-                    $full_item->getLocation(),
+                    $source,
+                    $source,
                     (bool) ($wh_input["constr_prop"] ?? false),
                     ($form->getInput("full_size") == "original"),
                     ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
@@ -1247,13 +1258,18 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         /** @var ilObjMediaObject $mob */
         $mob = $this->object;
-        $usages_table = new ilMediaObjectUsagesTableGUI(
-            $this,
-            $cmd,
+        $table = $this->media_gui->mediaObjectUsagesTableBuilder(
             $mob,
-            $a_all
-        );
-        $tpl->setContent($usages_table->getHTML());
+            $a_all,
+            $this,
+            $cmd
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -1508,6 +1524,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $this->setPropertiesSubTabs("subtitles");
         $this->media_manager->generateMissingVTT($this->object->getId());
+        $lng->loadLanguageModule("meta");
 
         if (!in_array("vtt", $this->file_service_settings->getWhiteListedSuffixes())) {
             $tpl->setOnScreenMessage("info", $lng->txt("mob_srt_not_allowed"));
@@ -1535,11 +1552,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             //$ilToolbar->addFormButton($lng->txt("mob_generate_vtt"), "generateVTT");
         }
 
-        /** @var ilObjMediaObject $mob */
-        $mob = $this->object;
-        $tab = new ilMobSubtitleTableGUI($this, "listSubtitleFiles", $mob);
+        $table = $this->media_gui->subTitles()->subtitleTableBuilder(
+            $this->object,
+            $this,
+            "listSubtitleFiles"
+        )->getTable();
 
-        $tpl->setContent($tab->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     public function uploadSubtitleFileObject(): void
@@ -1556,57 +1579,70 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listSubtitleFiles");
     }
 
-    /**
-     * Confirm srt file deletion
-     */
-    public function confirmSrtDeletionObject(): void
+    protected function getSubtitleTable(): \ILIAS\Repository\Table\TableAdapterGUI
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
+        return $this->media_gui->subTitles()->subtitleTableBuilder(
+            $this->object,
+            $this,
+            "listSubtitleFiles"
+        )->getTable();
+    }
 
-        $lng->loadLanguageModule("meta");
-
-        $srts = $this->sub_title_request->getSrtFiles();
-        if (count($srts) == 0) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            $ilCtrl->redirect($this, "listSubtitleFiles");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("mob_really_delete_srt"));
-            $cgui->setCancel($lng->txt("cancel"), "listSubtitleFiles");
-            $cgui->setConfirm($lng->txt("delete"), "deleteSrtFiles");
-            foreach ($srts as $i) {
-                $p = explode(":", $i);
-                $cgui->addItem("srt[]", $i, "subtitle_" . $p[0] . "." . $p[1] . " (" . $lng->txt("meta_l_" . $p[0]) . ")");
-            }
-
-            $tpl->setContent($cgui->getHTML());
+    public function confirmSrtDeletion(string $id): void
+    {
+        $this->lng->loadLanguageModule("meta");
+        $subtitle = $this->getSubtitleFile($id);
+        if ($subtitle === null) {
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listSubtitleFiles");
+            return;
         }
+
+        $this->getSubtitleTable()->renderDeletionConfirmation(
+            $this->lng->txt("mob_really_delete_srt"),
+            $this->lng->txt("mob_really_delete_srt"),
+            "deleteSrtFile",
+            [$id => $this->getSubtitleFileTitle($subtitle)]
+        );
     }
 
     /**
-     * Delete srt files
+     * Delete an srt file
      */
-    public function deleteSrtFilesObject(): void
+    public function deleteSrtFileObject(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $ids = $this->getSubtitleTable()->getItemIds();
+        $subtitle = $this->getSubtitleFile($ids[0] ?? "");
+        if ($subtitle === null) {
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listSubtitleFiles");
+            return;
+        }
 
-        $srts = $this->sub_title_request->getSrtFiles();
-        $deleted = false;
-        foreach ($srts as $i) {
-            if (strlen($i) == 6 && !is_int(strpos($i, "."))) {
-                $p = explode(":", $i);
-                $this->object->removeAdditionalFile("srt/subtitle_" . $p[0] . "." . $p[1]);
-                $deleted = true;
+        $this->object->removeAdditionalFile("srt/" . $subtitle["file"]);
+        $this->tpl->setOnScreenMessage(
+            "success",
+            $this->lng->txt("mob_srt_files_deleted"),
+            true
+        );
+        $this->ctrl->redirect($this, "listSubtitleFiles");
+    }
+
+    protected function getSubtitleFile(string $id): ?array
+    {
+        foreach ($this->object->getSrtFiles() as $subtitle) {
+            if (($subtitle["file"] ?? "") === $id) {
+                return $subtitle;
             }
         }
-        if ($deleted) {
-            $this->tpl->setOnScreenMessage('success', $lng->txt("mob_srt_files_deleted"), true);
-        }
-        $ilCtrl->redirect($this, "listSubtitleFiles");
+        return null;
+    }
+
+    protected function getSubtitleFileTitle(array $subtitle): string
+    {
+        $extension = pathinfo($subtitle["file"], PATHINFO_EXTENSION);
+        return "subtitle_" . $subtitle["language"] . "." . $extension . " ("
+            . $this->lng->txt("meta_l_" . $subtitle["language"]) . ")";
     }
 
     public function uploadMultipleSubtitleFileFormObject(): void
@@ -1644,12 +1680,37 @@ class ilObjMediaObjectGUI extends ilObjectGUI
      */
     public function showMultiSubtitleConfirmationTableObject(): void
     {
-        $tpl = $this->tpl;
-
         $this->setPropertiesSubTabs("subtitles");
 
-        $tab = new ilMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
-        $tpl->setContent($tab->getHTML());
+        $this->toolbar->addButton(
+            $this->lng->txt("cancel"),
+            $this->ctrl->getLinkTarget($this, "cancelMultiSrt")
+        );
+
+        $this->tpl->setContent($this->getMultiSubtitleConfirmationForm()->render());
+    }
+
+    protected function getMultiSubtitleConfirmationForm(): FormAdapterGUI
+    {
+        $lng = $this->lng;
+        $form = $this->media_gui
+            ->form([self::class], "saveMultiSrt", $lng->txt("save"))
+            ->section("files", $lng->txt("mob_multi_srt_files"));
+
+        foreach ($this->object->getMultiSrtFiles() as $index => $srt_file) {
+            if ($srt_file["lang"] === "") {
+                continue;
+            }
+
+            $form->checkbox(
+                "file_" . $index,
+                $srt_file["filename"],
+                $lng->txt("meta_l_" . $srt_file["lang"]),
+                true
+            );
+        }
+
+        return $form;
     }
 
     /**
@@ -1668,11 +1729,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
         $srt_files = $this->object->getMultiSrtFiles();
-        $files = $this->sub_title_request->getFiles();
-        foreach ($files as $f) {
-            foreach ($srt_files as $srt_file) {
-                if ($f == $srt_file["filename"]) {
-                    $this->object->uploadSrtFile($this->object->getMultiSrtUploadDir() . "/" . $srt_file["filename"], $srt_file["lang"], "rename");
+        $form = $this->getMultiSubtitleConfirmationForm();
+        if ($form->isValid()) {
+            foreach ($srt_files as $index => $srt_file) {
+                if ($srt_file["lang"] !== "" && $form->getData("file_" . $index)) {
+                    $this->object->uploadSrtFile(
+                        $this->object->getMultiSrtUploadDir() . "/" . $srt_file["filename"],
+                        $srt_file["lang"],
+                        "rename"
+                    );
                 }
             }
         }

@@ -27,14 +27,21 @@ namespace ILIAS\Container;
 class InternalDataService
 {
     protected Content\DataService $content_service;
+    protected Sorting\Service\DataService $sorting_service;
 
     public function __construct()
     {
         $this->content_service = new Content\DataService();
+        $this->sorting_service = new Sorting\Service\DataService();
     }
 
     public function content(): Content\DataService
     {
         return $this->content_service;
+    }
+
+    public function sorting(): Sorting\Service\DataService
+    {
+        return $this->sorting_service;
     }
 }

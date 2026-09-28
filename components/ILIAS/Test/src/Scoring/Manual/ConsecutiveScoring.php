@@ -286,7 +286,6 @@ class ConsecutiveScoring
             $final
         );
 
-        $this->scorer->setPreserveManualScores(true);
         $this->scorer->recalculateSolution($usr_active_id, $attempt_id);
 
         \ilLPStatusWrapper::_updateStatus(

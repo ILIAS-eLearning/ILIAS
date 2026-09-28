@@ -22,6 +22,8 @@ namespace ILIAS\Repository\Administration;
 
 use ILIAS\Repository\InternalGUIService;
 use ILIAS\Repository\InternalDomainService;
+use ILIAS\Repository\Administration\Table\NewItemGroupTableBuilder;
+use ILIAS\Repository\Administration\Table\ModulesTableBuilder;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -44,6 +46,36 @@ class GUIService
         return new AdministrationGUIRequest(
             $this->gui_service->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function newItemGroupTableBuilder(
+        bool $has_write_permission,
+        object $parent_gui,
+        string $parent_cmd
+    ): NewItemGroupTableBuilder {
+        return new NewItemGroupTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $has_write_permission,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function modulesTableBuilder(
+        int $group_id,
+        bool $has_write_permission,
+        object $parent_gui,
+        string $parent_cmd
+    ): ModulesTableBuilder {
+        return new ModulesTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $group_id,
+            $has_write_permission,
+            $parent_gui,
+            $parent_cmd
         );
     }
 }

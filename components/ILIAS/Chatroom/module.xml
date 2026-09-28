@@ -22,7 +22,6 @@
 	<events>
 		<event type="listen" id="components/ILIAS/User" />
 	</events>
-	<logging />
 	<web_access_checker>
 		<secure_path path="chatroom" checking-class="ilObjChatroomAccess" />
 	</web_access_checker>

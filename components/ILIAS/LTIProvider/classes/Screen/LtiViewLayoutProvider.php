@@ -59,6 +59,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack): ?PageBuilderModification
     {
         $this->globalScreen()->layout()->meta()->addCss('./components/ILIAS/LTIProvider/templates/default/lti.css');
+        $this->disableTopFrameTargets();
         $is_exit_mode = $this->isLTIExitMode($screen_context_stack);
         $external_css = ($is_exit_mode) ? '' : $this->dic["lti"]->getExternalCss();
         if ($external_css !== '') {
@@ -79,6 +80,32 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                                  }
                              )
                              ->withHighPriority();
+    }
+
+    private function disableTopFrameTargets(): void
+    {
+        $this->dic->ui()->mainTemplate()->addOnLoadCode(<<<'JS'
+(function () {
+    if (window.self === window.top) {
+        return;
+    }
+    var update = function (root) {
+        root.querySelectorAll('a[target="_top"], form[target="_top"]').forEach(function (element) {
+            element.setAttribute('target', '_self');
+        });
+    };
+    update(document);
+    new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+            mutation.addedNodes.forEach(function (node) {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    update(node);
+                }
+            });
+        });
+    }).observe(document.body, {childList: true, subtree: true});
+}());
+JS);
     }
 
     protected function isLTIExitMode(CalledContexts $screen_context_stack): bool

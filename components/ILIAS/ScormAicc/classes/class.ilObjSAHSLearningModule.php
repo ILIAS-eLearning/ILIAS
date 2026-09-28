@@ -1085,7 +1085,7 @@ class ilObjSAHSLearningModule extends ilObject
         }
 
         $q_log = "DELETE FROM scorm_tracking WHERE obj_id = " . $ilDB->quote($this->getId());
-        $ilLog->write("SAHS Delete(SAHSLM): " . $q_log);
+        $ilLog->info("SAHS Delete(SAHSLM): " . $q_log);
 
         $ilDB->manipulateF(
             'DELETE FROM scorm_tracking WHERE obj_id = %s',
@@ -1094,7 +1094,7 @@ class ilObjSAHSLearningModule extends ilObject
         );
 
         $q_log = "DELETE FROM sahs_user WHERE obj_id = " . $ilDB->quote($this->getId());
-        $ilLog->write("SAHS Delete(SAHSLM): " . $q_log);
+        $ilLog->info("SAHS Delete(SAHSLM): " . $q_log);
 
         $ilDB->manipulateF(
             'DELETE FROM sahs_user WHERE obj_id = %s',

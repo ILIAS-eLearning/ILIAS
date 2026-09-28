@@ -23,7 +23,6 @@ namespace ILIAS\Tracking\View\DataRetrieval\Info;
 use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\CombinedInterface as CombinedIteratorInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\LPInterface as LPIteratorInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\ObjectDataInterface as ObjectDataIteratorInterface;
-use ILIAS\Tracking\View\DataRetrieval\Info\ViewInterface;
 
 class View implements ViewInterface
 {

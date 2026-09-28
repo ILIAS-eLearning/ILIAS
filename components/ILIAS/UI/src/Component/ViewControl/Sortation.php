@@ -27,6 +27,8 @@ use ILIAS\UI\Component\Triggerer;
 
 /**
  * This describes a Sortation Control
+ *
+ * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Sortation}
  */
 interface Sortation extends Component, JavaScriptBindable, Triggerer
 {

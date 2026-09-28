@@ -408,7 +408,7 @@ class ilFileUtils
 
         $target_filename = ilFileUtils::getValidFilename($target_filename);
 
-        // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup_/....)
+        // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/Setup/....)
         [$target_filesystem, $target_dir] = self::sanitateTargetPath($a_target);
 
         $upload = $DIC->upload();

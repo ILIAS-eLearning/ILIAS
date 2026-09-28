@@ -239,12 +239,25 @@ class ilExSubmissionGUI
         );
 
         if ($this->assignment->getType() != ilExAssignment::TYPE_TEXT) {
-            $tab = new ilPublicSubmissionsTableGUI($this, "listPublicSubmissions", $this->assignment);
-            $this->tpl->setContent($tab->getHTML());
+            $table = $this->gui->publicSubmissionsTableBuilder(
+                $this->assignment,
+                $this,
+                "listPublicSubmissions"
+            )->getTable();
+            if ($table->handleCommand()) {
+                return;
+            }
+            $this->tpl->setContent($table->render());
         } else {
-            // #13271
-            $tbl = new ilExAssignmentListTextTableGUI($this, "listPublicSubmissions", $this->assignment, false, true);
-            $this->tpl->setContent($tbl->getHTML());
+            $table = $this->gui->textSubmissionsTableBuilder(
+                $this->assignment,
+                $this,
+                "listPublicSubmissions"
+            )->getTable();
+            if ($table->handleCommand()) {
+                return;
+            }
+            $this->tpl->setContent($table->render());
         }
     }
 

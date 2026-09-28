@@ -59,11 +59,11 @@ trait ManipulateImagesInChoiceQuestionsTrait
 
             if (!file_exists($image_source_path . $filename)
                 || !copy($image_source_path . $filename, $image_target_path . $filename)) {
-                $this->log->root()->warning('Image could not be cloned for object for question: ' . $target_question_id);
+                $this->log->forComponent('qpl')->warning('Image could not be cloned for object for question: ' . $target_question_id);
             }
             if (!file_exists($image_source_path . $this->getThumbPrefix() . $filename)
                 || !copy($image_source_path . $this->getThumbPrefix() . $filename, $image_target_path . $this->getThumbPrefix() . $filename)) {
-                $this->log->root()->warning('Image thumbnail could not be cloned for object for question: ' . $target_question_id);
+                $this->log->forComponent('qpl')->warning('Image thumbnail could not be cloned for object for question: ' . $target_question_id);
             }
         }
     }

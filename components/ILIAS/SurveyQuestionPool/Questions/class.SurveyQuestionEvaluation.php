@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -83,7 +85,7 @@ abstract class SurveyQuestionEvaluation
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
         if (count($this->finished_ids) > 0) {
-            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
+            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, false, "integer");
         }
         $set = $ilDB->query($sql);
         $cnt_answer_records = [];
@@ -91,7 +93,7 @@ abstract class SurveyQuestionEvaluation
             $key = (int) $row["active_fi"];
             $cnt_answer_records[$key] = ($cnt_answer_records[$key] ?? 0) + 1;
             if ($this->supportsSumScore()) {
-                $res[$key] = ($res[$key] ?? 0) + $row["value"] + 1;
+                $res[$key] = ($res[$key] ?? 0) + (float) $row["value"] + 1;
             } else {
                 $res[$key] = 0;
             }
@@ -143,16 +145,16 @@ abstract class SurveyQuestionEvaluation
                 // map selection value to scale/category
                 if ($a_categories &&
                     $answer["value"] != "") {
-                    $scale = $a_categories->getCategoryForScale($answer["value"] + 1);
+                    $scale = $a_categories->getCategoryForScale((int) $answer["value"] + 1);
                     if ($scale instanceof ilSurveyCategory) {
                         $answer["value"] = $scale->scale;
                     }
                 }
                 $parsed = new ilSurveyEvaluationResultsAnswer(
-                    $active_id,
+                    (int) $active_id,
                     (float) $answer["value"],
                     (string) $answer["text"],
-                    $answer["tstamp"]
+                    $answer["tstamp"] === null ? null : (int) $answer["tstamp"]
                 );
                 $a_results->addAnswer($parsed);
 
@@ -196,7 +198,9 @@ abstract class SurveyQuestionEvaluation
                 } else {
                     $median_value = $median[(($total + 1) / 2) - 1];
                 }
-                $a_results->setMedian($median_value);
+                $a_results->setMedian(
+                    is_array($median_value) ? $median_value : (string) $median_value
+                );
             }
         }
 
@@ -239,9 +243,9 @@ abstract class SurveyQuestionEvaluation
                             $tmp .= $item[0];
                         }
                         if ($item[1] && $item[0]) {
-                            $tmp .= ", \"" . nl2br($item[1]) . "\"";
+                            $tmp .= ", \"" . nl2br((string) $item[1]) . "\"";
                         } elseif ($item[1]) {
-                            $tmp .= "\"" . nl2br($item[1]) . "\"";
+                            $tmp .= "\"" . nl2br((string) $item[1]) . "\"";
                         }
                         $parsed_results[$row_idx . "-" . $item[2]] = $tmp;
                     }
@@ -256,9 +260,9 @@ abstract class SurveyQuestionEvaluation
                         $tmp = $item[0];
                     }
                     if ($item[1] && $item[0]) {
-                        $tmp .= ", \"" . nl2br($item[1]) . "\"";
+                        $tmp .= ", \"" . nl2br((string) $item[1]) . "\"";
                     } elseif ($item[1]) {
-                        $tmp = "\"" . nl2br($item[1]) . "\"";
+                        $tmp = "\"" . nl2br((string) $item[1]) . "\"";
                     }
                     $parsed_results[(int) $item[2]] = $tmp;
                 }
@@ -371,7 +375,7 @@ abstract class SurveyQuestionEvaluation
      */
     public function getChart($a_results): ?array
     {
-        $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
+        $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, (string) $a_results->getQuestion()->getId());
         $chart->setYAxisToInteger(true);
 
         $colors = $this->getChartColors();
@@ -395,9 +399,9 @@ abstract class SurveyQuestionEvaluation
                 $var->cat->title,
                 $colors[$idx]
             );
-            $data->setLabel($var->cat->title);
+            $data->setLabel((string) $var->cat->title);
 
-            $data->addPoint($idx, $var->abs);
+            $data->addPoint($idx, $var->abs === null ? null : (float) $var->abs);
         }
 
         $chart->setTicks($labels, false, true);
@@ -435,7 +439,7 @@ abstract class SurveyQuestionEvaluation
             " FROM svy_svy_qst" .
             " WHERE question_fi = " . $ilDB->quote($this->question->getId(), "integer"));
         $row = $ilDB->fetchAssoc($set);
-        return $row["survey_fi"];
+        return (int) $row["survey_fi"];
     }
 
 
@@ -466,7 +470,7 @@ abstract class SurveyQuestionEvaluation
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
         if (count($this->finished_ids) > 0) {
-            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
+            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, false, "integer");
         }
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {

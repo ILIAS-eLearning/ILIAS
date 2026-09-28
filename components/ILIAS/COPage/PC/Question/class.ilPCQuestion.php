@@ -277,6 +277,10 @@ class ilPCQuestion extends ilPageContent
             $js_files[] = 'assets/js/orderingvertical.js';
             $js_files[] = 'assets/js/matching.js';
 
+            if ($this->getPage()->getPageConfig()->getEnablePCType("Tabs")) {
+                $js_files[] = './components/ILIAS/COPage/PC/Tabs/js/presentation.js';
+            }
+
             foreach ($this->getQuestionIds() as $qId) {
                 $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
                 if (!is_null($qstGui)) {

@@ -79,4 +79,89 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function glossariesTableBuilder(
+        \ilObjLearningModule $lm,
+        object $parent_gui,
+        string $parent_cmd
+    ): GlossariesTableBuilder {
+        return new GlossariesTableBuilder(
+            $this->domain,
+            $lm,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function pagesTableBuilder(
+        \ilObjLearningModule $lm,
+        object $parent_gui,
+        string $parent_cmd
+    ): PagesTableBuilder {
+        return new PagesTableBuilder(
+            $this->domain,
+            $this->gui,
+            $lm,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function menuItemsTableBuilder(
+        array $entries,
+        object $parent_gui,
+        string $parent_cmd
+    ): MenuItemsTableBuilder {
+        return new MenuItemsTableBuilder(
+            $this->domain,
+            $this->gui,
+            $entries,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function exportIdsTableBuilder(
+        int $lm_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): ExportIds\TableBuilder {
+        return new ExportIds\TableBuilder(
+            $this->domain,
+            $lm_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function helpMappingTableBuilder(
+        \ilObjLearningModule $lm,
+        int $chapter_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): HelpMapping\TableBuilder {
+        return new HelpMapping\TableBuilder(
+            $this->domain,
+            $this->gui,
+            $lm,
+            $chapter_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function shortTitlesTableBuilder(
+        int $lm_id,
+        string $lang,
+        object $parent_gui,
+        string $parent_cmd
+    ): ShortTitles\TableBuilder {
+        return new ShortTitles\TableBuilder(
+            $this->domain,
+            $lm_id,
+            $lang,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

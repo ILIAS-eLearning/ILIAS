@@ -475,6 +475,7 @@ class ilObjUser extends ilObject
         if (!isset($this->user_settings['style'])
             || $this->user_settings['style'] === ''
             || !ilStyleDefinition::styleExists($this->user_settings['style'])
+            || !isset($this->user_settings['skin'])
             || !ilStyleDefinition::skinExists($this->user_settings['skin'])
                 && ilStyleDefinition::styleExistsForSkinId($this->user_settings['skin'], $this->user_settings['style'])) {
             $this->user_settings['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
@@ -3123,7 +3124,7 @@ class ilObjUser extends ilObject
                 [$a_user_id]
             );
             if ($rec = $ilDB->fetchAssoc($set)) {
-                if (strlen($rec['feed_hash']) == 32) {
+                if (strlen($rec['feed_hash'] ?? '') == 32) {
                     return $rec['feed_hash'];
                 } elseif ($a_create) {
                     $hash = md5(random_int(1, 9999999) + str_replace(' ', '', microtime()));

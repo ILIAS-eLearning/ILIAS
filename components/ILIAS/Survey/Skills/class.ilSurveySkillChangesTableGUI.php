@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * TableGUI class for survey skill changes
  * @author Alexander Killing <killing@leifos.de>
@@ -66,9 +68,12 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         $sskill = new ilSurveySkill($this->survey);
 
         if ($this->survey->get360Mode()) {
-            $new_levels = $sskill->determineSkillLevelsForAppraisee($this->appraisee["user_id"]);
+            $new_levels = $sskill->determineSkillLevelsForAppraisee((int) $this->appraisee["user_id"]);
         } else {			//Svy self evaluation mode.
-            $new_levels = $sskill->determineSkillLevelsForAppraisee(ilObjUser::getUserIdByLogin($this->appraisee["login"]), true);
+            $new_levels = $sskill->determineSkillLevelsForAppraisee(
+                ilObjUser::getUserIdByLogin((string) $this->appraisee["login"]),
+                true
+            );
         }
 
         $this->setData($new_levels);

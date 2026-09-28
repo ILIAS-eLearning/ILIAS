@@ -96,7 +96,7 @@ class SettingsGUI
             $form = $form->checkbox(
                 "rss",
                 $lng->txt("blog_enable_rss"),
-                "blog_enable_rss_info",
+                $lng->txt("blog_enable_rss_info"),
                 $settings->getRss()
             );
         }

@@ -31,7 +31,7 @@ class EventStandardAdapter implements EventInterface
         protected InternalDomainService $domain,
     ) {
         $this->event_handler = $domain->event();
-        $this->log = $domain->logger()->root();
+        $this->log = $domain->logger()->forComponent('rep');
     }
 
     public function beforeMoveToTrash(int $ref_id, array $subnodes): void
@@ -43,7 +43,7 @@ class EventStandardAdapter implements EventInterface
 
     public function afterMoveToTrash(int $ref_id, int $old_parent_ref_id): void
     {
-        $this->log->write("ilObjectGUI::confirmedDeleteObject(), moved ref_id " . $ref_id .
+        $this->log->info("moved ref_id " . $ref_id .
             " to trash");
 
         $this->event_handler->raise(

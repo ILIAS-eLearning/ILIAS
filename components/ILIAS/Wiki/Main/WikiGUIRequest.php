@@ -147,7 +147,23 @@ class WikiGUIRequest
     /** @return int[] */
     public function getPrintOrdering(): array
     {
-        return $this->intArray("wordr");
+        if ($this->isArray("wordr")) {
+            return $this->intArray("wordr");
+        }
+
+        $wordr = $this->str("wordr");
+        if ($wordr !== "") {
+            $page_ids = array_values(array_unique(array_filter(
+                array_map("intval", explode(",", $wordr)),
+                static fn(int $page_id): bool => $page_id > 0
+            )));
+            $ordering = [];
+            foreach ($page_ids as $order => $page_id) {
+                $ordering[$page_id] = ($order + 1) * 10;
+            }
+            return $ordering;
+        }
+        return [];
     }
 
     public function getStyleId(): int
@@ -236,6 +252,11 @@ class WikiGUIRequest
     public function getTranslation(): string
     {
         return $this->str("transl");
+    }
+
+    public function getPrintPageSel(): int
+    {
+        return $this->int("print_page_sel");
     }
 
 }

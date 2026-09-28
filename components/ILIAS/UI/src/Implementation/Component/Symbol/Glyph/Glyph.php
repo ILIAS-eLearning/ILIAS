@@ -91,6 +91,10 @@ class Glyph implements C\Symbol\Glyph\Glyph
         self::DRAG_HANDLE,
         self::CHECKED,
         self::UNCHECKED,
+        self::PRESENTER,
+        self::OWNER,
+        self::DATE,
+        self::LOCATION,
     ];
 
     private string $type;

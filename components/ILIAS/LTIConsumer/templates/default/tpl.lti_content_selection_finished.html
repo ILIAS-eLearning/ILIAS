@@ -1,3 +1,17 @@
 <script>
-  window.parent.location.href= "{CONTENT_SELECTION_REDIRECT}";
+  (function () {
+    var redirectUrl = "{CONTENT_SELECTION_REDIRECT}";
+
+    if (window.parent && typeof window.parent.onLtiDeepLinkDone === 'function') {
+      window.parent.onLtiDeepLinkDone(redirectUrl);
+      return;
+    }
+
+    if (window.top) {
+      window.top.location.href = redirectUrl;
+      return;
+    }
+
+    window.location.href = redirectUrl;
+  })();
 </script>

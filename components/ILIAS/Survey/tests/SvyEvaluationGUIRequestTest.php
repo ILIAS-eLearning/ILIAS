@@ -109,7 +109,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
     {
         $request = $this->getRequest(
             [
-                "appr_id" => 14
+                "appr_id" => "14"
             ],
             []
         );
@@ -139,7 +139,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
     {
         $request = $this->getRequest(
             [
-                "ref_id" => 101
+                "ref_id" => "101"
             ],
             []
         );

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
@@ -90,12 +92,16 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("USERNAME", $a_set['username']);
         $this->tpl->setVariable("QUESTION", $a_set['question']);
         $results = array_map(static function ($i): string {
-            return htmlentities($i);
+            return htmlentities((string) $i);
         }, $a_set["results"]);
         $this->tpl->setVariable("RESULTS", $results
             ? implode("<br />", $results)
             : ilObjSurvey::getSurveySkippedValue());
-        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($a_set['workingtime']));
+        $workingtime = $a_set['workingtime'] ?? null;
+        $this->tpl->setVariable(
+            "WORKINGTIME",
+            $this->formatTime($workingtime === null ? null : (int) $workingtime)
+        );
         $finished = "";
         if ($a_set["finished"] !== null) {
             if ($a_set["finished"] !== false) {
@@ -108,11 +114,14 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
             $this->tpl->setVariable("FINISHED", "&nbsp;");
         }
 
-        if (isset($a_set["subitems"])) {
+        if (is_array($a_set["subitems"] ?? null)) {
             $this->tpl->setCurrentBlock("tbl_content");
             $this->tpl->parseCurrentBlock();
 
             foreach ($a_set["subitems"] as $subitem) {
+                if (!is_array($subitem)) {
+                    continue;
+                }
                 $this->fillRow($subitem);
 
                 $this->tpl->setCurrentBlock("tbl_content");

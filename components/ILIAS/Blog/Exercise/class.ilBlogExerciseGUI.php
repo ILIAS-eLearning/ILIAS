@@ -125,7 +125,7 @@ class ilBlogExerciseGUI
         $lng = $this->lng;
 
         $exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
-        $exc_gui->submitBlog($this->node_id);
+        $exc_gui->submitBlog($this->node_id, $this->user->getId());
 
         $this->main_tpl->setOnScreenMessage('success', $lng->txt("blog_finalized"), true);
         $ilCtrl->returnToParent($this);

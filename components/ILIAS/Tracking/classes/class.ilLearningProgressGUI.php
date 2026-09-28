@@ -29,7 +29,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    protected function handleCommand()
     {
         $this->ctrl->setReturn($this, "");
 

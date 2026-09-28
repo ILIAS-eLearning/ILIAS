@@ -1000,7 +1000,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         global $DIC;
 
         $database = $DIC->database();
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('exc');
 
         $ilUser = $this->user;
 

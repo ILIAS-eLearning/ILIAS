@@ -54,7 +54,6 @@ class ilDclRecordListGUI
     protected ilTabsGUI $tabs;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-    protected \ILIAS\ResourceStorage\Services $irss;
     protected bool $filter_changed = false;
 
     /**
@@ -70,7 +69,6 @@ class ilDclRecordListGUI
         $this->tabs = $DIC->tabs();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->irss = $DIC->resourceStorage();
         $this->access = $DIC->access();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ui_factory = $DIC->ui()->factory();
@@ -320,60 +318,6 @@ class ilDclRecordListGUI
     }
 
     /**
-     * send File to User
-     */
-    public function sendFile(): void
-    {
-        $hasIlFileHash = $this->http->wrapper()->query()->has('ilfilehash');
-        //need read access to receive file
-        if ($this->access->checkAccess('read', "", $this->parent_obj->getRefId())) {
-            // deliver temp-files
-            if ($hasIlFileHash) {
-                $filehash = $this->http->wrapper()->query()->retrieve(
-                    'ilfilehash',
-                    $this->refinery->kindlyTo()->string()
-                );
-                $field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
-                ilDclPropertyFormGUI::rebuildTempFileByHash($filehash);
-
-                $filepath = $_FILES["field_" . $field_id]['tmp_name'];
-                $filetitle = $_FILES["field_" . $field_id]['name'];
-
-                ilFileDelivery::deliverFileLegacy($filepath, $filetitle);
-            } else {
-                $rec_id = $this->http->wrapper()
-                                     ->query()
-                                     ->retrieve('record_id', $this->refinery->kindlyTo()->int());
-
-                $record = ilDclCache::getRecordCache($rec_id);
-                if (!$this->recordBelongsToCollection($record)) {
-                    return;
-                }
-
-                $field_id = $this->http->wrapper()
-                                       ->query()
-                                       ->retrieve('field_id', $this->refinery->kindlyTo()->string());
-
-
-
-                // Find the current revision
-                $rid_string = $record->getRecordFieldValue($field_id);
-                $identification = $this->irss->manage()->find($rid_string);
-                if ($identification === null) {
-                    return;
-                }
-                $current_revision = $this->irss->manage()->getCurrentRevision($identification);
-
-                // Download the File
-                $this->irss->consume()
-                           ->download($identification)
-                           ->overrideFileName($current_revision->getTitle())
-                           ->run();
-            }
-        }
-    }
-
-    /**
      * Confirm deletion of multiple records
      */
     public function confirmDeleteRecords(): void
@@ -457,15 +401,6 @@ class ilDclRecordListGUI
             $this->tpl->setOnScreenMessage('info', $message, true);
         }
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
-    }
-
-    private function recordBelongsToCollection(ilDclBaseRecordModel $record): bool
-    {
-        $table = $record->getTable();
-        $obj_id = $this->parent_obj->object->getId();
-        $obj_id_rec = $table->getCollectionObject()->getId();
-
-        return $obj_id == $obj_id_rec;
     }
 
     protected function setSubTabs(string $active_mode = self::GET_MODE): void

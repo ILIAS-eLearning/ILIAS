@@ -3,5 +3,4 @@
     <crons>
         <cron id="wopi_crawler" class="ilWOPICrawler"/>
     </crons>
-    <logging/>
 </service>

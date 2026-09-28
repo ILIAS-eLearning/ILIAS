@@ -594,6 +594,12 @@ class ilLearningModuleDataSet extends ilDataSet
                     $a_rec["Id"] . ":0:lm",
                     $newObj->getId() . ":0:lm"
                 );
+                $a_mapping->addMapping(
+                    "components/ILIAS/Tracking",
+                    "obj",
+                    (string) $a_rec["Id"],
+                    (string) $newObj->getId()
+                );
                 break;
 
             case "lm_tree":

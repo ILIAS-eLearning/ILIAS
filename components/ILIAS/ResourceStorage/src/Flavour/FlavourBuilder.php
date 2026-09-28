@@ -44,7 +44,7 @@ use ILIAS\ResourceStorage\Events\FlavourData;
  */
 class FlavourBuilder
 {
-    public const VARIANT_NAME_MAX_LENGTH = 768;
+    public const VARIANT_NAME_MAX_LENGTH = 638;
     private array $current_revision_cache = [];
     private array $resources_cache = [];
 

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Survey question table GUI class
  *
@@ -156,14 +158,14 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                 // question type
                 foreach ($questiontypes as $trans => $typedata) {
-                    if (strcmp($typedata["type_tag"], $data["type_tag"]) === 0) {
+                    if (strcmp((string) $typedata["type_tag"], (string) $data["type_tag"]) === 0) {
                         $table_data[$id]["question_type"] = $trans;
                     }
                 }
 
                 // pool title
                 if ($data["original_id"]) {
-                    $original_fi = SurveyQuestion::lookupObjFi($data["original_id"]);
+                    $original_fi = SurveyQuestion::lookupObjFi((int) $data["original_id"]);
                     if (isset($questionpools[$original_fi])) {
                         $table_data[$id]["pool"] = $questionpools[$original_fi];
                     } else {

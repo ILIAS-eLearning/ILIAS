@@ -403,6 +403,9 @@ interface Factory
      *   effect: Interacting with a view control changes to display in some content area.
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Factory
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Factory}
+     *             via {@see \ILIAS\UI\Factory::input()}
      */
     public function viewControl(): C\ViewControl\Factory;
 

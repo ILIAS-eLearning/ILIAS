@@ -31,7 +31,8 @@ class MonthBlockGUI
     public function __construct(
         protected InternalDomainService $domain,
         protected InternalGUIService $gui,
-        protected LinkBuilder $link_builder
+        protected LinkBuilder $link_builder,
+        protected bool $is_repository
     ) {
     }
 
@@ -50,11 +51,15 @@ class MonthBlockGUI
     ): string {
         $ctrl = $this->gui->ctrl();
         $lng = $this->domain->lng();
-        $obj_id = \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId());
+        if ($this->is_repository) {
+            $obj_id = \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId());
+        } else {
+            $obj_id = $this->domain->getObjectIdForWspId($this->gui->standardRequest()->getWspId());
+        }
         $settings = $this->domain->blogSettings()->getByObjId($obj_id);
 
         if (!$show_inactive) {
-            $items = $this->domain->postingList($obj_id, $settings, false)->getPostingsGroupedByMonth();
+            $items = $this->domain->postingList($obj_id, false)->getPostingsGroupedByMonth();
         }
 
         // list month (incl. postings)

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI
@@ -110,7 +112,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $eval_skipped->setRequired(true);
         $form->addItem($eval_skipped);
 
-        $eval_skipped->setValue($surveySetting->get("skipped_is_custom", false)
+        $eval_skipped->setValue($surveySetting->get("skipped_is_custom", "")
             ? "cust"
             : "lng");
 
@@ -157,20 +159,28 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $surveySetting = new ilSetting("survey");
+            $anonymous_participants_min = $form->getInput("anon_part_min");
+            $anonymous_participants_min = is_scalar($anonymous_participants_min)
+                ? trim((string) $anonymous_participants_min)
+                : "";
             $surveySetting->set("use_anonymous_id", $form->getInput("use_anonymous_id") ? "1" : "0");
             $surveySetting->set("anonymous_participants", $form->getInput("anon_part") ? "1" : "0");
             $surveySetting->set(
                 "anonymous_participants_min",
-                (trim($form->getInput("anon_part_min") ?? ""))
-                    ? (string) (int) $form->getInput("anon_part_min")
+                $anonymous_participants_min !== ""
+                    ? (string) (int) $anonymous_participants_min
                     : ""
             );
 
             if ($form->getInput("skcust") === "lng") {
-                $surveySetting->set("skipped_is_custom", false);
+                $surveySetting->set("skipped_is_custom", "");
             } else {
-                $surveySetting->set("skipped_is_custom", true);
-                $surveySetting->set("skipped_custom_value", trim($form->getInput("cust_value")));
+                $skipped_custom_value = $form->getInput("cust_value");
+                $surveySetting->set("skipped_is_custom", "1");
+                $surveySetting->set(
+                    "skipped_custom_value",
+                    is_scalar($skipped_custom_value) ? trim((string) $skipped_custom_value) : ""
+                );
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);

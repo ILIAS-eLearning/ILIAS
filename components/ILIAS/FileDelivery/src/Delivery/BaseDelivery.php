@@ -22,6 +22,7 @@ namespace ILIAS\FileDelivery\Delivery;
 
 use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Psr\Http\Message\ResponseInterface;
 
@@ -38,11 +39,63 @@ abstract class BaseDelivery
         protected Services $http,
         protected ResponseBuilder $response_builder,
         protected ResponseBuilder $fallback_response_builder,
+        protected IsolationConfig $isolation = new IsolationConfig(false, null, null),
     ) {
         if (is_readable(self::MIME_TYPE_MAP)) {
             $map = include self::MIME_TYPE_MAP;
         }
         $this->mime_type_map = $map ?? [];
+    }
+
+    /**
+     * When user content isolation is active, only requests targeting the
+     * configured content domain may be served. Requests reaching the
+     * delivery endpoint via the main ILIAS domain are rejected.
+     */
+    protected function isRequestHostAllowed(): bool
+    {
+        if (!$this->isolation->isActivated()) {
+            return true;
+        }
+
+        $expected = $this->isolation->getContentHost();
+        if ($expected === null) {
+            return true;
+        }
+
+        return strcasecmp($this->http->request()->getUri()->getHost(), $expected) === 0;
+    }
+
+    /**
+     * Inverse of {@see self::isRequestHostAllowed()} for the legacy/internal
+     * delivery path: the content domain is reserved for signed token delivery
+     * via deliver.php. Legacy or app-context delivery must never happen on the
+     * content host, so callers reject such requests.
+     */
+    protected function isRequestOnContentHost(): bool
+    {
+        if (!$this->isolation->isActivated()) {
+            return false;
+        }
+
+        $content_host = $this->isolation->getContentHost();
+        if ($content_host === null) {
+            return false;
+        }
+
+        return strcasecmp($this->http->request()->getUri()->getHost(), $content_host) === 0;
+    }
+
+    /**
+     * Send an empty 404 response and terminate. Declared `never` so the type
+     * system guarantees callers cannot fall through to actually serving a file
+     * after a rejected request.
+     */
+    protected function notFound(ResponseInterface $r): never
+    {
+        $this->http->saveResponse($r->withStatus(404));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function saveAndClose(
@@ -86,10 +139,36 @@ abstract class BaseDelivery
             $disposition->value . '; filename="' . $file_name . '"'
         );
         $r = $r->withHeader(ResponseHeader::CACHE_CONTROL, 'max-age=31536000, immutable, private');
-
-        return $r->withHeader(
+        $r = $r->withHeader(
             ResponseHeader::EXPIRES,
             date("D, j M Y H:i:s", strtotime('+5 days')) . " GMT"
         );
+
+        return $this->applyIsolationHeaders($r);
+    }
+
+    /**
+     * When isolation is active, harden delivery responses:
+     *  - prevent MIME sniffing
+     *  - mark as cross-origin so the main app may embed assets via <img>, <iframe>, …
+     *  - allow CORS access only from the configured ILIAS domain
+     *  - strip referrer to avoid leaking the content domain back to the app
+     */
+    protected function applyIsolationHeaders(ResponseInterface $r): ResponseInterface
+    {
+        if (!$this->isolation->isActivated()) {
+            return $r;
+        }
+
+        $r = $r->withHeader(ResponseHeader::X_CONTENT_TYPE_OPTIONS, 'nosniff');
+        $r = $r->withHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+        $r = $r->withHeader('Referrer-Policy', 'no-referrer');
+
+        if (($ilias_domain = $this->isolation->getIliasDomain()) !== null) {
+            $r = $r->withHeader(ResponseHeader::ACCESS_CONTROL_ALLOW_ORIGIN, $ilias_domain);
+            $r = $r->withAddedHeader('Vary', 'Origin');
+        }
+
+        return $r;
     }
 }

@@ -25,5 +25,4 @@
 	<crons />
 	<copage />
 	<web_access_checker />
-	<logging />
 </module>

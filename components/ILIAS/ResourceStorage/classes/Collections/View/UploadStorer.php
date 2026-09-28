@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -56,11 +57,7 @@ final readonly class UploadStorer
         OnDuplicate $on_duplicate,
         UploadResult $result
     ): ?ResourceIdentification {
-        // an existing resource with the same name is only relevant if duplicates
-        // are not simply allowed
-        $existing_rid = $on_duplicate === OnDuplicate::ALLOW
-            ? null
-            : $this->collections->findIdentificationByNameIn($collection, $result->getName());
+        $existing_rid = $this->findResourceToWriteTo($collection, $on_duplicate, $result->getName());
 
         if ($existing_rid === null) {
             // no name clash (or duplicates allowed): store as a new, separate resource
@@ -85,5 +82,67 @@ final readonly class UploadStorer
 
         // OnDuplicate::ALLOW never reaches this point ($existing_rid is null above)
         return $existing_rid;
+    }
+
+    /**
+     * The twin of store() for an upload that did not arrive as one request and
+     * therefore has no UploadResult: a chunked upload is reassembled into a file
+     * of its own and handed over as a stream. The duplicate behaviour is the
+     * same, only the way the resource is written differs.
+     *
+     * @param string $file_name the name the file was uploaded under - it decides
+     *        what counts as a duplicate, and the stream alone does not carry it
+     * @return ResourceIdentification|null the identification of the affected
+     *         resource, or null if the upload was rejected (OnDuplicate::REJECT)
+     *         and therefore not stored.
+     */
+    public function storeStream(
+        ResourceCollection $collection,
+        ResourceStakeholder $stakeholder,
+        OnDuplicate $on_duplicate,
+        FileStream $stream,
+        string $file_name
+    ): ?ResourceIdentification {
+        $existing_rid = $this->findResourceToWriteTo($collection, $on_duplicate, $file_name);
+
+        if ($existing_rid === null) {
+            // no name clash (or duplicates allowed): store as a new, separate resource
+            $rid = $this->manage->stream($stream, $stakeholder, $file_name);
+            $collection->add($rid);
+            return $rid;
+        }
+
+        switch ($on_duplicate) {
+            case OnDuplicate::REJECT:
+                // leave the existing resource untouched, do not store the upload
+                return null;
+            case OnDuplicate::REPLACE:
+                // overwrite with a new revision and drop all previous revisions
+                $this->manage->replaceWithStream($existing_rid, $stream, $stakeholder, $file_name);
+                return $existing_rid;
+            case OnDuplicate::APPEND_REVISION:
+                // overwrite by appending a new revision while keeping the previous ones as history
+                $this->manage->appendNewRevisionFromStream($existing_rid, $stream, $stakeholder, $file_name);
+                return $existing_rid;
+        }
+
+        // OnDuplicate::ALLOW never reaches this point ($existing_rid is null above)
+        return $existing_rid;
+    }
+
+    /**
+     * @return ResourceIdentification|null the resource already holding that name,
+     *         or null if there is none - ALLOW never dedupes and must not even ask.
+     */
+    private function findResourceToWriteTo(
+        ResourceCollection $collection,
+        OnDuplicate $on_duplicate,
+        string $file_name
+    ): ?ResourceIdentification {
+        // an existing resource with the same name is only relevant if duplicates
+        // are not simply allowed
+        return $on_duplicate === OnDuplicate::ALLOW
+            ? null
+            : $this->collections->findIdentificationByNameIn($collection, $file_name);
     }
 }

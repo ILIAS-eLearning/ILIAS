@@ -210,7 +210,7 @@ class ilCalendarUserSettings
     {
         $this->timezone = (string) $this->user->getTimeZone();
         $this->export_tz_type = (int) (
-            ($this->user->getPref('export_tz_type') !== false) ?
+            ($this->user->getPref('export_tz_type') !== null) ?
             $this->user->getPref('export_tz_type') :
             $this->export_tz_type
         );
@@ -218,7 +218,7 @@ class ilCalendarUserSettings
             $this->user->getDateFormat()
         );
         $this->time_format = (int) $this->user->getTimeFormat();
-        if (($weekstart = $this->user->getPref('weekstart')) === false) {
+        if (($weekstart = $this->user->getPref('weekstart')) === null) {
             $weekstart = $this->settings->getDefaultWeekStart();
         }
         $this->calendar_selection_type = (int) $this->user->getPref('calendar_selection_type') ?

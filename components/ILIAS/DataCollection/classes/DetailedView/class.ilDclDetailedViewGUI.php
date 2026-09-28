@@ -39,6 +39,7 @@ class ilDclDetailedViewGUI
     protected ?int $record_id;
     protected ilCommentGUI $commentGUI;
     protected ilDclBaseFieldModel $currentField;
+    private \ILIAS\ResourceStorage\Services $irss;
 
     public function __construct(ilObjDataCollectionGUI $a_dcl_object, int $tableview_id)
     {
@@ -53,12 +54,13 @@ class ilDclDetailedViewGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ui_factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+        $this->irss = $DIC->resourceStorage();
 
         if (
             !$this->http->wrapper()->query()->has('table_id') ||
             !$this->http->wrapper()->query()->has('tableview_id')
         ) {
-            $this->main_tpl->setOnScreenMessage($this->main_tpl::MESSAGE_TYPE_FAILURE, 'Table not found', true);
+            $this->main_tpl->setOnScreenMessage($this->main_tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('table_not_found'), true);
             $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
         }
 
@@ -218,6 +220,26 @@ class ilDclDetailedViewGUI
         }
 
         $tpl->setContent($rctpl->get());
+    }
+
+    public function sendFile(): void
+    {
+        $rec_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+
+        $record = ilDclCache::getRecordCache($rec_id);
+
+        if ($this->dcl_gui_object->getObjectId() != $record->getTable()->getCollectionObject()->getId()) {
+            return;
+        }
+
+        $field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->string());
+        $rid_string = $record->getRecordFieldValue($field_id);
+        $identification = $this->irss->manage()->find($rid_string);
+        if ($identification === null) {
+            return;
+        }
+        $current_revision = $this->irss->manage()->getCurrentRevision($identification);
+        $this->irss->consume()->download($identification)->overrideFileName($current_revision->getTitle())->run();
     }
 
     public function doReplace(array $found): string

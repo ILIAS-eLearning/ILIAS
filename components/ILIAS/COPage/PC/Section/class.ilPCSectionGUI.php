@@ -173,7 +173,6 @@ class ilPCSectionGUI extends ilPageContentGUI
                 } else {
                     $new_chars[$char] = $char;
                 }
-                asort($new_chars);
             }
             $chars = $new_chars;
         }
@@ -247,10 +246,14 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
 
         // characteristic selection
-        $char_prop = new ilSelectInputGUI(
+        $char_prop = new ilRadioGroupInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
         );
+        /*$char_prop = new ilSelectInputGUI(
+            $this->lng->txt("cont_characteristic"),
+            "characteristic"
+        );*/
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
             if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getCharacteristic() != "")) {
@@ -268,8 +271,12 @@ class ilPCSectionGUI extends ilPageContentGUI
         $options = [];
         foreach ($chars as $k => $char) {
             $options[$k] = $char;
+            $html = '<div class="il_COPgEditStyleSelectionItem"><div class="ilc_section_' . $k . '" style="' . self::$style_selector_reset . '">' .
+                $char . '</div></div>';
+            $ro = new ilRadioOption($html, $k);
+            $char_prop->addOption($ro);
         }
-        $char_prop->setOptions($options);
+        //$char_prop->setOptions($options);
 
         $char_prop->setValue($selected);
         $form->addItem($char_prop);
@@ -290,9 +297,11 @@ class ilPCSectionGUI extends ilPageContentGUI
             $this->getPageConfig()->getIntLinkHelpDefaultType(),
             $this->getPageConfig()->getIntLinkHelpDefaultId()
         );
-        $link_types = array();
-        foreach ($this->getPageConfig()->getIntLinkFilters() as $f) {
-            $link_types[] = $f;
+        $link_types = $this->getPageConfig()->getIntLinkFilters();
+        if ($this->getPageConfig()->getIntLinkFilterWhiteList()) {
+            $link_types = array_diff($link_types, ["User"]);
+        } else {
+            $link_types[] = "User";
         }
         $ac->setInternalLinkFilterTypes($link_types);
         $ac->setFilterWhiteList(

@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Tracking\View\Factory as ViewFactory;
 use ILIAS\Tracking\View\DataRetrieval\FactoryInterface as DataRetrievalFactoryInterface;
+use ILIAS\Tracking\View\Factory as ViewFactory;
 use ILIAS\Tracking\View\Renderer\RendererInterface as RendererInterface;
 
 /**

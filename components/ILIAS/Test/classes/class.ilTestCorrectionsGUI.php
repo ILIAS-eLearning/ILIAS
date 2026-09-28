@@ -106,9 +106,10 @@ class ilTestCorrectionsGUI
             $this->database,
             $this->test_result_repository
         );
-        $scoring->setQuestionId($question_gui->getObject()->getId());
 
-        if ($scoring->getNumManualScorings()) {
+        if ($scoring->getNumManualScorings(
+            $question_gui->getObject()->getId()
+        )) {
             $form->addCommandButton('confirmManualScoringReset', $this->language->txt('save'));
         } else {
             $form->addCommandButton('saveQuestion', $this->language->txt('save'));
@@ -127,11 +128,12 @@ class ilTestCorrectionsGUI
             $this->database,
             $this->test_result_repository
         );
-        $scoring->setQuestionId($this->question_gui->getObject()->getId());
 
         $confirmation = sprintf(
             $this->language->txt('tst_corrections_manscore_reset_warning'),
-            $scoring->getNumManualScorings(),
+            $scoring->getNumManualScorings(
+                $this->question_gui->getObject()->getId()
+            ),
             $this->question_gui->getObject()->getTitleForHTMLOutput(),
             $this->question_gui->getObject()->getId()
         );
@@ -166,15 +168,15 @@ class ilTestCorrectionsGUI
         $question_gui->setObject($question);
         $question_gui->getObject()->saveToDb();
 
-        $scoring = new TestScoring(
+        (new TestScoring(
             $this->test_obj,
             $this->scorer,
             $this->database,
             $this->test_result_repository
+        ))->recalculateSolutions(
+            false,
+            $question_gui->getObject()->getId()
         );
-        $scoring->setPreserveManualScores(false);
-        $scoring->setQuestionId($question_gui->getObject()->getId());
-        $scoring->recalculateSolutions();
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
@@ -295,15 +297,12 @@ class ilTestCorrectionsGUI
             $question->saveToDb();
         }
 
-        $scoring = new TestScoring(
+        $participant_results = (new TestScoring(
             $this->test_obj,
             $this->scorer,
             $this->database,
             $this->test_result_repository
-        );
-        $scoring->setPreserveManualScores(true);
-        $scoring->setQuestionId($question_index);
-        $participant_results = $scoring->recalculateSolutions();
+        ))->recalculateSolutions(true, $question_index);
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
@@ -390,7 +389,7 @@ class ilTestCorrectionsGUI
             return false;
         }
 
-        if (!$this->supportsAdjustment($this->question_gui)) {
+        if (!$this->question_gui?->supportsAdjustment()) {
             return false;
         }
 
@@ -461,9 +460,7 @@ class ilTestCorrectionsGUI
         return array_reduce(
             $this->test_obj->getTestQuestions(),
             function (array $c, array $v): array {
-                $question_gui = $this->getQuestionGUI($v['question_id']);
-
-                if (!$this->supportsAdjustment($question_gui)) {
+                if (!$this->getQuestionGUI($v['question_id'])?->supportsAdjustment()) {
                     return $c;
                 }
 
@@ -472,20 +469,5 @@ class ilTestCorrectionsGUI
             },
             []
         );
-    }
-
-    /**
-     * Returns if the given question object support scoring adjustment.
-     *
-     * @param $question_object assQuestionGUI
-     *
-     * @return bool True, if relevant interfaces are implemented to support scoring adjustment.
-     */
-    protected function supportsAdjustment(\assQuestionGUI $question_object): bool
-    {
-        return ($question_object instanceof ilGuiQuestionScoringAdjustable
-                || $question_object instanceof ilGuiAnswerScoringAdjustable)
-            && ($question_object->getObject() instanceof ilObjQuestionScoringAdjustable
-                || $question_object->getObject() instanceof ilObjAnswerScoringAdjustable);
     }
 }

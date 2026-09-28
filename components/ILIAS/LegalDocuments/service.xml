@@ -3,5 +3,4 @@
   <events>
     <event type="listen" id="components/ILIAS/Authentication" />
   </events>
-  <logging />
 </service>

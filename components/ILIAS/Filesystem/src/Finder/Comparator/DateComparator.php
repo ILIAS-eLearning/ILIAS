@@ -20,27 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Comparator;
 
-use Exception;
-use InvalidArgumentException;
-
-/**
- * Class DateComparator
- * @package ILIAS\Filesystem\Finder\Comparator
- * @author  Michael Jansen <mjansen@databay.de>
- */
 class DateComparator extends BaseComparator
 {
     public function __construct(string $test)
     {
         if (!preg_match('#^\s*(==|!=|[<>]=?|after|since|before|until)?\s*(.+?)\s*$#i', $test, $matches)) {
-            throw new InvalidArgumentException(sprintf('Don\'t understand "%s" as a date test.', $test));
+            throw new \InvalidArgumentException(\sprintf('Don\'t understand "%s" as a date test.', $test));
         }
 
         try {
-            $date = new \DateTime($matches[2]);
+            $date = new \DateTimeImmutable($matches[2]);
             $target = $date->format('U');
-        } catch (Exception) {
-            throw new InvalidArgumentException(sprintf('"%s" is not a valid date.', $matches[2]));
+        } catch (\Throwable) {
+            throw new \InvalidArgumentException(\sprintf('"%s" is not a valid date.', $matches[2]));
         }
 
         $operator = $matches[1] ?? '==';

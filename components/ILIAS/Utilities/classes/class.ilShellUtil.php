@@ -130,7 +130,7 @@ class ilShellUtil
         }
         $arr = [];
         exec($cmd, $arr);
-        $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
+        $DIC->logger()->forComponent('util')->debug("ilUtil::execQuoted: " . $cmd . ".");
         return $arr;
     }
 

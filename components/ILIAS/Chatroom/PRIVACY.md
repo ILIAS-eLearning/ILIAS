@@ -30,20 +30,20 @@ Several features affect the scope of personal data processing:
 
 - The Chatroom component employs the following components, please consult the respective
   PRIVACY.md files:
-    - AccessControl – manages permissions for chatroom access,
+    - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md) – manages permissions for chatroom access,
       moderation, and settings.
     - User – resolves user names and profile information for display in the chat. The Chatroom
       component listens to the User component's `deleteUser` event to clean up ban records.
-    - Notifications – delivers on-screen notifications for chat
+    - [Notifications](../../ILIAS/Notifications/PRIVACY.md) – delivers on-screen notifications for chat
       invitations.
     - ILIASObject – the Object service stores the account which created a chatroom object and
       its timestamps.
-    - InfoScreen – provides the info screen tab for chatroom objects.
+    - [InfoScreen](../../ILIAS/InfoScreen/PRIVACY.md) – provides the info screen tab for chatroom objects.
     - OnScreenChat – manages direct messaging conversations between users. The Chatroom component
       provides user settings for On-Screen Chat participation.
-    - Export – provides the export framework. Chatroom objects can be
+    - [Export](../../ILIAS/Export/PRIVACY.md) – provides the export framework. Chatroom objects can be
       exported as XML including message history.
-    - Mail – used for sending chat invitation notifications via email.
+    - [Mail](../../ILIAS/Mail/PRIVACY.md) – used for sending chat invitation notifications via email.
 
 ## Data being stored
 

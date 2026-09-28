@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Survey\Mode;
 
 /**
@@ -30,9 +32,7 @@ use ILIAS\Survey\Mode;
 class ilSurveyExecutionGUI
 {
     protected \ILIAS\Survey\InternalGUIService $gui;
-    /**
-     * @var array|object|null
-     */
+    /** @var array<mixed> */
     protected array $raw_post_data;
     protected \ILIAS\Survey\Execution\ExecutionGUIRequest $request;
     protected ilRbacSystem $rbacsystem;
@@ -113,7 +113,8 @@ class ilSurveyExecutionGUI
 
         // @todo this is used to store answers in the session, but should
         // be refactored somehow to avoid the use of the complete post body
-        $this->raw_post_data = $DIC->http()->request()->getParsedBody() ?? [];
+        $parsed_body = $DIC->http()->request()->getParsedBody();
+        $this->raw_post_data = is_array($parsed_body) ? $parsed_body : [];
     }
 
     public function executeCommand(): string
@@ -149,7 +150,7 @@ class ilSurveyExecutionGUI
 
     protected function checkAuth(
         bool $a_may_start = false,
-        bool $a_ignore_status = false
+        bool $a_finished_run = false
     ): void {
         $rbacsystem = $this->rbacsystem;
         $ilUser = $this->user;
@@ -162,8 +163,12 @@ class ilSurveyExecutionGUI
         }
 
 
-        if (!$this->access_manager->canStartSurvey()) {
-            // only with read access it is possible to run the test
+        if ($a_finished_run &&
+            !$this->access_manager->canRead() &&
+            !$this->participant_manager->isExternalRater()) {
+            throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
+        }
+        if (!$a_finished_run && !$this->access_manager->canStartSurvey()) {
             throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
         }
 
@@ -211,7 +216,11 @@ class ilSurveyExecutionGUI
 
         //$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
 
-        if (!$a_ignore_status) {
+        if ($a_finished_run) {
+            if (!$this->run_manager->hasFinished()) {
+                throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
+            }
+        } else {
             // completed
             if ($this->run_manager->hasFinished()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("already_completed_survey"), true);
@@ -374,10 +383,14 @@ class ilSurveyExecutionGUI
             while (!is_null($page) and ($constraint_true == 0) and (count($page[0]["constraints"]))) {
                 $constraint_true = $page[0]['constraints'][0]['conjunction'] == 0;
                 foreach ($page[0]["constraints"] as $constraint) {
+                    $constraint_question_id = (int) $constraint["question"];
                     if (!$this->preview) {
-                        $working_data = $this->object->loadWorkingData($constraint["question"], $this->getCurrentRunId());
+                        $working_data = $this->object->loadWorkingData(
+                            $constraint_question_id,
+                            $this->getCurrentRunId()
+                        );
                     } else {
-                        $working_data = $this->run_manager->getPreviewData($constraint["question"]);
+                        $working_data = $this->run_manager->getPreviewData($constraint_question_id);
                     }
                     if ($constraint['conjunction'] == 0) {
                         // and
@@ -390,7 +403,7 @@ class ilSurveyExecutionGUI
                 if ($constraint_true == 0) {
                     // #11047 - we are skipping the page, so we have to get rid of existing answers for that question(s)
                     foreach ($page as $page_question) {
-                        $qid = $page_question["question_id"];
+                        $qid = (int) $page_question["question_id"];
 
                         // see saveActiveQuestionData()
                         if (!$this->preview) {
@@ -400,7 +413,7 @@ class ilSurveyExecutionGUI
                         }
                     }
 
-                    $page = $this->object->getNextPage($page[0]["question_id"], $direction);
+                    $page = $this->object->getNextPage((int) $page[0]["question_id"], $direction);
                 }
             }
         }
@@ -471,24 +484,24 @@ class ilSurveyExecutionGUI
             $working_data = [];
             $errors = $this->run_manager->getErrors();
             foreach ($page as $data) {
+                $question_id = (int) $data["question_id"];
                 if ($first_question === -1) {
-                    $first_question = $data["question_id"];
+                    $first_question = $question_id;
                 }
-                $question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
+                $question_gui = $this->object->getQuestionGUI((string) $data["type_tag"], $question_id);
 
                 if (count($errors) > 0) {
-                    $working_data[$data["question_id"]] = $question_gui->object->getWorkingDataFromUserInput(
+                    $working_data[$question_id] = $question_gui->object->getWorkingDataFromUserInput(
                         $this->run_manager->getPostData()
                     );
                 } else {
                     if (!$this->preview) {
-                        $working_data[$data["question_id"]] = $this->object->loadWorkingData(
-                            $data["question_id"],
+                        $working_data[$question_id] = $this->object->loadWorkingData(
+                            $question_id,
                             $this->run_manager->getCurrentRunId()
                         );
                     } else {
-                        $working_data[$data["question_id"]] =
-                            $this->run_manager->getPreviewData($data["question_id"]);
+                        $working_data[$question_id] = $this->run_manager->getPreviewData($question_id);
                     }
                 }
             }
@@ -508,7 +521,7 @@ class ilSurveyExecutionGUI
         }
 
         if (!$this->preview) {
-            $this->object->setPage($this->getCurrentRunId(), $page[0]['question_id']);
+            $this->object->setPage($this->getCurrentRunId(), (int) $page[0]['question_id']);
             $this->run_manager->setStartTime($first_question);
         }
     }
@@ -555,17 +568,18 @@ class ilSurveyExecutionGUI
      */
     public function saveActiveQuestionData(array $data): int
     {
-        $question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
+        $question_id = (int) $data["question_id"];
+        $question = SurveyQuestion::_instanciateQuestion($question_id);
         $error = $question->checkUserInput($this->raw_post_data, $this->object->getSurveyId());
         if (strlen($error) === 0) {
             if (!$this->preview) {
                 // delete old answers
-                $this->object->deleteWorkingData($data["question_id"], $this->getCurrentRunId());
+                $this->object->deleteWorkingData($question_id, $this->getCurrentRunId());
 
                 $question->saveUserInput($this->raw_post_data, $this->getCurrentRunId());
             } else {
                 $this->run_manager->setPreviewData(
-                    $data["question_id"],
+                    $question_id,
                     $question->saveUserInput($this->raw_post_data, 0, true)
                 );
             }
@@ -702,7 +716,8 @@ class ilSurveyExecutionGUI
         array $page,
         ilTemplate $stpl
     ): void {
-        $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
+        $question_id = (int) $page[0]["question_id"];
+        $prevpage = $this->object->getNextPage($question_id, -1);
         $stpl->setCurrentBlock($navigationblock . "_prev");
         if (is_null($prevpage)) {
             $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
@@ -710,7 +725,7 @@ class ilSurveyExecutionGUI
             $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
         }
         $stpl->parseCurrentBlock();
-        $nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
+        $nextpage = $this->object->getNextPage($question_id, 1);
         $stpl->setCurrentBlock($navigationblock . "_next");
         if (is_null($nextpage)) {
             $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));

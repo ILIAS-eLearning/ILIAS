@@ -95,7 +95,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    public function executeCommand(): void
+    protected function handleCommand(): void
     {
         $this->ctrl->setReturn($this, "");
         $this->setTabs();

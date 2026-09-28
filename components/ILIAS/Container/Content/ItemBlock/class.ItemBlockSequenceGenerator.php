@@ -109,9 +109,14 @@ class ItemBlockSequenceGenerator
 
             // get blocks of page, put them to the start
             $embedded_ids = $this->getPageEmbeddedBlockIds();
+            $embedded_occurrences = [];
             $other_is_page_embedded = false;
             foreach ($embedded_ids as $id) {
+                $occurrence = $embedded_occurrences[$id] ?? 0;
+                $embedded_occurrences[$id] = $occurrence + 1;
+                $render_id = $id . ($occurrence > 0 ? "_page_" . $occurrence : "");
                 if (isset($item_blocks[$id])) {
+                    $item_blocks[$id]->setRenderId($render_id);
                     $item_blocks[$id]->setPageEmbedded(true);
                     $sorted_blocks[] = $item_blocks[$id];
                     unset($item_blocks[$id]);
@@ -134,6 +139,7 @@ class ItemBlockSequenceGenerator
                                 $block_items->getRefIds(),
                                 $block_items->getLimitExhausted()
                             );
+                            $block->setRenderId($render_id);
                             $block->setPageEmbedded(true);
                             $sorted_blocks[] = $block;
                         }

@@ -61,7 +61,7 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
 
         $userCertificateRepository = new ilUserCertificateRepository(
             $DIC->database(),
-            $DIC->logger()->root()
+            $DIC->logger()->forComponent('lti')
         );
 
         $certificateArray = $userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(

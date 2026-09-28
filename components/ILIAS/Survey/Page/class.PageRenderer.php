@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Survey\Page;
 
 /**
@@ -71,7 +73,7 @@ class PageRenderer
         // dealing with compressed view
         $compress_view = false;
         if (count($page) > 1) {
-            $compress_view = $page[0]["questionblock_compress_view"];
+            $compress_view = (bool) $page[0]["questionblock_compress_view"];
         }
         $previous_page = null;
         $previous_key = null;
@@ -90,6 +92,8 @@ class PageRenderer
 
         // questions
         foreach ($page as $data) {
+            $question_id = (int) $data["question_id"];
+
             // question heading
             if ($data["heading"]) {
                 $stpl->setCurrentBlock("heading");
@@ -98,21 +102,21 @@ class PageRenderer
             }
             $stpl->setCurrentBlock("survey_content");
             // get question gui
-            $question_gui = $this->survey->getQuestionGUI($data["type_tag"], $data["question_id"]);
+            $question_gui = $this->survey->getQuestionGUI((string) $data["type_tag"], $question_id);
 
             // set obligatory flag
-            $question_gui->object->setObligatory($data["obligatory"]);
+            $question_gui->object->setObligatory((bool) $data["obligatory"]);
 
             // get show questiontext flag
-            $show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
+            $show_questiontext = (bool) $data["questionblock_show_questiontext"];
 
             // question title mode
             $question_title_mode = $this->question_title_mode;
             if (!$this->survey->getShowQuestionTitles() || $data["compressed_first"]) {
                 $question_title_mode = 0;
             }
-            $working_data = $this->working_data[$data["question_id"]] ?? null;
-            $error = $this->errors[$data["question_id"]] ?? "";
+            $working_data = $this->working_data[$question_id] ?? null;
+            $error = (string) ($this->errors[$question_id] ?? "");
 
             // get question output
             // getWorkingData($qid)
@@ -135,7 +139,7 @@ class PageRenderer
             $stpl->setVariable("QUESTION_OUTPUT", $question_output);
 
             // update qid ctrl parameter
-            $this->ctrl->setParameter($this, "qid", $data["question_id"]);
+            $this->ctrl->setParameter($this, "qid", $question_id);
 
             if ($data["obligatory"]) {
                 $required = true;
@@ -163,7 +167,10 @@ class PageRenderer
 
         if ($previous_page["type_tag"] === $page["type_tag"] &&
             $page["type_tag"] === "SurveySingleChoiceQuestion") {
-            if (\SurveySingleChoiceQuestion::compressable($previous_page["question_id"], $page["question_id"])) {
+            if (\SurveySingleChoiceQuestion::compressable(
+                (int) $previous_page["question_id"],
+                (int) $page["question_id"]
+            )) {
                 return true;
             }
         }

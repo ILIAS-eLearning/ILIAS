@@ -187,6 +187,9 @@ class ThumbsManager
                     $location,
                     $sec
                 );
+                if ($image_str === "") {
+                    return;
+                }
                 $png_res = fopen('php://memory', 'r+');
                 fwrite($png_res, $image_str);
                 rewind($png_res);

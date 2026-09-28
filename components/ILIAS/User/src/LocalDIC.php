@@ -121,6 +121,7 @@ class LocalDIC extends PimpleContainer
                         $DIC['refinery']
                     ),
                     new Standard\Roles(
+                        $DIC['ilAuthSession'],
                         $DIC['ilObjDataCache']
                     ),
                     new Standard\OrganisationalUnits(),

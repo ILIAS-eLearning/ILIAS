@@ -285,7 +285,7 @@ class SkillTreeNodeManager
             $item = new \ilSkillTemplateCategory($a_item_id);
         }
 
-        $ilLog->write("Getting from clipboard type " . $item_type . ", " .
+        $ilLog->info("Getting from clipboard type " . $item_type . ", " .
             "Item ID: " . $a_item_id);
 
         if ($a_as_copy) {
@@ -299,7 +299,7 @@ class SkillTreeNodeManager
             $target_item = $item;
         }
 
-        $ilLog->write("Putting into skill tree type " . $target_item->getType() .
+        $ilLog->info("Putting into skill tree type " . $target_item->getType() .
             "Item ID: " . $target_item->getId() . ", Parent: " . $a_parent_id . ", " .
             "Target: " . $a_target);
 

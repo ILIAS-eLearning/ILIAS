@@ -25,6 +25,7 @@
 			repository="1"
 			group="lso"
 			offline_handling="1"
+			amet="1"
 		>
 			<subobj id="rolf" max="1">rolf</subobj>
 			<subobj id="htlm">htlm</subobj>

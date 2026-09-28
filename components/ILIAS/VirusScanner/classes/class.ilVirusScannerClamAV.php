@@ -137,7 +137,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $return_error = 'ERROR (Virus Scanner failed): '
             . $this->scanResult
             . '; Path=' . $a_filepath;
-        $this->log->write($return_error);
+        $this->log->info($return_error);
         return $return_error;
     }
 }

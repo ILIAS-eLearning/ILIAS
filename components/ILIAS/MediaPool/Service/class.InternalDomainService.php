@@ -24,20 +24,19 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaPool\Tree\MediaPoolTree;
 use ILIAS\MediaPool\Metadata\MetadataManager;
+use ILIAS\MediaPool\PageUsage\Retrieval;
 use ILIAS\MediaPool\Settings\SettingsManager;
 
 class InternalDomainService
 {
     use GlobalDICDomainServices;
     protected static array $instance = [];
-    protected Container $dic;
 
     public function __construct(
         Container $DIC,
         protected InternalRepoService $repo_service,
         protected InternalDataService $data_service
     ) {
-        $this->dic = $DIC;
         $this->initDomainServices($DIC);
     }
 
@@ -73,6 +72,13 @@ class InternalDomainService
             $this->repo_service,
             $this
         );
+    }
+
+    public function mediaPoolPageUsagesRetrieval(
+        \ilMediaPoolPage $page,
+        bool $include_hist
+    ): Retrieval {
+        return new Retrieval($page, $include_hist, $this);
     }
 
 }

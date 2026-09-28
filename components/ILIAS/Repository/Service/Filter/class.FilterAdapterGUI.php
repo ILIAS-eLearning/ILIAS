@@ -132,6 +132,17 @@ class FilterAdapterGUI
         return $this;
     }
 
+    public function input(string $key, FilterInput $field, bool $activated = true, $required = false): self
+    {
+        $this->addField(
+            $key,
+            $field,
+            $activated,
+            $required
+        );
+        return $this;
+    }
+
     protected function addField(string $key, FilterInput $field, bool $activated = true, $required = false): void
     {
         if ($required) {

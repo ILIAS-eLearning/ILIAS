@@ -24,6 +24,7 @@
 class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 {
     protected ilRbacSystem $rbacsystem;
+    protected \ILIAS\Taxonomy\InternalGUIService $taxonomy_gui;
 
     /**
      * @inheritDoc
@@ -33,6 +34,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->taxonomy_gui = $DIC->taxonomy()->internal()->gui();
         $this->type = "taxs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -91,7 +93,14 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     public function listRepository(): void
     {
         $this->tabs_gui->activateTab('settings');
-        $tbl = new ilTaxonomyAdministrationRepositoryTableGUI($this, "listRepository", $this->object);
-        $this->tpl->setContent($tbl->getHTML());
+        $table = $this->taxonomy_gui->repositoryTaxonomiesTableBuilder(
+            $this->object,
+            $this,
+            "listRepository"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $this->tpl->setContent($table->render());
     }
 }

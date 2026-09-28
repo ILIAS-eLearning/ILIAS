@@ -7,8 +7,7 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<crons>		
+	<crons>
 		<cron id="sysc_trash" class="ilSCCronTrash" />
 	</crons>
-	<logging />
 </service>

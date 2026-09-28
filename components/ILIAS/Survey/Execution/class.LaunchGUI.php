@@ -95,6 +95,7 @@ class LaunchGUI
         $r = $this->gui->ui()->renderer();
         $ctrl = $this->gui->ctrl();
         $main_tpl = $this->gui->ui()->mainTemplate();
+        $main_tpl->setPermanentLink($this->survey->getType(), $this->survey->getRefId());
         $lng = $this->domain->lng();
 
         // init session

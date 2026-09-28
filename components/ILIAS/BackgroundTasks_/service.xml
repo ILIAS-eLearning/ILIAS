@@ -7,6 +7,4 @@
 	<gsproviders>
 		<gsprovider class_name="ilBTGSProvider" purpose="meta_bar_static"/>
 	</gsproviders>
-
-	<logging />
 </service>

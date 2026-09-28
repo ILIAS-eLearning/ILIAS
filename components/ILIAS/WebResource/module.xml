@@ -22,5 +22,4 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<logging />
 </module>

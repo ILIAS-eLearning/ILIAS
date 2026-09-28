@@ -58,7 +58,10 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
                 throw new ilExportException('Export class file "' . $export_class_file . '" not found.');
             }
         }
-        $this->sv = $this->getMinimalComponentExporter()->determineSchemaVersion($component, $this->getTarget()->getTargetRelease());
+        $this->sv = $this->getMinimalComponentExporter()->determineSchemaVersion(
+            $this->getTarget()->getType(),
+            $this->getTarget()->getTargetRelease()
+        );
         $this->sv["uses_dataset"] ??= false;
         $this->sv['xsd_file'] ??= '';
     }

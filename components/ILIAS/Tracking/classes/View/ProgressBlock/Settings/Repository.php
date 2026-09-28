@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Tracking\View\ProgressBlock\Settings;
 
-use ilDBInterface;
 use ilDBConstants;
+use ilDBInterface;
 
 class Repository implements RepositoryInterface
 {

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Survey\Evaluation;
 
 use ILIAS\Repository\BaseGUIRequest;

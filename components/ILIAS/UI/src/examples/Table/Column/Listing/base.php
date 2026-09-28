@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\UI\examples\Table\Column\Listing;
+
+use ILIAS\UI\Component\Table as I;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
+function base(): string
+{
+    /** @var \ILIAS\DI\Container $DIC */
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $r = $DIC->ui()->renderer();
+
+    $columns = [
+        'l1' => $f->table()->column()->listing('A list column')
+    ];
+
+    $records = [
+        [
+            'l1' => $f->listing()->unordered([
+                'Apples',
+                'Oranges',
+                'Bananas',
+                'Pears'
+            ])
+        ],
+        [
+            'l1' => $f->listing()->unordered([
+                'Bun',
+                'Croissant',
+                'Pumpernickel'
+            ])
+        ]
+    ];
+
+    $data_retrieval = new class ($records) implements I\DataRetrieval {
+        protected array $records;
+
+        public function __construct(array $records)
+        {
+            $this->records = $records;
+        }
+
+        public function getRows(
+            I\DataRowBuilder $row_builder,
+            array $visible_column_ids,
+            Range $range,
+            Order $order,
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
+        ): \Generator {
+            foreach ($this->records as $idx => $record) {
+                $row_id = '';
+                yield $row_builder->buildDataRow($row_id, $record);
+            }
+        }
+
+        public function getTotalRowCount(
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
+        ): ?int {
+            return count($this->records);
+        }
+    };
+
+    $table = $f->table()->data($data_retrieval, 'List Columns', $columns)
+               ->withRequest($DIC->http()->request());
+    return $r->render($table);
+}

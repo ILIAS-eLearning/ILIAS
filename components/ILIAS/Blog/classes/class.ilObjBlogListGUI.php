@@ -82,6 +82,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
         $tpl = $this->ui->mainTemplate();
         $export_possible = $blog_service->domain()
                                ->export()
+                               ->manager()
                                ->isCommentsExportPossible($this->obj_id);
         if ($cmd === "export"
             && $export_possible
@@ -128,7 +129,6 @@ class ilObjBlogListGUI extends ilObjectListGUI
 
     public function getModalTemplate(): array
     {
-        $ctrl = $this->ctrl;
         $ui = $this->ui;
 
         $comment_export_helper = new \ILIAS\Notes\Export\ExportHelperGUI();
@@ -136,8 +136,8 @@ class ilObjBlogListGUI extends ilObjectListGUI
         $modal = $comment_export_helper->getCommentIncludeModalDialog(
             'HTML Export',
             $this->lng->txt("note_html_export_include_comments"),
-            $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "export"),
-            $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "exportWithComments")
+            $this->getCommandLink("export"),
+            $this->getCommandLink("exportWithComments")
         );
 
         $modalt["show"] = $modal->getShowSignal()->getId();
@@ -149,16 +149,28 @@ class ilObjBlogListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd): string
     {
+        if ($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SEARCH) {
+            $id_par = "ref_id";
+        } else {
+            $id_par = "wsp_id";
+        }
         switch ($cmd) {
+            case "export":
+            case "exportWithComments":
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, $id_par, $this->ref_id);
+                return $this->ctrl->getLinkTargetByClass(
+                    [ilObjBlogGUI::class, \ILIAS\Blog\Export\ExportGUI::class],
+                    $cmd
+                );
             case "render":
-                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "ref_id", $this->ref_id);
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, $id_par, $this->ref_id);
                 return $this->ctrl->getLinkTargetByClass(
                     [ilObjBlogGUI::class, \ILIAS\Blog\Editing\EditingGUI::class],
                     ""
                 );
                 break;
             case "preview":
-                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "ref_id", $this->ref_id);
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, $id_par, $this->ref_id);
                 return $this->ctrl->getLinkTargetByClass(
                     [ilObjBlogGUI::class, \ILIAS\Blog\Presentation\PresentationGUI::class],
                     ""

@@ -170,7 +170,14 @@ class ilCollectFilesJob extends AbstractJob
                 return false;
             }
 
-            $filname_with_suffix = $this->ensureSuffix($a_file_name, $file->getFileExtension());
+            // The object title may contain characters which are not allowed in file names:
+            // "/" would create a directory inside the archive, while "*", "?" and ":" are
+            // invalid on Windows and prevent the archive from being extracted. They are
+            // sanitized the same way as the folder names in recurseFolder().
+            $filname_with_suffix = $this->ensureSuffix(
+                ilFileUtils::getASCIIFilename($a_file_name),
+                $file->getFileExtension()
+            );
 
             $target_dir = $a_temp_dir . '/' . $filname_with_suffix;
 
@@ -181,7 +188,10 @@ class ilCollectFilesJob extends AbstractJob
                 $target_info = pathinfo($target_dir);
                 $filename = $target_info["filename"];
                 $extension = isset($target_info["extension"]) ? "." . $target_info["extension"] : "";
-                $target_dir = $a_temp_dir . $filename . " (" . ++self::$targets[$target_dir] . ")" . $extension;
+                // pathinfo() returns the name without its directory, therefore the separator
+                // has to be added again, just like above
+                $target_dir = $a_temp_dir . '/' . $filename
+                    . " (" . ++self::$targets[$target_dir] . ")" . $extension;
             } else {
                 self::$targets[$target_dir] = 0;
             }

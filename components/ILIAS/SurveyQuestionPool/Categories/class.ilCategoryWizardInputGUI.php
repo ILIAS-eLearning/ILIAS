@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -49,6 +51,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $this->show_wizard = false;
         $this->categorytext = $lng->txt('answer');
         $this->use_other_answer = false;
+        $this->values = new SurveyCategories();
 
         $this->setMaxLength(1000); // #6218
         $this->gui = $DIC->survey()->internal()->gui();
@@ -115,11 +118,11 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     {
         $this->values = new SurveyCategories();
         if (is_array($a_value)) {
-            if (is_array($a_value['answer'])) {
+            if (is_array($a_value['answer'] ?? null)) {
                 foreach ($a_value['answer'] as $index => $value) {
                     $this->values->addCategory(
-                        $value,
-                        $a_value['other'][$index] ?? 0,
+                        (string) $value,
+                        (int) ($a_value['other'][$index] ?? 0),
                         0,
                         null,
                         isset($a_value['scale'][$index]) && (int) $a_value['scale'][$index] > 0
@@ -128,19 +131,19 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                     );
                 }
             }
-        }
-        if (array_key_exists('neutral', $a_value)) {
-            $scale = $this->str($this->postvar . '_neutral_scale');
-            $scale = ($scale === "")
-                ? null
-                : (int) $scale;
-            $this->values->addCategory(
-                $a_value['neutral'],
-                0,
-                1,
-                null,
-                $scale
-            );
+            if (array_key_exists('neutral', $a_value)) {
+                $scale = $this->str($this->postvar . '_neutral_scale');
+                $scale = ($scale === "")
+                    ? null
+                    : (int) $scale;
+                $this->values->addCategory(
+                    (string) $a_value['neutral'],
+                    0,
+                    1,
+                    null,
+                    $scale
+                );
+            }
         }
     }
 
@@ -205,7 +208,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'] ?? false)) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
-                    if (((strlen($answervalue ?? "")) == 0) && ($this->getRequired() && (!isset($foundvalues['other'][$idx])))) {
+                    if ((strlen((string) ($answervalue ?? "")) === 0) && ($this->getRequired() && (!isset($foundvalues['other'][$idx])))) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -223,12 +226,12 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             if (isset($foundvalues['scale'])) {
                 foreach ($foundvalues['scale'] as $scale) {
                     //scales required
-                    if ((strlen($scale ?? "")) == 0) {
+                    if (strlen((string) ($scale ?? "")) === 0) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
                     //scales positive number
-                    if (!ctype_digit($scale) || $scale <= 0) {
+                    if (!ctype_digit((string) $scale) || $scale <= 0) {
                         $this->setAlert($lng->txt("msg_input_only_positive_numbers"));
                         return false;
                     }
@@ -271,7 +274,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     public function getNeutralInput(): string
     {
         $val = $this->strArray($this->getPostVar());
-        return $val["neutral"];
+        return (string) ($val["neutral"] ?? "");
     }
 
     public function insert(
@@ -291,7 +294,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                     $tpl->setCurrentBlock("prop_scale_propval");
                     $tpl->setVariable(
                         "PROPERTY_VALUE",
-                        ilLegacyFormElementsUtil::prepareFormOutput($this->values->getScale($i))
+                        ilLegacyFormElementsUtil::prepareFormOutput((string) $this->values->getScale($i))
                     );
                     $tpl->parseCurrentBlock();
 
@@ -344,7 +347,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
 
         if ($this->getShowNeutralCategory()) {
-            if (is_object($neutral_category) && strlen($neutral_category->title ?? "")) {
+            if (is_object($neutral_category) && strlen((string) ($neutral_category->title ?? ""))) {
                 $tpl->setCurrentBlock("prop_text_neutral_propval");
                 $tpl->setVariable(
                     "PROPERTY_VALUE",
@@ -363,7 +366,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
             $tpl->setCurrentBlock("prop_scale_neutral_propval");
             $scale = (is_object($neutral_category) && $neutral_category->scale > 0) ? $neutral_category->scale : $this->values->getNewScale();
-            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($scale));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $scale));
             $tpl->parseCurrentBlock();
 
             if ($this->getUseOtherAnswer()) {

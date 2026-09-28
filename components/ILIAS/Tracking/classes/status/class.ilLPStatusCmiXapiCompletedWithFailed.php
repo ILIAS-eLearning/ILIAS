@@ -16,22 +16,42 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
-/**
- * Class ilLPStatusCmiXapiCompletedWithFailed
- * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @author      Björn Heyser <info@bjoernheyser.de>
- * @author      Stefan Schneider <info@eqsoft.de>
- */
+use ILIAS\DI\Container;
+
 class ilLPStatusCmiXapiCompletedWithFailed extends ilLPStatusCmiXapiCompleted
 {
+    protected const string LNG_TEXT = 'trac_mode_cmix_compl_with_failed';
+    protected const string LNG_TEXT_INFO = 'trac_mode_cmix_compl_with_failed_info';
+    protected ilLanguage $lng;
+
     protected function resultSatisfyFailed(ilCmiXapiResult $result): bool
     {
         if ($result->getStatus() === 'failed') {
             return true;
         }
-
         return false;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

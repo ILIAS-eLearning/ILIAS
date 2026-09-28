@@ -47,6 +47,7 @@ class ilBiblEntryTableGUI
     private readonly ilUIService $ui_service;
     private ?StandardFilter $filter;
     private PresentationTable $table;
+    private \ILIAS\Refinery\String\Group $string_transform;
 
     /**  @var ilBiblFieldFilterInterface[] */
     protected array $filter_objects = [];
@@ -69,6 +70,7 @@ class ilBiblEntryTableGUI
 
         $this->filter = $this->buildFilter();
         $this->table = $this->buildTable();
+        $this->string_transform = $DIC->refinery()->string();
     }
 
     public function getRenderedTableAndExistingFilters(): string
@@ -192,6 +194,10 @@ class ilBiblEntryTableGUI
                 unset($record['author'], $record['title'], $record['AU'], $record['TI'], $record['entry_id']);
 
                 $translated_record = $this->getRecordWithTranslatedKeys($record);
+                $clickable_translated_record = array_map(
+                    fn($value) => $this->string_transform->makeClickable()->transform($value),
+                    $translated_record
+                );
 
                 $this->ctrl->setParameterByClass(ilObjBibliographicGUI::class, 'entry_id', $entry_id);
 
@@ -209,7 +215,7 @@ class ilBiblEntryTableGUI
                     ->withSubheadline($author)
                     ->withImportantFields([$year])
                     ->withFurtherFields($this->renderLibraryButtons($entry_id))
-                    ->withContent($ui_factory->listing()->descriptive($translated_record));
+                    ->withContent($ui_factory->listing()->descriptive($clickable_translated_record));
             }
         )->withData($records_current_page);
     }

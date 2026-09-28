@@ -28,15 +28,11 @@ class StartUp
     private bool $is_authenticated = false;
 
     public function __construct(
-        private readonly string $client,
         private readonly string $username,
         ?\ilAuthSession $authSession = null
     ) {
         /** @noRector */
         \ilContext::init(\ilContext::CONTEXT_CRON);
-
-        // TODO @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
-        $_GET['client_id'] = $this->client;
 
         require_once __DIR__ . '/../../../../../artifacts/bootstrap_default.php';
         entry_point('ILIAS Legacy Initialisation Adapter');

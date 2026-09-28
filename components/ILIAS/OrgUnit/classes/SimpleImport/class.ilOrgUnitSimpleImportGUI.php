@@ -171,7 +171,7 @@ class ilOrgUnitSimpleImportGUI
 
                 $importer->simpleImport($file_path);
             } catch (Exception $e) {
-                $this->ilLog->write($e->getMessage() . " - " . $e->getTraceAsString());
+                $this->ilLog->info($e->getMessage() . " - " . $e->getTraceAsString());
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_failed"), true);
                 $this->ctrl->redirect($this, "render");
             }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -47,7 +49,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $a_form->addItem($subtype);
 
         // #10652
-        $opt = new ilRadioOption($this->lng->txt('non_ratio'), SurveyMetricQuestion::SUBTYPE_NON_RATIO, $this->lng->txt("metric_subtype_description_interval"));
+        $opt = new ilRadioOption($this->lng->txt('non_ratio'), (string) SurveyMetricQuestion::SUBTYPE_NON_RATIO, $this->lng->txt("metric_subtype_description_interval"));
         $subtype->addOption($opt);
 
         // minimum value
@@ -62,14 +64,14 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $maximum1->setSize(6);
         $opt->addSubItem($maximum1);
 
-        $opt = new ilRadioOption($this->lng->txt('ratio_non_absolute'), SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE, $this->lng->txt("metric_subtype_description_rationonabsolute"));
+        $opt = new ilRadioOption($this->lng->txt('ratio_non_absolute'), (string) SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE, $this->lng->txt("metric_subtype_description_rationonabsolute"));
         $subtype->addOption($opt);
 
         // minimum value
         $minimum2 = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum4");
         $minimum2->setRequired(false);
         $minimum2->setSize(6);
-        $minimum2->setMinValue(0);
+        $minimum2->setMinValue(0.0);
         $opt->addSubItem($minimum2);
 
         // maximum value
@@ -78,14 +80,14 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $maximum2->setSize(6);
         $opt->addSubItem($maximum2);
 
-        $opt = new ilRadioOption($this->lng->txt('ratio_absolute'), SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE, $this->lng->txt("metric_subtype_description_ratioabsolute"));
+        $opt = new ilRadioOption($this->lng->txt('ratio_absolute'), (string) SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE, $this->lng->txt("metric_subtype_description_ratioabsolute"));
         $subtype->addOption($opt);
 
         // minimum value
         $minimum3 = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum5");
         $minimum3->setRequired(false);
         $minimum3->setSize(6);
-        $minimum3->setMinValue(0);
+        $minimum3->setMinValue(0.0);
         $minimum3->setDecimals(0);
         $opt->addSubItem($minimum3);
 
@@ -98,22 +100,22 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 
 
         // values
-        $subtype->setValue($this->object->getSubtype());
+        $subtype->setValue((string) $this->object->getSubtype());
 
         switch ($this->object->getSubtype()) {
             case SurveyMetricQuestion::SUBTYPE_NON_RATIO:
-                $minimum1->setValue($this->object->getMinimum());
-                $maximum1->setValue($this->object->getMaximum());
+                $minimum1->setValue($this->object->getMinimum() === null ? null : (string) $this->object->getMinimum());
+                $maximum1->setValue($this->object->getMaximum() === null ? null : (string) $this->object->getMaximum());
                 break;
 
             case SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE:
-                $minimum2->setValue($this->object->getMinimum());
-                $maximum2->setValue($this->object->getMaximum());
+                $minimum2->setValue($this->object->getMinimum() === null ? null : (string) $this->object->getMinimum());
+                $maximum2->setValue($this->object->getMaximum() === null ? null : (string) $this->object->getMaximum());
                 break;
 
             case SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE:
-                $minimum3->setValue($this->object->getMinimum());
-                $maximum3->setValue($this->object->getMaximum());
+                $minimum3->setValue($this->object->getMinimum() === null ? null : (string) $this->object->getMinimum());
+                $maximum3->setValue($this->object->getMaximum() === null ? null : (string) $this->object->getMaximum());
                 break;
         }
     }
@@ -123,11 +125,13 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $type = (int) $a_form->getInput("type");
         $this->object->setOrientation((int) $a_form->getInput("orientation"));
         $this->object->setSubtype((int) $type);
-        $min = ($a_form->getInput("minimum" . $type) != "")
-            ? (float) $a_form->getInput("minimum" . $type)
+        $min_input = str_replace(',', '.', (string) $a_form->getInput("minimum" . $type));
+        $max_input = str_replace(',', '.', (string) $a_form->getInput("maximum" . $type));
+        $min = ($min_input != "")
+            ? (float) $min_input
             : null;
-        $max = ($a_form->getInput("maximum" . $type) != "")
-            ? (float) $a_form->getInput("maximum" . $type)
+        $max = ($max_input != "")
+            ? (float) $max_input
             : null;
         $this->object->setMinimum($min);
         $this->object->setMaximum($max);

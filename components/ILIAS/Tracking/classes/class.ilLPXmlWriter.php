@@ -17,6 +17,10 @@
  *********************************************************************/
 
 declare(strict_types=0);
+
+use ILIAS\Tracking\DB\Factory as TrackingDBFactory;
+use ILIAS\Tracking\DB\FactoryInterface as TrackingDBFactoryInterface;
+
 /**
  * XML writer learning progress
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -27,9 +31,10 @@ class ilLPXmlWriter extends ilXmlWriter
     private bool $add_header = true;
     private string $timestamp = "";
     private bool $include_ref_ids = false;
-    private array $type_filter = array();
+    private array $type_filter = [];
 
     protected ilDBInterface $db;
+    protected TrackingDBFactoryInterface $tracking_db_factory;
 
     /**
      * Constructor
@@ -37,7 +42,7 @@ class ilLPXmlWriter extends ilXmlWriter
     public function __construct(bool $a_add_header)
     {
         global $DIC;
-
+        $this->tracking_db_factory = new TrackingDBFactory($DIC->database());
         $this->db = $DIC->database();
         $this->add_header = $a_add_header;
         parent::__construct();
@@ -115,36 +120,31 @@ class ilLPXmlWriter extends ilXmlWriter
 
     public function addLPInformation(): void
     {
-        $this->xmlStartTag('LPData', array());
-        $set = $this->db->query(
-            $q = "SELECT * FROM ut_lp_marks " .
-                " WHERE status_changed >= " . $this->db->quote(
-                    $this->getTimestamp(),
-                    "timestamp"
-                )
-        );
+        $this->xmlStartTag('LPData', []);
 
-        while ($rec = $this->db->fetchAssoc($set)) {
-            $ref_ids = array();
+        $collection = $this->tracking_db_factory->lpMarks()->repository()->readAllEntriesWithStatusChangedAfter($this->getTimestamp());
+
+        foreach ($collection as $lp_mark) {
+            $ref_ids = [];
             if ($this->getIncludeRefIds()) {
-                $ref_ids = ilObject::_getAllReferences((int) $rec["obj_id"]);
+                $ref_ids = ilObject::_getAllReferences($lp_mark->getObjectId());
             }
 
             if (!is_array($this->getTypeFilter()) ||
                 (count($this->getTypeFilter()) == 0) ||
                 in_array(
-                    ilObject::_lookupType((int) $rec["obj_id"]),
+                    ilObject::_lookupType($lp_mark->getObjectId()),
                     $this->getTypeFilter()
                 )) {
                 $this->xmlElement(
                     'LPChange',
-                    array(
-                        'UserId' => (int) $rec["usr_id"],
-                        'ObjId' => (int) $rec["obj_id"],
+                    [
+                        'UserId' => $lp_mark->getUserId(),
+                        'ObjId' => $lp_mark->getObjectId(),
                         'RefIds' => implode(",", $ref_ids),
-                        'Timestamp' => $rec["status_changed"],
-                        'LPStatus' => (int) $rec["status"]
-                    )
+                        'Timestamp' => $lp_mark->getStatusChanged(),
+                        'LPStatus' => $lp_mark->getStatus()
+                    ]
                 );
             }
         }

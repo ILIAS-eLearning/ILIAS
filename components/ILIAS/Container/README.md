@@ -22,3 +22,7 @@ This part of the documentation deals with concepts and business rules, for techn
 ## Order
 
 - In Session View the session block always lists its items by their starting date, beginning from the oldest. Alphabetial, "By Creation Date" or manual order does not affect the session block. In all other views sessions are ordered by the selected order type specified in the settings.
+
+## Filter
+
+- If “Show Items while Filter Empty” is disabled, the category MUST NOT display any objects unless filter criteria are applied. Deactivating the filter MUST NOT cause an unfiltered list of objects to be displayed. https://docu.ilias.de/go/wiki/wpage_4303_1357

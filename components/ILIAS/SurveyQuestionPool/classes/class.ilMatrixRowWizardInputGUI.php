@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -47,6 +49,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $this->show_wizard = false;
         $this->categorytext = $lng->txt('row_text');
         $this->use_other_answer = false;
+        $this->values = new SurveyCategories();
 
         $this->setMaxLength(1000); // #6803
         $this->gui = $DIC->survey()->internal()->gui();
@@ -68,9 +71,9 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     public function setValue($a_value): void
     {
         $this->values = new SurveyCategories();
-        if (is_array($a_value) && is_array($a_value['answer'])) {
+        if (is_array($a_value) && is_array($a_value['answer'] ?? null)) {
             foreach ($a_value['answer'] as $index => $value) {
-                $this->values->addCategory($value, $a_value['other'][$index] ?? 0);
+                $this->values->addCategory((string) $value, (int) ($a_value['other'][$index] ?? 0));
             }
         }
     }
@@ -132,9 +135,9 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $foundvalues = $this->getInput();
         if (count($foundvalues) > 0) {
             // check answers
-            if (is_array($foundvalues['answer'])) {
+            if (is_array($foundvalues['answer'] ?? null)) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
-                    if (((strlen($answervalue ?? "")) == 0) && ($this->getRequired() && (!$foundvalues['other'][$idx]))) {
+                    if ((strlen((string) ($answervalue ?? "")) === 0) && ($this->getRequired() && (!(bool) ($foundvalues['other'][$idx] ?? false)))) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }

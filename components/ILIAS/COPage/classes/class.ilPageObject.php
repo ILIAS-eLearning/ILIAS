@@ -107,6 +107,7 @@ abstract class ilPageObject
     protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
     protected \ILIAS\COPage\Style\StyleManager $style_manager;
     protected \ILIAS\COPage\PC\DomainService $pc_service;
+    protected \ILIAS\COPage\History\HistoryManager $history_manager;
 
     final public function __construct(
         int $a_id = 0,
@@ -166,6 +167,7 @@ abstract class ilPageObject
             ->contentIds($this);
         $this->page_manager = $domain->page();
         $this->pc_service = $domain->pc();
+        $this->history_manager = $domain->history();
         $this->pc_definition = $domain->pc()->definition();
         $this->link = $domain->link();
         $this->style_manager = $domain->style();
@@ -960,7 +962,7 @@ s     */
                   "table", "table_cell"] as $type) {
             $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
             foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
-                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+                $xml .= $this->getCharacteristicLangVarXML($type, $char, $txt);
             }
         }
         $type = "media_cont";
@@ -968,14 +970,14 @@ s     */
         $dummy_pc->setStyleId($style_id);
         $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
         foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
-            $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            $xml .= $this->getCharacteristicLangVarXML($type, $char, $txt);
         }
         foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
             $dummy_pc = new ilPCParagraphGUI($this, null, "");
             $dummy_pc->setStyleId($style_id);
             $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
             foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
-                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+                $xml .= $this->getCharacteristicLangVarXML($type, $char, $txt);
             }
         }
         foreach ($lang_vars as $lang_var) {
@@ -996,9 +998,18 @@ s     */
         );
     }
 
+    protected function getCharacteristicLangVarXML(string $type, string $char, string $txt): string
+    {
+        return $this->getLangVarXMLForValue(
+            "char_" . $type . "_" . $char,
+            $txt
+        );
+    }
+
     protected function getLangVarXMLForValue(string $var, string $val): string
     {
-        $val = str_replace('"', "&quot;", $val);
+        $var = htmlspecialchars($var, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+        $val = htmlspecialchars($val, ENT_XML1 | ENT_QUOTES, 'UTF-8');
         return "<LV name=\"$var\" value=\"" . $val . "\"/>";
     }
 
@@ -1648,6 +1659,13 @@ s     */
         $this->db->manipulate("DELETE FROM page_object " .
             "WHERE page_id = " . $this->db->quote($this->getId(), "integer") .
             " AND parent_type= " . $this->db->quote($this->getParentType(), "text") . $and);
+
+        // delete page history entries
+        $this->history_manager->deleteHistoryEntries(
+            $this->getParentType(),
+            $this->getId(),
+            $this->getLanguage()
+        );
 
         // delete media objects
         foreach ($mobs as $mob_id) {
@@ -3053,7 +3071,8 @@ s     */
         array $targets,
         string $char_par,
         string $char_sec,
-        string $char_med
+        string $char_med,
+        string $char_tab = ""
     ): array|bool {
         if (is_array($targets)) {
             foreach ($targets as $t) {
@@ -3067,6 +3086,13 @@ s     */
                 }
                 if (is_object($cont_obj) && $cont_obj->getType() == "media") {
                     $cont_obj->setClass($char_med);
+                }
+                if (is_object($cont_obj) && in_array($cont_obj->getType(), ["tab", "dtab"])) {
+                    $table_format = explode(":", $char_tab, 3);
+                    if (count($table_format) === 3 && $table_format[0] === "t") {
+                        $cont_obj->setTemplate($table_format[2]);
+                        $cont_obj->setClass("");
+                    }
                 }
             }
             return $this->update();

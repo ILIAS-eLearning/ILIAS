@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -306,7 +308,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                         if ($result->numRows() === 1) {
                             $row = $ilDB->fetchAssoc($result);
 
-                            if (self::_isSurveyParticipant($user_id, $row["survey_id"])) {
+                            if (self::_isSurveyParticipant($user_id, (int) $row["survey_id"])) {
                                 $survey = new ilObjSurvey($a_obj_id, false);
                                 $run_manager = $DIC->survey()->internal()->domain()
                                     ->execution()->run($survey, $user_id);
@@ -352,13 +354,13 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                     "AND svy_finished.survey_fi = svy_anonymous.survey_fi AND svy_anonymous.user_key = %s " .
                     "AND svy_anonymous.survey_key = svy_finished.anonymous_id",
                     array('integer','text'),
-                    array($row->survey_id, md5($a_user_id))
+                    array((int) $row->survey_id, md5((string) $a_user_id))
                 );
             } else {
                 $result = $ilDB->queryF(
                     "SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
                     array('integer','integer'),
-                    array($row->survey_id, $a_user_id)
+                    array((int) $row->survey_id, $a_user_id)
                 );
             }
             if ($result->numRows() === 1) {
@@ -425,30 +427,33 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
         $ilAccess = $DIC->access();
 
-        $t_arr = explode("_", $target);
-        if ($t_arr[0] !== "svy" || ((int) $t_arr[1]) <= 0) {
+        $target_parts = explode("_", $target, 3);
+        if ($target_parts[0] !== "svy" ||
+            !isset($target_parts[1]) ||
+            !ctype_digit($target_parts[1]) ||
+            ($ref_id = (int) $target_parts[1]) <= 0) {
             return false;
         }
 
         // 360° external raters
         $access_code = ($request->getAccessCode() !== "")
             ? $request->getAccessCode()
-            : ($t_arr[2] ?? "");
+            : ($target_parts[2] ?? "");
         if ($access_code !== "") {
-            $survey = new ilObjSurvey((int) $t_arr[1]);
+            $survey = new ilObjSurvey($ref_id);
             $run_manager = $DIC->survey()->internal()->domain()->execution()->run($survey, $DIC->user()->getId());
             try {
                 $run_manager->initSession($access_code);
             } catch (Exception $e) {
                 return false;
             }
-            if (ilObjSurvey::validateExternalRaterCode((int) $t_arr[1], $access_code)) {
+            if (ilObjSurvey::validateExternalRaterCode($ref_id, $access_code)) {
                 return true;
             }
         }
 
-        if ($ilAccess->checkAccess("visible", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("read", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("visible", "", $ref_id) ||
+            $ilAccess->checkAccess("read", "", $ref_id)) {
             return true;
         }
         return false;

@@ -23,6 +23,7 @@ namespace ILIAS\BookingManager\Booking;
 use ilCtrlInterface;
 use ilGlobalTemplateInterface;
 use ILIAS\BookingManager\Access\AccessManager;
+use ILIAS\BookingManager\Bookings\Table\Action\BookingsTableBookingInformationAction;
 use ILIAS\BookingManager\Bookings\Table\Action\BookingsTableCancelAction;
 use ILIAS\BookingManager\Bookings\Table\Action\BookingsTableDeleteAction;
 use ILIAS\BookingManager\Bookings\Table\Action\BookingsTableMailAction;
@@ -43,6 +44,8 @@ class BookingTableActionsFactory implements TableActionsFactory
     public const string ACTION_DELETE = 'delete';
 
     public const string ACTION_MAIL = 'mail';
+
+    public const string ACTION_BOOKING_INFORMATION = 'booking_information';
 
     public function __construct(
         protected readonly ilCtrlInterface $ctrl,
@@ -73,6 +76,7 @@ class BookingTableActionsFactory implements TableActionsFactory
                 self::ACTION_CANCEL => $this->getCancelAction(),
                 self::ACTION_DELETE => $this->getDeleteAction(),
                 self::ACTION_MAIL => $this->getMailAction(),
+                self::ACTION_BOOKING_INFORMATION => $this->getBookingInformationAction(),
             ]
         );
     }
@@ -121,6 +125,18 @@ class BookingTableActionsFactory implements TableActionsFactory
             $this->tpl,
             $this->ctrl,
             $this->booking_pool,
+            $this->bookings
+        );
+    }
+
+    protected function getBookingInformationAction(): BookingsTableBookingInformationAction
+    {
+        return new BookingsTableBookingInformationAction(
+            $this->ui_factory,
+            $this->lng,
+            $this->http,
+            $this->tpl,
+            $this->ctrl,
             $this->bookings
         );
     }

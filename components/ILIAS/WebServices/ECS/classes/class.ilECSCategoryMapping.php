@@ -90,16 +90,16 @@ class ilECSCategoryMapping
                 $exists = true;
             }
         }
-        $logger->info(__METHOD__ . ': Creating/Deleting references...');
+        $logger->info('Creating/Deleting references...');
 
         if (!$exists) {
-            $logger->info(__METHOD__ . ': Add new reference. STEP 1');
+            $logger->info('Add new reference. STEP 1');
 
             if ($obj_data = ilObjectFactory::getInstanceByRefId($a_ref_id, false)) {
                 $obj_data->createReference();
                 $obj_data->putInTree($cat);
                 $obj_data->setPermissions($cat);
-                $logger->info(__METHOD__ . ': Add new reference.');
+                $logger->info('Add new reference.');
             }
         }
         // Now delete old references
@@ -113,7 +113,7 @@ class ilECSCategoryMapping
             }
             if ($to_delete = ilObjectFactory::getInstanceByRefId($ref_id)) {
                 $to_delete->delete();
-                $logger->write(__METHOD__ . ': Deleted deprecated reference.');
+                $logger->info('Deleted deprecated reference.');
             }
         }
         return true;

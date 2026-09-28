@@ -49,24 +49,17 @@ In almost all cases this redirect is unnecessary:
 
 ### Unified log file reporting for all handlers
 
-**Current behaviour**
+**Done** (ILIAS 12).
 
-Only the **default handler** (production) writes exceptions to a dedicated log
-file (via `ilLoggingErrorFileStorage`) when configured. Other handlers (e.g.,
-SOAP, testing, devmode handlers) do not write to that log file.
+Previously only the production default handler wrote exceptions to the dedicated
+log file via `ilLoggingErrorFileStorage`. SOAP, testing, and devmode handlers did
+not.
 
-**Goal**
+Log file writing now happens in `RecordErrorIncidentHandler`, which runs for every
+handled exception before the response handler is chosen. It calls
+`ReportErrorIncident` and stores the incident in `ErrorIncidentRegistry`. The
+production handler reads that value when it builds the message for the user, so
+the code in the UI matches the log file name.
 
-- Make the ability to report an exception to the dedicated log file available to
-  **all** Whoops handlers (default, SOAP, testing, devmode, etc.), not only the
-  default handler.
-- Ensure a consistent reporting path: whenever an exception is handled and
-  logging is enabled, it can be written to the configured log file regardless
-  of which handler rendered the response.
-
-**Outcome**
-
-- Administrators and developers get a single, consistent log of reported exceptions
-  across all entry points and handler types.
-- Easier auditing and debugging when errors occur in SOAP, tests, or other
-  contexts that today do not use the dedicated log file.
+Details are documented in `README.md` and implemented under
+`Init/src/ErrorHandling/`.

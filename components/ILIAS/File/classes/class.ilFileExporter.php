@@ -59,6 +59,11 @@ class ilFileExporter extends ilXmlExporter
                 "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids
+            ],
+            [
+                "component" => "components/ILIAS/Tracking",
+                "entity" => "lpsettings",
+                "ids" => $a_ids
             ]
         ];
     }

@@ -81,21 +81,8 @@ class ilDclFileRecordRepresentation extends ilDclBaseRecordRepresentation
 
     private function buildDownloadLink(): string
     {
-        $record_field = $this->getRecordField();
-
-        $this->ctrl->setParameterByClass(
-            ilDclRecordListGUI::class,
-            "record_id",
-            $record_field->getRecord()->getId()
-        );
-        $this->ctrl->setParameterByClass(
-            ilDclRecordListGUI::class,
-            "field_id",
-            $record_field->getField()->getId()
-        );
-        return $this->ctrl->getLinkTargetByClass(
-            ilDclRecordListGUI::class,
-            "sendFile"
-        );
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $this->getRecord()->getId());
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "field_id", $this->getField()->getId());
+        return $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, "sendFile");
     }
 }

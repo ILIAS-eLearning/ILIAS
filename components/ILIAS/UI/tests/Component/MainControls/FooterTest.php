@@ -114,7 +114,7 @@ class FooterTest extends ILIAS_UI_TestBase
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
-    <section class="c-maincontrols__footer-grid" data-section="permanent-link" aria-label="footer_permanent_link" tabindex="0">
+    <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--md" data-section="permanent-link" aria-label="footer_permanent_link" tabindex="0">
         <div class="c-maincontrols__footer-grid__item text-left">
             <div class="c-tooltip__container c-tooltip--top" aria-live="polite">
                 $this->button_html
@@ -147,7 +147,7 @@ EOT;
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
-    <section class="c-maincontrols__footer-grid" data-section="link-groups" aria-label="footer_link_groups" tabindex="0">
+    <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--sm" data-section="link-groups" aria-label="footer_link_groups" tabindex="0">
         <div class="c-maincontrols__footer-grid__item text-left">
             <strong>$link_group_title</strong>$this->unordered_html
         </div>
@@ -171,7 +171,7 @@ EOT;
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
-    <section class="c-maincontrols__footer-grid" data-section="links" aria-label="footer_links" tabindex="0">
+    <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--sm" data-section="links" aria-label="footer_links" tabindex="0">
         <div class="c-maincontrols__footer-grid__item text-left">$this->link_html</div>
     </section>
 </footer>
@@ -193,7 +193,7 @@ EOT;
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
-    <section class="c-maincontrols__footer-grid" data-section="icons" aria-label="footer_icons" tabindex="0">
+    <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--sm" data-section="icons" aria-label="footer_icons" tabindex="0">
         <div class="c-maincontrols__footer-grid__item l-bar__group">
             <span class="l-bar__element">$this->icon_html</span>
         </div>
@@ -219,7 +219,7 @@ EOT;
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
-    <section class="c-maincontrols__footer-grid" data-section="texts" aria-label="footer_texts" tabindex="0">
+    <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--md" data-section="texts" aria-label="footer_texts" tabindex="0">
         <div class="c-maincontrols__footer-grid__item text-left">$text</div>
     </section>
 </footer>
@@ -254,7 +254,7 @@ EOT;
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
-    <section class="c-maincontrols__footer-grid" data-section="links" aria-label="footer_links" tabindex="0">
+    <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--sm" data-section="links" aria-label="footer_links" tabindex="0">
         <div class="c-maincontrols__footer-grid__item text-left">$this->shy_html</div>
     </section>
 </footer>$modal_html

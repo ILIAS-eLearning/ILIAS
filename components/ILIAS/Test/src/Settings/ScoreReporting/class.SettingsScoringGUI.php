@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\TestSettingsGUI;
+use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -28,10 +29,7 @@ use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use ilInfoScreenGUI;
-use ilObjTestGUI;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -116,7 +114,11 @@ class SettingsScoringGUI extends TestSettingsGUI
                             ->withRequest($this->getRelayedRequest())
                             ->getData();
                         $this->storeScoreSettings($settings);
-                        $this->test_object->recalculateScores(true);
+                        (new TestScoring(
+                            $this,
+                            $this->user,
+                            $this->db
+                        ))->recalculateSolutions();
                         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_score_settings_modified_and_recalc"), true);
                         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
                         break;

@@ -30,7 +30,8 @@ class KeywordBlockGUI
     public function __construct(
         protected InternalDomainService $domain,
         protected InternalGUIService $gui,
-        protected LinkBuilder $link_builder
+        protected LinkBuilder $link_builder,
+        protected bool $is_repository
     ) {
     }
 
@@ -65,7 +66,11 @@ class KeywordBlockGUI
     ): array {
         $keywords = array();
         $posting_manager = $this->domain->posting();
-        $obj_id = \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId());
+        if ($this->is_repository) {
+            $obj_id = \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId());
+        } else {
+            $obj_id = $this->domain->getObjectIdForWspId($this->gui->standardRequest()->getWspId());
+        }
 
         if ($posting_id) {
             foreach ($posting_manager->getKeywords($obj_id, $posting_id) as $keyword) {
@@ -78,7 +83,6 @@ class KeywordBlockGUI
         } else {
             $posting_list = $this->domain->postingList(
                 $obj_id,
-                $this->domain->blogSettings()->getByObjId($obj_id),
                 $show_inactive
             );
             $all_items = $posting_list->getPostingsGroupedByMonth();

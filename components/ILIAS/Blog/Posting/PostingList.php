@@ -148,6 +148,22 @@ class PostingList
         return $items;
     }
 
+    public function prepareViewState(
+        string $month,
+        ?int $author
+    ): PostingViewState {
+        if ($author && !$this->hasAuthorPostings($author)) {
+            $author = null;
+        }
+
+        $items = $this->getPostingsGroupedByMonth();
+        if ($items && (!$month || !isset($items[$month]) || $items[$month] === [])) {
+            $month = (string) array_key_first($items);
+        }
+
+        return new PostingViewState($month, $author);
+    }
+
     /**
      * @return string[] months (YYYY-MM)
      */

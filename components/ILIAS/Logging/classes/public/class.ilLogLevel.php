@@ -26,6 +26,7 @@ declare(strict_types=1);
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
+ * @deprecated Please use {@see \ILIAS\Logging\ILIASLogLevel} instead.
  */
 class ilLogLevel
 {

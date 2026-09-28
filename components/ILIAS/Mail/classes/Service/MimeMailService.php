@@ -23,6 +23,8 @@ namespace ILIAS\Mail\Service;
 use ILIAS\DI\Container;
 use ilMailMimeTransportFactory;
 use ilMailMimeSenderFactory;
+use ILIAS\Mail\Mime\Presentation\MailBodyComposer;
+use ILIAS\Mail\Mime\Presentation\Asset\MailAssets;
 
 class MimeMailService
 {
@@ -38,5 +40,15 @@ class MimeMailService
     public function senderFactory(): ilMailMimeSenderFactory
     {
         return $this->dic['mail.mime.sender.factory'];
+    }
+
+    public function assets(): MailAssets
+    {
+        return $this->dic[MailAssets::class];
+    }
+
+    public function bodyComposer(): MailBodyComposer
+    {
+        return $this->dic[MailBodyComposer::class];
     }
 }

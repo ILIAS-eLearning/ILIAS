@@ -28,6 +28,7 @@ use ILIAS\Setup\ObjectiveConstructor;
 use ILIAS\Setup\Config;
 use ILIAS\Refinery\Factory;
 use ILIAS\File\Icon\ilObjFileDefaultIconsObjective;
+use ILIAS\File\Setup\Database\V11\FileObjectRBACDatabaseSteps;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
@@ -66,6 +67,9 @@ class ilFileObjectAgent implements Agent
             new ilFileObjectSettingsUpdatedObjective(),
             new ilFileObjectRBACDatabase(
                 new ilFileObjectRBACDatabaseSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new FileObjectRBACDatabaseSteps()
             )
         );
     }

@@ -20,7 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\DataRetrieval\Info\Iterator;
 
-use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\LPInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\LPInterface as LPInfoInterface;
 
 class LP implements LPInterface

@@ -1816,7 +1816,6 @@ class ilNewsItem
     ): bool {
         $mob = $this->getMobId();
         $mob = new ilObjMediaObject($mob);
-        $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
         // check purpose
         if (!$mob->hasPurposeItem($a_purpose)) {
             return false;
@@ -1824,7 +1823,7 @@ class ilNewsItem
 
         $m_item = $mob->getMediaItem($a_purpose);
         if ($m_item->getLocationType() !== "Reference") {
-            $this->media_manager->deliverEntry($mob->getId(), "/" . $m_item->getLocation());
+            $this->media_manager->deliverEntry($mob->getId(), $m_item->getLocation());
             if ($a_increase_download_cnt) {
                 $this->increaseDownloadCounter();
             }

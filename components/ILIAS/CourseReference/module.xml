@@ -17,5 +17,4 @@
 	<events>
 		<event type="listen" id="components/ILIAS/AccessControl" />
 	</events>
-	<logging />
 </module>

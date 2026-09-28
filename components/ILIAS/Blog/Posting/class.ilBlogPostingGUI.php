@@ -217,7 +217,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 false,
                 $this->enable_public_notes,
                 $may_delete_comments,
-                $callback
+                $callback,
+                false,
+                !$this->isInWorkspace()
             ));
         }
         // permanent link
@@ -598,7 +600,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
-            $this->ctrl->redirectByClass("ilobjbloggui", "");
+            $this->ctrl->redirectByClass(
+                [
+                    ilObjBlogGUI::class,
+                    \ILIAS\Blog\Editing\EditingGUI::class,
+                ],
+                ""
+            );
         }
     }
 
@@ -620,7 +628,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
-            $this->ctrl->redirectByClass("ilobjbloggui", "");
+            $this->ctrl->redirectByClass(
+                [
+                    ilObjBlogGUI::class,
+                    \ILIAS\Blog\Editing\EditingGUI::class,
+                ],
+                ""
+            );
         }
     }
 
@@ -857,7 +871,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $this->enable_public_notes,
             false,
             null,
-            true
+            true,
+            !$this->isInWorkspace()
         );
     }
 
@@ -868,6 +883,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     public function finishEditing(): void
     {
         $this->ctrl->setParameterByClass("ilobjbloggui", "bmn", "");
-        $this->ctrl->redirectByClass("ilobjbloggui", "render");
+        $this->ctrl->redirectByClass(
+            [
+                ilObjBlogGUI::class,
+                \ILIAS\Blog\Editing\EditingGUI::class
+            ],
+            ""
+        );
     }
 }

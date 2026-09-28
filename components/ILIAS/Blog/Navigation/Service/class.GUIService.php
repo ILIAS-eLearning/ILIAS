@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\Navigation;
 
+use ILIAS\Blog\BlogGUIContext;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
 use ILIAS\Blog\Permission\PermissionManager;
@@ -53,12 +54,14 @@ class GUIService
     }
 
     public function monthBlock(
-        LinkBuilder $link_builder
+        LinkBuilder $link_builder,
+        bool $is_repository
     ): MonthBlockGUI {
         return new MonthBlockGUI(
             $this->domain,
             $this->gui,
-            $link_builder
+            $link_builder,
+            $is_repository
         );
     }
 
@@ -73,12 +76,14 @@ class GUIService
     }
 
     public function keywordBlock(
-        LinkBuilder $link_builder
+        LinkBuilder $link_builder,
+        bool $is_repository
     ): KeywordBlockGUI {
         return new KeywordBlockGUI(
             $this->domain,
             $this->gui,
-            $link_builder
+            $link_builder,
+            $is_repository
         );
     }
 
@@ -109,6 +114,15 @@ class GUIService
             $this->gui,
             $blog,
             $perm
+        );
+    }
+
+    public function navigationGUI(BlogGUIContext $context): NavigationGUI
+    {
+        return new NavigationGUI(
+            $this->domain,
+            $this->gui,
+            $context
         );
     }
 

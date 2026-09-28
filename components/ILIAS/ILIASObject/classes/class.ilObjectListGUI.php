@@ -1217,8 +1217,10 @@ class ilObjectListGUI
 
         if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING) {
             // add learning progress custom property
-            $lp = ilLPStatus::getListGUIStatus($this->obj_id);
-            if ($lp) {
+            if (
+                !$this->isMode(self::IL_LIST_AS_TRIGGER) &&
+                ($lp = ilLPStatus::getListGUIStatus($this->obj_id))
+            ) {
                 $props[] = [
                     'alert' => false,
                     'property' => $this->lng->txt('learning_progress'),
@@ -2166,6 +2168,10 @@ class ilObjectListGUI
 
     public function insertMultiDownloadCommand(): void
     {
+        if ($this->user->isAnonymous()) {
+            return;
+        }
+
         if ($this->std_cmd_only) {
             return;
         }
@@ -3033,11 +3039,6 @@ class ilObjectListGUI
         string $description
     ): ?Item {
         $ui = $this->ui;
-
-        // even b tag produced bugs, see #32304
-        $description = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
-            $description
-        );
 
         $this->initItem(
             $ref_id,

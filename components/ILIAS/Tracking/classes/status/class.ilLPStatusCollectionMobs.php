@@ -16,17 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ServicesTracking
- */
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+
 class ilLPStatusCollectionMobs extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_collection_mobs';
+    protected const string LNG_TEXT_INFO = 'trac_mode_collection_mobs_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
-        $users = array();
-
+        $users = [];
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         if (isset($status_info["user_status"]["in_progress"])) {
             $users = $status_info["user_status"]["in_progress"];
@@ -36,39 +38,31 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 
     public static function _getCompleted(int $a_obj_id): array
     {
-        $users = array();
-
+        $users = [];
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         if (isset($status_info["user_status"]["completed"])) {
             $users = $status_info["user_status"]["completed"];
         }
-
         return $users;
     }
 
     public static function _getStatusInfo(int $a_obj_id): array
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-
-        $res = array();
-
+        $res = [];
         $coll_items = self::getCollectionItems($a_obj_id, true);
-
         $res["items"] = array_keys($coll_items);
         if (sizeof($res["items"])) {
             // titles
             foreach ($coll_items as $mob_id => $item) {
                 $res["item_titles"][$mob_id] = $item["title"];
             }
-
             // status per item
             foreach ($res["items"] as $mob_id) {
-                $res["completed"][$mob_id] = array();
-                $res["in_progress"][$mob_id] = array();
+                $res["completed"][$mob_id] = [];
+                $res["in_progress"][$mob_id] = [];
             }
-
             $set = $ilDB->query(
                 "SELECT obj_id, usr_id FROM read_event" .
                 " WHERE " . $ilDB->in("obj_id", $res["items"], "", "integer")
@@ -76,9 +70,8 @@ class ilLPStatusCollectionMobs extends ilLPStatus
             while ($row = $ilDB->fetchAssoc($set)) {
                 $res["completed"][(int) $row["obj_id"]][] = (int) $row["usr_id"];
             }
-
             // status per user
-            $tmp = array();
+            $tmp = [];
             foreach ($res["items"] as $mob_id) {
                 foreach ($res["completed"][$mob_id] as $user_id) {
                     $tmp[$user_id][] = (int) $mob_id;
@@ -92,7 +85,6 @@ class ilLPStatusCollectionMobs extends ilLPStatus
                 }
             }
         }
-
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         foreach ($users as $user_id) {
             if ((!isset($res["user_status"]["in_progress"]) || !in_array(
@@ -106,27 +98,23 @@ class ilLPStatusCollectionMobs extends ilLPStatus
                 $res["user_status"]["in_progress"][] = (int) $user_id;
             }
         }
-
         return $res;
     }
 
     protected static function getCollectionItems(
         $a_obj_id,
         $a_include_titles = false
-    ) {
-        $res = array();
-
+    ): array {
+        $res = [];
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
             $possible = $collection->getPossibleItems();
-
             // there could be invalid items in the selection
             $valid = array_intersect(
                 $collection->getItems(),
                 array_keys($possible)
             );
-
             if ($a_include_titles) {
                 foreach ($valid as $item_id) {
                     $res[$item_id] = $possible[$item_id];
@@ -147,14 +135,11 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
         }
-
         // an empty collection is always not attempted
         $items = self::getCollectionItems($a_obj_id);
         if (count($items) > 0) {
             // process mob status for user
-
-            $found = array();
-
+            $found = [];
             $set = $this->db->query(
                 "SELECT obj_id FROM read_event" .
                 " WHERE usr_id = " . $this->db->quote($a_usr_id, "integer") .
@@ -163,10 +148,8 @@ class ilLPStatusCollectionMobs extends ilLPStatus
             while ($row = $this->db->fetchAssoc($set)) {
                 $found[] = (int) $row["obj_id"];
             }
-
             if (count($found) > 0) {
                 $status = self::LP_STATUS_IN_PROGRESS_NUM;
-
                 if (count($found) == count($items)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
@@ -181,13 +164,11 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $per = 0;
-
         // an empty collection is always not attempted
         $items = self::getCollectionItems($a_obj_id);
         if (count($items) > 0) {
             // process mob status for user
-
-            $found = array();
+            $found = [];
             $set = $this->db->query(
                 "SELECT obj_id FROM read_event" .
                 " WHERE usr_id = " . $this->db->quote($a_usr_id, "integer") .
@@ -196,12 +177,31 @@ class ilLPStatusCollectionMobs extends ilLPStatus
             while ($row = $this->db->fetchAssoc($set)) {
                 $found[] = (int) $row["obj_id"];
             }
-
             if (count($found) > 0 && count($items) > 0) {
                 $per = (int) round(100 / count($items) * count($found));
             }
         }
-
         return $per;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_COLLECTION_MOBS;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

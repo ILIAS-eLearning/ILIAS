@@ -30,6 +30,8 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  */
 class ilCtrlContext implements ilCtrlContextInterface
 {
+    use ilCtrlNamespaceEncoding;
+
     /**
      * @var ilCtrlPathFactory
      */
@@ -305,14 +307,14 @@ class ilCtrlContext implements ilCtrlContextInterface
         // previously set existing path.
         $base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS);
         if (null !== $base_class) {
-            $this->setBaseClass($base_class);
+            $this->setBaseClass($this->decodeNamespaceFromUrl($base_class));
         }
 
         // set or append the provided command class, which might
         // override the previously set path again.
         $cmd_class = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
         if (null !== $cmd_class) {
-            $this->setCmdClass($cmd_class);
+            $this->setCmdClass($this->decodeNamespaceFromUrl($cmd_class));
         }
     }
 

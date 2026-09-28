@@ -12,5 +12,4 @@
 	<crons>
 		<cron id="log_error_file_cleanup" class="ilLoggerCronCleanErrorFiles" path="Services/Logging/classes/error/" />
 	</crons>
-	<logging id="log" />
 </service>

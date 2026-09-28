@@ -25,6 +25,8 @@ use ILIAS\Setup\Agent;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\ResourceStorage\Setup\DB\UpdateStepsV12;
+use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 
 /**
  * Class ilResourceStorageSetupAgent
@@ -65,9 +67,10 @@ class ilResourceStorageSetupAgent implements Agent
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilResourceStorageDB80()
             ),
-            new ilDatabaseUpdateStepsExecutedObjective(
-                new ilResourceStorageDB90()
-            )
+            new ObjectiveWithPreconditions(
+                new ilDatabaseUpdateStepsExecutedObjective(new UpdateStepsV12()),
+                new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90()),
+            ),
         );
     }
 

@@ -63,7 +63,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $DIC->language(),
                 $DIC->database(),
-                $DIC->logger()->root(),
+                $DIC->logger()->forComponent('cmix'),
                 new ilCertificateVerificationClassMap()
             );
 

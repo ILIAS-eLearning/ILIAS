@@ -108,7 +108,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         }
 
         foreach ($mail->getImages() as $image) {
-            if (!$this->getMailer()->addEmbeddedImage($image['path'], $image['cid'], $image['name'])) {
+            if (!$this->getMailer()->addEmbeddedImage($image->path(), $image->cid(), $image->name())) {
                 ilLoggerFactory::getLogger('mail')->warning('{error}', ['error' => $this->getMailer()->ErrorInfo]);
             }
         }

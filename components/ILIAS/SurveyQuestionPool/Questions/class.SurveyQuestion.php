@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -63,7 +65,7 @@ class SurveyQuestion
         $ilUser = $DIC->user();
 
         $this->lng = $lng;
-        $this->complete = 0;
+        $this->complete = false;
         $this->title = $title;
         $this->description = $description;
         $this->questiontext = $questiontext;
@@ -75,7 +77,7 @@ class SurveyQuestion
         }
         $this->id = -1;
         $this->survey_id = -1;
-        $this->obligatory = 1;
+        $this->obligatory = true;
         $this->orientation = 0;
         $this->materials = array();
         $this->material = array();
@@ -195,7 +197,7 @@ class SurveyQuestion
         string $materials_name = ""
     ): void {
         foreach ($this->materials as $key => $value) {
-            if (strcmp($key, $materials_name) === 0) {
+            if (strcmp((string) $key, $materials_name) === 0) {
                 if (file_exists($this->getMaterialsPath() . $value)) {
                     unlink($this->getMaterialsPath() . $value);
                 }
@@ -238,7 +240,7 @@ class SurveyQuestion
 
     public function getLabel(): string
     {
-        return $this->label;
+        return (string) $this->label;
     }
 
     public function getId(): int
@@ -597,8 +599,8 @@ class SurveyQuestion
         $insert = true;
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                if (strcmp($row["title"], $categorytext) === 0) {
-                    $returnvalue = $row["category_id"];
+                if (strcmp((string) $row["title"], $categorytext) === 0) {
+                    $returnvalue = (int) $row["category_id"];
                     $insert = false;
                 }
             }
@@ -652,7 +654,7 @@ class SurveyQuestion
         );
         if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
-            $obj_id = $row["obj_fi"];
+            $obj_id = (int) $row["obj_fi"];
         } else {
             return;
         }
@@ -721,7 +723,7 @@ class SurveyQuestion
         ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
         $directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
-        if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory)) {
+        if (preg_match("/\d+/", (string) $obj_id) and preg_match("/\d+/", (string) $question_id) and is_dir($directory)) {
             ilFileUtils::delDir($directory);
         }
 
@@ -767,7 +769,7 @@ class SurveyQuestion
         );
         if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            return $data["type_tag"];
+            return (string) $data["type_tag"];
         } else {
             return "";
         }
@@ -843,7 +845,7 @@ class SurveyQuestion
                 array($this->getOriginalId())
             );
             ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
-            if (strlen($this->material["internal_link"] ?? "")) {
+            if (strlen((string) ($this->material["internal_link"] ?? ""))) {
                 $next_id = $ilDB->nextId('svy_material');
                 $affectedRows = $ilDB->manipulateF(
                     "INSERT INTO svy_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -853,8 +855,8 @@ class SurveyQuestion
 
                 $this->log->debug("INSERT svy_material material_id=" . $next_id . " question_fi=" . $this->getOriginalId());
 
-                if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
-                    ilInternalLink::_saveLink("sqst", $this->getOriginalId(), $matches[2], $matches[3], $matches[1]);
+                if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", (string) $this->material["internal_link"], $matches)) {
+                    ilInternalLink::_saveLink("sqst", $this->getOriginalId(), $matches[2], (int) $matches[3], (int) $matches[1]);
                 }
             }
         }
@@ -886,19 +888,19 @@ class SurveyQuestion
         if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches)) {
             switch ($matches[2]) {
                 case "lm":
-                    $resolved_link = ilLMObject::_getIdForImportId($internal_link);
+                    $resolved_link = (string) ilLMObject::_getIdForImportId($internal_link);
                     break;
                 case "pg":
-                    $resolved_link = ilInternalLink::_getIdForImportId("PageObject", $internal_link);
+                    $resolved_link = (string) ilInternalLink::_getIdForImportId("PageObject", $internal_link);
                     break;
                 case "st":
-                    $resolved_link = ilInternalLink::_getIdForImportId("StructureObject", $internal_link);
+                    $resolved_link = (string) ilInternalLink::_getIdForImportId("StructureObject", $internal_link);
                     break;
                 case "git":
-                    $resolved_link = ilInternalLink::_getIdForImportId("GlossaryItem", $internal_link);
+                    $resolved_link = (string) ilInternalLink::_getIdForImportId("GlossaryItem", $internal_link);
                     break;
                 case "mob":
-                    $resolved_link = ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
+                    $resolved_link = (string) ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
                     break;
             }
             if (strcmp($resolved_link, "") === 0) {
@@ -924,7 +926,7 @@ class SurveyQuestion
         );
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                $internal_link = $row["internal_link"];
+                $internal_link = (string) $row["internal_link"];
                 $resolved_link = self::_resolveInternalLink($internal_link);
                 if (strcmp($internal_link, $resolved_link) !== 0) {
                     // internal link was resolved successfully
@@ -950,8 +952,8 @@ class SurveyQuestion
             );
             if ($result->numRows()) {
                 while ($row = $ilDB->fetchAssoc($result)) {
-                    if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches)) {
-                        ilInternalLink::_saveLink("sqst", $question_id, $matches[2], $matches[3], $matches[1]);
+                    if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", (string) $row["internal_link"], $matches)) {
+                        ilInternalLink::_saveLink("sqst", $question_id, $matches[2], (int) $matches[3], (int) $matches[1]);
                     }
                 }
             }
@@ -1012,7 +1014,7 @@ class SurveyQuestion
         );
         if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
-            $qpl_object_id = $row["obj_fi"];
+            $qpl_object_id = (int) $row["obj_fi"];
             return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id);
         }
 
@@ -1353,7 +1355,7 @@ class SurveyQuestion
         }
     }
 
-    public function __set(string $key, string $value): void
+    public function __set(string $key, mixed $value): void
     {
         switch ($key) {
             default:

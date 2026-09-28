@@ -18,6 +18,7 @@
 
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use ILIAS\ILIASObject\Properties\Translations\Translations as Translations;
+use ILIAS\Container\Sorting\Export\DataSet as SortingDataSet;
 
 /**
  * container xml importer
@@ -34,6 +35,7 @@ class ilContainerImporter extends ilXmlImporter
     protected string $import_id;
     protected TranslationsRepository $translations_repository;
     # Patch End: Fix multilingualism replaces course title
+    protected SortingDataSet $sorting_data_set;
 
     public function init(): void
     {
@@ -42,6 +44,8 @@ class ilContainerImporter extends ilXmlImporter
         $this->translations_repository = new TranslationsRepository($DIC->database());
         $this->cont_log = ilLoggerFactory::getLogger('cont');
         $this->skill_profile_service = $DIC->skills()->profile();
+        $this->sorting_data_set = $DIC->container()->internal()->domain()->sorting()->dataSet();
+        $this->sorting_data_set->setDSPrefix("ds");
     }
 
     /**
@@ -51,16 +55,27 @@ class ilContainerImporter extends ilXmlImporter
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        $this->structure_xml = $a_xml;
-        $this->cont_log->debug('Import xml: ' . $a_xml);
-        $this->cont_log->debug('Using id: ' . $a_id);
+        if ($a_entity === 'struct') {
+            $this->structure_xml = $a_xml;
+            $this->cont_log->debug('Import xml: ' . $a_xml);
+            $this->cont_log->debug('Using id: ' . $a_id);
 
-        $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
-        $parser->parse($a_id);
+            $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
+            $parser->parse($a_id);
 
-        # Patch Start: Fix multilingualism replaces course title
-        $this->import_id = $a_id;
-        # Patch End: Fix multilingualism replaces course title
+            # Patch Start: Fix multilingualism replaces course title
+            $this->import_id = $a_id;
+            # Patch End: Fix multilingualism replaces course title
+        } elseif ($a_entity === 'sorting_settings' || $a_entity === 'sorting') {
+            $this->sorting_data_set->setImportDirectory($this->getImportDirectory());
+            $parser = new ilDataSetImportParser(
+                $a_entity,
+                $this->getSchemaVersion(),
+                $a_xml,
+                $this->sorting_data_set,
+                $a_mapping
+            );
+        }
     }
 
     /**
@@ -68,6 +83,9 @@ class ilContainerImporter extends ilXmlImporter
      */
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
+        if (!isset($this->structure_xml)) {
+            return;
+        }
         $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
         $page_map = $a_mapping->getMappingsOfEntity('components/ILIAS/COPage', 'pg');

@@ -26,6 +26,8 @@ use ILIAS\UI\Component\Button\Month;
 
 /**
  * This is how the factory for UI elements looks.
+ *
+ * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Factory}
  */
 interface Factory
 {
@@ -47,10 +49,12 @@ interface Factory
      *      1: The HTML container enclosing the buttons of the Mode View Control MUST cary the role-attribute "group".
      *      2: The HTML container enclosing the buttons of the Mode View Control MUST set an aria-label describing the element. Eg. "Mode View Control"
      * ---
-     * @param    array $labelled_actions Set of labelled actions (string|string)[]. The label of the action is used as key, the action itself as value.
-     *          The first of the actions will be activated by default.
-     * @param string $aria_label Defines the functionality.
+     * @param array  $labelled_actions Set of labelled actions (string|string)[]. The label of the action is used as key, the action itself as value.
+     *                                 The first of the actions will be activated by default.
+     * @param string $aria_label       Defines the functionality.
      * @return \ILIAS\UI\Component\ViewControl\Mode
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Mode}
      */
     public function mode(array $labelled_actions, string $aria_label): Mode;
 
@@ -68,10 +72,12 @@ interface Factory
      *      Clicking on the Buttons left or right changes the selection of the displayed data by a fixed interval. Clicking
      *      the Button in the middle opens the sections hinted by the label of the button (e.g. "Today").
      * ---
-     * @param   \ILIAS\UI\Component\Button\Button $previous_action Button to be placed in the left.
-     * @param   \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month $button Button to be placed in the middle (Month Button or Default Button).
-     * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
+     * @param \ILIAS\UI\Component\Button\Button                                  $previous_action Button to be placed in the left.
+     * @param \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month $button          Button to be placed in the middle (Month Button or Default Button).
+     * @param \ILIAS\UI\Component\Button\Button                                  $next_action     Button to be placed in the right.
      * @return \ILIAS\UI\Component\ViewControl\Section
+     *
+     * @deprecated no alternative (yet).
      */
     public function section(Button $previous_action, Component $button, Button $next_action): Section;
 
@@ -109,9 +115,11 @@ interface Factory
      *   https://mantis.ilias.de/view.php?id=26634
      *
      * ---
-     * @param array<string,string> $options a dictionary with value=>title
-     * @param string $selected a value from $options
+     * @param array<string,string> $options  a dictionary with value=>title
+     * @param string               $selected a value from $options
      * @return \ILIAS\UI\Component\ViewControl\Sortation
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Sortation}
      */
     public function sortation(array $options, string $selected): Sortation;
 
@@ -153,6 +161,8 @@ interface Factory
      *
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Pagination
+     *
+     * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Pagination}
      */
     public function pagination(): Pagination;
 }

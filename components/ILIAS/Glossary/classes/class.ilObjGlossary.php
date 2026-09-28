@@ -517,21 +517,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return true;
     }
 
-    public static function getDeletionDependencies(int $obj_id): array
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $dep = array();
-        $sms = ilObjSAHSLearningModule::getScormModulesForGlossary($obj_id);
-        foreach ($sms as $sm) {
-            $lng->loadLanguageModule("content");
-            $dep[$sm] = $lng->txt("glo_used_in_scorm");
-        }
-        return $dep;
-    }
-
     public function getTaxonomyId(): int
     {
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->getId());

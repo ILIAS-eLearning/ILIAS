@@ -35,7 +35,7 @@ class ilAssQuestionPageCommandForwarderTest extends ilTestBaseTestCase
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrlInterface::class),
             $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(ILIAS\Style\Content\Service::class),
             $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );
     }

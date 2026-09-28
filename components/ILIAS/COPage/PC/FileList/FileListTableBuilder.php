@@ -71,7 +71,7 @@ class FileListTableBuilder extends CommonTableBuilder
         }
 
         $table = $table
-            ->multiAction("confirmDeletionFileItem", $lng->txt("delete"), true);
+            ->standardAction("confirmDeletionFileItem", $lng->txt("delete"), true);
 
         if ($this->parent_gui->checkStyleSelection()) {
             $table = $table->singleAction("editStyleClass", $lng->txt("copg_edit_style_class"), true);

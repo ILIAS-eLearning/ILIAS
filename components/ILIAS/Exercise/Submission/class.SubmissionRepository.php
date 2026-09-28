@@ -408,13 +408,19 @@ class SubmissionRepository implements SubmissionRepositoryInterface
         ResourceStakeholder $stakeholder
     ): bool {
         $db = $this->db;
-        $rid = $this->irss->importFileFromUploadResult(
-            $result,
-            $stakeholder
-        );
-        $filename = \ilFileUtils::getValidFilename($filename);
+        $rid = "";
+        try {
+            $rid = $this->irss->importFileFromUploadResult(
+                $result,
+                $stakeholder
+            );
 
-        if ($rid !== "") {
+            if (!$this->isStoredUploadValid($rid, $result)) {
+                $this->deleteStoredUpload($rid, $stakeholder);
+                return false;
+            }
+
+            $filename = \ilFileUtils::getValidFilename($filename);
             $info = $this->irss->getResourceInfo($rid);
             $next_id = $db->nextId("exc_returned");
             $query = sprintf(
@@ -435,8 +441,42 @@ class SubmissionRepository implements SubmissionRepositoryInterface
             );
             $db->manipulate($query);
             return true;
+        } catch (\Throwable $e) {
+            $this->deleteStoredUpload($rid, $stakeholder);
+            $this->log->error(
+                "Failed to store an Exercise submission upload: " . $e->getMessage()
+            );
+            return false;
         }
-        return false;
+    }
+
+    protected function isStoredUploadValid(string $rid, UploadResult $result): bool
+    {
+        if ($rid === "" || $result->getSize() <= 0) {
+            return false;
+        }
+
+        $stream = $this->irss->stream($rid);
+        return $stream !== null
+            && $stream->isReadable()
+            && $stream->getSize() === $result->getSize();
+    }
+
+    protected function deleteStoredUpload(
+        string $rid,
+        ResourceStakeholder $stakeholder
+    ): void {
+        if ($rid === "") {
+            return;
+        }
+
+        try {
+            $this->irss->deleteResource($rid, $stakeholder);
+        } catch (\Throwable $e) {
+            $this->log->error(
+                "Failed to clean up an invalid Exercise submission upload: " . $e->getMessage()
+            );
+        }
     }
 
     /**
@@ -464,12 +504,22 @@ class SubmissionRepository implements SubmissionRepositoryInterface
         $this->log->debug("6");
         $stream = $this->irss->stream($rid);
 
+        $unzip = $DIC->archives()->unzip($stream);
+
+        // an archive beyond the extraction limits yields no streams at all, so it has to be
+        // rejected explicitly instead of being stored as an empty submission
+        if (!$unzip->isWithinLimits()) {
+            throw new ilExcTooManyFilesSubmittedException(
+                "The submitted ZIP exceeds the configured extraction limits."
+            );
+        }
+
         if ($remaining_allowed !== -1 &&
-            $remaining_allowed < $DIC->archives()->unzip($stream)->getAmountOfFiles()) {
+            $remaining_allowed < $unzip->getAmountOfFiles()) {
             throw new ilExcTooManyFilesSubmittedException("Too many files submitted.");
         }
 
-        foreach ($DIC->archives()->unzip($stream)->getFileStreams() as $stream) {
+        foreach ($unzip->getFileStreams() as $stream) {
             $this->log->debug("7");
             $rid = $this->irss->importStream(
                 $stream,

@@ -28,6 +28,12 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class Language
 {
+    public const KEY_LANGUAGE = 'language';
+    public const KEY_BASE = 'base';
+    public const KEY_DEFAULT = 'default';
+    public const KEY_TITLE = 'title';
+    public const KEY_DESCRIPTION = 'description';
+
     public function __construct(
         private readonly string $language_code,
         private string $title,
@@ -97,22 +103,22 @@ class Language
     ): array {
         return [
             $field_factory->group([
-                'language' => $field_factory->hidden()->withValue($this->language_code),
-                'title' => $field_factory->text($language->txt('title'))
+                self::KEY_LANGUAGE => $field_factory->hidden()->withValue($this->language_code),
+                self::KEY_TITLE => $field_factory->text($language->txt('title'))
                     ->withRequired(true)
                     ->withValue($this->title),
-                'description' => $field_factory->textarea($language->txt('description'))
+                self::KEY_DESCRIPTION => $field_factory->textarea($language->txt('description'))
                     ->withValue($this->description),
-                'default' => $field_factory->hidden()->withValue($this->isDefault()),
-                'base' => $field_factory->hidden()->withValue($this->isBase()),
+                self::KEY_DEFAULT => $field_factory->hidden()->withValue($this->isDefault()),
+                self::KEY_BASE => $field_factory->hidden()->withValue($this->isBase()),
             ])->withAdditionalTransformation(
                 $refinery->custom()->transformation(
                     static fn(array $vs): self => new self(
-                        $vs['language'],
-                        $vs['title'],
-                        $vs['description'],
-                        $vs['default'] === '1',
-                        $vs['base'] === '1'
+                        $vs[self::KEY_LANGUAGE],
+                        $vs[self::KEY_TITLE],
+                        $vs[self::KEY_DESCRIPTION],
+                        $vs[self::KEY_DEFAULT] === '1',
+                        $vs[self::KEY_BASE] === '1'
                     )
                 )
             )
@@ -126,14 +132,30 @@ class Language
         return $row_builder->buildDataRow(
             $this->language_code,
             [
-                'language' => $this->getTranslatedLanguageName($lng, $this->language_code),
-                'base' => $this->isBase(),
-                'default' => $this->isDefault(),
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription()
+                self::KEY_LANGUAGE => $this->getTranslatedLanguageName($lng, $this->language_code),
+                self::KEY_BASE => $this->isBase(),
+                self::KEY_DEFAULT => $this->isDefault(),
+                self::KEY_TITLE => $this->getTitle(),
+                self::KEY_DESCRIPTION => $this->getDescription()
             ]
         )->withDisabledAction(TranslationsTable::ACTION_DELETE, $this->isBase() || $this->isDefault())
         ->withDisabledAction(TranslationsTable::ACTION_MAKE_DEFAULT, $this->isDefault());
+    }
+
+    public function getDisplayValueForKey(
+        SystemLanguage $lng,
+        string $key
+    ): string|bool {
+        return match($key) {
+            self::KEY_LANGUAGE => $this->getTranslatedLanguageName(
+                $lng,
+                $this->language_code
+            ),
+            self::KEY_BASE => $this->base,
+            self::KEY_DEFAULT => $this->default,
+            self::KEY_TITLE => $this->title,
+            self::KEY_DESCRIPTION => $this->description
+        };
     }
 
     private function getTranslatedLanguageName(

@@ -21,13 +21,13 @@ declare(strict_types=0);
 namespace ILIAS\Tracking\View\DataRetrieval\Info\Iterator;
 
 use ILIAS\Tracking\View\DataRetrieval\Info\CombinedInterface as CombinedInfoInterface;
-use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\CombinedInterface as CombinedIteratorInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\Combined as CombinedIterator;
+use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\CombinedInterface as CombinedIteratorInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\FactoryInterface as IteratorFactoryInterface;
-use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\LPInterface as LPIteratorInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\LP as LPIterator;
-use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\ObjectDataInterface as ObjectDataIteratorInterface;
+use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\LPInterface as LPIteratorInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\ObjectData as ObjectDataIterator;
+use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\ObjectDataInterface as ObjectDataIteratorInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\LPInterface as LPInfoInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\ObjectDataInterface as ObjectDataInfoInterface;
 

@@ -17,7 +17,9 @@
  *********************************************************************/
 
 use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager;
+use ILIAS\Portfolio\InternalGUIService;
 use ILIAS\Portfolio\StandardGUIRequest;
+use ILIAS\Repository\Table\TableAdapterGUI;
 
 /**
  * @ilCtrl_Calls ilPortfolioRoleAssignmentGUI: ilPropertyFormGUI
@@ -33,6 +35,7 @@ class ilPortfolioRoleAssignmentGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $main_tpl;
     protected PortfolioRoleAssignmentManager $manager;
+    protected InternalGUIService $portfolio_gui;
 
     public function __construct()
     {
@@ -43,6 +46,7 @@ class ilPortfolioRoleAssignmentGUI
         $this->lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->manager = new PortfolioRoleAssignmentManager();
+        $this->portfolio_gui = $DIC->portfolio()->internal()->gui();
         $this->port_request = $DIC->portfolio()
             ->internal()
             ->gui()
@@ -70,7 +74,7 @@ class ilPortfolioRoleAssignmentGUI
                     "addAssignment",
                     "saveAssignment",
                     "confirmAssignmentDeletion",
-                    "deleteAssignments"
+                    "deleteAssignment"
                 ])) {
                     $this->$cmd();
                 }
@@ -87,13 +91,22 @@ class ilPortfolioRoleAssignmentGUI
             );
         }
 
-        $table = new ilPortfolioRoleAssignmentTableGUI(
-            $this,
-            "listAssignments",
-            $this->manager,
-            $this->checkWrite()
-        );
-        $this->main_tpl->setContent($table->getHTML());
+        $table = $this->getRoleAssignmentTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $this->main_tpl->setContent($table->render());
+    }
+
+    protected function getRoleAssignmentTable(): TableAdapterGUI
+    {
+        return $this->portfolio_gui
+            ->portfolioRoleAssignmentTableBuilder(
+                $this->checkWrite(),
+                $this,
+                "listAssignments"
+            )
+            ->getTable();
     }
 
     protected function addAssignment(): void
@@ -170,47 +183,64 @@ class ilPortfolioRoleAssignmentGUI
         }
     }
 
-    protected function confirmAssignmentDeletion(): void
+    public function confirmAssignmentDeletion(string $assignment_id): void
     {
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-        $main_tpl = $this->main_tpl;
         $this->checkWrite(true);
-        $template_ids = $this->port_request->getRoleTemplateIds();
-        if (count($template_ids) === 0) {
-            $this->main_tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            $ctrl->redirect($this, "listAssignments");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ctrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("prtf_delete_assignment_sure"));
-            $cgui->setCancel($lng->txt("cancel"), "listAssignments");
-            $cgui->setConfirm($lng->txt("delete"), "deleteAssignments");
-            foreach ($template_ids as $i) {
-                $id_arr = explode("_", $i);
-                $role_title = ilObject::_lookupTitle($id_arr[0]);
-                $template_title = ilObject::_lookupTitle(
-                    ilObject::_lookupObjId($id_arr[1])
-                );
-                $cgui->addItem("role_template_ids[]", $i, $role_title .
-                    " - " . $template_title);
-            }
-
-            $main_tpl->setContent($cgui->getHTML());
+        $assignment = $this->getAssignment($assignment_id);
+        if ($assignment === null) {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listAssignments");
         }
+
+        $this->getRoleAssignmentTable()->renderDeletionConfirmation(
+            $this->lng->txt("prtf_delete_assignment_sure"),
+            $this->lng->txt("prtf_delete_assignment_sure"),
+            "deleteAssignment",
+            [
+                $assignment_id => $assignment["role_title"] . " - " . $assignment["template_title"]
+            ]
+        );
     }
 
-    protected function deleteAssignments(): void
+    protected function deleteAssignment(): void
     {
         $this->checkWrite(true);
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-        $template_ids = $this->port_request->getRoleTemplateIds();
-        foreach ($template_ids as $i) {
-            $id_arr = explode("_", $i);
-            $this->manager->delete((int) $id_arr[1], (int) $id_arr[0]);
+        $template_ids = $this->getRoleAssignmentTable()->getItemIds();
+        $assignment = $this->getAssignment($template_ids[0] ?? "");
+        if ($assignment === null) {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listAssignments");
         }
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        $ctrl->redirect($this, "listAssignments");
+
+        $this->manager->delete(
+            $assignment["template_ref_id"],
+            $assignment["role_id"]
+        );
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "listAssignments");
+    }
+
+    protected function getAssignment(string $assignment_id): ?array
+    {
+        $parts = explode("_", $assignment_id);
+        if (count($parts) !== 2 || !ctype_digit($parts[0]) || !ctype_digit($parts[1])) {
+            return null;
+        }
+
+        $role_id = (int) $parts[0];
+        $template_ref_id = (int) $parts[1];
+        foreach ($this->manager->getAllAssignmentData() as $assignment) {
+            if ((int) $assignment["role_id"] === $role_id
+                && (int) $assignment["template_ref_id"] === $template_ref_id) {
+                return [
+                    "role_id" => $role_id,
+                    "template_ref_id" => $template_ref_id,
+                    "role_title" => $assignment["role_title"],
+                    "template_title" => $assignment["template_title"]
+                ];
+            }
+        }
+
+        return null;
     }
 }

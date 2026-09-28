@@ -103,6 +103,9 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     public function setScreenIdComponent(string $a_comp): void
     {
+        if ($a_comp === "") {
+            return;
+        }
         $this->screen_id_component = $a_comp;
     }
 

@@ -16,12 +16,16 @@
  *
  *********************************************************************/
 
+use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
+
 /**
+ * @deprecated Please use the sorting domain service from the Container services. Will be removed with ILIAS 13.
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilContainerSortingSettings
 {
-    protected ilTree $tree;
+    protected SortingDomainService $sorting_domain;
+
     /** @var array<int, self>  */
     private static array $instances = [];
     protected int $obj_id;
@@ -29,17 +33,14 @@ class ilContainerSortingSettings
     protected int $sort_direction = ilContainer::SORT_DIRECTION_ASC;
     protected int $new_items_position = ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM;
     protected int $new_items_order = ilContainer::SORT_NEW_ITEMS_ORDER_TITLE;
-    protected ilDBInterface $db;
 
     public function __construct(int $a_obj_id = 0)
     {
         global $DIC;
 
-        $this->tree = $DIC->repositoryTree();
-        $ilDB = $DIC->database();
+        $this->sorting_domain = $DIC->container()->internal()->domain()->sorting();
 
         $this->obj_id = $a_obj_id;
-        $this->db = $ilDB;
 
         $this->read();
     }
@@ -54,94 +55,28 @@ class ilContainerSortingSettings
      */
     public function loadEffectiveSettings(): self
     {
-        if ($this->getSortMode() !== ilContainer::SORT_INHERIT) {
-            return $this;
-        }
+        $effective_settings = $this->sorting_domain->settings()->getEffectiveSettingsForObject($this->obj_id);
 
-        $effective_settings = $this->getInheritedSettings($this->obj_id);
-        $inherited = clone $this;
+        $effective = clone $this;
+        $effective->setSortMode($effective_settings->getSortMode());
+        $effective->setSortDirection($effective_settings->getSortDirection());
+        $effective->setSortNewItemsOrder($effective_settings->getSortNewItemsOrder());
+        $effective->setSortNewItemsPosition($effective_settings->getSortNewItemsPosition());
 
-        if ($effective_settings->getSortMode() === ilContainer::SORT_INHERIT) {
-            $inherited->setSortMode(ilContainer::SORT_TITLE);
-        } else {
-            $inherited->setSortMode($effective_settings->getSortMode());
-            $inherited->setSortNewItemsOrder($effective_settings->getSortNewItemsOrder());
-            $inherited->setSortNewItemsPosition($effective_settings->getSortNewItemsPosition());
-        }
-        return $inherited;
-    }
-
-
-    public function getInheritedSettings(int $a_container_obj_id): self
-    {
-        $tree = $this->tree;
-
-        if (!$a_container_obj_id) {
-            $a_container_obj_id = $this->obj_id;
-        }
-
-        $ref_ids = ilObject::_getAllReferences($a_container_obj_id);
-        $ref_id = current($ref_ids);
-
-        if ($cont_ref_id = $tree->checkForParentType($ref_id, 'grp', true)) {
-            $parent_obj_id = ilObject::_lookupObjId($cont_ref_id);
-            $parent_settings = self::getInstanceByObjId($parent_obj_id);
-
-            if ($parent_settings->getSortMode() === ilContainer::SORT_INHERIT) {
-                return $this->getInheritedSettings($parent_obj_id);
-            }
-            return $parent_settings;
-        }
-
-        if ($cont_ref_id = $tree->checkForParentType($ref_id, 'crs', true)) {
-            $parent_obj_id = ilObject::_lookupObjId($cont_ref_id);
-            $parent_settings = self::getInstanceByObjId($parent_obj_id);
-            return $parent_settings;
-        }
-        // no parent settings found => return current settings
-        return $this;
-    }
-
-
-    public static function _readSortMode(int $a_obj_id): int
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $query = "SELECT sort_mode FROM container_sorting_set " .
-            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
-        $res = $ilDB->query($query);
-
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return (int) $row->sort_mode;
-        }
-        return ilContainer::SORT_INHERIT;
+        return $effective;
     }
 
     public static function _lookupSortMode(int $a_obj_id): int
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        // Try to read from table
-        $query = "SELECT sort_mode FROM container_sorting_set " .
-            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
-        $res = $ilDB->query($query);
-
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ((int) $row->sort_mode !== ilContainer::SORT_INHERIT) {
-                return (int) $row->sort_mode;
-            }
-        }
-        return self::lookupSortModeFromParentContainer($a_obj_id);
+        return $DIC->container()->internal()->domain()->sorting()->settings()->lookupSortModeForObject($a_obj_id);
     }
 
-    public static function lookupSortModeFromParentContainer(int $a_obj_id): int
+    public static function lookupEffectiveSortMode(int $a_obj_id): int
     {
         $settings = self::getInstanceByObjId($a_obj_id);
-        $inherited_settings = $settings->getInheritedSettings($a_obj_id);
+        $inherited_settings = $settings->loadEffectiveSettings();
         return $inherited_settings->getSortMode();
     }
 
@@ -151,38 +86,20 @@ class ilContainerSortingSettings
     ): void {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $query = "SELECT sort_mode,sort_direction,new_items_position,new_items_order " .
-            "FROM container_sorting_set " .
-            "WHERE obj_id = " . $ilDB->quote($a_old_id, 'integer') . " ";
-        $res = $ilDB->query($query);
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $query = "DELETE FROM container_sorting_set " .
-                "WHERE obj_id = " . $ilDB->quote($a_new_id) . " ";
-            $ilDB->manipulate($query);
-
-            $query = "INSERT INTO container_sorting_set  " .
-                "(obj_id,sort_mode, sort_direction, new_items_position, new_items_order) " .
-                "VALUES( " .
-                $ilDB->quote($a_new_id, 'integer') . ", " .
-                $ilDB->quote($row["sort_mode"], 'integer') . ", " .
-                $ilDB->quote($row["sort_direction"], 'integer') . ', ' .
-                $ilDB->quote($row["new_items_position"], 'integer') . ', ' .
-                $ilDB->quote($row["new_items_order"], 'integer') . ' ' .
-                ")";
-            $ilDB->manipulate($query);
-        }
+        $DIC->container()->internal()->domain()->sorting()->settings()->cloneSettings(
+            $a_old_id,
+            $a_new_id,
+        );
     }
 
     public function getSortMode(): int
     {
-        return $this->sort_mode ?: 0;
+        return $this->sort_mode;
     }
 
     public function getSortDirection(): int
     {
-        return $this->sort_direction ?: ilContainer::SORT_DIRECTION_ASC;
+        return $this->sort_direction;
     }
 
     public function getSortNewItemsPosition(): int
@@ -220,37 +137,29 @@ class ilContainerSortingSettings
 
     public function update(): void
     {
-        $ilDB = $this->db;
-
-        $query = "DELETE FROM container_sorting_set " .
-            "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer');
-        $ilDB->manipulate($query);
-
-        $this->save();
+        $this->sorting_domain->settings()->saveSettingsForObject(
+            $this->obj_id,
+            $this->getSortMode(),
+            $this->getSortDirection(),
+            $this->getSortNewItemsPosition(),
+            $this->getSortNewItemsOrder()
+        );
     }
 
     public function save(): void
     {
-        $ilDB = $this->db;
-
-        $query = "INSERT INTO container_sorting_set " .
-            "(obj_id,sort_mode, sort_direction, new_items_position, new_items_order) " .
-            "VALUES ( " .
-            $this->db->quote($this->obj_id, 'integer') . ", " .
-            $this->db->quote($this->sort_mode, 'integer') . ", " .
-            $this->db->quote($this->sort_direction, 'integer') . ', ' .
-            $this->db->quote($this->new_items_position, 'integer') . ', ' .
-            $this->db->quote($this->new_items_order, 'integer') . ' ' .
-            ")";
-        $ilDB->manipulate($query);
+        $this->sorting_domain->settings()->saveSettingsForObject(
+            $this->obj_id,
+            $this->getSortMode(),
+            $this->getSortDirection(),
+            $this->getSortNewItemsPosition(),
+            $this->getSortNewItemsOrder()
+        );
     }
 
     public function delete(): void
     {
-        $ilDB = $this->db;
-
-        $query = 'DELETE FROM container_sorting_set WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer');
-        $ilDB->query($query);
+        $this->sorting_domain->settings()->deleteSettingsForObject($this->obj_id);
     }
 
     protected function read(): void
@@ -259,46 +168,15 @@ class ilContainerSortingSettings
             return;
         }
 
-        $query = "SELECT * FROM container_sorting_set " .
-            "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " ";
-
-        $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->sort_mode = (int) $row->sort_mode;
-            $this->sort_direction = (int) $row->sort_direction;
-            $this->new_items_position = (int) $row->new_items_position;
-            $this->new_items_order = (int) $row->new_items_order;
-            return;
-        }
+        $settings = $this->sorting_domain->settings()->getSettingsForObject($this->obj_id);
+        $this->sort_mode = $settings->getSortMode();
+        $this->sort_direction = $settings->getSortDirection();
+        $this->new_items_position = $settings->getSortNewItemsPosition();
+        $this->new_items_order = $settings->getSortNewItemsOrder();
     }
 
     /**
-     * Get string representation of sort mode
-     */
-    public static function sortModeToString(int $a_sort_mode): string
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $lng->loadLanguageModule('crs');
-        switch ($a_sort_mode) {
-            case ilContainer::SORT_ACTIVATION:
-                return $lng->txt('crs_sort_activation');
-
-            case ilContainer::SORT_MANUAL:
-                return $lng->txt('crs_sort_manual');
-
-            case ilContainer::SORT_TITLE:
-                return $lng->txt('crs_sort_title');
-
-            case ilContainer::SORT_CREATION:
-                return $lng->txt('sorting_creation_header');
-        }
-        return '';
-    }
-
-    /**
+     * TODO still used in SOAP export of course/group
      * sorting XML-export for all container objects
      */
     public static function _exportContainerSortingSettings(
@@ -360,6 +238,7 @@ class ilContainerSortingSettings
     }
 
     /**
+     * TODO still used in legacy and SOAP import of category/folder/course/group
      * sorting import for all container objects
      */
     public static function _importContainerSortingSettings(

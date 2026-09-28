@@ -23,6 +23,7 @@ namespace ILIAS\Style\Content;
 use ilObjectContentStyleSettingsGUI;
 use ilGlobalTemplateInterface;
 use ilObjStyleSheet;
+use ILIAS\Style\Content\Preview\PreviewGUI;
 
 /**
  * Facade for consumer gui interface
@@ -31,6 +32,7 @@ use ilObjStyleSheet;
 class GUIService
 {
     private InternalService $internal;
+    protected static array $instances = [];
 
     public function __construct(
         InternalService $internal_service
@@ -83,5 +85,13 @@ class GUIService
     public function addExportCss(ilGlobalTemplateInterface $tpl): void
     {
         $tpl->addCss(ilObjStyleSheet::getExportContentStylePath());
+    }
+
+    public function preview(): PreviewGUI
+    {
+        return self::$instances["preview"] ??= new PreviewGUI(
+            $this->internal->domain(),
+            $this->internal->gui()
+        );
     }
 }

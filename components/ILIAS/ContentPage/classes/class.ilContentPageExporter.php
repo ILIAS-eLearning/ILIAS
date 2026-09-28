@@ -117,6 +117,12 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
             ];
         }
 
+        $deps[] = [
+            "component" => "components/ILIAS/Tracking",
+            "entity" => "lpsettings",
+            "ids" => $a_ids
+        ];
+
         return $deps;
     }
 }

@@ -38,7 +38,7 @@ class ilPCTabsEditorGUI implements PageComponentEditor
         ilPageObjectGUI $page_gui,
         int $style_id
     ): array {
-        $form = $this->getCreationForm($page_gui, $ui_wrapper);
+        $form = $this->getCreationForm($page_gui, $ui_wrapper, $style_id);
 
         return [
             "creation_form" => $form,
@@ -77,11 +77,13 @@ class ilPCTabsEditorGUI implements PageComponentEditor
 
     protected function getCreationForm(
         ilPageObjectGUI $page_gui,
-        UIWrapper $ui_wrapper
+        UIWrapper $ui_wrapper,
+        int $style_id
     ): string {
         $lng = $this->lng;
 
         $tabs_gui = new ilPCTabsGUI($page_gui->getPageObject(), null, "", "");
+        $tabs_gui->setStyleId($style_id);
 
         /** @var ilPropertyFormGUI $form */
         $form = $tabs_gui->initCreationForm();

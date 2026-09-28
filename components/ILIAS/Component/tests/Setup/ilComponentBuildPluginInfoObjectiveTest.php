@@ -139,14 +139,14 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testScanDir(): void
     {
         // Use the component directory without artifacts, because this should be mostly stable.
-        $expected = ["Component.php", "PRIVACY.md", "README.md", "ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "src", "tests"];
+        $expected = ["Component.php", "PRIVACY.md", "README.md", "ROADMAP.md", "classes", "exceptions", "service.xml", "src", "tests", "docs"];
         $actual = array_values(
             array_diff(
                 $this->builder->_scanDir(__DIR__ . "/../.."),
                 ["artifacts", ".DS_Store"] // .DS_Store is a macOS artifact which is not relevant for the test.
             )
         );
-        $this->assertEquals($expected, $actual);
+        $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
     public function testIsDir(): void

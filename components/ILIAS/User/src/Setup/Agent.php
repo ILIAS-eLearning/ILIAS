@@ -79,7 +79,7 @@ class Agent implements SetupAgent
             'Updates for User',
             false,
             new \ilDatabaseUpdateStepsExecutedObjective(
-                new DBUpdateSteps11()
+                new DBUpdateSteps12()
             ),
             new AddReadAllAccountsPermissionObjective(),
             new CollectSettingsObjective($this->user_settings_contributions),
@@ -92,7 +92,7 @@ class Agent implements SetupAgent
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
             $storage,
-            new DBUpdateSteps11()
+            new DBUpdateSteps12()
         );
     }
 

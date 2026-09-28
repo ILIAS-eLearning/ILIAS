@@ -279,7 +279,7 @@ class ilObjStyleSheet extends ilObject
         "flist" => array("flist_cont", "flist_head", "flist", "flist_li", "flist_a"),
         "media" => array("media_cont", "media_caption", "iim", "marker"),
         "tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
-            "ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont", "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"),
+            "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"),
         "question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
             "qimg", "qordul", "qordli", "qimgd", "qetitem", "qetcorr", "qover"),
         "page" => array("page_cont", "page_title", "page_fn")
@@ -291,7 +291,6 @@ class ilObjStyleSheet extends ilObject
             "text_inline", "section", "media_cont", "media_caption", "table", "table_cell", "flist_li", "table_caption",
                 "list_o", "list_u", "list_item",
                 "va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
-                "ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont",
                 "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"
         );
 
@@ -355,12 +354,6 @@ class ilObjStyleSheet extends ilObject
         "va_ihead" => "div",
         "va_iheada" => "div",
         "va_ihcap" => "div",
-        "ha_cntr" => "div",
-        "ha_icntr" => "div",
-        "ha_icont" => "div",
-        "ha_iheada" => "div",
-        "ha_ihcap" => "div",
-        "ha_ihead" => "div",
         "ca_cntr" => "div",
         "ca_icntr" => "div",
         "ca_ihead" => "div",
@@ -471,14 +464,6 @@ class ilObjStyleSheet extends ilObject
             "va_ihcap" => "va_ihcap",
             "va_icont" => "va_icont"
             ),
-        "haccordion" => array(
-            "ha_cntr" => "ha_cntr",
-            "ha_icntr" => "ha_icntr",
-            "ha_ihead" => "ha_ihead",
-            "ha_iheada" => "ha_iheada",
-            "ha_ihcap" => "ha_ihcap",
-            "ha_icont" => "ha_icont"
-        ),
         "carousel" => array(
             "ca_cntr" => "ca_cntr",
             "ca_icntr" => "ca_icntr",
@@ -1311,7 +1296,7 @@ class ilObjStyleSheet extends ilObject
         $this->chars_by_type = array();
         $q = "SELECT * FROM style_char WHERE style_id = " .
             $ilDB->quote($this->getId(), "integer") .
-            " ORDER BY type ASC, characteristic ASC";
+            " ORDER BY type ASC, order_nr ASC, characteristic ASC";
         $par_set = $ilDB->query($q);
         while ($par_rec = $ilDB->fetchAssoc($par_set)) {
             $this->chars[] = array("type" => $par_rec["type"], "class" => $par_rec["characteristic"], "hide" => $par_rec["hide"]);
@@ -1949,7 +1934,7 @@ class ilObjStyleSheet extends ilObject
         if ($a_template_type == "") {
             return self::$templates;
         }
-        return self::$templates[$a_template_type];
+        return self::$templates[$a_template_type] ?? [];
     }
 
     public static function _getPseudoClasses(string $tag): array
@@ -2858,7 +2843,7 @@ class ilObjStyleSheet extends ilObject
      */
     public function lookupTemplateName(int $a_t_id): string
     {
-        return self::_lookupTemplateName($a_t_id);
+        return (string) self::_lookupTemplateName($a_t_id);
     }
 
     /**

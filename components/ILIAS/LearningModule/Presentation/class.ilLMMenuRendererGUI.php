@@ -147,6 +147,7 @@ class ilLMMenuRendererGUI
         if (!$this->offline &&
             $ilAccess->checkAccess("read", "", $this->requested_ref_id) && // #14075
             ilLearningProgressAccess::checkAccess($this->requested_ref_id)) {
+            $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
             $olp = ilObjectLP::getInstance($this->lm->getId());
             if ($olp->getCurrentMode() !== ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $this->toolbar->addComponent(

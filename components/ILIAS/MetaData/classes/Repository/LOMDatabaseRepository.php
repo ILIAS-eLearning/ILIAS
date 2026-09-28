@@ -116,6 +116,7 @@ class LOMDatabaseRepository implements RepositoryInterface
             $this->processor->cleanMarkers($from_set);
         }
         $from_set = $this->identifier_handler->prepareUpdateOfIdentifier($from_set, $to_ressource_id);
+        $from_set = $this->identifier_handler->preparePlaceholderTitleIfEmpty($from_set);
         $this->manipulator->deleteAllMD($to_ressource_id);
         $this->manipulator->transferMD($from_set, $to_ressource_id);
     }

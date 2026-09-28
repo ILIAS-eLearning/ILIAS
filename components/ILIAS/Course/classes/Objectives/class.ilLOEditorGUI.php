@@ -55,6 +55,7 @@ class ilLOEditorGUI
     protected Factory $refinery;
     protected ilUIServices $ui_services;
     protected ilDBInterface $db;
+    protected ilAccess $access;
 
     private int $test_type = self::TEST_TYPE_UNDEFINED;
 
@@ -80,6 +81,7 @@ class ilLOEditorGUI
         $this->refinery = $DIC->refinery();
         $this->ui_services = $DIC->ui();
         $this->db = $DIC->database();
+        $this->access = $DIC->access();
     }
 
     public function executeCommand(): void
@@ -87,7 +89,9 @@ class ilLOEditorGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-
+        if (!$this->access->checkAccess('write', '', $this->getParentObject()->getRefId())) {
+            throw new \ilPermissionException($this->lng->txt("permission_denied"));
+        }
 
         $this->setTabs();
         switch ($next_class) {

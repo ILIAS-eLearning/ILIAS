@@ -355,7 +355,7 @@ class ilLOTestQuestionAdapter
     {
         foreach ($this->run as $run) {
             if ($run->questionExists($qst->getId())) {
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': reached points are ' . $qst->getReachedPoints(
+                $GLOBALS['DIC']['ilLog']->info('reached points are ' . $qst->getReachedPoints(
                     $session->getActiveId(),
                     $session->getPass()
                 ));

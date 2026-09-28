@@ -66,6 +66,14 @@ class InternalGUIService
         );
     }
 
+    public function recommendedContent(): RecommendedContent\GUIService
+    {
+        return new RecommendedContent\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
     public function standardRequest(): StandardGUIRequest
     {
         return new StandardGUIRequest(

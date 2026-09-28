@@ -225,28 +225,33 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
                     }
                 }
                 if ($this->filter["subm_after"]) {
-                    if (is_null($data[$idx]["submission_obj"]->getLastSubmission())) {
+                    $submission = $data[$idx]["submission_obj"];
+                    if (is_null($submission->getLastSubmission())) {
                         unset($data[$idx]);
-                    } else {
-                        if ($data[$idx]["submission_obj"]->getLastSubmission() <
-                            $this->filter["subm_after"]->get(IL_CAL_DATETIME)) {
-                            unset($data[$idx]);
-                        }
+                        continue;
+                    }
+                    if ($submission->getLastSubmission() <
+                        $this->filter["subm_after"]->get(IL_CAL_DATETIME)) {
+                        unset($data[$idx]);
+                        continue;
                     }
                 }
                 if ($this->filter["subm_before"]) {
-                    if (is_null($data[$idx]["submission_obj"]->getLastSubmission())) {
+                    $submission = $data[$idx]["submission_obj"];
+                    if (is_null($submission->getLastSubmission())) {
                         unset($data[$idx]);
-                    } else {
-                        if ($data[$idx]["submission_obj"]->getLastSubmission() >
-                            $this->filter["subm_before"]->get(IL_CAL_DATETIME)) {
-                            unset($data[$idx]);
-                        }
+                        continue;
+                    }
+                    if ($submission->getLastSubmission() >
+                        $this->filter["subm_before"]->get(IL_CAL_DATETIME)) {
+                        unset($data[$idx]);
+                        continue;
                     }
                 }
                 if ($this->filter['member_of']) {
                     if (!ilParticipants::_isParticipant($this->filter['member_of'], $item["usr_id"])) {
                         unset($data[$idx]);
+                        continue;
                     }
                 }
 

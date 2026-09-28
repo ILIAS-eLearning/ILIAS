@@ -59,7 +59,7 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
-        $log = $DIC->logger()->root();
+        $log = $DIC->logger()->forComponent('cntr');
 
         if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences((int) $new_id);
@@ -84,6 +84,12 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
             $a_mapping->addMapping(
                 $objDefinition->getComponentForType($this->getType()),
                 $this->getType(),
+                $a_id,
+                (string) $this->getReference()->getId()
+            );
+            $a_mapping->addMapping(
+                "components/ILIAS/Tracking",
+                "obj",
                 $a_id,
                 (string) $this->getReference()->getId()
             );

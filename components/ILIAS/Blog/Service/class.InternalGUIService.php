@@ -26,6 +26,10 @@ use ILIAS\PermanentLink\PermanentLinkManager;
 use ILIAS\Blog\ReadingTime\GUIService;
 use ILIAS\Blog\RSS\RSSGUI;
 use ILIAS\Blog\Posting\Service\GUIService as PostingGUIService;
+use ILIAS\Blog\Permission\BlogCmdPermission;
+use ILIAS\Blog\Permission\PermissionManager;
+use ILIAS\Blog\Export\GUIService as ExportGUIService;
+use ilObjBlog;
 
 class InternalGUIService
 {
@@ -73,6 +77,27 @@ class InternalGUIService
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function blogContext(
+        int $node_id,
+        int $id_type,
+        ?int $blog_id,
+        string $month,
+        ?int $author,
+        PermissionManager $permission,
+        bool $call_by_reference = false
+    ): BlogGUIContext {
+        return new BlogGUIContext(
+            $node_id,
+            $id_type,
+            $blog_id === null ? null : new ilObjBlog($blog_id, false),
+            $month,
+            $author,
+            $permission,
+            $this->standardRequest(),
+            $call_by_reference
         );
     }
 
@@ -144,4 +169,25 @@ class InternalGUIService
             $this
         );
     }
+
+    public function cmdPerm(PermissionManager $blog_access): BlogCmdPermission
+    {
+        return new BlogCmdPermission(
+            $this->domain_service->lng(),
+            $blog_access,
+            $this->ui()->mainTemplate(),
+            $this->ctrl(),
+            $this->standardRequest()
+        );
+    }
+
+    public function export(): ExportGUIService
+    {
+        return self::$instance["export"] ??= new ExportGUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

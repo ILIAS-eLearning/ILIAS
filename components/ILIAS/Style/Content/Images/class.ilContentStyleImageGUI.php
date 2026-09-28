@@ -86,7 +86,7 @@ class ilContentStyleImageGUI
 
             default:
                 if (in_array($cmd, [
-                    "listImages", "addImage", "cancelUpload", "uploadImage", "deleteImage",
+                    "listImages", "addImage", "cancelUpload", "uploadImage", "confirmDeleteImage", "deleteImage",
                     "resizeImageForm", "resizeImage"
                 ])) {
                     $this->$cmd();
@@ -108,13 +108,21 @@ class ilContentStyleImageGUI
             );
         }
 
-        $table_gui = new ilStyleImageTableGUI(
-            $this,
-            "listImages",
+        $table = $this->getImageTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getImageTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        return $this->gui->image()->imageTableBuilder(
             $this->access_manager,
-            $this->manager
-        );
-        $tpl->setContent($table_gui->getHTML());
+            $this->manager,
+            $this,
+            "listImages"
+        )->getTable();
     }
 
     public function addImage(): void
@@ -170,17 +178,36 @@ class ilContentStyleImageGUI
         );
     }
 
+    public function confirmDeleteImage(string $file): void
+    {
+        if ($file === "") {
+            $this->gui->ctrl()->redirect($this, "listImages");
+            return;
+        }
+
+        $this->getImageTable()->renderDeletionConfirmation(
+            $this->lng->txt("delete"),
+            $this->lng->txt("info_delete_sure"),
+            "deleteImage",
+            [$file => $file]
+        );
+    }
+
     public function deleteImage(): void
     {
         $ilCtrl = $this->gui->ctrl();
-        foreach ($this->current_images as $i) {
-            $this->manager->deleteByFilename($i);
+        $files = $this->getImageTable()->getItemIds();
+        if (count($files) === 1) {
+            $this->manager->deleteByFilename($files[0]);
         }
         $ilCtrl->redirect($this, "listImages");
     }
 
-    protected function resizeImageForm(): void
+    public function resizeImageForm(string $file = ""): void
     {
+        if ($file !== "") {
+            $this->current_image = $file;
+        }
         $this->tpl->setContent($this->getResizeImageForm()->getHTML());
     }
 

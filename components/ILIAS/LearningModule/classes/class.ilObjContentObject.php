@@ -1840,6 +1840,14 @@ class ilObjContentObject extends ilObject
         // copy content
         $copied_nodes = $this->copyAllPagesAndChapters($new_obj, $copy_id);
 
+        // copy estimated reading time settings and calculate the reading time
+        // for the copied pages
+        $reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
+        $reading_time_manager->activate(
+            $new_obj->getId(),
+            $reading_time_manager->isActivated($this->getId())
+        );
+
         // page header and footer
         if ($this->getHeaderPage() > 0 && ($new_page_header = ($copied_nodes[$this->getHeaderPage()] ?? null)) > 0) {
             $new_obj->setHeaderPage($new_page_header);

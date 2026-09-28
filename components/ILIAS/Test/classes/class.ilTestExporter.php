@@ -158,6 +158,12 @@ class ilTestExporter extends ilXmlExporter
                 ];
             }
 
+            $deps[] = [
+                "component" => "components/ILIAS/Tracking",
+                "entity" => "lpsettings",
+                "ids" => $a_ids
+            ];
+
             return $deps;
         }
 

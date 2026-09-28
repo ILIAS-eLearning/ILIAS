@@ -68,6 +68,7 @@ final class RequestHandler
     private ResourceStakeholder $stakeholder;
     private int $saving_interval = 0;
     private bool $editable = false;
+    private bool $user_can_write = false;
 
     public function __construct()
     {
@@ -101,6 +102,7 @@ final class RequestHandler
         $this->token_user_id = (int) ($token_data['user_id'] ?? 0);
         $this->token_resource_id = (string) ($token_data['resource_id'] ?? '');
         $this->editable = (bool) ($token_data['editable'] ?? '');
+        $this->user_can_write = (bool) ($token_data['user_can_write'] ?? $this->editable);
         $stakeholder = $token_data['stakeholder'] ?? null;
         if ($stakeholder !== null) {
             try {
@@ -154,7 +156,8 @@ final class RequestHandler
                             $response = new GetFileInfoResponse(
                                 $current_revision,
                                 $this->token_user_id,
-                                $this->editable
+                                $this->editable,
+                                $this->user_can_write
                             );
                             $this->http->saveResponse(
                                 $this->http->response()->withBody(
@@ -208,10 +211,15 @@ final class RequestHandler
                                 $draft
                             );
 
-                            // CheckFileInfo
+                            // CheckFileInfo. The third argument must be passed here as
+                            // well: without it the response after every save told the
+                            // client "ReadOnly, UserCanWrite: false" - in the middle of
+                            // an editing session. See Mantis 48246.
                             $response = new GetFileInfoResponse(
                                 $new_revision,
-                                $this->token_user_id
+                                $this->token_user_id,
+                                $this->editable,
+                                $this->user_can_write
                             );
                             $this->http->saveResponse(
                                 $this->http->response()->withBody(

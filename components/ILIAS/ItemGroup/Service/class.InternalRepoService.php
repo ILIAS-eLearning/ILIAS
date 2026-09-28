@@ -20,31 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\ItemGroup;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
+use ilDBInterface;
+use ILIAS\ItemGroup\Repository\ItemGroupRepository;
+
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
-
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected readonly InternalDataService $data,
+        protected readonly ilDBInterface $db,
+    ) {
     }
 
-    /*
-    public function ...() : ...\RepoService
+    public function itemGroup(): ItemGroupRepository
     {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
-        );
-    }*/
-
-    /*public function accessSession() : AccessSessionRepository
-    {
-        return new AccessSessionRepository();
-    }*/
+        return new ItemGroupRepository($this->db);
+    }
 }

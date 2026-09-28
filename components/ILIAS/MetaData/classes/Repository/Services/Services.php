@@ -159,7 +159,8 @@ class Services
             ),
             new IdentifierHandler(
                 $this->manipulator_services->manipulator(),
-                $this->path_services->pathFactory()
+                $this->path_services->pathFactory(),
+                $this->path_services->navigatorFactory()
             )
         );
     }

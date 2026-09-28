@@ -13,5 +13,4 @@
 			checkbox="1" translate="0" rbac="0">
 		</object>
 	</objects>
-	<logging />
 </service>

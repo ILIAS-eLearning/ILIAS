@@ -20,8 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\PropertyList;
 
-use ILIAS\Tracking\View\PropertyList\PropertyListInterface;
-
 class PropertyList implements PropertyListInterface
 {
     protected int $index;

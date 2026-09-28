@@ -22,6 +22,7 @@ namespace ILIAS\MediaObjects;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\MediaObjects\Usage\UsageTableBuilder;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -96,6 +97,22 @@ class InternalGUIService
         return new Thumbs\ThumbsGUI(
             $this->domain_service,
             $this
+        );
+    }
+
+    public function mediaObjectUsagesTableBuilder(
+        \ilObjMediaObject $media_object,
+        bool $include_hist,
+        object $parent_gui,
+        string $parent_cmd
+    ): UsageTableBuilder {
+        return new UsageTableBuilder(
+            $this->domain_service,
+            $this,
+            $media_object,
+            $include_hist,
+            $parent_gui,
+            $parent_cmd
         );
     }
 

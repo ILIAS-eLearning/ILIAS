@@ -499,6 +499,13 @@ class ilWorkspaceAccessHandler
 
     public static function getGotoLink(int $a_node_id, int $a_obj_id, string $a_additional = ""): string
     {
+        if (ilObject::_lookupType($a_obj_id) === "blog") {
+            global $DIC;
+
+            return $DIC->blog()->internal()->gui()
+                ->permanentLink(0, $a_node_id)
+                ->getPermanentLink();
+        }
         return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, $a_additional . "_wsp");
     }
 
