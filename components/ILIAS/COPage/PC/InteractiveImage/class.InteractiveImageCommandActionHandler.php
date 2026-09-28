@@ -156,7 +156,7 @@ class InteractiveImageCommandActionHandler implements Server\CommandActionHandle
         return $this->getStandardResponse($updated, $pc);
     }
 
-    protected function getStandardResponse($updated, \ilPCInteractiveImage $pc): Server\Response
+    protected function getStandardResponse(bool|array|string $updated, \ilPCInteractiveImage $pc): Server\Response
     {
         $error = false;
         if ($updated !== true) {

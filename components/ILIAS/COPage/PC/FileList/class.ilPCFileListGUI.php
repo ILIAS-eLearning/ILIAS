@@ -600,7 +600,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         $ilCtrl->redirect($this, "editFiles");
     }
 
-    public function editStyleClass(string $id)
+    public function editStyleClass(string $id): void
     {
         $form = $this->getEditStyleForm($id);
         $lng = $this->lng;

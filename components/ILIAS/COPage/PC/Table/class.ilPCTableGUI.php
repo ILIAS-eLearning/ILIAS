@@ -1234,7 +1234,7 @@ class ilPCTableGUI extends ilPageContentGUI
         array $template_classes,
         int $total_rows,
         int $total_cols
-    ) {
+    ): string {
         $class = "";
         /** @var ilPCTable $pc_tab */
         $pc_tab = $this->content_obj;
@@ -1361,9 +1361,9 @@ class ilPCTableGUI extends ilPageContentGUI
      * Static render table function
      */
     protected function renderCell(
-        $content,
-        $unmask = true,
-        $page_object = null
+        string $content,
+        bool $unmask = true,
+        ?ilPageObject $page_object = null
     ): string {
         global $DIC;
 

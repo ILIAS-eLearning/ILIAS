@@ -424,7 +424,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         return $content;
     }
 
-    protected function getHeading(string $text, $sub = false): string
+    protected function getHeading(string $text, bool $sub = false): string
     {
         // todo: classes need better naming
         if ($sub) {

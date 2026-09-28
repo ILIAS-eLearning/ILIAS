@@ -37,12 +37,12 @@ class MenuGUI
         bool $a_int_links = false,
         bool $a_wiki_links = false,
         bool $a_keywords = false,
-        $a_style_id = 0,
-        $a_paragraph_styles = true,
-        $a_save_return = true,
-        $a_anchors = false,
-        $a_save_new = true,
-        $a_user_links = false
+        int $a_style_id = 0,
+        bool $a_paragraph_styles = true,
+        bool $a_save_return = true,
+        bool $a_anchors = false,
+        bool $a_save_new = true,
+        bool $a_user_links = false
     ): string {
         $style_service = $this->style_service;
 

@@ -207,9 +207,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     }
 
     public function insert(
-        $a_post_cmd = "edpost",
-        $a_submit_cmd = "",
-        $a_input_error = false
+        string $a_post_cmd = "edpost",
+        string $a_submit_cmd = "",
+        bool $a_input_error = false
     ): void {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
