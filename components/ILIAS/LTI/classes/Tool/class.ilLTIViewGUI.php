@@ -156,6 +156,7 @@ class ilLTIViewGUI
 
         $this->dic->globalScreen()->tool()->context()->current()->addAdditionalData(self::GS_EXIT_MODE, true);
         $tpl = $this->dic->ui()->mainTemplate();
+        $tpl->setTitle($this->getTitleForExitPage(), true);
         $tpl->setContent($this->dic->ui()->renderer()->render(
             $this->dic->ui()->factory()->messageBox()->info($this->dic->language()->txt('lti_exited_info'))
         ));
