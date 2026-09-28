@@ -207,6 +207,22 @@ class ilLTIAppEventListener implements ilAppEventListener
     }
 
     /**
+     * The Assignment and Grade Services report how far the user is besides the score; the LTI 1.1
+     * outcome service only sends the score. Without a status the library reports a completed result.
+     *
+     * @return array{0: string, 1: string} activity progress and grading progress
+     */
+    private function getProgress(?int $status): array
+    {
+        return match ($status) {
+            null, ilLPStatus::LP_STATUS_COMPLETED_NUM => ['Completed', 'FullyGraded'],
+            ilLPStatus::LP_STATUS_FAILED_NUM => ['Completed', 'Failed'],
+            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => ['Initialized', 'NotReady'],
+            default => ['InProgress', 'Pending'],
+        };
+    }
+
+    /**
      * Sends the score through the outcome service of the resource link, which celtic/lti picks from what
      * the platform offered at the launch. Nothing is sent before the user has a result.
      */
@@ -217,14 +233,17 @@ class ilLTIAppEventListener implements ilAppEventListener
         }
 
         $link = ResourceLink::fromRecordId($resource_link, new ilLTIDataConnector());
-        if (!$link->hasOutcomesService()) {
+        // writing a score only needs the score scope, while hasOutcomesService() also asks for the result scope
+        if (!$link->hasOutcomesService() && !$link->hasScoreService()) {
             return;
         }
         if ($link->getPlatform()->ltiVersion === LtiVersion::V1P3 && !$this->signAsIlias()) {
             return;
         }
 
-        if (!$link->doOutcomesService(ServiceAction::Write, new Outcome($score), UserResult::fromResourceLink($link, $account))) {
+        [$activity_progress, $grading_progress] = $this->getProgress($status);
+        $outcome = new Outcome($score, 1, $activity_progress, $grading_progress);
+        if (!$link->doOutcomesService(ServiceAction::Write, $outcome, UserResult::fromResourceLink($link, $account))) {
             global $DIC;
 
             $DIC->logger()->root()->warning(sprintf(
