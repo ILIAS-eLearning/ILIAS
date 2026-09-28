@@ -38,6 +38,7 @@ class ilTextAreaInputGUIRteFormattingTest extends TestCase
         $GLOBALS['DIC'] = $dic;
         $dic['ilCtrl'] = fn() => $this->createMock(ilCtrl::class);
         $dic['lng'] = fn() => $this->createMock(ilLanguage::class);
+        $dic['ilUser'] = fn() => $this->createMock(ilObjUser::class);
     }
 
     protected function tearDown(): void
