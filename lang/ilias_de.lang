@@ -13095,6 +13095,8 @@ news#:#news_news_item_content#:#Text
 news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten in einem öffentlichen RSS-Feed können von allen Personen gelesen werden, also auch ohne Anmeldung. Solche Neuigkeiten sollten keine vertraulichen Informationen enthalten.
 news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur für angemeldete Personen zugänglich.
 news#:#news_news_item_head#:#Beitrag
+news#:#news_news_item_no_content#:#Kein Text
+news#:#news_news_item_post#:#Beitrag
 news#:#news_news_item_title#:#Schlagzeile
 news#:#news_news_item_visibility#:#Zugriff
 news#:#news_news_item_visibility_info#:#Öffentliche Neuigkeiten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.

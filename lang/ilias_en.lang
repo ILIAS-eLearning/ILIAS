@@ -13066,6 +13066,8 @@ news#:#news_news_item_content#:#Text
 news#:#news_news_item_def_visibility_public_info#:#News in a public RSS news feed can be accessed by the general public, i.e. without having to be logged in to the system. Such news should not contain confidential information.
 news#:#news_news_item_def_visibility_users_info#:#Only users who are logged in to the system have access to news.
 news#:#news_news_item_head#:#News Item
+news#:#news_news_item_no_content#:#No Text
+news#:#news_news_item_post#:#Post
 news#:#news_news_item_title#:#Headline
 news#:#news_news_item_visibility#:#Access
 news#:#news_news_item_visibility_info#:#Public news can be accessed outside of ILIAS via RSS without having to be logged in to the system. Please do not include any confidential information.
