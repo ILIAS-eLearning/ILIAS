@@ -20,63 +20,45 @@
 
 	<xsl:template name="handleBlock">
 		<p>
-			<xsl:choose>
-				<xsl:when test="current()='&#160;'">
-				</xsl:when>
-				<xsl:when test="current()='&#xA0;'">
-				</xsl:when>
-				<xsl:when test="@text-align='left'">
-					<xsl:attribute name="align">
-						<xsl:text>left</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="@text-align='right'">
-					<xsl:attribute name="align">
-						<xsl:text>right</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="@text-align='center'">
-					<xsl:attribute name="align">
-						<xsl:text>center</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="@text-align='justify'">
-					<xsl:attribute name="align">
-						<xsl:text>justify</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-			</xsl:choose>
-			<xsl:choose>
-				<xsl:when test="@padding or @padding-left or @padding-right or @padding-top or @padding-bottom">
-						<xsl:attribute name="style">
-							<xsl:if test="@padding">
-								<xsl:text>padding: </xsl:text>
-								<xsl:value-of select="@padding"/>
-								<xsl:text>; </xsl:text>
-							</xsl:if>
-							<xsl:if test="@padding-left">
-								<xsl:text>padding-left: </xsl:text>
-								<xsl:value-of select="@padding-left"/>
-								<xsl:text>; </xsl:text>
-							</xsl:if>
-							<xsl:if test="@padding-right">
-								<xsl:text>padding-right: </xsl:text>
-								<xsl:value-of select="@padding-right"/>
-								<xsl:text>; </xsl:text>
-							</xsl:if>
-							<xsl:if test="@padding-top">
-								<xsl:text>padding-top: </xsl:text>
-								<xsl:value-of select="@padding-top"/>
-								<xsl:text>; </xsl:text>
-							</xsl:if>
-							<xsl:if test="@padding-bottom">
-								<xsl:text>padding-bottom: </xsl:text>
-								<xsl:value-of select="@padding-bottom"/>
-								<xsl:text>; </xsl:text>
-							</xsl:if>
-						</xsl:attribute>
-				</xsl:when>
-			</xsl:choose>
+			<xsl:variable name="textAlign">
+				<xsl:if test="not(current()='&#160;') and not(current()='&#xA0;') and (@text-align='left' or @text-align='right' or @text-align='center' or @text-align='justify')">
+					<xsl:value-of select="@text-align"/>
+				</xsl:if>
+			</xsl:variable>
+			<xsl:if test="normalize-space($textAlign) != '' or @padding or @padding-left or @padding-right or @padding-top or @padding-bottom">
+				<xsl:attribute name="style">
+					<xsl:if test="normalize-space($textAlign) != ''">
+						<xsl:text>text-align: </xsl:text>
+						<xsl:value-of select="normalize-space($textAlign)"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@padding">
+						<xsl:text>padding: </xsl:text>
+						<xsl:value-of select="@padding"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@padding-left">
+						<xsl:text>padding-left: </xsl:text>
+						<xsl:value-of select="@padding-left"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@padding-right">
+						<xsl:text>padding-right: </xsl:text>
+						<xsl:value-of select="@padding-right"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@padding-top">
+						<xsl:text>padding-top: </xsl:text>
+						<xsl:value-of select="@padding-top"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@padding-bottom">
+						<xsl:text>padding-bottom: </xsl:text>
+						<xsl:value-of select="@padding-bottom"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates select="node()"/>
 		</p>
 	</xsl:template>
