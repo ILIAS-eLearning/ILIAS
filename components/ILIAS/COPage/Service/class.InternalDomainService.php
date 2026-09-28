@@ -28,6 +28,7 @@ use ILIAS\COPage\Page\PageContentManager;
 use ILIAS\COPage\PC\PCDefinition;
 use ILIAS\COPage\Link\LinkManager;
 use ILIAS\COPage\Style\StyleManager;
+use ILIAS\COPage\WordDiff\WordDiff;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -121,6 +122,15 @@ class InternalDomainService
     public function compare(): PageCompare
     {
         return new PageCompare();
+    }
+
+    /**
+     * @param list<string> $original_lines
+     * @param list<string> $closing_lines
+     */
+    public function wordDiff(array $original_lines, array $closing_lines): WordDiff
+    {
+        return new WordDiff($original_lines, $closing_lines);
     }
 
     public function link(): LinkManager

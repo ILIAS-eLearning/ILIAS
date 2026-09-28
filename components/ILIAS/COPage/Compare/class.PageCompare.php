@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\COPage\Compare;
 
 use ILIAS\COPage\Dom\DomUtil;
+use ILIAS\COPage\InternalDomainService;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -28,15 +29,14 @@ use ILIAS\COPage\Dom\DomUtil;
 class PageCompare
 {
     protected DomUtil $dom_util;
+    protected InternalDomainService $domain_service;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->dom_util = $DIC->copage()
-                              ->internal()
-                              ->domain()
-                              ->domUtil();
+        $this->domain_service = $DIC->copage()->internal()->domain();
+        $this->dom_util = $this->domain_service->domUtil();
     }
 
     public function compare(
@@ -62,12 +62,12 @@ class PageCompare
                         $r_hashes[$pc_id]["content"] != "") {
                         $new_left = str_replace("\n", "<br />", $l_hashes[$pc_id]["content"]);
                         $new_right = str_replace("\n", "<br />", $r_hashes[$pc_id]["content"]);
-                        $wldiff = new \WordLevelDiff(
+                        $word_diff = $this->domain_service->wordDiff(
                             array($new_left),
                             array($new_right)
                         );
-                        $new_left = $wldiff->orig();
-                        $new_right = $wldiff->closing();
+                        $new_left = $word_diff->orig();
+                        $new_right = $word_diff->closing();
                         $this->setParagraphContent($l_page, $l_hashes[$pc_id]["hier_id"], $new_left[0]);
                         $this->setParagraphContent($r_page, $l_hashes[$pc_id]["hier_id"], $new_right[0]);
                     }
