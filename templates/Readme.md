@@ -154,9 +154,10 @@ Examples:
 * `components` related template files must be stored in a similar
 subdirectory structure (omit the `templates` subdirectory). E.g. to replace the
 template file `components/ILIAS/XYZ/templates/tpl.xyz.html` create a new
-version at `./public/Customizing/skin/myskin/components/ILIAS/XYZ/tpl.xyz.html`. A template of a UI Component located in 
-`src/UI/templates/default/XYZ/tpl.xyz.html` can be customized by creating a 
-`./public/Customizing/skin/myskin/UI/XYZ/tpl.xyz.html` file.
+  version at `./public/Customizing/skin/myskin/mystyle/components/ILIAS/XYZ/tpl.xyz.html`.
+* A template of a UI Component located in
+  `components/ILIAS/UI/src/templates/default/XYZ/tpl.xyz.html` can be customized by creating a
+  `./public/Customizing/skin/myskin/mystyle/UI/XYZ/tpl.xyz.html` file.
 
 The following list contains some standard template files, that are often changed in
 skins:
