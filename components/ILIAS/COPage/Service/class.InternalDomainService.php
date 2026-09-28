@@ -92,7 +92,8 @@ class InternalDomainService
     {
         return new Page\PageManager(
             $this->repo_service->page(),
-            $this->domUtil()
+            $this->domUtil(),
+            $this->profile()
         );
     }
 

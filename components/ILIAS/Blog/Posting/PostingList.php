@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\Posting;
 
+use ILIAS\COPage\Page\PageManagerInterface;
+
 class PostingList
 {
     /** @var Posting[]|null */
@@ -29,6 +31,7 @@ class PostingList
         protected int $obj_id,
         protected PostingManager $posting_manager,
         protected \ILIAS\Blog\Settings\Settings $settings,
+        protected PageManagerInterface $page_manager,
         protected bool $include_inactive = true
     ) {
     }
@@ -107,7 +110,7 @@ class PostingList
                 $res[$posting->getId()] = $posting;
                 continue;
             }
-            foreach (\ilPageObject::getPageContributors("blp", $posting->getId()) as $editor) {
+            foreach ($this->page_manager->getPageContributors("blp", $posting->getId()) as $editor) {
                 if ((int) $editor["user_id"] === $author_id) {
                     $res[$posting->getId()] = $posting;
                     break;
@@ -192,7 +195,7 @@ class PostingList
                 $authors[] = $author_id;
             }
 
-            foreach (\ilPageObject::getPageContributors("blp", $posting->getId()) as $editor) {
+            foreach ($this->page_manager->getPageContributors("blp", $posting->getId()) as $editor) {
                 $editor_id = (int) $editor["user_id"];
                 if ($editor_id > 0 && !in_array($editor_id, $authors, true)) {
                     $authors[] = $editor_id;
@@ -208,7 +211,7 @@ class PostingList
             if ($posting->getAuthor() === $user_id) {
                 return true;
             }
-            foreach (\ilPageObject::getPageContributors("blp", $posting->getId()) as $editor) {
+            foreach ($this->page_manager->getPageContributors("blp", $posting->getId()) as $editor) {
                 if ((int) $editor["user_id"] === $user_id) {
                     return true;
                 }

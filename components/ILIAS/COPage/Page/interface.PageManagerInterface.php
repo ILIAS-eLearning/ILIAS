@@ -35,4 +35,16 @@ interface PageManagerInterface
     public function lookupParentId(int $a_id, string $a_type): int;
 
     public function writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void;
+
+    public function getParentObjectContributors(
+        string $parent_type,
+        int $parent_id,
+        string $lang = "-"
+    ): array;
+
+    public function getPageContributors(
+        string $parent_type,
+        int $page_id,
+        string $lang = "-"
+    ): array;
 }

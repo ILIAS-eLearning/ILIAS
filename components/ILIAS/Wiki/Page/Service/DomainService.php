@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Wiki\Page;
 
+use ILIAS\COPage\Page\PageManagerInterface;
 use ILIAS\Wiki\InternalDomainService;
 use ILIAS\Wiki\InternalRepoService;
 use ILIAS\Wiki\InternalDataService;
@@ -36,7 +37,8 @@ class DomainService
     public function __construct(
         InternalDataService $data_service,
         InternalRepoService $repo_service,
-        InternalDomainService $domain_service
+        InternalDomainService $domain_service,
+        protected PageManagerInterface $page_manager
     ) {
         $this->repo_service = $repo_service;
         $this->data_service = $data_service;
@@ -97,7 +99,7 @@ class DomainService
 
     public function contributorsRetrieval(int $wiki_id): ContributorsRetrieval
     {
-        return new ContributorsRetrieval($wiki_id);
+        return new ContributorsRetrieval($this->page_manager, $wiki_id);
     }
 
     public function exportOrderRetrieval(

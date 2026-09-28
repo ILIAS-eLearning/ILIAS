@@ -547,16 +547,16 @@ class ilWikiPage extends ilPageObject
         return false;
     }
 
-    public static function getWikiContributors(
-        int $a_wiki_id
-    ): array {
-        return parent::getParentObjectContributors("wpg", $a_wiki_id);
-    }
-
     public static function getWikiPageContributors(
         int $a_page_id
     ): array {
-        return parent::getPageContributors("wpg", $a_page_id);
+        global $DIC;
+
+        return $DIC->copage()
+                   ->internal()
+                   ->domain()
+                   ->page()
+                   ->getPageContributors("wpg", $a_page_id);
     }
 
     public function saveInternalLinks(
@@ -647,17 +647,6 @@ class ilWikiPage extends ilPageObject
         $r = $ilDB->fetchAssoc($s);
 
         return $r["title"];
-    }
-
-    public static function getNewWikiPages(
-        int $a_wiki_id
-    ): array {
-        $pages = parent::getNewPages("wpg", $a_wiki_id);
-        foreach ($pages as $k => $page) {
-            $pages[$k]["title"] = self::lookupTitle($page["id"]);
-        }
-
-        return $pages;
     }
 
 

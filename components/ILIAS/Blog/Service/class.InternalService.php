@@ -56,7 +56,8 @@ class InternalService
             $this->instance["domain"] = new InternalDomainService(
                 $this->DIC,
                 $this->repo(),
-                $this->data()
+                $this->data(),
+                $this->DIC->copage()->internal()->domain()->page()
             );
     }
 

@@ -32,6 +32,7 @@ use ILIAS\Blog\News\NewsManager;
 use ILIAS\Blog\Notification\NotificationManager;
 use ILIAS\Blog\Export\DomainService;
 use ILIAS\Blog\Keywords\KeywordManager;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -46,7 +47,8 @@ class InternalDomainService
     public function __construct(
         Container $DIC,
         protected InternalRepoService $repo,
-        protected InternalDataService $data
+        protected InternalDataService $data,
+        protected PageManagerInterface $page_manager
     ) {
         $this->initDomainServices($DIC);
         $this->dic = $DIC;
@@ -111,6 +113,11 @@ class InternalDomainService
         return new ReadingTimeManager();
     }
 
+    public function pageManager(): PageManagerInterface
+    {
+        return $this->page_manager;
+    }
+
     public function notes(): Notes\DomainService
     {
         return $this->dic->notes()->domain();
@@ -144,6 +151,7 @@ class InternalDomainService
             $obj_id,
             $this->posting(),
             $settings,
+            $this->page_manager,
             $include_inactive
         );
     }
@@ -154,7 +162,8 @@ class InternalDomainService
             $this->data,
             $this->repo,
             $this,
-            $this->dic->blog()->internal()->gui()
+            $this->dic->blog()->internal()->gui(),
+            $this->page_manager
         );
     }
 

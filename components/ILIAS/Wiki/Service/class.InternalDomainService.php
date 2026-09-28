@@ -72,7 +72,8 @@ class InternalDomainService
         return self::$instance["page"] ??= new Page\DomainService(
             $this->data_service,
             $this->repo_service,
-            $this
+            $this,
+            $this->DIC->copage()->internal()->domain()->page()
         );
     }
 

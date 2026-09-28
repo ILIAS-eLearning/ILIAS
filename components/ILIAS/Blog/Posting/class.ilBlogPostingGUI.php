@@ -318,7 +318,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $authors[] = $this->profile_gui->getNamePresentation($author_id);
             }
 
-            foreach (ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor) {
+            foreach ($this->page_manager->getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor) {
                 if ($editor["user_id"] != $author_id) {
                     $authors[] = $this->profile_gui->getNamePresentation($editor["user_id"]);
                 }

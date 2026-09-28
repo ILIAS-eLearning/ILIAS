@@ -23,6 +23,7 @@ namespace ILIAS\Blog\News;
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalRepoService;
 use ILIAS\Blog\InternalDomainService;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 /**
  * Domain class for handling news items of blog postings.
@@ -35,7 +36,8 @@ class NewsManager
         protected InternalDataService $data,
         protected InternalRepoService $repo,
         protected InternalDomainService $domain,
-        \ILIAS\Blog\InternalGUIService $gui
+        \ILIAS\Blog\InternalGUIService $gui,
+        protected PageManagerInterface $page_manager
     ) {
         $this->posting_gui = $gui->posting();
     }
@@ -95,7 +97,7 @@ class NewsManager
         );
 
         $contributors = [];
-        foreach (\ilBlogPosting::getPageContributors($page->getParentType(), $page->getId()) as $user) {
+        foreach ($this->page_manager->getPageContributors($page->getParentType(), $page->getId()) as $user) {
             $contributors[] = $user["user_id"];
         }
         if (count($contributors) > 1 || !in_array($page->getAuthor(), $contributors, true)) {

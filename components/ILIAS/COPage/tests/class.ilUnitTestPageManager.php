@@ -52,4 +52,20 @@ class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
     public function writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void
     {
     }
+
+    public function getParentObjectContributors(
+        string $parent_type,
+        int $parent_id,
+        string $lang = "-"
+    ): array {
+        return [];
+    }
+
+    public function getPageContributors(
+        string $parent_type,
+        int $page_id,
+        string $lang = "-"
+    ): array {
+        return [];
+    }
 }

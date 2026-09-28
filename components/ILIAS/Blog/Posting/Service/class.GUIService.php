@@ -68,6 +68,7 @@ class GUIService
             $this->data,
             $this->domain,
             $this->gui,
+            $this->domain->pageManager(),
             $blog_id,
             $perm,
             $current_month,

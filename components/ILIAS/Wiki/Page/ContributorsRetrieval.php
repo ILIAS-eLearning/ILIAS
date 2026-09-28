@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Wiki\Page;
 
+use ILIAS\COPage\Page\PageManagerInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Repository\RetrievalBase;
@@ -30,6 +31,7 @@ class ContributorsRetrieval implements RetrievalInterface
     use RetrievalBase;
 
     public function __construct(
+        protected PageManagerInterface $page_manager,
         protected int $wiki_id
     ) {
     }
@@ -67,7 +69,7 @@ class ContributorsRetrieval implements RetrievalInterface
     {
         $data = [];
 
-        foreach (\ilWikiPage::getWikiContributors($this->wiki_id) as $contributor) {
+        foreach ($this->page_manager->getParentObjectContributors("wpg", $this->wiki_id) as $contributor) {
             $user_id = (int) $contributor["user_id"];
             if (!\ilObject::_exists($user_id)) {
                 continue;
