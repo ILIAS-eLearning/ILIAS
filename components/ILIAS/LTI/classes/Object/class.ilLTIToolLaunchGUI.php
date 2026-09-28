@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use Random\RandomException;
+
 /**
  * Content screen of an LTI object: it launches the tool the object points to. The launch itself belongs
  * to the LTI version of the tool, this screen only decides which one runs it.
@@ -42,6 +45,9 @@ class ilLTIToolLaunchGUI
     /**
      * @throws ilCtrlException
      * @throws ilTemplateException
+     * @throws ilWACException
+     * @throws RandomException
+     * @throws ResponseSendingException
      */
     public function executeCommand(): void
     {
@@ -55,6 +61,7 @@ class ilLTIToolLaunchGUI
     /**
      * @throws ilCtrlException
      * @throws ilTemplateException
+     * @throws ilWACException
      */
     private function launch(): void
     {
@@ -86,18 +93,21 @@ class ilLTIToolLaunchGUI
 
     /**
      * @throws ilCtrlException
+     * @throws RandomException
+     * @throws ResponseSendingException
      */
     private function startAdvantageLaunch(): never
     {
         // a tool opened in the same window may send the user back here
         $return_url = !$this->object->isLaunchMethodOwnWin() ? '' : ilObjLTITool::getIliasHttpPath() . '/'
-            . $this->dic->ctrl()->getLinkTarget($this, self::CMD_LAUNCH, '', false, false);
+            . $this->dic->ctrl()->getLinkTarget($this, self::CMD_LAUNCH, '');
 
         ilLTIAdvantagePlatformLaunchRenderer::sendLaunchPage($this->object, $this->getCmixUser(), $return_url, $this->dic);
     }
 
     /**
      * @throws ilTemplateException
+     * @throws ilWACException
      */
     private function showEmbedded(): never
     {

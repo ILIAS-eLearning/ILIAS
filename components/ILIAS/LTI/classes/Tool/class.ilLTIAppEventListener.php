@@ -24,6 +24,7 @@ use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\UserResult;
+use Random\RandomException;
 
 /**
  * Reports the learning progress of the users who came through LTI back to the platform they came from.
@@ -42,6 +43,9 @@ class ilLTIAppEventListener implements ilAppEventListener
      */
     private const string AUTH_MODE_PREFIX = 'lti_';
 
+    /**
+     * @throws RandomException
+     */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         if ($a_component !== 'components/ILIAS/Tracking' || $a_event !== 'updateStatus') {
@@ -59,6 +63,8 @@ class ilLTIAppEventListener implements ilAppEventListener
     /**
      * Reports the score of an object without learning progress, which SCORM modules of a single SCO
      * send on their own.
+     *
+     * @throws RandomException
      */
     public static function handleOutcomeWithoutLP(int $a_obj_id, int $a_usr_id, ?float $a_percentage): void
     {
@@ -74,7 +80,7 @@ class ilLTIAppEventListener implements ilAppEventListener
 
         $score = $a_percentage > 0 ? round($a_percentage / 100, 4) : 0.0;
         foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
-            foreach ($listener->getResourceLinks((int) $ref_id, $user['account'], $user['platform']) as $resource_link) {
+            foreach ($listener->getResourceLinks($ref_id, $user['account'], $user['platform']) as $resource_link) {
                 $listener->sendOutcome($resource_link, $user['account'], $score, null);
             }
         }
@@ -83,6 +89,8 @@ class ilLTIAppEventListener implements ilAppEventListener
     /**
      * Reports the current status of the LTI users whose resource links changed since the given date,
      * which also covers changes of the learning progress settings that raise no event.
+     *
+     * @throws RandomException
      */
     public static function reportChangesSince(ilDateTime $since): void
     {
@@ -113,6 +121,9 @@ class ilLTIAppEventListener implements ilAppEventListener
         }
     }
 
+    /**
+     * @throws RandomException
+     */
     private function reportStatus(int $obj_id, int $usr_id, int $status, int $percentage): void
     {
         $user = $this->getLtiUser($usr_id);
@@ -122,7 +133,7 @@ class ilLTIAppEventListener implements ilAppEventListener
 
         $score = $this->getScore($status, $this->getPercentage($obj_id, $status, $percentage));
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-            foreach ($this->getResourceLinks((int) $ref_id, $user['account'], $user['platform']) as $resource_link) {
+            foreach ($this->getResourceLinks($ref_id, $user['account'], $user['platform']) as $resource_link) {
                 $this->sendOutcome($resource_link, $user['account'], $score, $status);
             }
         }
@@ -188,6 +199,8 @@ class ilLTIAppEventListener implements ilAppEventListener
     /**
      * The Assignment and Grade Services of an LTI Advantage platform need an access token, which the
      * library requests signed as its default tool.
+     *
+     * @throws RandomException
      */
     private function signAsIlias(): bool
     {
@@ -225,6 +238,8 @@ class ilLTIAppEventListener implements ilAppEventListener
     /**
      * Sends the score through the outcome service of the resource link, which celtic/lti picks from what
      * the platform offered at the launch. Nothing is sent before the user has a result.
+     *
+     * @throws RandomException
      */
     private function sendOutcome(int $resource_link, string $account, ?float $score, ?int $status): void
     {
@@ -246,11 +261,11 @@ class ilLTIAppEventListener implements ilAppEventListener
         if (!$link->doOutcomesService(ServiceAction::Write, $outcome, UserResult::fromResourceLink($link, $account))) {
             global $DIC;
 
-            $DIC->logger()->root()->warning(sprintf(
+            $DIC->logger()->forComponent('lti')->warning(sprintf(
                 'The platform did not accept the LTI outcome of resource link %d. Request: %s Response: %s',
                 $resource_link,
                 is_string($link->extRequest) ? $link->extRequest : json_encode($link->extRequest),
-                (string) $link->extResponse
+                $link->extResponse
             ));
         }
     }

@@ -54,26 +54,6 @@ class ilLTI1p1ConsumerResult
     public bool $attended = false;
 
     /**
-     * Get a result by id
-     */
-    public static function getById(int $a_id): ?ilLTI1p1ConsumerResult
-    {
-        global $DIC;
-
-        $query = 'SELECT * FROM lti_consumer_results'
-            . ' WHERE id = ' . $DIC->database()->quote($a_id, 'integer');
-
-        $res = $DIC->database()->query($query);
-        if ($row = $DIC->database()->fetchAssoc($res)) {
-            $resObj = new ilLTI1p1ConsumerResult();
-            $resObj->fillData($row);
-            return $resObj;
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Get a result by object and user key
      * @param int $a_obj_id
      * @param int $a_usr_id
@@ -158,11 +138,6 @@ class ilLTI1p1ConsumerResult
         return true;
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getObjId(): int
     {
         return $this->obj_id;
@@ -171,11 +146,6 @@ class ilLTI1p1ConsumerResult
     public function getUsrId(): int
     {
         return $this->usr_id;
-    }
-
-    public function getResult(): ?float
-    {
-        return $this->result;
     }
 
     public function setAttended(bool $attended): void

@@ -139,6 +139,7 @@ class ilLTIRelease
      * The local roles an LTI user gets, as their LTI roles tell. celtic/lti knows the role names of
      * every LTI version, both the short ones and the full URIs.
      *
+     * @param User $user
      * @return array
      */
     public function getLocalRoles(User $user): array

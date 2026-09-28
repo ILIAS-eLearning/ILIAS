@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\Enum\LtiVersion;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\Util;
+use Random\RandomException;
 
 /**
  * ILIAS as the tool a platform launches: celtic/lti checks the launch, whatever LTI version it comes
@@ -48,6 +49,8 @@ class ilLTILaunchReceiver extends Tool
 
     /**
      * Checks and stores the launch of the current request.
+     *
+     * @throws RandomException
      */
     public function receive(): void
     {
@@ -77,6 +80,8 @@ class ilLTILaunchReceiver extends Tool
      * What ILIAS sends to an LTI Advantage platform is signed with its key, the requests for the access
      * tokens of the platform services included, which the library signs as its default tool. Checking the
      * launch does not need it, so a missing key only stops what is sent later.
+     *
+     * @throws RandomException
      */
     private function signAsIlias(): void
     {

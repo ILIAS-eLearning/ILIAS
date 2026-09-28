@@ -71,11 +71,6 @@ class ilLTIConsumerResultService
         $this->mastery_score = $mastery_score;
     }
 
-    public function getAvailability(): int
-    {
-        return $this->availability;
-    }
-
     public function setAvailability(int $availability): void
     {
         $this->availability = $availability;

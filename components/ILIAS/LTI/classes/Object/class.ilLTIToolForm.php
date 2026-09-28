@@ -175,15 +175,14 @@ class ilLTIToolForm
             )->withValue($text("custom_params")),
         ], $this->lng->txt("lti_con_prov_launch_options"));
 
-        $category = $field->radio($this->lng->txt("lti_con_prov_category"), $this->lng->txt("lti_con_prov_category_info"))
-            ->withRequired(true);
+        $category = $field->radio($this->lng->txt("lti_con_prov_category"), $this->lng->txt("lti_con_prov_category_info"));
         foreach (self::CATEGORIES as $name) {
             $category = $category->withOption($name, $this->lng->txt("rep_add_new_def_grp_" . $name));
         }
         $group = $field->section([
             "keywords" => $field->text($this->lng->txt("lti_con_prov_keywords"), $this->lng->txt("lti_con_prov_keywords_info"))
                 ->withValue($text("keywords")),
-            "category" => $category->withValue(in_array($text("category"), self::CATEGORIES, true) ? $text("category") : "content"),
+            "category" => $category->withRequired(true)->withValue(in_array($text("category"), self::CATEGORIES, true) ? $text("category") : "content"),
         ], $this->lng->txt("lti_con_prov_group_options"));
 
         $hints = $field->section([
@@ -307,6 +306,7 @@ class ilLTIToolForm
     }
 
     /**
+     * @param array $row
      * @return array
      */
     private function get1p1Inputs(array $row): array
@@ -341,6 +341,7 @@ class ilLTIToolForm
     }
 
     /**
+     * @param array $row
      * @return array
      */
     private function getAdvantageInputs(array $row): array

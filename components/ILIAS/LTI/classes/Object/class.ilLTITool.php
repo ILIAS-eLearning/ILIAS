@@ -262,16 +262,6 @@ class ilLTITool
         return ilCmiXapiLrsType::buildBasicAuth($this->xapi_launch_key, $this->xapi_launch_secret);
     }
 
-    public function getXapiLaunchKey(): string
-    {
-        return $this->xapi_launch_key;
-    }
-
-    public function getXapiLaunchSecret(): string
-    {
-        return $this->xapi_launch_secret;
-    }
-
     /**
      * The xAPI activity of the tool, empty when each object has to name its own.
      */

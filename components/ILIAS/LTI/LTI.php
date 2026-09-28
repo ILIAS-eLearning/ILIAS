@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ArrayAccess;
+use ILIAS\Setup\Agent;
+use ilLTISetupAgent;
+
 /**
  * LTI component: LTI 1.1 (classes/LTI1p1) and LTI Advantage (classes/LTIAdvantage) for ILIAS as consumer and provider.
  * See README.md for the structure.
@@ -29,16 +33,16 @@ namespace ILIAS;
 class LTI implements Component\Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array | ArrayAccess &$define,
+        array | ArrayAccess &$implement,
+        array | ArrayAccess &$use,
+        array | ArrayAccess &$contribute,
+        array | ArrayAccess &$seek,
+        array | ArrayAccess &$provide,
+        array | ArrayAccess &$pull,
+        array | ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ilLTISetupAgent();
+        $contribute[Agent::class] = static fn() => new ilLTISetupAgent();
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "ltiresult.php");

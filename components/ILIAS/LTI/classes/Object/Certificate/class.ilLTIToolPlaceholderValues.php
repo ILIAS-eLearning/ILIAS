@@ -24,14 +24,14 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIToolPlaceholderValues implements ilCertificatePlaceholderValues
+readonly class ilLTIToolPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private readonly ilLanguage $language;
-    private readonly ilDefaultPlaceholderValues $default_values;
-    private readonly ilCertificateObjectHelper $object_helper;
-    private readonly ilCertificateUtilHelper $util_helper;
-    private readonly ilCertificateLPStatusHelper $lp_status_helper;
-    private readonly ilCertificateDateHelper $date_helper;
+    private ilLanguage $language;
+    private ilDefaultPlaceholderValues $default_values;
+    private ilCertificateObjectHelper $object_helper;
+    private ilCertificateUtilHelper $util_helper;
+    private ilCertificateLPStatusHelper $lp_status_helper;
+    private ilCertificateDateHelper $date_helper;
 
     public function __construct()
     {
@@ -47,7 +47,14 @@ class ilLTIToolPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
+     * @param int $userId
+     * @param int $objId
      * @return array
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilException
+     * @throws ilInvalidCertificateException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId): array
     {
@@ -78,7 +85,11 @@ class ilLTIToolPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
+     * @param int $userId
+     * @param int $objId
      * @return array
+     * @throws ilDateTimeException
+     * @throws ilException
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {

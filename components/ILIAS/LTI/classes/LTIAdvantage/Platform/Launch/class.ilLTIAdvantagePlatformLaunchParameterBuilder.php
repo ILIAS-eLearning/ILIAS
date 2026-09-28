@@ -32,6 +32,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
 
     /**
      * @return array the message parameters, the user id of the tool being the login hint of the launch
+     * @throws ilWACException
      */
     public static function build(ilObjLTITool $object, ilCmiXapiUser $cmix_user, string $return_url): array
     {
@@ -94,6 +95,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
     /**
      * The outermost course or group the object is in, or else the innermost category.
      *
+     * @param int $ref_id
      * @return array
      */
     private static function getContext(int $ref_id): array

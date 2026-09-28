@@ -28,9 +28,9 @@ use ILIAS\UI\Component\Table\DataRowBuilder;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIObjectRankingTable implements DataRetrieval
+readonly class ilLTIObjectRankingTable implements DataRetrieval
 {
-    public function __construct(private readonly array $rows)
+    public function __construct(private array $rows)
     {
     }
 

@@ -29,6 +29,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
     /**
      * @throws ilCtrlException
      * @throws ilTemplateException
+     * @throws ilWACException
      */
     public static function renderLaunch(
         ilObjLTITool $object,
@@ -54,6 +55,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
     /**
      * Sends the auto-submitting launch page for the iframe and ends the request.
      * @throws ilTemplateException
+     * @throws ilWACException
      */
     public static function renderEmbeddedLaunch(
         ilObjLTITool $object,
@@ -86,6 +88,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
 
     /**
      * @throws ilCtrlException
+     * @throws ilWACException
      */
     public static function renderStartButton(
         ilObjLTITool $object,
@@ -150,6 +153,9 @@ final class ilLTI1p1ConsumerLaunchRenderer
         return $output;
     }
 
+    /**
+     * @throws ilWACException
+     */
     public static function resolveLaunchParameters(
         ilObjLTITool $object,
         ilCmiXapiUser $cmix_user,

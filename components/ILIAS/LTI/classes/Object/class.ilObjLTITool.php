@@ -345,6 +345,8 @@ class ilObjLTITool extends ilObject2
 
     /**
      * The keywords of the metadata are the ones of the tool: those of the object are replaced by them.
+     *
+     * @throws ilMDServicesException
      */
     public function syncKeywordsFromTool(): void
     {

@@ -34,8 +34,8 @@ class ilLTI1p1ProviderObjectCredentials
     private const string VERSION = 'LTI-1p0';
 
     private int $record_id = 0;
-    private string $key = '';
-    private string $secret = '';
+    private string $key;
+    private string $secret;
     private bool $enabled = false;
 
     public function __construct(private readonly int $ref_id, private readonly int $platform_id)

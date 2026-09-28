@@ -50,6 +50,8 @@ class ilLTIObjectSettingsGUI
 
     /**
      * @throws ilCtrlException
+     * @throws ilObjectException
+     * @throws ilException
      */
     public function executeCommand(): void
     {
@@ -134,8 +136,8 @@ class ilLTIObjectSettingsGUI
                     ->withValue($tool->getTitle())
                     ->withDisabled(true),
                 'title' => $field->text($lng->txt('title'), $lng->txt('title_info'))
-                    ->withRequired(true)
                     ->withMaxLength(128)
+                    ->withRequired(true)
                     ->withValue($this->object->getTitle()),
                 'description' => $field->textarea($lng->txt('description'), $lng->txt('description_info'))
                     ->withValue($this->object->getDescription()),
@@ -168,7 +170,7 @@ class ilLTIObjectSettingsGUI
             ], $lng->txt('learning_progress_options'));
         }
 
-        $launch_method = $field->radio($lng->txt('launch_method'))->withRequired(true);
+        $launch_method = $field->radio($lng->txt('launch_method'));
         foreach ([
             ilObjLTITool::LAUNCH_METHOD_OWN_WIN => 'launch_method_own_win',
             ilObjLTITool::LAUNCH_METHOD_NEW_WIN => 'launch_method_new_win',
@@ -178,7 +180,7 @@ class ilLTIObjectSettingsGUI
         }
 
         $sections['appearance'] = $field->section([
-            'launch_method' => $launch_method->withValue($this->object->getLaunchMethod()),
+            'launch_method' => $launch_method->withRequired(true)->withValue($this->object->getLaunchMethod()),
             'custom_params' => $field->textarea(
                 $lng->txt('lti_con_prov_custom_params'),
                 $lng->txt('lti_con_prov_custom_params_info')
@@ -200,7 +202,7 @@ class ilLTIObjectSettingsGUI
         $field = $this->dic->ui()->factory()->input()->field();
         $object = $this->object;
 
-        $mode = $field->radio($lng->txt('highscore_mode'))->withRequired(true);
+        $mode = $field->radio($lng->txt('highscore_mode'));
         foreach ([
             ilObjLTITool::HIGHSCORE_SHOW_OWN_TABLE => 'highscore_own_table',
             ilObjLTITool::HIGHSCORE_SHOW_TOP_TABLE => 'highscore_top_table',
@@ -210,7 +212,7 @@ class ilLTIObjectSettingsGUI
         }
 
         $highscore = $field->optionalGroup([
-            'highscore_mode' => $mode->withValue((string) $object->getHighscoreMode()),
+            'highscore_mode' => $mode->withRequired(true)->withValue((string) $object->getHighscoreMode()),
             'highscore_top_num' => $field->numeric(
                 $lng->txt('highscore_top_num'),
                 $lng->txt('highscore_top_num_description')
@@ -235,8 +237,8 @@ class ilLTIObjectSettingsGUI
         // an object only names its activity when the tool does not
         if ($object->getTool()->getXapiActivityId() === '') {
             $inputs['activity_id'] = $field->text($lng->txt('activity_id'), $lng->txt('activity_id_info'))
-                ->withRequired(true)
                 ->withMaxLength(128)
+                ->withRequired(true)
                 ->withValue($object->getCustomActivityId());
         }
         $inputs['show_statements'] = $field->checkbox($lng->txt('show_statements'), $lng->txt('show_statements_info'))
@@ -278,6 +280,7 @@ class ilLTIObjectSettingsGUI
     /**
      * @throws ilCtrlException
      * @throws ilObjectException
+     * @throws ilException
      */
     private function forwardToCertificate(): void
     {

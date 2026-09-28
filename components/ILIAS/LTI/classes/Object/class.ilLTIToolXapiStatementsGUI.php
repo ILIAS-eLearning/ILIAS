@@ -67,6 +67,7 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
 
     /**
      * @throws ilObjectException
+     * @throws ilCtrlException
      */
     public function executeCommand(): void
     {
@@ -77,12 +78,14 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
         $query = $this->dic->http()->request()->getQueryParams();
         if (($query[$this->action_token->getName()] ?? '') === self::ACTION_RAW) {
             $this->showRawStatement((string) (((array) ($query[$this->id_token->getName()] ?? []))[0] ?? ''));
-            return;
         }
 
         $this->show();
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function show(): void
     {
         $lng = $this->dic->language();
@@ -113,6 +116,11 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
         $this->dic->ui()->mainTemplate()->setContent($this->dic->ui()->renderer()->render([$filter, $table]));
     }
 
+    /**
+     * @throws DateMalformedStringException
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
     public function getRows(
         DataRowBuilder $row_builder,
         array $visible_column_ids,
@@ -185,6 +193,7 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
      * A user who may not read the outcomes is always filtered to their own statements.
      *
      * @throws ilCmiXapiInvalidStatementsFilterException
+     * @throws ilDateTimeException
      */
     private function applyFilterData(ilCmiXapiStatementsReportFilter $filter, array $data): void
     {
@@ -197,7 +206,7 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
             $usr_id = ilObjUser::getUserIdByLogin($login);
             if (!$usr_id) {
                 throw new ilCmiXapiInvalidStatementsFilterException(
-                    "given actor ({$login}) is not a valid actor for object ({$this->object->getId()})"
+                    "given actor ($login) is not a valid actor for object ({$this->object->getId()})"
                 );
             }
             $filter->setActor(new ilCmiXapiUser($this->object->getId(), $usr_id, $privacy_ident));
@@ -219,6 +228,7 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
 
     /**
      * @return array start and end of the period of the filter, each null when not given
+     * @throws ilDateTimeException
      */
     private function getPeriod(mixed $period): array
     {
@@ -227,14 +237,19 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
             static fn(mixed $value): bool => $value instanceof DateTimeInterface
         ));
 
-        return array_map(
-            static fn(?DateTimeInterface $date): ?ilCmiXapiDateTime => $date === null
+        $bounds = [];
+        foreach ([$dates[0] ?? null, $dates[1] ?? null] as $date) {
+            $bounds[] = $date === null
                 ? null
-                : ilCmiXapiDateTime::fromIliasDateTime(new ilDateTime($date->getTimestamp(), IL_CAL_UNIX)),
-            [$dates[0] ?? null, $dates[1] ?? null]
-        );
+                : ilCmiXapiDateTime::fromIliasDateTime(new ilDateTime($date->getTimestamp(), IL_CAL_UNIX));
+        }
+
+        return $bounds;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function buildFilter(): Filter
     {
         $lng = $this->dic->language();
@@ -260,6 +275,10 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
         );
     }
 
+    /**
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
     private function getActorName(ilCmiXapiUser $actor): string
     {
         $user = ilObjectFactory::getInstanceByObjId($actor->getUsrId(), false);
@@ -270,7 +289,7 @@ class ilLTIToolXapiStatementsGUI implements DataRetrieval
     /**
      * The raw statement of a row of the page shown last, in a modal.
      */
-    private function showRawStatement(string $id): void
+    private function showRawStatement(string $id): never
     {
         $raw = (array) ilSession::get(self::SESSION_RAW);
         $factory = $this->dic->ui()->factory();

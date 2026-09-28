@@ -32,9 +32,10 @@ class ilLTIToolLP extends ilObjectLP
     ];
 
     /**
+     * @param bool $lp_active
      * @return array
      */
-    public static function getDefaultModes(bool $a_lp_active): array
+    public static function getDefaultModes(bool $lp_active): array
     {
         return self::MODES;
     }

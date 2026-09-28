@@ -31,8 +31,6 @@ use ILIAS\UI\Component\Table\DataRowBuilder;
  */
 class ilLTIObjectGradebookGUI implements DataRetrieval
 {
-    public const string CMD_SHOW = 'show';
-
     private const string TABLE_NAME = 'lti_consumer_grades';
 
     private readonly ILIAS\DI\Container $dic;
@@ -74,6 +72,9 @@ class ilLTIObjectGradebookGUI implements DataRetrieval
         $this->dic->ui()->mainTemplate()->setContent($this->dic->ui()->renderer()->render($table));
     }
 
+    /**
+     * @throws DateMalformedStringException
+     */
     public function getRows(
         DataRowBuilder $row_builder,
         array $visible_column_ids,
@@ -84,15 +85,18 @@ class ilLTIObjectGradebookGUI implements DataRetrieval
         mixed $additional_parameters
     ): Generator {
         $lng = $this->dic->language();
-        $rows = array_map(static fn(array $record): array => [
-            'id' => (string) $record['id'],
-            'lti_timestamp' => new DateTimeImmutable((string) $record['lti_timestamp']),
-            'actor' => ilObjUser::_lookupFullname((int) $record['usr_id']),
-            'score' => $record['score_given'] . ' / ' . $record['score_maximum'],
-            'activity_progress' => $lng->txt('grade_activity_progress_' . strtolower((string) $record['activity_progress'])),
-            'grading_progress' => $lng->txt('grade_grading_progress_' . strtolower((string) $record['grading_progress'])),
-            'stored' => new DateTimeImmutable((string) $record['stored']),
-        ], $this->getRecords());
+        $rows = [];
+        foreach ($this->getRecords() as $record) {
+            $rows[] = [
+                'id' => (string) $record['id'],
+                'lti_timestamp' => new DateTimeImmutable((string) $record['lti_timestamp']),
+                'actor' => ilObjUser::_lookupFullname((int) $record['usr_id']),
+                'score' => $record['score_given'] . ' / ' . $record['score_maximum'],
+                'activity_progress' => $lng->txt('grade_activity_progress_' . strtolower((string) $record['activity_progress'])),
+                'grading_progress' => $lng->txt('grade_grading_progress_' . strtolower((string) $record['grading_progress'])),
+                'stored' => new DateTimeImmutable((string) $record['stored']),
+            ];
+        }
 
         [$field, $direction] = $order->join([], static fn(array $result, string $key, string $value): array => [$key, $value]);
         usort($rows, static fn(array $left, array $right): int => $left[$field] <=> $right[$field]);

@@ -24,10 +24,10 @@ declare(strict_types=1);
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIToolPlaceholderDescription implements ilCertificatePlaceholderDescription
+readonly class ilLTIToolPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private readonly ilLanguage $language;
-    private readonly array $placeholders;
+    private ilLanguage $language;
+    private array $placeholders;
 
     public function __construct()
     {
@@ -60,6 +60,9 @@ class ilLTIToolPlaceholderDescription implements ilCertificatePlaceholderDescrip
         return $this->placeholders;
     }
 
+    /**
+     * @throws ilTemplateException
+     */
     public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
     {
         $template ??= new ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');

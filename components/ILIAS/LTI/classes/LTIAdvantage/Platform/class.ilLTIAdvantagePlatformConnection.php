@@ -22,6 +22,7 @@ use ceLTIc\LTI\Enum\LtiVersion;
 use ceLTIc\LTI\Platform;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\Util;
+use Random\RandomException;
 
 /**
  * ILIAS as the LTI Advantage platform of one tool, in the terms of celtic/lti: the platform is ILIAS with
@@ -56,6 +57,7 @@ class ilLTIAdvantagePlatformConnection extends Platform
 
     /**
      * @throws ilException when the tool is not an LTI Advantage tool or ILIAS has no key
+     * @throws RandomException
      */
     public function __construct(ilLTITool $tool)
     {
@@ -92,6 +94,7 @@ class ilLTIAdvantagePlatformConnection extends Platform
      * The connection of the LTI Advantage tool ILIAS gave the client id, null when there is none.
      *
      * @throws ilException when ILIAS has no key
+     * @throws RandomException
      */
     public static function forClientId(string $client_id): ?self
     {
@@ -127,6 +130,9 @@ class ilLTIAdvantagePlatformConnection extends Platform
     }
 
     /**
+     * @param string $url
+     * @param string $loginHint
+     * @param string|null $ltiMessageHint
      * @param array $params
      */
     protected function onInitiateLogin(string &$url, string &$loginHint, ?string &$ltiMessageHint, array $params): void

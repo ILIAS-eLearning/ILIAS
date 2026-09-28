@@ -26,8 +26,6 @@ declare(strict_types=1);
  */
 class ilLTIObjectRankingGUI
 {
-    public const string CMD_SHOW = 'show';
-
     /**
      * How many users around the current one the own ranking shows, the user included.
      */
@@ -44,6 +42,8 @@ class ilLTIObjectRankingGUI
 
     /**
      * @throws ilObjectException
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
      */
     public function executeCommand(): void
     {
@@ -56,6 +56,9 @@ class ilLTIObjectRankingGUI
 
     /**
      * An LRS that cannot be reached is reported, with an empty ranking.
+     *
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
      */
     private function show(): void
     {
@@ -103,6 +106,10 @@ class ilLTIObjectRankingGUI
         $this->dic->ui()->mainTemplate()->setContent($this->dic->ui()->renderer()->render($tables));
     }
 
+    /**
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
     private function buildTable(string $id, string $title, array $rows): ILIAS\UI\Component\Table\Data
     {
         $lng = $this->dic->language();
@@ -134,12 +141,16 @@ class ilLTIObjectRankingGUI
     /**
      * The name of a participant is only resolved for who may read the outcomes, the others see the
      * name the report gives, which is only the one of the current user.
+     *
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
      */
     private function prepareRows(array $rows): array
     {
         $resolve_names = ilObjLTIToolAccess::hasOutcomesAccess($this->object);
 
-        return array_map(function (array $row) use ($resolve_names): array {
+        $prepared = [];
+        foreach ($rows as $row) {
             $participant = (string) $row['user'];
             if ($resolve_names) {
                 $user = ilObjectFactory::getInstanceByObjId((int) $row['ilias_user_id'], false);
@@ -148,13 +159,15 @@ class ilLTIObjectRankingGUI
                     : $this->dic->language()->txt('deleted_user');
             }
 
-            return [
+            $prepared[] = [
                 'rank' => (int) $row['rank'],
                 'participant' => $participant,
                 'date' => (string) $row['date'],
                 'percentage' => 100 * (float) $row['score'],
                 'duration' => (string) $row['duration'],
             ];
-        }, array_values($rows));
+        }
+
+        return $prepared;
     }
 }

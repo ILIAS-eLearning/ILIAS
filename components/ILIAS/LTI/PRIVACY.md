@@ -1,6 +1,6 @@
 # LTI Privacy
 
-> Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via the [ILIAS issue tracker](https://mantis.ilias.de) or submit a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
+> Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via the [ILIAS issue tracker](https://mantis.ilias.de) or submit a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ### General information
 
@@ -14,7 +14,7 @@ An account with the “Create LTI Consumer” permission cannot add its own LTI 
 
 Only accounts with the “Add Own LTI Provider Settings” permission can add individually configured LTI Consumers for specific tools. These are referred to as “Providers Defined by Users”. Accounts with the additional “Release Objects” permission can approve a User-Defined Provider as a Global Provider, thereby adding it to the white list. Both permissions are managed in the permission settings of Administration > LTI.
 
-For improved privacy and enhanced data security, it is highly recommended to use LTI Advantage, as it offers superior protection of personal data compared to LTI 1.1, and to use pseudonymisation in the settings of the platform or consumer.
+For improved privacy and enhanced data security, it is highly recommended to use LTI Advantage, as it offers superior protection of personal data compared to LTI 1.1, and to use pseudonymization in the settings of the platform or consumer.
 
 ### Integrated Components
 

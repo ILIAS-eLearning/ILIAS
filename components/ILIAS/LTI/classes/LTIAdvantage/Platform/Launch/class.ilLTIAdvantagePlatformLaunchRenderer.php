@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ceLTIc\LTI\Platform;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use Random\RandomException;
 
 /**
  * The LTI Advantage launch of an LTI object. The content screen offers it in the way the object is set to
@@ -78,6 +80,9 @@ final class ilLTIAdvantagePlatformLaunchRenderer
 
     /**
      * Sends the page that starts the launch and ends the request.
+     *
+     * @throws RandomException
+     * @throws ResponseSendingException
      */
     public static function sendLaunchPage(
         ilObjLTITool $object,

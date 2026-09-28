@@ -72,16 +72,4 @@ final class ilLTI1p1ConsumerProviderCredentials
             $this->setKeyCustomizable((bool) $row['provider_key_customizable']);
         }
     }
-
-    /**
-     * @return array
-     */
-    public function getDbFields(): array
-    {
-        return [
-            'provider_key' => ['text', $this->getKey()],
-            'provider_secret' => ['text', $this->getSecret()],
-            'provider_key_customizable' => ['integer', (int) $this->isKeyCustomizable()],
-        ];
-    }
 }

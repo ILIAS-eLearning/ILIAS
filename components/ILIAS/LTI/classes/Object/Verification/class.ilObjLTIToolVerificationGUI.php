@@ -78,7 +78,6 @@ class ilObjLTIToolVerificationGUI extends ilObject2GUI implements DataRetrieval
             return;
         }
 
-        $verification = null;
         try {
             $certificate = new ilUserCertificateRepository()->fetchActiveCertificateForPresentation($this->user->getId(), $obj_id);
             $verification = $this->getFileService()->createFile($certificate);
@@ -104,6 +103,9 @@ class ilObjLTIToolVerificationGUI extends ilObject2GUI implements DataRetrieval
         $this->afterSave($verification);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function getRows(
         DataRowBuilder $row_builder,
         array $visible_column_ids,

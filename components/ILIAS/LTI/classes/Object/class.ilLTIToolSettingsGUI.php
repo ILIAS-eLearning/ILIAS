@@ -43,6 +43,7 @@ class ilLTIToolSettingsGUI
     /**
      * @throws ilCtrlException
      * @throws ilObjectException
+     * @throws ilMDServicesException
      */
     public function executeCommand(): void
     {
@@ -65,6 +66,7 @@ class ilLTIToolSettingsGUI
 
     /**
      * @throws ilCtrlException
+     * @throws ilMDServicesException
      */
     private function save(): void
     {

@@ -147,7 +147,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
                 }
                 $this->tabs_gui->activateTab(self::TAB_LEARNING_PROGRESS);
                 $this->ctrl->forwardCommand(new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId()
                 ));
                 break;
@@ -188,6 +188,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
     /**
      * @throws ilCtrlException
+     * @throws ilObjectException
      */
     protected function setTabs(): void
     {
@@ -334,7 +335,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      * Creates the object for the tool of the request.
      *
      * @throws ilCtrlException
-     * @throws ilObjectException
+     * @throws ilMDServicesException
      */
     public function save(): void
     {
@@ -342,7 +343,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
             $this->error->raiseError($this->lng->txt('no_create_permission'), $this->error->MESSAGE);
         }
 
-        $tool = new ilLTITool($this->getIntParameter('tool_id'));
+        $tool = new ilLTITool($this->getToolIdParameter());
         if (!$tool->isSelectableBy($this->user->getId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_no_provider_selected'));
             $this->create();
@@ -356,7 +357,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      * Stores a tool of the user and creates the object for it.
      *
      * @throws ilCtrlException
-     * @throws ilObjectException
+     * @throws ilMDServicesException
      */
     protected function saveOwnTool(): void
     {
@@ -438,6 +439,8 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
     /**
      * The header offers the certificate of the current user, once they have one.
+     *
+     * @throws ilCtrlException
      */
     protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
@@ -511,6 +514,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      * Each LTI version has its own form, because they authenticate the tool differently. The control on
      * top switches between them.
      *
+     * @param Form|null $form
      * @return array
      * @throws ilCtrlException
      */
@@ -592,7 +596,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      * An object carries the title and the description of its tool, as there is nothing else to name it after.
      *
      * @throws ilCtrlException
-     * @throws ilObjectException
+     * @throws ilMDServicesException
      */
     private function createForTool(ilLTITool $tool): void
     {
@@ -688,10 +692,10 @@ class ilObjLTIToolGUI extends ilObject2GUI
         }
     }
 
-    private function getIntParameter(string $name): int
+    private function getToolIdParameter(): int
     {
-        return $this->request_wrapper->has($name)
-            ? $this->request_wrapper->retrieve($name, $this->refinery->kindlyTo()->int())
+        return $this->request_wrapper->has('tool_id')
+            ? $this->request_wrapper->retrieve('tool_id', $this->refinery->kindlyTo()->int())
             : 0;
     }
 

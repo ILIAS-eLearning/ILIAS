@@ -117,7 +117,7 @@ class ilLTIViewLayoutProvider extends AbstractModificationProvider
                 }
                 $items = $breadcrumbs->getItems();
                 foreach ($items as $index => $item) {
-                    if (preg_match('/(ref_id=|_)' . $context_id . '(\D|$)/', (string) $item->getAction())) {
+                    if (preg_match('/(ref_id=|_)' . $context_id . '(\D|$)/', $item->getAction())) {
                         return $this->dic->ui()->factory()->breadcrumbs(array_slice($items, $index));
                     }
                 }

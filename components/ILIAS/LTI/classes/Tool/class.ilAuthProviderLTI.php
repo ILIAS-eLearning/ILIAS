@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use Random\RandomException;
+
 /**
  * Logs in the user of a launch: celtic/lti checks the launch, this class creates or updates the ILIAS
  * account of the user, gives it the roles of the platform and of the released object, and remembers the
@@ -84,6 +86,10 @@ class ilAuthProviderLTI extends ilAuthProvider
         return count($parts) > 1 && $parts[0] === (string) ilAuthUtils::AUTH_PROVIDER_LTI && $parts[1] !== '';
     }
 
+    /**
+     * @throws ilDateTimeException
+     * @throws RandomException
+     */
     public function doAuthentication(ilAuthStatus $status): bool
     {
         $receiver = new ilLTILaunchReceiver(new ilLTIDataConnector());
@@ -116,6 +122,7 @@ class ilAuthProviderLTI extends ilAuthProvider
      * (ref_id > 0) is for that object. The registration of an LTI Advantage platform (ref_id 0) is for
      * the object its target link names, as long as the object is released to the platform.
      *
+     * @param int $record_id
      * @param array $parameters
      * @return array|null
      */
@@ -157,6 +164,8 @@ class ilAuthProviderLTI extends ilAuthProvider
      *
      * @param array $release
      * @param array $parameters
+     * @return int
+     * @throws ilDateTimeException
      */
     private function syncUser(array $release, array $parameters): int
     {
@@ -213,6 +222,9 @@ class ilAuthProviderLTI extends ilAuthProvider
      * keeps (128 characters for names and email).
      *
      * @param array $parameters
+     * @param string $name
+     * @param string $default
+     * @return string
      */
     private function getProfileValue(array $parameters, string $name, string $default): string
     {
@@ -246,7 +258,7 @@ class ilAuthProviderLTI extends ilAuthProvider
         }
 
         foreach ($DIC->repositoryTree()->getPathId($ref_id) as $path_ref_id) {
-            $release = new ilLTIRelease((int) $path_ref_id, $platform_id);
+            $release = new ilLTIRelease($path_ref_id, $platform_id);
             foreach ($release->getAllRoles() as $role_id) {
                 $DIC->rbac()->admin()->deassignUser($role_id, $usr_id);
             }
@@ -259,6 +271,7 @@ class ilAuthProviderLTI extends ilAuthProvider
     /**
      * What the LTI view needs of the launch, for the object the platform launched.
      *
+     * @param int $ref_id
      * @param array $parameters
      */
     private function rememberLaunch(int $ref_id, array $parameters): void
@@ -276,6 +289,7 @@ class ilAuthProviderLTI extends ilAuthProvider
      * The object an LTI Advantage launch is for, from the target link ILIAS gives out: lti.php?ref_id=N.
      *
      * @param array $parameters
+     * @return int
      */
     private function getTargetRefId(array $parameters): int
     {
@@ -285,6 +299,7 @@ class ilAuthProviderLTI extends ilAuthProvider
     }
 
     /**
+     * @param bool $active_only
      * @return array
      */
     private static function lookupPlatformIds(bool $active_only): array

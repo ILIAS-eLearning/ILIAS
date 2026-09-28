@@ -28,11 +28,8 @@ class ilLTIToolResult
 {
     private const string TABLE_NAME = 'lti_consumer_results';
 
-    private function __construct(
-        private readonly int $obj_id,
-        private readonly int $usr_id,
-        private readonly ?float $result
-    ) {
+    private function __construct(private readonly ?float $result)
+    {
     }
 
     /**
@@ -52,17 +49,7 @@ class ilLTIToolResult
             return null;
         }
 
-        return new self($obj_id, $usr_id, $row['result'] === null ? null : (float) $row['result']);
-    }
-
-    public function getObjId(): int
-    {
-        return $this->obj_id;
-    }
-
-    public function getUsrId(): int
-    {
-        return $this->usr_id;
+        return new self($row['result'] === null ? null : (float) $row['result']);
     }
 
     /**

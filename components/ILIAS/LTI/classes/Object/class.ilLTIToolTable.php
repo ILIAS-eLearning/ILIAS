@@ -22,6 +22,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
+use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -244,6 +245,9 @@ class ilLTIToolTable implements DataRetrieval
         return $this->writable ? $table->withActions($this->getActions()) : $table;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function getRows(
         DataRowBuilder $row_builder,
         array $visible_column_ids,
@@ -443,8 +447,10 @@ class ilLTIToolTable implements DataRetrieval
 
     /**
      * The escaped title, or a link that creates an object for the tool when the table is a selection.
+     *
+     * @throws ilCtrlException
      */
-    private function buildTitle(int $id, string $title): mixed
+    private function buildTitle(int $id, string $title): StandardLink|string
     {
         if ($this->select_gui === null) {
             return htmlspecialchars($title);

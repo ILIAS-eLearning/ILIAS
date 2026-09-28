@@ -98,6 +98,9 @@ class ilLTIProviderObjectSettingGUI
         };
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function show(?Form $form = null): void
     {
         $this->dic->ui()->mainTemplate()->setContent($this->dic->ui()->renderer()->render($form ?? $this->buildForm()));
@@ -209,7 +212,7 @@ class ilLTIProviderObjectSettingGUI
     private function createLocalRoles(): void
     {
         if (ilObject::_getIdsForTitle('il_lti_global_role', 'role') === []
-            || $this->dic->rbac()->review()->getRolesOfObject($this->ref_id, false) !== []) {
+            || $this->dic->rbac()->review()->getRolesOfObject($this->ref_id) !== []) {
             return;
         }
 
@@ -229,6 +232,9 @@ class ilLTIProviderObjectSettingGUI
     }
 
     /**
+     * @param string $title
+     * @param string $description
+     * @param string $type
      * @param array $operations
      */
     private function createLocalRole(string $title, string $description, string $type, array $operations): void
@@ -238,7 +244,7 @@ class ilLTIProviderObjectSettingGUI
         $role->setDescription($description . ' of ' . $type . ' obj_no.' . ilObject::_lookupObjectId($this->ref_id));
         $role->create();
 
-        $this->dic->rbac()->admin()->assignRoleToFolder($role->getId(), $this->ref_id, 'y');
+        $this->dic->rbac()->admin()->assignRoleToFolder($role->getId(), $this->ref_id);
         $this->dic->rbac()->admin()->grantPermission(
             $role->getId(),
             ilRbacReview::_getOperationIdsByName($operations),

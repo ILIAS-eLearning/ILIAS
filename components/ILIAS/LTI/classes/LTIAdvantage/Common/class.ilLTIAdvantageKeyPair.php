@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\Jwt\Jwt;
 use ceLTIc\LTI\Platform;
 use ceLTIc\LTI\Tool;
+use Random\RandomException;
 
 /**
  * The RSA key pair ILIAS signs its LTI Advantage messages, id tokens and access tokens with, as platform
@@ -46,6 +47,7 @@ class ilLTIAdvantageKeyPair
      * Lets celtic/lti sign as ILIAS.
      *
      * @throws ilException when no key can be created
+     * @throws RandomException
      */
     public static function applyTo(Platform|Tool $system): void
     {
@@ -58,6 +60,7 @@ class ilLTIAdvantageKeyPair
     /**
      * @return array the public JSON Web Key Set
      * @throws ilException when no key can be created
+     * @throws RandomException
      */
     public static function getJwks(): array
     {
@@ -66,6 +69,7 @@ class ilLTIAdvantageKeyPair
 
     /**
      * @throws ilException when no key can be created
+     * @throws RandomException
      */
     private static function getPrivateKey(): string
     {

@@ -318,9 +318,6 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      * @param bool $advantage
      * @return array
      */
-    /**
-     * @return array
-     */
     private function withDeprecationInfo(Form $form, bool $advantage): array
     {
         global $DIC;

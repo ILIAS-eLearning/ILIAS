@@ -18,15 +18,19 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * The certificate settings of an LTI object, which are the general ones: an LTI object adds none.
  * ilCertificateGUIFactory creates it by this name.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilCertificateSettingsLTIToolFormRepository implements ilCertificateFormRepository
+readonly class ilCertificateSettingsLTIToolFormRepository implements ilCertificateFormRepository
 {
-    private readonly ilCertificateSettingsFormRepository $settings_form_repository;
+    private ilCertificateSettingsFormRepository $settings_form_repository;
 
     public function __construct(
         ilObject $object,
@@ -50,6 +54,14 @@ class ilCertificateSettingsLTIToolFormRepository implements ilCertificateFormRep
         );
     }
 
+    /**
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilWACException
+     */
     public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
         return $this->settings_form_repository->createForm($certificateGUI);
@@ -60,6 +72,7 @@ class ilCertificateSettingsLTIToolFormRepository implements ilCertificateFormRep
     }
 
     /**
+     * @param string $content
      * @return array
      */
     public function fetchFormFieldData(string $content): array

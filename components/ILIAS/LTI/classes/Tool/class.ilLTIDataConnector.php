@@ -52,7 +52,7 @@ class ilLTIDataConnector extends DataConnector
     {
         global $DIC;
 
-        parent::__construct(null, '');
+        parent::__construct(null);
         $this->database = $DIC->database();
     }
 
@@ -373,6 +373,7 @@ class ilLTIDataConnector extends DataConnector
      * Advantage platform once per released object (ref_id > 0): those rows are the fallback.
      * The library leaves out client id and deployment id when the request does not give them.
      *
+     * @param Platform $platform
      * @return array|null
      */
     private function fetchAdvantagePlatform(Platform $platform): ?array
@@ -394,6 +395,10 @@ class ilLTIDataConnector extends DataConnector
     }
 
     /**
+     * @param string $table
+     * @param string $column
+     * @param int|string $value
+     * @param string $type
      * @return array|null
      */
     private function fetch(string $table, string $column, int|string $value, string $type): ?array
@@ -408,6 +413,7 @@ class ilLTIDataConnector extends DataConnector
     /**
      * Earlier releases stored some settings serialized instead of as JSON.
      *
+     * @param string|null $settings
      * @return array
      */
     private function decodeSettings(?string $settings): array
