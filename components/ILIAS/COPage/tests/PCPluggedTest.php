@@ -37,14 +37,14 @@ class PCPluggedTest extends COPageTestBase
     {
         $page = $this->getEmptyPageWithDom();
 
-        $first_plugin_info = $this->createConfiguredMock(
+        $first_plugin_info = $this->createConfiguredStub(
             ilPluginInfo::class,
             [
                 "isActive" => true,
                 "getId" => "first_plugin",
             ]
         );
-        $second_plugin_info = $this->createConfiguredMock(
+        $second_plugin_info = $this->createConfiguredStub(
             ilPluginInfo::class,
             [
                 "isActive" => true,
@@ -52,21 +52,21 @@ class PCPluggedTest extends COPageTestBase
             ]
         );
 
-        $first_plugin_gui = $this->createMock(ilPageComponentPluginGUI::class);
+        $first_plugin_gui = $this->createStub(ilPageComponentPluginGUI::class);
         $first_plugin_gui->method("getElementHTML")
             ->willReturn("");
-        $first_plugin = $this->createMock(ilPageComponentPlugin::class);
+        $first_plugin = $this->createStub(ilPageComponentPlugin::class);
         $first_plugin->method("getUIClassInstance")
             ->willReturn($first_plugin_gui);
 
-        $second_plugin_gui = $this->createMock(ilPageComponentPluginGUI::class);
+        $second_plugin_gui = $this->createStub(ilPageComponentPluginGUI::class);
         $second_plugin_gui->method("getElementHTML")
             ->willReturn("second plugin html");
-        $second_plugin = $this->createMock(ilPageComponentPlugin::class);
+        $second_plugin = $this->createStub(ilPageComponentPlugin::class);
         $second_plugin->method("getUIClassInstance")
             ->willReturn($second_plugin_gui);
 
-        $component_repository = $this->createMock(ilComponentRepository::class);
+        $component_repository = $this->createStub(ilComponentRepository::class);
         $component_repository->method("getPluginByName")
             ->willReturnMap([
                 ["First", $first_plugin_info],
@@ -74,7 +74,7 @@ class PCPluggedTest extends COPageTestBase
             ]);
         $this->setGlobalVariable("component.repository", $component_repository);
 
-        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory = $this->createStub(ilComponentFactory::class);
         $component_factory->method("getPlugin")
             ->willReturnMap([
                 ["first_plugin", $first_plugin],

@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 require_once("./components/ILIAS/MediaObjects/ImageMap/class.ilMapArea.php");
 
@@ -27,13 +27,11 @@ require_once("./components/ILIAS/MediaObjects/ImageMap/class.ilMapArea.php");
 class PCMediaObjectTest extends COPageTestBase
 {
     /**
-     * @return (\ILIAS\Repository\Object\ObjectAdapter&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @return (\ILIAS\Repository\Object\ObjectAdapter&Stub)|Stub
      */
-    protected function getObjectAdapterMock(): MockObject
+    protected function getObjectAdapterMock(): Stub
     {
-        $object_adapter = $this->getMockBuilder(\ILIAS\Repository\Object\ObjectAdapter::class)
-                             ->disableOriginalConstructor()
-                             ->getMock();
+        $object_adapter = $this->createStub(\ILIAS\Repository\Object\ObjectAdapter::class);
         $object_adapter->method("getTypeForObjId")
                      ->willReturnCallback(fn() => "dummy");
         return $object_adapter;

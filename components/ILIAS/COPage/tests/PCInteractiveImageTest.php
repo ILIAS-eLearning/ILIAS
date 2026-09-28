@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 require_once("./components/ILIAS/MediaObjects/ImageMap/class.ilMapArea.php");
 
@@ -27,29 +27,25 @@ require_once("./components/ILIAS/MediaObjects/ImageMap/class.ilMapArea.php");
 class PCInteractiveImageTest extends COPageTestBase
 {
     /**
-     * @return (ilObjMediaObject&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @return (ilObjMediaObject&Stub)|Stub
      */
-    protected function getMediaObjectMock(): MockObject
+    protected function getMediaObjectMock(): Stub
     {
         $media_item = new ilMediaItem();
         $media_item->setWidth("100");
         $media_item->setHeight("50");
-        $media_object = $this->getMockBuilder(ilObjMediaObject::class)
-                             ->disableOriginalConstructor()
-                             ->getMock();
+        $media_object = $this->createStub(ilObjMediaObject::class);
         $media_object->method("getMediaItem")
                   ->willReturnCallback(fn() => $media_item);
         return $media_object;
     }
 
     /**
-     * @return (\ILIAS\Repository\Object\ObjectAdapter&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @return (\ILIAS\Repository\Object\ObjectAdapter&Stub)|Stub
      */
-    protected function getObjectAdapterMock(): MockObject
+    protected function getObjectAdapterMock(): Stub
     {
-        $object_adapter = $this->getMockBuilder(\ILIAS\Repository\Object\ObjectAdapter::class)
-                             ->disableOriginalConstructor()
-                             ->getMock();
+        $object_adapter = $this->createStub(\ILIAS\Repository\Object\ObjectAdapter::class);
         $object_adapter->method("getTypeForObjId")
                      ->willReturnCallback(fn() => "dummy");
         return $object_adapter;

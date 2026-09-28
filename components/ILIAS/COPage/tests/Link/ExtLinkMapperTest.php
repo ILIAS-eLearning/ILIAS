@@ -28,9 +28,7 @@ class ExtLinkMapperTest extends \COPageTestBase
 {
     public function testGetRefId(): void
     {
-        $def_mock = $this->getMockBuilder(\ilObjectDefinition::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $def_mock = $this->createStub(\ilObjectDefinition::class);
         $def_mock
             ->method('isRBACObject')
             ->willReturn(true);

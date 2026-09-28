@@ -18,7 +18,7 @@
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\COPage\ID\ContentIdGenerator;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -65,9 +65,7 @@ class COPageTestBase extends TestCase
 
         parent::setUp();
 
-        $def_mock = $this->getMockBuilder(ilObjectDefinition::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $def_mock = $this->createStub(ilObjectDefinition::class);
 
         $def_mock
             ->method('getAllRepositoryTypes')
@@ -77,7 +75,7 @@ class COPageTestBase extends TestCase
             $def_mock
         );
 
-        $db_mock = $this->createMock(ilDBInterface::class);
+        $db_mock = $this->createStub(ilDBInterface::class);
         $this->setGlobalVariable(
             "ilDB",
             $db_mock
@@ -85,7 +83,7 @@ class COPageTestBase extends TestCase
 
         $this->setGlobalVariable(
             "ilAccess",
-            $this->createConfiguredMock(
+            $this->createConfiguredStub(
                 ilAccess::class,
                 [
                     "checkAccess" => true
@@ -93,38 +91,30 @@ class COPageTestBase extends TestCase
             )
         );
 
-        $ctrl = $this->getMockBuilder('ilCtrl')->disableOriginalConstructor()->onlyMethods(
-            ['setParameterByClass', 'redirectByClass', 'forwardCommand']
-        )->getMock();
+        $ctrl = $this->createStub('ilCtrl');
         $ctrl->method('setParameterByClass');
         $ctrl->method('redirectByClass');
         $this->setGlobalVariable('ilCtrl', $ctrl);
 
-        $languageMock = $this->getMockBuilder(ilLanguage::class)
-                             ->disableOriginalConstructor()
-                             ->getMock();
+        $languageMock = $this->createStub(ilLanguage::class);
         $this->setGlobalVariable(
             "lng",
             $languageMock
         );
 
-        $userMock = $this->getMockBuilder(ilObjUser::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $userMock = $this->createStub(ilObjUser::class);
         $this->setGlobalVariable(
             "ilUser",
             $userMock
         );
 
-        $treeMock = $this->getMockBuilder(ilTree::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $treeMock = $this->createStub(ilTree::class);
         $this->setGlobalVariable(
             "tree",
             $treeMock
         );
 
-        $refinery_mock = $this->createMock(ILIAS\Refinery\Factory::class);
+        $refinery_mock = $this->createStub(ILIAS\Refinery\Factory::class);
         $this->setGlobalVariable(
             "refinery",
             $refinery_mock
@@ -140,11 +130,11 @@ class COPageTestBase extends TestCase
     }
 
     /**
-     * @return ContentIdGenerator|(ContentIdGenerator&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @return ContentIdGenerator|(ContentIdGenerator&Stub)|Stub
      */
     protected function getIdGeneratorMock(): mixed
     {
-        $gen = $this->createMock(\ILIAS\COPage\ID\ContentIdGenerator::class);
+        $gen = $this->createStub(\ILIAS\COPage\ID\ContentIdGenerator::class);
         $gen->method("generate")
             ->willReturnCallback(function () {
                 return str_pad(
@@ -233,16 +223,14 @@ class COPageTestBase extends TestCase
     }
 
     /**
-     * @return (ilObjMediaObject&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @return (ilObjMediaObject&Stub)|Stub
      */
-    protected function getMediaObjectMock(): MockObject|ilObjMediaObject
+    protected function getMediaObjectMock(): Stub|ilObjMediaObject
     {
         $media_item = new ilMediaItem();
         $media_item->setWidth("100");
         $media_item->setHeight("50");
-        $media_object = $this->getMockBuilder(ilObjMediaObject::class)
-                             ->disableOriginalConstructor()
-                             ->getMock();
+        $media_object = $this->createStub(ilObjMediaObject::class);
         $media_object->method("getMediaItem")
                      ->willReturnCallback(fn() => $media_item);
         return $media_object;

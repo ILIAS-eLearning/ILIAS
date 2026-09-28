@@ -33,8 +33,8 @@ class LinkStandardGUIRequestTest extends TestCase
 
     protected function getRequest(array $get, array $post): \ILIAS\COPage\IntLink\StandardGUIRequest
     {
-        $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
-        $lng_mock = $this->createMock(ilLanguage::class);
+        $http_mock = $this->createStub(ILIAS\HTTP\Services::class);
+        $lng_mock = $this->createStub(ilLanguage::class);
         $data = new \ILIAS\Data\Factory();
         $refinery = new \ILIAS\Refinery\Factory($data, $lng_mock);
         return new \ILIAS\COPage\IntLink\StandardGUIRequest(
