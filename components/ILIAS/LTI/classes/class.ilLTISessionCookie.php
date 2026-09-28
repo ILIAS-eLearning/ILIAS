@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\Cookies\CookieFactoryImpl;
-
 /**
  * The session cookie of ILIAS in the LTI flows. ILIAS sends it as SameSite=Lax, which keeps it from requests
  * another site starts: the pages ILIAS shows inside the iframe of a platform, and the POST with which a tool
@@ -57,24 +55,25 @@ class ilLTISessionCookie
 
     /**
      * Removes the session cookie and the client cookie from the browser at the end of an LTI session.
+     *
+     * The headers are set directly as well: the end of an LTI session usually redirects to the platform with
+     * ilCtrl::redirectToURL(), which sends a new response and drops the cookies of the HTTP service.
      */
     public static function remove(): void
     {
-        global $DIC;
+        if (headers_sent()) {
+            return;
+        }
 
         $parameters = session_get_cookie_params();
-        $factory = new CookieFactoryImpl();
-        $jar = $DIC->http()->cookieJar();
         foreach ([session_name(), 'ilClientId'] as $name) {
-            $jar = $jar->with(
-                $factory->create($name, '')
-                        ->withExpires(time() - 3600)
-                        ->withPath($parameters['path'])
-                        ->withDomain($parameters['domain'])
-                        ->withSecure((bool) $parameters['secure'])
-                        ->withHttpOnly((bool) $parameters['httponly'])
-            );
+            setcookie($name, '', [
+                'expires' => time() - 3600,
+                'path' => $parameters['path'],
+                'domain' => $parameters['domain'],
+                'secure' => (bool) $parameters['secure'],
+                'httponly' => (bool) $parameters['httponly'],
+            ]);
         }
-        $DIC->http()->saveResponse($jar->renderIntoResponseHeader($DIC->http()->response()));
     }
 }
