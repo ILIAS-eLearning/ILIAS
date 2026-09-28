@@ -410,6 +410,31 @@ class ilTestSession
         return null;
     }
 
+    /**
+     * This function does NOT check for permissions, just that all other
+     * parameters align!
+     */
+    public function checkAccess(
+        ilObjTest $test
+    ): void {
+        if ($this->user_id !== $this->user->getId()) {
+            throw new ilTestException('active id given does not relate to current user!');
+        }
+
+        if ($this->active_id === 0) {
+            return;
+        }
+
+        if ($this->test_id !== $test->getTestId()) {
+            throw new ilTestException('active id given does not relate to current test!');
+        }
+
+        if ($this->user_id === ANONYMOUS_USER_ID
+            && $this->anonymous_id !== $this->getAccessCodeFromSession()) {
+            throw new ilTestException('active id given does not relate to current anonymous session!');
+        }
+    }
+
     public function setAccessCodeToSession(string $access_code): void
     {
         if (!is_array(ilSession::get(self::ACCESS_CODE_SESSION_INDEX))) {
