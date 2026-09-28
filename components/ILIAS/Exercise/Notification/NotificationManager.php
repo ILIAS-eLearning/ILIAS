@@ -25,12 +25,14 @@ use ILIAS\Exercise\InternalDomainService;
 class NotificationManager
 {
     protected int $ref_id;
+    protected InternalDomainService $domain;
     protected \ILIAS\Exercise\Object\ObjectManager $object;
 
     public function __construct(
         InternalDomainService $domain,
         int $ref_id
     ) {
+        $this->domain = $domain;
         $this->object = $domain->object($ref_id);
         $this->ref_id = $ref_id;
     }
@@ -38,10 +40,7 @@ class NotificationManager
 
     public function sendUploadNotification(int $ass_id): void
     {
-        $users = \ilNotification::getNotificationsForObject(
-            \ilNotification::TYPE_EXERCISE_SUBMISSION,
-            $this->object->getId()
-        );
+        $users = $this->getNotificationRecipients();
 
         $not = new \ilExerciseMailNotification();
         $not->setType(\ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
@@ -101,10 +100,7 @@ class NotificationManager
 
     public function sendDeadlineRequestNotification(int $ass_id): void
     {
-        $users = \ilNotification::getNotificationsForObject(
-            \ilNotification::TYPE_EXERCISE_SUBMISSION,
-            $this->object->getId()
-        );
+        $users = $this->getNotificationRecipients();
 
         $not = new \ilExerciseMailNotification();
         $not->setType(\ilExerciseMailNotification::TYPE_DEADLINE_REQUESTED);
@@ -112,6 +108,24 @@ class NotificationManager
         $not->setRefId($this->ref_id);
         $not->setRecipients($users);
         $not->send();
+    }
+
+    protected function getNotificationRecipients(): array
+    {
+        $users = \ilNotification::getNotificationsForObject(
+            \ilNotification::TYPE_EXERCISE_SUBMISSION,
+            $this->object->getId()
+        );
+
+        return array_values(array_filter(
+            $users,
+            fn(int|string $user_id): bool => $this->domain->access()->checkAccessOfUser(
+                (int) $user_id,
+                'write',
+                '',
+                $this->ref_id
+            )
+        ));
     }
 
     public function sendDeadlineSetNotification(int $ass_id, int $part_id): void
