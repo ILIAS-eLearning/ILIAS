@@ -137,6 +137,23 @@ class PageDBRepository
         }
     }
 
+    /**
+     * Queries last change and user for every page translation
+     * @return iterable<PageInfo>
+     */
+    public function getAllPageTranslationsInfo(int $wiki_id): \Iterator
+    {
+        $set = $this->db->queryF(
+            "SELECT w.id, w.lang, p.last_change_user, p.last_change, w.title FROM page_object p " .
+            "JOIN il_wiki_page w ON (w.wiki_id = %s AND p.parent_type = %s AND p.page_id = w.id AND p.lang = w.lang)",
+            ["integer", "string"],
+            [$wiki_id, "wpg"]
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            yield $this->getPageInfoFromRecord($rec);
+        }
+    }
+
     public function getInfoOfSelected($wiki_id, array $ids, $lang = "-"): \Iterator
     {
         $query = "SELECT wp.id, p.last_change_user, p.last_change, wp.title, wp.lang " .
@@ -235,12 +252,13 @@ class PageDBRepository
         return $langs;
     }
 
-    public function doesAtLeastOnePageExist(int $wiki_id, array $ids): bool
+    public function doesAtLeastOnePageExist(int $wiki_id, array $ids, ?string $lang = null): bool
     {
         // cross check existence of sources in il_wiki_page
         $query = "SELECT count(*) cnt FROM il_wiki_page" .
             " WHERE " . $this->db->in("id", $ids, false, "integer") .
             " AND wiki_id = " . $this->db->quote($wiki_id, "integer") .
+            ($lang === null ? "" : " AND lang = " . $this->db->quote($lang, "text")) .
             " GROUP BY wiki_id";
         $set = $this->db->query($query);
         $rec = $this->db->fetchAssoc($set);
