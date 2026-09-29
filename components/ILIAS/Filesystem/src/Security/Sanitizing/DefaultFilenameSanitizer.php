@@ -47,6 +47,22 @@ class DefaultFilenameSanitizer implements FilenameSanitizer
 
         $this->whitelist = array_diff($this->settings->getWhiteListedSuffixes(), $this->settings->getBlackListedSuffixes());
 
+        // the negative list does not apply to users holding the bypass permission, the
+        // same rule FileServicesPolicy::isBlockedExtension() follows. Only suffixes the
+        // negative list removed from the default or the positive list come back; the
+        // prohibited suffixes and the hard coded protection against php suffixes stay
+        // in effect, see https://mantis.ilias.de/view.php?id=47828
+        if ($this->settings->isByPassAllowedForCurrentUser()) {
+            $removed_by_negative_list = array_intersect(
+                $this->settings->getWhiteListNegative(),
+                array_merge($this->settings->getDefaultWhitelist(), $this->settings->getWhiteListPositive())
+            );
+            $this->whitelist = array_merge(
+                $this->whitelist,
+                array_diff($removed_by_negative_list, $this->settings->getProhibited())
+            );
+        }
+
         // the secure file ending must be valid, therefore add it if it got removed from the white list.
         if (!in_array(FilenameSanitizer::CLEAN_FILE_SUFFIX, $this->whitelist, true)) {
             $this->whitelist[] = FilenameSanitizer::CLEAN_FILE_SUFFIX;

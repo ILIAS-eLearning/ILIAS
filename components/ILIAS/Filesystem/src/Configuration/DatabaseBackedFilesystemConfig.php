@@ -38,10 +38,10 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
     private ?bool $bypass_allowed = null;
 
     private array $resolved_values = [];
-    private array $white_list_negative = [];
-    private array $white_list_positive = [];
+    private ?array $white_list_negative = null;
+    private ?array $white_list_positive = null;
     private ?array $white_list_overall = null;
-    private array $black_list_prohibited = [];
+    private ?array $black_list_prohibited = null;
     private ?array $black_list_overall = null;
     private ?array $white_list_default = null;
 
@@ -188,7 +188,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
 
     public function getWhiteListNegative(): array
     {
-        if (isset($this->white_list_negative)) {
+        if ($this->white_list_negative !== null) {
             return $this->white_list_negative;
         }
         $this->read();
@@ -197,7 +197,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
 
     public function getWhiteListPositive(): array
     {
-        if (isset($this->white_list_positive)) {
+        if ($this->white_list_positive !== null) {
             return $this->white_list_positive;
         }
         $this->read();
@@ -206,7 +206,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
 
     public function getProhibited(): array
     {
-        if (isset($this->black_list_prohibited)) {
+        if ($this->black_list_prohibited !== null) {
             return $this->black_list_prohibited;
         }
         $this->read();
