@@ -67,14 +67,14 @@ class MigrateMailAttachmentsToIRSS implements Migration
     private function migrateSentAttachmentDirectories(): void
     {
         $db = $this->helper->getDatabase();
+        $db->setLimit(self::PATHS_PER_STEP);
         $res = $db->query(
             'SELECT ma.path FROM mail_attachment ma
              LEFT JOIN mail m ON m.mail_id = ma.mail_id
              WHERE (ma.rcid IS NULL OR ma.rcid = "")
              AND ma.path IS NOT NULL AND ma.path != ""
              GROUP BY ma.path
-             ORDER BY MAX(m.send_time) DESC
-             LIMIT ' . self::PATHS_PER_STEP
+             ORDER BY MAX(m.send_time) DESC'
         );
 
         $mail_path = rtrim($this->helper->getClientDataDir(), '/') . '/mail';
@@ -110,11 +110,11 @@ class MigrateMailAttachmentsToIRSS implements Migration
     private function migrateSerializedMailAttachments(): void
     {
         $db = $this->helper->getDatabase();
+        $db->setLimit(self::MAILS_PER_STEP);
         $res = $db->query(
             'SELECT mail_id, user_id, attachments FROM mail
              WHERE attachments LIKE ' . $db->quote('a:%', 'text') . '
-             ORDER BY send_time DESC, mail_id DESC
-             LIMIT ' . self::MAILS_PER_STEP
+             ORDER BY send_time DESC, mail_id DESC'
         );
 
         $mail_path = rtrim($this->helper->getClientDataDir(), '/') . '/mail';
@@ -228,12 +228,12 @@ class MigrateMailAttachmentsToIRSS implements Migration
     private function resolveOwnerIdForPath(string $relative_path): int
     {
         $db = $this->helper->getDatabase();
+        $db->setLimit(1, 0);
         $res = $db->queryF(
             'SELECT m.sender_id FROM mail_attachment ma
              INNER JOIN mail m ON m.mail_id = ma.mail_id
              WHERE ma.path = %s
-             ORDER BY m.send_time ASC
-             LIMIT 1',
+             ORDER BY m.send_time ASC',
             [ilDBConstants::T_TEXT],
             [$relative_path]
         );
