@@ -22,6 +22,7 @@ use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Mail\Setup\MailDBUpdateSteps11;
+use ILIAS\Mail\Setup\Database\V12\MailDBUpdateSteps12;
 use ILIAS\Mail\Setup\Migration\MailOutboxMigration;
 use ILIAS\Mail\Setup\Migration\MigrateMailAttachmentsToIRSS;
 
@@ -54,6 +55,7 @@ class ilMailSetupAgent implements Setup\Agent
             true,
             new ilDatabaseUpdateStepsExecutedObjective(new ilMailDatabaseUpdateSteps()),
             new ilDatabaseUpdateStepsExecutedObjective(new MailDBUpdateSteps11()),
+            new ilDatabaseUpdateStepsExecutedObjective(new MailDBUpdateSteps12()),
         );
     }
 
@@ -69,6 +71,7 @@ class ilMailSetupAgent implements Setup\Agent
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMailDatabaseUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MailDBUpdateSteps11()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MailDBUpdateSteps12()),
         );
     }
 

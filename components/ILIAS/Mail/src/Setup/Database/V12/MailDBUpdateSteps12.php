@@ -18,13 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Mail\Setup;
+namespace ILIAS\Mail\Setup\Database\V12;
 
 use ilDBConstants;
 use ilDBInterface;
 use ilDatabaseUpdateSteps;
 
-class MailDBUpdateSteps11 implements ilDatabaseUpdateSteps
+/** @since ILIAS 12 */
+class MailDBUpdateSteps12 implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
@@ -35,35 +36,15 @@ class MailDBUpdateSteps11 implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $this->db->update(
-            'mail_obj_data',
-            ['title' => [ilDBConstants::T_TEXT, 'f_sent']],
-            ['m_type' => [ilDBConstants::T_TEXT, 'sent'], 'title' => [ilDBConstants::T_TEXT, 'e_sent']]
-        );
-    }
-
-    public function step_2(): void
-    {
-        if (!$this->db->tableColumnExists('mail', 'schedule_datetime')) {
+        if (!$this->db->tableColumnExists('mail_attachment', 'rcid')) {
             $this->db->addTableColumn(
-                'mail',
-                'schedule_datetime',
-                [
-                    'type' => ilDBConstants::T_TIMESTAMP,
-                    'notnull' => false,
-                    'default' => null,
-                ]
-            );
-        }
-        if (!$this->db->tableColumnExists('mail', 'schedule_timezone')) {
-            $this->db->addTableColumn(
-                'mail',
-                'schedule_timezone',
+                'mail_attachment',
+                'rcid',
                 [
                     'type' => ilDBConstants::T_TEXT,
-                    'length' => 32,
+                    'length' => 64,
                     'notnull' => false,
-                    'default' => null
+                    'default' => null,
                 ]
             );
         }
