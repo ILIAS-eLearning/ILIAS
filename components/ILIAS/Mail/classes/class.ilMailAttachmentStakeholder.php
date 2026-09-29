@@ -50,12 +50,12 @@ class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
         $db = $DIC->database();
         $rid = $identification->serialize();
 
+        $db->setLimit(1, 0);
         $res = $db->queryF(
             'SELECT 1 FROM il_resource_rca rca
              INNER JOIN mail_attachment ma ON ma.rcid = rca.rcid
              INNER JOIN mail m ON m.mail_id = ma.mail_id
-             WHERE rca.rid = %s AND m.user_id = %s
-             LIMIT 1',
+             WHERE rca.rid = %s AND m.user_id = %s',
             [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
             [$rid, $user_id]
         );

@@ -64,6 +64,9 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     {
         $statement = $this->createMock(ilDBStatement::class);
         $this->db->expects($this->once())
+            ->method('setLimit')
+            ->with(1, 0);
+        $this->db->expects($this->once())
             ->method('queryF')
             ->willReturn($statement);
         $this->db->expects($this->once())
@@ -174,6 +177,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         $captured_sql = '';
         $statement = $this->createMock(ilDBStatement::class);
         $this->db->method('quote')->willReturnCallback(static fn(string $value): string => "'" . $value . "'");
+        $this->db->expects($this->once())->method('setLimit')->with(5);
         $this->db->expects($this->once())
             ->method('query')
             ->willReturnCallback(function (string $sql) use ($statement, &$captured_sql): ilDBStatement {
@@ -186,12 +190,14 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         $this->invokePrivate('migrateSerializedMailAttachments', []);
 
         $this->assertStringContainsString('ORDER BY send_time DESC', $captured_sql);
+        $this->assertStringNotContainsString('LIMIT', $captured_sql);
     }
 
     public function testMigrateSentAttachmentDirectoriesSelectsPathsOfNewestMailsFirst(): void
     {
         $captured_sql = '';
         $statement = $this->createMock(ilDBStatement::class);
+        $this->db->expects($this->once())->method('setLimit')->with(5);
         $this->db->expects($this->once())
             ->method('query')
             ->willReturnCallback(function (string $sql) use ($statement, &$captured_sql): ilDBStatement {
@@ -204,6 +210,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         $this->invokePrivate('migrateSentAttachmentDirectories', []);
 
         $this->assertStringContainsString('ORDER BY MAX(m.send_time) DESC', $captured_sql);
+        $this->assertStringNotContainsString('LIMIT', $captured_sql);
     }
 
     public function testMarkPathAsSkippedWritesDashMarker(): void
