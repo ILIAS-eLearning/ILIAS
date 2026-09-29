@@ -218,18 +218,18 @@ class PageManager
     public function getOrphanedPages(): \Iterator
     {
         $starting_page_id = $this->wiki_domain->getStartingPageId($this->wiki_ref_id);
-        foreach ($this->getAllPagesInfo() as $pi) {
+        foreach ($this->page_repo->getAllPageTranslationsInfo($this->getWikiId()) as $pi) {
             // find wiki page sources that link to page
             $sources = \ilInternalLink::_getSourcesOfTarget("wpg", $pi->getId(), 0);
             $ids = [];
             foreach ($sources as $source) {
-                if ($source["type"] === "wpg:pg") {
+                if ($source["type"] === "wpg:pg" && $source["lang"] === $pi->getLanguage()) {
                     $ids[] = $source["id"];
                 }
             }
 
             // cross check existence of sources in il_wiki_page
-            if ($this->page_repo->doesAtLeastOnePageExist($this->getWikiId(), $ids)) {
+            if ($this->page_repo->doesAtLeastOnePageExist($this->getWikiId(), $ids, $pi->getLanguage())) {
                 continue;
             }
 
