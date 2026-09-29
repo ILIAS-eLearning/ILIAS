@@ -589,30 +589,6 @@ abstract class ilPageObject
     }
 
     /**
-     * write activation status
-     */
-    public static function _writeActive(
-        int $a_id,
-        string $a_parent_type,
-        bool $a_active
-    ): void {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        // language must be set at least to "-"
-        $a_lang = "-";
-
-        $db->manipulateF(
-            "UPDATE page_object SET active = %s, activation_start = %s, " .
-            " activation_end = %s WHERE page_id = %s" .
-            " AND parent_type = %s AND lang = %s",
-            array("int", "timestamp", "timestamp", "integer", "text", "text"),
-            array((int) $a_active, null, null, $a_id, $a_parent_type, $a_lang)
-        );
-    }
-
-    /**
      * Lookup activation data
      */
     public static function _lookupActivationData(

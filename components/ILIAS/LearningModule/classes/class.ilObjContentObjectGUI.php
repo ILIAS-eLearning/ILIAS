@@ -42,6 +42,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 {
     protected \ILIAS\LearningModule\InternalGUIService $gui;
     protected \ILIAS\LearningModule\InternalDomainService $domain;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
     protected ilRbacSystem $rbacsystem;
     protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
     protected ilLMMenuEditor $lmme_obj;
@@ -155,6 +156,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
         $this->domain = $DIC->learningModule()->internal()->domain();
         $this->gui = $DIC->learningModule()->internal()->gui();
+        $this->page_manager = $this->domain->pageManager();
     }
 
     protected function checkCtrlPath(): void
@@ -1302,7 +1304,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         foreach ($ids as $id) {
             $act = ilLMPage::_lookupActive($id, $this->lm->getType());
-            ilLMPage::_writeActive($id, $this->lm->getType(), !$act);
+            $this->page_manager->writeActive($id, $this->lm->getType(), !$act);
         }
 
         $this->ctrl->redirect($this, "pages");

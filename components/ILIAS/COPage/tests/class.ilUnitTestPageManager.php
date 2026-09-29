@@ -53,6 +53,10 @@ class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
     {
     }
 
+    public function writeActive(int $page_id, string $parent_type, bool $active): void
+    {
+    }
+
     public function getParentObjectContributors(
         string $parent_type,
         int $parent_id,

@@ -842,7 +842,7 @@ class EditSubObjectsGUI
                             $child["child"],
                             $this->lm->getType()
                         );
-                        \ilLMPage::_writeActive(
+                        $this->domain->pageManager()->writeActive(
                             $child["child"],
                             $this->lm->getType(),
                             !$act
@@ -854,7 +854,7 @@ class EditSubObjectsGUI
                         $id,
                         $this->lm->getType()
                     );
-                    \ilLMPage::_writeActive(
+                    $this->domain->pageManager()->writeActive(
                         $id,
                         $this->lm->getType(),
                         !$act

@@ -65,6 +65,11 @@ class PageManager implements PageManagerInterface
         $this->repo->writeParentId($a_parent_type, $a_pg_id, $a_par_id);
     }
 
+    public function writeActive(int $page_id, string $parent_type, bool $active): void
+    {
+        $this->repo->writeActive($page_id, $parent_type, $active);
+    }
+
     public function getParentObjectContributors(
         string $parent_type,
         int $parent_id,

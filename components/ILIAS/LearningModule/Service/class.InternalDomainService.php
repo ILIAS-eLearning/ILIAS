@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 class InternalDomainService
 {
@@ -34,9 +35,15 @@ class InternalDomainService
     public function __construct(
         Container $DIC,
         protected InternalRepoService $repo,
-        protected InternalDataService $data
+        protected InternalDataService $data,
+        protected PageManagerInterface $page_manager
     ) {
         $this->initDomainServices($DIC);
+    }
+
+    public function pageManager(): PageManagerInterface
+    {
+        return $this->page_manager;
     }
 
     public function lmTree(int $lm_id): \ilLMTree

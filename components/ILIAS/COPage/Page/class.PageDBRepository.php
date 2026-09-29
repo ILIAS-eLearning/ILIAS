@@ -52,6 +52,17 @@ class PageDBRepository
         );
     }
 
+    public function writeActive(int $page_id, string $parent_type, bool $active): void
+    {
+        $this->db->manipulateF(
+            "UPDATE page_object SET active = %s, activation_start = %s, " .
+            " activation_end = %s WHERE page_id = %s" .
+            " AND parent_type = %s AND lang = %s",
+            ["int", "timestamp", "timestamp", "integer", "text", "text"],
+            [(int) $active, null, null, $page_id, $parent_type, "-"]
+        );
+    }
+
     /**
      * @return array{pages: list<array<string, mixed>>, history: list<array<string, mixed>>}
      */

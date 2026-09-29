@@ -36,6 +36,8 @@ interface PageManagerInterface
 
     public function writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void;
 
+    public function writeActive(int $page_id, string $parent_type, bool $active): void;
+
     public function getParentObjectContributors(
         string $parent_type,
         int $parent_id,
