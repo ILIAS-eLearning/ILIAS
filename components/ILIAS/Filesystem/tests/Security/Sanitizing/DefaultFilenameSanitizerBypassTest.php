@@ -22,6 +22,7 @@ namespace ILIAS\Filesystem\Security\Sanitizing;
 
 use ILIAS\Database\PDO\External;
 use ILIAS\Filesystem\Configuration\DatabaseBackedFilesystemConfig;
+use ILIAS\FileServices\Policy\UploadRestrictionBypass;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -71,10 +72,15 @@ final class DefaultFilenameSanitizerBypassTest extends TestCase
         bool $bypass,
         string $positive = ''
     ): DefaultFilenameSanitizer {
-        $config = new DatabaseBackedFilesystemConfig($this->createStub(External::class));
+        $upload_restriction_bypass = $this->createStub(UploadRestrictionBypass::class);
+        $upload_restriction_bypass->method('isGrantedToCurrentUser')->willReturn($bypass);
+        $config = new DatabaseBackedFilesystemConfig(
+            $this->createStub(External::class),
+            $upload_restriction_bypass
+        );
 
-        // the settings table and the RBAC check are not what this test is about, so the
-        // values they would resolve to are preset instead
+        // the settings table is not what this test is about, so the values it would
+        // resolve to are preset instead
         $reflection = new \ReflectionClass(DatabaseBackedFilesystemConfig::class);
         $reflection->getProperty('resolved_values')->setValue($config, [
             'common' => [
@@ -83,7 +89,6 @@ final class DefaultFilenameSanitizerBypassTest extends TestCase
                 'suffix_custom_expl_black' => $prohibited,
             ],
         ]);
-        $reflection->getProperty('bypass_allowed')->setValue($config, $bypass);
 
         return new DefaultFilenameSanitizer($config);
     }
