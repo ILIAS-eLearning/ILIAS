@@ -55,7 +55,7 @@ class KeywordManager
                 foreach ($items as $item) {
                     /** @var \ILIAS\Blog\Posting\Posting $item */
                     $item_id = $item->getId();
-                    if ($a_show_inactive || \ilBlogPosting::_lookupActive($item_id, "blp")) {
+                    if ($a_show_inactive || $this->domain->pageManager()->lookupActive($item_id, "blp")) {
                         foreach ($this->posting_manager->getKeywords($blog_id, $item_id) as $keyword) {
                             if (isset($keywords[$keyword])) {
                                 $keywords[$keyword]++;

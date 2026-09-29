@@ -36,6 +36,7 @@ class ilLMPresentationService
     protected PresentationGUIRequest $request;
     protected ilObjLearningModule $lm;
     protected ilLMTracker $tracker;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
 
     public function __construct(
         ilObjUser $user,
@@ -66,6 +67,7 @@ class ilLMPresentationService
             );
 
         $this->user = $user;
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
         $this->ref_id = $this->request->getRefId();
         $this->lm_set = new ilSetting("lm");
         $this->lm_gui = new ilObjLearningModuleGUI([], $this->ref_id, true, false);
@@ -96,7 +98,8 @@ class ilLMPresentationService
             $this->lm_set,
             $this->request->getBackPage(),
             $this->request->getCmd(),
-            $this->request->getFocusId()
+            $this->request->getFocusId(),
+            $this->page_manager
         );
 
         $this->tracker = ilLMTracker::getInstance($this->lm->getRefId());
@@ -166,5 +169,10 @@ class ilLMPresentationService
     public function getLinker(): ilLMPresentationLinker
     {
         return $this->linker;
+    }
+
+    public function getPageManager(): \ILIAS\COPage\Page\PageManagerInterface
+    {
+        return $this->page_manager;
     }
 }

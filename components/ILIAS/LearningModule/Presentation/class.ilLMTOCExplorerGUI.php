@@ -240,7 +240,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $a_name = "standard/icon_" . $a_node["type"] . ".svg";
         if ($a_node["type"] == "pg") {
             $lm_set = new ilSetting("lm");
-            $active = ilLMPage::_lookupActive(
+            $active = $this->page_manager->lookupActive(
                 $a_node["child"],
                 $this->lm->getType(),
                 (bool) $lm_set->get("time_scheduled_page_activation")
@@ -248,7 +248,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
             // is page scheduled?
             $img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-                ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()) && !$active
+                $this->page_manager->isScheduledActivation($a_node["child"], $this->lm->getType()) && !$active
                 && !$this->getOfflineMode())
                 ? "_sc"
                 : "";
@@ -301,7 +301,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                     } else {
                         $a_node = $this->getSuccessorNode($a_node["child"], "pg");
                     }
-                    $active = ilLMPage::_lookupActive(
+                    $active = $this->page_manager->lookupActive(
                         $a_node["child"],
                         $this->lm->getType(),
                         (bool) $this->lm_set->get("time_scheduled_page_activation")
@@ -363,7 +363,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                     if (is_null($a_node)) {
                         return $node;
                     }
-                    $active = ilLMPage::_lookupActive(
+                    $active = $this->page_manager->lookupActive(
                         $a_node["child"],
                         $this->lm->getType(),
                         (bool) $this->lm_set->get("time_scheduled_page_activation")

@@ -1303,7 +1303,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         $ids = $id > 0 ? [$id] : $this->edit_request->getIds();
         foreach ($ids as $id) {
-            $act = ilLMPage::_lookupActive($id, $this->lm->getType());
+            $act = $this->page_manager->lookupActive($id, $this->lm->getType());
             $this->page_manager->writeActive($id, $this->lm->getType(), !$act);
         }
 

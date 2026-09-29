@@ -41,6 +41,7 @@ class ilLMNavigationRendererGUI
     protected ilGlobalTemplateInterface $main_tpl;
     protected string $lang;
     protected ilLMNavigationStatus $navigation_status;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
 
     public function __construct(
         ilLMPresentationService $service,
@@ -69,6 +70,7 @@ class ilLMNavigationRendererGUI
         $this->deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
         $this->linker = $service->getLinker();
         $this->navigation_status = $service->getNavigationStatus();
+        $this->page_manager = $service->getPageManager();
         $this->requested_obj_id = $requested_obj_id;
         $back_pg = explode(":", $requested_back_pg);
         $this->requested_back_pg = (int) $back_pg[0];
@@ -277,7 +279,7 @@ class ilLMNavigationRendererGUI
             $disabled = false;
 
             // check page activation
-            $active = ilLMPage::_lookupActive(
+            $active = $this->page_manager->lookupActive(
                 $node["obj_id"],
                 $this->lm->getType(),
                 (bool) $this->lm_set->get("time_scheduled_page_activation")

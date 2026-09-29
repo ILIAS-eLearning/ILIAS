@@ -591,14 +591,17 @@ class ilLMTracker
         }
 
         $lm_set = new ilSetting("lm");
-        $active = ilPageObject::_lookupActive(
+        global $DIC;
+
+        $page_manager = $DIC->copage()->internal()->domain()->page();
+        $active = $page_manager->lookupActive(
             $a_node["child"],
             "lm",
             (bool) $lm_set->get("time_scheduled_page_activation")
         );
 
         if (!$active) {
-            $act_data = ilPageObject::_lookupActivationData((int) $a_node["child"], "lm");
+            $act_data = $page_manager->lookupActivationData((int) $a_node["child"], "lm");
             if ($act_data["show_activation_info"] &&
                 (ilUtil::now() < $act_data["activation_start"])) {
                 return true;

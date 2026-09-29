@@ -25,6 +25,8 @@ class ilImprint extends ilPageObject
 
     public static function isActive(): bool
     {
-        return self::_lookupActive(1, 'impr');
+        global $DIC;
+
+        return $DIC->copage()->internal()->domain()->page()->lookupActive(1, 'impr');
     }
 }
