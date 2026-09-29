@@ -828,7 +828,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             //				$cols["interaction_description".$i] = array("txt" => $lng->txt("interaction_description").' '.$i,"default" => false);
             //			}
             //			$cols["interaction_value".$i] = array("txt" => $lng->txt("interaction_value").' '.$i,"default" => true);//$a_interactionDescription[$a_interaction[$i]]
-            $cols["interaction_value" . $i . " " . $a_interactionDescription[$a_interaction[$i]]] = array(
+            $cols["interaction_value" . $i . " " . rawurlencode((string) $a_interactionDescription[$a_interaction[$i]])] = array(
                 "txt" => sprintf(
                     $lng->txt("interaction_value"),
                     $i
@@ -929,7 +929,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
                 // $data["interaction_value".$i] = "";
                 // $ukey=$a_interaction[$i].':'.$data["user_id"];
                 // if ($a_interactionUser[$ukey] != null) $data["interaction_value".$i] = $a_interactionUser[$ukey];
-                $intdesc = "interaction_value" . $i . " " . $a_interactionDescription[$a_interaction[$i]];
+                $intdesc = "interaction_value" . $i . " " . rawurlencode((string) $a_interactionDescription[$a_interaction[$i]]);
                 $data[$intdesc] = "";
                 $ukey = $a_interaction[$i] . ':' . $data["user_id"];
                 if (isset($a_interactionUser[$ukey]) && $a_interactionUser[$ukey] != null) {
