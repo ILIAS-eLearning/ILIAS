@@ -139,6 +139,15 @@ class ilLTIAdministrationPlatformForm
                         "trim",
                         array_intersect_key($data, self::REGISTRATION_FIELDS)
                     )
+                ))
+                // a launch names the platform by these ids, so two platforms cannot share them
+                ->withAdditionalTransformation($this->refinery->custom()->constraint(
+                    fn(array $data): bool => $data["platform_id"] === "" || in_array(
+                        ilLTIPlatform::lookupIdByRegistration($data["platform_id"], $data["client_id"], $data["deployment_id"]),
+                        [0, $this->platform_id],
+                        true
+                    ),
+                    $this->lng->txt("lti_platform_registration_taken")
                 ));
         }
 

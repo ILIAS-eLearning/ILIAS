@@ -11448,6 +11448,7 @@ lti#:#lti_object_release_settings_form#:#LTI Releasesを編集
 lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
 lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registration or leave them all empty.###28 09 2026 new variable
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
+lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#LTI Releases
 lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
 lti#:#lti_provider_not_set_msg#:#LTIプロバイダー / ツール構成が完全に終了していません。

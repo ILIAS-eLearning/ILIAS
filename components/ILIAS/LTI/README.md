@@ -128,7 +128,7 @@ the endpoints:
   registration URL (`ltitoolregistration.php`) with a token that names the platform, valid for a day. The platform
   opens it, celtic/lti checks its OpenID configuration and registers ILIAS, and the answer becomes the registration
   of the platform. The registration keeps the id of the token, so each URL registers once; the form shows a new
-  one each time. A registration another platform already has, by issuer, client id and deployment id, is refused,
+  one each time. A registration another platform already has, by issuer, client id and deployment id, is refused here and in the form,
   since a launch could not tell the two apart. No session is needed, because the platform opens the URL on its own site, where a session
   cookie of ILIAS is not sent.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by

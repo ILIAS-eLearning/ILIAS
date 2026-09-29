@@ -11513,6 +11513,7 @@ lti#:#lti_object_release_settings_form#:#Edit LTI Releases
 lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
 lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registration or leave them all empty.###28 09 2026 new variable
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
+lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#LTI Releases
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.
