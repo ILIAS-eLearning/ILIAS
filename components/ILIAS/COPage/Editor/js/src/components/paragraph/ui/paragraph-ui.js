@@ -803,6 +803,11 @@ export default class ParagraphUI {
         parUI.autoSave.handleAutoSaveKeyPressed();
       }
     });
+    wrapper.addCallback(TINY_CB.PASTE, () => {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
+        parUI.autoSave.handleAutoSaveKeyPressed();
+      }
+    });
     wrapper.addCallback(TINY_CB.NODE_CHANGE, () => {
       if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.updateListStyleDropdowns();

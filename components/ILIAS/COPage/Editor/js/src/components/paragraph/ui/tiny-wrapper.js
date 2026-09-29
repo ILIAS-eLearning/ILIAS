@@ -512,6 +512,9 @@ export default class TinyWrapper {
         wrapper.getTinyDomTransform().splitDivs();
         wrapper.getTinyDomTransform().fixListClasses();
         wrapper.getTinyDomTransform().splitSpans();
+        wrapper.getCallbacks(CB.PASTE).forEach((cb) => {
+          cb();
+        });
       }
 
       // update state of indent/outdent buttons
