@@ -212,7 +212,8 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                     $pages[] = [
                         "id" => $pi->getId(),
                         "title" => $pi->getTitle(),
-                        "date" => $pi->getLastChange()
+                        "date" => $pi->getLastChange(),
+                        "lang" => $pi->getLanguage()
                     ];
                 }
                 break;
