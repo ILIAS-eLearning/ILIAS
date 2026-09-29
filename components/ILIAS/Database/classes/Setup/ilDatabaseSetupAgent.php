@@ -30,6 +30,7 @@ use ILIAS\Setup\ObjectiveConstructor;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\Objective\CalledFromRootObjective;
+use ILIAS\Database\Setup\MB4Migration;
 
 class ilDatabaseSetupAgent implements Agent
 {
@@ -126,7 +127,8 @@ class ilDatabaseSetupAgent implements Agent
     public function getMigrations(): array
     {
         return [
-            new ilMysqlMyIsamToInnoDbMigration()
+            new ilMysqlMyIsamToInnoDbMigration(),
+            new MB4Migration(),
         ];
     }
 
