@@ -25,6 +25,7 @@ use ILIAS\Component\Dependencies\Reader;
 use ILIAS\Component\Dependencies\Resolver;
 use ILIAS\Component\Dependencies\Renderer;
 use ILIAS\Component\Component;
+use ILIAS\Component\Dependencies\Mocks\EvalLightMockBuilder;
 
 class RendererTest extends TestCase
 {
@@ -34,7 +35,9 @@ class RendererTest extends TestCase
 
     public function setUp(): void
     {
-        $this->reader = new Reader();
+        $this->reader = new Reader(
+            new EvalLightMockBuilder()
+        );
         $this->resolver = new Resolver();
         $this->renderer = new Renderer();
     }
