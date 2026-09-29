@@ -146,6 +146,27 @@ EOT;
         );
     }
 
+    public function testOptionalLayout(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCMap($page);
+        $pc->create($page, "pg");
+        $pc->setLayout(null, null, "Center");
+
+        $this->assertNull($pc->getWidth());
+        $this->assertNull($pc->getHeight());
+
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Map Latitude="0" Longitude="0" Zoom="3"><Layout HorizontalAlign="Center"/></Map></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
     public function testCaption(): void
     {
         $page = $this->getEmptyPageWithDom();
