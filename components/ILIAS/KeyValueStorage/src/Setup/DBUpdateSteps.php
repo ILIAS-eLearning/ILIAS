@@ -23,15 +23,25 @@ namespace ILIAS\KeyValueStorage\Setup;
 /**
  * The schema of the persistent key-value storage.
  *
- * The column lengths are literals on purpose. A step describes one historical
- * change and must keep describing it, even when the validation limits of the
- * component move. Today they match Internal\StorageNamespace::MAX_LENGTH (128) and
- * KeyRules::MAX_LENGTH (255); 128 + 255 characters stay well below the 3072
- * byte limit InnoDB puts on a utf8mb4 primary key.
+ * subject, namespace and keyword are the primary key. ILIAS requires the
+ * InnoDB DYNAMIC row format, whose index limit is 3072 bytes. utf8mb4 stores
+ * up to 4 bytes per character, so the key uses
+ * (128 + 128 + 255) * 4 = 2044 bytes and fits. value is not indexed.
+ *
+ * The lengths are literals. They match SubjectId::MAX_LENGTH (128),
+ * StorageNamespace::MAX_LENGTH (128), KeyRules::MAX_LENGTH (255) and
+ * DatabaseRepository::MAX_VALUE_LENGTH (4000).
  */
 final class DBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     private const string TABLE = 'kvs_store';
+
+    /**
+     * InnoDB maximum index length in bytes for the DYNAMIC row format.
+     */
+    public const int INNODB_INDEX_LIMIT_BYTES = 3072;
+
+    public const int UTF8MB4_BYTES_PER_CHARACTER = 4;
 
     protected \ilDBInterface $db;
 
@@ -47,22 +57,29 @@ final class DBUpdateSteps implements \ilDatabaseUpdateSteps
         }
 
         $this->db->createTable(self::TABLE, [
-            'namespace' => [
+            'subject' => [
                 'type' => \ilDBConstants::T_TEXT,
                 'length' => 128,
                 'notnull' => true,
+                'default' => ''
+            ],
+            'namespace' => [
+                'type' => \ilDBConstants::T_TEXT,
+                'length' => 128,
+                'notnull' => true
             ],
             'keyword' => [
                 'type' => \ilDBConstants::T_TEXT,
                 'length' => 255,
-                'notnull' => true,
+                'notnull' => true
             ],
             'value' => [
-                'type' => \ilDBConstants::T_CLOB,
-                'notnull' => false,
-            ],
+                'type' => \ilDBConstants::T_TEXT,
+                'length' => 4000,
+                'notnull' => false
+            ]
         ]);
 
-        $this->db->addPrimaryKey(self::TABLE, ['namespace', 'keyword']);
+        $this->db->addPrimaryKey(self::TABLE, ['subject', 'namespace', 'keyword']);
     }
 }

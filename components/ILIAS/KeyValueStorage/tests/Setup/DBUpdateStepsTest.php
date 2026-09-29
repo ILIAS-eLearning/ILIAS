@@ -21,7 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Tests\KeyValueStorage\Setup;
 
 use ILIAS\KeyValueStorage\Internal\DatabaseRepository;
+use ILIAS\KeyValueStorage\Internal\KeyRules;
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 use ILIAS\KeyValueStorage\Setup\DBUpdateSteps;
+use ILIAS\KeyValueStorage\Subject\SubjectId;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -46,6 +49,12 @@ class DBUpdateStepsTest extends TestCase
 
         $this->db->expects($this->once())->method('createTable')
             ->with(DatabaseRepository::TABLE, [
+                'subject' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 128,
+                    'notnull' => true,
+                    'default' => '',
+                ],
                 'namespace' => [
                     'type' => \ilDBConstants::T_TEXT,
                     'length' => 128,
@@ -57,13 +66,14 @@ class DBUpdateStepsTest extends TestCase
                     'notnull' => true,
                 ],
                 'value' => [
-                    'type' => \ilDBConstants::T_CLOB,
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 4000,
                     'notnull' => false,
                 ],
             ]);
 
         $this->db->expects($this->once())->method('addPrimaryKey')
-            ->with(DatabaseRepository::TABLE, ['namespace', 'keyword']);
+            ->with(DatabaseRepository::TABLE, ['subject', 'namespace', 'keyword']);
 
         $this->steps->step_1();
     }
@@ -91,13 +101,18 @@ class DBUpdateStepsTest extends TestCase
 
         $this->steps->step_1();
 
-        $this->assertSame(
-            \ILIAS\KeyValueStorage\Internal\StorageNamespace::MAX_LENGTH,
-            $columns['namespace']['length']
-        );
-        $this->assertSame(
-            \ILIAS\KeyValueStorage\Internal\KeyRules::MAX_LENGTH,
-            $columns['keyword']['length']
-        );
+        $this->assertSame(StorageNamespace::MAX_LENGTH, $columns['namespace']['length']);
+        $this->assertSame(KeyRules::MAX_LENGTH, $columns['keyword']['length']);
+        $this->assertSame(SubjectId::MAX_LENGTH, $columns['subject']['length']);
+        $this->assertSame(DatabaseRepository::MAX_VALUE_LENGTH, $columns['value']['length']);
+        $this->assertSame(\ilDBConstants::T_TEXT, $columns['value']['type']);
+
+        $indexBytes = (
+            $columns['subject']['length']
+            + $columns['namespace']['length']
+            + $columns['keyword']['length']
+        ) * DBUpdateSteps::UTF8MB4_BYTES_PER_CHARACTER;
+        $this->assertSame(2044, $indexBytes);
+        $this->assertLessThanOrEqual(DBUpdateSteps::INNODB_INDEX_LIMIT_BYTES, $indexBytes);
     }
 }

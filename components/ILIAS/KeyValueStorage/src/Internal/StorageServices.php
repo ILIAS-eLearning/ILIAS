@@ -24,6 +24,8 @@ use ILIAS\KeyValueStorage\Repository;
 use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\SessionRepository;
 use ILIAS\KeyValueStorage\Store;
+use ILIAS\KeyValueStorage\Subject\SubjectResolver;
+use ILIAS\KeyValueStorage\SubjectRepository;
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
@@ -41,6 +43,7 @@ final class StorageServices implements Services
     public function __construct(
         private readonly SessionRepository $session,
         private readonly Repository $persistent,
+        private readonly SubjectRepository $subjects,
         Refinery $refinery
     ) {
         $this->key_rules = new KeyRules();
@@ -55,6 +58,20 @@ final class StorageServices implements Services
     public function persistent(array $namespace): Store
     {
         return $this->store('persistent', new StorageNamespace($namespace), $this->persistent);
+    }
+
+    public function persistentFor(SubjectResolver $subjects, array $namespace): Store
+    {
+        $subject = $subjects->subject();
+        if (!$subject->isNamed()) {
+            throw new \InvalidArgumentException('Persistent subject storage requires a named subject.');
+        }
+
+        return $this->store(
+            'subject' . KeyRules::SEPARATOR . $subject->id()->storageSegment(),
+            new StorageNamespace($namespace),
+            new BoundSubjectRepository($this->subjects, $subject->id())
+        );
     }
 
     private function store(string $scope, StorageNamespace $namespace, Repository $repository): Store

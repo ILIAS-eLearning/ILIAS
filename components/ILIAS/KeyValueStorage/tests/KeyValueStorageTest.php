@@ -23,9 +23,11 @@ namespace ILIAS\Tests\KeyValueStorage;
 use ILIAS\Database\Connection;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\KeyValueStorage\Internal\DatabaseRepository;
+use ILIAS\KeyValueStorage\Internal\DatabaseSubjectPurge;
 use ILIAS\KeyValueStorage\Internal\StorageServices;
 use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\SessionRepository;
+use ILIAS\KeyValueStorage\SubjectPurge;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Agent;
 use PHPUnit\Framework\TestCase;
@@ -73,9 +75,12 @@ class KeyValueStorageTest extends TestCase
         );
     }
 
-    public function testOnlyTheConsumerEntryPointAndTheSessionScopeAreDeclared(): void
+    public function testTheConsumerEntryPointTheSessionScopeAndSubjectPurgeAreDeclared(): void
     {
-        $this->assertSame([Services::class, SessionRepository::class], $this->define);
+        $this->assertSame(
+            [Services::class, SessionRepository::class, SubjectPurge::class],
+            $this->define
+        );
     }
 
     public function testTheServicesAreImplemented(): void
@@ -92,6 +97,18 @@ class KeyValueStorageTest extends TestCase
             DatabaseRepository::class,
             $this->internal[DatabaseRepository::class]
         );
+        $this->assertArrayNotHasKey(
+            'ILIAS\KeyValueStorage\Internal\SubjectDatabaseRepository',
+            $this->internal
+        );
+    }
+
+    public function testSubjectPurgeUsesTheSubjectRepositoryOnly(): void
+    {
+        $purge = $this->implement[SubjectPurge::class];
+
+        $this->assertInstanceOf(DatabaseSubjectPurge::class, $purge);
+        $this->assertInstanceOf(SubjectPurge::class, $purge);
     }
 
     public function testTheSetupAgentIsContributed(): void

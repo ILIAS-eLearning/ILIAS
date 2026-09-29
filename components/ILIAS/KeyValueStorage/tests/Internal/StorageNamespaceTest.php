@@ -52,6 +52,7 @@ class StorageNamespaceTest extends TestCase
             'hyphen' => [['ui-storage'], 'ui-storage'],
             'backslash' => [['ILIAS\\UI'], 'ILIAS\\UI'],
             'maximum length' => [[str_repeat('a', StorageNamespace::MAX_LENGTH)], str_repeat('a', StorageNamespace::MAX_LENGTH)],
+            'maximum length in characters' => [[str_repeat('ä', StorageNamespace::MAX_LENGTH)], str_repeat('ä', StorageNamespace::MAX_LENGTH)],
         ];
     }
 
@@ -79,6 +80,7 @@ class StorageNamespaceTest extends TestCase
             'control character' => [["ui\nstorage"]],
             'non-string segment' => [['ui', 1]],
             'too long' => [[str_repeat('a', StorageNamespace::MAX_LENGTH + 1)]],
+            'too long in characters' => [[str_repeat('ä', StorageNamespace::MAX_LENGTH + 1)]],
         ];
     }
 }

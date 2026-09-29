@@ -78,10 +78,11 @@ final readonly class StorageNamespace implements \Stringable
 
         $value = \implode(self::SEPARATOR, $segments);
 
-        if (\strlen($value) > self::MAX_LENGTH) {
+        $length = \mb_strlen($value, 'UTF-8');
+        if ($length > self::MAX_LENGTH) {
             throw new \InvalidArgumentException(
                 'A storage namespace must not be longer than ' . self::MAX_LENGTH
-                . ' characters, got ' . \strlen($value) . '.'
+                . ' characters, got ' . $length . '.'
             );
         }
 

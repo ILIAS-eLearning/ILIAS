@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\KeyValueStorage;
 
+use ILIAS\KeyValueStorage\Subject\SubjectResolver;
+
 /**
  * Entry point to the namespace-scoped key-value storages of ILIAS.
  *
@@ -40,11 +42,22 @@ interface Services
      * Storage that survives session boundaries until changed or cleared.
      *
      * This storage has no subject: it is shared by every user of the
-     * installation. There is no per-user storage yet, and encoding a user id
-     * into the namespace or the key is not a supported substitute - such rows
-     * cannot be found or removed when the account is deleted.
+     * installation and only reads rows whose subject is empty. Per-subject
+     * state belongs in {@see self::persistentFor()}. Encoding a subject into
+     * the namespace or the key is not a supported substitute.
      *
      * @param list<string> $namespace namespace segments; joined with "." internally
      */
     public function persistent(array $namespace): Store;
+
+    /**
+     * Persistent storage for the subject the resolver names.
+     *
+     * Anonymous and any other non-named subject are rejected. The subject is a
+     * parameter of the storage, never part of the namespace or the key.
+     *
+     * @param list<string> $namespace namespace segments; joined with "." internally
+     * @throws \InvalidArgumentException if the resolver does not name a subject
+     */
+    public function persistentFor(SubjectResolver $subjects, array $namespace): Store;
 }

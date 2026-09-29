@@ -59,11 +59,26 @@ up; do not use it as a prelude to N times `get()` if you already know the keys.
 | Scope | Lives | Accessor |
 |---|---|---|
 | Session | until the session ends | `Services::session()` |
-| Persistent | until changed or cleared | `Services::persistent()` |
+| Persistent | until changed or cleared, one value for the installation | `Services::persistent()` |
+| Subject | until changed, cleared, or the subject is purged | `Services::persistentFor()` |
 
 `persistent()` has **no subject**: one value per namespace and key for the whole
-installation. Per-user state is not supported yet, see
-[What is missing](#what-is-missing).
+installation. Those rows live in `kvs_store` with an empty `subject`.
+`persistentFor()` takes a `SubjectResolver` and stores that subject's values in
+the same table, distinguished by the `subject` column. The subject is a
+parameter, never part of the namespace or the key. An anonymous subject cannot
+be persisted; keep that state in the session scope.
+
+```php
+$mine = $storage->persistentFor($authenticated_user, ['my_component', 'view_state']);
+$mine->set('sort_column', 'title');
+```
+
+`$authenticated_user` is `ILIAS\Authentication\Domain\AuthenticatedSubjectResolver`.
+It reads `AuthenticatedUser::id()` and names the subject `u` plus the user id.
+Authentication purges that subject when the account is deleted. Encoding a user
+id into the namespace or the key is not a supported substitute: those rows cannot
+be found on deletion.
 
 ### Namespaces
 
@@ -161,8 +176,8 @@ the values.
 
 | | |
 |---|---|
-| `$define` | `Services`, `SessionRepository` |
-| `$implement` | `Services` |
+| `$define` | `Services`, `SessionRepository`, `SubjectPurge` |
+| `$implement` | `Services`, `SubjectPurge` |
 | `$pull` | `ILIAS\Database\Connection`, `ILIAS\Refinery\Factory` |
 | `$contribute` | `ILIAS\Setup\Agent` |
 
@@ -172,6 +187,8 @@ flowchart TB
     S --> ST["NamespacedStore (keys, JSON, memo)"]
     ST --> SR["SessionRepository (Authentication)"]
     ST --> DR["DatabaseRepository (kvs_store)"]
+    ST --> BR["Repository bound to one SubjectId"]
+    BR --> DR
 ```
 
 ## Layout
@@ -186,7 +203,13 @@ components/ILIAS/KeyValueStorage/
 │   ├── Services.php               consumer entry point
 │   ├── Store.php                  one namespace
 │   ├── Repository.php             backend contract
+│   ├── SubjectRepository.php      subject operations on the same table
+│   ├── SubjectPurge.php           delete one subject's rows
 │   ├── SessionRepository.php      implemented by Authentication
+│   ├── Subject/
+│   │   ├── Subject.php
+│   │   ├── SubjectId.php
+│   │   └── SubjectResolver.php
 │   ├── Exception/
 │   │   └── InvalidStoredValueException.php
 │   ├── Internal/
@@ -194,6 +217,8 @@ components/ILIAS/KeyValueStorage/
 │   │   ├── NamespacedStore.php
 │   │   ├── StorageNamespace.php
 │   │   ├── DatabaseRepository.php
+│   │   ├── BoundSubjectRepository.php
+│   │   ├── DatabaseSubjectPurge.php
 │   │   ├── KeyRules.php
 │   │   └── Values.php
 │   └── Setup/
@@ -207,10 +232,22 @@ notice.
 
 ### The table
 
-`kvs_store`, primary key `(namespace, keyword)`, `value` as CLOB. `readAll()`
-is one indexed `SELECT`, `removeAll()` is one indexed `DELETE`. The column
-lengths in the update step are literals: a step describes a change that already
-happened and must not move when a validation limit moves.
+`kvs_store`, primary key `(subject, namespace, keyword)`, `value` as `TEXT` of
+4000 characters. Global rows use the empty string as `subject`, which is not a
+valid subject segment. Every query is an equality on `subject` first, then
+optionally on `namespace` and `keyword`, so the key order matches the leftmost
+prefix those statements can use. Purging a subject is `DELETE WHERE subject = ?`.
+A global namespace scan is `WHERE subject = '' AND namespace = ?` and does not
+read another subject's rows.
+
+`subject` and `namespace` are 128 characters, `keyword` is 255. Under utf8mb4
+that primary key is (128 + 128 + 255) × 4 = 2044 bytes. InnoDB with the DYNAMIC
+row format ILIAS requires allows 3072 bytes, so the key fits. `value` is not
+part of the key. A subject, namespace, key or serialized value longer than its
+column is rejected before any statement is sent.
+
+The column lengths in the update steps are literals: a step describes a change
+that already happened and must not move when a validation limit moves.
 
 ## Errors
 
@@ -218,25 +255,9 @@ happened and must not move when a validation limit moves.
 |---|---|
 | Invalid namespace | `\InvalidArgumentException` |
 | Invalid key | `\InvalidArgumentException` |
-| Value cannot be stored | `\InvalidArgumentException` |
+| Value cannot be stored, or exceeds 4000 characters | `\InvalidArgumentException` |
 | Stored value cannot be read back | `InvalidStoredValueException` |
-
-## What is missing
-
-**Per-user state.** `persistent()` is global. Encoding a user id into the
-namespace or the key is *not* a supported workaround: such rows cannot be found
-or removed when the account is deleted, which is both a leak and a GDPR problem.
-
-The way forward is a scope of its own, with the subject as a parameter rather
-than as part of the key:
-
-```php
-$storage->forUser($user_id, ['my_component', 'view_state']);
-```
-
-backed by a table with `usr_id` in its primary key, contributed by `User`, which
-clears it on the existing `deleteUser` event. Until that exists, keep per-user
-state in the session scope.
+| `persistentFor()` without a named subject | `\InvalidArgumentException` |
 
 ## Tests
 

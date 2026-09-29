@@ -20,9 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\KeyValueStorage\Internal;
 
+use ILIAS\KeyValueStorage\Internal\DatabaseSubjectPurge;
 use ILIAS\KeyValueStorage\Internal\StorageServices;
 use ILIAS\KeyValueStorage\SessionRepository;
+use ILIAS\KeyValueStorage\Subject\Subject;
+use ILIAS\KeyValueStorage\Subject\SubjectId;
+use ILIAS\KeyValueStorage\Subject\SubjectResolver;
 use ILIAS\Tests\KeyValueStorage\InMemoryRepository;
+use ILIAS\Tests\KeyValueStorage\InMemorySubjectRepository;
 use ILIAS\Tests\KeyValueStorage\RefineryHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -34,6 +39,8 @@ class StorageServicesTest extends TestCase
 
     private InMemoryRepository $persistent;
 
+    private InMemorySubjectRepository $subjects;
+
     private StorageServices $services;
 
     protected function setUp(): void
@@ -41,7 +48,13 @@ class StorageServicesTest extends TestCase
         $this->session = new class () extends InMemoryRepository implements SessionRepository {
         };
         $this->persistent = new InMemoryRepository();
-        $this->services = new StorageServices($this->session, $this->persistent, $this->refinery());
+        $this->subjects = new InMemorySubjectRepository();
+        $this->services = new StorageServices(
+            $this->session,
+            $this->persistent,
+            $this->subjects,
+            $this->refinery()
+        );
     }
 
     public function testTheScopesUseSeparateRepositories(): void
@@ -108,5 +121,96 @@ class StorageServicesTest extends TestCase
         );
         $this->assertSame(1, $this->persistent->bulk_reads);
         $this->assertSame(0, $this->persistent->reads);
+    }
+
+    public function testPersistentForWritesOnlyTheNamedSubject(): void
+    {
+        $this->services->persistent(['ui', 'storage'])->set('sort', 'global');
+        $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])->set('sort', 'mine');
+        $this->services->persistentFor($this->named('u7'), ['ui', 'storage'])->set('sort', 'theirs');
+
+        $this->assertSame(['sort' => '"global"'], $this->persistent->entries['ui.storage']);
+        $this->assertSame(['sort' => '"mine"'], $this->subjects->entries['u42']['ui.storage']);
+        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['u7']['ui.storage']);
+        $this->assertSame(
+            'mine',
+            $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])->get('sort', $this->asStored())
+        );
+    }
+
+    public function testTheSameSubjectAndNamespaceYieldTheSameStore(): void
+    {
+        $this->assertSame(
+            $this->services->persistentFor($this->named('u42'), ['ui', 'storage']),
+            $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])
+        );
+    }
+
+    public function testDifferentSubjectsYieldDifferentStores(): void
+    {
+        $this->assertNotSame(
+            $this->services->persistentFor($this->named('u42'), ['ui', 'storage']),
+            $this->services->persistentFor($this->named('u7'), ['ui', 'storage'])
+        );
+    }
+
+    public function testAnAnonymousSubjectCannotBePersisted(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Persistent subject storage requires a named subject.');
+
+        $this->services->persistentFor($this->anonymous(), ['ui', 'storage']);
+    }
+
+    public function testAnAnonymousSubjectDoesNotWrite(): void
+    {
+        $rejected = false;
+        try {
+            $this->services->persistentFor($this->anonymous(), ['ui', 'storage']);
+        } catch (\InvalidArgumentException $exception) {
+            $rejected = $exception->getMessage() === 'Persistent subject storage requires a named subject.';
+        }
+
+        $this->assertTrue($rejected);
+        $this->assertSame([], $this->subjects->entries);
+        $this->assertSame([], $this->persistent->entries);
+    }
+
+    public function testPurgeRemovesOneSubjectAcrossNamespacesAndLeavesTheRest(): void
+    {
+        $this->services->persistent(['ui', 'storage'])->set('sort', 'global');
+        $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])->set('sort', 'mine');
+        $this->services->persistentFor($this->named('u42'), ['export', 'job'])->set('step', 2);
+        $this->services->persistentFor($this->named('u7'), ['ui', 'storage'])->set('sort', 'theirs');
+
+        (new DatabaseSubjectPurge($this->subjects))->purge(new SubjectId('u42'));
+
+        $this->assertSame(['sort' => '"global"'], $this->persistent->entries['ui.storage']);
+        $this->assertArrayNotHasKey('u42', $this->subjects->entries);
+        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['u7']['ui.storage']);
+    }
+
+    private function named(string $segment): SubjectResolver
+    {
+        return new class (Subject::named(new SubjectId($segment))) implements SubjectResolver {
+            public function __construct(private readonly Subject $subject)
+            {
+            }
+
+            public function subject(): Subject
+            {
+                return $this->subject;
+            }
+        };
+    }
+
+    private function anonymous(): SubjectResolver
+    {
+        return new class () implements SubjectResolver {
+            public function subject(): Subject
+            {
+                return Subject::anonymous();
+            }
+        };
     }
 }

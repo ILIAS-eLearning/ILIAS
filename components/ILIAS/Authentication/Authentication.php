@@ -41,12 +41,20 @@ class Authentication implements Component\Component
                 )
             );
 
+        $define[] = Authentication\Domain\AuthenticatedSubjectResolver::class;
+
+        $implement[Authentication\Domain\AuthenticatedSubjectResolver::class] = static fn() =>
+            new Authentication\KeyValueStorage\SessionAuthenticatedSubjectResolver(
+                $use[Authentication\Domain\AuthenticatedUser::class]
+            );
+
         $implement[KeyValueStorage\SessionRepository::class] = static fn() =>
             new Authentication\KeyValueStorage\SessionRepository();
 
         $implement[UI\Storage::class] = static fn() =>
             new Authentication\KeyValueStorage\UiStorageAdapter(
-                $use[KeyValueStorage\Services::class]->session(['ui', 'storage']),
+                $use[Authentication\Domain\AuthenticatedSubjectResolver::class],
+                $use[KeyValueStorage\Services::class],
                 $pull[\ILIAS\Refinery\Factory::class]
             );
 

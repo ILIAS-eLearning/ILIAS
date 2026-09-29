@@ -20,23 +20,36 @@ declare(strict_types=1);
 
 namespace ILIAS\Authentication\KeyValueStorage;
 
+use ILIAS\Authentication\Domain\AuthenticatedSubjectResolver;
+use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\Store;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Storage as UiStorage;
 
 /**
- * Adapts session-scoped key-value storage to the UI ArrayAccess contract.
+ * Adapts key-value storage to the UI ArrayAccess contract.
+ *
+ * A fully authenticated user keeps UI state in the persistent subject store.
+ * Everyone else keeps it in the current session.
  */
 final readonly class UiStorageAdapter implements UiStorage
 {
+    private const array NAMESPACE = ['ui', 'storage'];
+
+    private Store $storage;
+
     private Transformation $as_stored;
 
     public function __construct(
-        private Store $storage,
-        Refinery $refinery
+        AuthenticatedSubjectResolver $subjects,
+        Services $services,
+        Refinery $refinery,
     ) {
         $this->as_stored = $refinery->identity();
+        $this->storage = $subjects->supportsPersistentStorage()
+            ? $services->persistentFor($subjects, self::NAMESPACE)
+            : $services->session(self::NAMESPACE);
     }
 
     public function offsetExists(mixed $offset): bool

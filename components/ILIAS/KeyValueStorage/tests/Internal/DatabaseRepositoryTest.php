@@ -21,7 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Tests\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Internal\DatabaseRepository;
+use ILIAS\KeyValueStorage\Internal\KeyRules;
 use ILIAS\KeyValueStorage\Internal\StorageNamespace;
+use ILIAS\KeyValueStorage\Subject\SubjectId;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -53,9 +55,12 @@ class DatabaseRepositoryTest extends TestCase
         $this->db->expects($this->once())
             ->method('queryF')
             ->with(
-                $this->stringContains('SELECT value FROM ' . DatabaseRepository::TABLE),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['my_component.view_state', 'sort']
+                $this->logicalAnd(
+                    $this->stringContains('SELECT value FROM ' . DatabaseRepository::TABLE),
+                    $this->stringContains('WHERE subject = %s AND namespace = %s AND keyword = %s')
+                ),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', 'my_component.view_state', 'sort']
             )
             ->willReturn($statement);
         $this->db->expects($this->once())
@@ -93,11 +98,12 @@ class DatabaseRepositoryTest extends TestCase
             ->with(
                 DatabaseRepository::TABLE,
                 [
+                    'subject' => [\ilDBConstants::T_TEXT, ''],
                     'namespace' => [\ilDBConstants::T_TEXT, 'my_component.view_state'],
                     'keyword' => [\ilDBConstants::T_TEXT, 'sort'],
                 ],
                 [
-                    'value' => [\ilDBConstants::T_CLOB, '"title"'],
+                    'value' => [\ilDBConstants::T_TEXT, '"title"'],
                 ]
             );
 
@@ -109,9 +115,9 @@ class DatabaseRepositoryTest extends TestCase
         $this->db->expects($this->once())
             ->method('manipulateF')
             ->with(
-                $this->stringContains('WHERE namespace = %s AND keyword = %s'),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['my_component.view_state', 'sort']
+                $this->stringContains('WHERE subject = %s AND namespace = %s AND keyword = %s'),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', 'my_component.view_state', 'sort']
             );
 
         $this->repository->remove($this->namespace, 'sort');
@@ -123,11 +129,11 @@ class DatabaseRepositoryTest extends TestCase
             ->method('manipulateF')
             ->with(
                 $this->logicalAnd(
-                    $this->stringContains('WHERE namespace = %s'),
+                    $this->stringContains('WHERE subject = %s AND namespace = %s'),
                     $this->logicalNot($this->stringContains('keyword'))
                 ),
-                [\ilDBConstants::T_TEXT],
-                ['my_component.view_state']
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', 'my_component.view_state']
             );
 
         $this->repository->removeAll($this->namespace);
@@ -141,11 +147,11 @@ class DatabaseRepositoryTest extends TestCase
             ->with(
                 $this->logicalAnd(
                     $this->stringContains('SELECT keyword, value FROM ' . DatabaseRepository::TABLE),
-                    $this->stringContains('WHERE namespace = %s'),
+                    $this->stringContains('WHERE subject = %s AND namespace = %s'),
                     $this->logicalNot($this->stringContains('keyword ='))
                 ),
-                [\ilDBConstants::T_TEXT],
-                ['my_component.view_state']
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', 'my_component.view_state']
             )
             ->willReturn($statement);
         $this->db->expects($this->exactly(3))
@@ -168,13 +174,139 @@ class DatabaseRepositoryTest extends TestCase
         $this->db->expects($this->once())
             ->method('queryF')
             ->with(
-                $this->stringContains('WHERE namespace = %s'),
-                [\ilDBConstants::T_TEXT],
-                ['my_component.view_state']
+                $this->stringContains('WHERE subject = %s AND namespace = %s'),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', 'my_component.view_state']
             )
             ->willReturn($this->createStub(\ilDBStatement::class));
         $this->db->expects($this->once())->method('fetchAssoc')->willReturn(null);
 
         $this->assertSame([], $this->repository->readAll($this->namespace));
+    }
+
+    public function testASubjectRowIsAddressedByItsSegmentInTheSameTable(): void
+    {
+        $statement = $this->createStub(\ilDBStatement::class);
+        $this->db->expects($this->once())
+            ->method('queryF')
+            ->with(
+                $this->stringContains('FROM ' . DatabaseRepository::TABLE),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['u42', 'my_component.view_state', 'sort']
+            )
+            ->willReturn($statement);
+        $this->db->expects($this->once())->method('fetchAssoc')->with($statement)->willReturn(['value' => '"mine"']);
+
+        $this->assertSame(
+            '"mine"',
+            $this->repository->readFor(new SubjectId('u42'), $this->namespace, 'sort')
+        );
+    }
+
+    public function testWriteRejectsAValueLongerThanTheColumn(): void
+    {
+        $this->db->expects($this->never())->method($this->anything());
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Stored value must not exceed ' . DatabaseRepository::MAX_VALUE_LENGTH . ' characters, got '
+            . (DatabaseRepository::MAX_VALUE_LENGTH + 1) . '.'
+        );
+
+        $this->repository->write($this->namespace, 'sort', str_repeat('a', DatabaseRepository::MAX_VALUE_LENGTH + 1));
+    }
+
+    public function testWriteRejectsAKeyLongerThanTheColumn(): void
+    {
+        $this->db->expects($this->never())->method($this->anything());
+
+        $length = KeyRules::MAX_LENGTH + 1;
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'A storage key must not be longer than ' . KeyRules::MAX_LENGTH . ' characters, got ' . $length . '.'
+        );
+
+        $this->repository->write($this->namespace, str_repeat('ä', $length), '"title"');
+    }
+
+    public function testWriteRejectsANamespaceLongerThanTheColumn(): void
+    {
+        $namespace = new \ReflectionClass(StorageNamespace::class)->newInstanceWithoutConstructor();
+        $property = new \ReflectionProperty(StorageNamespace::class, 'value');
+        $property->setValue($namespace, str_repeat('ä', StorageNamespace::MAX_LENGTH + 1));
+
+        $this->db->expects($this->never())->method($this->anything());
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'A storage namespace must not be longer than ' . StorageNamespace::MAX_LENGTH . ' characters, got '
+            . (StorageNamespace::MAX_LENGTH + 1) . '.'
+        );
+
+        $this->repository->write($namespace, 'sort', '"title"');
+    }
+
+    public function testWriteAcceptsAValueAtTheColumnLength(): void
+    {
+        $value = str_repeat('ä', DatabaseRepository::MAX_VALUE_LENGTH);
+        $this->db->expects($this->once())
+            ->method('replace')
+            ->with(
+                DatabaseRepository::TABLE,
+                $this->anything(),
+                ['value' => [\ilDBConstants::T_TEXT, $value]]
+            );
+
+        $this->repository->writeFor(new SubjectId('u42'), $this->namespace, 'sort', $value);
+    }
+
+    public function testRemoveSubjectDeletesOnlyThatSubject(): void
+    {
+        $this->db->expects($this->once())
+            ->method('manipulateF')
+            ->with(
+                $this->logicalAnd(
+                    $this->stringContains('DELETE FROM ' . DatabaseRepository::TABLE),
+                    $this->stringContains('WHERE subject = %s'),
+                    $this->logicalNot($this->stringContains('namespace'))
+                ),
+                [\ilDBConstants::T_TEXT],
+                ['u42']
+            );
+
+        $this->repository->removeSubject(new SubjectId('u42'));
+    }
+
+    public function testRemoveSubjectsWithAnEmptyListDoesNotTouchTheConnection(): void
+    {
+        $this->db->expects($this->never())->method($this->anything());
+
+        $this->repository->removeSubjects([]);
+    }
+
+    public function testRemoveSubjectsDeletesTheGivenSegmentsInOneStatement(): void
+    {
+        $this->db->expects($this->once())
+            ->method('in')
+            ->with('subject', ['u42', 'u7'], false, \ilDBConstants::T_TEXT)
+            ->willReturn("subject IN ('u42','u7')");
+        $this->db->expects($this->once())
+            ->method('manipulate')
+            ->with(
+                'DELETE FROM ' . DatabaseRepository::TABLE . " WHERE subject IN ('u42','u7')"
+            );
+        $this->db->expects($this->never())->method('manipulateF');
+
+        $this->repository->removeSubjects([new SubjectId('u42'), new SubjectId('u7')]);
+    }
+
+    public function testRemoveSubjectsRejectsAValueThatIsNotASubjectId(): void
+    {
+        $this->db->expects($this->never())->method('manipulate');
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected a subject id.');
+
+        $this->repository->removeSubjects([new SubjectId('u42'), 'u7']);
     }
 }
