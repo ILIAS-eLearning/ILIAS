@@ -46,6 +46,28 @@ interface Store
     public function get(string $key, Transformation $transformation): mixed;
 
     /**
+     * Reads several known keys, each with its own Refinery transformation.
+     *
+     * The result has the same keys as the given map, in the same order. Absent
+     * keys are passed to their transformation as {@code null}, like
+     * {@see self::get()}. Keys that the namespace holds besides those named
+     * here are left out.
+     *
+     * @param array<string, Transformation> $transformations
+     * @return array<string, mixed>
+     * @throws \InvalidArgumentException if a key is invalid or an entry is not a transformation
+     * @throws Exception\InvalidStoredValueException if a stored value cannot be read back
+     */
+    public function getMany(array $transformations): array;
+
+    /**
+     * The keys this namespace currently holds, sorted as strings.
+     *
+     * @return list<string>
+     */
+    public function keys(): array;
+
+    /**
      * @throws \InvalidArgumentException if the key is invalid or the value cannot be stored
      */
     public function set(string $key, mixed $value): void;

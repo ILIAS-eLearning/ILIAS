@@ -120,4 +120,42 @@ class SessionRepositoryTest extends TestCase
         $this->assertSame('nested', $this->repository->read(new StorageNamespace(['a', 'b']), 'c'));
         $this->assertSame('flat', $this->repository->read(new StorageNamespace(['a']), 'b.c'));
     }
+
+    public function testReadAllReturnsEveryEntryOfTheNamespace(): void
+    {
+        $this->repository->write($this->namespace, 'sort', '"title"');
+        $this->repository->write($this->namespace, 'limit', '10');
+
+        $this->assertSame(
+            ['sort' => '"title"', 'limit' => '10'],
+            $this->repository->readAll($this->namespace)
+        );
+    }
+
+    public function testReadAllDoesNotConfuseAKeyWithThePrefixOfAnother(): void
+    {
+        $this->repository->write($this->namespace, 'a', '1');
+        $this->repository->write($this->namespace, 'ab', '2');
+
+        $this->assertSame(['a' => '1', 'ab' => '2'], $this->repository->readAll($this->namespace));
+    }
+
+    public function testReadAllLeavesOtherNamespacesAndForeignSessionValuesAlone(): void
+    {
+        $nested = new StorageNamespace(['my_component', 'view_state', 'details']);
+        $sibling = new StorageNamespace(['other_component']);
+        $this->repository->write($this->namespace, 'a', '1');
+        $this->repository->write($nested, 'a', '2');
+        $this->repository->write($sibling, 'a', '3');
+        $_SESSION['AccountId'] = 6;
+        $_SESSION['kvs:my_component.view_state:sort'] = ['not', 'a', 'string'];
+
+        $this->assertSame(['a' => '1'], $this->repository->readAll($this->namespace));
+        $this->assertSame(6, $_SESSION['AccountId']);
+    }
+
+    public function testReadAllOnAnEmptySessionIsEmpty(): void
+    {
+        $this->assertSame([], $this->repository->readAll($this->namespace));
+    }
 }

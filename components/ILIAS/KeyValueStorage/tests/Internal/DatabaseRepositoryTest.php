@@ -132,4 +132,49 @@ class DatabaseRepositoryTest extends TestCase
 
         $this->repository->removeAll($this->namespace);
     }
+
+    public function testReadAllReturnsEveryEntryOfTheNamespaceInOneQuery(): void
+    {
+        $statement = $this->createStub(\ilDBStatement::class);
+        $this->db->expects($this->once())
+            ->method('queryF')
+            ->with(
+                $this->logicalAnd(
+                    $this->stringContains('SELECT keyword, value FROM ' . DatabaseRepository::TABLE),
+                    $this->stringContains('WHERE namespace = %s'),
+                    $this->logicalNot($this->stringContains('keyword ='))
+                ),
+                [\ilDBConstants::T_TEXT],
+                ['my_component.view_state']
+            )
+            ->willReturn($statement);
+        $this->db->expects($this->exactly(3))
+            ->method('fetchAssoc')
+            ->with($statement)
+            ->willReturnOnConsecutiveCalls(
+                ['keyword' => 'limit', 'value' => '10'],
+                ['keyword' => 'sort', 'value' => '"title"'],
+                null
+            );
+
+        $this->assertSame(
+            ['limit' => '10', 'sort' => '"title"'],
+            $this->repository->readAll($this->namespace)
+        );
+    }
+
+    public function testReadAllReturnsAnEmptyMapWhenTheNamespaceHasNoRows(): void
+    {
+        $this->db->expects($this->once())
+            ->method('queryF')
+            ->with(
+                $this->stringContains('WHERE namespace = %s'),
+                [\ilDBConstants::T_TEXT],
+                ['my_component.view_state']
+            )
+            ->willReturn($this->createStub(\ilDBStatement::class));
+        $this->db->expects($this->once())->method('fetchAssoc')->willReturn(null);
+
+        $this->assertSame([], $this->repository->readAll($this->namespace));
+    }
 }

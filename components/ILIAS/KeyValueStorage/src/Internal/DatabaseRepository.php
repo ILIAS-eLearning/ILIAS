@@ -59,6 +59,24 @@ final readonly class DatabaseRepository implements Repository
         return $row === null ? null : (string) $row['value'];
     }
 
+    public function readAll(StorageNamespace $namespace): array
+    {
+        $db = $this->connection;
+
+        $result = $db->queryF(
+            'SELECT keyword, value FROM ' . self::TABLE . ' WHERE namespace = %s',
+            [\ilDBConstants::T_TEXT],
+            [$namespace->value()]
+        );
+
+        $entries = [];
+        while ($row = $db->fetchAssoc($result)) {
+            $entries[(string) $row['keyword']] = (string) $row['value'];
+        }
+
+        return $entries;
+    }
+
     public function write(StorageNamespace $namespace, string $key, string $value): void
     {
         $this->connection->replace(

@@ -29,8 +29,9 @@ use ILIAS\Refinery\Transformation;
  *
  * Validates the keys, encodes the values and remembers what it has already seen
  * during this request, so that reading the same key twice does not hit the
- * session or the database twice. This is not a cross-request cache - use
- * ILIAS\Cache for that.
+ * session or the database twice. Reading the keys of the namespace or several
+ * keys at once remembers every key of it. This is not a cross-request cache -
+ * use ILIAS\Cache for that.
  *
  * @internal
  */
@@ -42,6 +43,12 @@ final class NamespacedStore implements Store
      * @var array<string, array{bool, mixed}> key => [is present, decoded value]
      */
     private array $seen = [];
+
+    /**
+     * True once every entry of the namespace has been read. Later lookups of
+     * keys this request has not touched can then be answered without the backend.
+     */
+    private bool $namespace_loaded = false;
 
     public function __construct(
         private readonly StorageNamespace $namespace,
@@ -59,6 +66,10 @@ final class NamespacedStore implements Store
             return $this->seen[$key][0];
         }
 
+        if ($this->namespace_loaded) {
+            return false;
+        }
+
         return $this->repository->has($this->namespace, $key);
     }
 
@@ -69,6 +80,51 @@ final class NamespacedStore implements Store
         [$is_present, $value] = $this->readDecoded($key);
 
         return $transformation->transform($is_present ? $value : null);
+    }
+
+    public function getMany(array $transformations): array
+    {
+        $requested = [];
+        foreach ($transformations as $key => $transformation) {
+            $key = (string) $key;
+            if (!$transformation instanceof Transformation) {
+                throw new \InvalidArgumentException(
+                    'Each getMany() entry must be a ' . Transformation::class . ', got '
+                    . \get_debug_type($transformation) . ' for key "' . $key . '".'
+                );
+            }
+            $this->key_rules->check($key);
+            $requested[$key] = $transformation;
+        }
+
+        if ($this->mustLoadNamespaceFor($requested)) {
+            $this->loadNamespace();
+        }
+
+        $entries = [];
+        foreach ($requested as $key => $transformation) {
+            $key = (string) $key;
+            [$is_present, $value] = $this->readDecoded($key);
+            $entries[$key] = $transformation->transform($is_present ? $value : null);
+        }
+
+        return $entries;
+    }
+
+    public function keys(): array
+    {
+        $this->loadNamespace();
+
+        $keys = [];
+        foreach ($this->seen as $key => [$is_present]) {
+            if ($is_present) {
+                $keys[] = (string) $key;
+            }
+        }
+
+        \sort($keys, \SORT_STRING);
+
+        return $keys;
     }
 
     public function set(string $key, mixed $value): void
@@ -95,6 +151,7 @@ final class NamespacedStore implements Store
     {
         $this->repository->removeAll($this->namespace);
         $this->seen = [];
+        $this->namespace_loaded = false;
     }
 
     /**
@@ -103,12 +160,54 @@ final class NamespacedStore implements Store
     private function readDecoded(string $key): array
     {
         if (!isset($this->seen[$key])) {
-            $stored = $this->repository->read($this->namespace, $key);
-            $this->seen[$key] = $stored === null
-                ? [false, null]
-                : [true, $this->values->decode($stored)];
+            if ($this->namespace_loaded) {
+                $this->seen[$key] = [false, null];
+            } else {
+                $stored = $this->repository->read($this->namespace, $key);
+                $this->seen[$key] = $stored === null
+                    ? [false, null]
+                    : [true, $this->values->decode($stored)];
+            }
         }
 
         return $this->seen[$key];
+    }
+
+    /**
+     * @param array<string, Transformation> $requested
+     */
+    private function mustLoadNamespaceFor(array $requested): bool
+    {
+        if ($requested === [] || $this->namespace_loaded) {
+            return false;
+        }
+
+        foreach ($requested as $key => $_) {
+            if (!isset($this->seen[(string) $key])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function loadNamespace(): void
+    {
+        if ($this->namespace_loaded) {
+            return;
+        }
+
+        $decoded = [];
+        foreach ($this->repository->readAll($this->namespace) as $key => $stored) {
+            $key = (string) $key;
+            if (isset($this->seen[$key])) {
+                continue;
+            }
+
+            $decoded[$key] = [true, $this->values->decode($stored)];
+        }
+
+        $this->seen += $decoded;
+        $this->namespace_loaded = true;
     }
 }

@@ -29,6 +29,17 @@ $column = $store->get(
         $DIC->refinery()->always('id'),
     ])
 );
+$state = $store->getMany([
+    'sort_column' => $DIC->refinery()->byTrying([
+        $DIC->refinery()->kindlyTo()->string(),
+        $DIC->refinery()->always('id'),
+    ]),
+    'filters' => $DIC->refinery()->byTrying([
+        $DIC->refinery()->identity(),
+        $DIC->refinery()->always([]),
+    ]),
+]);
+$store->keys();
 $store->has('filters');
 $store->delete('sort_column');
 $store->clear();          // only this namespace
@@ -36,6 +47,14 @@ $store->clear();          // only this namespace
 
 `get()` always takes a Refinery `Transformation`, like the HTTP request wrappers.
 Absent keys are passed to the transformation as `null`.
+
+`getMany()` is the same contract for several known keys: each key keeps its own
+transformation, the result has those keys in the given order, and extra keys
+the namespace happens to hold are left out. One backend read loads the whole
+namespace, so later `get()`, `has()` and `keys()` calls do not hit it again.
+
+`keys()` lists what the namespace currently holds. Use it to inspect or clean
+up; do not use it as a prelude to N times `get()` if you already know the keys.
 
 | Scope | Lives | Accessor |
 |---|---|---|
@@ -86,8 +105,8 @@ decoded anymore raises `InvalidStoredValueException`.
 ### Reading twice is free
 
 A store remembers what it has read or written during the request, so reading the
-same key twice does not touch the session or the database twice. This is not a
-cross-request cache.
+same key twice does not touch the session or the database twice. `keys()` and
+`getMany()` remember the whole namespace. This is not a cross-request cache.
 
 ## What to use when
 
@@ -115,6 +134,8 @@ interface Repository
 {
     public function has(Internal\StorageNamespace $namespace, string $key): bool;
     public function read(Internal\StorageNamespace $namespace, string $key): ?string;
+    /** @return array<string, string> */
+    public function readAll(Internal\StorageNamespace $namespace): array;
     public function write(Internal\StorageNamespace $namespace, string $key, string $value): void;
     public function remove(Internal\StorageNamespace $namespace, string $key): void;
     public function removeAll(Internal\StorageNamespace $namespace): void;
@@ -132,8 +153,9 @@ $implement[KeyValueStorage\SessionRepository::class] = static fn() =>
 ```
 
 An implementation must keep the namespaces apart, must return `null` from
-`read()` for an absent key, must leave every other namespace alone in
-`removeAll()`, and must not look at the values.
+`read()` for an absent key, must return only that namespace from `readAll()`,
+must leave every other namespace alone in `removeAll()`, and must not look at
+the values.
 
 ## Wiring
 
@@ -185,10 +207,10 @@ notice.
 
 ### The table
 
-`kvs_store`, primary key `(namespace, keyword)`, `value` as CLOB. `removeAll()`
-is one indexed `DELETE`. The column lengths in the update step are literals: a
-step describes a change that already happened and must not move when a
-validation limit moves.
+`kvs_store`, primary key `(namespace, keyword)`, `value` as CLOB. `readAll()`
+is one indexed `SELECT`, `removeAll()` is one indexed `DELETE`. The column
+lengths in the update step are literals: a step describes a change that already
+happened and must not move when a validation limit moves.
 
 ## Errors
 
@@ -215,8 +237,6 @@ $storage->forUser($user_id, ['my_component', 'view_state']);
 backed by a table with `usr_id` in its primary key, contributed by `User`, which
 clears it on the existing `deleteUser` event. Until that exists, keep per-user
 state in the session scope.
-
-**Listing keys.** A store cannot enumerate what it holds.
 
 ## Tests
 

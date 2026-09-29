@@ -31,7 +31,7 @@ use ILIAS\KeyValueStorage\Internal\StorageNamespace;
  * neither list nor clear by prefix - so one nested array per namespace would
  * mean reading and writing the whole array on every single write. Flat keys
  * keep a write to one entry, at the price of scanning the session when a whole
- * namespace is dropped, which happens rarely.
+ * namespace is read or dropped, which happens rarely.
  *
  * The colon is what separates namespace from key: it cannot occur in a
  * namespace, and keys must not contain it, so no pair of namespace and key can
@@ -55,6 +55,28 @@ final readonly class SessionRepository implements KeyValueSessionRepository
         return \is_string($value) ? $value : null;
     }
 
+    public function readAll(StorageNamespace $namespace): array
+    {
+        $prefix = $this->namespacePrefix($namespace);
+        $prefix_length = \strlen($prefix);
+        $entries = [];
+
+        foreach (\ilSession::keys() as $session_key) {
+            if (!\str_starts_with($session_key, $prefix)) {
+                continue;
+            }
+
+            $value = \ilSession::get($session_key);
+            if (!\is_string($value)) {
+                continue;
+            }
+
+            $entries[\substr($session_key, $prefix_length)] = $value;
+        }
+
+        return $entries;
+    }
+
     public function write(StorageNamespace $namespace, string $key, string $value): void
     {
         \ilSession::set($this->sessionKey($namespace, $key), $value);
@@ -67,7 +89,7 @@ final readonly class SessionRepository implements KeyValueSessionRepository
 
     public function removeAll(StorageNamespace $namespace): void
     {
-        $prefix = self::PREFIX . $namespace->value() . self::SEPARATOR;
+        $prefix = $this->namespacePrefix($namespace);
 
         foreach (\ilSession::keys() as $session_key) {
             if (\str_starts_with($session_key, $prefix)) {
@@ -78,6 +100,11 @@ final readonly class SessionRepository implements KeyValueSessionRepository
 
     private function sessionKey(StorageNamespace $namespace, string $key): string
     {
-        return self::PREFIX . $namespace->value() . self::SEPARATOR . $key;
+        return $this->namespacePrefix($namespace) . $key;
+    }
+
+    private function namespacePrefix(StorageNamespace $namespace): string
+    {
+        return self::PREFIX . $namespace->value() . self::SEPARATOR;
     }
 }

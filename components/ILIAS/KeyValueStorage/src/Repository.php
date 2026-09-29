@@ -37,6 +37,13 @@ interface Repository
      */
     public function read(StorageNamespace $namespace, string $key): ?string;
 
+    /**
+     * Every present entry of one namespace.
+     *
+     * @return array<string, string> key => stored string; empty if the namespace holds nothing
+     */
+    public function readAll(StorageNamespace $namespace): array;
+
     public function write(StorageNamespace $namespace, string $key, string $value): void;
 
     public function remove(StorageNamespace $namespace, string $key): void;

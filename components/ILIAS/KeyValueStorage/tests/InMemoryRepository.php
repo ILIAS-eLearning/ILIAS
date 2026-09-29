@@ -30,10 +30,16 @@ class InMemoryRepository implements Repository
 
     public int $reads = 0;
 
+    public int $bulk_reads = 0;
+
+    public int $has_calls = 0;
+
     public int $writes = 0;
 
     public function has(StorageNamespace $namespace, string $key): bool
     {
+        $this->has_calls++;
+
         return isset($this->entries[$namespace->value()][$key]);
     }
 
@@ -42,6 +48,13 @@ class InMemoryRepository implements Repository
         $this->reads++;
 
         return $this->entries[$namespace->value()][$key] ?? null;
+    }
+
+    public function readAll(StorageNamespace $namespace): array
+    {
+        $this->bulk_reads++;
+
+        return $this->entries[$namespace->value()] ?? [];
     }
 
     public function write(StorageNamespace $namespace, string $key, string $value): void

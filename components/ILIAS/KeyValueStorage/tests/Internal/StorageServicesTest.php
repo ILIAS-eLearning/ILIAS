@@ -87,4 +87,26 @@ class StorageServicesTest extends TestCase
         );
         $this->assertSame(0, $this->session->reads);
     }
+
+    public function testKeysAndGetManyGoThroughTheSameStore(): void
+    {
+        $this->services->persistent(['ui', 'storage'])->set('sort', 'title');
+        $this->services->persistent(['ui', 'storage'])->set('limit', 10);
+        $this->persistent->entries['ui.storage']['extra'] = '"from-repository"';
+
+        $this->assertSame(
+            ['extra', 'limit', 'sort'],
+            $this->services->persistent(['ui', 'storage'])->keys()
+        );
+        $this->assertSame(
+            ['sort' => 'title', 'limit' => 10, 'missing' => 'id'],
+            $this->services->persistent(['ui', 'storage'])->getMany([
+                'sort' => $this->asStored(),
+                'limit' => $this->asStored(),
+                'missing' => $this->withDefault('id'),
+            ])
+        );
+        $this->assertSame(1, $this->persistent->bulk_reads);
+        $this->assertSame(0, $this->persistent->reads);
+    }
 }
