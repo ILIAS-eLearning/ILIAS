@@ -48,7 +48,8 @@ interface Factory
      * @return \ILIAS\UI\Component\Prompt\State\State
      */
     public function show(
-        \ILIAS\UI\Component\Prompt\IsPromptContent $content
+        \ILIAS\UI\Component\Prompt\IsPromptContent $primary_content,
+        \ILIAS\UI\Component\Prompt\IsPromptContent ...$secondary_content
     ): State;
 
     /**

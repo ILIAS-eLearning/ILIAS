@@ -33,22 +33,23 @@ class State implements I\State\State
 {
     use ComponentHelper;
 
-    public const CMD_CLOSE = 'close';
-    public const CMD_REDIRECT = 'redirect';
+    public const string CMD_CLOSE = 'close';
+    public const string CMD_REDIRECT = 'redirect';
 
     protected array $buttons = [];
     protected string $cmd = 'show';
     protected array $params = [];
     protected string $title = '';
+    protected array $secondary_content = [];
 
     public function __construct(
-        protected ?I\IsPromptContent $content
+        protected ?I\IsPromptContent $primary_content
     ) {
     }
 
     public function getTitle(): string
     {
-        return $this->title ? $this->title : $this->content->getPromptTitle();
+        return $this->title ? $this->title : $this->primary_content->getPromptTitle();
     }
 
     public function withTitle(string $title): self
@@ -58,27 +59,42 @@ class State implements I\State\State
         return $clone;
     }
 
-    public function withContent(I\IsPromptContent $content): self
+    public function withPrimaryContent(I\IsPromptContent $content): self
     {
         $clone = clone $this;
-        $clone->content = $content;
+        $clone->primary_content = $content;
+        return $clone;
+    }
+
+    public function withSecondaryContent(I\IsPromptContent ...$content): self
+    {
+        $clone = clone $this;
+        $clone->secondary_content = $content;
         return $clone;
     }
 
     /**
      * @return Component[]
      */
-    public function getContent(): ?I\IsPromptContent
+    public function getPrimaryContent(): ?I\IsPromptContent
     {
-        return $this->content;
+        return $this->primary_content;
     }
 
     /**
-     * @return Button[]
+     * @return I\IsPromptContent[]
+     */
+    public function getSecondaryContent(): array
+    {
+        return $this->secondary_content;
+    }
+
+    /**
+     * @return Button\Button[]
      */
     public function getButtons(): array
     {
-        return $this->content->getPromptButtons();
+        return $this->primary_content->getPromptButtons();
     }
 
     public function withCloseModal(bool $flag): self

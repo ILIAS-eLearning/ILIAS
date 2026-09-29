@@ -21,11 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Chart;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 
 /**
  * Interface Scale Bars
  */
-interface ScaleBar extends Component
+interface ScaleBar extends Component, IsPromptContent
 {
     /**
      * Sets a key value pair as items for the list. Key is used as title and value is a boolean marking highlighted values.
