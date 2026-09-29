@@ -148,13 +148,12 @@ class ilMapUtil
     {
         $type = self::getType();
         switch ($type) {
+            default:
             case "openlayers":
                 $map = new ilOpenLayersMapGUI();
                 $map->setTileServers(self::getStdTileServers());
                 $map->setGeolocationServer(self::getStdGeolocationServer());
                 return $map;
-            default:
-                return new ilGoogleMapGUI();
         }
     }
 
@@ -171,7 +170,6 @@ class ilMapUtil
 
         return [
             "openlayers" => $lng->txt("maps_open_layers_maps"),
-            "googlemaps" => $lng->txt("maps_google_maps")
         ];
     }
 }
