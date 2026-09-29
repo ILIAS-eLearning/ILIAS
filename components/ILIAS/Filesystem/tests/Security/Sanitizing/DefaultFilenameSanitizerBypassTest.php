@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
-use ILIAS\Database\PDO\External;
+use ILIAS\Database\Connection;
 use ILIAS\Filesystem\Configuration\DatabaseBackedFilesystemConfig;
 use ILIAS\FileServices\Policy\UploadRestrictionBypass;
 use PHPUnit\Framework\TestCase;
@@ -75,7 +75,7 @@ final class DefaultFilenameSanitizerBypassTest extends TestCase
         $upload_restriction_bypass = $this->createStub(UploadRestrictionBypass::class);
         $upload_restriction_bypass->method('isGrantedToCurrentUser')->willReturn($bypass);
         $config = new DatabaseBackedFilesystemConfig(
-            $this->createStub(External::class),
+            $this->createStub(Connection::class),
             $upload_restriction_bypass
         );
 

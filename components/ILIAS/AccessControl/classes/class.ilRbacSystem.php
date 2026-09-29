@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\AccessControl\User\UserIdProviderProxy;
-use ILIAS\Database\PDO\External;
+use ILIAS\Database\Connection;
 use ILIAS\AccessControl\Tree\RepositoryTreeAccessProxy;
 use ILIAS\AccessControl\Object\ObjectDataAccessProxy;
 
@@ -57,7 +57,7 @@ class ilRbacSystem
      */
     public function __construct(
         private UserIdProviderProxy $user,
-        private External $db,
+        private Connection $db,
         private ilRbacReview $review,
         private RepositoryTreeAccessProxy $tree,
         private GlobalHttpState $http,
