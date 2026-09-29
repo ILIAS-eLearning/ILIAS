@@ -48,6 +48,7 @@ use ILIAS\Environment\Configuration\Installation\IliasIni;
 use ILIAS\Environment\Configuration\Installation\ClientIni;
 use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
 use ILIAS\Filesystem\Configuration\DatabaseBackedFilesystemConfig;
+use ILIAS\FileServices\Policy\UploadRestrictionBypass;
 use ILIAS\Database\PDO\External;
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\Filesystem\Upload\FilenameSanitizerPreProcessor;
@@ -95,7 +96,8 @@ class Filesystem implements Component
             $use[ClientIdProvider::class]
         );
         $implement[FilesystemConfig::class] = static fn() => new DatabaseBackedFilesystemConfig(
-            $use[External::class]
+            $use[External::class],
+            $use[UploadRestrictionBypass::class]
         );
 
         $implement[FilesystemFactory::class] = static fn(

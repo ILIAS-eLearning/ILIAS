@@ -21,21 +21,19 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Configuration;
 
 use ILIAS\Database\PDO\External;
+use ILIAS\FileServices\Policy\UploadRestrictionBypass;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class DatabaseBackedFilesystemConfig implements FilesystemConfig
 {
-    public const string MODULE_NAME = LegacyFilesystemConfigProxy::MODULE_NAME;
-    public const string F_BG_LIMIT = LegacyFilesystemConfigProxy::F_BG_LIMIT;
-    public const string F_INLINE_FILE_EXTENSIONS = LegacyFilesystemConfigProxy::F_INLINE_FILE_EXTENSIONS;
-    public const string F_SHOW_AMOUNT_OF_DOWNLOADS = LegacyFilesystemConfigProxy::F_SHOW_AMOUNT_OF_DOWNLOADS;
-    public const string F_DOWNLOAD_ASCII_FILENAME = LegacyFilesystemConfigProxy::F_DOWNLOAD_ASCII_FILENAME;
-    public const string F_BYPASS = LegacyFilesystemConfigProxy::F_BYPASS;
-
-    private ?int $file_admin_ref_id = null;
-    private ?bool $bypass_allowed = null;
+    public const string MODULE_NAME = 'file_access';
+    public const string F_BG_LIMIT = 'bg_limit';
+    public const string F_INLINE_FILE_EXTENSIONS = 'inline_file_extensions';
+    public const string F_SHOW_AMOUNT_OF_DOWNLOADS = 'show_amount_of_downloads';
+    public const string F_DOWNLOAD_ASCII_FILENAME = 'download_ascii_filename';
+    public const string F_BYPASS = 'bypass';
 
     private array $resolved_values = [];
     private ?array $white_list_negative = null;
@@ -45,8 +43,10 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
     private ?array $black_list_overall = null;
     private ?array $white_list_default = null;
 
-    public function __construct(private readonly External $db)
-    {
+    public function __construct(
+        private readonly External $db,
+        private readonly UploadRestrictionBypass $bypass,
+    ) {
     }
 
     /**
@@ -59,35 +59,9 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         return $this->white_list_default ??= include __DIR__ . "/../../../FileServices/defaults/default_whitelist.php";
     }
 
-    private function determineFileAdminRefId(): int
-    {
-        if ($this->file_admin_ref_id !== null) {
-            return $this->file_admin_ref_id;
-        }
-
-        try {
-            $r = $this->db->query(
-                "SELECT ref_id FROM object_reference JOIN object_data ON object_reference.obj_id = object_data.obj_id WHERE object_data.type = 'facs';"
-            );
-            $r = $this->db->fetchObject($r);
-            return $this->file_admin_ref_id = (int) ($r->ref_id ?? 0);
-        } catch (\Throwable) {
-            return $this->file_admin_ref_id = 0;
-        }
-    }
-
     public function isByPassAllowedForCurrentUser(): bool
     {
-        if ($this->bypass_allowed !== null) {
-            return $this->bypass_allowed;
-        }
-        global $DIC;
-        return $this->bypass_allowed = ($DIC->isDependencyAvailable('rbac')
-            && isset($DIC['rbacsystem'])
-            && $DIC->rbac()->system()->checkAccess(
-                'upload_blacklisted_files',
-                $this->determineFileAdminRefId()
-            ));
+        return $this->bypass->isGrantedToCurrentUser();
     }
 
     protected function fromSettingsTable(string $module, string $key, mixed $default = null): mixed

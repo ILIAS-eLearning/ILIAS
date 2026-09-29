@@ -29,6 +29,8 @@ use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileServices\Upload\FileServicesPreProcessor;
 use ILIAS\Filesystem\Configuration\FilesystemConfig;
+use ILIAS\FileServices\Policy\UploadRestrictionBypass;
+use ILIAS\FileServices\Policy\UploadRestrictionBypassLegacyProxy;
 
 class FileServices implements Component
 {
@@ -42,6 +44,9 @@ class FileServices implements Component
         array|\ArrayAccess &$pull,
         array|\ArrayAccess &$internal,
     ): void {
+        $define[] = UploadRestrictionBypass::class;
+
+        $implement[UploadRestrictionBypass::class] = static fn() => new UploadRestrictionBypassLegacyProxy();
         $implement[PhpUploadLimit::class] = static fn() => new FileServicesLegacyInitialisationAdapter(
         );
         $implement[GlobalUploadLimit::class] = static fn(
