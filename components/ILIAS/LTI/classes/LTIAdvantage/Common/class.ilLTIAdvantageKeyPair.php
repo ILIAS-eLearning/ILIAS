@@ -68,6 +68,44 @@ class ilLTIAdvantageKeyPair
     }
 
     /**
+     * A token ILIAS hands out and later takes back itself, such as the registration token of a Dynamic
+     * Registration. The payload MUST name what the token is for, so that no other token ILIAS signs is taken
+     * for it.
+     *
+     * @throws ilException when no key can be created
+     * @throws RandomException
+     */
+    public static function sign(array $payload): string
+    {
+        return Jwt::getJwtClient()::sign($payload, self::SIGNATURE_METHOD, self::getPrivateKey(), self::getKid());
+    }
+
+    /**
+     * The payload of a token ILIAS signed, null when the signature does not match or the token has expired.
+     * A token without expiry is not accepted, and neither is one of another algorithm: the library verifies
+     * with the algorithm the token names.
+     *
+     * @throws ilException when no key can be created
+     * @throws RandomException
+     */
+    public static function verify(string $token): ?array
+    {
+        $public_key = Jwt::getJwtClient()::getPublicKey(self::getPrivateKey());
+        $jwt = Jwt::getJwtClient();
+        if (
+            $public_key === null
+            || !$jwt->load($token)
+            || $jwt->getHeader('alg') !== self::SIGNATURE_METHOD
+            || !$jwt->hasClaim('exp')
+            || !$jwt->verifySignature($public_key)
+        ) {
+            return null;
+        }
+
+        return json_decode((string) json_encode($jwt->getPayload()), true);
+    }
+
+    /**
      * @throws ilException when no key can be created
      * @throws RandomException
      */

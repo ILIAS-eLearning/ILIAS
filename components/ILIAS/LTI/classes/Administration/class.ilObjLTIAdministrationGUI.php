@@ -206,7 +206,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $this->obj_definition,
             $this->rbac_review,
             $platform_id,
-            $version
+            $version,
+            $DIC->refinery()
         );
     }
 

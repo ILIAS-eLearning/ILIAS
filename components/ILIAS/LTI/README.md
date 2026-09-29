@@ -114,6 +114,25 @@ the endpoints:
   A launch only needs a user id and a resource link id, as long as the columns they are kept in allow (250 and
   255 characters). Name, email and roles are optional, since platforms leave them out for privacy, and the
   login of a new user is built so that it is always valid.
+* **Dynamic Registration, ILIAS as platform:** `ilLTIAdvantagePlatformRegistration` (`Platform/DynamicRegistration`).
+  A user who may define own tools enters the registration URL of a tool on the creation screen of an `lti`
+  object. It opens in an iframe with the OpenID configuration of ILIAS (`lticonfig.php`) and a registration
+  token: a JWT signed with the key of ILIAS, valid for an hour, that names the user and the client id the tool
+  gets. The tool posts its configuration to `ltiregistration.php` from its server, without a session, so the
+  token is all that tells ILIAS who registers. The configuration is checked before it is stored as an own tool of
+  that user, and the token is used up with it, since no second tool gets its client id. Errors follow RFC 7591.
+  When the tool posts `org.imsglobal.lti.close` from the iframe, or the user says the registration is done,
+  the object is created for the tool the session started to register.
+* **Dynamic Registration, ILIAS as tool:** `ilLTIAdvantageToolRegistration` (`Tool/DynamicRegistration`), which
+  leaves the protocol to celtic/lti. The form of an LTI Advantage platform in the administration shows a
+  registration URL (`ltitoolregistration.php`) with a token that names the platform, valid for a day. The platform
+  opens it, celtic/lti checks its OpenID configuration and registers ILIAS, and the answer becomes the registration
+  of the platform. The registration keeps the id of the token, so each URL registers once; the form shows a new
+  one each time. A registration another platform already has, by issuer, client id and deployment id, is refused,
+  since a launch could not tell the two apart. No session is needed, because the platform opens the URL on its own site, where a session
+  cookie of ILIAS is not sent.
+* Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
+  `ilLTIAdvantageKeyPair` and name what they are for, so that no other token of ILIAS is taken for them.
 
 ## User interface
 
@@ -159,7 +178,9 @@ Installations updated from an earlier release MUST keep working:
 
 * The object types `lti`, `ltiv` and `ltis` do not change.
 * No table or column is removed or renamed.
-* Public endpoints keep their URLs (`ltiresult.php`, `lti.php`, `lticerts.php`, `ltiauth.php`, `ltitoken.php`).
+* Public endpoints keep their URLs (`ltiresult.php`, `lti.php`, `lticerts.php`, `ltiauth.php`, `ltitoken.php`,
+  and `lticonfig.php` and `ltiregistration.php` of Dynamic Registration). `ltiregstart.php` and `ltiregend.php` of
+  earlier releases are gone: only the registration running in the browser used them.
 * The LTI Advantage key of ILIAS stays in the settings `lti_1_3_privatekey` and `lti_1_3_kid`, and the
   deployment id of a tool is still its id.
 * Class names stored in the database do not change: `ilLTIDatabaseUpdateSteps` (`il_db_steps`) and

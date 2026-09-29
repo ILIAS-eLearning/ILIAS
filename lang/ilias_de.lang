@@ -11503,6 +11503,14 @@ lti#:#lti_deep_linking_not_available_for_admin_objects#:#In der Administration a
 lti#:#lti_delete_consume_provider#:#Provider löschen
 lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
+lti#:#lti_dyn_reg_failed#:#Das Tool konnte nicht registriert werden. Prüfen Sie die Registrierungs-URL und versuchen Sie es erneut.###28 09 2026 new variable
+lti#:#lti_dyn_reg_finish#:#Registrierung abschließen###28 09 2026 new variable
+lti#:#lti_dyn_reg_running#:#Schließen Sie die Registrierung im Tool unten ab. Das Objekt wird angelegt, sobald das Tool meldet, dass es fertig ist. Meldet das Tool das nicht, klicken Sie nach Abschluss auf „Registrierung abschließen“.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_done#:#ILIAS wurde bei der Plattform registriert.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_failed#:#ILIAS konnte nicht bei der Plattform registriert werden.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_url#:#URL für dynamische Registrierung###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_url_after_save#:#Speichern Sie die Plattform, um eine URL für die dynamische Registrierung von LTI Advantage zu erhalten.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_url_info#:#Geben Sie diese URL in der Plattform ein, um ILIAS über die dynamische Registrierung von LTI Advantage zu registrieren. Sie gilt 24 Stunden und für eine Registrierung. Bei jedem Öffnen dieses Formulars wird eine neue URL angezeigt.###28 09 2026 new variable
 lti#:#lti_dynamic_registration#:#Eigene Tool-Einstellungen mit dynamischer Registrierung anlegen (LTI 1.3)###04 12 2025 new variable
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
@@ -11531,6 +11539,8 @@ lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_platform_registration#:#LTI-Advantage-Registrierung###17 09 2026 new variable
+lti#:#lti_platform_registration_incomplete#:#Füllen Sie alle Felder der Registrierung aus oder lassen Sie alle leer.###28 09 2026 new variable
+lti#:#lti_platform_registration_info#:#Wird ausgefüllt, wenn die Plattform ILIAS über die dynamische Registrierung registriert. Andernfalls geben Sie die Daten ein, die die Plattform für ILIAS angibt.###28 09 2026 new variable
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
 lti#:#lti_provider_not_set_msg#:#LTI-Provider/-tool ist noch nicht vollständig konfiguriert.

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use Random\RandomException;
 
 /**
  * Screens of the repository object type lti. The object is created for one tool, which cannot be
@@ -46,6 +47,9 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
     private const string CMD_SAVE_OWN_TOOL = 'saveOwnTool';
     private const string CMD_REGISTER_TOOL = 'registerTool';
+    private const string CMD_FINISH_REGISTRATION = 'finishRegistration';
+    private const string REGISTRATION_PARAM = 'registration';
+    private const string REGISTRATION_FRAME_ID = 'il_lti_registration_frame';
     private const string VERSION_PARAM = 'version';
     private const string TAB_CONTENT = 'tab_content';
     private const string TAB_INFO = 'tab_info';
@@ -378,10 +382,12 @@ class ilObjLTIToolGUI extends ilObject2GUI
     }
 
     /**
-     * Where a tool of the user is registered through LTI Advantage Dynamic Registration. The registration
-     * itself comes with LTI Advantage: for now the request is only validated.
+     * Registers a tool of the user through LTI Advantage Dynamic Registration: the registration page of the
+     * tool opens in an iframe, and the object is created once the tool says it is done. A tool that does not
+     * say so is taken as done when the user says it is.
      *
      * @throws ilCtrlException
+     * @throws RandomException
      */
     protected function registerTool(): void
     {
@@ -391,11 +397,79 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
         $form = $this->buildRegistrationForm()->withRequest($this->request);
-        if ($form->getData() !== null) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('not_available'));
+        $data = $form->getData();
+        if ($data === null) {
+            $this->renderCreation(null, $form);
+            return;
         }
 
-        $this->renderCreation(null, $form);
+        try {
+            [$registration, $url] = ilLTIAdvantagePlatformRegistration::start(
+                (string) $data['url'],
+                trim((string) $data['params']),
+                $this->user->getId()
+            );
+        } catch (ilException $e) {
+            global $DIC;
+
+            $DIC->logger()->forComponent('lti')->error($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_dyn_reg_failed'));
+            $this->renderCreation(null, $form);
+            return;
+        }
+
+        $this->ctrl->setParameter($this, self::REGISTRATION_PARAM, $registration);
+        $finish_url = $this->ctrl->getLinkTarget($this, self::CMD_FINISH_REGISTRATION);
+        $this->ctrl->setParameter($this, self::REGISTRATION_PARAM, null);
+
+        $this->tpl->setTitleIcon(ilObject::getIconForType($this->getType()));
+        $this->tpl->setTitle($this->lng->txt('lti_dynamic_registration'));
+        $this->tabs_gui->setBackTarget($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'create'));
+        $this->tpl->addOnLoadCode(
+            'window.addEventListener("message", function (event) {'
+            . 'var frame = document.getElementById("' . self::REGISTRATION_FRAME_ID . '");'
+            . 'if (frame && event.source === frame.contentWindow && event.data'
+            . ' && event.data.subject === "org.imsglobal.lti.close") {'
+            . 'window.location.assign(' . json_encode($finish_url, JSON_UNESCAPED_SLASHES) . ');'
+            . '}});'
+        );
+        $this->tpl->setContent($this->ui_renderer->render([
+            $this->ui_factory->messageBox()->info($this->lng->txt('lti_dyn_reg_running'))->withButtons([
+                $this->ui_factory->button()->standard($this->lng->txt('lti_dyn_reg_finish'), $finish_url),
+            ]),
+            $this->ui_factory->legacy()->content(
+                '<iframe id="' . self::REGISTRATION_FRAME_ID . '" src="' . htmlspecialchars($url, ENT_QUOTES)
+                . '" title="' . htmlspecialchars($this->lng->txt('lti_dynamic_registration'), ENT_QUOTES)
+                . '" width="100%" height="600"></iframe>'
+            ),
+        ]));
+    }
+
+    /**
+     * Creates the object for the tool a registration of the user stored.
+     *
+     * @throws ilCtrlException
+     * @throws ilMDServicesException
+     */
+    protected function finishRegistration(): void
+    {
+        if (!ilObjLTIAdministrationAccess::hasOwnToolCreationAccess()) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
+        $registration = $this->request_wrapper->has(self::REGISTRATION_PARAM)
+            ? $this->request_wrapper->retrieve(self::REGISTRATION_PARAM, $this->refinery->kindlyTo()->string())
+            : '';
+        $registered = ilLTIAdvantagePlatformRegistration::finish($registration, $this->user->getId());
+        if ($registered === null) {
+            $this->ctrl->setParameter($this, 'new_type', $this->getType());
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_dyn_reg_failed'));
+            $this->renderCreation(null, $this->buildRegistrationForm());
+            return;
+        }
+
+        [$tool, $custom_params] = $registered;
+        $this->createForTool($tool, $custom_params);
     }
 
     /**
@@ -595,10 +669,12 @@ class ilObjLTIToolGUI extends ilObject2GUI
     /**
      * An object carries the title and the description of its tool, as there is nothing else to name it after.
      *
+     * @param string $custom_params the custom parameters of the object, in the format of its settings
+     *
      * @throws ilCtrlException
      * @throws ilMDServicesException
      */
-    private function createForTool(ilLTITool $tool): void
+    private function createForTool(ilLTITool $tool, string $custom_params = ''): void
     {
         $object = new ilObjLTITool();
         $object->setType($this->getType());
@@ -607,6 +683,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
         $object->setDescription($tool->getDescription());
         $object->setToolId($tool->getId());
         $object->setMasteryScore($tool->getMasteryScore());
+        $object->setCustomParams($custom_params);
         $object->create();
         $object->createMetaData();
         $object->syncKeywordsFromTool();

@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use ILIAS\UI\Factory;
+use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
+use Random\RandomException;
 
 /**
  * Create and edit form of a platform that may launch ILIAS as an LTI tool.
@@ -36,6 +38,14 @@ class ilLTIAdministrationPlatformForm
 {
     public const string VERSION_1P1 = "LTI-1p0";
     public const string VERSION_ADVANTAGE = "1.3.0";
+    private const array REGISTRATION_FIELDS = [
+        "platform_id" => "lti_13_platform_id",
+        "client_id" => "lti_13_client_id",
+        "deployment_id" => "lti_13_deployment_id",
+        "keyset_url" => "lti_13_keyset_url",
+        "token_url" => "lti_13_token_url",
+        "authentication_url" => "lti_13_authentication_url",
+    ];
 
     public function __construct(
         private readonly ilDBInterface $db,
@@ -44,7 +54,8 @@ class ilLTIAdministrationPlatformForm
         private readonly ilObjectDefinition $obj_definition,
         private readonly ilRbacReview $rbac_review,
         private readonly int $platform_id,
-        private readonly string $version
+        private readonly string $version,
+        private readonly Refinery $refinery
     ) {
     }
 
@@ -99,26 +110,36 @@ class ilLTIAdministrationPlatformForm
         ];
         if ($this->isAdvantage()) {
             $registration = $this->readRegistration();
-            $sections["registration"] = $field->section([
-                "platform_id" => $field->text($this->lng->txt("lti_13_platform_id"))
-                    ->withRequired(true)->withValue($registration["platform_id"]),
-                "client_id" => $field->text($this->lng->txt("lti_13_client_id"))
-                    ->withRequired(true)->withValue($registration["client_id"]),
-                "deployment_id" => $field->text($this->lng->txt("lti_13_deployment_id"))
-                    ->withRequired(true)->withValue($registration["deployment_id"]),
-                "keyset_url" => $field->text($this->lng->txt("lti_13_keyset_url"))
-                    ->withRequired(true)->withValue($registration["keyset_url"]),
-                "token_url" => $field->text($this->lng->txt("lti_13_token_url"))
-                    ->withRequired(true)->withValue($registration["token_url"]),
-                "authentication_url" => $field->text($this->lng->txt("lti_13_authentication_url"))
-                    ->withRequired(true)->withValue($registration["authentication_url"]),
+            $inputs = [];
+            foreach (self::REGISTRATION_FIELDS as $key => $txt) {
+                $inputs[$key] = $field->text($this->lng->txt($txt))->withValue($registration[$key]);
+            }
+            // Dynamic Registration fills the registration in, so it may stay empty, but not half filled
+            $sections["registration"] = $field->section($inputs + [
+                "dynamic_registration_url" => $field->text(
+                    $this->lng->txt("lti_dyn_reg_tool_url"),
+                    $this->lng->txt($this->platform_id > 0 ? "lti_dyn_reg_tool_url_info" : "lti_dyn_reg_tool_url_after_save")
+                )->withValue($this->platform_id > 0 ? $this->getDynamicRegistrationUrl() : "")->withDisabled(true),
                 // read only data the platform needs: where it starts the login and posts the launch, and the
                 // key set of ILIAS. The objects released to the platform show their target link.
                 "launch_url" => $field->text($this->lng->txt("lti_launch_url"))
                     ->withValue(ILIAS_HTTP_PATH . "/lti.php")->withDisabled(true),
                 "ilias_keyset_url" => $field->text($this->lng->txt("lti_con_key_type_jwk"))
                     ->withValue(ilLTIAdvantageKeyPair::getJwksUrl())->withDisabled(true),
-            ], $this->lng->txt("lti_platform_registration"));
+            ], $this->lng->txt("lti_platform_registration"), $this->lng->txt("lti_platform_registration_info"))
+                ->withAdditionalTransformation($this->refinery->custom()->constraint(
+                    static fn(array $data): bool => count(array_unique(array_map(
+                        static fn(string $key): bool => trim((string) $data[$key]) === "",
+                        array_keys(self::REGISTRATION_FIELDS)
+                    ))) === 1,
+                    $this->lng->txt("lti_platform_registration_incomplete")
+                ))
+                ->withAdditionalTransformation($this->refinery->custom()->transformation(
+                    static fn(array $data): array => array_map(
+                        "trim",
+                        array_intersect_key($data, self::REGISTRATION_FIELDS)
+                    )
+                ));
         }
 
         return $this->ui_factory->input()->container()->form()->standard($action, $sections);
@@ -162,53 +183,30 @@ class ilLTIAdministrationPlatformForm
         }
 
         if ($registration !== null) {
-            $this->saveRegistration($platform_id, $data, $registration);
+            // a new URL for Dynamic Registration is not used up by saving the form
+            $settings = array_intersect_key(
+                ilLTIPlatform::lookupRegistrationSettings($platform_id),
+                [ilLTIAdvantageToolRegistration::SETTING_USED_TOKEN => true]
+            );
+            ilLTIPlatform::saveRegistration($platform_id, $data["title"], (bool) $data["active"], $registration, $settings);
         }
 
         return null;
     }
 
     /**
-     * @param int $platform_id
-     * @param array $general
-     * @param array $registration
+     * A new URL each time the form is shown, as each one can be used once.
      */
-    private function saveRegistration(int $platform_id, array $general, array $registration): void
+    private function getDynamicRegistrationUrl(): string
     {
-        $now = date("Y-m-d H:i:s");
-        $fields = [
-            "name" => ["text", ilStr::subStr($general["title"], 0, 50)],
-            "lti_version" => ["text", self::VERSION_ADVANTAGE],
-            "signature_method" => ["text", "RS256"],
-            "enabled" => ["integer", (int) $general["active"]],
-            "platform_id" => ["text", $registration["platform_id"]],
-            "client_id" => ["text", $registration["client_id"]],
-            "deployment_id" => ["text", $registration["deployment_id"]],
-            "settings" => ["text", json_encode([
-                "_jku" => $registration["keyset_url"],
-                "_oauth2_access_token_url" => $registration["token_url"],
-                "_authentication_request_url" => $registration["authentication_url"],
-            ])],
-            // the key celtic/lti fetched from the key set is a cache: it is fetched again from the saved URL
-            "public_key" => ["clob", null],
-            "updated" => ["timestamp", $now],
-        ];
+        try {
+            return ilLTIAdvantageToolRegistration::getRegistrationUrl($this->platform_id);
+        } catch (ilException|RandomException $e) {
+            global $DIC;
 
-        $row = $this->db->fetchAssoc($this->db->query(
-            "SELECT consumer_pk FROM lti2_consumer WHERE ref_id = 0 AND ext_consumer_id = " . $this->db->quote($platform_id, "integer")
-        ));
-        if ($row !== null) {
-            $this->db->update("lti2_consumer", $fields, ["consumer_pk" => ["integer", (int) $row["consumer_pk"]]]);
-            return;
+            $DIC->logger()->forComponent("lti")->error($e->getMessage());
+            return "";
         }
-        $this->db->insert("lti2_consumer", $fields + [
-            "consumer_pk" => ["integer", $this->db->nextId("lti2_consumer")],
-            "secret" => ["text", ""],
-            "protected" => ["integer", 0],
-            "created" => ["timestamp", $now],
-            "ext_consumer_id" => ["integer", $platform_id],
-            "ref_id" => ["integer", 0],
-        ]);
     }
 
     /**
