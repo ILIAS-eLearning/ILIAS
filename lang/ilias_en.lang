@@ -8060,7 +8060,6 @@ crs#:#event_csv_export#:#CSV Export
 crs#:#event_date_time#:#Date and Time
 crs#:#event_desc#:#Description
 crs#:#event_details_workflow#:#Details/Workflow
-crs#:#event_digit#:#Digit
 crs#:#event_edit_members#:#Participants
 crs#:#event_etime_smaller_stime#:#The finish time is earlier than the start time. Please enter a valid time span.
 crs#:#event_file#:#File

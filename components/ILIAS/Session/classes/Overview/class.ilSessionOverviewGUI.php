@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Session\Overview\Table\Factory as OverviewTableFactory;
+use ILIAS\Data\Factory as DataFactory;
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -38,6 +41,7 @@ class ilSessionOverviewGUI
     protected int $course_id = 0;
     protected ilParticipants $members_obj;
     protected ilCSVWriter $csv;
+    protected OverviewTableFactory $overview_table_factory;
 
     public function __construct(int $a_crs_ref_id, ilParticipants $a_members)
     {
@@ -57,6 +61,15 @@ class ilSessionOverviewGUI
         $this->course_ref_id = $a_crs_ref_id;
         $this->course_id = ilObject::_lookupObjId($this->course_ref_id);
         $this->members_obj = $a_members;
+
+        $this->overview_table_factory = new OverviewTableFactory(
+            new DataFactory(),
+            $DIC->ui(),
+            $DIC->language(),
+            $DIC->http(),
+            $DIC->repositoryTree(),
+            $DIC->access()
+        );
     }
 
     public function executeCommand(): void
@@ -100,8 +113,13 @@ class ilSessionOverviewGUI
             $part
         );
 
-        $tbl = new ilSessionOverviewTableGUI($this, 'listSessions', $this->course_ref_id, $part);
-        $this->tpl->setContent($tbl->getHTML());
+        $data_retrieval = $this->overview_table_factory->dataRetrieval(
+            $this->course_ref_id,
+            ...$part
+        );
+        $overview_table = $this->overview_table_factory->handler($data_retrieval);
+
+        $this->tpl->setContent($overview_table->getHTML());
     }
 
     public function exportCSV(): void
