@@ -35,7 +35,7 @@ class ilWorkspaceTree extends ilTree
         $this->setObjectTablePK('obj_id');
         $this->setReferenceTablePK('wsp_id');
 
-        if (!$this->exists()) {
+        if (!$this->exists() && ilObjUser::userExists([$a_tree_id])) {
             $this->createTreeForUser($a_tree_id);
         }
 
