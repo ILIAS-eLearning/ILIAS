@@ -49,6 +49,7 @@ interface Factory
      *     and a bulky button offers navigation to an upper level.
      *     The label of the Drilldown Menu will be shown as part of the label of
      *     the filter.
+     *     The filter can optionally be hidden/removed.
      *   effect: >
      *     The Drilldown Menu maybe presented in one or two columns depending on the available
      *     space.
@@ -72,6 +73,8 @@ interface Factory
      *          A Drilldown Menu MUST contain further Submenus or Buttons.
      *      2: >
      *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
+     *      3: >
+     *          Node filter should not be hidden using withoutFilter() purely by preference, there should be a valid reason to do so.
      *
      * ---
      * @param 	string $label
