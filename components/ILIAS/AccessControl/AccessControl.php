@@ -27,7 +27,7 @@ use ILIAS\AccessControl\User\UserIdProviderProxy;
 use ILIAS\AccessControl\Tree\RepositoryTreeAccessProxy;
 use ILIAS\AccessControl\Object\ObjectDataAccessProxy;
 use ILIAS\AccessControl\Object\ObjectDefinitionAccessProxy;
-use ILIAS\Database\PDO\External;
+use ILIAS\Database\Connection;
 use ILIAS\HTTP\GlobalHttpState;
 
 class AccessControl implements Component\Component
@@ -54,13 +54,13 @@ class AccessControl implements Component\Component
 
         // Internal RBAC services (legacy concrete classes)
         $internal[\ilRbacReview::class] = static fn() => new \ilRbacReview(
-            $use[External::class],
+            $pull[Connection::class],
             $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('ac'),
         );
 
         $internal[\ilRbacSystem::class] = static fn() => new \ilRbacSystem(
             $internal[UserIdProviderProxy::class],
-            $use[External::class],
+            $pull[Connection::class],
             $internal[\ilRbacReview::class],
             $internal[RepositoryTreeAccessProxy::class],
             $use[GlobalHttpState::class],
@@ -69,7 +69,7 @@ class AccessControl implements Component\Component
         );
 
         $internal[\ilRbacAdmin::class] = static fn() => new \ilRbacAdmin(
-            $use[External::class],
+            $pull[Connection::class],
             $internal[\ilRbacReview::class],
             $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('ac'),
         );
@@ -83,7 +83,7 @@ class AccessControl implements Component\Component
 
         $implement[Access::class] = static fn() => new \ilAccess(
             $internal[UserIdProviderProxy::class],
-            $use[External::class],
+            $pull[Connection::class],
             $internal[\ilRbacSystem::class],
             $internal[RepositoryTreeAccessProxy::class],
             $internal[ObjectDefinitionAccessProxy::class],

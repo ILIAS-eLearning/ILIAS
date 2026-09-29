@@ -7,8 +7,8 @@
 The goal is to put the Database under the Coordinator-Model. The service is crucial for the whole system and should not be managed by a single person.
 
 ### Hand out the Database through the Component Bootstrap
-Today the component only declares `ILIAS\Database\PDO\External` and implements it with `DBLegacyProxy`
-(`src/DBLegacyProxy.php`), 633 lines that forward every call to `$GLOBALS['DIC']['ilDB']`. The connection
+Today the component provides `ILIAS\Database\Connection` as a lazy proxy of `ilDBPdo`
+(`ReflectionClass::newLazyProxy()`), whose initializer returns `$GLOBALS['DIC']->database()`. The connection
 itself is still built outside the component, by `ilInitialisation::initDatabase()` via
 `ilDBWrapperFactory::getWrapper(IL_DB_TYPE)`.
 
@@ -19,15 +19,22 @@ The goal is that the component builds and hands out the connection itself:
   `ilDBPdo::initFromIniFile()` reading `$DIC['ilClientIniFile']`. That interface already exposes
   `getDatabaseType()`, `-Host()`, `-User()`, `-Password()` and `-Name()`; only a getter for `db.port` is
   missing.
-- `$DIC['ilDB']` becomes a plain binding in `AllModernComponents`, `ilInitialisation::initDatabase()` is
-  emptied, and `DBLegacyProxy` is deleted.
+- The initializer of the lazy proxy then connects that `ilDBPdo` instead of reaching into `$DIC`,
+  `$DIC['ilDB']` becomes a plain binding in `AllModernComponents`, and `ilInitialisation::initDatabase()` is
+  emptied.
 
-One constraint shapes the solution: the bootstrap reader executes `$implement[]` closures at build time
+Two properties of the lazy proxy have to be kept in mind until then:
+
+- The initializer must return an instance of exactly `ilDBPdo`; a subclass or a test double registered as
+  `$DIC['ilDB']` fails with a `TypeError` on first use. `ilDBWrapperFactory::getWrapper()` always returns an
+  `ilDBPdo` today.
+- A lazy object initializes on property access, not on method entry. Methods of `ilDBPdo` that do not touch
+  a property run on the uninitialized instance.
+
+One constraint shapes the final solution: the bootstrap reader executes the closures at build time
 (`Component/src/Dependencies/Reader.php`), so nothing may connect there. `ilDBPdo::__construct()` only takes
 its `Details` and does not connect, so the object can be built at build time as long as `connect()` happens on
-first use. `ReflectionClass::newLazyProxy()` is the tool for that step, once the component hands out a
-concrete class of its own; it cannot replace `DBLegacyProxy` today, because it needs an instantiable class and
-the bootstrap wires interfaces.
+first use, which is exactly what the lazy proxy provides.
 
 Setup keeps its own path: `ilDatabaseSetupAgent` builds a connection from the data an installer enters, before
 any client ini exists.
@@ -36,24 +43,14 @@ any client ini exists.
 ## Mid Term
 
 ### Narrow the contract other components consume
-`External` inherits the complete legacy surface: 88 methods from `ilDBInterface` plus 22 from
-`ilDBPdoInterface`. The components that have been migrated to the bootstrap so far (AccessControl, Filesystem,
-Logging, ResourceStorage) call 20 distinct methods of it, and four of them carry most of the traffic: `quote`,
-`query`, `manipulate` and `fetchObject`. Schema manipulation, which makes up a large part of the surface,
-belongs to setup and update steps, not to a component asking for rows.
+`Connection` inherits the complete legacy surface of `ilDBInterface`. The components that have been migrated
+to the bootstrap so far (AccessControl, Filesystem, Logging, ResourceStorage) call a small part of it, and four
+methods carry most of the traffic: `quote`, `query`, `manipulate` and `fetchObject`. Schema manipulation,
+which makes up a large part of the surface, belongs to setup and update steps, not to a component asking for
+rows.
 
-The goal is a small, driver-agnostic contract for reading and writing rows, with `External` kept as a
-deprecated alias until its consumers have moved over.
-
-Two open questions resolve themselves at that point, and only there:
-
-- **The name.** `External` was chosen in contrast to the pre-existing `Internal`, i.e. "the part of the legacy
-  interface other components may see". A name that says what the contract does (`Facade`, `Gateway`, `Consumer`
-  or something closer to querying) is worth having, but attaching it to 110 inherited legacy methods would put
-  a good name on the thing we intend to remove.
-- **The namespace.** Consumers currently depend on `ILIAS\Database\PDO`. Moving the interface up to
-  `ILIAS\Database` while it still extends `ilDBPdoInterface` would hide the coupling rather than remove it.
-  Once the contract no longer inherits PDO specifics, the move is honest and mechanical.
+The goal is a small, driver-agnostic contract for reading and writing rows that `Connection` narrows down to,
+so no builder or mapper has to reimplement the full legacy interface.
 
 ### Reduce the number of consumers
 Around 2400 call sites still reach the database through `$DIC->database()` or `$DIC['ilDB']`, and roughly 450
