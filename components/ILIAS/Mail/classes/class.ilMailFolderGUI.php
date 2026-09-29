@@ -28,6 +28,7 @@ use ILIAS\Mail\Folder\MailFilterUI;
 use ILIAS\Mail\Folder\MailFolderSearch;
 use ILIAS\Mail\Folder\MailFolderTableUI;
 use ILIAS\Mail\Folder\MailFolderData;
+use ILIAS\Mail\Message\MailMessageHtmlRenderer;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\User\Profile\PublicProfileGUI;
 
@@ -938,17 +939,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         $form->addItem($date);
 
         $message = new ilCustomInputGUI($this->lng->txt('message') . ':');
-        $message->setHtml(
-            str_replace(
-                ['{', '}'],
-                ['&#123;', '&#125;'],
-                $this->refinery->string()->makeClickable()->transform(
-                    html_entity_decode(
-                        $this->refinery->string()->markdown()->toHTML()->transform($mail_data['m_message']) ?? ''
-                    )
-                )
-            )
-        );
+        $message->setHtml($this->renderMailMessage((string) ($mail_data['m_message'] ?? ''), true));
 
         $form->addItem($message);
 
@@ -1158,7 +1149,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         );
 
         $tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
-        $tplprint->setVariable('MAIL_MESSAGE', html_entity_decode($this->refinery->string()->markdown()->toHTML()->transform($mail_data['m_message'])));
+        $tplprint->setVariable('MAIL_MESSAGE', $this->renderMailMessage((string) ($mail_data['m_message'] ?? ''), false));
 
         $tplprint->show();
     }
@@ -1262,6 +1253,14 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
     private function encodeRecipientsForHtml(string $recipients): string
     {
         return $this->encodeForHtml($this->umail->formatNamesForOutput($recipients));
+    }
+
+    private function renderMailMessage(string $message, bool $make_urls_clickable): string
+    {
+        return (new MailMessageHtmlRenderer(
+            $this->refinery->string()->markdown()->toHTML(),
+            $this->refinery->string()->makeClickable(),
+        ))->render($message, $make_urls_clickable);
     }
 
     private function encodeForHtml(string $value): string
