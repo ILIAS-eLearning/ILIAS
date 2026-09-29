@@ -18,8 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Authentication\KeyValueStorage\DicAuthenticatedSubjectPurge;
-use ILIAS\Authentication\KeyValueStorage\UserDeletedSubjectPurgeHandler;
+use ILIAS\Authentication\KeyValueStorage\AuthenticatedSubjectPurge;
 use ILIAS\KeyValueStorage\SubjectPurge;
 
 /**
@@ -43,7 +42,7 @@ class ilAuthenticationAppEventListener implements ilAppEventListener
             return;
         }
 
-        $this->preparePurge()?->handle($user_id);
+        $this->preparePurge()?->purgeForUserId($user_id);
     }
 
     private function isUserDeleted(string $component, string $event): bool
@@ -55,7 +54,7 @@ class ilAuthenticationAppEventListener implements ilAppEventListener
         return $component === 'Services/User' || $component === 'components/ILIAS/User';
     }
 
-    private function preparePurge(): ?UserDeletedSubjectPurgeHandler
+    private function preparePurge(): ?AuthenticatedSubjectPurge
     {
         global $DIC;
 
@@ -63,6 +62,9 @@ class ilAuthenticationAppEventListener implements ilAppEventListener
             return null;
         }
 
-        return new UserDeletedSubjectPurgeHandler((new DicAuthenticatedSubjectPurge())->get());
+        /** @var SubjectPurge $subject_purge */
+        $subject_purge = $DIC[SubjectPurge::class];
+
+        return new AuthenticatedSubjectPurge($subject_purge);
     }
 }
