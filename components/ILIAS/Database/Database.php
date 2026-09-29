@@ -28,20 +28,21 @@ use ILIAS\Database\Connection;
 class Database implements Component
 {
     public function init(
-        array|\ArrayAccess &$define,
-        array|\ArrayAccess &$implement,
-        array|\ArrayAccess &$use,
-        array|\ArrayAccess &$contribute,
-        array|\ArrayAccess &$seek,
-        array|\ArrayAccess &$provide,
-        array|\ArrayAccess &$pull,
-        array|\ArrayAccess &$internal,
+        array | \ArrayAccess &$define,
+        array | \ArrayAccess &$implement,
+        array | \ArrayAccess &$use,
+        array | \ArrayAccess &$contribute,
+        array | \ArrayAccess &$seek,
+        array | \ArrayAccess &$provide,
+        array | \ArrayAccess &$pull,
+        array | \ArrayAccess &$internal,
     ): void {
-        $provide[Connection::class] = static fn() =>
+        $provide[Connection::class] = static fn(): \ilDBInterface =>
             (new \ReflectionClass(\ilDBPdo::class))->newLazyProxy(fn() => $GLOBALS['DIC']->database());
 
-        $contribute[Agent::class] = static fn() => new \ilDatabaseSetupAgent(
-            $pull[Factory::class]
-        );
+        $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent =>
+            new \ilDatabaseSetupAgent(
+                $pull[Factory::class]
+            );
     }
 }
