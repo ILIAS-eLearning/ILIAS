@@ -76,7 +76,7 @@ $mine->set('sort_column', 'title');
 
 `$authenticated_user` is `ILIAS\Authentication\Domain\AuthenticatedSubjectResolver`.
 It reads `AuthenticatedUser::id()` and names the subject `u` plus the user id.
-Authentication purges that subject when the account is deleted. Encoding a user
+Authentication calls `Services::purgeSubject()` for that subject when the account is deleted. Encoding a user
 id into the namespace or the key is not a supported substitute: those rows cannot
 be found on deletion.
 
@@ -176,8 +176,8 @@ the values.
 
 | | |
 |---|---|
-| `$define` | `Services`, `SessionRepository`, `SubjectPurge` |
-| `$implement` | `Services`, `SubjectPurge` |
+| `$define` | `Services`, `SessionRepository` |
+| `$implement` | `Services` |
 | `$pull` | `ILIAS\Database\Connection`, `ILIAS\Refinery\Factory` |
 | `$contribute` | `ILIAS\Setup\Agent` |
 
@@ -204,7 +204,6 @@ components/ILIAS/KeyValueStorage/
 │   ├── Store.php                  one namespace
 │   ├── Repository.php             backend contract
 │   ├── SubjectRepository.php      subject operations on the same table
-│   ├── SubjectPurge.php           delete one subject's rows
 │   ├── SessionRepository.php      implemented by Authentication
 │   ├── Subject/
 │   │   ├── Subject.php
@@ -218,7 +217,6 @@ components/ILIAS/KeyValueStorage/
 │   │   ├── StorageNamespace.php
 │   │   ├── DatabaseRepository.php
 │   │   ├── BoundSubjectRepository.php
-│   │   ├── DatabaseSubjectPurge.php
 │   │   ├── KeyRules.php
 │   │   └── Values.php
 │   └── Setup/

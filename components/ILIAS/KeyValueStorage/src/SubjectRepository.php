@@ -27,7 +27,7 @@ use ILIAS\KeyValueStorage\Subject\SubjectId;
  * Subject-scoped operations on the same persistent table as {@see Repository}.
  *
  * Values are passed through as opaque strings. This is not a consumer type:
- * consumers use {@see Services::persistentFor()} and {@see SubjectPurge}.
+ * consumers use {@see Services::persistentFor()} and {@see Services::purgeSubject()}.
  */
 interface SubjectRepository
 {

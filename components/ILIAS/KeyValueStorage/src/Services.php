@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\KeyValueStorage;
 
+use ILIAS\KeyValueStorage\Subject\SubjectId;
 use ILIAS\KeyValueStorage\Subject\SubjectResolver;
 
 /**
@@ -60,4 +61,11 @@ interface Services
      * @throws \InvalidArgumentException if the resolver does not name a subject
      */
     public function persistentFor(SubjectResolver $subjects, array $namespace): Store;
+
+    /**
+     * Removes every subject-scoped entry for this subject, in every namespace.
+     *
+     * Global installation state from {@see self::persistent()} is not touched.
+     */
+    public function purgeSubject(SubjectId $subject): void;
 }

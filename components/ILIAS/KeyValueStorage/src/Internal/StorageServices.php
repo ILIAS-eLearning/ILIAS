@@ -24,6 +24,7 @@ use ILIAS\KeyValueStorage\Repository;
 use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\SessionRepository;
 use ILIAS\KeyValueStorage\Store;
+use ILIAS\KeyValueStorage\Subject\SubjectId;
 use ILIAS\KeyValueStorage\Subject\SubjectResolver;
 use ILIAS\KeyValueStorage\SubjectRepository;
 use ILIAS\Refinery\Factory as Refinery;
@@ -72,6 +73,11 @@ final class StorageServices implements Services
             new StorageNamespace($namespace),
             new BoundSubjectRepository($this->subjects, $subject->id())
         );
+    }
+
+    public function purgeSubject(SubjectId $subject): void
+    {
+        $this->subjects->removeSubject($subject);
     }
 
     private function store(string $scope, StorageNamespace $namespace, Repository $repository): Store

@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Authentication\KeyValueStorage;
 
 use ILIAS\Authentication\KeyValueStorage\AuthenticatedSubjectPurge;
+use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\Subject\SubjectId;
-use ILIAS\KeyValueStorage\SubjectPurge;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -30,36 +30,35 @@ class AuthenticatedSubjectPurgeTest extends TestCase
 {
     public function testAPositiveUserIdPurgesTheUSegment(): void
     {
-        $purge = $this->createMock(SubjectPurge::class);
-        $purge->expects($this->once())
-            ->method('purge')
+        $storage = $this->createMock(Services::class);
+        $storage->expects($this->once())
+            ->method('purgeSubject')
             ->with($this->callback(
                 static fn(SubjectId $subject): bool => $subject->storageSegment() === 'u42'
             ));
-        $purge->expects($this->never())->method('purgeMany');
 
-        (new AuthenticatedSubjectPurge($purge))->purgeForUserId(42);
+        (new AuthenticatedSubjectPurge($storage))->purgeForUserId(42);
     }
 
     public function testZeroDoesNotPurge(): void
     {
-        $purge = $this->purgeThatIsNeverCalled();
+        $storage = $this->storageThatIsNeverCalled();
 
-        (new AuthenticatedSubjectPurge($purge))->purgeForUserId(0);
+        (new AuthenticatedSubjectPurge($storage))->purgeForUserId(0);
     }
 
     public function testANegativeUserIdDoesNotPurge(): void
     {
-        $purge = $this->purgeThatIsNeverCalled();
+        $storage = $this->storageThatIsNeverCalled();
 
-        (new AuthenticatedSubjectPurge($purge))->purgeForUserId(-1);
+        (new AuthenticatedSubjectPurge($storage))->purgeForUserId(-1);
     }
 
-    private function purgeThatIsNeverCalled(): SubjectPurge&MockObject
+    private function storageThatIsNeverCalled(): Services&MockObject
     {
-        $purge = $this->createMock(SubjectPurge::class);
-        $purge->expects($this->never())->method($this->anything());
+        $storage = $this->createMock(Services::class);
+        $storage->expects($this->never())->method($this->anything());
 
-        return $purge;
+        return $storage;
     }
 }

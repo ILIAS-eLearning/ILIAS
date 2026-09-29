@@ -127,6 +127,7 @@ class Init implements Component\Component
                 $pull[\ILIAS\UI\Implementation\Render\JavaScriptBinding::class],
                 $pull[\ILIAS\UI\Implementation\Component\SignalGeneratorInterface::class],
                 $pull[\ILIAS\UI\Implementation\Render\TemplateFactory::class],
+                $use[\ILIAS\KeyValueStorage\Services::class],
             );
     }
 }

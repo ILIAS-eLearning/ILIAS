@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\KeyValueStorage\Internal;
 
-use ILIAS\KeyValueStorage\Internal\DatabaseSubjectPurge;
 use ILIAS\KeyValueStorage\Internal\StorageServices;
 use ILIAS\KeyValueStorage\SessionRepository;
 use ILIAS\KeyValueStorage\Subject\Subject;
@@ -183,7 +182,7 @@ class StorageServicesTest extends TestCase
         $this->services->persistentFor($this->named('u42'), ['export', 'job'])->set('step', 2);
         $this->services->persistentFor($this->named('u7'), ['ui', 'storage'])->set('sort', 'theirs');
 
-        (new DatabaseSubjectPurge($this->subjects))->purge(new SubjectId('u42'));
+        $this->services->purgeSubject(new SubjectId('u42'));
 
         $this->assertSame(['sort' => '"global"'], $this->persistent->entries['ui.storage']);
         $this->assertArrayNotHasKey('u42', $this->subjects->entries);

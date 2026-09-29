@@ -23,7 +23,7 @@ Disclaimer: This documentation does not warrant completeness or correctness. Ple
 ## Data being deleted
 - Session scope: data is gone when the session ends, and can be removed earlier by the storing component.
 - Global persistent scope: data is removed only when the storing component removes it. There is no automatic expiry. Deleting a user account does not remove rows whose `subject` is empty.
-- Subject scope: data is removed when the storing component clears it, or when `SubjectPurge` runs for that segment. Authentication calls that purge for `u{id}` when the user account is deleted (`deleteUser`).
+- Subject scope: data is removed when the storing component clears it, or when `Services::purgeSubject()` runs for that segment. Authentication calls that method for `u{id}` when the user account is deleted (`deleteUser`).
 
 ## Data being exported
 - KeyValueStorage exports no data.

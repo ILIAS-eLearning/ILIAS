@@ -21,14 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Authentication\KeyValueStorage;
 
 use ILIAS\Authentication\Domain\AuthenticatedUserSubjectId;
-use ILIAS\KeyValueStorage\SubjectPurge;
+use ILIAS\KeyValueStorage\Services;
 
 /**
  * Purges KeyValueStorage data for the authenticated-user subject encoding.
  */
 final readonly class AuthenticatedSubjectPurge
 {
-    public function __construct(private SubjectPurge $subject_purge)
+    public function __construct(private Services $storage)
     {
     }
 
@@ -38,6 +38,6 @@ final readonly class AuthenticatedSubjectPurge
             return;
         }
 
-        $this->subject_purge->purge(AuthenticatedUserSubjectId::fromUserId($user_id));
+        $this->storage->purgeSubject(AuthenticatedUserSubjectId::fromUserId($user_id));
     }
 }

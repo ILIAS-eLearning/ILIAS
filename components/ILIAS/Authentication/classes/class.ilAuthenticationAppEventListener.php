@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Authentication\KeyValueStorage\AuthenticatedSubjectPurge;
-use ILIAS\KeyValueStorage\SubjectPurge;
+use ILIAS\KeyValueStorage\Services;
 
 /**
  * Legacy application event listener for the Authentication component.
@@ -58,13 +58,13 @@ class ilAuthenticationAppEventListener implements ilAppEventListener
     {
         global $DIC;
 
-        if (!isset($DIC[SubjectPurge::class])) {
+        if (!isset($DIC[Services::class])) {
             return null;
         }
 
-        /** @var SubjectPurge $subject_purge */
-        $subject_purge = $DIC[SubjectPurge::class];
+        /** @var Services $storage */
+        $storage = $DIC[Services::class];
 
-        return new AuthenticatedSubjectPurge($subject_purge);
+        return new AuthenticatedSubjectPurge($storage);
     }
 }

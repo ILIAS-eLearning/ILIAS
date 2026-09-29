@@ -43,19 +43,12 @@ class KeyValueStorage implements Component
         // only one this component cannot store by itself.
         $define[] = KeyValueStorage\SessionRepository::class;
 
-        $define[] = KeyValueStorage\SubjectPurge::class;
-
         $implement[KeyValueStorage\Services::class] = static fn() =>
             new KeyValueStorage\Internal\StorageServices(
                 $use[KeyValueStorage\SessionRepository::class],
                 $internal[KeyValueStorage\Internal\DatabaseRepository::class],
                 $internal[KeyValueStorage\Internal\DatabaseRepository::class],
                 $pull[Refinery::class]
-            );
-
-        $implement[KeyValueStorage\SubjectPurge::class] = static fn() =>
-            new KeyValueStorage\Internal\DatabaseSubjectPurge(
-                $internal[KeyValueStorage\Internal\DatabaseRepository::class]
             );
 
         $contribute[Agent::class] = static fn(): Agent =>
