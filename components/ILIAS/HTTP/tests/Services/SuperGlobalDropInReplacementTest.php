@@ -36,19 +36,11 @@ class SuperGlobalDropInReplacementTest extends AbstractBaseTestCase
         );
     }
 
-    public function testValueCanBeAssignedIfSuperGlobalIsMutable(): void
-    {
-        $super_global = new SuperGlobalDropInReplacement($this->getRefinery(), ['foo' => 'bar']);
-        $super_global['foo'] = 'phpunit';
-
-        $this->assertEquals('phpunit', $super_global['foo']);
-    }
-
-    public function testExceptionIsRaisedIfValueIsAssignedButSuperGlobalIsImmutable(): void
+    public function testExceptionIsRaisedIfValueIsAssigned(): void
     {
         $this->expectException(OutOfBoundsException::class);
 
-        $super_global = new SuperGlobalDropInReplacement($this->getRefinery(), ['foo' => 'bar'], true);
+        $super_global = new SuperGlobalDropInReplacement($this->getRefinery(), ['foo' => 'bar']);
         $super_global['foo'] = 'phpunit';
     }
 }
