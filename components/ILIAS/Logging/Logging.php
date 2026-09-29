@@ -45,7 +45,7 @@ class Logging implements Component\Component
         $internal[Logging\Config\ByComponent\ConfigInterface::class] = static fn() =>
             new Logging\Config\ByComponent\Config(
                 new Logging\Config\ByComponent\DBRepository(
-                    $use[Database\PDO\External::class]
+                    $pull[Database\Connection::class]
                 ),
                 $internal[Logging\Config\Basic\ConfigInterface::class]
             );

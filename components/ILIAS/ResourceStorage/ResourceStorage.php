@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Component\Component;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
-use ILIAS\Database\PDO\External;
+use ILIAS\Database\Connection;
 use ILIAS\Filesystem\FileSystems\FilesystemStorage;
 use ILIAS\Filesystem\Configuration\FilesystemConfig;
 use ILIAS\FileDelivery\FileDeliveryServices;
@@ -86,17 +86,17 @@ class ResourceStorage implements Component
 
         // DB Repositories
         $internal[Repositories::class] = static fn(): Repositories => new Repositories(
-            new RevisionDBRepository($use[External::class]),
-            new ResourceDBRepository($use[External::class]),
-            new CollectionDBRepository($use[External::class]),
-            new InformationDBRepository($use[External::class]),
-            new StakeholderDBRepository($use[External::class]),
-            new FlavourDBRepository($use[External::class]),
+            new RevisionDBRepository($pull[Connection::class]),
+            new ResourceDBRepository($pull[Connection::class]),
+            new CollectionDBRepository($pull[Connection::class]),
+            new InformationDBRepository($pull[Connection::class]),
+            new StakeholderDBRepository($pull[Connection::class]),
+            new FlavourDBRepository($pull[Connection::class]),
         );
 
         // Lock Handler
         $internal[LockHandler::class] = static fn(): LockHandler =>
-            new LockHandlerilDB($use[External::class]);
+            new LockHandlerilDB($pull[Connection::class]);
 
         // Storage Handler Factory
         $internal[StorageHandlerFactory::class] = static fn(): StorageHandlerFactory =>
@@ -143,7 +143,7 @@ class ResourceStorage implements Component
         // Repository Preloader
         $internal[DBRepositoryPreloader::class] = static fn(): DBRepositoryPreloader =>
             new DBRepositoryPreloader(
-                $use[External::class],
+                $pull[Connection::class],
                 $internal[Repositories::class]
             );
 
@@ -152,7 +152,7 @@ class ResourceStorage implements Component
             new Migrator(
                 $internal[StorageHandlerFactory::class],
                 static fn(StorableResource $r) => $internal[ResourceBuilder::class]->remove($r),
-                $use[External::class],
+                $pull[Connection::class],
                 rtrim((string) $use[IliasIni::class]->getDataDirectory(), '/') . '/' . $use[ClientIdProvider::class]->getClientId()->toString()
             );
 

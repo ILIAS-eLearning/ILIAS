@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Configuration;
 
-use ILIAS\Database\PDO\External;
+use ILIAS\Database\Connection;
 use ILIAS\FileServices\Policy\UploadRestrictionBypass;
 
 /**
@@ -44,7 +44,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
     private ?array $white_list_default = null;
 
     public function __construct(
-        private readonly External $db,
+        private readonly Connection $db,
         private readonly UploadRestrictionBypass $bypass,
     ) {
     }
