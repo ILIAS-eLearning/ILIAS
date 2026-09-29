@@ -1222,9 +1222,9 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 *Belongs to:* [Glossary](https://docu.ilias.de/go/wiki/wpage_121_1357)
 
-* Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
-* Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
-* Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
+* Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149), [tfamula](https://docu.ilias.de/go/usr/58959)
+* Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149),[tfamula](https://docu.ilias.de/go/usr/58959)
+* Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
 * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
 * Assignee for Issues: [akill](https://docu.ilias.de/go/usr/149)
 * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
