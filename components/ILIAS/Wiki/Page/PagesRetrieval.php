@@ -125,7 +125,8 @@ class PagesRetrieval implements RetrievalInterface
                     $data[] = [
                         "id" => $page->getId(),
                         "title" => $page->getTitle(),
-                        "date" => $page->getLastChange()
+                        "date" => $page->getLastChange(),
+                        "lang" => $page->getLanguage()
                     ];
                 }
                 break;

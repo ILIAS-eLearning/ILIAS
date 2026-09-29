@@ -100,6 +100,11 @@ class PagesTableBuilder extends CommonTableBuilder
             if ($this->translations->getContentTranslationActivated()) {
                 $row["lang"] = $this->getLanguageLabel($data_row["lang"]);
             }
+        } elseif ($this->mode === self::MODE_ORPHANED_PAGES) {
+            $row["date"] = new \DateTimeImmutable($data_row["date"]);
+            if ($this->translations->getContentTranslationActivated()) {
+                $row["lang"] = $this->getLanguageLabel($data_row["lang"]);
+            }
         } elseif ($this->mode !== self::MODE_WHAT_LINKS_HERE) {
             $row["date"] = new \DateTimeImmutable($data_row["date"]);
             if ($this->translations->getContentTranslationActivated()) {
@@ -147,7 +152,7 @@ class PagesTableBuilder extends CommonTableBuilder
             case self::MODE_ORPHANED_PAGES:
                 $table = $table->linkColumn("title", $lng->txt("wiki_page"), true);
                 if ($translation_active) {
-                    $table = $table->textColumn("languages", $lng->txt("language"));
+                    $table = $table->textColumn("lang", $lng->txt("language"));
                 }
                 return $table;
 
