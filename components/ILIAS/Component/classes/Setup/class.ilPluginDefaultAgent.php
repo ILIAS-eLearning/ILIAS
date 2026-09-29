@@ -71,7 +71,6 @@ abstract class ilPluginDefaultAgent implements Setup\Agent
             'Complete objectives from Services/Component',
             false,
             new ilComponentUpdatePluginObjective($this->plugin_name),
-            new ilComponentActivatePluginsObjective($this->plugin_name),
             new ilPluginLanguageUpdatedObjective($this->plugin_name)
         );
     }
