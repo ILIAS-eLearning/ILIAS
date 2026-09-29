@@ -503,6 +503,13 @@ export default class TableUI {
         tableUI.paragraphUI.autoSave.handleAutoSaveKeyPressed();
       }
     });
+    wrapper.addCallback(TINY_CB.PASTE, () => {
+      if (pageModel.getCurrentPCName() === 'Table') {
+        const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
+        pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()] = wrapper.getText();
+        tableUI.paragraphUI.autoSave.handleAutoSaveKeyPressed();
+      }
+    });
     wrapper.addCallback(TINY_CB.AFTER_INIT, () => {
       if (pageModel.getCurrentPCName() === 'Table') {
         const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
