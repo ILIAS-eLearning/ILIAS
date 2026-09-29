@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  */
@@ -46,6 +48,7 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
         return $inputValues;
     }
 
+    #[AllowSuperglobalWrite('normalises the shape of $_FILES[postVar], because the inherited getInput() reads it back from there.', 12)]
     public function manipulateFormSubmitValues(array $submitValues): array
     {
         $submitValues = $this->removeAdditionalSubFieldsLevelFromSubmitValues($submitValues);

@@ -16,29 +16,21 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+declare(strict_types=1);
 
-use PHPStan\Reflection\ReflectionProvider;
-use PHPStan\Rules\Rule;
-use PhpParser\Node;
-use PHPStan\Analyser\Scope;
-use PHPStan\Rules\RuleErrorBuilder;
+namespace ILIAS\Scripts\PHPStan\Rules\SuperGlobals;
 
-class NoLegacyModalUsagesRule extends LegacyClassUsageRule implements Rule
+use PhpParser\Node\Expr\AssignRef;
+
+/**
+ * Catches by-reference assignment to a superglobal, e.g. `$_GET =& $x`.
+ *
+ * @implements \PHPStan\Rules\Rule<AssignRef>
+ */
+final class SuperglobalAssignRefRule extends AbstractSuperglobalWriteRule
 {
-    protected function getHumanReadableRuleName(): string
+    public function getNodeType(): string
     {
-        return 'Legacy Modal Usages';
-    }
-
-    protected function getRelevantILIASVersion(): int
-    {
-        return 10;
-    }
-
-
-    protected function getForbiddenClasses(): array
-    {
-        return ['ilModalGUI'];
+        return AssignRef::class;
     }
 }

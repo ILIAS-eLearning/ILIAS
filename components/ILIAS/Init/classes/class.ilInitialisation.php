@@ -37,6 +37,7 @@ use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIcon
 use ILIAS\User\PublicInterface as UserPublicInterface;
 use ILIAS\Mail\Service\MailService;
 use ILIAS\Init\AllModernComponents;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -52,6 +53,7 @@ if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
  * @version $Id$
  * @ingroup ServicesInit
  */
+#[AllowSuperglobalWrite('Remove unsafe Characters, several other legacy mechanisms...', 12)]
 class ilInitialisation
 {
     /**

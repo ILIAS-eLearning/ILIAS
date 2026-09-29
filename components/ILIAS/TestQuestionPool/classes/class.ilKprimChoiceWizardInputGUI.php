@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -307,6 +309,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->tpl->addJavascript('assets/js/ilAssKprimChoice.js');
     }
 
+    #[AllowSuperglobalWrite('flags a rejected image by writing a custom upload error into $_FILES, which the inherited getInput() then reports to the caller.', 12)]
     public function checkUploads($foundvalues): bool
     {
         if (is_array($_FILES) && count($_FILES) && $this->getSingleline()) {

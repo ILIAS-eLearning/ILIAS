@@ -16,15 +16,19 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PHPStan\Analyser\Scope;
+use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyTabsUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyToolbarUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Tabs Usages';
+        return 'Legacy Toolbar Usages';
     }
 
     protected function getRelevantILIASVersion(): int
@@ -34,7 +38,7 @@ class NoLegacyTabsUsagesRule extends LegacyClassUsageRule implements Rule
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilTabsGUI'];
+        return ['ilToolbarGUI'];
     }
 
     protected function findMethodUsages(): bool
