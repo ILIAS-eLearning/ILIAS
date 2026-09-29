@@ -109,8 +109,9 @@ class ilPCMap extends ilPageContent
                 "Layout",
                 array("MapCaption"),
                 "",
-                array("Width" => (string) $a_width,
-                    "Height" => (string) $a_height, "HorizontalAlign" => $a_horizontal_align)
+                array("Width" => $a_width !== null ? (string) $a_width : null,
+                    "Height" => $a_height !== null ? (string) $a_height : null,
+                    "HorizontalAlign" => $a_horizontal_align)
             );
         }
     }
@@ -217,13 +218,15 @@ class ilPCMap extends ilPageContent
 
             $param = explode(";", $param);
             if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2])) {
+                $width = is_numeric($param[3] ?? null) ? $param[3] . "px" : "100%";
+                $height = is_numeric($param[4] ?? null) ? $param[4] . "px" : "100%";
                 $map_gui = ilMapUtil::getMapGUI();
                 $map_gui->setMapId("map_" . $i)
                         ->setLatitude($param[0])
                         ->setLongitude($param[1])
                         ->setZoom($param[2])
-                        ->setWidth($param[3] . "px")
-                        ->setHeight($param[4] . "px")
+                        ->setWidth($width)
+                        ->setHeight($height)
                         ->setEnableTypeControl(true)
                         ->setEnableNavigationControl(true)
                         ->setEnableCentralMarker(true);
