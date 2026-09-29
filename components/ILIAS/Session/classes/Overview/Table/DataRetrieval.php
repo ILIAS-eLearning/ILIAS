@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Session\OverviewTable;
+namespace ILIAS\Session\Overview\Table;
 
 use Generator;
 use ilAccess;
@@ -39,6 +39,7 @@ class DataRetrieval implements DataRetrievalInterface
     protected const string DATA_KEY_LOGIN = 'login';
     protected const string DATA_KEY_ROW_ID = 'row_id';
     protected const string DATA_KEY_EVENTS = 'events';
+
     /** @var int[] */
     protected readonly array $session_member_ids;
     protected array $items;
@@ -52,11 +53,13 @@ class DataRetrieval implements DataRetrievalInterface
         int ...$session_member_ids
     ) {
         $this->session_member_ids = $session_member_ids;
-        $this->items = $this->buildItems();
     }
 
-    protected function buildItems(): array
+    protected function initItems(): void
     {
+        if (isset($this->items)) {
+            return;
+        }
         $events = [];
         $event_ids = $this->tree->getSubtree($this->tree->getNodeData($this->crs_ref_id), false, ['sess']);
         foreach ($event_ids as $event_id) {
@@ -90,7 +93,7 @@ class DataRetrieval implements DataRetrievalInterface
             }
             $this->event_column_names[$column_name] = $event_obj->getFirstAppointment()->appointmentToString();
         }
-        return $items;
+        $this->items = $items;
     }
 
     public function getRows(
@@ -102,27 +105,14 @@ class DataRetrieval implements DataRetrievalInterface
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
+        $this->initItems();
+
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-        switch ($column_name) {
-            case Handler::TABLE_COL_NAME:
-                $comparator = function (array $f1, array $f2) {
-                    return strcmp($f1[self::DATA_KEY_NAME], $f2[self::DATA_KEY_NAME]);
-                };
-                break;
-            case Handler::TABLE_COL_LOGIN:
-                $comparator = function (array $f1, array $f2) {
-                    return strcmp($f1[self::DATA_KEY_LOGIN], $f2[self::DATA_KEY_LOGIN]);
-                };
-                break;
-            default:
-                $comparator = function (array $f1, array $f2) use ($column_name) {
-                    if ((int) $f1[self::DATA_KEY_EVENTS][$column_name] === (int) $f2[self::DATA_KEY_EVENTS][$column_name]) {
-                        return 0;
-                    }
-                    return (int) $f1[self::DATA_KEY_EVENTS][$column_name] > (int) $f2[self::DATA_KEY_EVENTS][$column_name] ? 1 : -1;
-                };
-                break;
-        }
+        $comparator = match ($column_name) {
+            Handler::TABLE_COL_NAME => fn(array $f1, array $f2) => strcasecmp($f1[self::DATA_KEY_NAME], $f2[self::DATA_KEY_NAME]),
+            Handler::TABLE_COL_LOGIN => fn(array $f1, array $f2) => strcasecmp($f1[self::DATA_KEY_LOGIN], $f2[self::DATA_KEY_LOGIN]),
+            default => fn(array $f1, array $f2) => $f1[self::DATA_KEY_EVENTS][$column_name] <=> $f2[self::DATA_KEY_EVENTS][$column_name]
+        };
         $rows = $this->items;
         uasort($rows, $comparator);
         if ($direction === "DESC") {
@@ -153,11 +143,13 @@ class DataRetrieval implements DataRetrievalInterface
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
+        $this->initItems();
         return count($this->items);
     }
 
     public function getEventColumnNames(): array
     {
+        $this->initItems();
         return $this->event_column_names;
     }
 }

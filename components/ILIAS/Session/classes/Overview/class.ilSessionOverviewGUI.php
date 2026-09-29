@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Session\OverviewTable\Factory as OverviewTableFactory;
+use ILIAS\Session\Overview\Table\Factory as OverviewTableFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
 *
@@ -62,8 +63,7 @@ class ilSessionOverviewGUI
         $this->members_obj = $a_members;
 
         $this->overview_table_factory = new OverviewTableFactory(
-            $DIC->user(),
-            new ILIAS\Data\Factory(),
+            new DataFactory(),
             $DIC->ui(),
             $DIC->language(),
             $DIC->http(),

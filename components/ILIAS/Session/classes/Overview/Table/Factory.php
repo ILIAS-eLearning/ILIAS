@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Session\OverviewTable;
+namespace ILIAS\Session\Overview\Table;
 
 use ilAccess;
 use ILIAS\Data\Factory as DataFactory;
@@ -31,7 +31,6 @@ use ilTree;
 class Factory
 {
     public function __construct(
-        protected readonly ilObjUser $user,
         protected readonly DataFactory $data_factory,
         protected readonly UIServices $ui,
         protected readonly ilLanguage $lng,
@@ -45,7 +44,6 @@ class Factory
         DataRetrieval $data_retrieval
     ): Handler {
         return new Handler(
-            $this->user,
             $this->data_factory,
             $this->ui,
             $this->lng,
