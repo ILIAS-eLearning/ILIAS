@@ -49,60 +49,12 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     public function create(): void
     {
-        $this->lng->loadLanguageModule("crsv");
-
-        $this->tabs->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "cancel")
-        );
-
-        $table = new ilCourseVerificationTableGUI($this, "create");
-        $this->tpl->setContent($table->getHTML());
+        // new verification objects can't be created anymore, https://docu.ilias.de/go/wiki/wpage_6361_1357
     }
 
     public function save(): void
     {
-        $ilUser = $this->dic->user();
-
-        $objectId = $this->getRequestValue("crs_id");
-        if ($objectId) {
-            $certificateVerificationFileService = new ilCertificateVerificationFileService(
-                $this->dic->language(),
-                $this->dic->database(),
-                $this->dic->logger()->forComponent('crs'),
-                new ilCertificateVerificationClassMap()
-            );
-
-            $userCertificateRepository = new ilUserCertificateRepository();
-
-            $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                $ilUser->getId(),
-                (int) $objectId
-            );
-
-            $newObj = null;
-            try {
-                $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
-            } catch (Exception $exception) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
-                $this->create();
-                return;
-            }
-
-            if ($newObj) {
-                $parent_id = $this->node_id;
-                $this->node_id = null;
-                $this->putObjectInTree($newObj, $parent_id);
-
-                $this->afterSave($newObj);
-            } else {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
-            }
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
-        }
-
-        $this->create();
+        // new verification objects can't be created anymore, https://docu.ilias.de/go/wiki/wpage_6361_1357
     }
 
     public function deliver(): void
