@@ -23,7 +23,7 @@ use ILIAS\Data\Password;
 
 class ilDatabaseSetupConfig implements Config
 {
-    public const DEFAULT_COLLATION = "utf8_general_ci";
+    public const DEFAULT_COLLATION = \ilDBConstants::MYSQL_COLLATION_UTF8MB4_520;
     public const DEFAULT_PATH_TO_DB_DUMP = "./components/ILIAS/Database/sql/ilias3.sql";
 
     protected string $type;
