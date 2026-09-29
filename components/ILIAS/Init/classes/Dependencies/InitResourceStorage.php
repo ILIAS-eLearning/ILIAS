@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\Location;
 use ILIAS\ResourceStorage\Artifacts;
@@ -41,11 +43,10 @@ use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 use ILIAS\ResourceStorage\Flavour\Machine\Factory;
 use ILIAS\ResourceStorage\StorageHandler\Migrator;
 use ILIAS\ResourceStorage\Events\Subject;
-use ILIAS\ResourceStorage\IRSSEventLogObserver;
-use ILIAS\ResourceStorage\Events\Event;
 
 /**
  * Responsible for loading the Resource Storage into the dependency injection container of ILIAS
+ * @deprecated Use from bootstrapping
  */
 class InitResourceStorage
 {
@@ -69,18 +70,16 @@ class InitResourceStorage
      * @internal Do not use this in your code. This is only for the DIC to load the Resource Storage
      * and for some migrations Please contact fabian@sr.solutions if you need this as well.
      */
-    public function getResourceBuilder(\ILIAS\DI\Container $c): ResourceBuilder
+    public function getResourceBuilder(Container $c): ResourceBuilder
     {
         $this->init($c);
-        $c[self::D_RESOURCE_BUILDER] = function (Container $c): ResourceBuilder {
-            return new ResourceBuilder(
-                $c[self::D_STORAGE_HANDLERS],
-                $c[self::D_REPOSITORIES],
-                $c[self::D_LOCK_HANDLER],
-                $c[self::D_STREAM_ACCESS],
-                $c[self::D_FILENAME_POLICY],
-            );
-        };
+        $c[self::D_RESOURCE_BUILDER] = (fn(Container $c): ResourceBuilder => new ResourceBuilder(
+            $c[self::D_STORAGE_HANDLERS],
+            $c[self::D_REPOSITORIES],
+            $c[self::D_LOCK_HANDLER],
+            $c[self::D_STREAM_ACCESS],
+            $c[self::D_FILENAME_POLICY],
+        ));
         return $c[self::D_RESOURCE_BUILDER];
     }
 
@@ -88,23 +87,21 @@ class InitResourceStorage
      * @internal Do not use this in your code. This is only for the DIC to load the Resource Storage
      * and for some migrations Please contact fabian@sr.solutions if you need this as well.
      */
-    public function getFlavourBuilder(\ILIAS\DI\Container $c): FlavourBuilder
+    public function getFlavourBuilder(Container $c): FlavourBuilder
     {
         $this->init($c);
-        $c[self::D_FLAVOUR_BUILDER] = function (Container $c): FlavourBuilder {
-            return new FlavourBuilder(
-                $c[self::D_REPOSITORIES]->getFlavourRepository(),
-                $c[self::D_MACHINE_FACTORY],
-                $c[self::D_RESOURCE_BUILDER],
-                $c[self::D_STORAGE_HANDLERS],
-                $c[self::D_STREAM_ACCESS],
-                new Subject(),
-            );
-        };
+        $c[self::D_FLAVOUR_BUILDER] = (fn(Container $c): FlavourBuilder => new FlavourBuilder(
+            $c[self::D_REPOSITORIES]->getFlavourRepository(),
+            $c[self::D_MACHINE_FACTORY],
+            $c[self::D_RESOURCE_BUILDER],
+            $c[self::D_STORAGE_HANDLERS],
+            $c[self::D_STREAM_ACCESS],
+            new Subject(),
+        ));
         return $c[self::D_FLAVOUR_BUILDER];
     }
 
-    public function init(\ILIAS\DI\Container $c): void
+    public function init(Container $c): void
     {
         if ($this->init) {
             return;
@@ -112,46 +109,34 @@ class InitResourceStorage
         $base_dir = $this->buildBasePath();
 
         // DB Repositories
-        $c[self::D_REPOSITORIES] = static function (Container $c): Repositories {
-            return new Repositories(
-                new RevisionDBRepository($c->database()),
-                new ResourceDBRepository($c->database()),
-                new CollectionDBRepository($c->database()),
-                new InformationDBRepository($c->database()),
-                new StakeholderDBRepository($c->database()),
-                new FlavourDBRepository($c->database()),
-            );
-        };
+        $c[self::D_REPOSITORIES] = (static fn(Container $c): Repositories => new Repositories(
+            new RevisionDBRepository($c->database()),
+            new ResourceDBRepository($c->database()),
+            new CollectionDBRepository($c->database()),
+            new InformationDBRepository($c->database()),
+            new StakeholderDBRepository($c->database()),
+            new FlavourDBRepository($c->database()),
+        ));
 
         // Repository Preloader
-        $c[self::D_REPOSITORY_PRELOADER] = static function (Container $c) {
-            return new DBRepositoryPreloader(
-                $c->database(),
-                $c[self::D_REPOSITORIES]
-            );
-        };
+        $c[self::D_REPOSITORY_PRELOADER] = (static fn(Container $c): DBRepositoryPreloader => new DBRepositoryPreloader(
+            $c->database(),
+            $c[self::D_REPOSITORIES]
+        ));
 
         // Lock Handler
-        $c[self::D_LOCK_HANDLER] = static function (Container $c): LockHandler {
-            return new LockHandlerilDB($c->database());
-        };
+        $c[self::D_LOCK_HANDLER] = (static fn(Container $c): LockHandler => new LockHandlerilDB($c->database()));
 
         // Storage Handlers
-        $c[self::D_STORAGE_HANDLERS] = static function (Container $c) use (
-            $base_dir
-        ): StorageHandlerFactory {
-            return new StorageHandlerFactory([
-                new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
-                new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
-            ], $base_dir);
-        };
+        $c[self::D_STORAGE_HANDLERS] = (static fn(Container $c): StorageHandlerFactory => new StorageHandlerFactory([
+            new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+            new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
+        ], $base_dir));
 
         // Source Builder for Consumers
-        $c[self::D_SOURCE_BUILDER] = static function (Container $c): ?SrcBuilder {
-            return new ilSecureTokenSrcBuilder(
-                $c->fileDelivery()
-            );
-        };
+        $c[self::D_SOURCE_BUILDER] = (static fn(Container $c): SrcBuilder => new ilSecureTokenSrcBuilder(
+            $c->fileDelivery()
+        ));
 
         // Filename Policy for Consumers
         $c[self::D_FILENAME_POLICY] = static function (Container $c): FileNamePolicy {
@@ -173,47 +158,38 @@ class InitResourceStorage
         };
 
         // Stream Access for Consumers and internal Usage
-        $c[self::D_STREAM_ACCESS] = static function (Container $c) use ($base_dir): StreamAccess {
-            return new StreamAccess(
-                $base_dir,
-                $c[self::D_STORAGE_HANDLERS]
-            );
-        };
+        $c[self::D_STREAM_ACCESS] = (static fn(Container $c): StreamAccess => new StreamAccess(
+            $base_dir,
+            $c[self::D_STORAGE_HANDLERS]
+        ));
 
         // Flavours
-        $c[self::D_MACHINE_FACTORY] = static function (Container $c): Factory {
-            return new Factory(
-                new \ILIAS\ResourceStorage\Flavour\Engine\Factory(),
-                $c[self::D_ARTIFACTS]->getFlavourMachines()
-            );
-        };
+        $c[self::D_MACHINE_FACTORY] = (static fn(Container $c): Factory => new Factory(
+            new \ILIAS\ResourceStorage\Flavour\Engine\Factory(),
+            $c[self::D_ARTIFACTS]->getFlavourMachines()
+        ));
 
         //
         // IRSS
         //
-        $c[self::D_SERVICE] = static function (Container $c): \ILIAS\ResourceStorage\Services {
-            $services = new \ILIAS\ResourceStorage\Services(
-                $c[self::D_STORAGE_HANDLERS],
-                $c[self::D_REPOSITORIES],
-                $c[self::D_ARTIFACTS],
-                $c[self::D_LOCK_HANDLER],
-                $c[self::D_FILENAME_POLICY],
-                $c[self::D_STREAM_ACCESS],
-                $c[self::D_MACHINE_FACTORY],
-                $c[self::D_SOURCE_BUILDER],
-                $c[self::D_REPOSITORY_PRELOADER],
-            );
-
-            // attach general observers
-            $services->events()->attach(new IRSSEventLogObserver($c->logger()->irss()), Event::ALL);
-
-            return $services;
-        };
+        $c[self::D_SERVICE] = (static fn(Container $c): Services => new Services(
+            $c[self::D_STORAGE_HANDLERS],
+            $c[self::D_REPOSITORIES],
+            $c[self::D_ARTIFACTS],
+            $c[self::D_LOCK_HANDLER],
+            $c[self::D_FILENAME_POLICY],
+            $c[self::D_STREAM_ACCESS],
+            $c[self::D_MACHINE_FACTORY],
+            $c[self::D_SOURCE_BUILDER],
+            $c[self::D_REPOSITORY_PRELOADER],
+            static fn(): \ilLogger => $c->logger()->irss(),
+        ));
 
         $c[self::D_MIGRATOR] = function (Container $c) use ($base_dir): Migrator {
+            $rb = $this->getResourceBuilder($c);
             return new Migrator(
                 $c[self::D_STORAGE_HANDLERS],
-                $this->getResourceBuilder($c),
+                static fn(StorableResource $r): bool => $rb->remove($r),
                 $c->database(),
                 $base_dir
             );
@@ -225,7 +201,7 @@ class InitResourceStorage
     protected function buildBasePath(): string
     {
         return (defined('ILIAS_DATA_DIR') && defined('CLIENT_ID'))
-            ? rtrim(ILIAS_DATA_DIR, "/") . "/" . CLIENT_ID
+            ? rtrim((string) ILIAS_DATA_DIR, "/") . "/" . CLIENT_ID
             : '-';
     }
 }

@@ -26,9 +26,9 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
- * @property \ilFileServicesSettings $file_settings
  * @author Lukas Zehnder <lukas@sr.solutions>
  */
 class ilObjFileIconsOverviewGUI
@@ -53,7 +53,7 @@ class ilObjFileIconsOverviewGUI
     private \ILIAS\Refinery\Factory $refinery;
     private Services $storage;
     private IconRepositoryInterface $icon_repo;
-    private \ilFileServicesSettings $file_service_settings;
+    private FilesystemConfig $file_service_settings;
     private \ilAccessHandler $access;
     private bool $write_access;
 

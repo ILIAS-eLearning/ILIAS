@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Request;
 
-use ILIAS\HTTP\Services;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Refinery\Factory;
 
@@ -29,7 +29,7 @@ use ILIAS\Refinery\Factory;
  */
 class StaticURLRequestBuilder implements RequestBuilder
 {
-    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request
+    public function buildRequest(GlobalHttpState $http, Factory $refinery, array $handlers): ?Request
     {
         // maybe we have a legacy parameter during transition phase
         $target = $http->wrapper()->query()->has("target")

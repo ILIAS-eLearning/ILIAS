@@ -23,8 +23,10 @@ use ILIAS\Logging\Logger\LegacyInitiator;
 /**
  * Logging factory
  *
- * @deprecated Please use {@see \ILIAS\Logging\Logger\LoggerInterface} via
- *  {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
+ * @deprecated Please instead use {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} or
+ *   {@see \ILIAS\Logging\Logger\DefaultConfigLoggerFactoryInterface}.
+ *   Ideally in your Component.php. If that's not possible then via $DIC['logging.factory'] or
+ *   $DIC['logging.defaultConfigFactory'].
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *

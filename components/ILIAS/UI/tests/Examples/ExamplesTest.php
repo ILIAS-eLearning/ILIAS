@@ -84,6 +84,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         );
 
         (new InitUIFramework())->init($this->dic);
+        (new InitHttpServices())->init($this->dic);
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
 

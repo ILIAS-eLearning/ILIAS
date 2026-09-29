@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Request;
 
-use ILIAS\HTTP\Services;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
 /**
@@ -39,7 +39,7 @@ class BundledRequestBuilder implements RequestBuilder
         $this->shortlink = new ShortlinkRequestBuilder();
     }
 
-    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request
+    public function buildRequest(GlobalHttpState $http, Factory $refinery, array $handlers): ?Request
     {
         if (($request = $this->shortlink->buildRequest(
             $http,

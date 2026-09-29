@@ -20,7 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class VirusScanner implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Factory;
+use ILIAS\FileUpload\Processor\PreProcessor;
+use ILIAS\VirusScanner\Upload\VirusScannerPreProcessor;
+
+class VirusScanner implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,9 +38,14 @@ class VirusScanner implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+        $contribute[Agent::class] = static fn() =>
             new \ilVirusScannerSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[Factory::class]
+            );
+
+        $contribute[PreProcessor::class] = static fn() =>
+            new VirusScannerPreProcessor(
+                static fn() => \ilVirusScannerFactory::_getInstance()
             );
     }
 }

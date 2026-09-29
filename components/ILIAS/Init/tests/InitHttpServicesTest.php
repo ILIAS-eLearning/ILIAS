@@ -16,38 +16,71 @@
  *
  *********************************************************************/
 
-require_once("vendor/composer/vendor/autoload.php");
+declare(strict_types=1);
 
+use ILIAS\DI\Container;
+use ILIAS\HTTP\Cookies\CookieJarFactory;
+use ILIAS\HTTP\Duration\DurationFactory;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Request\RequestFactory;
+use ILIAS\HTTP\Response\ResponseFactory;
+use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
+use ILIAS\HTTP\Services;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * InitHttpServices is the backport bridge that still populates the legacy
+ * container for components which have not moved to the bootstrap yet, so what it
+ * puts into that container is what this covers.
+ */
 class InitHttpServicesTest extends TestCase
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    private Container $dic;
 
-    /**
-     * Http services has no additional deps so far to be set up.
-     */
     protected function setUp(): void
     {
-        $this->dic = new \ILIAS\DI\Container();
+        $this->dic = new Container();
     }
 
-    public function testUIFrameworkInitialization(): void
+    /**
+     * @return array<string, array{class-string}>
+     */
+    public static function servicesItRegisters(): array
     {
-        $this->assertFalse(isset($this->dic['http']));
-        $this->assertFalse(isset($this->dic['http.response_sender_strategy']));
-        $this->assertFalse(isset($this->dic['http.cookie_jar_factory']));
-        $this->assertFalse(isset($this->dic['http.request_factory']));
-        $this->assertFalse(isset($this->dic['http.response_factory']));
-        (new \InitHttpServices())->init($this->dic);
-        $this->assertInstanceOf("ILIAS\HTTP\Services", $this->dic->http());
-        $this->assertTrue(isset($this->dic['http']));
-        $this->assertTrue(isset($this->dic['http.response_sender_strategy']));
-        $this->assertTrue(isset($this->dic['http.cookie_jar_factory']));
-        $this->assertTrue(isset($this->dic['http.request_factory']));
-        $this->assertTrue(isset($this->dic['http.response_factory']));
+        return [
+            'request factory' => [RequestFactory::class],
+            'response factory' => [ResponseFactory::class],
+            'cookie jar factory' => [CookieJarFactory::class],
+            'response sender strategy' => [ResponseSenderStrategy::class],
+            'duration factory' => [DurationFactory::class],
+            'http state' => [GlobalHttpState::class],
+        ];
+    }
+
+    #[DataProvider('servicesItRegisters')]
+    public function testTheContainerOnlyHoldsTheServiceAfterInit(string $service): void
+    {
+        $this->assertFalse(isset($this->dic[$service]));
+
+        (new InitHttpServices())->init($this->dic);
+
+        $this->assertTrue(isset($this->dic[$service]));
+        $this->assertInstanceOf($service, $this->dic[$service]);
+    }
+
+    public function testTheLegacyHttpKeyResolvesToTheSameStateAsTheInterface(): void
+    {
+        (new InitHttpServices())->init($this->dic);
+
+        $this->assertInstanceOf(Services::class, $this->dic['http']);
+        $this->assertSame($this->dic[GlobalHttpState::class], $this->dic['http']);
+    }
+
+    public function testHttpIsReachableThroughTheContainerAccessor(): void
+    {
+        (new InitHttpServices())->init($this->dic);
+
+        $this->assertInstanceOf(Services::class, $this->dic->http());
     }
 }

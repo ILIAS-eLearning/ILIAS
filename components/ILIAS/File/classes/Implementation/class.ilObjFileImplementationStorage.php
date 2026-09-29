@@ -18,7 +18,6 @@
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\components\File\Settings\General;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**
@@ -35,7 +34,6 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     public function __construct(protected StorableResource $resource)
     {
         global $DIC;
-        $settings = new General();
         $this->storage = $DIC->resourceStorage();
     }
 
@@ -65,7 +63,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
 
     public function getFileSize(): int
     {
-        return $this->resource->getCurrentRevision()->getInformation()->getSize() ?: 0;
+        return $this->resource->getCurrentRevision()->getInformation()->getSize();
     }
 
     /**

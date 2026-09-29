@@ -41,6 +41,13 @@ final class PreProcessorManagerImpl implements PreProcessorManager
      */
     private array $processors = [];
 
+    public function __construct(PreProcessorCollection $collection)
+    {
+        foreach ($collection->processors() as $processor) {
+            $this->processors[] = $processor;
+        }
+    }
+
     /**
      * @inheritDoc
      */

@@ -52,6 +52,36 @@ final class SecretKeyRotation
         $this->older_keys = $older_keys;
     }
 
+    /**
+     * Load a rotation from a static PHP artefact written by the setup, newest
+     * key first. The path is passed in by the caller, since every component
+     * that signs data keeps its own set of keys.
+     *
+     * A missing or unusable artefact yields a rotation with a generated key.
+     * That happens before the setup has ever run - on a fresh checkout the
+     * artefact directory does not even exist yet, and the bootstrap is built
+     * against it - and a key that is not shared between processes simply makes
+     * every token fail verification, which is the safe outcome.
+     */
+    public static function fromArtefact(string $path): self
+    {
+        $stored = is_file($path) ? @include $path : [];
+
+        $keys = array_map(
+            static fn(string $key): SecretKey => new SecretKey($key),
+            array_values(array_filter(is_array($stored) ? $stored : [], 'is_string'))
+        );
+
+        $current_key = array_shift($keys) ?? self::generatedKey();
+
+        return new self($current_key, ...$keys);
+    }
+
+    private static function generatedKey(): SecretKey
+    {
+        return new SecretKey(bin2hex(random_bytes(32)));
+    }
+
     public function getAllKeys(): array
     {
         return array_merge([$this->current_key], $this->older_keys);

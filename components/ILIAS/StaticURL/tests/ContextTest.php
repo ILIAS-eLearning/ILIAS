@@ -20,8 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Tests;
 
-use ILIAS\DI\Container;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+use ILIAS\StaticURL\Builder\URIBuilder;
 use ILIAS\StaticURL\Context;
+use ILIAS\StaticURL\Legacy\CtrlProxy;
+use ILIAS\StaticURL\Legacy\LanguageProxy;
+use ILIAS\StaticURL\Legacy\MainTemplateProxy;
+use ILIAS\StaticURL\Legacy\RepositoryTreeProxy;
+use ILIAS\StaticURL\Legacy\SettingsProxy;
+use ILIAS\StaticURL\Legacy\UserProxy;
 use PHPUnit\Framework\MockObject\MockObject;
 
 require_once "Base.php";
@@ -31,23 +40,35 @@ require_once "Base.php";
  */
 class ContextTest extends Base
 {
-    private Container|MockObject $container;
-    private \ilTree|MockObject $tree;
-    private \ilAccessHandler|MockObject $access;
+    private RepositoryTreeProxy|MockObject $tree;
+    private Access|MockObject $access;
 
     protected function setUp(): void
     {
-        $this->container = $this->createMock(Container::class);
-        $this->tree = $this->createMock(\ilTree::class);
-        $this->access = $this->createMock(\ilAccessHandler::class);
-        $this->container->method('repositoryTree')->willReturn($this->tree);
-        $this->container->method('access')->willReturn($this->access);
+        $this->tree = $this->createMock(RepositoryTreeProxy::class);
+        $this->access = $this->createMock(Access::class);
+    }
+
+    private function context(): Context
+    {
+        return new Context(
+            $this->createMock(GlobalHttpState::class),
+            $this->createMock(Factory::class),
+            $this->access,
+            $this->createMock(URIBuilder::class),
+            $this->createMock(UserProxy::class),
+            $this->tree,
+            $this->createMock(LanguageProxy::class),
+            $this->createMock(MainTemplateProxy::class),
+            $this->createMock(CtrlProxy::class),
+            $this->createMock(SettingsProxy::class),
+        );
     }
 
     public function testFindFirstAccessibleParentReturnsNullForInvalidRefId(): void
     {
         $this->tree->method('isInTree')->willReturn(false);
-        $context = new Context($this->container);
+        $context = $this->context();
 
         $this->assertNull($context->findFirstAccessibleParentRefId(0));
         $this->assertNull($context->findFirstAccessibleParentRefId(-5));
@@ -65,7 +86,7 @@ class ContextTest extends Base
             static fn(string $perm, string $_, int $ref_id): bool => $perm === 'read' && $ref_id === 50
         );
 
-        $context = new Context($this->container);
+        $context = $this->context();
 
         $this->assertSame(50, $context->findFirstAccessibleParentRefId(100));
     }
@@ -83,7 +104,7 @@ class ContextTest extends Base
             static fn(string $perm, string $_, int $ref_id): bool => $perm === 'read' && $ref_id === 40
         );
 
-        $context = new Context($this->container);
+        $context = $this->context();
 
         $this->assertSame(40, $context->findFirstAccessibleParentRefId(100));
     }
@@ -99,7 +120,7 @@ class ContextTest extends Base
         ]);
         $this->access->method('checkAccess')->willReturn(false);
 
-        $context = new Context($this->container);
+        $context = $this->context();
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
     }
@@ -113,7 +134,7 @@ class ContextTest extends Base
         ]);
         $this->access->method('checkAccess')->willReturn(false);
 
-        $context = new Context($this->container);
+        $context = $this->context();
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
     }
@@ -128,7 +149,7 @@ class ContextTest extends Base
         ]);
         $this->access->method('checkAccess')->willReturn(false);
 
-        $context = new Context($this->container);
+        $context = $this->context();
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
     }
@@ -144,7 +165,7 @@ class ContextTest extends Base
             static fn(string $perm, string $_, int $ref_id): bool => $perm === 'visible' && $ref_id === 80
         );
 
-        $context = new Context($this->container);
+        $context = $this->context();
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
         $this->assertSame(80, $context->findFirstAccessibleParentRefId(100, 'visible'));

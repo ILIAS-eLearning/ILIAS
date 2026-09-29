@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
 use ILIAS\Filesystem\Util;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * Standard implementation of the filename sanitizing interface.
@@ -28,22 +29,45 @@ use ILIAS\Filesystem\Util;
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
  * @author                 Fabian Schmid <fabian@sr.solutions>
  */
-class FilenameSanitizerImpl implements FilenameSanitizer
+class DefaultFilenameSanitizer implements FilenameSanitizer
 {
-    /**
-     * FilenameSanitizerImpl constructor.
-     * @param string[] $whitelist
-     */
+    private ?array $whitelist = null;
+
     public function __construct(
-        /**
-         * Contains the whitelisted file suffixes.
-         */
-        private array $whitelist
+        private FilesystemConfig $settings
     ) {
+
+    }
+
+    private function getWhitelistedSuffixes(): array
+    {
+        if ($this->whitelist !== null) {
+            return $this->whitelist;
+        }
+
+        $this->whitelist = array_diff($this->settings->getWhiteListedSuffixes(), $this->settings->getBlackListedSuffixes());
+
+        // the negative list does not apply to users holding the bypass permission, the
+        // same rule FileServicesPolicy::isBlockedExtension() follows. Only suffixes the
+        // negative list removed from the default or the positive list come back; the
+        // prohibited suffixes and the hard coded protection against php suffixes stay
+        // in effect, see https://mantis.ilias.de/view.php?id=47828
+        if ($this->settings->isByPassAllowedForCurrentUser()) {
+            $removed_by_negative_list = array_intersect(
+                $this->settings->getWhiteListNegative(),
+                array_merge($this->settings->getDefaultWhitelist(), $this->settings->getWhiteListPositive())
+            );
+            $this->whitelist = array_merge(
+                $this->whitelist,
+                array_diff($removed_by_negative_list, $this->settings->getProhibited())
+            );
+        }
+
         // the secure file ending must be valid, therefore add it if it got removed from the white list.
         if (!in_array(FilenameSanitizer::CLEAN_FILE_SUFFIX, $this->whitelist, true)) {
             $this->whitelist[] = FilenameSanitizer::CLEAN_FILE_SUFFIX;
         }
+        return $this->whitelist;
     }
 
 
@@ -54,7 +78,7 @@ class FilenameSanitizerImpl implements FilenameSanitizer
             return false;
         }
 
-        return in_array($suffix, $this->whitelist, true);
+        return in_array($suffix, $this->getWhitelistedSuffixes() ?? [], true);
     }
 
     /**

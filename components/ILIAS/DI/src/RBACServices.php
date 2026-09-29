@@ -19,15 +19,17 @@
 namespace ILIAS\DI;
 
 /**
- * Provides fluid interface to RBAC services.
+ * @deprecated use ilAccess whenever possible. The legacy ilRbacReview, ilRbacSystem
+ *             and ilRbacAdmin will become internal only in the near future. They are
+ *             currently only exposed because many places use them via global $DIC.
  */
 class RBACServices
 {
-    protected Container $container;
-
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private readonly \ilRbacReview $review,
+        private readonly \ilRbacSystem $system,
+        private readonly \ilRbacAdmin $admin,
+    ) {
     }
 
     /**
@@ -35,7 +37,7 @@ class RBACServices
      */
     public function system(): \ilRbacSystem
     {
-        return $this->container["rbacsystem"];
+        return $this->system;
     }
 
     /**
@@ -43,7 +45,7 @@ class RBACServices
      */
     public function admin(): \ilRbacAdmin
     {
-        return $this->container["rbacadmin"];
+        return $this->admin;
     }
 
     /**
@@ -51,6 +53,6 @@ class RBACServices
      */
     public function review(): \ilRbacReview
     {
-        return $this->container["rbacreview"];
+        return $this->review;
     }
 }

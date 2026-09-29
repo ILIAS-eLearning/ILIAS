@@ -18,13 +18,18 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Filesystem\Security\Sanitizing;
+
+use ILIAS\Database\Connection;
+use ILIAS\Filesystem\Configuration\DatabaseBackedFilesystemConfig;
+use ILIAS\FileServices\Policy\UploadRestrictionBypass;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Runs the sanitizer against the real list arithmetic of ilFileServicesSettings instead of
- * a mocked white list, see https://mantis.ilias.de/view.php?id=47828
+ * Runs the sanitizer against the real list arithmetic of DatabaseBackedFilesystemConfig
+ * instead of a mocked white list, see https://mantis.ilias.de/view.php?id=47828
  */
-final class ilFileServicesFilenameSanitizerTest extends TestCase
+final class DefaultFilenameSanitizerBypassTest extends TestCase
 {
     public function testBypassIgnoresTheNegativeList(): void
     {
@@ -66,29 +71,25 @@ final class ilFileServicesFilenameSanitizerTest extends TestCase
         string $prohibited,
         bool $bypass,
         string $positive = ''
-    ): ilFileServicesFilenameSanitizer {
-        $il_setting = $this->createMock(ilSetting::class);
-        $il_setting->method('get')->willReturnCallback(
-            fn(string $key): string => match ($key) {
+    ): DefaultFilenameSanitizer {
+        $upload_restriction_bypass = $this->createStub(UploadRestrictionBypass::class);
+        $upload_restriction_bypass->method('isGrantedToCurrentUser')->willReturn($bypass);
+        $config = new DatabaseBackedFilesystemConfig(
+            $this->createStub(Connection::class),
+            $upload_restriction_bypass
+        );
+
+        // the settings table is not what this test is about, so the values it would
+        // resolve to are preset instead
+        $reflection = new \ReflectionClass(DatabaseBackedFilesystemConfig::class);
+        $reflection->getProperty('resolved_values')->setValue($config, [
+            'common' => [
                 'suffix_repl_additional' => $negative,
                 'suffix_custom_white_list' => $positive,
                 'suffix_custom_expl_black' => $prohibited,
-                default => '',
-            }
-        );
+            ],
+        ]);
 
-        // the constructor needs the database and the general file settings, neither of
-        // which matters for the list arithmetic
-        $reflection = new ReflectionClass(ilFileServicesSettings::class);
-        $settings = $reflection->newInstanceWithoutConstructor();
-        $reflection->getProperty('settings')->setValue($settings, $il_setting);
-        $reflection->getProperty('white_list_default')->setValue(
-            $settings,
-            include __DIR__ . '/../defaults/default_whitelist.php'
-        );
-        $reflection->getProperty('bypass')->setValue($settings, $bypass);
-        $reflection->getMethod('read')->invoke($settings);
-
-        return new ilFileServicesFilenameSanitizer($settings);
+        return new DefaultFilenameSanitizer($config);
     }
 }
