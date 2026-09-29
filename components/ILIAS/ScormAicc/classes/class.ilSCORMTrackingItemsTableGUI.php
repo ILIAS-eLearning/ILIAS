@@ -87,7 +87,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             if (substr($l, 0, 23) === "interaction_description") {
                 $s = $this->lng->txt(substr($l, 0, 23)) . ' ' . substr($l, 23);
             }
-            $this->addColumn($s, $c);
+            $this->addColumn($this->escapeOutputForTemplate((string) $s), $c);
         }
 
         $this->setRowTemplate('tpl.scorm_tracking_items.html', 'components/ILIAS/ScormAicc');
@@ -224,15 +224,21 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
         foreach ($this->getSelectedColumns() as $c) {
             $this->tpl->setCurrentBlock("user_field");
             $val = $this->parseValue($c, $a_set[$c], "scormtrac");
+            if ($c !== "status") {
+                $val = $this->escapeOutputForTemplate((string) ($val ?? ""));
+            }
             $this->tpl->setVariable("VAL_UF", $val);
             $this->tpl->parseCurrentBlock();
         }
+    }
+
+    private function escapeOutputForTemplate(string $value): string
+    {
+        $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, "utf-8");
+        return str_replace(["{", "}"], ["&#123;", "&#125;"], $value);
     }
 
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
