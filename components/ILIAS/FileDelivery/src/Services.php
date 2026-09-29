@@ -80,13 +80,16 @@ class Services
 
     protected function getBaseURI(): string
     {
-        $request_uri = $this->http->request()->getUri();
-        $request_path = $request_uri->getPath();
-        $base_path = pathinfo($request_path, PATHINFO_EXTENSION) === ''
-            ? $request_path
-            : dirname($request_path);
+        if ($this->base_uri !== null) {
+            return $this->base_uri;
+        }
 
-        return $this->base_uri ?? $this->base_uri = rtrim(
+        $request_uri = $this->http->request()->getUri();
+        $base_path = defined('ILIAS_HTTP_PATH')
+            ? (string) parse_url(ILIAS_HTTP_PATH, PHP_URL_PATH)
+            : dirname($request_uri->getPath());
+
+        return $this->base_uri = rtrim(
             $request_uri->getScheme()
             . '://' . $request_uri->getHost()
             . ($request_uri->getPort() ? ':' . $request_uri->getPort() : '')
