@@ -25,7 +25,9 @@ declare(strict_types=1);
 
 // ilCtrl takes the command from the request, and a platform cannot send it: it is set before ILIAS starts.
 // celtic/lti checks the signature against the raw body, which this does not change.
+// @phpstan-ignore ilias.superglobalWrite.v12 (ilCtrl takes the command from the request, and the HTTP service does not exist yet)
 $_GET['cmd'] = 'post';
+// @phpstan-ignore ilias.superglobalWrite.v12 (ilCtrl takes the command from the request, and the HTTP service does not exist yet)
 $_POST['cmd'] = 'doLTIAuthentication';
 
 // The OpenID Connect login of an LTI Advantage launch sends the client id the platform gave ILIAS, which ILIAS

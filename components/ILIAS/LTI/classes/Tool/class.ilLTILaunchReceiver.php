@@ -56,7 +56,7 @@ class ilLTILaunchReceiver extends Tool
     {
         global $DIC;
 
-        // the library reads $_GET and $_POST unless it is handed the parameters, and ILIAS replaces both
+        // the library reads $_GET and $_POST unless it is handed the parameters, and lti.php changes both
         $request = $DIC->http()->request();
         $body = $request->getParsedBody();
         // lti.php hides the client id of an OpenID Connect login from ILIAS, which would take it for the id
