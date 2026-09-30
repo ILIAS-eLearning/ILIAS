@@ -83,6 +83,10 @@ class ilDBConstants
     public const MYSQL_COLLATION_UTF8_SPANISH = "utf8_spanish_ci";
     public const MYSQL_COLLATION_UTF8_SWEDISH = "utf8_swedish_ci";
     public const MYSQL_COLLATION_UTF8_TURKISH = "utf8_turkish_ci";
+    public const MYSQL_COLLATION_UTF8MB4_UNICODE = 'utf8mb4_unicode_ci';
+    public const MYSQL_COLLATION_UTF8MB4_520 = 'utf8mb4_unicode_520_ci';
+    public const MYSQL_COLLATION_UTF8MB4_0900 = 'utf8mb4_0900_ai_ci';
+    public const MARIADB_COLLATION_UCA = 'uca1400_ai_ci';
 
     // Mapping AutoExec
     public const AUTOQUERY_INSERT = 1;
@@ -168,8 +172,23 @@ class ilDBConstants
             ilDBConstants::MYSQL_COLLATION_UTF8_SPANISH2,
             ilDBConstants::MYSQL_COLLATION_UTF8_SPANISH,
             ilDBConstants::MYSQL_COLLATION_UTF8_SWEDISH,
-            ilDBConstants::MYSQL_COLLATION_UTF8_TURKISH
+            ilDBConstants::MYSQL_COLLATION_UTF8_TURKISH,
+            ilDBConstants::MYSQL_COLLATION_UTF8MB4_UNICODE,
+            ilDBConstants::MYSQL_COLLATION_UTF8MB4_520,
+            ilDBConstants::MYSQL_COLLATION_UTF8MB4_0900,
+            ilDBConstants::MARIADB_COLLATION_UCA,
         ];
+    }
+
+    public static function isUTF8MB4Collation(string $collation): bool
+    {
+        return in_array($collation, [
+            ilDBConstants::MYSQL_COLLATION_UTF8MB4,
+            ilDBConstants::MYSQL_COLLATION_UTF8MB4_UNICODE,
+            ilDBConstants::MYSQL_COLLATION_UTF8MB4_520,
+            ilDBConstants::MYSQL_COLLATION_UTF8MB4_0900,
+            ilDBConstants::MARIADB_COLLATION_UCA,
+        ], true);
     }
 
     public static function describe(string $type): string
