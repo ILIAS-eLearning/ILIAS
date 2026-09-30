@@ -17071,6 +17071,7 @@ svy#:#svy_codes#:#Códigos de acceso
 svy#:#svy_current_page#:#Página actual
 svy#:#svy_finish_survey#:#Participar en la encuesta ‘%1’
 svy#:#svy_finished_x_appraisees#:#Ya ha completado la encuesta para %s evaluado(s).
+svy#:#svy_info_participants#:#Añada usuarios como participantes de esta encuesta utilizando una de las siguientes opciones de búsqueda. La encuesta se añadirá como tarea en el panel de estos usuarios.
 svy#:#svy_information#:#Información
 svy#:#svy_invite_participants#:#Añadir a las tareas de los usuarios
 svy#:#svy_link_to_svy#:#Enlace a la encuesta
