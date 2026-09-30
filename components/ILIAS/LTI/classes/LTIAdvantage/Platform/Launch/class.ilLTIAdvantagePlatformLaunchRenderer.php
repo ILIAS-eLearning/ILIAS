@@ -22,6 +22,7 @@ use ceLTIc\LTI\Platform;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use ILIAS\UI\Component\Component;
 use Random\RandomException;
 
 /**
@@ -29,11 +30,15 @@ use Random\RandomException;
  * open: embedded, in the same window or in a new one. Whichever it is, the launch page starts the OpenID
  * Connect login at the tool, and the tool then gets the id_token from ltiauth.php.
  *
+ * An object whose content was picked by Deep Linking launches the target link the tool gave it, kept as its
+ * custom parameter target_link_uri as in earlier releases.
+ *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 final class ilLTIAdvantagePlatformLaunchRenderer
 {
     private const string FRAME_ID = 'il_lti_advantage_frame';
+    private const string TARGET_LINK_PARAM = 'target_link_uri';
 
     /**
      * @throws ilCtrlException
@@ -44,11 +49,9 @@ final class ilLTIAdvantagePlatformLaunchRenderer
         $url = $dic->ctrl()->getLinkTarget($gui, ilLTIToolLaunchGUI::CMD_START_ADVANTAGE_LAUNCH);
 
         if ($object->isLaunchMethodEmbedded()) {
-            $dic->ui()->mainTemplate()->addOnLoadCode(self::getStorageJS());
-            $dic->ui()->mainTemplate()->setContent($dic->ui()->renderer()->render($factory->legacy()->content(
-                '<iframe id="' . self::FRAME_ID . '" src="' . htmlspecialchars($url, ENT_QUOTES) . '" title="'
-                . htmlspecialchars($object->getTitle(), ENT_QUOTES) . '" width="100%" height="500"></iframe>'
-            )));
+            $dic->ui()->mainTemplate()->setContent($dic->ui()->renderer()->render(
+                self::buildFrame($url, $object->getTitle(), 500, $dic)
+            ));
             return;
         }
 
@@ -61,6 +64,19 @@ final class ilLTIAdvantagePlatformLaunchRenderer
             $object->isLaunchMethodOwnWin()
                 ? $factory->button()->standard($label, $url)
                 : $factory->link()->standard($label, $url)->withOpenInNewViewport(true)
+        );
+    }
+
+    /**
+     * The iframe a tool opens in, with the platform storage of LTI for it.
+     */
+    public static function buildFrame(string $url, string $title, int $height, Container $dic): Component
+    {
+        $dic->ui()->mainTemplate()->addOnLoadCode(self::getStorageJS());
+
+        return $dic->ui()->factory()->legacy()->content(
+            '<iframe id="' . self::FRAME_ID . '" src="' . htmlspecialchars($url, ENT_QUOTES) . '" title="'
+            . htmlspecialchars($title, ENT_QUOTES) . '" width="100%" height="' . $height . '"></iframe>'
         );
     }
 
@@ -95,7 +111,8 @@ final class ilLTIAdvantagePlatformLaunchRenderer
             $page = new ilLTIAdvantagePlatformConnection($object->getTool())->getLaunchPage(
                 $object->getRefId(),
                 ilLTIAdvantagePlatformLaunchParameterBuilder::build($object, $cmix_user, $return_url),
-                $object->isLaunchMethodEmbedded()
+                $object->isLaunchMethodEmbedded(),
+                (string) ($object->getCustomParamsArray()[self::TARGET_LINK_PARAM] ?? '')
             );
         } catch (ilException $e) {
             $dic->logger()->forComponent('lti')->error($e->getMessage());
@@ -103,6 +120,16 @@ final class ilLTIAdvantagePlatformLaunchRenderer
             $page = $dic->language()->txt('error');
         }
 
+        self::sendPage($page, $status, $dic);
+    }
+
+    /**
+     * Sends a page that starts a message to the tool and ends the request.
+     *
+     * @throws ResponseSendingException
+     */
+    public static function sendPage(string $page, int $status, Container $dic): never
+    {
         // The tool asks ltiauth.php for the id_token from its own site, often with a POST, which does not carry
         // the session cookie of ILIAS while it is SameSite=Lax. The login the launch starts waits in that
         // session, so the cookie is sent again as SameSite=None, as ilStartUpGUI does for LTI sessions.

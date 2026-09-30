@@ -34,7 +34,7 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 /**
  * The page of the LTI view, see ilLTIViewGUI: only the tools in the main bar, only the exit button in the
  * meta bar, the title of the launch, the breadcrumbs from the launched object on and no footer. After the
- * exit, neither bar is left.
+ * exit, and on the other pages of LTI without a login (ilLTIViewGUI::printPage()), neither bar is left.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -94,12 +94,11 @@ class ilLTIViewLayoutProvider extends AbstractModificationProvider
 
     public function getTitleModification(CalledContexts $screen_context_stack): ?TitleModification
     {
-        $exit_mode = $this->isExitMode($screen_context_stack);
+        $data = $screen_context_stack->current()->getAdditionalData();
+        $page_title = $data->exists(ilLTIViewGUI::GS_PAGE_TITLE) ? (string) $data->get(ilLTIViewGUI::GS_PAGE_TITLE) : null;
 
         return $this->globalScreen()->layout()->factory()->title()->withModification(
-            static fn(?string $title): string => $exit_mode
-                ? ilLTIViewGUI::getInstance()->getTitleForExitPage()
-                : ilLTIViewGUI::getInstance()->getTitle()
+            static fn(?string $title): string => $page_title ?? ilLTIViewGUI::getInstance()->getTitle()
         )->withPriority(self::PRIORITY);
     }
 

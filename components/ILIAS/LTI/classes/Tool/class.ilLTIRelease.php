@@ -78,6 +78,52 @@ class ilLTIRelease
     }
 
     /**
+     * The objects a registration of lti2_consumer may launch, while its platform is active: the one object of
+     * a registration for a single object (ref_id > 0), else the objects released to the platform.
+     *
+     * @return array the ref ids of the objects that still exist, by title
+     */
+    public static function lookupLaunchableRefIds(int $record_id): array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $row = $db->fetchAssoc($db->queryF(
+            'SELECT c.ref_id, c.ext_consumer_id FROM lti2_consumer c'
+            . ' JOIN lti_ext_consumer e ON e.id = c.ext_consumer_id'
+            . ' WHERE c.consumer_pk = %s AND c.enabled = %s AND e.active = %s',
+            ['integer', 'integer', 'integer'],
+            [$record_id, 1, 1]
+        ));
+        if ($row === null) {
+            return [];
+        }
+
+        $ref_ids = [(int) $row['ref_id']];
+        if ($ref_ids[0] === 0) {
+            $result = $db->queryF(
+                'SELECT ref_id FROM ' . self::TABLE_NAME . ' WHERE ext_consumer_id = %s',
+                ['integer'],
+                [(int) $row['ext_consumer_id']]
+            );
+            $ref_ids = [];
+            while ($released = $db->fetchAssoc($result)) {
+                $ref_ids[] = (int) $released['ref_id'];
+            }
+        }
+
+        $titles = [];
+        foreach ($ref_ids as $ref_id) {
+            if ($ref_id > 0 && ilObject::_exists($ref_id, true) && !ilObject::_isInTrash($ref_id)) {
+                $titles[$ref_id] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
+            }
+        }
+        asort($titles);
+
+        return array_keys($titles);
+    }
+
+    /**
      * True when the object is released to the platform.
      */
     public function isReleased(): bool

@@ -40,17 +40,48 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
     {
         global $DIC;
 
-        $user = $DIC->user();
         $tool = $object->getTool();
 
-        $roles = $DIC->access()->checkAccess('write', '', $object->getRefId()) && !$tool->getAlwaysLearner()
-            ? 'Instructor'
-            : 'Learner';
-
-        $user_id = ilCmiXapiUser::getIdentAsId($tool->getPrivacyIdent(), $user);
+        $user_id = ilCmiXapiUser::getIdentAsId($tool->getPrivacyIdent(), $DIC->user());
         if ($tool->getPrivacyIdent() === ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
             $user_id = (string) strstr($cmix_user->getUsrIdent(), '@' . ilCmiXapiUser::getIliasUuid(), true);
         }
+        $instructor = $DIC->access()->checkAccess('write', '', $object->getRefId()) && !$tool->getAlwaysLearner();
+
+        return self::filter([
+            'resource_link_id' => $tool->getUseToolId() ? 'p' . $tool->getId() : (string) $object->getRefId(),
+            'resource_link_title' => $object->getTitle(),
+            'resource_link_description' => $object->getDescription(),
+            'launch_presentation_document_target' => $object->isLaunchMethodEmbedded() ? 'iframe' : 'window',
+            'launch_presentation_return_url' => $return_url,
+        ] + self::buildForUser(
+            $tool,
+            $user_id,
+            $cmix_user->getUsrIdent(),
+            $instructor,
+            $object->getRefId(),
+            $object->getCustomParamsArray()
+        ));
+    }
+
+    /**
+     * What every message ILIAS sends a tool tells about the user, the context and ILIAS, and the custom
+     * parameters of the tool and of the object.
+     *
+     * @param array $object_custom_params the custom parameters of the object, which win over those of the tool
+     * @return array
+     */
+    public static function buildForUser(
+        ilLTITool $tool,
+        string $user_id,
+        string $email,
+        bool $instructor,
+        int $ref_id,
+        array $object_custom_params = []
+    ): array {
+        global $DIC;
+
+        $user = $DIC->user();
 
         [$name_given, $name_family, $name_full] = match ($tool->getPrivacyName()) {
             ilLTITool::PRIVACY_NAME_FIRSTNAME => [$user->getFirstname(), '', $user->getFirstname()],
@@ -60,18 +91,13 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         };
 
         $parameters = [
-            'resource_link_id' => $tool->getUseToolId() ? 'p' . $tool->getId() : (string) $object->getRefId(),
-            'resource_link_title' => $object->getTitle(),
-            'resource_link_description' => $object->getDescription(),
             'user_id' => $user_id,
-            'roles' => $roles,
+            'roles' => $instructor ? 'Instructor' : 'Learner',
             'lis_person_name_given' => $name_given,
             'lis_person_name_family' => $name_family,
             'lis_person_name_full' => $name_full,
-            'lis_person_contact_email_primary' => $cmix_user->getUsrIdent(),
+            'lis_person_contact_email_primary' => $email,
             'launch_presentation_locale' => $DIC->language()->getLangKey(),
-            'launch_presentation_document_target' => $object->isLaunchMethodEmbedded() ? 'iframe' : 'window',
-            'launch_presentation_return_url' => $return_url,
             'tool_consumer_instance_guid' => (string) ilCmiXapiUser::getIliasUuid(),
             'tool_consumer_instance_name' => (string) ($DIC->settings()->get('short_inst_name') ?: CLIENT_ID),
             'tool_consumer_instance_description' => ilObjSystemFolder::_getHeaderTitle(),
@@ -79,18 +105,28 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             'tool_consumer_instance_contact_email' => (string) $DIC->settings()->get('admin_email'),
             'tool_consumer_info_product_family_code' => 'ilias',
             'tool_consumer_info_version' => ILIAS_VERSION,
-        ] + self::getContext($object->getRefId());
+        ] + self::getContext($ref_id);
 
         if ($tool->getIncludeUserPicture()) {
             $parameters['user_image'] = ilObjLTITool::getIliasHttpPath() . '/' . $user->getPersonalPicturePath();
         }
 
-        $custom = array_merge(ilObjLTITool::getToolCustomParamsArray($tool), $object->getCustomParamsArray());
+        $custom = array_merge(ilObjLTITool::getToolCustomParamsArray($tool), $object_custom_params);
         foreach ($custom as $name => $value) {
             $parameters[str_starts_with($name, 'custom_') ? $name : 'custom_' . $name] = $value;
         }
 
-        // what the privacy settings keep back is left out instead of sent empty
+        return self::filter($parameters);
+    }
+
+    /**
+     * What the privacy settings keep back is left out instead of sent empty.
+     *
+     * @param array $parameters
+     * @return array
+     */
+    private static function filter(array $parameters): array
+    {
         return array_filter($parameters, static fn($value): bool => $value !== '');
     }
 

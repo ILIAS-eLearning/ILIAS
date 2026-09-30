@@ -30,6 +30,9 @@ use Random\RandomException;
  *
  * The library reads the launch from the request itself, which is why it runs before ILIAS takes over.
  *
+ * A Deep Linking request of LTI Advantage arrives here too, and so do the objects an instructor picked for it:
+ * see ilLTIAdvantageToolDeepLinking. Neither logs anybody in.
+ *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 class ilLTILaunchReceiver extends Tool
@@ -56,8 +59,13 @@ class ilLTILaunchReceiver extends Tool
     {
         global $DIC;
 
-        // the library reads $_GET and $_POST unless it is handed the parameters, and lti.php changes both
         $request = $DIC->http()->request();
+        $deep_linking_token = $request->getQueryParams()[ilLTIAdvantageToolDeepLinking::TOKEN_PARAM] ?? null;
+        if (is_string($deep_linking_token)) {
+            new ilLTIAdvantageToolDeepLinking()->respond($deep_linking_token);
+        }
+
+        // the library reads $_GET and $_POST unless it is handed the parameters, and lti.php changes both
         $body = $request->getParsedBody();
         // lti.php hides the client id of an OpenID Connect login from ILIAS, which would take it for the id
         // of its own client, so the query of such a login is read as it came
@@ -101,5 +109,13 @@ class ilLTILaunchReceiver extends Tool
     protected function onLaunch(): void
     {
         $this->ok = true;
+    }
+
+    /**
+     * @throws RandomException
+     */
+    protected function onContentItem(): void
+    {
+        ilLTIAdvantageToolDeepLinking::showSelection($this, $this->contentTypes ?? []);
     }
 }

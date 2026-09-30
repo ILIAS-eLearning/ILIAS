@@ -36,6 +36,9 @@ use Random\RandomException;
  * An embedded launch offers the tool the platform storage of LTI (postMessage to the page around the
  * iframe, see getStorageJS()), for the tools that cannot keep their state in a cookie inside an iframe.
  *
+ * The answer of a Deep Linking request comes back here as well: the library checks the signature, the expiry
+ * and the nonce of the JWT, this class that it is a Deep Linking response of the tool for ILIAS.
+ *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 class ilLTIAdvantagePlatformConnection extends Platform
@@ -51,6 +54,8 @@ class ilLTIAdvantagePlatformConnection extends Platform
     ];
 
     private const string MESSAGE_LAUNCH = 'basic-lti-launch-request';
+    private const string MESSAGE_DEEP_LINKING_REQUEST = 'ContentItemSelectionRequest';
+    private const string MESSAGE_DEEP_LINKING_RESPONSE = 'ContentItemSelection';
     private const string STORAGE_FRAME_PARENT = '_parent';
     private const string SESSION_KEY = 'lti_advantage_logins';
     private const int LOGIN_LIFETIME = 600;
@@ -114,19 +119,38 @@ class ilLTIAdvantagePlatformConnection extends Platform
      *
      * @param array $parameters see ilLTIAdvantagePlatformLaunchParameterBuilder
      * @param bool $embedded true when the tool opens in an iframe of the page that handles the platform storage
+     * @param string $url the target link of the object, when it has its own instead of the one of the tool
      */
-    public function getLaunchPage(int $ref_id, array $parameters, bool $embedded): string
+    public function getLaunchPage(int $ref_id, array $parameters, bool $embedded, string $url = ''): string
+    {
+        return $this->getMessagePage(
+            $url !== '' ? $url : Tool::$defaultTool->messageUrl,
+            self::MESSAGE_LAUNCH,
+            $parameters,
+            (string) $ref_id,
+            $embedded
+        );
+    }
+
+    /**
+     * The page that starts a Deep Linking request, which the tool opens in an iframe of ILIAS.
+     *
+     * @param array $parameters see ilLTIAdvantagePlatformDeepLinking
+     * @param string $state the state of the request, which also tells its login apart from the others of the session
+     */
+    public function getDeepLinkingPage(string $url, array $parameters, string $state): string
+    {
+        return $this->getMessagePage($url, self::MESSAGE_DEEP_LINKING_REQUEST, $parameters, $state, true);
+    }
+
+    /**
+     * @param array $parameters
+     */
+    private function getMessagePage(string $url, string $type, array $parameters, string $hint, bool $embedded): string
     {
         self::$browserStorageFrame = $embedded ? self::STORAGE_FRAME_PARENT : null;
 
-        return $this->sendMessage(
-            Tool::$defaultTool->messageUrl,
-            self::MESSAGE_LAUNCH,
-            $parameters,
-            '',
-            (string) $parameters['user_id'],
-            (string) $ref_id
-        );
+        return $this->sendMessage($url, $type, $parameters, '', (string) $parameters['user_id'], $hint);
     }
 
     /**
@@ -178,5 +202,22 @@ class ilLTIAdvantagePlatformConnection extends Platform
         $this->messageParameters = $login['params'];
         // the library tells the tool again where the platform storage is, with the id_token
         self::$browserStorageFrame = $login['storage_frame'] ?? null;
+    }
+
+    /**
+     * A Deep Linking response is only taken from the tool of this connection, for ILIAS and its deployment. The
+     * library has checked the signature with the key of the tool by then.
+     */
+    protected function onContentItem(): void
+    {
+        $audience = $this->jwt?->getClaim('aud');
+        if (
+            ($this->messageParameters['lti_message_type'] ?? '') !== self::MESSAGE_DEEP_LINKING_RESPONSE
+            || $this->jwt?->getClaim('iss') !== $this->clientId
+            || !in_array($this->platformId, is_array($audience) ? $audience : [$audience], true)
+            || (string) $this->jwt->getClaim(Util::JWT_CLAIM_PREFIX . '/claim/deployment_id') !== $this->deploymentId
+        ) {
+            $this->setReason('The message is not a Deep Linking response of the tool for this platform.');
+        }
     }
 }

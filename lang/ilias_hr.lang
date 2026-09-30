@@ -11377,7 +11377,15 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###
 lti#:#lti_cron_title#:#LTI izlazna usluga
 lti#:#lti_cron_title_desc#:#Sinkronizira napredak učenja LTI korisnika s LTI potrošačem, ako podržava izlaznu uslugu. Ovaj cron job potreban je samo za prijenos ažuriranja statusa nakon ažuriranja postavki napretka učenja.
 lti#:#lti_custom_new#:#Create Own Provider Settings###04 06 2021 new variable
+lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
+lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
+lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
 lti#:#lti_deep_linking_not_available_for_admin_objects#:#Potrošači stvoreni u Administraciji ne dopuštaju odabir sadržaja
+lti#:#lti_deep_linking_running#:#Select the content in the tool. An object is created for each content item the tool sends back.###29 09 2026 new variable
+lti#:#lti_deep_linking_select#:#Select Content###29 09 2026 new variable
+lti#:#lti_deep_linking_select_info#:#Select the ILIAS objects to add to the platform.###29 09 2026 new variable
+lti#:#lti_deep_linking_submit#:#Add###29 09 2026 new variable
+lti#:#lti_deep_linking_url#:#Deep Linking URL###29 09 2026 new variable
 lti#:#lti_delete_consume_provider#:#Delete Provider###04 06 2021 new variable
 lti#:#lti_delete_consume_providers#:#Delete Providers###04 06 2021 new variable
 lti#:#lti_delete_provider#:#Delete Provider###04 06 2021 new variable

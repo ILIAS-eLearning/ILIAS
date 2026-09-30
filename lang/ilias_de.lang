@@ -11499,7 +11499,15 @@ lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
+lti#:#lti_deep_linking_expired#:#Diese Auswahl ist abgelaufen. Starten Sie die Inhaltsauswahl in der Plattform erneut.###29 09 2026 new variable
+lti#:#lti_deep_linking_failed#:#Die im Tool ausgewählten Inhalte konnten nicht hinzugefügt werden. Bitte versuchen Sie es erneut.###29 09 2026 new variable
+lti#:#lti_deep_linking_no_content#:#Das Tool hat keine Inhalte gesendet, die als LTI-Objekt hinzugefügt werden können.###29 09 2026 new variable
 lti#:#lti_deep_linking_not_available_for_admin_objects#:#In der Administration angelegte Konsumenten erlauben keine Inhaltsauswahl
+lti#:#lti_deep_linking_running#:#Wählen Sie die Inhalte im Tool aus. Für jeden Inhalt, den das Tool zurücksendet, wird ein Objekt angelegt.###29 09 2026 new variable
+lti#:#lti_deep_linking_select#:#Inhalte auswählen###29 09 2026 new variable
+lti#:#lti_deep_linking_select_info#:#Wählen Sie die ILIAS-Objekte aus, die der Plattform hinzugefügt werden sollen.###29 09 2026 new variable
+lti#:#lti_deep_linking_submit#:#Hinzufügen###29 09 2026 new variable
+lti#:#lti_deep_linking_url#:#Deep-Linking-URL###29 09 2026 new variable
 lti#:#lti_delete_consume_provider#:#Provider löschen
 lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen

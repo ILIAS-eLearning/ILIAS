@@ -131,6 +131,20 @@ the endpoints:
   one each time. A registration another platform already has, by issuer, client id and deployment id, is refused here and in the form,
   since a launch could not tell the two apart. No session is needed, because the platform opens the URL on its own site, where a session
   cookie of ILIAS is not sent.
+* **Deep Linking, ILIAS as platform:** `ilLTIAdvantagePlatformDeepLinking` (`Platform/DeepLinking`). When the
+  tool of a new `lti` object offers Deep Linking, the user picks its content in the tool, in an iframe of the
+  creation screen, or later from the tool settings of an object for new objects next to it. The request waits in
+  the session of the user for that container and is used once: its state goes to the tool as `data` and has to
+  come back. celtic/lti checks the signature, expiry and nonce of the response, `ilLTIAdvantagePlatformConnection`
+  that it comes from the tool for ILIAS and its deployment. Each resource link becomes an object; its target link
+  is kept as the custom parameter `target_link_uri`, as earlier releases did, and the launch uses it. The nonces of
+  ILIAS as platform are kept in `lti2_nonce` under `consumer_pk` 0, since ILIAS has no record of its own there.
+* **Deep Linking, ILIAS as tool:** `ilLTIAdvantageToolDeepLinking` (`Tool/DeepLinking`). The request arrives at
+  `lti.php` like a launch and is checked by celtic/lti. An instructor or administrator of the platform picks among
+  the objects released to it, and each goes back as a resource link to `lti.php?ref_id=N`. Nobody is logged in:
+  the page with the objects posts them to `lti.php` with a token ILIAS signed that names the platform and the
+  return URL, valid for an hour, so it works in an iframe without a session cookie of ILIAS. A request ILIAS
+  cannot answer goes back to the platform as an error.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
   `ilLTIAdvantageKeyPair` and name what they are for, so that no other token of ILIAS is taken for them.
 

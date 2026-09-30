@@ -93,6 +93,7 @@ class ilLTITool
     private string $xapi_activity_id = '';
     private bool $grade_synchronization = false;
     private bool $content_item = false;
+    private string $content_item_url = '';
     private string $client_id = '';
     private string $key_type = self::KEY_TYPE_RSA;
     private string $public_key = '';
@@ -287,6 +288,22 @@ class ilLTITool
     }
 
     /**
+     * Where the tool takes the Deep Linking request.
+     */
+    public function getContentItemUrl(): string
+    {
+        return $this->content_item_url;
+    }
+
+    /**
+     * True when a user may pick the content of new objects in the tool, which only LTI Advantage offers.
+     */
+    public function offersDeepLinking(): bool
+    {
+        return $this->lti_version === self::VERSION_ADVANTAGE && $this->content_item && $this->content_item_url !== '';
+    }
+
+    /**
      * The LTI Advantage client id ILIAS gave the tool.
      */
     public function getClientId(): string
@@ -376,6 +393,7 @@ class ilLTITool
         $this->xapi_activity_id = (string) ($row['xapi_activity_id'] ?? '');
         $this->grade_synchronization = (bool) ($row['grade_synchronization'] ?? false);
         $this->content_item = (bool) ($row['content_item'] ?? false);
+        $this->content_item_url = (string) ($row['content_item_url'] ?? '');
         $this->client_id = (string) ($row['client_id'] ?? '');
         $this->key_type = (string) ($row['key_type'] ?? '') === self::KEY_TYPE_JWK ? self::KEY_TYPE_JWK : self::KEY_TYPE_RSA;
         $this->public_key = (string) ($row['public_key'] ?? '');

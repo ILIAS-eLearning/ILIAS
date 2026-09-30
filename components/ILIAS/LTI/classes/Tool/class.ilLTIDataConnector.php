@@ -294,7 +294,8 @@ class ilLTIDataConnector extends DataConnector
     }
 
     /**
-     * A nonce is found while it has not expired, which is what protects against replayed requests.
+     * A nonce is found while it has not expired, which is what protects against replayed requests. ILIAS as
+     * platform has no record of its own, so the nonces of the messages tools send it are kept under 0.
      */
     public function loadPlatformNonce(PlatformNonce $nonce): bool
     {
@@ -307,14 +308,14 @@ class ilLTIDataConnector extends DataConnector
         return $this->database->fetchAssoc($this->database->queryF(
             'SELECT value FROM lti2_nonce WHERE consumer_pk = %s AND value = %s',
             ['integer', 'text'],
-            [$nonce->getPlatform()->getRecordId(), $nonce->getValue()]
+            [$nonce->getPlatform()->getRecordId() ?? 0, $nonce->getValue()]
         )) !== null;
     }
 
     public function savePlatformNonce(PlatformNonce $nonce): bool
     {
         $this->database->insert('lti2_nonce', [
-            'consumer_pk' => ['integer', $nonce->getPlatform()->getRecordId()],
+            'consumer_pk' => ['integer', $nonce->getPlatform()->getRecordId() ?? 0],
             'value' => ['text', $nonce->getValue()],
             'expires' => ['timestamp', date(self::DATE_FORMAT, $nonce->expires)],
         ]);
@@ -327,7 +328,7 @@ class ilLTIDataConnector extends DataConnector
         $this->database->manipulateF(
             'DELETE FROM lti2_nonce WHERE consumer_pk = %s AND value = %s',
             ['integer', 'text'],
-            [$nonce->getPlatform()->getRecordId(), $nonce->getValue()]
+            [$nonce->getPlatform()->getRecordId() ?? 0, $nonce->getValue()]
         );
 
         return true;

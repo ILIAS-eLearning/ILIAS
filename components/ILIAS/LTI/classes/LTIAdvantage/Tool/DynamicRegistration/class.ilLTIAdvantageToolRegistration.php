@@ -50,6 +50,7 @@ final class ilLTIAdvantageToolRegistration extends Tool
     private const string TOKEN_PARAM = 'registration';
     private const string TOOL_CONFIGURATION = 'https://purl.imsglobal.org/spec/lti-tool-configuration';
     private const string MESSAGE_LAUNCH = 'basic-lti-launch-request';
+    private const string MESSAGE_DEEP_LINKING = 'ContentItemSelectionRequest';
 
     /**
      * What ILIAS asks for: the Assignment and Grade Services it sends the learning progress with.
@@ -157,8 +158,8 @@ final class ilLTIAdvantageToolRegistration extends Tool
     }
 
     /**
-     * ILIAS is launched at lti.php, which also takes the OpenID Connect login. What it asks for of the user
-     * and of the services is what a launch uses.
+     * ILIAS is launched at lti.php, which also takes the OpenID Connect login and the Deep Linking requests.
+     * What it asks for of the user and of the services is what a launch uses.
      */
     protected function getConfiguration(array $platformConfig): array
     {
@@ -166,7 +167,12 @@ final class ilLTIAdvantageToolRegistration extends Tool
         $this->product = new Item(null, $title !== '' ? $title : 'ILIAS', 'ILIAS');
         $this->baseUrl = ilObjLTITool::getIliasHttpPath();
         $this->resourceHandlers = [
-            new ResourceHandler(new Item(), '', [new Message(self::MESSAGE_LAUNCH, '/lti.php', self::CAPABILITIES)], []),
+            new ResourceHandler(
+                new Item(),
+                '',
+                [new Message(self::MESSAGE_LAUNCH, '/lti.php', self::CAPABILITIES)],
+                [new Message(self::MESSAGE_DEEP_LINKING, '/lti.php', self::CAPABILITIES)]
+            ),
         ];
         $this->requiredScopes = self::SCOPES;
 

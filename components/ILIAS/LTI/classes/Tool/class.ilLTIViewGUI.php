@@ -31,6 +31,7 @@ class ilLTIViewGUI
 {
     public const string CMD_EXIT = 'exit';
     public const string GS_EXIT_MODE = 'lti_exit_mode';
+    public const string GS_PAGE_TITLE = 'lti_page_title';
 
     private const string CONTEXT_PARAM = 'lti_context_id';
 
@@ -154,13 +155,29 @@ class ilLTIViewGUI
             $this->dic->ctrl()->redirectToURL($return_url);
         }
 
-        $this->dic->globalScreen()->tool()->context()->current()->addAdditionalData(self::GS_EXIT_MODE, true);
-        $tpl = $this->dic->ui()->mainTemplate();
-        $tpl->setTitle($this->getTitleForExitPage(), true);
-        $tpl->setContent($this->dic->ui()->renderer()->render(
-            $this->dic->ui()->factory()->messageBox()->info($this->dic->language()->txt('lti_exited_info'))
-        ));
+        $content = $this->dic->ui()->factory()->messageBox()->info($this->dic->language()->txt('lti_exited_info'));
         $this->logout();
+        $this->printPage($this->getTitleForExitPage(), [$content]);
+    }
+
+    /**
+     * A page of LTI without any navigation of ILIAS, for a user who is not or no longer logged in: the page
+     * after the exit, and the page ILIAS as tool shows a Deep Linking request on.
+     *
+     * @param array $content the components of the page
+     */
+    public function printPage(string $title, array $content): void
+    {
+        $context = $this->dic->globalScreen()->tool()->context();
+        if (!$this->isActive()) {
+            $context->claim()->lti();
+        }
+        $context->current()->addAdditionalData(self::GS_EXIT_MODE, true);
+        $context->current()->addAdditionalData(self::GS_PAGE_TITLE, $title);
+
+        $tpl = $this->dic->ui()->mainTemplate();
+        $tpl->setTitle($title, true);
+        $tpl->setContent($this->dic->ui()->renderer()->render($content));
         $tpl->printToStdout();
     }
 

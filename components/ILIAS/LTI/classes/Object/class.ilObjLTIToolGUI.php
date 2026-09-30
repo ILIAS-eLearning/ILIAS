@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\ReferenceId;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use Random\RandomException;
@@ -44,12 +46,17 @@ class ilObjLTIToolGUI extends ilObject2GUI
 {
     public const string CMD_LAUNCH = 'launch';
     public const string CMD_DELIVER_CERTIFICATE = 'deliverCertificate';
+    public const string CMD_SELECT_CONTENT = 'selectContent';
+    public const string ORIGIN_PARAM = 'origin_ref_id';
 
     private const string CMD_SAVE_OWN_TOOL = 'saveOwnTool';
     private const string CMD_REGISTER_TOOL = 'registerTool';
     private const string CMD_FINISH_REGISTRATION = 'finishRegistration';
     private const string REGISTRATION_PARAM = 'registration';
     private const string REGISTRATION_FRAME_ID = 'il_lti_registration_frame';
+    private const string CMD_START_DEEP_LINKING = 'startDeepLinking';
+    private const string CMD_FINISH_DEEP_LINKING = 'finishDeepLinking';
+    private const string DEEP_LINKING_PARAM = 'deep_linking';
     private const string VERSION_PARAM = 'version';
     private const string TAB_CONTENT = 'tab_content';
     private const string TAB_INFO = 'tab_info';
@@ -354,7 +361,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
             return;
         }
 
-        $this->createForTool($tool);
+        $this->createOrSelectContent($tool);
     }
 
     /**
@@ -378,7 +385,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
             return;
         }
 
-        $this->createForTool(new ilLTITool($form->getSavedId()));
+        $this->createOrSelectContent(new ilLTITool($form->getSavedId()));
     }
 
     /**
@@ -469,7 +476,148 @@ class ilObjLTIToolGUI extends ilObject2GUI
         }
 
         [$tool, $custom_params] = $registered;
-        $this->createForTool($tool, $custom_params);
+        $this->createOrSelectContent($tool, $custom_params);
+    }
+
+    /**
+     * Picks the content of new objects in a tool that offers Deep Linking, from an object of the tool: the
+     * objects are created next to it, as earlier releases did.
+     *
+     * @throws ilCtrlException
+     * @throws RandomException
+     */
+    protected function selectContent(): void
+    {
+        $this->assertCreationAccess();
+
+        $tool = new ilLTITool($this->getToolIdParameter());
+        if (!$tool->isSelectableBy($this->user->getId()) || !$tool->offersDeepLinking()) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
+        $this->showDeepLinking($tool);
+    }
+
+    /**
+     * The iframe the tool shows its content in for the user to pick.
+     *
+     * @throws ilCtrlException
+     * @throws RandomException
+     */
+    private function showDeepLinking(ilLTITool $tool, string $custom_params = ''): void
+    {
+        global $DIC;
+
+        $this->ctrl->setParameter($this, 'new_type', $this->getType());
+        $this->ctrl->setParameter($this, 'tool_id', null);
+        $this->ctrl->setParameter(
+            $this,
+            self::DEEP_LINKING_PARAM,
+            ilLTIAdvantagePlatformDeepLinking::start($tool, $this->getContainerRefId(), $this->user->getId(), $custom_params)
+        );
+        $frame_url = $this->ctrl->getLinkTarget($this, self::CMD_START_DEEP_LINKING);
+        $this->ctrl->setParameter($this, self::DEEP_LINKING_PARAM, null);
+
+        $origin_ref_id = $this->getOriginRefId();
+        $cancel_url = $origin_ref_id > 0
+            ? $this->getStaticLink($origin_ref_id)
+            : $this->ctrl->getLinkTarget($this, 'create');
+
+        $this->tpl->setTitleIcon(ilObject::getIconForType($this->getType()));
+        $this->tpl->setTitle($tool->getTitle());
+        $this->tabs_gui->setBackTarget($this->lng->txt('cancel'), $cancel_url);
+        $this->tpl->setContent($this->ui_renderer->render([
+            $this->ui_factory->messageBox()->info($this->lng->txt('lti_deep_linking_running')),
+            ilLTIAdvantagePlatformLaunchRenderer::buildFrame($frame_url, $tool->getTitle(), 600, $DIC),
+        ]));
+    }
+
+    /**
+     * Content of the iframe: starts the Deep Linking request at the tool.
+     *
+     * @throws ilCtrlException
+     * @throws RandomException
+     * @throws ResponseSendingException
+     */
+    protected function startDeepLinking(): never
+    {
+        global $DIC;
+
+        $this->assertCreationAccess();
+
+        $state = $this->getDeepLinkingState();
+        $this->ctrl->setParameter($this, 'new_type', $this->getType());
+        $this->ctrl->setParameter($this, self::DEEP_LINKING_PARAM, $state);
+        $return_url = ilObjLTITool::getIliasHttpPath() . '/'
+            . $this->ctrl->getLinkTarget($this, self::CMD_FINISH_DEEP_LINKING, '', false, false);
+
+        ilLTIAdvantagePlatformDeepLinking::sendRequestPage(
+            $state,
+            $this->user->getId(),
+            $this->getContainerRefId(),
+            $return_url,
+            $DIC
+        );
+    }
+
+    /**
+     * Where the tool posts the content the user picked, inside the iframe: an object is created for each
+     * resource link, and the whole window goes on to the settings of the object, or to the container when
+     * there are several.
+     *
+     * @throws ilCtrlException
+     * @throws ilMDServicesException
+     * @throws RandomException
+     * @throws ResponseSendingException
+     */
+    protected function finishDeepLinking(): never
+    {
+        global $DIC;
+
+        $this->assertCreationAccess();
+
+        $response = ilLTIAdvantagePlatformDeepLinking::receive(
+            $this->getDeepLinkingState(),
+            $this->user->getId(),
+            $this->getContainerRefId(),
+            $DIC
+        );
+        $this->ctrl->setParameter($this, 'new_type', $this->getType());
+        $create_url = $this->ctrl->getLinkTarget($this, 'create', '', false, false);
+
+        if ($response === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_deep_linking_failed'), true);
+            ilLTIAdvantagePlatformDeepLinking::sendTopRedirect($create_url, $DIC);
+        }
+
+        // what the tool tells the user, as the LTI standard defines it
+        foreach (['message' => 'info', 'error' => 'failure'] as $key => $type) {
+            if ($response[$key] !== '') {
+                $this->tpl->setOnScreenMessage($type, htmlspecialchars($response[$key], ENT_QUOTES), true);
+            }
+        }
+        if ($response['items'] === []) {
+            if ($response['error'] === '') {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('lti_deep_linking_no_content'), true);
+            }
+            ilLTIAdvantagePlatformDeepLinking::sendTopRedirect($create_url, $DIC);
+        }
+
+        $objects = [];
+        foreach ($response['items'] as $item) {
+            $objects[] = $this->createToolObject(
+                $response['tool'],
+                $item['title'],
+                $item['description'],
+                implode(';', array_filter([$response['custom_params'], $item['custom_params']]))
+            );
+        }
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
+        ilLTIAdvantagePlatformDeepLinking::sendTopRedirect(
+            count($objects) > 1 ? $this->getStaticLink($this->getContainerRefId()) : $this->getSettingsLink($objects[0]),
+            $DIC
+        );
     }
 
     /**
@@ -676,11 +824,42 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     private function createForTool(ilLTITool $tool, string $custom_params = ''): void
     {
+        $object = $this->createToolObject($tool, '', '', $custom_params);
+
+        // a new object is offline and named after its tool, so its settings are where it is finished
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
+        $this->ctrl->redirectToURL($this->getSettingsLink($object));
+    }
+
+    /**
+     * A tool that offers Deep Linking lets the user pick the content of the objects first.
+     *
+     * @throws ilCtrlException
+     * @throws ilMDServicesException
+     * @throws RandomException
+     */
+    private function createOrSelectContent(ilLTITool $tool, string $custom_params = ''): void
+    {
+        if ($tool->offersDeepLinking()) {
+            $this->showDeepLinking($tool, $custom_params);
+            return;
+        }
+
+        $this->createForTool($tool, $custom_params);
+    }
+
+    /**
+     * @param string $title the title of the object, the one of the tool when empty
+     * @param string $description the description of the object, used with its title only
+     * @throws ilMDServicesException
+     */
+    private function createToolObject(ilLTITool $tool, string $title, string $description, string $custom_params): ilObjLTITool
+    {
         $object = new ilObjLTITool();
         $object->setType($this->getType());
         $object->processAutoRating();
-        $object->setTitle($tool->getTitle());
-        $object->setDescription($tool->getDescription());
+        $object->setTitle($title !== '' ? $title : $tool->getTitle());
+        $object->setDescription($title !== '' ? $description : $tool->getDescription());
         $object->setToolId($tool->getId());
         $object->setMasteryScore($tool->getMasteryScore());
         $object->setCustomParams($custom_params);
@@ -689,15 +868,69 @@ class ilObjLTIToolGUI extends ilObject2GUI
         $object->syncKeywordsFromTool();
 
         $this->ctrl->setParameter($this, 'new_type', '');
+        // putObjectInTree() places the one object of a creation screen and keeps its node, Deep Linking creates several
+        $this->node_id = 0;
         $this->putObjectInTree($object);
 
-        // a new object is offline and named after its tool, so its settings are where it is finished
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
+        return $object;
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function getSettingsLink(ilObjLTITool $object): string
+    {
         $this->ctrl->setParameterByClass(ilLTIObjectSettingsGUI::class, 'ref_id', $object->getRefId());
-        $this->ctrl->redirectByClass(
+
+        return $this->ctrl->getLinkTargetByClass(
             [ilObjLTIToolGUI::class, ilLTIObjectSettingsGUI::class],
-            ilLTIObjectSettingsGUI::CMD_SHOW
+            ilLTIObjectSettingsGUI::CMD_SHOW,
+            '',
+            false,
+            false
         );
+    }
+
+    private function getStaticLink(int $ref_id): string
+    {
+        global $DIC;
+
+        return (string) $DIC['static_url']->builder()->build(
+            (string) ilObject::_lookupType($ref_id, true),
+            new ReferenceId($ref_id)
+        );
+    }
+
+    /**
+     * The container a new object is created in.
+     */
+    private function getContainerRefId(): int
+    {
+        return (int) $this->parent_id;
+    }
+
+    private function assertCreationAccess(): void
+    {
+        if (!$this->checkPermissionBool('create', '', $this->getType())) {
+            $this->error->raiseError($this->lng->txt('no_create_permission'), $this->error->MESSAGE);
+        }
+    }
+
+    private function getDeepLinkingState(): string
+    {
+        return $this->request_wrapper->has(self::DEEP_LINKING_PARAM)
+            ? $this->request_wrapper->retrieve(self::DEEP_LINKING_PARAM, $this->refinery->kindlyTo()->string())
+            : '';
+    }
+
+    /**
+     * The object whose tool settings the content is picked from, 0 on the creation screen.
+     */
+    private function getOriginRefId(): int
+    {
+        return $this->request_wrapper->has(self::ORIGIN_PARAM)
+            ? $this->request_wrapper->retrieve(self::ORIGIN_PARAM, $this->refinery->kindlyTo()->int())
+            : 0;
     }
 
     /**

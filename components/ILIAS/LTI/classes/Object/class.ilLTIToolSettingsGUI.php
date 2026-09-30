@@ -22,6 +22,9 @@ declare(strict_types=1);
  * Settings of the tool an object launches, reachable from the object for the user who defined the
  * tool. A tool released for everybody is only changed in the administration.
  *
+ * A tool that offers Deep Linking lets the user pick more of its content from here, for new objects
+ * next to this one.
+ *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
 class ilLTIToolSettingsGUI
@@ -93,8 +96,35 @@ class ilLTIToolSettingsGUI
             $tool->getLtiVersion()
         );
 
+        $this->addSelectContentButton($tool);
         $this->dic->ui()->mainTemplate()->setContent(
             $this->dic->ui()->renderer()->render($notice === null ? [$form] : [$notice, $form])
+        );
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    private function addSelectContentButton(ilLTITool $tool): void
+    {
+        $parent_ref_id = (int) $this->dic->repositoryTree()->getParentId($this->object->getRefId());
+        if (!$tool->offersDeepLinking() || !$this->dic->access()->checkAccess('create_lti', '', $parent_ref_id)) {
+            return;
+        }
+
+        $ctrl = $this->dic->ctrl();
+        $ctrl->setParameterByClass(ilObjLTIToolGUI::class, 'ref_id', $parent_ref_id);
+        $ctrl->setParameterByClass(ilObjLTIToolGUI::class, 'new_type', $this->object->getType());
+        $ctrl->setParameterByClass(ilObjLTIToolGUI::class, 'tool_id', $tool->getId());
+        $ctrl->setParameterByClass(ilObjLTIToolGUI::class, ilObjLTIToolGUI::ORIGIN_PARAM, $this->object->getRefId());
+        $url = $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjLTIToolGUI::class], ilObjLTIToolGUI::CMD_SELECT_CONTENT);
+        foreach (['new_type', 'tool_id', ilObjLTIToolGUI::ORIGIN_PARAM] as $parameter) {
+            $ctrl->setParameterByClass(ilObjLTIToolGUI::class, $parameter, null);
+        }
+        $ctrl->setParameterByClass(ilObjLTIToolGUI::class, 'ref_id', $this->object->getRefId());
+
+        $this->dic->toolbar()->addComponent(
+            $this->dic->ui()->factory()->button()->standard($this->dic->language()->txt('lti_deep_linking_select'), $url)
         );
     }
 

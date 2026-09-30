@@ -120,9 +120,11 @@ class ilLTIAdministrationPlatformForm
                     $this->lng->txt("lti_dyn_reg_tool_url"),
                     $this->lng->txt($this->platform_id > 0 ? "lti_dyn_reg_tool_url_info" : "lti_dyn_reg_tool_url_after_save")
                 )->withValue($this->platform_id > 0 ? $this->getDynamicRegistrationUrl() : "")->withDisabled(true),
-                // read only data the platform needs: where it starts the login and posts the launch, and the
-                // key set of ILIAS. The objects released to the platform show their target link.
+                // read only data the platform needs: where it starts the login and posts the launch and the Deep
+                // Linking request, and the key set of ILIAS. The objects released to the platform show their target link.
                 "launch_url" => $field->text($this->lng->txt("lti_launch_url"))
+                    ->withValue(ILIAS_HTTP_PATH . "/lti.php")->withDisabled(true),
+                "deep_linking_url" => $field->text($this->lng->txt("lti_deep_linking_url"))
                     ->withValue(ILIAS_HTTP_PATH . "/lti.php")->withDisabled(true),
                 "ilias_keyset_url" => $field->text($this->lng->txt("lti_con_key_type_jwk"))
                     ->withValue(ilLTIAdvantageKeyPair::getJwksUrl())->withDisabled(true),

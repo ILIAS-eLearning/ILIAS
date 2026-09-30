@@ -11378,7 +11378,15 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###
 lti#:#lti_cron_title#:#LTI Outcome Service###07 02 2020 new variable
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###07 02 2020 new variable
 lti#:#lti_custom_new#:#Create Own Provider Settings###07 02 2020 new variable
+lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
+lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
+lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
 lti#:#lti_deep_linking_not_available_for_admin_objects#:#Consumers created in Administration do not allow content selection
+lti#:#lti_deep_linking_running#:#Select the content in the tool. An object is created for each content item the tool sends back.###29 09 2026 new variable
+lti#:#lti_deep_linking_select#:#Select Content###29 09 2026 new variable
+lti#:#lti_deep_linking_select_info#:#Select the ILIAS objects to add to the platform.###29 09 2026 new variable
+lti#:#lti_deep_linking_submit#:#Add###29 09 2026 new variable
+lti#:#lti_deep_linking_url#:#Deep Linking URL###29 09 2026 new variable
 lti#:#lti_delete_consume_provider#:#Delete Provider###07 02 2020 new variable
 lti#:#lti_delete_consume_providers#:#Delete Providers###07 02 2020 new variable
 lti#:#lti_delete_provider#:#Delete Provider###07 02 2020 new variable
