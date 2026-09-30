@@ -194,7 +194,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
 
     public function getLPStatusId(): string
     {
-        return (string) ilLPObjSettings::LP_MODE_MANUAL;
+        return (string) ilLPObjSettings::LP_MODE_COLLECTION_MANUAL;
     }
 
     public function getLabel(): string
