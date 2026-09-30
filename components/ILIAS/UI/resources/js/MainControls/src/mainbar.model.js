@@ -35,7 +35,6 @@ var model = function() {
 
             entries: {},
             tools: {}, //"moving" parts, current tools
-            known_tools: [], //gs-ids; a tool is "new", if not listed here
             last_active_top: null
         },
         entry: {
