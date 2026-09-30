@@ -159,6 +159,8 @@ class PCParagraphTest extends COPageTestBase
             => 'xx <ExtLink Href="http://ilias.de">www</ExtLink> xxxx',
             'xx [xln url="http://ilias.php?x=1&y=2"]www[/xln] xxxx'
             => 'xx <ExtLink Href="http://ilias.php?x=1&y=2">www</ExtLink> xxxx',
+            'xx [xln url="https://bs.lehrplan.ch/index.php?code=a|10|0|1|0|1"]curriculum[/xln] xxxx'
+            => 'xx <ExtLink Href="https://bs.lehrplan.ch/index.php?code=a|10|0|1|0|1">curriculum</ExtLink> xxxx',
             'xx [xln url="http://ilias.de/my+document.pdf"]doc[/xln] xxxx'
             => 'xx <ExtLink Href="http://ilias.de/my+document.pdf">doc</ExtLink> xxxx',
             'xx [xln url="http://ilias.de/my(document.pdf"]doc[/xln] xxxx'
