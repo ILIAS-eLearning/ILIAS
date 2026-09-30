@@ -286,6 +286,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $cb = new ilCheckboxInputGUI($lng->txt("cont_link"), "link_cb");
 
         $ac = new ilLinkInputGUI($this->lng->txt('cont_target'), 'link');
+        $ac->setExternalLinkMaxLength(1000);
         if ($this->getPageConfig()->getEnableInternalLinks()) {
             $ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
         } else {
