@@ -1034,9 +1034,79 @@ class ilObjSAHSLearningModule extends ilObject
                 }
                 $sc_tree->removeTree($sc_tree->getTreeId());
             }
-        }
+        } elseif ($this->getSubType() === "scorm2004") {
+            $object_id = $ilDB->quote($this->getId(), 'integer');
+            $queries = array();
 
-        if ($this->getSubType() !== "scorm") {
+            $queries[] = "DELETE FROM cmi_gobjective WHERE scope_id = " . $object_id;
+            $queries[] = "DELETE FROM cmi_correct_response WHERE cmi_interaction_id IN (" .
+                "SELECT cmi_interaction_id FROM cmi_interaction WHERE cmi_node_id IN (" .
+                    "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+                ")" .
+            ")";
+            $queries[] = "DELETE FROM cmi_interaction WHERE cmi_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cmi_comment WHERE cmi_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cmi_objective WHERE cmi_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cmi_custom WHERE cmi_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cmi_node WHERE cmi_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+
+            $queries[] = "DELETE FROM cp_sequencing WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_rule WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_resource WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_package WHERE obj_id = " . $object_id;
+            $queries[] = "DELETE FROM cp_organization WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_objective WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_mapinfo WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_hidelmsui WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_file WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_condition WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_auxilaryresource WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_manifest WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_node WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_item WHERE cp_node_id IN (" .
+                "SELECT child FROM cp_tree WHERE obj_id = " . $object_id .
+            ")";
+            $queries[] = "DELETE FROM cp_tree WHERE obj_id = " . $object_id;
+
+            foreach ($queries as $query) {
+                $ilLog->debug("SAHS Delete(SAHSLM): " . $query);
+                $ilDB->manipulate($query);
+            }
+        } else {
             // delete aicc data
             $res = $ilDB->queryF(
                 '
@@ -1077,14 +1147,13 @@ class ilObjSAHSLearningModule extends ilObject
             }
 
             $ilDB->manipulateF(
-                '
-                DELETE FROM aicc_object WHERE slm_id = %s',
+                'DELETE FROM aicc_object WHERE slm_id = %s',
                 array('integer'),
                 array($this->getId())
             );
         }
 
-        $q_log = "DELETE FROM scorm_tracking WHERE obj_id = " . $ilDB->quote($this->getId());
+        $q_log = "DELETE FROM scorm_tracking WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
         $ilLog->write("SAHS Delete(SAHSLM): " . $q_log);
 
         $ilDB->manipulateF(
@@ -1093,7 +1162,7 @@ class ilObjSAHSLearningModule extends ilObject
             array($this->getId())
         );
 
-        $q_log = "DELETE FROM sahs_user WHERE obj_id = " . $ilDB->quote($this->getId());
+        $q_log = "DELETE FROM sahs_user WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
         $ilLog->write("SAHS Delete(SAHSLM): " . $q_log);
 
         $ilDB->manipulateF(
