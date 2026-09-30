@@ -1189,7 +1189,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilCtrl->setParameter($a_gui_class, "lang_switch_mode", "");
         }
 
-        return $ml_head;
+        return "<div class='ilClearFloat'>" . $ml_head . "</div>";
     }
 
     public function pages(): void
