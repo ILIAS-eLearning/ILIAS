@@ -51,10 +51,10 @@ class ForumThreadTableSessionStorage
         $this->refinery = $refinery ?? $DIC->refinery();
     }
 
-    public function fetchData(ilForum $forum, ForumDto $topicData): ThreadsPage
+    public function fetchData(ilForum $forum, ForumDto $topicData, int $page): ThreadsPage
     {
         $sortation = $this->getThreadSortation();
-        $page = $this->getThreadPage();
+        $page = max(0, $page);
         $limit = ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW;
 
         $params = [
@@ -71,7 +71,7 @@ class ForumThreadTableSessionStorage
             $page * $limit
         );
         if ($data['items'] === [] && $page > 0) {
-            ilSession::set($this->buildSessionKey($this->forum_ref_id, self::KEY_THREAD_PAGE), 0);
+            $page = 0;
             $data = $forum->getAllThreads(
                 $topicData->getTopPk(),
                 $params,
@@ -99,6 +99,8 @@ class ForumThreadTableSessionStorage
 
         ilForumAuthorInformationCache::preloadUserObjects(array_unique($user_ids));
 
+        $this->setSessionKeyValue($this->forum_ref_id, self::KEY_THREAD_PAGE, $page);
+
         return new ThreadsPage($items);
     }
 
@@ -125,7 +127,7 @@ class ForumThreadTableSessionStorage
 
     public function getThreadPage(): int
     {
-        $query_thread_page = $this->getKeyValueFromQuery(self::KEY_THREAD_PAGE, null);
+        $query_thread_page = $this->getKeyValueFromQuery(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW, null);
 
         if ($query_thread_page !== null) {
             $this->setSessionKeyValue($this->forum_ref_id, self::KEY_THREAD_PAGE, $query_thread_page);

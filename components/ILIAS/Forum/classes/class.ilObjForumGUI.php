@@ -715,7 +715,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $default_html = $this->renderer->render($vc_container);
             $modals = '';
         } else {
-            $threads_page = $this->forum_thread_table_session_storage->fetchData($frm, $frm_object);
+            $current_page = $this->forum_thread_table_session_storage->getThreadPage();
+            $last_page = max(
+                0,
+                (int) ceil($frm_object->getTopNumThreads() / ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW) - 1
+            );
+            if ($current_page > $last_page) {
+                $current_page = 0;
+            }
+            $threads_page = $this->forum_thread_table_session_storage->fetchData($frm, $frm_object, $current_page);
 
             $sticky_threads = [];
             $regular_threads = [];
@@ -762,16 +770,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
 
             $url = $this->http->request()->getRequestTarget();
-            $current_page = 0;
-            if ($this->http->wrapper()->query()->has(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)) {
-                $current_page = $this->http->wrapper()->query()->retrieve(
-                    ilForumProperties::PAGE_NAME_THREAD_OVERVIEW,
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
 
             $view_controls[] = $this->getSortationViewControl(
-                $this->forum_thread_table_session_storage->getThreadPage(),
+                $current_page,
                 $this->forum_thread_table_session_storage->getThreadSortation()
             );
             $view_controls[] = $this->factory
