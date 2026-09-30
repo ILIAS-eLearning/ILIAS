@@ -139,6 +139,8 @@ class ilSurveyParticipantsGUI
                         array(
                             )
                     );
+                    $this->tpl->setOnScreenMessage('info', $lng->txt("svy_info_participants"), true);
+
                     $rep_search->setTitle($lng->txt("svy_invite_participants"));
                     // Set tabs
                     $this->ctrl->setReturn($this, 'maintenance');

@@ -17067,6 +17067,7 @@ svy#:#svy_codes#:#Hozzáférési kódok
 svy#:#svy_current_page#:#Jelenlegi oldal
 svy#:#svy_finish_survey#:#‘%1’ kérdőívben részvétel
 svy#:#svy_finished_x_appraisees#:#%s értékelendő esetében már befejezet a kérdőívet.
+svy#:#svy_info_participants#:#Adjon hozzá felhasználókat a felmérés résztvevőiként az alábbi keresési lehetőségek egyikével. A felmérés feladatként jelenik meg ezeknek a felhasználóknak az irányítópultján.
 svy#:#svy_information#:#Információ
 svy#:#svy_invite_participants#:#Résztvevők feladatához hozzáadás
 svy#:#svy_link_to_svy#:#Kérdőívre mutató link
