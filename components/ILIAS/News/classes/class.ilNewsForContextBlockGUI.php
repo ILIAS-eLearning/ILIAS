@@ -928,7 +928,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $lng->txt("news_public_feed"),
                 "notifications_public_feed"
             );
-            $radio_rss->setInfo($lng->txt("news_public_feed_info"));
+            $is_forum = ilObject::_lookupType($std_request->getRefId(), true) === "frm";
+            $radio_rss->setInfo($lng->txt($is_forum
+                ? "news_public_feed_info_frm"
+                : "news_public_feed_info_container"));
             $radio_rss->setChecked((bool) $public_feed);
             $a_input->addSubItem($radio_rss);
         }
