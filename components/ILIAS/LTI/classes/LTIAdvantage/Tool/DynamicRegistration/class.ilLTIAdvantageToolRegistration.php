@@ -82,15 +82,10 @@ final class ilLTIAdvantageToolRegistration extends Tool
      */
     public static function getRegistrationUrl(int $platform_id): string
     {
-        $now = time();
-
         return ilObjLTITool::getIliasHttpPath() . '/ltitoolregistration.php?' . http_build_query([
-            self::TOKEN_PARAM => ilLTIAdvantageKeyPair::sign([
-                'purpose' => self::PURPOSE,
+            self::TOKEN_PARAM => ilLTIAdvantageKeyPair::signFor(self::PURPOSE, self::TOKEN_LIFETIME, [
                 'sub' => $platform_id,
                 'jti' => bin2hex(random_bytes(16)),
-                'iat' => $now,
-                'exp' => $now + self::TOKEN_LIFETIME,
             ]),
         ]);
     }
@@ -231,13 +226,12 @@ final class ilLTIAdvantageToolRegistration extends Tool
     private function acceptToken(string $token): bool
     {
         try {
-            $payload = $token !== '' ? ilLTIAdvantageKeyPair::verify($token) : null;
+            $payload = ilLTIAdvantageKeyPair::verifyFor(self::PURPOSE, $token);
         } catch (ilException) {
             $payload = null;
         }
         if (
             $payload === null
-            || ($payload['purpose'] ?? null) !== self::PURPOSE
             || !is_int($payload['sub'] ?? null)
             || !is_string($payload['jti'] ?? null)
         ) {

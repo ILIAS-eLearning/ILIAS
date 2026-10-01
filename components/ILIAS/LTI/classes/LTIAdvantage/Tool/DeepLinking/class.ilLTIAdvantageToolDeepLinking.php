@@ -89,8 +89,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
         }
 
         try {
-            $token = ilLTIAdvantageKeyPair::sign([
-                'purpose' => self::PURPOSE,
+            $token = ilLTIAdvantageKeyPair::signFor(self::PURPOSE, self::TOKEN_LIFETIME, [
                 'platform' => $receiver->platform->getRecordId(),
                 'iss' => $receiver->platform->platformId,
                 'client_id' => $receiver->platform->clientId,
@@ -98,7 +97,6 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
                 'return_url' => (string) ($parameters['content_item_return_url'] ?? ''),
                 'data' => $parameters['data'] ?? null,
                 'multiple' => $multiple,
-                'exp' => time() + self::TOKEN_LIFETIME,
             ]);
         } catch (ilException $e) {
             $DIC->logger()->forComponent('lti')->error($e->getMessage());
@@ -122,8 +120,8 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
         global $DIC;
 
         $log = $DIC->logger()->forComponent('lti');
-        $payload = ilLTIAdvantageKeyPair::verify($token);
-        if ($payload === null || ($payload['purpose'] ?? null) !== self::PURPOSE || !is_int($payload['platform'] ?? null)) {
+        $payload = ilLTIAdvantageKeyPair::verifyFor(self::PURPOSE, $token);
+        if (!is_int($payload['platform'] ?? null)) {
             $log->warning('LTI Deep Linking selection refused: the token is invalid or has expired.');
             $this->printError('lti_deep_linking_expired');
         }

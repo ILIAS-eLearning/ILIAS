@@ -69,15 +69,43 @@ class ilLTIAdvantageKeyPair
 
     /**
      * A token ILIAS hands out and later takes back itself, such as the registration token of a Dynamic
-     * Registration. The payload MUST name what the token is for, so that no other token ILIAS signs is taken
-     * for it.
+     * Registration. It names what it is for, so that no other token ILIAS signs is taken for it.
+     *
+     * @param array $claims
+     * @throws ilException when no key can be created
+     * @throws RandomException
+     */
+    public static function signFor(string $purpose, int $lifetime, array $claims): string
+    {
+        $now = time();
+
+        return Jwt::getJwtClient()::sign(
+            ['purpose' => $purpose, 'iat' => $now, 'exp' => $now + $lifetime] + $claims,
+            self::SIGNATURE_METHOD,
+            self::getPrivateKey(),
+            self::getKid()
+        );
+    }
+
+    /**
+     * The payload of a token signFor() signed for the purpose, null when it is invalid, expired or for another.
      *
      * @throws ilException when no key can be created
      * @throws RandomException
      */
-    public static function sign(array $payload): string
+    public static function verifyFor(string $purpose, string $token): ?array
     {
-        return Jwt::getJwtClient()::sign($payload, self::SIGNATURE_METHOD, self::getPrivateKey(), self::getKid());
+        $payload = $token !== '' ? self::verify($token) : null;
+
+        return ($payload['purpose'] ?? null) === $purpose ? $payload : null;
+    }
+
+    /**
+     * The token of an Authorization header of the Bearer scheme, empty when there is none.
+     */
+    public static function bearerToken(string $authorization): string
+    {
+        return preg_match('/^Bearer\s+(\S+)$/i', trim($authorization), $matches) === 1 ? $matches[1] : '';
     }
 
     /**

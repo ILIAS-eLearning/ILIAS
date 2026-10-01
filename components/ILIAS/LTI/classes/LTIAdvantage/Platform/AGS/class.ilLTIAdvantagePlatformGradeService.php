@@ -147,10 +147,11 @@ final class ilLTIAdvantagePlatformGradeService
      */
     private function authorize(string $authorization, array $scopes): ilLTITool
     {
-        if (preg_match('/^Bearer\s+(\S+)$/i', trim($authorization), $matches) !== 1) {
+        $token = ilLTIAdvantageKeyPair::bearerToken($authorization);
+        if ($token === '') {
             throw new DomainException('No access token', 401);
         }
-        $payload = ilLTIAdvantageKeyPair::verify($matches[1]);
+        $payload = ilLTIAdvantageKeyPair::verify($token);
         $granted = $payload['imsglobal.org.security.scope'] ?? null;
         $client_id = $payload['sub'] ?? null;
         if (!is_string($granted) || !is_string($client_id)) {

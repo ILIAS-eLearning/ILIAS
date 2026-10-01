@@ -94,13 +94,7 @@ final class ilLTIAdvantagePlatformRegistration
     {
         $client_id = Util::getRandomString(15);
         $now = time();
-        $token = ilLTIAdvantageKeyPair::sign([
-            'purpose' => self::PURPOSE,
-            'sub' => $user_id,
-            'aud' => $client_id,
-            'iat' => $now,
-            'exp' => $now + self::TOKEN_LIFETIME,
-        ]);
+        $token = ilLTIAdvantageKeyPair::signFor(self::PURPOSE, self::TOKEN_LIFETIME, ['sub' => $user_id, 'aud' => $client_id]);
 
         $registrations = self::getRegistrations();
         $registrations[$client_id] = ['custom_params' => $custom_params, 'created' => $now];
@@ -161,12 +155,9 @@ final class ilLTIAdvantagePlatformRegistration
      */
     public static function register(string $authorization, string $body): array
     {
-        $token = preg_match('/^Bearer\s+(\S+)$/i', trim($authorization), $matches) === 1
-            ? ilLTIAdvantageKeyPair::verify($matches[1])
-            : null;
+        $token = ilLTIAdvantageKeyPair::verifyFor(self::PURPOSE, ilLTIAdvantageKeyPair::bearerToken($authorization));
         if (
             $token === null
-            || ($token['purpose'] ?? null) !== self::PURPOSE
             || !is_string($token['aud'] ?? null)
             || !is_int($token['sub'] ?? null)
         ) {
