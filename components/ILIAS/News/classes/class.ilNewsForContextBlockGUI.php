@@ -59,6 +59,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     protected bool $prevent_initial_loading = false;
     protected NewsCollection $collection;
     protected ilLogger $logger;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public function __construct()
     {
@@ -71,6 +72,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
         $this->logger = $DIC->logger()->news();
+        $this->refinery = $DIC->refinery();
 
         $locator = $DIC->news()->internal();
         $this->std_request = $locator->gui()->standardRequest();
@@ -625,7 +627,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                         $tpl->setCurrentBlock("context");
                     }
                     $tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
-                    $tpl->setVariable("CONTEXT_TITLE", $obj_title);
+                    $tpl->setVariable(
+                        "CONTEXT_TITLE",
+                        $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($obj_title)
+                    );
                     $tpl->setVariable(
                         "IMG_CONTEXT_TITLE",
                         ilObject::_getIcon($item->getContextObjId(), "big", $item->getContextObjType())
