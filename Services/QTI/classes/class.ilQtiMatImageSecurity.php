@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -68,6 +68,10 @@ class ilQtiMatImageSecurity
 
     public function validate(): bool
     {
+        if (!$this->validateEncoding()) {
+            return false;
+        }
+
         if (!$this->validateLabel()) {
             return false;
         }
@@ -77,6 +81,16 @@ class ilQtiMatImageSecurity
         }
 
         return true;
+    }
+
+    /**
+     * Question importers always base64-decode the content before writing it,
+     * so only base64-embedded content is validated as it will be stored.
+     */
+    protected function validateEncoding(): bool
+    {
+        return $this->isMediaObjectLabel($this->getImageMaterial()->getLabel())
+            || $this->getImageMaterial()->getEmbedded() === ilQTIMatimage::EMBEDDED_BASE64;
     }
 
     protected function validateContent(): bool
@@ -111,17 +125,43 @@ class ilQtiMatImageSecurity
 
     protected function validateLabel(): bool
     {
-        if ($this->getImageMaterial()->getUri()) {
-            if (!$this->hasFileExtension($this->getImageMaterial()->getUri())) {
-                return true;
-            }
-
-            $extension = $this->determineFileExtension($this->getImageMaterial()->getUri());
-        } else {
-            $extension = $this->determineFileExtension($this->getImageMaterial()->getLabel());
+        $label = $this->getImageMaterial()->getLabel();
+        if ($this->isMediaObjectLabel($label)) {
+            return $this->validateMediaObjectUri();
         }
 
-        return $this->questionFilesService->isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
+        $extension = $this->determineFileExtension($label);
+
+        return $extension !== null
+            && $this->questionFilesService->isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
+    }
+
+    /**
+     * Media-object labels are not stored as question image files. The import
+     * copies the referenced file into the web directory, so the uri has to
+     * stay inside the import archive and carry an image extension that
+     * matches the detected content.
+     */
+    protected function validateMediaObjectUri(): bool
+    {
+        $uri = $this->getImageMaterial()->getUri();
+        if ($this->isUnsafeMediaObjectUri($uri)) {
+            return false;
+        }
+
+        $extension = $this->determineFileExtension(basename($uri));
+
+        return $extension !== null
+            && $this->questionFilesService->isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
+    }
+
+    protected function isUnsafeMediaObjectUri(string $uri): bool
+    {
+        if ($uri === '' || str_contains($uri, "\0") || str_contains($uri, '\\') || str_starts_with($uri, '/')) {
+            return true;
+        }
+
+        return in_array('..', explode('/', $uri), true);
     }
 
     public function sanitizeLabel(): void
@@ -153,10 +193,8 @@ class ilQtiMatImageSecurity
         return null;
     }
 
-    protected function hasFileExtension(string $label): bool
+    protected function isMediaObjectLabel(string $label): bool
     {
-        $pathInfo = pathinfo($label);
-
-        return array_key_exists('extension', $pathInfo);
+        return (bool) preg_match('/^il_[0-9]+_mob_[0-9]+\z/', $label);
     }
 }

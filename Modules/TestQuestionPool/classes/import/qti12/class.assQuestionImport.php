@@ -381,7 +381,7 @@ class assQuestionImport
             }
             if (strcmp($material["type"], "matimage") === 0) {
                 $matimage = $material["material"];
-                if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
+                if (preg_match('/^il_[0-9]+_mob_[0-9]+\z/', $matimage->getLabel()) === 1) {
                     // import an mediaobject which was inserted using tiny mce
                     //if (!is_array(ilSession::get("import_mob_xhtml"))) {
                     //    ilSession::set("import_mob_xhtml", array());
