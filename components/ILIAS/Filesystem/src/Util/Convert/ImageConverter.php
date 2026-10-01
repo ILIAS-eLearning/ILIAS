@@ -246,6 +246,22 @@ class ImageConverter
         }
         $this->stream->rewind();
         $this->image->readImageFile($this->stream->detach());
+
+        // animated images (e.g. GIF) consist of several frames, which may only contain the
+        // changes to the previous one. We use the first frame, composed onto its full canvas.
+        // Only this frame is coalesced, coalescing all frames would render each of them in full size.
+        if ($this->image->getNumberImages() > 1) {
+            $this->image->setFirstIterator();
+            $first_frame = $this->image->getImage();
+            // the area not covered by the first frame must become transparent, not the GIF background
+            $first_frame->setImageAlphaChannel(\Imagick::ALPHACHANNEL_SET);
+            $this->image = $first_frame->coalesceImages();
+        }
+        // removing the alpha channel and flattening use the background of the image itself (e.g.
+        // the one stored in a GIF), not the background of the wand which has been set before reading
+        if ($this->requested_background !== null) {
+            $this->image->setImageBackgroundColor(new \ImagickPixel($this->requested_background));
+        }
     }
 
 
