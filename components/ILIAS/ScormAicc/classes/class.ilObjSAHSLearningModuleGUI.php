@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
@@ -541,6 +541,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         // Cleanup
         ilFileUtils::delDir($lm_temp_dir, false);
         ilFileUtils::renameExecutables($new_obj->getDataDirectory());
+
+        $title = $new_obj->readObject();
+        if ($title !== "") {
+            ilObject::_writeTitle($new_obj->getId(), $title);
+        }
 
         //auto set learning progress settings
         $new_obj->setLearningProgressSettingsAtUpload();
