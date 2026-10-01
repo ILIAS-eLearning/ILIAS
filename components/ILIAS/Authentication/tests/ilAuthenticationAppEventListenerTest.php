@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Authentication\Domain\AuthenticatedUserSubjectId;
+use ILIAS\Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider;
 use ILIAS\DI\Container;
 use ILIAS\KeyValueStorage\Services;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -53,7 +53,7 @@ class ilAuthenticationAppEventListenerTest extends TestCase
         $storage = $this->createMock(Services::class);
         $storage->expects($this->once())
             ->method('purgeSubject')
-            ->with(AuthenticatedUserSubjectId::fromUserId(42));
+            ->with((new AuthenticatedUserSubjectProvider())->subjectFor(42));
         $this->dic()[Services::class] = static fn(): Services => $storage;
 
         ilAuthenticationAppEventListener::handleEvent($component, 'deleteUser', ['usr_id' => 42]);

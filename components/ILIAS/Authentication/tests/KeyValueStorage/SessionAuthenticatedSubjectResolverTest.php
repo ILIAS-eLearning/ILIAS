@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Authentication\KeyValueStorage;
 
 use ILIAS\Authentication\Domain\AuthenticatedUser;
+use ILIAS\Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider;
 use ILIAS\Authentication\KeyValueStorage\SessionAuthenticatedSubjectResolver;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
@@ -29,18 +30,20 @@ use PHPUnit\Framework\TestCase;
 
 class SessionAuthenticatedSubjectResolverTest extends TestCase
 {
-    public function testALoggedInUserBecomesSubjectUAndMayPersist(): void
+    public function testALoggedInUserBecomesTheSubjectOfItsIdAndMayPersist(): void
     {
-        $resolver = new SessionAuthenticatedSubjectResolver($this->user(new Ok(42)));
+        $resolver = new SessionAuthenticatedSubjectResolver($this->user(new Ok(42)), new AuthenticatedUserSubjectProvider());
 
-        self::assertSame('u42', $resolver->subject()->id()->storageSegment());
+        self::assertSame(AuthenticatedUserSubjectProvider::NAME, $resolver->subject()->id()->provider());
+        self::assertSame('42', $resolver->subject()->id()->id());
         self::assertTrue($resolver->supportsPersistentStorage());
     }
 
     public function testAnErrorBecomesAnonymousAndMayNotPersist(): void
     {
         $resolver = new SessionAuthenticatedSubjectResolver(
-            $this->user(new Error('No authenticated user in session.'))
+            $this->user(new Error('No authenticated user in session.')),
+            new AuthenticatedUserSubjectProvider()
         );
 
         self::assertTrue($resolver->subject()->isAnonymous());
@@ -49,7 +52,7 @@ class SessionAuthenticatedSubjectResolverTest extends TestCase
 
     public function testANonPositiveIdBecomesAnonymousAndMayNotPersist(): void
     {
-        $resolver = new SessionAuthenticatedSubjectResolver($this->user(new Ok(0)));
+        $resolver = new SessionAuthenticatedSubjectResolver($this->user(new Ok(0)), new AuthenticatedUserSubjectProvider());
 
         self::assertTrue($resolver->subject()->isAnonymous());
         self::assertFalse($resolver->supportsPersistentStorage());

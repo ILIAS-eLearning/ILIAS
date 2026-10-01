@@ -18,16 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Tests\Authentication\Domain;
+namespace ILIAS\Tests\Authentication\KeyValueStorage;
 
-use ILIAS\Authentication\Domain\AuthenticatedUserSubjectId;
+use ILIAS\Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider;
 use PHPUnit\Framework\TestCase;
 
-class AuthenticatedUserSubjectIdTest extends TestCase
+class AuthenticatedUserSubjectProviderTest extends TestCase
 {
-    public function testAPositiveUserIdBecomesTheUSegment(): void
+    public function testTheSubjectOfAUserIsItsIdWithinThisProvider(): void
     {
-        self::assertSame('u42', AuthenticatedUserSubjectId::fromUserId(42)->storageSegment());
+        $subject = (new AuthenticatedUserSubjectProvider())->subjectFor(42);
+
+        self::assertSame('authentication', $subject->provider());
+        self::assertSame('42', $subject->id());
+        self::assertSame(AuthenticatedUserSubjectProvider::class, $subject->providerClass());
     }
 
     public function testZeroIsRejected(): void
@@ -35,14 +39,14 @@ class AuthenticatedUserSubjectIdTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('User ID must be positive, got 0.');
 
-        AuthenticatedUserSubjectId::fromUserId(0);
+        (new AuthenticatedUserSubjectProvider())->subjectFor(0);
     }
 
-    public function testANegativeUserIdIsRejected(): void
+    public function testANegativeIdIsRejected(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('User ID must be positive, got -1.');
 
-        AuthenticatedUserSubjectId::fromUserId(-1);
+        (new AuthenticatedUserSubjectProvider())->subjectFor(-1);
     }
 }

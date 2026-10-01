@@ -43,7 +43,7 @@ interface Services
      * Storage that survives session boundaries until changed or cleared.
      *
      * This storage has no subject: it is shared by every user of the
-     * installation and only reads rows whose subject is empty. Per-subject
+     * installation and only reads rows whose provider and subject are empty. Per-subject
      * state belongs in {@see self::persistentFor()}. Encoding a subject into
      * the namespace or the key is not a supported substitute.
      *
@@ -58,7 +58,8 @@ interface Services
      * parameter of the storage, never part of the namespace or the key.
      *
      * @param list<string> $namespace namespace segments; joined with "." internally
-     * @throws \InvalidArgumentException if the resolver does not name a subject
+     * @throws \InvalidArgumentException if the resolver does not name a subject, or the
+     *                                   subject's provider is not contributed under its name
      */
     public function persistentFor(SubjectResolver $subjects, array $namespace): Store;
 
@@ -66,6 +67,8 @@ interface Services
      * Removes every subject-scoped entry for this subject, in every namespace.
      *
      * Global installation state from {@see self::persistent()} is not touched.
+     *
+     * @throws \InvalidArgumentException if the subject's provider is not contributed under its name
      */
     public function purgeSubject(SubjectId $subject): void;
 }

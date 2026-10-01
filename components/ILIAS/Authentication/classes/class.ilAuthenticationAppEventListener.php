@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Authentication\KeyValueStorage\AuthenticatedSubjectPurge;
+use ILIAS\Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider;
 use ILIAS\KeyValueStorage\Services;
 
 /**
@@ -65,6 +66,6 @@ class ilAuthenticationAppEventListener implements ilAppEventListener
         /** @var Services $storage */
         $storage = $DIC[Services::class];
 
-        return new AuthenticatedSubjectPurge($storage);
+        return new AuthenticatedSubjectPurge($storage, new AuthenticatedUserSubjectProvider());
     }
 }

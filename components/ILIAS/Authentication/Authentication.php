@@ -45,8 +45,14 @@ class Authentication implements Component\Component
 
         $implement[Authentication\Domain\AuthenticatedSubjectResolver::class] = static fn() =>
             new Authentication\KeyValueStorage\SessionAuthenticatedSubjectResolver(
-                $use[Authentication\Domain\AuthenticatedUser::class]
+                $use[Authentication\Domain\AuthenticatedUser::class],
+                $internal[Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider::class]
             );
+
+        $internal[Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider::class] = static fn() =>
+            new Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider();
+        $contribute[KeyValueStorage\Subject\SubjectProvider::class] = static fn() =>
+            $internal[Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider::class];
 
         $implement[KeyValueStorage\SessionRepository::class] = static fn() =>
             new Authentication\KeyValueStorage\SessionRepository();

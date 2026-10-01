@@ -22,7 +22,6 @@ namespace ILIAS\Authentication\KeyValueStorage;
 
 use ILIAS\Authentication\Domain\AuthenticatedSubjectResolver;
 use ILIAS\Authentication\Domain\AuthenticatedUser;
-use ILIAS\Authentication\Domain\AuthenticatedUserSubjectId;
 use ILIAS\KeyValueStorage\Subject\Subject;
 
 /**
@@ -30,8 +29,10 @@ use ILIAS\KeyValueStorage\Subject\Subject;
  */
 final readonly class SessionAuthenticatedSubjectResolver implements AuthenticatedSubjectResolver
 {
-    public function __construct(private AuthenticatedUser $authenticated_user)
-    {
+    public function __construct(
+        private AuthenticatedUser $authenticated_user,
+        private AuthenticatedUserSubjectProvider $provider
+    ) {
     }
 
     public function subject(): Subject
@@ -46,7 +47,7 @@ final readonly class SessionAuthenticatedSubjectResolver implements Authenticate
             return Subject::anonymous();
         }
 
-        return Subject::named(AuthenticatedUserSubjectId::fromUserId($id));
+        return Subject::named($this->provider->subjectFor($id));
     }
 
     public function supportsPersistentStorage(): bool

@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\KeyValueStorage\Subject;
 
 use ILIAS\KeyValueStorage\Subject\Subject;
-use ILIAS\KeyValueStorage\Subject\SubjectId;
+use ILIAS\Tests\KeyValueStorage\NamedSubjectProvider;
 use PHPUnit\Framework\TestCase;
 
 class SubjectTest extends TestCase
@@ -40,7 +40,7 @@ class SubjectTest extends TestCase
 
     public function testANamedSubjectReturnsTheIdItWasBuiltWith(): void
     {
-        $id = new SubjectId('u42');
+        $id = (new NamedSubjectProvider())->subject('42');
         $subject = Subject::named($id);
 
         self::assertFalse($subject->isAnonymous());

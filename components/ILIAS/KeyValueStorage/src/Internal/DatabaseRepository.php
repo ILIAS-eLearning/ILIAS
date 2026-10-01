@@ -22,21 +22,24 @@ namespace ILIAS\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Repository;
 use ILIAS\KeyValueStorage\Subject\SubjectId;
+use ILIAS\KeyValueStorage\Subject\SubjectProvider;
 use ILIAS\KeyValueStorage\SubjectRepository;
 
 /**
  * Persistent storage in the table owned by this component.
  *
- * Installation-wide rows and subject rows share kvs_store. The subject of an
- * installation-wide row is the empty string, which is not a valid subject
- * segment, so the two cannot collide.
+ * Installation-wide rows and subject rows share kvs_store. The provider and
+ * the subject of an installation-wide row are the empty string, which neither
+ * is valid for a subject, so the two cannot collide. Every subject row carries
+ * the provider that named the subject, so subjects of different providers can
+ * share an id without sharing rows.
  *
- * The primary key is (subject, namespace, keyword). Every query is an equality
- * on subject, optionally followed by equality on namespace and keyword. A
- * composite index is used only from the left, so subject has to be first:
- * purging one subject is WHERE subject = ? and would not use a key that
- * starts with namespace. There is no range predicate, so no further index
- * is needed.
+ * The primary key is (provider, subject, namespace, keyword). Every query is an
+ * equality on provider and subject, optionally followed by equality on
+ * namespace and keyword. A composite index is used only from the left, so
+ * provider and subject have to be first: purging one subject is
+ * WHERE provider = ? AND subject = ?. There is no range predicate, so no
+ * further index is needed.
  *
  * The connection is resolved per operation, never in the constructor: this
  * repository is built while the component bootstrap runs, where no database
@@ -50,6 +53,7 @@ final readonly class DatabaseRepository implements Repository, SubjectRepository
 
     public const int MAX_VALUE_LENGTH = 4000;
 
+    private const string GLOBAL_PROVIDER = '';
     private const string GLOBAL_SUBJECT = '';
 
     public function __construct(private \ilDBInterface $connection)
@@ -63,27 +67,27 @@ final readonly class DatabaseRepository implements Repository, SubjectRepository
 
     public function read(StorageNamespace $namespace, string $key): ?string
     {
-        return $this->readRow(self::GLOBAL_SUBJECT, $namespace, $key);
+        return $this->readRow(self::GLOBAL_PROVIDER, self::GLOBAL_SUBJECT, $namespace, $key);
     }
 
     public function readAll(StorageNamespace $namespace): array
     {
-        return $this->readRows(self::GLOBAL_SUBJECT, $namespace);
+        return $this->readRows(self::GLOBAL_PROVIDER, self::GLOBAL_SUBJECT, $namespace);
     }
 
     public function write(StorageNamespace $namespace, string $key, string $value): void
     {
-        $this->writeRow(self::GLOBAL_SUBJECT, $namespace, $key, $value);
+        $this->writeRow(self::GLOBAL_PROVIDER, self::GLOBAL_SUBJECT, $namespace, $key, $value);
     }
 
     public function remove(StorageNamespace $namespace, string $key): void
     {
-        $this->removeRow(self::GLOBAL_SUBJECT, $namespace, $key);
+        $this->removeRow(self::GLOBAL_PROVIDER, self::GLOBAL_SUBJECT, $namespace, $key);
     }
 
     public function removeAll(StorageNamespace $namespace): void
     {
-        $this->removeRows(self::GLOBAL_SUBJECT, $namespace);
+        $this->removeRows(self::GLOBAL_PROVIDER, self::GLOBAL_SUBJECT, $namespace);
     }
 
     public function hasFor(SubjectId $subject, StorageNamespace $namespace, string $key): bool
@@ -93,71 +97,66 @@ final readonly class DatabaseRepository implements Repository, SubjectRepository
 
     public function readFor(SubjectId $subject, StorageNamespace $namespace, string $key): ?string
     {
-        return $this->readRow($subject->storageSegment(), $namespace, $key);
+        return $this->readRow($subject->provider(), $subject->id(), $namespace, $key);
     }
 
     public function readAllFor(SubjectId $subject, StorageNamespace $namespace): array
     {
-        return $this->readRows($subject->storageSegment(), $namespace);
+        return $this->readRows($subject->provider(), $subject->id(), $namespace);
     }
 
     public function writeFor(SubjectId $subject, StorageNamespace $namespace, string $key, string $value): void
     {
-        $this->writeRow($subject->storageSegment(), $namespace, $key, $value);
+        $this->writeRow($subject->provider(), $subject->id(), $namespace, $key, $value);
     }
 
     public function removeFor(SubjectId $subject, StorageNamespace $namespace, string $key): void
     {
-        $this->removeRow($subject->storageSegment(), $namespace, $key);
+        $this->removeRow($subject->provider(), $subject->id(), $namespace, $key);
     }
 
     public function removeAllFor(SubjectId $subject, StorageNamespace $namespace): void
     {
-        $this->removeRows($subject->storageSegment(), $namespace);
+        $this->removeRows($subject->provider(), $subject->id(), $namespace);
     }
 
     public function removeSubject(SubjectId $subject): void
     {
         $this->connection->manipulateF(
-            'DELETE FROM ' . self::TABLE . ' WHERE subject = %s',
-            [\ilDBConstants::T_TEXT],
-            [$subject->storageSegment()]
+            'DELETE FROM ' . self::TABLE . ' WHERE provider = %s AND subject = %s',
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            [$subject->provider(), $subject->id()]
         );
     }
 
     public function removeSubjects(array $subjects): void
     {
-        if ($subjects === []) {
-            return;
-        }
-
-        $segments = [];
+        $ids_by_provider = [];
         foreach ($subjects as $subject) {
             if (!$subject instanceof SubjectId) {
                 throw new \InvalidArgumentException('Expected a subject id.');
             }
-            $segments[] = $subject->storageSegment();
+            $ids_by_provider[$subject->provider()][] = $subject->id();
         }
 
-        $this->connection->manipulate(
-            'DELETE FROM ' . self::TABLE . ' WHERE ' . $this->connection->in(
-                'subject',
-                $segments,
-                false,
-                \ilDBConstants::T_TEXT
-            )
-        );
+        foreach ($ids_by_provider as $provider => $ids) {
+            $this->connection->manipulate(
+                'DELETE FROM ' . self::TABLE
+                . ' WHERE provider = ' . $this->connection->quote($provider, \ilDBConstants::T_TEXT)
+                . ' AND ' . $this->connection->in('subject', $ids, false, \ilDBConstants::T_TEXT)
+            );
+        }
     }
 
-    private function readRow(string $subject, StorageNamespace $namespace, string $key): ?string
+    private function readRow(string $provider, string $subject, StorageNamespace $namespace, string $key): ?string
     {
         $db = $this->connection;
 
         $result = $db->queryF(
             'SELECT value FROM ' . self::TABLE
-            . ' WHERE subject = %s AND namespace = %s AND keyword = %s',
-            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-            [$subject, $namespace->value(), $key]
+            . ' WHERE provider = %s AND subject = %s AND namespace = %s AND keyword = %s',
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            [$provider, $subject, $namespace->value(), $key]
         );
 
         $row = $db->fetchAssoc($result);
@@ -168,14 +167,14 @@ final readonly class DatabaseRepository implements Repository, SubjectRepository
     /**
      * @return array<string, string>
      */
-    private function readRows(string $subject, StorageNamespace $namespace): array
+    private function readRows(string $provider, string $subject, StorageNamespace $namespace): array
     {
         $db = $this->connection;
 
         $result = $db->queryF(
-            'SELECT keyword, value FROM ' . self::TABLE . ' WHERE subject = %s AND namespace = %s',
-            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-            [$subject, $namespace->value()]
+            'SELECT keyword, value FROM ' . self::TABLE . ' WHERE provider = %s AND subject = %s AND namespace = %s',
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            [$provider, $subject, $namespace->value()]
         );
 
         $entries = [];
@@ -186,12 +185,17 @@ final readonly class DatabaseRepository implements Repository, SubjectRepository
         return $entries;
     }
 
-    private function writeRow(string $subject, StorageNamespace $namespace, string $key, string $value): void
+    private function writeRow(string $provider, string $subject, StorageNamespace $namespace, string $key, string $value): void
     {
+        $this->assertFits(
+            $provider,
+            SubjectProvider::MAX_NAME_LENGTH,
+            'Subject provider name must not exceed '
+        );
         $this->assertFits(
             $subject,
             SubjectId::MAX_LENGTH,
-            'Subject segment must not exceed '
+            'Subject id must not exceed '
         );
         $this->assertFits(
             $namespace->value(),
@@ -212,6 +216,7 @@ final readonly class DatabaseRepository implements Repository, SubjectRepository
         $this->connection->replace(
             self::TABLE,
             [
+                'provider' => [\ilDBConstants::T_TEXT, $provider],
                 'subject' => [\ilDBConstants::T_TEXT, $subject],
                 'namespace' => [\ilDBConstants::T_TEXT, $namespace->value()],
                 'keyword' => [\ilDBConstants::T_TEXT, $key],
@@ -234,21 +239,22 @@ final readonly class DatabaseRepository implements Repository, SubjectRepository
         }
     }
 
-    private function removeRow(string $subject, StorageNamespace $namespace, string $key): void
+    private function removeRow(string $provider, string $subject, StorageNamespace $namespace, string $key): void
     {
         $this->connection->manipulateF(
-            'DELETE FROM ' . self::TABLE . ' WHERE subject = %s AND namespace = %s AND keyword = %s',
-            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-            [$subject, $namespace->value(), $key]
+            'DELETE FROM ' . self::TABLE
+            . ' WHERE provider = %s AND subject = %s AND namespace = %s AND keyword = %s',
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            [$provider, $subject, $namespace->value(), $key]
         );
     }
 
-    private function removeRows(string $subject, StorageNamespace $namespace): void
+    private function removeRows(string $provider, string $subject, StorageNamespace $namespace): void
     {
         $this->connection->manipulateF(
-            'DELETE FROM ' . self::TABLE . ' WHERE subject = %s AND namespace = %s',
-            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-            [$subject, $namespace->value()]
+            'DELETE FROM ' . self::TABLE . ' WHERE provider = %s AND subject = %s AND namespace = %s',
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            [$provider, $subject, $namespace->value()]
         );
     }
 }

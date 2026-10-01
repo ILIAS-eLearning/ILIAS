@@ -26,7 +26,7 @@ use ILIAS\KeyValueStorage\SubjectRepository;
 
 class InMemorySubjectRepository implements SubjectRepository
 {
-    /** @var array<string, array<string, array<string, string>>> */
+    /** @var array<string, array<string, array<string, string>>> keyed by "provider:id" */
     public array $entries = [];
 
     public int $remove_subject_calls = 0;
@@ -35,38 +35,38 @@ class InMemorySubjectRepository implements SubjectRepository
 
     public function hasFor(SubjectId $subject, StorageNamespace $namespace, string $key): bool
     {
-        return isset($this->entries[$subject->storageSegment()][$namespace->value()][$key]);
+        return isset($this->entries[$this->keyOf($subject)][$namespace->value()][$key]);
     }
 
     public function readFor(SubjectId $subject, StorageNamespace $namespace, string $key): ?string
     {
-        return $this->entries[$subject->storageSegment()][$namespace->value()][$key] ?? null;
+        return $this->entries[$this->keyOf($subject)][$namespace->value()][$key] ?? null;
     }
 
     public function readAllFor(SubjectId $subject, StorageNamespace $namespace): array
     {
-        return $this->entries[$subject->storageSegment()][$namespace->value()] ?? [];
+        return $this->entries[$this->keyOf($subject)][$namespace->value()] ?? [];
     }
 
     public function writeFor(SubjectId $subject, StorageNamespace $namespace, string $key, string $value): void
     {
-        $this->entries[$subject->storageSegment()][$namespace->value()][$key] = $value;
+        $this->entries[$this->keyOf($subject)][$namespace->value()][$key] = $value;
     }
 
     public function removeFor(SubjectId $subject, StorageNamespace $namespace, string $key): void
     {
-        unset($this->entries[$subject->storageSegment()][$namespace->value()][$key]);
+        unset($this->entries[$this->keyOf($subject)][$namespace->value()][$key]);
     }
 
     public function removeAllFor(SubjectId $subject, StorageNamespace $namespace): void
     {
-        unset($this->entries[$subject->storageSegment()][$namespace->value()]);
+        unset($this->entries[$this->keyOf($subject)][$namespace->value()]);
     }
 
     public function removeSubject(SubjectId $subject): void
     {
         $this->remove_subject_calls++;
-        unset($this->entries[$subject->storageSegment()]);
+        unset($this->entries[$this->keyOf($subject)]);
     }
 
     public function removeSubjects(array $subjects): void
@@ -82,5 +82,10 @@ class InMemorySubjectRepository implements SubjectRepository
             }
             $this->removeSubject($subject);
         }
+    }
+
+    private function keyOf(SubjectId $subject): string
+    {
+        return $subject->provider() . ':' . $subject->id();
     }
 }

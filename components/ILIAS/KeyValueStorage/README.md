@@ -63,11 +63,41 @@ up; do not use it as a prelude to N times `get()` if you already know the keys.
 | Subject | until changed, cleared, or the subject is purged | `Services::persistentFor()` |
 
 `persistent()` has **no subject**: one value per namespace and key for the whole
-installation. Those rows live in `kvs_store` with an empty `subject`.
+installation. Those rows live in `kvs_store` with an empty `provider` and `subject`.
 `persistentFor()` takes a `SubjectResolver` and stores that subject's values in
-the same table, distinguished by the `subject` column. The subject is a
-parameter, never part of the namespace or the key. An anonymous subject cannot
+the same table, distinguished by the `provider` and `subject` columns. The subject
+is a parameter, never part of the namespace or the key. An anonymous subject cannot
 be persisted; keep that state in the session scope.
+
+### Subject providers
+
+A subject is named by the component it belongs to, its provider. KeyValueStorage
+assigns no meaning to subjects, but stores the provider with every value, so the
+subjects of two providers never share rows, even with the same id, and purging a
+subject of one provider never reaches the data of another.
+
+A provider implements `Subject\SubjectProvider` with a unique `name()` and a
+constructor without required arguments, and is contributed in its component:
+
+```php
+$contribute[\ILIAS\KeyValueStorage\Subject\SubjectProvider::class] = static fn() =>
+    $internal[MyComponent\MySubjectProvider::class];
+```
+
+Its subject ids are built with `new SubjectId($provider, $id)`. The name starts
+with a lowercase letter and holds only lowercase letters, digits and `_`, at most 64
+characters; a subject id holds only lowercase letters, digits and `_`, at most 128
+characters. `persistentFor()` and `purgeSubject()` reject a subject whose provider is
+not contributed, or that was built by another class using the same name. That guards
+against misconfiguration and name collisions, not against access: any component can
+create a provider and name its subjects.
+
+Two providers with the same name fail the build (`composer dump-autoload` or
+`php cli/setup.php build`). The build finds every provider class in the class map,
+except those in `tests/` directories, and creates it without arguments, which is why
+a provider must not require any, and why `name()` must not depend on constructor
+arguments. Only the build checks this; at runtime the contributed providers are
+taken as they are.
 
 ```php
 $mine = $storage->persistentFor($authenticated_user, ['my_component', 'view_state']);
@@ -75,8 +105,9 @@ $mine->set('sort_column', 'title');
 ```
 
 `$authenticated_user` is `ILIAS\Authentication\Domain\AuthenticatedSubjectResolver`.
-It reads `AuthenticatedUser::id()` and names the subject `u` plus the user id.
-Authentication calls `Services::purgeSubject()` for that subject when the account is deleted. Encoding a user
+It reads `AuthenticatedUser::id()` and names the user as subject of the provider
+`authentication`, with the user id as subject id. Authentication calls
+`Services::purgeSubject()` for that subject when the account is deleted. Encoding a user
 id into the namespace or the key is not a supported substitute: those rows cannot
 be found on deletion.
 
@@ -186,6 +217,7 @@ the values.
 | `$implement` | `Services` |
 | `$pull` | `ILIAS\Database\Connection`, `ILIAS\Refinery\Factory` |
 | `$contribute` | `ILIAS\Setup\Agent` |
+| `$seek` | `Subject\SubjectProvider` |
 
 ```mermaid
 flowchart TB
@@ -214,6 +246,7 @@ components/ILIAS/KeyValueStorage/
 │   ├── Subject/
 │   │   ├── Subject.php
 │   │   ├── SubjectId.php
+│   │   ├── SubjectProvider.php    contributed by the components naming subjects
 │   │   └── SubjectResolver.php
 │   ├── Exception/
 │   │   └── InvalidStoredValueException.php
@@ -223,11 +256,13 @@ components/ILIAS/KeyValueStorage/
 │   │   ├── StorageNamespace.php
 │   │   ├── DatabaseRepository.php
 │   │   ├── BoundSubjectRepository.php
+│   │   ├── SubjectProviders.php
 │   │   ├── KeyRules.php
 │   │   └── Values.php
 │   └── Setup/
 │       ├── Agent.php
-│       └── DBUpdateSteps.php
+│       ├── DBUpdateSteps.php
+│       └── SubjectProviderNamesUniqueObjective.php
 └── tests/
 ```
 
@@ -236,19 +271,20 @@ notice.
 
 ### The table
 
-`kvs_store`, primary key `(subject, namespace, keyword)`, `value` as `TEXT` of
-4000 characters. Global rows use the empty string as `subject`, which is not a
-valid subject segment. Every query is an equality on `subject` first, then
-optionally on `namespace` and `keyword`, so the key order matches the leftmost
-prefix those statements can use. Purging a subject is `DELETE WHERE subject = ?`.
-A global namespace scan is `WHERE subject = '' AND namespace = ?` and does not
-read another subject's rows.
+`kvs_store`, primary key `(provider, subject, namespace, keyword)`, `value` as
+`TEXT` of 4000 characters. Global rows use the empty string as `provider` and
+`subject`, neither of which is valid for a subject. Every query is an equality on
+`provider` and `subject` first, then optionally on `namespace` and `keyword`, so the
+key order matches the leftmost prefix those statements can use. Purging a subject
+is `DELETE WHERE provider = ? AND subject = ?`. A global namespace scan is
+`WHERE provider = '' AND subject = '' AND namespace = ?` and does not read any
+subject's rows.
 
-`subject` and `namespace` are 128 characters, `keyword` is 255. Under utf8mb4
-that primary key is (128 + 128 + 255) × 4 = 2044 bytes. InnoDB with the DYNAMIC
-row format ILIAS requires allows 3072 bytes, so the key fits. `value` is not
-part of the key. A subject, namespace, key or serialized value longer than its
-column is rejected before any statement is sent.
+`provider` is 64 characters, `subject` and `namespace` 128, `keyword` 255. Under
+utf8mb4 that primary key is (64 + 128 + 128 + 255) × 4 = 2300 bytes. InnoDB with the
+DYNAMIC row format ILIAS requires allows 3072 bytes, so the key fits. `value` is not
+part of the key. A provider name, subject, namespace, key or serialized value longer
+than its column is rejected before any statement is sent.
 
 The column lengths in the update steps are literals: a step describes a change
 that already happened and must not move when a validation limit moves.
@@ -262,6 +298,9 @@ that already happened and must not move when a validation limit moves.
 | Value cannot be stored, or exceeds 4000 characters | `\InvalidArgumentException` |
 | Stored value cannot be read back, by `get()`, `getMany()`, `keys()` or `has()` | `InvalidStoredValueException` |
 | `persistentFor()` without a named subject | `\InvalidArgumentException` |
+| Invalid subject id or provider name | `\InvalidArgumentException` |
+| Subject of a provider that is not contributed, or built by another class with that name | `\InvalidArgumentException` |
+| Two providers with the same name, or a provider requiring constructor arguments, at build time | `ILIAS\Setup\UnachievableException` |
 
 ## Tests
 

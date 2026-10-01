@@ -20,12 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\KeyValueStorage;
 
-use ILIAS\Database\Connection;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Database\Connection;
 use ILIAS\KeyValueStorage\Internal\DatabaseRepository;
 use ILIAS\KeyValueStorage\Internal\StorageServices;
+use ILIAS\KeyValueStorage\Internal\SubjectProviders;
 use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\SessionRepository;
+use ILIAS\KeyValueStorage\Subject\SubjectProvider;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Agent;
 use PHPUnit\Framework\TestCase;
@@ -60,13 +62,16 @@ class KeyValueStorageTest extends TestCase
             Refinery::class => new Refinery(new DataFactory(), $language),
         ]);
         $unused = new LazyContainer();
+        $seek = new LazyContainer([
+            SubjectProvider::class => [new NamedSubjectProvider()],
+        ]);
 
         (new \ILIAS\KeyValueStorage())->init(
             $this->define,
             $this->implement,
             $use,
             $this->contribute,
-            $unused,
+            $seek,
             $unused,
             $pull,
             $this->internal
@@ -99,6 +104,11 @@ class KeyValueStorageTest extends TestCase
             'ILIAS\KeyValueStorage\Internal\SubjectDatabaseRepository',
             $this->internal
         );
+    }
+
+    public function testTheContributedSubjectProvidersAreCollected(): void
+    {
+        $this->assertInstanceOf(SubjectProviders::class, $this->internal[SubjectProviders::class]);
     }
 
     public function testTheSetupAgentIsContributed(): void

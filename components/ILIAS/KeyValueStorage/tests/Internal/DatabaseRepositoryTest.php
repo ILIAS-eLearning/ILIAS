@@ -24,6 +24,7 @@ use ILIAS\KeyValueStorage\Internal\DatabaseRepository;
 use ILIAS\KeyValueStorage\Internal\KeyRules;
 use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 use ILIAS\KeyValueStorage\Subject\SubjectId;
+use ILIAS\Tests\KeyValueStorage\NamedSubjectProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -57,10 +58,10 @@ class DatabaseRepositoryTest extends TestCase
             ->with(
                 $this->logicalAnd(
                     $this->stringContains('SELECT value FROM ' . DatabaseRepository::TABLE),
-                    $this->stringContains('WHERE subject = %s AND namespace = %s AND keyword = %s')
+                    $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s AND keyword = %s')
                 ),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['', 'my_component.view_state', 'sort']
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', '', 'my_component.view_state', 'sort']
             )
             ->willReturn($statement);
         $this->db->expects($this->once())
@@ -98,6 +99,7 @@ class DatabaseRepositoryTest extends TestCase
             ->with(
                 DatabaseRepository::TABLE,
                 [
+                    'provider' => [\ilDBConstants::T_TEXT, ''],
                     'subject' => [\ilDBConstants::T_TEXT, ''],
                     'namespace' => [\ilDBConstants::T_TEXT, 'my_component.view_state'],
                     'keyword' => [\ilDBConstants::T_TEXT, 'sort'],
@@ -115,9 +117,9 @@ class DatabaseRepositoryTest extends TestCase
         $this->db->expects($this->once())
             ->method('manipulateF')
             ->with(
-                $this->stringContains('WHERE subject = %s AND namespace = %s AND keyword = %s'),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['', 'my_component.view_state', 'sort']
+                $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s AND keyword = %s'),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', '', 'my_component.view_state', 'sort']
             );
 
         $this->repository->remove($this->namespace, 'sort');
@@ -129,11 +131,11 @@ class DatabaseRepositoryTest extends TestCase
             ->method('manipulateF')
             ->with(
                 $this->logicalAnd(
-                    $this->stringContains('WHERE subject = %s AND namespace = %s'),
+                    $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s'),
                     $this->logicalNot($this->stringContains('keyword'))
                 ),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['', 'my_component.view_state']
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', '', 'my_component.view_state']
             );
 
         $this->repository->removeAll($this->namespace);
@@ -147,11 +149,11 @@ class DatabaseRepositoryTest extends TestCase
             ->with(
                 $this->logicalAnd(
                     $this->stringContains('SELECT keyword, value FROM ' . DatabaseRepository::TABLE),
-                    $this->stringContains('WHERE subject = %s AND namespace = %s'),
+                    $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s'),
                     $this->logicalNot($this->stringContains('keyword ='))
                 ),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['', 'my_component.view_state']
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', '', 'my_component.view_state']
             )
             ->willReturn($statement);
         $this->db->expects($this->exactly(3))
@@ -174,9 +176,9 @@ class DatabaseRepositoryTest extends TestCase
         $this->db->expects($this->once())
             ->method('queryF')
             ->with(
-                $this->stringContains('WHERE subject = %s AND namespace = %s'),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['', 'my_component.view_state']
+                $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s'),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['', '', 'my_component.view_state']
             )
             ->willReturn($this->createStub(\ilDBStatement::class));
         $this->db->expects($this->once())->method('fetchAssoc')->willReturn(null);
@@ -184,23 +186,87 @@ class DatabaseRepositoryTest extends TestCase
         $this->assertSame([], $this->repository->readAll($this->namespace));
     }
 
-    public function testASubjectRowIsAddressedByItsSegmentInTheSameTable(): void
+    public function testASubjectRowIsAddressedByItsProviderAndIdInTheSameTable(): void
     {
         $statement = $this->createStub(\ilDBStatement::class);
         $this->db->expects($this->once())
             ->method('queryF')
             ->with(
                 $this->stringContains('FROM ' . DatabaseRepository::TABLE),
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['u42', 'my_component.view_state', 'sort']
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['test', '42', 'my_component.view_state', 'sort']
             )
             ->willReturn($statement);
         $this->db->expects($this->once())->method('fetchAssoc')->with($statement)->willReturn(['value' => '"mine"']);
 
         $this->assertSame(
             '"mine"',
-            $this->repository->readFor(new SubjectId('u42'), $this->namespace, 'sort')
+            $this->repository->readFor((new NamedSubjectProvider())->subject('42'), $this->namespace, 'sort')
         );
+    }
+
+    public function testASubjectRowIsWrittenWithItsProviderAndId(): void
+    {
+        $this->db->expects($this->once())
+            ->method('replace')
+            ->with(
+                DatabaseRepository::TABLE,
+                [
+                    'provider' => [\ilDBConstants::T_TEXT, 'test'],
+                    'subject' => [\ilDBConstants::T_TEXT, '42'],
+                    'namespace' => [\ilDBConstants::T_TEXT, 'my_component.view_state'],
+                    'keyword' => [\ilDBConstants::T_TEXT, 'sort'],
+                ],
+                [
+                    'value' => [\ilDBConstants::T_TEXT, '"mine"'],
+                ]
+            );
+
+        $this->repository->writeFor((new NamedSubjectProvider())->subject('42'), $this->namespace, 'sort', '"mine"');
+    }
+
+    public function testAllRowsOfASubjectNamespaceAreReadByProviderAndId(): void
+    {
+        $this->db->expects($this->once())
+            ->method('queryF')
+            ->with(
+                $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s'),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['test', '42', 'my_component.view_state']
+            )
+            ->willReturn($this->createStub(\ilDBStatement::class));
+        $this->db->expects($this->once())->method('fetchAssoc')->willReturn(null);
+
+        $this->assertSame([], $this->repository->readAllFor((new NamedSubjectProvider())->subject('42'), $this->namespace));
+    }
+
+    public function testASubjectRowIsRemovedByProviderAndId(): void
+    {
+        $this->db->expects($this->once())
+            ->method('manipulateF')
+            ->with(
+                $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s AND keyword = %s'),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['test', '42', 'my_component.view_state', 'sort']
+            );
+
+        $this->repository->removeFor((new NamedSubjectProvider())->subject('42'), $this->namespace, 'sort');
+    }
+
+    public function testASubjectNamespaceIsRemovedByProviderAndId(): void
+    {
+        $this->db->expects($this->once())
+            ->method('manipulateF')
+            ->with(
+                $this->logicalAnd(
+                    $this->stringContains('WHERE provider = %s AND subject = %s AND namespace = %s'),
+                    $this->logicalNot($this->stringContains('keyword'))
+                ),
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['test', '42', 'my_component.view_state']
+            );
+
+        $this->repository->removeAllFor((new NamedSubjectProvider())->subject('42'), $this->namespace);
     }
 
     public function testWriteRejectsAValueLongerThanTheColumn(): void
@@ -257,24 +323,24 @@ class DatabaseRepositoryTest extends TestCase
                 ['value' => [\ilDBConstants::T_TEXT, $value]]
             );
 
-        $this->repository->writeFor(new SubjectId('u42'), $this->namespace, 'sort', $value);
+        $this->repository->writeFor((new NamedSubjectProvider())->subject('42'), $this->namespace, 'sort', $value);
     }
 
-    public function testRemoveSubjectDeletesOnlyThatSubject(): void
+    public function testRemoveSubjectDeletesOnlyThatSubjectOfThatProvider(): void
     {
         $this->db->expects($this->once())
             ->method('manipulateF')
             ->with(
                 $this->logicalAnd(
                     $this->stringContains('DELETE FROM ' . DatabaseRepository::TABLE),
-                    $this->stringContains('WHERE subject = %s'),
+                    $this->stringContains('WHERE provider = %s AND subject = %s'),
                     $this->logicalNot($this->stringContains('namespace'))
                 ),
-                [\ilDBConstants::T_TEXT],
-                ['u42']
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['test', '42']
             );
 
-        $this->repository->removeSubject(new SubjectId('u42'));
+        $this->repository->removeSubject((new NamedSubjectProvider())->subject('42'));
     }
 
     public function testRemoveSubjectsWithAnEmptyListDoesNotTouchTheConnection(): void
@@ -284,20 +350,45 @@ class DatabaseRepositoryTest extends TestCase
         $this->repository->removeSubjects([]);
     }
 
-    public function testRemoveSubjectsDeletesTheGivenSegmentsInOneStatement(): void
+    public function testRemoveSubjectsDeletesTheSubjectsOfOneProviderInOneStatement(): void
     {
+        $this->db->method('quote')->willReturnCallback(fn(string $value): string => "'" . $value . "'");
         $this->db->expects($this->once())
             ->method('in')
-            ->with('subject', ['u42', 'u7'], false, \ilDBConstants::T_TEXT)
-            ->willReturn("subject IN ('u42','u7')");
+            ->with('subject', ['42', '7'], false, \ilDBConstants::T_TEXT)
+            ->willReturn("subject IN ('42','7')");
         $this->db->expects($this->once())
             ->method('manipulate')
             ->with(
-                'DELETE FROM ' . DatabaseRepository::TABLE . " WHERE subject IN ('u42','u7')"
+                'DELETE FROM ' . DatabaseRepository::TABLE . " WHERE provider = 'test' AND subject IN ('42','7')"
             );
         $this->db->expects($this->never())->method('manipulateF');
 
-        $this->repository->removeSubjects([new SubjectId('u42'), new SubjectId('u7')]);
+        $provider = new NamedSubjectProvider();
+        $this->repository->removeSubjects([$provider->subject('42'), $provider->subject('7')]);
+    }
+
+    public function testRemoveSubjectsDeletesPerProvider(): void
+    {
+        $this->db->method('quote')->willReturnCallback(fn(string $value): string => "'" . $value . "'");
+        $this->db->method('in')->willReturnCallback(
+            fn(string $field, array $values): string => $field . " IN ('" . implode("','", $values) . "')"
+        );
+        $statements = [];
+        $this->db->expects($this->exactly(2))->method('manipulate')->willReturnCallback(function (string $query) use (&$statements): int {
+            $statements[] = $query;
+            return 1;
+        });
+
+        $this->repository->removeSubjects([
+            (new NamedSubjectProvider('test'))->subject('42'),
+            (new NamedSubjectProvider('other'))->subject('42'),
+        ]);
+
+        $this->assertSame([
+            'DELETE FROM ' . DatabaseRepository::TABLE . " WHERE provider = 'test' AND subject IN ('42')",
+            'DELETE FROM ' . DatabaseRepository::TABLE . " WHERE provider = 'other' AND subject IN ('42')",
+        ], $statements);
     }
 
     public function testRemoveSubjectsRejectsAValueThatIsNotASubjectId(): void
@@ -307,6 +398,6 @@ class DatabaseRepositoryTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected a subject id.');
 
-        $this->repository->removeSubjects([new SubjectId('u42'), 'u7']);
+        $this->repository->removeSubjects([(new NamedSubjectProvider())->subject('42'), '7']);
     }
 }

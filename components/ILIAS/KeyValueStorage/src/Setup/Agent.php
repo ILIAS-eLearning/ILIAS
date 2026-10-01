@@ -29,6 +29,11 @@ final class Agent extends Setup\Agent\NullAgent implements Setup\NamedAgent
         return 'key_value_storage';
     }
 
+    public function getBuildObjective(): Setup\Objective
+    {
+        return new SubjectProviderNamesUniqueObjective();
+    }
+
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new DBUpdateSteps());

@@ -21,37 +21,68 @@ declare(strict_types=1);
 namespace ILIAS\KeyValueStorage\Subject;
 
 /**
- * Opaque storage identity segment supplied by the consumer.
+ * Identifies a subject within the provider that names it.
  *
- * KeyValueStorage validates the segment format only. It does not assign
- * meaning (user, role, object, …) to particular prefixes.
+ * KeyValueStorage validates the format only. It does not assign meaning to the
+ * id; that is up to the provider.
  */
 final readonly class SubjectId
 {
     public const int MAX_LENGTH = 128;
 
-    public function __construct(private string $segment)
+    private string $provider;
+    private string $provider_class;
+
+    public function __construct(SubjectProvider $provider, private string $id)
     {
-        if ($segment === '') {
-            throw new \InvalidArgumentException('Subject segment must not be empty.');
-        }
+        $this->provider = $provider->name();
+        $this->provider_class = $provider::class;
 
-        $length = \mb_strlen($segment, 'UTF-8');
-        if ($length > self::MAX_LENGTH) {
-            throw new \InvalidArgumentException(
-                'Subject segment must not exceed ' . self::MAX_LENGTH . ' characters, got ' . $length . '.'
-            );
-        }
-
-        if (!\preg_match('/^[a-z][a-z0-9_]*$/', $segment)) {
-            throw new \InvalidArgumentException(
-                'Subject segment must be a lowercase identifier, got "' . $segment . '".'
-            );
-        }
+        $this->assertIdentifier(
+            $this->provider,
+            SubjectProvider::MAX_NAME_LENGTH,
+            '/^[a-z][a-z0-9_]*$/',
+            'Subject provider name'
+        );
+        $this->assertIdentifier($id, self::MAX_LENGTH, '/^[a-z0-9_]+$/', 'Subject id');
     }
 
-    public function storageSegment(): string
+    public function provider(): string
     {
-        return $this->segment;
+        return $this->provider;
+    }
+
+    public function id(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @internal KeyValueStorage checks it against the contributed provider of that name.
+     * @return class-string<SubjectProvider>
+     */
+    public function providerClass(): string
+    {
+        return $this->provider_class;
+    }
+
+    private function assertIdentifier(string $value, int $max_length, string $pattern, string $what): void
+    {
+        if ($value === '') {
+            throw new \InvalidArgumentException($what . ' must not be empty.');
+        }
+
+        $length = \mb_strlen($value, 'UTF-8');
+        if ($length > $max_length) {
+            throw new \InvalidArgumentException(
+                $what . ' must not exceed ' . $max_length . ' characters, got ' . $length . '.'
+            );
+        }
+
+        if (!\preg_match($pattern, $value)) {
+            throw new \InvalidArgumentException(
+                $what . ' must be a lowercase identifier, got "' . $value . '".'
+            );
+        }
     }
 }

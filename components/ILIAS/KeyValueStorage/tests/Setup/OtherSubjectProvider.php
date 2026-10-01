@@ -18,27 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Authentication\KeyValueStorage;
+namespace ILIAS\Tests\KeyValueStorage\Setup;
 
-use ILIAS\KeyValueStorage\Services;
+use ILIAS\KeyValueStorage\Subject\SubjectProvider;
 
-/**
- * Purges the KeyValueStorage data of a user, see {@see AuthenticatedUserSubjectProvider}.
- */
-final readonly class AuthenticatedSubjectPurge
+final readonly class OtherSubjectProvider implements SubjectProvider
 {
-    public function __construct(
-        private Services $storage,
-        private AuthenticatedUserSubjectProvider $provider
-    ) {
-    }
-
-    public function purgeForUserId(int $user_id): void
+    public function name(): string
     {
-        if ($user_id <= 0) {
-            return;
-        }
-
-        $this->storage->purgeSubject($this->provider->subjectFor($user_id));
+        return 'other';
     }
 }

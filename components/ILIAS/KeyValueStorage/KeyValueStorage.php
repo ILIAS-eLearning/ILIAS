@@ -48,12 +48,19 @@ class KeyValueStorage implements Component
                 $use[KeyValueStorage\SessionRepository::class],
                 $internal[KeyValueStorage\Internal\DatabaseRepository::class],
                 $internal[KeyValueStorage\Internal\DatabaseRepository::class],
+                $internal[KeyValueStorage\Internal\SubjectProviders::class],
                 $pull[Refinery::class]
             );
 
         $contribute[Agent::class] = static fn(): Agent =>
             new KeyValueStorage\Setup\Agent(
                 $pull[Refinery::class]
+            );
+
+        // components naming subjects contribute themselves as provider, see Subject\SubjectProvider
+        $internal[KeyValueStorage\Internal\SubjectProviders::class] = static fn() =>
+            new KeyValueStorage\Internal\SubjectProviders(
+                $seek[KeyValueStorage\Subject\SubjectProvider::class]
             );
 
         $internal[KeyValueStorage\Internal\DatabaseRepository::class] = static fn() =>

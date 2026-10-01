@@ -22,6 +22,7 @@ namespace ILIAS\Tests\KeyValueStorage\Setup;
 
 use ILIAS\KeyValueStorage\Setup\Agent;
 use ILIAS\KeyValueStorage\Setup\DBUpdateSteps;
+use ILIAS\KeyValueStorage\Setup\SubjectProviderNamesUniqueObjective;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Metrics\Storage;
 use PHPUnit\Framework\TestCase;
@@ -33,6 +34,11 @@ class AgentTest extends TestCase
     protected function setUp(): void
     {
         $this->agent = new Agent($this->createStub(Refinery::class));
+    }
+
+    public function testTheBuildChecksTheSubjectProviderNames(): void
+    {
+        $this->assertInstanceOf(SubjectProviderNamesUniqueObjective::class, $this->agent->getBuildObjective());
     }
 
     public function testUpdateRunsTheDatabaseSteps(): void

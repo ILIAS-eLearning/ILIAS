@@ -21,12 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Tests\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Internal\StorageServices;
+use ILIAS\KeyValueStorage\Internal\SubjectProviders;
 use ILIAS\KeyValueStorage\SessionRepository;
 use ILIAS\KeyValueStorage\Subject\Subject;
 use ILIAS\KeyValueStorage\Subject\SubjectId;
 use ILIAS\KeyValueStorage\Subject\SubjectResolver;
 use ILIAS\Tests\KeyValueStorage\InMemoryRepository;
 use ILIAS\Tests\KeyValueStorage\InMemorySubjectRepository;
+use ILIAS\Tests\KeyValueStorage\NamedSubjectProvider;
 use ILIAS\Tests\KeyValueStorage\RefineryHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -52,6 +54,7 @@ class StorageServicesTest extends TestCase
             $this->session,
             $this->persistent,
             $this->subjects,
+            new SubjectProviders([new NamedSubjectProvider('test'), new NamedSubjectProvider('other')]),
             $this->refinery()
         );
     }
@@ -125,31 +128,31 @@ class StorageServicesTest extends TestCase
     public function testPersistentForWritesOnlyTheNamedSubject(): void
     {
         $this->services->persistent(['ui', 'storage'])->set('sort', 'global');
-        $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])->set('sort', 'mine');
-        $this->services->persistentFor($this->named('u7'), ['ui', 'storage'])->set('sort', 'theirs');
+        $this->services->persistentFor($this->named('42'), ['ui', 'storage'])->set('sort', 'mine');
+        $this->services->persistentFor($this->named('7'), ['ui', 'storage'])->set('sort', 'theirs');
 
         $this->assertSame(['sort' => '"global"'], $this->persistent->entries['ui.storage']);
-        $this->assertSame(['sort' => '"mine"'], $this->subjects->entries['u42']['ui.storage']);
-        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['u7']['ui.storage']);
+        $this->assertSame(['sort' => '"mine"'], $this->subjects->entries['test:42']['ui.storage']);
+        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['test:7']['ui.storage']);
         $this->assertSame(
             'mine',
-            $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])->get('sort', $this->asStored())
+            $this->services->persistentFor($this->named('42'), ['ui', 'storage'])->get('sort', $this->asStored())
         );
     }
 
     public function testTheSameSubjectAndNamespaceYieldTheSameStore(): void
     {
         $this->assertSame(
-            $this->services->persistentFor($this->named('u42'), ['ui', 'storage']),
-            $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])
+            $this->services->persistentFor($this->named('42'), ['ui', 'storage']),
+            $this->services->persistentFor($this->named('42'), ['ui', 'storage'])
         );
     }
 
     public function testDifferentSubjectsYieldDifferentStores(): void
     {
         $this->assertNotSame(
-            $this->services->persistentFor($this->named('u42'), ['ui', 'storage']),
-            $this->services->persistentFor($this->named('u7'), ['ui', 'storage'])
+            $this->services->persistentFor($this->named('42'), ['ui', 'storage']),
+            $this->services->persistentFor($this->named('7'), ['ui', 'storage'])
         );
     }
 
@@ -178,20 +181,85 @@ class StorageServicesTest extends TestCase
     public function testPurgeRemovesOneSubjectAcrossNamespacesAndLeavesTheRest(): void
     {
         $this->services->persistent(['ui', 'storage'])->set('sort', 'global');
-        $this->services->persistentFor($this->named('u42'), ['ui', 'storage'])->set('sort', 'mine');
-        $this->services->persistentFor($this->named('u42'), ['export', 'job'])->set('step', 2);
-        $this->services->persistentFor($this->named('u7'), ['ui', 'storage'])->set('sort', 'theirs');
+        $this->services->persistentFor($this->named('42'), ['ui', 'storage'])->set('sort', 'mine');
+        $this->services->persistentFor($this->named('42'), ['export', 'job'])->set('step', 2);
+        $this->services->persistentFor($this->named('7'), ['ui', 'storage'])->set('sort', 'theirs');
 
-        $this->services->purgeSubject(new SubjectId('u42'));
+        $this->services->purgeSubject((new NamedSubjectProvider('test'))->subject('42'));
 
         $this->assertSame(['sort' => '"global"'], $this->persistent->entries['ui.storage']);
-        $this->assertArrayNotHasKey('u42', $this->subjects->entries);
-        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['u7']['ui.storage']);
+        $this->assertArrayNotHasKey('test:42', $this->subjects->entries);
+        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['test:7']['ui.storage']);
     }
 
-    private function named(string $segment): SubjectResolver
+    public function testAStoreDoesNotAnswerFromBeforeThePurgeOfItsSubject(): void
     {
-        return new class (Subject::named(new SubjectId($segment))) implements SubjectResolver {
+        $this->services->persistentFor($this->named('42'), ['ui', 'storage'])->set('sort', 'mine');
+        $this->services->persistentFor($this->named('4'), ['ui', 'storage'])->set('sort', 'other');
+
+        $this->services->purgeSubject((new NamedSubjectProvider('test'))->subject('42'));
+
+        $store = $this->services->persistentFor($this->named('42'), ['ui', 'storage']);
+        $this->assertNull($store->get('sort', $this->refinery()->identity()));
+        $store->set('sort', 'mine');
+        $this->assertSame(['sort' => '"mine"'], $this->subjects->entries['test:42']['ui.storage']);
+        $this->assertSame(['sort' => '"other"'], $this->subjects->entries['test:4']['ui.storage']);
+    }
+
+    public function testSubjectsOfDifferentProvidersDoNotShareValues(): void
+    {
+        $this->services->persistentFor($this->named('42', 'test'), ['ui', 'storage'])->set('sort', 'mine');
+        $this->services->persistentFor($this->named('42', 'other'), ['ui', 'storage'])->set('sort', 'theirs');
+
+        $this->assertSame(['sort' => '"mine"'], $this->subjects->entries['test:42']['ui.storage']);
+        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['other:42']['ui.storage']);
+    }
+
+    public function testPurgeDoesNotReachTheSameIdOfAnotherProvider(): void
+    {
+        $this->services->persistentFor($this->named('42', 'test'), ['ui', 'storage'])->set('sort', 'mine');
+        $this->services->persistentFor($this->named('42', 'other'), ['ui', 'storage'])->set('sort', 'theirs');
+
+        $this->services->purgeSubject((new NamedSubjectProvider('test'))->subject('42'));
+
+        $this->assertArrayNotHasKey('test:42', $this->subjects->entries);
+        $this->assertSame(['sort' => '"theirs"'], $this->subjects->entries['other:42']['ui.storage']);
+    }
+
+    public function testASubjectOfAnUnregisteredProviderCannotBePersisted(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The subject provider "unknown" is not registered');
+
+        $this->services->persistentFor($this->named('42', 'unknown'), ['ui', 'storage']);
+    }
+
+    public function testASubjectOfAnUnregisteredProviderCannotBePurged(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The subject provider "unknown" is not registered');
+
+        $this->services->purgeSubject((new NamedSubjectProvider('unknown'))->subject('42'));
+    }
+
+    public function testAProviderCannotUseTheNameOfAnotherOne(): void
+    {
+        $impostor = new ImpostorSubjectProvider();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The subject provider "test" is registered as ' . NamedSubjectProvider::class);
+
+        $this->services->persistentFor($this->resolverFor(new SubjectId($impostor, '42')), ['ui', 'storage']);
+    }
+
+    private function named(string $id, string $provider = 'test'): SubjectResolver
+    {
+        return $this->resolverFor((new NamedSubjectProvider($provider))->subject($id));
+    }
+
+    private function resolverFor(SubjectId $id): SubjectResolver
+    {
+        return new class (Subject::named($id)) implements SubjectResolver {
             public function __construct(private readonly Subject $subject)
             {
             }

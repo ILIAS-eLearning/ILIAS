@@ -23,12 +23,13 @@ namespace ILIAS\KeyValueStorage\Setup;
 /**
  * The schema of the persistent key-value storage.
  *
- * subject, namespace and keyword are the primary key. ILIAS requires the
- * InnoDB DYNAMIC row format, whose index limit is 3072 bytes. utf8mb4 stores
+ * provider, subject, namespace and keyword are the primary key. ILIAS requires
+ * the InnoDB DYNAMIC row format, whose index limit is 3072 bytes. utf8mb4 stores
  * up to 4 bytes per character, so the key uses
- * (128 + 128 + 255) * 4 = 2044 bytes and fits. value is not indexed.
+ * (64 + 128 + 128 + 255) * 4 = 2300 bytes and fits. value is not indexed.
  *
- * The lengths are literals. They match SubjectId::MAX_LENGTH (128),
+ * The lengths are literals. They match SubjectProvider::MAX_NAME_LENGTH (64),
+ * SubjectId::MAX_LENGTH (128),
  * StorageNamespace::MAX_LENGTH (128), KeyRules::MAX_LENGTH (255) and
  * DatabaseRepository::MAX_VALUE_LENGTH (4000).
  */
@@ -57,6 +58,12 @@ final class DBUpdateSteps implements \ilDatabaseUpdateSteps
         }
 
         $this->db->createTable(self::TABLE, [
+            'provider' => [
+                'type' => \ilDBConstants::T_TEXT,
+                'length' => 64,
+                'notnull' => true,
+                'default' => ''
+            ],
             'subject' => [
                 'type' => \ilDBConstants::T_TEXT,
                 'length' => 128,
@@ -80,6 +87,6 @@ final class DBUpdateSteps implements \ilDatabaseUpdateSteps
             ]
         ]);
 
-        $this->db->addPrimaryKey(self::TABLE, ['subject', 'namespace', 'keyword']);
+        $this->db->addPrimaryKey(self::TABLE, ['provider', 'subject', 'namespace', 'keyword']);
     }
 }

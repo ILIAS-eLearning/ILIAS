@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Authentication\KeyValueStorage;
 
 use ILIAS\Authentication\KeyValueStorage\AuthenticatedSubjectPurge;
+use ILIAS\Authentication\KeyValueStorage\AuthenticatedUserSubjectProvider;
 use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\Subject\SubjectId;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,30 +29,31 @@ use PHPUnit\Framework\TestCase;
 
 class AuthenticatedSubjectPurgeTest extends TestCase
 {
-    public function testAPositiveUserIdPurgesTheUSegment(): void
+    public function testAPositiveUserIdPurgesThatUserOfTheProvider(): void
     {
         $storage = $this->createMock(Services::class);
         $storage->expects($this->once())
             ->method('purgeSubject')
             ->with($this->callback(
-                static fn(SubjectId $subject): bool => $subject->storageSegment() === 'u42'
+                static fn(SubjectId $subject): bool => $subject->provider() === AuthenticatedUserSubjectProvider::NAME
+                    && $subject->id() === '42'
             ));
 
-        (new AuthenticatedSubjectPurge($storage))->purgeForUserId(42);
+        (new AuthenticatedSubjectPurge($storage, new AuthenticatedUserSubjectProvider()))->purgeForUserId(42);
     }
 
     public function testZeroDoesNotPurge(): void
     {
         $storage = $this->storageThatIsNeverCalled();
 
-        (new AuthenticatedSubjectPurge($storage))->purgeForUserId(0);
+        (new AuthenticatedSubjectPurge($storage, new AuthenticatedUserSubjectProvider()))->purgeForUserId(0);
     }
 
     public function testANegativeUserIdDoesNotPurge(): void
     {
         $storage = $this->storageThatIsNeverCalled();
 
-        (new AuthenticatedSubjectPurge($storage))->purgeForUserId(-1);
+        (new AuthenticatedSubjectPurge($storage, new AuthenticatedUserSubjectProvider()))->purgeForUserId(-1);
     }
 
     private function storageThatIsNeverCalled(): Services&MockObject
