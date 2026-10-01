@@ -266,6 +266,14 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 	height: calc(90vh - 160px);
 }
 
+/* lists in paragraphs: indent scales with the paragraph font size */
+.ilc_Paragraph > ul.ilc_list_u_BulletedList {
+	padding-left: max(15px, 1.2em);
+}
+.ilc_Paragraph > ol.ilc_list_o_NumberedList {
+	padding-left: max(15px, 2em);
+}
+
 /* 48324 */
 .ilc_Mob .il-video-container video,
 .ilc_Mob .il-video-container iframe {

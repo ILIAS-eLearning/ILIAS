@@ -76,6 +76,9 @@ class CSSBuilder
                     // so the p selector above would not match it. ilc_Paragraph limits this alias
                     // to the page editor's paragraph container (page.xsl:990).
                     $css .= ",div.ilc_Paragraph.ilc_text_block_" . $tag[0]["class"] . "\n";
+                    // the page editor sizes the TinyMCE frame by a background copy of the paragraph
+                    // (tiny-wrapper.js copyInputToGhost()), which is a div without ilc_Paragraph
+                    $css .= ",div.copg-input-ghost.ilc_text_block_" . $tag[0]["class"] . "\n";
                     $css .= ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n";
                 }
                 if ($tag[0]["class"] == "VAccordCntr" &&
