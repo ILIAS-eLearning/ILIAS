@@ -395,9 +395,14 @@ class ilLTITool
         $this->content_item = (bool) ($row['content_item'] ?? false);
         $this->content_item_url = (string) ($row['content_item_url'] ?? '');
         $this->client_id = (string) ($row['client_id'] ?? '');
-        $this->key_type = (string) ($row['key_type'] ?? '') === self::KEY_TYPE_JWK ? self::KEY_TYPE_JWK : self::KEY_TYPE_RSA;
         $this->public_key = (string) ($row['public_key'] ?? '');
         $this->public_keyset = (string) ($row['public_keyset'] ?? '');
+        // tools of earlier releases may have no key type: then their key tells it
+        $this->key_type = match ((string) ($row['key_type'] ?? '')) {
+            self::KEY_TYPE_RSA => self::KEY_TYPE_RSA,
+            self::KEY_TYPE_JWK => self::KEY_TYPE_JWK,
+            default => $this->public_keyset !== '' ? self::KEY_TYPE_JWK : self::KEY_TYPE_RSA,
+        };
         $this->initiate_login = (string) ($row['initiate_login'] ?? '');
         $this->redirection_uris = (string) ($row['redirection_uris'] ?? '');
         $this->getLti1p1Credentials()->assignFromDbRow($row);
