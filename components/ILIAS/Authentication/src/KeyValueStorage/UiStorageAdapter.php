@@ -37,39 +37,45 @@ final readonly class UiStorageAdapter implements UiStorage
 {
     private const array NAMESPACE = ['ui', 'storage'];
 
-    private Store $storage;
-
     private Transformation $as_stored;
 
     public function __construct(
-        AuthenticatedSubjectResolver $subjects,
-        Services $services,
+        private AuthenticatedSubjectResolver $subjects,
+        private Services $services,
         Refinery $refinery,
     ) {
         $this->as_stored = $refinery->identity();
-        $this->storage = $subjects->supportsPersistentStorage()
-            ? $services->persistentFor($subjects, self::NAMESPACE)
-            : $services->session(self::NAMESPACE);
+    }
+
+    /**
+     * Chosen per access, since the user may log in or out after the adapter was
+     * built. The stores are memoized by the storage services.
+     */
+    private function storage(): Store
+    {
+        return $this->subjects->supportsPersistentStorage()
+            ? $this->services->persistentFor($this->subjects, self::NAMESPACE)
+            : $this->services->session(self::NAMESPACE);
     }
 
     public function offsetExists(mixed $offset): bool
     {
-        return $this->storage->has($this->assertStringOffset($offset));
+        return $this->storage()->has($this->assertStringOffset($offset));
     }
 
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->storage->get($this->assertStringOffset($offset), $this->as_stored);
+        return $this->storage()->get($this->assertStringOffset($offset), $this->as_stored);
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        $this->storage->set($this->assertStringOffset($offset), $value);
+        $this->storage()->set($this->assertStringOffset($offset), $value);
     }
 
     public function offsetUnset(mixed $offset): void
     {
-        $this->storage->delete($this->assertStringOffset($offset));
+        $this->storage()->delete($this->assertStringOffset($offset));
     }
 
     private function assertStringOffset(mixed $offset): string

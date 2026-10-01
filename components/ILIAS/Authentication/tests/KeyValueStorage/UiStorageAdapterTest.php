@@ -62,7 +62,7 @@ class UiStorageAdapterTest extends TestCase
         $subjects = $this->createStub(AuthenticatedSubjectResolver::class);
         $subjects->method('supportsPersistentStorage')->willReturn(false);
         $services = $this->createMock(Services::class);
-        $services->expects($this->once())->method('session')->with(['ui', 'storage'])->willReturn($store);
+        $services->method('session')->willReturn($store);
         $services->expects($this->never())->method('persistentFor');
         $this->adapter = new UiStorageAdapter($subjects, $services, $this->refinery);
     }
@@ -121,9 +121,10 @@ class UiStorageAdapterTest extends TestCase
 
     public function testAFullyAuthenticatedUserUsesThePersistentSubjectStore(): void
     {
-        $store = $this->createStub(Store::class);
-        $subjects = $this->createMock(AuthenticatedSubjectResolver::class);
-        $subjects->expects($this->once())->method('supportsPersistentStorage')->willReturn(true);
+        $store = $this->createMock(Store::class);
+        $store->expects($this->once())->method('has')->with('view_state')->willReturn(true);
+        $subjects = $this->createStub(AuthenticatedSubjectResolver::class);
+        $subjects->method('supportsPersistentStorage')->willReturn(true);
         $services = $this->createMock(Services::class);
         $services->expects($this->once())
             ->method('persistentFor')
@@ -131,19 +132,50 @@ class UiStorageAdapterTest extends TestCase
             ->willReturn($store);
         $services->expects($this->never())->method('session');
 
-        new UiStorageAdapter($subjects, $services, $this->refinery);
+        self::assertTrue((new UiStorageAdapter($subjects, $services, $this->refinery))->offsetExists('view_state'));
     }
 
     public function testAnAnonymousActorUsesTheSessionStore(): void
     {
-        $store = $this->createStub(Store::class);
-        $subjects = $this->createMock(AuthenticatedSubjectResolver::class);
-        $subjects->expects($this->once())->method('supportsPersistentStorage')->willReturn(false);
+        $store = $this->createMock(Store::class);
+        $store->expects($this->once())->method('has')->with('view_state')->willReturn(false);
+        $subjects = $this->createStub(AuthenticatedSubjectResolver::class);
+        $subjects->method('supportsPersistentStorage')->willReturn(false);
         $services = $this->createMock(Services::class);
         $services->expects($this->once())->method('session')->with(['ui', 'storage'])->willReturn($store);
         $services->expects($this->never())->method('persistentFor');
 
+        self::assertFalse((new UiStorageAdapter($subjects, $services, $this->refinery))->offsetExists('view_state'));
+    }
+
+    public function testNoStoreIsChosenWhileTheAdapterIsBuilt(): void
+    {
+        $subjects = $this->createMock(AuthenticatedSubjectResolver::class);
+        $subjects->expects($this->never())->method('supportsPersistentStorage');
+        $services = $this->createMock(Services::class);
+        $services->expects($this->never())->method($this->anything());
+
         new UiStorageAdapter($subjects, $services, $this->refinery);
+    }
+
+    /**
+     * The adapter may be built before the user logs in within the same request.
+     */
+    public function testALoginAfterTheAdapterWasBuiltSwitchesToThePersistentStore(): void
+    {
+        $session_store = $this->createMock(Store::class);
+        $session_store->expects($this->once())->method('set')->with('view_state', ['page' => 1]);
+        $persistent_store = $this->createMock(Store::class);
+        $persistent_store->expects($this->once())->method('set')->with('view_state', ['page' => 2]);
+        $subjects = $this->createStub(AuthenticatedSubjectResolver::class);
+        $subjects->method('supportsPersistentStorage')->willReturnOnConsecutiveCalls(false, true);
+        $services = $this->createStub(Services::class);
+        $services->method('session')->willReturn($session_store);
+        $services->method('persistentFor')->willReturn($persistent_store);
+
+        $adapter = new UiStorageAdapter($subjects, $services, $this->refinery);
+        $adapter->offsetSet('view_state', ['page' => 1]);
+        $adapter->offsetSet('view_state', ['page' => 2]);
     }
 
     public function testOffsetGetPassesTheIdentityTransformation(): void

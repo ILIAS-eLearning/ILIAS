@@ -70,5 +70,7 @@ rejected in keys, so no pair of namespace and key can produce the session key of
 another pair.
 
 `ILIAS\UI\Storage` is served from this scope, under the namespace segments
-`ui` / `storage`, through `Authentication\KeyValueStorage\UiStorageAdapter`.
-Moving that adapter into the UI component is left to a follow-up.
+`ui` / `storage`, through `Authentication\KeyValueStorage\UiStorageAdapter`. The
+adapter chooses between this scope and the persistent subject scope on every access,
+so a login or logout within a request is respected. Moving that adapter into the UI
+component is left to a follow-up.
