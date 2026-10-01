@@ -31,7 +31,10 @@ use ILIAS\Refinery\Transformation;
 interface Store
 {
     /**
+     * Reads the value along, so that a following get() does not read again.
+     *
      * @throws \InvalidArgumentException if the key is invalid
+     * @throws Exception\InvalidStoredValueException if the stored value cannot be read back
      */
     public function has(string $key): bool;
 

@@ -62,15 +62,9 @@ final class NamespacedStore implements Store
     {
         $this->key_rules->check($key);
 
-        if (isset($this->seen[$key])) {
-            return $this->seen[$key][0];
-        }
-
-        if ($this->namespace_loaded) {
-            return false;
-        }
-
-        return $this->repository->has($this->namespace, $key);
+        // reads the value along, since consumers like `$storage[$key] ?? null`
+        // ask has() right before get().
+        return $this->readDecoded($key)[0];
     }
 
     public function get(string $key, Transformation $transformation): mixed
@@ -132,11 +126,18 @@ final class NamespacedStore implements Store
         $this->key_rules->check($key);
 
         $encoded = $this->values->encode($value);
-        $this->repository->write($this->namespace, $key, $encoded);
-
         // the decoded form is remembered, so that reading a value back within
         // this request yields exactly what a later request would read.
-        $this->seen[$key] = [true, $this->values->decode($encoded)];
+        $decoded = $this->values->decode($encoded);
+
+        // consumers like the UI tables store their state on every rendering, which
+        // must not become a write per page view when nothing changed.
+        if (($this->seen[$key] ?? null) === [true, $decoded]) {
+            return;
+        }
+
+        $this->repository->write($this->namespace, $key, $encoded);
+        $this->seen[$key] = [true, $decoded];
     }
 
     public function delete(string $key): void

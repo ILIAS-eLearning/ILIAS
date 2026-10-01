@@ -146,12 +146,101 @@ class NamespacedStoreTest extends TestCase
         $this->assertSame(1, $this->repository->reads);
     }
 
+    public function testGetAnswersFromWhatHasAlreadyRead(): void
+    {
+        $this->repository->entries['my_component.view_state']['sort'] = '"title"';
+
+        $this->assertTrue($this->store->has('sort'));
+        $this->assertSame('title', $this->store->get('sort', $this->asStored()));
+        $this->assertSame(1, $this->repository->reads);
+        $this->assertSame(0, $this->repository->has_calls);
+    }
+
+    public function testHasRejectsAnUndecodableValue(): void
+    {
+        $this->repository->entries['my_component.view_state']['broken'] = '{';
+
+        $this->expectException(InvalidStoredValueException::class);
+
+        $this->store->has('broken');
+    }
+
+    public function testSettingNullOnAnAbsentKeyWrites(): void
+    {
+        $this->store->get('absent', $this->asStored());
+        $this->store->set('absent', null);
+
+        $this->assertSame(1, $this->repository->writes);
+    }
+
+    public function testSettingTheValueThatHasReadDoesNotWrite(): void
+    {
+        $this->repository->entries['my_component.view_state']['sort'] = '"title"';
+
+        $this->store->has('sort');
+        $this->store->set('sort', 'title');
+
+        $this->assertSame(0, $this->repository->writes);
+    }
+
+    public function testSettingAnArrayInAnotherKeyOrderWrites(): void
+    {
+        $this->store->set('sort', ['column' => 'title', 'order' => 'asc']);
+        $this->store->set('sort', ['order' => 'asc', 'column' => 'title']);
+
+        $this->assertSame(2, $this->repository->writes);
+    }
+
     public function testAWriteIsVisibleWithoutReadingTheRepositoryAgain(): void
     {
         $this->store->set('sort', 'title');
 
         $this->assertSame('title', $this->store->get('sort', $this->asStored()));
         $this->assertSame(0, $this->repository->reads);
+    }
+
+    public function testSettingTheValueThatWasReadDoesNotWrite(): void
+    {
+        $this->repository->entries['my_component.view_state']['sort'] = '{"column":"title","order":"asc"}';
+
+        $stored = $this->store->get('sort', $this->asStored());
+        $this->store->set('sort', $stored);
+
+        $this->assertSame(0, $this->repository->writes);
+    }
+
+    public function testSettingTheValueThatWasWrittenDoesNotWriteAgain(): void
+    {
+        $this->store->set('sort', ['column' => 'title']);
+        $this->store->set('sort', ['column' => 'title']);
+
+        $this->assertSame(1, $this->repository->writes);
+    }
+
+    public function testSettingAChangedValueWrites(): void
+    {
+        $this->store->set('sort', 'title');
+        $this->store->set('sort', 'date');
+
+        $this->assertSame(2, $this->repository->writes);
+        $this->assertSame(['sort' => '"date"'], $this->repository->entries['my_component.view_state']);
+    }
+
+    public function testSettingAValueOfAnotherTypeWrites(): void
+    {
+        $this->store->set('limit', 10);
+        $this->store->set('limit', '10');
+
+        $this->assertSame(2, $this->repository->writes);
+    }
+
+    public function testSettingADeletedKeyWrites(): void
+    {
+        $this->store->set('sort', 'title');
+        $this->store->delete('sort');
+        $this->store->set('sort', 'title');
+
+        $this->assertSame(2, $this->repository->writes);
     }
 
     public function testAJsonSerializableReadsBackAsItsJsonFormWithinTheSameRequest(): void

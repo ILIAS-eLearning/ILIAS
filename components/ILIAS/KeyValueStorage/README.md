@@ -120,8 +120,14 @@ decoded anymore raises `InvalidStoredValueException`.
 ### Reading twice is free
 
 A store remembers what it has read or written during the request, so reading the
-same key twice does not touch the session or the database twice. `keys()` and
-`getMany()` remember the whole namespace. This is not a cross-request cache.
+same key twice does not touch the session or the database twice. `has()` reads the
+value along, so `has()` followed by `get()` is one read. `keys()` and `getMany()`
+remember the whole namespace. This is not a cross-request cache.
+
+Setting the value a store already read or wrote in this request does not write,
+since consumers like the UI tables store their state on every rendering. If another
+request changed the value in between, that change stays: the store compares with
+what it saw, not with what is stored now.
 
 ## What to use when
 
@@ -254,7 +260,7 @@ that already happened and must not move when a validation limit moves.
 | Invalid namespace | `\InvalidArgumentException` |
 | Invalid key | `\InvalidArgumentException` |
 | Value cannot be stored, or exceeds 4000 characters | `\InvalidArgumentException` |
-| Stored value cannot be read back | `InvalidStoredValueException` |
+| Stored value cannot be read back, by `get()`, `getMany()`, `keys()` or `has()` | `InvalidStoredValueException` |
 | `persistentFor()` without a named subject | `\InvalidArgumentException` |
 
 ## Tests
