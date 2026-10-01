@@ -88,6 +88,11 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         $config = $this->getPageConfig();
         $config->setEnablePageToc('y');
         $this->setPageConfig($config);
+
+
+        $this->tpl->addJavascript('assets/js/questionpage.js');
+        $this->tpl->addOnLoadCode('il.test.questionpage.init()');
+
         // fau.
         return parent::showPage();
     }
