@@ -110,6 +110,7 @@ class ilAuthProviderLTI extends ilAuthProvider
         $usr_id = $this->syncUser($release, $parameters);
         $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $receiver->userResult);
         $this->rememberLaunch($release['ref_id'], $parameters);
+        ilLTIAppEventListener::rememberObject($receiver->resourceLink, $release['ref_id']);
 
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($usr_id);

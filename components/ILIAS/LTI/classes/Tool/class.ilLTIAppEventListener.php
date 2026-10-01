@@ -42,6 +42,7 @@ class ilLTIAppEventListener implements ilAppEventListener
      * Prefix of the authentication mode of a user created by an LTI launch, followed by the platform id.
      */
     private const string AUTH_MODE_PREFIX = 'lti_';
+    private const string SETTING_REF_ID = 'ilias_ref_id';
 
     /**
      * @throws RandomException
@@ -92,6 +93,19 @@ class ilLTIAppEventListener implements ilAppEventListener
      *
      * @throws RandomException
      */
+    /**
+     * Keeps the object a resource link launched. The registration of an LTI Advantage platform is not for
+     * one object, as the registrations of earlier releases were, so its links name the object themselves.
+     */
+    public static function rememberObject(?ResourceLink $resource_link, int $ref_id): void
+    {
+        if ($resource_link === null || $resource_link->getSetting(self::SETTING_REF_ID) === (string) $ref_id) {
+            return;
+        }
+        $resource_link->setSetting(self::SETTING_REF_ID, (string) $ref_id);
+        $resource_link->save();
+    }
+
     public static function reportChangesSince(ilDateTime $since): void
     {
         global $DIC;
@@ -114,7 +128,11 @@ class ilLTIAppEventListener implements ilAppEventListener
             }
 
             $usr_id = ilObjUser::_lookupId($login);
-            $obj_id = ilObject::_lookupObjId((int) $row['ref_id']);
+            $ref_id = (int) $row['ref_id'] ?: $listener->getObjectOfLink((int) $row['resource_link_pk']);
+            if ($ref_id === 0) {
+                continue;
+            }
+            $obj_id = ilObject::_lookupObjId($ref_id);
             $status = (int) ilLPStatus::_lookupStatus($obj_id, $usr_id);
             $percentage = $listener->getPercentage($obj_id, $status, (int) ilLPStatus::_lookupPercentage($obj_id, $usr_id));
             $listener->sendOutcome((int) $row['resource_link_pk'], $row['lti_user_id'], $listener->getScore($status, $percentage), $status);
@@ -165,20 +183,31 @@ class ilLTIAppEventListener implements ilAppEventListener
 
         $db = $DIC->database();
         $result = $db->queryF(
-            'SELECT rl.resource_link_pk FROM lti2_user_result ur'
+            'SELECT rl.resource_link_pk, c.ref_id FROM lti2_user_result ur'
             . ' JOIN lti2_resource_link rl ON rl.resource_link_pk = ur.resource_link_pk'
             . ' JOIN lti2_consumer c ON c.consumer_pk = rl.consumer_pk'
-            . ' WHERE c.enabled = %s AND c.ref_id = %s AND ur.lti_user_id = %s AND c.ext_consumer_id = %s',
+            . ' WHERE c.enabled = %s AND c.ref_id IN (0, %s) AND ur.lti_user_id = %s AND c.ext_consumer_id = %s',
             ['integer', 'integer', 'text', 'integer'],
             [1, $ref_id, $account, $platform_id]
         );
 
         $resource_links = [];
         while ($row = $db->fetchAssoc($result)) {
-            $resource_links[] = (int) $row['resource_link_pk'];
+            $resource_link = (int) $row['resource_link_pk'];
+            if ((int) $row['ref_id'] === $ref_id || $this->getObjectOfLink($resource_link) === $ref_id) {
+                $resource_links[] = $resource_link;
+            }
         }
 
         return $resource_links;
+    }
+
+    /**
+     * The object a link of the registration of an LTI Advantage platform launched, 0 when it names none.
+     */
+    private function getObjectOfLink(int $resource_link): int
+    {
+        return (int) ResourceLink::fromRecordId($resource_link, new ilLTIDataConnector())->getSetting(self::SETTING_REF_ID);
     }
 
     /**
