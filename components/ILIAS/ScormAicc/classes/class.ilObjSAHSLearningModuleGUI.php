@@ -542,6 +542,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         ilFileUtils::delDir($lm_temp_dir, false);
         ilFileUtils::renameExecutables($new_obj->getDataDirectory());
 
+        $title = $new_obj->readObject();
+        if ($title !== "") {
+            ilObject::_writeTitle($new_obj->getId(), $title);
+        }
+
         //auto set learning progress settings
         $new_obj->setLearningProgressSettingsAtUpload();
 
