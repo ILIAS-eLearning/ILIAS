@@ -627,7 +627,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                         $tpl->setCurrentBlock("context");
                     }
                     $tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
-                    $tpl->setVariable("CONTEXT_TITLE", $obj_title);
+                    $tpl->setVariable(
+                        "CONTEXT_TITLE",
+                        htmlspecialchars($obj_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+                    );
                     $tpl->setVariable(
                         "IMG_CONTEXT_TITLE",
                         ilObject::_getIcon($item->getContextObjId(), "big", $item->getContextObjType())
