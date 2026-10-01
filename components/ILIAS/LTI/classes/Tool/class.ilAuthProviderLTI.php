@@ -33,6 +33,8 @@ use Random\RandomException;
 class ilAuthProviderLTI extends ilAuthProvider
 {
     private const string AUTH_MODE_PREFIX = 'lti_';
+    // the column of the external account
+    private const int MAX_ACCOUNT_LENGTH = 250;
 
     public static function getAuthModeByKey(string $a_auth_key): string
     {
@@ -111,6 +113,9 @@ class ilAuthProviderLTI extends ilAuthProvider
         $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $receiver->userResult);
         $this->rememberLaunch($release['ref_id'], $parameters);
         ilLTIAppEventListener::rememberObject($receiver->resourceLink, $release['ref_id']);
+        if ($receiver->userResult !== null && ($receiver->userResult->isStaff() || $receiver->userResult->isAdmin())) {
+            $this->syncMembers($receiver, $release);
+        }
 
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($usr_id);
@@ -217,6 +222,48 @@ class ilAuthProviderLTI extends ilAuthProvider
         }
 
         return $user->getId();
+    }
+
+    /**
+     * Gives the active members of the context of a launch their ILIAS account and the roles of the release, as
+     * their own launches would, when the platform offers its Names and Role Provisioning Services. Members that
+     * left the context keep their account and roles. A platform that does not answer does not stop the launch.
+     *
+     * @param array $release
+     */
+    private function syncMembers(ilLTILaunchReceiver $receiver, array $release): void
+    {
+        global $DIC;
+
+        $service = ilLTIAdvantageToolMembership::forContext($receiver->context);
+        if ($service === null) {
+            return;
+        }
+        $members = $service->getActiveMembers();
+        if ($members === null) {
+            $DIC->logger()->forComponent('lti')->warning(sprintf(
+                'The members of the LTI context %s could not be read from the platform %d: %s',
+                (string) $receiver->context->ltiContextId,
+                $release['platform_id'],
+                substr((string) $service->getHttpMessage()?->response, 0, 300)
+            ));
+            return;
+        }
+
+        // the user of the launch has just been set up from the launch itself
+        unset($members[$receiver->userResult->ltiUserId]);
+        foreach ($members as $user_id => $member) {
+            if (strlen((string) $user_id) > self::MAX_ACCOUNT_LENGTH) {
+                continue;
+            }
+            $usr_id = $this->syncUser($release, [
+                'user_id' => (string) $user_id,
+                'lis_person_name_given' => $member->firstname,
+                'lis_person_name_family' => $member->lastname,
+                'lis_person_contact_email_primary' => $member->email,
+            ]);
+            $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $member);
+        }
     }
 
     /**

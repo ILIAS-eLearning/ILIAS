@@ -23,6 +23,7 @@ use ceLTIc\LTI\Profile\Item;
 use ceLTIc\LTI\Profile\Message;
 use ceLTIc\LTI\Profile\ResourceHandler;
 use ceLTIc\LTI\Service\LineItem;
+use ceLTIc\LTI\Service\Membership;
 use ceLTIc\LTI\Service\Result;
 use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Tool;
@@ -163,8 +164,9 @@ final class ilLTIAdvantageToolRegistration extends Tool
                 [new Message(self::MESSAGE_DEEP_LINKING, '/lti.php', self::CAPABILITIES)]
             ),
         ];
-        // the Assignment and Grade Services ILIAS sends the learning progress with
-        $this->requiredScopes = [LineItem::$SCOPE, Result::$SCOPE, Score::$SCOPE];
+        // the Assignment and Grade Services ILIAS sends the learning progress with, and the Names and Role
+        // Provisioning Services it takes the members of a context from
+        $this->requiredScopes = [LineItem::$SCOPE, Result::$SCOPE, Score::$SCOPE, Membership::$SCOPE];
 
         return parent::getConfiguration($platformConfig);
     }

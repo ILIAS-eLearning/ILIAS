@@ -159,6 +159,12 @@ the endpoints:
   of the tool. The URL names the object because a random user id is one per object; with it, only members who
   launched the object are listed. The whole list is answered at once. What the services share, the access token,
   the object and the URLs, is in `ilLTIAdvantagePlatformServiceRequest`.
+* **Names and Role Provisioning Services, ILIAS as tool:** `ilLTIAdvantageToolMembership` (`Tool/NRPS`). When an
+  instructor or administrator of a platform launches ILIAS and the launch names the service, ILIAS reads the members of
+  the context and gives every active member the account and the roles of the release, as their own launch would.
+  celtic/lti sends the requests and follows the pages; the members are read by ILIAS because the library drops their
+  status. Members who left keep their account and roles. A platform that does not answer only leaves a warning in the
+  log. ILIAS asks for the scope when it registers through Dynamic Registration.
 * **Assignment and Grade Services, ILIAS as tool:** `ilLTIAppEventListener` sends the learning progress of a user
   of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
