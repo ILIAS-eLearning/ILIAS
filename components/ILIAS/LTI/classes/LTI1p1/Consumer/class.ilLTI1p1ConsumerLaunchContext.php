@@ -76,8 +76,8 @@ class ilLTI1p1ConsumerLaunchContext
     public static function getLTIContextType(string $a_type): string
     {
         return match ($a_type) {
-            "grp" => "https://purl.imsglobal.org/vocab/lis/v2/course#Group",
-            default => "https://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering",
+            "grp" => "http://purl.imsglobal.org/vocab/lis/v2/course#Group",
+            default => "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering",
         };
     }
 }
