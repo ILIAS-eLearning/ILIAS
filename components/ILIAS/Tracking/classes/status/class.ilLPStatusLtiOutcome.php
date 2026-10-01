@@ -28,6 +28,60 @@ class ilLPStatusLtiOutcome extends ilLPStatus
 
     private static array $userResultCache = [];
 
+    public static function _getInProgress(int $a_obj_id): array
+    {
+        return self::getUsersByStatus($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM);
+    }
+
+    public static function _getCompleted(int $a_obj_id): array
+    {
+        return self::getUsersByStatus($a_obj_id, self::LP_STATUS_COMPLETED_NUM);
+    }
+
+    public static function _getFailed(int $a_obj_id): array
+    {
+        return self::getUsersByStatus($a_obj_id, self::LP_STATUS_FAILED_NUM);
+    }
+
+    public static function _getNotAttempted(int $a_obj_id): array
+    {
+        $members = ilObjectLP::getInstance($a_obj_id)->getMembers();
+        if (!$members) {
+            return [];
+        }
+
+        return array_values(array_diff(
+            $members,
+            self::_getInProgress($a_obj_id),
+            self::_getCompleted($a_obj_id),
+            self::_getFailed($a_obj_id)
+        ));
+    }
+
+    /**
+     * The users the tool reported a result or a score for, whose status is the given one.
+     */
+    private static function getUsersByStatus(int $a_obj_id, int $a_status): array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $result = $db->query(
+            'SELECT usr_id FROM lti_consumer_results WHERE obj_id = ' . $db->quote($a_obj_id, 'integer')
+            . ' UNION SELECT usr_id FROM lti_consumer_grades WHERE obj_id = ' . $db->quote($a_obj_id, 'integer')
+        );
+        $lp_status = new self($a_obj_id);
+        $object = ilObjectFactory::getInstanceByObjId($a_obj_id);
+        $usr_ids = [];
+        while ($row = $db->fetchAssoc($result)) {
+            if ($lp_status->determineStatus($a_obj_id, (int) $row['usr_id'], $object) === $a_status) {
+                $usr_ids[] = (int) $row['usr_id'];
+            }
+        }
+
+        return $usr_ids;
+    }
+
     private function getLtiUserResult(
         int $objId,
         int $usrId
