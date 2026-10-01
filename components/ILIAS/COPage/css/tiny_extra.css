@@ -11,3 +11,11 @@ p
 	margin: 0;
 	padding: 0;
 }
+
+/* lists in paragraphs: indent scales with the paragraph font size */
+body#tinymce > ul {
+	padding-left: max(15px, 1.2em);
+}
+body#tinymce > ol {
+	padding-left: max(15px, 2em);
+}
