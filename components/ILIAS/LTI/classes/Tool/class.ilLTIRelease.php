@@ -40,8 +40,11 @@ class ilLTIRelease
         global $DIC;
 
         $db = $DIC->database();
+        // earlier releases kept the row of an object they stopped releasing, and disabled its registration
         $row = $db->fetchAssoc($db->queryF(
-            'SELECT admin, tutor, member FROM ' . self::TABLE_NAME . ' WHERE ref_id = %s AND ext_consumer_id = %s',
+            'SELECT o.admin, o.tutor, o.member FROM ' . self::TABLE_NAME . ' o WHERE o.ref_id = %s AND o.ext_consumer_id = %s'
+            . ' AND NOT EXISTS (SELECT 1 FROM lti2_consumer c WHERE c.ref_id = o.ref_id'
+            . ' AND c.ext_consumer_id = o.ext_consumer_id AND c.enabled = 0)',
             ['integer', 'integer'],
             [$ref_id, $platform_id]
         ));
@@ -163,6 +166,13 @@ class ilLTIRelease
                 'member' => ['integer', $member_role],
             ]
         );
+        // a registration an earlier release disabled for the object would keep it withdrawn
+        $DIC->database()->manipulateF(
+            'UPDATE lti2_consumer SET enabled = %s WHERE ref_id = %s AND ext_consumer_id = %s AND enabled = %s',
+            ['integer', 'integer', 'integer', 'integer'],
+            [1, $this->ref_id, $this->platform_id, 0]
+        );
+        $this->released = true;
     }
 
     /**

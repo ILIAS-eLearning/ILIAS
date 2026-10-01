@@ -119,9 +119,10 @@ class ilAuthProviderLTI extends ilAuthProvider
     }
 
     /**
-     * The platform and the object a launch is for. A registration of lti2_consumer for a single object
-     * (ref_id > 0) is for that object. The registration of an LTI Advantage platform (ref_id 0) is for
-     * the object its target link names, as long as the object is released to the platform.
+     * The platform and the object a launch is for, as long as the object is released to the platform. A
+     * registration of lti2_consumer for a single object (ref_id > 0) is for that object. The registration of
+     * an LTI Advantage platform (ref_id 0) is for the object its target link names; the target links of
+     * earlier releases name none, then the object is the one registered with the same ids.
      *
      * @param int $record_id
      * @param array $parameters
@@ -144,10 +145,10 @@ class ilAuthProviderLTI extends ilAuthProvider
 
         $ref_id = (int) $row['ref_id'];
         if ($ref_id === 0) {
-            $ref_id = $this->getTargetRefId($parameters);
-            if (!new ilLTIRelease($ref_id, (int) $row['id'])->isReleased()) {
-                $ref_id = 0;
-            }
+            $ref_id = $this->getTargetRefId($parameters) ?: $this->lookupObjectRegistration($record_id);
+        }
+        if (!new ilLTIRelease($ref_id, (int) $row['id'])->isReleased()) {
+            $ref_id = 0;
         }
 
         return [
@@ -284,6 +285,26 @@ class ilAuthProviderLTI extends ilAuthProvider
             'resource_link_title' => (string) ($parameters['resource_link_title'] ?? ''),
         ]);
         ilSession::set('lti_init_target', ilObject::_lookupType($ref_id, true) . '_' . $ref_id);
+    }
+
+    /**
+     * The object an earlier release registered the platform for with the same ids as its registration.
+     */
+    private function lookupObjectRegistration(int $record_id): int
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $db->setLimit(1);
+        $row = $db->fetchAssoc($db->queryF(
+            'SELECT o.ref_id FROM lti2_consumer c JOIN lti2_consumer o ON o.ext_consumer_id = c.ext_consumer_id'
+            . ' AND o.platform_id = c.platform_id AND o.client_id = c.client_id AND o.deployment_id = c.deployment_id'
+            . ' WHERE c.consumer_pk = %s AND o.ref_id > 0 AND o.enabled = %s ORDER BY o.consumer_pk',
+            ['integer', 'integer'],
+            [$record_id, 1]
+        ));
+
+        return (int) ($row['ref_id'] ?? 0);
     }
 
     /**
