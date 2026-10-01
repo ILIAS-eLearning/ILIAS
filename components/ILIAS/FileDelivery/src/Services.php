@@ -27,6 +27,7 @@ use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\Isolation\IsolationConfig;
 use ILIAS\Data\URI;
+use ILIAS\HTTP\Path\HttpPathProvider;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -43,6 +44,7 @@ class Services
         private DataSigner $data_signer,
         private \ILIAS\HTTP\Services $http,
         private IsolationConfig $isolation = new IsolationConfig(false, null, null),
+        private ?HttpPathProvider $http_path = null
     ) {
     }
 
@@ -97,18 +99,35 @@ class Services
         }
 
         $request_uri = $this->http->request()->getUri();
-        $path = rtrim(dirname($request_uri->getPath()), "/");
+        $http_path = $this->http_path?->getHttpPath();
+
+        // CLI contexts such as cron jobs have no request to derive the URL from,
+        // see https://mantis.ilias.de/view.php?id=47807
+        $is_without_request = $request_uri->getHost() === '';
+
+        // the path is the one ILIAS is reached under, which dirname() of the request
+        // path does not give on every page, see https://mantis.ilias.de/view.php?id=48124
+        $path = match (true) {
+            $http_path !== null => rtrim('/' . ($http_path->getPath() ?? ''), '/'),
+            $is_without_request => '',
+            default => rtrim(dirname($request_uri->getPath()), '/'),
+        };
 
         if ($this->isolation->isActivated() && ($content_domain = $this->isolation->getContentDomain()) !== null) {
-            return $this->base_uri = rtrim($content_domain, "/") . $path;
+            return $this->base_uri = rtrim($content_domain, '/') . $path;
         }
 
+        if ($is_without_request) {
+            return $this->base_uri = $http_path?->getBaseURI() ?? '';
+        }
+
+        // the host stays with the request, since allowed_hosts permits more than one
         return $this->base_uri = rtrim(
             $request_uri->getScheme()
             . '://' . $request_uri->getHost()
             . ($request_uri->getPort() ? ':' . $request_uri->getPort() : '')
             . $path,
-            "/"
+            '/'
         );
     }
 }

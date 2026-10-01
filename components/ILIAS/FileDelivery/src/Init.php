@@ -108,7 +108,14 @@ class Init
             $c['file_delivery.legacy_delivery'],
             $c['file_delivery.data_signer'],
             $c['http'],
-            $c['file_delivery.isolation']
+            $c['file_delivery.isolation'],
+            new \ILIAS\HTTP\Path\CascadingHttpPathProvider(
+                new \ILIAS\HTTP\Path\RequestHttpPathProvider(),
+                new \ILIAS\HTTP\Path\ArtifactHttpPathProvider(),
+                ...($c->offsetExists('ilIliasIniFile')
+                    ? [new \ILIAS\HTTP\Path\IniHttpPathProvider($c['ilIliasIniFile'])]
+                    : [])
+            )
         ));
     }
 }
