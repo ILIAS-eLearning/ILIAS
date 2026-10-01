@@ -26,6 +26,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\Data\URI;
+use ILIAS\HTTP\Path\HttpPathProvider;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -40,7 +41,8 @@ class Services
         private StreamDelivery $delivery,
         private LegacyDelivery $legacy_delivery,
         private DataSigner $data_signer,
-        private \ILIAS\HTTP\Services $http
+        private \ILIAS\HTTP\Services $http,
+        private ?HttpPathProvider $http_path = null
     ) {
     }
 
@@ -90,11 +92,31 @@ class Services
 
     protected function getBaseURI(): string
     {
-        return $this->base_uri ?? $this->base_uri = rtrim(
-            $this->http->request()->getUri()->getScheme()
-            . '://' . $this->http->request()->getUri()->getHost()
-            . ($this->http->request()->getUri()->getPort() ? ':' . $this->http->request()->getUri()->getPort() : '')
-            . dirname($this->http->request()->getUri()->getPath()),
+        if ($this->base_uri !== null) {
+            return $this->base_uri;
+        }
+
+        $request_uri = $this->http->request()->getUri();
+        $http_path = $this->http_path?->getHttpPath();
+
+        // CLI contexts such as cron jobs have no request to derive the URL from,
+        // see https://mantis.ilias.de/view.php?id=47807
+        if ($request_uri->getHost() === '') {
+            return $this->base_uri = $http_path?->getBaseURI() ?? '';
+        }
+
+        // the host stays with the request, since allowed_hosts permits more than one.
+        // The path is the one ILIAS is reached under, which dirname() of the request
+        // path does not give on every page, see https://mantis.ilias.de/view.php?id=48124
+        $base_path = $http_path !== null
+            ? '/' . ($http_path->getPath() ?? '')
+            : dirname($request_uri->getPath());
+
+        return $this->base_uri = rtrim(
+            $request_uri->getScheme()
+            . '://' . $request_uri->getHost()
+            . ($request_uri->getPort() ? ':' . $request_uri->getPort() : '')
+            . $base_path,
             "/"
         );
     }
