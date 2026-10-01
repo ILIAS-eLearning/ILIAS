@@ -44,6 +44,10 @@ class ilDAVContainerTest extends TestCase
         /** @var Container $DIC */
         global $DIC;
 
+        if (!defined('ILIAS_LOG_ENABLED')) {
+            define('ILIAS_LOG_ENABLED', false);
+        }
+
         $this->dic = is_object($DIC) ? clone $DIC : $DIC;
 
         $DIC = new Container();
@@ -452,7 +456,6 @@ class ilDAVContainerTest extends TestCase
      */
     public function testCreateDirectoryWithNonDavableNameThrowsForbiddenError(): void
     {
-        define('ILIAS_LOG_ENABLED', false);
         $ref_id = 7221;
         $webdav_test_helper = new ilWebDAVTestHelper();
         $tree = $webdav_test_helper->getTree();
