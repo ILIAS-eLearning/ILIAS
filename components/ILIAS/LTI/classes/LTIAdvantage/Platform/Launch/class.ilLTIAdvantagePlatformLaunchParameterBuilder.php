@@ -31,6 +31,10 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
 {
     private const string CONTEXT_TYPE_GROUP = 'http://purl.imsglobal.org/vocab/lis/v2/course#Group';
     private const string CONTEXT_TYPE_COURSE = 'http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering';
+    private const string ROLE_PREFIX = 'http://purl.imsglobal.org/vocab/lis/v2/membership#';
+    public const string ROLE_ADMINISTRATOR = 'Administrator';
+    public const string ROLE_INSTRUCTOR = 'Instructor';
+    public const string ROLE_LEARNER = 'Learner';
 
     /**
      * @return array the message parameters, the user id of the tool being the login hint of the launch
@@ -43,7 +47,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         $tool = $object->getTool();
 
         $user_id = self::getUserId($tool->getPrivacyIdent(), $cmix_user->getUsrIdent(), $DIC->user());
-        $instructor = $DIC->access()->checkAccess('write', '', $object->getRefId()) && !$tool->getAlwaysLearner();
+        $role = $tool->getAlwaysLearner() ? self::ROLE_LEARNER : self::getRole($object->getRefId());
 
         $parameters = self::filter([
             'resource_link_id' => self::getResourceLinkId($object),
@@ -55,7 +59,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             $tool,
             $user_id,
             $cmix_user->getUsrIdent(),
-            $instructor,
+            $role,
             $object->getRefId(),
             $object->getCustomParamsArray()
         ));
@@ -64,6 +68,35 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             $parameters,
             ilLTIAdvantagePlatformGradeService::getLaunchParameters($object, (int) ($parameters['context_id'] ?? 0))
         );
+    }
+
+    /**
+     * The role of the user as earlier releases gave it: administrators of ILIAS are administrators, admins and
+     * tutors of the course or group the object is in are instructors, everybody else is a learner.
+     */
+    private static function getRole(int $ref_id): string
+    {
+        global $DIC;
+
+        $rbac_review = $DIC->rbac()->review();
+        $usr_id = $DIC->user()->getId();
+        if (in_array(SYSTEM_ROLE_ID, $rbac_review->assignedGlobalRoles($usr_id))) {
+            return self::ROLE_ADMINISTRATOR;
+        }
+
+        $context_type = ilObject::_lookupType($DIC->repositoryTree()->getParentId($ref_id), true);
+        $roles = array_intersect(
+            $rbac_review->assignedRoles($usr_id),
+            array_keys($rbac_review->getParentRoleIds($ref_id, true))
+        );
+        foreach ($roles as $role_id) {
+            $title = (string) ilObject::_lookupTitle($role_id);
+            if (str_starts_with($title, 'il_' . $context_type . '_admin') || str_starts_with($title, 'il_' . $context_type . '_tutor')) {
+                return self::ROLE_INSTRUCTOR;
+            }
+        }
+
+        return self::ROLE_LEARNER;
     }
 
     /**
@@ -97,7 +130,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         ilLTITool $tool,
         string $user_id,
         string $email,
-        bool $instructor,
+        string $role,
         int $ref_id,
         array $object_custom_params = []
     ): array {
@@ -114,7 +147,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
 
         $parameters = [
             'user_id' => $user_id,
-            'roles' => $instructor ? 'Instructor' : 'Learner',
+            'roles' => self::ROLE_PREFIX . $role,
             'lis_person_name_given' => $name_given,
             'lis_person_name_family' => $name_family,
             'lis_person_name_full' => $name_full,

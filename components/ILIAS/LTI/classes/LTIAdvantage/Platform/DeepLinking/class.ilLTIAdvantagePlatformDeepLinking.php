@@ -85,7 +85,7 @@ final class ilLTIAdvantagePlatformDeepLinking
                     $tool,
                     ilCmiXapiUser::getIdentAsId($tool->getPrivacyIdent(), $dic->user()),
                     ilCmiXapiUser::getIdent($tool->getPrivacyIdent(), $dic->user()),
-                    true,
+                    ilLTIAdvantagePlatformLaunchParameterBuilder::ROLE_INSTRUCTOR,
                     $ref_id
                 ) + [
                     'launch_presentation_document_target' => 'iframe',
