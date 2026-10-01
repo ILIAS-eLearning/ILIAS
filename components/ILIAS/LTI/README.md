@@ -145,6 +145,15 @@ the endpoints:
   the page with the objects posts them to `lti.php` with a token ILIAS signed that names the platform and the
   return URL, valid for an hour, so it works in an iframe without a session cookie of ILIAS. A request ILIAS
   cannot answer goes back to the platform as an error.
+* **Assignment and Grade Services, ILIAS as platform:** `ilLTIAdvantagePlatformGradeService` (`Platform/AGS`),
+  served by `ltiservices.php` under the URLs of earlier releases, since tools keep the line item URL of a launch.
+  Each `lti` object of a tool that reports grades is one line item, which the launch names. The tool reads line
+  items and results and posts scores with an access token of `ltitoken.php`, for itself only: the object has to be
+  of the tool, in the context of the URL, and the user one who launched it. A score is kept in `lti_consumer_grades`;
+  unless a later one is already kept, a fully graded score becomes the result and the learning progress is
+  updated. Line items a tool created in earlier releases are not served, nor creating, changing or deleting them.
+* **Assignment and Grade Services, ILIAS as tool:** `ilLTIAppEventListener` sends the learning progress of a user
+  of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
   `ilLTIAdvantageKeyPair` and name what they are for, so that no other token of ILIAS is taken for them.
 
@@ -193,7 +202,8 @@ Installations updated from an earlier release MUST keep working:
 * The object types `lti`, `ltiv` and `ltis` do not change.
 * No table or column is removed or renamed.
 * Public endpoints keep their URLs (`ltiresult.php`, `lti.php`, `lticerts.php`, `ltiauth.php`, `ltitoken.php`,
-  and `lticonfig.php` and `ltiregistration.php` of Dynamic Registration). `ltiregstart.php` and `ltiregend.php` of
+  `lticonfig.php` and `ltiregistration.php` of Dynamic Registration, and `ltiservices.php` of the Assignment and
+  Grade Services). `ltiregstart.php` and `ltiregend.php` of
   earlier releases are gone: only the registration running in the browser used them.
 * The LTI Advantage key of ILIAS stays in the settings `lti_1_3_privatekey` and `lti_1_3_kid`, and the
   deployment id of a tool is still its id.

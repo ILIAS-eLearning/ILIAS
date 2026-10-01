@@ -45,6 +45,7 @@ class ilObjLTITool extends ilObject2
     private string $custom_params = '';
     private ?ilLTI1p1ConsumerObjectCredentials $lti_1p1_credentials = null;
     private float $mastery_score = 0.5;
+    private float $score_maximum = 1.0;
     private bool $use_xapi = false;
     private string $custom_activity_id = '';
     private bool $statements_report_enabled = false;
@@ -118,6 +119,15 @@ class ilObjLTITool extends ilObject2
     public function setMasteryScore(float $mastery_score): void
     {
         $this->mastery_score = $mastery_score;
+    }
+
+    /**
+     * The maximum score of the line item of the object in the Assignment and Grade Services. Tools of
+     * earlier releases could change it.
+     */
+    public function getScoreMaximum(): float
+    {
+        return $this->score_maximum;
     }
 
     /**
@@ -391,6 +401,7 @@ class ilObjLTITool extends ilObject2
         $this->setLaunchMethod((string) $row['launch_method']);
         $this->setCustomParams((string) $row['custom_params']);
         $this->mastery_score = (float) $row['mastery_score'];
+        $this->score_maximum = (float) ($row['score_maximum'] ?? 0) > 0 ? (float) $row['score_maximum'] : 1.0;
         $this->use_xapi = (bool) $row['use_xapi'];
         $this->custom_activity_id = (string) $row['activity_id'];
         $this->statements_report_enabled = (bool) $row['show_statements'];

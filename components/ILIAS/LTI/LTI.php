@@ -69,6 +69,9 @@ class LTI implements Component\Component
             new Component\Resource\Endpoint($this, "ltitoolregistration.php");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "ltiservices.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "lti_creation.css");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>

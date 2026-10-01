@@ -42,14 +42,11 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
 
         $tool = $object->getTool();
 
-        $user_id = ilCmiXapiUser::getIdentAsId($tool->getPrivacyIdent(), $DIC->user());
-        if ($tool->getPrivacyIdent() === ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
-            $user_id = (string) strstr($cmix_user->getUsrIdent(), '@' . ilCmiXapiUser::getIliasUuid(), true);
-        }
+        $user_id = self::getUserId($tool->getPrivacyIdent(), $cmix_user->getUsrIdent(), $DIC->user());
         $instructor = $DIC->access()->checkAccess('write', '', $object->getRefId()) && !$tool->getAlwaysLearner();
 
-        return self::filter([
-            'resource_link_id' => $tool->getUseToolId() ? 'p' . $tool->getId() : (string) $object->getRefId(),
+        $parameters = self::filter([
+            'resource_link_id' => self::getResourceLinkId($object),
             'resource_link_title' => $object->getTitle(),
             'resource_link_description' => $object->getDescription(),
             'launch_presentation_document_target' => $object->isLaunchMethodEmbedded() ? 'iframe' : 'window',
@@ -62,6 +59,31 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             $object->getRefId(),
             $object->getCustomParamsArray()
         ));
+
+        return array_merge(
+            $parameters,
+            ilLTIAdvantagePlatformGradeService::getLaunchParameters($object, (int) ($parameters['context_id'] ?? 0))
+        );
+    }
+
+    /**
+     * The user id the tool knows the user by, from the identity the launches of the object stored for them.
+     */
+    public static function getUserId(int $privacy_ident, string $usr_ident, ilObjUser $user): string
+    {
+        // a random identity is generated once, the user id is its part before the domain
+        if ($privacy_ident === ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
+            return (string) strstr($usr_ident, '@' . ilCmiXapiUser::getIliasUuid(), true);
+        }
+
+        return ilCmiXapiUser::getIdentAsId($privacy_ident, $user);
+    }
+
+    public static function getResourceLinkId(ilObjLTITool $object): string
+    {
+        $tool = $object->getTool();
+
+        return $tool->getUseToolId() ? 'p' . $tool->getId() : (string) $object->getRefId();
     }
 
     /**
