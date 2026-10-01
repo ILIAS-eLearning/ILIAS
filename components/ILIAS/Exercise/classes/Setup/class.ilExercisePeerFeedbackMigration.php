@@ -69,7 +69,7 @@ class ilExercisePeerFeedbackMigration implements Migration
                         $crit_id = null;
                         $fb_dir = $base_path;
                         if (is_dir($base_path . '/' . $file) && is_numeric($file)) {
-                            $crit_id = (int)$file;
+                            $crit_id = (int) $file;
                             $fb_dir .= "/" . $file;
                         }
                         if (is_file($base_path . '/' . $file)) {
