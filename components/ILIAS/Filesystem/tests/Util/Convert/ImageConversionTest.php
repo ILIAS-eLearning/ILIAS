@@ -453,6 +453,115 @@ class ImageConversionTest extends TestCase
         $this->assertLessThan(3, $color_diff);
     }
 
+    public static function getOutputFormats(): array
+    {
+        return [
+            [ImageOutputOptions::FORMAT_PNG],
+            [ImageOutputOptions::FORMAT_JPG],
+            [ImageOutputOptions::FORMAT_WEBP],
+        ];
+    }
+
+    /**
+     * @dataProvider getOutputFormats
+     */
+    public function testAnimatedImageUsesFirstFrame(string $format): void
+    {
+        // three frames of 40x40, optimized: the second and third frame only contain
+        // a 10x10 green resp. blue square, the first frame is completely red
+        $converted = $this->convertAnimatedImage(__DIR__ . '/img/animated.gif', $format);
+
+        $this->assertPixels($converted, [
+            '#ff0000' => [[1, 1], [0.5, 0.5], [-2, -2]],
+        ]);
+    }
+
+    /**
+     * @dataProvider getOutputFormats
+     */
+    public function testAnimatedTransparentImageUsesFirstFrameOnBackground(string $format): void
+    {
+        // three frames of 40x40: the first one is transparent with a red square in the
+        // center, the second and third one only contain a 10x10 green resp. blue square
+        // in the upper left and lower right corner
+        $converted = $this->convertAnimatedImage(__DIR__ . '/img/animated_transparent.gif', $format);
+
+        $this->assertPixels($converted, [
+            '#ffffff' => [[1, 1], [-2, -2]],
+            '#ff0000' => [[0.5, 0.5]],
+        ]);
+    }
+
+    /**
+     * @dataProvider getOutputFormats
+     */
+    public function testAnimatedImageWithSmallerFirstFrameUsesBackground(string $format): void
+    {
+        // two frames of 40x40: the first one is an opaque red 20x20 square at 10/10, the
+        // second one is completely blue. The area not covered by the first frame is empty.
+        $converted = $this->convertAnimatedImage(__DIR__ . '/img/animated_offset.gif', $format);
+
+        $this->assertPixels($converted, [
+            '#ffffff' => [[1, 1], [-2, -2]],
+            '#ff0000' => [[0.5, 0.5]],
+        ]);
+    }
+
+    private function convertAnimatedImage(string $img, string $format): \Imagick
+    {
+        $this->assertFileExists($img);
+        $gif = Streams::ofResource(fopen($img, 'rb'));
+
+        $converter_options = (new ImageConversionOptions())
+            ->withThrowOnError(true)
+            ->withFixedDimensions(20, 20)
+            ->withCrop(true)
+            ->withKeepAspectRatio(true)
+            ->withBackgroundColor('#FFFFFF');
+
+        $output_options = (new ImageOutputOptions())
+            ->withQuality(100)
+            ->withFormat($format);
+
+        $converter = new ImageConverter($converter_options, $output_options, $gif);
+        $this->assertTrue($converter->isOK());
+
+        $converted = new \Imagick();
+        $converted->readImageBlob((string) $converter->getStream());
+        $this->assertSame(1, $converted->getNumberImages());
+        $this->assertSame(
+            $format === ImageOutputOptions::FORMAT_JPG ? 'JPEG' : strtoupper($format),
+            $converted->getImageFormat()
+        );
+        $this->assertSame($converted->getImageWidth(), $converted->getImageHeight());
+
+        return $converted;
+    }
+
+    /**
+     * @param array<string, array<array{0: int|float, 1: int|float}>> $expected colors with positions,
+     *        a float is relative to the image size, a negative int is counted from the end
+     */
+    private function assertPixels(\Imagick $image, array $expected): void
+    {
+        $width = $image->getImageWidth();
+        $height = $image->getImageHeight();
+        $position = static fn(int|float $p, int $size): int => is_float($p)
+            ? (int) ($size * $p)
+            : ($p < 0 ? $size + $p : $p);
+
+        foreach ($expected as $expected_color => $positions) {
+            foreach ($positions as [$x, $y]) {
+                $x = $position($x, $width);
+                $y = $position($y, $height);
+                $pixel = $image->getImagePixelColor($x, $y)->getColor();
+                $color = sprintf('#%02x%02x%02x', $pixel['r'], $pixel['g'], $pixel['b']);
+                $this->assertLessThan(10, $this->colorDiff($expected_color, $color), "pixel $x/$y is $color");
+                $this->assertSame(1, $pixel['a'], "pixel $x/$y is not opaque");
+            }
+        }
+    }
+
     public function testWriteImage(): void
     {
         $img = $this->createTestImageStream(10, 10);
