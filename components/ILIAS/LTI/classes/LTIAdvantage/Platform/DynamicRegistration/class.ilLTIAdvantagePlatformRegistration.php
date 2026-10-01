@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\Service\Membership;
 use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Util;
 use Random\RandomException;
@@ -224,7 +225,8 @@ final class ilLTIAdvantagePlatformRegistration
     {
         $tool_configuration = $configuration[self::TOOL_CONFIGURATION];
         $deep_linking_url = self::getDeepLinkingUrl($tool_configuration);
-        $scores = in_array(Score::$SCOPE, self::getGrantedScopes($configuration), true);
+        $granted = self::getGrantedScopes($configuration);
+        $scores = in_array(Score::$SCOPE, $granted, true);
 
         return ilLTITool::create([
             'title' => ['text', $configuration['client_name']],
@@ -244,6 +246,7 @@ final class ilLTIAdvantagePlatformRegistration
             // a tool that asks to send scores sends the result of its users: ILIAS takes it for the learning progress
             'has_outcome' => ['integer', (int) $scores],
             'grade_synchronization' => ['integer', (int) $scores],
+            'names_roles' => ['integer', (int) in_array(Membership::$SCOPE, $granted, true)],
             // an LTI Advantage tool keeps the LTI 1.1 key empty and customizable
             'provider_key_customizable' => ['integer', 1],
             'provider_key' => ['text', ''],

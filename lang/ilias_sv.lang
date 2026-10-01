@@ -11296,6 +11296,8 @@ lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-nyckel
 lti#:#lti_con_key_type_rsa_public_key#:#Publik nyckel
 lti#:#lti_con_key_type_rsa_public_key_info#:#Ange nyckeln som tillhandahålls av verktyget (leverantören) i PEM-format här.
+lti#:#lti_con_names_roles#:#Names and Role Provisioning Services###01 10 2026 new variable
+lti#:#lti_con_names_roles_info#:#The tool may read the members of the course or group of its objects and their roles, as far as the privacy settings of the tool allow.###01 10 2026 new variable
 lti#:#lti_con_prov_always_learner#:#LTI-användaren är alltid en elev
 lti#:#lti_con_prov_always_learner_info#:#Som regel mappas rollen i ILIAS till en LTI-roll. Kursadministratörer kan ha fler rättigheter i leverantören eller verktyget, t.ex. att manipulera objektet. Aktivera det här alternativet för att undvika rollmappning.
 lti#:#lti_con_prov_authentication#:#Autentisering

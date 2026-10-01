@@ -60,17 +60,9 @@ final class ilLTIAdvantagePlatformGradeService
         ];
     }
 
-    /**
-     * The URLs are built from the configured HTTP path: under ltiservices.php, ILIAS_HTTP_PATH ends in the
-     * script, and the id of a line item the tool reads back must be the URL of the launch.
-     */
     private static function getLineItemsUrl(int $context_ref_id): string
     {
-        global $DIC;
-
-        $http_path = ilContext::modifyHttpPath((string) $DIC->iliasIni()->readVariable('server', 'http_path'));
-
-        return rtrim($http_path, '/') . '/ltiservices.php/gradeservice/' . $context_ref_id . '/lineitems';
+        return ilLTIAdvantagePlatformServiceRequest::getUrl('/gradeservice/' . $context_ref_id . '/lineitems');
     }
 
     private static function getLineItemUrl(int $context_ref_id, int $obj_id): string
@@ -102,14 +94,12 @@ final class ilLTIAdvantagePlatformGradeService
             $resource = $obj_id === 0 ? 'lineitems' : ltrim($matches[3] ?? '/lineitem', '/');
             $expected_method = $resource === 'scores' ? 'POST' : 'GET';
             if (strtoupper($method) !== $expected_method) {
-                return [405, ['Allow' => $expected_method, 'Content-Type' => 'application/json; charset=utf-8'], json_encode([
-                    'error' => 'The resource only accepts ' . $expected_method
-                ])];
+                return ilLTIAdvantagePlatformServiceRequest::refuseMethod($expected_method);
             }
 
             if ($resource === 'lineitems') {
                 $tool = $this->authorize($authorization, [LineItem::$SCOPE, LineItem::$SCOPE_READONLY]);
-                return $this->respond(LineItem::MEDIA_TYPE_LINE_ITEMS, $this->getLineItems($context_ref_id, $tool, $query));
+                return ilLTIAdvantagePlatformServiceRequest::respond(LineItem::MEDIA_TYPE_LINE_ITEMS, $this->getLineItems($context_ref_id, $tool, $query));
             }
 
             $tool = $this->authorize(
@@ -120,26 +110,20 @@ final class ilLTIAdvantagePlatformGradeService
                     default => [LineItem::$SCOPE, LineItem::$SCOPE_READONLY],
                 }
             );
-            $object = $this->getObject($context_ref_id, $obj_id, $tool);
+            $object = ilLTIAdvantagePlatformServiceRequest::getObject($context_ref_id, $obj_id, $tool);
 
             return match ($resource) {
                 'scores' => $this->postScore($object, $content_type, $body),
-                'results' => $this->respond(Result::MEDIA_TYPE_RESULT, $this->getResults($context_ref_id, $object, $query)),
-                default => $this->respond(LineItem::MEDIA_TYPE_LINE_ITEM, $this->getLineItem($context_ref_id, $object)),
+                'results' => ilLTIAdvantagePlatformServiceRequest::respond(Result::MEDIA_TYPE_RESULT, $this->getResults($context_ref_id, $object, $query)),
+                default => ilLTIAdvantagePlatformServiceRequest::respond(LineItem::MEDIA_TYPE_LINE_ITEM, $this->getLineItem($context_ref_id, $object)),
             };
         } catch (DomainException $e) {
-            $this->log()->warning('LTI Advantage grade service request refused: ' . $e->getMessage());
-            $headers = $e->getCode() === 401 ? ['WWW-Authenticate' => 'Bearer error="invalid_token"'] : [];
-
-            return [$e->getCode(), $headers + ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
-                'error' => $e->getMessage()
-            ], JSON_UNESCAPED_SLASHES)];
+            return ilLTIAdvantagePlatformServiceRequest::refuse('grade service', $e);
         }
     }
 
     /**
-     * The tool an access token of ILIAS was given to, when the token grants one of the scopes. Of the tokens
-     * ILIAS signs, only access tokens carry a scope.
+     * The tool of the access token, which has to report grades.
      *
      * @param array $scopes
      * @throws ilException when ILIAS has no key
@@ -147,56 +131,12 @@ final class ilLTIAdvantagePlatformGradeService
      */
     private function authorize(string $authorization, array $scopes): ilLTITool
     {
-        $token = ilLTIAdvantageKeyPair::bearerToken($authorization);
-        if ($token === '') {
-            throw new DomainException('No access token', 401);
-        }
-        $payload = ilLTIAdvantageKeyPair::verify($token);
-        $granted = $payload['imsglobal.org.security.scope'] ?? null;
-        $client_id = $payload['sub'] ?? null;
-        if (!is_string($granted) || !is_string($client_id)) {
-            throw new DomainException('Invalid access token', 401);
-        }
-
-        $tool_id = ilLTITool::lookupIdByClientId($client_id);
-        if ($tool_id === 0) {
-            throw new DomainException('Unknown client ' . $client_id, 401);
-        }
-        if (array_intersect($scopes, explode(' ', $granted)) === []) {
-            throw new DomainException('The access token does not grant ' . implode(' or ', $scopes), 403);
-        }
-
-        $tool = new ilLTITool($tool_id);
-        if ($tool->getAvailability() === ilLTITool::AVAILABILITY_NONE) {
-            throw new DomainException('The tool ' . $tool_id . ' is not available', 403);
-        }
+        $tool = ilLTIAdvantagePlatformServiceRequest::authorize($authorization, $scopes);
         if (!$tool->hasOutcome() && !$tool->isGradeSynchronization()) {
-            throw new DomainException('The tool ' . $tool_id . ' does not report grades', 403);
+            throw new DomainException('The tool ' . $tool->getId() . ' does not report grades', 403);
         }
 
         return $tool;
-    }
-
-    /**
-     * The object of the tool in the context, at a reference that is in the repository and inside the context.
-     */
-    private function getObject(int $context_ref_id, int $obj_id, ilLTITool $tool): ilObjLTITool
-    {
-        global $DIC;
-
-        $tree = $DIC->repositoryTree();
-        if (ilObject::_lookupType($obj_id) === 'lti') {
-            foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-                if ($tree->isInTree($ref_id) && in_array($context_ref_id, $tree->getPathId($ref_id), true)) {
-                    $object = new ilObjLTITool($ref_id);
-                    if ($object->getToolId() === $tool->getId()) {
-                        return $object;
-                    }
-                }
-            }
-        }
-
-        throw new DomainException('No line item ' . $obj_id . ' of the tool ' . $tool->getId() . ' in ' . $context_ref_id, 404);
     }
 
     /**
@@ -454,21 +394,5 @@ final class ilLTIAdvantagePlatformGradeService
                 'attended' => ['integer', 1],
             ]);
         }
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    private function respond(string $media_type, array $data): array
-    {
-        return [200, ['Content-Type' => $media_type], json_encode($data, JSON_UNESCAPED_SLASHES)];
-    }
-
-    private function log(): ilLogger
-    {
-        global $DIC;
-
-        return $DIC->logger()->forComponent('lti');
     }
 }

@@ -11325,6 +11325,8 @@ lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-Key
 lti#:#lti_con_key_type_rsa_public_key#:#Public Key
 lti#:#lti_con_key_type_rsa_public_key_info#:#PEMフォーマットのツール(provider)の提供するキーをここへ挿入
+lti#:#lti_con_names_roles#:#Names and Role Provisioning Services###01 10 2026 new variable
+lti#:#lti_con_names_roles_info#:#The tool may read the members of the course or group of its objects and their roles, as far as the privacy settings of the tool allow.###01 10 2026 new variable
 lti#:#lti_con_prov_always_learner#:#LTI ユーザは常時学習者です。
 lti#:#lti_con_prov_always_learner_info#:#通常ILIAS内の役割はLTI役割へマップされます。コース管理者はプロバイダー内にもっと権利(例、複数オブジェクト)がある可能性があります。役割マッピングを避けるにはこのオプションを有効にします。
 lti#:#lti_con_prov_authentication#:#認証

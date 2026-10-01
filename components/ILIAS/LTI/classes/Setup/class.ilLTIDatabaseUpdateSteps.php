@@ -487,4 +487,19 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ['adapter_class' => [ilDBConstants::T_TEXT, 'ilLTIConsumerPlaceholderValues']]
         );
     }
+
+    /**
+     * Whether a tool may read the members and roles of the contexts of its objects (LTI Advantage NRPS).
+     */
+    public function step_32(): void
+    {
+        if (!$this->db->tableColumnExists('lti_ext_provider', 'names_roles')) {
+            $this->db->addTableColumn('lti_ext_provider', 'names_roles', [
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => '0'
+            ]);
+        }
+    }
 }

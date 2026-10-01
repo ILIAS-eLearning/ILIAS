@@ -92,6 +92,7 @@ class ilLTITool
     private string $xapi_launch_secret = '';
     private string $xapi_activity_id = '';
     private bool $grade_synchronization = false;
+    private bool $names_roles = false;
     private bool $content_item = false;
     private string $content_item_url = '';
     private string $client_id = '';
@@ -280,6 +281,15 @@ class ilLTITool
     }
 
     /**
+     * True when the tool may read the members and roles of the contexts of its objects through LTI Advantage
+     * Names and Role Provisioning Services.
+     */
+    public function isNamesRoles(): bool
+    {
+        return $this->names_roles;
+    }
+
+    /**
      * True when the tool lets the user pick its content through LTI Advantage Deep Linking.
      */
     public function isContentItem(): bool
@@ -392,6 +402,7 @@ class ilLTITool
         $this->xapi_launch_secret = (string) ($row['xapi_launch_secret'] ?? '');
         $this->xapi_activity_id = (string) ($row['xapi_activity_id'] ?? '');
         $this->grade_synchronization = (bool) ($row['grade_synchronization'] ?? false);
+        $this->names_roles = (bool) ($row['names_roles'] ?? false);
         $this->content_item = (bool) ($row['content_item'] ?? false);
         $this->content_item_url = (string) ($row['content_item_url'] ?? '');
         $this->client_id = (string) ($row['client_id'] ?? '');

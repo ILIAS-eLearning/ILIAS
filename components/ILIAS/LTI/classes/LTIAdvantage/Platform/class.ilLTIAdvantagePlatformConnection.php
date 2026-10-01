@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\Enum\LtiVersion;
 use ceLTIc\LTI\Platform;
 use ceLTIc\LTI\Service\LineItem;
+use ceLTIc\LTI\Service\Membership;
 use ceLTIc\LTI\Service\Result;
 use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Tool;
@@ -47,13 +48,14 @@ use Random\RandomException;
 class ilLTIAdvantagePlatformConnection extends Platform
 {
     /**
-     * What an access token of ILIAS may grant: the Assignment and Grade Services.
+     * What an access token of ILIAS may grant: the Assignment and Grade Services and the Names and Role
+     * Provisioning Services.
      *
      * @return string[]
      */
     public static function getAccessTokenScopes(): array
     {
-        return [LineItem::$SCOPE, LineItem::$SCOPE_READONLY, Result::$SCOPE, Score::$SCOPE];
+        return [LineItem::$SCOPE, LineItem::$SCOPE_READONLY, Result::$SCOPE, Score::$SCOPE, Membership::$SCOPE];
     }
 
     private const string MESSAGE_LAUNCH = 'basic-lti-launch-request';

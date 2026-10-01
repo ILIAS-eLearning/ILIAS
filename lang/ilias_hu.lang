@@ -11373,6 +11373,8 @@ lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-kulcs
 lti#:#lti_con_key_type_rsa_public_key#:#Nyilvános kulcs
 lti#:#lti_con_key_type_rsa_public_key_info#:#Ide illessze be az eszköz (szolgáltató) által biztosított PEM formátumú kulcsot.
+lti#:#lti_con_names_roles#:#Names and Role Provisioning Services###01 10 2026 new variable
+lti#:#lti_con_names_roles_info#:#The tool may read the members of the course or group of its objects and their roles, as far as the privacy settings of the tool allow.###01 10 2026 new variable
 lti#:#lti_con_prov_always_learner#:#Az LTI-felhasználó mindig tanuló
 lti#:#lti_con_prov_always_learner_info#:#Az ILIAS szerepköre általában LTI-szerepre van leképezve. A kurzusvezetők több joguk lehetne a Kiszolgálóban, például kezelni az objektumot. Kapcsolja be ezt a lehetősget a szerepleképezés elkerüléséhez.
 lti#:#lti_con_prov_authentication#:#Hitelesítés

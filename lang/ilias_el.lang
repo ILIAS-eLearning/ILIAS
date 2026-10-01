@@ -11297,6 +11297,8 @@ lti#:#lti_con_key_type_jwk_url#:#URL###26 08 2024 new variable
 lti#:#lti_con_key_type_rsa#:#RSA-Key###26 08 2024 new variable
 lti#:#lti_con_key_type_rsa_public_key#:#Public Key###26 08 2024 new variable
 lti#:#lti_con_key_type_rsa_public_key_info#:#Insert the key provided by the tool (provider) in PEM format here.###26 08 2024 new variable
+lti#:#lti_con_names_roles#:#Names and Role Provisioning Services###01 10 2026 new variable
+lti#:#lti_con_names_roles_info#:#The tool may read the members of the course or group of its objects and their roles, as far as the privacy settings of the tool allow.###01 10 2026 new variable
 lti#:#lti_con_prov_always_learner#:#LTI User is always Learner###07 02 2020 new variable
 lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Provider, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.###07 02 2020 new variable
 lti#:#lti_con_prov_authentication#:#Authentication###07 02 2020 new variable

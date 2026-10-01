@@ -11349,6 +11349,8 @@ lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#Clave RSA
 lti#:#lti_con_key_type_rsa_public_key#:#Clave Pública
 lti#:#lti_con_key_type_rsa_public_key_info#:#Inserte aquí la clave proporcionada por la herramienta (proveedor) en formato PEM.
+lti#:#lti_con_names_roles#:#Names and Role Provisioning Services###01 10 2026 new variable
+lti#:#lti_con_names_roles_info#:#El tool puede leer los miembros del curso o grupo de sus objetos y sus roles, en la medida en que lo permitan sus ajustes de privacidad.###01 10 2026 new variable
 lti#:#lti_con_prov_always_learner#:#El usuario LTI siempre es Estudiante
 lti#:#lti_con_prov_always_learner_info#:#Normalmente el rol en ILIAS se asigna a un rol LTI. Los administradores del curso podrían tener más derechos en el proveedor, por ejemplo, para manipular el objeto. Active esta opción para evitar el mapeo de roles.
 lti#:#lti_con_prov_authentication#:#Autenticación

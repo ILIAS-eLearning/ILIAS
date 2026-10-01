@@ -152,6 +152,13 @@ the endpoints:
   of the tool, in the context of the URL, and the user one who launched it. A score is kept in `lti_consumer_grades`;
   unless a later one is already kept, a fully graded score becomes the result and the learning progress is
   updated. Line items a tool created in earlier releases are not served, nor creating, changing or deleting them.
+* **Names and Role Provisioning Services, ILIAS as platform:** `ilLTIAdvantagePlatformMembershipService`
+  (`Platform/NRPS`), served by `ltiservices.php` as well (`/membership/{context}/{object}`). Only a tool with the
+  option of the service gets it: the launch of its objects names the URL, and the tool reads the members of the
+  course or group with their roles (admins and tutors are instructors, members learners), under the privacy settings
+  of the tool. The URL names the object because a random user id is one per object; with it, only members who
+  launched the object are listed. The whole list is answered at once. What the services share, the access token,
+  the object and the URLs, is in `ilLTIAdvantagePlatformServiceRequest`.
 * **Assignment and Grade Services, ILIAS as tool:** `ilLTIAppEventListener` sends the learning progress of a user
   of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
@@ -203,7 +210,7 @@ Installations updated from an earlier release MUST keep working:
 * No table or column is removed or renamed.
 * Public endpoints keep their URLs (`ltiresult.php`, `lti.php`, `lticerts.php`, `ltiauth.php`, `ltitoken.php`,
   `lticonfig.php` and `ltiregistration.php` of Dynamic Registration, and `ltiservices.php` of the Assignment and
-  Grade Services). `ltiregstart.php` and `ltiregend.php` of
+  Grade Services and of the Names and Role Provisioning Services). `ltiregstart.php` and `ltiregend.php` of
   earlier releases are gone: only the registration running in the browser used them.
 * The LTI Advantage key of ILIAS stays in the settings `lti_1_3_privatekey` and `lti_1_3_kid`, and the
   deployment id of a tool is still its id.

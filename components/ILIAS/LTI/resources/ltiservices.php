@@ -21,9 +21,9 @@ declare(strict_types=1);
 use ILIAS\Filesystem\Stream\Streams;
 
 /**
- * Assignment and Grade Services endpoint of ILIAS as LTI Advantage platform, see
- * ilLTIAdvantagePlatformGradeService. The service is addressed by the path after the script, as in earlier
- * releases, whose URLs the tools keep.
+ * Services endpoint of ILIAS as LTI Advantage platform, the Assignment and Grade Services and the Names and
+ * Role Provisioning Services, see ilLTIAdvantagePlatformServiceRequest. The service is addressed by the path
+ * after the script, as in earlier releases, whose URLs the tools keep.
  */
 
 require_once '../vendor/composer/vendor/autoload.php';
@@ -37,7 +37,7 @@ global $DIC;
 $request = $DIC->http()->request();
 
 try {
-    [$status, $headers, $body] = (new ilLTIAdvantagePlatformGradeService())->handle(
+    [$status, $headers, $body] = ilLTIAdvantagePlatformServiceRequest::handle(
         $request->getMethod(),
         (string) ($request->getServerParams()['PATH_INFO'] ?? ''),
         $request->getHeaderLine('Authorization'),

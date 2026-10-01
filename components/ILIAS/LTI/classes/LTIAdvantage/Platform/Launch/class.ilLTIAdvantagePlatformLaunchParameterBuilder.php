@@ -31,7 +31,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
 {
     private const string CONTEXT_TYPE_GROUP = 'http://purl.imsglobal.org/vocab/lis/v2/course#Group';
     private const string CONTEXT_TYPE_COURSE = 'http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering';
-    private const string ROLE_PREFIX = 'http://purl.imsglobal.org/vocab/lis/v2/membership#';
+    public const string ROLE_PREFIX = 'http://purl.imsglobal.org/vocab/lis/v2/membership#';
     public const string ROLE_ADMINISTRATOR = 'Administrator';
     public const string ROLE_INSTRUCTOR = 'Instructor';
     public const string ROLE_LEARNER = 'Learner';
@@ -64,9 +64,12 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             $object->getCustomParamsArray()
         ));
 
+        $context_ref_id = (int) ($parameters['context_id'] ?? 0);
+
         return array_merge(
             $parameters,
-            ilLTIAdvantagePlatformGradeService::getLaunchParameters($object, (int) ($parameters['context_id'] ?? 0))
+            ilLTIAdvantagePlatformGradeService::getLaunchParameters($object, $context_ref_id),
+            ilLTIAdvantagePlatformMembershipService::getLaunchParameters($object, $context_ref_id)
         );
     }
 
@@ -137,13 +140,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         global $DIC;
 
         $user = $DIC->user();
-
-        [$name_given, $name_family, $name_full] = match ($tool->getPrivacyName()) {
-            ilLTITool::PRIVACY_NAME_FIRSTNAME => [$user->getFirstname(), '', $user->getFirstname()],
-            ilLTITool::PRIVACY_NAME_LASTNAME => ['', $user->getLastname(), $user->getLastname()],
-            ilLTITool::PRIVACY_NAME_FULLNAME => [$user->getFirstname(), $user->getLastname(), $user->getFullname()],
-            default => ['', '', ''],
-        };
+        [$name_given, $name_family, $name_full] = self::getName($tool, $user);
 
         $parameters = [
             'user_id' => $user_id,
@@ -172,6 +169,21 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         }
 
         return self::filter($parameters);
+    }
+
+    /**
+     * The given, family and full name of the user, as far as the privacy settings of the tool allow.
+     *
+     * @return array
+     */
+    public static function getName(ilLTITool $tool, ilObjUser $user): array
+    {
+        return match ($tool->getPrivacyName()) {
+            ilLTITool::PRIVACY_NAME_FIRSTNAME => [$user->getFirstname(), '', $user->getFirstname()],
+            ilLTITool::PRIVACY_NAME_LASTNAME => ['', $user->getLastname(), $user->getLastname()],
+            ilLTITool::PRIVACY_NAME_FULLNAME => [$user->getFirstname(), $user->getLastname(), $user->getFullname()],
+            default => ['', '', ''],
+        };
     }
 
     /**

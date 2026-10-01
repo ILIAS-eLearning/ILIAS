@@ -380,6 +380,10 @@ class ilLTIToolForm
                 $this->lng->txt("lti_con_grade_synchronization"),
                 $this->lng->txt("lti_con_grade_synchronization_info")
             )->withValue((bool) ($row["grade_synchronization"] ?? false)),
+            "names_roles" => $field->checkbox(
+                $this->lng->txt("lti_con_names_roles"),
+                $this->lng->txt("lti_con_names_roles_info")
+            )->withValue((bool) ($row["names_roles"] ?? false)),
         ];
 
         if ($this->tool_id === 0) {
@@ -421,6 +425,7 @@ class ilLTIToolForm
             "content_item" => ["integer", (int) ($data["content_item"] !== null)],
             "content_item_url" => ["text", $data["content_item"]["content_item_url"] ?? ""],
             "grade_synchronization" => ["integer", (int) $data["grade_synchronization"]],
+            "names_roles" => ["integer", (int) $data["names_roles"]],
             // an LTI Advantage tool keeps the LTI 1.1 key empty and customizable
             "provider_key_customizable" => ["integer", 1],
             "provider_key" => ["text", ""],
