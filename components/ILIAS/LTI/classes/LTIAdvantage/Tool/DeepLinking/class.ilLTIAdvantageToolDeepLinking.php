@@ -49,7 +49,6 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
 
     private const string PURPOSE = 'lti_tool_deep_linking';
     private const int TOKEN_LIFETIME = 3600;
-    private const string TYPE_RESOURCE_LINK = 'ltiResourceLink';
     private const string MESSAGE_RESPONSE = 'ContentItemSelection';
     private const string FIELD_OBJECTS = 'objects';
 
@@ -80,7 +79,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
             $receiver->ltiVersion !== LtiVersion::V1P3 => 'ILIAS only takes Deep Linking requests of LTI Advantage.',
             $receiver->userResult === null || !($receiver->userResult->isStaff() || $receiver->userResult->isAdmin())
                 => 'Only instructors and administrators may pick ILIAS content.',
-            !in_array(self::TYPE_RESOURCE_LINK, $content_types, true) => 'The platform does not accept LTI resource links, only: ' . implode(', ', $content_types) . '.',
+            !in_array(Item::TYPE_LTI_LINK, $content_types, true) => 'The platform does not accept LTI resource links, only: ' . implode(', ', $content_types) . '.',
             $ref_ids === [] => 'No ILIAS object is released to the platform.',
             default => null,
         };

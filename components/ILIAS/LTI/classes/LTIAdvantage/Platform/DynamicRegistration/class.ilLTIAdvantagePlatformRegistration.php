@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Util;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * LTI Advantage Dynamic Registration of a tool with ILIAS as platform. celtic/lti has nothing for this role.
@@ -42,7 +43,6 @@ final class ilLTIAdvantagePlatformRegistration
     private const string PLATFORM_CONFIGURATION = 'https://purl.imsglobal.org/spec/lti-platform-configuration';
     private const string MESSAGE_LAUNCH = 'LtiResourceLinkRequest';
     private const string MESSAGE_DEEP_LINKING = 'LtiDeepLinkingRequest';
-    private const string SCOPE_SCORE = 'https://purl.imsglobal.org/spec/lti-ags/scope/score';
     private const string ERROR_METADATA = 'invalid_client_metadata';
     private const string ERROR_TOKEN = 'invalid_token';
     private const int URL_LENGTH = 255;
@@ -67,7 +67,7 @@ final class ilLTIAdvantagePlatformRegistration
             'token_endpoint_auth_signing_alg_values_supported' => ['RS256'],
             'jwks_uri' => ilLTIAdvantageKeyPair::getJwksUrl(),
             'registration_endpoint' => $path . '/ltiregistration.php',
-            'scopes_supported' => array_merge(['openid'], ilLTIAdvantagePlatformConnection::ACCESS_TOKEN_SCOPES),
+            'scopes_supported' => array_merge(['openid'], ilLTIAdvantagePlatformConnection::getAccessTokenScopes()),
             'response_types_supported' => ['id_token'],
             'subject_types_supported' => ['public'],
             'id_token_signing_alg_values_supported' => ['RS256'],
@@ -233,7 +233,7 @@ final class ilLTIAdvantagePlatformRegistration
     {
         $tool_configuration = $configuration[self::TOOL_CONFIGURATION];
         $deep_linking_url = self::getDeepLinkingUrl($tool_configuration);
-        $scores = in_array(self::SCOPE_SCORE, self::getGrantedScopes($configuration), true);
+        $scores = in_array(Score::$SCOPE, self::getGrantedScopes($configuration), true);
 
         return ilLTITool::create([
             'title' => ['text', $configuration['client_name']],
@@ -267,7 +267,7 @@ final class ilLTIAdvantagePlatformRegistration
     {
         $requested = preg_split('/\s+/', trim((string) ($configuration['scope'] ?? '')), -1, PREG_SPLIT_NO_EMPTY);
 
-        return array_values(array_intersect(ilLTIAdvantagePlatformConnection::ACCESS_TOKEN_SCOPES, $requested));
+        return array_values(array_intersect(ilLTIAdvantagePlatformConnection::getAccessTokenScopes(), $requested));
     }
 
     /**

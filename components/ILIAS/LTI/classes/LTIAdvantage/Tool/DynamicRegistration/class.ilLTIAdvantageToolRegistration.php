@@ -22,9 +22,12 @@ use ceLTIc\LTI\Platform;
 use ceLTIc\LTI\Profile\Item;
 use ceLTIc\LTI\Profile\Message;
 use ceLTIc\LTI\Profile\ResourceHandler;
+use ceLTIc\LTI\Service\LineItem;
+use ceLTIc\LTI\Service\Result;
+use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\Util;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * LTI Advantage Dynamic Registration of ILIAS as tool with a platform of the administration.
@@ -51,15 +54,6 @@ final class ilLTIAdvantageToolRegistration extends Tool
     private const string TOOL_CONFIGURATION = 'https://purl.imsglobal.org/spec/lti-tool-configuration';
     private const string MESSAGE_LAUNCH = 'basic-lti-launch-request';
     private const string MESSAGE_DEEP_LINKING = 'ContentItemSelectionRequest';
-
-    /**
-     * What ILIAS asks for: the Assignment and Grade Services it sends the learning progress with.
-     */
-    private const array SCOPES = [
-        'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-        'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
-        'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-    ];
 
     /**
      * What ILIAS takes from a launch to create the user.
@@ -174,7 +168,8 @@ final class ilLTIAdvantageToolRegistration extends Tool
                 [new Message(self::MESSAGE_DEEP_LINKING, '/lti.php', self::CAPABILITIES)]
             ),
         ];
-        $this->requiredScopes = self::SCOPES;
+        // the Assignment and Grade Services ILIAS sends the learning progress with
+        $this->requiredScopes = [LineItem::$SCOPE, Result::$SCOPE, Score::$SCOPE];
 
         return parent::getConfiguration($platformConfig);
     }

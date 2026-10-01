@@ -69,7 +69,7 @@ if (($body['client_assertion_type'] ?? '') !== 'urn:ietf:params:oauth:client-ass
 }
 $scopes = array_intersect(
     explode(' ', (string) ($body['scope'] ?? '')),
-    ilLTIAdvantagePlatformConnection::ACCESS_TOKEN_SCOPES
+    ilLTIAdvantagePlatformConnection::getAccessTokenScopes()
 );
 if ($scopes === []) {
     $refuse(400, 'invalid_scope', 'scope ' . (string) ($body['scope'] ?? ''));
@@ -91,4 +91,4 @@ if (!$connection->verifySignature()) {
     $refuse(401, 'invalid_client', 'client ' . $client_id . ': ' . $connection->reason);
 }
 
-$connection->sendAccessToken(ilLTIAdvantagePlatformConnection::ACCESS_TOKEN_SCOPES);
+$connection->sendAccessToken(ilLTIAdvantagePlatformConnection::getAccessTokenScopes());

@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\Service\LineItem;
+use ceLTIc\LTI\Service\Result;
+use ceLTIc\LTI\Service\Score;
+
 /**
  * The Assignment and Grade Services of ILIAS as LTI Advantage platform (ltiservices.php): each LTI object
  * is one line item, which its tool reads and posts the scores of the users to. The tool authenticates with
@@ -31,16 +35,6 @@ declare(strict_types=1);
  */
 final class ilLTIAdvantagePlatformGradeService
 {
-    public const string SCOPE_LINEITEM = 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem';
-    public const string SCOPE_LINEITEM_READ = 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly';
-    public const string SCOPE_RESULT_READ = 'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly';
-    public const string SCOPE_SCORE = 'https://purl.imsglobal.org/spec/lti-ags/scope/score';
-
-    private const string MEDIA_TYPE_LINEITEM = 'application/vnd.ims.lis.v2.lineitem+json';
-    private const string MEDIA_TYPE_LINEITEMS = 'application/vnd.ims.lis.v2.lineitemcontainer+json';
-    private const string MEDIA_TYPE_RESULTS = 'application/vnd.ims.lis.v2.resultcontainer+json';
-    private const string MEDIA_TYPE_SCORE = 'application/vnd.ims.lis.v1.score+json';
-
     private const string PATH_PATTERN = '@^/gradeservice/(\d+)/lineitems(?:/(\d+)/lineitem(/scores|/results)?)?/?$@';
     private const string TIMESTAMP_PATTERN = '/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:?\d{2})$/';
     private const string GRADES_TABLE = 'lti_consumer_grades';
@@ -62,7 +56,7 @@ final class ilLTIAdvantagePlatformGradeService
         return [
             'custom_lineitems_url' => self::getLineItemsUrl($context_ref_id),
             'custom_lineitem_url' => self::getLineItemUrl($context_ref_id, $object->getId()),
-            'custom_ags_scopes' => implode(',', [self::SCOPE_LINEITEM_READ, self::SCOPE_RESULT_READ, self::SCOPE_SCORE]),
+            'custom_ags_scopes' => implode(',', [LineItem::$SCOPE_READONLY, Result::$SCOPE, Score::$SCOPE]),
         ];
     }
 
@@ -114,24 +108,24 @@ final class ilLTIAdvantagePlatformGradeService
             }
 
             if ($resource === 'lineitems') {
-                $tool = $this->authorize($authorization, [self::SCOPE_LINEITEM, self::SCOPE_LINEITEM_READ]);
-                return $this->respond(self::MEDIA_TYPE_LINEITEMS, $this->getLineItems($context_ref_id, $tool, $query));
+                $tool = $this->authorize($authorization, [LineItem::$SCOPE, LineItem::$SCOPE_READONLY]);
+                return $this->respond(LineItem::MEDIA_TYPE_LINE_ITEMS, $this->getLineItems($context_ref_id, $tool, $query));
             }
 
             $tool = $this->authorize(
                 $authorization,
                 match ($resource) {
-                    'scores' => [self::SCOPE_SCORE],
-                    'results' => [self::SCOPE_RESULT_READ],
-                    default => [self::SCOPE_LINEITEM, self::SCOPE_LINEITEM_READ],
+                    'scores' => [Score::$SCOPE],
+                    'results' => [Result::$SCOPE],
+                    default => [LineItem::$SCOPE, LineItem::$SCOPE_READONLY],
                 }
             );
             $object = $this->getObject($context_ref_id, $obj_id, $tool);
 
             return match ($resource) {
                 'scores' => $this->postScore($object, $content_type, $body),
-                'results' => $this->respond(self::MEDIA_TYPE_RESULTS, $this->getResults($context_ref_id, $object, $query)),
-                default => $this->respond(self::MEDIA_TYPE_LINEITEM, $this->getLineItem($context_ref_id, $object)),
+                'results' => $this->respond(Result::MEDIA_TYPE_RESULT, $this->getResults($context_ref_id, $object, $query)),
+                default => $this->respond(LineItem::MEDIA_TYPE_LINE_ITEM, $this->getLineItem($context_ref_id, $object)),
             };
         } catch (DomainException $e) {
             $this->log()->warning('LTI Advantage grade service request refused: ' . $e->getMessage());
@@ -319,8 +313,8 @@ final class ilLTIAdvantagePlatformGradeService
      */
     private function postScore(ilObjLTITool $object, string $content_type, string $body): array
     {
-        if (strtolower(trim(explode(';', $content_type)[0])) !== self::MEDIA_TYPE_SCORE) {
-            throw new DomainException('A score is posted as ' . self::MEDIA_TYPE_SCORE, 415);
+        if (strtolower(trim(explode(';', $content_type)[0])) !== Score::MEDIA_TYPE_SCORE) {
+            throw new DomainException('A score is posted as ' . Score::MEDIA_TYPE_SCORE, 415);
         }
 
         $score = json_decode($body, true);

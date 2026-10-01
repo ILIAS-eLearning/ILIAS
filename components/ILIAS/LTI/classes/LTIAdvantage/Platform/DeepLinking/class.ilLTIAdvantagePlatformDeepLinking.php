@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\Content\Item;
 use ceLTIc\LTI\Util;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * LTI Advantage Deep Linking with ILIAS as platform: a user who creates LTI objects in a container picks the
@@ -38,8 +39,6 @@ final class ilLTIAdvantagePlatformDeepLinking
 {
     private const string SESSION_KEY = 'lti_advantage_deep_linking';
     private const int LIFETIME = 1800;
-    private const string TYPE_RESOURCE_LINK = 'ltiResourceLink';
-    private const string MEDIA_TYPE_RESOURCE_LINK = 'application/vnd.ims.lti.v1.ltilink';
     private const int MAX_TITLE_LENGTH = 128;
 
     /**
@@ -90,8 +89,8 @@ final class ilLTIAdvantagePlatformDeepLinking
                 ) + [
                     'launch_presentation_document_target' => 'iframe',
                     'content_item_return_url' => $return_url,
-                    'accept_types' => self::TYPE_RESOURCE_LINK,
-                    'accept_media_types' => self::MEDIA_TYPE_RESOURCE_LINK,
+                    'accept_types' => Item::TYPE_LTI_LINK,
+                    'accept_media_types' => Item::LTI_LINK_MEDIA_TYPE,
                     'accept_presentation_document_targets' => 'iframe,window',
                     'accept_multiple' => 'true',
                     'auto_create' => 'true',
@@ -197,7 +196,7 @@ final class ilLTIAdvantagePlatformDeepLinking
         $decoded = json_decode($content_items, true);
         $items = [];
         foreach (is_array($decoded) ? $decoded : [] as $item) {
-            if (!is_array($item) || ($item['type'] ?? '') !== self::TYPE_RESOURCE_LINK) {
+            if (!is_array($item) || ($item['type'] ?? '') !== Item::TYPE_LTI_LINK) {
                 continue;
             }
 

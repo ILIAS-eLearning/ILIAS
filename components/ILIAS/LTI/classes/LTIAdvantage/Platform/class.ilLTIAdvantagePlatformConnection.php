@@ -20,9 +20,12 @@ declare(strict_types=1);
 
 use ceLTIc\LTI\Enum\LtiVersion;
 use ceLTIc\LTI\Platform;
+use ceLTIc\LTI\Service\LineItem;
+use ceLTIc\LTI\Service\Result;
+use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\Util;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * ILIAS as the LTI Advantage platform of one tool, in the terms of celtic/lti: the platform is ILIAS with
@@ -45,13 +48,13 @@ class ilLTIAdvantagePlatformConnection extends Platform
 {
     /**
      * What an access token of ILIAS may grant: the Assignment and Grade Services.
+     *
+     * @return string[]
      */
-    public const array ACCESS_TOKEN_SCOPES = [
-        'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-        'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly',
-        'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
-        'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-    ];
+    public static function getAccessTokenScopes(): array
+    {
+        return [LineItem::$SCOPE, LineItem::$SCOPE_READONLY, Result::$SCOPE, Score::$SCOPE];
+    }
 
     private const string MESSAGE_LAUNCH = 'basic-lti-launch-request';
     private const string MESSAGE_DEEP_LINKING_REQUEST = 'ContentItemSelectionRequest';
