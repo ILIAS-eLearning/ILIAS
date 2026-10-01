@@ -5521,7 +5521,7 @@ class ilObjTest extends ilObject
             }
             if ($material['type'] === 'matimage') {
                 $matimage = $material['material'];
-                if (preg_match('/(il_([0-9]+)_mob_([0-9]+))/', $matimage->getLabel(), $matches)) {
+                if (preg_match('/^il_[0-9]+_mob_[0-9]+\z/', $matimage->getLabel()) === 1) {
                     $mobs[] = [
                         'mob' => $matimage->getLabel(),
                         'uri' => $matimage->getUri()
