@@ -126,6 +126,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
                 break;
 
             case strtolower(ilLTIToolLaunchGUI::class):
+                $this->checkPermission('read');
                 $this->tabs_gui->activateTab(self::TAB_CONTENT);
                 $this->ctrl->forwardCommand(new ilLTIToolLaunchGUI($this->getLTIObject()));
                 break;
@@ -138,16 +139,19 @@ class ilObjLTIToolGUI extends ilObject2GUI
                 break;
 
             case strtolower(ilLTIToolXapiStatementsGUI::class):
+                $this->assertReportAccess(self::TAB_STATEMENTS);
                 $this->tabs_gui->activateTab(self::TAB_STATEMENTS);
                 $this->ctrl->forwardCommand(new ilLTIToolXapiStatementsGUI($this->getLTIObject()));
                 break;
 
             case strtolower(ilLTIObjectRankingGUI::class):
+                $this->assertReportAccess(self::TAB_RANKING);
                 $this->tabs_gui->activateTab(self::TAB_RANKING);
                 $this->ctrl->forwardCommand(new ilLTIObjectRankingGUI($this->getLTIObject()));
                 break;
 
             case strtolower(ilLTIObjectGradebookGUI::class):
+                $this->assertReportAccess(self::TAB_GRADEBOOK);
                 $this->tabs_gui->activateTab(self::TAB_GRADEBOOK);
                 $this->ctrl->forwardCommand(new ilLTIObjectGradebookGUI($this->getLTIObject()));
                 break;
@@ -193,7 +197,22 @@ class ilObjLTIToolGUI extends ilObject2GUI
                 if ($cmd === self::CMD_LAUNCH && $this->object instanceof ilObjLTITool && !$this->isContentAvailable()) {
                     $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
                 }
-                $this->{$cmd}();
+                match ($cmd) {
+                    self::CMD_LAUNCH => $this->launch(),
+                    'create' => $this->create(),
+                    'save' => $this->save(),
+                    'cancel' => $this->cancelCreation(),
+                    'infoScreen' => $this->infoScreen(),
+                    'redrawHeaderAction' => $this->redrawHeaderActionObject(),
+                    self::CMD_DELIVER_CERTIFICATE => $this->deliverCertificate(),
+                    self::CMD_SAVE_OWN_TOOL => $this->saveOwnTool(),
+                    self::CMD_REGISTER_TOOL => $this->registerTool(),
+                    self::CMD_FINISH_REGISTRATION => $this->finishRegistration(),
+                    self::CMD_SELECT_CONTENT => $this->selectContent(),
+                    self::CMD_START_DEEP_LINKING => $this->startDeepLinking(),
+                    self::CMD_FINISH_DEEP_LINKING => $this->finishDeepLinking(),
+                    default => $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE),
+                };
         }
     }
 
@@ -250,18 +269,40 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     private function addReportTabs(): void
     {
-        $object = $this->getLTIObject();
-        $reports = [
-            self::TAB_STATEMENTS => [ilLTIToolXapiStatementsGUI::class, ilObjLTIToolAccess::hasStatementsAccess($object)],
-            self::TAB_RANKING => [ilLTIObjectRankingGUI::class, ilObjLTIToolAccess::hasRankingAccess($object)],
-            self::TAB_GRADEBOOK => [ilLTIObjectGradebookGUI::class, $object->getTool()->isGradeSynchronization()],
-            self::TAB_LEARNING_PROGRESS => [ilLearningProgressGUI::class, ilObjLTIToolAccess::hasLearningProgressAccess($object)],
-        ];
-
-        foreach ($reports as $tab => [$class, $available]) {
+        foreach ($this->getReports() as $tab => [$class, $available]) {
             if ($available) {
                 $this->tabs_gui->addTab($tab, $this->lng->txt($tab), $this->ctrl->getLinkTargetByClass($class));
             }
+        }
+    }
+
+    /**
+     * The reports, by tab, with their GUI and whether the user may see them. The reports on what users did
+     * need the permission to read the object.
+     *
+     * @return array
+     * @throws ilObjectException
+     */
+    private function getReports(): array
+    {
+        $object = $this->getLTIObject();
+        $read = $this->checkPermissionBool('read');
+
+        return [
+            self::TAB_STATEMENTS => [ilLTIToolXapiStatementsGUI::class, $read && ilObjLTIToolAccess::hasStatementsAccess($object)],
+            self::TAB_RANKING => [ilLTIObjectRankingGUI::class, $read && ilObjLTIToolAccess::hasRankingAccess($object)],
+            self::TAB_GRADEBOOK => [ilLTIObjectGradebookGUI::class, $read && $object->getTool()->isGradeSynchronization()],
+            self::TAB_LEARNING_PROGRESS => [ilLearningProgressGUI::class, ilObjLTIToolAccess::hasLearningProgressAccess($object)],
+        ];
+    }
+
+    /**
+     * @throws ilObjectException
+     */
+    private function assertReportAccess(string $tab): void
+    {
+        if (!$this->getReports()[$tab][1]) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
     }
 
