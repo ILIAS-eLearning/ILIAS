@@ -87,7 +87,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             if (!$this->information->isItemActive($item)) {
                 $item = $item->withAvailableCallable(fn(): bool => false)
                              ->withNonAvailableReason('-deactived_by_configuration-');
-                $this->map->add($item);
             }
         });
 
