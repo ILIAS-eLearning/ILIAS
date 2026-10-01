@@ -76,13 +76,18 @@ class ilHttpSetupAgent implements Setup\Agent
     {
         $http_config_stored = new ilHttpConfigStoredObjective($config);
 
-        if (!$config->isProxyEnabled()) {
-            return $http_config_stored;
+        if ($config->isProxyEnabled()) {
+            $http_config_stored = new Setup\Objective\ObjectiveWithPreconditions(
+                $http_config_stored,
+                new ProxyConnectableCondition($config)
+            );
         }
 
-        return new Setup\Objective\ObjectiveWithPreconditions(
+        return new Setup\ObjectiveCollection(
+            'HTTP',
+            false,
             $http_config_stored,
-            new ProxyConnectableCondition($config)
+            new \ILIAS\HTTP\Setup\HttpPathArtifactObjective()
         );
     }
 
@@ -92,9 +97,14 @@ class ilHttpSetupAgent implements Setup\Agent
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         if ($config !== null) {
-            return new ilHttpConfigStoredObjective($config);
+            return new Setup\ObjectiveCollection(
+                'HTTP',
+                false,
+                new ilHttpConfigStoredObjective($config),
+                new \ILIAS\HTTP\Setup\HttpPathArtifactObjective()
+            );
         }
-        return new Setup\Objective\NullObjective();
+        return new \ILIAS\HTTP\Setup\HttpPathArtifactObjective();
     }
 
     /**
