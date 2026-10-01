@@ -65,11 +65,18 @@ class ilExercisePeerFeedbackMigration implements Migration
         if (is_dir($base_path)) {
             if ($dh = opendir($base_path)) {
                 while (($file = readdir($dh)) !== false) {
-                    if ($file != '.' && $file != '..' && is_dir($base_path . '/' . $file)) {
-                        if (is_numeric($file)) {
-                            $crit_id = (int) $file;
-                            $fb_dir = $base_path . "/" . $file;
+                    if ($file != '.' && $file != '..') {
+                        $crit_id = null;
+                        $fb_dir = $base_path;
+                        if (is_dir($base_path . '/' . $file) && is_numeric($file)) {
+                            $crit_id = (int)$file;
+                            $fb_dir .= "/" . $file;
+                        }
+                        elseif (is_file($base_path . '/' . $file)) {
+                            $crit_id = 0;
+                        }
 
+                        if(!is_null($crit_id)) {
                             $pattern = '/[^\.].*/m';
                             $rid = "";
                             if (is_dir($fb_dir)) {
