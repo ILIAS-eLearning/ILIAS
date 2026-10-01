@@ -72,11 +72,11 @@ class ilExercisePeerFeedbackMigration implements Migration
                             $crit_id = (int)$file;
                             $fb_dir .= "/" . $file;
                         }
-                        elseif (is_file($base_path . '/' . $file)) {
+                        if (is_file($base_path . '/' . $file)) {
                             $crit_id = 0;
                         }
 
-                        if(!is_null($crit_id)) {
+                        if (!is_null($crit_id)) {
                             $pattern = '/[^\.].*/m';
                             $rid = "";
                             if (is_dir($fb_dir)) {
