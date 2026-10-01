@@ -178,6 +178,7 @@ class ilRatingGUI implements ilCtrlSecurityInterface
         $r = $this->ui->renderer();
 
         $ttpl = new ilTemplate("tpl.rating_details.html", true, true, "components/ILIAS/Rating");
+        $summary_popovers = [];
 
         $rate_text = null;
         if ($this->getYourRatingText() != "#") {
@@ -208,6 +209,16 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                         $this->sub_obj_id,
                         $this->sub_obj_type
                     );
+                }
+
+                $summary_popover = null;
+                if ($add_tooltip) {
+                    $summary_popover = $this->getSummaryPopover(
+                        (int) ($overall_rating["cnt"] ?? 0),
+                        (float) ($overall_rating["avg"] ?? 0),
+                        (int) ($rating ?? 0)
+                    );
+                    $summary_popovers[] = $summary_popover;
                 }
 
                 // user rating links
@@ -266,15 +277,6 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                         sprintf($lng->txt("rating_rate_x_of_5"), $i)
                     );
 
-                    if ($add_tooltip) {
-                        $topics = $this->getTooltipTopics(
-                            (int) ($overall_rating["cnt"] ?? 0),
-                            (float) ($overall_rating["avg"] ?? 0),
-                            (int) ($rating ?? 0)
-                        );
-                        $b = $b->withHelpTopics(...$f->helpTopics(...$topics));
-                    }
-
                     $star_html = $this->ui->renderer()->render($b);
                     $star_html = str_replace("###star###", $star_tpl->get(), $star_html);
 
@@ -323,6 +325,11 @@ class ilRatingGUI implements ilCtrlSecurityInterface
 
                 // user rating text
                 $ttpl->setCurrentBlock("user_rating_simple");
+                if ($summary_popover) {
+                    $wrapper_id = $this->id . "_summary";
+                    $ttpl->setVariable("TTID", $wrapper_id);
+                    $summary_popovers[] = $this->bindSummaryPopover($wrapper_id, $summary_popover);
+                }
                 $ttpl->parseCurrentBlock();
             }
         }
@@ -360,6 +367,16 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                     $this->sub_obj_type,
                     $category["id"]
                 );
+
+                $summary_popover = null;
+                if ($add_tooltip) {
+                    $summary_popover = $this->getSummaryPopover(
+                        (int) ($overall_rating["cnt"] ?? 0),
+                        (float) ($overall_rating["avg"] ?? 0),
+                        (int) ($user_rating ?? 0)
+                    );
+                    $summary_popovers[] = $summary_popover;
+                }
 
                 for ($i = 1; $i <= 5; $i++) {
                     $star_tpl = new ilTemplate("tpl.js_rating_star.html", true, true, "components/ILIAS/Rating");
@@ -415,14 +432,6 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                         $ttpl->setVariable("ICON_MOUSEACTION", " onmouseover=\"il.Rating.toggleIcon(this," . $i . ")\"" .
                             " onmouseout=\"il.Rating.toggleIcon(this," . $i . ",1)\"");*/
                     }
-                    if ($add_tooltip) {
-                        $topics = $this->getTooltipTopics(
-                            (int) ($overall_rating["cnt"] ?? 0),
-                            (float) ($overall_rating["avg"] ?? 0),
-                            (int) ($user_rating ?? 0)
-                        );
-                        $b = $b->withHelpTopics(...$f->helpTopics(...$topics));
-                    }
                     $button_html = $r->render($b);
                     $button_html = str_replace("###star###", $star_tpl->get(), $button_html);
                     $ttpl->setVariable("RATE_BUTTON", $button_html);
@@ -434,6 +443,11 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                     $ttpl->setVariable("JS_ID", $a_js_id);
                     $ttpl->setVariable("CATEGORY_ID", $category["id"]);
                     $ttpl->setVariable("CATEGORY_VALUE", $user_rating);
+                    if ($summary_popover) {
+                        $wrapper_id = $this->id . "_cat_" . $category["id"];
+                        $ttpl->setVariable("CAT_TTID", $wrapper_id);
+                        $summary_popovers[] = $this->bindSummaryPopover($wrapper_id, $summary_popover);
+                    }
                     $ttpl->parseCurrentBlock();
                 }
 
@@ -479,7 +493,12 @@ class ilRatingGUI implements ilCtrlSecurityInterface
             }
         }
 
-        return $ttpl->get();
+        $html = $ttpl->get();
+        if ($summary_popovers !== []) {
+            $html .= $r->render($summary_popovers);
+        }
+
+        return $html;
     }
 
     // Get HTML for rating of an object (and a user)
@@ -598,17 +617,18 @@ class ilRatingGUI implements ilCtrlSecurityInterface
         $ttpl->setVariable("TTID", $unique_id);
         $rating_html = $ttpl->get();
 
-        $tt_topics = $this->getTooltipTopics(
+        $summary = $this->getSummaryPopover(
             (int) ($rating["cnt"] ?? 0),
             (float) ($rating["avg"] ?? 0),
             (int) ($user_rating ?? 0)
         );
 
-
         $button = $f->button()->shy('###button###', '#')
+            ->withOnHover($summary->getShowSignal())
             ->withOnLoadCode(function (string $id): string {
                 return "document.getElementById('$id').classList.add('ilRating');";
             });
+        $elements = [$summary];
         if ($has_overlay) {
             $ttpl->setVariable(
                 "RATING_DETAILS",
@@ -619,19 +639,9 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                 $f->legacy()->content($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
             );
             $button = $button->withOnClick($popover->getShowSignal());
-            $button = $button->withHelpTopics(
-                ...$f->helpTopics(...$tt_topics)
-            );
-            $elements = [$popover, $button];
-        } else {
-            /*$button = $button->withOnLoadCode(function ($id) {
-                return "";
-            });*/
-            $button = $button->withHelpTopics(
-                ...$f->helpTopics(...$tt_topics)
-            );
-            $elements = [$button];
+            $elements[] = $popover;
         }
+        $elements[] = $button;
         $html = $r->render($elements);
         $html = str_replace("###button###", $rating_html, $html);
 
@@ -661,6 +671,41 @@ class ilRatingGUI implements ilCtrlSecurityInterface
             $topics[] = $lng->txt("rating_personal_rating") . ": " . $user;
         }
         return $topics;
+    }
+
+    protected function getSummaryPopover(
+        int $cnt = 0,
+        float $avg = 0,
+        int $user = 0
+    ): \ILIAS\UI\Component\Popover\Popover {
+        $lines = "";
+        foreach ($this->getTooltipTopics($cnt, $avg, $user) as $line) {
+            $lines .= "<p>" . htmlspecialchars($line, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8") . "</p>";
+        }
+
+        return $this->ui->factory()->popover()->standard(
+            $this->ui->factory()->legacy()->content($lines)
+        );
+    }
+
+    protected function bindSummaryPopover(
+        string $wrapper_id,
+        \ILIAS\UI\Component\Popover\Popover $popover
+    ): \ILIAS\UI\Component\Component {
+        $signal = (string) $popover->getShowSignal();
+
+        return $this->ui->factory()->legacy()->content("")->withOnLoadCode(
+            function (string $id) use ($wrapper_id, $signal): string {
+                return "$('#$wrapper_id').on('mouseenter', function() {
+                    $(this).trigger('$signal', {
+                        'id' : '$signal',
+                        'event' : 'mouseenter',
+                        'triggerer' : $(this),
+                        'options' : {}
+                    });
+                });";
+            }
+        );
     }
 
     public function getBlockHTML(string $a_title): string
