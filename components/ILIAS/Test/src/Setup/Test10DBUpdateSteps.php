@@ -343,7 +343,16 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                 '
                 UPDATE tst_addtime INNER JOIN tst_active ON tst_active.active_id = tst_addtime.active_fi
                 SET tst_addtime.test_fi = tst_active.test_fi, tst_addtime.user_fi = tst_active.user_fi
-                WHERE tst_active.test_fi <> 0 AND tst_active.user_fi <> 0
+                WHERE tst_active.test_fi <> 0 AND tst_active.user_fi <> 0;
+                DELETE t1 FROM tst_addtime t1
+                JOIN (
+                        SELECT
+                           test_fi,
+                           user_fi,
+                           ROW_NUMBER() OVER (PARTITION BY test_fi, user_fi ORDER BY (SELECT NULL)) AS rn
+                        FROM tst_addtime
+                ) t2 ON t1.test_fi = t2.test_fi AND t1.user_fi = t2.user_fi
+                WHERE t2.rn > 1;
                 '
             );
 
