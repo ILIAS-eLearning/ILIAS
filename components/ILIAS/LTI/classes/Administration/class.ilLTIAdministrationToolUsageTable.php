@@ -82,8 +82,8 @@ readonly class ilLTIAdministrationToolUsageTable implements DataRetrieval
                 "title" => $column->text($this->lng->txt("tbl_lti_prov_title")),
                 "trashed" => $column->boolean(
                     $this->lng->txt("tbl_lti_prov_usages_trashed"),
-                    $icon->custom("assets/images/standard/icon_ok.svg", $this->lng->txt("icon_ok")),
-                    $icon->custom("assets/images/standard/icon_not_ok.svg", $this->lng->txt("icon_not_ok"))
+                    $icon->custom("assets/images/standard/icon_ok.svg", $this->lng->txt("yes")),
+                    $icon->custom("assets/images/standard/icon_not_ok.svg", $this->lng->txt("no"))
                 )->withIsOptional(true),
                 "used_by" => $column->link($this->lng->txt("tbl_lti_prov_used_by"))->withIsOptional(true),
                 "version" => $column->text($this->lng->txt("lti_con_version"))->withIsOptional(true),

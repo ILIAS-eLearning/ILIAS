@@ -89,6 +89,9 @@ class ilObjLTIToolGUI extends ilObject2GUI
         $ref_id = (int) explode('_', $a_target)[0];
 
         if ($ref_id > 0 && $access->checkAccess('read', '', $ref_id)) {
+            // a link to the object may open in an iframe of another site, an embedded LTI 1.1 launch for one,
+            // which only keeps the session with a SameSite=None cookie, as in earlier releases
+            ilLTISessionCookie::allowCrossSite();
             $DIC->ctrl()->setTargetScript('ilias.php');
             $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $ref_id);
             $DIC->ctrl()->redirectByClass([ilRepositoryGUI::class, self::class]);
@@ -392,7 +395,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
     public function save(): void
     {
         if (!$this->checkPermissionBool('create', '', $this->getType())) {
-            $this->error->raiseError($this->lng->txt('no_create_permission'), $this->error->MESSAGE);
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->MESSAGE);
         }
 
         $tool = new ilLTITool($this->getToolIdParameter());
@@ -692,7 +695,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
             $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
         }
 
-        $this->lng->loadLanguageModule('certificate');
+        $this->lng->loadLanguageModule('cert');
         new ilCertificatePdfAction(
             new ilPdfGenerator(new ilUserCertificateRepository()),
             new ilCertificateUtilHelper(),
@@ -953,7 +956,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
     private function assertCreationAccess(): void
     {
         if (!$this->checkPermissionBool('create', '', $this->getType())) {
-            $this->error->raiseError($this->lng->txt('no_create_permission'), $this->error->MESSAGE);
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->MESSAGE);
         }
     }
 
