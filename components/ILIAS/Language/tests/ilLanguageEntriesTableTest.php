@@ -332,8 +332,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
 
         $object = $this->createObject();
         $object->expects($this->once())->method('getChangedValues')
-            ->with(['common'], 'pat', ['access'])
-            ->willReturn(['common#:#access' => 'Changed']);
+            ->with(['common'], 'pat', [])
+            ->willReturn(['common#:#access' => 'Changed', 'common#:#other' => 'Other']);
 
         $table = $this->createTable($object, $this->createLng());
 
@@ -937,6 +937,47 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $table = $this->createTable($object, $this->createLng());
 
         $table->getFilteredEntryNames($this->filterData(['mode' => 'changed', 'identifier' => '']));
+    }
+
+    public function testIdentifierFilterMatchesSubstringsCaseInsensitively(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject();
+        $object->expects($this->once())->method('getAllValues')
+            ->with([], '', [])
+            ->willReturn([
+                'acc#:#acc_criterion_assignment_must_be_unique_insert' => 'A',
+                'acc#:#acc_crit_type_usr_language' => 'B',
+                'acc#:#acc_document' => 'C',
+                'crit#:#no_match_in_identifier' => 'D',
+                'common#:#CRITICAL' => 'E',
+            ]);
+
+        $table = $this->createTable($object, $this->createLng());
+
+        self::assertSame(
+            [
+                'acc#:#acc_criterion_assignment_must_be_unique_insert',
+                'acc#:#acc_crit_type_usr_language',
+                'common#:#CRITICAL',
+            ],
+            $table->getFilteredEntryNames($this->filterData(['identifier' => 'crit']))
+        );
+    }
+
+    public function testIdentifierFilterIsIgnoredInPageTranslationMode(): void
+    {
+        $this->setIsPageTranslation(true);
+        $this->setSavedModulesAndTopics(['zztest'], ['access']);
+        $this->mockDatabaseReturningRows([['module' => 'zztest', 'identifier' => 'access', 'value' => 'A']]);
+
+        $table = $this->createTable($this->createObject(), $this->createLng());
+
+        self::assertSame(
+            ['zztest#:#access'],
+            $table->getFilteredEntryNames($this->filterData(['identifier' => 'xyz']))
+        );
     }
 
     public function testFilterValueFallsBackToDefaultWhenTheWholeFilterDataIsNotAnArray(): void

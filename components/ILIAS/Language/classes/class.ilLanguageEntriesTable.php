@@ -212,7 +212,34 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             return $this->filtered_entries_cache;
         }
 
-        return $this->filtered_entries_cache = $this->computeFilteredEntries($filter_data);
+        return $this->filtered_entries_cache = $this->filterByIdentifier(
+            $this->computeFilteredEntries($filter_data),
+            $filter_data
+        );
+    }
+
+    /**
+     * The "identifier" filter field matches case-insensitively anywhere in
+     * the identifier (like the "pattern" field does for the value), so it is
+     * applied here on the already fetched entries instead of being passed
+     * as an exact topic list to ilObjLanguageExt::_getValues().
+     */
+    private function filterByIdentifier(array $entries, mixed $filter_data): array
+    {
+        if (ilObjLanguageAccess::_isPageTranslation()) {
+            return $entries;
+        }
+
+        $needle = (string) $this->filterValue($filter_data, 'identifier', '');
+        if ($needle === '') {
+            return $entries;
+        }
+
+        return array_filter(
+            $entries,
+            fn(string $name): bool => stripos(explode($this->lng->separator, $name)[1] ?? '', $needle) !== false,
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     private function computeFilteredEntries(mixed $filter_data): array
@@ -341,10 +368,8 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         $filter_module = $filter_module === 'all' ? '' : $filter_module;
         $filter_modules = $filter_module !== '' ? [$filter_module] : [];
 
-        $filter_identifier = (string) $this->filterValue($filter_data, 'identifier', '');
-        $filter_topics = $filter_identifier !== '' ? [$filter_identifier] : [];
-
-        return [$filter_modules, $filter_topics];
+        // the "identifier" field is a substring match, see filterByIdentifier()
+        return [$filter_modules, []];
     }
 
     /** @return array{status: 'missing'|'equal'|'ok', former_file: string, global_changes?: array} */
