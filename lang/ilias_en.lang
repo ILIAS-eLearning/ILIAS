@@ -4037,7 +4037,7 @@ common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature �
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_comments_export#:#Enable Comments Export
 common#:#enable_course_group_notifications#:#Daily ‘news roundup’ mail for group and course news
-common#:#enable_course_group_notifications_desc#:#Allow members of courses and groups that offer news to subscribe to a daily news roundup. 
+common#:#enable_course_group_notifications_desc#:#Allow members of courses and groups that offer news to subscribe to a daily news roundup.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_dnd_upload#:#Enable drag-and-drop upload
@@ -11993,7 +11993,7 @@ mem#:#mem_settings_tab_settings#:#General Settings
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 membership#:#mem_force_notification#:#Daily News Roundup
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Members Can Unsubscribe
 membership#:#mem_force_notification_mode_blocked#:#Members are automatically subscribed to the daily news roundup e-mail
 membership#:#mem_force_notification_mode_self#:#Members have to manually subscribe to the daily news roundup.
 mep#:#mep_all#:#All
@@ -13079,8 +13079,8 @@ news#:#news_new_comments#:#New comments
 news#:#news_new_reactions#:#New reactions
 news#:#news_news_block#:#News Block
 news#:#news_news_item_content#:#Text
-news#:#news_news_item_def_visibility_public_info#:#News in a public RSS news feed can be accessed by the general public, i.e. without having to be logged in to the system.  Such news should not contain confidential information.
-news#:#news_news_item_def_visibility_users_info#:#Only users who are logged in to the system have access to  news.
+news#:#news_news_item_def_visibility_public_info#:#News in a public RSS news feed can be accessed by the general public, i.e. without having to be logged in to the system. Such news should not contain confidential information.
+news#:#news_news_item_def_visibility_users_info#:#Only users who are logged in to the system have access to news.
 news#:#news_news_item_head#:#News Item
 news#:#news_news_item_title#:#Headline
 news#:#news_news_item_visibility#:#Access
