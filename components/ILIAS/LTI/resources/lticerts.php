@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Response\ResponseHeader;
-
 /**
  * JSON Web Key Set of ILIAS as LTI Advantage platform and tool: tools and platforms verify the messages and
  * tokens ILIAS signs with it. Its URL must not change: updated installations gave it to their tools.
@@ -43,11 +40,4 @@ try {
     $body = ['error' => 'server_error'];
 }
 
-$DIC->http()->saveResponse(
-    $DIC->http()->response()
-        ->withStatus($status)
-        ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json; charset=utf-8')
-        ->withBody(Streams::ofString(json_encode($body, JSON_UNESCAPED_SLASHES)))
-);
-$DIC->http()->sendResponse();
-$DIC->http()->close();
+ilLTIAdvantageResponse::json($status, $body);

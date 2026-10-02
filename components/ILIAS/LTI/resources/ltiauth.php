@@ -58,9 +58,7 @@ try {
 // an error is only sent back to a redirect URI the tool registered
 if ($connection === null || !$connection->isRedirectionUri((string) (Util::$requestParameters['redirect_uri'] ?? ''))) {
     $log->warning('LTI Advantage authentication request refused: unknown client id or redirect URI.');
-    $DIC->http()->saveResponse($DIC->http()->response()->withStatus(400));
-    $DIC->http()->sendResponse();
-    $DIC->http()->close();
+    ilLTIAdvantageResponse::send(400, '', '');
 }
 
 // the answer goes to the site of the tool, and the next launch or login of the same user may come from there too

@@ -23,7 +23,6 @@ use ceLTIc\LTI\Content\LtiLinkItem;
 use ceLTIc\LTI\Enum\LtiVersion;
 use ceLTIc\LTI\Platform;
 use ceLTIc\LTI\Tool;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use Random\RandomException;
@@ -161,9 +160,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
         }
         $page = $this->sendMessage((string) $payload['return_url'], self::MESSAGE_RESPONSE, $parameters);
 
-        $DIC->http()->saveResponse($DIC->http()->response()->withBody(Streams::ofString($page)));
-        $DIC->http()->sendResponse();
-        $DIC->http()->close();
+        ilLTIAdvantageResponse::html($page);
     }
 
     /**

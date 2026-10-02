@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ceLTIc\LTI\Platform;
 use ILIAS\DI\Container;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\UI\Component\Component;
 use Random\RandomException;
@@ -120,7 +119,7 @@ final class ilLTIAdvantagePlatformLaunchRenderer
             $page = $dic->language()->txt('error');
         }
 
-        self::sendPage($page, $status, $dic);
+        self::sendPage($page, $status);
     }
 
     /**
@@ -128,17 +127,13 @@ final class ilLTIAdvantagePlatformLaunchRenderer
      *
      * @throws ResponseSendingException
      */
-    public static function sendPage(string $page, int $status, Container $dic): never
+    public static function sendPage(string $page, int $status): never
     {
         // The tool asks ltiauth.php for the id_token from its own site, often with a POST, which does not carry
         // the session cookie of ILIAS while it is SameSite=Lax. The login the launch starts waits in that
         // session, so the cookie is sent again as SameSite=None, as ilStartUpGUI does for LTI sessions.
         ilLTISessionCookie::allowCrossSite();
 
-        $dic->http()->saveResponse(
-            $dic->http()->response()->withStatus($status)->withBody(Streams::ofString($page))
-        );
-        $dic->http()->sendResponse();
-        $dic->http()->close();
+        ilLTIAdvantageResponse::html($page, $status);
     }
 }

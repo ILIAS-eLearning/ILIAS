@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
-
 /**
  * Services endpoint of ILIAS as LTI Advantage platform, the Assignment and Grade Services and the Names and
  * Role Provisioning Services, see ilLTIAdvantagePlatformServiceRequest. The service is addressed by the path
@@ -50,10 +48,4 @@ try {
     [$status, $headers, $body] = [500, ['Content-Type' => 'application/json; charset=utf-8'], '{"error":"server_error"}'];
 }
 
-$response = $DIC->http()->response()->withStatus($status)->withHeader('Cache-Control', 'no-store');
-foreach ($headers as $name => $value) {
-    $response = $response->withHeader($name, $value);
-}
-$DIC->http()->saveResponse($response->withBody(Streams::ofString($body)));
-$DIC->http()->sendResponse();
-$DIC->http()->close();
+ilLTIAdvantageResponse::send($status, '', $body, ['Cache-Control' => 'no-store'] + $headers);

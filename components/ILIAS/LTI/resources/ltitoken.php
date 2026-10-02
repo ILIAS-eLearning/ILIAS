@@ -19,8 +19,6 @@
 declare(strict_types=1);
 
 use ceLTIc\LTI\Jwt\Jwt;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
  * OAuth 2 token endpoint of ILIAS as LTI Advantage platform: a tool proves who it is with a client assertion
@@ -40,17 +38,9 @@ ilContext::init(ilContext::CONTEXT_SCORM);
 global $DIC;
 
 $log = $DIC->logger()->forComponent('lti');
-$refuse = static function (int $status, string $error, string $reason) use ($DIC, $log): never {
+$refuse = static function (int $status, string $error, string $reason) use ($log): never {
     $log->warning('LTI Advantage access token refused: ' . $reason);
-    $DIC->http()->saveResponse(
-        $DIC->http()->response()
-            ->withStatus($status)
-            ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json; charset=utf-8')
-            ->withHeader('Cache-Control', 'no-store')
-            ->withBody(Streams::ofString(json_encode(['error' => $error])))
-    );
-    $DIC->http()->sendResponse();
-    $DIC->http()->close();
+    ilLTIAdvantageResponse::json($status, ['error' => $error], ['Cache-Control' => 'no-store']);
 };
 
 $request = $DIC->http()->request();

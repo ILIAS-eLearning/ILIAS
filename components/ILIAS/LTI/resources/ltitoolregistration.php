@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Response\ResponseHeader;
-
 /**
  * Registration URL of ILIAS as LTI Advantage tool: a platform of the administration opens it for Dynamic
  * Registration, see ilLTIAdvantageToolRegistration. The page it answers with tells whether ILIAS is registered
@@ -59,12 +56,4 @@ $page = '<!DOCTYPE html><html lang="' . htmlspecialchars($lng->getLangKey(), ENT
     . '<button type="button" onclick="(window.opener || window.parent).postMessage({subject: \'org.imsglobal.lti.close\'}, \'*\');">'
     . $close . '</button></body></html>';
 
-$DIC->http()->saveResponse(
-    $DIC->http()->response()
-        ->withStatus($registered ? 200 : 400)
-        ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html; charset=utf-8')
-        ->withHeader('Cache-Control', 'no-store')
-        ->withBody(Streams::ofString($page))
-);
-$DIC->http()->sendResponse();
-$DIC->http()->close();
+ilLTIAdvantageResponse::send($registered ? 200 : 400, ilLTIAdvantageResponse::CONTENT_TYPE_HTML, $page, ['Cache-Control' => 'no-store']);

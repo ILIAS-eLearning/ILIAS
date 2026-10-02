@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Response\ResponseHeader;
-
 /**
  * OpenID configuration of ILIAS as LTI Advantage platform, which a tool reads when it registers through
  * Dynamic Registration, see ilLTIAdvantagePlatformRegistration. Its URL is the one of earlier releases.
@@ -32,15 +29,4 @@ entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_SCORM);
 
-global $DIC;
-
-$DIC->http()->saveResponse(
-    $DIC->http()->response()
-        ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json; charset=utf-8')
-        ->withBody(Streams::ofString(json_encode(
-            ilLTIAdvantagePlatformRegistration::getOpenidConfiguration(),
-            JSON_UNESCAPED_SLASHES
-        )))
-);
-$DIC->http()->sendResponse();
-$DIC->http()->close();
+ilLTIAdvantageResponse::json(200, ilLTIAdvantagePlatformRegistration::getOpenidConfiguration());

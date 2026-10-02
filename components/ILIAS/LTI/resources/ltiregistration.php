@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Response\ResponseHeader;
-
 /**
  * Registration endpoint of ILIAS as LTI Advantage platform: a tool registered through Dynamic Registration
  * posts its configuration here, with the registration token ILIAS gave it, see
@@ -60,12 +57,4 @@ if ($status === 200) {
     $log->warning('LTI Advantage tool registration refused: ' . ($answer['error_description'] ?? $answer['error']));
 }
 
-$DIC->http()->saveResponse(
-    $DIC->http()->response()
-        ->withStatus($status)
-        ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json; charset=utf-8')
-        ->withHeader('Cache-Control', 'no-store')
-        ->withBody(Streams::ofString(json_encode($answer, JSON_UNESCAPED_SLASHES)))
-);
-$DIC->http()->sendResponse();
-$DIC->http()->close();
+ilLTIAdvantageResponse::json($status, $answer, ['Cache-Control' => 'no-store']);

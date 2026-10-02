@@ -631,7 +631,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
         if ($response === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_deep_linking_failed'), true);
-            ilLTIAdvantagePlatformDeepLinking::sendTopRedirect($create_url, $DIC);
+            ilLTIAdvantagePlatformDeepLinking::sendTopRedirect($create_url);
         }
 
         // what the tool tells the user, as the LTI standard defines it
@@ -644,7 +644,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
             if ($response['error'] === '') {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('lti_deep_linking_no_content'), true);
             }
-            ilLTIAdvantagePlatformDeepLinking::sendTopRedirect($create_url, $DIC);
+            ilLTIAdvantagePlatformDeepLinking::sendTopRedirect($create_url);
         }
 
         $objects = [];
@@ -659,8 +659,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         ilLTIAdvantagePlatformDeepLinking::sendTopRedirect(
-            count($objects) > 1 ? $this->getStaticLink($this->getContainerRefId()) : $this->getSettingsLink($objects[0]),
-            $DIC
+            count($objects) > 1 ? $this->getStaticLink($this->getContainerRefId()) : $this->getSettingsLink($objects[0])
         );
     }
 

@@ -21,9 +21,9 @@ declare(strict_types=1);
 use ceLTIc\LTI\Content\Item;
 use ceLTIc\LTI\Util;
 use ILIAS\DI\Container;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use Random\RandomException;
+
 
 /**
  * LTI Advantage Deep Linking with ILIAS as platform: a user who creates LTI objects in a container picks the
@@ -108,7 +108,7 @@ final class ilLTIAdvantagePlatformDeepLinking
             }
         }
 
-        ilLTIAdvantagePlatformLaunchRenderer::sendPage($page, $status, $dic);
+        ilLTIAdvantagePlatformLaunchRenderer::sendPage($page, $status);
     }
 
     /**
@@ -172,16 +172,14 @@ final class ilLTIAdvantagePlatformDeepLinking
      *
      * @throws ResponseSendingException
      */
-    public static function sendTopRedirect(string $url, Container $dic): never
+    public static function sendTopRedirect(string $url): never
     {
         $escaped = htmlspecialchars($url, ENT_QUOTES);
         $page = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>ILIAS</title></head><body>'
             . '<script>window.top.location.replace(' . json_encode($url, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . ');</script>'
             . '<a href="' . $escaped . '" target="_top">' . $escaped . '</a></body></html>';
 
-        $dic->http()->saveResponse($dic->http()->response()->withBody(Streams::ofString($page)));
-        $dic->http()->sendResponse();
-        $dic->http()->close();
+        ilLTIAdvantageResponse::html($page);
     }
 
     /**
