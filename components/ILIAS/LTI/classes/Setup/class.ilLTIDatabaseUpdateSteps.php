@@ -502,4 +502,30 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    /**
+     * The optional fields of the line items tools create themselves (LTI Advantage AGS).
+     */
+    public function step_33(): void
+    {
+        if (!$this->db->tableExists('lti_consumer_lineitems')) {
+            return;
+        }
+        foreach (['start_date_time', 'end_date_time'] as $column) {
+            if (!$this->db->tableColumnExists('lti_consumer_lineitems', $column)) {
+                $this->db->addTableColumn('lti_consumer_lineitems', $column, [
+                    'type' => 'text',
+                    'length' => 64,
+                    'notnull' => false
+                ]);
+            }
+        }
+        if (!$this->db->tableColumnExists('lti_consumer_lineitems', 'grades_released')) {
+            $this->db->addTableColumn('lti_consumer_lineitems', 'grades_released', [
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => false
+            ]);
+        }
+    }
 }

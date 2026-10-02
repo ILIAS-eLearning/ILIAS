@@ -130,6 +130,11 @@ class ilObjLTITool extends ilObject2
         return $this->score_maximum;
     }
 
+    public function setScoreMaximum(float $score_maximum): void
+    {
+        $this->score_maximum = $score_maximum;
+    }
+
     /**
      * True when the object reports on the xAPI statements of its tool, which has to send them.
      */
@@ -462,6 +467,7 @@ class ilObjLTITool extends ilObject2
             'launch_method' => ['text', $this->getLaunchMethod()],
             'custom_params' => ['text', $this->getCustomParams()],
             'mastery_score' => ['float', $this->mastery_score],
+            'score_maximum' => ['float', $this->score_maximum],
             'use_xapi' => ['integer', (int) $this->use_xapi],
             'activity_id' => ['text', $this->custom_activity_id],
             'show_statements' => ['integer', (int) $this->statements_report_enabled],

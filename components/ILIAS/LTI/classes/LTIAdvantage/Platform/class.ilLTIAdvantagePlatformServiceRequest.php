@@ -102,21 +102,33 @@ final class ilLTIAdvantagePlatformServiceRequest
 
     /**
      * The object of the tool in the context, at a reference that is in the repository and inside the context.
+     *
+     * @param bool $anywhere true to also take the object at a reference outside the context: earlier releases
+     *                       did not check the context of the URLs a tool kept, and the object may have moved since
      */
-    public static function getObject(int $context_ref_id, int $obj_id, ilLTITool $tool): ilObjLTITool
+    public static function getObject(int $context_ref_id, int $obj_id, ilLTITool $tool, bool $anywhere = false): ilObjLTITool
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
+        $outside = null;
         if (ilObject::_lookupType($obj_id) === 'lti') {
             foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-                if ($tree->isInTree($ref_id) && in_array($context_ref_id, $tree->getPathId($ref_id), true)) {
-                    $object = new ilObjLTITool($ref_id);
-                    if ($object->getToolId() === $tool->getId()) {
-                        return $object;
-                    }
+                if (!$tree->isInTree($ref_id)) {
+                    continue;
                 }
+                $object = new ilObjLTITool($ref_id);
+                if ($object->getToolId() !== $tool->getId()) {
+                    continue;
+                }
+                if (in_array($context_ref_id, $tree->getPathId($ref_id), true)) {
+                    return $object;
+                }
+                $outside ??= $object;
             }
+        }
+        if ($anywhere && $outside !== null) {
+            return $outside;
         }
 
         throw new DomainException('No object ' . $obj_id . ' of the tool ' . $tool->getId() . ' in ' . $context_ref_id, 404);
@@ -124,11 +136,36 @@ final class ilLTIAdvantagePlatformServiceRequest
 
     /**
      * @param array $data
+     * @param array $headers
      * @return array the HTTP status, the headers and the body of the response
      */
-    public static function respond(string $media_type, array $data): array
+    public static function respond(string $media_type, array $data, array $headers = [], int $status = 200): array
     {
-        return [200, ['Content-Type' => $media_type], json_encode($data, JSON_UNESCAPED_SLASHES)];
+        return [$status, $headers + ['Content-Type' => $media_type], json_encode($data, JSON_UNESCAPED_SLASHES)];
+    }
+
+    /**
+     * One page of a list when the tool asks for a limit, with the link to the next page, as the services
+     * page their lists.
+     *
+     * @param array $items
+     * @param array $query the query parameters, which the link to the next page keeps
+     * @return array the items of the page and the headers of the response
+     */
+    public static function paginate(array $items, array $query, string $url): array
+    {
+        $limit = is_numeric($query['limit'] ?? null) ? max(0, (int) $query['limit']) : 0;
+        if ($limit === 0) {
+            return [$items, []];
+        }
+        $page = is_numeric($query['page'] ?? null) ? max(1, (int) $query['page']) : 1;
+        $headers = [];
+        if (count($items) > $page * $limit) {
+            $next = ['limit' => $limit, 'page' => $page + 1] + $query;
+            $headers['Link'] = '<' . $url . '?' . http_build_query($next) . '>; rel="next"';
+        }
+
+        return [array_slice($items, ($page - 1) * $limit, $limit), $headers];
     }
 
     /**
