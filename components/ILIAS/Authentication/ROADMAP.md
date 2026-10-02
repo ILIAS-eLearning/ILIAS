@@ -2,6 +2,12 @@
 
 ## Short Term
 
+- **Purge the KeyValueStorage data of deleted users without the container.**
+  `ilAuthenticationAppEventListener` reacts to `deleteUser` and reads the KeyValueStorage
+  services from `global $DIC`, since `ilAppEventListener` is static and not wired through the
+  component bootstrap. Once events can be contributed through the bootstrap, the listener
+  should receive `ILIAS\KeyValueStorage\Services` and the subject provider of the users instead.
+
 ## Mid Term
 - **Introduce clearer and more consistent status methods for** `ilAuthSession`.
   Currently, determining the actual authentication state is cumbersome for consumers.

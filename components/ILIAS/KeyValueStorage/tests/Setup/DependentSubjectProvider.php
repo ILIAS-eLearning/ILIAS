@@ -18,15 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Database\PDO;
+namespace ILIAS\Tests\KeyValueStorage\Setup;
 
-use ilDBInterface;
-use ilDBPdoInterface;
-use ILIAS\Database\FieldDefinition;
-use ILIAS\Database\Connection;
+use ILIAS\KeyValueStorage\Subject\SubjectProvider;
 
-interface Internal extends Connection, ilDBPdoInterface
+/**
+ * Requires a constructor argument, which the build cannot provide.
+ */
+final readonly class DependentSubjectProvider implements SubjectProvider
 {
-    public function getFieldDefinition(): ?FieldDefinition;
-    public function getIndexName(string $index_name_base): string;
+    public function __construct(private string $name)
+    {
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
 }
