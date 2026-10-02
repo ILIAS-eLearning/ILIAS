@@ -9,6 +9,8 @@ il.IntLink =
 	cfg: {},
 	id: "",
 	modalTemplate: '',
+	modalShowSignal: '',
+	modalCloseSignal: '',
 
 	save_pars: {
 		//"target_type": "",
@@ -144,8 +146,7 @@ il.IntLink =
 	 * panel is used by other features, too (e.g. wiki link handling)
 	 */
 	showPanel: function() {
-		const modalEl = document.getElementById("ilIntLinkModal");
-		const showSignal = modalEl.dataset.showSignal;
+		const showSignal = il.IntLink.modalShowSignal;
 		$(document).trigger(
 			showSignal,
 			{
@@ -361,8 +362,7 @@ il.IntLink =
 	},
 
 	hidePanel: function () {
-		const modalEl = document.getElementById("ilIntLinkModal");
-		const closeSignal = modalEl.dataset.closeSignal;
+		const closeSignal = il.IntLink.modalCloseSignal;
 		$(document).trigger(
 			closeSignal,
 			{
@@ -378,8 +378,12 @@ il.IntLink =
 		return false;
 	},
 
-	setModalTemplate: function (modalTemplate) {
+	setModalTemplate: function (modalTemplate, showSignal, closeSignal) {
 		il.IntLink.modalTemplate = modalTemplate;
+		// AJAX forms can replace the container with signals for a different modal.
+		// Keep the signals paired with the template registered on page load.
+		il.IntLink.modalShowSignal = showSignal;
+		il.IntLink.modalCloseSignal = closeSignal;
 	}
 
 
