@@ -323,4 +323,15 @@ class ilExerciseDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_22(): void
+    {
+        $this->db->manipulate(
+            "UPDATE exc_assignment_peer eap "
+            . "JOIN exc_assignment ea ON ea.id = eap.ass_id "
+            . "SET eap.migrated = 0 "
+            . "WHERE eap.migrated = " . $this->db->quote(1, 'integer')
+            . " AND ea.peer_file = " . $this->db->quote(1, 'integer')
+        );
+    }
+
 }
