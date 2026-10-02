@@ -373,7 +373,7 @@ class ilAssQuestionPreviewGUI
 
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
-                $this->lng->txt('qpl_reset_preview'),
+                $this->lng->txt('reset_preview'),
                 $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, self::CMD_RESET)
             )
         );

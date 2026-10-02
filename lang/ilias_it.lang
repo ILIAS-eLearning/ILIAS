@@ -421,7 +421,6 @@ adve#:#adve_use_tiny_mce#:#Abilita TinyMCE come Editor WYSIWYG (What You See Is 
 assessment#:#activate_logging#:#Activate Test and Assessment Logging###28 11 2025 new variable
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 11 2025 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 11 2025 new variable
-assessment#:#addSuggestedSolution#:#Contenuti per il ripasso
 assessment#:#add_answers#:#Aggiungi risposte
 assessment#:#add_circle#:#Aggiungi cerchio
 assessment#:#add_gap#:#Aggiungi lacuna di testo
@@ -446,7 +445,6 @@ assessment#:#answer_is_not_correct_but_positive#:#Hai ricevuto dei punti per la 
 assessment#:#answer_is_right#:#La soluzione è corretta.
 assessment#:#answer_is_wrong#:#La soluzione è sbagliata.
 assessment#:#answer_of#:#Risposta di
-assessment#:#answer_options#:#Opzioni di risposte:
 assessment#:#answer_question#:#Risposta domanda
 assessment#:#answer_text#:#Testo della risposta
 assessment#:#answer_types#:#Tipi di risposta
@@ -500,7 +498,6 @@ assessment#:#ass_completion_by_submission#:#Completato da presentazione
 assessment#:#ass_completion_by_submission_info#:#Se abilitato, la presentazione di almeno un file causa il completamento di questa domanda garantendo il punteggio massimo per questa domanda. Il punteggio può essere modificato manualmente in seguito. In cambiamento di questa impostazione non effetto sulle domande già presentate.
 assessment#:#ass_create_export_file_with_results#:#Crea file di esportazione dei test (inclusi i risultati dei partecipanti)
 assessment#:#ass_create_export_test_archive#:#Crea file archivio dei test
-assessment#:#ass_create_question#:#Crea domanda
 assessment#:#ass_imap_hint#:#Il suggerimento deve essere mostrato come Descrizione comando
 assessment#:#ass_imap_map_file_not_readable#:#L’immagine caricata della mappa non può essere letta.
 assessment#:#ass_imap_no_map_found#:#Non è possibile trovare alcun modello nell’immagine della mappa caricata.
@@ -570,10 +567,6 @@ assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer t
 assessment#:#cloze_fixed_textlength#:#Lunghezza del campo di testo
 assessment#:#cloze_fixed_textlength_description#:#Se si inserisce un valore maggiore di 0 tutte le mancanze di testo e di numero avranno quella lunghezza.
 assessment#:#cloze_gap_size_info#:#Se si immette un valore maggiore di 0, questo campo di testo spazio verrà creato con la lunghezza fissa di questo valore. Se non si immette un valore, il campo di testo del gap verrà creato con il valore della lunghezza fissa globale.
-assessment#:#cloze_text#:#Testo corrispondente
-assessment#:#cloze_textgap_case_insensitive#:#No Maiuscole/minuscole
-assessment#:#cloze_textgap_case_sensitive#:#Maiuscole/minuscole
-assessment#:#cloze_textgap_levenshtein_of#:#Distanza di Levenshtein del %s
 assessment#:#code#:#Codice
 assessment#:#codebase#:#Base dei codici
 assessment#:#concatenation#:#Concatenazione
@@ -756,9 +749,7 @@ assessment#:#fq_formula_desc#:#È possibile inserire variabili predefinite (da $
 assessment#:#fq_no_restriction_info#:#Entrambi i decimali e le frazioni sono accettati come input.
 assessment#:#fq_precision_info#:#Digita il numero delle posizioni decimali desiderate.
 assessment#:#fq_question_desc#:#È possibile definire le variabili inserendo $ v1, $ v2 ... $ vn, i risultati inserendo $ r1, $ r2 .... $ rn nella posizione desiderata nel testo della domanda. Fare clic sul pulsante "Analizza domanda" per creare moduli di modifica per variabili e risultati.
-assessment#:#gap#:#Spazio vuoto
 assessment#:#gap_combination#:#Combinazione di Gap
-assessment#:#gaps#:#Gaps###28 11 2025 new variable
 assessment#:#glossary_term#:#Voce del glossario
 assessment#:#goto_first_question#:#Show first question###28 11 2025 new variable
 assessment#:#grading_mark_msg#:#Il tuo punteggio risultante è: &quot;[mark]&quot;
@@ -776,7 +767,6 @@ assessment#:#info_answer_type_change#:#La domanda contiene già delle immagini. 
 assessment#:#info_text_upload#:#Scegli un file di risposte da caricare
 assessment#:#insert_after#:#Inserisci dopo
 assessment#:#insert_before#:#Inserisci prima
-assessment#:#insert_gap#:#Inserisci Gap
 assessment#:#interaction_type#:#Interaction Type###28 11 2025 new variable
 assessment#:#internal_links#:#Link interni
 assessment#:#intprecision#:#Divisibile per
@@ -888,7 +878,6 @@ assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test 
 assessment#:#longmenu#:#Menù esteso
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#Testo menu esteso
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###30 04 2024 new variable
 assessment#:#maintenance#:#Manutenzione
 assessment#:#manscoring#:#Punteggio manuale
 assessment#:#manscoring_done#:#Partecipanti Valutati
@@ -915,7 +904,6 @@ assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di pa
 assessment#:#maximum_points#:#Punteggio massimo disponibile
 assessment#:#maxsize#:#massima dimensione file di upload
 assessment#:#maxsize_info#:#Inserire la massima dimensione in, bytes, dei files da caricare. Se il campo è lasciato in bianco, la dimensione sarà definita dal sistema.
-assessment#:#min_auto_complete#:#Completamento automatico
 assessment#:#min_ip_label#:#Lowest IP With Access###28 11 2025 new variable
 assessment#:#min_percentage_ne_0#:#Devi raggiungere la percentuale minima dello 0 percento! Lo schema voti non e' stato salvato.
 assessment#:#misc#:#Opzioni varie
@@ -924,7 +912,6 @@ assessment#:#mode_onebyone#:#One by One###28 11 2025 new variable
 assessment#:#mode_question#:#Question oriented###28 11 2025 new variable
 assessment#:#mode_user#:#Participant oriented###28 11 2025 new variable
 assessment#:#msg_circle_added#:#Circonferenza aggiunta
-assessment#:#msg_no_questions_selected#:#No questions were selected.###30 04 2024 new variable
 assessment#:#msg_number_of_terms_too_low#:#Il numero dei termini deve essere maggiore o uguale al numero delle definizioni
 assessment#:#msg_poly_added#:#Aggiunto poligono
 assessment#:#msg_questions_moved#:#Domanda(e) spostata(e)
@@ -983,7 +970,6 @@ assessment#:#order#:#Order###09 11 2022 new variable
 assessment#:#ordering_answer_sequence_info#:#La sequenza di risposte che definisci qui sara' presa come sequenza di risposte corrette.
 assessment#:#ordertext#:#Ordinando il testo
 assessment#:#ordertext_info#:#Per favore, inserisci il testo che dovrebbe essere ordinato orizzontalmente. Il testo ordinato sarà separato da spazi vuoti. Se c'e' bisogno di una differente spaziatura, si può usare il separatore %s per separare il testo.<br />
-assessment#:#out_of_range#:#Fuori portata
 assessment#:#output#:#Uscita
 assessment#:#output_mode#:#Modalità di output
 assessment#:#parseQuestion#:#Analizza domanda
@@ -1052,7 +1038,6 @@ assessment#:#qpl_bulk_save_add#:#Add###28 11 2025 new variable
 assessment#:#qpl_bulk_save_overwrite#:#Overwrite###28 11 2025 new variable
 assessment#:#qpl_bulkedit_success#:#Modifications saved.###28 11 2025 new variable
 assessment#:#qpl_cancel_skill_assigns_update#:#Annulla
-assessment#:#qpl_confirm_delete_questions#:#Sei sicuro di voler eliminare le seguenti domande? Se cancelli le domande bloccate, anche i risultati dei test che le contengono verranno cancellati.
 assessment#:#qpl_copy_insert_clipboard#:#Le domande selezionate sono state copiate negli appunti
 assessment#:#qpl_copy_select_none#:#Seleziona almeno una domanda da copiare negli appunti
 assessment#:#qpl_delete_rbac_error#:#Non hai l'autorizzazione per eliminare questa raccolta di domande!
@@ -1105,7 +1090,6 @@ assessment#:#qpl_qst_skl_usg_skill_col#:#competenze
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Somma totale di punti di competenze per competenze
 assessment#:#qpl_question_is_in_use#:#La domanda che stai per modificare è inserita in un %s dei test. Se modifichi la domanda, NON verranno modificate le domande nei test, perchè il sistema crea una copia delle domande quando queste vengono inserite in un test!
 assessment#:#qpl_questions_deleted#:#Domande eliminate
-assessment#:#qpl_reset_preview#:#Ripristina anteprima
 assessment#:#qpl_save_skill_assigns_update#:#Salva assegnazioni della competenze
 assessment#:#qpl_settings_availability#:#Availability###30 04 2024 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Se abilitato, le tassonomie eventualmente create vengono mostrate per il filtro.
@@ -1135,14 +1119,6 @@ assessment#:#qst_essay_chars_remaining#:#Caratteri rimanenti:
 assessment#:#qst_essay_wordcounter_enabled#:#Conta parole
 assessment#:#qst_essay_wordcounter_enabled_info#:#Le parole inserite vengono contate. Il numero di parole scritte viene mostrato ai partecipanti sotto il campo di immissione del testo.
 assessment#:#qst_essay_written_words#:#Numero di parole inserite:
-assessment#:#qst_lifecycle#:#Ciclo vitale
-assessment#:#qst_lifecycle_draft#:#Bozza
-assessment#:#qst_lifecycle_filter_all#:#Tutti i cicli di vita
-assessment#:#qst_lifecycle_final#:#Finale
-assessment#:#qst_lifecycle_outdated#:#Obsoleto
-assessment#:#qst_lifecycle_rejected#:#Respinto
-assessment#:#qst_lifecycle_review#:#Da rivedere
-assessment#:#qst_lifecycle_sharable#:#Condivisibile
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
 assessment#:#qst_nr_of_tries#:#Numero di tentativi
@@ -1166,17 +1142,14 @@ assessment#:#question_title#:#Titolo della domanda
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#questionpool_not_entered#:#Per favore inserisci il nome della raccolta di domande!
 assessment#:#questionpool_not_selected#:#Please select a question pool!
-assessment#:#questions#:#Questions###30 04 2024 new variable
 assessment#:#questions_from#:#domande da
 assessment#:#questions_per_page_view#:#Visualizza pagina
 assessment#:#random_accept_sample#:#Accetta esempio
 assessment#:#random_another_sample#:#Prendi un altro esempio
 assessment#:#random_selection#:#Scegli casualmente
 assessment#:#range#:#Intervallo
-assessment#:#range_lower_limit#:#Limite inferiore
 assessment#:#range_max#:#Portata (Massima)
 assessment#:#range_min#:#Portata (Minima)
-assessment#:#range_upper_limit#:#Limite superiore
 assessment#:#rated_sign#:#Segno
 assessment#:#rated_unit#:#Unità
 assessment#:#rated_value#:#Valore
@@ -1252,7 +1225,6 @@ assessment#:#search_roles#:#Ricerca ruoli
 assessment#:#search_term#:#Ricerca termini
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###30 04 2024 new variable
 assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###28 11 2025 new variable
-assessment#:#select_gap#:#Seleziona spazio
 assessment#:#select_max_one_item#:#Per favore scegli un solo elemento
 assessment#:#select_one_user#:#Seleziona almeno un utente
 assessment#:#select_question#:#Select a Question###28 11 2025 new variable
@@ -1279,7 +1251,6 @@ assessment#:#show_old_introduction#:#Show old introduction###30 04 2024 new vari
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
 assessment#:#show_results#:#Show Results###28 11 2025 new variable
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
-assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#skip_question#:#Non rispondere e Avanti
 assessment#:#solution#:#Solution###28 11 2025 new variable
 assessment#:#solutionText#:#testo
@@ -13994,6 +13965,35 @@ qpl#:#qpl_page_type_qfbg#:#Feedback generale
 qpl#:#qpl_page_type_qfbs#:#Feedback speciali
 qpl#:#qpl_page_type_qht#:#Suggerimento
 qpl#:#qpl_page_type_qpl#:#Pagina delle domande
+qsts#:#answer_options#:#Opzioni di risposte
+qsts#:#cloze_text#:#Testo corrispondente
+qsts#:#cloze_textgapcase_insensitive#:#No Maiuscole/minuscole
+qsts#:#cloze_textgapcase_sensitive#:#Maiuscole/minuscole
+qsts#:#cloze_textgaplevenshtein_of#:#Distanza di Levenshtein del %s
+qsts#:#confirm_delete_questions#:#Sei sicuro di voler eliminare le seguenti domande? Se cancelli le domande bloccate, anche i risultati dei test che le contengono verranno cancellati.
+qsts#:#create_question#:#Crea domanda
+qsts#:#gap#:#Spazio vuoto
+qsts#:#gaps#:#Gaps###28 11 2025 new variable
+qsts#:#insert_gap#:#Inserisci Gap
+qsts#:#min_auto_complete#:#Completamento automatico
+qsts#:#msg_no_questions_selected#:#No questions were selected.###30 04 2024 new variable
+qsts#:#out_of_range#:#Fuori portata
+qsts#:#qst_lifecycle#:#Ciclo vitale
+qsts#:#qst_lifecycle_draft#:#Bozza
+qsts#:#qst_lifecycle_filter_all#:#Tutti i cicli di vita
+qsts#:#qst_lifecycle_final#:#Finale
+qsts#:#qst_lifecycle_outdated#:#Obsoleto
+qsts#:#qst_lifecycle_rejected#:#Respinto
+qsts#:#qst_lifecycle_review#:#Da rivedere
+qsts#:#qst_lifecycle_sharable#:#Condivisibile
+qsts#:#questionlist#:#Questionlist###30 04 2024 new variable
+qsts#:#questions#:#Questions###30 04 2024 new variable
+qsts#:#range_lower_limit#:#Limite inferiore
+qsts#:#range_upper_limit#:#Limite superiore
+qsts#:#reset_preview#:#Ripristina anteprima
+qsts#:#select_gap#:#Seleziona spazio
+qsts#:#shuffle_answers#:#Mescola le risposte
+qsts#:#suggested_learning_content#:#Contenuti per il ripasso
 rating#:#rat_not_rated_yet#:#Non valutato
 rating#:#rat_nr_ratings#:#%s Valutazioni
 rating#:#rat_one_rating#:#Una valutazione
@@ -16644,7 +16644,6 @@ survey#:#questionblock#:#Blocco di domande
 survey#:#questionblock_inserted#:#Blocco di domande inserito
 survey#:#questionblocks#:#Blocchi di domande
 survey#:#questionblocks_inserted#:#Blocchi di domande inseriti
-survey#:#questions#:#Domande
 survey#:#questions_inserted#:#Domande inserite!
 survey#:#questions_removed#:#Domande e/o blocco di domande cancellate!
 survey#:#questiontype#:#Tipo di domanda
@@ -16945,6 +16944,7 @@ survey#:#svy_please_select_unused_codes#:#Please select at least one unused code
 survey#:#svy_print_hide_labels#:#Nascondi etichette
 survey#:#svy_print_show_labels#:#Mostra etichette
 survey#:#svy_privacy_info#:#Privacy###31 03 2023 new variable
+survey#:#svy_questions#:#Domande
 survey#:#svy_rater#:#Rater###31 03 2023 new variable
 survey#:#svy_rater_see_app_info#:#The names of appraisees will be presented to raters to enable them evaluating the questions.###31 03 2023 new variable
 survey#:#svy_reminder_mail_template#:#Modello di mail

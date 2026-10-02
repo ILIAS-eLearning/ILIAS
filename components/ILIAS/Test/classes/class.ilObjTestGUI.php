@@ -1738,7 +1738,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $inputs['pool_selection'] = $this->buildInputPoolSelection();
 
         $section = [
-            $this->ui_factory->input()->field()->section($inputs, $this->lng->txt('ass_create_question'))
+            $this->ui_factory->input()->field()->section($inputs, $this->lng->txt('create_question'))
         ];
 
         $form = $this->ui_factory->input()->container()->form()->standard(
@@ -1932,7 +1932,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        $this->toolbar->addButton($this->lng->txt('ass_create_question'), $this->ctrl->getLinkTarget($this, 'createQuestionForm'));
+        $this->toolbar->addButton($this->lng->txt('create_question'), $this->ctrl->getLinkTarget($this, 'createQuestionForm'));
         $this->toolbar->addSeparator();
         $this->populateQuestionBrowserToolbarButtons($this->toolbar);
     }

@@ -930,6 +930,7 @@ class ilPageObjectGUI
 
                 // load required lang mods
                 $this->lng->loadLanguageModule("assessment");
+                $this->lng->loadLanguageModule('qsts');
 
                 // set context tabs
                 $questionGUI = assQuestionGUI::_getQuestionGUI(
