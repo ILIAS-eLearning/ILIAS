@@ -53,7 +53,7 @@ class ForumNotificationTable implements DataRetrieval
      * 'login': string,
      * 'firstname': string,
      * 'lastname': string,
-     * 'user_toggle_noti': Icon,
+     * 'member_may_disable_noti': Icon,
      * 'role': string,
      * }>|null */
     private ?array $records = null;
@@ -252,7 +252,7 @@ class ForumNotificationTable implements DataRetrieval
      *     'login': string,
      *     'firstname': string,
      *     'lastname': string,
-     *     'user_toggle_noti': Icon,
+     *     'member_may_disable_noti': Icon,
      *     'role': string,
      * }>
      */
@@ -279,7 +279,7 @@ class ForumNotificationTable implements DataRetrieval
      *      'login': string,
      *      'firstname': string,
      *      'lastname': string,
-     *      'user_toggle_noti': Icon,
+     *      'member_may_disable_noti': Icon,
      *      'role': string,
      *  }>
      */
@@ -319,7 +319,9 @@ class ForumNotificationTable implements DataRetrieval
             $name = ilObjUser::_lookupName($user_id);
             $users[$counter]['firstname'] = $name['firstname'];
             $users[$counter]['lastname'] = $name['lastname'];
-            $users[$counter]['user_toggle_noti'] = $icons[(int) $forced_events->getUserToggle()];
+            $users[$counter]['member_may_disable_noti'] = $icons[
+                $forced_events->getMemberMayDisableNotification() ? 0 : 1
+            ];
             $users[$counter]['role'] = $types;
 
             $counter++;
@@ -337,14 +339,14 @@ class ForumNotificationTable implements DataRetrieval
         URLBuilderToken $row_id_token
     ): array {
         return [
-            'enableHideUserToggleNoti' => $this->ui_factory->table()->action()->multi(
+            'member_may_disable_noti_lock' => $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('enable_hide_user_toggle'),
-                $url_builder->withParameter($action_parameter_token, 'enableHideUserToggleNoti'),
+                $url_builder->withParameter($action_parameter_token, 'member_may_disable_noti_lock'),
                 $row_id_token
             ),
-            'disableHideUserToggleNoti' => $this->ui_factory->table()->action()->multi(
+            'member_may_disable_noti_allow' => $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('disable_hide_user_toggle'),
-                $url_builder->withParameter($action_parameter_token, 'disableHideUserToggleNoti'),
+                $url_builder->withParameter($action_parameter_token, 'member_may_disable_noti_allow'),
                 $row_id_token
             ),
             'notificationSettings' => $this->ui_factory->table()->action()->single(
@@ -361,7 +363,7 @@ class ForumNotificationTable implements DataRetrieval
      *      'login': string,
      *      'firstname': string,
      *      'lastname': string,
-     *      'user_toggle_noti': Icon,
+     *      'member_may_disable_noti': Icon,
      *      'role': string,
      *  }> $records
      * @return list<array{
@@ -369,7 +371,7 @@ class ForumNotificationTable implements DataRetrieval
      *      'login': string,
      *      'firstname': string,
      *      'lastname': string,
-     *      'user_toggle_noti': Icon,
+     *      'member_may_disable_noti': Icon,
      *      'role': string,
      *  }>>
      */
@@ -384,7 +386,7 @@ class ForumNotificationTable implements DataRetrieval
      *      'login': string,
      *      'firstname': string,
      *      'lastname': string,
-     *      'user_toggle_noti': Icon,
+     *      'member_may_disable_noti': Icon,
      *      'role': string,
      *  }> $records
      * @return list<array{
@@ -392,7 +394,7 @@ class ForumNotificationTable implements DataRetrieval
      *      'login': string,
      *      'firstname': string,
      *      'lastname': string,
-     *      'user_toggle_noti': Icon,
+     *      'member_may_disable_noti': Icon,
      *      'role': string,
      *  }>
      */
@@ -423,8 +425,8 @@ class ForumNotificationTable implements DataRetrieval
             'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login')),
             'firstname' => $this->ui_factory->table()->column()->text($this->lng->txt('firstname')),
             'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt('lastname')),
-            'user_toggle_noti' => $this->ui_factory->table()->column()->statusIcon(
-                $this->lng->txt('allow_user_toggle_noti')
+            'member_may_disable_noti' => $this->ui_factory->table()->column()->statusIcon(
+                $this->lng->txt('frm_member_may_disable_noti')
             )
                 ->withIsSortable(false),
             'role' => $this->ui_factory->table()->column()->text($this->lng->txt('role')),

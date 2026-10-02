@@ -620,6 +620,7 @@ class ilForumCronNotification extends CronJob
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
 			AND 	frm_posts.pos_author_id != frm_notification.user_id
 			AND     frm_posts_tree.pos_fk = frm_posts.pos_pk AND frm_posts_tree.parent_pos != 0
+			AND     frm_notification.user_deactivated_noti = 0
 			ORDER BY frm_posts.pos_date ASC';
     }
 
@@ -645,6 +646,7 @@ class ilForumCronNotification extends CronJob
 			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
 			AND 	frm_posts_deleted.is_thread_deleted = %s
 			AND     frm_notification.interested_events & %s
+			AND     frm_notification.user_deactivated_noti = 0
 			ORDER BY frm_posts_deleted.post_date ASC';
     }
 }
