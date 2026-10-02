@@ -230,4 +230,13 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
     {
         return "";
     }
+
+    public function setDisabled(bool $a_disabled): void
+    {
+        parent::setDisabled($a_disabled);
+        foreach ($this->getOptions() as $option) {
+            $option->setDisabled($a_disabled);
+        }
+    }
+
 }
