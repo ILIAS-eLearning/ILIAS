@@ -41,7 +41,6 @@ abstract class ilMailSearchObjectGUI implements ilCtrlSecurityInterface
     private readonly ilTabsGUI $tabs;
     protected readonly GlobalHttpState $http;
     protected readonly Refinery $refinery;
-    protected ?string $view = null;
     protected readonly ilGlobalTemplateInterface $tpl;
     protected readonly ilCtrlInterface $ctrl;
     protected readonly ilLanguage $lng;
@@ -172,20 +171,6 @@ abstract class ilMailSearchObjectGUI implements ilCtrlSecurityInterface
         }
 
         return $this->context;
-    }
-
-    protected function getRequestValue(string $key, Transformation $trafo, $default = null)
-    {
-        $value = $default;
-        if ($this->http->wrapper()->query()->has($key)) {
-            $value = $this->http->wrapper()->query()->retrieve($key, $trafo);
-        }
-
-        if ($this->http->wrapper()->post()->has($key)) {
-            $value = $this->http->wrapper()->post()->retrieve($key, $trafo);
-        }
-
-        return $value;
     }
 
     /**
