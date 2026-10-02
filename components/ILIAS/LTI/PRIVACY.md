@@ -35,7 +35,8 @@ In Administration > LTI, the privacy-related settings can be configured.
 - It is advised to keep “Send User Picture” deactivated, as enabling this option will transmit profile pictures to the LTI Provider.
 - A privacy statement warning can be displayed in the Info Tab by enabling the “External Provider” option.
 - If “Provider supports Outcome Service” is activated, Learning Progress can be enabled in the settings of the LTI Consumer object in the repository.
-- For LTI Advantage tools, Advanced Grading Services can be activated.
+- For LTI Advantage tools, the “Assignment and Grade Services” can be activated. A tool then posts scores to ILIAS: for each user, ILIAS stores every score it receives (score given, maximum score, activity progress, grading progress, the time the tool gave and the time it was received) and the resulting result of the user, which sets the Learning Progress. A tool can read back these results, identified by the user id it knows from the launches. A tool can also create line items of its own in the course or group of its objects; they hold no personal data, only the scores posted to them.
+- For LTI Advantage tools, the Names and Role Provisioning Services can be activated (“Names and Role Provisioning Services”). A tool then can read the members of the course or group an object of it is in, with their roles (instructor or learner) and their status (active or inactive). Each member is described as a launch of the object describes the user, under the same privacy settings: user id, name and email only as far as “User identification” and “User name” allow. With a random user id per object, only the members who launched the object are given to the tool. ILIAS does not store this list; it is sent to the tool on request.
 - If the provider or tool supports xAPI statements, refer to the PRIVACY.md file for xAPI. Typically, xAPI generates and transmits large amounts of behavioral data, often highly personalized. Proper privacy considerations must be taken into account when using xAPI.
 
 ### Data being stored by ILIAS as LTI Provider
@@ -43,6 +44,10 @@ In Administration > LTI, the privacy-related settings can be configured.
 ILIAS stores a user identification to match the external user with an ILIAS user. The personal data being stored depends on the settings made in the platform or consumer, and from this ILIAS installation it cannot be controlled how that personal data is dealt with.
 
 If the “Global Role assigned to LTI Users” is set to “LTI User”, external users can only access the specified resource in ILIAS.
+
+If the platform offers the Names and Role Provisioning Services, the launch of an instructor or administrator makes ILIAS read the members of the context at the platform. ILIAS creates an account for each active member that has none yet, with the user id, name and email the platform sends, and gives it the roles of the released object as a launch would. Members the platform reports as inactive or deleted lose the roles of the released object; their account stays. The accounts are created even for members who never launch ILIAS.
+
+If the platform offers the Assignment and Grade Services or the LTI 1.1 Outcome Service, ILIAS sends it the Learning Progress and the score of the users that launched the object.
 
 ### Data being presented
 

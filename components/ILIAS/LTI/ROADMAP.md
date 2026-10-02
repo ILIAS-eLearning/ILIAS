@@ -9,14 +9,10 @@
 
 ## Mid Term
 
-- Rework the LTI implementation into a single component that contains both sides of the LTI integration.
-- Align the internal structure and naming with the current LTI Tool and Platform roles.
-- Remove outdated and obsolete code paths that are no longer required for the supported LTI workflows.
-- Rebuild the user interface with current ILIAS UI components from the Kitchen Sink and avoid deprecated ILIAS modules.
+- Remove LTI 1.1, which is deprecated, once installations have moved their tools and platforms to LTI Advantage.
+  The steps are described in [README.md](README.md#removing-lti-11).
 
 ## Long Term
 
 - Apply for official LTI certification to ensure that ILIAS fully complies with IMS Global standards and guarantees interoperability with certified external tools.
-- Ensure that the reworked LTI component follows the correct LTI flows consistently.
-- Improve maintainability by reducing duplicated responsibilities between the Consumer and the Provider implementations.
-- Make future maintenance easier and faster through a cleaner architecture, current UI components, and removal of deprecated dependencies.
+- Keep the component on the current LTI flows and on the current ILIAS UI components from the Kitchen Sink, without deprecated dependencies.

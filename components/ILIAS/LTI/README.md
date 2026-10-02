@@ -30,7 +30,7 @@ LTI/
 ├── LTI.php                   Component definition
 ├── module.xml                Object types (lti, ltiv, ltis), event listeners and cron jobs
 ├── LuceneObjectDefinition.xml    What the search indexes of an LTI object
-├── classes/
+├── classes/                The addresses ILIAS gives the other side (ilLTIEndpoint) and the session cookie of LTI flows
 │   ├── Administration/       Administration > LTI (ltis), shared by LTI 1.1 and LTI Advantage
 │   ├── Object/               LTI object model (lti, ltiv, tools and platforms), shared by LTI 1.1 and LTI Advantage
 │   │   ├── Certificate/      Certificate placeholders and settings of an LTI object
@@ -40,9 +40,9 @@ LTI/
 │   │   ├── Consumer/
 │   │   └── Provider/
 │   ├── LTIAdvantage/         LTI Advantage (LTI 1.3 and its services)
-│   │   ├── Common/
+│   │   ├── Common/           Key pair, responses of the endpoints, requests waiting in the session
 │   │   ├── Platform/         ILIAS launches tools: Launch, DynamicRegistration, DeepLinking, AGS, NRPS
-│   │   └── Tool/             Platforms launch ILIAS: Launch, DynamicRegistration, DeepLinking, AGS, NRPS
+│   │   └── Tool/             Platforms launch ILIAS: DynamicRegistration, DeepLinking, NRPS
 │   └── Setup/                Setup agent and database update steps
 ├── resources/                Endpoints
 └── templates/default/        Templates of LTI 1.1 are prefixed with tpl.lti1p1_
@@ -106,11 +106,27 @@ the endpoints:
   does for LTI sessions. An embedded launch also offers the platform storage of LTI (`Platform::getStorageJS()`
   of celtic/lti in the page around the iframe), for tools that cannot keep a cookie inside an iframe.
   `ltitoken.php` checks the client assertion of a tool and issues access tokens for the Assignment and
-  Grade Services.
+  Grade Services and the Names and Role Provisioning Services. Tools set up for earlier releases may leave out
+  what the library requires: `ltiauth.php` always answers by form post without prompting, and takes the client
+  id as `id` too; in a client assertion the issuer and the subject have to be the client id and the signature
+  has to verify, while `jti`, `iat`, `exp` and `aud` are only checked when present (a `jti` is used once, the
+  audience must be on the host of ILIAS).
+* **Addresses:** `ilLTIEndpoint` builds every URL ILIAS gives the other side, from the base URL of the request,
+  which is also the issuer of ILIAS, and the instance guid of earlier releases (client id, path and host). Only the
+  URLs of `ltiservices.php` come from the configured HTTP path, because under that script the base URL of the
+  request ends in the script and its path. `ilLTIAdvantageResponse` ends the requests of the endpoints and the pages
+  that post a message to the other side, and `ilLTIAdvantagePendingRequests` keeps in the session what waits to be
+  answered: a login, a Deep Linking request, a Dynamic Registration.
 * **ILIAS as tool:** `lti.php` takes the OpenID Connect login and the id_token of a platform as well as an
   LTI 1.1 launch. `ilLTIDataConnector` finds the platform by issuer, client id and deployment id, keeps the
   key the library fetched from the key set of the platform and the access tokens of its services. The
   object launched is the one the target link names (`lti.php?ref_id=N`); it must be released to the platform.
+  The OpenID Connect login goes back to the platform by GET, as in earlier releases, so that it carries the
+  cookies SameSite=Lax holds back from a POST. A platform that registers no token URL for its services may send
+  it as the custom parameter `oauth2_access_token_url`. Of the LTI 1.1 platforms that share a consumer key, the
+  last one wins, as before. An object keeps the LTI version of its own release when the platform has releases of
+  both versions. The roles of a launch map to the local roles of the release as in earlier releases, institution
+  roles (faculty, student) and sub-roles included.
   A launch only needs a user id and a resource link id, as long as the columns they are kept in allow (250 and
   255 characters). Name, email and roles are optional, since platforms leave them out for privacy, and the
   login of a new user is built so that it is always valid.
@@ -147,24 +163,30 @@ the endpoints:
   cannot answer goes back to the platform as an error.
 * **Assignment and Grade Services, ILIAS as platform:** `ilLTIAdvantagePlatformGradeService` (`Platform/AGS`),
   served by `ltiservices.php` under the URLs of earlier releases, since tools keep the line item URL of a launch.
-  Each `lti` object of a tool that reports grades is one line item, which the launch names. The tool reads line
-  items and results and posts scores with an access token of `ltitoken.php`, for itself only: the object has to be
-  of the tool, in the context of the URL, and the user one who launched it. A score is kept in `lti_consumer_grades`;
-  unless a later one is already kept, a fully graded score becomes the result and the learning progress is
-  updated. Line items a tool created in earlier releases are not served, nor creating, changing or deleting them.
+  Each `lti` object of a tool that reports grades is one line item, which the launch names; a change of the line
+  item changes the title and the maximum score of the object, and it cannot be deleted. A tool may also create
+  line items of its own in a course or group where it has objects (`ilLTIAdvantagePlatformLineItemRepository`,
+  table `lti_consumer_lineitems` of earlier releases), with the optional fields of the service; their URLs carry
+  the id with a minus sign, as before, and they only keep the scores. Everything is done with an access token of
+  `ltitoken.php`, for the tool itself only: the object has to be of the tool and the user one who launched it. A
+  score is kept in `lti_consumer_grades`; unless a later one is already kept, a fully graded score of an object
+  becomes the result and the learning progress is updated. Lists are paged when the tool gives a limit. As in
+  earlier releases, a score may give its numbers as strings and its timestamp without time zone, the object may
+  have moved out of the context of the URL, and a user is found under the privacy setting of any of their launches.
 * **Names and Role Provisioning Services, ILIAS as platform:** `ilLTIAdvantagePlatformMembershipService`
   (`Platform/NRPS`), served by `ltiservices.php` as well (`/membership/{context}/{object}`). Only a tool with the
   option of the service gets it: the launch of its objects names the URL, and the tool reads the members of the
   course or group with their roles (admins and tutors are instructors, members learners), under the privacy settings
   of the tool. The URL names the object because a random user id is one per object; with it, only members who
-  launched the object are listed. The whole list is answered at once. What the services share, the access token,
-  the object and the URLs, is in `ilLTIAdvantagePlatformServiceRequest`.
+  launched the object are listed. The list is paged when the tool gives a limit. What the services share, the
+  access token, the object and the pages, is in `ilLTIAdvantagePlatformServiceRequest`.
 * **Names and Role Provisioning Services, ILIAS as tool:** `ilLTIAdvantageToolMembership` (`Tool/NRPS`). When an
   instructor or administrator of a platform launches ILIAS and the launch names the service, ILIAS reads the members of
   the context and gives every active member the account and the roles of the release, as their own launch would.
   celtic/lti sends the requests and follows the pages; the members are read by ILIAS because the library drops their
-  status. Members who left keep their account and roles. A platform that does not answer only leaves a warning in the
-  log. ILIAS asks for the scope when it registers through Dynamic Registration.
+  status. Members the platform reports as inactive or deleted lose the roles of the release; members that are not
+  in the list keep them, because the same object may be linked from other contexts of the platform. A platform that
+  does not answer only leaves a warning in the log. ILIAS asks for the scope when it registers through Dynamic Registration.
 * **Assignment and Grade Services, ILIAS as tool:** `ilLTIAppEventListener` sends the learning progress of a user
   of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
@@ -201,7 +223,8 @@ it. Any further exception MUST be explained here.
 
 All schema changes are in `classes/Setup/class.ilLTIDatabaseUpdateSteps.php`:
 
-* Steps 1–9 come from `LTIProvider`, steps 10–29 from `LTIConsumer`, step 30 onwards belongs to LTI Advantage.
+* Steps 1–9 come from `LTIProvider`, steps 10–29 from `LTIConsumer`, step 30 onwards belongs to LTI Advantage
+  (32: the option of a tool to read the members, 33: the optional fields of the line items tools create).
 * Step 31 is the one data change: it renames the placeholder class the certificate queue stores,
   as Certificate itself does for courses and exercises.
 * New steps MUST be appended and MUST check the current schema before changing it.
@@ -237,6 +260,19 @@ Installations updated from an earlier release MUST keep working:
   defined anew instead.
 * Columns of `lti_consumer_settings` that `ilObjLTITool` does not know are never written, so that
   saving an object keeps the settings it came with.
+* LTI Advantage launches carry what earlier releases sent: the instance guid of the client, path and host, the
+  custom parameters under the names they are configured with (`custom_x` stays `custom_x`), a dash for a name the
+  privacy settings keep back, and the context label of type and id. The roles follow earlier releases as well.
+
+### Notes for updated installations
+
+What administrators of an updated installation may notice:
+
+* The database update steps 32 and 33 have to run (`setup update`).
+* The tools defined before the update do not get the Names and Role Provisioning Services: the option is off
+  until it is switched on in the tool, or a tool asks for the scope when it registers again.
+* The line items tools created themselves are served again, under their earlier URLs.
+* `ltiregstart.php` and `ltiregend.php` are gone; Dynamic Registration uses `lticonfig.php` and `ltiregistration.php`.
 
 ## Removing LTI 1.1
 
