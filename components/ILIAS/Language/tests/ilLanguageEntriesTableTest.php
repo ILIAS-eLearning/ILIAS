@@ -980,6 +980,222 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         );
     }
 
+    /**
+     * @return array<string, array{0: string, 1: list<string>}>
+     */
+    public static function identifierFilterLiteralNeedleProvider(): array
+    {
+        return [
+            'underscore is no single-char wildcard' => ['a_b', ['m#:#xa_bx']],
+            'percent is no multi-char wildcard' => ['%', ['m#:#100%']],
+            'lone underscore only matches real underscores' => ['_', ['m#:#xa_bx']],
+            'regex metacharacters are literal' => ['.*', []],
+            'needle with separator part never matches across module' => ['m#:#', []],
+            'surrounding whitespace is ignored' => [' item ', ['m#:#item0']],
+            'whitespace-only needle applies no filter' => [
+                ' ',
+                ['m#:#xa_bx', 'm#:#xaZbx', 'm#:#100%', 'm#:#100', 'm#:#with space', 'm#:#item0', 'm#:#plain'],
+            ],
+            'zero is a real needle, not empty' => ['0', ['m#:#100%', 'm#:#100', 'm#:#item0']],
+        ];
+    }
+
+    /**
+     * @param list<string> $expected
+     */
+    #[DataProvider('identifierFilterLiteralNeedleProvider')]
+    public function testIdentifierFilterTreatsTheNeedleLiterally(string $needle, array $expected): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $entries = [
+            'm#:#xa_bx' => 'A',
+            'm#:#xaZbx' => 'B',
+            'm#:#100%' => 'C',
+            'm#:#100' => 'D',
+            'm#:#with space' => 'E',
+            'm#:#item0' => 'F',
+            'm#:#plain' => 'G',
+        ];
+        $object = $this->createObject();
+        $object->method('getAllValues')->willReturn($entries);
+
+        $table = $this->createTable($object, $this->createLng());
+
+        $names = $table->getFilteredEntryNames($this->filterData(['identifier' => $needle]));
+        self::assertSame($expected, $names);
+    }
+
+    public function testIdentifierFilterDoesNotMatchTheModuleName(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject();
+        $object->method('getAllValues')->willReturn([
+            'access#:#document' => 'A',
+            'common#:#access_log' => 'B',
+        ]);
+
+        $table = $this->createTable($object, $this->createLng());
+
+        self::assertSame(
+            ['common#:#access_log'],
+            $table->getFilteredEntryNames($this->filterData(['identifier' => 'access']))
+        );
+        // new instance: the entries cache is deliberately key-less per instance
+        $other_table = $this->createTable($object, $this->createLng());
+        self::assertSame([], $other_table->getFilteredEntryNames($this->filterData(['identifier' => 'common'])));
+    }
+
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function identifierFilterModeProvider(): array
+    {
+        return [
+            'changed' => ['changed'],
+            'added' => ['added'],
+            'unchanged' => ['unchanged'],
+            'commented' => ['commented'],
+            'all' => ['all'],
+        ];
+    }
+
+    #[DataProvider('identifierFilterModeProvider')]
+    public function testIdentifierFilterAppliesInEveryDelegatingModeAndKeepsModuleAndPatternArguments(string $mode): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $method = match ($mode) {
+            'changed' => 'getChangedValues',
+            'added' => 'getAddedValues',
+            'unchanged' => 'getUnchangedValues',
+            'commented' => 'getCommentedValues',
+            default => 'getAllValues',
+        };
+        $object = $this->createObject();
+        $object->expects($this->once())->method($method)
+            ->with(['common'], 'pat', [])
+            ->willReturn(['common#:#Access' => 'A', 'common#:#other' => 'B']);
+
+        $table = $this->createTable($object, $this->createLng());
+
+        self::assertSame(
+            ['common#:#Access'],
+            $table->getFilteredEntryNames($this->filterData([
+                'mode' => $mode,
+                'pattern' => 'pat',
+                'module' => 'common',
+                'identifier' => 'ACC',
+            ]))
+        );
+    }
+
+    public function testIdentifierFilterAppliesToDbremarksAndConflictsModes(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        // dbremarks
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn(['common#:#access' => 'A', 'common#:#other' => 'B']);
+        $object->method('getAllRemarks')->willReturn(['common#:#access' => 'r', 'common#:#other' => 'r']);
+        $table = $this->createTable($object, $this->createLng());
+        self::assertSame(
+            ['common#:#other'],
+            $table->getFilteredEntryNames($this->filterData(['mode' => 'dbremarks', 'identifier' => 'OTH']))
+        );
+
+        // conflicts
+        $dir = $this->tempDir();
+        $this->writeLangFile($dir . '/ilias_de.lang', ['common#:#access' => 'Old', 'common#:#other' => 'Old']);
+        $object = $this->createObject('de');
+        $object->method('getDataPath')->willReturn($dir);
+        $object->method('getShippedChangesSinceBackup')->willReturn(['common#:#access' => 'New', 'common#:#other' => 'New']);
+        $object->method('getChangedValues')->willReturn(['common#:#access' => 'L', 'common#:#other' => 'L']);
+        $table = $this->createTable($object, $this->createLng());
+        self::assertSame(
+            ['common#:#access'],
+            $table->getFilteredEntryNames($this->filterData(['mode' => 'conflicts', 'identifier' => 'acc']))
+        );
+    }
+
+    public function testIdentifierFilterCombinesWithEqualAndDifferentModesAndKeepsCompareContentIntact(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn([
+            'common#:#access' => 'Same',
+            'common#:#access_log' => 'Mine',
+            'common#:#other' => 'Same',
+        ]);
+        $object->method('getShippedValues')->willReturn([
+            'common#:#access' => 'Same',
+            'common#:#access_log' => 'Theirs',
+            'common#:#other' => 'Same',
+        ]);
+
+        $equal = $this->createTable($object, $this->createLng(default_language: 'de'));
+        self::assertSame(
+            ['common#:#access' => 'Same'],
+            $this->getFilteredEntriesViaRows(
+                $equal,
+                $this->filterData(['mode' => 'equal', 'compare' => 'de', 'identifier' => 'access'])
+            )
+        );
+
+        $different = $this->createTable($object, $this->createLng(default_language: 'de'));
+        self::assertSame(
+            ['common#:#access_log' => 'Mine'],
+            $this->getFilteredEntriesViaRows(
+                $different,
+                $this->filterData(['mode' => 'different', 'compare' => 'de', 'identifier' => 'access'])
+            )
+        );
+    }
+
+    public function testRowsAndTotalRowCountAreConsistentWithTheIdentifierFilterAndPagination(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn([
+            'a#:#crit_1' => 'A',
+            'a#:#other' => 'B',
+            'b#:#crit_2' => 'C',
+            'c#:#crit_3' => 'D',
+        ]);
+        $object->method('getShippedValues')->willReturn(['b#:#crit_2' => 'compare-value']);
+
+        $table = $this->createTable($object, $this->createLng(default_language: 'de'));
+        $filter_data = $this->filterData(['compare' => 'de', 'identifier' => 'crit']);
+
+        self::assertSame(3, $table->getTotalRowCount(null, $filter_data, null));
+
+        $captured = [];
+        $row_builder = $this->createMock(DataRowBuilder::class);
+        $row_builder->method('buildDataRow')->willReturnCallback(
+            function (string $id, array $record) use (&$captured) {
+                $captured[$id] = $record;
+                return $this->createMock(DataRow::class);
+            }
+        );
+        iterator_to_array($table->getRows(
+            $row_builder,
+            [],
+            new Range(1, 5),
+            new Order('module', Order::ASC),
+            null,
+            $filter_data,
+            null
+        ));
+
+        // range offset 1 applies to the FILTERED list (a#:#other never counts)
+        self::assertSame(['b#:#crit_2', 'c#:#crit_3'], array_keys($captured));
+        self::assertSame('compare-value', $captured['b#:#crit_2']['default']);
+        self::assertSame('crit_2', $captured['b#:#crit_2']['topic']);
+    }
+
     public function testFilterValueFallsBackToDefaultWhenTheWholeFilterDataIsNotAnArray(): void
     {
         // Defensive/boundary case: filterValue() explicitly guards against a

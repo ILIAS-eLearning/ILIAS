@@ -219,10 +219,10 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     }
 
     /**
-     * The "identifier" filter field matches case-insensitively anywhere in
-     * the identifier (like the "pattern" field does for the value), so it is
-     * applied here on the already fetched entries instead of being passed
-     * as an exact topic list to ilObjLanguageExt::_getValues().
+     * Literal, ASCII-case-insensitive substring of the identifier, unlike the SQL LIKE of "pattern".
+     *
+     * @param array<string, string> $entries
+     * @return array<string, string>
      */
     private function filterByIdentifier(array $entries, mixed $filter_data): array
     {
@@ -230,7 +230,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             return $entries;
         }
 
-        $needle = (string) $this->filterValue($filter_data, 'identifier', '');
+        $needle = trim((string) $this->filterValue($filter_data, 'identifier', ''));
         if ($needle === '') {
             return $entries;
         }
@@ -355,6 +355,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
 
     /**
      * Page translation uses the modules/topics saved in the session instead of the filter fields.
+     * Otherwise topics stay empty, filterByIdentifier() applies "identifier" afterwards.
      *
      * @return array{0: list<string>, 1: list<string>}
      */
@@ -368,7 +369,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         $filter_module = $filter_module === 'all' ? '' : $filter_module;
         $filter_modules = $filter_module !== '' ? [$filter_module] : [];
 
-        // the "identifier" field is a substring match, see filterByIdentifier()
         return [$filter_modules, []];
     }
 
