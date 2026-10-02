@@ -10138,6 +10138,7 @@ forum#:#frm_default_view#:#Default View
 forum#:#frm_edit_title#:#Edit Title
 forum#:#frm_enable_print_option#:#Enable print option
 forum#:#frm_enable_print_option_desc#:#If disabled, nobody is able to select the print option in Forum.
+forum#:#frm_forum_push_notification_info#:#Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead.
 forum#:#frm_mark_as_read#:#Mark as read
 forum#:#frm_mark_as_unread#:#Mark as unread
 forum#:#frm_max_notification_age#:#Max. Notification Age
@@ -10168,6 +10169,7 @@ forum#:#frm_noti_subject_new_post#:#New post in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_uncens_post#:#Post uncensored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_upt_post#:#Post modified in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_notification_activated#:#Notification Activated
+forum#:#frm_notification_bg_task_title#:#Forum notification delivery
 forum#:#frm_notification_deactivated#:#Notification Deactivated
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
 forum#:#frm_posts#:#Forum Posts
