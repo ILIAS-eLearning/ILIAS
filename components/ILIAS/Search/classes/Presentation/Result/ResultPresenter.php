@@ -26,7 +26,9 @@ use ilLuceneHighlighterResultParser;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Panel\Listing\Listing as ListingPanel;
-use ILIAS\Search\GUI\Param;
+use ILIAS\Search\GUI\Global\Param;
+use ILIAS\Search\Presentation\Result\ViewControls\SortationInfos;
+use ILIAS\Search\Presentation\Result\ViewControls\PaginationInfos;
 
 interface ResultPresenter
 {
@@ -35,7 +37,8 @@ interface ResultPresenter
      */
     public function getDirectSearchResultAsPanel(
         ilSearchResult $result,
-        ViewControlInfos $view_control_infos
+        PaginationInfos $pagination_infos,
+        SortationInfos $sortation_infos
     ): array;
 
     /**
@@ -44,19 +47,28 @@ interface ResultPresenter
     public function getLuceneSearchResultAsPanel(
         ilLuceneSearchResultFilter $result,
         ?ilLuceneHighlighterResultParser $highlighter,
-        ViewControlInfos $view_control_infos
+        PaginationInfos $pagination_infos,
+        SortationInfos $sortation_infos
     ): array;
 
-    public function getViewControlInfos(
+    public function getLuceneUserSearchResultAsPanel(
+        PaginationInfos $pagination_infos,
+        int ...$result_user_ids
+    ): ListingPanel;
+
+    public function getSortationInfos(
         Sortation $sortation,
+        URI $sortation_action,
+        Param $sortation_param_name
+    ): SortationInfos;
+
+    public function getPaginationInfos(
         int $current_page,
         int $max_pages,
         int $page_size,
         URI $pagination_action,
-        Param $page_param_name,
-        URI $sortation_action,
-        Param $sortation_param_name
-    ): ViewControlInfos;
+        Param $page_param_name
+    ): PaginationInfos;
 
     public function replacePlaceholders(string $html): string;
 }

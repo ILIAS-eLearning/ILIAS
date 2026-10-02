@@ -15718,8 +15718,6 @@ search#:#search_show_limited_user_info#:#In der Personensuche werden auch Konten
 search#:#search_sort_by#:#Sortierung:
 search#:#search_sort_creation_date_asc#:#Ältestes
 search#:#search_sort_creation_date_desc#:#Neuestes
-search#:#search_sort_generic_asc#:#%s, aufst.
-search#:#search_sort_generic_desc#:#%s, abst.
 search#:#search_sort_relevance#:#Nach Relevanz
 search#:#search_sort_title_asc#:#Alphabetisch: A-Z
 search#:#search_sort_title_desc#:#Alphabetisch: Z-A
@@ -17469,7 +17467,7 @@ trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, 
 trac#:#trac_mode_manual#:#Selbsteinschätzung für gesamtes Objekt
 trac#:#trac_mode_manual_by_tutor#:#Manuelle Bewertung
 trac#:#trac_mode_manual_by_tutor_info#:#Ob eine Person das Objekt erfolgreich bearbeitet hat, entscheiden Personen mit dem Recht „Mitglieder verwalten“ (zum Beispiel die Kurs- oder Gruppenadministration). Dazu muss der Status händisch auf „Bearbeitet“ gesetzt werden.
-trac#:#trac_mode_manual_info#:#Eine Person entscheidet selbst, ob sie das Objekt erfolgreich durchgearbeitet hat. Dazu setzt sie im Reiter „Info“ den Status auf „Bearbeitet“.
+trac#:#trac_mode_manual_info#:#Eine Person entscheidet selbst, ob sie das Objekt erfolgreich durchgearbeitet hat. Dazu setzt sie im Reiter „Lernfortschritt“ den Status auf „Bearbeitet“.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
 trac#:#trac_mode_plugin#:#Plugin

@@ -32,19 +32,8 @@ use ILIAS\User\Profile\Profile;
 */
 class ilRepositoryUserResultTableGUI extends ilTable2GUI
 {
-    /**
-     * Note that the external sortation should only be used in global search.
-     */
-    use ilSearchResultTableHelper;
-
-    public const TYPE_STANDARD = 1;
-    public const TYPE_GLOBAL_SEARCH = 2;
-
-    private ?ilLuceneSearchResult $lucene_result = null;
-
     protected static array $all_selectable_cols = [];
     protected bool $admin_mode;
-    protected int $type;
     protected bool $user_limitations = true;
 
     protected Profile $profile;
@@ -55,7 +44,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
     protected Refinery $refinery;
 
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false, $a_type = self::TYPE_STANDARD)
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false)
     {
         global $DIC;
 
@@ -67,7 +56,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         $this->refinery = $DIC->refinery();
 
         $this->admin_mode = (bool) $a_admin_mode;
-        $this->type = $a_type;
 
         $this->setId("rep_search_" . $this->user->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -78,50 +66,18 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setShowRowsSelector(true);
 
-
-        if ($this->getType() == self::TYPE_STANDARD) {
-            $this->setRowTemplate("tpl.rep_search_usr_result_row.html", "components/ILIAS/Search");
-            $this->addColumn("", "", "1", true);
-            $this->enable('select_all');
-            $this->setSelectAllCheckbox("user[]");
-            $this->setDefaultOrderField("login");
-            $this->setDefaultOrderDirection("asc");
-        } else {
-            $this->setRowTemplate("tpl.global_search_usr_result_row.html", "components/ILIAS/Search");
-            $this->addColumn('', '', "110px");
-            $this->setExternalSorting(true);
-        }
+        $this->setRowTemplate("tpl.rep_search_usr_result_row.html", "components/ILIAS/Search");
+        $this->addColumn("", "", "1", true);
+        $this->enable('select_all');
+        $this->setSelectAllCheckbox("user[]");
+        $this->setDefaultOrderField("login");
+        $this->setDefaultOrderDirection("asc");
 
         $all_cols = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $col) {
-            $sort_field = '';
-            if ($this->getType() == self::TYPE_STANDARD) {
-                $sort_field = $col;
-            }
+            $sort_field = $col;
             $this->addColumn($all_cols[$col]['txt'], $sort_field);
         }
-
-        if (
-            $this->getType() != self::TYPE_STANDARD &&
-            ilBuddySystem::getInstance()->isEnabled()
-        ) {
-            $this->addColumn('', '');
-        }
-    }
-
-    public function getType(): int
-    {
-        return $this->type;
-    }
-
-    public function setLuceneResult(ilLuceneSearchResult $res): void
-    {
-        $this->lucene_result = $res;
-    }
-
-    public function getLuceneResult(): ilLuceneSearchResult
-    {
-        return $this->lucene_result;
     }
 
     public function setUserLimitations(bool $a_limitations): void
@@ -166,23 +122,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
-
-        $link = '';
-        if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-            $link = ilUserUtil::getProfileLink((int) $a_set['usr_id']);
-            if ($link) {
-                $this->tpl->setVariable('IMG_LINKED_TO_PROFILE', $link);
-                $this->tpl->setVariable(
-                    'USR_IMG_SRC_LINKED',
-                    ilObjUser::_getPersonalPicturePath((int) $a_set['usr_id'], 'xsmall')
-                );
-            } else {
-                $this->tpl->setVariable(
-                    'USR_IMG_SRC',
-                    ilObjUser::_getPersonalPicturePath((int) $a_set['usr_id'], 'xsmall')
-                );
-            }
-        }
 
 
         foreach ($this->getSelectedColumns() as $field) {
@@ -232,8 +171,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                         $this->ctrl->setParameterByClass("ilobjusergui", "search", "1");
                         $link = $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
                         $a_set[$field] = "<a href=\"" . $link . "\">" . $a_set[$field] . "</a>";
-                    } elseif ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-                        $a_set[$field] = "<a href=\"" . $link . "\">" . $a_set[$field] . "</a>";
                     }
                     // fallthrough
 
@@ -247,14 +184,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                     $this->tpl->setVariable('VAL_CUST', $value);
                     $this->tpl->parseCurrentBlock();
                     break;
-            }
-        }
-
-        if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-            if (ilBuddySystem::getInstance()->isEnabled() && $a_set['usr_id'] != $this->user->getId()) {
-                $this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId((int) $a_set['usr_id'])->getHtml());
-            } else {
-                $this->tpl->setVariable('CONTACT_ACTIONS', '');
             }
         }
     }
@@ -347,76 +276,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
             $users = $usr_data['set'];
         }
 
-        if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-            if ($this->getLuceneResult() instanceof ilLuceneSearchResult) {
-                foreach ($users as $counter => $ud) {
-                    $users[$counter]['relevance'] = $this->getLuceneResult()->getRelevance((int) ($ud['usr_id']) ?? 0);
-                }
-            }
-        }
-        if ($this->getType() === self::TYPE_GLOBAL_SEARCH) {
-            $users = $this->applySortation($users);
-        }
         $this->setData($users);
         return true;
-    }
-
-    public function getHTML(): string
-    {
-        $html = parent::getHTML();
-        if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-            $html = $this->ui->renderer()->render($this->buildSortationViewControl()) . $html;
-        }
-        return $html;
-    }
-
-    protected function applySortation(array $set): array
-    {
-        $sort = $this->getCurrentSortation();
-
-        if ($sort === 'relevance') {
-            usort($set, function ($a, $b) {
-                return $b['relevance'] <=> $a['relevance'];
-            });
-            return $set;
-        }
-
-        if (str_ends_with($sort, '_asc')) {
-            $col = substr($sort, 0, -4);
-            usort($set, function ($a, $b) use ($col) {
-                return [$a[$col], $b['relevance'] ?? ''] <=> [$b[$col], $a['relevance'] ?? ''];
-            });
-        } elseif (str_ends_with($sort, '_desc')) {
-            $col = substr($sort, 0, -5);
-            usort($set, function ($a, $b) use ($col) {
-                return [$b[$col], $b['relevance'] ?? ''] <=> [$a[$col], $a['relevance'] ?? ''];
-            });
-        }
-
-        return $set;
-    }
-
-    protected function getPossibleSortations(): array
-    {
-        $sorts = ['relevance' => $this->lng->txt('search_sort_relevance')];
-        $all_cols = $this->getSelectableColumns();
-        foreach ($this->getSelectedColumns() as $col) {
-            $sorts[$col . '_asc'] = sprintf(
-                $this->lng->txt('search_sort_generic_asc'),
-                $all_cols[$col]['txt']
-            );
-            $sorts[$col . '_desc'] = sprintf(
-                $this->lng->txt('search_sort_generic_desc'),
-                $all_cols[$col]['txt']
-            );
-        }
-        return $sorts;
-    }
-
-    protected function getDefaultSortation(): string
-    {
-        $lucene_enabled = ($this->getType() == self::TYPE_GLOBAL_SEARCH) &&
-            ($this->getLuceneResult() instanceof ilLuceneSearchResult);
-        return $lucene_enabled ? 'relevance' : 'login_asc';
     }
 }

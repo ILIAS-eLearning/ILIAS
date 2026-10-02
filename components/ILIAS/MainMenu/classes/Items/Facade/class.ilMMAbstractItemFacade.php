@@ -217,6 +217,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($this->raw_item->isAlwaysAvailable()) {
             return $non_available_reason;
         }
+        if (!$this->mm_item->isActive()) {
+            global $DIC;
+            return $DIC->ui()->factory()->legacy()->content('-deactived_by_configuration-');
+        }
 
         return null;
     }

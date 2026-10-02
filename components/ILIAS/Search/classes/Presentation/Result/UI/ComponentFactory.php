@@ -26,12 +26,14 @@ use ILIAS\UI\Component\Panel\Listing\Listing as ListingPanel;
 use DateTimeImmutable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\Search\Presentation\Result\ViewControlInfos;
+use ILIAS\Search\Presentation\Result\ViewControls\PaginationInfos;
+use ILIAS\Search\Presentation\Result\ViewControls\SortationInfos;
 
 interface ComponentFactory
 {
     public function getPanel(
-        ViewControlInfos $view_control_infos,
+        ?PaginationInfos $pagination_infos,
+        ?SortationInfos $sortation_infos,
         Item ...$items
     ): ListingPanel;
 
@@ -63,6 +65,17 @@ interface ComponentFactory
         bool $show_too_many_items_warning,
         Item ...$items
     ): ?Modal;
+
+    /**
+     * @param array<string, string>    $other_fields
+     */
+    public function getItemForUser(
+        string $presentable_name,
+        string $login,
+        ?URI $link_to_profile,
+        string $avatar_path,
+        array $other_fields
+    ): Item;
 
     public function getNoResultItem(): Item;
 }
