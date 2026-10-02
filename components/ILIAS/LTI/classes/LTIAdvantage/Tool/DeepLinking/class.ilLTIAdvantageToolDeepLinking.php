@@ -210,6 +210,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
     private function printError(string $lang_var): never
     {
         global $DIC;
+        /** @var ILIAS\DI\Container $DIC */
 
         $DIC->language()->loadLanguageModule('lti');
         new ilLTIViewGUI()->printPage($DIC->language()->txt('lti_deep_linking_select'), [

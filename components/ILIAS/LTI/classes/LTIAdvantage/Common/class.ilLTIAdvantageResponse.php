@@ -39,6 +39,7 @@ final class ilLTIAdvantageResponse
     public static function send(int $status, string $content_type, string $body, array $headers = []): never
     {
         global $DIC;
+        /** @var ILIAS\DI\Container $DIC */
 
         $http = $DIC->http();
         $response = $http->response()->withStatus($status);

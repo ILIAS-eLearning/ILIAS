@@ -83,12 +83,12 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
             $this->ctrl->redirect($gui, $return_cmd);
         }
 
-        switch ($action) {
-            case self::ACTION_EDIT:
-                $this->ctrl->setParameter($gui, "cid", reset($ids));
-                $this->ctrl->redirect($gui, $edit_cmd);
-                break;
+        if ($action === self::ACTION_EDIT) {
+            $this->ctrl->setParameter($gui, "cid", reset($ids));
+            $this->ctrl->redirect($gui, $edit_cmd);
+        }
 
+        switch ($action) {
             case self::ACTION_ACTIVATE:
             case self::ACTION_DEACTIVATE:
                 $activate = $action === self::ACTION_ACTIVATE;
@@ -171,7 +171,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
             "SELECT c.id, c.active, c.title, c.description, c.prefix, c.user_language, r.title role_title,"
             // LTI Advantage registrations are stored per platform, or per released object in older installations
             . " (SELECT COUNT(*) FROM lti2_consumer l WHERE l.ext_consumer_id = c.id AND l.lti_version = "
-            . $this->db->quote(ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE, "text") . ") advantage"
+            . $this->db->quote(ilLTITool::VERSION_ADVANTAGE, "text") . ") advantage"
             . " FROM lti_ext_consumer c LEFT JOIN object_data r ON r.obj_id = c.role AND r.type = 'role'"
             . " ORDER BY " . $order_by
         );
@@ -184,9 +184,9 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
                 "language" => (string) $row["user_language"],
                 "objects" => $this->ui_factory->listing()->unordered($this->getObjectTypes((int) $row["id"])),
                 "role" => (string) $row["role_title"],
-                "version" => $this->lng->txt(
-                    $row["advantage"] > 0 ? "lti_version_advantage" : "lti_version_1p1_deprecated"
-                ),
+                "version" => ilLTITool::getVersionLabels($this->lng)[
+                    $row["advantage"] > 0 ? ilLTITool::VERSION_ADVANTAGE : ilLTITool::VERSION_1P1
+                ],
             ]);
         }
     }
@@ -225,15 +225,10 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
      */
     private function getObjectTypes(int $platform_id): array
     {
-        $types = [];
-        $result = $this->db->query(
-            "SELECT object_type FROM lti_ext_consumer_otype WHERE consumer_id = " . $this->db->quote($platform_id, "integer")
+        return array_map(
+            fn(string $type): string => $this->lng->txt("objs_" . $type),
+            ilLTIPlatform::lookupObjectTypes($platform_id)
         );
-        while ($row = $this->db->fetchAssoc($result)) {
-            $types[] = $this->lng->txt("objs_" . $row["object_type"]);
-        }
-
-        return $types;
     }
 
     /**

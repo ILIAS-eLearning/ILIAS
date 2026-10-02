@@ -68,12 +68,7 @@ class ilAuthProviderLTI extends ilAuthProvider
 
     public static function lookupConsumer(int $a_sid): string
     {
-        global $DIC;
-
-        $db = $DIC->database();
-        $row = $db->fetchAssoc($db->queryF('SELECT title FROM lti_ext_consumer WHERE id = %s', ['integer'], [$a_sid]));
-
-        return ($row['title'] ?? '') . ' (ID ' . $a_sid . ')';
+        return (ilLTIPlatform::lookupAdministrationRow($a_sid)['title'] ?? '') . ' (ID ' . $a_sid . ')';
     }
 
     public static function getServerIdByAuthMode(string $a_auth_mode): ?int

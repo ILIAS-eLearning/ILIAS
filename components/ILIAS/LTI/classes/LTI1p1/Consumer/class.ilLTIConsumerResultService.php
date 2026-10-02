@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthServer;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 use ceLTIc\LTI\OAuth\OAuthUtil;
 use ceLTIc\LTI\OAuthDataStore;
+use ceLTIc\LTI\Platform;
 
 /**
  * Basic Outcomes service of LTI 1.1: reads, replaces and deletes the result of an object from the POX
@@ -372,10 +374,11 @@ class ilLTIConsumerResultService
     {
         global $DIC;
         $logger = $DIC->logger()->forComponent('root');
-        $platform = new ilLTIPlatform();
+        // checking the signature only needs the key, the secret and the record of the platform
+        $platform = new Platform(DataConnector::getDataConnector());
 
         $platform->setKey($a_key);
-        $platform->setSecret($a_secret);
+        $platform->secret = $a_secret;
         $platform->setRecordId($this->result->obj_id);
 
         $store = new OAuthDataStore($platform);

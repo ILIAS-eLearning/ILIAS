@@ -114,7 +114,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
             $object->getTool()->getPrivacyIdent()
         );
         $user_ident = $cmix_user->getUsrIdent();
-        if ($user_ident == '' || $user_ident == null) {
+        if ($user_ident === '') {
             $user_ident = ilCmiXapiUser::getIdent($object->getTool()->getPrivacyIdent(), $dic->user());
             $cmix_user->setUsrIdent($user_ident);
             $cmix_user->save();

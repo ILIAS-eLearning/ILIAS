@@ -116,7 +116,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
-            "lti_version" => "LTI-1p0",
+            "lti_version" => ilLTITool::VERSION_1P1,
             "resource_link_id" => $resource_link_id,
             "resource_link_title" => $title,
             "resource_link_description" => $description,

@@ -216,9 +216,9 @@ class ilLTIProviderObjectSettingGUI
         ));
         $version = $own !== null
             ? (string) $own['lti_version']
-            : ilLTIAdministrationPlatformForm::lookupVersion($db, $platform_id);
+            : ilLTIPlatform::lookupVersion($platform_id);
 
-        return $version === ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE;
+        return $version === ilLTITool::VERSION_ADVANTAGE;
     }
 
     private function createLocalRoles(): void

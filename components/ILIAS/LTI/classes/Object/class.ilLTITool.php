@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ceLTIc\LTI\Enum\LtiVersion;
+
 /**
  * An external tool ILIAS can launch, stored in lti_ext_provider. A row holds the settings of both LTI
  * versions, so lti_version decides which of them are in use.
@@ -31,8 +33,8 @@ class ilLTITool
 {
     public const string TABLE_NAME = 'lti_ext_provider';
 
-    public const string VERSION_1P1 = 'LTI-1p0';
-    public const string VERSION_ADVANTAGE = '1.3.0';
+    public const string VERSION_1P1 = LtiVersion::V1->value;
+    public const string VERSION_ADVANTAGE = LtiVersion::V1P3->value;
 
     /**
      * How an LTI Advantage tool publishes the key its messages are signed with: a PEM public key, or the
@@ -46,7 +48,9 @@ class ilLTITool
      * between means that only the objects already using it may launch it.
      */
     public const int AVAILABILITY_NONE = 0;
+    public const int AVAILABILITY_EXISTING = 1;
     public const int AVAILABILITY_CREATE = 2;
+    private const array CATEGORIES = ['organisation', 'communication', 'content', 'assessment', 'feedback'];
 
     public const int PRIVACY_IDENT_IL_UUID_USER_ID = 0;
 
@@ -146,10 +150,45 @@ class ilLTITool
      */
     public function getKeywords(): array
     {
+        return self::splitKeywords($this->keywords);
+    }
+
+    /**
+     * @return array the keywords of the notation foo;bar
+     */
+    public static function splitKeywords(string $keywords): array
+    {
         return array_values(array_filter(
-            array_map('trim', explode(';', $this->keywords)),
+            array_map('trim', explode(';', $keywords)),
             static fn(string $keyword): bool => $keyword !== ''
         ));
+    }
+
+    /**
+     * The categories of the repository a tool can be listed under.
+     *
+     * @return array names by category
+     */
+    public static function getCategoryLabels(ilLanguage $lng): array
+    {
+        $labels = [];
+        foreach (self::CATEGORIES as $category) {
+            $labels[$category] = $lng->txt('rep_add_new_def_grp_' . $category);
+        }
+
+        return $labels;
+    }
+
+    /**
+     * @return array names by availability
+     */
+    public static function getAvailabilityLabels(ilLanguage $lng): array
+    {
+        return [
+            self::AVAILABILITY_CREATE => $lng->txt('lti_con_prov_availability_create'),
+            self::AVAILABILITY_EXISTING => $lng->txt('lti_con_prov_availability_existing'),
+            self::AVAILABILITY_NONE => $lng->txt('lti_con_prov_availability_non'),
+        ];
     }
 
     /**
@@ -452,6 +491,19 @@ class ilLTITool
         ));
 
         return (int) ($row['id'] ?? 0);
+    }
+
+    /**
+     * The names of the LTI versions, the current one first.
+     *
+     * @return array names by version
+     */
+    public static function getVersionLabels(ilLanguage $lng): array
+    {
+        return [
+            self::VERSION_ADVANTAGE => $lng->txt('lti_version_advantage'),
+            self::VERSION_1P1 => $lng->txt('lti_version_1p1_deprecated'),
+        ];
     }
 
     public static function lookupVersion(int $id): string

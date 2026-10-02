@@ -194,10 +194,10 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $platform_id = $this->getIntParameter("cid");
         $version = $platform_id > 0
-            ? ilLTIAdministrationPlatformForm::lookupVersion($DIC->database(), $platform_id)
+            ? ilLTIPlatform::lookupVersion($platform_id)
             : ($this->isAdvantageRequested()
-                ? ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE
-                : ilLTIAdministrationPlatformForm::VERSION_1P1);
+                ? ilLTITool::VERSION_ADVANTAGE
+                : ilLTITool::VERSION_1P1);
 
         return new ilLTIAdministrationPlatformForm(
             $DIC->database(),
@@ -305,9 +305,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $factory = $DIC->ui()->factory();
         $items = [];
-        foreach ([self::VERSION_ADVANTAGE => "lti_version_advantage", self::VERSION_1P1 => "lti_version_1p1_deprecated"] as $version => $txt) {
-            $this->ctrl->setParameter($this, self::VERSION_PARAM, $version);
-            $items[] = $factory->button()->shy($this->lng->txt($txt), $this->ctrl->getLinkTarget($this, $cmd));
+        foreach (ilLTITool::getVersionLabels($this->lng) as $version => $version_label) {
+            $this->ctrl->setParameter(
+                $this,
+                self::VERSION_PARAM,
+                $version === ilLTITool::VERSION_ADVANTAGE ? self::VERSION_ADVANTAGE : self::VERSION_1P1
+            );
+            $items[] = $factory->button()->shy($version_label, $this->ctrl->getLinkTarget($this, $cmd));
         }
         $this->ctrl->clearParameterByClass(self::class, self::VERSION_PARAM);
 

@@ -41,7 +41,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilLTIToolTable implements DataRetrieval
 {
-    private const array CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
     private const string ACTION_EDIT = "edit";
     private const string ACTION_ACCEPT = "accept";
     private const string ACTION_RESET = "reset";
@@ -150,12 +149,12 @@ class ilLTIToolTable implements DataRetrieval
             $this->ctrl->redirect($gui, $return_cmd);
         }
 
-        switch ($action) {
-            case self::ACTION_EDIT:
-                $this->ctrl->setParameter($gui, "tool_id", reset($ids));
-                $this->ctrl->redirect($gui, $edit_cmd);
-                break;
+        if ($action === self::ACTION_EDIT) {
+            $this->ctrl->setParameter($gui, "tool_id", reset($ids));
+            $this->ctrl->redirect($gui, $edit_cmd);
+        }
 
+        switch ($action) {
             case self::ACTION_ACCEPT:
             case self::ACTION_RESET:
                 $accept = $action === self::ACTION_ACCEPT;
@@ -202,8 +201,8 @@ class ilLTIToolTable implements DataRetrieval
             "outcome" => $field->select($this->lng->txt("tbl_lti_prov_outcome"), $yes_no),
             "internal" => $field->select($this->lng->txt("tbl_lti_prov_internal"), $yes_no),
             "with_key" => $field->select($this->lng->txt("tbl_lti_prov_with_key"), $yes_no),
-            "category" => $field->select($this->lng->txt("tbl_lti_prov_category"), $this->getCategoryOptions()),
-            "version" => $field->select($this->lng->txt("lti_con_version"), self::getVersionOptions($this->lng)),
+            "category" => $field->select($this->lng->txt("tbl_lti_prov_category"), ilLTITool::getCategoryLabels($this->lng)),
+            "version" => $field->select($this->lng->txt("lti_con_version"), ilLTITool::getVersionLabels($this->lng)),
         ];
 
         return $this->ui_service->filter()->standard(
@@ -284,22 +283,22 @@ class ilLTIToolTable implements DataRetrieval
             $range->getStart()
         );
 
-        $categories = $this->getCategoryOptions();
+        $categories = ilLTITool::getCategoryLabels($this->lng);
         foreach ($rows as $row) {
             yield $row_builder->buildDataRow((string) $row["id"], [
                 "title" => $this->buildTitle((int) $row["id"], (string) $row["title"]),
                 "description" => htmlspecialchars((string) $row["description"]),
                 "category" => $categories[$row["category"]] ?? "",
-                "keywords" => $this->ui_factory->listing()->unordered($this->getKeywords((string) $row["keywords"])),
+                "keywords" => $this->ui_factory->listing()->unordered(ilLTITool::splitKeywords((string) $row["keywords"])),
                 "outcome" => $row["has_outcome"] ? $this->lng->txt("yes") : "",
                 "internal" => $row["external_provider"] ? "" : $this->lng->txt("yes"),
                 "with_key" => $row["provider_key_customizable"] ? "" : $this->lng->txt("yes"),
-                "availability" => $this->getAvailability((int) $row["availability"]),
+                "availability" => ilLTITool::getAvailabilityLabels($this->lng)[(int) $row["availability"]] ?? "",
                 "own_provider" => $row["own_provider"] ? $this->lng->txt("yes") : "",
                 "provider_creator" => $this->getCreator((int) $row["creator"], $row["creator_exists"] !== null, (string) $row["creator_name"]),
                 "usages_untrashed" => (int) $row["usages_untrashed"],
                 "usages_trashed" => (int) $row["usages_trashed"],
-                "version" => self::getVersionOptions($this->lng)[$row["lti_version"]] ?? (string) $row["lti_version"],
+                "version" => ilLTITool::getVersionLabels($this->lng)[$row["lti_version"]] ?? (string) $row["lti_version"],
             ]);
         }
     }
@@ -382,58 +381,14 @@ class ilLTIToolTable implements DataRetrieval
                 $filter[$column] = ($input[$name] === "yes") === ($name === "outcome");
             }
         }
-        if (in_array($input["category"] ?? "", self::CATEGORIES, true)) {
+        if (isset(ilLTITool::getCategoryLabels($this->lng)[$input["category"] ?? ""])) {
             $filter["category"] = $input["category"];
         }
-        if (isset(self::getVersionOptions($this->lng)[$input["version"] ?? ""])) {
+        if (isset(ilLTITool::getVersionLabels($this->lng)[$input["version"] ?? ""])) {
             $filter["lti_version"] = $input["version"];
         }
 
         return $filter;
-    }
-
-    /**
-     * @return array
-     */
-    private function getCategoryOptions(): array
-    {
-        $options = [];
-        foreach (self::CATEGORIES as $category) {
-            $options[$category] = $this->lng->txt("rep_add_new_def_grp_" . $category);
-        }
-
-        return $options;
-    }
-
-    /**
-     * @param string $keywords
-     * @return array
-     */
-    private function getKeywords(string $keywords): array
-    {
-        return array_values(array_filter(array_map("trim", explode(";", $keywords)), fn($keyword) => $keyword !== ""));
-    }
-
-    /**
-     * @param ilLanguage $lng
-     * @return array
-     */
-    public static function getVersionOptions(ilLanguage $lng): array
-    {
-        return [
-            ilLTITool::VERSION_1P1 => $lng->txt("lti_version_1p1_deprecated"),
-            ilLTITool::VERSION_ADVANTAGE => $lng->txt("lti_version_advantage"),
-        ];
-    }
-
-    private function getAvailability(int $availability): string
-    {
-        return match ($availability) {
-            2 => $this->lng->txt("lti_con_prov_availability_create"),
-            1 => $this->lng->txt("lti_con_prov_availability_existing"),
-            0 => $this->lng->txt("lti_con_prov_availability_non"),
-            default => "",
-        };
     }
 
     private function tableSuffix(): string

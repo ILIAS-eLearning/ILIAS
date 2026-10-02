@@ -18,29 +18,34 @@
 
 declare(strict_types=1);
 
-use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\Enum\LtiVersion;
-use ceLTIc\LTI\Platform;
 
 /**
- * A platform that launches ILIAS, stored in lti2_consumer. The library owns the columns of the LTI
- * protocol, this class adds what ILIAS needs on top of them.
- *
- * ILIAS has no data connector of the library, so the platform holds no more than the code building it
- * puts in: checking the OAuth1 signature of an outcome, for instance, only needs key, secret and record.
+ * The platforms of the administration that launch ILIAS: what lti_ext_consumer keeps of them, and their LTI
+ * Advantage registration in lti2_consumer, the table of celtic/lti, which ilLTIDataConnector reads at a
+ * launch.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTIPlatform extends Platform
+final class ilLTIPlatform
 {
-    public function __construct(?DataConnector $data_connector = null)
+    /**
+     * The LTI version of a platform of the administration: LTI Advantage when it has an LTI Advantage
+     * registration, for the whole platform or, in older installations, for one of its objects.
+     */
+    public static function lookupVersion(int $platform_id): string
     {
-        parent::__construct($data_connector ?? DataConnector::getDataConnector());
-    }
+        global $DIC;
 
-    public function setSecret(string $secret): void
-    {
-        $this->secret = $secret;
+        $db = $DIC->database();
+        $db->setLimit(1);
+        $row = $db->fetchAssoc($db->queryF(
+            'SELECT consumer_pk FROM lti2_consumer WHERE lti_version = %s AND ext_consumer_id = %s',
+            ['text', 'integer'],
+            [ilLTITool::VERSION_ADVANTAGE, $platform_id]
+        ));
+
+        return $row !== null ? ilLTITool::VERSION_ADVANTAGE : ilLTITool::VERSION_1P1;
     }
 
     /**
@@ -130,6 +135,29 @@ class ilLTIPlatform extends Platform
         return $db->fetchAssoc($db->query(
             'SELECT * FROM lti_ext_consumer WHERE id = ' . $db->quote($platform_id, 'integer')
         )) ?? [];
+    }
+
+    /**
+     * The types of the objects that can be released to a platform of the administration.
+     *
+     * @return string[]
+     */
+    public static function lookupObjectTypes(int $platform_id): array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $result = $db->queryF(
+            'SELECT object_type FROM lti_ext_consumer_otype WHERE consumer_id = %s',
+            ['integer'],
+            [$platform_id]
+        );
+        $types = [];
+        while ($row = $db->fetchAssoc($result)) {
+            $types[] = (string) $row['object_type'];
+        }
+
+        return $types;
     }
 
     /**

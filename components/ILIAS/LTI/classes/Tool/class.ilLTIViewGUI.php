@@ -79,7 +79,7 @@ class ilLTIViewGUI
     {
         $user = $this->dic->user();
 
-        return $user instanceof ilObjUser && str_starts_with((string) $user->getAuthMode(), 'lti_');
+        return str_starts_with((string) $user->getAuthMode(), 'lti_');
     }
 
     public function executeCommand(): void

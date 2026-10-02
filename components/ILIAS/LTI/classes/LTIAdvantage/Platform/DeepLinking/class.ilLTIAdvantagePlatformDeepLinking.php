@@ -24,7 +24,6 @@ use ILIAS\DI\Container;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use Random\RandomException;
 
-
 /**
  * LTI Advantage Deep Linking with ILIAS as platform: a user who creates LTI objects in a container picks the
  * content in the tool, and each resource link the tool sends back becomes an object.

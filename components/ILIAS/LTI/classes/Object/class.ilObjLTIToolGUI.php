@@ -809,11 +809,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
         // the tool of the last row of the selection must not end up in the links of this control
         $this->ctrl->setParameter($this, 'tool_id', null);
 
-        $labels = [
-            ilLTITool::VERSION_ADVANTAGE => $this->lng->txt('lti_version_advantage'),
-            ilLTITool::VERSION_1P1 => $this->lng->txt('lti_version_1p1_deprecated'),
-        ];
-
+        $labels = ilLTITool::getVersionLabels($this->lng);
         $actions = [];
         foreach ($labels as $version => $label) {
             $this->ctrl->setParameter($this, self::VERSION_PARAM, $version);

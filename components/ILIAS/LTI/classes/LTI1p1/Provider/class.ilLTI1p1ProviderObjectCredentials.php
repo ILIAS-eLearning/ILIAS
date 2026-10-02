@@ -31,7 +31,6 @@ use ILIAS\UI\Factory;
 class ilLTI1p1ProviderObjectCredentials
 {
     private const string TABLE_NAME = 'lti2_consumer';
-    private const string VERSION = 'LTI-1p0';
 
     private int $record_id = 0;
     private string $key;
@@ -47,7 +46,7 @@ class ilLTI1p1ProviderObjectCredentials
             'SELECT consumer_pk, consumer_key, secret, enabled FROM ' . self::TABLE_NAME
             . ' WHERE ref_id = %s AND ext_consumer_id = %s AND (lti_version IS NULL OR lti_version = %s)',
             ['integer', 'integer', 'text'],
-            [$ref_id, $platform_id, self::VERSION]
+            [$ref_id, $platform_id, ilLTITool::VERSION_1P1]
         ));
         if ($row === null) {
             // new credentials are shown before they are saved, so the form has them to post back
@@ -115,7 +114,7 @@ class ilLTI1p1ProviderObjectCredentials
             'name' => ['text', ilStr::subStr(ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id)), 0, 50)],
             'consumer_key' => ['text', $this->key],
             'secret' => ['text', $this->secret],
-            'lti_version' => ['text', self::VERSION],
+            'lti_version' => ['text', ilLTITool::VERSION_1P1],
             'signature_method' => ['text', 'HMAC-SHA1'],
             'protected' => ['integer', 0],
             'settings' => ['text', '{}'],

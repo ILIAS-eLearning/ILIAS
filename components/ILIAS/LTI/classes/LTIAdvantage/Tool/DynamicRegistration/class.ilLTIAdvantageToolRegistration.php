@@ -142,7 +142,7 @@ final class ilLTIAdvantageToolRegistration extends Tool
         }
 
         $registration = $this->sendRegistration($platform_configuration, $this->getConfiguration($platform_configuration));
-        if ($this->ok) {
+        if ($registration !== null) {
             $this->getPlatformToRegister($platform_configuration, $registration);
         }
     }
@@ -245,7 +245,7 @@ final class ilLTIAdvantageToolRegistration extends Tool
         $platform_id = $payload['sub'];
         if (
             ilLTIPlatform::lookupAdministrationRow($platform_id) === []
-            || ilLTIAdministrationPlatformForm::lookupVersion($DIC->database(), $platform_id) !== ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE
+            || ilLTIPlatform::lookupVersion($platform_id) !== ilLTITool::VERSION_ADVANTAGE
             || (ilLTIPlatform::lookupRegistrationSettings($platform_id)[self::SETTING_USED_TOKEN] ?? null) === $payload['jti']
         ) {
             return false;

@@ -77,6 +77,7 @@ readonly class ilLTIToolPlaceholderValues implements ilCertificatePlaceholderVal
         $completion_date = $this->lp_status_helper->lookupStatusChanged($objId, $userId);
         if ($completion_date !== '') {
             $user = $this->object_helper->getInstanceByObjId($userId);
+            $user = $user instanceof ilObjUser ? $user : null;
             $placeholders['DATE_COMPLETED'] = $this->date_helper->formatDate($completion_date, $user);
             $placeholders['DATETIME_COMPLETED'] = $this->date_helper->formatDateTime($completion_date, $user);
         }

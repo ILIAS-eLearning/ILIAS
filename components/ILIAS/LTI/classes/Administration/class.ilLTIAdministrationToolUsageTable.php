@@ -57,7 +57,7 @@ readonly class ilLTIAdministrationToolUsageTable implements DataRetrieval
             ]),
             "version" => $field->select(
                 $this->lng->txt("lti_con_version"),
-                ilLTIToolTable::getVersionOptions($this->lng)
+                ilLTITool::getVersionLabels($this->lng)
             ),
         ];
 
@@ -120,7 +120,7 @@ readonly class ilLTIAdministrationToolUsageTable implements DataRetrieval
             $range->getLength(),
             $range->getStart()
         );
-        $versions = ilLTIToolTable::getVersionOptions($this->lng);
+        $versions = ilLTITool::getVersionLabels($this->lng);
         foreach ($rows as $row) {
             $link = (string) $this->static_url->builder()->build((string) $row["type"], new ReferenceId((int) $row["ref_id"]));
             yield $row_builder->buildDataRow((string) $row["ref_id"], [
@@ -157,7 +157,7 @@ readonly class ilLTIAdministrationToolUsageTable implements DataRetrieval
         if (in_array($input["trashed"] ?? "", ["yes", "no"], true)) {
             $filter["trashed"] = $input["trashed"] === "yes";
         }
-        if (isset(ilLTIToolTable::getVersionOptions($this->lng)[$input["version"] ?? ""])) {
+        if (isset(ilLTITool::getVersionLabels($this->lng)[$input["version"] ?? ""])) {
             $filter["lti_version"] = $input["version"];
         }
 

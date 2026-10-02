@@ -52,8 +52,8 @@ class ilLTIDataConnector extends DataConnector
     {
         global $DIC;
 
-        parent::__construct(null);
         $this->database = $DIC->database();
+        parent::__construct($this->database);
     }
 
     /**

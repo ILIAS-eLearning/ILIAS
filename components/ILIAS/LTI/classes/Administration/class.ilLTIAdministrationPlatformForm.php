@@ -36,8 +36,6 @@ use Random\RandomException;
  */
 class ilLTIAdministrationPlatformForm
 {
-    public const string VERSION_1P1 = "LTI-1p0";
-    public const string VERSION_ADVANTAGE = "1.3.0";
     private const array REGISTRATION_FIELDS = [
         "platform_id" => "lti_13_platform_id",
         "client_id" => "lti_13_client_id",
@@ -59,23 +57,9 @@ class ilLTIAdministrationPlatformForm
     ) {
     }
 
-    /**
-     * Returns the LTI version of an existing platform: LTI Advantage if it has an LTI 1.3 registration,
-     * either for the whole platform or, in older installations, for a released object.
-     */
-    public static function lookupVersion(ilDBInterface $db, int $platform_id): string
-    {
-        $result = $db->query(
-            "SELECT consumer_pk FROM lti2_consumer WHERE lti_version = " . $db->quote(self::VERSION_ADVANTAGE, "text")
-            . " AND ext_consumer_id = " . $db->quote($platform_id, "integer")
-        );
-
-        return $db->fetchAssoc($result) !== null ? self::VERSION_ADVANTAGE : self::VERSION_1P1;
-    }
-
     public function isAdvantage(): bool
     {
-        return $this->version === self::VERSION_ADVANTAGE;
+        return $this->version === ilLTITool::VERSION_ADVANTAGE;
     }
 
     public function getForm(string $action): Form
@@ -229,7 +213,7 @@ class ilLTIAdministrationPlatformForm
         $this->db->setLimit(1);
         $row = $this->platform_id > 0 ? $this->db->fetchAssoc($this->db->query(
             "SELECT platform_id, client_id, deployment_id, settings FROM lti2_consumer WHERE lti_version = "
-            . $this->db->quote(self::VERSION_ADVANTAGE, "text") . " AND ext_consumer_id = "
+            . $this->db->quote(ilLTITool::VERSION_ADVANTAGE, "text") . " AND ext_consumer_id = "
             . $this->db->quote($this->platform_id, "integer") . " ORDER BY ref_id"
         )) : null;
         $settings = json_decode((string) ($row["settings"] ?? ""), true);
@@ -250,17 +234,8 @@ class ilLTIAdministrationPlatformForm
      */
     private function read(): array
     {
-        $row = $this->db->fetchAssoc($this->db->query(
-            "SELECT * FROM lti_ext_consumer WHERE id = " . $this->db->quote($this->platform_id, "integer")
-        )) ?? [];
-
-        $types = [];
-        $result = $this->db->query(
-            "SELECT object_type FROM lti_ext_consumer_otype WHERE consumer_id = " . $this->db->quote($this->platform_id, "integer")
-        );
-        while ($type = $this->db->fetchAssoc($result)) {
-            $types[] = $type["object_type"];
-        }
+        $row = ilLTIPlatform::lookupAdministrationRow($this->platform_id);
+        $types = ilLTIPlatform::lookupObjectTypes($this->platform_id);
 
         return [
             "title" => (string) ($row["title"] ?? ""),

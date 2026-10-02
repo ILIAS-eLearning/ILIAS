@@ -34,7 +34,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilLTIToolForm
 {
-    private const array CATEGORIES = ["organisation", "communication", "content", "assessment", "feedback"];
     private const array PRIVACY_IDENTS = [
         0 => "il_uuid_user_id",
         2 => "il_uuid_login",
@@ -78,12 +77,13 @@ class ilLTIToolForm
         ];
         // whether a tool may still be used is decided by the administration only
         if ($this->in_administration) {
-            $general_inputs["availability"] = $field->radio($this->lng->txt("lti_con_prov_availability"))
-                ->withOption("2", $this->lng->txt("lti_con_prov_availability_create"))
-                ->withOption("1", $this->lng->txt("lti_con_prov_availability_existing"))
-                ->withOption("0", $this->lng->txt("lti_con_prov_availability_non"))
+            $availability = $field->radio($this->lng->txt("lti_con_prov_availability"));
+            foreach (ilLTITool::getAvailabilityLabels($this->lng) as $value => $label) {
+                $availability = $availability->withOption((string) $value, $label);
+            }
+            $general_inputs["availability"] = $availability
                 ->withRequired(true)
-                ->withValue((string) ($row["availability"] ?? 2));
+                ->withValue((string) ($row["availability"] ?? ilLTITool::AVAILABILITY_CREATE));
         }
         $general = $field->section(
             $general_inputs,
@@ -176,13 +176,14 @@ class ilLTIToolForm
         ], $this->lng->txt("lti_con_prov_launch_options"));
 
         $category = $field->radio($this->lng->txt("lti_con_prov_category"), $this->lng->txt("lti_con_prov_category_info"));
-        foreach (self::CATEGORIES as $name) {
-            $category = $category->withOption($name, $this->lng->txt("rep_add_new_def_grp_" . $name));
+        $categories = ilLTITool::getCategoryLabels($this->lng);
+        foreach ($categories as $name => $label) {
+            $category = $category->withOption($name, $label);
         }
         $group = $field->section([
             "keywords" => $field->text($this->lng->txt("lti_con_prov_keywords"), $this->lng->txt("lti_con_prov_keywords_info"))
                 ->withValue($text("keywords")),
-            "category" => $category->withRequired(true)->withValue(in_array($text("category"), self::CATEGORIES, true) ? $text("category") : "content"),
+            "category" => $category->withRequired(true)->withValue(isset($categories[$text("category")]) ? $text("category") : "content"),
         ], $this->lng->txt("lti_con_prov_group_options"));
 
         $hints = $field->section([
