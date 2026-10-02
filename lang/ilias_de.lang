@@ -4035,7 +4035,7 @@ common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"
 common#:#enable_anonymous_fora_desc#:#Muss aktiviert sein, damit in Foren die Funktion "mit Pseudonym schreiben" zur Verfügung steht.
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_comments_export#:#Export von Kommentaren
-common#:#enable_course_group_notifications#:#Tägliche Mail über Neuigkeiten aus Gruppen und Kursen
+common#:#enable_course_group_notifications#:#Tägliche E-Mail mit einem Neuigkeitenüberblick aus Gruppen und Kursen
 common#:#enable_course_group_notifications_desc#:#Mitglieder können eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
@@ -4159,7 +4159,7 @@ common#:#file_added#:#Datei hochgeladen
 common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_confirm_delete_all_versions#:#Sie haben alle Dateiversionen ausgewählt. Daher wird das ganze Datei-Objekt gelöscht. Wollen Sie fortfahren?
 common#:#file_confirm_delete_versions#:#Sind Sie sicher, dass Sie die folgende(n) Dateiversion(en) löschen wollen?
-common#:#file_created#:#Die Datei wurde hinzugefügt.
+common#:#file_created#:#Datei hinzugefügt.
 common#:#file_edit#:#Einstellungen der Datei bearbeiten
 common#:#file_info#:#Einstellungen der Datei
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
@@ -7632,7 +7632,7 @@ crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
 crs#:#crs_info_reg_password#:#Sobald Sie das Kurspasswort von der Kursadministration erhalten haben, können Sie diesem Kurs beitreten.
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
-crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
+crs#:#crs_intro_course_group_notification_for#:#Dies ist der tägliche Neuigkeitenüberblick aus Ihren Kursen und Gruppen.
 crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen für den Zeitraum von %1$s bis %2$s:
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
@@ -12023,7 +12023,7 @@ membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mi
 membership#:#mem_force_notification#:#Benachrichtigung per Mail
 membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können Benachrichtigungen deaktivieren
-membership#:#mem_force_notification_mode_blocked#:#Mitglieder werden automatisch benachrichtigt
+membership#:#mem_force_notification_mode_blocked#:#Mitglieder abonnieren automatisch die tägliche Neuigkeitenüberblick-E-Mail
 membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
 membership#:#mem_force_notification_mode_self#:#Mitglieder müssen Benachrichtigungen aktivieren
 mep#:#mep_all#:#Alle
@@ -13320,7 +13320,7 @@ obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block „Auswa
 obj#:#obj_tool_setting_taxonomies#:#Taxonomien
 obj#:#obj_tool_setting_taxonomies_info#:#Taxonomien erlauben das Filtern von Objekten. Sie werden im Unterreiter „Taxonomie“ im Reiter "Einstellungen" angelegt.
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
-obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks „Neuigkeiten“ oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.
+obj#:#obj_tool_setting_use_news_info#:#Blendet den Unterreiter „Neuigkeiten“ ein. Dort können Sie die „Timeline“ und den Seitenblock „Neuigkeiten“ für den Reiter „Inhalt“ konfigurieren. Sobald der Block oder die Timeline aktiv ist, können Benutzer über das ▼-Aktionsmenü eine tägliche Neuigkeitenüberblick-E-Mail abonnieren.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für Block und Timeline öffnen
 obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren.

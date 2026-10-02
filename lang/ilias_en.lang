@@ -13284,7 +13284,7 @@ obj#:#obj_tool_setting_tag_cloud_info#:#The ‘Tag Cloud’ block will be displa
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
 obj#:#obj_tool_setting_taxonomies_info#:#Taxonomies allow the filtering of objects. They are created in the "Taxonomy" sub-tab in the "Settings" tab.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Show the ‘News Settings’ subtab. There you can configure the ‘News Timeline’ and the ‘News Block’ for the ‘Content’ tab. If either of these is activated, users will be able to subscribe to a daily news roundup e-mail via the ▼ actions menu.
+obj#:#obj_tool_setting_use_news_info#:#Show the ‘News Settings’ subtab. There you can configure the news ‘Timeline’ and the ‘News’ block for the ‘Content’ tab. If either of these is activated, users will be able to subscribe to a daily news roundup e-mail via the ▼ actions menu.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open ‘News Settings’
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
