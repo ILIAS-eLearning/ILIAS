@@ -45,7 +45,7 @@ function semantic_groups()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $entity = $f->entity()->standard('Primary Identifier', 'Secondary Identifier')
+    $entity = $f->entity()->standard('demo-entity', 'Primary Identifier', 'Secondary Identifier')
         ->withBlockingAvailabilityConditions($f->legacy()->content('Blocking Conditions'))
         ->withFeaturedProperties($f->legacy()->content('Featured Properties'))
         ->withPersonalStatus($f->legacy()->content('Personal Status'))

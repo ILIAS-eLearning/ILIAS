@@ -466,12 +466,13 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Entity\Factory::class] = static fn() =>
             new UI\Implementation\Component\Entity\Factory();
 
+        $internal[UI\Implementation\Component\Prompt\State\Factory::class] = static fn() =>
+            new UI\Implementation\Component\Prompt\State\Factory();
         $internal[UI\Implementation\Component\Prompt\Factory::class] = static fn() =>
             new UI\Implementation\Component\Prompt\Factory(
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
+                $internal[UI\Implementation\Component\Prompt\State\Factory::class],
             );
-        $internal[UI\Implementation\Component\Prompt\State\Factory::class] = static fn() =>
-            new UI\Implementation\Component\Prompt\State\Factory();
 
         $internal[UI\Implementation\Component\Navigation\Factory::class] = static fn() =>
             new UI\Implementation\Component\Navigation\Factory(
@@ -542,6 +543,16 @@ class UI implements Component\Component
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
                         ),
                         new UI\Implementation\Component\Menu\MenuRendererFactory(
+                            $use[UI\Implementation\FactoryInternal::class],
+                            $internal[UI\Implementation\Render\TemplateFactory::class],
+                            $use[Language\Language::class],
+                            $internal[UI\Implementation\Render\JavaScriptBinding::class],
+                            $use[UI\Implementation\Render\ImagePathResolver::class],
+                            $pull[Data\Factory::class],
+                            $use[UI\HelpTextRetriever::class],
+                            $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                        ),
+                        new UI\Implementation\Component\Entity\EntityRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],

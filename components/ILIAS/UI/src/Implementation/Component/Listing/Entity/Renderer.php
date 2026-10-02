@@ -23,8 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Listing\Entity;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -55,6 +53,7 @@ class Renderer extends AbstractComponentRenderer
         }
         return $tpl->get();
     }
+
     protected function renderEntityListingGrid(EntityListing $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.entitylistinggrid.html', true, true);
