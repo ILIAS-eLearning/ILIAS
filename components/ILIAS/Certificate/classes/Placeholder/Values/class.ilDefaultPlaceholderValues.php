@@ -36,6 +36,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
     private readonly Factory $uuid_factory;
+    private readonly \ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements $requirements;
+    private readonly \ILIAS\Certificate\Privacy\CertificateSources $sources;
     private ?ilLanguage $user_language = null;
 
 
@@ -48,7 +50,9 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
         ?ILIAS\Data\UUID\Factory $uuid_factory = null,
-        ?int $birthdayDateFormat = null
+        ?int $birthdayDateFormat = null,
+        ?ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements $requirements = null,
+        ?ILIAS\Certificate\Privacy\CertificateSources $sources = null
     ) {
         $this->objectHelper = $objectHelper ?? new ilCertificateObjectHelper();
         $this->dateHelper = $dateHelper ?? new ilCertificateDateHelper();
@@ -76,6 +80,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 new ilCertificateUtilHelper()
             );
         $this->uuid_factory = $uuid_factory ?? new ILIAS\Data\UUID\Factory();
+        $this->requirements = $requirements ?? new \ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements();
+        $this->sources = $sources ?? new \ILIAS\Certificate\Privacy\CertificateSources();
 
         $this->placeholder = [
             'CERTIFICATE_ID' => '',
@@ -140,10 +146,17 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholder['USER_BIRTHDAY'] = $this->utilHelper->prepareFormOutput((trim($birthday)));
         $placeholder['USER_INSTITUTION'] = $this->utilHelper->prepareFormOutput((trim($user->getInstitution())));
         $placeholder['USER_DEPARTMENT'] = $this->utilHelper->prepareFormOutput((trim($user->getDepartment())));
-        $placeholder['USER_STREET'] = $this->utilHelper->prepareFormOutput((trim($user->getStreet())));
-        $placeholder['USER_CITY'] = $this->utilHelper->prepareFormOutput((trim($user->getCity())));
-        $placeholder['USER_ZIPCODE'] = $this->utilHelper->prepareFormOutput((trim($user->getZipcode())));
-        $placeholder['USER_COUNTRY'] = $this->utilHelper->prepareFormOutput((trim($user->getCountry())));
+        // the placeholder values end up in the issued certificate, which is persisted and never changes
+        $postal_address = $user->getProfileData()->getPostalAddress()->resolve(
+            $this->requirements->storeInTable(
+                $this->sources->issuedCertificate(),
+                'print it on the certificates issued to the person; an issued certificate keeps it when the profile changes'
+            )
+        );
+        $placeholder['USER_STREET'] = $this->utilHelper->prepareFormOutput(trim($postal_address->street));
+        $placeholder['USER_CITY'] = $this->utilHelper->prepareFormOutput(trim($postal_address->city));
+        $placeholder['USER_ZIPCODE'] = $this->utilHelper->prepareFormOutput(trim($postal_address->zipcode));
+        $placeholder['USER_COUNTRY'] = $this->utilHelper->prepareFormOutput(trim($postal_address->country));
         $placeholder['USER_MATRICULATION'] = $this->utilHelper->prepareFormOutput((trim($user->getMatriculation())));
         $placeholder['DATE'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
             time(),
