@@ -307,12 +307,7 @@ abstract class ilMailSearchObjectGUI implements ilCtrlSecurityInterface
         );
 
         if ($this->getContext() === self::CONTEXT_MAIL) {
-            $table->setMailingAllowed(
-                $this->rbacsystem->checkAccess(
-                    'internal_mail',
-                    new ilMail($this->user->getId())->getMailObjectReferenceId(),
-                ),
-            );
+            $table->setMailingAllowed($this->mailing_allowed);
         }
 
         if (count($obj_ids) > 0) {
@@ -351,12 +346,7 @@ abstract class ilMailSearchObjectGUI implements ilCtrlSecurityInterface
         );
 
         if ($this->getContext() === self::CONTEXT_MAIL) {
-            $table->setMailingAllowed(
-                $this->rbacsystem->checkAccess(
-                    'internal_mail',
-                    new ilMail($this->user->getId())->getMailObjectReferenceId(),
-                )
-            );
+            $table->setMailingAllowed($this->mailing_allowed);
         }
 
         if ($table->getNumHiddenMembers() > 0) {
