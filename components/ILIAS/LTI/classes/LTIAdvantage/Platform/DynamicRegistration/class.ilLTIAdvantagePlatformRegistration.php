@@ -74,7 +74,7 @@ final class ilLTIAdvantagePlatformRegistration
             self::PLATFORM_CONFIGURATION => [
                 'product_family_code' => 'ilias',
                 'version' => ILIAS_VERSION,
-                'messages_supported' => [['type' => self::MESSAGE_LAUNCH]],
+                'messages_supported' => [['type' => self::MESSAGE_LAUNCH], ['type' => self::MESSAGE_DEEP_LINKING]],
             ],
         ];
     }
