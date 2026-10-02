@@ -26,7 +26,7 @@ use ceLTIc\LTI\Service\Membership;
  * described as a launch of the object describes the user, under the privacy settings of the tool: with a
  * random user id per object, only the members who launched the object are known to the tool.
  *
- * The whole list is answered at once, filtered by role if the tool asks so.
+ * The list is filtered by role if the tool asks so, and answered whole or by pages when the tool gives a limit.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -100,15 +100,18 @@ final class ilLTIAdvantagePlatformMembershipService
                 }
             }
 
+            $url = self::getUrl($context_ref_id, $object->getId());
+            [$members, $headers] = ilLTIAdvantagePlatformServiceRequest::paginate($members, $query, $url);
+
             return ilLTIAdvantagePlatformServiceRequest::respond(Membership::MEDIA_TYPE_MEMBERSHIPS_NRPS, [
-                'id' => self::getUrl($context_ref_id, $object->getId()),
+                'id' => $url,
                 'context' => [
                     'id' => (string) $context_ref_id,
                     'label' => ilObject::_lookupTitle(ilObject::_lookupObjId($context_ref_id)),
                     'title' => ilObject::_lookupTitle(ilObject::_lookupObjId($context_ref_id)),
                 ],
                 'members' => $members,
-            ]);
+            ], $headers);
         } catch (DomainException $e) {
             return ilLTIAdvantagePlatformServiceRequest::refuse('membership service', $e);
         }
