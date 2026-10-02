@@ -89,6 +89,23 @@ class ilExercisePeerFeedbackMigration implements Migration
                                 }
                             }
                         }
+                    } elseif ($file != '.' && $file != '..' && is_file($base_path . '/' . $file)) {
+                        $pattern = '/[^\.].*/m';
+                        if (preg_match($pattern, $file) === 1) {
+                            $rid = $this->helper->movePathToStorage(
+                                $base_path . '/' . $file,
+                                $resource_owner_id
+                            );
+                            if (!is_null($rid)) {
+                                $db->insert("exc_crit_file", [
+                                    "ass_id" => ["integer", $assignment_id],
+                                    "giver_id" => ["integer", $giver_id],
+                                    "peer_id" => ["integer", $peer_id],
+                                    "criteria_id" => ["integer", 0],
+                                    "rid" => ["text", $rid]
+                                ]);
+                            }
+                        }
                     }
                 }
                 closedir($dh);
