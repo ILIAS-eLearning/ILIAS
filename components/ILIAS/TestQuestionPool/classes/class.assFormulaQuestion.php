@@ -515,9 +515,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                             $resulttext .= $found['points'] . " " . (($found['points'] == 1) ? $this->lng->txt('point') : $this->lng->txt('points'));
                         }
                     } else {
-                        $resulttext .= $this->lng->txt("rated_sign") . " " . (($found['sign']) ? $found['sign'] : 0) . " " . (($found['sign'] == 1) ? $this->lng->txt('point') : $this->lng->txt('points')) . ", ";
-                        $resulttext .= $this->lng->txt("rated_value") . " " . (($found['value']) ? $found['value'] : 0) . " " . (($found['value'] == 1) ? $this->lng->txt('point') : $this->lng->txt('points')) . ", ";
-                        $resulttext .= $this->lng->txt("rated_unit") . " " . (($found['unit']) ? $found['unit'] : 0) . " " . (($found['unit'] == 1) ? $this->lng->txt('point') : $this->lng->txt('points'));
+                        $result_texts = [
+                            "{$this->lng->txt('rated_sign')} {$found['sign']} {$this->lng->txt($found['sign'] == 1 ? 'point' : 'points')}",
+                            "{$this->lng->txt('rated_value')} {$found['value']} {$this->lng->txt($found['value'] == 1 ? 'point' : 'points')}",
+                            "{$this->lng->txt('rated_unit')} {$found['unit']} {$this->lng->txt($found['unit'] == 1 ? 'point' : 'points')}"
+                        ];
+                        $resulttext .= implode(', ', $result_texts);
                     }
 
                     $resulttext .= ")";
