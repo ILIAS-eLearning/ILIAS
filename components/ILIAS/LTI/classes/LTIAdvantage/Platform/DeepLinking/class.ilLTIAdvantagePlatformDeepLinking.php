@@ -23,7 +23,7 @@ use ceLTIc\LTI\Util;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * LTI Advantage Deep Linking with ILIAS as platform: a user who creates LTI objects in a container picks the

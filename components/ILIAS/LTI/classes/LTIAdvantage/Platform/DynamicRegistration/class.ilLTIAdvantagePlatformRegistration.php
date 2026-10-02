@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\Service\Membership;
 use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Util;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * LTI Advantage Dynamic Registration of a tool with ILIAS as platform. celtic/lti has nothing for this role.

@@ -28,7 +28,7 @@ use ceLTIc\LTI\Service\Result;
 use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\Util;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * LTI Advantage Dynamic Registration of ILIAS as tool with a platform of the administration.
