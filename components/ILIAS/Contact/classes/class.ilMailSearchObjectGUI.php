@@ -310,10 +310,6 @@ abstract class ilMailSearchObjectGUI implements ilCtrlSecurityInterface
             $table->setMailingAllowed($this->mailing_allowed);
         }
 
-        if (count($obj_ids) > 0) {
-            $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
-        }
-
         $searchTpl->setVariable('TABLE', $this->ui_renderer->render($table->getComponent()));
         $this->tpl->setContent($searchTpl->get());
 
@@ -358,7 +354,6 @@ abstract class ilMailSearchObjectGUI implements ilCtrlSecurityInterface
             $search_tpl->parseCurrentBlock();
         }
 
-        $search_tpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         $search_tpl->setVariable('TABLE', $this->ui_renderer->render($table->getComponent()));
         $this->tpl->setContent($search_tpl->get());
 
