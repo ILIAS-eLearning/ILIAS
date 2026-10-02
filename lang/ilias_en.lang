@@ -4661,7 +4661,6 @@ common#:#main_menu#:#Main Menu
 common#:#mainbar_aria_label#:#Mainbar
 common#:#mainbar_more_label#:#More
 common#:#manage_members#:#Manage Members
-common#:#marked_entries#:#Marked Entries
 common#:#matriculation#:#Matriculation Number
 common#:#max_previews_per_object#:#Number of preview images per file
 common#:#max_previews_per_object_info#:#Defines the maximum number of preview images that are created per file.
