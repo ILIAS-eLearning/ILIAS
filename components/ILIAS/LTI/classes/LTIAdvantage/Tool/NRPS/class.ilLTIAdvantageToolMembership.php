@@ -27,7 +27,8 @@ use ceLTIc\LTI\User;
 /**
  * The Names and Role Provisioning Services of a platform, read by ILIAS as LTI Advantage tool. celtic/lti sends
  * the requests with an access token and follows the pages; the members are read here because the library drops
- * their status, and only active members may enter ILIAS.
+ * their status, and only active members may enter ILIAS. The ids of the members the platform reports as
+ * inactive or deleted are kept apart, so that they can lose the roles their launches gave them.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -35,6 +36,11 @@ final class ilLTIAdvantageToolMembership extends Membership
 {
     private const string STATUS_ACTIVE = 'Active';
     private const int MAX_PAGES = 100;
+
+    /**
+     * @var string[] the ids of the members of the last read that are not active
+     */
+    private array $inactive_user_ids = [];
 
     /**
      * The service of the context of a launch, null when the launch names none.
@@ -55,6 +61,7 @@ final class ilLTIAdvantageToolMembership extends Membership
     public function getActiveMembers(): ?array
     {
         $members = [];
+        $this->inactive_user_ids = [];
         $url = $this->endpoint;
         $pages = 0;
         do {
@@ -68,12 +75,22 @@ final class ilLTIAdvantageToolMembership extends Membership
                 $user = $this->toUser($member);
                 if ($user !== null) {
                     $members[$user->ltiUserId] = $user;
+                } elseif (is_object($member) && is_string($member->user_id ?? null) && $member->user_id !== '') {
+                    $this->inactive_user_ids[] = $member->user_id;
                 }
             }
             $url = $http->hasRelativeLink('next') ? $http->getRelativeLink('next') : null;
         } while ($url !== null && ++$pages < self::MAX_PAGES);
 
         return $members;
+    }
+
+    /**
+     * @return string[] the ids of the members the last read of getActiveMembers() found inactive or deleted
+     */
+    public function getInactiveUserIds(): array
+    {
+        return $this->inactive_user_ids;
     }
 
     /**

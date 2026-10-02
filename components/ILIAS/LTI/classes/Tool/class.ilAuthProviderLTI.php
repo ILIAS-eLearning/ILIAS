@@ -110,7 +110,9 @@ class ilAuthProviderLTI extends ilAuthProvider
         }
 
         $usr_id = $this->syncUser($release, $parameters);
-        $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $receiver->userResult);
+        if ($receiver->userResult !== null) {
+            $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $receiver->userResult);
+        }
         $this->rememberLaunch($release['ref_id'], $parameters);
         ilLTIAppEventListener::rememberObject($receiver->resourceLink, $release['ref_id']);
         if ($receiver->userResult !== null && ($receiver->userResult->isStaff() || $receiver->userResult->isAdmin())) {
@@ -226,8 +228,10 @@ class ilAuthProviderLTI extends ilAuthProvider
 
     /**
      * Gives the active members of the context of a launch their ILIAS account and the roles of the release, as
-     * their own launches would, when the platform offers its Names and Role Provisioning Services. Members that
-     * left the context keep their account and roles. A platform that does not answer does not stop the launch.
+     * their own launches would, when the platform offers its Names and Role Provisioning Services. Members the
+     * platform reports as inactive or deleted lose the roles of the release, and keep their account. Members
+     * that are not in the list at all keep their roles: the same object may be linked from other contexts of
+     * the platform. A platform that does not answer does not stop the launch.
      *
      * @param array $release
      */
@@ -264,6 +268,14 @@ class ilAuthProviderLTI extends ilAuthProvider
             ]);
             $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $member);
         }
+
+        $auth_mode = self::AUTH_MODE_PREFIX . $release['platform_id'];
+        foreach ($service->getInactiveUserIds() as $user_id) {
+            $login = ilObjUser::_checkExternalAuthAccount($auth_mode, $user_id);
+            if ($login && $user_id !== $receiver->userResult->ltiUserId) {
+                $this->assignLocalRoles((int) ilObjUser::_lookupId($login), $release['platform_id'], $release['ref_id'], null);
+            }
+        }
     }
 
     /**
@@ -296,22 +308,18 @@ class ilAuthProviderLTI extends ilAuthProvider
 
     /**
      * The roles of a new launch replace the ones of the last, in the object and in the released objects
-     * above it.
+     * above it. Without an LTI user, the roles of the releases are only taken away.
      */
     private function assignLocalRoles(int $usr_id, int $platform_id, int $ref_id, ?ceLTIc\LTI\User $lti_user): void
     {
         global $DIC;
-
-        if ($lti_user === null) {
-            return;
-        }
 
         foreach ($DIC->repositoryTree()->getPathId($ref_id) as $path_ref_id) {
             $release = new ilLTIRelease($path_ref_id, $platform_id);
             foreach ($release->getAllRoles() as $role_id) {
                 $DIC->rbac()->admin()->deassignUser($role_id, $usr_id);
             }
-            foreach ($release->getLocalRoles($lti_user) as $role_id) {
+            foreach ($lti_user === null ? [] : $release->getLocalRoles($lti_user) as $role_id) {
                 $DIC->rbac()->admin()->assignUser($role_id, $usr_id);
             }
         }
