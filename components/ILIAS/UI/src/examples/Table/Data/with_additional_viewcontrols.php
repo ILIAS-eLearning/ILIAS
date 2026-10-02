@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Data;
@@ -72,10 +88,10 @@ function with_additional_viewcontrols()
             foreach ($records as $idx => $record) {
                 $row_id = (string) $record['usr_id'];
 
-                if (in_array('hide_login', $additional_viewcontrol_data[0])) {
+                if (in_array('hide_login', $additional_viewcontrol_data[0] ?? [])) {
                     $record['login'] = '-';
                 }
-                if (in_array('hide_mail', $additional_viewcontrol_data[0])) {
+                if (in_array('hide_mail', $additional_viewcontrol_data[0] ?? [])) {
                     $record['email'] = '-';
                 }
                 yield $row_builder->buildDataRow($row_id, $record);

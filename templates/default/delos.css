@@ -12517,7 +12517,6 @@ div.alert ul {
 }
 
 .c-table-data__cell {
-  background-color: white;
   padding: 6px 12px;
   border: 1px solid #dddddd;
 }
@@ -12525,6 +12524,78 @@ div.alert ul {
   padding-bottom: 6px;
 }
 
+.c-table-data .c-table-data__row:not(.highlighted) .c-table-data__cell {
+  background-color: white;
+}
+
+.c-table-data .c-table-data__row.highlighted {
+  background-color: rgb(221.841875, 236.45, 243.638125);
+  animation: highlight-callout 5s 1.2s ease-in-out, highlight-settle 0.6s 0.6s;
+  animation-fill-mode: both;
+  position: relative;
+}
+.c-table-data .c-table-data__row.highlighted td:first-child::before {
+  position: absolute;
+  content: "";
+  left: -4px;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: #31708f;
+}
+
+@keyframes highlight-callout {
+  0% {
+    background-color: rgb(221.841875, 236.45, 243.638125);
+  }
+  5% {
+    background-color: rgb(221.841875, 236.45, 243.638125);
+  }
+  10% {
+    background-color: rgba(221.841875, 236.45, 243.638125, 0);
+  }
+  15% {
+    background-color: rgba(221.841875, 236.45, 243.638125, 0);
+  }
+  20% {
+    background-color: rgb(221.841875, 236.45, 243.638125);
+  }
+  25% {
+    background-color: rgb(221.841875, 236.45, 243.638125);
+  }
+  30% {
+    background-color: rgba(221.841875, 236.45, 243.638125, 0);
+  }
+  35% {
+    background-color: rgba(221.841875, 236.45, 243.638125, 0);
+  }
+  40% {
+    background-color: rgb(221.841875, 236.45, 243.638125);
+  }
+  45% {
+    background-color: rgb(221.841875, 236.45, 243.638125);
+  }
+  100% {
+    background-color: rgba(221.841875, 236.45, 243.638125, 0);
+  }
+}
+@keyframes highlight-settle {
+  0% {
+    transform: translateX(-10px);
+    animation-timing-function: ease-in-out;
+  }
+  45% {
+    transform: translateX(-15px);
+    animation-timing-function: ease-in;
+  }
+  55% {
+    transform: translateX(-15px);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 @media screen and (min-width: 769px) {
   .c-table-ordering:not(.dragInProgress) .c-table-data__row:hover td.c-table-data__cell,
   .c-table-data .c-table-data__row:hover td.c-table-data__cell {
@@ -12680,7 +12751,7 @@ td.c-table-data__cell--number {
   resize: horizontal;
 }
 
-td.c-table-data__cell--highlighted {
+.c-table-data .c-table-data__row :not(.highlighted) td.c-table-data__cell--highlighted {
   background-color: #f9f9f9;
 }
 
