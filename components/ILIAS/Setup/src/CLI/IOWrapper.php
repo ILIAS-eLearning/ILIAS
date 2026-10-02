@@ -39,7 +39,10 @@ class IOWrapper implements AdminInteraction
     protected SymfonyStyle $style;
     protected bool $last_objective_was_notable = false;
     protected string $last_objective_label = "";
-    protected bool $output_in_objective = false;
+    /**
+     * true as long as there is no line of an objective waiting for its result
+     */
+    protected bool $output_in_objective = true;
 
     public function __construct(InputInterface $in, OutputInterface $out)
     {
@@ -155,6 +158,7 @@ class IOWrapper implements AdminInteraction
         if ($this->showLastObjectiveLabel()) {
             $this->style->write("[<fg=green>OK</>]\n");
         }
+        $this->closeLastObjective();
     }
 
     public function failedLastObjective(): void
@@ -167,6 +171,16 @@ class IOWrapper implements AdminInteraction
         if ($this->showLastObjectiveLabel()) {
             $this->style->write("[<fg=red>FAILED</>]\n");
         }
+        $this->closeLastObjective();
+    }
+
+    /**
+     * The line of the last objective is complete, output from now on does not belong to it
+     * and must not be marked as "[in progress]".
+     */
+    protected function closeLastObjective(): void
+    {
+        $this->output_in_objective = true;
     }
 
     protected function outputInObjective(): void
