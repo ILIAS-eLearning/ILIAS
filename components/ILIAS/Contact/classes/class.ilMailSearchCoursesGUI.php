@@ -42,14 +42,9 @@ class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI
 
     public function doesExposeMembers(ilObject $object): bool
     {
-        $show_members = true;
-        if (method_exists($object, 'getShowMembers')) {
-            $show_members = (bool) $object->getShowMembers();
-        }
-
         $is_privileged_user = $this->rbacsystem->checkAccess('write', $object->getRefId());
 
-        return ($object->isActivated() && $show_members) || $is_privileged_user;
+        return ($object->isActivated() && $object->getShowMembers()) || $is_privileged_user;
     }
 
     protected function getLocalDefaultRolePrefixes(): array
