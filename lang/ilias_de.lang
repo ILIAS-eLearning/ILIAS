@@ -13087,7 +13087,7 @@ news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
 news#:#news_enable_internal_news_info#:#Ermöglichen Sie die Anzeige von Neuigkeiten-Blöcken in Kategorien, Kursen, Gruppen und anderen Objekten. Die Neuigkeiten dieser Objekte können von Benutzern abonniert werden, diese Neuigkeiten erscheinen dann auf deren Dashboards.
 news#:#news_enable_internal_rss#:#RSS für interne Neuigkeiten aktivieren
-news#:#news_enable_internal_rss_info#:#Die Veröffentlichung von Nachrichten über RSS zulassen. Diese Nachrichten sind außerhalb dieser Installation ohne Authentifizierung zugänglich, d. h., Lesende müssen nicht bei dieser Installation angemeldet sein, um diese Nachrichten zu betrachten.
+news#:#news_enable_internal_rss_info#:#Die Veröffentlichung von Neuigkeiten über RSS zulassen. Diese NNeuigkeiten sind außerhalb dieser Installation ohne Authentifizierung zugänglich, d. h., Lesende müssen nicht bei dieser Installation angemeldet sein, um diese NNeuigkeiten zu betrachten.
 news#:#news_enable_private_feed#:#Privaten RSS-Feed ermöglichen
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
@@ -13095,7 +13095,7 @@ news#:#news_feed_url_for#:#Feed-URL für „%s“
 news#:#news_get_feed_info#:#Dies ist die URL Ihres persönlichen Newsfeeds, in dem alle öffentlich zugänglichen Neuigkeiten aus den Kursen und Gruppen, denen Sie angehören, gesammelt werden (mit Ausnahme automatisch generierter Neuigkeiten). Der Feed enthält nur Neuigkeiten, die von den Autoren als öffentlich gekennzeichnet wurden. Der Feed ist nicht durch ein Authentifizierungsverfahren geschützt. Bitte geben Sie diese URL nicht an andere Personen weiter.
 news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
-news#:#news_get_priv_feed_info#:#Dies ist die URL Ihres privaten Newsfeeds. Der Feed enthält sowohl öffentlich zugänglichen Neuigkeiten als auch solche, die ausschließlich für „Angemeldete Personen“ dieser Installation, bestimmt sind. Dieser Feed ist durch ein Passwort geschützt, das Sie unter „Einstellungen“ im Block „News“ auf Ihrem Dashboard ändern können. Bitte geben Sie diese URL nicht an andere Personen weiter. Bitte ersetzen Sie -password- in dieser URL durch das von Ihnen vergebenes Feed-Passwort.
+news#:#news_get_priv_feed_info#:#Dies ist die URL Ihres privaten Newsfeeds. Der Feed enthält sowohl öffentlich zugängliche Neuigkeiten als auch solche, die ausschließlich für „Angemeldete Personen“ dieser Installation bestimmt sind. Dieser Feed ist durch ein Passwort geschützt, das Sie unter „Einstellungen“ im Block „News“ auf Ihrem Dashboard ändern können. Bitte geben Sie diese URL nicht an andere Personen weiter. Bitte ersetzen Sie -password- in dieser URL durch das von Ihnen vergebene Feed-Passwort.
 news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
 news#:#news_hide_news_date#:#Startdatum
 news#:#news_hide_news_per_date#:#Startdatum für Neuigkeiten
@@ -13109,7 +13109,7 @@ news#:#news_new_comments#:#Neue Kommentare
 news#:#news_new_reactions#:#Neue Reaktionen
 news#:#news_news_block#:#Block „Neuigkeiten“
 news#:#news_news_item_content#:#Text
-news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
+news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten in einem öffentlichen RSS-Feed können von allen Personen gelesen werden, also auch ohne Anmeldung. Solche Neuigkeiten sollten keine vertraulichen Informationen enthalten.
 news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur für angemeldete Personen zugänglich.
 news#:#news_news_item_head#:#Beitrag
 news#:#news_news_item_title#:#Schlagzeile
@@ -13135,8 +13135,8 @@ news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
-news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
-news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
+news#:#news_rss_title_format_news_obj#:#Neuigkeitentitel (Objekttitel)
+news#:#news_rss_title_format_obj_news#:#Objekttitel - Neuigkeitenentitel
 news#:#news_settings#:#Einstellungen für interne Neuigkeiten
 news#:#news_sorry_not_accessible_anymore#:#Leider ist es nicht mehr möglich, auf diese Neuigkeit zuzugreifen.
 news#:#news_time_period#:#Zeitspanne
