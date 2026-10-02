@@ -11190,33 +11190,10 @@ lti#:#conf_privacy_name_lastname#:#Title and last name###26 08 2024 new variable
 lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###26 08 2024 new variable
 lti#:#conf_privacy_name_none#:#No one###26 08 2024 new variable
 lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###26 08 2024 new variable
-lti#:#conf_user_ident#:#User identification###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###07 02 2020 new variable
-lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###07 02 2020 new variable
-lti#:#conf_user_ident_real_email#:#E-Mail Address###07 02 2020 new variable
-lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###07 02 2020 new variable
 lti#:#conf_user_name#:#User name###07 02 2020 new variable
-lti#:#conf_user_name_firstname#:#First name###07 02 2020 new variable
-lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###07 02 2020 new variable
-lti#:#conf_user_name_fullname#:#Entire name###07 02 2020 new variable
-lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name###07 02 2020 new variable
-lti#:#conf_user_name_info#:#Sending an user name is usually not required.###07 02 2020 new variable
-lti#:#conf_user_name_lastname#:#Title and last name###07 02 2020 new variable
-lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###07 02 2020 new variable
-lti#:#conf_user_name_none#:#No one###07 02 2020 new variable
-lti#:#conf_user_name_none_info#:#Sends '-' instead of a name###07 02 2020 new variable
 lti#:#consumers#:#Consumers###31 08 2017 new variable
 lti#:#description_info#:#The description will be shown below the title.###07 02 2020 new variable
-lti#:#field_provider_xml#:#XML-File###07 02 2020 new variable
-lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.###07 02 2020 new variable
-lti#:#form_import_provider#:#Import Global Provider###07 02 2020 new variable
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users###31 08 2017 new variable
-lti#:#global_provider_subtab#:#Global Providers for all Users###07 02 2020 new variable
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress###26 08 2024 new variable
 lti#:#grade_activity_progress_completed#:#Completed###26 08 2024 new variable
 lti#:#grade_activity_progress_initialized#:#Initialized###26 08 2024 new variable
@@ -11258,26 +11235,17 @@ lti#:#launch_method_own_win#:#Own Window###07 02 2020 new variable
 lti#:#launch_method_own_win_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.###07 02 2020 new variable
 lti#:#launched#:#Resource was already launched.###07 02 2020 new variable
 lti#:#learning_progress_options#:#Options for Learning Progress###07 02 2020 new variable
-lti#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###31 08 2017 new variable
 lti#:#lti13_hints#:#If the tool was created without dynamic registration, the following data must be entered for the tool to run.###26 08 2024 new variable
 lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID###26 08 2024 new variable
 lti#:#lti_13_deployment_id#:#Deployment-ID###26 08 2024 new variable
 lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID###26 08 2024 new variable
-lti#:#lti_13_step1#:#Step 1###26 08 2024 new variable
-lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:###26 08 2024 new variable
-lti#:#lti_13_step2#:#Step 2###26 08 2024 new variable
-lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###26 08 2024 new variable
 lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated: 1EdTech ended all support for it on 30 June 2022 and it will be removed from ILIAS in a future version. Please use LTI 1.3 (LTI Advantage) whenever the other system supports it.###17 09 2026 new variable
 lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedule for Early Versions of LTI###18 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users###07 02 2020 new variable
-lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global###07 02 2020 new variable
-lti#:#lti_action_delete_providers#:#Delete Providers###07 02 2020 new variable
-lti#:#lti_action_edit_provider#:#Edit Provider###07 02 2020 new variable
 lti#:#lti_action_reset_provider_to_user_scope#:#Reset Provider as User Defined Provider###07 02 2020 new variable
-lti#:#lti_action_reset_providers_to_user_scope#:#Reset Providers as User Defined###07 02 2020 new variable
 lti#:#lti_add_global_provider#:#Add Global Provider for all Users###07 02 2020 new variable
 lti#:#lti_add_own_provider#:#Add Own Provider (not for all Users)###07 02 2020 new variable
 lti#:#lti_admin#:#LTI Administrator###31 08 2017 new variable
@@ -11320,7 +11288,6 @@ lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###07 02
 lti#:#lti_con_prov_has_outcome_service#:#Provider supports Outcome Service###07 02 2020 new variable
 lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Provider returns a value between 0 and 1 to indicate the Learning Progress.###07 02 2020 new variable
 lti#:#lti_con_prov_hints#:#Hints###07 02 2020 new variable
-lti#:#lti_con_prov_icon#:#Icon###07 02 2020 new variable
 lti#:#lti_con_prov_inc_usr_pic#:#Send User Picture###07 02 2020 new variable
 lti#:#lti_con_prov_inc_usr_pic_info#:#Links to ILIAS user pictures are included at launch of LTI consumer object.###07 02 2020 new variable
 lti#:#lti_con_prov_instructor_email#:#Instructor E-Mail###26 08 2024 new variable
@@ -11334,10 +11301,6 @@ lti#:#lti_con_prov_launch_options#:#Launch Options###07 02 2020 new variable
 lti#:#lti_con_prov_learning_progress_options#:#Options for Learning Progress###07 02 2020 new variable
 lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score###07 02 2020 new variable
 lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.###07 02 2020 new variable
-lti#:#lti_con_prov_privacy_setting_conf#:#Configuration Options###07 02 2020 new variable
-lti#:#lti_con_prov_privacy_setting_default#:#Default Settings, changeable for Objects###07 02 2020 new variable
-lti#:#lti_con_prov_privacy_setting_force#:#Settings are not changeable for Objects###07 02 2020 new variable
-lti#:#lti_con_prov_privacy_setting_info#:#Configuration Options for Privacy Settings###07 02 2020 new variable
 lti#:#lti_con_prov_privacy_settings#:#Privacy Settings###07 02 2020 new variable
 lti#:#lti_con_prov_provider_key_global#:#Predefined Key and Secret###07 02 2020 new variable
 lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the provider.###07 02 2020 new variable
@@ -11352,28 +11315,22 @@ lti#:#lti_con_prov_use_xapi_info#:#Provider supports xAPI-Statements###07 02 202
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity Id is unique! If nothing is entered here, the Activity Id can be entered in LTI Consumer. The Activity Id could be requested from the LTI Provider.###07 02 2020 new variable
 lti#:#lti_con_prov_xapi_launch_key#:#Key of LRS Endpoint###07 02 2020 new variable
-lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;###07 02 2020 new variable
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint###07 02 2020 new variable
-lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;###07 02 2020 new variable
 lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint###07 02 2020 new variable
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://###07 02 2020 new variable
 lti#:#lti_con_redirection_uris#:#Redirection URI###26 08 2024 new variable
 lti#:#lti_con_tool_url#:#Launch URL###26 08 2024 new variable
 lti#:#lti_con_version#:#LTI Version###26 08 2024 new variable
-lti#:#lti_con_version_1.1#:#Version 1.1###26 08 2024 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###26 08 2024 new variable
 lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###26 08 2024 new variable
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?###07 02 2020 new variable
 lti#:#lti_consumer#:#Freigabe für###31 08 2017 new variable
 lti#:#lti_consumer_created#:#Consumer created###31 08 2017 new variable
 lti#:#lti_consumer_deleted#:#Consumer deleted###31 08 2017 new variable
-lti#:#lti_consumer_key#:#Consumer Key###31 08 2017 new variable
-lti#:#lti_consumer_secret#:#Consumer Secret###31 08 2017 new variable
 lti#:#lti_consumer_set_active#:#Consumer activated###31 08 2017 new variable
 lti#:#lti_consumer_set_inactive#:#Consumer deactivated###31 08 2017 new variable
 lti#:#lti_consumer_updated#:#Consumer updated###31 08 2017 new variable
 lti#:#lti_consuming_tab#:#ILIAS as LTI Consumer###07 02 2020 new variable
-lti#:#lti_copy#:#Copy Consumer###07 02 2020 new variable
 lti#:#lti_create_consumer#:#Create Consumer###31 08 2017 new variable
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###29 07 2022 new variable
 lti#:#lti_cron_title#:#LTI Outcome Service###07 02 2020 new variable
@@ -11382,14 +11339,11 @@ lti#:#lti_custom_new#:#Create Own Provider Settings###07 02 2020 new variable
 lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
-lti#:#lti_deep_linking_not_available_for_admin_objects#:#Consumers created in Administration do not allow content selection
 lti#:#lti_deep_linking_running#:#Select the content in the tool. An object is created for each content item the tool sends back.###29 09 2026 new variable
 lti#:#lti_deep_linking_select#:#Select Content###29 09 2026 new variable
 lti#:#lti_deep_linking_select_info#:#Select the ILIAS objects to add to the platform.###29 09 2026 new variable
 lti#:#lti_deep_linking_submit#:#Add###29 09 2026 new variable
 lti#:#lti_deep_linking_url#:#Deep Linking URL###29 09 2026 new variable
-lti#:#lti_delete_consume_provider#:#Delete Provider###07 02 2020 new variable
-lti#:#lti_delete_consume_providers#:#Delete Providers###07 02 2020 new variable
 lti#:#lti_delete_provider#:#Delete Provider###07 02 2020 new variable
 lti#:#lti_dyn_reg_failed#:#The tool could not be registered. Check the registration URL and try again.###28 09 2026 new variable
 lti#:#lti_dyn_reg_finish#:#Finish Registration###28 09 2026 new variable
@@ -11404,26 +11358,16 @@ lti#:#lti_edit_consumer#:#Edit LTI Consumer###31 08 2017 new variable
 lti#:#lti_exit#:#Close LTI Session###31 08 2017 new variable
 lti#:#lti_exited#:#LTI Session closed###31 08 2017 new variable
 lti#:#lti_exited_info#:#LTI Session successfully closed###31 08 2017 new variable
-lti#:#lti_form_provider_content_selection#:#Turinio pasirinkimas
 lti#:#lti_form_provider_create#:#Create Provider Settings###07 02 2020 new variable
 lti#:#lti_form_provider_edit#:#Edit Provider Settings###07 02 2020 new variable
 lti#:#lti_form_section_appearance#:#Options for launch###07 02 2020 new variable
-lti#:#lti_global_settings_form#:#Global Settings###07 02 2020 new variable
-lti#:#lti_import_global_provider#:#Import Global Provider for all Users with XML-File###07 02 2020 new variable
 lti#:#lti_info_external_provider_info#:#The used Provider is an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.###07 02 2020 new variable
 lti#:#lti_info_external_provider_label#:#Additional Info about this Provider###07 02 2020 new variable
 lti#:#lti_info_learning_progress_section#:#Info about Determination of the Learning Progress###07 02 2020 new variable
 lti#:#lti_info_privacy_section#:#Info about personal data transmitted to the provider at launch###07 02 2020 new variable
 lti#:#lti_launch_url#:#Url###31 08 2017 new variable
 lti#:#lti_member#:#LTI Member###31 08 2017 new variable
-lti#:#lti_navigation#:#Navigation###31 08 2017 new variable
 lti#:#lti_no_provider_selected#:#No provider selected###07 02 2020 new variable
-lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.###31 08 2017 new variable
-lti#:#lti_obj_active#:#LTI-Tool Provider###31 08 2017 new variable
-lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.###31 08 2017 new variable
-lti#:#lti_obj_version#:#LTI Version###26 08 2024 new variable
-lti#:#lti_obj_version_11#:#Version 1.1###26 08 2024 new variable
-lti#:#lti_obj_version_13#:#Version 1.3###26 08 2024 new variable
 lti#:#lti_object_consumer#:#LTI Consumers###31 08 2017 new variable
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten###31 08 2017 new variable
 lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
@@ -11435,15 +11379,11 @@ lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 0
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###29 10 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben###31 08 2017 new variable
-lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
-lti#:#lti_session#:#LTI Session###10 11 2018 new variable
 lti#:#lti_settings#:#LTI Settings###31 08 2017 new variable
 lti#:#lti_settings_form#:#Object Settings###07 02 2020 new variable
 lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Provider for all Users###07 02 2020 new variable
-lti#:#lti_success_accept_as_global_multi#:#Successfully accepted as Global Provider for all Users###07 02 2020 new variable
 lti#:#lti_success_delete_provider#:#Successfully deleted###07 02 2020 new variable
 lti#:#lti_success_reset_to_usr_def#:#Successfully reseted as User Defined Provider###07 02 2020 new variable
-lti#:#lti_success_reset_to_usr_def_multi#:#Successfully reseted as User Defined Provider###07 02 2020 new variable
 lti#:#lti_tutor#:#LTI Instructor###31 08 2017 new variable
 lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.###29 07 2022 new variable
 lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.###29 07 2022 new variable
@@ -11458,7 +11398,6 @@ lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
 lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.###07 02 2020 new variable
-lti#:#subtab_certificate#:#Certificate###07 02 2020 new variable
 lti#:#subtab_object_settings#:#Object Settings###07 02 2020 new variable
 lti#:#subtab_provider_settings#:#LTI Provider Settings###07 02 2020 new variable
 lti#:#tab_content#:#Content###07 02 2020 new variable
@@ -11474,11 +11413,9 @@ lti#:#tbl_grade_grading_progress#:#Grading Progress###26 08 2024 new variable
 lti#:#tbl_grade_period#:#Period###26 08 2024 new variable
 lti#:#tbl_grade_score#:#Score###26 08 2024 new variable
 lti#:#tbl_grade_stored#:#Transmitted to ILIAS###26 08 2024 new variable
-lti#:#tbl_lti_prov_all_categories#:#All Categories###07 02 2020 new variable
 lti#:#tbl_lti_prov_availability#:#Availability###07 02 2020 new variable
 lti#:#tbl_lti_prov_category#:#Category###07 02 2020 new variable
 lti#:#tbl_lti_prov_description#:#Description###07 02 2020 new variable
-lti#:#tbl_lti_prov_icon#:#Icon###07 02 2020 new variable
 lti#:#tbl_lti_prov_internal#:#Internal Provider###07 02 2020 new variable
 lti#:#tbl_lti_prov_keyword#:#Keyword###07 02 2020 new variable
 lti#:#tbl_lti_prov_keywords#:#Keywords###07 02 2020 new variable
@@ -11493,13 +11430,10 @@ lti#:#tbl_lti_prov_used_by#:#Provider Used by Objects in Tree###07 02 2020 new v
 lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret###07 02 2020 new variable
 lti#:#tbl_provider_header#:#LTI Provider###07 02 2020 new variable
 lti#:#tbl_provider_usage_header#:#LTI Provider###07 02 2020 new variable
-lti#:#tbl_provider_usage_header_info#:#Before deleting providers, trashed usages must also be deleted.###07 02 2020 new variable
 lti#:#title_info#:#Give the object a title.###07 02 2020 new variable
-lti#:#usage_subtab#:#Usage###07 02 2020 new variable
 lti#:#use_xapi#:#Use xAPI-Support###07 02 2020 new variable
 lti#:#use_xapi_info#:#This LTI Provider supports xAPI-Statements.###07 02 2020 new variable
 lti#:#user_lng#:#User Languague###31 08 2017 new variable
-lti#:#user_provider_subtab#:#Providers Defined by Users###07 02 2020 new variable
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###07 02 2020 new variable
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###07 02 2020 new variable
 mail#:#back_to_folder#:#Back to Folder###08 09 2014 new variable

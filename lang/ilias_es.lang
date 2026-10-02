@@ -11243,33 +11243,10 @@ lti#:#conf_privacy_name_lastname#:#Título y apellido
 lti#:#conf_privacy_name_lastname_info#:#Envía Sr. o Sra. (a menos que se especifique lo contrario) y el apellido
 lti#:#conf_privacy_name_none#:#Ninguno
 lti#:#conf_privacy_name_none_info#:#Envía '-' en lugar de un nombre
-lti#:#conf_user_ident#:#Identificación de usuario
-lti#:#conf_user_ident_il_uuid_ext_account#:#ID de usuario externo combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario.
-lti#:#conf_user_ident_il_uuid_login#:#Login de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico.
-lti#:#conf_user_ident_il_uuid_login_info#:#Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario de ILIAS.
-lti#:#conf_user_ident_il_uuid_user_id#:#ID de usuario de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico.
-lti#:#conf_user_ident_il_uuid_user_id_info#:#Esto es idéntico para cada llamada, pero no permite una conclusión directa sobre el usuario de ILIAS.
-lti#:#conf_user_ident_info#:#El estándar es frecuentemente la dirección de correo electrónico. El ID único de la plataforma ILIAS es:
-lti#:#conf_user_ident_real_email#:#Dirección de correo electrónico
-lti#:#conf_user_ident_real_email_info#:#Envía la dirección de correo electrónico del usuario como identificación (Advertencia: ¡una dirección de correo electrónico puede ser utilizada por múltiples usuarios!)
 lti#:#conf_user_name#:#Nombre de usuario
-lti#:#conf_user_name_firstname#:#Nombre de pila
-lti#:#conf_user_name_firstname_info#:#Envía el nombre de pila del nombre de usuario de ILIAS
-lti#:#conf_user_name_fullname#:#Nombre completo
-lti#:#conf_user_name_fullname_info#:#Envía el título, nombre de pila y apellido
-lti#:#conf_user_name_info#:#Normalmente no se requiere enviar un nombre de usuario.
-lti#:#conf_user_name_lastname#:#Título y apellido
-lti#:#conf_user_name_lastname_info#:#Envía Sr. o Sra. (a menos que se especifique lo contrario) y el apellido
-lti#:#conf_user_name_none#:#Ninguno
-lti#:#conf_user_name_none_info#:#Envía '-' en lugar de un nombre
 lti#:#consumers#:#Consumidores
 lti#:#description_info#:#La descripción se mostrará debajo del título.
-lti#:#field_provider_xml#:#Archivo XML
-lti#:#field_provider_xml_info#:#Se admiten archivos XML para Tool Consumer y para Common Cartridge según https://www.imsglobal.org/specs/lti/xml.
-lti#:#form_import_provider#:#Importar Proveedor Global
 lti#:#gbl_roles_to_users#:#Rol global asignado a usuarios LTI
-lti#:#global_provider_subtab#:#Proveedores/Herramientas globales para todos los usuarios
 lti#:#grade_activity_progress_all#:#Toda la información sobre el progreso de la actividad
 lti#:#grade_activity_progress_completed#:#Completado
 lti#:#grade_activity_progress_initialized#:#Inicializado
@@ -11311,26 +11288,17 @@ lti#:#launch_method_own_win#:#Ventana Propia
 lti#:#launch_method_own_win_info#:#El contenido se abre en la misma ventana y reemplaza la pantalla de ILIAS. Al salir del contenido, el usuario regresa a ILIAS.
 lti#:#launched#:#El recurso ya fue lanzado.
 lti#:#learning_progress_options#:#Opciones para el Progreso de Aprendizaje
-lti#:#lm_only_one_download_per_type#:#Solo se puede publicar un archivo por tipo (XML, HTML, SCORM).
 lti#:#lti13_hints#:#Si la herramienta se creó sin registro dinámico, se deben introducir los siguientes datos para que la herramienta funcione.
 lti#:#lti_13_authentication_url#:#URL de solicitud de autenticación
 lti#:#lti_13_client_id#:#ID de cliente (Client-ID)
 lti#:#lti_13_deployment_id#:#ID de despliegue (Deployment-ID)
 lti#:#lti_13_keyset_url#:#URL de conjunto de claves públicas
 lti#:#lti_13_platform_id#:#ID de plataforma (Platform-ID)
-lti#:#lti_13_step1#:#Paso 1
-lti#:#lti_13_step1_info#:#Para la plataforma iniciadora (consumidor), introduzca la siguiente dirección para la URL de lanzamiento, URL de inicio de sesión, URI de redirección y URL de registro:
-lti#:#lti_13_step2#:#Paso 2
-lti#:#lti_13_step2_info#:#Recibirá información de la plataforma iniciadora (Consumidor), que deberá introducir en los siguientes campos. Después de guardar, las funcionalidades de LTI 1.3 estarán disponibles.
 lti#:#lti_13_token_url#:#URL de token de acceso
 lti#:#lti_1p1_deprecated_info#:#LTI 1.1 está obsoleto: 1EdTech finalizó todo su soporte el 30 de junio de 2022 y se eliminará de ILIAS en una versión futura. Utilice LTI 1.3 (LTI Advantage) siempre que el otro sistema lo admita.###17 09 2026 new variable
 lti#:#lti_1p1_deprecated_link#:#1EdTech: actualización de seguridad y calendario de obsolescencia de las primeras versiones de LTI###18 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Aceptar proveedor como proveedor global para todos los usuarios
-lti#:#lti_action_accept_providers_as_global#:#Aceptar proveedores como globales
-lti#:#lti_action_delete_providers#:#Eliminar proveedores
-lti#:#lti_action_edit_provider#:#Editar proveedor
 lti#:#lti_action_reset_provider_to_user_scope#:#Restablecer proveedor como definido por el usuario
-lti#:#lti_action_reset_providers_to_user_scope#:#Restablecer proveedores como definidos por el usuario
 lti#:#lti_add_global_provider#:#Añadir proveedor global para todos los usuarios
 lti#:#lti_add_own_provider#:#Añadir Proveedor Propio (no para todos los Usuarios)
 lti#:#lti_admin#:#Administrador LTI
@@ -11373,7 +11341,6 @@ lti#:#lti_con_prov_group_options#:#Opciones para agrupar y filtrar proveedores
 lti#:#lti_con_prov_has_outcome_service#:#El proveedor admite el servicio de resultados (Outcome Service)
 lti#:#lti_con_prov_has_outcome_service_info#:#Si se admite el servicio de resultados LTI, se puede activar el progreso de aprendizaje. El proveedor devuelve un valor entre 0 y 1 para indicar el progreso de aprendizaje.
 lti#:#lti_con_prov_hints#:#Avisos
-lti#:#lti_con_prov_icon#:#Icono
 lti#:#lti_con_prov_inc_usr_pic#:#Enviar foto de usuario
 lti#:#lti_con_prov_inc_usr_pic_info#:#Los enlaces a las imágenes de usuario de ILIAS se incluyen al iniciar el objeto consumidor LTI.
 lti#:#lti_con_prov_instructor_email#:#Correo electrónico del instructor
@@ -11387,10 +11354,6 @@ lti#:#lti_con_prov_launch_options#:#Opciones de inicio
 lti#:#lti_con_prov_learning_progress_options#:#Opciones para el progreso de aprendizaje
 lti#:#lti_con_prov_mastery_score_default#:#Puntuación de dominio predeterminada
 lti#:#lti_con_prov_mastery_score_default_info#:#El progreso de aprendizaje se evaluará a partir del servicio de resultados del proveedor y el umbral de puntuación de dominio.
-lti#:#lti_con_prov_privacy_setting_conf#:#Opciones de configuración
-lti#:#lti_con_prov_privacy_setting_default#:#Ajustes predeterminados, modificables para los objetos
-lti#:#lti_con_prov_privacy_setting_force#:#Los ajustes no son modificables para los objetos
-lti#:#lti_con_prov_privacy_setting_info#:#Opciones de configuración para los ajustes de privacidad
 lti#:#lti_con_prov_privacy_settings#:#Ajustes de privacidad
 lti#:#lti_con_prov_provider_key_global#:#Clave y secreto predefinidos
 lti#:#lti_con_prov_provider_key_global_info#:#Si no se establece, los usuarios tienen que añadir clave y secreto para utilizar el proveedor.
@@ -11405,28 +11368,22 @@ lti#:#lti_con_prov_use_xapi_info#:#El proveedor admite declaraciones xAPI
 lti#:#lti_con_prov_xapi_activity_id#:#ID de actividad
 lti#:#lti_con_prov_xapi_activity_id_info#:#El ID de actividad es necesario para solicitar datos del Learning Record Store. ¡Solo ingrese algo aquí si la asignación del recurso del proveedor a un ID de actividad es única! Si no se ingresa nada aquí, el ID de actividad se puede ingresar en el Consumidor LTI. El ID de actividad puede solicitarse al proveedor de LTI.
 lti#:#lti_con_prov_xapi_launch_key#:#Clave del endpoint del LRS
-lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Secreto del endpoint del LRS
-lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL del endpoint del LRS
 lti#:#lti_con_prov_xapi_launch_url_info#:#Por favor, añada la URL completa con https://
 lti#:#lti_con_redirection_uris#:#URI de redirección
 lti#:#lti_con_tool_url#:#Launch URL
 lti#:#lti_con_version#:#Versión de LTI
-lti#:#lti_con_version_1.1#:#Versión 1.1
 lti#:#lti_con_version_1.3#:#Versión 1.3
 lti#:#lti_con_version_1.3_before_id#:#Si no se utiliza el registro dinámico, tras introducir los datos proporcionados por la herramienta, aparecerán datos adicionales que deberán introducirse en la herramienta.
 lti#:#lti_confirm_delete_providers#:#¿Está seguro de que desea eliminar los siguientes proveedores?
 lti#:#lti_consumer#:#Lanzar para
 lti#:#lti_consumer_created#:#Consumidor creado
 lti#:#lti_consumer_deleted#:#Consumidor eliminado
-lti#:#lti_consumer_key#:#Clave del Consumidor (Consumer Key)
-lti#:#lti_consumer_secret#:#Secreto del Consumidor (Consumer Secret)
 lti#:#lti_consumer_set_active#:#Consumidor activado
 lti#:#lti_consumer_set_inactive#:#Consumidor desactivado
 lti#:#lti_consumer_updated#:#Consumidor actualizado
 lti#:#lti_consuming_tab#:#ILIAS como Consumidor LTI
-lti#:#lti_copy#:#Copiar Consumidor
 lti#:#lti_create_consumer#:#Crear Consumidor
 lti#:#lti_create_lti_user_role#:#Crear el rol global recomendado para usuarios LTI
 lti#:#lti_cron_title#:#Servicio de Resultados LTI (Outcome Service)
@@ -11435,14 +11392,11 @@ lti#:#lti_custom_new#:#Crear ajustes de proveedor propios
 lti#:#lti_deep_linking_expired#:#Esta selección ha caducado. Vuelva a iniciar la selección de contenido en la plataforma.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#No se ha podido añadir el contenido seleccionado en la herramienta. Inténtelo de nuevo.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#La herramienta no ha enviado ningún contenido que se pueda añadir como objeto LTI.###29 09 2026 new variable
-lti#:#lti_deep_linking_not_available_for_admin_objects#:#Los Consumidores creados desde Administración no permiten la selección de contenido
 lti#:#lti_deep_linking_running#:#Seleccione el contenido en la herramienta. Se crea un objeto por cada contenido que devuelva la herramienta.###29 09 2026 new variable
 lti#:#lti_deep_linking_select#:#Seleccionar contenido###29 09 2026 new variable
 lti#:#lti_deep_linking_select_info#:#Seleccione los objetos de ILIAS que quiere añadir a la plataforma.###29 09 2026 new variable
 lti#:#lti_deep_linking_submit#:#Añadir###29 09 2026 new variable
 lti#:#lti_deep_linking_url#:#URL de Deep Linking###29 09 2026 new variable
-lti#:#lti_delete_consume_provider#:#Eliminar Proveedor
-lti#:#lti_delete_consume_providers#:#Eliminar Proveedores
 lti#:#lti_delete_provider#:#Eliminar Proveedor
 lti#:#lti_dyn_reg_failed#:#The tool could not be registered. Check the registration URL and try again.###28 09 2026 new variable
 lti#:#lti_dyn_reg_finish#:#Finish Registration###28 09 2026 new variable
@@ -11457,26 +11411,16 @@ lti#:#lti_edit_consumer#:#Editar Consumidor LTI
 lti#:#lti_exit#:#Cerrar sesión LTI
 lti#:#lti_exited#:#Sesión LTI cerrada
 lti#:#lti_exited_info#:#Sesión LTI cerrada con éxito
-lti#:#lti_form_provider_content_selection#:#Selección de contenido
 lti#:#lti_form_provider_create#:#Crear configuración de proveedor
 lti#:#lti_form_provider_edit#:#Editar configuración de proveedor
 lti#:#lti_form_section_appearance#:#Opciones de lanzamiento
-lti#:#lti_global_settings_form#:#Ajustes globales
-lti#:#lti_import_global_provider#:#Importar proveedor global para todos los usuarios con archivo XML
 lti#:#lti_info_external_provider_info#:#El proveedor utilizado es un proveedor externo. Un proveedor externo se caracteriza por la insuficiente influencia sobre el proveedor por parte del operador de la instalación de ILIAS. Este es el caso, por ejemplo, si no hay derechos para eliminar datos.
 lti#:#lti_info_external_provider_label#:#Información adicional sobre este proveedor
 lti#:#lti_info_learning_progress_section#:#Información sobre la determinación del progreso de aprendizaje
 lti#:#lti_info_privacy_section#:#Información sobre los datos personales transmitidos al proveedor en el lanzamiento
 lti#:#lti_launch_url#:#URL
 lti#:#lti_member#:#Miembro LTI / Estudiante
-lti#:#lti_navigation#:#Navegación
 lti#:#lti_no_provider_selected#:#Ningún proveedor seleccionado
-lti#:#lti_not_allowed#:#Acceso denegado. Su solicitud ha sido redirigida al objeto raíz de LTI.
-lti#:#lti_obj_active#:#Proveedor de herramientas LTI
-lti#:#lti_obj_active_info#:#Si se activa, este objeto actúa como proveedor de herramientas LTI. Los nuevos usuarios de LTI pueden ser asignados automáticamente a los siguientes roles locales.
-lti#:#lti_obj_version#:#Versión de LTI
-lti#:#lti_obj_version_11#:#Versión 1.1
-lti#:#lti_obj_version_13#:#Versión 1.3
 lti#:#lti_object_consumer#:#Consumidores LTI
 lti#:#lti_object_release_settings_form#:#Editar Publicaciones LTI
 lti#:#lti_platform_registration#:#Registro LTI Advantage###17 09 2026 new variable
@@ -11488,15 +11432,11 @@ lti#:#lti_provider_not_avail_msg#:#El Proveedor LTI está configurado como 'No d
 lti#:#lti_provider_not_set_msg#:#La configuración del Proveedor / herramienta LTI no se ha completado por completo.
 lti#:#lti_providing_tab#:#ILIAS como Proveedor LTI
 lti#:#lti_released_objects#:#Objetos publicados
-lti#:#lti_select_provider#:#Seleccionar proveedor
-lti#:#lti_session#:#Sesión LTI
 lti#:#lti_settings#:#Ajustes de LTI
 lti#:#lti_settings_form#:#Ajustes del objeto
 lti#:#lti_success_accept_as_global#:#Aceptado con éxito como Proveedor Global para todos los usuarios
-lti#:#lti_success_accept_as_global_multi#:#Aceptados con éxito como Proveedores Globales para todos los usuarios
 lti#:#lti_success_delete_provider#:#Eliminado con éxito
 lti#:#lti_success_reset_to_usr_def#:#Restablecido con éxito como Proveedor definido por el usuario
-lti#:#lti_success_reset_to_usr_def_multi#:#Restablecidos con éxito como Proveedores definidos por el usuario
 lti#:#lti_tutor#:#Instructor LTI
 lti#:#lti_user_role_created#:#Se ha creado el rol global recomendado para los usuarios de LTI.
 lti#:#lti_user_role_info#:#El rol global recomendado para los usuarios de LTI aún no se ha creado en esta instalación. Este rol global especial contiene únicamente el permiso 'visible' para el repositorio y las categorías.
@@ -11511,7 +11451,6 @@ lti#:#provider_info#:#Proveedor utilizado
 lti#:#settings_subtab#:#Ajustes
 lti#:#show_statements#:#Mostrar experiencias de aprendizaje
 lti#:#show_statements_info#:#Las experiencias de aprendizaje de otros usuarios podrían mostrarse si el permiso 'Ver experiencias de aprendizaje de otros usuarios' está configurado.
-lti#:#subtab_certificate#:#Certificado
 lti#:#subtab_object_settings#:#Configuración del objeto
 lti#:#subtab_provider_settings#:#Configuración del proveedor LTI
 lti#:#tab_content#:#Contenido
@@ -11527,11 +11466,9 @@ lti#:#tbl_grade_grading_progress#:#Progreso de la calificación
 lti#:#tbl_grade_period#:#Período
 lti#:#tbl_grade_score#:#Puntuación
 lti#:#tbl_grade_stored#:#Transmitido a ILIAS
-lti#:#tbl_lti_prov_all_categories#:#Todas las categorías
 lti#:#tbl_lti_prov_availability#:#Disponibilidad
 lti#:#tbl_lti_prov_category#:#Categoría
 lti#:#tbl_lti_prov_description#:#Descripción
-lti#:#tbl_lti_prov_icon#:#Icono
 lti#:#tbl_lti_prov_internal#:#Proveedor interno
 lti#:#tbl_lti_prov_keyword#:#Palabra clave
 lti#:#tbl_lti_prov_keywords#:#Palabras clave
@@ -11546,13 +11483,10 @@ lti#:#tbl_lti_prov_used_by#:#Proveedor utilizado por objetos en el árbol
 lti#:#tbl_lti_prov_with_key#:#Predefinido con Clave / Secreto
 lti#:#tbl_provider_header#:#Proveedor LTI
 lti#:#tbl_provider_usage_header#:#Proveedor LTI
-lti#:#tbl_provider_usage_header_info#:#Antes de eliminar proveedores, también se deben eliminar los usos en la papelera.
 lti#:#title_info#:#Asigne un título al objeto.
-lti#:#usage_subtab#:#Uso
 lti#:#use_xapi#:#Usar soporte xAPI
 lti#:#use_xapi_info#:#Este proveedor LTI admite declaraciones xAPI.
 lti#:#user_lng#:#Idioma del usuario
-lti#:#user_provider_subtab#:#Proveedores definidos por usuarios
 ltiv#:#ltiv_create#:#Crear certificado para objeto consumidor LTI
 ltiv#:#ltiv_create_info#:#Seleccione un objeto consumidor LTI finalizado para generar un certificado para el mismo
 mail#:#back_to_folder#:#Volver a la carpeta

@@ -11312,33 +11312,10 @@ lti#:#conf_privacy_name_lastname#:#Titel und Nachname
 lti#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 lti#:#conf_privacy_name_none#:#Keiner
 lti#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
-lti#:#conf_user_ident#:#Identifikation der Person
-lti#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf die zugehörige Person zulassen.
-lti#:#conf_user_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert..
-lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
-lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-lti#:#conf_user_ident_real_email#:#E-Mail-Adresse
-lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
 lti#:#conf_user_name#:#Anmeldename
-lti#:#conf_user_name_firstname#:#Vorname
-lti#:#conf_user_name_firstname_info#:#Sendet den Vornamen.
-lti#:#conf_user_name_fullname#:#Vollständiger Name
-lti#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#conf_user_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
-lti#:#conf_user_name_lastname#:#Titel und Nachname
-lti#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
-lti#:#conf_user_name_none#:#Keiner
-lti#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 lti#:#consumers#:#Konsumenten
 lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
-lti#:#field_provider_xml#:#XML-Datei
-lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consumer und für Common Cartridge gemäß https://www.imsglobal.org/specs/lti/xml.
-lti#:#form_import_provider#:#Globalen Provider importieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
-lti#:#global_provider_subtab#:#Globale Provider bzw. Tools für alle Anwender
 lti#:#grade_activity_progress_all#:#alle Angaben zum Aktivitätsfortschritt
 lti#:#grade_activity_progress_completed#:#vollständig bearbeitet (Completed)
 lti#:#grade_activity_progress_initialized#:#begonnen (Initialized)
@@ -11380,26 +11357,17 @@ lti#:#launch_method_own_win#:#Eigenes Fenster
 lti#:#launch_method_own_win_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
-lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
 lti#:#lti13_hints#:#Hinweise
 lti#:#lti_13_authentication_url#:#URL für die Authentifizierungsanfrage###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
 lti#:#lti_13_keyset_url#:#URL für den öffentlichen Schlüsselsatz###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Plattform-ID
-lti#:#lti_13_step1#:#Schritt 1
-lti#:#lti_13_step1_info#:#Tragen Sie bei der initiierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
-lti#:#lti_13_step2#:#Schritt 2
-lti#:#lti_13_step2_info#:#Von der initiierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
 lti#:#lti_13_token_url#:#URL für den Zugriffstoken###04 12 2025 new variable
 lti#:#lti_1p1_deprecated_info#:#LTI 1.1 ist abgekündigt: 1EdTech hat den Support dafür am 30. Juni 2022 vollständig eingestellt und es wird in einer zukünftigen Version aus ILIAS entfernt. Bitte verwenden Sie LTI 1.3 (LTI Advantage), wann immer das andere System es unterstützt.###17 09 2026 new variable
 lti#:#lti_1p1_deprecated_link#:#1EdTech: Sicherheitsupdate und Abkündigungszeitplan für frühe LTI-Versionen###18 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
-lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
-lti#:#lti_action_delete_providers#:#Provider löschen
-lti#:#lti_action_edit_provider#:#Provider bearbeiten
 lti#:#lti_action_reset_provider_to_user_scope#:#Globalen Provider bzw. Tool zu lokalem Provider bzw. Tool ändern
-lti#:#lti_action_reset_providers_to_user_scope#:#Globale Provider bzw. Tools zu lokalen Providern bzw. Tools ändern
 lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
 lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
 lti#:#lti_admin#:#LTI-Rolle „Administrator“
@@ -11442,7 +11410,6 @@ lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Provi
 lti#:#lti_con_prov_has_outcome_service#:#Provider unterstützt Outcome Service
 lti#:#lti_con_prov_has_outcome_service_info#:#Wenn der LTI Outcome Service unterstützt wird, kann der Lernfortschritt aktiviert werden. Der Provider gibt einen Wert zwischen 0 und 1 zurück, um den Lernfortschritt anzuzeigen.
 lti#:#lti_con_prov_hints#:#Hinweise
-lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#Profilbild senden
 lti#:#lti_con_prov_inc_usr_pic_info#:#Links zu ILIAS-Profilbildern sind beim Start des LTI-Konsumenten enthalten.
 lti#:#lti_con_prov_instructor_email#:#E-Mail von Lehrenden
@@ -11456,10 +11423,6 @@ lti#:#lti_con_prov_launch_options#:#Startoptionen
 lti#:#lti_con_prov_learning_progress_options#:#Optionen für den Lernfortschritt
 lti#:#lti_con_prov_mastery_score_default#:#Voreinstellung Mastery Score
 lti#:#lti_con_prov_mastery_score_default_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
-lti#:#lti_con_prov_privacy_setting_conf#:#Konfigurationsoptionen
-lti#:#lti_con_prov_privacy_setting_default#:#Standardeinstellungen, änderbar für Objekte
-lti#:#lti_con_prov_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht änderbar.
-lti#:#lti_con_prov_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
 lti#:#lti_con_prov_privacy_settings#:#Datenschutzeinstellungen
 lti#:#lti_con_prov_provider_key_global#:#Vordefinierter Key und Secret
 lti#:#lti_con_prov_provider_key_global_info#:#Das Objekt kann ohne weitere Anmeldung direkt genutzt werden.
@@ -11474,28 +11437,22 @@ lti#:#lti_con_prov_use_xapi_info#:#Provider unterstützt xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
 lti#:#lti_con_prov_xapi_activity_id_info#:#Diese ID wird benötigt, um die Daten aus dem LRS in ILIAS anzeigen zu können. Sie erhalten diese ID von der Organisation, die diese Ressource anbietet.
 lti#:#lti_con_prov_xapi_launch_key#:#Key des LRS-Endpoints
-lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret des LRS-Endpunkts
-lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL des LRS-Endpoints
 lti#:#lti_con_prov_xapi_launch_url_info#:#Bitte fügen Sie die vollständige URL mit https:// hinzu.
 lti#:#lti_con_redirection_uris#:#Redirection URI
 lti#:#lti_con_tool_url#:#Launch URL
 lti#:#lti_con_version#:#LTI Version
-lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
 lti#:#lti_con_version_1.3_before_id#:#Wenn keine dynamische Registrierung genutzt wird, erscheinen nach Eingabe der vom Tool bereitgestellten Daten weitere Daten, die beim Tool einzutragen sind.
 lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider löschen möchten?
 lti#:#lti_consumer#:#Freigegeben für
 lti#:#lti_consumer_created#:#Konsument hinzugefügt
 lti#:#lti_consumer_deleted#:#Konsument gelöscht
-lti#:#lti_consumer_key#:#Consumer Key
-lti#:#lti_consumer_secret#:#Consumer Secret
 lti#:#lti_consumer_set_active#:#Konsument aktiviert
 lti#:#lti_consumer_set_inactive#:#Konsument deaktiviert
 lti#:#lti_consumer_updated#:#Konsument aktualisiert
 lti#:#lti_consuming_tab#:#ILIAS als LTI-Konsument
-lti#:#lti_copy#:#LTI-Konsument kopieren
 lti#:#lti_create_consumer#:#Konsumenten hinzufügen
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
@@ -11504,14 +11461,11 @@ lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
 lti#:#lti_deep_linking_expired#:#Diese Auswahl ist abgelaufen. Starten Sie die Inhaltsauswahl in der Plattform erneut.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#Die im Tool ausgewählten Inhalte konnten nicht hinzugefügt werden. Bitte versuchen Sie es erneut.###29 09 2026 new variable
 lti#:#lti_deep_linking_no_content#:#Das Tool hat keine Inhalte gesendet, die als LTI-Objekt hinzugefügt werden können.###29 09 2026 new variable
-lti#:#lti_deep_linking_not_available_for_admin_objects#:#In der Administration angelegte Konsumenten erlauben keine Inhaltsauswahl
 lti#:#lti_deep_linking_running#:#Wählen Sie die Inhalte im Tool aus. Für jeden Inhalt, den das Tool zurücksendet, wird ein Objekt angelegt.###29 09 2026 new variable
 lti#:#lti_deep_linking_select#:#Inhalte auswählen###29 09 2026 new variable
 lti#:#lti_deep_linking_select_info#:#Wählen Sie die ILIAS-Objekte aus, die der Plattform hinzugefügt werden sollen.###29 09 2026 new variable
 lti#:#lti_deep_linking_submit#:#Hinzufügen###29 09 2026 new variable
 lti#:#lti_deep_linking_url#:#Deep-Linking-URL###29 09 2026 new variable
-lti#:#lti_delete_consume_provider#:#Provider löschen
-lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
 lti#:#lti_dyn_reg_failed#:#Das Tool konnte nicht registriert werden. Prüfen Sie die Registrierungs-URL und versuchen Sie es erneut.###28 09 2026 new variable
 lti#:#lti_dyn_reg_finish#:#Registrierung abschließen###28 09 2026 new variable
@@ -11526,26 +11480,16 @@ lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
-lti#:#lti_form_provider_content_selection#:#Inhaltsauswahl
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
-lti#:#lti_global_settings_form#:#Globale Einstellungen
-lti#:#lti_import_global_provider#:#Globalen Provider für alle Benutzer mit XML-Datei importieren
 lti#:#lti_info_external_provider_info#:#Der verwendete Provider ist ein externer Provider. Auf externe Provider haben Sie als Betreiber der ILIAS-Installation möglicherweise nur begrenzten Einfluss auf den Umgang mit Daten, zum Beispiel wenn es keine Rechte zum Löschen von Daten gibt.
 lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen Provider
 lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
 lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider übermittelt wurden.
 lti#:#lti_launch_url#:#URL
 lti#:#lti_member#:#LTI-Rolle „Member“ / „Learner“
-lti#:#lti_navigation#:#Navigation
 lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
-lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI-Bereich umgeleitet.
-lti#:#lti_obj_active#:#LTI-Tool-Provider
-lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Schnittstelle von anderen Plattformen eingebunden werden.
-lti#:#lti_obj_version#:#LTI Version
-lti#:#lti_obj_version_11#:#Version 1.1
-lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_platform_registration#:#LTI-Advantage-Registrierung###17 09 2026 new variable
@@ -11557,15 +11501,11 @@ lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ g
 lti#:#lti_provider_not_set_msg#:#LTI-Provider/-tool ist noch nicht vollständig konfiguriert.
 lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
 lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_select_provider#:#Provider auswählen
-lti#:#lti_session#:#LTI-Sitzung
 lti#:#lti_settings#:#LTI-Einstellungen
 lti#:#lti_settings_form#:#Objekteinstellungen
 lti#:#lti_success_accept_as_global#:#Erfolgreich als Global-Provider für alle Anwender übernommen
-lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global-Provider für alle Anwender übernommen
 lti#:#lti_success_delete_provider#:#Erfolgreich gelöscht
 lti#:#lti_success_reset_to_usr_def#:#Erfolgreich geändert zu lokalem Provider bzw. Tool
-lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich geändert zu lokalen Providern bzw. Tools
 lti#:#lti_tutor#:#LTI-Rolle „Teaching Assistant“ / „Mentor“
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
@@ -11580,7 +11520,6 @@ lti#:#provider_info#:#Benutzter Provider
 lti#:#settings_subtab#:#Einstellungen
 lti#:#show_statements#:#Lernerfahrungen anzeigen
 lti#:#show_statements_info#:#Die Lernerfahrungen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
-lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
 lti#:#tab_content#:#Inhalt
@@ -11596,11 +11535,9 @@ lti#:#tbl_grade_grading_progress#:#Benotungsfortschritt
 lti#:#tbl_grade_period#:#Zeitraum
 lti#:#tbl_grade_score#:#Punkte
 lti#:#tbl_grade_stored#:#übermittelt an ILIAS
-lti#:#tbl_lti_prov_all_categories#:#Alle Kategorien
 lti#:#tbl_lti_prov_availability#:#Verfügbarkeit
 lti#:#tbl_lti_prov_category#:#Kategorie
 lti#:#tbl_lti_prov_description#:#Beschreibung
-lti#:#tbl_lti_prov_icon#:#Icon
 lti#:#tbl_lti_prov_internal#:#Interner Provider
 lti#:#tbl_lti_prov_keyword#:#Schlagwort
 lti#:#tbl_lti_prov_keywords#:#Schlagwörter
@@ -11615,13 +11552,10 @@ lti#:#tbl_lti_prov_used_by#:#Objekte (im Baum), die diesen Provider verwenden
 lti#:#tbl_lti_prov_with_key#:#Vordefiniert mit Key / Secret
 lti#:#tbl_provider_header#:#LTI-Provider
 lti#:#tbl_provider_usage_header#:#LTI-Provider
-lti#:#tbl_provider_usage_header_info#:#Vor dem Löschen von LTI-Providern müssen auch diese nutzenden Objekte aus dem Papierkorb gelöscht werden.
 lti#:#title_info#:#Geben Sie dem Objekt einen Titel!
-lti#:#usage_subtab#:#Verwendung
 lti#:#use_xapi#:#xAPI-Unterstützung verwenden
 lti#:#use_xapi_info#:#Dieser LTI-Provider unterstützt die Abfrage von xAPI-Statements.
 lti#:#user_lng#:#Sprache
-lti#:#user_provider_subtab#:#Lokal definierte Provider bzw. Tools
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
