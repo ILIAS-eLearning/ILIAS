@@ -308,7 +308,7 @@ class ilLTIObjectSettingsGUI
         );
 
         $tool = $this->object->getTool();
-        if (!$tool->isGlobal() && $tool->getCreator() === $this->dic->user()->getId()) {
+        if (!$tool->isGlobal() && $tool->isOwnedBy($this->dic->user()->getId())) {
             $tabs->addSubTab(
                 self::SUBTAB_TOOL,
                 $this->dic->language()->txt(self::SUBTAB_TOOL),

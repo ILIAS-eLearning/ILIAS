@@ -58,6 +58,27 @@ class ilLTIAdvantageKeyPair
     }
 
     /**
+     * Lets celtic/lti sign what it sends as ILIAS, the requests for the access tokens of the services
+     * included, which the library signs as its default tool. Without a key nothing gets signed, which is
+     * logged.
+     */
+    public static function signAsDefaultTool(Tool $tool): bool
+    {
+        try {
+            self::applyTo($tool);
+            Tool::$defaultTool = $tool;
+
+            return true;
+        } catch (ilException|RandomException $e) {
+            global $DIC;
+
+            $DIC->logger()->forComponent('lti')->error($e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
      * @return array the public JSON Web Key Set
      * @throws ilException when no key can be created
      * @throws RandomException

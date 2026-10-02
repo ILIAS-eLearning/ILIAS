@@ -32,7 +32,7 @@ use Random\RandomException;
  */
 class ilAuthProviderLTI extends ilAuthProvider
 {
-    private const string AUTH_MODE_PREFIX = 'lti_';
+    public const string AUTH_MODE_PREFIX = 'lti_';
     // the column of the external account
     private const int MAX_ACCOUNT_LENGTH = 250;
 
@@ -108,7 +108,7 @@ class ilAuthProviderLTI extends ilAuthProvider
         if ($receiver->userResult !== null) {
             $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $receiver->userResult);
         }
-        $this->rememberLaunch($release['ref_id'], $parameters);
+        ilLTIViewGUI::rememberLaunch($release['ref_id'], $parameters);
         ilLTIAppEventListener::rememberObject($receiver->resourceLink, $release['ref_id']);
         if ($receiver->userResult !== null && ($receiver->userResult->isStaff() || $receiver->userResult->isAdmin())) {
             $this->syncMembers($receiver, $release);
@@ -318,23 +318,6 @@ class ilAuthProviderLTI extends ilAuthProvider
                 $DIC->rbac()->admin()->assignUser($role_id, $usr_id);
             }
         }
-    }
-
-    /**
-     * What the LTI view needs of the launch, for the object the platform launched.
-     *
-     * @param int $ref_id
-     * @param array $parameters
-     */
-    private function rememberLaunch(int $ref_id, array $parameters): void
-    {
-        ilSession::set('lti_context_ids', [$ref_id]);
-        ilSession::set('lti_' . $ref_id . '_post_data', [
-            'launch_presentation_return_url' => (string) ($parameters['launch_presentation_return_url'] ?? ''),
-            'launch_presentation_css_url' => (string) ($parameters['launch_presentation_css_url'] ?? ''),
-            'resource_link_title' => (string) ($parameters['resource_link_title'] ?? ''),
-        ]);
-        ilSession::set('lti_init_target', ilObject::_lookupType($ref_id, true) . '_' . $ref_id);
     }
 
     /**

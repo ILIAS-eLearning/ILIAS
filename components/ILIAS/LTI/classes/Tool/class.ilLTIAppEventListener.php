@@ -41,7 +41,6 @@ class ilLTIAppEventListener implements ilAppEventListener
     /**
      * Prefix of the authentication mode of a user created by an LTI launch, followed by the platform id.
      */
-    private const string AUTH_MODE_PREFIX = 'lti_';
     private const string SETTING_REF_ID = 'ilias_ref_id';
 
     /**
@@ -122,7 +121,7 @@ class ilLTIAppEventListener implements ilAppEventListener
         );
 
         while ($row = $db->fetchAssoc($result)) {
-            $login = ilObjUser::_checkExternalAuthAccount(self::AUTH_MODE_PREFIX . $row['ext_consumer_id'], $row['lti_user_id']);
+            $login = ilObjUser::_checkExternalAuthAccount(ilAuthProviderLTI::AUTH_MODE_PREFIX . $row['ext_consumer_id'], $row['lti_user_id']);
             if (!$login) {
                 continue;
             }
@@ -164,13 +163,13 @@ class ilLTIAppEventListener implements ilAppEventListener
     private function getLtiUser(int $usr_id): ?array
     {
         $auth_mode = ilObjUser::_lookupAuthMode($usr_id);
-        if (!str_starts_with($auth_mode, self::AUTH_MODE_PREFIX)) {
+        if (!str_starts_with($auth_mode, ilAuthProviderLTI::AUTH_MODE_PREFIX)) {
             return null;
         }
 
         return [
             'account' => ilObjUser::_lookupExternalAccount($usr_id),
-            'platform' => (int) substr($auth_mode, strlen(self::AUTH_MODE_PREFIX)),
+            'platform' => (int) substr($auth_mode, strlen(ilAuthProviderLTI::AUTH_MODE_PREFIX)),
         ];
     }
 
@@ -226,41 +225,18 @@ class ilLTIAppEventListener implements ilAppEventListener
     }
 
     /**
-     * The Assignment and Grade Services of an LTI Advantage platform need an access token, which the
-     * library requests signed as its default tool.
-     *
-     * @throws RandomException
-     */
-    private function signAsIlias(): bool
-    {
-        try {
-            $tool = new Tool(new ilLTIDataConnector());
-            ilLTIAdvantageKeyPair::applyTo($tool);
-            Tool::$defaultTool = $tool;
-
-            return true;
-        } catch (ilException $e) {
-            global $DIC;
-
-            $DIC->logger()->forComponent('lti')->error($e->getMessage());
-
-            return false;
-        }
-    }
-
-    /**
      * The Assignment and Grade Services report how far the user is besides the score; the LTI 1.1
      * outcome service only sends the score. Without a status the library reports a completed result.
      *
-     * @return array{0: string, 1: string} activity progress and grading progress
+     * @return array{0: ilLTIToolActivityProgress, 1: ilLTIToolGradingProgress}
      */
     private function getProgress(?int $status): array
     {
         return match ($status) {
-            null, ilLPStatus::LP_STATUS_COMPLETED_NUM => ['Completed', 'FullyGraded'],
-            ilLPStatus::LP_STATUS_FAILED_NUM => ['Completed', 'Failed'],
-            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => ['Initialized', 'NotReady'],
-            default => ['InProgress', 'Pending'],
+            null, ilLPStatus::LP_STATUS_COMPLETED_NUM => [ilLTIToolActivityProgress::COMPLETED, ilLTIToolGradingProgress::FULLY_GRADED],
+            ilLPStatus::LP_STATUS_FAILED_NUM => [ilLTIToolActivityProgress::COMPLETED, ilLTIToolGradingProgress::FAILED],
+            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => [ilLTIToolActivityProgress::INITIALIZED, ilLTIToolGradingProgress::NOT_READY],
+            default => [ilLTIToolActivityProgress::IN_PROGRESS, ilLTIToolGradingProgress::PENDING],
         };
     }
 
@@ -281,12 +257,12 @@ class ilLTIAppEventListener implements ilAppEventListener
         if (!$link->hasOutcomesService() && !$link->hasScoreService()) {
             return;
         }
-        if ($link->getPlatform()->ltiVersion === LtiVersion::V1P3 && !$this->signAsIlias()) {
+        if ($link->getPlatform()->ltiVersion === LtiVersion::V1P3 && !ilLTIAdvantageKeyPair::signAsDefaultTool(new Tool(new ilLTIDataConnector()))) {
             return;
         }
 
         [$activity_progress, $grading_progress] = $this->getProgress($status);
-        $outcome = new Outcome($score, 1, $activity_progress, $grading_progress);
+        $outcome = new Outcome($score, 1, $activity_progress->value, $grading_progress->value);
         if (!$link->doOutcomesService(ServiceAction::Write, $outcome, UserResult::fromResourceLink($link, $account))) {
             global $DIC;
 

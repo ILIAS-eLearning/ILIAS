@@ -78,32 +78,14 @@ class ilLTILaunchReceiver extends Tool
         if ((Util::$requestParameters['lti_version'] ?? '') === LtiVersion::V1->value) {
             ilLTI1p1ProviderLaunchRequestUri::stripClientId();
         } else {
-            $this->signAsIlias();
+            // checking the launch does not need the key, so a missing one only stops what is sent later
+            ilLTIAdvantageKeyPair::signAsDefaultTool($this);
         }
 
         // the OpenID Connect login of LTI Advantage goes back to the platform by GET, which carries the cookies
         // of the platform that SameSite=Lax holds back from a POST, as in earlier releases
         self::$authenticateUsingGet = true;
         $this->handleRequest();
-    }
-
-    /**
-     * What ILIAS sends to an LTI Advantage platform is signed with its key, the requests for the access
-     * tokens of the platform services included, which the library signs as its default tool. Checking the
-     * launch does not need it, so a missing key only stops what is sent later.
-     *
-     * @throws RandomException
-     */
-    private function signAsIlias(): void
-    {
-        try {
-            ilLTIAdvantageKeyPair::applyTo($this);
-            Tool::$defaultTool = $this;
-        } catch (ilException $e) {
-            global $DIC;
-
-            $DIC->logger()->forComponent('lti')->error($e->getMessage());
-        }
     }
 
     /**

@@ -427,10 +427,6 @@ class ilLTIToolForm
             "content_item_url" => ["text", $data["content_item"]["content_item_url"] ?? ""],
             "grade_synchronization" => ["integer", (int) $data["grade_synchronization"]],
             "names_roles" => ["integer", (int) $data["names_roles"]],
-            // an LTI Advantage tool keeps the LTI 1.1 key empty and customizable
-            "provider_key_customizable" => ["integer", 1],
-            "provider_key" => ["text", ""],
-            "provider_secret" => ["text", ""],
         ];
     }
 

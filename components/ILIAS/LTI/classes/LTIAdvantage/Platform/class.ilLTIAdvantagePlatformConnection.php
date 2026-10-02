@@ -209,17 +209,18 @@ class ilLTIAdvantagePlatformConnection extends Platform
      */
     protected function onInitiateLogin(string &$url, string &$loginHint, ?string &$ltiMessageHint, array $params): void
     {
-        $logins = ilSession::get(self::SESSION_KEY);
-        $logins = is_array($logins) ? $logins : [];
-        $logins[(string) $ltiMessageHint] = [
+        self::getLogins()->add((string) $ltiMessageHint, [
             'client_id' => $this->clientId,
             'message_url' => $url,
             'login_hint' => $loginHint,
             'params' => $params,
             'storage_frame' => self::$browserStorageFrame,
-            'created' => time(),
-        ];
-        ilSession::set(self::SESSION_KEY, $logins);
+        ]);
+    }
+
+    private static function getLogins(): ilLTIAdvantagePendingRequests
+    {
+        return new ilLTIAdvantagePendingRequests(self::SESSION_KEY, self::LOGIN_LIFETIME);
     }
 
     /**
@@ -230,22 +231,19 @@ class ilLTIAdvantagePlatformConnection extends Platform
     {
         $parameters = Util::getRequestParameters();
         $hint = (string) ($parameters['lti_message_hint'] ?? '');
-        $logins = ilSession::get(self::SESSION_KEY);
-        $login = is_array($logins) ? ($logins[$hint] ?? null) : null;
+        $login = self::getLogins()->get($hint);
 
         if (
             $login === null
             || $login['client_id'] !== $this->clientId
             || $login['login_hint'] !== ($parameters['login_hint'] ?? null)
-            || $login['created'] < time() - self::LOGIN_LIFETIME
         ) {
             $this->ok = false;
             $this->messageParameters['error'] = 'access_denied';
             return;
         }
 
-        unset($logins[$hint]);
-        ilSession::set(self::SESSION_KEY, $logins);
+        self::getLogins()->take($hint);
         Tool::$defaultTool->messageUrl = $login['message_url'];
         $this->messageParameters = $login['params'];
         // the library tells the tool again where the platform storage is, with the id_token

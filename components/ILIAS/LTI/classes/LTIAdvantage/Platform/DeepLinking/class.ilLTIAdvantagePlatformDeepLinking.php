@@ -50,15 +50,12 @@ final class ilLTIAdvantagePlatformDeepLinking
     public static function start(ilLTITool $tool, int $ref_id, int $user_id, string $custom_params = ''): string
     {
         $state = bin2hex(random_bytes(16));
-        $requests = self::getRequests();
-        $requests[$state] = [
+        self::getRequests()->add($state, [
             'tool_id' => $tool->getId(),
             'ref_id' => $ref_id,
             'user_id' => $user_id,
             'custom_params' => $custom_params,
-            'created' => time(),
-        ];
-        ilSession::set(self::SESSION_KEY, $requests);
+        ]);
 
         return $state;
     }
@@ -72,7 +69,7 @@ final class ilLTIAdvantagePlatformDeepLinking
      */
     public static function sendRequestPage(string $state, int $user_id, int $ref_id, string $return_url, Container $dic): never
     {
-        $request = self::getRequests()[$state] ?? null;
+        $request = self::getRequests()->get($state);
         $page = $dic->language()->txt('error');
         $status = 400;
 
@@ -121,10 +118,7 @@ final class ilLTIAdvantagePlatformDeepLinking
     public static function receive(string $state, int $user_id, int $ref_id, Container $dic): ?array
     {
         $log = $dic->logger()->forComponent('lti');
-        $requests = self::getRequests();
-        $request = $requests[$state] ?? null;
-        unset($requests[$state]);
-        ilSession::set(self::SESSION_KEY, $requests);
+        $request = self::getRequests()->take($state);
 
         if (!self::isValid($request, $user_id, $ref_id)) {
             $log->warning('LTI Deep Linking response refused: no such request of the user in this session.');
@@ -221,17 +215,11 @@ final class ilLTIAdvantagePlatformDeepLinking
         return $request !== null
             && $request['user_id'] === $user_id
             && $request['ref_id'] === $ref_id
-            && $request['created'] >= time() - self::LIFETIME
             && new ilLTITool($request['tool_id'])->offersDeepLinking();
     }
 
-    /**
-     * @return array
-     */
-    private static function getRequests(): array
+    private static function getRequests(): ilLTIAdvantagePendingRequests
     {
-        $requests = ilSession::get(self::SESSION_KEY);
-
-        return is_array($requests) ? $requests : [];
+        return new ilLTIAdvantagePendingRequests(self::SESSION_KEY, self::LIFETIME);
     }
 }

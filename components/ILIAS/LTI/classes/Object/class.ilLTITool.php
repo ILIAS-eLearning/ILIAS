@@ -137,6 +137,11 @@ class ilLTITool
         return $this->creator;
     }
 
+    public function isOwnedBy(int $user_id): bool
+    {
+        return $this->creator === $user_id;
+    }
+
     /**
      * True when the operator of the installation has no say over the tool, which users are warned about.
      */
@@ -211,7 +216,7 @@ class ilLTITool
     {
         return $this->id > 0
             && $this->availability === self::AVAILABILITY_CREATE
-            && ($this->global || $this->creator === $user_id);
+            && ($this->global || $this->isOwnedBy($user_id));
     }
 
     /**
@@ -540,6 +545,14 @@ class ilLTITool
     {
         $db = self::db();
         $id = $db->nextId(self::TABLE_NAME);
+        if (($fields['lti_version'][1] ?? '') === self::VERSION_ADVANTAGE) {
+            // an LTI Advantage tool keeps the LTI 1.1 key empty and customizable
+            $fields += [
+                'provider_key_customizable' => ['integer', 1],
+                'provider_key' => ['text', ''],
+                'provider_secret' => ['text', ''],
+            ];
+        }
         $db->insert(self::TABLE_NAME, $fields + [
             'id' => ['integer', $id],
             'creator' => ['integer', $creator_id],

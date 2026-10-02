@@ -29,6 +29,7 @@ declare(strict_types=1);
  */
 class ilLTIViewGUI
 {
+    private const string SESSION_CONTEXT_IDS = 'lti_context_ids';
     public const string CMD_EXIT = 'exit';
     public const string GS_EXIT_MODE = 'lti_exit_mode';
     public const string GS_PAGE_TITLE = 'lti_page_title';
@@ -79,7 +80,7 @@ class ilLTIViewGUI
     {
         $user = $this->dic->user();
 
-        return str_starts_with((string) $user->getAuthMode(), 'lti_');
+        return str_starts_with((string) $user->getAuthMode(), ilAuthProviderLTI::AUTH_MODE_PREFIX);
     }
 
     public function executeCommand(): void
@@ -92,6 +93,28 @@ class ilLTIViewGUI
     /**
      * The object the platform launched, as the link tells or as the last launch of the session left it.
      */
+    /**
+     * What the LTI view needs of a launch, for the object the platform launched. ilStartUpGUI goes on to the
+     * object as the target of the login.
+     *
+     * @param array $parameters
+     */
+    public static function rememberLaunch(int $ref_id, array $parameters): void
+    {
+        ilSession::set(self::SESSION_CONTEXT_IDS, [$ref_id]);
+        ilSession::set(self::getLaunchSessionKey($ref_id), [
+            'launch_presentation_return_url' => (string) ($parameters['launch_presentation_return_url'] ?? ''),
+            'launch_presentation_css_url' => (string) ($parameters['launch_presentation_css_url'] ?? ''),
+            'resource_link_title' => (string) ($parameters['resource_link_title'] ?? ''),
+        ]);
+        ilSession::set('lti_init_target', ilObject::_lookupType($ref_id, true) . '_' . $ref_id);
+    }
+
+    private static function getLaunchSessionKey(int $ref_id): string
+    {
+        return 'lti_' . $ref_id . '_post_data';
+    }
+
     public function getContextId(): int
     {
         $query = $this->dic->http()->wrapper()->query();
@@ -102,7 +125,7 @@ class ilLTIViewGUI
             }
         }
 
-        return (int) (((array) ilSession::get('lti_context_ids'))[0] ?? 0);
+        return (int) (((array) ilSession::get(self::SESSION_CONTEXT_IDS))[0] ?? 0);
     }
 
     /**
@@ -110,7 +133,7 @@ class ilLTIViewGUI
      */
     public function getPostData(): array
     {
-        return (array) ilSession::get('lti_' . $this->getContextId() . '_post_data');
+        return (array) ilSession::get(self::getLaunchSessionKey($this->getContextId()));
     }
 
     public function getTitle(): string
@@ -144,11 +167,11 @@ class ilLTIViewGUI
         $context_id = $this->getContextId();
         $return_url = (string) ($this->getPostData()['launch_presentation_return_url'] ?? '');
 
-        ilSession::set('lti_context_ids', array_values(array_filter(
-            (array) ilSession::get('lti_context_ids'),
+        ilSession::set(self::SESSION_CONTEXT_IDS, array_values(array_filter(
+            (array) ilSession::get(self::SESSION_CONTEXT_IDS),
             static fn(mixed $id): bool => (int) $id !== $context_id
         )));
-        ilSession::clear('lti_' . $context_id . '_post_data');
+        ilSession::clear(self::getLaunchSessionKey($context_id));
 
         if ($return_url !== '') {
             $this->logout();
@@ -186,7 +209,7 @@ class ilLTIViewGUI
      */
     private function logout(): void
     {
-        if ((array) ilSession::get('lti_context_ids') !== []) {
+        if ((array) ilSession::get(self::SESSION_CONTEXT_IDS) !== []) {
             return;
         }
 

@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Setup;
-use ILIAS\Refinery;
 
 /**
  * Setup agent of the LTI component: runs the LTI database update steps.
@@ -28,25 +27,8 @@ use ILIAS\Refinery;
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
-class ilLTISetupAgent implements Setup\Agent
+class ilLTISetupAgent extends Setup\Agent\NullAgent
 {
-    use Setup\Agent\HasNoNamedObjective;
-
-    public function hasConfig(): bool
-    {
-        return false;
-    }
-
-    public function getArrayToConfigTransformation(): Refinery\Transformation
-    {
-        throw new LogicException("Agent has no config.");
-    }
-
-    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
-    {
-        return new Setup\Objective\NullObjective();
-    }
-
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(
@@ -54,21 +36,8 @@ class ilLTISetupAgent implements Setup\Agent
         );
     }
 
-    public function getBuildObjective(): Setup\Objective
-    {
-        return new Setup\Objective\NullObjective();
-    }
-
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLTIDatabaseUpdateSteps());
-    }
-
-    /**
-     * @return array
-     */
-    public function getMigrations(): array
-    {
-        return [];
     }
 }

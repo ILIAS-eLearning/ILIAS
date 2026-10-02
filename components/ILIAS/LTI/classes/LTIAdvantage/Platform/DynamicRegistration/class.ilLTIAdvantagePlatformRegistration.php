@@ -92,12 +92,9 @@ final class ilLTIAdvantagePlatformRegistration
     public static function start(string $tool_url, string $custom_params, int $user_id): array
     {
         $client_id = Util::getRandomString(15);
-        $now = time();
         $token = ilLTIAdvantageKeyPair::signFor(self::PURPOSE, self::TOKEN_LIFETIME, ['sub' => $user_id, 'aud' => $client_id]);
 
-        $registrations = self::getRegistrations();
-        $registrations[$client_id] = ['custom_params' => $custom_params, 'created' => $now];
-        ilSession::set(self::SESSION_KEY, $registrations);
+        self::getRegistrations()->add($client_id, ['custom_params' => $custom_params]);
 
         return [$client_id, $tool_url . (str_contains($tool_url, '?') ? '&' : '?') . http_build_query([
             'openid_configuration' => self::getOpenidConfigurationUrl(),
@@ -108,17 +105,9 @@ final class ilLTIAdvantagePlatformRegistration
     /**
      * The registrations the session started that may still be running, by client id.
      */
-    private static function getRegistrations(): array
+    private static function getRegistrations(): ilLTIAdvantagePendingRequests
     {
-        $registrations = ilSession::get(self::SESSION_KEY);
-        if (!is_array($registrations)) {
-            return [];
-        }
-
-        return array_filter(
-            $registrations,
-            static fn(array $registration): bool => $registration['created'] >= time() - self::TOKEN_LIFETIME
-        );
+        return new ilLTIAdvantagePendingRequests(self::SESSION_KEY, self::TOKEN_LIFETIME);
     }
 
     /**
@@ -129,10 +118,7 @@ final class ilLTIAdvantagePlatformRegistration
      */
     public static function finish(string $client_id, int $user_id): ?array
     {
-        $registrations = self::getRegistrations();
-        $registration = $registrations[$client_id] ?? null;
-        unset($registrations[$client_id]);
-        ilSession::set(self::SESSION_KEY, $registrations);
+        $registration = self::getRegistrations()->take($client_id);
 
         $tool_id = $registration !== null ? ilLTITool::lookupIdByClientId($client_id) : 0;
         if ($tool_id === 0) {
@@ -140,7 +126,7 @@ final class ilLTIAdvantagePlatformRegistration
         }
         $tool = new ilLTITool($tool_id);
 
-        return $tool->getCreator() === $user_id ? [$tool, (string) $registration['custom_params']] : null;
+        return $tool->isOwnedBy($user_id) ? [$tool, (string) $registration['custom_params']] : null;
     }
 
     /**
@@ -245,10 +231,6 @@ final class ilLTIAdvantagePlatformRegistration
             'has_outcome' => ['integer', (int) $scores],
             'grade_synchronization' => ['integer', (int) $scores],
             'names_roles' => ['integer', (int) in_array(Membership::$SCOPE, $granted, true)],
-            // an LTI Advantage tool keeps the LTI 1.1 key empty and customizable
-            'provider_key_customizable' => ['integer', 1],
-            'provider_key' => ['text', ''],
-            'provider_secret' => ['text', ''],
         ], $user_id, false);
     }
 
