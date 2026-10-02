@@ -940,7 +940,7 @@ class ilInternalLinkGUI
         $tpl->addJavaScript("assets/js/Form.js");
 
         $mt = self::getModalTemplate();
-        $tpl->addOnLoadCode('il.IntLink.setModalTemplate("' . addslashes(json_encode($mt["template"])) . '");');
+        $tpl->addOnLoadCode('il.IntLink.setModalTemplate("' . addslashes(json_encode($mt["template"])) . '", "' . $mt["show"] . '", "' . $mt["close"] . '");');
 
         $html = "<div id='ilIntLinkModal' data-show-signal='" . $mt["show"] . "' data-close-signal='" . $mt["close"] . "'></div>";
 
