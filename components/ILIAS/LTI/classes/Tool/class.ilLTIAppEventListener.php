@@ -244,7 +244,6 @@ class ilLTIAppEventListener implements ilAppEventListener
      * Sends the score through the outcome service of the resource link, which celtic/lti picks from what
      * the platform offered at the launch. Nothing is sent before the user has a result.
      *
-     * @throws RandomException
      */
     private function sendOutcome(int $resource_link, string $account, ?float $score, ?int $status): void
     {

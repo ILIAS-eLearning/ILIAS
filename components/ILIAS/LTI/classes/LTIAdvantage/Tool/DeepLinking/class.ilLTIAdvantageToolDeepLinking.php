@@ -64,7 +64,6 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
      *                             request
      *
      * @throws RandomException
-     * @throws ResponseSendingException
      */
     public static function showSelection(Tool $receiver, array $content_types): void
     {
@@ -204,9 +203,6 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
         ]);
     }
 
-    /**
-     * @throws ResponseSendingException
-     */
     private function printError(string $lang_var): never
     {
         global $DIC;

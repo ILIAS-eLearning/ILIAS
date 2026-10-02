@@ -163,7 +163,6 @@ final class ilLTIAdvantagePlatformDeepLinking
      * Ends the request with a page that opens the given URL in the whole window, as the response of the tool
      * arrives in its iframe.
      *
-     * @throws ResponseSendingException
      */
     public static function sendTopRedirect(string $url): never
     {

@@ -108,7 +108,6 @@ final class ilLTIAdvantagePlatformGradeService
         string $method,
         string $path,
         string $authorization,
-        string $content_type,
         array $query,
         string $body
     ): array {

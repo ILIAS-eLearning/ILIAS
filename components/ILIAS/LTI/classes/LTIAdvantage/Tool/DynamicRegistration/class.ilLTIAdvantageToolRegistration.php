@@ -240,8 +240,6 @@ final class ilLTIAdvantageToolRegistration extends Tool
             return false;
         }
 
-        global $DIC;
-
         $platform_id = $payload['sub'];
         if (
             ilLTIPlatform::lookupAdministrationRow($platform_id) === []

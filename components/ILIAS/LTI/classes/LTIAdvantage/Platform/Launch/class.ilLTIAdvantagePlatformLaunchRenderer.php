@@ -133,7 +133,6 @@ final class ilLTIAdvantagePlatformLaunchRenderer
     /**
      * Sends a page that starts a message to the tool and ends the request.
      *
-     * @throws ResponseSendingException
      */
     public static function sendPage(string $page, int $status): never
     {

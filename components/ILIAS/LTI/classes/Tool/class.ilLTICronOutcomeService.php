@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\Cron\CronJob;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
-use Random\RandomException;
 
 /**
  * Cron job that reports the learning progress of LTI users that changed since its last run, for the
@@ -84,7 +83,6 @@ class ilLTICronOutcomeService extends CronJob
      * The first run looks back one day.
      *
      * @throws ilDateTimeException
-     * @throws RandomException
      */
     public function run(): JobResult
     {

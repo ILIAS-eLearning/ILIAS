@@ -61,7 +61,7 @@ final class ilLTIEndpoint
     {
         global $DIC;
 
-        $http_path = ilContext::modifyHttpPath((string) $DIC->iliasIni()->readVariable('server', 'http_path'));
+        $http_path = ilContext::modifyHttpPath($DIC->iliasIni()->readVariable('server', 'http_path'));
 
         return rtrim($http_path, '/') . '/' . self::SERVICES . $path;
     }

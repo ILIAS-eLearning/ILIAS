@@ -39,7 +39,6 @@ try {
         $request->getMethod(),
         (string) ($request->getServerParams()['PATH_INFO'] ?? ''),
         $request->getHeaderLine('Authorization'),
-        $request->getHeaderLine('Content-Type'),
         $request->getQueryParams(),
         (string) $request->getBody()
     );

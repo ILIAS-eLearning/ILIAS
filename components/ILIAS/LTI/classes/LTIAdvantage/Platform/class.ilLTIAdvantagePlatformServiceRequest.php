@@ -40,13 +40,12 @@ final class ilLTIAdvantagePlatformServiceRequest
         string $method,
         string $path,
         string $authorization,
-        string $content_type,
         array $query,
         string $body
     ): array {
         return match (explode('/', ltrim($path, '/'))[0]) {
             'membership' => new ilLTIAdvantagePlatformMembershipService()->handle($method, $path, $authorization, $query),
-            default => new ilLTIAdvantagePlatformGradeService()->handle($method, $path, $authorization, $content_type, $query, $body),
+            default => new ilLTIAdvantagePlatformGradeService()->handle($method, $path, $authorization, $query, $body),
         };
     }
 
