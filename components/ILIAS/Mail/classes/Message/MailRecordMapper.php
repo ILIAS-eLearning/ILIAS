@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Message;
 
 use DateTimeImmutable;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 final readonly class MailRecordMapper
 {
@@ -72,11 +72,8 @@ final readonly class MailRecordMapper
             return null;
         }
 
-        if (isset($row['attachments']) && is_string($row['attachments']) && str_contains($row['attachments'], '{')) {
-            $unserialized_attachments = unserialize($row['attachments'], ['allowed_classes' => false]);
-            $row['attachments'] = is_array($unserialized_attachments) ? $unserialized_attachments : null;
-        } elseif (isset($row['attachments']) && is_string($row['attachments']) && $row['attachments'] !== '') {
-            $row['attachments'] = new ResourceCollectionIdentification($row['attachments']);
+        if (isset($row['attachments']) && is_string($row['attachments'])) {
+            $row['attachments'] = MailAttachments::fromDb($row['attachments']);
         } else {
             $row['attachments'] = null;
         }
