@@ -13087,7 +13087,7 @@ news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
 news#:#news_enable_internal_news_info#:#Ermöglichen Sie die Anzeige von Neuigkeiten-Blöcken in Kategorien, Kursen, Gruppen und anderen Objekten. Die Neuigkeiten dieser Objekte können von Benutzern abonniert werden, diese Neuigkeiten erscheinen dann auf deren Dashboards.
 news#:#news_enable_internal_rss#:#RSS für interne Neuigkeiten aktivieren
-news#:#news_enable_internal_rss_info#:#Die Veröffentlichung von Neuigkeiten über RSS zulassen. Diese NNeuigkeiten sind außerhalb dieser Installation ohne Authentifizierung zugänglich, d. h., Lesende müssen nicht bei dieser Installation angemeldet sein, um diese NNeuigkeiten zu betrachten.
+news#:#news_enable_internal_rss_info#:#Die Veröffentlichung von Neuigkeiten über RSS zulassen. Diese Neuigkeiten sind außerhalb dieser Installation ohne Authentifizierung zugänglich, d. h., Lesende müssen nicht bei dieser Installation angemeldet sein, um diese Neuigkeiten zu betrachten.
 news#:#news_enable_private_feed#:#Privaten RSS-Feed ermöglichen
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
@@ -13136,7 +13136,7 @@ news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Neuigkeitentitel (Objekttitel)
-news#:#news_rss_title_format_obj_news#:#Objekttitel - Neuigkeitenentitel
+news#:#news_rss_title_format_obj_news#:#Objekttitel - Neuigkeitentitel
 news#:#news_settings#:#Einstellungen für interne Neuigkeiten
 news#:#news_sorry_not_accessible_anymore#:#Leider ist es nicht mehr möglich, auf diese Neuigkeit zuzugreifen.
 news#:#news_time_period#:#Zeitspanne
