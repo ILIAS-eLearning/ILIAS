@@ -51,20 +51,31 @@ class ilLTIToolTable implements DataRetrieval
     private URLBuilderToken $action_token;
     private URLBuilderToken $id_token;
 
+    private readonly ilLanguage $lng;
+    private readonly ilObjUser $user;
+    private readonly Factory $ui_factory;
+    private readonly Renderer $ui_renderer;
+    private readonly ilUIService $ui_service;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ServerRequestInterface $request;
+
     private function __construct(
-        private readonly ilLanguage $lng,
-        private readonly ilObjUser $user,
-        private readonly Factory $ui_factory,
-        private readonly Renderer $ui_renderer,
-        private readonly ilUIService $ui_service,
-        private readonly ilGlobalTemplateInterface $tpl,
-        private readonly ilCtrlInterface $ctrl,
-        private readonly ServerRequestInterface $request,
         private readonly int $scope,
         private readonly bool $writable,
         private readonly ?object $select_gui = null,
         private readonly string $select_cmd = ''
     ) {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_service = $DIC->uiService();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->request = $DIC->http()->request();
         $this->lng->loadLanguageModule("rep");
         $this->url_builder = new URLBuilder(new DataFactory()->uri((string) $this->request->getUri()));
         [$this->url_builder, $this->action_token, $this->id_token] = $this->url_builder->acquireParameters(
@@ -74,62 +85,18 @@ class ilLTIToolTable implements DataRetrieval
         );
     }
 
-    public static function forAdministration(
-        ilLanguage $lng,
-        ilObjUser $user,
-        Factory $ui_factory,
-        Renderer $ui_renderer,
-        ilUIService $ui_service,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrlInterface $ctrl,
-        ServerRequestInterface $request,
-        bool $global,
-        bool $writable
-    ): self {
-        return new self(
-            $lng,
-            $user,
-            $ui_factory,
-            $ui_renderer,
-            $ui_service,
-            $tpl,
-            $ctrl,
-            $request,
-            $global ? ilLTITool::SCOPE_GLOBAL : ilLTITool::SCOPE_USER,
-            $writable
-        );
+    public static function forAdministration(bool $global, bool $writable): self
+    {
+        return new self($global ? ilLTITool::SCOPE_GLOBAL : ilLTITool::SCOPE_USER, $writable);
     }
 
     /**
      * Lists the tools the user may create an object for. Each title links to the given command of the
      * given GUI, with the tool in the parameter tool_id.
      */
-    public static function forSelection(
-        ilLanguage $lng,
-        ilObjUser $user,
-        Factory $ui_factory,
-        Renderer $ui_renderer,
-        ilUIService $ui_service,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrlInterface $ctrl,
-        ServerRequestInterface $request,
-        object $gui,
-        string $cmd
-    ): self {
-        return new self(
-            $lng,
-            $user,
-            $ui_factory,
-            $ui_renderer,
-            $ui_service,
-            $tpl,
-            $ctrl,
-            $request,
-            ilLTITool::SCOPE_SELECTABLE,
-            false,
-            $gui,
-            $cmd
-        );
+    public static function forSelection(object $gui, string $cmd): self
+    {
+        return new self(ilLTITool::SCOPE_SELECTABLE, false, $gui, $cmd);
     }
 
     /**

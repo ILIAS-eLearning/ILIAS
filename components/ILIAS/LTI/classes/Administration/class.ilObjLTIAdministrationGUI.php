@@ -417,18 +417,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $cmd = $global ? self::CMD_SHOW_GLOBAL_TOOLS : self::CMD_SHOW_USER_TOOLS;
         $this->activateToolSubTab($global ? "global_provider" : "user_provider");
 
-        $table = ilLTIToolTable::forAdministration(
-            $this->lng,
-            $DIC->user(),
-            $DIC->ui()->factory(),
-            $DIC->ui()->renderer(),
-            $DIC->uiService(),
-            $this->tpl,
-            $this->ctrl,
-            $this->request,
-            $global,
-            $this->checkPermissionBool("write")
-        );
+        $table = ilLTIToolTable::forAdministration($global, $this->checkPermissionBool("write"));
         $table->handleAction($this, $cmd, self::CMD_EDIT_TOOL);
 
         if ($global && $this->checkPermissionBool("write")) {

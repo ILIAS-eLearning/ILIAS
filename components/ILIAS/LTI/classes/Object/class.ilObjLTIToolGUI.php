@@ -416,9 +416,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     protected function saveOwnTool(): void
     {
-        if (!ilObjLTIAdministrationAccess::hasOwnToolCreationAccess()) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
+        $this->assertOwnToolCreationAccess();
 
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
         $form = $this->buildOwnToolForm();
@@ -442,9 +440,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     protected function registerTool(): void
     {
-        if (!ilObjLTIAdministrationAccess::hasOwnToolCreationAccess()) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
+        $this->assertOwnToolCreationAccess();
 
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
         $form = $this->buildRegistrationForm()->withRequest($this->request);
@@ -484,14 +480,17 @@ class ilObjLTIToolGUI extends ilObject2GUI
             . 'window.location.assign(' . json_encode($finish_url, JSON_UNESCAPED_SLASHES) . ');'
             . '}});'
         );
+        global $DIC;
         $this->tpl->setContent($this->ui_renderer->render([
             $this->ui_factory->messageBox()->info($this->lng->txt('lti_dyn_reg_running'))->withButtons([
                 $this->ui_factory->button()->standard($this->lng->txt('lti_dyn_reg_finish'), $finish_url),
             ]),
-            $this->ui_factory->legacy()->content(
-                '<iframe id="' . self::REGISTRATION_FRAME_ID . '" src="' . htmlspecialchars($url, ENT_QUOTES)
-                . '" title="' . htmlspecialchars($this->lng->txt('lti_dynamic_registration'), ENT_QUOTES)
-                . '" width="100%" height="600"></iframe>'
+            ilLTIAdvantagePlatformLaunchRenderer::buildIframe(
+                self::REGISTRATION_FRAME_ID,
+                $url,
+                $this->lng->txt('lti_dynamic_registration'),
+                600,
+                $DIC
             ),
         ]));
     }
@@ -504,14 +503,12 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     protected function finishRegistration(): void
     {
-        if (!ilObjLTIAdministrationAccess::hasOwnToolCreationAccess()) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
+        $this->assertOwnToolCreationAccess();
 
-        $registration = $this->request_wrapper->has(self::REGISTRATION_PARAM)
-            ? $this->request_wrapper->retrieve(self::REGISTRATION_PARAM, $this->refinery->kindlyTo()->string())
-            : '';
-        $registered = ilLTIAdvantagePlatformRegistration::finish($registration, $this->user->getId());
+        $registered = ilLTIAdvantagePlatformRegistration::finish(
+            $this->getStringParameter(self::REGISTRATION_PARAM),
+            $this->user->getId()
+        );
         if ($registered === null) {
             $this->ctrl->setParameter($this, 'new_type', $this->getType());
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_dyn_reg_failed'));
@@ -756,20 +753,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     private function buildToolSelection(): array
     {
-        global $DIC;
-
-        $table = ilLTIToolTable::forSelection(
-            $this->lng,
-            $this->user,
-            $this->ui_factory,
-            $this->ui_renderer,
-            $DIC->uiService(),
-            $this->tpl,
-            $this->ctrl,
-            $this->request,
-            $this,
-            'save'
-        );
+        $table = ilLTIToolTable::forSelection($this, 'save');
         $filter = $table->getFilter($this->ctrl->getLinkTarget($this, 'create'));
 
         return [$filter, $table->getTable($filter)];
@@ -846,32 +830,16 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
     private function getRequestedVersion(): string
     {
-        $version = $this->request_wrapper->has(self::VERSION_PARAM)
-            ? $this->request_wrapper->retrieve(self::VERSION_PARAM, $this->refinery->kindlyTo()->string())
-            : '';
+        $version = $this->getStringParameter(self::VERSION_PARAM);
 
         return $version === ilLTITool::VERSION_1P1 ? ilLTITool::VERSION_1P1 : ilLTITool::VERSION_ADVANTAGE;
     }
 
     /**
-     * An object carries the title and the description of its tool, as there is nothing else to name it after.
+     * A tool that offers Deep Linking lets the user pick the content of the objects first. Otherwise the object
+     * carries the title and the description of its tool, as there is nothing else to name it after.
      *
      * @param string $custom_params the custom parameters of the object, in the format of its settings
-     *
-     * @throws ilCtrlException
-     * @throws ilMDServicesException
-     */
-    private function createForTool(ilLTITool $tool, string $custom_params = ''): void
-    {
-        $object = $this->createToolObject($tool, '', '', $custom_params);
-
-        // a new object is offline and named after its tool, so its settings are where it is finished
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
-        $this->ctrl->redirectToURL($this->getSettingsLink($object));
-    }
-
-    /**
-     * A tool that offers Deep Linking lets the user pick the content of the objects first.
      *
      * @throws ilCtrlException
      * @throws ilMDServicesException
@@ -884,7 +852,11 @@ class ilObjLTIToolGUI extends ilObject2GUI
             return;
         }
 
-        $this->createForTool($tool, $custom_params);
+        $object = $this->createToolObject($tool, '', '', $custom_params);
+
+        // a new object is offline and named after its tool, so its settings are where it is finished
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
+        $this->ctrl->redirectToURL($this->getSettingsLink($object));
     }
 
     /**
@@ -957,9 +929,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
     private function getDeepLinkingState(): string
     {
-        return $this->request_wrapper->has(self::DEEP_LINKING_PARAM)
-            ? $this->request_wrapper->retrieve(self::DEEP_LINKING_PARAM, $this->refinery->kindlyTo()->string())
-            : '';
+        return $this->getStringParameter(self::DEEP_LINKING_PARAM);
     }
 
     /**
@@ -967,9 +937,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     private function getOriginRefId(): int
     {
-        return $this->request_wrapper->has(self::ORIGIN_PARAM)
-            ? $this->request_wrapper->retrieve(self::ORIGIN_PARAM, $this->refinery->kindlyTo()->int())
-            : 0;
+        return $this->getIntParameter(self::ORIGIN_PARAM);
     }
 
     /**
@@ -1043,9 +1011,28 @@ class ilObjLTIToolGUI extends ilObject2GUI
 
     private function getToolIdParameter(): int
     {
-        return $this->request_wrapper->has('tool_id')
-            ? $this->request_wrapper->retrieve('tool_id', $this->refinery->kindlyTo()->int())
+        return $this->getIntParameter('tool_id');
+    }
+
+    private function getStringParameter(string $name): string
+    {
+        return $this->request_wrapper->has($name)
+            ? $this->request_wrapper->retrieve($name, $this->refinery->kindlyTo()->string())
+            : '';
+    }
+
+    private function getIntParameter(string $name): int
+    {
+        return $this->request_wrapper->has($name)
+            ? $this->request_wrapper->retrieve($name, $this->refinery->kindlyTo()->int())
             : 0;
+    }
+
+    private function assertOwnToolCreationAccess(): void
+    {
+        if (!ilObjLTIAdministrationAccess::hasOwnToolCreationAccess()) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
     }
 
     /**

@@ -73,9 +73,17 @@ final class ilLTIAdvantagePlatformLaunchRenderer
     {
         $dic->ui()->mainTemplate()->addOnLoadCode(self::getStorageJS());
 
+        return self::buildIframe(self::FRAME_ID, $url, $title, $height, $dic);
+    }
+
+    /**
+     * An iframe of a page of the other side of LTI Advantage, which the page around it tells apart by its id.
+     */
+    public static function buildIframe(string $id, string $url, string $title, int $height, Container $dic): Component
+    {
         return $dic->ui()->factory()->legacy()->content(
-            '<iframe id="' . self::FRAME_ID . '" src="' . htmlspecialchars($url, ENT_QUOTES) . '" title="'
-            . htmlspecialchars($title, ENT_QUOTES) . '" width="100%" height="' . $height . '"></iframe>'
+            '<iframe id="' . htmlspecialchars($id, ENT_QUOTES) . '" src="' . htmlspecialchars($url, ENT_QUOTES)
+            . '" title="' . htmlspecialchars($title, ENT_QUOTES) . '" width="100%" height="' . $height . '"></iframe>'
         );
     }
 
