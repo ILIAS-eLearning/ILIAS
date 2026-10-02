@@ -392,12 +392,12 @@ class ilLTIToolForm
 
         // read only data the tool needs when it is registered without dynamic registration
         $platform_data = [
-            "lti_13_platform_id" => ILIAS_HTTP_PATH,
+            "lti_13_platform_id" => ilLTIEndpoint::getBaseUrl(),
             "lti_13_client_id" => (string) ($row["client_id"] ?? ""),
             "lti_13_deployment_id" => (string) $this->tool_id,
-            "lti_13_keyset_url" => ILIAS_HTTP_PATH . "/lticerts.php",
-            "lti_13_token_url" => ILIAS_HTTP_PATH . "/ltitoken.php",
-            "lti_13_authentication_url" => ILIAS_HTTP_PATH . "/ltiauth.php",
+            "lti_13_keyset_url" => ilLTIAdvantageKeyPair::getJwksUrl(),
+            "lti_13_token_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::TOKEN),
+            "lti_13_authentication_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::AUTHENTICATION),
         ];
         foreach ($platform_data as $txt => $value) {
             $inputs[$txt] = $field->text($this->lng->txt($txt))->withValue($value)->withDisabled(true);

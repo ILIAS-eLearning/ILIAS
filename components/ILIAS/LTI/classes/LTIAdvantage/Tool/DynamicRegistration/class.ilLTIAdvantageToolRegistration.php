@@ -83,12 +83,12 @@ final class ilLTIAdvantageToolRegistration extends Tool
      */
     public static function getRegistrationUrl(int $platform_id): string
     {
-        return ilObjLTITool::getIliasHttpPath() . '/ltitoolregistration.php?' . http_build_query([
+        return ilLTIEndpoint::getUrl(ilLTIEndpoint::TOOL_REGISTRATION, '?' . http_build_query([
             self::TOKEN_PARAM => ilLTIAdvantageKeyPair::signFor(self::PURPOSE, self::TOKEN_LIFETIME, [
                 'sub' => $platform_id,
                 'jti' => bin2hex(random_bytes(16)),
             ]),
-        ]);
+        ]));
     }
 
     /**
@@ -155,13 +155,13 @@ final class ilLTIAdvantageToolRegistration extends Tool
     {
         $title = ilObjSystemFolder::_getHeaderTitle();
         $this->product = new Item(null, $title !== '' ? $title : 'ILIAS', 'ILIAS');
-        $this->baseUrl = ilObjLTITool::getIliasHttpPath();
+        $this->baseUrl = ilLTIEndpoint::getBaseUrl();
         $this->resourceHandlers = [
             new ResourceHandler(
                 new Item(),
                 '',
-                [new Message(self::MESSAGE_LAUNCH, '/lti.php', self::CAPABILITIES)],
-                [new Message(self::MESSAGE_DEEP_LINKING, '/lti.php', self::CAPABILITIES)]
+                [new Message(self::MESSAGE_LAUNCH, '/' . ilLTIEndpoint::LAUNCH, self::CAPABILITIES)],
+                [new Message(self::MESSAGE_DEEP_LINKING, '/' . ilLTIEndpoint::LAUNCH, self::CAPABILITIES)]
             ),
         ];
         // the Assignment and Grade Services ILIAS sends the learning progress with, and the Names and Role

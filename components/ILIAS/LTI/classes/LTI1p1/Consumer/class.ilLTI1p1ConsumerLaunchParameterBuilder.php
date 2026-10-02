@@ -89,7 +89,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
         $usr_image = '';
         if ($tool->getIncludeUserPicture()) {
-            $usr_image = ilObjLTITool::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath();
+            $usr_image = ilLTIEndpoint::getBaseUrl() . "/" . $DIC->user()->getPersonalPicturePath();
         }
 
         $document_target = "window";
@@ -149,7 +149,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             "launch_presentation_locale" => $DIC->language()->getLangKey(),
             "launch_presentation_document_target" => $document_target,
             "launch_presentation_return_url" => $return_url,
-            "tool_consumer_instance_guid" => ilObjLTITool::getInstanceGuid(),
+            "tool_consumer_instance_guid" => ilLTIEndpoint::getInstanceGuid(),
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
                 "short_inst_name"
             ) : CLIENT_ID,
@@ -160,7 +160,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => ilObjLTITool::getIliasHttpPath() . "/ltiresult.php?client_id=" . CLIENT_ID
+            "lis_outcome_service_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::RESULT, "?client_id=" . CLIENT_ID)
         ];
 
         $oauth_params = [

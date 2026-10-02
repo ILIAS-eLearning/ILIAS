@@ -380,29 +380,6 @@ class ilObjLTITool extends ilObject2
         }
     }
 
-    /**
-     * The base URL of the installation, which the tools use to address ILIAS back.
-     */
-    public static function getIliasHttpPath(): string
-    {
-        return rtrim(ILIAS_HTTP_PATH, '/');
-    }
-
-    /**
-     * The id of the installation the tools know ILIAS by in every launch, LTI 1.1 or LTI Advantage: the
-     * client id followed by the path and the host of ILIAS, reversed.
-     */
-    public static function getInstanceGuid(): string
-    {
-        $url = parse_url(self::getIliasHttpPath());
-        $guid = CLIENT_ID . '.';
-        if (isset($url['path'])) {
-            $guid .= implode('.', array_reverse(explode('/', $url['path'])));
-        }
-
-        return $guid . $url['host'];
-    }
-
     protected function doRead(): void
     {
         global $DIC;

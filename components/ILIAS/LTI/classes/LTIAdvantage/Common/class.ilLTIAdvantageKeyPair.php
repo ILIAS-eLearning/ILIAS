@@ -40,7 +40,7 @@ class ilLTIAdvantageKeyPair
 
     public static function getJwksUrl(): string
     {
-        return ILIAS_HTTP_PATH . '/lticerts.php';
+        return ilLTIEndpoint::getUrl(ilLTIEndpoint::KEY_SET);
     }
 
     /**

@@ -123,9 +123,9 @@ class ilLTIAdministrationPlatformForm
                 // read only data the platform needs: where it starts the login and posts the launch and the Deep
                 // Linking request, and the key set of ILIAS. The objects released to the platform show their target link.
                 "launch_url" => $field->text($this->lng->txt("lti_launch_url"))
-                    ->withValue(ILIAS_HTTP_PATH . "/lti.php")->withDisabled(true),
+                    ->withValue(ilLTIEndpoint::getUrl(ilLTIEndpoint::LAUNCH))->withDisabled(true),
                 "deep_linking_url" => $field->text($this->lng->txt("lti_deep_linking_url"))
-                    ->withValue(ILIAS_HTTP_PATH . "/lti.php")->withDisabled(true),
+                    ->withValue(ilLTIEndpoint::getUrl(ilLTIEndpoint::LAUNCH))->withDisabled(true),
                 "ilias_keyset_url" => $field->text($this->lng->txt("lti_con_key_type_jwk"))
                     ->withValue(ilLTIAdvantageKeyPair::getJwksUrl())->withDisabled(true),
             ], $this->lng->txt("lti_platform_registration"), $this->lng->txt("lti_platform_registration_info"))

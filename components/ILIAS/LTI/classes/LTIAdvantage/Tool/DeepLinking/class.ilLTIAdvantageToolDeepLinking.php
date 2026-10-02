@@ -143,7 +143,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
             if ($description !== '') {
                 $item->setText($description);
             }
-            $item->setUrl(ilObjLTITool::getIliasHttpPath() . '/lti.php?ref_id=' . $ref_id);
+            $item->setUrl(ilLTIEndpoint::getUrl(ilLTIEndpoint::LAUNCH, '?ref_id=' . $ref_id));
             $items[] = $item;
         }
 
@@ -188,7 +188,7 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
         }
 
         return $DIC->ui()->factory()->input()->container()->form()->standard(
-            ilObjLTITool::getIliasHttpPath() . '/lti.php?' . self::TOKEN_PARAM . '=' . rawurlencode($token),
+            ilLTIEndpoint::getUrl(ilLTIEndpoint::LAUNCH, '?' . self::TOKEN_PARAM . '=' . rawurlencode($token)),
             [self::FIELD_OBJECTS => $input]
         )->withSubmitLabel($lng->txt('lti_deep_linking_submit'));
     }

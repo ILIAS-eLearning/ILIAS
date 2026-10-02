@@ -86,7 +86,7 @@ final class ilLTIAdvantagePlatformGradeService
 
     private static function getLineItemsUrl(int $context_ref_id): string
     {
-        return ilLTIAdvantagePlatformServiceRequest::getUrl('/gradeservice/' . $context_ref_id . '/lineitems');
+        return ilLTIEndpoint::getServiceUrl('/gradeservice/' . $context_ref_id . '/lineitems');
     }
 
     /**

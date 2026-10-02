@@ -75,7 +75,7 @@ class ilLTI1p1ProviderObjectCredentials
         $field = $ui_factory->input()->field();
 
         return [
-            'launch_url' => $field->text($lng->txt('lti_launch_url'))->withValue(ILIAS_HTTP_PATH . '/lti.php')->withDisabled(true),
+            'launch_url' => $field->text($lng->txt('lti_launch_url'))->withValue(ilLTIEndpoint::getUrl(ilLTIEndpoint::LAUNCH))->withDisabled(true),
             'key' => $field->hidden()->withValue($this->key),
             'shown_key' => $field->text($lng->txt('lti_con_prov_key'))->withValue($this->key)->withDisabled(true),
             'secret' => $field->hidden()->withValue($this->secret),

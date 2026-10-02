@@ -592,7 +592,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
         $state = $this->getDeepLinkingState();
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
         $this->ctrl->setParameter($this, self::DEEP_LINKING_PARAM, $state);
-        $return_url = ilObjLTITool::getIliasHttpPath() . '/'
+        $return_url = ilLTIEndpoint::getBaseUrl() . '/'
             . $this->ctrl->getLinkTarget($this, self::CMD_FINISH_DEEP_LINKING, '', false, false);
 
         ilLTIAdvantagePlatformDeepLinking::sendRequestPage(

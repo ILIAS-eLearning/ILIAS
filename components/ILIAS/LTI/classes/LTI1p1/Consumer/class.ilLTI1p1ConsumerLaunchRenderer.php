@@ -124,7 +124,7 @@ final class ilLTI1p1ConsumerLaunchRenderer
         $return_url = !$object->isLaunchMethodOwnWin() ? '' : str_replace(
             '&amp;',
             '&',
-            ilObjLTITool::getIliasHttpPath() . "/" . $dic->ctrl()->getLinkTarget($gui_object, "", "")
+            ilLTIEndpoint::getBaseUrl() . "/" . $dic->ctrl()->getLinkTarget($gui_object, "", "")
         );
 
         $launch_parameters = self::resolveLaunchParameters($object, $cmix_user, $dic, $return_url);

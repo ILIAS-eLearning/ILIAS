@@ -99,7 +99,7 @@ class ilLTIToolLaunchGUI
     private function startAdvantageLaunch(): never
     {
         // a tool opened in the same window may send the user back here
-        $return_url = !$this->object->isLaunchMethodOwnWin() ? '' : ilObjLTITool::getIliasHttpPath() . '/'
+        $return_url = !$this->object->isLaunchMethodOwnWin() ? '' : ilLTIEndpoint::getBaseUrl() . '/'
             . $this->dic->ctrl()->getLinkTarget($this, self::CMD_LAUNCH, '');
 
         ilLTIAdvantagePlatformLaunchRenderer::sendLaunchPage($this->object, $this->getCmixUser(), $return_url, $this->dic);

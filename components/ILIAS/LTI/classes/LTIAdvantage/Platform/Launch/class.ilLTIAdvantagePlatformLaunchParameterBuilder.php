@@ -155,7 +155,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             'lis_person_name_full' => $name_full,
             'lis_person_contact_email_primary' => $email,
             'launch_presentation_locale' => $DIC->language()->getLangKey(),
-            'tool_consumer_instance_guid' => ilObjLTITool::getInstanceGuid(),
+            'tool_consumer_instance_guid' => ilLTIEndpoint::getInstanceGuid(),
             'tool_consumer_instance_name' => (string) ($DIC->settings()->get('short_inst_name') ?: CLIENT_ID),
             'tool_consumer_instance_description' => ilObjSystemFolder::_getHeaderTitle(),
             'tool_consumer_instance_url' => (string) $DIC['static_url']->builder()->build('root', new ReferenceId(ROOT_FOLDER_ID)),
@@ -165,7 +165,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         ] + self::getContext($ref_id);
 
         if ($tool->getIncludeUserPicture()) {
-            $parameters['user_image'] = ilObjLTITool::getIliasHttpPath() . '/' . $user->getPersonalPicturePath();
+            $parameters['user_image'] = ilLTIEndpoint::getBaseUrl() . '/' . $user->getPersonalPicturePath();
         }
 
         // the library sends custom_foo as the custom parameter foo: a parameter named custom_foo keeps its

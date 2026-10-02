@@ -57,7 +57,7 @@ final class ilLTIAdvantagePlatformMembershipService
 
     private static function getUrl(int $context_ref_id, int $obj_id): string
     {
-        return ilLTIAdvantagePlatformServiceRequest::getUrl('/membership/' . $context_ref_id . '/' . $obj_id);
+        return ilLTIEndpoint::getServiceUrl('/membership/' . $context_ref_id . '/' . $obj_id);
     }
 
     /**

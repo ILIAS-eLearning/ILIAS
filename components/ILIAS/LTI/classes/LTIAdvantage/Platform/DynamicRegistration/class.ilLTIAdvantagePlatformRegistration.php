@@ -50,7 +50,7 @@ final class ilLTIAdvantagePlatformRegistration
 
     public static function getOpenidConfigurationUrl(): string
     {
-        return ilObjLTITool::getIliasHttpPath() . '/lticonfig.php';
+        return ilLTIEndpoint::getUrl(ilLTIEndpoint::CONFIGURATION);
     }
 
     /**
@@ -58,16 +58,14 @@ final class ilLTIAdvantagePlatformRegistration
      */
     public static function getOpenidConfiguration(): array
     {
-        $path = ilObjLTITool::getIliasHttpPath();
-
         return [
-            'issuer' => $path,
-            'authorization_endpoint' => $path . '/ltiauth.php',
-            'token_endpoint' => $path . '/ltitoken.php',
+            'issuer' => ilLTIEndpoint::getBaseUrl(),
+            'authorization_endpoint' => ilLTIEndpoint::getUrl(ilLTIEndpoint::AUTHENTICATION),
+            'token_endpoint' => ilLTIEndpoint::getUrl(ilLTIEndpoint::TOKEN),
             'token_endpoint_auth_methods_supported' => ['private_key_jwt'],
             'token_endpoint_auth_signing_alg_values_supported' => ['RS256'],
             'jwks_uri' => ilLTIAdvantageKeyPair::getJwksUrl(),
-            'registration_endpoint' => $path . '/ltiregistration.php',
+            'registration_endpoint' => ilLTIEndpoint::getUrl(ilLTIEndpoint::REGISTRATION),
             'scopes_supported' => array_merge(['openid'], ilLTIAdvantagePlatformConnection::getAccessTokenScopes()),
             'response_types_supported' => ['id_token'],
             'subject_types_supported' => ['public'],

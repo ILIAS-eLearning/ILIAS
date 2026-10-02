@@ -79,13 +79,13 @@ class ilLTIAdvantagePlatformConnection extends Platform
             throw new ilException('The LTI tool ' . $tool->getId() . ' is not an LTI Advantage tool.');
         }
 
-        $this->platformId = ilObjLTITool::getIliasHttpPath();
+        $this->platformId = ilLTIEndpoint::getBaseUrl();
         $this->clientId = $tool->getClientId();
         // earlier releases gave every tool its own deployment, named by the id of the tool
         $this->deploymentId = (string) $tool->getId();
         $this->ltiVersion = LtiVersion::V1P3;
-        $this->authenticationUrl = ilObjLTITool::getIliasHttpPath() . '/ltiauth.php';
-        $this->accessTokenUrl = ilObjLTITool::getIliasHttpPath() . '/ltitoken.php';
+        $this->authenticationUrl = ilLTIEndpoint::getUrl(ilLTIEndpoint::AUTHENTICATION);
+        $this->accessTokenUrl = ilLTIEndpoint::getUrl(ilLTIEndpoint::TOKEN);
         ilLTIAdvantageKeyPair::applyTo($this);
 
         $counterpart = new Tool(new ilLTIDataConnector());

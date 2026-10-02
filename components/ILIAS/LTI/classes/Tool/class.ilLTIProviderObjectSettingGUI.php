@@ -171,7 +171,7 @@ class ilLTIProviderObjectSettingGUI
                 // the target link the platform launches the object with, see ilAuthProviderLTI
                 $group = $field->optionalGroup($roles + [
                     'launch_url' => $field->text($lng->txt('lti_launch_url'))
-                        ->withValue(ILIAS_HTTP_PATH . '/lti.php?ref_id=' . $this->ref_id)
+                        ->withValue(ilLTIEndpoint::getUrl(ilLTIEndpoint::LAUNCH, '?ref_id=' . $this->ref_id))
                         ->withDisabled(true),
                 ], $title);
                 $inputs['platform_' . $platform_id] = $release->isReleased() ? $group : $group->withValue(null);

@@ -50,18 +50,6 @@ final class ilLTIAdvantagePlatformServiceRequest
         };
     }
 
-    /**
-     * The URL of a service path. It is built from the configured HTTP path: under ltiservices.php,
-     * ILIAS_HTTP_PATH ends in the script, and a tool reads back the URLs of its launch.
-     */
-    public static function getUrl(string $path): string
-    {
-        global $DIC;
-
-        $http_path = ilContext::modifyHttpPath((string) $DIC->iliasIni()->readVariable('server', 'http_path'));
-
-        return rtrim($http_path, '/') . '/ltiservices.php' . $path;
-    }
 
     /**
      * The tool an access token of ILIAS was given to, when the token grants one of the scopes and the tool is
