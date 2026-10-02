@@ -91,16 +91,20 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         if (!empty($rec['rid'])) {
             // check if the file is available in the container
             $rid = $DIC->resourceStorage()->manageContainer()->find($rec['rid']);
-            if (!$rid) {
+            if (!$rid || $start_file === '') {
                 return $startfile[$a_id] = "";
             }
-            $zip = $DIC->resourceStorage()->consume()->containerZIP($rid)->getZIP();
-            foreach ($zip->getFiles() as $file) {
-                if ($file === $start_file) {
-                    return $startfile[$a_id] = $start_file;
-                }
+            // Locate the single stored path. Unzip::getFiles() yields nothing when the
+            // archive exceeds the decompression-bomb limits, which hides a valid start file.
+            $stream = $DIC->resourceStorage()->consume()->stream($rid)->getStream();
+            $uri = $stream->getMetadata()['uri'] ?? '';
+            $archive = new \ZipArchive();
+            $found = false;
+            if (is_string($uri) && $uri !== '' && $archive->open($uri, \ZipArchive::RDONLY) === true) {
+                $found = $archive->locateName($start_file) !== false;
+                $archive->close();
             }
-            return $startfile[$a_id] = "";
+            return $startfile[$a_id] = $found ? $start_file : "";
         }
 
         // Old learning module
