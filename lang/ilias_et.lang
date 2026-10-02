@@ -11194,6 +11194,7 @@ lti#:#conf_user_name#:#User name###07 02 2020 new variable
 lti#:#consumers#:#Consumers###31 08 2017 new variable
 lti#:#description_info#:#The description will be shown below the title.###07 02 2020 new variable
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users###31 08 2017 new variable
+lti#:#global_provider_subtab#:#Global Providers for all Users###07 02 2020 new variable
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress###26 08 2024 new variable
 lti#:#grade_activity_progress_completed#:#Completed###26 08 2024 new variable
 lti#:#grade_activity_progress_initialized#:#Initialized###26 08 2024 new variable
@@ -11379,6 +11380,7 @@ lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 0
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###29 10 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben###31 08 2017 new variable
+lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
 lti#:#lti_settings#:#LTI Settings###31 08 2017 new variable
 lti#:#lti_settings_form#:#Object Settings###07 02 2020 new variable
 lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Provider for all Users###07 02 2020 new variable
@@ -11431,9 +11433,11 @@ lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret###07 02 2020 new vari
 lti#:#tbl_provider_header#:#LTI Provider###07 02 2020 new variable
 lti#:#tbl_provider_usage_header#:#LTI Provider###07 02 2020 new variable
 lti#:#title_info#:#Give the object a title.###07 02 2020 new variable
+lti#:#usage_subtab#:#Usage###07 02 2020 new variable
 lti#:#use_xapi#:#Use xAPI-Support###07 02 2020 new variable
 lti#:#use_xapi_info#:#This LTI Provider supports xAPI-Statements.###07 02 2020 new variable
 lti#:#user_lng#:#User Languague###31 08 2017 new variable
+lti#:#user_provider_subtab#:#Providers Defined by Users###07 02 2020 new variable
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###07 02 2020 new variable
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###07 02 2020 new variable
 mail#:#back_to_folder#:#Back to Folder

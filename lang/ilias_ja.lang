@@ -11223,6 +11223,7 @@ lti#:#conf_user_name#:#ユーザ名
 lti#:#consumers#:#Consumer
 lti#:#description_info#:#説明はタイトルの下へ表示されます。
 lti#:#gbl_roles_to_users#:#LTIユーザへ割当るグローバル役割
+lti#:#global_provider_subtab#:#全ユーザのGlobal Providers/tools
 lti#:#grade_activity_progress_all#:#アクティビティ進捗上の全てのインフォーメーション
 lti#:#grade_activity_progress_completed#:#完了しました
 lti#:#grade_activity_progress_initialized#:#初期化しました
@@ -11408,6 +11409,7 @@ lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
 lti#:#lti_provider_not_set_msg#:#LTIプロバイダー / ツール構成が完全に終了していません。
 lti#:#lti_providing_tab#:#LTI ProviderとしてのILIAS
 lti#:#lti_released_objects#:#Object Releases
+lti#:#lti_select_provider#:#プロバイダーを選択
 lti#:#lti_settings#:#LTI設定
 lti#:#lti_settings_form#:#オブジェクト設定
 lti#:#lti_success_accept_as_global#:#全ユーザへグローバルプロバイダーとして正しく承認されました。
@@ -11460,9 +11462,11 @@ lti#:#tbl_lti_prov_with_key#:#Key / Secretで事前定義済み
 lti#:#tbl_provider_header#:#LTI Provider
 lti#:#tbl_provider_usage_header#:#LTI Provider
 lti#:#title_info#:#タイトルをオブジェクトにする
+lti#:#usage_subtab#:#用法
 lti#:#use_xapi#:#xAPI-Supportを使用
 lti#:#use_xapi_info#:#このLTI ProviderはxAPI-Statementsをサポートします。
 lti#:#user_lng#:#User言語
+lti#:#user_provider_subtab#:#ユーザ別プロバイダー定義
 ltiv#:#ltiv_create#:#LTI Consumerオブジェクト用の証明書を作成
 ltiv#:#ltiv_create_info#:#証明書作成用の完了したLTI consumerオブジェクトを選択
 mail#:#back_to_folder#:#フォルダへ戻る

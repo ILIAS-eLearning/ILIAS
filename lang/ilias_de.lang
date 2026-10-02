@@ -11316,6 +11316,7 @@ lti#:#conf_user_name#:#Anmeldename
 lti#:#consumers#:#Konsumenten
 lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
+lti#:#global_provider_subtab#:#Globale Provider bzw. Tools für alle Anwender
 lti#:#grade_activity_progress_all#:#alle Angaben zum Aktivitätsfortschritt
 lti#:#grade_activity_progress_completed#:#vollständig bearbeitet (Completed)
 lti#:#grade_activity_progress_initialized#:#begonnen (Initialized)
@@ -11501,6 +11502,7 @@ lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ g
 lti#:#lti_provider_not_set_msg#:#LTI-Provider/-tool ist noch nicht vollständig konfiguriert.
 lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
 lti#:#lti_released_objects#:#Objekt-Freigaben
+lti#:#lti_select_provider#:#Provider auswählen
 lti#:#lti_settings#:#LTI-Einstellungen
 lti#:#lti_settings_form#:#Objekteinstellungen
 lti#:#lti_success_accept_as_global#:#Erfolgreich als Global-Provider für alle Anwender übernommen
@@ -11553,9 +11555,11 @@ lti#:#tbl_lti_prov_with_key#:#Vordefiniert mit Key / Secret
 lti#:#tbl_provider_header#:#LTI-Provider
 lti#:#tbl_provider_usage_header#:#LTI-Provider
 lti#:#title_info#:#Geben Sie dem Objekt einen Titel!
+lti#:#usage_subtab#:#Verwendung
 lti#:#use_xapi#:#xAPI-Unterstützung verwenden
 lti#:#use_xapi_info#:#Dieser LTI-Provider unterstützt die Abfrage von xAPI-Statements.
 lti#:#user_lng#:#Sprache
+lti#:#user_provider_subtab#:#Lokal definierte Provider bzw. Tools
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner

@@ -11197,6 +11197,7 @@ lti#:#conf_user_name#:#User name###28 11 2025 new variable
 lti#:#consumers#:#Consumatori
 lti#:#description_info#:#La descrizione verrà mostrata sotto il titolo.
 lti#:#gbl_roles_to_users#:#Ruolo globale assegnato agli utenti LTI
+lti#:#global_provider_subtab#:#Fornitori globali per tutti gli utenti
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress###30 04 2024 new variable
 lti#:#grade_activity_progress_completed#:#Completed###30 04 2024 new variable
 lti#:#grade_activity_progress_initialized#:#Initialized###30 04 2024 new variable
@@ -11382,6 +11383,7 @@ lti#:#lti_provider_not_avail_msg#:#Il fornitore è impostato come 'Non disponibi
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###08 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS come fornitore LTI
 lti#:#lti_released_objects#:#Versioni degli Oggetti
+lti#:#lti_select_provider#:#Seleziona un fornitore
 lti#:#lti_settings#:#Impostazioni LTI
 lti#:#lti_settings_form#:#Impostazioni oggetto
 lti#:#lti_success_accept_as_global#:#Accettato con successo come fornitore globale per tutti gli utenti
@@ -11434,9 +11436,11 @@ lti#:#tbl_lti_prov_with_key#:#Predefinito con Chiave / Segreto
 lti#:#tbl_provider_header#:#Fornitore LTI
 lti#:#tbl_provider_usage_header#:#Fornitore LTI
 lti#:#title_info#:#Dai un titolo all'oggetto.
+lti#:#usage_subtab#:#Utilizzi
 lti#:#use_xapi#:#Utilizza il supporto alle xAPI
 lti#:#use_xapi_info#:#Questo fornitore LTI supporta gli statements xAPI.
 lti#:#user_lng#:#Lingua utente
+lti#:#user_provider_subtab#:#Fornitori definiti dagli utenti
 ltiv#:#ltiv_create#:#Crea certificato per Oggetto consumatore LTI.
 ltiv#:#ltiv_create_info#:#Seleziona un Oggetto consumatore LTI completato per generare un certificato.
 mail#:#back_to_folder#:#Torna alla cartella

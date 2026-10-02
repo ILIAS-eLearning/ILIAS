@@ -11271,6 +11271,7 @@ lti#:#conf_user_name#:#Felhasználó neve
 lti#:#consumers#:#Fogyasztók
 lti#:#description_info#:#A leírás a cím alatt jelenik meg.
 lti#:#gbl_roles_to_users#:#LTI-felhasználókhoz rendelt globális szerepkör
+lti#:#global_provider_subtab#:#Globális Kiszolgálók az összes felhasználó számára
 lti#:#grade_activity_progress_all#:#összes állapotinformáció
 lti#:#grade_activity_progress_completed#:#Befejezte
 lti#:#grade_activity_progress_initialized#:#Initializált
@@ -11456,6 +11457,7 @@ lti#:#lti_provider_not_avail_msg#:#Az LTI-kiszolgáló / -Eszköz értéke ‘Ne
 lti#:#lti_provider_not_set_msg#:#Az LTI-kiszolgáló / -eszköz beállítása még nem teljes.
 lti#:#lti_providing_tab#:#Az ILIAS, mint LTI-Kiszolgáló
 lti#:#lti_released_objects#:#Megosztott objektumok
+lti#:#lti_select_provider#:#Válasszon Kiszolgáló resp. Eszközt
 lti#:#lti_settings#:#LTI beállítások
 lti#:#lti_settings_form#:#Objektum beállításai
 lti#:#lti_success_accept_as_global#:#Sikeresen elfogadta mint a Globális Kiszolgálót az összes felhasználó számára
@@ -11508,9 +11510,11 @@ lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret
 lti#:#tbl_provider_header#:#LTI-Kiszolgáló / Eszköz
 lti#:#tbl_provider_usage_header#:#LTI-Kiszolgáló / Eszköz
 lti#:#title_info#:#Adjon az objektumnak címet
+lti#:#usage_subtab#:#Használatban
 lti#:#use_xapi#:#Use xAPI-Support
 lti#:#use_xapi_info#:#Ez az LTI-Kiszolgáló támogatja az xAPI-Nyilatkozatokat.
 lti#:#user_lng#:#Felhasználó nyelve
+lti#:#user_provider_subtab#:#Felhasználó által definiált Kiszolgálók
 ltiv#:#ltiv_create#:#Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása
 ltiv#:#ltiv_create_info#:#Válassza ki a teljesített LTI-Fogyasztóobjektumot, melyhez tanúsítványt kíván generálni
 mail#:#back_to_folder#:#Vissza a mappához

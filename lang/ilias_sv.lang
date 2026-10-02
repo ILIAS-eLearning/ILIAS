@@ -11194,6 +11194,7 @@ lti#:#conf_user_name#:#Login namn
 lti#:#consumers#:#konsumenter
 lti#:#description_info#:#Beskrivningen visas under titeln.
 lti#:#gbl_roles_to_users#:#Global roll tilldelad LTI-användare
+lti#:#global_provider_subtab#:#Globala leverantörer eller verktyg för alla användare
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress###26 08 2024 new variable
 lti#:#grade_activity_progress_completed#:#Completed###26 08 2024 new variable
 lti#:#grade_activity_progress_initialized#:#Initialized###26 08 2024 new variable
@@ -11379,6 +11380,7 @@ lti#:#lti_provider_not_avail_msg#:#LTI leverantör eller verktyg är inställt p
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###29 10 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS som LTI-leverantör/verktyg
 lti#:#lti_released_objects#:#Utsläpp av objekt
+lti#:#lti_select_provider#:#Välj leverantör eller verktyg
 lti#:#lti_settings#:#LTI-inställningar
 lti#:#lti_settings_form#:#Inställningar för objekt
 lti#:#lti_success_accept_as_global#:#Framgångsrikt införd som global leverantör/verktyg för alla användare
@@ -11431,9 +11433,11 @@ lti#:#tbl_lti_prov_with_key#:#predefinierad
 lti#:#tbl_provider_header#:#LTI leverantör/verktyg
 lti#:#tbl_provider_usage_header#:#LTI leverantör/verktyg
 lti#:#title_info#:#Ge objektet en titel!
+lti#:#usage_subtab#:#Använda
 lti#:#use_xapi#:#Använd xAPI-stöd
 lti#:#use_xapi_info#:#LTI-leverantör eller verktyg stöder förfrågan av xAPI-uttalanden.
 lti#:#user_lng#:#Användarspråk
+lti#:#user_provider_subtab#:#Leverantörer eller verktyg definieras av användarna
 ltiv#:#ltiv_create#:#Skapa certifikat för LTI-konsumentobjekt
 ltiv#:#ltiv_create_info#:#Välj ett slutfört LTI-konsumentobjekt för att generera ett certifikat för det.
 mail#:#back_to_folder#:#Tillbaka till mappen

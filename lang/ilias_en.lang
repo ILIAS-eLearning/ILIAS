@@ -11288,6 +11288,7 @@ lti#:#conf_user_name#:#User name
 lti#:#consumers#:#Platforms (Consumers)
 lti#:#description_info#:#The description will be shown below the title.
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
+lti#:#global_provider_subtab#:#Global Tools for all Users
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress
 lti#:#grade_activity_progress_completed#:#Completed
 lti#:#grade_activity_progress_initialized#:#Initialized
@@ -11473,6 +11474,7 @@ lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
 lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.
 lti#:#lti_providing_tab#:#ILIAS as LTI Tool (Provider)
 lti#:#lti_released_objects#:#Object Releases
+lti#:#lti_select_provider#:#Select Provider
 lti#:#lti_settings#:#LTI Settings
 lti#:#lti_settings_form#:#Object Settings
 lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Tool for all Users
@@ -11525,9 +11527,11 @@ lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret
 lti#:#tbl_provider_header#:#LTI Tools
 lti#:#tbl_provider_usage_header#:#LTI Tool Usages
 lti#:#title_info#:#Give the object a title.
+lti#:#usage_subtab#:#Usage
 lti#:#use_xapi#:#Use xAPI-Support
 lti#:#use_xapi_info#:#This LTI Provider supports xAPI-Statements.
 lti#:#user_lng#:#User Languague
+lti#:#user_provider_subtab#:#Tools Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder
