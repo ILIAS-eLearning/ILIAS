@@ -2015,7 +2015,7 @@ assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#use_previous_solution#:#Use previous solution
 assessment#:#use_previous_solution_advice#:#The solution shown is your solution from the last time you took this test. To adopt this previous solution without any changes, you need to select the ‘Use previous solution’ checkbox beneath the question.
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
 assessment#:#usr_manscoring_complete#:#Marked as 'scored'
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
