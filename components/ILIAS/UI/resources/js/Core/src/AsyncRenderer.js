@@ -47,11 +47,12 @@ export default class AsyncRenderer {
    * root element.
    *
    * @param {URL|string} url
+   * @param {RequestInit} [init] fetch options, e.g. method and body for form posts
    * @returns {Promise<DocumentFragment>}
    * @throws {Error} if the request with fetch() failed.
    */
-  loadContent(url) {
-    return fetch(url.toString())
+  loadContent(url, init = {}) {
+    return fetch(url.toString(), init)
       .then((response) => response.text())
       .then((html) => this.#createElements(html))
       .then((elements) => createDocumentFragment(this.#document, elements))
@@ -64,8 +65,9 @@ export default class AsyncRenderer {
    * Asynchronously rendered <script> tags must be restored in order to be
    * executed when added to the DOM by e.g. HTMLElement.appendChild().
    *
-   * This method only preserves a <script> tags 'src' and 'type' attributes,
-   * along with the scripts content. All other attributes are discarded.
+   * This method preserves a <script> tag's 'src' and 'type' attributes, the
+   * 'data-replace-marker' used to find async onload code, and the script
+   * content. All other attributes are discarded.
    *
    * @param {HTMLScriptElement} script
    * @returns {HTMLScriptElement}
@@ -78,6 +80,9 @@ export default class AsyncRenderer {
     }
     if (script.hasAttribute('src')) {
       newScript.setAttribute('src', script.getAttribute('src'));
+    }
+    if (script.hasAttribute('data-replace-marker')) {
+      newScript.setAttribute('data-replace-marker', script.getAttribute('data-replace-marker'));
     }
     if (script.textContent.length > 0) {
       newScript.textContent = script.textContent;
