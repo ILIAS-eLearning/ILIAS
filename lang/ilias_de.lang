@@ -13066,66 +13066,57 @@ mst#:#mst_profile_fulfilled#:#Erreicht
 mst#:#mst_profile_not_fulfilled#:#Noch nicht erreicht
 mst#:#mst_select_course#:#Kurs auswählen
 mst#:#mst_show_courses#:#Einschreibungen
-news#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
+news#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online.
 news#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 news#:#new_test_online#:#Der Test wurde online geschaltet.
-news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
-news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.
-news#:#news_1_postings#:#One post has been added.
+news#:#news_1_file_created#:#Datei hinzugefügt.
+news#:#news_1_file_updated#:#Datei aktualisiert.
+news#:#news_1_postings#:#Beitrag erstellt.
 news#:#news_add_news#:#Beitrag hinzufügen
-news#:#news_all_items#:#Neuigkeiten zu allen Favoriten
+news#:#news_all_items#:#Alle Neuigkeiten
 news#:#news_allow_longer_periods#:#Längere Zeiträume zulassen
-news#:#news_allow_longer_periods_info#:#Benutzer können längere Zeiträume für Neuigkeiten ihrer Favoriten auswählen.
+news#:#news_allow_longer_periods_info#:#Benutzer können einen anderen, längeren Neuigkeitenzeitraum auswählen, damit auf ihren Dashboards mehr Neuigkeiten angezeigt werden.
 news#:#news_allow_shorter_periods#:#Kürzere Zeiträume zulassen
-news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Neuigkeiten ihrer Favoriten auswählen.
-news#:#news_attached_to#:#Zugeordnet zu
+news#:#news_allow_shorter_periods_info#:#Benutzer können einen anderen, kürzeren Neuigkeitenzeitraum auswählen, damit auf ihren Dashboards weniger Neuigkeiten angezeigt werden.
+news#:#news_attached_to#:#Quelle
 news#:#news_block_information#:#Der Block "Neuigkeiten" zeigt chronologisch alle <b>Neuigkeiten</b> zu Ihren Favoriten an.
 news#:#news_cache#:#Neuigkeiten-Cache (Minuten)
-news#:#news_cache_info#:#Aktualisierung des Blocks "Neuigkeiten" alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
+news#:#news_cache_info#:#Der Block "Neuigkeiten" wird alle x-Minuten aktualisiert. '0' bedeutet, dass Neuigkeiten-Blocks sofort aktualisiert werden. Höhere Werte erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
 news#:#news_default_visibility#:#Voreinstellung Zugriff
 news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
-news#:#news_enable_internal_news_info#:#Aktiviert Blöcke "Neuigkeiten" für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Neuigkeiten abonnieren und erhalten diese auf ihrem Dashboard.
+news#:#news_enable_internal_news_info#:#Ermöglichen Sie die Anzeige von Neuigkeiten-Blöcken in Kategorien, Kursen, Gruppen und anderen Objekten. Die Neuigkeiten dieser Objekte können von Benutzern abonniert werden, diese Neuigkeiten erscheinen dann auf deren Dashboards.
 news#:#news_enable_internal_rss#:#RSS für interne Neuigkeiten aktivieren
-news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Neuigkeiten über RSS. Auf diese Beiträge kann von außen ohne Authentifizierung zugegriffen werden.
-news#:#news_enable_private_feed#:#Privaten RSS-Feed aktivieren
+news#:#news_enable_internal_rss_info#:#Die Veröffentlichung von Nachrichten über RSS zulassen. Diese Nachrichten sind außerhalb dieser Installation ohne Authentifizierung zugänglich, d. h., Lesende müssen nicht bei dieser Installation angemeldet sein, um diese Nachrichten zu betrachten.
+news#:#news_enable_private_feed#:#Privaten RSS-Feed ermöglichen
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
 news#:#news_feed_url_for#:#Feed-URL für „%s“
-news#:#news_first_letter_of_word_notification#:#B
-news#:#news_get_feed_info#:#Kopieren Sie diese Adresse in Ihren RSS-Reader. Alle öffentlich zugänglichen Neuigkeiten werden eingesammelt. Der Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
+news#:#news_get_feed_info#:#Dies ist die URL Ihres persönlichen Newsfeeds, in dem alle öffentlich zugänglichen Neuigkeiten aus den Kursen und Gruppen, denen Sie angehören, gesammelt werden (mit Ausnahme automatisch generierter Neuigkeiten). Der Feed enthält nur Neuigkeiten, die von den Autoren als öffentlich gekennzeichnet wurden. Der Feed ist nicht durch ein Authentifizierungsverfahren geschützt. Bitte geben Sie diese URL nicht an andere Personen weiter.
 news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
-news#:#news_get_priv_feed_info#:#Sie haben ein Passwort für Ihren privaten Newsfeed vergeben. Dieser Newsfeed enthält neben öffentlich zugänglichen auch private Neuigkeiten. Ersetzen Sie in der folgenden Feed-URL –password– durch Ihr Newsfeed-Passwort und kopieren Sie diese Adresse in Ihren RSS-Reader. Teilen Sie die Feed-URL nicht mit anderen.
+news#:#news_get_priv_feed_info#:#Dies ist die URL Ihres privaten Newsfeeds. Der Feed enthält sowohl öffentlich zugänglichen Neuigkeiten als auch solche, die ausschließlich für „Angemeldete Personen“ dieser Installation, bestimmt sind. Dieser Feed ist durch ein Passwort geschützt, das Sie unter „Einstellungen“ im Block „News“ auf Ihrem Dashboard ändern können. Bitte geben Sie diese URL nicht an andere Personen weiter. Bitte ersetzen Sie -password- in dieser URL durch das von Ihnen vergebenes Feed-Passwort.
 news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
-news#:#news_hide_news_block#:#Block "Neuigkeiten" verbergen
-news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Block "Neuigkeiten" wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
 news#:#news_hide_news_date#:#Startdatum
-news#:#news_hide_news_per_date#:#Neuigkeiten ab Datum anzeigen
-news#:#news_hide_news_per_date_info#:#Es werden nur Neuigkeiten ab einem bestimmten Datum angezeigt.
-news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
+news#:#news_hide_news_per_date#:#Startdatum für Neuigkeiten
+news#:#news_hide_news_per_date_info#:#Neuigkeiten werden erst ab einem bestimmten Datum angezeigt. Ältere Neuigkeiten werden ausgeblendet.
+news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist derzeit nicht aktiv. Um ihn zu aktivieren, legen Sie bitte in den Einstellungen dieses Newsblocks ein Passwort fest.
 news#:#news_internal_news#:#Neuigkeiten
-news#:#news_keep_minimal_x_items#:#Ältere Einträge vorhalten
+news#:#news_keep_minimal_x_items#:#Ältere Einträge behalten
 news#:#news_keep_minimal_x_items_info#:#Anzahl an Einträgen, die auch über den systemweit eingestellten RSS-Zeitraum hinaus im Webfeed bereit gestellt werden.
-news#:#news_loading_news#:#Neuigkeiten werden geladen ...
 news#:#news_media#:#Mediendatei
 news#:#news_new_comments#:#Neue Kommentare
 news#:#news_new_reactions#:#Neue Reaktionen
 news#:#news_news_block#:#Block „Neuigkeiten“
 news#:#news_news_item_content#:#Text
-news#:#news_news_item_content_long#:#Langfassung
-news#:#news_news_item_content_long_info#:#Dieser Text wird nicht über RSS veröffentlicht.
 news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
-news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur authentifizierten Benutzern zugänglich.
+news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur für angemeldete Personen zugänglich.
 news#:#news_news_item_head#:#Beitrag
 news#:#news_news_item_title#:#Schlagzeile
 news#:#news_news_item_visibility#:#Zugriff
 news#:#news_news_item_visibility_info#:#Öffentliche Neuigkeiten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
-news#:#news_news_items#:#Neuigkeit(en)
-news#:#news_no_js_click_here#:#Werden die Neuigkeiten nicht angezeigt, klicken Sie bitte hier.
 news#:#news_no_news_items#:#Es sind keine Neuigkeiten für Sie vorhanden.
 news#:#news_not_available#:#Neuigkeit nicht verfügbar
-news#:#news_notifications#:#Benachrichtigungen
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
 news#:#news_nr_of_items#:#Anzahl der maximalen Neuigkeiten pro Objekt
@@ -13139,7 +13130,7 @@ news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
 news#:#news_public_feed#:#Eigener Webfeed
-news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt.
+news#:#news_public_feed_info#:#Stellt einen RSS-Feed für die Neuigkeiten dieses Objekts bereit, der über das ▼-Menü aufgerufen werden kann.
 news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS-Zeitraum
@@ -13147,12 +13138,12 @@ news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
 news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
 news#:#news_settings#:#Einstellungen für interne Neuigkeiten
-news#:#news_sorry_not_accessible_anymore#:#Entschuldigung, dieses Objekt befindet sich nicht mehr in Ihrem Zugriff.
+news#:#news_sorry_not_accessible_anymore#:#Leider ist es nicht mehr möglich, auf diese Neuigkeit zuzugreifen.
 news#:#news_time_period#:#Zeitspanne
 news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
 news#:#news_timline_no_entries#:#Es wurden keine Neuigkeiten gefunden.
 news#:#news_visibility_public#:#Öffentlich
-news#:#news_visibility_users#:#Authentifizierte Benutzer
+news#:#news_visibility_users#:#Angemeldete Personen
 news#:#news_x_files_created#:#Es wurden %s Dateien hinzugefügt.
 news#:#news_x_files_updated#:#Es wurden %s Dateien aktualisiert.
 news#:#news_x_postings#:#%s Beiträge hinzugefügt.
