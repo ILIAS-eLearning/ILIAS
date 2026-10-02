@@ -130,13 +130,6 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
         $tool_custom_params = ilObjLTITool::getToolCustomParamsArray($tool);
         $merged_params = array_merge($tool_custom_params, $custom_params_array);
 
-        $tool_consumer_instance_guid = CLIENT_ID . ".";
-        $parse_ilias_url = parse_url(ilObjLTITool::getIliasHttpPath());
-        if (array_key_exists("path", $parse_ilias_url)) {
-            $tool_consumer_instance_guid .= implode(".", array_reverse(explode("/", $parse_ilias_url["path"])));
-        }
-        $tool_consumer_instance_guid .= $parse_ilias_url["host"];
-
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
             "lti_version" => "LTI-1p0",
@@ -156,7 +149,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
             "launch_presentation_locale" => $DIC->language()->getLangKey(),
             "launch_presentation_document_target" => $document_target,
             "launch_presentation_return_url" => $return_url,
-            "tool_consumer_instance_guid" => $tool_consumer_instance_guid,
+            "tool_consumer_instance_guid" => ilObjLTITool::getInstanceGuid(),
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
                 "short_inst_name"
             ) : CLIENT_ID,

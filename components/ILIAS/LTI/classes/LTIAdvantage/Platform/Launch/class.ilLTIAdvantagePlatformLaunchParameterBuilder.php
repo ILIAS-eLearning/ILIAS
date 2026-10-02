@@ -35,6 +35,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
     public const string ROLE_ADMINISTRATOR = 'Administrator';
     public const string ROLE_INSTRUCTOR = 'Instructor';
     public const string ROLE_LEARNER = 'Learner';
+    private const string NAME_HIDDEN = '-';
 
     /**
      * @return array the message parameters, the user id of the tool being the login hint of the launch
@@ -140,7 +141,11 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         global $DIC;
 
         $user = $DIC->user();
-        [$name_given, $name_family, $name_full] = self::getName($tool, $user);
+        // a name the privacy settings keep back goes as a dash, as in earlier releases
+        [$name_given, $name_family, $name_full] = array_map(
+            static fn(string $name): string => $name !== '' ? $name : self::NAME_HIDDEN,
+            self::getName($tool, $user)
+        );
 
         $parameters = [
             'user_id' => $user_id,
@@ -150,7 +155,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             'lis_person_name_full' => $name_full,
             'lis_person_contact_email_primary' => $email,
             'launch_presentation_locale' => $DIC->language()->getLangKey(),
-            'tool_consumer_instance_guid' => (string) ilCmiXapiUser::getIliasUuid(),
+            'tool_consumer_instance_guid' => ilObjLTITool::getInstanceGuid(),
             'tool_consumer_instance_name' => (string) ($DIC->settings()->get('short_inst_name') ?: CLIENT_ID),
             'tool_consumer_instance_description' => ilObjSystemFolder::_getHeaderTitle(),
             'tool_consumer_instance_url' => (string) $DIC['static_url']->builder()->build('root', new ReferenceId(ROOT_FOLDER_ID)),
@@ -163,24 +168,29 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             $parameters['user_image'] = ilObjLTITool::getIliasHttpPath() . '/' . $user->getPersonalPicturePath();
         }
 
+        // the library sends custom_foo as the custom parameter foo: a parameter named custom_foo keeps its
+        // name, as in earlier releases
         $custom = array_merge(ilObjLTITool::getToolCustomParamsArray($tool), $object_custom_params);
         foreach ($custom as $name => $value) {
-            $parameters[str_starts_with($name, 'custom_') ? $name : 'custom_' . $name] = $value;
+            $parameters['custom_' . $name] = $value;
         }
 
         return self::filter($parameters);
     }
 
     /**
-     * The given, family and full name of the user, as far as the privacy settings of the tool allow.
+     * The given, family and full name of the user, as far as the privacy settings of the tool allow. The
+     * last name comes with the title of the user.
      *
      * @return array
      */
     public static function getName(ilLTITool $tool, ilObjUser $user): array
     {
+        $last_name = trim($user->getUTitle() . ' ' . $user->getLastname());
+
         return match ($tool->getPrivacyName()) {
             ilLTITool::PRIVACY_NAME_FIRSTNAME => [$user->getFirstname(), '', $user->getFirstname()],
-            ilLTITool::PRIVACY_NAME_LASTNAME => ['', $user->getLastname(), $user->getLastname()],
+            ilLTITool::PRIVACY_NAME_LASTNAME => ['', $last_name, $last_name],
             ilLTITool::PRIVACY_NAME_FULLNAME => [$user->getFirstname(), $user->getLastname(), $user->getFullname()],
             default => ['', '', ''],
         };
@@ -218,12 +228,13 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         if ($context === null) {
             return [];
         }
+        $context_type = $context['type'] === 'grp' ? self::CONTEXT_TYPE_GROUP : self::CONTEXT_TYPE_COURSE;
 
         return [
             'context_id' => (string) $context['child'],
             'context_title' => (string) $context['title'],
-            'context_label' => (string) $context['title'],
-            'context_type' => $context['type'] === 'grp' ? self::CONTEXT_TYPE_GROUP : self::CONTEXT_TYPE_COURSE,
+            'context_label' => $context_type . ' ' . $context['child'],
+            'context_type' => $context_type,
         ];
     }
 }
