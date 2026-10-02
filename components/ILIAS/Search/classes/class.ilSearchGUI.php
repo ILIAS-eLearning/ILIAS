@@ -287,12 +287,19 @@ class ilSearchGUI extends ilSearchBaseGUI
             );
         }
         if ((int) $search_type === -1) {
+            if (
+                $this->user->getId() === ANONYMOUS_USER_ID ||
+                !ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()
+            ) {
+                echo json_encode([]);
+                exit;
+            }
+
             $a_fields = array('login','firstname','lastname','email');
             $result_field = 'login';
 
             // Starting user autocomplete search
             $auto = new ilUserAutoComplete();
-
 
             $auto->setMoreLinkAvailable(true);
             $auto->setSearchFields($a_fields);
