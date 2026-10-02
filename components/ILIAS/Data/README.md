@@ -28,6 +28,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [OpenGraph Metadata](#opengraphmetadata)
 * [LanguageTag](#languagetag)
 * [Description](#description)
+* [Privacy Data Types](#privacy-data-types)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -713,3 +714,16 @@ $describes_an_object = $df->object(
 );
 
 ?>
+```
+
+## Privacy Data Types
+
+Privacy Data Types wrap personal data (e.g. a user's postal address) in
+value objects that know where the value came from and hand out the raw
+value only against an explicitly stated technical requirement. They have
+their own factories (`ILIAS\Data\Privacy\Factory`, `Sources`,
+`TechnicalRequirements`), created with `new` like the `Factory` of this
+component.
+
+See [src/Privacy/README.md](src/Privacy/README.md), also for the privacy
+documentation generated from their use.
