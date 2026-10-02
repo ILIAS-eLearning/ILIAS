@@ -40,6 +40,12 @@ $request = $DIC->http()->request();
 parse_str($request->getUri()->getQuery(), $query);
 $body = $request->getParsedBody();
 Util::$requestParameters = array_merge($query, is_array($body) ? $body : []);
+// the answer is always posted and never asks the user, whatever the tool says: tools set up for earlier
+// releases of ILIAS may leave out response_mode and prompt, which the library requires, and earlier
+// releases also took the client id as id
+Util::$requestParameters['client_id'] ??= Util::$requestParameters['id'] ?? null;
+Util::$requestParameters['response_mode'] = 'form_post';
+Util::$requestParameters['prompt'] = 'none';
 
 $log = $DIC->logger()->forComponent('lti');
 try {

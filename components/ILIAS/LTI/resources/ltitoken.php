@@ -87,7 +87,7 @@ try {
 if ($connection === null) {
     $refuse(401, 'invalid_client', 'unknown client id ' . $client_id);
 }
-if (!$connection->verifySignature()) {
+if (!$connection->verifyClientAssertion($body['client_assertion'])) {
     $refuse(401, 'invalid_client', 'client ' . $client_id . ': ' . $connection->reason);
 }
 

@@ -19,14 +19,16 @@
 declare(strict_types=1);
 
 use ceLTIc\LTI\Enum\LtiVersion;
+use ceLTIc\LTI\Jwt\Jwt;
 use ceLTIc\LTI\Platform;
+use ceLTIc\LTI\PlatformNonce;
 use ceLTIc\LTI\Service\LineItem;
 use ceLTIc\LTI\Service\Membership;
 use ceLTIc\LTI\Service\Result;
 use ceLTIc\LTI\Service\Score;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\Util;
-use Random\RandomException;
+use Random\RandomException;
 
 /**
  * ILIAS as the LTI Advantage platform of one tool, in the terms of celtic/lti: the platform is ILIAS with
@@ -116,6 +118,47 @@ class ilLTIAdvantagePlatformConnection extends Platform
     public function isRedirectionUri(string $uri): bool
     {
         return in_array($uri, Tool::$defaultTool->redirectionUris, true);
+    }
+
+    /**
+     * Checks the client assertion of a token request: it is signed with the key of the tool and names the
+     * tool as issuer and subject. The library also requires jti, iat, exp and the token URL as audience,
+     * which tools set up for earlier releases of ILIAS may leave out, so they are only checked when they
+     * are there: a jti is used once, the times are checked with the signature and the audience must be an
+     * address of this ILIAS.
+     */
+    public function verifyClientAssertion(string $assertion): bool
+    {
+        $jwt = Jwt::getJwtClient();
+        if (!$jwt->load($assertion)) {
+            return $this->setReason('The client assertion is not a JWT.');
+        }
+        if ($jwt->getClaim('iss') !== $this->clientId || $jwt->getClaim('sub') !== $this->clientId) {
+            return $this->setReason('The issuer and subject of the client assertion are not the client id.');
+        }
+        if ($jwt->hasClaim('aud')) {
+            $audience = $jwt->getClaim('aud');
+            $own_host = parse_url($this->platformId, PHP_URL_HOST);
+            $hosts = array_map(
+                static fn($uri): ?string => is_string($uri) ? parse_url($uri, PHP_URL_HOST) : null,
+                is_array($audience) ? $audience : [$audience]
+            );
+            if (!in_array($own_host, $hosts, true)) {
+                return $this->setReason('The audience of the client assertion is not this platform.');
+            }
+        }
+        if ($jwt->hasClaim('jti')) {
+            $nonce = new PlatformNonce($this, (string) $jwt->getClaim('jti'));
+            if ($nonce->load() || !$nonce->save()) {
+                return $this->setReason('The client assertion was used before.');
+            }
+        }
+        $public_key = Tool::$defaultTool->rsaKey;
+        if (!$jwt->verifySignature($public_key, Tool::$defaultTool->jku)) {
+            return $this->setReason('The signature or the times of the client assertion are not valid.');
+        }
+
+        return true;
     }
 
     /**
