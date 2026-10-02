@@ -202,11 +202,23 @@ class ilLTIProviderObjectSettingGUI
     /**
      * An LTI Advantage platform is registered once for all the objects released to it, so releasing an
      * object only sets the roles. An LTI 1.1 platform gets a registration with a key and secret per object.
+     * Earlier releases let each object choose, so an object that has a registration of its own keeps its
+     * version, whatever the other objects of the platform use.
      */
     private function isAdvantage(int $platform_id): bool
     {
-        return ilLTIAdministrationPlatformForm::lookupVersion($this->dic->database(), $platform_id)
-            === ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE;
+        $db = $this->dic->database();
+        $db->setLimit(1);
+        $own = $db->fetchAssoc($db->queryF(
+            'SELECT lti_version FROM lti2_consumer WHERE ext_consumer_id = %s AND ref_id = %s ORDER BY consumer_pk DESC',
+            ['integer', 'integer'],
+            [$platform_id, $this->ref_id]
+        ));
+        $version = $own !== null
+            ? (string) $own['lti_version']
+            : ilLTIAdministrationPlatformForm::lookupVersion($db, $platform_id);
+
+        return $version === ilLTIAdministrationPlatformForm::VERSION_ADVANTAGE;
     }
 
     private function createLocalRoles(): void

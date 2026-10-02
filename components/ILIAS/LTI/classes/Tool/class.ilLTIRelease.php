@@ -29,6 +29,9 @@ use ceLTIc\LTI\User;
 class ilLTIRelease
 {
     private const string TABLE_NAME = 'lti_int_provider_obj';
+    private const string INSTITUTION_ROLE = 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#';
+    private const string INSTITUTION_ROLE_1P1 = 'urn:lti:instrole:ims/lis/';
+    private const string SUB_ROLE = 'http://purl.imsglobal.org/vocab/lis/v2/membership/';
 
     private int $admin_role = 0;
     private int $tutor_role = 0;
@@ -192,18 +195,45 @@ class ilLTIRelease
     }
 
     /**
-     * The local roles an LTI user gets, as their LTI roles tell. celtic/lti knows the role names of
-     * every LTI version, both the short ones and the full URIs.
+     * The local roles an LTI user gets, as their LTI roles tell. celtic/lti knows the context roles of
+     * every LTI version, both the short names and the full URIs. As in earlier releases, the institution
+     * roles and the sub-roles count too: faculty and instructors are tutors, students and learners are
+     * members, and area managers and managers are admins.
      *
      * @param User $user
      * @return array
      */
     public function getLocalRoles(User $user): array
     {
+        $has = static function (array $names, array $sub_role_prefixes = []) use ($user): bool {
+            foreach ($user->roles as $role) {
+                if (in_array($role, $names, true)) {
+                    return true;
+                }
+                foreach ($sub_role_prefixes as $prefix) {
+                    if (str_starts_with($role, $prefix)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+        $institution = static fn(string ...$names): array => array_merge(
+            array_map(static fn(string $name): string => self::INSTITUTION_ROLE . $name, $names),
+            array_map(static fn(string $name): string => self::INSTITUTION_ROLE_1P1 . $name, $names)
+        );
+
         $roles = [
-            $user->isAdmin() || $user->isManager() ? $this->admin_role : 0,
-            $user->isStaff() ? $this->tutor_role : 0,
-            $user->isLearner() || $user->isMember() ? $this->member_role : 0,
+            $user->isAdmin() || $user->isManager() || $has([self::SUB_ROLE . 'Manager#AreaManager', self::SUB_ROLE . 'Manager#Manager'])
+                ? $this->admin_role : 0,
+            $user->isStaff() || $has(
+                [...$institution('Faculty', 'Instructor'), self::SUB_ROLE . 'Mentor#Tutor'],
+                [self::SUB_ROLE . 'Instructor#']
+            ) ? $this->tutor_role : 0,
+            $user->isLearner() || $user->isMember() || $has(
+                $institution('Student', 'Learner', 'Member'),
+                [self::SUB_ROLE . 'Learner#']
+            ) ? $this->member_role : 0,
         ];
 
         return array_values(array_unique(array_filter($roles)));

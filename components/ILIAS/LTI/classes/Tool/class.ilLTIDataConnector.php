@@ -65,7 +65,8 @@ class ilLTIDataConnector extends DataConnector
         $row = match (true) {
             $platform->getRecordId() !== null => $this->fetch('lti2_consumer', 'consumer_pk', $platform->getRecordId(), 'integer'),
             $platform->platformId !== null && $platform->platformId !== '' => $this->fetchAdvantagePlatform($platform),
-            $platform->getKey() !== null && $platform->getKey() !== '' => $this->fetch('lti2_consumer', 'consumer_key', $platform->getKey(), 'text'),
+            // earlier releases took the last of the platforms that share a consumer key
+            $platform->getKey() !== null && $platform->getKey() !== '' => $this->fetch('lti2_consumer', 'consumer_key', $platform->getKey(), 'text', 'consumer_pk DESC'),
             default => null,
         };
         if ($row === null) {
@@ -94,6 +95,8 @@ class ilLTIDataConnector extends DataConnector
         $platform->created = $this->toTimestamp($row['created']);
         $platform->updated = $this->toTimestamp($row['updated']);
         $this->fixPlatformSettings($platform, false);
+        // platforms that do not register a token URL for their services may send it as a custom parameter
+        $platform->accessTokenUrl = $platform->accessTokenUrl ?: ($platform->getSetting('custom_oauth2_access_token_url') ?: null);
 
         return true;
     }
@@ -400,12 +403,15 @@ class ilLTIDataConnector extends DataConnector
      * @param string $column
      * @param int|string $value
      * @param string $type
+     * @param string $order_by which row wins when several match
      * @return array|null
      */
-    private function fetch(string $table, string $column, int|string $value, string $type): ?array
+    private function fetch(string $table, string $column, int|string $value, string $type, string $order_by = ''): ?array
     {
+        $this->database->setLimit(1);
+
         return $this->database->fetchAssoc($this->database->queryF(
-            'SELECT * FROM ' . $table . ' WHERE ' . $column . ' = %s',
+            'SELECT * FROM ' . $table . ' WHERE ' . $column . ' = %s' . ($order_by !== '' ? ' ORDER BY ' . $order_by : ''),
             [$type],
             [$value]
         ));

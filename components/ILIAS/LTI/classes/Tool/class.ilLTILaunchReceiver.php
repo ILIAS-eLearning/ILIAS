@@ -81,6 +81,9 @@ class ilLTILaunchReceiver extends Tool
             $this->signAsIlias();
         }
 
+        // the OpenID Connect login of LTI Advantage goes back to the platform by GET, which carries the cookies
+        // of the platform that SameSite=Lax holds back from a POST, as in earlier releases
+        self::$authenticateUsingGet = true;
         $this->handleRequest();
     }
 
