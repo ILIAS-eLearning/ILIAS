@@ -18,15 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Database\PDO;
+namespace ILIAS\KeyValueStorage;
 
-use ilDBInterface;
-use ilDBPdoInterface;
-use ILIAS\Database\FieldDefinition;
-use ILIAS\Database\Connection;
-
-interface Internal extends Connection, ilDBPdoInterface
+/**
+ * Persistence of the session scope, implemented by the component owning the
+ * ILIAS session.
+ */
+interface SessionRepository extends Repository
 {
-    public function getFieldDefinition(): ?FieldDefinition;
-    public function getIndexName(string $index_name_base): string;
 }
