@@ -267,14 +267,7 @@ final class ilLTIAdvantagePlatformRegistration
      */
     private static function getCustomParams(array $tool_configuration): string
     {
-        $params = [];
-        foreach ((array) ($tool_configuration['custom_parameters'] ?? []) as $name => $value) {
-            if (is_scalar($value)) {
-                $params[] = $name . '=' . $value;
-            }
-        }
-
-        return implode(';', $params);
+        return ilObjLTITool::buildCustomParams((array) ($tool_configuration['custom_parameters'] ?? []));
     }
 
     /**

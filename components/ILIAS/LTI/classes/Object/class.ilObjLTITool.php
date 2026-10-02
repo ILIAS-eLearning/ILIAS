@@ -294,68 +294,11 @@ class ilObjLTITool extends ilObject2
     }
 
     /**
-     * OAuth1 key of this object, the one of the tool when it is not customizable.
-     */
-    public function getLaunchKey(): string
-    {
-        return ilLTI1p1ConsumerLaunchParameterBuilder::resolveLaunchKey(
-            $this->getTool(),
-            $this->getLti1p1Credentials()->getKey()
-        );
-    }
-
-    public function getLaunchSecret(): string
-    {
-        return ilLTI1p1ConsumerLaunchParameterBuilder::resolveLaunchSecret(
-            $this->getTool(),
-            $this->getLti1p1Credentials()->getSecret()
-        );
-    }
-
-    /**
      * @return array the custom parameters of the object, in the notation foo=bar;foo2=bar2
      */
     public function getCustomParamsArray(): array
     {
         return self::parseCustomParams($this->getCustomParams());
-    }
-
-    /**
-     * @return array the custom parameters every object of the tool sends
-     */
-    public static function getToolCustomParamsArray(ilLTITool $tool): array
-    {
-        return self::parseCustomParams($tool->getCustomParams());
-    }
-
-    /**
-     * @throws ilWACException
-     */
-    public function buildLaunchParameters(
-        ilCmiXapiUser $cmix_user,
-        string $token,
-        string $context_type,
-        string $context_id,
-        string $context_title,
-        ?string $return_url = ''
-    ): array {
-        return ilLTI1p1ConsumerLaunchParameterBuilder::build(
-            $this->getTool(),
-            $this->getRefId(),
-            $this->getId(),
-            $this->getTitle(),
-            $this->getDescription(),
-            $this->getLaunchMethod(),
-            $this->getLaunchKey(),
-            $this->getLaunchSecret(),
-            $this->getCustomParamsArray(),
-            $cmix_user,
-            $token,
-            $context_type,
-            $context_id,
-            $context_title,
-            $return_url
-        );
     }
 
     /**
@@ -476,7 +419,25 @@ class ilObjLTITool extends ilObject2
     /**
      * @return array the values of the notation foo=bar;foo2=bar2, indexed by their parameter name
      */
-    private static function parseCustomParams(string $params): array
+    /**
+     * The custom parameters in the notation foo=bar;foo2=bar2. Only named parameters with a scalar value are
+     * kept.
+     *
+     * @param array $params values by name
+     */
+    public static function buildCustomParams(array $params): string
+    {
+        $notation = [];
+        foreach ($params as $name => $value) {
+            if ((string) $name !== '' && is_scalar($value)) {
+                $notation[] = $name . '=' . $value;
+            }
+        }
+
+        return implode(';', $notation);
+    }
+
+    public static function parseCustomParams(string $params): array
     {
         $parsed = [];
         foreach (preg_split('/; ?/', $params) as $param) {

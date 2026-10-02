@@ -178,7 +178,8 @@ final class ilLTI1p1ConsumerLaunchRenderer
             $object->getId()
         );
 
-        $params = $object->buildLaunchParameters(
+        $params = ilLTI1p1ConsumerLaunchParameterBuilder::build(
+            $object,
             $cmix_user,
             $token,
             $launch_context_type,

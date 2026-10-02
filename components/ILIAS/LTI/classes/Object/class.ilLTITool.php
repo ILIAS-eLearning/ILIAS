@@ -222,6 +222,14 @@ class ilLTITool
     }
 
     /**
+     * @return array the custom parameters every object of the tool sends
+     */
+    public function getCustomParamsArray(): array
+    {
+        return ilObjLTITool::parseCustomParams($this->custom_params);
+    }
+
+    /**
      * True when the tool reports results, which is what the learning progress of its objects builds on.
      */
     public function hasOutcome(): bool

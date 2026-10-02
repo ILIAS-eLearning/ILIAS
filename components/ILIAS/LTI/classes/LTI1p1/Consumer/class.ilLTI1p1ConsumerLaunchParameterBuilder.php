@@ -32,40 +32,14 @@ use ILIAS\Data\ReferenceId;
 final class ilLTI1p1ConsumerLaunchParameterBuilder
 {
     /**
-     * OAuth1 consumer key: per object when the provider allows customizing it, global otherwise.
-     */
-    public static function resolveLaunchKey(ilLTITool $tool, string $custom_launch_key): string
-    {
-        if ($tool->isKeyCustomizable()) {
-            return $custom_launch_key;
-        }
-
-        return $tool->getKey();
-    }
-
-    public static function resolveLaunchSecret(ilLTITool $tool, string $custom_launch_secret): string
-    {
-        if ($tool->isKeyCustomizable()) {
-            return $custom_launch_secret;
-        }
-
-        return $tool->getSecret();
-    }
-
-    /**
+     * The launch of the object, signed with OAuth1: with the key and secret of the object when the tool lets
+     * each object have its own, else with those of the tool.
+     *
      * @throws ilWACException
      * @throws Exception
      */
     public static function build(
-        ilLTITool $tool,
-        int $ref_id,
-        int $obj_id,
-        string $title,
-        string $description,
-        string $launch_method,
-        string $launch_key,
-        string $launch_secret,
-        array $custom_params_array,
+        ilObjLTITool $object,
         ilCmiXapiUser $cmix_user,
         string $token,
         string $context_type,
@@ -74,6 +48,16 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
         ?string $return_url = ''
     ): array {
         global $DIC;
+        $tool = $object->getTool();
+        $ref_id = $object->getRefId();
+        $obj_id = $object->getId();
+        $title = $object->getTitle();
+        $description = $object->getDescription();
+        $launch_method = $object->getLaunchMethod();
+        $credentials = $object->getLti1p1Credentials();
+        $launch_key = $tool->isKeyCustomizable() ? $credentials->getKey() : $tool->getKey();
+        $launch_secret = $tool->isKeyCustomizable() ? $credentials->getSecret() : $tool->getSecret();
+        $custom_params_array = $object->getCustomParamsArray();
         /* @var ILIAS\DI\Container $DIC */
         $DIC->user()->setExternalAccount($cmix_user->getUsrIdent());
 
@@ -127,7 +111,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
         ilLTI1p1ConsumerResult::getByKeys($obj_id, $DIC->user()->getId(), true);
 
-        $tool_custom_params = ilObjLTITool::getToolCustomParamsArray($tool);
+        $tool_custom_params = $tool->getCustomParamsArray();
         $merged_params = array_merge($tool_custom_params, $custom_params_array);
 
         $launch_vars = [

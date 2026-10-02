@@ -198,21 +198,16 @@ final class ilLTIAdvantagePlatformDeepLinking
                 continue;
             }
 
-            $custom_params = [];
+            $custom_params = is_array($item['custom'] ?? null) ? $item['custom'] : [];
             $url = (string) ($item['url'] ?? '');
             if (filter_var($url, FILTER_VALIDATE_URL) !== false && preg_match('/^https?:\/\//i', $url)) {
-                $custom_params[] = 'target_link_uri=' . $url;
-            }
-            foreach (is_array($item['custom'] ?? null) ? $item['custom'] : [] as $name => $value) {
-                if (is_scalar($value) && $name !== '') {
-                    $custom_params[] = $name . '=' . $value;
-                }
+                $custom_params += ['target_link_uri' => $url];
             }
 
             $items[] = [
                 'title' => ilStr::subStr(trim((string) ($item['title'] ?? '')), 0, self::MAX_TITLE_LENGTH),
                 'description' => trim((string) ($item['text'] ?? '')),
-                'custom_params' => implode(';', $custom_params),
+                'custom_params' => ilObjLTITool::buildCustomParams($custom_params),
             ];
         }
 

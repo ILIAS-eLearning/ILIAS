@@ -170,7 +170,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
 
         // the library sends custom_foo as the custom parameter foo: a parameter named custom_foo keeps its
         // name, as in earlier releases
-        $custom = array_merge(ilObjLTITool::getToolCustomParamsArray($tool), $object_custom_params);
+        $custom = array_merge($tool->getCustomParamsArray(), $object_custom_params);
         foreach ($custom as $name => $value) {
             $parameters['custom_' . $name] = $value;
         }
