@@ -148,9 +148,14 @@ il.Explorer2 = {
 
   // init select input
   initSelect(id, renderedModal, showSignal, closeSignal) {
+    // The page editor may render this input more than once while a section is
+    // inserted and subsequently edited. Remove an earlier modal for the same
+    // input before adding the current one: otherwise the content is moved to
+    // the first marker in the document while the latest, empty modal is shown.
+    $('dialog').filter((_, dialog) => $(dialog).find(`#${id}_expl_marker`).length > 0).remove();
     this.insertModalIntoDocument(renderedModal);
 
-    $(`#${id}_select`).on('click', (ev) => {
+    $(`#${id}_select`).off('click.explorerSelect').on('click.explorerSelect', (ev) => {
       $(`#${id}_expl_wrapper`).children().appendTo(`#${id}_expl_marker`);
       this.triggerSignal($(`#${id}_select`), showSignal, ev);
       return false;
