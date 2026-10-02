@@ -250,6 +250,10 @@ class ilPCAMDPageList extends ilPageContent
             }
 
             $ltpl->setVariable("LIST_MODE", $list_mode ? "ol" : "ul");
+            $ltpl->setVariable(
+                "LIST_CLASS",
+                $list_mode ? "ilc_list_o_NumberedList" : "ilc_list_u_BulletedList"
+            );
 
             $a_output = substr($a_output, 0, $start) .
                 $ltpl->get() .
