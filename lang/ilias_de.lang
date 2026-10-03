@@ -10597,7 +10597,7 @@ help#:#gdtr_deleted_step#:#Der Schritt wurde gelöscht.
 help#:#gdtr_deleted_tour#:#Die Tour wurde gelöscht.
 help#:#gdtr_edit_content#:#Inhalt bearbeiten
 help#:#gdtr_edit_page_info#:#Bearbeiten Sie den Inhalt, der erscheinen soll um das ausgewählte Bedienelement zu beschreiben.
-help#:#gdtr_edit_properties#:#Eigenschaften bearbeiten
+help#:#gdtr_edit_properties#:#Bedienelemente bearbeiten
 help#:#gdtr_edit_step_info#:#Wählen Sie das Bedienelement aus, das mit einem Erklärungstext versehen werden soll.
 help#:#gdtr_edit_steps#:#Schritte bearbeiten
 help#:#gdtr_element_id#:#Element-ID
@@ -10640,7 +10640,7 @@ help#:#gdtr_tour_has_been_reset#:#Die Tour wurde zurückgesetzt.
 help#:#gdtr_tour_settings#:#Einstellungen bearbeiten
 help#:#gdtr_tour_steps#:#Schritte
 help#:#gdtr_tours#:#Touren
-help#:#gdtr_type#:#Typ
+help#:#gdtr_type#:#Bedienelemente
 help#:#guided_tour#:#Interaktive Touren
 help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
