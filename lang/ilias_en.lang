@@ -4036,8 +4036,8 @@ common#:#enable_anonymous_fora#:#Allow post with pseudonym
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Post with pseudonym’ is not available in forums anymore.
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_comments_export#:#Enable Comments Export
-common#:#enable_course_group_notifications#:#Daily mail for group and course news
-common#:#enable_course_group_notifications_desc#:#If enabled, participants can subscribe to a daily summary of news.
+common#:#enable_course_group_notifications#:#Daily ‘news roundup’ mail for group and course news
+common#:#enable_course_group_notifications_desc#:#Allow members of courses and groups that offer news to subscribe to a daily news roundup.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_dnd_upload#:#Enable drag-and-drop upload
@@ -4160,7 +4160,7 @@ common#:#file_added#:#File uploaded.
 common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_confirm_delete_all_versions#:#You have selected all file versions. Deleting all versions of this file will result in the deletion of the whole file object. Do you wish to continue?
 common#:#file_confirm_delete_versions#:#Are you sure you want to delete the following file version(s)?
-common#:#file_created#:#File has been added.
+common#:#file_created#:#File added.
 common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
@@ -5173,7 +5173,7 @@ common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed 
 common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
 common#:#obj_tool_setting_custom_metadata_info#:#Custom Metadata sets can be managed in the "Metadata" tab.
 common#:#obj_tool_setting_news#:#News
-common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
+common#:#obj_tool_setting_news_info#:#Show a ‘News’ block within the ‘Content’ tab. This block will show all news items including automatically generated content. Members will then be able to subscribe to a ‘daily news roundup’ e-mail.
 common#:#obj_tos#:#Terms of Service
 common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_trac#:#Statistics and Learning Progress
@@ -6125,11 +6125,11 @@ cont#:#cont_mem_skills#:#Competences
 cont#:#cont_news_edited#:#Edited
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline#:#News Timeline
-cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
-cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
-cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
-cont#:#cont_news_timeline_landing_page#:#Landing Page
-cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
+cont#:#cont_news_timeline_auto_entries#:#Include Automatically Generated News
+cont#:#cont_news_timeline_auto_entries_info#:#Have ILIAS include automatically generated news items in the news timeline, for example when posts are made in forums or new files have been added.
+cont#:#cont_news_timeline_info#:#Make a ‘Timeline’ tab visible, in which your news items will be listed. Members will then be able to subscribe to a ‘daily news roundup’ e-mail.
+cont#:#cont_news_timeline_landing_page#:#Timeline as Landing Page
+cont#:#cont_news_timeline_landing_page_info#:#Opening this object will take users directly to the ‘Timeline’ tab.
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_no_title#:#Empty Title
 cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.
@@ -7515,7 +7515,7 @@ crs#:#contact_email_not_valid#:#the contact e-mail is not valid.
 crs#:#crs_accept_subscriber#:#Registration confirmed for "%s"
 crs#:#crs_accept_subscriber_body#:#we are pleased to confirm your registration for the course "%s".
 crs#:#crs_access#:#Access
-crs#:#crs_activate_notification#:#Activate Notification
+crs#:#crs_activate_notification#:#Subscribe to Daily News Roundup
 crs#:#crs_activation#:#Activation
 crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability but members cannot access the course.
 crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and roles with permission "Edit Settings" have access to it.
@@ -7585,7 +7585,7 @@ crs#:#crs_custom_user_fields#:#Course-Specific User Data
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.
 crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course
 crs#:#crs_dates#:#Dates
-crs#:#crs_deactivate_notification#:#Deactivate Notification
+crs#:#crs_deactivate_notification#:#Unsubscribe From Daily News Roundup
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
 crs#:#crs_details#:#Course Details
 crs#:#crs_dismiss_member#:#Membership terminated in "%s"
@@ -7633,8 +7633,8 @@ crs#:#crs_info_reg_direct#:#You can join this course directly.
 crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course.
 crs#:#crs_info_settings#:#Course Information
 crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all marked objects new course items will be activated.
-crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
-crs#:#crs_intro_course_group_notification_index#:#There are news for the period of %1$s to %2$s for the following courses and groups:
+crs#:#crs_intro_course_group_notification_for#:#Here is your daily roundup of the news from your courses and groups.
+crs#:#crs_intro_course_group_notification_index#:#This roundup covers the news items for the period from %1$s to %2$s for the following courses and groups for which you have an active news roundup subscription:
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
 crs#:#crs_join_request#:#Send
 crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
@@ -7933,7 +7933,7 @@ crs#:#crs_status_determination_lp_info#:#When the learning progress changes to �
 crs#:#crs_status_determination_manual#:#Only Manual by Tutors
 crs#:#crs_status_determination_sync#:#The course status will be automatically set to 'passed' once a learner completed all activities which determine the learning progress. Progress that was made before the change of settings will be accounted for, manually set 'passed' course status remain unchanged. Do you want to set the course status of all members based on their current learning progress now?
 crs#:#crs_structure#:#Course structure
-crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
+crs#:#crs_subject_course_group_notification#:#Daily News Roundup for %s
 crs#:#crs_subscribe_member#:#Your registration for course "%s"
 crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
 crs#:#crs_subscribe_wl#:#Your registration for course "%s"
@@ -10156,9 +10156,9 @@ forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderato
 forum#:#frm_moderators_select_one#:#Please choose one user.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
 forum#:#frm_noti_message#:#Message:
-forum#:#frm_noti_new_post#:#a new post was created in forum "%1$s".
-forum#:#frm_noti_obj_crs#:#course
-forum#:#frm_noti_obj_grp#:#group
+forum#:#frm_noti_new_post#:#There is a new post in the forum "%1$s".
+forum#:#frm_noti_obj_crs#:#Course
+forum#:#frm_noti_obj_grp#:#Group
 forum#:#frm_noti_subject_act_post#:#Activate post in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_answ_post#:#Post answered in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_cens_post#:#Post censored in forum "%1$s"%2$s, thread "%3$s"
@@ -10340,7 +10340,7 @@ grp#:#crs_grp_assign_crs#:#Assignment of Groups
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned
 grp#:#events#:#Sessions
 grp#:#grouping_change_assignment#:#Change Assignment
-grp#:#grp_activate_notification#:#Activate Notification
+grp#:#grp_activate_notification#:#Subscribe to Daily News Roundup
 grp#:#grp_activation_online_info#:#Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission "Edit Settings" have access to it.
 grp#:#grp_add_to_group#:#Add to Group
 grp#:#grp_add_user#:#Add User
@@ -10375,7 +10375,7 @@ grp#:#grp_created_and_user_been_added#:#Group created and user added.
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.
 grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group
-grp#:#grp_deactivate_notification#:#Deactivate Notification
+grp#:#grp_deactivate_notification#:#Unsubscribe From Daily News Roundup
 grp#:#grp_enable_map#:#Enable Group Map
 grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
 grp#:#grp_general_informations#:#General Information
@@ -11929,8 +11929,8 @@ mcst#:#mcst_edit_settings#:#MediaCast Settings
 mcst#:#mcst_gallery#:#Tiles
 mcst#:#mcst_img_gallery#:#Image Gallery
 mcst#:#mcst_import#:#Import Mediacast
-mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
-mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
+mcst#:#mcst_incl_files_in_rss#:#Media File Attachments
+mcst#:#mcst_incl_files_in_rss_info#:#Include media files as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
 mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
 mcst#:#mcst_items#:#Items
 mcst#:#mcst_last_submission#:#Last Submission
@@ -11992,10 +11992,10 @@ mem#:#mem_settings_tab_print_view#:#Print View Settings
 mem#:#mem_settings_tab_settings#:#General Settings
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
-membership#:#mem_force_notification#:#Notification per Mail
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
-membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
-membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification
+membership#:#mem_force_notification#:#Daily News Roundup
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Members Can Unsubscribe
+membership#:#mem_force_notification_mode_blocked#:#Members are automatically subscribed to the daily news roundup e-mail
+membership#:#mem_force_notification_mode_self#:#Members have to manually subscribe to the daily news roundup
 mep#:#mep_all#:#All
 mep#:#mep_all_mobs#:#All Media Objects
 mep#:#mep_bulk_upload#:#Bulk Upload
@@ -13037,71 +13037,62 @@ mst#:#mst_profile_not_fulfilled#:#Fulfilled
 mst#:#mst_select_course#:#Select Course
 mst#:#mst_show_courses#:#Course Memberships
 news#:#lso_news_online_title#:#A new learning sequence object is online!
-news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
-news#:#new_test_online#:#The test was set online.
-news#:#news_1_file_created#:#One file has been added.
-news#:#news_1_file_updated#:#One file has been updated.
-news#:#news_1_postings#:#One post has been added.
+news#:#lso_news_online_txt#:#A new object for your learning sequence has been published.
+news#:#new_test_online#:#Test now online.
+news#:#news_1_file_created#:#File added.
+news#:#news_1_file_updated#:#File updated.
+news#:#news_1_postings#:#Post added.
 news#:#news_add_news#:#Add News
-news#:#news_all_items#:#News for all favourite items
+news#:#news_all_items#:#All News
 news#:#news_allow_longer_periods#:#Allow Longer Periods
-news#:#news_allow_longer_periods_info#:#Users may select longer news periods on the dashboard.
+news#:#news_allow_longer_periods_info#:#Allow users to select a different, longer news period so that their dashboards show more news items stretching back over a longer period.
 news#:#news_allow_shorter_periods#:#Allow Shorter Periods
-news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on the dashboard.
-news#:#news_attached_to#:#Attached to
+news#:#news_allow_shorter_periods_info#:#Allow users to select a different, shorter news period so that their dashboards show fewer news items stretching back over a shorter period.
+news#:#news_attached_to#:#Source
 news#:#news_block_information#:#The <b>News</b> block lists all news that are related to your <b>Favourites</b>.
 news#:#news_cache#:#News Cache (Minutes)
-news#:#news_cache_info#:#Update news blocks all x minutes. ‘0’ means every time. Higher values improve performance, but news may link to non-accessible items.
+news#:#news_cache_info#:#Update news blocks every x minutes. A value of ‘0’ means that news blocks are updated immediately. Higher values improve performance, but in rare cases may result in news items linking to things that are no longer accessible.
 news#:#news_default_visibility#:#Default Access
 news#:#news_edit_news_settings#:#Edit Settings
 news#:#news_enable_internal_news#:#Enable Internal News
-news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the dashboard.
+news#:#news_enable_internal_news_info#:#Make it possible to display news blocks in categories, courses, groups and other objects. Users can subscribe to the news of these objects on an individual basis and this news is also presented on the dashboard.
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News
-news#:#news_enable_internal_rss_info#:#Allows publishing news items via RSS. These items will be accessible outside of the system without authentication.
-news#:#news_enable_private_feed#:#Enable private RSS Feed
-news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentication is provided by password.
+news#:#news_enable_internal_rss_info#:#Allow news items to be published via RSS. These items will be accessible outside of this installation without authentication, i.e. individuals won’t need to be logged in to this installation to view these news items.
+news#:#news_enable_private_feed#:#Allow Private RSS Feeds
+news#:#news_enable_private_feed_info#:#Allow both public and private news (news restricted to authenticated, logged-in users) to be obtained via personal RSS feeds outside of ILIAS. Access to this news feed requires authentication by password.
 news#:#news_feed_url#:#Feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'
-news#:#news_first_letter_of_word_notification#:#N
-news#:#news_get_feed_info#:#This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
-news#:#news_get_feed_title#:#Personal Feed URL
-news#:#news_get_feed_url#:#Get Feed URL
-news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under ‘Settings’. Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.
-news#:#news_get_priv_feed_title#:#Personal private Feed-URL
-news#:#news_hide_news_block#:#Hide News Block
-news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
-news#:#news_hide_news_date#:#Starting Date
-news#:#news_hide_news_per_date#:#Show News After
-news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.
-news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
+news#:#news_get_feed_info#:#This is your personal news feed URL which collects all of the publicly available news items from the courses and groups in which you are a member (excluding automatically generated news). The feed includes only news items that have been declared as public by the authors. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
+news#:#news_get_feed_title#:#Personal News Feed URL
+news#:#news_get_feed_url#:#Get News Feed URL
+news#:#news_get_priv_feed_info#:#This is your private news feed URL. The feed includes both news that is public and news which has been designated as only being for ‘authenticated users’, i.e. logged-in users of this installation. This feed is protected by a password, which can be changed by going to ‘Settings’ in the ‘News’ block on your Dashboard. Please do not share this URL with other people. Please replace -password- in this URL with the password you selected as your Feed-Password.
+news#:#news_get_priv_feed_title#:#Private News Feed URL
+news#:#news_hide_news_date#:#Start Date
+news#:#news_hide_news_per_date#:#Start Date for News
+news#:#news_hide_news_per_date_info#:#Only show news items from a certain date onwards. Older news items will be hidden.
+news#:#news_inactive_private_feed_info#:#Your private news feed is not currently active. To activate it, please set a password in this news block’s settings.
 news#:#news_internal_news#:#News
-news#:#news_keep_minimal_x_items#:#Keeping Older Items
-news#:#news_keep_minimal_x_items_info#:#Number of older items held available regardless of the system wide defined RSS period.
-news#:#news_loading_news#:#Loading News...
+news#:#news_keep_minimal_x_items#:#Retain Older News Items
+news#:#news_keep_minimal_x_items_info#:#Number of older news items kept in the RSS news feed regardless of the system-wide established RSS period.
 news#:#news_media#:#Media File
 news#:#news_new_comments#:#New comments
 news#:#news_new_reactions#:#New reactions
 news#:#news_news_block#:#News Block
 news#:#news_news_item_content#:#Text
-news#:#news_news_item_content_long#:#Long Text
-news#:#news_news_item_content_long_info#:#This text will not be published via RSS.
-news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.
-news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
+news#:#news_news_item_def_visibility_public_info#:#News in a public RSS news feed can be accessed by the general public, i.e. without having to be logged in to the system. Such news should not contain confidential information.
+news#:#news_news_item_def_visibility_users_info#:#Only users who are logged in to the system have access to news.
 news#:#news_news_item_head#:#News Item
 news#:#news_news_item_title#:#Headline
 news#:#news_news_item_visibility#:#Access
-news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
-news#:#news_news_items#:#News Item(s)
-news#:#news_no_js_click_here#:#If news are not displayed, click here.
+news#:#news_news_item_visibility_info#:#Public news can be accessed outside of ILIAS via RSS without having to be logged in to the system. Please do not include any confidential information.
 news#:#news_no_news_items#:#No news available.
-news#:#news_not_available#:#Unavailable News
-news#:#news_notifications#:#Notifications
+news#:#news_not_available#:#News Item Unavailable
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
-news#:#news_nr_of_items#:#Number of Maximum News Items per Object
-news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of sub-objects.
+news#:#news_nr_of_items#:#Maximum Number of News Items per Object
+news#:#news_nr_of_items_info#:#Number of news items that are stored for an object (e.g. a file or a learning module). Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate the news of their sub-objects.
 news#:#news_pd_period#:#Dashboard News Period
-news#:#news_pd_period_info#:#Defines the time period used for news on the dashboard. Select lower values, if you experience any performance problems.
+news#:#news_pd_period_info#:#Determine how long (week, month or year) news items should be shown on the Dashboard. Select a lower value if you experience any performance problems.
 news#:#news_period_1_month#:#Last Month
 news#:#news_period_1_week#:#Last Week
 news#:#news_period_1_year#:#Last Year
@@ -13109,26 +13100,26 @@ news#:#news_period_x_days#:#Last %s Days
 news#:#news_period_x_months#:#Last %s Months
 news#:#news_period_x_weeks#:#Last %s Weeks
 news#:#news_public_feed#:#Extra RSS Feed
-news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed button will be provided.
-news#:#news_really_delete_news#:#Do you really want to delete this news item?
+news#:#news_public_feed_info#:#Make an RSS feed for this object’s news available. This can be accessed via the ▼ menu.
+news#:#news_really_delete_news#:#Are you sure you want to delete this news item?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS Period
-news#:#news_rss_title_format#:#Title Format of RSS Entries
+news#:#news_rss_title_format#:#RSS Title Format
 news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)
 news#:#news_rss_title_format_obj_news#:#Object Title - News Headline
 news#:#news_settings#:#News Settings
-news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this news item is no longer accessible.
 news#:#news_time_period#:#Time Period
-news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
-news#:#news_timline_no_entries#:#No news have been found.
+news#:#news_timline_add_entries_info#:#No news available yet. Click on "Add News" to create a new news item.
+news#:#news_timline_no_entries#:#No news found.
 news#:#news_visibility_public#:#Public
 news#:#news_visibility_users#:#Authenticated Users
-news#:#news_x_files_created#:#%s Files have been added.
-news#:#news_x_files_updated#:#%s Files have been updated.
-news#:#news_x_postings#:#%s Posts have been added.
-news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
-news#:#priv_feed_disabled#:#Private Newsfeed disabled.
-news#:#priv_feed_settings#:#Private Newsfeed settings
+news#:#news_x_files_created#:#%s files have been added.
+news#:#news_x_files_updated#:#%s files have been updated.
+news#:#news_x_postings#:#%s new posts.
+news#:#passwd_equals_ilpasswd#:#For security reasons, please enter a password that is different to your ILIAS password.
+news#:#priv_feed_disabled#:#Your private news feed has been deactivated.
+news#:#priv_feed_settings#:#Private News Feed Settings
 note#:#note_comment_notification_link#:#Link
 note#:#note_comment_notification_reason#:#You have received this mail because your account is listed as a global recipient for all comments made on this installation.
 note#:#note_comment_notification_salutation#:#Hello %s,
@@ -13293,8 +13284,8 @@ obj#:#obj_tool_setting_tag_cloud_info#:#The ‘Tag Cloud’ block will be displa
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
 obj#:#obj_tool_setting_taxonomies_info#:#Taxonomies allow the filtering of objects. They are created in the "Taxonomy" sub-tab in the "Settings" tab.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Use of the news block and/or timeline view. Users can subscribe for notifications if the news block or the timeline are activated.
-obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and Timeline
+obj#:#obj_tool_setting_use_news_info#:#Show the ‘News Settings’ subtab. There you can configure the news ‘Timeline’ and the ‘News’ block for the ‘Content’ tab. If either of these is activated, users will be able to subscribe to a daily news roundup e-mail via the ▼ actions menu.
+obj#:#obj_tool_setting_use_news_open_settings#:#Open ‘News Settings’
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
