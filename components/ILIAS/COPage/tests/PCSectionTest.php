@@ -176,6 +176,22 @@ EOT;
         );
     }
 
+    public function testPermissionRefIdIsAdaptedOnRepositoryCopy(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc_sec = new ilPCSection($page);
+        $pc_sec->create($page, "pg");
+        $pc_sec->setPermissionRefId(10);
+
+        ilPCSection::afterRepositoryCopy($page, [10 => 20], 1);
+
+        $this->assertSame(20, $pc_sec->getPermissionRefId());
+
+        ilPCSection::afterRepositoryCopy($page, [], 1);
+
+        $this->assertSame(20, $pc_sec->getPermissionRefId());
+    }
+
     public function testExtLink(): void
     {
         $page = $this->getEmptyPageWithDom();
