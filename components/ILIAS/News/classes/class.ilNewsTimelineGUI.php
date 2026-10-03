@@ -21,6 +21,7 @@ use ILIAS\News\Data\NewsItem;
 use ILIAS\News\StandardGUIRequest;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * Timeline for news
@@ -177,7 +178,7 @@ class ilNewsTimelineGUI
         }
     }
 
-    public function show(ilPropertyFormGUI $form = null): void
+    public function show(?ilPropertyFormGUI $form = null): void
     {
         $this->tpl->setContent($this->getHTML($form));
     }
@@ -246,14 +247,12 @@ class ilNewsTimelineGUI
             $this->renderDeleteModal($ttpl);
             $this->renderEditModal($form, $ttpl);
             $ttpl->setVariable("LOADER", ilUtil::getImagePath("media/loader.svg"));
-            $this->tpl->setContent($ttpl->get());
             $html = $ttpl->get();
         } else {
             if ($this->getEnableAddNews()) {
                 $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "components/ILIAS/News");
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("news_timline_add_entries_info"));
                 $this->renderEditModal($form, $ttpl);
-                $this->tpl->setContent($ttpl->get());
                 $html = $ttpl->get();
             } else {
                 $mess = $this->ui->factory()->messageBox()->info(
@@ -480,9 +479,11 @@ class ilNewsTimelineGUI
         $modal = $this->gui->modal($this->lng->txt("delete"))
             ->content([$title, $mbox])
             ->button($this->lng->txt("delete"), "#", false, "il.News.remove(); return false;");
-        $c = $modal->getTriggerButtonComponents("");
-        $tpl->setVariable("DELETE_MODAL", $this->gui->ui()->renderer()->render($c["modal"]));
-        $tpl->setVariable("SIGNAL_ID", $c["signal"]);
+        ["modal" => $modal, "signal" => $signal_id] = $modal->getTriggerButtonComponents("");
+        /** @var Roundtrip $modal */
+        $modal = $modal->withOnLoadCode(static fn(string $id): string => ""); // needed to preserve delete button
+        $tpl->setVariable("DELETE_MODAL", $this->gui->ui()->renderer()->render($modal));
+        $tpl->setVariable("SIGNAL_ID", $signal_id);
     }
 
     protected function renderEditModal(?ilPropertyFormGUI $form, ilTemplate $tpl): void
