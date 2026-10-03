@@ -1245,6 +1245,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $ilCtrl = $this->ctrl;
 
         $term_gui = new ilGlossaryTermGUI($this->requested_obj_id);
+        if (!ilObject::_hasUntrashedReference($term_gui->term->getGlossaryId())) {
+            return;
+        }
 
         // content style
         $this->setContentStyles();
