@@ -164,7 +164,6 @@ class ilExSubmissionTeamGUI
 
             $a_info->addProperty($lng->txt("exc_team_members"), $team);
         } else {
-            //if($a_submission->getAssignment()->beforeDeadline())		// this was "for all users"
             if (!$state->hasSubmissionEnded()) {							// this is for current user/team -> no team creation, if no submission possible
                 if (!$a_submission->hasSubmitted()) {
                     $team_info = $lng->txt("exc_no_team_yet_notice");
@@ -251,7 +250,6 @@ class ilExSubmissionTeamGUI
                 $team
             );
         } else {
-            //if($a_submission->getAssignment()->beforeDeadline())		// this was "for all users"
             if (!$state->hasSubmissionEnded()) {							// this is for current user/team -> no team creation, if no submission possible
                 if (!$submission->hasSubmitted()) {
                     $team_info = $this->lng->txt("exc_no_team_yet_notice");

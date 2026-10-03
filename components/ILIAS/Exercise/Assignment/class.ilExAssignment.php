@@ -1594,13 +1594,6 @@ class ilExAssignment
         return ($date_custom - time() <= 0);
     }
 
-    // like: before effective deadline (for all users), no deadline: true
-    public function beforeDeadline(): bool
-    {
-        // no deadline === true
-        return !$this->afterDeadlineStrict();
-    }
-
     public function notStartedYet(): bool
     {
         return (time() - $this->start_time <= 0);
