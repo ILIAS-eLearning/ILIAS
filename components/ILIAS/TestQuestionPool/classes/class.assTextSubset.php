@@ -18,9 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
-use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
  * Class for TextSubset questions
@@ -37,7 +40,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
+class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     public array $answers = [];
     public int $correctanswers = 0;
@@ -89,9 +92,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->setTextRating($data['textgap_rating'] ?? assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -754,5 +757,38 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
     {
         return $this->getAvailableAnswers();
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'text_rating' => $this->text_rating,
+            'correct_answers' => $this->correctanswers,
+            'answers' => $transformations->normalize($this->answers),
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->text_rating = $transformations->string($normalized['text_rating']);
+        $clone->correctanswers = $transformations->int($normalized['correct_answers']);
+        $clone->answers = array_map(
+            static fn(array $answer): ASS_AnswerBinaryStateImage => $transformations->denormalize(
+                $answer,
+                new ASS_AnswerBinaryStateImage()
+            ),
+            $normalized['answers']
+        );
+        return $clone;
     }
 }

@@ -21,13 +21,7 @@ declare(strict_types=1);
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 
 /**
- * QTI Parser
- *
- * @author Helmut Schottmüller <hschottm@gmx.de>
- * @version $Id$
- *
- * @extends ilSaxParser
- * @package assessment
+ * @deprecated 12: QTI export is no longer supported
  */
 class ilQTIParser extends ilSaxParser
 {

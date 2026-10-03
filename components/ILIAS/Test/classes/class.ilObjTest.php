@@ -407,36 +407,6 @@ class ilObjTest extends ilObject
         return $files;
     }
 
-    /**
-    * creates data directory for import files
-    * (data_dir/tst_data/tst_<id>/import, depending on data
-    * directory that is set in ILIAS setup/ini)
-    */
-    public static function _createImportDirectory(): string
-    {
-        global $DIC;
-        $ilias = $DIC['ilias'];
-        $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
-        ilFileUtils::makeDir($tst_data_dir);
-
-        if (!is_writable($tst_data_dir)) {
-            $ilias->raiseError("Test Data Directory (" . $tst_data_dir
-                . ") not writeable.", $ilias->error_obj->FATAL);
-        }
-
-        // create test directory (data_dir/tst_data/tst_import)
-        $tst_dir = $tst_data_dir . "/tst_import";
-        ilFileUtils::makeDir($tst_dir);
-        if (!@is_dir($tst_dir)) {
-            $ilias->raiseError("Creation of test import directory failed.", $ilias->error_obj->FATAL);
-        }
-
-        // assert that this is empty and does not contain old data
-        ilFileUtils::delDir($tst_dir, true);
-
-        return $tst_dir;
-    }
-
     final public function isComplete(ilTestQuestionSetConfig $test_question_set_config): bool
     {
         if ($this->getMarkSchema() === null
@@ -2798,8 +2768,7 @@ class ilObjTest extends ilObject
     }
 
     /**
-     * Receives parameters from a QTI parser and creates a valid ILIAS test object
-     * @param ilQTIAssessment $assessment
+     * @deprecated 12: Use ILIAS\Test\ExportImport\TestImporter instead
      */
     public function fromXML(ilQTIAssessment $assessment, array $mappings): void
     {

@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Normalize\Envelopes\QuestionImage;
+
 /**
 * ASS_AnswerBinaryStateImage is a class for answers with a binary state
 * indicator (checked/unchecked, set/unset) and an image file
@@ -73,5 +76,30 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     public function hasImage(): bool
     {
         return $this->image !== null;
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'image' => $this->image
+                ? $transformations->normalize(new QuestionImage($this->image, $context['question_id'] ?? null))
+                : null,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setImage($transformations->denormalize($normalized['image'], QuestionImage::class)?->getFilename());
+        return $clone;
     }
 }

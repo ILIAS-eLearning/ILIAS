@@ -17,7 +17,7 @@
  *********************************************************************/
 
 /**
- * Class ilAssQuestionSkillAssignmentRegistry
+ * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter instead
  */
 class ilAssQuestionSkillAssignmentRegistry
 {

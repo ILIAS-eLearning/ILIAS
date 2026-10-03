@@ -17,10 +17,7 @@
  *********************************************************************/
 
 /**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/Test
+ * @deprecated This class is used only for legacy imports and will be removed in a future ILIAS release
  */
 class ilObjQuestionPoolXMLParser extends ilSaxParser
 {

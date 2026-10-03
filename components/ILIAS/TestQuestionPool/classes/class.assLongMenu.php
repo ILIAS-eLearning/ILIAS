@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
-class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, QuestionLMExportable, QuestionAutosaveable
+class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     public const ANSWER_TYPE_SELECT_VAL = 0;
     public const ANSWER_TYPE_TEXT_VAL = 1;
@@ -384,9 +387,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             }
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -832,5 +835,39 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
                     . ' ' . $gap_index . ': ' . implode(',', $gap[0]);
         }
         return $correct_answers;
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'long_menu_text' => $this->long_menu_text,
+            'json_structure' => $this->json_structure,
+            'min_auto_complete' => $this->minAutoComplete,
+            'identical_scoring' => $this->identical_scoring,
+            'correct_answers' => $this->correct_answers,
+            'answers' => $this->answers,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->long_menu_text = $transformations->string($normalized['long_menu_text']);
+        $clone->json_structure = $transformations->string($normalized['json_structure']);
+        $clone->minAutoComplete = $transformations->int($normalized['min_auto_complete']);
+        $clone->identical_scoring = $transformations->bool($normalized['identical_scoring']);
+        $clone->correct_answers = $normalized['correct_answers'];
+        $clone->answers = $normalized['answers'];
+
+        return $clone;
     }
 }

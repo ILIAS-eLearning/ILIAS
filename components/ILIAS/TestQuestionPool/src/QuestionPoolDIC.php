@@ -20,6 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Export\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Import\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
+use ILIAS\TestQuestionPool\ExportImport\TransformationsBuilder;
+use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
+use ILIAS\TestQuestionPool\ExportImport\LoggingProvider;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
@@ -66,6 +75,51 @@ class QuestionPoolDIC extends PimpleContainer
             new ParticipantRepository($DIC['ilDB']);
         $dic['global_test_settings'] = static fn($c): GlobalTestSettings =>
             (new GlobalTestSettingsRepository($DIC['ilSetting'], new \ilSetting('assessment')))->getGlobalSettings();
+
+        $dic['exportimport.logging'] = static fn($c): LoggingProvider =>
+            new LoggingProvider();
+        $dic['exportimport.transformations_builder'] = static fn($c): TransformationsBuilder =>
+            new TransformationsBuilder($DIC);
+        $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
+            new StateHolder();
+        $dic['exportimport.exporter'] = static fn($c): QuestionPoolExporter =>
+            new QuestionPoolExporter(
+                $c['exportimport.transformations_builder'],
+                new DataFactory(),
+                $c['question.general_properties.repository'],
+                $DIC->database(),
+                $DIC->taxonomy()->domain()
+            );
+
+        $dic['exportimport.session'] = static fn($c): ImportSessionRepository =>
+            new ImportSessionRepository('qpl');
+        $dic['exportimport.skill_assignments_importer'] = static fn($c): SkillAssignmentsImporter =>
+            new SkillAssignmentsImporter(
+                $c['exportimport.logging'](),
+                $DIC->skills()->internal()->repo()->getTreeRepo(),
+                $DIC->skills()->usage(),
+                'components/ILIAS/TestQuestionPool',
+                (int) $DIC->settings()->get('inst_id', '0')
+            );
+        $dic['exportimport.questions_importer'] = static fn($c): QuestionsImporter =>
+            new QuestionsImporter(
+                'components/ILIAS/TestQuestionPool',
+                'qpl',
+                $DIC->ctrl(),
+                $DIC->database(),
+                $DIC->language(),
+                $c['exportimport.logging'](),
+                $DIC->fileConverters()->images(),
+                $DIC->filesystem()
+            );
+        $dic['exportimport.importer'] = static fn($c): QuestionPoolImporter =>
+            new QuestionPoolImporter(
+                $c['exportimport.transformations_builder'],
+                $c['exportimport.logging'](),
+                new DataFactory(),
+                $c['exportimport.questions_importer'],
+                $c['exportimport.skill_assignments_importer']
+            );
 
         return $dic;
     }

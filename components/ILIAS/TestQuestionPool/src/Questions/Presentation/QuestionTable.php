@@ -109,7 +109,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     {
         $lifecycle_options = array_merge(
             ['' => $this->lng->txt('qst_lifecycle_filter_all')],
-            \ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
+            new \ilAssQuestionLifecycle()->getSelectOptions($this->lng)
         );
         $question_type_options = [
             '' => $this->lng->txt('filter_all_question_types')
@@ -320,7 +320,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             $row_id = (string) $record['question_id'];
             $record['created'] = (new \DateTimeImmutable("@{$record['created']}"))->setTimezone($timezone);
             $record['tstamp'] = (new \DateTimeImmutable("@{$record['tstamp']}"))->setTimezone($timezone);
-            $lifecycle = \ilAssQuestionLifecycle::getInstance($record['lifecycle']);
+            $lifecycle = new \ilAssQuestionLifecycle($record['lifecycle']);
             $record['lifecycle'] = $lifecycle->getTranslation($this->lng);
 
             $title = $record['title'];

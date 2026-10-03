@@ -23,7 +23,7 @@ Among other challenges, we are planning to use the given developing budget from 
 	* Use of IRSS in T&A
     * Further reduction of access and use of request variables (GPCR)
 5. Work on [(Project) Revision of Test Question Creation](https://docu.ilias.de/go/wiki/wpage_8111_1357)
-6. Work on Project Revision of Import/Export of the T&A
+6. Work on Project Revision of Import/Export of the T&A. Export and import of Test and Question Pool have been rebuilt upon a normalized XML format in ILIAS 12. The QTI based export and the Excel export of questions are deprecated, import of files created with previous ILIAS versions is covered by dedicated legacy importers. Still open are the revision of the Archive file and the removal of the deprecated legacy code.
 7. Feasibility study Test in Learning sequence - Could the LS uses the actual Exam View (since ILIAS9 - General Kiosk Mode)
 8. Authorized Saving of Participant Input - Problems e.g. in the question list, see [Mantis 44211](https://mantis.ilias.de/view.php?id=44211). In order to address the problem, we need a concept for the entire test run at the technical level and an analysis of the current situation. From this, we want to derive an operating concept for controlling the test run. By redesigning the test run, we know where we want to go and can at least mitigate the problems in existing ILIAS versions with usability fixes.
 9. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project
@@ -46,7 +46,6 @@ Remarks on the individual items are marked with "@PHP8-CR"
 * \ilTestPlayerAbstractGUI::autosaveCmd / This looks like another issue in the autosaving. Left for review/analysis by TechSquad
 * \ilAssLacCompositeValidator::validateSubTree / Incompatible type. Left for review/analysis by TechSquad
 ### TestQuestionPool
-* \ilObjQuestionPoolGUI::exportQuestionObject / Void result used. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::writeAnswerSpecificPostData / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionGUI::populateAnswerSpecificFormPart / Incompatible type. Left for review/analysis by TechSquad
 * \assMatchingQuestionImport::fromXML / Incompatible type. Left for review/analysis by TechSquad

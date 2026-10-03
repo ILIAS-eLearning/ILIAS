@@ -175,7 +175,7 @@ class ilBulkEditQuestionsGUI
 
     protected function getFormLifecycle(): Form\Standard
     {
-        $lifecycle = \ilAssQuestionLifecycle::getDraftInstance();
+        $lifecycle = new \ilAssQuestionLifecycle();
         $options = $lifecycle->getSelectOptions($this->lng);
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, self::CMD_SAVELIFECYCLE),
@@ -191,7 +191,7 @@ class ilBulkEditQuestionsGUI
     protected function getLifecycleUpdater(): \Closure
     {
         return function (array $questions, string $lifecycle) {
-            $lc = ilAssQuestionLifecycle::getInstance($lifecycle);
+            $lc = new ilAssQuestionLifecycle($lifecycle);
             foreach ($questions as $q) {
                 $q->setLifecycle($lc);
                 $q->saveToDb();

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
 * Class for true/false or yes/no answers
 *
@@ -141,5 +143,32 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
         } else {
             $this->points_unchecked = 0.0;
         }
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'coords' => $this->coords,
+            'area' => $this->area,
+            'points_unchecked' => $this->points_unchecked,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setCoords($transformations->string($normalized['coords']));
+        $clone->setArea($transformations->string($normalized['area']));
+        $clone->setPointsUnchecked($transformations->float($normalized['points_unchecked']));
+        return $clone;
     }
 }

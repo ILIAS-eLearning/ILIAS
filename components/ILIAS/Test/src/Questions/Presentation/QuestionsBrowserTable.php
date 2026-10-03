@@ -155,7 +155,7 @@ class QuestionsBrowserTable implements DataRetrieval
 
             $record['question_type'] = $record['question_type'];
             $record['complete'] = (bool) $record['complete'];
-            $record['lifecycle'] = \ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
+            $record['lifecycle'] = new \ilAssQuestionLifecycle($record['lifecycle'])->getTranslation($this->lng) ?? '';
 
             $record['created'] = (new \DateTimeImmutable("@{$record['created']}"))->setTimezone($timezone);
             $record['tstamp'] = (new \DateTimeImmutable("@{$record['tstamp']}"))->setTimezone($timezone);

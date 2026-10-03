@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+/**
+ * @deprecated Use normalized question export instead
+ */
 class assLongMenuExport extends assQuestionExport
 {
     /**

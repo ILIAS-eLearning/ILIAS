@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\TestQuestionPool\RequestDataCollector;
 
 /**
  * Class for multiple choice tests.
@@ -39,7 +41,7 @@ use ILIAS\TestQuestionPool\RequestDataCollector;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
+class assMultipleChoice extends assQuestion implements ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     use ManipulateImagesInChoiceQuestionsTrait;
 
@@ -142,9 +144,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             }
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -956,5 +958,36 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 . "{$this->lng->txt('unchecked')}: {$v->getPointsUnchecked()})",
             $this->getAnswers()
         );
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'selection_limit' => $this->selection_limit,
+            'single_line' => $this->is_singleline,
+            'answers' => $transformations->normalize($this->answers, ['question_id' => $this->getId()]),
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->selection_limit = $transformations->nullableInt($normalized['selection_limit']);
+        $clone->is_singleline = $transformations->bool($normalized['single_line']);
+        $clone->answers = array_map(
+            static fn(array $answer): ASS_AnswerMultipleResponseImage => $transformations->denormalize($answer, new ASS_AnswerMultipleResponseImage()),
+            $normalized['answers']
+        );
+
+        return $clone;
     }
 }

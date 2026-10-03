@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 
+/**
+ * @deprecated 12: Use ILIAS\Test\ExportImport\TestExporter instead
+ */
 class ilTestResultsToXML extends ilXmlWriter
 {
     private array $active_ids = [];

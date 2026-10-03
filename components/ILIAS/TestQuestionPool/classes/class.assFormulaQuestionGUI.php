@@ -98,7 +98,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             }
 
             try {
-                $lifecycle = ilAssQuestionLifecycle::getInstance($this->request_data_collector->string('lifecycle'));
+                $lifecycle = new ilAssQuestionLifecycle($this->request_data_collector->string('lifecycle'));
                 $this->object->setLifecycle($lifecycle);
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
             }

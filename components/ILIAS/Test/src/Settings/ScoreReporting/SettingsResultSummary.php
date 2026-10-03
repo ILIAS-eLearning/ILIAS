@@ -292,7 +292,7 @@ class SettingsResultSummary extends TestSettings implements Exportable
     public static function fromExport(array $data): static
     {
         return (new self())
-            ->withScoreReporting(ScoreReportingTypes::from($data['score_reporting']))
+            ->withScoreReporting(ScoreReportingTypes::from((int) $data['score_reporting']))
             ->withReportingDate($data['reporting_date'] ? new \DateTimeImmutable($data['reporting_date']) : null)
             ->withShowGradingStatusEnabled((bool) $data['show_grading_status'])
             ->withShowGradingMarkEnabled((bool) $data['show_grading_mark'])

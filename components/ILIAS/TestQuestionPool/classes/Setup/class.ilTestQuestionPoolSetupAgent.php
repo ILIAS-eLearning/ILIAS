@@ -19,6 +19,7 @@
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\Metrics;
 
 class ilTestQuestionPoolSetupAgent extends NullAgent
@@ -58,6 +59,11 @@ class ilTestQuestionPoolSetupAgent extends NullAgent
         return [
             new ilTestQuestionPoolFileUploadQuestionMigration()
         ];
+    }
+
+    public function getBuildObjective(): Objective
+    {
+        return new NullObjective();
     }
 
 }
