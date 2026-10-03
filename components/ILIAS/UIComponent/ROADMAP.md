@@ -35,11 +35,13 @@ The Legacy-UIComponents-Service has been lingering and causing problems for user
 * –
 
 ### ILIAS 12
+* Syntax Highlighter
+
+### ILIAS 13
 * Confirmation & Confirmation Table
 * Explorer & Explorer2
 * Nested List
 * Progress Bar
-* Syntax Highlighter (only used in in Page Editor, move there?)
 * Tabs
 * Text Highlighter
 * Toolbar
