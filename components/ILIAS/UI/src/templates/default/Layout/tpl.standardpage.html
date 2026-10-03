@@ -65,18 +65,19 @@
 			{MAINBAR}
 		</div>
 
-		<!-- html5 main-tag is not supported in IE / div is needed -->
-		<main class="il-layout-page-content">
-			<!-- BEGIN content_breadcrumbs -->
-			<div class="breadcrumbs">
-				{BREADCRUMBS}
-			</div>
-			<!-- END content_breadcrumbs -->
+		<div class="il-layout-page-content">
+			<main>
+				<!-- BEGIN content_breadcrumbs -->
+				<div class="breadcrumbs">
+					{BREADCRUMBS}
+				</div>
+				<!-- END content_breadcrumbs -->
 
-			{CONTENT}
+				{CONTENT}
+			</main>
 
 			{FOOTER}
-		</main>
+		</div>
 	</div>
 
 <!-- BEGIN js_file -->
