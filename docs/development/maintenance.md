@@ -946,8 +946,8 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 *Belongs to:* EmployeeTalk
 
-* Authority to Sign off on Conceptual Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
-* Authority to Sign off on Code Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
+* Authority to Sign off on Conceptual Changes: [tschmitz](https://docu.ilias.de/go/usr/92591), [tfamula](https://docu.ilias.de/go/usr/58959)
+* Authority to Sign off on Code Changes: [tschmitz](https://docu.ilias.de/go/usr/92591), [tfamula](https://docu.ilias.de/go/usr/58959)
 * Authority to Curate Test Cases: [tschmitz](https://docu.ilias.de/go/usr/92591)
 * Authority to (De-)Assign Authorities: [tschmitz](https://docu.ilias.de/go/usr/92591)
 * Assignee for Issues: [tschmitz](https://docu.ilias.de/go/usr/92591)
@@ -1914,12 +1914,12 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 *Belongs to:* [Staff](https://docu.ilias.de/go/wiki/wpage_4829_1357)
 
-* Authority to Sign off on Conceptual Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
-* Authority to Sign off on Code Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
-* Authority to Curate Test Cases: [tschmitz](https://docu.ilias.de/go/usr/92591)
-* Authority to (De-)Assign Authorities: [tschmitz](https://docu.ilias.de/go/usr/92591)
-* Assignee for Issues: [tschmitz](https://docu.ilias.de/go/usr/92591)
-* Assignee for Security Reports: [tschmitz](https://docu.ilias.de/go/usr/92591)
+* Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/go/usr/58959), [tschmitz](https://docu.ilias.de/go/usr/92591)
+* Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/go/usr/58959), [tschmitz](https://docu.ilias.de/go/usr/92591)
+* Authority to Curate Test Cases: [tfamula](https://docu.ilias.de/go/usr/58959)
+* Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/go/usr/58959)
+* Assignee for Issues: [tfamula](https://docu.ilias.de/go/usr/58959)
+* Assignee for Security Reports: [tfamula](https://docu.ilias.de/go/usr/58959)
 
 [//]: # (END MyStaff)
 
