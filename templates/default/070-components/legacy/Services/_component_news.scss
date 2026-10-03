@@ -118,6 +118,12 @@ span.ilNewsRssIcon {
 			.panel h2 {
 				display: none;
 			}
+			.ilTimelinePanelFooter {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+				gap: 8px;
+			}
 		}
 		> .ilTimelineBadge {
 			color: white;
@@ -206,30 +212,27 @@ span.ilNewsRssIcon {
 	z-index: 500;
 }
 
-.ilNewsTimelineUserImage {
-	float: left;
-	overflow: hidden;
-	width: 100px;
+.ilNewsTimelineHeader {
+	display: flex;
+	gap: 20px;
 
-	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-		width: 50px;
+	.ilNewsTimelineUserImage {
+		flex-shrink: 0;
+
+		img {
+			width: 75px;
+			height: 75px;
+
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+				width: 40px;
+				height: 40px;
+			}
+		}
 	}
-}
 
-.ilNewsTimelineUserImage img {
-	width: 75px;
-	height: 75px;
-
-	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-		width: 40px;
-		height: 40px;
-	}
-}
-
-.ilNewsTimelineContentSection {
-	padding-left: 100px;
-	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-		padding-left: 50px;
+	.ilNewsTimelineContentSection {
+		flex: 1;
+		min-width: 0;
 	}
 }
 
