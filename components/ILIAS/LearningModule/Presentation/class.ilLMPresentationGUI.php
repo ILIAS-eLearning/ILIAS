@@ -998,11 +998,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $ltiview = $DIC["lti"];
         $ilLocator = $this->locator;
 
-        if (empty($this->requested_obj_id)) {
-            $a_id = $this->lm_tree->getRootId();
-        } else {
-            $a_id = $this->requested_obj_id;
-        }
+        $a_id = $this->getLocatorObjectId();
 
         if (!$this->lm->cleanFrames()) {
             $frame_param = $this->requested_frame;
@@ -1066,6 +1062,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         $this->tpl->setLocator();
+    }
+
+    protected function getLocatorObjectId(): int
+    {
+        return $this->getCurrentPageId() ?: $this->lm_tree->getRootId();
     }
 
     /**
