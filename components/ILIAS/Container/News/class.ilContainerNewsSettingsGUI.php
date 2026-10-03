@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\News\NewsPeriodInfo;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Factory as UIFactory;
+
 /**
  *  News settings for containers
  *
@@ -31,6 +35,10 @@ class ilContainerNewsSettingsGUI
     protected ilTree $tree;
     protected ilObjectGUI $parent_gui;
     protected ilObject $object;
+    protected ilSetting $news_settings;
+    protected NewsPeriodInfo $period_info;
+    protected UIRenderer $ui_renderer;
+    protected UIFactory $ui_factory;
     protected bool $has_timeline = false;
     protected bool $has_cron_notifications = false;
     protected bool $has_hide_by_date = false;
@@ -50,6 +58,10 @@ class ilContainerNewsSettingsGUI
         $this->tree = $DIC->repositoryTree();
         $this->parent_gui = $a_parent_gui;
         $this->object = $this->parent_gui->getObject();
+        $this->news_settings = new ilSetting('news');
+        $this->period_info = new NewsPeriodInfo($this->lng, $this->news_settings);
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->initDefaultOptions();
     }
@@ -138,7 +150,6 @@ class ilContainerNewsSettingsGUI
 
         $block_id = $this->ctrl->getContextObjId();
 
-        // Visibility by date
         $hide_news_per_date = ilBlockSetting::_lookup(
             ilNewsForContextBlockGUI::$block_type,
             "hide_news_per_date",
@@ -151,32 +162,67 @@ class ilContainerNewsSettingsGUI
             0,
             $block_id
         );
+        $hide_news_mode = ilBlockSetting::_lookup(
+            ilNewsForContextBlockGUI::$block_type,
+            "hide_news_mode",
+            0,
+            $block_id
+        ) ?? ($hide_news_date != "" ? "per_date" : "global");
+        $news_co_period = ilBlockSetting::_lookup(
+            ilNewsForContextBlockGUI::$block_type,
+            "news_co_period",
+            0,
+            $block_id
+        ) ?? "";
 
         if ($hide_news_date != "") {
             $hide_news_date = explode(" ", $hide_news_date);
         }
 
-        // Hide news before a date (courses, groups and categories)
+        // Hide news: none, per date, or by period (courses, groups and categories)
         if ($this->has_hide_by_date) {
-            //Hide news per date
-            $hnpd = new ilCheckboxInputGUI(
-                $this->lng->txt("news_hide_news_per_date"),
-                "hide_news_per_date"
+            $radio = new ilRadioGroupInputGUI($this->lng->txt("news_hide_news_mode"), "hide_news_mode");
+            $radio->setInfo(
+                $this->ui_renderer->render(
+                    $this->ui_factory->messageBox()->info(
+                        $this->period_info->getPeriodInfo()
+                    )
+                )
             );
-            $hnpd->setInfo($this->lng->txt("news_hide_news_per_date_info"));
-            $hnpd->setChecked((bool) $hide_news_per_date);
+            $radio->setValue($hide_news_mode);
 
+            $opt_global = new ilRadioOption($this->lng->txt("news_hide_news_global"), "global");
+            $radio->addOption($opt_global);
+
+            $opt_none = new ilRadioOption($this->lng->txt("news_hide_news_none"), "none");
+            $radio->addOption($opt_none);
+
+            $opt_per_date = new ilRadioOption($this->lng->txt("news_hide_news_per_date"), "per_date");
+            $opt_per_date->setInfo($this->lng->txt("news_hide_news_per_date_info"));
             $dt_prop = new ilDateTimeInputGUI($this->lng->txt("news_hide_news_date"), "hide_news_date");
             $dt_prop->setRequired(true);
-            if (is_array($hide_news_date)) {
+            if (is_array($hide_news_date) && count($hide_news_date) >= 2) {
                 $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . ($hide_news_date[1] ?? "12:00:00"), IL_CAL_DATETIME));
             }
-
             $dt_prop->setShowTime(true);
+            $opt_per_date->addSubItem($dt_prop);
+            $radio->addOption($opt_per_date);
 
-            $hnpd->addSubItem($dt_prop);
+            $opt_by_period = new ilRadioOption($this->lng->txt("news_hide_news_by_period"), "by_period");
+            $opt_by_period->setInfo($this->lng->txt("news_hide_news_by_period_info"));
+            $per_sel = new ilSelectInputGUI($this->lng->txt("news_co_period"), "news_co_period");
+            $per_sel->setRequired(true);
+            $per_sel->setInfo($this->lng->txt("news_co_period_info"));
+            $per_sel->setOptions([
+                7 => "1 {$this->lng->txt("week")}",
+                30 => "1 {$this->lng->txt("month")}",
+                366 => "1 {$this->lng->txt("year")}"
+            ]);
+            $per_sel->setValue($news_co_period);
+            $opt_by_period->addSubItem($per_sel);
+            $radio->addOption($opt_by_period);
 
-            $form->addItem($hnpd);
+            $form->addItem($radio);
         }
 
         // public notifications (forums)
@@ -216,13 +262,43 @@ class ilContainerNewsSettingsGUI
                 //save contextblock settings
                 $context_block_settings = [
                     "public_feed" => $form->getInput("notifications_public_feed") ?? "",
-                    "default_visibility" => $form->getInput("default_visibility"),
-                    "hide_news_per_date" => $form->getInput("hide_news_per_date"),
-                    "hide_news_date" => $form->getInput("hide_news_date")
+                    "default_visibility" => $form->getInput("default_visibility")
                 ];
                 if ($this->has_public_notification) {
                     $context_block_settings["public_notifications"] =
                         $form->getInput('public_notifications');
+                }
+
+                if ($this->has_hide_by_date) {
+                    $context_block_settings["hide_news_mode"] = $form->getInput("hide_news_mode");
+                    switch ($context_block_settings["hide_news_mode"]) {
+                        case "per_date":
+                            $hd = $form->getItemByPostVar("hide_news_date");
+                            if ($hd instanceof ilDateTimeInputGUI) {
+                                $hide_date = $hd->getDate();
+                                if (!$hide_date instanceof ilDateTime) {
+                                    $hd->setAlert($this->lng->txt("msg_input_is_required"));
+                                    $form->setValuesByPost();
+                                    $this->tpl->setContent($form->getHTML());
+                                    return;
+                                }
+                                $context_block_settings["hide_news_per_date"] = "1";
+                                $context_block_settings["hide_news_date"] = $hide_date->get(IL_CAL_DATETIME);
+                            }
+                            $context_block_settings["news_co_period"] = "";
+                            break;
+                        case "by_period":
+                            $context_block_settings["hide_news_per_date"] = "0";
+                            $context_block_settings["hide_news_date"] = "";
+                            $context_block_settings["news_co_period"] = $form->getInput("news_co_period");
+                            break;
+                        case "global":
+                        default:
+                            $context_block_settings["hide_news_per_date"] = "0";
+                            $context_block_settings["hide_news_date"] = "";
+                            $context_block_settings["news_co_period"] = "";
+                            break;
+                    }
                 }
 
                 ilNewsForContextBlockGUI::writeSettings($context_block_settings);
