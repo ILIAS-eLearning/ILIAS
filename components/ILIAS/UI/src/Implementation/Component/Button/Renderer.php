@@ -125,6 +125,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
+        $aria_current = $component->getAriaCurrent();
+        if ($aria_current !== null) {
+            $tpl->setCurrentBlock("with_aria_current");
+            $tpl->setVariable("ARIA_CURRENT", $aria_current);
+            $tpl->parseCurrentBlock();
+        }
+
         if ($component instanceof Component\Button\Engageable
             && $component->isEngageable()
         ) {
@@ -136,7 +143,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             //Note that Bulky Buttons need to handle aria_pressed seperatly due to possible aria_role conflicts
-            if (!($component instanceof Bulky)) {
+            if (!($component instanceof Bulky) && $aria_current === null) {
                 $tpl->setCurrentBlock("with_aria_pressed");
                 $tpl->setVariable("ARIA_PRESSED", $aria_pressed);
                 $tpl->parseCurrentBlock();
@@ -361,8 +368,7 @@ class Renderer extends AbstractComponentRenderer
         if (!$symbol instanceof Glyph) {
             return $symbol->getLabel();
         }
-        // @todo: this breaks custom labels, translation should happen in factory...
-        $label = $this->txt($symbol->getLabel());
+        $label = $symbol->getLabel();
         foreach ($symbol->getCounters() as $counter) {
             if ($counter->getNumber() > 0) {
                 $label .= $this->txt("counter_" . $counter->getType()) . " " . $counter->getNumber() . "; ";

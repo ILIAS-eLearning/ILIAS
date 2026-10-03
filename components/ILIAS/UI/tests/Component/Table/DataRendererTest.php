@@ -442,7 +442,7 @@ EOT;
 </td>
 <td class="c-table-data__cell c-table-data__rowaction" tabindex="-1">
     <div class="dropdown" id="id_3">
-        <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
+        <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-expanded="false" aria-controls="id_3_menu">
             <span class="caret"></span></button>
         <ul id="id_3_menu" class="dropdown-menu">
             <li>
