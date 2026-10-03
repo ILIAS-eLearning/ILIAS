@@ -401,6 +401,15 @@ class ilMediaCreationGUI
     ): BasicHandlerResult {
         $title = $result->getName();
 
+        if (!in_array(strtolower(pathinfo($title, PATHINFO_EXTENSION)), $this->getSuffixes(), true)) {
+            return new BasicHandlerResult(
+                "mep_id",
+                HandlerResult::STATUS_FAILED,
+                '',
+                $this->lng->txt("file_no_valid_file_type")
+            );
+        }
+
         $mob = new ilObjMediaObject();
         $mob->setTitle($title);
         $mob->setDescription("");

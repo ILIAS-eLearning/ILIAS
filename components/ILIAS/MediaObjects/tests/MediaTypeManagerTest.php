@@ -154,6 +154,10 @@ class MediaTypeManagerTest extends TestCase
             false,
             in_array("png", iterator_to_array($tm->getAllowedVideoSuffixes()), true)
         );
+        $this->assertEquals(
+            false,
+            in_array("m4v", iterator_to_array($tm->getAllowedVideoSuffixes()), true)
+        );
     }
 
     public function testIsHtmlAllowed(): void
