@@ -31,9 +31,9 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
      */
     public function checkBuildable(): bool
     {
-        $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
+        $question_stage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->source_pool_definition_list);
 
-        if ($questionStage->isSmallerThan($this->questionSetConfig->getQuestionAmountPerTest())) {
+        if ($question_stage->isSmallerThan($this->question_set_config->getQuestionAmountPerTest())) {
             return false;
         }
 
@@ -41,19 +41,19 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
     }
 
     /**
-     * @param ilTestSession $testSession
+     * @param ilTestSession $test_session
      */
-    public function performBuild(ilTestSession $testSession)
+    public function performBuild(ilTestSession $test_session)
     {
-        $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
+        $question_stage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->source_pool_definition_list);
 
-        $questionSet = $this->fetchQuestionsFromStageRandomly(
-            $questionStage,
-            $this->questionSetConfig->getQuestionAmountPerTest()
+        $question_set = $this->fetchQuestionsFromStageRandomly(
+            $question_stage,
+            $this->question_set_config->getQuestionAmountPerTest()
         );
 
-        $this->handleQuestionOrdering($questionSet);
+        $this->handleQuestionOrdering($question_set);
 
-        $this->storeQuestionSet($testSession, $questionSet);
+        $this->storeQuestionSet($test_session, $question_set);
     }
 }

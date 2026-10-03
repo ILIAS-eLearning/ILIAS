@@ -153,7 +153,11 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      */
     public function setMappedTaxonomyFilter(array $filter = []): void
     {
-        $this->mapped_taxonomy_filter = $filter;
+        $this->mapped_taxonomy_filter = array_filter(
+            $filter,
+            static fn(mixed $value, int|string $key): bool => (int) $key > 0 || !is_array($value),
+            ARRAY_FILTER_USE_BOTH
+        );
     }
 
     private function getMappedTaxonomyFilterForDbValue(): ?string
@@ -163,7 +167,22 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 
     private function setMappedTaxonomyFilterFromDbValue(?string $value): void
     {
-        $this->mapped_taxonomy_filter = empty($value) ? [] : unserialize($value);
+        $this->mapped_taxonomy_filter = [];
+        if ($value === null || $value === '') {
+            return;
+        }
+
+        $filter = unserialize($value, ['allowed_classes' => false]);
+        if (!is_array($filter)) {
+            return;
+        }
+
+        $mapped_taxonomy_filter = [];
+        foreach ($filter as $tax_id => $node_ids) {
+            $mapped_taxonomy_filter[$tax_id] = $node_ids;
+        }
+
+        $this->setMappedTaxonomyFilter($mapped_taxonomy_filter);
     }
 
     public function mapTaxonomyFilter(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomies_keys_map): void
@@ -173,7 +192,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             $mapped_node_ids = [];
 
             $mapped_taxonomy_id = $taxonomies_keys_map->getMappedTaxonomyId($tax_id);
-            if ($mapped_taxonomy_id === null) {
+            if ($mapped_taxonomy_id === null || $mapped_taxonomy_id < 1) {
                 continue;
             }
 
