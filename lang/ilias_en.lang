@@ -13088,6 +13088,8 @@ news#:#news_news_item_content_long_info#:#This text will not be published via RS
 news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
 news#:#news_news_item_head#:#News Item
+news#:#news_news_item_no_content#:#No Text
+news#:#news_news_item_post#:#Post
 news#:#news_news_item_title#:#Headline
 news#:#news_news_item_visibility#:#Access
 news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
