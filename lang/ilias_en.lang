@@ -10572,7 +10572,7 @@ help#:#gdtr_deleted_step#:#Step has been deleted.
 help#:#gdtr_deleted_tour#:#Tour has been deleted.
 help#:#gdtr_edit_content#:#Edit Content
 help#:#gdtr_edit_page_info#:#Edit the content that should be presented to explain the selected UI element.
-help#:#gdtr_edit_properties#:#Edit Properties
+help#:#gdtr_edit_properties#:#Edit UI Elements
 help#:#gdtr_edit_step_info#:#On this screen you define, which element on the screen should be explained in this step of the tour. A popover with the explanation text you define will be presented pointing to this element.
 help#:#gdtr_edit_steps#:#Edit Steps
 help#:#gdtr_element_id#:#Element ID
@@ -10615,7 +10615,7 @@ help#:#gdtr_tour_has_been_reset#:#Tour has been reset.
 help#:#gdtr_tour_settings#:#Edit Settings
 help#:#gdtr_tour_steps#:#Tour Steps
 help#:#gdtr_tours#:#Tours
-help#:#gdtr_type#:#Type
+help#:#gdtr_type#:#UI Elements
 help#:#guided_tour#:#Guided Tour
 help#:#help_all#:#All
 help#:#help_component#:#Component
