@@ -12917,8 +12917,6 @@ mst#:#mst_profile_fulfilled#:#Not met, yet###07 02 2020 new variable
 mst#:#mst_profile_not_fulfilled#:#Fulfilled###07 02 2020 new variable
 mst#:#mst_select_course#:#Select Course###31 08 2017 new variable
 mst#:#mst_show_courses#:#Enrolments###31 08 2017 new variable
-news#:#lso_news_online_title#:#A new learning sequence object is online!###07 02 2020 new variable
-news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###07 02 2020 new variable
 news#:#new_test_online#:#The Test was set online.###31 08 2017 new variable
 news#:#news_1_file_created#:#Įkeltas 1 Failas
 news#:#news_1_file_updated#:#Atnaujintas 1 Failas

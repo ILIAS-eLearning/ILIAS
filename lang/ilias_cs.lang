@@ -12917,8 +12917,6 @@ mst#:#mst_profile_fulfilled#:#Not met, yet###07 02 2020 new variable
 mst#:#mst_profile_not_fulfilled#:#Fulfilled###07 02 2020 new variable
 mst#:#mst_select_course#:#Vyberte kurz
 mst#:#mst_show_courses#:#Zápisy
-news#:#lso_news_online_title#:#A new learning sequence object is online!###07 02 2020 new variable
-news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###07 02 2020 new variable
 news#:#new_test_online#:#Test byl nastaven online.
 news#:#news_1_file_created#:#1 soubor byl přidán.
 news#:#news_1_file_updated#:#1 soubor byl aktualizován.

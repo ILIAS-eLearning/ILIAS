@@ -496,28 +496,6 @@ class ilObjLearningSequence extends ilContainer
         return $this->getLSSettings()->getMembersGallery();
     }
 
-    public function announceLSOOnline(): void
-    {
-        $ns = $this->il_news;
-        $context = $ns->contextForRefId($this->getRefId());
-        $item = $ns->item($context);
-        $item->setContentIsLangVar(true);
-        $item->setContentTextIsLangVar(true);
-        $item->setTitle("lso_news_online_title");
-        $item->setContent("lso_news_online_txt");
-        $ns->data()->save($item);
-    }
-    public function announceLSOOffline(): void
-    {
-        //NYI
-    }
-
-    public function setEffectiveOnlineStatus(bool $status): void
-    {
-        $act_db = $this->getActivationDB();
-        $act_db->setEffectiveOnlineStatus($this->getRefId(), $status);
-    }
-
     public function getCurrentUserCurriculum(): string
     {
         $dic = $this->getLocalDI();
