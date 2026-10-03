@@ -22,6 +22,11 @@ namespace ILIAS;
 
 class COPage implements Component\Component
 {
+    public static function getEditorAssetVersion(): string
+    {
+        return \ILIAS\COPage\Setup\EditorAssetVersionObjective::getVersion();
+    }
+
     public function init(
         array | \ArrayAccess &$define,
         array | \ArrayAccess &$implement,
@@ -47,7 +52,8 @@ class COPage implements Component\Component
             }
             public function getTarget(): string
             {
-                return "components/ILIAS/COPage/PC/InteractiveImage/js";
+                $asset_version = COPage::getEditorAssetVersion();
+                return "components/ILIAS/COPage/" . $asset_version . "/PC/InteractiveImage/js";
             }
         };
         $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
@@ -67,7 +73,8 @@ class COPage implements Component\Component
             }
             public function getTarget(): string
             {
-                return "components/ILIAS/COPage/Editor/js";
+                $asset_version = COPage::getEditorAssetVersion();
+                return "components/ILIAS/COPage/" . $asset_version . "/Editor/js";
             }
         };
         $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {

@@ -27,6 +27,11 @@ use ILIAS\Setup\Metrics;
  */
 class Agent extends Setup\Agent\NullAgent
 {
+    public function getBuildObjective(): Objective
+    {
+        return new EditorAssetVersionObjective();
+    }
+
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(

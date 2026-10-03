@@ -88,9 +88,10 @@ class IIMEditorInit
 ></span><div id='il-copg-iim-main'></div>
 EOT;
         $debug = "";
+        $asset_version = \ILIAS\COPage::getEditorAssetVersion();
         //$debug = ".";
         $module_tag = <<<EOT
-<script type="module" src="$debug./components/ILIAS/COPage/PC/InteractiveImage/js/editor/src/editor.js"></script>
+<script type="module" src="$debug./components/ILIAS/COPage/$asset_version/PC/InteractiveImage/js/editor/src/editor.js"></script>
 EOT;
         return $init_span . $module_tag;
     }

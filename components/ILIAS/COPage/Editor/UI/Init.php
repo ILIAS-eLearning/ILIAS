@@ -103,9 +103,10 @@ class Init
 EOT;
 
         $debug = "";
+        $asset_version = \ILIAS\COPage::getEditorAssetVersion();
         //$debug = ".";
         $module_tag = <<<EOT
-<script type="module" src="$debug./components/ILIAS/COPage/Editor/js/src/editor.js"></script>
+<script type="module" src="$debug./components/ILIAS/COPage/$asset_version/Editor/js/src/editor.js"></script>
 EOT;
         return $init_span . $module_tag;
     }
