@@ -4036,7 +4036,7 @@ common#:#enable_anonymous_fora_desc#:#Muss aktiviert sein, damit in Foren die Fu
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_comments_export#:#Export von Kommentaren
 common#:#enable_course_group_notifications#:#Tägliche E-Mail mit einem Neuigkeitenüberblick aus Gruppen und Kursen
-common#:#enable_course_group_notifications_desc#:#Mitgliedern von Kursen und Gruppen die Neuigkeiten anbieten, ermöglichen, einen täglichen Neuigkeitenüberblick zu abonnieren.
+common#:#enable_course_group_notifications_desc#:#Mitgliedern von Kursen und Gruppen, die Neuigkeiten anbieten, ermöglichen, einen täglichen Neuigkeitenüberblick zu abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
 common#:#enable_dnd_upload#:#Drag-and-Drop-Upload aktivieren
@@ -5172,7 +5172,7 @@ common#:#obj_tool_setting_calendar_info#:#Der Block „Kalender“ wird im Reite
 common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
 common#:#obj_tool_setting_custom_metadata_info#:#Im Reiter „Metadaten“ können Datensätze verwaltet werden. Damit können weitere Informationen zu dem Objekt eingegeben und dieses genauer beschrieben werden.
 common#:#obj_tool_setting_news#:#Neuigkeiten
-common#:#obj_tool_setting_news_info#:#Zeigt den Block „Neuigkeiten“ im Reiter „Inhalt“ an. In diesem Block werden alle Neuigkeiten angezeigt, einschließlich automatisch generierter Inhalte. Im Anschluss können Mitglieder eine tägliche E-Mail mit einem Überblick der Neuigkeiten abonnieren.
+common#:#obj_tool_setting_news_info#:#Zeigt den Block „Neuigkeiten“ im Reiter „Inhalt“ an. In diesem Block werden alle Neuigkeiten angezeigt, einschließlich automatisch generierter Inhalte. Im Anschluss können Mitglieder einen täglichen Neuigkeitenüberblick per E-Mail abonnieren.
 common#:#obj_tos#:#Nutzungsvereinbarung
 common#:#obj_tos_desc#:#Nutzungsvereinbarung verwalten
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
@@ -6124,11 +6124,11 @@ cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_news_edited#:#Bearbeitet
 cont#:#cont_news_settings#:#Neuigkeiten
 cont#:#cont_news_timeline#:#Timeline
-cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten einbeziehen 
+cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten einbeziehen
 cont#:#cont_news_timeline_auto_entries_info#:#Alle automatisch erstellten Neuigkeiten werden mit angezeigt, z.B. Forenbeiträge, neue Dateien etc.
 cont#:#cont_news_timeline_info#:#Blendet den Reiter „Timeline“ mit Neuigkeiten ein. Im Anschluss können Mitglieder einen täglichen Neuigkeitenüberblick per E-Mail abonnieren.
 cont#:#cont_news_timeline_landing_page#:#Timeline als Startseite
-cont#:#cont_news_timeline_landing_page_info#:#Wird das Objekt geöffnet, landet man direkt auf dem Reiter „Timeline“.  
+cont#:#cont_news_timeline_landing_page_info#:#Wird das Objekt geöffnet, landet man direkt auf dem Reiter „Timeline“.
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_no_title#:#Leerer Titel
 cont#:#cont_only_crs_grp_fold_download#:#Es können nur Dateien, Kurse, Gruppen oder Ordner heruntergeladen werden.
@@ -12020,12 +12020,12 @@ mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
 mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
 mem#:#mmbr_gallery_user_actions#:#Aktionen in Galerie
 membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
-membership#:#mem_force_notification#:#Täglicher Neuigkeitenüberblick 
+membership#:#mem_force_notification#:#Täglicher Neuigkeitenüberblick
 membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können ihre Abonnierung des täglichen Neuigkeitenüberblicks kündigen
 membership#:#mem_force_notification_mode_blocked#:#Mitglieder abonnieren automatisch die tägliche E-Mail mit Neuigkeitenüberblick
 membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
-membership#:#mem_force_notification_mode_self#:#Mitglieder müssen den täglichen Neuigkeitenüberblick selber abonnieren.
+membership#:#mem_force_notification_mode_self#:#Mitglieder müssen den täglichen Neuigkeitenüberblick selbst abonnieren
 mep#:#mep_all#:#Alle
 mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_bulk_upload#:#Massen-Upload
@@ -13320,7 +13320,7 @@ obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block „Auswa
 obj#:#obj_tool_setting_taxonomies#:#Taxonomien
 obj#:#obj_tool_setting_taxonomies_info#:#Taxonomien erlauben das Filtern von Objekten. Sie werden im Unterreiter „Taxonomie“ im Reiter "Einstellungen" angelegt.
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
-obj#:#obj_tool_setting_use_news_info#:#Blendet den Unterreiter „Neuigkeiten“ ein. Dort können Sie die „Timeline“ und den Seitenblock „Neuigkeiten“ für den Reiter „Inhalt“ konfigurieren. Sobald der Block oder die Timeline aktiv ist, können Benutzer über das ▼-Aktionsmenü eine tägliche Neuigkeitenüberblick-E-Mail abonnieren.
+obj#:#obj_tool_setting_use_news_info#:#Blendet den Unterreiter „Neuigkeiten“ ein. Dort können Sie die „Timeline“ und den Seitenblock „Neuigkeiten“ für den Reiter „Inhalt“ konfigurieren. Sobald der Block oder die Timeline aktiv ist, können Mitglieder über das ▼-Aktionsmenü einen täglichen Neuigkeitenüberblick per E-Mail abonnieren.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für die „Neuigkeiten“ öffnen
 obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren.

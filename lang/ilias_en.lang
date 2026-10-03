@@ -11995,7 +11995,7 @@ membership#:#mem_error_preconditions#:#A registration is not possible, since min
 membership#:#mem_force_notification#:#Daily News Roundup
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members Can Unsubscribe
 membership#:#mem_force_notification_mode_blocked#:#Members are automatically subscribed to the daily news roundup e-mail
-membership#:#mem_force_notification_mode_self#:#Members have to manually subscribe to the daily news roundup.
+membership#:#mem_force_notification_mode_self#:#Members have to manually subscribe to the daily news roundup
 mep#:#mep_all#:#All
 mep#:#mep_all_mobs#:#All Media Objects
 mep#:#mep_bulk_upload#:#Bulk Upload
