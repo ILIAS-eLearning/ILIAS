@@ -42,7 +42,7 @@ class ilAdvancedMDRecordGUI
 
     private int $mode = self::MODE_UNDEFINED;
     private string $obj_type = '';
-    private string $sub_type = '';
+    private string|array $sub_type = '';
     private int $sub_id = 0;
     private int $obj_id = 0;
     private ?int $ref_id = null;
@@ -68,7 +68,7 @@ class ilAdvancedMDRecordGUI
     // otherwise an object id
     protected ?int $adv_id = null;
     protected ?string $adv_type = null;
-    protected ?string $adv_subtype = null;
+    protected string|array|null $adv_subtype = null;
 
     // This is false e.g. for portfolios
     protected bool $in_repository = true;
@@ -93,7 +93,7 @@ class ilAdvancedMDRecordGUI
         int $a_mode,
         string $a_obj_type = '',
         int $a_obj_id = 0,
-        string $a_sub_type = '',
+        string|array $a_sub_type = '',
         int $a_sub_id = 0,
         bool $in_repository = true
     ) {
@@ -625,7 +625,18 @@ class ilAdvancedMDRecordGUI
     protected function getActiveRecords(): array
     {
         list($adv_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
-        return ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_id, $adv_subtype, $this->in_repository);
+        $records = [];
+        foreach ((array) $adv_subtype as $subtype) {
+            foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject(
+                $adv_type,
+                $adv_id,
+                $subtype,
+                $this->in_repository
+            ) as $record) {
+                $records[$record->getRecordId()] = $record;
+            }
+        }
+        return $records;
     }
 
     /**

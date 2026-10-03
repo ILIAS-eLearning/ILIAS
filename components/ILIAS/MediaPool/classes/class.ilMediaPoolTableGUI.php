@@ -142,7 +142,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 ilAdvancedMDRecordGUI::MODE_FILTER,
                 'mep',
                 $this->media_pool->getId(),
-                'mob'
+                ['mob', 'mpg']
             );
             $this->adv_filter_record_gui->setTableGUI($this);
             $this->adv_filter_record_gui->parse();
@@ -152,7 +152,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 ilAdvancedMDRecordGUI::MODE_TABLE_HEAD,
                 'mep',
                 $this->media_pool->getId(),
-                'mob'
+                ['mob', 'mpg']
             );
             $adv_th_record_gui->setTableGUI($this);
             $adv_th_record_gui->parse();
@@ -414,7 +414,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 ilAdvancedMDRecordGUI::MODE_TABLE_CELLS,
                 'mep',
                 $this->media_pool->getId(),
-                'mob'
+                ['mob', 'mpg']
             );
             $adv_cell_record_gui->setTableGUI($this);
             $adv_cell_record_gui->setRowData($a_set);
