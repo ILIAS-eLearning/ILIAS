@@ -85,6 +85,30 @@ class ilPCSection extends ilPageContent
     }
 
     /**
+     * After repository (container) copy action
+     */
+    public static function afterRepositoryCopy(
+        ilPageObject $page,
+        array $mapping,
+        int $source_ref_id
+    ): void {
+        $xpath = new DOMXPath($page->getDomDoc());
+        $nodes = $xpath->query("//Section[@PermissionRefId]");
+
+        /** @var DOMElement $node */
+        foreach ($nodes as $node) {
+            $id = explode("_", $node->getAttribute("PermissionRefId"));
+            if (!isset($id[3]) || !in_array($id[1], array("", 0, IL_INST_ID))) {
+                continue;
+            }
+            $ref_id = (int) $id[3];
+            if (isset($mapping[$ref_id])) {
+                $node->setAttribute("PermissionRefId", "il__ref_" . $mapping[$ref_id]);
+            }
+        }
+    }
+
+    /**
      * @throws ilDateTimeException
      */
     public function modifyPageContentPostXsl(
