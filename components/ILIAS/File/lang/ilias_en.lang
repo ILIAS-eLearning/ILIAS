@@ -1,0 +1,115 @@
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+********************************************************************
+*/
+/**
+* ILIAS language file
+*
+* @module		language file English
+* @modulegroup	language
+* @author 		Matthias Kunkel <mkunkel@me.com>, Chris Potter <chris.potter@ilias.de>
+* @version		$Id$
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+add_icon#:#Add Icon
+amount_of_downloads#:#Downloads
+amount_of_downloads_since#:#%d times since %s
+copyright_custom#:#Custom
+copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
+copyright_inherited#:#Inherited
+copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
+could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.
+de_activate_icon#:#Activate / Deactivate
+download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
+download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
+file_action_download#:#Download file or view content
+file_action_download_info#:#If WOPI is activated and the permission 'View Content' is given, the file is shown in tab 'Content'. If not, the file will be offered for direct download.
+file_action_show#:#Redirect user to the file’s ‘Info’ tab
+file_action_show_info#:#The 'Info' tab is shown where the file could be downloaded in a second step.
+file_btn_lp_toggle_state_completed#:#Set Not Completed
+file_btn_lp_toggle_state_not_completed#:#Set Completed
+file_copy#:#Copy File
+file_download#:#Download File
+file_import#:#Import File
+file_new_version#:#Create New Version
+file_new_version_info#:#Create new file version. Previous versions will not be modified.
+file_publish#:#Publish Draft
+file_rollback_rollback_first#:#The selected version could not be published because an unpublished draft exists.
+file_rollback_same_version#:#This is already the published version!
+file_unpublish#:#Mark as Draft
+file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
+file_uploaded_by#:#Uploaded By
+file_version_draft#:#Draft Version
+file_version_draft_info#:#The latest version of this file has the status ‘Draft’. As long as this version has not been published, no new versions can be created. People with read permission for the file get the most recent previously published version.
+form_icon_creation#:#Create Icon
+form_icon_updating#:#Update Icon
+general_upload_error_occured#:#An unexpected error occurred during upload.
+important_info#:#Important Information
+important_info_byline#:#The information will be displayed in the ‘Info’ tab.
+input_active#:#Active
+input_desc_active#:#Activate this icon.
+input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.
+input_desc_suffixes#:#List of comma-separated suffixes (characters and numbers only, without preceding full stop).
+input_icon#:#Icon
+input_suffixes#:#Suffix(es)
+migrated#:#Status
+mime_type#:#MIME Type
+msg_cant_unpublish#:#File could not be unpublished.
+msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
+msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot therefore be currently used.
+msg_error_active_suffixes_conflict#:#Error: It is not possible to have multiple icons activated for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with those of this icon.
+msg_error_active_suffixes_not_whitelisted#:#The selected file extension is not on the global whitelist. The file suffixes will be changed to ‘.sec’ when downloaded.
+msg_error_duplicate_suffix_entries#:#Error: the comma separated list of suffixes contains duplicate entries.
+msg_error_icon_deletion#:#Error: icon deletion failed.
+msg_error_suffixes_with_forbidden_characters#:#Error: forbidden characters. Only letters, numbers, spaces and commas are allowed.
+msg_icon_missing_from_db#:#Icon missing from database.
+msg_icon_missing_from_irss#:#Icon missing from resource storage.
+msg_success_icon_activated#:#Icon successfully activated.
+msg_success_icon_created#:#Icon successfully created.
+msg_success_icon_deactivated#:#Icon successfully deactivated.
+msg_success_icon_deletion#:#Icon successfully deleted.
+msg_success_icon_updated#:#Icon successfully updated.
+msg_unzip_success#:#Archive successfully unzipped.
+on_click_action#:#Action When Title Clicked
+preview_caption#:#Preview %sof %s
+preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.
+preview_persisting#:#Persistent Preview Images
+preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.
+previews_for_tiles#:#Tiles
+previews_for_tiles_info#:#Use Preview for Tiles where possible.
+publish_before_delete#:#It was not possible to delete any of the existing versions because an unpublished draft exists.
+replace_file_info#:#All previous file versions will be deleted.
+resource_id#:#Resource ID
+service_settings#:#Additional Features
+service_settings_saved#:#Changes saved.
+set_license_for_all_files#:#Set License for All Files
+show_amount_of_downloads#:#Show Number of Downloads
+show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.
+storage_id#:#Storage ID
+suffix_specific_icons#:#Suffix-Specific Icons
+suffixes#:#Suffix(es)
+upload_files#:#Upload Files
+upload_files_limit#:#The maximum file size allowed is %s.
+upload_files_title#:#Upload Files
+upload_info#:#File
+upload_info_desc#:#Uploads and versions can be managed in the ‘Versions’ tab.
+version_uploaded#:#Version Uploaded
+versionname#:#Title

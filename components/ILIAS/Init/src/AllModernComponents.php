@@ -101,6 +101,15 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected \ILIAS\UI\Implementation\Render\JavaScriptBinding $ui_java_script_binding,
         protected \ILIAS\UI\Implementation\Component\SignalGeneratorInterface $ui_signal_generator,
         protected \ILIAS\UI\Implementation\Render\TemplateFactory $ui_template_factory,
+        protected \ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager $language_file_directory_manager,
+        protected \ILIAS\Language\Activities\InstallLanguage $install_language,
+        protected \ILIAS\Language\Activities\UpdateLanguage $update_language,
+        protected \ILIAS\Language\Activities\UninstallLanguage $uninstall_language,
+        protected \ILIAS\Language\Activities\RemoveLocalLanguageChanges $remove_local_language_changes,
+        protected \ILIAS\Language\Activities\AddLanguageEntry $add_language_entry,
+        protected \ILIAS\Language\Activities\SetLanguageDetectionEnabled $set_language_detection_enabled,
+        protected \ILIAS\Language\Activities\SetLanguageTranslationEnabled $set_language_translation_enabled,
+        protected \ILIAS\Language\Language $language,
     ) {
     }
 
@@ -182,6 +191,23 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['ui.javascript_binding'] = fn() => $this->ui_java_script_binding;
         $DIC['ui.signal_generator'] = fn() => $this->ui_signal_generator;
         $DIC['ui.template_factory'] = fn() => $this->ui_template_factory;
+        $DIC[\ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager::class] = fn() =>
+            $this->language_file_directory_manager;
+        $DIC[\ILIAS\Language\Activities\InstallLanguage::class] = fn() =>
+            $this->install_language;
+        $DIC[\ILIAS\Language\Activities\UpdateLanguage::class] = fn() =>
+            $this->update_language;
+        $DIC[\ILIAS\Language\Activities\UninstallLanguage::class] = fn() =>
+            $this->uninstall_language;
+        $DIC[\ILIAS\Language\Activities\RemoveLocalLanguageChanges::class] = fn() =>
+            $this->remove_local_language_changes;
+        $DIC[\ILIAS\Language\Activities\AddLanguageEntry::class] = fn() =>
+            $this->add_language_entry;
+        $DIC[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class] = fn() =>
+            $this->set_language_detection_enabled;
+        $DIC[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class] = fn() =>
+            $this->set_language_translation_enabled;
+        $DIC[\ILIAS\Language\Language::class] = fn() => $this->language;
     }
 
     public function getName(): string
