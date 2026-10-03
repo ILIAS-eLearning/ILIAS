@@ -4036,7 +4036,7 @@ common#:#enable_anonymous_fora_desc#:#Muss aktiviert sein, damit in Foren die Fu
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_comments_export#:#Export von Kommentaren
 common#:#enable_course_group_notifications#:#Tägliche E-Mail mit einem Neuigkeitenüberblick aus Gruppen und Kursen
-common#:#enable_course_group_notifications_desc#:#Mitglieder können eine Zusammenfassung der News abonnieren.
+common#:#enable_course_group_notifications_desc#:#Mitgliedern von Kursen und Gruppen die Neuigkeiten anbieten, ermöglichen, einen täglichen Neuigkeitenüberblick zu abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
 common#:#enable_dnd_upload#:#Drag-and-Drop-Upload aktivieren
@@ -5172,7 +5172,7 @@ common#:#obj_tool_setting_calendar_info#:#Der Block „Kalender“ wird im Reite
 common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
 common#:#obj_tool_setting_custom_metadata_info#:#Im Reiter „Metadaten“ können Datensätze verwaltet werden. Damit können weitere Informationen zu dem Objekt eingegeben und dieses genauer beschrieben werden.
 common#:#obj_tool_setting_news#:#Neuigkeiten
-common#:#obj_tool_setting_news_info#:#Der Block „Neuigkeiten“ wird im Reiter „Inhalt“ angezeigt.
+common#:#obj_tool_setting_news_info#:#Zeigt den Block „Neuigkeiten“ im Reiter „Inhalt“ an. In diesem Block werden alle Neuigkeiten angezeigt, einschließlich automatisch generierter Inhalte. Im Anschluss können Mitglieder eine tägliche E-Mail mit einem Überblick der Neuigkeiten abonnieren.
 common#:#obj_tos#:#Nutzungsvereinbarung
 common#:#obj_tos_desc#:#Nutzungsvereinbarung verwalten
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
@@ -6124,11 +6124,11 @@ cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_news_edited#:#Bearbeitet
 cont#:#cont_news_settings#:#Neuigkeiten
 cont#:#cont_news_timeline#:#Timeline
-cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten
+cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten einbeziehen 
 cont#:#cont_news_timeline_auto_entries_info#:#Alle automatisch erstellten Neuigkeiten werden mit angezeigt, z.B. Forenbeiträge, neue Dateien etc.
-cont#:#cont_news_timeline_info#:#Aktiviert den Reiter "Timeline" für Neuigkeiten
-cont#:#cont_news_timeline_landing_page#:#Startseite
-cont#:#cont_news_timeline_landing_page_info#:#Timeline als Startseite
+cont#:#cont_news_timeline_info#:#Blendet den Reiter „Timeline“ mit Neuigkeiten ein. Im Anschluss können Mitglieder einen täglichen Neuigkeitenüberblick per E-Mail abonnieren.
+cont#:#cont_news_timeline_landing_page#:#Timeline als Startseite
+cont#:#cont_news_timeline_landing_page_info#:#Wird das Objekt geöffnet, landet man direkt auf dem Reiter „Timeline“.  
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_no_title#:#Leerer Titel
 cont#:#cont_only_crs_grp_fold_download#:#Es können nur Dateien, Kurse, Gruppen oder Ordner heruntergeladen werden.
@@ -7514,7 +7514,7 @@ crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs „%s“
 crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs „%s“ aufgenommen worden.
 crs#:#crs_access#:#Zugang
-crs#:#crs_activate_notification#:#Benachrichtigung aktivieren
+crs#:#crs_activate_notification#:#Täglichen Neuigkeitenüberblick abonnieren
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
 crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Personen dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Andernfalls ist der Kurs nur für die Kursadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
@@ -7584,7 +7584,7 @@ crs#:#crs_custom_user_fields#:#Personenbezogene Angaben
 crs#:#crs_custom_user_fields_infobox#:#Legen Sie weitere Datenfelder an, welche Kursmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter „Mitglieder“ als zusätzliche Spalte einblenden.
 crs#:#crs_custom_user_fields_table_title#:#Personenbezogene Angaben zu diesem Kurs
 crs#:#crs_dates#:#Termine
-crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
+crs#:#crs_deactivate_notification#:#Täglichen Neuigkeitenüberblick kündigen
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_details#:#Kursdetails
 crs#:#crs_dismiss_member#:#Mitgliedschaft im Kurs „%s“ beendet
@@ -7633,7 +7633,7 @@ crs#:#crs_info_reg_password#:#Sobald Sie das Kurspasswort von der Kursadministra
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_intro_course_group_notification_for#:#Dies ist der tägliche Neuigkeitenüberblick aus Ihren Kursen und Gruppen.
-crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen für den Zeitraum von %1$s bis %2$s:
+crs#:#crs_intro_course_group_notification_index#:#Diese Zusammenfassung umfasst die Neuigkeiten für den Zeitraum von %1$s bis %2$s für die folgenden Kurse und Gruppen, für die Sie den täglichen Neuigkeitenüberblick abonniert haben:
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
 crs#:#crs_lhist_objective_completed#:#Bestanden $3$ in $1$.
@@ -7932,7 +7932,7 @@ crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf „Bea
 crs#:#crs_status_determination_manual#:#Manuell setzen
 crs#:#crs_status_determination_sync#:#Der Lernfortschritt dieses Kurses wird automatisch auf „Bestanden“ gesetzt, sobald jemand alle dafür erforderlichen Aktivitäten abgeschlossen hat. Bereits erzielte Lernfortschritte werden berücksichtigt. Ein manuell gesetzter Status bleibt unverändert. Möchten Sie den Status „Bestanden“ jetzt automatisch bestimmen?
 crs#:#crs_structure#:#Kursstruktur
-crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
+crs#:#crs_subject_course_group_notification#:#Täglicher Neuigkeitenüberblick für %s
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs „%s“
 crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihrem Antrag in den Kurs „%s“ aufgenommen.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs „%s“
@@ -10182,7 +10182,7 @@ forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens eine P
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer für die Moderation.
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema „%s“ enthält einen Dateianhang mit nicht erlaubtem Dateityp. Entfernen Sie diese Datei oder kontaktieren Sie die technische Betreuung, um den Dateitypen zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
 forum#:#frm_noti_message#:#Nachricht:
-forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
+forum#:#frm_noti_new_post#:#Es gibt einen neuen Beitrag im Forum "%1$s".
 forum#:#frm_noti_obj_crs#:#Kurs
 forum#:#frm_noti_obj_grp#:#Gruppe
 forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" freischalten
@@ -10366,7 +10366,7 @@ grp#:#crs_grp_assign_crs#:#Gruppenzuordnung
 grp#:#crs_grp_no_courses_assigned#:#Es sind keine Gruppen zugeordnet.
 grp#:#events#:#Sitzungen
 grp#:#grouping_change_assignment#:#Zuordnung ändern
-grp#:#grp_activate_notification#:#Benachrichtigung aktivieren
+grp#:#grp_activate_notification#:#Täglichen Neuigkeitenüberblick abonnieren
 grp#:#grp_activation_online_info#:#Nur wenn die Gruppe online geschaltet ist, können Personen der Gruppe beitreten und Gruppenmitglieder auf die Gruppe zugreifen. Andernfalls ist die Gruppe nur für die Gruppenadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 grp#:#grp_add_to_group#:#Zur Gruppe hinzufügen
 grp#:#grp_add_user#:#Benutzer hinzufügen
@@ -10401,7 +10401,7 @@ grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutz
 grp#:#grp_custom_user_fields#:#Personenbezogene Angaben
 grp#:#grp_custom_user_fields_infobox#:#Legen Sie weitere Datenfelder an, welche Gruppenmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter "Mitglieder" als zusätzliche Spalte einblenden.
 grp#:#grp_custom_user_fields_table_title#:#Personenbezogene Angaben zu dieser Gruppe
-grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
+grp#:#grp_deactivate_notification#:#Täglichen Neuigkeitenüberblick kündigen
 grp#:#grp_enable_map#:#Gruppenkarte aktivieren
 grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein.
 grp#:#grp_general_informations#:#Allgemeine Informationen
@@ -12020,12 +12020,12 @@ mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
 mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
 mem#:#mmbr_gallery_user_actions#:#Aktionen in Galerie
 membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
-membership#:#mem_force_notification#:#Benachrichtigung per Mail
+membership#:#mem_force_notification#:#Täglicher Neuigkeitenüberblick 
 membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können Benachrichtigungen deaktivieren
-membership#:#mem_force_notification_mode_blocked#:#Mitglieder abonnieren automatisch die tägliche Neuigkeitenüberblick-E-Mail
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können ihre Abonnierung des täglichen Neuigkeitenüberblicks kündigen
+membership#:#mem_force_notification_mode_blocked#:#Mitglieder abonnieren automatisch die tägliche E-Mail mit Neuigkeitenüberblick
 membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
-membership#:#mem_force_notification_mode_self#:#Mitglieder müssen Benachrichtigungen aktivieren
+membership#:#mem_force_notification_mode_self#:#Mitglieder müssen den täglichen Neuigkeitenüberblick selber abonnieren.
 mep#:#mep_all#:#Alle
 mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_bulk_upload#:#Massen-Upload
@@ -13321,7 +13321,7 @@ obj#:#obj_tool_setting_taxonomies#:#Taxonomien
 obj#:#obj_tool_setting_taxonomies_info#:#Taxonomien erlauben das Filtern von Objekten. Sie werden im Unterreiter „Taxonomie“ im Reiter "Einstellungen" angelegt.
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
 obj#:#obj_tool_setting_use_news_info#:#Blendet den Unterreiter „Neuigkeiten“ ein. Dort können Sie die „Timeline“ und den Seitenblock „Neuigkeiten“ für den Reiter „Inhalt“ konfigurieren. Sobald der Block oder die Timeline aktiv ist, können Benutzer über das ▼-Aktionsmenü eine tägliche Neuigkeitenüberblick-E-Mail abonnieren.
-obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für Block und Timeline öffnen
+obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für die „Neuigkeiten“ öffnen
 obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren.
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
