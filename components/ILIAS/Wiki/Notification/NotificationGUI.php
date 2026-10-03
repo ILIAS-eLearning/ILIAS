@@ -56,6 +56,11 @@ class NotificationGUI
             return;
         }
 
+        // 1st update will be converted to new - see below
+        if ($a_action === "new") {
+            return;
+        }
+
         if ($lang === "") {
             $lang = "-";
         }
@@ -80,11 +85,6 @@ class NotificationGUI
 
         // #11138
         $ignore_threshold = ($a_action === "comment");
-
-        // 1st update will be converted to new - see below
-        if ($a_action === "new") {
-            return;
-        }
 
         $log->debug("-- get notifications");
         if ($a_type === \ilNotification::TYPE_WIKI_PAGE) {
