@@ -24,6 +24,7 @@ use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Repository\RetrievalBase;
 use ILIAS\Repository\RetrievalInterface;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 class PagesRetrieval implements RetrievalInterface
 {
@@ -34,7 +35,8 @@ class PagesRetrieval implements RetrievalInterface
     public function __construct(
         protected int $lm_id,
         protected string $lm_type,
-        protected bool $layout_per_page
+        protected bool $layout_per_page,
+        protected PageManagerInterface $page_manager
     ) {
     }
 
@@ -75,13 +77,13 @@ class PagesRetrieval implements RetrievalInterface
 
         foreach (\ilLMPageObject::getPageList($this->lm_id) as $page) {
             $id = (int) $page["obj_id"];
-            $active = \ilLMPage::_lookupActive(
+            $active = $this->page_manager->lookupActive(
                 $id,
                 $this->lm_type,
                 $scheduled_activation
             );
             $scheduled = $scheduled_activation &&
-                \ilLMPage::_isScheduledActivation($id, $this->lm_type);
+                $this->page_manager->isScheduledActivation($id, $this->lm_type);
 
             $data[] = [
                 "id" => $id,

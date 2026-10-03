@@ -76,4 +76,11 @@ class Posting
         return $this->active;
     }
 
+    public function withActive(bool $active): self
+    {
+        $posting = clone $this;
+        $posting->active = $active;
+        return $posting;
+    }
+
 }

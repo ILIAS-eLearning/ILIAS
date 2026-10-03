@@ -49,7 +49,7 @@ class ilDclDetailedViewDefinition extends ilPageObject
     {
         foreach ($this->getAllPCIds() as $id) {
             if ($this->getContentObjectForPcId($id)->isEnabled()) {
-                return parent::_lookupActive($this->getId(), self::PARENT_TYPE);
+                return $this->page_manager->lookupActive($this->getId(), self::PARENT_TYPE);
             }
         }
         return false;
