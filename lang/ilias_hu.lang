@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Utolsó hónap
 news#:#news_period_1_week#:#Utolsó hét
 news#:#news_period_1_year#:#Utolsó év
 news#:#news_period_x_days#:#Utolsó %s nap
-news#:#news_period_x_months#:#Utolsó %s hónap
-news#:#news_period_x_weeks#:#Utolsó %s hét
 news#:#news_public_feed#:#Extra RSS-csatorna
 news#:#news_public_feed_info#:#Saját RSS-csatornája lesz ennek a médiasugárzásnak.
 news#:#news_really_delete_news#:#Biztos, hogy törli ezt a hírt?

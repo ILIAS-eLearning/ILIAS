@@ -12986,8 +12986,6 @@ news#:#news_period_1_month#:#Ultimo mese
 news#:#news_period_1_week#:#Ultima settimana
 news#:#news_period_1_year#:#Ultimo anno
 news#:#news_period_x_days#:#Ultimi %s giorni
-news#:#news_period_x_months#:#Ultimi %s mesi
-news#:#news_period_x_weeks#:#Ultimi %s settimane
 news#:#news_public_feed#:#URL del feed aggiuntivo
 news#:#news_public_feed_info#:#Se questa opzione è attivata verrà creata una propria Newsfeed-URL per questo oggetto.
 news#:#news_really_delete_news#:#Vuoi davvero eliminare questa nuova voce?

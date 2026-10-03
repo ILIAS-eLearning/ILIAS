@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Son Ay
 news#:#news_period_1_week#:#Son Hafta
 news#:#news_period_1_year#:#Geçen Yıl
 news#:#news_period_x_days#:#Son% s gün
-news#:#news_period_x_months#:#Son% s Ay
-news#:#news_period_x_weeks#:#Son% s Haftalar
 news#:#news_public_feed#:#Ekstra RSS Feed
 news#:#news_public_feed_info#:#Bu seçenek etkinleştirilirse, ayrı bir RSS beslemesi, Bu Mediacast sağlanır.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

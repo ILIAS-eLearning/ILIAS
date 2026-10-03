@@ -12986,8 +12986,6 @@ news#:#news_period_1_month#:#Last Month上个月
 news#:#news_period_1_week#:#Last Week上周
 news#:#news_period_1_year#:#Last Year去年
 news#:#news_period_x_days#:#前 %s 天
-news#:#news_period_x_months#:#前 %s 月
-news#:#news_period_x_weeks#:#前 %s 周
 news#:#news_public_feed#:#额外的 Feed URL
 news#:#news_public_feed_info#:#如果启用此选项，一个已分离的此项的新闻feed url已被提供。
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

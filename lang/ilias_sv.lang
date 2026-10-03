@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Förra månaden
 news#:#news_period_1_week#:#Förra veckan
 news#:#news_period_1_year#:#Förra året
 news#:#news_period_x_days#:#Senaste %s dagar
-news#:#news_period_x_months#:#Senaste %s månader
-news#:#news_period_x_weeks#:#Senaste %s veckor
 news#:#news_public_feed#:#Own webfeed
 news#:#news_public_feed_info#:#En RSS-ikon med en separat URL för webbflödet visas.
 news#:#news_really_delete_news#:#Bör detta inlägg verkligen raderas?

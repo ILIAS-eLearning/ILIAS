@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Laatste maand
 news#:#news_period_1_week#:#Laatste week
 news#:#news_period_1_year#:#Laatste jaar
 news#:#news_period_x_days#:#Laatste %s dagen
-news#:#news_period_x_months#:#Laatste %s maanden
-news#:#news_period_x_weeks#:#Laatste %s weken
 news#:#news_public_feed#:#Extra Feed URL
 news#:#news_public_feed_info#:#Als deze optie is ingeschakeld, wordt een gescheiden nieuws feed URL voor dit item verstrekt.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

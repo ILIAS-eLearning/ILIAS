@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Praėjusį Mėnesį
 news#:#news_period_1_week#:#Praėjusią Savaitę
 news#:#news_period_1_year#:#Praeitais Metais
 news#:#news_period_x_days#:#Praėjusias %s Deinas
-news#:#news_period_x_months#:#Praėjusius %s Mėnesius
-news#:#news_period_x_weeks#:#Praėjusias %s Savaites
 news#:#news_public_feed#:#Papildoma Šaltinio URL
 news#:#news_public_feed_info#:#Jei ši parinktis aktyvuota, šiam objektui pateikiama papildoma naujienų šaltinio nuoroda.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#ბოლო თვე
 news#:#news_period_1_week#:#ბოლო კვირა
 news#:#news_period_1_year#:#ბოლო წელიწადი
 news#:#news_period_x_days#:#ბოლო %s დღეები
-news#:#news_period_x_months#:#ბოლო %s თვე
-news#:#news_period_x_weeks#:#ბოლო %s კვირები
 news#:#news_public_feed#:#ექსტრა RSS სიახლე
 news#:#news_public_feed_info#:#თუ ეს პარამეტრები გააქტიურებულია, ცალკე RSS სიახლე იქნება გამოყოფილი ამ მედია ქასთისთვის
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

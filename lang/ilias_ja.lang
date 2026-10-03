@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#最近一ヶ月
 news#:#news_period_1_week#:#先週
 news#:#news_period_1_year#:#昨年
 news#:#news_period_x_days#:#過去%s日
-news#:#news_period_x_months#:#過去%sヶ月
-news#:#news_period_x_weeks#:#過去 %s週間
 news#:#news_public_feed#:#外部RSSフィード
 news#:#news_public_feed_info#:#このオプションを有効にすると、別のRSS フィードがこのメディアキャスト用に提供されます。
 news#:#news_really_delete_news#:#この新しいアイテムを本当に削除しますか?

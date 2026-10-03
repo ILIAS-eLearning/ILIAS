@@ -12972,8 +12972,6 @@ news#:#news_period_1_month#:#Mois dernier
 news#:#news_period_1_week#:#Semaine dernière
 news#:#news_period_1_year#:#Année dernière
 news#:#news_period_x_days#:#%s derniers jours
-news#:#news_period_x_months#:#%s derniers mois
-news#:#news_period_x_weeks#:#%s dernières semaines
 news#:#news_public_feed#:#Flux RSS Dédié
 news#:#news_public_feed_info#:#Si actif, une URL du flux d'actualités (RSS) distincte pour cet article est créée.
 news#:#news_really_delete_news#:#Voulez-vous vraiment supprimer cet article de nouvelles?

@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Z ostatniego miesiąca
 news#:#news_period_1_week#:#Ostatni tydzień
 news#:#news_period_1_year#:#Ostatni rok
 news#:#news_period_x_days#:#Ostanie %s dni
-news#:#news_period_x_months#:#Ostatnie % miesiące
-news#:#news_period_x_weeks#:#Ostatnie %s tygodnie
 news#:#news_public_feed#:#Ekstra Feed URL
 news#:#news_public_feed_info#:#Jeśli ta opcja jest wybrana, to jest wyznaczony oddzielny feed url dla tej pozycji.
 news#:#news_really_delete_news#:#Czy naprawdę chcesz usunąć ten wpis?
