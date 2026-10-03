@@ -62,7 +62,6 @@ class ilNewsDataSet extends ilDataSet
                     return [
                         "ObjId" => "integer",
                         "PublicFeed" => "integer",
-                        "DefaultVisibility" => "text",
                         "KeepRssMin" => "integer",
                         "HideNewsPerDate" => "integer",
                         "HideNewsDate" => "text",
@@ -102,7 +101,6 @@ class ilNewsDataSet extends ilDataSet
                         $this->data[$obj_id]["ObjId"] = $obj_id;
                         $this->data[$obj_id]["PublicFeed"] = ilBlockSetting::_lookup("news", "public_feed", 0, $obj_id);
                         $this->data[$obj_id]["KeepRssMin"] = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $obj_id);
-                        $this->data[$obj_id]["DefaultVisibility"] = ilBlockSetting::_lookup("news", "default_visibility", 0, $obj_id);
                         $this->data[$obj_id]["HideNewsPerDate"] = (int) ilBlockSetting::_lookup("news", "hide_news_per_date", 0, $obj_id);
                         $this->data[$obj_id]["HideNewsDate"] = ilBlockSetting::_lookup("news", "hide_news_date", 0, $obj_id);
                         $this->data[$obj_id]["PublicNotifications"] = (int) ilBlockSetting::_lookup("news", "public_notifications", 0, $obj_id);
@@ -153,7 +151,6 @@ class ilNewsDataSet extends ilDataSet
                     foreach ([
                         "public_feed" => "PublicFeed",
                         "keep_rss_min" => "KeepRssMin",
-                        "default_visibility" => "DefaultVisibility",
                         "hide_news_per_date" => "HideNewsPerDate",
                         "hide_news_date" => "HideNewsDate",
                         "public_notifications" => "PublicNotifications"
