@@ -547,11 +547,26 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
             ->section("sec", $lng->txt("gdtr_step"))
             ->switch("type", $lng->txt("gdtr_step_type"), "", $type_val)
             ->group((string) StepType::Mainbar->value, $lng->txt("gdtr_mainbar"), $lng->txt("gdtr_mainbar_info"))
-            ->text("mb_element_id", $lng->txt("gdtr_element_id"), "", $mb_element_id)
+            ->text(
+                "mb_element_id",
+                $lng->txt("gdtr_element_id"),
+                $lng->txt("gdtr_mainbar_ID_info"),
+                $mb_element_id
+            )
             ->group((string) StepType::Metabar->value, $lng->txt("gdtr_metabar"), $lng->txt("gdtr_metabar_info"))
-            ->text("mt_element_id", $lng->txt("gdtr_element_id"), "", $mt_element_id)
+            ->text(
+                "mt_element_id",
+                $lng->txt("gdtr_element_id"),
+                $lng->txt("gdtr_metabar_ID_info"),
+                $mt_element_id
+            )
             ->group((string) StepType::Tab->value, $lng->txt("gdtr_tabs"), $lng->txt("gdtr_tabs_info"))
-            ->text("tab_element_id", $lng->txt("gdtr_element_id"), "", $tab_element_id)
+            ->text(
+                "tab_element_id",
+                $lng->txt("gdtr_element_id"),
+                $lng->txt("gdtr_tabs_ID_info"),
+                $tab_element_id
+            )
             ->group((string) StepType::Form->value, $lng->txt("gdtr_form"), $lng->txt("gdtr_form_info"))
             ->group((string) StepType::Table->value, $lng->txt("gdtr_table"), $lng->txt("gdtr_table_info"))
             ->group((string) StepType::Toolbar->value, $lng->txt("gdtr_toolbar"), $lng->txt("gdtr_toolbar_info"))
