@@ -35,6 +35,7 @@ use ILIAS\Dataset\IRSSContainerExportConfig;
  * - sty_template_class: table style_template_class
  * - sty_media_query: table sty_media_query
  * - sty_usage: table style_usage
+ * - sty_container: table sty_rep_container
  *
  * - object_style: this is a special entity which allows to export using the ID of the consuming object (e.g. wiki)
  *                 the "sty" entity will be detemined and exported afterwards (if a non global style has been assigned)
@@ -50,6 +51,7 @@ class ilStyleDataSet extends ilDataSet
     protected ilLogger $log;
     protected ilRbacSystem $rbacsystem;
     protected \ilObjUser $user;
+    protected array $styles_with_explicit_owner = [];
 
     public function __construct()
     {
@@ -109,6 +111,7 @@ class ilStyleDataSet extends ilDataSet
                         "Id" => "integer",
                         "Title" => "text",
                         "Description" => "text",
+                        "OwnerObj" => "integer",
                         "StyleContainer" => "rscontainer"
                     );
             }
@@ -122,6 +125,16 @@ class ilStyleDataSet extends ilDataSet
                     return array(
                             "ObjectId" => "integer"
                         );
+            }
+        }
+
+        if ($a_entity == "sty_container") {
+            switch ($a_version) {
+                case "10.0":
+                    return array(
+                        "RefId" => "integer",
+                        "Reuse" => "integer"
+                    );
             }
         }
 
@@ -299,13 +312,23 @@ class ilStyleDataSet extends ilDataSet
             }
         }
 
+        if ($a_entity == "sty_container") {
+            switch ($a_version) {
+                case "10.0":
+                    $this->getDirectDataFromQuery("SELECT ref_id, reuse" .
+                        " FROM sty_rep_container" .
+                        " WHERE " . $ilDB->in("ref_id", $a_ids, false, "integer"));
+                    break;
+            }
+        }
+
         if ($a_entity == "sty") {
             switch ($a_version) {
                 case "5.1.0":
                 case "8.0":
                 case "10.0":
-                    $this->getDirectDataFromQuery("SELECT o.title, o.description, o.obj_id id" .
-                        " FROM object_data o " .
+                    $this->getDirectDataFromQuery("SELECT o.title, o.description, o.obj_id id, s.owner_obj" .
+                        " FROM object_data o JOIN style_data s ON o.obj_id = s.id" .
                         " WHERE " . $ilDB->in("o.obj_id", $a_ids, false, "integer"));
                     break;
             }
@@ -520,6 +543,17 @@ class ilStyleDataSet extends ilDataSet
 
         $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
+            case "sty_container":
+                $ref_id = (int) $a_mapping->getMapping(
+                    "components/ILIAS/Container",
+                    "refs",
+                    $a_rec["RefId"]
+                );
+                if ($ref_id > 0) {
+                    $this->repo->repositoryContainer()->updateReuse($ref_id, (bool) $a_rec["Reuse"]);
+                }
+                break;
+
             case "sty":
                 $this->log->debug("Entity: " . $a_entity);
                 if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
@@ -532,6 +566,19 @@ class ilStyleDataSet extends ilDataSet
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->update(true);
+
+                $owner_obj_id = (int) $a_mapping->getMapping(
+                    "components/ILIAS/ILIASObject",
+                    "obj",
+                    $a_rec["OwnerObj"] ?? 0
+                );
+                if ($owner_obj_id > 0) {
+                    ilObjStyleSheet::writeOwner($owner_obj_id, $newObj->getId());
+                }
+
+                if (array_key_exists("OwnerObj", $a_rec)) {
+                    $this->styles_with_explicit_owner[$newObj->getId()] = true;
+                }
 
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/Style", "sty", $a_rec["Id"], $newObj->getId());
@@ -604,7 +651,9 @@ class ilStyleDataSet extends ilDataSet
                 $style_id = (int) $a_mapping->getMapping("components/ILIAS/Style", "sty", $a_rec["StyleId"]);
                 if ($obj_id > 0 && $style_id > 0) {
                     ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
-                    ilObjStyleSheet::writeOwner($obj_id, $style_id);
+                    if (!isset($this->styles_with_explicit_owner[$style_id])) {
+                        ilObjStyleSheet::writeOwner($obj_id, $style_id);
+                    }
                 }
                 break;
         }
