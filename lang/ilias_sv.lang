@@ -9454,7 +9454,7 @@ exc#:#exc_mandatory_info#:#Obligatoriska övningsmoment måste godkännas för a
 exc#:#exc_mandatory_rand_determined#:#Slumpmässigt urval
 exc#:#exc_max_char_limit#:#Maximalt antal tecken
 exc#:#exc_max_file#:#Maximalt antal filer
-exc#:#exc_max_file_info#:#När gränsen har uppnåtts kan deltagarna inte ladda upp fler filer. Även i teamträningspass räknas gränsen per deltagare och inte för hela teamet.
+exc#:#exc_max_file_info#:#När gränsen har uppnåtts kan deltagarna inte ladda upp fler filer.
 exc#:#exc_max_file_reached#:#Du kan ladda upp högst %s filer.
 exc#:#exc_max_file_tgl#:#Begränsa uppladdningar
 exc#:#exc_max_team_participants#:#Maximalt antal
