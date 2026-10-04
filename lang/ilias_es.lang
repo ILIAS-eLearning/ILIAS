@@ -9436,7 +9436,7 @@ exc#:#exc_mandatory_info#:#Las tareas obligatorias deben ser aprobadas para apro
 exc#:#exc_mandatory_rand_determined#:#Determinado aleatoriamente
 exc#:#exc_max_char_limit#:#Número máximo de caracteres
 exc#:#exc_max_file#:#Número máximo de archivos
-exc#:#exc_max_file_info#:#Los participantes no podrán subir más archivos una vez que se alcance el límite. En las tareas de equipo, el límite también se aplica por participante, no a nivel de equipo.
+exc#:#exc_max_file_info#:#Los participantes no podrán subir más archivos una vez que se alcance el límite.
 exc#:#exc_max_file_reached#:#No puede subir más de %s archivos.
 exc#:#exc_max_file_tgl#:#Limitar subidas
 exc#:#exc_max_team_participants#:#Número máximo

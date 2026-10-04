@@ -9399,7 +9399,7 @@ exc#:#exc_mandatory_info#:#Obowiązkowe zadania muszą być przesłane, aby zali
 exc#:#exc_mandatory_rand_determined#:#Randomly determined###07 02 2020 new variable
 exc#:#exc_max_char_limit#:#Maksymalna liczba znaków
 exc#:#exc_max_file#:#Maksymalna liczba plików
-exc#:#exc_max_file_info#:#Po osiągnięciu limitu uczestnicy nie mogą wysyłać kolejnych plików. W ćwiczeniach przeprowadzanych przez zespół również oceniany jest limit na każdego uczestnika a nie dla całego zespołu.
+exc#:#exc_max_file_info#:#Po osiągnięciu limitu uczestnicy nie mogą wysyłać kolejnych plików.
 exc#:#exc_max_file_reached#:#Możesz wysłać najwyżej %s plików.
 exc#:#exc_max_file_tgl#:#Ogranicz wysyłanie
 exc#:#exc_max_team_participants#:#Maximal Number
