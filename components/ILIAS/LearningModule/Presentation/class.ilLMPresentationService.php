@@ -101,6 +101,7 @@ class ilLMPresentationService
 
         $this->tracker = ilLMTracker::getInstance($this->lm->getRefId());
         $this->tracker->setCurrentPage($this->navigation_status->getCurrentPage());
+        $this->tracker->setLanguage($this->presentation_status->getLang());
 
         $this->linker = new ilLMPresentationLinker(
             $this->lm,

@@ -48,9 +48,12 @@ class ilLMTracker
     protected bool $dirty = false;
     protected array $page_questions = array();
     protected array $all_questions = array();
+    /** @var array<string, int[]> */
+    protected array $questions_by_language = array();
     protected array $answer_status = array();
     protected bool $has_incorrect_answers = false;
     protected int $current_page_id = 0;
+    protected ?string $language = null;
 
     public static array $instances = array();
     public static array $instancesbyobj = array();
@@ -303,6 +306,20 @@ class ilLMTracker
     }
 
     /**
+     * Limit page progress to the language currently shown in presentation.
+     *
+     * The master language is represented by "-", just like page_object and
+     * page_question store it.
+     */
+    public function setLanguage(string $language): void
+    {
+        if ($this->language !== $language) {
+            $this->language = $language;
+            $this->dirty = true;
+        }
+    }
+
+    /**
      * Load LM tracking data. Loaded when needed.
      */
     protected function loadLMTrackingData(): void
@@ -344,8 +361,13 @@ class ilLMTracker
         // load question/pages information
         $this->page_questions = array();
         $this->all_questions = array();
+        $this->questions_by_language = array();
         $q = ilLMPageObject::queryQuestionsOfLearningModule($this->lm_obj_id, "", "", 0, 0);
         foreach ($q["set"] as $quest) {
+            $this->questions_by_language[$quest["page_lang"]][] = $quest["question_id"];
+            if ($this->language !== null && $quest["page_lang"] !== $this->language) {
+                continue;
+            }
             $this->page_questions[$quest["page_id"]][] = $quest["question_id"];
             $this->all_questions[] = $quest["question_id"];
         }
@@ -369,10 +391,30 @@ class ilLMTracker
     public function getAllQuestionsCorrect(): bool
     {
         $this->loadLMTrackingData();
-        if (count($this->all_questions) > 0 && !$this->has_incorrect_answers) {
-            return true;
+        if ($this->language !== null) {
+            return count($this->all_questions) > 0 && !$this->has_incorrect_answers;
+        }
+
+        // Each page translation has its own copied self-assessment questions.
+        // Completing one complete language must be sufficient for the learning
+        // module's question-based learning progress.
+        foreach ($this->questions_by_language as $question_ids) {
+            if ($question_ids && $this->areAllQuestionsPassed($question_ids)) {
+                return true;
+            }
         }
         return false;
+    }
+
+    /** @param int[] $question_ids */
+    protected function areAllQuestionsPassed(array $question_ids): bool
+    {
+        foreach ($question_ids as $question_id) {
+            if (!($this->answer_status[$question_id]["passed"] ?? false)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
