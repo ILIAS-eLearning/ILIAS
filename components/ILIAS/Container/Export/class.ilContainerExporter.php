@@ -89,6 +89,22 @@ class ilContainerExporter extends ilXmlExporter
             ];
         }
 
+        $ref_ids = [];
+        foreach ($a_ids as $id) {
+            $refs = ilObject::_getAllReferences((int) $id);
+            $ref_id = end($refs);
+            if ($ref_id > 0) {
+                $ref_ids[] = $ref_id;
+            }
+        }
+        if (count($ref_ids)) {
+            $res[] = [
+                "component" => "components/ILIAS/Style",
+                "entity" => "sty_container",
+                "ids" => $ref_ids
+            ];
+        }
+
         // service settings
         $res[] = [
             "component" => "components/ILIAS/ILIASObject",
