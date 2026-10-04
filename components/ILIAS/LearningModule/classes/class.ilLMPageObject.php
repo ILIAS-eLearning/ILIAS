@@ -479,7 +479,7 @@ class ilLMPageObject extends ilLMObject
         $count_query = "SELECT count(pq.question_id) cnt ";
 
         // basic query
-        $query = "SELECT pq.page_id, pq.question_id ";
+        $query = "SELECT pq.page_id, pq.page_lang, pq.question_id ";
 
         $from = " FROM page_question pq JOIN lm_tree t ON (t.lm_id = " . $ilDB->quote($a_lm_id, "integer") .
             " AND pq.page_id = t.child and pq.page_parent_type = " . $ilDB->quote("lm", "text") . ") " .
