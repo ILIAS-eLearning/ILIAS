@@ -1,9 +1,9 @@
-<dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="{ID}">
+<dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="{ID}" aria-modal="true" aria-labelledby="{ID}_title">
 	<div class="modal-dialog" role="document" data-replace-marker="component">
 		<div class="modal-content">
 			<div class="modal-header">
 				<form><button formmethod="dialog" class="close" aria-label="{CLOSE_LABEL}"><span aria-hidden="true">&times;</span></button></form>
-				<h1 class="modal-title">{TITLE}</h1>
+				<h1 id="{ID}_title" class="modal-title">{TITLE}</h1>
 			</div>
 			<div class="modal-body">
 				<!-- BEGIN with_content -->
