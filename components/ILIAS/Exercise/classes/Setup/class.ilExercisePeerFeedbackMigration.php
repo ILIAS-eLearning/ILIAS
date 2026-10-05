@@ -61,6 +61,10 @@ class ilExercisePeerFeedbackMigration implements Migration
         $peer_id = (int) $d->peer_id;
         $resource_owner_id = (int) $d->owner;
         $base_path = $this->buildAbsolutPath($exec_id, $assignment_id, $peer_id, $giver_id);
+        $pattern = '/[^\.].*/m';
+        $latest_flat_file = is_dir($base_path)
+            ? $this->getLatestFileInDirectory($base_path, $pattern)
+            : null;
 
         if (is_dir($base_path)) {
             if ($dh = opendir($base_path)) {
@@ -70,15 +74,24 @@ class ilExercisePeerFeedbackMigration implements Migration
                             $crit_id = (int) $file;
                             $fb_dir = $base_path . "/" . $file;
 
-                            $pattern = '/[^\.].*/m';
-                            $rid = "";
+                            $rid = null;
                             if (is_dir($fb_dir)) {
-                                $rid = $this->helper->moveFirstFileOfPatternToStorage(
-                                    $fb_dir,
-                                    $pattern,
-                                    $resource_owner_id
-                                );
-                                if (!is_null($rid)) {
+                                if ($this->getExistingRid(
+                                    $assignment_id,
+                                    $giver_id,
+                                    $peer_id,
+                                    $crit_id
+                                ) !== null) {
+                                    continue;
+                                }
+                                $latest_file = $this->getLatestFileOfPattern($fb_dir, $pattern);
+                                if ($latest_file !== null) {
+                                    $rid = $this->helper->movePathToStorage(
+                                        $latest_file,
+                                        $resource_owner_id
+                                    );
+                                }
+                                if ($rid !== null) {
                                     $db->insert("exc_crit_file", [
                                         "ass_id" => ["integer", $assignment_id],
                                         "giver_id" => ["integer", $giver_id],
@@ -89,26 +102,30 @@ class ilExercisePeerFeedbackMigration implements Migration
                                 }
                             }
                         }
-                    } elseif ($file != '.' && $file != '..' && is_file($base_path . '/' . $file)) {
-                        $pattern = '/[^\.].*/m';
-                        if (preg_match($pattern, $file) === 1) {
-                            $rid = $this->helper->movePathToStorage(
-                                $base_path . '/' . $file,
-                                $resource_owner_id
-                            );
-                            if (!is_null($rid)) {
-                                $db->insert("exc_crit_file", [
-                                    "ass_id" => ["integer", $assignment_id],
-                                    "giver_id" => ["integer", $giver_id],
-                                    "peer_id" => ["integer", $peer_id],
-                                    "criteria_id" => ["integer", 0],
-                                    "rid" => ["text", $rid]
-                                ]);
-                            }
-                        }
                     }
                 }
                 closedir($dh);
+            }
+        }
+
+        if ($latest_flat_file !== null && $this->getExistingRid(
+            $assignment_id,
+            $giver_id,
+            $peer_id,
+            0
+        ) === null) {
+            $rid = $this->helper->movePathToStorage(
+                $latest_flat_file,
+                $resource_owner_id
+            );
+            if ($rid !== null) {
+                $db->insert("exc_crit_file", [
+                    "ass_id" => ["integer", $assignment_id],
+                    "giver_id" => ["integer", $giver_id],
+                    "peer_id" => ["integer", $peer_id],
+                    "criteria_id" => ["integer", 0],
+                    "rid" => ["text", $rid]
+                ]);
             }
         }
 
@@ -144,5 +161,97 @@ class ilExercisePeerFeedbackMigration implements Migration
                 $exec_id,
                 "exc"
             ) . "/peer_up_$assignment_id/" . $peer_id . "/" . $giver_id;
+    }
+
+    protected function getExistingRid(
+        int $assignment_id,
+        int $giver_id,
+        int $peer_id,
+        int $criteria_id
+    ): ?string {
+        $set = $this->helper->getDatabase()->queryF(
+            "SELECT rid FROM exc_crit_file "
+            . "WHERE ass_id = %s AND giver_id = %s AND peer_id = %s AND criteria_id = %s",
+            ["integer", "integer", "integer", "integer"],
+            [$assignment_id, $giver_id, $peer_id, $criteria_id]
+        );
+        $record = $this->helper->getDatabase()->fetchAssoc($set);
+
+        return $record['rid'] ?? null;
+    }
+
+    protected function getLatestFileInDirectory(string $path, string $pattern): ?string
+    {
+        $latest_path = null;
+        $latest_mtime = null;
+
+        foreach (new DirectoryIterator($path) as $file_info) {
+            if (
+                !$file_info->isFile()
+                || preg_match($pattern, $file_info->getFilename()) !== 1
+            ) {
+                continue;
+            }
+            $file_path = $file_info->getRealPath();
+            if ($file_path === false) {
+                continue;
+            }
+            $file_mtime = $file_info->getMTime();
+            if ($this->isLaterFile(
+                $file_mtime,
+                $file_path,
+                $latest_mtime,
+                $latest_path
+            )) {
+                $latest_mtime = $file_mtime;
+                $latest_path = $file_path;
+            }
+        }
+
+        return $latest_path;
+    }
+
+    protected function getLatestFileOfPattern(string $path, string $pattern): ?string
+    {
+        $latest_path = null;
+        $latest_mtime = null;
+        $iterator = new RecursiveRegexIterator(
+            new RecursiveDirectoryIterator($path),
+            $pattern,
+            RecursiveRegexIterator::MATCH
+        );
+
+        foreach ($iterator as $file_info) {
+            if (!$file_info->isFile()) {
+                continue;
+            }
+            $file_path = $file_info->getRealPath();
+            if ($file_path === false) {
+                continue;
+            }
+            $file_mtime = $file_info->getMTime();
+            if ($this->isLaterFile(
+                $file_mtime,
+                $file_path,
+                $latest_mtime,
+                $latest_path
+            )) {
+                $latest_mtime = $file_mtime;
+                $latest_path = $file_path;
+            }
+        }
+
+        return $latest_path;
+    }
+
+    protected function isLaterFile(
+        int $mtime,
+        string $path,
+        ?int $latest_mtime,
+        ?string $latest_path
+    ): bool {
+        return $latest_mtime === null
+            || $mtime > $latest_mtime
+            || ($mtime === $latest_mtime && strcmp($path, (string) $latest_path) > 0);
     }
 }
