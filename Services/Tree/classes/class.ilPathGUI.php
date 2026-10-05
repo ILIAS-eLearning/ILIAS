@@ -148,6 +148,10 @@ class ilPathGUI
             }
 
             foreach ($this->getPathIds() as $ref_id) {
+                if ($ref_id > 0 && !$this->access->checkAccess("visible", "", $ref_id)) {
+                    continue;
+                }
+
                 $obj_id = ilObject::_lookupObjId($ref_id);
                 $title = $this->buildTitle($obj_id);
 
@@ -182,6 +186,10 @@ class ilPathGUI
             }
 
             foreach ($this->getPathIds() as $ref_id) {
+                if ($ref_id > 0 && !$this->access->checkAccess("visible", "", $ref_id)) {
+                    continue;
+                }
+
                 $obj_id = ilObject::_lookupObjId($ref_id);
                 $title = $this->buildTitle($obj_id);
                 $type = ilObject::_lookupType($obj_id);
