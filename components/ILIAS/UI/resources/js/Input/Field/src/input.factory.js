@@ -58,5 +58,5 @@ il.UI.Input = il.UI.Input || {};
   );
   Input.tagInput = Input.tag || {};
   Input.tagInput.init = (input, config, value, autocompleteEndpoint, autocompleteToken) => tag(
-    Tagify, input, config, value, autocompleteEndpoint, autocompleteToken);
+    Tagify, window.customElements, window.HTMLElement, input, config, value, autocompleteEndpoint, autocompleteToken);
 }(il.UI.Input));
