@@ -48,19 +48,19 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
 
         $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(['set', 'get', 'delete'])->getMock();
 
-        $settingsMock->expects($this->any())->method('set')->willReturnCallback(
+        $settingsMock->method('set')->willReturnCallback(
             function ($key, $value) {
                 $this->storage[$key] = $value;
             }
         );
 
-        $settingsMock->expects($this->any())->method('get')->willReturnCallback(
+        $settingsMock->method('get')->willReturnCallback(
             function ($key, $value) {
                 return $this->storage[$key] ?? $value;
             }
         );
 
-        $settingsMock->expects($this->any())->method('delete')->willReturnCallback(
+        $settingsMock->method('delete')->willReturnCallback(
             function ($key) {
                 if (isset($this->storage[$key])) {
                     unset($this->storage[$key]);
