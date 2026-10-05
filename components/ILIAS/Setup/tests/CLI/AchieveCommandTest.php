@@ -63,14 +63,14 @@ class TestObject extends Setup\CLI\AchieveCommand
 class AchieveCommandTest extends TestCase
 {
     /**
-     * @var Setup\CLI\ConfigReader|\PHPUnit\Framework\MockObject\MockObject
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Setup\CLI\ConfigReader
      */
-    protected $config_reader;
+    protected \PHPUnit\Framework\MockObject\Stub $config_reader;
 
     /**
-     * @var Setup\AgentFinder|\PHPUnit\Framework\MockObject\MockObject
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Setup\AgentFinder
      */
-    protected $agent_finder;
+    protected \PHPUnit\Framework\MockObject\Stub $agent_finder;
 
     /**
      * @var Refinery
@@ -84,15 +84,15 @@ class AchieveCommandTest extends TestCase
 
     public function setUp(): void
     {
-        $this->config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-        $this->agent_finder = $this->createMock(Setup\AgentFinder::class);
-        $this->refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $this->config_reader = $this->createStub(Setup\CLI\ConfigReader::class);
+        $this->agent_finder = $this->createStub(Setup\AgentFinder::class);
+        $this->refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
         $this->command = new Setup\CLI\AchieveCommand($this->agent_finder, $this->config_reader, [], $this->refinery);
     }
 
     public function testBasicFunctionality(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
@@ -101,13 +101,13 @@ class AchieveCommandTest extends TestCase
 
         $tester = new CommandTester($command);
 
-        $config = $this->createMock(Setup\ConfigCollection::class);
+        $config = $this->createStub(Setup\ConfigCollection::class);
         $config_file = "config_file";
         $config_file_content = ["config_file"];
         $objective_name = "my.objective";
 
         $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $config_reader
             ->expects($this->once())
@@ -175,7 +175,7 @@ class AchieveCommandTest extends TestCase
 
     public function testAchieveObjective(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
@@ -184,13 +184,13 @@ class AchieveCommandTest extends TestCase
 
         $tester = new CommandTester($command);
 
-        $config = $this->createMock(Setup\ConfigCollection::class);
+        $config = $this->createStub(Setup\ConfigCollection::class);
         $config_file = "config_file";
         $config_file_content = ["config_file"];
         $objective_name = "my.objective";
 
         $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $config_reader
             ->expects($this->once())

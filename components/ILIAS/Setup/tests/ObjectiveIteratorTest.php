@@ -30,7 +30,7 @@ class ObjectiveIteratorTest extends TestCase
     {
         $hash = "my hash";
         $objective = $this->newObjective($hash);
-        $environment = $this->createMock(Setup\Environment::class);
+        $environment = $this->createStub(Setup\Environment::class);
 
         $objective
             ->expects($this->once())
@@ -53,7 +53,7 @@ class ObjectiveIteratorTest extends TestCase
     {
         $hash = "my hash";
         $objective = $this->newObjective($hash);
-        $environment = $this->createMock(Setup\Environment::class);
+        $environment = $this->createStub(Setup\Environment::class);
 
         $iterator = new Setup\ObjectiveIterator($environment, $objective);
 
@@ -73,29 +73,29 @@ class ObjectiveIteratorTest extends TestCase
 
     public function testAllObjectives(): void
     {
-        $environment = $this->createMock(Setup\Environment::class);
+        $environment = $this->createStub(Setup\Environment::class);
 
         $objective1 = $this->newObjective();
         $objective11 = $this->newObjective();
         $objective12 = $this->newObjective();
         $objective121 = $this->newObjective();
 
-        $objective1
+        $objective1->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([$objective11, $objective12]);
 
-        $objective11
+        $objective11->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([]);
 
-        $objective12
+        $objective12->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([$objective121]);
 
-        $objective121
+        $objective121->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([]);
@@ -114,17 +114,17 @@ class ObjectiveIteratorTest extends TestCase
 
     public function testAllObjectivesOnlyReturnsObjectiveOnce(): void
     {
-        $environment = $this->createMock(Setup\Environment::class);
+        $environment = $this->createStub(Setup\Environment::class);
 
         $objective1 = $this->newObjective();
         $objective11 = $this->newObjective();
 
-        $objective1
+        $objective1->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([$objective11, $objective11]);
 
-        $objective11
+        $objective11->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([]);
@@ -140,17 +140,17 @@ class ObjectiveIteratorTest extends TestCase
 
     public function testAllObjectivesDetectsCycle(): void
     {
-        $environment = $this->createMock(Setup\Environment::class);
+        $environment = $this->createStub(Setup\Environment::class);
 
         $objective1 = $this->newObjective();
         $objective2 = $this->newObjective();
 
-        $objective1
+        $objective1->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([$objective2]);
 
-        $objective2
+        $objective2->expects($this->atLeastOnce())
             ->method("getPreconditions")
             ->with($environment)
             ->willReturn([$objective1]);

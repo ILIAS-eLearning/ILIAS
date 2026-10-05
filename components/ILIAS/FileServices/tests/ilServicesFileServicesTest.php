@@ -75,7 +75,7 @@ class ilServicesFileServicesTest extends TestCase
                  ->method('isByPassAllowedForCurrentUser')
                  ->willReturn(false);
 
-        $stream = $this->createMock(FileStream::class);
+        $stream = $this->createStub(FileStream::class);
         $meta = new Metadata('filename.pdf', 42, 'application/pdf');
 
         $processor = new ilFileServicesPreProcessor(
@@ -98,7 +98,7 @@ class ilServicesFileServicesTest extends TestCase
                  ->method('isByPassAllowedForCurrentUser')
                  ->willReturn(true);
 
-        $stream = $this->createMock(FileStream::class);
+        $stream = $this->createStub(FileStream::class);
         $meta = new Metadata('filename.pdf', 42, 'application/pdf');
 
         $processor = new ilFileServicesPreProcessor(
@@ -130,7 +130,7 @@ class ilServicesFileServicesTest extends TestCase
     public function testActualWhitelist(): void
     {
         $settings_mock = $this->createMock(ilSetting::class);
-        $ini_mock = $this->createMock(ilIniFile::class);
+        $ini_mock = $this->createStub(ilIniFile::class);
 
         $ref = new stdClass();
         $ref->ref_id = 32;

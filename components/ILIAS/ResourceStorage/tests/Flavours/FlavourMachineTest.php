@@ -55,7 +55,7 @@ require_once __DIR__ . '/SVGDummyMachine.php';
 class FlavourMachineTest extends AbstractTestBase
 {
     /**
-     * @var \ILIAS\ResourceStorage\Flavour\Engine\Factory|MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Flavour\Engine\Factory
      */
     private MockObject $engine_factory_mock;
 

@@ -52,7 +52,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testIsPluginActivated(): void
     {
-        $handle = $this->createMock(\ilDBStatement::class);
+        $handle = $this->createStub(\ilDBStatement::class);
 
         $this->il_db->expects($this->once())
             ->method("query")
@@ -70,7 +70,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testGetCurrentPluginVersion(): void
     {
-        $handle = $this->createMock(\ilDBStatement::class);
+        $handle = $this->createStub(\ilDBStatement::class);
 
         $this->il_db->expects($this->once())
             ->method("query")
@@ -88,7 +88,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testGetCurrentPluginDBVersion(): void
     {
-        $handle = $this->createMock(\ilDBStatement::class);
+        $handle = $this->createStub(\ilDBStatement::class);
 
         $this->il_db->expects($this->once())
             ->method("query")
@@ -106,7 +106,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testSetCurrentPluginVersionKnownPlugin(): void
     {
-        $handle = $this->createMock(\ilDBStatement::class);
+        $handle = $this->createStub(\ilDBStatement::class);
 
         $this->il_db->expects($this->once())
             ->method("query")
@@ -139,7 +139,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testSetCurrentPluginVersionUnknownPlugin(): void
     {
-        $handle = $this->createMock(\ilDBStatement::class);
+        $handle = $this->createStub(\ilDBStatement::class);
 
         $this->il_db->expects($this->once())
             ->method("query")
@@ -177,7 +177,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testSetActivationTrue(): void
     {
-        $handle = $this->createMock(\ilDBStatement::class);
+        $handle = $this->createStub(\ilDBStatement::class);
 
         $this->il_db->expects($this->once())
             ->method("query")
@@ -207,7 +207,7 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testSetActivationFalse(): void
     {
-        $handle = $this->createMock(\ilDBStatement::class);
+        $handle = $this->createStub(\ilDBStatement::class);
 
         $this->il_db->expects($this->once())
             ->method("query")

@@ -41,8 +41,8 @@ class ilModulesOrgUnitPermissionTest extends TestCase
 
     public function testOrgUnitPermissionModification(): void
     {
-        $mock_operation = $this->createMock(ilOrgUnitOperation::class);
-        $mock_context = $this->createMock(ilOrgUnitOperationContext::class);
+        $mock_operation = $this->createStub(ilOrgUnitOperation::class);
+        $mock_context = $this->createStub(ilOrgUnitOperationContext::class);
 
         $permission = new ilOrgUnitPermission(666);
         $this->assertEquals(666, $permission->getId());

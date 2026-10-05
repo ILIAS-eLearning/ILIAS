@@ -43,10 +43,9 @@ class CacheTest extends TestCase
 
     protected function setUp(): void
     {
-        $language_mock = $this->createMock(\ilLanguage::class);
         $this->refinery = new Factory(
             new \ILIAS\Data\Factory(),
-            $language_mock
+            $this->createStub(\ilLanguage::class)
         );
         // prevent chached values between tests
         $static_flush = new PHPStatic($this->getConfig(Config::PHPSTATIC));

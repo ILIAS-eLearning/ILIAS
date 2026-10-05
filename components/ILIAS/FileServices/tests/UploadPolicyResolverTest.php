@@ -27,8 +27,8 @@ class UploadPolicyResolverTest extends TestCase
 {
     public function testLimitedPolicy(): void
     {
-        $rbac_mock = $this->createMock(\ilRbacReview::class);
-        $user_mock = $this->createMock(\ilObjUser::class);
+        $rbac_mock = $this->createStub(\ilRbacReview::class);
+        $user_mock = $this->createStub(\ilObjUser::class);
 
         $general_policy = new \UploadPolicy(
             1,
@@ -94,8 +94,8 @@ class UploadPolicyResolverTest extends TestCase
 
     public function testPolicyWithStartAndEndDate(): void
     {
-        $rbac_mock = $this->createMock(\ilRbacReview::class);
-        $user_mock = $this->createMock(\ilObjUser::class);
+        $rbac_mock = $this->createStub(\ilRbacReview::class);
+        $user_mock = $this->createStub(\ilObjUser::class);
 
         $running_policy = $this->buildPolicy(
             'Running',

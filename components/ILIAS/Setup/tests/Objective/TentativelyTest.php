@@ -105,7 +105,7 @@ class TentativelyTest extends TestCase
     {
         $other = $this->newObjective();
 
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $this->objective
             ->expects($this->once())
@@ -121,7 +121,7 @@ class TentativelyTest extends TestCase
 
     public function testAchieve(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $this->objective
             ->expects($this->once())
@@ -135,7 +135,7 @@ class TentativelyTest extends TestCase
 
     public function testAchieveThrows(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $this->objective
             ->expects($this->once())
@@ -149,7 +149,7 @@ class TentativelyTest extends TestCase
 
     public function testIsApplicable(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
         $is_applicable = random_int(0, 1) == 1;
 
         $this->objective

@@ -72,7 +72,7 @@ class CallableObjectiveTest extends TestCase
 
     public function testGetPreconditions(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $pre = $this->o->getPreconditions($env);
         $this->assertEquals([$this->p], $pre);
@@ -83,7 +83,7 @@ class CallableObjectiveTest extends TestCase
     {
         $this->env = null;
 
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $res = $this->o->achieve($env);
         $this->assertSame($env, $res);

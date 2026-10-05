@@ -44,28 +44,21 @@ class ilModulesOrgUnitTypeTest extends TestCase
     public function getRefinery(): \ILIAS\Refinery\Factory
     {
         $data_factory = new \ILIAS\Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        $refinery = new \ILIAS\Refinery\Factory($data_factory, $language);
+        $refinery = new \ILIAS\Refinery\Factory($data_factory, $this->createStub(ilLanguage::class));
         return $refinery;
     }
 
     public function getUIFactory(): NoUIFactory
     {
-        $node_factory = $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class);
-        $language = $this->createMock(ilLanguage::class);
-        $filter_factory = $this->createMock(Component\Input\Container\Filter\Factory::class);
-        $view_control_factory = $this->createMock(Component\Input\Container\ViewControl\Factory::class);
-        $control_factory = $this->createMock(Component\Input\ViewControl\Factory::class);
-        $upload_limit_resolver = $this->createMock(Component\Input\UploadLimitResolver::class);
         $refinery = $this->getRefinery();
 
         $factory = new class (
-            $node_factory,
-            $language,
-            $filter_factory,
-            $view_control_factory,
-            $control_factory,
-            $upload_limit_resolver,
+            $this->createStub(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createStub(ilLanguage::class),
+            $this->createStub(Component\Input\Container\Filter\Factory::class),
+            $this->createStub(Component\Input\Container\ViewControl\Factory::class),
+            $this->createStub(Component\Input\ViewControl\Factory::class),
+            $this->createStub(Component\Input\UploadLimitResolver::class),
             $refinery
         ) extends NoUIFactory {
             public function __construct(
@@ -140,7 +133,7 @@ class ilModulesOrgUnitTypeTest extends TestCase
         $gui = new mock_ilOrgUnitTypeGUI(
             $this->getRefinery(),
             $this->getUIFactory(),
-            $this->createMock(ilLanguage::class)
+            $this->createStub(ilLanguage::class)
         );
 
         $form = $gui->mockGetAmdForm([$amdr1, $amdr2], $type);

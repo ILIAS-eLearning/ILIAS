@@ -30,15 +30,28 @@ use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Capabilities\TypeResolver;
 use ILIAS\File\Capabilities\Context;
 
+#[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
 class CapabilityTest extends TestCase
 {
     /**
-     * @var (\ilWorkspaceAccessHandler & \PHPUnit\Framework\MockObject\MockObject)
+     * @var \ilWorkspaceAccessHandler&\PHPUnit\Framework\MockObject\Stub
      */
-    public MockObject $workspace_access_handler;
+    public \PHPUnit\Framework\MockObject\Stub $workspace_access_handler;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\File\Capabilities\TypeResolver
+     */
     public MockObject $type_resolver;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ilObjFileInfoRepository
+     */
     private MockObject $file_info_repository;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ilAccessHandler
+     */
     private MockObject $access;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\WOPI\Discovery\ActionRepository
+     */
     private MockObject $action_repository;
     private CapabilityBuilder $capability_builder;
 
@@ -54,24 +67,20 @@ class CapabilityTest extends TestCase
 
         $this->file_info_repository = $this->createMock(\ilObjFileInfoRepository::class);
         $this->access = $this->createMock(\ilAccessHandler::class);
-        $ctrl = $this->createMock(\ilCtrlInterface::class);
         $this->action_repository = $this->createMock(ActionRepository::class);
-        $http = $this->createMock(Services::class);
-        $static_url = $this->createMock(URIBuilder::class);
         $this->type_resolver = $this->createMock(TypeResolver::class);
-        $this->workspace_access_handler = $this->createMock(ilWorkspaceAccessHandler::class);
+        $this->workspace_access_handler = $this->createStub(ilWorkspaceAccessHandler::class);
 
         $this->type_resolver->method('resolveTypeByObjectId')
-                            ->withAnyParameters()
                             ->willReturn('file');
 
         $this->capability_builder = new CapabilityBuilder(
             $this->file_info_repository,
             $this->access,
-            $ctrl,
+            $this->createStub(\ilCtrlInterface::class),
             $this->action_repository,
-            $http,
-            $static_url,
+            $this->createStub(Services::class),
+            $this->createStub(URIBuilder::class),
             $this->type_resolver,
             $this->workspace_access_handler
         );
@@ -249,7 +258,7 @@ class CapabilityTest extends TestCase
         $file_info->method('shouldDownloadDirectly')
                   ->willReturn(!$infopage_first);
 
-        $this->file_info_repository->method('getByObjectId')
+        $this->file_info_repository->expects($this->atLeastOnce())->method('getByObjectId')
                                    ->with($context->getObjectId())
                                    ->willReturn($file_info);
 

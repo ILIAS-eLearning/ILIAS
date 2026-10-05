@@ -29,7 +29,10 @@ class BuildArtifactObjectiveTest extends TestCase
     protected \PHPUnit\Framework\MockObject\MockObject $o;
 
     protected Artifact $artifact;
-    protected Setup\Environment $env;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Setup\Environment
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $env;
 
     public function setUp(): void
     {
@@ -39,7 +42,7 @@ class BuildArtifactObjectiveTest extends TestCase
             ->getMock();
 
         $this->artifact = $this->createMock(Setup\Artifact::class);
-        $this->env = $this->createMock(Setup\Environment::class);
+        $this->env = $this->createStub(Setup\Environment::class);
     }
 
     public function testBuildInDefaultsToBuild(): void

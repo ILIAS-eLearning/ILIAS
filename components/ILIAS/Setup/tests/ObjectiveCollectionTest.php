@@ -81,7 +81,7 @@ class ObjectiveCollectionTest extends TestCase
 
         $c = new Setup\ObjectiveCollection("", false, $g1, $g2, $g3);
 
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $pre = $c->getPreconditions($env);
         $this->assertEquals([$g1,$g2, $g3], $pre);
@@ -96,7 +96,7 @@ class ObjectiveCollectionTest extends TestCase
 
         $c = new Setup\ObjectiveCollection("", false, $g1, $g2, $g3);
 
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         foreach ([$g1,$g2,$g3] as $g) {
             $g

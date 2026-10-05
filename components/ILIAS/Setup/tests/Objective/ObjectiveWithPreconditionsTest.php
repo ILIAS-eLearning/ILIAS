@@ -81,7 +81,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
     {
         $another = $this->newObjective();
 
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $this->objective
             ->expects($this->once())
@@ -96,7 +96,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
 
     public function testAchieve(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $this->objective
             ->expects($this->once())

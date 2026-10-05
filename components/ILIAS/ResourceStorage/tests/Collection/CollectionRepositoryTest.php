@@ -37,6 +37,9 @@ use ILIAS\ResourceStorage\Collection\ResourceCollection;
 class CollectionRepositoryTest extends TestCase
 {
     private const string TEST_RCID = 'test_rcid';
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ilDBInterface
+     */
     private MockObject $db_mock;
     private CollectionDBRepository $repo;
     private DummyIDGenerator $rcid_generator;

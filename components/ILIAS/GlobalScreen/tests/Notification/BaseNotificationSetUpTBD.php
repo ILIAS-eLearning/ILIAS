@@ -126,9 +126,9 @@ abstract class BaseNotificationSetUp extends TestCase
     public function getDIC(): Container
     {
         $mocks = [
-            'ui' => $this->createMock(UIServices::class),
-            'ui.factory' => $this->createMock(\ILIAS\UI\Factory::class),
-            'provider_factory' => $this->createMock(ProviderFactory::class),
+            'ui' => $this->createStub(UIServices::class),
+            'ui.factory' => $this->createStub(\ILIAS\UI\Factory::class),
+            'provider_factory' => $this->createStub(ProviderFactory::class),
         ];
         return new class ($mocks) extends Container {
             public function globalScreen(): Services

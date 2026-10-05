@@ -55,7 +55,7 @@ class ClientIdReadObjectiveTest extends TestCase
 
     public function testGetPreconditions(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $pre = $this->o->getPreconditions($env);
         $this->assertEquals([], $pre);

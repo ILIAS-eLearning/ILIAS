@@ -39,7 +39,7 @@ class UpdateCommandTest extends TestCase
     }
     public function basicFunctionality(bool $is_applicable): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
@@ -53,7 +53,6 @@ class UpdateCommandTest extends TestCase
         $config_file_content = ["config_file"];
 
         $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
 
         $config_reader
             ->expects($this->once())
@@ -115,7 +114,7 @@ class UpdateCommandTest extends TestCase
         $objective
             ->expects($expects)
             ->method("achieve")
-            ->willReturn($env);
+            ->willReturn($this->createStub(Setup\Environment::class));
 
         $objective
             ->expects($this->once())

@@ -42,7 +42,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
 
     public function setUp(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $this->obj = new TestObj($refinery);
     }
@@ -242,7 +242,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
 
     public function testGetInstallObjectives(): void
     {
-        $setup_conf_mock = $this->createMock(\ilGlobalCacheSettingsAdapter::class);
+        $setup_conf_mock = $this->createStub(\ilGlobalCacheSettingsAdapter::class);
         $objective_collection = $this->obj->getInstallObjective($setup_conf_mock);
 
         $this->assertEquals('Store configuration of components/ILIAS/GlobalCache_', $objective_collection->getLabel());
@@ -251,7 +251,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
 
     public function testGetUpdateObjective(): void
     {
-        $setup_conf_mock = $this->createMock(\ilGlobalCacheSettingsAdapter::class);
+        $setup_conf_mock = $this->createStub(\ilGlobalCacheSettingsAdapter::class);
         $objective_collection = $this->obj->getUpdateObjective($setup_conf_mock);
 
         $this->assertEquals('Store configuration of components/ILIAS/GlobalCache_', $objective_collection->getLabel());
