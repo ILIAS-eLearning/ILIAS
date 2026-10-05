@@ -376,7 +376,7 @@ trait ilTestBaseTestCaseTrait
     protected function addGlobal_refinery(): void
     {
         $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
-        $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
+        $refineryMock->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
         $this->setGlobalVariable('refinery', $refineryMock);
     }
 

@@ -59,7 +59,7 @@ class AccessQuestionImageTest extends TestCase
     {
         $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
 
-        $readable->method('objectId')->with(6709)->willReturn($is_readable);
+        $readable->expects(self::once())->method('objectId')->with(6709)->willReturn($is_readable);
 
         $instance = new AccessQuestionImage($readable);
         $result = $instance->isPermitted('/assessment/6709/389/images/foo.png');
