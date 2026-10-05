@@ -227,7 +227,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $uiRenderer->method('render')
+        $uiRenderer->expects($this->exactly(2))
+            ->method('render')
             ->with($std_link)
             ->willReturn('link');
 
