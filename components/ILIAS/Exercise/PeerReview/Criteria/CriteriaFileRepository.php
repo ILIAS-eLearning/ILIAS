@@ -96,7 +96,11 @@ class CriteriaFileRepository
         int $peer_id,
         int $criteria_id
     ): void {
+        $old_rid = $this->getFileRidOfReview($ass_id, $giver_id, $peer_id, $criteria_id);
         $rid = $this->irss->importFileFromLegacyUpload($file, $stakeholder);
+        if ($rid === "") {
+            return;
+        }
         $this->db->replace(
             "exc_crit_file",
             [
@@ -109,6 +113,9 @@ class CriteriaFileRepository
                 "rid" => ["text", $rid]
             ]
         );
+        if ($old_rid !== "" && $old_rid !== $rid) {
+            $this->irss->deleteResource($old_rid, $stakeholder);
+        }
 
     }
 
