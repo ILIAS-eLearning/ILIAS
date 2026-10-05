@@ -33,8 +33,7 @@ class ilTestSkillLevelThresholdsTableGUITest extends ilTestBaseTestCase
 
         $lng_mock = $this->createMock(ilLanguage::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock->expects($this->any())
-                  ->method("getFormAction")
+        $ctrl_mock->method("getFormAction")
                   ->willReturnCallback(function () {
                       return "testFormAction";
                   });
@@ -49,7 +48,7 @@ class ilTestSkillLevelThresholdsTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
         $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
-        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
+        $this->parentObj_mock->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilTestSkillLevelThresholdsTableGUI(
             $this->parentObj_mock,
             0,

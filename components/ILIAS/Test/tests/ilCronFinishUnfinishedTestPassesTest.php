@@ -58,7 +58,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
     {
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('txt')
             ->with('finish_unfinished_passes')
             ->willReturn('testString')
@@ -74,7 +74,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
     {
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('txt')
             ->with('finish_unfinished_passes_desc')
             ->willReturn('testString')

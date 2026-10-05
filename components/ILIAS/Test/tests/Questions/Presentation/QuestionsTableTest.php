@@ -49,15 +49,13 @@ class QuestionsTableTest extends \ilTestBaseTestCase
         $actions = $this->getMockBuilder(QuestionsTableActions::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $actions->expects($this->any())
-            ->method('getQuestionTargetLinkBuilder')
+        $actions->method('getQuestionTargetLinkBuilder')
             ->willReturn(fn(int $q): string => '');
 
         $questionrepository = $this->getMockBuilder(QuestionsRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $questionrepository->expects($this->any())
-            ->method('getQuestionPropertiesWithAggregatedResultsForTest')
+        $questionrepository->method('getQuestionPropertiesWithAggregatedResultsForTest')
             ->willReturn(
                 [
                     new \ILIAS\Test\Questions\Properties\Properties(
