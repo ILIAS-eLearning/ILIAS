@@ -142,7 +142,7 @@ class MediaPoolTableBuilder extends CommonTableBuilder
 
         if ($this->all_objects) {
             $advanced_metadata = $this->advanced_metadata
-                ->forSubObjects('mep', $this->media_pool->getRefId(), 'mob')
+                ->forSubObjects('mep', $this->media_pool->getRefId(), 'mob', 'mpg')
                 ->inDataTable();
             foreach ($advanced_metadata->getColumns() as $key => $column) {
                 $table->column($key, $column);
@@ -286,7 +286,7 @@ class MediaPoolTableBuilder extends CommonTableBuilder
                 ->select('format', $this->domain->lng()->txt('mep_format'), $options);
 
             $advanced_metadata = $this->advanced_metadata
-                ->forSubObjects('mep', $this->media_pool->getRefId(), 'mob')
+                ->forSubObjects('mep', $this->media_pool->getRefId(), 'mob', 'mpg')
                 ->inFilter();
             foreach ($advanced_metadata->getFilterInputs() as $key => $input) {
                 $this->filter->input($key, $input, false);
