@@ -13092,7 +13092,7 @@ news#:#news_notifications_public_info#:#If this option is enabled, notifications
 news#:#news_nr_of_items#:#Maximum Number of News Items per Object
 news#:#news_nr_of_items_info#:#Number of news items that are stored for an object (e.g. a file or a learning module). Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate the news of their sub-objects.
 news#:#news_pd_period#:#Dashboard News Period
-news#:#news_pd_period_info#:#Determine how long (week, month or year) news items should be shown on the Dashboard. Select a lower value if you experience any performance problems.
+news#:#news_pd_period_info#:#Determine how long (week, month or year) news items should be displayed on the Dashboard. Select a shorter period if you experience any performance problems.
 news#:#news_period_1_month#:#Last Month
 news#:#news_period_1_week#:#Last Week
 news#:#news_period_1_year#:#Last Year
