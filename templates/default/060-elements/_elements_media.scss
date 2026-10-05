@@ -13,3 +13,7 @@ a:has(img) {
 	@include focus.clear-focus-for-override();
 	@include focus.il-focus();
 }
+
+a:has(img.img-standard):focus-visible {
+   display: block;
+}
