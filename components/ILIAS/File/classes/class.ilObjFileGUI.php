@@ -758,10 +758,6 @@ class ilObjFileGUI extends ilObject2GUI
             ? $this->request_wrapper->retrieve('hist_id', $this->refinery->kindlyTo()->int())
             : null;
         try {
-            if (ANONYMOUS_USER_ID === $this->user->getId() && $this->request_wrapper->has('transaction')) {
-                $this->object->sendFile($hist_entry_id);
-            }
-
             if ($this->capabilities->get(Capabilities::DOWNLOAD)->isUnlocked()) {
                 // Record read event and catchup with write events
                 $this->recordReadEvent();
