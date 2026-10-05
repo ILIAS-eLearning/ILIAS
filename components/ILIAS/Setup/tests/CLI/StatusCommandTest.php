@@ -31,10 +31,10 @@ class StatusCommandTest extends TestCase
 {
     public function testMetrics(): void
     {
-        $agent_finder = $this->createMock(Setup\AgentFinder::class);
+        $agent_finder = $this->createStub(Setup\AgentFinder::class);
         $obj = new Setup\CLI\StatusCommand($agent_finder);
         $storage = new Metrics\ArrayStorage();
-        $objective = $this->createMock(Setup\Objective::class);
+        $objective = $this->createStub(Setup\Objective::class);
         $agent = $this->createMock(Setup\AgentCollection::class);
         $expected = new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, []);
 

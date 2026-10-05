@@ -33,7 +33,7 @@ class FinderTest extends TestCase
 {
     private function getFlatFileSystemStructure(): Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
     {
-        $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $fileSystem = $this->createMock(Filesystem\Filesystem::class);
 
         $metadata = [
             new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
@@ -57,7 +57,7 @@ class FinderTest extends TestCase
 
     private function getNestedFileSystemStructure(): Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
     {
-        $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $fileSystem = $this->createMock(Filesystem\Filesystem::class);
 
         $rootMetadata = [
             new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
@@ -114,7 +114,7 @@ class FinderTest extends TestCase
      */
     private function getNestedFileSystemStructureWithAnUnlistableDirectory(
     ): Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject {
-        $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $fileSystem = $this->createMock(Filesystem\Filesystem::class);
 
         $rootMetadata = [
             new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
@@ -162,7 +162,7 @@ class FinderTest extends TestCase
 
     public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory(): void
     {
-        $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $fileSystem = $this->createMock(Filesystem\Filesystem::class);
 
         $fileSystem
             ->method('listContents')
@@ -367,7 +367,7 @@ class FinderTest extends TestCase
 
     public function testFinderLimitRejectsNegativeValues(): void
     {
-        $fs = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $fs = $this->createStub(Filesystem\Filesystem::class);
         $finder = (new Finder($fs))->in(['/']);
         $this->expectException(InvalidArgumentException::class);
         $finder->limit(-1);
@@ -375,7 +375,7 @@ class FinderTest extends TestCase
 
     public function testFinderHasAnyDetectsMatchingAndMissingResults(): void
     {
-        $empty_fs = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $empty_fs = $this->createMock(Filesystem\Filesystem::class);
         $empty_fs->method('listContents')->willReturn([]);
         $empty_finder = (new Finder($empty_fs))->in(['/']);
         $this->assertFalse($empty_finder->hasAny());

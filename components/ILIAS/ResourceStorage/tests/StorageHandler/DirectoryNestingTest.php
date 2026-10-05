@@ -39,15 +39,15 @@ class DirectoryNestingTest extends AbstractTestBase
     private const int NESTING_281474976710656 = 281_474_976_710_656;
     private const int COMBINATIONS = 16; // 0-9a-f
     /**
-     * @var Filesystem|MockObject
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Filesystem\Filesystem
      */
-    protected MockObject $file_system_mock;
+    protected \PHPUnit\Framework\MockObject\Stub $file_system_mock;
 
     #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
-        $this->file_system_mock = $this->createMock(Filesystem::class);
+        $this->file_system_mock = $this->createStub(Filesystem::class);
     }
 
     private function withImplementation(StorageHandler $h, int $min, int $max): void

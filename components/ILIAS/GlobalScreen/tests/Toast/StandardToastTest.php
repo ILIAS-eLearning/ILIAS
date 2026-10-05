@@ -29,7 +29,7 @@ class StandardToastTest extends BaseToastSetUp
 {
     public function testStandardToast(): void
     {
-        $id = $this->createMock(IdentificationInterface::class);
+        $id = $this->createStub(IdentificationInterface::class);
 
         $standard_toast = $this->factory->standard(
             $id,
@@ -80,7 +80,7 @@ class StandardToastTest extends BaseToastSetUp
     #[DataProvider('reservedActionsProvider')]
     public function testReservedActions(ToastAction $action): void
     {
-        $id = $this->createMock(IdentificationInterface::class);
+        $id = $this->createStub(IdentificationInterface::class);
 
         $standard_toast = $this->factory->standard(
             $id,

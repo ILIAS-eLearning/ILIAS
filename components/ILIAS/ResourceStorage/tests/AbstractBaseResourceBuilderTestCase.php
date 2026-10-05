@@ -49,13 +49,16 @@ use Psr\Http\Message\UploadedFileInterface;
  */
 abstract class AbstractBaseResourceBuilderTestCase extends AbstractTestBase
 {
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Resource\Repository\FlavourRepository
+     */
     public MockObject $flavour_repository;
     /**
-     * @var Revision|MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Revision\Revision
      */
     protected MockObject $revision;
     /**
-     * @var Information|MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Information\Information
      */
     protected MockObject $information;
     /**
@@ -63,40 +66,41 @@ abstract class AbstractBaseResourceBuilderTestCase extends AbstractTestBase
      */
     protected $upload_result;
     /**
-     * @var MockObject|InformationRepository
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Information\Repository\InformationRepository
      */
     protected MockObject $information_repository;
     /**
-     * @var MockObject|ResourceRepository
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Resource\Repository\ResourceRepository
      */
     protected MockObject $resource_repository;
     /**
-     * @var MockObject|CollectionRepository
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Collection\Repository\CollectionRepository
      */
     protected MockObject $collection_repository;
     /**
-     * @var MockObject|RevisionRepository
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Revision\Repository\RevisionRepository
      */
     protected MockObject $revision_repository;
     /**
-     * @var MockObject|StorageHandler
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\StorageHandler\StorageHandler
      */
     protected MockObject $storage_handler;
     protected ResourceBuilder $resource_builder;
     /**
-     * @var StakeholderRepository|MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository
      */
     protected MockObject $stakeholder_repository;
     /**
-     * @var LockHandler|MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Lock\LockHandler
      */
     protected MockObject $locking;
     /**
-     * @var StorageHandlerFactory|MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory
      */
     protected MockObject $storage_handler_factory;
     /**
      * @var StreamAccess|\PHPUnit\Framework\MockObject\MockObject|StreamAccess&\PHPUnit\Framework\MockObject\MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess
      */
     protected MockObject $stream_access;
     protected Repositories $repositories;

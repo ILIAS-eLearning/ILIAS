@@ -35,7 +35,10 @@ class ilModulesOrgUnitTest extends TestCase
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $db_mock;
-    protected $manager_mock;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\ResourceStorage\Manager\Manager
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $manager_mock;
     private PHPUnit\Framework\MockObject\MockObject $component_factory_mock;
 
     protected function setUp(): void
@@ -45,9 +48,9 @@ class ilModulesOrgUnitTest extends TestCase
 
         $DIC = new Container();
         $DIC['resource_storage'] = $this->storage_mock = $this->createMock(Services::class);
-        $this->manager_mock = $this->createMock(Manager::class);
+        $this->manager_mock = $this->createStub(Manager::class);
         $DIC['ilUser'] = $this->createMock(ilObjUser::class);
-        $DIC['ilUser']->expects($this->any())->method('getPref')->willReturn('en');
+        $DIC['ilUser']->method('getPref')->willReturn('en');
         $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
         $DIC['upload'] = $this->createMock(FileUpload::class);
         $DIC['ilias'] = $this->createMock(ILIAS::class);

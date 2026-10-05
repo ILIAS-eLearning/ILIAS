@@ -48,7 +48,7 @@ class ilOrgUnitOperationContextRegisteredObjectiveTest extends TestCase
         }
 
         $env = $this->createMock(Environment::class);
-        $env
+        $env->expects($this->atLeastOnce())
             ->method('getResource')
             ->with(Environment::RESOURCE_DATABASE)
             ->willReturn($db);
@@ -101,11 +101,10 @@ class ilOrgUnitOperationContextRegisteredObjectiveTest extends TestCase
 
     protected function testGetPreconditions(): void
     {
-        $env = $this->createMock(Environment::class);
         $obj = $this->getMockObjective(0, 0, $this->context);
         $this->assertContainsOnlyInstancesOf(
             ilDatabaseInitializedObjective::class,
-            $obj->getPreconditions($env)
+            $obj->getPreconditions($this->createStub(Environment::class))
         );
     }
 

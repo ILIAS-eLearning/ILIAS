@@ -49,9 +49,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $http = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
-        $this->subject = new FileDeliveryTypeFactory($http);
+        $this->subject = new FileDeliveryTypeFactory($this->createStub(Services::class));
     }
 
 

@@ -44,19 +44,17 @@ abstract class BaseToastSetUp extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $ui_mock = $this->createMock(UIServices::class);
         $this->provider = $this->createMock(ToastProvider::class);
         $this->provider->method('getProviderNameForPresentation')->willReturn('Provider');
-        $this->factory = (new ToastServices($ui_mock))->factory();
+        $this->factory = (new ToastServices($this->createStub(UIServices::class)))->factory();
     }
 
     public function getDIC(): Container
     {
         $mocks = [
-            'ui' => $this->createMock(UIServices::class),
-            'ui.factory' => $this->createMock(Factory::class),
-            'provider_factory' => $this->createMock(ProviderFactory::class),
+            'ui' => $this->createStub(UIServices::class),
+            'ui.factory' => $this->createStub(Factory::class),
+            'provider_factory' => $this->createStub(ProviderFactory::class),
         ];
         return new class ($mocks) extends Container {
             public function globalScreen(): Services
