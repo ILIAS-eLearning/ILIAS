@@ -38,8 +38,8 @@ class ShortFilePayload extends StructuredPayload
         $modification_time = @filemtime($uri);
         // try to shorten uri
         $base = BaseDirObjective::get();
-        if ($base !== null) {
-            $uri = str_replace($base, '', $uri);
+        if ($base !== null && str_starts_with($uri, $base)) {
+            $uri = substr($uri, strlen($base));
         }
 
         parent::__construct([
@@ -63,7 +63,8 @@ class ShortFilePayload extends StructuredPayload
         $uri = $this->uri;
         // try to expand uri
         $base = BaseDirObjective::get();
-        if ($base !== null) {
+        // only shortened (relative) uris are expanded, absolute ones lie outside the base dir
+        if ($base !== null && !str_starts_with($uri, '/')) {
             return $base . $uri;
         }
 
