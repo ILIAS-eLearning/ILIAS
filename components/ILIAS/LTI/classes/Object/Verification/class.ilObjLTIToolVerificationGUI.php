@@ -84,7 +84,7 @@ class ilObjLTIToolVerificationGUI extends ilObject2GUI implements DataRetrieval
         } catch (Exception $e) {
             global $DIC;
 
-            $DIC->logger()->root()->warning('The verification of the LTI certificate could not be created: ' . $e->getMessage());
+            $DIC->logger()->forComponent('lti')->warning('The verification of the LTI certificate could not be created: ' . $e->getMessage());
             $this->lng->loadLanguageModule('cert');
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
             $this->create();
@@ -152,7 +152,7 @@ class ilObjLTIToolVerificationGUI extends ilObject2GUI implements DataRetrieval
         return new ilCertificateVerificationFileService(
             $this->lng,
             $DIC->database(),
-            $DIC->logger()->root(),
+            $DIC->logger()->forComponent('lti'),
             new ilCertificateVerificationClassMap()
         );
     }

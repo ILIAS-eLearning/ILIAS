@@ -57,7 +57,14 @@ try {
 
 // an error is only sent back to a redirect URI the tool registered
 if ($connection === null || !$connection->isRedirectionUri((string) (Util::$requestParameters['redirect_uri'] ?? ''))) {
-    $log->warning('LTI Advantage authentication request refused: unknown client id or redirect URI.');
+    $log->warning('LTI Advantage authentication request refused: unknown client id or redirect URI ({request})', [
+        'request' => ilLTILibraryLogger::describe([
+            'client_id' => Util::$requestParameters['client_id'] ?? null,
+            'redirect_uri' => Util::$requestParameters['redirect_uri'] ?? null,
+            'user_id' => Util::$requestParameters['login_hint'] ?? null,
+            'hint' => Util::$requestParameters['lti_message_hint'] ?? null,
+        ]),
+    ]);
     ilLTIAdvantageResponse::send(400, '', '');
 }
 
@@ -66,4 +73,5 @@ if (!$DIC->user()->isAnonymous()) {
     ilLTISessionCookie::allowCrossSite();
 }
 
+register_shutdown_function($connection->logAuthenticationAnswer(...));
 $connection->handleRequest();

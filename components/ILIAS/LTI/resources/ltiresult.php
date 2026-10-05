@@ -35,15 +35,12 @@ $client_id = $DIC->http()->wrapper()->query()->retrieve(
 );
 
 if ($client_id === '') {
-    $log = $DIC->logger()->forComponent('lti');
-    $log->error("HTTP/1.1 401 Authorization Required");
+    $DIC->logger()->forComponent('lti')->warning('LTI Basic Outcomes request refused: no client id in the URL');
     header('HTTP/1.1 401 Authorization Required');
     exit;
 }
 
 ilContext::init(ilContext::CONTEXT_SCORM);
 
-$log = $DIC->logger()->forComponent('lti');
-$log->info("LTI result init successful");
 $service = new ilLTIConsumerResultService();
 $service->handleRequest();

@@ -160,6 +160,8 @@ class ilLTIAdvantageKeyPair
      */
     private static function getPrivateKey(): string
     {
+        // the library signs and verifies the tokens of ILIAS with this key, without any storage of its own
+        ilLTILibraryLogger::register();
         $settings = self::settings();
         $key = (string) $settings->get(self::SETTING_PRIVATE_KEY, '');
         if ($key !== '') {

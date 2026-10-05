@@ -199,7 +199,7 @@ class ilLTIAdministrationPlatformForm
         } catch (ilException|RandomException $e) {
             global $DIC;
 
-            $DIC->logger()->forComponent("lti")->error($e->getMessage());
+            $DIC->logger()->forComponent('lti')->error($e->getMessage());
             return "";
         }
     }

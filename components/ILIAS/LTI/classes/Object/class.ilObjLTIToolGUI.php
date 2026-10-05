@@ -450,6 +450,8 @@ class ilObjLTIToolGUI extends ilObject2GUI
             return;
         }
 
+        global $DIC;
+
         try {
             [$registration, $url] = ilLTIAdvantagePlatformRegistration::start(
                 (string) $data['url'],
@@ -457,14 +459,13 @@ class ilObjLTIToolGUI extends ilObject2GUI
                 $this->user->getId()
             );
         } catch (ilException $e) {
-            global $DIC;
-
             $DIC->logger()->forComponent('lti')->error($e->getMessage());
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_dyn_reg_failed'));
             $this->renderCreation(null, $form);
             return;
         }
 
+        $DIC->logger()->forComponent('lti')->debug('LTI Advantage Dynamic Registration of the tool at {url} started', ['url' => (string) $data['url']]);
         $this->ctrl->setParameter($this, self::REGISTRATION_PARAM, $registration);
         $finish_url = $this->ctrl->getLinkTarget($this, self::CMD_FINISH_REGISTRATION);
         $this->ctrl->setParameter($this, self::REGISTRATION_PARAM, null);
@@ -503,6 +504,8 @@ class ilObjLTIToolGUI extends ilObject2GUI
      */
     protected function finishRegistration(): void
     {
+        global $DIC;
+
         $this->assertOwnToolCreationAccess();
 
         $registered = ilLTIAdvantagePlatformRegistration::finish(
@@ -510,6 +513,9 @@ class ilObjLTIToolGUI extends ilObject2GUI
             $this->user->getId()
         );
         if ($registered === null) {
+            $DIC->logger()->forComponent('lti')->warning('LTI Advantage Dynamic Registration of a tool not finished: the tool did not register, or not for the user {usr_id}', [
+                'usr_id' => $this->user->getId(),
+            ]);
             $this->ctrl->setParameter($this, 'new_type', $this->getType());
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('lti_dyn_reg_failed'));
             $this->renderCreation(null, $this->buildRegistrationForm());
@@ -654,6 +660,11 @@ class ilObjLTIToolGUI extends ilObject2GUI
             );
         }
 
+        $DIC->logger()->forComponent('lti')->info('LTI Deep Linking of the tool {tool_id}: {count} objects created in {ref_id}', [
+            'tool_id' => $response['tool']->getId(),
+            'count' => count($objects),
+            'ref_id' => $this->getContainerRefId(),
+        ]);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         ilLTIAdvantagePlatformDeepLinking::sendTopRedirect(
             count($objects) > 1 ? $this->getStaticLink($this->getContainerRefId()) : $this->getSettingsLink($objects[0])

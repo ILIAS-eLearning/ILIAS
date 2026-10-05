@@ -102,6 +102,10 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
             return;
         }
 
+        $DIC->logger()->forComponent('lti')->info('LTI Deep Linking request: {count} objects offered ({request})', [
+            'count' => count($ref_ids),
+            'request' => $receiver instanceof ilLTILaunchReceiver ? $receiver->describeRequest() : '',
+        ]);
         self::printSelection(self::buildForm($token, $ref_ids, $multiple));
         // ILIAS would go on with the login of a launch
         $DIC->http()->close();
@@ -158,6 +162,17 @@ final class ilLTIAdvantageToolDeepLinking extends Tool
             $parameters['data'] = $payload['data'];
         }
         $page = $this->sendMessage((string) $payload['return_url'], self::MESSAGE_RESPONSE, $parameters);
+        $log->info('LTI Deep Linking response with {count} objects sent to the platform: {request}', [
+            'count' => count($items),
+            'request' => ilLTILibraryLogger::describe([
+                'registration' => $payload['platform'],
+                'issuer' => $payload['iss'],
+                'client_id' => $payload['client_id'],
+                'deployment_id' => $payload['deployment_id'],
+                'return_url' => $payload['return_url'],
+                'objects' => implode(',', array_intersect(array_map('intval', (array) $data[self::FIELD_OBJECTS]), $ref_ids)),
+            ]),
+        ]);
 
         ilLTIAdvantageResponse::html($page);
     }

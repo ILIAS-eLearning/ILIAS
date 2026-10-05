@@ -37,9 +37,6 @@ final class ilLTI1p1ConsumerLaunchRenderer
         ILIAS\DI\Container $dic,
         ilLanguage $lng
     ): void {
-        $logger = $dic->logger()->forComponent('lti');
-        $logger->info('LTI1p1 renderLaunch: ref_id=' . $object->getRefId() . ' launch_method=' . $object->getLaunchMethod());
-
         if ($object->isLaunchMethodEmbedded()) {
             $tpl = new ilTemplate('tpl.lti1p1_content.html', true, true, 'components/ILIAS/LTI');
             $tpl->setVariable("EMBEDDED_IFRAME_SRC", $dic->ctrl()->getLinkTarget(
@@ -62,9 +59,6 @@ final class ilLTI1p1ConsumerLaunchRenderer
         ilCmiXapiUser $cmix_user,
         ILIAS\DI\Container $dic
     ): never {
-        $logger = $dic->logger()->forComponent('lti');
-        $logger->info('LTI1p1 renderEmbeddedLaunch: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
-
         $tpl = new ilTemplate('tpl.lti1p1_embedded.html', true, true, 'components/ILIAS/LTI');
         $tpl->setVariable('LANG', $dic->language()->getLangKey());
         $tpl->setVariable('TITLE', htmlspecialchars($object->getTitle(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
@@ -96,15 +90,11 @@ final class ilLTI1p1ConsumerLaunchRenderer
         ILIAS\DI\Container $dic,
         ilLanguage $lng
     ): string {
-        $logger = $dic->logger()->forComponent('lti');
-        $logger->info('LTI1p1 renderStartButton: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
-
         if (
             $object->getOfflineStatus() ||
             $object->isLaunchMethodEmbedded() ||
             $object->getTool()->getAvailability() == ilLTITool::AVAILABILITY_NONE
         ) {
-            $logger->info('LTI1p1 renderStartButton: skipped (offline, embedded or provider unavailable)');
             return "";
         }
 
@@ -118,7 +108,6 @@ final class ilLTI1p1ConsumerLaunchRenderer
             $user_ident = ilCmiXapiUser::getIdent($object->getTool()->getPrivacyIdent(), $dic->user());
             $cmix_user->setUsrIdent($user_ident);
             $cmix_user->save();
-            $logger->info('LTI1p1 renderStartButton: created new cmix user identity for usr_id=' . $dic->user()->getId());
         }
 
         $return_url = !$object->isLaunchMethodOwnWin() ? '' : str_replace(
@@ -128,8 +117,6 @@ final class ilLTI1p1ConsumerLaunchRenderer
         );
 
         $launch_parameters = self::resolveLaunchParameters($object, $cmix_user, $dic, $return_url);
-
-        $logger->info('LTI1p1 renderStartButton: launch parameters built (' . count($launch_parameters) . ' fields), rendering form');
 
         $target = $object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $lng->txt("show_content") . '" />';
@@ -162,9 +149,6 @@ final class ilLTI1p1ConsumerLaunchRenderer
         ILIAS\DI\Container $dic,
         string $return_url = ''
     ): array {
-        $logger = $dic->logger()->forComponent('lti');
-        $logger->info('LTI1p1 resolveLaunchParameters: ref_id=' . $object->getRefId() . ' obj_id=' . $object->getId());
-
         $lti_consumer_launch = new ilLTI1p1ConsumerLaunchContext($object->getRefId());
         $launch_context = $lti_consumer_launch->getContext();
 
@@ -188,7 +172,12 @@ final class ilLTI1p1ConsumerLaunchRenderer
             $return_url
         );
 
-        $logger->info('LTI1p1 resolveLaunchParameters: resolved ' . count($params) . ' launch parameters');
+        // the launch itself is a form the browser posts to the tool, ILIAS does not see it
+        $dic->logger()->forComponent('lti')->debug('LTI 1.1 launch of the object {ref_id} for the user {usr_id} to the tool {tool_id}', [
+            'ref_id' => $object->getRefId(),
+            'usr_id' => $dic->user()->getId(),
+            'tool_id' => $object->getToolId(),
+        ]);
 
         return $params;
     }

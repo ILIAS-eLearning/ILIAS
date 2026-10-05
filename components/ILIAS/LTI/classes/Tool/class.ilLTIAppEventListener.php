@@ -110,6 +110,7 @@ class ilLTIAppEventListener implements ilAppEventListener
         global $DIC;
 
         $listener = new self();
+        $sent = 0;
         $db = $DIC->database();
         $result = $db->query(
             'SELECT ur.lti_user_id, rl.resource_link_pk, c.ext_consumer_id, c.ref_id'
@@ -134,8 +135,13 @@ class ilLTIAppEventListener implements ilAppEventListener
             $obj_id = ilObject::_lookupObjId($ref_id);
             $status = (int) ilLPStatus::_lookupStatus($obj_id, $usr_id);
             $percentage = $listener->getPercentage($obj_id, $status, (int) ilLPStatus::_lookupPercentage($obj_id, $usr_id));
-            $listener->sendOutcome((int) $row['resource_link_pk'], $row['lti_user_id'], $listener->getScore($status, $percentage), $status);
+            $sent += (int) $listener->sendOutcome((int) $row['resource_link_pk'], $row['lti_user_id'], $listener->getScore($status, $percentage), $status);
         }
+
+        $DIC->logger()->forComponent('lti')->info('LTI outcomes of the changes since {since} sent to the platforms: {sent}', [
+            'since' => $since->get(IL_CAL_DATETIME),
+            'sent' => $sent,
+        ]);
     }
 
     /**
@@ -244,33 +250,44 @@ class ilLTIAppEventListener implements ilAppEventListener
      * Sends the score through the outcome service of the resource link, which celtic/lti picks from what
      * the platform offered at the launch. Nothing is sent before the user has a result.
      *
+     * @return bool true when the platform accepted the outcome
      */
-    private function sendOutcome(int $resource_link, string $account, ?float $score, ?int $status): void
+    private function sendOutcome(int $resource_link, string $account, ?float $score, ?int $status): bool
     {
         if ($score === null) {
-            return;
+            return false;
         }
 
         $link = ResourceLink::fromRecordId($resource_link, new ilLTIDataConnector());
         // writing a score only needs the score scope, while hasOutcomesService() also asks for the result scope
         if (!$link->hasOutcomesService() && !$link->hasScoreService()) {
-            return;
+            return false;
         }
         if ($link->getPlatform()->ltiVersion === LtiVersion::V1P3 && !ilLTIAdvantageKeyPair::signAsDefaultTool(new Tool(new ilLTIDataConnector()))) {
-            return;
+            return false;
         }
+
+        global $DIC;
 
         [$activity_progress, $grading_progress] = $this->getProgress($status);
         $outcome = new Outcome($score, 1, $activity_progress->value, $grading_progress->value);
-        if (!$link->doOutcomesService(ServiceAction::Write, $outcome, UserResult::fromResourceLink($link, $account))) {
-            global $DIC;
+        $sent = $link->doOutcomesService(ServiceAction::Write, $outcome, UserResult::fromResourceLink($link, $account));
+        // the call itself, with what the platform answered, is in the log of the library
+        $DIC->logger()->forComponent('lti')->log(
+            ($sent ? 'LTI outcome sent' : 'LTI outcome not accepted by the platform') . ': {request}',
+            $sent ? ilLogLevel::INFO : ilLogLevel::WARNING,
+            ['request' => ilLTILibraryLogger::describe([
+                'score' => $score,
+                'activity' => $activity_progress->value,
+                'grading' => $grading_progress->value,
+                'version' => $link->getPlatform()->ltiVersion?->value,
+                'registration' => $link->getPlatform()->getRecordId(),
+                'resource_link' => $resource_link,
+                'resource_link_id' => $link->ltiResourceLinkId,
+                'user_id' => $account,
+            ])]
+        );
 
-            $DIC->logger()->forComponent('lti')->warning(sprintf(
-                'The platform did not accept the LTI outcome of resource link %d. Request: %s Response: %s',
-                $resource_link,
-                is_string($link->extRequest) ? $link->extRequest : json_encode($link->extRequest),
-                $link->extResponse
-            ));
-        }
+        return $sent;
     }
 }

@@ -49,6 +49,10 @@ If the platform offers the Names and Role Provisioning Services, the launch of a
 
 If the platform offers the Assignment and Grade Services or the LTI 1.1 Outcome Service, ILIAS sends it the Learning Progress and the score of the users that launched the object.
 
+### Data being logged
+
+The log of the component `lti` names the users of each launch and score by their ILIAS user id and by the user id the platform or tool knows them by. On the Debug level, it also holds the complete LTI messages ILIAS receives and sends, with the name, email and roles of the user as far as the privacy settings of the platform or tool let them through. Tokens, signatures, secrets and cookies are never logged. The Debug level is meant to look into a problem for a limited time.
+
 ### Data being presented
 
 - As LTI Consumer, no personal data is displayed in ILIAS unless the Advanced Grading Service is activated for an LTI resource (LTI Advantage). In that case the grading process is documented in detail, including statuses such as:

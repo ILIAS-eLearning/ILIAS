@@ -103,4 +103,60 @@ class ilLTILaunchReceiver extends Tool
     {
         ilLTIAdvantageToolDeepLinking::showSelection($this, $this->contentTypes ?? []);
     }
+
+    /**
+     * What identifies the request in the logs of both sides: the platform, its registration, the message, the
+     * resource link and the user as the platform names them, and the nonce of an LTI Advantage launch.
+     */
+    public function describeRequest(): string
+    {
+        $parameters = ($this->messageParameters ?? []) + Util::$requestParameters;
+        $ids = [
+            'message' => $parameters['lti_message_type'] ?? null,
+            'version' => $this->ltiVersion?->value,
+            'issuer' => $parameters['platform_id'] ?? $parameters['iss'] ?? null,
+            'client_id' => $parameters['oauth_consumer_key'] ?? $parameters['client_id'] ?? null,
+            'deployment_id' => $parameters['deployment_id'] ?? $parameters['lti_deployment_id'] ?? null,
+            'registration' => $this->platform?->getRecordId(),
+            'resource_link_id' => $parameters['resource_link_id'] ?? null,
+            'context_id' => $parameters['context_id'] ?? null,
+            'user_id' => $parameters['user_id'] ?? $parameters['login_hint'] ?? null,
+            'nonce' => $this->jwt?->getClaim('nonce'),
+            'target' => $parameters['target_link_uri'] ?? null,
+        ];
+
+        return ilLTILibraryLogger::describe($ids);
+    }
+
+    /**
+     * The first step of an LTI Advantage launch: ILIAS sends the browser back to the platform for the id_token.
+     *
+     * @param array $requestParameters
+     * @param array $authParameters
+     */
+    protected function onInitiateLogin(array $requestParameters, array &$authParameters): void
+    {
+        global $DIC;
+
+        parent::onInitiateLogin($requestParameters, $authParameters);
+        $DIC->logger()->forComponent('lti')->info('LTI Advantage login started at the platform: {request} state={state} nonce={nonce}', [
+            'request' => $this->describeRequest(),
+            'state' => $authParameters['state'] ?? '',
+            'nonce' => $authParameters['nonce'] ?? '',
+        ]);
+    }
+
+    /**
+     * The library refused the request and answers the platform with its reason.
+     */
+    protected function onError(): void
+    {
+        global $DIC;
+
+        parent::onError();
+        $DIC->logger()->forComponent('lti')->warning('LTI request refused: {reason} ({request})', [
+            'reason' => $this->reason ?? $this->message ?? 'unknown',
+            'request' => $this->describeRequest(),
+        ]);
+    }
 }

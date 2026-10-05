@@ -69,6 +69,8 @@ final class ilLTIAdvantagePlatformMembershipService
      */
     public function handle(string $method, string $path, string $authorization, array $query): array
     {
+        global $DIC;
+
         try {
             if (preg_match(self::PATH_PATTERN, $path, $matches) !== 1) {
                 throw new DomainException('Unknown service path ' . $path, 404);
@@ -102,6 +104,11 @@ final class ilLTIAdvantagePlatformMembershipService
 
             $url = self::getUrl($context_ref_id, $object->getId());
             [$members, $headers] = ilLTIAdvantagePlatformServiceRequest::paginate($members, $query, $url);
+            $DIC->logger()->forComponent('lti')->debug('LTI Advantage members of {context} sent to the tool {tool_id}: {count}', [
+                'context' => $context_ref_id,
+                'tool_id' => $tool->getId(),
+                'count' => count($members),
+            ]);
 
             return ilLTIAdvantagePlatformServiceRequest::respond(Membership::MEDIA_TYPE_MEMBERSHIPS_NRPS, [
                 'id' => $url,

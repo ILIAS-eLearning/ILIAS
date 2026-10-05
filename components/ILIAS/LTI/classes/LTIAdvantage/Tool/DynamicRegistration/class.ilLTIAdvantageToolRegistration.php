@@ -216,6 +216,12 @@ final class ilLTIAdvantageToolRegistration extends Tool
             [self::SETTING_USED_TOKEN => $this->token_id]
         );
 
+        global $DIC;
+        $DIC->logger()->forComponent('lti')->info('ILIAS registered with the LTI Advantage platform {platform_id} ({issuer}) through Dynamic Registration', [
+            'platform_id' => $this->platform_id,
+            'issuer' => (string) $platform->platformId,
+        ]);
+
         return $platform;
     }
 

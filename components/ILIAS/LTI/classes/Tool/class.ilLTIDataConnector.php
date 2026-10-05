@@ -52,6 +52,8 @@ class ilLTIDataConnector extends DataConnector
     {
         global $DIC;
 
+        // every platform, tool and service of the library gets its storage here, so it logs to ILIAS from here on
+        ilLTILibraryLogger::register();
         $this->database = $DIC->database();
         parent::__construct($this->database);
     }

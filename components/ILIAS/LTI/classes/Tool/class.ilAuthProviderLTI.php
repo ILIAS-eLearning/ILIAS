@@ -89,22 +89,39 @@ class ilAuthProviderLTI extends ilAuthProvider
      */
     public function doAuthentication(ilAuthStatus $status): bool
     {
+        global $DIC;
+
+        $log = $DIC->logger()->forComponent('lti');
         $receiver = new ilLTILaunchReceiver(new ilLTIDataConnector());
         $receiver->receive();
         $parameters = $receiver->getMessageParameters();
         if (!$receiver->ok || $parameters === null || $parameters === []) {
+            $log->warning('LTI launch refused: no launch parameters ({request})', ['request' => $receiver->describeRequest()]);
             return $this->handleAuthenticationFail($status, 'empty_lti_message_parameters');
         }
 
         $release = $this->lookupRelease((int) $receiver->platform->getRecordId(), $parameters);
         if ($release === null || $release['ref_id'] === 0) {
+            $log->warning('LTI launch refused: no object is released to the platform for it ({request})', [
+                'request' => $receiver->describeRequest(),
+            ]);
             return $this->handleAuthenticationFail($status, 'lti_auth_failed_invalid_key');
         }
         if (!$release['active'] || !$receiver->platform->enabled) {
+            $log->warning('LTI launch refused: the platform {platform_id} or its registration is not active ({request})', [
+                'platform_id' => $release['platform_id'],
+                'request' => $receiver->describeRequest(),
+            ]);
             return $this->handleAuthenticationFail($status, 'lti_consumer_inactive');
         }
 
         $usr_id = $this->syncUser($release, $parameters);
+        $log->info('LTI launch of the platform {platform_id} to the object {ref_id} by the user {usr_id} ({request})', [
+            'platform_id' => $release['platform_id'],
+            'ref_id' => $release['ref_id'],
+            'usr_id' => $usr_id,
+            'request' => $receiver->describeRequest(),
+        ]);
         if ($receiver->userResult !== null) {
             $this->assignLocalRoles($usr_id, $release['platform_id'], $release['ref_id'], $receiver->userResult);
         }
@@ -212,6 +229,10 @@ class ilAuthProviderLTI extends ilAuthProvider
             $user->setLastPasswordChangeTS(time());
             $user->saveAsNew();
             $user->writePrefs();
+            $DIC->logger()->forComponent('lti')->info('LTI account {usr_id} created for a user of the platform {platform_id}', [
+                'usr_id' => $user->getId(),
+                'platform_id' => $release['platform_id'],
+            ]);
         }
 
         if ($release['role'] > 0) {
@@ -238,14 +259,16 @@ class ilAuthProviderLTI extends ilAuthProvider
         if ($service === null) {
             return;
         }
+        $log = $DIC->logger()->forComponent('lti');
         $members = $service->getActiveMembers();
         if ($members === null) {
-            $DIC->logger()->forComponent('lti')->warning(sprintf(
-                'The members of the LTI context %s could not be read from the platform %d: %s',
-                (string) $receiver->context->ltiContextId,
-                $release['platform_id'],
-                substr((string) $service->getHttpMessage()?->response, 0, 300)
-            ));
+            // the call itself, with what the platform answered, is in the log of the library
+            $log->warning('LTI members of the context {context} could not be read from the platform {platform_id}: {status} {error}', [
+                'context' => (string) $receiver->context->ltiContextId,
+                'platform_id' => $release['platform_id'],
+                'status' => $service->getHttpMessage()->status ?? 0,
+                'error' => $service->getHttpMessage()->error ?? '',
+            ]);
             return;
         }
 
@@ -265,12 +288,21 @@ class ilAuthProviderLTI extends ilAuthProvider
         }
 
         $auth_mode = self::AUTH_MODE_PREFIX . $release['platform_id'];
+        $removed = 0;
         foreach ($service->getInactiveUserIds() as $user_id) {
             $login = ilObjUser::_checkExternalAuthAccount($auth_mode, $user_id);
             if ($login && $user_id !== $receiver->userResult->ltiUserId) {
                 $this->assignLocalRoles((int) ilObjUser::_lookupId($login), $release['platform_id'], $release['ref_id'], null);
+                $removed++;
             }
         }
+        $log->info('LTI members of the context {context} of the platform {platform_id} synchronised to the object {ref_id}: {active} active, {removed} without roles', [
+            'context' => (string) $receiver->context->ltiContextId,
+            'platform_id' => $release['platform_id'],
+            'ref_id' => $release['ref_id'],
+            'active' => count($members),
+            'removed' => $removed,
+        ]);
     }
 
     /**

@@ -121,6 +121,16 @@ final class ilLTIAdvantagePlatformLaunchRenderer
                 $object->isLaunchMethodEmbedded(),
                 (string) ($object->getCustomParamsArray()[self::TARGET_LINK_PARAM] ?? '')
             );
+            $dic->logger()->forComponent('lti')->info('LTI Advantage launch of the object {ref_id} for the user {usr_id} started: {request}', [
+                'ref_id' => $object->getRefId(),
+                'usr_id' => $dic->user()->getId(),
+                'request' => ilLTILibraryLogger::describe([
+                    'tool_id' => $object->getToolId(),
+                    'client_id' => $object->getTool()->getClientId(),
+                    'deployment_id' => $object->getToolId(),
+                    'login_url' => $object->getTool()->getInitiateLoginUrl(),
+                ]),
+            ]);
         } catch (ilException $e) {
             $dic->logger()->forComponent('lti')->error($e->getMessage());
             $status = 500;

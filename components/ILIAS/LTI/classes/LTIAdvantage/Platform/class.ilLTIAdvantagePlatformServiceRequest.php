@@ -29,6 +29,9 @@ final class ilLTIAdvantagePlatformServiceRequest
 {
     private const string CONTENT_TYPE_ERROR = 'application/json; charset=utf-8';
 
+    // the client id of the access token of the request, for the log
+    private static string $client_id = '';
+
     /**
      * Answers one request to the services, which the first segment of the path names.
      *
@@ -43,10 +46,20 @@ final class ilLTIAdvantagePlatformServiceRequest
         array $query,
         string $body
     ): array {
-        return match (explode('/', ltrim($path, '/'))[0]) {
+        global $DIC;
+
+        $response = match (explode('/', ltrim($path, '/'))[0]) {
             'membership' => new ilLTIAdvantagePlatformMembershipService()->handle($method, $path, $authorization, $query),
             default => new ilLTIAdvantagePlatformGradeService()->handle($method, $path, $authorization, $query, $body),
         };
+        $DIC->logger()->forComponent('lti')->info('LTI Advantage service request {method} {path} of the client {client_id}: {status}', [
+            'method' => $method,
+            'path' => $path,
+            'client_id' => self::$client_id !== '' ? self::$client_id : '-',
+            'status' => $response[0],
+        ]);
+
+        return $response;
     }
 
 
@@ -71,6 +84,7 @@ final class ilLTIAdvantagePlatformServiceRequest
             throw new DomainException('Invalid access token', 401);
         }
 
+        self::$client_id = $client_id;
         $tool_id = ilLTITool::lookupIdByClientId($client_id);
         if ($tool_id === 0) {
             throw new DomainException('Unknown client ' . $client_id, 401);

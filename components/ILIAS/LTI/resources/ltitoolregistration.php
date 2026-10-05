@@ -40,9 +40,7 @@ $parameters = array_merge($request->getQueryParams(), is_array($body) ? $body : 
 
 $log = $DIC->logger()->forComponent('lti');
 [$registered, $reason] = new ilLTIAdvantageToolRegistration()->register($parameters);
-if ($registered) {
-    $log->info('ILIAS registered with an LTI Advantage platform through Dynamic Registration.');
-} else {
+if (!$registered) {
     $log->warning('LTI Advantage Dynamic Registration of ILIAS failed: ' . $reason);
 }
 

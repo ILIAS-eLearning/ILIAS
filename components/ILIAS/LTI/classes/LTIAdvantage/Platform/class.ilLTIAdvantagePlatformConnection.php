@@ -238,7 +238,9 @@ class ilLTIAdvantagePlatformConnection extends Platform
             || $login['client_id'] !== $this->clientId
             || $login['login_hint'] !== ($parameters['login_hint'] ?? null)
         ) {
-            $this->ok = false;
+            $this->setReason($login === null
+                ? 'No login of this session waits for it, or it expired.'
+                : 'It is not the login of this session for the tool and user.');
             $this->messageParameters['error'] = 'access_denied';
             return;
         }
@@ -248,6 +250,37 @@ class ilLTIAdvantagePlatformConnection extends Platform
         $this->messageParameters = $login['params'];
         // the library tells the tool again where the platform storage is, with the id_token
         self::$browserStorageFrame = $login['storage_frame'] ?? null;
+    }
+
+    /**
+     * Logs how the authentication request of a launch was answered: with the id_token, or with the error the
+     * tool gets. The library ends the request when it answers, so this runs when the request ends.
+     */
+    public function logAuthenticationAnswer(): void
+    {
+        global $DIC;
+
+        $parameters = Util::getRequestParameters();
+        $request = ilLTILibraryLogger::describe([
+            'client_id' => $this->clientId,
+            'deployment_id' => $this->deploymentId,
+            'message' => $this->messageParameters['lti_message_type'] ?? null,
+            'hint' => $parameters['lti_message_hint'] ?? null,
+            'user_id' => $parameters['login_hint'] ?? null,
+            'nonce' => $parameters['nonce'] ?? null,
+            'state' => $parameters['state'] ?? null,
+            'redirect_uri' => $parameters['redirect_uri'] ?? null,
+        ]);
+        $log = $DIC->logger()->forComponent('lti');
+        if ($this->ok) {
+            $log->info('LTI Advantage id_token sent to the tool: {request}', ['request' => $request]);
+            return;
+        }
+        $log->warning('LTI Advantage authentication request refused: {error} {reason} ({request})', [
+            'error' => $this->messageParameters['error'] ?? 'server_error',
+            'reason' => $this->reason ?? $this->messageParameters['error_description'] ?? '',
+            'request' => $request,
+        ]);
     }
 
     /**

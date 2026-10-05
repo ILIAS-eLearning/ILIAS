@@ -30,7 +30,7 @@ LTI/
 ├── LTI.php                   Component definition
 ├── module.xml                Object types (lti, ltiv, ltis), event listeners and cron jobs
 ├── LuceneObjectDefinition.xml    What the search indexes of an LTI object
-├── classes/                The addresses ILIAS gives the other side (ilLTIEndpoint) and the session cookie of LTI flows
+├── classes/                The addresses ILIAS gives the other side (ilLTIEndpoint), the session cookie of LTI flows and the log of celtic/lti
 │   ├── Administration/       Administration > LTI (ltis), shared by LTI 1.1 and LTI Advantage
 │   ├── Object/               LTI object model (lti, ltiv, tools and platforms), shared by LTI 1.1 and LTI Advantage
 │   │   ├── Certificate/      Certificate placeholders and settings of an LTI object
@@ -191,6 +191,26 @@ the endpoints:
   of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
   `ilLTIAdvantageKeyPair` and name what they are for, so that no other token of ILIAS is taken for them.
+
+## Logging
+
+Everything LTI logs goes to the log of the component `lti`, so that the log of an installation tells what happened
+in a request without anything else. Its level is set in Administration > Logging.
+
+* **Info:** each step of each flow, with what identifies it on both sides: the launch of an object and the launch
+  ILIAS takes (platform, registration, client id, deployment id, resource link, context and user id of the
+  platform, nonce), the id_token, the access tokens, every request to the services and the scores, the members
+  read from a platform, the accounts created, the outcomes sent, Deep Linking and Dynamic Registration.
+* **Warning:** every request ILIAS refuses, with its reason and the same ids, and every call the other side did
+  not answer.
+* **Debug:** celtic/lti logs every request it gets, every message it sends and every call with their bodies
+  and headers (`ilLTILibraryLogger`), and ILIAS the time each call took (`ilLTIHttpClient`). Each request
+  starts with the versions of ILIAS, celtic/lti and PHP.
+
+Tokens, id_tokens, client assertions, signatures, secrets and cookies never reach the log
+(`ilLTILibraryLogger::hideSecrets()`). To find out what went wrong, set the level of `lti` to Debug, repeat what
+failed and take the log. The lines of one request start with the same part of the session id, which changes
+once when a launch logs the user in.
 
 ## User interface
 

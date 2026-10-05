@@ -52,7 +52,11 @@ if (strtoupper($request->getMethod()) !== 'POST') {
 }
 
 if ($status === 200) {
-    $log->info('LTI Advantage tool registered through Dynamic Registration: ' . $answer['client_name']);
+    $log->info('LTI Advantage tool {client_name} registered through Dynamic Registration: client_id={client_id} scope={scope}', [
+        'client_name' => $answer['client_name'],
+        'client_id' => $answer['client_id'],
+        'scope' => $answer['scope'],
+    ]);
 } else {
     $log->warning('LTI Advantage tool registration refused: ' . ($answer['error_description'] ?? $answer['error']));
 }

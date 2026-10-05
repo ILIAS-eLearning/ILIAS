@@ -73,7 +73,9 @@ final class ilLTIAdvantagePlatformDeepLinking
         $page = $dic->language()->txt('error');
         $status = 400;
 
-        if (self::isValid($request, $user_id, $ref_id)) {
+        if (!self::isValid($request, $user_id, $ref_id)) {
+            $dic->logger()->forComponent('lti')->warning('LTI Deep Linking request refused: no such request of the user in this session.');
+        } else {
             $tool = new ilLTITool($request['tool_id']);
             try {
                 $parameters = ilLTIAdvantagePlatformLaunchParameterBuilder::buildForUser(
@@ -98,6 +100,12 @@ final class ilLTIAdvantagePlatformDeepLinking
                     $state
                 );
                 $status = 200;
+                $dic->logger()->forComponent('lti')->info('LTI Deep Linking request to the tool {tool_id} for {ref_id} started: client_id={client_id} state={state}', [
+                    'tool_id' => $tool->getId(),
+                    'ref_id' => $ref_id,
+                    'client_id' => $tool->getClientId(),
+                    'state' => $state,
+                ]);
             } catch (ilException $e) {
                 $dic->logger()->forComponent('lti')->error($e->getMessage());
                 $status = 500;
@@ -146,7 +154,11 @@ final class ilLTIAdvantagePlatformDeepLinking
         // what the tool gives for the log is for the administrators, not for the user
         foreach (['lti_log', 'lti_errorlog'] as $name) {
             if (trim((string) ($parameters[$name] ?? '')) !== '') {
-                $log->info('LTI Deep Linking response of tool ' . $tool->getId() . ', ' . $name . ': ' . $parameters[$name]);
+                $log->info('LTI Deep Linking response of the tool {tool_id}, {name}: {text}', [
+                    'tool_id' => $tool->getId(),
+                    'name' => $name,
+                    'text' => $parameters[$name],
+                ]);
             }
         }
 

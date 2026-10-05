@@ -81,4 +81,8 @@ if (!$connection->verifyClientAssertion($body['client_assertion'])) {
     $refuse(401, 'invalid_client', 'client ' . $client_id . ': ' . $connection->reason);
 }
 
+$log->info('LTI Advantage access token for the client {client_id}: {scopes}', [
+    'client_id' => $client_id,
+    'scopes' => implode(' ', $scopes),
+]);
 $connection->sendAccessToken(ilLTIAdvantagePlatformConnection::getAccessTokenScopes());

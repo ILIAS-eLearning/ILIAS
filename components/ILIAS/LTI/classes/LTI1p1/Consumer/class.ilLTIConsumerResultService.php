@@ -95,10 +95,8 @@ class ilLTIConsumerResultService
 
             global $DIC;
             $logger = $DIC->logger()->forComponent('lti');
-            $logger->info('LTI Consumer Result Service: Incoming request');
             // get the request as xml
             $xml = simplexml_load_file('php://input');
-            $logger->info('LTI Consumer Result Service: xml loaded');
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
             $children = (array) $xml->imsx_POXBody->children();
             $request = current($children);
@@ -106,17 +104,22 @@ class ilLTIConsumerResultService
             $ns = $xml->getNamespaces(true);
             $body = $xml->children($ns[''])->imsx_POXBody;
 
-            $logger->info('LTI Consumer Result Service: request loaded');
             $this->operation = str_replace('Request', '', $request->getName());
 
             $request = $body->{$this->operation . 'Request'};
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
-            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
+            $logger->debug('LTI Basic Outcomes request {operation} for object {obj_id} and user {usr_id}', [
+                'operation' => $this->operation,
+                'obj_id' => $token->getObjId(),
+                'usr_id' => $token->getUsrId(),
+            ]);
 
-            $logger->info("LTI Consumer Result Service: token loaded");
             $this->result = ilLTI1p1ConsumerResult::getByKeys($token->getObjId(), $token->getUsrId());
             if (empty($this->result)) {
-                $logger->error('LTI Consumer Result Service: Incoming request');
+                $logger->warning('LTI Basic Outcomes request refused: the object {obj_id} has no result of the user {usr_id}', [
+                    'obj_id' => $token->getObjId(),
+                    'usr_id' => $token->getUsrId(),
+                ]);
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
                 return;
             }
@@ -126,6 +129,9 @@ class ilLTIConsumerResultService
             $this->readProperties($this->result->obj_id);
 
             if (!$this->isAvailable()) {
+                $logger->warning('LTI Basic Outcomes request refused: the tool of the object {obj_id} is not available', [
+                    'obj_id' => $this->result->obj_id,
+                ]);
                 $this->respondUnsupported();
                 return;
             }
@@ -135,13 +141,13 @@ class ilLTIConsumerResultService
             try {
                 $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
             } catch (Exception $e) {
-                $logger->error('LTI Consumer Result Service: Incoming request failed: ' . $e->getMessage());
-                $logger->debug('Incoming request failed: ' . $e->getTraceAsString());
+                $logger->warning('LTI Basic Outcomes request for the object {obj_id} refused: {reason}', [
+                    'obj_id' => $this->result->obj_id,
+                    'reason' => $e->getMessage(),
+                ]);
                 $this->respondUnauthorized();
                 return;
             }
-
-            $logger->info("LTI Consumer Result Service: Request signature verified, this->operation: $this->operation");
 
             // Dispatch the operation
             switch ($this->operation) {
@@ -160,10 +166,14 @@ class ilLTIConsumerResultService
                     break;
 
                 default:
+                    $logger->warning('LTI Basic Outcomes request refused: unknown operation {operation}', [
+                        'operation' => $this->operation,
+                    ]);
                     $this->respondUnknown();
                     break;
             }
         } catch (Exception $exception) {
+            $DIC->logger()->forComponent('lti')->warning('LTI Basic Outcomes request refused: ' . $exception->getMessage());
             $this->respondBadRequest($exception->getMessage());
         }
     }
@@ -185,7 +195,6 @@ class ilLTIConsumerResultService
         $logger = $DIC->logger()->forComponent('lti');
 
         $result = (string) $request->resultRecord->result->resultScore->textString;
-        $logger->info('LTI Consumer Result Service: Replace result. Result: ' . $result);
         if (!is_numeric($result)) {
             $code = "failure";
             $severity = "status";
@@ -213,6 +222,12 @@ class ilLTIConsumerResultService
             $severity = "status";
             $description = sprintf("Score for %s is now %s", $this->result->id, $this->result->result);
         }
+        $logger->info('LTI Basic Outcomes result of the user {usr_id} in the object {obj_id}: {result} ({code})', [
+            'usr_id' => $this->result->usr_id,
+            'obj_id' => $this->result->obj_id,
+            'result' => $result,
+            'code' => $code,
+        ]);
 
         $this->respond('replaceResult.xml', [
             '{code}' => $code,
@@ -234,6 +249,11 @@ class ilLTIConsumerResultService
         $lp_percentage = 0;
         ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
 
+        global $DIC;
+        $DIC->logger()->forComponent('lti')->info('LTI Basic Outcomes result of the user {usr_id} in the object {obj_id} deleted', [
+            'usr_id' => $this->result->usr_id,
+            'obj_id' => $this->result->obj_id,
+        ]);
         $code = "success";
         $severity = "status";
 
@@ -372,8 +392,6 @@ class ilLTIConsumerResultService
      */
     private function checkSignature(string $a_key, string $a_secret): void
     {
-        global $DIC;
-        $logger = $DIC->logger()->forComponent('root');
         // checking the signature only needs the key, the secret and the record of the platform
         $platform = new Platform(DataConnector::getDataConnector());
 
@@ -387,14 +405,12 @@ class ilLTIConsumerResultService
         $method = new OAuthSignatureMethod_HMAC_SHA1();
 
         $server->add_signature_method($method);
-        $logger->info("s_key: " . $a_key . " s_secret: " . $a_secret . " platform key: " . $platform->getKey());
 
         $request_headers = OAuthUtil::get_headers();
         if (isset($request_headers['Authorization']) && str_starts_with($request_headers['Authorization'], 'OAuth ')) {
             $parameters = OAuthUtil::split_header($request_headers['Authorization']);
         }
         $request = OAuthRequest::from_request(null, null, $parameters ?? []);
-        $logger->info("Request: " . json_encode($request));
         $server->verify_request($request);
     }
 

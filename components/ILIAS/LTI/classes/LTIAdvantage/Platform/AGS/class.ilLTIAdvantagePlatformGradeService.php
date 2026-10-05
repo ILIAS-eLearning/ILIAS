@@ -53,6 +53,7 @@ final class ilLTIAdvantagePlatformGradeService
     ];
 
     private readonly ilDBInterface $db;
+    private readonly ilLogger $log;
     private readonly ilLTIAdvantagePlatformLineItemRepository $line_items;
 
     public function __construct()
@@ -60,6 +61,7 @@ final class ilLTIAdvantagePlatformGradeService
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->log = $DIC->logger()->forComponent('lti');
         $this->line_items = new ilLTIAdvantagePlatformLineItemRepository($this->db);
     }
 
@@ -359,6 +361,11 @@ final class ilLTIAdvantagePlatformGradeService
             'end_date_time' => null,
             'grades_released' => null,
         ], $data, $objects));
+        $this->log->info('LTI Advantage line item {id} created by the tool {tool_id} in {context}', [
+            'id' => -$line_item['id'],
+            'tool_id' => $tool->getId(),
+            'context' => $context_ref_id,
+        ]);
 
         return $this->respondLineItem($this->describeLineItem($line_item), 201);
     }
@@ -375,6 +382,10 @@ final class ilLTIAdvantagePlatformGradeService
             $this->getObjects($line_item['context_id'], $tool)
         );
         $this->line_items->update($line_item);
+        $this->log->info('LTI Advantage line item {id} changed by the tool {tool_id}', [
+            'id' => -$line_item['id'],
+            'tool_id' => $tool->getId(),
+        ]);
 
         return $this->respondLineItem($this->describeLineItem($line_item));
     }
@@ -447,6 +458,7 @@ final class ilLTIAdvantagePlatformGradeService
         $object->setTitle($line_item['label']);
         $object->setScoreMaximum($line_item['score_maximum']);
         $object->update();
+        $this->log->info('LTI Advantage line item of the object {ref_id} changed by its tool', ['ref_id' => $object->getRefId()]);
 
         return $this->respondLineItem($this->describeObject($context_ref_id, $object));
     }
@@ -458,6 +470,7 @@ final class ilLTIAdvantagePlatformGradeService
     private function removeLineItem(array $line_item): array
     {
         $this->line_items->disable($line_item['id']);
+        $this->log->info('LTI Advantage line item {id} deleted by its tool', ['id' => -$line_item['id']]);
 
         return [204, [], ''];
     }
@@ -543,7 +556,9 @@ final class ilLTIAdvantagePlatformGradeService
         $usr_id = $this->findUser([$object], $score['user_id']);
         $obj_id = $object->getId();
 
-        if ($this->storeScore($obj_id, $usr_id, $score)) {
+        $current = $this->storeScore($obj_id, $usr_id, $score);
+        $this->logScore('object ' . $object->getRefId(), $usr_id, $score, $current);
+        if ($current) {
             $given = $score['given'];
             if ($given === null || $score['grading_progress'] === ilLTIToolGradingProgress::FULLY_GRADED) {
                 $this->writeResult($obj_id, $usr_id, $given === null ? null : min(1.0, $given / $score['maximum']));
@@ -563,9 +578,26 @@ final class ilLTIAdvantagePlatformGradeService
     private function postLineItemScore(array $line_item, ilLTITool $tool, string $body): array
     {
         $score = $this->parseScore($body);
-        $this->storeScore(-$line_item['id'], $this->findUser($this->getLineItemObjects($line_item, $tool), $score['user_id']), $score);
+        $usr_id = $this->findUser($this->getLineItemObjects($line_item, $tool), $score['user_id']);
+        $this->logScore('line item ' . -$line_item['id'], $usr_id, $score, $this->storeScore(-$line_item['id'], $usr_id, $score));
 
         return [204, [], ''];
+    }
+
+    /**
+     * @param array $score see parseScore()
+     * @param bool $current false when a later score of the user is kept already
+     */
+    private function logScore(string $line_item, int $usr_id, array $score, bool $current): void
+    {
+        $this->log->info('LTI Advantage score {given}/{maximum} ({progress}) of the user {usr_id} for the {line_item}{late}', [
+            'given' => $score['given'] ?? '-',
+            'maximum' => $score['maximum'] ?? '-',
+            'progress' => $score['grading_progress']->value,
+            'usr_id' => $usr_id,
+            'line_item' => $line_item,
+            'late' => $current ? '' : ', older than the one kept',
+        ]);
     }
 
     /**
