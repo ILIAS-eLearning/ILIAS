@@ -33,6 +33,7 @@ class ilSCORMPresentationGUI
     public ilObjSCORMLearningModule $slm;
     public ilGlobalTemplate $tpl;
     public ilLanguage $lng;
+    protected ilLogger $logger;
     protected int $refId;
     protected ilCtrlInterface $ctrl;
 
@@ -43,6 +44,7 @@ class ilSCORMPresentationGUI
         //        $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $ilCtrl;
+        $this->logger = ilLoggerFactory::getLogger('sahs');
 
         $this->lng->loadLanguageModule('cert');
 
@@ -59,7 +61,6 @@ class ilSCORMPresentationGUI
     {
         global $DIC;
         $ilAccess = $DIC->access();
-        $ilLog = ilLoggerFactory::getLogger('sahs');
         $lng = $DIC->language();
         $ilErr = $DIC["ilErr"];
 
@@ -361,7 +362,6 @@ class ilSCORMPresentationGUI
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         $ilBench->start("SCORMExplorer", "initExplorer");
 
@@ -489,6 +489,22 @@ class ilSCORMPresentationGUI
     {
         ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
         return true;
+    }
+
+    public function logMessage(): void
+    {
+        $this->logger->info("ScormAicc: ApiLog: Message: " . $this->getApiLogPayload());
+    }
+
+    public function logWarning(): void
+    {
+        $this->logger->warning("ScormAicc: ApiLog: Warning: " . $this->getApiLogPayload());
+    }
+
+    private function getApiLogPayload(): string
+    {
+        $payload = (string) file_get_contents('php://input');
+        return substr(str_replace(["\r", "\n"], ["\\r", "\\n"], $payload), 0, 4096);
     }
 
     /**
