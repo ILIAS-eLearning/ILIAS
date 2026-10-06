@@ -18,6 +18,10 @@
 	width: auto;
 }
 
+#copg-top-actions .dropdown-menu {
+	width: auto;
+}
+
 #iltinymenu div.ilTinyMenuSection {
 	white-space: normal;
 }
