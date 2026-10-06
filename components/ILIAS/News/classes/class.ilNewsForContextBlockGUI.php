@@ -814,7 +814,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $lng->txt("news_hide_news_per_date"),
                 "hide_news_per_date"
             );
-            $hnpd->setInfo($lng->txt("news_hide_news_per_date_info"));
             $hnpd->setChecked((bool) $hide_news_per_date);
 
             $dt_prop = new ilDateTimeInputGUI(

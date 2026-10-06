@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:# Dölj blocket "Nyheter"
 news#:#news_hide_news_block_info#:#Dölj blocket i elevvyn. Blocket "Nyheter" kommer endast att vara synligt för användare med skrivbehörighet.
 news#:#news_hide_news_date#:#Startdatum
 news#:#news_hide_news_per_date#:#Visa nyheter från datum
-news#:#news_hide_news_per_date_info#:#Endast nyheter från ett visst datum visas.
 news#:#news_inactive_private_feed_info#:#Ditt privata nyhetsflöde är avaktiverat. Ange ett lösenord i inställningarna.
 news#:#news_internal_news#:#Nyheter
 news#:#news_keep_minimal_x_items#:#Håll kvar äldre poster

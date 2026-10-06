@@ -121,7 +121,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
-        $form->setTitle($lng->txt("news_settings"));
+        $form->setTitle($lng->txt("news_general_settings"));
 
         // Enable internal news
         $cb_prop = new ilCheckboxInputGUI(

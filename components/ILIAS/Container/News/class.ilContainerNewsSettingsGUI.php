@@ -198,7 +198,6 @@ class ilContainerNewsSettingsGUI
             $radio->addOption($opt_none);
 
             $opt_per_date = new ilRadioOption($this->lng->txt("news_hide_news_per_date"), "per_date");
-            $opt_per_date->setInfo($this->lng->txt("news_hide_news_per_date_info"));
             $dt_prop = new ilDateTimeInputGUI($this->lng->txt("news_hide_news_date"), "hide_news_date");
             $dt_prop->setRequired(true);
             if (is_array($hide_news_date) && count($hide_news_date) >= 2) {
@@ -209,7 +208,6 @@ class ilContainerNewsSettingsGUI
             $radio->addOption($opt_per_date);
 
             $opt_by_period = new ilRadioOption($this->lng->txt("news_hide_news_by_period"), "by_period");
-            $opt_by_period->setInfo($this->lng->txt("news_hide_news_by_period_info"));
             $per_sel = new ilSelectInputGUI($this->lng->txt("news_co_period"), "news_co_period");
             $per_sel->setRequired(true);
             $per_sel->setInfo($this->lng->txt("news_co_period_info"));

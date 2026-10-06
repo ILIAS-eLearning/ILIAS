@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#Ukryj blok wiadomości
 news#:#news_hide_news_block_info#:#Ukryj blok w widoku uczącego się. Blok wiadomości będzie widoczny tylko dla użytkowników z prawami do zapisu.
 news#:#news_hide_news_date#:#Data startowa
 news#:#news_hide_news_per_date#:#Pokaż nowości od daty
-news#:#news_hide_news_per_date_info#:#Pokazywane są tylko nowości od określonego dnia.
 news#:#news_inactive_private_feed_info#:#Twój osobisty feed jest wyłączony. Nadaj hasło w ustawieniach.
 news#:#news_internal_news#:#Wewnętrzne wiadomości
 news#:#news_keep_minimal_x_items#:#Zastrzegaj starsze posty

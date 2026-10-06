@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#Skjul nyhedsbolk
 news#:#news_hide_news_block_info#:#Skjul blokken i den studerende/brugerens visning. Nyhedsblokken er kun synlig for brugere med skriverettigheder.
 news#:#news_hide_news_date#:#Startdato
 news#:#news_hide_news_per_date#:#Vis nyheder efter
-news#:#news_hide_news_per_date_info#:#Kun nyheder fra en bestemt dato vises.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
 news#:#news_internal_news#:#Interne nyheder
 news#:#news_keep_minimal_x_items#:#Behold mindst x nyheder

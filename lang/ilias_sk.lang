@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#Skrýt blok zpráv
 news#:#news_hide_news_block_info#:#Skryje blok v zobrazení studenta. Tento blok zpráv bude viditelný pouze pro uživatele s oprávněním psát.
 news#:#news_hide_news_date#:#Počáteční datum
 news#:#news_hide_news_per_date#:#Zobrazit zprávy po
-news#:#news_hide_news_per_date_info#:#Budou zobrazeny jen zprávy, které jsou novější, než určité datum.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
 news#:#news_internal_news#:#Zprávy
 news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable

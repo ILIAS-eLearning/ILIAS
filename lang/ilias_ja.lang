@@ -13018,7 +13018,6 @@ news#:#news_hide_news_block#:#ニュースブロックを非表示
 news#:#news_hide_news_block_info#:#学習者表示のブロックを非表示にします。ニュースブロックは、書込み権限のユーザのみに表示されます。
 news#:#news_hide_news_date#:#開始日
 news#:#news_hide_news_per_date#:#以降のニュースを表示
-news#:#news_hide_news_per_date_info#:#その日よりも新しいニュースのみが表示されます。
 news#:#news_inactive_private_feed_info#:#プライベートニュースフィードは解除されます。設定しているパスワードをセットしてください。
 news#:#news_internal_news#:#ニュース
 news#:#news_keep_minimal_x_items#:#最低xアイテムを保持
