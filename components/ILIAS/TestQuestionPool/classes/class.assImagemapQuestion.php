@@ -297,30 +297,42 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $added;
     }
 
+    public function uploadImageFile(
+        string $upload_file_name,
+        string $upload_tmp_name
+    ): void {
+        $path_parts = pathinfo($upload_file_name);
+        $suffix = $path_parts['extension'] ?? '';
+
+        if (!in_array($path_parts['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
+            $this->tpl->setOnScreenMessage('failure', 'The image could not be uploaded!');
+            return;
+        }
+
+        $image_filename = bin2hex(random_bytes(10)) . ".{$suffix}";
+
+        $imagepath = $this->getImagePath();
+        if (!file_exists($imagepath)) {
+            ilFileUtils::makeDirParents($imagepath);
+        }
+
+        if (!ilFileUtils::moveUploadedFile($upload_tmp_name, $image_filename, $imagepath . $image_filename)) {
+            $this->tpl->setOnScreenMessage('failure', 'The image could not be uploaded!');
+            return;
+        }
+
+        $this->setImageFilename($image_filename);
+    }
+
     public function getImageFilename(): string
     {
         return $this->image_filename;
     }
 
     public function setImageFilename(
-        string $image_filename,
-        string $image_tempfilename = ''
+        string $image_filename
     ): void {
-        if (!empty($image_filename)) {
-            $image_filename = str_replace(' ', '_', $image_filename);
-            $this->image_filename = $image_filename;
-        }
-        if (!empty($image_tempfilename)) {
-            $imagepath = $this->getImagePath();
-            if (!file_exists($imagepath)) {
-                ilFileUtils::makeDirParents($imagepath);
-            }
-            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
-                $this->tpl->setOnScreenMessage('failure', 'The image could not be uploaded!');
-                return;
-            }
-            $this->log->info('gespeichert: ' . $imagepath . $image_filename);
-        }
+        $this->image_filename = $image_filename;
     }
 
     public function get_imagemap_contents(string $href = '#'): string
