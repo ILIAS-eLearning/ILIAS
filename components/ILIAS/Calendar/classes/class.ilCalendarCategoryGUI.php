@@ -172,6 +172,10 @@ class ilCalendarCategoryGUI
 
     protected function add(?ilPropertyFormGUI $form = null): void
     {
+        if (!$this->canCreateCalendarCategory()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget($this->lng->txt("cal_back_to_list"), $this->ctrl->getLinkTarget($this, 'cancel'));
 
@@ -186,6 +190,10 @@ class ilCalendarCategoryGUI
 
     protected function save(): void
     {
+        if (!$this->canCreateCalendarCategory()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
         $form = $this->initFormCategory('create');
         if ($form->checkInput()) {
             $category = new ilCalendarCategory(0);
@@ -278,6 +286,11 @@ class ilCalendarCategoryGUI
             $this->ctrl->returnToParent($this);
         }
         $category = new ilCalendarCategory($this->category_id);
+        $this->readPermissions();
+        if (!$this->isEditable()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
         try {
             $this->doSynchronisation($category);
         } catch (Exception $e) {
@@ -344,6 +357,10 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->manage();
         }
+        if (!$this->areCategoriesEditable($cat_ids)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
         $confirmation_gui->setHeaderText($this->lng->txt('cal_del_cal_sure'));
@@ -373,7 +390,10 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'manage');
         }
-
+        if (!$this->areCategoriesEditable($category_ids)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
         foreach ($category_ids as $cat_id) {
             $category = new ilCalendarCategory((int) $cat_id);
             $category->delete();
@@ -471,6 +491,11 @@ class ilCalendarCategoryGUI
 
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->ctrl->returnToParent($this);
+        }
+        $this->readPermissions();
+        if (!$this->isEditable()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
         $this->ctrl->saveParameter($this, 'category_id');
@@ -937,6 +962,11 @@ class ilCalendarCategoryGUI
             $this->details();
             return;
         }
+        $this->readPermissions();
+        if (!$this->isEditable() || !$this->areAppointmentsEditable($appointments)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
 
         $confirmation_gui = new ilConfirmationGUI();
         $this->ctrl->setParameter($this, 'category_id', $this->category_id);
@@ -967,6 +997,11 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->details();
             return;
+        }
+        $this->readPermissions();
+        if (!$this->isEditable() || !$this->areAppointmentsEditable($appointments)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
         }
         foreach ($appointments as $app_id) {
             $app = new ilCalendarEntry($app_id);
@@ -1089,6 +1124,10 @@ class ilCalendarCategoryGUI
                 $this->importable = false;
                 break;
         }
+        if ($this->user->isAnonymous()) {
+            $this->editable = false;
+            $this->importable = false;
+        }
     }
 
     protected function checkVisible(): void
@@ -1196,6 +1235,11 @@ class ilCalendarCategoryGUI
 
     protected function uploadAppointments(): void
     {
+        $this->readPermissions();
+        if (!$this->isImportable()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
         $form = $this->initImportForm();
         if ($form->checkInput()) {
             $file = $form->getInput('file');
@@ -1310,5 +1354,38 @@ class ilCalendarCategoryGUI
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'invitations');
+    }
+    protected function areCategoriesEditable(array $category_ids): bool
+    {
+        $cats = ilCalendarCategories::_getInstance($this->user->getId());
+        $cat_info = $cats->getCategoriesInfo();
+        foreach ($category_ids as $category_id) {
+            if (!isset($cat_info[$category_id])) {
+                return false;
+            }
+            if (!($cat_info[$category_id]['editable'] ?? false)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected function areAppointmentsEditable(array $appointment_ids): bool
+    {
+        $cat_appointments = ilCalendarCategoryAssignments::_getAssignedAppointments((array) $this->category_id);
+        foreach ($appointment_ids as $appointment_id) {
+            if (!in_array($appointment_id, $cat_appointments)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected function canCreateCalendarCategory(): bool
+    {
+        return $this->rbacsystem->checkAccess(
+            'edit_event',
+            ilCalendarSettings::_getInstance()->getCalendarSettingsId()
+        );
     }
 }
