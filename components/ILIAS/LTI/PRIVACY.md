@@ -47,13 +47,13 @@ ILIAS stores a user identification to match the external user with an ILIAS user
 
 If the “Global Role assigned to LTI Users” is set to “LTI User”, external users can only access the specified resource in ILIAS.
 
-If the platform offers the Names and Role Provisioning Services, the launch of an instructor or administrator makes ILIAS read the members of the context at the platform. ILIAS creates an account for each active member that has none yet, with the user id, name and email the platform sends, and gives it the roles of the released object as a launch would. Members the platform reports as inactive or deleted lose the roles of the released object; their account stays. The accounts are created even for members who never launch ILIAS.
+If “Names and Role Provisioning Services” is activated for the platform in Administration > LTI and the platform offers them, the launch of an instructor or administrator makes ILIAS read the members of the context at the platform. ILIAS creates an account for each active member that has none yet, with the user id, name and email the platform sends, and gives it the roles of the released object as a launch would. Members the platform reports as inactive or deleted lose the roles of the released object; their account stays. The accounts are created even for members who never launch ILIAS.
 
 A platform can register ILIAS through Dynamic Registration with the URL given in Administration > LTI. ILIAS and the platform exchange their configuration (URLs, keys, client id, deployment id, the scopes and messages ILIAS uses); no personal data is part of it. ILIAS asks for the user id, name and email in launches; what the platform actually sends depends on its own settings.
 
 If the platform requests Deep Linking, an instructor or administrator of the platform picks among the ILIAS objects released to that platform. Nobody is logged in to ILIAS and no account is created for it; ILIAS stores nothing about the user. The title, description and launch URL of the picked objects go back to the platform.
 
-If the platform offers the Assignment and Grade Services or the LTI 1.1 Outcome Service, ILIAS sends it the Learning Progress and the score of the users that launched the object.
+If the platform offers the Assignment and Grade Services or the LTI 1.1 Outcome Service, ILIAS sends it the Learning Progress and the score of the users that launched the object. If the platform gives no gradebook column for the object, ILIAS creates one with the title of the object, and it may read the results of that column to avoid sending a score again.
 
 ### Data being logged
 

@@ -182,13 +182,17 @@ the endpoints:
   access token, the object and the pages, is in `ilLTIAdvantagePlatformServiceRequest`.
 * **Names and Role Provisioning Services, ILIAS as tool:** `ilLTIAdvantageToolMembership` (`Tool/NRPS`). When an
   instructor or administrator of a platform launches ILIAS and the launch names the service, ILIAS reads the members of
-  the context and gives every active member the account and the roles of the release, as their own launch would.
+  the context, if the platform has the option "Names and Role Provisioning Services" in Administration > LTI, and gives every active member the account and the roles of the release, as their own launch would.
   celtic/lti sends the requests and follows the pages; the members are read by ILIAS because the library drops their
   status. Members the platform reports as inactive or deleted lose the roles of the release; members that are not
   in the list keep them, because the same object may be linked from other contexts of the platform. A platform that
   does not answer only leaves a warning in the log. ILIAS asks for the scope when it registers through Dynamic Registration.
 * **Assignment and Grade Services, ILIAS as tool:** `ilLTIAppEventListener` sends the learning progress of a user
-  of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope.
+  of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope. When
+  the launch named no line item but the line item service, ILIAS uses its own line item for the object (resource id =
+  ref id), creating it the first time, and the resource link keeps it. The cron job "LTI Grade Service"
+  (`ilLTICronOutcomeService`) sends the status changes Tracking writes without an event, as after new learning
+  progress settings, and reads the results first so that a final score the platform has is not sent again.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
   `ilLTIAdvantageKeyPair` and name what they are for, so that no other token of ILIAS is taken for them.
 
@@ -244,7 +248,8 @@ it. Any further exception MUST be explained here.
 All schema changes are in `classes/Setup/class.ilLTIDatabaseUpdateSteps.php`:
 
 * Steps 1–9 come from `LTIProvider`, steps 10–29 from `LTIConsumer`, step 30 onwards belongs to LTI Advantage
-  (32: the option of a tool to read the members, 33: the optional fields of the line items tools create).
+  (32: the option of a tool to read the members, 33: the optional fields of the line items tools create,
+  34: the option of a platform to have its members read).
 * Step 31 is the one data change: it renames the placeholder class the certificate queue stores,
   as Certificate itself does for courses and exercises.
 * New steps MUST be appended and MUST check the current schema before changing it.
@@ -288,9 +293,12 @@ Installations updated from an earlier release MUST keep working:
 
 What administrators of an updated installation may notice:
 
-* The database update steps 32 and 33 have to run (`setup update`).
+* The database update steps 32 to 34 have to run (`setup update`).
 * The tools defined before the update do not get the Names and Role Provisioning Services: the option is off
-  until it is switched on in the tool, or a tool asks for the scope when it registers again.
+  until it is switched on in the tool, or a tool asks for the scope when it registers again. As tool, ILIAS reads
+  the members of no platform until the option is switched on in the platform.
+* The cron job "LTI Outcome Service" is now "LTI Grade Service" and sends the status changes since its last run,
+  not the links launched since then.
 * The line items tools created themselves are served again, under their earlier URLs.
 * `ltiregstart.php` and `ltiregend.php` are gone; Dynamic Registration uses `lticonfig.php` and `ltiregistration.php`.
 
