@@ -130,16 +130,11 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        if ($this->ctrl->getCmd() != 'deleteImage') {
-            if (strlen($_FILES['image']['tmp_name']) == 0) {
-                $this->object->setImageFilename($_POST["image_name"]);
-            }
-        }
         if (strlen($_FILES['image']['tmp_name'])) {
             if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1) {
                 $this->object->createNewQuestion();
             }
-            $this->object->setImageFilename($_FILES['image']['name'], $_FILES['image']['tmp_name']);
+            $this->object->uploadImageFile($_FILES['image']['name'], $_FILES['image']['tmp_name']);
         }
 
         $this->object->setIsMultipleChoice($_POST['is_multiple_choice'] == assImagemapQuestion::MODE_MULTIPLE_CHOICE);
