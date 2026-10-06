@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ceLTIc\LTI\Enum\LtiVersion;
 use ceLTIc\LTI\Enum\ServiceAction;
+use ceLTIc\LTI\LineItem;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
 use ceLTIc\LTI\Tool;
@@ -39,9 +40,15 @@ use Random\RandomException;
 class ilLTIAppEventListener implements ilAppEventListener
 {
     /**
-     * Prefix of the authentication mode of a user created by an LTI launch, followed by the platform id.
+     * The setting of a resource link that names the object it launched.
      */
     private const string SETTING_REF_ID = 'ilias_ref_id';
+
+    /**
+     * The setting of a resource link with the gradebook column of the Assignment and Grade Services, as
+     * celtic/lti reads it from the launch.
+     */
+    private const string SETTING_LINE_ITEM = 'custom_lineitem_url';
 
     /**
      * @throws RandomException
@@ -81,17 +88,11 @@ class ilLTIAppEventListener implements ilAppEventListener
         $score = $a_percentage > 0 ? round($a_percentage / 100, 4) : 0.0;
         foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
             foreach ($listener->getResourceLinks($ref_id, $user['account'], $user['platform']) as $resource_link) {
-                $listener->sendOutcome($resource_link, $user['account'], $score, null);
+                $listener->sendOutcome($resource_link, $ref_id, $user['account'], $score, null);
             }
         }
     }
 
-    /**
-     * Reports the current status of the LTI users whose resource links changed since the given date,
-     * which also covers changes of the learning progress settings that raise no event.
-     *
-     * @throws RandomException
-     */
     /**
      * Keeps the object a resource link launched. The registration of an LTI Advantage platform is not for
      * one object, as the registrations of earlier releases were, so its links name the object themselves.
@@ -105,6 +106,14 @@ class ilLTIAppEventListener implements ilAppEventListener
         $resource_link->save();
     }
 
+    /**
+     * Reports the learning progress of the LTI users whose status changed since the given date. Tracking
+     * raises no event when it recalculates the status, as it does after the learning progress settings of
+     * an object change; the other changes were reported by their event already, so a score the platform
+     * has is not sent again.
+     *
+     * @throws RandomException
+     */
     public static function reportChangesSince(ilDateTime $since): void
     {
         global $DIC;
@@ -113,29 +122,19 @@ class ilLTIAppEventListener implements ilAppEventListener
         $sent = 0;
         $db = $DIC->database();
         $result = $db->query(
-            'SELECT ur.lti_user_id, rl.resource_link_pk, c.ext_consumer_id, c.ref_id'
-            . ' FROM lti2_resource_link rl'
-            . ' JOIN lti2_user_result ur ON ur.resource_link_pk = rl.resource_link_pk'
-            . ' JOIN lti2_consumer c ON c.consumer_pk = rl.consumer_pk'
-            . ' WHERE c.enabled = ' . $db->quote(1, 'integer')
-            . ' AND rl.updated > ' . $db->quote($since->get(IL_CAL_DATETIME), 'timestamp')
+            'SELECT m.obj_id, m.usr_id, m.status, m.percentage FROM ut_lp_marks m'
+            . ' JOIN usr_data u ON u.usr_id = m.usr_id'
+            . ' WHERE m.status_changed > ' . $db->quote($since->get(IL_CAL_DATETIME), 'timestamp')
+            . ' AND ' . $db->like('u.auth_mode', 'text', ilAuthProviderLTI::AUTH_MODE_PREFIX . '%', false)
         );
-
         while ($row = $db->fetchAssoc($result)) {
-            $login = ilObjUser::_checkExternalAuthAccount(ilAuthProviderLTI::AUTH_MODE_PREFIX . $row['ext_consumer_id'], $row['lti_user_id']);
-            if (!$login) {
-                continue;
-            }
-
-            $usr_id = ilObjUser::_lookupId($login);
-            $ref_id = (int) $row['ref_id'] ?: $listener->getObjectOfLink((int) $row['resource_link_pk']);
-            if ($ref_id === 0) {
-                continue;
-            }
-            $obj_id = ilObject::_lookupObjId($ref_id);
-            $status = (int) ilLPStatus::_lookupStatus($obj_id, $usr_id);
-            $percentage = $listener->getPercentage($obj_id, $status, (int) ilLPStatus::_lookupPercentage($obj_id, $usr_id));
-            $sent += (int) $listener->sendOutcome((int) $row['resource_link_pk'], $row['lti_user_id'], $listener->getScore($status, $percentage), $status);
+            $sent += $listener->reportStatus(
+                (int) $row['obj_id'],
+                (int) $row['usr_id'],
+                (int) $row['status'],
+                (int) $row['percentage'],
+                true
+            );
         }
 
         $DIC->logger()->forComponent('lti')->info('LTI outcomes of the changes since {since} sent to the platforms: {sent}', [
@@ -145,21 +144,28 @@ class ilLTIAppEventListener implements ilAppEventListener
     }
 
     /**
+     * @param bool $only_changes true to leave out the links whose platform has the score already
+     *
+     * @return int the number of outcomes the platforms accepted
+     *
      * @throws RandomException
      */
-    private function reportStatus(int $obj_id, int $usr_id, int $status, int $percentage): void
+    private function reportStatus(int $obj_id, int $usr_id, int $status, int $percentage, bool $only_changes = false): int
     {
         $user = $this->getLtiUser($usr_id);
         if ($user === null) {
-            return;
+            return 0;
         }
 
+        $sent = 0;
         $score = $this->getScore($status, $this->getPercentage($obj_id, $status, $percentage));
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
             foreach ($this->getResourceLinks($ref_id, $user['account'], $user['platform']) as $resource_link) {
-                $this->sendOutcome($resource_link, $user['account'], $score, $status);
+                $sent += (int) $this->sendOutcome($resource_link, $ref_id, $user['account'], $score, $status, $only_changes);
             }
         }
+
+        return $sent;
     }
 
     /**
@@ -250,28 +256,49 @@ class ilLTIAppEventListener implements ilAppEventListener
      * Sends the score through the outcome service of the resource link, which celtic/lti picks from what
      * the platform offered at the launch. Nothing is sent before the user has a result.
      *
+     * @param bool $only_changes true to send nothing when the platform has the score already
+     *
      * @return bool true when the platform accepted the outcome
+     *
+     * @throws RandomException
      */
-    private function sendOutcome(int $resource_link, string $account, ?float $score, ?int $status): bool
-    {
+    private function sendOutcome(
+        int $resource_link,
+        int $ref_id,
+        string $account,
+        ?float $score,
+        ?int $status,
+        bool $only_changes = false
+    ): bool {
         if ($score === null) {
             return false;
         }
 
         $link = ResourceLink::fromRecordId($resource_link, new ilLTIDataConnector());
         // writing a score only needs the score scope, while hasOutcomesService() also asks for the result scope
-        if (!$link->hasOutcomesService() && !$link->hasScoreService()) {
+        if (!$link->hasOutcomesService() && !$link->hasScoreService() && !$link->hasLineItemService()) {
             return false;
         }
-        if ($link->getPlatform()->ltiVersion === LtiVersion::V1P3 && !ilLTIAdvantageKeyPair::signAsDefaultTool(new Tool(new ilLTIDataConnector()))) {
+        if ($link->getPlatform()->ltiVersion === LtiVersion::V1P3) {
+            if (!ilLTIAdvantageKeyPair::signAsDefaultTool(new Tool(new ilLTIDataConnector()))) {
+                return false;
+            }
+            $this->useLineItemOfObject($link, $ref_id);
+        }
+        if (!$link->hasOutcomesService() && !$link->hasScoreService()) {
             return false;
         }
 
         global $DIC;
 
+        $user = UserResult::fromResourceLink($link, $account);
+        if ($only_changes && $this->hasScore($link, $user, $score, $status)) {
+            return false;
+        }
+
         [$activity_progress, $grading_progress] = $this->getProgress($status);
         $outcome = new Outcome($score, 1, $activity_progress->value, $grading_progress->value);
-        $sent = $link->doOutcomesService(ServiceAction::Write, $outcome, UserResult::fromResourceLink($link, $account));
+        $sent = $link->doOutcomesService(ServiceAction::Write, $outcome, $user);
         // the call itself, with what the platform answered, is in the log of the library
         $DIC->logger()->forComponent('lti')->log(
             ($sent ? 'LTI outcome sent' : 'LTI outcome not accepted by the platform') . ': {request}',
@@ -289,5 +316,64 @@ class ilLTIAppEventListener implements ilAppEventListener
         );
 
         return $sent;
+    }
+
+    /**
+     * Gives the link the gradebook column of the object when the launch gave none but the platform lets
+     * ILIAS manage the columns: the column ILIAS created for the object before, or a new one. The link keeps
+     * it as if the launch had given it.
+     */
+    private function useLineItemOfObject(ResourceLink $link, int $ref_id): void
+    {
+        if ($link->getSetting(self::SETTING_LINE_ITEM) !== '' || !$link->hasLineItemService()) {
+            return;
+        }
+
+        global $DIC;
+
+        $log = $DIC->logger()->forComponent('lti');
+        $request = [
+            'registration' => $link->getPlatform()->getRecordId(),
+            'resource_link_id' => $link->ltiResourceLinkId,
+            'ref_id' => $ref_id,
+        ];
+        $line_items = $link->getLineItems((string) $ref_id);
+        $line_item = is_array($line_items) && $line_items !== [] ? reset($line_items) : null;
+        if ($line_item === null) {
+            $line_item = new LineItem($link->getPlatform(), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)), 1);
+            $line_item->resourceId = (string) $ref_id;
+            if (!$link->createLineItem($line_item) || $line_item->endpoint === null) {
+                $log->warning('LTI line item not created by the platform: {request}', [
+                    'request' => ilLTILibraryLogger::describe($request),
+                ]);
+                return;
+            }
+            $log->info('LTI line item created: {request}', [
+                'request' => ilLTILibraryLogger::describe($request + ['line_item' => $line_item->endpoint]),
+            ]);
+        }
+
+        $link->setSetting(self::SETTING_LINE_ITEM, $line_item->endpoint);
+        $link->save();
+    }
+
+    /**
+     * True when the platform has the score of a final status already. A result holds no progress, so a
+     * status that is not final is always sent.
+     */
+    private function hasScore(ResourceLink $link, UserResult $user, float $score, ?int $status): bool
+    {
+        if (!in_array($status, [ilLPStatus::LP_STATUS_COMPLETED_NUM, ilLPStatus::LP_STATUS_FAILED_NUM], true)) {
+            return false;
+        }
+
+        $current = new Outcome();
+        if (!$link->doOutcomesService(ServiceAction::Read, $current, $user)) {
+            return false;
+        }
+        $value = $current->getValue();
+        $maximum = (float) $current->getPointsPossible();
+
+        return is_numeric($value) && $maximum > 0 && abs((float) $value / $maximum - $score) < 0.00005;
     }
 }

@@ -21,12 +21,13 @@ declare(strict_types=1);
 use ILIAS\Cron\CronJob;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use Random\RandomException;
 
 /**
- * Cron job that reports the learning progress of LTI users that changed since its last run, for the
- * changes that raise no event, like new learning progress settings.
+ * Cron job "LTI Grade Service": reports the learning progress of LTI users whose status changed since
+ * its last run, for the changes that raise no event, like new learning progress settings.
  *
- * The name is fixed: the table cron_job stores it.
+ * The name and the id are fixed: the table cron_job stores them.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
@@ -80,15 +81,16 @@ class ilLTICronOutcomeService extends CronJob
     }
 
     /**
-     * The first run looks back one day.
+     * Looks back to the previous run, whose result is stored once it ends; the first run looks back one day.
      *
      * @throws ilDateTimeException
+     * @throws RandomException
      */
     public function run(): JobResult
     {
         global $DIC;
 
-        $last_run = (int) ($DIC->cron()->repository()->getCronJobData(self::ID)[0]['job_status_ts'] ?? 0);
+        $last_run = (int) ($DIC->cron()->repository()->getCronJobData(self::ID)[0]['job_result_ts'] ?? 0);
         ilLTIAppEventListener::reportChangesSince(
             new ilDateTime($last_run > 0 ? $last_run : time() - 24 * 3600, IL_CAL_UNIX)
         );

@@ -11456,8 +11456,8 @@ lti#:#lti_consumer_updated#:#Konsument aktualisiert
 lti#:#lti_consuming_tab#:#ILIAS als LTI-Konsument
 lti#:#lti_create_consumer#:#Konsumenten hinzufügen
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
-lti#:#lti_cron_title#:#LTI Outcome Service
-lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
+lti#:#lti_cron_title#:#LTI Grade Service
+lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an ihre Plattform, wenn er sich ohne Ereignis geändert hat, z. B. nach geänderten Lernfortschrittseinstellungen eines Objekts. Bewertungen, die die Plattform bereits hat, werden nicht erneut gesendet.
 lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
 lti#:#lti_deep_linking_expired#:#Diese Auswahl ist abgelaufen. Starten Sie die Inhaltsauswahl in der Plattform erneut.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#Die im Tool ausgewählten Inhalte konnten nicht hinzugefügt werden. Bitte versuchen Sie es erneut.###29 09 2026 new variable
