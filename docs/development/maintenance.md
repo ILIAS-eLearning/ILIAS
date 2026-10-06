@@ -2402,7 +2402,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 * Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160), [qualitus.hartwig](https://docu.ilias.de/go/usr/104063)
-* Authority to Curate Test Cases: [emix](https://docu.ilias.de/go/usr/57311)
+* Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Assignee for Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
@@ -2418,7 +2418,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 * Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160), [qualitus.hartwig](https://docu.ilias.de/go/usr/104063)
-* Authority to Curate Test Cases: [emix](https://docu.ilias.de/go/usr/57311)
+* Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Assignee for Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
