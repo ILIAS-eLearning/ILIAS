@@ -24,6 +24,7 @@ use ilCtrl;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\SystemCheck\I\Table\FactoryInterface;
 use ILIAS\SystemCheck\I\Table\Group\FactoryInterface as GroupFactoryInterface;
 use ILIAS\SystemCheck\I\Table\Task\FactoryInterface as TaskFactoryInterface;
@@ -38,6 +39,7 @@ readonly class Factory implements FactoryInterface
     protected ilLanguage $lng;
     protected HTTPServices $http;
     protected ilCtrl $ctrl;
+    protected RefineryFactory $refinery;
 
     public function __construct()
     {
@@ -47,6 +49,7 @@ readonly class Factory implements FactoryInterface
         $this->lng = $DIC->language();
         $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
+        $this->refinery = $DIC->refinery();
     }
 
     final public function group(): GroupFactoryInterface
@@ -66,7 +69,9 @@ readonly class Factory implements FactoryInterface
             $this->data_factory,
             $this->ui,
             $this->lng,
-            $this->http
+            $this->http,
+            $this->refinery,
+            $this->ctrl
         );
     }
 }

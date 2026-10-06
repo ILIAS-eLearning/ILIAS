@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\SystemCheck\Table\Task;
 
+use ilCtrl;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -29,6 +30,8 @@ use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken as ilURLBuilderToken;
 use ilLanguage;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ilSCComponentTaskFactory;
 
 class Handler implements HandlerInterface
 {
@@ -76,8 +79,11 @@ class Handler implements HandlerInterface
         protected readonly ilLanguage $lng,
         protected readonly HTTPServices $http,
         protected readonly DataRetrievalInterface $data_retrieval,
+        protected readonly RefineryFactory $refinery,
+        protected readonly ilCtrl $ctrl,
         protected readonly bool $actions_permitted = false
     ) {
+        $this->initTable();
     }
 
     final protected function getColumns(): array
@@ -164,7 +170,7 @@ class Handler implements HandlerInterface
         ];
     }
 
-    final protected function getTable(): DataTable
+    final protected function initTable(): void
     {
         if (!isset($this->table)) {
             $this->table = $this->ui->factory()->table()->data(
@@ -175,6 +181,10 @@ class Handler implements HandlerInterface
                 ->withActions($this->getActions())
                 ->withId(self::TABLE_ID)->withRequest($this->http->request());
         }
+    }
+
+    final protected function getTable(): DataTable
+    {
         return $this->table;
     }
 
@@ -185,6 +195,24 @@ class Handler implements HandlerInterface
 
     final public function handleTableActions(): void
     {
-        $table = $this->getTable();
+        if (!$this->http->wrapper()->query()->has($this->action_parameter_token->getName())) {
+            return;
+        }
+        if (!$this->actions_permitted) {
+            return;
+        }
+        $action = $this->http->wrapper()->query()->retrieve(
+            $this->action_parameter_token->getName(),
+            $this->refinery->to()->string()
+        );
+        $tokens = $this->http->wrapper()->query()->retrieve(
+            $this->row_id_token->getName(),
+            $this->refinery->custom()->transformation(fn($v) => $v)
+        );
+        $task_id = (int) $tokens[0];
+        $task_handler = ilSCComponentTaskFactory::getComponentTask($task_id);
+        $this->ctrl->setParameterByClass(get_class($task_handler), 'task_id', $task_id);
+        $this->ctrl->redirectByClass(get_class($task_handler), $action);
+        $this->ctrl->clearParameterByClass(get_class($task_handler), 'task_id');
     }
 }

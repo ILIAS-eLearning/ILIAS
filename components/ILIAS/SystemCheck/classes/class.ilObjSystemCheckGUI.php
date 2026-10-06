@@ -170,7 +170,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
             $data_retrieval,
             $this->access->checkAccess('write', '', $this->getObject()->getRefId())
         );
-
+        $table->handleTableActions();
         $this->tpl->setContent($table->getHTML());
         return true;
     }

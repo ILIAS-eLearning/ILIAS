@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\SystemCheck\Table\Task;
 
+use ilCtrl;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\SystemCheck\I\Table\Task\DataRetrievalInterface;
 use ILIAS\SystemCheck\I\Table\Task\FactoryInterface;
 use ILIAS\SystemCheck\I\Table\Task\HandlerInterface;
@@ -35,6 +37,8 @@ readonly class Factory implements FactoryInterface
         protected UIServices $ui,
         protected ilLanguage $lng,
         protected HTTPServices $http,
+        protected RefineryFactory $refinery,
+        protected ilCtrl $ctrl
     ) {
     }
 
@@ -48,6 +52,8 @@ readonly class Factory implements FactoryInterface
             $this->lng,
             $this->http,
             $data_retrieval,
+            $this->refinery,
+            $this->ctrl,
             $actions_permitted
         );
     }
