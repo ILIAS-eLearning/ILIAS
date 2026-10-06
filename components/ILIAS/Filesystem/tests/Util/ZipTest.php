@@ -108,6 +108,41 @@ class ZipTest extends TestCase
         $this->assertSame(5, $unzip_again->getAmountOfFiles());
     }
 
+    public function testZipKeepsPathsInsideZip(): void
+    {
+        $streams = [
+            'participant_a/pass_1/index.html' => Streams::ofString('a'),
+            'participant_b/pass_1/index.html' => Streams::ofString('b'),
+        ];
+        $zip = new Zip(new ZipOptions(), ...$streams);
+
+        $unzip_again = new Unzip(new UnzipOptions(), $zip->get());
+        $files = iterator_to_array($unzip_again->getFiles());
+        sort($files);
+
+        $this->assertSame(
+            ['participant_a/pass_1/index.html', 'participant_b/pass_1/index.html'],
+            $files
+        );
+    }
+
+    public function testZipDoesNotAllowPathsOutsideZip(): void
+    {
+        $zip = new Zip(new ZipOptions());
+        $zip->addStream(Streams::ofString('a'), '../../etc/passwd');
+        $zip->addStream(Streams::ofString('b'), '/absolute/file.txt');
+        $zip->addStream(Streams::ofString('c'), 'folder/../../other/./file.txt');
+
+        $unzip_again = new Unzip(new UnzipOptions(), $zip->get());
+        $files = iterator_to_array($unzip_again->getFiles());
+        sort($files);
+
+        $this->assertSame(
+            ['absolute/file.txt', 'etc/passwd', 'other/file.txt'],
+            $files
+        );
+    }
+
     public function testLegacyZip(): void
     {
         $legacy = new LegacyArchives();
