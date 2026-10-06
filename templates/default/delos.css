@@ -18592,6 +18592,17 @@ div#ilContRepIntro img {
   font-size: 1rem;
 }
 
+.il_ContainerItemTitle .btn.btn-link {
+  font-size: inherit;
+  color: #161616;
+  background-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+  padding: 0 6px;
+  border-radius: 5px;
+}
+.il_ContainerItemTitle .btn.btn-link:hover {
+  background-color: rgb(193.7428571429, 205.1714285714, 220.2571428571);
+}
+
 /* --- Services/COPage ---*/
 a.ilEditSubmit {
   background: url("../images/ButtonsBack.png") repeat-x bottom white;
