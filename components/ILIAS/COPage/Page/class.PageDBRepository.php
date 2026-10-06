@@ -64,6 +64,36 @@ class PageDBRepository
     }
 
     /**
+     * @return list<array<string, mixed>>
+     */
+    public function getActivationDataByParentId(int $parent_id): array
+    {
+        $set = $this->db->queryF(
+            "SELECT page_id, parent_type, lang, active, activation_start, activation_end, show_activation_info " .
+            "FROM page_object WHERE parent_id = %s",
+            ["integer"],
+            [$parent_id]
+        );
+        $records = [];
+        while ($record = $this->db->fetchAssoc($set)) {
+            $records[] = $record;
+        }
+        return $records;
+    }
+
+    public function getActivationData(int $page_id, string $parent_type, string $lang): ?array
+    {
+        $set = $this->db->queryF(
+            "SELECT active, activation_start, activation_end, show_activation_info " .
+            "FROM page_object WHERE page_id = %s AND parent_type = %s AND lang = %s",
+            ["integer", "text", "text"],
+            [$page_id, $parent_type, $lang]
+        );
+        $record = $this->db->fetchAssoc($set);
+        return $record ?: null;
+    }
+
+    /**
      * @return array{pages: list<array<string, mixed>>, history: list<array<string, mixed>>}
      */
     public function getParentObjectContributorData(

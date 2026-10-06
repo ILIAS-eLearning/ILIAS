@@ -472,7 +472,7 @@ class ilLMContentRendererGUI
             "components/ILIAS/LearningModule"
         );
         $m = $this->lng->txt("cont_page_currently_deactivated");
-        $act_data = ilLMPage::_lookupActivationData($this->current_page, $this->lm->getType());
+        $act_data = $this->page_manager->lookupActivationData($this->current_page, $this->lm->getType());
         if ($act_data["show_activation_info"] &&
             (ilUtil::now() < $act_data["activation_start"])) {
             $m .= "<p>" . sprintf(

@@ -30,6 +30,8 @@ class PageManager implements PageManagerInterface
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected PageDBRepository $repo;
     protected ProfileAdapter $profile;
+    /** @var array<string, array<string, mixed>> */
+    protected array $activation_data = [];
 
     public function __construct(
         PageDBRepository $repo,
@@ -68,6 +70,79 @@ class PageManager implements PageManagerInterface
     public function writeActive(int $page_id, string $parent_type, bool $active): void
     {
         $this->repo->writeActive($page_id, $parent_type, $active);
+    }
+
+    public function preloadActivationDataByParentId(int $parent_id): void
+    {
+        foreach ($this->repo->getActivationDataByParentId($parent_id) as $record) {
+            $this->activation_data[$this->activationDataKey(
+                (int) $record["page_id"],
+                (string) $record["parent_type"],
+                (string) $record["lang"]
+            )] = $record;
+        }
+    }
+
+    public function lookupActive(
+        int $page_id,
+        string $parent_type,
+        bool $check_scheduled_activation = false,
+        string $lang = "-"
+    ): bool {
+        $record = $this->getActivationData($page_id, $parent_type, $lang);
+        if ($record === null) {
+            return true;
+        }
+
+        if (!$record["active"] && $check_scheduled_activation) {
+            $now = \ilUtil::now();
+            if ($now >= $record["activation_start"] && $now <= $record["activation_end"]) {
+                return true;
+            }
+        }
+        return (bool) $record["active"];
+    }
+
+    public function isScheduledActivation(
+        int $page_id,
+        string $parent_type,
+        string $lang = "-"
+    ): bool {
+        $record = $this->getActivationData($page_id, $parent_type, $lang);
+        return $record !== null && !$record["active"] && $record["activation_start"] != "";
+    }
+
+    public function lookupActivationData(
+        int $page_id,
+        string $parent_type,
+        string $lang = "-"
+    ): array {
+        return $this->getActivationData($page_id, $parent_type, $lang) ?? [
+            "active" => 1,
+            "activation_start" => null,
+            "activation_end" => null,
+            "show_activation_info" => 0
+        ];
+    }
+
+    protected function getActivationData(int $page_id, string $parent_type, string $lang): ?array
+    {
+        $lang = $lang === "" ? "-" : $lang;
+        $key = $this->activationDataKey($page_id, $parent_type, $lang);
+        if (isset($this->activation_data[$key])) {
+            return $this->activation_data[$key];
+        }
+
+        $record = $this->repo->getActivationData($page_id, $parent_type, $lang);
+        if ($record !== null) {
+            $this->activation_data[$key] = $record;
+        }
+        return $record;
+    }
+
+    protected function activationDataKey(int $page_id, string $parent_type, string $lang): string
+    {
+        return $page_id . ":" . $parent_type . ":" . $lang;
     }
 
     public function getParentObjectContributors(
