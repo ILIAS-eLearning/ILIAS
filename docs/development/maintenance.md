@@ -2481,12 +2481,12 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 *Belongs to:* [Competence Management](https://docu.ilias.de/go/wiki/wpage_1161_1357)
 
-* Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/go/usr/58959), [cludolf](https://docu.ilias.de/go/usr/97658)
-* Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/go/usr/58959), [cludolf](https://docu.ilias.de/go/usr/97658), [akill](https://docu.ilias.de/go/usr/149)
+* Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
+* Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/go/usr/58959), [akill](https://docu.ilias.de/go/usr/149)
 * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
-* Authority to (De-)Assign Authorities: [cludolf](https://docu.ilias.de/go/usr/97658)
-* Assignee for Issues: [cludolf](https://docu.ilias.de/go/usr/97658)
-* Assignee for Security Reports: [cludolf](https://docu.ilias.de/go/usr/97658)
+* Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/go/usr/58959)
+* Assignee for Issues: [tfamula](https://docu.ilias.de/go/usr/58959)
+* Assignee for Security Reports: [tfamula](https://docu.ilias.de/go/usr/58959)
 
 [//]: # (END Skill)
 
