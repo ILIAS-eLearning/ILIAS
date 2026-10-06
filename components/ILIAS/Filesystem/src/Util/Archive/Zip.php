@@ -75,7 +75,7 @@ class Zip
         $this->maybeOpenZip(\ZipArchive::OVERWRITE);
         foreach ($streams as $path_inside_zip => $stream) {
             $path_inside_zip = is_int($path_inside_zip) ? basename((string) $stream->getMetadata('uri')) : $path_inside_zip;
-            $this->addStream($stream, basename($path_inside_zip));
+            $this->addStream($stream, $path_inside_zip);
         }
     }
 
@@ -192,6 +192,9 @@ class Zip
 
     public function addStream(FileStream $stream, string $path_inside_zip): void
     {
+        // resolve "." and ".." and remove leading slashes, entries must not point outside the ZIP
+        $path_inside_zip = $this->realpath($path_inside_zip);
+
         // we remove the "empty zip file" now if possible
         if (isset($this->streams[self::DOT_EMPTY])) {
             unset($this->streams[self::DOT_EMPTY]);
