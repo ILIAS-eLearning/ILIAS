@@ -42,7 +42,9 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
 
     public function __construct(
         private Revision $revision,
-        ?ActionGenerator $action_generator = null
+        ?ActionGenerator $action_generator = null,
+        private bool $confidential = false,
+        private bool $redacted = false
     ) {
         global $DIC;
         parent::__construct($action_generator);
@@ -57,8 +59,8 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
             $this->getCommonProperties(),
             $this->getDetailedProperties()
         );
-        $item = $this->ui_factory->item()->standard($this->revision->getTitle())
-                                 ->withDescription($this->information->getTitle())
+        $item = $this->ui_factory->item()->standard($this->getRevisionTitle())
+                                 ->withDescription($this->getInformationTitle())
                                  ->withProperties($properties);
 
         if ($with_image) {
@@ -70,7 +72,7 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
     public function getAsCard(): Card
     {
         return $this->ui_factory->card()->repositoryObject(
-            $this->information->getTitle(),
+            $this->getInformationTitle(),
             $this->getImage()
         )->withSections([$this->ui_factory->listing()->descriptive($this->getCommonProperties())]);
     }
@@ -91,8 +93,8 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
             }
 
             return $row
-                ->withHeadline($this->information->getTitle())
-                ->withSubheadline($this->revision->getTitle())
+                ->withHeadline($this->getInformationTitle())
+                ->withSubheadline($this->getRevisionTitle())
                 ->withImportantFields($this->getImportantProperties())
                 ->withContent(
                     $this->ui_factory->listing()->descriptive($this->getCommonProperties())
@@ -107,15 +109,29 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
     {
         // We could use Flavours in the Future
         $src = null;
-        if ($this->irss->flavours()->possible($this->revision->getIdentification(), $this->preview_definition)) {
+        if (!$this->redacted && $this->irss->flavours()->possible($this->revision->getIdentification(), $this->preview_definition)) {
             $flavour = $this->irss->flavours()->get($this->revision->getIdentification(), $this->preview_definition);
             $src = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray()[0] ?? null;
         }
 
         return $this->ui_factory->image()->responsive(
             $src ?? $this->getPlaceholderImage(),
-            $this->information->getTitle()
-        )->withAlt($this->information->getTitle());
+            $this->getInformationTitle()
+        )->withAlt($this->getInformationTitle());
+    }
+
+    private function getInformationTitle(): string
+    {
+        return $this->redacted
+            ? $this->language->txt('confidential_redacted')
+            : $this->information->getTitle();
+    }
+
+    private function getRevisionTitle(): string
+    {
+        return $this->redacted
+            ? $this->language->txt('confidential_redacted')
+            : $this->revision->getTitle();
     }
 
     protected function getPlaceholderImage(): string
@@ -133,11 +149,15 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
 
     public function getCommonProperties(): array
     {
-        return [
+        $properties = [
             $this->language->txt('file_size') => $this->formatSize($this->information->getSize()),
             $this->language->txt('type') => $this->information->getMimeType(),
-
         ];
+        if ($this->confidential) {
+            $properties[$this->language->txt('confidential')] = $this->language->txt('yes');
+        }
+
+        return $properties;
     }
 
     public function getDetailedProperties(): array

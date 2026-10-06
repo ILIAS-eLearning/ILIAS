@@ -10775,6 +10775,9 @@ irss#:#by_size_asc#:#Dateigröße (aufsteigend)
 irss#:#by_size_desc#:#Dateigröße (absteigend)
 irss#:#by_title_asc#:#Titel (aufsteigend)
 irss#:#by_title_desc#:#Titel (absteigend)
+irss#:#confidential#:#Vertraulich
+irss#:#confidential_no_download#:#Diese Ressource ist vertraulich und kann nur von ihrem Besitzer heruntergeladen werden.
+irss#:#confidential_redacted#:#[Vertraulich]
 irss#:#create_directory#:#Verzeichnis erstellen
 irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
 irss#:#directory_name#:#Verzeichnisname

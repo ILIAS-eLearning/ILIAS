@@ -74,4 +74,12 @@ interface StorableResource
     public function getFullSize(): int;
 
     public function getType(): ResourceType;
+
+    /**
+     * Confidential resources are redacted in the administration for everyone
+     * except the owner of the current revision and cannot be downloaded there.
+     */
+    public function isConfidential(): bool;
+
+    public function setConfidential(bool $confidential): void;
 }

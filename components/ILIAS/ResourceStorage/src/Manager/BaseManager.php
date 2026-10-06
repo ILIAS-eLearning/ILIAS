@@ -32,6 +32,7 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Stakeholder\ConfidentialStakeholder;
 use ILIAS\ResourceStorage\Resource\ResourceType;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
@@ -96,9 +97,17 @@ abstract class BaseManager
             $type
         );
         $resource->addStakeholder($stakeholder);
+        $this->applyConfidentiality($resource, $stakeholder);
         $this->resource_builder->store($resource);
 
         return $resource->getIdentification();
+    }
+
+    protected function applyConfidentiality(StorableResource $resource, ResourceStakeholder $stakeholder): void
+    {
+        if ($stakeholder instanceof ConfidentialStakeholder && $stakeholder->areNewResourcesConfidential()) {
+            $resource->setConfidential(true);
+        }
     }
 
     public function find(string $identification): ?ResourceIdentification
@@ -126,6 +135,22 @@ abstract class BaseManager
         if (!$this->resource_builder->has($identification)) {
             $this->collection_builder->notififyResourceDeletion($identification);
         }
+    }
+
+    /**
+     * @description Mark a resource as confidential (or remove the mark). Confidential resources are redacted in the
+     * administration for everyone except the owner of the current revision and cannot be downloaded there.
+     */
+    public function setConfidential(ResourceIdentification $identification, bool $confidential): void
+    {
+        $resource = $this->resource_builder->get($identification);
+        $resource->setConfidential($confidential);
+        $this->resource_builder->store($resource);
+    }
+
+    public function isConfidential(ResourceIdentification $identification): bool
+    {
+        return $this->resource_builder->get($identification)->isConfidential();
     }
 
     public function clone(ResourceIdentification $identification): ResourceIdentification

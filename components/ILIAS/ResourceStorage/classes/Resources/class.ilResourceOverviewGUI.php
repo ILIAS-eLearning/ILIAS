@@ -31,6 +31,7 @@ use ILIAS\components\ResourceStorage\Resources\Listing\ViewDefinition;
 use ILIAS\components\ResourceStorage\Resources\UI\Actions\OverviewActionGenerator;
 use ILIAS\components\ResourceStorage\Resources\UI\ResourceListingUI;
 use ILIAS\components\ResourceStorage\Resources\UI\RevisionListingUI;
+use ILIAS\components\ResourceStorage\Resources\UI\ConfidentialityPolicy;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -65,6 +66,7 @@ class ilResourceOverviewGUI
     protected ArrayBasedRequestWrapper $query;
     private WrapperFactory $wrapper;
     private ilTabsGUI $tabs;
+    private ConfidentialityPolicy $confidentiality_policy;
 
     final public function __construct()
     {
@@ -80,6 +82,7 @@ class ilResourceOverviewGUI
         $this->refinery = $DIC->refinery();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->tabs = $DIC->tabs();
+        $this->confidentiality_policy = new ConfidentialityPolicy($DIC->user()->getId());
     }
 
     /**
@@ -120,8 +123,9 @@ class ilResourceOverviewGUI
                 self::CMD_INDEX,
                 $this->language->txt('resource_overview')
             ),
-            new AllResourcesDataSource(),
-            new OverviewActionGenerator()
+            new AllResourcesDataSource($this->confidentiality_policy->getActingUserId()),
+            new OverviewActionGenerator($this->confidentiality_policy),
+            $this->confidentiality_policy
         );
 
         $this->main_tpl->setContent(
@@ -170,7 +174,8 @@ class ilResourceOverviewGUI
         $view_definition->setMode(ViewDefinition::MODE_AS_TABLE);
         $listing = new RevisionListingUI(
             $view_definition,
-            $resource
+            $resource,
+            $this->confidentiality_policy
         );
 
 
@@ -185,6 +190,11 @@ class ilResourceOverviewGUI
         $rid = $this->getResourceIdFromRequest();
         if (!$rid instanceof ResourceIdentification) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt('msg_no_perm_read'), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+            return;
+        }
+        if ($this->confidentiality_policy->isRedacted($this->irss->manage()->getResource($rid))) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt('confidential_no_download'), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
             return;
         }

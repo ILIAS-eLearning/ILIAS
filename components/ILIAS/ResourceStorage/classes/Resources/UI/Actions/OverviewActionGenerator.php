@@ -24,6 +24,7 @@ use ILIAS\UI\Factory;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\components\ResourceStorage\Resources\UI\ConfidentialityPolicy;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -38,8 +39,9 @@ class OverviewActionGenerator implements ActionGenerator
     private array $collected_modals = [];
     private Services $irss;
 
-    public function __construct()
-    {
+    public function __construct(
+        private ConfidentialityPolicy $confidentiality_policy
+    ) {
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->language = $DIC->language();
@@ -55,6 +57,8 @@ class OverviewActionGenerator implements ActionGenerator
             \ilResourceOverviewGUI::P_RESOURCE_ID,
             $revision->getIdentification()->serialize()
         );
+        $resource = $this->irss->manage()->getResource($revision->getIdentification());
+        $redacted = $this->confidentiality_policy->isRedacted($resource);
         $actions = [
             $this->ui_factory->button()->shy(
                 $this->language->txt('action_show_revisions'),
@@ -70,17 +74,18 @@ class OverviewActionGenerator implements ActionGenerator
                     \ilResourceOverviewGUI::CMD_GOTO_RESOURCE
                 )
             ),
-            $this->ui_factory->button()->shy(
+        ];
+        if (!$redacted) {
+            $actions[] = $this->ui_factory->button()->shy(
                 $this->language->txt('action_download'),
                 $this->ctrl->getLinkTargetByClass(
                     \ilResourceOverviewGUI::class,
                     \ilResourceOverviewGUI::CMD_DOWNLOAD
                 )
-            ),
-        ];
-        $resource = $this->irss->manage()->getResource($revision->getIdentification());
+            );
+        }
         if ($resource->getStakeholders() === []) {
-            $this->collected_modals[] = $modal = $this->getRemoveConfirmationModal($revision);
+            $this->collected_modals[] = $modal = $this->getRemoveConfirmationModal($revision, $redacted);
             $actions[] = $this->ui_factory->button()->shy(
                 $this->language->txt('action_remove_resource'),
                 '#'
@@ -97,7 +102,7 @@ class OverviewActionGenerator implements ActionGenerator
     }
 
 
-    private function getRemoveConfirmationModal(Revision $revision): Modal
+    private function getRemoveConfirmationModal(Revision $revision, bool $redacted): Modal
     {
         $action = $this->ctrl->getLinkTargetByClass(
             \ilResourceOverviewGUI::class,
@@ -110,7 +115,9 @@ class OverviewActionGenerator implements ActionGenerator
         )->withAffectedItems([
             $this->ui_factory->modal()->interruptiveItem()->standard(
                 $revision->getIdentification()->serialize(),
-                $revision->getInformation()->getTitle(),
+                $redacted
+                    ? $this->language->txt('confidential_redacted')
+                    : $revision->getInformation()->getTitle(),
             )
         ]);
     }
