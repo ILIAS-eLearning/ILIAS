@@ -75,12 +75,13 @@ class ResourceDBRepository implements ResourceRepository
             return $this->cache[$rid];
         }
 
-        $q = "SELECT storage_id, rtype FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
+        $q = "SELECT storage_id, rtype, confidential FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
         $r = $this->db->queryF($q, ['text'], [$rid]);
         $d = $this->db->fetchObject($r);
 
-        $resource = $this->blank($identification, ResourceType::from($d->rtype));
+        $resource = $this->blank($identification, ResourceType::from((int) $d->rtype));
         $resource->setStorageID($d->storage_id);
+        $resource->setConfidential((bool) $d->confidential);
 
         $this->cache[$rid] = $resource;
 
@@ -119,7 +120,8 @@ class ResourceDBRepository implements ResourceRepository
             ],
             [
                 'storage_id' => ['text', $resource->getStorageID()],
-                'rtype' => ['text', $resource->getType()->value],
+                'rtype' => ['integer', $resource->getType()->value],
+                'confidential' => ['integer', (int) $resource->isConfidential()],
             ]
         );
 
@@ -151,7 +153,7 @@ class ResourceDBRepository implements ResourceRepository
     public function preload(array $identification_strings): void
     {
         $r = $this->db->query(
-            "SELECT rid, storage_id, rtype FROM " . self::TABLE_NAME . " WHERE "
+            "SELECT rid, storage_id, rtype, confidential FROM " . self::TABLE_NAME . " WHERE "
             . $this->db->in(self::IDENTIFICATION, $identification_strings, false, 'text')
         );
         while ($d = $this->db->fetchAssoc($r)) {
@@ -163,9 +165,10 @@ class ResourceDBRepository implements ResourceRepository
     {
         $resource = $this->blank(
             new ResourceIdentification($data['rid']),
-            ResourceType::from($data['rtype'] ?? ResourceType::SINGLE_FILE->value)
+            ResourceType::from((int) ($data['rtype'] ?? ResourceType::SINGLE_FILE->value))
         );
         $resource->setStorageID($data['storage_id']);
+        $resource->setConfidential((bool) ($data['confidential'] ?? false));
         $this->cache[$data['rid']] = $resource;
     }
 }

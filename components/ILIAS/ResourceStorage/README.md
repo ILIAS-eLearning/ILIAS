@@ -227,6 +227,42 @@ $latest_published_revision = $irss->manage()->getCurrentRevision($rid); // First
 $latest_draft_revision = $irss->manage()->getCurrentRevisionIncludingDraft($rid); // Second Upload
 ```
 
+# Confidential Resources
+
+All resources are listed in the Resource Overview of the administration ("Administration" > "System Settings and
+Maintenance" > "File Services" > "Resource Overview"). Resources containing sensitive files (e.g. private uploads of a
+user) can be marked as confidential. For confidential resources the Resource Overview
+- shows `[Confidential]` instead of the file name and the revision titles,
+- does not offer a download (neither as action nor via a direct link),
+- does not find them via the title filter,
+
+unless the person looking at the overview is the owner of the current revision of the resource. Size, file type,
+creation date and stakeholders are still displayed.
+
+Confidentiality only affects the Resource Overview. Delivering resources via `consume()` is still controlled by the
+consuming component and its stakeholder.
+
+A stakeholder can mark all resources created for it as confidential by implementing `ConfidentialStakeholder`:
+
+```php
+class ilMyComponentResourceStakeholder extends AbstractResourceStakeholder implements ConfidentialStakeholder
+{
+    public function areNewResourcesConfidential(): bool
+    {
+        return true;
+    }
+}
+```
+
+The flag can also be set or removed for an existing resource:
+
+```php
+$irss->manage()->setConfidential($rid, true);
+$irss->manage()->isConfidential($rid); // true
+```
+
+Cloned resources keep the flag of the original resource.
+
 # Collections
 
 In many cases a component does not only need a single resource to be stored, but wants to be able to use a collection of

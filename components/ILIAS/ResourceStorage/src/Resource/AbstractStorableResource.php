@@ -36,6 +36,7 @@ abstract class AbstractStorableResource implements StorableResource
      */
     protected array $stakeholders = [];
     protected string $storage_id = '';
+    protected bool $confidential = false;
 
     /**
      * StorableFileResource constructor.
@@ -173,4 +174,14 @@ abstract class AbstractStorableResource implements StorableResource
     }
 
     abstract public function getType(): ResourceType;
+
+    public function isConfidential(): bool
+    {
+        return $this->confidential;
+    }
+
+    public function setConfidential(bool $confidential): void
+    {
+        $this->confidential = $confidential;
+    }
 }

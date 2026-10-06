@@ -10748,6 +10748,9 @@ irss#:#by_size_asc#:#By File Size (Ascending)
 irss#:#by_size_desc#:#By File Size (Descending)
 irss#:#by_title_asc#:#By Title (Ascending)
 irss#:#by_title_desc#:#By Title (Descending)
+irss#:#confidential#:#Confidential
+irss#:#confidential_no_download#:#This resource is confidential and can only be downloaded by its owner.
+irss#:#confidential_redacted#:#[Confidential]
 irss#:#create_directory#:#Create Directory
 irss#:#creation_date#:#Creation Date (This Revision)
 irss#:#directory_name#:#Directory Name

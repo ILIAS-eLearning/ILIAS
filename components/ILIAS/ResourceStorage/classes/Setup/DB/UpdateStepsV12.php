@@ -36,4 +36,16 @@ class UpdateStepsV12 implements \ilDatabaseUpdateSteps
             'type' => \ilDBConstants::T_TEXT,
         ]);
     }
+
+    public function step_2(): void
+    {
+        if (!$this->db->tableColumnExists('il_resource', 'confidential')) {
+            $this->db->addTableColumn('il_resource', 'confidential', [
+                'type' => \ilDBConstants::T_INTEGER,
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0,
+            ]);
+        }
+    }
 }

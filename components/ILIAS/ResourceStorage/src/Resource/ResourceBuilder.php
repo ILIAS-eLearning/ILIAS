@@ -386,6 +386,7 @@ class ResourceBuilder
     public function clone(StorableResource $resource): StorableResource
     {
         $new_resource = $this->newBlank($resource->getType());
+        $new_resource->setConfidential($resource->isConfidential());
         foreach ($resource->getStakeholders() as $stakeholder) {
             $stakeholder = clone $stakeholder;
             $new_resource->addStakeholder($stakeholder);
