@@ -1,0 +1,163 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\SystemCheck\Table\Task;
+
+use Generator;
+use ilDatePresentation;
+use ilDateTime;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\SystemCheck\I\Table\Task\DataRetrievalInterface;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ilSCComponentTaskFactory;
+use ilSCTask;
+use ilSCTasks;
+use ilSCTreeTasksGUI;
+use ilSCUtils;
+
+class DataRetrieval implements DataRetrievalInterface
+{
+    /** @var ilSCTask[] */
+    protected array $sc_tasks;
+    /** @var string[] */
+    protected array $titles;
+    /** @var string[] */
+    protected array $descriptions;
+    /** @var ilDateTime[] */
+    protected array $last_updates;
+    /** @var int[] */
+    protected array $status;
+
+    public function __construct(
+        protected readonly int $group_id
+    ) {
+    }
+
+    /**
+     * @return ilSCTask[]
+     */
+    final public function getSCTasks(): array
+    {
+        if (isset($this->sc_tasks)) {
+            return $this->sc_tasks;
+        }
+
+        $this->sc_tasks = [];
+
+        foreach (ilSCTasks::getInstanceByGroupId($this->group_id)->getTasks() as $task) {
+            if (!$task->isActive()) {
+                continue;
+            }
+            $task_handler = ilSCComponentTaskFactory::getComponentTask($task->getId());
+            $this->sc_tasks[$task->getId()] = $task;
+            $this->titles[$task->getId()] = $task_handler->getTitle();
+            $this->descriptions[$task->getId()] = $task_handler->getDescription();
+            $this->last_updates[$task->getId()] = $task->getLastUpdate();
+            $this->status[$task->getId()] = $task->getStatus();
+        }
+        return $this->sc_tasks;
+    }
+
+    final public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
+        [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+        $titles = $this->titles;
+        $descriptions = $this->descriptions;
+        $last_updates = $this->last_updates;
+        $status = $this->status;
+        $comparator = match ($column_name) {
+            Handler::TABLE_COL_TITLE => function (ilSCTask $f1, ilSCTask $f2) use ($titles) {
+                return strcasecmp($titles[$f1->getId()], $titles[$f2->getId()]);
+            },
+            Handler::TABLE_COL_DESCRIPTION => function (ilSCTask $f1, ilSCTask $f2) use ($descriptions) {
+                return strcasecmp($descriptions[$f1->getId()], $descriptions[$f2->getId()]);
+            },
+            Handler::TABLE_COL_LAST_UPDATE => function (ilSCTask $f1, ilSCTask $f2) use ($last_updates) {
+                if (ilDateTime::_equals($last_updates[$f1->getId()], $last_updates[$f2->getId()])) {
+                    return 0;
+                }
+                return ilDateTime::_before($last_updates[$f1->getId()], $last_updates[$f2->getId()]) ? -1 : 1;
+            },
+            Handler::TABLE_COL_STATUS => function (ilSCTask $f1, ilSCTask $f2) use ($status) {
+                return $status[$f1->getId()] - $status[$f2->getId()];
+            },
+            default => fn(ilSCTask $f1, ilSCTask $f2) => 0
+        };
+        $sc_tasks = $this->getSCTasks();
+        uasort($sc_tasks, $comparator);
+        if ($direction === "DESC") {
+            $sc_tasks = array_reverse($sc_tasks, true);
+        }
+        $sc_tasks = array_slice($sc_tasks, $range->getStart(), $range->getLength(), true);
+        foreach ($sc_tasks as $sc_task) {
+            $data_row = $row_builder->buildDataRow(
+                $sc_task->getId() . '',
+                [
+                    Handler::TABLE_COL_TITLE => $titles[$sc_task->getId()],
+                    Handler::TABLE_COL_DESCRIPTION => $descriptions[$sc_task->getId()],
+                    Handler::TABLE_COL_LAST_UPDATE => ilDatePresentation::formatDate($this->last_updates[$sc_task->getId()]),
+                    Handler::TABLE_COL_STATUS => ilSCUtils::taskStatus2Text($status[$sc_task->getId()])
+                ]
+            );
+            $inactive_actions = $this->getInactiveActions(
+                $sc_task,
+                Handler::ACTION_VALIDATE_DUPLICATES,
+                Handler::ACTION_REPAIR_DUPLICATES,
+                Handler::ACTION_SHOW_TREE,
+                Handler::ACTION_LIST_TREE,
+                Handler::ACTION_FIND_MISSING,
+                Handler::ACTION_REPAIR_MISSING,
+                Handler::ACTION_FIND_MISSING_TREE_ENTRIES,
+                Handler::ACTION_REPAIR_MISSING_TREE_ENTRIES,
+                Handler::ACTION_ANALYZE_STRUCTURE,
+                Handler::ACTION_REPAIR_STRUCTURE
+            );
+            foreach ($inactive_actions as $action_name) {
+                $data_row = $data_row->withDisabledAction($action_name);
+            }
+            yield $data_row;
+        }
+    }
+
+    final public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
+        return count($this->getSCTasks());
+    }
+
+    final protected function getInactiveActions(
+        ilSCTask $task,
+        string ...$all_actions
+    ): array {
+        $task_gui = new ilSCTreeTasksGUI($task);
+        $active_actions = array_map(fn($action) => $action['command'], $task_gui->getActions());
+        return array_diff($all_actions, $active_actions);
+    }
+}

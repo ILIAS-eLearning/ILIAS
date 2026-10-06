@@ -17,8 +17,10 @@
  *********************************************************************/
 
 declare(strict_types=1);
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
+
+use ILIAS\Repository\ExternalGUIService;
+use ILIAS\SystemCheck\I\Table\FactoryInterface as TableFactoryInterface;
+use ILIAS\SystemCheck\Table\Factory as TableFactory;
 
 /**
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
@@ -27,9 +29,10 @@ use ILIAS\Refinery\Factory;
  */
 class ilObjSystemCheckGUI extends ilObjectGUI
 {
-    protected const SECTION_MAIN = 'main';
-    protected const SECTION_GROUP = 'group';
-    protected \ILIAS\Repository\ExternalGUIService $repo_gui_service;
+    protected const string SECTION_MAIN = 'main';
+    protected const string SECTION_GROUP = 'group';
+    protected readonly ExternalGUIService $repo_gui_service;
+    protected readonly TableFactoryInterface $table_factory;
 
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
@@ -38,6 +41,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule('sysc');
         $this->repo_gui_service = $DIC->repository()->gui();
+        $this->table_factory = new TableFactory();
     }
 
     protected function getGrpIdFromRequest(): int
@@ -88,7 +92,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 
             case 'ilobjsystemfoldergui':
 
-                $sys_folder = new ilObjSystemFolderGUI('', SYSTEM_FOLDER_ID, true);
+                $sys_folder = new ilObjSystemFolderGUI(0, SYSTEM_FOLDER_ID, true);
                 $this->ctrl->forwardCommand($sys_folder);
 
                 $this->tabs_gui->clearTargets();
@@ -150,9 +154,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         $this->setSubTabs(self::SECTION_MAIN, 'overview');
         $this->tabs_gui->activateTab('overview');
 
-        $table = new ilSCGroupTableGUI($this, 'overview');
-        $table->init();
-        $table->parse();
+        $table = $this->table_factory->group()->handler();
 
         $this->tpl->setContent($table->getHTML());
         return true;
@@ -163,10 +165,11 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         $this->setSubTabs(self::SECTION_GROUP, '');
 
         $this->ctrl->saveParameter($this, 'grp_id');
-
-        $table = new ilSCTaskTableGUI($this->getGrpIdFromRequest(), $this, 'showGroup');
-        $table->init();
-        $table->parse();
+        $data_retrieval = $this->table_factory->task()->dataRetrieval($this->getGrpIdFromRequest());
+        $table = $this->table_factory->task()->handler(
+            $data_retrieval,
+            $this->access->checkAccess('write', '', $this->getObject()->getRefId())
+        );
 
         $this->tpl->setContent($table->getHTML());
         return true;
