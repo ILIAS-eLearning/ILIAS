@@ -244,10 +244,11 @@ class ilAuthProviderLTI extends ilAuthProvider
 
     /**
      * Gives the active members of the context of a launch their ILIAS account and the roles of the release, as
-     * their own launches would, when the platform offers its Names and Role Provisioning Services. Members the
-     * platform reports as inactive or deleted lose the roles of the release, and keep their account. Members
-     * that are not in the list at all keep their roles: the same object may be linked from other contexts of
-     * the platform. A platform that does not answer does not stop the launch.
+     * their own launches would, when the platform offers its Names and Role Provisioning Services and the
+     * administration activated them for the platform, since it creates accounts of members that never launch.
+     * Members the platform reports as inactive or deleted lose the roles of the release, and keep their
+     * account. Members that are not in the list at all keep their roles: the same object may be linked from
+     * other contexts of the platform. A platform that does not answer does not stop the launch.
      *
      * @param array $release
      */
@@ -256,7 +257,7 @@ class ilAuthProviderLTI extends ilAuthProvider
         global $DIC;
 
         $service = ilLTIAdvantageToolMembership::forContext($receiver->context);
-        if ($service === null) {
+        if ($service === null || !ilLTIPlatform::lookupNamesRoles($release['platform_id'])) {
             return;
         }
         $log = $DIC->logger()->forComponent('lti');

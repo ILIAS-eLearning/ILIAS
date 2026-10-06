@@ -11374,6 +11374,7 @@ lti#:#lti_member#:#Membro LTI
 lti#:#lti_no_provider_selected#:#Nessun fornitore selezionato
 lti#:#lti_object_consumer#:#Consumatori LTI
 lti#:#lti_object_release_settings_form#:#Modifica versioni LTI
+lti#:#lti_platform_names_roles_info#:#When an instructor or administrator of the platform launches an object, ILIAS reads the members of the course at the platform. Members without an account get one with the roles of the release, also those who never launch ILIAS.###06 10 2026 new variable
 lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
 lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registration or leave them all empty.###28 09 2026 new variable
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable

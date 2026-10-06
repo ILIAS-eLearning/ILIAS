@@ -528,4 +528,19 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    /**
+     * Whether ILIAS as tool reads the members and roles of the contexts of a platform (LTI Advantage NRPS).
+     */
+    public function step_34(): void
+    {
+        if (!$this->db->tableColumnExists('lti_ext_consumer', 'names_roles')) {
+            $this->db->addTableColumn('lti_ext_consumer', 'names_roles', [
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => '0'
+            ]);
+        }
+    }
 }

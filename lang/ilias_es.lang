@@ -11424,6 +11424,7 @@ lti#:#lti_member#:#Miembro LTI / Estudiante
 lti#:#lti_no_provider_selected#:#Ningún proveedor seleccionado
 lti#:#lti_object_consumer#:#Consumidores LTI
 lti#:#lti_object_release_settings_form#:#Editar Publicaciones LTI
+lti#:#lti_platform_names_roles_info#:#Cuando un profesor o administrador de la plataforma lanza un objeto, ILIAS lee los miembros del curso en la plataforma. Los miembros sin cuenta reciben una con los roles de la publicación, también los que nunca entran en ILIAS.###06 10 2026 new variable
 lti#:#lti_platform_registration#:#Registro LTI Advantage###17 09 2026 new variable
 lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registration or leave them all empty.###28 09 2026 new variable
 lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable

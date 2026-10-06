@@ -138,6 +138,14 @@ final class ilLTIPlatform
     }
 
     /**
+     * Whether ILIAS reads the members of the contexts of the platform when an instructor launches (LTI Advantage NRPS).
+     */
+    public static function lookupNamesRoles(int $platform_id): bool
+    {
+        return (bool) (self::lookupAdministrationRow($platform_id)['names_roles'] ?? false);
+    }
+
+    /**
      * The types of the objects that can be released to a platform of the administration.
      *
      * @return string[]

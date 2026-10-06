@@ -11493,6 +11493,7 @@ lti#:#lti_member#:#LTI-Rolle „Member“ / „Learner“
 lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
 lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
+lti#:#lti_platform_names_roles_info#:#Wenn ein Lehrender oder Administrator der Plattform ein Objekt aufruft, liest ILIAS die Mitglieder des Kurses auf der Plattform. Mitglieder ohne Benutzerkonto erhalten eines mit den Rollen der Freigabe, auch wenn sie ILIAS nie aufrufen.###06 10 2026 new variable
 lti#:#lti_platform_registration#:#LTI-Advantage-Registrierung###17 09 2026 new variable
 lti#:#lti_platform_registration_incomplete#:#Füllen Sie alle Felder der Registrierung aus oder lassen Sie alle leer.###28 09 2026 new variable
 lti#:#lti_platform_registration_info#:#Wird ausgefüllt, wenn die Plattform ILIAS über die dynamische Registrierung registriert. Andernfalls geben Sie die Daten ein, die die Plattform für ILIAS angibt.###28 09 2026 new variable

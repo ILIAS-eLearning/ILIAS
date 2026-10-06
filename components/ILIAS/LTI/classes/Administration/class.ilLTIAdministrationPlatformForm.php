@@ -79,6 +79,12 @@ class ilLTIAdministrationPlatformForm
             "role" => $field->select($this->lng->txt("gbl_roles_to_users"), $role_options)->withRequired(true),
             "active" => $field->checkbox($this->lng->txt("active"))->withValue($values["active"]),
         ];
+        if ($this->isAdvantage()) {
+            $inputs["names_roles"] = $field->checkbox(
+                $this->lng->txt("lti_con_names_roles"),
+                $this->lng->txt("lti_platform_names_roles_info")
+            )->withValue($values["names_roles"] ?? false);
+        }
         if (isset($values["language"], $this->getLanguageOptions()[$values["language"]])) {
             $inputs["language"] = $inputs["language"]->withValue($values["language"]);
         }
@@ -160,6 +166,7 @@ class ilLTIAdministrationPlatformForm
             "user_language" => ["text", $data["language"]],
             "role" => ["integer", (int) $data["role"]],
             "active" => ["integer", (int) $data["active"]],
+            "names_roles" => ["integer", (int) ($data["names_roles"] ?? false)],
         ];
         $platform_id = $this->platform_id;
         if ($platform_id > 0) {
@@ -244,6 +251,7 @@ class ilLTIAdministrationPlatformForm
             "language" => (string) ($row["user_language"] ?? ""),
             "role" => (string) ($row["role"] ?? ""),
             "active" => (bool) ($row["active"] ?? false),
+            "names_roles" => (bool) ($row["names_roles"] ?? false),
             "types" => $types,
         ];
     }
