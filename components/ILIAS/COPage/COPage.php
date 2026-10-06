@@ -52,7 +52,7 @@ class COPage implements Component\Component
             }
             public function getTarget(): string
             {
-                $asset_version = COPage::getEditorAssetVersion();
+                $asset_version = \ILIAS\COPage\Setup\EditorAssetVersionObjective::getVersionFromSource();
                 return "components/ILIAS/COPage/" . $asset_version . "/PC/InteractiveImage/js";
             }
         };
@@ -73,7 +73,7 @@ class COPage implements Component\Component
             }
             public function getTarget(): string
             {
-                $asset_version = COPage::getEditorAssetVersion();
+                $asset_version = \ILIAS\COPage\Setup\EditorAssetVersionObjective::getVersionFromSource();
                 return "components/ILIAS/COPage/" . $asset_version . "/Editor/js";
             }
         };

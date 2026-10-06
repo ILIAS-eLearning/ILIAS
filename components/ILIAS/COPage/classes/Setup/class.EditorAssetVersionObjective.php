@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\COPage\Setup;
 
 use ILIAS\Setup\Artifact;
@@ -30,6 +32,11 @@ class EditorAssetVersionObjective extends BuildArtifactObjective
     }
 
     public function build(): Artifact
+    {
+        return new ArrayArtifact([self::getVersionFromSource()]);
+    }
+
+    public static function getVersionFromSource(): string
     {
         $files = [];
         foreach (["Editor/js", "PC/InteractiveImage/js"] as $directory) {
@@ -53,7 +60,7 @@ class EditorAssetVersionObjective extends BuildArtifactObjective
             hash_update_file($hash, dirname(__DIR__, 2) . "/" . $file);
         }
 
-        return new ArrayArtifact([substr(hash_final($hash), 0, 16)]);
+        return substr(hash_final($hash), 0, 16);
     }
 
     public static function getVersion(): string
