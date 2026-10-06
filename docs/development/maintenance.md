@@ -2400,12 +2400,12 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 *Belongs to:* [Learning Module SCORM](https://docu.ilias.de/go/wiki/wpage_32_1357)
 
-* Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
+* Authority to Sign off on Conceptual Changes: [swischniak](https://docu.ilias.de/go/usr/21896)
 * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160), [qualitus.hartwig](https://docu.ilias.de/go/usr/104063)
-* Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
-* Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
-* Assignee for Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
-* Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
+* Authority to Curate Test Cases: [swischniak](https://docu.ilias.de/go/usr/21896)
+* Authority to (De-)Assign Authorities: [swischniak](https://docu.ilias.de/go/usr/21896)
+* Assignee for Issues: [swischniak](https://docu.ilias.de/go/usr/21896)
+* Assignee for Security Reports: [swischniak](https://docu.ilias.de/go/usr/21896)
 
 [//]: # (END Scorm2004)
 
@@ -2416,12 +2416,12 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 *Belongs to:* [Learning Module SCORM](https://docu.ilias.de/go/wiki/wpage_32_1357)
 
-* Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
+* Authority to Sign off on Conceptual Changes: [swischniak](https://docu.ilias.de/go/usr/21896)
 * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160), [qualitus.hartwig](https://docu.ilias.de/go/usr/104063)
-* Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
-* Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
-* Assignee for Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
-* Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
+* Authority to Curate Test Cases: [swischniak](https://docu.ilias.de/go/usr/21896)
+* Authority to (De-)Assign Authorities: [swischniak](https://docu.ilias.de/go/usr/21896)
+* Assignee for Issues: [swischniak](https://docu.ilias.de/go/usr/21896)
+* Assignee for Security Reports: [swischniak](https://docu.ilias.de/go/usr/21896)
 
 [//]: # (END ScormAicc)
 
