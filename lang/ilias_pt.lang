@@ -570,6 +570,7 @@ assessment#:#concatenation#:#Concatenação
 assessment#:#conf_delete_pass#:#Tem a certeza que quer remover as suas respostas existentes?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###03 09 2026 new variable
 assessment#:#confirm_sync_questions#:#A pergunta que alterou é uma cópia que foi criada para ser usada com o teste ativo. Quer mudar também o original da pergunta?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#Coordenadas
 assessment#:#copy_and_link_to_questionpool#:#Adicionar ao banco de perguntas
 assessment#:#copy_no_questions_selected#:#Selecione pelo menos uma pergunta para copiar.
@@ -9614,6 +9615,7 @@ exc#:#exc_reminder_submit_setting#:#Olá
 exc#:#exc_reminder_submit_subject#:#Olá
 exc#:#exc_reminders_cron#:#O mail foi movido para o lixo
 exc#:#exc_reminders_cron_info#:#Erro a mover mail
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#Request Deadline###03 09 2026 new variable
 exc#:#exc_requirement#:#Requirement###03 09 2026 new variable
 exc#:#exc_review_anytime#:#Give Feedback Anytime###03 09 2026 new variable
@@ -11670,6 +11672,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Enviar mail para funções de grupo
 mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#Último ano
 mail#:#mail_incoming_both#:#Últimos %s dias
 mail#:#mail_incoming_local#:#Últimos %s meses
@@ -15727,7 +15730,6 @@ sess#:#sess_registration_notification#:#Notification###07 02 2020 new variable
 sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants###07 02 2020 new variable
 sess#:#sess_section_reg#:#Definições de registo
 sess#:#sess_setting_header_presentation#:#Presentation###30 04 2021 new variable
-sess#:#sess_show_members#:#Mostrar participantes
 sess#:#sess_show_participants_info#:#Se estiver ativado, os participantes a sessão podem aceder à galeria de membros
 sess#:#sess_title#:#Title of Session###30 04 2021 new variable
 sess#:#sess_users_added#:#Utilizadores registados selecionados para esta sessão.

@@ -585,6 +585,7 @@ assessment#:#concatenation#:#Sřetězení
 assessment#:#conf_delete_pass#:#Skutečně smazat průchod?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Vámi změněné otázky jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit také původní otázky?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#Souřadnice
 assessment#:#copy_and_link_to_questionpool#:#Přidat do zásobníku otázek
 assessment#:#copy_no_questions_selected#:#Vyberte prosím alespoň jednu otázku ke zkopírování.
@@ -9629,6 +9630,7 @@ exc#:#exc_reminder_submit_setting#:#Připomeňte uživatelům odevzdání
 exc#:#exc_reminder_submit_subject#:#Úloha „%s“ nebyla dokončena
 exc#:#exc_reminders_cron#:#Připomenutí pro úlohy
 exc#:#exc_reminders_cron_info#:#Pokud jsou povoleny, budou aktivní 3 připomenutí: Uživatelům k odevzdání, lektorům k hodnocení a účastníkům pro zpětnou vazbu.
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#Request Deadline###26 08 2024 new variable
 exc#:#exc_requirement#:#Requirement###26 08 2024 new variable
 exc#:#exc_review_anytime#:#Give Feedback Anytime###26 08 2024 new variable
@@ -11685,6 +11687,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To###29 07 2022 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###29 07 2022 new variable
 mail#:#mail_grp_roles#:#Odeslat poštu rolím ve skupině
 mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###26 08 2024 new variable
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#Příchozí pošta
 mail#:#mail_incoming_both#:#lokální a přeposílaná
 mail#:#mail_incoming_local#:#pouze lokální
@@ -15742,7 +15745,6 @@ sess#:#sess_registration_notification#:#Notification###07 02 2020 new variable
 sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants###07 02 2020 new variable
 sess#:#sess_section_reg#:#Nastavení registrace
 sess#:#sess_setting_header_presentation#:#Presentation###29 07 2022 new variable
-sess#:#sess_show_members#:#Zobrazit účastníky
 sess#:#sess_show_participants_info#:#Je-li tato funkce aktivována, účastníci relace mají přístup ke galerii účastníků
 sess#:#sess_title#:#Title of Session###29 07 2022 new variable
 sess#:#sess_users_added#:#Registrovaní vybraní uživatelé pro relaci.

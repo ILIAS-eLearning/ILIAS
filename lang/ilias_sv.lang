@@ -585,6 +585,7 @@ assessment#:#concatenation#:#Länk
 assessment#:#conf_delete_pass#:#Vill du verkligen ta bort passagen?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Frågan du ändrade skapades som en kopia av ett original när du infogade den i testet. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#Koordinater
 assessment#:#copy_and_link_to_questionpool#:#Lägg till frågepoolen
 assessment#:#copy_no_questions_selected#:#Välj minst en fråga att kopiera.
@@ -9629,6 +9630,7 @@ exc#:#exc_reminder_submit_setting#:#Påminn deltagarna om avgifter
 exc#:#exc_reminder_submit_subject#:# Övningsenhet "%s" har ännu inte skickats in
 exc#:#exc_reminders_cron#:#Påminnelser för träningspass
 exc#:#exc_reminders_cron_info#:#Tre påminnelser skickas vid aktivering
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#Request Deadline###21 11 2023 new variable
 exc#:#exc_requirement#:#Requirement###21 11 2023 new variable
 exc#:#exc_review_anytime#:#Give Feedback Anytime###21 11 2023 new variable
@@ -11685,6 +11687,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Ange den önskade "Reply-To"-e-postadressen här.
 mail#:#mail_grp_roles#:#Alla personer med följande lokala roller###Modifierad som en del av jämställdhetsarbetet för ILIAS 8. Etiketten är nu generaliserad för alla komponenter som stöder "mail till medlemmar".
 mail#:#mail_hint_add_placeholder_x#:#Inför platshållaren '%s' i meddelandets brödtext.
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#MaileInput
 mail#:#mail_incoming_both#:#Lokal och vidare till e-post
 mail#:#mail_incoming_local#:#Endast lokalt mottagande
@@ -15742,7 +15745,6 @@ sess#:#sess_registration_notification#:#Notifiering
 sess#:#sess_registration_notification_info#:# Visar en kolumn på fliken "Hantera sessionsdeltagare" för att välja användare som ska meddelas om nya eller avgående deltagare.
 sess#:#sess_section_reg#:#Logga in med användare
 sess#:#sess_setting_header_presentation#:#Presentation
-sess#:#sess_show_members#:#Deltagarantalet
 sess#:#sess_show_participants_info#:#Alla deltagare kan se deltagargalleriet på fliken "Deltagare".
 sess#:#sess_title#:#Sessionens titel
 sess#:#sess_users_added#:#Användare har registrerats för sessionen.

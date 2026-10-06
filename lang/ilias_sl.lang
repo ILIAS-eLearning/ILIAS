@@ -585,6 +585,7 @@ assessment#:#concatenation#:#Povezava
 assessment#:#conf_delete_pass#:#Ali ste prepričani, da želite izbrisati obdelavo?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Vprašanje, ki ste ga spremenili, je bilo z vnosom v test ustvarjeno kot kopija izvirnika. Ali želite spremembe zdaj uporabiti tudi za prvotno vprašanje?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#Koordinate
 assessment#:#copy_and_link_to_questionpool#:#Dodaj v skupino vprašanj
 assessment#:#copy_no_questions_selected#:#Izberite najmanj eno vprašanje za kopiranje.
@@ -9629,6 +9630,7 @@ exc#:#exc_reminder_submit_setting#:#Opomni uporabnika na oddajo
 exc#:#exc_reminder_submit_subject#:#Vadbena enota "%s" še ni bila oddana
 exc#:#exc_reminders_cron#:#Opomniki za vadbene enote
 exc#:#exc_reminders_cron_info#:#Če je aktivirano, bodo poslani trije opomniki: manjkajoče oddaje, manjkajoče ocene in manjkajoče povratne informacije kolegov
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#Request Deadline###26 08 2024 new variable
 exc#:#exc_requirement#:#Requirement###26 08 2024 new variable
 exc#:#exc_review_anytime#:#Give Feedback Anytime###26 08 2024 new variable
@@ -11685,6 +11687,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To###19 08 2022 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###19 08 2022 new variable
 mail#:#mail_grp_roles#:#Pošlji e-pošto naslednjim vlogam v skupini
 mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###26 08 2024 new variable
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#Prejeta e-pošta
 mail#:#mail_incoming_both#:#Lokalno in posredovanje na e-pošto
 mail#:#mail_incoming_local#:#Prejeto samo lokalno
@@ -15742,7 +15745,6 @@ sess#:#sess_registration_notification#:#Notification
 sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants
 sess#:#sess_section_reg#:#Prijava s strani uporabnika
 sess#:#sess_setting_header_presentation#:#Presentation
-sess#:#sess_show_members#:#Galerija udeleženca
 sess#:#sess_show_participants_info#:#Vsi udeleženci imajo v zavihku »Udeleženec" vpogled v galerijo udeleženca.
 sess#:#sess_title#:#Title of Session
 sess#:#sess_users_added#:#Uporabniki so bili prijavljeni na sejo.

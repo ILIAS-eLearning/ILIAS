@@ -570,6 +570,7 @@ assessment#:#concatenation#:#Concaténation
 assessment#:#conf_delete_pass#:#Voulez vous vraiment supprimer cette tentative ?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le questionnaire de l'enquête en cours. Voulez-vous modifier l'original de cette question également ?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#Coordonnées
 assessment#:#copy_and_link_to_questionpool#:#Ajouter à une banque de questions
 assessment#:#copy_no_questions_selected#:#Veuillez choisir au moins une question à  copier.
@@ -9614,6 +9615,7 @@ exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
 exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
 exc#:#exc_reminders_cron#:#Reminders for Assignments
 exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#Request Deadline###31 10 2023 new variable
 exc#:#exc_requirement#:#Requirement###31 10 2023 new variable
 exc#:#exc_review_anytime#:#Give Feedback Anytime###31 10 2023 new variable
@@ -11670,6 +11672,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Envoyer mail aux rôles de groupes
 mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#Messages reçus
 mail#:#mail_incoming_both#:#Local et redirection
 mail#:#mail_incoming_local#:#Local seulement
@@ -15727,7 +15730,6 @@ sess#:#sess_registration_notification#:#Notification
 sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants
 sess#:#sess_section_reg#:#Paramètres d’inscription
 sess#:#sess_setting_header_presentation#:#Presentation
-sess#:#sess_show_members#:#Show Participants
 sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery
 sess#:#sess_title#:#Title of Session
 sess#:#sess_users_added#:#Utilisateurs sélectionnés inscrits à la session.

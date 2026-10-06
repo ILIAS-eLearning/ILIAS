@@ -585,6 +585,7 @@ assessment#:#concatenation#:#Szavak összekapcsolása
 assessment#:#conf_delete_pass#:#Biztos, hogy törli a már létező válaszát?
 assessment#:#confirm_log_deletion#:#Biztos, hogy véglegesen törli a kiválasztott naplóbejegyzéseket?
 assessment#:#confirm_sync_questions#:#A módosított kérdés egy aktív teszt kérdésének másolata. Módosítja az eredeti kérdést is?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#Koordináták
 assessment#:#copy_and_link_to_questionpool#:#Hozzáadás kérdésgyűjteményhez
 assessment#:#copy_no_questions_selected#:#Válasszon ki legalább egy kérdést a másoláshoz!
@@ -9629,6 +9630,7 @@ exc#:#exc_reminder_submit_setting#:#Felhasználók emlékeztetése a beküldésr
 exc#:#exc_reminder_submit_subject#:#‘%s’ feladatot még nem fejezte be
 exc#:#exc_reminders_cron#:#Emlékeztetés a feladatokra
 exc#:#exc_reminders_cron_info#:#3 emlékeztető lesz aktív: felhasználókat a beadásra, tutorokat az értékelésére és résztvevőket a visszajelzésre.
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#Határidő kérése
 exc#:#exc_requirement#:#Követelmény
 exc#:#exc_review_anytime#:#Visszajelzés küldése tetszőleges időpontban
@@ -11685,6 +11687,7 @@ mail#:#mail_global_reply_to_addr#:#Válaszcím
 mail#:#mail_global_reply_to_addr_info#:#Adja meg a kívánt válaszcímet (‘Reply-To’) címet.
 mail#:#mail_grp_roles#:#Csoportszerepköröknek levélküldés
 mail#:#mail_hint_add_placeholder_x#:#Adja a(z) ‘%s’ helyőrzőt a levél szövegéhez.
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#Beérkező levél
 mail#:#mail_incoming_both#:#Levelek helyi fogadása és továbbküldése
 mail#:#mail_incoming_local#:#Levelek csak helyi fogadása
@@ -15742,7 +15745,6 @@ sess#:#sess_registration_notification#:#Értesítés
 sess#:#sess_registration_notification_info#:#Egy oszlop megjelenítése a ‘Résztvevők’ lap alatt, ahol az új vagy távozó résztvevőkről értesítendő személyeket ki lehet választani
 sess#:#sess_section_reg#:#Regisztrációs beállítások
 sess#:#sess_setting_header_presentation#:#Megjelenítés
-sess#:#sess_show_members#:#Résztvevők megjelenítése
 sess#:#sess_show_participants_info#:#Az esemény résztvevői megtekinthetik a résztvevők képgalériáját
 sess#:#sess_title#:#Esemény címe
 sess#:#sess_users_added#:#Az eseményre a kiválasztott felhasználót regisztrálta.
