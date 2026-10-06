@@ -591,6 +591,7 @@ assessment#:#concatenation#:#Birleştirme
 assessment#:#conf_delete_pass#:#Geçenler gerçekten silinsin mi ?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Değiştirdiğiniz soru aktif test için oluşturulmuş bir sorunun kopyasıdır. Orjinali ile değiştirmek istiyor musunuz ?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#Koordinatlar
 assessment#:#copy_and_link_to_questionpool#:#Soru havuzu ekle
 assessment#:#copy_no_questions_selected#:#Kopyalamak için en az bir soru seçiniz.
@@ -9615,6 +9616,7 @@ exc#:#exc_reminder_submit_setting#:#Remind Users to Submit###10 11 2018 new vari
 exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished###10 11 2018 new variable
 exc#:#exc_reminders_cron#:#Reminders for Assignments###10 11 2018 new variable
 exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.###10 11 2018 new variable
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#Request Deadline###26 08 2024 new variable
 exc#:#exc_requirement#:#Requirement###26 08 2024 new variable
 exc#:#exc_review_anytime#:#Give Feedback Anytime###26 08 2024 new variable
@@ -11602,6 +11604,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To###29 07 2022 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###29 07 2022 new variable
 mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
 mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###26 08 2024 new variable
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#Gelen posta
 mail#:#mail_incoming_both#:#yerel ve yönlendirme
 mail#:#mail_incoming_local#:#Sadece yerel
@@ -15659,7 +15662,6 @@ sess#:#sess_registration_notification#:#Notification###07 02 2020 new variable
 sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants###07 02 2020 new variable
 sess#:#sess_section_reg#:#Registration Settings###26 09 2014 new variable
 sess#:#sess_setting_header_presentation#:#Presentation###29 07 2022 new variable
-sess#:#sess_show_members#:#Show Participants###10 11 2018 new variable
 sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery###10 11 2018 new variable
 sess#:#sess_title#:#Title of Session###29 07 2022 new variable
 sess#:#sess_users_added#:#Registered selected users for the session.###26 09 2014 new variable

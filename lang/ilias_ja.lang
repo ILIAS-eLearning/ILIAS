@@ -591,6 +591,7 @@ assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
 assessment#:#confirm_log_deletion#:#選択したログエントリを削除してもよろしいですか？削除したエントリは復元できません。
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
+assessment#:#contained_question_types#:#Contained Question Types###06 10 2026 new variable
 assessment#:#coordinates#:#座標
 assessment#:#copy_and_link_to_questionpool#:#問題集へ追加
 assessment#:#copy_no_questions_selected#:#コピーするには問題のどれかひとつを選択してください。
@@ -9615,6 +9616,7 @@ exc#:#exc_reminder_submit_setting#:#ユーザへ注意喚起を送信
 exc#:#exc_reminder_submit_subject#:#割当て"%s"は完了していません。
 exc#:#exc_reminders_cron#:#割当ての 注意喚起
 exc#:#exc_reminders_cron_info#:#有効にすると、3個の注意喚起がアクティブになります: 送信するユーザ、評価する指導教員、フィードバックする参加者
+exc#:#exc_reminders_cron_not_active#:#Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated.###06 10 2026 new variable
 exc#:#exc_request_deadline#:#期限を要求
 exc#:#exc_requirement#:#要件
 exc#:#exc_review_anytime#:#いつでもフィードバック
@@ -11602,6 +11604,7 @@ mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#希望する'Reply-To'アドレスを入力してください。
 mail#:#mail_grp_roles#:#グループ役割へメールを送信
 mail#:#mail_hint_add_placeholder_x#:#メッセージボディへプレースフォルダ '%s' を追加
+mail#:#mail_inbox_external_delivery_only_info#:#Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally.###06 10 2026 new variable
 mail#:#mail_incoming#:#受信メール
 mail#:#mail_incoming_both#:#ローカル受信と転送
 mail#:#mail_incoming_local#:#ローカル受信のみ
@@ -15659,7 +15662,6 @@ sess#:#sess_registration_notification#:#通知
 sess#:#sess_registration_notification_info#:#新規または退出者に関する通知されるべきユーザを選択するための'参加者'タブ内に列を表示
 sess#:#sess_section_reg#:#登録設定
 sess#:#sess_setting_header_presentation#:#プレゼンテーション
-sess#:#sess_show_members#:#参加者を表示
 sess#:#sess_show_participants_info#:#有効にするとセッション参加者は参加者ギャラリーへアクセスできます。
 sess#:#sess_title#:#セッションのタイトル
 sess#:#sess_users_added#:#セッションの選択したユーザを登録しました。
