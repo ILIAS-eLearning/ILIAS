@@ -18979,10 +18979,6 @@ a.ilc_page_toc_PageTOCLink:hover {
   color: rgb(57.5428571429, 76.4714285714, 101.4571428571);
 }
 
-a.ilc_page_toc_PageTOCLink:visited {
-  color: #82639e;
-}
-
 /* --- content styles (will move to content.css) --- */
 td.ilc_PageDisabled {
   padding: 20px;
