@@ -117,11 +117,13 @@ abstract class ilLPCollection
     {
         $items = [];
         $lp_collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($a_obj_id);
-        foreach ($lp_collection as $lp_collection_entry) {
-            if ($this->validateEntry($lp_collection_entry->getItemId())) {
-                $items[] = $lp_collection_entry->getItemId();
-            } else {
-                $this->deleteEntry($lp_collection_entry->getItemId());
+        if (!is_null($lp_collection)) {
+            foreach ($lp_collection as $lp_collection_entry) {
+                if ($this->validateEntry($lp_collection_entry->getItemId())) {
+                    $items[] = $lp_collection_entry->getItemId();
+                } else {
+                    $this->deleteEntry($lp_collection_entry->getItemId());
+                }
             }
         }
         $this->items = $items;
