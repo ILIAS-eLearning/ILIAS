@@ -76,7 +76,7 @@ class ilUserSearchOptions
 
         $counter = 1;
         $fields = [];
-        foreach (ilUserSearchOptions::_getPossibleFields($a_admin) as $field) {
+        foreach (ilUserSearchOptions::_getPossibleFields() as $field) {
             // TODO: check enabled
             // DONE
             if ($a_admin == false and !ilUserSearchOptions::_isEnabled($field)) {
@@ -155,7 +155,7 @@ class ilUserSearchOptions
         return $fields ?: array();
     }
 
-    public static function _getPossibleFields(bool $a_admin = false): array
+    public static function _getPossibleFields(): array
     {
         return array('gender',
                      'lastname',

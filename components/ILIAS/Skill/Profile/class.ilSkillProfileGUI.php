@@ -867,7 +867,7 @@ class ilSkillProfileGUI
         $tpl->setContent($this->ui_ren->render($table));
     }
 
-    public function assignUser(): void
+    public function assignUser(array $users = []): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -886,7 +886,6 @@ class ilSkillProfileGUI
         }
 
         // user assignment with ilRepositorySearchGUI
-        $users = $this->requested_users;
         if (!empty($users)) {
             foreach ($users as $id) {
                 if ($id > 0) {

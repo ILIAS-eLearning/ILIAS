@@ -22,6 +22,16 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\Search\GUI\UserAssignment\Table\ObjectTableBuilder;
+use ILIAS\Search\GUI\UserAssignment\Table\ObjectDataRetrieval;
+use ILIAS\Search\GUI\UserAssignment\Table\UserTableBuilder;
+use ILIAS\Search\GUI\UserAssignment\Table\UserDataRetrieval;
+use ILIAS\User\Profile\Profile;
 
 /**
 * Class ilRepositorySearchGUI
@@ -41,7 +51,6 @@ class ilRepositorySearchGUI
 
     protected array $add_options = [];
     protected string $default_option = '';
-    protected bool $object_selection = false;
 
     protected bool $searchable_check = true;
     protected string $search_title = '';
@@ -76,12 +85,12 @@ class ilRepositorySearchGUI
     protected ilLanguage $lng;
     private GlobalHttpState $http;
     private RefineryFactory $refinery;
+    protected DataFactory $data_factory;
+    protected Profile $user_profile;
 
     public function __construct()
     {
         global $DIC;
-
-
 
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -94,6 +103,8 @@ class ilRepositorySearchGUI
         $this->http = $DIC->http();
         $this->user = $DIC->user();
         $this->tabs = $DIC->tabs();
+        $this->data_factory = new DataFactory();
+        $this->user_profile = $DIC['user']->getProfile();
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('crs');
@@ -183,6 +194,90 @@ class ilRepositorySearchGUI
         return $this->role_callback;
     }
 
+    /**
+     * @return array{0: URLBuilder, 1: URLBuilderToken, 2: URLBuilderToken, 3: URLBuilderToken}
+     */
+    protected function getTableActionURLBuilder(): array
+    {
+        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget(
+            $this,
+            'handleTableAction'
+        );
+        $url_builder = new URLBuilder($this->data_factory->uri($link));
+        return $url_builder->acquireParameters(
+            ['search_usr_assign'],
+            'table_ids',
+            'table_action',
+            'add_option' // for actions derived from add_option
+        );
+    }
+
+    protected function handleTableAction(): void
+    {
+        list($url_builder, $id_token, $action_token, $add_option_token) = $this->getTableActionURLBuilder();
+
+        if (!$this->http->wrapper()->query()->has($action_token->getName())) {
+            return;
+        }
+        if (!$this->http->wrapper()->query()->has($id_token->getName())) {
+            return;
+        }
+
+        $action = $this->http->wrapper()->query()->retrieve(
+            $action_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
+
+        $add_option = null;
+        if ($action === UserTableBuilder::ADD_FOR_OPTION_ACTION) {
+            if (!$this->http->wrapper()->query()->has($action_token->getName())) {
+                return;
+            }
+            $add_option = $this->http->wrapper()->query()->retrieve(
+                $add_option_token->getName(),
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $data_retrieval = match ($action) {
+            ObjectTableBuilder::LIST_USERS_ACTION, ObjectTableBuilder::ADD_ROLE_ACTION =>
+                new ObjectDataRetrieval(
+                    $this->search_type,
+                    ilSession::get('rep_search')[$this->search_type] ?? [],
+                    $this->rbacreview
+                ),
+            UserTableBuilder::ADD_USER_ACTION, UserTableBuilder::ADD_FOR_OPTION_ACTION =>
+                new UserDataRetrieval(
+                    false,
+                    $this->getUserLimitations(),
+                    ilSession::get('rep_search')['usr'] ?? [],
+                    $this->lng,
+                    $this->user_profile,
+                    $this->ui_factory,
+                    $this->ctrl
+                ),
+            default => null
+        };
+
+        $ids = $this->http->wrapper()->query()->retrieve(
+            $id_token->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                // Actions for entire table sends a fixed token in an array, instead of all row ids
+                $this->refinery->custom()->transformation(
+                    fn($var) => $var === ['ALL_OBJECTS'] ?
+                    ($data_retrieval?->getAllIDs() ?? []) : []
+                )
+            ])
+        );
+
+        match ($action) {
+            ObjectTableBuilder::LIST_USERS_ACTION => $this->listUsers($ids),
+            ObjectTableBuilder::ADD_ROLE_ACTION => $this->addRole(...$ids),
+            UserTableBuilder::ADD_USER_ACTION => $this->addUser(...$ids),
+            UserTableBuilder::ADD_FOR_OPTION_ACTION => $this->handleActionFromOption($add_option, ...$ids)
+        };
+    }
 
     /**
      * array(
@@ -439,21 +534,12 @@ class ilRepositorySearchGUI
     }
 
 
-    public function addRole(): void
+    public function addRole(int ...$obj_ids): void
     {
         $class = $this->role_callback['class'];
         $method = $this->role_callback['method'];
 
-        // call callback if that function does give a return value => show error message
-        // listener redirects if everything is ok.
-        $obj_ids = [];
-        if ($this->http->wrapper()->post()->has('obj')) {
-            $obj_ids = $this->http->wrapper()->post()->retrieve(
-                'obj',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-        }
-        $role_ids = array();
+        $role_ids = [];
         foreach ($obj_ids as $id) {
             $obj_type = ilObject::_lookupType($id);
             if ($obj_type == "crs" || $obj_type == "grp") {
@@ -470,18 +556,10 @@ class ilRepositorySearchGUI
         $this->showSearchResults();
     }
 
-    public function addUser(): void
+    public function addUser(int ...$users): void
     {
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-
-        $users = [];
-        if ($this->http->wrapper()->post()->has('user')) {
-            $users = $this->http->wrapper()->post()->retrieve(
-                'user',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-        }
 
         // call callback if that function does give a return value => show error message
         // listener redirects if everything is ok.
@@ -608,32 +686,13 @@ class ilRepositorySearchGUI
     }
 
 
-    protected function handleMultiCommand(): void
+    protected function handleActionFromOption(string $option, int ...$users): void
     {
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
-        $post_user = $this->http->wrapper()->post()->retrieve(
-            'user',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-        );
-        $post_selected_command = '';
-        if (
-            $this->http->wrapper()->post()->has('table_top_cmd') &&
-            $this->http->wrapper()->post()->has('selectedCommand_2')
-        ) {
-            $post_selected_command = $this->http->wrapper()->post()->retrieve(
-                'selectedCommand_2',
-                $this->refinery->kindlyTo()->string()
-            );
-        } elseif ($this->http->wrapper()->post()->has('selectedCommand')) {
-            $post_selected_command = $this->http->wrapper()->post()->retrieve(
-                'selectedCommand',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
         // Redirects if everything is ok
-        if (!$class->$method($post_user, $post_selected_command)) {
+        if (!$class->$method($users, $option)) {
             $this->showSearchResults();
         }
     }
@@ -1203,46 +1262,71 @@ class ilRepositorySearchGUI
             ilSession::set('usr_search_link', $this->ctrl->getLinkTarget($this, 'show'));
         }
 
-        $table = new ilRepositoryUserResultTableGUI($this, $a_parent_cmd, $is_in_admin);
-        if (count($this->add_options)) {
-            $table->addMultiItemSelectionButton(
-                'selectedCommand',
-                $this->add_options,
-                'handleMultiCommand',
-                $this->lng->txt('execute'),
-                $this->default_option
-            );
-        } else {
-            $table->addMultiCommand('addUser', $this->lng->txt('btn_add'));
-        }
-        $table->setUserLimitations($this->getUserLimitations());
-        $table->parseUserIds($a_usr_ids);
+        $table = new UserTableBuilder(
+            $is_in_admin,
+            $this->add_options,
+            new UserDataRetrieval(
+                $is_in_admin,
+                $this->getUserLimitations(),
+                $a_usr_ids,
+                $this->lng,
+                $this->user_profile,
+                $this->ui_factory,
+                $this->ctrl
+            ),
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->user,
+            $this->rbacreview
+        )->get(...$this->getTableActionURLBuilder());
 
-        $this->tpl->setVariable('RES_TABLE', $table->getHTML());
+        $this->tpl->setVariable('RES_TABLE', $this->ui_renderer->render($table));
     }
 
     protected function showSearchRoleTable(array $a_obj_ids): void
     {
-        $table = new ilRepositoryObjectResultTableGUI($this, 'showSearchResults', $this->object_selection);
-        $table->parseObjectIds($a_obj_ids);
+        $table = new ObjectTableBuilder(
+            $this->search_type,
+            $this->getRoleCallback() !== [],
+            new ObjectDataRetrieval($this->search_type, $a_obj_ids, $this->rbacreview),
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->user
+        )->get(...$this->getTableActionURLBuilder());
 
-        $this->tpl->setVariable('RES_TABLE', $table->getHTML());
+        $this->tpl->setVariable('RES_TABLE', $this->ui_renderer->render($table));
     }
 
     protected function showSearchGroupTable(array $a_obj_ids): void
     {
-        $table = new ilRepositoryObjectResultTableGUI($this, 'showSearchResults', $this->object_selection);
-        $table->parseObjectIds($a_obj_ids);
+        $table = new ObjectTableBuilder(
+            $this->search_type,
+            $this->getRoleCallback() !== [],
+            new ObjectDataRetrieval($this->search_type, $a_obj_ids, $this->rbacreview),
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->user
+        )->get(...$this->getTableActionURLBuilder());
 
-        $this->tpl->setVariable('RES_TABLE', $table->getHTML());
+        $this->tpl->setVariable('RES_TABLE', $this->ui_renderer->render($table));
     }
 
     protected function showSearchCourseTable(array $a_obj_ids): void
     {
-        $table = new ilRepositoryObjectResultTableGUI($this, 'showSearchResults', $this->object_selection);
-        $table->parseObjectIds($a_obj_ids);
+        $table = new ObjectTableBuilder(
+            $this->search_type,
+            $this->getRoleCallback() !== [],
+            new ObjectDataRetrieval($this->search_type, $a_obj_ids, $this->rbacreview),
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->user
+        )->get(...$this->getTableActionURLBuilder());
 
-        $this->tpl->setVariable('RES_TABLE', $table->getHTML());
+        $this->tpl->setVariable('RES_TABLE', $this->ui_renderer->render($table));
     }
 
     protected function listUsers(array $selected_entries = []): bool
@@ -1366,11 +1450,6 @@ class ilRepositorySearchGUI
             }
         }
         return true;
-    }
-
-    public function allowObjectSelection(bool $a_value = false): void
-    {
-        $this->object_selection = $a_value;
     }
 
     /**
