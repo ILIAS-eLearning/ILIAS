@@ -25,8 +25,9 @@ use ilSCTask;
 
 interface DataRetrievalInterface extends DataRetrieval
 {
-    /**
-     * @return ilSCTask[]
-     */
+    /** @return ilSCTask[] */
     public function getSCTasks(): array;
+
+    /** @return array<string, string> */
+    public function getAllActions(): array;
 }

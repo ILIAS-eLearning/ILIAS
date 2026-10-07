@@ -45,6 +45,8 @@ class DataRetrieval implements DataRetrievalInterface
     protected array $last_updates;
     /** @var int[] */
     protected array $status;
+    /** @var string[] */
+    protected array $actions;
 
     public function __construct(
         protected readonly int $group_id
@@ -124,20 +126,7 @@ class DataRetrieval implements DataRetrievalInterface
                     Handler::TABLE_COL_STATUS => ilSCUtils::taskStatus2Text($status[$sc_task->getId()])
                 ]
             );
-            $inactive_actions = $this->getInactiveActions(
-                $sc_task,
-                Handler::ACTION_VALIDATE_DUPLICATES,
-                Handler::ACTION_REPAIR_DUPLICATES,
-                Handler::ACTION_SHOW_TREE,
-                Handler::ACTION_LIST_TREE,
-                Handler::ACTION_FIND_MISSING,
-                Handler::ACTION_REPAIR_MISSING,
-                Handler::ACTION_FIND_MISSING_TREE_ENTRIES,
-                Handler::ACTION_REPAIR_MISSING_TREE_ENTRIES,
-                Handler::ACTION_ANALYZE_STRUCTURE,
-                Handler::ACTION_REPAIR_STRUCTURE
-            );
-            foreach ($inactive_actions as $action_name) {
+            foreach ($this->getInactiveActions($sc_task) as $action_name) {
                 $data_row = $data_row->withDisabledAction($action_name);
             }
             yield $data_row;
@@ -152,12 +141,30 @@ class DataRetrieval implements DataRetrievalInterface
         return count($this->getSCTasks());
     }
 
+    /** @return array<string, string> */
+    final public function getAllActions(): array
+    {
+        if (isset($this->actions)) {
+            return $this->actions;
+        }
+        $this->actions = [];
+        foreach ($this->getSCTasks() as $task) {
+            $task_gui = ilSCComponentTaskFactory::getComponentTask($task->getId());
+            foreach ($task_gui->getActions() as $action) {
+                $this->actions[$action['command']] = $action['txt'];
+            }
+        }
+        return $this->actions;
+    }
+
     final protected function getInactiveActions(
-        ilSCTask $task,
-        string ...$all_actions
+        ilSCTask $task
     ): array {
-        $task_gui = new ilSCTreeTasksGUI($task);
-        $active_actions = array_map(fn($action) => $action['command'], $task_gui->getActions());
-        return array_diff($all_actions, $active_actions);
+        $active_actions = [];
+        $task_gui = ilSCComponentTaskFactory::getComponentTask($task->getId());
+        foreach ($task_gui->getActions() as $action) {
+            $active_actions[$action['command']] = $action['txt'];
+        }
+        return array_diff(array_keys($this->getAllActions()), array_keys($active_actions));
     }
 }

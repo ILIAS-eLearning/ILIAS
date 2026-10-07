@@ -47,26 +47,6 @@ class Handler implements HandlerInterface
     protected const string LNG_TABLE_COL_DESCRIPTION = 'description';
     protected const string LNG_TABLE_COL_LAST_UPDATE = 'last_update';
     protected const string LNG_TABLE_COL_STATUS = 'status';
-    public const string ACTION_VALIDATE_DUPLICATES = 'validateDuplicates';
-    public const string ACTION_REPAIR_DUPLICATES = 'repairDuplicates';
-    public const string ACTION_SHOW_TREE = 'showTree';
-    public const string ACTION_LIST_TREE = 'listTree';
-    public const string ACTION_FIND_MISSING = 'findMissing';
-    public const string ACTION_REPAIR_MISSING = 'confirmRepairMissing';
-    public const string ACTION_FIND_MISSING_TREE_ENTRIES = 'findMissingTreeEntries';
-    public const string ACTION_REPAIR_MISSING_TREE_ENTRIES = 'confirmRepairMissingTreeEntries';
-    public const string ACTION_ANALYZE_STRUCTURE = 'analyzeStructure';
-    public const string ACTION_REPAIR_STRUCTURE = 'confirmRepairStructure';
-    protected const string LNG_ACTION_VALIDATE_DUPLICATES = 'sysc_action_validate';
-    protected const string LNG_ACTION_REPAIR_DUPLICATES = 'sysc_action_repair';
-    protected const string LNG_ACTION_SHOW_TREE = 'sysc_action_show_tree';
-    protected const string LNG_ACTION_LIST_TREE = 'sysc_action_list_tree';
-    protected const string LNG_ACTION_FIND_MISSING = 'sysc_action_validate';
-    protected const string LNG_ACTION_REPAIR_MISSING = 'sysc_action_repair';
-    protected const string LNG_ACTION_FIND_MISSING_TREE_ENTRIES = 'sysc_action_validate';
-    protected const string LNG_ACTION_REPAIR_MISSING_TREE_ENTRIES = 'sysc_action_repair';
-    protected const string LNG_ACTION_ANALYZE_STRUCTURE = 'sysc_action_validate';
-    protected const string LNG_ACTION_REPAIR_STRUCTURE = 'sysc_action_repair';
 
     protected DataTable $table;
     protected URLBuilder $url_builder;
@@ -116,58 +96,15 @@ class Handler implements HandlerInterface
                 self::TABLE_ACTION_ID,
                 self::ROW_ID
             );
-        return [
-            self::ACTION_VALIDATE_DUPLICATES => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_VALIDATE_DUPLICATES),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_VALIDATE_DUPLICATES),
+        $actions = [];
+        foreach ($this->data_retrieval->getAllActions() as $command => $txt) {
+            $actions[$command] = $this->ui->factory()->table()->action()->single(
+                $txt,
+                $this->url_builder->withParameter($this->action_parameter_token, $command),
                 $this->row_id_token
-            ),
-            self::ACTION_REPAIR_DUPLICATES => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_REPAIR_DUPLICATES),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_REPAIR_DUPLICATES),
-                $this->row_id_token
-            ),
-            self::ACTION_SHOW_TREE => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_SHOW_TREE),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_SHOW_TREE),
-                $this->row_id_token
-            ),
-            self::ACTION_LIST_TREE => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_LIST_TREE),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_LIST_TREE),
-                $this->row_id_token
-            ),
-            self::ACTION_FIND_MISSING => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_FIND_MISSING),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_FIND_MISSING),
-                $this->row_id_token
-            ),
-            self::ACTION_REPAIR_MISSING => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_REPAIR_MISSING),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_REPAIR_MISSING),
-                $this->row_id_token
-            ),
-            self::ACTION_FIND_MISSING_TREE_ENTRIES => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_FIND_MISSING_TREE_ENTRIES),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_FIND_MISSING_TREE_ENTRIES),
-                $this->row_id_token
-            ),
-            self::ACTION_REPAIR_MISSING_TREE_ENTRIES => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_REPAIR_MISSING_TREE_ENTRIES),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_REPAIR_MISSING_TREE_ENTRIES),
-                $this->row_id_token
-            ),
-            self::ACTION_ANALYZE_STRUCTURE => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_ANALYZE_STRUCTURE),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_ANALYZE_STRUCTURE),
-                $this->row_id_token
-            ),
-            self::ACTION_REPAIR_STRUCTURE => $this->ui->factory()->table()->action()->single(
-                $this->lng->txt(self::LNG_ACTION_REPAIR_STRUCTURE),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_REPAIR_STRUCTURE),
-                $this->row_id_token
-            )
-        ];
+            );
+        }
+        return $actions;
     }
 
     final protected function initTable(): void
@@ -207,7 +144,7 @@ class Handler implements HandlerInterface
         );
         $tokens = $this->http->wrapper()->query()->retrieve(
             $this->row_id_token->getName(),
-            $this->refinery->custom()->transformation(fn($v) => $v)
+            $this->refinery->kindlyTo()->listOf($this->refinery->to()->int())
         );
         $task_id = (int) $tokens[0];
         $task_handler = ilSCComponentTaskFactory::getComponentTask($task_id);
