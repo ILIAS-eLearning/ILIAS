@@ -71,16 +71,16 @@ class Handler implements HandlerInterface
         return [
             self::TABLE_COL_TITLE => $this->ui->factory()->table()->column()->text(
                 $this->lng->txt(self::LNG_TABLE_COL_TITLE)
-            )->withHighlight(true)->withIsSortable(true),
+            )->withIsSortable(true),
             self::TABLE_COL_DESCRIPTION => $this->ui->factory()->table()->column()->text(
                 $this->lng->txt(self::LNG_TABLE_COL_DESCRIPTION)
-            )->withHighlight(true)->withIsSortable(true),
+            )->withIsSortable(true),
             self::TABLE_COL_LAST_UPDATE => $this->ui->factory()->table()->column()->text(
                 $this->lng->txt(self::LNG_TABLE_COL_LAST_UPDATE)
-            )->withHighlight(true)->withIsSortable(true),
+            )->withIsSortable(true),
             self::TABLE_COL_STATUS => $this->ui->factory()->table()->column()->text(
                 $this->lng->txt(self::LNG_TABLE_COL_STATUS)
-            )->withHighlight(true)->withIsSortable(true)
+            )->withIsSortable(true)
         ];
     }
 
