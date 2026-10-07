@@ -47,7 +47,7 @@
 				</xsl:when>
 			</xsl:choose>
 			<xsl:choose>
-				<xsl:when test="@padding or @padding-left or @padding-right or @padding-top or @padding-bottom">
+				<xsl:when test="@padding or @padding-left or @padding-right or @padding-top or @padding-bottom or (@margin and @margin != 0) or @margin-left or @margin-right or @margin-top or @margin-bottom">
 						<xsl:attribute name="style">
 							<xsl:if test="@padding">
 								<xsl:text>padding: </xsl:text>
@@ -72,6 +72,32 @@
 							<xsl:if test="@padding-bottom">
 								<xsl:text>padding-bottom: </xsl:text>
 								<xsl:value-of select="@padding-bottom"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<!-- Prevet dummy margin=0 to appear in HTML -->
+							<xsl:if test="@margin and @margin != 0">
+								<xsl:text>margin: </xsl:text>
+								<xsl:value-of select="@margin"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@margin-left">
+								<xsl:text>margin-left: </xsl:text>
+								<xsl:value-of select="@margin-left"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@margin-right">
+								<xsl:text>margin-right: </xsl:text>
+								<xsl:value-of select="@margin-right"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@margin-top">
+								<xsl:text>margin-top: </xsl:text>
+								<xsl:value-of select="@margin-top"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@margin-bottom">
+								<xsl:text>margin-bottom: </xsl:text>
+								<xsl:value-of select="@margin-bottom"/>
 								<xsl:text>; </xsl:text>
 							</xsl:if>
 						</xsl:attribute>
@@ -189,6 +215,68 @@
 
 	<xsl:template match="//fo:list-item" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 		<li>
+			<xsl:variable name="block" select="fo:list-item-body/fo:block"/>
+			<xsl:if test="$block/@padding or $block/@padding-left or $block/@padding-right or $block/@padding-top or $block/@padding-bottom or
+			@margin or @margin-left or @margin-right or @margin-top or @margin-bottom or $block/@text-align">
+				<xsl:attribute name="style">
+					<xsl:if test="$block/@padding">
+						<xsl:text>padding: </xsl:text>
+						<xsl:value-of select="$block/@padding"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="$block/@padding-left">
+						<xsl:text>padding-left: </xsl:text>
+						<xsl:value-of select="$block/@padding-left"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="$block/@padding-right">
+						<xsl:text>padding-right: </xsl:text>
+						<xsl:value-of select="$block/@padding-right"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="$block/@padding-top">
+						<xsl:text>padding-top: </xsl:text>
+						<xsl:value-of select="$block/@padding-top"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="$block/@padding-bottom">
+						<xsl:text>padding-bottom: </xsl:text>
+						<xsl:value-of select="$block/@padding-bottom"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@margin">
+						<xsl:text>margin: </xsl:text>
+						<xsl:value-of select="@margin"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@margin-left">
+						<xsl:text>margin-left: </xsl:text>
+						<xsl:value-of select="@margin-left"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@margin-right">
+						<xsl:text>margin-right: </xsl:text>
+						<xsl:value-of select="@margin-right"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@margin-top">
+						<xsl:text>margin-top: </xsl:text>
+						<xsl:value-of select="@margin-top"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="@margin-bottom">
+						<xsl:text>margin-bottom: </xsl:text>
+						<xsl:value-of select="@margin-bottom"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+					<xsl:if test="$block/@text-align">
+						<xsl:text>text-align: </xsl:text>
+						<xsl:value-of select="$block/@text-align"/>
+						<xsl:text>; </xsl:text>
+					</xsl:if>
+				</xsl:attribute>
+			</xsl:if>
+
 			<xsl:apply-templates select="node()"/>
 		</li>
 	</xsl:template>
