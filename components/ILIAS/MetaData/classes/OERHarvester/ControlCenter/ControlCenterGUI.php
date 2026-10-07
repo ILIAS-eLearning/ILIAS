@@ -113,8 +113,8 @@ class ControlCenterGUI
 
     protected function view(): void
     {
-        $content = $this->content_factory->getInfoContent($this->ref_id, $this->obj_id, $this->type, $this->state_info);
-        echo $this->ui_renderer->renderAsync($this->ui_factory->prompt()->state()->show($content));
+        $show_state = $this->content_factory->getInfoShowState($this->ref_id, $this->obj_id, $this->type, $this->state_info);
+        echo $this->ui_renderer->renderAsync($show_state);
         exit;
     }
 
@@ -144,14 +144,14 @@ class ControlCenterGUI
 
     protected function withdraw(): void
     {
-        $content = $this->content_factory->getConfirmationContent(
+        $show_state = $this->content_factory->getConfirmationShowState(
             $this->ref_id,
             $this->obj_id,
             $this->type,
             Action::WITHDRAW,
             $this->object_handler->isOnlyReference($this->ref_id)
         );
-        echo $this->ui_renderer->renderAsync($this->ui_factory->prompt()->state()->show($content));
+        echo $this->ui_renderer->renderAsync($show_state);
         exit;
     }
 
@@ -175,14 +175,14 @@ class ControlCenterGUI
 
     protected function accept(): void
     {
-        $content = $this->content_factory->getConfirmationContent(
+        $show_state = $this->content_factory->getConfirmationShowState(
             $this->ref_id,
             $this->obj_id,
             $this->type,
             Action::ACCEPT,
             $this->object_handler->isOnlyReference($this->ref_id)
         );
-        echo $this->ui_renderer->renderAsync($this->ui_factory->prompt()->state()->show($content));
+        echo $this->ui_renderer->renderAsync($show_state);
         exit;
     }
 
@@ -198,14 +198,14 @@ class ControlCenterGUI
 
     protected function reject(): void
     {
-        $content = $this->content_factory->getConfirmationContent(
+        $show_state = $this->content_factory->getConfirmationShowState(
             $this->ref_id,
             $this->obj_id,
             $this->type,
             Action::REJECT,
             $this->object_handler->isOnlyReference($this->ref_id)
         );
-        echo $this->ui_renderer->renderAsync($this->ui_factory->prompt()->state()->show($content));
+        echo $this->ui_renderer->renderAsync($show_state);
         exit;
     }
 

@@ -53,19 +53,26 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $content_component = $component->getContent();
-        if ($content_component === null) {
+        $secondary_content_components = $component->getSecondaryContent();
+        foreach ($secondary_content_components as $secondary_content_component) {
+            $tpl->setCurrentBlock('secondary');
+            $tpl->setVariable('SECONDARY_CONTENT', $default_renderer->render($secondary_content_component));
+            $tpl->parseCurrentBlock();
+        }
+
+        $primary_content_component = $component->getPrimaryContent();
+        if ($primary_content_component === null) {
             return $tpl->get();
         }
 
-        $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
+        $tpl->setVariable('PRIMARY_CONTENT', $default_renderer->render($primary_content_component));
         $tpl->setVariable('TITLE', $component->getTitle());
 
         $buttons = $component->getButtons();
-        if ($content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
+        if ($primary_content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
             $submit_button = $this->getUIFactory()->button()->standard(
-                $content_component->getSubmitLabel() ?? $this->txt("save"),
-                $content_component->getSubmitSignal()
+                $primary_content_component->getSubmitLabel() ?? $this->txt("save"),
+                $primary_content_component->getSubmitSignal()
             );
             $buttons[] = $submit_button;
         }

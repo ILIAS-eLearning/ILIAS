@@ -22,12 +22,13 @@ namespace ILIAS\UI\Implementation\Component\Chart;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
 
 /**
  * Class ScaleBar
  * @package ILIAS\UI\Implementation\Component\Listing\Descriptive
  */
-class ScaleBar implements C\Chart\ScaleBar
+class ScaleBar implements C\Chart\ScaleBar, IsPromptContentInternal
 {
     use ComponentHelper;
 
@@ -54,5 +55,15 @@ class ScaleBar implements C\Chart\ScaleBar
     public function getItems(): array
     {
         return $this->items;
+    }
+
+    public function getPromptTitle(): string
+    {
+        return '';
+    }
+
+    public function getPromptButtons(): array
+    {
+        return [];
     }
 }
