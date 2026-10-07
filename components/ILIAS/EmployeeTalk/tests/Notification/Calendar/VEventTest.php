@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,58 +16,176 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\EmployeeTalk\Notification\Calendar;
 
-use PHPUnit\Framework\TestCase;
+require_once __DIR__ . '/CalendarIcsTestCase.php';
 
-class VEventTest extends TestCase
+class VEventTest extends CalendarIcsTestCase
 {
-    public function testVEventRenderingWithValidDataWhichShouldSucceed(): void
+    public function testUsesCrlfLineEndings(): void
     {
-        $expected_start = "BEGIN:VEVENT\r\n";
-        $expected_start .= "UID: unique-id-of-some-sort\r\n";
-        $expected_start .= "DESCRIPTION:test description\r\n";
-        $expected_start .= "DTSTART;TZID=Europe/Paris:19700101T010010\r\n";
-        $expected_start .= "DTEND;TZID=Europe/Paris:19700101T010020\r\n";
-        // Timestamps in between which breaks the test because they are changing
-        $expected_end = "ORGANIZER;CN=\"organiser-name\":MAILTO:org@anizer.local\r\n";
-        $expected_end .= "ATTENDEE;CN=\"attendee-name\";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:at@tendee.local\r\n";
-        $expected_end .= "SUMMARY:event summery\r\n";
-        $expected_end .= "LOCATION:Bern\r\n";
-        $expected_end .= "SEQUENCE:1\r\n";
-        $expected_end .= "PRIORITY:5\r\n";
-        $expected_end .= "STATUS:CONFIRMED\r\n";
-        $expected_end .= "TRANSP:OPAQUE\r\n";
-        $expected_end .= "X-MICROSOFT-CDO-BUSYSTATUS:BUSY\r\n";
-        $expected_end .= "CLASS:PUBLIC\r\n";
-        $expected_end .= "X-MICROSOFT-DISALLOW-COUNTER:TRUE\r\n";
-        $expected_end .= "BEGIN:VALARM\r\n";
-        $expected_end .= "DESCRIPTION:event summery\r\n";
-        $expected_end .= "TRIGGER:-PT15M\r\n";
-        $expected_end .= "ACTION:DISPLAY\r\n";
-        $expected_end .= "END:VALARM\r\n";
-        $expected_end .= "END:VEVENT\r\n";
+        $ics = $this->renderEvent();
 
-        $subject = new VEvent(
-            "unique-id-of-some-sort",
-            "test description",
-            "event summery",
-            1,
-            EventStatus::CONFIRMED,
-            "organiser-name",
-            "org@anizer.local",
-            "attendee-name",
-            "at@tendee.local",
-            10,
-            20,
-            false,
-            'https://ilias.de',
-            'Bern'
+        self::assertSame(0, substr_count(str_replace("\r\n", '', $ics), "\n"));
+        self::assertStringEndsWith("\r\n", $ics);
+    }
+
+    public function testDtstampAndLastModifiedAreFrozenUtcWithZ(): void
+    {
+        $ics = $this->renderEvent();
+
+        self::assertSame('DTSTAMP:20260925T123456Z', $this->propertyLine($ics, 'DTSTAMP'));
+        self::assertSame(
+            'LAST-MODIFIED:20260925T123456Z',
+            $this->propertyLine($ics, 'LAST-MODIFIED')
         );
+    }
 
-        $result = $subject->render();
+    public function testConvertsGeneratedAtToUtc(): void
+    {
+        $ics = $this->renderEvent([
+            'generated_at' => new \DateTimeImmutable('2026-09-25 14:34:56', new \DateTimeZone('Europe/Paris')),
+        ]);
 
-        $this->assertStringStartsWith($expected_start, $result);
-        $this->assertStringEndsWith($expected_end, $result);
+        self::assertSame('DTSTAMP:20260925T123456Z', $this->propertyLine($ics, 'DTSTAMP'));
+        self::assertSame(
+            'LAST-MODIFIED:20260925T123456Z',
+            $this->propertyLine($ics, 'LAST-MODIFIED')
+        );
+    }
+
+    public function testUsesCurrentUtcWhenGeneratedAtIsOmitted(): void
+    {
+        $before = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $ics = $this->renderEvent(['generated_at' => null]);
+        $after = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        $stamp = \DateTimeImmutable::createFromFormat(
+            'Ymd\THis\Z',
+            substr($this->propertyLine($ics, 'DTSTAMP'), strlen('DTSTAMP:')),
+            new \DateTimeZone('UTC')
+        );
+        self::assertInstanceOf(\DateTimeImmutable::class, $stamp);
+        self::assertGreaterThanOrEqual($before->modify('-1 second'), $stamp);
+        self::assertLessThanOrEqual($after->modify('+1 second'), $stamp);
+        self::assertSame(
+            'LAST-MODIFIED:' . $stamp->format('Ymd\THis\Z'),
+            $this->propertyLine($ics, 'LAST-MODIFIED')
+        );
+    }
+
+    public function testTimedEventUsesTzidDateTime(): void
+    {
+        $ics = $this->renderEvent(['startTime' => 10, 'endTime' => 20, 'allDay' => false]);
+
+        self::assertSame(
+            'DTSTART;TZID=Europe/Paris:19700101T010010',
+            $this->propertyLine($ics, 'DTSTART')
+        );
+        self::assertSame(
+            'DTEND;TZID=Europe/Paris:19700101T010020',
+            $this->propertyLine($ics, 'DTEND')
+        );
+        self::assertStringNotContainsString('X-MICROSOFT-CDO-ALLDAYEVENT', $ics);
+    }
+
+    public function testAllDayEventUsesExclusiveDateWithoutTzid(): void
+    {
+        $ics = $this->renderEvent(['startTime' => 0, 'endTime' => 0, 'allDay' => true]);
+
+        self::assertSame('DTSTART;VALUE=DATE:19700101', $this->propertyLine($ics, 'DTSTART'));
+        self::assertSame('DTEND;VALUE=DATE:19700102', $this->propertyLine($ics, 'DTEND'));
+        self::assertSame(
+            'X-MICROSOFT-CDO-ALLDAYEVENT:TRUE',
+            $this->propertyLine($ics, 'X-MICROSOFT-CDO-ALLDAYEVENT')
+        );
+    }
+
+    public function testPublishEventOmitsAttendee(): void
+    {
+        $ics = $this->renderEvent();
+
+        self::assertStringNotContainsString('ATTENDEE', $ics);
+    }
+
+    public function testOrganizerQuotesParameterAndKeepsComma(): void
+    {
+        $ics = $this->renderEvent([
+            'organiserName' => 'Müller, Anna "Anni"\\B',
+        ]);
+
+        self::assertSame(
+            'ORGANIZER;CN="Müller, Anna \\"Anni\\"\\\\B":mailto:org@anizer.local',
+            $this->propertyLine($ics, 'ORGANIZER')
+        );
+    }
+
+    public function testOmitsOrganizerWhenEmailIsEmpty(): void
+    {
+        $ics = $this->renderEvent(['organiserEmail' => '']);
+
+        self::assertStringNotContainsString('ORGANIZER', $ics);
+    }
+
+    public function testEscapesTextValues(): void
+    {
+        $ics = $this->renderEvent([
+            'uid' => 'id;x',
+            'description' => 'A\\B; C, D' . "\r\n" . 'E' . "\n" . 'F' . '\n' . 'G' . '\N' . 'H',
+            'location' => 'Room; 1',
+        ]);
+
+        self::assertSame('UID:id\\;x', $this->propertyLine($ics, 'UID'));
+        self::assertSame(
+            'DESCRIPTION:A\\\\B\\; C\\, D\\nE\\nF\\nG\\nH',
+            $this->propertyLine($ics, 'DESCRIPTION')
+        );
+        self::assertSame('LOCATION:Room\\; 1', $this->propertyLine($ics, 'LOCATION'));
+    }
+
+    public function testSequenceAndStatusAreRenderedLiterally(): void
+    {
+        $ics = $this->renderEvent([
+            'sequence' => 7,
+            'status' => EventStatus::TENTATIVE,
+        ]);
+
+        self::assertSame('SEQUENCE:7', $this->propertyLine($ics, 'SEQUENCE'));
+        self::assertSame('STATUS:TENTATIVE', $this->propertyLine($ics, 'STATUS'));
+    }
+
+    public function testMicrosoftBusyAndCounterHints(): void
+    {
+        $ics = $this->renderEvent();
+
+        self::assertSame(
+            'X-MICROSOFT-CDO-BUSYSTATUS:BUSY',
+            $this->propertyLine($ics, 'X-MICROSOFT-CDO-BUSYSTATUS')
+        );
+        self::assertSame(
+            'X-MICROSOFT-DISALLOW-COUNTER:TRUE',
+            $this->propertyLine($ics, 'X-MICROSOFT-DISALLOW-COUNTER')
+        );
+    }
+
+    public function testAlarmDescribesTheSummary(): void
+    {
+        $ics = $this->renderEvent(['summary' => 'Talk, Q3']);
+        $lines = $this->contentLines($ics);
+        $alarm_start = array_search('BEGIN:VALARM', $lines, true);
+
+        self::assertSame(
+            [
+                'BEGIN:VALARM',
+                'DESCRIPTION:Talk\\, Q3',
+                'TRIGGER:-PT15M',
+                'ACTION:DISPLAY',
+                'END:VALARM',
+            ],
+            array_slice($lines, (int) $alarm_start, 5)
+        );
+        self::assertSame('SUMMARY:Talk\\, Q3', $this->propertyLine($ics, 'SUMMARY'));
     }
 }
