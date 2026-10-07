@@ -43,7 +43,7 @@ class ilExAssignmentEditorGUI
     protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilSetting $settings;
-    protected ilCronManager $cron_manager;
+    protected \ILIAS\Cron\Job\JobManager $cron_manager;
     protected ilHelpGUI $help;
     protected int $exercise_id;
     protected ?ilExAssignment $assignment;
