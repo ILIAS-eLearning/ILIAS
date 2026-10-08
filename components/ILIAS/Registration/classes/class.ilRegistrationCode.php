@@ -179,29 +179,16 @@ class ilRegistrationCode
         ilObjUser $user,
         string $code
     ): bool {
-        $recommended_content_manager = new ilRecommendedContentManager();
-
         $grole = self::getCodeRole($code);
         if ($grole) {
             $GLOBALS['DIC']['rbacadmin']->assignUser($grole, $user->getId());
         }
         $code_data = self::getCodeData($code);
         if ($code_data["role_local"]) {
-            $code_local_roles = explode(";", $code_data["role_local"]);
+            $code_local_roles = array_map(intval(...), array_unique(explode(";", $code_data["role_local"])));
             foreach ($code_local_roles as $role_id) {
-                $GLOBALS['DIC']['rbacadmin']->assignUser($role_id, $user->getId());
-
-                // patch to remove for 45 due to mantis 21953
-                $role_obj = $GLOBALS['DIC']['rbacreview']->getObjectOfRole($role_id);
-                switch (ilObject::_lookupType($role_obj)) {
-                    case 'crs':
-                    case 'grp':
-                        $role_refs = ilObject::_getAllReferences($role_obj);
-                        $role_ref = end($role_refs);
-                        // deactivated for now, see discussion at
-                        // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
-                        //$recommended_content_manager->addObjectRecommendation($user->getId(), $role_ref);
-                        break;
+                if (ilObject::_lookupType($role_id) === 'role') {
+                    $GLOBALS['DIC']['rbacadmin']->assignUser($role_id, $user->getId());
                 }
             }
         }
