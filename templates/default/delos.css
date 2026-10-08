@@ -18855,7 +18855,6 @@ div.ilTinyMenuSection, .il-copg-button-group {
 div.ilTinyMenuSection p, .il-copg-button-group p {
   margin-bottom: 5px;
   padding: 2px 5px;
-  background-color: rgb(238.8, 238.8, 238.8);
 }
 
 div.ilTinyMenuSection button.btn {
@@ -19256,7 +19255,7 @@ div.ilCOPGMediaPrint {
 #copg-editor-slate-content {
   padding: 9px 0px;
 }
-#copg-editor-slate-content p {
+#copg-editor-slate-content p:not([class^=ilc_text_block]) {
   padding: 0;
   margin: 5px 0;
 }
