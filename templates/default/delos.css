@@ -17459,7 +17459,7 @@ div.ilc_va_icont_VAccordICont {
   padding-top: 8px;
 }
 
-#awareness-content .media-body h4, #awareness-content .media-body p {
+#awareness-content .media-body .media-heading, #awareness-content .media-body p {
   color: rgb(43.6274509804%, 43.6274509804%, 43.6274509804%);
   font-size: 0.75rem;
   padding: 5px 3px 0 3px;
@@ -17467,9 +17467,8 @@ div.ilc_va_icont_VAccordICont {
   margin: 0;
 }
 
-#awareness-content .media-body h4 {
+#awareness-content .media-body .media-heading {
   padding-top: 0px;
-  font-size: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
