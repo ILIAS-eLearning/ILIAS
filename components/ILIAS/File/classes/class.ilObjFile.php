@@ -477,6 +477,23 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
         // Copy Resource
         $cloned_title = $new_obj->getTitle();
+        // the copy info is only appended to copies placed in the repository tree
+        if ($cloned_title !== $this->getTitle() && $new_obj->getRefId() > 0) {
+            $cloned_title = $this->moveCopyInfoInFrontOfSuffix(
+                $this->getTitle(),
+                $cloned_title,
+                $this->file_info->getSuffix(),
+                array_map(
+                    static fn(array $child): string => $child['title'],
+                    array_filter(
+                        $this->tree->getChildsByType($a_target_id, $this->getType()),
+                        static fn(array $child): bool => (int) $child['ref_id'] !== $new_obj->getRefId()
+                    )
+                ),
+                // numbering as in ilObject::appendNumberOfCopiesToTitle()
+                '(%d)'
+            );
+        }
         $new_resource_identification = $this->manager->clone($identification);
         $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
         $new_obj->setResourceId($new_resource_identification->serialize());
