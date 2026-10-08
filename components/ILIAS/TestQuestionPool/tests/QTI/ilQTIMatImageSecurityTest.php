@@ -33,9 +33,7 @@ class ilQTIMatImageSecurityTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider validateProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validateProvider')]
     public function testValidate(string $label, string $uri, ?string $embedded, string $content, bool $expected): void
     {
         $image = new ilQTIMatimage();

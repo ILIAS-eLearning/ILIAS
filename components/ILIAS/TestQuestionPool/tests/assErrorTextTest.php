@@ -34,8 +34,8 @@ class assErrorTextTest extends assBaseTestCase
         parent::setUp();
 
         $ilCtrl_mock = $this->createMock('ilCtrl');
-        $ilCtrl_mock->expects($this->any())->method('saveParameter');
-        $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');
+        $ilCtrl_mock->method('saveParameter');
+        $ilCtrl_mock->method('saveParameterByClass');
         $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
 
         $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);

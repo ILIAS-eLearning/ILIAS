@@ -37,7 +37,7 @@ class ReadableTest extends TestCase
     public function testReferences(): void
     {
         $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
-        $access->method('checkAccess')->with('read', '', 123)->willReturn(true);
+        $access->expects(self::once())->method('checkAccess')->with('read', '', 123)->willReturn(true);
 
         $this->assertTrue((new Readable($access))->references([123]));
     }
@@ -46,7 +46,7 @@ class ReadableTest extends TestCase
     {
         $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
 
-        $access->method('checkAccess')->with('read', '', 456)->willReturn(true);
+        $access->expects(self::once())->method('checkAccess')->with('read', '', 456)->willReturn(true);
 
         $references_of = fn(int $object_id) => 123 !== $object_id ?: [456];
 

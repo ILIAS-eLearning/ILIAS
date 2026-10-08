@@ -34,12 +34,12 @@ class assOrderingHorizontalGUITest extends assBaseTestCase
         $this->setGlobalVariable('ilLog', $this->createMock(ilLogger::class));
 
         $ilCtrl_mock = $this->createMock('ilCtrl');
-        $ilCtrl_mock->expects($this->any())->method('saveParameter');
-        $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');
+        $ilCtrl_mock->method('saveParameter');
+        $ilCtrl_mock->method('saveParameterByClass');
         $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
 
         $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
-        $lng_mock->expects($this->any())->method('txt')->willReturn('Test');
+        $lng_mock->method('txt')->willReturn('Test');
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());

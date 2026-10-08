@@ -32,7 +32,6 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
-            ->expects($this->any())
             ->method('txt')
             ->willReturnCallback([self::class, 'lngTxtCallback'])
         ;

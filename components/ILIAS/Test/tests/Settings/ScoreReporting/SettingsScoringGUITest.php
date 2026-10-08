@@ -45,9 +45,7 @@ class SettingsScoringGUITest extends ilTestBaseTestCase
     public function testScoringResultsGUIConstruct(): void
     {
         $objTestGui_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
-        $objTestGui_mock->expects(
-            $this->any()
-        )->method('getObject')->willReturn(
+        $objTestGui_mock->method('getObject')->willReturn(
             $this->getTestObjMock()
         );
 
