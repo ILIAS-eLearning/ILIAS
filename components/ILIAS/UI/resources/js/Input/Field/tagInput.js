@@ -32,7 +32,7 @@ il.UI.Input = il.UI.Input || {};
           whitelist: _CONFIG.options,
           enforceWhitelist: !_CONFIG.userInput,
           duplicates: _CONFIG.allowDuplicates,
-          maxTags: _CONFIG.maxItems,
+          maxTags: _CONFIG.maxItems > 0 ? _CONFIG.maxItems : Infinity,
           originalInputValueFormat: (valuesArr) => valuesArr.map((item) => item.value),
           dropdown: {
             enabled: _CONFIG.dropdownSuggestionsStartAfter,
