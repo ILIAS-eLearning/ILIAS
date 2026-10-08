@@ -24,7 +24,7 @@ declare(strict_types=1);
  * The library is designed to be the only thing handling an LTI request, so it ends the request
  * itself once the message has been processed. ILIAS still has to authenticate the user and send
  * them to the requested object afterwards, so it asks the library to throw this exception rather
- * than to exit, and regains control in ilLTITool::handleRequest().
+ * than to exit, and regains control in ilLTITool::processRequest().
  */
 class ilLTIExitException extends ilException
 {

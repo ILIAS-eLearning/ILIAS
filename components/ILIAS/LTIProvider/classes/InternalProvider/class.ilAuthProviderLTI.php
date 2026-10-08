@@ -257,7 +257,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $lti_provider->kid = $pk['kid'];
         $lti_provider->signatureMethod = 'RS256';
 
-        $lti_provider->handleRequest();
+        $lti_provider->processRequest();
         $this->provider = $lti_provider;
         $this->messageParameters = $this->provider->getMessageParameters();
 
