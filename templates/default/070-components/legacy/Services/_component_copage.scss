@@ -808,14 +808,23 @@ p#copg-auto-save {
 
 	th {
 		background-color: $il-main-dark-bg;
-		.dropdown button {
-			background-color: $il-main-dark-bg;
-			text-align: center;
-			color: $il-text-color;
+		.dropdown {
+			button {
+				background-color: $il-main-dark-bg;
+				text-align: center;
+				color: $il-text-color;
+				width: 100%;
+				border: 0;
+			}
 			width: 100%;
-			border: 0;
 		}
 		cursor: pointer;
+	}
+	th[data-copg-ed-type="data-column-head"] {
+		.dropdown-menu {
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 	td {
 		cursor: pointer;
