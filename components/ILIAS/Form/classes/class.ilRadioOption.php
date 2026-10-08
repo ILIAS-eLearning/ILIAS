@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Alexander Killing <killing@leifos.de>
  * @deprecated 12 This component will be removed with ILIAS 12
  */
-class ilRadioOption
+class ilRadioOption extends ilSubEnabledFormPropertyGUI
 {
     protected string $title = "";
     protected string $value = "";
@@ -70,16 +70,6 @@ class ilRadioOption
     public function getValue(): string
     {
         return $this->value;
-    }
-
-    public function setDisabled(bool $a_disabled): void
-    {
-        $this->disabled = $a_disabled;
-    }
-
-    public function getDisabled(): bool
-    {
-        return $this->disabled;
     }
 
     /**
