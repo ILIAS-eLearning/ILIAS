@@ -49,27 +49,21 @@ abstract class BaseDelivery
         ResponseInterface $r,
         ?string $path_to_delete = null
     ): never {
-        $sender = function () use ($r): void {
-            $this->http->saveResponse($r);
-            $this->http->sendResponse();
-            $this->http->close();
-        };
-
         if ($path_to_delete !== null && file_exists($path_to_delete)) {
+            // close() ends the request, the file can only be deleted by a shutdown function,
+            // see https://mantis.ilias.de/view.php?id=48312
             ignore_user_abort(true);
             set_time_limit(0);
-            ob_start();
-
-            $sender();
-
-            ob_flush();
-            ob_end_flush();
-            flush();
-
-            unlink($path_to_delete);
-        } else {
-            $sender();
+            register_shutdown_function(static function () use ($path_to_delete): void {
+                if (file_exists($path_to_delete)) {
+                    unlink($path_to_delete);
+                }
+            });
         }
+
+        $this->http->saveResponse($r);
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function setGeneralHeaders(
