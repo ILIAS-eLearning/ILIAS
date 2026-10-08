@@ -88,7 +88,13 @@ class ilLTITool extends Tool
         return $res;
     }
 
-    public function handleRequest(bool $strictMode = null, bool $disableCookieCheck = false, bool $generateWarnings = false): void
+    /**
+     * Process the LTI request and return to ILIAS once the message has been accepted.
+     *
+     * This does not override handleRequest(): the library declares that method as never returning,
+     * while ILIAS needs control back to authenticate the user.
+     */
+    public function processRequest(): void
     {
         global $DIC;
 
@@ -107,7 +113,7 @@ class ilLTITool extends Tool
         $this->onExitExceptionClass = ilLTIExitException::class;
 
         try {
-            parent::handleRequest($strictMode, $disableCookieCheck, $generateWarnings);
+            $this->handleRequest();
         } catch (ilLTIExitException $e) {
             $this->sendPendingResponse();
         }
