@@ -135,16 +135,19 @@ class Handler implements HandlerInterface
         if (!$this->http->wrapper()->query()->has($this->action_parameter_token->getName())) {
             return;
         }
+        if (!$this->http->wrapper()->query()->has($this->row_id_token->getName())) {
+            return;
+        }
         if (!$this->actions_permitted) {
             return;
         }
         $action = $this->http->wrapper()->query()->retrieve(
             $this->action_parameter_token->getName(),
-            $this->refinery->to()->string()
+            $this->refinery->kindlyTo()->string()
         );
         $tokens = $this->http->wrapper()->query()->retrieve(
             $this->row_id_token->getName(),
-            $this->refinery->kindlyTo()->listOf($this->refinery->to()->int())
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
         );
         $task_id = (int) $tokens[0];
         $task_handler = ilSCComponentTaskFactory::getComponentTask($task_id);

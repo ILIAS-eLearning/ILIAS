@@ -38,14 +38,6 @@ class DataRetrieval implements DataRetrievalInterface
     /** @var ilSCTask[] */
     protected array $sc_tasks;
     /** @var string[] */
-    protected array $titles;
-    /** @var string[] */
-    protected array $descriptions;
-    /** @var ilDateTime[] */
-    protected array $last_updates;
-    /** @var int[] */
-    protected array $status;
-    /** @var string[] */
     protected array $actions;
 
     public function __construct(
@@ -63,17 +55,11 @@ class DataRetrieval implements DataRetrievalInterface
         }
 
         $this->sc_tasks = [];
-
         foreach (ilSCTasks::getInstanceByGroupId($this->group_id)->getTasks() as $task) {
             if (!$task->isActive()) {
                 continue;
             }
-            $task_handler = ilSCComponentTaskFactory::getComponentTask($task->getId());
             $this->sc_tasks[$task->getId()] = $task;
-            $this->titles[$task->getId()] = $task_handler->getTitle();
-            $this->descriptions[$task->getId()] = $task_handler->getDescription();
-            $this->last_updates[$task->getId()] = $task->getLastUpdate();
-            $this->status[$task->getId()] = $task->getStatus();
         }
         return $this->sc_tasks;
     }
@@ -88,10 +74,14 @@ class DataRetrieval implements DataRetrievalInterface
         mixed $additional_parameters
     ): Generator {
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-        $titles = $this->titles;
-        $descriptions = $this->descriptions;
-        $last_updates = $this->last_updates;
-        $status = $this->status;
+        $titles = $descriptions = $last_updates = $status = [];
+        foreach ($this->getSCTasks() as $task) {
+            $task_handler = ilSCComponentTaskFactory::getComponentTask($task->getId());
+            $titles[$task->getId()] = $task_handler->getTitle();
+            $descriptions[$task->getId()] = $task_handler->getDescription();
+            $last_updates[$task->getId()] = $task->getLastUpdate();
+            $status[$task->getId()] = $task->getStatus();
+        }
         $comparator = match ($column_name) {
             Handler::TABLE_COL_TITLE => function (ilSCTask $f1, ilSCTask $f2) use ($titles) {
                 return strcasecmp($titles[$f1->getId()], $titles[$f2->getId()]);
@@ -118,11 +108,11 @@ class DataRetrieval implements DataRetrievalInterface
         $sc_tasks = array_slice($sc_tasks, $range->getStart(), $range->getLength(), true);
         foreach ($sc_tasks as $sc_task) {
             $data_row = $row_builder->buildDataRow(
-                $sc_task->getId() . '',
+                (string) $sc_task->getId(),
                 [
                     Handler::TABLE_COL_TITLE => $titles[$sc_task->getId()],
                     Handler::TABLE_COL_DESCRIPTION => $descriptions[$sc_task->getId()],
-                    Handler::TABLE_COL_LAST_UPDATE => ilDatePresentation::formatDate($this->last_updates[$sc_task->getId()]),
+                    Handler::TABLE_COL_LAST_UPDATE => ilDatePresentation::formatDate($last_updates[$sc_task->getId()]),
                     Handler::TABLE_COL_STATUS => ilSCUtils::taskStatus2Text($status[$sc_task->getId()])
                 ]
             );

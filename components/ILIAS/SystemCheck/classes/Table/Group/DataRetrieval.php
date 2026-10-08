@@ -39,16 +39,6 @@ class DataRetrieval implements DataRetrievalInterface
 {
     /* @var ilSCGroup[] */
     protected array $groups;
-    /* @var string[] */
-    protected array $titles;
-    /* @var string[] */
-    protected array $descriptions;
-    /* @var int[] */
-    protected array $complete;
-    /* @var int[] */
-    protected array $failed;
-    /* @var ilDateTime[] */
-    protected array $last_updates;
 
     public function __construct(
         protected readonly UIServices $ui,
@@ -61,18 +51,7 @@ class DataRetrieval implements DataRetrievalInterface
      */
     final protected function getSCGroups(): array
     {
-        if (!isset($this->groups)) {
-            $this->groups = ilSCGroups::getInstance()->getGroups();
-        }
-        foreach ($this->groups as $group) {
-            $task_gui = ilSCComponentTaskFactory::getComponentTaskGUIForGroup($group->getId());
-            $this->titles[$group->getId()] = $task_gui->getGroupTitle();
-            $this->descriptions[$group->getId()] = $task_gui->getGroupDescription();
-            $this->complete[$group->getId()] = ilSCTasks::lookupCompleted($group->getId());
-            $this->failed[$group->getId()] = ilSCTasks::lookupFailed($group->getId());
-            $this->last_updates[$group->getId()] = ilSCTasks::lookupLastUpdate($group->getId());
-        }
-        return $this->groups;
+        return $this->groups ??= ilSCGroups::getInstance()->getGroups();
     }
 
     final public function getRows(
@@ -85,11 +64,15 @@ class DataRetrieval implements DataRetrievalInterface
         mixed $additional_parameters
     ): Generator {
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-        $titles = $this->titles;
-        $descriptions = $this->descriptions;
-        $last_updates = $this->last_updates;
-        $complete = $this->complete;
-        $failed = $this->failed;
+        $titles = $descriptions = $last_updates = $complete = $failed = [];
+        foreach ($this->getSCGroups() as $group) {
+            $task_gui = ilSCComponentTaskFactory::getComponentTaskGUIForGroup($group->getId());
+            $titles[$group->getId()] = $task_gui->getGroupTitle();
+            $descriptions[$group->getId()] = $task_gui->getGroupDescription();
+            $complete[$group->getId()] = ilSCTasks::lookupCompleted($group->getId());
+            $failed[$group->getId()] = ilSCTasks::lookupFailed($group->getId());
+            $last_updates[$group->getId()] = ilSCTasks::lookupLastUpdate($group->getId());
+        }
         $comparator = match ($column_name) {
             Handler::TABLE_COL_TITLE => function (ilSCGroup $f1, ilSCGroup $f2) use ($titles) {
                 return strcasecmp($titles[$f1->getId()], $titles[$f2->getId()]);
@@ -126,7 +109,7 @@ class DataRetrieval implements DataRetrievalInterface
                 [
                     Handler::TABLE_COL_TITLE => $this->ui->factory()->link()->standard($titles[$sc_group->getId()], $link),
                     Handler::TABLE_COL_DESCRIPTION => $descriptions[$sc_group->getId()],
-                    Handler::TABLE_COL_LAST_UPDATE => ilDatePresentation::formatDate($this->last_updates[$sc_group->getId()]),
+                    Handler::TABLE_COL_LAST_UPDATE => ilDatePresentation::formatDate($last_updates[$sc_group->getId()]),
                     Handler::TABLE_COL_SOLVED_TASKS => $complete[$sc_group->getId()],
                     Handler::TABLE_COL_UNSOLVED_TASKS => $failed[$sc_group->getId()],
                 ]

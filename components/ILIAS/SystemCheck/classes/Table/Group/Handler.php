@@ -42,6 +42,7 @@ readonly class Handler implements HandlerInterface
     protected const string LNG_TABLE_COL_SOLVED_TASKS = 'sysc_completed_num';
     protected const string LNG_TABLE_COL_UNSOLVED_TASKS = 'sysc_failed_num';
     protected const string LNG_TABLE_TITLE = 'sysc_overview';
+
     protected DataTable $table;
 
     public function __construct(
@@ -58,19 +59,19 @@ readonly class Handler implements HandlerInterface
         return [
             self::TABLE_COL_TITLE => $this->ui->factory()->table()->column()->link(
                 $this->lng->txt(self::LNG_TABLE_COL_TITLE)
-            )->withHighlight(true)->withIsSortable(true),
+            )->withIsSortable(true),
             self::TABLE_COL_DESCRIPTION => $this->ui->factory()->table()->column()->text(
                 $this->lng->txt(self::LNG_TABLE_COL_DESCRIPTION)
-            )->withHighlight(true)->withIsSortable(true),
+            )->withIsSortable(true),
             self::TABLE_COL_LAST_UPDATE => $this->ui->factory()->table()->column()->text(
                 $this->lng->txt(self::LNG_TABLE_COL_LAST_UPDATE)
-            )->withHighlight(true)->withIsSortable(true),
+            )->withIsSortable(true),
             self::TABLE_COL_SOLVED_TASKS => $this->ui->factory()->table()->column()->number(
                 $this->lng->txt(self::LNG_TABLE_COL_SOLVED_TASKS)
-            )->withHighlight(true)->withIsSortable(true),
+            )->withIsSortable(true),
             self::TABLE_COL_UNSOLVED_TASKS => $this->ui->factory()->table()->column()->number(
                 $this->lng->txt(self::LNG_TABLE_COL_UNSOLVED_TASKS)
-            )->withHighlight(true)->withIsSortable(true)
+            )->withIsSortable(true)
         ];
     }
 
