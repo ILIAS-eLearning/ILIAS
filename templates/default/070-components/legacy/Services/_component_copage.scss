@@ -814,6 +814,7 @@ p#copg-auto-save {
 #ed_datatable {
 
 	background-color: $il-main-bg;
+	border: 1px solid $il-main-darker-bg;
 
 	th {
 		background-color: $il-main-dark-bg;
@@ -824,14 +825,27 @@ p#copg-auto-save {
 			width: 100%;
 			border: 0;
 		}
+		cursor: pointer;
+	}
+	td {
+		cursor: pointer;
+	}
+	th:hover {
+		background-color: $il-main-darker-bg;
+		.btn {
+			background-color: $il-main-darker-bg;
+		}
 	}
 
-	th, td {
-		border: 1px solid #CCCCCC;
+	&.grid {
+		th, td {
+			border: 1px solid $il-main-darker-bg;
+		}
 	}
 
 	th {
 		vertical-align: middle;
+		padding: 3px;
 	}
 }
 
