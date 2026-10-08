@@ -157,6 +157,7 @@ export default class TableUI {
     // this.initMenu();
     this.initCellEditing();
     this.initDropdowns();
+    this.activateGrid(true);
     this.autoSave.addOnAutoSave(() => {
       if (pageModel.getCurrentPCName() === 'Table') {
         dispatch.dispatch(action.table().editor().autoSave());
@@ -334,7 +335,6 @@ export default class TableUI {
               this.addDropdownAction(li_templ, ul, 'cont_ed_delete_row', af.rowDelete(nr, cellPcid, tablePcid));
             }
           }
-
         });
       });
     });
@@ -796,5 +796,14 @@ export default class TableUI {
         el.classList.add('il-copg-cell-selected');
       }
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  activateGrid(activate) {
+    if (activate) {
+      document.getElementById('ed_datatable').classList.add('grid');
+    } else {
+      document.getElementById('ed_datatable').classList.remove('grid');
+    }
   }
 }
