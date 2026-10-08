@@ -19222,8 +19222,15 @@ p#copg-auto-save {
   width: 100%;
   border: 0;
 }
+#ed_datatable th .dropdown {
+  width: 100%;
+}
 #ed_datatable th {
   cursor: pointer;
+}
+#ed_datatable th[data-copg-ed-type=data-column-head] .dropdown-menu {
+  left: 50%;
+  transform: translateX(-50%);
 }
 #ed_datatable td {
   cursor: pointer;

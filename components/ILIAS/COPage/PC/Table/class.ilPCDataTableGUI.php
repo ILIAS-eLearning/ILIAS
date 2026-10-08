@@ -546,8 +546,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
         }
 
         $width_cb = new ilCheckboxInputGUI($lng->txt("cont_change_width"), "width_cb");
-        $ti = new ilTextInputGUI($lng->txt("cont_width"), "width");
+        $ti = new ilTextInputGUI($lng->txt("cont_width_px_perc"), "width");
         $ti->setMaxLength(20);
+        $ti->setInfo($lng->txt("cont_width_px_perc_info"));
         $ti->setSize(7);
         $width_cb->addSubItem($ti);
         $form->addItem($width_cb);

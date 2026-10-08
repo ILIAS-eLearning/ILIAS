@@ -7299,6 +7299,8 @@ content#:#cont_versions#:#Versionen
 content#:#cont_whole_glossary#:#Gesamtes Glossar
 content#:#cont_width#:#Breite in Pixel
 content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Breite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, bestimmt der Browser die Fenstergröße.
+content#:#cont_width_px_perc#:#Breite
+content#:#cont_width_px_perc_info#:#(z.B. px oder %)
 content#:#cont_wiki_link_dialog#:#Wikiseite (Dialog)
 content#:#cont_wiki_page#:#Wiki-Seite
 content#:#cont_wiki_page_link#:#Wiki-Seiten-Link

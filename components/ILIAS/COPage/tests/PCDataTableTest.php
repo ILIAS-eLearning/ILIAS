@@ -250,10 +250,10 @@ EOT;
         $pc->setLanguage("en");
         $pc->addRows(1, 1);
         $page->addHierIDs();
-        $pc->setTDWidth("1_1_1", "33");
+        $pc->setTDWidth("1_1_1", "33%");
         $this->assertEquals(
             [
-                "1_1_1:" => "33"
+                "1_1_1:" => "33%"
             ],
             $pc->getAllCellWidths()
         );

@@ -7300,6 +7300,8 @@ content#:#cont_versions#:#Versions
 content#:#cont_whole_glossary#:#Whole Glossary
 content#:#cont_width#:#Width in pixels
 content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
+content#:#cont_width_px_perc#:#Width
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)
 content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)
 content#:#cont_wiki_page#:#Wiki Page
 content#:#cont_wiki_page_link#:#Wiki Page Link
