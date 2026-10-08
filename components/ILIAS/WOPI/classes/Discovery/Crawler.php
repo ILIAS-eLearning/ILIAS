@@ -58,7 +58,11 @@ class Crawler
                 return false;
             }
 
+            // invalid XML is reported by returning false, not by warnings
+            $use_internal_errors = libxml_use_internal_errors(true);
             $this->discovery = simplexml_load_string($this->content) ?: null;
+            libxml_clear_errors();
+            libxml_use_internal_errors($use_internal_errors);
             if ($this->discovery === null) {
                 return false;
             }

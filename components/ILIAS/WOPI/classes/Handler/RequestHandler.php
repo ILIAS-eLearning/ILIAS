@@ -184,6 +184,13 @@ final class RequestHandler
                     }
                     // no break
                 case 'PUT':
+                    // a token issued for a viewer session must never write to the resource
+                    if (!$this->editable || !$this->user_can_write) {
+                        $this->http->saveResponse(
+                            $this->http->response()->withStatus(401)
+                        );
+                        break;
+                    }
                     switch ($action) {
                         case 'contents':
                             // PutFile
@@ -191,16 +198,17 @@ final class RequestHandler
                             $body = $body_stream->getContents();
                             $file_stream = Streams::ofString($body);
 
-                            $draft = true;
-
+                            // the content is always stored as draft first, IRSS does not allow
+                            // to append a published revision while a draft exists. Publishing
+                            // afterwards makes the content just received the published one -
+                            // publishing before appending would always publish the previous save.
+                            $publish = false;
                             if ($this->saving_interval > 0) {
-                                $latest_revision = $resource->getCurrentRevision();
-                                $creation_time = $latest_revision->getInformation()->getCreationDate()->getTimestamp();
-                                $current_time = time();
-                                $time_diff = $current_time - $creation_time;
-                                if ($time_diff > $this->saving_interval) {
-                                    $this->irss->manage()->publish($resource_id);
-                                }
+                                $creation_time = $resource->getCurrentRevision()
+                                                          ->getInformation()
+                                                          ->getCreationDate()
+                                                          ->getTimestamp();
+                                $publish = (time() - $creation_time) > $this->saving_interval;
                             }
 
                             $new_revision = $this->irss->manage()->appendNewRevisionFromStream(
@@ -208,8 +216,12 @@ final class RequestHandler
                                 $file_stream,
                                 $this->stakeholder,
                                 $current_revision->getTitle(),
-                                $draft
+                                true
                             );
+
+                            if ($publish) {
+                                $this->irss->manage()->publish($resource_id);
+                            }
 
                             // CheckFileInfo. The third argument must be passed here as
                             // well: without it the response after every save told the
@@ -255,13 +267,6 @@ final class RequestHandler
             }
         } catch (\Throwable $t) {
             $message = $t->getMessage();
-            // append simple stacktrace
-            $trace = array_map(
-                static fn(array $trace): string => $trace['file'] . ':' . $trace['line'],
-                $t->getTrace()
-            );
-
-            $message .= "\n" . implode("\n", $trace);
 
             $this->http->saveResponse(
                 $this->http->response()
