@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\MediaObjects\InternalDomainService;
 use ILIAS\MediaObjects\InternalGUIService;
@@ -60,8 +60,8 @@ class ilMediaObjectsPlayerWrapperGUI
 
     public function renderComponent(
         ilObjMediaObject $mob,
-        int $tracking_container_ref_id = 0) : string
-    {
+        int $tracking_container_ref_id = 0
+    ): string {
         $comp = $this->getComponent($mob, $tracking_container_ref_id);
         if ($comp) {
             return $this->gui->ui()->renderer()->render($comp);
@@ -70,8 +70,8 @@ class ilMediaObjectsPlayerWrapperGUI
     }
     public function getComponent(
         ilObjMediaObject $mob,
-        int $tracking_container_ref_id = 0): ILIAS\UI\Component\Component
-    {
+        int $tracking_container_ref_id = 0
+    ): ILIAS\UI\Component\Component {
         $med = $mob->getMediaItem("Standard");
         $comp = null;
         if (!is_null($med)) {
@@ -202,7 +202,7 @@ EOT;
         $video = $this->gui->ui()->factory()->player()->video(
             $source,
             ""
-        );
+        )->withPoster($mob->getVideoPreviewPic());
 
         if ($tracking_container_ref_id > 0) {
             // @todo: make this a media object general setting
