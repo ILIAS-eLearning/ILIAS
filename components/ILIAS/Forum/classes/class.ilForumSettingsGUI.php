@@ -499,6 +499,63 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         $this->ctrl->redirect($this, 'showMembers');
     }
 
+    /**
+     * @param list<int|string> $user_ids
+     * @return list<int>
+     */
+    private function limitToForumParticipants(array $user_ids): array
+    {
+        if ($user_ids === []) {
+            return [];
+        }
+
+        return array_values(array_intersect(
+            array_map(intval(...), $user_ids),
+            array_map(intval(...), $this->forum->getAllForumParticipants())
+        ));
+    }
+
+    /**
+     * @return list<int>
+     */
+    private function retrieveParticipantUserIds(): array
+    {
+        if (!$this->dic->http()->wrapper()->post()->has('user_id')) {
+            return [];
+        }
+
+        $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
+            'user_id',
+            $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+        );
+
+        return $this->limitToForumParticipants($user_ids);
+    }
+
+    /**
+     * User ids from the notification table. "Select all" is expanded by the table
+     * and then limited to participants of this forum, as are individually submitted ids.
+     *
+     * @return list<int>
+     */
+    private function retrieveNotificationActionUserIds(): array
+    {
+        if (!$this->dic->http()->wrapper()->query()->has('frm_notifications_table_usr_ids')) {
+            return [];
+        }
+
+        $user_ids = $this->dic->http()->wrapper()->query()->retrieve(
+            'frm_notifications_table_usr_ids',
+            $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->string())
+        );
+        if ($user_ids === ['ALL_OBJECTS']) {
+            $table = $this->getForumNotificationTable();
+            $user_ids = $table->getFilteredUserIds($this->ui_service->filter()->getData($table->getFilterComponent()));
+        }
+
+        return $this->limitToForumParticipants($user_ids);
+    }
+
     public function enableAdminForceNotiCommand(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
@@ -508,13 +565,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
-            );
-        }
+        $user_ids = $this->retrieveParticipantUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);
@@ -547,13 +598,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
-            );
-        }
+        $user_ids = $this->retrieveParticipantUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);
@@ -584,17 +629,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->query()->has('frm_notifications_table_usr_ids')) {
-            $user_ids = $this->dic->http()->wrapper()->query()->retrieve(
-                'frm_notifications_table_usr_ids',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->string())
-            );
-            if ($user_ids === ['ALL_OBJECTS']) {
-                $table = $this->getForumNotificationTable();
-                $user_ids = $table->getFilteredUserIds($this->ui_service->filter()->getData($table->getFilterComponent()));
-            }
-        }
+        $user_ids = $this->retrieveNotificationActionUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);
@@ -629,17 +664,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->query()->has('frm_notifications_table_usr_ids')) {
-            $user_ids = $this->dic->http()->wrapper()->query()->retrieve(
-                'frm_notifications_table_usr_ids',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->string())
-            );
-            if ($user_ids === ['ALL_OBJECTS']) {
-                $table = $this->getForumNotificationTable();
-                $user_ids = $table->getFilteredUserIds($this->ui_service->filter()->getData($table->getFilterComponent()));
-            }
-        }
+        $user_ids = $this->retrieveNotificationActionUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);

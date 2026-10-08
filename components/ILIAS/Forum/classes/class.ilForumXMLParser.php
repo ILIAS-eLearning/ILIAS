@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Forum\Import\ConfinedImportFile;
 use ILIAS\Forum\Notification\NotificationType;
 
 class ilForumXMLParser extends ilSaxParser
@@ -598,8 +599,9 @@ class ilForumXMLParser extends ilSaxParser
 
                     $media_objects_found = false;
                     foreach ($this->mediaObjects as $mob_attr) {
-                        $importfile = $this->getImportDirectory() . '/' . $mob_attr['uri'];
-                        if (is_file($importfile)) {
+                        $importfile = (new ConfinedImportFile((string) $this->getImportDirectory()))
+                            ->resolve((string) ($mob_attr['uri'] ?? ''));
+                        if ($importfile !== null && is_file($importfile)) {
                             $mob = ilObjMediaObject::_saveTempFileAsMediaObject(
                                 basename($importfile),
                                 $importfile,
@@ -640,9 +642,9 @@ class ilForumXMLParser extends ilSaxParser
             case 'Attachment':
                 $filedata = new ilFileDataForum($this->forum->getId(), $this->lastHandledPostId);
 
-                $import_path = $this->contentArray['content'];
-                if ($import_path !== '') {
-                    $import_path = $this->getImportDirectory() . '/' . $import_path;
+                $import_path = (new ConfinedImportFile((string) $this->getImportDirectory()))
+                    ->resolve((string) ($this->contentArray['content'] ?? ''));
+                if ($import_path !== null && is_file($import_path)) {
                     $filedata->importPath($import_path, (int) $this->lastHandledPostId);
                 }
                 break;

@@ -29,59 +29,53 @@ use PHPUnit\Framework\TestCase;
 
 class DraftAttachmentGuardTest extends TestCase
 {
-    private const int OWNER_OBJ_ID = 4711;
-    private const int DECOY_OBJ_ID = 815;
-    private const int DRAFT_ID = 42;
-    private const int AUTHOR_ID = 6;
+    private const int OBJ_ID = 1;
+    private const int DRAFT_ID = 1;
+    private const int AUTHOR_ID = 1;
+    private const int OTHER_OBJ_ID = 815;
+    private const int OTHER_AUTHOR_ID = 2;
 
-    public function testAuthorMayDownloadFromTheOwningForum(): void
+    public function testSmallestDraftIsAccepted(): void
     {
-        $guard = new DraftAttachmentGuard($this->repositoryReturningDraft(), self::AUTHOR_ID);
+        $repository = $this->createMock(OwnershipRepository::class);
+        $repository->expects($this->once())
+            ->method('findDraftOwnership')
+            ->with(self::DRAFT_ID)
+            ->willReturn($this->ownership());
 
-        $this->assertTrue($guard->decide(self::OWNER_OBJ_ID, self::DRAFT_ID)->isGranted());
+        $decision = (new DraftAttachmentGuard($repository, self::AUTHOR_ID))->decide(self::OBJ_ID, self::DRAFT_ID);
+
+        self::assertTrue($decision->isGranted());
     }
 
-    public function testDraftIsNotDeliverableThroughADecoyForum(): void
+    /**
+     * @return array<string, array{0: int, 1: int, 2: DenialReason}>
+     */
+    public static function mismatchProvider(): array
     {
-        $guard = new DraftAttachmentGuard($this->repositoryReturningDraft(), self::AUTHOR_ID);
-
-        $this->assertSame(
-            DenialReason::FOREIGN_FORUM,
-            $guard->decide(self::DECOY_OBJ_ID, self::DRAFT_ID)->denialReason()
-        );
+        return [
+            'other forum' => [self::OTHER_OBJ_ID, self::AUTHOR_ID, DenialReason::FOREIGN_FORUM],
+            'other author' => [self::OBJ_ID, self::OTHER_AUTHOR_ID, DenialReason::FOREIGN_AUTHOR],
+        ];
     }
 
-    public function testDraftOfAnotherAuthorIsRejected(): void
+    #[DataProvider('mismatchProvider')]
+    public function testDraftOutsideTheRequestIsRejected(int $obj_id, int $author_id, DenialReason $denial): void
     {
-        $guard = new DraftAttachmentGuard($this->repositoryReturningDraft(), self::AUTHOR_ID + 1);
+        $decision = (new DraftAttachmentGuard($this->repositoryReturningOwnership(), $author_id))
+            ->decide($obj_id, self::DRAFT_ID);
 
-        $this->assertSame(
-            DenialReason::FOREIGN_AUTHOR,
-            $guard->decide(self::OWNER_OBJ_ID, self::DRAFT_ID)->denialReason()
-        );
+        self::assertSame($denial, $decision->denialReason());
     }
 
-    public function testAnonymousUserIsRejectedEvenIfTheDraftCarriesNoAuthor(): void
-    {
-        $guard = new DraftAttachmentGuard($this->repositoryReturningDraft(0), 0);
-
-        $this->assertSame(
-            DenialReason::FOREIGN_AUTHOR,
-            $guard->decide(self::OWNER_OBJ_ID, self::DRAFT_ID)->denialReason()
-        );
-    }
-
-    public function testUnknownDraftIsRejected(): void
+    public function testMissingDraftIsRejected(): void
     {
         $repository = $this->createStub(OwnershipRepository::class);
         $repository->method('findDraftOwnership')->willReturn(null);
 
-        $guard = new DraftAttachmentGuard($repository, self::AUTHOR_ID);
+        $decision = (new DraftAttachmentGuard($repository, self::AUTHOR_ID))->decide(self::OBJ_ID, self::DRAFT_ID);
 
-        $this->assertSame(
-            DenialReason::UNKNOWN_CONTAINER,
-            $guard->decide(self::OWNER_OBJ_ID, self::DRAFT_ID)->denialReason()
-        );
+        self::assertSame(DenialReason::UNKNOWN_CONTAINER, $decision->denialReason());
     }
 
     /**
@@ -90,46 +84,33 @@ class DraftAttachmentGuardTest extends TestCase
     public static function incompleteSelectorProvider(): array
     {
         return [
-            'unset forum object' => [0, self::DRAFT_ID],
-            'negative forum object' => [-1, self::DRAFT_ID],
-            'unset draft' => [self::OWNER_OBJ_ID, 0],
-            'negative draft' => [self::OWNER_OBJ_ID, -1],
+            'forum object zero' => [0, self::DRAFT_ID],
+            'forum object negative' => [-1, self::DRAFT_ID],
+            'draft zero' => [self::OBJ_ID, 0],
+            'draft negative' => [self::OBJ_ID, -1],
         ];
     }
 
     #[DataProvider('incompleteSelectorProvider')]
-    public function testIncompleteSelectorsAreRejectedWithoutQueryingTheRepository(
-        int $routed_obj_id,
-        int $draft_id
-    ): void {
+    public function testIncompleteSelectorsAreRejectedWithoutAQuery(int $obj_id, int $draft_id): void
+    {
         $repository = $this->createMock(OwnershipRepository::class);
         $repository->expects($this->never())->method('findDraftOwnership');
 
-        $guard = new DraftAttachmentGuard($repository, self::AUTHOR_ID);
+        $decision = (new DraftAttachmentGuard($repository, self::AUTHOR_ID))->decide($obj_id, $draft_id);
 
-        $this->assertSame(
-            DenialReason::INCOMPLETE_SELECTORS,
-            $guard->decide($routed_obj_id, $draft_id)->denialReason()
-        );
+        self::assertSame(DenialReason::INCOMPLETE_SELECTORS, $decision->denialReason());
     }
 
-    public function testOwnershipIsResolvedForTheAddressedDraft(): void
+    private function ownership(): AttachmentOwnership
     {
-        $repository = $this->createMock(OwnershipRepository::class);
-        $repository->expects($this->once())
-                   ->method('findDraftOwnership')
-                   ->with(self::DRAFT_ID)
-                   ->willReturn(null);
-
-        (new DraftAttachmentGuard($repository, self::AUTHOR_ID))->decide(self::OWNER_OBJ_ID, self::DRAFT_ID);
+        return new AttachmentOwnership(self::DRAFT_ID, 12, self::OBJ_ID, 1, self::AUTHOR_ID);
     }
 
-    private function repositoryReturningDraft(int $author_id = self::AUTHOR_ID): OwnershipRepository
+    private function repositoryReturningOwnership(): OwnershipRepository
     {
         $repository = $this->createStub(OwnershipRepository::class);
-        $repository->method('findDraftOwnership')->willReturn(
-            new AttachmentOwnership(self::DRAFT_ID, 12, self::OWNER_OBJ_ID, 77, $author_id)
-        );
+        $repository->method('findDraftOwnership')->willReturn($this->ownership());
 
         return $repository;
     }

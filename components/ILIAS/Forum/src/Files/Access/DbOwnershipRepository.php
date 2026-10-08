@@ -23,9 +23,9 @@ namespace ILIAS\Forum\Files\Access;
 use ilDBConstants;
 use ilDBInterface;
 
-final class DbOwnershipRepository implements OwnershipRepository
+final readonly class DbOwnershipRepository implements OwnershipRepository
 {
-    public function __construct(private readonly ilDBInterface $db)
+    public function __construct(private ilDBInterface $db)
     {
     }
 
