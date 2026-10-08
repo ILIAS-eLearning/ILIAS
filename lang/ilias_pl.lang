@@ -2011,7 +2011,7 @@ assessment#:#uploaded_material#:#Załadowany materiał
 assessment#:#use_previous_solution#:#Użyj poprzedniej odpowiedzi
 assessment#:#use_previous_solution_advice#:#Widoczne rozwiązanie zostało oddane przez Ciebie wcześniej. Jeśli chcesz przejąć rozwiązanie bez dokonywania zmian, musisz potwierdzić przejęcie tego rozwiązania poniżej pytania.
 assessment#:#user_has_finished_a_test#:#Jeden z uczestników zakończył test.
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Nie zostałeś dopuszczony do tego egzaminu.
 assessment#:#usr_manscoring_complete#:#Marke as 'scored'###29 10 2025 new variable
 assessment#:#value_between_x_and_y#:#Wartość powinna być pomiędzy %s i %s
