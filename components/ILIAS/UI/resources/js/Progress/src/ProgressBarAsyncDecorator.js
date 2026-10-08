@@ -138,6 +138,14 @@ export default class ProgressBarAsyncDecorator {
     }
   }
 
+  addUpdateListener(listener) {
+    this.#progressBar.addUpdateListener(listener);
+  }
+
+  removeUpdateListener(listener) {
+    this.#progressBar.removeUpdateListener(listener);
+  }
+
   /**
    * @param {string|null} message
    * @see {ProgressBar.indeterminate}
