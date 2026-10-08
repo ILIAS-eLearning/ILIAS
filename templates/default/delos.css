@@ -19356,6 +19356,7 @@ p#copg-auto-save {
 
 #ed_datatable {
   background-color: white;
+  border: 1px solid #f0f0f0;
 }
 #ed_datatable th {
   background-color: #f9f9f9;
@@ -19367,11 +19368,24 @@ p#copg-auto-save {
   width: 100%;
   border: 0;
 }
-#ed_datatable th, #ed_datatable td {
-  border: 1px solid #CCCCCC;
+#ed_datatable th {
+  cursor: pointer;
+}
+#ed_datatable td {
+  cursor: pointer;
+}
+#ed_datatable th:hover {
+  background-color: #f0f0f0;
+}
+#ed_datatable th:hover .btn {
+  background-color: #f0f0f0;
+}
+#ed_datatable.grid th, #ed_datatable.grid td {
+  border: 1px solid #f0f0f0;
 }
 #ed_datatable th {
   vertical-align: middle;
+  padding: 3px;
 }
 
 .copg-new-content-placeholder,
