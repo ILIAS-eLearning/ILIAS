@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use Closure;
 
 /**
  * This describes a Mode Control
@@ -54,4 +56,19 @@ interface Mode extends Component
     * Get the aria-label on the ViewControl
     */
     public function getAriaLabel(): string;
+
+    public function withOnLoadCodeForAction(string $label, Closure $binder): static;
+    public function withAdditionalOnLoadCodeForAction(string $label, Closure $binder): static;
+
+    /**
+     * @param array<string, Closure> $label_binder_map
+     */
+    public function withOnLoadCodeForActions(array $label_binder_map): static;
+
+    /**
+     * @param array<string, Closure> $label_binder_map
+     */
+    public function withAdditionalOnLoadCodeForActions(array $label_binder_map): static;
+
+    public function getOnLoadCodeForAction(string $label): ?Closure;
 }
