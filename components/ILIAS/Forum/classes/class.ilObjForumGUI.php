@@ -2719,8 +2719,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             return;
         }
 
+        $this->ensurePostingBelongsToThread($this->objCurrentTopic, $this->objCurrentPost);
+
         $draft = new ilForumPostDraft($this->user->getId(), $this->objCurrentPost->getId(), $this->retrieveDraftId());
         $this->checkDraftAccess($draft->getDraftId());
+        $this->ensureDraftSelectorsMatchCurrentForum($draft);
+        if ($draft->getThreadId() !== $this->objCurrentTopic->getId()
+            || $draft->getPostId() !== $this->objCurrentPost->getId()) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
 
         if ($use_replyform) {
             $oReplyEditForm = $this->getReplyEditForm();
@@ -2867,6 +2874,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->viewThreadObject();
                 return;
             }
+
+            $this->ensurePostingBelongsToThread($this->objCurrentTopic, $this->objCurrentPost);
 
             $oForumObjects = $this->getForumObjects();
             $forumObj = $oForumObjects['forumObj'];
@@ -3544,7 +3553,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
             if (
                 $firstNodeInThread instanceof ilForumPost && $doRenderDrafts &&
-                $this->selectedSorting === ilForumProperties::VIEW_TREE
+                $this->selectedSorting === ilForumProperties::VIEW_TREE &&
+                $firstNodeInThread->getLft() <= 1
             ) {
                 $this->renderDraftContent(
                     $threadContentTemplate,
@@ -3874,7 +3884,10 @@ EOD
             $this->ctrl->redirect($this, 'showThreads');
         }
 
-        if (!$this->access->checkAccess('read', '', (int) $frm_ref_id)) {
+        if ((int) $frm_ref_id === $this->object->getRefId()
+            || ilObject::_lookupType((int) $frm_ref_id, true) !== 'frm'
+            || !$this->access->checkAccess('read', '', (int) $frm_ref_id)
+            || !$this->access->checkAccess('moderate_frm', '', (int) $frm_ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -4354,6 +4367,10 @@ EOD
 
         $draft = ilForumPostDraft::newInstanceByDraftId($this->retrieveDraftId());
         $this->checkDraftAccess($draft);
+        $this->ensureDraftSelectorsMatchCurrentForum($draft);
+        if ($draft->getThreadId() !== 0) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
 
         $this->createThread($draft, true);
     }
@@ -4364,6 +4381,10 @@ EOD
         if (ilForumPostDraft::isSavePostDraftAllowed() && $this->retrieveDraftId() > 0) {
             $draft = ilForumPostDraft::newInstanceByDraftId($this->retrieveDraftId());
             $this->checkDraftAccess($draft);
+            $this->ensureDraftSelectorsMatchCurrentForum($draft);
+            if ($draft->getThreadId() !== 0) {
+                $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            }
         }
 
         $this->createThread($draft);
@@ -5211,6 +5232,8 @@ EOD
                 $this->viewThreadObject();
                 return;
             }
+
+            $this->ensurePostingBelongsToThread($this->objCurrentTopic, $this->objCurrentPost);
 
             $oForumObjects = $this->getForumObjects();
             $frm = $oForumObjects['frm'];

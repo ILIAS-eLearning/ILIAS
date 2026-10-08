@@ -486,6 +486,24 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
+    /**
+     * @return list<int>
+     */
+    private function retrieveParticipantUserIds(): array
+    {
+        if (!$this->dic->http()->wrapper()->post()->has('user_id')) {
+            return [];
+        }
+
+        $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
+            'user_id',
+            $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+        );
+        $participants = array_map(intval(...), $this->forum->getAllForumParticipants());
+
+        return array_values(array_intersect($user_ids, $participants));
+    }
+
     public function enableAdminForceNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
@@ -495,13 +513,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
-            );
-        }
+        $user_ids = $this->retrieveParticipantUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'), true);
@@ -534,13 +546,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
-            );
-        }
+        $user_ids = $this->retrieveParticipantUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
@@ -571,13 +577,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
-            );
-        }
+        $user_ids = $this->retrieveParticipantUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
@@ -612,13 +612,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
-            );
-        }
+        $user_ids = $this->retrieveParticipantUserIds();
 
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
