@@ -47,4 +47,8 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 
 ## Data being exported
 
-- No data is exported in any way
+- When a user enables push notifications, the endpoint of the service worker is exposed in a cloud based routing service (like APN, MPS, FCM).
+- When a push notification is send ILIAS sends a request to the enpoint with information about the push notifications target device and its content.
+  - The notification content is only exposed encrypted.
+    
+![Push Notification Routing](./docs/push-notification.svg)
