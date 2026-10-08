@@ -133,4 +133,17 @@ final class GetFileInfoResponseTest extends TestCase
         $this->assertFalse($this->responseFor(false, true)['EditModePostMessage']);
         $this->assertFalse($this->responseFor(true)['EditModePostMessage']);
     }
+
+    /**
+     * ILIAS closes the WOPI client itself, a close button of the client would do nothing.
+     */
+    public function testNoCloseButtonOfTheClientIsAnnounced(): void
+    {
+        foreach ([false, true] as $editable) {
+            $response = $this->responseFor($editable);
+
+            $this->assertArrayNotHasKey('CloseUrl', $response);
+            $this->assertFalse($response['ClosePostMessage']);
+        }
+    }
 }

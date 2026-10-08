@@ -81,13 +81,15 @@ class GetFileInfoResponse extends Response
             self::USER_CAN_NOT_WRITE_RELATIVE => true,
             self::POST_MESSAGE_ORIGIN => $origin,
             self::CLOSE_BUTTON_CLOSES_WINDOW => false,
-            self::CLOSE_URL => '#',
             // ILIAS has no handler for the UI_Edit message, so it must not announce one:
             // clients offer a way into edit mode when EditModePostMessage is true, and
             // that button would do nothing here.
             self::EDIT_MODE_POST_MESSAGE => false,
             self::EDIT_NOTIFICATION_POST_MESSAGE => true,
-            self::CLOSE_POST_MESSAGE => true,
+            // ILIAS closes the client itself (mode info of the editor page) and has no handler
+            // for the UI_Close message. Without CloseUrl and ClosePostMessage clients do not
+            // show a close button of their own.
+            self::CLOSE_POST_MESSAGE => false,
             self::SUPPORTS_LOCKS => false,
             self::SUPPORTS_GET_LOCK => false,
             self::USER_CAN_RENAME => false
