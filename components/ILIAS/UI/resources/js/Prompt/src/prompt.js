@@ -14,8 +14,8 @@
  */
 
 import il from 'il';
-import DOMParser from 'DOMParser';
-import PromptFactory from './prompt.factory';
+import AsyncRenderer from '../../Core/src/AsyncRenderer.js';
+import PromptFactory from './prompt.factory.js';
 
 il.UI = il.UI || {};
-il.UI.prompt = new PromptFactory(DOMParser);
+il.UI.prompt = new PromptFactory(new AsyncRenderer(document));
