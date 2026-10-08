@@ -102,7 +102,7 @@ Alternatively, they can be obtained directly from the distribution package at [N
 
 ```shell
 apt update
-apt update zip unzip openjdk-21-jdk maven ffmpeg git ghostscript nodejs npm
+apt install zip unzip openjdk-21-jdk maven ffmpeg git ghostscript nodejs npm
 ```
 
 <a name="install-webserver"></a>
