@@ -164,11 +164,19 @@ class DatabaseRepository implements Repository
     private function buildQuestionPropertiesForFixedTest(\ilObjTest $test): array
     {
         $general_question_properties = $this->question_properties_repo->getForParentObjectId($test->getId());
-        return $this->buildQuestionPropertiesFromGeneralQuestionPropertiesAndSquenceProperties(
+        $question_properties = $this->buildQuestionPropertiesFromGeneralQuestionPropertiesAndSquenceProperties(
             $general_question_properties,
             $this->getSequencePropertiesForQuestionIds(array_keys($general_question_properties)),
             true
         );
+
+        uasort(
+            $question_properties,
+            static fn(Properties $a, Properties $b): int =>
+                $a->getSequenceInformation()->getPlaceInSequence() <=> $b->getSequenceInformation()->getPlaceInSequence()
+        );
+
+        return $question_properties;
     }
 
     /**

@@ -168,10 +168,5 @@ class QuestionsTable implements OrderingBinding
     {
         $this->records = $this->questionrepository
             ->getQuestionPropertiesWithAggregatedResultsForTest($this->test_obj);
-        usort(
-            $this->records,
-            static fn(TestQuestionProperties $a, TestQuestionProperties $b): int =>
-                $a->getSequenceInformation()?->getPlaceInSequence() <=> $b->getSequenceInformation()?->getPlaceInSequence()
-        );
     }
 }
