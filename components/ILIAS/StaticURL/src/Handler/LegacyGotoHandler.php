@@ -119,10 +119,8 @@ class LegacyGotoHandler implements Handler
                 if ($tarr[0] !== "pg" && $tarr[0] !== "st" && isset($tarr[1]) && is_numeric($tarr[1]) && $tarr[1] > 0) {
                     $DIC->ui()->mainTemplate()->setOnScreenMessage(
                         'failure',
-                        sprintf(
-                            $DIC->language()->txt("msg_no_perm_read_item"),
-                            \ilObject::_lookupTitle(\ilObject::_lookupObjId((int) $tarr[1]))
-                        ),
+                        // no title: it would disclose objects without read permission or in the trash
+                        $DIC->language()->txt("msg_no_perm_read_item"),
                         true
                     );
                 } else {
