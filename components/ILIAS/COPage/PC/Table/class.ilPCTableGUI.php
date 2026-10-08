@@ -230,6 +230,7 @@ class ilPCTableGUI extends ilPageContentGUI
         // width
         $width = new ilTextInputGUI($this->lng->txt("cont_table_width"), "width");
         $width->setSize(6);
+        $width->setInfo($lng->txt("cont_width_px_perc_info"));
         $width->setMaxLength(6);
         $this->form->addItem($width);
 
@@ -1062,6 +1063,12 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $dtpl->setVariable("TABLE_CLASS", "ilc_table" . $class);
+        $width = $pc_tab->getWidth();
+        if ($width !== "") {
+            $dtpl->setCurrentBlock("table_width");
+            $dtpl->setVariable("TABLE_WIDTH", $width);
+            $dtpl->parseCurrentBlock();
+        }
 
         $dtpl->setVariable(
             "WYSIWYG_ACTION",
@@ -1177,9 +1184,9 @@ class ilPCTableGUI extends ilPageContentGUI
                     );
 
                     $cs = $node2->getAttribute("ColSpan");
-                    $width = (int) $node2->getAttribute("Width");
+                    $width = $node2->getAttribute("Width");
                     $rs = $node2->getAttribute("RowSpan");
-                    if ($width > 0) {
+                    if ($width !== "") {
                         $dtpl->setVariable("WIDTH", $width);
                     }
                     $align = (string) $node2->getAttribute("HorizontalAlign");

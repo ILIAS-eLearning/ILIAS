@@ -104,6 +104,10 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 	min-width: 40px;
 }
 
+[data-copg-ed-type='data-row-head'] {
+	width: 40px;
+}
+
 .copg-iim-area-shape-sel {
 	stroke-width: 1;
 	fill: transparent;
