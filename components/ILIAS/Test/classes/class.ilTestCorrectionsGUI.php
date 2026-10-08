@@ -293,7 +293,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database
-        ))->recalculateSolutions(true, $question_index);
+        ))->recalculateSolutions(true, $question->getId());
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
