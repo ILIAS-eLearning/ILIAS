@@ -277,7 +277,6 @@ div.ilTinyMenuSection, .il-copg-button-group {
 	p {
 		margin-bottom: 5px;
 		padding: 2px 5px;
-		background-color: darken($il-main-dark-bg, 4%);
 	}
 }
 
@@ -710,8 +709,8 @@ div.ilCOPGMediaPrint {
 #copg-editor-slate-content {
 	padding: $il-padding-xlarge-vertical 0px;
 
-	p {
-		padding: 0;
+	p:not([class^="ilc_text_block"]) {
+		padding: 0;	
 		margin: 5px 0;
 	}
 

@@ -40,7 +40,7 @@
 
 /* see #41844 and #46127 */
 #copg-editor-slate-content p, #iltinymenu .il-copg-button-group p {
-	background-color: transparent;
+	/* background-color: transparent; */
 }
 
 #tinytarget_div .tox-tinymce {
