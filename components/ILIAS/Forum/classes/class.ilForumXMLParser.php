@@ -598,8 +598,8 @@ class ilForumXMLParser extends ilSaxParser
 
                     $media_objects_found = false;
                     foreach ($this->mediaObjects as $mob_attr) {
-                        $importfile = $this->getImportDirectory() . '/' . $mob_attr['uri'];
-                        if (is_file($importfile)) {
+                        $importfile = $this->resolveImportPath((string) ($mob_attr['uri'] ?? ''));
+                        if ($importfile !== null && is_file($importfile)) {
                             $mob = ilObjMediaObject::_saveTempFileAsMediaObject(
                                 basename($importfile),
                                 $importfile,
@@ -640,9 +640,8 @@ class ilForumXMLParser extends ilSaxParser
             case 'Attachment':
                 $filedata = new ilFileDataForum($this->forum->getId(), $this->lastHandledPostId);
 
-                $import_path = $this->contentArray['content'];
-                if ($import_path !== '') {
-                    $import_path = $this->getImportDirectory() . '/' . $import_path;
+                $import_path = $this->resolveImportPath((string) ($this->contentArray['content'] ?? ''));
+                if ($import_path !== null && is_file($import_path)) {
                     $filedata->importPath($import_path, (int) $this->lastHandledPostId);
                 }
                 break;
@@ -825,5 +824,66 @@ class ilForumXMLParser extends ilSaxParser
         }
 
         return $parent_id;
+    }
+
+    /**
+     * Resolves a path from forum import XML against this parser's import directory.
+     *
+     * @return string|null Absolute path, or null when the export does not contain the file
+     * @throws ilException when the path escapes the import directory
+     */
+    private function resolveImportPath(string $path_from_xml): ?string
+    {
+        $import_directory = (string) $this->getImportDirectory();
+        if ($import_directory === '') {
+            throw new ilException('Resolving forum import paths requires a sandboxed import directory.');
+        }
+
+        $relative_path = $this->normalizeImportRelativePath($path_from_xml);
+        if ($relative_path === '') {
+            return null;
+        }
+
+        $base_path = realpath($import_directory);
+        if ($base_path === false) {
+            throw new ilException(sprintf('The import directory "%s" does not exist.', $import_directory));
+        }
+
+        $resolved_path = realpath($base_path . DIRECTORY_SEPARATOR . $relative_path);
+        if ($resolved_path === false) {
+            return null;
+        }
+
+        if (!str_starts_with($resolved_path, $base_path . DIRECTORY_SEPARATOR)) {
+            throw new ilException(sprintf('The import path "%s" escapes the import directory.', $path_from_xml));
+        }
+
+        return $resolved_path;
+    }
+
+    private function normalizeImportRelativePath(string $path): string
+    {
+        $path = str_replace('\\', '/', $path);
+
+        while (preg_match('#\p{C}+|^\./#u', $path)) {
+            $path = preg_replace('#\p{C}+|^\./#u', '', $path);
+        }
+
+        $parts = [];
+        foreach (explode('/', $path) as $part) {
+            switch ($part) {
+                case '':
+                case '.':
+                    break;
+                case '..':
+                    array_pop($parts);
+                    break;
+                default:
+                    $parts[] = $part;
+                    break;
+            }
+        }
+
+        return implode('/', $parts);
     }
 }
