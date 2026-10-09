@@ -18,15 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Database\PDO;
+namespace ILIAS\Tests\KeyValueStorage\Setup;
 
-use ilDBInterface;
-use ilDBPdoInterface;
-use ILIAS\Database\FieldDefinition;
-use ILIAS\Database\Connection;
+use ILIAS\KeyValueStorage\Subject\SubjectProvider;
 
-interface Internal extends Connection, ilDBPdoInterface
+final readonly class OtherSubjectProvider implements SubjectProvider
 {
-    public function getFieldDefinition(): ?FieldDefinition;
-    public function getIndexName(string $index_name_base): string;
+    public function name(): string
+    {
+        return 'other';
+    }
 }

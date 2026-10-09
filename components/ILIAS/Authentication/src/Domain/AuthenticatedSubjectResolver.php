@@ -18,15 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Database\PDO;
+namespace ILIAS\Authentication\Domain;
 
-use ilDBInterface;
-use ilDBPdoInterface;
-use ILIAS\Database\FieldDefinition;
-use ILIAS\Database\Connection;
+use ILIAS\KeyValueStorage\Subject\SubjectResolver;
 
-interface Internal extends Connection, ilDBPdoInterface
+/**
+ * Resolves the current fully authenticated ILIAS user to a KeyValueStorage subject.
+ *
+ * The user id comes from {@see AuthenticatedUser}. This type does not read the session.
+ * Anonymous or missing authentication yields an anonymous subject.
+ */
+interface AuthenticatedSubjectResolver extends SubjectResolver
 {
-    public function getFieldDefinition(): ?FieldDefinition;
-    public function getIndexName(string $index_name_base): string;
+    /**
+     * Whether the resolved actor may use persistent subject storage.
+     */
+    public function supportsPersistentStorage(): bool;
 }

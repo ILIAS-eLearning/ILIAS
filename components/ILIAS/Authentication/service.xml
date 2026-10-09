@@ -14,6 +14,8 @@
 		<event type="raise" id="beforeLogout" />
 		<event type="raise" id="afterLogout" />
 		<event type="raise" id="expiredSessionDetected" />
+		<event type="listen" id="components/ILIAS/User" />
+		<event type="listen" id="Services/User" />
 	</events>
 	<copage>
 		<pageobject parent_type="auth" class_name="ilLoginPage" directory="classes"/>

@@ -18,15 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Database\PDO;
+namespace ILIAS\KeyValueStorage\Exception;
 
-use ilDBInterface;
-use ilDBPdoInterface;
-use ILIAS\Database\FieldDefinition;
-use ILIAS\Database\Connection;
-
-interface Internal extends Connection, ilDBPdoInterface
+/**
+ * A stored value could not be read back, e.g. because it is not valid JSON
+ * anymore or was written by something other than this component.
+ */
+final class InvalidStoredValueException extends \RuntimeException
 {
-    public function getFieldDefinition(): ?FieldDefinition;
-    public function getIndexName(string $index_name_base): string;
 }
