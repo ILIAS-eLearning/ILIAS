@@ -548,10 +548,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     ilUtil::getImagePath("nav/arrow_upright.svg"),
                     $lng->txt("actions")
                 );
-                $toolbar->addFormButton(
-                    $this->lng->txt('delete_selected_items'),
-                    'delete'
-                );
+                if ($this->getItemPresentation()->canDeleteItems()) {
+                    $toolbar->addFormButton(
+                        $this->lng->txt('delete_selected_items'),
+                        'delete'
+                    );
+                }
                 $toolbar->addFormButton(
                     $this->lng->txt('move_selected_items'),
                     'cut'
