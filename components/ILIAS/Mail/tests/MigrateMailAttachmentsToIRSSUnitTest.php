@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\AdminInteraction;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
@@ -30,6 +32,9 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
     private MigrateMailAttachmentsToIRSS $migration;
     private MockObject&ilResourceStorageMigrationHelper $helper;
     private MockObject&ilDBInterface $db;
+    /** @var list<string> */
+    private array $messages = [];
+    private string $tmp_dir;
 
     protected function setUp(): void
     {
@@ -39,7 +44,14 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
             define('SYSTEM_USER_ID', 6);
         }
 
+        $this->tmp_dir = sys_get_temp_dir() . '/mail-migration-unit-' . uniqid('', true);
+        mkdir($this->tmp_dir . '/mail', 0775, true);
+
         $this->migration = new MigrateMailAttachmentsToIRSS();
+        $this->db = $this->createMock(ilDBInterface::class);
+        $this->db->method('quote')->willReturnCallback(static fn(mixed $value): string => "'" . $value . "'");
+        $this->db->method('supportsTransactions')->willReturn(true);
+
         $this->helper = $this->getMockBuilder(ilResourceStorageMigrationHelper::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
@@ -50,180 +62,292 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
                 'getCollectionBuilder',
             ])
             ->getMock();
-        $this->db = $this->createMock(ilDBInterface::class);
-
         $this->helper->method('getDatabase')->willReturn($this->db);
-        $this->helper->method('getClientDataDir')->willReturn('/tmp/client');
+        $this->helper->method('getClientDataDir')->willReturn($this->tmp_dir);
+
+        $io = $this->createMock(AdminInteraction::class);
+        $io->method('inform')->willReturnCallback(function (string $message): void {
+            $this->messages[] = $message;
+        });
 
         $reflection = new ReflectionClass($this->migration);
-        $property = $reflection->getProperty('helper');
-        $property->setValue($this->migration, $this->helper);
+        $reflection->getProperty('helper')->setValue($this->migration, $this->helper);
+        $reflection->getProperty('io')->setValue($this->migration, $io);
     }
 
-    public function testResolveOwnerIdForPathUsesSenderId(): void
+    protected function tearDown(): void
     {
-        $statement = $this->createMock(ilDBStatement::class);
-        $this->db->expects($this->once())
-            ->method('setLimit')
-            ->with(1, 0);
-        $this->db->expects($this->once())
-            ->method('queryF')
-            ->willReturn($statement);
-        $this->db->expects($this->once())
-            ->method('fetchObject')
-            ->with($statement)
-            ->willReturn((object) ['sender_id' => 42]);
-
-        $owner_id = $this->invokePrivate('resolveOwnerIdForPath', ['migtest/s1']);
-
-        $this->assertSame(42, $owner_id);
+        exec('chmod -R u+rwx ' . escapeshellarg($this->tmp_dir) . ' && rm -rf ' . escapeshellarg($this->tmp_dir));
+        parent::tearDown();
     }
 
-    public function testResolveOwnerIdForPathFallsBackToSystemUser(): void
-    {
-        $statement = $this->createMock(ilDBStatement::class);
-        $this->db->method('queryF')->willReturn($statement);
-        $this->db->method('fetchObject')->willReturn((object) ['sender_id' => 0]);
+    // ---------------------------------------------------------------------------------------------------------
+    // Order: most recently sent mails first
+    // ---------------------------------------------------------------------------------------------------------
 
-        $owner_id = $this->invokePrivate('resolveOwnerIdForPath', ['migtest/s5']);
+    // ---------------------------------------------------------------------------------------------------------
+    // Directories
+    // ---------------------------------------------------------------------------------------------------------
 
-        $this->assertSame(SYSTEM_USER_ID, $owner_id);
-    }
+    // ---------------------------------------------------------------------------------------------------------
+    // Drafts
+    // ---------------------------------------------------------------------------------------------------------
 
-    public function testMigratePoolFilenamesToCollectionSkipsMissingFiles(): void
-    {
-        $dir = sys_get_temp_dir() . '/mail-migration-unit-' . uniqid('', true);
-        $mail_path = $dir . '/mail';
-        mkdir($mail_path, 0775, true);
-        file_put_contents($mail_path . '/6_present.svg', '<svg/>');
-
-        $this->helper->method('getClientDataDir')->willReturn($dir);
-
-        $collection = $this->createMock(ResourceCollection::class);
-        $collection->method('count')->willReturn(1);
-        $collection->expects($this->once())->method('add');
-        $collection->method('getIdentification')->willReturn(
-            new ResourceCollectionIdentification('migrated-rcid')
-        );
-
-        $collection_builder = $this->createMock(CollectionBuilder::class);
-        $collection_builder->method('new')->willReturn($collection);
-        $collection_builder->method('store')->willReturn(true);
-
-        $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
-        $this->helper->expects($this->once())
-            ->method('movePathToStorage')
-            ->willReturn(new ResourceIdentification('rid-present'));
-
-        $rcid = $this->invokePrivate('migratePoolFilenamesToCollection', [
-            ['present.svg', 'missing.svg'],
-            6,
-            $mail_path,
-        ]);
-
-        $this->assertInstanceOf(ResourceCollectionIdentification::class, $rcid);
-        $this->assertSame('migrated-rcid', $rcid->serialize());
-
-        unlink($mail_path . '/6_present.svg');
-        rmdir($mail_path);
-        rmdir($dir);
-    }
-
-    public function testMigratePoolFilenamesToCollectionReturnsNullWhenNoFilesExist(): void
-    {
-        $dir = sys_get_temp_dir() . '/mail-migration-unit-empty-' . uniqid('', true);
-        $mail_path = $dir . '/mail';
-        mkdir($mail_path, 0775, true);
-
-        $collection = $this->createMock(ResourceCollection::class);
-        $collection->method('count')->willReturn(0);
-
-        $collection_builder = $this->createMock(CollectionBuilder::class);
-        $collection_builder->method('new')->willReturn($collection);
-
-        $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
-        $this->helper->expects($this->never())->method('movePathToStorage');
-
-        $rcid = $this->invokePrivate('migratePoolFilenamesToCollection', [
-            ['missing.svg'],
-            6,
-            $mail_path,
-        ]);
-
-        $this->assertNull($rcid);
-
-        rmdir($mail_path);
-        rmdir($dir);
-    }
-
-    public function testUpdateMailAttachmentFieldsSkipsNonSerializedAttachments(): void
-    {
-        $statement = $this->createMock(ilDBStatement::class);
-        $this->db->expects($this->once())->method('queryF')->willReturn($statement);
-        $this->db->method('fetchObject')->willReturnOnConsecutiveCalls(
-            (object) ['mail_id' => 900011, 'attachments' => '657497dc-5079-4f95-b19d-aecdaf81ff1a'],
-            null
-        );
-        $this->db->expects($this->never())->method('update');
-
-        $this->invokePrivate('updateMailAttachmentFields', [
-            'migtest/s11',
-            new ResourceCollectionIdentification('new-rcid'),
-        ]);
-    }
-
-    public function testMigrateSerializedMailAttachmentsSelectsNewestMailsFirst(): void
+    public function testPathsOfTheMostRecentlySentMailsAreMigratedFirst(): void
     {
         $captured_sql = '';
-        $statement = $this->createMock(ilDBStatement::class);
-        $this->db->method('quote')->willReturnCallback(static fn(string $value): string => "'" . $value . "'");
-        $this->db->expects($this->once())->method('setLimit')->with(5);
-        $this->db->expects($this->once())
-            ->method('query')
-            ->willReturnCallback(function (string $sql) use ($statement, &$captured_sql): ilDBStatement {
+        $this->db->expects($this->once())->method('setLimit')->with(25);
+        $this->db->method('query')->willReturnCallback(
+            function (string $sql) use (&$captured_sql): ilDBStatement {
                 $captured_sql = $sql;
 
-                return $statement;
-            });
-        $this->db->method('fetchObject')->willReturn(null);
+                return $this->createStub(ilDBStatement::class);
+            }
+        );
+        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['path' => 'newest'], ['path' => 'older'], null);
 
-        $this->invokePrivate('migrateSerializedMailAttachments', []);
+        $paths = $this->invokePrivate('nextUnmigratedPaths', []);
 
-        $this->assertStringContainsString('ORDER BY send_time DESC', $captured_sql);
-        $this->assertStringNotContainsString('LIMIT', $captured_sql);
-    }
-
-    public function testMigrateSentAttachmentDirectoriesSelectsPathsOfNewestMailsFirst(): void
-    {
-        $captured_sql = '';
-        $statement = $this->createMock(ilDBStatement::class);
-        $this->db->expects($this->once())->method('setLimit')->with(5);
-        $this->db->expects($this->once())
-            ->method('query')
-            ->willReturnCallback(function (string $sql) use ($statement, &$captured_sql): ilDBStatement {
-                $captured_sql = $sql;
-
-                return $statement;
-            });
-        $this->db->method('fetchObject')->willReturn(null);
-
-        $this->invokePrivate('migrateSentAttachmentDirectories', []);
-
+        $this->assertSame(['newest', 'older'], $paths);
         $this->assertStringContainsString('ORDER BY MAX(m.send_time) DESC', $captured_sql);
         $this->assertStringNotContainsString('LIMIT', $captured_sql);
     }
 
-    public function testMarkPathAsSkippedWritesDashMarker(): void
+    /**
+     * Regression: mails with a not yet migrated directory must never be treated as pool references
+     */
+    public function testDraftsOfTheMostRecentlySentMailsAreMigratedFirstAndNeverMailsWithDirectory(): void
     {
-        $this->db->expects($this->once())
-            ->method('manipulateF')
-            ->with(
-                'UPDATE mail_attachment SET rcid = %s WHERE path = %s',
-                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
-                ['-', 'migtest/missing']
-            );
+        $captured_sql = '';
+        $this->db->expects($this->once())->method('setLimit')->with(50);
+        $this->db->method('query')->willReturnCallback(
+            function (string $sql) use (&$captured_sql): ilDBStatement {
+                $captured_sql = $sql;
 
-        $this->invokePrivate('markPathAsSkipped', ['migtest/missing']);
+                return $this->createStub(ilDBStatement::class);
+            }
+        );
+        $this->db->method('fetchAssoc')->willReturn(null);
+
+        $this->invokePrivate('migrateSerializedMailAttachments', []);
+
+        $this->assertStringContainsString('LEFT JOIN mail_attachment ma ON ma.mail_id = m.mail_id', $captured_sql);
+        $this->assertStringContainsString('WHERE ma.mail_id IS NULL', $captured_sql);
+        $this->assertStringContainsString('ORDER BY m.send_time DESC, m.mail_id DESC', $captured_sql);
+    }
+
+    public function testDirectoryIsMigratedWithTheIrssHelper(): void
+    {
+        $dir = $this->createDirectory('6_100', ['a.pdf' => '1234']);
+        $this->db->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $this->db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $this->db->method('in')->willReturn('mail_id IN (1,2)');
+        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            // paths to migrate
+            ['path' => '6_100'],
+            null,
+            // owner, mails of the directory
+            ['sender_id' => 6],
+            ['mail_id' => 1],
+            ['mail_id' => 2],
+            null
+        );
+        $this->helper->expects($this->once())
+            ->method('moveFilesOfPathToCollection')
+            ->willReturnCallback(function (
+                string $path,
+                int $resource_owner,
+                int $collection_owner,
+                ?Closure $file_name,
+                Closure $revision_title
+            ) use ($dir): ResourceCollectionIdentification {
+                $this->assertSame($dir, $path);
+                $this->assertSame(6, $resource_owner);
+                $this->assertSame(md5('a.pdf'), $revision_title('a.pdf'));
+
+                return new ResourceCollectionIdentification('dir-rcid');
+            });
+        $statements = [];
+        $this->db->method('manipulateF')->willReturnCallback(
+            function (string $sql, array $types, array $values) use (&$statements): int {
+                $statements[] = [$sql, $values];
+                return 1;
+            }
+        );
+
+        $this->invokePrivate('migrateSentAttachmentDirectories', []);
+
+        $this->assertSame(['UPDATE mail_attachment SET rcid = %s WHERE path = %s', ['dir-rcid', '6_100']], $statements[0]);
+        $this->assertSame(['UPDATE mail SET attachments = %s WHERE mail_id IN (1,2)', ['dir-rcid']], $statements[1]);
+    }
+
+    public function testMissingDirectoryIsSkippedAndReported(): void
+    {
+        $this->db->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $this->db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            ['path' => '6_104'],
+            null,
+            ['mail_id' => 1],
+            null
+        );
+        $this->helper->expects($this->never())->method('moveFilesOfPathToCollection');
+        $this->db->expects($this->once())->method('manipulateF')->with(
+            'UPDATE mail_attachment SET rcid = %s WHERE path = %s',
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            ['-', '6_104']
+        );
+
+        $this->invokePrivate('migrateSentAttachmentDirectories', []);
+
+        $this->assertReported('WARNING', 'does not exist');
+    }
+
+    public function testPoolFilesAreCopiedWithTheirNameWithoutTheUserPrefix(): void
+    {
+        file_put_contents($this->tmp_dir . '/mail/6_Übung 1.pdf', '%PDF');
+        $collection = $this->createMock(ResourceCollection::class);
+        $collection->expects($this->once())->method('add');
+        $collection->method('count')->willReturn(1);
+        $collection->method('getIdentification')->willReturn(new ResourceCollectionIdentification('draft-rcid'));
+        $collection_builder = $this->createMock(CollectionBuilder::class);
+        $collection_builder->method('new')->willReturn($collection);
+        $collection_builder->method('store')->willReturn(true);
+        $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
+        $this->helper->expects($this->once())
+            ->method('movePathToStorage')
+            ->willReturnCallback(function (
+                string $path,
+                int $owner,
+                Closure $file_name,
+                Closure $revision_title,
+                bool $copy
+            ): ResourceIdentification {
+                $this->assertSame('Übung 1.pdf', $file_name());
+                $this->assertSame(md5('Übung 1.pdf'), $revision_title());
+                $this->assertTrue($copy, 'Pool files are copied, they stay in the pool');
+
+                return new ResourceIdentification('rid');
+            });
+
+        $rcid = $this->invokePrivate(
+            'migratePoolFilenamesToCollection',
+            [['Übung 1.pdf', 'gone.pdf'], 6, $this->tmp_dir . '/mail', 42]
+        );
+
+        $this->assertSame('draft-rcid', $rcid->serialize());
+        $this->assertFileExists($this->tmp_dir . '/mail/6_Übung 1.pdf');
+        $this->assertReported('WARNING', 'gone.pdf');
+    }
+
+    public function testDraftGetsItsCollectionAndAMailAttachmentRow(): void
+    {
+        file_put_contents($this->tmp_dir . '/mail/6_exists.pdf', '%PDF');
+        $collection = $this->createMock(ResourceCollection::class);
+        $collection->method('count')->willReturn(1);
+        $collection->method('getIdentification')->willReturn(new ResourceCollectionIdentification('draft-rcid'));
+        $collection_builder = $this->createMock(CollectionBuilder::class);
+        $collection_builder->method('new')->willReturn($collection);
+        $collection_builder->method('store')->willReturn(true);
+        $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
+        $this->helper->method('movePathToStorage')->willReturn(new ResourceIdentification('rid'));
+        $this->db->expects($this->once())->method('manipulateF')->with(
+            'INSERT INTO mail_attachment (mail_id, path, rcid) VALUES (%s, %s, %s)',
+            $this->anything(),
+            [42, '', 'draft-rcid']
+        );
+        $this->db->expects($this->once())->method('update')->with(
+            'mail',
+            ['attachments' => [ilDBConstants::T_CLOB, 'draft-rcid']],
+            ['mail_id' => [ilDBConstants::T_INTEGER, 42]]
+        );
+
+        $this->invokePrivate('migrateSerializedMail', [42, 6, serialize(['exists.pdf']), $this->tmp_dir . '/mail']);
+    }
+
+    public function testBrokenDraftValueIsClearedAndReported(): void
+    {
+        $this->db->expects($this->once())->method('update')->with(
+            'mail',
+            ['attachments' => [ilDBConstants::T_CLOB, '']],
+            ['mail_id' => [ilDBConstants::T_INTEGER, 43]]
+        );
+
+        $this->invokePrivate('migrateSerializedMail', [43, 6, 'a:1:{broken', $this->tmp_dir . '/mail']);
+
+        $this->assertReported('WARNING', 'could not be read');
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
+    // Repair, abort, reporting
+    // ---------------------------------------------------------------------------------------------------------
+
+    public function testRepairRestoresEmptiedAttachmentColumns(): void
+    {
+        $this->db->expects($this->once())->method('setLimit')->with(100);
+        $this->db->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['mail_id' => 7, 'rcid' => 'dir-rcid'], null);
+        $this->db->expects($this->once())->method('update')->with(
+            'mail',
+            ['attachments' => [ilDBConstants::T_CLOB, 'dir-rcid']],
+            ['mail_id' => [ilDBConstants::T_INTEGER, 7]]
+        );
+
+        $this->invokePrivate('repairAttachmentColumnsOfMigratedDirectories', []);
+        // nothing left: the repair query is not executed again
+        $this->invokePrivate('repairAttachmentColumnsOfMigratedDirectories', []);
+    }
+
+    public function testAbortIsReportedWithItsCauseAndRethrown(): void
+    {
+        $this->db->method('query')->willThrowException(new RuntimeException('MySQL server has gone away'));
+
+        try {
+            $this->migration->step($this->createStub(Environment::class));
+            $this->fail('The exception must be rethrown');
+        } catch (RuntimeException $e) {
+            $this->assertSame('MySQL server has gone away', $e->getMessage());
+        }
+
+        $this->assertReported('ERROR', 'MySQL server has gone away');
+    }
+
+    public function testResolveOwnerIdForPathUsesSenderIdAndFallsBackToSystemUser(): void
+    {
+        $this->db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
+        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['sender_id' => 42], ['sender_id' => 0]);
+
+        $this->assertSame(42, $this->invokePrivate('resolveOwnerIdForPath', ['6_1']));
+        $this->assertSame(SYSTEM_USER_ID, $this->invokePrivate('resolveOwnerIdForPath', ['6_2']));
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
+
+    /**
+     * @param array<string, string> $files
+     */
+    private function createDirectory(string $relative_path, array $files): string
+    {
+        $dir = $this->tmp_dir . '/mail/' . $relative_path;
+        mkdir($dir, 0775, true);
+        foreach ($files as $name => $content) {
+            file_put_contents($dir . '/' . $name, $content);
+        }
+
+        return $dir;
+    }
+
+    private function assertReported(string $level, string $needle): void
+    {
+        foreach ($this->messages as $message) {
+            if (str_contains($message, $level) && str_contains($message, $needle)) {
+                $this->assertMatchesRegularExpression('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $message);
+
+                return;
+            }
+        }
+
+        $this->fail(sprintf('No %s containing "%s" reported, got: %s', $level, $needle, implode("\n", $this->messages)));
     }
 
     /**
@@ -231,8 +355,6 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
      */
     private function invokePrivate(string $method, array $arguments): mixed
     {
-        $reflection = new ReflectionClass($this->migration);
-
-        return $reflection->getMethod($method)->invoke($this->migration, ...$arguments);
+        return new ReflectionClass($this->migration)->getMethod($method)->invoke($this->migration, ...$arguments);
     }
 }
