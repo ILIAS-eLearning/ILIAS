@@ -229,6 +229,19 @@ class PCParagraphTest extends COPageTestBase
     public function testHandleAjaxContentSpans(): void
     {
         $cases = [
+            // Table cells send HTML line breaks directly to handleAjaxContent.
+            '<div>First<br>Second<br><br>Fourth</div>'
+            => [
+                "text" => "First\nSecond\n\nFourth",
+                "id" => '',
+                "class" => 'Standard'
+            ],
+            '<div>First<br />Second<br/>Third</div>'
+            => [
+                "text" => "First\nSecond\nThird",
+                "id" => '',
+                "class" => 'Standard'
+            ],
             // Standard, Strong
             '<div id="1:1234" class="ilc_text_block_Standard">xxx<span class="ilc_text_inline_Strong">xxx</span>xxx</div>'
             => [

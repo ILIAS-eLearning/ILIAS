@@ -1339,8 +1339,6 @@ class ilPCParagraph extends ilPageContent
     ): string|bool|array {
         $ilUser = $this->user;
 
-        $a_content = str_replace("<br>", "<br />", $a_content);
-
         $this->log->debug("step 1: " . substr($a_content, 0, 1000));
         try {
             $t = self::handleAjaxContent($a_content);
@@ -1437,6 +1435,8 @@ class ilPCParagraph extends ilPageContent
 
         $domutil = $DIC->copage()->internal()->domain()->domUtil();
 
+        // TinyMCE sends HTML line breaks, including when editing table cells.
+        $a_content = str_replace("<br>", "<br />", $a_content);
         $a_content = "<dummy>" . $a_content . "</dummy>";
 
         $doc = new DOMDocument();
