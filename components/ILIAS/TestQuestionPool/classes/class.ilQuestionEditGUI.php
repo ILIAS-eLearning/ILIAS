@@ -51,7 +51,6 @@ class ilQuestionEditGUI
     private ?int $questionid = null;
     private ?int $poolrefid = null;
     private ?int $poolobjid = null;
-    private ?string $questiontype = null;
     /** @var array{object: object, method: string, parameters: string}[] */
     private array $new_id_listeners;
     private int $new_id_listener_cnt;
@@ -83,7 +82,6 @@ class ilQuestionEditGUI
             $this->setPoolObjId($this->request->raw('qpool_obj_id'));
         }
         $this->setQuestionId($this->request->getQuestionId());
-        $this->setQuestionType($this->request->raw('q_type'));
         $this->lng->loadLanguageModule('assessment');
 
         $this->ctrl->saveParameter($this, ['qpool_ref_id', 'qpool_obj_id', 'q_id', 'q_type']);
@@ -130,10 +128,13 @@ class ilQuestionEditGUI
 
         switch ($next_class) {
             default:
-                $question_gui = assQuestionGUI::_getQuestionGUI(
-                    $this->getQuestionType() ?? '',
-                    $this->getQuestionId()
-                );
+                $question_gui = assQuestion::instantiateQuestionGUI($this->getQuestionId());
+                if (!$question_gui instanceof assQuestionGUI) {
+                    $previous_class = $this->ctrl->getCurrentClassPath()[count($this->ctrl->getCurrentClassPath()) - 2];
+                    $this->ctrl->saveParameterByClass($previous_class, ['ref_id', 'obj_id']);
+                    $this->ctrl->redirectByClass($previous_class);
+                }
+
                 $question = $question_gui->getObject();
                 $question->setSelfAssessmentEditingMode(
                     $this->getSelfAssessmentEditingMode()
@@ -228,16 +229,5 @@ class ilQuestionEditGUI
     public function getPoolObjId(): ?int
     {
         return $this->poolobjid;
-    }
-
-    public function setQuestionType(?string $a_questiontype): void
-    {
-        $this->questiontype = $a_questiontype;
-        $this->ctrl->setParameter($this, 'q_type', $this->questiontype);
-    }
-
-    public function getQuestionType(): ?string
-    {
-        return $this->questiontype;
     }
 }
