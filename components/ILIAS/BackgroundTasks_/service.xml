@@ -8,5 +8,8 @@
 		<gsprovider class_name="ilBTGSProvider" purpose="meta_bar_static"/>
 	</gsproviders>
 
+	<crons>
+		<cron id="background_task_garbage_collection" class="ilBackgroundTaskGarbageCollection" />
+	</crons>
 	<logging />
 </service>
