@@ -457,7 +457,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $resource = $this->object->getResource();
 
         if ($resource !== null) {
-            $startfile = $this->object->getStartFile() ?? 'index.html';
+            $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
+            if ($startfile === "") {
+                return;
+            }
             $uri = $this->irss->consume()->containerURI(
                 $resource->getIdentification(),
                 $startfile,
