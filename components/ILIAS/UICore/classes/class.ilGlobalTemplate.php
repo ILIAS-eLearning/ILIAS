@@ -98,6 +98,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     protected string $left_content = '';
     protected string $right_content = '';
     protected string $login_target_par = '';
+    protected ?string $content_language = null;
 
     /**
      * @throws ilTemplateException|ilSystemStyleException
@@ -879,10 +880,26 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         global $DIC;
         $lng = $DIC->language();
 
+        if ($this->content_language !== null) {
+            $this->setVariable('META_CONTENT_LANGUAGE', $this->content_language);
+            $this->setVariable(
+                'LANGUAGE_DIRECTION',
+                in_array($this->content_language, ["ar", "fa", "ur", "he"], true)
+                    ? "rtl"
+                    : "ltr"
+            );
+            return;
+        }
+
         if (is_object($lng)) {
             $this->setVariable('META_CONTENT_LANGUAGE', $lng->getContentLanguage());
             $this->setVariable('LANGUAGE_DIRECTION', $lng->getTextDirection());
         }
+    }
+
+    public function setContentLanguage(string $content_language): void
+    {
+        $this->content_language = $content_language;
     }
 
     public function fillWindowTitle(): void
