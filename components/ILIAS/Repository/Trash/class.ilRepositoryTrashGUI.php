@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Repository\Deletion\MissingPermissionException;
 use ILIAS\Repository\Trash\TrashGUIRequest;
 
 /**
@@ -418,6 +419,8 @@ class ilRepositoryTrashGUI
                 } else {
                     $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
                 }
+            } catch (MissingPermissionException $e) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             } catch (ilRepositoryException $e) {
                 // we catch ilRepositoryException, since this is usually permission related
                 // other exceptions are thrown to get call stacks

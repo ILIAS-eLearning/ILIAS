@@ -33,6 +33,7 @@ class ItemPresentationManager
     protected bool $include_empty_blocks;
     protected ModeManager $mode_manager;
     protected ?bool $can_order = null;
+    protected ?bool $can_delete = null;
     protected ClipboardManager $repo_clipboard;
     protected ?bool $can_manage = null;
     protected ItemBlock\ItemBlockSequenceGenerator $sequence_generator;
@@ -110,6 +111,22 @@ class ItemPresentationManager
             }
         }
         return $this->can_order;
+    }
+
+    public function canDeleteItems(): bool
+    {
+        if (!is_null($this->can_delete)) {
+            return $this->can_delete;
+        }
+
+        $access = $this->domain->access();
+        foreach ($this->getAllRefIds() as $ref_id) {
+            if ($access->checkAccess("delete", "", $ref_id)) {
+                return $this->can_delete = true;
+            }
+        }
+
+        return $this->can_delete = false;
     }
 
     /**
