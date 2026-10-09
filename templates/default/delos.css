@@ -17112,6 +17112,11 @@ div.il_ContainerListItem {
   background-color: #f9f9f9;
   cursor: pointer;
 }
+.ilContainerBlockHeaderExpanded:focus-visible, .ilContainerBlockHeaderCollapsed:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+}
 
 .ilContainerBlockHeaderExpanded {
   background-image: url("../images/nav/tree_exp.svg");
