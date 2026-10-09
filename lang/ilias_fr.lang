@@ -4180,6 +4180,7 @@ common#:#frm_added#:#Forum ajouté
 common#:#frm_edit#:#Editer le Forum
 common#:#frm_import#:#Importer Forum
 common#:#frm_latest_postings#:#Derniers Articles
+common#:#frm_latest_postings_block#:#Bloc « Derniers Articles »
 common#:#frm_new#:#Nouveau Forum
 common#:#frm_no_threads#:#There are no threads available at the moment.###26 08 2024 new variable
 common#:#from#:#De
