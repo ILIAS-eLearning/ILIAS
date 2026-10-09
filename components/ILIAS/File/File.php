@@ -25,6 +25,8 @@ use ILIAS\Component\Resource\OfComponent;
 use ILIAS\Component\Resource\PublicAsset;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class File implements Component
 {
@@ -45,5 +47,10 @@ class File implements Component
 
         $contribute[PublicAsset::class] = fn(): PublicAsset =>
             new OfComponent($this, "default_file_icons", "assets");
+
+        $contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => new ComponentLanguageFileDirectory(
+            $this,
+            'file'
+        );
     }
 }
