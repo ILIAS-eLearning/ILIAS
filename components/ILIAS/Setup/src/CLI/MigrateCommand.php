@@ -61,6 +61,7 @@ class MigrateCommand extends Command
         $this->setDescription("Starts and manages migrations needed after an update of ILIAS");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
         $this->addOption("run", "R", InputOption::VALUE_REQUIRED, "Run the migration with the name given.");
+        $this->addOption("all", "A", InputOption::VALUE_NONE, "Run all remaining steps of every unfinished migration.");
         $this->addOption(
             "steps",
             "S",
@@ -79,6 +80,8 @@ class MigrateCommand extends Command
         // Dispatching further sub-commands
         if ($input->hasOption('run') && !empty($input->getOption('run'))) {
             $this->runMigration($input, $io);
+        } elseif ($input->hasOption('all') && $input->getOption('all')) {
+            $this->runAllMigrations($input, $io);
         } else {
             $this->listMigrations($input, $io);
         }
@@ -112,11 +115,60 @@ class MigrateCommand extends Command
                 $io->text("Determined $steps step(s) to run.");
                 break;
         }
-        $objective = new Objective\MigrationObjective($migration, $steps);
 
         $env = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
+
+        $this->achieveMigration($migration, $migration_name, $steps, $env, $io);
+    }
+
+    protected function runAllMigrations(InputInterface $input, IOWrapper $io): void
+    {
+        $agent = $this->getRelevantAgent($input);
+        $migrations = $agent->getMigrations();
+        if ($migrations === []) {
+            $io->inform("There are currently no migrations to run.");
+            return;
+        }
+
+        $env = new ArrayEnvironment([
+            Environment::RESOURCE_ADMIN_INTERACTION => $io
+        ]);
+
+        $count = 0;
+        foreach ($migrations as $migration_key => $migration) {
+            // Skip finished migrations, the same way listMigrations() determines their status.
+            $env = $this->prepareEnvironmentForMigration($env, $migration);
+            $migration->prepare($env);
+            if ($migration->getRemainingAmountOfSteps() === 0) {
+                $io->text("$migration_key: " . $migration->getLabel() . " [<fg=green>done</>]");
+                continue;
+            }
+
+            $count++;
+            $this->achieveMigration(
+                $migration,
+                (string) $migration_key,
+                Migration::INFINITE,
+                new ArrayEnvironment([
+                    Environment::RESOURCE_ADMIN_INTERACTION => $io
+                ]),
+                $io
+            );
+        }
+
+        $io->inform($count === 0 ? "All migrations are already done." : "Ran $count unfinished migration(s).");
+    }
+
+    protected function achieveMigration(
+        Migration $migration,
+        string $migration_name,
+        int $steps,
+        Environment $env,
+        IOWrapper $io
+    ): void {
+        $objective = new Objective\MigrationObjective($migration, $steps);
 
         $preconditions = $migration->getPreconditions($env);
         if ($preconditions !== []) {
@@ -158,6 +210,7 @@ class MigrateCommand extends Command
         }
         $io->inform('Run them by passing --run "<migration_id>", e.g. --run ' . $migration_key);
         $io->inform('Don\'t forget quotation marks if the migration_id includes a "\\"');
+        $io->inform('Run all unfinished migrations at once with --all');
     }
 
     protected function prepareEnvironmentForMigration(
