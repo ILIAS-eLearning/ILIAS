@@ -51,7 +51,37 @@ class ilScorm2004DatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_5(): void
     {
+        $this->dropCmiInteractionIdIndex();
         $this->db->modifyTableColumn("cmi_interaction", "id", array("type" => "text", "length" => 4000, "notnull" => false, 'default' => null));
+        $this->createCmiInteractionIdPrefixIndex();
+    }
+
+    public function step_6(): void
+    {
+        $this->dropCmiInteractionIdIndex();
+        $this->createCmiInteractionIdPrefixIndex();
+    }
+
+    private function dropCmiInteractionIdIndex(): void
+    {
+        if ($this->db->indexExistsByFields('cmi_interaction', ['id'])) {
+            $this->db->dropIndexByFields('cmi_interaction', ['id']);
+        }
+    }
+
+    private function createCmiInteractionIdPrefixIndex(): void
+    {
+        $this->db->loadModule(ilDBConstants::MODULE_MANAGER)->createIndex(
+            'cmi_interaction',
+            'i2',
+            array(
+                'fields' => array(
+                    'id' => array(
+                        'length' => 255
+                    )
+                )
+            )
+        );
     }
 
 }
