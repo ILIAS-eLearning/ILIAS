@@ -77,9 +77,15 @@ abstract class Entity implements I\Entity
     protected ?Workflow\Linear $workflow = null;
 
     public function __construct(
+        protected string|int $id,
         protected Symbol | Image | Shy | StandardLink | string $primary_identifier,
         protected Symbol | Image | Shy | StandardLink | string $secondary_identifier
     ) {
+    }
+
+    public function getId(): string|int
+    {
+        return $this->id;
     }
 
     public function withPrimaryIdentifier(Symbol | Image | Shy | StandardLink | string $primary_identifier): self
