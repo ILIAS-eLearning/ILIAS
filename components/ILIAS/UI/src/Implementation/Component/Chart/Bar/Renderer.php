@@ -281,6 +281,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $scales = new stdClass();
         $scales->y = new stdClass();
+        $scales->y->ticks = new stdClass();
+        $scales->y->ticks->z = 1;
         $x_axis = $component->getXAxis();
         $scales->x = new stdClass();
         $scales->x->axis = $x_axis->getAbbreviation();
