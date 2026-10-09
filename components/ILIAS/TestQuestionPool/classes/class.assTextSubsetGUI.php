@@ -281,7 +281,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                     $template->setVariable(
                         "TEXTFIELD_VALUE",
                         " value=\"" . htmlspecialchars(
-                            $this->escapeTemplatePlaceholders($solution_value["value1"]),
+                            $this->escapeTemplatePlaceholders($solution_value),
                             ENT_QUOTES | ENT_SUBSTITUTE,
                             'utf-8'
                         ) . "\""
@@ -309,9 +309,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         array|bool $user_post_solutions = false,
         bool $show_specific_inline_feedback = false
     ): string {
-        if ($active_id) {
-            $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
-        }
+        $solutions = $active_id ? $this->object->getUserSolutionPreferingIntermediate($active_id, $pass) : [];
 
         $template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $width = $this->object->getMaxTextboxWidth();
