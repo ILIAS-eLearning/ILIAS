@@ -26,7 +26,8 @@ class PositionsFactory
 {
     public function __construct(
         private readonly \ilObjTest $test_obj,
-        private readonly GeneralQuestionPropertiesRepository $question_repo
+        private readonly GeneralQuestionPropertiesRepository $question_repo,
+        private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter_factory
     ) {
     }
 
@@ -35,7 +36,10 @@ class PositionsFactory
         $user_questions = [];
         $user_attempts = [];
         $question_properties = [];
-        foreach (array_keys($this->test_obj->getTestParticipants()) as $usr_active_id) {
+
+        $test_participants = $this->filterParticipantsByAccessOfCurrentUser($this->test_obj->getTestParticipants());
+
+        foreach (array_keys($test_participants) as $usr_active_id) {
             $attempt = \ilObjTest::_getResultPass($usr_active_id);
             $user_attempts[$usr_active_id] = $attempt;
             $user_questions[$usr_active_id] = $this->test_obj->isRandomTest()
@@ -71,6 +75,19 @@ class PositionsFactory
             $user_questions,
             $user_attempts,
             $question_properties
+        );
+    }
+
+    private function filterParticipantsByAccessOfCurrentUser(array $test_participants): array
+    {
+        $allowed_user_ids = $this->participant_access_filter_factory
+            ->getScoreParticipantsUserFilter($this->test_obj->getRefId())(
+                array_column($test_participants, 'usr_id')
+            );
+
+        return array_filter(
+            $test_participants,
+            static fn(array $participant): bool => in_array($participant['usr_id'], $allowed_user_ids, true)
         );
     }
 }
