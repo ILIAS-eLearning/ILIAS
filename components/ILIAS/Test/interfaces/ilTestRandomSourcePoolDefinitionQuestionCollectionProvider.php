@@ -25,16 +25,16 @@
 interface ilTestRandomSourcePoolDefinitionQuestionCollectionProvider
 {
     /**
-     * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
+     * @param ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list
      * @return ilTestRandomQuestionSetQuestionCollection
      */
-    public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): ilTestRandomQuestionSetQuestionCollection;
+    public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list): ilTestRandomQuestionSetQuestionCollection;
 
     /**
-     * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
+     * @param ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list
      * @return ilTestRandomQuestionSetQuestionCollection
      */
-    public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): ilTestRandomQuestionSetQuestionCollection;
+    public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list): ilTestRandomQuestionSetQuestionCollection;
 
     /**
      * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
