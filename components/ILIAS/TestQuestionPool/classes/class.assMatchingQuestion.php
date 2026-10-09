@@ -699,7 +699,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $found_values[$data['value2']] = [];
             }
 
-            $found_values[$data['value2']][] = $data['value1'];
+            $found_values[$data['value2']][] = (int) $data['value1'];
         }
 
         $points = $this->calculateReachedPointsForSolution($found_values);
@@ -1197,20 +1197,27 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!is_array($found_values)) {
             return $points;
         }
+
         foreach ($found_values as $definition => $terms) {
             if (!is_array($terms)) {
                 continue;
             }
+
             foreach ($terms as $term) {
-                foreach ($this->matchingpairs as $pair) {
-                    if ($pair->getDefinition()->getIdentifier() == $definition
-                        && $pair->getTerm()->getIdentifier() == $term) {
-                        $points += $pair->getPoints();
+                foreach ($this->matchingpairs as $matching_pair) {
+                    if (
+                        $matching_pair->getDefinition()->getIdentifier() !== $definition
+                        || $matching_pair->getTerm()->getIdentifier() !== $term
+                    ) {
+                        continue;
                     }
+
+                    $points += $matching_pair->getPoints();
                 }
             }
         }
-        return $points;
+
+        return round($points, 10);
     }
 
     public function getOperators(string $expression): array
