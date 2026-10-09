@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * Class ilLearningModuleNotification class
  *
@@ -109,7 +111,7 @@ class ilLearningModuleNotification
                     "",
                     $subject,
                     $message,
-                    []
+                    MailAttachments::empty()
                 );
             }
         }
