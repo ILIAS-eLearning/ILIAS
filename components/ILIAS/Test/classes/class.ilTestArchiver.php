@@ -250,9 +250,8 @@ class ilTestArchiver
 
     protected function getTestArchive(): string
     {
-        $test_archive_directory = $this->external_directory_path . DIRECTORY_SEPARATOR . $this->client_id . DIRECTORY_SEPARATOR . 'tst_data'
+        return $this->external_directory_path . DIRECTORY_SEPARATOR . $this->client_id . DIRECTORY_SEPARATOR . 'tst_data'
             . DIRECTORY_SEPARATOR . 'archive' . DIRECTORY_SEPARATOR . 'tst_' . $this->test_obj_id;
-        return $test_archive_directory;
     }
 
     protected function ensureTestArchiveIsAvailable(): void
@@ -263,13 +262,16 @@ class ilTestArchiver
         return;
     }
 
-    public function updateTestArchive(): void
-    {
-        $this->log_viewer->getLogExportForRefjId(
-            $this->test_ref_id
-        )->writeToFile(
-            $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_LOG_FILENAME
-        );
+    public function updateTestArchive(
+        bool $include_log
+    ): void {
+        if ($include_log) {
+            $this->log_viewer->getLogExportForRefjId(
+                $this->test_ref_id
+            )->writeToFile(
+                $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_LOG_FILENAME
+            );
+        }
 
         // Generate test pass overview
         $test = new ilObjTest($this->test_obj_id, false);
@@ -319,13 +321,15 @@ class ilTestArchiver
 
     public function compressTestArchive(): void
     {
-        $this->updateTestArchive();
         $this->ensureZipExportDirectoryExists();
 
-        $zip_output_path = $this->getZipExportDirectory();
-        $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '.zip';
-
-        ilFileUtils::zip($this->getTestArchive(), $zip_output_path . DIRECTORY_SEPARATOR . $zip_output_filename, true);
+        ilFileUtils::zip(
+            $this->getTestArchive(),
+            $this->getZipExportDirectory() . DIRECTORY_SEPARATOR
+                . "test_archive_obj_{$this->test_obj_id}_" . time() . '.zip',
+            true
+        );
+        ilFileUtils::delDir($this->getTestArchive());
         return;
     }
 
