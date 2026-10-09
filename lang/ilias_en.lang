@@ -1002,7 +1002,7 @@ assessment#:#passed_short#:#passed
 assessment#:#passed_status#:#Passed Status
 assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
-assessment#:#percentage_points_achieved#:#Reached Points
+assessment#:#percentage_points_achieved#:#Average Percentage
 assessment#:#percentile#:#Percentile
 assessment#:#personal_settings_apply#:#Apply Settings Template
 assessment#:#personal_settings_apply_changed_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!
