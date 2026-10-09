@@ -18,15 +18,14 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Transformation;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\Style\Content\Service as ContentStyle;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 
 /**
@@ -87,12 +86,10 @@ class ilAssQuestionPreviewGUI
         private readonly ilDBInterface $db,
         private readonly RandomGroup $random_group,
         private readonly GlobalScreen $global_screen,
-        private readonly HTTPServices $http,
-        private readonly Refinery $refinery,
+        private readonly ContentStyle $content_style,
         private readonly int $parent_obj_ref_id
     ) {
-        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
-        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+        $this->content_style->gui()->addCss($this->tpl, $parent_obj_ref_id);
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request_data_collector = $local_dic['request_data_collector'];
@@ -413,6 +410,13 @@ class ilAssQuestionPreviewGUI
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
         $page_gui->setEnabledTabs(false);
+
+        $page_gui->setStyleId(
+            $this->content_style
+                ->domain()
+                ->styleForRefId($this->parent_obj_ref_id)
+                ->getEffectiveStyleId()
+        );
 
         $this->question_gui->setPreviewSession($this->preview_session);
         $question = $this->question_gui->getObject();
