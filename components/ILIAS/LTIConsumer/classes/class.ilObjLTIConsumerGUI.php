@@ -425,6 +425,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $tplLogin->setVariable("CLIENT_ID", $provider->getClientId());
             $tplLogin->setVariable("LTI_DEPLOYMENT_ID", (string) $provider->getId());
             $tplLogin->setVariable("STATE", $state);
+            self::allowCrossSiteSessionCookie();
             echo $tplLogin->get();
             exit; //TODO: no exit
         } else {
@@ -678,19 +679,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         if ($access->checkAccess('read', '', $id)) {
             $ctrl->setTargetScript('ilias.php');
             $ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', $id);
-            if (session_status() === PHP_SESSION_ACTIVE && session_id() !== '') {
-                $cookieParams = session_get_cookie_params();
-                if ((bool) ($cookieParams['secure'] ?? false)) {
-                    setcookie(session_name(), session_id(), [
-                        'expires' => 0,
-                        'path' => (string) ($cookieParams['path'] ?? '/'),
-                        'domain' => (string) ($cookieParams['domain'] ?? ''),
-                        'secure' => true,
-                        'httponly' => (bool) ($cookieParams['httponly'] ?? true),
-                        'samesite' => 'None'
-                    ]);
-                }
-            }
+            self::allowCrossSiteSessionCookie();
 
             $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class]);
         } elseif ($access->checkAccess('visible', '', $id)) {
@@ -709,6 +698,29 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         $err->raiseError($DIC->language()->txt("msg_no_perm_read_lm"), $err->FATAL);
+    }
+
+    /**
+     * Re-issues the session cookie with SameSite=None, so the session is still sent when
+     * the tool navigates back to ILIAS from inside the iframe (e.g. the LTI 1.3 login request)
+     */
+    private static function allowCrossSiteSessionCookie(): void
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE || session_id() === '') {
+            return;
+        }
+        $cookie_params = session_get_cookie_params();
+        if (!(bool) ($cookie_params['secure'] ?? false)) {
+            return;
+        }
+        setcookie(session_name(), session_id(), [
+            'expires' => 0,
+            'path' => (string) ($cookie_params['path'] ?? '/'),
+            'domain' => (string) ($cookie_params['domain'] ?? ''),
+            'secure' => true,
+            'httponly' => (bool) ($cookie_params['httponly'] ?? true),
+            'samesite' => 'None'
+        ]);
     }
 
     /**
