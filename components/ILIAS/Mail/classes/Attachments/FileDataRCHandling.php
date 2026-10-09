@@ -25,22 +25,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 trait FileDataRCHandling
 {
     /**
-     * @param list<string> $path_to_files
-     */
-    protected function getCurrentCollection(
-        array $path_to_files
-    ): \ILIAS\ResourceStorage\Collection\ResourceCollection {
-        $rcid = $this->fdm->createCollectionFromPaths($path_to_files);
-        if ($rcid === null) {
-            throw new Exception('Storing file into collection failed: no files found');
-        }
-
-        return $this->fdm->getCollection($rcid);
-    }
-
-
-
-    /**
      * @return list<string>
      */
     public function FilesFromIRSSToLegacy(ResourceCollectionIdentification $identification): array
@@ -56,8 +40,9 @@ trait FileDataRCHandling
         array $form_attachment_rids,
         ?MailAttachments $stage_attachments = null
     ): MailAttachments {
+        // The submitted form is the single source of truth: no files in the form means no attachments
         if ($form_attachment_rids === []) {
-            return $stage_attachments ?? MailAttachments::empty();
+            return MailAttachments::empty();
         }
 
         $limit = $this->fdm->getAttachmentsTotalSizeLimit();
@@ -84,7 +69,7 @@ trait FileDataRCHandling
         }
 
         if ($resource_identifications === []) {
-            return $stage_attachments ?? MailAttachments::empty();
+            return MailAttachments::empty();
         }
 
         $stage_rcid = ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss())
@@ -147,14 +132,10 @@ trait FileDataRCHandling
         }
 
         if ($attachments->isIrss()) {
-            $foreign = iterator_to_array(
-                $this->fdm->getCollection($attachments->rcid())->getResourceIdentifications(),
-                false
-            );
-            $cloned_rcid = $this->fdm->createCollectionFromForeignResources($foreign);
+            $stage_rcid = $this->fdm->createCollectionReferencingResourcesOf($attachments->rcid());
 
-            return $cloned_rcid !== null
-                ? MailAttachments::fromIrss($cloned_rcid)
+            return $stage_rcid !== null
+                ? MailAttachments::fromIrss($stage_rcid)
                 : MailAttachments::empty();
         }
 

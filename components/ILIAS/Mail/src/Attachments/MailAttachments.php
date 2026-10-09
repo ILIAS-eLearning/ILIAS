@@ -62,8 +62,8 @@ final class MailAttachments
             return null;
         }
 
-        if (str_contains($raw, 'a:')) {
-            $unserialized = unserialize($raw, ['allowed_classes' => false]);
+        if (str_starts_with($raw, 'a:')) {
+            $unserialized = @unserialize($raw, ['allowed_classes' => false]);
             if (!is_array($unserialized)) {
                 return null;
             }
@@ -82,7 +82,7 @@ final class MailAttachments
 
     public static function fromBackgroundTask(string $serialized): self
     {
-        $parsed = unserialize($serialized, ['allowed_classes' => false]);
+        $parsed = @unserialize($serialized, ['allowed_classes' => false]);
         if (!is_array($parsed)) {
             return self::empty();
         }

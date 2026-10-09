@@ -49,4 +49,14 @@ class MailDBUpdateSteps12 implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    /**
+     * Attachment collections are reference counted via `mail_attachment.rcid`
+     */
+    public function step_2(): void
+    {
+        if (!$this->db->indexExistsByFields('mail_attachment', ['rcid'])) {
+            $this->db->addIndex('mail_attachment', ['rcid'], 'rci');
+        }
+    }
 }

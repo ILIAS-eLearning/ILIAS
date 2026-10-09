@@ -156,7 +156,9 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
                 ? $stage_attachments->rcid()
                 : null;
 
-            $rcid = $this->fdm->adoptPoolResourcesToCollection($existing_rcid, $resource_identifications);
+            // A new collection is built instead of mutating the current stage collection,
+            // because the stage may share it with a draft or a scheduled mail
+            $rcid = $this->fdm->createStageCollectionWithPoolSelection($existing_rcid, $resource_identifications);
             if ($rcid === null) {
                 throw new RuntimeException($this->lng->txt('mail_error_reading_attachment'));
             }

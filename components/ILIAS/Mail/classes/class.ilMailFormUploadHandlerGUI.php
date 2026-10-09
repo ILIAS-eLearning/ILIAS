@@ -33,11 +33,13 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     private readonly ILIAS\ResourceStorage\Services $storage;
     private readonly ilMailAttachmentStakeholder $stakeholder;
     private readonly ilLanguage $lng;
+    private readonly int $user_id;
 
     public function __construct()
     {
         global $DIC;
         parent::__construct();
+        $this->user_id = $DIC->user()->getId();
         $this->storage = $DIC->resourceStorage();
         $this->stakeholder = new ilMailAttachmentStakeholder();
         $this->lng = $DIC->language();
@@ -69,7 +71,7 @@ class ilMailFormUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id !== null) {
-            $this->storage->manage()->remove($id, $this->stakeholder);
+            new ilFileDataMail($this->user_id)->removeResourceIfNotInAnyCollection($id);
             return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK, $identifier, 'file deleted');
         }
 

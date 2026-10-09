@@ -1187,12 +1187,12 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         try {
             if ($mail_id > 0 && $filename !== '') {
                 $mail_data = $this->umail->getMail($mail_id);
+                $mail_file_data = new ilFileDataMail($this->user->getId());
                 if ($mail_data === null ||
-                    !in_array($filename, array_map('md5', (array) ($mail_data['attachments'] ?? [])), true)) {
+                    !in_array($filename, $this->getAttachmentHashes($mail_data, $mail_file_data), true)) {
                     throw new ilMailException('mail_error_reading_attachment');
                 }
 
-                $mail_file_data = new ilFileDataMail($this->user->getId());
                 try {
                     $file = $mail_file_data->getAttachmentPathAndFilenameByMd5Hash($filename, (int) $mail_id);
                     if (isset($file['rcid']) && $file['rcid'] instanceof ResourceCollectionIdentification) {
@@ -1238,11 +1238,10 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                     $file = reset($listing);
                     $mail_file_data->deliverFile($attachments->rcid(), $file['md5']);
                 } else {
-                    $mail_file_data->deliverAttachmentsAsZip(
-                        $mail_data['m_subject'],
-                        $mail_id,
-                        [],
-                        $type === 'draft'
+                    // Drafts and scheduled mails are served from their collection as well
+                    $mail_file_data->deliverCollectionAsZip(
+                        $attachments->rcid(),
+                        (string) ($mail_data['m_subject'] ?? '')
                     );
                 }
                 return;
@@ -1287,6 +1286,27 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);
             $this->redirectToFolder();
         }
+    }
+
+    /**
+     * @param array<string, mixed> $mail_data
+     * @return list<string>
+     */
+    private function getAttachmentHashes(array $mail_data, ilFileDataMail $mail_file_data): array
+    {
+        $attachments = $mail_data['attachments'] ?? null;
+        if (!$attachments instanceof MailAttachments || $attachments->isEmpty()) {
+            return [];
+        }
+
+        if ($attachments->isIrss()) {
+            return array_values(array_map(
+                static fn(array $file): string => (string) $file['md5'],
+                $mail_file_data->getAttachmentListing($attachments->rcid())
+            ));
+        }
+
+        return array_map(md5(...), $attachments->legacyFilenames());
     }
 
     private function encodeRecipientsForHtml(string $recipients): string

@@ -24,14 +24,18 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class FileDataRCHandlingFormUploadTest extends ilMailBaseTestCase
 {
-    public function testFormUploadWithoutNewFilesKeepsStageAttachments(): void
+    /**
+     * Regression: a mail composed after scheduling or saving a draft must not inherit the stage attachments,
+     * and removing all files in the form must remove all attachments.
+     */
+    public function testFormUploadWithoutFilesIgnoresStageAttachments(): void
     {
         $stage = MailAttachments::fromIrss(new ResourceCollectionIdentification('stage-rcid'));
         $subject = $this->createSubject();
 
         $result = $subject->fromFormUpload([], $stage);
 
-        $this->assertSame($stage, $result);
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testFormUploadWithoutNewFilesAndWithoutStageReturnsEmpty(): void

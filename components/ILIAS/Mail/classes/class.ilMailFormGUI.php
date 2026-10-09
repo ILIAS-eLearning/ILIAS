@@ -247,6 +247,7 @@ class ilMailFormGUI
             $rcp_bcc,
         );
         if ($errors) {
+            $this->umail->saveAttachments($attachments);
             $this->showSubmissionErrors($errors);
             $this->showForm();
             $this->http->close();
@@ -285,6 +286,9 @@ class ilMailFormGUI
             ilSession::clear('draft');
             $this->umail->deleteMails([$draft_id]);
         }
+
+        // The scheduled mail now owns its attachments, a new mail must not inherit them
+        $this->resetStage();
 
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $outbox_folder_id);
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_scheduled'), true);
@@ -361,6 +365,7 @@ class ilMailFormGUI
         )) {
             $mailer->autoresponder()->disableAutoresponder();
 
+            $this->umail->saveAttachments($attachments);
             $this->showSubmissionErrors($errors);
             $this->showForm($form);
 
@@ -439,6 +444,7 @@ class ilMailFormGUI
         $rcp_bcc = !empty($value['rcp_bcc']) ? implode(',', $value['rcp_bcc']) : '';
 
         if ($errors = $this->umail->validateRecipients($rcp_to, $rcp_cc, $rcp_bcc)) {
+            $this->umail->saveAttachments($attachments);
             $this->request_attachments = $attachments;
             $this->showSubmissionErrors($errors);
             $this->showForm($form);
@@ -473,6 +479,8 @@ class ilMailFormGUI
             $this->umail->deleteMails([$outbox_id]);
         }
 
+        $this->resetStage();
+
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $draft_folder_id);
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_saved'), true);
 
@@ -483,6 +491,11 @@ class ilMailFormGUI
         }
 
         $this->showForm();
+    }
+
+    private function resetStage(): void
+    {
+        $this->umail->persistToStage($this->user->getId(), '', '', '', '', '', null);
     }
 
     public function searchUsers(bool $save = true): void
@@ -775,7 +788,12 @@ class ilMailFormGUI
                 $mail_data['m_subject'] = $this->umail->formatForwardSubject($mail_data['m_subject'] ?? '');
                 $mail_data['m_message'] = $this->umail->prependSignature($mail_data['m_message'] ?? '');
                 if ($mail_data['attachments'] instanceof MailAttachments && !$mail_data['attachments']->isEmpty()) {
-                    $stage_attachments = $this->stageAttachmentsFromMailAttachments($mail_data['attachments']);
+                    $stage_attachments = $mail_data['attachments']->isLegacy()
+                        ? $this->fdm->createStageFromLegacyMailAttachments(
+                            (int) $mail_id,
+                            $mail_data['attachments']->legacyFilenames()
+                        )
+                        : $this->stageAttachmentsFromMailAttachments($mail_data['attachments']);
                     $this->umail->persistToStage(
                         $this->user->getId(),
                         '',
@@ -890,17 +908,8 @@ class ilMailFormGUI
                     }
                 }
 
-                if ($this->request_attachments instanceof MailAttachments) {
-                    if ($this->request_attachments->isIrss()) {
-                        $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($this->request_attachments->rcid());
-                    } elseif ($this->request_attachments->isLegacy()) {
-                        $rcid = $this->fdm->createCollectionFromPoolFilenames(
-                            $this->request_attachments->legacyFilenames()
-                        );
-                        $mail_data['attachments'] = $rcid !== null
-                            ? $this->FilesFromIRSSToLegacy($rcid)
-                            : [];
-                    }
+                if ($this->request_attachments instanceof MailAttachments && $this->request_attachments->isIrss()) {
+                    $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($this->request_attachments->rcid());
                 }
                 break;
         }
@@ -1119,16 +1128,11 @@ class ilMailFormGUI
 
         $mail_attachments = $mail_data['attachments'] ?? null;
         if ($mail_attachments instanceof MailAttachments && !$mail_attachments->isEmpty()) {
-            if ($mail_attachments->isIrss()) {
-                $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($mail_attachments->rcid());
-            } elseif ($mail_attachments->isLegacy()) {
-                $rcid = $this->fdm->createCollectionFromPoolFilenames($mail_attachments->legacyFilenames());
-                $mail_data['attachments'] = $rcid !== null
-                    ? $this->FilesFromIRSSToLegacy($rcid)
-                    : [];
-            } else {
-                $mail_data['attachments'] = [];
-            }
+            // Legacy pool attachments are converted to IRSS once when the mail is read (ilMail::fetchMailData),
+            // creating collections while rendering would leave an orphaned copy behind on every request
+            $mail_data['attachments'] = $mail_attachments->isIrss()
+                ? $this->FilesFromIRSSToLegacy($mail_attachments->rcid())
+                : [];
             $attachments = $attachments->withValue($mail_data['attachments']);
         } elseif (is_array($mail_attachments) && $mail_attachments !== []) {
             $attachments = $attachments->withValue($mail_attachments);
