@@ -44,10 +44,10 @@ class ilForumProperties
     private bool $statistics_enabled = false;
     private bool $post_activation_enabled = false;
     private NotificationType $notification_type = NotificationType::DEFAULT;
-    /** Activation of (CRS/GRP) forum notification by mod/admin */
-    private bool $admin_force_noti = false;
-    /** Activation of allowing members to deactivate (CRS/GRP)forum notification */
-    private bool $user_toggle_noti = false;
+    /** Container (course/group) enforces forum notifications for members (frm_settings.container_enforces_noti). */
+    private bool $container_enforces_noti = false;
+    /** Member may deactivate container-driven forum notifications (frm_settings.member_may_disable_noti). */
+    private bool $member_may_disable_noti = true;
     /** If deactivated, user is forced to enter a new subject on repliees */
     private bool $preset_subject = true;
     /** Preset notification events for forced notification */
@@ -107,8 +107,8 @@ class ilForumProperties
                 $this->anonymized = (bool) $row->anonymized;
                 $this->statistics_enabled = (bool) $row->statistics_enabled;
                 $this->post_activation_enabled = (bool) $row->post_activation;
-                $this->admin_force_noti = (bool) $row->admin_force_noti;
-                $this->user_toggle_noti = (bool) $row->user_toggle_noti;
+                $this->container_enforces_noti = (bool) $row->container_enforces_noti;
+                $this->member_may_disable_noti = (bool) $row->member_may_disable_noti;
                 $this->preset_subject = (bool) $row->preset_subject;
                 $this->add_re_subject = (bool) $row->add_re_subject;
                 $this->interested_events = (int) $row->interested_events;
@@ -137,8 +137,8 @@ class ilForumProperties
                     'anonymized' => ['integer', (int) $this->anonymized],
                     'statistics_enabled' => ['integer', (int) $this->statistics_enabled],
                     'post_activation' => ['integer', (int) $this->post_activation_enabled],
-                    'admin_force_noti' => ['integer', (int) $this->admin_force_noti],
-                    'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
+                    'container_enforces_noti' => ['integer', (int) $this->container_enforces_noti],
+                    'member_may_disable_noti' => ['integer', (int) $this->member_may_disable_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type->value],
@@ -168,8 +168,8 @@ class ilForumProperties
                     'anonymized' => ['integer', (int) $this->anonymized],
                     'statistics_enabled' => ['integer', (int) $this->statistics_enabled],
                     'post_activation' => ['integer', (int) $this->post_activation_enabled],
-                    'admin_force_noti' => ['integer', (int) $this->admin_force_noti],
-                    'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
+                    'container_enforces_noti' => ['integer', (int) $this->container_enforces_noti],
+                    'member_may_disable_noti' => ['integer', (int) $this->member_may_disable_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type->value],
@@ -198,8 +198,8 @@ class ilForumProperties
                     'anonymized' => ['integer', (int) $this->anonymized],
                     'statistics_enabled' => ['integer', (int) $this->statistics_enabled],
                     'post_activation' => ['integer', (int) $this->post_activation_enabled],
-                    'admin_force_noti' => ['integer', (int) $this->admin_force_noti],
-                    'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
+                    'container_enforces_noti' => ['integer', (int) $this->container_enforces_noti],
+                    'member_may_disable_noti' => ['integer', (int) $this->member_may_disable_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type->value],
@@ -299,57 +299,57 @@ class ilForumProperties
         return $this->obj_id;
     }
 
-    public function setAdminForceNoti(bool $a_admin_force): void
+    public function setContainerEnforcingForumNotification(bool $container_enforces): void
     {
-        $this->admin_force_noti = $a_admin_force;
+        $this->container_enforces_noti = $container_enforces;
     }
 
-    public function isAdminForceNoti(): bool
+    public function isContainerEnforcingForumNotification(): bool
     {
-        return $this->admin_force_noti;
+        return $this->container_enforces_noti;
     }
 
-    public function setUserToggleNoti(bool $a_user_toggle): void
+    public function setMemberMayDeactivateForumNotification(bool $member_may_disable): void
     {
-        $this->user_toggle_noti = $a_user_toggle;
+        $this->member_may_disable_noti = $member_may_disable;
     }
 
-    public function isUserToggleNoti(): bool
+    public function isMemberMayDeactivateForumNotification(): bool
     {
-        return $this->user_toggle_noti;
+        return $this->member_may_disable_noti;
     }
 
-    public static function _isAdminForceNoti(int $a_obj_id): bool
+    public static function _isContainerEnforcingForumNotification(int $a_obj_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
-            'SELECT admin_force_noti FROM frm_settings WHERE obj_id = %s',
+            'SELECT container_enforces_noti FROM frm_settings WHERE obj_id = %s',
             ['integer'],
             [$a_obj_id]
         );
         if ($record = $ilDB->fetchAssoc($res)) {
-            return (bool) $record['admin_force_noti'];
+            return (bool) $record['container_enforces_noti'];
         }
 
         return false;
     }
 
-    public static function _isUserToggleNoti(int $a_obj_id): bool
+    public static function _isMemberMayDeactivateForumNotification(int $a_obj_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
-            'SELECT user_toggle_noti FROM frm_settings WHERE obj_id = %s',
+            'SELECT member_may_disable_noti FROM frm_settings WHERE obj_id = %s',
             ['integer'],
             [$a_obj_id]
         );
         while ($record = $ilDB->fetchAssoc($res)) {
-            return (bool) $record['user_toggle_noti'];
+            return (bool) $record['member_may_disable_noti'];
         }
 
         return false;
@@ -426,14 +426,14 @@ class ilForumProperties
         return $this->mark_mod_posts;
     }
 
-    public function getUserToggleNoti(): bool
+    public function getMemberMayDeactivateForumNotification(): bool
     {
-        return $this->user_toggle_noti;
+        return $this->member_may_disable_noti;
     }
 
-    public function getAdminForceNoti(): bool
+    public function getContainerEnforcesForumNotification(): bool
     {
-        return $this->admin_force_noti;
+        return $this->container_enforces_noti;
     }
 
     public function setFileUploadAllowed(bool $allowed): void

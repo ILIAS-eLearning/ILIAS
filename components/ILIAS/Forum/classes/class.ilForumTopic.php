@@ -726,9 +726,9 @@ class ilForumTopic
     {
         if ($this->id && $a_user_id) {
             $result = $this->db->queryF(
-                'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s',
-                ['integer', 'integer'],
-                [$a_user_id, $this->id]
+                'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s AND interested_events > %s',
+                ['integer', 'integer', 'integer'],
+                [$a_user_id, $this->id, ilForumNotificationEvents::DEACTIVATED]
             );
 
             if ($row = $this->db->fetchAssoc($result)) {
@@ -750,11 +750,12 @@ class ilForumTopic
                 INSERT INTO frm_notification
                 (	notification_id,
                     user_id,
-                    thread_id
+                    thread_id,
+                    frm_id,
                 )
-                VALUES(%s, %s, %s)',
-                ['integer', 'integer', 'integer'],
-                [$nextId, $a_user_id, $this->id]
+                VALUES(%s, %s, %s, %s)',
+                ['integer', 'integer', 'integer', 'integer'],
+                [$nextId, $a_user_id, $this->id, $this->getFrmObjId()]
             );
         }
     }
@@ -763,9 +764,9 @@ class ilForumTopic
     {
         if ($this->id && $a_user_id) {
             $this->db->manipulateF(
-                'DELETE FROM frm_notification WHERE user_id = %s AND thread_id = %s',
-                ['integer', 'integer'],
-                [$a_user_id, $this->id]
+                'UPDATE frm_notification SET interested_events = %s WHERE user_id = %s AND thread_id = %s',
+                ['integer', 'integer', 'integer'],
+                [ilForumNotificationEvents::DEACTIVATED, $a_user_id, $this->id]
             );
         }
     }

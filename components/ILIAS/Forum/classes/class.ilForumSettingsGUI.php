@@ -360,22 +360,15 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
 
             $this->notificationSettingsForm->setValuesByArray([
                 'notification_type' => $this->parent_obj->objProperties->getNotificationType()->value,
-                'adm_force' => $this->parent_obj->objProperties->isAdminForceNoti(),
-                'usr_toggle' => $this->parent_obj->objProperties->isUserToggleNoti(),
+                'adm_force' => $this->parent_obj->objProperties->isContainerEnforcingForumNotification(),
+                'usr_toggle' => (int) !$this->parent_obj->objProperties->isMemberMayDeactivateForumNotification(),
                 'notification_events' => $form_events
             ]);
         }
 
         $this->tpl->setVariable('NOTIFICATIONS_SETTINGS_FORM', $this->notificationSettingsForm->getHTML());
 
-        if ($this->parent_obj->objProperties->getNotificationType() === NotificationType::DEFAULT) {
-            $forum_noti = new ilForumNotification($this->forum->getRefId());
-            $forum_noti->setAdminForce($this->parent_obj->objProperties->isAdminForceNoti());
-            $forum_noti->setUserToggle($this->parent_obj->objProperties->isUserToggleNoti());
-            $forum_noti->setForumId($this->parent_obj->objProperties->getObjId());
-            $forum_noti->setInterestedEvents($this->parent_obj->objProperties->getInterestedEvents());
-            $forum_noti->update();
-        } elseif ($this->parent_obj->objProperties->getNotificationType() === NotificationType::PER_USER) {
+        if ($this->parent_obj->objProperties->getNotificationType() === NotificationType::PER_USER) {
             $this->tpl->setVariable('TABLE', $this->ui_renderer->render($this->getForumNotificationTable()->getComponents()));
         }
     }
@@ -574,12 +567,12 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
-                $frm_noti->setUserToggle(false);
-                $is_enabled = $frm_noti->isAdminForceNotification();
+                $frm_noti->setMemberMayDisableNotification(true);
+                $is_enabled = $frm_noti->isContainerEnforcingNotificationPersisted();
 
                 if (!$is_enabled) {
-                    $frm_noti->setAdminForce(true);
-                    $frm_noti->insertAdminForce();
+                    $frm_noti->setContainerEnforcesNotification(true);
+                    $frm_noti->insertContainerMembershipNotification();
                 }
             }
 
@@ -607,10 +600,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
-                $is_enabled = $frm_noti->isAdminForceNotification();
+                $is_enabled = $frm_noti->isContainerEnforcingNotificationPersisted();
 
                 if ($is_enabled) {
-                    $frm_noti->deleteAdminForce();
+                    $frm_noti->deleteContainerEnforcedMembershipNotification();
                 }
             }
 
@@ -620,7 +613,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         $this->ctrl->redirect($this, 'showMembers');
     }
 
-    private function enableHideUserToggleNoti(): void
+    private function lockMemberMayDisableNotiForSelection(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -638,14 +631,14 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
-                $frm_noti->setUserToggle(true);
-                $is_enabled = $frm_noti->isAdminForceNotification();
+                $frm_noti->setMemberMayDisableNotification(false);
+                $is_enabled = $frm_noti->isContainerEnforcingNotificationPersisted();
 
                 if ($is_enabled) {
-                    $frm_noti->updateUserToggle();
+                    $frm_noti->updateMemberMayDisableOnContainerEnforcedRow();
                 } else {
-                    $frm_noti->setAdminForce(true);
-                    $frm_noti->insertAdminForce();
+                    $frm_noti->setContainerEnforcesNotification(true);
+                    $frm_noti->insertContainerMembershipNotification();
                 }
             }
 
@@ -655,7 +648,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         $this->ctrl->redirect($this, 'showMembers');
     }
 
-    private function disableHideUserToggleNoti(): void
+    private function allowMemberMayDisableNotiForSelection(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -673,13 +666,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
-                $frm_noti->setUserToggle(false);
-                $is_enabled = $frm_noti->isAdminForceNotification();
+                $frm_noti->setMemberMayDisableNotification(true);
+                $is_enabled = $frm_noti->isContainerEnforcingNotificationPersisted();
                 if ($is_enabled) {
-                    $frm_noti->updateUserToggle();
+                    $frm_noti->updateMemberMayDisableOnContainerEnforcedRow();
                 } else {
-                    $frm_noti->setAdminForce(true);
-                    $frm_noti->insertAdminForce();
+                    $frm_noti->setContainerEnforcesNotification(true);
+                    $frm_noti->insertContainerMembershipNotification();
                 }
             }
 
@@ -779,20 +772,27 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
                     }
                 }
 
-                $this->parent_obj->objProperties->setAdminForceNoti(true);
-                $this->parent_obj->objProperties->setUserToggleNoti(
-                    (bool) $this->notificationSettingsForm->getInput('usr_toggle')
+                $this->parent_obj->objProperties->setContainerEnforcingForumNotification(true);
+                $usr_toggle_locked = in_array(
+                    $this->notificationSettingsForm->getInput('usr_toggle'),
+                    ['1', 1, true],
+                    true
                 );
+                $this->parent_obj->objProperties->setMemberMayDeactivateForumNotification(!$usr_toggle_locked);
                 $this->parent_obj->objProperties->setNotificationType(NotificationType::ALL_USERS);
                 $this->parent_obj->objProperties->setInterestedEvents($interested_events);
             } elseif ($notification_type === NotificationType::PER_USER) {
                 $this->parent_obj->objProperties->setNotificationType(NotificationType::PER_USER);
-                $this->parent_obj->objProperties->setAdminForceNoti(true);
-                $this->parent_obj->objProperties->setUserToggleNoti(false);
+                $this->parent_obj->objProperties->setContainerEnforcingForumNotification(true);
             } else {
                 $this->parent_obj->objProperties->setNotificationType(NotificationType::DEFAULT);
-                $this->parent_obj->objProperties->setAdminForceNoti(false);
-                $this->parent_obj->objProperties->setUserToggleNoti(false);
+                $this->parent_obj->objProperties->setContainerEnforcingForumNotification(false);
+            }
+
+            if ($notification_type !== NotificationType::ALL_USERS) {
+                $this->parent_obj->objProperties->setMemberMayDeactivateForumNotification(
+                    $former_properties->isMemberMayDeactivateForumNotification()
+                );
             }
 
             $frm_noti->applyTypeConfigurationFor(
@@ -834,8 +834,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         );
 
         match ($action) {
-            'enableHideUserToggleNoti' => $this->enableHideUserToggleNoti(),
-            'disableHideUserToggleNoti' => $this->disableHideUserToggleNoti(),
+            'member_may_disable_noti_lock' => $this->lockMemberMayDisableNotiForSelection(),
+            'member_may_disable_noti_allow' => $this->allowMemberMayDisableNotiForSelection(),
             'notificationSettings' => $this->notificationSettings(),
             default => $this->showMembersCommand()
         };
