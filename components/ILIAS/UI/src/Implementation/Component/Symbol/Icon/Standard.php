@@ -152,7 +152,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::CON,
         self::FILS,
         self::TALA,
-        self::QST,
+        self::QSTS,
         self::STUS,
         self::GSFO,
         self::ADMA,

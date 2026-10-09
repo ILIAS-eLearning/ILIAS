@@ -48,7 +48,7 @@ class ilTestPlayerToolProvider extends AbstractDynamicToolProvider
             $this->factory->tool(
                 $this->identification_provider->contextAwareIdentifier('tst_qst_list')
             )->withSymbol($ui->factory()->symbol()->icon()->standard('tst', $lng->txt('more')))
-            ->withTitle($lng->txt('mainbar_button_label_questionlist'))
+            ->withTitle($lng->txt('questionlist'))
             ->withContent(
                 $ui->factory()->legacy()->content(
                     $ui->renderer()->render(

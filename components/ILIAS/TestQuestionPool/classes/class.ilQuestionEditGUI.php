@@ -85,6 +85,7 @@ class ilQuestionEditGUI
         $this->setQuestionId($this->request->getQuestionId());
         $this->setQuestionType($this->request->raw('q_type'));
         $this->lng->loadLanguageModule('assessment');
+        $this->lng->loadLanguageModule('qsts');
 
         $this->ctrl->saveParameter($this, ['qpool_ref_id', 'qpool_obj_id', 'q_id', 'q_type']);
 

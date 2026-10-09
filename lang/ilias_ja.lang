@@ -422,7 +422,6 @@ adve#:#adve_use_tiny_mce#:#WYSIWYG編集用にTinyMCEを有効にする
 assessment#:#activate_logging#:#テストとログをアクティブにする
 assessment#:#activate_manual_scoring#:#手動並び替えを有効にする
 assessment#:#activate_manual_scoring_desc#:#全ての問題タイプの手動並び替えを有効にする
-assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#add_answers#:#解答を追加
 assessment#:#add_circle#:#円形エリアを追加
 assessment#:#add_gap#:#穴埋めテキストを追加
@@ -447,7 +446,6 @@ assessment#:#answer_is_not_correct_but_positive#:#ベストな正解ではあり
 assessment#:#answer_is_right#:#解答は正解
 assessment#:#answer_is_wrong#:#解答は誤り
 assessment#:#answer_of#:#回答者
-assessment#:#answer_options#:#解答オプション:
 assessment#:#answer_question#:#問題回答
 assessment#:#answer_text#:#答案テキスト
 assessment#:#answer_types#:#答案タイプ
@@ -501,7 +499,6 @@ assessment#:#ass_completion_by_submission#:#提出すると完了
 assessment#:#ass_completion_by_submission_info#:#有効にすると提出ファイルの一つはこの問題の最高点で承認して完了した事になります。点数は後で手動にて修正可能です。この設定の変更は既に提出済みの解答には影響しません。
 assessment#:#ass_create_export_file_with_results#:#テストエクスポートファイル(受験者結果を含む)を作成
 assessment#:#ass_create_export_test_archive#:#テストアーカイブファイルを作成
-assessment#:#ass_create_question#:#問題を作成
 assessment#:#ass_imap_hint#:#ツールチップとしてヒントを表示
 assessment#:#ass_imap_map_file_not_readable#:#アップロードされたイメージマップを読み込む事ができませんでした。
 assessment#:#ass_imap_no_map_found#:#アップロードされたイメージマップ内に書式が見つかりませんでした。
@@ -571,10 +568,6 @@ assessment#:#cloze_answer_text_info#:#フォームが保存されると回答テ
 assessment#:#cloze_fixed_textlength#:#テキスト欄の長さ
 assessment#:#cloze_fixed_textlength_description#:#0以上の値を入力すると全てのテキストと数値穴埋めテキストフィールドがこの値の固定長で作成されます。
 assessment#:#cloze_gap_size_info#:#0以上を入力するとこのギャップテキストフィールドはこの値の固定長で作成されます。値を入力しない場合はギャップテキストフィールドはグローバル固定長で作成されます。
-assessment#:#cloze_text#:#穴埋め問題のテキスト
-assessment#:#cloze_textgap_case_insensitive#:#大文字・小文字を非区分
-assessment#:#cloze_textgap_case_sensitive#:#大文字・小文字を区分
-assessment#:#cloze_textgap_levenshtein_of#:#%sのレーベンシュタイン距離
 assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
@@ -757,9 +750,7 @@ assessment#:#fq_formula_desc#:#事前定義変数($v1を$vnへ)を(例 $r1)の�
 assessment#:#fq_no_restriction_info#:#10進と分母両方共に入力として承認されます。
 assessment#:#fq_precision_info#:#希望する10進位置を入力してください。
 assessment#:#fq_question_desc#:#問題文章中の必要な位置で$r1, $r2 .... $rnを挿入する事により$v1, $v2 ... $vnの挿入による変数を定義できます。変数と結果のフォーム編集を作成するには"問題解析"ボタンをクリックします。
-assessment#:#gap#:#穴埋め
 assessment#:#gap_combination#:#ギャップ連結
-assessment#:#gaps#:#Gaps
 assessment#:#glossary_term#:#用語集
 assessment#:#goto_first_question#:#第1問を表示
 assessment#:#grading_mark_msg#:#結果: &quot;[mark]&quot;
@@ -777,7 +768,6 @@ assessment#:#info_answer_type_change#:#問題にはイメージが既に含ま�
 assessment#:#info_text_upload#:#アップロードする回答テキスト(UTF-8)を選択
 assessment#:#insert_after#:#後に挿入
 assessment#:#insert_before#:#前に挿入
-assessment#:#insert_gap#:#ギャップを挿入
 assessment#:#interaction_type#:#インタラクションタイプ
 assessment#:#internal_links#:#内部リンク
 assessment#:#intprecision#:#非表示者
@@ -889,7 +879,6 @@ assessment#:#logs_wrong_test_password_provided#:#受験者が間違ったテス�
 assessment#:#longmenu#:#ロングメニュー
 assessment#:#longmenu_answeroptions_differ#:#訂正オプションのテキスト内ギャップ数が同じではないので問題は正しく動作しません。
 assessment#:#longmenu_text#:#長いメニューテキスト
-assessment#:#mainbar_button_label_questionlist#:#問題リスト
 assessment#:#maintenance#:#メンテナンス
 assessment#:#manscoring#:#手動採点
 assessment#:#manscoring_done#:#採点済み受講者
@@ -916,7 +905,6 @@ assessment#:#maximum_nr_of_tries_reached#:#このテストの最大受験回数�
 assessment#:#maximum_points#:#最高得点
 assessment#:#maxsize#:#最大アップロードファイルサイズ
 assessment#:#maxsize_info#:#ファイル アップロードを許可するバイト単位の最大サイズを入力します。このフィールドを空白のままにする場合は、このインストールの最大サイズが代わりに選択されます。
-assessment#:#min_auto_complete#:#オートコンプリート
 assessment#:#min_ip_label#:#アクセス可能な最低IP
 assessment#:#min_percentage_ne_0#:#最小0のパーセントを定義する必要があります! 評価尺度は保存されませんでした。
 assessment#:#misc#:#その他オプション
@@ -925,7 +913,6 @@ assessment#:#mode_onebyone#:#一つずつ
 assessment#:#mode_question#:#問題指向
 assessment#:#mode_user#:#受験者志向
 assessment#:#msg_circle_added#:#円の追加
-assessment#:#msg_no_questions_selected#:#問題が選択されませんでした。
 assessment#:#msg_number_of_terms_too_low#:#用語数は定義数と等しいかそれ以上である必要があります。
 assessment#:#msg_poly_added#:#多角形の追加
 assessment#:#msg_questions_moved#:#問題の移動
@@ -984,7 +971,6 @@ assessment#:#order#:#順番
 assessment#:#ordering_answer_sequence_info#:#ここで定義する解答順序は正解として使用されます。
 assessment#:#ordertext#:#整列するテキスト
 assessment#:#ordertext_info#:#水平方向にそろえるテキストを入力してください。整列するテキストはテキストの空白記号で区切られます。別の区切りが必要な場合は、%s の区切り記号を使用してテキストの単位を区切る事ができます。
-assessment#:#out_of_range#:#範囲外
 assessment#:#output#:#出力
 assessment#:#output_mode#:#出力モード
 assessment#:#parseQuestion#:#問題解析
@@ -1053,7 +1039,6 @@ assessment#:#qpl_bulk_save_add#:#追加
 assessment#:#qpl_bulk_save_overwrite#:#上書き
 assessment#:#qpl_bulkedit_success#:#変更を保存しました。
 assessment#:#qpl_cancel_skill_assigns_update#:#キャンセル
-assessment#:#qpl_confirm_delete_questions#:#本当に次の問題を削除しますか?
 assessment#:#qpl_copy_insert_clipboard#:#選択した問題をクリップボードへコピーします
 assessment#:#qpl_copy_select_none#:#クリップボードへコピーする問題を最低1個チェックしてください
 assessment#:#qpl_delete_rbac_error#:#この問題の削除権がありません!
@@ -1106,7 +1091,6 @@ assessment#:#qpl_qst_skl_usg_skill_col#:#能力
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#能力当たりの能力-ポイントの総合計
 assessment#:#qpl_question_is_in_use#:#テスト%s 内にある修正しようとしている問題です。 この問題を修正しても、テストへ挿入の時点でシステムが問題のコピーを作成するためテストの問題は修正されません!
 assessment#:#qpl_questions_deleted#:#問題は削除されました。
-assessment#:#qpl_reset_preview#:#プレビューをリセット
 assessment#:#qpl_save_skill_assigns_update#:#能力割り当てを保存
 assessment#:#qpl_settings_availability#:#Availability(空き状況)
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#有効にすると作成可能性のある分類基準がフィルタ用として表示されます。
@@ -1136,14 +1120,6 @@ assessment#:#qst_essay_chars_remaining#:#残り文字数:
 assessment#:#qst_essay_wordcounter_enabled#:#カウント文字数
 assessment#:#qst_essay_wordcounter_enabled_info#:#入力の文字数をカウントします。受験者は以下のテキスト入力欄へ書きこんだ文字数が表示されます。
 assessment#:#qst_essay_written_words#:#入力した文字数:
-assessment#:#qst_lifecycle#:#ライフサイクル
-assessment#:#qst_lifecycle_draft#:#ドラフト
-assessment#:#qst_lifecycle_filter_all#:#全てのライフサイクル
-assessment#:#qst_lifecycle_final#:#最終
-assessment#:#qst_lifecycle_outdated#:#旧
-assessment#:#qst_lifecycle_rejected#:#拒否されました
-assessment#:#qst_lifecycle_review#:#要レビュー
-assessment#:#qst_lifecycle_sharable#:#共有化
 assessment#:#qst_nested_nested_answers_off#:#インデントなし、順番のみ
 assessment#:#qst_nested_nested_answers_on#:#回答にインデントを使用
 assessment#:#qst_nr_of_tries#:#実行回数
@@ -1168,17 +1144,14 @@ assessment#:#question_type#:#問題のタイプ
 assessment#:#questionlist_cannot_be_altered#:#テストにはすでに参加者のデータセットが含まれているため、質問リストを変更することはできません。
 assessment#:#questionpool_not_entered#:#問題集の名前を入力してください!
 assessment#:#questionpool_not_selected#:#問題集を選択して下さい!
-assessment#:#questions#:#問題
 assessment#:#questions_from#:#質問者
 assessment#:#questions_per_page_view#:#ページ表示
 assessment#:#random_accept_sample#:#サンプルを承諾
 assessment#:#random_another_sample#:#他のサンプルを入手
 assessment#:#random_selection#:#ランダム選択
 assessment#:#range#:#範囲
-assessment#:#range_lower_limit#:#下限
 assessment#:#range_max#:#範囲(最大)
 assessment#:#range_min#:#範囲(最小)
-assessment#:#range_upper_limit#:#上限
 assessment#:#rated_sign#:#サイン
 assessment#:#rated_unit#:#ユニット
 assessment#:#rated_value#:#値
@@ -1254,7 +1227,6 @@ assessment#:#search_roles#:#役割を検索
 assessment#:#search_term#:#用語を検索
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#ファイードバックとトリガーの一つは選択してください。
 assessment#:#select_at_least_one_lock_answer_type#:#ロックされた回答の一つは選択してください。
-assessment#:#select_gap#:#穴埋めを選択
 assessment#:#select_max_one_item#:#一アイテムのみ選択してください
 assessment#:#select_one_user#:#最低ユーザ1名を選択してください。
 assessment#:#select_question#:#問題を選択
@@ -1281,7 +1253,6 @@ assessment#:#show_old_introduction#:#過去の序論を表示
 assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_results#:#結果を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
-assessment#:#shuffle_answers#:#解答をシャッフル
 assessment#:#skip_question#:#回答しないで次へ
 assessment#:#solution#:#解答
 assessment#:#solutionText#:#テキスト
@@ -14066,6 +14037,35 @@ qpl#:#qpl_page_type_qfbg#:#全般フィードバック
 qpl#:#qpl_page_type_qfbs#:#特別フィードバック
 qpl#:#qpl_page_type_qht#:#ヒント
 qpl#:#qpl_page_type_qpl#:#質問ページ
+qsts#:#answer_options#:#解答オプション
+qsts#:#cloze_text#:#穴埋め問題のテキスト
+qsts#:#cloze_textgapcase_insensitive#:#大文字・小文字を非区分
+qsts#:#cloze_textgapcase_sensitive#:#大文字・小文字を区分
+qsts#:#cloze_textgaplevenshtein_of#:#%sのレーベンシュタイン距離
+qsts#:#confirm_delete_questions#:#本当に次の問題を削除しますか?
+qsts#:#create_question#:#問題を作成
+qsts#:#gap#:#穴埋め
+qsts#:#gaps#:#Gaps
+qsts#:#insert_gap#:#ギャップを挿入
+qsts#:#min_auto_complete#:#オートコンプリート
+qsts#:#msg_no_questions_selected#:#問題が選択されませんでした。
+qsts#:#out_of_range#:#範囲外
+qsts#:#qst_lifecycle#:#ライフサイクル
+qsts#:#qst_lifecycle_draft#:#ドラフト
+qsts#:#qst_lifecycle_filter_all#:#全てのライフサイクル
+qsts#:#qst_lifecycle_final#:#最終
+qsts#:#qst_lifecycle_outdated#:#旧
+qsts#:#qst_lifecycle_rejected#:#拒否されました
+qsts#:#qst_lifecycle_review#:#要レビュー
+qsts#:#qst_lifecycle_sharable#:#共有化
+qsts#:#questionlist#:#問題リスト
+qsts#:#questions#:#問題
+qsts#:#range_lower_limit#:#下限
+qsts#:#range_upper_limit#:#上限
+qsts#:#reset_preview#:#プレビューをリセット
+qsts#:#select_gap#:#穴埋めを選択
+qsts#:#shuffle_answers#:#解答をシャッフル
+qsts#:#suggested_learning_content#:#要約用のコンテンツを追加
 rating#:#rat_not_rated_yet#:#星評価なし
 rating#:#rat_nr_ratings#:#%s星評価
 rating#:#rat_one_rating#:#1つ星評価
@@ -16715,7 +16715,6 @@ survey#:#questionblock#:#質問ブロック
 survey#:#questionblock_inserted#:#質問ブロックの挿入
 survey#:#questionblocks#:#質問ブロック
 survey#:#questionblocks_inserted#:#質問ブロックの挿入
-survey#:#questions#:#質問
 survey#:#questions_inserted#:#質問を挿入しました!
 survey#:#questions_removed#:#質問や質問ブロックを削除しました!
 survey#:#questiontype#:#質問タイプ
@@ -16998,6 +16997,7 @@ survey#:#svy_please_select_unused_codes#:#未使用のコードを一つは選�
 survey#:#svy_print_hide_labels#:#ラベルを非表示
 survey#:#svy_print_show_labels#:#ラベルを表示
 survey#:#svy_privacy_info#:#プライバシー
+survey#:#svy_questions#:#質問
 survey#:#svy_rater#:#評価者
 survey#:#svy_rater_see_app_info#:#評価対象者名は問題評価を可能にする評価者へ表示されます。
 survey#:#svy_reminder_mail_template#:#メールテンプレート
