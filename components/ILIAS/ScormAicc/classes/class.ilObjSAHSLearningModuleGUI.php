@@ -145,14 +145,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
                 }
                 $ilTabs->setTabActive('cont_list_files');
+                $check_access = $ilAccess->checkAccess('write', '', $this->object->getRefId());
                 $view_config = new \ILIAS\components\ResourceStorage\Container\View\Configuration(
                     $this->object->getResource(),
                     new ilSAHSStakeholder(),
                     $this->lng->txt('cont_list_files'),
                     \ILIAS\components\ResourceStorage\Container\View\Mode::DATA_TABLE,
                     250,
-                    false, // read-only: no upload
-                    false  // read-only: no administrate
+                    $check_access,
+                    $check_access
                 );
                 $container_gui = new ilContainerResourceGUI($view_config);
                 $this->ctrl->forwardCommand($container_gui);
@@ -474,6 +475,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $title = $newObj->readObject();
         if ($title != "") {
+            $newObj->setTitle($title);
             ilObject::_writeTitle($newObj->getId(), $title);
         }
 
@@ -581,6 +583,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         if ($title !== "") {
             ilObject::_writeTitle($new_obj->getId(), $title);
         }
+
+        // move the imported package into a Resource Storage container
+        $new_obj->moveDataDirectoryToContainer();
 
         //auto set learning progress settings
         $new_obj->setLearningProgressSettingsAtUpload();

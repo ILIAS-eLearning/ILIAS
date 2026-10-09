@@ -409,7 +409,12 @@ class ilObjSAHSLearningModule extends ilObject
         $files = iterator_to_array($zip->getFiles(), false);
         foreach ($zip->getFileStreams() as $i => $stream) {
             if (isset($files[$i]) && basename((string) $files[$i]) === $manifest_file) {
-                return (string) $stream;
+                try {
+                    return $stream->getContents();
+                } catch (\Throwable) {
+                    // Keep method non-throwing; caller handles missing/unreadable manifest.
+                    return null;
+                }
             }
         }
         return null;

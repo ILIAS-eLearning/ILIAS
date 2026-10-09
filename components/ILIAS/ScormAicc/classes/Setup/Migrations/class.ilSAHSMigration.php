@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
+use ILIAS\Setup\CLI\IOWrapper;
 
 /**
  * Moves the on-disk content of SCORM/AICC learning modules
@@ -31,7 +32,10 @@ use ILIAS\Setup\Migration;
  */
 class ilSAHSMigration implements Migration
 {
+    private const TABLE_NAME = 'sahs_lm';
+
     protected ilResourceStorageMigrationHelper $helper;
+    protected ?IOWrapper $io = null;
 
     public function getLabel(): string
     {
@@ -61,14 +65,18 @@ class ilSAHSMigration implements Migration
             new ilSAHSStakeholder(),
             $environment
         );
+        $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
+        if ($io instanceof IOWrapper) {
+            $this->io = $io;
+        }
     }
 
     public function step(Environment $environment): void
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT sahs_lm.id, object_data.owner AS owner_id
-                FROM sahs_lm
-                LEFT JOIN object_data ON object_data.obj_id = sahs_lm.id
+            "SELECT lm.id, object_data.owner AS owner_id
+                FROM " . self::TABLE_NAME . " lm
+                LEFT JOIN object_data ON object_data.obj_id = lm.id
                 WHERE rid IS NULL OR rid = ''
                 LIMIT 1;"
         );
@@ -80,22 +88,56 @@ class ilSAHSMigration implements Migration
 
         $lm_path = $this->buildBasePath($object_id);
 
-        $rid = $this->helper->moveDirectoryToContainerResource(
-            $lm_path,
-            $resource_owner_id
-        );
+        if (!is_dir($lm_path)) {
+            $this->error(
+                "Legacy SCORM/AICC directory $lm_path for object id $object_id does not exist. " .
+                "Marking record as migration-failed (rid='-')."
+            );
+            $this->helper->getDatabase()->update(
+                self::TABLE_NAME,
+                ['rid' => ['text', '-']],
+                ['id' => ['integer', $object_id],]
+            );
+            return;
+        }
+
+        try {
+            $this->inform(
+                "Trying to move SCORM/AICC directory $lm_path for object id $object_id to the storage service."
+            );
+            $rid = $this->helper->moveDirectoryToContainerResource(
+                $lm_path,
+                $resource_owner_id
+            );
+            $this->inform("Migration proceeded without error for object id $object_id.");
+        } catch (\Throwable $e) {
+            $this->error(
+                "Failed to move SCORM/AICC directory $lm_path for object id $object_id " .
+                "to the storage service with exception: {$e->getMessage()}"
+            );
+            $this->error($e->getTraceAsString());
+            throw $e;
+        }
 
         if ($rid !== null) {
+            $this->inform(
+                "IRSS identification for object id $object_id: {$rid->serialize()}",
+                true
+            );
             $this->helper->getDatabase()->update(
-                'sahs_lm',
+                self::TABLE_NAME,
                 ['rid' => ['text', $rid->serialize()]],
                 ['id' => ['integer', $object_id],]
             );
 
             $this->recursiveRmDir($lm_path);
         } else {
+            $this->error(
+                'IRSS returned NULL as identification when trying to move SCORM/AICC directory ' .
+                "$lm_path for object id $object_id to the storage service."
+            );
             $this->helper->getDatabase()->update(
-                'sahs_lm',
+                self::TABLE_NAME,
                 ['rid' => ['text', '-']],
                 ['id' => ['integer', $object_id],]
             );
@@ -118,7 +160,7 @@ class ilSAHSMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT COUNT(id) AS amount FROM sahs_lm WHERE rid IS NULL OR rid = ''"
+            "SELECT COUNT(id) AS amount FROM " . self::TABLE_NAME . " WHERE rid IS NULL OR rid = ''"
         );
         $d = $this->helper->getDatabase()->fetchObject($r) ?? new stdClass();
 
@@ -128,5 +170,23 @@ class ilSAHSMigration implements Migration
     protected function buildBasePath(int $object_id): string
     {
         return CLIENT_WEB_DIR . '/lm_data/lm_' . $object_id;
+    }
+
+    private function inform(string $text, bool $force = false): void
+    {
+        if ($this->io === null || (!$force && !$this->io->isVerbose())) {
+            return;
+        }
+
+        $this->io->inform($text);
+    }
+
+    private function error(string $text): void
+    {
+        if ($this->io === null) {
+            return;
+        }
+
+        $this->io->error($text);
     }
 }
