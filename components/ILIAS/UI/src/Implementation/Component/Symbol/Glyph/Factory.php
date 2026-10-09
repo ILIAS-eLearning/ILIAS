@@ -331,21 +331,36 @@ class Factory implements G\Factory
 
     public function presenter(): G\Glyph
     {
-        return new Glyph(G\Glyph::PRESENTER, "presenter");
+        return new Glyph(G\Glyph::PRESENTER, $this->language->txt("presenter"));
     }
 
     public function owner(): G\Glyph
     {
-        return new Glyph(G\Glyph::OWNER, "owner");
+        return new Glyph(G\Glyph::OWNER, $this->language->txt("owner"));
     }
 
     public function date(): G\Glyph
     {
-        return new Glyph(G\Glyph::DATE, "date");
+        return new Glyph(G\Glyph::DATE, $this->language->txt("date"));
     }
 
     public function location(): G\Glyph
     {
-        return new Glyph(G\Glyph::LOCATION, "location");
+        return new Glyph(G\Glyph::LOCATION, $this->language->txt("location"));
+    }
+
+    public function copy(): G\Glyph
+    {
+        return new Glyph(G\Glyph::COPY, $this->language->txt('copy'));
+    }
+
+    public function qrCode(): G\Glyph
+    {
+        return new Glyph(G\Glyph::QR_CODE, $this->language->txt('show_qr_code'));
+    }
+
+    public function share(): G\Glyph
+    {
+        return new Glyph(G\Glyph::SHARE, $this->language->txt('share'));
     }
 }

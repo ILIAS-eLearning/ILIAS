@@ -501,7 +501,7 @@ a Dropdown component somewhere that features some further Shy button compoennt, 
 rendering stack or context when the button is rendered would be "Page -> Dropdown -> Shy".
 The [DefaultRenderer](./src/Implementation/DefaultRenderer.php) orchestrates this process
 and is responsible to remember this context at any time during the entire rendering
-process. Component renderers are able to react to this context using a `RendererFactory`,
+process. Component renderers are able to react to this context using a `TransferRendererFactory`,
 which receives the current context as an argument when loading the renderer of some
 component. The [FSLoader](./src/UI/Implementation/Render/FSLoader.php) contains directions
 on how to introduce new renderers for different contexts in your component.

@@ -90,6 +90,9 @@ interface Glyph extends Symbol
     public const OWNER = "owner";
     public const DATE = "date";
     public const LOCATION = "location";
+    public const COPY = 'copy';
+    public const QR_CODE = 'qrCode';
+    public const SHARE = 'share';
 
     /**
      * Override the default label text with a more specific one
