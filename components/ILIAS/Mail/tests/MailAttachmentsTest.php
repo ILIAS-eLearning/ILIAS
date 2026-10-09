@@ -34,6 +34,14 @@ class MailAttachmentsTest extends TestCase
         $this->assertSame('rcid-123', $parsed->rcid()->serialize());
     }
 
+    public function testValueContainingSerializationMarkerLaterIsNotTreatedAsLegacy(): void
+    {
+        $parsed = MailAttachments::fromDb('rcid-with-a:-inside');
+
+        $this->assertTrue($parsed->isIrss());
+        $this->assertSame('rcid-with-a:-inside', $parsed->rcid()->serialize());
+    }
+
     public function testParseLegacyArray(): void
     {
         $parsed = MailAttachments::fromDb(serialize(['file.pdf', 'image.png']));

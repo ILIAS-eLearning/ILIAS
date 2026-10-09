@@ -49,7 +49,7 @@ class ilMailCopyOnSendTest extends TestCase
         $this->assertTrue($result->isEmpty());
     }
 
-    public function testDeliveryAttachmentsCopiesIrssCollectionPerCall(): void
+    public function testDeliveryAttachmentsCopiesIrssCollectionPerCallWhenSharingIsDisabled(): void
     {
         $mail = $this->createMailInstance();
         $source = new ResourceCollectionIdentification('source-rcid');
@@ -61,6 +61,8 @@ class ilMailCopyOnSendTest extends TestCase
             ->method('copyCollectionForDelivery')
             ->with($source)
             ->willReturnOnConsecutiveCalls($copy_a, $copy_b);
+
+        $mail->setShareAttachments(false);
 
         $first = $this->invokeDeliveryAttachments(MailAttachments::fromIrss($source), $mail);
         $second = $this->invokeDeliveryAttachments(MailAttachments::fromIrss($source), $mail);
@@ -104,19 +106,96 @@ class ilMailCopyOnSendTest extends TestCase
         $this->assertSame($first, $second);
     }
 
-    private function createMailInstance(): ilMail
+    public function testDeliveryAttachmentsAreSharedByDefault(): void
+    {
+        $mail = $this->createMailInstance();
+        $source = new ResourceCollectionIdentification('source-rcid');
+
+        $this->mail_file_data
+            ->expects($this->once())
+            ->method('copyCollectionForDelivery')
+            ->willReturn(new ResourceCollectionIdentification('shared-copy'));
+
+        $first = $this->invokeDeliveryAttachments(MailAttachments::fromIrss($source), $mail);
+        $second = $this->invokeDeliveryAttachments(MailAttachments::fromIrss($source), $mail);
+
+        $this->assertSame($first, $second);
+    }
+
+    public function testExclusivelyOwnedSourceIsTakenOverWithoutCopy(): void
+    {
+        $mail = $this->createMailInstance(exclusively_owned: true);
+        $source = MailAttachments::fromIrss(new ResourceCollectionIdentification('queued-snapshot'));
+
+        $this->mail_file_data->expects($this->never())->method('copyCollectionForDelivery');
+
+        $result = $this->invokeDeliveryAttachments($source, $mail);
+
+        $this->assertSame('queued-snapshot', $result->rcid()->serialize());
+    }
+
+    public function testReleaseSourceAttachmentsIgnoresEmptyAndLegacy(): void
+    {
+        $mail = $this->createMailInstance();
+        $this->mail_file_data->expects($this->never())->method('releaseSourceCollectionAfterDelivery');
+
+        $this->invokeReleaseSourceAttachments($mail, MailAttachments::empty());
+        $this->invokeReleaseSourceAttachments($mail, MailAttachments::fromLegacyFilenames(['a.ics']));
+    }
+
+    public function testReleaseSourceAttachmentsDelegatesIrssCollection(): void
+    {
+        $mail = $this->createMailInstance();
+        $rcid = new ResourceCollectionIdentification('source-rcid');
+        $this->mail_file_data
+            ->expects($this->once())
+            ->method('releaseSourceCollectionAfterDelivery')
+            ->with($rcid);
+
+        $this->invokeReleaseSourceAttachments($mail, MailAttachments::fromIrss($rcid));
+    }
+
+    public function testReleaseSourceAttachmentsLogsFailuresWithoutThrowing(): void
+    {
+        $mail = $this->createMailInstance();
+        $logger = $this->createMock(ilLogger::class);
+        $logger->expects($this->once())->method('warning')->with('release failed');
+        new ReflectionClass(ilMail::class)->getProperty('logger')->setValue($mail, $logger);
+
+        $this->mail_file_data
+            ->expects($this->once())
+            ->method('releaseSourceCollectionAfterDelivery')
+            ->willThrowException(new RuntimeException('release failed'));
+
+        $this->invokeReleaseSourceAttachments(
+            $mail,
+            MailAttachments::fromIrss(new ResourceCollectionIdentification('source-rcid'))
+        );
+    }
+
+    private function createMailInstance(bool $exclusively_owned = false): ilMail
     {
         $this->mail_file_data = $this->getMockBuilder(ilFileDataMail::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['copyCollectionForDelivery'])
+            ->onlyMethods([
+                'copyCollectionForDelivery',
+                'releaseSourceCollectionAfterDelivery',
+                'isCollectionExclusivelyOwnedByMail',
+            ])
             ->getMock();
+        $this->mail_file_data->method('isCollectionExclusivelyOwnedByMail')->willReturn($exclusively_owned);
 
-        $mail = (new ReflectionClass(ilMail::class))->newInstanceWithoutConstructor();
+        $mail = new ReflectionClass(ilMail::class)->newInstanceWithoutConstructor();
 
         $reflection = new ReflectionClass(ilMail::class);
         $reflection->getProperty('mail_file_data')->setValue($mail, $this->mail_file_data);
 
         return $mail;
+    }
+
+    private function invokeReleaseSourceAttachments(ilMail $mail, MailAttachments $source): void
+    {
+        new ReflectionClass($mail)->getMethod('releaseSourceAttachments')->invoke($mail, $source);
     }
 
     private function invokeDeliveryAttachments(MailAttachments $source, ilMail $mail): MailAttachments

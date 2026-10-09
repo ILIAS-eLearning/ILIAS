@@ -38,6 +38,7 @@ class ilMailTest extends ilMailBaseTestCase
     private MockObject&ilLogger $mock_log;
     private MockObject&ilMailRfc822AddressParserFactory $mock_parser_factory;
     private MockObject&ilLanguage $mock_language;
+    private MockObject&ilFileDataMail $mock_mail_file_data;
 
     public function testExternalMailDeliveryWorksAsExpected(): void
     {
@@ -529,8 +530,9 @@ class ilMailTest extends ilMailBaseTestCase
         ]);
 
         $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer'], [$usr_id]));
-        $this->mock_database->expects($this->once())->method('fetchAssoc')->with($mock_statement)->willReturn([
+        // Previous stage lookup (to release its collection) and re-reading the stage
+        $this->mock_database->expects($this->exactly(2))->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer'], [$usr_id]));
+        $this->mock_database->expects($this->exactly(2))->method('fetchAssoc')->with($mock_statement)->willReturn([
             'rcp_to' => 'phpunit'
         ]);
 
@@ -629,6 +631,56 @@ class ilMailTest extends ilMailBaseTestCase
         $this->assertSame($expected, ilMail::_getIliasMailerName());
     }
 
+    public function testPersistingToStageReleasesReplacedStageCollection(): void
+    {
+        $usr_id = 897;
+        $instance = $this->create(789, $usr_id);
+        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $this->mock_database->method('queryF')->willReturn($mock_statement);
+        $this->mock_database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            ['attachments' => 'old-stage-rcid'],
+            ['attachments' => 'new-stage-rcid', 'rcp_to' => '']
+        );
+
+        $this->mock_mail_file_data
+            ->expects($this->once())
+            ->method('releaseCollectionIfUnreferenced')
+            ->with($this->callback(
+                static fn(ResourceCollectionIdentification $rcid): bool => $rcid->serialize() === 'old-stage-rcid'
+            ));
+
+        $instance->persistToStage(
+            $usr_id,
+            '',
+            '',
+            '',
+            '',
+            '',
+            MailAttachments::fromIrss(new ResourceCollectionIdentification('new-stage-rcid'))
+        );
+    }
+
+    public function testPersistingSameStageCollectionKeepsIt(): void
+    {
+        $usr_id = 897;
+        $instance = $this->create(789, $usr_id);
+        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $this->mock_database->method('queryF')->willReturn($mock_statement);
+        $this->mock_database->method('fetchAssoc')->willReturn(['attachments' => 'stage-rcid', 'rcp_to' => '']);
+
+        $this->mock_mail_file_data->expects($this->never())->method('releaseCollectionIfUnreferenced');
+
+        $instance->persistToStage(
+            $usr_id,
+            '',
+            '',
+            '',
+            '',
+            '',
+            MailAttachments::fromIrss(new ResourceCollectionIdentification('stage-rcid'))
+        );
+    }
+
     public function testSaveAttachments(): void
     {
         $usr_id = 89;
@@ -638,10 +690,10 @@ class ilMailTest extends ilMailBaseTestCase
         $instance = $this->create(789, $usr_id);
         $mock_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
-        $this->mock_database->expects($this->exactly(2))->method('queryF')->willReturnCallback(
+        $this->mock_database->expects($this->exactly(3))->method('queryF')->willReturnCallback(
             $this->queryCallback($mock_statement, ['integer'], [$usr_id])
         );
-        $this->mock_database->expects($this->exactly(2))->method('fetchAssoc')->with($mock_statement)->willReturn([
+        $this->mock_database->expects($this->exactly(3))->method('fetchAssoc')->with($mock_statement)->willReturn([
             'attachments' => null,
             'rcp_to' => '',
             'rcp_cc' => '',
@@ -699,7 +751,7 @@ class ilMailTest extends ilMailBaseTestCase
             ($this->mock_log = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock()),
             ($this->mock_database = $this->createMock(ilDBInterface::class)),
             ($this->mock_language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()),
-            $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock(),
+            ($this->mock_mail_file_data = $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock()),
             $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock(),
