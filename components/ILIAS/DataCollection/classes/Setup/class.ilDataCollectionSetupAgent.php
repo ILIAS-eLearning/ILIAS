@@ -42,7 +42,8 @@ class ilDataCollectionSetupAgent implements Setup\Agent
     {
         return [
             new ilDataCollectionStorageMigration(),
-            new ilDataCollectionInitLOMMigration()
+            new ilDataCollectionInitLOMMigration(),
+            new ilDataCollectionSelectionFieldMigration()
         ];
     }
 
