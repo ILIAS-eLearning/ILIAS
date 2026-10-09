@@ -134,7 +134,7 @@ class QuestionsTable implements OrderingBinding
                 $f->symbol()->icon()->custom('assets/images/standard/icon_alert.svg', '', 'small')
             ),
             'type_tag' => $f->table()->column()->text($this->lng->txt('tst_question_type')),
-            'points' => $f->table()->column()->text($this->lng->txt('points')),
+            'points' => $f->table()->column()->number($this->lng->txt('points'))->withDecimals(2),
             'author' => $f->table()->column()->text($this->lng->txt('author'))
                 ->withIsOptional(true, false),
             'lifecycle' => $f->table()->column()->text($this->lng->txt('qst_lifecycle'))
@@ -142,7 +142,7 @@ class QuestionsTable implements OrderingBinding
             'qpl' => $f->table()->column()->link($this->lng->txt('qpl')),
             'nr_of_answers' => $f->table()->column()->number($this->lng->txt('number_of_answers'))
                 ->withIsOptional(true, false),
-            'average_points' => $f->table()->column()->number($this->lng->txt('average_reached_points'))
+            'average_points' => $f->table()->column()->number($this->lng->txt('average_reached_points'))->withDecimals(2)
                 ->withIsOptional(true, false),
             'percentage_points_achieved' => $f->table()->column()->text($this->lng->txt('percentage_points_achieved'))
                 ->withIsOptional(true, false),
