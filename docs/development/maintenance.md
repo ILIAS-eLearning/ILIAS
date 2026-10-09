@@ -1890,23 +1890,6 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 [//]: # (END Migration)
 
 
-[//]: # (BEGIN Multilingualism)
-
-#### [Multilingualism](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/Multilingualism)
-
-**Status:** Unmaintained / NONE
-
-*Belongs to:* Multilingualism
-
-* Authority to Sign off on Conceptual Changes: NONE
-* Authority to Sign off on Code Changes: NONE
-* Authority to Curate Test Cases: NONE
-* Authority to (De-)Assign Authorities: NONE
-* Assignee for Issues: NONE
-* Assignee for Security Reports: NONE
-
-[//]: # (END Multilingualism)
-
 
 [//]: # (BEGIN MyStaff)
 
