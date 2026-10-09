@@ -250,15 +250,11 @@ On Debian/Ubuntu execute:
 apt install mariadb-server
 ```
 
-> [!NOTE]
-> Please note that installing ILIAS in utf8mb4-collations is currently not supported!
-> ILIAS supports utf8-collations with 3 bytes per character, such as `utf8_general_ci`, only.
-
 We **strongly recommend** using MariaDB with the following settings:
 
 * InnoDB storage engine (default)
-* `character-set-server` = `utf8mb3`
-* `collation-server` = `utf8mb3_general_ci`
+* `character-set-server` = `utf8mb4`
+* `collation-server` = `utf8mb4_unicode_520_ci`
 * `join_buffer_size` > `128K`
 * `table_open_cache` > `400`
 * `innodb_buffer_pool_size` > `2G` (depending on DB size)
@@ -275,7 +271,7 @@ systemctl restart mariadb.service
 We recommend creating a dedicated database user for ILIAS:
 
 ```shell
-mysql -e "CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql -e "CREATE DATABASE ilias CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;"
 mysql -e "CREATE USER 'ilias'@'localhost' IDENTIFIED BY '<db-password>';"
 mysql -e "GRANT LOCK TABLES on *.* TO 'ilias'@'localhost';"
 mysql -e "GRANT ALL PRIVILEGES ON ilias.* TO 'ilias'@'localhost';"
