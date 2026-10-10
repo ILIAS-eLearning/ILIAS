@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
 * Class for matching question answers
 *
@@ -24,7 +28,7 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @ingroup components\ILIASTestQuestionPool
 */
-class ASS_AnswerMatching
+class ASS_AnswerMatching implements ToNormalized, FromNormalized
 {
     public float $points;
 
@@ -235,5 +239,33 @@ class ASS_AnswerMatching
     public function setPoints(float $points = 0.0): void
     {
         $this->points = $points;
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            'points' => $this->points,
+            'picture_or_definition' => $this->picture_or_definition,
+            'picture_or_definition_id' => $this->picture_or_definition_id,
+            'term_id' => $this->term_id,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = clone $this;
+        $clone->setPoints($transformations->float($normalized['points']));
+        $clone->setPicture($transformations->string($normalized['picture_or_definition']));
+        $clone->setPictureId($transformations->int($normalized['picture_or_definition_id']));
+        $clone->setTermId($transformations->int($normalized['term_id']));
+        return $clone;
     }
 }

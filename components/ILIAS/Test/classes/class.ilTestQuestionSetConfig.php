@@ -49,6 +49,11 @@ abstract class ilTestQuestionSetConfig
     abstract public function removeQuestionSetRelatedData(): void;
     abstract public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj): void;
 
+    public function getTestObject(): ilObjTest
+    {
+        return $this->test_obj;
+    }
+
     public function getQuestionPoolPathString(int $pool_id): string
     {
         $ref_id = current(ilObject::_getAllReferences($pool_id));

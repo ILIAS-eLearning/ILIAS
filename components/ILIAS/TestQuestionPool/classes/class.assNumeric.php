@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
@@ -36,7 +39,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionAutosaveable
+class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     protected $lower_limit;
     protected $upper_limit;
@@ -85,9 +88,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             $this->setMaxChars($data["maxnumofchars"]);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -462,5 +465,33 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
     {
         return "{$this->getLowerLimit()}-{$this->getUpperLimit()}";
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'lower_limit' => $this->lower_limit,
+            'upper_limit' => $this->upper_limit,
+            'maxchars' => $this->maxchars,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->lower_limit = $transformations->string($normalized['lower_limit']);
+        $clone->upper_limit = $transformations->string($normalized['upper_limit']);
+        $clone->maxchars = $transformations->int($normalized['maxchars']);
+
+        return $clone;
     }
 }

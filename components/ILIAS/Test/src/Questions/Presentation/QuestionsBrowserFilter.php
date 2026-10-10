@@ -71,7 +71,7 @@ class QuestionsBrowserFilter
     {
         $lifecycle_options = array_merge(
             ['' => $this->lng->txt('qst_lifecycle_filter_all')],
-            ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
+            new ilAssQuestionLifecycle()->getSelectOptions($this->lng)
         );
         $yes_no_all_options = [
             '' => $this->lng->txt('resulttable_all'),

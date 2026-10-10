@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
  * Class for true/false or yes/no answers
  *
@@ -179,5 +181,28 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
     public function setUnchecked(): void
     {
         $this->checked = false;
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'checked' => $this->checked,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setState($transformations->bool($normalized['checked']));
+        return $clone;
     }
 }

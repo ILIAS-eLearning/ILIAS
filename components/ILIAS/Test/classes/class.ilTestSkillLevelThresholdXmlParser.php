@@ -19,10 +19,7 @@
 declare(strict_types=1);
 
 /**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/Test
+ * @deprecated 12: Use ILIAS\Test\ExportImport\Import\SkillLevelThresholdImporter instead
  */
 class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 {

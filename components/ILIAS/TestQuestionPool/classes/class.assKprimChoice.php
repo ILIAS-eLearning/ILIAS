@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
@@ -29,7 +32,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @package components\ILIAS/TestQuestionPool
  */
-class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
+class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     use ManipulateImagesInChoiceQuestionsTrait;
 
@@ -258,9 +261,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             }
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -919,5 +922,46 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 . ' (' . $v->getCorrectness() ? $true_option_label : $false_option_label . ')',
             $this->getAnswers()
         );
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'shuffle_answers' => $this->shuffle_answers_enabled,
+            'answer_type' => $this->answerType,
+            'option_label' => $this->option_label,
+            'custom_true_option_label' => $this->customTrueOptionLabel,
+            'custom_false_option_label' => $this->customFalseOptionLabel,
+            'score_partial_solution' => $this->scorePartialSolutionEnabled,
+            'specific_feedback_setting' => $this->specific_feedback_setting,
+            'answers' => $transformations->normalize($this->answers, ['question_id' => $this->getId()]),
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->shuffle_answers_enabled = $transformations->bool($normalized['shuffle_answers']);
+        $clone->answerType = $transformations->string($normalized['answer_type']);
+        $clone->option_label = $transformations->string($normalized['option_label']);
+        $clone->customTrueOptionLabel = $transformations->string($normalized['custom_true_option_label']);
+        $clone->customFalseOptionLabel = $transformations->string($normalized['custom_false_option_label']);
+        $clone->scorePartialSolutionEnabled = $transformations->bool($normalized['score_partial_solution']);
+        $clone->specific_feedback_setting = $transformations->int($normalized['specific_feedback_setting']);
+        $clone->answers = array_map(
+            static fn(array $answer): ilAssKprimChoiceAnswer => $transformations->denormalize($answer, new ilAssKprimChoiceAnswer()),
+            $normalized['answers']
+        );
+
+        return $clone;
     }
 }

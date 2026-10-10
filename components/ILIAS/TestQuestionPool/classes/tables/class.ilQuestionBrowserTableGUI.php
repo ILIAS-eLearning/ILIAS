@@ -306,7 +306,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         // lifecycle
         $lifecycleOptions = array_merge(
             ['' => $this->lng->txt('qst_lifecycle_filter_all')],
-            ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
+            new ilAssQuestionLifecycle()->getSelectOptions($this->lng)
         );
         $lifecycleInp = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
         $lifecycleInp->setOptions($lifecycleOptions);
@@ -405,7 +405,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                     $this->tpl->parseCurrentBlock();
                 }
                 if ($c == 'lifecycle') {
-                    $lifecycle = ilAssQuestionLifecycle::getInstance($a_set['lifecycle']);
+                    $lifecycle = new ilAssQuestionLifecycle($a_set['lifecycle']);
 
                     $this->tpl->setCurrentBlock('lifecycle');
                     $this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle->getTranslation($this->lng));
