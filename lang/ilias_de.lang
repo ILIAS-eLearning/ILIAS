@@ -13122,6 +13122,8 @@ news#:#news_news_item_content_long_info#:#Dieser Text wird nicht über RSS verö
 news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
 news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur authentifizierten Benutzern zugänglich.
 news#:#news_news_item_head#:#Beitrag
+news#:#news_news_item_no_content#:#Kein Text
+news#:#news_news_item_post#:#Beitrag
 news#:#news_news_item_title#:#Schlagzeile
 news#:#news_news_item_visibility#:#Zugriff
 news#:#news_news_item_visibility_info#:#Öffentliche Neuigkeiten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
