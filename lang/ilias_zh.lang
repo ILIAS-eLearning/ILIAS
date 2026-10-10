@@ -12937,7 +12937,6 @@ news#:#news_hide_news_block#:#隐藏新闻区块
 news#:#news_hide_news_block_info#:#在学习者的视图中隐藏区块。新闻区域将仅有具备写权限的用户才可见
 news#:#news_hide_news_date#:#开始时间
 news#:#news_hide_news_per_date#:#Show News After
-news#:#news_hide_news_per_date_info#:#只有比一个确定日期更新的新闻才会被显示。
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
 news#:#news_internal_news#:#内部新闻
 news#:#news_keep_minimal_x_items#:#保持至少x项目

@@ -13020,7 +13020,6 @@ news#:#news_hide_news_block#:#Hírblokkok elrejtése
 news#:#news_hide_news_block_info#:#Blokkok elrejtése tanulói nézetben. A hírblokkok csak az írási joggal rendelkező felhasználók számára lesznek láthatók.
 news#:#news_hide_news_date#:#Kezdő dátum/időpont
 news#:#news_hide_news_per_date#:#Későbbi hírek megjelenítése, mint
-news#:#news_hide_news_per_date_info#:#Csak a megadott dátumnál újabb hírek jelennek meg.
 news#:#news_inactive_private_feed_info#:#Az Ön privát hírcsatornája nincs engedélyezve. Kérem, adjon meg egy jelszót a beállításokban.
 news#:#news_internal_news#:#Hírek
 news#:#news_keep_minimal_x_items#:#Legalább x elem megtartása

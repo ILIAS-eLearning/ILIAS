@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#Gizle Haber Bloğu
 news#:#news_hide_news_block_info#:#Öğrenenin görünümünde gizle blok. Haber bloğu yalnızca yazma izni olan kullanıcılar için görünür olacak.
 news#:#news_hide_news_date#:#Başlama Tarihi
 news#:#news_hide_news_per_date#:#Sonra Göster Haberler
-news#:#news_hide_news_per_date_info#:#Belirli bir tarihten daha yeni olan Sadece haber görüntülenir.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
 news#:#news_internal_news#:#Haberleri
 news#:#news_keep_minimal_x_items#:#en az x öğeleri koru

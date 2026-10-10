@@ -12941,7 +12941,6 @@ news#:#news_hide_news_block#:#Nascondi il blooco delle News
 news#:#news_hide_news_block_info#:#Nascondi il blocco alla vista del discente. Il blocco delle news sarà visibile solo agli utenti con permessi di scrittura.
 news#:#news_hide_news_date#:#Data di partenza
 news#:#news_hide_news_per_date#:#Mostra le News dopo la data
-news#:#news_hide_news_per_date_info#:#Saranno visualizzate solo le News più recenti di una certa data.
 news#:#news_inactive_private_feed_info#:#Il tuo feed privato di notizie è disattivato. Si prega di impostare una password nelle impostazioni.
 news#:#news_internal_news#:#News interne
 news#:#news_keep_minimal_x_items#:#Mantenere per gli oggetti

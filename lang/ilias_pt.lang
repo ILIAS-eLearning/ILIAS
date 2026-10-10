@@ -13050,7 +13050,6 @@ news#:#news_hide_news_block#:#Ocultar bloco de notícias
 news#:#news_hide_news_block_info#:#Ocultar bloco na vista do aluno. O bloco de notícias estará visível apenas aos utilizadores com autorização de escrita.
 news#:#news_hide_news_date#:#Data de início
 news#:#news_hide_news_per_date#:#Mostrar notícias depois
-news#:#news_hide_news_per_date_info#:#Apenas as notícias mais recentes do que uma certa data é que serão apresentadas.
 news#:#news_inactive_private_feed_info#:#O seu feed de notícias privado está desativado. Defina uma palavra-passe nas definições.
 news#:#news_internal_news#:#score.scaled: pontuação alcançada como fração decimal
 news#:#news_keep_minimal_x_items#:#scaled_passing_score: pontuação necessária para passar como fração decimal

@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#Hide News Block
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
 news#:#news_hide_news_date#:#Starting Date
 news#:#news_hide_news_per_date#:#Show News After
-news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
 news#:#news_internal_news#:#News
 news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable
