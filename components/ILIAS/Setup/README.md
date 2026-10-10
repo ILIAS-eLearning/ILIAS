@@ -319,6 +319,17 @@ system where ILIAS was not installed, for example, the output only contains the
 information that ilias is not installed. The command also reports on the configuration
 of the installation.
 
+Use the `-f` option to only output a part of the status. The filter is the path to
+a metric, separated by dots, e.g. `php cli/setup.php status -f database.version`.
+The first part of the path names an agent, and only that agent is asked for its
+status. For an agent of the core, the agents of the plugins are not even looked up,
+so a filtered call is considerably faster than a complete one.
+Metrics of the configuration are shown in their own section `config`, which is why
+a filter starting with `config.` looks into that section, e.g.
+`php cli/setup.php status -f config.common` only outputs the common configuration.
+Consequently, `config` cannot be used as the key of an agent.
+If the path does not exist, the command says so and exits with a non-zero code.
+
 The output of the command is formatted as YAML to be easily readable by people and
 machines. So we encourage you to use this command for monitoring your system and
 also request status information via our feature process that you are interested in.

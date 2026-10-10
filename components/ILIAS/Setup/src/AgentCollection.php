@@ -56,6 +56,20 @@ class AgentCollection implements Agent
         return $clone;
     }
 
+    /**
+     * A collection that only contains the agent with the given key, still under
+     * that key, so everything it stores keeps its path.
+     */
+    public function withOnlyAgent(string $key): AgentCollection
+    {
+        if (!isset($this->agents[$key])) {
+            throw new \InvalidArgumentException("There is no agent with the name '$key'.");
+        }
+        $clone = clone $this;
+        $clone->agents = [$key => $this->agents[$key]];
+        return $clone;
+    }
+
     public function withAdditionalAgent(string $key, Agent $agent): AgentCollection
     {
         if (isset($this->agents[$key])) {
