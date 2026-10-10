@@ -104,6 +104,11 @@ class ilObjSessionListGUI extends ilObjectListGUI
         return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
     }
 
+    protected function getExpandAltTextKey(): string
+    {
+        return 'open_link';
+    }
+
     public function getProperties(): array
     {
         $app_info = $this->getAppointmentInfo();
