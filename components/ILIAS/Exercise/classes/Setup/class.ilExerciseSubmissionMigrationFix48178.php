@@ -50,7 +50,8 @@ class ilExerciseSubmissionMigrationFix48178 implements Migration
 
     public function getSql(bool $count = false): string
     {
-        $sub_filename = "SUBSTRING_INDEX(er.filename, '/', -1)";
+        $sub_filename = "REGEXP_REPLACE(REGEXP_REPLACE(SUBSTRING_INDEX(er.filename, '/', -1),'\\.sec',''),'\\.','')";
+        $sub_title = "REGEXP_REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(SUBSTRING_INDEX(rev.title, '/', -1), '&amp;', '&')";
         if (!$count) {
             $fields = " DISTINCT er.user_id, er.ass_id, er.team_id ";
         } else {
@@ -61,7 +62,7 @@ FROM exc_returned er
 JOIN il_resource_revision rev ON rev.rid = er.rid
 JOIN il_resource_info i ON i.rid = rev.rid AND i.version_number = rev.version_number
 WHERE er.rid IS NOT NULL AND er.rid <> ''
-    AND rev.title <> $sub_filename
+    AND $sub_title <> $sub_filename
     AND er.filename IS NOT NULL AND er.filename <> '' ORDER BY `er`.`returned_id` DESC";
 
         return $sql;
@@ -89,12 +90,14 @@ WHERE er.rid IS NOT NULL AND er.rid <> ''
     protected function fixCase(int $user_id, int $ass_id, int $team_id): void
     {
         $db = $this->helper->getDatabase();
+        $sub_filename = "REGEXP_REPLACE(REGEXP_REPLACE(SUBSTRING_INDEX(er.filename, '/', -1),'\\.sec',''),'\\.','')";
+        $sub_title = "REGEXP_REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(SUBSTRING_INDEX(rev.title, '/', -1), '&amp;', '&')";
         $sql = "SELECT er.returned_id, rev.title, SUBSTRING_INDEX(er.filename, '/', -1) subname, rev.rid
             FROM exc_returned er
             LEFT JOIN il_resource_revision rev ON rev.rid = er.rid
             LEFT JOIN il_resource_info i ON i.rid = rev.rid AND i.version_number = rev.version_number
             WHERE er.user_id = %s AND er.ass_id = %s AND er.team_id = %s
-                AND (rev.title <> SUBSTRING_INDEX(er.filename, '/', -1) OR rev.title IS NULL)
+                AND ($sub_title <> $sub_filename) OR rev.title IS NULL)
                 AND er.filename IS NOT NULL AND er.filename <> ''";
         $set = $db->queryF(
             $sql,
