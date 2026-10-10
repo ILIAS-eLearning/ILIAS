@@ -47,7 +47,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $this->variables = [];
         $this->results = [];
         $this->resultunits = [];
-        $this->unitrepository = new ilUnitConfigurationRepository(0);
+        $this->unitrepository = new ilUnitConfigurationRepository();
         $this->pass_presented_variables_repo = new PassPresentedVariablesRepo($this->db);
     }
 

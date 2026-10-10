@@ -31,7 +31,7 @@ class ilUnitConfigurationRepository
     /** @var assFormulaQuestionUnit[]|assFormulaQuestionUnitCategory[]  */
     private array $categorizedUnits = [];
 
-    public function __construct(int $consumer_id)
+    public function __construct(int $consumer_id = -1)
     {
         global $DIC;
 

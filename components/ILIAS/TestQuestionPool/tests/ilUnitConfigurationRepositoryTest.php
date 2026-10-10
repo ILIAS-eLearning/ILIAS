@@ -35,7 +35,7 @@ class ilUnitConfigurationRepositoryTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new ilUnitConfigurationRepository(0);
+        $this->object = new ilUnitConfigurationRepository();
     }
 
     public function testConstruct(): void

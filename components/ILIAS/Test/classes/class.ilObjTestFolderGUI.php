@@ -90,7 +90,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('units');
 
                 $gui = new \ilGlobalUnitConfigurationGUI(
-                    new \ilUnitConfigurationRepository(0)
+                    new \ilUnitConfigurationRepository()
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
