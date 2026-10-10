@@ -16,7 +16,6 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
 **Repository Objects**
 
 - The News service can be **activated** on the level of repository objects using the service, e.g. courses.
-- The **default access** of single news entries, authenticated users or public via RSS, can be set on the repository object level. This overwrites the global setting.
 
 **Single New Entries**
 

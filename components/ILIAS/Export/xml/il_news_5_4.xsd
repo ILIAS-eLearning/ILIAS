@@ -52,7 +52,7 @@
             <sequence>
                 <element ref='t:ObjId' minOccurs='1' maxOccurs='1'/>
                 <element ref='t:PublicFeed' minOccurs='1' maxOccurs='1'/>
-                <element ref='t:DefaultVisibility' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:DefaultVisibility' minOccurs='0' maxOccurs='1'/>
                 <element ref='t:KeepRssMin' minOccurs='1' maxOccurs='1'/>
                 <element ref='t:HideNewsPerDate' minOccurs='1' maxOccurs='1'/>
                 <element ref='t:HideNewsDate' minOccurs='1' maxOccurs='1'/>
