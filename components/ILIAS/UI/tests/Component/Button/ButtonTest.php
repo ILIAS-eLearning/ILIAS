@@ -430,6 +430,29 @@ class ButtonTest extends ILIAS_UI_TestBase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getButtonTypeProvider')]
+    public function testRenderButtonWithAriaCurrent(string $factory_method): void
+    {
+        $ln = "http://www.ilias.de";
+        $f = $this->getButtonFactory();
+        $r = $this->getDefaultRenderer();
+        $b = $f->$factory_method("label", $ln);
+        if ($b instanceof C\Button\Engageable) {
+            $b = $b->withEngagedState(true)->withAriaCurrent('page');
+
+            $html = $this->normalizeHTML($r->render($b));
+            $css_classes = self::$canonical_css_classes[$factory_method];
+            $css_classes .= ' engaged';
+            $expected = "<button class=\"$css_classes\" aria-current=\"page\" data-action=\"$ln\" id=\"id_1\">" .
+                "label" .
+                "</button>";
+            $this->assertHTMLEquals($expected, $html);
+            $this->assertStringNotContainsString('aria-pressed', $html);
+        } else {
+            $this->assertTrue(self::NOT_APPLICABLE);
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('getButtonTypeProvider')]
     public function testWithOnClickRemovesAction(string $factory_method): void
     {
         $f = $this->getButtonFactory();
