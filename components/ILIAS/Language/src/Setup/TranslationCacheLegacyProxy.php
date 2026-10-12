@@ -29,6 +29,11 @@ final class TranslationCacheLegacyProxy implements TranslationCache
 {
     public function invalidate(string $lang_key): void
     {
+        // CLI Setup and other early contexts have no global cache
+        $dic = $GLOBALS['DIC'] ?? null;
+        if (!$dic instanceof \ILIAS\DI\Container || !$dic->offsetExists('global_cache')) {
+            return;
+        }
         // avoid flushing the whole cache (see mantis #28818)
         \ilCachedLanguage::getInstance($lang_key)->deleteInCache();
     }

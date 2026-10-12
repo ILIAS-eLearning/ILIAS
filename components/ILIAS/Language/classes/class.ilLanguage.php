@@ -18,26 +18,31 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Language\ComponentTranslation\MigratedTranslations;
+
 /**
  * language handling
  *
  * this class offers the language handling for an application.
- * it works initially on one file: languages.txt
- * from this file the class can generate many single language files.
  * the constructor is called with a small language abbreviation
  * e.g. $lng = new Language("en");
- * the constructor reads the single-languagefile en.lang and puts this into an array.
  * with
  * e.g. $lng->txt("user_updated");
  * you can translate a lang-topic into the actual language
  *
+ * Two coexisting backends per module: the legacy DB tables lng_data/lng_modules (for every module
+ * not migrated yet), and - for a module migrated for the requested language - its build served
+ * through native gettext with the overlay of the local changes on top (see MigratedTranslations),
+ * never the DB. The values of a migrated module do not go into $text: loadLanguageModule() records
+ * its identifiers in $migrated_key_modules, and txt() looks them up when asked. The DB path exists
+ * to be fully replaced and eventually removed as more modules migrate onto the file-based one, not
+ * to be maintained forever alongside it.
+ *
  * @author Peter Gabriel <pgabriel@databay.de>
  * @version $Id$
- *
- *
- * @todo Das Datefeld wird bei Aenderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
- *  Die Formatfunktionen gehoeren nicht in class.Language. Die sind auch woanders einsetzbar!!!
- *  Daher->besser in class.Format
  */
 class ilLanguage implements \ILIAS\Language\Language
 {
@@ -53,6 +58,28 @@ class ilLanguage implements \ILIAS\Language\Language
     public array $loaded_modules = array();
     protected static array $used_topics = array();
     protected static array $used_modules = array();
+
+    /**
+     * Static, since _lookupEntry() is; taken from the list the constructor reads anyway, `null` until known.
+     *
+     * @var list<string>|null
+     */
+    private static ?array $installed_languages = null;
+
+    /**
+     * Identifier => module; the module loaded last is responsible. An identifier the responsible migrated module
+     * does not translate gives "-identifier-", never the value of an earlier module (see txt()).
+     *
+     * @var array<string, string>
+     */
+    protected array $migrated_key_modules = [];
+
+    /**
+     * Per "<module>|<lang>", see isShippedWithoutBuild().
+     *
+     * @var array<string, bool>
+     */
+    private static array $shipped_without_build = [];
     protected array $cached_modules = array();
     protected array $map_modules_txt = array();
     protected bool $usage_log_enabled = false;
@@ -99,6 +126,7 @@ class ilLanguage implements \ILIAS\Language\Language
         }
 
         $langs = $this->getInstalledLanguages();
+        self::$installed_languages = array_values(array_map('strval', $langs));
 
         if (!in_array($this->lang_key, $langs, true)) {
             $this->lang_key = $this->lang_default;
@@ -176,7 +204,22 @@ class ilLanguage implements \ILIAS\Language\Language
         // remember the used topics
         self::$used_topics[$a_topic] = $a_topic;
 
-        $translation = $this->text[$a_topic] ?? "";
+        $module = $this->migrated_key_modules[$a_topic] ?? null;
+        if ($module !== null) {
+            $translation = $this->migratedText($module, $a_topic);
+            if ($translation !== null) {
+                if ($this->usage_log_enabled) {
+                    self::logUsage($module, $a_topic);
+                }
+                return $translation;
+            }
+            // deliberately not the value of an earlier module: with the same identifier it mostly means
+            // something else, and "-key-" is noticed. Differs from the .lang path (array_merge kept the earlier value).
+            // Only the fallback module the caller names still applies.
+            $translation = "";
+        } else {
+            $translation = $this->text[$a_topic] ?? "";
+        }
 
         if ($translation === "" && $a_default_lang_fallback_mod !== "") {
             // #13467 - try current language first (could be missing module)
@@ -217,6 +260,11 @@ class ilLanguage implements \ILIAS\Language\Language
      */
     public function exists(string $a_topic): bool
     {
+        $module = $this->migrated_key_modules[$a_topic] ?? null;
+        if ($module !== null) {
+            return $this->migratedText($module, $a_topic) !== null;
+        }
+
         return isset($this->text[$a_topic]);
     }
 
@@ -243,8 +291,18 @@ class ilLanguage implements \ILIAS\Language\Language
             $lang_key = $this->lang_user;
         }
 
+        // Must run before the cached_modules check: ilCachedLanguage::isActive() is always true, and migrated
+        // modules keep a DB row on purpose (dual-write, see ilObjLanguage::syncMigratedLanguageFile()).
+        $migrated_keys = self::migratedKeysOf($a_module, $lang_key);
+        if ($migrated_keys !== null) {
+            // the module loaded last is responsible for its identifiers
+            $this->migrated_key_modules = $migrated_keys + $this->migrated_key_modules;
+            return;
+        }
+
         if (isset($this->cached_modules[$a_module]) && is_array($this->cached_modules[$a_module])) {
             $this->text = array_merge($this->text, $this->cached_modules[$a_module]);
+            $this->forgetMigratedKeys($this->cached_modules[$a_module]);
 
             if ($this->usage_log_enabled) {
                 foreach (array_keys($this->cached_modules[$a_module]) as $key) {
@@ -268,6 +326,7 @@ class ilLanguage implements \ILIAS\Language\Language
         $new_text = unserialize($row["lang_array"], ["allowed_classes" => false]);
         if (is_array($new_text)) {
             $this->text = array_merge($this->text, $new_text);
+            $this->forgetMigratedKeys($new_text);
 
             if ($this->usage_log_enabled) {
                 foreach (array_keys($new_text) as $key) {
@@ -275,6 +334,132 @@ class ilLanguage implements \ILIAS\Language\Language
                 }
             }
         }
+    }
+
+    /**
+     * A module that is not migrated, loaded after migrated ones, wins for its identifiers.
+     *
+     * @param array<string|int, mixed> $text
+     */
+    private function forgetMigratedKeys(array $text): void
+    {
+        if ($this->migrated_key_modules !== []) {
+            $this->migrated_key_modules = array_diff_key($this->migrated_key_modules, $text);
+        }
+    }
+
+    private function migratedText(string $module, string $a_topic): ?string
+    {
+        return MigratedTranslations::text($module, $this->migratedLangKey(), $a_topic, self::clientDataDir());
+    }
+
+    private function migratedLangKey(): string
+    {
+        return $this->lang_key !== '' ? $this->lang_key : $this->lang_user;
+    }
+
+    /**
+     * The migrated state is only served for installed languages; the list is the one the constructor already
+     * determined, without a query of its own. Without it (no ilLanguage constructed yet) nothing is restricted.
+     */
+    private static function isInstalledLanguage(string $lang_key): bool
+    {
+        return self::$installed_languages === null || in_array($lang_key, self::$installed_languages, true);
+    }
+
+    /**
+     * $lang_key was uninstalled in this request: its migrated state is no longer served (see isInstalledLanguage()),
+     */
+    public static function forgetInstalledLanguage(string $lang_key): void
+    {
+        if (self::$installed_languages !== null) {
+            self::$installed_languages = array_values(array_diff(self::$installed_languages, [$lang_key]));
+        }
+        MigratedTranslations::forgetLanguage($lang_key);
+    }
+
+    /**
+     * Makes an overlay write (see MigratedLanguageFileSync) visible to the rest of the request.
+     */
+    public static function invalidateMigratedLanguageFileCache(string $a_module, string $lang_key): void
+    {
+        MigratedTranslations::invalidate($a_module, $lang_key);
+    }
+
+    /**
+     * `null` unless $a_module is migrated for $lang_key, so the caller reads lng_modules/lng_data. A module whose
+     * `.po` is not built yet is migrated but has no identifiers (reported); never read from the database instead.
+     *
+     * Deliberately only when CLIENT_DATA_DIR is defined, not via MigratedLanguageFilePaths::resolveClientDataDir():
+     * before ilInitialisation::initClientDataDir() (e.g. plugin Setup Objectives) lng_modules is the correct source.
+     *
+     * @return array<string, string>|null
+     */
+    private static function migratedKeysOf(string $a_module, string $lang_key): ?array
+    {
+        if (!defined('CLIENT_DATA_DIR') || !self::isInstalledLanguage($lang_key)) {
+            return null;
+        }
+        $keys = MigratedTranslations::keysOf($a_module, $lang_key, self::clientDataDir());
+        if ($keys !== null || !self::isShippedWithoutBuild($a_module, $lang_key)) {
+            return $keys;
+        }
+        MigratedTranslations::reportProblem(sprintf(
+            'Module "%s" ships a language file for "%s" that is not built - run "php cli/setup.php build".',
+            $a_module,
+            $lang_key
+        ));
+
+        return [];
+    }
+
+    private static function isShippedWithoutBuild(string $a_module, string $lang_key): bool
+    {
+        return self::$shipped_without_build[$a_module . '|' . $lang_key] ??= self::findShippedWithoutBuild($a_module, $lang_key);
+    }
+
+    private static function findShippedWithoutBuild(string $a_module, string $lang_key): bool
+    {
+        $directory = self::findLanguageFileDirectory($a_module);
+        if ($directory === null) {
+            return false;
+        }
+        try {
+            return is_file(MigratedLanguageFilePaths::shippedBasePath(
+                defined('ILIAS_ABSOLUTE_PATH') ? (string) ILIAS_ABSOLUTE_PATH : dirname(__DIR__, 4),
+                $directory,
+                $lang_key
+            ) . '.po');
+        } catch (\InvalidArgumentException) {
+            return false;
+        }
+    }
+
+    private static function clientDataDir(): ?string
+    {
+        return defined('CLIENT_DATA_DIR') ? (string) CLIENT_DATA_DIR : null;
+    }
+
+    /**
+     * Assembled by the Language.php component graph and re-exposed to legacy $DIC code by AllModernComponents.php.
+     */
+    private static function findLanguageFileDirectory(string $a_module): ?LanguageFileDirectory
+    {
+        global $DIC;
+
+        if (!$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
+            return null;
+        }
+
+        /** @var LanguageFileDirectoryManager $manager */
+        $manager = $DIC[LanguageFileDirectoryManager::class];
+        foreach ($manager->getDirectories() as $directory) {
+            if ($directory->getPrefix() === $a_module) {
+                return $directory;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -307,6 +492,25 @@ class ilLanguage implements \ILIAS\Language\Language
 
     public static function _lookupEntry(string $a_lang_key, string $a_mod, string $a_id): string
     {
+        // a module migrated for $a_lang_key is never read from lng_data
+        $migrated_keys = self::migratedKeysOf($a_mod, $a_lang_key);
+        if ($migrated_keys !== null) {
+            $value = isset($migrated_keys[$a_id])
+                ? MigratedTranslations::text($a_mod, $a_lang_key, $a_id, self::clientDataDir())
+                : null;
+            if ($value === null || $value === '') {
+                return "-" . $a_id . "-";
+            }
+            self::$used_topics[$a_id] = $a_id;
+            self::$used_modules[$a_mod] = $a_mod;
+
+            if (self::isUsageLogEnabled()) {
+                self::logUsage($a_mod, $a_id);
+            }
+
+            return $value;
+        }
+
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -503,7 +707,11 @@ class ilLanguage implements \ILIAS\Language\Language
 
         foreach ($a_map as $k => $v) {
             if ($v != "") {
-                $a_tpl->addOnloadCode("il.Language.setLangVar('" . $k . "', " . json_encode($v, JSON_THROW_ON_ERROR) . ");");
+                // HEX flags: a value or key can never end the surrounding <script> element, whatever the markup policy allows
+                $flags = JSON_THROW_ON_ERROR | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
+                $a_tpl->addOnloadCode(
+                    "il.Language.setLangVar(" . json_encode((string) $k, $flags) . ", " . json_encode($v, $flags) . ");"
+                );
             }
         }
     }

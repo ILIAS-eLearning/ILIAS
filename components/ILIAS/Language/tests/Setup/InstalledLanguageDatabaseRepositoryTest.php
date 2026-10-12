@@ -23,7 +23,8 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\FixedInstallationRoot;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,9 +33,9 @@ use PHPUnit\Framework\TestCase;
  */
 class InstalledLanguageDatabaseRepositoryTest extends TestCase
 {
-    private function createReadDatabaseMock(): MockObject&ilDBInterface
+    private function createReadDatabaseMock(): Stub&ilDBInterface
     {
-        $db = $this->createMock(ilDBInterface::class);
+        $db = $this->createStub(ilDBInterface::class);
         $db->method('quote')->willReturnCallback(
             static fn(mixed $value, string $type): string => "'" . (string) $value . "'"
         );
@@ -52,7 +53,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
      *
      * @param list<array<string, mixed>> $rows each row as an associative array of column => value
      */
-    private function configureDbToReturnObjectRows(MockObject&ilDBInterface $db, array $rows): void
+    private function configureDbToReturnObjectRows(Stub&ilDBInterface $db, array $rows): void
     {
         $objects = array_map(static fn(array $row): \stdClass => (object) $row, $rows);
         $objects[] = null; // terminates the while ($row = ...) loop
@@ -62,9 +63,9 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     /**
      * @param list<array<string, mixed>> $rows each row as an associative array of column => value
      */
-    private function createStatementReturningAssocRows(array $rows): MockObject&ilDBStatement
+    private function createStatementReturningAssocRows(array $rows): Stub&ilDBStatement
     {
-        $statement = $this->createMock(ilDBStatement::class);
+        $statement = $this->createStub(ilDBStatement::class);
         $rows[] = null; // terminates the while ($row = ...) loop
         $statement->method('fetchRow')->willReturn(...$rows);
 
@@ -85,7 +86,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     public function testGetAvailableLanguagesMapsObjIdAndStatusToTheCorrectLanguageNotSwapped(): void
     {
         $db = $this->createReadDatabaseMock();
-        $db->method('query')->willReturn($this->createMock(ilDBStatement::class));
+        $db->method('query')->willReturn($this->createStub(ilDBStatement::class));
         $this->configureDbToReturnObjectRows($db, [
             ['title' => 'de', 'description' => 'installed', 'obj_id' => 5],
             ['title' => 'en', 'description' => 'not_installed', 'obj_id' => 8],
@@ -105,7 +106,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     public function testGetAvailableLanguagesReturnsEmptyArrayWhenNoLanguagesAreKnown(): void
     {
         $db = $this->createReadDatabaseMock();
-        $db->method('query')->willReturn($this->createMock(ilDBStatement::class));
+        $db->method('query')->willReturn($this->createStub(ilDBStatement::class));
         $this->configureDbToReturnObjectRows($db, []);
 
         $this->assertSame([], $this->createRepository($db)->getAvailableLanguages());
@@ -118,7 +119,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         $db->method('query')->willReturnCallback(
             function (string $query) use (&$captured_query): ilDBStatement {
                 $captured_query = $query;
-                return $this->createMock(ilDBStatement::class);
+                return $this->createStub(ilDBStatement::class);
             }
         );
         $this->configureDbToReturnObjectRows($db, [
@@ -140,7 +141,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         $db->method('query')->willReturnCallback(
             function (string $query) use (&$captured_query): ilDBStatement {
                 $captured_query = $query;
-                return $this->createMock(ilDBStatement::class);
+                return $this->createStub(ilDBStatement::class);
             }
         );
         $this->configureDbToReturnObjectRows($db, [
@@ -333,6 +334,28 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         }
     }
 
+    /**
+     * The regex ends in `\z`, not `$`, which in PCRE also matches before a trailing newline; file names may
+     * legally contain "\n".
+     */
+    public function testGetInstallableLanguagesIgnoresAFileNameWithATrailingNewline(): void
+    {
+        $root = $this->createTempInstallationRoot();
+        file_put_contents($root . '/lang/ilias_de.lang', 'irrelevant content');
+        // distinct key "zz": a wrongly accepted trailing "\n" would show up as an extra entry, not collapse into "de"
+        file_put_contents($root . "/lang/ilias_zz.lang\n", 'irrelevant content');
+
+        try {
+            $repository = $this->createRepository($this->createReadDatabaseMock(), $root);
+
+            $result = $repository->getInstallableLanguages();
+
+            $this->assertSame(['de'], $result);
+        } finally {
+            $this->removeDirectory($root);
+        }
+    }
+
     public function testGetLocalLanguagesReturnsEmptyArrayWhenCustomizingDirectoryIsEmpty(): void
     {
         $root = $this->createTempInstallationRoot();
@@ -433,7 +456,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
      */
     public function testCheckLocalLanguageFileReturnsFalseWhenNoCustomizingDirectoryIsConfiguredAtAll(): void
     {
-        $manager = $this->createMock(LanguageFileDirectoryManager::class);
+        $manager = $this->createStub(LanguageFileDirectoryManager::class);
         $manager->method('getCustomizingDirectories')->willReturnCallback(
             static function (): \Generator {
                 return;
@@ -448,6 +471,154 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         );
 
         $this->assertFalse($repository->checkLocalLanguageFile('de'));
+    }
+
+    /**
+     * checkLanguage() for a migrated module: the shipped `.po` is the only source of its values, so an unparsable one
+     * invalidates the language. Builds a root with a valid main lang file and a "pilot" component whose shipped de
+     * `.po` has $po_content (null = no `.po`).
+     */
+    private function checkLanguageWithShippedPo(?string $po_content, bool $local_directory = false): bool
+    {
+        $root = $this->createTempInstallationRoot();
+        file_put_contents($root . '/lang/ilias_de.lang', "<!-- language file start -->\ncommon#:#yes#:#Ja\n");
+        mkdir($root . '/components/pilot/lang', 0777, true);
+        if ($po_content !== null) {
+            file_put_contents($root . '/components/pilot/lang/pilot_de.po', $po_content);
+        }
+        $pilot = MigratedPoFixture::directory('pilot', 'components/pilot/lang/', $local_directory);
+
+        try {
+            $repository = new InstalledLanguageDatabaseRepository(
+                $this->createReadDatabaseMock(),
+                $local_directory
+                    ? new LanguageFileDirectoryManager($pilot, new MainLanguageFileDirectory())
+                    : new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory(), $pilot),
+                new FixedInstallationRoot($root)
+            );
+            return $repository->checkLanguage('de');
+        } finally {
+            $this->removeDirectory($root);
+        }
+    }
+
+    public function testCheckLanguageAcceptsAParsableShippedPo(): void
+    {
+        $this->assertTrue($this->checkLanguageWithShippedPo("msgctxt \"pilot\"\nmsgid \"greeting\"\nmsgstr \"Hallo\"\n"));
+    }
+
+    /**
+     * Everything gettext/gettext's StrictPoLoader rejects invalidates the language, including what the old parser
+     * tolerated (a duplicate, a message without msgstr).
+     */
+    #[DataProvider('unparsableShippedPo')]
+    public function testCheckLanguageRejectsAnUnparsableShippedPo(string $po_content): void
+    {
+        $this->assertFalse($this->checkLanguageWithShippedPo($po_content));
+    }
+
+    public static function unparsableShippedPo(): array
+    {
+        $message = "msgctxt \"pilot\"\nmsgid \"greeting\"\nmsgstr \"Hallo\"\n";
+
+        return [
+            'unterminated string' => ["msgctxt \"pilot\"\nmsgid \"abc\nmsgstr \"Hallo\"\n"],
+            'duplicate message' => [$message . "\n" . $message],
+            'message without msgstr' => ["msgctxt \"pilot\"\nmsgid \"greeting\"\n"],
+            'truncated inside a string' => [substr($message, 0, -4)],
+            'binary data' => ["\xde\x12\x04\x95\x00\x00\x00\x00"],
+            'header value with a line break' => ["msgid \"\"\nmsgstr \"\"\n\"X-A: a\\rb\\n\"\n\n" . $message],
+        ];
+    }
+
+    /**
+     * A BOM and CRLF line endings are no reason to refuse the language.
+     */
+    public function testCheckLanguageAcceptsAShippedPoWithBomAndCrLf(): void
+    {
+        $this->assertTrue($this->checkLanguageWithShippedPo(
+            "\xEF\xBB\xBFmsgid \"\"\r\nmsgstr \"\"\r\n\"Language: de\\n\"\r\n\r\nmsgctxt \"pilot\"\r\nmsgid \"greeting\"\r\nmsgstr \"Hallo\"\r\n"
+        ));
+    }
+
+    public function testCheckLanguageAcceptsAModuleWithoutShippedPoForTheLanguage(): void
+    {
+        $this->assertTrue($this->checkLanguageWithShippedPo(null));
+    }
+
+    public function testCheckLanguageDoesNotParsePoFilesOfTheLocalDirectory(): void
+    {
+        $this->assertTrue($this->checkLanguageWithShippedPo("msgid \"abc\n", true));
+    }
+
+    /**
+     * An empty `.po` is a valid, empty catalog.
+     */
+    public function testCheckLanguageAcceptsAnEmptyShippedPo(): void
+    {
+        $this->assertTrue($this->checkLanguageWithShippedPo(''));
+    }
+
+    /**
+     * checkShippedLanguage() is checkLanguage() without the customizing directory: an invalid "ilias_de.lang.local"
+     * must not block it.
+     */
+    public function testCheckShippedLanguageIgnoresAnInvalidCustomizingFileThatMakesCheckLanguageFail(): void
+    {
+        $root = $this->createTempInstallationRoot();
+        file_put_contents($root . '/lang/ilias_de.lang', "<!-- language file start -->\ncommon#:#yes#:#Ja\n");
+        file_put_contents($root . '/lang/customizing/ilias_de.lang.local', "<!-- language file start -->\nonly_one_field\n");
+
+        try {
+            $repository = $this->createRepository($this->createReadDatabaseMock(), $root);
+
+            $this->assertTrue($repository->checkShippedLanguage('de'), 'the invalid customizing file is never consulted');
+            $this->assertFalse($repository->checkLanguage('de'), 'precondition: the same file makes checkLanguage() fail');
+        } finally {
+            $this->removeDirectory($root);
+        }
+    }
+
+    /**
+     * An invalid global "ilias_de.lang" is part of getDirectories(), so checkShippedLanguage() fails like checkLanguage().
+     */
+    public function testCheckShippedLanguageRejectsAnInvalidGlobalLanguageFile(): void
+    {
+        $root = $this->createTempInstallationRoot();
+        file_put_contents($root . '/lang/ilias_de.lang', "common#:#yes#:#Ja\n");
+
+        try {
+            $repository = $this->createRepository($this->createReadDatabaseMock(), $root);
+
+            $this->assertFalse($repository->checkShippedLanguage('de'));
+        } finally {
+            $this->removeDirectory($root);
+        }
+    }
+
+    /**
+     * An unparsable shipped `.po` of a PO-maintained module is part of getDirectories() too, so
+     * checkShippedLanguage() fails like checkLanguage().
+     */
+    public function testCheckShippedLanguageRejectsAnUnparsableShippedPo(): void
+    {
+        $root = $this->createTempInstallationRoot();
+        file_put_contents($root . '/lang/ilias_de.lang', "<!-- language file start -->\ncommon#:#yes#:#Ja\n");
+        mkdir($root . '/components/pilot/lang', 0777, true);
+        file_put_contents($root . '/components/pilot/lang/pilot_de.po', "msgctxt \"pilot\"\nmsgid \"abc\nmsgstr \"Hallo\"\n");
+        $pilot = MigratedPoFixture::directory('pilot', 'components/pilot/lang/');
+
+        try {
+            $repository = new InstalledLanguageDatabaseRepository(
+                $this->createReadDatabaseMock(),
+                new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory(), $pilot),
+                new FixedInstallationRoot($root)
+            );
+
+            $this->assertFalse($repository->checkShippedLanguage('de'));
+        } finally {
+            $this->removeDirectory($root);
+        }
     }
 
     private function createTempInstallationRoot(): string
@@ -468,7 +639,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
                 continue;
             }
             $path = $dir . '/' . $item;
-            if (is_dir($path)) {
+            if (is_dir($path) && !is_link($path)) {
                 $this->removeDirectory($path);
             } else {
                 unlink($path);

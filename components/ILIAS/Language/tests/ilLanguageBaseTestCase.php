@@ -31,6 +31,8 @@ abstract class ilLanguageBaseTestCase extends TestCase
 {
     protected function setUp(): void
     {
+        // never the build of the installation, see MigratedPoFixture::resetRuntime()
+        MigratedPoFixture::resetRuntime();
         $GLOBALS['DIC'] = new Container();
 
         parent::setUp();

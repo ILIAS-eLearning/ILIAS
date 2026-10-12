@@ -16,6 +16,23 @@
  *
  *********************************************************************/
 
+
 declare(strict_types=1);
-require_once 'vendor/composer/vendor/autoload.php';
-require_once 'ilLanguageBaseTestCase.php';
+
+use ILIAS\Language\Setup\TranslationCache;
+
+/**
+ * Lets a test observe or influence the invalidation.
+ */
+final readonly class CallbackTranslationCache implements TranslationCache
+{
+    public function __construct(
+        private \Closure $invalidate
+    ) {
+    }
+
+    public function invalidate(string $lang_key): void
+    {
+        ($this->invalidate)($lang_key);
+    }
+}

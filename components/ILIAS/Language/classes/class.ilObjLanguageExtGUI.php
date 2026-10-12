@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\ComponentTranslation\PlainLogText;
+use ILIAS\Language\ComponentTranslation\InvalidMarkupMessage;
+use ILIAS\Language\ComponentTranslation\PluralFormKey;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Language\Activities\AddLanguageEntry;
+use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\RendersActivityErrors;
 
@@ -40,7 +44,7 @@ use ILIAS\Language\RendersActivityErrors;
 *
 * @ingroup ServicesLanguage
 */
-class ilObjLanguageExtGUI extends ilObjectGUI
+class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 {
     use RendersActivityErrors;
 
@@ -48,6 +52,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     private string $langmode;
     private readonly AddLanguageEntry $add_language_entry;
     private readonly SetLanguageTranslationEnabled $set_language_translation_enabled;
+    private readonly RemoveLocalLanguageChanges $remove_local_language_changes;
 
     /**
     * Constructor
@@ -70,12 +75,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $this->refinery = $DIC['refinery'];
         $this->add_language_entry = $DIC[AddLanguageEntry::class];
         $this->set_language_translation_enabled = $DIC[SetLanguageTranslationEnabled::class];
+        $this->remove_local_language_changes = $DIC[RemoveLocalLanguageChanges::class];
         // used by activityErrorMessage() (see RendersActivityErrors)
         $this->activity_error_logger = $DIC->logger()->lang();
 
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
         $lng->loadLanguageModule("meta");
+        $lng->loadLanguageModule("lng");
 
         //  view mode ('translate' or empty) determins available table filters
         $ilCtrl->saveParameter($this, "view_mode");
@@ -127,6 +134,24 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     }
 
     /**
+     * Sent by GET (e.g. a crafted link) these commands need the CSRF token as well; ilCtrl appends it to their link targets.
+     *
+     * @return list<string>
+     */
+    public function getUnsafeGetCommands(): array
+    {
+        return ['save', 'upload', 'maintainExecute', 'saveSettings', 'saveNewEntry'];
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
+    /**
     * execute command
     */
     public function executeCommand(): void
@@ -170,16 +195,28 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Show the edit screen
     */
-    public function viewObject(int $changesSuccessBool = 0): void
-    {
+    /**
+     * @param list<string> $modules_with_unwritten_overlay after saving: modules whose PO/MO files could not be written
+     *        (see ilObjLanguageExt::_saveValues()); a warning replaces the success message
+     * @param list<string> $additional_failure_messages HTML, shown together with the failure messages of this view
+     * @param array<string, string> $posted_values module.separator.topic => value shown instead of the stored one (rejected save)
+     * @param array<string, string> $posted_remarks module.separator.topic => remark, like $posted_values
+     */
+    public function viewObject(
+        int $changesSuccessBool = 0,
+        array $modules_with_unwritten_overlay = [],
+        array $additional_failure_messages = [],
+        array $posted_values = [],
+        array $posted_remarks = []
+    ): void {
         global $DIC;
         $tpl = $DIC["tpl"];
 
         // get the view table
         $table_gui = $this->getViewTable();
 
-        // get the remarks in database
-        $comments = $this->object->getAllRemarks();
+        // see ilObjLanguageExt::getEffectiveRemarks()
+        $comments = $this->object->getEffectiveRemarks();
 
         $compare_comments = [];
         $missing_entries = [];
@@ -188,9 +225,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // get the default values if the compare language is the same
         $compare = $table_gui->getFilterItemByPostVar("compare")->getValue();
         if ($compare == $this->object->key) {
-            $compare_object = $this->object->getGlobalLanguageFile();
-            $compare_content = $compare_object->getAllValues();
-            $compare_comments = $compare_object->getAllComments();
+            $compare_content = $this->object->getShippedValues();
+            $compare_comments = $this->object->getShippedCommentsForDisplay();
         }
 
         // page translation mode:
@@ -220,7 +256,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                     $topics
                 );
 
-                $compare_comments = ilObjLanguageExt::_getRemarks($compare);
+                $compare_comments = $this->compareComments($compare, $modules);
             }
 
             $translations = ilObjLanguageExt::_getValues(
@@ -234,6 +270,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             foreach ($translations as $name => $translation) {
                 $keys = explode($this->lng->separator, $name);
                 $db_found[] = $keys[1];
+                // the forms of a plural message are its topic (see PluralFormKey)
+                $db_found[] = PluralFormKey::parse($keys[1])[0] ?? $keys[1];
             }
             $missing_entries = array_diff($topics, $db_found);
         } else { // normal view mode:
@@ -253,7 +291,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                     $filter_topics
                 );
 
-                $compare_comments = ilObjLanguageExt::_getRemarks($compare);
+                $compare_comments = $this->compareComments($compare, $filter_modules);
             }
 
             switch ($filter_mode) {
@@ -296,7 +334,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         $filter_topics
                     );
 
-                    $translations = array_intersect_key($translations, $comments);
+                    // only local remarks, no shipped notes
+                    $local_remarks = $this->object->getAllRemarks();
+                    $translations = array_filter(
+                        $translations,
+                        fn(int|string $name): bool => $this->remarkOf($local_remarks, (string) $name) !== '',
+                        ARRAY_FILTER_USE_KEY
+                    );
                     break;
 
                 case "equal":
@@ -327,12 +371,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         $translations = array();
                         break;
                     }
-                    $global_file_obj = $this->object->getGlobalLanguageFile();
                     $former_file_obj = new ilLanguageFile($former_file);
                     $former_file_obj->read();
-                    $global_changes = array_diff_assoc(
-                        $global_file_obj->getAllValues(),
-                        $former_file_obj->getAllValues()
+                    // PO modules are compared with the backup of their shipped .po (written by "save_dist")
+                    $global_changes = $this->object->getShippedChangesSinceBackup(
+                        $former_file_obj,
+                        $this->object->getDataPath()
                     );
                     if (!count($global_changes)) {
                         $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("language_former_file_equal"), $former_file)
@@ -368,21 +412,115 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $row["module"] = $keys[0];
             $row["topic"] = $keys[1];
             $row["name"] = $name;
-            $row["translation"] = $translation;
-            $row["comment"] = $comments[$name] ?? "";
+            $row["translation"] = $posted_values[$name] ?? $translation;
+            $row["comment"] = $posted_remarks[$name] ?? $this->remarkOf($comments, (string) $name);
             $row["default"] = $compare_content[$name] ?? "";
-            $row["default_comment"] = $compare_comments[$name] ?? "";
+            $row["default_comment"] = $this->remarkOf($compare_comments, (string) $name);
 
             $data[] = $row;
         }
 
-        if ($changesSuccessBool) {
+        // one message: setOnScreenMessage() only keeps one per type
+        $failure_messages = $additional_failure_messages;
+        if ($changesSuccessBool && $modules_with_unwritten_overlay !== []) {
+            $failure_messages[] = $this->overlayNotWrittenMessage($modules_with_unwritten_overlay);
+        } elseif ($changesSuccessBool) {
             $tpl->setVariable("MESSAGE", $this->getSuccessMessage());
+        }
+        if (($unreadable_modules = $this->object->getUnreadableShippedPoModules()) !== []) {
+            $failure_messages[] = sprintf(
+                $this->lng->txt("lng_shipped_po_unreadable_fallback"),
+                implode(', ', $unreadable_modules)
+            );
+        }
+        if ($failure_messages !== []) {
+            $this->tpl->setOnScreenMessage('failure', implode('<br />', $failure_messages));
         }
 
         // render and show the table
         $table_gui->setData($data);
         $tpl->setContent($table_gui->getHTML() . $this->buildMissingEntries($missing_entries));
+    }
+
+    /**
+     * Remarks (lng_data and overlay) plus, for PO modules without a remark, the `#.` notes and "not translated yet"
+     * marker of the shipped .po (see ilObjLanguageExt::_getShippedMigratedComments()).
+     *
+     * @param list<string> $modules the displayed modules, all if empty
+     * @return array<string, string> module.separator.topic => comment
+     */
+    private function compareComments(string $compare, array $modules = []): array
+    {
+        return array_merge(
+            ilObjLanguageExt::_getShippedMigratedComments($compare, $modules),
+            array_filter(
+                ilObjLanguageExt::_getRemarks($compare),
+                static fn(?string $remark): bool => $remark !== null && $remark !== ''
+            )
+        );
+    }
+
+    /**
+     * A form of a plural message without a comment of its own gets the one of its identifier (see PluralFormKey).
+
+     *
+     * @param array<string, string|null> $comments
+     */
+    private function remarkOf(array $comments, string $name): string
+    {
+        if (($comments[$name] ?? '') !== '') {
+            return (string) $comments[$name];
+        }
+        $keys = explode($this->lng->separator, $name, 2);
+        $identifier = PluralFormKey::parse($keys[1] ?? '')[0] ?? null;
+
+        return $identifier === null ? '' : (string) ($comments[$keys[0] . $this->lng->separator . $identifier] ?? '');
+    }
+
+    /**
+     * Maintenance action "clear": the same RemoveLocalLanguageChanges as "remove local changes" in the language list.
+     */
+    private function clearLocalChanges(): void
+    {
+        $result = $this->remove_local_language_changes->maybePerformAs(
+            $this->ui_factory->input(),
+            $this->user->getId(),
+            ['language_keys' => [$this->object->key]]
+        );
+        if ($result->isError()) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("language_error_clear_local") . '<br />' . $this->activityErrorMessage($result->error()),
+                true
+            );
+            return;
+        }
+        $value = $result->value();
+
+        if ($value['removed_local_changes_language_keys'] === []) {
+            // not installed or an invalid language file/shipped .po: nothing was changed
+            $unreadable_modules = $this->object->getUnreadableShippedPoModules();
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $unreadable_modules !== []
+                    ? sprintf($this->lng->txt("lng_error_clear_shipped_po_unreadable"), implode(', ', $unreadable_modules))
+                    : $this->lng->txt("language_error_clear_local"),
+                true
+            );
+            return;
+        }
+        if (($value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("language_cleared_local") . '<br />' . sprintf(
+                    $this->lng->txt("lng_po_overlay_not_written_languages"),
+                    $this->lng->txt("meta_l_" . $this->object->key)
+                ),
+                true
+            );
+            return;
+        }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_cleared_local"), true);
     }
 
     /**
@@ -422,32 +560,55 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $orginal_key = $key;
             // mantis #25237
             // @see https://php.net/manual/en/language.variables.external.php
-            $key = str_replace(["_POSTDOT_", "_POSTSPACE_"], [".", " "], $key);
+            $key = str_replace(
+                ["_POSTDOT_", "_POSTSPACE_", "_POSTLBRACKET_", "_POSTRBRACKET_"],
+                [".", " ", "[", "]"],
+                $key
+            );
 
             // example key of variable: 'common#:#access'
             // example key of comment: 'common#:#access#:#comment'
             $keys = explode($this->lng->separator, ilUtil::stripSlashes($key));
 
-            if (count($keys) === 2) {
+            // only strings: a parameter sent as array (e.g. "common#:#access[]") is no value
+            if (count($keys) === 2 && is_string($value)) {
                 // avoid line breaks
                 $value = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $value);
                 $value = str_replace("<<", "«", $value);
-                $value = ilUtil::stripSlashes($value, true, "<strong><em><u><strike><ol><li><ul><p><div><i><b><code><sup><pre><gap><a><img><bdo><br><span>");
+                // markup is checked below (TranslationMarkupPolicy), not stripped
                 $save_array[$key] = $value;
 
                 // the comment has the key of the language with the suffix
-                $remarks_array[$key] = $post[$orginal_key . $this->lng->separator . "comment"];
+                $remark = $post[$orginal_key . $this->lng->separator . "comment"] ?? null;
+                $remarks_array[$key] = is_string($remark) ? $remark : null;
             }
         }
 
+        // nothing is saved if any changed value has disallowed markup; all affected keys are named
+        $invalid_values = ilObjLanguageExt::findInvalidMarkupOfChangedValues($this->object->key, $save_array);
+        if ($invalid_values !== []) {
+            // shown again with the input of this save, so nothing typed in is lost
+            $this->viewObject(
+                0,
+                [],
+                [$this->invalidMarkupMessage($invalid_values)],
+                $save_array,
+                array_map(
+                    static fn(mixed $remark): string => (string) $remark,
+                    array_filter($remarks_array, static fn(mixed $remark): bool => $remark !== null)
+                )
+            );
+            return;
+        }
+
         // save the translations
-        ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
+        $modules_with_unwritten_overlay = ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
 
         // set successful changes bool to true;
         $changesSuccessBool = 1;
 
         // view the list
-        $this->viewObject($changesSuccessBool);
+        $this->viewObject($changesSuccessBool, $modules_with_unwritten_overlay);
     }
 
     /**
@@ -523,25 +684,61 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
                 $tempfile = ilFileUtils::ilTempnam() . ".sec";
                 $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
-                $this->object->importLanguageFile($tempfile, $post_mode_existing);
-
-                $tempfs = $DIC->filesystem()->temp();
-                $tempfs->delete(basename($tempfile));
+                try {
+                    $modules_with_unwritten_overlay = $this->object->importLanguageFile($tempfile, $post_mode_existing);
+                } finally {
+                    $tempfs = $DIC->filesystem()->temp();
+                    $tempfs->delete(basename($tempfile));
+                }
+            } catch (ilLanguageInvalidMarkupException $e) {
+                $this->tpl->setOnScreenMessage('failure', $this->invalidMarkupMessage($e->getInvalidValues()), true);
+                $this->ctrl->redirect($this, 'import');
             } catch (Exception $e) {
                 $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                 $this->ctrl->redirect($this, 'import');
             }
 
-            $this->tpl->setOnScreenMessage(
-                'success',
-                sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]),
-                true
+            $this->setSuccessOrOverlayWarning(
+                $this->importedMessage((string) ($_FILES["userfile"]["name"] ?? '')),
+                $modules_with_unwritten_overlay
             );
             $this->ctrl->redirect($this, "import");
         }
 
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
+    }
+
+    /**
+     * The English violations go to the log, see InvalidMarkupMessage.
+     *
+     * @param array<string, list<string>> $invalid_values key => violations
+     */
+    private function invalidMarkupMessage(array $invalid_values): string
+    {
+        global $DIC;
+
+        $logged = [];
+        foreach ($invalid_values as $key => $violations) {
+            $logged[] = $violations === [] ? (string) $key : sprintf('%s (%s)', $key, implode('; ', $violations));
+        }
+        $DIC->logger()->forComponent('lang')->warning(PlainLogText::of(sprintf(
+            'Language entries rejected or not applied, their value contains markup that is not allowed: %s',
+            implode(', ', $logged)
+        )));
+
+        return InvalidMarkupMessage::of($this->lng, $this->refinery, $invalid_values);
+    }
+
+    /**
+     * The client-supplied file name ends up in HTML, so it is escaped.
+     */
+    private function importedMessage(string $file_name): string
+    {
+        return sprintf(
+            $this->lng->txt("language_file_imported"),
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($file_name)
+        );
     }
 
     /**
@@ -607,25 +804,25 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAllValues());
             if ($this->langmode) {
-                $local_file_obj->setAllComments($this->object->getAllRemarks());
+                $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
             }
         } elseif ($post_scope === "local") {
             $local_file_obj->setParam("based_on", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getChangedValues());
             if ($this->langmode) {
-                $local_file_obj->setAllComments($this->object->getAllRemarks());
+                $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
             }
         } elseif ($post_scope === "added") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAddedValues());
-            $local_file_obj->setAllComments($this->object->getAllRemarks());
+            $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
         } elseif ($post_scope === "unchanged") {
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getUnchangedValues());
             if ($this->langmode) {
-                $local_file_obj->setAllComments($this->object->getAllRemarks());
+                $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
             }
         } elseif ($post_scope === "merged") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
@@ -663,7 +860,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $ro->setInfo(sprintf($this->lng->txt("language_remove_local_file_info"), $this->object->key));
             $rg->addOption($ro);
             $ro = new ilRadioOption($this->lng->txt("language_merge_local_changes"), "merge");
-            $ro->setInfo(sprintf($this->lng->txt("language_merge_local_changes_info"), $this->object->key));
+            // with the warning that the shipped .po of the modules maintained in PO files are shared
+            // by every client - they are only merged on an installation with a single client
+            $ro->setInfo(
+                sprintf($this->lng->txt("language_merge_local_changes_info"), $this->object->key)
+                . ' ' . $this->lng->txt("lng_merge_po_single_client_info")
+            );
             $rg->addOption($ro);
         }
         $ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
@@ -683,13 +885,21 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             ilSession::set("lang_ext_maintenance", $tmp);
         }
 
+        // developer-mode actions are also refused when sent directly
+        if (in_array($post_maintain, ['delete_added', 'merge', 'remove_local_file'], true) && !$this->langmode) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+            $this->ctrl->redirect($this, "maintain");
+            return;
+        }
+
         switch ($post_maintain) {
             // save the global language file for merge after
             case "save_dist":
                 // save a copy of the distributed language file
                 $orig_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 $copy_file = $this->object->getDataPath() . "/ilias_" . $this->object->key . ".lang";
-                if (@copy($orig_file, $copy_file)) {
+                // the shipped .po of PO modules too, for the filter "conflicts"
+                if (@copy($orig_file, $copy_file) && $this->object->backupShippedPoFiles($this->object->getDataPath()) === []) {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_saved_dist"), true);
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_save_dist_failed"), true);
@@ -700,29 +910,46 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             case "load":
                 $lang_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang.local";
                 if (is_file($lang_file) and is_readable($lang_file)) {
-                    $this->object->importLanguageFile($lang_file, "replace");
+                    // like at installation: values with disallowed markup are left out (and named)
+                    $modules_with_unwritten_overlay = $this->object->importLanguageFile($lang_file, "replace", true);
                     $this->object->setLocal(true);
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_loaded_local"), true);
+                    $skipped = $this->object->getSkippedInvalidMarkupValues();
+                    if ($skipped !== [] && $modules_with_unwritten_overlay === []) {
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_loaded_local"), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->invalidMarkupMessage($skipped), true);
+                    } elseif ($skipped !== []) {
+                        // one failure box only: overlay warning and left-out entries together
+                        $this->tpl->setOnScreenMessage('failure', implode('<br />', [
+                            $this->lng->txt("language_loaded_local"),
+                            $this->overlayNotWrittenMessage($modules_with_unwritten_overlay),
+                            $this->invalidMarkupMessage($skipped),
+                        ]), true);
+                    } else {
+                        $this->setSuccessOrOverlayWarning($this->lng->txt("language_loaded_local"), $modules_with_unwritten_overlay);
+                    }
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_error_read_local"), true);
                 }
                 break;
 
-                // revert the database to the default language file
+                // same Activity as ilObjLanguageFolderGUI::uninstallChangesObject()
             case "clear":
-                $lang_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
-                if (is_file($lang_file) and is_readable($lang_file)) {
-                    $this->object->importLanguageFile($lang_file, "replace");
-                    $this->object->setLocal(false);
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_cleared_local"), true);
-                } else {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_error_clear_local"), true);
-                }
+                $this->clearLocalChanges();
                 break;
 
                 // delete local additions in the datavase (langmode only)
             case "delete_added":
-                ilObjLanguageExt::_deleteValues($this->object->key, $this->object->getAddedValues());
+                $modules_with_unwritten_overlay = ilObjLanguageExt::_deleteValues(
+                    $this->object->key,
+                    $this->object->getAddedValues()
+                );
+                if ($modules_with_unwritten_overlay !== []) {
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $this->overlayNotWrittenMessage($modules_with_unwritten_overlay),
+                        true
+                    );
+                }
                 break;
 
                 // merge local changes back to the global language file (langmode only)
@@ -734,12 +961,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                     // save a copy of the global language file
                     @copy($orig_file, $copy_file);
 
-                    // modify and write the new global file
-                    $global_file_obj = $this->object->getGlobalLanguageFile();
-                    $global_file_obj->setAllValues($this->object->getMergedValues());
-                    $global_file_obj->setAllComments($this->object->getMergedRemarks());
-                    $global_file_obj->write();
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_merged_global"), true);
+                    // the shipped .po of PO modules is merged only on a single-client installation: it is shared by every client
+                    $this->mergeMessages($this->object->mergeLocalChangesIntoGlobalLanguageFile());
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_error_write_global"), true);
                 }
@@ -1085,13 +1308,105 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 return;
             }
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
+            $overlay_write_failed_language_keys = $result->value()['overlay_write_failed_language_keys'] ?? [];
+            if ($overlay_write_failed_language_keys !== []) {
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    sprintf(
+                        $this->lng->txt("lng_po_overlay_not_written_languages"),
+                        implode(', ', $overlay_write_failed_language_keys)
+                    ),
+                    true
+                );
+            } else {
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
+            }
             $ilCtrl->redirect($this, "view");
             return;
         }
 
         $form->setValuesByPost();
         $this->addNewEntryObject($form);
+    }
+
+    /**
+     * A success message, or a warning if PO/MO files could not be written (the database was written, the web server
+     * keeps serving the previous content).
+     *
+     * @param list<string> $modules_with_unwritten_overlay
+     */
+    private function setSuccessOrOverlayWarning(string $success_message, array $modules_with_unwritten_overlay): void
+    {
+        if ($modules_with_unwritten_overlay === []) {
+            $this->tpl->setOnScreenMessage('success', $success_message, true);
+            return;
+        }
+        $this->tpl->setOnScreenMessage(
+            'failure',
+            $success_message . '<br />' . $this->overlayNotWrittenMessage($modules_with_unwritten_overlay),
+            true
+        );
+    }
+
+    /**
+     * Success, plus everything that failed or was left out in one failure message (setOnScreenMessage() keeps one
+     * per type); details are in the log.
+     *
+     * @param array{written: list<string>, skipped: list<string>, invalid_markup: array<string, list<string>>, not_merged: list<string>, unwritten_database: list<string>, not_single_client?: list<string>} $result
+     */
+    private function mergeMessages(array $result): void
+    {
+        $escape = fn(string $text): string => $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($text);
+        $success = $this->lng->txt("language_merged_global");
+        if ($result['written'] !== []) {
+            $success .= '<br />' . sprintf(
+                $this->lng->txt("lng_merged_po_modules"),
+                $escape(implode(', ', $result['written']))
+            );
+        }
+        $this->tpl->setOnScreenMessage('success', $success, true);
+
+        $failures = [];
+        if (($result['not_single_client'] ?? []) !== []) {
+            // left out on purpose: the installation does not have exactly one client
+            $failures[] = sprintf(
+                $this->lng->txt("lng_merge_po_not_single_client"),
+                $escape(implode(', ', $result['not_single_client']))
+            );
+        }
+        if ($result['skipped'] !== []) {
+            // not written at all (e.g. no write permission): an error, not an intended skip
+            $failures[] = sprintf(
+                $this->lng->txt("lng_merge_po_not_written"),
+                $escape(implode(', ', $result['skipped']))
+            );
+        }
+        if ($result['invalid_markup'] !== []) {
+            $failures[] = $this->invalidMarkupMessage($result['invalid_markup']);
+        }
+        if ($result['not_merged'] !== []) {
+            $failures[] = $this->lng->txt("form_input_not_valid") . ' ' . $escape(PlainLogText::keyList($result['not_merged']));
+        }
+        if ($result['unwritten_database'] !== []) {
+            $failures[] = sprintf(
+                $this->lng->txt("lng_merge_database_not_updated"),
+                $escape(implode(', ', $result['unwritten_database']))
+            );
+        }
+        if ($failures !== []) {
+            $this->tpl->setOnScreenMessage('failure', implode('<br />', $failures), true);
+        }
+    }
+
+    /**
+     * @param list<string> $modules_with_unwritten_overlay
+     */
+    private function overlayNotWrittenMessage(array $modules_with_unwritten_overlay): string
+    {
+        return sprintf(
+            $this->lng->txt("lng_po_overlay_not_written"),
+            implode(', ', $modules_with_unwritten_overlay)
+        );
     }
 
     /**

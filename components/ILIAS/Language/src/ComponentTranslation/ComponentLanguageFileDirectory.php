@@ -25,15 +25,28 @@ use ILIAS\Component\Component;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ComponentLanguageFileDirectory implements LanguageFileDirectory
+class ComponentLanguageFileDirectory implements LanguageFileDirectory, NamesShippedLanguageFiles
 {
     private string $base_directory;
+    private readonly string $shipped_file_name_pattern;
 
+    /**
+     * @param string|null $shipped_file_name_pattern see NamesShippedLanguageFiles, e.g. "ilias_%s"; default "<prefix>_%s"
+     * @throws \InvalidArgumentException for an invalid pattern, see MigratedLanguageFilePaths::assertValidShippedFileNamePattern()
+     */
     public function __construct(
         private readonly Component $component,
         private readonly string $prefix,
-        private readonly string $path_inside_component = 'lang/'
+        private readonly string $path_inside_component = 'lang/',
+        ?string $shipped_file_name_pattern = null
     ) {
+        $this->shipped_file_name_pattern = $shipped_file_name_pattern ?? $prefix . '_%s';
+        MigratedLanguageFilePaths::assertValidShippedFileNamePattern($this->shipped_file_name_pattern);
+    }
+
+    public function getShippedFileNamePattern(): string
+    {
+        return $this->shipped_file_name_pattern;
     }
 
     public function getPrefix(): string

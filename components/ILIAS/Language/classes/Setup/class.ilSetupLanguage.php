@@ -19,9 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
-use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
@@ -56,19 +57,26 @@ class ilSetupLanguage extends ilLanguage
     public string $separator = "#:#";
     public string $comment_separator = "###";
     protected ?ilDBInterface $db = null;
+    private ?string $client_data_dir = null;
+    private readonly bool $uses_default_language_file_directories;
+    private readonly LanguageFileDirectoryManager $language_file_directory_manager;
+    private ?LanguageInstallationManager $manager = null;
+    private ?ilDBInterface $manager_db = null;
 
     /**
-     * $connection is the ILIAS\Database\Connection; callers outside the
-     * component graph pass none.
+     * @param LanguageFileDirectoryManager|null $language_file_directory_manager directories contributed through the
+     *        component graph; without it only main lang/ and customizing are known (usesDefaultLanguageFileDirectories())
+     * @param ilDBInterface|null $connection none for callers outside the component graph
      */
     public function __construct(
         string $a_lang_key,
-        private ?LanguageFileDirectoryManager $language_file_directory_manager = null,
+        ?LanguageFileDirectoryManager $language_file_directory_manager = null,
         private readonly ?ilDBInterface $connection = null,
         private readonly TranslationCache $translation_cache = new NullTranslationCache(),
     ) {
         $this->lang_key = $a_lang_key ?: $this->lang_default;
         $this->absolute_path = (string) realpath(__DIR__ . "/../../../../../");
+        $this->uses_default_language_file_directories = $language_file_directory_manager === null;
         $this->language_file_directory_manager = $language_file_directory_manager ?? new LanguageFileDirectoryManager(
             new CustomizingLanguageFileDirectory(),
             new MainLanguageFileDirectory()
@@ -98,16 +106,55 @@ class ilSetupLanguage extends ilLanguage
         );
     }
 
+    /**
+     * Kept across calls because the manager collects getSkippedInvalidMarkupEntries() over a run;
+     * rebuilt only when db() changes.
+     */
     private function manager(): LanguageInstallationManager
     {
-        return new LanguageInstallationManager(
-            $this->db() ?? throw new LogicException("No database available for " . self::class . "."),
-            $this->language_file_directory_manager,
-            $this->absolute_path,
-            $this->repository(),
-            null,
-            $this->translation_cache
-        );
+        $db = $this->db() ?? throw new LogicException("No database available for " . self::class . ".");
+        if ($this->manager === null || $this->manager_db !== $db) {
+            $this->manager_db = $db;
+            $this->manager = new LanguageInstallationManager(
+                $db,
+                $this->language_file_directory_manager,
+                $this->absolute_path,
+                $this->repository(),
+                null,
+                $this->translation_cache,
+                fn(): ?string => $this->getClientDataDir()
+            );
+        }
+        return $this->manager;
+    }
+
+    /**
+     * The client data directory the overlay of migrated modules is maintained in. Setup Objectives
+     * set it from the Setup environment (ilias.ini `datadir` + client id); without it, it is
+     * resolved via MigratedLanguageFilePaths::resolveClientDataDir(). `null` resets to that default.
+     */
+    public function setClientDataDir(?string $client_data_dir): void
+    {
+        $this->client_data_dir = $client_data_dir;
+    }
+
+    public function getClientDataDir(): ?string
+    {
+        return $this->client_data_dir ?? MigratedLanguageFilePaths::resolveClientDataDir($this->absolute_path);
+    }
+
+    /**
+     * Such an instance (e.g. `new ilSetupLanguage('en')` in plugin Setup Objectives) must not refresh an
+     * installed language: that would drop the lng_data rows of every component-contributed module.
+     */
+    public function usesDefaultLanguageFileDirectories(): bool
+    {
+        return $this->uses_default_language_file_directories;
+    }
+
+    public function getLanguageFileDirectoryManager(): LanguageFileDirectoryManager
+    {
+        return $this->language_file_directory_manager;
     }
 
     /**
@@ -119,6 +166,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
     {
+        /** @var ilLogger $log */
         global $log;
 
         if (empty($a_topic)) {
@@ -201,17 +249,70 @@ class ilSetupLanguage extends ilLanguage
         $this->manager()->flushLanguageForUninstallation($lang_key);
     }
 
-    public function insertLanguageForInstallation(string $lang_key): void
+    /**
+     * @return array<string, array<string, list<string>>>
+     */
+    public function getSkippedInvalidMarkupEntries(): array
     {
-        $this->manager()->insertLanguageForInstallation($lang_key);
+        return $this->manager?->getSkippedInvalidMarkupEntries() ?? [];
+    }
+
+    /**
+     * @return list<string> the migrated modules whose overlay could not be written
+     */
+    public function insertLanguageForInstallation(string $lang_key): array
+    {
+        return $this->manager()->insertLanguageForInstallation($lang_key);
     }
 
     /**
      * See LanguageInstallationManager::insertLanguageForApplyingLocalChanges().
+     *
+     * @return list<string> see insertLanguageForInstallation()
      */
-    public function insertLanguageForApplyingLocalChanges(string $lang_key): void
+    public function insertLanguageForApplyingLocalChanges(string $lang_key): array
     {
-        $this->manager()->insertLanguageForApplyingLocalChanges($lang_key);
+        return $this->manager()->insertLanguageForApplyingLocalChanges($lang_key);
+    }
+
+    /**
+     * See LanguageInstallationManager::findUnwritableOverlayDirectories() - checked by Setup before
+     * installing/updating languages. File-based like the manager's, but without needing a database
+     * (the manager is only built with one, see manager()).
+     *
+     * @param list<string> $lang_keys
+     * @param int|null $for_user_id evaluate the writability for this user instead of the current process
+     * @return list<string>
+     */
+    public function findUnwritableOverlayDirectories(array $lang_keys, ?int $for_user_id = null): array
+    {
+        return MigratedLanguageFileSync::findUnwritableOverlayDirectories(
+            $this->language_file_directory_manager,
+            $this->absolute_path,
+            $lang_keys,
+            $this->getClientDataDir(),
+            $for_user_id
+        );
+    }
+
+    /**
+     * See LanguageInstallationManager::hasMigratedModules() - file-based, needs no database.
+     *
+     * @param list<string> $lang_keys
+     */
+    public function hasMigratedModules(array $lang_keys): bool
+    {
+        foreach ($lang_keys as $lang_key) {
+            if (MigratedLanguageFileSync::findShippedModuleFiles(
+                $this->language_file_directory_manager,
+                $this->absolute_path,
+                $lang_key
+            ) !== []) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
