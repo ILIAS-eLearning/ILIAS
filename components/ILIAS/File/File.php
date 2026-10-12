@@ -46,8 +46,6 @@ use ILIAS\FileUpload\Activities\FileParameter;
 use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
-use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
-use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class File implements Component
 {
@@ -197,10 +195,5 @@ class File implements Component
         $contribute[Activity::class] = static fn() => $internal[ListFileVersions::class];
         $contribute[Activity::class] = static fn() => $internal[DeliverFileVersion::class];
         $contribute[Activity::class] = static fn() => $internal[DownloadContainerAsZip::class];
-
-        $contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => new ComponentLanguageFileDirectory(
-            $this,
-            'file'
-        );
     }
 }
