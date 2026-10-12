@@ -78,7 +78,12 @@ class LanguageActivitySetupVariantTest extends \ilLanguageBaseTestCase
         $result = UpdateLanguage::forSetup($setup_language)->perform(['language_keys' => ['fr']]);
 
         self::assertSame(
-            ['updated_language_keys' => [], 'not_installed_language_keys' => ['fr']],
+            [
+                'updated_language_keys' => [],
+                'not_installed_language_keys' => ['fr'],
+                'overlay_write_failed_language_keys' => [],
+                'invalid_markup_customizing_entries' => [],
+            ],
             $result
         );
     }

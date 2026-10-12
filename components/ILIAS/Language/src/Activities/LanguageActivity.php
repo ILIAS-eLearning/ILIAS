@@ -23,8 +23,10 @@ namespace ILIAS\Language\Activities;
 use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Component\Activities\ActivityImpl;
 use ILIAS\Component\Activities\ActivityType;
+use ILIAS\Data\Description;
 use ILIAS\Data\Result;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\ComponentTranslation\TranslationMarkupPolicy;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 
@@ -43,6 +45,60 @@ abstract class LanguageActivity extends ActivityImpl
     public function getType(): ActivityType
     {
         return ActivityType::Command;
+    }
+
+    /** The database was written, but the PO/MO overlay of a module was not: callers must not report plain success. */
+    protected function overlayWriteFailedOutputField(Description\Factory $f): Description\Description
+    {
+        $text = $this->data->text()->markdown();
+
+        return $f->list(
+            $text->simpleDocument(
+                'Languages whose database content was written, but for which the per-installation ' .
+                'PO/MO files of at least one module maintained in PO files could not be written ' .
+                '(typically missing write permissions of the web server user on the client data ' .
+                'directory) - the details are logged.'
+            ),
+            $f->string($text->simpleDocument('Language key of a language with an unwritten PO/MO overlay.'))
+        );
+    }
+
+    protected function invalidMarkupCustomizingOutputField(Description\Factory $f): Description\Description
+    {
+        $text = $this->data->text()->markdown();
+
+        return $f->list(
+            $text->simpleDocument(
+                'Entries of the customizing/local language files that were not applied because their ' .
+                'value contains HTML that is not allowed in language texts - the languages were ' .
+                'installed regardless.'
+            ),
+            $f->string($text->simpleDocument(
+                'Language key and entry, followed by the markup that is not allowed, language-neutral ' .
+                '("<language>: <module>#:#<identifier>: <markup>, ..."; without violations only ' .
+                '"<language>: <module>#:#<identifier>").'
+            ))
+        );
+    }
+
+    /**
+     * @param array<string, array<string, list<string>>> $skipped see
+     *        \ILIAS\Language\Setup\LanguageInstallationManager::getSkippedInvalidMarkupEntries()
+     * @param list<string> $language_keys
+     * @return list<string> the value of invalidMarkupCustomizingOutputField()
+     */
+    protected function invalidMarkupCustomizingEntries(array $skipped, array $language_keys): array
+    {
+        $policy = new TranslationMarkupPolicy();
+        $entries = [];
+        foreach ($language_keys as $language_key) {
+            foreach ($skipped[$language_key] ?? [] as $entry => $violations) {
+                $markup = $policy->markupOf(array_map('strval', $violations));
+                $entries[] = $language_key . ': ' . $entry . ($markup === [] ? '' : ': ' . implode(', ', $markup));
+            }
+        }
+
+        return $entries;
     }
 
     public function isAllowedToPerform(int $usr_id, mixed $parameters): bool

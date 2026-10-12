@@ -42,23 +42,23 @@ trait RealFieldsUiFactory
     protected function createRealFieldsUiFactory(): \ILIAS\UI\Factory
     {
         $data_factory = new DataFactory();
-        $lng = $this->createMock(Language::class);
+        $lng = $this->createStub(Language::class);
         $lng->method('txt')->willReturnArgument(0);
         $refinery = new RefineryFactory($data_factory, $lng);
 
         $field_factory = new FieldFactoryImpl(
-            $this->createMock(NodeFactory::class),
-            $this->createMock(UploadLimitResolver::class),
+            $this->createStub(NodeFactory::class),
+            $this->createStub(UploadLimitResolver::class),
             new SignalGenerator(),
             $data_factory,
             $refinery,
             $lng
         );
 
-        $input = $this->createMock(\ILIAS\UI\Component\Input\Factory::class);
+        $input = $this->createStub(\ILIAS\UI\Component\Input\Factory::class);
         $input->method('field')->willReturn($field_factory);
 
-        $ui = $this->createMock(\ILIAS\UI\Factory::class);
+        $ui = $this->createStub(\ILIAS\UI\Factory::class);
         $ui->method('input')->willReturn($input);
 
         return $ui;

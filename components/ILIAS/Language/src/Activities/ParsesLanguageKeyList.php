@@ -23,7 +23,7 @@ namespace ILIAS\Language\Activities;
 trait ParsesLanguageKeyList
 {
     // two lowercase ASCII letters, like the `ilias_<key>.lang` file names
-    private const LANGUAGE_KEY_FORMAT = '/^[a-z]{2}$/';
+    private const LANGUAGE_KEY_FORMAT = '/^[a-z]{2}\z/';
 
     /** @return list<string> */
     private function toLanguageKeyList(mixed $value): array

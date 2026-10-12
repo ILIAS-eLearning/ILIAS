@@ -84,6 +84,18 @@ class Language implements Component\Component
                 $internal[Language\Setup\TranslationCache::class]
             );
 
+        $internal[Language\Activities\LanguageSettings::class] = static fn() =>
+            new Language\Activities\LanguageSettingsLegacyProxy();
+
+        // the runtime Activities route all legacy access through this provider
+        $internal[RepositoryProvider::class] = static fn() =>
+            new RepositoryProvider(
+                $internal[InstalledLanguageDatabaseRepository::class],
+                $pull[\ILIAS\Database\Connection::class],
+                $internal[Language\Activities\LanguageSettings::class],
+                $internal[LanguageFileDirectoryManager::class],
+            );
+
         $internal[InstallLanguage::class] = static fn() =>
             new InstallLanguage(
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
@@ -95,18 +107,8 @@ class Language implements Component\Component
             new UpdateLanguage(
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
-                $internal[Language\LanguageFolder::class]
-            );
-
-        // runtime-only Activities route all legacy access through this provider
-        $internal[Language\Activities\LanguageSettings::class] = static fn() =>
-            new Language\Activities\LanguageSettingsLegacyProxy();
-
-        $internal[RepositoryProvider::class] = static fn() =>
-            new RepositoryProvider(
-                $internal[InstalledLanguageDatabaseRepository::class],
-                $pull[\ILIAS\Database\Connection::class],
-                $internal[Language\Activities\LanguageSettings::class],
+                $internal[Language\LanguageFolder::class],
+                $internal[RepositoryProvider::class],
             );
 
         $internal[UninstallLanguage::class] = static fn() =>
@@ -169,6 +171,7 @@ class Language implements Component\Component
                 $internal[\ilSetupLanguage::class],
                 // Setup checks no permissions, hence no RBAC.
                 InstallLanguage::forSetup($internal[\ilSetupLanguage::class]),
+                // no plugin language files re-applied: the plugin objectives do that in the Setup
                 UpdateLanguage::forSetup($internal[\ilSetupLanguage::class])
             );
 

@@ -555,11 +555,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         }
         $value = $result->value();
 
-        // Plugin language files are refreshed only for the languages whose
-        // local changes were actually removed - a requested-but-not-installed
-        // or invalid language (see below) has nothing to refresh.
-        ilObjLanguage::refreshPlugins($value['removed_local_changes_language_keys']);
-
         if (($lang_changed = $value['removed_local_changes_language_keys']) !== []) {
             $this->tpl->setOnScreenMessage(
                 'success',
@@ -635,11 +630,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             return;
         }
         $value = $result->value();
-
-        // Plugin language files are refreshed only for the languages that
-        // were actually updated - a requested-but-not-installed language
-        // (see not_installed_language_keys below) has nothing to refresh.
-        ilObjLanguage::refreshPlugins($value['updated_language_keys']);
 
         if (($lang_updated = $value['updated_language_keys']) !== []) {
             $this->tpl->setOnScreenMessage(

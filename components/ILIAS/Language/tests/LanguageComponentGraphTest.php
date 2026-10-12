@@ -41,6 +41,7 @@ use ILIAS\Component\Dependencies\Reader;
 use ILIAS\Component\Dependencies\RenamingDIC;
 use Pimple\Container as PimpleContainer;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -198,6 +199,20 @@ class LanguageComponentGraphTest extends TestCase
         self::assertInstanceOf(UserSettingsSettings::class, $user_settings[0]);
     }
 
+    /** The Setup agent gets UpdateLanguage's Setup instance, not the GUI's: without provider it re-applies no plugin language files. */
+    public function testTheSetupAgentGetsTheSetupInstanceOfUpdateLanguage(): void
+    {
+        [, , , $contribute, , $provide] = $this->initComponent();
+        $agent = $contribute[\ILIAS\Setup\Agent::class . '_1'];
+
+        $update_language = (new ReflectionProperty(\ilLanguageSetupAgent::class, 'update_language'))->getValue($agent);
+        $repository = new ReflectionProperty(UpdateLanguage::class, 'repository');
+
+        self::assertNotSame($provide[UpdateLanguage::class], $update_language);
+        self::assertNull($repository->getValue($update_language));
+        self::assertInstanceOf(RepositoryProvider::class, $repository->getValue($provide[UpdateLanguage::class]));
+    }
+
     public function testContributedActivitiesAreTheSameSingletonsAsTheProvidedInstances(): void
     {
         [, , , , , $provide] = $this->initComponent();
@@ -284,9 +299,16 @@ class LanguageComponentGraphTest extends TestCase
         return $db;
     }
 
-    /** Repository and RepositoryProvider query the pulled connection, never $GLOBALS['ilDB']. */
+    /**
+     * Repository and RepositoryProvider query the pulled connection, never $GLOBALS['ilDB'].
+     * Own process: the provider still reads ILIAS_ABSOLUTE_PATH, which other tests may or may not define.
+     */
+    #[RunInSeparateProcess]
     public function testDatabaseConsumersGetThePulledConnectionNotTheGlobals(): void
     {
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            define('ILIAS_ABSOLUTE_PATH', dirname(__DIR__, 4));
+        }
         $dic = new \ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
         $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 0);
@@ -296,8 +318,9 @@ class LanguageComponentGraphTest extends TestCase
         $this->resolveEverything($provide);
 
         self::assertSame([], $internal[InstalledLanguageDatabaseRepository::class]->getInstalledLanguages());
-        // the module cache update of the provider shared by the runtime Activities; only its lookup runs without a legacy container
-        $internal[RepositoryProvider::class]->updateModuleCache('de', 'common', 'x', 'y');
+        // the lookup behind the provider's updateModuleCache(); the update itself needs the legacy container
+        (new ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))
+            ->invoke($internal[RepositoryProvider::class], 'de', 'common');
         self::assertSame($dic, $GLOBALS['DIC']);
     }
 

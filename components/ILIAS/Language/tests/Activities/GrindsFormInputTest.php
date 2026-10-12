@@ -41,7 +41,7 @@ class GrindsFormInputTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $this->host()->callGrind($this->createMock(FormInput::class), []);
+        $this->host()->callGrind($this->createStub(FormInput::class), []);
     }
 
     public static function checkboxWhitelistAcceptsRawValueProvider(): array
