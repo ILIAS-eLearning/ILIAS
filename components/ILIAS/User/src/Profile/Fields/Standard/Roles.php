@@ -32,7 +32,9 @@ class Roles implements FieldDefinition
 
     public function __construct(
         private readonly \ilAuthSession $auth_session,
-        private readonly \ilObjectDataCache $object_cache
+        private readonly \ilObjectDataCache $object_cache,
+        private readonly \ilRbacReview $rbac_review,
+        private readonly \ilRbacAdmin $rbac_admin
     ) {
     }
 
@@ -121,9 +123,8 @@ class Roles implements FieldDefinition
             return $user;
         }
 
-        $rbac_admin = new \ilRbacAdmin();
         foreach ($input as $role_id) {
-            $rbac_admin->assignUser((int) $role_id, $user->getId());
+            $this->rbac_admin->assignUser((int) $role_id, $user->getId());
         }
 
         return $user;
@@ -131,11 +132,10 @@ class Roles implements FieldDefinition
 
     public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        $rbac_review = new \ilRbacReview();
-        $assigned_roles = $rbac_review->assignedRoles($user->getId());
+        $assigned_roles = $this->rbac_review->assignedRoles($user->getId());
         return substr(
             array_reduce(
-                $rbac_review->getGlobalRolesArray(),
+                $this->rbac_review->getGlobalRolesArray(),
                 fn(string $c, array $v) => in_array($v['obj_id'], $assigned_roles)
                     ? $c . $this->object_cache->lookupTitle($v['obj_id']) . ', '
                     : $c,
@@ -161,7 +161,7 @@ class Roles implements FieldDefinition
         Language $lng,
         Context $context
     ): \ilFormPropertyGUI {
-        $rbac_review = new \ilRbacReview();
+        $rbac_review = $this->rbac_review;
 
         $input = new \ilMultiSelectInputGUI($this->getLabel($lng));
         $input->setOptions(
