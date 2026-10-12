@@ -39,5 +39,7 @@ class Export implements Component\Component
     ): void {
         $contribute[SetupAgent::class] = fn() => new ilExportSetupAgent($pull[RefineryFactory::class]);
         $contribute[SetupAgent::class] = fn() => new HTML\Setup\Agent($pull[RefineryFactory::class]);
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
+            new \ILIAS\Export\ExportHandler\PublicAccess\Link\Handler();
     }
 }
