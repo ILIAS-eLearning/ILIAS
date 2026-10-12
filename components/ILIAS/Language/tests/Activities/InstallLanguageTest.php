@@ -683,7 +683,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         return new InstallLanguage(
             $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
-            $rbac ?? $this->createMock(\ilRbacSystem::class),
+            $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $setup_language
         );
     }

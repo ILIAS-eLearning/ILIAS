@@ -42,13 +42,13 @@ class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
         $install_language = new InstallLanguage(
             $refinery,
             $this->createMock(\ILIAS\Language\Language::class),
-            $this->createMock(\ilRbacSystem::class),
+            $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
             $setup_language
         );
         $update_language = new UpdateLanguage(
             $refinery,
             $this->createMock(\ILIAS\Language\Language::class),
-            $this->createMock(\ilRbacSystem::class),
+            $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
             $setup_language
         );
 

@@ -55,13 +55,7 @@ class Language implements Component\Component
         $resolve_db = static fn(): \ilDBInterface => $GLOBALS['ilDB'] ?? $GLOBALS['DIC']->database();
         $ilias_root = (string) realpath(__DIR__ . '/../../../');
 
-        // Shared by every Activity below that needs a "write" RBAC check on
-        // the language folder ref_id (all seven), or the system settings
-        // service (SetLanguageDetectionEnabled/SetLanguageTranslationEnabled) -
-        // deduplicated here for the same reason as $resolve_db/$ilias_root
-        // above. These stay Closures, not resolved values: init() runs at
-        // bootstrap-build time, without a database or a fully booted $DIC.
-        $rbac_system = static fn(): \ilRbacSystem => $GLOBALS['DIC']->rbac()->system();
+        // Closures, not values: init() runs without a database or a booted $DIC.
         $lang_folder_ref_id = static fn(): int => \ilObjLanguageAccess::_lookupLangFolderRefId();
         $settings = static fn(): \ILIAS\Administration\Setting => $GLOBALS['DIC']->settings();
 
@@ -107,7 +101,7 @@ class Language implements Component\Component
             new InstallLanguage(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
-                $rbac_system,
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 // The Activity needs no database of its own: every database
                 // access in perform() goes through ilSetupLanguage, which
                 // resolves it itself.
@@ -119,7 +113,7 @@ class Language implements Component\Component
             new UpdateLanguage(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
-                $rbac_system,
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 // Same reasoning as InstallLanguage above: no database of
                 // its own, ilSetupLanguage resolves it.
                 $internal[\ilSetupLanguage::class],
@@ -136,7 +130,7 @@ class Language implements Component\Component
             new UninstallLanguage(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
-                $rbac_system,
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $lang_folder_ref_id
             );
 
@@ -150,7 +144,7 @@ class Language implements Component\Component
             new RemoveLocalLanguageChanges(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
-                $rbac_system,
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $lang_folder_ref_id
             );
 
@@ -168,7 +162,7 @@ class Language implements Component\Component
             new AddLanguageEntry(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
-                $rbac_system,
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[InstalledLanguageDatabaseRepository::class],
                 // $db is a mandatory (non-nullable) collaborator - AddLanguageEntry needs no
                 // database of its own beyond what updateModuleCache()'s default resolves via
@@ -192,7 +186,7 @@ class Language implements Component\Component
             new SetLanguageDetectionEnabled(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
-                $rbac_system,
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $settings,
                 $lang_folder_ref_id
             );
@@ -210,7 +204,7 @@ class Language implements Component\Component
             new SetLanguageTranslationEnabled(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
-                $rbac_system,
+                $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $settings,
                 $internal[InstalledLanguageDatabaseRepository::class],
                 language_folder_ref_id: $lang_folder_ref_id,
@@ -270,8 +264,9 @@ class Language implements Component\Component
             new \ilLanguageSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $internal[\ilSetupLanguage::class],
-                $internal[InstallLanguage::class],
-                $internal[UpdateLanguage::class],
+                // Setup checks no permissions, hence no RBAC.
+                InstallLanguage::forSetup($internal[\ilSetupLanguage::class]),
+                UpdateLanguage::forSetup($internal[\ilSetupLanguage::class]),
                 $internal[InstalledLanguageDatabaseRepository::class]
             );
 
@@ -284,12 +279,8 @@ class Language implements Component\Component
         // \ILIAS\Component\Activities\Activity::class (so the
         // cross-component Repository can discover them too) - see
         // docs/development/components-and-directories.md, "Contribute to
-        // Service or Functionality". InstallLanguage/UpdateLanguage are
-        // additionally handed to Setup Objectives directly, via
-        // $contribute[\ILIAS\Setup\Agent::class] above, or via their own
-        // forSetup() factory for callers not wired through the component
-        // graph; because Init.php pulls these concrete classes (not an
-        // interface), none of the seven may become final - both
+        // Service or Functionality". Because Init.php pulls these concrete
+        // classes (not an interface), none of the seven may become final - both
         // ilObjLanguageFolderGUITest and ilObjLanguageExtGUITest build a
         // PHPUnit mock of several of them directly (createMock(InstallLanguage::class)
         // and siblings), which requires PHPUnit to generate a subclass at

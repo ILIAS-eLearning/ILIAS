@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Activities;
 
+use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
@@ -45,7 +46,7 @@ class AddLanguageEntry extends LanguageActivity
     public function __construct(
         RefineryFactory $refinery,
         Language $language,
-        \ilRbacSystem|\Closure $rbac_system,
+        RBAC $rbac,
         private readonly InstalledLanguageRepository $installed_language_repository,
         \ilDBInterface|\Closure $db,
         int|\Closure $language_folder_ref_id = 0,
@@ -53,7 +54,7 @@ class AddLanguageEntry extends LanguageActivity
         ?\Closure $update_module_cache = null,
         ?\Closure $user_login = null,
     ) {
-        parent::__construct($refinery, $language, $rbac_system, $language_folder_ref_id);
+        parent::__construct($refinery, $language, $rbac, $language_folder_ref_id);
         $this->replace_lang_entry = $replace_lang_entry
             ?? static fn(
                 string $module,
