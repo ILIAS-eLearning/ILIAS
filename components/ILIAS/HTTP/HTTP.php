@@ -36,6 +36,11 @@ use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\HTTP\Request\HeaderSettings;
 use ILIAS\HTTP\Request\HeaderSettingsFromIni;
 use ILIAS\Environment\Configuration\Installation\IliasIni;
+use ILIAS\HTTP\Path\HttpPathProvider;
+use ILIAS\HTTP\Path\CascadingHttpPathProvider;
+use ILIAS\HTTP\Path\RequestHttpPathProvider;
+use ILIAS\HTTP\Path\ArtifactHttpPathProvider;
+use ILIAS\HTTP\Path\IniHttpPathProvider;
 
 class HTTP implements Component
 {
@@ -54,9 +59,18 @@ class HTTP implements Component
         $define[] = CookieJarFactory::class;
         $define[] = GlobalHttpState::class;
         $define[] = HeaderSettings::class;
+        $define[] = HttpPathProvider::class;
 
         $implement[HeaderSettings::class] = static fn() => new HeaderSettingsFromIni(
             $use[IliasIni::class]
+        );
+
+        // the request knows the path best, the artifact written by the setup and
+        // ilias.ini.php serve where there is no request, e.g. in cron jobs
+        $implement[HttpPathProvider::class] = static fn() => new CascadingHttpPathProvider(
+            new RequestHttpPathProvider(),
+            new ArtifactHttpPathProvider(),
+            new IniHttpPathProvider($use[IliasIni::class])
         );
 
         // REQUEST FACTORY
