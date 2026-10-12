@@ -439,7 +439,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
             $settings ?? $this->createMock(Setting::class),
-            $language_folder_ref_id
+            $this->languageFolder($language_folder_ref_id)
         );
     }
 }

@@ -27,6 +27,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text;
 use ILIAS\Data\Text\Shape\SimpleDocumentMarkdown as SimpleDocumentMarkdownShape;
 use ILIAS\Language\Language;
+use ILIAS\Language\LanguageFolder;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 
@@ -36,7 +37,6 @@ abstract class LanguageActivity extends ActivityImpl
 
     protected readonly RefineryFactory $refinery;
     protected Language $lng;
-    private readonly \Closure $language_folder_ref_id;
 
     /**
      * @param RBAC|null $rbac null only for forSetup(); isAllowedToPerform() then throws.
@@ -45,13 +45,10 @@ abstract class LanguageActivity extends ActivityImpl
         RefineryFactory $refinery,
         Language $language,
         private readonly ?RBAC $rbac,
-        int|\Closure $language_folder_ref_id = 0,
+        private readonly LanguageFolder $language_folder,
     ) {
         $this->refinery = $refinery;
         $this->lng = $language;
-        $this->language_folder_ref_id = $language_folder_ref_id instanceof \Closure
-            ? $language_folder_ref_id
-            : static fn(): int => $language_folder_ref_id;
     }
 
     public function getType(): ActivityType
@@ -81,7 +78,7 @@ abstract class LanguageActivity extends ActivityImpl
         return $this->rbac->system()->checkAccessOfUser(
             $usr_id,
             'write',
-            ($this->language_folder_ref_id)()
+            $this->language_folder->getRefId()
         );
     }
 

@@ -48,12 +48,14 @@ class Language implements Component\Component
     ): void {
         $define[] = \ILIAS\Language\Language::class;
 
-        // Closures, not values: init() runs without a database or a booted $DIC.
-        $lang_folder_ref_id = static fn(): int => \ilObjLanguageAccess::_lookupLangFolderRefId();
+        // A Closure, not a value: init() runs without a booted $DIC.
         $settings = static fn(): \ILIAS\Administration\Setting => $GLOBALS['DIC']->settings();
 
         // --- $internal: wiring local to this component -----------------
         // Ordered so each entry's dependencies are declared above it.
+
+        $internal[Language\LanguageFolder::class] = static fn() =>
+            new Language\LanguageFolderLegacyProxy();
 
         $internal[LanguageFileDirectoryManager::class] = static fn() =>
             new LanguageFileDirectoryManager(
@@ -92,7 +94,7 @@ class Language implements Component\Component
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
-                $lang_folder_ref_id
+                $internal[Language\LanguageFolder::class]
             );
 
         $internal[UpdateLanguage::class] = static fn() =>
@@ -101,7 +103,7 @@ class Language implements Component\Component
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
-                $lang_folder_ref_id
+                $internal[Language\LanguageFolder::class]
             );
 
         // Unlike InstallLanguage/UpdateLanguage, UninstallLanguage needs no
@@ -115,7 +117,7 @@ class Language implements Component\Component
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
-                $lang_folder_ref_id
+                $internal[Language\LanguageFolder::class]
             );
 
         // Same reasoning as UninstallLanguage above: no Setup counterpart, no
@@ -129,7 +131,7 @@ class Language implements Component\Component
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
-                $lang_folder_ref_id
+                $internal[Language\LanguageFolder::class]
             );
 
         // Same reasoning again, minus the Setup/forSetup() bridge, which does not apply here
@@ -146,7 +148,7 @@ class Language implements Component\Component
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[InstalledLanguageDatabaseRepository::class],
                 $pull[\ILIAS\Database\Connection::class],
-                language_folder_ref_id: $lang_folder_ref_id,
+                $internal[Language\LanguageFolder::class],
                 // replace_lang_entry/update_module_cache/user_login: left at
                 // their defaults (see AddLanguageEntry's own constructor
                 // docblock).
@@ -165,7 +167,7 @@ class Language implements Component\Component
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $settings,
-                $lang_folder_ref_id
+                $internal[Language\LanguageFolder::class]
             );
 
         // Same reasoning again, minus the Setup/forSetup() bridge, which does not apply here
@@ -184,7 +186,7 @@ class Language implements Component\Component
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $settings,
                 $internal[InstalledLanguageDatabaseRepository::class],
-                language_folder_ref_id: $lang_folder_ref_id,
+                $internal[Language\LanguageFolder::class],
             );
 
         // LanguageLegacyInitialisationAdapter has no constructor of its own,

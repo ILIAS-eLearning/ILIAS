@@ -25,6 +25,7 @@ use ILIAS\Administration\Setting;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
+use ILIAS\Language\LanguageFolder;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -40,9 +41,9 @@ class SetLanguageTranslationEnabled extends LanguageActivity
         RBAC $rbac,
         Setting|\Closure $settings,
         private readonly InstalledLanguageRepository $installed_language_repository,
-        int|\Closure $language_folder_ref_id = 0,
+        LanguageFolder $language_folder,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder_ref_id);
+        parent::__construct($refinery, $language, $rbac, $language_folder);
         $this->settings = $settings instanceof \Closure
             ? $settings
             : static fn(): Setting => $settings;
