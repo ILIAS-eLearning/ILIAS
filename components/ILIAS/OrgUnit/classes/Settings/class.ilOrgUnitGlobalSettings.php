@@ -17,8 +17,6 @@
  ********************************************************************
  */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
  * Global settings for org units
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -29,11 +27,6 @@ class ilOrgUnitGlobalSettings
     protected ?ilObjectDefinition $object_definition = null;
     /** @var ilOrgUnitObjectTypePositionSetting[] */
     private array $position_settings = [];
-    /**
-     * Array with key obj_id => active status
-     * @param bool[]
-     */
-    private array $object_position_cache = [];
 
     private function __construct()
     {
@@ -58,63 +51,6 @@ class ilOrgUnitGlobalSettings
         }
 
         return $this->position_settings[$a_obj_type];
-    }
-
-    /**
-     * Check of position access is activate for object
-     */
-    public function isPositionAccessActiveForObject(int $a_obj_id): bool
-    {
-        if (isset($this->object_position_cache[$a_obj_id])) {
-            return $this->object_position_cache[$a_obj_id];
-        }
-        $type = ilObject::_lookupType($a_obj_id);
-        try {
-            $type_settings = $this->getObjectPositionSettingsByType($type);
-        } catch (\InvalidArgumentException $invalid_type_exception) {
-            $this->object_position_cache[$a_obj_id] = false;
-
-            return false;
-        }
-
-        if (!$type_settings->isActive()) {
-            $this->object_position_cache[$a_obj_id] = false;
-
-            return false;
-        }
-        if (!$type_settings->isChangeableForObject()) {
-            $this->object_position_cache[$a_obj_id] = true;
-
-            return true;
-        }
-        $object_position = new ilOrgUnitObjectPositionSetting($a_obj_id);
-
-        if ($object_position->hasObjectSpecificActivation()) {
-            $this->object_position_cache[$a_obj_id] = $object_position->isActive();
-        } else {
-            $this->object_position_cache[$a_obj_id] = (bool) $type_settings->getActivationDefault();
-        }
-
-        return $this->object_position_cache[$a_obj_id];
-    }
-
-    /**
-     * Set and save the default activation status according to settings.
-     * @param int $a_obj_id
-     */
-    public function saveDefaultPositionActivationStatus(int $a_obj_id): void
-    {
-        $type = ilObject::_lookupType($a_obj_id);
-        try {
-            $type_settings = $this->getObjectPositionSettingsByType($type);
-        } catch (\InvalidArgumentException $ex) {
-            return;
-        }
-        if ($type_settings->isActive()) {
-            $object_setting = new ilOrgUnitObjectTypePositionSetting($a_obj_id);
-            $object_setting->setActive($type_settings->getActivationDefault());
-            $object_setting->update();
-        }
     }
 
     private function readSettings(): void

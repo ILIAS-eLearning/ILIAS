@@ -507,10 +507,9 @@ class ilObjExerciseGUI extends ilObjectGUI
         $a_values['tfeedback'] = $tfeedback;
 
         // orgunit position setting enabled
-        $a_values['obj_orgunit_positions'] = ilOrgUnitGlobalSettings::getInstance()
-                                                                    ->isPositionAccessActiveForObject(
-                                                                        $this->object->getId()
-                                                                    );
+        $a_values['obj_orgunit_positions'] =
+            ilOrgUnitObjectPositionSetting::getFor($this->object->getId())
+            ->isActive();
 
         $a_values['cont_custom_md'] = ilContainer::_lookupContainerSetting(
             $this->object->getId(),

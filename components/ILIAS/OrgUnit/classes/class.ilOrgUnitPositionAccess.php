@@ -34,7 +34,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     public function __construct(ilAccess $access)
     {
         global $DIC;
-        $this->set = ilOrgUnitGlobalSettings::getInstance();
         $this->access = $access;
         $this->user = $DIC->user();
 
@@ -292,7 +291,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     private function isPositionActiveForRefId(int $ref_id): bool
     {
         $obj_id = $this->getObjIdForRefId($ref_id); // TODO this will change to ref_id!!
-
-        return $this->set->isPositionAccessActiveForObject($obj_id);
+        return ilOrgUnitObjectPositionSetting::getFor($obj_id)->isActive();
     }
 }

@@ -303,7 +303,7 @@ class ilObjExercise extends ilObject
         // org unit setting
         $orgu_object_settings = new ilOrgUnitObjectPositionSetting($new_obj->getId());
         $orgu_object_settings->setActive(
-            (int) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->getId())
+            (int) ilOrgUnitObjectPositionSetting::getFor($this->getId())->isActive()
         );
         $orgu_object_settings->update();
 
