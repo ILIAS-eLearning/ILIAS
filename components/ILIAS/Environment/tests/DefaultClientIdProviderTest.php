@@ -51,10 +51,20 @@ final class DefaultClientIdProviderTest extends TestCase
         self::assertSame('from_query', $id->toString());
     }
 
-    public function testCookieIsUsedWhenNoQueryParameter(): void
+    /**
+     * ilInitialisation::determineClient() ignores the cookie as well, CLIENT_ID and
+     * the client ini must not resolve to different clients
+     */
+    public function testCookieIsIgnored(): void
     {
         $id = $this->provider([], ['ilClientId' => 'from_cookie'], 'from_ini')->getClientId();
-        self::assertSame('from_cookie', $id->toString());
+        self::assertSame('from_ini', $id->toString());
+    }
+
+    public function testEmptyQueryParameterFallsBackToIniDefault(): void
+    {
+        $id = $this->provider(['client_id' => ''], [], 'from_ini')->getClientId();
+        self::assertSame('from_ini', $id->toString());
     }
 
     public function testFallsBackToIniDefault(): void

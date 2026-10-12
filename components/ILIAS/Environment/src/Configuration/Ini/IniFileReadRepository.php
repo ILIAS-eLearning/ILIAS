@@ -74,6 +74,15 @@ class IniFileReadRepository implements ConfigurationReadRepository
         return isset($this->data[$section][$key]);
     }
 
+    /**
+     * For the typed accessors: an older ini file may lack keys added later (e.g. the
+     * [https] section), which reads as empty as it did with \ilIniFile::readVariable().
+     */
+    protected function getOrEmpty(string $section, string $key): string
+    {
+        return $this->has($section, $key) ? $this->get($section, $key) : '';
+    }
+
     protected function load(): void
     {
         $parsed = parse_ini_file($this->path, process_sections: true);

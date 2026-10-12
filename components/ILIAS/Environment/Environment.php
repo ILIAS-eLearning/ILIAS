@@ -60,9 +60,11 @@ class Environment implements Component
             $use[GlobalHttpState::class],
         );
 
+        // the clients live in public/ since ILIAS 10, older ini files still name the
+        // path without it, as ilInitialisation and DirectoryPathConfigFromIni expect
         $implement[ClientIni::class] = static fn() => new ClientIniFile(
             $use[IliasIni::class]->getAbsolutePath()
-            . '/' . $use[IliasIni::class]->getClientsPath()
+            . '/public/' . str_replace('public/', '', $use[IliasIni::class]->getClientsPath())
             . '/' . $use[ClientIdProvider::class]->getClientId()->toString()
             . '/' . $use[IliasIni::class]->getClientIniFile()
         );
