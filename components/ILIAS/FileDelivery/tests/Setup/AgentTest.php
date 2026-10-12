@@ -23,6 +23,9 @@ namespace ILIAS\Tests\FileDelivery\Setup;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\FileDelivery\Setup\Agent;
 use ILIAS\FileDelivery\Setup\FileDeliverySetupConfig;
+use ILIAS\FileDelivery\Setup\IsolationObjective;
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
+use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\TestCase;
@@ -32,10 +35,89 @@ use PHPUnit\Framework\TestCase;
  */
 final class AgentTest extends TestCase
 {
-    private function agent(): Agent
+    private ?string $artefact = null;
+
+    protected function tearDown(): void
+    {
+        if ($this->artefact !== null) {
+            @unlink($this->artefact);
+        }
+    }
+
+    private function agent(?string $artefact = null): Agent
     {
         $refinery = new Refinery(new DataFactory(), $this->createStub(Language::class));
-        return new Agent($refinery);
+        return new Agent($refinery, $artefact);
+    }
+
+    private function activatedArtefact(): string
+    {
+        $this->artefact = tempnam(sys_get_temp_dir(), 'isolation_') . '.php';
+        file_put_contents($this->artefact, '<?php return ' . var_export([
+            IsolationConfig::KEY_ACTIVATED => true,
+            IsolationConfig::KEY_CONTENT_DOMAIN => 'https://content.example.org',
+            IsolationConfig::KEY_ILIAS_DOMAIN => 'https://ilias.example.org',
+        ], true) . ';');
+        return $this->artefact;
+    }
+
+    /**
+     * Settings the isolation objective of the update would write.
+     */
+    private function writtenByUpdate(Agent $agent, ?FileDeliverySetupConfig $config): array
+    {
+        $collection = $agent->getUpdateObjective($config);
+        $this->assertInstanceOf(ObjectiveCollection::class, $collection);
+        foreach ($collection->getObjectives() as $objective) {
+            if ($objective instanceof IsolationObjective) {
+                $file = tempnam(sys_get_temp_dir(), 'isolation_artifact_') . '.php';
+                file_put_contents($file, $objective->build()->serialize());
+                try {
+                    return include $file;
+                } finally {
+                    @unlink($file);
+                }
+            }
+        }
+        $this->fail('No isolation objective in the update.');
+    }
+
+    public function testUpdateWithoutConfigKeepsCurrentSettings(): void
+    {
+        $written = $this->writtenByUpdate($this->agent($this->activatedArtefact()), null);
+
+        $this->assertTrue($written[IsolationConfig::KEY_ACTIVATED]);
+        $this->assertSame('https://content.example.org', $written[IsolationConfig::KEY_CONTENT_DOMAIN]);
+    }
+
+    public function testUpdateWithoutSectionKeepsCurrentSettings(): void
+    {
+        $agent = $this->agent($this->activatedArtefact());
+        $config = $agent->getArrayToConfigTransformation()->transform(null);
+
+        $this->assertFalse($config->isIsolationConfigured());
+        $written = $this->writtenByUpdate($agent, $config);
+        $this->assertTrue($written[IsolationConfig::KEY_ACTIVATED]);
+        $this->assertSame('https://content.example.org', $written[IsolationConfig::KEY_CONTENT_DOMAIN]);
+    }
+
+    public function testUpdateWithSectionOverridesCurrentSettings(): void
+    {
+        $agent = $this->agent($this->activatedArtefact());
+        $config = $agent->getArrayToConfigTransformation()->transform(['activated' => false]);
+
+        $this->assertTrue($config->isIsolationConfigured());
+        $written = $this->writtenByUpdate($agent, $config);
+        $this->assertFalse($written[IsolationConfig::KEY_ACTIVATED]);
+        $this->assertNull($written[IsolationConfig::KEY_CONTENT_DOMAIN]);
+    }
+
+    public function testUpdateWithoutConfigAndArtefactStaysDeactivated(): void
+    {
+        $written = $this->writtenByUpdate($this->agent('/does/not/exist.php'), null);
+
+        $this->assertFalse($written[IsolationConfig::KEY_ACTIVATED]);
+        $this->assertNull($written[IsolationConfig::KEY_CONTENT_DOMAIN]);
     }
 
     public function testHasConfig(): void
@@ -61,11 +143,12 @@ final class AgentTest extends TestCase
         $this->assertSame('https://content.example.org', $config->getIsolationContentDomain());
     }
 
-    public function testTransformsNullToDisabledConfig(): void
+    public function testTransformsNullToUnconfiguredConfig(): void
     {
         $config = $this->agent()->getArrayToConfigTransformation()->transform(null);
 
         $this->assertInstanceOf(FileDeliverySetupConfig::class, $config);
+        $this->assertFalse($config->isIsolationConfigured());
         $this->assertFalse($config->isIsolationActivated());
         $this->assertNull($config->getIsolationContentDomain());
     }

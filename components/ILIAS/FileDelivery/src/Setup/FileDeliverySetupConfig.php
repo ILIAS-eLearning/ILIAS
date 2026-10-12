@@ -38,9 +38,15 @@ final readonly class FileDeliverySetupConfig implements Config
     private bool $isolation_activated;
     private ?string $isolation_content_domain;
 
+    /**
+     * @param bool $isolation_configured false if the config.json has no
+     *                                   "content_isolation" section; the
+     *                                   current settings are kept then
+     */
     public function __construct(
         bool $isolation_activated = false,
         ?string $isolation_content_domain = null,
+        private bool $isolation_configured = true,
     ) {
         // normalize to a bare origin using the same rules the runtime enforces
         $content = IsolationConfig::normalizeOrigin($isolation_content_domain);
@@ -69,5 +75,10 @@ final readonly class FileDeliverySetupConfig implements Config
     public function getIsolationContentDomain(): ?string
     {
         return $this->isolation_content_domain;
+    }
+
+    public function isIsolationConfigured(): bool
+    {
+        return $this->isolation_configured;
     }
 }
