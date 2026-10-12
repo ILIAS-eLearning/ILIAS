@@ -20,16 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-final class FilenameSanitizerImplTest extends TestCase
+final class DefaultFilenameSanitizerTest extends TestCase
 {
-    private FilenameSanitizerImpl $sanitizer;
+    private DefaultFilenameSanitizer $sanitizer;
 
     protected function setUp(): void
     {
-        $this->sanitizer = new FilenameSanitizerImpl(['pdf', 'png', 'jpg', 'txt']);
+        $settings = $this->createStub(FilesystemConfig::class);
+        $settings->method('getWhiteListedSuffixes')->willReturn(['pdf', 'png', 'jpg', 'txt']);
+        $settings->method('getBlackListedSuffixes')->willReturn([]);
+        $settings->method('isByPassAllowedForCurrentUser')->willReturn(false);
+
+        $this->sanitizer = new DefaultFilenameSanitizer($settings);
     }
 
     public static function cleanProvider(): \Iterator

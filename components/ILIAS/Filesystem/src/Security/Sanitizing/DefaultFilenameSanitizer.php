@@ -73,12 +73,18 @@ class DefaultFilenameSanitizer implements FilenameSanitizer
 
     public function isClean(string $filename): bool
     {
-        $suffix = $this->extractFileSuffix($filename);
-        if (preg_match('/^ph(p[3457]?|t|tml|ar)$/i', $suffix)) {
-            return false;
+        // check the raw and the percent-decoded spelling; both must be acceptable
+        foreach ([$filename, rawurldecode($filename)] as $candidate) {
+            $suffix = $this->extractFileSuffix($candidate);
+            if (preg_match('/^ph(p[3457]?|t|tml|ar)$/i', $suffix)) {
+                return false;
+            }
+            if (!in_array($suffix, $this->getWhitelistedSuffixes(), true)) {
+                return false;
+            }
         }
 
-        return in_array($suffix, $this->getWhitelistedSuffixes() ?? [], true);
+        return true;
     }
 
     /**
