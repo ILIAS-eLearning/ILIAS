@@ -139,6 +139,7 @@ class ilIniFile
             return false;
         }
         try {
+            $this->pushGroups($this->repository);
             $this->repository->persist();
             return true;
         } catch (\RuntimeException $e) {
@@ -220,6 +221,33 @@ class ilIniFile
     }
 
     // — Internal —
+
+    /**
+     * Legacy callers assign $GROUPS directly, e.g. ilIniFilesPopulatedObjective fills a
+     * new ini file from the master file that way, so it is what gets written.
+     */
+    private function pushGroups(ConfigurationReadRepository&ConfigurationWriteRepository $repository): void
+    {
+        foreach ($repository->getSections() as $section) {
+            if (!isset($this->GROUPS[$section])) {
+                $repository->removeSection($section);
+            }
+        }
+        foreach ($this->GROUPS as $section => $values) {
+            $section = (string) $section;
+            if (!$repository->hasSection($section)) {
+                $repository->addSection($section);
+            }
+            foreach (array_keys($repository->getSection($section)) as $key) {
+                if (!array_key_exists($key, $values)) {
+                    $repository->remove($section, (string) $key);
+                }
+            }
+            foreach ($values as $key => $value) {
+                $repository->set($section, (string) $key, (string) $value);
+            }
+        }
+    }
 
     private function syncGroups(): void
     {
