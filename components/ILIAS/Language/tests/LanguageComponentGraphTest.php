@@ -131,8 +131,8 @@ class LanguageComponentGraphTest extends TestCase
         [, , , , , $provide] = $this->initComponent();
 
         self::assertInstanceOf(LanguageFileDirectoryManager::class, $provide[LanguageFileDirectoryManager::class]);
-        self::assertInstanceOf(InstalledLanguageDatabaseRepository::class, $provide[InstalledLanguageRepository::class]);
-        self::assertInstanceOf(LanguageInstallationManager::class, $provide[LanguageInstallationManager::class]);
+        self::assertFalse(isset($provide[InstalledLanguageRepository::class]));
+        self::assertFalse(isset($provide[LanguageInstallationManager::class]));
         self::assertInstanceOf(InstallLanguage::class, $provide[InstallLanguage::class]);
         self::assertInstanceOf(UpdateLanguage::class, $provide[UpdateLanguage::class]);
         self::assertInstanceOf(UninstallLanguage::class, $provide[UninstallLanguage::class]);
@@ -150,8 +150,6 @@ class LanguageComponentGraphTest extends TestCase
         // must resolve to the exact same object (Pimple caches the closure
         // result), not merely to objects of the same class.
         self::assertSame($internal[LanguageFileDirectoryManager::class], $provide[LanguageFileDirectoryManager::class]);
-        self::assertSame($internal[InstalledLanguageDatabaseRepository::class], $provide[InstalledLanguageRepository::class]);
-        self::assertSame($internal[LanguageInstallationManager::class], $provide[LanguageInstallationManager::class]);
         self::assertSame($internal[InstallLanguage::class], $provide[InstallLanguage::class]);
         self::assertSame($internal[UpdateLanguage::class], $provide[UpdateLanguage::class]);
         self::assertSame($internal[UninstallLanguage::class], $provide[UninstallLanguage::class]);
@@ -270,23 +268,21 @@ class LanguageComponentGraphTest extends TestCase
         return $directories;
     }
 
-    public function testRepositoryAndManagerGetTheRootFromDirectories(): void
+    public function testRepositoryGetsTheRootFromDirectories(): void
     {
-        [, , , , , $provide] = $this->initComponent([
+        [, , , , , , , $internal] = $this->initComponent([
             \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
             \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
             \ILIAS\Environment\Configuration\Installation\Directories::class => $this->createDirectories('/ilias-root'),
         ]);
 
-        self::assertSame('/ilias-root', self::readPrivateProperty($provide[InstalledLanguageRepository::class], 'absolute_path'));
-        self::assertSame('/ilias-root', self::readPrivateProperty($provide[LanguageInstallationManager::class], 'absolute_path'));
+        self::assertSame('/ilias-root', self::readPrivateProperty($internal[InstalledLanguageDatabaseRepository::class], 'absolute_path'));
     }
 
     private function resolveEverything(PimpleContainer $provide, RenamingDIC $contribute): void
     {
         foreach ([
-            InstalledLanguageRepository::class, LanguageInstallationManager::class, InstallLanguage::class,
-            UpdateLanguage::class, UninstallLanguage::class, RemoveLocalLanguageChanges::class,
+            InstallLanguage::class, UpdateLanguage::class, UninstallLanguage::class, RemoveLocalLanguageChanges::class,
             AddLanguageEntry::class, SetLanguageDetectionEnabled::class, SetLanguageTranslationEnabled::class,
         ] as $key) {
             self::assertIsObject($provide[$key]);
