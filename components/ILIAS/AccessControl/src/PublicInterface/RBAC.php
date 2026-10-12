@@ -23,10 +23,14 @@ namespace ILIAS\AccessControl\PublicInterface;
 /**
  * Public RBAC service of the AccessControl component.
  *
- * Intentionally empty — the implementation {@see DefaultRBAC} exposes the
- * concrete legacy classes (\ilRbacReview, \ilRbacSystem, \ilRbacAdmin) until
- * a proper public surface is designed.
+ * Hands out the concrete legacy classes (\ilRbacReview, \ilRbacSystem,
+ * \ilRbacAdmin) until a proper public surface is designed.
  */
 interface RBAC
 {
+    public function review(): \ilRbacReview;
+
+    public function system(): \ilRbacSystem;
+
+    public function admin(): \ilRbacAdmin;
 }
