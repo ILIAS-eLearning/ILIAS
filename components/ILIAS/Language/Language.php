@@ -87,9 +87,8 @@ class Language implements Component\Component
                 $internal[InstalledLanguageDatabaseRepository::class]
             );
 
-        // Setup instance, gets the Setup database via setDbHandler(). No
-        // Connection: ilLanguagesInstalledAndUpdatedObjective::getLabel() reads
-        // the database before that, while $DIC['ilDB'] is not set.
+        // Setup instance: Setup hands in its own database via setDbHandler()
+        // instead of the Connection (see components/ILIAS/Database/ROADMAP.md).
         $internal[\ilSetupLanguage::class] = static fn() =>
             new \ilSetupLanguage(
                 "en",
