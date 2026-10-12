@@ -26,9 +26,9 @@ session, or container state. It must not be used as the runtime language service
 Which languages are installed/available (`ILIAS\Language\Setup\InstalledLanguageRepository`) and installing, flushing
 or registering a language (`ILIAS\Language\Setup\LanguageInstallationManager`) are separate, narrower services -
 following [the repository pattern](../../../docs/development/repository-pattern.md) - rather than part of
-`ilSetupLanguage` itself. New code that only needs to install or inspect languages should depend on these two
-instead of on `ilSetupLanguage`, which still exists (delegating to both) as the concrete `ILIAS\Language\Language`
-implementation used during Setup and as a stable entry point for callers not yet wired through `Language.php`.
+`ilSetupLanguage` itself. Both are internal to this component; `ilSetupLanguage` delegates to them and remains the
+concrete `ILIAS\Language\Language` implementation used during Setup and the entry point for callers outside the
+component.
 
 
 ## Language File Directories
