@@ -80,6 +80,8 @@ class ilWOPIEmbeddedApplicationGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->global_screen = $DIC->globalScreen();
+        // messages with the editor go through il.HTTP.Channel, see HTTP README
+        $this->global_screen->layout()->meta()->addJs('./assets/js/postmessage-channel.js');
         $this->global_screen->layout()->meta()->addJs('./assets/js/wopi.min.js');
         $this->global_screen->layout()->meta()->addOnloadCode('il.WOPI.init();');
         $this->renderer = new Renderer($this->application);

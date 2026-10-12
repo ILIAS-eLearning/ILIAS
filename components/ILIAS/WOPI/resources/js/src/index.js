@@ -1,6 +1,7 @@
 import document from 'document';
 import il from 'ilias';
 import $ from 'jquery';
+import codec from './codec.js';
 
 il.WOPI = {
   modified: false,
@@ -139,9 +140,17 @@ il.WOPI.init = function () {
 
   this.frameholder = frameholder;
   this.editorFrame = editorFrame;
-  // eslint-disable-next-line max-len
-  this.editorFrameWindow = editorFrame.contentWindow || (editorFrame.contentDocument.document || editorFrame.contentDocument);
   this.inline = inline;
+
+  // Messages are only exchanged with the editor frame and the origin of the
+  // editor (the WOPI client), see il.HTTP.Channel.
+  this.channel = new il.HTTP.Channel(
+    window,
+    () => editorFrame.contentWindow,
+    new URL(editorUrl, window.location.href).origin,
+    'wopi',
+    codec,
+  );
   this.fillParent();
 
   // BUILD FORM
@@ -166,18 +175,6 @@ il.WOPI.init = function () {
 
   // SEND FORM
   form.submit();
-
-  // Listen to postMessages from the editor
-  window.addEventListener(
-    'message',
-    (event) => {
-      this.handleMessage(event);
-    },
-    false,
-  );
-  this.registerListener('*', (values) => {
-    // console.log('message received', values);
-  });
 
   // Add event listener to receive messages from the editor
   this.registerListener('App_LoadingStatus', () => {
@@ -212,29 +209,22 @@ il.WOPI.init = function () {
   );
 };
 
-il.WOPI.handleMessage = function (message) {
-  const messageObj = JSON.parse(message.data);
-  const MessageId = messageObj.MessageId ?? null;
-
+il.WOPI.handleMessage = function (MessageId, Values) {
   if (this.listeners[MessageId]) {
     this.listeners[MessageId].forEach((callback) => {
-      callback(messageObj.Values);
-    });
-  }
-  if (this.listeners['*']) {
-    this.listeners['*'].forEach((callback) => {
-      callback(messageObj);
+      callback(Values);
     });
   }
 };
 
 il.WOPI.postMessage = function (mobj) {
-  this.editorFrameWindow.postMessage(JSON.stringify(mobj), '*');
+  this.channel.send(mobj.MessageId, mobj.Values ?? {});
 };
 
 il.WOPI.registerListener = function (MessageId, callback) {
   if (!this.listeners[MessageId]) {
     this.listeners[MessageId] = [];
+    this.channel.on(MessageId, (Values) => this.handleMessage(MessageId, Values));
   }
   this.listeners[MessageId].push(callback);
 };
