@@ -256,6 +256,27 @@ class ilLanguage implements \ILIAS\Language\Language
     }
 
     /**
+     * Plural form selected by the "Plural-Forms" rule (native gettext) for a plural message of a migrated
+     * module, otherwise exactly txt(). The quantity is not inserted; callers do that, e.g. with sprintf().
+     */
+    public function ntxt(string $a_topic, int $a_n, string $a_default_lang_fallback_mod = ""): string
+    {
+        $module = $a_topic === '' ? null : ($this->migrated_key_modules[$a_topic] ?? null);
+        $value = $module === null
+            ? null
+            : MigratedTranslations::pluralText($module, $this->migratedLangKey(), $a_topic, $a_n, self::clientDataDir());
+        if ($value !== null && $value !== '') {
+            self::$used_topics[$a_topic] = $a_topic;
+            if ($this->usage_log_enabled) {
+                self::logUsage($module, $a_topic);
+            }
+            return $value;
+        }
+
+        return $this->txt($a_topic, $a_default_lang_fallback_mod);
+    }
+
+    /**
      * Check if language entry exists
      */
     public function exists(string $a_topic): bool
