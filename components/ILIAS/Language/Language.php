@@ -34,6 +34,7 @@ use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
+use ILIAS\Environment\Configuration\Installation\Directories;
 
 class Language implements Component\Component
 {
@@ -48,8 +49,6 @@ class Language implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $define[] = \ILIAS\Language\Language::class;
-
-        $ilias_root = (string) realpath(__DIR__ . '/../../../');
 
         // Closures, not values: init() runs without a database or a booted $DIC.
         $lang_folder_ref_id = static fn(): int => \ilObjLanguageAccess::_lookupLangFolderRefId();
@@ -76,14 +75,14 @@ class Language implements Component\Component
             new InstalledLanguageDatabaseRepository(
                 $pull[\ILIAS\Database\Connection::class],
                 $internal[LanguageFileDirectoryManager::class],
-                $ilias_root
+                $use[Directories::class]->getRoot()
             );
 
         $internal[LanguageInstallationManager::class] = static fn() =>
             new LanguageInstallationManager(
                 $pull[\ILIAS\Database\Connection::class],
                 $internal[LanguageFileDirectoryManager::class],
-                $ilias_root,
+                $use[Directories::class]->getRoot(),
                 $internal[InstalledLanguageDatabaseRepository::class]
             );
 
