@@ -23,7 +23,6 @@ use ILIAS\Refinery;
 use ILIAS\UI;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
-use ILIAS\Language\Setup\InstalledLanguageRepository;
 
 class ilLanguageSetupAgent implements Setup\Agent
 {
@@ -33,20 +32,17 @@ class ilLanguageSetupAgent implements Setup\Agent
     protected \ilSetupLanguage $il_setup_language;
     protected InstallLanguage $install_language;
     protected UpdateLanguage $update_language;
-    protected InstalledLanguageRepository $repository;
 
     public function __construct(
         Refinery\Factory $refinery,
         \ilSetupLanguage $il_setup_language,
         InstallLanguage $install_language,
-        UpdateLanguage $update_language,
-        InstalledLanguageRepository $repository
+        UpdateLanguage $update_language
     ) {
         $this->refinery = $refinery;
         $this->il_setup_language = $il_setup_language;
         $this->install_language = $install_language;
         $this->update_language = $update_language;
-        $this->repository = $repository;
     }
 
     /**
@@ -111,7 +107,7 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilLanguageMetricsCollectedObjective($storage, $this->repository);
+        return new ilLanguageMetricsCollectedObjective($storage, $this->il_setup_language);
     }
 
     /**

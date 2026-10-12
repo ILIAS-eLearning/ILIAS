@@ -19,18 +19,17 @@
 declare(strict_types=1);
 
 use ILIAS\Setup;
-use ILIAS\Language\Setup\InstalledLanguageRepository;
 
 class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    protected InstalledLanguageRepository $repository;
+    protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
         Setup\Metrics\Storage $storage,
-        InstalledLanguageRepository $repository
+        \ilSetupLanguage $il_setup_language
     ) {
         parent::__construct($storage);
-        $this->repository = $repository;
+        $this->il_setup_language = $il_setup_language;
     }
 
     /**
@@ -63,15 +62,11 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             return;
         }
 
-        // InstalledLanguageRepository resolves its database lazily via
-        // $GLOBALS['ilDB'] ?? $DIC->database(), so it picks up the
-        // Setup-provided database resource as soon as it is assigned here -
-        // see components/ILIAS/Language/Language.php.
-        $GLOBALS["ilDB"] = $db;
+        $this->il_setup_language->setDbHandler($db);
 
         $installed_languages = [];
-        $local_languages = $this->repository->getLocalLanguages();
-        foreach ($this->repository->getInstalledLanguages() as $lang) {
+        $local_languages = $this->il_setup_language->getLocalLanguages();
+        foreach ($this->il_setup_language->getInstalledLanguages() as $lang) {
             $local_file = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_STABLE,
                 Setup\Metrics\Metric::TYPE_BOOL,
@@ -81,7 +76,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             $local_changes = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_STABLE,
                 Setup\Metrics\Metric::TYPE_BOOL,
-                count($this->repository->getLocalChanges($lang)) > 0,
+                count($this->il_setup_language->getLocalChanges($lang)) > 0,
                 "Are there local changes for the language?"
             );
             $installed_languages[$lang] = new Setup\Metrics\Metric(

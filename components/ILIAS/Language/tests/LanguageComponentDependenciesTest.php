@@ -22,10 +22,12 @@ use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Component\Dependencies\InType;
 use ILIAS\Component\Dependencies\Mocks\EvalLightMockBuilder;
 use ILIAS\Component\Dependencies\Reader;
+use ILIAS\Database\Connection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * The declared dependencies of the Language component: RBAC is used (use).
+ * The declared dependencies of the Language component: the database
+ * comes from the graph (pull), RBAC is used (use).
  */
 class LanguageComponentDependenciesTest extends TestCase
 {
@@ -41,6 +43,12 @@ class LanguageComponentDependenciesTest extends TestCase
         }
 
         return $names;
+    }
+
+    public function testDatabaseConnectionIsPulledNotUsed(): void
+    {
+        self::assertContains(Connection::class, $this->names(InType::PULL));
+        self::assertNotContains(Connection::class, $this->names(InType::USE));
     }
 
     public function testRbacIsUsed(): void
