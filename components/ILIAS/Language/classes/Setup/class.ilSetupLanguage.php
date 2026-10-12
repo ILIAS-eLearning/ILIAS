@@ -23,6 +23,7 @@ use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
+use ILIAS\Language\LanguageIdentifier;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
@@ -189,6 +190,14 @@ class ilSetupLanguage extends ilLanguage
         }
 
         return $translation;
+    }
+
+    /**
+     * Same as txt(); $n, $lang and the module of a LanguageIdentifier have no effect in Setup.
+     */
+    public function translate(string|LanguageIdentifier $key, ?int $n = null, ?string $lang = null): string
+    {
+        return $this->txt($key instanceof LanguageIdentifier ? (string) $key->value : $key);
     }
 
     /**
