@@ -27,6 +27,7 @@ use ILIAS\Component\Resource\PublicAsset;
 use ILIAS\Component\Resource\Endpoint;
 use ILIAS\Component\EntryPoint;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Path\HttpPathProvider;
 use ILIAS\FileDelivery\Services;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilderFactory;
@@ -98,6 +99,7 @@ class FileDelivery implements Component
             $use[DataSigning::class],
             $use[GlobalHttpState::class],
             $internal[IsolationConfig::class],
+            $use[HttpPathProvider::class],
         ));
 
         $implement[FileDeliveryServices::class] = static fn() => $internal[FileDeliveryServices::class];
