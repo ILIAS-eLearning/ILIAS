@@ -21,6 +21,12 @@
 * Analysing use of language variables on test9
 * GitHook for preventing duplicate use of same variable_ID in language files
 * Migrate the remaining `addCommandButton()` form buttons in `ilObjLanguageExtGUI` to KS Button
+* Take the system settings of `SetLanguageDetectionEnabled`/`SetLanguageTranslationEnabled` from the
+  dependency graph as soon as Administration offers them there; `Language.php` still reads
+  `$GLOBALS['DIC']->settings()`
+* Let the GUI classes get the Activities by dependency injection once ilCtrl allows it, and drop the
+  Activities and the `LanguageFileDirectoryManager` from the legacy `$DIC` (`AllModernComponents`)
+* Build `lng` in the dependency graph instead of `ilInitialisation::initLanguage()`
 
 ## Mid Term
 
