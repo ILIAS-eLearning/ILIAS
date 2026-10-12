@@ -1091,6 +1091,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
             db: $this->createUnusedDb(),
+            language_folder: $this->languageFolder(),
         ) extends AddLanguageEntry {
             // Declaring this override (the plain interface signature) is the point of the test -
             // the old, buggy signature with an extra optional parameter would already fail to
@@ -1235,7 +1236,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             language: $this->createMock(Language::class),
             rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
-            language_folder_ref_id: 0,
+            language_folder: $this->languageFolder(),
             replace_lang_entry: static fn(
                 string $module,
                 string $identifier,
@@ -1425,7 +1426,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             installed_language_repository: $installed_language_repository ?? new FakeInstalledLanguageRepository(
                 static fn(): array => $installed_languages
             ),
-            language_folder_ref_id: $language_folder_ref_id,
+            language_folder: $this->languageFolder($language_folder_ref_id),
             replace_lang_entry: $replace_lang_entry,
             update_module_cache: $update_module_cache,
             user_login: $user_login,

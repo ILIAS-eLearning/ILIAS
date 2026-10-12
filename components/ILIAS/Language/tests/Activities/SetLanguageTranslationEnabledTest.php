@@ -712,7 +712,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
             $settings ?? $this->createMock(Setting::class),
             installed_language_repository: $installed_language_repository
                 ?? new FakeInstalledLanguageRepository(static fn(): array => ['de', 'fr']),
-            language_folder_ref_id: $language_folder_ref_id,
+            language_folder: $this->languageFolder($language_folder_ref_id),
         );
     }
 }

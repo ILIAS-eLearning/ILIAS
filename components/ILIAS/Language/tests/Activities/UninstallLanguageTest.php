@@ -686,7 +686,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
             $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
-            0,
+            $this->languageFolder(),
             $lng_objects,
             $obj_language_factory
         );

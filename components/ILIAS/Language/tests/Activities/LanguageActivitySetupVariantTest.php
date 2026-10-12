@@ -68,7 +68,7 @@ class LanguageActivitySetupVariantTest extends \ilLanguageBaseTestCase
             $this->createStub(\ILIAS\Language\Language::class),
             $rbac,
             $this->createStub(\ilSetupLanguage::class),
-            static fn(): int => 77
+            $this->languageFolder(77)
         );
 
         self::assertTrue($activity->isAllowedToPerform(6, []));
