@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Poll implements Component\Component
 {
@@ -38,5 +40,9 @@ class Poll implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilPoll.js");
         $contribute[SetupAgent::class] = fn() => new \ilPollSetupAgent($pull[RefineryFactory::class]);
+        $contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => new ComponentLanguageFileDirectory(
+            $this,
+            'poll'
+        );
     }
 }
