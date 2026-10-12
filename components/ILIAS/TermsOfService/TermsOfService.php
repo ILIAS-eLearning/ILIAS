@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class TermsOfService implements Component\Component
 {
     public function init(
@@ -32,6 +35,9 @@ class TermsOfService implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => new ComponentLanguageFileDirectory(
+            $this,
+            'tos'
+        );
     }
 }

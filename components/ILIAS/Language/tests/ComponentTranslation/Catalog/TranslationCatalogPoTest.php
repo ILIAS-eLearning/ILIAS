@@ -36,6 +36,8 @@ use RuntimeException;
  */
 class TranslationCatalogPoTest extends TestCase
 {
+    private const string TOS_LANG_DIRECTORY = __DIR__ . '/../../../../TermsOfService/lang';
+
     private ?string $directory = null;
 
     protected function tearDown(): void
@@ -490,6 +492,35 @@ class TranslationCatalogPoTest extends TestCase
             . "msgctxt \"tos\"\nmsgid \"tos_empty\"\nmsgstr \"\"\n",
             $catalog->toPoString()
         );
+    }
+
+    /**
+     * Property: every shipped `.po`/`.pot` of the migrated tos module is read by fromPoFile() and
+     * re-serialized byte-identically (convert_module_to_po.php and the overlay rely on that), and
+     * its `.mo` serves exactly the non-empty translations of the `.po`.
+     */
+    public function testEveryShippedTosFileRoundTripsByteIdentically(): void
+    {
+        $files = glob(self::TOS_LANG_DIRECTORY . '/*.{po,pot}', GLOB_BRACE) ?: [];
+        $this->assertNotSame([], $files, 'the shipped tos files were not found');
+
+        foreach ($files as $file) {
+            $catalog = TranslationCatalog::fromPoFile($file);
+            $this->assertSame(file_get_contents($file), $catalog->toPoString(), basename($file));
+
+            $expected = [];
+            foreach ($catalog->getEntries() as $entry) {
+                // written without msgctxt by convert_module_to_po.php (the module is the directory's)
+                $this->assertNull($entry->getContext(), basename($file));
+                if ($entry->getTranslation() !== '') {
+                    $expected[$entry->getId()] = $entry->getTranslation();
+                }
+            }
+            $actual = \MigratedPoFixture::readMoTranslations($catalog->toMoString());
+            ksort($expected, SORT_STRING);
+            ksort($actual, SORT_STRING);
+            $this->assertSame($expected, $actual, basename($file));
+        }
     }
 
     public function testReadsMultilineStringsCrLfLineEndingsAndABom(): void
