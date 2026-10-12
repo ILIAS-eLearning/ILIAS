@@ -24,8 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\Mail\Setup\Migration\MigrateMailAttachmentsToIRSS;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Manager\Manager;
 
 class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 {
@@ -60,6 +61,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
                 'moveFilesOfPathToCollection',
                 'movePathToStorage',
                 'getCollectionBuilder',
+                'getManager',
             ])
             ->getMock();
         $this->helper->method('getDatabase')->willReturn($this->db);
@@ -152,6 +154,14 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
             ['mail_id' => 2],
             null
         );
+        $rcid = new ResourceCollectionIdentification('dir-rcid');
+        $resource_id = new ResourceIdentification('dir-rid');
+        $collection = $this->createMock(ResourceCollection::class);
+        $collection->method('getResourceIdentifications')->willReturn([$resource_id]);
+        $collection_builder = $this->createMock(CollectionBuilder::class);
+        $collection_builder->expects($this->once())->method('get')->with($rcid)->willReturn($collection);
+        $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
+        $this->expectConfidential($resource_id);
         $this->helper->expects($this->once())
             ->method('moveFilesOfPathToCollection')
             ->willReturnCallback(function (
@@ -160,12 +170,12 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
                 int $collection_owner,
                 ?Closure $file_name,
                 Closure $revision_title
-            ) use ($dir): ResourceCollectionIdentification {
+            ) use ($dir, $rcid): ResourceCollectionIdentification {
                 $this->assertSame($dir, $path);
                 $this->assertSame(6, $resource_owner);
                 $this->assertSame(md5('a.pdf'), $revision_title('a.pdf'));
 
-                return new ResourceCollectionIdentification('dir-rcid');
+                return $rcid;
             });
         $statements = [];
         $this->db->method('manipulateF')->willReturnCallback(
@@ -229,6 +239,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
 
                 return new ResourceIdentification('rid');
             });
+        $this->expectConfidential(new ResourceIdentification('rid'));
 
         $rcid = $this->invokePrivate(
             'migratePoolFilenamesToCollection',
@@ -251,6 +262,7 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         $collection_builder->method('store')->willReturn(true);
         $this->helper->method('getCollectionBuilder')->willReturn($collection_builder);
         $this->helper->method('movePathToStorage')->willReturn(new ResourceIdentification('rid'));
+        $this->expectConfidential(new ResourceIdentification('rid'));
         $this->db->expects($this->once())->method('manipulateF')->with(
             'INSERT INTO mail_attachment (mail_id, path, rcid) VALUES (%s, %s, %s)',
             $this->anything(),
@@ -312,6 +324,11 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         $this->assertReported('ERROR', 'MySQL server has gone away');
     }
 
+    public function testMailAttachmentsAreConfidential(): void
+    {
+        $this->assertTrue((new ilMailAttachmentStakeholder(6))->areNewResourcesConfidential());
+    }
+
     public function testResolveOwnerIdForPathUsesSenderIdAndFallsBackToSystemUser(): void
     {
         $this->db->method('queryF')->willReturn($this->createStub(ilDBStatement::class));
@@ -335,6 +352,13 @@ class MigrateMailAttachmentsToIRSSUnitTest extends ilMailBaseTestCase
         }
 
         return $dir;
+    }
+
+    private function expectConfidential(ResourceIdentification $identification): void
+    {
+        $manager = $this->createMock(Manager::class);
+        $manager->expects($this->once())->method('setConfidential')->with($identification, true);
+        $this->helper->method('getManager')->willReturn($manager);
     }
 
     private function assertReported(string $level, string $needle): void

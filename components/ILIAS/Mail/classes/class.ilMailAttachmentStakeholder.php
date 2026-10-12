@@ -20,12 +20,18 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\ResourceStorage\Stakeholder\ConfidentialStakeholder;
 
-class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
+class ilMailAttachmentStakeholder extends AbstractResourceStakeholder implements ConfidentialStakeholder
 {
     public function getId(): string
     {
         return 'mail_attachments';
+    }
+
+    public function areNewResourcesConfidential(): bool
+    {
+        return true;
     }
 
     public function getOwnerOfNewResources(): int

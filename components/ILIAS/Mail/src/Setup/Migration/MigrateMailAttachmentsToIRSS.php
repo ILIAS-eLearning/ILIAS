@@ -141,6 +141,7 @@ class MigrateMailAttachmentsToIRSS implements Migration
                 continue;
             }
 
+            $this->markCollectionResourcesConfidential($rcid);
             $this->assignRcidToPath($relative_path, $rcid);
             $this->updateMailAttachmentFields($relative_path, $rcid);
             $this->count('directories_migrated');
@@ -310,6 +311,7 @@ class MigrateMailAttachmentsToIRSS implements Migration
             );
 
             if ($resource_id instanceof ResourceIdentification) {
+                $this->markConfidential($resource_id);
                 $collection->add($resource_id);
             }
         }
@@ -323,6 +325,18 @@ class MigrateMailAttachmentsToIRSS implements Migration
         }
 
         return $collection->getIdentification();
+    }
+
+    private function markConfidential(ResourceIdentification $identification): void
+    {
+        $this->helper->getManager()->setConfidential($identification, true);
+    }
+
+    private function markCollectionResourcesConfidential(ResourceCollectionIdentification $rcid): void
+    {
+        foreach ($this->helper->getCollectionBuilder()->get($rcid)->getResourceIdentifications() as $identification) {
+            $this->markConfidential($identification);
+        }
     }
 
     private function clearMailAttachmentsColumn(int $mail_id): void
