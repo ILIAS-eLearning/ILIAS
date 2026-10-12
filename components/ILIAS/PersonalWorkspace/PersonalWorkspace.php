@@ -32,6 +32,7 @@ class PersonalWorkspace implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
+            new \ILIAS\PersonalWorkspace\PermanentLink\StaticUrlHandler();
     }
 }
