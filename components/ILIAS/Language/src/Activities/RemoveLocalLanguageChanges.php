@@ -24,6 +24,7 @@ use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
+use ILIAS\Language\LanguageFolder;
 use ILIAS\Refinery\Factory as RefineryFactory;
 
 class RemoveLocalLanguageChanges extends LanguageActivity
@@ -42,11 +43,11 @@ class RemoveLocalLanguageChanges extends LanguageActivity
         RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
-        int|\Closure $language_folder_ref_id = 0,
+        LanguageFolder $language_folder,
         ?\Closure $lng_objects = null,
         ?\Closure $obj_language_factory = null,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder_ref_id);
+        parent::__construct($refinery, $language, $rbac, $language_folder);
         $this->lng_objects = $lng_objects
             ?? static fn(): array => \ilObject::_getObjectsByType('lng');
         $this->obj_language_factory = $obj_language_factory

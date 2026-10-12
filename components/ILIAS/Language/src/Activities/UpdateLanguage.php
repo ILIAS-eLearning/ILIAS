@@ -24,6 +24,8 @@ use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
+use ILIAS\Language\LanguageFolder;
+use ILIAS\Language\LanguageFolderLegacyProxy;
 use ILIAS\Refinery\Factory as RefineryFactory;
 
 class UpdateLanguage extends LanguageActivity
@@ -35,9 +37,9 @@ class UpdateLanguage extends LanguageActivity
         Language $language,
         ?RBAC $rbac,
         private readonly \ilSetupLanguage $setup_language,
-        int|\Closure $language_folder_ref_id = 0,
+        LanguageFolder $language_folder,
     ) {
-        parent::__construct($refinery, $language, $rbac, $language_folder_ref_id);
+        parent::__construct($refinery, $language, $rbac, $language_folder);
     }
 
     public static function forSetup(\ilSetupLanguage $setup_language): self
@@ -46,7 +48,9 @@ class UpdateLanguage extends LanguageActivity
             new RefineryFactory(new \ILIAS\Data\Factory(), $setup_language),
             $setup_language,
             null,
-            $setup_language
+            $setup_language,
+            // Never read: without RBAC, isAllowedToPerform() throws first.
+            new LanguageFolderLegacyProxy()
         );
     }
 

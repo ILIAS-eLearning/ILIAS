@@ -390,7 +390,8 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
             $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
             $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
-            $setup_language
+            $setup_language,
+            $this->languageFolder()
         );
     }
 

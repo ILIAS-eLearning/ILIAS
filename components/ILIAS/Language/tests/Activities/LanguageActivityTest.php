@@ -25,6 +25,7 @@ use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Activities\LanguageActivity;
 use ILIAS\Language\Language;
+use ILIAS\Language\LanguageFolder;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -52,7 +53,8 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $activity = new LanguageActivityThrowingInputDescriptionTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
-            $this->rbacOf($rbac)
+            $this->rbacOf($rbac),
+            $this->languageFolder()
         );
 
         $result = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, []);
@@ -77,6 +79,7 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
             $this->rbacOf($rbac),
+            $this->languageFolder(),
             throw_type_error: true,
         );
 
@@ -105,7 +108,8 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $activity = new LanguageActivityMergePrecedenceTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
-            $this->rbacOf($rbac)
+            $this->rbacOf($rbac),
+            $this->languageFolder()
         );
 
         $result = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 42, []);
@@ -137,9 +141,10 @@ final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageA
         RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
+        LanguageFolder $language_folder,
         private readonly bool $throw_type_error = false,
     ) {
-        parent::__construct($refinery, $language, $rbac);
+        parent::__construct($refinery, $language, $rbac, $language_folder);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown
