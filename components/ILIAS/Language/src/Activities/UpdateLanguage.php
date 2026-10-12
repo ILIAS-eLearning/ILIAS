@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Activities;
 
+use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
@@ -32,11 +33,11 @@ class UpdateLanguage extends LanguageActivity
     public function __construct(
         RefineryFactory $refinery,
         Language $language,
-        \ilRbacSystem|\Closure $rbac_system,
+        ?RBAC $rbac,
         private readonly \ilSetupLanguage $setup_language,
         int|\Closure $language_folder_ref_id = 0,
     ) {
-        parent::__construct($refinery, $language, $rbac_system, $language_folder_ref_id);
+        parent::__construct($refinery, $language, $rbac, $language_folder_ref_id);
     }
 
     public static function forSetup(\ilSetupLanguage $setup_language): self
@@ -44,10 +45,7 @@ class UpdateLanguage extends LanguageActivity
         return new self(
             new RefineryFactory(new \ILIAS\Data\Factory(), $setup_language),
             $setup_language,
-            static fn(): \ilRbacSystem => throw new \LogicException(
-                'RBAC is not available during Setup; '
-                . self::class . '::isAllowedToPerform() cannot be used here.'
-            ),
+            null,
             $setup_language
         );
     }

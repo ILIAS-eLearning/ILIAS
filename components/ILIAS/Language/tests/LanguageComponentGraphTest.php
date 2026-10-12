@@ -64,7 +64,8 @@ use PHPUnit\Framework\TestCase;
  * container is used (as opposed to a plain PHP array test double) would
  * still be caught here.
  *
- * $use only seeds \ILIAS\Language\Language::class: Language.php::init() does
+ * $use only seeds \ILIAS\Language\Language::class and the RBAC service the
+ * Activities need: Language.php::init() does
  * not (any longer) read a \ILIAS\UI\Factory entry from $use - seeding one
  * here regardless would silently keep passing even if init() started reading
  * it again incorrectly (e.g. the old $ui_factory dependency reappearing by
@@ -73,19 +74,21 @@ use PHPUnit\Framework\TestCase;
 class LanguageComponentGraphTest extends TestCase
 {
     /**
+     * @param array<string, mixed>|\ArrayAccess<string, mixed>|null $use
      * @return array{0: array, 1: RenamingDIC, 2: array, 3: RenamingDIC, 4: array, 5: PimpleContainer, 6: array, 7: PimpleContainer}
      */
-    private function initComponent(): array
+    private function initComponent(array | \ArrayAccess | null $use = null): array
     {
         $define = [];
-        $use = [
-            \ILIAS\Language\Language::class => $this->createMock(\ILIAS\Language\Language::class),
+        $use ??= [
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
         ];
         $seek = [
             LanguageFileDirectory::class => [],
         ];
         $pull = [
-            RefineryFactory::class => $this->createMock(RefineryFactory::class),
+            RefineryFactory::class => $this->createStub(RefineryFactory::class),
         ];
 
         // $implement and $contribute are wrapped in RenamingDIC in the real
@@ -275,6 +278,52 @@ class LanguageComponentGraphTest extends TestCase
 
         self::assertSame($expected_root, $repository_root);
         self::assertSame($expected_root, $manager_root);
+    }
+
+    private function resolveEverything(PimpleContainer $provide, RenamingDIC $contribute): void
+    {
+        foreach ([
+            InstalledLanguageRepository::class, LanguageInstallationManager::class, InstallLanguage::class,
+            UpdateLanguage::class, UninstallLanguage::class, RemoveLocalLanguageChanges::class,
+            AddLanguageEntry::class, SetLanguageDetectionEnabled::class, SetLanguageTranslationEnabled::class,
+        ] as $key) {
+            self::assertIsObject($provide[$key]);
+        }
+        self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
+    }
+
+    /**
+     * Language must not call RBAC->system() while the services are resolved.
+     */
+    public function testWiringNeverCallsRbacSystemWhileResolving(): void
+    {
+        $rbac = $this->createMock(\ILIAS\AccessControl\PublicInterface\RBAC::class);
+        $rbac->expects(self::never())->method('system');
+
+        [, , , $contribute, , $provide] = $this->initComponent([
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $rbac,
+        ]);
+
+        $this->resolveEverything($provide, $contribute);
+    }
+
+    public function testSetupAgentIsBuildableWithoutAnyRbacEntry(): void
+    {
+        $use = new class () extends \ArrayObject {
+            public function offsetGet(mixed $key): mixed
+            {
+                if ($key === \ILIAS\AccessControl\PublicInterface\RBAC::class) {
+                    throw new \LogicException('the Setup agent must not touch RBAC');
+                }
+                return parent::offsetGet($key);
+            }
+        };
+        $use[\ILIAS\Language\Language::class] = $this->createStub(\ILIAS\Language\Language::class);
+
+        [, , , $contribute] = $this->initComponent($use);
+
+        self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
     }
 
     private static function readPrivateProperty(object $object, string $property): mixed

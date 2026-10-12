@@ -685,7 +685,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         return new UninstallLanguage(
             $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
-            $rbac ?? $this->createMock(\ilRbacSystem::class),
+            $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             0,
             $lng_objects,
             $obj_language_factory

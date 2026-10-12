@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Activities;
 
+use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Administration\Setting;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
@@ -35,11 +36,11 @@ class SetLanguageDetectionEnabled extends LanguageActivity
     public function __construct(
         RefineryFactory $refinery,
         Language $language,
-        \ilRbacSystem|\Closure $rbac_system,
+        RBAC $rbac,
         Setting|\Closure $settings,
         int|\Closure $language_folder_ref_id = 0,
     ) {
-        parent::__construct($refinery, $language, $rbac_system, $language_folder_ref_id);
+        parent::__construct($refinery, $language, $rbac, $language_folder_ref_id);
         $this->settings = $settings instanceof \Closure
             ? $settings
             : static fn(): Setting => $settings;

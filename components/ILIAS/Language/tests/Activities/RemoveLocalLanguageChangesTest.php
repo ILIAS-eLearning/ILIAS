@@ -711,7 +711,7 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
         return new RemoveLocalLanguageChanges(
             $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
-            $rbac ?? $this->createMock(\ilRbacSystem::class),
+            $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             $language_folder_ref_id,
             $lng_objects,
             $obj_language_factory
