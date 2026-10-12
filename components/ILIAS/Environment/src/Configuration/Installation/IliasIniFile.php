@@ -31,124 +31,124 @@ class IliasIniFile extends IniFileReadRepository implements IliasIni
 
     public function getHttpPath(): string
     {
-        return $this->get('server', 'http_path');
+        return $this->getOrEmpty('server', 'http_path');
     }
 
     public function getAbsolutePath(): string
     {
-        return $this->get('server', 'absolute_path');
+        return $this->getOrEmpty('server', 'absolute_path');
     }
 
     public function getTimezone(): string
     {
-        return $this->get('server', 'timezone');
+        return $this->getOrEmpty('server', 'timezone');
     }
 
     // [clients]
 
     public function getClientsPath(): string
     {
-        return $this->get('clients', 'path');
+        return $this->getOrEmpty('clients', 'path');
     }
 
     public function getClientIniFile(): string
     {
-        return $this->get('clients', 'inifile');
+        return $this->getOrEmpty('clients', 'inifile');
     }
 
     public function getDataDirectory(): string
     {
-        return $this->get('clients', 'datadir');
+        return $this->getOrEmpty('clients', 'datadir');
     }
 
     public function getDefaultClientId(): string
     {
-        return $this->get('clients', 'default');
+        return $this->getOrEmpty('clients', 'default');
     }
 
     // [log]
 
     public function getLogPath(): string
     {
-        return $this->get('log', 'path');
+        return $this->getOrEmpty('log', 'path');
     }
 
     public function getLogFile(): string
     {
-        return $this->get('log', 'file');
+        return $this->getOrEmpty('log', 'file');
     }
 
     public function isLogEnabled(): bool
     {
-        return $this->get('log', 'enabled') === '1';
+        return $this->getOrEmpty('log', 'enabled') === '1';
     }
 
     public function getDefaultLogLevel(): string
     {
-        return $this->get('log', 'default_level');
+        return $this->getOrEmpty('log', 'default_level');
     }
 
     public function getLogErrorPath(): string
     {
-        return $this->get('log', 'error_path');
+        return $this->getOrEmpty('log', 'error_path');
     }
 
     // [tools]
 
     public function getConvertPath(): string
     {
-        return $this->get('tools', 'convert');
+        return $this->getOrEmpty('tools', 'convert');
     }
 
     public function getZipPath(): string
     {
-        return $this->get('tools', 'zip');
+        return $this->getOrEmpty('tools', 'zip');
     }
 
     public function getUnzipPath(): string
     {
-        return $this->get('tools', 'unzip');
+        return $this->getOrEmpty('tools', 'unzip');
     }
 
     public function getJavaPath(): string
     {
-        return $this->get('tools', 'java');
+        return $this->getOrEmpty('tools', 'java');
     }
 
     public function getFfmpegPath(): string
     {
-        return $this->get('tools', 'ffmpeg');
+        return $this->getOrEmpty('tools', 'ffmpeg');
     }
 
     public function getGhostscriptPath(): string
     {
-        return $this->get('tools', 'ghostscript');
+        return $this->getOrEmpty('tools', 'ghostscript');
     }
 
     public function getFopPath(): string
     {
-        return $this->get('tools', 'fop');
+        return $this->getOrEmpty('tools', 'fop');
     }
 
     public function getLatexPath(): string
     {
-        return $this->get('tools', 'latex');
+        return $this->getOrEmpty('tools', 'latex');
     }
 
     // [https]
 
     public function isAutoHttpsDetectEnabled(): bool
     {
-        return $this->get('https', 'auto_https_detect_enabled') === '1';
+        return $this->getOrEmpty('https', 'auto_https_detect_enabled') === '1';
     }
 
     public function getAutoHttpsDetectHeaderName(): string
     {
-        return $this->get('https', 'auto_https_detect_header_name');
+        return $this->getOrEmpty('https', 'auto_https_detect_header_name');
     }
 
     public function getAutoHttpsDetectHeaderValue(): string
     {
-        return $this->get('https', 'auto_https_detect_header_value');
+        return $this->getOrEmpty('https', 'auto_https_detect_header_value');
     }
 }

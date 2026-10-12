@@ -31,117 +31,117 @@ class ClientIniFile extends IniFileReadRepository implements ClientIni
 
     public function getStartUrl(): string
     {
-        return $this->get('server', 'start');
+        return $this->getOrEmpty('server', 'start');
     }
 
     // [client]
 
     public function getClientName(): string
     {
-        return $this->get('client', 'name');
+        return $this->getOrEmpty('client', 'name');
     }
 
     public function getClientDescription(): string
     {
-        return $this->get('client', 'description');
+        return $this->getOrEmpty('client', 'description');
     }
 
     public function isClientAccessEnabled(): bool
     {
-        return $this->get('client', 'access') === '1';
+        return $this->getOrEmpty('client', 'access') === '1';
     }
 
     // [db]
 
     public function getDatabaseType(): string
     {
-        return $this->get('db', 'type');
+        return $this->getOrEmpty('db', 'type');
     }
 
     public function getDatabaseHost(): string
     {
-        return $this->get('db', 'host');
+        return $this->getOrEmpty('db', 'host');
     }
 
     public function getDatabaseUser(): string
     {
-        return $this->get('db', 'user');
+        return $this->getOrEmpty('db', 'user');
     }
 
     public function getDatabasePassword(): string
     {
-        return $this->get('db', 'pass');
+        return $this->getOrEmpty('db', 'pass');
     }
 
     public function getDatabaseName(): string
     {
-        return $this->get('db', 'name');
+        return $this->getOrEmpty('db', 'name');
     }
 
     // [language]
 
     public function getDefaultLanguage(): string
     {
-        return $this->get('language', 'default');
+        return $this->getOrEmpty('language', 'default');
     }
 
     // [layout]
 
     public function getSkin(): string
     {
-        return $this->get('layout', 'skin');
+        return $this->getOrEmpty('layout', 'skin');
     }
 
     public function getStyle(): string
     {
-        return $this->get('layout', 'style');
+        return $this->getOrEmpty('layout', 'style');
     }
 
     // [session]
 
     public function getSessionExpiry(): int
     {
-        return (int) $this->get('session', 'expire');
+        return (int) $this->getOrEmpty('session', 'expire');
     }
 
     // [system]
 
     public function getRootFolderId(): int
     {
-        return (int) $this->get('system', 'ROOT_FOLDER_ID');
+        return (int) $this->getOrEmpty('system', 'ROOT_FOLDER_ID');
     }
 
     public function getSystemFolderId(): int
     {
-        return (int) $this->get('system', 'SYSTEM_FOLDER_ID');
+        return (int) $this->getOrEmpty('system', 'SYSTEM_FOLDER_ID');
     }
 
     public function getRoleFolderId(): int
     {
-        return (int) $this->get('system', 'ROLE_FOLDER_ID');
+        return (int) $this->getOrEmpty('system', 'ROLE_FOLDER_ID');
     }
 
     public function getMailSettingsId(): int
     {
-        return (int) $this->get('system', 'MAIL_SETTINGS_ID');
+        return (int) $this->getOrEmpty('system', 'MAIL_SETTINGS_ID');
     }
 
     // [cache]
 
     public function isGlobalCacheEnabled(): bool
     {
-        return $this->get('cache', 'activate_global_cache') === '1';
+        return $this->getOrEmpty('cache', 'activate_global_cache') === '1';
     }
 
     public function getGlobalCacheServiceType(): int
     {
-        return (int) $this->get('cache', 'global_cache_service_type');
+        return (int) $this->getOrEmpty('cache', 'global_cache_service_type');
     }
 
     // [log]
 
     public function getLogErrorRecipient(): string
     {
-        return $this->get('log', 'error_recipient');
+        return $this->getOrEmpty('log', 'error_recipient');
     }
 }

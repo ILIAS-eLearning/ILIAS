@@ -26,7 +26,10 @@ use ILIAS\Data\ClientId;
 /**
  * Determines the current client ID from the HTTP request context.
  *
- * Priority: GET client_id → cookie ilClientId → ilias.ini clients.default
+ * Priority: GET client_id → ilias.ini clients.default
+ *
+ * The ilClientId cookie is not considered, since ilInitialisation::determineClient()
+ * does not consider it either and both have to resolve the same client.
  *
  * @author Fabian Schmid <fabian@sr.solutions>
  */
@@ -40,12 +43,11 @@ readonly class DefaultClientIdProvider implements ClientIdProvider
 
     public function getClientId(): ClientId
     {
-        $query = $this->http->request()->getQueryParams();
-        $cookies = $this->http->request()->getCookieParams();
+        $from_query = (string) ($this->http->request()->getQueryParams()['client_id'] ?? '');
 
-        $raw = $query['client_id']
-            ?? $cookies['ilClientId']
-            ?? $this->ilias_ini->getDefaultClientId();
+        $raw = $from_query !== ''
+            ? $from_query
+            : $this->ilias_ini->getDefaultClientId();
 
         // No sanitising here: ClientId only accepts [A-Za-z0-9#_.-] and rejects
         // anything else (including markup), so it is the single validation point.
