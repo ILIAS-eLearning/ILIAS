@@ -33,6 +33,8 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\Calendar\Manage\TableBuilder as ManageTableBuilder;
+use ILIAS\Calendar\Manage\DataRetrieval as ManageDataRetrieval;
 
 /**
  * Administration, Side-Block presentation of calendar categories
@@ -150,6 +152,17 @@ class ilCalendarCategoryGUI
         return [];
     }
 
+    protected function initSelectedCategoryIdFromGet(): int
+    {
+        if ($this->http->wrapper()->query()->has('selected_cat_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'selected_cat_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -186,19 +199,68 @@ class ilCalendarCategoryGUI
     /**
      * @return array{0: URLBuilder, 1: URLBuilderToken, 2: URLBuilderToken}
      */
-    protected function getTableActionURLBuilder(): array
+    protected function getManageTableActionURLBuilder(): array
     {
         $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget(
             $this,
-            'handleTableAction'
+            'handleManageTableAction'
         );
         $url_builder = new URLBuilder($this->data_factory->uri($link));
-        return $url_builder->acquireParameters(['cal'], 'table_ids', 'table_action');
+        return $url_builder->acquireParameters(['cal', 'cat', 'manage'], 'selected_cat_ids', 'table_action');
     }
 
-    protected function handleTableAction(): void
+    protected function handleManageTableAction(): void
     {
-        list($url_builder, $id_token, $action_token) = $this->getTableActionURLBuilder();
+        list($url_builder, $id_token, $action_token) = $this->getManageTableActionURLBuilder();
+
+        if (!$this->http->wrapper()->query()->has($action_token->getName())) {
+            return;
+        }
+        if (!$this->http->wrapper()->query()->has($id_token->getName())) {
+            return;
+        }
+
+        $action = $this->http->wrapper()->query()->retrieve(
+            $action_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
+        $ids = $this->http->wrapper()->query()->retrieve(
+            $id_token->getName(),
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
+        $selected_category_id = $ids[0];
+
+        if ($action === ManageTableBuilder::ACTION_DELETE) {
+            $this->ctrl->setParameter($this, 'selected_cat_id', $selected_category_id);
+        } else {
+            $this->ctrl->setParameter($this, 'category_id', $selected_category_id);
+        }
+        $cmd = match ($action) {
+            ManageTableBuilder::ACTION_EDIT => 'edit',
+            ManageTableBuilder::ACTION_IMPORT => 'importAppointments',
+            ManageTableBuilder::ACTION_SHARE => 'shareSearch',
+            ManageTableBuilder::ACTION_SYNCHRONIZE => 'synchroniseCalendar',
+            ManageTableBuilder::ACTION_DELETE => 'confirmDelete'
+        };
+        $this->ctrl->redirect($this, $cmd);
+    }
+
+    /**
+     * @return array{0: URLBuilder, 1: URLBuilderToken, 2: URLBuilderToken}
+     */
+    protected function getSharedCategoryTableActionURLBuilder(): array
+    {
+        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget(
+            $this,
+            'handleSharedCategoryTableAction'
+        );
+        $url_builder = new URLBuilder($this->data_factory->uri($link));
+        return $url_builder->acquireParameters(['cal', 'cat', 'shared'], 'table_ids', 'table_action');
+    }
+
+    protected function handleSharedCategoryTableAction(): void
+    {
+        list($url_builder, $id_token, $action_token) = $this->getSharedCategoryTableActionURLBuilder();
 
         if (!$this->http->wrapper()->query()->has($action_token->getName())) {
             return;
@@ -435,9 +497,9 @@ class ilCalendarCategoryGUI
         $cat_ids = $this->initSelectedCategoryIdsFromPost();
         if (
             !count($cat_ids) &&
-            $this->initCategoryIdFromQuery() > 0
+            $this->initSelectedCategoryIdFromGet() > 0
         ) {
-            $cat_ids = [$this->initCategoryIdFromQuery()];
+            $cat_ids = [$this->initSelectedCategoryIdFromGet()];
         }
         if (!count($cat_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -566,7 +628,7 @@ class ilCalendarCategoryGUI
             $this->lng,
             $this->ui_factory,
             $this->http
-        )->get(...$this->getTableActionURLBuilder());
+        )->get(...$this->getSharedCategoryTableActionURLBuilder());
 
         $this->getSearchToolbar();
         $this->tpl->setContent($this->ui_renderer->render($table));
@@ -644,7 +706,7 @@ class ilCalendarCategoryGUI
                 $this->http
             )
         };
-        $table = $table_builder->get(...$this->getTableActionURLBuilder());
+        $table = $table_builder->get(...$this->getSharedCategoryTableActionURLBuilder());
 
         $this->tpl->setContent($this->ui_renderer->render($table));
         $this->getSearchToolbar();
@@ -918,29 +980,6 @@ class ilCalendarCategoryGUI
         return $this->form;
     }
 
-    protected function unshare(): void
-    {
-        if (!$this->category_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->returnToParent($this);
-        }
-
-        $this->readPermissions();
-        $this->checkVisible();
-
-        $status = new ilCalendarSharedStatus($this->user->getId());
-
-        if (!ilCalendarShared::isSharedWithUser($this->user->getId(), $this->category_id)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->returnToParent($this);
-            return;
-        }
-        $status->decline($this->category_id);
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'manage');
-    }
-
     protected function showAssignedAppointments(): string
     {
         $table_gui = new ilCalendarAppointmentsTableGUI($this, 'details', $this->category_id);
@@ -1180,23 +1219,27 @@ class ilCalendarCategoryGUI
         return $tpl->get();
     }
 
-    protected function manage($a_reset_offsets = false): void
+    protected function manage(): void
     {
         $this->addSubTabs("manage");
 
-        $table_gui = new ilCalendarManageTableGUI($this);
-
-        if ($a_reset_offsets) {
-            $table_gui->resetToDefaults();
-        }
-
-        $table_gui->parse();
+        $table = new ManageTableBuilder(
+            new ManageDataRetrieval(
+                ilCalendarCategories::_getInstance($this->user->getId()),
+                ilCalendarActions::getInstance(),
+                $this->lng,
+                $this->ui_factory
+            ),
+            $this->lng,
+            $this->ui_factory,
+            $this->http
+        )->get(...$this->getManageTableActionURLBuilder());
 
         $toolbar = new ilToolbarGui();
         $this->ctrl->setParameter($this, 'backvm', 1);
         $toolbar->addButton($this->lng->txt("cal_add_calendar"), $this->ctrl->getLinkTarget($this, "add"));
 
-        $this->tpl->setContent($toolbar->getHTML() . $table_gui->getHTML());
+        $this->tpl->setContent($toolbar->getHTML() . $this->ui_renderer->render($table));
     }
 
     protected function importAppointments(?ilPropertyFormGUI $form = null): void
@@ -1301,7 +1344,7 @@ class ilCalendarCategoryGUI
             $this->http,
             $this->user,
             $this->data_factory
-        )->get(...$this->getTableActionURLBuilder());
+        )->get(...$this->getSharedCategoryTableActionURLBuilder());
         $this->tpl->setContent($this->ui_renderer->render($table));
     }
 

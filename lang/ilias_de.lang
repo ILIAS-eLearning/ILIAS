@@ -8595,7 +8595,6 @@ dateplaner#:#cal_type_rl#:#Ort des Kalenders
 dateplaner#:#cal_type_sess#:#Sitzungskalender
 dateplaner#:#cal_type_system#:#Öffentlicher Kalender
 dateplaner#:#cal_type_tals#:#Gespräche
-dateplaner#:#cal_unshare#:#Freigabe beenden
 dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
 dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
@@ -17171,7 +17170,7 @@ svy#:#svy_code#:#Zugangscode
 svy#:#svy_codes#:#Zugangscodes
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#An Umfrage "%1" teilnehmen
-svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben.  
+svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben.
 svy#:#svy_info_participants#:#Fügen Sie Personen über eine der folgenden Suchoptionen zu dieser Umfrage hinzu. Die Umfrage wird diesen Personen als Aufgabe auf ihrem Dashboard angezeigt.
 svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Personen hinzufügen
