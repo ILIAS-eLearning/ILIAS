@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\HTTP\Path;
 
 use ILIAS\Data\URI;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
 use ILIAS\HTTP\Path\ArtifactHttpPathProvider;
 use ILIAS\HTTP\Path\CascadingHttpPathProvider;
 use ILIAS\HTTP\Path\HttpPathProvider;
@@ -106,10 +107,10 @@ class HttpPathProviderTest extends TestCase
         return $this->artifact;
     }
 
-    private function iniWith(string $http_path): \ilIniFile
+    private function iniWith(string $http_path): IliasIni
     {
-        $ini = $this->createStub(\ilIniFile::class);
-        $ini->method('readVariable')->willReturnMap([['server', 'http_path', $http_path]]);
+        $ini = $this->createStub(IliasIni::class);
+        $ini->method('getHttpPath')->willReturn($http_path);
         return $ini;
     }
 }

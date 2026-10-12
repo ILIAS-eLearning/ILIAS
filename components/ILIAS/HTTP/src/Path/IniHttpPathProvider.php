@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\HTTP\Path;
 
 use ILIAS\Data\URI;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
 
 /**
  * The http_path configured in the ilias.ini.
@@ -32,12 +33,12 @@ final class IniHttpPathProvider implements HttpPathProvider
     use StringToHttpPath;
 
     public function __construct(
-        private \ilIniFile $ilias_ini
+        private IliasIni $ilias_ini
     ) {
     }
 
     public function getHttpPath(): ?URI
     {
-        return $this->toHttpPath((string) $this->ilias_ini->readVariable('server', 'http_path'));
+        return $this->toHttpPath($this->ilias_ini->getHttpPath());
     }
 }
