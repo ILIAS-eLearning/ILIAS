@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Language\Activities;
 
 use ILIAS\AccessControl\PublicInterface\RBAC;
+use ILIAS\Language\ComponentTranslation\TranslationMarkupPolicy;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Language;
@@ -121,6 +122,7 @@ MARKDOWN
                     ),
                     $f->string($text->simpleDocument('Language key of a language with no given value.'))
                 ),
+                'overlay_write_failed_language_keys' => $this->overlayWriteFailedOutputField($f),
             ]
         );
     }
@@ -172,12 +174,38 @@ MARKDOWN
             );
         }
 
+        // all languages are checked before anything is written; only language keys are named, never values
+        $values = [];
+        foreach ($installed_language_keys as $lang_key) {
+            $value = $translations[$lang_key] ?? '';
+            $values[$lang_key] = is_string($value) ? trim($value) : '';
+        }
+        $invalid_values = (new TranslationMarkupPolicy())->findInvalidValues($values);
+        if ($invalid_values !== []) {
+            throw new InvalidInputException(
+                'The value contains markup that is not allowed for: ' . implode(', ', array_keys($invalid_values)) . '.'
+            );
+        }
+
+        // such a form would be dropped from the module's content: reject instead of reporting success
+        $languages_without_form = $this->repository->languagesWithoutPluralForm(
+            $module,
+            $identifier,
+            array_keys(array_filter($values))
+        );
+        if ($languages_without_form !== []) {
+            throw new InvalidInputException(
+                'The plural message has no such form for: ' . implode(', ', $languages_without_form) . '.'
+            );
+        }
+
         // '' (no usr_id) means "no remarks" for replaceLangEntry()
         $login = is_int($usr_id) ? $this->repository->lookupLogin($usr_id) : '';
         $local_change = gmdate('Y-m-d H:i:s');
 
         $added_language_keys = [];
         $skipped_empty_language_keys = [];
+        $overlay_write_failed_language_keys = [];
 
         // not transactional: a failure partway leaves the languages processed so far written
         foreach ($installed_language_keys as $lang_key) {
@@ -191,7 +219,9 @@ MARKDOWN
             }
 
             $this->repository->replaceLangEntry($module, $identifier, $lang_key, $value, $local_change, $login);
-            $this->repository->updateModuleCache($lang_key, $module, $identifier, $value);
+            if (!$this->repository->updateModuleCache($lang_key, $module, $identifier, $value, $login)) {
+                $overlay_write_failed_language_keys[] = $lang_key;
+            }
 
             $added_language_keys[] = $lang_key;
         }
@@ -201,6 +231,7 @@ MARKDOWN
             'identifier' => $identifier,
             'added_language_keys' => $added_language_keys,
             'skipped_empty_language_keys' => $skipped_empty_language_keys,
+            'overlay_write_failed_language_keys' => $overlay_write_failed_language_keys,
         ];
     }
 

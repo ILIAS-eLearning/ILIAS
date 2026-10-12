@@ -135,6 +135,8 @@ MARKDOWN
                     $text->simpleDocument('Local language files with an invalid file name.'),
                     $f->string($text->simpleDocument('File name of an invalid local language file.'))
                 ),
+                'overlay_write_failed_language_keys' => $this->overlayWriteFailedOutputField($f),
+                'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingOutputField($f),
             ]
         );
     }
@@ -186,6 +188,7 @@ MARKDOWN
         $installed_language_keys = [];
         $installed_with_local_language_keys = [];
         $invalid_local_language_files = [];
+        $overlay_write_failed_language_keys = [];
 
         $affected_language_keys = array_merge($to_fully_install, $to_apply_local_changes);
         if ($affected_language_keys !== []) {
@@ -197,7 +200,9 @@ MARKDOWN
 
             foreach ($to_fully_install as $language_key) {
                 $this->setup_language->flushLanguageForInstallation($language_key);
-                $this->setup_language->insertLanguageForInstallation($language_key);
+                if ($this->setup_language->insertLanguageForInstallation($language_key) !== []) {
+                    $overlay_write_failed_language_keys[] = $language_key;
+                }
                 $this->setup_language->registerInstalledLanguage($language_key, $db_languages, $local_language_keys);
 
                 if (in_array($language_key, $local_language_keys, true)) {
@@ -208,7 +213,9 @@ MARKDOWN
             }
 
             foreach ($to_apply_local_changes as $language_key) {
-                $this->setup_language->insertLanguageForApplyingLocalChanges($language_key);
+                if ($this->setup_language->insertLanguageForApplyingLocalChanges($language_key) !== []) {
+                    $overlay_write_failed_language_keys[] = $language_key;
+                }
                 $this->setup_language->registerInstalledLanguage($language_key, $db_languages, $local_language_keys);
 
                 if (in_array($language_key, $local_language_keys, true)) {
@@ -226,6 +233,11 @@ MARKDOWN
             'already_installed_language_keys' => $already_installed_no_op,
             'not_installed_language_keys' => $not_installed_no_op,
             'invalid_local_language_files' => $invalid_local_language_files,
+            'overlay_write_failed_language_keys' => $overlay_write_failed_language_keys,
+            'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingEntries(
+                $this->setup_language->getSkippedInvalidMarkupEntries(),
+                $affected_language_keys
+            ),
         ];
     }
 

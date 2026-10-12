@@ -24,6 +24,7 @@ use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Activities\LanguageActivity;
+use ILIAS\Language\ComponentTranslation\TranslationMarkupPolicy;
 use ILIAS\Language\LanguageFolder;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -142,7 +143,7 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
      */
     public function testMaybePerformAsPassesTheTrustedUsrIdToPerformOverASpoofedFormKey(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $activity = new LanguageActivityPerformEchoTestDouble(
@@ -158,6 +159,32 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $this->assertSame(42, $parameters['usr_id']);
         // a non-colliding key survives the merge
         $this->assertSame('form', $parameters['source']);
+    }
+
+    /**
+     * Skipped entries are listed with their markup, language-neutral and without duplicates; only the requested
+     * languages appear, in requested order.
+     */
+    public function testInvalidMarkupCustomizingEntriesAppendTheMarkupConcernedToEachEntry(): void
+    {
+        $policy = new TranslationMarkupPolicy();
+        $skipped = [
+            'de' => [
+                'tos#:#x' => $policy->findViolations('<script>a</script><script>b</script></form>'),
+                'tos#:#plain' => [],
+            ],
+            'en' => ['tos#:#y' => $policy->findViolations('<script>a</script>')],
+            'fr' => ['tos#:#z' => $policy->findViolations('<script>a</script>')],
+        ];
+        $activity = new LanguageActivityInvalidMarkupTestDouble(
+            $this->rbacOf($this->createStub(\ilRbacSystem::class)),
+            $this->languageFolder()
+        );
+
+        $this->assertSame(
+            ['en: tos#:#y: <script>', 'de: tos#:#x: <script>, </form>', 'de: tos#:#plain'],
+            $activity->entries($skipped, ['en', 'de', 'it'])
+        );
     }
 }
 
@@ -242,5 +269,49 @@ final class LanguageActivityPerformEchoTestDouble extends LanguageActivity
     {
         // spoofed 'usr_id' that must lose against the one maybePerformAs() passes
         return ['usr_id' => 'SPOOFED-VALUE', 'source' => 'form'];
+    }
+}
+
+/**
+ * Minimal LanguageActivity making the protected invalidMarkupCustomizingEntries() callable.
+ */
+final class LanguageActivityInvalidMarkupTestDouble extends LanguageActivity
+{
+    /**
+     * @param array<string, array<string, list<string>>> $skipped
+     * @param list<string> $language_keys
+     * @return list<string>
+     */
+    public function entries(array $skipped, array $language_keys): array
+    {
+        return $this->invalidMarkupCustomizingEntries($skipped, $language_keys);
+    }
+
+    public function getDescription(): Text\SimpleDocumentMarkdown
+    {
+        return $this->data->text()->markdown()->simpleDocument('Test double for invalidMarkupCustomizingEntries().');
+    }
+
+    public function getInputDescription(FieldFactory $f): FormInput
+    {
+        throw new \LogicException(__METHOD__ . ' is not used by this test double.');
+    }
+
+    public function getOutputDescription(Description\Factory $f): Description\Description
+    {
+        throw new \LogicException(__METHOD__ . ' is not used by this test double.');
+    }
+
+    public function perform(mixed $parameters): mixed
+    {
+        throw new \LogicException(__METHOD__ . ' is not used by this test double.');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function normalizeParameters(array $grind_result): array
+    {
+        throw new \LogicException(__METHOD__ . ' is not used by this test double.');
     }
 }

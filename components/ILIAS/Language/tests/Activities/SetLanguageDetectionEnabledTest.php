@@ -51,7 +51,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
     public function testIsAllowedToPerformReturnsFalseWhenRbacDenies(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(false);
 
         $activity = $this->createActivity(rbac_system: $rbac);
@@ -65,7 +65,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $repository = $this->createMock(RepositoryProvider::class);
         $repository->expects($this->never())->method('setLanguageDetectionEnabled');
 
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $activity = $this->createActivity(rbac_system: $rbac, repository: $repository);
@@ -145,7 +145,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
     public function testMaybePerformAsWithGrantedPermissionPerformsAndReturnsOkResult(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
@@ -178,7 +178,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
     public function testMaybePerformAsRejectsAnEnabledValueOutsideTheCheckboxWhitelistAsA400WithoutTouchingSettings(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
@@ -234,7 +234,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     #[DataProvider('tolerantlyAcceptedTruthyEnabledValuesProvider')]
     public function testMaybePerformAsToleratesCommonPrimitiveTruthyRepresentationsAndWritesEnabledTrue(mixed $value): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
@@ -251,7 +251,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     #[DataProvider('tolerantlyAcceptedFalsyEnabledValuesProvider')]
     public function testMaybePerformAsToleratesCommonPrimitiveFalsyRepresentationsAndWritesEnabledFalse(mixed $value): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
@@ -278,7 +278,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     #[DataProvider('rejectedEnabledValuesProvider')]
     public function testMaybePerformAsRejectsValuesGrindCannotInterpretAsACheckboxWithoutTouchingSettings(mixed $value): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $repository = $this->createMock(RepositoryProvider::class);
@@ -322,8 +322,8 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
     public function testOutputDescriptionDescribesASingleBooleanEnabledField(): void
     {
-        $bool_description = $this->createMock(Description::class);
-        $object_description = $this->createMock(Description::class);
+        $bool_description = $this->createStub(Description::class);
+        $object_description = $this->createStub(Description::class);
 
         $f = $this->createMock(\ILIAS\Data\Description\Factory::class);
         $f->expects($this->once())->method('bool')->willReturn($bool_description);
