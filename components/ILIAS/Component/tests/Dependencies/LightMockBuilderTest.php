@@ -57,6 +57,17 @@ interface LmbNeverInterface
     public function neverReturns(): never;
 }
 
+interface LmbStaticInterface
+{
+    public static function staticMethod(): array;
+    public function instanceMethod(): string;
+}
+
+abstract class LmbAbstractStaticBase
+{
+    abstract public static function staticMethod(): array;
+}
+
 abstract class LmbAbstractBase
 {
     abstract public function abstractMethod(): string;
@@ -106,6 +117,26 @@ final class LightMockBuilderTest extends TestCase
     {
         $mock = $this->builder->create(LmbConcreteClass::class);
         $this->assertInstanceOf(LmbConcreteClass::class, $mock);
+    }
+
+    public function testCreateInterfaceWithStaticMethod(): void
+    {
+        $mock = $this->builder->create(LmbStaticInterface::class);
+        $this->assertInstanceOf(LmbStaticInterface::class, $mock);
+        $this->assertSame('', $mock->instanceMethod());
+    }
+
+    public function testCreateAbstractClassWithAbstractStaticMethod(): void
+    {
+        $mock = $this->builder->create(LmbAbstractStaticBase::class);
+        $this->assertInstanceOf(LmbAbstractStaticBase::class, $mock);
+    }
+
+    public function testCallingAStaticMethodOfAMockThrowsLogicException(): void
+    {
+        $mock = $this->builder->create(LmbStaticInterface::class);
+        $this->expectException(LogicException::class);
+        $mock::staticMethod();
     }
 
     public function testCreateFinalClassThrowsLogicException(): void
