@@ -31,9 +31,7 @@ use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
-use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
-use ILIAS\Language\Setup\LanguageInstallationManager;
 use ILIAS\Environment\Configuration\Installation\Directories;
 
 class Language implements Component\Component
@@ -63,27 +61,14 @@ class Language implements Component\Component
                 ...$seek[LanguageFileDirectory::class]
             );
 
-        // Read (InstalledLanguageRepository) and write (LanguageInstallationManager)
-        // access to the language installation domain, extracted from
+        // Read access to the language installation domain, extracted from
         // ilSetupLanguage per docs/development/repository-pattern.md - see that
-        // class' docblock. ilSetupLanguage itself keeps delegating to both and
-        // remains the \ILIAS\Language\Language implementation used during Setup
-        // (see $implement[...] below); these two are for consumers that only
-        // need install/retrieval behaviour, not txt() - see $provide[...] below
-        // and components/ILIAS/Language/README.md.
+        // class' docblock.
         $internal[InstalledLanguageDatabaseRepository::class] = static fn() =>
             new InstalledLanguageDatabaseRepository(
                 $pull[\ILIAS\Database\Connection::class],
                 $internal[LanguageFileDirectoryManager::class],
                 $use[Directories::class]->getRoot()
-            );
-
-        $internal[LanguageInstallationManager::class] = static fn() =>
-            new LanguageInstallationManager(
-                $pull[\ILIAS\Database\Connection::class],
-                $internal[LanguageFileDirectoryManager::class],
-                $use[Directories::class]->getRoot(),
-                $internal[InstalledLanguageDatabaseRepository::class]
             );
 
         // Setup instance: Setup hands in its own database via setDbHandler()
@@ -151,8 +136,8 @@ class Language implements Component\Component
         // either - adding a single language entry is a runtime-only action with no equivalent
         // step during Setup. Unlike UninstallLanguage/RemoveLocalLanguageChanges, this needs no
         // "lng" object enumeration or ilObjLanguage-by-id closures - it reads the set of
-        // installed languages from InstalledLanguageDatabaseRepository (already built above for
-        // other consumers) and writes single entries via the two legacy closures defaulted
+        // installed languages from InstalledLanguageDatabaseRepository (shared with
+        // SetLanguageTranslationEnabled below) and writes single entries via the two legacy closures defaulted
         // inside AddLanguageEntry itself.
         $internal[AddLanguageEntry::class] = static fn() =>
             new AddLanguageEntry(
@@ -234,12 +219,6 @@ class Language implements Component\Component
         // Make the resolved language services available outside this component.
         $provide[LanguageFileDirectoryManager::class] = static fn() =>
             $internal[LanguageFileDirectoryManager::class];
-
-        $provide[InstalledLanguageRepository::class] = static fn() =>
-            $internal[InstalledLanguageDatabaseRepository::class];
-
-        $provide[LanguageInstallationManager::class] = static fn() =>
-            $internal[LanguageInstallationManager::class];
 
         // --- $contribute: contributions to other components' collection
         //     points. Relative order preserved from before this file's
