@@ -1,0 +1,215 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "現在の投票"
+
+msgid "poll_activation_online_info"
+msgstr "オフラインの場合は管理者のみしか投票の閲覧と編集はできません。"
+
+msgid "poll_add"
+msgstr "投票を追加"
+
+msgid "poll_anonymous_warning"
+msgstr "投票結果の中にあなたの名前はありません。"
+
+msgid "poll_answer"
+msgstr "回答"
+
+msgid "poll_answer_selected_alt_text"
+msgstr "選択済"
+
+msgid "poll_answers"
+msgstr "予想回答"
+
+msgid "poll_barchart"
+msgstr "棒グラフ"
+
+msgid "poll_block_message_already_voted"
+msgstr "この投票にすでに投票済です。"
+
+msgid "poll_block_message_no_answers"
+msgstr "投票は完了しました。"
+
+msgid "poll_block_results_available_on"
+msgstr "結果は%sに判明します。"
+
+msgid "poll_cannot_set_online_no_answers"
+msgstr "この問題集には問題がないため、ステータスを &quot;online&quot へ変更できません。"
+
+msgid "poll_chart_votes"
+msgstr "投票"
+
+msgid "poll_comments"
+msgstr "コメント"
+
+msgid "poll_copy"
+msgstr "投票をコピー"
+
+msgid "poll_delete_votes"
+msgstr "全投票を削除"
+
+msgid "poll_delete_votes_sure"
+msgstr "本当に全ての投票を削除しますか?"
+
+msgid "poll_edit"
+msgstr "投票を編集"
+
+msgid "poll_edit_question"
+msgstr "問題編集を編集"
+
+msgid "poll_image"
+msgstr "イメージ"
+
+msgid "poll_limit_not_below_answer_count"
+msgstr "回答期限は以下の回答可能な数字である必要があります。"
+
+msgid "poll_limit_number_of_answers"
+msgstr "受験者当たりの回答制限回数"
+
+msgid "poll_max_number_of_answers"
+msgstr "最大回答数"
+
+msgid "poll_max_number_of_answers_info"
+msgstr "回答数は %s まで選択できます。"
+
+msgid "poll_mode"
+msgstr "モード"
+
+msgid "poll_mode_anonymous"
+msgstr "匿名"
+
+msgid "poll_mode_anonymous_info"
+msgstr "投票は参加者を追跡調査できません。"
+
+msgid "poll_mode_personal"
+msgstr "パーソナル"
+
+msgid "poll_mode_personal_info"
+msgstr "適切なアクセス権があればそれぞれの投票付き参加者リストは利用可能です。"
+
+msgid "poll_new"
+msgstr "新しい投票を追加"
+
+msgid "poll_non_anonymous_warning"
+msgstr "結果の中にあるあなたの名前と投票は管理者へ表示されます。"
+
+msgid "poll_notification_activated"
+msgstr "通知を有効にしました。"
+
+msgid "poll_notification_deactivated"
+msgstr "通知を無効にしました。"
+
+msgid "poll_notification_subscribe"
+msgstr "通知を有効化"
+
+msgid "poll_notification_unsubscribe"
+msgstr "通知を無効化"
+
+msgid "poll_percentage"
+msgstr "現在のパーセント"
+
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "%s 投票者"
+
+msgid "poll_population_singular"
+msgstr "1 受験者"
+
+msgid "poll_question"
+msgstr "質問"
+
+msgid "poll_result"
+msgstr "結果"
+
+msgid "poll_result_answers"
+msgstr "投票"
+
+msgid "poll_result_sorting"
+msgstr "ソート"
+
+msgid "poll_result_sorting_answers"
+msgstr "回答順"
+
+msgid "poll_result_sorting_votes"
+msgstr "投票数順(降順)"
+
+msgid "poll_result_users"
+msgstr "参加者"
+
+msgid "poll_show_results_as"
+msgstr "結果表示"
+
+msgid "poll_sortorder"
+msgstr "順"
+
+msgid "poll_stacked_chart"
+msgstr "積み上げグラフ"
+
+msgid "poll_view_results"
+msgstr "結果表示"
+
+msgid "poll_view_results_after_period"
+msgstr "投票期間後"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "投票期間の期限はありません。"
+
+msgid "poll_view_results_after_vote"
+msgstr "投票後"
+
+msgid "poll_view_results_always"
+msgstr "常時"
+
+msgid "poll_view_results_never"
+msgstr "無"
+
+msgid "poll_vote"
+msgstr "投票"
+
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "回答数%s以上を選択してください。"
+
+msgid "poll_vote_error_multi_no_answer"
+msgstr "回答を一つは選択してください。"
+
+msgid "poll_vote_error_single"
+msgstr "回答を一つ選択してください。"
+
+msgid "poll_vote_notification_body"
+msgstr "次の投票結果が投票から得られました。"
+
+msgid "poll_vote_notification_link"
+msgstr "投票結果へリンク"
+
+msgid "poll_vote_notification_reason"
+msgstr "上記の投票結果説明の通知機能を有効にしているためこのメールを受信します。"
+
+msgid "poll_vote_notification_subject"
+msgstr "投票\"%s\": 新規投票"
+
+msgid "poll_votes_no_edit"
+msgstr "この投票は投票中のため編集できません。"
+
+msgid "poll_voting_period_and_results"
+msgstr "投票期間と結果"
+
+msgid "poll_voting_period_ended_info"
+msgstr "投票期間は %s に終了しました。"
+
+msgid "poll_voting_period_full_info"
+msgstr "%sから%sの投票期間"
+
+msgid "poll_voting_period_info"
+msgstr "投票期限: %s"
+
+msgid "poll_voting_period_limited"
+msgstr "期限限定"

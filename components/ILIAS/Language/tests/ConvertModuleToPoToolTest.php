@@ -29,6 +29,7 @@ class ConvertModuleToPoToolTest extends TestCase
 {
     private const string TOOL = __DIR__ . '/../tools/po-migration/convert_module_to_po.php';
     private const string SHIPPED_DIRECTORY = __DIR__ . '/../../TermsOfService/lang';
+    private const string POLL_SHIPPED_DIRECTORY = __DIR__ . '/../../Poll/lang';
 
     private string $directory;
 
@@ -134,6 +135,32 @@ class ConvertModuleToPoToolTest extends TestCase
         $this->assertSame(0, $exit_code, $stdout . $stderr);
         $this->assertSame('', $stderr, 'no warnings, notices or deprecations');
         $this->assertStringContainsString('round-trip identically through PO', $stdout);
+        $this->assertSame(array_keys($shipped), array_keys(self::files($this->directory . '/out')), 'no file added or lost');
+        foreach (self::files($this->directory . '/out') as $name => $content) {
+            $this->assertSame($shipped[$name], $content, $name);
+        }
+    }
+
+    /**
+     * Plural pilot "poll": re-running reproduces the shipped files byte for byte, including single-form "ja".
+     * A "n==1 -> 0, else 1" language gets msgstr[0] from the configured singular key and msgstr[1] from the
+     * message's own value; otherwise every form gets the message's own value.
+     */
+    public function testReconvertingPollReproducesTheShippedFilesByteForByteIncludingPluralForms(): void
+    {
+        $shipped = self::files(self::POLL_SHIPPED_DIRECTORY);
+        $this->assertNotSame([], $shipped, 'the shipped poll files were not found');
+        $this->assertStringContainsString('msgid_plural "poll_population_plural"', $shipped['poll_de.po'] ?? '', 'precondition: poll_de.po has the expected plural message');
+        foreach ($shipped as $name => $content) {
+            file_put_contents($this->directory . '/out/' . $name, $content);
+        }
+
+        [$exit_code, $stdout, $stderr] = $this->runTool('--skip-unmigratable-keys', 'poll', 'en', $this->directory . '/out');
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        // poll_import is missing in en, so the shipped files leave it out
+        $this->assertMatchesRegularExpression('/\AWARNING: [^\n]+\n(  [a-z]+: poll_import\n)+\z/', $stderr, 'only poll_import is left out, no notices or deprecations');
+        $this->assertStringContainsString('(0 entries filled from \'en\', flagged fuzzy)', $stdout);
         $this->assertSame(array_keys($shipped), array_keys(self::files($this->directory . '/out')), 'no file added or lost');
         foreach (self::files($this->directory . '/out') as $name => $content) {
             $this->assertSame($shipped[$name], $content, $name);
