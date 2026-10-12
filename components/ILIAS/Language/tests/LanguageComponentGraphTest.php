@@ -47,7 +47,7 @@ use PHPUnit\Framework\TestCase;
  * components/ILIAS/Language/Language.php::init().
  *
  * Language.php was reorganised so that $internal entries are declared in
- * dependency order and $ilias_root is a shared local variable.
+ * dependency order.
  * Nothing about *which* class ends up behind which $implement / $contribute
  * / $provide key was meant to change - the container types involved
  * (Pimple\Container, wrapped in RenamingDIC for $implement/$contribute) are
@@ -64,8 +64,8 @@ use PHPUnit\Framework\TestCase;
  * container is used (as opposed to a plain PHP array test double) would
  * still be caught here.
  *
- * $use only seeds \ILIAS\Language\Language::class and the RBAC service the
- * Activities need: Language.php::init() does
+ * $use only seeds \ILIAS\Language\Language::class, the RBAC service the
+ * Activities need and Directories: Language.php::init() does
  * not (any longer) read a \ILIAS\UI\Factory entry from $use - seeding one
  * here regardless would silently keep passing even if init() started reading
  * it again incorrectly (e.g. the old $ui_factory dependency reappearing by
@@ -84,6 +84,9 @@ class LanguageComponentGraphTest extends TestCase
             \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
             \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
         ];
+        $use[\ILIAS\Environment\Configuration\Installation\Directories::class] ??= $this->createDirectories(
+            (string) realpath(__DIR__ . '/../../../../')
+        );
         $seek = [
             LanguageFileDirectory::class => [],
         ];
@@ -259,26 +262,24 @@ class LanguageComponentGraphTest extends TestCase
         );
     }
 
-    /**
-     * Regression guard for the $ilias_root deduplication:
-     * both InstalledLanguageDatabaseRepository and LanguageInstallationManager
-     * must still end up with the exact same, correctly computed ILIAS root
-     * path (previously two textually-identical `realpath()` calls, now one
-     * shared local variable read twice).
-     */
-    public function testDeduplicatedIliasRootIsCorrectAndIdenticalForBothConsumers(): void
+    private function createDirectories(string $root): \ILIAS\Environment\Configuration\Installation\Directories
     {
-        [, , , , , $provide] = $this->initComponent();
+        $directories = $this->createStub(\ILIAS\Environment\Configuration\Installation\Directories::class);
+        $directories->method('getRoot')->willReturn($root);
 
-        $expected_root = (string) realpath(__DIR__ . '/../../../../');
+        return $directories;
+    }
 
-        self::assertNotSame('', $expected_root, 'sanity check: the ILIAS root must resolve to a real path');
+    public function testRepositoryAndManagerGetTheRootFromDirectories(): void
+    {
+        [, , , , , $provide] = $this->initComponent([
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+            \ILIAS\Environment\Configuration\Installation\Directories::class => $this->createDirectories('/ilias-root'),
+        ]);
 
-        $repository_root = self::readPrivateProperty($provide[InstalledLanguageRepository::class], 'absolute_path');
-        $manager_root = self::readPrivateProperty($provide[LanguageInstallationManager::class], 'absolute_path');
-
-        self::assertSame($expected_root, $repository_root);
-        self::assertSame($expected_root, $manager_root);
+        self::assertSame('/ilias-root', self::readPrivateProperty($provide[InstalledLanguageRepository::class], 'absolute_path'));
+        self::assertSame('/ilias-root', self::readPrivateProperty($provide[LanguageInstallationManager::class], 'absolute_path'));
     }
 
     private function resolveEverything(PimpleContainer $provide, RenamingDIC $contribute): void
