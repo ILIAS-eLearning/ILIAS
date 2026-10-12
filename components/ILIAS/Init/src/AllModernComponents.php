@@ -40,7 +40,6 @@ use ILIAS\Environment\Configuration\Installation\ClientIni;
 use ILIAS\StaticURL\StaticURLServices;
 use ILIAS\AccessControl\PublicInterface\Access;
 use ILIAS\AccessControl\PublicInterface\RBAC;
-use ILIAS\AccessControl\PublicInterface\DefaultRBAC;
 use ILIAS\DI\RBACServices;
 use ILIAS\Logging;
 
@@ -244,17 +243,14 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['ilClientIniFile'] = fn(): \ilIniFile => new \ilIniFile('', $this->client_ini);
         $DIC['static_url'] = fn(): StaticURLServices => $this->static_url;
         $DIC['static_url.uri_builder'] = fn(): \ILIAS\StaticURL\Builder\URIBuilder => $this->static_url->builder();
-        $rbac = $this->rbac;
-        \assert($rbac instanceof DefaultRBAC);
-
         $DIC[RBACServices::class] = fn(): RBACServices => new RBACServices(
-            $rbac->review(),
-            $rbac->system(),
-            $rbac->admin(),
+            $this->rbac->review(),
+            $this->rbac->system(),
+            $this->rbac->admin(),
         );
-        $DIC['rbacsystem'] = fn(): \ilRbacSystem => $rbac->system();
-        $DIC['rbacreview'] = fn(): \ilRbacReview => $rbac->review();
-        $DIC['rbacadmin'] = fn(): \ilRbacAdmin => $rbac->admin();
+        $DIC['rbacsystem'] = fn(): \ilRbacSystem => $this->rbac->system();
+        $DIC['rbacreview'] = fn(): \ilRbacReview => $this->rbac->review();
+        $DIC['rbacadmin'] = fn(): \ilRbacAdmin => $this->rbac->admin();
         $DIC['ilAccess'] = fn(): Access => $this->access_control;
         $DIC['logging.factory'] = fn(): Logging\Logger\LoggerFactoryInterface => $this->logger_factory;
         $DIC['logging.defaultConfigFactory'] = fn(): Logging\Logger\DefaultConfigLoggerFactoryInterface => $this->default_config_logger_factory;

@@ -257,6 +257,23 @@ class ilInitialisation
     protected static function initClientIniFile(): void
     {
         global $DIC;
+
+        if (CLIENT_ID === '') {
+            self::abortAndDie('Fatal Error: ilInitialisation::initClientIniFile called without CLIENT_ID.');
+        }
+
+        // a client without a client.ini.php does not exist
+        if ($DIC['ilClientIniFile']->readGroups() === []) {
+            self::redirect(
+                'index.php?client_id=' . $DIC['ilIliasIniFile']->readVariable('clients', 'default'),
+                '',
+                [
+                    'en' => 'Client does not exist.',
+                    'de' => 'Mandant ist ungültig.'
+                ]
+            );
+        }
+
         $GLOBALS['ilClientIniFile'] = $DIC['ilClientIniFile'];
         self::defineLegacyConstantsFromClientIni($DIC['ilClientIniFile']);
     }
