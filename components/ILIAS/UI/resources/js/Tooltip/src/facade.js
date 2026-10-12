@@ -11,9 +11,19 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-import il from 'il';
-import * as permalink from './footer/permalink';
+import il from 'ilias';
+import createTooltip from './createTooltip.js';
+import createHoverTooltip from './createHoverTooltip.js';
+import createClickTooltip from './createClickTooltip.js';
 
-il.Footer = { permalink };
+il.UI = il.UI || {};
+
+il.UI.Tooltip = {
+  createTooltip,
+  createHoverTooltip,
+  createClickTooltip,
+};

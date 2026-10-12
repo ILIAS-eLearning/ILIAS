@@ -53,6 +53,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         private DataFactory $data_factory,
         private HelpTextRetriever $help_text_retriever,
         private UploadLimitResolver $upload_limit_resolver,
+        private \ILIAS\Refinery\Factory $refinery,
     ) {
     }
 
@@ -62,6 +63,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     public function registerResources(ResourceRegistry $registry): void
     {
         $registry->register('assets/js/core.js');
+        $registry->register('assets/js/tooltip.min.js');
     }
 
     /**
@@ -77,6 +79,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     final protected function getDataFactory(): DataFactory
     {
         return $this->data_factory;
+    }
+
+    final protected function getUriTransformations(): \ILIAS\Refinery\URI\Group
+    {
+        return $this->refinery->uri();
     }
 
     final protected function getUploadLimitResolver(): UploadLimitResolver
