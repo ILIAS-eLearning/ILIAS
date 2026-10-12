@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Activities;
 
+use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Component\Activities\ActivityImpl;
 use ILIAS\Component\Activities\ActivityType;
 use ILIAS\Data\Result;
@@ -35,20 +36,19 @@ abstract class LanguageActivity extends ActivityImpl
 
     protected readonly RefineryFactory $refinery;
     protected Language $lng;
-    private readonly \Closure $rbac_system;
     private readonly \Closure $language_folder_ref_id;
 
+    /**
+     * @param RBAC|null $rbac null only for forSetup(); isAllowedToPerform() then throws.
+     */
     public function __construct(
         RefineryFactory $refinery,
         Language $language,
-        \ilRbacSystem|\Closure $rbac_system,
+        private readonly ?RBAC $rbac,
         int|\Closure $language_folder_ref_id = 0,
     ) {
         $this->refinery = $refinery;
         $this->lng = $language;
-        $this->rbac_system = $rbac_system instanceof \Closure
-            ? $rbac_system
-            : static fn(): \ilRbacSystem => $rbac_system;
         $this->language_folder_ref_id = $language_folder_ref_id instanceof \Closure
             ? $language_folder_ref_id
             : static fn(): int => $language_folder_ref_id;
@@ -71,7 +71,14 @@ abstract class LanguageActivity extends ActivityImpl
 
     public function isAllowedToPerform(int $usr_id, mixed $parameters): bool
     {
-        return ($this->rbac_system)()->checkAccessOfUser(
+        if ($this->rbac === null) {
+            throw new \LogicException(
+                'RBAC is not available during Setup; '
+                . static::class . '::isAllowedToPerform() cannot be used here.'
+            );
+        }
+
+        return $this->rbac->system()->checkAccessOfUser(
             $usr_id,
             'write',
             ($this->language_folder_ref_id)()

@@ -1088,7 +1088,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $activity = new class (
             refinery: $this->createMock(RefineryFactory::class),
             language: $language,
-            rbac_system: $this->createMock(\ilRbacSystem::class),
+            rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
             db: static fn(): \ilDBInterface => throw new \LogicException('db must not be resolved by this test'),
         ) extends AddLanguageEntry {
@@ -1233,7 +1233,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         return new AddLanguageEntry(
             refinery: $this->createMock(RefineryFactory::class),
             language: $this->createMock(Language::class),
-            rbac_system: $this->createMock(\ilRbacSystem::class),
+            rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
             language_folder_ref_id: 0,
             replace_lang_entry: static fn(
@@ -1417,7 +1417,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         return new AddLanguageEntry(
             refinery: $refinery ?? $this->createMock(RefineryFactory::class),
             language: $language ?? $this->createMock(Language::class),
-            rbac_system: $rbac ?? $this->createMock(\ilRbacSystem::class),
+            rbac: $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
             installed_language_repository: $installed_language_repository ?? new FakeInstalledLanguageRepository(
                 static fn(): array => $installed_languages
             ),

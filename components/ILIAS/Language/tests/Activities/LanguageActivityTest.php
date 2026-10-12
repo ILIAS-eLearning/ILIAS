@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Tests\Activities;
 
+use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\Data\Description;
 use ILIAS\Data\Text;
 use ILIAS\Language\Activities\LanguageActivity;
@@ -51,7 +52,7 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $activity = new LanguageActivityThrowingInputDescriptionTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
-            $rbac
+            $this->rbacOf($rbac)
         );
 
         $result = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, []);
@@ -75,7 +76,7 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $activity = new LanguageActivityThrowingInputDescriptionTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
-            $rbac,
+            $this->rbacOf($rbac),
             throw_type_error: true,
         );
 
@@ -104,7 +105,7 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
         $activity = new LanguageActivityMergePrecedenceTestDouble(
             $this->createMock(RefineryFactory::class),
             $this->createMock(Language::class),
-            $rbac
+            $this->rbacOf($rbac)
         );
 
         $result = $activity->maybePerformAs($this->createRealFieldsUiFactory()->input(), 42, []);
@@ -135,10 +136,10 @@ final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageA
     public function __construct(
         RefineryFactory $refinery,
         Language $language,
-        \ilRbacSystem|\Closure $rbac_system,
+        RBAC $rbac,
         private readonly bool $throw_type_error = false,
     ) {
-        parent::__construct($refinery, $language, $rbac_system);
+        parent::__construct($refinery, $language, $rbac);
     }
 
     public function getDescription(): Text\SimpleDocumentMarkdown

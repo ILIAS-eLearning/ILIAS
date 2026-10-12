@@ -708,7 +708,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         return new SetLanguageTranslationEnabled(
             $refinery ?? $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
-            $rbac_system ?? $this->createMock(\ilRbacSystem::class),
+            $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
             $settings ?? $this->createMock(Setting::class),
             installed_language_repository: $installed_language_repository
                 ?? new FakeInstalledLanguageRepository(static fn(): array => ['de', 'fr']),

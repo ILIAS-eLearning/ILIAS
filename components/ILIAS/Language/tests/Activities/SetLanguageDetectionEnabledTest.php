@@ -437,7 +437,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         return new SetLanguageDetectionEnabled(
             $this->createMock(RefineryFactory::class),
             $language ?? $this->createMock(Language::class),
-            $rbac_system ?? $this->createMock(\ilRbacSystem::class),
+            $this->rbacOf($rbac_system ?? $this->createMock(\ilRbacSystem::class)),
             $settings ?? $this->createMock(Setting::class),
             $language_folder_ref_id
         );
