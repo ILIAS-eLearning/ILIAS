@@ -428,8 +428,12 @@ class UninstallRemovesPluginMigratedMoFilesTest extends ilLanguageBaseTestCase
         $warnings = array_values(array_filter($warnings, static fn(string $w): bool => !str_contains($w, 'lock file')));
         $this->assertCount(2, $lock_warnings);
         $this->assertCount(2, $warnings);
-        $this->assertStringContainsString('de', $warnings[0] ?? '');
-        $this->assertStringContainsString('fr', $warnings[1] ?? '');
+        $logged_languages = array_map(
+            static fn(string $w): string => preg_match('/language "([a-z]{2})"/', $w, $m) === 1 ? $m[1] : '',
+            $warnings
+        );
+        sort($logged_languages);
+        $this->assertSame(['de', 'fr'], $logged_languages);
         $this->assertFileExists(MigratedPoFixture::overlayMo("$overlay_readonly_dir/de/{$module}_de"));
         $this->assertFileExists(MigratedPoFixture::overlayMo("$overlay_readonly_dir/fr/{$module}_fr"));
     }
