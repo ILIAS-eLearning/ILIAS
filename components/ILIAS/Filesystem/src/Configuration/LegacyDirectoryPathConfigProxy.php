@@ -36,7 +36,7 @@ class LegacyDirectoryPathConfigProxy implements DirectoryPathConfig
         return ILIAS_DATA_DIR . '/' . CLIENT_ID;
     }
 
-    public function getCustomizingDirectoyPath(): string
+    public function getCustomizingDirectoryPath(): string
     {
         return ILIAS_ABSOLUTE_PATH . '/public/' . 'Customizing';
     }
