@@ -168,6 +168,18 @@ class NtxtTest extends ilLanguageBaseTestCase
         $this->assertSame($language->txt('unknown_topic'), $language->ntxt('unknown_topic', 5));
     }
 
+    public function testServesThePluralFormFromTheFallbackModuleWithoutLoadingIt(): void
+    {
+        $catalog = self::pluralCatalog('ntxt', 'nplurals=2; plural=(n != 1);', 'item', ['Eintrag', 'Einträge']);
+        $this->stubUsageLogDependencies();
+        $this->registerDirectoryManager($this->contributeModule('ntxt', $catalog));
+
+        $language = $this->buildLanguage();
+
+        $this->assertSame('Eintrag', $language->ntxt('item', 1, 'ntxt'));
+        $this->assertSame('Einträge', $language->ntxt('item', 5, 'ntxt'));
+    }
+
     /** Without a "Plural-Forms" header the Germanic rule (n==1 -> form 0, else 1) applies instead of failing. */
     public function testUsesTheGermanicRuleWhenThePluralFormsHeaderIsMissing(): void
     {
