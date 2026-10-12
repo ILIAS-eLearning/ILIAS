@@ -84,4 +84,42 @@ class ComponentLanguageFileDirectoryTest extends TestCase
 
         self::assertStringEndsWith('/custom/lang/path/', $directory->getPath());
     }
+
+    private function anyComponent(): Component
+    {
+        return new class () implements Component {
+            public function init(
+                array|\ArrayAccess &$define,
+                array|\ArrayAccess &$implement,
+                array|\ArrayAccess &$use,
+                array|\ArrayAccess &$contribute,
+                array|\ArrayAccess &$seek,
+                array|\ArrayAccess &$provide,
+                array|\ArrayAccess &$pull,
+                array|\ArrayAccess &$internal,
+            ): void {
+            }
+        };
+    }
+
+    public function testDefaultShippedFileNamePatternIsPrefixUnderscore(): void
+    {
+        $directory = new ComponentLanguageFileDirectory($this->anyComponent(), 'tos');
+
+        self::assertSame('tos_%s', $directory->getShippedFileNamePattern());
+    }
+
+    public function testACustomShippedFileNamePatternIsUsedAsGiven(): void
+    {
+        $directory = new ComponentLanguageFileDirectory($this->anyComponent(), 'tos', 'lang/', 'ilias_%s');
+
+        self::assertSame('ilias_%s', $directory->getShippedFileNamePattern());
+    }
+
+    public function testAnInvalidCustomShippedFileNamePatternIsRejectedByTheConstructor(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new ComponentLanguageFileDirectory($this->anyComponent(), 'tos', 'lang/', 'no-placeholder-at-all');
+    }
 }

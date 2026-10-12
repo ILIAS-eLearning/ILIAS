@@ -392,6 +392,19 @@ class LanguageComponentGraphTest extends TestCase
         );
     }
 
+    /** Activities write through an installation manager that invalidates the global language cache (a no-op without cache). */
+    public function testTheRuntimeInstallationManagerHasATranslationCacheThatIsSafeWithoutGlobalCache(): void
+    {
+        [, , , , , $provide] = $this->initComponent();
+        $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+        $manager = (new \ReflectionMethod($setup_language, 'manager'))->invoke($setup_language);
+
+        $translation_cache = self::readPrivateProperty($manager, 'translation_cache');
+
+        self::assertInstanceOf(\ILIAS\Language\Setup\TranslationCacheLegacyProxy::class, $translation_cache);
+        $translation_cache->invalidate('de');
+    }
+
     private static function readPrivateProperty(object $object, string $property): mixed
     {
         return (new \ReflectionProperty($object, $property))->getValue($object);

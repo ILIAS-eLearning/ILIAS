@@ -28,6 +28,11 @@ namespace ILIAS\Language\ComponentTranslation;
  *   the files already carry component prefixes (variables of three parts).
  * - ComponentLanguageFileDirectory: for a component; the prefix is the component prefix (e.g. "file"), the
  *   path relative to the component directory (usually `lang/`); entries of two parts (like plugins before).
+ *
+ * A contributed ComponentLanguageFileDirectory is also how a module opts into the PO/MO migration (see
+ * MigratedLanguageFileSync, ShippedTranslationsBuild, MigratedTranslations): getPath() then also locates its
+ * shipped `<prefix>.pot`/`<prefix>_<lang>.po`, the per-installation overlay lives in CLIENT_DATA_DIR
+ * `lang/<prefix>/<lang>/` (see MigratedLanguageFilePaths). The same directory object serves both conventions.
  */
 interface LanguageFileDirectory
 {

@@ -26,23 +26,36 @@ use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
 use ILIAS\Language\Setup\TranslationCache;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Focused coverage for LanguageInstallationManager. In particular, these
- * tests pin down last_update handling for object_data bookkeeping rows: the
- * UPDATE path (registerInstalledLanguage()'s update branch, and
- * installLanguages()' uninstall branch) sets last_update via the manager's
- * injectable clock, so a test can assert the exact value instead of only
- * that *some* value was set - while the INSERT path deliberately keeps using
- * $db->now() instead, which is asserted explicitly as well. The clock exists
- * for testability, not because the date was ever computed incorrectly.
+ * Pins last_update handling of the object_data bookkeeping rows: the UPDATE path sets it via the manager's injectable
+ * clock (exact value assertable), the INSERT path deliberately uses $db->now().
+ * Modules migrated to PO/MO are covered in LanguageInstallationManagerMigratedModulesTest.
  */
 class LanguageInstallationManagerTest extends TestCase
 {
     private function createDatabaseMock(): MockObject&ilDBInterface
     {
         $db = $this->createMock(ilDBInterface::class);
+        $db->method('nextId')->willReturn(42);
+        $db->method('quote')->willReturnCallback(
+            static fn(mixed $value): string => "'" . (string) $value . "'"
+        );
+        $db->method('now')->willReturn('NOW()');
+        $db->method('manipulate')->willReturn(1);
+
+        return $db;
+    }
+
+    /**
+     * Stub variant of createDatabaseMock() for tests without ->expects(): a plain createMock() there triggers
+     * PHPUnit's "no expectations configured" notice.
+     */
+    private function createDatabaseStub(): Stub&ilDBInterface
+    {
+        $db = $this->createStub(ilDBInterface::class);
         $db->method('nextId')->willReturn(42);
         $db->method('quote')->willReturnCallback(
             static fn(mixed $value): string => "'" . (string) $value . "'"
@@ -82,7 +95,7 @@ class LanguageInstallationManagerTest extends TestCase
 
         $manager = $this->createManager(
             $db,
-            $this->createMock(InstalledLanguageRepository::class),
+            $this->createStub(InstalledLanguageRepository::class),
             new \DateTimeImmutable('2026-01-02 03:04:05', new \DateTimeZone('UTC'))
         );
 
@@ -105,7 +118,7 @@ class LanguageInstallationManagerTest extends TestCase
 
         $manager = $this->createManager(
             $db,
-            $this->createMock(InstalledLanguageRepository::class),
+            $this->createStub(InstalledLanguageRepository::class),
             new \DateTimeImmutable('2026-01-02 03:04:05', new \DateTimeZone('UTC'))
         );
 
@@ -114,14 +127,14 @@ class LanguageInstallationManagerTest extends TestCase
 
     public function testInstallLanguagesSetsLastUpdateOnUninstallUsingInjectedClock(): void
     {
-        $db = $this->createDatabaseMock();
+        $db = $this->createDatabaseStub();
         $calls = [];
         $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
             $calls[] = $query;
             return 1;
         });
 
-        $repository = $this->createMock(InstalledLanguageRepository::class);
+        $repository = $this->createStub(InstalledLanguageRepository::class);
         $repository->method('getAvailableLanguages')->willReturn([
             'fr' => ['obj_id' => 3, 'status' => 'installed'],
         ]);
@@ -156,21 +169,21 @@ class LanguageInstallationManagerTest extends TestCase
                 $this->stringContains('local_change IS NULL')
             ));
 
-        $manager = $this->createManager($db, $this->createMock(InstalledLanguageRepository::class));
+        $manager = $this->createManager($db, $this->createStub(InstalledLanguageRepository::class));
 
         $manager->flushLanguageForInstallation('de');
     }
 
     public function testFlushLanguageForUninstallationDeletesEverything(): void
     {
-        $db = $this->createDatabaseMock();
+        $db = $this->createDatabaseStub();
         $calls = [];
         $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
             $calls[] = $query;
             return 1;
         });
 
-        $manager = $this->createManager($db, $this->createMock(InstalledLanguageRepository::class));
+        $manager = $this->createManager($db, $this->createStub(InstalledLanguageRepository::class));
 
         $manager->flushLanguageForUninstallation('de');
 
@@ -192,7 +205,7 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
@@ -235,14 +248,14 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
             $repository->method('getLocalChanges')->willReturn([]);
 
             $manager = new LanguageInstallationManager(
@@ -289,7 +302,7 @@ class LanguageInstallationManagerTest extends TestCase
         try {
             $calls = 0;
             $inserts = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(
                 static function (string $query) use (&$inserts): int {
@@ -300,7 +313,7 @@ class LanguageInstallationManagerTest extends TestCase
                 }
             );
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
             $repository->method('getLocalChanges')->willReturnCallback(
                 static function (string $lang_key, string $min_date = '') use (&$calls): array {
                     $calls++;
@@ -350,7 +363,7 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
@@ -409,19 +422,21 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
-            $repository->expects($this->once())->method('getLanguageEntries')->with('de')->willReturn([
-                'common' => [
-                    'overridden' => 'Old Value',
-                    'untouched_by_customizing' => 'Still Here',
-                ],
+            $repository = $this->createStub(InstalledLanguageRepository::class);
+            $repository->method('getLanguageEntries')->willReturnMap([
+                ['de', [
+                    'common' => [
+                        'overridden' => 'Old Value',
+                        'untouched_by_customizing' => 'Still Here',
+                    ],
+                ]],
             ]);
 
             $manager = new LanguageInstallationManager(
@@ -459,15 +474,17 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
-            $repository->expects($this->once())->method('checkLanguage')->with('de')->willReturn(true);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
+            $repository->method('checkLanguage')->willReturnMap([
+                ['de', true],
+            ]);
             $repository->method('getAvailableLanguages')->willReturn([]);
             $repository->method('getLocalLanguages')->willReturn([]);
             $repository->method('getLocalChanges')->willReturn([]);
@@ -514,14 +531,14 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
             $repository->method('checkLanguage')->willReturnMap([
                 ['de', true],
                 ['xx', false],
@@ -572,14 +589,14 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
             $repository->method('checkLanguage')->willReturn(true);
             $repository->method('getAvailableLanguages')->willReturn([
                 'fr' => ['obj_id' => 9, 'status' => 'installed'],
@@ -629,14 +646,14 @@ class LanguageInstallationManagerTest extends TestCase
      */
     public function testInstallLanguagesDoesNotReUpdateAlreadyNotInstalledLanguage(): void
     {
-        $db = $this->createDatabaseMock();
+        $db = $this->createDatabaseStub();
         $calls = [];
         $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
             $calls[] = $query;
             return 1;
         });
 
-        $repository = $this->createMock(InstalledLanguageRepository::class);
+        $repository = $this->createStub(InstalledLanguageRepository::class);
         $repository->method('getAvailableLanguages')->willReturn([
             'de' => ['obj_id' => 4, 'status' => 'not_installed'],
         ]);
@@ -677,14 +694,14 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('assessment')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
             $repository->method('getLocalChanges')->willReturn([]);
 
             $manager = new LanguageInstallationManager(
@@ -727,14 +744,14 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('common')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
             $repository->method('getLocalChanges')->willReturn([]);
 
             $manager = new LanguageInstallationManager(
@@ -779,14 +796,14 @@ class LanguageInstallationManagerTest extends TestCase
 
         try {
             $calls = [];
-            $db = $this->createDatabaseMock();
+            $db = $this->createDatabaseStub();
             $db->method('in')->willReturn("module IN ('file')");
             $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
                 $calls[] = $query;
                 return 1;
             });
 
-            $repository = $this->createMock(InstalledLanguageRepository::class);
+            $repository = $this->createStub(InstalledLanguageRepository::class);
             $repository->method('getLocalChanges')->willReturn([]);
 
             $manager = new LanguageInstallationManager(
@@ -809,6 +826,48 @@ class LanguageInstallationManagerTest extends TestCase
             $this->assertCount(1, $insert);
             // module=prefix, identifier=first field, value=second field
             $this->assertStringContainsString("('file','add_file','de','Add File'", $insert[0]);
+        } finally {
+            $this->removeDirectory($root);
+        }
+    }
+
+    /**
+     * A module read from the *.lang data but never contributed as a LanguageFileDirectory (most modules, outside the
+     * PO/MO pilot) must cause no error and create no file.
+     */
+    public function testInsertLanguageDoesNotErrorForModuleWithoutContributedDirectory(): void
+    {
+        $root = $this->createTempInstallationRoot();
+        $this->writeLangFile($root . '/lang/ilias_de.lang', [['common', 'hello', 'Welt']]);
+
+        try {
+            $calls = [];
+            $db = $this->createDatabaseStub();
+            $db->method('in')->willReturn("module IN ('common')");
+            $db->method('manipulate')->willReturnCallback(static function (string $query) use (&$calls): int {
+                $calls[] = $query;
+                return 1;
+            });
+
+            $repository = $this->createStub(InstalledLanguageRepository::class);
+            $repository->method('getLocalChanges')->willReturn([]);
+
+            $manager = new LanguageInstallationManager(
+                $db,
+                new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory()),
+                $root,
+                $repository
+            );
+
+            $manager->insertLanguageForInstallation('de');
+
+            // the DB write of the non-migrated module still happens
+            $inserts = array_values(array_filter(
+                $calls,
+                static fn(string $query): bool => str_starts_with($query, /** @lang text */ 'INSERT INTO lng_modules')
+            ));
+            $this->assertCount(1, $inserts);
+            $this->assertStringContainsString("'common'", $inserts[0]);
         } finally {
             $this->removeDirectory($root);
         }

@@ -103,7 +103,7 @@ class ilObjLanguageFolder extends ilObject
 
         // get available lang-files
         while ($entry = $d->read()) {
-            if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry))) {
+            if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang\z)~", $entry))) {
                 $lang_key = substr($entry, 6, 2);
                 $languages[$lang_key] = ""; // long names will be set in class Out
             }
@@ -249,7 +249,7 @@ class ilObjLanguageFolder extends ilObject
         $output = '';
         // get available lang-files
         while ($entry = $d->read()) {
-            if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry))) {
+            if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang\z)~", $entry))) {
                 // textmeldung, wenn langfile gefunden wurde
                 $output .= "<br/><br/>" . $this->lng->txt("langfile_found") . ": " . $entry;
                 $content = file($entry);
