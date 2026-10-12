@@ -37,6 +37,7 @@ use ILIAS\Filesystem\Util\Archive\Zip;
 use ILIAS\Filesystem\Util\Archive\ZipOptions;
 use ILIAS\ResourceStorage\Resource\ResourceType;
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+use ILIAS\ResourceStorage\Setup\DB\UpdateStepsV12;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -121,6 +122,7 @@ class ilResourceStorageMigrationHelper
             new ilDatabaseUpdatedObjective(),
             new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB80()),
             new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90()),
+            new ilDatabaseUpdateStepsExecutedObjective(new UpdateStepsV12()),
             new ilStorageContainersExistingObjective()
         ];
     }
