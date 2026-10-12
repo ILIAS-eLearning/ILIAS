@@ -49,10 +49,6 @@ class Language implements Component\Component
     ): void {
         $define[] = \ILIAS\Language\Language::class;
 
-        // Shared by every $internal service below that needs the Setup/
-        // installation database - deduplicated here instead of being
-        // reconstructed identically in each closure.
-        $resolve_db = static fn(): \ilDBInterface => $GLOBALS['ilDB'] ?? $GLOBALS['DIC']->database();
         $ilias_root = (string) realpath(__DIR__ . '/../../../');
 
         // Closures, not values: init() runs without a database or a booted $DIC.
@@ -78,23 +74,33 @@ class Language implements Component\Component
         // and components/ILIAS/Language/README.md.
         $internal[InstalledLanguageDatabaseRepository::class] = static fn() =>
             new InstalledLanguageDatabaseRepository(
-                $resolve_db,
+                $pull[\ILIAS\Database\Connection::class],
                 $internal[LanguageFileDirectoryManager::class],
                 $ilias_root
             );
 
         $internal[LanguageInstallationManager::class] = static fn() =>
             new LanguageInstallationManager(
-                $resolve_db,
+                $pull[\ILIAS\Database\Connection::class],
                 $internal[LanguageFileDirectoryManager::class],
                 $ilias_root,
                 $internal[InstalledLanguageDatabaseRepository::class]
             );
 
+        // Setup instance, gets the Setup database via setDbHandler(). No
+        // Connection: ilLanguagesInstalledAndUpdatedObjective::getLabel() reads
+        // the database before that, while $DIC['ilDB'] is not set.
         $internal[\ilSetupLanguage::class] = static fn() =>
             new \ilSetupLanguage(
                 "en",
                 $internal[LanguageFileDirectoryManager::class]
+            );
+
+        $runtime_setup_language = static fn(): \ilSetupLanguage =>
+            new \ilSetupLanguage(
+                "en",
+                $internal[LanguageFileDirectoryManager::class],
+                $pull[\ILIAS\Database\Connection::class]
             );
 
         $internal[InstallLanguage::class] = static fn() =>
@@ -102,10 +108,7 @@ class Language implements Component\Component
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
-                // The Activity needs no database of its own: every database
-                // access in perform() goes through ilSetupLanguage, which
-                // resolves it itself.
-                $internal[\ilSetupLanguage::class],
+                $runtime_setup_language(),
                 $lang_folder_ref_id
             );
 
@@ -114,9 +117,7 @@ class Language implements Component\Component
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
-                // Same reasoning as InstallLanguage above: no database of
-                // its own, ilSetupLanguage resolves it.
-                $internal[\ilSetupLanguage::class],
+                $runtime_setup_language(),
                 $lang_folder_ref_id
             );
 
@@ -154,21 +155,14 @@ class Language implements Component\Component
         // "lng" object enumeration or ilObjLanguage-by-id closures - it reads the set of
         // installed languages from InstalledLanguageDatabaseRepository (already built above for
         // other consumers) and writes single entries via the two legacy closures defaulted
-        // inside AddLanguageEntry itself; the second of those two (updateModuleCache()) needs a
-        // database connection, supplied here via the same $resolve_db closure every other
-        // database consumer in this component shares, rather than AddLanguageEntry reaching
-        // into $GLOBALS['DIC'] directly.
+        // inside AddLanguageEntry itself.
         $internal[AddLanguageEntry::class] = static fn() =>
             new AddLanguageEntry(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $internal[InstalledLanguageDatabaseRepository::class],
-                // $db is a mandatory (non-nullable) collaborator - AddLanguageEntry needs no
-                // database of its own beyond what updateModuleCache()'s default resolves via
-                // this same $resolve_db closure, already shared by
-                // InstalledLanguageDatabaseRepository/LanguageInstallationManager.
-                $resolve_db,
+                $pull[\ILIAS\Database\Connection::class],
                 language_folder_ref_id: $lang_folder_ref_id,
                 // replace_lang_entry/update_module_cache/user_login: left at
                 // their defaults (see AddLanguageEntry's own constructor
@@ -266,8 +260,7 @@ class Language implements Component\Component
                 $internal[\ilSetupLanguage::class],
                 // Setup checks no permissions, hence no RBAC.
                 InstallLanguage::forSetup($internal[\ilSetupLanguage::class]),
-                UpdateLanguage::forSetup($internal[\ilSetupLanguage::class]),
-                $internal[InstalledLanguageDatabaseRepository::class]
+                UpdateLanguage::forSetup($internal[\ilSetupLanguage::class])
             );
 
         // The seven Activities this component offers are both provided under

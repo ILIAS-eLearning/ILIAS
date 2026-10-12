@@ -1090,7 +1090,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             language: $language,
             rbac: $this->rbacOf($this->createMock(\ilRbacSystem::class)),
             installed_language_repository: new FakeInstalledLanguageRepository(static fn(): array => ['de']),
-            db: static fn(): \ilDBInterface => throw new \LogicException('db must not be resolved by this test'),
+            db: $this->createUnusedDb(),
         ) extends AddLanguageEntry {
             // Declaring this override (the plain interface signature) is the point of the test -
             // the old, buggy signature with an extra optional parameter would already fail to
@@ -1340,6 +1340,14 @@ class AddLanguageEntryTest extends ActivityContractTestCase
     // Test helpers
     // -----------------------------------------------------------------
 
+    private function createUnusedDb(): \ilDBInterface
+    {
+        $db = $this->createMock(\ilDBInterface::class);
+        $db->expects(self::never())->method(self::anything());
+
+        return $db;
+    }
+
     /**
      * @param array<string, array> $calls
      */
@@ -1381,7 +1389,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         ?\ilRbacSystem $rbac = null,
         ?Language $language = null,
         ?InstalledLanguageRepository $installed_language_repository = null,
-        \ilDBInterface|\Closure|null $db = null,
+        ?\ilDBInterface $db = null,
         int $language_folder_ref_id = 0,
         ?\Closure $replace_lang_entry = null,
         ?\Closure $update_module_cache = null,
@@ -1407,12 +1415,8 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         ): void {
         };
         $user_login ??= static fn(int $usr_id): string => 'default-login';
-        // $db defaults to a throwing stub: every test above overrides update_module_cache, so the
-        // constructor's real $db-based default should never be reached - a test that accidentally
-        // relies on it fails loudly instead of silently passing.
-        $db ??= static fn(): \ilDBInterface => throw new \LogicException(
-            'db must not be resolved when update_module_cache is overridden'
-        );
+        // Must never be called: every test above overrides update_module_cache.
+        $db ??= $this->createUnusedDb();
 
         return new AddLanguageEntry(
             refinery: $refinery ?? $this->createMock(RefineryFactory::class),

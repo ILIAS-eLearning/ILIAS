@@ -41,24 +41,17 @@ class LanguageInstallationManager
     private const string COMMENT_SEPARATOR = "###";
 
     /**
-     * @param \ilDBInterface|\Closure():\ilDBInterface $db see
-     *        InstalledLanguageDatabaseRepository for why this is accepted lazily.
      * @param (\Closure():\DateTimeImmutable)|null $now Injectable clock, defaults to
      *        the current UTC time. Exists so change/update timestamps can be
      *        asserted in tests without depending on wall-clock time.
      */
     public function __construct(
-        private readonly \ilDBInterface|\Closure $db,
+        private readonly \ilDBInterface $db,
         private readonly LanguageFileDirectoryManager $language_file_directory_manager,
         private readonly string $absolute_path,
         private readonly InstalledLanguageRepository $repository,
         private readonly ?\Closure $now = null,
     ) {
-    }
-
-    private function db(): \ilDBInterface
-    {
-        return $this->db instanceof \Closure ? ($this->db)() : $this->db;
     }
 
     private function utcTimestamp(?int $unix_timestamp = null): string
@@ -82,7 +75,7 @@ class LanguageInstallationManager
      */
     public function installLanguages(array $lang_keys, array $local_keys = []): array|bool
     {
-        $ilDB = $this->db();
+        $ilDB = $this->db;
 
         $err_lang = [];
         $db_langs = $this->repository->getAvailableLanguages();
@@ -144,7 +137,7 @@ class LanguageInstallationManager
         array $known_languages,
         array $local_language_keys
     ): void {
-        $db = $this->db();
+        $db = $this->db;
         $installation_type = in_array($lang_key, $local_language_keys, true) ? "installed_local" : "installed";
 
         if (!array_key_exists($lang_key, $known_languages)) {
@@ -191,14 +184,14 @@ class LanguageInstallationManager
         $this->deleteLangData($lang_key, ($mode === "keep_local"));
 
         if ($mode === "all") {
-            $this->db()->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
-                $this->db()->quote($lang_key, "text"));
+            $this->db->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
+                $this->db->quote($lang_key, "text"));
         }
     }
 
     private function deleteLangData(string $lang_key, bool $keep_local_change): void
     {
-        $ilDB = $this->db();
+        $ilDB = $this->db;
 
         if (!$keep_local_change) {
             $ilDB->manipulate("DELETE FROM lng_data WHERE lang_key = " .
@@ -290,7 +283,7 @@ class LanguageInstallationManager
      */
     private function insertLanguage(string $lang_key, iterable $directories, array $lang_array): void
     {
-        $ilDB = $this->db();
+        $ilDB = $this->db;
         $working_dir = getcwd();
 
         // Every exit path below - including an exception thrown out of a DB
