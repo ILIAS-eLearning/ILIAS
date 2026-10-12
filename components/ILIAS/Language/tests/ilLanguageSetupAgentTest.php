@@ -22,7 +22,6 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
-use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Setup\Objective\NullObjective;
 
 /**
@@ -56,8 +55,7 @@ class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
             $refinery,
             $setup_language,
             $install_language,
-            $update_language,
-            $this->createMock(InstalledLanguageRepository::class)
+            $update_language
         );
     }
 

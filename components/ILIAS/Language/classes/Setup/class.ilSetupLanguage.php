@@ -64,12 +64,15 @@ class ilSetupLanguage extends ilLanguage
     public string $separator = "#:#";
     public string $comment_separator = "###";
     protected ?ilDBInterface $db = null;
-    private readonly InstalledLanguageRepository $repository;
-    private readonly LanguageInstallationManager $manager;
 
+    /**
+     * $connection is the ILIAS\Database\Connection; callers outside the
+     * component graph pass none.
+     */
     public function __construct(
         string $a_lang_key,
         private ?LanguageFileDirectoryManager $language_file_directory_manager = null,
+        private readonly ?ilDBInterface $connection = null,
     ) {
         $this->lang_key = $a_lang_key ?: $this->lang_default;
         $this->absolute_path = (string) realpath(__DIR__ . "/../../../../../");
@@ -79,25 +82,36 @@ class ilSetupLanguage extends ilLanguage
         );
         $this->cust_lang_path = $this->absolute_path . "/lang/customizing";
         $this->lang_path = $this->absolute_path . "/lang";
+    }
 
-        // Resolved lazily and re-read on every call, so a database handed in
-        // later via setDbHandler() actually takes effect - which is what lets
-        // Setup Objectives inject the Setup-provided database instead of
-        // temporarily overwriting $GLOBALS['ilDB'] around the call (see
-        // ilLanguagesInstalledAndUpdatedObjective::useSetupDatabase()). The
-        // global remains the fallback for the runtime, where
-        // ilInitialisation::initDatabase() populates it via initGlobal().
-        $db_resolver = fn(): ilDBInterface => $this->db ?? $GLOBALS["ilDB"];
-        $this->repository = new InstalledLanguageDatabaseRepository(
-            $db_resolver,
+    /**
+     * Resolved per call, so a later setDbHandler() takes effect. Order:
+     * setDbHandler(), constructor connection, $GLOBALS['ilDB'].
+     */
+    private function db(): ?ilDBInterface
+    {
+        return $this->db ?? $this->connection ?? $GLOBALS["ilDB"] ?? null;
+    }
+
+    /**
+     * Without a database only the file-based methods work.
+     */
+    private function repository(): InstalledLanguageRepository
+    {
+        return new InstalledLanguageDatabaseRepository(
+            $this->db(),
             $this->language_file_directory_manager,
             $this->absolute_path
         );
-        $this->manager = new LanguageInstallationManager(
-            $db_resolver,
+    }
+
+    private function manager(): LanguageInstallationManager
+    {
+        return new LanguageInstallationManager(
+            $this->db() ?? throw new LogicException("No database available for " . self::class . "."),
             $this->language_file_directory_manager,
             $this->absolute_path,
-            $this->repository
+            $this->repository()
         );
     }
 
@@ -147,7 +161,7 @@ class ilSetupLanguage extends ilLanguage
             $a_lang_keys = [];
         }
 
-        return $this->manager->installLanguages($a_lang_keys, $a_local_keys);
+        return $this->manager()->installLanguages($a_lang_keys, $a_local_keys);
     }
 
     /**
@@ -167,17 +181,17 @@ class ilSetupLanguage extends ilLanguage
         array $known_languages,
         array $local_language_keys
     ): void {
-        $this->manager->registerInstalledLanguage($lang_key, $known_languages, $local_language_keys);
+        $this->manager()->registerInstalledLanguage($lang_key, $known_languages, $local_language_keys);
     }
 
     public function getAvailableLanguagesForInstallation(): array
     {
-        return $this->repository->getAvailableLanguages();
+        return $this->repository()->getAvailableLanguages();
     }
 
     public function checkLanguageForInstallation(string $lang_key): bool
     {
-        return $this->repository->checkLanguage($lang_key);
+        return $this->repository()->checkLanguage($lang_key);
     }
 
     /**
@@ -189,22 +203,22 @@ class ilSetupLanguage extends ilLanguage
      */
     public function checkLocalLanguageFileForInstallation(string $lang_key): bool
     {
-        return $this->repository->checkLocalLanguageFile($lang_key);
+        return $this->repository()->checkLocalLanguageFile($lang_key);
     }
 
     public function flushLanguageForInstallation(string $lang_key): void
     {
-        $this->manager->flushLanguageForInstallation($lang_key);
+        $this->manager()->flushLanguageForInstallation($lang_key);
     }
 
     public function flushLanguageForUninstallation(string $lang_key): void
     {
-        $this->manager->flushLanguageForUninstallation($lang_key);
+        $this->manager()->flushLanguageForUninstallation($lang_key);
     }
 
     public function insertLanguageForInstallation(string $lang_key): void
     {
-        $this->manager->insertLanguageForInstallation($lang_key);
+        $this->manager()->insertLanguageForInstallation($lang_key);
     }
 
     /**
@@ -215,7 +229,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public function insertLanguageForApplyingLocalChanges(string $lang_key): void
     {
-        $this->manager->insertLanguageForApplyingLocalChanges($lang_key);
+        $this->manager()->insertLanguageForApplyingLocalChanges($lang_key);
     }
 
     /**
@@ -223,7 +237,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public function getInstalledLanguages(): array
     {
-        return $this->repository->getInstalledLanguages();
+        return $this->repository()->getInstalledLanguages();
     }
 
     /**
@@ -231,7 +245,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public function getInstalledLocalLanguages(): array
     {
-        return $this->repository->getInstalledLocalLanguages();
+        return $this->repository()->getInstalledLocalLanguages();
     }
 
     /**
@@ -245,7 +259,7 @@ class ilSetupLanguage extends ilLanguage
      */
     protected function checkLanguage(string $a_lang_key): bool
     {
-        return $this->repository->checkLanguage($a_lang_key);
+        return $this->repository()->checkLanguage($a_lang_key);
     }
 
     /**
@@ -276,7 +290,7 @@ class ilSetupLanguage extends ilLanguage
     */
     public function getLocalChanges(string $a_lang_key, string $a_min_date = "", string $a_max_date = ""): array
     {
-        return $this->repository->getLocalChanges($a_lang_key, $a_min_date, $a_max_date);
+        return $this->repository()->getLocalChanges($a_lang_key, $a_min_date, $a_max_date);
     }
 
     /**
@@ -285,7 +299,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public function getLocalLanguages(): array
     {
-        return $this->repository->getLocalLanguages();
+        return $this->repository()->getLocalLanguages();
     }
 
     /**
@@ -297,7 +311,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public function getInvalidLocalLanguageFiles(array $language_keys): array
     {
-        return $this->repository->getInvalidLocalLanguageFiles($language_keys);
+        return $this->repository()->getInvalidLocalLanguageFiles($language_keys);
     }
 
     /**
@@ -305,15 +319,13 @@ class ilSetupLanguage extends ilLanguage
      */
     public function getInstallableLanguages(): array
     {
-        return $this->repository->getInstallableLanguages();
+        return $this->repository()->getInstallableLanguages();
     }
 
     /**
      * Set the database this instance works on, taking precedence over
      * $GLOBALS['ilDB']. Used by Setup Objectives to inject the
-     * Setup-provided database resource; the repository and manager pick it
-     * up on their next call, because they resolve the database lazily (see
-     * the constructor).
+     * Setup-provided database resource (see db()).
      *
      * Return true on success
      */

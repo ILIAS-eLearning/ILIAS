@@ -39,6 +39,7 @@ use ILIAS\Component\Dependencies\OutType;
 use ILIAS\Component\Dependencies\Reader;
 use ILIAS\Component\Dependencies\RenamingDIC;
 use Pimple\Container as PimpleContainer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -46,8 +47,7 @@ use PHPUnit\Framework\TestCase;
  * components/ILIAS/Language/Language.php::init().
  *
  * Language.php was reorganised so that $internal entries are declared in
- * dependency order and two previously-duplicated expressions
- * ($resolve_db / $ilias_root) were extracted into shared local variables.
+ * dependency order and $ilias_root is a shared local variable.
  * Nothing about *which* class ends up behind which $implement / $contribute
  * / $provide key was meant to change - the container types involved
  * (Pimple\Container, wrapped in RenamingDIC for $implement/$contribute) are
@@ -77,7 +77,7 @@ class LanguageComponentGraphTest extends TestCase
      * @param array<string, mixed>|\ArrayAccess<string, mixed>|null $use
      * @return array{0: array, 1: RenamingDIC, 2: array, 3: RenamingDIC, 4: array, 5: PimpleContainer, 6: array, 7: PimpleContainer}
      */
-    private function initComponent(array | \ArrayAccess | null $use = null): array
+    private function initComponent(array | \ArrayAccess | null $use = null, ?\ILIAS\Database\Connection $connection = null): array
     {
         $define = [];
         $use ??= [
@@ -89,6 +89,7 @@ class LanguageComponentGraphTest extends TestCase
         ];
         $pull = [
             RefineryFactory::class => $this->createStub(RefineryFactory::class),
+            \ILIAS\Database\Connection::class => $connection ?? $this->createStub(\ILIAS\Database\Connection::class),
         ];
 
         // $implement and $contribute are wrapped in RenamingDIC in the real
@@ -259,7 +260,7 @@ class LanguageComponentGraphTest extends TestCase
     }
 
     /**
-     * Regression guard for the $ilias_root / $resolve_db deduplication:
+     * Regression guard for the $ilias_root deduplication:
      * both InstalledLanguageDatabaseRepository and LanguageInstallationManager
      * must still end up with the exact same, correctly computed ILIAS root
      * path (previously two textually-identical `realpath()` calls, now one
@@ -290,6 +291,40 @@ class LanguageComponentGraphTest extends TestCase
             self::assertIsObject($provide[$key]);
         }
         self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
+    }
+
+    /**
+     * @template T of \ilDBInterface
+     * @param class-string<T> $class
+     * @return T&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function databaseExpectingQueries(string $class, int $queries): \ilDBInterface
+    {
+        $db = $this->createMock($class);
+        $db->expects(self::exactly($queries))->method('query');
+
+        return $db;
+    }
+
+    /**
+     * Repository and AddLanguageEntry query the pulled connection, never the
+     * database in $GLOBALS['ilDB'].
+     */
+    public function testDatabaseConsumersGetThePulledConnectionNotTheGlobals(): void
+    {
+        $dic = new \ILIAS\DI\Container();
+        $GLOBALS['DIC'] = $dic;
+        $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 0);
+        $connection = $this->databaseExpectingQueries(\ILIAS\Database\Connection::class, 2);
+
+        [, , , $contribute, , $provide, , $internal] = $this->initComponent(null, $connection);
+        $this->resolveEverything($provide, $contribute);
+
+        self::assertSame([], $internal[InstalledLanguageDatabaseRepository::class]->getInstalledLanguages());
+        // The default of AddLanguageEntry's module cache update; the public path
+        // to it also calls the legacy static ilObjLanguage::replaceLangEntry().
+        self::readPrivateProperty($internal[AddLanguageEntry::class], 'update_module_cache')('de', 'common', 'x', 'y');
+        self::assertSame($dic, $GLOBALS['DIC']);
     }
 
     /**
@@ -324,6 +359,73 @@ class LanguageComponentGraphTest extends TestCase
         [, , , $contribute] = $this->initComponent($use);
 
         self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
+    }
+
+    /**
+     * @return array<string, array{0: class-string<InstallLanguage|UpdateLanguage>}>
+     */
+    public static function setupLanguageActivities(): array
+    {
+        return [
+            'install' => [InstallLanguage::class],
+            'update' => [UpdateLanguage::class],
+        ];
+    }
+
+    /**
+     * Not installed, so perform() only reads the installed languages.
+     */
+    private function performReadOnly(InstallLanguage|UpdateLanguage $activity): void
+    {
+        $activity->perform(
+            $activity instanceof InstallLanguage
+                ? ['language_keys' => ['fr'], 'mode' => InstallLanguage::MODE_INSTALL_LOCAL]
+                : ['language_keys' => ['fr']]
+        );
+    }
+
+    /**
+     * @param class-string<InstallLanguage|UpdateLanguage> $class
+     */
+    #[DataProvider('setupLanguageActivities')]
+    public function testWebActivitiesReadTheInstalledLanguagesFromThePulledConnection(string $class): void
+    {
+        $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 0);
+        $connection = $this->databaseExpectingQueries(\ILIAS\Database\Connection::class, 1);
+
+        [, , , , , $provide] = $this->initComponent(null, $connection);
+
+        $this->performReadOnly($provide[$class]);
+    }
+
+    public function testSetupLanguageInstanceReadsTheGlobalDatabase(): void
+    {
+        $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 1);
+        $connection = $this->databaseExpectingQueries(\ILIAS\Database\Connection::class, 0);
+
+        [, $implement, , , , , , $internal] = $this->initComponent(null, $connection);
+
+        self::assertSame($internal[\ilSetupLanguage::class], $implement[\ILIAS\Language\Language::class . '_0']);
+        self::assertSame([], $internal[\ilSetupLanguage::class]->getInstalledLanguages());
+    }
+
+    /**
+     * The agent's activities are only reachable through protected properties.
+     *
+     * @param class-string<InstallLanguage|UpdateLanguage> $class
+     */
+    #[DataProvider('setupLanguageActivities')]
+    public function testSetupAgentActivitiesDoNotUseThePulledConnection(string $class): void
+    {
+        $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 1);
+        $connection = $this->databaseExpectingQueries(\ILIAS\Database\Connection::class, 0);
+
+        [, , , $contribute] = $this->initComponent(null, $connection);
+        $agent = $contribute[\ILIAS\Setup\Agent::class . '_1'];
+
+        $this->performReadOnly(
+            self::readPrivateProperty($agent, $class === InstallLanguage::class ? 'install_language' : 'update_language')
+        );
     }
 
     private static function readPrivateProperty(object $object, string $property): mixed

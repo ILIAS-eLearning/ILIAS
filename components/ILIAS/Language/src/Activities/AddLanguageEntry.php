@@ -41,14 +41,13 @@ class AddLanguageEntry extends LanguageActivity
      * @param \Closure|null $update_module_cache (string $lang_key, string $module, string $identifier,
      *        string $value): void
      * @param \Closure|null $user_login (int $usr_id): string
-     * @param \ilDBInterface|\Closure $db (): \ilDBInterface
      */
     public function __construct(
         RefineryFactory $refinery,
         Language $language,
         RBAC $rbac,
         private readonly InstalledLanguageRepository $installed_language_repository,
-        \ilDBInterface|\Closure $db,
+        \ilDBInterface $db,
         int|\Closure $language_folder_ref_id = 0,
         ?\Closure $replace_lang_entry = null,
         ?\Closure $update_module_cache = null,
@@ -64,16 +63,13 @@ class AddLanguageEntry extends LanguageActivity
                 string $local_change,
                 string $remarks
             ): bool => \ilObjLanguage::replaceLangEntry($module, $identifier, $lang_key, $value, $local_change, $remarks);
-        $db_resolver = $db instanceof \Closure ? $db : static fn(): \ilDBInterface => $db;
         $this->update_module_cache = $update_module_cache
             ?? static function (
                 string $lang_key,
                 string $module,
                 string $identifier,
                 string $value
-            ) use ($db_resolver): void {
-                $db = $db_resolver();
-
+            ) use ($db): void {
                 $set = $db->query(
                     'SELECT lang_array FROM lng_modules WHERE lang_key = '
                     . $db->quote($lang_key, 'text') . ' AND module = ' . $db->quote($module, 'text')

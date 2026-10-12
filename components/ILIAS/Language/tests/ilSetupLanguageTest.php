@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
@@ -35,6 +36,7 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
 
     protected function setUp(): void
     {
+        unset($GLOBALS['ilDB']);
         $this->newLangSetupDe = new ilSetupLanguage('de');
         $this->newLangSetupEs = new ilSetupLanguage('es');
 
@@ -139,6 +141,81 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
 
         $this->assertContains('de', $languagesAsKeys);
         $this->assertContains('es', $languagesAsKeys);
+    }
+
+    private function emptyDatabase(bool $expect_query): ilDBInterface&\PHPUnit\Framework\MockObject\MockObject
+    {
+        $db = $this->createMock(ilDBInterface::class);
+        $db->method('quote')->willReturn("'x'");
+        $db->method('like')->willReturn('1=1');
+        $db->method('fetchObject')->willReturn(null);
+        $db->expects($expect_query ? self::once() : self::never())->method('query')
+            ->willReturn($this->createStub(ilDBStatement::class));
+
+        return $db;
+    }
+
+    /**
+     * @return array<string, array{0: bool, 1: bool, 2: bool, 3: string}> handler, constructor, global, winner
+     */
+    public static function databaseSources(): array
+    {
+        return [
+            'handler beats constructor and global' => [true, true, true, 'handler'],
+            'handler beats constructor' => [true, true, false, 'handler'],
+            'handler beats global' => [true, false, true, 'handler'],
+            'constructor beats global' => [false, true, true, 'constructor'],
+            'only constructor' => [false, true, false, 'constructor'],
+            'only global' => [false, false, true, 'global'],
+        ];
+    }
+
+    #[DataProvider('databaseSources')]
+    public function testDatabaseSourcePrecedence(bool $handler, bool $constructor, bool $global, string $winner): void
+    {
+        $dbs = [];
+        foreach (['handler' => $handler, 'constructor' => $constructor, 'global' => $global] as $name => $present) {
+            if ($present) {
+                $dbs[$name] = $this->emptyDatabase($name === $winner);
+            }
+        }
+        if (isset($dbs['global'])) {
+            $GLOBALS['ilDB'] = $dbs['global'];
+        }
+
+        $setup_language = new ilSetupLanguage('en', null, $dbs['constructor'] ?? null);
+        if (isset($dbs['handler'])) {
+            $setup_language->setDbHandler($dbs['handler']);
+        }
+
+        self::assertSame([], $setup_language->getInstalledLanguages());
+    }
+
+    public function testFileBasedMethodsWorkWithoutAnyDatabase(): void
+    {
+        $setup_language = new ilSetupLanguage('en');
+
+        self::assertContainsOnlyString($setup_language->getLocalLanguages());
+        self::assertTrue($setup_language->checkLanguageForInstallation('en'));
+    }
+
+    /**
+     * @return array<string, array{0: Closure(ilSetupLanguage): mixed}>
+     */
+    public static function databaseMethods(): array
+    {
+        return [
+            'repository' => [static fn(ilSetupLanguage $l): array => $l->getInstalledLanguages()],
+            'manager' => [static fn(ilSetupLanguage $l) => $l->insertLanguageForInstallation('en')],
+        ];
+    }
+
+    #[DataProvider('databaseMethods')]
+    public function testDatabaseMethodsWithoutDatabaseThrowLogicException(Closure $call): void
+    {
+        $this->expectException(LogicException::class);
+
+        $call(new ilSetupLanguage('en'));
     }
 
     private function callCheckLanguage(ilSetupLanguage $setup_language, string $lang_key): bool

@@ -45,14 +45,10 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
     private const LANGUAGE_KEY_PATTERN = '[a-z]{2}';
 
     /**
-     * @param \ilDBInterface|\Closure():\ilDBInterface $db Accepted as a closure so this
-     *        can be built once (e.g. in Language.php's DI wiring) before a database
-     *        connection is available, and resolved lazily on first use - mirroring
-     *        the $GLOBALS['ilDB'] ?? $DIC->database() convention used for
-     *        \ILIAS\Language\Activities\InstallLanguage.
+     * @param \ilDBInterface|null $db without one, only the file-based methods work.
      */
     public function __construct(
-        private readonly \ilDBInterface|\Closure $db,
+        private readonly ?\ilDBInterface $db,
         private readonly LanguageFileDirectoryManager $language_file_directory_manager,
         private readonly string $absolute_path,
     ) {
@@ -60,7 +56,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
 
     private function db(): \ilDBInterface
     {
-        return $this->db instanceof \Closure ? ($this->db)() : $this->db;
+        return $this->db ?? throw new \LogicException('No database available for ' . self::class . '.');
     }
 
     public function getInstalledLanguages(): array
