@@ -52,7 +52,7 @@ class ilHTLMMigration implements Migration
     public function step(Environment $environment): void
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT id FROM file_based_lm WHERE rid IS NULL OR rid = '' LIMIT 1;"
+            "SELECT id, startfile FROM file_based_lm WHERE rid IS NULL OR rid = '' LIMIT 1;"
         );
 
         $d = $this->helper->getDatabase()->fetchObject($r);
@@ -61,6 +61,7 @@ class ilHTLMMigration implements Migration
         $resource_owner_id = (int) ($d->owner_id ?? 6); // TODO JOIN
 
         $lm_path = $this->buildBasePath($object_id);
+        $start_file = $this->determineStartFile($lm_path, (string) ($d->startfile ?? ''));
 
         $rid = $this->helper->moveDirectoryToContainerResource(
             $lm_path,
@@ -70,7 +71,10 @@ class ilHTLMMigration implements Migration
         if ($rid !== null) {
             $this->helper->getDatabase()->update(
                 'file_based_lm',
-                ['rid' => ['text', $rid->serialize()]],
+                [
+                    'rid' => ['text', $rid->serialize()],
+                    'startfile' => ['text', $start_file],
+                ],
                 ['id' => ['integer', $object_id],]
             );
 
@@ -82,6 +86,23 @@ class ilHTLMMigration implements Migration
                 ['id' => ['integer', $object_id],]
             );
         }
+    }
+
+    /**
+     * Learning modules without a stored start file relied on a fallback to index.html or
+     * index.htm before the migration. Persist that fallback, the stored start file wins.
+     */
+    protected function determineStartFile(string $lm_path, string $start_file): string
+    {
+        if ($start_file !== '') {
+            return $start_file;
+        }
+        foreach (['index.html', 'index.htm'] as $candidate) {
+            if (is_file($lm_path . '/' . $candidate)) {
+                return $candidate;
+            }
+        }
+        return '';
     }
 
     private function recursiveRmDir(string $path): void
