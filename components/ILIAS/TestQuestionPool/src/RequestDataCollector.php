@@ -178,6 +178,9 @@ class RequestDataCollector implements RequestDataCollectorInterface
         return $this->intArray('category_ids');
     }
 
+    /**
+     * @return array<int|string, list<int>>
+     */
     public function getMatchingPairs(): array
     {
         if (!$this->http->wrapper()->post()->has('matching')) {
@@ -189,9 +192,11 @@ class RequestDataCollector implements RequestDataCollectorInterface
             $this->refinery->byTrying([
                 $this->refinery->container()->mapValues(
                     $this->refinery->custom()->transformation(
-                        fn(string $v): array => $this->refinery->container()->mapValues(
-                            $this->refinery->kindlyTo()->int()
-                        )->transform(json_decode($v))
+                        fn(string $v): array => array_unique(
+                            $this->refinery->container()->mapValues(
+                                $this->refinery->kindlyTo()->int()
+                            )->transform(json_decode($v))
+                        )
                     )
                 ),
                 $this->refinery->always([])
