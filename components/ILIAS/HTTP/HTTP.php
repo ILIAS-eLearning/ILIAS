@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\ComponentJS;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Request\RequestFactory;
@@ -100,5 +102,8 @@ class HTTP implements Component
             $internal[ResponseSenderStrategy::class],
             $internal[DurationFactory::class]
         );
+
+        // postMessage channel for pages talking to content of another origin, see README
+        $contribute[PublicAsset::class] = fn() => new ComponentJS($this, "js/postmessage/dist/postmessage-channel.js");
     }
 }
