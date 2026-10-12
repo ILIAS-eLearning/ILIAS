@@ -55,7 +55,7 @@ class DirectoryPathConfigFromIni implements DirectoryPathConfig
         return $this->data_dir . '/' . $this->client_id;
     }
 
-    public function getCustomizingDirectoyPath(): string
+    public function getCustomizingDirectoryPath(): string
     {
         return $this->absolute_path . '/public/Customizing';
     }

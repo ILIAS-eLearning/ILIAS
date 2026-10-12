@@ -29,7 +29,7 @@ interface DirectoryPathConfig
 
     public function getStorageDirectoryPath(): string;
 
-    public function getCustomizingDirectoyPath(): string;
+    public function getCustomizingDirectoryPath(): string;
 
     public function getNodeModulesDirectoryPath(): string;
 

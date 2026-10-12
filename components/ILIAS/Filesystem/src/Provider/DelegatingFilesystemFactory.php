@@ -90,6 +90,13 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
             default => throw new \InvalidArgumentException("Unknown filesystem interface $fqdn_interface")
         };
 
+        // the code directories are never written to at runtime
+        $read_only = $read_only || in_array(
+            $fqdn_interface,
+            [FilesystemLibs::class, FilesystemNodeModules::class],
+            true
+        );
+
         if ($read_only) {
             return new ReadOnlyDecorator(
                 new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer)

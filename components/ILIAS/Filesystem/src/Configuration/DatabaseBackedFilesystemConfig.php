@@ -84,11 +84,12 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
 
     public function isASCIIConvertionEnabled(): bool
     {
-        return $this->fromSettingsTable(
+        // stored as '1' / '0', enabled unless switched off, as in ILIAS\File\Settings\General
+        return (string) $this->fromSettingsTable(
             self::MODULE_NAME,
             self::F_DOWNLOAD_ASCII_FILENAME,
-            false
-        );
+            '1'
+        ) === '1';
     }
 
     private function getCleaner(): \Closure
