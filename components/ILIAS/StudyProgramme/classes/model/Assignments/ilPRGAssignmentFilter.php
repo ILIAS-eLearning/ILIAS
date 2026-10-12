@@ -38,12 +38,13 @@ class ilPRGAssignmentFilter
 
     public function toConditions(): array
     {
+        global $DIC;
         $conditions = [];
         foreach ($this->getCleanedValues() as $field => $value) {
             switch ($field) {
                 case 'status':
                     if ($value) {
-                        $conditions[] = ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS . '=' . $value;
+                        $conditions[] = ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS . '=' . (int) $value;
                     }
                     break;
                 case 'prg_status_hide_irrelevant':
@@ -51,9 +52,9 @@ class ilPRGAssignmentFilter
                     break;
                 case 'name':
                     $conditions[] = '('
-                        . 'memberdata.firstname LIKE \'%' . $value . '%\' OR' . PHP_EOL
-                        . 'memberdata.lastname LIKE \'%' . $value . '%\' OR' . PHP_EOL
-                        . 'memberdata.login LIKE \'%' . $value . '%\'' . PHP_EOL
+                        . $DIC->database()->like('memberdata.firstname', 'text', '%' . $value . '%') . ' OR' . PHP_EOL
+                        . $DIC->database()->like('memberdata.lastname', 'text', '%' . $value . '%') . ' OR' . PHP_EOL
+                        . $DIC->database()->like('memberdata.login', 'text', '%' . $value . '%') . PHP_EOL
                         . ')';
                     break;
                 case 'invalidated':
