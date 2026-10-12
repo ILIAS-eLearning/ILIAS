@@ -91,6 +91,7 @@ class FileDelivery implements Component
             $use[GlobalHttpState::class],
             $internal[ResponseBuilder::class],
             $internal[PHPResponseBuilder::class],
+            $internal[IsolationConfig::class],
         ));
 
         $internal[FileDeliveryServices::class] = (static fn() => new Services(
