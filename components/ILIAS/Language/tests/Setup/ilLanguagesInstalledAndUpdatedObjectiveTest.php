@@ -62,7 +62,7 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
      */
     private function createDatabaseMock(string $tag, array &$log): ilDBInterface
     {
-        $db = $this->createMock(ilDBInterface::class);
+        $db = $this->createStub(ilDBInterface::class);
         $db->method('quote')->willReturnCallback(static fn(mixed $value): string => "'" . (string) $value . "'");
         $db->method('like')->willReturn('1=1');
         $db->method('now')->willReturn('NOW()');
@@ -73,7 +73,7 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
         });
         $db->method('query')->willReturnCallback(function () use ($tag, &$log) {
             $log[] = $tag;
-            return $this->createMock(ilDBStatement::class);
+            return $this->createStub(ilDBStatement::class);
         });
 
         // A single installed language, then exhausted. $rows must be captured
@@ -120,6 +120,51 @@ class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
 
         $this->assertFalse(isset($GLOBALS['ilDB']), 'the global database must not be (re)created');
         $this->assertSame(['INJECTED'], array_values(array_unique($log)));
+    }
+
+    public function testGetLabelNeedsNoDatabase(): void
+    {
+        unset($GLOBALS['ilDB']);
+        $setup_language = $this->createMock(ilSetupLanguage::class);
+        $setup_language->expects($this->never())->method('getInstalledLanguages');
+
+        $objective = new ilLanguagesInstalledAndUpdatedObjective($setup_language);
+
+        $this->assertSame('Install/Update languages', $objective->getLabel());
+    }
+
+    public function testIsApplicableReadsTheLanguagesForTheLabelFromTheSetupDatabase(): void
+    {
+        $log = [];
+        unset($GLOBALS['ilDB']);
+        $objective = new ilLanguagesInstalledAndUpdatedObjective(new ilSetupLanguage('en'));
+        $environment = new Setup\ArrayEnvironment([
+            Setup\Environment::RESOURCE_DATABASE => $this->createDatabaseMock('INJECTED', $log),
+        ]);
+
+        $this->assertTrue($objective->isApplicable($environment));
+        $this->assertSame('Install/Update languages de', $objective->getLabel());
+        $this->assertSame(['INJECTED'], array_values(array_unique($log)));
+    }
+
+    public function testAchieveReusesTheLanguagesDeterminedInIsApplicable(): void
+    {
+        $setup_language = $this->createMock(ilSetupLanguage::class);
+        $setup_language->expects($this->once())->method('getInstalledLanguages')->willReturn(['de', 'fr']);
+        $install_language = $this->createMock(\ILIAS\Language\Activities\InstallLanguage::class);
+        $install_language->expects($this->once())->method('perform')
+            ->with(['language_keys' => ['de', 'fr'], 'mode' => \ILIAS\Language\Activities\InstallLanguage::MODE_INSTALL]);
+        $update_language = $this->createMock(\ILIAS\Language\Activities\UpdateLanguage::class);
+        $update_language->expects($this->once())->method('perform')->with(['language_keys' => ['de', 'fr']]);
+        $objective = new ilLanguagesInstalledAndUpdatedObjective($setup_language, $install_language, $update_language);
+        $environment = new Setup\ArrayEnvironment([
+            Setup\Environment::RESOURCE_DATABASE => $this->createStub(ilDBInterface::class),
+        ]);
+
+        $objective->isApplicable($environment);
+        $objective->achieve($environment);
+
+        $this->assertSame('Install/Update languages de, fr', $objective->getLabel());
     }
 
     /**

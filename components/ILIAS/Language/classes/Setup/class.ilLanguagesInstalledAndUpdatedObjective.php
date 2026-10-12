@@ -27,6 +27,8 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     protected \ilSetupLanguage $il_setup_language;
     protected InstallLanguage $install_language;
     protected UpdateLanguage $update_language;
+    /** @var list<string>|null */
+    private ?array $install_languages = null;
 
     /**
      * @param InstallLanguage|null $install_language Callers wired through
@@ -68,7 +70,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     protected function getInstallLanguages(): array
     {
-        return $this->il_setup_language->getInstalledLanguages() ?: ['en'];
+        return $this->install_languages ??= $this->il_setup_language->getInstalledLanguages() ?: ['en'];
     }
 
     /**
@@ -76,7 +78,11 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function getLabel(): string
     {
-        return "Install/Update languages " . implode(", ", $this->getInstallLanguages());
+        // No database access here: the Setup CLI calls this before achieve().
+        if ($this->install_languages === null) {
+            return "Install/Update languages";
+        }
+        return "Install/Update languages " . implode(", ", $this->install_languages);
     }
 
     /**
@@ -114,6 +120,13 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function isApplicable(Setup\Environment $environment): bool
     {
+        // Determined here so that getLabel(), shown between isApplicable()
+        // and achieve(), can list the languages.
+        if ($environment->getResource(Setup\Environment::RESOURCE_DATABASE) instanceof \ilDBInterface) {
+            $this->useSetupDatabase($environment);
+            $this->getInstallLanguages();
+        }
+
         return true;
     }
 
