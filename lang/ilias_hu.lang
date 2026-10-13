@@ -11017,11 +11017,6 @@ lm#:#lm_page_added#:#Az oldalt sikeresen hozzáadta.
 lm#:#lm_page_type_lm#:#Tananyagoldal
 lm#:#lm_pages_added#:#Az oldalakat sikeresen hozzáadta.
 lm#:#lm_save_titles#:#A címeket sikeresen mentette.
-lng#:#language_detection#:#Nyelvfelismerés
-lng#:#lng_disable_language_detection#:#Nyelvfelismerés tiltása
-lng#:#lng_download_deprecated#:#Elavultak listájának letöltése
-lng#:#lng_enable_language_detection#:#Nyelvfelismerés engedélyezése
-lng#:#lng_switch_language_detection#:#Nyelvfelismerés váltása
 log#:#log_browser#:#Böngésző konzolnaplózása
 log#:#log_browser_users#:#Felhasználónevek használata a konzolnaplózásban
 log#:#log_cache_#:#Gyorsítótárazás

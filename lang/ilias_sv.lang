@@ -10941,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###21 11 2023 new variable
 lm#:#lm_page_type_lm#:#sida för utbildningsmodul
 lm#:#lm_pages_added#:#Pages have been added.###21 11 2023 new variable
 lm#:#lm_save_titles#:#Titlar har sparats.
-lng#:#language_detection#:#Automatisk taligenkänning
-lng#:#lng_disable_language_detection#:#Avaktivera automatisk taligenkänning
-lng#:#lng_download_deprecated#:#Ladda ner obsoleta poster
-lng#:#lng_enable_language_detection#:#Aktivera automatisk taligenkänning
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Konsol Logg
 log#:#log_browser_users#:#Aktiverade användare för webbläsarlogg
 log#:#log_cache_#:#Caching

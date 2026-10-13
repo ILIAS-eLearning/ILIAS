@@ -10994,11 +10994,6 @@ lm#:#lm_page_added#:#La página ha sido añadida.
 lm#:#lm_page_type_lm#:#Página de ML
 lm#:#lm_pages_added#:#Las páginas han sido añadidas.
 lm#:#lm_save_titles#:#Títulos guardados.
-lng#:#language_detection#:#Detección de idioma
-lng#:#lng_disable_language_detection#:#Desactivar detección de idioma
-lng#:#lng_download_deprecated#:#Descargar lista de obsoletos
-lng#:#lng_enable_language_detection#:#Activar detección de idioma
-lng#:#lng_switch_language_detection#:#Cambiar detección de idioma
 log#:#log_browser#:#Registro de consola del navegador
 log#:#log_browser_users#:#Nombres de usuario utilizando el registro de consola
 log#:#log_cache_#:#Almacenamiento en caché

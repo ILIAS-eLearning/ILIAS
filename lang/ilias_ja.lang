@@ -10971,11 +10971,6 @@ lm#:#lm_page_added#:#ページが追加されました。
 lm#:#lm_page_type_lm#:#LMページ
 lm#:#lm_pages_added#:#ページが追加されました。
 lm#:#lm_save_titles#:#タイトルは保存されました。
-lng#:#language_detection#:#言語検知
-lng#:#lng_disable_language_detection#:#言語検知を無効化
-lng#:#lng_download_deprecated#:#ダウンロード非推奨リスト
-lng#:#lng_enable_language_detection#:#言語検知を有効化
-lng#:#lng_switch_language_detection#:#言語検知を切り替える
 log#:#log_browser#:#ブラウザコンソールログ
 log#:#log_browser_users#:#コンソールログ使用中のユーザ名
 log#:#log_cache_#:#キャッシング

@@ -10941,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Titles saved.###23 10 2017 new variable
-lng#:#language_detection#:#Language Detection###29 07 2022 new variable
-lng#:#lng_disable_language_detection#:#Disable Language Detection###30 08 2015 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###07 02 2017 new variable
-lng#:#lng_enable_language_detection#:#Enable Language Detection###30 08 2015 new variable
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Console Log###30 08 2015 new variable
 log#:#log_browser_users#:#Usernames Using Console Log###30 08 2015 new variable
 log#:#log_cache_#:#Caching###30 08 2015 new variable

@@ -10941,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Naslovi so bili shranjeni.
-lng#:#language_detection#:#Language Detection###19 08 2022 new variable
-lng#:#lng_disable_language_detection#:#Onemogoči samodejno zaznavanje jezika
-lng#:#lng_download_deprecated#:#Prenesi zastarele vnose
-lng#:#lng_enable_language_detection#:#Aktiviraj samodejno zaznavanje jezika
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Console Log
 log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_cache_#:#Caching

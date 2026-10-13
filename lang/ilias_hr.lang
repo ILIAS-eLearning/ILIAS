@@ -10941,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###04 06 2021 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Naslovi spremljeni.
-lng#:#language_detection#:#Language Detection###04 06 2021 new variable
-lng#:#lng_disable_language_detection#:#Onemogući otkrivanje jezika
-lng#:#lng_download_deprecated#:#Preuzmi zastarjeli popis
-lng#:#lng_enable_language_detection#:#Omogući otkrivanje jezika
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Console Log
 log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_cache_#:#Caching

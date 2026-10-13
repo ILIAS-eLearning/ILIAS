@@ -10928,11 +10928,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Titres sauvegardés.
-lng#:#language_detection#:#Détection de la langue
-lng#:#lng_disable_language_detection#:#Désactiver la Détection de la Langue
-lng#:#lng_download_deprecated#:#Télécharger la liste obsolète
-lng#:#lng_enable_language_detection#:#Activer la détection de la langue
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Journal de console du navigateur
 log#:#log_browser_users#:#Noms d’utilisateurs utilisant le journal de console
 log#:#log_cache_#:#Mise en cache
