@@ -9325,38 +9325,6 @@ file#:#upload_info#:#File
 file#:#upload_info_desc#:#Gestisci Upload e versioni nella scheda "Versioni"
 file#:#version_uploaded#:#Version uploaded###09 03 2022 new variable
 file#:#versionname#:#Title###09 03 2022 new variable
-fils#:#add_upload_policy#:#Add Policy###30 04 2024 new variable
-fils#:#edit_upload_policy#:#Edit Policy###30 04 2024 new variable
-fils#:#file_services#:#File Services
-fils#:#file_services_description#:#Configuration of File Service Settings.
-fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
-fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.
-fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)
-fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.
-fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Adaptations)
-fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.
-fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)
-fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
-fils#:#file_suffix_overall_positive#:#Overall Positive List
-fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
-fils#:#policy_audience#:#Audience###30 04 2024 new variable
-fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.###30 04 2024 new variable
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.###30 04 2024 new variable
-fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:###30 04 2024 new variable
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.###30 04 2024 new variable
-fils#:#policy_deletion_successful#:#Deletion of policy was successful.###30 04 2024 new variable
-fils#:#policy_filter#:#Policy Filter###30 04 2024 new variable
-fils#:#policy_no_validity_limitation_set#:#Valid indefinitely###30 04 2024 new variable
-fils#:#policy_scope#:#Scope###30 04 2024 new variable
-fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.###30 04 2024 new variable
-fils#:#policy_title_desc#:#Descriptive title for the policy.###30 04 2024 new variable
-fils#:#policy_upload_limit#:#Upload Limit###30 04 2024 new variable
-fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.###30 04 2024 new variable
-fils#:#policy_valid_until#:#Valid Until###30 04 2024 new variable
-fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.###30 04 2024 new variable
-fils#:#policy_validity#:#Validity###30 04 2024 new variable
-fils#:#upload_limits#:#Upload Limits###30 04 2024 new variable
-fils#:#upload_policies#:#Upload Policies###30 04 2024 new variable
 fold#:#fold_copy#:#Copia cartella
 fold#:#fold_import#:#Importa Cartella
 fold#:#fold_presentation#:#Presentazione cartella

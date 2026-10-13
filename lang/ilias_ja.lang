@@ -9329,38 +9329,6 @@ file#:#upload_info#:#ファイルをアップロード
 file#:#upload_info_desc#:#アップロードと"バージョン"タブの版数を管理
 file#:#version_uploaded#:#バージョンがuploadされました
 file#:#versionname#:#タイトル
-fils#:#add_upload_policy#:#ポリシーを追加
-fils#:#edit_upload_policy#:#ポリシーを編集
-fils#:#file_services#:#ファイルサービス
-fils#:#file_services_description#:#ファイルサービス設定の構成
-fils#:#file_suffix_custom_expl_negative#:#禁止のファイル拡張子
-fils#:#file_suffix_custom_expl_negative_info#:#これらの拡張子ファイルはuploadできません。
-fils#:#file_suffix_custom_negative#:#ファイル拡張子: Negative List (Adaptations)
-fils#:#file_suffix_custom_negative_info#:#これらの拡張子はpositiveリストから削除されます。
-fils#:#file_suffix_custom_positive#:#ファイル拡張子: Positive List (Adaptations)
-fils#:#file_suffix_custom_positive_info#:#これらの拡張子はpositiveリストへ追加されます。
-fils#:#file_suffix_default_positive#:#ファイル拡張子: Positive List (Default List)
-fils#:#file_suffix_default_positive_info#:#承認済ファイル拡張子既定のプリセットリスト
-fils#:#file_suffix_overall_positive#:#Positive List全体
-fils#:#file_suffix_overall_positive_info#:#これは最終の承認済ファイルリストです。
-fils#:#policy_audience#:#視聴者
-fils#:#policy_audience_all_users_option_desc#:#全ユーザへポリシーを適用
-fils#:#policy_audience_global_roles_option_desc#:#特殊グローバル役割を持つユーザ用のポリシーを適用
-fils#:#policy_confirm_deletion#:#次のプロパティのポリシーを本当に削除しますか?
-fils#:#policy_deletion_failure_not_found#:#エラー: ポリシーが見つからないので削除失敗
-fils#:#policy_deletion_successful#:#ポリシーを正しく削除しました。
-fils#:#policy_filter#:#ポリシーフィルター
-fils#:#policy_no_validity_limitation_set#:#無期限有効
-fils#:#policy_scope#:#範囲
-fils#:#policy_table_info_no_policies#:#アップロードされたポリシーがまだ作成されていません。
-fils#:#policy_title_desc#:#ポリシーの説明タイトル
-fils#:#policy_upload_limit#:#アップロード制限
-fils#:#policy_upload_limit_desc#:#このポリシーで設定されたアップロード制限(MB表示)
-fils#:#policy_valid_until#:#有効期限
-fils#:#policy_valid_until_desc#:#ポリシーが切れた後の'有効期限'オプション設定
-fils#:#policy_validity#:#有効性
-fils#:#upload_limits#:#アップロード制限
-fils#:#upload_policies#:#アップロードポリシー
 fold#:#fold_copy#:#フォルダを表示コピー
 fold#:#fold_import#:#インポートフォルダ
 fold#:#fold_presentation#:#フォルダープレゼンテ－ション

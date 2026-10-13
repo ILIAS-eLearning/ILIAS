@@ -31,6 +31,8 @@ use ILIAS\FileServices\Upload\FileServicesPreProcessor;
 use ILIAS\Filesystem\Configuration\FilesystemConfig;
 use ILIAS\FileServices\Policy\UploadRestrictionBypass;
 use ILIAS\FileServices\Policy\UploadRestrictionBypassLegacyProxy;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class FileServices implements Component
 {
@@ -58,5 +60,9 @@ class FileServices implements Component
 
         $contribute[PreProcessor::class] = static fn() =>
             new FileServicesPreProcessor($use[FilesystemConfig::class]);
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'fils'
+        );
     }
 }

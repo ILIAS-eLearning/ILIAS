@@ -9358,38 +9358,6 @@ file#:#upload_info#:#Archivo
 file#:#upload_info_desc#:#Las subidas y versiones pueden gestionarse en la pestaña 'Versiones'.
 file#:#version_uploaded#:#Versión subida
 file#:#versionname#:#Título
-fils#:#add_upload_policy#:#Añadir política
-fils#:#edit_upload_policy#:#Editar política
-fils#:#file_services#:#Servicios de archivos
-fils#:#file_services_description#:#Configuración de los ajustes del servicio de archivos.
-fils#:#file_suffix_custom_expl_negative#:#Sufijos de archivo prohibidos
-fils#:#file_suffix_custom_expl_negative_info#:#Los archivos con estos sufijos no se aceptarán para la subida.
-fils#:#file_suffix_custom_negative#:#Sufijos de archivo: Lista negativa (adaptaciones)
-fils#:#file_suffix_custom_negative_info#:#Estos sufijos de archivo se eliminarán de la lista positiva.
-fils#:#file_suffix_custom_positive#:#Sufijos de archivo: Lista positiva (adiciones)
-fils#:#file_suffix_custom_positive_info#:#Estos sufijos de archivo se añadirán a la lista positiva.
-fils#:#file_suffix_default_positive#:#Sufijos de archivo: Lista positiva (lista por defecto)
-fils#:#file_suffix_default_positive_info#:#Lista predeterminada de sufijos de archivo aceptados.
-fils#:#file_suffix_overall_positive#:#Lista positiva global
-fils#:#file_suffix_overall_positive_info#:#Esta es la lista final de sufijos de archivo aceptados.
-fils#:#policy_audience#:#Grupo objetivo
-fils#:#policy_audience_all_users_option_desc#:#Aplicar política a todos los usuarios.
-fils#:#policy_audience_global_roles_option_desc#:#Aplicar política a usuarios con roles globales específicos.
-fils#:#policy_confirm_deletion#:#¿Está seguro de que desea eliminar la política con las siguientes propiedades?:
-fils#:#policy_deletion_failure_not_found#:#Error: La eliminación falló porque no se pudo encontrar la política.
-fils#:#policy_deletion_successful#:#Política eliminada con éxito.
-fils#:#policy_filter#:#Filtro de políticas
-fils#:#policy_no_validity_limitation_set#:#Válido indefinidamente
-fils#:#policy_scope#:#Alcance
-fils#:#policy_table_info_no_policies#:#Aún no se han creado políticas de carga.
-fils#:#policy_title_desc#:#Título descriptivo para esta política.
-fils#:#policy_upload_limit#:#Límite de carga
-fils#:#policy_upload_limit_desc#:#Límite de carga (en MB) impuesto por esta política.
-fils#:#policy_valid_until#:#Válido hasta
-fils#:#policy_valid_until_desc#:#Establezca una fecha opcional de 'válido hasta', después de la cual la política expira.
-fils#:#policy_validity#:#Validez
-fils#:#upload_limits#:#Límites de carga
-fils#:#upload_policies#:#Políticas de carga
 fold#:#fold_copy#:#Copiar carpeta
 fold#:#fold_import#:#Importar carpeta
 fold#:#fold_presentation#:#Presentación de la carpeta

@@ -9323,38 +9323,6 @@ file#:#upload_info#:#Datoteka
 file#:#upload_info_desc#:#Datoteke in različice datotek lahko upravljate v zavihku "Različice".
 file#:#version_uploaded#:#Version uploaded###19 08 2022 new variable
 file#:#versionname#:#Title###19 08 2022 new variable
-fils#:#add_upload_policy#:#Add Policy###26 08 2024 new variable
-fils#:#edit_upload_policy#:#Edit Policy###26 08 2024 new variable
-fils#:#file_services#:#File Services###19 08 2022 new variable
-fils#:#file_services_description#:#Configuration of File Service Settings.###19 08 2022 new variable
-fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes###19 08 2022 new variable
-fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.###19 08 2022 new variable
-fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)###19 08 2022 new variable
-fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.###19 08 2022 new variable
-fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Adaptations)###19 08 2022 new variable
-fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.###19 08 2022 new variable
-fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)###19 08 2022 new variable
-fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.###19 08 2022 new variable
-fils#:#file_suffix_overall_positive#:#Overall Positive List###19 08 2022 new variable
-fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.###19 08 2022 new variable
-fils#:#policy_audience#:#Target Group###26 08 2024 new variable
-fils#:#policy_audience_all_users_option_desc#:#Apply policy to all users.###26 08 2024 new variable
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy to users with specific global roles.###26 08 2024 new variable
-fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:###26 08 2024 new variable
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed because policy could not be found.###26 08 2024 new variable
-fils#:#policy_deletion_successful#:#Policy successfully deleted.###26 08 2024 new variable
-fils#:#policy_filter#:#Policy Filter###26 08 2024 new variable
-fils#:#policy_no_validity_limitation_set#:#Valid indefinitely###26 08 2024 new variable
-fils#:#policy_scope#:#Scope###26 08 2024 new variable
-fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.###26 08 2024 new variable
-fils#:#policy_title_desc#:#Descriptive title for this policy.###26 08 2024 new variable
-fils#:#policy_upload_limit#:#Upload Limit###26 08 2024 new variable
-fils#:#policy_upload_limit_desc#:#Upload limit (in MB) imposed by this policy.###26 08 2024 new variable
-fils#:#policy_valid_until#:#Valid Until###26 08 2024 new variable
-fils#:#policy_valid_until_desc#:#Set an optional ‘valid until’ date, after which the policy expires.###26 08 2024 new variable
-fils#:#policy_validity#:#Validity###26 08 2024 new variable
-fils#:#upload_limits#:#Upload Limits###26 08 2024 new variable
-fils#:#upload_policies#:#Upload Policies###26 08 2024 new variable
 fold#:#fold_copy#:#Kopiraj mapo
 fold#:#fold_import#:#Uvozi mapo
 fold#:#fold_presentation#:#Prikaz
