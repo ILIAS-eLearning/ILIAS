@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tstv\n"
+
+#, fuzzy
+msgid "tstv_create"
+msgstr "Create Test Verification"
+
+#, fuzzy
+msgid "tstv_create_info"
+msgstr "Select a completed test to generate a verification for it"

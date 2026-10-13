@@ -15610,8 +15610,6 @@ trac#:#view_mode_all#:#All###29 10 2025 new variable
 trac#:#view_mode_current#:#Current###29 10 2025 new variable
 trac#:#view_mode_future#:#Future###29 10 2025 new variable
 trac#:#view_mode_past#:#Past###29 10 2025 new variable
-tstv#:#tstv_create#:#Créer Certificat de Test
-tstv#:#tstv_create_info#:#Choisir un test terminé pour générer un cetificat
 ui#:#1stars#:#one of five stars###26 08 2024 new variable
 ui#:#2stars#:#two of five stars###26 08 2024 new variable
 ui#:#3stars#:#three of five stars###26 08 2024 new variable

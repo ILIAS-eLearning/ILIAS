@@ -15787,8 +15787,6 @@ trac#:#view_mode_all#:#Alle
 trac#:#view_mode_current#:#Aktuelle
 trac#:#view_mode_future#:#Zukünftige
 trac#:#view_mode_past#:#Vergangene
-tstv#:#tstv_create#:#Testzertifikat erstellen
-tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen.
 ui#:#1stars#:#einer von fünf Sternen
 ui#:#2stars#:#zwei von fünf Sternen
 ui#:#3stars#:#drei von fünf Sternen
