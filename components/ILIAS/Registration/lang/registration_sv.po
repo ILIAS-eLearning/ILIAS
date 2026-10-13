@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Access från registreringsdatum för"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Tillgången är begränsad fram till"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Vänligen välj typ av åtkomstperiod för alla roller."
+
+msgid "reg_access_limitation_mode"
+msgstr "Typ av tidsbegränsning för åtkomst"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "Temporärt tillträde med fastställt slutdatum"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Giltig tills"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Begränsad åtkomstperiod från registreringsdatum"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Giltig för"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Utan tidsbegränsning för åtkomst"
+
+msgid "reg_access_limitation_none"
+msgstr "obegränsad tillgång"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "För en eller flera roller har tidsfristen för tillträde redan löpt ut!"
+
+msgid "reg_access_limitations"
+msgstr "Term of access"
+
+msgid "reg_add_assignment"
+msgstr "Nytt uppdrag"
+
+msgid "reg_added_assignment"
+msgstr "Ett nytt uppdrag skapades."
+
+msgid "reg_allow_codes"
+msgstr "Tillåt Koder"
+
+msgid "reg_allow_codes_info"
+msgstr "Användare kan dessutom registrera sig med koder."
+
+msgid "reg_allowed_domains"
+msgstr "Tillåtna domäner för e-postadresser"
+
+msgid "reg_allowed_domains_info"
+msgstr "Använd * som jokertecken och ; som separator. Till exempel \"*@ilias.de\".  Registreringskoder upphäver denna kontroll."
+
+msgid "reg_approve"
+msgstr "Ny registrering med verifiering"
+
+msgid "reg_approve_info"
+msgstr "Alla nyregistrerade användare måste aktiveras av en administratör."
+
+msgid "reg_approve_needs_recipient"
+msgstr "För registreringstypen \"Registrering med verifiering\" ska minst en användare definieras som kommer att meddelas om nya registreringar."
+
+msgid "reg_available_roles"
+msgstr "Tillgängliga roller"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Giltighetstid"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "Bekräftelselänken är inte längre giltig. Vänligen registrera dig igen!"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Ange giltighetstiden för bekräftelselänken (i sekunder). Rekommenderat värde är 1800 sekunder."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Den här bekräftelselänken matchar inte något ILIAS-konto."
+
+msgid "reg_confirmation_hash_not_passed"
+msgstr "Bekräftelselänken är inte fullständig."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Du har framgångsrikt registrerat dig hos ILIAS. Nu måste du fortfarande aktivera ditt ILIAS-konto. Du har just fått ett e-postmeddelande med en bekräftelselänk. Vänligen klicka på bekräftelselänken inom de närmaste minuterna för att aktivera ditt ILIAS-k"
+
+msgid "reg_default"
+msgstr "Standard"
+
+msgid "reg_deleted_assignment"
+msgstr "Uppdragen har tagits bort."
+
+msgid "reg_direct"
+msgstr "Direkt registrering"
+
+msgid "reg_direct_info"
+msgstr "Om den är påslagen aktiveras alla nyregistrerade användare automatiskt."
+
+msgid "reg_disabled"
+msgstr "Ingen registrering möjlig"
+
+msgid "reg_domain"
+msgstr "domän (t.ex. \"@din_domän.de\")"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "Automatisk rolltilldelning"
+
+msgid "reg_email_domains"
+msgstr "Följande domäner för e-postadresser är giltiga"
+
+msgid "reg_email_domains_code"
+msgstr "När du använder en kod är alla e-postadresser möjliga."
+
+msgid "reg_email_role_assignment"
+msgstr "Rolltilldelning via e-postadress"
+
+msgid "reg_fixed"
+msgstr "Val från fördefinierad lista"
+
+msgid "reg_info_pwd"
+msgstr "Om den är påslagen tilldelas och skickas ett automatiskt genererat lösenord till nyinloggade användare."
+
+msgid "reg_mail_body_activation"
+msgstr "För att aktivera ditt konto, vänligen klicka på följande länk"
+
+msgid "reg_mail_body_approve"
+msgstr "Du har redan registrerat dig på eLearning-plattformen och fått ett e-postmeddelande med dina åtkomstuppgifter. Nu har din åtkomst aktiverats av din administratör. Om du har några frågor eller problem, vänligen kontakta honom / henne via e-post."
+
+msgid "reg_mail_body_confirmation"
+msgstr "För att aktivera ILIAS-kontot måste du aktivera det i"
+
+msgid "reg_mail_body_profile"
+msgstr "Profiluppgifter"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "Dina profildata har ändrats."
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Din åtkomst måste dock fortfarande aktiveras av administratören. När detta har gjorts kommer du att få ett bekräftelsemeddelande."
+
+msgid "reg_mail_body_reason"
+msgstr "Du får detta mail eftersom aviseringen av nya inloggningskonton är aktiverad för dig i administrationen."
+
+msgid "reg_mail_body_timelimit"
+msgstr "Din tillgång är begränsad i tid"
+
+msgid "reg_mail_new_user"
+msgstr "Ny användarinloggning"
+
+msgid "reg_mail_new_user_body"
+msgstr "En ny användare har loggat in."
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Förfrågan om att verifiera ansökan"
+
+msgid "reg_missing_domain"
+msgstr "Vänligen fyll i alla nödvändiga fält."
+
+msgid "reg_missing_role"
+msgstr "Vänligen fyll i alla nödvändiga fält."
+
+msgid "reg_notification"
+msgstr "Notifieringar"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "reg_notification_info"
+msgstr "Ange här ett eller flera inloggningsnamn (åtskilda av kommatecken) som ska meddelas via e-post när en ny inloggning tas emot."
+
+msgid "reg_role_access_limitations"
+msgstr "Sätt åtkomstperioder för roller"
+
+msgid "reg_role_assignment"
+msgstr "Rolltilldelning"
+
+msgid "reg_role_info"
+msgstr "Rolls"
+
+msgid "reg_select_one"
+msgstr "Vänligen gör ett urval."
+
+msgid "reg_selectable_roles"
+msgstr "Valbara roller"
+
+msgid "reg_settings_header"
+msgstr "Inställningar"
+
+msgid "reg_type"
+msgstr "Typ av registrering"
+
+msgid "reg_type_confirmation"
+msgstr "Registrera med e-postbekräftelse"
+
+msgid "reg_type_confirmation_info"
+msgstr "Med denna registreringsmetod får den nya användaren först en bekräftelselänk via e-post. Om detta bekräftas aktiveras ILIAS-kontot automatiskt."
+
+msgid "reg_unknown_recipients"
+msgstr "Följande användare är inte giltiga"
+
+msgid "registration_code"
+msgstr "Kod"
+
+msgid "registration_code_not_valid"
+msgstr "Den angivna registreringskoden är ogiltig eller har redan använts."
+
+msgid "registration_code_optional_info"
+msgstr "Om du har en ILIAS-registreringskod kan du ange den här."
+
+msgid "registration_code_required_info"
+msgstr "En ILIAS-registreringskod krävs för framgångsrik registrering."
+
+msgid "registration_code_role_info"
+msgstr "Vid användning av en registreringskod kan detta val skrivas över."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Alla"
+
+msgid "registration_codes_add"
+msgstr "Skapa koder"
+
+msgid "registration_codes_edit_header"
+msgstr "Skapa nya koder"
+
+msgid "registration_codes_export"
+msgstr "Exportkoder"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Ingen fördefinierad tilldelad roll"
+
+msgid "registration_codes_number"
+msgstr "Antal koder"
+
+msgid "registration_codes_override_global_info"
+msgstr "Dessa inställningar kan åsidosättas av registreringskoder."
+
+msgid "registration_codes_override_info"
+msgstr "Den här inställningen har prioritet över alla andra motsvarande registerinställningar."
+
+msgid "registration_codes_roles"
+msgstr "Global roll"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Ingen fördefinierad åtkomstperiod"
+
+msgid "registration_codes_roles_local"
+msgstr "Lokal(a) roll(er)"
+
+msgid "registration_codes_roles_title"
+msgstr "Roll för nya ILIAS-konton"
+
+msgid "registration_codes_type"
+msgstr "Kod typ"
+
+msgid "registration_codes_type_ext"
+msgstr "Förnyelse av tillfälliga inloggningskonton"
+
+msgid "registration_codes_type_ext_info"
+msgstr "Koden kan användas för att förnya tillfälliga inloggningskonton."
+
+msgid "registration_codes_type_reg"
+msgstr "Registreringskod"
+
+msgid "registration_codes_type_reg_info"
+msgstr "Koden kan användas för att registrera nya inloggningskonton."
+
+msgid "registration_disabled_no_access"
+msgstr "Självregistrering är inte aktiverat. Kontakta en systemadministratör för ytterligare hjälp"
+
+msgid "registration_export_codes_no_data"
+msgstr "Inga koder valdes för export."
+
+msgid "registration_generated"
+msgstr "Skapad på"
+
+msgid "registration_generated_all"
+msgstr "Alla datum"
+
+msgid "registration_no_valid_role"
+msgstr "För närvarande finns ingen roll definierad för registreringar. Vänligen kontakta systemadministratören."
+
+msgid "registration_reg_type_codes"
+msgstr "Registrera med koder"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Med denna registreringsmetod behöver den nya användaren en giltig kod."
+
+msgid "registration_roles_all"
+msgstr "Alla roller"
+
+msgid "registration_settings"
+msgstr "ILIAS-Auth / Självregistrering"
+
+msgid "registration_tab_codes"
+msgstr "Registreringskoder"
+
+msgid "registration_tab_settings"
+msgstr "Inställningar"
+
+msgid "registration_used"
+msgstr "Konsumeras på"
+
+msgid "registration_user_new_account_mail"
+msgstr "Redigera meddelande om ny registrering"

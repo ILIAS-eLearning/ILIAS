@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Için kayıt erişim sonra"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Erişim kadar sınırlıdır"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Lütfen tüm roller için bir Erişim Sınırlama Modu seçin"
+
+msgid "reg_access_limitation_mode"
+msgstr "Erişim Sınırlama Modu"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "erişim sabit bir tarihi ile sınırlıdır"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Valid until"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Kayıttan sonra sabit bir süre için Sınırlı erişim"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Valid for"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Hayır erişim kısıtlaması"
+
+msgid "reg_access_limitation_none"
+msgstr "sınırsız erişim"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Bir veya daha fazla roller köhne bir erişim kısıtlaması var!"
+
+msgid "reg_access_limitations"
+msgstr "Erişim Sınırlaması"
+
+msgid "reg_add_assignment"
+msgstr "Yeni Atama"
+
+msgid "reg_added_assignment"
+msgstr "yeni atama eklendi."
+
+msgid "reg_allow_codes"
+msgstr "Kodları İzin"
+
+msgid "reg_allow_codes_info"
+msgstr "Kullanıcılar ayrıca kodları aracılığıyla kayıt yaptırabilirler."
+
+msgid "reg_allowed_domains"
+msgstr "Veriliyor E-posta Adresi Etki"
+
+msgid "reg_allowed_domains_info"
+msgstr "kullanımlar * işaretini joker olarak ve; ayırıcı olarak."
+
+msgid "reg_approve"
+msgstr "App rovement ile Kayıt"
+
+msgid "reg_approve_info"
+msgstr "Eğer işaretli ise herhangi bir yeni kullanıcı kaydı bir yönetici tarafından onaylanması gerekiyor."
+
+msgid "reg_approve_needs_recipient"
+msgstr "kayıt türü \"approvement ile Kayıt\" seçilirse, yeni kayıtlar haberdar edilecektir, asgari bir kullanıcı tanımlamanız gerekir."
+
+msgid "reg_available_roles"
+msgstr "Mevcut Roller:"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Ömür"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "onay bağlantısı artık geçerli değil. Tekrar kayıt olun!"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "onay bağlantılar ömrü (saniye) girin. Önerilen değer 1800 saniyedir."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Hiçbir kullanıcı hesabı, bu onay linki eşleştirilir olabilir."
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "başarıyla ILIAS bir hesap talebini sundu. Bir sonraki dakika içinde bir onay e-postası alacaksınız. Bu posta. <br Içinde onay linkine tıklayarak kaydınızı onaylayın /> Sen <a yönlendirileceksiniz href=\"%s\" title=\"login screen\"> giriş ekranı </ a> 20 saniye sonra."
+
+msgid "reg_default"
+msgstr "Standart"
+
+msgid "reg_deleted_assignment"
+msgstr "Silinmiş atama (ler)."
+
+msgid "reg_direct"
+msgstr "Doğrudan Kayıt"
+
+msgid "reg_direct_info"
+msgstr "Bu seçili ise, herhangi bir yeni kullanıcı kaydı isteği otomatik olarak onaylanır."
+
+msgid "reg_disabled"
+msgstr "Kayıt Kapalı"
+
+msgid "reg_domain"
+msgstr "Domain"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "Otomatik Rol Atama"
+
+msgid "reg_email_domains"
+msgstr "Aşağıdaki e-posta adresi etki geçerli:% s"
+
+#, fuzzy
+msgid "reg_email_domains_code"
+msgstr "With a registration code any E-Mail-Address is valid."
+
+msgid "reg_email_role_assignment"
+msgstr "Domain By Rol Atama"
+
+msgid "reg_fixed"
+msgstr "Belirtilen Listesinden Seçimi"
+
+msgid "reg_info_pwd"
+msgstr "etkinlestirilirse şifreleri E-Posta başına yeni kullanıcılar için otomatik olarak gönderilecektir."
+
+#, fuzzy
+msgid "reg_mail_body_activation"
+msgstr "to activate your account and confirm ownership of this email address, click the link below:"
+
+msgid "reg_mail_body_approve"
+msgstr "Zaten ILIAS eLearning kayıtlı ve hesap verilerini içeren bir e-posta aldım. Şimdi Hesabınız bir yönetici tarafından aktive edilmiştir."
+
+msgid "reg_mail_body_confirmation"
+msgstr "Bu kayıt ILIAS kullanıcı yönetimi girip hesabını etkinleştirmek onaylamak için."
+
+msgid "reg_mail_body_profile"
+msgstr "profil veri:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "Profil değişti!"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Hesabınız isteği bir yönetici tarafından gözden geçirilecek ve 48 saat içinde aktive olmalıdır. Siz e-posta ile approvement haberdar edilecektir."
+
+msgid "reg_mail_body_reason"
+msgstr "Yeni kayıtlar hakkında bildirimler ILIAS yönetiminde hesabınız için etkin olduğundan Sen ILIAS posta alacak."
+
+#, fuzzy
+msgid "reg_mail_body_timelimit"
+msgstr "Your account has a limited period of validity: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Yeni kullanıcı kaydı"
+
+msgid "reg_mail_new_user_body"
+msgstr "yeni bir kullanıcı tescil edilmiştir."
+
+#, fuzzy
+msgid "reg_mail_new_user_confirmation"
+msgstr "Request for account confirmation"
+
+msgid "reg_missing_domain"
+msgstr "tüm alanları doldurun."
+
+msgid "reg_missing_role"
+msgstr "tüm alanları doldurun."
+
+msgid "reg_notification"
+msgstr "Bildirimler"
+
+msgid "reg_notification_info"
+msgstr "E-posta başına yeni kullanıcı kaydı hakkında bilgi sahibi olan kullanıcılar bir veya daha fazla giriş-Kimlikleri (virgülle ayrılmış) girin."
+
+msgid "reg_role_access_limitations"
+msgstr "Yeni Kayıtlı Kullanıcılar için Rollerin erişim sınırlamaları tanımlayın"
+
+msgid "reg_role_assignment"
+msgstr "Rol Atama"
+
+msgid "reg_role_info"
+msgstr "Atanan Roller"
+
+msgid "reg_select_one"
+msgstr "bir giriş seçin."
+
+msgid "reg_selectable_roles"
+msgstr "Seçilebilir Rolleri"
+
+msgid "reg_settings_header"
+msgstr "Yeni Kayıt Ayarları"
+
+msgid "reg_type"
+msgstr "Kayıt Tipi"
+
+msgid "reg_type_confirmation"
+msgstr "E-Mail Onay ile Kayıt"
+
+msgid "reg_type_confirmation_info"
+msgstr "Bu tip kullanıcıların kendi kendine kayıt verir ama hesabını etkinleştirmek için bir e-posta onayı gerektirir. Bu yanlış ya da var olmayan e-posta adresleri ile ILIAS için kendi kendine kayıt önler."
+
+msgid "reg_unknown_recipients"
+msgstr "Aşağıdaki girişler geçerli değildir:"
+
+msgid "registration_code"
+msgstr "Kodu"
+
+msgid "registration_code_not_valid"
+msgstr "verilen kayıt kodu geçersiz veya zaten kullanılmış olmasıdır."
+
+msgid "registration_code_optional_info"
+msgstr "Bir kayıt kodu var ise, buraya girin."
+
+msgid "registration_code_required_info"
+msgstr "A önceden tanımlanmış kod kayıt işlemi için zorunludur."
+
+msgid "registration_code_role_info"
+msgstr "Bir kayıt kodu kullanırsanız, rol seçimi kod geçebilir."
+
+#, fuzzy
+msgid "registration_codes_access_limitation_all"
+msgstr "All"
+
+msgid "registration_codes_add"
+msgstr "Kod Ekle"
+
+msgid "registration_codes_edit_header"
+msgstr "Kod Ekle"
+
+msgid "registration_codes_export"
+msgstr "Kodları Dışarı Aktar"
+
+#, fuzzy
+msgid "registration_codes_no_assigned_role"
+msgstr "No Predefined Assigned Role"
+
+msgid "registration_codes_number"
+msgstr "Kod Sayısı"
+
+#, fuzzy
+msgid "registration_codes_override_global_info"
+msgstr "These settings may be overridden by registration codes."
+
+#, fuzzy
+msgid "registration_codes_override_info"
+msgstr "This setting overrides any values defined in \"Registration Settings\"."
+
+msgid "registration_codes_roles"
+msgstr "Yeni Hesaplar için Rolü"
+
+#, fuzzy
+msgid "registration_codes_roles_limitation_none"
+msgstr "No Predefined Access Limitation"
+
+#, fuzzy
+msgid "registration_codes_roles_local"
+msgstr "Local Role(s) "
+
+#, fuzzy
+msgid "registration_codes_roles_title"
+msgstr "Role for New Accounts"
+
+#, fuzzy
+msgid "registration_codes_type"
+msgstr "Code Type"
+
+#, fuzzy
+msgid "registration_codes_type_ext"
+msgstr "Extension of limited user accounts"
+
+#, fuzzy
+msgid "registration_codes_type_ext_info"
+msgstr "Code can be used for the extension of limited accounts."
+
+#, fuzzy
+msgid "registration_codes_type_reg"
+msgstr "Registration Code"
+
+#, fuzzy
+msgid "registration_codes_type_reg_info"
+msgstr "Code can be used for the registration if a new user account"
+
+#, fuzzy
+msgid "registration_disabled_no_access"
+msgstr "The self-registration is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Dışa aktarma için seçilen kod yok."
+
+msgid "registration_generated"
+msgstr "Oluşturma Tarihi"
+
+msgid "registration_generated_all"
+msgstr "Tüm Tarihler"
+
+msgid "registration_no_valid_role"
+msgstr "Orada şu anda yeni hesaplar için geçerli bir roldür. Lütfen yöneticinize başvurun."
+
+msgid "registration_reg_type_codes"
+msgstr "Kodları ile Kayıt"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Bu tip kullanıcıların kendi kendine kayıt verir, ancak geçerli bir kod gerektirir."
+
+msgid "registration_roles_all"
+msgstr "Tüm Roller"
+
+msgid "registration_settings"
+msgstr "Yeni Kayıtlar"
+
+msgid "registration_tab_codes"
+msgstr "Kayıt Kodları"
+
+msgid "registration_tab_settings"
+msgstr "Kayıt Ayarları"
+
+msgid "registration_used"
+msgstr "Kullanımı Of Tarih"
+
+msgid "registration_user_new_account_mail"
+msgstr "Yeni Posta Hesabı Düzenle"

@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "登録後のアクセス"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "までアクセス制限"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "すべての役割に対してアクセス限定モードを選択してください"
+
+msgid "reg_access_limitation_mode"
+msgstr "アクセス限定モード"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "アクセスは期間限定で制限されています"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "有効期限"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "登録から一定期間の限定アクセス"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "有効者"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "アクセス制限なし"
+
+msgid "reg_access_limitation_none"
+msgstr "制限なしのアクセス"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "1つまたは複数の役割に古いアクセス制限が残っています!"
+
+msgid "reg_access_limitations"
+msgstr "アクセス制限"
+
+msgid "reg_add_assignment"
+msgstr "新しい割当て"
+
+msgid "reg_added_assignment"
+msgstr "新しい割当を追加しました。"
+
+msgid "reg_allow_codes"
+msgstr "コードを許可"
+
+msgid "reg_allow_codes_info"
+msgstr "ユーザはコードによる登録もできます。"
+
+msgid "reg_allowed_domains"
+msgstr "許可されたemailアドレスドメイン"
+
+msgid "reg_allowed_domains_info"
+msgstr "ワイルドカードには*を、セパレータには;を使用　例　 \"*@ilias.de\". レジストリーションコードはこれらのルールを上書き。"
+
+msgid "reg_approve"
+msgstr "要承認の登録"
+
+msgid "reg_approve_info"
+msgstr "チェックすると、いかなる新規ユーザの登録にも管理者の承認が必要となります。"
+
+msgid "reg_approve_needs_recipient"
+msgstr "登録タイプ「要承認の登録」選択に備えて、新規の登録を通知するユーザを一人以上定義する必要があります。"
+
+msgid "reg_available_roles"
+msgstr "利用可能な役割:"
+
+msgid "reg_confirmation_already_confirmed"
+msgstr "登録はもはや保留中ではない事がすでに確認されています。"
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "有効期間"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "確認用のリンクはもう有効ではありません。"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "確認用リンクの有効期間を秒で入力してください。"
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "この確認用リンクに一致する可能性のユーザ アカウントはありません"
+
+msgid "reg_confirmation_hash_not_passed"
+msgstr "確認用リンクは不完全です。"
+
+msgid "reg_confirmation_link_successful"
+msgstr "アカウントがILIASへ正しく送られました。数分すると確認のemailを受領します。そのmaiにあるリンク先をクリックして登録を確認してください。<br />リダイレクトされます<a href=\"%s\" タイトル=\"ログイン画面\">ログイン画面</a>20秒後"
+
+msgid "reg_default"
+msgstr "初期設定"
+
+msgid "reg_deleted_assignment"
+msgstr "割当を削除しました。"
+
+msgid "reg_direct"
+msgstr "直接登録"
+
+msgid "reg_direct_info"
+msgstr "有効にすると、すべての新規ユーザ登録リクエストは自動承認となります。"
+
+msgid "reg_disabled"
+msgstr "登録不可"
+
+msgid "reg_domain"
+msgstr "ドメイン"
+
+msgid "reg_domain_already_assigned_p"
+msgstr "ドメイン '%s' は既に別の役割が入力されています。"
+
+msgid "reg_domain_already_assigned_s"
+msgstr "ドメイン '%s' は既に別の役割が入力されています。"
+
+msgid "reg_email"
+msgstr "自動割当て"
+
+msgid "reg_email_domains"
+msgstr "次のemailアドレスドメインは有効です:%s"
+
+msgid "reg_email_domains_code"
+msgstr "登録コード付きのメールアドレスは有効"
+
+msgid "reg_email_role_assignment"
+msgstr "ドメインの役割の割当て"
+
+msgid "reg_fixed"
+msgstr "別リストから選択"
+
+msgid "reg_info_pwd"
+msgstr "有効にすると、パスワードは新規ユーザへemailで自動的に送信されます。"
+
+msgid "reg_mail_body_activation"
+msgstr "アカウントを有効にしてこのemailアドレスのオーナーシップを確認するには以下のリンクをクリック:"
+
+msgid "reg_mail_body_approve"
+msgstr "すでに学習管理システムLIASへ登録済でありアカウントデータのemailを受信済です。今、アカウントは、管理者によって有効になりました。"
+
+msgid "reg_mail_body_confirmation"
+msgstr "この登録を確認するには、ILIAS ユーザ 管理に入ってアカウントを有効にします。"
+
+msgid "reg_mail_body_profile"
+msgstr "プロファイルデータ"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "プロファイルを変更しました!"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "アカウントリクエストは管理者がレビューして、48時間以内に有効化されます。承認に関してはemailで通知されます。"
+
+msgid "reg_mail_body_reason"
+msgstr "ILIAS の管理アカウントの新規登録に関する通知を有効にしているのでこのメールを受信します。"
+
+msgid "reg_mail_body_timelimit"
+msgstr "アカウントは有効期間: %sまでの期限付きです。"
+
+msgid "reg_mail_new_user"
+msgstr "新しいユーザ登録"
+
+msgid "reg_mail_new_user_body"
+msgstr "新しいユーザが登録されました。"
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "アカウント確認の要求"
+
+msgid "reg_missing_domain"
+msgstr "全ての欄に記入してください。"
+
+msgid "reg_missing_role"
+msgstr "全ての欄に記入してください。"
+
+msgid "reg_notification"
+msgstr "通知"
+
+msgid "reg_notification_info"
+msgstr "新規ユーザ登録に関してemail通知されるユーザ（カンマ区切り）の1つまたは複数ログインIDを入力します。"
+
+msgid "reg_role_access_limitations"
+msgstr "新規登録ユーザに対する役割のアクセス制限を定義します。"
+
+msgid "reg_role_assignment"
+msgstr "役割の割当て"
+
+msgid "reg_role_info"
+msgstr "割当てられている役割"
+
+msgid "reg_select_one"
+msgstr "エントリーを一つ選択してください。"
+
+msgid "reg_selectable_roles"
+msgstr "選択可能な役割"
+
+msgid "reg_settings_header"
+msgstr "新規登録設定"
+
+msgid "reg_type"
+msgstr "登録タイプ"
+
+msgid "reg_type_confirmation"
+msgstr "email確認による登録"
+
+msgid "reg_type_confirmation_info"
+msgstr "ユーザ自身で登録できますがアカウントを有効にするためのemail確認が必要です。間違や存在しないメールアドレスを使った自己登録障害の回避につながります。"
+
+msgid "reg_unknown_recipients"
+msgstr "次のログインは有効ではありません"
+
+msgid "registration_code"
+msgstr "コード"
+
+msgid "registration_code_not_valid"
+msgstr "その登録コードは無効かすでに使用済みです"
+
+msgid "registration_code_optional_info"
+msgstr "ILIAS登録コードをお持ちであればここで入力できます。"
+
+msgid "registration_code_required_info"
+msgstr "事前定義のコードが登録処理用として必須です。"
+
+msgid "registration_code_role_info"
+msgstr "登録コード使用の際は、役割選択がコードで置き換えられる事があります。"
+
+msgid "registration_codes_access_limitation_all"
+msgstr "全て"
+
+msgid "registration_codes_add"
+msgstr "コードを追加"
+
+msgid "registration_codes_edit_header"
+msgstr "コードを追加"
+
+msgid "registration_codes_export"
+msgstr "コードをエクスポート"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "事前設定の割当役割なし"
+
+msgid "registration_codes_number"
+msgstr "コード数"
+
+msgid "registration_codes_override_global_info"
+msgstr "これらの設定は登録コードで上書きされる可能性があります。"
+
+msgid "registration_codes_override_info"
+msgstr "この設定は\"登録設定\"の設定値で上書きされます。"
+
+msgid "registration_codes_roles"
+msgstr "新規アカウント用の役割"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "事前設定のアクセス期限なし"
+
+msgid "registration_codes_roles_local"
+msgstr "ローカル役割"
+
+msgid "registration_codes_roles_title"
+msgstr "新規アカウントの役割"
+
+msgid "registration_codes_type"
+msgstr "コードタイプ"
+
+msgid "registration_codes_type_ext"
+msgstr "制限付きユーザアカウントの拡張"
+
+msgid "registration_codes_type_ext_info"
+msgstr "コードは制限付きアカウントの拡張として使用できます。"
+
+msgid "registration_codes_type_reg"
+msgstr "登録コード"
+
+msgid "registration_codes_type_reg_info"
+msgstr "新規ユーザアカウントあならばコードを登録用に使用できます"
+
+msgid "registration_disabled_no_access"
+msgstr "自己登録が有効になっていません。以降のアシスタンスについてはシステム管理者へコンタクトしてください。"
+
+msgid "registration_export_codes_no_data"
+msgstr "エクスポート用のコードが選択されていません。."
+
+msgid "registration_generated"
+msgstr "作成日"
+
+msgid "registration_generated_all"
+msgstr "全ての日付"
+
+msgid "registration_no_valid_role"
+msgstr "現在、新規アカウント用に有効な役割がありません。管理者へ連絡してください。"
+
+msgid "registration_reg_type_codes"
+msgstr "コードで登録"
+
+msgid "registration_reg_type_codes_info"
+msgstr "ユーザの自己登録ができますが有効なコードが必要です。"
+
+msgid "registration_roles_all"
+msgstr "全ての役割"
+
+msgid "registration_settings"
+msgstr "新規登録"
+
+msgid "registration_tab_codes"
+msgstr "登録コード"
+
+msgid "registration_tab_settings"
+msgstr "登録設定"
+
+msgid "registration_used"
+msgstr "利用日"
+
+msgid "registration_user_new_account_mail"
+msgstr "新規メールを編集します"
