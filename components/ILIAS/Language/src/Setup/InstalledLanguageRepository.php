@@ -21,96 +21,48 @@ declare(strict_types=1);
 namespace ILIAS\Language\Setup;
 
 /**
- * Read-only access to the language installation domain: which languages are
- * known to the system (database) and which language files are available or
- * valid (filesystem). This is the "retrieval" half of what used to be
- * bundled into ilSetupLanguage - see its class docblock and
- * docs/development/repository-pattern.md.
- *
- * Write access (installing, flushing, registering languages) lives in
- * LanguageInstallationManager instead.
+ * Read-only access to the installed languages (database) and the available or valid language files
+ * (filesystem). Writing lives in LanguageInstallationManager.
  */
 interface InstalledLanguageRepository
 {
-    /**
-     * Language keys already installed (in the database), including
-     * "installed" and "installed_local".
-     *
-     * @return list<string>
-     */
+    /** @return list<string> including "installed_local" */
     public function getInstalledLanguages(): array;
 
-    /**
-     * Language keys installed as "installed_local" (in the database).
-     *
-     * @return list<string>
-     */
+    /** @return list<string> */
     public function getInstalledLocalLanguages(): array;
 
-    /**
-     * All languages registered in object_data, keyed by language key.
-     *
-     * @return array<string, array{obj_id: int, status: string}>
-     */
+    /** @return array<string, array{obj_id: int, status: string}> keyed by language key */
     public function getAvailableLanguages(): array;
 
-    /**
-     * Locally changed language entries for a language key, in a given
-     * change-date range.
-     *
-     * @return array<string, array<string, string>> [module][identifier] => value
-     */
+    /** @return array<string, array<string, string>> [module][identifier] => value, only entries with a local_change in the date range */
     public function getLocalChanges(string $lang_key, string $min_date = "", string $max_date = ""): array;
 
     /**
-     * Every entry currently stored for a language key, regardless of
-     * local_change - unlike getLocalChanges(), which only returns entries
-     * with a non-null local_change in a given date range (i.e. previously
-     * recorded customizations), this also includes plain base/global data.
-     * Used to seed a re-seed of lng_data that only reads the customizing
-     * directory (see LanguageInstallationManager::insertLanguageForApplyingLocalChanges()),
-     * where nothing re-reads the base files to fill in what this doesn't
-     * provide.
+     * Unlike getLocalChanges(), every entry regardless of local_change: seeds a re-seed that only
+     * reads the customizing directory, see LanguageInstallationManager::insertLanguageForApplyingLocalChanges().
      *
      * @return array<string, array<string, string>> [module][identifier] => value
      */
     public function getLanguageEntries(string $lang_key): array;
 
-    /**
-     * Language keys for which a *.lang.local file exists.
-     *
-     * @return list<string>
-     */
+    /** @return list<string> keys with a *.lang.local file */
     public function getLocalLanguages(): array;
 
-    /**
-     * Language keys for which an installable main *.lang file exists.
-     *
-     * @return list<string>
-     */
+    /** @return list<string> keys with an installable main *.lang file */
     public function getInstallableLanguages(): array;
 
     /**
-     * Local language files whose names contain a requested language key but
-     * do not match the expected naming scheme.
+     * Local language files whose names contain a requested key but do not match the naming scheme.
      *
      * @param list<string> $language_keys
      * @return list<string>
      */
     public function getInvalidLocalLanguageFiles(array $language_keys): array;
 
-    /**
-     * Validates the logical structure of all *.lang files (global,
-     * component and, if present, customizing) for a language key.
-     */
+    /** Validates the global, component and customizing *.lang files of $lang_key. */
     public function checkLanguage(string $lang_key): bool;
 
-    /**
-     * Validates only the customizing/local language file for a language
-     * key. Unlike checkLanguage(), a missing local file is NOT acceptable
-     * here - used when a caller explicitly wants to validate a local
-     * customization file, e.g. before activating "installed_local" status
-     * for an already globally-installed language.
-     */
+    /** Unlike checkLanguage(), a missing local file is NOT acceptable here. */
     public function checkLocalLanguageFile(string $lang_key): bool;
 }

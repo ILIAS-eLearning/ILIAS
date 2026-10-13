@@ -29,20 +29,9 @@ use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * SetLanguageDetectionEnabled has no ilSetupLanguage collaborator and no
- * $lng_objects/$obj_language_factory closures (unlike UninstallLanguage/
- * RemoveLocalLanguageChanges) - instead it wraps a single
- * \ILIAS\Administration\Setting collaborator ("lang_detection") which is
- * a plain interface and can therefore be mocked directly, unlike
- * \ilObjLanguage on the sibling Activities.
- *
- * The most important regression this file guards is the *new* enforced
- * "write" RBAC check in isAllowedToPerform()/maybePerformAs(): before this
- * extraction, neither enableLanguageDetectionObject() nor
- * disableLanguageDetectionObject() performed any permission check of their
- * own. A test here must prove that a denied permission both yields a
- * Result\Error *and* leaves the Setting collaborator untouched (no side
- * effect on denial).
+ * SetLanguageDetectionEnabled wraps a single \ILIAS\Administration\Setting ("lang_detection"), which is a plain
+ * interface and can be mocked directly, unlike \ilObjLanguage on the sibling Activities. A denied permission must
+ * yield a Result\Error and leave the Setting untouched.
  */
 class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 {
@@ -50,10 +39,6 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     {
         return $this->createActivity();
     }
-
-    // -----------------------------------------------------------------
-    // isAllowedToPerform()
-    // -----------------------------------------------------------------
 
     public function testIsAllowedToPerformDelegatesToRbacSystemWithWriteAndTheConfiguredRefId(): void
     {
@@ -96,10 +81,6 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
         $this->assertTrue($activity->isAllowedToPerform(6, ['enabled' => true]));
     }
-
-    // -----------------------------------------------------------------
-    // perform()
-    // -----------------------------------------------------------------
 
     public function testPerformWithEnabledTrueWritesOneIntoLangDetectionSettingAndReturnsEnabledTrue(): void
     {
@@ -178,10 +159,6 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         ];
     }
 
-    // -----------------------------------------------------------------
-    // maybePerformAs()
-    // -----------------------------------------------------------------
-
     public function testMaybePerformAsWithGrantedPermissionPerformsAndReturnsOkResult(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -248,10 +225,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
             ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['enabled' => 'not-a-bool']);
 
         $this->assertTrue($result->isError());
-        // 'not-a-bool' is outside normalizeCheckboxRawValue()'s explicit
-        // whitelist - grind()'s dedicated catch block converts the
-        // resulting \InvalidArgumentException into an InvalidInputException
-        // (a SafeToDisplayActivityError), not a raw \InvalidArgumentException.
+        // outside the whitelist of normalizeCheckboxRawValue(): grind() turns it into an InvalidInputException
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
         $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
     }
@@ -328,8 +302,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     }
 
     /**
-     * Same tolerance as above, but for the common primitive representations
-     * of "false".
+     * Same tolerance for the common representations of "false".
      */
     #[DataProvider('tolerantlyAcceptedFalsyEnabledValuesProvider')]
     public function testMaybePerformAsToleratesCommonPrimitiveFalsyRepresentationsAndWritesEnabledFalse(mixed $value): void
@@ -356,9 +329,7 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
     }
 
     /**
-     * Only values outside GrindsFormInput::normalizeCheckboxRawValue()'s
-     * explicit whitelist are still rejected via maybePerformAs() - "konservativ
-     * normalisieren", not "alles akzeptieren".
+     * Values outside the whitelist of GrindsFormInput::normalizeCheckboxRawValue() are still rejected.
      */
     #[DataProvider('rejectedEnabledValuesProvider')]
     public function testMaybePerformAsRejectsValuesGrindCannotInterpretAsACheckboxWithoutTouchingSettings(mixed $value): void
@@ -376,10 +347,6 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
         $this->assertInstanceOf(InvalidInputException::class, $result->error());
         $this->assertInstanceOf(SafeToDisplayActivityError::class, $result->error());
     }
-
-    // -----------------------------------------------------------------
-    // getInputDescription() / getOutputDescription()
-    // -----------------------------------------------------------------
 
     public function testInputDescriptionBuildsAGroupWithASingleEnabledCheckboxField(): void
     {
@@ -423,10 +390,6 @@ class SetLanguageDetectionEnabledTest extends ActivityContractTestCase
 
         $this->assertSame($object_description, $this->createActivity()->getOutputDescription($f));
     }
-
-    // -----------------------------------------------------------------
-    // helpers
-    // -----------------------------------------------------------------
 
     private function createActivity(
         ?\ilRbacSystem $rbac_system = null,

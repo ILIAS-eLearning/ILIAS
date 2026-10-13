@@ -29,24 +29,12 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
     private const SEPARATOR = "#:#";
 
     /**
-     * The language-key part of the `ilias_<key>.lang...` file naming
-     * convention that getLocalLanguages()/getInstallableLanguages() below
-     * discover files by. Mirrors
-     * \ILIAS\Language\Activities\ParsesLanguageKeyList::LANGUAGE_KEY_FORMAT
-     * (exactly two lowercase ASCII letters) so that a file this repository
-     * lists as installable/local can never fail that later, stricter
-     * validation once an Activity actually tries to install/refresh it.
-     * Kept as a parallel definition, not a shared reference: PHP trait
-     * constants cannot be accessed via the trait's own name (only through a
-     * class that uses the trait), and this class has no reason to use
-     * ParsesLanguageKeyList itself, which exists to parse a
-     * comma-separated form/request value, not to discover files.
+     * Mirrors ParsesLanguageKeyList::LANGUAGE_KEY_FORMAT, so a file listed here never fails the
+     * stricter Activity validation later. Not shared: a trait constant is not reachable via the trait.
      */
     private const LANGUAGE_KEY_PATTERN = '[a-z]{2}';
 
-    /**
-     * @param \ilDBInterface|null $db without one, only the file-based methods work.
-     */
+    /** @param \ilDBInterface|null $db without one, only the file-based methods work */
     public function __construct(
         private readonly ?\ilDBInterface $db,
         private readonly LanguageFileDirectoryManager $language_file_directory_manager,
@@ -96,9 +84,6 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
         $ilDB = $this->db();
 
         $arr = [];
-        // Unlike the two queries above, obj_id and description are both
-        // actually read below (title alone would not be enough here) - see
-        // the loop body.
         $query = "SELECT obj_id, title, description FROM object_data " .
             "WHERE type = " . $ilDB->quote("lng", "text");
         $r = $ilDB->query($query);
@@ -160,10 +145,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
         $local_langs = [];
         $working_dir = getcwd();
 
-        // See LanguageInstallationManager::insertLanguage() for why every
-        // chdir() here must be undone even if something throws in between -
-        // a long-lived worker process would otherwise leak a broken cwd into
-        // unrelated later requests.
+        // chdir() must be undone even on exceptions, see LanguageInstallationManager::insertLanguage()
         try {
             foreach ($this->language_file_directory_manager->getCustomizingDirectories() as $directory) {
                 $path = $this->absoluteDirectoryPath($this->absolute_path, $directory);
@@ -191,8 +173,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
         $installableLanguages = [];
         $working_dir = getcwd();
 
-        // See LanguageInstallationManager::insertLanguage() for why every
-        // chdir() here must be undone even if something throws in between.
+        // chdir() must be undone even on exceptions, see LanguageInstallationManager::insertLanguage()
         try {
             foreach ($this->language_file_directory_manager->getDirectories() as $directory) {
                 $path = $this->absoluteDirectoryPath($this->absolute_path, $directory);
@@ -263,11 +244,8 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
 
     public function checkLocalLanguageFile(string $lang_key): bool
     {
-        // getCustomizingDirectories() yields exactly one directory today
-        // (see LanguageFileDirectoryManager), but is typed as a generator of
-        // possibly many - so check only the first one explicitly, instead of
-        // a foreach that returns on its first iteration (which reads like an
-        // accidental early return, not an intentional "only the first one").
+        // only the first directory is checked on purpose: getCustomizingDirectories() yields exactly
+        // one today, and a foreach returning in its first iteration would read like an accidental early return
         $directories = iterator_to_array(
             $this->language_file_directory_manager->getCustomizingDirectories(),
             false
@@ -281,11 +259,8 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
     }
 
     /**
-     * Validates a single directory's lang-file for $lang_key: the file
-     * itself has a header and each entry consists of exactly three elements
-     * (module, identifier, value). If $required is false, a missing
-     * directory/file is treated as acceptable (valid); if true, it fails
-     * the check.
+     * Validates the lang-file of a single directory for $lang_key: header present and each entry
+     * has exactly three elements. A missing directory/file is valid unless $required.
      */
     private function checkLanguageFile(
         string $lang_key,

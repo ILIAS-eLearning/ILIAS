@@ -24,24 +24,15 @@ use ILIAS\Component\Component;
 use PHPUnit\Framework\TestCase;
 
 /**
- * getPath() used to recompute its ReflectionClass/realpath lookup on every
- * call even though the result only ever depends on $this->component, which
- * never changes for the object's lifetime. It is now cached in
- * $this->base_directory on first access. This test does not attempt to
- * observe the caching mechanism itself (e.g. by counting Reflection calls) -
- * per the task, the point is a non-regression guard: for an unchanged
- * object, repeated getPath() calls must keep returning the exact same
- * value, and that value must still be the one the original (uncached)
- * computation would have produced.
+ * Non-regression guard for the base directory getPath() caches: repeated calls on an unchanged object return the same
+ * value, and it is the one an uncached computation would produce. The caching itself is not observed.
  */
 class ComponentLanguageFileDirectoryTest extends TestCase
 {
     public function testGetPathReturnsTheSameValueOnRepeatedCallsAndMatchesTheUncachedComputation(): void
     {
-        // A real (non-mock) class defined right here, so
-        // ReflectionClass::getFileName() resolves to *this* test file's real
-        // path on disk - deterministic, and independently computable below
-        // without reusing ComponentLanguageFileDirectory's own internals.
+        // a real (non-mock) class defined here, so ReflectionClass::getFileName() resolves to this file - deterministic
+        // and computable below without ComponentLanguageFileDirectory's internals
         $component = new class () implements Component {
             public function init(
                 array|\ArrayAccess &$define,
@@ -58,9 +49,7 @@ class ComponentLanguageFileDirectoryTest extends TestCase
 
         $directory = new ComponentLanguageFileDirectory($component, 'tst', 'lang/');
 
-        // Independently reproduce what getPath() is documented to compute,
-        // from __DIR__ of this test file rather than from the production
-        // class's internals.
+        // independently reproduces getPath()'s computation from __DIR__ of this file
         $ilias_root = (string) realpath(__DIR__ . '/../../../../../');
         self::assertNotSame('', $ilias_root, 'Could not resolve the ILIAS root from this test file - did it move?');
         $expected_base_directory = str_replace($ilias_root . '/', '', __DIR__);

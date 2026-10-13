@@ -23,11 +23,8 @@ namespace ILIAS\Language\Setup;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 
 /**
- * Small, side-effect-free helpers for reading *.lang files, shared by
- * InstalledLanguageDatabaseRepository (validation) and
- * LanguageInstallationManager (import into the database). Kept as a trait
- * rather than a base class so both can also extend other things if needed
- * and to avoid a dependency of one on the other just for these helpers.
+ * Side-effect-free *.lang helpers shared by InstalledLanguageDatabaseRepository and
+ * LanguageInstallationManager; a trait so that neither depends on the other.
  */
 trait LanguageFileParsing
 {
@@ -37,9 +34,8 @@ trait LanguageFileParsing
     }
 
     /**
-     * @param string[] $content expects an ILIAS lang-file
-     * @return bool|string[] the file's entries with the header stripped, or false if no header
-     *         marker was found
+     * @param string[] $content
+     * @return bool|string[] the entries after the header marker, false if there is none
      */
     private function cutHeader(array $content)
     {

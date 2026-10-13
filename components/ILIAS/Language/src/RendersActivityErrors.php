@@ -23,53 +23,18 @@ namespace ILIAS\Language;
 use ILIAS\Language\Activities\SafeToDisplayActivityError;
 
 /**
- * Shared implementation of activityErrorMessage(), used by every GUI class
- * in this component that calls an Activity's maybePerformAs() and needs to
- * turn its possible Result\Error into text safe to show via
- * setOnScreenMessage() - see ilObjLanguageFolderGUI/ilObjLanguageExtGUI,
- * which used to duplicate this method byte-for-byte.
- *
- * Requires the using class to:
- *  - assign `$this->activity_error_logger` exactly once, in its own
- *    constructor - the same "resolved once in the constructor, never
- *    reached into via global $DIC from an action method" idiom already
- *    used for every Activity these GUI classes inject (see e.g.
- *    ilObjLanguageFolderGUI::__construct()); and
- *  - provide `$this->lng` (both ilObjLanguageFolderGUI/ilObjLanguageExtGUI
- *    already do, inherited from ilObjectGUI).
+ * Shared activityErrorMessage() for the GUI classes calling an Activity's maybePerformAs().
+ * The using class must assign `$this->activity_error_logger` once in its constructor and provide `$this->lng`.
  */
 trait RendersActivityErrors
 {
     private readonly \ilLogger $activity_error_logger;
 
     /**
-     * Turns a maybePerformAs() Result\Error's error() into text safe to show
-     * to the user via setOnScreenMessage() (which renders it as HTML,
-     * unescaped - see every GUI caller's own literal "<br/>" concatenations
-     * alongside $this->lng->txt() calls).
-     *  - A plain string (e.g. `msg_no_perm_write`) is already a localized,
-     *    trusted, HTML-safe message produced by the Activity itself (via
-     *    $this->lng->txt(), the same source every GUI caller's own literal
-     *    markup already trusts) and is returned as-is, unescaped.
-     *  - A \Throwable implementing SafeToDisplayActivityError (e.g.
-     *    InvalidInputException, AmbiguousLanguageTitleException - both marker
-     *    implementations with no logic of their own) is a genuine, actionable
-     *    problem already reduced to a concrete, non-sensitive message - but,
-     *    unlike the plain-string case above, its text may embed raw,
-     *    caller-controlled data (a language key, an unknown form field
-     *    name, ...): the Activity/domain layer deliberately returns this
-     *    unescaped (see e.g. UninstallLanguage::perform()), so THIS is the
-     *    one place that escapes it for safe HTML display, rather than each
-     *    Activity escaping it itself.
-     *  - Any OTHER \Throwable is an unexpected failure (e.g. a database
-     *    error) whose message is hardcoded English, not meant for end
-     *    users, and in the worst case (\ilDatabaseException) may even
-     *    carry raw SQL - so it is never shown directly: its full cause
-     *    chain (class, message and stack trace of the exception itself,
-     *    plus of every getPrevious() wrapped underneath it) is logged via
-     *    this component's established "lang" logger channel, and a
-     *    generic, localized message (again already trusted, see above) is
-     *    shown instead.
+     * Turns a maybePerformAs() error into text for setOnScreenMessage() (which renders HTML unescaped):
+     *  - string: an already localized, trusted message of the Activity, returned as-is
+     *  - SafeToDisplayActivityError: may embed caller-controlled data, so this is the one place that escapes it
+     *  - any other \Throwable: may carry raw SQL, so only its cause chain is logged and a generic message shown
      */
     private function activityErrorMessage(\Throwable|string $error): string
     {
@@ -78,12 +43,7 @@ trait RendersActivityErrors
         }
 
         if ($error instanceof SafeToDisplayActivityError) {
-            // ENT_SUBSTITUTE: without it, invalid UTF-8 in getMessage() (e.g.
-            // caller-controlled data embedded by the domain layer, see the
-            // docblock above) makes htmlspecialchars() return an empty
-            // string instead of the message - the user would then see a
-            // blank error box with no indication anything went wrong, rather
-            // than the actual (partially substituted) message.
+            // ENT_SUBSTITUTE: invalid UTF-8 would make htmlspecialchars() return an empty string
             return htmlspecialchars($error->getMessage(), ENT_QUOTES | ENT_SUBSTITUTE);
         }
 
@@ -93,11 +53,7 @@ trait RendersActivityErrors
     }
 
     /**
-     * Renders $error and, recursively, every exception it was caused by
-     * (getPrevious()) - so a wrapper exception (e.g. the
-     * \RuntimeException/InvalidInputException that GrindsFormInput::grind()
-     * wraps a lower-level \Throwable in) never hides the original failure's
-     * own class, message and trace from the log.
+     * Renders $error and every exception it was caused by (getPrevious()), so a wrapper never hides the original.
      */
     private function describeThrowableChain(\Throwable $error): string
     {

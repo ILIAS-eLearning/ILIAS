@@ -27,11 +27,7 @@ use ilLanguageBaseTestCase;
 use ReflectionMethod;
 
 /**
- * Shared contract tests mixed into every Activity test case: getName() equals the class's own
- * FQN, getType() matches the expected ActivityType, getDescription() is non-empty markdown, and
- * getInputDescription() matches Activity::getInputDescription()'s exact signature (see that
- * test's own docblock below). Subclasses only supply a default activity via
- * createDefaultActivity().
+ * Contract tests shared by every Activity test case; subclasses only supply createDefaultActivity().
  */
 abstract class ActivityContractTestCase extends ilLanguageBaseTestCase
 {
@@ -62,12 +58,8 @@ abstract class ActivityContractTestCase extends ilLanguageBaseTestCase
     }
 
     /**
-     * Reflection-level pin: getInputDescription() must declare exactly Activity::getInputDescription()'s
-     * own parameter count/types/nullability/return type for every concrete Activity - no extra
-     * parameter, even an optional one. A parent declaring MORE parameters than a subclass
-     * overriding it with the plain interface signature is a PHP variance fatal error at
-     * class-load time (reproduced for AddLanguageEntry under PHP 8.5.4 - see
-     * AddLanguageEntryTest's own process-isolated regression test).
+     * No extra parameter, even an optional one: a parent declaring more parameters than a subclass with the
+     * plain interface signature is a PHP variance fatal error at class-load time.
      */
     public function testGetInputDescriptionSignatureExactlyMatchesTheActivityInterfaceSignature(): void
     {

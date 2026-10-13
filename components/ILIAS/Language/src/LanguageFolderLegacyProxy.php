@@ -21,9 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Language;
 
 /**
- * Looks the ref_id up via the legacy object data on every call. Without a
- * constructor it can be built at build time; the database is only read once
- * the ref_id is actually needed.
+ * Looks the ref_id up on every call, so it can be built at build time without database access.
  */
 final class LanguageFolderLegacyProxy implements LanguageFolder
 {

@@ -127,8 +127,7 @@ MARKDOWN
         $translate_key = 'lang_translate_' . $language_key;
 
         $currently_enabled = (bool) ($this->settings)()->get($translate_key, '0');
-        // Strict comparison of two proper booleans, not a loose `!=` on raw strings - see
-        // SetLanguageTranslationEnabledTest for the edge case this pins down.
+        // strict comparison of booleans, a loose `!=` on raw strings misjudges some values (see the test)
         $changed = $currently_enabled !== $enabled;
 
         if ($changed) {

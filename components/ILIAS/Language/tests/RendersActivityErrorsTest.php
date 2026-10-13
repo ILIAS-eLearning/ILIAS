@@ -25,10 +25,7 @@ use ILIAS\Language\Activities\InvalidInputException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests for the RendersActivityErrors trait itself (see its own class
- * docblock), in isolation from any concrete GUI class - via
- * RendersActivityErrorsTestHost, a minimal class that only mixes in the
- * trait and exposes activityErrorMessage() through a public wrapper.
+ * The RendersActivityErrors trait in isolation, via RendersActivityErrorsTestHost.
  */
 class RendersActivityErrorsTest extends TestCase
 {
@@ -79,22 +76,11 @@ class RendersActivityErrorsTest extends TestCase
         $message = $this->host($logger, $this->languageMockReturningTopicAsIs())
             ->callActivityErrorMessage($error);
 
-        // The domain layer (UninstallLanguage/RemoveLocalLanguageChanges etc.)
-        // deliberately embeds the raw, unescaped title in the exception
-        // message - activityErrorMessage() is the one seam that HTML-escapes
-        // it for safe display, so the '"' characters must come back as
-        // '&quot;' here.
+        // the domain layer embeds the raw title in the message: activityErrorMessage() is the one seam that escapes it
         $this->assertSame('Multiple language objects share the title(s) &quot;fr&quot;.', $message);
     }
 
-    /**
-     * Regression test for the escaping seam itself: a SafeToDisplayActivityError
-     * message containing genuinely dangerous markup (not just a stray quote)
-     * must come back HTML-escaped - proving activityErrorMessage() is not
-     * merely quote-escaping by coincidence but actually protects against
-     * XSS-shaped content that a caller-controlled language key/title/field
-     * name could carry.
-     */
+    /** Dangerous markup (not just a stray quote) must come back HTML-escaped. */
     public function testASafeToDisplayActivityErrorMessageWithDangerousMarkupIsHtmlEscaped(): void
     {
         $logger = $this->createMock(\ilLogger::class);
@@ -112,24 +98,12 @@ class RendersActivityErrorsTest extends TestCase
         $this->assertStringNotContainsString('<script>', $message);
     }
 
-    /**
-     * Regression test for the ENT_SUBSTITUTE fix: without it, invalid UTF-8
-     * anywhere in a SafeToDisplayActivityError's message (e.g. caller-
-     * controlled data embedded by the domain layer, see the class docblock
-     * above) made htmlspecialchars() return an EMPTY STRING for the WHOLE
-     * message, not just drop the offending bytes - the user would see a
-     * blank error box with no indication anything went wrong at all. With
-     * ENT_SUBSTITUTE, the invalid byte sequence is replaced by U+FFFD
-     * (encoded as UTF-8: "\xEF\xBF\xBD") and the rest of the message - both
-     * before and after the invalid bytes - survives.
-     */
+    /** Without ENT_SUBSTITUTE invalid UTF-8 made htmlspecialchars() return an empty string for the whole message. */
     public function testASafeToDisplayActivityErrorMessageWithInvalidUtf8IsNotSilentlyDroppedToAnEmptyString(): void
     {
         $logger = $this->createMock(\ilLogger::class);
         $logger->expects($this->never())->method('error');
 
-        // "\xC3\x28" is not valid UTF-8 (0xC3 announces a 2-byte sequence,
-        // but 0x28 "(" is not a valid continuation byte).
         $error = new InvalidInputException("Invalid language key \"d\xC3\x28\": bad input.");
 
         $message = $this->host($logger, $this->languageMockReturningTopicAsIs())
@@ -141,12 +115,7 @@ class RendersActivityErrorsTest extends TestCase
         $this->assertStringEndsWith('&quot;: bad input.', $message);
     }
 
-    /**
-     * Companion to the previous test: the plain-string branch (is_string($error),
-     * e.g. 'msg_no_perm_write' from $this->lng->txt()) must NOT be escaped at
-     * all - proving no double-escaping was introduced alongside the new
-     * escaping seam for SafeToDisplayActivityError.
-     */
+    /** The plain-string branch must not be escaped (no double-escaping). */
     public function testAPlainStringErrorContainingHtmlSignificantCharactersIsReturnedCompletelyUnescaped(): void
     {
         $logger = $this->createMock(\ilLogger::class);
@@ -158,11 +127,7 @@ class RendersActivityErrorsTest extends TestCase
         $this->assertSame('<b>already trusted</b> & safe "as-is"', $message);
     }
 
-    /**
-     * A non-SafeToDisplayActivityError \Throwable must never be shown
-     * directly - its message is logged instead, and a generic, localized
-     * text ('action_aborted') is returned.
-     */
+    /** A non-SafeToDisplayActivityError is never shown: its message is logged, a generic 'action_aborted' returned. */
     public function testANonSafeToDisplayThrowableIsLoggedAndAGenericMessageIsReturned(): void
     {
         $logger = $this->createMock(\ilLogger::class);
@@ -176,14 +141,7 @@ class RendersActivityErrorsTest extends TestCase
         $this->assertSame('action_aborted', $message);
     }
 
-    /**
-     * Regression test for describeThrowableChain(): a wrapper exception
-     * (e.g. the \RuntimeException/InvalidInputException GrindsFormInput::grind()
-     * wraps a lower-level \Throwable in) must never hide the original
-     * failure's own class and message from the log - the FULL cause chain
-     * (every getPrevious() link) must be logged, not just the outermost
-     * wrapper.
-     */
+    /** A wrapper exception must not hide the root cause: the full getPrevious() chain is logged. */
     public function testANonSafeToDisplayThrowableWithAPreviousExceptionLogsTheFullCauseChain(): void
     {
         $root_cause = new \PDOException('duplicate key value violates unique constraint');
@@ -204,14 +162,9 @@ class RendersActivityErrorsTest extends TestCase
         $this->assertCount(1, $logged);
         $logged_message = $logged[0];
 
-        // Both the outer wrapper AND the inner root cause (class + message)
-        // must appear in the logged string - a wrapper must never hide the
-        // original failure.
         $this->assertStringContainsString(\RuntimeException::class . ': failed to write language entry', $logged_message);
         $this->assertStringContainsString(\PDOException::class . ': duplicate key value violates unique constraint', $logged_message);
 
-        // The two descriptions must be visibly separated ("Caused by:"),
-        // not merely both present anywhere in the string by coincidence.
         $this->assertStringContainsString("Caused by:\n", $logged_message);
         $this->assertLessThan(
             strpos($logged_message, \PDOException::class . ': duplicate key value violates unique constraint'),
@@ -219,11 +172,7 @@ class RendersActivityErrorsTest extends TestCase
         );
     }
 
-    /**
-     * A THREE-deep chain must have every link (not just the first two)
-     * logged - describeThrowableChain() recurses via getPrevious() until it
-     * returns null, not just once.
-     */
+    /** A three-deep chain logs every link. */
     public function testAThreeDeepCauseChainLogsEveryLink(): void
     {
         $innermost = new \InvalidArgumentException('column "xx" does not exist');
@@ -253,10 +202,7 @@ class RendersActivityErrorsTest extends TestCase
 }
 
 /**
- * Minimal host for RendersActivityErrors: only mixes in the trait, wires up
- * its two required collaborators via the constructor (rather than the
- * `assign exactly once, in your own constructor` idiom every real GUI class
- * uses), and exposes activityErrorMessage() through a public wrapper.
+ * Minimal host: mixes in the trait, sets its two collaborators in the constructor and exposes activityErrorMessage().
  */
 final class RendersActivityErrorsTestHost
 {
