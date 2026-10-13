@@ -242,9 +242,6 @@ class ItemTest extends ILIAS_UI_TestBase
                 <div class="col-md-6 il-multi-line-cap-3">
 					<span class="il-item-property-name">Location</span><span class="il-item-property-value">Room 123, Main Street 44, 3012 Bern</span>
 				</div>
-				<div class="col-md-6 il-multi-line-cap-3">
-					<span class="il-item-property-name"></span><span class="il-item-property-value"></span>
-				</div>
 			</div>
         </div>
 EOT;
