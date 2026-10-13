@@ -71,7 +71,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         $this->subscribe_enabled = true;
         $this->link_enabled = false;
         $this->info_screen_enabled = true;
-        $this->type = 'catr';
+        $this->type = 'cat';
         $this->gui_class_name = "ilobjcategorygui";
 
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
