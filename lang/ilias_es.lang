@@ -10893,24 +10893,6 @@ mail#:#show_mail_settings#:#Mostrar Configuración de Correo
 mail#:#show_mail_settings_info#:#Permite que los usuarios individuales alteren su configuración de correo, anulando así la configuración global de correo que de otro modo se les aplicaría. El acceso a 'Configuración de Correo' se realiza a través de su 'Configuración Personal' o en 'Comunicación > Correo'. Nota: Para que los usuarios puedan cambiar su configuración de correo individual y anular la configuración global, esto debe establecerse en la sección 'Campos Estándar' de la configuración global de administración de cuentas de usuario. Si los usuarios no tienen permiso para cambiar esta configuración de perfil, se aplica el valor predeterminado global incluso si los usuarios pudieron cambiar y cambiaron su configuración de correo personal en el pasado.
 mail#:#system_notification_installation_changed_by#:#Cambiado por
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Ha cambiado el atributo "%s" del campo "%s".<br>Esto provoca que la configuración de todas las cuentas se restablezca a "recibir en la dirección principal" para la entrega externa,<br>no solo para todas las cuentas nuevas, sino también descartando la configuración actualmente activa realizada por los usuarios.
-maps#:#configure_geolocation#:#Por favor, finalice la configuración de geolocalización en el menú de administración "Software de Terceros" para habilitar la búsqueda de direcciones.
-maps#:#maps_custom_geolocation_server_info#:#URL del servidor para proporcionar datos de geolocalización utilizando Nominatim. Su entrada debe contener el marcador de posición [QUERY] para definir una posición para la información de la solicitud. Ejemplo: https://nominatim.example.com/search?q=[QUERY]&format=json
-maps#:#maps_custom_tile_server_info#:#URL del servidor para proporcionar datos de teselas (tiles). Varias entradas deben estar separadas por espacios. El valor predeterminado es "%s".
-maps#:#maps_enable_maps#:#Activar Mapas
-maps#:#maps_enable_maps_info#:#Activa los Mapas en los perfiles de usuario, grupos y cursos.
-maps#:#maps_geolocation_server#:#Servidor para Geolocalización Inversa
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https para búsqueda inversa
-maps#:#maps_latitude#:#Latitud
-maps#:#maps_longitude#:#Longitud
-maps#:#maps_lookup_address#:#Buscar Dirección
-maps#:#maps_map_type#:#Tipo
-maps#:#maps_open_layers_maps#:#Open Layers Maps
-maps#:#maps_settings#:#Configuración de Mapas
-maps#:#maps_std_location#:#Ubicación Predeterminada
-maps#:#maps_std_location_desc#:#Haga clic en el mapa para establecer la ubicación.
-maps#:#maps_tile_server#:#Servidor de Teselas (Tiles)
-maps#:#maps_zoom_level#:#Nivel de Zoom
 mcst#:#mcst_add_new_item#:#Añadir nuevo elemento de Mediacast
 mcst#:#mcst_audio_files#:#Archivos de Audio
 mcst#:#mcst_audioportable_settings_info#:#Lista de extensiones de archivo separadas por comas

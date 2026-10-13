@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Termine a configuração de geolocalização no menu de administração \"Software de terceiros\" para ativar a pesquisa de endereço."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL do servidor para fornecer dados de geolocalização usando Nominatim. A sua entrada deve conter a variável [QUERY] para definir uma posição para pedir informação. Exemplo: nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL do servidor para fornecer dados mosaico. As entradas múltiplas devem ser separados por espaços. O padrão é \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Ativar mapas"
+
+msgid "maps_enable_maps_info"
+msgstr "Ativa mapas nos perfis de utilizador, grupos e cursos."
+
+msgid "maps_geolocation_server"
+msgstr "Servidor para a geolocalização inversa"
+
+#, fuzzy
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https for Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Latitude"
+
+msgid "maps_longitude"
+msgstr "Longitude"
+
+msgid "maps_lookup_address"
+msgstr "Pesquisar endereço"
+
+msgid "maps_map_type"
+msgstr "Tipo"
+
+msgid "maps_open_layers_maps"
+msgstr "Abrir mapas de estratos"
+
+msgid "maps_settings"
+msgstr "Definições de mapas"
+
+msgid "maps_std_location"
+msgstr "Localização padrão"
+
+msgid "maps_std_location_desc"
+msgstr "Clicar no mapa para definir a localização."
+
+msgid "maps_tile_server"
+msgstr "Servidor para mosaicos"
+
+msgid "maps_zoom_level"
+msgstr "Nível zoom"

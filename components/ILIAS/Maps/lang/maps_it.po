@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Si prega di terminare la configurazione della geolocalizzazione nel menu di amministrazione \"Software di parti terze\" per abilitare la ricerca degli indirizzi."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL server per gestire i dati di geolocalizzazione attraverso Nominatim. La voce deve contenere il segnaposto [QUERY] per definire una posizione per le informazioni sulla richiesta. Esempio nominatim.esempio.com/cerca/[QUERY]?formato=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL server per fornire dati nel riquadro. Gli ingressi multipli devono essere separati da spazi. I valori predefiniti sono \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Abilita Maps"
+
+msgid "maps_enable_maps_info"
+msgstr "Attiva Maps nei profili utente, gruppi e corsi."
+
+msgid "maps_geolocation_server"
+msgstr "Server per la geolocalizzazione inversa"
+
+msgid "maps_https_for_reverse_lookup"
+msgstr "HTTPS per ricerca inversa"
+
+msgid "maps_latitude"
+msgstr "Latitudine"
+
+msgid "maps_longitude"
+msgstr "Longitudine"
+
+msgid "maps_lookup_address"
+msgstr "Indirizzo di ricerca"
+
+msgid "maps_map_type"
+msgstr "Tipo"
+
+msgid "maps_open_layers_maps"
+msgstr "Apri livelli Maps"
+
+msgid "maps_settings"
+msgstr "Impostazioni Maps"
+
+msgid "maps_std_location"
+msgstr "Posizione predefinita"
+
+msgid "maps_std_location_desc"
+msgstr "Clicca sulla mappa per impostare la posizione."
+
+msgid "maps_tile_server"
+msgstr "Server per blocchi"
+
+msgid "maps_zoom_level"
+msgstr "Livello di zoom"

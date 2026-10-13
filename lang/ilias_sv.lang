@@ -10846,24 +10846,6 @@ mail#:#show_mail_settings#:#Inställningar för display
 mail#:#show_mail_settings_info#:#Aktiverar visning av e-postinställningarna i området 'Inställningar' eller 'E-post'. Användare kan endast ändra e-postinställningarna om konfigurationen av användarprofilen tillåter detta. Om användaren inte har behörighet att ändra e-postinställningarna
 mail#:#system_notification_installation_changed_by#:#Ändrad av
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" in the field "%s".<br>Detta kommer för alla befintliga och framtida skapade konton att leda till att<br>ändrar den mottagningstyp som valts för användare och standard för nya inloggningskonton för extern leverans till
-maps#:#configure_geolocation#:#För att kunna söka efter adresser måste du slutföra konfigurationen för geolokalisering i administrationsmenyn "Programvara från tredje part".
-maps#:#maps_custom_geolocation_server_info#:#URL till den server genom vilken geolokaliseringsdata tillhandahålls via Nominatims tjänst. Posten måste innehålla platshållaren [QUERY] för att ange förfrågningspositionen. Exempel
-maps#:#maps_custom_tile_server_info#:#URL för den server som tillhandahåller brickorna. Flera poster måste separeras med mellanslag. Standardinmatningen är "%s".
-maps#:#maps_enable_maps#:#Aktivera kort
-maps#:#maps_enable_maps_info#:#Kartor kan visas systemövergripande i profiler, kurser och grupper ###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-maps#:#maps_geolocation_server#:#Server för omvänd geolokalisering
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https för omvänd sökning
-maps#:#maps_latitude#:#Latitud
-maps#:#maps_longitude#:#längd
-maps#:#maps_lookup_address#:#Sökadress
-maps#:#maps_map_type#:#Typ
-maps#:#maps_open_layers_maps#:#Öppna lager kartor
-maps#:#maps_settings#:#Inställningar kartor
-maps#:#maps_std_location#:#Förvald position
-maps#:#maps_std_location_desc#:#Klicka på kartan för att ange din egen position.
-maps#:#maps_tile_server#:#Til server
-maps#:#maps_zoom_level#:#Utvidgningsnivå
 mcst#:#mcst_add_new_item#:#Lägg till ny Mediacast-post
 mcst#:#mcst_audio_files#:#Ljudfiler
 mcst#:#mcst_audioportable_settings_info#:# Kommaseparerad lista över filtillägg

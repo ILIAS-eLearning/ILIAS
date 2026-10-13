@@ -10833,24 +10833,6 @@ mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mail#:#system_notification_installation_changed_by#:#Modifié Par
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###31 10 2023 new variable
-maps#:#configure_geolocation#:#Veuillez terminer la configuration de géolocalisation dans le menu d'administration "Logiciels tiers" pour permettre la recherche d'adresse.
-maps#:#maps_custom_geolocation_server_info#:#URL serveur pour fournir des données de géolocalisation en utilisant Nominatim. Votre entrée doit contenir l’espace [QUERY] pour définir une position pour les informations de demande. Exemple: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#URL serveur pour fournir des données de mosaïque. Les entrées multiples doivent être séparées par des espaces. Les valeurs par défaut sont «%s».
-maps#:#maps_enable_maps#:#Activer Cartes
-maps#:#maps_enable_maps_info#:#Active les cartes dans les profils des utilisateurs, les groupes et les cours.
-maps#:#maps_geolocation_server#:#Serveur pour géolocalisation inversée
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup
-maps#:#maps_latitude#:#Latitude
-maps#:#maps_longitude#:#Longitude
-maps#:#maps_lookup_address#:#Consulter adresse
-maps#:#maps_map_type#:#Type
-maps#:#maps_open_layers_maps#:#Cartes Openlayers
-maps#:#maps_settings#:#Paramètres des Cartes
-maps#:#maps_std_location#:#Emplacement par défaut
-maps#:#maps_std_location_desc#:#Latitude / Longitude. Cliquer sur la carte pour définir la position géographique.
-maps#:#maps_tile_server#:#Serveur des mosaïques
-maps#:#maps_zoom_level#:#Niveau de Zoom
 mcst#:#mcst_add_new_item#:#Ajouter un Nouveau Média
 mcst#:#mcst_audio_files#:#Audio Files###31 10 2023 new variable
 mcst#:#mcst_audioportable_settings_info#:#Liste d'extensions de fichier séparées par des virgules

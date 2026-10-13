@@ -10847,24 +10847,6 @@ mail#:#show_mail_settings#:#Show Mail Settings###10 11 2018 new variable
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.###10 11 2018 new variable
 mail#:#system_notification_installation_changed_by#:#Changed By###24 10 2013 new variable
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###29 07 2022 new variable
-maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
-maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
-maps#:#maps_enable_maps#:#Enable Maps###26 09 2014 new variable
-maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.###26 09 2014 new variable
-maps#:#maps_geolocation_server#:#Server for Reverse Geolocation###30 08 2015 new variable
-maps#:#maps_google_maps#:#Google Maps###26 09 2014 new variable
-maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup###29 07 2022 new variable
-maps#:#maps_latitude#:#Latitude###26 09 2014 new variable
-maps#:#maps_longitude#:#Longitude###26 09 2014 new variable
-maps#:#maps_lookup_address#:#Lookup Address###26 09 2014 new variable
-maps#:#maps_map_type#:#Typ###26 09 2014 new variable
-maps#:#maps_open_layers_maps#:#Open Layers Maps###26 09 2014 new variable
-maps#:#maps_settings#:#Maps Settings###26 09 2014 new variable
-maps#:#maps_std_location#:#Default Location###26 09 2014 new variable
-maps#:#maps_std_location_desc#:#Click map to set location.###26 09 2014 new variable
-maps#:#maps_tile_server#:#Server for Tiles###30 08 2015 new variable
-maps#:#maps_zoom_level#:#Zoom Level###26 09 2014 new variable
 mcst#:#mcst_add_new_item#:#Add New Media Cast Item
 mcst#:#mcst_audio_files#:#Audio Files###29 07 2022 new variable
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes

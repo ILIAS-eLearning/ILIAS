@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Dokončajte konfiguracijo geolokacije v administracijskem meniju \"Programska oprema tretjih oseb\", da omogočite iskanje naslovov."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL strežnika za zagotavljanje geolokacijskih podatkov z uporabo Nominatim. Vaš vnos mora vsebovati nadomestni znak [QUERY], da določite položaj za informacije o zahtevi. Npr.: nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL strežnika za zagotavljanje podatkov ploščic. Več vnosov je treba ločiti s presledki. Privzeto je \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Aktiviraj zemljevide"
+
+msgid "maps_enable_maps_info"
+msgstr "Aktivira zemljevide v uporabniških profilih, skupinah in tečajih."
+
+msgid "maps_geolocation_server"
+msgstr "Strežnik za povratno geolokacijo"
+
+#, fuzzy
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https for Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Zemljepisna širina"
+
+msgid "maps_longitude"
+msgstr "Zemljepisna dolžina"
+
+msgid "maps_lookup_address"
+msgstr "Išči naslov"
+
+msgid "maps_map_type"
+msgstr "Tip"
+
+msgid "maps_open_layers_maps"
+msgstr "Odpri zemljevid slojev"
+
+msgid "maps_settings"
+msgstr "Nastavitve zemljevidov"
+
+msgid "maps_std_location"
+msgstr "Privzeta lokacija"
+
+msgid "maps_std_location_desc"
+msgstr "Kliknite na zemljevid, da nastavite lastno lokacijo."
+
+msgid "maps_tile_server"
+msgstr "Strežnik za ploščice"
+
+msgid "maps_zoom_level"
+msgstr "Stopnja povečave"

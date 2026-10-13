@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Završite konfiguraciju geolokacije u administracijskom izborniku \"Softver treće strane\" kako biste omogućili pretraživanje adrese."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL servera za pružanje podataka o geolokaciji pomoću Nominatima. Vaš unos treba sadržavati rezervirano mjesto [QUERY] kako bi se definiralo mjesto za informacije o zahtjevu. Primjer: nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL servera za pružanje podataka o pločicama. Više ulaznih podataka treba odvojiti razmacima. Zadane vrijednosti su \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Omogući Karte"
+
+msgid "maps_enable_maps_info"
+msgstr "Aktivira Karte u korisničkim profilima, grupama i tečajevima."
+
+msgid "maps_geolocation_server"
+msgstr "Poslužitelj za obrnuto geolociranje"
+
+#, fuzzy
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https for Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Zemljopisna širina"
+
+msgid "maps_longitude"
+msgstr "Zemljopisna dužina"
+
+msgid "maps_lookup_address"
+msgstr "Adresa za pretraživanje"
+
+msgid "maps_map_type"
+msgstr "Tip"
+
+msgid "maps_open_layers_maps"
+msgstr "Otvorite Mape slojeva"
+
+msgid "maps_settings"
+msgstr "Postavke karte"
+
+msgid "maps_std_location"
+msgstr "Zadana lokacija"
+
+msgid "maps_std_location_desc"
+msgstr "Kliknite kartu kako biste postavili lokaciju."
+
+msgid "maps_tile_server"
+msgstr "Server za pločice"
+
+msgid "maps_zoom_level"
+msgstr "Razina zumiranja"

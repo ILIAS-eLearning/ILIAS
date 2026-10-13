@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "För att kunna söka efter adresser måste du slutföra konfigurationen för geolokalisering i administrationsmenyn \"Programvara från tredje part\"."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL till den server genom vilken geolokaliseringsdata tillhandahålls via Nominatims tjänst. Posten måste innehålla platshållaren [QUERY] för att ange förfrågningspositionen. Exempel"
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL för den server som tillhandahåller brickorna. Flera poster måste separeras med mellanslag. Standardinmatningen är \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Aktivera kort"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "maps_enable_maps_info"
+msgstr "Kartor kan visas systemövergripande i profiler, kurser och grupper "
+
+msgid "maps_geolocation_server"
+msgstr "Server för omvänd geolokalisering"
+
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https för omvänd sökning"
+
+msgid "maps_latitude"
+msgstr "Latitud"
+
+msgid "maps_longitude"
+msgstr "längd"
+
+msgid "maps_lookup_address"
+msgstr "Sökadress"
+
+msgid "maps_map_type"
+msgstr "Typ"
+
+msgid "maps_open_layers_maps"
+msgstr "Öppna lager kartor"
+
+msgid "maps_settings"
+msgstr "Inställningar kartor"
+
+msgid "maps_std_location"
+msgstr "Förvald position"
+
+msgid "maps_std_location_desc"
+msgstr "Klicka på kartan för att ange din egen position."
+
+msgid "maps_tile_server"
+msgstr "Til server"
+
+msgid "maps_zoom_level"
+msgstr "Utvidgningsnivå"

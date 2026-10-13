@@ -10846,24 +10846,6 @@ mail#:#show_mail_settings#:#Zobrazit nastavení pošty
 mail#:#show_mail_settings_info#:#Je-li tato volba povolena, budou uživatelská „Nastavení pošty“ přístupná prostřednictvím sekce „Osobní nastavení“ nebo „Pošta“.
 mail#:#system_notification_installation_changed_by#:#Změnil
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###29 07 2022 new variable
-maps#:#configure_geolocation#:#Dokončete konfiguraci geolokace v menu správy "Software třetích stran" a povolte vyhledávání adres.
-maps#:#maps_custom_geolocation_server_info#:#Server URL pro poskytování geolokačních údajů pomocí Nominatim. Položka by měla obsahovat zástupný symbol [QUERY] pro definování pozice pro informace o požadavku. Příklad: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#Adresa URL serveru k poskytnutí dat o rastru. Více vstupů by mělo být odděleno mezerami. Výchozí nastavení je "%s".
-maps#:#maps_enable_maps#:#Povolit Mapy
-maps#:#maps_enable_maps_info#:#Aktivuje Mapy v uživatelských profilech, skupinách a kurzech.
-maps#:#maps_geolocation_server#:#Server pro zpětnou geolokaci
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup###29 07 2022 new variable
-maps#:#maps_latitude#:#Zeměpisná šířka
-maps#:#maps_longitude#:#Zeměpisná délka
-maps#:#maps_lookup_address#:#Vyhledávací adresa
-maps#:#maps_map_type#:#Typ
-maps#:#maps_open_layers_maps#:#Mapy otevřených vrstev
-maps#:#maps_settings#:#Nastavení map
-maps#:#maps_std_location#:#Výchozí umístění
-maps#:#maps_std_location_desc#:#Kliknutím na mapu nastavíte umístění.
-maps#:#maps_tile_server#:#Server pro rastry
-maps#:#maps_zoom_level#:#Úroveň přiblížení
 mcst#:#mcst_add_new_item#:#Přidat novou položku Mediacast
 mcst#:#mcst_audio_files#:#Audio Files###29 07 2022 new variable
 mcst#:#mcst_audioportable_settings_info#:#Seznam přípon souborů oddělený čárkou.
