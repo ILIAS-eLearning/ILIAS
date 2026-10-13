@@ -34,6 +34,7 @@ use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Environment\Configuration\Installation\Directories;
+use ILIAS\Logging\Logger\LoggerFactoryInterface;
 
 class Language implements Component\Component
 {
@@ -81,7 +82,8 @@ class Language implements Component\Component
                 "en",
                 $internal[LanguageFileDirectoryManager::class],
                 $pull[\ILIAS\Database\Connection::class],
-                $internal[Language\Setup\TranslationCache::class]
+                $internal[Language\Setup\TranslationCache::class],
+                $use[LoggerFactoryInterface::class]->getLazy('lang')
             );
 
         $internal[Language\Activities\LanguageSettings::class] = static fn() =>
@@ -95,6 +97,7 @@ class Language implements Component\Component
                 $internal[Language\Activities\LanguageSettings::class],
                 $internal[LanguageFileDirectoryManager::class],
                 new Language\Setup\DirectoriesInstallationRoot($use[Directories::class]),
+                $use[LoggerFactoryInterface::class]->getLazy('lang'),
             );
 
         $internal[InstallLanguage::class] = static fn() =>

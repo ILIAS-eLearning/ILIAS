@@ -76,7 +76,7 @@ class LanguageInstallationManagerMigratedDroppedKeysTest extends LanguageInstall
      */
     public function testAKeyDroppedFromTheShippedPoWithACorruptOverlayIsKept(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->shipPo(['farewell' => 'Tschüss']);
         $this->seedOverlay(['farewell' => ['value' => 'Tschüss', 'original' => 'Tschüss']]);
         file_put_contents($this->overlayBase() . '.po', "msgid \"kaputt\n");

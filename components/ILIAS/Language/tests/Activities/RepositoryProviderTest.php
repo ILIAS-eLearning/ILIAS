@@ -29,10 +29,11 @@ use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\Setup\FixedInstallationRoot;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
+use ILIAS\Logging\Logger\LoggerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Only what runs without the legacy container: the installed languages, the settings behind an injected Setting,
+ * Only what runs without the legacy container: the installed languages, the settings behind an injected LanguageSettings,
  * the lookup of the module content and the plural check against shipped `.po` files. The writes through
  * \ilObjLanguage are covered by the Activity tests as calls on a mocked provider.
  */
@@ -178,6 +179,27 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         $this->assertSame([], $this->provider()->languagesWithoutPluralForm('poll', 'item [2]', ['de']));
     }
 
+    public function testLogWarningWritesThroughTheInjectedLogger(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('warning')->with('the language may be incomplete');
+
+        $this->provider(logger: $logger)->logWarning('the language may be incomplete');
+    }
+
+    /** A failing logger must not replace the exception the warning is about: the message goes to error_log() instead. */
+    public function testLogWarningFallsBackToErrorLogWhenTheLoggerThrows(): void
+    {
+        $this->expectErrorLog();
+        $logger = $this->createStub(LoggerInterface::class);
+        $logger->method('warning')->willThrowException(new \LogicException('logger is down'));
+
+        $this->provider(logger: $logger)->logWarning('the language may be incomplete');
+
+        $file = (string) ini_get('error_log');
+        $this->assertStringContainsString('the language may be incomplete', (string) file_get_contents($file));
+    }
+
     /** @return array<string, array{0: \Closure}> */
     public static function dicWithoutComponentRepository(): array
     {
@@ -215,14 +237,16 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         ?InstalledLanguageRepository $installed = null,
         ?\ilDBInterface $db = null,
         ?LanguageFileDirectoryManager $manager = null,
-        ?LanguageSettings $settings = null
+        ?LanguageSettings $settings = null,
+        ?LoggerInterface $logger = null
     ): RepositoryProvider {
         return new RepositoryProvider(
             $installed ?? $this->createStub(InstalledLanguageRepository::class),
             $db ?? $this->createStub(\ilDBInterface::class),
             $settings ?? $this->createStub(LanguageSettings::class),
             $manager ?? new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory()),
-            new FixedInstallationRoot($this->iliasRoot())
+            new FixedInstallationRoot($this->iliasRoot()),
+            $logger ?? $this->createStub(LoggerInterface::class)
         );
     }
 

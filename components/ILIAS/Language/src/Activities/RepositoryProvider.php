@@ -26,10 +26,11 @@ use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
 use ILIAS\Language\Setup\InstallationRoot;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 /**
  * Every legacy and repository access of the runtime language activities. No component offers the
- * logger and the component repository yet, so they are resolved from the legacy container on first use.
+ * component repository yet, so it is resolved from the legacy container on first use.
  */
 class RepositoryProvider
 {
@@ -39,6 +40,7 @@ class RepositoryProvider
         private readonly LanguageSettings $settings,
         private readonly LanguageFileDirectoryManager $language_file_directory_manager,
         private readonly InstallationRoot $installation_root,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -121,11 +123,10 @@ class RepositoryProvider
 
     public function logWarning(string $message): void
     {
-        global $DIC;
-
         try {
-            $DIC->logger()->forComponent('lang')->warning($message);
+            $this->logger->warning($message);
         } catch (\Throwable) {
+            // must not replace the exception being reported
             error_log($message);
         }
     }

@@ -90,7 +90,7 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
 
     public function testAFailingCacheInvalidatorIsLoggedAndSwallowed(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->shipPo(['greeting' => 'Hallo']);
         $this->seedOverlay(['greeting' => ['value' => 'Hallo', 'original' => 'Hallo']]);
 
@@ -101,6 +101,34 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
         $this->assertSame(['greeting' => 'Hallo'], $this->lngModules()[self::MODULE]);
         // a shipped value writes no file; the sync still running shows in the removal of an outdated overlay
         $this->assertFileDoesNotExist(MigratedPoFixture::overlayMo($this->overlayBase()), 'the overlay sync still ran: it removed the outdated overlay');
+        $this->assertStringContainsString('cache is down', $this->loggedWarnings());
+    }
+
+    public function testWithoutALoggerAWarningGoesToThePhpErrorLog(): void
+    {
+        $this->expectErrorLog();
+        $this->shipPo(['greeting' => 'Hallo']);
+
+        $this->manager(null, static function (): void {
+            throw new RuntimeException('cache is down');
+        }, true, false)->insertLanguageForInstallation('de');
+
+        $this->assertStringContainsString('cache is down', $this->errorLog());
+        $this->assertSame([], $this->logged_warnings);
+    }
+
+    public function testAThrowingLoggerFallsBackToThePhpErrorLogAndDoesNotAbortTheInstallation(): void
+    {
+        $this->expectErrorLog();
+        $this->shipPo(['greeting' => 'Hallo']);
+        $logger = $this->createStub(\ILIAS\Logging\Logger\LoggerInterface::class);
+        $logger->method('warning')->willThrowException(new RuntimeException('logger is down'));
+
+        $this->manager(null, static function (): void {
+            throw new RuntimeException('cache is down');
+        }, true, true, $logger)->insertLanguageForInstallation('de');
+
+        $this->assertSame(['greeting' => 'Hallo'], $this->lngModules()[self::MODULE]);
         $this->assertStringContainsString('cache is down', $this->errorLog());
     }
 
@@ -110,7 +138,7 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
      */
     public function testAnOverlaySyncFailureIsLoggedAndTheDatabaseWriteStays(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->shipPo(['greeting' => 'Hallo']);
         // a local change: only then an overlay has to be written (delta)
         $this->db_local_changes = [self::MODULE => ['greeting' => 'Servus']];
@@ -126,7 +154,7 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
         }
 
         $this->assertSame(['greeting' => 'Servus'], $this->lngModules()[self::MODULE]);
-        $this->assertStringContainsString('Could not sync migrated language file for module "pilot"', $this->errorLog());
+        $this->assertStringContainsString('Could not sync migrated language file for module "pilot"', $this->loggedWarnings());
         $this->assertSame([self::MODULE], $unwritten, 'the failed module is returned so callers can report it');
     }
 
@@ -138,7 +166,7 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
     public function testEveryWritePathReturnsOnlyTheModulesWhoseOverlayCouldNotBeWritten(string $method, bool $writes_overlay): void
     {
         if ($writes_overlay) {
-            $this->expectErrorLog();
+            $this->expectManagerWarning();
         }
         $this->shipPo(['greeting' => 'Hallo']);
         $this->writeLang('lang/ilias_de.lang', ['common#:#yes#:#Ja']);
@@ -261,7 +289,7 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
      */
     public function testADuplicateInOneFileKeepsTheFirstOccurrenceAndIsReported(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->writeLang('lang/ilias_de.lang', [
             'common#:#yes#:#Ja',
             'common#:#yes#:#Doppelt',
@@ -272,8 +300,8 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
 
         $this->assertSame(['yes' => 'Ja', 'no' => 'Nein'], $this->lngModules()['common']);
         $this->assertSame(['value' => 'Ja', 'local_change' => null], $this->lngData()['common|yes']);
-        $this->assertStringContainsString('Duplicate language entries for language "de"', $this->errorLog());
-        $this->assertStringContainsString('common#:#yes', $this->errorLog());
+        $this->assertStringContainsString('Duplicate language entries for language "de"', $this->loggedWarnings());
+        $this->assertStringContainsString('common#:#yes', $this->loggedWarnings());
     }
 
     public function testTheSameEntryInTwoDifferentFilesIsNotADuplicate(): void
@@ -284,6 +312,6 @@ class LanguageInstallationManagerMigratedAfterWriteTest extends LanguageInstalla
         $this->manager()->insertLanguageForInstallation('de');
 
         $this->assertSame(['yes' => 'Jawohl'], $this->lngModules()['common']);
-        $this->assertStringNotContainsString('Duplicate', $this->errorLog());
+        $this->assertStringNotContainsString('Duplicate', $this->loggedWarnings());
     }
 }
