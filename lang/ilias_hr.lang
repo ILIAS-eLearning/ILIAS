@@ -15364,15 +15364,6 @@ survey#:#values#:#Vrijednosti
 survey#:#vertical#:#Okomito
 survey#:#warning_question_not_complete#:#Pitanje nije potpuno!
 survey#:#workingtime#:#Radno vrijeme
-task#:#task_deadline#:#End###04 06 2021 new variable
-task#:#task_derived_tasks#:#Tasks###04 06 2021 new variable
-task#:#task_details#:#Details###04 06 2021 new variable
-task#:#task_no_task_items#:#There are no tasks for you.###04 06 2021 new variable
-task#:#task_no_tasks#:#You do not have any open tasks.###04 06 2021 new variable
-task#:#task_start#:#Start###04 06 2021 new variable
-task#:#task_task#:#Task###04 06 2021 new variable
-task#:#task_tasks_with_deadline#:#With Deadline###04 06 2021 new variable
-task#:#task_tasks_without_deadline#:#Without Deadline###04 06 2021 new variable
 tax#:#obj_taxn#:#Node
 tax#:#tax_add_taxonomy#:#Add Taxonomy
 tax#:#tax_added#:#Taxonomy has been created.

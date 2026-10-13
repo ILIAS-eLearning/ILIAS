@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: task\n"
+
+msgid "task_deadline"
+msgstr "Vége"
+
+msgid "task_derived_tasks"
+msgstr "Feladatok"
+
+msgid "task_details"
+msgstr "Részletek"
+
+msgid "task_no_task_items"
+msgstr "Nincsenek teendői."
+
+msgid "task_no_tasks"
+msgstr "Egy nyitott feladata sincs."
+
+msgid "task_start"
+msgstr "Kezdete"
+
+msgid "task_task"
+msgstr "Feladatok"
+
+msgid "task_tasks_with_deadline"
+msgstr "Határidővel"
+
+msgid "task_tasks_without_deadline"
+msgstr "Határidő nélkül"

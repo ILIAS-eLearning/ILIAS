@@ -15423,15 +15423,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
 survey#:#workingtime#:#Tiempo de trabajo
-task#:#task_deadline#:#Fin
-task#:#task_derived_tasks#:#Tareas
-task#:#task_details#:#Detalles
-task#:#task_no_task_items#:#No hay tareas para usted.
-task#:#task_no_tasks#:#No tiene tareas pendientes.
-task#:#task_start#:#Inicio
-task#:#task_task#:#Tarea
-task#:#task_tasks_with_deadline#:#Con fecha límite
-task#:#task_tasks_without_deadline#:#Sin fecha límite
 tax#:#obj_taxn#:#Nodo
 tax#:#tax_add_taxonomy#:#Añadir taxonomía
 tax#:#tax_added#:#Se ha creado la taxonomía.

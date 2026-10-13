@@ -15364,15 +15364,6 @@ survey#:#values#:#Vrednosti
 survey#:#vertical#:#navpično
 survey#:#warning_question_not_complete#:#Vprašanje ni popolno!
 survey#:#workingtime#:#Čas urejanja
-task#:#task_deadline#:#End
-task#:#task_derived_tasks#:#Tasks
-task#:#task_details#:#Details
-task#:#task_no_task_items#:#There are no tasks for you.
-task#:#task_no_tasks#:#You do not have any open tasks.
-task#:#task_start#:#Start
-task#:#task_task#:#Task
-task#:#task_tasks_with_deadline#:#With Deadline
-task#:#task_tasks_without_deadline#:#Without Deadline
 tax#:#obj_taxn#:#Node
 tax#:#tax_add_taxonomy#:#Add Taxonomy
 tax#:#tax_added#:#Taxonomy has been created.

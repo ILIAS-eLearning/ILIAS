@@ -15370,15 +15370,6 @@ survey#:#values#:#Valori
 survey#:#vertical#:#verticale
 survey#:#warning_question_not_complete#:#La domanda non è completa!
 survey#:#workingtime#:#Tempo di lavoro
-task#:#task_deadline#:#Fine
-task#:#task_derived_tasks#:#Attività
-task#:#task_details#:#Dettagli
-task#:#task_no_task_items#:#Non ci sono attività per te.
-task#:#task_no_tasks#:#Non hai nessuna attività aperta.
-task#:#task_start#:#Inizia
-task#:#task_task#:#Attività
-task#:#task_tasks_with_deadline#:#Con scadenza
-task#:#task_tasks_without_deadline#:#Senza scadenza
 tax#:#obj_taxn#:#Nodo
 tax#:#tax_add_taxonomy#:#Aggiungi tassonomia
 tax#:#tax_added#:#La tassonomia è stata creata.
