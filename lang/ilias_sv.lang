@@ -12761,11 +12761,6 @@ ps#:#rbac_log_age_info#:#Maximal ålder för loggposter i månader
 ps#:#rbac_log_info#:#Aktivera loggning av alla ändringar av rättighetsinställningar
 ps#:#show_privacy#:#Skydd av personuppgifter
 ps#:#show_security#:#Säkerhet
-pwsp#:#pwsp_enable_personal_resources#:#Aktivera personliga resurser
-pwsp#:#pwsp_enable_wsp_blogs#:#Aktivera bloggar
-pwsp#:#pwsp_enable_wsp_files#:# Aktivera filer
-pwsp#:#pwsp_enable_wsp_links#:# Aktivera länkar
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###29 10 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#Allmän feedback

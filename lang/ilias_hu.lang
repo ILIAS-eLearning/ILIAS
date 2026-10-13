@@ -12825,11 +12825,6 @@ ps#:#rbac_log_age_info#:#Naplóbejegyzések maximális élettartama hónapokban
 ps#:#rbac_log_info#:#Az összes objektum-jogosultságbeli módosítás naplózása
 ps#:#show_privacy#:#Adatvédelem
 ps#:#show_security#:#Biztonság
-pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
-pwsp#:#pwsp_enable_wsp_blogs#:#Blogok bekapcsolása
-pwsp#:#pwsp_enable_wsp_files#:#Fájlok bekapcsolása
-pwsp#:#pwsp_enable_wsp_links#:#Linkek bekapcsolása
-pwsp#:#pwsp_type_cannot_be_copied#:#‘%s’ típusú objektumok nem másolhatók.
 qpl#:#qpl_filter_commented_exclude#:#Megjegyzések nélküli kérdések
 qpl#:#qpl_filter_commented_only#:#Megjegyzéssel ellátott kérdések
 qpl#:#qpl_page_type_qfbg#:#Általános visszajelzés

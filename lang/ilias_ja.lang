@@ -12820,11 +12820,6 @@ ps#:#rbac_log_age_info#:#月間ログエントリー最高年齢
 ps#:#rbac_log_info#:#オブジェクトアクセス権限に対する全ての変更ログを有効にする
 ps#:#show_privacy#:#プライバシー
 ps#:#show_security#:#セキュリティ
-pwsp#:#pwsp_enable_personal_resources#:#パーソナルリソースを有効化
-pwsp#:#pwsp_enable_wsp_blogs#:#ブログを有効化
-pwsp#:#pwsp_enable_wsp_files#:#ファイルを有効化
-pwsp#:#pwsp_enable_wsp_links#:#リンクを有効化
-pwsp#:#pwsp_type_cannot_be_copied#:#オブジェクトタイプ '%s' をコピーできません
 qpl#:#qpl_filter_commented_exclude#:#コメントなしの問題
 qpl#:#qpl_filter_commented_only#:#コメント有の問題
 qpl#:#qpl_page_type_qfbg#:#全般フィードバック

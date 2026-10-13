@@ -12766,11 +12766,6 @@ ps#:#rbac_log_age_info#:#Durata massima degli inserimenti del log in mesi
 ps#:#rbac_log_info#:#Attiva Logging di tutti i cambiamenti e delle impostazioni di sicurezza
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Sicurezza
-pwsp#:#pwsp_enable_personal_resources#:#Attiva risorse personali
-pwsp#:#pwsp_enable_wsp_blogs#:#Attiva blog
-pwsp#:#pwsp_enable_wsp_files#:#Attiva files
-pwsp#:#pwsp_enable_wsp_links#:#Attiva links
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#Feedback generale

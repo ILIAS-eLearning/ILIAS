@@ -12760,11 +12760,6 @@ ps#:#rbac_log_age_info#:#日志条目的最大寿命，以月为单位。
 ps#:#rbac_log_info#:#启用记录日志，记录所有对象权限的更改。
 ps#:#show_privacy#:#隐私
 ps#:#show_security#:#安全性
-pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
-pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
-pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
-pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###29 10 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
