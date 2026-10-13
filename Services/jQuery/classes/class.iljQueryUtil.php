@@ -30,11 +30,11 @@ class iljQueryUtil
 
 
     /**
-     * inits and adds the jQuery JS-File to the global or a passed template
+     * Inits and adds the jQuery JS-File to the global or a passed template
      *
-     * @param \ilTemplate $a_tpl global $tpl is used when null
+     * @param ?\ilGlobalTemplateInterface $a_tpl global $tpl is used when null
      */
-    public static function initjQuery(ilGlobalTemplateInterface $a_tpl = null): void
+    public static function initjQuery(?ilGlobalTemplateInterface $a_tpl): void
     {
         global $DIC;
 
@@ -49,10 +49,12 @@ class iljQueryUtil
 
 
     /**
-     * inits and adds the jQuery-UI JS-File to the global template
+     * Inits and adds the jQuery-UI JS-File to the global template
      * (see included_components.txt for included components)
+     *
+     * @param ?\ilGlobalTemplateInterface $a_tpl global $tpl is used when null
      */
-    public static function initjQueryUI(ilGlobalTemplateInterface $a_tpl = null): void
+    public static function initjQueryUI(?ilGlobalTemplateInterface $a_tpl): void
     {
         global $DIC;
 
@@ -100,7 +102,7 @@ class iljQueryUtil
 
 
     /**
-     * Get local path of maphilight file
+     * @return string local path of maphilight file
      */
     public static function getLocalMaphilightPath(): string
     {
