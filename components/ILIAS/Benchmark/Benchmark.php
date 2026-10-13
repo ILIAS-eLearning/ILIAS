@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Benchmark implements Component\Component
 {
     public function init(
@@ -35,6 +38,10 @@ class Benchmark implements Component\Component
         $contribute[\ILIAS\Setup\Agent::class] = fn() =>
         new \ILIAS\Benchmark\Setup\Agent(
             $pull[\ILIAS\Refinery\Factory::class]
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'benchmark'
         );
     }
 }
