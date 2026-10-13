@@ -13701,7 +13701,6 @@ rbac#:#wiks_read#:#Gebruiker heeft leestoegang tot wiki-beheer
 rbac#:#wiks_visible#:#Wiki beheer is zichtbaar
 rbac#:#wiks_write#:#Wijzigen instellingen in wiki beheer
 rbac#:#write#:#Instellingen wijzigen
-rcrs#:#rcrs_call#:#Call Remote Course
 rep#:#btn_undelete_new_location#:#Restore (new location)###07 02 2020 new variable
 rep#:#btn_undelete_origin_location#:#Restore (same location)###07 02 2020 new variable
 rep#:#rep_activation_access#:#Toegang
