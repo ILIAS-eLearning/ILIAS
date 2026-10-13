@@ -1157,7 +1157,12 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pub.paintGaps = function () {
-    const last_position = $(window).scrollTop();
+    // The window does not scroll in ILIAS 10, <main class="il-layout-page-content">
+    // carries the overflow, so $(window).scrollTop() always returned 0 and the
+    // restore below was a no-op.
+    const scroll_container = document.querySelector('main.il-layout-page-content')
+      || document.scrollingElement || document.documentElement;
+    const last_position = scroll_container.scrollTop;
     $('.interactive').remove();
     let c = 0;
     ClozeSettings.gaps_php.forEach((obj, counter) => {
@@ -1193,7 +1198,7 @@ const ClozeQuestionGapBuilder = (function () {
     if (typeof (tinyMCE) !== 'undefined') {
       ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
     }
-    $(window).scrollTop(last_position);
+    scroll_container.scrollTop = last_position;
   };
 
   pub.showHidePointsFieldForGaps = function (gap, show) {
