@@ -2202,17 +2202,6 @@ badge#:#sort_by_title_desc#:#Cím Z→A
 badge#:#table_view#:#Táblázatos nézet
 badge#:#tile_view#:#Csempe nézet
 badge#:#valid_until#:#Érvényes eddig
-benchmark#:#adm_activate_db_benchmark#:#Teljesítménymérés bekapcsolása
-benchmark#:#adm_activate_db_benchmark_desc#:#A teljesítménymérést automatikusan leállítjuk egy kérelem után.
-benchmark#:#adm_db_bench_by_first_table#:#Első SQL tábla alapján összesítve
-benchmark#:#adm_db_bench_chronological#:#Időrendi
-benchmark#:#adm_db_bench_slowest_first#:#Leglassabbak előre
-benchmark#:#adm_db_bench_sorted_by_sql#:#Rendezés SQL szerint
-benchmark#:#adm_db_benchmark#:#Adatbázis teljesítménymérés
-benchmark#:#adm_db_benchmark_user#:#Felhasználónév
-benchmark#:#adm_db_benchmark_user_desc#:#Csak ehhez a felhasználóhoz készítünk méréseket. A megadott felhasználónév nem tartozhat a teljesítménymérést kezdeményező felhasználóhoz.
-benchmark#:#adm_sql#:#SQL
-benchmark#:#adm_time#:#Idő
 bgtask#:#bgtask_blocked#:#Egyidejű letöltés
 bgtask#:#bgtask_blocked_cancel_new#:#Új letöltés megszakítása
 bgtask#:#bgtask_blocked_cancel_old#:#Meglévő letöltés megszakítása

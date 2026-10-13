@@ -2194,17 +2194,6 @@ badge#:#sort_by_title_desc#:#Sort by Title Descending###26 08 2024 new variable
 badge#:#table_view#:#Table View###26 08 2024 new variable
 badge#:#tile_view#:#Tile View###26 08 2024 new variable
 badge#:#valid_until#:#Valid until###26 08 2024 new variable
-benchmark#:#adm_activate_db_benchmark#:#Activate Benchmarking###29 10 2025 new variable
-benchmark#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.###29 10 2025 new variable
-benchmark#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###29 10 2025 new variable
-benchmark#:#adm_db_bench_chronological#:#Chronological###29 10 2025 new variable
-benchmark#:#adm_db_bench_slowest_first#:#Slowest First###29 10 2025 new variable
-benchmark#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###29 10 2025 new variable
-benchmark#:#adm_db_benchmark#:#DB Benchmark###29 10 2025 new variable
-benchmark#:#adm_db_benchmark_user#:#User Account Name###29 10 2025 new variable
-benchmark#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.###29 10 2025 new variable
-benchmark#:#adm_sql#:#SQL###29 10 2025 new variable
-benchmark#:#adm_time#:#Time###29 10 2025 new variable
 bgtask#:#bgtask_blocked#:#Souběžné stahování
 bgtask#:#bgtask_blocked_cancel_new#:#Zrušit nové stahování
 bgtask#:#bgtask_blocked_cancel_old#:#Zrušit existující stahování

@@ -2200,17 +2200,6 @@ badge#:#sort_by_title_desc#:#Título descendente
 badge#:#table_view#:#Vista de Tabla
 badge#:#tile_view#:#Vista de Mosaico
 badge#:#valid_until#:#Válido hasta
-benchmark#:#adm_activate_db_benchmark#:#Activar evaluación comparativa
-benchmark#:#adm_activate_db_benchmark_desc#:#La evaluación comparativa se desactivará automáticamente después de una solicitud.
-benchmark#:#adm_db_bench_by_first_table#:#Agregado por la primera tabla en SQL
-benchmark#:#adm_db_bench_chronological#:#Cronológico
-benchmark#:#adm_db_bench_slowest_first#:#Más lentos primero
-benchmark#:#adm_db_bench_sorted_by_sql#:#Ordenado por SQL
-benchmark#:#adm_db_benchmark#:#Benchmark de BD
-benchmark#:#adm_db_benchmark_user#:#Nombre de la cuenta de usuario
-benchmark#:#adm_db_benchmark_user_desc#:#Las mediciones se realizarán solo para este usuario. El nombre de usuario ingresado no debe pertenecer al usuario que inicia la evaluación comparativa.
-benchmark#:#adm_sql#:#SQL
-benchmark#:#adm_time#:#Tiempo
 bgtask#:#bgtask_blocked#:#Descarga concurrente
 bgtask#:#bgtask_blocked_cancel_new#:#Cancelar nueva descarga
 bgtask#:#bgtask_blocked_cancel_old#:#Cancelar descarga existente
