@@ -15554,15 +15554,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List###29 07 2022 new variable
 webr#:#webr_sort_manual#:#手动排序
 webr#:#webr_sort_title#:#按标题排序
 webr#:#webr_sorting#:#链接排序
-wfld#:#wfld_add#:#创建文件夹
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.###07 02 2020 new variable
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.###07 02 2020 new variable
-wfld#:#wfld_creation_asc#:#Creation Date, asc.###07 02 2020 new variable
-wfld#:#wfld_creation_desc#:#Creation Date, desc.###07 02 2020 new variable
-wfld#:#wfld_derive#:#Adopt from parent###07 02 2020 new variable
-wfld#:#wfld_edit#:#编辑文件夹
-wfld#:#wfld_new#:#创建新文件夹
-wfld#:#wfld_sortation#:#Sortation###07 02 2020 new variable
 wiki#:#wiki_activate_extended_rating#:#激活分级类别
 wiki#:#wiki_activate_new_page_rating#:#激活新页面分级
 wiki#:#wiki_activate_page_rating#:#激活分级

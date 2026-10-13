@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr " Skapa mapp"
+
+msgid "wfld_alphabetically_asc"
+msgstr "Alfabetisk, asc."
+
+msgid "wfld_alphabetically_desc"
+msgstr "Alfabetisk, abst."
+
+msgid "wfld_creation_asc"
+msgstr "Creation datum, asst."
+
+msgid "wfld_creation_desc"
+msgstr "Datum för skapande, abst."
+
+msgid "wfld_derive"
+msgstr "Som överordnad mapp"
+
+msgid "wfld_edit"
+msgstr "Redigera mapp"
+
+msgid "wfld_new"
+msgstr " Skapa ny mapp"
+
+msgid "wfld_sortation"
+msgstr "Sortering"

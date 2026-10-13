@@ -15555,15 +15555,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List###04 06 2021 new variable
 webr#:#webr_sort_manual#:#Sort Manually###04 06 2021 new variable
 webr#:#webr_sort_title#:#Titles in Alphabetical Order###04 06 2021 new variable
 webr#:#webr_sorting#:#Weblink Sorting###04 06 2021 new variable
-wfld#:#wfld_add#:#Create Folder###04 06 2021 new variable
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.###04 06 2021 new variable
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.###04 06 2021 new variable
-wfld#:#wfld_creation_asc#:#Creation Date, asc.###04 06 2021 new variable
-wfld#:#wfld_creation_desc#:#Creation Date, desc.###04 06 2021 new variable
-wfld#:#wfld_derive#:#Adopt from parent###04 06 2021 new variable
-wfld#:#wfld_edit#:#Edit Folder###04 06 2021 new variable
-wfld#:#wfld_new#:#Create New Folder###04 06 2021 new variable
-wfld#:#wfld_sortation#:#Sortation###04 06 2021 new variable
 wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories###04 06 2021 new variable
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages###04 06 2021 new variable
 wiki#:#wiki_activate_page_rating#:#Activate Rating###04 06 2021 new variable

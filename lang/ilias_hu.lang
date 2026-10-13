@@ -15602,15 +15602,6 @@ webr#:#webr_set_to_list#:#Weblink-gyűjteménnyé alakítás
 webr#:#webr_sort_manual#:#Kézi sorba rendezés
 webr#:#webr_sort_title#:#Cím szerinti rendezés
 webr#:#webr_sorting#:#Weblinkek sorba rendezése
-wfld#:#wfld_add#:#Mappa létrehozása
-wfld#:#wfld_alphabetically_asc#:#Betűrend ↑
-wfld#:#wfld_alphabetically_desc#:#Betűrend ↓
-wfld#:#wfld_creation_asc#:#Létrehozás dátuma ↑
-wfld#:#wfld_creation_desc#:#Létrehozás dátuma ↓
-wfld#:#wfld_derive#:#Szülőtől öröklődik
-wfld#:#wfld_edit#:#Mappa módosítása
-wfld#:#wfld_new#:#Új mappa létrehozása
-wfld#:#wfld_sortation#:#Rendezés
 wiki#:#wiki_activate_extended_rating#:#Értékelési kategóriák bekapcsolása
 wiki#:#wiki_activate_new_page_rating#:#Értékelés bekapcsolása új lapokhoz
 wiki#:#wiki_activate_page_rating#:#Értékelés bekapcsolása

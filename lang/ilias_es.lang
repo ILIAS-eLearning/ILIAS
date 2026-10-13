@@ -15617,15 +15617,6 @@ webr#:#webr_set_to_list#:#Asignar a lista de enlaces web
 webr#:#webr_sort_manual#:#Ordenar manualmente
 webr#:#webr_sort_title#:#Títulos en orden alfabético
 webr#:#webr_sorting#:#Ordenación de enlaces web
-wfld#:#wfld_add#:#Crear carpeta
-wfld#:#wfld_alphabetically_asc#:#Alfabéticamente, asc.
-wfld#:#wfld_alphabetically_desc#:#Alfabéticamente, desc.
-wfld#:#wfld_creation_asc#:#Fecha de creación, asc.
-wfld#:#wfld_creation_desc#:#Fecha de creación, desc.
-wfld#:#wfld_derive#:#Adoptar del padre
-wfld#:#wfld_edit#:#Editar carpeta
-wfld#:#wfld_new#:#Crear nueva carpeta
-wfld#:#wfld_sortation#:#Clasificación
 wiki#:#wiki_activate_extended_rating#:#Activar categorías de calificación
 wiki#:#wiki_activate_new_page_rating#:#Activar calificación para nuevas páginas
 wiki#:#wiki_activate_page_rating#:#Activar calificación

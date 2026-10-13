@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr "Ordner anlegen"
+
+msgid "wfld_alphabetically_asc"
+msgstr "Alphabetisch, aufst."
+
+msgid "wfld_alphabetically_desc"
+msgstr "Alphabetisch, abst."
+
+msgid "wfld_creation_asc"
+msgstr "Erstellungsdatum, aufst."
+
+msgid "wfld_creation_desc"
+msgstr "Erstellungsdatum, abst."
+
+msgid "wfld_derive"
+msgstr "Wie übergeordneter Ordner"
+
+msgid "wfld_edit"
+msgstr "Ordner bearbeiten"
+
+msgid "wfld_new"
+msgstr "Neuen Ordner anlegen"
+
+msgid "wfld_sortation"
+msgstr "Sortierung"

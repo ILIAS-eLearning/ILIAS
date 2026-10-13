@@ -15555,15 +15555,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List###29 07 2022 new variable
 webr#:#webr_sort_manual#:#Řadit manuálně
 webr#:#webr_sort_title#:#Řadit dle názvu
 webr#:#webr_sorting#:#Link Sorting
-wfld#:#wfld_add#:#Create Folder###22 03 2011 new variable
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.###07 02 2020 new variable
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.###07 02 2020 new variable
-wfld#:#wfld_creation_asc#:#Creation Date, asc.###07 02 2020 new variable
-wfld#:#wfld_creation_desc#:#Creation Date, desc.###07 02 2020 new variable
-wfld#:#wfld_derive#:#Adopt from parent###07 02 2020 new variable
-wfld#:#wfld_edit#:#Edit Folder###18 01 2012 new variable
-wfld#:#wfld_new#:#Create New Folder###22 03 2011 new variable
-wfld#:#wfld_sortation#:#Sortation###07 02 2020 new variable
 wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories###28 08 2012 new variable
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages###28 08 2012 new variable
 wiki#:#wiki_activate_page_rating#:#Activate Rating###28 08 2012 new variable
