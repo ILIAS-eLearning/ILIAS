@@ -1,0 +1,407 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldap\n"
+
+#, fuzzy
+msgid "add_ldap_server"
+msgstr "Add Server"
+
+msgid "ldap_add_missing"
+msgstr "დაკარგული პასუხისმგებლობების დანიშვნა"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "ახალი წესი პასუხისმგებლობის დანიშვნებზე"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "მონაცემთა წყაროების გამოყენება"
+
+msgid "ldap_as_ds_info"
+msgstr "თუ გააქტიურებულია, ეს LDAPკონფიგურაცია გამოიყენება მომხმარებელთა ანგარიშების სინქრონიზაციიშტვის სხვა ავტორიზების მეთოდებთან კომბინაციაში ( მაგალითად CAS ან RADIUS)"
+
+msgid "ldap_assignment_type"
+msgstr "დანიშვნის სახეობა"
+
+msgid "ldap_authentication_settings"
+msgstr "ავტორიზების პარამეტრები"
+
+msgid "ldap_bind_anonymous"
+msgstr "ანონიმურად დაკავშირება"
+
+msgid "ldap_bind_user"
+msgstr "დავაკავშიროთ როგორც მომხმარებელი"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "ახალი წესის დამატება"
+
+msgid "ldap_check_role_assignment"
+msgstr "გვიანი შესვლების შემდეგ პასუხისმგებლობეის დანიშვნა"
+
+#, fuzzy
+msgid "ldap_choose_role"
+msgstr "Choose Role"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "პასუხისმგებლობის დანიშვნის წაშლა"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "წაშლილი დანიშვნა/დავალება"
+
+msgid "ldap_deleted_rule"
+msgstr "მონიშნული დანიშნული პასუხისმგებლობა წაშლილია"
+
+msgid "ldap_dn_info"
+msgstr "შეიყვანეთ განსხვავებული სახელი LDAP ჯგუფისთვის"
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "პასუხისმგებლობის დანიშვნის წესის რედაქტირება"
+
+#, fuzzy
+msgid "ldap_edit_role_assignment"
+msgstr "Edit Role -> Group Assignment"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "გთხოვთ შეიყვანოთ სწორი შენაერთის აი დი"
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "ფილტრი რომელიც დამატებული იქნება ძიების ფილტრში ამგვარად:  (&(userattr=username)<strong>(userfilter)</strong>)."
+
+msgid "ldap_global_role"
+msgstr "გლობალური პასუხისმგებლობა"
+
+msgid "ldap_global_role_assignment"
+msgstr "ილიასის პასუხისმგებლობის დანიშვნა"
+
+msgid "ldap_global_role_info"
+msgstr "გთხოვთ აირციოთ ილიასის პასუხისმგებლობა რომელზეც ახალი მომხმარებლები იქნებიან დანიშნული. <span class=\"asterisk\">*</span> პასუხისმგებლობის მონიშვნა არის <b>required</b> იმ შემთხვევაში თუ თქვენ სინქრონიზაციის სახეობა გაქვთ არჩეული"
+
+msgid "ldap_group_attribute"
+msgstr "ჯგუფის განსაზღვრება"
+
+msgid "ldap_group_attribute_info"
+msgstr "ჯგუფის განსაზღვრება რომ მოძებნოთ:"
+
+msgid "ldap_group_dn"
+msgstr "ჯგუფი DN"
+
+#, fuzzy
+msgid "ldap_group_dn_info"
+msgstr "Gets prepended to ‘BaseDN’ when searching for groups."
+
+msgid "ldap_group_dn_short"
+msgstr "ჯგუფი DN"
+
+msgid "ldap_group_filter"
+msgstr "LDAP ფილტრი"
+
+msgid "ldap_group_filter_info"
+msgstr "ფილტრი რომელიც დამატებული იქნება ძიების ფილტრშიჯგუფების ძიების დროს:  (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "ჯგუფის წევრის თვისება"
+
+msgid "ldap_group_member_info"
+msgstr "LDAP"
+
+msgid "ldap_group_member_optional"
+msgstr "ჯგუფში წევრობა არჩევითია"
+
+msgid "ldap_group_member_short"
+msgstr "განსაზღვრება"
+
+msgid "ldap_group_membership"
+msgstr "ჯგუფის წევრობა"
+
+msgid "ldap_group_name"
+msgstr "ჯგუფის სახელი"
+
+msgid "ldap_group_name_info"
+msgstr "ჯგუფის მომხმარებელთა სახელი უნდა იყოს წევრი წარმატებული ავტორიზებისთვის"
+
+msgid "ldap_group_optional_info"
+msgstr "თუ გააქტიურებულია, ჯგუფის წევრობა არ არის მოთხოვნილი წარმატებული ავტორიზებისთვის. გთხოვთ შეიყვანოთ მომხმარებლის ფილტრი ამ ჯგუფის წევრებისთვის: <br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "ჯგუფის წევრობის შეზღუდვები"
+
+msgid "ldap_group_scope"
+msgstr "ძიების ჰორიზონტი"
+
+msgid "ldap_group_scope_info"
+msgstr "ჯგუფის ძიების ჰორიზონტი. თუ არ ხართ დარწმუნებული აირჩიეთ '\"ქვე\""
+
+msgid "ldap_group_search_base"
+msgstr "ჯგუფის ძიების ბაზა"
+
+msgid "ldap_group_user_filter"
+msgstr "მომხმარებლის ფილტრი"
+
+msgid "ldap_ilias_role"
+msgstr "ილიასის პასუხისმგებლობის სახელი"
+
+msgid "ldap_info_text"
+msgstr "ინფორმაციის ტექსტი"
+
+msgid "ldap_info_text_info"
+msgstr "თუ შეტანილია, ეს ტექსტი გამოჩნდება ინფორმაციის ფანჯარაში იმ ობიექტისთვის რომელზეც ეს პასუხისმგებლობაა დანიშნულია. არჩევითად ეს ტექსტი ხელმისაწვდომია საცავში და პირად მაგიდაზე"
+
+msgid "ldap_local_role"
+msgstr "ადგილობრივი პასუხისმგებლობა"
+
+msgid "ldap_mapping_info_type"
+msgstr "ინფორმაციის ცვენება საცავში/პირად მაგიდაზე"
+
+msgid "ldap_mapping_table"
+msgstr "LDAP -ის მახასიათებლების ილიასის მომხმარებლის პროფილში დანიშვნა"
+
+msgid "ldap_mapping_template"
+msgstr "ნიმუში ობიექტების კლასისთვის"
+
+msgid "ldap_member_info"
+msgstr "ჯგუფის ობიექტის მახასიათებელი სადაც მომხმარებლის დნ ის მოძებნა შეიძლება"
+
+msgid "ldap_memberisdn"
+msgstr "მახასიათებლის ღირებულის"
+
+msgid "ldap_missing_bind_user"
+msgstr "თქვენ აირჩიეთ \" შევკრათ როგორც მომხმარებელი\" გთხოვთ შეიყვანოთ LDAP მომხმარებლის სახელი და პაროლი"
+
+msgid "ldap_missing_role_assignment"
+msgstr "გთხოვთ აირჩიოთ გლობალური პასუხისმგებლობა რომელზეც ახალი მომხმარებლები დაინიშნებიან"
+
+msgid "ldap_moment_sync"
+msgstr "სინქრონიზაციის სახეობა"
+
+msgid "ldap_new_role_assignment"
+msgstr "ახალი პასუხისმგებლობის დამატება-> ჯგუფის დანიშვნა"
+
+msgid "ldap_plugin"
+msgstr "დანიშვნა ცვალებადი პლატის მეშევეობით"
+
+msgid "ldap_plugin_id"
+msgstr "ცვალებადი პლატების აი დი"
+
+msgid "ldap_plugin_info"
+msgstr "დაამტკიცეთ ეს პასუხისმგებლობა ცვალებადი პლატის მეშვეობით"
+
+msgid "ldap_referrals"
+msgstr "რეფერალები"
+
+msgid "ldap_referrals_info"
+msgstr "თუ დაყენებულია, განსაზრვრავს ავტომატურად თან სდევს თუ არა LDAP ბიბლიოთეკა LDAP სერვერის მიერ დაბრუნებულ რეფერალებს"
+
+msgid "ldap_remove_deprecated"
+msgstr "შემცირებული პასუხისმგებლობების დანიშვნების შეცვლა"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "ჯგუფის სინქრონიზაციის გააქტიურება"
+
+msgid "ldap_role_assignments"
+msgstr "პასუხისმგებლობის დანიშვნა"
+
+msgid "ldap_role_at_info"
+msgstr "დანიშვნა დაფუძვნებულია გარკვეულ თვისებაზე LDAP  მომხმარებლის პროფილში"
+
+msgid "ldap_role_at_name"
+msgstr "განსაზღვრების სახელი"
+
+msgid "ldap_role_at_value"
+msgstr "განსაზღვრების ღირებულება"
+
+msgid "ldap_role_bind_pass"
+msgstr "პაროლი"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "პაროლი"
+
+msgid "ldap_role_bind_user"
+msgstr "მომხმარებლის DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "გთხოვთ შეიყვანოთ განსხვავებული სახელი LDAP მომხამრებლის ანგარიშისთვის. Aამ მომხმარებელს სჭირდება წერილობითიი დაშვება LDAP ის ჯგუფებისთვის."
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP განსაზღვრება"
+
+msgid "ldap_role_by_group"
+msgstr "ჯგუფში წევრობა"
+
+msgid "ldap_role_by_plugin"
+msgstr "პროგრამული გაფართოვების მეშვეობით"
+
+msgid "ldap_role_group_assignments"
+msgstr "არსებული პასუხისმგებლობა->ჯგუფის დავალებები"
+
+msgid "ldap_role_grp_at"
+msgstr "განსაზღვრება"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "გთხოვთ შეიყვანოთ LDAP ჯგუფის \"განსხვავებული სახელი\""
+
+msgid "ldap_role_grp_info"
+msgstr "LDAP ჯგუფის წევრები დანიშნულები იქნებიან არსებული ილიასის პასუხისმგებლობაზე"
+
+msgid "ldap_role_grp_isdn"
+msgstr "განსაზღვრბის სახელი არის DN"
+
+msgid "ldap_role_info"
+msgstr "შეიყვანეთ ილიასის პასუსიხმგებლობის სახელი რომელიც გააკონტროლებს LDAP ჯგუფში წევრობა"
+
+msgid "ldap_role_mapping"
+msgstr "ილიასის პასუხისმგებლობა-> LDAP ჯგუფის რუკაზე გადატანა"
+
+msgid "ldap_role_name_info"
+msgstr "გთხოვთ აირჩიოთ გლობალური პასუხისმგებლობა ან შეიყვანოთ ადგილობრივი პასუხისმგებლობის სახელი"
+
+msgid "ldap_role_not_exists"
+msgstr "ამ სახელიტ პასუხისმგებლობა არ არსებობს"
+
+msgid "ldap_role_selection"
+msgstr "პასუხისმგებლობის მონიშვნა"
+
+msgid "ldap_role_selection_info"
+msgstr "თქვენი მონიშვნა გაურკვეველია. გთხოვთ აირჩიოთ ერთ ერთი ადგილობრივი პასუხისმგებლობებიდან"
+
+msgid "ldap_role_settings"
+msgstr "LDAP ჯგუფის სინქრონიზაციის პარამეტრები"
+
+msgid "ldap_rule_condition"
+msgstr "პირობა"
+
+msgid "ldap_rule_type"
+msgstr "დანიშვნის სახეობა"
+
+msgid "ldap_scope_one"
+msgstr "ერთი"
+
+msgid "ldap_scope_sub"
+msgstr "ქვე"
+
+#, fuzzy
+msgid "ldap_search_base_info"
+msgstr "Gets prepended to basedn when searching for users."
+
+msgid "ldap_search_filter"
+msgstr "LDAP ფილტრი"
+
+msgid "ldap_server_bind_dn"
+msgstr "მომხმარებლის DN"
+
+msgid "ldap_server_bind_pass"
+msgstr "პაროლი"
+
+msgid "ldap_server_binding"
+msgstr "დაკავშირება"
+
+msgid "ldap_server_name"
+msgstr "LDAP კონფიგურაციის სახელი"
+
+msgid "ldap_server_name_info"
+msgstr "გთხოვთ აირჩიოთ LDAP სერვერის კონფიგურაციისთვის სახელი"
+
+msgid "ldap_server_security_settings"
+msgstr "უსაფრთხოების პარამეტრები"
+
+msgid "ldap_server_short"
+msgstr "სერვერილს URL:"
+
+msgid "ldap_server_url_info"
+msgstr "389\".  You may add multiple servers with commas separated."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "LDAP გამოსაყენებელი ვერსია, ხშირად 3"
+
+#, fuzzy
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "სერვერის პარამეტრები"
+
+msgid "ldap_sync_cron"
+msgstr "თითო კრონ ჯობზე"
+
+msgid "ldap_sync_login"
+msgstr "შესვლაზე"
+
+msgid "ldap_tbl_role_ass"
+msgstr "აქტიური წესები"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS არ შეიძლება გამოიყენებოდეს LDAP ვერსია 2 თან ერთად. გთხოვთ აირჩიოთ LDAP ვერსია \"3\" ან გააუქმოთ TLS მხარდაჭერა"
+
+msgid "ldap_update_field_info"
+msgstr "ავტომატურად განახლება"
+
+msgid "ldap_update_roles"
+msgstr "პასუხისმგებლობების დანიშვნა"
+
+msgid "ldap_user_attribute"
+msgstr "შესვლის სახელის განსაზღვრება"
+
+msgid "ldap_user_dn"
+msgstr "მომხმარებლის ძიების ბაზა"
+
+msgid "ldap_user_mapping"
+msgstr "მომხმარებლის პროფილის რუკაზე გადატანა"
+
+msgid "ldap_user_scope"
+msgstr "ძიების თვალთახედვა"
+
+msgid "ldap_user_scope_info"
+msgstr "თვალთახედვა მომხმარებლის ძიებისთვის. თუ არ ხართ დარწმუნებული აირშიეთ \"ქვე\""
+
+msgid "ldap_user_sync"
+msgstr "მომხმარებლის სინქრონიზაციის პარამეტრები"
+
+#, fuzzy
+msgid "ldap_user_sync_cron"
+msgstr "LDAP User Synchronization "
+
+#, fuzzy
+msgid "ldap_user_sync_cron_info"
+msgstr "If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option."
+
+msgid "ldap_user_sync_info"
+msgstr "განსაზღვრავს თუ სად იქმნებიან ახალი მომხმარებლები შესვლის გვერდზე თუ რეგულარულად თითო კრონ ჯობზე"
+
+#, fuzzy
+msgid "ldap_username_filter"
+msgstr "Username Filter"
+
+#, fuzzy
+msgid "ldap_username_filter_info"
+msgstr "Use * as wildcard."

@@ -1,0 +1,393 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Szerver hozzáadása"
+
+msgid "ldap_add_missing"
+msgstr "Hiányzó szerepkörök összerendelése"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Új szerepkör a szerep-összerendelésekhez"
+
+msgid "ldap_add_roles"
+msgstr "Szerepkör hozzáadása"
+
+msgid "ldap_as_ds"
+msgstr "Adatok forrásaként"
+
+msgid "ldap_as_ds_info"
+msgstr "Ez az LDAP-konfiguráció a többi hitelesítési módszerrel együtt (például CAS) csak a felhasználói fiókok szinkronizációjához használható. A közvetlen LDAP-hitelesítés így nem lehetséges."
+
+msgid "ldap_assignment_type"
+msgstr "Hozzárendelési típus"
+
+msgid "ldap_authentication_settings"
+msgstr "Hitelesítési beállítások"
+
+msgid "ldap_bind_anonymous"
+msgstr "Kapcsolódás névtelenül"
+
+msgid "ldap_bind_user"
+msgstr "Kapcsolódás felhasználóval"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Új szerepkör hozzáadása"
+
+msgid "ldap_check_role_assignment"
+msgstr "Legutóbbi bejelentkezések utáni szerep-összerendelések"
+
+msgid "ldap_choose_role"
+msgstr "Válasszon szabályt"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Szerep-összerendelés törlése"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Összerendelés törlése"
+
+msgid "ldap_deleted_rule"
+msgstr "Kiválasztott összerendelését sikeresen törölte."
+
+msgid "ldap_dn_info"
+msgstr "Adja meg az LDAP-csoport megkülönböztető nevét."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Szerep-összerendelési szabály módosítása"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Szerepkör módosítása ➜ Csoporthoz rendelés"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Valós bővítmény azonosítót adjon meg!"
+
+msgid "ldap_escapedn"
+msgstr "DN maszkolása"
+
+msgid "ldap_escapedn_info"
+msgstr "A felhasználói fiókok ‘Megkülönböztetett név (DN)’-ében lévő speciális karaktereket maszkoljuk a csoporttagság lekérdézésében."
+
+msgid "ldap_filter_info"
+msgstr "Szűrő, amely a keresési szűrőhöz a következőképpen adódik hozzá: (&(userattr=username)<strong>(userfilter)</strong>). Például <i>(objectclass=user)</i>"
+
+msgid "ldap_global_role"
+msgstr "Globális szerepkör"
+
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS-szerepkör hozzárendelése"
+
+msgid "ldap_global_role_info"
+msgstr "Válasszon egy ILIAS-szerepkört, melynek az új felhasználó automatikusan tagja lesz. <span class=\"asterisk\">*</span> A szerepkiválasztás <b>kötelező</b>, ha választott szinkronizációt."
+
+msgid "ldap_group_attribute"
+msgstr "Csoport attribútuma"
+
+msgid "ldap_group_attribute_info"
+msgstr "A csoport attribútumának neve. Például <i>cn</i>"
+
+msgid "ldap_group_dn"
+msgstr "Csoport DN"
+
+msgid "ldap_group_dn_info"
+msgstr "Csoport keresésekor a BaseDN-hez fűzzük hozzá. Például <i>ou=Groups</i>"
+
+msgid "ldap_group_dn_short"
+msgstr "Csoport DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP-szűrő"
+
+msgid "ldap_group_filter_info"
+msgstr "Szűrő, amely a keresési szűrőhöz a következőképpen adódik hozzá: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "Csoporttagság attribútuma"
+
+msgid "ldap_group_member_info"
+msgstr "A csoport attribútuma, ahol valószínűleg felhasználó DN található. Válassza a ‘Attribútum értéke DN’-t, ha a tag attribútuma a felhasználó egyedi neve."
+
+msgid "ldap_group_member_optional"
+msgstr "A csoporttagság választható"
+
+msgid "ldap_group_member_short"
+msgstr "Attribútum:"
+
+msgid "ldap_group_membership"
+msgstr "Csoporttagság"
+
+msgid "ldap_group_name"
+msgstr "Csoportok nevei"
+
+msgid "ldap_group_name_info"
+msgstr "A sikeres hitelesítéshez szükséges, hogy a felhasználó a csoportok egyikének tagja legyen. A csoportokat vesszővel elválasztva sorolja fel. Például <i>Hallgatok, Oktatok</i>"
+
+msgid "ldap_group_optional_info"
+msgstr "Nem szükséges a csoporttagság a sikeres hitelesítéshez. Adja meg ezen csoportok tagjainak felhasználószűrőjét:<br/>(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Csoporttagság megszorítások"
+
+msgid "ldap_group_scope"
+msgstr "Keresési hatókör"
+
+msgid "ldap_group_scope_info"
+msgstr "Hatókör csoport kereséséhez. Ha bizonytalan, válassza az ‘Al’-t."
+
+msgid "ldap_group_search_base"
+msgstr "Csoportkeresési alap"
+
+msgid "ldap_group_user_filter"
+msgstr "Felhasználószűrő"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS-szerepnév"
+
+msgid "ldap_info_text"
+msgstr "Információs szöveg"
+
+msgid "ldap_info_text_info"
+msgstr "Ha meg van adva, ez a szöveg fog megjelenni az információs képernyőn azokhoz az objektumokhoz, amelyek ehhez a szerepkörhöz vannak rendelve. Választhatóan ez a szöveg elérhető a Tartalomtárban."
+
+msgid "ldap_local_role"
+msgstr "Lokális szerepkör"
+
+msgid "ldap_mapping_info_type"
+msgstr "Információ megjelenítése a Tartalomtárban"
+
+msgid "ldap_mapping_table"
+msgstr "LDAP-tulajdonságok összerendelése ILIAS felhasználói profillal"
+
+msgid "ldap_mapping_template"
+msgstr "Sablon objectClass-hoz"
+
+msgid "ldap_member_info"
+msgstr "A csoportobjektum tulajdonsága, ahol a felhasználó DN valószínűleg található."
+
+msgid "ldap_memberisdn"
+msgstr "Attribútum értéke DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "A ‘Kapcsolódás felhasználónévvel’ opciót választotta. Adjon meg egy érvényes LDAP-felhasználónevet és jelszót!"
+
+msgid "ldap_missing_role_assignment"
+msgstr "Válasszon egy globális szerepkört, amelyhez hozzárendelésre kerülnek majd az új felhasználók!"
+
+msgid "ldap_moment_sync"
+msgstr "Szinkronizáció típusa"
+
+msgid "ldap_new_role_assignment"
+msgstr "Új szerepkör hozzáadása ➜ Csoport-összerendelés"
+
+msgid "ldap_plugin"
+msgstr "Összerendelés bővítménnyel"
+
+msgid "ldap_plugin_id"
+msgstr "Bővítmény azonosító"
+
+msgid "ldap_plugin_info"
+msgstr "Szerep-összerendelés érvényesítése bővítménnyel. Adjon meg egy valós bővítmény azonosítót!"
+
+msgid "ldap_referrals"
+msgstr "Átirányítások"
+
+msgid "ldap_referrals_info"
+msgstr "Bejelölése azt jelenti, hogy az LDAP-kiszolgáló automatikusan követi az átirányításokat. Active Directory Server esetén ne használja."
+
+msgid "ldap_remove_deprecated"
+msgstr "Érvénytelenített szerepkörök összerendelésének megszüntetése"
+
+msgid "ldap_remove_roles"
+msgstr "Szerepkörök eltávolítása"
+
+msgid "ldap_role_active"
+msgstr "Csoportszinkronizáció engedélyezése"
+
+msgid "ldap_role_assignments"
+msgstr "Szerep-összerendelés"
+
+msgid "ldap_role_at_info"
+msgstr "A hozzárendelés az LDAP-ban megadott speciális tulajdonságon alapszik."
+
+msgid "ldap_role_at_name"
+msgstr "Tulajdonságnév"
+
+msgid "ldap_role_at_value"
+msgstr "Attribútum értéke"
+
+msgid "ldap_role_bind_pass"
+msgstr "Jelszó"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Jelszó"
+
+msgid "ldap_role_bind_user"
+msgstr "Felhasználói DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Adjon meg egy egyedi LDAP felhasználónevet! Ennek a felhasználónak írási jog kell az LDAP-csoportokhoz."
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP-tulajdonság"
+
+msgid "ldap_role_by_group"
+msgstr "Csoporttagság"
+
+msgid "ldap_role_by_plugin"
+msgstr "Bővítménnyel"
+
+msgid "ldap_role_group_assignments"
+msgstr "Létező szerepkör ➜ Csoport-összerendelések"
+
+msgid "ldap_role_grp_at"
+msgstr "Tulajdonság"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Adja meg az LDAP-csoport megkülönböztető nevét!"
+
+msgid "ldap_role_grp_info"
+msgstr "A megadott LDAP-csoport tagjai hozzárendelésre fognak kerülni az adott ILIAS-szerepkörhöz."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Attribútum értéke DN"
+
+msgid "ldap_role_info"
+msgstr "Adjon meg egy ILIAS-szerepkört, amely felügyeli az LDAP-csoport tagságot."
+
+msgid "ldap_role_mapping"
+msgstr "LDAP-szerepkör ➜ LDAP-leképezés"
+
+msgid "ldap_role_name_info"
+msgstr "Válasszon egy globális szerepkört, vagy adja meg egy helyi szerepkör nevét."
+
+msgid "ldap_role_not_exists"
+msgstr "Nem létezik ilyen névvel szerepkör"
+
+msgid "ldap_role_selection"
+msgstr "Szerepkiválasztás"
+
+msgid "ldap_role_selection_info"
+msgstr "Nem egyértelmű a választása. Egyet válasszon az alábbi szerepkörök közül."
+
+msgid "ldap_role_settings"
+msgstr "LDAP csoportszinkronizációs beállítások"
+
+msgid "ldap_rule_condition"
+msgstr "feltétel"
+
+msgid "ldap_rule_type"
+msgstr "Hozzárendelés típusa"
+
+msgid "ldap_scope_one"
+msgstr "Egy"
+
+msgid "ldap_scope_sub"
+msgstr "Al"
+
+msgid "ldap_search_base_info"
+msgstr "Felhasználó keresésekor a BaseDN-hez fűzzük hozzá. Például <i>ou=People</i>"
+
+msgid "ldap_search_filter"
+msgstr "LDAP-szűrő"
+
+msgid "ldap_server_bind_dn"
+msgstr "Felhasználó megkülönböztetett neve<br />Distinguished name, DN. Például <i>ldap.user@pelda.hu</i>"
+
+msgid "ldap_server_bind_pass"
+msgstr "Jelszó"
+
+msgid "ldap_server_binding"
+msgstr "Kapcsolódás"
+
+msgid "ldap_server_name"
+msgstr "LDAP-konfiguráció neve"
+
+msgid "ldap_server_name_info"
+msgstr "Adjon nevet ennek az LDAP-konfigurációnak"
+
+msgid "ldap_server_security_settings"
+msgstr "Biztonsági beállítások"
+
+msgid "ldap_server_short"
+msgstr "LDAP-kiszolgáló URL-je"
+
+msgid "ldap_server_url_info"
+msgstr "Teljes URL az LDAP-kiszolgáló eléréséhez (url és port). Például <i>ldaps://ldap.pelda.hu:636</i> vagy <i>ldaps://192.168.1.1:636</i>."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Az LDAP-verziószáma, általában 3"
+
+msgid "ldap_servers"
+msgstr "LDAP Szerver"
+
+msgid "ldap_settings"
+msgstr "Kiszolgáló beállításai"
+
+msgid "ldap_sync_cron"
+msgstr "Ütemezett feladattal"
+
+msgid "ldap_sync_login"
+msgstr "Bejelentkezéskor"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Aktív szerepkörök"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAPv2 nem használható TLS-titkosítással. Válassza az LDAPv3-at, vagy tiltsa le a TLS-titkosítás használatát."
+
+msgid "ldap_update_field_info"
+msgstr "Automatikus frissítés"
+
+msgid "ldap_update_roles"
+msgstr "Szerep-összerendelés"
+
+msgid "ldap_user_attribute"
+msgstr "Felhasználónév attribútuma<br />Például <i>samaccountname</i>"
+
+msgid "ldap_user_dn"
+msgstr "Keresési alap"
+
+msgid "ldap_user_mapping"
+msgstr "Felhasználói profil leképezése"
+
+msgid "ldap_user_scope"
+msgstr "Keresési hatókör"
+
+msgid "ldap_user_scope_info"
+msgstr "A keresése hatóköre (scope). Ha bizonytalan, válassza az <i>Al</i>-t."
+
+msgid "ldap_user_sync"
+msgstr "Felhasználói szinkronizációs beállítások"
+
+msgid "ldap_user_sync_cron"
+msgstr "LDAP-felhasználók szinkronizálása"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Az LDAP-szerverről importáljuk és folyamatos szinkronizáljuk a felhasználói fiókokat."
+
+msgid "ldap_user_sync_info"
+msgstr "Annak meghatározása, hogy az új felhasználói fiókok automatikusan jöjjenek létre bejelentkezéskor vagy rendszeres időközönként ütemezett feladattal."
+
+msgid "ldap_username_filter"
+msgstr "Felhasználónév szűrése"
+
+msgid "ldap_username_filter_info"
+msgstr "A felhasználónév-szűrő opcionálisan használható az LDAP-kiszolgáló konfigurációjának automatikus meghatározására a bejelentkezési oldalon megadott felhasználónév alapján. A * (csillag) karakter helyettesítő karakterként használható. Például az ‘*pelda\\.hu’ megfelel minden olyan felhasználónak, akinek a megadott felhasználóneve ‘pelda.hu’-ra végződik. Ha a konfigurált szűrő megegyezik a megadott felhasználónévvel, akkor ezt az LDAP-kiszolgáló konfigurációt részesítjük előnyben, ha rögzített hitelesítési sorrendet állítottak be."

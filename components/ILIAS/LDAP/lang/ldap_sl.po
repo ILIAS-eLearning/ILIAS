@@ -1,0 +1,395 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Dodaj strežnik"
+
+msgid "ldap_add_missing"
+msgstr "Dodeli manjkajoče vloge"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Novo pravilo za dodeljevanje vlog ILIAS"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Uporabi kot vir podatkov"
+
+msgid "ldap_as_ds_info"
+msgstr "Če je aktivirano, se konfiguracija LDAP za sinhronizacijo uporabniških podatkov uporablja v kombinaciji z drugimi metodami avtentikacije (Radius ...). Neposredna avtentikacija preko LDAP ni mogoča."
+
+msgid "ldap_assignment_type"
+msgstr "Vrsta dodelitve"
+
+msgid "ldap_authentication_settings"
+msgstr "Nastavitve za avtentikacijo"
+
+msgid "ldap_bind_anonymous"
+msgstr "Poveži se anonimno"
+
+msgid "ldap_bind_user"
+msgstr "Poveži se kot uporabnik:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Ustvari novo pravilo"
+
+msgid "ldap_check_role_assignment"
+msgstr "Dodelitev vlog po kasnejših prijavah"
+
+msgid "ldap_choose_role"
+msgstr "Izberi vlogo"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Izbriši dodelitev vloge"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Dodelitev je bila izbrisana."
+
+msgid "ldap_deleted_rule"
+msgstr "Izbrana dodelitev vloge je bila izbrisana"
+
+msgid "ldap_dn_info"
+msgstr "Tukaj izberite celotno DN skupine LDAP."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Uredi pravilo za dodelitev vlog"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Uredi dodelitev"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Vnesite veljaven ID vtičnika."
+
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "Filter, ki bo dodan iskalnemu filtru na naslednji način: (&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_global_role"
+msgstr "Globalna vloga"
+
+msgid "ldap_global_role_assignment"
+msgstr "Dodelitev vlog"
+
+msgid "ldap_global_role_info"
+msgstr "Izberite globalno vlogo za nove uporabnike ILIAS. <span class=\"asterisk\">*</span> Vloga je <b>obvezna</b>, takoj ko ste izbrali vrsto sinhronizacije."
+
+msgid "ldap_group_attribute"
+msgstr "Ime atributa skupine"
+
+msgid "ldap_group_attribute_info"
+msgstr "Tukaj vnesite ime atributa skupine."
+
+msgid "ldap_group_dn"
+msgstr "DN skupin"
+
+msgid "ldap_group_dn_info"
+msgstr "Iskalna osnova za iskanje skupin. Postavljen je pred \"BaseDN\" Npr.: ou=Groups"
+
+msgid "ldap_group_dn_short"
+msgstr "DN skupine:"
+
+msgid "ldap_group_filter"
+msgstr "Filter LDAP"
+
+msgid "ldap_group_filter_info"
+msgstr "Filter, ki bo dodan iskalnemu filtru na naslednji način: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)"
+
+msgid "ldap_group_member"
+msgstr "Ime atributa članov skupine"
+
+msgid "ldap_group_member_info"
+msgstr "Tukaj vnesite ime atributa, ki je dodeljen članom skupine. Izberite 'Vrednost atributa je DN', če so imena članov dodana kot DN."
+
+msgid "ldap_group_member_optional"
+msgstr "Neobvezno članstvo v skupini"
+
+msgid "ldap_group_member_short"
+msgstr "Atribut:"
+
+msgid "ldap_group_membership"
+msgstr "Članstvo v skupini"
+
+msgid "ldap_group_name"
+msgstr "Ime skupine"
+
+msgid "ldap_group_name_info"
+msgstr "Ime skupine"
+
+msgid "ldap_group_optional_info"
+msgstr "Če je aktivirano, članstvo v skupini ni obvezno za uspešno avtentikacijo. Vnesite filter uporabnika za te člane skupin:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Omejitve skupine"
+
+msgid "ldap_group_scope"
+msgstr "Področje iskanja"
+
+msgid "ldap_group_scope_info"
+msgstr "Področje za skupinsko iskanje. Če niste prepričani, izberite \"Sub\"."
+
+msgid "ldap_group_search_base"
+msgstr "Iskalna osnova"
+
+msgid "ldap_group_user_filter"
+msgstr "Filter uporabnika"
+
+msgid "ldap_ilias_role"
+msgstr "Ime vloge ILIAS"
+
+msgid "ldap_info_text"
+msgstr "Besedilo informacije"
+
+msgid "ldap_info_text_info"
+msgstr "Tukaj lahko vnesete besedilo informacije, ki bo prikazana na strani z informacijami o objektu, ki pripada vlogi. Po želji se to besedilo lahko prikaže tudi v magazinu ali na nadzorni plošči."
+
+msgid "ldap_local_role"
+msgstr "Lokalna vloga"
+
+msgid "ldap_mapping_info_type"
+msgstr "Prikaži tudi v magazinu."
+
+msgid "ldap_mapping_table"
+msgstr "Uporabniškemu profilu ILIAS dodeli atribute LDAP"
+
+msgid "ldap_mapping_template"
+msgstr "Uporabi predlogo za razred objekta:"
+
+msgid "ldap_member_info"
+msgstr "Tukaj vnesite ime atributa, ki je dodeljen članom skupine. Izberite 'Vrednost atributa je DN', če so imena članov dodana kot DN."
+
+msgid "ldap_memberisdn"
+msgstr "Vrednost atributa je DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "Za vrsto povezave ste izbrali 'Poveži se kot uporabnik': Vnesite uporabniško ime in geslo."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Izberite globalno vlogo, ki ji bodo dodeljeni novi uporabniki."
+
+msgid "ldap_moment_sync"
+msgstr "Vrsta sinhronizacije"
+
+msgid "ldap_new_role_assignment"
+msgstr "Ustvari novo dodelitev"
+
+msgid "ldap_plugin"
+msgstr "Dodelitev preko vtičnika"
+
+msgid "ldap_plugin_id"
+msgstr "Id vtičnika"
+
+msgid "ldap_plugin_info"
+msgstr "Preverjanje dodelitve vloge preko vtičnika. Vnesite veljaven ID vtičnika."
+
+msgid "ldap_referrals"
+msgstr "Posredovanje"
+
+msgid "ldap_referrals_info"
+msgstr "Tu je določeno, ali se posredovanje strežnika LDAP izvede samodejno ali ne."
+
+msgid "ldap_remove_deprecated"
+msgstr "Odstrani nepooblaščene vloge"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Posodabljanje skupin je vključeno"
+
+msgid "ldap_role_assignments"
+msgstr "Dodelitev vlog"
+
+msgid "ldap_role_at_info"
+msgstr "Dodelitev temelji na določenem atributu v uporabniškem profilu LDAP."
+
+msgid "ldap_role_at_name"
+msgstr "Ime atributa"
+
+msgid "ldap_role_at_value"
+msgstr "Vrednost atributa"
+
+msgid "ldap_role_bind_pass"
+msgstr "Geslo"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Geslo uporabnika LDAP."
+
+msgid "ldap_role_bind_user"
+msgstr "Uporabniško ime"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Vnesite uporabniško ime LDAP. Ta uporabnik potrebuje dostop za pisanje v skupinah, ki jih je treba posodobiti."
+
+msgid "ldap_role_by_attribute"
+msgstr "Atribut uporabnika"
+
+msgid "ldap_role_by_group"
+msgstr "Pripadnost skupini"
+
+msgid "ldap_role_by_plugin"
+msgstr "Preko vtičnika"
+
+msgid "ldap_role_group_assignments"
+msgstr "Obstoječe dodelitve"
+
+msgid "ldap_role_grp_at"
+msgstr "Atribut"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Vnesite popolno \"Distinguished Name\" skupine."
+
+msgid "ldap_role_grp_info"
+msgstr "Člani določene skupine LDAP bodo dodeljeni navedeni vlogi ILIAS."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Vrednost atributa je DN"
+
+msgid "ldap_role_info"
+msgstr "Vnesite ime vloge ILIAS, ki bo nadzorovala članstvo v skupini LDAP."
+
+msgid "ldap_role_mapping"
+msgstr "Dodelitev vlog ILIAS » skupine LDAP"
+
+msgid "ldap_role_name_info"
+msgstr "Izberite globalno vlogo ali vnesite ime lokalne vloge."
+
+msgid "ldap_role_not_exists"
+msgstr "Vloga ILIAS z naslednjim imenom ne obstaja:"
+
+msgid "ldap_role_selection"
+msgstr "Izbira vlog"
+
+msgid "ldap_role_selection_info"
+msgstr "Vaša izbira ni edinstvena. Izberite eno od naslednjih vlog."
+
+msgid "ldap_role_settings"
+msgstr "Nastavitve posodabljanja skupine LDAP"
+
+msgid "ldap_rule_condition"
+msgstr "Pogoj"
+
+msgid "ldap_rule_type"
+msgstr "Vrsta dodelitve"
+
+msgid "ldap_scope_one"
+msgstr "Ena"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "Iskalna osnova za iskanje uporabnikov. Postavljen je pred \"BaseDN\" Npr.: ou=People"
+
+msgid "ldap_search_filter"
+msgstr "Filter LDAP"
+
+msgid "ldap_server_bind_dn"
+msgstr "DN uporabnika"
+
+msgid "ldap_server_bind_pass"
+msgstr "Geslo"
+
+msgid "ldap_server_binding"
+msgstr "Vrsta povezave"
+
+msgid "ldap_server_name"
+msgstr "Ime konfiguracije LDAP"
+
+msgid "ldap_server_name_info"
+msgstr "Izberite ime za to konfiguracijo strežnika"
+
+msgid "ldap_server_security_settings"
+msgstr "Varnostne nastavitve"
+
+msgid "ldap_server_short"
+msgstr "URL strežnika:"
+
+msgid "ldap_server_url_info"
+msgstr "Celoten URL za povezavo s strežnikom LDAP. Npr. \"ldaps://ldap.ilias.de:636\"."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Različica protokola strežnika LDAP (v večini primerov \"LDAPv3\")."
+
+msgid "ldap_servers"
+msgstr "Strežnik LDAP"
+
+msgid "ldap_settings"
+msgstr "Nastavitve strežnika"
+
+msgid "ldap_sync_cron"
+msgstr "Preko cron job"
+
+msgid "ldap_sync_login"
+msgstr "Ob prijavi uporabnikov"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Aktivna pravila za dodelitev vlog"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS ni mogoče uporabiti v kombinaciji z različico protokola 2."
+
+msgid "ldap_update_field_info"
+msgstr "Samodejno posodobi"
+
+msgid "ldap_update_roles"
+msgstr "Dodeljevanje vlog"
+
+msgid "ldap_user_attribute"
+msgstr "Ime atributa za dostope uporabnikov"
+
+msgid "ldap_user_dn"
+msgstr "Iskalna osnova"
+
+msgid "ldap_user_mapping"
+msgstr "Dodelitev podatkov o profilu"
+
+msgid "ldap_user_scope"
+msgstr "Področje iskanja"
+
+msgid "ldap_user_scope_info"
+msgstr "Področje za iskanje uporabnika. Če niste prepričani, izberite \"Sub\"."
+
+msgid "ldap_user_sync"
+msgstr "Nastavitve sinhronizacije uporabnikov"
+
+msgid "ldap_user_sync_cron"
+msgstr "Sinhronizacija uporabnikov LDAP"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Če je aktivirano, bodo uporabniški računi uvoženi iz seznama LDAP in po želji stalno sinhronizirani."
+
+msgid "ldap_user_sync_info"
+msgstr "Določa, ali se novi uporabniki ustvarijo samodejno ob prvi prijavi ali redno preko cron job."
+
+msgid "ldap_username_filter"
+msgstr "Filter uporabniških imen"
+
+msgid "ldap_username_filter_info"
+msgstr "Uporabite * kot nadomestni znak."
