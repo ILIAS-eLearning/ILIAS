@@ -22,3 +22,8 @@ $il-input-tag-color-disabled: #EEEEEE;
 	--tag-hide-transition: .0s;
 	line-height: $il-line-height-base;
 }
+
+ui-tag-dropdown-item
+{
+    display: block;
+}
