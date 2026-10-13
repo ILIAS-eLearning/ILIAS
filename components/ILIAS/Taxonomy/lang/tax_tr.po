@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Düğüm"
+
+msgid "tax_add_taxonomy"
+msgstr "Add Taksonomi"
+
+#, fuzzy
+msgid "tax_added"
+msgstr "Taxonomy has been created."
+
+#, fuzzy
+msgid "tax_admin_settings_repository"
+msgstr "Repository Taxonomies"
+
+msgid "tax_alphabetical"
+msgstr "Alfabetik"
+
+#, fuzzy
+msgid "tax_assigned_items"
+msgstr "Assigned Items"
+
+msgid "tax_confirm_deletion"
+msgstr "gerçekten bütün taksonomi ve tüm ilişkileri silmek istediğinizden emin misiniz?"
+
+msgid "tax_create_node"
+msgstr "Node oluştur"
+
+#, fuzzy
+msgid "tax_item_sorting"
+msgstr "Support Sorting of Assigned Items"
+
+msgid "tax_manual"
+msgstr "Manuel"
+
+#, fuzzy
+msgid "tax_max_one_tax"
+msgstr "You can use maximum one taxonomy in this context."
+
+msgid "tax_new_tax_node"
+msgstr "Yeni Düğüm"
+
+msgid "tax_node"
+msgstr "Düğüm"
+
+#, fuzzy
+msgid "tax_node_sorting"
+msgstr "Sorting of Nodes"
+
+msgid "tax_nodes"
+msgstr "Düğümler"
+
+msgid "tax_order"
+msgstr "Sıra"
+
+msgid "tax_order_nr"
+msgstr "Sipariş Nr"
+
+msgid "tax_please_select_target"
+msgstr "hedef seçiniz."
+
+msgid "tax_target_within_nodes"
+msgstr "Hedef seçilen öğelerin bir subnode olmamalıdır."
+
+#, fuzzy
+msgid "tax_tax_assignment"
+msgstr "Taxonomy Assignment"
+
+msgid "tax_tax_deleted"
+msgstr "taksonomi silinmiştir."
+
+#, fuzzy
+msgid "tax_tax_settings"
+msgstr "Taxonomy Settings"
+
+msgid "tax_taxonomy"
+msgstr "Taksonomi"

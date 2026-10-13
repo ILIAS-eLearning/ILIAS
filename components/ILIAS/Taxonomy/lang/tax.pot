@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr ""
+
+msgid "tax_add_taxonomy"
+msgstr ""
+
+msgid "tax_added"
+msgstr ""
+
+msgid "tax_admin_settings_repository"
+msgstr ""
+
+msgid "tax_alphabetical"
+msgstr ""
+
+msgid "tax_assigned_items"
+msgstr ""
+
+msgid "tax_confirm_deletion"
+msgstr ""
+
+msgid "tax_create_node"
+msgstr ""
+
+msgid "tax_item_sorting"
+msgstr ""
+
+msgid "tax_manual"
+msgstr ""
+
+msgid "tax_max_one_tax"
+msgstr ""
+
+msgid "tax_new_tax_node"
+msgstr ""
+
+msgid "tax_node"
+msgstr ""
+
+msgid "tax_node_sorting"
+msgstr ""
+
+msgid "tax_nodes"
+msgstr ""
+
+msgid "tax_order"
+msgstr ""
+
+msgid "tax_order_nr"
+msgstr ""
+
+msgid "tax_please_select_target"
+msgstr ""
+
+msgid "tax_target_within_nodes"
+msgstr ""
+
+msgid "tax_tax_assignment"
+msgstr ""
+
+msgid "tax_tax_deleted"
+msgstr ""
+
+msgid "tax_tax_settings"
+msgstr ""
+
+msgid "tax_taxonomy"
+msgstr ""

@@ -15364,29 +15364,6 @@ survey#:#values#:#Väärtused
 survey#:#vertical#:#vertikaalne
 survey#:#warning_question_not_complete#:#Küsimus pole lõpetatud!
 survey#:#workingtime#:#Vastamiseks kulunud aeg
-tax#:#obj_taxn#:#Node
-tax#:#tax_add_taxonomy#:#Add Taxonomy
-tax#:#tax_added#:#Taxonomy has been created.
-tax#:#tax_admin_settings_repository#:#Repository Taxonomies
-tax#:#tax_alphabetical#:#Alphabetical
-tax#:#tax_assigned_items#:#Assigned Items
-tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
-tax#:#tax_create_node#:#Create Node
-tax#:#tax_item_sorting#:#Support Sorting of Assigned Items
-tax#:#tax_manual#:#Manual
-tax#:#tax_max_one_tax#:#You can use maximum one taxonomy in this context.
-tax#:#tax_new_tax_node#:#New Node
-tax#:#tax_node#:#Node
-tax#:#tax_node_sorting#:#Sorting of Nodes
-tax#:#tax_nodes#:#Nodes
-tax#:#tax_order#:#Order
-tax#:#tax_order_nr#:#Order Nr
-tax#:#tax_please_select_target#:#Please select the target.
-tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.
-tax#:#tax_tax_assignment#:#Taxonomy Assignment###31 08 2017 new variable
-tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
-tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
-tax#:#tax_taxonomy#:#Taxonomy
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

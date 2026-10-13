@@ -15370,29 +15370,6 @@ survey#:#values#:#Valori
 survey#:#vertical#:#verticale
 survey#:#warning_question_not_complete#:#La domanda non è completa!
 survey#:#workingtime#:#Tempo di lavoro
-tax#:#obj_taxn#:#Nodo
-tax#:#tax_add_taxonomy#:#Aggiungi tassonomia
-tax#:#tax_added#:#La tassonomia è stata creata.
-tax#:#tax_admin_settings_repository#:#Repository delle tassonomie
-tax#:#tax_alphabetical#:#Alfabetico
-tax#:#tax_assigned_items#:#Voci assegnate
-tax#:#tax_confirm_deletion#:#Vuoi davvero eliminare l’intera tassonomia e tutte le sue relazioni?
-tax#:#tax_create_node#:#Crea nodo
-tax#:#tax_item_sorting#:#Supportare l'ordinamento degli elementi assegnati
-tax#:#tax_manual#:#Manuale
-tax#:#tax_max_one_tax#:#Puoi utilizzare solo una tassonomia in questo contesto.
-tax#:#tax_new_tax_node#:#Nuovo nodo
-tax#:#tax_node#:#Nodo
-tax#:#tax_node_sorting#:#Ordinamento dei nodi
-tax#:#tax_nodes#:#Nodi
-tax#:#tax_order#:#Ordine
-tax#:#tax_order_nr#:#Numero dell ordine
-tax#:#tax_please_select_target#:#Si prega di selezionare la destinazione!
-tax#:#tax_target_within_nodes#:#Il target non può essere un nodo secondario degli elementi selezionati.
-tax#:#tax_tax_assignment#:#Assegnazione della tassonomia
-tax#:#tax_tax_deleted#:#La tassonomia è stata eliminata.
-tax#:#tax_tax_settings#:#Impostazioni tassonomia
-tax#:#tax_taxonomy#:#Tassonomia
 trac#:#cmix_lp_mode_deactivated#:#Il progresso di apprendimento è disattivato
 trac#:#cmix_lp_mode_deactivated_info#:#Lo stato di avanzamento dell'apprendimento non viene visualizzato e non influenza gli oggetti padre.
 trac#:#cmix_lp_mode_when_completed#:#Completato quando "completato"

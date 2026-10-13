@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Uzel"
+
+msgid "tax_add_taxonomy"
+msgstr "Přidat taxonomii"
+
+msgid "tax_added"
+msgstr "Byla vytvořena taxonomie."
+
+msgid "tax_admin_settings_repository"
+msgstr "Taxonomie úložiště"
+
+msgid "tax_alphabetical"
+msgstr "Abecedně"
+
+msgid "tax_assigned_items"
+msgstr "Přiřazené položky"
+
+msgid "tax_confirm_deletion"
+msgstr "Opravdu chcete odstranit celou taxonomii a všechny její vztahy?"
+
+msgid "tax_create_node"
+msgstr "Vytvořit uzel"
+
+msgid "tax_item_sorting"
+msgstr "Podpora třídění přiřazených položek"
+
+msgid "tax_manual"
+msgstr "Manuál"
+
+msgid "tax_max_one_tax"
+msgstr "V tomto kontextu můžete použít maximálně jednu taxonomii."
+
+msgid "tax_new_tax_node"
+msgstr "Nový uzel"
+
+msgid "tax_node"
+msgstr "Uzel"
+
+msgid "tax_node_sorting"
+msgstr "Třídění uzlů"
+
+msgid "tax_nodes"
+msgstr "Uzly"
+
+msgid "tax_order"
+msgstr "Objednat"
+
+msgid "tax_order_nr"
+msgstr "Objednávka"
+
+msgid "tax_please_select_target"
+msgstr "Č. objednávky"
+
+msgid "tax_target_within_nodes"
+msgstr "Cílem nesmí být poduzel vybraných položek."
+
+msgid "tax_tax_assignment"
+msgstr "Přiřazení taxonomie"
+
+msgid "tax_tax_deleted"
+msgstr "Taxonomie byla zrušena."
+
+msgid "tax_tax_settings"
+msgstr "Nastavení taxonomie"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomie"

@@ -15363,29 +15363,6 @@ survey#:#values#:#值
 survey#:#vertical#:#垂直
 survey#:#warning_question_not_complete#:#问题是不完整的!
 survey#:#workingtime#:#工作时间
-tax#:#obj_taxn#:#节点
-tax#:#tax_add_taxonomy#:#添加分类
-tax#:#tax_added#:#Taxonomy has been created.###24 10 2013 new variable
-tax#:#tax_admin_settings_repository#:#Repository Taxonomies###26 09 2014 new variable
-tax#:#tax_alphabetical#:#按字母顺序
-tax#:#tax_assigned_items#:#Assigned Items###24 10 2013 new variable
-tax#:#tax_confirm_deletion#:#您真的要删除整个分类及其所有的关联？
-tax#:#tax_create_node#:#创造节点
-tax#:#tax_item_sorting#:#Support Sorting of Assigned Items###24 10 2013 new variable
-tax#:#tax_manual#:#手动
-tax#:#tax_max_one_tax#:#You can use maximum one taxonomy in this context.###24 10 2013 new variable
-tax#:#tax_new_tax_node#:#新节点
-tax#:#tax_node#:#节点
-tax#:#tax_node_sorting#:#Sorting of Nodes###24 10 2013 new variable
-tax#:#tax_nodes#:#节点
-tax#:#tax_order#:#Order
-tax#:#tax_order_nr#:#Order Nr
-tax#:#tax_please_select_target#:#请选择目标
-tax#:#tax_target_within_nodes#:#目标必需不是一个所选项目的子节点。
-tax#:#tax_tax_assignment#:#Taxonomy Assignment###31 08 2017 new variable
-tax#:#tax_tax_deleted#:#分类已被删除
-tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
-tax#:#tax_taxonomy#:#分类学
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

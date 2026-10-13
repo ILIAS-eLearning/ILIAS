@@ -15364,29 +15364,6 @@ survey#:#values#:#Hodnoty
 survey#:#vertical#:#Svisle
 survey#:#warning_question_not_complete#:#Otázka není kompletní!
 survey#:#workingtime#:#Pracovní čas
-tax#:#obj_taxn#:#Uzel
-tax#:#tax_add_taxonomy#:#Přidat taxonomii
-tax#:#tax_added#:#Byla vytvořena taxonomie.
-tax#:#tax_admin_settings_repository#:#Taxonomie úložiště
-tax#:#tax_alphabetical#:#Abecedně
-tax#:#tax_assigned_items#:#Přiřazené položky
-tax#:#tax_confirm_deletion#:#Opravdu chcete odstranit celou taxonomii a všechny její vztahy?
-tax#:#tax_create_node#:#Vytvořit uzel
-tax#:#tax_item_sorting#:#Podpora třídění přiřazených položek
-tax#:#tax_manual#:#Manuál
-tax#:#tax_max_one_tax#:#V tomto kontextu můžete použít maximálně jednu taxonomii.
-tax#:#tax_new_tax_node#:#Nový uzel
-tax#:#tax_node#:#Uzel
-tax#:#tax_node_sorting#:#Třídění uzlů
-tax#:#tax_nodes#:#Uzly
-tax#:#tax_order#:#Objednat
-tax#:#tax_order_nr#:#Objednávka
-tax#:#tax_please_select_target#:#Č. objednávky
-tax#:#tax_target_within_nodes#:#Cílem nesmí být poduzel vybraných položek.
-tax#:#tax_tax_assignment#:#Přiřazení taxonomie
-tax#:#tax_tax_deleted#:#Taxonomie byla zrušena.
-tax#:#tax_tax_settings#:#Nastavení taxonomie
-tax#:#tax_taxonomy#:#Taxonomie
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

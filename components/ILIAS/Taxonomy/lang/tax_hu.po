@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Csomópont"
+
+msgid "tax_add_taxonomy"
+msgstr "Taxonómia létrehozása"
+
+msgid "tax_added"
+msgstr "Sikeresen létrehozott egy taxonómiát."
+
+msgid "tax_admin_settings_repository"
+msgstr "Tartalomtár Taxonómiák"
+
+msgid "tax_alphabetical"
+msgstr "Betűrend"
+
+msgid "tax_assigned_items"
+msgstr "Hozzárendelt elemek"
+
+msgid "tax_confirm_deletion"
+msgstr "Biztos, hogy törli a teljes taxonómiát és annak minden kapcsolatát?"
+
+msgid "tax_create_node"
+msgstr "Csomópont létrehozása"
+
+msgid "tax_item_sorting"
+msgstr "Hozzárendelt elemek sorrendbe rendezésének támogatása"
+
+msgid "tax_manual"
+msgstr "Kézi"
+
+msgid "tax_max_one_tax"
+msgstr "Maximum egy taxonómia használható ezzel kapcsolatban."
+
+msgid "tax_new_tax_node"
+msgstr "Új csomópont"
+
+msgid "tax_node"
+msgstr "Csomópont"
+
+msgid "tax_node_sorting"
+msgstr "Csomópontok sorrendbe rendezése"
+
+msgid "tax_nodes"
+msgstr "Csomópontok"
+
+msgid "tax_order"
+msgstr "Sorrend"
+
+msgid "tax_order_nr"
+msgstr "Sorszám"
+
+msgid "tax_please_select_target"
+msgstr "Válassza ki a célt."
+
+msgid "tax_target_within_nodes"
+msgstr "A cél nem lehet a kijelölt elemek alcsomópontja."
+
+msgid "tax_tax_assignment"
+msgstr "Taxonómia hozzárendelési"
+
+msgid "tax_tax_deleted"
+msgstr "A taxonómiát törölte"
+
+msgid "tax_tax_settings"
+msgstr "Taxonómia beállításai"
+
+msgid "tax_taxonomy"
+msgstr "Taxonómia"

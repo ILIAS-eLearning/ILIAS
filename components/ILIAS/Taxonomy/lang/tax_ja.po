@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "ノード"
+
+msgid "tax_add_taxonomy"
+msgstr "分類基準を追加"
+
+msgid "tax_added"
+msgstr "分類基準が作成されました。"
+
+msgid "tax_admin_settings_repository"
+msgstr "リポジトリ分類"
+
+msgid "tax_alphabetical"
+msgstr "アルファベット"
+
+msgid "tax_assigned_items"
+msgstr "アイテムが割当てられました"
+
+msgid "tax_confirm_deletion"
+msgstr "本当に全分類基準とそれに関連する全てを削除しますか?"
+
+msgid "tax_create_node"
+msgstr "ノードを作成"
+
+msgid "tax_item_sorting"
+msgstr "割当てたアイテムの並び替えをサポート"
+
+msgid "tax_manual"
+msgstr "手動"
+
+msgid "tax_max_one_tax"
+msgstr "このコンテキスト内で最大1個の分類基準を使用できます。"
+
+msgid "tax_new_tax_node"
+msgstr "新しいノード"
+
+msgid "tax_node"
+msgstr "ノード"
+
+msgid "tax_node_sorting"
+msgstr "ノードの並び替え"
+
+msgid "tax_nodes"
+msgstr "ノード"
+
+msgid "tax_order"
+msgstr "順番"
+
+msgid "tax_order_nr"
+msgstr "順"
+
+msgid "tax_please_select_target"
+msgstr "ターゲットを選択してください。"
+
+msgid "tax_target_within_nodes"
+msgstr "ターゲットは選択した項目のサブノードである必要があります。"
+
+msgid "tax_tax_assignment"
+msgstr "分類学割当て"
+
+msgid "tax_tax_deleted"
+msgstr "分類基準は削除されました。"
+
+msgid "tax_tax_settings"
+msgstr "分類学設定"
+
+msgid "tax_taxonomy"
+msgstr "分類"
