@@ -12767,35 +12767,6 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback
 qpl#:#qpl_page_type_qfbs#:#Special Feedback
 qpl#:#qpl_page_type_qht#:#Hint
 qpl#:#qpl_page_type_qpl#:#Question Page
-rating#:#rat_not_rated_yet#:#Not Rated Yet
-rating#:#rat_nr_ratings#:#%s Ratings
-rating#:#rat_one_rating#:#One Rating
-rating#:#rating_activate_rating#:#Enable Rating
-rating#:#rating_activate_rating_info#:#if enabled, users can rate this object.
-rating#:#rating_add_category#:#Add Category
-rating#:#rating_avg_rating#:#Average Rating###19 08 2022 new variable
-rating#:#rating_categories#:#Rating Categories
-rating#:#rating_category_add#:#Add
-rating#:#rating_category_create#:#Create Category
-rating#:#rating_category_created#:#Category created.
-rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.
-rating#:#rating_category_deleted#:#Category deleted.
-rating#:#rating_category_edit#:#Edit Category
-rating#:#rating_category_update#:#Save
-rating#:#rating_category_updated#:#Category saved.
-rating#:#rating_export_category#:#Category
-rating#:#rating_export_date#:#Date
-rating#:#rating_export_rating#:#Rating
-rating#:#rating_new_objects_auto#:#Default Object Rating
-rating#:#rating_new_objects_auto_info#:#Rating is activated by default for new files, learning modules and wikis.
-rating#:#rating_number_votes#:#%s Ratings
-rating#:#rating_open_dialog#:#Open rating dialog###19 08 2022 new variable
-rating#:#rating_overlay_submit#:#Submit Rating
-rating#:#rating_personal_rating#:#Your Rating###19 08 2022 new variable
-rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###19 08 2022 new variable
-rating#:#rating_remove#:#Remove Rating
-rating#:#rating_update_positions#:#Save Order
-rating#:#rating_your_rating#:#Your Rating
 rbac#:#accs_edit_permission#:#Spremeni nastavitve pravic za nastavitve dostopnosti
 rbac#:#accs_read#:#Nastavitve dostopnosti se lahko preberejo v administraciji
 rbac#:#accs_visible#:#Nastavitve dostopnosti so vidne v administraciji !! Pravica se ne uporablja več !!

@@ -12767,35 +12767,6 @@ qpl#:#qpl_page_type_qfbg#:#Allmän feedback
 qpl#:#qpl_page_type_qfbs#:#Särskild feedback
 qpl#:#qpl_page_type_qht#:#Note
 qpl#:#qpl_page_type_qpl#:#Frågesida
-rating#:#rat_not_rated_yet#:#Not yet rated
-rating#:#rat_nr_ratings#:#%s betyg
-rating#:#rat_one_rating#:#En bedömning
-rating#:#rating_activate_rating#:# Aktivera betyg
-rating#:#rating_activate_rating_info#:#Om aktiverat kan användare betygsätta detta objekt.
-rating#:#rating_add_category#:#Lägg till kategori
-rating#:#rating_avg_rating#:#Genomsnittlig rating
-rating#:#rating_categories#:#Klassificeringskategorier
-rating#:#rating_category_add#:#Add
-rating#:#rating_category_create#:#Skapa kategori
-rating#:#rating_category_created#:#Kategori tillagd.
-rating#:#rating_category_delete_sure#:#Vill du verkligen radera följande kategorier?  Alla betyg för denna kategori kommer att raderas.
-rating#:#rating_category_deleted#:#Kategori borttagen.
-rating#:#rating_category_edit#:#Redigera kategori
-rating#:#rating_category_update#:#Spara
-rating#:#rating_category_updated#:#Kategori sparad.
-rating#:#rating_export_category#:#Kategori
-rating#:#rating_export_date#:#Datum
-rating#:#rating_export_rating#:#Rating
-rating#:#rating_new_objects_auto#:#Värdering för nya objekt
-rating#:#rating_new_objects_auto_info#:#Betygsfunktionen aktiveras automatiskt i nyskapade filer, lärmoduler och wikis.
-rating#:#rating_number_votes#:#%s betyg
-rating#:#rating_open_dialog#:#Utveckla klassificeringsskalan
-rating#:#rating_overlay_submit#:#Rating
-rating#:#rating_personal_rating#:#Ditt betyg
-rating#:#rating_rate_x_of_5#:#Rata med % av 5 stjärnor
-rating#:#rating_remove#:#Ta bort betyg
-rating#:#rating_update_positions#:#Spara sekvens
-rating#:#rating_your_rating#:#Ditt betyg
 rbac#:#accs_edit_permission#:#Ändra rättighetsinställningar för tillgänglighetsinställningar
 rbac#:#accs_read#:#Settings Tillgänglighet i Administration kan läsas
 rbac#:#accs_visible#:#Accessibility-inställningar i Administration är synliga

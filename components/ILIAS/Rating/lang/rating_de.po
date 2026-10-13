@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Noch nicht bewertet"
+
+msgid "rat_nr_ratings"
+msgstr "%s Bewertungen"
+
+msgid "rat_one_rating"
+msgstr "Eine Bewertung"
+
+msgid "rating_activate_rating"
+msgstr "Bewertung aktivieren"
+
+msgid "rating_activate_rating_info"
+msgstr "Das Objekt kann mit 1-5 Sternen bewertet werden."
+
+msgid "rating_add_category"
+msgstr "Kategorie hinzufügen"
+
+msgid "rating_avg_rating"
+msgstr "Durchschnittliche Bewertung"
+
+msgid "rating_categories"
+msgstr "Bewertungskategorien"
+
+msgid "rating_category_add"
+msgstr "Hinzufügen"
+
+msgid "rating_category_create"
+msgstr "Kategorie erstellen"
+
+msgid "rating_category_created"
+msgstr "Kategorie hinzugefügt."
+
+msgid "rating_category_delete_sure"
+msgstr "Wollen Sie wirklich die folgenden Kategorien löschen?  Alle Bewertungen für diese Kategorie werden gelöscht."
+
+msgid "rating_category_deleted"
+msgstr "Kategorie gelöscht."
+
+msgid "rating_category_edit"
+msgstr "Kategorie bearbeiten"
+
+msgid "rating_category_update"
+msgstr "Speichern"
+
+msgid "rating_category_updated"
+msgstr "Kategorie gespeichert."
+
+msgid "rating_export_category"
+msgstr "Kategorie"
+
+msgid "rating_export_date"
+msgstr "Datum"
+
+msgid "rating_export_rating"
+msgstr "Bewertung"
+
+msgid "rating_new_objects_auto"
+msgstr "Bewertung für neue Objekte"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Die Bewertungsfunktion ist in neu angelegten Dateien, Lernmodulen und Wikis automatisch aktiviert."
+
+msgid "rating_number_votes"
+msgstr "%s Bewertungen"
+
+msgid "rating_open_dialog"
+msgstr "Bewertungsskala aufklappen"
+
+msgid "rating_overlay_submit"
+msgstr "Bewerten"
+
+msgid "rating_personal_rating"
+msgstr "Ihre Bewertung"
+
+msgid "rating_rate_x_of_5"
+msgstr "Mit %s von 5 Sternen bewerten"
+
+msgid "rating_remove"
+msgstr "Bewertung entfernen"
+
+msgid "rating_update_positions"
+msgstr "Reihenfolge speichern"
+
+msgid "rating_your_rating"
+msgstr "Ihre Bewertung"

@@ -12831,35 +12831,6 @@ qpl#:#qpl_page_type_qfbg#:#Általános visszajelzés
 qpl#:#qpl_page_type_qfbs#:#Speciális visszajelzés
 qpl#:#qpl_page_type_qht#:#Tipp
 qpl#:#qpl_page_type_qpl#:#Kérdésoldala
-rating#:#rat_not_rated_yet#:#Még nincs értékelve
-rating#:#rat_nr_ratings#:#%s értékelés
-rating#:#rat_one_rating#:#Egy értékelés
-rating#:#rating_activate_rating#:#Értékelések engedélyezése
-rating#:#rating_activate_rating_info#:#A felhasználók értékelhetik ezt az objektumot.
-rating#:#rating_add_category#:#Kategória létrehozása
-rating#:#rating_avg_rating#:#Értékelések átlaga
-rating#:#rating_categories#:#Értékelési kategóriák
-rating#:#rating_category_add#:#Hozzáadás
-rating#:#rating_category_create#:#Kategória létrehozása
-rating#:#rating_category_created#:#Sikeresen létrehozott egy kategóriát.
-rating#:#rating_category_delete_sure#:#Biztos, hogy törli az alábbi értékelési kategóriákat? A kategóriához tartozó összes értékelés el fog veszni.
-rating#:#rating_category_deleted#:#A kategóriákat sikeresen törölte
-rating#:#rating_category_edit#:#Kategória módosítása
-rating#:#rating_category_update#:#Mentés
-rating#:#rating_category_updated#:#Kategória mentése sikerült
-rating#:#rating_export_category#:#Kategória
-rating#:#rating_export_date#:#Dátum
-rating#:#rating_export_rating#:#Értékelés
-rating#:#rating_new_objects_auto#:#Alapértelmezett objektum-értékelhetőség
-rating#:#rating_new_objects_auto_info#:#Alapértelmezetten az értékelhetőség aktív új fájlokra, tananyagokra és wikikre.
-rating#:#rating_number_votes#:#%s értékelés
-rating#:#rating_open_dialog#:#Értékelő dialógus megnyitása
-rating#:#rating_overlay_submit#:#Értékelés elküldése
-rating#:#rating_personal_rating#:#Az Ön értékelése
-rating#:#rating_rate_x_of_5#:#5-ből %s csillagos értékelés
-rating#:#rating_remove#:#Értékelés eltávolítása
-rating#:#rating_update_positions#:#Kategória mentése
-rating#:#rating_your_rating#:#Az Ön értékelése
 rbac#:#accs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Könnyű kezelés jogosultsági beállításait
 rbac#:#accs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Könnyű kezelés beállításaihoz
 rbac#:#accs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Könnyű kezelés menüpontot

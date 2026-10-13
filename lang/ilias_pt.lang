@@ -12858,35 +12858,6 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback###30 04 2021 new variable
 qpl#:#qpl_page_type_qfbs#:#Special Feedback###30 04 2021 new variable
 qpl#:#qpl_page_type_qht#:#Hint###30 04 2021 new variable
 qpl#:#qpl_page_type_qpl#:#Question Page###30 04 2021 new variable
-rating#:#rat_not_rated_yet#:#Não classificado ainda
-rating#:#rat_nr_ratings#:#%s Classificações
-rating#:#rat_one_rating#:#Uma classificação
-rating#:#rating_activate_rating#:#Ativar classificação
-rating#:#rating_activate_rating_info#:#se estiver ativada, os utilizadores podem classificar este objeto.
-rating#:#rating_add_category#:#Adicionar categoria
-rating#:#rating_avg_rating#:#Average Rating###09 03 2022 new variable
-rating#:#rating_categories#:#Categorias de classificação
-rating#:#rating_category_add#:#Adicionar
-rating#:#rating_category_create#:#Criar categoria
-rating#:#rating_category_created#:#Categoria criada.
-rating#:#rating_category_delete_sure#:#Tem a certeza que quer apagar as seguintes categorias de classificação?  Perder-se-ão todas as classificações para essa categoria.
-rating#:#rating_category_deleted#:#Categoria apagada.
-rating#:#rating_category_edit#:#Editar categoria
-rating#:#rating_category_update#:#Guardar
-rating#:#rating_category_updated#:#Categoria guardada.
-rating#:#rating_export_category#:#Categoria
-rating#:#rating_export_date#:#Data
-rating#:#rating_export_rating#:#Classificação
-rating#:#rating_new_objects_auto#:#Acesso dos participantes aos resultados
-rating#:#rating_new_objects_auto_info#:#Todos os utilizadores registados podem aceder aos resultados
-rating#:#rating_number_votes#:#%s Classificações
-rating#:#rating_open_dialog#:#Open rating dialog###09 03 2022 new variable
-rating#:#rating_overlay_submit#:#Submeter classificação
-rating#:#rating_personal_rating#:#Your Rating###09 03 2022 new variable
-rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###09 03 2022 new variable
-rating#:#rating_remove#:#Remover classificação
-rating#:#rating_update_positions#:#Guardar ordem
-rating#:#rating_your_rating#:#A sua classificação
 rbac#:#accs_edit_permission#:#Pode aceder aos resultados do inquérito
 rbac#:#accs_read#:#Os participantes não podem aceder a resultados
 rbac#:#accs_visible#:#Todos os participantes do inquérito podem aceder aos resultados

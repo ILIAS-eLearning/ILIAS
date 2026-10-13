@@ -12826,35 +12826,6 @@ qpl#:#qpl_page_type_qfbg#:#全般フィードバック
 qpl#:#qpl_page_type_qfbs#:#特別フィードバック
 qpl#:#qpl_page_type_qht#:#ヒント
 qpl#:#qpl_page_type_qpl#:#質問ページ
-rating#:#rat_not_rated_yet#:#星評価なし
-rating#:#rat_nr_ratings#:#%s星評価
-rating#:#rat_one_rating#:#1つ星評価
-rating#:#rating_activate_rating#:#星評価を有効
-rating#:#rating_activate_rating_info#:#有効にするとユーザはこのオブジェクトを評価できます。
-rating#:#rating_add_category#:#カテゴリ追加
-rating#:#rating_avg_rating#:#平均レート
-rating#:#rating_categories#:#星評価カテゴリ
-rating#:#rating_category_add#:#追加
-rating#:#rating_category_create#:#カテゴリ作成
-rating#:#rating_category_created#:#カテゴリを追加しました。
-rating#:#rating_category_delete_sure#:#以下の評価カテゴリを削除しますか?　カテゴリの全評価は削除されます。
-rating#:#rating_category_deleted#:#カテゴリを削除しました。
-rating#:#rating_category_edit#:#カテゴリ編集
-rating#:#rating_category_update#:#保存
-rating#:#rating_category_updated#:#カテゴリを保存しました。
-rating#:#rating_export_category#:#カテゴリ
-rating#:#rating_export_date#:#日付
-rating#:#rating_export_rating#:#星評価
-rating#:#rating_new_objects_auto#:#新規オブジェクトの評価を有効にする
-rating#:#rating_new_objects_auto_info#:#新規のファイル、学習モジュール、wikは初期設定で星評価iが有効です。
-rating#:#rating_number_votes#:#%s星評価数
-rating#:#rating_open_dialog#:#レートダイアログを開く
-rating#:#rating_overlay_submit#:#星評価を提出
-rating#:#rating_personal_rating#:#レート
-rating#:#rating_rate_x_of_5#:#5 スター中の %s レート
-rating#:#rating_remove#:#評価を削除
-rating#:#rating_update_positions#:#順を保存
-rating#:#rating_your_rating#:#評価
 rbac#:#accs_edit_permission#:#ユーザは管理のアクセス権設定を変更できます。
 rbac#:#accs_read#:#ユーザは管理のアクセス権設定の読込みアクセス権があります
 rbac#:#accs_visible#:#アクセス権設定を管理に表示します。

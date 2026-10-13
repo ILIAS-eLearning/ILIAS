@@ -12767,35 +12767,6 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
 qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
-rating#:#rat_not_rated_yet#:#Dosud nehodnoceno
-rating#:#rat_nr_ratings#:#%s Hodnocení
-rating#:#rat_one_rating#:#Jedno hodnocení
-rating#:#rating_activate_rating#:#Povolit hodnocení
-rating#:#rating_activate_rating_info#:#pokud je to povoleno, uživatelé mohou tento objekt hodnotit.
-rating#:#rating_add_category#:#Přidat kategorii
-rating#:#rating_avg_rating#:#Average Rating###29 07 2022 new variable
-rating#:#rating_categories#:#Kategorie hodnocení
-rating#:#rating_category_add#:#Přidat
-rating#:#rating_category_create#:#Vytvořit kategorii
-rating#:#rating_category_created#:#Kategorie vytvořena.
-rating#:#rating_category_delete_sure#:#Opravdu chcete odstranit následující kategorie hodnocení?  Všechna hodnocení této kategorie budou ztracena.
-rating#:#rating_category_deleted#:#Kategorie zrušena.
-rating#:#rating_category_edit#:#Upravit kategorii
-rating#:#rating_category_update#:#Uložit
-rating#:#rating_category_updated#:#Kategorie byla uložena.
-rating#:#rating_export_category#:#Kategorie
-rating#:#rating_export_date#:#Datum
-rating#:#rating_export_rating#:#Hodnocení
-rating#:#rating_new_objects_auto#:#Povolit hodnocení pro nové objekty
-rating#:#rating_new_objects_auto_info#:#Pokud je to povoleno, mohou být hodnoceny nové soubory, moduly učení a wiki.
-rating#:#rating_number_votes#:#%s Hodnocení
-rating#:#rating_open_dialog#:#Open rating dialog###29 07 2022 new variable
-rating#:#rating_overlay_submit#:#Odeslat hodnocení
-rating#:#rating_personal_rating#:#Your Rating###29 07 2022 new variable
-rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###29 07 2022 new variable
-rating#:#rating_remove#:#Odstranit hodnocení
-rating#:#rating_update_positions#:#Uložit objednávku
-rating#:#rating_your_rating#:#Vaše hodnocení
 rbac#:#accs_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#accs_read#:#Přístup číst na nastavení přístupnosti
 rbac#:#accs_visible#:#Nastavení přístupnosti je viditelné

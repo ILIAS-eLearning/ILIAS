@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Aún sin calificar"
+
+msgid "rat_nr_ratings"
+msgstr "%s Calificaciones"
+
+msgid "rat_one_rating"
+msgstr "Una calificación"
+
+msgid "rating_activate_rating"
+msgstr "Activar calificación"
+
+msgid "rating_activate_rating_info"
+msgstr "si está activado, los usuarios pueden calificar este objeto."
+
+msgid "rating_add_category"
+msgstr "Añadir categoría"
+
+msgid "rating_avg_rating"
+msgstr "Calificación promedio"
+
+msgid "rating_categories"
+msgstr "Categorías de calificación"
+
+msgid "rating_category_add"
+msgstr "Añadir"
+
+msgid "rating_category_create"
+msgstr "Crear categoría"
+
+msgid "rating_category_created"
+msgstr "Categoría creada."
+
+msgid "rating_category_delete_sure"
+msgstr "¿Está seguro de que desea eliminar las siguientes categorías de calificación? Se perderán todas las calificaciones de esa categoría."
+
+msgid "rating_category_deleted"
+msgstr "Categoría eliminada."
+
+msgid "rating_category_edit"
+msgstr "Editar categoría"
+
+msgid "rating_category_update"
+msgstr "Guardar"
+
+msgid "rating_category_updated"
+msgstr "Categoría guardada."
+
+msgid "rating_export_category"
+msgstr "Categoría"
+
+msgid "rating_export_date"
+msgstr "Fecha"
+
+msgid "rating_export_rating"
+msgstr "Calificación"
+
+msgid "rating_new_objects_auto"
+msgstr "Calificación de objeto predeterminada"
+
+msgid "rating_new_objects_auto_info"
+msgstr "La calificación se activa de forma predeterminada para nuevos archivos, módulos de aprendizaje y wikis."
+
+msgid "rating_number_votes"
+msgstr "%s Calificaciones"
+
+msgid "rating_open_dialog"
+msgstr "Abrir diálogo de calificación"
+
+msgid "rating_overlay_submit"
+msgstr "Enviar calificación"
+
+msgid "rating_personal_rating"
+msgstr "Tu calificación"
+
+msgid "rating_rate_x_of_5"
+msgstr "Calificar con %s de 5 estrellas"
+
+msgid "rating_remove"
+msgstr "Eliminar calificación"
+
+msgid "rating_update_positions"
+msgstr "Guardar orden"
+
+msgid "rating_your_rating"
+msgstr "Tu calificación"
