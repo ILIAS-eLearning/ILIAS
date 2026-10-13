@@ -50,13 +50,6 @@ version and produce different CSS output. Check the installed version with:
 ./node_modules/.bin/sass --version
 ```
 
-Compile the central Delos stylesheet from the ILIAS root with the project-local
-SASS binary:
-
-```
-./node_modules/.bin/sass ./templates/default/delos.scss ./templates/default/delos.css
-```
-
 You can find a starting point for a custom System Style based on the default Delos
 system style here: [Delos Repository](https://github.com/ILIAS-eLearning/delos)
 
