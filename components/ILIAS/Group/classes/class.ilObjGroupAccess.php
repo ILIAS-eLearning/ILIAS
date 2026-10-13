@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
 * Class ilObjGroupAccess
@@ -76,10 +75,15 @@ class ilObjGroupAccess extends ilObjectAccess
                 if ($permission == 'leave') {
                     $limit = null;
                     if (!ilObjGroup::mayLeave($obj_id, $user_id, $limit)) {
-                        $ilAccess->addInfoItem(
-                            ilAccessInfo::IL_STATUS_INFO,
-                            sprintf($lng->txt("grp_cancellation_end_rbac_info"), ilDatePresentation::formatDate($limit))
-                        );
+                        if ($limit instanceof ilDate) {
+                            $ilAccess->addInfoItem(
+                                ilAccessInfo::IL_STATUS_INFO,
+                                sprintf(
+                                    $lng->txt("grp_cancellation_end_rbac_info"),
+                                    ilDatePresentation::formatDate($limit)
+                                )
+                            );
+                        }
                         return false;
                     }
 
