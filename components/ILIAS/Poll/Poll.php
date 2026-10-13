@@ -40,7 +40,7 @@ class Poll implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilPoll.js");
         $contribute[SetupAgent::class] = fn() => new \ilPollSetupAgent($pull[RefineryFactory::class]);
-        $contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => new ComponentLanguageFileDirectory(
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
             $this,
             'poll'
         );

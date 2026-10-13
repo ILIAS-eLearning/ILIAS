@@ -492,7 +492,7 @@ $removal_target_problem = static function (string $repo_root, ?string $output_ar
     }
 
     return "$component_file contributes no ComponentLanguageFileDirectory for module '$module' (expected: "
-        . "\$contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => new ComponentLanguageFileDirectory(\$this, '$module'); "
+        . "\$contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(\$this, '$module'); "
         . "register the contribution first).";
 };
 
