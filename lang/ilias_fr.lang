@@ -12751,35 +12751,6 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback
 qpl#:#qpl_page_type_qfbs#:#Special Feedback
 qpl#:#qpl_page_type_qht#:#Hint
 qpl#:#qpl_page_type_qpl#:#Question Page
-rating#:#rat_not_rated_yet#:#Pas Encore Noté
-rating#:#rat_nr_ratings#:#%s Notations
-rating#:#rat_one_rating#:#Une Notation
-rating#:#rating_activate_rating#:#Autoriser la Notation
-rating#:#rating_activate_rating_info#:#Lorsque activé, les utilisateurs peuvent noter cet objet
-rating#:#rating_add_category#:#Ajouter Catégorie
-rating#:#rating_avg_rating#:#Average Rating
-rating#:#rating_categories#:#Catégories de Notation
-rating#:#rating_category_add#:#Ajouter
-rating#:#rating_category_create#:#Créer Categorie
-rating#:#rating_category_created#:#Catégorie créée.
-rating#:#rating_category_delete_sure#:#Etes-vous sûr de vouloir supprimer la catégorie de notation suivante ? Toutes les notations correspondantes seront perdues.
-rating#:#rating_category_deleted#:#Catégorie supprimée.
-rating#:#rating_category_edit#:#Edite Categorie
-rating#:#rating_category_update#:#Enregistrer
-rating#:#rating_category_updated#:#Catégorie enregistrée.
-rating#:#rating_export_category#:#Categorie
-rating#:#rating_export_date#:#Date
-rating#:#rating_export_rating#:#Notation
-rating#:#rating_new_objects_auto#:#Autoriser la Notation pour les Nouveaux Objets
-rating#:#rating_new_objects_auto_info#:#Lorsque activé, les nouveaux fichiers, modules et Wikis peuvent être notés.
-rating#:#rating_number_votes#:#%s Notations
-rating#:#rating_open_dialog#:#Open rating dialog
-rating#:#rating_overlay_submit#:#Soumettre Notation
-rating#:#rating_personal_rating#:#Your Rating
-rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
-rating#:#rating_remove#:#Supprimer Notation
-rating#:#rating_update_positions#:#Enregistrer Positions
-rating#:#rating_your_rating#:#Votre Notation
 rbac#:#accs_edit_permission#:#Permissions d'administration modifiables
 rbac#:#accs_read#:#Panneau d'administration accessible
 rbac#:#accs_visible#:#Panneau d'administration visible

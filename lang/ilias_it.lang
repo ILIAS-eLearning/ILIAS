@@ -12769,35 +12769,6 @@ qpl#:#qpl_page_type_qfbg#:#Feedback generale
 qpl#:#qpl_page_type_qfbs#:#Feedback speciali
 qpl#:#qpl_page_type_qht#:#Suggerimento
 qpl#:#qpl_page_type_qpl#:#Pagina delle domande
-rating#:#rat_not_rated_yet#:#Non valutato
-rating#:#rat_nr_ratings#:#%s Valutazioni
-rating#:#rat_one_rating#:#Una valutazione
-rating#:#rating_activate_rating#:#Consenti valutazione
-rating#:#rating_activate_rating_info#:#Se abilitata, gli utenti possono valutare quest’oggetto.
-rating#:#rating_add_category#:#Aggiungi categoria
-rating#:#rating_avg_rating#:#Average Rating###09 03 2022 new variable
-rating#:#rating_categories#:#Rating delle categorie
-rating#:#rating_category_add#:#Aggiungi
-rating#:#rating_category_create#:#Crea categoria
-rating#:#rating_category_created#:#Categoria creata.
-rating#:#rating_category_delete_sure#:#Sei sicuro di voler cancellare le seguenti categorie? Tutte le valutazioni in questa categoria saranno cancellate.
-rating#:#rating_category_deleted#:#Categoria cancellata.
-rating#:#rating_category_edit#:#Modifica categoria
-rating#:#rating_category_update#:#Salva
-rating#:#rating_category_updated#:#Categoria salvata.
-rating#:#rating_export_category#:#Categoria
-rating#:#rating_export_date#:#Data
-rating#:#rating_export_rating#:#Classificazione
-rating#:#rating_new_objects_auto#:#Abilita la valutazione per i nuovi oggetti
-rating#:#rating_new_objects_auto_info#:#Se abilitato i nuovi file, i moduli di apprendimento e wiki possono essere valutati.
-rating#:#rating_number_votes#:#%s Classificazioni
-rating#:#rating_open_dialog#:#Open rating dialog###09 03 2022 new variable
-rating#:#rating_overlay_submit#:#Invia voto
-rating#:#rating_personal_rating#:#Your Rating###09 03 2022 new variable
-rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###09 03 2022 new variable
-rating#:#rating_remove#:#Rimuovi valutazione
-rating#:#rating_update_positions#:#Salva l'ordine
-rating#:#rating_your_rating#:#La Tua Qualificazione.
 rbac#:#accs_edit_permission#:#Modifica impostazioni dei permessi
 rbac#:#accs_read#:#Puoi accedere alle impostazioni di accessibilità
 rbac#:#accs_visible#:#Le impostazioni di Accessibilita' sono visibili

@@ -12764,35 +12764,6 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
 qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
-rating#:#rat_not_rated_yet#:#Not Rated Yet
-rating#:#rat_nr_ratings#:#%s Ratings
-rating#:#rat_one_rating#:#One Rating
-rating#:#rating_activate_rating#:#Enable Rating###24 10 2013 new variable
-rating#:#rating_activate_rating_info#:#if enabled, users can rate this object.###24 10 2013 new variable
-rating#:#rating_add_category#:#Add Category###28 08 2012 new variable
-rating#:#rating_avg_rating#:#Average Rating###29 07 2022 new variable
-rating#:#rating_categories#:#Rating Categories###28 08 2012 new variable
-rating#:#rating_category_add#:#Add###28 08 2012 new variable
-rating#:#rating_category_create#:#Create Category###28 08 2012 new variable
-rating#:#rating_category_created#:#Category created.###28 08 2012 new variable
-rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.###28 08 2012 new variable
-rating#:#rating_category_deleted#:#Category deleted.###28 08 2012 new variable
-rating#:#rating_category_edit#:#Edit Category###28 08 2012 new variable
-rating#:#rating_category_update#:#Save###28 08 2012 new variable
-rating#:#rating_category_updated#:#Category saved.###28 08 2012 new variable
-rating#:#rating_export_category#:#Category###28 09 2012 new variable
-rating#:#rating_export_date#:#Date###28 09 2012 new variable
-rating#:#rating_export_rating#:#Rating###28 09 2012 new variable
-rating#:#rating_new_objects_auto#:#Enable Rating for new Objects###24 10 2013 new variable
-rating#:#rating_new_objects_auto_info#:#If enabled, new files, learning modules and wikis can be rated.###24 10 2013 new variable
-rating#:#rating_number_votes#:#%s Ratings###28 09 2012 new variable
-rating#:#rating_open_dialog#:#Open rating dialog###29 07 2022 new variable
-rating#:#rating_overlay_submit#:#Submit Rating###28 08 2012 new variable
-rating#:#rating_personal_rating#:#Your Rating###29 07 2022 new variable
-rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###29 07 2022 new variable
-rating#:#rating_remove#:#Remove Rating###30 12 2013 new variable
-rating#:#rating_update_positions#:#Save Order###28 08 2012 new variable
-rating#:#rating_your_rating#:#Your Rating
 rbac#:#accs_edit_permission#:#User can change permissions of Accessibility Settings  in Administration.###28 08 2012 new variable
 rbac#:#accs_read#:#User has read access to Accessibility Settings in Administration.###28 08 2012 new variable
 rbac#:#accs_visible#:#Accessibility Settings are visible in Administration.###28 08 2012 new variable

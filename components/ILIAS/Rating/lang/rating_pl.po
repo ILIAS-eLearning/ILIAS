@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Jeszcze nie oceniono"
+
+msgid "rat_nr_ratings"
+msgstr "%s oceny"
+
+msgid "rat_one_rating"
+msgstr "Ocena"
+
+msgid "rating_activate_rating"
+msgstr "Aktywuj ocenę"
+
+msgid "rating_activate_rating_info"
+msgstr "Jeśli ta opcja jest włączona, użytkownicy mogą oceniać obiekt."
+
+msgid "rating_add_category"
+msgstr "Dodaj kategorię"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Kategorie ocen"
+
+msgid "rating_category_add"
+msgstr "Dodaj"
+
+msgid "rating_category_create"
+msgstr "Utwórz kategorię"
+
+msgid "rating_category_created"
+msgstr "Dodano kategorię"
+
+msgid "rating_category_delete_sure"
+msgstr "Czy naprawdę chcesz usunąć następujące kategorie?  Wszystkie oceny dla tej kategorii zostały usunięte."
+
+msgid "rating_category_deleted"
+msgstr "Usunięto kategorię."
+
+msgid "rating_category_edit"
+msgstr "Edytuj kategorię"
+
+msgid "rating_category_update"
+msgstr "Zapisz"
+
+msgid "rating_category_updated"
+msgstr "Zapisz kategorię"
+
+msgid "rating_export_category"
+msgstr "Kategoria"
+
+msgid "rating_export_date"
+msgstr "Data"
+
+msgid "rating_export_rating"
+msgstr "Klasyfikacja"
+
+msgid "rating_new_objects_auto"
+msgstr "Ocena nowych obiektów"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Funkcja oceny aktywowana jest automatycznie w nowych plikach, modułach nauczania i stronach Wiki."
+
+msgid "rating_number_votes"
+msgstr "%s oceny"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Oceń"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+msgid "rating_remove"
+msgstr "Usuń ocenę"
+
+msgid "rating_update_positions"
+msgstr "Zapisz kolejność"
+
+msgid "rating_your_rating"
+msgstr "Twoja ocena"

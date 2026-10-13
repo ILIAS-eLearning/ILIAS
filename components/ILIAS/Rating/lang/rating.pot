@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr ""
+
+msgid "rat_nr_ratings"
+msgstr ""
+
+msgid "rat_one_rating"
+msgstr ""
+
+msgid "rating_activate_rating"
+msgstr ""
+
+msgid "rating_activate_rating_info"
+msgstr ""
+
+msgid "rating_add_category"
+msgstr ""
+
+msgid "rating_avg_rating"
+msgstr ""
+
+msgid "rating_categories"
+msgstr ""
+
+msgid "rating_category_add"
+msgstr ""
+
+msgid "rating_category_create"
+msgstr ""
+
+msgid "rating_category_created"
+msgstr ""
+
+msgid "rating_category_delete_sure"
+msgstr ""
+
+msgid "rating_category_deleted"
+msgstr ""
+
+msgid "rating_category_edit"
+msgstr ""
+
+msgid "rating_category_update"
+msgstr ""
+
+msgid "rating_category_updated"
+msgstr ""
+
+msgid "rating_export_category"
+msgstr ""
+
+msgid "rating_export_date"
+msgstr ""
+
+msgid "rating_export_rating"
+msgstr ""
+
+msgid "rating_new_objects_auto"
+msgstr ""
+
+msgid "rating_new_objects_auto_info"
+msgstr ""
+
+msgid "rating_number_votes"
+msgstr ""
+
+msgid "rating_open_dialog"
+msgstr ""
+
+msgid "rating_overlay_submit"
+msgstr ""
+
+msgid "rating_personal_rating"
+msgstr ""
+
+msgid "rating_rate_x_of_5"
+msgstr ""
+
+msgid "rating_remove"
+msgstr ""
+
+msgid "rating_update_positions"
+msgstr ""
+
+msgid "rating_your_rating"
+msgstr ""

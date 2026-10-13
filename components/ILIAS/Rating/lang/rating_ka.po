@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "არ არის შეფასებული ჯერ"
+
+msgid "rat_nr_ratings"
+msgstr "%s რეიტინგები"
+
+msgid "rat_one_rating"
+msgstr "ერთი რეიტინგი"
+
+#, fuzzy
+msgid "rating_activate_rating"
+msgstr "Enable Rating"
+
+#, fuzzy
+msgid "rating_activate_rating_info"
+msgstr "if enabled, users can rate this object."
+
+msgid "rating_add_category"
+msgstr "Add Category"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Rating Categories"
+
+msgid "rating_category_add"
+msgstr "Add"
+
+msgid "rating_category_create"
+msgstr "Create Category"
+
+msgid "rating_category_created"
+msgstr "Category created."
+
+msgid "rating_category_delete_sure"
+msgstr "Are you sure you want to delete the following rating categories?  All ratings for that category will be lost."
+
+msgid "rating_category_deleted"
+msgstr "Category deleted."
+
+msgid "rating_category_edit"
+msgstr "Edit Category"
+
+msgid "rating_category_update"
+msgstr "Save"
+
+msgid "rating_category_updated"
+msgstr "Category saved."
+
+msgid "rating_export_category"
+msgstr "Category"
+
+msgid "rating_export_date"
+msgstr "Date"
+
+msgid "rating_export_rating"
+msgstr "Rating"
+
+#, fuzzy
+msgid "rating_new_objects_auto"
+msgstr "Enable Rating for new Objects"
+
+#, fuzzy
+msgid "rating_new_objects_auto_info"
+msgstr "If enabled, new files, learning modules and wikis can be rated."
+
+msgid "rating_number_votes"
+msgstr "%s Ratings"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Submit Rating"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+#, fuzzy
+msgid "rating_remove"
+msgstr "Remove Rating"
+
+msgid "rating_update_positions"
+msgstr "Save Order"
+
+msgid "rating_your_rating"
+msgstr "თქვენი რეიტინგი"

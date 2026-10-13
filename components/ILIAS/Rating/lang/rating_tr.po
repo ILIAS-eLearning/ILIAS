@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Henüz Oylanmadı"
+
+msgid "rat_nr_ratings"
+msgstr "%s Puan"
+
+msgid "rat_one_rating"
+msgstr "Bir Değerlendirme"
+
+#, fuzzy
+msgid "rating_activate_rating"
+msgstr "Enable Rating"
+
+#, fuzzy
+msgid "rating_activate_rating_info"
+msgstr "if enabled, users can rate this object."
+
+msgid "rating_add_category"
+msgstr "Kategori Ekle"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Derecelendirme Kategorileri"
+
+msgid "rating_category_add"
+msgstr "Ekle"
+
+msgid "rating_category_create"
+msgstr "Kategori Yarat"
+
+msgid "rating_category_created"
+msgstr "Kategori oluşturuldu."
+
+msgid "rating_category_delete_sure"
+msgstr "Aşağıdaki derecelendirme kategorileri silmek istediğinizden emin misiniz? Bu kategori için tüm puan kaybedilecektir."
+
+msgid "rating_category_deleted"
+msgstr "Kategori silindi."
+
+msgid "rating_category_edit"
+msgstr "Kategori Düzenle"
+
+msgid "rating_category_update"
+msgstr "kaydet"
+
+msgid "rating_category_updated"
+msgstr "Kategori kaydedildi."
+
+msgid "rating_export_category"
+msgstr "Kategori"
+
+msgid "rating_export_date"
+msgstr "Tarih"
+
+msgid "rating_export_rating"
+msgstr "Değerlendirme"
+
+#, fuzzy
+msgid "rating_new_objects_auto"
+msgstr "Enable Rating for new Objects"
+
+#, fuzzy
+msgid "rating_new_objects_auto_info"
+msgstr "If enabled, new files, learning modules and wikis can be rated."
+
+msgid "rating_number_votes"
+msgstr "%s Puan"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Derecelendirme Gönder"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+#, fuzzy
+msgid "rating_remove"
+msgstr "Remove Rating"
+
+msgid "rating_update_positions"
+msgstr "Kaydet"
+
+msgid "rating_your_rating"
+msgstr "Oyunuzu"

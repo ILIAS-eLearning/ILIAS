@@ -12764,35 +12764,6 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
 qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
-rating#:#rat_not_rated_yet#:#Jeszcze nie oceniono
-rating#:#rat_nr_ratings#:#%s oceny
-rating#:#rat_one_rating#:#Ocena
-rating#:#rating_activate_rating#:#Aktywuj ocenę
-rating#:#rating_activate_rating_info#:#Jeśli ta opcja jest włączona, użytkownicy mogą oceniać obiekt.
-rating#:#rating_add_category#:#Dodaj kategorię
-rating#:#rating_avg_rating#:#Average Rating###29 07 2022 new variable
-rating#:#rating_categories#:#Kategorie ocen
-rating#:#rating_category_add#:#Dodaj
-rating#:#rating_category_create#:#Utwórz kategorię
-rating#:#rating_category_created#:#Dodano kategorię
-rating#:#rating_category_delete_sure#:#Czy naprawdę chcesz usunąć następujące kategorie?  Wszystkie oceny dla tej kategorii zostały usunięte.
-rating#:#rating_category_deleted#:#Usunięto kategorię.
-rating#:#rating_category_edit#:#Edytuj kategorię
-rating#:#rating_category_update#:#Zapisz
-rating#:#rating_category_updated#:#Zapisz kategorię
-rating#:#rating_export_category#:#Kategoria
-rating#:#rating_export_date#:#Data
-rating#:#rating_export_rating#:#Klasyfikacja
-rating#:#rating_new_objects_auto#:#Ocena nowych obiektów
-rating#:#rating_new_objects_auto_info#:#Funkcja oceny aktywowana jest automatycznie w nowych plikach, modułach nauczania i stronach Wiki.
-rating#:#rating_number_votes#:#%s oceny
-rating#:#rating_open_dialog#:#Open rating dialog###29 07 2022 new variable
-rating#:#rating_overlay_submit#:#Oceń
-rating#:#rating_personal_rating#:#Your Rating###29 07 2022 new variable
-rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###29 07 2022 new variable
-rating#:#rating_remove#:#Usuń ocenę
-rating#:#rating_update_positions#:#Zapisz kolejność
-rating#:#rating_your_rating#:#Twoja ocena
 rbac#:#accs_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#accs_read#:#Prawo czytania ustawień systemowych dotyczących dostępności
 rbac#:#accs_visible#:#Ustawienia dostępności są widoczne!!
