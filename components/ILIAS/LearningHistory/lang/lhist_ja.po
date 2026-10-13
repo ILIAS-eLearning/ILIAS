@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "学習履歴要素を作成"
+
+msgid "cont_update_lhist"
+msgstr "学習履歴要素を編集"
+
+msgid "lhist_all"
+msgstr "All"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "この要素はポートフォリオのプレゼンテーションモード内学習履歴を表示します。"
+
+msgid "lhist_enable_learning_history"
+msgstr "学習履歴"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "ユーザの全達成点の概要を有効にする"
+
+msgid "lhist_first_login"
+msgstr "初回ログイン"
+
+msgid "lhist_learning_history"
+msgstr "学習履歴"
+
+msgid "lhist_lhist"
+msgstr "学習履歴"
+
+msgid "lhist_manual"
+msgstr "Manual"
+
+msgid "lhist_no_entries"
+msgstr "目標達成! 今後の学習履歴について今日何かを学習します。"
+
+msgid "lhist_period"
+msgstr "期間"
+
+msgid "lhist_selected"
+msgstr "選択"
+
+msgid "lhist_show_more"
+msgstr "詳しく見る"
+
+msgid "lhist_type_of_achievement"
+msgstr "達成のタイプ"

@@ -10186,21 +10186,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###26 08 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###26 08 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###26 08 2024 new variable
 ldoc#:#ldoc_updated_document#:#Document uploaded###26 08 2024 new variable
-lhist#:#cont_create_lhist#:#Vytvořit prvek historie výuky
-lhist#:#cont_update_lhist#:#Upravit prvek historie výuky
-lhist#:#lhist_all#:#Všechno
-lhist#:#lhist_cont_placeholder_text#:#Tento prvek ukáže historii výuky v prezentačním režimu portfolia.
-lhist#:#lhist_enable_learning_history#:#Learning History###07 02 2020 new variable
-lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.###07 02 2020 new variable
-lhist#:#lhist_first_login#:#První přihlášení
-lhist#:#lhist_learning_history#:#Historie výuky
-lhist#:#lhist_lhist#:#Historie výuky
-lhist#:#lhist_manual#:#Manuál
-lhist#:#lhist_no_entries#:#Dosáhněte svých cílů! Naučte se dnes něco dalšího, abyste podpořili historii výuky.
-lhist#:#lhist_period#:#Doba
-lhist#:#lhist_selected#:#Vybraný
-lhist#:#lhist_show_more#:#Zobrazit více
-lhist#:#lhist_type_of_achievement#:#Typ úspěchu
 like#:#like#:#Like
 like#:#reaction#:#Reakce
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable

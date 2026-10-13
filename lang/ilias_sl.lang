@@ -10186,21 +10186,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###26 08 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###26 08 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###26 08 2024 new variable
 ldoc#:#ldoc_updated_document#:#Document uploaded###26 08 2024 new variable
-lhist#:#cont_create_lhist#:#Ustvari element za potek učenja
-lhist#:#cont_update_lhist#:#Uredi element za potek učenja
-lhist#:#lhist_all#:#Vsi
-lhist#:#lhist_cont_placeholder_text#:#Ta element bo prikazal potek učenja v pogledu predstavitve portfelja.
-lhist#:#lhist_enable_learning_history#:#Learning History
-lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.
-lhist#:#lhist_first_login#:#Prva prijava
-lhist#:#lhist_learning_history#:#Potek učenja
-lhist#:#lhist_lhist#:#Potek učenja
-lhist#:#lhist_manual#:#Priročnik
-lhist#:#lhist_no_entries#:#Sledite svojim ciljem! Danes se nekaj naučite, da razširite potek svojega učenja.
-lhist#:#lhist_period#:#Obdobje
-lhist#:#lhist_selected#:#Izbrano
-lhist#:#lhist_show_more#:#Prikaži več
-lhist#:#lhist_type_of_achievement#:#Tip učnega dosežka
 like#:#like#:#Like
 like#:#reaction#:#Reaction
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###19 08 2022 new variable

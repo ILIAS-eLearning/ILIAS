@@ -10189,21 +10189,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###30 04 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###30 04 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###30 04 2024 new variable
 ldoc#:#ldoc_updated_document#:#Document uploaded###30 04 2024 new variable
-lhist#:#cont_create_lhist#:#Crea uno storico dell'apprendimento
-lhist#:#cont_update_lhist#:#Modifica storico dell'apprendimento
-lhist#:#lhist_all#:#Tutto
-lhist#:#lhist_cont_placeholder_text#:#Questo elemento mostrerà lo storico dell'apprendimento nella modalità di presentazione del portfolio.
-lhist#:#lhist_enable_learning_history#:#Storico di apprendimento
-lhist#:#lhist_enable_learning_history_info#:#Abilita una panoramica dei traguardi dell'utente.
-lhist#:#lhist_first_login#:#Primo accesso
-lhist#:#lhist_learning_history#:#Storico dell'apprendimento
-lhist#:#lhist_lhist#:#Storico dell'apprendimento
-lhist#:#lhist_manual#:#Manuale
-lhist#:#lhist_no_entries#:#Raggiungi i tuoi obiettivi! Impara qualcosa oggi per progredire nel tuo apprendimento.
-lhist#:#lhist_period#:#Periodo
-lhist#:#lhist_selected#:#Selezionato
-lhist#:#lhist_show_more#:#Mostra di più
-lhist#:#lhist_type_of_achievement#:#Tipo di traguardo
 like#:#like#:#Mi piace
 like#:#reaction#:#Reazione
 lm#:#lm_btn_lp_toggle_state_completed#:#Imposta come non completato

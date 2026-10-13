@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Create Learning History Element"
+
+msgid "cont_update_lhist"
+msgstr "Edit Learning History Element"
+
+msgid "lhist_all"
+msgstr "All"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "This element will show the learning history in the presentation mode of the portfolio."
+
+msgid "lhist_enable_learning_history"
+msgstr "Learning History"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "Enables an overview of all achievements of a user."
+
+msgid "lhist_first_login"
+msgstr "First Login"
+
+msgid "lhist_learning_history"
+msgstr "Learning History"
+
+msgid "lhist_lhist"
+msgstr "Learning History"
+
+msgid "lhist_manual"
+msgstr "Manual"
+
+msgid "lhist_no_entries"
+msgstr "Achieve your goals! Learn something today to further your learning history."
+
+msgid "lhist_period"
+msgstr "Period"
+
+msgid "lhist_selected"
+msgstr "Selected"
+
+msgid "lhist_show_more"
+msgstr "Show More"
+
+msgid "lhist_type_of_achievement"
+msgstr "Type of Achievement"

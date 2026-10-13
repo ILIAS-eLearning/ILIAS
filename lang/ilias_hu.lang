@@ -10248,21 +10248,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#Családnév
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Utónév
 ldoc#:#ldoc_tbl_hist_head_login#:#Felhasználónév (Login)
 ldoc#:#ldoc_updated_document#:#A dokumentumot sikeresen feltöltötte
-lhist#:#cont_create_lhist#:#Tanulási történelemelem létrehozása
-lhist#:#cont_update_lhist#:#Tanulási történelemelem módosítása
-lhist#:#lhist_all#:#Összes
-lhist#:#lhist_cont_placeholder_text#:#Ez az elem a tanulási történelmet jeleníti meg a portfólióban.
-lhist#:#lhist_enable_learning_history#:#Tanulási történelem
-lhist#:#lhist_enable_learning_history_info#:#Egy felhasználó összes elért eredménye áttekintésének bekapcsolása.
-lhist#:#lhist_first_login#:#Első bejelentkezés
-lhist#:#lhist_learning_history#:#Tanulási történelem
-lhist#:#lhist_lhist#:#Tanulási történelem
-lhist#:#lhist_manual#:#Manuális
-lhist#:#lhist_no_entries#:#Érje el céljait! Még ma kezdjen tanulni, hogy növekedjen tanulási történelme.
-lhist#:#lhist_period#:#Időszak
-lhist#:#lhist_selected#:#Kiválasztott
-lhist#:#lhist_show_more#:#Több megjelenítése
-lhist#:#lhist_type_of_achievement#:#Megszerzés típusa
 like#:#like#:#Kedvel
 like#:#reaction#:#Reakció
 lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
