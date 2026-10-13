@@ -1,0 +1,161 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Výchozí šedá"
+
+msgid "activate_exclusive_template_info"
+msgstr "Standardní šablona nebude k dispozici, pokud je tato šablona aktivní."
+
+msgid "activate_local_didactic_template"
+msgstr "Rozsah použití"
+
+msgid "activate_local_didactic_template_info"
+msgstr "Využití této didaktické šablony bude omezeno na tyto podoblasti."
+
+msgid "didactic_activated_msg"
+msgstr "Didaktické šablony aktivovány"
+
+msgid "didactic_adm_tab"
+msgstr "Didaktické šablony"
+
+msgid "didactic_applicable_for"
+msgstr "Použitelné pro"
+
+msgid "didactic_auto_generated"
+msgstr "Automaticky generováno"
+
+msgid "didactic_available_templates"
+msgstr "Dostupné didaktické šablony"
+
+msgid "didactic_back_to_overview"
+msgstr "Zpět na přehled"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Není dovoleno mazat automaticky generované didaktické šablony."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Alespoň jedna z vybraných didaktických šablon je generována automaticky a nemůže být vymazána."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Skutečně chcete použít vybrané didaktické šablony? Všechna aktuální nastavení oprávnění budou ztracena!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Skutečně chcete smazat následující didaktické šablony?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Didaktická šablona zkopírována"
+
+msgid "didactic_deactivated_msg"
+msgstr "Deaktivované didaktické šablony"
+
+msgid "didactic_default_type"
+msgstr "Výchozí"
+
+msgid "didactic_default_type_info"
+msgstr "Používá výchozí oprávnění pro %s"
+
+msgid "didactic_delete_msg"
+msgstr "Didaktické šablony smazány."
+
+msgid "didactic_do_export"
+msgstr "Exportovat"
+
+msgid "didactic_edit_tpl"
+msgstr "Upravit didaktickou šablonu"
+
+#, fuzzy
+msgid "didactic_filter_with_icon"
+msgstr "with Icon"
+
+#, fuzzy
+msgid "didactic_filter_without_icon"
+msgstr "without Icon"
+
+#, fuzzy
+msgid "didactic_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "didactic_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "didactic_icon_error"
+msgstr "Icons cannot be assigned to non-container objects."
+
+#, fuzzy
+msgid "didactic_icon_info"
+msgstr "The Icon is shown for all objects, which use this object template. \"Custom Icons\" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects."
+
+msgid "didactic_import_btn"
+msgstr "Importovat didaktickou šablonu"
+
+msgid "didactic_import_failed"
+msgstr "Import didaktické šablony selhal s hlášením:"
+
+msgid "didactic_import_success"
+msgstr "Didaktická šablona importována úspěšně."
+
+msgid "didactic_import_table_title"
+msgstr "Importovat didaktickou šablonu"
+
+msgid "didactic_install_info"
+msgstr "Obecné informace"
+
+#, fuzzy
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "Nastavení didaktické šablony nezměněno."
+
+msgid "didactic_scope"
+msgstr "Rozsah"
+
+msgid "didactic_scope_list_header"
+msgstr "Omezeno na:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Aplikovaná didaktická šablona:"
+
+msgid "didactic_template_applied"
+msgstr "Didaktická šablona aplikována."
+
+msgid "didactic_template_update_import"
+msgstr "Aktualizovat didaktickou šablonu"
+
+msgid "didactic_template_update_import_info"
+msgstr "Vlastnosti budou změněny podle tohoto importu. Nebudou změněny objekty, které již použily tuto šablonu."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+msgid "dtpl_obj_type_info"
+msgstr "Tuto didaktickou šablonu lze použít na tento typ objektu."
+
+msgid "effective_form"
+msgstr "Šablona účinná od"
+
+msgid "grp_closed"
+msgstr "Skupina uzavřena"
+
+msgid "grp_closed_info"
+msgstr "Skupina není pro nečleny viditelná."
+
+msgid "more_translations"
+msgstr "Více překladů"
+
+msgid "sess_closed"
+msgstr "Uzavřená relace"
+
+msgid "sess_closed_info"
+msgstr "Relace není viditelná pro nezúčastněné."

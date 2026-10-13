@@ -8439,53 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Privzeto sivo
-didactic#:#activate_exclusive_template_info#:#Privzeta predloga bo siva povsod, kjer je ta didaktična predloga aktivirana.
-didactic#:#activate_local_didactic_template#:#Področje veljave
-didactic#:#activate_local_didactic_template_info#:#Uporaba te didaktične predloge bo omejena na delna področja magazina.
-didactic#:#didactic_activated_msg#:#Izbrane didaktične predloge so bile aktivirane.
-didactic#:#didactic_adm_tab#:#Didaktične predloge
-didactic#:#didactic_applicable_for#:#Uporabno za
-didactic#:#didactic_auto_generated#:#Samodejno ustvarjeno
-didactic#:#didactic_available_templates#:#Razpoložljive didaktične predloge
-didactic#:#didactic_back_to_overview#:#Nazaj na pregled
-didactic#:#didactic_cannot_delete_auto_generated#:#Brisanje samodejno ustvarjenih didaktičnih predlog ni dovoljeno.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Vsaj ena izmed izbranih didaktičnih predlog je ustvarjena samodejno in je zato ni mogoče izbrisati.
-didactic#:#didactic_confirm_apply_new_template#:#Ali ste prepričani, da želite uporabiti to didaktično predlogo? Vse prilagoditve pravic bodo prepisane in prilagojene na novo didaktično predlogo.
-didactic#:#didactic_confirm_delete_msg#:#Ali ste prepričani, da želite izbrisati naslednje didaktične predloge?
-didactic#:#didactic_copy_suc_message#:#Didaktična predloga je bila kopirana
-didactic#:#didactic_deactivated_msg#:#Izbrane didaktične predloge so bile onemogočene.
-didactic#:#didactic_default_type#:#Privzeto
-didactic#:#didactic_default_type_info#:#Uporabljene bodo privzete nastavitve za pravice.
-didactic#:#didactic_delete_msg#:#Izbrane didaktične predloge so bile izbrisane.
-didactic#:#didactic_do_export#:#Izvozi
-didactic#:#didactic_edit_tpl#:#Uredi didaktično predlogo
-didactic#:#didactic_filter_with_icon#:#with Icon###19 08 2022 new variable
-didactic#:#didactic_filter_without_icon#:#without Icon###19 08 2022 new variable
-didactic#:#didactic_global#:#Global###19 08 2022 new variable
-didactic#:#didactic_icon#:#Icon###19 08 2022 new variable
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###19 08 2022 new variable
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###19 08 2022 new variable
-didactic#:#didactic_import_btn#:#Uvozi didaktično predlogo
-didactic#:#didactic_import_failed#:#Didaktične predloge ni bilo mogoče uvoziti:
-didactic#:#didactic_import_success#:#Didaktična predloga je bila uspešno uvožena
-didactic#:#didactic_import_table_title#:#Uvoz didaktične predloge
-didactic#:#didactic_install_info#:#Splošne informacije
-didactic#:#didactic_local#:#Local###19 08 2022 new variable
-didactic#:#didactic_not_changed#:#Trenutna didaktična predloga ni bila spremenjena.
-didactic#:#didactic_scope#:#Področje veljave
-didactic#:#didactic_scope_list_header#:#Omejeno na:
-didactic#:#didactic_selected_tpl_option#:#Uporabljena didaktična predloga:
-didactic#:#didactic_template_applied#:#Didaktična predloga je bila uporabljena.
-didactic#:#didactic_template_update_import#:#Posodobitev didaktičnih predlog
-didactic#:#didactic_template_update_import_info#:#Vse lastnosti bodo prilagojene na ta uvoz. Objekti, pri katerih je že bila uporabljena ta predloga, ne bodo spremenjeni.
-didactic#:#dtpl_obj_type_info#:#Določite, za katere tipe objektov se lahko uporablja ta didaktična predloga.
-didactic#:#effective_form#:#Predloga velja od
-didactic#:#grp_closed#:#Zaprta skupina
-didactic#:#grp_closed_info#:#Skupina ni vidna nečlanom.
-didactic#:#more_translations#:#Nadaljnji prevodi
-didactic#:#sess_closed#:#Zaprta seja
-didactic#:#sess_closed_info#:#Seja ni vidna neudeležencem.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration#:#Activation Period Extension

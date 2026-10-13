@@ -8485,54 +8485,6 @@ dcl#:#roles_desc#:#Határozza meg, hogy mely szerepkörök férhetnek hozzá a n
 dcl#:#set_as_default#:#Beállításnak alapértelmezettnek
 dcl#:#table_not_found#:#A tábla nem található!
 dcl#:#tableview_not_found#:#A táblanézet nem található!
-didactic#:#activate_exclusive_template#:#Alapértelmezetten őszülő
-didactic#:#activate_exclusive_template_info#:#A standard sablon nem lesz elérhető ahol ez a sablon aktív.
-didactic#:#activate_local_didactic_template#:#Alkalmazás hatásköre
-didactic#:#activate_local_didactic_template_info#:#Ennek a didaktikai sablonnak a használata ezen alterületekre korlátozódik.
-didactic#:#didactic_activated_msg#:#Bekapcsolt didaktikai sablonok
-didactic#:#didactic_adm_tab#:#Didaktikai sablonok
-didactic#:#didactic_applicable_for#:#Alkalmazható ehhez:
-didactic#:#didactic_auto_generated#:#Automatikusan létrehozott
-didactic#:#didactic_available_templates#:#Elérhető didaktikai sablonok
-didactic#:#didactic_back_to_overview#:#Vissza az áttekintéshez
-didactic#:#didactic_cannot_delete_auto_generated#:#Automatikusan létrehozott didaktikai sablon nem törölhető.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Legalább egy didaktikai sablont automatikusan hoztak létre, így nem törölhető.
-didactic#:#didactic_confirm_apply_new_template#:#Biztos, hogy alkalmazza a kiválasztott oktatási sablont? Így minden jelenlegi jogosultsági beállítás el fog veszni!
-didactic#:#didactic_confirm_delete_msg#:#Biztos, hogy törli az alábbi didaktikai sablonokat?
-didactic#:#didactic_copy_suc_message#:#Didaktikai sablon másolása
-didactic#:#didactic_deactivated_msg#:#Kikapcsolt didaktikai sablonok
-didactic#:#didactic_default_type#:#Alapértelmezett
-didactic#:#didactic_default_type_info#:#Alapértelmezett beállítások használata.
-didactic#:#didactic_delete_msg#:#Törölt didaktikai sablon.
-didactic#:#didactic_do_export#:#Export
-didactic#:#didactic_edit_tpl#:#Oktatási sablon módosítása
-didactic#:#didactic_filter_with_icon#:#Ikonnak
-didactic#:#didactic_filter_without_icon#:#Ikon nélkü
-didactic#:#didactic_global#:#Globális
-didactic#:#didactic_icon#:#Ikon
-didactic#:#didactic_icon_error#:#Ikon csak tárolóobjektumokhoz rendelhető.
-didactic#:#didactic_icon_info#:#Ez az ikon jelenik meg az összes, ezt a sablont használó objektumnál. Az ‘Egyedi ikon’-nal ez felülírható. Ikon csak tárolóobjektumokhoz rendelhető (például kurzus, kategória).
-didactic#:#didactic_import_btn#:#Didaktikai sablonok importálása
-didactic#:#didactic_import_failed#:#Didaktikai sablon importálása sikertelen, hibaüzenete:
-didactic#:#didactic_import_success#:#Sikeresen importált didaktikai sablon
-didactic#:#didactic_import_table_title#:#Didaktikai sablon importálása
-didactic#:#didactic_install_info#:#Általános információk
-didactic#:#didactic_local#:#Helyi
-didactic#:#didactic_not_changed#:#Az oktatási sablon beállítása változatlan.
-didactic#:#didactic_scope#:#Hatókör
-didactic#:#didactic_scope_list_header#:#Korlátozva erre:
-didactic#:#didactic_selected_tpl_option#:#Alkalmazott oktatási sablon:
-didactic#:#didactic_template_applied#:#Alkalmazott oktatási sablon.
-didactic#:#didactic_template_update_import#:#Didaktikai sablon frissítése
-didactic#:#didactic_template_update_import_info#:#Tulajdonságok ettől az importtól függően módosulnak. A már ezt a sablon használó objektumok nem módosulnak.
-didactic#:#didactic_translation_add_languages#:#Nyelv hozzáadása
-didactic#:#dtpl_obj_type_info#:#Az a didaktikai sablon nem alkalmazható erre az objektumtípusra.
-didactic#:#effective_form#:#Sablon hatályos innentől:
-didactic#:#grp_closed#:#Zárt csoport
-didactic#:#grp_closed_info#:#A csoportot csak tagjaik láthatják.
-didactic#:#more_translations#:#További fordítások
-didactic#:#sess_closed#:#Zárt esemény
-didactic#:#sess_closed_info#:#Az eseményt csak a résztvevőik láthatják.
 ecs#:#cert_serial#:#Tanúsítvány sorozatszáma
 ecs#:#ecs_abr#:#Rövidítés
 ecs#:#ecs_account_duration#:#Aktiválási időszak meghosszabbítása

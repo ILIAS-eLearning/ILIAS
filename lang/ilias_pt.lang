@@ -8470,54 +8470,6 @@ dcl#:#roles_desc#:#Only the roles selected above will have access to this view.#
 dcl#:#set_as_default#:#Set as default###03 09 2026 new variable
 dcl#:#table_not_found#:#Table not found!###03 09 2026 new variable
 dcl#:#tableview_not_found#:#Tableview not found!###03 09 2026 new variable
-didactic#:#activate_exclusive_template#:#Predefinição a cinzento
-didactic#:#activate_exclusive_template_info#:#O modelo padrão não estará disponível quando este modelo estiver ativo.
-didactic#:#activate_local_didactic_template#:#Âmbito de aplicação
-didactic#:#activate_local_didactic_template_info#:#A utilização deste modelo didático será limitado a estas subáreas.
-didactic#:#didactic_activated_msg#:#Modelos didáticos ativados
-didactic#:#didactic_adm_tab#:#Qui
-didactic#:#didactic_applicable_for#:#Ter
-didactic#:#didactic_auto_generated#:#Automaticamente criado
-didactic#:#didactic_available_templates#:#Modelos didáticos disponíveis
-didactic#:#didactic_back_to_overview#:#Regressar à vista geral
-didactic#:#didactic_cannot_delete_auto_generated#:#Não é permitido apagar modelos didáticos automaticamente criados.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Pelo menos um dos modelos didáticos selecionados é automaticamente criado e não pode ser apagado.
-didactic#:#didactic_confirm_apply_new_template#:#Tem a certeza que quer aplicar o modelo didático escolhido? Perdem-se todas as definições de permissões atuais!
-didactic#:#didactic_confirm_delete_msg#:#Tem a certeza que quer apagar os seguintes modelos didáticos?
-didactic#:#didactic_copy_suc_message#:#Modelo didático copiado
-didactic#:#didactic_deactivated_msg#:#Modelos didáticos desativados
-didactic#:#didactic_default_type#:#Predefinição
-didactic#:#didactic_default_type_info#:#Qua
-didactic#:#didactic_delete_msg#:#Hora
-didactic#:#didactic_do_export#:#Exportar
-didactic#:#didactic_edit_tpl#:#Editar modelo didático
-didactic#:#didactic_filter_with_icon#:#with Icon###30 04 2021 new variable
-didactic#:#didactic_filter_without_icon#:#without Icon###30 04 2021 new variable
-didactic#:#didactic_global#:#Global###30 04 2021 new variable
-didactic#:#didactic_icon#:#Icon###30 04 2021 new variable
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###30 04 2021 new variable
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###30 04 2021 new variable
-didactic#:#didactic_import_btn#:#Importar modelo didático
-didactic#:#didactic_import_failed#:#Clicar (Shift) ou arrastar para alterar o valor
-didactic#:#didactic_import_success#:#Hoje
-didactic#:#didactic_import_table_title#:#Importar um modelo didático
-didactic#:#didactic_install_info#:#Informações gerais
-didactic#:#didactic_local#:#Local###30 04 2021 new variable
-didactic#:#didactic_not_changed#:#A definição do modelo didático está inalterada.
-didactic#:#didactic_scope#:#Âmbito
-didactic#:#didactic_scope_list_header#:#Limitado a:
-didactic#:#didactic_selected_tpl_option#:#Modelo didático aplicado:
-didactic#:#didactic_template_applied#:#Modelo didático aplicado.
-didactic#:#didactic_template_update_import#:#Atualizar modelo didático
-didactic#:#didactic_template_update_import_info#:#As propriedades mudam de acordo com esta importação. Os objetos que já foram aplicados a este modelo não serão alterados.
-didactic#:#didactic_translation_add_languages#:#Add Languages###03 09 2026 new variable
-didactic#:#dtpl_obj_type_info#:#Este modelo didático pode ser aplicado neste tipo de objeto.
-didactic#:#effective_form#:#Modelo efetivo de
-didactic#:#grp_closed#:#Grupo fechado
-didactic#:#grp_closed_info#:#O grupo não está visível a não-membros.
-didactic#:#more_translations#:#Mais traduções
-didactic#:#sess_closed#:#Sessão fechada
-didactic#:#sess_closed_info#:#A sessão não está visível a não-participantes.
 ecs#:#cert_serial#:#Número de série do certificado
 ecs#:#ecs_abr#:#Abreviatura
 ecs#:#ecs_account_duration#:#Extensão do período de ativação

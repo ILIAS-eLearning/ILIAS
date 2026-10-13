@@ -8439,53 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
-didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
-didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable
-didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.###25 10 2016 new variable
-didactic#:#didactic_activated_msg#:#Activated didactic templates###06 08 2011 new variable
-didactic#:#didactic_adm_tab#:#Didactic###06 08 2011 new variable
-didactic#:#didactic_applicable_for#:#Applicalble for###06 08 2011 new variable
-didactic#:#didactic_auto_generated#:#Automatic Generated###25 10 2016 new variable
-didactic#:#didactic_available_templates#:#Available Didactic Templates###06 08 2011 new variable
-didactic#:#didactic_back_to_overview#:#Back to Overview###06 08 2011 new variable
-didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.###25 10 2016 new variable
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.###25 10 2016 new variable
-didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!###14 09 2011 new variable
-didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the following didactic templates?###06 08 2011 new variable
-didactic#:#didactic_copy_suc_message#:#Copied didactic template###06 08 2011 new variable
-didactic#:#didactic_deactivated_msg#:#Deactivated didactic templates###06 08 2011 new variable
-didactic#:#didactic_default_type#:#Default###10 07 2013 new variable
-didactic#:#didactic_default_type_info#:#Uses default permissions for %s###14 09 2011 new variable
-didactic#:#didactic_delete_msg#:#Deleted didactical templates.###06 08 2011 new variable
-didactic#:#didactic_do_export#:#Export###06 08 2011 new variable
-didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-didactic#:#didactic_filter_with_icon#:#with Icon###29 07 2022 new variable
-didactic#:#didactic_filter_without_icon#:#without Icon###29 07 2022 new variable
-didactic#:#didactic_global#:#Global###29 07 2022 new variable
-didactic#:#didactic_icon#:#Icon###29 07 2022 new variable
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###29 07 2022 new variable
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###29 07 2022 new variable
-didactic#:#didactic_import_btn#:#Import Didactic Template###06 08 2011 new variable
-didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: ###06 08 2011 new variable
-didactic#:#didactic_import_success#:#Successfully imported didactical template###06 08 2011 new variable
-didactic#:#didactic_import_table_title#:#Import of a didactic template###06 08 2011 new variable
-didactic#:#didactic_install_info#:#General Information###14 09 2011 new variable
-didactic#:#didactic_local#:#Local###29 07 2022 new variable
-didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.###14 09 2011 new variable
-didactic#:#didactic_scope#:#Scope###31 08 2017 new variable
-didactic#:#didactic_scope_list_header#:#Limited to:###31 08 2017 new variable
-didactic#:#didactic_selected_tpl_option#:#Applied didactic template:###14 09 2011 new variable
-didactic#:#didactic_template_applied#:#Applied didactic template.###14 09 2011 new variable
-didactic#:#didactic_template_update_import#:#Update Didactic Template###25 10 2016 new variable
-didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.###25 10 2016 new variable
-didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.###25 10 2016 new variable
-didactic#:#effective_form#:#Template Effective From###25 10 2016 new variable
-didactic#:#grp_closed#:#Skupina uzavřena
-didactic#:#grp_closed_info#:#Skupina není pro nečleny viditelná.
-didactic#:#more_translations#:#More Translations###25 10 2016 new variable
-didactic#:#sess_closed#:#Closed Session###31 08 2017 new variable
-didactic#:#sess_closed_info#:#Session is not visible for non-participants.###31 08 2017 new variable
 ecs#:#cert_serial#:#Sériové číslo certifikátu
 ecs#:#ecs_abr#:#Zkratka
 ecs#:#ecs_account_duration#:#Aktivace rozšíření periody

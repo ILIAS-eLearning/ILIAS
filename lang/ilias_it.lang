@@ -8441,53 +8441,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###28 11 2025 new v
 dcl#:#set_as_default#:#Set as default###28 11 2025 new variable
 dcl#:#table_not_found#:#Table not found!###28 11 2025 new variable
 dcl#:#tableview_not_found#:#Tableview not found!###28 11 2025 new variable
-didactic#:#activate_exclusive_template#:#Grigio predefinito
-didactic#:#activate_exclusive_template_info#:#Questo modello standard non sarà disponibile dove è attivo questo modello.
-didactic#:#activate_local_didactic_template#:#Ambito di applicazione
-didactic#:#activate_local_didactic_template_info#:#L’utilizzo di questo modello didattico sarà limitato a queste sottozone.
-didactic#:#didactic_activated_msg#:#I modelli didattici selezionati sono stati attivati
-didactic#:#didactic_adm_tab#:#Modelli didattici
-didactic#:#didactic_applicable_for#:#Applicabile per
-didactic#:#didactic_auto_generated#:#Generato automaticamente
-didactic#:#didactic_available_templates#:#Modelli didattici disponibili
-didactic#:#didactic_back_to_overview#:#Torna al sommario
-didactic#:#didactic_cannot_delete_auto_generated#:#Non è consentito eliminare i modelli didattici generati automaticamente.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Almeno uno dei modelli didattici selezionati è generato automaticamente e non può essere eliminato.
-didactic#:#didactic_confirm_apply_new_template#:#Vuoi davvero applicare il modello didattico scelto? Tutte le impostazioni di autorizzazione corrente andranno perse!
-didactic#:#didactic_confirm_delete_msg#:#Vuoi davvero eliminare i seguenti modelli didattici?
-didactic#:#didactic_copy_suc_message#:#Modelli didattici copiati
-didactic#:#didactic_deactivated_msg#:#Modelli didattici disattivati
-didactic#:#didactic_default_type#:#Impostazione predefinita
-didactic#:#didactic_default_type_info#:#Utilizza le autorizzazioni predefinite per %s
-didactic#:#didactic_delete_msg#:#Modelli didattici eliminati.
-didactic#:#didactic_do_export#:#Esporta
-didactic#:#didactic_edit_tpl#:#Modifica modelli didattici
-didactic#:#didactic_filter_with_icon#:#Con icona
-didactic#:#didactic_filter_without_icon#:#Senza icona
-didactic#:#didactic_global#:#Globale
-didactic#:#didactic_icon#:#Icona
-didactic#:#didactic_icon_error#:#Le icone non possono essere assegnate a oggetti non contenitori.
-didactic#:#didactic_icon_info#:#L'icona viene mostrata per tutti gli oggetti che utilizzano questo modello di oggetto. Le "icone personalizzate" degli oggetti sovrascrivono le icone dei modelli didattici. Le icone possono essere utilizzate solo per modelli didattici assegnati a oggetti contenitore.
-didactic#:#didactic_import_btn#:#Importa modelli didattici
-didactic#:#didactic_import_failed#:#L'importazione del modello didattico non è riuscita:
-didactic#:#didactic_import_success#:#Modello didattico importato correttamente
-didactic#:#didactic_import_table_title#:#Importazione di un modello didattico
-didactic#:#didactic_install_info#:#Informazioni generali
-didactic#:#didactic_local#:#Locale
-didactic#:#didactic_not_changed#:#L'impostazione del modello didattico è invariata.
-didactic#:#didactic_scope#:#Ambito
-didactic#:#didactic_scope_list_header#:#Limitato a:
-didactic#:#didactic_selected_tpl_option#:#Modelli didattici applicati:
-didactic#:#didactic_template_applied#:#Modelli didattici applicati.
-didactic#:#didactic_template_update_import#:#Aggiorna modelli didattici
-didactic#:#didactic_template_update_import_info#:#Le proprietà verranno modificate in base a questa importazione. Gli oggetti che hanno già applicato questo modello non verranno modificati.
-didactic#:#dtpl_obj_type_info#:#Questo modello didattico può essere applicato a questo tipo di oggetto.
-didactic#:#effective_form#:#Modello efficace da
-didactic#:#grp_closed#:#Gruppo Chiuso
-didactic#:#grp_closed_info#:#Il gruppo non è visibile ai non iscritti.
-didactic#:#more_translations#:#Ulteriori traduzioni
-didactic#:#sess_closed#:#Sessione chiusa
-didactic#:#sess_closed_info#:#La sessione non è visibile per i non-partecipanti.
 ecs#:#cert_serial#:#Numero di serie del certificato
 ecs#:#ecs_abr#:#Abbreviazione
 ecs#:#ecs_account_duration#:#Estensione del periodo di attivazione

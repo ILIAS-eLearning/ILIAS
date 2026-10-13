@@ -8471,54 +8471,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.
 dcl#:#set_as_default#:#Establecer como predeterminado
 dcl#:#table_not_found#:#¡Tabla no encontrada!
 dcl#:#tableview_not_found#:#¡Vista de tabla no encontrada!
-didactic#:#activate_exclusive_template#:#Grisar predeterminado
-didactic#:#activate_exclusive_template_info#:#La plantilla estándar no estará disponible en los lugares donde esta plantilla esté activa.
-didactic#:#activate_local_didactic_template#:#Ámbito de aplicación
-didactic#:#activate_local_didactic_template_info#:#El uso de esta plantilla didáctica se limitará a estas subáreas.
-didactic#:#didactic_activated_msg#:#Plantillas didácticas activadas
-didactic#:#didactic_adm_tab#:#Plantillas didácticas
-didactic#:#didactic_applicable_for#:#Aplicable para
-didactic#:#didactic_auto_generated#:#Generado automáticamente
-didactic#:#didactic_available_templates#:#Plantillas didácticas disponibles
-didactic#:#didactic_back_to_overview#:#Volver a la vista general
-didactic#:#didactic_cannot_delete_auto_generated#:#No está permitido eliminar plantillas didácticas generadas automáticamente.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Al menos una de las plantillas didácticas seleccionadas se ha generado automáticamente y no se puede eliminar.
-didactic#:#didactic_confirm_apply_new_template#:#¿Realmente desea aplicar la plantilla didáctica elegida? ¡Se perderán todos los ajustes de permisos actuales!
-didactic#:#didactic_confirm_delete_msg#:#¿Realmente desea eliminar las siguientes plantillas didácticas?
-didactic#:#didactic_copy_suc_message#:#Plantilla didáctica copiada
-didactic#:#didactic_deactivated_msg#:#Plantillas didácticas desactivadas
-didactic#:#didactic_default_type#:#Predeterminado
-didactic#:#didactic_default_type_info#:#Se aplicará el conjunto de permisos predeterminado.
-didactic#:#didactic_delete_msg#:#Plantillas didácticas eliminadas.
-didactic#:#didactic_do_export#:#Exportar
-didactic#:#didactic_edit_tpl#:#Editar plantilla didáctica
-didactic#:#didactic_filter_with_icon#:#con icono
-didactic#:#didactic_filter_without_icon#:#sin icono
-didactic#:#didactic_global#:#Global
-didactic#:#didactic_icon#:#Icono
-didactic#:#didactic_icon_error#:#Los iconos no se pueden asignar a objetos que no sean contenedores.
-didactic#:#didactic_icon_info#:#El icono se muestra para todos los objetos que utilizan esta plantilla de objeto. Los "iconos personalizados" de los objetos sobrescriben los iconos de la plantilla didáctica. Los iconos solo se pueden utilizar para plantillas didácticas asignadas a objetos contenedor.
-didactic#:#didactic_import_btn#:#Importar plantilla didáctica
-didactic#:#didactic_import_failed#:#La importación de la plantilla didáctica falló con el mensaje:
-didactic#:#didactic_import_success#:#Plantilla didáctica importada con éxito
-didactic#:#didactic_import_table_title#:#Importación de una plantilla didáctica
-didactic#:#didactic_install_info#:#Información General
-didactic#:#didactic_local#:#Local
-didactic#:#didactic_not_changed#:#La configuración de la plantilla didáctica no se ha modificado.
-didactic#:#didactic_scope#:#Ámbito
-didactic#:#didactic_scope_list_header#:#Limitado a:
-didactic#:#didactic_selected_tpl_option#:#Plantilla didáctica aplicada:
-didactic#:#didactic_template_applied#:#Plantilla didáctica aplicada.
-didactic#:#didactic_template_update_import#:#Actualizar Plantilla Didáctica
-didactic#:#didactic_template_update_import_info#:#Las propiedades se cambiarán de acuerdo con esta importación. Los objetos que ya tengan aplicada esta plantilla no se verán afectados.
-didactic#:#didactic_translation_add_languages#:#Añadir idiomas
-didactic#:#dtpl_obj_type_info#:#Esta plantilla didáctica puede aplicarse a este tipo de objeto.
-didactic#:#effective_form#:#Plantilla efectiva desde
-didactic#:#grp_closed#:#Grupo Cerrado
-didactic#:#grp_closed_info#:#El grupo no es visible para los no miembros.
-didactic#:#more_translations#:#Más traducciones
-didactic#:#sess_closed#:#Sesión Cerrada
-didactic#:#sess_closed_info#:#La sesión no es visible para los no participantes.
 ecs#:#cert_serial#:#Número de Serie del Certificado
 ecs#:#ecs_abr#:#Abreviatura
 ecs#:#ecs_account_duration#:#Extensión del Periodo de Activación
