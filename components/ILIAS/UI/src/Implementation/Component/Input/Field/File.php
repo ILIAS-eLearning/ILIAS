@@ -50,6 +50,9 @@ class File extends HasDynamicInputs implements C\Input\Field\File
     protected int $max_file_amount = 1;
     protected int $max_file_size_in_bytes;
 
+    /** @var null|string[] */
+    protected ?array $visible_extensions = null;
+
     public function __construct(
         Language $language,
         DataFactory $data_factory,
@@ -110,10 +113,11 @@ class File extends HasDynamicInputs implements C\Input\Field\File
         return $this->max_file_amount;
     }
 
-    public function withAcceptedMimeTypes(array $mime_types): FileUpload
+    public function withAcceptedMimeTypes(array $mime_types, ?array $visible_extensions = null): FileUpload
     {
         $clone = clone $this;
         $clone->accepted_mime_types = $mime_types;
+        $clone->visible_extensions = $visible_extensions;
 
         return $clone;
     }
@@ -121,6 +125,11 @@ class File extends HasDynamicInputs implements C\Input\Field\File
     public function getAcceptedMimeTypes(): array
     {
         return $this->accepted_mime_types;
+    }
+
+    public function getVisibleExtensions(): ?array
+    {
+        return $this->visible_extensions;
     }
 
     // ===============================================
