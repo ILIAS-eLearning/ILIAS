@@ -4013,18 +4013,18 @@
 	[[[[[AMDForm;<xsl:value-of select="@RecordIds"/>]]]]]
 </xsl:template>
 
-<!-- (LSO) Curriculum -->
-<xsl:template match="Curriculum">
+<!-- (LSO) Learning Map -->
+<xsl:template match="LearningMap">
 	<xsl:if test="$mode = 'edit'">
-		<div class="copg-content-placeholder-lso-curriculum">
-			<img class="icon pewl medium" src="./assets/images/page_editor/icon_pewl.svg" alt="curriculum" />
-			<div>Curriculum</div>
+		<div class="copg-new-content-placeholder">
+			<img class="icon pewl medium" src="./assets/images/page_editor/icon_pewl.svg" alt="learning map" />
+			<div>Learning Map</div>
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit'">
-		<Curriculum>
-			[[[CURRICULUM]]]
-		</Curriculum>
+		<LearningMap>
+			[[[LEARNINGMAP]]]
+		</LearningMap>
 	</xsl:if>
 </xsl:template>
 
