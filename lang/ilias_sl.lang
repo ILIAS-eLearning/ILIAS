@@ -10119,8 +10119,6 @@ jscalendar#:#time_part#:#(shift-)kliknite ali zadržite in povlecite, da spremen
 jscalendar#:#today#:#Danes
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KT
-like#:#like#:#Like
-like#:#reaction#:#Reaction
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###19 08 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###19 08 2022 new variable
 lm#:#lm_copy#:#Kopiraj učni modul ILIAS

@@ -10159,8 +10159,6 @@ jscalendar#:#time_part#:#(Shift-)Click o arrastrar para cambiar el valor
 jscalendar#:#today#:#Hoy
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#sem
-like#:#like#:#Me gusta
-like#:#reaction#:#Reacción
 lm#:#lm_btn_lp_toggle_state_completed#:#Establecer como No completado
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Establecer como Completado
 lm#:#lm_copy#:#Copiar módulo de aprendizaje

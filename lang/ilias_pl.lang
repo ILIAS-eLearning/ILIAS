@@ -10119,8 +10119,6 @@ jscalendar#:#time_part#:#(Shift-)Kliknij lub przytrzymaj dla zmiany wartości
 jscalendar#:#today#:#Dziś
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#TD
-like#:#like#:#Like
-like#:#reaction#:#Reaction
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Kopiuj moduł nauczania ILIAS

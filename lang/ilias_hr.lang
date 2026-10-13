@@ -10119,8 +10119,6 @@ jscalendar#:#time_part#:#Pritisnite (Shift) ili povucite za promjenu vrijednosti
 jscalendar#:#today#:#Danas
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KT
-like#:#like#:#Like
-like#:#reaction#:#Reaction
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###04 06 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###04 06 2021 new variable
 lm#:#lm_copy#:#Kopiraj modul za učenje
