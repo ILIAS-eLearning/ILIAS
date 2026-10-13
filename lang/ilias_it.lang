@@ -10848,24 +10848,6 @@ mail#:#show_mail_settings#:#Mostra impostazioni di posta
 mail#:#show_mail_settings_info#:#Se abilitato, le "Impostazioni posta" dell'utente sono accessibili tramite la sezione "Impostazioni personali" o "Posta".
 mail#:#system_notification_installation_changed_by#:#Modificato da
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###31 03 2023 new variable
-maps#:#configure_geolocation#:#Si prega di terminare la configurazione della geolocalizzazione nel menu di amministrazione "Software di parti terze" per abilitare la ricerca degli indirizzi.
-maps#:#maps_custom_geolocation_server_info#:#URL server per gestire i dati di geolocalizzazione attraverso Nominatim. La voce deve contenere il segnaposto [QUERY] per definire una posizione per le informazioni sulla richiesta. Esempio nominatim.esempio.com/cerca/[QUERY]?formato=json.
-maps#:#maps_custom_tile_server_info#:#URL server per fornire dati nel riquadro. Gli ingressi multipli devono essere separati da spazi. I valori predefiniti sono "%s".
-maps#:#maps_enable_maps#:#Abilita Maps
-maps#:#maps_enable_maps_info#:#Attiva Maps nei profili utente, gruppi e corsi.
-maps#:#maps_geolocation_server#:#Server per la geolocalizzazione inversa
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#HTTPS per ricerca inversa
-maps#:#maps_latitude#:#Latitudine
-maps#:#maps_longitude#:#Longitudine
-maps#:#maps_lookup_address#:#Indirizzo di ricerca
-maps#:#maps_map_type#:#Tipo
-maps#:#maps_open_layers_maps#:#Apri livelli Maps
-maps#:#maps_settings#:#Impostazioni Maps
-maps#:#maps_std_location#:#Posizione predefinita
-maps#:#maps_std_location_desc#:#Clicca sulla mappa per impostare la posizione.
-maps#:#maps_tile_server#:#Server per blocchi
-maps#:#maps_zoom_level#:#Livello di zoom
 mcst#:#mcst_add_new_item#:#Aggiungi nuovo elemento Mediacast
 mcst#:#mcst_audio_files#:#Audio Files###31 03 2023 new variable
 mcst#:#mcst_audioportable_settings_info#:#Lista di suffissi di files, separati da virgola

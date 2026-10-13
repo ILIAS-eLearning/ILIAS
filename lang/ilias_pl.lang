@@ -10846,24 +10846,6 @@ mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mail#:#system_notification_installation_changed_by#:#Zmieniono przez
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###29 07 2022 new variable
-maps#:#configure_geolocation#:#Zakończ konfigurację geolokalizacji w „Oprogramowaniu innych firm", aby umożliwić wyszukiwanie adresów.
-maps#:#maps_custom_geolocation_server_info#:#Serwer URL do przekazania danych geolokalizacji geolocation-data przy użyciu Nominatim. Twój wpis powinien zawierać symbol zastępczy [QUERY], aby zdefiniować pozycję dla żądania informacji. Przykład: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#Serwer URL do przekazania danych kafelków tile-data. Wiele danych wejściowych należy rozdzielić spacjami. Domyślnie "%s".
-maps#:#maps_enable_maps#:#Włącz mapy
-maps#:#maps_enable_maps_info#:#Włącza mapy w profilu użytkownika, grupach i kursach
-maps#:#maps_geolocation_server#:#Serwer Reverse Geolocation
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup###29 07 2022 new variable
-maps#:#maps_latitude#:#Stopień szerokości geogr.
-maps#:#maps_longitude#:#Stopień długości geogr.
-maps#:#maps_lookup_address#:#Wyszukaj adres
-maps#:#maps_map_type#:#Typ
-maps#:#maps_open_layers_maps#:#Open Layers Maps
-maps#:#maps_settings#:#Ustawienia dotyczące map
-maps#:#maps_std_location#:#Pozycja domyślna
-maps#:#maps_std_location_desc#:#Kliknij na mapę, aby podać własną pozycję.
-maps#:#maps_tile_server#:#Serwer kafelków
-maps#:#maps_zoom_level#:#Stopień powiększenia
 mcst#:#mcst_add_new_item#:#Dodaj nową pozycję Media Cast
 mcst#:#mcst_audio_files#:#Audio Files###29 07 2022 new variable
 mcst#:#mcst_audioportable_settings_info#:#Lista końcówek nazw plików przedzielonych przecinkiem

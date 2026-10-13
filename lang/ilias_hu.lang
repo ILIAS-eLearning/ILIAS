@@ -10913,24 +10913,6 @@ mail#:#show_mail_settings#:#Levelezési beállítások megjelenítése
 mail#:#show_mail_settings_info#:#A ‘Levelezési beállítások’ elérhető a ‘Személyes beállítások’ vagy a ‘Levelezés’ részben. Ennek módosíthatósága függ a jogosultsági beállításoktól.
 mail#:#system_notification_installation_changed_by#:#Módosította
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#A ‘%s’ attribútumot (‘%s’ mező) módosította.<br />Ez azt eredményezi, hogy az összes fiók beállítása visszaáll az ‘Elsődleges címre történő fogadás’ értékre külső kézbesítésnél,<br />nemcsak az új fiók esetében, hanem a felhasználók jelenleg beállításait is felülírjuk.
-maps#:#configure_geolocation#:#A címkeresés bekapcsolásához fejezze be a helymeghatározó beállítását a ‘Rendszerbeállítások’ » ‘Harmadik fél szoftvere’ alatt.
-maps#:#maps_custom_geolocation_server_info#:#Szerver URL helymeghatározási adatok Nominatim használatával történő meghatározásához. Az URL-ben a kért hely információjának helyőrzője a [QUERY]. Például: https://nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#Szerver URL csempeadatok meghatározásához. Több URL-t szóközzel válasszon el. Alapértelmezett értéke ‘%s’.
-maps#:#maps_enable_maps#:#Térképek engedélyezése
-maps#:#maps_enable_maps_info#:#Térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban.
-maps#:#maps_geolocation_server#:#Fordított helymeghatározáshoz szerver
-maps#:#maps_google_maps#:#Google-térképek
-maps#:#maps_https_for_reverse_lookup#:#Https a Reverse Lookup-hoz
-maps#:#maps_latitude#:#Földrajzi szélesség
-maps#:#maps_longitude#:#Földrajzi hosszúság
-maps#:#maps_lookup_address#:#Címkeresés
-maps#:#maps_map_type#:#Típus
-maps#:#maps_open_layers_maps#:#OpenLayers térképek
-maps#:#maps_settings#:#Térképek beállításai
-maps#:#maps_std_location#:#Alapértelmezett hely
-maps#:#maps_std_location_desc#:#Kattintson a térképre a hely beállításához.
-maps#:#maps_tile_server#:#Csempékhez szerver
-maps#:#maps_zoom_level#:#Nagyítás szintje
 mcst#:#mcst_add_new_item#:#Új médiasugárzás-objektum létrehozása
 mcst#:#mcst_audio_files#:#Hangfájl
 mcst#:#mcst_audioportable_settings_info#:#Fájlkiterjesztések vesszővel elválasztott felsorolása

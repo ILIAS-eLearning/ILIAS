@@ -10896,24 +10896,6 @@ mail#:#show_mail_settings#:#Adesões ao curso
 mail#:#show_mail_settings_info#:#Páginas do portefólio e/ou do blog apagadas.
 mail#:#system_notification_installation_changed_by#:#Alterado por
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###03 09 2026 new variable
-maps#:#configure_geolocation#:#Termine a configuração de geolocalização no menu de administração "Software de terceiros" para ativar a pesquisa de endereço.
-maps#:#maps_custom_geolocation_server_info#:#URL do servidor para fornecer dados de geolocalização usando Nominatim. A sua entrada deve conter a variável [QUERY] para definir uma posição para pedir informação. Exemplo: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#URL do servidor para fornecer dados mosaico. As entradas múltiplas devem ser separados por espaços. O padrão é "%s".
-maps#:#maps_enable_maps#:#Ativar mapas
-maps#:#maps_enable_maps_info#:#Ativa mapas nos perfis de utilizador, grupos e cursos.
-maps#:#maps_geolocation_server#:#Servidor para a geolocalização inversa
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup###30 04 2021 new variable
-maps#:#maps_latitude#:#Latitude
-maps#:#maps_longitude#:#Longitude
-maps#:#maps_lookup_address#:#Pesquisar endereço
-maps#:#maps_map_type#:#Tipo
-maps#:#maps_open_layers_maps#:#Abrir mapas de estratos
-maps#:#maps_settings#:#Definições de mapas
-maps#:#maps_std_location#:#Localização padrão
-maps#:#maps_std_location_desc#:#Clicar no mapa para definir a localização.
-maps#:#maps_tile_server#:#Servidor para mosaicos
-maps#:#maps_zoom_level#:#Nível zoom
 mcst#:#mcst_add_new_item#:#O tamanho predefinido é de 1370x100 pixéis.
 mcst#:#mcst_audio_files#:#Audio Files###03 09 2026 new variable
 mcst#:#mcst_audioportable_settings_info#:#Lista de sufixos de ficheiros separados por vírgulas

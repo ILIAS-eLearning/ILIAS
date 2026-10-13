@@ -10846,24 +10846,6 @@ mail#:#show_mail_settings#:#Pokaži postavke pošte
 mail#:#show_mail_settings_info#:#Ako je omogućeno, korisnikovim `Postavkama pošte` moguće je pristupiti putem odjeljka` Osobne postavke` ili `Pošta`.
 mail#:#system_notification_installation_changed_by#:#Promijenio
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###29 07 2022 new variable
-maps#:#configure_geolocation#:#Završite konfiguraciju geolokacije u administracijskom izborniku "Softver treće strane" kako biste omogućili pretraživanje adrese.
-maps#:#maps_custom_geolocation_server_info#:#URL servera za pružanje podataka o geolokaciji pomoću Nominatima. Vaš unos treba sadržavati rezervirano mjesto [QUERY] kako bi se definiralo mjesto za informacije o zahtjevu. Primjer: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#URL servera za pružanje podataka o pločicama. Više ulaznih podataka treba odvojiti razmacima. Zadane vrijednosti su "%s".
-maps#:#maps_enable_maps#:#Omogući Karte
-maps#:#maps_enable_maps_info#:#Aktivira Karte u korisničkim profilima, grupama i tečajevima.
-maps#:#maps_geolocation_server#:#Poslužitelj za obrnuto geolociranje
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup###04 06 2021 new variable
-maps#:#maps_latitude#:#Zemljopisna širina
-maps#:#maps_longitude#:#Zemljopisna dužina
-maps#:#maps_lookup_address#:#Adresa za pretraživanje
-maps#:#maps_map_type#:#Tip
-maps#:#maps_open_layers_maps#:#Otvorite Mape slojeva
-maps#:#maps_settings#:#Postavke karte
-maps#:#maps_std_location#:#Zadana lokacija
-maps#:#maps_std_location_desc#:#Kliknite kartu kako biste postavili lokaciju.
-maps#:#maps_tile_server#:#Server za pločice
-maps#:#maps_zoom_level#:#Razina zumiranja
 mcst#:#mcst_add_new_item#:#Dodaj novu stavku za Mediacast
 mcst#:#mcst_audio_files#:#Audio Files###29 07 2022 new variable
 mcst#:#mcst_audioportable_settings_info#:#Popis sufiksa datoteka odvojenih zarezom

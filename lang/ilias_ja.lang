@@ -10862,24 +10862,6 @@ mail#:#show_mail_settings#:#メール設定を表示
 mail#:#show_mail_settings_info#:#有効にするとユーザの`メール設定`が `パーソナル設定`または or `メール`セクション経由でアクセス可能になります。
 mail#:#system_notification_installation_changed_by#:#更新者
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#フィールド "%s"の属性 "%s" を変更しました。<br>これは全てのアカウント設定を、外部配信用の"優先アドレスで受信" へリセットする事につながります。<br>全ての新規アカウントに限らず、現在アクティブ設定にしているユーザを含みます。
-maps#:#configure_geolocation#:#アドレス検索を有効にするための管理メニュー"サードパーティーソフトウェア"の測位構成を完了してください。
-maps#:#maps_custom_geolocation_server_info#:#Nominatimを使用して測位データを提供するサーバのURL。エントリーには要求の情報に位置を定義するためのプレースフォルダ[QUERY]を含めなければなりません。例: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#タイルデータを提供するためのサーバURL。複数の入力はスペースで区切る必要があります。既定は"%s"です。
-maps#:#maps_enable_maps#:#マップを利用可能にする
-maps#:#maps_enable_maps_info#:#ユーザプロファイル、グループ、コースのマップを有効化urses.
-maps#:#maps_geolocation_server#:#逆測位用のサーバ
-maps#:#maps_google_maps#:#Google Map
-maps#:#maps_https_for_reverse_lookup#:#Reverse Lookup用のhttps
-maps#:#maps_latitude#:#経度
-maps#:#maps_longitude#:#経線
-maps#:#maps_lookup_address#:#ルックアップアドレス
-maps#:#maps_map_type#:#タイプ
-maps#:#maps_open_layers_maps#:#オープンレイヤーマップ
-maps#:#maps_settings#:#マップ設定
-maps#:#maps_std_location#:#ロケーション初期設定
-maps#:#maps_std_location_desc#:#ロケーションを設定するにはマップをクリック
-maps#:#maps_tile_server#:#タイル用のサーバ
-maps#:#maps_zoom_level#:#ズームレベル
 mcst#:#mcst_add_new_item#:#新しいメディアキャストアイテムを追加
 mcst#:#mcst_audio_files#:#オーディオファイル
 mcst#:#mcst_audioportable_settings_info#:#ファイルサフィックスのカンマ区切りリスト

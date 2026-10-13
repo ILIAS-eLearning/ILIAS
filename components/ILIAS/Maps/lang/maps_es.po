@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Por favor, finalice la configuración de geolocalización en el menú de administración \"Software de Terceros\" para habilitar la búsqueda de direcciones."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL del servidor para proporcionar datos de geolocalización utilizando Nominatim. Su entrada debe contener el marcador de posición [QUERY] para definir una posición para la información de la solicitud. Ejemplo: https://nominatim.example.com/search?q=[QUERY]&format=json"
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL del servidor para proporcionar datos de teselas (tiles). Varias entradas deben estar separadas por espacios. El valor predeterminado es \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Activar Mapas"
+
+msgid "maps_enable_maps_info"
+msgstr "Activa los Mapas en los perfiles de usuario, grupos y cursos."
+
+msgid "maps_geolocation_server"
+msgstr "Servidor para Geolocalización Inversa"
+
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https para búsqueda inversa"
+
+msgid "maps_latitude"
+msgstr "Latitud"
+
+msgid "maps_longitude"
+msgstr "Longitud"
+
+msgid "maps_lookup_address"
+msgstr "Buscar Dirección"
+
+msgid "maps_map_type"
+msgstr "Tipo"
+
+msgid "maps_open_layers_maps"
+msgstr "Open Layers Maps"
+
+msgid "maps_settings"
+msgstr "Configuración de Mapas"
+
+msgid "maps_std_location"
+msgstr "Ubicación Predeterminada"
+
+msgid "maps_std_location_desc"
+msgstr "Haga clic en el mapa para establecer la ubicación."
+
+msgid "maps_tile_server"
+msgstr "Servidor de Teselas (Tiles)"
+
+msgid "maps_zoom_level"
+msgstr "Nivel de Zoom"

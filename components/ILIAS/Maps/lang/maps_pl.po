@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Zakończ konfigurację geolokalizacji w „Oprogramowaniu innych firm\", aby umożliwić wyszukiwanie adresów."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "Serwer URL do przekazania danych geolokalizacji geolocation-data przy użyciu Nominatim. Twój wpis powinien zawierać symbol zastępczy [QUERY], aby zdefiniować pozycję dla żądania informacji. Przykład: nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "Serwer URL do przekazania danych kafelków tile-data. Wiele danych wejściowych należy rozdzielić spacjami. Domyślnie \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Włącz mapy"
+
+msgid "maps_enable_maps_info"
+msgstr "Włącza mapy w profilu użytkownika, grupach i kursach"
+
+msgid "maps_geolocation_server"
+msgstr "Serwer Reverse Geolocation"
+
+#, fuzzy
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https for Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Stopień szerokości geogr."
+
+msgid "maps_longitude"
+msgstr "Stopień długości geogr."
+
+msgid "maps_lookup_address"
+msgstr "Wyszukaj adres"
+
+msgid "maps_map_type"
+msgstr "Typ"
+
+msgid "maps_open_layers_maps"
+msgstr "Open Layers Maps"
+
+msgid "maps_settings"
+msgstr "Ustawienia dotyczące map"
+
+msgid "maps_std_location"
+msgstr "Pozycja domyślna"
+
+msgid "maps_std_location_desc"
+msgstr "Kliknij na mapę, aby podać własną pozycję."
+
+msgid "maps_tile_server"
+msgstr "Serwer kafelków"
+
+msgid "maps_zoom_level"
+msgstr "Stopień powiększenia"
