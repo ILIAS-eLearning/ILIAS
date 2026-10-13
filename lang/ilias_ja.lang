@@ -9991,11 +9991,6 @@ help#:#help_tooltips_and_help#:#ツールチップとワークフローヘルプ
 help#:#help_tooltips_only#:#ツールチップのみ
 help#:#help_topcis#:#トピック
 help#:#help_tt_text#:#テキスト
-htlm#:#file_import_from_upload_dir_failed#:#アップロードディレクトリからファイルはインポートされませんでした
-htlm#:#file_imported_from_upload_dir#:#アップロードディレクトリからファイルをインポート
-htlm#:#import_from_upload_dir#:#アップロードディレクイトリからインポート
-htlm#:#import_from_upload_dir_file_name#:#ファイル名
-htlm#:#import_from_upload_dir_info#:#インポート用のファイルを選択してください。
 iass#:#download_assessment_paper#:#記録ファイルをダウンロード
 iass#:#grading#:#採点
 iass#:#grading_info#:#採点情報

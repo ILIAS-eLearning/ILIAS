@@ -10026,11 +10026,6 @@ help#:#help_tooltips_and_help#:#Ajuda dicas de contexto e fluxo de trabalho
 help#:#help_tooltips_only#:#Dicas de contexto apenas
 help#:#help_topcis#:#Tópicos
 help#:#help_tt_text#:#Texto
-htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###03 09 2026 new variable
-htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###03 09 2026 new variable
-htlm#:#import_from_upload_dir#:#Import from Upload-Directory###03 09 2026 new variable
-htlm#:#import_from_upload_dir_file_name#:#Filename###03 09 2026 new variable
-htlm#:#import_from_upload_dir_info#:#Please select file for import###03 09 2026 new variable
 iass#:#download_assessment_paper#:#Download Record file###30 04 2021 new variable
 iass#:#grading#:#Classificação
 iass#:#grading_info#:#Informação de classificação

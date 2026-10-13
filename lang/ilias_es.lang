@@ -10020,11 +10020,6 @@ help#:#help_tooltips_and_help#:#Sugerencias y ayuda de flujo de trabajo
 help#:#help_tooltips_only#:#Solo sugerencias
 help#:#help_topcis#:#Temas
 help#:#help_tt_text#:#Texto
-htlm#:#file_import_from_upload_dir_failed#:#No se ha podido importar el archivo desde el directorio de carga
-htlm#:#file_imported_from_upload_dir#:#Archivo importado desde el directorio de carga
-htlm#:#import_from_upload_dir#:#Importar desde el directorio de carga
-htlm#:#import_from_upload_dir_file_name#:#Nombre de archivo
-htlm#:#import_from_upload_dir_info#:#Por favor, seleccione el archivo para importar
 iass#:#download_assessment_paper#:#Descargar archivo de registro
 iass#:#grading#:#Calificación
 iass#:#grading_info#:#Información de calificación

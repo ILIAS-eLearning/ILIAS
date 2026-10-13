@@ -9982,11 +9982,6 @@ help#:#help_tooltips_and_help#:#Descrizioni comandi e guida del flusso di lavoro
 help#:#help_tooltips_only#:#Solo descrizioni comandi
 help#:#help_topcis#:#Argomenti
 help#:#help_tt_text#:#Testo
-htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###28 11 2025 new variable
-htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###28 11 2025 new variable
-htlm#:#import_from_upload_dir#:#Import from Upload-Directory###28 11 2025 new variable
-htlm#:#import_from_upload_dir_file_name#:#Filename###28 11 2025 new variable
-htlm#:#import_from_upload_dir_info#:#Please select file for import###28 11 2025 new variable
 iass#:#download_assessment_paper#:#Scarica il file di record
 iass#:#grading#:#Classificazione
 iass#:#grading_info#:#Informazioni di classificazione

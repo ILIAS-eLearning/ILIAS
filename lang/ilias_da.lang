@@ -9980,11 +9980,6 @@ help#:#help_tooltips_and_help#:#Tips og hjælp til arbejdsgang
 help#:#help_tooltips_only#:#Kun værktøjstip
 help#:#help_topcis#:#Topics###26 09 2014 new variable
 help#:#help_tt_text#:#Tekst
-htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###29 10 2025 new variable
-htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###29 10 2025 new variable
-htlm#:#import_from_upload_dir#:#Import from Upload-Directory###29 10 2025 new variable
-htlm#:#import_from_upload_dir_file_name#:#Filename###29 10 2025 new variable
-htlm#:#import_from_upload_dir_info#:#Please select file for import###29 10 2025 new variable
 iass#:#download_assessment_paper#:#Download Record file###29 07 2022 new variable
 iass#:#grading#:#Grading###25 10 2016 new variable
 iass#:#grading_info#:#Grading info###25 10 2016 new variable
