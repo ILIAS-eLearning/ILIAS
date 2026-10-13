@@ -13788,7 +13788,6 @@ rep#:#rep_tree_limit#:#Begränsning av antalet poster i trädet
 rep#:#rep_tree_limit_info#:#Visar endast ett begränsat antal element i trädet för att öka prestandan.
 rep#:#rep_tree_limit_number#:#Maximalt antal
 rep#:#rep_tree_limit_number_info#:#Maximalt antal underordnade element som initialt visas för en nod. Om det finns fler underordnade element visas ett inmatningsfält för sökning där de underordnade elementen kan filtreras efter titel.
-rglo#:#rglo_call#:#Hämta ECS ordlista
 rgrp#:#rgrp_call#:#Ring ECS-gruppen
 rlm#:#rlm_call#:#Ring upp ECS utbildningsmodul
 rtst#:#rtst_call#:#Ring ECS-test

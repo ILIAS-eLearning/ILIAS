@@ -13788,7 +13788,6 @@ rep#:#rep_tree_limit#:#Omezit položky ve stromu
 rep#:#rep_tree_limit_info#:#Počet objektů ve stromu úložiště bude omezen, aby se zvýšila výkonnost.
 rep#:#rep_tree_limit_number#:#Maximální počet
 rep#:#rep_tree_limit_number_info#:#Maximální počet prvků stromu, které jsou zpočátku zobrazeny pro rozšířený uzel. Pokud je k dispozici více prvků stromu, zobrazí se vstupní vyhledávací pole pro filtrování prvků stromu podle názvu.
-rglo#:#rglo_call#:#Vyvolat glosář ECS
 rgrp#:#rgrp_call#:#Vyvolat skupinu ECS
 rlm#:#rlm_call#:#Vyvolat výukový modul ECS
 rtst#:#rtst_call#:#Vyvolat test ECS
