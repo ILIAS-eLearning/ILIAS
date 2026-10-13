@@ -13706,7 +13706,6 @@ rbac#:#wiks_read#:#L’utente ha l’accesso di lettura all’amministrazione de
 rbac#:#wiks_visible#:#L'amministrazione del Wiki è visibile
 rbac#:#wiks_write#:#Modifica impostazioni nell’amministrazione del Wiki
 rbac#:#write#:#Modifica impostazioni
-rcat#:#rcat_call#:#Richiama Categoria ESC
 rcrs#:#rcrs_call#:#Chiama Corso remoto
 rep#:#btn_undelete_new_location#:#Ripristino (nuova posizione)
 rep#:#btn_undelete_origin_location#:#Ripristino (stessa posizione)

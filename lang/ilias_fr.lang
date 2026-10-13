@@ -13686,7 +13686,6 @@ rbac#:#wiks_read#:#L'utilisateur a un accès en lecture à l'administration de l
 rbac#:#wiks_visible#:#L'administration de l'objet est visible
 rbac#:#wiks_write#:#L'utilisateur peut modifier les paramètres de l'objet
 rbac#:#write#:#Modifier paramètres
-rcat#:#rcat_call#:#Appeler Catégorie ECS
 rcrs#:#rcrs_call#:#Appeler Cours ECS
 rep#:#btn_undelete_new_location#:#Restore (new location)
 rep#:#btn_undelete_origin_location#:#Restore (same location)

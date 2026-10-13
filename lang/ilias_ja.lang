@@ -13759,7 +13759,6 @@ rbac#:#wiks_read#:#ユーザはWiki管理へのアクセス権設定変更がで
 rbac#:#wiks_visible#:#Wiki管理を表示
 rbac#:#wiks_write#:#Wiki管理の設定を編集
 rbac#:#write#:#設定変更
-rcat#:#rcat_call#:#ECSカテゴリをコール
 rcrs#:#rcrs_call#:#リモートコースをコール
 rep#:#btn_undelete_new_location#:#リストア (新しいロケーション)
 rep#:#btn_undelete_origin_location#:#リストア (同じロケーション)

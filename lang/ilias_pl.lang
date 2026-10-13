@@ -13701,7 +13701,6 @@ rbac#:#wiks_read#:#Prawo czytania menu zarządzania Wiki
 rbac#:#wiks_visible#:#Menu zarządzania Wiki jest widoczne
 rbac#:#wiks_write#:#Edytuj ustawienia w menu zarządzania Wiki
 rbac#:#write#:#Edycja ustawień
-rcat#:#rcat_call#:#Wywołaj kategorię ECS
 rcrs#:#rcrs_call#:#Wywołaj kurs ECS
 rep#:#btn_undelete_new_location#:#Restore (new location)###07 02 2020 new variable
 rep#:#btn_undelete_origin_location#:#Restore (same location)###07 02 2020 new variable

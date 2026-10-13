@@ -13701,7 +13701,6 @@ rbac#:#wiks_read#:#Läsbehörighet till wiki-administration
 rbac#:#wiks_visible#:#Wiki-administrationen är synlig
 rbac#:#wiks_write#:#Redigera inställningar i wikiadministrationen
 rbac#:#write#:#Redigera inställningar
-rcat#:#rcat_call#:#Samtal ECS kategori
 rcrs#:#rcrs_call#:#Ring ECS-kurs
 rep#:#btn_undelete_new_location#:#Restore (ny plats)
 rep#:#btn_undelete_origin_location#:#Restore (ursprunglig plats)

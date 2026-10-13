@@ -13754,7 +13754,6 @@ rbac#:#wiks_read#:#El usuario tiene acceso de lectura a la administración del W
 rbac#:#wiks_visible#:#La administración del Wiki es visible
 rbac#:#wiks_write#:#Editar configuración en la administración del Wiki
 rbac#:#write#:#Editar configuración
-rcat#:#rcat_call#:#Llamar a categoría ECS
 rcrs#:#rcrs_call#:#Llamar a curso ECS
 rep#:#btn_undelete_new_location#:#Restaurar (nueva ubicación)
 rep#:#btn_undelete_origin_location#:#Restaurar (misma ubicación)
