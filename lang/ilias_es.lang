@@ -10208,18 +10208,6 @@ log#:#log_level_off#:#Desactivado
 log#:#log_level_warning#:#ADVERTENCIA
 log#:#log_log_level#:#Nivel de registro
 log#:#log_memory#:#Registrar uso de memoria
-logging#:#error_settings_saved#:#Configuración guardada.
-logging#:#frm_clear_older_then#:#Eliminar archivos anteriores a
-logging#:#frm_clear_older_then_info#:#Por favor, introduzca la duración en días.
-logging#:#log_error_file_cleanup_info#:#Elimina archivos de registro de errores antiguos o huérfanos.
-logging#:#log_error_file_cleanup_title#:#Eliminar archivos de registro de errores antiguos o huérfanos
-logging#:#log_error_folder#:#Ruta
-logging#:#log_error_mail#:#Destinatario del correo
-logging#:#log_error_message#:#Lo sentimos, ha ocurrido un error. Se ha creado un archivo de registro que puede identificarse mediante el código "%s".
-logging#:#log_error_message_send_mail#:#Por favor, envíe un correo a <a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_path_not_configured_or_wrong#:#La ruta a los errores (error_path) no está configurada o no es accesible.
-logging#:#log_error_settings#:#Ajustes de registro de errores
-logging#:#logs_settings#:#Ajustes de registro (Logging)
 lso#:#abstract#:#Resumen
 lso#:#abstract_img#:#Imagen para el resumen
 lso#:#avail_time_period#:#Periodo

@@ -10166,18 +10166,6 @@ log#:#log_level_off#:#Funktionshindrad
 log#:#log_level_warning#:#VARNING
 log#:#log_log_level#:#Loggnivå
 log#:#log_memory#:#Log minnesbehov
-logging#:#error_settings_saved#:#Inställningar sparade
-logging#:#frm_clear_older_then#:#Radera filer som är äldre än
-logging#:#frm_clear_older_then_info#:#Ange perioden i dagar.
-logging#:#log_error_file_cleanup_info#:# Raderar gamla eller föräldralösa filer i felloggen.
-logging#:#log_error_file_cleanup_title#:#Radera gamla eller övergivna felloggfiler
-logging#:#log_error_folder#:#Sökväg till fil
-logging#:#log_error_mail#:#Skicka protokollet till (e-postadress)
-logging#:#log_error_message#:#Sorry, ett fel har inträffat. En loggfil skapades som kan identifieras med felkoden "%s".
-logging#:#log_error_message_send_mail#:# Vänligen kontakta &lt;a href="mailto
-logging#:#log_error_path_not_configured_or_wrong#:#Sökvägen till felloggarna (error_path) är inte angiven eller inte tillgänglig.
-logging#:#log_error_settings#:#Inställningar för fellogg
-logging#:#logs_settings#:#Inställningar för loggning
 lso#:#abstract#:#Inledning
 lso#:#abstract_img#:#Bild för introduktionssidan
 lso#:#avail_time_period#:#Tidsperiod

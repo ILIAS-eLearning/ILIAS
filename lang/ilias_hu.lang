@@ -10229,18 +10229,6 @@ log#:#log_level_off#:#Kikapcsolva
 log#:#log_level_warning#:#FIGYELMETETÉS
 log#:#log_log_level#:#Naplózás szintje
 log#:#log_memory#:#Memóriahasználat naplózása
-logging#:#error_settings_saved#:#A beállításokat sikeresen mentette.
-logging#:#frm_clear_older_then#:#Ennél régebbi fájlok törlése:
-logging#:#frm_clear_older_then_info#:#Napokban adjon meg egy időszakot.
-logging#:#log_error_file_cleanup_info#:#Törli a hibanapló régi vagy árva fájljait.
-logging#:#log_error_file_cleanup_title#:#Régi vagy árva hibanapló-fájlok törlése
-logging#:#log_error_folder#:#Útvonal
-logging#:#log_error_mail#:#Címzett
-logging#:#log_error_message#:#Sajnáljuk, hiba következett be. ‘%s’ kóddal azonosítható naplófájlt hoztunk létre.
-logging#:#log_error_message_send_mail#:#Kérjük, küldjön levelet <a href="mailto:%s?subject=kód: %s">%s</a> részére
-logging#:#log_error_path_not_configured_or_wrong#:#A hibafájlok útvonala (error_path) nincs megadva vagy nem érhető el.
-logging#:#log_error_settings#:#Hibanaplózás beállításai
-logging#:#logs_settings#:#Naplózási beállítások
 lso#:#abstract#:#Absztrakt
 lso#:#abstract_img#:#Absztrakt képe
 lso#:#avail_time_period#:#Időköz

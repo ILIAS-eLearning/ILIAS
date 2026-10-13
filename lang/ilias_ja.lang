@@ -10178,18 +10178,6 @@ log#:#log_level_off#:#無効
 log#:#log_level_warning#:#WARNING
 log#:#log_log_level#:#ログ-レベル
 log#:#log_memory#:#ログメモリ使用率
-logging#:#error_settings_saved#:#設定を保存しました
-logging#:#frm_clear_older_then#:#後のファイルを削除
-logging#:#frm_clear_older_then_info#:#期間を日数で入力してください。
-logging#:#log_error_file_cleanup_info#:#古いまたはエラーログの孤立ファイルを削除します。
-logging#:#log_error_file_cleanup_title#:#古いまたはエラーログの孤立ファイルを削除
-logging#:#log_error_folder#:#Path
-logging#:#log_error_mail#:#メール受信者
-logging#:#log_error_message#:#エラー %s が発生しました。
-logging#:#log_error_message_send_mail#:#メールをここへ送って下さい<a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_path_not_configured_or_wrong#:#エラーへのPath (error_path)が未設定またはアクセスできません。
-logging#:#log_error_settings#:#エラーロギング設定
-logging#:#logs_settings#:#ロギング設定
 lso#:#abstract#:#要約
 lso#:#abstract_img#:#要約のイメージ
 lso#:#avail_time_period#:#期間

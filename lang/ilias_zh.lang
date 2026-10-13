@@ -10165,18 +10165,6 @@ log#:#log_level_off#:#Disabled###08 10 2015 new variable
 log#:#log_level_warning#:#WARNING###30 08 2015 new variable
 log#:#log_log_level#:#Log-Level###30 08 2015 new variable
 log#:#log_memory#:#Log Memory Usage###30 08 2015 new variable
-logging#:#error_settings_saved#:#Saved settings###25 10 2016 new variable
-logging#:#frm_clear_older_then#:#Deletes files older then###25 10 2016 new variable
-logging#:#frm_clear_older_then_info#:#Please enter duration in days.###25 10 2016 new variable
-logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.###25 10 2016 new variable
-logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files###25 10 2016 new variable
-logging#:#log_error_folder#:#Path###25 10 2016 new variable
-logging#:#log_error_mail#:#Mail recipient###25 10 2016 new variable
-logging#:#log_error_message#:#Error %s occurred.###25 10 2016 new variable
-logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>###25 10 2016 new variable
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###07 02 2020 new variable
-logging#:#log_error_settings#:#Error logging settings###25 10 2016 new variable
-logging#:#logs_settings#:#Logging Settings###30 08 2015 new variable
 lso#:#abstract#:#Abstract###10 11 2018 new variable
 lso#:#abstract_img#:#Image for Abstract###10 11 2018 new variable
 lso#:#avail_time_period#:#Period###10 11 2018 new variable
