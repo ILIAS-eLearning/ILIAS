@@ -16073,27 +16073,6 @@ wiki#:#wiki_whole_wiki#:#Teljes wiki
 wiki#:#wiki_wiki_page#:#Wikilap
 wiki#:#wiki_wiki_search#:#Wikikeresés
 wiki#:#wiki_wpg#:#Wiki oldal
-wopi#:#action_edit#:#Szerkesztés
-wopi#:#action_view#:#Megjelenítése
-wopi#:#activate_saving_interval#:#Automatikus mentés
-wopi#:#activate_wopi#:#WOPI bekapcsolása
-wopi#:#close_wopi_editor#:#Szerkesztő bezárása
-wopi#:#close_wopi_editor_info#:#Több percig is eltarthat, amíg a külső szerkesztő átviszi a változtatásokat az ILIAS-ba. Látogassa meg újra ezt az oldalt egy későbbi időpontban, ha a végrehajtott módosítások még nem láthatók.
-wopi#:#currently_supported#:#Jelenleg támogatott utótagok: %s
-wopi#:#msg_error_wopi_invalid_discorvery_url#:#A Discovery URL nem valós vagy nem érhető el.
-wopi#:#msg_wopi_settings_modified#:#A beállításokat sikeresen mentette
-wopi#:#open_external_editor#:#Megnyitás külső szerkesztőben
-wopi#:#open_external_viewer#:#Tartalom megjelenítése
-wopi#:#saving_interval#:#Mentési időköz
-wopi#:#saving_interval_byline#:#Az ILIAS alapértelmezetten az összes külső szerkesztő módosítását hozzáadja a piszkozathoz, amíg azt manuálisan közzé nem teszik. A mentési időközben megadott másodperc után új verzió jelenik meg. Kérjük, vegye figyelembe, hogy az alacsony érték sok verziót jelent, aminek nagy lehet a tárhelyigénye.
-wopi#:#wopi_crawler_cronjob_description#:#A csatlakoztatott WOPI szolgáltatás információinak frissítése.
-wopi#:#wopi_crawler_cronjob_no_apps#:#Egy WOPI app-ot sem találtunk a discovery-ben.
-wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI nincs bekapcsolva.
-wopi#:#wopi_crawler_cronjob_success#:#A WOPI információt sikeresen módosította.
-wopi#:#wopi_crawler_cronjob_title#:#WOPI Discovery frissítése
-wopi#:#wopi_settings#:#WOPI
-wopi#:#wopi_url#:#WOPI Discovery URL
-wopi#:#wopi_url_byline#:#A WOPI Discovery teljes URL-je, ennek elérhetőnek kell lennie az ILIAS szerveren keresztül. A Discover XML-adatait az ILIAS olvassa be és tárolja, az információkat rendszeresen frissíti a ‘WOPI Discovery frissítése’ ütemezett feladat. Például: https://example.org/hosting/discovery
 wsp#:#element_already_shared#:#Ezt az objektumot már megosztotta evvel a felhasználóval.
 wsp#:#element_shared#:#Az objektumot sikeresen megosztotta.
 wsp#:#error_creating_certificate_pdf#:#A tanúsítványt nem sikerült létrehozni. Kérem, keresse a szerver üzemeltetőjét.

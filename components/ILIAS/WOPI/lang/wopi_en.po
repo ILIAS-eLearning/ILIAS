@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wopi\n"
+
+msgid "action_edit"
+msgstr "Edit"
+
+msgid "action_view"
+msgstr "View"
+
+msgid "activate_saving_interval"
+msgstr "Automatic Publication"
+
+msgid "activate_wopi"
+msgstr "Activate WOPI"
+
+msgid "close_wopi_editor"
+msgstr "Close Editor"
+
+msgid "close_wopi_editor_info"
+msgstr "It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible."
+
+msgid "currently_supported"
+msgstr "Currently supported Suffixes"
+
+msgid "msg_error_wopi_invalid_discorvery_url"
+msgstr "The Discovery URL entered is invalid or cannot be accessed."
+
+msgid "msg_wopi_settings_modified"
+msgstr "Settings saved."
+
+msgid "open_external_editor"
+msgstr "Open in External Editor"
+
+msgid "open_external_viewer"
+msgstr "Show Content"
+
+msgid "saving_interval"
+msgstr "New version after … seconds"
+
+msgid "saving_interval_byline"
+msgstr "After the specified editing time, ILIAS automatically publishes a new version of the file when the external editor reports changes. By default, ILIAS adds all changes received from the editor as a draft only, until a new file version is manually published. Please note that using this option with a low value can lead to a large number of file versions, which takes up a lot of storage space."
+
+msgid "wopi_crawler_cronjob_description"
+msgstr "Updates the information of the connected WOPI service."
+
+msgid "wopi_crawler_cronjob_no_apps"
+msgstr "No WOPI apps were found in the discovery."
+
+msgid "wopi_crawler_cronjob_not_activated"
+msgstr "WOPI is not activated."
+
+msgid "wopi_crawler_cronjob_success"
+msgstr "WOPI information updated successfully."
+
+msgid "wopi_crawler_cronjob_title"
+msgstr "Update WOPI Discovery"
+
+msgid "wopi_settings"
+msgstr "WOPI"
+
+msgid "wopi_url"
+msgstr "WOPI Discovery URL"
+
+msgid "wopi_url_byline"
+msgstr "Complete URL of the WOPI Discovery, which must be accessible via the ILIAS server. The XML data of the Discovery is read and saved by ILIAS. This information is regularly updated by the cronjob \"Update WOPI Discovery\". Example: https://example.org/hosting/discovery"
