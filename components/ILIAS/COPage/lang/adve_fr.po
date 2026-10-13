@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Paramètres des Activités d'Exercice"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Activer l'Edition de Contenu pour des questions supplémentaires"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Activate ILIAS Page Editor for feedback and hint text editing."
+
+msgid "adve_activation"
+msgstr "Activation"
+
+msgid "adve_auto_url_linking"
+msgstr "Lien URL automatique"
+
+msgid "adve_auto_url_linking_info"
+msgstr "Essaie d’identifier les URL comme «http://..» dans les paragraphes de textes et crée automatiquement des liens autour."
+
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+msgid "adve_blocking_mode"
+msgstr "Verrouillage de Page"
+
+msgid "adve_excass_settings"
+msgstr "Activités d'un Exercice"
+
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Glossaires"
+
+msgid "adve_grp_lm"
+msgstr "Documents d'apprentissage ILIAS"
+
+msgid "adve_grp_rep"
+msgstr "Pages du Catalogue"
+
+msgid "adve_grp_scorm"
+msgstr "Modules SCORM"
+
+msgid "adve_grp_test"
+msgstr "Test & évaluation"
+
+msgid "adve_grp_wiki"
+msgstr "Wikis"
+
+msgid "adve_minutes"
+msgstr "Inactivité (minutes)"
+
+msgid "adve_minutes_info"
+msgstr "Temps d'inactivité avant que le verrouillage de page n'expire et qu'un autre utilisateur puisse l'éditer."
+
+msgid "adve_page_editor_settings"
+msgstr "Éditeur ILIAS"
+
+msgid "adve_pe_general"
+msgstr "Paramètres Généraux"
+
+msgid "adve_rte_settings"
+msgstr "Éditeur TinyMCE"
+
+msgid "adve_text_content_features"
+msgstr "Options de l'éditeur de Texte"
+
+msgid "adve_use_physical"
+msgstr "Utiliser b/i/u au lieu de str/emp/imp"
+
+msgid "adve_use_physical_info"
+msgstr "Ce paramètre permet de remplacer les boutons \"strong\", \"emphatic\" et \"important\" par les boutons \"b\" (bold/gras), \"i\" (italic/italique) et \"u\" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes \"strong\", \"emphatic\" et \"important\"."
+
+msgid "adve_use_tiny_mce"
+msgstr "Activez TinyMCE pour une Edition WYSIWYG"

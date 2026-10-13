@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: link\n"
+
+msgid "link_chapters"
+msgstr "Chapters"
+
+msgid "link_link"
+msgstr "Link"
+
+msgid "link_mobs"
+msgstr "Media Objects"
+
+msgid "link_terms"
+msgstr "Terms"
+
+msgid "link_wpages"
+msgstr "Wiki Pages"

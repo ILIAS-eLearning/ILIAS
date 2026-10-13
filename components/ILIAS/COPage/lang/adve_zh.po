@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: adve\n"
+
+#, fuzzy
+msgid "advanced_editing_excass_settings"
+msgstr "Exercise Assignments Settings"
+
+#, fuzzy
+msgid "advanced_editing_tst_editing"
+msgstr "Page Editor for additional question content"
+
+#, fuzzy
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Aktivates ILIAS Page Eidotr for feedback and hint text editing."
+
+msgid "adve_activation"
+msgstr "活跃"
+
+#, fuzzy
+msgid "adve_auto_url_linking"
+msgstr "URL Auto-Linking"
+
+#, fuzzy
+msgid "adve_auto_url_linking_info"
+msgstr "Tries to identify URLs like \"http://..\" in text paragraphs and automatically creates links around them."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+#, fuzzy
+msgid "adve_blocking_mode"
+msgstr "Edit Lock"
+
+#, fuzzy
+msgid "adve_excass_settings"
+msgstr "Exercise Assignments"
+
+#, fuzzy
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "词汇表"
+
+msgid "adve_grp_lm"
+msgstr "ILIAS学习模块"
+
+msgid "adve_grp_rep"
+msgstr "库页面"
+
+msgid "adve_grp_scorm"
+msgstr "编辑SCORM"
+
+msgid "adve_grp_test"
+msgstr "测试&评估"
+
+msgid "adve_grp_wiki"
+msgstr "维基"
+
+#, fuzzy
+msgid "adve_minutes"
+msgstr "Minutes"
+
+#, fuzzy
+msgid "adve_minutes_info"
+msgstr "Minutes of inactivity before an edit lock expires and a page can be edited by another user."
+
+msgid "adve_page_editor_settings"
+msgstr "ILIAS页面编辑器设置"
+
+msgid "adve_pe_general"
+msgstr "常规"
+
+msgid "adve_rte_settings"
+msgstr "富文本编辑器设置"
+
+msgid "adve_text_content_features"
+msgstr "文本内容菜单"
+
+msgid "adve_use_physical"
+msgstr "使用 b/i/u 而不是 str/emp/imp"
+
+msgid "adve_use_physical_info"
+msgstr "为strong、emphatic和重要的物理属性按钮b(bold)、i(italic)和 u(underline)设置替代语义样式类。请注意，如果样式编辑器已在使用，并且其他物理属性已分配给strong/emphatic/important 样式类，这可能导致不一致的结果。"
+
+msgid "adve_use_tiny_mce"
+msgstr "为所见即所得编辑启用TinyMCE。"

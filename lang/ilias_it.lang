@@ -348,34 +348,6 @@ adn#:#msg_type_2#:#Importante
 adn#:#msg_type_3#:#Breaking News
 adn#:#msg_type_during_event#:#During Event
 adn#:#msg_type_info#:#l'importanza ha un'influenza sulla rappresentazione del colore della notifica
-adve#:#advanced_editing_excass_settings#:#Impostazioni esercizi (consegna testi)
-adve#:#advanced_editing_tst_editing#:#Editor di pagina per ulteriori contenuti delle domande
-adve#:#advanced_editing_tst_editing_desc#:#Attiva ILIAS Page Editor per il feedback e la modifica del testo dei suggerimenti.
-adve#:#adve_activation#:#Attivazione
-adve#:#adve_auto_url_linking#:#URL collegamento automatico
-adve#:#adve_auto_url_linking_info#:#ILIAS analizza il testo e identifica gli URL (p.es. "http://..") creando automaticamente i collegamenti ipertestuali (link).
-adve#:#adve_autosave#:#Intervallo di salvataggio automatico
-adve#:#adve_autosave_info#:#Salvataggio automatico per il contenuto di testo. Con intervalli più brevi, il carico del server aumenta e le prestazioni del sistema diminuiscono.
-adve#:#adve_autosave_info_min_10#:#Scegli un valore minimo di 10 secondi se hai attivato questa funzione.
-adve#:#adve_blocking_mode#:#Blocco modifiche
-adve#:#adve_excass_settings#:#Unità esercizi
-adve#:#adve_grp_copa#:#Pagine Contenuto
-adve#:#adve_grp_frm#:#Forums###31 03 2023 new variable
-adve#:#adve_grp_glo#:#Glossari
-adve#:#adve_grp_lm#:#Moduli E-learning ILIAS
-adve#:#adve_grp_rep#:#Pagine dell'Archivio
-adve#:#adve_grp_scorm#:#Moduli SCORM
-adve#:#adve_grp_test#:#Test e Valutazione
-adve#:#adve_grp_wiki#:#Wiki
-adve#:#adve_minutes#:#Minuti
-adve#:#adve_minutes_info#:#Minuti di inattività prima della scadenza di un blocco di modifica, successivamente la pagina può essere modificata da un altro utente.
-adve#:#adve_page_editor_settings#:#Impostazioni Editor di Pagina ILIAS
-adve#:#adve_pe_general#:#Impostazioni
-adve#:#adve_rte_settings#:#Impostazioni Rich Text Editor
-adve#:#adve_text_content_features#:#Menu contenuto del testo
-adve#:#adve_use_physical#:#Utilizzare <b>B</b>|<i>I</i>|<u>U</u> invece di str|emp|imp
-adve#:#adve_use_physical_info#:#Questa impostazione sostituisce i semantici pulsanti di stile "strong", "emphatic" e "important" con "b" (grassetto), "i" (corsivo) e "u" (sottolineato). Si prega di notare, che questo potrebbe causare incoerenze se l'editor di stile è utilizzato e altri attributi fisici sono assegnati alle classi di stile strong/emphatic/important.
-adve#:#adve_use_tiny_mce#:#Abilita TinyMCE come Editor WYSIWYG (What You See Is What You Get)
 assessment#:#activate_logging#:#Activate Test and Assessment Logging###28 11 2025 new variable
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 11 2025 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 11 2025 new variable
@@ -7176,44 +7148,6 @@ copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Pagina di contenuti duplicati
-copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
-copg#:#copg_allow_html#:#Abilita HTML / Javascript
-copg#:#copg_allow_html_info#:#L'utente può utilizzare il contenuto della pagina HTML o Javascript. Ciò può causare problemi di sicurezza. Non attivare, se le funzionalità possono essere utilizzate dagli utenti che ritieni non attendibili. Il supporto per aggiungere contenuto HTML in questo modo potrebbe essere sospeso in una versione futura.
-copg#:#copg_an_error_occured#:#An error occured.
-copg#:#copg_confirm_el_deletion#:#Vuoi davvero eliminare gli elementi selezionati?
-copg#:#copg_cron_days#:#Delete pages older than###31 03 2023 new variable
-copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.###31 03 2023 new variable
-copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
-copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
-copg#:#copg_days#:#Days###31 03 2023 new variable
-copg#:#copg_details#:#Details
-copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
-copg#:#copg_entries#:#Entries###31 03 2023 new variable
-copg#:#copg_error#:#Error
-copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 06 2022 new variable
-copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
-copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
-copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
-copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
-copg#:#copg_list_style#:#List###30 04 2024 new variable
-copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
-copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
-copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
-copg#:#copg_page_element_not_found#:#Page element not found.
-copg#:#copg_page_type_stys#:#Pagina layout
-copg#:#copg_pages#:#Pages###28 11 2025 new variable
-copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
-copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
-copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
-copg#:#copg_questions_not_supported_here#:#Le domande non sono supportate in questo contesto.
-copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
-copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
-copg#:#copg_sec_link_info#:#Se si imposta un link sul tutta la sezione, bisogna assicurarsi che nessun altro elemento interattivo sia incluso nella sezione. Altrimenti il loro comportamento potrebbe essere errato.
-copg#:#copg_snippet_cannot_be_edited#:#Questo è un frammento di contenuto predefinito e non può essere modificato qui.
-copg#:#copg_templates#:#Templates###28 11 2025 new variable
-copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
-copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 cptch#:#cptch_freetype_support_needed#:#Per utilizzare questa funzione è necessario abilitare il supporto FreeType nel vostro PHP.
@@ -10835,11 +10769,6 @@ lhist#:#lhist_show_more#:#Mostra di più
 lhist#:#lhist_type_of_achievement#:#Tipo di traguardo
 like#:#like#:#Mi piace
 like#:#reaction#:#Reazione
-link#:#link_chapters#:#Capitoli
-link#:#link_link#:#Collegamento
-link#:#link_mobs#:#Oggetti multimediali
-link#:#link_terms#:#Termini
-link#:#link_wpages#:#Pagine Wiki
 lm#:#lm_btn_lp_toggle_state_completed#:#Imposta come non completato
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Imposta come completato
 lm#:#lm_copy#:#Copia il modulo di apprendimento

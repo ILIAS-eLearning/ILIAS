@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: link\n"
+
+msgid "link_chapters"
+msgstr "Fejezetek"
+
+msgid "link_link"
+msgstr "Link"
+
+msgid "link_mobs"
+msgstr "Médiaobjektumok"
+
+msgid "link_terms"
+msgstr "Fogalmak"
+
+msgid "link_wpages"
+msgstr "Wiki oldalak"
