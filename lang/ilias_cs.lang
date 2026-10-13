@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Členové mohou ozná
 membership#:#mem_force_notification_mode_blocked#:#Členové budou informováni automaticky
 membership#:#mem_force_notification_mode_custom#:#Vlastní
 membership#:#mem_force_notification_mode_self#:#Členové musejí ručně aktivovat oznámení
-mep#:#mep_all#:#Všichni
-mep#:#mep_all_mobs#:#Všechny mediální objekty
-mep#:#mep_bulk_upload#:#Hromadné nahrání
-mep#:#mep_choose_from_folder#:#Vyberte ze složky
-mep#:#mep_choose_from_mep#:#Vyberte ze zásobníku
-mep#:#mep_content#:#Obsah
-mep#:#mep_content_snippet_in_use#:#Obsah úryvků '%s' je v použití a nemůže být smazán.
-mep#:#mep_content_snippet_used_in_older_versions#:#Povšimněte si prosím: Tento úryvek je použit ve starších verzích některých stránek. Pokud budete tyto stránky procházet zpět před verzi, která obsahuje tento úryvek, úryven bude na stránce chybět.
-mep#:#mep_copy_to_mep#:#Kopírovat do mediálního zásobníku
-mep#:#mep_create_content_snippet#:#Vytvořit obsah úryvků
-mep#:#mep_create_folder#:#Vytvořit složku
-mep#:#mep_create_media_files#:#Vytvořit mediální objekty
-mep#:#mep_create_mob#:#Vytvořit mediální objekt
-mep#:#mep_default_height#:#Výchozí výška
-mep#:#mep_default_width#:#Výchozí šířka
-mep#:#mep_default_width_height_info#:#Výchozí šířka a výška je použita jako přednastavení pro tvorbu nových mediálních objektů.
-mep#:#mep_edit_content_snippet#:#Upravit obsah úryvků
-mep#:#mep_edit_folder#:#Upravit složku
-mep#:#mep_file#:#Soubor
-mep#:#mep_folder#:#Složka
-mep#:#mep_format#:#Formát
-mep#:#mep_import#:#Importovat zásobník medií
-mep#:#mep_import_lang#:#Cílový jazyk
-mep#:#mep_import_trans#:#Importovat překlad
-mep#:#mep_master_language_only#:#Hlavní jazyk pro překlad
-mep#:#mep_master_language_only_no_media#:#Hlavní jazyk bez médií
-mep#:#mep_media_files#:#Soubory médií
-mep#:#mep_media_subtitles#:#Titulky médií
-mep#:#mep_mob#:#Objekt médií
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#Nový útržek obsahu
-mep#:#mep_new_folder#:#Nová složka
-mep#:#mep_page_properties#:#Vlastnosti stránky
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#Miniatura
-mep#:#mep_title_and_description#:#Název a popis
-mep#:#mep_trans_import_info#:#Pokud jste exportovali tento modul jako XML/hlavní jazyk pro překlad do jiné instalace, můžete nyní znovu importovat přeložené exportované soubory z této druhé instalace zde.
-mep#:#mep_unknown#:#Neznámý
-mep#:#mep_up_dir_copy#:#Kopírovat soubory z ukládacího adresáře (V ukládacím adresáři soubory zůstanou zachovány)
-mep#:#mep_up_dir_move#:#Přesunout soubory z ukládacího adresáře (Rychlejší)
-mep#:#mep_upload_dir_files#:#Soubory z uloženého adresáře
-mep#:#mobs_activate_pages#:#Aktivovat Management obsahu stránek
-mep#:#mobs_activate_pages_info#:#Umožňuje přidat obsah stránek do zásobníku médií. Tyto stránky mohou být znovu použity (ne editovány) do výukového modulu apod.
-mep#:#mobs_always_show_file_manager#:#Vždy zobrazit správce souborů
-mep#:#mobs_always_show_file_manager_info#:#Je-li deaktivován správce souboru pro objekty médií  budou skryty pro jednoduché typy mime (např. obrázky).
-mep#:#mobs_black_list_file_types#:#Zakázané typy souborů
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#Omezení typů souborů
-mep#:#mobs_restrict_file_types_info#:#Vložte seznam přípon souborů oddělených čárkou (např. jpg,gif), které je povoleno vkládat do media objektů. Pokud není vložena žádná hodnota, pak jsou povoleny všechny typy.
 meta#:#adt_error_max_length#:#Zadejte kratší text.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Aktivní

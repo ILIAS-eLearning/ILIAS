@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivat
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically ###30 08 2015 new variable
 membership#:#mem_force_notification_mode_custom#:#Custom###30 08 2015 new variable
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation###30 08 2015 new variable
-mep#:#mep_all#:#Kõik
-mep#:#mep_all_mobs#:#Kõik meediaobjektid
-mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
-mep#:#mep_choose_from_folder#:#Choose from Folder
-mep#:#mep_choose_from_mep#:#Vali järgmisest varamust
-mep#:#mep_content#:#Content###31 08 2017 new variable
-mep#:#mep_content_snippet_in_use#:#Faili eelvaade '%s' on kasutusel ja seda ei saa kustutada.
-mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
-mep#:#mep_copy_to_mep#:#Kopeeri meedia varamusse
-mep#:#mep_create_content_snippet#:#Loo sisu väljavõte
-mep#:#mep_create_folder#:#Loo kaust
-mep#:#mep_create_media_files#:#Loo multimeedia olemeid
-mep#:#mep_create_mob#:#Loo meediaobjekt
-mep#:#mep_default_height#:#Kõrgus vaikimisi
-mep#:#mep_default_width#:#Laius vaikimisi
-mep#:#mep_default_width_height_info#:#Vaikimisi kõrgust ja laiust kasutatakse uue meeidaobjekti loomise algsätetena.
-mep#:#mep_edit_content_snippet#:#Muuda faili eelvaadet
-mep#:#mep_edit_folder#:#Muuda kausta
-mep#:#mep_file#:#File
-mep#:#mep_folder#:#Kaust
-mep#:#mep_format#:#Formaat
-mep#:#mep_import#:#Impordi meediavaramu
-mep#:#mep_import_lang#:#Target Language###30 08 2015 new variable
-mep#:#mep_import_trans#:#Import Translation###30 08 2015 new variable
-mep#:#mep_master_language_only#:#Master Language for Translation###30 08 2015 new variable
-mep#:#mep_master_language_only_no_media#:#Master Language without Media###31 08 2017 new variable
-mep#:#mep_media_files#:#Media Files###10 11 2018 new variable
-mep#:#mep_media_subtitles#:#Media Subtitles###31 08 2017 new variable
-mep#:#mep_mob#:#Media Object###10 11 2018 new variable
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#Uus sisu väljavõte
-mep#:#mep_new_folder#:#uus kaust
-mep#:#mep_page_properties#:#Lehe omadused
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#Pisipilt
-mep#:#mep_title_and_description#:#Nimetus ja kirjeldus
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###30 08 2015 new variable
-mep#:#mep_unknown#:#Teadmata
-mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory)
-mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)
-mep#:#mep_upload_dir_files#:#Files from Upload Directory
-mep#:#mobs_activate_pages#:#Aktiveeri sisu lehtede haldus
-mep#:#mobs_activate_pages_info#:#Luba sisu lehti lisada meediavaramutesse. Neid lehti saab taaskasutada (mitte muuta) õppemoodulites jne.
-mep#:#mobs_always_show_file_manager#:#Näita failihaldajat alati
-mep#:#mobs_always_show_file_manager_info#:#Kui pole aktiivne, on meediaobjektide failihaldaja peidetud for simple mime types (e.g. images).
-mep#:#mobs_black_list_file_types#:#Forbidden File Types###31 08 2017 new variable
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#Keela failitüübid
-mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
 meta#:#adt_error_max_length#:#Please enter a shorter text.###10 11 2018 new variable
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Aktiivne

@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Medlemmar kan avaktiv
 membership#:#mem_force_notification_mode_blocked#:#Medlemmar kommer att meddelas automatiskt
 membership#:#mem_force_notification_mode_custom#:#Inställningar för varje medlem
 membership#:#mem_force_notification_mode_self#:#Medlemmar måste aktivera aviseringar
-mep#:#mep_all#:#Alla
-mep#:#mep_all_mobs#:#Alla mediaobjekt
-mep#:#mep_bulk_upload#:#Massuppladdning
-mep#:#mep_choose_from_folder#:#Välj från mapp
-mep#:#mep_choose_from_mep#:#Välj från pool
-mep#:#mep_content#:#Medieobjekt
-mep#:#mep_content_snippet_in_use#:#Innehållsblocket '%s' används och kan därför inte tas bort.
-mep#:#mep_content_snippet_used_in_older_versions#:#Attention
-mep#:#mep_copy_to_mep#:#Kopiera till mediapool
-mep#:#mep_create_content_snippet#:#Skapa innehållsmodul
-mep#:#mep_create_folder#:# Skapa mapp
-mep#:#mep_create_media_files#:#Skapa mediaobjekt
-mep#:#mep_create_mob#:#Skapa mediaobjekt
-mep#:#mep_default_height#:#Standardhöjd
-mep#:#mep_default_width#:#Standardbredd
-mep#:#mep_default_width_height_info#:#Default width och height används som standard för nya mediaobjekt.
-mep#:#mep_edit_content_snippet#:#Redigera innehållsmodul
-mep#:#mep_edit_folder#:#Redigera mapp
-mep#:#mep_file#:#Fil
-mep#:#mep_folder#:#Folder
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Importera media pool
-mep#:#mep_import_lang#:#Målspråk
-mep#:#mep_import_trans#:#Import översättning
-mep#:#mep_master_language_only#:#Basspråk för översättning - Master
-mep#:#mep_master_language_only_no_media#:#Basspråk för översättning - utan mediaobjekt
-mep#:#mep_media_files#:#Mediefiler
-mep#:#mep_media_subtitles#:#Underrubrik
-mep#:#mep_mob#:#media objekt
-mep#:#mep_move_select_insert#:#Navigera till målmappen och välj "Klistra in".
-mep#:#mep_mpg#:#Innehållsmodul
-mep#:#mep_new_content_snippet#:#Ny innehållsmodul
-mep#:#mep_new_folder#:#Ny mapp
-mep#:#mep_page_properties#:#Egenskaper hos byggstenen
-mep#:#mep_page_type_mep#:#Innehållsmodul
-mep#:#mep_thumbnail#:#Miniatyrbild
-mep#:#mep_title_and_description#:#Titel och beskrivning
-mep#:#mep_trans_import_info#:#Om du har exporterat denna modul som "XML (basic language for translation - master)" till en annan installation, kan du återimportera de översatta exportfilerna från denna installation här.
-mep#:#mep_unknown#:#Okänd
-mep#:#mep_up_dir_copy#:#Kopiera filer från uppladdningskatalogen (tar emot filer i uppladdningskatalogen)
-mep#:#mep_up_dir_move#:# Flytta filer från uppladdningskatalogen (snabbare)
-mep#:#mep_upload_dir_files#:#Filer från uppladdningskatalogen
-mep#:#mobs_activate_pages#:#Använd innehållsmoduler
-mep#:#mobs_activate_pages_info#:#Gör det möjligt att skapa sidinnehåll som byggstenar i mediapooler. Dessa innehållsmoduler kan återanvändas i ILIAS inlärningsmoduler, men kan inte redigeras där.
-mep#:#mobs_always_show_file_manager#:#Visa alltid filstrukturen
-mep#:#mobs_always_show_file_manager_info#:#Om inaktiverat visas inte filstrukturen för enkla datatyper, t.ex. bilder.
-mep#:#mobs_black_list_file_types#:#Förbjudna filtyper
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###21 11 2023 new variable
-mep#:#mobs_restrict_file_types#:#Tillåtna filtyper
-mep#:#mobs_restrict_file_types_info#:#Ange alla filtyper som får laddas upp i mediaobjekt. För att göra detta anger du respektive filändelser separerade med kommatecken (t.ex. jpg,gif). Om inget anges är alla typer tillåtna.
 meta#:#adt_error_max_length#:#Den text du har skrivit är för lång. Vänligen ange en kortare text.
 meta#:#md_adn_int_error_no_default#:#Välj ett aktiverat språk som "Standardspråk".
 meta#:#md_adv_active#:#Aktiv

@@ -10947,56 +10947,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivat
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically ###30 08 2015 new variable
 membership#:#mem_force_notification_mode_custom#:#Custom###30 08 2015 new variable
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation###30 08 2015 new variable
-mep#:#mep_all#:#全部
-mep#:#mep_all_mobs#:#所有的媒体对象
-mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
-mep#:#mep_choose_from_folder#:#从文件夹选择
-mep#:#mep_choose_from_mep#:#从媒体池选择
-mep#:#mep_content#:#Content###31 08 2017 new variable
-mep#:#mep_content_snippet_in_use#:#内容片段 "%s" 已在使用，不能删除。
-mep#:#mep_content_snippet_used_in_older_versions#:#请注意：这个片断已经使用在某些页面的更老的版本中。如果这些页面回溯到一个包含这个片段的版本，这个片段将在此页面中丢失。
-mep#:#mep_copy_to_mep#:#复制到媒体池
-mep#:#mep_create_content_snippet#:#创建内容片段
-mep#:#mep_create_folder#:#创建文件夹
-mep#:#mep_create_media_files#:#创建媒体对象
-mep#:#mep_create_mob#:#创建媒体对象
-mep#:#mep_default_height#:#默认高度
-mep#:#mep_default_width#:#默认宽度
-mep#:#mep_default_width_height_info#:#默认宽度和高度，用作新媒体对象的创建。
-mep#:#mep_edit_content_snippet#:#编辑内容片段
-mep#:#mep_edit_folder#:#编辑文件夹
-mep#:#mep_file#:#文件
-mep#:#mep_folder#:#文件夹
-mep#:#mep_format#:#格式
-mep#:#mep_import#:#导入一个媒体池
-mep#:#mep_import_lang#:#Target Language###30 08 2015 new variable
-mep#:#mep_import_trans#:#Import Translation###30 08 2015 new variable
-mep#:#mep_master_language_only#:#Master Language for Translation###30 08 2015 new variable
-mep#:#mep_master_language_only_no_media#:#Master Language without Media###31 08 2017 new variable
-mep#:#mep_media_files#:#Media Files###10 11 2018 new variable
-mep#:#mep_media_subtitles#:#Media Subtitles###31 08 2017 new variable
-mep#:#mep_mob#:#Media Object###10 11 2018 new variable
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#新内容片段
-mep#:#mep_new_folder#:#新文件夹
-mep#:#mep_page_properties#:#页面属性
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#缩略图
-mep#:#mep_title_and_description#:#标题和描述
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###30 08 2015 new variable
-mep#:#mep_unknown#:#未知
-mep#:#mep_up_dir_copy#:#从上传目录复制文件(在上传目录中保持文件)
-mep#:#mep_up_dir_move#:#从上传目录移动文件(更快)
-mep#:#mep_upload_dir_files#:#来自上传目录的文件
-mep#:#mobs_activate_pages#:#激活内容页面管理
-mep#:#mobs_activate_pages_info#:#允许添加内容页面到媒体池。这些页面能在学习模块等地方利用（不是编辑）。
-mep#:#mobs_always_show_file_manager#:#总是显示文件管理器
-mep#:#mobs_always_show_file_manager_info#:#如果关闭媒体对象文件管理器，将隐藏简单mime类型(例如,images)。
-mep#:#mobs_black_list_file_types#:#Forbidden File Types###31 08 2017 new variable
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#限制文件类型
-mep#:#mobs_restrict_file_types_info#:#输入一个逗号分隔的，允许上传到媒体对象的文件后缀清单(例如,jpg,gif)。如果没有输入任何值，将允许所有类型的文件。
 meta#:#adt_error_max_length#:#Please enter a shorter text.###10 11 2018 new variable
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#激活

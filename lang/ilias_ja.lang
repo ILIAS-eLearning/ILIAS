@@ -10964,57 +10964,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#メンバーは通知
 membership#:#mem_force_notification_mode_blocked#:#メンバーは自動的に通知されます。
 membership#:#mem_force_notification_mode_custom#:#カスタム
 membership#:#mem_force_notification_mode_self#:#メンバーは手動で通知を有効にしなければなりません。
-mep#:#mep_all#:#すべて
-mep#:#mep_all_mobs#:#すべてのメディア オブジェクト
-mep#:#mep_bulk_upload#:#一括アップロード
-mep#:#mep_choose_from_folder#:#フォルダから選択
-mep#:#mep_choose_from_mep#:#問題集から選択
-mep#:#mep_clipboard_info#:#ここでは、メディアファイルをアップロードでき、その後ページ編集者にアクセス権のある任意のページからアクセスできます。クリップボードもメディアプールでアクセス可能です。このストレージはあなた専用であり、他のユーザーが閲覧することはできません。
-mep#:#mep_content#:#コンテンツ
-mep#:#mep_content_snippet_in_use#:#スニペットコンテンツ '%s'は使用中で削除できません
-mep#:#mep_content_snippet_used_in_older_versions#:#注意: この断片はいずれかのページの旧バージョンに使用されます。このページをこの断片を含むバージョンへロールバックすると断片はページ内で欠損します。
-mep#:#mep_copy_to_mep#:#メディア集をコピー
-mep#:#mep_create_content_snippet#:#スニペットコンテンツを作成
-mep#:#mep_create_folder#:#フォルダを作成
-mep#:#mep_create_media_files#:#メディアオブジェクトを作成
-mep#:#mep_create_mob#:#メディア オブジェクトを作成
-mep#:#mep_default_height#:#高さ初期設定
-mep#:#mep_default_width#:#幅の初期設定
-mep#:#mep_default_width_height_info#:#初期設定幅の高さは新しいメディアオブジェクト作成用のプリセットとして使用されます。
-mep#:#mep_edit_content_snippet#:#スニペットコンテンツを編集
-mep#:#mep_edit_folder#:#フォルダを編集
-mep#:#mep_file#:#ファイル
-mep#:#mep_folder#:#フォルダ
-mep#:#mep_format#:#形式
-mep#:#mep_import#:#メディア集をインポートします
-mep#:#mep_import_lang#:#目標言語
-mep#:#mep_import_trans#:#翻訳をインポート
-mep#:#mep_master_language_only#:#翻訳用のマスター言語
-mep#:#mep_master_language_only_no_media#:#メディアなしのマスター言語
-mep#:#mep_media_files#:#Media Files
-mep#:#mep_media_subtitles#:#メディア字幕
-mep#:#mep_mob#:#Media Object
-mep#:#mep_move_select_insert#:#ターゲットフォルダーへナビゲートして"挿入"をクリックしてください
-mep#:#mep_mpg#:#Content Snippet
-mep#:#mep_new_content_snippet#:#新規スニペットコンテンツ
-mep#:#mep_new_folder#:#新規フォルダ
-mep#:#mep_page_properties#:#ページプロパティ
-mep#:#mep_page_type_mep#:#Content Snippet
-mep#:#mep_thumbnail#:#サムネイル
-mep#:#mep_title_and_description#:#タイトルと説明
-mep#:#mep_trans_import_info#:#他のインストールの翻訳用XML/マスター言語としてこのモジュールをエクスポートしたらこの2番目のインストールから翻訳済エクスポートファイルを再インポートできます。
-mep#:#mep_unknown#:#不明
-mep#:#mep_up_dir_copy#:#アップローディディレクトリからファイルをコピー(アップロードディレクトリ中のファイルは保持)
-mep#:#mep_up_dir_move#:#アップロードディレクトリからファイルを移動(より速い)
-mep#:#mep_upload_dir_files#:#アップロードディレクトリからのファイル
-mep#:#mobs_activate_pages#:#コンテンツスニペット管理を使用
-mep#:#mobs_activate_pages_info#:#メディア集へコンテンツスニペットの作成を許可します。スニペットはラーニングモジュール等において再利用(編集不可）する事ができます。
-mep#:#mobs_always_show_file_manager#:#ファイルマネージャーを常時表示
-mep#:#mobs_always_show_file_manager_info#:#アクティブを解除するとメディアオブジェクト用のファイルマネージャーのシンプルMIMEタイプ(例　イメージ)を非表示にします。
-mep#:#mobs_black_list_file_types#:#禁止ファイルタイプ
-mep#:#mobs_black_list_file_types_and_allowed_info#:#MIMEタイプリストをコンマ区切りで入力します。このリストは許容ファイルタイプセットを制限します。現時点での許容MIMEタイプ:
-mep#:#mobs_restrict_file_types#:#制限ファイルタイプ
-mep#:#mobs_restrict_file_types_info#:#メディアオブジェクトに対してアップロードするファイル拡張子のコンマ区切りリスト(例、jpg、gif)を入力します。未入力の場合は全てのファイル形式が許可されます。
 meta#:#adt_error_max_length#:#短いテキストを入力してください。
 meta#:#md_adn_int_error_no_default#:#”既定の言語"として有効化する言語を選択してください。
 meta#:#md_adv_active#:#アクティブ

@@ -1,0 +1,167 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Każdy"
+
+msgid "mep_all_mobs"
+msgstr "Wszystkie obiekty"
+
+msgid "mep_bulk_upload"
+msgstr "Bulk Upload"
+
+msgid "mep_choose_from_folder"
+msgstr "Wybierz z folderu"
+
+msgid "mep_choose_from_mep"
+msgstr "Wybierz z puli"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+msgid "mep_content"
+msgstr "Obiekty multimedialne"
+
+msgid "mep_content_snippet_in_use"
+msgstr "moduł treści '%s' jest używany i dlatego nie można ich usunąć."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Uwaga: w starszych wersjach moduł treści był używany przed kilka stron. Jeśli przywrócona zostanie jedna z wersji takiej strony, nie będzie w niej tego modułu treści."
+
+msgid "mep_copy_to_mep"
+msgstr "Kopiuj do puli mediów"
+
+msgid "mep_create_content_snippet"
+msgstr "Utwórz moduł treści"
+
+msgid "mep_create_folder"
+msgstr "Utwórz folder"
+
+msgid "mep_create_media_files"
+msgstr "Utwórz obiekty multimedialne"
+
+msgid "mep_create_mob"
+msgstr "Utwórz obiekt"
+
+msgid "mep_default_height"
+msgstr "Domyślna wysokość"
+
+msgid "mep_default_width"
+msgstr "Domyślna szerokość"
+
+msgid "mep_default_width_height_info"
+msgstr "Parametry standardowa szerokość i wysokość są używane dla nowych obiektów multimedialnych jako ustawienia domyślne."
+
+msgid "mep_edit_content_snippet"
+msgstr "Edytuj moduł treści"
+
+msgid "mep_edit_folder"
+msgstr "Edycja folderu"
+
+msgid "mep_file"
+msgstr "Plik"
+
+msgid "mep_folder"
+msgstr "Folder"
+
+msgid "mep_format"
+msgstr "Format"
+
+msgid "mep_import"
+msgstr "Importuj pulę mediów"
+
+msgid "mep_import_lang"
+msgstr "Język docelowy"
+
+msgid "mep_import_trans"
+msgstr "Importuj tłumaczenie"
+
+msgid "mep_master_language_only"
+msgstr "Główny język tłumaczeń - master"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Główny język dla tłumaczeń - bez obiektów multimedialnych"
+
+msgid "mep_media_files"
+msgstr "Media Files"
+
+msgid "mep_media_subtitles"
+msgstr "Podtytuł"
+
+msgid "mep_mob"
+msgstr "Media Object"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Nowy moduł treści"
+
+msgid "mep_new_folder"
+msgstr "Nowy folder"
+
+msgid "mep_page_properties"
+msgstr "Właściwości modułu"
+
+#, fuzzy
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Miniaturka"
+
+msgid "mep_title_and_description"
+msgstr "Tytuł i opis"
+
+msgid "mep_trans_import_info"
+msgstr "Jeśli wyeksportowałeś ten moduł do innej instalacji jako \"XML (główny język tłumaczeń - master\", możesz tutaj ponownie zaimportować przetłumaczone pliki eksportowe tej instalacji."
+
+msgid "mep_unknown"
+msgstr "Nieznany"
+
+msgid "mep_up_dir_copy"
+msgstr "Kopiuj pliki z indeksu pobierania (zawiera pliki w indeksie pobierania)"
+
+msgid "mep_up_dir_move"
+msgstr "Przesuń pliki z indeksu pobierania (szybciej)"
+
+msgid "mep_upload_dir_files"
+msgstr "Pliki z indeksu pobierania"
+
+msgid "mobs_activate_pages"
+msgstr "Użyj modułów treści"
+
+msgid "mobs_activate_pages_info"
+msgstr "Umożliwia tworzenie treści strony w pulach mediów jako modułów. Tych modułów treści można ponownie użyć w modułach nauczania ILIAS, nie można ich tam jednak edytować."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Zawsze pokazuj strukturę pliku"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Jeśli ta opcja jest wyłączona, struktura prostych struktur plików, np. obrazy, nie jest wyświetlana."
+
+msgid "mobs_black_list_file_types"
+msgstr "Niedozwolone typy plików"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Dopuszczalne typy plików"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Określ wszystkie typy plików, które można wysłać w obiektach multimedialnych. Podaj końcówki nazw plików przedzielone przecinkiem (np. jpg, gif). Jeśli nie wprowadzisz żadnych danych, dozwolone będą wszystkie typy."

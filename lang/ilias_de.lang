@@ -11208,57 +11208,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können ih
 membership#:#mem_force_notification_mode_blocked#:#Mitglieder abonnieren automatisch die tägliche E-Mail mit Neuigkeitenüberblick
 membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
 membership#:#mem_force_notification_mode_self#:#Mitglieder müssen den täglichen Neuigkeitenüberblick selbst abonnieren
-mep#:#mep_all#:#Alle
-mep#:#mep_all_mobs#:#Alle Medienobjekte
-mep#:#mep_bulk_upload#:#Massen-Upload
-mep#:#mep_choose_from_folder#:#Aus Ordner auswählen
-mep#:#mep_choose_from_mep#:#Aus Pool auswählen
-mep#:#mep_clipboard_info#:#Hier können Sie Mediendateien hochladen, auf die Sie anschließend von jeder Seite, auf der Sie Zugriff auf den Seiteneditor haben, zugreifen können. Ebenfalls können Sie das Clipboard in Medienpools nutzen. Dieser Speicher ist nur für Sie und kann nicht von anderen Benutzern eingesehen werden.
-mep#:#mep_content#:#Medienobjekte
-mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein „%s“ wird verwendet und kann daher nicht gelöscht werden.
-mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen.
-mep#:#mep_copy_to_mep#:#In Medienpool kopieren
-mep#:#mep_create_content_snippet#:#Inhaltsbaustein anlegen
-mep#:#mep_create_folder#:#Ordner anlegen
-mep#:#mep_create_media_files#:#Mediaobjekte anlegen
-mep#:#mep_create_mob#:#Medienobjekt anlegen
-mep#:#mep_default_height#:#Standardhöhe
-mep#:#mep_default_width#:#Standardbreite
-mep#:#mep_default_width_height_info#:#Standardbreite und -höhe werden als Voreinstellung für neue Medienobjekte verwendet.
-mep#:#mep_edit_content_snippet#:#Inhaltsbaustein bearbeiten
-mep#:#mep_edit_folder#:#Ordner bearbeiten
-mep#:#mep_file#:#Datei
-mep#:#mep_folder#:#Ordner
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Medienpool importieren
-mep#:#mep_import_lang#:#Zielsprache
-mep#:#mep_import_trans#:#Übersetzung importieren
-mep#:#mep_master_language_only#:#Basissprache für Übersetzung - Master
-mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne Medienobjekte
-mep#:#mep_media_files#:#Mediendateien
-mep#:#mep_media_subtitles#:#Untertitel
-mep#:#mep_mob#:#Medienobjekt
-mep#:#mep_move_select_insert#:#Navigieren Sie zum Zielordner und wählen Sie „Einfügen“.
-mep#:#mep_mpg#:#Inhaltsbaustein
-mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
-mep#:#mep_new_folder#:#Neuer Ordner
-mep#:#mep_page_properties#:#Eigenschaften des Bausteins
-mep#:#mep_page_type_mep#:#Inhaltsbaustein
-mep#:#mep_thumbnail#:#Miniaturbild
-mep#:#mep_title_and_description#:#Titel und Beschreibung
-mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
-mep#:#mep_unknown#:#Unbekannt
-mep#:#mep_up_dir_copy#:#Dateien aus Upload-Verzeichnis kopieren (Erhält Dateien in Upload-Verzeichnis)
-mep#:#mep_up_dir_move#:#Dateien aus Upload-Verzeichnis verschieben (Schneller)
-mep#:#mep_upload_dir_files#:#Dateien aus Upload-Verzeichnis
-mep#:#mobs_activate_pages#:#Inhaltsbausteine nutzen
-mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in Medienpools anzulegen. Diese Inhaltsbausteine können in ILIAS Lernmodulen wiederverwendet, aber dort nicht bearbeitet werden.
-mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
-mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
-mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige MIME-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte MIME-Typen:
-mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
-mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg, gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
 meta#:#md_adn_int_error_no_default#:#Bitte wählen Sie eine aktivierte Sprache als "Default-Sprache" aus.
 meta#:#md_adv_active#:#Aktiv

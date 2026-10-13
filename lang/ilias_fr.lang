@@ -10935,56 +10935,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Les membres peuvent d
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
 membership#:#mem_force_notification_mode_custom#:#Personnaliser
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation
-mep#:#mep_all#:#Tous
-mep#:#mep_all_mobs#:#Tous objets multimédias
-mep#:#mep_bulk_upload#:#Bulk Upload
-mep#:#mep_choose_from_folder#:#Choisir dans le Dossier
-mep#:#mep_choose_from_mep#:#Choisir dans la Galerie
-mep#:#mep_content#:#Contenu
-mep#:#mep_content_snippet_in_use#:#Le texte/média '%s' est utilisé et ne peut être supprimé.
-mep#:#mep_content_snippet_used_in_older_versions#:#Veuillez noter que cette portion de contenu est utilisée dans des versions anciennes de certaines pages. Si ces anciennes versions doivent être restaurées, la portion de contenu sera manquante dans la page.
-mep#:#mep_copy_to_mep#:#Copier dans la galerie multimédia
-mep#:#mep_create_content_snippet#:#Créer texte/média
-mep#:#mep_create_folder#:#Créer Dossier
-mep#:#mep_create_media_files#:#Créer des Médias
-mep#:#mep_create_mob#:#Créer Média
-mep#:#mep_default_height#:#Hauteur par Défaut
-mep#:#mep_default_width#:#Largeur par Défaut
-mep#:#mep_default_width_height_info#:#Les largeur et hauteur par défaut sont utilisées comme choix par défaut lors de l'ajout de nouveaux médias.
-mep#:#mep_edit_content_snippet#:#Modifier texte/média
-mep#:#mep_edit_folder#:#Modifier dossier
-mep#:#mep_file#:#Fichier
-mep#:#mep_folder#:#Dossier
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Importer une galerie multimédia
-mep#:#mep_import_lang#:#Langue cible
-mep#:#mep_import_trans#:#Importer traduction
-mep#:#mep_master_language_only#:#Langue de gestion pour la traduction
-mep#:#mep_master_language_only_no_media#:#Langue de gestion sans média
-mep#:#mep_media_files#:#Media Files
-mep#:#mep_media_subtitles#:#Sous-titres média
-mep#:#mep_mob#:#Media Object
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###31 10 2023 new variable
-mep#:#mep_mpg#:#Content Snippet###31 10 2023 new variable
-mep#:#mep_new_content_snippet#:#Nouveau texte/média
-mep#:#mep_new_folder#:#Nouveau dossier
-mep#:#mep_page_properties#:#Paramètres page
-mep#:#mep_page_type_mep#:#Content Snippet
-mep#:#mep_thumbnail#:#Vignette
-mep#:#mep_title_and_description#:#Titre et Description
-mep#:#mep_trans_import_info#:#Si vous avez exporté ce module sous forme de XML/langue de gestion pour la traduction vers une autre installation, vous pouvez maintenant réimporter des fichiers d’exportation traduit depuis cette deuxième installation ici.
-mep#:#mep_unknown#:#Inconnu
-mep#:#mep_up_dir_copy#:#Copier les Fichiers du Dossier de Dépôt (préserve les fichiers du dossier de dépôt)
-mep#:#mep_up_dir_move#:#Déplacer les Fichiers du Dossier de Dépôt (plus rapide)
-mep#:#mep_upload_dir_files#:#Fichiers du Dossier de Dépôt
-mep#:#mobs_activate_pages#:#Activer l'administration des contenus de page
-mep#:#mobs_activate_pages_info#:#Autorise l'ajout de pages aux galeries multimédias. Ces pages peuvent être réutilisées (et non modfiées) dans les documents d'apprentissage etc.
-mep#:#mobs_always_show_file_manager#:#Toujours afficher le gestionnaire de fichiers
-mep#:#mobs_always_show_file_manager_info#:#Si désactivé, le gestionnaire de fichiers pour les objets multimédias sera masqué pour les types MIME simples (e.g. images).
-mep#:#mobs_black_list_file_types#:#Types de fichier interdits
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###31 10 2023 new variable
-mep#:#mobs_restrict_file_types#:#Restreindre les Types de Fichier
-mep#:#mobs_restrict_file_types_info#:#Entez une liste d'extensions séparées par des virgules (ex. jpg,gif) autorisées pour le dépôt de médias. Si aucune valeur n'est entrée, tous les types sont autorisés.
 meta#:#adt_error_max_length#:#Veuillez entrer un texte plus court.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".
 meta#:#md_adv_active#:#Actif

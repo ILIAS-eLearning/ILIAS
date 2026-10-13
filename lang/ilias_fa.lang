@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivat
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically ###30 08 2015 new variable
 membership#:#mem_force_notification_mode_custom#:#Custom###30 08 2015 new variable
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation###30 08 2015 new variable
-mep#:#mep_all#:#همه
-mep#:#mep_all_mobs#:#همه شی های رسانه
-mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
-mep#:#mep_choose_from_folder#:#انتخاب از پوشه
-mep#:#mep_choose_from_mep#:#انتخاب از مخزن
-mep#:#mep_content#:#Content###31 08 2017 new variable
-mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
-mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
-mep#:#mep_copy_to_mep#:#Copy to Media Pool
-mep#:#mep_create_content_snippet#:#Create Content Snippet
-mep#:#mep_create_folder#:#ساختن پوشه
-mep#:#mep_create_media_files#:#Create Media Objects
-mep#:#mep_create_mob#:#ساختن شی رسانه
-mep#:#mep_default_height#:#طول پیش فرض
-mep#:#mep_default_width#:#عرض پیش فرض
-mep#:#mep_default_width_height_info#:#عرض و طول پیش فرض برای ساختن شی رسانه جدید مورد استفاده قرار می گیرد.
-mep#:#mep_edit_content_snippet#:#ویرایش قطعه محتوا
-mep#:#mep_edit_folder#:#Edit Folder
-mep#:#mep_file#:#File
-mep#:#mep_folder#:#پوشه
-mep#:#mep_format#:#فرمت
-mep#:#mep_import#:#وارد کردن مخزن رسانه
-mep#:#mep_import_lang#:#Target Language###30 08 2015 new variable
-mep#:#mep_import_trans#:#Import Translation###30 08 2015 new variable
-mep#:#mep_master_language_only#:#Master Language for Translation###30 08 2015 new variable
-mep#:#mep_master_language_only_no_media#:#Master Language without Media###31 08 2017 new variable
-mep#:#mep_media_files#:#Media Files###10 11 2018 new variable
-mep#:#mep_media_subtitles#:#Media Subtitles###31 08 2017 new variable
-mep#:#mep_mob#:#Media Object###10 11 2018 new variable
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#New Content Snippet
-mep#:#mep_new_folder#:#پوشه جدید
-mep#:#mep_page_properties#:#Page Properties
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#Thumbnail
-mep#:#mep_title_and_description#:#عنوان و توضیح
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###30 08 2015 new variable
-mep#:#mep_unknown#:#Unknown
-mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory)
-mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)
-mep#:#mep_upload_dir_files#:#Files from Upload Directory
-mep#:#mobs_activate_pages#:#فعال کردن مدیریت قطعه متن
-mep#:#mobs_activate_pages_info#:#اجازه اضافه کردن قطعه متن به مخزن های رسانه. بعدا می توانند در ماژولهای یادگیری مورد استفاده قرار بگیرند.
-mep#:#mobs_always_show_file_manager#:#همیشه مدیر فایل را نمایش بده
-mep#:#mobs_always_show_file_manager_info#:#-
-mep#:#mobs_black_list_file_types#:#Forbidden File Types###31 08 2017 new variable
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#محدود کردن نوع فایل
-mep#:#mobs_restrict_file_types_info#:#لیستی از پسوندها مانند jpg و gif را وارد کنید که در آپلود شی ها مجاز هستند. اگر خالی بگذارید همه نوع فایل مجاز خواهد بود.
 meta#:#adt_error_max_length#:#Please enter a shorter text.###10 11 2018 new variable
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Active

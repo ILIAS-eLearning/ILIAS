@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Članovi mogu deaktiv
 membership#:#mem_force_notification_mode_blocked#:#Članovi će biti automatski obaviješteni
 membership#:#mem_force_notification_mode_custom#:#Prilagođen
 membership#:#mem_force_notification_mode_self#:#Članovi moraju ručno aktivirati obavijest
-mep#:#mep_all#:#Svi
-mep#:#mep_all_mobs#:#Svi medijski objekti
-mep#:#mep_bulk_upload#:#Skupni prijenos
-mep#:#mep_choose_from_folder#:#Odaberite iz mape
-mep#:#mep_choose_from_mep#:#Odaberite iz bazena
-mep#:#mep_content#:#Sadržaj
-mep#:#mep_content_snippet_in_use#:#Isječak sadržaja '%s' koristi se i ne može se izbrisati.
-mep#:#mep_content_snippet_used_in_older_versions#:#Napomena: Ovaj isječak koristi se u starijim verzijama nekih stranica. Ako se ove stranice vrate na inačicu koja uključuje ovaj isječak, isječak će nedostajati na stranici.
-mep#:#mep_copy_to_mep#:#Kopiraj u medijski bazen
-mep#:#mep_create_content_snippet#:#Kreiraj isječak sadržaja
-mep#:#mep_create_folder#:#Kreiraj mapu
-mep#:#mep_create_media_files#:#Kreiraj medijske objekte
-mep#:#mep_create_mob#:#Kreiraj medijski objekt
-mep#:#mep_default_height#:#Zadana visina
-mep#:#mep_default_width#:#Zadana širina
-mep#:#mep_default_width_height_info#:#Zadane širina i visina koriste se kao unaprijed postavljene postavke za stvaranje novih medijskih objekata.
-mep#:#mep_edit_content_snippet#:#Kreiraj isječak sadržaja
-mep#:#mep_edit_folder#:#Uredi mapu
-mep#:#mep_file#:#Datoteka
-mep#:#mep_folder#:#Mapa
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Uvezi medijski bazen
-mep#:#mep_import_lang#:#Ciljani jezik
-mep#:#mep_import_trans#:#Uvezi prijevod
-mep#:#mep_master_language_only#:#Glavni jezik za prevođenje
-mep#:#mep_master_language_only_no_media#:#Glavni jezik bez medija
-mep#:#mep_media_files#:#Medijske datoteke
-mep#:#mep_media_subtitles#:#Medijski podnaslovi
-mep#:#mep_mob#:#Medijski objekt
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#Isječak novog sadržaja
-mep#:#mep_new_folder#:#Nova mapa
-mep#:#mep_page_properties#:#Svojstva stranice
-mep#:#mep_page_type_mep#:#Content Snippet###04 06 2021 new variable
-mep#:#mep_thumbnail#:#Sličica
-mep#:#mep_title_and_description#:#Naslov i opis
-mep#:#mep_trans_import_info#:#Ako ste izvezli ovaj modul kao XML / Glavni jezik za prijevod u drugu instalaciju, sada ovdje možete ponovo uvesti prevedene izvozne datoteke iz ove druge instalacije.
-mep#:#mep_unknown#:#Nepoznato
-mep#:#mep_up_dir_copy#:#Kopiraj datoteke iz direktorija za učitavanje (čuva datoteke u direktoriju za pučitavanje)
-mep#:#mep_up_dir_move#:#Premještanje datoteka iz direktorija za učitavanjep (brže)
-mep#:#mep_upload_dir_files#:#Datoteke iz direktorija za učitavanje
-mep#:#mobs_activate_pages#:#Koristite isječke sadržaja
-mep#:#mobs_activate_pages_info#:#Omogućuje stvaranje isječaka sadržaja u medijskim bazenima. Ti se isječci mogu ponovno koristiti (ne urediti) u modulima za učenje.
-mep#:#mobs_always_show_file_manager#:#Uvijek prikaži upravitelja datoteka
-mep#:#mobs_always_show_file_manager_info#:#Ako je deaktiviran, upravitelj datoteka za medijske objekte bit će skriven za jednostavne vrste mima (npr. slike).
-mep#:#mobs_black_list_file_types#:#Zabranjene vrste datoteka
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#Dopuštene vrste datoteka
-mep#:#mobs_restrict_file_types_info#:#Unesite popis sufiksa datoteka (npr. jpg, gif) odvojenih zarezom koje je dopušteno prenositi u medijske objekte. Ako se ne unese vrijednost, dopuštene su sve vrste datoteka.
 meta#:#adt_error_max_length#:#Unesite kraći tekst.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###04 06 2021 new variable
 meta#:#md_adv_active#:#Aktivan

@@ -11179,57 +11179,6 @@ membership#:#mem_force_notification#:#Daily News Roundup
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members Can Unsubscribe
 membership#:#mem_force_notification_mode_blocked#:#Members are automatically subscribed to the daily news roundup e-mail
 membership#:#mem_force_notification_mode_self#:#Members have to manually subscribe to the daily news roundup
-mep#:#mep_all#:#All
-mep#:#mep_all_mobs#:#All Media Objects
-mep#:#mep_bulk_upload#:#Bulk Upload
-mep#:#mep_choose_from_folder#:#Choose from Folder
-mep#:#mep_choose_from_mep#:#Choose from Pool
-mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.
-mep#:#mep_content#:#Content
-mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
-mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
-mep#:#mep_copy_to_mep#:#Copy to Media Pool
-mep#:#mep_create_content_snippet#:#Create Content Snippet
-mep#:#mep_create_folder#:#Create Folder
-mep#:#mep_create_media_files#:#Create Media Objects
-mep#:#mep_create_mob#:#Create Media Object
-mep#:#mep_default_height#:#Default Height
-mep#:#mep_default_width#:#Default Width
-mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.
-mep#:#mep_edit_content_snippet#:#Edit Content Snippet
-mep#:#mep_edit_folder#:#Edit Folder
-mep#:#mep_file#:#File
-mep#:#mep_folder#:#Folder
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Import a media pool
-mep#:#mep_import_lang#:#Target Language
-mep#:#mep_import_trans#:#Import Translation
-mep#:#mep_master_language_only#:#Master Language for Translation
-mep#:#mep_master_language_only_no_media#:#Master Language without Media
-mep#:#mep_media_files#:#Media Files
-mep#:#mep_media_subtitles#:#Media Subtitles
-mep#:#mep_mob#:#Media Object
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"
-mep#:#mep_mpg#:#Content Snippet
-mep#:#mep_new_content_snippet#:#New Content Snippet
-mep#:#mep_new_folder#:#New Folder
-mep#:#mep_page_properties#:#Page Properties
-mep#:#mep_page_type_mep#:#Content Snippet
-mep#:#mep_thumbnail#:#Thumbnail
-mep#:#mep_title_and_description#:#Title and Description
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
-mep#:#mep_unknown#:#Unknown
-mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory)
-mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)
-mep#:#mep_upload_dir_files#:#Files from Upload Directory
-mep#:#mobs_activate_pages#:#Use Content Snippets
-mep#:#mobs_activate_pages_info#:#Allows to create content snippets in media pools. These snippets can be re-used (not edited) in learning modules.
-mep#:#mobs_always_show_file_manager#:#Always Show File Manager
-mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
-mep#:#mobs_black_list_file_types#:#Forbidden File Types
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:
-mep#:#mobs_restrict_file_types#:#Allowed File Types
-mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
 meta#:#adt_error_max_length#:#The text you have entered is too long. Please enter a shorter text.
 meta#:#md_adn_int_error_no_default#:#Please select an activated language as your "Default-Language".
 meta#:#md_adv_active#:#Active
