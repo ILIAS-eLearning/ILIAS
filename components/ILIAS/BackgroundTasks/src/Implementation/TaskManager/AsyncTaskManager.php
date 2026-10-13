@@ -108,7 +108,25 @@ class AsyncTaskManager extends BasicTaskManager
                 break;
             }
 
-            $bucket = $persistence->loadBucket(array_shift($ids));
+            $bucket_id = (int) array_shift($ids);
+            try {
+                $bucket = $persistence->loadBucket($bucket_id);
+            } catch (\Throwable $t) {
+                // The bucket could not be restored (e.g. missing or corrupt entries in il_bt_task / il_bt_value).
+                // Remove it, otherwise it would be picked up again and again.
+                $DIC->logger()->bgtk()->warning(
+                    "Could not load bucket with id $bucket_id, skipping and deleting it: " . $t->getMessage()
+                );
+                try {
+                    $persistence->deleteBucketById($bucket_id);
+                } catch (\Throwable $t) {
+                    $DIC->logger()->bgtk()->error(
+                        "Could not delete bucket with id $bucket_id, worker going down: " . $t->getMessage()
+                    );
+                    break;
+                }
+                continue;
+            }
             $observer = new PersistingObserver($bucket, $persistence);
             $task = $bucket->getTask();
 
@@ -122,7 +140,7 @@ class AsyncTaskManager extends BasicTaskManager
             } catch (UserInteractionRequiredException $e) {
                 // We're okay!
                 $this->persistence->saveBucketAndItsTasks($bucket);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $persistence->deleteBucket($bucket);
                 $DIC->logger()->bgtk()->info("Exception while async computing: "
                     . $e->getMessage());
