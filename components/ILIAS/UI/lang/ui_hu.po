@@ -1,0 +1,255 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ui\n"
+
+msgid "1stars"
+msgstr "öt csillagból egy"
+
+msgid "2stars"
+msgstr "öt csillagból kettő"
+
+msgid "3stars"
+msgstr "öt csillagból három"
+
+msgid "4stars"
+msgstr "öt csillagból négy"
+
+msgid "5stars"
+msgstr "öt csillagból öt"
+
+msgid "datatable_close_warning"
+msgstr "OK"
+
+msgid "datatable_multiaction_label"
+msgstr "Tömeges művelet"
+
+msgid "datatable_multiactionmodal_actionlabel"
+msgstr "művelet"
+
+msgid "datatable_multiactionmodal_apply"
+msgstr "Alkalmazás"
+
+msgid "datatable_multiactionmodal_listentry"
+msgstr "Művelet az egész táblázaton…"
+
+msgid "datatable_multiactionmodal_msg"
+msgstr "<b>Vigyázat!</b> Több objektumra van hatással."
+
+msgid "datatable_multiactionmodal_title"
+msgstr "Művelet több objektumon."
+
+msgid "drilldown_no_items"
+msgstr "Nincs találat"
+
+msgid "duration_default_label_end"
+msgstr "vége"
+
+msgid "duration_default_label_start"
+msgstr "kezdete"
+
+msgid "duration_end_must_not_be_earlier_than_start"
+msgstr "A kezdő időpont nem lehet későbbi, mint a záró."
+
+msgid "filter_nodes_in"
+msgstr "%s szűrése"
+
+msgid "footer_icons"
+msgstr "Lábléc ikonok"
+
+msgid "footer_link_groups"
+msgstr "Lábléc linkcsoportok"
+
+msgid "footer_links"
+msgstr "Lábléc linkek"
+
+msgid "footer_permanent_link"
+msgstr "Lábléc állandó link"
+
+msgid "footer_texts"
+msgstr "Lábléc szövegek"
+
+msgid "image_alt_text"
+msgstr "Alternatív szöveg"
+
+msgid "image_purpose_decorative"
+msgstr "Dekoratív kép"
+
+msgid "image_purpose_informative"
+msgstr "Informatív kép"
+
+msgid "image_purpose_user_defined"
+msgstr "Kép célja"
+
+msgid "label_fieldselection"
+msgstr "Mezőválasztás"
+
+msgid "label_fieldselection_refresh"
+msgstr "Alkalmaz"
+
+msgid "label_modeviewcontrol"
+msgstr "nézet mód"
+
+msgid "label_pagination_limit"
+msgstr "Sorok számozása"
+
+msgid "label_pagination_offset"
+msgstr "Oldalszámozás kezdete"
+
+msgid "label_sortation"
+msgstr "Rendezés"
+
+msgid "order_option_alphabetical_ascending"
+msgstr "A → Z"
+
+msgid "order_option_alphabetical_descending"
+msgstr "Z → A"
+
+msgid "order_option_chronological_ascending"
+msgstr "Legkorábbi legelől"
+
+msgid "order_option_chronological_descending"
+msgstr "Leggyakoribb legelől"
+
+msgid "order_option_first"
+msgstr "első"
+
+msgid "order_option_generic_ascending"
+msgstr "növekvő"
+
+msgid "order_option_generic_descending"
+msgstr "csökkenő"
+
+msgid "order_option_numerical_ascending"
+msgstr "0 → 9"
+
+msgid "order_option_numerical_descending"
+msgstr "9 → 0"
+
+msgid "presentation_table_collapse"
+msgstr "becsukás"
+
+msgid "presentation_table_expand"
+msgstr "kinyitás"
+
+msgid "rating_average"
+msgstr "a többiek értékelése %s az 5-ből"
+
+msgid "reset_stars"
+msgstr "semleges"
+
+msgid "select_node"
+msgstr "%s csomópont hozzáadása a kiválasztáshoz"
+
+msgid "table_posinput_col_title"
+msgstr "Pozíció"
+
+msgid "ui_chars_max"
+msgstr "Maximum:"
+
+msgid "ui_chars_min"
+msgstr "Minimum:"
+
+msgid "ui_chars_remaining"
+msgstr "Fennmaradó karakterek száma:"
+
+msgid "ui_error"
+msgstr "Hiba"
+
+msgid "ui_error_in_group"
+msgstr "Ebben a részben van néhány hiba."
+
+msgid "ui_error_switchable_group_required"
+msgstr "Válaszzon egy lehetőséget."
+
+msgid "ui_field_option_filter_clear_search"
+msgstr "Keresés törlése"
+
+msgid "ui_field_option_filter_filtered_results_aria_label"
+msgstr "Lehetőségek listája - összecsukható és szűrhető"
+
+msgid "ui_field_option_filter_no_match"
+msgstr "Nincs találat a megadott keresési kifejezésre."
+
+msgid "ui_field_option_filter_no_selection"
+msgstr "Semmit sem jelölt ki."
+
+msgid "ui_field_option_filter_options_shown"
+msgstr "Jelenleg %s lehetőség látható."
+
+msgid "ui_field_option_filter_screen_reader_hint"
+msgstr "Kezdjen el gépelni, és az alábbi mezőbeállításokat ennek megfelelően szűri."
+
+msgid "ui_field_option_filter_search_in"
+msgstr "Keresés"
+
+msgid "ui_field_option_filter_show_all_options"
+msgstr "Összes lehetőség megjelenítése"
+
+msgid "ui_field_option_filter_show_less"
+msgstr "Kevesebb…"
+
+msgid "ui_file_input_general_error"
+msgstr "Hiba történt! Bővebb információért ellenőrizze böngészője JavaScript konzolát, illetve keresse az ILIAS üzemeltetőjét."
+
+msgid "ui_file_input_invalid_amount"
+msgstr "Ennyi fájl nem tölthet fel, a folytatáshoz távolítson el néhányat."
+
+msgid "ui_file_input_invalid_mime"
+msgstr "‘%s’ fájltípus nem engedélyzett"
+
+msgid "ui_file_input_invalid_size"
+msgstr "A fájl mérete meghaladja a maximálisan engedélyzettet (%s)."
+
+msgid "ui_file_upload_max_nr"
+msgstr "Fájlok maximális száma:"
+
+msgid "ui_invalid_url"
+msgstr "Érvénytelen URL-formátum"
+
+msgid "ui_link_label"
+msgstr "Címke"
+
+msgid "ui_link_url"
+msgstr "URL"
+
+msgid "ui_md_input_edit"
+msgstr "Szerkesztés"
+
+msgid "ui_md_input_view"
+msgstr "Megtekintés"
+
+msgid "ui_nav_sequence_control_label"
+msgstr "Az alábbi tartalmak sorrendjének vezérlése"
+
+msgid "ui_nav_sequence_description"
+msgstr "A tartalomban való navigálásra, illetve a teljes sorozaton műveletek és szűrők aktiválására szolgál."
+
+msgid "ui_pagination_unlimited"
+msgstr "Korlátlan"
+
+msgid "ui_select_dropdown_label"
+msgstr "Kérem, válasszon"
+
+msgid "ui_table_no_records"
+msgstr "Egy bejegyzés sem található"
+
+msgid "ui_table_order"
+msgstr "Rendezés"
+
+msgid "ui_transcription"
+msgstr "Átirat"
+
+msgid "unselect_node"
+msgstr "%s csomópont eltávolítása a kijelölésből"
+
+msgid "vc_sort"
+msgstr "Rendezés alapja:"
+
+msgid "warning_url_too_long_msg"
+msgstr "A kiválasztott sorok száma nagyon nagy URL-t eredményez; a szerver valószínűleg blokkolja az ekkora kérést.<br>Kérjük, válasszon kevesebb sort, vagy hajtsa végre a műveletet az összes bejegyzésen."

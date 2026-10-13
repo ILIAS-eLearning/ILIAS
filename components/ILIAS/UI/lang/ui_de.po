@@ -1,0 +1,255 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ui\n"
+
+msgid "1stars"
+msgstr "einer von fünf Sternen"
+
+msgid "2stars"
+msgstr "zwei von fünf Sternen"
+
+msgid "3stars"
+msgstr "drei von fünf Sternen"
+
+msgid "4stars"
+msgstr "vier von fünf Sternen"
+
+msgid "5stars"
+msgstr "fünf von fünf Sternen"
+
+msgid "datatable_close_warning"
+msgstr "OK"
+
+msgid "datatable_multiaction_label"
+msgstr "Sammelaktionen"
+
+msgid "datatable_multiactionmodal_actionlabel"
+msgstr "Aktion für alle Einträge"
+
+msgid "datatable_multiactionmodal_apply"
+msgstr "Ausführen"
+
+msgid "datatable_multiactionmodal_listentry"
+msgstr "Aktionen für gesamte Tabelle"
+
+msgid "datatable_multiactionmodal_msg"
+msgstr "Die ausgewählte Aktion wirkt sich auf alle Einträge in dieser Tabelle aus."
+
+msgid "datatable_multiactionmodal_title"
+msgstr "Aktionen für gesamte Tabelle"
+
+msgid "drilldown_no_items"
+msgstr "Keine passenden Elemente"
+
+msgid "duration_default_label_end"
+msgstr "Ende"
+
+msgid "duration_default_label_start"
+msgstr "Beginn"
+
+msgid "duration_end_must_not_be_earlier_than_start"
+msgstr "Der Beginn muss zeitlich vor dem Ende liegen."
+
+msgid "filter_nodes_in"
+msgstr "Einträge in %s filtern"
+
+msgid "footer_icons"
+msgstr "Footer Icons"
+
+msgid "footer_link_groups"
+msgstr "Footer Link-Gruppen"
+
+msgid "footer_links"
+msgstr "Footer Links"
+
+msgid "footer_permanent_link"
+msgstr "Footer Permanent Link"
+
+msgid "footer_texts"
+msgstr "Footer Texte"
+
+msgid "image_alt_text"
+msgstr "Alternativtext"
+
+msgid "image_purpose_decorative"
+msgstr "Dekoratives Bild"
+
+msgid "image_purpose_informative"
+msgstr "Informatives Bild"
+
+msgid "image_purpose_user_defined"
+msgstr "Verwendungszweck"
+
+msgid "label_fieldselection"
+msgstr "Spaltenauswahl"
+
+msgid "label_fieldselection_refresh"
+msgstr "Anwenden"
+
+msgid "label_modeviewcontrol"
+msgstr "Anzeigemodus"
+
+msgid "label_pagination_limit"
+msgstr "Pagination - Anzahl der Zeilen"
+
+msgid "label_pagination_offset"
+msgstr "Pagination - Start"
+
+msgid "label_sortation"
+msgstr "Sortierung"
+
+msgid "order_option_alphabetical_ascending"
+msgstr "A bis Z"
+
+msgid "order_option_alphabetical_descending"
+msgstr "Z bis A"
+
+msgid "order_option_chronological_ascending"
+msgstr "Älteste zuerst"
+
+msgid "order_option_chronological_descending"
+msgstr "Neueste zuerst"
+
+msgid "order_option_first"
+msgstr "Zuerst"
+
+msgid "order_option_generic_ascending"
+msgstr "Aufsteigend"
+
+msgid "order_option_generic_descending"
+msgstr "Absteigend"
+
+msgid "order_option_numerical_ascending"
+msgstr "0 bis 9"
+
+msgid "order_option_numerical_descending"
+msgstr "9 bis 0"
+
+msgid "presentation_table_collapse"
+msgstr "Alle minimieren"
+
+msgid "presentation_table_expand"
+msgstr "Alle zeigen"
+
+msgid "rating_average"
+msgstr "Andere bewerteten mit %s von 5"
+
+msgid "reset_stars"
+msgstr "neutral"
+
+msgid "select_node"
+msgstr "Knoten %s zur Auswahl hinzufügen"
+
+msgid "table_posinput_col_title"
+msgstr "Position"
+
+msgid "ui_chars_max"
+msgstr "Maximum:"
+
+msgid "ui_chars_min"
+msgstr "Minimum:"
+
+msgid "ui_chars_remaining"
+msgstr "Verbleibende Buchstaben"
+
+msgid "ui_error"
+msgstr "Fehler"
+
+msgid "ui_error_in_group"
+msgstr "Es gibt einen Fehler in diesem Bereich."
+
+msgid "ui_error_switchable_group_required"
+msgstr "Bitte treffen Sie eine Auswahl."
+
+msgid "ui_field_option_filter_clear_search"
+msgstr "Zurücksetzen"
+
+msgid "ui_field_option_filter_filtered_results_aria_label"
+msgstr "Auswahlliste - einklappbar und filterbar"
+
+msgid "ui_field_option_filter_no_match"
+msgstr "Es gibt keine Übereinstimmung mit dem Suchbegriff."
+
+msgid "ui_field_option_filter_no_selection"
+msgstr "Es wurde keine Auswahl getroffen."
+
+msgid "ui_field_option_filter_options_shown"
+msgstr "Aktuell werden %s Optionen angezeigt."
+
+msgid "ui_field_option_filter_screen_reader_hint"
+msgstr "Durch die Eingabe eines Suchbegriffes wird die nachfolgende Auswahlliste gefiltert."
+
+msgid "ui_field_option_filter_search_in"
+msgstr "Finde"
+
+msgid "ui_field_option_filter_show_all_options"
+msgstr "Zeige alle Optionen"
+
+msgid "ui_field_option_filter_show_less"
+msgstr "Weniger anzeigen"
+
+msgid "ui_file_input_general_error"
+msgstr "Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren."
+
+msgid "ui_file_input_invalid_amount"
+msgstr "Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren."
+
+msgid "ui_file_input_invalid_mime"
+msgstr "Dateien vom Typ „%s“ sind nicht erlaubt."
+
+msgid "ui_file_input_invalid_size"
+msgstr "Datei überschreitet die maximale Dateigröße von %s."
+
+msgid "ui_file_upload_max_nr"
+msgstr "Maximale Dateianzahl:"
+
+msgid "ui_invalid_url"
+msgstr "Das Format der URL ist nicht korrekt."
+
+msgid "ui_link_label"
+msgstr "Label"
+
+msgid "ui_link_url"
+msgstr "URL"
+
+msgid "ui_md_input_edit"
+msgstr "Bearbeiten"
+
+msgid "ui_md_input_view"
+msgstr "Vorschau"
+
+msgid "ui_nav_sequence_control_label"
+msgstr "Steuerung der nachfolgenden Sequenz von Inhalten"
+
+msgid "ui_nav_sequence_description"
+msgstr "Wird genutzt, um durch Inhalte zu navigieren oder um Aktionen und Filter auszulösen, welche die gesamte Sequenz betreffen."
+
+msgid "ui_pagination_unlimited"
+msgstr "Unbegrenzt"
+
+msgid "ui_select_dropdown_label"
+msgstr "Bitte auswählen"
+
+msgid "ui_table_no_records"
+msgstr "Keine Einträge"
+
+msgid "ui_table_order"
+msgstr "Reihenfolge"
+
+msgid "ui_transcription"
+msgstr "Abschrift"
+
+msgid "unselect_node"
+msgstr "Knoten %s von der Auswahl entfernen"
+
+msgid "vc_sort"
+msgstr "Sortiert nach:"
+
+msgid "warning_url_too_long_msg"
+msgstr "Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen)."

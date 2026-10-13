@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class UI implements Component\Component
 {
     public function init(
@@ -708,5 +711,9 @@ class UI implements Component\Component
                 return "assets/css/delos_cont.css";
             }
         };
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'ui'
+        );
     }
 }

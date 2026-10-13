@@ -1,0 +1,252 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: ui\n"
+
+msgid "1stars"
+msgstr ""
+
+msgid "2stars"
+msgstr ""
+
+msgid "3stars"
+msgstr ""
+
+msgid "4stars"
+msgstr ""
+
+msgid "5stars"
+msgstr ""
+
+msgid "datatable_close_warning"
+msgstr ""
+
+msgid "datatable_multiaction_label"
+msgstr ""
+
+msgid "datatable_multiactionmodal_actionlabel"
+msgstr ""
+
+msgid "datatable_multiactionmodal_apply"
+msgstr ""
+
+msgid "datatable_multiactionmodal_listentry"
+msgstr ""
+
+msgid "datatable_multiactionmodal_msg"
+msgstr ""
+
+msgid "datatable_multiactionmodal_title"
+msgstr ""
+
+msgid "drilldown_no_items"
+msgstr ""
+
+msgid "duration_default_label_end"
+msgstr ""
+
+msgid "duration_default_label_start"
+msgstr ""
+
+msgid "duration_end_must_not_be_earlier_than_start"
+msgstr ""
+
+msgid "filter_nodes_in"
+msgstr ""
+
+msgid "footer_icons"
+msgstr ""
+
+msgid "footer_link_groups"
+msgstr ""
+
+msgid "footer_links"
+msgstr ""
+
+msgid "footer_permanent_link"
+msgstr ""
+
+msgid "footer_texts"
+msgstr ""
+
+msgid "image_alt_text"
+msgstr ""
+
+msgid "image_purpose_decorative"
+msgstr ""
+
+msgid "image_purpose_informative"
+msgstr ""
+
+msgid "image_purpose_user_defined"
+msgstr ""
+
+msgid "label_fieldselection"
+msgstr ""
+
+msgid "label_fieldselection_refresh"
+msgstr ""
+
+msgid "label_modeviewcontrol"
+msgstr ""
+
+msgid "label_pagination_limit"
+msgstr ""
+
+msgid "label_pagination_offset"
+msgstr ""
+
+msgid "label_sortation"
+msgstr ""
+
+msgid "order_option_alphabetical_ascending"
+msgstr ""
+
+msgid "order_option_alphabetical_descending"
+msgstr ""
+
+msgid "order_option_chronological_ascending"
+msgstr ""
+
+msgid "order_option_chronological_descending"
+msgstr ""
+
+msgid "order_option_first"
+msgstr ""
+
+msgid "order_option_generic_ascending"
+msgstr ""
+
+msgid "order_option_generic_descending"
+msgstr ""
+
+msgid "order_option_numerical_ascending"
+msgstr ""
+
+msgid "order_option_numerical_descending"
+msgstr ""
+
+msgid "presentation_table_collapse"
+msgstr ""
+
+msgid "presentation_table_expand"
+msgstr ""
+
+msgid "rating_average"
+msgstr ""
+
+msgid "reset_stars"
+msgstr ""
+
+msgid "select_node"
+msgstr ""
+
+msgid "table_posinput_col_title"
+msgstr ""
+
+msgid "ui_chars_max"
+msgstr ""
+
+msgid "ui_chars_min"
+msgstr ""
+
+msgid "ui_chars_remaining"
+msgstr ""
+
+msgid "ui_error"
+msgstr ""
+
+msgid "ui_error_in_group"
+msgstr ""
+
+msgid "ui_error_switchable_group_required"
+msgstr ""
+
+msgid "ui_field_option_filter_clear_search"
+msgstr ""
+
+msgid "ui_field_option_filter_filtered_results_aria_label"
+msgstr ""
+
+msgid "ui_field_option_filter_no_match"
+msgstr ""
+
+msgid "ui_field_option_filter_no_selection"
+msgstr ""
+
+msgid "ui_field_option_filter_options_shown"
+msgstr ""
+
+msgid "ui_field_option_filter_screen_reader_hint"
+msgstr ""
+
+msgid "ui_field_option_filter_search_in"
+msgstr ""
+
+msgid "ui_field_option_filter_show_all_options"
+msgstr ""
+
+msgid "ui_field_option_filter_show_less"
+msgstr ""
+
+msgid "ui_file_input_general_error"
+msgstr ""
+
+msgid "ui_file_input_invalid_amount"
+msgstr ""
+
+msgid "ui_file_input_invalid_mime"
+msgstr ""
+
+msgid "ui_file_input_invalid_size"
+msgstr ""
+
+msgid "ui_file_upload_max_nr"
+msgstr ""
+
+msgid "ui_invalid_url"
+msgstr ""
+
+msgid "ui_link_label"
+msgstr ""
+
+msgid "ui_link_url"
+msgstr ""
+
+msgid "ui_md_input_edit"
+msgstr ""
+
+msgid "ui_md_input_view"
+msgstr ""
+
+msgid "ui_nav_sequence_control_label"
+msgstr ""
+
+msgid "ui_nav_sequence_description"
+msgstr ""
+
+msgid "ui_pagination_unlimited"
+msgstr ""
+
+msgid "ui_select_dropdown_label"
+msgstr ""
+
+msgid "ui_table_no_records"
+msgstr ""
+
+msgid "ui_table_order"
+msgstr ""
+
+msgid "ui_transcription"
+msgstr ""
+
+msgid "unselect_node"
+msgstr ""
+
+msgid "vc_sort"
+msgstr ""
+
+msgid "warning_url_too_long_msg"
+msgstr ""
