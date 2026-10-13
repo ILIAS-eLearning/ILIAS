@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dpro\n"
+
+msgid "dpro_accept_usr_agreement_anonymous"
+msgstr "Adatvédelmi Nyilatkozat"
+
+msgid "dpro_accept_usr_agreement_anonymous_intro"
+msgstr "Mielőtt továbblép az ILIAS-hoz, elfogadja az alábbi Adatvédelmi Nyilatkozatot."
+
+msgid "dpro_account_reg_not_possible"
+msgstr "A regisztráció jelenleg nem lehetséges, mert nincs Adatvédelmi Nyilatkozat. Kérem, további információért keresse a <a href=\"%1$s\">rendszer üzemeltetőjét</a>."
+
+msgid "dpro_agree_date"
+msgstr "Adatvédelmi Nyilatkozat elfogadása"
+
+msgid "dpro_last_reset_date"
+msgstr "Az Adatvédelmi Nyilatkozatot elfogadásait törölték (%s). Csak akkor tegye ezt meg újra, ha módosult az Adatvédelmi Nyilatkozat tartalma és ezért azt újra el kell fogadtatni a felhasználókkal."
+
+msgid "dpro_mode"
+msgstr "Elfogadás módja"
+
+msgid "dpro_mode_desc"
+msgstr "Kérem, adja meg, hogy az Adatvédelmi Nyilatkozatot mikor és hogyan fogadják el."
+
+msgid "dpro_no_acceptance"
+msgstr "Soha, csak informatív"
+
+msgid "dpro_no_documents_exist"
+msgstr "Jelenleg nincs beállítva Adatvdelmi Nyilatkozat."
+
+msgid "dpro_no_documents_exist_cant_save"
+msgstr "A szolgáltatás jelenleg nem kapcsolható be, mert nincs beállítva Adatvdelmi Nyilatkozat. Leaglább egyet adjon hozzá"
+
+msgid "dpro_once"
+msgstr "Egyszer"
+
+msgid "dpro_reset_for_all_users"
+msgstr "Adatvédelem Nyilatkozat elfogadásainak törlése"
+
+msgid "dpro_status_enable"
+msgstr "Adatvédelem bekapcsolása"
+
+msgid "dpro_status_enable_desc"
+msgstr "A nyelvfüggő Adatvédelmi Nyilatkozat megjelenítése az új felhasználó regisztrációs űrlapján, illetve az első bejelentkezéskor. Az Adatvédelmi Nyilatkozatot el kell fogadni a bejelentkezéskor."
+
+msgid "dpro_sure_reset_tos"
+msgstr "Biztos, hogy törli az összes felhasználó Adatvédelmi Nyilatkozat elfogadását? Figyeljen arra, hogy ez hatással lesz például a SOAP webszolgáltatást használó fiókra is."
+
+msgid "dpro_withdrawal_usr_deletion"
+msgstr "Fiók törlése az Adatvédelmi Nyilatkozat visszavonásakor"
+
+msgid "dpro_withdrawal_usr_deletion_desc"
+msgstr "Amikor egy felhasználó visszavonja az Adatvédelmi Nyilatkozat elfogadását, az az ILIAS-fiókjának törlését vonja maga után."
