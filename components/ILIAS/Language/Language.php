@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\Language\Activities\UninstallLanguage;
@@ -217,5 +218,9 @@ class Language implements Component\Component
 
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Language\UserSettings\Settings();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'lng'
+        );
     }
 }

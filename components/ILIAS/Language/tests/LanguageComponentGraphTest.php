@@ -27,6 +27,7 @@ use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
@@ -174,9 +175,12 @@ class LanguageComponentGraphTest extends TestCase
     {
         $this->initComponent();
 
-        $directories = $this->contributionsOf(LanguageFileDirectory::class);
-        self::assertCount(1, $directories);
-        self::assertInstanceOf(MainLanguageFileDirectory::class, $directories[0]);
+        $directories = array_map(
+            static fn(object $directory): string => $directory::class,
+            $this->contributionsOf(LanguageFileDirectory::class)
+        );
+        sort($directories);
+        self::assertSame([ComponentLanguageFileDirectory::class, MainLanguageFileDirectory::class], $directories);
 
         $this->contributedSetupAgent();
 
@@ -200,6 +204,19 @@ class LanguageComponentGraphTest extends TestCase
         $user_settings = $this->contributionsOf(\ILIAS\User\Settings\UserSettings::class);
         self::assertCount(1, $user_settings);
         self::assertInstanceOf(UserSettingsSettings::class, $user_settings[0]);
+    }
+
+    public function testTheLngModuleIsContributedAsComponentLanguageFileDirectory(): void
+    {
+        $this->initComponent();
+
+        $lng = array_values(array_filter(
+            $this->contributionsOf(LanguageFileDirectory::class),
+            static fn(object $d): bool => $d instanceof ComponentLanguageFileDirectory && $d->getPrefix() === 'lng'
+        ));
+
+        self::assertCount(1, $lng, 'exactly one ComponentLanguageFileDirectory with prefix "lng" expected');
+        self::assertSame('components/ILIAS/Language/lang/', $lng[0]->getPath());
     }
 
     /** The Setup agent gets UpdateLanguage's Setup instance, not the GUI's: without provider it re-applies no plugin language files. */

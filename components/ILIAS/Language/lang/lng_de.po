@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lng\n"
+
+msgid "language_detection"
+msgstr "Automatische Spracherkennung"
+
+msgid "lng_disable_language_detection"
+msgstr "Automatische Spracherkennung deaktivieren"
+
+msgid "lng_download_deprecated"
+msgstr "Veraltete Einträge herunterladen"
+
+msgid "lng_enable_language_detection"
+msgstr "Automatische Spracherkennung aktivieren"
+
+msgid "lng_error_clear_shipped_po_unreadable"
+msgstr "Die lokalen Änderungen wurden nicht gelöscht: Die ausgelieferten PO-Dateien folgender Module können nicht gelesen werden: %s. Details stehen im Log."
+
+msgid "lng_markup_not_allowed"
+msgstr "Nicht erlaubtes Markup in folgenden Einträgen: %s"
+
+msgid "lng_merge_database_not_updated"
+msgstr "Die ausgelieferten PO-Dateien folgender Module wurden geschrieben, ihre Einträge in der Datenbank konnten aber nicht aktualisiert werden (siehe Log): %s"
+
+msgid "lng_merge_po_not_written"
+msgstr "Die lokalen Änderungen folgender Module konnten nicht in ihre ausgelieferten PO-Dateien übernommen werden (siehe Log): %s"
+
+msgid "lng_merged_po_modules"
+msgstr "Die lokalen Änderungen folgender Module wurden in ihre ausgelieferten PO-Dateien übernommen: %s"
+
+msgid "lng_not_translated"
+msgstr "Nicht übersetzt"
+
+msgid "lng_po_overlay_not_written"
+msgstr "Die Änderungen wurden in der Datenbank gespeichert, aber die PO/MO-Dateien folgender über PO-Dateien gepflegter Module konnten nicht geschrieben werden: %s. Für diese Module werden weiterhin die bisherigen Texte angezeigt. Bitte prüfen Sie, ob der Webserver-Nutzer Schreibrechte auf das Verzeichnis \"lang\" im Client-Datenverzeichnis hat. Details stehen im Log."
+
+msgid "lng_po_overlay_not_written_languages"
+msgstr "Die Sprachdaten wurden in der Datenbank gespeichert, aber für folgende Sprachen konnten die PO/MO-Dateien der über PO-Dateien gepflegten Module nicht geschrieben werden: %s. Für diese Module werden weiterhin die bisherigen Texte angezeigt. Bitte prüfen Sie, ob der Webserver-Nutzer Schreibrechte auf das Verzeichnis \"lang\" im Client-Datenverzeichnis hat. Details stehen im Log."
+
+msgid "lng_shipped_po_unreadable_fallback"
+msgstr "Die ausgelieferten PO-Dateien folgender Module können nicht gelesen werden: %s. Als Standardwerte werden für diese Module ersatzweise die möglicherweise veralteten Einträge der Sprachdatei (.lang) angezeigt. Details stehen im Log."
+
+msgid "lng_switch_language_detection"
+msgstr "Automatische Spracherkennung umschalten"
