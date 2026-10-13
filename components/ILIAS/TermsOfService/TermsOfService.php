@@ -35,7 +35,7 @@ class TermsOfService implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => new ComponentLanguageFileDirectory(
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
             $this,
             'tos'
         );

@@ -459,7 +459,7 @@ class ConvertModuleToPoToolTest extends TestCase
     /** The contribution --remove-from-lang looks for in a component class. */
     private static function contribution(string $module, string $further_arguments = ''): string
     {
-        return '$contribute[LanguageFileDirectory::class] = fn(): LanguageFileDirectory => '
+        return '$contribute[LanguageFileDirectory::class] = fn() => '
             . "new ComponentLanguageFileDirectory(\$this, '$module'$further_arguments);";
     }
 
