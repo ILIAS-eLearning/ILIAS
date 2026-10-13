@@ -295,9 +295,7 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * See LanguageInstallationManager::findUnwritableOverlayDirectories() - checked by Setup before
-     * installing/updating languages. File-based like the manager's, but without needing a database
-     * (the manager is only built with one, see manager()).
+     * File-based, needs no database (unlike manager()).
      *
      * @param list<string> $lang_keys
      * @param int|null $for_user_id evaluate the writability for this user instead of the current process
@@ -315,23 +313,17 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * See LanguageInstallationManager::hasMigratedModules() - file-based, needs no database.
+     * File-based, needs no database.
      *
      * @param list<string> $lang_keys
      */
     public function hasMigratedModules(array $lang_keys): bool
     {
-        foreach ($lang_keys as $lang_key) {
-            if (MigratedLanguageFileSync::findShippedModuleFiles(
-                $this->language_file_directory_manager,
-                $this->absolute_path,
-                $lang_key
-            ) !== []) {
-                return true;
-            }
-        }
-
-        return false;
+        return MigratedLanguageFileSync::hasShippedModules(
+            $this->language_file_directory_manager,
+            $this->absolute_path,
+            $lang_keys
+        );
     }
 
     /**

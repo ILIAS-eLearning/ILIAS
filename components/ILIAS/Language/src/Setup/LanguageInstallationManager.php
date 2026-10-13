@@ -386,27 +386,6 @@ class LanguageInstallationManager
     }
 
     /**
-     * Whether any module is migrated to PO/MO for any of $lang_keys, i.e. an overlay may have to be
-     * maintained for it (for its local changes).
-     *
-     * @param list<string> $lang_keys
-     */
-    public function hasMigratedModules(array $lang_keys): bool
-    {
-        foreach ($lang_keys as $lang_key) {
-            if (MigratedLanguageFileSync::findShippedModuleFiles(
-                $this->language_file_directory_manager,
-                $this->absolute_path,
-                $lang_key
-            ) !== []) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Writes the data of the given $directories/$lang_array seed; the callers above decide both.
      *
      * Of a migrated module (see MigratedLanguageFileSync) whose shipped `.po` is merged

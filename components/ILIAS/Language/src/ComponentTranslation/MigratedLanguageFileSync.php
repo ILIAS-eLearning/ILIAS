@@ -1387,6 +1387,25 @@ final class MigratedLanguageFileSync
     }
 
     /**
+     * Whether any module is migrated for any of $lang_keys, see findShippedModuleFiles().
+     *
+     * @param list<string> $lang_keys
+     */
+    public static function hasShippedModules(
+        LanguageFileDirectoryManager $language_file_directory_manager,
+        string $ilias_absolute_path,
+        array $lang_keys
+    ): bool {
+        foreach ($lang_keys as $lang_key) {
+            if (self::findShippedModuleFiles($language_file_directory_manager, $ilias_absolute_path, $lang_key) !== []) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Every module migrated for $lang_key (its shipped `.po` exists, parseable or not) with the path of that `.po`.
      *
      * @return array<string, string> module => shipped `.po` path

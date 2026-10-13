@@ -252,6 +252,15 @@ class MigratedLanguageFileSyncReadersTest extends MigratedLanguageFileSyncTestCa
         );
     }
 
+    public function testHasShippedModulesOnlyForALanguageWithAShippedPo(): void
+    {
+        $this->seedShipped(['greeting' => 'Hallo']);
+
+        $this->assertFalse(MigratedLanguageFileSync::hasShippedModules($this->manager, $this->ilias_root, []));
+        $this->assertFalse(MigratedLanguageFileSync::hasShippedModules($this->manager, $this->ilias_root, ['en']));
+        $this->assertTrue(MigratedLanguageFileSync::hasShippedModules($this->manager, $this->ilias_root, ['en', 'de']));
+    }
+
     /**
      * The extracted comments ("#.", the counterpart of a .lang "###" comment) of an entry are joined
      * into one line; an entry without one gets `null`, entries of another context are not returned.
