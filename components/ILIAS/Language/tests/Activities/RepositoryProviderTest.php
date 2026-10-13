@@ -27,9 +27,9 @@ use ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog;
 use ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\Setup\FixedInstallationRoot;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 /**
  * Only what runs without the legacy container: the installed languages, the settings behind an injected Setting,
@@ -43,7 +43,7 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         $installed = $this->createMock(InstalledLanguageRepository::class);
         $installed->expects($this->once())->method('getInstalledLanguages')->willReturn(['de', 'en']);
 
-        $provider = new RepositoryProvider($installed, $this->createStub(\ilDBInterface::class), $this->createStub(LanguageSettings::class));
+        $provider = $this->provider($installed);
 
         $this->assertSame(['de', 'en'], $provider->getInstalledLanguages());
     }
@@ -72,7 +72,7 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
     {
         $db = $this->dbFetching($lng_modules_row, [['identifier' => 'new_topic', 'value' => 'Hallo']]);
 
-        $this->assertNull($this->currentModuleEntries(new RepositoryProvider($this->createStub(InstalledLanguageRepository::class), $db, $this->createStub(LanguageSettings::class))));
+        $this->assertNull($this->currentModuleEntries($this->provider(db: $db)));
     }
 
     public function testCurrentModuleEntriesIsTheUsableLngModulesRow(): void
@@ -81,7 +81,7 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
 
         $this->assertSame(
             ['existing' => 'Bestehend'],
-            $this->currentModuleEntries(new RepositoryProvider($this->createStub(InstalledLanguageRepository::class), $db, $this->createStub(LanguageSettings::class)))
+            $this->currentModuleEntries($this->provider(db: $db))
         );
     }
 
@@ -97,17 +97,29 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         $db->method('fetchAssoc')->willReturn(null);
 
         (new \ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))
-            ->invoke(new RepositoryProvider($this->createStub(InstalledLanguageRepository::class), $db, $this->createStub(LanguageSettings::class)), 'de', "co'mmon");
+            ->invoke($this->provider(db: $db), 'de', "co'mmon", null);
+    }
+
+    /**
+     * A module not maintained in PO files without a usable lng_modules row is left alone: lng_data holds the entry,
+     * nothing is written and the call reports success.
+     *
+     * @param ?array<string, mixed> $lng_modules_row
+     */
+    #[DataProvider('unusableLngModulesRows')]
+    public function testUpdateModuleCacheLeavesTheCacheOfAModuleNotMaintainedInPoFilesAlone(?array $lng_modules_row): void
+    {
+        $db = $this->dbFetching($lng_modules_row, [['identifier' => 'new_topic', 'value' => 'Hallo']]);
+
+        $this->assertTrue($this->provider(db: $db)->updateModuleCache('de', 'common', 'new_topic', 'Hallo', 'author'));
     }
 
     /**
      * For a module that is maintained in PO files (a shipped `.po` exists) with neither a readable overlay nor a
      * usable lng_modules row the module content is rebuilt from lng_data, which already holds the new entry.
      */
-    #[RunInSeparateProcess]
     public function testCurrentModuleEntriesRebuildsFromLngDataForAModuleMaintainedInPoFilesWithoutAReadableOverlayOrRow(): void
     {
-        $this->defineRuntimePaths();
         $fixture_dir = __DIR__ . '/tmp-provider-fixtures-' . bin2hex(random_bytes(4));
         mkdir($fixture_dir, 0775, true);
         \MigratedPoFixture::writePo(
@@ -115,7 +127,8 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
             \MigratedPoFixture::catalog('common', ['existing' => 'Veraltet'])
         );
         // an unreadable overlay leads to the lng_modules/lng_data fallback; without overlay the shipped state is the base
-        $overlay_dir = CLIENT_DATA_DIR . '/lang/common/de';
+        $client_data_dir = sys_get_temp_dir() . '/ilias_provider_test_' . bin2hex(random_bytes(4));
+        $overlay_dir = $client_data_dir . '/lang/common/de';
         mkdir($overlay_dir, 0775, true);
         file_put_contents($overlay_dir . '/common_de.po', "msgid \"kaputt\n");
 
@@ -124,17 +137,12 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
                 ['identifier' => 'existing', 'value' => 'Bestehend'],
                 ['identifier' => 'new_topic', 'value' => 'Hallo'],
             ]);
-            $provider = new RepositoryProvider(
-                $this->createStub(InstalledLanguageRepository::class),
-                $db,
-                $this->createStub(LanguageSettings::class),
-                $this->managerFor($fixture_dir, 'common')
-            );
+            $provider = $this->provider(db: $db, manager: $this->managerFor($fixture_dir, 'common'));
 
-            $this->assertSame(['existing' => 'Bestehend', 'new_topic' => 'Hallo'], $this->currentModuleEntries($provider));
+            $this->assertSame(['existing' => 'Bestehend', 'new_topic' => 'Hallo'], $this->currentModuleEntries($provider, $client_data_dir));
         } finally {
             \MigratedPoFixture::removeDirectory($fixture_dir);
-            \MigratedPoFixture::removeDirectory(CLIENT_DATA_DIR);
+            \MigratedPoFixture::removeDirectory($client_data_dir);
         }
     }
 
@@ -142,10 +150,8 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
      * A form missing from a shipped plural message (here "item [2]" of a message with two forms) is reported with
      * its language; an existing form, another module's identifier or a language without shipped `.po` is not.
      */
-    #[RunInSeparateProcess]
     public function testLanguagesWithoutPluralFormListsOnlyLanguagesWhoseShippedMessageLacksTheForm(): void
     {
-        $this->defineRuntimePaths();
         $fixture_dir = __DIR__ . '/tmp-provider-plural-' . bin2hex(random_bytes(4));
         mkdir($fixture_dir, 0775, true);
         $catalog = new TranslationCatalog();
@@ -156,12 +162,7 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         \MigratedPoFixture::writePo($fixture_dir . '/poll_de.po', $catalog);
 
         try {
-            $provider = new RepositoryProvider(
-                $this->createStub(InstalledLanguageRepository::class),
-                $this->createStub(\ilDBInterface::class),
-                $this->createStub(LanguageSettings::class),
-                $this->managerFor($fixture_dir, 'poll')
-            );
+            $provider = $this->provider(manager: $this->managerFor($fixture_dir, 'poll'));
 
             $this->assertSame(['de'], $provider->languagesWithoutPluralForm('poll', 'item [2]', ['de', 'fr']));
             $this->assertSame([], $provider->languagesWithoutPluralForm('poll', 'item [1]', ['de']));
@@ -169,19 +170,12 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
             $this->assertSame([], $provider->languagesWithoutPluralForm('other', 'item [2]', ['de']));
         } finally {
             \MigratedPoFixture::removeDirectory($fixture_dir);
-            \MigratedPoFixture::removeDirectory(CLIENT_DATA_DIR);
         }
     }
 
-    public function testLanguagesWithoutPluralFormIsEmptyWithoutAFileDirectoryManager(): void
+    public function testLanguagesWithoutPluralFormIsEmptyWhenNoModuleIsMaintainedInPoFiles(): void
     {
-        $provider = new RepositoryProvider(
-            $this->createStub(InstalledLanguageRepository::class),
-            $this->createStub(\ilDBInterface::class),
-            $this->createStub(LanguageSettings::class)
-        );
-
-        $this->assertSame([], $provider->languagesWithoutPluralForm('poll', 'item [2]', ['de']));
+        $this->assertSame([], $this->provider()->languagesWithoutPluralForm('poll', 'item [2]', ['de']));
     }
 
     /** @return array<string, array{0: \Closure}> */
@@ -199,8 +193,7 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
     {
         $GLOBALS['DIC'] = $dic();
 
-        (new RepositoryProvider($this->createStub(InstalledLanguageRepository::class), $this->createStub(\ilDBInterface::class), $this->createStub(LanguageSettings::class)))
-            ->refreshPlugins(['de']);
+        $this->provider()->refreshPlugins(['de']);
 
         $this->addToAssertionCount(1);
     }
@@ -212,20 +205,38 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         $settings->expects($this->once())->method('isPageTranslationEnabled')->with('fr')->willReturn(true);
         $settings->expects($this->once())->method('setPageTranslationEnabled')->with('de', false);
 
-        $provider = new RepositoryProvider(
-            $this->createMock(InstalledLanguageRepository::class),
-            $this->createMock(\ilDBInterface::class),
-            $settings
-        );
+        $provider = $this->provider(settings: $settings);
         $provider->setLanguageDetectionEnabled(true);
         $this->assertTrue($provider->isPageTranslationEnabled('fr'));
         $provider->setPageTranslationEnabled('de', false);
     }
 
-    /** The private lookup of the module content that updateModuleCache() adds the new entry to. */
-    private function currentModuleEntries(RepositoryProvider $provider): ?array
+    private function provider(
+        ?InstalledLanguageRepository $installed = null,
+        ?\ilDBInterface $db = null,
+        ?LanguageFileDirectoryManager $manager = null,
+        ?LanguageSettings $settings = null
+    ): RepositoryProvider {
+        return new RepositoryProvider(
+            $installed ?? $this->createStub(InstalledLanguageRepository::class),
+            $db ?? $this->createStub(\ilDBInterface::class),
+            $settings ?? $this->createStub(LanguageSettings::class),
+            $manager ?? new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory()),
+            new FixedInstallationRoot($this->iliasRoot())
+        );
+    }
+
+    /** The fixture directories (MigratedPoFixture::directory()) are relative to the installation root. */
+    private function iliasRoot(): string
     {
-        return (new \ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))->invoke($provider, 'de', 'common');
+        return (string) realpath(__DIR__ . '/../../../../../');
+    }
+
+    /** The private lookup of the module content that updateModuleCache() adds the new entry to. */
+    private function currentModuleEntries(RepositoryProvider $provider, ?string $client_data_dir = null): ?array
+    {
+        return (new \ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))
+            ->invoke($provider, 'de', 'common', $client_data_dir);
     }
 
     /** A manager whose only shipped directory is $fixture_dir, holding the `.po` files of $module. */
@@ -235,15 +246,6 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
             new CustomizingLanguageFileDirectory(),
             \MigratedPoFixture::directory($module, 'components/ILIAS/Language/tests/Activities/' . basename($fixture_dir) . '/')
         );
-    }
-
-    /** Needs a separate process: the constants cannot be undefined again. */
-    private function defineRuntimePaths(): void
-    {
-        if (!defined('ILIAS_ABSOLUTE_PATH')) {
-            define('ILIAS_ABSOLUTE_PATH', realpath(__DIR__ . '/../../../../../'));
-        }
-        define('CLIENT_DATA_DIR', sys_get_temp_dir() . '/ilias_provider_test_' . bin2hex(random_bytes(4)));
     }
 
     /**

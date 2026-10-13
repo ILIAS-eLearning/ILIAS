@@ -94,6 +94,7 @@ class Language implements Component\Component
                 $pull[\ILIAS\Database\Connection::class],
                 $internal[Language\Activities\LanguageSettings::class],
                 $internal[LanguageFileDirectoryManager::class],
+                new Language\Setup\DirectoriesInstallationRoot($use[Directories::class]),
             );
 
         $internal[InstallLanguage::class] = static fn() =>

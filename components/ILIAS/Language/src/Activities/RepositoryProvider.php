@@ -24,12 +24,12 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
+use ILIAS\Language\Setup\InstallationRoot;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 
 /**
  * Every legacy and repository access of the runtime language activities. No component offers the
  * logger and the component repository yet, so they are resolved from the legacy container on first use.
- * Without a LanguageFileDirectoryManager no module is treated as maintained in PO files.
  */
 class RepositoryProvider
 {
@@ -37,7 +37,8 @@ class RepositoryProvider
         private readonly InstalledLanguageRepository $installed_language_repository,
         private readonly \ilDBInterface $db,
         private readonly LanguageSettings $settings,
-        private readonly ?LanguageFileDirectoryManager $language_file_directory_manager = null,
+        private readonly LanguageFileDirectoryManager $language_file_directory_manager,
+        private readonly InstallationRoot $installation_root,
     ) {
     }
 
@@ -152,7 +153,7 @@ class RepositoryProvider
         string $value,
         string $remarks = ''
     ): bool {
-        $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH);
+        $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir($this->installation_root->getPath());
 
         // read and written under the overlay lock, so a concurrent write is not lost
         return MigratedLanguageFileSync::withOverlayLock(
@@ -161,14 +162,14 @@ class RepositoryProvider
             $module,
             $client_data_dir,
             function () use ($lang_key, $module, $identifier, $value, $remarks, $client_data_dir): bool {
-                $entries = $this->currentModuleEntries($lang_key, $module);
+                $entries = $this->currentModuleEntries($lang_key, $module, $client_data_dir);
                 if ($entries === null) {
                     // no lng_modules row of a module not maintained in PO files: lng_data holds the entry
                     return true;
                 }
                 $entries[$this->entryKeyOf($entries, $identifier)] = $value;
                 $written = \ilObjLanguage::replaceLangModule($lang_key, $module, $entries);
-                if ($remarks === '' || $this->language_file_directory_manager === null) {
+                if ($remarks === '') {
                     return $written;
                 }
                 try {
@@ -178,14 +179,14 @@ class RepositoryProvider
                         $module,
                         [$identifier => $remarks],
                         $client_data_dir,
-                        ILIAS_ABSOLUTE_PATH
+                        $this->installation_root->getPath()
                     );
                 } catch (\Throwable) {
                     return false;
                 }
                 return $written;
             },
-            ILIAS_ABSOLUTE_PATH
+            $this->installation_root->getPath()
         );
     }
 
@@ -198,17 +199,13 @@ class RepositoryProvider
      */
     public function languagesWithoutPluralForm(string $module, string $identifier, array $lang_keys): array
     {
-        if (PluralFormKey::parse($identifier) === null || $this->language_file_directory_manager === null) {
+        if (PluralFormKey::parse($identifier) === null) {
             return [];
         }
         $languages = [];
         foreach ($lang_keys as $lang_key) {
             $lang_key = (string) $lang_key;
-            $shipped_po = MigratedLanguageFileSync::findShippedModuleFiles(
-                $this->language_file_directory_manager,
-                ILIAS_ABSOLUTE_PATH,
-                $lang_key
-            )[$module] ?? null;
+            $shipped_po = $this->shippedModuleFile($lang_key, $module);
             if ($shipped_po === null) {
                 continue;
             }
@@ -245,6 +242,15 @@ class RepositoryProvider
         $this->settings->setPageTranslationEnabled($lang_key, $enabled);
     }
 
+    private function shippedModuleFile(string $lang_key, string $module): ?string
+    {
+        return MigratedLanguageFileSync::findShippedModuleFiles(
+            $this->language_file_directory_manager,
+            $this->installation_root->getPath(),
+            $lang_key
+        )[$module] ?? null;
+    }
+
     /**
      * The default form's key for a plural message of a module maintained in PO files (the one the
      * database row stands for), otherwise $identifier itself.
@@ -264,22 +270,17 @@ class RepositoryProvider
      *
      * @return array<string, string>|null identifier => value
      */
-    private function currentModuleEntries(string $lang_key, string $module): ?array
+    private function currentModuleEntries(string $lang_key, string $module, ?string $client_data_dir): ?array
     {
-        $is_migrated = $this->language_file_directory_manager !== null
-            && isset(MigratedLanguageFileSync::findShippedModuleFiles(
-                $this->language_file_directory_manager,
-                ILIAS_ABSOLUTE_PATH,
-                $lang_key
-            )[$module]);
+        $is_migrated = $this->shippedModuleFile($lang_key, $module) !== null;
         if ($is_migrated) {
             try {
                 $overlay = MigratedLanguageFileSync::loadModuleTranslations(
                     $this->language_file_directory_manager,
                     $lang_key,
                     $module,
-                    MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH),
-                    ILIAS_ABSOLUTE_PATH
+                    $client_data_dir,
+                    $this->installation_root->getPath()
                 );
             } catch (\Throwable) {
                 // an unreadable overlay is rebuilt by the sync, the database content is the base then
