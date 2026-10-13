@@ -15424,50 +15424,6 @@ sess#:#sess_users_added#:#Registered selected users for the session.###26 09 201
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.###26 09 2014 new variable
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.###26 09 2014 new variable
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
-shib#:#shib_account_creation#:#Account Creation###28 10 2024 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###28 10 2024 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###28 10 2024 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###28 10 2024 new variable
-shib#:#shib_add_missing#:#Ata Eksik Rolleri
-shib#:#shib_add_remove#:#Ekle / Kaldır Rolleri
-shib#:#shib_assignment_type#:#Atama Tipi
-shib#:#shib_attr_info#:#Shibboleth Kullanıcı Profili belirli bir özniteliği tarafından atayın.
-shib#:#shib_attribute#:#Kullanıcı Özellik
-shib#:#shib_attribute_name#:#Özellik Adı
-shib#:#shib_attribute_value#:#Özellik Değeri
-shib#:#shib_check_role_assignment#:#Daha sonra oturumları sonra Rollerin Atama
-shib#:#shib_choose_role#:#Rolü seçin
-shib#:#shib_confirm_del_role_ass#:#gerçekten aşağıdaki kurallar silmek istediğinizden emin misiniz?
-shib#:#shib_deleted_rule#:#Silinmiş rol atamaları.
-shib#:#shib_global_role#:#Global Rol
-shib#:#shib_ilias_role#:#ILIAS Rol Adı
-shib#:#shib_local_role#:#Yerel Rolü
-shib#:#shib_missing_attr_name#:#öznitelik adını giriniz.
-shib#:#shib_missing_attr_value#:#öznitelik değeri girin.
-shib#:#shib_missing_plugin_id#:#geçerli bir eklenti kimliği girin.
-shib#:#shib_missing_role#:#bir rol seçin.
-shib#:#shib_new_rule#:#Add new Kuralı
-shib#:#shib_plugin#:#Plugin Atama
-shib#:#shib_plugin_id#:#Plugin Kimliği
-shib#:#shib_plugin_info#:#bir eklenti ile rol atama doğrulayın. Geçerli bir eklenti kimliği girin.
-shib#:#shib_remove_deprecated#:#Onaylanmamış Roller Deassign
-shib#:#shib_role_ass_table#:#Rol Atamaları için Yeni Kural
-shib#:#shib_role_assignment#:#Rol Atamaları
-shib#:#shib_role_by_attribute#:#Shibboleth Özellik
-shib#:#shib_role_by_plugin#:#Plugin ile
-shib#:#shib_role_name#:#ILIAS Rol Adı
-shib#:#shib_role_name_info#:#ya küresel bir rol seçebilir veya yerel rol adını giriniz.
-shib#:#shib_role_selection#:#Rolü Seçimi
-shib#:#shib_rule_condition#:#Durum
-shib#:#shib_rule_type#:#Atama Türü
-shib#:#shib_rules_tables#:#Aktif Rol Atama Kuralları
-shib#:#shib_settings#:#Shibboleth Ayarları
-shib#:#shib_update_role_ass_table#:#Düzenleme Rol Atama Kuralı
-shib#:#shib_update_roles#:#Rol Atamaları
 skll#:#skll_competence_achievements#:#New competence achievements and appraisals###31 08 2017 new variable
 skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest competence achievements.###31 08 2017 new variable
 skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.###10 11 2018 new variable

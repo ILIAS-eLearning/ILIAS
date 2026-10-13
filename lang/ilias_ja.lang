@@ -15501,50 +15501,6 @@ sess#:#sess_users_added#:#セッションの選択したユーザを登録しま
 sess#:#sess_users_already_assigned#:#ユーザはこのセッションへすでに登録済です。
 sess#:#sess_users_removed_from_list#:#選択のユーザは待ちリストから削除されました。
 sess#:#sess_warn_sess_type_changed#:#本当にセッションタイプを変更しますか? 全ての権限設定はリセットされます。
-shib#:#shib_account_creation#:#アカウント作成
-shib#:#shib_account_creation_disabled#:#無効
-shib#:#shib_account_creation_disabled_info#:#新しいアカウントは作成されません。
-shib#:#shib_account_creation_enabled#:#有効化
-shib#:#shib_account_creation_enabled_info#:#新しいアクティブなアカウントが作成されました。
-shib#:#shib_account_creation_info#:#アカウント作成は、既存のILIASアカウントを持たないユーザーがShibboleth経由でログインしようとしたときに開始されます。
-shib#:#shib_account_creation_with_approval#:#承認あり
-shib#:#shib_account_creation_with_approval_info#:#非アクティブの新しいアカウントが作成されます。アカウントは管理者によって有効化されるまで非アクティブのままです。
-shib#:#shib_add_missing#:#不足の役割を割り当てる
-shib#:#shib_add_remove#:#役割の追加/削除
-shib#:#shib_assignment_type#:#割当ての種類
-shib#:#shib_attr_info#:#Shibbolethユーザプロファイルの特定の属性で割当てる
-shib#:#shib_attribute#:#ユーザ属性
-shib#:#shib_attribute_name#:#属性名
-shib#:#shib_attribute_value#:#属性値
-shib#:#shib_check_role_assignment#:#後でログインした後の役割の割当て
-shib#:#shib_choose_role#:#役割を選ぶ
-shib#:#shib_confirm_del_role_ass#:#本当に次の役割を削除しますか?
-shib#:#shib_deleted_rule#:#役割を削除します。
-shib#:#shib_global_role#:#グローバル役割
-shib#:#shib_ilias_role#:#ILIAS役割名
-shib#:#shib_local_role#:#ローカル役割
-shib#:#shib_missing_attr_name#:#属性名を入力してください。
-shib#:#shib_missing_attr_value#:#属性値を入力してください。
-shib#:#shib_missing_plugin_id#:#有効なプラグインIDを入力してください。
-shib#:#shib_missing_role#:#役割を１つ選択してください。
-shib#:#shib_new_rule#:#新しいルールを追加
-shib#:#shib_plugin#:#プラグインによる割当て
-shib#:#shib_plugin_id#:#プラグインID
-shib#:#shib_plugin_info#:#プラグイ付きの役割の割当てを検証します。 有効なプラグイン ID を入力してください。
-shib#:#shib_remove_deprecated#:#未使用の役割を解除
-shib#:#shib_role_ass_table#:#役割割り当ての新しいルール
-shib#:#shib_role_assignment#:#役割の割当て
-shib#:#shib_role_by_attribute#:#Shibboleth属性
-shib#:#shib_role_by_plugin#:#プラグインによる
-shib#:#shib_role_name#:#ILIAS役割名
-shib#:#shib_role_name_info#:#グローバル 役割を選ぶかまたはローカル役割名を入力してください。
-shib#:#shib_role_selection#:#役割選択
-shib#:#shib_rule_condition#:#条件
-shib#:#shib_rule_type#:#割当のタイプ
-shib#:#shib_rules_tables#:#有効な役割 割り当てのルール
-shib#:#shib_settings#:#Shibboleth設定
-shib#:#shib_update_role_ass_table#:#役割割当のルールを編集
-shib#:#shib_update_roles#:#役割の割当て
 skll#:#skll_competence_achievements#:#新規能力達成と評価
 skll#:#skll_intro_skill_notification_for#:#これは最新の能力達成の概要です。
 skll#:#skll_lhist_skill_achieved#:#$1$で$3$のうち$4$のステータスが割り当てられました。

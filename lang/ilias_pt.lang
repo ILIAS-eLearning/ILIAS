@@ -15536,50 +15536,6 @@ sess#:#sess_users_added#:#Utilizadores registados selecionados para esta sessão
 sess#:#sess_users_already_assigned#:#O utilizador já está registado para esta sessão.
 sess#:#sess_users_removed_from_list#:#Os utilizadores selecionados foram removidos da lista de espera.
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
-shib#:#shib_account_creation#:#Account Creation###03 09 2026 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###03 09 2026 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###03 09 2026 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###03 09 2026 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###03 09 2026 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###03 09 2026 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###03 09 2026 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###03 09 2026 new variable
-shib#:#shib_add_missing#:#Atribuir funções em falta
-shib#:#shib_add_remove#:#Adicionar/Remover funções
-shib#:#shib_assignment_type#:#Tipo de atribuição
-shib#:#shib_attr_info#:#Atribuir por um tributo específico no perfil de utilizador Shibboleth.
-shib#:#shib_attribute#:#Atributo de utilizador
-shib#:#shib_attribute_name#:#Nome do atributo
-shib#:#shib_attribute_value#:#Valor do atributo
-shib#:#shib_check_role_assignment#:#Atribuição de funções após logins posteriores
-shib#:#shib_choose_role#:#Escolher função
-shib#:#shib_confirm_del_role_ass#:#Tem a certeza que quer apagar as seguintes regras?
-shib#:#shib_deleted_rule#:#Atribuições de funções apagadas.
-shib#:#shib_global_role#:#Função global
-shib#:#shib_ilias_role#:#Nome de função ILIAS
-shib#:#shib_local_role#:#Função local
-shib#:#shib_missing_attr_name#:#Introduza um nome de atributo.
-shib#:#shib_missing_attr_value#:#Insira um valor de atributo.
-shib#:#shib_missing_plugin_id#:#Introduza um id de plugin válido.
-shib#:#shib_missing_role#:#Selecione uma função.
-shib#:#shib_new_rule#:#Adicionar novo regra
-shib#:#shib_plugin#:#Atribuição por plugin
-shib#:#shib_plugin_id#:#ID de plugin
-shib#:#shib_plugin_info#:#Validar a atribuição de funções com um plugin. Introduza um id de plugin válido.
-shib#:#shib_remove_deprecated#:#Retirar a atribuição das funções obsoletas
-shib#:#shib_role_ass_table#:#Nova regra para atribuições de funções
-shib#:#shib_role_assignment#:#Atribuição de funções
-shib#:#shib_role_by_attribute#:#Atributo Shibboleth
-shib#:#shib_role_by_plugin#:#Por plugin
-shib#:#shib_role_name#:#Nome de função ILIAS
-shib#:#shib_role_name_info#:#Escolha uma função global ou insira o nome de uma função global.
-shib#:#shib_role_selection#:#Seleção de função
-shib#:#shib_rule_condition#:#Condição
-shib#:#shib_rule_type#:#Tipo de atribuição
-shib#:#shib_rules_tables#:#Ativar regras de atribuição de funções
-shib#:#shib_settings#:#Definições Shibboleth
-shib#:#shib_update_role_ass_table#:#Editar regra de atribuição de funções
-shib#:#shib_update_roles#:#Atribuição de funções
 skll#:#skll_competence_achievements#:#Novos resultados e considerações de competências
 skll#:#skll_intro_skill_notification_for#:#isto é uma vista geral dos seus últimos resultados de competência.
 skll#:#skll_lhist_skill_achieved#:#Estado $4$ de $3$ foi atribuído em $1$.

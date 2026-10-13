@@ -15424,50 +15424,6 @@ sess#:#sess_users_added#:#Użytkownicy zostali zarejestrowani do sesji.
 sess#:#sess_users_already_assigned#:#Użytkownicy już są zarejestrowani do sesji.
 sess#:#sess_users_removed_from_list#:#Wybrani użytkownicy zostali usunięci z listy oczekujących.
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
-shib#:#shib_account_creation#:#Account Creation###28 10 2024 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###28 10 2024 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###28 10 2024 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###28 10 2024 new variable
-shib#:#shib_add_missing#:#Przydziel brakujące role
-shib#:#shib_add_remove#:#Dodaj/usuń rolę
-shib#:#shib_assignment_type#:#Rodzaj przydziału
-shib#:#shib_attr_info#:#Przydział następuje na podstawie określonego atrybutu w profilu użytkownika Shibboleth.
-shib#:#shib_attribute#:#Atrybut użytkownika
-shib#:#shib_attribute_name#:#Nazwa atrybutowa
-shib#:#shib_attribute_value#:#Wartość atrybutowa
-shib#:#shib_check_role_assignment#:#Aktualizacja przydziałów ról przy każdym logowaniu:
-shib#:#shib_choose_role#:#Przejmij rolę
-shib#:#shib_confirm_del_role_ass#:#Czy naprawdę chcesz usunąć poniższe przydziały?
-shib#:#shib_deleted_rule#:#Usunięto zasady przydzielania.
-shib#:#shib_global_role#:#Globalna rola
-shib#:#shib_ilias_role#:#Nazwa roli ILIAS
-shib#:#shib_local_role#:#Lokalna rola
-shib#:#shib_missing_attr_name#:#Wpisz nazwę atrybutu.
-shib#:#shib_missing_attr_value#:#Wpisz wartość atrybutu.
-shib#:#shib_missing_plugin_id#:#Wpisz jednoznaczny numer ID wtyczki.
-shib#:#shib_missing_role#:#Wybierz rolę ILIAS.
-shib#:#shib_new_rule#:#Dodaj nową regułę
-shib#:#shib_plugin#:#Przydział poprzez wtyczkę
-shib#:#shib_plugin_id#:#Numer ID wtyczki
-shib#:#shib_plugin_info#:#Jeśli przydziału nie można przeprowadzić w ramach zwykłej kontroli (nazwa/wartość atrybutu), przydział można zrealizować również za pomocą wtyczki.
-shib#:#shib_remove_deprecated#:#Usuń nieuprawnione role
-shib#:#shib_role_ass_table#:#Nowe zasady przydzielania ról ILIAS
-shib#:#shib_role_assignment#:#Przydziały ról
-shib#:#shib_role_by_attribute#:#Atrybut użytkownika
-shib#:#shib_role_by_plugin#:#Poprzez wtyczkę
-shib#:#shib_role_name#:#Nazwa roli ILIAS
-shib#:#shib_role_name_info#:#Wybierz globalną rolę lub podaj nazwę lokalnej roli.
-shib#:#shib_role_selection#:#Wybór ról
-shib#:#shib_rule_condition#:#Warunek
-shib#:#shib_rule_type#:#Rodzaj przydziału
-shib#:#shib_rules_tables#:#Aktywne zasady dotyczące przydzielania ról
-shib#:#shib_settings#:#Ustawienia Shibboleth
-shib#:#shib_update_role_ass_table#:#Edytuj zasady przydziału ról
-shib#:#shib_update_roles#:#Przydziały ról
 skll#:#skll_competence_achievements#:#Nowe oceny i szacowanie kompetencji
 skll#:#skll_intro_skill_notification_for#:#Poniżej znajduje się zestawienie ostatnich zmian w Twoich kompetencjach:
 skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.

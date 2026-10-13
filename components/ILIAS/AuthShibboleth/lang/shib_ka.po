@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "დაკარგული პასუხისმგებლობების დანიშვნა"
+
+msgid "shib_add_remove"
+msgstr "პასუხისმგებლობების დამატება/ამოშლა"
+
+msgid "shib_assignment_type"
+msgstr "დანიშვნის სახეობა"
+
+msgid "shib_attr_info"
+msgstr "შიბოლეტის მომხმარებლის პროფილში დანიშვნა სპეციალური განსაზღვრებით"
+
+msgid "shib_attribute"
+msgstr "მომხმარებლის განსაზღვრება"
+
+msgid "shib_attribute_name"
+msgstr "განსაზღვრების სახელი"
+
+msgid "shib_attribute_value"
+msgstr "განსაზღვრების ღირებულება"
+
+msgid "shib_check_role_assignment"
+msgstr "გვიანი შესვლების შემდეგ პასუხისმგებლობების დანიშვნა"
+
+msgid "shib_choose_role"
+msgstr "პასუხისმგებლობის არჩევა"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "ნამდვილად გსურთ შემდეგი წესების წაშლა?"
+
+msgid "shib_deleted_rule"
+msgstr "პასუხისმგებლობების დანიშვნები წაშლილია"
+
+msgid "shib_global_role"
+msgstr "გლობალური პასუხისმგებლობა"
+
+msgid "shib_ilias_role"
+msgstr "ილიასის პასუხისმგებლობის სახელი"
+
+msgid "shib_local_role"
+msgstr "ადგილობრივი პასუხისმგებლობა"
+
+msgid "shib_missing_attr_name"
+msgstr "გთხოვთ შეიყვანოთ განსაზღვრების სახელი"
+
+msgid "shib_missing_attr_value"
+msgstr "გთხოვთ შეიყვანოთ განსაზღვრების ღირებულება"
+
+msgid "shib_missing_plugin_id"
+msgstr "გთხოვთ შეიყვანოთ სწორი პროგრამული გაფართოვების იდ"
+
+msgid "shib_missing_role"
+msgstr "გთხოვთ მონიშნოთ ახალი პასუხისმგებლობა"
+
+msgid "shib_new_rule"
+msgstr "ახალი წესის დამატება"
+
+msgid "shib_plugin"
+msgstr "დანიშვნა პროგრამული გაფართოებისთ"
+
+msgid "shib_plugin_id"
+msgstr "პროგრამული გაფართოებისს იდ"
+
+msgid "shib_plugin_info"
+msgstr "პასუხისმგებლობის დანიშვნის პროგრამული გაფართოებისთ დამტკიცება. გთხოვთ შეიყვანოთ სწორი პროგრამული გაფართოებისს იდ"
+
+msgid "shib_remove_deprecated"
+msgstr "ამორტიზირებული პასუხისმგებლობების დანიშვნების მოხსნა"
+
+msgid "shib_role_ass_table"
+msgstr "ახალი წესი პასუხისმგებლობების დანიშვნებისთვის"
+
+msgid "shib_role_assignment"
+msgstr "პასუხისმგებლობის დანიშვნა"
+
+msgid "shib_role_by_attribute"
+msgstr "შიბოლეტის განსაზღვრება"
+
+msgid "shib_role_by_plugin"
+msgstr "პროგრამული გაფართოვებით"
+
+msgid "shib_role_name"
+msgstr "ილიასის პასუხისმგებლობის სახელი"
+
+msgid "shib_role_name_info"
+msgstr "გთხოვთ აირჩიოთ ან გლობალური პასუხისმგებლობა ან ადგილობრივი პასუხისმგებლობა"
+
+msgid "shib_role_selection"
+msgstr "პასუხისმგებლობის მონიშვნა"
+
+msgid "shib_rule_condition"
+msgstr "პირობა"
+
+msgid "shib_rule_type"
+msgstr "დანიშვნის სახეობა"
+
+msgid "shib_rules_tables"
+msgstr "პასუხისმგებლობის დანიშვნის წესები აქტიურია"
+
+msgid "shib_settings"
+msgstr "შიბოლეტის პარამეტრები"
+
+msgid "shib_update_role_ass_table"
+msgstr "პასუხისმგებლობის დანიშვნის წესის რედაქტირება"
+
+msgid "shib_update_roles"
+msgstr "პასუხისმგებლობის დანიშვნები"

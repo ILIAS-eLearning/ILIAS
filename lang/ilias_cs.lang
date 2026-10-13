@@ -15424,50 +15424,6 @@ sess#:#sess_users_added#:#Registrovaní vybraní uživatelé pro relaci.
 sess#:#sess_users_already_assigned#:#Uživatel je již registrován pro tuto relaci.
 sess#:#sess_users_removed_from_list#:#Vybraní uživatelé byli odstraněni z pořadníku.
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
-shib#:#shib_account_creation#:#Account Creation###28 10 2024 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###28 10 2024 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###28 10 2024 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###28 10 2024 new variable
-shib#:#shib_add_missing#:#Přiřadit chybějící role
-shib#:#shib_add_remove#:#Přidat/Odstranit Role
-shib#:#shib_assignment_type#:#Druh přiřazení
-shib#:#shib_attr_info#:#Přiřadit specifickým atributem v uživatelském profilu Shibboleth.
-shib#:#shib_attribute#:#Uživatelský atribut
-shib#:#shib_attribute_name#:#Název atributu
-shib#:#shib_attribute_value#:#Hodnota atributu
-shib#:#shib_check_role_assignment#:#Přiřazení role po dalším přihlášení
-shib#:#shib_choose_role#:#Výběr role
-shib#:#shib_confirm_del_role_ass#:#Skutečně chcete smazat následující pravidla?
-shib#:#shib_deleted_rule#:#Smazat přiřazení role.
-shib#:#shib_global_role#:#Globální role
-shib#:#shib_ilias_role#:#Název role ILIAS
-shib#:#shib_local_role#:#Lokální role
-shib#:#shib_missing_attr_name#:#Vložte prosím jméno atributu.
-shib#:#shib_missing_attr_value#:#Vložte prosím hodnotu atributu.
-shib#:#shib_missing_plugin_id#:#Vložte prosím platný id pluginu.
-shib#:#shib_missing_role#:#Vyberte prosím jednu roli.
-shib#:#shib_new_rule#:#Přidat nové pravidlo
-shib#:#shib_plugin#:#Přiřazení Pluginem
-shib#:#shib_plugin_id#:#Id Pluginu
-shib#:#shib_plugin_info#:#Ověřte prosím přířazení role s pluginem. Vložte prosím platný id pluginu.
-shib#:#shib_remove_deprecated#:#Zrušit přiřazení neschválených rolí
-shib#:#shib_role_ass_table#:#Nové pravidlo pro přiřazení rolí
-shib#:#shib_role_assignment#:#Přiřazení rolí
-shib#:#shib_role_by_attribute#:#Atribut Shibboleth
-shib#:#shib_role_by_plugin#:#Podle Pluginů
-shib#:#shib_role_name#:#Název role ILIAS
-shib#:#shib_role_name_info#:#Vyberte prosím globální roli nebo vložte jméno lokální role.
-shib#:#shib_role_selection#:#Výběr role
-shib#:#shib_rule_condition#:#Podmínka
-shib#:#shib_rule_type#:#Typ přiřazení
-shib#:#shib_rules_tables#:#Aktivní Role přiřazení práv
-shib#:#shib_settings#:#Nastavení Shibboleth
-shib#:#shib_update_role_ass_table#:#Upravit pravidla přiřazení role
-shib#:#shib_update_roles#:#Přiřazení role
 skll#:#skll_competence_achievements#:#Nové dosažené způsobilosti a ocenění
 skll#:#skll_intro_skill_notification_for#:#toto je přehled vašich nejnovějších úspěchů v oblasti způsobilosti.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ z $3$ byl přiřazen v $1$.

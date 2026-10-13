@@ -15494,50 +15494,6 @@ sess#:#sess_users_added#:#Usuarios seleccionados registrados para la sesión.
 sess#:#sess_users_already_assigned#:#El usuario ya está registrado en esta sesión.
 sess#:#sess_users_removed_from_list#:#Los usuarios seleccionados han sido eliminados de la lista de espera.
 sess#:#sess_warn_sess_type_changed#:#¿Realmente desea cambiar el tipo de sesión? Se restablecerán todos los ajustes de permisos.
-shib#:#shib_account_creation#:#Creación de cuenta
-shib#:#shib_account_creation_disabled#:#Desactivado
-shib#:#shib_account_creation_disabled_info#:#No se creará ninguna cuenta nueva.
-shib#:#shib_account_creation_enabled#:#Activado
-shib#:#shib_account_creation_enabled_info#:#Se crea una nueva cuenta activa.
-shib#:#shib_account_creation_info#:#La creación de la cuenta se activa cuando un usuario sin una cuenta de ILIAS preexistente intenta iniciar sesión a través de Shibboleth.
-shib#:#shib_account_creation_with_approval#:#Con aprobación
-shib#:#shib_account_creation_with_approval_info#:#Se crea una nueva cuenta inactiva. La cuenta permanece inactiva hasta que sea activada por un administrador.
-shib#:#shib_add_missing#:#Asignar roles faltantes
-shib#:#shib_add_remove#:#Agregar/Eliminar roles
-shib#:#shib_assignment_type#:#Tipo de asignación
-shib#:#shib_attr_info#:#Asignar por un atributo específico en el perfil de usuario de Shibboleth.
-shib#:#shib_attribute#:#Atributo de usuario
-shib#:#shib_attribute_name#:#Nombre del atributo
-shib#:#shib_attribute_value#:#Valor del atributo
-shib#:#shib_check_role_assignment#:#Asignación de roles tras inicios de sesión posteriores
-shib#:#shib_choose_role#:#Elegir rol
-shib#:#shib_confirm_del_role_ass#:#¿Realmente desea eliminar las siguientes reglas?
-shib#:#shib_deleted_rule#:#Asignaciones de roles eliminadas.
-shib#:#shib_global_role#:#Rol global
-shib#:#shib_ilias_role#:#Nombre del rol de ILIAS
-shib#:#shib_local_role#:#Rol local
-shib#:#shib_missing_attr_name#:#Por favor, introduzca el nombre del atributo.
-shib#:#shib_missing_attr_value#:#Por favor, introduzca el valor del atributo.
-shib#:#shib_missing_plugin_id#:#Por favor, introduzca un ID de plugin válido.
-shib#:#shib_missing_role#:#Por favor, seleccione un rol.
-shib#:#shib_new_rule#:#Agregar nueva regla
-shib#:#shib_plugin#:#Asignación por plugin
-shib#:#shib_plugin_id#:#ID del plugin
-shib#:#shib_plugin_info#:#Validar la asignación de roles con un plugin. Por favor, introduzca un ID de plugin válido.
-shib#:#shib_remove_deprecated#:#Desasignar roles obsoletos
-shib#:#shib_role_ass_table#:#Nueva regla para asignaciones de roles
-shib#:#shib_role_assignment#:#Asignaciones de roles
-shib#:#shib_role_by_attribute#:#Atributo de Shibboleth
-shib#:#shib_role_by_plugin#:#Por plugin
-shib#:#shib_role_name#:#Nombre del rol de ILIAS
-shib#:#shib_role_name_info#:#Por favor, elija un rol global o introduzca el nombre de un rol local.
-shib#:#shib_role_selection#:#Selección de rol
-shib#:#shib_rule_condition#:#Condición
-shib#:#shib_rule_type#:#Tipo de Asignación
-shib#:#shib_rules_tables#:#Reglas de Asignación de Roles Activas
-shib#:#shib_settings#:#Ajustes de Shibboleth
-shib#:#shib_update_role_ass_table#:#Editar Regla de Asignación de Roles
-shib#:#shib_update_roles#:#Asignaciones de Roles
 skll#:#skll_competence_achievements#:#Nuevos logros y evaluaciones de competencias
 skll#:#skll_intro_skill_notification_for#:#esta es una vista general de sus últimos logros de competencias.
 skll#:#skll_lhist_skill_achieved#:#El estado $4$ de $3$ fue asignado en $1$.
