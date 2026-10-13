@@ -9274,51 +9274,6 @@ exc#:#submissions_only#:#Solo entregas
 exc#:#text_assignment#:#Tarea de texto
 excv#:#excv_create#:#Crear certificado de ejercicio
 excv#:#excv_create_info#:#Seleccione un ejercicio finalizado para generar un certificado para el mismo.
-exp#:#exp_create_file#:#Crear archivo de exportación
-exp#:#exp_error_disabled#:#La función de exportación está desactivada para contenedores. Puede ponerse en contacto con su administrador del sistema.
-exp#:#exp_error_too_many_objects#:#La exportación supera el número máximo de objetos permitidos (%1). Por favor, seleccione un número menor de objetos.
-exp#:#exp_export_dropdown#:#Exportar
-exp#:#exp_export_files#:#Exportar archivos
-exp#:#exp_export_single_option#:#Exportar %s
-exp#:#exp_file_created#:#Se ha creado el archivo de exportación.
-exp#:#exp_format_dropdown-csv#:#como CSV
-exp#:#exp_format_dropdown-html#:#como HTML
-exp#:#exp_format_dropdown-xls#:#como XLS
-exp#:#exp_format_dropdown-xml#:#como XML
-exp#:#exp_html#:#HTML
-exp#:#exp_import_validation_err_no_matching_xsd#:#No existe un archivo de esquema válido para la versión %s.
-exp#:#exp_not_public_access_status#:#No publicado
-exp#:#exp_print_pdf#:#Imprimir/PDF
-exp#:#exp_print_pdf_info#:#Para crear un PDF, seleccione "Guardar como PDF" en la ventana de impresión que aparece tras hacer clic en 'Vista de impresión'.
-exp#:#exp_public_access_status#:#Disponible en la pestaña 'Información'
-exp#:#exp_really_delete#:#¿Está seguro de que desea eliminar los siguientes archivos de exportación?
-exp#:#exp_show_print_view#:#Mostrar vista de impresión
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#Se ha creado un nuevo archivo de exportación.
-exp#:#export_files_deleted#:#Los archivos de exportación seleccionados han sido eliminados.
-exp#:#export_options#:#Opciones de exportación
-exp#:#export_type#:#Tipo de exportación
-export#:#exp_file#:#Nombre del archivo
-export#:#exp_public_access#:#Disponible en la pestaña 'Información'
-export#:#exp_size#:#Tamaño del archivo (MB)
-export#:#exp_timestamp#:#Fecha de creación
-export#:#exp_toggle_public_access#:#Alternar acceso público
-export#:#exp_type#:#Tipo
-export#:#export_create#:#Crear
-export#:#export_create_new_file#:#Crear nuevo archivo de exportación
-export#:#export_existing#:#Reutilizar
-export#:#export_export_date#:#Fecha de exportación
-export#:#export_info_public_access#:#Exportación pública
-export#:#export_info_public_access_download#:#Descargar
-export#:#export_last_export#:#Última exportación
-export#:#export_last_export_file#:#Usar el último archivo de exportación
-export#:#export_last_file#:#Último archivo
-export#:#export_omit#:#Omitir
-export#:#export_omit_resource#:#Omitir recurso
-export#:#export_resource#:#Recurso
-export#:#export_save_selection#:#Iniciar exportación
-export#:#export_select_resources#:#Seleccionar recursos
-export#:#no_file#:#Ningún archivo
 file#:#add_icon#:#Añadir icono
 file#:#amount_of_downloads#:#Descargas
 file#:#amount_of_downloads_since#:#%d veces desde %s

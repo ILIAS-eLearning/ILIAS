@@ -9239,51 +9239,6 @@ exc#:#submissions_only#:#Samo predani zadaci
 exc#:#text_assignment#:#Dodjela teksta
 excv#:#excv_create#:#Izradi certifikat za vježbu
 excv#:#excv_create_info#:#Odaberi dovršenu vježbu kako biste generirali certifikat za nju.
-exp#:#exp_create_file#:#Kreiraj datoteku za izvoz
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###04 06 2021 new variable
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###04 06 2021 new variable
-exp#:#exp_export_dropdown#:#Export###29 10 2025 new variable
-exp#:#exp_export_files#:#Datoteke za izvoz
-exp#:#exp_export_single_option#:#Export %s###29 10 2025 new variable
-exp#:#exp_file_created#:#Kreirana je datoteka za izvoz.
-exp#:#exp_format_dropdown-csv#:#as CSV###29 10 2025 new variable
-exp#:#exp_format_dropdown-html#:#as HTML###29 10 2025 new variable
-exp#:#exp_format_dropdown-xls#:#as XLS###29 10 2025 new variable
-exp#:#exp_format_dropdown-xml#:#as XML###29 10 2025 new variable
-exp#:#exp_html#:#HTML###28 10 2024 new variable
-exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.###26 08 2024 new variable
-exp#:#exp_not_public_access_status#:#Not published###29 10 2025 new variable
-exp#:#exp_print_pdf#:#Print/PDF###29 07 2022 new variable
-exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.###29 07 2022 new variable
-exp#:#exp_public_access_status#:#Available in ‘Info’-tab###29 10 2025 new variable
-exp#:#exp_really_delete#:#Želite li stvarno izbrisati ove datoteke za izvoz?
-exp#:#exp_show_print_view#:#Show Print View###29 07 2022 new variable
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#Kreirana je nova datoteka za izvoz.
-exp#:#export_files_deleted#:#The selected export files have been deleted.###26 08 2024 new variable
-exp#:#export_options#:#Export Options###28 10 2024 new variable
-exp#:#export_type#:#Export Type###28 10 2024 new variable
-export#:#exp_file#:#File Name###28 10 2024 new variable
-export#:#exp_public_access#:#Public Access###28 10 2024 new variable
-export#:#exp_size#:#File Size (MB)###28 10 2024 new variable
-export#:#exp_timestamp#:#Creation Date###28 10 2024 new variable
-export#:#exp_toggle_public_access#:#Toggle Public Access###28 10 2024 new variable
-export#:#exp_type#:#Type###28 10 2024 new variable
-export#:#export_create#:#Kreiraj
-export#:#export_create_new_file#:#Kreiraj novu datoteku za izvoz
-export#:#export_existing#:#Ponovna upotreba
-export#:#export_export_date#:#Datum izvoza
-export#:#export_info_public_access#:#Public Access Export###28 10 2024 new variable
-export#:#export_info_public_access_download#:#Download###28 10 2024 new variable
-export#:#export_last_export#:#Posljednji izvoz
-export#:#export_last_export_file#:#Koristi posljednju datoteku za izvoz
-export#:#export_last_file#:#Posljednja datoteka
-export#:#export_omit#:#Izostavi
-export#:#export_omit_resource#:#Izostavi resurs
-export#:#export_resource#:#Resurs
-export#:#export_save_selection#:#Pokreni izvoz
-export#:#export_select_resources#:#Odaberi resurse
-export#:#no_file#:#Nema datoteke
 file#:#add_icon#:#Add Icon###26 08 2024 new variable
 file#:#amount_of_downloads#:#Downloads###26 08 2024 new variable
 file#:#amount_of_downloads_since#:#%d times since %s###26 08 2024 new variable

@@ -9239,51 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Create Exercise Verification###12 06 2011 new variable
 excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it###12 06 2011 new variable
-exp#:#exp_create_file#:#Vytvořit Exportní soubor
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable
-exp#:#exp_export_dropdown#:#Export###29 10 2025 new variable
-exp#:#exp_export_files#:#Exportovat soubory
-exp#:#exp_export_single_option#:#Export %s###29 10 2025 new variable
-exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
-exp#:#exp_format_dropdown-csv#:#as CSV###29 10 2025 new variable
-exp#:#exp_format_dropdown-html#:#as HTML###29 10 2025 new variable
-exp#:#exp_format_dropdown-xls#:#as XLS###29 10 2025 new variable
-exp#:#exp_format_dropdown-xml#:#as XML###29 10 2025 new variable
-exp#:#exp_html#:#HTML###28 10 2024 new variable
-exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.###26 08 2024 new variable
-exp#:#exp_not_public_access_status#:#Not published###29 10 2025 new variable
-exp#:#exp_print_pdf#:#Print/PDF###29 07 2022 new variable
-exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.###29 07 2022 new variable
-exp#:#exp_public_access_status#:#Available in ‘Info’-tab###29 10 2025 new variable
-exp#:#exp_really_delete#:#Skutečně chcete smazat tyto exportní soubory?
-exp#:#exp_show_print_view#:#Show Print View###29 07 2022 new variable
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#Nový exportní soubor byl vytvořen.###16 07 2010 new variable
-exp#:#export_files_deleted#:#The selected export files have been deleted.###26 08 2024 new variable
-exp#:#export_options#:#Export Options###28 10 2024 new variable
-exp#:#export_type#:#Export Type###28 10 2024 new variable
-export#:#exp_file#:#File Name###28 10 2024 new variable
-export#:#exp_public_access#:#Public Access###28 10 2024 new variable
-export#:#exp_size#:#File Size (MB)###28 10 2024 new variable
-export#:#exp_timestamp#:#Creation Date###28 10 2024 new variable
-export#:#exp_toggle_public_access#:#Toggle Public Access###28 10 2024 new variable
-export#:#exp_type#:#Type###28 10 2024 new variable
-export#:#export_create#:#Vytvořit
-export#:#export_create_new_file#:#Vytvořit nový exportní soubor
-export#:#export_existing#:#Použít znovu
-export#:#export_export_date#:#Export termínu
-export#:#export_info_public_access#:#Public Access Export###28 10 2024 new variable
-export#:#export_info_public_access_download#:#Download###28 10 2024 new variable
-export#:#export_last_export#:#Poslední export
-export#:#export_last_export_file#:#Použít poslední exportní soubor
-export#:#export_last_file#:#Poslední soubor
-export#:#export_omit#:#Vynechat
-export#:#export_omit_resource#:#Vynechat zdroj
-export#:#export_resource#:#Zdroj
-export#:#export_save_selection#:#Spustit Export
-export#:#export_select_resources#:#Vybrat zdroj
-export#:#no_file#:#No file###08 10 2015 new variable
 file#:#add_icon#:#Add Icon###26 08 2024 new variable
 file#:#amount_of_downloads#:#Downloads###26 08 2024 new variable
 file#:#amount_of_downloads_since#:#%d times since %s###26 08 2024 new variable

@@ -9239,51 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it
-exp#:#exp_create_file#:#Aanmaken Export Bestand
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable
-exp#:#exp_export_dropdown#:#Export###29 10 2025 new variable
-exp#:#exp_export_files#:#Exportbestanden
-exp#:#exp_export_single_option#:#Export %s###29 10 2025 new variable
-exp#:#exp_file_created#:#Het exportbestand is aangemaakt.
-exp#:#exp_format_dropdown-csv#:#as CSV###29 10 2025 new variable
-exp#:#exp_format_dropdown-html#:#as HTML###29 10 2025 new variable
-exp#:#exp_format_dropdown-xls#:#as XLS###29 10 2025 new variable
-exp#:#exp_format_dropdown-xml#:#as XML###29 10 2025 new variable
-exp#:#exp_html#:#HTML###28 10 2024 new variable
-exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.###26 08 2024 new variable
-exp#:#exp_not_public_access_status#:#Not published###29 10 2025 new variable
-exp#:#exp_print_pdf#:#Print/PDF###29 07 2022 new variable
-exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.###29 07 2022 new variable
-exp#:#exp_public_access_status#:#Available in ‘Info’-tab###29 10 2025 new variable
-exp#:#exp_really_delete#:#Do you really want to delete these export files
-exp#:#exp_show_print_view#:#Show Print View###29 07 2022 new variable
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#Een nieuwe export file is aangemaakt
-exp#:#export_files_deleted#:#The selected export files have been deleted.###26 08 2024 new variable
-exp#:#export_options#:#Export Options###28 10 2024 new variable
-exp#:#export_type#:#Export Type###28 10 2024 new variable
-export#:#exp_file#:#File Name###28 10 2024 new variable
-export#:#exp_public_access#:#Public Access###28 10 2024 new variable
-export#:#exp_size#:#File Size (MB)###28 10 2024 new variable
-export#:#exp_timestamp#:#Creation Date###28 10 2024 new variable
-export#:#exp_toggle_public_access#:#Toggle Public Access###28 10 2024 new variable
-export#:#exp_type#:#Type###28 10 2024 new variable
-export#:#export_create#:#Create
-export#:#export_create_new_file#:#Aanmaken van nieuw exportbestand
-export#:#export_existing#:#Hergebruiken
-export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Public Access Export###28 10 2024 new variable
-export#:#export_info_public_access_download#:#Download###28 10 2024 new variable
-export#:#export_last_export#:#Laatste export
-export#:#export_last_export_file#:#Gebruik laatste exportbestand
-export#:#export_last_file#:#Last File
-export#:#export_omit#:#Omit
-export#:#export_omit_resource#:#Hulpmiddel weglaten
-export#:#export_resource#:#Hulpmiddel
-export#:#export_save_selection#:#Exporteren
-export#:#export_select_resources#:#Selecteer hulpmiddelen
-export#:#no_file#:#No file###08 10 2015 new variable
 file#:#add_icon#:#Add Icon###26 08 2024 new variable
 file#:#amount_of_downloads#:#Downloads###26 08 2024 new variable
 file#:#amount_of_downloads_since#:#%d times since %s###26 08 2024 new variable

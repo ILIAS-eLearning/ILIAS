@@ -9321,51 +9321,6 @@ exc#:#submissions_only#:#Nur Abgaben
 exc#:#text_assignment#:#Text Übungseinheit
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
-exp#:#exp_create_file#:#Exportdatei erzeugen
-exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
-exp#:#exp_error_too_many_objects#:#Der Export überschreitet die maximal erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleinere Anzahl an Objekten.
-exp#:#exp_export_dropdown#:#Export
-exp#:#exp_export_files#:#Exportdateien
-exp#:#exp_export_single_option#:#Export %s
-exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
-exp#:#exp_format_dropdown-csv#:#als CSV
-exp#:#exp_format_dropdown-html#:#als HTML
-exp#:#exp_format_dropdown-xls#:#als XLS
-exp#:#exp_format_dropdown-xml#:#als XML
-exp#:#exp_html#:#HTML
-exp#:#exp_import_validation_err_no_matching_xsd#:#Eine Schema Datei für Version %s existiert nicht.
-exp#:#exp_not_public_access_status#:#Nicht veröffentlicht
-exp#:#exp_print_pdf#:#Drucken/PDF
-exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
-exp#:#exp_public_access_status#:#Im Reiter „Info“ verfügbar
-exp#:#exp_really_delete#:#Möchten Sie diese Exportdateien wirklich löschen?
-exp#:#exp_show_print_view#:#Druckansicht anzeigen
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
-exp#:#export_files_deleted#:#Die ausgewählten Exportdateien wurden gelöscht.
-exp#:#export_options#:#Export Optionen
-exp#:#export_type#:#Export Typ
-export#:#exp_file#:#Dateiname
-export#:#exp_public_access#:#Öffentlicher Zugriff aktiv
-export#:#exp_size#:#Dateigröße (MB)
-export#:#exp_timestamp#:#Erstellungsdatum
-export#:#exp_toggle_public_access#:#Öffentlichen Zugriff (de-)aktivieren
-export#:#exp_type#:#Type
-export#:#export_create#:#Neu erstellen
-export#:#export_create_new_file#:#Neue Exportdatei erstellen
-export#:#export_existing#:#Wiederverwenden
-export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Öffentliche Exportdatei
-export#:#export_info_public_access_download#:#Download
-export#:#export_last_export#:#Letzter Export
-export#:#export_last_export_file#:#Letzte Exportdatei benutzen
-export#:#export_last_file#:#Letzte Datei
-export#:#export_omit#:#Auslassen
-export#:#export_omit_resource#:#Objekt auslassen
-export#:#export_resource#:#Ressource
-export#:#export_save_selection#:#Export starten
-export#:#export_select_resources#:#Objekte auswählen
-export#:#no_file#:#Keine Datei
 file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s

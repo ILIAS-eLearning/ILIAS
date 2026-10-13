@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: exp\n"
+
+msgid "exp_create_file"
+msgstr ""
+
+msgid "exp_error_disabled"
+msgstr ""
+
+msgid "exp_error_too_many_objects"
+msgstr ""
+
+msgid "exp_export_dropdown"
+msgstr ""
+
+msgid "exp_export_files"
+msgstr ""
+
+msgid "exp_export_single_option"
+msgstr ""
+
+msgid "exp_file_created"
+msgstr ""
+
+msgid "exp_format_dropdown-csv"
+msgstr ""
+
+msgid "exp_format_dropdown-html"
+msgstr ""
+
+msgid "exp_format_dropdown-xls"
+msgstr ""
+
+msgid "exp_format_dropdown-xml"
+msgstr ""
+
+msgid "exp_html"
+msgstr ""
+
+msgid "exp_import_validation_err_no_matching_xsd"
+msgstr ""
+
+msgid "exp_not_public_access_status"
+msgstr ""
+
+msgid "exp_print_pdf"
+msgstr ""
+
+msgid "exp_print_pdf_info"
+msgstr ""
+
+msgid "exp_public_access_status"
+msgstr ""
+
+msgid "exp_really_delete"
+msgstr ""
+
+msgid "exp_show_print_view"
+msgstr ""
+
+msgid "exp_xml"
+msgstr ""
+
+msgid "export_created"
+msgstr ""
+
+msgid "export_files_deleted"
+msgstr ""
+
+msgid "export_options"
+msgstr ""
+
+msgid "export_type"
+msgstr ""

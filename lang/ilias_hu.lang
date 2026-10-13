@@ -9291,51 +9291,6 @@ exc#:#submissions_only#:#Csak a beadványok
 exc#:#text_assignment#:#Szövegkiosztás
 excv#:#excv_create#:#Beadandó feladat tanúsítványának létrehozása
 excv#:#excv_create_info#:#Válasszon ki egy befejezett beadandó feladatot, hogy tanúsítványt generáljon hozzá.
-exp#:#exp_create_file#:#Exportfájl létrehozása
-exp#:#exp_error_disabled#:#A tárolók exportálása le van tilta. Vegye fel a kapcsolatot az üzemeltetővel.
-exp#:#exp_error_too_many_objects#:#Az exportálás túllépi a maximálisan megngedett objektumszámot (%1). Kérem, kevesebb objektumot jelöljön ki.
-exp#:#exp_export_dropdown#:#Exportálás
-exp#:#exp_export_files#:#Exportfájlok
-exp#:#exp_export_single_option#:#Exportálás %s
-exp#:#exp_file_created#:#Elkészült az exportfájl.
-exp#:#exp_format_dropdown-csv#:#mint CSV
-exp#:#exp_format_dropdown-html#:#mint HTML
-exp#:#exp_format_dropdown-xls#:#mint XLS
-exp#:#exp_format_dropdown-xml#:#mint XML
-exp#:#exp_html#:#HTML
-exp#:#exp_import_validation_err_no_matching_xsd#:#%s verzióhoz nincs érvényes sémafájl.
-exp#:#exp_not_public_access_status#:#Nem publikált
-exp#:#exp_print_pdf#:#Nyomtatás/PDF
-exp#:#exp_print_pdf_info#:#PDF létrehozásához válassza a ‘Nyomtatás PDF-be’ lehetőséget a ‘Nyomtatási nézet’ megjelenése után.
-exp#:#exp_public_access_status#:#Elérhető az ‘Információ’ lapon
-exp#:#exp_really_delete#:#Biztos, hogy törli a következő az exportfájlokat?
-exp#:#exp_show_print_view#:#Nyomtatási nézet megjelenítése
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#Új exportfájl jött létre.
-exp#:#export_files_deleted#:#A kijelölt exportfájlokat sikeresen törölte.
-exp#:#export_options#:#Exportálás beállításai
-exp#:#export_type#:#Exportálás típusa
-export#:#exp_file#:#Fáj neve
-export#:#exp_public_access#:#Elérhető az ‘Információó’ lapon
-export#:#exp_size#:#Fájl mérete (MB)
-export#:#exp_timestamp#:#Létrehozás dátuma
-export#:#exp_toggle_public_access#:#Nyilvános elérés módosítása
-export#:#exp_type#:#Típus
-export#:#export_create#:#Létrehozás
-export#:#export_create_new_file#:#Új exportfájl létrehozása
-export#:#export_existing#:#Újrafelhasználás
-export#:#export_export_date#:#Exportálási dátum
-export#:#export_info_public_access#:#Exportálás nyilvános elérése
-export#:#export_info_public_access_download#:#Letöltés
-export#:#export_last_export#:#Utolsó exportálás
-export#:#export_last_export_file#:#Utolsó exportfájl használata
-export#:#export_last_file#:#Utolsó fájl
-export#:#export_omit#:#Kihagyás
-export#:#export_omit_resource#:#Forrás kihagyása
-export#:#export_resource#:#Forrás
-export#:#export_save_selection#:#Export indítása
-export#:#export_select_resources#:#Források kiválasztása
-export#:#no_file#:#Nincs fájl
 file#:#add_icon#:#Ikon hozzáadása
 file#:#amount_of_downloads#:#Letöltések
 file#:#amount_of_downloads_since#:#%d alkalommal %s óta
