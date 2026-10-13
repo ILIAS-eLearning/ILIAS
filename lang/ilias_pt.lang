@@ -12020,69 +12020,6 @@ news#:#news_x_postings#:#%s Foram adicionados postings.
 news#:#passwd_equals_ilpasswd#:#Insira uma palavra-passe diferente da sua palavra-passe ILIAS.
 news#:#priv_feed_disabled#:#Newsfeed privado desativado.
 news#:#priv_feed_settings#:#Qualquer palavra <small>(<i>OU</i>)</small>
-note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#Recebe esta mensagem porque a sua conta está listada como destinatário global para todos os comentários na administração ILIAS (definições do computador pessoal).
-note#:#note_comment_notification_salutation#:#Olá %s,
-note#:#note_comment_notification_subject#:#Foi adicionado um comentário a "%s"
-note#:#note_comment_notification_subjectc#:#Foi alterado um comentário em "%s"
-note#:#note_comment_notification_user_has_written#:#%s escreveu:
-note#:#note_comments_notification#:#General notification about all comments###07 02 2020 new variable
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment###07 02 2020 new variable
-note#:#note_enable_comments#:#Enable Comments###07 02 2020 new variable
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###07 02 2020 new variable
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.###07 02 2020 new variable
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors###07 02 2020 new variable
-note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.###03 09 2026 new variable
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.###30 04 2021 new variable
-note#:#note_enable_notes#:#Enable Notes###07 02 2020 new variable
-note#:#note_html_export_include_comments#:#Should comments be included in the export?###30 04 2021 new variable
-notes#:#comments_feature_currently_not_activated_for_object#:#Área
-notes#:#note_add_comment#:#A sua pesquisa de <b>%s</b> não correspondeu a nenhum documento.<br /><br />Sugestões:<br />• Certifique-se que todas as palavras estão corretamente escritas.<br />• Tente diferentes palavras-chave.<br />• Tente palavras-chave mais genéricas.<br />• Tente menos palavras-chave.
-notes#:#note_add_message#:#Add Message###03 09 2026 new variable
-notes#:#note_add_note#:#Não selecionou nada.
-notes#:#note_content_removed#:#O conteúdo foi removido.
-notes#:#note_text#:#Text###03 09 2026 new variable
-notes#:#note_update_comment#:#Atualizar comentário
-notes#:#note_update_message#:#Update Message###03 09 2026 new variable
-notes#:#note_update_note#:#Atualizar nota
-notes#:#note_without_object#:#Without reference###30 04 2021 new variable
-notes#:#notes_activate_comments#:#Ativar comentários públicos
-notes#:#notes_add_comment#:#Adicionar comentário
-notes#:#notes_add_edit_comment#:#Conteúdo da página
-notes#:#notes_add_edit_message#:#Add/Edit Message###03 09 2026 new variable
-notes#:#notes_add_edit_note#:#Add/Edit Note###03 09 2026 new variable
-notes#:#notes_all_comments#:#Todos os comentários
-notes#:#notes_comment#:#Pesquisa detalhada. Selecione um ou mais tipos de recurso.
-notes#:#notes_comment_deleted#:#O comentário foi apagado.
-notes#:#notes_comments#:#A pesquisa pode ser restringida aos tipos de ficheiro escolhidos.
-notes#:#notes_comments_deleted#:#Os comentários foram apagados.
-notes#:#notes_deactivate_comments#:#Desativar comentários públicos
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?###03 09 2026 new variable
-notes#:#notes_delete_message#:#Do you really want to delete this message?###03 09 2026 new variable
-notes#:#notes_delete_note#:#Do you really want to delete this note?###03 09 2026 new variable
-notes#:#notes_hide_comments#:#Ocultar comentários
-notes#:#notes_html_export#:#HTML Export###03 09 2026 new variable
-notes#:#notes_latest_comment#:#A sua pesquisa tem de ter pelo menos três caracteres.
-notes#:#notes_latest_message#:#Latest Message###03 09 2026 new variable
-notes#:#notes_message_author_counterpart#:#Respondent###03 09 2026 new variable
-notes#:#notes_message_author_you#:#You###03 09 2026 new variable
-notes#:#notes_message_deleted#:#Message deleted.###03 09 2026 new variable
-notes#:#notes_messages#:#Messages###03 09 2026 new variable
-notes#:#notes_my_comments#:#Os meus comentários
-notes#:#notes_no_comments#:#Ainda não foi publicado nenhum comentário.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.###03 09 2026 new variable
-notes#:#notes_no_messages#:#No messages have been attached yet.###03 09 2026 new variable
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.###03 09 2026 new variable
-notes#:#notes_no_notes#:#No notes have been attached yet.###03 09 2026 new variable
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.###03 09 2026 new variable
-notes#:#notes_note_deleted#:#A nota foi apagada.
-notes#:#notes_notes_deleted#:#As notas foram apagadas.
-notes#:#notes_origin#:#Origin###03 09 2026 new variable
-notes#:#notes_public_comments#:#A sua pesquisa não correspondeu a nenhum resultado
-notes#:#notes_show_comments#:#Mostrar comentários
-notes#:#notes_sort_asc#:#Ordem ascendente
-notes#:#notes_sort_desc#:#Ordem descendente
-notes#:#notes_text#:#Text###03 09 2026 new variable
 noti#:#noti_activate_notification#:#Se estiver ativado, a pesquisa do utilizador vai mostrar utilizadores inativos também.
 noti#:#noti_deactivate_notification#:#Mostrar utilizadores com acesso limitado
 noti#:#noti_notification_activated#:#Se estiver ativado, a pesquisa do utilizador mostra também utilizadores com acesso limitado fora desse período de tempo autorizado.

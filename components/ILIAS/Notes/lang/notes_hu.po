@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "Ehhez az objektumhoz jelenleg nincsenek engedélyezve nyilvános megjegyzések."
+
+msgid "note_add_comment"
+msgstr "Megjegyzés létrehozása"
+
+msgid "note_add_message"
+msgstr "Üzenet létrehozása"
+
+msgid "note_add_note"
+msgstr "Jegyzet létrehozása"
+
+msgid "note_content_removed"
+msgstr "Ezt a tartalmat eltávolították."
+
+msgid "note_text"
+msgstr "Szöveg"
+
+msgid "note_update_comment"
+msgstr "Megjegyzés módosítása"
+
+msgid "note_update_message"
+msgstr "Üzenet módosítása"
+
+msgid "note_update_note"
+msgstr "Jegyzetet frissítette"
+
+msgid "note_without_object"
+msgstr "Hivatkozás nélkül"
+
+msgid "notes_activate_comments"
+msgstr "Nyilvános megjegyzések engedélyezése"
+
+msgid "notes_add_comment"
+msgstr "Megjegyzés létrehozása"
+
+msgid "notes_add_edit_comment"
+msgstr "Hozzászólás létrehozása/módosítása"
+
+msgid "notes_add_edit_message"
+msgstr "Üzenet hozzáadása/módosítása"
+
+msgid "notes_add_edit_note"
+msgstr "Megjegyzés létrehozása/módosítása"
+
+msgid "notes_comment_deleted"
+msgstr "A megjegyzést törölték."
+
+msgid "notes_comments"
+msgstr "Nyilvános megjegyzések"
+
+msgid "notes_comments_deleted"
+msgstr "A hozzászólásokat törölték."
+
+msgid "notes_deactivate_comments"
+msgstr "Nyilvános megjegyzések tiltása"
+
+msgid "notes_delete_comment"
+msgstr "Biztos, hog törli ezt a megjegyzést?"
+
+msgid "notes_delete_message"
+msgstr "Biztos, hog törli ezt az üzenetet?"
+
+msgid "notes_delete_note"
+msgstr "Biztos, hog törli ezt a jegyzetet?"
+
+msgid "notes_html_export"
+msgstr "HTML export"
+
+msgid "notes_latest_comment"
+msgstr "Utolsó hozzászólás"
+
+msgid "notes_latest_message"
+msgstr "Utolsó üzenet"
+
+msgid "notes_message_author_you"
+msgstr "Én"
+
+msgid "notes_message_deleted"
+msgstr "Az üzenetet sikeresen törölte."
+
+msgid "notes_messages"
+msgstr "Uzenetek"
+
+msgid "notes_no_comments"
+msgstr "Még egy megjegyzés sem érkezett."
+
+msgid "notes_no_comments_found"
+msgstr "Nincs a keresési feltételnek megfelelő megjegyzés."
+
+msgid "notes_no_messages"
+msgstr "Még egy üzenet sincs csatolva"
+
+msgid "notes_no_messages_found"
+msgstr "Egy üzenet sem felel meg a keresési feltételnek."
+
+msgid "notes_no_notes"
+msgstr "Még egy jegyzetet sem csatoltak."
+
+msgid "notes_no_notes_found"
+msgstr "Nincs a keresési feltételnek megfelelő jegyzet."
+
+msgid "notes_note_deleted"
+msgstr "A jegyzetet sikeresen törölte."
+
+msgid "notes_notes_deleted"
+msgstr "A jegyzeteket sikeresen törölte."
+
+msgid "notes_origin"
+msgstr "Eredeti"
+
+msgid "notes_public_comments"
+msgstr "Nyilvános megjegyzések"
+
+msgid "notes_sort_asc"
+msgstr "Növekvő sorrend"
+
+msgid "notes_sort_desc"
+msgstr "Csökkenő sorrend"
+
+msgid "notes_text"
+msgstr "Szöveg"

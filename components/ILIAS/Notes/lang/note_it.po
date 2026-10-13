@@ -1,0 +1,58 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "Collegamento"
+
+msgid "note_comment_notification_reason"
+msgstr "Ricevi questo messaggio perché il tuo account è indicato come recipiente globale per tutti i commenti nell’amministrazione ILIAS (impostazioni desktop personale)."
+
+msgid "note_comment_notification_salutation"
+msgstr "Ciao %s,"
+
+msgid "note_comment_notification_subject"
+msgstr "Un commento è stato aggiunto a \"%s\""
+
+msgid "note_comment_notification_subjectc"
+msgstr "Un commento è stato modificato in \"%s\""
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s ha scritto:"
+
+msgid "note_comments_notification"
+msgstr "Notifica generale su tutti i commenti"
+
+msgid "note_comments_notification_info"
+msgstr "Elenco separato da virgole degli account che vengono notificati per ogni commento"
+
+msgid "note_enable_comments"
+msgstr "Abilitare i commenti"
+
+msgid "note_enable_comments_del_tutor"
+msgstr "Qualsiasi commento può essere cancellato dai tutor"
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr "L'utente con il permesso \"Edit Settings\" per un oggetto può cancellare qualsiasi commento fatto in questo oggetto."
+
+msgid "note_enable_comments_del_user"
+msgstr "I commenti possono essere cancellati dai loro autori"
+
+#, fuzzy
+msgid "note_enable_comments_del_user_info"
+msgstr "Comments can be deleted by the person who created them."
+
+msgid "note_enable_comments_export_info"
+msgstr "This option enables comments export for content objects like portfolio, blog and wiki."
+
+msgid "note_enable_notes"
+msgstr "Abilitare le note"
+
+msgid "note_html_export_include_comments"
+msgstr "I commenti devono essere inclusi nelle esportazioni?"

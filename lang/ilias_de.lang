@@ -12244,69 +12244,6 @@ news#:#news_x_postings#:#%s Beiträge hinzugefügt.
 news#:#passwd_equals_ilpasswd#:#Bitte geben Sie aus Sicherheitsgründen ein anderes Passwort als Ihr ILIAS-Passwort ein
 news#:#priv_feed_disabled#:#Privater Newsfeed wurde deaktiviert.
 news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
-note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, weil in der ILIAS-Adminstration eingetragen ist, Sie über alle Kommentare zu benachrichtigen.
-note#:#note_comment_notification_salutation#:#Hallo %s,
-note#:#note_comment_notification_subject#:#Neuer Kommentar in „%s“.
-note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in „%s“.
-note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
-note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
-note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
-note#:#note_enable_comments#:#Kommentare aktivieren
-note#:#note_enable_comments_del_tutor#:#Alle Kommentare im Objekt
-note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht „Einstellungen bearbeiten“ an einem Objekt können alle darin gemachten Kommentare löschen.
-note#:#note_enable_comments_del_user#:#Eigene Kommentare löschen
-note#:#note_enable_comments_del_user_info#:#Kommentare können von der Person, die sie erstellt hat, wieder gelöscht werden.
-note#:#note_enable_comments_export_info#:#Erlaubt innerhalb von Objekten wie Portfolios, Blogs oder Wikis die Kommentare zu exportieren.
-note#:#note_enable_notes#:#Notizen aktivieren
-note#:#note_html_export_include_comments#:#Sollen die Kommentare mit exportiert werden?
-notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für dieses Objekt zur Zeit nicht aktiviert.
-notes#:#note_add_comment#:#Kommentar hinzufügen
-notes#:#note_add_message#:#Mitteilung hinzufügen
-notes#:#note_add_note#:#Notiz hinzufügen
-notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
-notes#:#note_text#:#Text
-notes#:#note_update_comment#:#Kommentar bearbeiten
-notes#:#note_update_message#:#Mitteilung bearbeiten
-notes#:#note_update_note#:#Notiz bearbeiten
-notes#:#note_without_object#:#Ohne Objektbezug
-notes#:#notes_activate_comments#:#Öffentliches Kommentieren aktivieren
-notes#:#notes_add_comment#:#Kommentar hinzufügen
-notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
-notes#:#notes_add_edit_message#:#Mitteilung hinzufügen/editieren
-notes#:#notes_add_edit_note#:#Notiz hinzufügen/editieren
-notes#:#notes_all_comments#:#Alle Kommentare
-notes#:#notes_comment#:#Kommentar
-notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
-notes#:#notes_comments#:#Kommentare
-notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
-notes#:#notes_deactivate_comments#:#Öffentliches Kommentieren ausschalten
-notes#:#notes_delete_comment#:#Soll der folgende Kommentar wirklich gelöscht werden?
-notes#:#notes_delete_message#:#Soll die folgende Mitteilung wirklich gelöscht werden?
-notes#:#notes_delete_note#:#Soll die folgende Notiz wirklich gelöscht werden?
-notes#:#notes_hide_comments#:#Kommentare ausblenden
-notes#:#notes_html_export#:#HTML Export
-notes#:#notes_latest_comment#:#Letzter Kommentar
-notes#:#notes_latest_message#:#Letzte Mitteilung
-notes#:#notes_message_author_counterpart#:#Gesprächspartner
-notes#:#notes_message_author_you#:#Sie
-notes#:#notes_message_deleted#:#Die Mitteilung wurde gelöscht.
-notes#:#notes_messages#:#Mitteilungen
-notes#:#notes_my_comments#:#Meine Kommentare
-notes#:#notes_no_comments#:#Bisher wurde noch kein Kommentar abgegeben.
-notes#:#notes_no_comments_found#:#Es wurden keine Kommentare gefunden, die den Suchkriterien entsprechen.
-notes#:#notes_no_messages#:#Bisher wurde noch keine Mitteilung hinzugefügt.
-notes#:#notes_no_messages_found#:#Es wurden keine Mitteilungen gefunden, die den Suchkriterien entsprechen.
-notes#:#notes_no_notes#:#Bisher wurde noch keine Notiz hinzugefügt.
-notes#:#notes_no_notes_found#:#Es wurden keine Notizen gefunden, die den Suchkriterien entsprechen.
-notes#:#notes_note_deleted#:#Die Notiz wurde gelöscht
-notes#:#notes_notes_deleted#:#Die Notizen wurden gelöscht.
-notes#:#notes_origin#:#Herkunft
-notes#:#notes_public_comments#:#Öffentliche Kommentare
-notes#:#notes_show_comments#:#Kommentare anzeigen
-notes#:#notes_sort_asc#:#Aufsteigend sortieren
-notes#:#notes_sort_desc#:#Absteigend sortieren
-notes#:#notes_text#:#Text
 noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Sie haben Benachrichtigungen aktiviert.

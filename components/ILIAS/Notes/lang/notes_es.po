@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "La función de comentarios públicos no está activada actualmente para este recurso."
+
+msgid "note_add_comment"
+msgstr "Añadir comentario"
+
+msgid "note_add_message"
+msgstr "Añadir mensaje"
+
+msgid "note_add_note"
+msgstr "Añadir nota"
+
+msgid "note_content_removed"
+msgstr "El contenido ha sido eliminado."
+
+msgid "note_text"
+msgstr "Texto"
+
+msgid "note_update_comment"
+msgstr "Actualizar comentario"
+
+msgid "note_update_message"
+msgstr "Actualizar mensaje"
+
+msgid "note_update_note"
+msgstr "Actualizar nota"
+
+msgid "note_without_object"
+msgstr "Sin referencia"
+
+msgid "notes_activate_comments"
+msgstr "Activar comentarios públicos"
+
+msgid "notes_add_comment"
+msgstr "Añadir comentario"
+
+msgid "notes_add_edit_comment"
+msgstr "Añadir/editar comentario"
+
+msgid "notes_add_edit_message"
+msgstr "Añadir/editar mensaje"
+
+msgid "notes_add_edit_note"
+msgstr "Añadir/editar nota"
+
+msgid "notes_comment_deleted"
+msgstr "El comentario ha sido eliminado."
+
+msgid "notes_comments"
+msgstr "Comentarios"
+
+msgid "notes_comments_deleted"
+msgstr "Los comentarios han sido eliminados."
+
+msgid "notes_deactivate_comments"
+msgstr "Desactivar comentarios públicos"
+
+msgid "notes_delete_comment"
+msgstr "¿Realmente desea eliminar este comentario?"
+
+msgid "notes_delete_message"
+msgstr "¿Realmente desea eliminar este mensaje?"
+
+msgid "notes_delete_note"
+msgstr "¿Realmente desea eliminar esta nota?"
+
+msgid "notes_html_export"
+msgstr "Exportación HTML"
+
+msgid "notes_latest_comment"
+msgstr "Último comentario"
+
+msgid "notes_latest_message"
+msgstr "Último mensaje"
+
+msgid "notes_message_author_you"
+msgstr "Usted"
+
+#, fuzzy
+msgid "notes_message_deleted"
+msgstr "Message deleted."
+
+msgid "notes_messages"
+msgstr "Mensajes"
+
+msgid "notes_no_comments"
+msgstr "Aún no se ha publicado ningún comentario."
+
+msgid "notes_no_comments_found"
+msgstr "No se han encontrado comentarios que coincidan con sus criterios de búsqueda."
+
+msgid "notes_no_messages"
+msgstr "Aún no se ha adjuntado ningún mensaje."
+
+msgid "notes_no_messages_found"
+msgstr "No se han encontrado mensajes que coincidan con sus criterios de búsqueda."
+
+msgid "notes_no_notes"
+msgstr "Aún no se ha adjuntado ninguna nota."
+
+msgid "notes_no_notes_found"
+msgstr "No se han encontrado notas que coincidan con sus criterios de búsqueda."
+
+msgid "notes_note_deleted"
+msgstr "La nota ha sido eliminada."
+
+msgid "notes_notes_deleted"
+msgstr "Las notas han sido eliminadas."
+
+msgid "notes_origin"
+msgstr "Origen"
+
+msgid "notes_public_comments"
+msgstr "Comentarios públicos"
+
+msgid "notes_sort_asc"
+msgstr "Orden ascendente"
+
+msgid "notes_sort_desc"
+msgstr "Orden descendente"
+
+msgid "notes_text"
+msgstr "Texto"

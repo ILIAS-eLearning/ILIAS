@@ -11926,68 +11926,6 @@ news#:#news_x_postings#:#%s Posty zostały dodane.
 news#:#passwd_equals_ilpasswd#:#Ze względów bezpieczeństwa podaj inne hasło niż hasło ILIAS.
 news#:#priv_feed_disabled#:#Wyłączono prywatny obszar Newsfeed.
 news#:#priv_feed_settings#:#Ustawienia prywatnego zasilania wiadomościami
-note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#Otrzymałeś tę wiadomość, ponieważ w ustawieniach systemowych ILIAS Twoje konto oznaczone jest jako odbiorca wszystkich komentarzy (ustawienia pulpitu osobistego).
-note#:#note_comment_notification_salutation#:#Witaj %s,
-note#:#note_comment_notification_subject#:#Nowy komentarz w "%s".
-note#:#note_comment_notification_subjectc#:#Zmieniony komentarz w "%s".
-note#:#note_comment_notification_user_has_written#:#%s napisał:
-note#:#note_comments_notification#:#General notification about all comments###07 02 2020 new variable
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment###07 02 2020 new variable
-note#:#note_enable_comments#:#Enable Comments###07 02 2020 new variable
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###07 02 2020 new variable
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.###07 02 2020 new variable
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors###07 02 2020 new variable
-note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.###26 08 2024 new variable
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.###29 07 2022 new variable
-note#:#note_enable_notes#:#Enable Notes###07 02 2020 new variable
-note#:#note_html_export_include_comments#:#Should comments be included in the export?###29 07 2022 new variable
-notes#:#comments_feature_currently_not_activated_for_object#:#Publiczne funkcje komentarzy nie są aktywne dla tego zasobu.
-notes#:#note_add_comment#:#Dodaj komentarz
-notes#:#note_add_message#:#Add Message###26 08 2024 new variable
-notes#:#note_add_note#:#Dodaj notatkę
-notes#:#note_content_removed#:#Treść została usunięta.
-notes#:#note_text#:#Text###29 07 2022 new variable
-notes#:#note_update_comment#:#Zaktualizuj komentarz
-notes#:#note_update_message#:#Update Message###26 08 2024 new variable
-notes#:#note_update_note#:#Zaktualizuj notatkę
-notes#:#note_without_object#:#Without reference###29 07 2022 new variable
-notes#:#notes_activate_comments#:#Aktywuj komentarze publiczne
-notes#:#notes_add_comment#:#Dodaj komentarz
-notes#:#notes_add_edit_comment#:#Add/Edit Comment
-notes#:#notes_add_edit_message#:#Add/Edit Message###26 08 2024 new variable
-notes#:#notes_add_edit_note#:#Add/Edit Note###26 08 2024 new variable
-notes#:#notes_all_comments#:#Wszystkie komentarze
-notes#:#notes_comment#:#Komentarz
-notes#:#notes_comment_deleted#:#Komentarz został usunięty
-notes#:#notes_comments#:#Komentarze
-notes#:#notes_comments_deleted#:#Komentarze zostały usunięte.
-notes#:#notes_deactivate_comments#:#Deaktywuj komentarze publiczne
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?###29 07 2022 new variable
-notes#:#notes_delete_message#:#Do you really want to delete this message?###26 08 2024 new variable
-notes#:#notes_delete_note#:#Do you really want to delete this note?###29 07 2022 new variable
-notes#:#notes_hide_comments#:#Ukryj komentarze
-notes#:#notes_html_export#:#HTML Export###29 07 2022 new variable
-notes#:#notes_latest_comment#:#Latest Comment
-notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
-notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
-notes#:#notes_message_author_you#:#You###26 08 2024 new variable
-notes#:#notes_messages#:#Messages###26 08 2024 new variable
-notes#:#notes_my_comments#:#Moje komentarze
-notes#:#notes_no_comments#:#Do tej pory nie dodano żadnego komentarza.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.###29 07 2022 new variable
-notes#:#notes_no_messages#:#No messages have been attached yet.###26 08 2024 new variable
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.###26 08 2024 new variable
-notes#:#notes_no_notes#:#No notes have been attached yet.###29 07 2022 new variable
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.###29 07 2022 new variable
-notes#:#notes_note_deleted#:#Notatka została usunięta.
-notes#:#notes_notes_deleted#:#Notatki zostały usunięte.
-notes#:#notes_origin#:#Origin###29 07 2022 new variable
-notes#:#notes_public_comments#:#Publiczne komentarze
-notes#:#notes_show_comments#:#Pokaż komentarze
-notes#:#notes_sort_asc#:#Sortuj rosnąco
-notes#:#notes_sort_desc#:#Sortuj malejąco
-notes#:#notes_text#:#Text###29 07 2022 new variable
 noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated

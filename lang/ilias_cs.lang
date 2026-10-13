@@ -11926,68 +11926,6 @@ news#:#news_x_postings#:#%s oznámení bylo přidáno.
 news#:#passwd_equals_ilpasswd#:#Vložte prosím heslo odlišné od Vašeho hesla do systému ILIAS.
 news#:#priv_feed_disabled#:#Zdroj soukromých zpráv vypnut.
 news#:#priv_feed_settings#:#Nastavení zdroje soukromých zpráv
-note#:#note_comment_notification_link#:#Odkaz
-note#:#note_comment_notification_reason#:#Bude vám zaslána tato zpráva, protože váš účet je uveden jako globální příjemce pro všechny komentáře ve správě ILIAS (nastavení osobní plochy počítače).
-note#:#note_comment_notification_salutation#:#Dobrý den %s,
-note#:#note_comment_notification_subject#:#Byl přidán komentář k "%s"
-note#:#note_comment_notification_subjectc#:#Byl změněn komentář v "%s"
-note#:#note_comment_notification_user_has_written#:#%s napsal:
-note#:#note_comments_notification#:#General notification about all comments###07 02 2020 new variable
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment###07 02 2020 new variable
-note#:#note_enable_comments#:#Enable Comments###07 02 2020 new variable
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###07 02 2020 new variable
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.###07 02 2020 new variable
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors###07 02 2020 new variable
-note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.###26 08 2024 new variable
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.###29 07 2022 new variable
-note#:#note_enable_notes#:#Enable Notes###07 02 2020 new variable
-note#:#note_html_export_include_comments#:#Should comments be included in the export?###29 07 2022 new variable
-notes#:#comments_feature_currently_not_activated_for_object#:#Funkce veřejných komentářů pro tento zdroj aktuálně není aktivovaná.
-notes#:#note_add_comment#:#Přidat komentář
-notes#:#note_add_message#:#Add Message###26 08 2024 new variable
-notes#:#note_add_note#:#Přidat poznámku
-notes#:#note_content_removed#:#Obsah byl odstraněn.
-notes#:#note_text#:#Text###29 07 2022 new variable
-notes#:#note_update_comment#:#Aktualizovat komentář
-notes#:#note_update_message#:#Update Message###26 08 2024 new variable
-notes#:#note_update_note#:#Aktualizovat poznámku
-notes#:#note_without_object#:#Without reference###29 07 2022 new variable
-notes#:#notes_activate_comments#:#Aktivovat veřejné komentáře
-notes#:#notes_add_comment#:#Přidat komentář
-notes#:#notes_add_edit_comment#:#Přidat / upravit komentář
-notes#:#notes_add_edit_message#:#Add/Edit Message###26 08 2024 new variable
-notes#:#notes_add_edit_note#:#Add/Edit Note###26 08 2024 new variable
-notes#:#notes_all_comments#:#Všechny komentáře
-notes#:#notes_comment#:#Komentář
-notes#:#notes_comment_deleted#:#Komentář byl smazán.
-notes#:#notes_comments#:#Komentáře
-notes#:#notes_comments_deleted#:#Komentáře byly smazány.
-notes#:#notes_deactivate_comments#:#Deaktivovat veřejné komentáře
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?###29 07 2022 new variable
-notes#:#notes_delete_message#:#Do you really want to delete this message?###26 08 2024 new variable
-notes#:#notes_delete_note#:#Do you really want to delete this note?###29 07 2022 new variable
-notes#:#notes_hide_comments#:#Skrýt komentáře
-notes#:#notes_html_export#:#HTML Export###29 07 2022 new variable
-notes#:#notes_latest_comment#:#Poslední komentář
-notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
-notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
-notes#:#notes_message_author_you#:#You###26 08 2024 new variable
-notes#:#notes_messages#:#Messages###26 08 2024 new variable
-notes#:#notes_my_comments#:#Mé komentáře
-notes#:#notes_no_comments#:#Zatím nebyl přidán žádný komentář.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.###29 07 2022 new variable
-notes#:#notes_no_messages#:#No messages have been attached yet.###26 08 2024 new variable
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.###26 08 2024 new variable
-notes#:#notes_no_notes#:#No notes have been attached yet.###29 07 2022 new variable
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.###29 07 2022 new variable
-notes#:#notes_note_deleted#:#Poznámka byla smazána.
-notes#:#notes_notes_deleted#:#Tyto poznámky budou smazány.
-notes#:#notes_origin#:#Origin###29 07 2022 new variable
-notes#:#notes_public_comments#:#Veřejné komentáře
-notes#:#notes_show_comments#:#Zobrazit komentáře
-notes#:#notes_sort_asc#:#Seřadit vzestupně
-notes#:#notes_sort_desc#:#Seřadit sestupně
-notes#:#notes_text#:#Text###29 07 2022 new variable
 noti#:#noti_activate_notification#:#Aktivovat oznámení
 noti#:#noti_deactivate_notification#:#Deaktivovat oznámení
 noti#:#noti_notification_activated#:#Oznámení aktivováno

@@ -1,0 +1,157 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "Openbaar commentaar is niet ingesteld voor dit hulpmiddel"
+
+msgid "note_add_comment"
+msgstr "Toevoegen Commentaar"
+
+#, fuzzy
+msgid "note_add_message"
+msgstr "Add Message"
+
+msgid "note_add_note"
+msgstr "Toevoegen"
+
+msgid "note_content_removed"
+msgstr "De inhoud is verwijderd."
+
+#, fuzzy
+msgid "note_text"
+msgstr "Text"
+
+msgid "note_update_comment"
+msgstr "Update Comment"
+
+#, fuzzy
+msgid "note_update_message"
+msgstr "Update Message"
+
+msgid "note_update_note"
+msgstr "Update Note"
+
+#, fuzzy
+msgid "note_without_object"
+msgstr "Without reference"
+
+msgid "notes_activate_comments"
+msgstr "Inschakelen publiek commentaar"
+
+msgid "notes_add_comment"
+msgstr "Commentaar toevoegen"
+
+#, fuzzy
+msgid "notes_add_edit_comment"
+msgstr "Add/Edit Comment"
+
+#, fuzzy
+msgid "notes_add_edit_message"
+msgstr "Add/Edit Message"
+
+#, fuzzy
+msgid "notes_add_edit_note"
+msgstr "Add/Edit Note"
+
+#, fuzzy
+msgid "notes_comment_deleted"
+msgstr "The comment has been deleted."
+
+msgid "notes_comments"
+msgstr "Commentaar"
+
+#, fuzzy
+msgid "notes_comments_deleted"
+msgstr "The comments have been deleted."
+
+msgid "notes_deactivate_comments"
+msgstr "Publiek commentaar uitschakelen"
+
+#, fuzzy
+msgid "notes_delete_comment"
+msgstr "Do you really want to delete this comment?"
+
+#, fuzzy
+msgid "notes_delete_message"
+msgstr "Do you really want to delete this message?"
+
+#, fuzzy
+msgid "notes_delete_note"
+msgstr "Do you really want to delete this note?"
+
+#, fuzzy
+msgid "notes_html_export"
+msgstr "HTML Export"
+
+#, fuzzy
+msgid "notes_latest_comment"
+msgstr "Latest Comment"
+
+#, fuzzy
+msgid "notes_latest_message"
+msgstr "Latest Message"
+
+#, fuzzy
+msgid "notes_message_author_you"
+msgstr "You"
+
+#, fuzzy
+msgid "notes_message_deleted"
+msgstr "Message deleted."
+
+#, fuzzy
+msgid "notes_messages"
+msgstr "Messages"
+
+msgid "notes_no_comments"
+msgstr "Er is nog geen commentaar geplaatst."
+
+#, fuzzy
+msgid "notes_no_comments_found"
+msgstr "No comments found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_messages"
+msgstr "No messages have been attached yet."
+
+#, fuzzy
+msgid "notes_no_messages_found"
+msgstr "No messages found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_notes"
+msgstr "No notes have been attached yet."
+
+#, fuzzy
+msgid "notes_no_notes_found"
+msgstr "No notes found that match your seach criteria."
+
+msgid "notes_note_deleted"
+msgstr "The note has been deleted."
+
+msgid "notes_notes_deleted"
+msgstr "The notes have been deleted."
+
+#, fuzzy
+msgid "notes_origin"
+msgstr "Origin"
+
+msgid "notes_public_comments"
+msgstr "Publiek commentaar"
+
+msgid "notes_sort_asc"
+msgstr "Oplopend sorteren"
+
+msgid "notes_sort_desc"
+msgstr "Aflopend sorteren"
+
+#, fuzzy
+msgid "notes_text"
+msgstr "Text"

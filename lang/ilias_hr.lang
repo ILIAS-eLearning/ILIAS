@@ -11926,68 +11926,6 @@ news#:#news_x_postings#:#%s Postings have been added.
 news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
-note#:#note_comment_notification_link#:#Poveznica
-note#:#note_comment_notification_reason#:#Ovu poruku dobivate jer je vaš račun naveden kao globalni primatelj svih komentara u administraciji ILIAS-a (postavke osobne radne površine).
-note#:#note_comment_notification_salutation#:#Pozdrav %s,
-note#:#note_comment_notification_subject#:#Komentar je dodan u "%s"
-note#:#note_comment_notification_subjectc#:#Komentar je promijenjen u "%s"
-note#:#note_comment_notification_user_has_written#:#%s je napisao:
-note#:#note_comments_notification#:#General notification about all comments###04 06 2021 new variable
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment###04 06 2021 new variable
-note#:#note_enable_comments#:#Enable Comments###04 06 2021 new variable
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###04 06 2021 new variable
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.###04 06 2021 new variable
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors###04 06 2021 new variable
-note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.###26 08 2024 new variable
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.###04 06 2021 new variable
-note#:#note_enable_notes#:#Enable Notes###04 06 2021 new variable
-note#:#note_html_export_include_comments#:#Should comments be included in the export?###04 06 2021 new variable
-notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
-notes#:#note_add_comment#:#Add Comment
-notes#:#note_add_message#:#Add Message###26 08 2024 new variable
-notes#:#note_add_note#:#Add Note
-notes#:#note_content_removed#:#The content has been removed.
-notes#:#note_text#:#Text###29 07 2022 new variable
-notes#:#note_update_comment#:#Update Comment
-notes#:#note_update_message#:#Update Message###26 08 2024 new variable
-notes#:#note_update_note#:#Update Note
-notes#:#note_without_object#:#Without reference###04 06 2021 new variable
-notes#:#notes_activate_comments#:#Activate Public Comments
-notes#:#notes_add_comment#:#Add Comment
-notes#:#notes_add_edit_comment#:#Add/Edit Comment
-notes#:#notes_add_edit_message#:#Add/Edit Message###26 08 2024 new variable
-notes#:#notes_add_edit_note#:#Add/Edit Note###26 08 2024 new variable
-notes#:#notes_all_comments#:#All Comments
-notes#:#notes_comment#:#Comment
-notes#:#notes_comment_deleted#:#The comment has been deleted.
-notes#:#notes_comments#:#Comments
-notes#:#notes_comments_deleted#:#The comments have been deleted.
-notes#:#notes_deactivate_comments#:#Deactivate Public Comments
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?###29 07 2022 new variable
-notes#:#notes_delete_message#:#Do you really want to delete this message?###26 08 2024 new variable
-notes#:#notes_delete_note#:#Do you really want to delete this note?###29 07 2022 new variable
-notes#:#notes_hide_comments#:#Hide Comments
-notes#:#notes_html_export#:#HTML Export###29 07 2022 new variable
-notes#:#notes_latest_comment#:#Latest Comment
-notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
-notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
-notes#:#notes_message_author_you#:#You###26 08 2024 new variable
-notes#:#notes_messages#:#Messages###26 08 2024 new variable
-notes#:#notes_my_comments#:#My Comments
-notes#:#notes_no_comments#:#No comment has been posted yet.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.###29 07 2022 new variable
-notes#:#notes_no_messages#:#No messages have been attached yet.###26 08 2024 new variable
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.###26 08 2024 new variable
-notes#:#notes_no_notes#:#No notes have been attached yet.###29 07 2022 new variable
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.###29 07 2022 new variable
-notes#:#notes_note_deleted#:#The note has been deleted.
-notes#:#notes_notes_deleted#:#The notes have been deleted.
-notes#:#notes_origin#:#Origin###29 07 2022 new variable
-notes#:#notes_public_comments#:#Public Comments
-notes#:#notes_show_comments#:#Show Comments
-notes#:#notes_sort_asc#:#Sort Ascending
-notes#:#notes_sort_desc#:#Sort Descending
-notes#:#notes_text#:#Text###29 07 2022 new variable
 noti#:#noti_activate_notification#:#Aktiviraj obavijest
 noti#:#noti_deactivate_notification#:#Deaktiviraj obavijest
 noti#:#noti_notification_activated#:#Obavijest aktivirana

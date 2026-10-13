@@ -11976,68 +11976,6 @@ news#:#news_x_postings#:#Se han añadido %s publicaciones.
 news#:#passwd_equals_ilpasswd#:#Por favor, introduzca una contraseña diferente a su contraseña de ILIAS.
 news#:#priv_feed_disabled#:#Canal de noticias privado desactivado.
 news#:#priv_feed_settings#:#Ajustes del canal de noticias privado
-note#:#note_comment_notification_link#:#Enlace
-note#:#note_comment_notification_reason#:#Recibe este mensaje porque su cuenta figura como destinatario global de todos los comentarios en la administración de ILIAS.
-note#:#note_comment_notification_salutation#:#Hola %s,
-note#:#note_comment_notification_subject#:#Se ha añadido un comentario en "%s"
-note#:#note_comment_notification_subjectc#:#Se ha modificado un comentario en "%s"
-note#:#note_comment_notification_user_has_written#:#%s ha escrito:
-note#:#note_comments_notification#:#Notificación general sobre todos los comentarios
-note#:#note_comments_notification_info#:#Lista separada por comas de las cuentas que son notificadas por cada comentario
-note#:#note_enable_comments#:#Habilitar comentarios
-note#:#note_enable_comments_del_tutor#:#Cualquier comentario puede ser eliminado por los tutores
-note#:#note_enable_comments_del_tutor_info#:#Los usuarios con permiso "Editar ajustes" para un objeto pueden eliminar cualquier comentario realizado en dicho objeto.
-note#:#note_enable_comments_del_user#:#Los comentarios pueden ser eliminados por sus autores
-note#:#note_enable_comments_del_user_info#:#Los comentarios pueden ser eliminados por la persona que los creó.
-note#:#note_enable_comments_export_info#:#Esta opción habilita la exportación de comentarios para objetos de contenido como portafolios, blogs y wikis.
-note#:#note_enable_notes#:#Habilitar notas
-note#:#note_html_export_include_comments#:#¿Deben incluirse los comentarios en la exportación?
-notes#:#comments_feature_currently_not_activated_for_object#:#La función de comentarios públicos no está activada actualmente para este recurso.
-notes#:#note_add_comment#:#Añadir comentario
-notes#:#note_add_message#:#Añadir mensaje
-notes#:#note_add_note#:#Añadir nota
-notes#:#note_content_removed#:#El contenido ha sido eliminado.
-notes#:#note_text#:#Texto
-notes#:#note_update_comment#:#Actualizar comentario
-notes#:#note_update_message#:#Actualizar mensaje
-notes#:#note_update_note#:#Actualizar nota
-notes#:#note_without_object#:#Sin referencia
-notes#:#notes_activate_comments#:#Activar comentarios públicos
-notes#:#notes_add_comment#:#Añadir comentario
-notes#:#notes_add_edit_comment#:#Añadir/editar comentario
-notes#:#notes_add_edit_message#:#Añadir/editar mensaje
-notes#:#notes_add_edit_note#:#Añadir/editar nota
-notes#:#notes_all_comments#:#Todos los comentarios
-notes#:#notes_comment#:#Comentario
-notes#:#notes_comment_deleted#:#El comentario ha sido eliminado.
-notes#:#notes_comments#:#Comentarios
-notes#:#notes_comments_deleted#:#Los comentarios han sido eliminados.
-notes#:#notes_deactivate_comments#:#Desactivar comentarios públicos
-notes#:#notes_delete_comment#:#¿Realmente desea eliminar este comentario?
-notes#:#notes_delete_message#:#¿Realmente desea eliminar este mensaje?
-notes#:#notes_delete_note#:#¿Realmente desea eliminar esta nota?
-notes#:#notes_hide_comments#:#Ocultar comentarios
-notes#:#notes_html_export#:#Exportación HTML
-notes#:#notes_latest_comment#:#Último comentario
-notes#:#notes_latest_message#:#Último mensaje
-notes#:#notes_message_author_counterpart#:#Remitente
-notes#:#notes_message_author_you#:#Usted
-notes#:#notes_messages#:#Mensajes
-notes#:#notes_my_comments#:#Mis comentarios
-notes#:#notes_no_comments#:#Aún no se ha publicado ningún comentario.
-notes#:#notes_no_comments_found#:#No se han encontrado comentarios que coincidan con sus criterios de búsqueda.
-notes#:#notes_no_messages#:#Aún no se ha adjuntado ningún mensaje.
-notes#:#notes_no_messages_found#:#No se han encontrado mensajes que coincidan con sus criterios de búsqueda.
-notes#:#notes_no_notes#:#Aún no se ha adjuntado ninguna nota.
-notes#:#notes_no_notes_found#:#No se han encontrado notas que coincidan con sus criterios de búsqueda.
-notes#:#notes_note_deleted#:#La nota ha sido eliminada.
-notes#:#notes_notes_deleted#:#Las notas han sido eliminadas.
-notes#:#notes_origin#:#Origen
-notes#:#notes_public_comments#:#Comentarios públicos
-notes#:#notes_show_comments#:#Mostrar comentarios
-notes#:#notes_sort_asc#:#Orden ascendente
-notes#:#notes_sort_desc#:#Orden descendente
-notes#:#notes_text#:#Texto
 noti#:#noti_activate_notification#:#Activar notificación
 noti#:#noti_deactivate_notification#:#Desactivar notificación
 noti#:#noti_notification_activated#:#Notificación activada

@@ -11993,69 +11993,6 @@ news#:#news_x_postings#:#%s új hozzászólás érkezett.
 news#:#passwd_equals_ilpasswd#:#Adjon meg egy, az ILIAS-jelszavától különböző jelszót!
 news#:#priv_feed_disabled#:#Személyes hírforrás letiltva.
 news#:#priv_feed_settings#:#Személyes hírforrás beállításai
-note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#Ezt az üzenetet azért kapta, mert felhasználói fiókja szerepel a Rendszerbeállítások » Műszerfal alatt az összes megjegyzésről értesítendők között.
-note#:#note_comment_notification_salutation#:#Tisztelt %s,
-note#:#note_comment_notification_subject#:#Hozzászólás született itt: ‘%s’
-note#:#note_comment_notification_subjectc#:#Hozzászólást módosítottak itt: ‘%s’
-note#:#note_comment_notification_user_has_written#:#%s írta:
-note#:#note_comments_notification#:#Az összes hozzászólásról általános értesítés
-note#:#note_comments_notification_info#:#A felhasználói fiókok vesszővel elválasztott felsorolása, akik az összes hozzászólásról értesítést kapnak
-note#:#note_enable_comments#:#Hozzászólások bekapcsolása
-note#:#note_enable_comments_del_tutor#:#A tutorok törlhetik bármelyik hozzászólást
-note#:#note_enable_comments_del_tutor_info#:#A ‘Beállítások módosítása’ jogosultsággal rendelkező felhasználók törölhetik az objektumban lévő bármelyik hozzászólást.
-note#:#note_enable_comments_del_user#:#A szerzők törlhetik a saját hozzászólásaikat
-note#:#note_enable_comments_del_user_info#:#A hozzászólásokat azok törölhetik, akik létrehozták.
-note#:#note_enable_comments_export_info#:#Ez a lehetőséggel tartalomobjektumoknál (portfólió, blog és wiki) a hozzászólások is exportálódnak.
-note#:#note_enable_notes#:#Jegyzetek bekapcsolása
-note#:#note_html_export_include_comments#:#A hozzászólásokat is exportálja?
-notes#:#comments_feature_currently_not_activated_for_object#:#Ehhez az objektumhoz jelenleg nincsenek engedélyezve nyilvános megjegyzések.
-notes#:#note_add_comment#:#Megjegyzés létrehozása
-notes#:#note_add_message#:#Üzenet létrehozása
-notes#:#note_add_note#:#Jegyzet létrehozása
-notes#:#note_content_removed#:#Ezt a tartalmat eltávolították.
-notes#:#note_text#:#Szöveg
-notes#:#note_update_comment#:#Megjegyzés módosítása
-notes#:#note_update_message#:#Üzenet módosítása
-notes#:#note_update_note#:#Jegyzetet frissítette
-notes#:#note_without_object#:#Hivatkozás nélkül
-notes#:#notes_activate_comments#:#Nyilvános megjegyzések engedélyezése
-notes#:#notes_add_comment#:#Megjegyzés létrehozása
-notes#:#notes_add_edit_comment#:#Hozzászólás létrehozása/módosítása
-notes#:#notes_add_edit_message#:#Üzenet hozzáadása/módosítása
-notes#:#notes_add_edit_note#:#Megjegyzés létrehozása/módosítása
-notes#:#notes_all_comments#:#Összes megjegyzés
-notes#:#notes_comment#:#Megjegyzés
-notes#:#notes_comment_deleted#:#A megjegyzést törölték.
-notes#:#notes_comments#:#Nyilvános megjegyzések
-notes#:#notes_comments_deleted#:#A hozzászólásokat törölték.
-notes#:#notes_deactivate_comments#:#Nyilvános megjegyzések tiltása
-notes#:#notes_delete_comment#:#Biztos, hog törli ezt a megjegyzést?
-notes#:#notes_delete_message#:#Biztos, hog törli ezt az üzenetet?
-notes#:#notes_delete_note#:#Biztos, hog törli ezt a jegyzetet?
-notes#:#notes_hide_comments#:#Megjegyzések elrejtése
-notes#:#notes_html_export#:#HTML export
-notes#:#notes_latest_comment#:#Utolsó hozzászólás
-notes#:#notes_latest_message#:#Utolsó üzenet
-notes#:#notes_message_author_counterpart#:#Válaszadó
-notes#:#notes_message_author_you#:#Én
-notes#:#notes_message_deleted#:#Az üzenetet sikeresen törölte.
-notes#:#notes_messages#:#Uzenetek
-notes#:#notes_my_comments#:#Az én megjegyzéseim
-notes#:#notes_no_comments#:#Még egy megjegyzés sem érkezett.
-notes#:#notes_no_comments_found#:#Nincs a keresési feltételnek megfelelő megjegyzés.
-notes#:#notes_no_messages#:#Még egy üzenet sincs csatolva
-notes#:#notes_no_messages_found#:#Egy üzenet sem felel meg a keresési feltételnek.
-notes#:#notes_no_notes#:#Még egy jegyzetet sem csatoltak.
-notes#:#notes_no_notes_found#:#Nincs a keresési feltételnek megfelelő jegyzet.
-notes#:#notes_note_deleted#:#A jegyzetet sikeresen törölte.
-notes#:#notes_notes_deleted#:#A jegyzeteket sikeresen törölte.
-notes#:#notes_origin#:#Eredeti
-notes#:#notes_public_comments#:#Nyilvános megjegyzések
-notes#:#notes_show_comments#:#Megjegyzések megjelenítése
-notes#:#notes_sort_asc#:#Növekvő sorrend
-notes#:#notes_sort_desc#:#Csökkenő sorrend
-notes#:#notes_text#:#Szöveg
 noti#:#noti_activate_notification#:#Értesítés bekapcsolása
 noti#:#noti_deactivate_notification#:#Értesítés kikapcsolása
 noti#:#noti_notification_activated#:#Az értesítőt sikeresen bekapcsolta
