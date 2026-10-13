@@ -15365,29 +15365,6 @@ survey#:#values#:#Values
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#workingtime#:#زمان کار
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
-tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag###27 01 2015 new variable
-tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?###27 01 2015 new variable
-tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.###27 01 2015 new variable
-tagging#:#tagging_all_users#:#همه کاربران
-tagging#:#tagging_edit_settings#:#ویرایش تنظیمات
-tagging#:#tagging_enable_all_users#:#نشان دادن برچسب همه کاربران
-tagging#:#tagging_enable_all_users_info#:#یک قسمت با عنوان "همه کاربران" به قسمت اطلاعات اضافه می کند که همه برچسبهایی که کاربران به منابع ضمیمه کرده اند را لیست می کند.
-tagging#:#tagging_enable_tagging#:#فعال کردن برچسب گذاری
-tagging#:#tagging_forbidden_tags#:#برچسبهای ممنوع
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###29 07 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Other Users###26 09 2014 new variable
-tagging#:#tagging_resources_for_tag#:#منابع با برچسب %s گذاری شدند
-tagging#:#tagging_search_users#:#جستجوی کاربران
-tagging#:#tagging_set_tag#:#قرار دادن برچسبها
-tagging#:#tagging_settings#:#تنظیمات
-tagging#:#tagging_tag#:#برچسب
-tagging#:#tagging_tag_info#:#برای ضمیمه کردن برچسبها به یک منبع، قسمت 'اعمال' هر منبع را می توانید باز کرده و برچسبهای خود را وارد کنید.
-tagging#:#tagging_tags#:#برچسب ها
-tagging#:#tagging_users_using_tag#:#Users Using Tag
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable

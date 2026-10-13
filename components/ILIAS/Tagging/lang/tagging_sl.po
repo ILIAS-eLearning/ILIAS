@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: tagging\n"
+
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps"
+
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Remove Tag"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?"
+
+msgid "tag_tags_deleted"
+msgstr "Tag has been removed from inaccessible objects."
+
+msgid "tagging_all_users"
+msgstr "All Users"
+
+msgid "tagging_edit_settings"
+msgstr "Edit Settings"
+
+msgid "tagging_enable_all_users"
+msgstr "Show Tags of All Users"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Adds a section ‘All Users’ to the info screens that lists all tags of all users attached to a resource."
+
+msgid "tagging_enable_tagging"
+msgstr "Enable Tagging"
+
+msgid "tagging_forbidden_tags"
+msgstr "Forbidden Tags"
+
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+msgid "tagging_other_users"
+msgstr "Tags of Other Users"
+
+msgid "tagging_resources_for_tag"
+msgstr "Resources tagged with %s"
+
+msgid "tagging_search_users"
+msgstr "Search Users"
+
+msgid "tagging_set_tag"
+msgstr "Set Tags"
+
+msgid "tagging_settings"
+msgstr "Settings"
+
+msgid "tagging_tag"
+msgstr "Tag"
+
+msgid "tagging_tag_info"
+msgstr "To attach tags to a resource open the info screen of the resource and enter your tags."
+
+msgid "tagging_tags"
+msgstr "Tags"
+
+msgid "tagging_users_using_tag"
+msgstr "Users Using Tag"

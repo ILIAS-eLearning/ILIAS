@@ -15438,29 +15438,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#vertical
 survey#:#warning_question_not_complete#:#A pergunta não está completa!
 survey#:#workingtime#:#Tempo de trabalho
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###30 04 2021 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###30 04 2021 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###30 04 2021 new variable
-tagging#:#tag_remove_tags_of_obj_without_access#:#Remover tag
-tagging#:#tag_some_obj_tagged_without_access#:#Já não tem permissões para aceder a alguns dos objetos marcados. Quer remover o tag para estes objetos?
-tagging#:#tag_tags_deleted#:#O tag foi removido dos objetos inacessíveis.
-tagging#:#tagging_all_users#:#Todos os usuários
-tagging#:#tagging_edit_settings#:#Editar definições
-tagging#:#tagging_enable_all_users#:#Mostrar Etiquetas para todos os usuários
-tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.
-tagging#:#tagging_enable_tagging#:#Habilitar Etiquetas
-tagging#:#tagging_forbidden_tags#:#Etiquetas proibidas
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###09 03 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###03 09 2026 new variable
-tagging#:#tagging_other_users#:#Other Users
-tagging#:#tagging_resources_for_tag#:#Recursos marcados com %s
-tagging#:#tagging_search_users#:#Pesquisar utilizadores
-tagging#:#tagging_set_tag#:#Editar Etiquetas
-tagging#:#tagging_settings#:#Configurações
-tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#Para adicionar as etiquetas (meta tags) aos recursos, abre a tela-Página de informações de recurso e digite suas etiquetas
-tagging#:#tagging_tags#:#Etiquetas
-tagging#:#tagging_users_using_tag#:#Utilizadores que usam tag
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable

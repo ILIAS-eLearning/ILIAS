@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: tagging\n"
+
+#, fuzzy
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps:"
+
+#, fuzzy
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+#, fuzzy
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+#, fuzzy
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Remove Tag"
+
+#, fuzzy
+msgid "tag_some_obj_tagged_without_access"
+msgstr "You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?"
+
+#, fuzzy
+msgid "tag_tags_deleted"
+msgstr "Tag has been removed from inaccessible objects."
+
+msgid "tagging_all_users"
+msgstr "همه کاربران"
+
+msgid "tagging_edit_settings"
+msgstr "ویرایش تنظیمات"
+
+msgid "tagging_enable_all_users"
+msgstr "نشان دادن برچسب همه کاربران"
+
+msgid "tagging_enable_all_users_info"
+msgstr "یک قسمت با عنوان \"همه کاربران\" به قسمت اطلاعات اضافه می کند که همه برچسبهایی که کاربران به منابع ضمیمه کرده اند را لیست می کند."
+
+msgid "tagging_enable_tagging"
+msgstr "فعال کردن برچسب گذاری"
+
+msgid "tagging_forbidden_tags"
+msgstr "برچسبهای ممنوع"
+
+#, fuzzy
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+#, fuzzy
+msgid "tagging_other_users"
+msgstr "Other Users"
+
+msgid "tagging_resources_for_tag"
+msgstr "منابع با برچسب %s گذاری شدند"
+
+msgid "tagging_search_users"
+msgstr "جستجوی کاربران"
+
+msgid "tagging_set_tag"
+msgstr "قرار دادن برچسبها"
+
+msgid "tagging_settings"
+msgstr "تنظیمات"
+
+msgid "tagging_tag"
+msgstr "برچسب"
+
+msgid "tagging_tag_info"
+msgstr "برای ضمیمه کردن برچسبها به یک منبع، قسمت 'اعمال' هر منبع را می توانید باز کرده و برچسبهای خود را وارد کنید."
+
+msgid "tagging_tags"
+msgstr "برچسب ها"
+
+msgid "tagging_users_using_tag"
+msgstr "Users Using Tag"

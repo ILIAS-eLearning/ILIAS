@@ -15364,29 +15364,6 @@ survey#:#values#:#Värderingar
 survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Frågan är ofullständig!
 survey#:#workingtime#:#Bearbetningstid
-tagging#:#no_tag_text_1#:#Du har för närvarande inte använt några taggar. För att göra detta måste du vidta två åtgärder
-tagging#:#no_tag_text_2#:#Klicka på "%s" och välj ett lärandeobjekt från det tillgängliga utbudet, t.ex. en lärmodul eller ett forum.
-tagging#:#no_tag_text_3#:#Öppna sedan objektets <i>åtgärdsmeny</i> och välj<i>"Ange taggar</i>".
-tagging#:#tag_remove_tags_of_obj_without_access#:#Ta bort tagg
-tagging#:#tag_some_obj_tagged_without_access#:#Du har inte längre tillgång till några av de taggade objekten. Bör taggen för dessa objekt tas bort?
-tagging#:#tag_tags_deleted#:#Tag togs bort för objekt utan åtkomst.
-tagging#:#tagging_all_users#:#Alla användare
-tagging#:#tagging_edit_settings#:#Inställningar
-tagging#:#tagging_enable_all_users#:#Visa taggar för alla användare
-tagging#:#tagging_enable_all_users_info#:# Lägger till ett "Alla användare"-område på infosidan som visar taggarna för alla besökare till en resurs.
-tagging#:#tagging_enable_tagging#:#Aktivera taggning
-tagging#:#tagging_forbidden_tags#:#Förbjudna taggar
-tagging#:#tagging_no_obj_for_tag#:#Det finns inget innehåll taggat med '%s'.
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Tags från andra användare
-tagging#:#tagging_resources_for_tag#:#Innehåll taggat med %s
-tagging#:#tagging_search_users#:#Sök användare
-tagging#:#tagging_set_tag#:#Ange taggar
-tagging#:#tagging_settings#:#Inställningar
-tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#För att tagga innehåll, öppna objektets informationssida och ange taggarna där.
-tagging#:#tagging_tags#:#Etiketter
-tagging#:#tagging_users_using_tag#:#Användare som använder taggar
 task#:#task_deadline#:#Slut
 task#:#task_derived_tasks#:#Att göra
 task#:#task_details#:#Detaljer

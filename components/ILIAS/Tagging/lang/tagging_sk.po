@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: tagging\n"
+
+#, fuzzy
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps:"
+
+#, fuzzy
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+#, fuzzy
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+#, fuzzy
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Remove Tag"
+
+#, fuzzy
+msgid "tag_some_obj_tagged_without_access"
+msgstr "You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?"
+
+#, fuzzy
+msgid "tag_tags_deleted"
+msgstr "Tag has been removed from inaccessible objects."
+
+msgid "tagging_all_users"
+msgstr "Všichni uživatelé"
+
+msgid "tagging_edit_settings"
+msgstr "Nastavení editace"
+
+msgid "tagging_enable_all_users"
+msgstr "Zobrazit značky všech uživatelů"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Přidává sekci \"Všichni uživatelé\" k zobrazení info, které vypisuje všechny značky všech uživatelů připojených ke zdroji."
+
+msgid "tagging_enable_tagging"
+msgstr "Tagging aktivován"
+
+msgid "tagging_forbidden_tags"
+msgstr "Zakázané značky"
+
+#, fuzzy
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+#, fuzzy
+msgid "tagging_other_users"
+msgstr "Other Users"
+
+msgid "tagging_resources_for_tag"
+msgstr "Zdroje označeny s %s"
+
+msgid "tagging_search_users"
+msgstr "Hledat uživatele"
+
+#, fuzzy
+msgid "tagging_set_tag"
+msgstr "Set Tags"
+
+msgid "tagging_settings"
+msgstr "Nastavení"
+
+msgid "tagging_tag"
+msgstr "Značka"
+
+msgid "tagging_tag_info"
+msgstr "Pro přidělení značek ke zdrojům otevřete informační obrazovku zdrojů a vložte své značky."
+
+msgid "tagging_tags"
+msgstr "Značky"
+
+msgid "tagging_users_using_tag"
+msgstr "Uživatelsky použitá značka"
