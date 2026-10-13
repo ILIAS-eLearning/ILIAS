@@ -15361,29 +15361,6 @@ survey#:#values#:#Värderingar
 survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Frågan är ofullständig!
 survey#:#workingtime#:#Bearbetningstid
-tax#:#obj_taxn#:#Nod
-tax#:#tax_add_taxonomy#:#Lägg till taxonomi
-tax#:#tax_added#:#Taxonomin har skapats.
-tax#:#tax_admin_settings_repository#:# Taxonomier för tidskrifter
-tax#:#tax_alphabetical#:#Alfabetisk
-tax#:#tax_assigned_items#:# Tilldelade poster
-tax#:#tax_confirm_deletion#:#Vill du verkligen radera hela taxonomin med alla relationer?
-tax#:#tax_create_node#:#Skapa nod
-tax#:#tax_item_sorting#:#Support sortering av de tilldelade posterna
-tax#:#tax_manual#:#Handbok
-tax#:#tax_max_one_tax#:#Du kan bara använda en taxonomi här.
-tax#:#tax_new_tax_node#:#Ny nod
-tax#:#tax_node#:#Nod
-tax#:#tax_node_sorting#:#Sortering av noderna
-tax#:#tax_nodes#:#Nod
-tax#:#tax_order#:#Beställ
-tax#:#tax_order_nr#:# Beställningsnummer
-tax#:#tax_please_select_target#:#Vänligen välj en destination!
-tax#:#tax_target_within_nodes#:#Målet får inte vara en undernod till det valda elementet.
-tax#:#tax_tax_assignment#:#Taxonomiuppdrag
-tax#:#tax_tax_deleted#:#Taxonomin har tagits bort.
-tax#:#tax_tax_settings#:#Taxonomiska inställningar
-tax#:#tax_taxonomy#:#Taxonomi
 trac#:#cmix_lp_mode_deactivated#:#Learning progress är avaktiverad
 trac#:#cmix_lp_mode_deactivated_info#:#Inlärningsstatus visas inte och har inget inflytande på objekt på högre nivå.
 trac#:#cmix_lp_mode_when_completed#:#Completed när "completed".

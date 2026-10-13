@@ -15435,29 +15435,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#vertical
 survey#:#warning_question_not_complete#:#A pergunta não está completa!
 survey#:#workingtime#:#Tempo de trabalho
-tax#:#obj_taxn#:#Nó
-tax#:#tax_add_taxonomy#:#Adicionar taxonomia
-tax#:#tax_added#:#A taxonomia foi criada.
-tax#:#tax_admin_settings_repository#:#Taxonomias repositório
-tax#:#tax_alphabetical#:#Alfabético
-tax#:#tax_assigned_items#:#Itens atribuídos
-tax#:#tax_confirm_deletion#:#Tem a certeza que quer apagar toda a taxonomia e todas as suas relações?
-tax#:#tax_create_node#:#Criar nó
-tax#:#tax_item_sorting#:#Suportar classificação de itens atribuídos
-tax#:#tax_manual#:#Manual
-tax#:#tax_max_one_tax#:#Pode usar no máximo uma taxonomia neste contexto.
-tax#:#tax_new_tax_node#:#Novo nó
-tax#:#tax_node#:#Nó
-tax#:#tax_node_sorting#:#Classificar nós
-tax#:#tax_nodes#:#Nós
-tax#:#tax_order#:#Ordem
-tax#:#tax_order_nr#:#N.º ordem
-tax#:#tax_please_select_target#:#Selecione o destino.
-tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.
-tax#:#tax_tax_assignment#:#Atribuição de taxonomia
-tax#:#tax_tax_deleted#:#A taxonomia foi apagada.
-tax#:#tax_tax_settings#:#Definições de taxonomia
-tax#:#tax_taxonomy#:#Taxonomia
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

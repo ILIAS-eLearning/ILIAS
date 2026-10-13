@@ -15420,29 +15420,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
 survey#:#workingtime#:#Tiempo de trabajo
-tax#:#obj_taxn#:#Nodo
-tax#:#tax_add_taxonomy#:#Añadir taxonomía
-tax#:#tax_added#:#Se ha creado la taxonomía.
-tax#:#tax_admin_settings_repository#:#Taxonomías del repositorio
-tax#:#tax_alphabetical#:#Alfabético
-tax#:#tax_assigned_items#:#Elementos asignados
-tax#:#tax_confirm_deletion#:#¿Realmente desea eliminar toda la taxonomía y todas sus relaciones?
-tax#:#tax_create_node#:#Crear nodo
-tax#:#tax_item_sorting#:#Permitir la ordenación de elementos asignados
-tax#:#tax_manual#:#Manual
-tax#:#tax_max_one_tax#:#Sólo puede utilizar una taxonomía como máximo en este contexto.
-tax#:#tax_new_tax_node#:#Nuevo nodo
-tax#:#tax_node#:#Nodo
-tax#:#tax_node_sorting#:#Ordenación de nodos
-tax#:#tax_nodes#:#Nodos
-tax#:#tax_order#:#Orden
-tax#:#tax_order_nr#:#Núm. de orden
-tax#:#tax_please_select_target#:#Por favor, seleccione el destino.
-tax#:#tax_target_within_nodes#:#El destino no debe ser un subnodo de los elementos seleccionados.
-tax#:#tax_tax_assignment#:#Asignación de taxonomía
-tax#:#tax_tax_deleted#:#La taxonomía ha sido eliminada.
-tax#:#tax_tax_settings#:#Ajustes de taxonomía
-tax#:#tax_taxonomy#:#Taxonomía
 trac#:#cmix_lp_mode_deactivated#:#El progreso de aprendizaje está desactivado
 trac#:#cmix_lp_mode_deactivated_info#:#El estado del progreso de aprendizaje no se muestra y no influye en los objetos superiores.
 trac#:#cmix_lp_mode_when_completed#:#Completado cuando esté 'completado'

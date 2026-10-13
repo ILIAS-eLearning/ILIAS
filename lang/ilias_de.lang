@@ -15684,29 +15684,6 @@ survey#:#values#:#Werte
 survey#:#vertical#:#Vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
-tax#:#obj_taxn#:#Knoten
-tax#:#tax_add_taxonomy#:#Taxonomie hinzufügen
-tax#:#tax_added#:#Die Taxonomie wurde erstellt.
-tax#:#tax_admin_settings_repository#:#Magazin-Taxonomien
-tax#:#tax_alphabetical#:#Alphabetisch
-tax#:#tax_assigned_items#:#Zugeordnete Fragen
-tax#:#tax_confirm_deletion#:#Wollen Sie wirklich die gesamte Taxonomie mit allen Beziehungen löschen?
-tax#:#tax_create_node#:#Knoten anlegen
-tax#:#tax_item_sorting#:#Sortierung der zugewiesenen Einträge unterstützen
-tax#:#tax_manual#:#Manuell
-tax#:#tax_max_one_tax#:#Sie können hier nur eine Taxonomie verwenden.
-tax#:#tax_new_tax_node#:#Neuer Knoten
-tax#:#tax_node#:#Knoten
-tax#:#tax_node_sorting#:#Sortierung der Knoten
-tax#:#tax_nodes#:#Knoten
-tax#:#tax_order#:#Reihenfolge
-tax#:#tax_order_nr#:#Ordnungsnummer
-tax#:#tax_please_select_target#:#Bitte wählen Sie ein Ziel aus!
-tax#:#tax_target_within_nodes#:#Das Ziel darf kein Unterknoten des ausgewählten Elements sein.
-tax#:#tax_tax_assignment#:#Zuordnung zu Taxonomien
-tax#:#tax_tax_deleted#:#Die Taxonomie wurde gelöscht.
-tax#:#tax_tax_settings#:#Taxonomien darstellen
-tax#:#tax_taxonomy#:#Taxonomie
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
 trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".

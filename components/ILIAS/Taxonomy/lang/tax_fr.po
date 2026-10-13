@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Noeud"
+
+msgid "tax_add_taxonomy"
+msgstr "Ajouter Taxinomie"
+
+msgid "tax_added"
+msgstr "La taxinomie a été créée."
+
+msgid "tax_admin_settings_repository"
+msgstr "Catalogue de Taxonomies"
+
+msgid "tax_alphabetical"
+msgstr "Alphabétique"
+
+msgid "tax_assigned_items"
+msgstr "Eléments Assignés"
+
+msgid "tax_confirm_deletion"
+msgstr "Voulez-vous réellement supprimer la taxinomie entière et ses relations ?"
+
+msgid "tax_create_node"
+msgstr "Créer Noeud"
+
+msgid "tax_item_sorting"
+msgstr "Supporter Classement des Eléments Assignés"
+
+msgid "tax_manual"
+msgstr "Manuel"
+
+msgid "tax_max_one_tax"
+msgstr "Vous ne pouvez utiliser qu'une taxinomie dans ce contexte."
+
+msgid "tax_new_tax_node"
+msgstr "Nouveau Noeud"
+
+msgid "tax_node"
+msgstr "Noeud"
+
+msgid "tax_node_sorting"
+msgstr "Tri des Noeuds"
+
+msgid "tax_nodes"
+msgstr "Noeuds"
+
+msgid "tax_order"
+msgstr "Position"
+
+msgid "tax_order_nr"
+msgstr "Position N°"
+
+msgid "tax_please_select_target"
+msgstr "Veuillez sélectionner une cible."
+
+msgid "tax_target_within_nodes"
+msgstr "La cible ne peut pas être un enfant des noeuds sélectionnés."
+
+msgid "tax_tax_assignment"
+msgstr "Affectation de taxonomie"
+
+msgid "tax_tax_deleted"
+msgstr "La taxinomie a été supprimée."
+
+msgid "tax_tax_settings"
+msgstr "Paramètres de taxonomie"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomie"

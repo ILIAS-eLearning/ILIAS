@@ -15405,29 +15405,6 @@ survey#:#values#:#Értékek
 survey#:#vertical#:#Függőleges
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#workingtime#:#Eltöltött idő
-tax#:#obj_taxn#:#Csomópont
-tax#:#tax_add_taxonomy#:#Taxonómia létrehozása
-tax#:#tax_added#:#Sikeresen létrehozott egy taxonómiát.
-tax#:#tax_admin_settings_repository#:#Tartalomtár Taxonómiák
-tax#:#tax_alphabetical#:#Betűrend
-tax#:#tax_assigned_items#:#Hozzárendelt elemek
-tax#:#tax_confirm_deletion#:#Biztos, hogy törli a teljes taxonómiát és annak minden kapcsolatát?
-tax#:#tax_create_node#:#Csomópont létrehozása
-tax#:#tax_item_sorting#:#Hozzárendelt elemek sorrendbe rendezésének támogatása
-tax#:#tax_manual#:#Kézi
-tax#:#tax_max_one_tax#:#Maximum egy taxonómia használható ezzel kapcsolatban.
-tax#:#tax_new_tax_node#:#Új csomópont
-tax#:#tax_node#:#Csomópont
-tax#:#tax_node_sorting#:#Csomópontok sorrendbe rendezése
-tax#:#tax_nodes#:#Csomópontok
-tax#:#tax_order#:#Sorrend
-tax#:#tax_order_nr#:#Sorszám
-tax#:#tax_please_select_target#:#Válassza ki a célt.
-tax#:#tax_target_within_nodes#:#A cél nem lehet a kijelölt elemek alcsomópontja.
-tax#:#tax_tax_assignment#:#Taxonómia hozzárendelési
-tax#:#tax_tax_deleted#:#A taxonómiát törölte
-tax#:#tax_tax_settings#:#Taxonómia beállításai
-tax#:#tax_taxonomy#:#Taxonómia
 trac#:#cmix_lp_mode_deactivated#:#A tanulási haladás ki van kapcsolva
 trac#:#cmix_lp_mode_deactivated_info#:#A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumokra.
 trac#:#cmix_lp_mode_when_completed#:#Sikeresen teljesített amikor ‘befejezte’
