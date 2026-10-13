@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Kontaktanfragen erlauben"
+
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Bestimmt ob standardmässig Kontaktanfragen verschickt werden können."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Anfrage bestätigen"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Anfrage zurückziehen"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Kontakt aufheben"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Kontakt ignorieren"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Kontakt bestätigen"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Anfrage zurückziehen"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Die Aktion ist nicht möglich, da die Kontaktanfrage von Benutzer „%s“ bereits ignoriert wurde."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Die Aktion ist nicht möglich, da die Kontaktanfrage für Benutzer „%s“ bereits bestätigt wurde."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Die Aktion ist nicht möglich, da Benutzer „%s“ bereits angefragt wurde."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Die Aktion ist nicht möglich. Jeglicher Kontakt zu Benutzer „%s“ wurde bereits gelöst."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Aktion nicht möglich"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Kontakt angefragt"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Anfrage ignoriert"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Vernetzt"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Vernetzt"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Kontakt angefragt"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Kontaktanfrage"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Kontakt anfragen"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Angefragt"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignoriert"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Von mir Ignoriert"
+
+msgid "buddy_bs_state_linked"
+msgstr "Vernetzt"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Vernetzt"
+
+msgid "buddy_bs_state_linked_p"
+msgstr "Vernetzt"
+
+msgid "buddy_bs_state_requested"
+msgstr "Angefragt"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Angefragt"
+
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Auf Reaktion wartend"
+
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Aktion erforderlich"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Angefragt"
+
+msgid "buddy_bs_state_unlinked"
+msgstr "Nicht vernetzt"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Nicht vernetzt"
+
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Nicht vernetzt"
+
+msgid "buddy_confirm_unlink"
+msgstr "Möchten Sie die Verbindung zu diesem Kontakt wirklich aufheben?"
+
+msgid "buddy_enable"
+msgstr "Aktiviere „Benutzerkontakte“"
+
+msgid "buddy_enable_info"
+msgstr "Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern."
+
+msgid "buddy_handle_contact_request"
+msgstr "Kontaktanfrage"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profil nicht veröffentlicht"
+
+msgid "buddy_notification_contact_request"
+msgstr "Kontaktanfrage"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Anfrage ignorieren"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Anfrage ignorieren"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "Anfrage bestätigen"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Anfrage bestätigen"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]\"[REQUESTING_USER]\" möchte mit Ihnen in Kontakt treten.[BR][BR]Link zum Persönlichen Profil: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "Der Benutzer \"[REQUESTING_USER]\" möchte mit Ihnen in Kontakt treten."
+
+msgid "buddy_relation_requested"
+msgstr "Dem Benutzer wurde eine Kontaktanfrage gesendet."
+
+msgid "buddy_request_approved"
+msgstr "Der Kontakt wurde erfolgreich hergestellt."
+
+msgid "buddy_request_ignored"
+msgstr "Sie haben den Benutzer ignoriert."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Status"
+
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "Status"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Beziehungen zu anderen Benutzern"
+
+msgid "buddy_use_osd"
+msgstr "Pop-up Kontaktanfragen"
+
+msgid "buddy_use_osd_info"
+msgstr "Zeigt ein Pop-up an, wenn ein Benutzer mit mir in Kontakt treten möchte."
+
+msgid "buddy_view_gallery"
+msgstr "Galerie"
+
+msgid "buddy_view_table"
+msgstr "Liste"

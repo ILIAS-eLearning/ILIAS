@@ -2611,63 +2611,6 @@ book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Personen
 book#:#reservation_deleted#:#Buchung gelöscht
 book#:#schedule_type#:#Zeitplantyp
-buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Bestimmt ob standardmässig Kontaktanfragen verschickt werden können.
-buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Kontakt aufheben
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Kontakt ignorieren
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Kontakt bestätigen
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Anfrage zurückziehen
-buddysystem#:#buddy_bs_action_already_ignored#:#Die Aktion ist nicht möglich, da die Kontaktanfrage von Benutzer „%s“ bereits ignoriert wurde.
-buddysystem#:#buddy_bs_action_already_linked#:#Die Aktion ist nicht möglich, da die Kontaktanfrage für Benutzer „%s“ bereits bestätigt wurde.
-buddysystem#:#buddy_bs_action_already_requested#:#Die Aktion ist nicht möglich, da Benutzer „%s“ bereits angefragt wurde.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Die Aktion ist nicht möglich. Jeglicher Kontakt zu Benutzer „%s“ wurde bereits gelöst.
-buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Kontakt angefragt
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Anfrage ignoriert
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Vernetzt
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Vernetzt
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Kontakt angefragt
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktanfrage
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Kontakt anfragen
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Von mir Ignoriert
-buddysystem#:#buddy_bs_state_linked#:#Vernetzt
-buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
-buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
-buddysystem#:#buddy_bs_state_requested#:#Angefragt
-buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Auf Reaktion wartend
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erforderlich
-buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
-buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
-buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
-buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
-buddysystem#:#buddy_confirm_unlink#:#Möchten Sie die Verbindung zu diesem Kontakt wirklich aufheben?
-buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
-buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
-buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
-buddysystem#:#buddy_notification_contact_request#:#Kontaktanfrage
-buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage ignorieren
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage ignorieren
-buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR]Link zum Persönlichen Profil: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#Der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.
-buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
-buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
-buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
-buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#Status
-buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
-buddysystem#:#buddy_use_osd#:#Pop-up Kontaktanfragen
-buddysystem#:#buddy_use_osd_info#:#Zeigt ein Pop-up an, wenn ein Benutzer mit mir in Kontakt treten möchte.
-buddysystem#:#buddy_view_gallery#:#Galerie
-buddysystem#:#buddy_view_table#:#Liste
 cat#:#cat_copy#:#Kategorie kopieren
 cat#:#cat_hide_tax_in_side_block#:#Nicht im Seitenblock darstellen
 cat#:#cat_import#:#Kategorie importieren
@@ -5980,10 +5923,6 @@ cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
 cont#:#cont_tile_view#:#Kacheln
 cont#:#cont_tile_view_info#:#Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden.
 cont#:#cont_trash_general_usage#:#Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter "Typ" und "Gelöscht am" unterstützen den Vorgang. Abschließend löschen Sie dann die Container.
-contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
-contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
-contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
-contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
 content#:#Pages#:#Seiten
 content#:#add_menu_entry#:#Menüeintrag hinzufügen →
 content#:#all_pages#:#für das gesamte Lernmodul

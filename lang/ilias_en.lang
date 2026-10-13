@@ -2612,63 +2612,6 @@ book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
 book#:#schedule_type#:#Schedule Type
-buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
-buddysystem#:#buddy_allow_to_contact_me_info#:#Allow other users to send you contact requests.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore Contact
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm Contact
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancel Request
-buddysystem#:#buddy_bs_action_already_ignored#:#Action not possible. Already ignored user '%s'.
-buddysystem#:#buddy_bs_action_already_linked#:#Action not possible. Already accepted the contact request from user '%s'.
-buddysystem#:#buddy_bs_action_already_requested#:#Action not possible. Already requested user '%s'.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Action not possible. The contact state for user '%s' is already unlinked.
-buddysystem#:#buddy_bs_action_not_possible#:#Action not possible
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Requested Contact
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Request Ignored
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Linked
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Requested Contact
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored by me
-buddysystem#:#buddy_bs_state_linked#:#Linked
-buddysystem#:#buddy_bs_state_linked_a#:#Linked
-buddysystem#:#buddy_bs_state_linked_p#:#Linked
-buddysystem#:#buddy_bs_state_requested#:#Requested
-buddysystem#:#buddy_bs_state_requested_a#:#Requested
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required
-buddysystem#:#buddy_bs_state_requested_p#:#Requested
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
-buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
-buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?
-buddysystem#:#buddy_enable#:#Activate ‘Contacts’
-buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.
-buddysystem#:#buddy_handle_contact_request#:#Contact Request
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published
-buddysystem#:#buddy_notification_contact_request#:#Contact Request
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
-buddysystem#:#buddy_notification_contact_request_link#:#Approve Request
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to their friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to their friends list.
-buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
-buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
-buddysystem#:#buddy_request_ignored#:#You ignored the user.
-buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State
-buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users
-buddysystem#:#buddy_use_osd#:#Popup Contact Requests
-buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.
-buddysystem#:#buddy_view_gallery#:#Gallery
-buddysystem#:#buddy_view_table#:#List
 cat#:#cat_copy#:#Copy Category
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel
 cat#:#cat_import#:#Import Category
@@ -5981,10 +5924,6 @@ cont#:#cont_tile_size_4#:#full (one tile in a row)
 cont#:#cont_tile_view#:#Tiles
 cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.
-contact#:#contact_awrn_ap_contacts#:#Approved Contacts
-contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
-contact#:#contact_awrn_req_contacts#:#Contact Requests
-contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add Menu Entry
 content#:#all_pages#:#Entire Learning Module

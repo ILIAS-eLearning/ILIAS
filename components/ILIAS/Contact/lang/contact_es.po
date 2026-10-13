@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: contact\n"
+
+msgid "contact_awrn_ap_contacts"
+msgstr "Contactos aprobados"
+
+msgid "contact_awrn_ap_contacts_info"
+msgstr "Se enumeran todos los contactos aprobados por el usuario."
+
+msgid "contact_awrn_req_contacts"
+msgstr "Solicitudes de contacto"
+
+msgid "contact_awrn_req_contacts_info"
+msgstr "Se enumeran todas las solicitudes de contacto."

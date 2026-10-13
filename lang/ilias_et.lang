@@ -2560,62 +2560,6 @@ book#:#booking_nr_of_items#:#Nr of Items
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants###10 11 2018 new variable
 book#:#reservation_deleted#:#Reservation deleted###29 07 2022 new variable
-buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me###23 12 2015 new variable
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.###23 12 2015 new variable
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request###30 08 2015 new variable
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request###30 08 2015 new variable
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink###30 08 2015 new variable
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore###30 08 2015 new variable
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm###30 08 2015 new variable
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancel Request###30 08 2015 new variable
-buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.###25 10 2016 new variable
-buddysystem#:#buddy_bs_action_already_linked#:#Already accepted the contact request from user '%s'.###25 10 2016 new variable
-buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.###25 10 2016 new variable
-buddysystem#:#buddy_bs_action_already_unlinked#:#The contact state for user '%s' is already unlinked.###25 10 2016 new variable
-buddysystem#:#buddy_bs_action_not_possible#:#Action not possible###30 08 2015 new variable
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Requested Contact###30 08 2015 new variable
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Request Ignored###30 08 2015 new variable
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked###30 08 2015 new variable
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Linked###30 08 2015 new variable
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Requested Contact###30 08 2015 new variable
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request###30 08 2015 new variable
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_linked#:#Linked###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_linked_a#:#Linked###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_linked_p#:#Linked###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested#:#Requested###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_requested_a#:#Requested###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###29 07 2022 new variable
-buddysystem#:#buddy_enable#:#Activate ‘Contacts’###23 12 2015 new variable
-buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.###23 12 2015 new variable
-buddysystem#:#buddy_handle_contact_request#:#Contact Request###25 10 2016 new variable
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###07 02 2020 new variable
-buddysystem#:#buddy_notification_contact_request#:#Contact Request###30 08 2015 new variable
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request###30 08 2015 new variable
-buddysystem#:#buddy_notification_contact_request_link#:#Approve Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request###30 08 2015 new variable
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]###30 08 2015 new variable
-buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]###30 08 2015 new variable
-buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.###23 12 2015 new variable
-buddysystem#:#buddy_request_approved#:#You successfully approved the contact.###30 08 2015 new variable
-buddysystem#:#buddy_request_ignored#:#You ignored the user.###30 08 2015 new variable
-buddysystem#:#buddy_tbl_filter_state#:#Status###30 08 2015 new variable
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action###26 08 2024 new variable
-buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users###30 08 2015 new variable
-buddysystem#:#buddy_use_osd#:#Popup Contact Requests###25 10 2016 new variable
-buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.###25 10 2016 new variable
-buddysystem#:#buddy_view_gallery#:#Gallery###30 08 2015 new variable
-buddysystem#:#buddy_view_table#:#List###30 08 2015 new variable
 cat#:#cat_copy#:#Copy Category
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###26 08 2024 new variable
 cat#:#cat_import#:#Import Category
@@ -5917,10 +5861,6 @@ cont#:#cont_tile_size_4#:#full (one tile in a row)###29 07 2022 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
 cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###26 08 2024 new variable
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
-contact#:#contact_awrn_ap_contacts#:#Approved Contacts###30 08 2015 new variable
-contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.###30 08 2015 new variable
-contact#:#contact_awrn_req_contacts#:#Contact Requests###30 08 2015 new variable
-contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.###30 08 2015 new variable
 content#:#Pages#:#Lehed
 content#:#add_menu_entry#:#Lisa menüükirje>>
 content#:#all_pages#:#terve õppemoodul

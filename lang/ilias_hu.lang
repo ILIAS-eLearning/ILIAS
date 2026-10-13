@@ -2613,63 +2613,6 @@ book#:#obj_book_duplicate#:#Foglalásgyűjtemény másolása
 book#:#participants#:#Résztvevők
 book#:#reservation_deleted#:#A foglalást sikeresen törölte
 book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
-buddysystem#:#buddy_allow_to_contact_me#:#Ismerősnek jelölhetnek
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Meghatározza, hogy a felhasználók alapértelmezés szerint küldhetnek-e egymásnak kapcsolatfelvételi kéréseket.
-buddysystem#:#buddy_allow_to_contact_me_info#:#A többi felhasználó kérést küldhet felém, hogy ismerősnek kíván megjelölni.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Jelölés elfogadása
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Jelölés visszavonása
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Jelölés visszavonása
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Jelölés elutasítása
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Jelölés elfogadása
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Jelölés visszavonása
-buddysystem#:#buddy_bs_action_already_ignored#:#Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználót már elutasította.
-buddysystem#:#buddy_bs_action_already_linked#:#Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználótól már elfogadta a jelölést.
-buddysystem#:#buddy_bs_action_already_requested#:#Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználónak már küldött jelölést.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Ezt a műveletet nem lehet végrehajtani. ‘%s’ felhasználótól már visszavonta a jelölést.
-buddysystem#:#buddy_bs_action_not_possible#:#Ezt a műveletet nem lehet végrehajtani
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Elutasított
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Elutasított
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Visszaigazolt
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Visszaigazolt
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Jelölés kezelése
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Jelölés kezelése
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Ismerősnek jelölés
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Ismerősnek jelölés elküldve
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ismerősnek jelölés elutasítva
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ismerősnek jelölés elutasítva
-buddysystem#:#buddy_bs_state_linked#:#Ismerős
-buddysystem#:#buddy_bs_state_linked_a#:#Ismerős
-buddysystem#:#buddy_bs_state_linked_p#:#Összekötve
-buddysystem#:#buddy_bs_state_requested#:#Ismerősnek jelölés elküldve
-buddysystem#:#buddy_bs_state_requested_a#:#Ismerősnek jelölés elküldve
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Várakozás a válaszra
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Művelet szükséges
-buddysystem#:#buddy_bs_state_requested_p#:#Ismerősnek jelölés elküldve
-buddysystem#:#buddy_bs_state_unlinked#:#Nincs összekötve
-buddysystem#:#buddy_bs_state_unlinked_a#:#Ismeretlen
-buddysystem#:#buddy_bs_state_unlinked_p#:#Nincs összekötve
-buddysystem#:#buddy_confirm_unlink#:#Biztos, hogy bontja a kapcsolatot ezzel az ismerőssel?
-buddysystem#:#buddy_enable#:#‘Kapcsolatok’ aktiválása
-buddysystem#:#buddy_enable_info#:#Felhasználók kérések küldésével/elfogadásával ismerősnek jelölhetik meg egymást. Az összes felhasználó egyéni beállításában engedélyezheti/tilthatja, hogy őt ismerősnek jelöljék.
-buddysystem#:#buddy_handle_contact_request#:#Kapcsolat kérése
-buddysystem#:#buddy_noti_cr_profile_not_published#:#A profil nincs közzétéve.
-buddysystem#:#buddy_notification_contact_request#:#Ismerősnek jelölés
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ismerősnek jelölés elutasítása
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ismerősnek jelölés elutasítása
-buddysystem#:#buddy_notification_contact_request_link#:#Ismerősnek jelölés elfogadása
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Ismerősnek jelölés elfogadása
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]‘[REQUESTING_USER]’ ismerősnek jelölt.[BR][BR]Személyes profilja: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#‘[REQUESTING_USER]’ ismerősnek jelölt.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
-buddysystem#:#buddy_relation_requested#:#A felhasználónak sikeresen elküldte a kérést.
-buddysystem#:#buddy_request_approved#:#Sikeresen elfogadta a jelölést.
-buddysystem#:#buddy_request_ignored#:#Figyelmen kívül hagyta a felhasználót.
-buddysystem#:#buddy_tbl_filter_state#:#Állapot
-buddysystem#:#buddy_tbl_state_actions_col_label#:#Állapot / Művelet
-buddysystem#:#buddy_tbl_title_relations#:#Kapcsolat a többi felhasználóval
-buddysystem#:#buddy_use_osd#:#Ismerősnek jelölések felugró ablakban
-buddysystem#:#buddy_use_osd_info#:#Felugró ablakban jelzi a rendszer, hogy valaki a ismerősei közé szeretné felvenni.
-buddysystem#:#buddy_view_gallery#:#Képtár
-buddysystem#:#buddy_view_table#:#Felsorolás
 cat#:#cat_copy#:#Kategória másolása
 cat#:#cat_hide_tax_in_side_block#:#Ne jelenjen meg az oldalpanelen
 cat#:#cat_import#:#Kategória importja
@@ -5978,10 +5921,6 @@ cont#:#cont_tile_size_4#:#teljes (1 csempe soronként)
 cont#:#cont_tile_view#:#Csempék
 cont#:#cont_tile_view_info#:#Az ebben a tárolóban lévő objektumok megjelenítése mint miniatűrstílusú csempeként. Csempekép minden objektum saját beállításaiban tölthető fel.
 cont#:#cont_trash_general_usage#:#Ha nagy mennyiségű régi, törölt objektumot kíván eltávolítani a rendszerből, akkor erősen tanácsos a nem tároló típusú objektumokkal kezdeni (például fájlok, fogalomtárak, tesztek), azaz célszerű először minden objektumot eltávolítani a tárolókból (kategóriákból, kurzusokból, csoportokból, tanulási sorokból stb. ). A ‘Típus" és a ‘Törlés helye’ szűrők használata segíti ezt a folyamatot. Végül távolítsa el a tárolókat.
-contact#:#contact_awrn_ap_contacts#:#Elfogadott jelölések
-contact#:#contact_awrn_ap_contacts_info#:#A felhasználó összes elfogadott jelölését felsoroljuk.
-contact#:#contact_awrn_req_contacts#:#‘Ismerősnek jelölés’ kérések
-contact#:#contact_awrn_req_contacts_info#:#Az összes felhasználót felsoroljuk, aki ‘Ismerősnek jelölés’ kérést küldött.
 content#:#Pages#:#Lapok
 content#:#add_menu_entry#:#Menübejegyzés hozzáadása
 content#:#all_pages#:#a teljes tananyag

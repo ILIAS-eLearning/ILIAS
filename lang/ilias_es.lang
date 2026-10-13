@@ -2568,63 +2568,6 @@ book#:#booking_nr_of_items#:#Número de elementos
 book#:#obj_book_duplicate#:#Copiar fondo de reserva
 book#:#participants#:#Participantes
 book#:#reservation_deleted#:#Reserva eliminada.
-buddysystem#:#buddy_allow_to_contact_me#:#Permitir solicitudes de contacto
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
-buddysystem#:#buddy_allow_to_contact_me_info#:#Otros usuarios pueden enviarme solicitudes para ponerse en contacto.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirmar solicitud
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancelar solicitud
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Desvincular
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorar contacto
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirmar contacto
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancelar solicitud
-buddysystem#:#buddy_bs_action_already_ignored#:#Acción no posible. Ya ha ignorado al usuario '%s'.
-buddysystem#:#buddy_bs_action_already_linked#:#Acción no posible. Ya ha aceptado la solicitud de contacto del usuario '%s'.
-buddysystem#:#buddy_bs_action_already_requested#:#Acción no posible. Ya ha enviado una solicitud al usuario '%s'.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Acción no posible. El estado de contacto para el usuario '%s' ya es desvinculado.
-buddysystem#:#buddy_bs_action_not_possible#:#Acción no posible
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Contacto solicitado
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Solicitud ignorada
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Vinculado
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Vinculado
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Contacto solicitado
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Solicitud
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Solicitar contacto
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Solicitado
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignorado
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignorado
-buddysystem#:#buddy_bs_state_linked#:#Vinculado
-buddysystem#:#buddy_bs_state_linked_a#:#Vinculado
-buddysystem#:#buddy_bs_state_linked_p#:#Vinculado
-buddysystem#:#buddy_bs_state_requested#:#Solicitado
-buddysystem#:#buddy_bs_state_requested_a#:#Solicitado
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Esperando reacción
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Acción requerida
-buddysystem#:#buddy_bs_state_requested_p#:#Solicitado
-buddysystem#:#buddy_bs_state_unlinked#:#Desvinculado
-buddysystem#:#buddy_bs_state_unlinked_a#:#Desvinculado
-buddysystem#:#buddy_bs_state_unlinked_p#:#Desvinculado
-buddysystem#:#buddy_confirm_unlink#:#¿Realmente deseas desconectarte de este contacto?
-buddysystem#:#buddy_enable#:#Activar ‘Contactos’
-buddysystem#:#buddy_enable_info#:#Si se habilita, los usuarios podrán contactar entre sí iniciando solicitudes de contacto. Además, existe un ajuste personal de usuario para permitir o impedir ser contactado.
-buddysystem#:#buddy_handle_contact_request#:#Solicitud de contacto
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Perfil no publicado
-buddysystem#:#buddy_notification_contact_request#:#Solicitud de contacto
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignorar solicitud
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignorar solicitud
-buddysystem#:#buddy_notification_contact_request_link#:#Aprobar solicitud
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Aprobar solicitud
-buddysystem#:#buddy_notification_contact_request_long#:#¡Hola, [SALUTATION]![BR][BR]"[REQUESTING_USER]" desea añadirte a su lista de amigos.[BR][BR]Enlace al perfil personal: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#El usuario "[REQUESTING_USER]" desea añadirte a su lista de amigos.
-buddysystem#:#buddy_relation_requested#:#Se ha enviado una solicitud al usuario.
-buddysystem#:#buddy_request_approved#:#Has aprobado el contacto correctamente.
-buddysystem#:#buddy_request_ignored#:#Has ignorado al usuario.
-buddysystem#:#buddy_tbl_filter_state#:#Estado
-buddysystem#:#buddy_tbl_state_actions_col_label#:#Estado / Acción
-buddysystem#:#buddy_tbl_title_relations#:#Relaciones con otros usuarios
-buddysystem#:#buddy_use_osd#:#Ventanas emergentes de solicitudes de contacto
-buddysystem#:#buddy_use_osd_info#:#Muestra una ventana emergente para indicar que un usuario desea añadirte a su lista de amigos.
-buddysystem#:#buddy_view_gallery#:#Galería
-buddysystem#:#buddy_view_table#:#Lista
 cat#:#cat_copy#:#Copiar categoría
 cat#:#cat_hide_tax_in_side_block#:#No mostrar en el panel lateral
 cat#:#cat_import#:#Importar categoría
@@ -5932,10 +5875,6 @@ cont#:#cont_tile_size_4#:#completo (un mosaico en una fila)
 cont#:#cont_tile_view#:#Mosaicos
 cont#:#cont_tile_view_info#:#Los objetos ubicados dentro de este contenedor se muestran en forma de mosaicos estilo miniatura. Las imágenes para estos mosaicos pueden subirse en la configuración de cada objeto individual.
 cont#:#cont_trash_general_usage#:#Si desea eliminar una gran cantidad de objetos antiguos y eliminados del sistema, es muy recomendable comenzar con objetos que no sean contenedores (es decir, archivos, glosarios, pruebas,...) y así eliminar todos los objetos de los contenedores (categorías, cursos, grupos, secuencias de aprendizaje,...). El uso de los filtros "Tipo" y "Eliminado el" ayuda en este proceso. Finalmente, elimine los contenedores.
-contact#:#contact_awrn_ap_contacts#:#Contactos aprobados
-contact#:#contact_awrn_ap_contacts_info#:#Se enumeran todos los contactos aprobados por el usuario.
-contact#:#contact_awrn_req_contacts#:#Solicitudes de contacto
-contact#:#contact_awrn_req_contacts_info#:#Se enumeran todas las solicitudes de contacto.
 content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir entrada de menú
 content#:#all_pages#:#Módulo de aprendizaje completo

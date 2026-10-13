@@ -1,0 +1,188 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Consenti di contattarmi"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Se consentito, altri utenti possono inviare delle richieste per contattarmi."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Conferma richiesta"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Elimina richiesta"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Scollega"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ignora"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Confermare"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Elimina richiesta"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Utente '%s' già ignorato."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Ho già accettato la richiesta di contatto dall'utente '%s'."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Utente già richiesto '%s'."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Lo stato del contatto per l'utente '%s' è già scollegato."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Azione non possibile"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Contatto richiesto"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Richiesta ignorata"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Collegato"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Collegato"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Contatto richiesto"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Richiesta"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Richiedi contatto"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Richiesti"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignorato"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ignorato"
+
+msgid "buddy_bs_state_linked"
+msgstr "Collegato"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Collegato"
+
+#, fuzzy
+msgid "buddy_bs_state_linked_p"
+msgstr "Linked"
+
+msgid "buddy_bs_state_requested"
+msgstr "Richiesti"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Richiesti"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Waiting for Reaction"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Action Required"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Richiesti"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked"
+msgstr "Unlinked"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Scollegato"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+msgid "buddy_enable"
+msgstr "Attiva “Contatti”"
+
+msgid "buddy_enable_info"
+msgstr "Se consentito, gli utenti possono contattarsi a vicenda avviando richieste di contatto. Inoltre, c'è un'impostazione utente personale per consentire o impedire di essere contattato."
+
+msgid "buddy_handle_contact_request"
+msgstr "Richiesta di contatto"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profilo non reso pubblico"
+
+msgid "buddy_notification_contact_request"
+msgstr "Richiesta di contatto"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignora richiesta:"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ignora richiesta"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "Approva richiesta:"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Approva richiesta"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]l’utente \"[REQUESTING_USER]\" vuole aggiungerti alla sua lista degli amici.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "L’utente \"[REQUESTING_USER]\" vuole aggiungerti alla sua lista di amici.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "Una richiesta è stata inviata all’utente."
+
+msgid "buddy_request_approved"
+msgstr "Hai accetta il contatto con successo."
+
+msgid "buddy_request_ignored"
+msgstr "Hai ignorato l’utente."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Stato"
+
+#, fuzzy
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Relazioni con altri utenti"
+
+msgid "buddy_use_osd"
+msgstr "Richieste di contatto popup"
+
+msgid "buddy_use_osd_info"
+msgstr "Visualizza un popup per indicare che un utente vuole aggiungerti alle sue listi di amici."
+
+msgid "buddy_view_gallery"
+msgstr "Galleria"
+
+msgid "buddy_view_table"
+msgstr "Lista"

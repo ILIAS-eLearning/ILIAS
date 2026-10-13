@@ -1,0 +1,237 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: buddysystem\n"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me"
+msgstr "Allow to contact me"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_info"
+msgstr "If enabled, other users are able to send me request for getting into contact."
+
+#, fuzzy
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Confirm Request"
+
+#, fuzzy
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Cancel Request"
+
+#, fuzzy
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Unlink"
+
+#, fuzzy
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ignore"
+
+#, fuzzy
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Confirm"
+
+#, fuzzy
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Cancel Request"
+
+#, fuzzy
+msgid "buddy_bs_action_already_ignored"
+msgstr "Already ignored user '%s'."
+
+#, fuzzy
+msgid "buddy_bs_action_already_linked"
+msgstr "Already accepted the contact request from user '%s'."
+
+#, fuzzy
+msgid "buddy_bs_action_already_requested"
+msgstr "Already requested user '%s'."
+
+#, fuzzy
+msgid "buddy_bs_action_already_unlinked"
+msgstr "The contact state for user '%s' is already unlinked."
+
+#, fuzzy
+msgid "buddy_bs_action_not_possible"
+msgstr "Action not possible"
+
+#, fuzzy
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Requested Contact"
+
+#, fuzzy
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Request Ignored"
+
+#, fuzzy
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Linked"
+
+#, fuzzy
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Linked"
+
+#, fuzzy
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Requested Contact"
+
+#, fuzzy
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Request"
+
+#, fuzzy
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Request Contact"
+
+#, fuzzy
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Requested"
+
+#, fuzzy
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignored"
+
+#, fuzzy
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ignored"
+
+#, fuzzy
+msgid "buddy_bs_state_linked"
+msgstr "Linked"
+
+#, fuzzy
+msgid "buddy_bs_state_linked_a"
+msgstr "Linked"
+
+#, fuzzy
+msgid "buddy_bs_state_linked_p"
+msgstr "Linked"
+
+#, fuzzy
+msgid "buddy_bs_state_requested"
+msgstr "Requested"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_a"
+msgstr "Requested"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Waiting for Reaction"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Action Required"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_p"
+msgstr "Requested"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+#, fuzzy
+msgid "buddy_enable"
+msgstr "Activate ‘Contacts’"
+
+#, fuzzy
+msgid "buddy_enable_info"
+msgstr "If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted."
+
+#, fuzzy
+msgid "buddy_handle_contact_request"
+msgstr "Contact Request"
+
+#, fuzzy
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profile not published"
+
+#, fuzzy
+msgid "buddy_notification_contact_request"
+msgstr "Contact Request"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignore Request"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ignore Request"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_link"
+msgstr "Approve Request"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Approve Request"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]the user \"[REQUESTING_USER]\" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_short"
+msgstr "The user \"[REQUESTING_USER]\" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+#, fuzzy
+msgid "buddy_relation_requested"
+msgstr "A request has been sent to the user."
+
+#, fuzzy
+msgid "buddy_request_approved"
+msgstr "You successfully approved the contact."
+
+#, fuzzy
+msgid "buddy_request_ignored"
+msgstr "You ignored the user."
+
+#, fuzzy
+msgid "buddy_tbl_filter_state"
+msgstr "Status"
+
+#, fuzzy
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+#, fuzzy
+msgid "buddy_tbl_title_relations"
+msgstr "Relations to Other Users"
+
+#, fuzzy
+msgid "buddy_use_osd"
+msgstr "Popup Contact Requests"
+
+#, fuzzy
+msgid "buddy_use_osd_info"
+msgstr "Display a popup to indicate a user wants to add you to his friends lists."
+
+#, fuzzy
+msgid "buddy_view_gallery"
+msgstr "Gallery"
+
+#, fuzzy
+msgid "buddy_view_table"
+msgstr "List"
