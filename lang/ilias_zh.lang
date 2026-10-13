@@ -15420,50 +15420,6 @@ sess#:#sess_users_added#:#Registered selected users for the session.###26 09 201
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.###26 09 2014 new variable
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.###26 09 2014 new variable
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
-shib#:#shib_account_creation#:#Account Creation###28 10 2024 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###28 10 2024 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###28 10 2024 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###28 10 2024 new variable
-shib#:#shib_add_missing#:#分配缺失的角色
-shib#:#shib_add_remove#:#添加/删除角色
-shib#:#shib_assignment_type#:#分配的类型
-shib#:#shib_attr_info#:#通过Shibboleth用户资料(profile)中的一个特定属性分配。
-shib#:#shib_attribute#:#用户属性
-shib#:#shib_attribute_name#:#属性名称
-shib#:#shib_attribute_value#:#属性值
-shib#:#shib_check_role_assignment#:#后来登录之后的角色的分配
-shib#:#shib_choose_role#:#选择角色
-shib#:#shib_confirm_del_role_ass#:#您确认想删除以下规则？
-shib#:#shib_deleted_rule#:#角色分配已删除。
-shib#:#shib_global_role#:#全局角色
-shib#:#shib_ilias_role#:#ILIAS角色名
-shib#:#shib_local_role#:#本地角色
-shib#:#shib_missing_attr_name#:#请输入属性名称。
-shib#:#shib_missing_attr_value#:#请输入属性值。
-shib#:#shib_missing_plugin_id#:#请输入一个有效的插件id
-shib#:#shib_missing_role#:#请选择一个角色
-shib#:#shib_new_rule#:#添加新规则
-shib#:#shib_plugin#:#通过插件分配
-shib#:#shib_plugin_id#:#插件ID
-shib#:#shib_plugin_info#:#以一个插件验证角色分配。请输入一个有效的插件ID。
-shib#:#shib_remove_deprecated#:#取消分配弃用的角色
-shib#:#shib_role_ass_table#:#角色分配新规则
-shib#:#shib_role_assignment#:#角色分配
-shib#:#shib_role_by_attribute#:#Shibboleth属性
-shib#:#shib_role_by_plugin#:#通过插件
-shib#:#shib_role_name#:#ILIAS 角色名
-shib#:#shib_role_name_info#:#请选择一个全局角色或输入一个本地角色名。
-shib#:#shib_role_selection#:#角色选择
-shib#:#shib_rule_condition#:#件
-shib#:#shib_rule_type#:#分配的类型
-shib#:#shib_rules_tables#:#激活角色分配规则
-shib#:#shib_settings#:#Shibboleth设置
-shib#:#shib_update_role_ass_table#:#编辑角色分配规则
-shib#:#shib_update_roles#:#角色分配
 skll#:#skll_competence_achievements#:#New competence achievements and appraisals###31 08 2017 new variable
 skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest competence achievements.###31 08 2017 new variable
 skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.###10 11 2018 new variable

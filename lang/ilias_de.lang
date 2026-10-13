@@ -15755,50 +15755,6 @@ sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
 sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
 sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 sess#:#sess_warn_sess_type_changed#:#Sind Sie sicher, dass Sie die Sitzungsart ändern möchten? Die Rechteeinstellungen dieser Sitzung werden überschrieben und an die neue Art der Sitzung angepasst.
-shib#:#shib_account_creation#:#Erstellung von Anmeldekonten
-shib#:#shib_account_creation_disabled#:#Deaktiviert
-shib#:#shib_account_creation_disabled_info#:#Es wird kein neues Anmeldekonto angelegt.
-shib#:#shib_account_creation_enabled#:#Aktiviert
-shib#:#shib_account_creation_enabled_info#:#Ein aktives neues Anmeldekonto wird angelegt.
-shib#:#shib_account_creation_info#:#Die Kontoerstellung wird ausgelöst, wenn ein Benutzer ohne ein bereits bestehendes ILIAS-Konto versucht, sich über Shibboleth anzumelden.
-shib#:#shib_account_creation_with_approval#:#Mit Freischaltung
-shib#:#shib_account_creation_with_approval_info#:#Ein inaktives neues Anmeldekonto wird angelegt. Das Konto bleibt inaktiv, bis es von der technischen Betreuung freigeschaltet wird.
-shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
-shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
-shib#:#shib_assignment_type#:#Art der Zuordnung
-shib#:#shib_attr_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im Shibboleth-Konto.
-shib#:#shib_attribute#:#Benutzerattribut
-shib#:#shib_attribute_name#:#Attributname
-shib#:#shib_attribute_value#:#Attributwert
-shib#:#shib_check_role_assignment#:#Aktualisierung der Rollenzuordnungen bei jeder Anmeldung:
-shib#:#shib_choose_role#:#Rolle übernehmen
-shib#:#shib_confirm_del_role_ass#:#Sind Sie sicher, dass Sie die folgenden Zuordnungen löschen möchten?
-shib#:#shib_deleted_rule#:#Die Zuordnungsregeln wurden gelöscht.
-shib#:#shib_global_role#:#Globale Rolle
-shib#:#shib_ilias_role#:#ILIAS-Rollenname
-shib#:#shib_local_role#:#Lokale Rolle
-shib#:#shib_missing_attr_name#:#Bitte geben Sie den Namen des Attributes ein.
-shib#:#shib_missing_attr_value#:#Bitte geben Sie den Wert des Attributes ein.
-shib#:#shib_missing_plugin_id#:#Bitte geben Sie eine eindeutige Plugin-ID ein.
-shib#:#shib_missing_role#:#Bitte wählen Sie eine ILIAS-Rolle aus.
-shib#:#shib_new_rule#:#Neue Regel anlegen
-shib#:#shib_plugin#:#Zuordnung durch Plugin
-shib#:#shib_plugin_id#:#Plugin-ID
-shib#:#shib_plugin_info#:#Falls die Zuordnung nicht mit einer einfachen Überprüfung (Attributname/-wert) erfolgen kann, können Sie die Zuordnung alternativ über ein Plugin regeln.
-shib#:#shib_remove_deprecated#:#Unberechtigte Rollen entfernen
-shib#:#shib_role_ass_table#:#Neue Regel für die ILIAS-Rollenzuordnung
-shib#:#shib_role_assignment#:#Rollenzuordnungen
-shib#:#shib_role_by_attribute#:#Benutzerattribut
-shib#:#shib_role_by_plugin#:#Durch Plugin
-shib#:#shib_role_name#:#ILIAS-Rollenname
-shib#:#shib_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle aus oder geben Sie den Namen einer lokalen Rolle ein.
-shib#:#shib_role_selection#:#Rollenauswahl
-shib#:#shib_rule_condition#:#Bedingung
-shib#:#shib_rule_type#:#Art der Zuordnung
-shib#:#shib_rules_tables#:#Aktive Regeln für die Rollenzuordnung
-shib#:#shib_settings#:#Shibboleth-Einstellungen
-shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
-shib#:#shib_update_roles#:#Rollenzuordnungen
 skll#:#skll_competence_achievements#:#Neue Kompetenzbewertungen und -einschätzungen
 skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.

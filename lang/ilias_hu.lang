@@ -15498,50 +15498,6 @@ sess#:#sess_users_added#:#Az eseményre a kiválasztott felhasználót regisztr�
 sess#:#sess_users_already_assigned#:#A felhasználó már regisztrált erre az eseményre.
 sess#:#sess_users_removed_from_list#:#A kiválasztott jelentkező(ke)t sikeresen eltávolított a várólistáról.
 sess#:#sess_warn_sess_type_changed#:#Biztos, hogy megváltoztatja a munkamenet típusát? Az összes jogosultságot alapértelmezettre állítjuk.
-shib#:#shib_account_creation#:#ILIAS-fiók létrehozása
-shib#:#shib_account_creation_disabled#:#Kikapcsolva
-shib#:#shib_account_creation_disabled_info#:#Egy új ILIAS-fiókot sem hoztunk létre
-shib#:#shib_account_creation_enabled#:#Bekapcsolva
-shib#:#shib_account_creation_enabled_info#:#Egy új ILIAS-fiókot hoztunk létre.
-shib#:#shib_account_creation_info#:#Az ILIAS-fiók akkor jön létre, amikor egy felhasználó még nem létező ILIAS-fiókba próbál bejelentkezni Shibboleth-en keresztül.
-shib#:#shib_account_creation_with_approval#:#Jóváhagyással
-shib#:#shib_account_creation_with_approval_info#:#Egy új, inkatív ILIAS-fiókot hoztunk létre. A felhasználót megfelelő jogosultsággal lehet aktiválni.
-shib#:#shib_add_missing#:#Hiányzó szerepkörök összerendelése
-shib#:#shib_add_remove#:#Szerepkörök létrehozása/eltávolítása
-shib#:#shib_assignment_type#:#Összerendelés fajtája
-shib#:#shib_attr_info#:#A Shibboleth felhasználói profilban egy adott tulajdonsággal összerendelve.
-shib#:#shib_attribute#:#Felhasználói tulajdonság
-shib#:#shib_attribute_name#:#Tulajdonságnév
-shib#:#shib_attribute_value#:#Tulajdonságérték
-shib#:#shib_check_role_assignment#:#Későbbi bejelentkezések utáni szerepkörök összerendelése
-shib#:#shib_choose_role#:#Szerepkör választása
-shib#:#shib_confirm_del_role_ass#:#Biztos, hogy törli az alábbi szabályokat?
-shib#:#shib_deleted_rule#:#Szerep-összerendeléseket sikeresen törölte.
-shib#:#shib_global_role#:#Globális szerepkör
-shib#:#shib_ilias_role#:#ILIAS-szerepnév
-shib#:#shib_local_role#:#Lokális szerepkör
-shib#:#shib_missing_attr_name#:#Adja meg a tulajdonság nevét!
-shib#:#shib_missing_attr_value#:#Adja meg a tulajdonság értékét!
-shib#:#shib_missing_plugin_id#:#Érvényes bővítmény-azonosítót adjon meg!
-shib#:#shib_missing_role#:#Válasszon egy szerepkört!
-shib#:#shib_new_rule#:#Új szabály létrehozása
-shib#:#shib_plugin#:#Összerendelés bővítménnyel
-shib#:#shib_plugin_id#:#Bővítmény-azonosító
-shib#:#shib_plugin_info#:#Szerep-összerendelés érvényesítése bővítménnyel. Adjon meg egy valós bővítmény-azonosítót.
-shib#:#shib_remove_deprecated#:#Érvénytelen szerepkörök összerendelésének megszüntetése
-shib#:#shib_role_ass_table#:#Új szabály a szerep-összerendelésekhez
-shib#:#shib_role_assignment#:#Szerep-összerendelés
-shib#:#shib_role_by_attribute#:#Shibboleth-tulajdonság
-shib#:#shib_role_by_plugin#:#Bővítménnyel
-shib#:#shib_role_name#:#ILIAS-szerepkör néve
-shib#:#shib_role_name_info#:#Válasszon egy globális szerepkört, vagy adja meg egy helyi szerepkör nevét!
-shib#:#shib_role_selection#:#Szerepkör kiválasztása
-shib#:#shib_rule_condition#:#Feltétel
-shib#:#shib_rule_type#:#Összerendelés típusa
-shib#:#shib_rules_tables#:#Aktív szerep-összerendelés szabályai
-shib#:#shib_settings#:#Shibboleth beállítások
-shib#:#shib_update_role_ass_table#:#Szerep-összerendelés szabályainak módosítása
-shib#:#shib_update_roles#:#Szerep-összerendelések
 skll#:#skll_competence_achievements#:#Új kompetenciaeredmények és -értékelések.
 skll#:#skll_intro_skill_notification_for#:#Ez az Ön utolsó kompetenciaeredményeinek áttekintése.
 skll#:#skll_lhist_skill_achieved#:#$4$ / $3$ állapot ért el $1$ alatt.

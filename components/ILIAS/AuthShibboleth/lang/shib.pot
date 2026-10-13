@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: shib\n"
+
+msgid "shib_account_creation"
+msgstr ""
+
+msgid "shib_account_creation_disabled"
+msgstr ""
+
+msgid "shib_account_creation_disabled_info"
+msgstr ""
+
+msgid "shib_account_creation_enabled"
+msgstr ""
+
+msgid "shib_account_creation_enabled_info"
+msgstr ""
+
+msgid "shib_account_creation_info"
+msgstr ""
+
+msgid "shib_account_creation_with_approval"
+msgstr ""
+
+msgid "shib_account_creation_with_approval_info"
+msgstr ""
+
+msgid "shib_add_missing"
+msgstr ""
+
+msgid "shib_add_remove"
+msgstr ""
+
+msgid "shib_assignment_type"
+msgstr ""
+
+msgid "shib_attr_info"
+msgstr ""
+
+msgid "shib_attribute"
+msgstr ""
+
+msgid "shib_attribute_name"
+msgstr ""
+
+msgid "shib_attribute_value"
+msgstr ""
+
+msgid "shib_check_role_assignment"
+msgstr ""
+
+msgid "shib_choose_role"
+msgstr ""
+
+msgid "shib_confirm_del_role_ass"
+msgstr ""
+
+msgid "shib_deleted_rule"
+msgstr ""
+
+msgid "shib_global_role"
+msgstr ""
+
+msgid "shib_ilias_role"
+msgstr ""
+
+msgid "shib_local_role"
+msgstr ""
+
+msgid "shib_missing_attr_name"
+msgstr ""
+
+msgid "shib_missing_attr_value"
+msgstr ""
+
+msgid "shib_missing_plugin_id"
+msgstr ""
+
+msgid "shib_missing_role"
+msgstr ""
+
+msgid "shib_new_rule"
+msgstr ""
+
+msgid "shib_plugin"
+msgstr ""
+
+msgid "shib_plugin_id"
+msgstr ""
+
+msgid "shib_plugin_info"
+msgstr ""
+
+msgid "shib_remove_deprecated"
+msgstr ""
+
+msgid "shib_role_ass_table"
+msgstr ""
+
+msgid "shib_role_assignment"
+msgstr ""
+
+msgid "shib_role_by_attribute"
+msgstr ""
+
+msgid "shib_role_by_plugin"
+msgstr ""
+
+msgid "shib_role_name"
+msgstr ""
+
+msgid "shib_role_name_info"
+msgstr ""
+
+msgid "shib_role_selection"
+msgstr ""
+
+msgid "shib_rule_condition"
+msgstr ""
+
+msgid "shib_rule_type"
+msgstr ""
+
+msgid "shib_rules_tables"
+msgstr ""
+
+msgid "shib_settings"
+msgstr ""
+
+msgid "shib_update_role_ass_table"
+msgstr ""
+
+msgid "shib_update_roles"
+msgstr ""

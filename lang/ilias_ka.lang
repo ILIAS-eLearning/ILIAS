@@ -15421,50 +15421,6 @@ sess#:#sess_users_added#:#Registered selected users for the session.###26 09 201
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.###26 09 2014 new variable
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.###26 09 2014 new variable
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
-shib#:#shib_account_creation#:#Account Creation###28 10 2024 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###28 10 2024 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###28 10 2024 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###28 10 2024 new variable
-shib#:#shib_add_missing#:#დაკარგული პასუხისმგებლობების დანიშვნა
-shib#:#shib_add_remove#:#პასუხისმგებლობების დამატება/ამოშლა
-shib#:#shib_assignment_type#:#დანიშვნის სახეობა
-shib#:#shib_attr_info#:#შიბოლეტის მომხმარებლის პროფილში დანიშვნა სპეციალური განსაზღვრებით
-shib#:#shib_attribute#:#მომხმარებლის განსაზღვრება
-shib#:#shib_attribute_name#:#განსაზღვრების სახელი
-shib#:#shib_attribute_value#:#განსაზღვრების ღირებულება
-shib#:#shib_check_role_assignment#:#გვიანი შესვლების შემდეგ პასუხისმგებლობების დანიშვნა
-shib#:#shib_choose_role#:#პასუხისმგებლობის არჩევა
-shib#:#shib_confirm_del_role_ass#:#ნამდვილად გსურთ შემდეგი წესების წაშლა?
-shib#:#shib_deleted_rule#:#პასუხისმგებლობების დანიშვნები წაშლილია
-shib#:#shib_global_role#:#გლობალური პასუხისმგებლობა
-shib#:#shib_ilias_role#:#ილიასის პასუხისმგებლობის სახელი
-shib#:#shib_local_role#:#ადგილობრივი პასუხისმგებლობა
-shib#:#shib_missing_attr_name#:#გთხოვთ შეიყვანოთ განსაზღვრების სახელი
-shib#:#shib_missing_attr_value#:#გთხოვთ შეიყვანოთ განსაზღვრების ღირებულება
-shib#:#shib_missing_plugin_id#:#გთხოვთ შეიყვანოთ სწორი პროგრამული გაფართოვების იდ
-shib#:#shib_missing_role#:#გთხოვთ მონიშნოთ ახალი პასუხისმგებლობა
-shib#:#shib_new_rule#:#ახალი წესის დამატება
-shib#:#shib_plugin#:#დანიშვნა პროგრამული გაფართოებისთ
-shib#:#shib_plugin_id#:#პროგრამული გაფართოებისს იდ
-shib#:#shib_plugin_info#:#პასუხისმგებლობის დანიშვნის პროგრამული გაფართოებისთ დამტკიცება. გთხოვთ შეიყვანოთ სწორი პროგრამული გაფართოებისს იდ
-shib#:#shib_remove_deprecated#:#ამორტიზირებული პასუხისმგებლობების დანიშვნების მოხსნა
-shib#:#shib_role_ass_table#:#ახალი წესი პასუხისმგებლობების დანიშვნებისთვის
-shib#:#shib_role_assignment#:#პასუხისმგებლობის დანიშვნა
-shib#:#shib_role_by_attribute#:#შიბოლეტის განსაზღვრება
-shib#:#shib_role_by_plugin#:#პროგრამული გაფართოვებით
-shib#:#shib_role_name#:#ილიასის პასუხისმგებლობის სახელი
-shib#:#shib_role_name_info#:#გთხოვთ აირჩიოთ ან გლობალური პასუხისმგებლობა ან ადგილობრივი პასუხისმგებლობა
-shib#:#shib_role_selection#:#პასუხისმგებლობის მონიშვნა
-shib#:#shib_rule_condition#:#პირობა
-shib#:#shib_rule_type#:#დანიშვნის სახეობა
-shib#:#shib_rules_tables#:#პასუხისმგებლობის დანიშვნის წესები აქტიურია
-shib#:#shib_settings#:#შიბოლეტის პარამეტრები
-shib#:#shib_update_role_ass_table#:#პასუხისმგებლობის დანიშვნის წესის რედაქტირება
-shib#:#shib_update_roles#:#პასუხისმგებლობის დანიშვნები
 skll#:#skll_competence_achievements#:#New competence achievements and appraisals###31 08 2017 new variable
 skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest competence achievements.###31 08 2017 new variable
 skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.###10 11 2018 new variable

@@ -15421,50 +15421,6 @@ sess#:#sess_users_added#:#Användare har registrerats för sessionen.
 sess#:#sess_users_already_assigned#:#Användarna är redan registrerade för sessionen.
 sess#:#sess_users_removed_from_list#:#De valda användarna har tagits bort från väntelistan.
 sess#:#sess_warn_sess_type_changed#:#Är du säker på att du vill ändra sessionstyp? Rättighetsinställningarna för den här sessionen kommer att skrivas över och anpassas till den nya sessionstypen.
-shib#:#shib_account_creation#:#Account Creation###28 10 2024 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###28 10 2024 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###28 10 2024 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###28 10 2024 new variable
-shib#:#shib_add_missing#:#Tilldela roller som saknas
-shib#:#shib_add_remove#:#Lägg till/ta bort roller
-shib#:#shib_assignment_type#:#Typ av uppdrag
-shib#:#shib_attr_info#:#Tilldelningen baseras på ett specifikt attribut i Shibboleth-kontot ###Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
-shib#:#shib_attribute#:#Användarattribut
-shib#:#shib_attribute_name#:#Attributets namn
-shib#:#shib_attribute_value#:#Attributets värde
-shib#:#shib_check_role_assignment#:#Uppdatera rolltilldelningar vid varje inloggning
-shib#:#shib_choose_role#:#Ta på dig en roll
-shib#:#shib_confirm_del_role_ass#:#Är du säker på att du vill ta bort följande uppgifter?
-shib#:#shib_deleted_rule#:#Tilldelningsreglerna har tagits bort.
-shib#:#shib_global_role#:#Global roll
-shib#:#shib_ilias_role#:#ILIAS rollnamn
-shib#:#shib_local_role#:#Lokal roll
-shib#:#shib_missing_attr_name#:#Var god ange namnet på attributet.
-shib#:#shib_missing_attr_value#:#Var god ange värdet på attributet.
-shib#:#shib_missing_plugin_id#:#Var god ange ett unikt plugin-id.
-shib#:#shib_missing_role#:#Vänligen välj en ILIAS-roll.
-shib#:#shib_new_rule#:#Skapa ny regel
-shib#:#shib_plugin#:#Uppdrag genom plugin
-shib#:#shib_plugin_id#:#Plugin-Id
-shib#:#shib_plugin_info#:#Om tilldelningen inte kan göras med en enkel kontroll (attributnamn/värde), kan du alternativt reglera tilldelningen via en plug-in.
-shib#:#shib_remove_deprecated#:#Ta bort obehöriga roller
-shib#:#shib_role_ass_table#:#Ny regel för ILIAS rolltilldelning
-shib#:#shib_role_assignment#:#Rolltilldelning
-shib#:#shib_role_by_attribute#:#Användarattribut
-shib#:#shib_role_by_plugin#:#Genom plugin
-shib#:#shib_role_name#:#ILIAS rollnamn
-shib#:#shib_role_name_info#:#Välj antingen en global roll eller ange namnet på en lokal roll.
-shib#:#shib_role_selection#:#Val av roll
-shib#:#shib_rule_condition#:#Kondition
-shib#:#shib_rule_type#:#Typ av uppdrag
-shib#:#shib_rules_tables#:#Regler för tilldelning av aktiv roll
-shib#:#shib_settings#:#Shibboleth-inställningar
-shib#:#shib_update_role_ass_table#:#Redigera regel för rolltilldelning
-shib#:#shib_update_roles#:#Rolltilldelning
 skll#:#skll_competence_achievements#:#Nya kompetensbedömningar och utvärderingar
 skll#:#skll_intro_skill_notification_for#:#Följande är en översikt över dina senaste kompetensförändringar
 skll#:#skll_lhist_skill_achieved#:#Status $4$ av $3$ tilldelades i $1$.

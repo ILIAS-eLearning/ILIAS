@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "Přiřadit chybějící role"
+
+msgid "shib_add_remove"
+msgstr "Přidat/Odstranit Role"
+
+msgid "shib_assignment_type"
+msgstr "Druh přiřazení"
+
+msgid "shib_attr_info"
+msgstr "Přiřadit specifickým atributem v uživatelském profilu Shibboleth."
+
+msgid "shib_attribute"
+msgstr "Uživatelský atribut"
+
+msgid "shib_attribute_name"
+msgstr "Název atributu"
+
+msgid "shib_attribute_value"
+msgstr "Hodnota atributu"
+
+msgid "shib_check_role_assignment"
+msgstr "Přiřazení role po dalším přihlášení"
+
+msgid "shib_choose_role"
+msgstr "Výběr role"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "Skutečně chcete smazat následující pravidla?"
+
+msgid "shib_deleted_rule"
+msgstr "Smazat přiřazení role."
+
+msgid "shib_global_role"
+msgstr "Globální role"
+
+msgid "shib_ilias_role"
+msgstr "Název role ILIAS"
+
+msgid "shib_local_role"
+msgstr "Lokální role"
+
+msgid "shib_missing_attr_name"
+msgstr "Vložte prosím jméno atributu."
+
+msgid "shib_missing_attr_value"
+msgstr "Vložte prosím hodnotu atributu."
+
+msgid "shib_missing_plugin_id"
+msgstr "Vložte prosím platný id pluginu."
+
+msgid "shib_missing_role"
+msgstr "Vyberte prosím jednu roli."
+
+msgid "shib_new_rule"
+msgstr "Přidat nové pravidlo"
+
+msgid "shib_plugin"
+msgstr "Přiřazení Pluginem"
+
+msgid "shib_plugin_id"
+msgstr "Id Pluginu"
+
+msgid "shib_plugin_info"
+msgstr "Ověřte prosím přířazení role s pluginem. Vložte prosím platný id pluginu."
+
+msgid "shib_remove_deprecated"
+msgstr "Zrušit přiřazení neschválených rolí"
+
+msgid "shib_role_ass_table"
+msgstr "Nové pravidlo pro přiřazení rolí"
+
+msgid "shib_role_assignment"
+msgstr "Přiřazení rolí"
+
+msgid "shib_role_by_attribute"
+msgstr "Atribut Shibboleth"
+
+msgid "shib_role_by_plugin"
+msgstr "Podle Pluginů"
+
+msgid "shib_role_name"
+msgstr "Název role ILIAS"
+
+msgid "shib_role_name_info"
+msgstr "Vyberte prosím globální roli nebo vložte jméno lokální role."
+
+msgid "shib_role_selection"
+msgstr "Výběr role"
+
+msgid "shib_rule_condition"
+msgstr "Podmínka"
+
+msgid "shib_rule_type"
+msgstr "Typ přiřazení"
+
+msgid "shib_rules_tables"
+msgstr "Aktivní Role přiřazení práv"
+
+msgid "shib_settings"
+msgstr "Nastavení Shibboleth"
+
+msgid "shib_update_role_ass_table"
+msgstr "Upravit pravidla přiřazení role"
+
+msgid "shib_update_roles"
+msgstr "Přiřazení role"

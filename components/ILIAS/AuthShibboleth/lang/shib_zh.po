@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "分配缺失的角色"
+
+msgid "shib_add_remove"
+msgstr "添加/删除角色"
+
+msgid "shib_assignment_type"
+msgstr "分配的类型"
+
+msgid "shib_attr_info"
+msgstr "通过Shibboleth用户资料(profile)中的一个特定属性分配。"
+
+msgid "shib_attribute"
+msgstr "用户属性"
+
+msgid "shib_attribute_name"
+msgstr "属性名称"
+
+msgid "shib_attribute_value"
+msgstr "属性值"
+
+msgid "shib_check_role_assignment"
+msgstr "后来登录之后的角色的分配"
+
+msgid "shib_choose_role"
+msgstr "选择角色"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "您确认想删除以下规则？"
+
+msgid "shib_deleted_rule"
+msgstr "角色分配已删除。"
+
+msgid "shib_global_role"
+msgstr "全局角色"
+
+msgid "shib_ilias_role"
+msgstr "ILIAS角色名"
+
+msgid "shib_local_role"
+msgstr "本地角色"
+
+msgid "shib_missing_attr_name"
+msgstr "请输入属性名称。"
+
+msgid "shib_missing_attr_value"
+msgstr "请输入属性值。"
+
+msgid "shib_missing_plugin_id"
+msgstr "请输入一个有效的插件id"
+
+msgid "shib_missing_role"
+msgstr "请选择一个角色"
+
+msgid "shib_new_rule"
+msgstr "添加新规则"
+
+msgid "shib_plugin"
+msgstr "通过插件分配"
+
+msgid "shib_plugin_id"
+msgstr "插件ID"
+
+msgid "shib_plugin_info"
+msgstr "以一个插件验证角色分配。请输入一个有效的插件ID。"
+
+msgid "shib_remove_deprecated"
+msgstr "取消分配弃用的角色"
+
+msgid "shib_role_ass_table"
+msgstr "角色分配新规则"
+
+msgid "shib_role_assignment"
+msgstr "角色分配"
+
+msgid "shib_role_by_attribute"
+msgstr "Shibboleth属性"
+
+msgid "shib_role_by_plugin"
+msgstr "通过插件"
+
+msgid "shib_role_name"
+msgstr "ILIAS 角色名"
+
+msgid "shib_role_name_info"
+msgstr "请选择一个全局角色或输入一个本地角色名。"
+
+msgid "shib_role_selection"
+msgstr "角色选择"
+
+msgid "shib_rule_condition"
+msgstr "件"
+
+msgid "shib_rule_type"
+msgstr "分配的类型"
+
+msgid "shib_rules_tables"
+msgstr "激活角色分配规则"
+
+msgid "shib_settings"
+msgstr "Shibboleth设置"
+
+msgid "shib_update_role_ass_table"
+msgstr "编辑角色分配规则"
+
+msgid "shib_update_roles"
+msgstr "角色分配"

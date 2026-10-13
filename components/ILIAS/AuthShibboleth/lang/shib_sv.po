@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "Tilldela roller som saknas"
+
+msgid "shib_add_remove"
+msgstr "Lägg till/ta bort roller"
+
+msgid "shib_assignment_type"
+msgstr "Typ av uppdrag"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "shib_attr_info"
+msgstr "Tilldelningen baseras på ett specifikt attribut i Shibboleth-kontot "
+
+msgid "shib_attribute"
+msgstr "Användarattribut"
+
+msgid "shib_attribute_name"
+msgstr "Attributets namn"
+
+msgid "shib_attribute_value"
+msgstr "Attributets värde"
+
+msgid "shib_check_role_assignment"
+msgstr "Uppdatera rolltilldelningar vid varje inloggning"
+
+msgid "shib_choose_role"
+msgstr "Ta på dig en roll"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "Är du säker på att du vill ta bort följande uppgifter?"
+
+msgid "shib_deleted_rule"
+msgstr "Tilldelningsreglerna har tagits bort."
+
+msgid "shib_global_role"
+msgstr "Global roll"
+
+msgid "shib_ilias_role"
+msgstr "ILIAS rollnamn"
+
+msgid "shib_local_role"
+msgstr "Lokal roll"
+
+msgid "shib_missing_attr_name"
+msgstr "Var god ange namnet på attributet."
+
+msgid "shib_missing_attr_value"
+msgstr "Var god ange värdet på attributet."
+
+msgid "shib_missing_plugin_id"
+msgstr "Var god ange ett unikt plugin-id."
+
+msgid "shib_missing_role"
+msgstr "Vänligen välj en ILIAS-roll."
+
+msgid "shib_new_rule"
+msgstr "Skapa ny regel"
+
+msgid "shib_plugin"
+msgstr "Uppdrag genom plugin"
+
+msgid "shib_plugin_id"
+msgstr "Plugin-Id"
+
+msgid "shib_plugin_info"
+msgstr "Om tilldelningen inte kan göras med en enkel kontroll (attributnamn/värde), kan du alternativt reglera tilldelningen via en plug-in."
+
+msgid "shib_remove_deprecated"
+msgstr "Ta bort obehöriga roller"
+
+msgid "shib_role_ass_table"
+msgstr "Ny regel för ILIAS rolltilldelning"
+
+msgid "shib_role_assignment"
+msgstr "Rolltilldelning"
+
+msgid "shib_role_by_attribute"
+msgstr "Användarattribut"
+
+msgid "shib_role_by_plugin"
+msgstr "Genom plugin"
+
+msgid "shib_role_name"
+msgstr "ILIAS rollnamn"
+
+msgid "shib_role_name_info"
+msgstr "Välj antingen en global roll eller ange namnet på en lokal roll."
+
+msgid "shib_role_selection"
+msgstr "Val av roll"
+
+msgid "shib_rule_condition"
+msgstr "Kondition"
+
+msgid "shib_rule_type"
+msgstr "Typ av uppdrag"
+
+msgid "shib_rules_tables"
+msgstr "Regler för tilldelning av aktiv roll"
+
+msgid "shib_settings"
+msgstr "Shibboleth-inställningar"
+
+msgid "shib_update_role_ass_table"
+msgstr "Redigera regel för rolltilldelning"
+
+msgid "shib_update_roles"
+msgstr "Rolltilldelning"
