@@ -10104,8 +10104,6 @@ jscalendar#:#time_part#:#(Shift-)Clic ou faire glisser pour changer la valeur
 jscalendar#:#today#:#Aujourd'hui
 jscalendar#:#tt_date_format#:#%a %b %e
 jscalendar#:#wk#:#sem
-like#:#like#:#Like
-like#:#reaction#:#Reaction
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copier Module ILIAS

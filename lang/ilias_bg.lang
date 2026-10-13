@@ -10119,8 +10119,6 @@ jscalendar#:#time_part#:#(Shift-)Кликване или влачене за п�
 jscalendar#:#today#:#Днес
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#седм
-like#:#like#:#Like###10 11 2018 new variable
-like#:#reaction#:#Reaction###10 11 2018 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

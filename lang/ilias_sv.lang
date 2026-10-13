@@ -10119,8 +10119,6 @@ jscalendar#:#time_part#:#(Toggle) klicka eller håll och dra för att ändra vä
 jscalendar#:#today#:#Idag
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
-like#:#like#:#Like
-like#:#reaction#:#Reaktion
 lm#:#lm_btn_lp_toggle_state_completed#:#Set till "Ej redigerad
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set till "Redigerad
 lm#:#lm_copy#:#Kopiera ILIAS utbildningsmodul

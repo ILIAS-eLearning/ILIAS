@@ -10170,8 +10170,6 @@ jscalendar#:#time_part#:#Tem versão
 jscalendar#:#today#:#Hierárquico
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#Alto
-like#:#like#:#Bretão
-like#:#reaction#:#Catalão
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Copiar módulo de aprendizagem

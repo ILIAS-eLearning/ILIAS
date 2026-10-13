@@ -10228,8 +10228,6 @@ jscalendar#:#time_part#:#(Umschalten-)Klick oder festhalten und ziehen, um den W
 jscalendar#:#today#:#Heute
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
-like#:#like#:#Like
-like#:#reaction#:#Reaktion
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren

@@ -10129,8 +10129,6 @@ jscalendar#:#time_part#:#(Shift-)クリックまたはドラッグして値を�
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#週
-like#:#like#:#Like
-like#:#reaction#:#リアクション
 lm#:#lm_btn_lp_toggle_state_completed#:#未完了を設定
 lm#:#lm_btn_lp_toggle_state_not_completed#:#完了を設定
 lm#:#lm_copy#:#ラーニングモジュールをコピー

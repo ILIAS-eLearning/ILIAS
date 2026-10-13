@@ -10180,8 +10180,6 @@ jscalendar#:#time_part#:#(Shift-) Kattintson vagy fogja az értékváltoztatásh
 jscalendar#:#today#:#Ma
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#hét
-like#:#like#:#Kedvel
-like#:#reaction#:#Reakció
 lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
 lm#:#lm_copy#:#Tananyag másolása

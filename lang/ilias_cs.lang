@@ -10119,8 +10119,6 @@ jscalendar#:#time_part#:#(Shift-)Klepnout nebo táhnout pro změnu hodnoty.
 jscalendar#:#today#:#Dnes
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#Týd
-like#:#like#:#Like
-like#:#reaction#:#Reakce
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Kopírovat výukový
