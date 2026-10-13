@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: htlm\n"
+
+msgid "file_import_from_upload_dir_failed"
+msgstr "A fájlt importálása a Feltöltési mappából sikertelen"
+
+msgid "file_imported_from_upload_dir"
+msgstr "A fájlt sikeresen importálta a Feltöltési mappából"
+
+msgid "import_from_upload_dir"
+msgstr "Importálás a Feltöltési mappából"
+
+msgid "import_from_upload_dir_file_name"
+msgstr "Fáj neve"
+
+msgid "import_from_upload_dir_info"
+msgstr "Válasszon egy importfájlt"

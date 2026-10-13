@@ -10040,11 +10040,6 @@ help#:#help_tooltips_and_help#:#Buboréksúgók és munkamenet súgó
 help#:#help_tooltips_only#:#Csak buboréksúgók
 help#:#help_topcis#:#Témasúgó
 help#:#help_tt_text#:#Szöveg
-htlm#:#file_import_from_upload_dir_failed#:#A fájlt importálása a Feltöltési mappából sikertelen
-htlm#:#file_imported_from_upload_dir#:#A fájlt sikeresen importálta a Feltöltési mappából
-htlm#:#import_from_upload_dir#:#Importálás a Feltöltési mappából
-htlm#:#import_from_upload_dir_file_name#:#Fáj neve
-htlm#:#import_from_upload_dir_info#:#Válasszon egy importfájlt
 iass#:#download_assessment_paper#:#Felvétel-fájl letöltése
 iass#:#grading#:#Értékelés
 iass#:#grading_info#:#Értékelésinformáció
