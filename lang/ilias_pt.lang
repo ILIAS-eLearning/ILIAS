@@ -15856,9 +15856,6 @@ user#:#usr_public_profile_disabled#:#Perfil Público desativado
 user#:#usr_public_profile_disabled_info#:#Sua informação é visível apenas para o corpo administrativo.
 user#:#usr_public_profile_global#:#Visão global
 user#:#usr_public_profile_logged_in#:#Visível para usuários conectados.
-usr#:#user_action#:#Ação do utilizador
-usr#:#user_actions#:#Ações do utilizador
-usr#:#user_actions_activation_info#:#As ações serão listadas apenas para utilizadores, se os serviços correspondentes estiverem ativados e todas as pré-condições fornecidas (p. e. requisitos de permissões).
 validation#:#datetime_required#:#Time/date required###03 09 2026 new variable
 validation#:#no_array#:#Given value is not an array###03 09 2026 new variable
 validation#:#not_a_null#:#O valor do tipo '%s' não é zero.

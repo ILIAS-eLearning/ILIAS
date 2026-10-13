@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: usr\n"
+
+msgid "user_action"
+msgstr "Felhasználói művelet"
+
+msgid "user_actions"
+msgstr "Felhasználói műveletek"
+
+msgid "user_actions_activation_info"
+msgstr "A műveleteket csak akkor soroljuk fel a felhasználóknak, ha a kapcsolódó szolgáltatásokat bekapcsolták és az összes előfeltétel adott (például szükséges jogosultságok)."

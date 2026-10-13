@@ -15764,9 +15764,6 @@ user#:#usr_public_profile_disabled#:#Profil désactivé
 user#:#usr_public_profile_disabled_info#:#Vos données personnelles ne sont visibles que pour les administrateurs.
 user#:#usr_public_profile_global#:#Visible en globalité
 user#:#usr_public_profile_logged_in#:#Visible pour les utilisateurs connectés
-usr#:#user_action#:#Action de l’utilisateur
-usr#:#user_actions#:#Actions des utilisateurs
-usr#:#user_actions_activation_info#:#Les actions seront listées uniquement pour les utilisateurs si les services correspondants sont activés et que toutes les conditions préalables sont données (par ex. exigences des permissions).
 validation#:#datetime_required#:#Time/Date required
 validation#:#no_array#:#Given value is not an array###31 10 2023 new variable
 validation#:#not_a_null#:#Value of type '%s' is not a null.

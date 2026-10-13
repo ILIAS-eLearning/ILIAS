@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: usr\n"
+
+msgid "user_action"
+msgstr "Användaråtgärd"
+
+msgid "user_actions"
+msgstr "Användaråtgärder"
+
+msgid "user_actions_activation_info"
+msgstr "Åtgärderna erbjuds endast om motsvarande tjänster är aktiverade och de nödvändiga förutsättningarna (t.ex. tillstånd) är givna för användarna."
