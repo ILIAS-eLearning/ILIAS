@@ -8492,10 +8492,18 @@ button .minimize, button .close {
   width: 30%;
 }
 .il-filter .rightaddon {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
   overflow: visible;
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 10%;
+}
+.il-filter .rightaddon .btn {
+  min-width: 0;
+  width: 100%;
 }
 .il-filter .rightaddon .glyphicon {
   top: 0;
@@ -8566,7 +8574,10 @@ button .minimize, button .close {
   padding-right: 0.3em;
 }
 .il-filter-bar .il-filter-bar-toggle {
+  display: flex;
+  align-items: center;
   padding-left: 10px;
+  transform: translateY(2px);
 }
 
 .il-filter-controls {
