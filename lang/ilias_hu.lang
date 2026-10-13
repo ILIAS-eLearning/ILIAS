@@ -13850,7 +13850,6 @@ rep#:#rep_tree_limit#:#Elemek számának korlátozás a Tartalomtárban
 rep#:#rep_tree_limit_info#:#A teljesítmény növelése érdekében korlátozható a Tartalomtár faszerkezetében megjelenő objektumok száma.
 rep#:#rep_tree_limit_number#:#Maximális szám
 rep#:#rep_tree_limit_number_info#:#A csomópont kibontásakor megjelenő gyermekelemek maximális száma. Amennyiben ennél több gyermekelem létezik, egy beviteli mező jelenik meg, mely segítségével cím alapján szűrhetünk a gyermekelemekre.
-rglo#:#rglo_call#:#ECS fogalomtár hívása
 rgrp#:#rgrp_call#:#ECS csoport hívása
 rlm#:#rlm_call#:#ECS tananyag hívása
 rtst#:#rtst_call#:#ECS teszt hívása

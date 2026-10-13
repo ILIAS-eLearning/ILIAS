@@ -13845,7 +13845,6 @@ rep#:#rep_tree_limit#:#ツリーでアイテムを制限
 rep#:#rep_tree_limit_info#:#リポジトリーツリーのオブジェクト数は拡張機能へ制限されます。
 rep#:#rep_tree_limit_number#:#最大数
 rep#:#rep_tree_limit_number_info#:#子要素の最大数は展開ノードへ最初に表示されます。さらに子要素が存在する場合は、検索入力フィールドがタイトルで子要素フィルターへ表示されます。
-rglo#:#rglo_call#:#ECS索引をコール
 rgrp#:#rgrp_call#:#ECS Groupをコール
 rlm#:#rlm_call#:#ECSラーニングモジュールをコール
 rtst#:#rtst_call#:# ECS Testをコール

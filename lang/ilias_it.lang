@@ -13796,7 +13796,6 @@ rep#:#rep_tree_limit#:#Limitare gli elementi nell'albero
 rep#:#rep_tree_limit_info#:#Il numero di oggetti nell'albero del repository sarà limitato per migliorare le prestazioni.
 rep#:#rep_tree_limit_number#:#Numero massimo
 rep#:#rep_tree_limit_number_info#:#Numero massimo di elementi figli che sono inizialmente mostrati per un nodo espanso. Se sono presenti più elementi figli, viene mostrato un campo di input di ricerca per filtrare gli elementi figli per titolo.
-rglo#:#rglo_call#:#Richiama Glossario ESC
 rgrp#:#rgrp_call#:#Richiama Gruppo ESC
 rlm#:#rlm_call#:#Richiama modulo di apprendimento ESC
 rtst#:#rtst_call#:#Richiama test ESC
