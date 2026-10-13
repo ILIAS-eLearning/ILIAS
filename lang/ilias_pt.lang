@@ -10238,21 +10238,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###03 09 2026 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###03 09 2026 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###03 09 2026 new variable
 ldoc#:#ldoc_updated_document#:#Document uploaded###03 09 2026 new variable
-lhist#:#cont_create_lhist#:#Leitura
-lhist#:#cont_update_lhist#:#Ciclo de vida
-lhist#:#lhist_all#:#Localização
-lhist#:#lhist_cont_placeholder_text#:#Baixo
-lhist#:#lhist_enable_learning_history#:#Learning History###07 02 2020 new variable
-lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.###07 02 2020 new variable
-lhist#:#lhist_first_login#:#Abcázio
-lhist#:#lhist_learning_history#:#Africano
-lhist#:#lhist_lhist#:#Amárico
-lhist#:#lhist_manual#:#Árabe
-lhist#:#lhist_no_entries#:#Aimara
-lhist#:#lhist_period#:#AzerbaijanesAzeri
-lhist#:#lhist_selected#:#Bielorusso
-lhist#:#lhist_show_more#:#Búlgaro
-lhist#:#lhist_type_of_achievement#:#Tibetano
 like#:#like#:#Bretão
 like#:#reaction#:#Catalão
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable

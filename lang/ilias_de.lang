@@ -10296,21 +10296,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#Vorname
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Nachname
 ldoc#:#ldoc_tbl_hist_head_login#:#Anmeldename
 ldoc#:#ldoc_updated_document#:#Dokument hochgeladen
-lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
-lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
-lhist#:#lhist_all#:#All
-lhist#:#lhist_cont_placeholder_text#:#Dieses Element zeigt den Lernverlauf in der Präsentationsansicht des Portfolios.
-lhist#:#lhist_enable_learning_history#:#Lernverlauf
-lhist#:#lhist_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
-lhist#:#lhist_first_login#:#Erstes Login
-lhist#:#lhist_learning_history#:#Lernverlauf
-lhist#:#lhist_lhist#:#Lernverlauf
-lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#Verfolgen Sie weiter Ihre Ziele! Lernen Sie heute etwas, um Ihren Lernverlauf zu erweitern.
-lhist#:#lhist_period#:#Period
-lhist#:#lhist_selected#:#Selected
-lhist#:#lhist_show_more#:#Mehr anzeigen
-lhist#:#lhist_type_of_achievement#:#Typ des Lernerfolgs
 like#:#like#:#Like
 like#:#reaction#:#Reaktion
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen

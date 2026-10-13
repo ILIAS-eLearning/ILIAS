@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Tanulási történelemelem létrehozása"
+
+msgid "cont_update_lhist"
+msgstr "Tanulási történelemelem módosítása"
+
+msgid "lhist_all"
+msgstr "Összes"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Ez az elem a tanulási történelmet jeleníti meg a portfólióban."
+
+msgid "lhist_enable_learning_history"
+msgstr "Tanulási történelem"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "Egy felhasználó összes elért eredménye áttekintésének bekapcsolása."
+
+msgid "lhist_first_login"
+msgstr "Első bejelentkezés"
+
+msgid "lhist_learning_history"
+msgstr "Tanulási történelem"
+
+msgid "lhist_lhist"
+msgstr "Tanulási történelem"
+
+msgid "lhist_manual"
+msgstr "Manuális"
+
+msgid "lhist_no_entries"
+msgstr "Érje el céljait! Még ma kezdjen tanulni, hogy növekedjen tanulási történelme."
+
+msgid "lhist_period"
+msgstr "Időszak"
+
+msgid "lhist_selected"
+msgstr "Kiválasztott"
+
+msgid "lhist_show_more"
+msgstr "Több megjelenítése"
+
+msgid "lhist_type_of_achievement"
+msgstr "Megszerzés típusa"

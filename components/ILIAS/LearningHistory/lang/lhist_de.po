@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Element für Lernverlauf erstellen"
+
+msgid "cont_update_lhist"
+msgstr "Element für Lernverlaufs bearbeiten"
+
+msgid "lhist_all"
+msgstr "All"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Dieses Element zeigt den Lernverlauf in der Präsentationsansicht des Portfolios."
+
+msgid "lhist_enable_learning_history"
+msgstr "Lernverlauf"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "Aktiviert eine Übersicht aller Lernerfolge eines Benutzers."
+
+msgid "lhist_first_login"
+msgstr "Erstes Login"
+
+msgid "lhist_learning_history"
+msgstr "Lernverlauf"
+
+msgid "lhist_lhist"
+msgstr "Lernverlauf"
+
+msgid "lhist_manual"
+msgstr "Manual"
+
+msgid "lhist_no_entries"
+msgstr "Verfolgen Sie weiter Ihre Ziele! Lernen Sie heute etwas, um Ihren Lernverlauf zu erweitern."
+
+msgid "lhist_period"
+msgstr "Period"
+
+msgid "lhist_selected"
+msgstr "Selected"
+
+msgid "lhist_show_more"
+msgstr "Mehr anzeigen"
+
+msgid "lhist_type_of_achievement"
+msgstr "Typ des Lernerfolgs"

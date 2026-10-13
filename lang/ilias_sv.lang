@@ -10186,21 +10186,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###21 11 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###21 11 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###21 11 2023 new variable
 ldoc#:#ldoc_updated_document#:#Document uploaded###26 08 2024 new variable
-lhist#:#cont_create_lhist#:#Create element för inlärningshistorik
-lhist#:#cont_update_lhist#:#Redigera element för inlärningshistorik
-lhist#:#lhist_all#:#Alla
-lhist#:#lhist_cont_placeholder_text#:#Detta element visar lärandets framsteg i portföljens presentationsvy.
-lhist#:#lhist_enable_learning_history#:#Framsteg inom lärande
-lhist#:#lhist_enable_learning_history_info#:#Aktiverar en översikt över alla inlärningsresultat för en användare.
-lhist#:#lhist_first_login#:#Första inloggning
-lhist#:#lhist_learning_history#:#Framsteg inom lärande
-lhist#:#lhist_lhist#:#Framsteg inom lärande
-lhist#:#lhist_manual#:#Handbok
-lhist#:#lhist_no_entries#:#Fortsätt att sträva efter dina mål! Lär dig något idag för att förlänga din inlärning.
-lhist#:#lhist_period#:#Period
-lhist#:#lhist_selected#:#Vald
-lhist#:#lhist_show_more#:#Visa mer
-lhist#:#lhist_type_of_achievement#:#Typ av framgångsrikt lärande
 like#:#like#:#Like
 like#:#reaction#:#Reaktion
 lm#:#lm_btn_lp_toggle_state_completed#:#Set till "Ej redigerad

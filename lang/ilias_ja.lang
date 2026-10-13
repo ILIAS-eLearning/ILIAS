@@ -10197,21 +10197,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name
 ldoc#:#ldoc_tbl_hist_head_login#:#ユーザ名 (Login)
 ldoc#:#ldoc_updated_document#:#ドキュメントがアップロードされました
-lhist#:#cont_create_lhist#:#学習履歴要素を作成
-lhist#:#cont_update_lhist#:#学習履歴要素を編集
-lhist#:#lhist_all#:#All
-lhist#:#lhist_cont_placeholder_text#:#この要素はポートフォリオのプレゼンテーションモード内学習履歴を表示します。
-lhist#:#lhist_enable_learning_history#:#学習履歴
-lhist#:#lhist_enable_learning_history_info#:#ユーザの全達成点の概要を有効にする
-lhist#:#lhist_first_login#:#初回ログイン
-lhist#:#lhist_learning_history#:#学習履歴
-lhist#:#lhist_lhist#:#学習履歴
-lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#目標達成! 今後の学習履歴について今日何かを学習します。
-lhist#:#lhist_period#:#期間
-lhist#:#lhist_selected#:#選択
-lhist#:#lhist_show_more#:#詳しく見る
-lhist#:#lhist_type_of_achievement#:#達成のタイプ
 like#:#like#:#Like
 like#:#reaction#:#リアクション
 lm#:#lm_btn_lp_toggle_state_completed#:#未完了を設定

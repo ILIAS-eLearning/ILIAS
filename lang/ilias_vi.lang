@@ -10188,21 +10188,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###26 08 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###26 08 2024 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###26 08 2024 new variable
 ldoc#:#ldoc_updated_document#:#Document uploaded###26 08 2024 new variable
-lhist#:#cont_create_lhist#:#Create Learning History Element###10 11 2018 new variable
-lhist#:#cont_update_lhist#:#Edit Learning History Element###10 11 2018 new variable
-lhist#:#lhist_all#:#All###10 11 2018 new variable
-lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.###10 11 2018 new variable
-lhist#:#lhist_enable_learning_history#:#Learning History###07 02 2020 new variable
-lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.###07 02 2020 new variable
-lhist#:#lhist_first_login#:#First Login###10 11 2018 new variable
-lhist#:#lhist_learning_history#:#Learning History###10 11 2018 new variable
-lhist#:#lhist_lhist#:#Learning History###10 11 2018 new variable
-lhist#:#lhist_manual#:#Manual###10 11 2018 new variable
-lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.###10 11 2018 new variable
-lhist#:#lhist_period#:#Period###10 11 2018 new variable
-lhist#:#lhist_selected#:#Selected###10 11 2018 new variable
-lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
-lhist#:#lhist_type_of_achievement#:#Type of Achievement###10 11 2018 new variable
 like#:#like#:#Like###10 11 2018 new variable
 like#:#reaction#:#Reaction###10 11 2018 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable

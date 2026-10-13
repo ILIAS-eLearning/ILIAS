@@ -10227,21 +10227,6 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#Nombre
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Apellidos
 ldoc#:#ldoc_tbl_hist_head_login#:#Nombre de usuario (Login)
 ldoc#:#ldoc_updated_document#:#Documento cargado
-lhist#:#cont_create_lhist#:#Crear elemento de historial de aprendizaje
-lhist#:#cont_update_lhist#:#Editar elemento de historial de aprendizaje
-lhist#:#lhist_all#:#Todo
-lhist#:#lhist_cont_placeholder_text#:#Este elemento mostrará el historial de aprendizaje en el modo de presentación del portafolio.
-lhist#:#lhist_enable_learning_history#:#Historial de aprendizaje
-lhist#:#lhist_enable_learning_history_info#:#Habilita una vista general de todos los logros de un usuario.
-lhist#:#lhist_first_login#:#Primer inicio de sesión
-lhist#:#lhist_learning_history#:#Historial de aprendizaje
-lhist#:#lhist_lhist#:#Historial de aprendizaje
-lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#¡Alcanza tus metas! Aprende algo hoy para ampliar tu historial de aprendizaje.
-lhist#:#lhist_period#:#Periodo
-lhist#:#lhist_selected#:#Seleccionado
-lhist#:#lhist_show_more#:#Mostrar más
-lhist#:#lhist_type_of_achievement#:#Tipo de logro
 like#:#like#:#Me gusta
 like#:#reaction#:#Reacción
 lm#:#lm_btn_lp_toggle_state_completed#:#Establecer como No completado
