@@ -67,6 +67,9 @@ class LanguageComponentGraphTest extends TestCase
         $use[\ILIAS\Environment\Configuration\Installation\Directories::class] ??= $this->createDirectories(
             (string) realpath(__DIR__ . '/../../../../')
         );
+        $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class] ??= $this->createStub(
+            \ILIAS\Logging\Logger\LoggerFactoryInterface::class
+        );
         $seek = [
             LanguageFileDirectory::class => [],
         ];
@@ -418,6 +421,26 @@ class LanguageComponentGraphTest extends TestCase
 
         self::assertInstanceOf(\ILIAS\Language\Setup\TranslationCacheLegacyProxy::class, $translation_cache);
         $translation_cache->invalidate('de');
+    }
+
+    public function testTheRuntimeInstallationManagerAndTheRepositoryProviderLogToTheLangLogger(): void
+    {
+        $logger = $this->createStub(\ILIAS\Logging\Logger\LoggerInterface::class);
+        $other_logger = $this->createStub(\ILIAS\Logging\Logger\LoggerInterface::class);
+        $logger_factory = $this->createStub(\ILIAS\Logging\Logger\LoggerFactoryInterface::class);
+        $logger_factory->method('getLazy')->willReturnCallback(
+            static fn(string $component_id) => $component_id === 'lang' ? $logger : $other_logger
+        );
+        [, , , , , $provide, , $internal] = $this->initComponent([
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+            \ILIAS\Logging\Logger\LoggerFactoryInterface::class => $logger_factory,
+        ]);
+        $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+        $manager = (new \ReflectionMethod($setup_language, 'manager'))->invoke($setup_language);
+
+        self::assertSame($logger, self::readPrivateProperty($manager, 'logger'));
+        self::assertSame($logger, self::readPrivateProperty($internal[RepositoryProvider::class], 'logger'));
     }
 
     private static function readPrivateProperty(object $object, string $property): mixed

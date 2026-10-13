@@ -28,6 +28,7 @@ use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
 use ILIAS\Language\ComponentTranslation\TranslationMarkupPolicy;
 use ILIAS\Language\ComponentTranslation\PlainLogText;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 /**
  * Write access to the language installation: installing, flushing and registering languages in the
@@ -47,14 +48,10 @@ class LanguageInstallationManager
     private ?TranslationMarkupPolicy $markup_policy = null;
 
     /**
-     * @param (\Closure():\DateTimeImmutable)|null $now Injectable clock, defaults to
-     *        the current UTC time. Exists so change/update timestamps can be
-     *        asserted in tests without depending on wall-clock time.
-     * @param (\Closure():?string)|null $client_data_dir_resolver Resolved lazily and re-read on every
-     *        call (no client may exist yet at construction time). Production callers
-     *        pass MigratedLanguageFilePaths::resolveClientDataDir() or a Setup-environment based
-     *        variant of it (see ilSetupLanguage). `null` (the default) means "no overlay can be
-     *        maintained" - the database is written regardless.
+     * @param (\Closure():\DateTimeImmutable)|null $now injectable clock (UTC now by default), for tests
+     * @param (\Closure():?string)|null $client_data_dir_resolver resolved on every call, as no client may
+     *        exist at construction time; `null` = no overlay is maintained, the database is written regardless
+     * @param LoggerInterface|null $logger `null` in the Setup: warnings go to the PHP error log
      */
     public function __construct(
         private readonly \ilDBInterface $db,
@@ -64,7 +61,21 @@ class LanguageInstallationManager
         private readonly ?\Closure $now = null,
         private readonly TranslationCache $translation_cache = new NullTranslationCache(),
         private readonly ?\Closure $client_data_dir_resolver = null,
+        private readonly ?LoggerInterface $logger = null,
     ) {
+    }
+
+    private function logWarning(string $message): void
+    {
+        if ($this->logger !== null) {
+            try {
+                $this->logger->warning($message);
+                return;
+            } catch (\Throwable) {
+                // a failing logger must not abort the installation
+            }
+        }
+        error_log($message);
     }
 
     /**
@@ -224,7 +235,7 @@ class LanguageInstallationManager
                     $client_data_dir
                 );
             } catch (\Throwable $t) {
-                error_log(sprintf(
+                $this->logWarning(sprintf(
                     'Could not remove the overlay of migrated module "%s", language "%s": %s',
                     $module,
                     $lang_key,
@@ -652,7 +663,7 @@ class LanguageInstallationManager
 
             $skipped_for_language = $this->skipped_invalid_markup_entries[$lang_key] ?? [];
             if ($skipped_for_language !== []) {
-                error_log(PlainLogText::of(sprintf(
+                $this->logWarning(PlainLogText::of(sprintf(
                     'Customizing entries of language "%s" not applied - they contain markup that is not allowed: %s',
                     $lang_key,
                     implode(', ', array_keys($skipped_for_language))
@@ -662,7 +673,7 @@ class LanguageInstallationManager
             if ($duplicates !== []) {
                 // shipped files contain duplicates (e.g. ilias_fa.lang), so aborting would block updating them:
                 // the first occurrence wins and the duplicates are reported
-                error_log(sprintf(
+                $this->logWarning(sprintf(
                     'Duplicate language entries for language "%s" (first occurrence used): %s',
                     $lang_key,
                     implode(', ', $duplicates)
@@ -969,7 +980,7 @@ class LanguageInstallationManager
 
             return $overlay;
         } catch (\Throwable $t) {
-            error_log(sprintf(
+            $this->logWarning(sprintf(
                 'Could not read the overlay of migrated module "%s", language "%s" - ignoring it: %s',
                 $module,
                 $lang_key,
@@ -1007,7 +1018,7 @@ class LanguageInstallationManager
             $this->translation_cache->invalidate($lang_key);
         } catch (\Throwable $t) {
             // A cache that cannot be invalidated must not undo the successful database write
-            error_log(sprintf('Could not invalidate the language cache for "%s": %s', $lang_key, $t->getMessage()));
+            $this->logWarning(sprintf('Could not invalidate the language cache for "%s": %s', $lang_key, $t->getMessage()));
         }
     }
 
@@ -1186,11 +1197,8 @@ class LanguageInstallationManager
                     $local_change_dates[(string) $module] ?? []
                 );
             } catch (\Throwable $t) {
-                // No injected logger here - this class also runs in Setup contexts before a
-                // logging service exists; error_log() works everywhere. The lng_modules write above
-                // already succeeded and must not be undone by a problem with the file mirror - the
-                // failure is returned so the caller can report it visibly.
-                error_log(sprintf(
+                // the lng_modules write already succeeded: the failure is returned, not rolled back
+                $this->logWarning(sprintf(
                     'Could not sync migrated language file for module "%s", language "%s": %s',
                     $module,
                     $lang_key,

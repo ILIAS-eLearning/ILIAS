@@ -174,7 +174,7 @@ class LanguageInstallationManagerMigratedSourcesAndLocksTest extends LanguageIns
      */
     public function testAModuleWithoutAnOverlayThatGetsOneCreatedDuringTheRunIsReportedAndTheOverlaySurvives(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->shipPo(['greeting' => 'Hallo']);
         $concurrent_edit = MigratedPoFixture::catalog(self::MODULE, [
             'greeting' => ['value' => 'Von einem parallelen Admin-Edit', 'original' => 'Hallo', 'local_change' => '2020-01-01T00:00:00Z'],

@@ -134,7 +134,7 @@ class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInst
      */
     public function testACustomizingEntryWithDisallowedMarkupIsSkippedButTheRestIsInstalled(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->writeLang('lang/ilias_de.lang', ['common#:#yes#:#Ja', 'common#:#bad#:#Shipped harmless']);
         $this->writeLang('lang/customizing/ilias_de.lang.local', [
             'common#:#yes#:#Jawohl',
@@ -164,7 +164,7 @@ class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInst
      */
     public function testGetSkippedInvalidMarkupEntriesIsResetOnEveryInsertLanguageCall(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->writeLang('lang/ilias_de.lang', ['common#:#bad#:#Shipped harmless']);
         $this->writeLang('lang/customizing/ilias_de.lang.local', ['common#:#bad#:#<script>evil</script>']);
         $manager = $this->manager();
@@ -359,7 +359,7 @@ class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInst
      */
     public function testACorruptOverlayIsIgnoredAndRebuiltOnUpdate(): void
     {
-        $this->expectErrorLog();
+        $this->expectManagerWarning();
         $this->shipPo(['greeting' => 'Hallo', 'farewell' => 'Tschüss']);
         $this->seedOverlay(['greeting' => ['value' => 'Hallo', 'original' => 'Hallo']]);
         file_put_contents($this->overlayBase() . '.po', "msgid \"kaputt\n");
@@ -373,6 +373,6 @@ class LanguageInstallationManagerMigratedReconciliationTest extends LanguageInst
         $this->assertSame('Tschüss', LocalChangeComments::getOriginal($overlay->find(null, 'farewell')));
         // "greeting" carries the shipped value and is not written
         $this->assertSame(['farewell' => 'Pfiat di'], MigratedPoFixture::readMo(MigratedPoFixture::overlayMo($this->overlayBase())));
-        $this->assertStringContainsString('Could not read the overlay of migrated module "pilot"', $this->errorLog());
+        $this->assertStringContainsString('Could not read the overlay of migrated module "pilot"', $this->loggedWarnings());
     }
 }

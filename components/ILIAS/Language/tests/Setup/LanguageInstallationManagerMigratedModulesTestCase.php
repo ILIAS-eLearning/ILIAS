@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Logging\Logger\LoggerInterface;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
@@ -61,6 +62,9 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
     protected array $db_local_changes = [];
     /** @var array<string, array<string, string>> */
     protected array $db_entries = [];
+    /** @var list<string> */
+    protected array $logged_warnings = [];
+    private bool $expects_manager_warning = false;
 
     protected function setUp(): void
     {
@@ -138,7 +142,9 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
     protected function manager(
         ?\Closure $client_data_dir_resolver = null,
         ?\Closure $language_cache_invalidator = null,
-        bool $with_resolver = true
+        bool $with_resolver = true,
+        bool $with_logger = true,
+        ?LoggerInterface $logger = null
     ): LanguageInstallationManager {
         $client_data_dir = $this->root . '/client-data';
         return new LanguageInstallationManager(
@@ -154,8 +160,39 @@ abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCa
             $language_cache_invalidator === null
                 ? new NullTranslationCache()
                 : new CallbackTranslationCache($language_cache_invalidator),
-            $with_resolver ? ($client_data_dir_resolver ?? static fn(): string => $client_data_dir) : null
+            $with_resolver ? ($client_data_dir_resolver ?? static fn(): string => $client_data_dir) : null,
+            $logger ?? ($with_logger ? $this->recordingLogger() : null)
         );
+    }
+
+    private function recordingLogger(): LoggerInterface
+    {
+        $logger = $this->createStub(LoggerInterface::class);
+        $logger->method('warning')->willReturnCallback(
+            function (string|\Stringable $message): void {
+                $this->logged_warnings[] = (string) $message;
+            }
+        );
+
+        return $logger;
+    }
+
+    protected function expectManagerWarning(): void
+    {
+        $this->expects_manager_warning = true;
+    }
+
+    protected function assertPostConditions(): void
+    {
+        parent::assertPostConditions();
+        if ($this->expects_manager_warning) {
+            $this->assertNotSame([], $this->logged_warnings, 'the manager logged no warning');
+        }
+    }
+
+    protected function loggedWarnings(): string
+    {
+        return implode("\n", $this->logged_warnings);
     }
 
     /**
