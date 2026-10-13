@@ -11887,44 +11887,6 @@ mme#:#type_separator_info#:#Separatorns titel visas i ett grått område. Du få
 mme#:#type_top_link_item#:#Länk
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mob#:#mob_choose_from_pool#:#Från mediapoolen
-mob#:#mob_copyright#:#Copyright###29 10 2025 new variable
-mob#:#mob_copyright_icon#:#Copyright Icon###29 10 2025 new variable
-mob#:#mob_external_url#:#Extern URL
-mob#:#mob_extract_preview_image#:#Extract Preview Image###21 11 2023 new variable
-mob#:#mob_file#:#Fil
-mob#:#mob_file_could_not_be_uploaded#:#Filen kunde inte laddas upp.
-mob#:#mob_general#:#Allmänt
-mob#:#mob_image_extracted#:#Image has been extracted.###21 11 2023 new variable
-mob#:#mob_internal_usages_in_object#:#Page Usages###29 10 2025 new variable
-mob#:#mob_language#:#Språk
-mob#:#mob_last_update#:#Last Update###29 10 2025 new variable
-mob#:#mob_media#:#Media###29 10 2025 new variable
-mob#:#mob_media_objects_overview#:#Media Objects on Pages###29 10 2025 new variable
-mob#:#mob_mime_type_not_allowed#:#Följande mime-typer är inte tillåtna på destinationen.
-mob#:#mob_multi_srt_files#:#SRT-filer
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###21 11 2023 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Var god ange en fast storlek för din bild innan du definierar länkade områden. Områdena kommer inte att justeras om din bild skalas av en innehållsstil eller andra CSS-regler.
-mob#:#mob_object#:#Objekt
-mob#:#mob_please_select_pool#:#Vänligen välj en mediapool.
-mob#:#mob_preview_picture#:#Preview Picture###21 11 2023 new variable
-mob#:#mob_really_delete_srt#:#Vill du verkligen ta bort följande srt-filer?
-mob#:#mob_second#:#Second###21 11 2023 new variable
-mob#:#mob_srt_files_deleted#:#Undertextfiler har tagits bort.
-mob#:#mob_srt_not_allowed#:#Filer av typen .srt kan för närvarande inte laddas upp. För att aktivera funktionen måste den konfigureras av en systemadministratör (Administration &gt; File Services).
-mob#:#mob_subtitle_file#:#Fil för undertexter
-mob#:#mob_subtitle_files#:#Filer för undertexter
-mob#:#mob_subtitles#:#Underrubrik
-mob#:#mob_type_not_supported#:#Mimetypen stöds inte för närvarande
-mob#:#mob_upload_file#:#Ladda upp fil
-mob#:#mob_upload_multi_srt#:#Ladda upp som ZIP-fil
-mob#:#mob_upload_multi_srt_howto#:#.zip-filen / .zip-arkivet får inte innehålla några underkataloger. Alla .srt-filer måste vara på toppnivå för att kunna identifieras. Filnamnen måste avslutas med "_&lt;SPRACHE&gt;.srt", där SPRACHE är motsvarande språkidentifierare (t.ex. "en", "it" ell
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Extern URL, t.ex. Youtube eller Vimeo URL.
-mob#:#mob_url_info1#:#Extern resurs-URL, tillåtna suffix är
-mob#:#mob_url_info_video#:#Du kan också hänvisa till en Youtube- eller Vimeo-URL.
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages###29 10 2025 new variable
-mob#:#mob_usages_in_other_objects#:#Other Usages###29 10 2025 new variable
 mst#:#mst_cert_issued_on#:#Utställd på
 mst#:#mst_courses_of#:#Anmälningar från %s
 mst#:#mst_download_certificate#:#Ladda ner certifikat

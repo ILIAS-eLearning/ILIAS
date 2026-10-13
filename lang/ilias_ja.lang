@@ -11949,44 +11949,6 @@ mme#:#type_separator_info#:#このアイテムのタイトルはグレイバナ�
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#コンテナ
 mme#:#unable_to_render#:# '%s' in '%s'を表示不可
-mob#:#mob_choose_from_pool#:#メディア集から選択
-mob#:#mob_copyright#:#Copyright
-mob#:#mob_copyright_icon#:#Copyright アイコン
-mob#:#mob_external_url#:#外部URL
-mob#:#mob_extract_preview_image#:#プレビューイメージを抽出
-mob#:#mob_file#:#ファイル
-mob#:#mob_file_could_not_be_uploaded#:#ファイルをアップロードできませんでした。
-mob#:#mob_general#:#全般
-mob#:#mob_image_extracted#:#イメージの抽出を完了しました。
-mob#:#mob_internal_usages_in_object#:#Page Usages###21 04 2026 new variable
-mob#:#mob_language#:#言語
-mob#:#mob_last_update#:#最終更新
-mob#:#mob_media#:#Media
-mob#:#mob_media_objects_overview#:#ページ上のMediaオブジェクト
-mob#:#mob_mime_type_not_allowed#:#次のMIMEタイプは目的先で許容されません。
-mob#:#mob_multi_srt_files#:#SRTファイル
-mob#:#mob_no_extraction_possible#:#残念ながら、ファイルからイメージの抽出はできませんでした。
-mob#:#mob_no_fixed_size_map_editing#:#マップエリアを使用する前にイメージの固定サイズを決めてください。コンテンツスタイルあるいは他のCSSルールでイメージを固定サイズにする場合は、マップイメージエリアは以降合わなくなります。
-mob#:#mob_object#:#オブジェクト
-mob#:#mob_please_select_pool#:#メディア プールを選択してください。
-mob#:#mob_preview_picture#:#プレビュー画像
-mob#:#mob_really_delete_srt#:#本当に次のsrtファイルを削除しますか？
-mob#:#mob_second#:#2番目
-mob#:#mob_srt_files_deleted#:#字幕ファイルが削除されました。
-mob#:#mob_srt_not_allowed#:#拡張子.srtのファイルは現在アップロードを許容されていません。Srtファイルを使用したい場合は、システム管理者へコンタクトして下さい。
-mob#:#mob_subtitle_file#:#字幕ファイル
-mob#:#mob_subtitle_files#:#字幕ファイル
-mob#:#mob_subtitles#:#字幕
-mob#:#mob_type_not_supported#:#Mimeタイプはサポートしていません
-mob#:#mob_upload_file#:#ファイルをUpload
-mob#:#mob_upload_multi_srt#:#ZIPとしてアップロード
-mob#:#mob_upload_multi_srt_howto#:#.zipファイルはサブディレクトリへ含められないので全ての.srtファイルはトップレベル上に位置するようにしなければなりません。langコードは"en","it","de"の例のようにファイル名が"_&lt;lang code&gt;.srt"で終了するようにする必要があります。
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#YoutubeまたはVimeo URLのような外部リソースのURL
-mob#:#mob_url_info1#:#外部リソースURLと許容拡張子は:
-mob#:#mob_url_info_video#:#Youtube 又は Vimeo URLを参照できます。
-mob#:#mob_usages_in_media_pools#:#Media集用途
-mob#:#mob_usages_in_other_objects#:#その他の用途
 mst#:#mst_cert_issued_on#:#発行日
 mst#:#mst_courses_of#:#%sの登録
 mst#:#mst_download_certificate#:#証明書をダウンロード

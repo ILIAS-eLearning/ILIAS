@@ -11872,44 +11872,6 @@ mme#:#type_separator_info#:#The title of this item will be displayed in a grey b
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mob#:#mob_choose_from_pool#:#Choose from Media Pool
-mob#:#mob_copyright#:#Copyright###29 10 2025 new variable
-mob#:#mob_copyright_icon#:#Copyright Icon###29 10 2025 new variable
-mob#:#mob_external_url#:#External URL
-mob#:#mob_extract_preview_image#:#Extract Preview Image###31 10 2023 new variable
-mob#:#mob_file#:#Fichier
-mob#:#mob_file_could_not_be_uploaded#:#Le fichier n’a pas pu être téléchargé.
-mob#:#mob_general#:#Général
-mob#:#mob_image_extracted#:#Image has been extracted.###31 10 2023 new variable
-mob#:#mob_internal_usages_in_object#:#Page Usages###29 10 2025 new variable
-mob#:#mob_language#:#Langage
-mob#:#mob_last_update#:#Last Update###29 10 2025 new variable
-mob#:#mob_media#:#Media###29 10 2025 new variable
-mob#:#mob_media_objects_overview#:#Media Objects on Pages###29 10 2025 new variable
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.###31 10 2023 new variable
-mob#:#mob_multi_srt_files#:#Fichiers SRT
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###31 10 2023 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
-mob#:#mob_object#:#Objet
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.###31 10 2023 new variable
-mob#:#mob_preview_picture#:#Preview Picture###31 10 2023 new variable
-mob#:#mob_really_delete_srt#:#Souhaitez-vous vraiment supprimer les fichiers suivants ?
-mob#:#mob_second#:#Second###31 10 2023 new variable
-mob#:#mob_srt_files_deleted#:#Les fichiers de sous-titre ont été supprimés
-mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.###31 10 2023 new variable
-mob#:#mob_subtitle_file#:#Fichier de Sous-Titre
-mob#:#mob_subtitle_files#:#Fichiers de Sous-Titre
-mob#:#mob_subtitles#:#Sous-Titres
-mob#:#mob_type_not_supported#:#Mime type not supported:###31 10 2023 new variable
-mob#:#mob_upload_file#:#Upload File
-mob#:#mob_upload_multi_srt#:#Télécharger comme ZIP
-mob#:#mob_upload_multi_srt_howto#:#Le fichier .zip ne doit pas contenir de sous-répertoires, tous les fichiers .srt devraient être situés au niveau le plus haut. Les nom de fichier devraient se terminer par «_&lt;lang code&gt;.srt», tandis que le code long est par ex. «en», «it», «de».
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
-mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:###31 10 2023 new variable
-mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.###31 10 2023 new variable
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages###29 10 2025 new variable
-mob#:#mob_usages_in_other_objects#:#Other Usages###29 10 2025 new variable
 mst#:#mst_cert_issued_on#:#Issued On
 mst#:#mst_courses_of#:#Inscriptions de %s
 mst#:#mst_download_certificate#:#Download Certificate

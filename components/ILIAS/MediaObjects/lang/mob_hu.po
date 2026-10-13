@@ -1,0 +1,123 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mob\n"
+
+msgid "mob_choose_from_pool"
+msgstr "Választás médiagyűjteményből"
+
+msgid "mob_copyright"
+msgstr "Szerzői jog"
+
+msgid "mob_copyright_icon"
+msgstr "Szerzői jog ikonja"
+
+msgid "mob_external_url"
+msgstr "Külső URL"
+
+msgid "mob_extract_preview_image"
+msgstr "Előnézeti kép kicsomagolása"
+
+msgid "mob_file"
+msgstr "Fájl"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "Fájl nem tölthető fel."
+
+msgid "mob_general"
+msgstr "Általános"
+
+msgid "mob_image_extracted"
+msgstr "Az előnézeti képet sikeresen kicsomagolta."
+
+msgid "mob_internal_usages_in_object"
+msgstr "Oldal felhasználásai"
+
+msgid "mob_language"
+msgstr "Nyelv"
+
+msgid "mob_last_update"
+msgstr "Utolsó módosítás"
+
+msgid "mob_media"
+msgstr "Média"
+
+msgid "mob_media_objects_overview"
+msgstr "Médiaobjektumok az oldalon"
+
+msgid "mob_mime_type_not_allowed"
+msgstr "A következő mime-típusok nem engedélyezettek a címzettnél."
+
+msgid "mob_multi_srt_files"
+msgstr "Feliratfájlok"
+
+msgid "mob_no_extraction_possible"
+msgstr "A képet nem sikerült kicsomagolni a fájlból."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Térképterület használata előtt adja meg képének méretét. Ha a képét tartalomstílus vagy egyéb CSS szabály átméretezi, a térképterület nem fog illeszkedni."
+
+msgid "mob_object"
+msgstr "Objektum"
+
+msgid "mob_please_select_pool"
+msgstr "Kérem, válasszon ki egy médiagyűjteményt."
+
+msgid "mob_preview_picture"
+msgstr "Előnézeti kép"
+
+msgid "mob_really_delete_srt"
+msgstr "Biztos, hogy törli az alábbi feliratfájlokat?"
+
+msgid "mob_second"
+msgstr "másodperc"
+
+msgid "mob_srt_files_deleted"
+msgstr "A feliratfájlt sikeresen törölte."
+
+msgid "mob_srt_not_allowed"
+msgstr "A .vtt kiterjesztésű fájlok felöltése jelenleg nem megengedett. Kérem, keresse a rendszerüzemeltetőket."
+
+msgid "mob_subtitle_file"
+msgstr "Feliratfájl"
+
+msgid "mob_subtitle_files"
+msgstr "Feliratfájlok"
+
+msgid "mob_subtitles"
+msgstr "Feliratok"
+
+msgid "mob_type_not_supported"
+msgstr "Mime-típus nem támogatott:"
+
+msgid "mob_upload_file"
+msgstr "Fájl feltöltése"
+
+msgid "mob_upload_multi_srt"
+msgstr "ZIP-fájl feltöltése"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr "A .zip fájl ne tartalmazzon mappát, egyik .vtt fájl se legyen mappában. Az fájlnév vége legyen ‘_&lt;nyelvi kód&gt;.vtt’, ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű, hogy a videófájl nevéhez illeszkedjen, például ‘video.mp4’ -> ‘video_hu.srt’."
+
+msgid "mob_url"
+msgstr "URL"
+
+msgid "mob_url_info"
+msgstr "Külső erőforrás URL-je, például Youtube vagy Vimeo URL."
+
+msgid "mob_url_info1"
+msgstr "Külső erőforrás URL-je, az engedélyzett utótagok:"
+
+msgid "mob_url_info_video"
+msgstr "Hivatkozhat Youtube vagy Vimeo URL-re is."
+
+msgid "mob_usages_in_media_pools"
+msgstr "Médiagyűjtemény felhasználása"
+
+msgid "mob_usages_in_other_objects"
+msgstr "További felhasználások"
