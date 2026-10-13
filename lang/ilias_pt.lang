@@ -10212,18 +10212,6 @@ log#:#log_level_info#:#INFORMAÇÃO
 log#:#log_level_notice#:#NOTA
 log#:#log_level_off#:#Desativado
 log#:#log_level_warning#:#AVISO
-logging#:#error_settings_saved#:#Definições guardadas
-logging#:#frm_clear_older_then#:#Apagar ficheiros mais antigos do que
-logging#:#frm_clear_older_then_info#:#Insira a duração em dias.
-logging#:#log_error_file_cleanup_info#:#Apaga ficheiros antigos ou órfãos do log de erro.
-logging#:#log_error_file_cleanup_title#:#Apaga ficheiros log antigos ou órfãos de erro
-logging#:#log_error_folder#:#Caminho
-logging#:#log_error_mail#:#Destinatário de mail
-logging#:#log_error_message#:#Erro %s ocorreu.
-logging#:#log_error_message_send_mail#:#Envie um mail para <a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###07 02 2020 new variable
-logging#:#log_error_settings#:#Definições gerais de erro
-logging#:#logs_settings#:#Definições logging
 lso#:#abstract#:#Dinamarquês
 lso#:#abstract_img#:#Alemão
 lso#:#avail_time_period#:#Butanês

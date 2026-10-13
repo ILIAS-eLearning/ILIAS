@@ -10166,18 +10166,6 @@ log#:#log_level_off#:#Vypnutý
 log#:#log_level_warning#:#UPOZORNĚNÍ
 log#:#log_log_level#:#Úroveň protokolu
 log#:#log_memory#:#Využití paměti protokolu
-logging#:#error_settings_saved#:#Uložená nastavení
-logging#:#frm_clear_older_then#:#Odstraní soubory starší než
-logging#:#frm_clear_older_then_info#:#Zadejte laskavě dobu trvání ve dnech.
-logging#:#log_error_file_cleanup_info#:#Odstraní staré nebo nadále nefunkční soubory chybového protokolu.
-logging#:#log_error_file_cleanup_title#:#Odstranit staré nebo nadále nefunkční soubory protokolu chyb
-logging#:#log_error_folder#:#Cesta
-logging#:#log_error_mail#:#Příjemce pošty
-logging#:#log_error_message#:#Došlo k chybě %s.
-logging#:#log_error_message_send_mail#:#Pošlete prosím zprávu na <a href="mailto:%s?subject=code: %s">% s </a>
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###07 02 2020 new variable
-logging#:#log_error_settings#:#Chyba nastavení protokolování
-logging#:#logs_settings#:#Nastavení protokolování
 lso#:#abstract#:#Abstrakt
 lso#:#abstract_img#:#Obrázek pro abstrakt
 lso#:#avail_time_period#:#Doba

@@ -10153,18 +10153,6 @@ log#:#log_level_off#:#Désactivé
 log#:#log_level_warning#:#AVERTISSEMENT
 log#:#log_log_level#:#Log-Level
 log#:#log_memory#:#Utilisation de la mémoire interne
-logging#:#error_settings_saved#:#Paramètres sauvegardés
-logging#:#frm_clear_older_then#:#Supprime les fichiers antérieurs à
-logging#:#frm_clear_older_then_info#:#Veuillez entrer la durée en jours.
-logging#:#log_error_file_cleanup_info#:#Supprime les fichiers de journal d’erreurs anciens ou orphelins.
-logging#:#log_error_file_cleanup_title#:#Supprimer les fichiers de journal d’erreurs anciens ou orphelins
-logging#:#log_error_folder#:#Chemin
-logging#:#log_error_mail#:#Destinataire du mail
-logging#:#log_error_message#:#Erreur %s survenue.
-logging#:#log_error_message_send_mail#:#Veuillez envoyer un mail à <a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.
-logging#:#log_error_settings#:#Erreur des paramètres de connexion
-logging#:#logs_settings#:#Paramètres de connexion
 lso#:#abstract#:#Abstract
 lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period

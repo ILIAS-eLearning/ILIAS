@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: logging\n"
+
+msgid "error_settings_saved"
+msgstr "Ustawienia zapisane"
+
+msgid "frm_clear_older_then"
+msgstr "Usuń pliki, które są starsze niż"
+
+msgid "frm_clear_older_then_info"
+msgstr "Wpisz okres w dniach."
+
+msgid "log_error_file_cleanup_info"
+msgstr "Usuwa starsze lub osierocone pliki błędu logu."
+
+msgid "log_error_file_cleanup_title"
+msgstr "Usuwanie starszych lub osieroconych plików błędu logu"
+
+msgid "log_error_folder"
+msgstr "Ścieżka pliku"
+
+msgid "log_error_mail"
+msgstr "Odbiorca wiadomości mailowej"
+
+msgid "log_error_message"
+msgstr "Pojawił się błąd %s."
+
+msgid "log_error_message_send_mail"
+msgstr " Skontaktuj się z <a href=\"mailto:%s?subject=code: %s\">%s</a>"
+
+#, fuzzy
+msgid "log_error_path_not_configured_or_wrong"
+msgstr "Path to errors (error_path) is not configured or unreachable."
+
+msgid "log_error_settings"
+msgstr "Ustawienia dotycząca protokołu błędu"
+
+msgid "logs_settings"
+msgstr "Ustawienia dotyczące sporządzania protokołów"

@@ -10166,18 +10166,6 @@ log#:#log_level_off#:#Wyłączony
 log#:#log_level_warning#:#OSTRZEŻENIE
 log#:#log_log_level#:#Poziom logu
 log#:#log_memory#:#Logowanie, potrzebne miejsce w pamięci
-logging#:#error_settings_saved#:#Ustawienia zapisane
-logging#:#frm_clear_older_then#:#Usuń pliki, które są starsze niż
-logging#:#frm_clear_older_then_info#:#Wpisz okres w dniach.
-logging#:#log_error_file_cleanup_info#:#Usuwa starsze lub osierocone pliki błędu logu.
-logging#:#log_error_file_cleanup_title#:#Usuwanie starszych lub osieroconych plików błędu logu
-logging#:#log_error_folder#:#Ścieżka pliku
-logging#:#log_error_mail#:#Odbiorca wiadomości mailowej
-logging#:#log_error_message#:#Pojawił się błąd %s.
-logging#:#log_error_message_send_mail#:# Skontaktuj się z <a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###07 02 2020 new variable
-logging#:#log_error_settings#:#Ustawienia dotycząca protokołu błędu
-logging#:#logs_settings#:#Ustawienia dotyczące sporządzania protokołów
 lso#:#abstract#:#Abstract
 lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period

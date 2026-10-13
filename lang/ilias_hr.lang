@@ -10166,18 +10166,6 @@ log#:#log_level_off#:#Disabled
 log#:#log_level_warning#:#WARNING
 log#:#log_log_level#:#Log Level
 log#:#log_memory#:#Log Memory Usage
-logging#:#error_settings_saved#:#Saved settings
-logging#:#frm_clear_older_then#:#Deletes files older then
-logging#:#frm_clear_older_then_info#:#Please enter duration in days.
-logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
-logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files
-logging#:#log_error_folder#:#Path
-logging#:#log_error_mail#:#Mail recipient
-logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
-logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.
-logging#:#log_error_settings#:#Error logging settings
-logging#:#logs_settings#:#Logging Settings
 lso#:#abstract#:#Sažetak
 lso#:#abstract_img#:#Slika za Sažetak
 lso#:#avail_time_period#:#Razdoblje

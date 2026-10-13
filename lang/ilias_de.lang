@@ -10281,18 +10281,6 @@ log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
 log#:#log_level_off#:#Deaktiviert
 log#:#log_level_warning#:#WARNING
-logging#:#error_settings_saved#:#Einstellungen gespeichert
-logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
-logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
-logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
-logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog-Dateien
-logging#:#log_error_folder#:#Dateipfad
-logging#:#log_error_mail#:#Protokoll senden an (E-Mail-Adresse)
-logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code „%s“ identifiziert werden kann.
-logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
-logging#:#log_error_settings#:#Einstellungen für das Fehlerprotokoll
-logging#:#logs_settings#:#Protokollierungseinstellungen
 lso#:#abstract#:#Einleitung
 lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#add_condition#:#Bedingung hinzufügen
