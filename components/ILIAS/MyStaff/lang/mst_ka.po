@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mst\n"
+
+#, fuzzy
+msgid "mst_cert_issued_on"
+msgstr "Issued On"
+
+#, fuzzy
+msgid "mst_courses_of"
+msgstr "Enrolments of %s"
+
+#, fuzzy
+msgid "mst_download_certificate"
+msgstr "Download Certificate"
+
+#, fuzzy
+msgid "mst_list_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mst_list_competences"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mst_list_courses"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mst_list_users"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mst_memb_status_registered"
+msgstr "Registered"
+
+#, fuzzy
+msgid "mst_memb_status_requested"
+msgstr "Requested"
+
+#, fuzzy
+msgid "mst_memb_status_waitinglist"
+msgstr "Waiting List"
+
+#, fuzzy
+msgid "mst_my_staff"
+msgstr "Staff"
+
+#, fuzzy
+msgid "mst_opt_all"
+msgstr "All"
+
+#, fuzzy
+msgid "mst_please_select_course"
+msgstr "Please select a course."
+
+#, fuzzy
+msgid "mst_profile_fulfilled"
+msgstr "Not met, yet"
+
+#, fuzzy
+msgid "mst_profile_not_fulfilled"
+msgstr "Fulfilled"
+
+#, fuzzy
+msgid "mst_select_course"
+msgstr "Select Course"
+
+#, fuzzy
+msgid "mst_show_courses"
+msgstr "Enrolments"

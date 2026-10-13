@@ -11903,23 +11903,6 @@ mme#:#type_separator_info#:#Ennek az elemnek a címe egy szürke sávban fog meg
 mme#:#type_top_link_item#:#Linkel
 mme#:#type_top_parent_item#:#Tartalmazza
 mme#:#unable_to_render#:#‘%s’ / ‘%s’ nem jeleníthető meg.
-mst#:#mst_cert_issued_on#:#Kiállítás dátuma
-mst#:#mst_courses_of#:#%s kurzustagságai
-mst#:#mst_download_certificate#:#Tanúsítvány letöltése
-mst#:#mst_list_certificates#:#Tanúsítványok
-mst#:#mst_list_competences#:#Kompetenciák
-mst#:#mst_list_courses#:#Kurzustagságok
-mst#:#mst_list_users#:#Munkatársak listája
-mst#:#mst_memb_status_registered#:#Regisztrált
-mst#:#mst_memb_status_requested#:#Elbírálás alatt
-mst#:#mst_memb_status_waitinglist#:#Várólista
-mst#:#mst_my_staff#:#Munkatárs
-mst#:#mst_opt_all#:#Összes
-mst#:#mst_please_select_course#:#Kérem, válasszon egy kurzust.
-mst#:#mst_profile_fulfilled#:#Teljesített
-mst#:#mst_profile_not_fulfilled#:#Még nem teljesített
-mst#:#mst_select_course#:#Válasszon kurzust
-mst#:#mst_show_courses#:##Kurzustagságok
 news#:#lso_news_online_title#:#A tanulási sorban egy új online objektum!
 news#:#lso_news_online_txt#:#A tanulási sorban egy új objektumot tettek elérhetővé.
 news#:#new_test_online#:#A teszt online lett.

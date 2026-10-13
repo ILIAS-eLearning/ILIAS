@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mst\n"
+
+msgid "mst_cert_issued_on"
+msgstr "Issued On"
+
+msgid "mst_courses_of"
+msgstr "Inscriptions de %s"
+
+msgid "mst_download_certificate"
+msgstr "Download Certificate"
+
+msgid "mst_list_certificates"
+msgstr "Certificates"
+
+msgid "mst_list_competences"
+msgstr "Competences"
+
+msgid "mst_list_courses"
+msgstr "Inscriptions"
+
+msgid "mst_list_users"
+msgstr "Liste du personnel"
+
+msgid "mst_memb_status_registered"
+msgstr "Inscrit"
+
+msgid "mst_memb_status_requested"
+msgstr "Demandé"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "Liste d’attente"
+
+msgid "mst_my_staff"
+msgstr "Personnel"
+
+msgid "mst_opt_all"
+msgstr "Tous"
+
+msgid "mst_please_select_course"
+msgstr "Veuillez sélectionner un cours."
+
+msgid "mst_profile_fulfilled"
+msgstr "Not met, yet"
+
+msgid "mst_profile_not_fulfilled"
+msgstr "Fulfilled"
+
+msgid "mst_select_course"
+msgstr "Sélectionner un cours"
+
+msgid "mst_show_courses"
+msgstr "Inscriptions"

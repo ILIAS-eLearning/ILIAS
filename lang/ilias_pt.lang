@@ -11930,23 +11930,6 @@ mme#:#type_separator_info#:#Tipo
 mme#:#type_top_link_item#:#learner_preference.delivery_speed
 mme#:#type_top_parent_item#:#Relatório básico para interações
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###03 09 2026 new variable
-mst#:#mst_cert_issued_on#:#Issued On###07 02 2020 new variable
-mst#:#mst_courses_of#:#Inscrições de %s
-mst#:#mst_download_certificate#:#Download Certificate###07 02 2020 new variable
-mst#:#mst_list_certificates#:#Certificates###07 02 2020 new variable
-mst#:#mst_list_competences#:#Competences###07 02 2020 new variable
-mst#:#mst_list_courses#:#Inscrições
-mst#:#mst_list_users#:#Lista de pessoal
-mst#:#mst_memb_status_registered#:#Registado
-mst#:#mst_memb_status_requested#:#Pedido
-mst#:#mst_memb_status_waitinglist#:#Lista de espera
-mst#:#mst_my_staff#:#Pessoal
-mst#:#mst_opt_all#:#Todos
-mst#:#mst_please_select_course#:#Selecione um curso.
-mst#:#mst_profile_fulfilled#:#Not met, yet###07 02 2020 new variable
-mst#:#mst_profile_not_fulfilled#:#Fulfilled###07 02 2020 new variable
-mst#:#mst_select_course#:#Selecionar curso
-mst#:#mst_show_courses#:#Inscrições
 news#:#lso_news_online_title#:#A new learning sequence object is online!###07 02 2020 new variable
 news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###07 02 2020 new variable
 news#:#new_test_online#:#O teste foi definido online.
