@@ -26,6 +26,8 @@ use ILIAS\Refinery\Factory;
 use ILIAS\Component\Resource\PublicAsset;
 use ILIAS\Component\Resource\Endpoint;
 use ILIAS\Component\Resource\ComponentJS;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class WOPI implements Component
 {
@@ -49,5 +51,9 @@ class WOPI implements Component
 
         $contribute[PublicAsset::class] = fn(): ComponentJS =>
             new ComponentJS($this, "js/dist/wopi.min.js");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'wopi'
+        );
     }
 }

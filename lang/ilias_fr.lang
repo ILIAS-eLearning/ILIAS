@@ -16010,27 +16010,6 @@ wiki#:#wiki_whole_wiki#:#Wiki Entier
 wiki#:#wiki_wiki_page#:#Page de Wiki
 wiki#:#wiki_wiki_search#:#Recherche dans le Wiki
 wiki#:#wiki_wpg#:#Page Wiki
-wopi#:#action_edit#:#Edit###28 10 2024 new variable
-wopi#:#action_view#:#View###28 10 2024 new variable
-wopi#:#activate_saving_interval#:#Activate Saving Interval###28 10 2024 new variable
-wopi#:#activate_wopi#:#Activate WOPI###31 10 2023 new variable
-wopi#:#close_wopi_editor#:#Close Editor###26 08 2024 new variable
-wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.###26 08 2024 new variable
-wopi#:#currently_supported#:#Currently supported Suffixes: %s###26 08 2024 new variable
-wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.###31 10 2023 new variable
-wopi#:#msg_wopi_settings_modified#:#Settings stored###31 10 2023 new variable
-wopi#:#open_external_editor#:#Open in external Editor###31 10 2023 new variable
-wopi#:#open_external_viewer#:#Show Content###28 10 2024 new variable
-wopi#:#saving_interval#:#Interval###28 10 2024 new variable
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the save interval causes a new version to be published after the specified number of seconds, if possible. Please note that a low value can lead to a large number of file versions, which in turn takes up a multiple of the hard disk space.###28 10 2024 new variable
-wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.###31 10 2023 new variable
-wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.###31 10 2023 new variable
-wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.###31 10 2023 new variable
-wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.###31 10 2023 new variable
-wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery###31 10 2023 new variable
-wopi#:#wopi_settings#:#WOPI###31 10 2023 new variable
-wopi#:#wopi_url#:#WOPI Discovery URL###31 10 2023 new variable
-wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery".###31 10 2023 new variable
 wsp#:#element_already_shared#:#This element is already shared with this user.
 wsp#:#element_shared#:#Element shared
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.

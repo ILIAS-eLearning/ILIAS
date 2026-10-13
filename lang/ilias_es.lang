@@ -16085,27 +16085,6 @@ wiki#:#wiki_whole_wiki#:#Wiki completo
 wiki#:#wiki_wiki_page#:#Página de Wiki
 wiki#:#wiki_wiki_search#:#Búsqueda en Wiki
 wiki#:#wiki_wpg#:#Página de Wiki
-wopi#:#action_edit#:#Editar
-wopi#:#action_view#:#Ver
-wopi#:#activate_saving_interval#:#Activar intervalo de guardado
-wopi#:#activate_wopi#:#Activar WOPI
-wopi#:#close_wopi_editor#:#Cerrar editor
-wopi#:#close_wopi_editor_info#:#El editor externo puede tardar varios minutos en transferir los cambios a ILIAS. Vuelva a visitar esta página más tarde si los cambios realizados aún no son visibles.
-wopi#:#currently_supported#:#Sufijos compatibles actualmente
-wopi#:#msg_error_wopi_invalid_discorvery_url#:#La URL de descubrimiento introducida no es válida o no se puede acceder a ella.
-wopi#:#msg_wopi_settings_modified#:#Configuración guardada.
-wopi#:#open_external_editor#:#Abrir en editor externo
-wopi#:#open_external_viewer#:#Mostrar contenido
-wopi#:#saving_interval#:#Intervalo
-wopi#:#saving_interval_byline#:#Por defecto, ILIAS añade todos los cambios realizados por un editor externo a una versión de borrador hasta que esta versión se publica manualmente. La activación del intervalo de guardado provoca que se publique una nueva versión, si es posible, tras el número de segundos especificado. Tenga en cuenta que un valor bajo puede dar lugar a un gran número de versiones de archivo, lo que a su vez ocupará mucho más espacio en el disco duro.
-wopi#:#wopi_crawler_cronjob_description#:#Actualiza la información del servicio WOPI conectado.
-wopi#:#wopi_crawler_cronjob_no_apps#:#No se han encontrado aplicaciones WOPI en el descubrimiento.
-wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI no está activado.
-wopi#:#wopi_crawler_cronjob_success#:#Información de WOPI actualizada correctamente.
-wopi#:#wopi_crawler_cronjob_title#:#Actualizar el descubrimiento de WOPI (Discovery)
-wopi#:#wopi_settings#:#WOPI
-wopi#:#wopi_url#:#URL de descubrimiento de WOPI (Discovery URL)
-wopi#:#wopi_url_byline#:#URL completa del WOPI Discovery, que debe ser accesible a través del servidor ILIAS. Los datos XML del Discovery son leídos y guardados por ILIAS. Esta información se actualiza regularmente mediante la tarea programada (cronjob) "Update WOPI Discovery". Ejemplo: https://example.org/hosting/discovery
 wsp#:#element_already_shared#:#Este objeto ya ha sido compartido con este usuario.
 wsp#:#element_shared#:#Objeto compartido.
 wsp#:#error_creating_certificate_pdf#:#No se pudo crear el certificado. Por favor, póngase en contacto con el administrador para revisar el servidor de certificados.

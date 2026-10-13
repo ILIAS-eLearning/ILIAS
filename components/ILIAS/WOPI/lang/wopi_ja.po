@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: wopi\n"
+
+msgid "action_edit"
+msgstr "編集"
+
+#, fuzzy
+msgid "action_editnew"
+msgstr "Create"
+
+#, fuzzy
+msgid "action_editnew_templates"
+msgstr "Create (Templates)"
+
+msgid "action_view"
+msgstr "表示"
+
+msgid "activate_saving_interval"
+msgstr "保存間隔を有効にする"
+
+msgid "activate_wopi"
+msgstr "WOPIをアクティブ化"
+
+msgid "close_wopi_editor"
+msgstr "エディターを閉じる"
+
+msgid "close_wopi_editor_info"
+msgstr "ILIASへ変更を送信するための外部エディター用に数分間かける事が出来ます。変更した内容がまだ非表示の場合は、後でこのページを訪問する事。"
+
+#, fuzzy
+msgid "create_templates"
+msgstr "Create Templates"
+
+#, fuzzy
+msgid "create_templates_byline"
+msgstr "Template formats such as dotx or xltx are offered as well when creating an empty document."
+
+msgid "currently_supported"
+msgstr "現在サポートしている拡張子: %s"
+
+msgid "msg_error_wopi_invalid_discorvery_url"
+msgstr "入力したDiscoveryURLは無効もしくはアクセス不可です。"
+
+msgid "msg_wopi_settings_modified"
+msgstr "設定を保存しました"
+
+msgid "open_external_editor"
+msgstr "外部エディタ内にオープン"
+
+msgid "open_external_viewer"
+msgstr "コンテンツを表示"
+
+msgid "saving_interval"
+msgstr "間隔"
+
+msgid "saving_interval_byline"
+msgstr "デフォルトでは、ILIASは外部エディタによるすべての変更を、手動で公開されるまでドラフトバージョンに追加します。保存間隔を有効にすると、指定された秒数後に可能であれば新しいバージョンが公開されます。値を低く設定すると多数のファイルバージョンが作成され、それによりハードディスクの使用量が大幅に増える可能性があることに注意してください。"
+
+msgid "wopi_crawler_cronjob_description"
+msgstr "接続されたWOPIサービスのインフォメーションを更新"
+
+msgid "wopi_crawler_cronjob_no_apps"
+msgstr "ディレクトリにはWOPI appsは見つかりませんでした。"
+
+msgid "wopi_crawler_cronjob_not_activated"
+msgstr "WOPIはアクティブではありません。"
+
+msgid "wopi_crawler_cronjob_success"
+msgstr "WOPIインフォメーションは正しく更新されました。"
+
+msgid "wopi_crawler_cronjob_title"
+msgstr "WOPI Discoveryを更新"
+
+msgid "wopi_settings"
+msgstr "WOPI"
+
+msgid "wopi_url"
+msgstr "WOPI Discovery URL"
+
+msgid "wopi_url_byline"
+msgstr "WOPI-Discovery URLを入力完了してILIASサーバーとアクセスできるようにする必要があります。DiscoverのXMLデータは読み込まれてILIASへ保存され、インフォメーションはcron-job\"WOPI-Discovery更新\"で通常更新されます。例: https://example.org/hosting/discovery"

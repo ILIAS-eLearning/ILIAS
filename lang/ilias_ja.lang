@@ -16065,27 +16065,6 @@ wiki#:#wiki_whole_wiki#:#Wiki全体
 wiki#:#wiki_wiki_page#:#Wikiページ
 wiki#:#wiki_wiki_search#:#Wiki検索
 wiki#:#wiki_wpg#:#Wikiページ
-wopi#:#action_edit#:#編集
-wopi#:#action_view#:#表示
-wopi#:#activate_saving_interval#:#保存間隔を有効にする
-wopi#:#activate_wopi#:#WOPIをアクティブ化
-wopi#:#close_wopi_editor#:#エディターを閉じる
-wopi#:#close_wopi_editor_info#:#ILIASへ変更を送信するための外部エディター用に数分間かける事が出来ます。変更した内容がまだ非表示の場合は、後でこのページを訪問する事。
-wopi#:#currently_supported#:#現在サポートしている拡張子: %s
-wopi#:#msg_error_wopi_invalid_discorvery_url#:#入力したDiscoveryURLは無効もしくはアクセス不可です。
-wopi#:#msg_wopi_settings_modified#:#設定を保存しました
-wopi#:#open_external_editor#:#外部エディタ内にオープン
-wopi#:#open_external_viewer#:#コンテンツを表示
-wopi#:#saving_interval#:#間隔
-wopi#:#saving_interval_byline#:#デフォルトでは、ILIASは外部エディタによるすべての変更を、手動で公開されるまでドラフトバージョンに追加します。保存間隔を有効にすると、指定された秒数後に可能であれば新しいバージョンが公開されます。値を低く設定すると多数のファイルバージョンが作成され、それによりハードディスクの使用量が大幅に増える可能性があることに注意してください。
-wopi#:#wopi_crawler_cronjob_description#:#接続されたWOPIサービスのインフォメーションを更新
-wopi#:#wopi_crawler_cronjob_no_apps#:#ディレクトリにはWOPI appsは見つかりませんでした。
-wopi#:#wopi_crawler_cronjob_not_activated#:#WOPIはアクティブではありません。
-wopi#:#wopi_crawler_cronjob_success#:#WOPIインフォメーションは正しく更新されました。
-wopi#:#wopi_crawler_cronjob_title#:#WOPI Discoveryを更新
-wopi#:#wopi_settings#:#WOPI
-wopi#:#wopi_url#:#WOPI Discovery URL
-wopi#:#wopi_url_byline#:#WOPI-Discovery URLを入力完了してILIASサーバーとアクセスできるようにする必要があります。DiscoverのXMLデータは読み込まれてILIASへ保存され、インフォメーションはcron-job"WOPI-Discovery更新"で通常更新されます。例: https://example.org/hosting/discovery
 wsp#:#element_already_shared#:#このオブジェクトはこのユーザをすでに共有されています。
 wsp#:#element_shared#:#オブジェクトを共有しました。
 wsp#:#error_creating_certificate_pdf#:#証明書は作成できませんでした。証明書サーバーを確認するように管理者へコンタクトしてください。

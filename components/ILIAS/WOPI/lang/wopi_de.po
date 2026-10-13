@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wopi\n"
+
+msgid "action_edit"
+msgstr "Editieren"
+
+msgid "action_editnew"
+msgstr "Erstellen"
+
+msgid "action_editnew_templates"
+msgstr "Erstellen (Vorlagen)"
+
+msgid "action_view"
+msgstr "Anzeigen"
+
+msgid "activate_saving_interval"
+msgstr "Automatische Veröffentlichung"
+
+msgid "activate_wopi"
+msgstr "WOPI aktivieren"
+
+msgid "close_wopi_editor"
+msgstr "Editor schliessen"
+
+msgid "close_wopi_editor_info"
+msgstr "Es kann bis zu mehreren Minuten dauern, bis der externe Editor die Änderungen an ILIAS übertragen hat. Besuchen Sie diese Seite zu einem späteren Zeitpunkt wieder, wenn die gemachten Änderungen noch nicht ersichtlich sind."
+
+msgid "create_templates"
+msgstr "Vorlagen erstellen"
+
+msgid "create_templates_byline"
+msgstr "Beim Erstellen eines leeren Dokuments werden auch Vorlagenformate wie dotx oder xltx angeboten."
+
+msgid "currently_supported"
+msgstr "Derzeit unterstützte Dateiendungen"
+
+msgid "msg_error_wopi_invalid_discorvery_url"
+msgstr "Die eingegebene Discovery-URL ist ungültig oder kann nicht erreicht werden."
+
+msgid "msg_wopi_settings_modified"
+msgstr "Einstellungen gespeichert"
+
+msgid "open_external_editor"
+msgstr "In externem Editor öffnen"
+
+msgid "open_external_viewer"
+msgstr "Inhalt anzeigen"
+
+msgid "saving_interval"
+msgstr "Neue Version nach … Sekunden"
+
+msgid "saving_interval_byline"
+msgstr "Nach der festgelegten Bearbeitungszeit wird von ILIAS automatisch eine neue Version der Datei veröffentlicht, wenn der externe Editor Änderungen meldet. Standardmässig fügt ILIAS alle durch den Editor erhaltenen Änderungen lediglich als Entwurf hinzu, bis eine neue Dateiversion manuell veröffentlicht wird. Bitte beachten Sie, dass bei Verwendung dieser Option mit einem niedrigen Wert mitunter sehr viele Dateiversionen erstellt werden. Dadurch wird viel Speicherplatz belegt."
+
+msgid "wopi_crawler_cronjob_description"
+msgstr "Aktualisiert die Informationen des angebundenen WOPI-Dienstes."
+
+msgid "wopi_crawler_cronjob_no_apps"
+msgstr "Es wurden keine WOPI-Apps in der Discovery gefunden."
+
+msgid "wopi_crawler_cronjob_not_activated"
+msgstr "WOPI ist nicht aktiviert."
+
+msgid "wopi_crawler_cronjob_success"
+msgstr "WOPI Informationen erfolgreich aktualisiert."
+
+msgid "wopi_crawler_cronjob_title"
+msgstr "Update WOPI Discovery"
+
+msgid "wopi_settings"
+msgstr "WOPI"
+
+msgid "wopi_url"
+msgstr "WOPI Discovery URL"
+
+msgid "wopi_url_byline"
+msgstr "Vollständige URL des WOPI-Discovery, diese muss über den ILIAS-Server erreichbar sein. Die XML-Daten des Discovery werden von ILIAS eingelesen und gespeichert. Die Informationen werden regelmäßig durch den Cron-Job „Update WOPI Discovery“ aktualisiert. Beispiel: https://example.org/hosting/discovery"

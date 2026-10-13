@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: wopi\n"
+
+msgid "action_edit"
+msgstr "Editar"
+
+#, fuzzy
+msgid "action_editnew"
+msgstr "Create"
+
+#, fuzzy
+msgid "action_editnew_templates"
+msgstr "Create (Templates)"
+
+msgid "action_view"
+msgstr "Ver"
+
+msgid "activate_saving_interval"
+msgstr "Activar intervalo de guardado"
+
+msgid "activate_wopi"
+msgstr "Activar WOPI"
+
+msgid "close_wopi_editor"
+msgstr "Cerrar editor"
+
+msgid "close_wopi_editor_info"
+msgstr "El editor externo puede tardar varios minutos en transferir los cambios a ILIAS. Vuelva a visitar esta página más tarde si los cambios realizados aún no son visibles."
+
+#, fuzzy
+msgid "create_templates"
+msgstr "Create Templates"
+
+#, fuzzy
+msgid "create_templates_byline"
+msgstr "Template formats such as dotx or xltx are offered as well when creating an empty document."
+
+msgid "currently_supported"
+msgstr "Sufijos compatibles actualmente"
+
+msgid "msg_error_wopi_invalid_discorvery_url"
+msgstr "La URL de descubrimiento introducida no es válida o no se puede acceder a ella."
+
+msgid "msg_wopi_settings_modified"
+msgstr "Configuración guardada."
+
+msgid "open_external_editor"
+msgstr "Abrir en editor externo"
+
+msgid "open_external_viewer"
+msgstr "Mostrar contenido"
+
+msgid "saving_interval"
+msgstr "Intervalo"
+
+msgid "saving_interval_byline"
+msgstr "Por defecto, ILIAS añade todos los cambios realizados por un editor externo a una versión de borrador hasta que esta versión se publica manualmente. La activación del intervalo de guardado provoca que se publique una nueva versión, si es posible, tras el número de segundos especificado. Tenga en cuenta que un valor bajo puede dar lugar a un gran número de versiones de archivo, lo que a su vez ocupará mucho más espacio en el disco duro."
+
+msgid "wopi_crawler_cronjob_description"
+msgstr "Actualiza la información del servicio WOPI conectado."
+
+msgid "wopi_crawler_cronjob_no_apps"
+msgstr "No se han encontrado aplicaciones WOPI en el descubrimiento."
+
+msgid "wopi_crawler_cronjob_not_activated"
+msgstr "WOPI no está activado."
+
+msgid "wopi_crawler_cronjob_success"
+msgstr "Información de WOPI actualizada correctamente."
+
+msgid "wopi_crawler_cronjob_title"
+msgstr "Actualizar el descubrimiento de WOPI (Discovery)"
+
+msgid "wopi_settings"
+msgstr "WOPI"
+
+msgid "wopi_url"
+msgstr "URL de descubrimiento de WOPI (Discovery URL)"
+
+msgid "wopi_url_byline"
+msgstr "URL completa del WOPI Discovery, que debe ser accesible a través del servidor ILIAS. Los datos XML del Discovery son leídos y guardados por ILIAS. Esta información se actualiza regularmente mediante la tarea programada (cronjob) \"Update WOPI Discovery\". Ejemplo: https://example.org/hosting/discovery"

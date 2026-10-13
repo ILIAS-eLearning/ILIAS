@@ -16351,31 +16351,6 @@ wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche im Wiki
 wiki#:#wiki_wpg#:#Wiki-Seite
-wopi#:#action_edit#:#Editieren
-wopi#:#action_editnew#:#Erstellen
-wopi#:#action_editnew_templates#:#Erstellen (Vorlagen)
-wopi#:#action_view#:#Anzeigen
-wopi#:#activate_saving_interval#:#Automatische Veröffentlichung
-wopi#:#activate_wopi#:#WOPI aktivieren
-wopi#:#close_wopi_editor#:#Editor schliessen
-wopi#:#close_wopi_editor_info#:#Es kann bis zu mehreren Minuten dauern, bis der externe Editor die Änderungen an ILIAS übertragen hat. Besuchen Sie diese Seite zu einem späteren Zeitpunkt wieder, wenn die gemachten Änderungen noch nicht ersichtlich sind.
-wopi#:#create_templates#:#Vorlagen erstellen
-wopi#:#create_templates_byline#:#Beim Erstellen eines leeren Dokuments werden auch Vorlagenformate wie dotx oder xltx angeboten.
-wopi#:#currently_supported#:#Derzeit unterstützte Dateiendungen
-wopi#:#msg_error_wopi_invalid_discorvery_url#:#Die eingegebene Discovery-URL ist ungültig oder kann nicht erreicht werden.
-wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert
-wopi#:#open_external_editor#:#In externem Editor öffnen
-wopi#:#open_external_viewer#:#Inhalt anzeigen
-wopi#:#saving_interval#:#Neue Version nach … Sekunden
-wopi#:#saving_interval_byline#:#Nach der festgelegten Bearbeitungszeit wird von ILIAS automatisch eine neue Version der Datei veröffentlicht, wenn der externe Editor Änderungen meldet. Standardmässig fügt ILIAS alle durch den Editor erhaltenen Änderungen lediglich als Entwurf hinzu, bis eine neue Dateiversion manuell veröffentlicht wird. Bitte beachten Sie, dass bei Verwendung dieser Option mit einem niedrigen Wert mitunter sehr viele Dateiversionen erstellt werden. Dadurch wird viel Speicherplatz belegt.
-wopi#:#wopi_crawler_cronjob_description#:#Aktualisiert die Informationen des angebundenen WOPI-Dienstes.
-wopi#:#wopi_crawler_cronjob_no_apps#:#Es wurden keine WOPI-Apps in der Discovery gefunden.
-wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI ist nicht aktiviert.
-wopi#:#wopi_crawler_cronjob_success#:#WOPI Informationen erfolgreich aktualisiert.
-wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
-wopi#:#wopi_settings#:#WOPI
-wopi#:#wopi_url#:#WOPI Discovery URL
-wopi#:#wopi_url_byline#:#Vollständige URL des WOPI-Discovery, diese muss über den ILIAS-Server erreichbar sein. Die XML-Daten des Discovery werden von ILIAS eingelesen und gespeichert. Die Informationen werden regelmäßig durch den Cron-Job „Update WOPI Discovery“ aktualisiert. Beispiel: https://example.org/hosting/discovery
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung und bitten um die Prüfung des Zertifikatsservers.
