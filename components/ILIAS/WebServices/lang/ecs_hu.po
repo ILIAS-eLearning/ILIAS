@@ -1,0 +1,813 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr "Tanúsítvány sorozatszáma"
+
+msgid "ecs_abr"
+msgstr "Rövidítés"
+
+msgid "ecs_account_duration"
+msgstr "Aktiválási időszak meghosszabbítása"
+
+msgid "ecs_account_duration_info"
+msgstr "Az új ECS-felhasználók a munkamenet tartalmára vannak korlátozva. Miután hozzárendelt egy felhasználót egy kurzushoz, az aktiválási időszak meghosszabbításra kerül az adott számú hónappal."
+
+msgid "ecs_activate"
+msgstr "Aktiválás"
+
+msgid "ecs_active"
+msgstr "ECS-funkcionalitások engedélyezése"
+
+msgid "ecs_active_header"
+msgstr "Az importálás/exportálás engedélyezett"
+
+msgid "ecs_add_new_ecs"
+msgstr "Új ECS létrehozása"
+
+msgid "ecs_apache_pass"
+msgstr "Jelszó"
+
+msgid "ecs_apache_user"
+msgstr "Felhasználónév"
+
+msgid "ecs_approval_rcp"
+msgstr "Értesítés jóváhagyott kurzusokról"
+
+msgid "ecs_approval_rcp_info"
+msgstr "Adja meg annak vagy azoknak a felhasználóknak a felhasználónevét (vesszővel elválasztva), akik e-mailen keresztül informálva lesznek az új jóváhagyott kurzusokról."
+
+msgid "ecs_attribute_name"
+msgstr "Tulajdonságnév"
+
+msgid "ecs_auth_type"
+msgstr "Hitelesítés típusa"
+
+msgid "ecs_auth_type_apache"
+msgstr "Felhasználónév/jelszó"
+
+msgid "ecs_auth_type_cert"
+msgstr "Tanúsítványalap"
+
+msgid "ecs_availability"
+msgstr "Elérhetőség"
+
+msgid "ecs_available_ecs"
+msgstr "Elérthető ECS"
+
+msgid "ecs_back_settings"
+msgstr "ECS beállítások"
+
+msgid "ecs_ca_cert"
+msgstr "CA-tanúsítvány"
+
+msgid "ecs_campus_connect_title"
+msgstr "Campus-tartalom leképezések"
+
+msgid "ecs_cat_export"
+msgstr "Kategóriakiadások"
+
+msgid "ecs_cat_export_disabled"
+msgstr "Ne legyen kiadva ez a kategória"
+
+msgid "ecs_cat_export_enabled"
+msgstr "Ezen kategória kiadása"
+
+msgid "ecs_cat_export_obj_settings"
+msgstr "Kategóriakiadás beállításai"
+
+msgid "ecs_cat_mapping_by_type"
+msgstr "Típus szerint"
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr "Válassza ezt a módot objektumtípus szerinti hozzárendeléshez."
+
+msgid "ecs_cat_mapping_duration"
+msgstr "Időszak"
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr "Válassza ezt a módot időszakokon alapuló kurzuslinkek összerendelésére (például kurzus kezdőideje)."
+
+msgid "ecs_cat_mapping_fixed"
+msgstr "Rögzített értékek"
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr "Válassza ezt a módot a kurzuslinkek kategóriákhoz rendelésére a rögzített értékeken alapulva."
+
+msgid "ecs_cat_mapping_type"
+msgstr "Hozzárendelési típus"
+
+msgid "ecs_cat_mapping_values"
+msgstr "Tulajdonságérték"
+
+msgid "ecs_category_mapping"
+msgstr "Kategóriákhoz rendelés"
+
+msgid "ecs_cc_mapping_overview"
+msgstr "Leképezés-áttekintő"
+
+msgid "ecs_cert_key"
+msgstr "Tanúsítványkulcs"
+
+msgid "ecs_cert_valid_until"
+msgstr "A tanúsítvány érvényes eddig:"
+
+msgid "ecs_check_import_id"
+msgstr "Az importálás-ID nem érvényes. Ellenőrizze ezt a beállítást."
+
+msgid "ecs_client_cert"
+msgstr "Klienstanúsítvány"
+
+msgid "ecs_cmap_add_attribute_btn"
+msgstr "Attribútum létrehozása"
+
+msgid "ecs_cmap_all_in_one"
+msgstr "Kurzus egy kategóriában"
+
+msgid "ecs_cmap_all_in_one_cat"
+msgstr "Kurzuskategória"
+
+msgid "ecs_cmap_all_in_one_info"
+msgstr "Az összes új kurzust egy kategóriában hozza létre."
+
+msgid "ecs_cmap_att_courseType"
+msgstr "Kurzustípus"
+
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr "Fokozat program"
+
+msgid "ecs_cmap_att_lecturer"
+msgstr "Előadó"
+
+msgid "ecs_cmap_att_module"
+msgstr "Modul"
+
+msgid "ecs_cmap_att_organisation"
+msgstr "Szervezet"
+
+msgid "ecs_cmap_att_orgunit"
+msgstr "Szervezeti egység"
+
+msgid "ecs_cmap_att_term"
+msgstr "Időszak"
+
+msgid "ecs_cmap_att_title"
+msgstr "Cím"
+
+msgid "ecs_cmap_att_venue"
+msgstr "Helyszín"
+
+msgid "ecs_cmap_attributes"
+msgstr "Attribútumok leképezése"
+
+msgid "ecs_cmap_atts_table"
+msgstr "Attribútumleképezés konfigurációja"
+
+msgid "ecs_cmap_def_cat"
+msgstr "Alapértelmezett kategória"
+
+msgid "ecs_cmap_def_cat_info"
+msgstr "Adja meg annak a kategóriának az ID-jét, ahová létrejöjjenek azok a kurzusok, amelyek más szabályok szerint nem kezelhetők."
+
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr "Utolsó attribútum törlése"
+
+msgid "ecs_cmap_delete_rule"
+msgstr "Megfeleltetés törlése"
+
+msgid "ecs_cmap_enable"
+msgstr "Kurzusallokálás"
+
+msgid "ecs_cmap_form_all_values"
+msgstr "Összes érték"
+
+msgid "ecs_cmap_form_create_subdirs"
+msgstr "Almappa létrehozása"
+
+msgid "ecs_cmap_form_current_dir"
+msgstr "Jelenlegi mappa"
+
+msgid "ecs_cmap_form_dir_relation"
+msgstr "Mappahivatkozás"
+
+msgid "ecs_cmap_form_filter"
+msgstr "Szűrőbeállítások"
+
+msgid "ecs_cmap_form_filter_by_values"
+msgstr "Szűrés attribútumérték szerint"
+
+msgid "ecs_cmap_form_filter_info"
+msgstr "Kézi értékek, vesszővel elválasztottak"
+
+msgid "ecs_cmap_form_subdir_name"
+msgstr "Almappa neve"
+
+msgid "ecs_cmap_form_subdir_type"
+msgstr "Almappa címe"
+
+msgid "ecs_cmap_form_subdir_value"
+msgstr "Almappa értéke"
+
+msgid "ecs_cmap_mapping_form_title"
+msgstr "Kurzushozzárendelés kategóriához:"
+
+msgid "ecs_cmap_multiple_atts"
+msgstr "Többszörös attribútumok"
+
+msgid "ecs_cmap_overview"
+msgstr "Áttekintés leképezése"
+
+msgid "ecs_cms_dir_tree"
+msgstr "CMS mappafák"
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr "CMS mappafák"
+
+msgid "ecs_cms_id"
+msgstr "Gyökér-ID a campusmenedzsment-rendszerben"
+
+msgid "ecs_cms_tree_deleted"
+msgstr "A campusmenedzsment-fa hozzárendeléseit sikeresen törölte."
+
+msgid "ecs_cms_tree_synchronize"
+msgstr "Fa szinkronizálása"
+
+msgid "ecs_cms_tree_synchronized"
+msgstr "A fát szinkronizáltuk."
+
+msgid "ecs_communities"
+msgstr "Résztvevők"
+
+msgid "ecs_confirm_delete_tree"
+msgstr "Biztos, hogy törli ennek a campus-menedzsment fának minden hozzárendelését?"
+
+msgid "ecs_connection_settings"
+msgstr "Kapcsolódási beállítások"
+
+msgid "ecs_consent_modal_btn_accept"
+msgstr "Elfogadom és folytatom"
+
+msgid "ecs_consent_modal_title"
+msgstr "Hozzájárulás az adatátvitelhez"
+
+msgid "ecs_consent_reset_confirm_title"
+msgstr "Felhasználói hozzájárulás visszaállítása"
+
+msgid "ecs_cron_task_scheduler"
+msgstr "ECS-feladatütemező"
+
+msgid "ecs_cron_task_scheduler_info"
+msgstr "Az ECS-feladatütemező a beállításai szerint fog lefutni. Ez csak akkor lehtséges, amikor be van állítva ECS-szerver."
+
+msgid "ecs_crs_alloc"
+msgstr "Kurzus lefoglalása"
+
+msgid "ecs_crs_alloc_set"
+msgstr "Kurzusfoglalás módosítása"
+
+msgid "ecs_crs_export"
+msgstr "Kurzuskiadás"
+
+msgid "ecs_crs_export_disabled"
+msgstr "Ne legyen kiadva ez a kurzus"
+
+msgid "ecs_crs_export_enabled"
+msgstr "Ezen kurzus kiadása"
+
+msgid "ecs_crs_export_obj_settings"
+msgstr "Kurzuskiadás beállításai"
+
+msgid "ecs_deactivate"
+msgstr "Deaktiválás"
+
+msgid "ecs_delete_setting"
+msgstr "Biztos, hogy törli az alábbi ECS-t?"
+
+msgid "ecs_deprecated_token"
+msgstr "Elavult hitelesítési token támogatása"
+
+msgid "ecs_deprecated_token_info"
+msgstr "Elavult hitelesítési tokent használó ILIAS-telepítések támogatása (például a 4.x verziójúak)"
+
+msgid "ecs_dir_alloc"
+msgstr "Mappa lefoglalása"
+
+msgid "ecs_dir_alloc_set"
+msgstr "Mappafoglalás módosítása"
+
+msgid "ecs_dns"
+msgstr "Domain-név"
+
+msgid "ecs_duration"
+msgstr "Időtartam"
+
+msgid "ecs_econ_rcp"
+msgstr "Értesítések új e-tartalomról"
+
+msgid "ecs_econ_rcp_info"
+msgstr "Adja meg annak vagy azoknak a felhasználóknak a felhasználónevét (vesszővel elválasztva), akik e-mailen keresztül informálva lesznek az új ECS-tartalmakról."
+
+msgid "ecs_edit_category_mapping"
+msgstr "Összerendelés módosítása"
+
+msgid "ecs_email"
+msgstr "E-mail"
+
+msgid "ecs_enable_participant"
+msgstr "Importálás/exportálás engedélyezése"
+
+msgid "ecs_err_invalid_by_type"
+msgstr "Válasszon típust típus szerinti összerendeléskor."
+
+msgid "ecs_err_invalid_dates"
+msgstr "A kezdő időpontnak korábbinak kell lennie, mint a záró időpontnak."
+
+msgid "ecs_err_invalid_type"
+msgstr "Egy érvényes kategóriaobjektum-ID-t adjon meg!"
+
+msgid "ecs_err_missing_value"
+msgstr "Ellenőrizze a tulajdonságértékre megadott bemeneti értéket."
+
+msgid "ecs_error_extract_serial"
+msgstr "Nem olvasható a tanúsítvány sorozatszáma. Ellenőrizze a klienstanúsítvány elérési útját!"
+
+msgid "ecs_event_appointment"
+msgstr "Eseménydátum"
+
+msgid "ecs_export"
+msgstr "Kurzuskibocsátások"
+
+msgid "ecs_export_auth_type"
+msgstr "Hitelesítési módszer külső felhasználói attribútummal rendelkező felhasználók számára"
+
+msgid "ecs_export_auth_type_ilias"
+msgstr "Felhasználó hitelesítés LDAP-pal"
+
+msgid "ecs_export_auth_type_info"
+msgstr "Kérjük, válassza ki a hitelesítési módot az ECS-n keresztül történő hitelesítéshez azon felhasználók számára, akiknél külső felhasználói attribútumot adunk át az ECS-n keresztül"
+
+msgid "ecs_export_auth_type_none"
+msgstr "Külső felhasználói attribútumokkal rendelkező felhasználók tiltása"
+
+msgid "ecs_export_auth_type_oidc"
+msgstr "Felhasználói hitelesítés OpenID Connecten keresztül"
+
+msgid "ecs_export_auth_type_shib"
+msgstr "Felhasználó hitelesítés Shibboleth-tel"
+
+msgid "ecs_export_created_body_a"
+msgstr "Új kurzus került kibocsátásra"
+
+msgid "ecs_export_disabled"
+msgstr "Ne bocsássa ki ezt a kurzust"
+
+msgid "ecs_export_enabled"
+msgstr "Bocsássa ki ezt a kurzust"
+
+msgid "ecs_export_local_account"
+msgstr "Helyi ILIAS-fiókok"
+
+msgid "ecs_export_local_account_info"
+msgstr "Ha van bekapcsolva, lehetővé teszi a helyi fiókok létrehozását az ECS-n keresztül. A külső felhasználói attribútum nélküli ECS-felhasználók helyi felhasználói fiókot kapnak."
+
+msgid "ecs_export_obj_settings"
+msgstr "Kurzuskibocsátási beállítások"
+
+msgid "ecs_export_types"
+msgstr "Exportálható objektumtípusok"
+
+msgid "ecs_field_begin"
+msgstr "Kezdő időpont"
+
+msgid "ecs_field_community"
+msgstr "Közösség"
+
+msgid "ecs_field_courseID"
+msgstr "Kurzus-ID"
+
+msgid "ecs_field_courseType"
+msgstr "Kurzustípus"
+
+msgid "ecs_field_credits"
+msgstr "Kredit"
+
+msgid "ecs_field_cycle"
+msgstr "Ciklus"
+
+msgid "ecs_field_day"
+msgstr "Nap"
+
+msgid "ecs_field_end"
+msgstr "Záró időpont"
+
+msgid "ecs_field_lecturer"
+msgstr "Előadó(k)"
+
+msgid "ecs_field_part_id"
+msgstr "Résztvevő-azonosító"
+
+msgid "ecs_field_room"
+msgstr "Szoba"
+
+msgid "ecs_field_semester_hours"
+msgstr "Szemeszter heti órái"
+
+msgid "ecs_field_start"
+msgstr "Kezdő időpont"
+
+msgid "ecs_field_study_courses"
+msgstr "Tanulási kurzus(ok)"
+
+msgid "ecs_field_term"
+msgstr "Szemeszter"
+
+msgid "ecs_field_time"
+msgstr "Idő"
+
+msgid "ecs_file_export"
+msgstr "Fájlkiadások"
+
+msgid "ecs_file_export_disabled"
+msgstr "Ne legyen kiadva ez a fájl"
+
+msgid "ecs_file_export_enabled"
+msgstr "Ezen fájl felszabadítása"
+
+msgid "ecs_file_export_obj_settings"
+msgstr "Fájlkiadás beállításai"
+
+msgid "ecs_firstname"
+msgstr "Utónév"
+
+msgid "ecs_form_consent"
+msgstr "Hozzájárulás"
+
+msgid "ecs_form_consent_option_title"
+msgstr "Hozzájárulok az alábbi adatok fent említett célrendszerbe történő továbbításához:"
+
+msgid "ecs_form_target_platform"
+msgstr "Célrendszer"
+
+msgid "ecs_general_info"
+msgstr "Általános információk"
+
+msgid "ecs_glo_export"
+msgstr "Fogalomtár kiadásai"
+
+msgid "ecs_glo_export_disabled"
+msgstr "Ne legyen kiadva ez a fogalomtár"
+
+msgid "ecs_glo_export_enabled"
+msgstr "Ezen fogalomtár kiadása"
+
+msgid "ecs_glo_export_obj_settings"
+msgstr "Fogalomtár kiadás beállításai"
+
+msgid "ecs_global_role_info"
+msgstr "A kiválasztott szerepkör hozzá lesz rendelve az újonnan létrehozott ECS-felhasználóhoz."
+
+msgid "ecs_grp_export"
+msgstr "Csoport kiadásai"
+
+msgid "ecs_grp_export_disabled"
+msgstr "Ne legyen kiadva ez a csoport"
+
+msgid "ecs_grp_export_enabled"
+msgstr "Ezen csoport kiadása"
+
+msgid "ecs_grp_export_obj_settings"
+msgstr "Csoportkiadás beállításai"
+
+msgid "ecs_ignore_field"
+msgstr "A mező exportjának/frissítésének letiltása"
+
+msgid "ecs_import"
+msgstr "Importált kurzusok"
+
+msgid "ecs_import_auth_mode"
+msgstr "‘%s’ hitelesítési mód fiókjainak engedélyezése az ECS-n keresztüli továbbításhoz"
+
+msgid "ecs_import_auth_type_default"
+msgstr "Az ‘Alapértelmezett’ fiókhitelesítési módú felhasználók engedélyezése az ECS-n keresztüli továbbításhoz"
+
+msgid "ecs_import_cms"
+msgstr "Campus-menedzsment"
+
+msgid "ecs_import_id"
+msgstr "ID importálása"
+
+msgid "ecs_import_id_info"
+msgstr "Adja meg annak a kategóriának az ID-jét, ahová az új kurzuslinkek lesznek létrehozva!"
+
+msgid "ecs_import_types"
+msgstr "Importálható objektumtípusok"
+
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr "Hitelesítési módszerek konfigurálása ECS-n keresztüli átvitelhez"
+
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr "Kapcsolja be ezt az opciót, hogy az ‘Alapértelmezett’ hitelesítési módszerrel rendelkező fiókok hozzáférjenek a résztvevő erőforrásaihoz az ECS-n keresztül"
+
+msgid "ecs_imported_content"
+msgstr "Importált e-tartalom"
+
+msgid "ecs_imported_from"
+msgstr "Importálva innen"
+
+msgid "ecs_institution"
+msgstr "Intézet"
+
+msgid "ecs_invalid_import_type_cms"
+msgstr "A ‘Campus-menedzsment’ importtípus csak egyszer választható."
+
+msgid "ecs_key_password"
+msgstr "Kulcsjelszó"
+
+msgid "ecs_lastname"
+msgstr "Utónév"
+
+msgid "ecs_lm_export"
+msgstr "Tananyag kiadásai"
+
+msgid "ecs_lm_export_disabled"
+msgstr "Ne legyen kiadva ez a tananyag"
+
+msgid "ecs_lm_export_enabled"
+msgstr "Ezen tananyag kiadása"
+
+msgid "ecs_lm_export_obj_settings"
+msgstr "Tananyag kiadásának beállításai"
+
+msgid "ecs_local_information"
+msgstr "További információk"
+
+msgid "ecs_local_settings"
+msgstr "Helyi beállítások"
+
+msgid "ecs_login"
+msgstr "Felhasználónév vagy Külső felhasználói fiók"
+
+msgid "ecs_mapping_crs"
+msgstr "Leképezés kurzusokra"
+
+msgid "ecs_mapping_exp_tbl"
+msgstr "ILIAS egyéni metaadatok leképezése ECS-adatokba"
+
+msgid "ecs_mapping_rcrs"
+msgstr "Leképezés ECS kurzushoz"
+
+msgid "ecs_mapping_tbl"
+msgstr "ECS-adatok ILIAS egyéni metaadatokra való leképezése"
+
+msgid "ecs_mappings"
+msgstr "ECS-adatleképezés"
+
+msgid "ecs_member_auth_type"
+msgstr "Hitelesítési mód (résztvevők)"
+
+msgid "ecs_meta_data"
+msgstr "Metaadat"
+
+msgid "ecs_new_approval_subject"
+msgstr "Új kurzus került kibocsátásra"
+
+msgid "ecs_new_category_mapping"
+msgstr "Kurzuslinkek új összerendelése kategóriákkal"
+
+msgid "ecs_new_econtent_subject"
+msgstr "Új e-tartalom jött létre"
+
+msgid "ecs_new_user_body"
+msgstr "Új ECS-felhasználó jött létre."
+
+msgid "ecs_new_user_profile"
+msgstr "Felhasználó adatai:"
+
+msgid "ecs_new_user_subject"
+msgstr "Új ECS-felhasználó"
+
+msgid "ecs_no_adv_md"
+msgstr "Nincsenek egyéni metaadatok."
+
+msgid "ecs_no_owner"
+msgstr "Válasszon egy közösségnevet."
+
+msgid "ecs_no_value"
+msgstr "Nem elérhető"
+
+msgid "ecs_node_mapping_activate"
+msgstr "Mappaleképezés engedélyezése"
+
+msgid "ecs_node_mapping_create_empty"
+msgstr "Csak kurzusokat tartalmazó mappák létrehozása"
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr "Csak kurzusleképezéssel használható, amely automatikusan lesz aktiválva."
+
+msgid "ecs_node_mapping_status_1"
+msgstr "A teljes fa leképezése"
+
+msgid "ecs_node_mapping_status_2"
+msgstr "Kézi leképezés"
+
+msgid "ecs_node_mapping_status_3"
+msgstr "Nem leképezett"
+
+msgid "ecs_not_configured"
+msgstr "Nem konfigurált"
+
+msgid "ecs_not_published"
+msgstr "Nincs kiválasztva jóváhagyás."
+
+msgid "ecs_notifications"
+msgstr "Értesítések"
+
+msgid "ecs_outgoing_user_credentials"
+msgstr "Felhasználói attribútum"
+
+msgid "ecs_outgoing_user_credentials_info"
+msgstr "Kérjük, adja meg, hogy milyen felhasználói attribútumot használja az átvitelhez. Lehetséges értékek [Login], [EXTERNAL_ACCOUNT]. Módosíthatja a megadott attribútumot bármilyen karakterlánc elé- vagy mögéfűzésével. Példa: [LOGIN]@pelda.hu"
+
+msgid "ecs_part_settings"
+msgstr "Résztvevők beállításai:"
+
+msgid "ecs_participants"
+msgstr "Résztvevők"
+
+msgid "ecs_participants_infos"
+msgstr "További információk"
+
+msgid "ecs_polling"
+msgstr "Szavazóidő"
+
+msgid "ecs_polling_info"
+msgstr "Definiálja a szavazóidőt a kurzuslinkek létrehozásához és frissítéséhez!"
+
+msgid "ecs_port"
+msgstr "Port"
+
+msgid "ecs_position_updates"
+msgstr "Átvitelhely frissítések"
+
+msgid "ecs_protocol"
+msgstr "Protokoll"
+
+msgid "ecs_publish_as"
+msgstr "Közzététel mint:"
+
+msgid "ecs_publish_for"
+msgstr "Kibocsátás ennek:"
+
+msgid "ecs_published_for"
+msgstr "Publikálva neki:"
+
+msgid "ecs_rcat_created_body_a"
+msgstr "Új ECS-kategória jött létre:"
+
+msgid "ecs_rcrs_created_body_a"
+msgstr "Új ECS-kurzus jött létre:"
+
+msgid "ecs_read_remote_links"
+msgstr "ECS-kurzusok frissítése"
+
+msgid "ecs_refresh_participants"
+msgstr "ECS-résztvevők frissítése"
+
+msgid "ecs_released"
+msgstr "Megjelent objektumok"
+
+msgid "ecs_released_content"
+msgstr "Kibocsátott e-tartalom"
+
+msgid "ecs_remote_imported"
+msgstr "Az ECS-kurzusról az információkat sikeresen frissítette."
+
+msgid "ecs_remote_user_settings"
+msgstr "Beállítások ECS-felhasználókhoz"
+
+msgid "ecs_role"
+msgstr "Szerep-összerendelés"
+
+msgid "ecs_role_mapping_value"
+msgstr "Attribútum értéke"
+
+msgid "ecs_role_mappings"
+msgstr "Kurzus/Csoport szerepkör összerendelések"
+
+msgid "ecs_server_addr"
+msgstr "Szervercím"
+
+msgid "ecs_server_deleted"
+msgstr "Törölt szerver"
+
+msgid "ecs_server_settings"
+msgstr "ECS-funkcionalitások"
+
+msgid "ecs_server_title"
+msgstr "ECS konfiguráció neve"
+
+msgid "ecs_server_url"
+msgstr "Szerver-URL"
+
+msgid "ecs_setting_deleted"
+msgstr "Az ECS-t sikeresen törölte"
+
+msgid "ecs_settings"
+msgstr "Beállítások"
+
+msgid "ecs_status_deleted"
+msgstr "Törölt"
+
+msgid "ecs_status_legend"
+msgstr "Jelmagyarázat"
+
+msgid "ecs_status_mapped"
+msgstr "Leképzett"
+
+msgid "ecs_status_pending_unmapped"
+msgstr "Függőben (nem leképzett)"
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr "Függőben (leképezett, leválasztás lehetséges)"
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr "Függőben (leképezett, leválasztás nem lehetséges)"
+
+msgid "ecs_sync_trees"
+msgstr "Mappafaszerkezet szinkronizálása"
+
+msgid "ecs_tab_export"
+msgstr "Export"
+
+msgid "ecs_tab_import"
+msgstr "Import"
+
+msgid "ecs_tbl_active"
+msgstr "Aktív"
+
+msgid "ecs_tbl_active_rules"
+msgstr "Aktív szerepkörök kategória-összerendeléshez"
+
+msgid "ecs_tbl_export"
+msgstr "Export"
+
+msgid "ecs_tbl_import"
+msgstr "Import"
+
+msgid "ecs_tbl_import_type"
+msgstr "Importtípus"
+
+msgid "ecs_tbl_settings_for_server"
+msgstr "ECS beállítások ehhez: %s"
+
+msgid "ecs_title_updates"
+msgstr "Átvitelcím frissítések"
+
+msgid "ecs_token_mechanism"
+msgstr "Token hitelesítés"
+
+msgid "ecs_token_mechanism_info"
+msgstr "Az ECS-Token-Eljárás végzi a hitelesítést a távoli objektumok szerverplatformján."
+
+msgid "ecs_tree_updates"
+msgstr "Átvitelfa frissítések"
+
+msgid "ecs_tst_export"
+msgstr "Tesztkiadások"
+
+msgid "ecs_tst_export_disabled"
+msgstr "Ne legyen kiadva ez a teszt"
+
+msgid "ecs_tst_export_enabled"
+msgstr "Ezen teszt kiadása"
+
+msgid "ecs_tst_export_obj_settings"
+msgstr "Teszt kiadásának beállításai"
+
+msgid "ecs_unique_id"
+msgstr "Résztvevő-azonosító"
+
+msgid "ecs_user_rcp"
+msgstr "Értesítések az ECS-felhasználókról"
+
+msgid "ecs_user_rcp_info"
+msgstr "Adja meg annak vagy azoknak a felhasználóknak a felhasználónevét (vesszővel elválasztva), akiket e-mailen keresztül tájékoztassunk az új ECS-felhasználókról."
+
+msgid "ecs_wiki_export"
+msgstr "Wikikiadások"
+
+msgid "ecs_wiki_export_disabled"
+msgstr "Ne legyen kiadva ez a wiki"
+
+msgid "ecs_wiki_export_enabled"
+msgstr "Ezen wiki kiadása"
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr "Wikikiadás beállításai"

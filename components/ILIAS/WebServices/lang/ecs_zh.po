@@ -1,0 +1,858 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr "证书序列号"
+
+msgid "ecs_abr"
+msgstr "缩写"
+
+msgid "ecs_account_duration"
+msgstr "激活时间周期延长"
+
+msgid "ecs_account_duration_info"
+msgstr "新的ECS用户账号已被限制在会话周期内。指定一个用户到一个课程之后，激活周期将被给定月数所延长。"
+
+msgid "ecs_activate"
+msgstr "激活"
+
+msgid "ecs_active"
+msgstr "启用ECS功能"
+
+msgid "ecs_active_header"
+msgstr "导出所允许的"
+
+msgid "ecs_add_new_ecs"
+msgstr "添加新的ECS"
+
+msgid "ecs_apache_pass"
+msgstr "密码"
+
+msgid "ecs_apache_user"
+msgstr "用户名"
+
+msgid "ecs_approval_rcp"
+msgstr "通知相关已批准的课程"
+
+msgid "ecs_approval_rcp_info"
+msgstr "输入一个或多个用户的登录名(用逗号分隔)，每个用户将获得相关新批准课程的邮件。"
+
+msgid "ecs_attribute_name"
+msgstr "属性名称"
+
+msgid "ecs_auth_type"
+msgstr "身份验证类型"
+
+msgid "ecs_auth_type_apache"
+msgstr "用户名/密码"
+
+msgid "ecs_auth_type_cert"
+msgstr "基础证书"
+
+msgid "ecs_availability"
+msgstr "可用性"
+
+msgid "ecs_available_ecs"
+msgstr "可用的ECS"
+
+msgid "ecs_back_settings"
+msgstr "ECS 设置"
+
+msgid "ecs_ca_cert"
+msgstr "CA证书"
+
+msgid "ecs_campus_connect_title"
+msgstr "校园连接映射"
+
+msgid "ecs_cat_export"
+msgstr "类目发布"
+
+msgid "ecs_cat_export_disabled"
+msgstr "不发布这个类目"
+
+msgid "ecs_cat_export_enabled"
+msgstr "发布这个类目"
+
+msgid "ecs_cat_export_obj_settings"
+msgstr "类目发布设置"
+
+msgid "ecs_cat_mapping_by_type"
+msgstr "由类型"
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr "选择这个模式由对象类型去分配。"
+
+msgid "ecs_cat_mapping_duration"
+msgstr "日期范围"
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr "选择这个模式基于日期范围分配课程链接(例如，一个课程的开始时间)。"
+
+msgid "ecs_cat_mapping_fixed"
+msgstr "固定的值"
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr "选择这个模式基于固定值分配课程链接到类目。"
+
+msgid "ecs_cat_mapping_type"
+msgstr "分配类型"
+
+msgid "ecs_cat_mapping_values"
+msgstr "属性值"
+
+msgid "ecs_category_mapping"
+msgstr "分配到类目"
+
+msgid "ecs_cc_mapping_overview"
+msgstr "映射概况"
+
+msgid "ecs_cert_key"
+msgstr "证书密钥"
+
+msgid "ecs_cert_valid_until"
+msgstr "证书有效期至"
+
+msgid "ecs_check_import_id"
+msgstr "导入ID无效。请检查这个设置。"
+
+msgid "ecs_client_cert"
+msgstr "客户端证书"
+
+msgid "ecs_cmap_add_attribute_btn"
+msgstr "添加属性"
+
+msgid "ecs_cmap_all_in_one"
+msgstr "一个类目中的课程"
+
+msgid "ecs_cmap_all_in_one_cat"
+msgstr "课程类目"
+
+msgid "ecs_cmap_all_in_one_info"
+msgstr "在一个类目中创建所有新课程"
+
+#, fuzzy
+msgid "ecs_cmap_att_courseType"
+msgstr "Course Type"
+
+#, fuzzy
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr "Degree Programme"
+
+msgid "ecs_cmap_att_lecturer"
+msgstr "讲师"
+
+#, fuzzy
+msgid "ecs_cmap_att_module"
+msgstr "Module"
+
+msgid "ecs_cmap_att_organisation"
+msgstr "组织"
+
+#, fuzzy
+msgid "ecs_cmap_att_orgunit"
+msgstr "Organisational Unit"
+
+msgid "ecs_cmap_att_term"
+msgstr "学期(Term)"
+
+msgid "ecs_cmap_att_title"
+msgstr "标题"
+
+#, fuzzy
+msgid "ecs_cmap_att_venue"
+msgstr "Venue"
+
+msgid "ecs_cmap_attributes"
+msgstr "映射属性"
+
+msgid "ecs_cmap_atts_table"
+msgstr "属性映射配置"
+
+msgid "ecs_cmap_def_cat"
+msgstr "默认类目"
+
+msgid "ecs_cmap_def_cat_info"
+msgstr "请输入一个类目的ID，所有课程将被创建在其中，不能由其它规则操纵。"
+
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr "删除最后的属性"
+
+#, fuzzy
+msgid "ecs_cmap_delete_rule"
+msgstr "Delete Mapping"
+
+msgid "ecs_cmap_enable"
+msgstr "课程分配"
+
+msgid "ecs_cmap_form_all_values"
+msgstr "所有值"
+
+msgid "ecs_cmap_form_create_subdirs"
+msgstr "创建子目录"
+
+msgid "ecs_cmap_form_current_dir"
+msgstr "当前目录"
+
+msgid "ecs_cmap_form_dir_relation"
+msgstr "目录参考"
+
+msgid "ecs_cmap_form_filter"
+msgstr "过滤器设置"
+
+msgid "ecs_cmap_form_filter_by_values"
+msgstr "通过属性值过滤"
+
+msgid "ecs_cmap_form_filter_info"
+msgstr "手动填写的值，逗号分隔的。"
+
+msgid "ecs_cmap_form_subdir_name"
+msgstr "子目录名称"
+
+msgid "ecs_cmap_form_subdir_type"
+msgstr "子目录标题"
+
+msgid "ecs_cmap_form_subdir_value"
+msgstr "子目录值"
+
+msgid "ecs_cmap_mapping_form_title"
+msgstr "类目课程分配:"
+
+msgid "ecs_cmap_multiple_atts"
+msgstr "多重属性"
+
+msgid "ecs_cmap_overview"
+msgstr "映射概况"
+
+msgid "ecs_cms_dir_tree"
+msgstr "CMS 目录树"
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr "CMS目录树"
+
+msgid "ecs_cms_id"
+msgstr "校园管理系统的根ID"
+
+msgid "ecs_cms_tree_deleted"
+msgstr "校园管理树分配已被删除。"
+
+msgid "ecs_cms_tree_synchronize"
+msgstr "同步树"
+
+msgid "ecs_cms_tree_synchronized"
+msgstr "树已经同步"
+
+msgid "ecs_communities"
+msgstr "参与者"
+
+msgid "ecs_confirm_delete_tree"
+msgstr "您确定要删除所有为这个校园管理树的所有分配吗？"
+
+msgid "ecs_connection_settings"
+msgstr "连接设置"
+
+#, fuzzy
+msgid "ecs_consent_modal_btn_accept"
+msgstr "Agree and Proceed"
+
+#, fuzzy
+msgid "ecs_consent_modal_title"
+msgstr "Consent for data transfer"
+
+#, fuzzy
+msgid "ecs_consent_reset_confirm_title"
+msgstr "Reset user consent for this participant"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler"
+msgstr "ECS Task Scheduler"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler_info"
+msgstr "ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured."
+
+msgid "ecs_crs_alloc"
+msgstr "课程分配"
+
+msgid "ecs_crs_alloc_set"
+msgstr "编辑课程分配"
+
+msgid "ecs_crs_export"
+msgstr "课程发布"
+
+msgid "ecs_crs_export_disabled"
+msgstr "不发布这门课程"
+
+msgid "ecs_crs_export_enabled"
+msgstr "发布这门课程"
+
+msgid "ecs_crs_export_obj_settings"
+msgstr "课程发布设置"
+
+msgid "ecs_deactivate"
+msgstr "停用"
+
+msgid "ecs_delete_setting"
+msgstr "您确定要删除以下ECS？"
+
+#, fuzzy
+msgid "ecs_deprecated_token"
+msgstr "Support for Deprecated Authentication Token"
+
+#, fuzzy
+msgid "ecs_deprecated_token_info"
+msgstr "Offers support for installations (e.g ILIAS installations of version 4.x) which use a deprecated token authentication mechanism."
+
+msgid "ecs_dir_alloc"
+msgstr "目录分配"
+
+msgid "ecs_dir_alloc_set"
+msgstr "编辑目录分配"
+
+msgid "ecs_dns"
+msgstr "域名"
+
+msgid "ecs_duration"
+msgstr "为期"
+
+msgid "ecs_econ_rcp"
+msgstr "关于新E-Content(ECS Content?)的提醒"
+
+msgid "ecs_econ_rcp_info"
+msgstr "输入一个或多个用户的登录名(逗号分隔)，每个用户都将获得有关新ECS内容的信息。"
+
+msgid "ecs_edit_category_mapping"
+msgstr "编辑分配"
+
+msgid "ecs_email"
+msgstr "电子邮件"
+
+msgid "ecs_enable_participant"
+msgstr "允许导出"
+
+msgid "ecs_err_invalid_by_type"
+msgstr "当通过类型分配时，请选择一个类型。"
+
+msgid "ecs_err_invalid_dates"
+msgstr "开始时间必须早于结束时间。"
+
+msgid "ecs_err_invalid_type"
+msgstr "请选择一个分配模式。"
+
+msgid "ecs_err_missing_value"
+msgstr "请检查您的输入：属性值。"
+
+msgid "ecs_error_extract_serial"
+msgstr "无法读取证书序列号。请检查客户端证书路径。"
+
+msgid "ecs_event_appointment"
+msgstr "事件日期"
+
+msgid "ecs_export"
+msgstr "课程发布"
+
+#, fuzzy
+msgid "ecs_export_auth_type"
+msgstr "Authentication method for users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_ilias"
+msgstr "User authentication via LDAP"
+
+#, fuzzy
+msgid "ecs_export_auth_type_info"
+msgstr "Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS."
+
+#, fuzzy
+msgid "ecs_export_auth_type_none"
+msgstr "Do not allow users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_oidc"
+msgstr "User authentication via OpenID Connect"
+
+#, fuzzy
+msgid "ecs_export_auth_type_shib"
+msgstr "User authentication via Shibboleth"
+
+msgid "ecs_export_created_body_a"
+msgstr "一个新课程已发布"
+
+msgid "ecs_export_disabled"
+msgstr "不发布这门课程"
+
+msgid "ecs_export_enabled"
+msgstr "发布这门课程"
+
+#, fuzzy
+msgid "ecs_export_local_account"
+msgstr "Local ILIAS accounts"
+
+#, fuzzy
+msgid "ecs_export_local_account_info"
+msgstr "If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation."
+
+msgid "ecs_export_obj_settings"
+msgstr "课程发布设置"
+
+#, fuzzy
+msgid "ecs_export_types"
+msgstr "Exportable Object Types"
+
+msgid "ecs_field_begin"
+msgstr "开始"
+
+msgid "ecs_field_community"
+msgstr "社区"
+
+msgid "ecs_field_courseID"
+msgstr "课程ID"
+
+msgid "ecs_field_courseType"
+msgstr "课程类别"
+
+msgid "ecs_field_credits"
+msgstr "学分"
+
+msgid "ecs_field_cycle"
+msgstr "循环"
+
+msgid "ecs_field_day"
+msgstr "天"
+
+msgid "ecs_field_end"
+msgstr "结束"
+
+msgid "ecs_field_lecturer"
+msgstr "讲师"
+
+msgid "ecs_field_part_id"
+msgstr "参与者ID"
+
+msgid "ecs_field_room"
+msgstr "房间"
+
+msgid "ecs_field_semester_hours"
+msgstr "每周学期区间"
+
+msgid "ecs_field_start"
+msgstr "开始"
+
+msgid "ecs_field_study_courses"
+msgstr "学习课程"
+
+msgid "ecs_field_term"
+msgstr "学期"
+
+msgid "ecs_field_time"
+msgstr "时间"
+
+msgid "ecs_file_export"
+msgstr "文件发布"
+
+msgid "ecs_file_export_disabled"
+msgstr "没有发布这个文件"
+
+msgid "ecs_file_export_enabled"
+msgstr "发布这个文件"
+
+msgid "ecs_file_export_obj_settings"
+msgstr "文件发布设置"
+
+#, fuzzy
+msgid "ecs_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "ecs_form_consent"
+msgstr "Consent"
+
+#, fuzzy
+msgid "ecs_form_consent_option_title"
+msgstr "I hereby consent to the transfer of the following data to the above-mentioned target system:"
+
+#, fuzzy
+msgid "ecs_form_target_platform"
+msgstr "Target system"
+
+msgid "ecs_general_info"
+msgstr "常规信息"
+
+msgid "ecs_glo_export"
+msgstr "词汇表发布"
+
+msgid "ecs_glo_export_disabled"
+msgstr "不发布这个词汇表"
+
+msgid "ecs_glo_export_enabled"
+msgstr "发布这个词汇表"
+
+msgid "ecs_glo_export_obj_settings"
+msgstr "词汇表发布设置"
+
+msgid "ecs_global_role_info"
+msgstr "所选择的角色将被分配给新创建的ECS用户账号。"
+
+msgid "ecs_grp_export"
+msgstr "Group 发布"
+
+msgid "ecs_grp_export_disabled"
+msgstr "不发布这个组"
+
+msgid "ecs_grp_export_enabled"
+msgstr "发布这个组"
+
+msgid "ecs_grp_export_obj_settings"
+msgstr "Group 发布设置"
+
+msgid "ecs_ignore_field"
+msgstr "禁止这个字段的导出/更新"
+
+msgid "ecs_import"
+msgstr "输入"
+
+#, fuzzy
+msgid "ecs_import_auth_mode"
+msgstr "Allow accounts of authentication method %s for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_auth_type_default"
+msgstr "Allow accounts authentication method \"Default\" for transmission via ECS"
+
+msgid "ecs_import_cms"
+msgstr "校园管理"
+
+msgid "ecs_import_id"
+msgstr "导入ID"
+
+msgid "ecs_import_id_info"
+msgstr "请输入类目ID，这里新课程链接将被创建"
+
+#, fuzzy
+msgid "ecs_import_types"
+msgstr "Importable Object Types"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr "Configuration of authentication methods for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr "Enable this option to allow accounts of authentication method \"Default\" to access participant's resources via ECS."
+
+msgid "ecs_imported_content"
+msgstr "已导入E-Content"
+
+msgid "ecs_imported_from"
+msgstr "Imported From"
+
+#, fuzzy
+msgid "ecs_institution"
+msgstr "Institution"
+
+msgid "ecs_invalid_import_type_cms"
+msgstr "导入类型“校园管理”只能选择一次。"
+
+msgid "ecs_key_password"
+msgstr "Key Password"
+
+#, fuzzy
+msgid "ecs_lastname"
+msgstr "Last name"
+
+msgid "ecs_lm_export"
+msgstr "学习模块发布"
+
+msgid "ecs_lm_export_disabled"
+msgstr "不发布这个学习模块"
+
+msgid "ecs_lm_export_enabled"
+msgstr "发布这个学习模块"
+
+msgid "ecs_lm_export_obj_settings"
+msgstr "学习模块发布设置"
+
+msgid "ecs_local_information"
+msgstr "补充信息"
+
+msgid "ecs_local_settings"
+msgstr "本地设置"
+
+#, fuzzy
+msgid "ecs_login"
+msgstr "Username or External user account"
+
+msgid "ecs_mapping_crs"
+msgstr "课程映射"
+
+msgid "ecs_mapping_exp_tbl"
+msgstr "映射ILIAS高级元数据到ECS数据"
+
+msgid "ecs_mapping_rcrs"
+msgstr "远程课程映射"
+
+msgid "ecs_mapping_tbl"
+msgstr "ECS数据映射到ILIAS高级元数据。"
+
+msgid "ecs_mappings"
+msgstr "ECS数据映射"
+
+#, fuzzy
+msgid "ecs_member_auth_type"
+msgstr "Course Member Auth Mode"
+
+msgid "ecs_meta_data"
+msgstr "元数据"
+
+msgid "ecs_new_approval_subject"
+msgstr "新课程已发布"
+
+msgid "ecs_new_category_mapping"
+msgstr "新课程链接分配到类目"
+
+msgid "ecs_new_econtent_subject"
+msgstr "新E-Content已创建"
+
+msgid "ecs_new_user_body"
+msgstr "一个新ECS用户账号已创建。"
+
+msgid "ecs_new_user_profile"
+msgstr "用户资料(profile)数据:"
+
+msgid "ecs_new_user_subject"
+msgstr "新ECS用户账号"
+
+#, fuzzy
+msgid "ecs_no_adv_md"
+msgstr "No Advanced Meta Data available."
+
+msgid "ecs_no_owner"
+msgstr "请选择一个社区名字。"
+
+msgid "ecs_no_value"
+msgstr "不可用"
+
+msgid "ecs_node_mapping_activate"
+msgstr "启用目录映射"
+
+msgid "ecs_node_mapping_create_empty"
+msgstr "仅创建类目， 其中包含课程"
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr "仅能用在课程映射组合中，它将被自动激活。"
+
+msgid "ecs_node_mapping_status_1"
+msgstr "整棵树的映射"
+
+msgid "ecs_node_mapping_status_2"
+msgstr "手动映射"
+
+msgid "ecs_node_mapping_status_3"
+msgstr "未映射的"
+
+msgid "ecs_not_configured"
+msgstr "未配置"
+
+#, fuzzy
+msgid "ecs_not_published"
+msgstr "No approvals selected."
+
+msgid "ecs_notifications"
+msgstr "通知"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials"
+msgstr "User attribute"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials_info"
+msgstr "Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com"
+
+#, fuzzy
+msgid "ecs_part_settings"
+msgstr "Settings for Participant:"
+
+msgid "ecs_participants"
+msgstr "参与者"
+
+msgid "ecs_participants_infos"
+msgstr "进一步的信息"
+
+msgid "ecs_polling"
+msgstr "轮询(Polling)时间"
+
+msgid "ecs_polling_info"
+msgstr "请为课程链接的创建和更新定义轮询时间"
+
+msgid "ecs_port"
+msgstr "端口"
+
+msgid "ecs_position_updates"
+msgstr "转移位置更新"
+
+msgid "ecs_protocol"
+msgstr "协议。"
+
+msgid "ecs_publish_as"
+msgstr "Publish as:"
+
+msgid "ecs_publish_for"
+msgstr "Release for:"
+
+msgid "ecs_published_for"
+msgstr "Published for："
+
+#, fuzzy
+msgid "ecs_rcat_created_body_a"
+msgstr "A new ECS Category has been created:"
+
+msgid "ecs_rcrs_created_body_a"
+msgstr "一个新的远程课程已创建："
+
+msgid "ecs_read_remote_links"
+msgstr "更新远程课程"
+
+#, fuzzy
+msgid "ecs_refresh_participants"
+msgstr "Refresh ECS-Participants"
+
+msgid "ecs_released"
+msgstr "导出"
+
+msgid "ecs_released_content"
+msgstr "已发布E-Content"
+
+msgid "ecs_remote_imported"
+msgstr "有关远程课程的信息已被刷新。"
+
+msgid "ecs_remote_user_settings"
+msgstr "ECS用户账号设置"
+
+msgid "ecs_role"
+msgstr "角色分配"
+
+msgid "ecs_role_mapping_value"
+msgstr "属性值"
+
+msgid "ecs_role_mappings"
+msgstr "课程/组角色映射"
+
+msgid "ecs_server_addr"
+msgstr "服务器地址"
+
+msgid "ecs_server_deleted"
+msgstr "已删除服务器"
+
+msgid "ecs_server_settings"
+msgstr "ECS 功能"
+
+#, fuzzy
+msgid "ecs_server_title"
+msgstr "Name of ECS Configuration"
+
+msgid "ecs_server_url"
+msgstr "服务器URL"
+
+msgid "ecs_setting_deleted"
+msgstr "ECS已删除"
+
+msgid "ecs_settings"
+msgstr "设置"
+
+msgid "ecs_status_deleted"
+msgstr "已删除"
+
+msgid "ecs_status_legend"
+msgstr "图例"
+
+msgid "ecs_status_mapped"
+msgstr "已映射"
+
+msgid "ecs_status_pending_unmapped"
+msgstr "有待于(未映射的)"
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr "有待于 (已映射的, 可能断开)"
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr "有待于 (已映射的,不可能断开)"
+
+msgid "ecs_sync_trees"
+msgstr "同步目录树"
+
+msgid "ecs_tab_export"
+msgstr "导出"
+
+msgid "ecs_tab_import"
+msgstr "导入"
+
+msgid "ecs_tbl_active"
+msgstr "激活"
+
+msgid "ecs_tbl_active_rules"
+msgstr "为类目分配激活规则"
+
+msgid "ecs_tbl_export"
+msgstr "导出"
+
+msgid "ecs_tbl_import"
+msgstr "导入"
+
+msgid "ecs_tbl_import_type"
+msgstr "导入类型"
+
+msgid "ecs_tbl_settings_for_server"
+msgstr "ECS 设置为 %s"
+
+msgid "ecs_title_updates"
+msgstr "传递标题更新"
+
+#, fuzzy
+msgid "ecs_token_mechanism"
+msgstr "Authentication Token"
+
+#, fuzzy
+msgid "ecs_token_mechanism_info"
+msgstr "If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism."
+
+msgid "ecs_tree_updates"
+msgstr "传递树更新"
+
+msgid "ecs_tst_export"
+msgstr "Test 发布"
+
+msgid "ecs_tst_export_disabled"
+msgstr "不发布这个测试"
+
+msgid "ecs_tst_export_enabled"
+msgstr "发布这个测试"
+
+msgid "ecs_tst_export_obj_settings"
+msgstr "Test 发布设置"
+
+msgid "ecs_unique_id"
+msgstr "参与者ID"
+
+msgid "ecs_user_rcp"
+msgstr "有关ECS用户的通知"
+
+msgid "ecs_user_rcp_info"
+msgstr "输入一个或多个用户的登录名(逗号分隔)，每个用户都将获得有关新ECS用户的信息邮件。"
+
+msgid "ecs_wiki_export"
+msgstr "Wiki 发布"
+
+msgid "ecs_wiki_export_disabled"
+msgstr "不发布这个Wiki"
+
+msgid "ecs_wiki_export_enabled"
+msgstr "发布这个 Wiki"
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr "Wiki 发布设置"

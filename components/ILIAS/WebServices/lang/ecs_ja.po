@@ -1,0 +1,813 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr "証明書シリアル番号"
+
+msgid "ecs_abr"
+msgstr "略語"
+
+msgid "ecs_account_duration"
+msgstr "アクティベーション期間の延長"
+
+msgid "ecs_account_duration_info"
+msgstr "新ECSユーザアカウントはセッション接続時間中は制限されています。 ユーザをコースへ割当てると、アクティベーション期間は特定の月数延長されます。"
+
+msgid "ecs_activate"
+msgstr "有効"
+
+msgid "ecs_active"
+msgstr "ECS機能性を有効"
+
+msgid "ecs_active_header"
+msgstr "インポート/エクスポート 権限"
+
+msgid "ecs_add_new_ecs"
+msgstr "新規ECSを追加"
+
+msgid "ecs_apache_pass"
+msgstr "パスワード"
+
+msgid "ecs_apache_user"
+msgstr "ユーザ名"
+
+msgid "ecs_approval_rcp"
+msgstr "認定のコースについての通知"
+
+msgid "ecs_approval_rcp_info"
+msgstr "新しく認定されたコースに関してemailで連絡する1名以上のユーザ名(カンマ区切り)を入力してください。"
+
+msgid "ecs_attribute_name"
+msgstr "属性名"
+
+msgid "ecs_auth_type"
+msgstr "認証タイプ"
+
+msgid "ecs_auth_type_apache"
+msgstr "ユーザ名とパスワード"
+
+msgid "ecs_auth_type_cert"
+msgstr "認証ベース"
+
+msgid "ecs_availability"
+msgstr "Availability(空き状況)"
+
+msgid "ecs_available_ecs"
+msgstr "利用可能なECS"
+
+msgid "ecs_back_settings"
+msgstr "ECS設定"
+
+msgid "ecs_ca_cert"
+msgstr "CA証明書"
+
+msgid "ecs_campus_connect_title"
+msgstr "キャンパス接続図"
+
+msgid "ecs_cat_export"
+msgstr "カテゴリリリース"
+
+msgid "ecs_cat_export_disabled"
+msgstr "このカテゴリをリリースしない"
+
+msgid "ecs_cat_export_enabled"
+msgstr "このカテゴリをリリース"
+
+msgid "ecs_cat_export_obj_settings"
+msgstr "カテゴリリリース設定"
+
+msgid "ecs_cat_mapping_by_type"
+msgstr "タイプ別"
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr "このモードへオブジェクトタイプ別の割り当てを選択"
+
+msgid "ecs_cat_mapping_duration"
+msgstr "日付範囲"
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr "日付の範囲(例　コースの開始時間)に基づいてコースリンクを割当てるためにこのモードを選んでください。"
+
+msgid "ecs_cat_mapping_fixed"
+msgstr "固定値"
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr "固定値に基づいてカテゴリをコースリンクへ割当てるためにこのモードを選んでください。"
+
+msgid "ecs_cat_mapping_type"
+msgstr "課題タイプ"
+
+msgid "ecs_cat_mapping_values"
+msgstr "属性値"
+
+msgid "ecs_category_mapping"
+msgstr "カテゴリへの課題"
+
+msgid "ecs_cc_mapping_overview"
+msgstr "マップ全般"
+
+msgid "ecs_cert_key"
+msgstr "証明書のキー"
+
+msgid "ecs_cert_valid_until"
+msgstr "証明有効期限"
+
+msgid "ecs_check_import_id"
+msgstr "インポーIDは正しくありません。設定をチュエックしてください。"
+
+msgid "ecs_client_cert"
+msgstr "クライアント証明書"
+
+msgid "ecs_cmap_add_attribute_btn"
+msgstr "属性追加"
+
+msgid "ecs_cmap_all_in_one"
+msgstr "1カテゴリ内のコース"
+
+msgid "ecs_cmap_all_in_one_cat"
+msgstr "コースカテゴリ"
+
+msgid "ecs_cmap_all_in_one_info"
+msgstr "1カテゴリ内に全ての新規コースを作成します。"
+
+msgid "ecs_cmap_att_courseType"
+msgstr "コースタイプ"
+
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr "学位プログラム"
+
+msgid "ecs_cmap_att_lecturer"
+msgstr "講義"
+
+msgid "ecs_cmap_att_module"
+msgstr "モジュール"
+
+msgid "ecs_cmap_att_organisation"
+msgstr "組織"
+
+msgid "ecs_cmap_att_orgunit"
+msgstr "組織unit"
+
+msgid "ecs_cmap_att_term"
+msgstr "学期"
+
+msgid "ecs_cmap_att_title"
+msgstr "タイトル"
+
+msgid "ecs_cmap_att_venue"
+msgstr "開催地"
+
+msgid "ecs_cmap_attributes"
+msgstr "マッピング属性"
+
+msgid "ecs_cmap_atts_table"
+msgstr "マッピング構成属性"
+
+msgid "ecs_cmap_def_cat"
+msgstr "初期カテゴリ"
+
+msgid "ecs_cmap_def_cat_info"
+msgstr "別ルールで処理できないで作成される全コースのカテゴリのIDを入力してください。"
+
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr "最後の属性を削除"
+
+msgid "ecs_cmap_delete_rule"
+msgstr "マッピングを削除"
+
+msgid "ecs_cmap_enable"
+msgstr "コース再割り当て"
+
+msgid "ecs_cmap_form_all_values"
+msgstr "全ての値"
+
+msgid "ecs_cmap_form_create_subdirs"
+msgstr "サブディレクトリを作成"
+
+msgid "ecs_cmap_form_current_dir"
+msgstr "現在のディレクトリ"
+
+msgid "ecs_cmap_form_dir_relation"
+msgstr "ディレクトリ参照"
+
+msgid "ecs_cmap_form_filter"
+msgstr "フィルタ設定"
+
+msgid "ecs_cmap_form_filter_by_values"
+msgstr "属性値でフィルタ"
+
+msgid "ecs_cmap_form_filter_info"
+msgstr "コンマ区切りの手動値"
+
+msgid "ecs_cmap_form_subdir_name"
+msgstr "サブディレクトリ名"
+
+msgid "ecs_cmap_form_subdir_type"
+msgstr "サブディレクトリタイトル"
+
+msgid "ecs_cmap_form_subdir_value"
+msgstr "サブディレクトリ値"
+
+msgid "ecs_cmap_mapping_form_title"
+msgstr "カテゴリのコース割当て:"
+
+msgid "ecs_cmap_multiple_atts"
+msgstr "複数属性"
+
+msgid "ecs_cmap_overview"
+msgstr "マッピング概要"
+
+msgid "ecs_cms_dir_tree"
+msgstr "CMSディレクトリツリー"
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr "CMSディレクトリツリー"
+
+msgid "ecs_cms_id"
+msgstr "キャンパス管理システムのRoot-ID"
+
+msgid "ecs_cms_tree_deleted"
+msgstr "キャンパス管理ツリー割り当ては削除されました。"
+
+msgid "ecs_cms_tree_synchronize"
+msgstr "同期"
+
+msgid "ecs_cms_tree_synchronized"
+msgstr "ツリーが同期が完了しました。"
+
+msgid "ecs_communities"
+msgstr "受講者"
+
+msgid "ecs_confirm_delete_tree"
+msgstr "このキャンパス管理ツリーへの全ての割り当てを本当に削除しますか?"
+
+msgid "ecs_connection_settings"
+msgstr "コネクション設定"
+
+msgid "ecs_consent_modal_btn_accept"
+msgstr "同意して進む"
+
+msgid "ecs_consent_modal_title"
+msgstr "データ転送に同意する"
+
+msgid "ecs_consent_reset_confirm_title"
+msgstr "この参加者のユーザ同意をリセットする"
+
+msgid "ecs_cron_task_scheduler"
+msgstr "ECSタスクスケジューラ"
+
+msgid "ecs_cron_task_scheduler_info"
+msgstr "ECSタスクはスケジューラー設定に沿って実行されます。ECSサーバ構成時に限り必要です。"
+
+msgid "ecs_crs_alloc"
+msgstr "コース割当て"
+
+msgid "ecs_crs_alloc_set"
+msgstr "コース割当てを編集"
+
+msgid "ecs_crs_export"
+msgstr "現在のリリース"
+
+msgid "ecs_crs_export_disabled"
+msgstr "このコースをリリースしない"
+
+msgid "ecs_crs_export_enabled"
+msgstr "このコースをリリース"
+
+msgid "ecs_crs_export_obj_settings"
+msgstr "現在のリリース設定"
+
+msgid "ecs_deactivate"
+msgstr "解除"
+
+msgid "ecs_delete_setting"
+msgstr "次のECSを本当に削除しますか?"
+
+msgid "ecs_deprecated_token"
+msgstr "Deprecated認証トークンをサポート"
+
+msgid "ecs_deprecated_token_info"
+msgstr "Deprecated認証トークンメカニズムを使うインストール(例 ＩＬＩＡＳバージョン4.x)のサポートを提案"
+
+msgid "ecs_dir_alloc"
+msgstr "ディレクトリ割当て"
+
+msgid "ecs_dir_alloc_set"
+msgstr "ディレクトリ割当てを編集"
+
+msgid "ecs_dns"
+msgstr "ドメイン名"
+
+msgid "ecs_duration"
+msgstr "期間"
+
+msgid "ecs_econ_rcp"
+msgstr "eコンテンツに関する通知"
+
+msgid "ecs_econ_rcp_info"
+msgstr "新しいECSコンテンツに関してemailで連絡する1名以上のログインユーザ名(カンマ区切り)を入力してください。"
+
+msgid "ecs_edit_category_mapping"
+msgstr "課題を編集"
+
+msgid "ecs_email"
+msgstr "email"
+
+msgid "ecs_enable_participant"
+msgstr "Im/エクスポートを許可"
+
+msgid "ecs_err_invalid_by_type"
+msgstr "タイプ別で割り当て際にはタイプを選択してください。"
+
+msgid "ecs_err_invalid_dates"
+msgstr "開始は終了時間よりも早くするべきです。"
+
+msgid "ecs_err_invalid_type"
+msgstr "課題モードを選んでください。"
+
+msgid "ecs_err_missing_value"
+msgstr "入力:属性値をチェックしてください。"
+
+msgid "ecs_error_extract_serial"
+msgstr "証明書のシリアル番号を読み込む事ができません。クライアント証明書のpathをチェックしてください。"
+
+msgid "ecs_event_appointment"
+msgstr "イベントログ"
+
+msgid "ecs_export"
+msgstr "コースリリース"
+
+msgid "ecs_export_auth_type"
+msgstr "外部ユーザ属性のユーザ用認証方式"
+
+msgid "ecs_export_auth_type_ilias"
+msgstr "LDAP経由のユーザ認証"
+
+msgid "ecs_export_auth_type_info"
+msgstr "外部ユーザ属性がECS経由で転送されたECS経由の認証ユーザ用の認証方式を選択してください。"
+
+msgid "ecs_export_auth_type_none"
+msgstr "外部ユーザ属性のユーザを許可しない。"
+
+msgid "ecs_export_auth_type_oidc"
+msgstr "OpenID Connectによるユーザー認証"
+
+msgid "ecs_export_auth_type_shib"
+msgstr "Shibboleth経由のユーザ認証"
+
+msgid "ecs_export_created_body_a"
+msgstr "新コースがリリースされました"
+
+msgid "ecs_export_disabled"
+msgstr "このコースをリリースしてはいけません"
+
+msgid "ecs_export_enabled"
+msgstr "このコースをリリース"
+
+msgid "ecs_export_local_account"
+msgstr "ローカル ILIAS アカウント"
+
+msgid "ecs_export_local_account_info"
+msgstr "有効にするとECS経由でローカルアカウントを作成できます。外部ユーザ属性のないECSユーザは各システムのローカルユーザアカウントを受け取ります。"
+
+msgid "ecs_export_obj_settings"
+msgstr "コースリリース設定"
+
+msgid "ecs_export_types"
+msgstr "エクスポート可のオブジェクトタイプ"
+
+msgid "ecs_field_begin"
+msgstr "始める"
+
+msgid "ecs_field_community"
+msgstr "コミュニティー"
+
+msgid "ecs_field_courseID"
+msgstr "コース ID"
+
+msgid "ecs_field_courseType"
+msgstr "コースタイプ"
+
+msgid "ecs_field_credits"
+msgstr "履修単位"
+
+msgid "ecs_field_cycle"
+msgstr "サイクル"
+
+msgid "ecs_field_day"
+msgstr "Day"
+
+msgid "ecs_field_end"
+msgstr "終わり"
+
+msgid "ecs_field_lecturer"
+msgstr "講師(複数)"
+
+msgid "ecs_field_part_id"
+msgstr "受講者ID"
+
+msgid "ecs_field_room"
+msgstr "ルーム"
+
+msgid "ecs_field_semester_hours"
+msgstr "1週間当たりの学期単位"
+
+msgid "ecs_field_start"
+msgstr "開始"
+
+msgid "ecs_field_study_courses"
+msgstr "コースの学習"
+
+msgid "ecs_field_term"
+msgstr "用語"
+
+msgid "ecs_field_time"
+msgstr "時間"
+
+msgid "ecs_file_export"
+msgstr "ファイルをリリース"
+
+msgid "ecs_file_export_disabled"
+msgstr "このファイルをリリースしない"
+
+msgid "ecs_file_export_enabled"
+msgstr "このファイルをリリース"
+
+msgid "ecs_file_export_obj_settings"
+msgstr "ファイルリリース設定"
+
+msgid "ecs_firstname"
+msgstr "氏名"
+
+msgid "ecs_form_consent"
+msgstr "同意"
+
+msgid "ecs_form_consent_option_title"
+msgstr "下記に交わしたターゲットシステムへ次のデータ転送することに同意します。"
+
+msgid "ecs_form_target_platform"
+msgstr "ターゲットシステム"
+
+msgid "ecs_general_info"
+msgstr "全般情報"
+
+msgid "ecs_glo_export"
+msgstr "索引リリース"
+
+msgid "ecs_glo_export_disabled"
+msgstr "この索引をリリースしない"
+
+msgid "ecs_glo_export_enabled"
+msgstr "この索引をリリース"
+
+msgid "ecs_glo_export_obj_settings"
+msgstr "索引リリース設定"
+
+msgid "ecs_global_role_info"
+msgstr "選んだ役割は、新しく作成したECS ユーザ アカウントへ割当てられます。"
+
+msgid "ecs_grp_export"
+msgstr "グループリリース"
+
+msgid "ecs_grp_export_disabled"
+msgstr "このグループをリリースしない"
+
+msgid "ecs_grp_export_enabled"
+msgstr "このグループをリリース"
+
+msgid "ecs_grp_export_obj_settings"
+msgstr "グループリリース設定"
+
+msgid "ecs_ignore_field"
+msgstr "この欄の　エクスポート/更新 を無効"
+
+msgid "ecs_import"
+msgstr "インポート"
+
+msgid "ecs_import_auth_mode"
+msgstr "ECS経由の送信用として認証方式 %s のアカウントを許可する"
+
+msgid "ecs_import_auth_type_default"
+msgstr "ECS経由の送信用として認証方式\"Default\"アカウントを許可する"
+
+msgid "ecs_import_cms"
+msgstr "キャンパス管理"
+
+msgid "ecs_import_id"
+msgstr "インポート ID"
+
+msgid "ecs_import_id_info"
+msgstr "新コースリンクが作成される場所のカテゴリIDを入力してください"
+
+msgid "ecs_import_types"
+msgstr "インポート可のオブジェクトタイプ"
+
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr "ECS経由の送信用の認証方式の構成"
+
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr "このオプションを有効にするとECS経由で参加者リソースをアクセスする認証方式\"Defaullt\"\"のアカウントを許可します。"
+
+msgid "ecs_imported_content"
+msgstr "インポートされたE-コンテンツ"
+
+msgid "ecs_imported_from"
+msgstr "インポート先"
+
+msgid "ecs_institution"
+msgstr "組織"
+
+msgid "ecs_invalid_import_type_cms"
+msgstr "キャンパス管理インポートタイプは一度しか選択できません。"
+
+msgid "ecs_key_password"
+msgstr "キーパスワード"
+
+msgid "ecs_lastname"
+msgstr "Last name"
+
+msgid "ecs_lm_export"
+msgstr "ラーニングモジュールリリース"
+
+msgid "ecs_lm_export_disabled"
+msgstr "このラーニングモジュールをリリースしない"
+
+msgid "ecs_lm_export_enabled"
+msgstr "このラーニングモジュールをリリース"
+
+msgid "ecs_lm_export_obj_settings"
+msgstr "ラーニングモジュールリリース設定"
+
+msgid "ecs_local_information"
+msgstr "今後の情報"
+
+msgid "ecs_local_settings"
+msgstr "ローカル設定"
+
+msgid "ecs_login"
+msgstr "ユーザ名または外部ユーザアカウント"
+
+msgid "ecs_mapping_crs"
+msgstr "コースのマッピング"
+
+msgid "ecs_mapping_exp_tbl"
+msgstr "ILIAS拡張メタデータをECSデータへマッピング"
+
+msgid "ecs_mapping_rcrs"
+msgstr "リモートコースのマッピング"
+
+msgid "ecs_mapping_tbl"
+msgstr "ECS-DataをILIAS詳細メアタデータへマッピング"
+
+msgid "ecs_mappings"
+msgstr "ECSデータマッピング"
+
+msgid "ecs_member_auth_type"
+msgstr "Auth Modeのコースメンバー"
+
+msgid "ecs_meta_data"
+msgstr "メタデータ"
+
+msgid "ecs_new_approval_subject"
+msgstr "新コースがリリースされました"
+
+msgid "ecs_new_category_mapping"
+msgstr "カテゴリへリンクするコースの新課題"
+
+msgid "ecs_new_econtent_subject"
+msgstr "新eコンテンツの作成"
+
+msgid "ecs_new_user_body"
+msgstr "新ECS ユーザ アカウントが作成されました。"
+
+msgid "ecs_new_user_profile"
+msgstr "ユーザプロファイルデータ"
+
+msgid "ecs_new_user_subject"
+msgstr "新ECS ユーザ アカウント"
+
+msgid "ecs_no_adv_md"
+msgstr "利用可能な拡張メタデータはありません"
+
+msgid "ecs_no_owner"
+msgstr "コミュニティー名を一つ選択してください。"
+
+msgid "ecs_no_value"
+msgstr "利用不可"
+
+msgid "ecs_node_mapping_activate"
+msgstr "ディレクトリマッピングを有効にする"
+
+msgid "ecs_node_mapping_create_empty"
+msgstr "コースが含まれるカテゴリのみを作成"
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr "自動的に作動するコースマッピングの組合せの中でのみ利用可能です。"
+
+msgid "ecs_node_mapping_status_1"
+msgstr "全ツリーのマッピング"
+
+msgid "ecs_node_mapping_status_2"
+msgstr "手動マッピング"
+
+msgid "ecs_node_mapping_status_3"
+msgstr "マッピングしない"
+
+msgid "ecs_not_configured"
+msgstr "未構成"
+
+msgid "ecs_not_published"
+msgstr "認定が選択されていません。"
+
+msgid "ecs_notifications"
+msgstr "通知"
+
+msgid "ecs_outgoing_user_credentials"
+msgstr "ユーザ属性"
+
+msgid "ecs_outgoing_user_credentials_info"
+msgstr "送信にどのユーザ属性を使用するかを指定してください。利用可能な値は [Login], [EXTERNAL_ACCOUNT]です。先頭に追加または設定のどこかに補足して指定の属性を修正できます。例: [LOGIN]@example.com"
+
+msgid "ecs_part_settings"
+msgstr "受験者設定:"
+
+msgid "ecs_participants"
+msgstr "受講者"
+
+msgid "ecs_participants_infos"
+msgstr "今後の情報"
+
+msgid "ecs_polling"
+msgstr "ポーリング時間"
+
+msgid "ecs_polling_info"
+msgstr "コースリンクの作成と更新用のポーリング時間を定義してください"
+
+msgid "ecs_port"
+msgstr "ポート"
+
+msgid "ecs_position_updates"
+msgstr "職務更新を転送"
+
+msgid "ecs_protocol"
+msgstr "プロトコル"
+
+msgid "ecs_publish_as"
+msgstr "発行者:"
+
+msgid "ecs_publish_for"
+msgstr "リリース:"
+
+msgid "ecs_published_for"
+msgstr "発行用途:"
+
+msgid "ecs_rcat_created_body_a"
+msgstr "新しいECSカテゴリが作成されました。"
+
+msgid "ecs_rcrs_created_body_a"
+msgstr "新リモートコースが作成されました"
+
+msgid "ecs_read_remote_links"
+msgstr "リモートコースを更新"
+
+msgid "ecs_refresh_participants"
+msgstr "ECS-受験者をリフレッシュ"
+
+msgid "ecs_released"
+msgstr "エクスポート"
+
+msgid "ecs_released_content"
+msgstr "リリース済のE-コンテンツ"
+
+msgid "ecs_remote_imported"
+msgstr "リモートコースに関する情報はリフレッシュされました。"
+
+msgid "ecs_remote_user_settings"
+msgstr "ECSユーザ アカウントの設定"
+
+msgid "ecs_role"
+msgstr "役割割当て"
+
+msgid "ecs_role_mapping_value"
+msgstr "属性値"
+
+msgid "ecs_role_mappings"
+msgstr "コース/グループ役割マッピング"
+
+msgid "ecs_server_addr"
+msgstr "サーバーアドレス"
+
+msgid "ecs_server_deleted"
+msgstr "サーバを削除"
+
+msgid "ecs_server_settings"
+msgstr "ECS機能性"
+
+msgid "ecs_server_title"
+msgstr "ECS構成名"
+
+msgid "ecs_server_url"
+msgstr "サーバーURL"
+
+msgid "ecs_setting_deleted"
+msgstr "ECSは削除されました"
+
+msgid "ecs_settings"
+msgstr "設定"
+
+msgid "ecs_status_deleted"
+msgstr "削除済み"
+
+msgid "ecs_status_legend"
+msgstr "凡例"
+
+msgid "ecs_status_mapped"
+msgstr "調査済み"
+
+msgid "ecs_status_pending_unmapped"
+msgstr "保留(未調査)"
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr "保留(調査済み、切断可能)"
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr "保留(調査済み、切断不可)"
+
+msgid "ecs_sync_trees"
+msgstr "ディレクトリツリーを同期"
+
+msgid "ecs_tab_export"
+msgstr "エクスポート"
+
+msgid "ecs_tab_import"
+msgstr "インポート"
+
+msgid "ecs_tbl_active"
+msgstr "有効"
+
+msgid "ecs_tbl_active_rules"
+msgstr "カテゴリ割当て用の使用ルール"
+
+msgid "ecs_tbl_export"
+msgstr "エクスポート"
+
+msgid "ecs_tbl_import"
+msgstr "インポート"
+
+msgid "ecs_tbl_import_type"
+msgstr "インポートタイプ"
+
+msgid "ecs_tbl_settings_for_server"
+msgstr "%s用ECS設定"
+
+msgid "ecs_title_updates"
+msgstr "タイトル更新を転送"
+
+msgid "ecs_token_mechanism"
+msgstr "認証トークン"
+
+msgid "ecs_token_mechanism_info"
+msgstr "有効にするとリモートオブジェクトのホスティングプラットフォームの認証はECSトークンメカニズムによって処理されます。"
+
+msgid "ecs_tree_updates"
+msgstr "ツリー更新を転送"
+
+msgid "ecs_tst_export"
+msgstr "テストリリース"
+
+msgid "ecs_tst_export_disabled"
+msgstr "このテストをリリースしない"
+
+msgid "ecs_tst_export_enabled"
+msgstr "このテストをリリース"
+
+msgid "ecs_tst_export_obj_settings"
+msgstr "テストリリース設定"
+
+msgid "ecs_unique_id"
+msgstr "受講者ID"
+
+msgid "ecs_user_rcp"
+msgstr "ECSユーザに関する通知"
+
+msgid "ecs_user_rcp_info"
+msgstr "新しいECSユーザに関してemailで連絡する1名以上のログインユーザ名(カンマ区切り)を入力してください。"
+
+msgid "ecs_wiki_export"
+msgstr "Wikiリリース"
+
+msgid "ecs_wiki_export_disabled"
+msgstr "このWikiをリリースしない"
+
+msgid "ecs_wiki_export_enabled"
+msgstr "このWikiをリリース"
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr "Wikiリリース設定"

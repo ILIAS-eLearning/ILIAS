@@ -1,0 +1,887 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr "Sertifika Seri Numarası"
+
+msgid "ecs_abr"
+msgstr "Kısaltma"
+
+msgid "ecs_account_duration"
+msgstr "Aktivasyon Süreci Uzatma"
+
+msgid "ecs_account_duration_info"
+msgstr "Yeni ECS-Kullanıcı hesapları oturum süresi ile sınırlıdır. Bir ders için bir kullanıcı atadıktan sonra etkinleştirme süresi belirli sayıda ay uzatılacaktır."
+
+msgid "ecs_activate"
+msgstr "Etkinleştir"
+
+msgid "ecs_active"
+msgstr "Etkinleştir ECS İşlevler"
+
+msgid "ecs_active_header"
+msgstr "İçe / Dışa Aktarma İzin Verildi"
+
+msgid "ecs_add_new_ecs"
+msgstr "Yeni Ekle ECS"
+
+msgid "ecs_apache_pass"
+msgstr "Parola"
+
+msgid "ecs_apache_user"
+msgstr "Kullanıcı Adı"
+
+msgid "ecs_approval_rcp"
+msgstr "Onaylı Dersler Hakkında Bildirim"
+
+msgid "ecs_approval_rcp_info"
+msgstr "Her e-posta için yeni onaylanan dersler hakkında bilgi alacak bir veya birden fazla(virgül ile ayrılmış) kullanıcı adı girin"
+
+msgid "ecs_attribute_name"
+msgstr "Özellik Adı"
+
+msgid "ecs_auth_type"
+msgstr "Kimlik Doğrulama Türü"
+
+msgid "ecs_auth_type_apache"
+msgstr "Kullanıcı Adı / Şifre"
+
+msgid "ecs_auth_type_cert"
+msgstr "Sertifika-Baz"
+
+msgid "ecs_availability"
+msgstr "Durumu"
+
+msgid "ecs_available_ecs"
+msgstr "Mevcut ECS"
+
+msgid "ecs_back_settings"
+msgstr "ECS Ayarları"
+
+msgid "ecs_ca_cert"
+msgstr "CA Sertifikası"
+
+msgid "ecs_campus_connect_title"
+msgstr "CampusConnect Dönüşümler"
+
+msgid "ecs_cat_export"
+msgstr "Kategori Bültenleri"
+
+msgid "ecs_cat_export_disabled"
+msgstr "Bu Kategori bırakmayın"
+
+msgid "ecs_cat_export_enabled"
+msgstr "Bu Kategori bırakın"
+
+msgid "ecs_cat_export_obj_settings"
+msgstr "Kategori Yayın Ayarları"
+
+msgid "ecs_cat_mapping_by_type"
+msgstr "Türe Göre"
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr "nesne türüne göre atamak için bu modu seçin."
+
+msgid "ecs_cat_mapping_duration"
+msgstr "Tarih Aralığı"
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr "tarih aralıkları (bir dersin örneğin başlangıç ​​zamanı) esas Ders Linkler atamak için bu modu seçin."
+
+msgid "ecs_cat_mapping_fixed"
+msgstr "Sabit Değerler"
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr "sabit değerlere dayalı kategoriler Dersin Linkler atamak için bu modu seçin."
+
+msgid "ecs_cat_mapping_type"
+msgstr "Atama Türü"
+
+msgid "ecs_cat_mapping_values"
+msgstr "Özellik Değeri"
+
+msgid "ecs_category_mapping"
+msgstr "Kategoriler Atama"
+
+msgid "ecs_cc_mapping_overview"
+msgstr "Haritalama Bakış"
+
+msgid "ecs_cert_key"
+msgstr "Sertifika Anahtarı"
+
+msgid "ecs_cert_valid_until"
+msgstr "Kadar geçerlidir Belgesi"
+
+msgid "ecs_check_import_id"
+msgstr "Import ID geçerli değil. Bu ayarı kontrol edin."
+
+msgid "ecs_client_cert"
+msgstr "İstemci Sertifikası"
+
+#, fuzzy
+msgid "ecs_cmap_add_attribute_btn"
+msgstr "Add Attribute"
+
+#, fuzzy
+msgid "ecs_cmap_all_in_one"
+msgstr "Course in one Category"
+
+#, fuzzy
+msgid "ecs_cmap_all_in_one_cat"
+msgstr "Course Category"
+
+#, fuzzy
+msgid "ecs_cmap_all_in_one_info"
+msgstr "Create all new courses in one category."
+
+#, fuzzy
+msgid "ecs_cmap_att_courseType"
+msgstr "Course Type"
+
+#, fuzzy
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr "Degree Programme"
+
+#, fuzzy
+msgid "ecs_cmap_att_lecturer"
+msgstr "Lecturer"
+
+#, fuzzy
+msgid "ecs_cmap_att_module"
+msgstr "Module"
+
+#, fuzzy
+msgid "ecs_cmap_att_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "ecs_cmap_att_orgunit"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "ecs_cmap_att_term"
+msgstr "Term"
+
+#, fuzzy
+msgid "ecs_cmap_att_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "ecs_cmap_att_venue"
+msgstr "Venue"
+
+#, fuzzy
+msgid "ecs_cmap_attributes"
+msgstr "Mapping Attributes"
+
+#, fuzzy
+msgid "ecs_cmap_atts_table"
+msgstr "Attribute Mapping Configuration"
+
+#, fuzzy
+msgid "ecs_cmap_def_cat"
+msgstr "Default Category"
+
+#, fuzzy
+msgid "ecs_cmap_def_cat_info"
+msgstr "Please enter the id of a category where all courses will be created that cannot be handled by other rules."
+
+#, fuzzy
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr "Delete Last Attribute"
+
+#, fuzzy
+msgid "ecs_cmap_delete_rule"
+msgstr "Delete Mapping"
+
+#, fuzzy
+msgid "ecs_cmap_enable"
+msgstr "Course Allocation"
+
+#, fuzzy
+msgid "ecs_cmap_form_all_values"
+msgstr "All Values"
+
+#, fuzzy
+msgid "ecs_cmap_form_create_subdirs"
+msgstr "Create Subdirectories"
+
+#, fuzzy
+msgid "ecs_cmap_form_current_dir"
+msgstr "Current Directory"
+
+#, fuzzy
+msgid "ecs_cmap_form_dir_relation"
+msgstr "Directory Reference"
+
+#, fuzzy
+msgid "ecs_cmap_form_filter"
+msgstr "Filter Settings"
+
+#, fuzzy
+msgid "ecs_cmap_form_filter_by_values"
+msgstr "Filter by Attribute Values"
+
+#, fuzzy
+msgid "ecs_cmap_form_filter_info"
+msgstr "Manual values, comma separated"
+
+#, fuzzy
+msgid "ecs_cmap_form_subdir_name"
+msgstr "Subdirectory Name"
+
+#, fuzzy
+msgid "ecs_cmap_form_subdir_type"
+msgstr "Subdirectory Title"
+
+#, fuzzy
+msgid "ecs_cmap_form_subdir_value"
+msgstr "Subdirectory Value"
+
+#, fuzzy
+msgid "ecs_cmap_mapping_form_title"
+msgstr "Course Assignment for Category:"
+
+#, fuzzy
+msgid "ecs_cmap_multiple_atts"
+msgstr "Multiple Attributes"
+
+#, fuzzy
+msgid "ecs_cmap_overview"
+msgstr "Mapping Overview"
+
+msgid "ecs_cms_dir_tree"
+msgstr "CMS Rehber Ağaçlar"
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr "CMS Rehber Ağaçlar"
+
+msgid "ecs_cms_id"
+msgstr "Kampüs-Yönetim-Sistemi Kök-Kimliği"
+
+msgid "ecs_cms_tree_deleted"
+msgstr "kampüs yönetim ağacı atamaları silinmiştir."
+
+msgid "ecs_cms_tree_synchronize"
+msgstr "Ağaç senkronize"
+
+msgid "ecs_cms_tree_synchronized"
+msgstr "Ağaç senkronize edilmiştir."
+
+msgid "ecs_communities"
+msgstr "Katılımcıları"
+
+msgid "ecs_confirm_delete_tree"
+msgstr "Eğer gerçekten bu kampüs yönetimi ağaç için tüm atamaları silmek istediğinizden emin misiniz?"
+
+msgid "ecs_connection_settings"
+msgstr "Bağlantı Ayarları"
+
+#, fuzzy
+msgid "ecs_consent_modal_btn_accept"
+msgstr "Agree and Proceed"
+
+#, fuzzy
+msgid "ecs_consent_modal_title"
+msgstr "Consent for data transfer"
+
+#, fuzzy
+msgid "ecs_consent_reset_confirm_title"
+msgstr "Reset user consent for this participant"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler"
+msgstr "ECS Task Scheduler"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler_info"
+msgstr "ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured."
+
+msgid "ecs_crs_alloc"
+msgstr "Ders Tahsisi"
+
+msgid "ecs_crs_alloc_set"
+msgstr "Düzenleme Sahası Tahsis"
+
+msgid "ecs_crs_export"
+msgstr "Ders Açıklamaları"
+
+msgid "ecs_crs_export_disabled"
+msgstr "Bu Dersin bırakmayın"
+
+msgid "ecs_crs_export_enabled"
+msgstr "Bu Ders bırakın"
+
+msgid "ecs_crs_export_obj_settings"
+msgstr "Ders Yayın Ayarları"
+
+msgid "ecs_deactivate"
+msgstr "Devre dışı bırak"
+
+msgid "ecs_delete_setting"
+msgstr "Aşağıdaki ECS silmek istediğinizden emin misiniz?"
+
+#, fuzzy
+msgid "ecs_deprecated_token"
+msgstr "Support for Deprecated Authentication Token"
+
+#, fuzzy
+msgid "ecs_deprecated_token_info"
+msgstr "Offers support for installations (e.g ILIAS installations of version 4.x) which use a deprecated token authentication mechanism."
+
+msgid "ecs_dir_alloc"
+msgstr "Dizin Tahsisi"
+
+msgid "ecs_dir_alloc_set"
+msgstr "Düzenleme Rehberi Tahsisi"
+
+msgid "ecs_dns"
+msgstr "Etki_alanı_adı"
+
+msgid "ecs_duration"
+msgstr "Süre"
+
+msgid "ecs_econ_rcp"
+msgstr "Yeni E-İçerik Hakkında Bildirim"
+
+msgid "ecs_econ_rcp_info"
+msgstr "e-posta başına yeni ECS içerik hakkında bilgi sahibi olan kullanıcılar bir veya daha fazla giriş isimleri (virgülle ayrılmış) girin."
+
+msgid "ecs_edit_category_mapping"
+msgstr "Edit Atama"
+
+msgid "ecs_email"
+msgstr "E-Posta"
+
+msgid "ecs_enable_participant"
+msgstr "İzin Im / Export"
+
+msgid "ecs_err_invalid_by_type"
+msgstr "tipine göre atarken bir türü seçin."
+
+msgid "ecs_err_invalid_dates"
+msgstr "başlangıç ​​bitiş süresinden daha önce olmalıdır."
+
+msgid "ecs_err_invalid_type"
+msgstr "geçerli bir kategori nesnesi kimliği belirtin."
+
+msgid "ecs_err_missing_value"
+msgstr "Özellik değerleri: Lütfen girişinizi kontrol edin."
+
+msgid "ecs_error_extract_serial"
+msgstr "sertifikanın seri numarası okunamıyor. Istemci sertifikası yolunu kontrol edin."
+
+msgid "ecs_event_appointment"
+msgstr "Etkinlik Tarihi"
+
+msgid "ecs_export"
+msgstr "Ders Açıklamaları"
+
+#, fuzzy
+msgid "ecs_export_auth_type"
+msgstr "Authentication method for users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_ilias"
+msgstr "User authentication via LDAP"
+
+#, fuzzy
+msgid "ecs_export_auth_type_info"
+msgstr "Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS."
+
+#, fuzzy
+msgid "ecs_export_auth_type_none"
+msgstr "Do not allow users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_oidc"
+msgstr "User authentication via OpenID Connect"
+
+#, fuzzy
+msgid "ecs_export_auth_type_shib"
+msgstr "User authentication via Shibboleth"
+
+msgid "ecs_export_created_body_a"
+msgstr "yeni bir ders çıktı"
+
+msgid "ecs_export_disabled"
+msgstr "Bu Dersin bırakmayın"
+
+msgid "ecs_export_enabled"
+msgstr "Bu Ders bırakın"
+
+#, fuzzy
+msgid "ecs_export_local_account"
+msgstr "Local ILIAS accounts"
+
+#, fuzzy
+msgid "ecs_export_local_account_info"
+msgstr "If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation."
+
+msgid "ecs_export_obj_settings"
+msgstr "Ders Yayın Ayarları"
+
+#, fuzzy
+msgid "ecs_export_types"
+msgstr "Exportable Object Types"
+
+msgid "ecs_field_begin"
+msgstr "Başlayan"
+
+msgid "ecs_field_community"
+msgstr "Community"
+
+msgid "ecs_field_courseID"
+msgstr "Ders Kimliği"
+
+msgid "ecs_field_courseType"
+msgstr "Dersin Türü"
+
+msgid "ecs_field_credits"
+msgstr "Kredi"
+
+msgid "ecs_field_cycle"
+msgstr "Döngüsü"
+
+msgid "ecs_field_day"
+msgstr "Gün"
+
+msgid "ecs_field_end"
+msgstr "Sonu"
+
+msgid "ecs_field_lecturer"
+msgstr "Veren (ler)"
+
+msgid "ecs_field_part_id"
+msgstr "Katılımcı Kimliği"
+
+msgid "ecs_field_room"
+msgstr "Oda"
+
+msgid "ecs_field_semester_hours"
+msgstr "Haftada Yarıyıl Dönemleri"
+
+msgid "ecs_field_start"
+msgstr "Başlat"
+
+msgid "ecs_field_study_courses"
+msgstr "Eğitim Kursu (ler)"
+
+msgid "ecs_field_term"
+msgstr "Dönem"
+
+msgid "ecs_field_time"
+msgstr "Zaman"
+
+msgid "ecs_file_export"
+msgstr "Dosya Bültenleri"
+
+msgid "ecs_file_export_disabled"
+msgstr "Bu Dosya bırakmayın"
+
+msgid "ecs_file_export_enabled"
+msgstr "Bu Dosya bırakın"
+
+msgid "ecs_file_export_obj_settings"
+msgstr "Dosya Yayın Ayarları"
+
+#, fuzzy
+msgid "ecs_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "ecs_form_consent"
+msgstr "Consent"
+
+#, fuzzy
+msgid "ecs_form_consent_option_title"
+msgstr "I hereby consent to the transfer of the following data to the above-mentioned target system:"
+
+#, fuzzy
+msgid "ecs_form_target_platform"
+msgstr "Target system"
+
+msgid "ecs_general_info"
+msgstr "Genel Bilgi"
+
+msgid "ecs_glo_export"
+msgstr "Sözlük Bültenleri"
+
+msgid "ecs_glo_export_disabled"
+msgstr "Bu Sözlük bırakmayın"
+
+msgid "ecs_glo_export_enabled"
+msgstr "Bu Sözlük bırakın"
+
+msgid "ecs_glo_export_obj_settings"
+msgstr "Sözlük Yayın Ayarları"
+
+msgid "ecs_global_role_info"
+msgstr "Seçilen rolü yeni oluşturulan ECS kullanıcı hesaplarına atanacaktır."
+
+msgid "ecs_grp_export"
+msgstr "Grubu Bültenleri"
+
+msgid "ecs_grp_export_disabled"
+msgstr "Bu Grup bırakmayın"
+
+msgid "ecs_grp_export_enabled"
+msgstr "Bu Grup bırakın"
+
+msgid "ecs_grp_export_obj_settings"
+msgstr "Grubu Yayın Ayarları"
+
+msgid "ecs_ignore_field"
+msgstr "Bu alanın dışa aktarımı ve güncellemesini devre dışı bırak"
+
+msgid "ecs_import"
+msgstr "İthal Nesneler"
+
+#, fuzzy
+msgid "ecs_import_auth_mode"
+msgstr "Allow accounts of authentication method %s for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_auth_type_default"
+msgstr "Allow accounts authentication method \"Default\" for transmission via ECS"
+
+msgid "ecs_import_cms"
+msgstr "Kampüs Yönetimi"
+
+msgid "ecs_import_id"
+msgstr "Import ID"
+
+msgid "ecs_import_id_info"
+msgstr "Yeni Ders Linkler oluşturulacak kategori kimliği girin"
+
+#, fuzzy
+msgid "ecs_import_types"
+msgstr "Importable Object Types"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr "Configuration of authentication methods for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr "Enable this option to allow accounts of authentication method \"Default\" to access participant's resources via ECS."
+
+msgid "ecs_imported_content"
+msgstr "E-İçerik İthal"
+
+msgid "ecs_imported_from"
+msgstr "Alındı"
+
+#, fuzzy
+msgid "ecs_institution"
+msgstr "Institution"
+
+msgid "ecs_invalid_import_type_cms"
+msgstr "İçe aktarma türü \"Kampüs Managment\" yalnızca bir kez seçilebilir."
+
+msgid "ecs_key_password"
+msgstr "Key Password"
+
+#, fuzzy
+msgid "ecs_lastname"
+msgstr "Last name"
+
+msgid "ecs_lm_export"
+msgstr "Öğrenme Modülü Bültenleri"
+
+msgid "ecs_lm_export_disabled"
+msgstr "Bu Öğrenme Modülü bırakmayın"
+
+msgid "ecs_lm_export_enabled"
+msgstr "Bu Öğrenme Modülü bırakın"
+
+msgid "ecs_lm_export_obj_settings"
+msgstr "Öğrenme Modülü Yayın Ayarları"
+
+msgid "ecs_local_information"
+msgstr "Ayrıntılı Bilgi"
+
+msgid "ecs_local_settings"
+msgstr "Yerel Ayarlar"
+
+#, fuzzy
+msgid "ecs_login"
+msgstr "Username or External user account"
+
+msgid "ecs_mapping_crs"
+msgstr "Dersler için Haritalama"
+
+msgid "ecs_mapping_exp_tbl"
+msgstr "Haritalama ILIAS ECS-Veri Meta Veri Gelişmiş"
+
+msgid "ecs_mapping_rcrs"
+msgstr "ECS Kursları için Haritalama"
+
+msgid "ecs_mapping_tbl"
+msgstr "ILIAS Gelişmiş Meta Data ECS-Veri Haritalama"
+
+msgid "ecs_mappings"
+msgstr "ECS Veri Haritalama"
+
+#, fuzzy
+msgid "ecs_member_auth_type"
+msgstr "Course Member Auth Mode"
+
+msgid "ecs_meta_data"
+msgstr "Meta veri"
+
+msgid "ecs_new_approval_subject"
+msgstr "yeni bir ders çıktı"
+
+msgid "ecs_new_category_mapping"
+msgstr "Kategoriler Dersin Yeni Atama Linkler"
+
+msgid "ecs_new_econtent_subject"
+msgstr "Yeni E-İçerik hazırlandı"
+
+msgid "ecs_new_user_body"
+msgstr "yeni ECS kullanıcı hesabı oluşturuldu."
+
+msgid "ecs_new_user_profile"
+msgstr "Kullanıcı profili verileri:"
+
+msgid "ecs_new_user_subject"
+msgstr "Yeni ECS Kullanıcı Hesabı"
+
+#, fuzzy
+msgid "ecs_no_adv_md"
+msgstr "No Advanced Meta Data available."
+
+msgid "ecs_no_owner"
+msgstr "bir topluluk adı seçiniz."
+
+msgid "ecs_no_value"
+msgstr "Mevcut değil"
+
+msgid "ecs_node_mapping_activate"
+msgstr "Etkinleştir Dizin Haritalama"
+
+msgid "ecs_node_mapping_create_empty"
+msgstr "Dersler ihtiva eden, sadece Oluşturma Kategoriler"
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr "Sadece otomatik olarak aktif olacaktır elbette haritalama, birlikte Kullanılabilir ."
+
+msgid "ecs_node_mapping_status_1"
+msgstr "Tüm Ağacı Haritalama"
+
+msgid "ecs_node_mapping_status_2"
+msgstr "Manuel Haritalama"
+
+msgid "ecs_node_mapping_status_3"
+msgstr "eşlenmemiş"
+
+msgid "ecs_not_configured"
+msgstr "Yapılandırılmamış"
+
+msgid "ecs_not_published"
+msgstr "Hiçbir onayları seçilir."
+
+msgid "ecs_notifications"
+msgstr "Bildirimler"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials"
+msgstr "User attribute"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials_info"
+msgstr "Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com"
+
+#, fuzzy
+msgid "ecs_part_settings"
+msgstr "Settings for Participant:"
+
+msgid "ecs_participants"
+msgstr "Katılımcıları"
+
+msgid "ecs_participants_infos"
+msgstr "Ayrıntılı Bilgi"
+
+msgid "ecs_polling"
+msgstr "Yoklama Zaman"
+
+msgid "ecs_polling_info"
+msgstr "Bağlantılar yaratılması için yoklama zamanı tanımlamak ve Dersin güncelleyin"
+
+msgid "ecs_port"
+msgstr "Port"
+
+msgid "ecs_position_updates"
+msgstr "Aktarım Pozisyon Güncellemeler"
+
+msgid "ecs_protocol"
+msgstr "Protokolü"
+
+msgid "ecs_publish_as"
+msgstr "olarak yayınla:"
+
+msgid "ecs_publish_for"
+msgstr "İçin Sürüm:"
+
+msgid "ecs_published_for"
+msgstr "için Yayınlandı:"
+
+#, fuzzy
+msgid "ecs_rcat_created_body_a"
+msgstr "A new ECS Category has been created:"
+
+msgid "ecs_rcrs_created_body_a"
+msgstr "Yeni ECS Ders oluşturuldu:"
+
+msgid "ecs_read_remote_links"
+msgstr "Güncelleme ECS Dersler"
+
+#, fuzzy
+msgid "ecs_refresh_participants"
+msgstr "Refresh ECS-Participants"
+
+msgid "ecs_released"
+msgstr "Çıkış Nesneleri"
+
+msgid "ecs_released_content"
+msgstr "E-İçerik Çıkış"
+
+msgid "ecs_remote_imported"
+msgstr "ECS Kursu hakkında Bilgi yenilendi."
+
+msgid "ecs_remote_user_settings"
+msgstr "ECS Kullanıcı Hesapları için Ayarları"
+
+msgid "ecs_role"
+msgstr "Rol Atama"
+
+#, fuzzy
+msgid "ecs_role_mapping_value"
+msgstr "Attribute Value"
+
+#, fuzzy
+msgid "ecs_role_mappings"
+msgstr "Course/Group Role Mappings"
+
+msgid "ecs_server_addr"
+msgstr "Sunucu Adresi"
+
+msgid "ecs_server_deleted"
+msgstr "Silinmiş Sunucu"
+
+msgid "ecs_server_settings"
+msgstr "ECS İşlevler"
+
+#, fuzzy
+msgid "ecs_server_title"
+msgstr "Name of ECS Configuration"
+
+msgid "ecs_server_url"
+msgstr "Sunucu URL'si"
+
+msgid "ecs_setting_deleted"
+msgstr "silindi ECS"
+
+msgid "ecs_settings"
+msgstr "Ayarları"
+
+msgid "ecs_status_deleted"
+msgstr "Silindi"
+
+msgid "ecs_status_legend"
+msgstr "Efsanesi"
+
+msgid "ecs_status_mapped"
+msgstr "Haritalanmış"
+
+msgid "ecs_status_pending_unmapped"
+msgstr "Beklemede (eşlenmemiş)"
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr "Beklemede (eşlenmiş, kopukluk mümkün)"
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr "Beklemede (eşlenmiş, kopukluk imkansız)"
+
+#, fuzzy
+msgid "ecs_sync_trees"
+msgstr "Synchronise Directory Trees"
+
+msgid "ecs_tab_export"
+msgstr "Dışa Aktarma"
+
+msgid "ecs_tab_import"
+msgstr "İçe Aktarma"
+
+msgid "ecs_tbl_active"
+msgstr "Aktif"
+
+msgid "ecs_tbl_active_rules"
+msgstr "Kategori Atama için Aktif Kurallar"
+
+msgid "ecs_tbl_export"
+msgstr "Dışa Aktarma"
+
+msgid "ecs_tbl_import"
+msgstr "İçe Aktarma"
+
+msgid "ecs_tbl_import_type"
+msgstr "İçe Aktarma Türü"
+
+msgid "ecs_tbl_settings_for_server"
+msgstr "%S için ECS Ayarları"
+
+msgid "ecs_title_updates"
+msgstr "Aktarım Başlık Güncellemeler"
+
+#, fuzzy
+msgid "ecs_token_mechanism"
+msgstr "Authentication Token"
+
+#, fuzzy
+msgid "ecs_token_mechanism_info"
+msgstr "If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism."
+
+msgid "ecs_tree_updates"
+msgstr "Aktarım Ağacı Güncellemeler"
+
+msgid "ecs_tst_export"
+msgstr "Testi Bültenleri"
+
+msgid "ecs_tst_export_disabled"
+msgstr "Bu Test bırakmayın"
+
+msgid "ecs_tst_export_enabled"
+msgstr "Bu Test bırakın"
+
+msgid "ecs_tst_export_obj_settings"
+msgstr "Testi Yayın Ayarları"
+
+msgid "ecs_unique_id"
+msgstr "Katılımcı-ID"
+
+msgid "ecs_user_rcp"
+msgstr "ECS Kullanıcıları Hakkında Bildirim"
+
+msgid "ecs_user_rcp_info"
+msgstr "e-posta başına yeni ECS kullanıcıları haberdar edilecektir kullanıcıların bir veya daha fazla oturum açma adları (virgülle ayrılmış) girin."
+
+msgid "ecs_wiki_export"
+msgstr "Wiki Bültenleri"
+
+msgid "ecs_wiki_export_disabled"
+msgstr "bu Wiki bırakmayın"
+
+msgid "ecs_wiki_export_enabled"
+msgstr "bu Wiki bırakın"
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr "Wiki Yayın Ayarları"

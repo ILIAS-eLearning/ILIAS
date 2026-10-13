@@ -1,0 +1,840 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr "Número de série do certificado"
+
+msgid "ecs_abr"
+msgstr "Abreviatura"
+
+msgid "ecs_account_duration"
+msgstr "Extensão do período de ativação"
+
+msgid "ecs_account_duration_info"
+msgstr "sem."
+
+msgid "ecs_activate"
+msgstr "Ativar"
+
+msgid "ecs_active"
+msgstr "Apagar atribuição de função"
+
+msgid "ecs_active_header"
+msgstr "Escolha uma função ILIAS à qual os novos utilizadores serão atribuídos. <span class=\"asterisk\">*</span> A seleção de função é <b>necessária</b> no caso de escolher um tipo de sincronização."
+
+msgid "ecs_add_new_ecs"
+msgstr "Adicionar novo ECS"
+
+msgid "ecs_apache_pass"
+msgstr "Palavra-passe"
+
+msgid "ecs_apache_user"
+msgstr "DN de grupo"
+
+msgid "ecs_approval_rcp"
+msgstr "Notificação sobre cursos aprovados"
+
+msgid "ecs_approval_rcp_info"
+msgstr "Fica pré-anexado a ‘Basedn’ quando pesquisa grupos."
+
+msgid "ecs_attribute_name"
+msgstr "Nome do atributo"
+
+msgid "ecs_auth_type"
+msgstr "Tipo de autenticação"
+
+msgid "ecs_auth_type_apache"
+msgstr "O atributo do objeto de grupo onde o utilizador dn pode ser encontrado. Escolher ‘Valor do atributo é DN’ se o atributo do membro for o nome distinto dos utilizadores."
+
+msgid "ecs_auth_type_cert"
+msgstr "Base de certificado"
+
+msgid "ecs_availability"
+msgstr "Disponibilidade"
+
+msgid "ecs_available_ecs"
+msgstr "ECS disponível"
+
+msgid "ecs_back_settings"
+msgstr "Definições ECS"
+
+msgid "ecs_ca_cert"
+msgstr "Certificado CA"
+
+msgid "ecs_campus_connect_title"
+msgstr "Mapeamentos CampusConnect"
+
+msgid "ecs_cat_export"
+msgstr "Lançamentos de categorias"
+
+msgid "ecs_cat_export_disabled"
+msgstr "Não lance esta categoria"
+
+msgid "ecs_cat_export_enabled"
+msgstr "Lance esta categoria"
+
+msgid "ecs_cat_export_obj_settings"
+msgstr "Definições do lançamento de categorias"
+
+msgid "ecs_cat_mapping_by_type"
+msgstr "Por tipo"
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr "Escolha este modo para atribuir por tipo de objeto."
+
+msgid "ecs_cat_mapping_duration"
+msgstr "Intervalo de data"
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr "Restrições da adesão ao grupo"
+
+msgid "ecs_cat_mapping_fixed"
+msgstr "Valores fixos"
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr "Âmbito para pesquisa de grupo. Se não tiver a certeza, escolha ‘Sub’"
+
+msgid "ecs_cat_mapping_type"
+msgstr "Tipo de atribuição"
+
+msgid "ecs_cat_mapping_values"
+msgstr "Valor do atributo"
+
+msgid "ecs_category_mapping"
+msgstr "Atribuição a categorias"
+
+msgid "ecs_cc_mapping_overview"
+msgstr "Vista geral de mapeamento"
+
+msgid "ecs_cert_key"
+msgstr "Código do certificado"
+
+msgid "ecs_cert_valid_until"
+msgstr "Certificado válido até"
+
+msgid "ecs_check_import_id"
+msgstr "O Id de importação não é válido. Verifique esta definição."
+
+msgid "ecs_client_cert"
+msgstr "Certificado de cliente"
+
+msgid "ecs_cmap_add_attribute_btn"
+msgstr "Adicionar atributo"
+
+msgid "ecs_cmap_all_in_one"
+msgstr "Curso numa categoria"
+
+msgid "ecs_cmap_all_in_one_cat"
+msgstr "Categoria de curso"
+
+msgid "ecs_cmap_all_in_one_info"
+msgstr "Criar todos os novos cursos numa categoria."
+
+msgid "ecs_cmap_att_courseType"
+msgstr "Tipo de curso"
+
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr "Programa académico"
+
+msgid "ecs_cmap_att_lecturer"
+msgstr "Docente"
+
+msgid "ecs_cmap_att_module"
+msgstr "Módulo"
+
+msgid "ecs_cmap_att_organisation"
+msgstr "Organização"
+
+msgid "ecs_cmap_att_orgunit"
+msgstr "Unidade organizacional"
+
+msgid "ecs_cmap_att_term"
+msgstr "Termo"
+
+msgid "ecs_cmap_att_title"
+msgstr "Título"
+
+msgid "ecs_cmap_att_venue"
+msgstr "Local"
+
+msgid "ecs_cmap_attributes"
+msgstr "Atributos de mapeamento"
+
+msgid "ecs_cmap_atts_table"
+msgstr "Configuração do mapeamento do atributo"
+
+msgid "ecs_cmap_def_cat"
+msgstr "Categoria predefinida"
+
+msgid "ecs_cmap_def_cat_info"
+msgstr "Insira o id de uma categoria onde serão criados todos os cursos que não podem ser tratados por outras regras."
+
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr "Apagar último atributo"
+
+msgid "ecs_cmap_delete_rule"
+msgstr "Apagar mapeamento"
+
+msgid "ecs_cmap_enable"
+msgstr "Distribuição de curso"
+
+msgid "ecs_cmap_form_all_values"
+msgstr "Todos os valores"
+
+msgid "ecs_cmap_form_create_subdirs"
+msgstr "Criar subdiretórios"
+
+msgid "ecs_cmap_form_current_dir"
+msgstr "Diretório atual"
+
+msgid "ecs_cmap_form_dir_relation"
+msgstr "Referência de diretório"
+
+msgid "ecs_cmap_form_filter"
+msgstr "Definições de filtro"
+
+msgid "ecs_cmap_form_filter_by_values"
+msgstr "Filtrar por valores de atributo"
+
+msgid "ecs_cmap_form_filter_info"
+msgstr "Valores manuais, separados por vírgulas"
+
+msgid "ecs_cmap_form_subdir_name"
+msgstr "Nome do subdiretório"
+
+msgid "ecs_cmap_form_subdir_type"
+msgstr "Título do subdiretório"
+
+msgid "ecs_cmap_form_subdir_value"
+msgstr "Valor do subdiretório"
+
+msgid "ecs_cmap_mapping_form_title"
+msgstr "Atribuição do curso para categoria:"
+
+msgid "ecs_cmap_multiple_atts"
+msgstr "Múltiplos atributos"
+
+msgid "ecs_cmap_overview"
+msgstr "Vista geral de mapeamento"
+
+msgid "ecs_cms_dir_tree"
+msgstr "Árvore de diretório CMS"
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr "Árvore de diretório CMS"
+
+msgid "ecs_cms_id"
+msgstr "Nome de função ILIAS"
+
+msgid "ecs_cms_tree_deleted"
+msgstr "Se for introduzido, este texto será apresentado no ecrã de informação para o objeto ao qual esta função foi atribuída. Opcionalmente este texto está disponível no repositório e no computador pessoal."
+
+msgid "ecs_cms_tree_synchronize"
+msgstr "Sincronizar árvore"
+
+msgid "ecs_cms_tree_synchronized"
+msgstr "A árvore foi sincronizada."
+
+msgid "ecs_communities"
+msgstr "Participantes"
+
+msgid "ecs_confirm_delete_tree"
+msgstr "Escolheu ‘Vincular como utilizador’: Introduza um nome de utilizador e palavra-passe LDAP válidos."
+
+msgid "ecs_connection_settings"
+msgstr "Definições de conexão"
+
+#, fuzzy
+msgid "ecs_consent_modal_btn_accept"
+msgstr "Agree and Proceed"
+
+#, fuzzy
+msgid "ecs_consent_modal_title"
+msgstr "Consent for data transfer"
+
+#, fuzzy
+msgid "ecs_consent_reset_confirm_title"
+msgstr "Reset user consent for this participant"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler"
+msgstr "ECS Task Scheduler"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler_info"
+msgstr "ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured."
+
+msgid "ecs_crs_alloc"
+msgstr "Distribuição de curso"
+
+msgid "ecs_crs_alloc_set"
+msgstr "Editar distribuição de curso"
+
+msgid "ecs_crs_export"
+msgstr "Lançamentos de cursos"
+
+msgid "ecs_crs_export_disabled"
+msgstr "Não lance este curso"
+
+msgid "ecs_crs_export_enabled"
+msgstr "Lançamento deste curso"
+
+msgid "ecs_crs_export_obj_settings"
+msgstr "Definições do lançamento de cursos"
+
+msgid "ecs_deactivate"
+msgstr "Desativar"
+
+msgid "ecs_delete_setting"
+msgstr "Tem a certeza que quer apagar o seguinte ECS?"
+
+msgid "ecs_deprecated_token"
+msgstr "Suporte para testemunho de autenticação obsoleto"
+
+msgid "ecs_deprecated_token_info"
+msgstr "Oferece suporte para instalações (p. ex. instalações ILIAS da versão 4.x) que usam um mecanismo de testemunho de autenticação obsoleto."
+
+msgid "ecs_dir_alloc"
+msgstr "distribuição de diretório"
+
+msgid "ecs_dir_alloc_set"
+msgstr "Editar distribuição de diretório"
+
+msgid "ecs_dns"
+msgstr "Nome do domínio"
+
+msgid "ecs_duration"
+msgstr "Duração"
+
+msgid "ecs_econ_rcp"
+msgstr "Notificação sobre novo conteúdo eletrónico"
+
+msgid "ecs_econ_rcp_info"
+msgstr "Tipo de sincronização"
+
+msgid "ecs_edit_category_mapping"
+msgstr "Editar atribuição"
+
+msgid "ecs_email"
+msgstr "E-mail"
+
+msgid "ecs_enable_participant"
+msgstr "Utilizadores DN"
+
+msgid "ecs_err_invalid_by_type"
+msgstr "Selecione um tipo quando atribuir por tipo."
+
+msgid "ecs_err_invalid_dates"
+msgstr "Insira o ‘Nome distinto’ do grupo LDAP."
+
+msgid "ecs_err_invalid_type"
+msgstr "Função ILIAS -> Mapeamento de grupo LDAP"
+
+msgid "ecs_err_missing_value"
+msgstr "Verifique a sua entrada: Valores do atributo."
+
+msgid "ecs_error_extract_serial"
+msgstr "Não pode ler o número de série do certificado. Verifique o caminho do certificado de cliente."
+
+msgid "ecs_event_appointment"
+msgstr "Data do evento"
+
+msgid "ecs_export"
+msgstr "Lançamentos de cursos"
+
+#, fuzzy
+msgid "ecs_export_auth_type"
+msgstr "Authentication method for users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_ilias"
+msgstr "User authentication via LDAP"
+
+#, fuzzy
+msgid "ecs_export_auth_type_info"
+msgstr "Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS."
+
+#, fuzzy
+msgid "ecs_export_auth_type_none"
+msgstr "Do not allow users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_oidc"
+msgstr "User authentication via OpenID Connect"
+
+#, fuzzy
+msgid "ecs_export_auth_type_shib"
+msgstr "User authentication via Shibboleth"
+
+msgid "ecs_export_created_body_a"
+msgstr "Foi lançado um novo curso"
+
+msgid "ecs_export_disabled"
+msgstr "Não lance este curso"
+
+msgid "ecs_export_enabled"
+msgstr "Lançamento deste curso"
+
+#, fuzzy
+msgid "ecs_export_local_account"
+msgstr "Local ILIAS accounts"
+
+#, fuzzy
+msgid "ecs_export_local_account_info"
+msgstr "If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation."
+
+msgid "ecs_export_obj_settings"
+msgstr "Definições de publicação do curso"
+
+msgid "ecs_export_types"
+msgstr "Tipos de objetos que podem ser exportados"
+
+msgid "ecs_field_begin"
+msgstr "Início"
+
+msgid "ecs_field_community"
+msgstr "Comunidade"
+
+msgid "ecs_field_courseID"
+msgstr "ID do curso"
+
+msgid "ecs_field_courseType"
+msgstr "Tipo de curso"
+
+msgid "ecs_field_credits"
+msgstr "Créditos"
+
+msgid "ecs_field_cycle"
+msgstr "Ciclo"
+
+msgid "ecs_field_day"
+msgstr "Dia"
+
+msgid "ecs_field_end"
+msgstr "Fim"
+
+msgid "ecs_field_lecturer"
+msgstr "Docente(s)"
+
+msgid "ecs_field_part_id"
+msgstr "ID do participante"
+
+msgid "ecs_field_room"
+msgstr "Sala"
+
+msgid "ecs_field_semester_hours"
+msgstr "Períodos do semestre por semana"
+
+msgid "ecs_field_start"
+msgstr "Início"
+
+msgid "ecs_field_study_courses"
+msgstr "Estudar curso(s)"
+
+msgid "ecs_field_term"
+msgstr "Termo"
+
+msgid "ecs_field_time"
+msgstr "Tempo"
+
+msgid "ecs_file_export"
+msgstr "Lançamentos de ficheiros"
+
+msgid "ecs_file_export_disabled"
+msgstr "Não lance este ficheiro"
+
+msgid "ecs_file_export_enabled"
+msgstr "Lançar este ficheiro"
+
+msgid "ecs_file_export_obj_settings"
+msgstr "Definições do lançamento de ficheiros"
+
+#, fuzzy
+msgid "ecs_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "ecs_form_consent"
+msgstr "Consent"
+
+#, fuzzy
+msgid "ecs_form_consent_option_title"
+msgstr "I hereby consent to the transfer of the following data to the above-mentioned target system:"
+
+#, fuzzy
+msgid "ecs_form_target_platform"
+msgstr "Target system"
+
+msgid "ecs_general_info"
+msgstr "Informações gerais"
+
+msgid "ecs_glo_export"
+msgstr "Lançamentos de glossários"
+
+msgid "ecs_glo_export_disabled"
+msgstr "Não lance este glossário"
+
+msgid "ecs_glo_export_enabled"
+msgstr "Lançar este glossário"
+
+msgid "ecs_glo_export_obj_settings"
+msgstr "Definições do lançamento de glossários"
+
+msgid "ecs_global_role_info"
+msgstr "A função escolhida será atribuída a contas de utilizador ECS recentemente criadas."
+
+msgid "ecs_grp_export"
+msgstr "Lançamentos de grupos"
+
+msgid "ecs_grp_export_disabled"
+msgstr "Não lance este grupo"
+
+msgid "ecs_grp_export_enabled"
+msgstr "Lançar este grupo"
+
+msgid "ecs_grp_export_obj_settings"
+msgstr "Definições do lançamento de grupos"
+
+msgid "ecs_ignore_field"
+msgstr "Desativar exportação/atualização deste campo"
+
+msgid "ecs_import"
+msgstr "Utilizador DN"
+
+#, fuzzy
+msgid "ecs_import_auth_mode"
+msgstr "Allow accounts of authentication method %s for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_auth_type_default"
+msgstr "Allow accounts authentication method \"Default\" for transmission via ECS"
+
+msgid "ecs_import_cms"
+msgstr "Um URL totalmente qualificado para especificar o protocolo, o url e a porta, aos quais deve conectar. P. ex. \"ldap://ldap.ilias.de:389\".  Pode adicionar múltiplos servidores separados por vírgula."
+
+msgid "ecs_import_id"
+msgstr "ID de importação"
+
+msgid "ecs_import_id_info"
+msgstr "Versão LDAP a usar, normalmente 3."
+
+msgid "ecs_import_types"
+msgstr "Tipos de objetos que podem ser importados"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr "Configuration of authentication methods for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr "Enable this option to allow accounts of authentication method \"Default\" to access participant's resources via ECS."
+
+msgid "ecs_imported_content"
+msgstr "Conteúdo eletrónico importado"
+
+msgid "ecs_imported_from"
+msgstr "Importado de"
+
+#, fuzzy
+msgid "ecs_institution"
+msgstr "Institution"
+
+msgid "ecs_invalid_import_type_cms"
+msgstr "Regras ativas"
+
+msgid "ecs_key_password"
+msgstr "Palavra-passe chave"
+
+#, fuzzy
+msgid "ecs_lastname"
+msgstr "Last name"
+
+msgid "ecs_lm_export"
+msgstr "Lançamentos de módulos de aprendizagem"
+
+msgid "ecs_lm_export_disabled"
+msgstr "Não lance este módulo de aprendizagem"
+
+msgid "ecs_lm_export_enabled"
+msgstr "Lançar este módulo de aprendizagem"
+
+msgid "ecs_lm_export_obj_settings"
+msgstr "Definições do lançamento de módulos de aprendizagem"
+
+msgid "ecs_local_information"
+msgstr "Mais informações"
+
+msgid "ecs_local_settings"
+msgstr "Definições locais"
+
+#, fuzzy
+msgid "ecs_login"
+msgstr "Username or External user account"
+
+msgid "ecs_mapping_crs"
+msgstr "Mapeamento para cursos"
+
+msgid "ecs_mapping_exp_tbl"
+msgstr "Mapeamento dos metadados avançados de ILIAS para os dados de ECS"
+
+msgid "ecs_mapping_rcrs"
+msgstr "LDAP-TLS não pode ser usado combinado com LDAPv2. Escolha a versão ‘3’ de LDAP ou desative o suporte TLS."
+
+msgid "ecs_mapping_tbl"
+msgstr "Mapeamento dos dados de ECS para os metadados avançados ILIAS"
+
+msgid "ecs_mappings"
+msgstr "Mapeamento de dados ECS"
+
+msgid "ecs_member_auth_type"
+msgstr "Âmbito para pesquisa de utilizador. Se não tiver a certeza, escolha ‘Sub’"
+
+msgid "ecs_meta_data"
+msgstr "Metadados"
+
+msgid "ecs_new_approval_subject"
+msgstr "Foi publicado um novo curso"
+
+msgid "ecs_new_category_mapping"
+msgstr "Componentes"
+
+msgid "ecs_new_econtent_subject"
+msgstr "Novo conteúdo eletrónico criado"
+
+msgid "ecs_new_user_body"
+msgstr "Foi criada uma nova contas de utilizador ECS."
+
+msgid "ecs_new_user_profile"
+msgstr "Dados do perfil de utilizador:"
+
+msgid "ecs_new_user_subject"
+msgstr "Nova conta de utilizador ECS"
+
+msgid "ecs_no_adv_md"
+msgstr "Nenhuns metadados avançados disponíveis."
+
+msgid "ecs_no_owner"
+msgstr "Selecione um nome da comunidade."
+
+msgid "ecs_no_value"
+msgstr "Indisponível"
+
+msgid "ecs_node_mapping_activate"
+msgstr "Ativar mapeamento de diretório"
+
+msgid "ecs_node_mapping_create_empty"
+msgstr "Criar apenas categorias que contêm cursos"
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr "Nível log"
+
+msgid "ecs_node_mapping_status_1"
+msgstr "Mapeamento de toda a árvore"
+
+msgid "ecs_node_mapping_status_2"
+msgstr "Mapeamento manual"
+
+msgid "ecs_node_mapping_status_3"
+msgstr "Mapeamento retirado"
+
+msgid "ecs_not_configured"
+msgstr "Não configurado"
+
+msgid "ecs_not_published"
+msgstr "Nenhumas aprovações selecionadas."
+
+msgid "ecs_notifications"
+msgstr "Notificações"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials"
+msgstr "User attribute"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials_info"
+msgstr "Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com"
+
+msgid "ecs_part_settings"
+msgstr "Definições para participante:"
+
+msgid "ecs_participants"
+msgstr "Participantes"
+
+msgid "ecs_participants_infos"
+msgstr "partilhado para"
+
+msgid "ecs_polling"
+msgstr "Tempo de sondagem"
+
+msgid "ecs_polling_info"
+msgstr "editar partilhas LIT"
+
+msgid "ecs_port"
+msgstr "Porta"
+
+msgid "ecs_position_updates"
+msgstr "Transferir atualizações de posição"
+
+msgid "ecs_protocol"
+msgstr "Protocolo"
+
+msgid "ecs_publish_as"
+msgstr "Publicado como:"
+
+msgid "ecs_publish_for"
+msgstr "Lançamento para:"
+
+msgid "ecs_published_for"
+msgstr "Publicado para:"
+
+#, fuzzy
+msgid "ecs_rcat_created_body_a"
+msgstr "A new ECS Category has been created:"
+
+msgid "ecs_rcrs_created_body_a"
+msgstr "Partilhas LIT"
+
+msgid "ecs_read_remote_links"
+msgstr "Objetos partilhados"
+
+msgid "ecs_refresh_participants"
+msgstr "Atualizar participantes ECS"
+
+msgid "ecs_released"
+msgstr "Ativar variáveis de letras em série"
+
+msgid "ecs_released_content"
+msgstr "Conteúdo eletrónico lançado"
+
+msgid "ecs_remote_imported"
+msgstr "BCC"
+
+msgid "ecs_remote_user_settings"
+msgstr "Definições para contas de utilizador ECS"
+
+msgid "ecs_role"
+msgstr "Atribuição de funções"
+
+msgid "ecs_role_mapping_value"
+msgstr "Valor do atributo"
+
+msgid "ecs_role_mappings"
+msgstr "Mapeamentos de funções curso/grupo"
+
+msgid "ecs_server_addr"
+msgstr "Endereço do servidor"
+
+msgid "ecs_server_deleted"
+msgstr "Servidor apagado"
+
+msgid "ecs_server_settings"
+msgstr "Os seguintes utilizadores foram convidados:"
+
+msgid "ecs_server_title"
+msgstr "Nome da configuração ECS"
+
+msgid "ecs_server_url"
+msgstr "URL do servidor"
+
+msgid "ecs_setting_deleted"
+msgstr "ECS apagado"
+
+msgid "ecs_settings"
+msgstr "Os seguintes utilizadores não têm uma conta ILIAS e não podem ser convidados para uma sala de chat:"
+
+msgid "ecs_status_deleted"
+msgstr "Apagado"
+
+msgid "ecs_status_legend"
+msgstr "Legenda"
+
+msgid "ecs_status_mapped"
+msgstr "Mapeado"
+
+msgid "ecs_status_pending_unmapped"
+msgstr "Pendente (não mapeado)"
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr "Pendente (mapeado, desconexão possível)"
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr "Pendente (mapeado, desconexão impossível)"
+
+msgid "ecs_sync_trees"
+msgstr "Sincronizar árvore de diretório"
+
+msgid "ecs_tab_export"
+msgstr "Exportar"
+
+msgid "ecs_tab_import"
+msgstr "Importar"
+
+msgid "ecs_tbl_active"
+msgstr "Ativo"
+
+msgid "ecs_tbl_active_rules"
+msgstr "Regras ativas para atribuição de categoria"
+
+msgid "ecs_tbl_export"
+msgstr "Exportar"
+
+msgid "ecs_tbl_import"
+msgstr "Importar"
+
+msgid "ecs_tbl_import_type"
+msgstr "Importar tipo"
+
+msgid "ecs_tbl_settings_for_server"
+msgstr "Definições ECS para %s"
+
+msgid "ecs_title_updates"
+msgstr "Transferir atualizações de título"
+
+msgid "ecs_token_mechanism"
+msgstr "Testemunho de autenticação"
+
+msgid "ecs_token_mechanism_info"
+msgstr "Se estiver ativado, a autenticação na plataforma anfitriã para objetos remotos é efetuada pelo mecanismo de testemunho ECS."
+
+msgid "ecs_tree_updates"
+msgstr "Transferir atualizações de árvore"
+
+msgid "ecs_tst_export"
+msgstr "Lançamentos de testes"
+
+msgid "ecs_tst_export_disabled"
+msgstr "Não lance este teste"
+
+msgid "ecs_tst_export_enabled"
+msgstr "Lançar este teste"
+
+msgid "ecs_tst_export_obj_settings"
+msgstr "Definições do lançamento de testes"
+
+msgid "ecs_unique_id"
+msgstr "ID do participante"
+
+msgid "ecs_user_rcp"
+msgstr "Notificação sobre utilizadores ECS"
+
+msgid "ecs_user_rcp_info"
+msgstr "Os seguintes utilizadores não têm acesso à sala de chat selecionada:"
+
+msgid "ecs_wiki_export"
+msgstr "Lançamentos wiki"
+
+msgid "ecs_wiki_export_disabled"
+msgstr "Não lance esta wiki"
+
+msgid "ecs_wiki_export_enabled"
+msgstr "Lançar esta wiki"
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr "Definições do lançamento de wikis"
