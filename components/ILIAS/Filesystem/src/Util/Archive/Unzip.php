@@ -308,4 +308,13 @@ class Unzip
     {
         return $this->error_reading_zip;
     }
+
+    public function __destruct()
+    {
+        if (!isset($this->zip) || $this->error_reading_zip) {
+            return;
+        }
+
+        $this->zip->close();
+    }
 }

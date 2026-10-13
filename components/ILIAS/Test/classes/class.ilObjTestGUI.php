@@ -1369,6 +1369,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
         $unzip->extract();
+        unset($unzip);
 
         if (!is_file($qtifile)) {
             ilFileUtils::delDir($importdir);
