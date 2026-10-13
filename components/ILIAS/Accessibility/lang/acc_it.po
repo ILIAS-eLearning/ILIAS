@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: acc\n"
+
+msgid "acc_add_document_btn_label"
+msgstr "Aggiungi Documento"
+
+msgid "acc_crit_type_usr_language"
+msgstr "Lingua del profilo"
+
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "Non puoi allegare questo criterio con questo valore. C'è già un criterio identico allegato."
+
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "Non è possibile cambiare il criterio come desiderato. C'è già un criterio identico allegato."
+
+msgid "acc_ctrl_cpt_txt"
+msgstr "Controllo dell'accessibilità"
+
+msgid "acc_deleted_documents_p"
+msgstr "I documenti sono stati cancellati."
+
+msgid "acc_deleted_documents_s"
+msgstr "I documenti sono stati cancellati."
+
+msgid "acc_doc_crit_attached"
+msgstr "Il criterio è stato inserito."
+
+msgid "acc_doc_crit_changed"
+msgstr "Il criterio è stato cambiato."
+
+msgid "acc_doc_crit_detached"
+msgstr "Il criterio è stato rimosso."
+
+msgid "acc_doc_delete"
+msgstr "Cancella documento"
+
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "Rimuovi criteri"
+
+msgid "acc_doc_sure_detach_crit"
+msgstr "Sei sicuro di voler rimuovere il criterio?"
+
+msgid "acc_document"
+msgstr "Documento"
+
+msgid "acc_form_attach_criterion_head"
+msgstr "Inserisci criterio"
+
+msgid "acc_form_criterion"
+msgstr "Criterio"
+
+msgid "acc_form_document"
+msgstr "Documento"
+
+msgid "acc_form_document_content_changed"
+msgstr "Il contenuto del file caricato è stato purificato da ILIAS. Per favore controlla il risultato e carica un nuovo file, se necessario."
+
+msgid "acc_form_document_info"
+msgstr "Seleziona un file dal tuo filesystem locale. Puoi caricare un file di testo semplice o un semplice file HTML. I file HTML saranno purificati, solo il contenuto dell'elemento body sarà utilizzato."
+
+msgid "acc_form_document_new"
+msgstr "Cambia il contenuto"
+
+msgid "acc_form_document_new_info"
+msgstr "Seleziona un file dal tuo filesystem locale. Puoi caricare un file di testo semplice o un semplice file HTML. I file HTML saranno purificati, solo il contenuto dell'elemento body sarà utilizzato. Il contenuto esistente sarà sostituito."
+
+msgid "acc_form_document_title"
+msgstr "Titolo"
+
+msgid "acc_form_document_title_info"
+msgstr "Inserisci un titolo per il documento."
+
+msgid "acc_form_edit_criterion_head"
+msgstr "modifica Criterio Assegnazione"
+
+msgid "acc_form_edit_doc_head"
+msgstr "modifica Documento"
+
+msgid "acc_form_new_doc_head"
+msgstr "Crea documento"
+
+msgid "acc_forward_mail"
+msgstr "Inoltra Mail"
+
+msgid "acc_function"
+msgstr "Funzione"
+
+msgid "acc_last_rep_visited"
+msgstr "Archivio/Ultima Visita"
+
+msgid "acc_saved_sorting"
+msgstr "L'ordinamento è stato salvato."
+
+msgid "acc_sure_delete_documents_p"
+msgstr "Sei sicuro di voler cancellare i documenti selezionati?"
+
+msgid "acc_sure_delete_documents_s"
+msgstr "Sei sicuro di voler cancellare il documento?"
+
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "Aggiungi criterio"
+
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "Nessun criterio assegnato"
+
+msgid "acc_tbl_docs_head_created"
+msgstr "Data di creazione"
+
+msgid "acc_tbl_docs_head_criteria"
+msgstr "Criteri"
+
+msgid "acc_tbl_docs_head_last_change"
+msgstr "Ultima modifica"
+
+msgid "acc_tbl_docs_head_sorting"
+msgstr "Ordinamento"
+
+msgid "acc_tbl_docs_head_title"
+msgstr "Titolo"
+
+msgid "acc_tbl_docs_title"
+msgstr "Documenti"
+
+msgid "acc_tree_off"
+msgstr "Contrai albero"
+
+msgid "acc_tree_on"
+msgstr "Espandi albero"

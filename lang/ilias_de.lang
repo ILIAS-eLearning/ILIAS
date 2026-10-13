@@ -29,48 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
-acc#:#acc_crit_type_usr_language#:#Benutzersprache
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
-acc#:#acc_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
-acc#:#acc_ctrl_cpt_txt#:#Info Barrierefreiheit
-acc#:#acc_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
-acc#:#acc_deleted_documents_s#:#Das Dokument wurde gelöscht.
-acc#:#acc_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
-acc#:#acc_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
-acc#:#acc_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
-acc#:#acc_doc_delete#:#Dokument löschen
-acc#:#acc_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
-acc#:#acc_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
-acc#:#acc_document#:#Dokument
-acc#:#acc_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
-acc#:#acc_form_criterion#:#Vorlagekriterium
-acc#:#acc_form_document#:#Dokument
-acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden im Zweifel eine neue Datei hoch.
-acc#:#acc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
-acc#:#acc_form_document_new#:#Inhalt ändern
-acc#:#acc_form_document_new_info#:#Wählen Sie eine neue Datei von Ihrem lokalen Dateisystem, um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht.
-acc#:#acc_form_document_title#:#Titel
-acc#:#acc_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
-acc#:#acc_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
-acc#:#acc_form_edit_doc_head#:#Dokument bearbeiten
-acc#:#acc_form_new_doc_head#:#Dokument erstellen
-acc#:#acc_forward_mail#:#Weiterleiten
-acc#:#acc_function#:#Funktion
-acc#:#acc_last_rep_visited#:#Magazin/Zuletzt besucht
-acc#:#acc_saved_sorting#:#Die Sortierung wurde gespeichert.
-acc#:#acc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
-acc#:#acc_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
-acc#:#acc_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
-acc#:#acc_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
-acc#:#acc_tbl_docs_head_created#:#Erstellungsdatum
-acc#:#acc_tbl_docs_head_criteria#:#Vorlagekriterien
-acc#:#acc_tbl_docs_head_last_change#:#Letzte Änderung
-acc#:#acc_tbl_docs_head_sorting#:#Sortierung
-acc#:#acc_tbl_docs_head_title#:#Titel
-acc#:#acc_tbl_docs_title#:#Dokumente
-acc#:#acc_tree_off#:#Baumansicht aus
-acc#:#acc_tree_on#:#Baumansicht an
 adm#:#adm_acc_ctrl_cpt_desc#:#Zeigt im Footer den Link zur „Info Barrierefreiheit“ an.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit

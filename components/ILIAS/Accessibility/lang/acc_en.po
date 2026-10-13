@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: acc\n"
+
+msgid "acc_add_document_btn_label"
+msgstr "Add Document"
+
+msgid "acc_crit_type_usr_language"
+msgstr "Profile Language"
+
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document."
+
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "It is not possible to change the criterion for displaying this document to the language you have selected. That language is being used as the criterion for displaying a different Accessibility document."
+
+msgid "acc_ctrl_cpt_txt"
+msgstr "Accessibility Documents"
+
+msgid "acc_deleted_documents_p"
+msgstr "The documents have been deleted."
+
+msgid "acc_deleted_documents_s"
+msgstr "The document has been deleted."
+
+msgid "acc_doc_crit_attached"
+msgstr "The criterion for displaying this Accessibility document has been set successfully."
+
+msgid "acc_doc_crit_changed"
+msgstr "The criterion for displaying this Accessibility document has been changed."
+
+msgid "acc_doc_crit_detached"
+msgstr "The criterion for displaying this Accessibility document has been removed."
+
+msgid "acc_doc_delete"
+msgstr "Delete Document"
+
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "Remove Language Criterion"
+
+msgid "acc_doc_sure_detach_crit"
+msgstr "Are you sure that you no longer want this language to be the criterion for displaying this Accessibility document?"
+
+msgid "acc_document"
+msgstr "Document"
+
+msgid "acc_form_attach_criterion_head"
+msgstr "Select Language Criterion for Displaying Accessibility Info Document"
+
+msgid "acc_form_criterion"
+msgstr "Criterion"
+
+msgid "acc_form_document"
+msgstr "Document"
+
+msgid "acc_form_document_content_changed"
+msgstr "The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary."
+
+msgid "acc_form_document_info"
+msgstr "Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed – only the contents of the body element will be used."
+
+msgid "acc_form_document_new"
+msgstr "Change Content"
+
+msgid "acc_form_document_new_info"
+msgstr "Here you can select a file from your local filesystem to change the contents of this Accessibility document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the Accessibility document will be replaced. The document’s acceptance history will not be affected."
+
+msgid "acc_form_document_title"
+msgstr "Title"
+
+msgid "acc_form_document_title_info"
+msgstr "Please enter a title for the document."
+
+msgid "acc_form_edit_criterion_head"
+msgstr "Edit Language Criterion"
+
+msgid "acc_form_edit_doc_head"
+msgstr "Edit Document"
+
+msgid "acc_form_new_doc_head"
+msgstr "Create Document"
+
+msgid "acc_forward_mail"
+msgstr "Forward Mail"
+
+msgid "acc_function"
+msgstr "Function"
+
+msgid "acc_last_rep_visited"
+msgstr "Repository/Last Visited"
+
+msgid "acc_saved_sorting"
+msgstr "The new order has been saved."
+
+msgid "acc_sure_delete_documents_p"
+msgstr "Are you sure you want to delete the selected documents?"
+
+msgid "acc_sure_delete_documents_s"
+msgstr "Are you sure you want to delete this document?"
+
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "Add Criterion"
+
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "No language criterion assigned"
+
+msgid "acc_tbl_docs_head_created"
+msgstr "Creation Date"
+
+msgid "acc_tbl_docs_head_criteria"
+msgstr "Criterion"
+
+msgid "acc_tbl_docs_head_last_change"
+msgstr "Last Change"
+
+msgid "acc_tbl_docs_head_sorting"
+msgstr "Order"
+
+msgid "acc_tbl_docs_head_title"
+msgstr "Title"
+
+msgid "acc_tbl_docs_title"
+msgstr "Documents"
+
+msgid "acc_tree_off"
+msgstr "Tree Off"
+
+msgid "acc_tree_on"
+msgstr "Tree On"
