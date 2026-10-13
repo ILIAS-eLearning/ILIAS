@@ -1,0 +1,321 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Après inscription, accès pour"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "L'accès est limité jusqu'à"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Veuillez choisir un mode de restriction d'accès pour tous les rôles"
+
+msgid "reg_access_limitation_mode"
+msgstr "Limite d'Accès"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "L'accès est valide jusqu'au..."
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Valide jusqu'à"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "L'accès est valide pendant..."
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Valide de"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Pas de limitation d'accès"
+
+msgid "reg_access_limitation_none"
+msgstr "Accès illimité"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Un ou plusieurs rôles ont une date de limite d'accès dépassée !"
+
+msgid "reg_access_limitations"
+msgstr "Limite d'Accès"
+
+msgid "reg_add_assignment"
+msgstr "Nouvelle Attribution"
+
+msgid "reg_added_assignment"
+msgstr "Nouvele assignation ajoutée."
+
+msgid "reg_allow_codes"
+msgstr "Autoriser codes"
+
+msgid "reg_allow_codes_info"
+msgstr "Les utilisateurs peuvent aussi s'enregistrer avec un code."
+
+msgid "reg_allowed_domains"
+msgstr "Domaines de Mail Autorisés"
+
+msgid "reg_allowed_domains_info"
+msgstr "Utiliser * comme caractère générique et ; comme séparateur."
+
+msgid "reg_approve"
+msgstr "Enregistrement avec Approbation"
+
+msgid "reg_approve_info"
+msgstr "Si cochée, toute nouvelle inscription d'utilisateur doit être approuvée par un administrateur."
+
+msgid "reg_approve_needs_recipient"
+msgstr "Vous devriez définir au moins un utilisateur à notifier lors de nouveaux enregistrements."
+
+msgid "reg_available_roles"
+msgstr "Rôles Disponibles :"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Durée de vie"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "Le lien de confirmation n'est plus valide. Veuillez vous enregistrer de nouveau !"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Saisir la durée de vie (secondes) des liens de confirmation."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Aucun compte utilisateur ne correspond à ce lien de confirmation."
+
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Vous avez demandé un compte sur ILIAS. Vous allez recevoir un mail de confirmation d'ici peu."
+
+msgid "reg_default"
+msgstr "Défaut"
+
+msgid "reg_deleted_assignment"
+msgstr "Assignation(s) supprimée(s)."
+
+msgid "reg_direct"
+msgstr "Enregistrement Direct"
+
+msgid "reg_direct_info"
+msgstr "Si cochée, toute nouvelle inscription d'utilisateur est automatiquement approuvée."
+
+msgid "reg_disabled"
+msgstr "Pas d'Enregistrement"
+
+msgid "reg_domain"
+msgstr "Domaine"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "Attribution Automatique de Rôle"
+
+msgid "reg_email_domains"
+msgstr "Les domaines d'adresse email suivants sont valides : %s"
+
+msgid "reg_email_domains_code"
+msgstr "Avec un code d'enregistrement, toutes les adresses email sont valides."
+
+msgid "reg_email_role_assignment"
+msgstr "Attribution de Rôle par Domaine"
+
+msgid "reg_fixed"
+msgstr "Choix dans une Liste de Rôles"
+
+msgid "reg_info_pwd"
+msgstr "Si actif, les mots de passe seront automatiquement transmis aux nouveaux utilisateurs par mail."
+
+msgid "reg_mail_body_activation"
+msgstr "to activate your account and confirm ownership of this email address, click the link below:"
+
+msgid "reg_mail_body_approve"
+msgstr "Vous êtes déjà  inscrit sur la plate-forme ILIAS et avez reçu un mail contenant les informations sur votre compte. Maintenant, votre compte utilisateur a été activé par un administrateur."
+
+msgid "reg_mail_body_confirmation"
+msgstr "Pour confirmer l'enregistrement, veuillez vous rendre dans l'administration des utilisateurs et activer le compte."
+
+msgid "reg_mail_body_profile"
+msgstr "Données du profil :"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "Votre profil a été modifié !"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Votre demande de compte utilisateur va être examiné par un administrateur et devrait être traitée sous 48h. Vous serez informé de la réponse par mail."
+
+msgid "reg_mail_body_reason"
+msgstr "Vous recevez cet Email parceque vous avez coché la case \"notifier les nouveaux enregistrement\" dans le menu administration ➜ authentification"
+
+msgid "reg_mail_body_timelimit"
+msgstr "Votre compte a une période de validité limitée : %s."
+
+msgid "reg_mail_new_user"
+msgstr "Nouvelle inscription d'utilisateur"
+
+msgid "reg_mail_new_user_body"
+msgstr "Un nouvel utilisateur a été enregistré."
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Demander une confirmation de compte"
+
+msgid "reg_missing_domain"
+msgstr "Veuillez compléter tous les champs."
+
+msgid "reg_missing_role"
+msgstr "Veuillez compléter tous les champs."
+
+msgid "reg_notification"
+msgstr "Utilisateurs à Notifier"
+
+msgid "reg_notification_info"
+msgstr "Saisir un ou plusieurs identifiants d'utilisateur (séparés par des virgules) qui seront informés de leur nouvelle inscription par mail."
+
+msgid "reg_role_access_limitations"
+msgstr "Définir des limites d'accès en fonction des rôles"
+
+msgid "reg_role_assignment"
+msgstr "Attribution de Rôle"
+
+msgid "reg_role_info"
+msgstr "Rôles assignés"
+
+msgid "reg_select_one"
+msgstr "Veuillez sélectionner une entrée."
+
+msgid "reg_selectable_roles"
+msgstr "Rôles Possibles"
+
+msgid "reg_settings_header"
+msgstr "Paramètres des Nouveaux Enregistrements"
+
+msgid "reg_type"
+msgstr "Type d'Enregistrement"
+
+msgid "reg_type_confirmation"
+msgstr "Enregistrement avec confirmation par E-mail"
+
+msgid "reg_type_confirmation_info"
+msgstr "Cette méthode permet l'auto-enregistrement des utilisateurs mais requiert un E-mail de confirmation pour activer le compte. Ceci évite l'auto-enregistrement à  ILIAS avec une adresse E-mail erronée ou non-existante."
+
+msgid "reg_unknown_recipients"
+msgstr "Les identifiants suivants ne sont pas valides :"
+
+msgid "registration_code"
+msgstr "Code"
+
+msgid "registration_code_not_valid"
+msgstr "Le code d'enregistrement proposé est soit invalide soit a déjà été utilisé."
+
+msgid "registration_code_optional_info"
+msgstr "Si vous avez un code d'enregistrement, vous pouvez le rentrer maintenant."
+
+msgid "registration_code_required_info"
+msgstr "Un code prédéfini est requis pour l'enregistrement."
+
+msgid "registration_code_role_info"
+msgstr "Si vous utilisez un code d'enregistrement, votre rôle peut être déterminé par ce code."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Tous"
+
+msgid "registration_codes_add"
+msgstr "Ajouter codes"
+
+msgid "registration_codes_edit_header"
+msgstr "Ajouter codes"
+
+msgid "registration_codes_export"
+msgstr "Exporter codes"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Aucun Rôle Assigné"
+
+msgid "registration_codes_number"
+msgstr "Nombre de Codes"
+
+msgid "registration_codes_override_global_info"
+msgstr "Ces paramètres peuvent-être remplacés par ceux définis dans les codes d'enregistrement."
+
+msgid "registration_codes_override_info"
+msgstr "Ces paramètres remplacent les valeurs définies dans les \"Paramètres d'Enregistrement\""
+
+msgid "registration_codes_roles"
+msgstr "Rôle pour les nouveaux comptes"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Aucune Limitation d'Accès"
+
+msgid "registration_codes_roles_local"
+msgstr "Rôles Locaux"
+
+msgid "registration_codes_roles_title"
+msgstr "Rôle pour les Nouveaux Comptes"
+
+msgid "registration_codes_type"
+msgstr "Type de code"
+
+msgid "registration_codes_type_ext"
+msgstr "Extension des comptes d’utilisateur limités"
+
+msgid "registration_codes_type_ext_info"
+msgstr "Le code peut être utilisé pour l’extension des comptes limités."
+
+msgid "registration_codes_type_reg"
+msgstr "Code d’inscription"
+
+msgid "registration_codes_type_reg_info"
+msgstr "Le code peut être utilisé pour l’inscription s'il s’agit d’un nouveau compte utilisateur"
+
+msgid "registration_disabled_no_access"
+msgstr "L’auto-inscription n’est pas activée. Veuillez contacter l’administration du système pour obtenir de l’aide supplémentaire: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Aucun codes à  exporter n'ont été sélectionnés."
+
+msgid "registration_generated"
+msgstr "Date de génération"
+
+msgid "registration_generated_all"
+msgstr "Toutes les dates"
+
+msgid "registration_no_valid_role"
+msgstr "Il n'y a actuellement aucun rôle défini pour l'enregistrement. Veuillez contacter votre administrateur."
+
+msgid "registration_reg_type_codes"
+msgstr "Inscription avec codes"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Cette méthode permet l'auto-enregistrement des utilisateurs, mais requiert un code valide."
+
+msgid "registration_roles_all"
+msgstr "Tous les rôles"
+
+msgid "registration_settings"
+msgstr "Nouveaux Enregistrements"
+
+msgid "registration_tab_codes"
+msgstr "Codes d'inscription"
+
+msgid "registration_tab_settings"
+msgstr "Paramètres d'inscription"
+
+msgid "registration_used"
+msgstr "Date d'utilisation"
+
+msgid "registration_user_new_account_mail"
+msgstr "Modifier le compte de messagerie"
