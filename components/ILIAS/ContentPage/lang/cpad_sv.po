@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cpad\n"
+
+msgid "cpad_reading_time_status"
+msgstr "Tid för läsning"
+
+msgid "cpad_reading_time_status_desc"
+msgstr "Om den är aktiverad beräknas och visas den uppskattade lästiden för innehållssidor."

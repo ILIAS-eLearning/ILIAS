@@ -6987,8 +6987,6 @@ copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
-cpad#:#cpad_reading_time_status#:#Reading Time
-cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 cptch#:#cptch_freetype_support_needed#:#Pour utiliser cette fonction, vous devez activer le support de FreeType dans PHP.
 cptch#:#cptch_wrong_input#:#Mauvaise Saisie
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED
