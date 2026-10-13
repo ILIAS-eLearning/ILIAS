@@ -14307,38 +14307,6 @@ sess#:#sess_users_added#:#Utenti selezionati registrati per la sessione.
 sess#:#sess_users_already_assigned#:#L’utente si è appena registrato a questa sessione.
 sess#:#sess_users_removed_from_list#:#Gli utenti selezionati sono stati eliminati dalla lista di attesta.
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
-stus#:#stus_action_delete#:#Delete###28 11 2025 new variable
-stus#:#stus_action_edit#:#Edit###28 11 2025 new variable
-stus#:#stus_action_toggle#:#Activate/Deactivate###28 11 2025 new variable
-stus#:#stus_active#:#Active###28 11 2025 new variable
-stus#:#stus_alias#:#Shortlink###28 11 2025 new variable
-stus#:#stus_alias_already_exists#:#The shortlink is already taken. Please choose another one.###28 11 2025 new variable
-stus#:#stus_alias_invalid#:#The shortlink contains invalid characters. Permitted characters: A-Z, a-z, 0-9, - and _###28 11 2025 new variable
-stus#:#stus_confirm_delete#:#Delete entries###28 11 2025 new variable
-stus#:#stus_create_shortlink#:#Create shortlink###28 11 2025 new variable
-stus#:#stus_delete#:#Delete###28 11 2025 new variable
-stus#:#stus_delete_shortlink#:#Delete###28 11 2025 new variable
-stus#:#stus_delete_shortlink_msg#:#Shortlink deleted###28 11 2025 new variable
-stus#:#stus_index#:#Manage###28 11 2025 new variable
-stus#:#stus_info#:#Information###28 11 2025 new variable
-stus#:#stus_info_active#:#Inactive shortlinks are not redirected when called up.###28 11 2025 new variable
-stus#:#stus_info_alias#:#May only contain the following characters: A-Z, a-z, 0-9, - und _###28 11 2025 new variable
-stus#:#stus_info_target_ref_id#:#Target object###28 11 2025 new variable
-stus#:#stus_order_saved#:#Order saved###28 11 2025 new variable
-stus#:#stus_prefix#:#Prefix###28 11 2025 new variable
-stus#:#stus_rbac_permissions#:#Permissions###28 11 2025 new variable
-stus#:#stus_shortlink#:#Shortlink###28 11 2025 new variable
-stus#:#stus_shortlinks#:#Shortlinks###28 11 2025 new variable
-stus#:#stus_shortlinks_deleted#:#Shortlinks have been deleted###28 11 2025 new variable
-stus#:#stus_shortlinks_toggled#:#Shortlinks have been deactivated/activated###28 11 2025 new variable
-stus#:#stus_stus_stored_sucessfully#:#Shortlink successfully saved###28 11 2025 new variable
-stus#:#stus_stus_toggle#:#Deactivate/Activate###28 11 2025 new variable
-stus#:#stus_target_link#:#Target object###28 11 2025 new variable
-stus#:#stus_target_ref_id#:#Target object###28 11 2025 new variable
-stus#:#stus_target_ref_id_required#:#Select a target object.###28 11 2025 new variable
-stus#:#stus_toggle#:#Deactivate/Activate###28 11 2025 new variable
-stus#:#stus_toggle_shortlink#:#Change status###28 11 2025 new variable
-stus#:#stus_toggle_shortlink_msg#:#Would you like to change the active status of the following entries?###28 11 2025 new variable
 style#:#Style#:#
 style#:#adapt_icon#:#Adatta icona
 style#:#adapt_icon_description#:#Adatta colori icona o cambia l’icona.

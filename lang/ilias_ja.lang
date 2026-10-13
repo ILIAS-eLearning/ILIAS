@@ -14358,38 +14358,6 @@ sess#:#sess_users_added#:#セッションの選択したユーザを登録しま
 sess#:#sess_users_already_assigned#:#ユーザはこのセッションへすでに登録済です。
 sess#:#sess_users_removed_from_list#:#選択のユーザは待ちリストから削除されました。
 sess#:#sess_warn_sess_type_changed#:#本当にセッションタイプを変更しますか? 全ての権限設定はリセットされます。
-stus#:#stus_action_delete#:#削除
-stus#:#stus_action_edit#:#編集
-stus#:#stus_action_toggle#:#有効/無効
-stus#:#stus_active#:#有効
-stus#:#stus_alias#:#ショートリンク
-stus#:#stus_alias_already_exists#:#ショートリンクはすでに使用されています。別のものを選んでください。
-stus#:#stus_alias_invalid#:#ショートリンクには無効な文字が含まれています。許可されている文字: A-Z、a-z、0-9、- および _。
-stus#:#stus_confirm_delete#:#エントリーを削除
-stus#:#stus_create_shortlink#:#ショートリンクを作成
-stus#:#stus_delete#:#削除
-stus#:#stus_delete_shortlink#:#削除
-stus#:#stus_delete_shortlink_msg#:#ショートリンクを削除しました
-stus#:#stus_index#:#管理
-stus#:#stus_info#:#インフォメーション
-stus#:#stus_info_active#:#非アクティブなショートリンクは呼び出してもリダイレクトされません。
-stus#:#stus_info_alias#:#次の文字のみを含めることができます: A-Z、a-z、0-9、- および _。
-stus#:#stus_info_target_ref_id#:#ターゲットオブジェクト
-stus#:#stus_order_saved#:#順番を保存しました
-stus#:#stus_prefix#:#プレフィックス
-stus#:#stus_rbac_permissions#:#権限
-stus#:#stus_shortlink#:#ショートリンク
-stus#:#stus_shortlinks#:#ショートリンク
-stus#:#stus_shortlinks_deleted#:#ショートリンクは削除されました
-stus#:#stus_shortlinks_toggled#:#ショートリンクは無効化/有効化されました
-stus#:#stus_stus_stored_sucessfully#:#ショートリンクは正しく保存されました。
-stus#:#stus_stus_toggle#:#無効化/有効化
-stus#:#stus_target_link#:#ターゲットオブジェクト
-stus#:#stus_target_ref_id#:#ターゲットオブジェクト
-stus#:#stus_target_ref_id_required#:#ターゲットオブジェクトを選択
-stus#:#stus_toggle#:#無効化/有効化
-stus#:#stus_toggle_shortlink#:#ステータスを変更
-stus#:#stus_toggle_shortlink_msg#:#以下のエントリのアクティブ状態を変更しますか？
 style#:#Style#:#スタイル
 style#:#adapt_icon#:#アイコンを適合
 style#:#adapt_icon_description#:#アイコンを適合またはアイコン自体を変更します。

@@ -14602,38 +14602,6 @@ sess#:#sess_users_added#:#Registered selected users for the session.
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.
-stus#:#stus_action_delete#:#Delete
-stus#:#stus_action_edit#:#Edit
-stus#:#stus_action_toggle#:#Activate/Deactivate
-stus#:#stus_active#:#Active
-stus#:#stus_alias#:#Shortlink
-stus#:#stus_alias_already_exists#:#The shortlink is already taken. Please choose another one.
-stus#:#stus_alias_invalid#:#The shortlink contains invalid characters. Permitted characters: A-Z, a-z, 0-9, - and _
-stus#:#stus_confirm_delete#:#Delete entries
-stus#:#stus_create_shortlink#:#Create shortlink
-stus#:#stus_delete#:#Delete
-stus#:#stus_delete_shortlink#:#Delete
-stus#:#stus_delete_shortlink_msg#:#Shortlink deleted
-stus#:#stus_index#:#Manage
-stus#:#stus_info#:#Information
-stus#:#stus_info_active#:#Inactive shortlinks are not redirected when called up.
-stus#:#stus_info_alias#:#May only contain the following characters: A-Z, a-z, 0-9, - und _
-stus#:#stus_info_target_ref_id#:#Target object
-stus#:#stus_order_saved#:#Order saved
-stus#:#stus_prefix#:#Prefix
-stus#:#stus_rbac_permissions#:#Permissions
-stus#:#stus_shortlink#:#Shortlink
-stus#:#stus_shortlinks#:#Shortlinks
-stus#:#stus_shortlinks_deleted#:#Shortlinks have been deleted
-stus#:#stus_shortlinks_toggled#:#Shortlinks have been deactivated/activated
-stus#:#stus_stus_stored_sucessfully#:#Shortlink successfully saved
-stus#:#stus_stus_toggle#:#Deactivate/Activate
-stus#:#stus_target_link#:#Target object
-stus#:#stus_target_ref_id#:#Target object
-stus#:#stus_target_ref_id_required#:#Select a target object.
-stus#:#stus_toggle#:#Deactivate/Activate
-stus#:#stus_toggle_shortlink#:#Change status
-stus#:#stus_toggle_shortlink_msg#:#Would you like to change the active status of the following entries?
 style#:#Style#:#Style
 style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
