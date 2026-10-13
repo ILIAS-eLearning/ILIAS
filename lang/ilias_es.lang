@@ -8519,23 +8519,6 @@ didactic#:#grp_closed_info#:#El grupo no es visible para los no miembros.
 didactic#:#more_translations#:#Más traducciones
 didactic#:#sess_closed#:#Sesión Cerrada
 didactic#:#sess_closed_info#:#La sesión no es visible para los no participantes.
-dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaración de Protección de Datos
-dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Antes de proceder a ILIAS debe aceptar la siguiente Declaración de Protección de Datos.
-dpro#:#dpro_account_reg_not_possible#:#El registro autónomo no es posible actualmente porque no hay ninguna Declaración de Protección de Datos disponible. Por favor, contacte con su <a href="%1$s">administrador del sistema</a> para más información.
-dpro#:#dpro_agree_date#:#Declaración de Protección de Datos aceptada el
-dpro#:#dpro_last_reset_date#:#La Declaración de Protección de Datos se reinició el %s. Solo reinicie la Declaración si se han realizado cambios en los documentos y requiere que todos los usuarios acepten los documentos de nuevo.
-dpro#:#dpro_mode#:#Modo de Aceptación
-dpro#:#dpro_mode_desc#:#Por favor, configure cuándo y cómo debe aceptarse la Declaración de Protección de Datos.
-dpro#:#dpro_no_acceptance#:#Nunca, solo informativa
-dpro#:#dpro_no_documents_exist#:#Actualmente no hay documentos de Declaración de Protección de Datos disponibles.
-dpro#:#dpro_no_documents_exist_cant_save#:#Actualmente no hay documentos de Declaración de Protección de Datos disponibles. Por favor, añada al menos un documento para activar este servicio.
-dpro#:#dpro_once#:#Aceptar una vez
-dpro#:#dpro_reset_for_all_users#:#Reiniciar la Declaración de Protección de Datos
-dpro#:#dpro_status_enable#:#Activar la Declaración de Protección de Datos
-dpro#:#dpro_status_enable_desc#:#Muestra los documentos de la Declaración de Protección de Datos correspondientes al idioma al final del formulario de registro para nuevos usuarios y, si procede, tras el primer inicio de sesión del usuario. Los usuarios deben aceptar la Declaración de Protección de Datos antes de poder entrar en ILIAS.
-dpro#:#dpro_sure_reset_tos#:#¿Está seguro de que desea restablecer la Declaración de Protección de Datos para todos los usuarios del sistema? Esto también se aplica, por ejemplo, a aquellas cuentas que se utilizan para los servicios web SOAP.
-dpro#:#dpro_withdrawal_usr_deletion#:#Eliminación de la cuenta tras la revocación de la Declaración de Protección de Datos
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#Si un usuario revoca su aceptación de un documento de Declaración de Protección de Datos previamente aceptado, esto resultará en la eliminación de la cuenta del usuario.
 ecs#:#cert_serial#:#Número de Serie del Certificado
 ecs#:#ecs_abr#:#Abreviatura
 ecs#:#ecs_account_duration#:#Extensión del Periodo de Activación

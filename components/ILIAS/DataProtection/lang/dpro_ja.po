@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: dpro\n"
+
+msgid "dpro_accept_usr_agreement_anonymous"
+msgstr "データ保護規約"
+
+msgid "dpro_accept_usr_agreement_anonymous_intro"
+msgstr "ILIAS利用の前に次のデータ保護規約を承諾するものとします。"
+
+msgid "dpro_account_reg_not_possible"
+msgstr "データ保護承諾の宣言書がないため現在自己登録はできません。 詳細は<a href=\"%1$s\">システム管理者</a> へ尋ねてください。"
+
+msgid "dpro_agree_date"
+msgstr "データ保護承諾宣言書"
+
+msgid "dpro_last_reset_date"
+msgstr "データ保護規約は %s にリセットされます。ドキュメントへ変更が行われると、データ保護規約のみがリセットされて全ユーザへドキュメントへの承諾を要求します。"
+
+msgid "dpro_mode"
+msgstr "承諾モード"
+
+msgid "dpro_mode_desc"
+msgstr "いつ、どのようにしてデータ保護規約を承諾すべきか構成してください。"
+
+msgid "dpro_no_acceptance"
+msgstr "なし、参考情報限定"
+
+msgid "dpro_no_documents_exist"
+msgstr "データ保護規約ドキュメントが現在見当たりません。"
+
+msgid "dpro_no_documents_exist_cant_save"
+msgstr "データ保護規約ドキュメントが現在見当たりません。 このサービスを有効化するにはドキュメントを一つは追加してください。"
+
+msgid "dpro_once"
+msgstr "一度承諾"
+
+msgid "dpro_reset_for_all_users"
+msgstr "データ保護規約をリセットする。"
+
+msgid "dpro_status_enable"
+msgstr "データ保護規約を有効化"
+
+msgid "dpro_status_enable_desc"
+msgstr "可能であれば、ユーザの初回ログインの際に新規ユーザ用の登録フォームの最後に個別言語単位でデータ保護規約ドキュメントを表示します。 ILIASへ入る前にデータ保護規約への承諾が必須です。"
+
+msgid "dpro_sure_reset_tos"
+msgstr "システムの全ユーザ用のデータ保護規約を本当にリセットしますか？例として、SOAPwebサービスお使ってるアカウントに対しても適用されます。"
+
+msgid "dpro_withdrawal_usr_deletion"
+msgstr "データ保護規約破棄に対するアカウント削除"
+
+msgid "dpro_withdrawal_usr_deletion_desc"
+msgstr "以前承諾したデータ保護規約ドキュメントの承諾をユーザが破棄するとユーザのアカウント削除につながることになります。"

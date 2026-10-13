@@ -8533,23 +8533,6 @@ didactic#:#grp_closed_info#:#A csoportot csak tagjaik láthatják.
 didactic#:#more_translations#:#További fordítások
 didactic#:#sess_closed#:#Zárt esemény
 didactic#:#sess_closed_info#:#Az eseményt csak a résztvevőik láthatják.
-dpro#:#dpro_accept_usr_agreement_anonymous#:#Adatvédelmi Nyilatkozat
-dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Mielőtt továbblép az ILIAS-hoz, elfogadja az alábbi Adatvédelmi Nyilatkozatot.
-dpro#:#dpro_account_reg_not_possible#:#A regisztráció jelenleg nem lehetséges, mert nincs Adatvédelmi Nyilatkozat. Kérem, további információért keresse a <a href="%1$s">rendszer üzemeltetőjét</a>.
-dpro#:#dpro_agree_date#:#Adatvédelmi Nyilatkozat elfogadása
-dpro#:#dpro_last_reset_date#:#Az Adatvédelmi Nyilatkozatot elfogadásait törölték (%s). Csak akkor tegye ezt meg újra, ha módosult az Adatvédelmi Nyilatkozat tartalma és ezért azt újra el kell fogadtatni a felhasználókkal.
-dpro#:#dpro_mode#:#Elfogadás módja
-dpro#:#dpro_mode_desc#:#Kérem, adja meg, hogy az Adatvédelmi Nyilatkozatot mikor és hogyan fogadják el.
-dpro#:#dpro_no_acceptance#:#Soha, csak informatív
-dpro#:#dpro_no_documents_exist#:#Jelenleg nincs beállítva Adatvdelmi Nyilatkozat.
-dpro#:#dpro_no_documents_exist_cant_save#:#A szolgáltatás jelenleg nem kapcsolható be, mert nincs beállítva Adatvdelmi Nyilatkozat. Leaglább egyet adjon hozzá
-dpro#:#dpro_once#:#Egyszer
-dpro#:#dpro_reset_for_all_users#:#Adatvédelem Nyilatkozat elfogadásainak törlése
-dpro#:#dpro_status_enable#:#Adatvédelem bekapcsolása
-dpro#:#dpro_status_enable_desc#:#A nyelvfüggő Adatvédelmi Nyilatkozat megjelenítése az új felhasználó regisztrációs űrlapján, illetve az első bejelentkezéskor. Az Adatvédelmi Nyilatkozatot el kell fogadni a bejelentkezéskor.
-dpro#:#dpro_sure_reset_tos#:#Biztos, hogy törli az összes felhasználó Adatvédelmi Nyilatkozat elfogadását? Figyeljen arra, hogy ez hatással lesz például a SOAP webszolgáltatást használó fiókra is.
-dpro#:#dpro_withdrawal_usr_deletion#:#Fiók törlése az Adatvédelmi Nyilatkozat visszavonásakor
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#Amikor egy felhasználó visszavonja az Adatvédelmi Nyilatkozat elfogadását, az az ILIAS-fiókjának törlését vonja maga után.
 ecs#:#cert_serial#:#Tanúsítvány sorozatszáma
 ecs#:#ecs_abr#:#Rövidítés
 ecs#:#ecs_account_duration#:#Aktiválási időszak meghosszabbítása

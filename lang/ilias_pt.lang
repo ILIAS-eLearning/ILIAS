@@ -8518,23 +8518,6 @@ didactic#:#grp_closed_info#:#O grupo não está visível a não-membros.
 didactic#:#more_translations#:#Mais traduções
 didactic#:#sess_closed#:#Sessão fechada
 didactic#:#sess_closed_info#:#A sessão não está visível a não-participantes.
-dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###03 09 2026 new variable
-dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###03 09 2026 new variable
-dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.###03 09 2026 new variable
-dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on###03 09 2026 new variable
-dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.###03 09 2026 new variable
-dpro#:#dpro_mode#:#Agreement Mode###03 09 2026 new variable
-dpro#:#dpro_mode_desc#:#Please configure when and how the Declaration of Data Protection should be accepted.###03 09 2026 new variable
-dpro#:#dpro_no_acceptance#:#Never, only informative###03 09 2026 new variable
-dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.###03 09 2026 new variable
-dpro#:#dpro_no_documents_exist_cant_save#:#There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service.###03 09 2026 new variable
-dpro#:#dpro_once#:#Accept once###03 09 2026 new variable
-dpro#:#dpro_reset_for_all_users#:#Reset the Declaration of Data Protection###03 09 2026 new variable
-dpro#:#dpro_status_enable#:#Enable the Declaration of Data Protection###03 09 2026 new variable
-dpro#:#dpro_status_enable_desc#:#Display relevant language-based Declaration of Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Declaration of Data Protection before they can enter ILIAS.###03 09 2026 new variable
-dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Declaration of Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.###03 09 2026 new variable
-dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Declaration of Data Protection withdrawal###03 09 2026 new variable
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Declaration of Data Protection document, this will result in the deletion of the user’s account.###03 09 2026 new variable
 ecs#:#cert_serial#:#Número de série do certificado
 ecs#:#ecs_abr#:#Abreviatura
 ecs#:#ecs_account_duration#:#Extensão do período de ativação
