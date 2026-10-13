@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "Kommentar"
+
+msgid "exc_comment_for_learner"
+msgstr "Kommentar til aflevering"
+
+msgid "exc_failed"
+msgstr "Ikke bestået"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Feedback fra hjælpeinstruktør"
+
+msgid "exc_grading"
+msgstr "Evaluering"
+
+msgid "exc_mark"
+msgstr "Karakter"
+
+msgid "exc_notgraded"
+msgstr "Ikke vurderet"
+
+msgid "exc_passed"
+msgstr "Bestået"
+
+msgid "exc_send_mail"
+msgstr "Send mail"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Starttidspunktet skal være før deadline."
+
+msgid "exc_your_submission"
+msgstr "Aflevering af opgave"

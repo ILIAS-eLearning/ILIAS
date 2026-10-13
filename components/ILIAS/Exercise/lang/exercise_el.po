@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "Σχόλιο"
+
+msgid "exc_comment_for_learner"
+msgstr "Σχόλιο για το μαθητή"
+
+msgid "exc_failed"
+msgstr "Αποτυχία"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Ανατροφοδότηση από τον εισηγητή"
+
+msgid "exc_grading"
+msgstr "Βαθμολογία"
+
+msgid "exc_mark"
+msgstr "Βαθμός"
+
+msgid "exc_notgraded"
+msgstr "Δεν βαθμολογήθηκε"
+
+msgid "exc_passed"
+msgstr "Πέρασε"
+
+msgid "exc_send_mail"
+msgstr "Αποστολή Mail"
+
+#, fuzzy
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+msgid "exc_your_submission"
+msgstr "Η υποβολή σας"

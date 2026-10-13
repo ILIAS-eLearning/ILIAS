@@ -9291,18 +9291,6 @@ exc#:#submissions_only#:#Csak a beadványok
 exc#:#text_assignment#:#Szövegkiosztás
 excv#:#excv_create#:#Beadandó feladat tanúsítványának létrehozása
 excv#:#excv_create_info#:#Válasszon ki egy befejezett beadandó feladatot, hogy tanúsítványt generáljon hozzá.
-exercise#:#exc_admin_settings#:#Beadandó feladat beállításainak kezelése
-exercise#:#exc_comment#:#Szöveges értékelés
-exercise#:#exc_comment_for_learner#:#Szöveges értékelés
-exercise#:#exc_failed#:#Nem elfogadható
-exercise#:#exc_feedback_from_tutor#:#Szöveges értékelés a tutortól
-exercise#:#exc_grading#:#Értékelés
-exercise#:#exc_mark#:#Érdemjegy
-exercise#:#exc_notgraded#:#Nincs értékelve
-exercise#:#exc_passed#:#Elfogadva
-exercise#:#exc_send_mail#:#Feladat linkjének küldés levélben
-exercise#:#exc_start_date_should_be_before_end_date#:#A kezdő időpont a határidő előtt kell, hogy legyen.
-exercise#:#exc_your_submission#:#Az Ön megoldása
 exp#:#exp_create_file#:#Exportfájl létrehozása
 exp#:#exp_error_disabled#:#A tárolók exportálása le van tilta. Vegye fel a kapcsolatot az üzemeltetővel.
 exp#:#exp_error_too_many_objects#:#Az exportálás túllépi a maximálisan megngedett objektumszámot (%1). Kérem, kevesebb objektumot jelöljön ki.

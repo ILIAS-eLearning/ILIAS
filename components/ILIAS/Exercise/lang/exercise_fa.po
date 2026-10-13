@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "Comment"
+
+msgid "exc_comment_for_learner"
+msgstr "نظر برای یادگیرنده"
+
+msgid "exc_failed"
+msgstr "ناموفق"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Feedback from Tutor"
+
+msgid "exc_grading"
+msgstr "نمره دهی"
+
+msgid "exc_mark"
+msgstr "نمره"
+
+msgid "exc_notgraded"
+msgstr "بدون نمره"
+
+msgid "exc_passed"
+msgstr "موفق"
+
+msgid "exc_send_mail"
+msgstr "ارسال ایمیل"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+msgid "exc_your_submission"
+msgstr "ارسال های شما"

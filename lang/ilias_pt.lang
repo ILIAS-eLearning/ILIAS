@@ -9276,18 +9276,6 @@ exc#:#submissions_only#:#Selecionar ficheiros/diretórios
 exc#:#text_assignment#:#Miniatura
 excv#:#excv_create#:#Título e descrição
 excv#:#excv_create_info#:#Desconhecido
-exercise#:#exc_admin_settings#:#Administração do exercício
-exercise#:#exc_comment#:#Ficheiros do diretório upload
-exercise#:#exc_comment_for_learner#:#Usar fragmentos do conteúdo
-exercise#:#exc_failed#:#Falhou
-exercise#:#exc_feedback_from_tutor#:#Permite criar fragmentos do conteúdo em bancos de media. Estes fragmentos podem ser reutilizados (não editados) em módulos de aprendizagem.
-exercise#:#exc_grading#:#Classificação
-exercise#:#exc_mark#:#Nota
-exercise#:#exc_notgraded#:#Não classificado
-exercise#:#exc_passed#:#Aprovado
-exercise#:#exc_send_mail#:#Tipos de ficheiro permitidos
-exercise#:#exc_start_date_should_be_before_end_date#:#O tempo de início deve ser anterior ao prazo.
-exercise#:#exc_your_submission#:#A sua submissão
 exp#:#exp_create_file#:#Criar ficheiro de exportação
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

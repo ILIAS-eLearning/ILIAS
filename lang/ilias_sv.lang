@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Endast skatter
 exc#:#text_assignment#:#Text Övning Enhet
 excv#:#excv_create#:#Skapa träningscertifikat
 excv#:#excv_create_info#:#Välj en övning för vilken du behöver ett certifikat
-exercise#:#exc_admin_settings#:#Administration av övningar
-exercise#:#exc_comment#:#opinion
-exercise#:#exc_comment_for_learner#:#Feedback för deltagare
-exercise#:#exc_failed#:#Misslyckad
-exercise#:#exc_feedback_from_tutor#:#Utvärdering av handledaren
-exercise#:#exc_grading#:#Rating
-exercise#:#exc_mark#:#Note
-exercise#:#exc_notgraded#:#Ej betygsatt
-exercise#:#exc_passed#:#Bekräftad
-exercise#:#exc_send_mail#:#Sänd som post
-exercise#:#exc_start_date_should_be_before_end_date#:#Starttiden bör vara före tidsfristen.
-exercise#:#exc_your_submission#:#Din ansökan
 exp#:#exp_create_file#:#Skapa exportfil
 exp#:#exp_error_disabled#:#Exporten av containerobjekt är avaktiverad. Om du har några frågor, vänligen kontakta den tekniska supporten.
 exp#:#exp_error_too_many_objects#:#Exporten överskrider det maximalt tillåtna antalet objekt (%1). Välj ett mindre antal objekt.

@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Samo oddaje
 exc#:#text_assignment#:#Besedilna naloga
 excv#:#excv_create#:#Ustvari certifikat za vajo
 excv#:#excv_create_info#:#Izberite vajo, za katero potrebujete certifikat
-exercise#:#exc_admin_settings#:#Administracija vaje
-exercise#:#exc_comment#:#Stališče
-exercise#:#exc_comment_for_learner#:#Povratna informacija za udeleženca
-exercise#:#exc_failed#:#Ni opravljeno
-exercise#:#exc_feedback_from_tutor#:#Ocena mentorja
-exercise#:#exc_grading#:#Ocena
-exercise#:#exc_mark#:#Ocena
-exercise#:#exc_notgraded#:#Ni ocenjen
-exercise#:#exc_passed#:#Opravljeno
-exercise#:#exc_send_mail#:#Pošlji kot e-pošto
-exercise#:#exc_start_date_should_be_before_end_date#:#Začetni čas mora biti pred rokom za oddajo.
-exercise#:#exc_your_submission#:#Vaša oddaja
 exp#:#exp_create_file#:#Ustvari datoteko za izvoz
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.

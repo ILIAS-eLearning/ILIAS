@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Create Exercise Verification
 excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it
-exercise#:#exc_admin_settings#:#Harjutuse haldus
-exercise#:#exc_comment#:#Kommentaar
-exercise#:#exc_comment_for_learner#:#Kommentaar õppurile
-exercise#:#exc_failed#:#Ebaõnnestunud
-exercise#:#exc_feedback_from_tutor#:#Õppejõu tagasiside
-exercise#:#exc_grading#:#Hindamine
-exercise#:#exc_mark#:#Hinne
-exercise#:#exc_notgraded#:#Pole hinnatud
-exercise#:#exc_passed#:#Läbitud
-exercise#:#exc_send_mail#:#Saada kiri
-exercise#:#exc_start_date_should_be_before_end_date#:#Algusaeg peab olema enne tähtaega.
-exercise#:#exc_your_submission#:#Koduse töö vastus
 exp#:#exp_create_file#:#Loo eksportfail
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

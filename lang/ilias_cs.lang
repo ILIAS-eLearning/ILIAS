@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Pouze příspěvky
 exc#:#text_assignment#:#Přiřazení textu
 excv#:#excv_create#:#Vytvořit certifikát cvičení
 excv#:#excv_create_info#:#Vybrat ukončené cvičení ke generování certifikátu o jeho splnění.
-exercise#:#exc_admin_settings#:#Správa cvičení
-exercise#:#exc_comment#:#Komentář
-exercise#:#exc_comment_for_learner#:#Komentář pro studenta
-exercise#:#exc_failed#:#Neprospěl(a)
-exercise#:#exc_feedback_from_tutor#:#Odezva od lektora
-exercise#:#exc_grading#:#Hodnocení
-exercise#:#exc_mark#:#Známka
-exercise#:#exc_notgraded#:#Nehodnoceno
-exercise#:#exc_passed#:#Prospěl(a)
-exercise#:#exc_send_mail#:#Poslat email
-exercise#:#exc_start_date_should_be_before_end_date#:#Čas spuštění musí být před časem ukončení.
-exercise#:#exc_your_submission#:#Vaše odevzdané úlohy
 exp#:#exp_create_file#:#Vytvořit Exportní soubor
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Create Exercise Verification
 excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it
-exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
-exercise#:#exc_comment#:#Comment
-exercise#:#exc_comment_for_learner#:#نظر برای یادگیرنده
-exercise#:#exc_failed#:#ناموفق
-exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor
-exercise#:#exc_grading#:#نمره دهی
-exercise#:#exc_mark#:#نمره
-exercise#:#exc_notgraded#:#بدون نمره
-exercise#:#exc_passed#:#موفق
-exercise#:#exc_send_mail#:#ارسال ایمیل
-exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
-exercise#:#exc_your_submission#:#ارسال های شما
 exp#:#exp_create_file#:#ساختن فایل صدور
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

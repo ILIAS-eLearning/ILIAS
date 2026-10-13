@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "Evaluation Statement"
+
+msgid "exc_comment_for_learner"
+msgstr "Evaluation Statement"
+
+msgid "exc_failed"
+msgstr "Failed"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Evaluation by Tutor"
+
+msgid "exc_grading"
+msgstr "Grading"
+
+msgid "exc_mark"
+msgstr "Mark"
+
+msgid "exc_notgraded"
+msgstr "Not Graded"
+
+msgid "exc_passed"
+msgstr "Passed"
+
+msgid "exc_send_mail"
+msgstr "Send as Mail"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+msgid "exc_your_submission"
+msgstr "Your Submission"

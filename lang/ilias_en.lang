@@ -9304,18 +9304,6 @@ exc#:#submissions_only#:#Submissions Only
 exc#:#text_assignment#:#Text Assignment
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it.
-exercise#:#exc_admin_settings#:#Exercise Administration
-exercise#:#exc_comment#:#Evaluation Statement
-exercise#:#exc_comment_for_learner#:#Evaluation Statement
-exercise#:#exc_failed#:#Failed
-exercise#:#exc_feedback_from_tutor#:#Evaluation by Tutor
-exercise#:#exc_grading#:#Grading
-exercise#:#exc_mark#:#Mark
-exercise#:#exc_notgraded#:#Not Graded
-exercise#:#exc_passed#:#Passed
-exercise#:#exc_send_mail#:#Send as Mail
-exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
-exercise#:#exc_your_submission#:#Your Submission
 exp#:#exp_create_file#:#Create Export File
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.

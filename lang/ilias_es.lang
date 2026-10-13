@@ -9274,18 +9274,6 @@ exc#:#submissions_only#:#Solo entregas
 exc#:#text_assignment#:#Tarea de texto
 excv#:#excv_create#:#Crear certificado de ejercicio
 excv#:#excv_create_info#:#Seleccione un ejercicio finalizado para generar un certificado para el mismo.
-exercise#:#exc_admin_settings#:#Administración de ejercicios
-exercise#:#exc_comment#:#Comentario de evaluación
-exercise#:#exc_comment_for_learner#:#Comentario de evaluación
-exercise#:#exc_failed#:#Suspenso
-exercise#:#exc_feedback_from_tutor#:#Evaluación del tutor
-exercise#:#exc_grading#:#Calificación
-exercise#:#exc_mark#:#Nota
-exercise#:#exc_notgraded#:#No calificado
-exercise#:#exc_passed#:#Aprobado
-exercise#:#exc_send_mail#:#Enviar como correo
-exercise#:#exc_start_date_should_be_before_end_date#:#La hora de inicio debe ser anterior a la fecha límite.
-exercise#:#exc_your_submission#:#Su entrega
 exp#:#exp_create_file#:#Crear archivo de exportación
 exp#:#exp_error_disabled#:#La función de exportación está desactivada para contenedores. Puede ponerse en contacto con su administrador del sistema.
 exp#:#exp_error_too_many_objects#:#La exportación supera el número máximo de objetos permitidos (%1). Por favor, seleccione un número menor de objetos.

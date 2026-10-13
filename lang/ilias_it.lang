@@ -9241,18 +9241,6 @@ exc#:#submissions_only#:#Solo invii
 exc#:#text_assignment#:#Assegnazione del testo
 excv#:#excv_create#:#Crea verifica esercizio
 excv#:#excv_create_info#:#Seleziona un esercizio completato per generare una verifica per esso
-exercise#:#exc_admin_settings#:#Amministrazione servizio
-exercise#:#exc_comment#:#Commenti
-exercise#:#exc_comment_for_learner#:#Commenti per il discente
-exercise#:#exc_failed#:#Fallito
-exercise#:#exc_feedback_from_tutor#:#Feedback dal Tutor
-exercise#:#exc_grading#:#Classificazione
-exercise#:#exc_mark#:#Voto
-exercise#:#exc_notgraded#:#Non classificato
-exercise#:#exc_passed#:#Superato
-exercise#:#exc_send_mail#:#Invia mail
-exercise#:#exc_start_date_should_be_before_end_date#:#Il momento dell'inizio dovrebbe essere prima della scadenza.
-exercise#:#exc_your_submission#:#La tua richiesta
 exp#:#exp_create_file#:#Crea file di export
 exp#:#exp_error_disabled#:#L'esportazione di oggetti container è disattivata. In caso di domande contatti il supporto tecnico.
 exp#:#exp_error_too_many_objects#:#L'esportazione supera il massimale di oggetti consentiti (%1). Per favore scelga un numero inferiore di oggetti.
