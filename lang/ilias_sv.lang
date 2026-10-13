@@ -13791,7 +13791,6 @@ rep#:#rep_tree_limit#:#Begränsning av antalet poster i trädet
 rep#:#rep_tree_limit_info#:#Visar endast ett begränsat antal element i trädet för att öka prestandan.
 rep#:#rep_tree_limit_number#:#Maximalt antal
 rep#:#rep_tree_limit_number_info#:#Maximalt antal underordnade element som initialt visas för en nod. Om det finns fler underordnade element visas ett inmatningsfält för sökning där de underordnade elementen kan filtreras efter titel.
-rwik#:#rwik_call#:#Samtal ECS Wiki
 sahs#:#cont_insert_after_chap#:#Insätt element efter ett kapitel.
 sahs#:#cont_insert_into_chap#:#Insert elements inom ett kapitel.
 sahs#:#sahs_activate_expert_mode#:#Aktivera expertläget Sequencing
