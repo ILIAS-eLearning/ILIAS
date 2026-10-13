@@ -14366,38 +14366,6 @@ sess#:#sess_users_added#:#Az eseményre a kiválasztott felhasználót regisztr�
 sess#:#sess_users_already_assigned#:#A felhasználó már regisztrált erre az eseményre.
 sess#:#sess_users_removed_from_list#:#A kiválasztott jelentkező(ke)t sikeresen eltávolított a várólistáról.
 sess#:#sess_warn_sess_type_changed#:#Biztos, hogy megváltoztatja a munkamenet típusát? Az összes jogosultságot alapértelmezettre állítjuk.
-stus#:#stus_action_delete#:#Törlés
-stus#:#stus_action_edit#:#Módosítás
-stus#:#stus_action_toggle#:#Ki-/Bekapcsolás
-stus#:#stus_active#:#Aktív
-stus#:#stus_alias#:#Gyorslink
-stus#:#stus_alias_already_exists#:#Ez a gyorslink már foglalt, válasszon másikat.
-stus#:#stus_alias_invalid#:#A gyorslink érvénytelen karaktereket tartalmaz. Engedélyezett karakterek: A-Z, a-z, 0-9, - és _
-stus#:#stus_confirm_delete#:#Bejegyzések törlése
-stus#:#stus_create_shortlink#:#Gyorslink létrehozása
-stus#:#stus_delete#:#Törlés
-stus#:#stus_delete_shortlink#:#Törlés
-stus#:#stus_delete_shortlink_msg#:#A gyorslinkeket sikeresen törölte.
-stus#:#stus_index#:#Kezelés
-stus#:#stus_info#:#Információ
-stus#:#stus_info_active#:#Az inaktív gyorslinkeket nem irányítjuk át meghíváskor
-stus#:#stus_info_alias#:#Engedélyezett karakterek: A-Z, a-z, 0-9, - és _
-stus#:#stus_info_target_ref_id#:#Célobjektum
-stus#:#stus_order_saved#:#A sorrendet sikeresen mentette.
-stus#:#stus_prefix#:#Előtag
-stus#:#stus_rbac_permissions#:#Jogosultságok
-stus#:#stus_shortlink#:#Gyorslink
-stus#:#stus_shortlinks#:#Gyorslinkek
-stus#:#stus_shortlinks_deleted#:#A gyorslinkeket sikeresen törölte.
-stus#:#stus_shortlinks_toggled#:#A gyorslinkeket sikeresen be-/kikapcsolta.
-stus#:#stus_stus_stored_sucessfully#:#A gyorslinkeket sikeresen mentette.
-stus#:#stus_stus_toggle#:#Ki-/Bekapcsolás
-stus#:#stus_target_link#:#Célobjektum
-stus#:#stus_target_ref_id#:#Célobjektum
-stus#:#stus_target_ref_id_required#:#Válasszon egy célobjektumot.
-stus#:#stus_toggle#:#Ki-/Bekapcsolás
-stus#:#stus_toggle_shortlink#:#Állapot módosítása
-stus#:#stus_toggle_shortlink_msg#:#Biztos, hogy módosítja a következő bejegyzések állapotát?
 style#:#Style#:#Stílus
 style#:#adapt_icon#:#Ikon átvétele
 style#:#adapt_icon_description#:#Ikonszínek átvétele vagy az ikon módosítása.

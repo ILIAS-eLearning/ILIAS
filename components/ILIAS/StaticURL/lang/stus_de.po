@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: stus\n"
+
+msgid "stus_action_delete"
+msgstr "Löschen"
+
+msgid "stus_action_edit"
+msgstr "Bearbeiten"
+
+msgid "stus_action_toggle"
+msgstr "De-/Aktivieren"
+
+msgid "stus_active"
+msgstr "Aktiv"
+
+msgid "stus_alias"
+msgstr "Kurz-URL"
+
+msgid "stus_alias_already_exists"
+msgstr "Die Kurz-URL ist bereits vergeben. Bitte wählen Sie eine andere."
+
+msgid "stus_alias_invalid"
+msgstr "Die Kurz-URL enthält ungültige Zeichen. Erlaubte Zeichen: A-Z, a-z, 0-9, - und _"
+
+msgid "stus_confirm_delete"
+msgstr "Einträge löschen"
+
+msgid "stus_create_shortlink"
+msgstr "Kurz-URL anlegen"
+
+msgid "stus_delete"
+msgstr "Löschen"
+
+msgid "stus_delete_shortlink"
+msgstr "Löschen"
+
+msgid "stus_delete_shortlink_msg"
+msgstr "Kurz-URL gelöscht"
+
+msgid "stus_index"
+msgstr "Verwalten"
+
+msgid "stus_info"
+msgstr "Informationen"
+
+msgid "stus_info_active"
+msgstr "Inaktive Kurz-URLs werden nicht weitergeleitet, wenn sie aufgerufen werden."
+
+msgid "stus_info_alias"
+msgstr "Darf nur die folgenden Zeichen enthalten: A-Z, a-z, 0-9, - und _"
+
+msgid "stus_info_target_ref_id"
+msgstr "Ziel-Objekt"
+
+msgid "stus_order_saved"
+msgstr "Reihenfolge gespeichert"
+
+msgid "stus_prefix"
+msgstr "Präfix"
+
+msgid "stus_rbac_permissions"
+msgstr "Rechte"
+
+msgid "stus_shortlink"
+msgstr "Kurz-URL"
+
+msgid "stus_shortlinks"
+msgstr "Kurz-URLs"
+
+msgid "stus_shortlinks_deleted"
+msgstr "Kurz-URLs wurden gelöscht"
+
+msgid "stus_shortlinks_toggled"
+msgstr "Kurz-URLs wurden de-/aktiviert"
+
+msgid "stus_stus_stored_sucessfully"
+msgstr "Kurz-URL erfolgreich gespeichert"
+
+msgid "stus_stus_toggle"
+msgstr "De-/Aktivieren"
+
+msgid "stus_target_link"
+msgstr "Ziel-Objekt"
+
+msgid "stus_target_ref_id"
+msgstr "Ziel-Objekt"
+
+msgid "stus_target_ref_id_required"
+msgstr "Wählen Sie ein Ziel-Objekt aus."
+
+msgid "stus_toggle"
+msgstr "De-/Aktivieren"
+
+msgid "stus_toggle_shortlink"
+msgstr "Status ändern"
+
+msgid "stus_toggle_shortlink_msg"
+msgstr "Möchten Sie den Aktiv-Status der folgenden Einträge ändern?"
