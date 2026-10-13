@@ -217,9 +217,6 @@
         url: properties.url,
         dataType: 'json',
         type: 'POST',
-        data: {
-          hash: properties.hash
-        },
         success: function (response) {
           if (response.message && typeof response.message == "string") {
             internals.log(response.message);

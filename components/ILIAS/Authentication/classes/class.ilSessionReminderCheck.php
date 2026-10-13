@@ -57,24 +57,31 @@ class ilSessionReminderCheck
 
     public function handle(): ResponseInterface
     {
-        $sessionIdHash = ilUtil::stripSlashes(
-            $this->http->wrapper()->post()->retrieve(
-                'hash',
-                $this->refinery->kindlyTo()->string()
-            )
-        );
-
-        $this->logger->debug('Session reminder call for session id hash: ' . $sessionIdHash);
-
         // disable session writing and extension of expiration time
         ilSession::enableWebAccessWithoutSession(true);
 
         $response = ['remind' => false];
 
+        $session_id = $this->http->wrapper()->cookie()->retrieve(
+            session_name(),
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
+
+        if ($session_id === '') {
+            $this->logger->debug('Session reminder call without session cookie');
+            $response['message'] = 'ILIAS could not determine the session data.';
+            return $this->toJsonResponse($response);
+        }
+
+        $this->logger->debug('Session reminder call for session cookie');
+
         $res = $this->db->queryF(
-            'SELECT expires, user_id, data FROM usr_session WHERE MD5(session_id) = %s',
+            'SELECT expires, user_id, data FROM usr_session WHERE session_id = %s',
             ['text'],
-            [$sessionIdHash]
+            [$session_id]
         );
 
         $num = $this->db->numRows($res);
