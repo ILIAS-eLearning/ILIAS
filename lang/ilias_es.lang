@@ -7015,8 +7015,6 @@ copa#:#copa_prop_reading_time#:#Tiempo de lectura
 copa#:#copa_value_reading_time_f_p#:#%s Minutos
 copa#:#copa_value_reading_time_f_s#:#%s Minuto
 copa#:#obj_copa_duplicate#:#Duplicar Página de Contenido
-cpad#:#cpad_reading_time_status#:#Tiempo de lectura
-cpad#:#cpad_reading_time_status_desc#:#Si se activa, se calculará y mostrará el tiempo estimado de lectura para los objetos de página de contenido.
 cptch#:#cptch_freetype_support_needed#:#Para usar esta función, debe habilitar el soporte de freetype en su PHP.
 cptch#:#cptch_wrong_input#:#Entrada incorrecta
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Tarea programada desactivada porque ha estado inactiva durante 3 horas

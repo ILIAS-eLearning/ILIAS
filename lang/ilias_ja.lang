@@ -7013,8 +7013,6 @@ copa#:#copa_prop_reading_time#:#読み取り時間
 copa#:#copa_value_reading_time_f_p#:#%s 分
 copa#:#copa_value_reading_time_f_s#:#%s 分
 copa#:#obj_copa_duplicate#:#コンテンツページを複製
-cpad#:#cpad_reading_time_status#:#読込み時間
-cpad#:#cpad_reading_time_status_desc#:#有効にすると、コンテンツページオブジェクトの読込み予測時間が確定して表示されます。
 cptch#:#cptch_freetype_support_needed#:#この機能を使用するにはPHPのフリータイプサポートを有効にする必要があります。
 cptch#:#cptch_wrong_input#:#入力間違い
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#クラッシュの可能性

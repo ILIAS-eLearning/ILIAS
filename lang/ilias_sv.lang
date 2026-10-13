@@ -7000,8 +7000,6 @@ copa#:#copa_prop_reading_time#:#Tid för läsning
 copa#:#copa_value_reading_time_f_p#:#%s minuter
 copa#:#copa_value_reading_time_f_s#:#%s minut
 copa#:#obj_copa_duplicate#:#Sidor med duplicerat innehåll
-cpad#:#cpad_reading_time_status#:#Tid för läsning
-cpad#:#cpad_reading_time_status_desc#:#Om den är aktiverad beräknas och visas den uppskattade lästiden för innehållssidor.
 cptch#:#cptch_freetype_support_needed#:#För att använda denna funktion behöver du freetype-stödet för PHP.
 cptch#:#cptch_wrong_input#:#Felaktig inmatning
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cronjobbet avaktiverades eftersom det var inaktivt i mer än 3 timmar.

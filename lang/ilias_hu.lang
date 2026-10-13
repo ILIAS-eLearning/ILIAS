@@ -7059,8 +7059,6 @@ copa#:#copa_prop_reading_time#:#Olvasási idő
 copa#:#copa_value_reading_time_f_p#:#%s perc
 copa#:#copa_value_reading_time_f_s#:#%s perc
 copa#:#obj_copa_duplicate#:#Tartalomlap duplikálása
-cpad#:#cpad_reading_time_status#:#Olvasási idő
-cpad#:#cpad_reading_time_status_desc#:#A tartalomlap becsült olvasási idejét megállapítjuk és megjelenítjük.
 cptch#:#cptch_freetype_support_needed#:#Ennek a funkciónak a használatához a PHP freetype támogatását engedélyeznie kell.
 cptch#:#cptch_wrong_input#:#Hibás bemenet
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Az ütemezett feladatot deaktiváltuk, mert több, mint 3 órája inaktív

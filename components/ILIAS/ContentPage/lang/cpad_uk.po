@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: uk\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cpad\n"
+
+#, fuzzy
+msgid "cpad_reading_time_status"
+msgstr "Reading Time"
+
+#, fuzzy
+msgid "cpad_reading_time_status_desc"
+msgstr "If enabled, the estimated reading time for content page objects will be determined and displayed."
