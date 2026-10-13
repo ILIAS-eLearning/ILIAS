@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases###28 08 2012 new variable
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings###28 08 2012 new variable
-error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
-error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
-init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
-init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
-init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13171,20 +13165,6 @@ ps#:#rbac_log_age_info#:#Maximum age of log entries in month###16 07 2010 new va
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions###16 07 2010 new variable
 ps#:#show_privacy#:#Privacy###25 02 2007 new variable
 ps#:#show_security#:#Security###25 02 2007 new variable
-pwassist#:#password_assistance#:#Password Assistance###06 09 2006 new variable
-pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
-pwassist#:#pwassist_enter_username_and_email#:#Введіть ім'я користувача та відповідну e-mail адресу в поля показані нижче.\nILIAS відішле повідомлення на цю e-mail адресу. Повідомлення містить адресу веб сторінки, де ви можете ввести новий пароль для акаунту користувача.
-pwassist#:#pwassist_enter_username_and_new_password#:#Введіть ім'я користувача та новий пароль в поля нижче.
-pwassist#:#pwassist_login_not_match#:#Будь ласка введіть інше ім'я користувача.\nІм'я користувача що ви ввели не співпадає з ім'ям користувача для якого ви запросили відновлення паролю.
-pwassist#:#pwassist_mail_body#:#Реєстрація нового паролю для вашого акаунту користувача:\n\t%1$s\n\nЦе повідомлення було згенеровано автоматично сервером ILIAS\n\t%2$s\n\nВи (або хтось %3$s) запросив відновлення паролю для акаунту користувача "%4$s".\n\nБудь ласка перевірте уважно умови наведені нижче, та дійте відповідно:\n\n- Якщо ви випадково використали відновлення паролю на ILIAS сервері:\nВидаліть цей лист.\n\n- Якщо ви впевнені, що ви ніколи не користувались відновленням паролю на сервері ILIAS:\nБудь ласка зв'яжіться з %5$s.\n\n- Якщо ви використовували відновлення паролю, будь ласка виконайте наступне:\n\n1. Відкрийте ваш браузер.\n\n2. Введіть наступну адресу в ваш браузер:\n\t%1$s\n\nВажливо: Адреса має бути однією стрічкою. Якщо ви бачите, що адреса розділена на декілька ліній, це означає що ваша e-mail програма вставила ці розділи стрічок.\n\n3. На веб сторінці показаній вашим браузером, введіть новий пароль для вашого акаунту користувача.\n\nБудь ласка зауважте, що з міркувань безпеки, ви можете виконати три кроки вище тільки віключно один раз та тільки за обмежений час. Пізніше адреса стане невірною, та ви буду змушені використати відновлення паролю на ILIAS сервері знову.
-pwassist#:#pwassist_mail_sent#:#Повідомлення відправлене на %1$s.\nБудь ласка перевірте вашу почтову скриньку.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
-pwassist#:#pwassist_mail_subject#:#ILIAS Відновлення Паролю
-pwassist#:#pwassist_password_assigned#:#Пароль був вдало призначений до користувача "%1$s".
-pwassist#:#pwassist_session_expired#:#Будь ласка заповніть цю форму знову.\nСтрок дії вашої сесія відновлення паролю скінчився. Це могло трапитись, тому що ви намагались використати лінк, що був надісланий вам більше ніж один раз, або тому що дуже багато часу пройшло з тих пір, як лінк був вам відісланий.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
-pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

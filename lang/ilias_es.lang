@@ -8739,8 +8739,6 @@ ecs#:#ecs_wiki_export#:#Versiones de Wiki
 ecs#:#ecs_wiki_export_disabled#:#No publicar este Wiki
 ecs#:#ecs_wiki_export_enabled#:#Publicar este Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Ajustes de publicación de Wiki
-error#:#error_back_to_repository#:#Volver al Repositorio
-error#:#error_sry_error#:#Lo sentimos, se ha producido un error.
 etal#:#appointments#:#Citas
 etal#:#cal_type_tals#:#Charlas
 etal#:#change_date_of_series#:#Cambiar fecha de la serie de charlas
@@ -10026,10 +10024,6 @@ iass#:#il_iass_members#:#Participantes
 iass#:#lp_inactive#:#Nota: el progreso de aprendizaje para este objeto está inactivo. Por lo tanto, las membresías no pueden ser finalizadas.
 iass#:#save_amend#:#Guardar registro enmendado
 impr#:#impr_page_type_impr#:#Pie de imprenta
-init#:#init_error_authentication_fail#:#Fallo en la autenticación.
-init#:#init_error_maintenance#:#El servidor no está disponible debido a mantenimiento. Disculpe las molestias.
-init#:#init_error_redirect_click#:#Haga clic para continuar.
-init#:#init_error_redirect_info#:#Redirección no admitida por el contexto.
 irss#:#action_download#:#Descargar
 irss#:#action_goto#:#Abrir recurso
 irss#:#action_remove_resource#:#Eliminar recurso
@@ -13226,20 +13220,6 @@ ps#:#rbac_log_age_info#:#Antigüedad máxima de las entradas del registro en mes
 ps#:#rbac_log_info#:#Registrar todos los cambios en los permisos de los objetos.
 ps#:#show_privacy#:#Privacidad
 ps#:#show_security#:#Seguridad
-pwassist#:#password_assistance#:#Asistencia de contraseña
-pwassist#:#pwassist_disabled_no_access#:#La asistencia de contraseña no está habilitada. Póngase en contacto con la administración del sistema para obtener más ayuda: %s
-pwassist#:#pwassist_enter_email#:#Introduzca una dirección de correo electrónico y envíe el formulario. ILIAS enviará un correo electrónico a esa dirección. El mensaje contendrá todos los nombres de usuario que tengan registrada dicha dirección. Elija el nombre de usuario adecuado y utilice el servicio de contraseña para obtener una nueva contraseña. Si no recibe ningún correo electrónico de este servicio, póngase en contacto con la administración de su curso o con %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos que aparecen a continuación. ILIAS enviará un mensaje a esa dirección de correo electrónico. El mensaje contiene la dirección de una página web donde podrá introducir una nueva contraseña para la cuenta de usuario. En caso de que no pueda asignar una contraseña a su cuenta de usuario mediante este formulario, póngase en contacto con la administración de su curso o envíe un correo electrónico a %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Introduzca el nombre de usuario y la nueva contraseña en los campos siguientes.
-pwassist#:#pwassist_login_not_match#:#Introduzca otro nombre de usuario. El nombre de usuario que ha introducido no coincide con el nombre de usuario para el que ha solicitado la asistencia de contraseña.
-pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario: %1$s<br><br>Este mensaje ha sido generado automáticamente por el servidor ILIAS %2$s<br><br>Usted (o alguien en %3$s) ha solicitado asistencia de contraseña para la cuenta de usuario "%4$s". Por favor, compruebe cuidadosamente las condiciones que se enumeran a continuación y proceda en consecuencia:<br><br>• Si ha utilizado el formulario de asistencia de contraseña en el servidor ILIAS por accidente: elimine este correo.<br><br>• Si está seguro de que nunca ha solicitado asistencia de contraseña en este servidor ILIAS: póngase en contacto con %5$s.<br><br>• Si solicitó asistencia de contraseña, proceda de la siguiente manera:<br>1. Abra su navegador.<br>2. Introduzca la siguiente dirección en su navegador: %6$s<br>Importante: La dirección es una sola línea. Si ve esta dirección dividida en varias líneas, es que su programa de correo electrónico ha insertado estos saltos de línea.<br>3. En la página web mostrada por su navegador, introduzca una nueva contraseña para su cuenta de usuario.<br><br>Tenga en cuenta que, por razones de seguridad, solo puede realizar los tres pasos anteriores exactamente una vez y solo por un tiempo limitado. Transcurrido ese tiempo, la dirección quedará invalidada y tendrá que volver a utilizar la página de asistencia de contraseña del servidor ILIAS.
-pwassist#:#pwassist_mail_sent#:#Se ha enviado un mensaje a %1$s, en caso de haber encontrado una cuenta de usuario con el nombre de usuario y el correo electrónico introducidos. Por favor, compruebe su buzón de correo para obtener más instrucciones.
-pwassist#:#pwassist_mail_sent_generic#:#Se ha enviado un mensaje a la dirección de correo electrónico definida en ILIAS. Por favor, compruebe su buzón de correo.
-pwassist#:#pwassist_mail_subject#:#Asistencia de contraseña de ILIAS
-pwassist#:#pwassist_password_assigned#:#La contraseña ha sido asignada con éxito al usuario "%1$s".
-pwassist#:#pwassist_session_expired#:#Por favor, rellene este formulario de nuevo. Su sesión de asistencia de contraseña ha caducado. Esto puede haber ocurrido porque intentó utilizar el enlace enviado por correo electrónico más de una vez, o porque ha pasado demasiado tiempo desde que se le envió el enlace.
-pwassist#:#pwassist_username_mail_body#:#Estos son los nombres de usuario activos encontrados para la dirección de correo electrónico proporcionada: %s <br><br>Este mensaje ha sido generado automáticamente por el siguiente servidor ILIAS: %s <br><br>Usted (o alguien con la IP %s) ha solicitado asistencia por nombres de usuario olvidados para la dirección de correo electrónico '%s'. Por favor, compruebe lo siguiente y actúe según se sugiere:<br><br>• Ha solicitado este correo electrónico por error: Elimine este correo electrónico.<br><br>• Está seguro de que nunca solicitó este correo electrónico: Por favor, contacte con %s.<br><br>• Si ha solicitado este correo electrónico, proceda de la siguiente manera:<br>1. Inicie su navegador de internet.<br>2. Introduzca la siguiente URL: %s <br>Importante: La dirección es una sola línea. Si ve esta dirección dividida en varias líneas, su programa de correo electrónico ha insertado estos saltos de línea.<br>3. Su navegador mostrará ahora el Servicio de Contraseñas. Use esta página junto con uno de los nombres de usuario y la dirección de correo electrónico correspondiente para obtener una nueva contraseña.
-pwassist#:#unassist_disabled_no_access#:#La asistencia para nombres de usuario no está habilitada. Por favor, póngase en contacto con la administración del sistema para obtener más ayuda: %s
 pwsp#:#pwsp_enable_personal_resources#:#Activar recursos personales
 pwsp#:#pwsp_enable_wsp_blogs#:#Activar Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Activar Archivos

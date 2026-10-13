@@ -8708,8 +8708,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases###28 08 2012 new variable
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings###28 08 2012 new variable
-error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
-error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9992,10 +9990,6 @@ iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
-init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
-init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
-init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13172,20 +13166,6 @@ ps#:#rbac_log_age_info#:#Maximum age of log entries in month###16 07 2010 new va
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions###16 07 2010 new variable
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Security
-pwassist#:#password_assistance#:#Βοηθός κωδικού πρόσβασης
-pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
-pwassist#:#pwassist_enter_email#:#Παρακαλώ εισάγετε μια νέα διεύθυνση email και υποβάλλετε τη φόρμα.\nΤο ILIAS θα σας στείλει ένα email σ' αυτή τη διεύθυνση. Το email περιέχει όλα τα ονόματα χρηστών που έχουν εγγραφεί σ' αυτή τη διεύθυνση email.\nΕπιλέξτε ένα κατάλληλο όνομα χρήστη και χρησιμοποιήστε την υπηρεσία κωδικών πρόσβασης για να ανακτήσετε ένα νέο password. Αν δεν λάβετε email από την υπηρεσία παρακαλώ επικοινωνήστε με το διαχειριστή του μαθήματος ή %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Εισάγετε ένα όνομα χρήστη και το αντίστοιχο email στα παρακάτω πεδία.\nΤο ILIAS θα σας στείλει ένα μήνυμα σ' αυτή τη διεύθυνση email. Το μήνυμα περιέχει μια διεύθυνση για μια ιστοσελίδα όπου μπορείτε να εισάγετε ένα νέο κωδικό πρόσβασης για το λογαριασμό χρήστη.\nΣε περίπτωση που δεν μπορείτε να εκχωρήσετε έναν κωδικό πρόσβασης στο λογαριασμό χρήστη κάνοντας χρήση αυτής τη φόρμας, επικοινωνήστε με το διαχειριστή του μαθήματος ή αποστείλετε ένα email στο %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Εισάγετε το όνομα χρήστη και το νέο κωδικό πρόσβασης στα παρακάτω πεδία.
-pwassist#:#pwassist_login_not_match#:#Παρακαλώ εισάγετε ένα νέο όνομα χρήστη.\nΤο όνομα χρήστη που εισαγάγατε δεν ταιριάζει με το όνομα χρήστη για το οποίο ζητήσατε τη βοήθεια κωδικού πρόσβασης.
-pwassist#:#pwassist_mail_body#:#Εγγράψτε ένα νέο κωδικό πρόσβασης για το λογαριασμό χρήστη:\n\t%1$s\n\nΑυτό το μήνυμα δημιουργήθηκε αυτόματα από τον διακομιστή ILIAS\n\t%2$s\n\nΕσείς (ή κάποιος στο %3$s) ζήτησε υποστήριξη για κωδικό πρόσβασης για το λογαριασμό χρήστη "%4$s".\n\nΠαρακαλώ ελέγξτε με προσοχή τις συνθήκες που φαίνονται παρακάτω και προχωρήστε κατάλληλα:\n\n- Αν χρησιμοποιήσατε βοήθεια για κωδικό πρόσβασης κατά λάθος από το διακομιστή ILIAS:\nΔιαγράψτε αυτό το mail.\n\n- Αν είστε σίγουροι ότι ποτέ δεν ζητήσατε βοήθεια για κωδικό πρόσβασης από αυτόν το διακομιστή ILIAS:\nΠαρακαλώ επικοινωνήστε με %5$s.\n\n- Αν ζητήσατε βοήθεια κωδικού πρόσβασης, παρακαλώ προχωρήστε ως ακολούθως:\n\n1. Ανοίξτε τον πλοηγό σας.\n\n2. Εισάγετε την ακόλουθη διεύθυνση στον πλοηγό σας:\n\t%1$s\n\nΣημαντικό: Η διεύθυνση είναι σε μια γραμμή. Αν τη βλέπετε διαμοιρασμένη σε πολλές γραμμές, τότε το πρόγραμμα email σας εισήγαγε αυτές τις αλλαγές γραμμής.\n\n3. Στην ιστοσελίδα που εμφανίζεται στον πλοηγό σας, εισάγετε ένα νέο κωδικό πρόσβασης για το λογαριασμό σας χρήστη.\n\nΠαρακαλώ σημειώστε ότι για λόγους ασφαλείας, μπορείτε να εκτελέσετε τα παραπάνω τρία βήματα μια φορά μόνο και για περιορισμένο χρονικό διάστημα. Ύστερα, η διεύθυνση ακυρώνεται και πρέπει να χρησιμοποιήσετε τη σελίδα βοηθού κωδικού πρόσβασης του διακομιστή ILIAS πάλι.
-pwassist#:#pwassist_mail_sent#:#Ένα μήνυμα έχει σταλεί στο %1$s.\nΠαρακαλώ ελέγξτε το ηλεκτρονικό ταχυδρομείο σας.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
-pwassist#:#pwassist_mail_subject#:#Βοηθός κωδικού πρόσβασης ILIAS
-pwassist#:#pwassist_password_assigned#:#Ο κωδικός πρόσβασης εκχωρήθηκε με επιτυχία στο χρήση "%1$s".
-pwassist#:#pwassist_session_expired#:#Παρακαλώ συμπληρώστε πάλι τη φόρμα.\nΗ σύνοδος βοήθειας κωδικού πρόσβασής σας έχει λήξει. Αυτό μπορεί να 'χει συμβεί επειδή προσπαθήσατε να χρησιμοποιήσετε περισσότερες από μια φορές τον υπερσύνδεσμο που σας ταχυδρομήθηκε ηλεκτρονικά, ή επειδή έχει περάσει πολύς χρόνος από που σας ταχυδρομήθηκε ο υπερσύνδεσμος.
-pwassist#:#pwassist_username_mail_body#:#Αυτό είναι το ενεργό όνομα χρήστη που βρέθηκε για το δωθέν email:\n%s\n\nΑυτό το μήνυμα δημιουργήθηκε αυτόματα από τον ακόλουθο διακομιστή ILIAS:\n\t%s\n\nΕσείς (ή κάποιος με IP %s) ζήτησε υποστήριξη για ξεχασμένο όνομα χρήστη για τη διεύθυνση email '%s'.\n\nΠαρακαλώ ελέγξτε τα παρακάτω και δράστε ανάλογα::\n\n-Ζητήσατε αυτό το mail κατά λάθος:\nΔιαγράψτε αυτό το email.\n\n-Είστε σίγουροι ότι ποτέ δεν ζητήσατε αυτό το email:\nΠαρακαλώ επικοινωνήστε με %s.\n\n- Αν ζητήσατε αυτό το email, παρακαλώ προχωρήστε ως ακολούθως::\n\n1. Εκκινήστε τον πλοηγό σας internet.\n\n2. Εισάγετε το ακόλουθο url:\n\t%s\n\nΣημαντικό: Η διεύθυνση είναι σε μια γραμμή. Αν τη βλέπετε διαμοιρασμένη σε πολλές γραμμές, τότε το πρόγραμμα email σας εισήγαγε αυτές τις αλλαγές γραμμής.\n\n3. Ο Πλοηγός σας τώρα δείχνει την υπηρεσία κωδικών πρόσβασης. Χρησιμοποιήστε αυτή τη σελίδα μαζί με κάποιο από τα ονόματα χρήστη και την αντίστοιχη διεύθυνση email για να ανακτήσετε τον κωδικό πρόσβασης.
-pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

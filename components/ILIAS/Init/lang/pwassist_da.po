@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Password Hjælp"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Indtast venligst din emailadresse og tryk på <b>udfør</b>. ILIAS sender en email til adressen med den/de registrerede brugernavne som er tilknyttet. Vælg derefter det ønskede brugernavn og brug <i>password service</i> til at få et nyt password. Hvis du ikke modtager en mail, så kontakt venligst din kursusadministrator eller %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Indtast et brugernavn og den tilknyttede e-mail adresse i felterne nedenfor.<br/><br/>ILIAS sender herefter en besked til mailadressen som indeholder et link til en side hvor du kan angive nyt kodeord for din konto."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Indtast brugernavn og password i feltet nedenfor."
+
+msgid "pwassist_login_not_match"
+msgstr "Indtast venligst et andet brugernavn.\\nDet brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for."
+
+msgid "pwassist_mail_body"
+msgstr "Skift password på din brugerkonto:\\n\\t%1$s\\n\\nDenne besked er lavet automatisk af ILIAS serveren på %2$s\\n\\nDu (eller en person med ip %3$s) har bedt om password asistance til brugerkontoen %4$s.\\n\\nHvis du har aktiveret hjælp ved en fejltagelse kan du blot ignorere denne mail. Hvis du mistænker forsøg på indbrud på din konto kan du kontakte systemadministrator på %5$s. Hvis du ønsker at fortsætte indtast venligst \\n%1$s\\ni din browser. Bemærk at det skal være 1 linje men dit mailprogram muligvis har opdelt den.\\n\\nPå websiden skal du herefter vælge dit nye password til din konto.\\n\\nBemærk at denne service kun er tilgængelig i en begrænset periode af sikkerhedshensyn."
+
+msgid "pwassist_mail_sent"
+msgstr "En besked er blevet sendt til %1$s med instruktioner om hvordan du kommer videre."
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS password hjælp"
+
+msgid "pwassist_password_assigned"
+msgstr "Password sat for brugerkontoen \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Udfyld venligst formularen igen.\\\\nDin passwordassistancesession er udløbet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig på email mere end 1 gang, eller fordi der er gået for lang tid siden linket blev sendt ti"
+
+msgid "pwassist_username_mail_body"
+msgstr "Her er de aktive brugernavne for emailadressen: %s.\\n\\nDenne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.\\n\\n\\t- Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den.\\n\\t- Har du aldrig bedt om denne mail, så kontakt %s.\\n\\t-Har du bedt om denne mail, så fortsæt med følgende:\\n1. Start din browser\\n2. Indtast følgende url:\\n\\t%s\\n\\nBemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram.\\n3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password."
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

@@ -41,6 +41,8 @@ use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ILIAS\Logging;
 use ILIAS\AccessControl\PublicInterface\Access;
 use ILIAS\AccessControl\PublicInterface\RBAC;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Init implements Component\Component
 {
@@ -186,5 +188,17 @@ class Init implements Component\Component
                 $pull[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class],
                 $pull[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class],
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'init'
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'error'
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'pwassist'
+        );
     }
 }

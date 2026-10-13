@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
-error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
-error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Authentication failed.
-init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
-init#:#init_error_redirect_click#:#Please click to continue.
-init#:#init_error_redirect_info#:#Redirect not supported by context.
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13171,20 +13165,6 @@ ps#:#rbac_log_age_info#:#Maximum age of log entries in month
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Security
-pwassist#:#password_assistance#:#Ассистент паролей
-pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Введите имя пользователя и связанный с ним email адрес в поля, представленные ниже.\nСистема Илиас отошлет сообщение по этому адресу. Сообщение будет содержать адрес веб-страницы, где вы сможете задать новой пароль для учетных записей пользователя.\nВ случае неудачи, свяжитесь с администратором курса или пошлите сообщение по адресу %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Задайте имя пользователя и новый пароль в поля ниже.
-pwassist#:#pwassist_login_not_match#:#Пожалуйста, введите другое имя пользователя.\nВы задали имя пользователя, отличающееся от имени, заданного в ассистене паролей.
-pwassist#:#pwassist_mail_body#:#Зарегистрирован новый пароль для вашего учетные записи:\n\t%1$s\n\nЭто сообщение было создано автоматически на сервере Илиас \n\t%2$s\n\nВы (или кто-то с именем %3$s) использовали ассистент паролей для учетной записи "%4$s".\n\nПожалуйста, внимательно проверьте условия, приведенные ниже, и поступите соответственно:\n\n- Если вы пользовались ассистентом паролей Илиас-сервера:\nУдалите это письмо.\n\n- Если случилось так, что вы никогда не использовали ассистента паролей: Пожалуйста, свяжитесь с %5$s.\n\n- Если вы запрашивали ассистента паролей, пожалуйста, выполните следующее:\n\n1. Откройте ваш браузер.\n\n2. Введите следующий адрес:\n\t%1$s\n\nВажно: адрес должен быть в одну строку. Если он представлен в виде двух и более строк, ваша почтовая программа разделила его.\n\n3. На появившейся веб-странице задайте новый пароль.\n\nЗаметьте, что из соображений секретности, вы должны в точности выполнить три шага при лимитированном времени. Потом адрес будет недействителен, и, вы не сможете возпользоваться ассистентом паролей снова.
-pwassist#:#pwassist_mail_sent#:#Сообщение было отослано в %1$s.\nПожалуйста, проверьте ваш почтовый ящик.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
-pwassist#:#pwassist_mail_subject#:#Ассистент паролей Илиас
-pwassist#:#pwassist_password_assigned#:#Для пользователя "%1$s" пароль был успешно изменен.
-pwassist#:#pwassist_session_expired#:#Пожалуйста, заполните форму снова.\nСессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
-pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

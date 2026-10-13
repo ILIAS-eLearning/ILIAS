@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki aktier
 ecs#:#ecs_wiki_export_disabled#:#Inte släppa
 ecs#:#ecs_wiki_export_enabled#:#Släpp
 ecs#:#ecs_wiki_export_obj_settings#:#Inställningar för wiki-aktier
-error#:#error_back_to_repository#:#Tillbaka till tidningen
-error#:#error_sry_error#:#Ett fel har tyvärr uppstått.
 etal#:#appointments#:#Sessioner
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Anpassa samtalsserier
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Deltagare
 iass#:#lp_inactive#:#Titta på
 iass#:#save_amend#:#Spara ändrade tentamensdata
 impr#:#impr_page_type_impr#:#Imprint
-init#:#init_error_authentication_fail#:#Autentisering misslyckades.
-init#:#init_error_maintenance#:#Servern är för närvarande inte tillgänglig på grund av underhållsarbete. Vi ber om din förståelse. Vänligen försök igen senare.
-init#:#init_error_redirect_click#:#Vänligen klicka för att fortsätta.
-init#:#init_error_redirect_info#:#Framåtblickar stöds inte av sammanhanget.
 irss#:#action_download#:#Download###21 11 2023 new variable
 irss#:#action_goto#:#Open Resource###21 11 2023 new variable
 irss#:#action_remove_resource#:#Delete Resource###21 11 2023 new variable
@@ -13171,20 +13165,6 @@ ps#:#rbac_log_age_info#:#Maximal ålder för loggposter i månader
 ps#:#rbac_log_info#:#Aktivera loggning av alla ändringar av rättighetsinställningar
 ps#:#show_privacy#:#Skydd av personuppgifter
 ps#:#show_security#:#Säkerhet
-pwassist#:#password_assistance#:#Stöd för lösenord
-pwassist#:#pwassist_disabled_no_access#:#Stöd för lösenord är inte aktiverat.  Kontakta en systemadministratör för ytterligare support
-pwassist#:#pwassist_enter_email#:#Ange din e-postadress här. ILIAS kommer att skicka en lista över alla relaterade inloggningsnamn till denna adress och informera dig om lösenordssupport. Om du inte får något e-postmeddelande, meddela din kursadministratör eller skicka ett e-postmeddelan
-pwassist#:#pwassist_enter_username_and_email#:#Ange ett inloggningsnamn och motsvarande e-postadress. ILIAS kommer att skicka instruktioner för att ange ett nytt lösenord till denna adress. Om du inte får något e-postmeddelande, meddela din kursadministratör eller skicka ett e-postmeddelande till %1$
-pwassist#:#pwassist_enter_username_and_new_password#:#Ange inloggningsnamn och tilldela ett nytt lösenord.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-pwassist#:#pwassist_login_not_match#:#Det inloggningsnamn du angav stämmer inte överens med det inloggningsnamn som du begärde lösenordssupport för. Vänligen ange rätt inloggningsnamn.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-pwassist#:#pwassist_mail_body#:#Ange ett nytt lösenord för ditt inloggningskonto %1$s <br><br>Detta meddelande genererades automatiskt av ILIAS-installationen
-pwassist#:#pwassist_mail_sent#:#ILIAS har skickat ett e-postmeddelande till adressen %1$s, om det finns ett ILIAS-konto med det angivna inloggningsnamnet och e-postadressen. Ytterligare instruktioner finns i detta e-postmeddelande.
-pwassist#:#pwassist_mail_sent_generic#:#ILIAS har skickat ett e-postmeddelande till den deponerade adressen. Du hittar ytterligare instruktioner i detta mail.
-pwassist#:#pwassist_mail_subject#:#ILIAS lösenord stöd
-pwassist#:#pwassist_password_assigned#:#Lösenordet för inloggningsnamnet %1$s sparades framgångsrikt.
-pwassist#:#pwassist_session_expired#:#Vänligen fyll i formuläret igen. Tiden för att utföra lösenordssupport har löpt ut. Det kan bero på att du har försökt använda den adress som skickades till dig mer än en gång, eller att det har gått för lång tid sedan adressen skickades till dig.
-pwassist#:#pwassist_username_mail_body#:#Detta är de aktiva inloggningsnamn som tilldelats denna e-postadress i ILIAS.
-pwassist#:#unassist_disabled_no_access#:#Stöd för inloggningsnamn är inte aktiverat. Kontakta en systemadministratör för ytterligare support
 pwsp#:#pwsp_enable_personal_resources#:#Aktivera personliga resurser
 pwsp#:#pwsp_enable_wsp_blogs#:#Aktivera bloggar
 pwsp#:#pwsp_enable_wsp_files#:# Aktivera filer

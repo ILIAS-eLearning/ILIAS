@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
-error#:#error_back_to_repository#:#Back to Repository###06 02 2015 new variable
-error#:#error_sry_error#:#Sorry, an error occurred.###06 02 2015 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Authenticatie mislukt.
-init#:#init_error_maintenance#:#De server is niet beschikbaar vanwege onderhoud. Onze excuses voor het ongemak.
-init#:#init_error_redirect_click#:#Klik hier om door te gaan.
-init#:#init_error_redirect_info#:#Omleiding wordt niet ondersteund door context.
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13171,20 +13165,6 @@ ps#:#rbac_log_age_info#:#Maximale leeftijd van log invoer in maanden
 ps#:#rbac_log_info#:#Inschakelen loggen van alle wijzigingen in object permissies inschakelen
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Veiligheid
-pwassist#:#password_assistance#:#Wachtwoord assistentie
-pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
-pwassist#:#pwassist_enter_email#:#Gelieve een e-mailadres op te geven en het formulier te vervolledigen .\nILIAS zal dan een e-mail sturen. Deze mail bevat alle gebruikers die zich hebben ingeschreven met dat e-mailadres.\nKies een gebruikersnaam en gebruik de wachtwoordservice om een nieuw wachtwoord te zoeken. Als je geen e-mail ontvangt kan je best contact opnemen met de cursusbeheerder.
-pwassist#:#pwassist_enter_username_and_email#:#Geef de gebruikersnaam en het bijhorende e-mailadres op.\nILIAS zal dan een e-mail sturen. Het bericht bevat een website, waar je een nieuw wachtwoord kan aanmaken.
-pwassist#:#pwassist_enter_username_and_new_password#:#Geef de gebruikersnaam en het nieuwe wachtwoord in.
-pwassist#:#pwassist_login_not_match#:#Gelieve een andere gebruikersnaam op te geven.\nDe gebruikersnaam komt niet overeen met de gevraagde gebruikersnaam voor wachtwoordassistentie.
-pwassist#:#pwassist_mail_body#:#Maak een nieuw wachtwoord voor je gebruikersaccount :\n\t%1$s\n\Dit bericht werd automatisch gegenereerd door ILIAS op \t%2$s\n\nJij of iemand anders heeft gevraagd voor wachtwoordassistentie "%4$s".\n\n\n\n- Als je per ongeluk deze wachtwoordservice hebt geraadpleegd, verwijder dan deze mail.\n\n- Als je er zeker van bent dat je niet om wachtwoordassistentie gevraagd hebt op de ILIAS-server, contacteer de beheerder %5$s.\n\n- Als je wel gevraagd heeft om wachtwoord-assistentie doe dan het volgende:\n\n1. Open de browser.\n\n2. Geef het volgende adres in:\n\t%1$s\n\nbelangrijk: het adres is één regel.\n\n3. Op de webpagina, geef je een nieuw wachtwoord in.\n\nOpgelet omwille van veiligheidsreden, kan je deze stappen maar een maal uitvoeren. Hierna is de website niet meer geldig en moet je de wachtwoordassistentie opnieuw raadplegen op de ILIAS server.
-pwassist#:#pwassist_mail_sent#:#Er is een bericht verzonden naar %1$s.\n Gelieve je e-mail te controleren.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
-pwassist#:#pwassist_mail_subject#:#ILIAS wachtwoord assistentie
-pwassist#:#pwassist_password_assigned#:#Het password is toegekend aan gebruiker "%1$s".
-pwassist#:#pwassist_session_expired#:#Gelieve dit formulier opnieuw in te vullen.\nUWachtwoordassistentie is vervallen.
-pwassist#:#pwassist_username_mail_body#:#dit zijn de actieve gebruikersnamen voor dit e-mailadres:\n%s\n\nDeze mail is automatisch aangemaakt door ILIAS-server:\n\t%s\n\nJij of iemand anders heeft gevraagd voor hulp i.v.m. de gebruikersnaam '%s'.\n\nGelieve het volgende te controleren en volg de volgende handelingen::\n\n-Als je per ongeluk deze mail hebt aangevraagd:\nVerwijder dan deze mail.\n\n-Ben je zeker dat je deze mail niet hebt aangevraagd:\nContacteer %s.\n\n- Als je deze e-mail hebt aangevraagd volg dan de volgende handelingen::\n\n1. Open de internetbrowser.\n\n2. Geef de volgende url:\n\t%s Je browser toont nu de wachtwoordservice. Gebruik deze pagina met een van de gebruikersnamen en het bijhorende e-mailadres om het wachtwoord te ontvangen.
-pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

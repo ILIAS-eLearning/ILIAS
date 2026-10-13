@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases###28 08 2012 new variable
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings###28 08 2012 new variable
-error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
-error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
-init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
-init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
-init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13171,20 +13165,6 @@ ps#:#rbac_log_age_info#:#Maximum age of log entries in month###16 07 2010 new va
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions###16 07 2010 new variable
 ps#:#show_privacy#:#Privatumas
 ps#:#show_security#:#Security###25 02 2007 new variable
-pwassist#:#password_assistance#:#Slaptažodžio Pagalba
-pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
-pwassist#:#pwassist_enter_email#:#Įveskite el.pašto adresą ir nusiųskite formą.\nILIAS nurodytu el.paštu išsiųs laišką. Jame bus nurodyti visi vartotojų vardai susiję su šiuo el. pašto adresu.\nPasirinkite tinkamą vartotojo vardą ir pasinaudokite Slaptažodžio Pagalba norėdami gauti naują slaptažodį. Jei negausite jokio laiško iš šios pagalbinės tarnybos, susisiekite su savo kursų administratoriumi arba %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Įveskite vartotojo vardą ir el.pašto adresą nurodytuose laukuose žemiau..\nILIAS nurodytu el.pašto adresu išiųs laišką. Jame bus nurodytas puslpaio adresas, kuriame galėsite įvesti naują savo paskyros slaptažodį.\nJei nepavyktų priskirti naujo slaptažodžio paskyrai naudojant šią formą, susisiekite su savo kursų administracija aba siųskite laišką %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Įveskite vartotojo vardą ir naują slaptažodį laukuose žemiau.
-pwassist#:#pwassist_login_not_match#:#Įveskite kitą vartotojo vardą.\nJūsų įvestas vartotojo vardas neatitinka vardo, nurodyto kurio prašėte Slaptažodžio Pagalboje.
-pwassist#:#pwassist_mail_body#:#Registruoti naują slaptažodį savo vartotojo paskyrai:\n\t%1$s\n\nŠis pranešimas buvo automatiškai sugeneruotas ILIAS serveryje\n\t%2$s\n\nJūs (ar kažkas %3$s) paprašė pagalbos su slaptažodžiu vartotojo paskyrai "%4$s".\n\nPatikrinkite atidžiai žemiau nurodytas sąlygas ir elkitės atitinkamai:\n\n- Jei pasinaudojote Slaptažodžio Pagalbos forma ILIAS serveryje netyčia:\nIštrinkite šį laišką.\n\n- Jei tikrai niekada neprašėte pagalbos su slaptažodžiu šiame ILIAS serveryje:\nSusisiekite su %5$s.\n\n- Jei jums buvo reikalinga pagalba su slaptažodžiu, veikite atitinkamai:\n\n1. Atverkite naršyklę.\n\n2. Įveskite šį adresą naršyklėje:\n\t%1$s\n\nSvarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.\n\n3. Atsidariusiame naršyklės lange, įveskite naują slaptažodį savo vartotojo paskyrai.\n\nAtminkite, kad saugumo sumetimais, šiuo atveju jūs galite tai daryti tik kartą ir tik ribotą laiko tarpą. Po kurio laiko, šis adresas nebetenka galios, o jūs turite naudotis Slaptažodžio Pagalba ILIAS serveryje iš naujo.
-pwassist#:#pwassist_mail_sent#:#Pranešimas buvo išsiųstas %1$s.\nPasitikrinkite savo pašto dėžutę.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
-pwassist#:#pwassist_mail_subject#:#ILIAS Slaptažodžio Pagalba
-pwassist#:#pwassist_password_assigned#:#Slaptažodis buvo sękmingai priskirtas vartotojui "%1$s".
-pwassist#:#pwassist_session_expired#:#Užpildykite šią formą dar kartą.\nJūsų pagalbos su slaptažodžiu seansas baigėsi. Tai nutiko dėl bandymo pasinaudoti laiške buvusia nuorodą daugiau nei kartą arba todėl, kad prabėgo pernelyg daug laiko po laiško su nuoroda gavimo.
-pwassist#:#pwassist_username_mail_body#:#Nurodyto el.pašto adresu rastas aktyvus vartotojas:\n%s\n\nŠis pranešimas buvo sukurtas automatiškai ILIAS Serveryje:\n\t%s\n\nJūs (ar kažkas su IP  %s) paprašė pagalbos dėl pamirštų vartotojo vardų el.pašto adresu '%s'.\n\nPAtikrinkite tai ir elkitės atitinkamai::\n\n-Prašėte šio laiško atsitiktinai:\nIštrinkite šį laišką.\n\n-Jūs įsitikinę, kad niekad neprašėte šio laiško:\nSusisiekite su %s.\n\n- Jei prašėte šio laiško, elkitės sekančiai::\n\n1. Paleiskite interneto naršyklę.\n\n2. Įveskite šį url:\n\t%s\n\nSvarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.\n\n3. Jūsų Naršyklė dabar rodo Slaptažodžio Pagalbą. Pasinaudokite šiuo puslapiu, kartu su vartotojo vardu ir atitinkamu el.pašto adresu, norėdami gauti naują slaptažodį.
-pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

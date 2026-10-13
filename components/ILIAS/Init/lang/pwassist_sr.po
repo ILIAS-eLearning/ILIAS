@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sr\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Pomoc oko lozinke"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Please enter an email address and submit the form.\\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Unesite korisnicko ime i novu lozinku zu polja za unos."
+
+msgid "pwassist_login_not_match"
+msgstr "Molimo unesite drugo korisnicko ime.\\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke."
+
+msgid "pwassist_mail_body"
+msgstr "Registrujte novu lozinku za vaš korisnicki nalog.\\n\\t%1$s\\n\\nOva poruka je automatski generisana uz pomoc ILIAS servera\\n\\t%2$s\\n\\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog \"%4$s\".\\n\\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\\n\\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\\nObrišite ovu poruku.\\n\\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\\nMolimo obratite se %5$s. \\n\\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\\n\\n1. Otvorite vaš pretraživac.\\n\\n2. Unesite sledecu adresu u vaš pretraživac.\\n\\t%1$s\\n\\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\\n\\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\\n\\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru."
+
+msgid "pwassist_mail_sent"
+msgstr "Poruka je poslata %1$s.\\nMolimo proverite vaše poštansko sanduce."
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS pomoc oko lozinke"
+
+msgid "pwassist_password_assigned"
+msgstr "Lozinka je uspešno dodeljena korisniku \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Molimo ponovo popune obrazac.\\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata."
+
+msgid "pwassist_username_mail_body"
+msgstr "These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password."
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

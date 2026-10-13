@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Pomoc dla haseł"
+
+msgid "pwassist_disabled_no_access"
+msgstr "Obsługa haseł nie jest aktywna. Skontaktuj się z administratorem systemu, aby otrzymać dodatkowe wsparcie: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Podaj adres e-mail i zatwierdź formularz.\\nILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się na ten adres e-mail.\\nWybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuj się z administratorem kursu lub %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Wprowadź nazwę użytkownika i powiązane z nim konto e-mail w polach przedstawionych poniżej.\\nILIAS wyśle wiadomość na wskazany adres e-mail, która zawierać będzie link do strony www, gdzie będziesz mógł ustanowić nowe hasło.\\nW przypadku problemów ze zmianą hasła skontaktuj się z administratorem kursu lub wyślij e-mail do %1$s."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "W polach poniżej podaj nazwę użytkownika (login) i ustal nowe hasło."
+
+msgid "pwassist_login_not_match"
+msgstr "Podaj inny login.\\nPodana nazwa użytkownika nie jest zgodna z nazwą użytkownika, dla której prosiłeś o hasło."
+
+msgid "pwassist_mail_body"
+msgstr "Rejestracja nowego hasła dla konta użytkownika:\\n\\t%1$s\\n\\nTen komunikat został wygenerowany automatycznie przez serwer ILIAS:\\n\\t%2$s\\n\\nTy (lub osoba korzystająca z komputera o IP: %3$s) poprosiła o ustalenie nowego hasła do konta użytkownika: \"%4$s\".\\n\\nProszę dokładnie zapoznać się z warunkami wymienionymi poniżej i postępować zgodnie z:\\n\\n- Jeśli przypadkowo uruchomiłeś procedurę ustalania nowego hasła dla konta na serwerze ILIAS:\\nUsuń ten e-mail.\\n\\n- Jeżeli jesteś przekonany, iż nigdy nie zażądałeś zmiany hasła na serwerze ILIAS:\\nSkontaktuj się z %5$s.\\n\\n- Jeśli poprosiłeś o pomoc w zmianie hasła, postępuj zgodnie z:\\n\\n1. Otwórz przeglądarkę www.\\n\\n2. Wpisz poniższy adres w przeglądarce:\\n\\t%6$s\\n\\nUwaga: Adres jest pojedynczą linią. Jeśli widzisz adres w kilku liniach, oznacza to, iż twój program e-mailowy wstawił dodatkowe linie podziału.\\n\\n3. Na stronie www prezentowanej przez twoją przeglądarkę, ustal nowe hasło dla twojego konta w ILIAS.\\n\\nZe względu na bezpieczeństwo przedstawiona procedura zmiany hasła ważna jest tylko raz i w dodatku w ściśle określonym czasie. Następnie adres traci ważność, a całą procedurę należy przeprowadzić ponownie."
+
+msgid "pwassist_mail_sent"
+msgstr "Wiadomość została wysłana do %1$s .\\nSprawdź swoją skrzynkę pocztową."
+
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "Pomoc do haseł ILIAS"
+
+msgid "pwassist_password_assigned"
+msgstr "Hasło zostało przydzielone użytkownikowi \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Wypełnij ponownie ten formularz.\\nSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie."
+
+msgid "pwassist_username_mail_body"
+msgstr "Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:\\n%s\\n\\nTa wiadomość została utworzona automatycznie przez serwer ILIAS:\\n\\t%s\\n\\nTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.\\n\\nSprawdź dane i wykonaj co jest sugerowane::\\n\\n-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.\\n\\n-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:\\nSkontaktuj się z %s.\\n\\n- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::\\n\\n1. Otwórz swoją przeglądarkę www.\\n\\n2. Wprowadź następujący url:\\n\\t%s\\n\\nUwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn. że twój klient pocztowy sam podzielił go na wiersze.\\n\\n3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło."
+
+msgid "unassist_disabled_no_access"
+msgstr "Obsługa nazw użytkownika nie jest aktywna. Skontaktuj się z administratorem systemu, aby otrzymać dodatkowe wsparcie: %s"
