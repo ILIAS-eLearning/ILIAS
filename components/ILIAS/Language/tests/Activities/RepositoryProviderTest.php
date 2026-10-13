@@ -115,6 +115,22 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         $this->assertTrue($this->provider(db: $db)->updateModuleCache('de', 'common', 'new_topic', 'Hallo', 'author'));
     }
 
+    /** The client data directory of the overlays is asked from the injected resolver, once per update. */
+    public function testUpdateModuleCacheAsksTheInjectedResolverForTheClientDataDir(): void
+    {
+        $asked = 0;
+        $provider = $this->provider(
+            db: $this->dbFetching(null, []),
+            client_data_dir_resolver: static function () use (&$asked): ?string {
+                $asked++;
+                return null;
+            }
+        );
+
+        $this->assertTrue($provider->updateModuleCache('de', 'common', 'new_topic', 'Hallo'));
+        $this->assertSame(1, $asked);
+    }
+
     /**
      * For a module that is maintained in PO files (a shipped `.po` exists) with neither a readable overlay nor a
      * usable lng_modules row the module content is rebuilt from lng_data, which already holds the new entry.
@@ -238,7 +254,8 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
         ?\ilDBInterface $db = null,
         ?LanguageFileDirectoryManager $manager = null,
         ?LanguageSettings $settings = null,
-        ?LoggerInterface $logger = null
+        ?LoggerInterface $logger = null,
+        ?\Closure $client_data_dir_resolver = null
     ): RepositoryProvider {
         return new RepositoryProvider(
             $installed ?? $this->createStub(InstalledLanguageRepository::class),
@@ -246,6 +263,7 @@ class RepositoryProviderTest extends \ilLanguageBaseTestCase
             $settings ?? $this->createStub(LanguageSettings::class),
             $manager ?? new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory()),
             new FixedInstallationRoot($this->iliasRoot()),
+            $client_data_dir_resolver ?? static fn(): ?string => null,
             $logger ?? $this->createStub(LoggerInterface::class)
         );
     }

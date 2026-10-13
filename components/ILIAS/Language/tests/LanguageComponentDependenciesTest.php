@@ -23,12 +23,10 @@ use ILIAS\Component\Dependencies\InType;
 use ILIAS\Component\Dependencies\Mocks\EvalLightMockBuilder;
 use ILIAS\Component\Dependencies\Reader;
 use ILIAS\Database\Connection;
+use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
+use ILIAS\Environment\Configuration\Installation\Directories;
 use PHPUnit\Framework\TestCase;
 
-/**
- * The declared dependencies of the Language component: the database
- * comes from the graph (pull), RBAC is used (use).
- */
 class LanguageComponentDependenciesTest extends TestCase
 {
     /** @return list<string> */
@@ -52,5 +50,14 @@ class LanguageComponentDependenciesTest extends TestCase
     public function testRbacIsUsed(): void
     {
         self::assertContains(RBAC::class, $this->names(InType::USE));
+    }
+
+    /** Read while the container closures are evaluated, else the bootstrap does not wire them for Language. */
+    public function testTheDirectoriesAndTheClientIdProviderAreUsed(): void
+    {
+        $used = $this->names(InType::USE);
+
+        self::assertContains(Directories::class, $used);
+        self::assertContains(ClientIdProvider::class, $used);
     }
 }

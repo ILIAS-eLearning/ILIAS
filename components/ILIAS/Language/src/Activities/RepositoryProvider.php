@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Language\Activities;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
-use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
 use ILIAS\Language\Setup\InstallationRoot;
@@ -34,12 +33,14 @@ use ILIAS\Logging\Logger\LoggerInterface;
  */
 class RepositoryProvider
 {
+    /** @param \Closure(): ?string $client_data_dir_resolver */
     public function __construct(
         private readonly InstalledLanguageRepository $installed_language_repository,
         private readonly \ilDBInterface $db,
         private readonly LanguageSettings $settings,
         private readonly LanguageFileDirectoryManager $language_file_directory_manager,
         private readonly InstallationRoot $installation_root,
+        private readonly \Closure $client_data_dir_resolver,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -154,7 +155,8 @@ class RepositoryProvider
         string $value,
         string $remarks = ''
     ): bool {
-        $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir($this->installation_root->getPath());
+        // must equal resolveClientDataDir() in replaceLangModule(): re-entrance is detected by lock path only
+        $client_data_dir = ($this->client_data_dir_resolver)();
 
         // read and written under the overlay lock, so a concurrent write is not lost
         return MigratedLanguageFileSync::withOverlayLock(

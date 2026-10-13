@@ -69,8 +69,8 @@ class ilSetupLanguage extends ilLanguage
      * @param LanguageFileDirectoryManager|null $language_file_directory_manager directories contributed through the
      *        component graph; without it only main lang/ and customizing are known (usesDefaultLanguageFileDirectories())
      * @param ilDBInterface|null $connection none for callers outside the component graph
-     * @param LoggerInterface|null $logger for the warnings of the installation manager; the Setup
-     *        instance is built without a logger and passes none (they go to the PHP error log then).
+     * @param LoggerInterface|null $logger for the installation manager's warnings; none in the Setup (PHP error log then)
+     * @param (\Closure():?string)|null $client_data_dir_resolver without it, MigratedLanguageFilePaths::resolveClientDataDir() is used
      */
     public function __construct(
         string $a_lang_key,
@@ -78,6 +78,7 @@ class ilSetupLanguage extends ilLanguage
         private readonly ?ilDBInterface $connection = null,
         private readonly TranslationCache $translation_cache = new NullTranslationCache(),
         private readonly ?LoggerInterface $logger = null,
+        private readonly ?\Closure $client_data_dir_resolver = null,
     ) {
         $this->lang_key = $a_lang_key ?: $this->lang_default;
         $this->absolute_path = (string) realpath(__DIR__ . "/../../../../../");
@@ -135,9 +136,7 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * The client data directory the overlay of migrated modules is maintained in. Setup Objectives
-     * set it from the Setup environment (ilias.ini `datadir` + client id); without it, it is
-     * resolved via MigratedLanguageFilePaths::resolveClientDataDir(). `null` resets to that default.
+     * `null` resets to the resolver of the constructor.
      */
     public function setClientDataDir(?string $client_data_dir): void
     {
@@ -146,7 +145,13 @@ class ilSetupLanguage extends ilLanguage
 
     public function getClientDataDir(): ?string
     {
-        return $this->client_data_dir ?? MigratedLanguageFilePaths::resolveClientDataDir($this->absolute_path);
+        if ($this->client_data_dir !== null) {
+            return $this->client_data_dir;
+        }
+        if ($this->client_data_dir_resolver !== null) {
+            return ($this->client_data_dir_resolver)();
+        }
+        return MigratedLanguageFilePaths::resolveClientDataDir($this->absolute_path);
     }
 
     /**
