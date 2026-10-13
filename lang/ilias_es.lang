@@ -15420,29 +15420,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
 survey#:#workingtime#:#Tiempo de trabajo
-tagging#:#no_tag_text_1#:#Todavía no ha utilizado ninguna etiqueta. Para hacerlo, debe seguir dos pasos:
-tagging#:#no_tag_text_2#:#Haga clic en '%s' y seleccione un objeto de aprendizaje de la oferta disponible, p. ej., un módulo de aprendizaje o un foro.
-tagging#:#no_tag_text_3#:#Para adjuntar etiquetas al objeto, seleccione 'Establecer Etiquetas' en el menú de acciones.
-tagging#:#tag_remove_tags_of_obj_without_access#:#Eliminar Etiqueta
-tagging#:#tag_some_obj_tagged_without_access#:#Ya no tiene permisos para acceder a algunos de los objetos etiquetados. ¿Debería eliminarse la etiqueta para estos objetos?
-tagging#:#tag_tags_deleted#:#La etiqueta ha sido eliminada de los objetos inaccesibles.
-tagging#:#tagging_all_users#:#Todos los Usuarios
-tagging#:#tagging_edit_settings#:#Editar Ajustes
-tagging#:#tagging_enable_all_users#:#Mostrar etiquetas de todos los usuarios
-tagging#:#tagging_enable_all_users_info#:#Añade una sección «Todos los usuarios» a las pantallas de información que enumera todas las etiquetas de todos los usuarios vinculadas a un recurso.
-tagging#:#tagging_enable_tagging#:#Habilitar etiquetado
-tagging#:#tagging_forbidden_tags#:#Etiquetas prohibidas
-tagging#:#tagging_no_obj_for_tag#:#No hay recursos etiquetados con %s.
-tagging#:#tagging_no_perm_write#:#No tiene permiso para cambiar estos datos.
-tagging#:#tagging_other_users#:#Etiquetas de otros usuarios
-tagging#:#tagging_resources_for_tag#:#Recursos etiquetados con %s
-tagging#:#tagging_search_users#:#Buscar usuarios
-tagging#:#tagging_set_tag#:#Establecer etiquetas
-tagging#:#tagging_settings#:#Configuración
-tagging#:#tagging_tag#:#Etiqueta
-tagging#:#tagging_tag_info#:#Para añadir etiquetas a un recurso, abra la pantalla de información del recurso e introduzca sus etiquetas.
-tagging#:#tagging_tags#:#Etiquetas
-tagging#:#tagging_users_using_tag#:#Usuarios que usan la etiqueta
 task#:#task_deadline#:#Fin
 task#:#task_derived_tasks#:#Tareas
 task#:#task_details#:#Detalles

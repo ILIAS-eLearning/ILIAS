@@ -15400,29 +15400,6 @@ survey#:#values#:#値
 survey#:#vertical#:#垂直
 survey#:#warning_question_not_complete#:#質問設定が不完全です!
 survey#:#workingtime#:#所要時間
-tagging#:#no_tag_text_1#:#まだタグは未利用です。実行するには2つのステップを実行する必要があります。
-tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択
-tagging#:#no_tag_text_3#:#オブジェクトへタグを添付するには、アクションメニューから'タグ設定'を選択します。
-tagging#:#tag_remove_tags_of_obj_without_access#:#タグを削除
-tagging#:#tag_some_obj_tagged_without_access#:#タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?
-tagging#:#tag_tags_deleted#:#タグはアクセス可能なオブジェクトから削除されました
-tagging#:#tagging_all_users#:#全てのユーザ
-tagging#:#tagging_edit_settings#:#設定編集
-tagging#:#tagging_enable_all_users#:#すべてのユーザのタグを表示
-tagging#:#tagging_enable_all_users_info#:#リソースへ添付される全ユーザの全てのタグが表示されるinfo画面に"全てのユーザ"セクションを追加します。
-tagging#:#tagging_enable_tagging#:#タグ化を有効
-tagging#:#tagging_forbidden_tags#:#隠しタグ
-tagging#:#tagging_no_obj_for_tag#:# %s にはリソースタグがありません。
-tagging#:#tagging_no_perm_write#:#このデータを変更する権限はありません。
-tagging#:#tagging_other_users#:#その他ユーザのタグ
-tagging#:#tagging_resources_for_tag#:#%s でタグ化されたリソース
-tagging#:#tagging_search_users#:#ユーザを検索
-tagging#:#tagging_set_tag#:#タグ設定
-tagging#:#tagging_settings#:#設定
-tagging#:#tagging_tag#:#タグ
-tagging#:#tagging_tag_info#:#リソースのinfo画面を開いてタグを入力してリソースをタグに添付します。
-tagging#:#tagging_tags#:#タグ
-tagging#:#tagging_users_using_tag#:#タグを使っているユーザ
 task#:#task_deadline#:#終わり
 task#:#task_derived_tasks#:#タスク
 task#:#task_details#:#詳細

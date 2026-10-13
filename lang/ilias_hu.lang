@@ -15405,29 +15405,6 @@ survey#:#values#:#Értékek
 survey#:#vertical#:#Függőleges
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#workingtime#:#Eltöltött idő
-tagging#:#no_tag_text_1#:#Eddig még egy címkét sem használt, ezért tegye a következőket:
-tagging#:#no_tag_text_2#:#Kattintson %s kiindulópontra és válasszon egy tanulási objektumot a lehetségesek közül, például egy tananyagot vagy egy fórumot.
-tagging#:#no_tag_text_3#:#Tetszőleges címke objektumhoz rendeléséhez válassza a ‘Címkék’ lehetőséget a műveletek menüből.
-tagging#:#tag_remove_tags_of_obj_without_access#:#Címke eltávolítása
-tagging#:#tag_some_obj_tagged_without_access#:#Nincs többé jogosultsága néhány címkével ellátott objektum eléréséhez. Eltávolítja ezekről objektumokról a címkéket?
-tagging#:#tag_tags_deleted#:#A címkét sikeresen eltávolította az elérhetetlen objektumokról.
-tagging#:#tagging_all_users#:#Az összes felhasználó címkéje
-tagging#:#tagging_edit_settings#:#Beállítások módosítása
-tagging#:#tagging_enable_all_users#:#Minden felhasználó címkéjének megjelenítése
-tagging#:#tagging_enable_all_users_info#:#A Tartalomtár objektumainak ‘Információ’ lapján létrejön a ‘Címkék’ rész alatt egy ‘Az összes felhasználó címkéje’ alrész, ahol megjelenik az összes felhasználó objektumhoz létrehozott címkéi.
-tagging#:#tagging_enable_tagging#:#Címkézés engedélyezése
-tagging#:#tagging_forbidden_tags#:#Tiltott címkék
-tagging#:#tagging_no_obj_for_tag#:#Egy erőforrásnak sincs címkéjé: %s.
-tagging#:#tagging_no_perm_write#:#Nincs jogosultsága az adatot módosítani.
-tagging#:#tagging_other_users#:#Más felhasználók címkéi
-tagging#:#tagging_resources_for_tag#:#Források ezzel a címkével: %s
-tagging#:#tagging_search_users#:#Felhasználók keresése
-tagging#:#tagging_set_tag#:#Címkék
-tagging#:#tagging_settings#:#Beállítások
-tagging#:#tagging_tag#:#Címke
-tagging#:#tagging_tag_info#:#Címkék felvételéhez nyissa meg egy objektum ‘Információ’ lapját.
-tagging#:#tagging_tags#:#Címkék
-tagging#:#tagging_users_using_tag#:#Felhasználók, akik a címkét használják
 task#:#task_deadline#:#Vége
 task#:#task_derived_tasks#:#Feladatok
 task#:#task_details#:#Részletek

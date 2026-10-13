@@ -15361,29 +15361,6 @@ survey#:#values#:#Väärtused
 survey#:#vertical#:#vertikaalne
 survey#:#warning_question_not_complete#:#Küsimus pole lõpetatud!
 survey#:#workingtime#:#Vastamiseks kulunud aeg
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
-tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag
-tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?
-tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.
-tagging#:#tagging_all_users#:#Kõik kasutajad
-tagging#:#tagging_edit_settings#:#Muuda seadeid
-tagging#:#tagging_enable_all_users#:#Näita kõikide kasutajate silte
-tagging#:#tagging_enable_all_users_info#:#Lisab infoväljale sektsiooni "Kõik kasutajad", mis hõlmab kõikide kasutajate materjaliga seotud märgendid.
-tagging#:#tagging_enable_tagging#:#Võimalda märgendamine
-tagging#:#tagging_forbidden_tags#:#Keela sildid
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###29 07 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Other Users
-tagging#:#tagging_resources_for_tag#:#Allikad, mis on märgendatud sõnaga %s
-tagging#:#tagging_search_users#:#Otsi kasutajaid
-tagging#:#tagging_set_tag#:#Sea sildid
-tagging#:#tagging_settings#:#Seaded
-tagging#:#tagging_tag#:#Märgend
-tagging#:#tagging_tag_info#:#Üksustele siltide lisamiseks ava üksuse `info` sakk ning sisesta oma sildid.
-tagging#:#tagging_tags#:#Sildid
-tagging#:#tagging_users_using_tag#:#Märgendi kasutajad
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable

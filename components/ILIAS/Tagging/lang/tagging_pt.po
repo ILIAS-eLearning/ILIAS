@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tagging\n"
+
+#, fuzzy
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps:"
+
+#, fuzzy
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+#, fuzzy
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Remover tag"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "Já não tem permissões para aceder a alguns dos objetos marcados. Quer remover o tag para estes objetos?"
+
+msgid "tag_tags_deleted"
+msgstr "O tag foi removido dos objetos inacessíveis."
+
+msgid "tagging_all_users"
+msgstr "Todos os usuários"
+
+msgid "tagging_edit_settings"
+msgstr "Editar definições"
+
+msgid "tagging_enable_all_users"
+msgstr "Mostrar Etiquetas para todos os usuários"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Adds a section \"All Users\" to the info screens that lists all tags of all users attached to a resource."
+
+msgid "tagging_enable_tagging"
+msgstr "Habilitar Etiquetas"
+
+msgid "tagging_forbidden_tags"
+msgstr "Etiquetas proibidas"
+
+#, fuzzy
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+msgid "tagging_other_users"
+msgstr "Other Users"
+
+msgid "tagging_resources_for_tag"
+msgstr "Recursos marcados com %s"
+
+msgid "tagging_search_users"
+msgstr "Pesquisar utilizadores"
+
+msgid "tagging_set_tag"
+msgstr "Editar Etiquetas"
+
+msgid "tagging_settings"
+msgstr "Configurações"
+
+msgid "tagging_tag"
+msgstr "Tag"
+
+msgid "tagging_tag_info"
+msgstr "Para adicionar as etiquetas (meta tags) aos recursos, abre a tela-Página de informações de recurso e digite suas etiquetas"
+
+msgid "tagging_tags"
+msgstr "Etiquetas"
+
+msgid "tagging_users_using_tag"
+msgstr "Utilizadores que usam tag"

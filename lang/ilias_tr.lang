@@ -15361,29 +15361,6 @@ survey#:#values#:#Değerler
 survey#:#vertical#:#Dikey
 survey#:#warning_question_not_complete#:#soru tam değil!
 survey#:#workingtime#:#Çalışma zamanı
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
-tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag###27 01 2015 new variable
-tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?###27 01 2015 new variable
-tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.###27 01 2015 new variable
-tagging#:#tagging_all_users#:#Tüm Kullanıcılar
-tagging#:#tagging_edit_settings#:#Ayarları Düzenle
-tagging#:#tagging_enable_all_users#:#Tüm Kullanıcıların Etiketlerini Göster
-tagging#:#tagging_enable_all_users_info#:#Bir kaynağa bağlı tüm kullanıcıların etiketlerini göstermek için "Tüm Kullanıcılar" sekmesi ekler
-tagging#:#tagging_enable_tagging#:#Etiketleme Etkin
-tagging#:#tagging_forbidden_tags#:#Yasak Etiketler
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###29 07 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Other Users###26 09 2014 new variable
-tagging#:#tagging_resources_for_tag#:#%S ile etiketlendi Kaynakları
-tagging#:#tagging_search_users#:#Kullanıcıları Ara
-tagging#:#tagging_set_tag#:#Etiketler
-tagging#:#tagging_settings#:#Ayarlar
-tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#Bir kaynağa etiket eklemek için kaynağın bilgi ekranını açın ve etiketlerinizi girin
-tagging#:#tagging_tags#:#Etiketler
-tagging#:#tagging_users_using_tag#:#Etiket kullanma Kullanıcıları
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable

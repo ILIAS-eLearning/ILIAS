@@ -15361,29 +15361,6 @@ survey#:#values#:#Vrednosti
 survey#:#vertical#:#vertikalno
 survey#:#warning_question_not_complete#:#Pitanje nije potpuno!
 survey#:#workingtime#:#Working time###28 07 2010 new variable
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
-tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag###27 01 2015 new variable
-tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?###27 01 2015 new variable
-tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.###27 01 2015 new variable
-tagging#:#tagging_all_users#:#All Users###02 06 2008 new variable
-tagging#:#tagging_edit_settings#:#Edit Settings###23 09 2008 new variable
-tagging#:#tagging_enable_all_users#:#Show Tags of All Users###18 08 2009 new variable
-tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.###18 08 2009 new variable
-tagging#:#tagging_enable_tagging#:#Enable Tagging###23 09 2008 new variable
-tagging#:#tagging_forbidden_tags#:#Forbidden Tags###18 08 2009 new variable
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###29 07 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Other Users###26 09 2014 new variable
-tagging#:#tagging_resources_for_tag#:#Resources tagged with %s###02 06 2008 new variable
-tagging#:#tagging_search_users#:#Search Users###18 08 2009 new variable
-tagging#:#tagging_set_tag#:#Set Tags###12 06 2011 new variable
-tagging#:#tagging_settings#:#Settings###23 09 2008 new variable
-tagging#:#tagging_tag#:#Tag###18 08 2009 new variable
-tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.###15 09 2008 new variable
-tagging#:#tagging_tags#:#Tags###02 06 2008 new variable
-tagging#:#tagging_users_using_tag#:#Users Using Tag###18 08 2009 new variable
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable

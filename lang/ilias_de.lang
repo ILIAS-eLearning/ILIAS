@@ -15684,29 +15684,6 @@ survey#:#values#:#Werte
 survey#:#vertical#:#Vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
-tagging#:#no_tag_text_1#:#Sie haben aktuell noch keine Tags genutzt. Um dies zu tun, müssen Sie zwei Schritte machen:
-tagging#:#no_tag_text_2#:#Klicken Sie auf „%s“ und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
-tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
-tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
-tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte haben Sie keinen Zugriff mehr. Sollen der Tag zu diesen Objekten entfernt werden?
-tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
-tagging#:#tagging_all_users#:#Alle Benutzer
-tagging#:#tagging_edit_settings#:#Einstellungen
-tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, in dem die Tags aller Besucher zu einer Ressource angezeigt werden.
-tagging#:#tagging_enable_tagging#:#Tagging aktivieren
-tagging#:#tagging_forbidden_tags#:#Verbotene Tags
-tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
-tagging#:#tagging_no_perm_write#:#Sie haben keine Berechtigung diese Daten zu ändern.
-tagging#:#tagging_other_users#:#Tags anderer Benutzer
-tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
-tagging#:#tagging_search_users#:#Benutzer suchen
-tagging#:#tagging_set_tag#:#Tags setzen
-tagging#:#tagging_settings#:#Einstellungen
-tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie den Reiter „Info“ des Objekts und geben dort die Tags ein.
-tagging#:#tagging_tags#:#Tags
-tagging#:#tagging_users_using_tag#:#Benutzer, die Tags benutzen
 task#:#task_deadline#:#Ende
 task#:#task_derived_tasks#:#To-Do
 task#:#task_details#:#Details

@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: tagging\n"
+
+msgid "no_tag_text_1"
+msgstr "まだタグは未利用です。実行するには2つのステップを実行する必要があります。"
+
+msgid "no_tag_text_2"
+msgstr " '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択"
+
+msgid "no_tag_text_3"
+msgstr "オブジェクトへタグを添付するには、アクションメニューから'タグ設定'を選択します。"
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "タグを削除"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?"
+
+msgid "tag_tags_deleted"
+msgstr "タグはアクセス可能なオブジェクトから削除されました"
+
+msgid "tagging_all_users"
+msgstr "全てのユーザ"
+
+msgid "tagging_edit_settings"
+msgstr "設定編集"
+
+msgid "tagging_enable_all_users"
+msgstr "すべてのユーザのタグを表示"
+
+msgid "tagging_enable_all_users_info"
+msgstr "リソースへ添付される全ユーザの全てのタグが表示されるinfo画面に\"全てのユーザ\"セクションを追加します。"
+
+msgid "tagging_enable_tagging"
+msgstr "タグ化を有効"
+
+msgid "tagging_forbidden_tags"
+msgstr "隠しタグ"
+
+msgid "tagging_no_obj_for_tag"
+msgstr " %s にはリソースタグがありません。"
+
+msgid "tagging_no_perm_write"
+msgstr "このデータを変更する権限はありません。"
+
+msgid "tagging_other_users"
+msgstr "その他ユーザのタグ"
+
+msgid "tagging_resources_for_tag"
+msgstr "%s でタグ化されたリソース"
+
+msgid "tagging_search_users"
+msgstr "ユーザを検索"
+
+msgid "tagging_set_tag"
+msgstr "タグ設定"
+
+msgid "tagging_settings"
+msgstr "設定"
+
+msgid "tagging_tag"
+msgstr "タグ"
+
+msgid "tagging_tag_info"
+msgstr "リソースのinfo画面を開いてタグを入力してリソースをタグに添付します。"
+
+msgid "tagging_tags"
+msgstr "タグ"
+
+msgid "tagging_users_using_tag"
+msgstr "タグを使っているユーザ"

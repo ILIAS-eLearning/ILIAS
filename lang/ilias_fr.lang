@@ -15348,29 +15348,6 @@ survey#:#values#:#Valeurs
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#La question n'est pas complète !
 survey#:#workingtime#:#Durée
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
-tagging#:#tag_remove_tags_of_obj_without_access#:#Supprimer le marquage
-tagging#:#tag_some_obj_tagged_without_access#:#Vous n’avez plus la permission d’accéder à certains objets marqués. Le marquage doit-il être supprimé de ces objets?
-tagging#:#tag_tags_deleted#:#Le marquage a été supprimé des objets inaccessibles.
-tagging#:#tagging_all_users#:#Tous les utilisateurs
-tagging#:#tagging_edit_settings#:#Modifier paramètres
-tagging#:#tagging_enable_all_users#:#Afficher tags de chaque utilisateurs
-tagging#:#tagging_enable_all_users_info#:#Ajouter une section "Tous utilisateurs" aux écrans d'infos qui liste tous les tags de tous les utilisateurs attaché à  une ressource.
-tagging#:#tagging_enable_tagging#:#Activer Tagging
-tagging#:#tagging_forbidden_tags#:#Tags interdits
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Other Users
-tagging#:#tagging_resources_for_tag#:#Ressources taggées avec %s
-tagging#:#tagging_search_users#:#Rechercher utilisateurs
-tagging#:#tagging_set_tag#:#Définir les mots-clés
-tagging#:#tagging_settings#:#Paramètres
-tagging#:#tagging_tag#:#Mot-Clé
-tagging#:#tagging_tag_info#:#Pour ajouter des mots clés à  un objet, cliquez sur sa page <b>"info"</b> et saisir vos mots clés.
-tagging#:#tagging_tags#:#Mots-clés
-tagging#:#tagging_users_using_tag#:#Utilisateurs utilisant Tag
 task#:#task_deadline#:#Fin
 task#:#task_derived_tasks#:#Tâches
 task#:#task_details#:#Details

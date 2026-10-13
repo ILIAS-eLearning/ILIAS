@@ -15361,29 +15361,6 @@ survey#:#values#:#Hodnoty
 survey#:#vertical#:#Svisle
 survey#:#warning_question_not_complete#:#Otázka není kompletní!
 survey#:#workingtime#:#Pracovní čas
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
-tagging#:#tag_remove_tags_of_obj_without_access#:#Odstranit značku
-tagging#:#tag_some_obj_tagged_without_access#:#Už nemáte oprávnění k přístupu k některým z označených objektů. Měla by být značka odstraněna pro tyto objekty?
-tagging#:#tag_tags_deleted#:#Značka byla odstraněna z nepřístupných objektů.
-tagging#:#tagging_all_users#:#Všichni uživatelé
-tagging#:#tagging_edit_settings#:#Upravit nastavení
-tagging#:#tagging_enable_all_users#:#Zobrazit značky všech uživatelů
-tagging#:#tagging_enable_all_users_info#:#Přidává sekci "Všichni uživatelé" k zobrazení info, které vypisuje všechny značky všech uživatelů připojených ke zdroji.
-tagging#:#tagging_enable_tagging#:#Zapnout značkování
-tagging#:#tagging_forbidden_tags#:#Zakázané značky
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###29 07 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Ostatní uživatelé
-tagging#:#tagging_resources_for_tag#:#Zdroje označeny s %s
-tagging#:#tagging_search_users#:#Hledat uživatele
-tagging#:#tagging_set_tag#:#Nastavit značky
-tagging#:#tagging_settings#:#Nastavení
-tagging#:#tagging_tag#:#Značka
-tagging#:#tagging_tag_info#:#Pro přidělení značek ke zdrojům otevřete informační obrazovku zdrojů a vložte své značky.
-tagging#:#tagging_tags#:#Značky
-tagging#:#tagging_users_using_tag#:#Uživatelsky použitá značka
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable

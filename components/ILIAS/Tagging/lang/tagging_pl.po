@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: tagging\n"
+
+#, fuzzy
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps:"
+
+#, fuzzy
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+#, fuzzy
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Usuń znacznik"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "Do niektórych obiektów ze znaczkami nie masz już dostępu. Czy chcesz usunąć znacznik dla tych obiektów?"
+
+msgid "tag_tags_deleted"
+msgstr "Usunięte znaczniki dla obiektów bez dostępu."
+
+msgid "tagging_all_users"
+msgstr "Wszyscy użytkownicy"
+
+msgid "tagging_edit_settings"
+msgstr "Edytuj ustawienia"
+
+msgid "tagging_enable_all_users"
+msgstr "Pokaż tagi wszystkich użytkowników"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Wstawia na stronie z informacjami obszar \"Wszyscy użytkownicy\", w którym przedstawiane są tagi wszystkich użytkowników dla jednego zasobu."
+
+msgid "tagging_enable_tagging"
+msgstr "Włącz tagowanie"
+
+msgid "tagging_forbidden_tags"
+msgstr "Zakazane tagi"
+
+#, fuzzy
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+msgid "tagging_other_users"
+msgstr "Znaczniki innych użytkowników"
+
+msgid "tagging_resources_for_tag"
+msgstr "Treści wg haseł kluczowych %s"
+
+msgid "tagging_search_users"
+msgstr "Wyszukaj użytkowników"
+
+msgid "tagging_set_tag"
+msgstr "Taguj"
+
+msgid "tagging_settings"
+msgstr "Ustawienia"
+
+msgid "tagging_tag"
+msgstr "Tag"
+
+msgid "tagging_tag_info"
+msgstr "W celu dołączenia tagów do zasobów, otwórz w dostępnych zasobach polecenie info i wprowadź swoje tagi."
+
+msgid "tagging_tags"
+msgstr "Tagi"
+
+msgid "tagging_users_using_tag"
+msgstr "Uczestnicy używający tagów"

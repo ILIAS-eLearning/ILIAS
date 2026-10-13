@@ -15360,29 +15360,6 @@ survey#:#values#:#值
 survey#:#vertical#:#垂直
 survey#:#warning_question_not_complete#:#问题是不完整的!
 survey#:#workingtime#:#工作时间
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
-tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag###27 01 2015 new variable
-tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?###27 01 2015 new variable
-tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.###27 01 2015 new variable
-tagging#:#tagging_all_users#:#全部用户
-tagging#:#tagging_edit_settings#:#编辑设置
-tagging#:#tagging_enable_all_users#:#显示所有用户的标签
-tagging#:#tagging_enable_all_users_info#:#添加一个段落“所有用户”到信息屏幕，列出所有用户连接到一个资源的所有标签。
-tagging#:#tagging_enable_tagging#:#启用标签
-tagging#:#tagging_forbidden_tags#:#禁止标签
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###29 07 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Other Users###26 09 2014 new variable
-tagging#:#tagging_resources_for_tag#:#资源贴上标签 %s
-tagging#:#tagging_search_users#:#搜索用户
-tagging#:#tagging_set_tag#:#设置标签
-tagging#:#tagging_settings#:#设置
-tagging#:#tagging_tag#:#标签
-tagging#:#tagging_tag_info#:#要附加标签到一个资源，请打开资源的信息屏幕并输入您的标签。
-tagging#:#tagging_tags#:#标签
-tagging#:#tagging_users_using_tag#:#用户使用标签
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable

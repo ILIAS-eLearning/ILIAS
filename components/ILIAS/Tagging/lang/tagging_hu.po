@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tagging\n"
+
+msgid "no_tag_text_1"
+msgstr "Eddig még egy címkét sem használt, ezért tegye a következőket:"
+
+msgid "no_tag_text_2"
+msgstr "Kattintson %s kiindulópontra és válasszon egy tanulási objektumot a lehetségesek közül, például egy tananyagot vagy egy fórumot."
+
+msgid "no_tag_text_3"
+msgstr "Tetszőleges címke objektumhoz rendeléséhez válassza a ‘Címkék’ lehetőséget a műveletek menüből."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Címke eltávolítása"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "Nincs többé jogosultsága néhány címkével ellátott objektum eléréséhez. Eltávolítja ezekről objektumokról a címkéket?"
+
+msgid "tag_tags_deleted"
+msgstr "A címkét sikeresen eltávolította az elérhetetlen objektumokról."
+
+msgid "tagging_all_users"
+msgstr "Az összes felhasználó címkéje"
+
+msgid "tagging_edit_settings"
+msgstr "Beállítások módosítása"
+
+msgid "tagging_enable_all_users"
+msgstr "Minden felhasználó címkéjének megjelenítése"
+
+msgid "tagging_enable_all_users_info"
+msgstr "A Tartalomtár objektumainak ‘Információ’ lapján létrejön a ‘Címkék’ rész alatt egy ‘Az összes felhasználó címkéje’ alrész, ahol megjelenik az összes felhasználó objektumhoz létrehozott címkéi."
+
+msgid "tagging_enable_tagging"
+msgstr "Címkézés engedélyezése"
+
+msgid "tagging_forbidden_tags"
+msgstr "Tiltott címkék"
+
+msgid "tagging_no_obj_for_tag"
+msgstr "Egy erőforrásnak sincs címkéjé: %s."
+
+msgid "tagging_no_perm_write"
+msgstr "Nincs jogosultsága az adatot módosítani."
+
+msgid "tagging_other_users"
+msgstr "Más felhasználók címkéi"
+
+msgid "tagging_resources_for_tag"
+msgstr "Források ezzel a címkével: %s"
+
+msgid "tagging_search_users"
+msgstr "Felhasználók keresése"
+
+msgid "tagging_set_tag"
+msgstr "Címkék"
+
+msgid "tagging_settings"
+msgstr "Beállítások"
+
+msgid "tagging_tag"
+msgstr "Címke"
+
+msgid "tagging_tag_info"
+msgstr "Címkék felvételéhez nyissa meg egy objektum ‘Információ’ lapját."
+
+msgid "tagging_tags"
+msgstr "Címkék"
+
+msgid "tagging_users_using_tag"
+msgstr "Felhasználók, akik a címkét használják"

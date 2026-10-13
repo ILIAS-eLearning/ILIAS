@@ -15367,29 +15367,6 @@ survey#:#values#:#Valori
 survey#:#vertical#:#verticale
 survey#:#warning_question_not_complete#:#La domanda non è completa!
 survey#:#workingtime#:#Tempo di lavoro
-tagging#:#no_tag_text_1#:#Non hai utilizzato ancora alcun tag. Per farlo, devi seguire due passaggi:
-tagging#:#no_tag_text_2#:#Clicca su '%s' e selezione un oggetto formativo dalla variabile offerta, ad esempio un modulo formativo o un forum.
-tagging#:#no_tag_text_3#:#Per associare qualsiasi tag all'ggetto, seleziona "Imposta Tag" dal menù delle azioni.
-tagging#:#tag_remove_tags_of_obj_without_access#:#Rimuovi tag
-tagging#:#tag_some_obj_tagged_without_access#:#Non si hanno più le autorizzazione per accedere ad alcuni degli oggetti contrassegnati. Il tag deve essere rimosso per questi oggetti?
-tagging#:#tag_tags_deleted#:#Il tag è stato rimosso dagli oggetti non accessibili.
-tagging#:#tagging_all_users#:#Tutti gli utenti
-tagging#:#tagging_edit_settings#:#Modifica le impostazioni
-tagging#:#tagging_enable_all_users#:#Mostra i tag di tutti gli utenti
-tagging#:#tagging_enable_all_users_info#:#Aggiungi una sezione "Tutti gli utenti" alle screen info che elenchi tutti i tag di tutti gli utenti legati alla risorsa.
-tagging#:#tagging_enable_tagging#:#Attiva il tagging
-tagging#:#tagging_forbidden_tags#:#Tags vietati
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###09 03 2022 new variable
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###10 12 2024 new variable
-tagging#:#tagging_other_users#:#Tag di altri utenti
-tagging#:#tagging_resources_for_tag#:#Risorse taggate col %s
-tagging#:#tagging_search_users#:#Cerca utenti
-tagging#:#tagging_set_tag#:#Imposta tag
-tagging#:#tagging_settings#:#Impostazioni
-tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#Per assegnare un tag ad una risorsa, apri la schermata info della risorsa ed inserisci il tuo tag.
-tagging#:#tagging_tags#:#Tags
-tagging#:#tagging_users_using_tag#:#Utenti che utilizzano i tag
 task#:#task_deadline#:#Fine
 task#:#task_derived_tasks#:#Attività
 task#:#task_details#:#Dettagli

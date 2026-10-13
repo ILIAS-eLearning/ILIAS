@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tagging\n"
+
+msgid "no_tag_text_1"
+msgstr "Non hai utilizzato ancora alcun tag. Per farlo, devi seguire due passaggi:"
+
+msgid "no_tag_text_2"
+msgstr "Clicca su '%s' e selezione un oggetto formativo dalla variabile offerta, ad esempio un modulo formativo o un forum."
+
+msgid "no_tag_text_3"
+msgstr "Per associare qualsiasi tag all'ggetto, seleziona \"Imposta Tag\" dal menù delle azioni."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Rimuovi tag"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "Non si hanno più le autorizzazione per accedere ad alcuni degli oggetti contrassegnati. Il tag deve essere rimosso per questi oggetti?"
+
+msgid "tag_tags_deleted"
+msgstr "Il tag è stato rimosso dagli oggetti non accessibili."
+
+msgid "tagging_all_users"
+msgstr "Tutti gli utenti"
+
+msgid "tagging_edit_settings"
+msgstr "Modifica le impostazioni"
+
+msgid "tagging_enable_all_users"
+msgstr "Mostra i tag di tutti gli utenti"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Aggiungi una sezione \"Tutti gli utenti\" alle screen info che elenchi tutti i tag di tutti gli utenti legati alla risorsa."
+
+msgid "tagging_enable_tagging"
+msgstr "Attiva il tagging"
+
+msgid "tagging_forbidden_tags"
+msgstr "Tags vietati"
+
+#, fuzzy
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+msgid "tagging_other_users"
+msgstr "Tag di altri utenti"
+
+msgid "tagging_resources_for_tag"
+msgstr "Risorse taggate col %s"
+
+msgid "tagging_search_users"
+msgstr "Cerca utenti"
+
+msgid "tagging_set_tag"
+msgstr "Imposta tag"
+
+msgid "tagging_settings"
+msgstr "Impostazioni"
+
+msgid "tagging_tag"
+msgstr "Tag"
+
+msgid "tagging_tag_info"
+msgstr "Per assegnare un tag ad una risorsa, apri la schermata info della risorsa ed inserisci il tuo tag."
+
+msgid "tagging_tags"
+msgstr "Tags"
+
+msgid "tagging_users_using_tag"
+msgstr "Utenti che utilizzano i tag"
