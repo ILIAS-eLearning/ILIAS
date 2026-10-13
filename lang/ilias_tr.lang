@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivat
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically ###30 08 2015 new variable
 membership#:#mem_force_notification_mode_custom#:#Custom###30 08 2015 new variable
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation###30 08 2015 new variable
-mep#:#mep_all#:#Tüm
-mep#:#mep_all_mobs#:#All Media Objects
-mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
-mep#:#mep_choose_from_folder#:#Klasör seçin
-mep#:#mep_choose_from_mep#:#Havuz seçin
-mep#:#mep_content#:#Content###31 08 2017 new variable
-mep#:#mep_content_snippet_in_use#:#İçerik pasajı '% s' kullanımda ve silinemez.
-mep#:#mep_content_snippet_used_in_older_versions#:#Lütfen dikkat: Bu pasajı, bazı sayfaların eski versiyonları kullanılır. Bu sayfaların bu parçacık içeren bir sürüme geri alınır, pasajı, sayfanın eksik olacaktır.
-mep#:#mep_copy_to_mep#:#Medya Pool Kopya
-mep#:#mep_create_content_snippet#:#Oluştur İçerik Snippet
-mep#:#mep_create_folder#:#Klasör Oluştur
-mep#:#mep_create_media_files#:#Oluştur Media Objects
-mep#:#mep_create_mob#:#Oluştur Ortam Nesnesi
-mep#:#mep_default_height#:#Standart Boy
-mep#:#mep_default_width#:#Standart Genişlik
-mep#:#mep_default_width_height_info#:#Standart genişlik ve yükseklik Yeni bir medya nesnesi oluşturmak için ön ayar olarak kullanılır.
-mep#:#mep_edit_content_snippet#:#İçerik Parçası Düzenle
-mep#:#mep_edit_folder#:#Klasör Düzenle
-mep#:#mep_file#:#Dosya
-mep#:#mep_folder#:#Klasör
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#bir ortam havuzu alma
-mep#:#mep_import_lang#:#Target Language###30 08 2015 new variable
-mep#:#mep_import_trans#:#Import Translation###30 08 2015 new variable
-mep#:#mep_master_language_only#:#Master Language for Translation###30 08 2015 new variable
-mep#:#mep_master_language_only_no_media#:#Master Language without Media###31 08 2017 new variable
-mep#:#mep_media_files#:#Media Files###10 11 2018 new variable
-mep#:#mep_media_subtitles#:#Media Subtitles###31 08 2017 new variable
-mep#:#mep_mob#:#Media Object###10 11 2018 new variable
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#Yeni İçerik Snippet
-mep#:#mep_new_folder#:#Yeni Klasör
-mep#:#mep_page_properties#:#Sayfa Özellikleri
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#Küçük
-mep#:#mep_title_and_description#:#Başlık ve Açıklama
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###30 08 2015 new variable
-mep#:#mep_unknown#:#Bilinmeyen
-mep#:#mep_up_dir_copy#:#İmge Directory'den Dosya Kopyalama (yükleme dizininde dosyaları tutar)
-mep#:#mep_up_dir_move#:#İmge Directory'den Dosyaları Taşı (hızlı)
-mep#:#mep_upload_dir_files#:#İmge Directory'den Dosyalar
-mep#:#mobs_activate_pages#:#İçerik Parçacıkları Yönetimi etkinleştirin
-mep#:#mobs_activate_pages_info#:#ortam havuzları içerik parçacıkları eklemek için izin ver. Bu parçacıkları modüller vb öğrenme (düzenlenemez) yeniden kullanılabilir
-mep#:#mobs_always_show_file_manager#:#Dosya Yöneticisini Her Zaman Göster
-mep#:#mobs_always_show_file_manager_info#:#medya nesneleri için dosya yöneticisi basit MIME türleri (örneğin görüntüler) için gizli olacaktır deaktive edin.
-mep#:#mobs_black_list_file_types#:#Forbidden File Types###31 08 2017 new variable
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#Dosya Türleri sınırla
-mep#:#mobs_restrict_file_types_info#:#medya nesneleri yüklenecek izin verilen dosya soneklerinin bir virgülle ayrılmış listesi (örneğin, jpg, gif) girin. Hiçbir değeri girilirse, tüm dosya türlerine izin verilir.
 meta#:#adt_error_max_length#:#Please enter a shorter text.###10 11 2018 new variable
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Aktif

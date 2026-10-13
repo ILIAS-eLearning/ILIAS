@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivat
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically ###30 08 2015 new variable
 membership#:#mem_force_notification_mode_custom#:#Custom###30 08 2015 new variable
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation###30 08 2015 new variable
-mep#:#mep_all#:#ყველა
-mep#:#mep_all_mobs#:#ყველა მედია ობიექტი
-mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
-mep#:#mep_choose_from_folder#:#ფოლდერიდან არჩევა
-mep#:#mep_choose_from_mep#:#ნაკადიდან არჩევა
-mep#:#mep_content#:#Content###31 08 2017 new variable
-mep#:#mep_content_snippet_in_use#:#შინაარსის ნაწყვეტი "%s" გამოყენებაშია და მისი წაშლა შეუძლებელია
-mep#:#mep_content_snippet_used_in_older_versions#:#გთხოვთ გაითვალისწინოთ: ეს ნაწილი გამოიყენება გვერდების უფრო ძველ ვერსიებში. თუ ეს გვერდები გადავა უფრო ძველ ვერსიაში რომელიც შეიცავს ამ ნაწილს, ნაწილი დაიკარგება
-mep#:#mep_copy_to_mep#:#მედია ნაკადის ასლის გაკეთება
-mep#:#mep_create_content_snippet#:#შინაარსის ნაწყვეტის შექმნა
-mep#:#mep_create_folder#:#ფოლდერის შექმნა
-mep#:#mep_create_media_files#:#მედია ობიექტების შექმნა
-mep#:#mep_create_mob#:#მედია ობიექტიეს შექმნა
-mep#:#mep_default_height#:#სტანდარტული სიმაღლე
-mep#:#mep_default_width#:#სტანდარტული სიგანე
-mep#:#mep_default_width_height_info#:#სტანდარტული სიმაღლე და სიგანე გაკმოიყენება ახალი მედია ობიექტების შესაქმნელად
-mep#:#mep_edit_content_snippet#:#შინაარსის ნაწყვეტის რედაქტირება
-mep#:#mep_edit_folder#:#ფოლდერის რედაქტირება
-mep#:#mep_file#:#ფაილი
-mep#:#mep_folder#:#ფოლდერი
-mep#:#mep_format#:#ფორმატი
-mep#:#mep_import#:#მედია ნაკადის იმპორტი
-mep#:#mep_import_lang#:#Target Language###30 08 2015 new variable
-mep#:#mep_import_trans#:#Import Translation###30 08 2015 new variable
-mep#:#mep_master_language_only#:#Master Language for Translation###30 08 2015 new variable
-mep#:#mep_master_language_only_no_media#:#Master Language without Media###31 08 2017 new variable
-mep#:#mep_media_files#:#Media Files###10 11 2018 new variable
-mep#:#mep_media_subtitles#:#Media Subtitles###31 08 2017 new variable
-mep#:#mep_mob#:#Media Object###10 11 2018 new variable
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#ახალი შინაარსის ნაწყვეტი
-mep#:#mep_new_folder#:#ახალი ფოლდერი
-mep#:#mep_page_properties#:#გვერდის პარამეტრები
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#ესკიზი
-mep#:#mep_title_and_description#:#დასახელება და აღწერა
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###30 08 2015 new variable
-mep#:#mep_unknown#:#უცნობი
-mep#:#mep_up_dir_copy#:#ფაილების ასლის გაკეთება ატვირთვის დირექტორიიდან (ინახავს ფაილებს ატვირთვის დირექტორიაში)
-mep#:#mep_up_dir_move#:#გადააქვს ფაილები ატვირთვის დირექტორიიდან ( უფრო სწრაფად)
-mep#:#mep_upload_dir_files#:#ფაილები ატვირთვის დირექტორიიდან
-mep#:#mobs_activate_pages#:#შინაარსის ნაწყვეტების მართვის გააქტიურება
-mep#:#mobs_activate_pages_info#:#მედია ნაკადებში შინაარსის ნაწყვეტების დაშვება. Eეს ნაწყვეტები შეიძლება ხელახლა გამოიყენოთ ( რედაქტირების გარეშე) სასწავლო მოდულებში
-mep#:#mobs_always_show_file_manager#:#ყოველთვის აჩვენე ფაილის მენეჯერი
-mep#:#mobs_always_show_file_manager_info#:#თუ დეაქტივირებულია მედია ობიექტების ფაილის მენეჯერი დამალული იქნება მარტივი MIME-ის სახეობებისთვის (მაგალითად სურათები)
-mep#:#mobs_black_list_file_types#:#Forbidden File Types###31 08 2017 new variable
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#ფაილის სახეობების შეზღუდვა
-mep#:#mobs_restrict_file_types_info#:#შეიყვანეთ მძიმეთი გამოყოფილი სუფიქსების ფაილების სია ( მაგალითად jpg, gif) რომლის მედია ობიექტებში ატვირთვა დაშვებულია.
 meta#:#adt_error_max_length#:#Please enter a shorter text.###10 11 2018 new variable
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#აქტიური

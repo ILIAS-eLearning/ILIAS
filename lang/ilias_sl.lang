@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Člani lahko onemogo�
 membership#:#mem_force_notification_mode_blocked#:#Člani bodo samodejno obveščeni
 membership#:#mem_force_notification_mode_custom#:#Nastavitve za vsakega člana
 membership#:#mem_force_notification_mode_self#:#Člani morajo aktivirati obveščanje
-mep#:#mep_all#:#Vsi
-mep#:#mep_all_mobs#:#Vsi medijski objekti
-mep#:#mep_bulk_upload#:#Masovno nalaganje
-mep#:#mep_choose_from_folder#:#Izberi iz mape
-mep#:#mep_choose_from_mep#:#Izberi iz skupine
-mep#:#mep_content#:#Medijski objekti
-mep#:#mep_content_snippet_in_use#:#Sestavni del vsebine '%s' je v uporabi in ga zato ni mogoče izbrisati.
-mep#:#mep_content_snippet_used_in_older_versions#:#Pozor: Ta sestavni del vsebine so v starejših različicah uporabljale nekatere strani. Če je taka različica strani obnovljena, bo v njej manjkal ta sestavni del vsebine.
-mep#:#mep_copy_to_mep#:#Kopiraj v skupino medijev
-mep#:#mep_create_content_snippet#:#Ustvari sestavni del vsebine
-mep#:#mep_create_folder#:#Ustvari mapo
-mep#:#mep_create_media_files#:#Ustvari medijske objekte
-mep#:#mep_create_mob#:#Ustvari medijski objekt
-mep#:#mep_default_height#:#Privzeta višina
-mep#:#mep_default_width#:#Privzeta širina
-mep#:#mep_default_width_height_info#:#Privzeta širina in višina se uporabljata kot prednastavitvi za nove medijske objekte.
-mep#:#mep_edit_content_snippet#:#Ustvari sestavni del vsebine
-mep#:#mep_edit_folder#:#Uredi mapo
-mep#:#mep_file#:#Datoteka
-mep#:#mep_folder#:#Mape
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Uvozi skupino medijev
-mep#:#mep_import_lang#:#Ciljni jezik
-mep#:#mep_import_trans#:#Uvozi prevod
-mep#:#mep_master_language_only#:#Glavni jezik za prevajanje - master
-mep#:#mep_master_language_only_no_media#:#Glavni jezik za prevajanje - brez medijskih objektov
-mep#:#mep_media_files#:#Medijske datoteke
-mep#:#mep_media_subtitles#:#Podnapisi
-mep#:#mep_mob#:#Medijski objekt
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###19 08 2022 new variable
-mep#:#mep_new_content_snippet#:#Nov sestavni del vsebine
-mep#:#mep_new_folder#:#Nova mapa
-mep#:#mep_page_properties#:#Lastnosti sestavnega dela
-mep#:#mep_page_type_mep#:#Content Snippet
-mep#:#mep_thumbnail#:#Sličica
-mep#:#mep_title_and_description#:#Naslov in opis
-mep#:#mep_trans_import_info#:#Če ste ta modul izvozili v drugo namestitev kot "XML (glavni jezik za prevod - master)", lahko tukaj znova uvozite prevedene datoteke za izvoz te druge namestitve.
-mep#:#mep_unknown#:#Neznano
-mep#:#mep_up_dir_copy#:#Kopiraj datoteke iz seznama za nalaganje (prejme datoteke na seznamu za nalaganje)
-mep#:#mep_up_dir_move#:#Premakni datoteke iz seznama za nalaganje (hitreje)
-mep#:#mep_upload_dir_files#:#Datoteke iz seznama za nalaganje
-mep#:#mobs_activate_pages#:#Uporabi sestavne dele vsebine
-mep#:#mobs_activate_pages_info#:#Omogoča, da se vsebine strani ustvarijo kot sestavni deli v skupinah medijev. Te sestavne dele vsebine je mogoče ponovno uporabiti v učnih modulih ILIAS, kjer pa jih ni mogoče urejati.
-mep#:#mobs_always_show_file_manager#:#Vedno prikaži strukturo datoteke
-mep#:#mobs_always_show_file_manager_info#:#Če je onemogočeno, struktura datotek za preproste tipe datotek, kot npr. slike, ne bo prikazana.
-mep#:#mobs_black_list_file_types#:#Prepovedani tipi datotek
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#Dovoljeni tipi datotek
-mep#:#mobs_restrict_file_types_info#:#Določite vse tipe datotek, ki jih je dovoljeno nalagati v medijske objekte. Vnesite posamezne končnice datotek, ločenih z vejicami (npr. jpg, gif). Če ni nobenega vnosa, so dovoljeni vsi tipi.
 meta#:#adt_error_max_length#:#Vneseno besedilo je predolgo. Vnesite krajše besedilo.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###19 08 2022 new variable
 meta#:#md_adv_active#:#Aktivno

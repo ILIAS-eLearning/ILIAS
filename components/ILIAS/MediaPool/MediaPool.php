@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\MediaPool\Setup\Agent;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class MediaPool implements Component\Component
 {
@@ -40,5 +42,9 @@ class MediaPool implements Component\Component
         );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilMediaPool.js");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'mep'
+        );
     }
 }

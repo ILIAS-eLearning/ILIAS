@@ -1,0 +1,167 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Všichni"
+
+msgid "mep_all_mobs"
+msgstr "Všechny mediální objekty"
+
+msgid "mep_bulk_upload"
+msgstr "Hromadné nahrání"
+
+msgid "mep_choose_from_folder"
+msgstr "Vyberte ze složky"
+
+msgid "mep_choose_from_mep"
+msgstr "Vyberte ze zásobníku"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+msgid "mep_content"
+msgstr "Obsah"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Obsah úryvků '%s' je v použití a nemůže být smazán."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Povšimněte si prosím: Tento úryvek je použit ve starších verzích některých stránek. Pokud budete tyto stránky procházet zpět před verzi, která obsahuje tento úryvek, úryven bude na stránce chybět."
+
+msgid "mep_copy_to_mep"
+msgstr "Kopírovat do mediálního zásobníku"
+
+msgid "mep_create_content_snippet"
+msgstr "Vytvořit obsah úryvků"
+
+msgid "mep_create_folder"
+msgstr "Vytvořit složku"
+
+msgid "mep_create_media_files"
+msgstr "Vytvořit mediální objekty"
+
+msgid "mep_create_mob"
+msgstr "Vytvořit mediální objekt"
+
+msgid "mep_default_height"
+msgstr "Výchozí výška"
+
+msgid "mep_default_width"
+msgstr "Výchozí šířka"
+
+msgid "mep_default_width_height_info"
+msgstr "Výchozí šířka a výška je použita jako přednastavení pro tvorbu nových mediálních objektů."
+
+msgid "mep_edit_content_snippet"
+msgstr "Upravit obsah úryvků"
+
+msgid "mep_edit_folder"
+msgstr "Upravit složku"
+
+msgid "mep_file"
+msgstr "Soubor"
+
+msgid "mep_folder"
+msgstr "Složka"
+
+msgid "mep_format"
+msgstr "Formát"
+
+msgid "mep_import"
+msgstr "Importovat zásobník medií"
+
+msgid "mep_import_lang"
+msgstr "Cílový jazyk"
+
+msgid "mep_import_trans"
+msgstr "Importovat překlad"
+
+msgid "mep_master_language_only"
+msgstr "Hlavní jazyk pro překlad"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Hlavní jazyk bez médií"
+
+msgid "mep_media_files"
+msgstr "Soubory médií"
+
+msgid "mep_media_subtitles"
+msgstr "Titulky médií"
+
+msgid "mep_mob"
+msgstr "Objekt médií"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Nový útržek obsahu"
+
+msgid "mep_new_folder"
+msgstr "Nová složka"
+
+msgid "mep_page_properties"
+msgstr "Vlastnosti stránky"
+
+#, fuzzy
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Miniatura"
+
+msgid "mep_title_and_description"
+msgstr "Název a popis"
+
+msgid "mep_trans_import_info"
+msgstr "Pokud jste exportovali tento modul jako XML/hlavní jazyk pro překlad do jiné instalace, můžete nyní znovu importovat přeložené exportované soubory z této druhé instalace zde."
+
+msgid "mep_unknown"
+msgstr "Neznámý"
+
+msgid "mep_up_dir_copy"
+msgstr "Kopírovat soubory z ukládacího adresáře (V ukládacím adresáři soubory zůstanou zachovány)"
+
+msgid "mep_up_dir_move"
+msgstr "Přesunout soubory z ukládacího adresáře (Rychlejší)"
+
+msgid "mep_upload_dir_files"
+msgstr "Soubory z uloženého adresáře"
+
+msgid "mobs_activate_pages"
+msgstr "Aktivovat Management obsahu stránek"
+
+msgid "mobs_activate_pages_info"
+msgstr "Umožňuje přidat obsah stránek do zásobníku médií. Tyto stránky mohou být znovu použity (ne editovány) do výukového modulu apod."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Vždy zobrazit správce souborů"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Je-li deaktivován správce souboru pro objekty médií  budou skryty pro jednoduché typy mime (např. obrázky)."
+
+msgid "mobs_black_list_file_types"
+msgstr "Zakázané typy souborů"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Omezení typů souborů"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Vložte seznam přípon souborů oddělených čárkou (např. jpg,gif), které je povoleno vkládat do media objektů. Pokud není vložena žádná hodnota, pak jsou povoleny všechny typy."

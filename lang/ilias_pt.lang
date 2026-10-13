@@ -10996,57 +10996,6 @@ membership#:#mem_force_notification#:#Notificação por mail
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Os membros podem desativar notificações
 membership#:#mem_force_notification_mode_blocked#:#Os membros serão notificados automaticamente
 membership#:#mem_force_notification_mode_self#:#Privacidade
-mep#:#mep_all#:#Ajuda de senha
-mep#:#mep_all_mobs#:#Todos os objetos de media
-mep#:#mep_bulk_upload#:#Introduza um endereço de e-mail e envie o formulário.\nILIAS envia um e-mail para esse endereço. O e-mail contém todos os nomes de utilizador que registaram esse endereço de e-mail.\n Escolha um nome de utilizador adequado e use o serviço de palavra-passe para recuperar uma nova palavra-passe. Se não recuperar qualquer e-mail através deste serviço, entre em contacto com o administrador do seu curso ou %1$s.
-mep#:#mep_choose_from_folder#:#Escolher da pasta
-mep#:#mep_choose_from_mep#:#Escolher do banco
-mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###03 09 2026 new variable
-mep#:#mep_content#:#Conteúdo
-mep#:#mep_content_snippet_in_use#:#O fragmento do conteúdo '%s' está a ser usado e não pode ser apagado.
-mep#:#mep_content_snippet_used_in_older_versions#:#Note que: Este fragmento é usado em versões mais antigas de algumas página. Se estas páginas forem atualizadas para uma versão que inclua este fragmento, este vai ficar a faltar na página.
-mep#:#mep_copy_to_mep#:#Copiar para banco de media
-mep#:#mep_create_content_snippet#:#Criar fragmento do conteúdo
-mep#:#mep_create_folder#:#Criar pasta
-mep#:#mep_create_media_files#:#Criar objetos de media
-mep#:#mep_create_mob#:#Criar objeto de media
-mep#:#mep_default_height#:#Altura predefinida
-mep#:#mep_default_width#:#Largura predefinida
-mep#:#mep_default_width_height_info#:#A largura e altura predefinidas são usadas como padrão para a criação de novos objetos de media.
-mep#:#mep_edit_content_snippet#:#Editar fragmento do conteúdo
-mep#:#mep_edit_folder#:#Introduza um nome de utilizador e o endereço de e-mail associado nos campos apresentados em baixo.\nILIAS envia uma mensagem para esse endereço de e-mail. A mensagem contém um endereço para uma página web, onde pode inserir uma nova palavra-passe para a conta de utilizador.\nSe não puder atribuir uma palavra-passe à sua conta de utilizador usando este formulário, entre em contacto com a administração do curso ou envie um e-mail para %1$s.
-mep#:#mep_file#:#Introduza o nome de utilizador e a nova palavra-passe nos campos abaixo.
-mep#:#mep_folder#:#Insira outro nome de utilizador.\nO nome de utilizador que introduziu não corresponde ao nome de utilizador para o qual pediu ajuda.
-mep#:#mep_format#:#Registe uma nova palavra-passe para a sua conta de utilizador:\n\t%1$s\n\nEsta mensagem foi criada automaticamente pelo servidor ILIAS\n\t%2$s\n\nVocê (ou alguém em %3$s) pediu ajuda para a palavra-passe relativamente à conta utilizador "%4$s".\n\nVerifique cuidadosamente as condições listadas em baixo e proceda de acordo com elas:\n\n- Se usou o formulário de ajuda para a palavra-passe no servidor ILIAS por engano:\nApague este mail.\n\n- Se tiver a certeza que nunca pediu a ajuda para a palavra-passe neste servidor ILIAS:\nEntre em contacto com %5$s.\n\n- Se pediu a ajuda para a palavra-passe, proceda do seguinte modo:\n\n1. Abra o seu navegador.\n\n2. Introduza o seguinte endereço no seu navegador:\n\t%6$s\n\nImportante: O endereço é uma única linha. Se vir este endereço dividido em múltiplas linhas, é porque o seu programa de e-mail inseriu essas quebras de linha.\n\n3. Na página da web apresentada pelo seu navegador, introduza uma nova palavra-passe para a sua conta de utilizador.\n\nNote que, por razões de segurança, pode executar os três passos acima referidos apenas exatamente uma vez e por um tempo limitada. Depois disso, o endereço fica inválido e tem de usar novamente a página de ajuda para a palavra-passe no servidor ILIAS.
-mep#:#mep_import#:#Ajuda de palavra-passe ILIAS
-mep#:#mep_import_lang#:#Idioma de destino
-mep#:#mep_import_trans#:#Importar tradução
-mep#:#mep_master_language_only#:#Idioma principal para tradução
-mep#:#mep_master_language_only_no_media#:#Idioma principal sem media
-mep#:#mep_media_files#:#Volte a preencher este formulário.\nA sua sessão de ajuda de palavra-passe expirou. Isso pode ter acontecido por ter tentado usar o link que lhe foi enviado por e-mail mais do que uma vez ou porque passou demasiado tempo desde que o link lhe foi enviado.
-mep#:#mep_media_subtitles#:#Subtítulos media
-mep#:#mep_mob#:#Estes são os nomes de utilizador ativos encontrados para o endereço de e-mail fornecido:\n%s\n\nEsta mensagem foi criada automaticamente pelo seguinte ILIAS:\n\t%s\n\nVocê (ou alguém com o IP  %s) pediu ajuda por se ter esquecido dos nomes de utilizador para o endereço de e-mail '%s'.\n\nVerifique e faça o seguinte::\n\n-Pediu este e-mail por engano:\nApague este e-mail.\n\n-Tem a certeza que nunca pediu este e-mail:\nEntre em contacto com %s.\n\n- Se pediu este e-mail, proceda do seguinte modo::\n\n1. Inicie o seu navegador da Internet.\n\n2. Insira o seguinte url:\n\t%s\n\nImportante: O endereço é uma única linha. Se vir este endereço dividido por múltiplas linhas é porque o seu programa de e-mail inseriu estas quebras de linha.\n\n3. O seu navegador mostra agora o serviço de palavras-passe. Use esta página com um dos nomes de utilizador e de acordo com o endereço de e-mail para recuperar uma nova palavra-passe.
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###03 09 2026 new variable
-mep#:#mep_mpg#:#Content Snippet###03 09 2026 new variable
-mep#:#mep_new_content_snippet#:#Novo fragmento do conteúdo
-mep#:#mep_new_folder#:#Classificação padrão de objeto
-mep#:#mep_page_properties#:#Propriedades da página
-mep#:#mep_page_type_mep#:#Content Snippet###30 04 2021 new variable
-mep#:#mep_thumbnail#:#O utilizador pode mudar permissões das definições de acessibilidade na administração.
-mep#:#mep_title_and_description#:#O utilizador tem acesso de leitura às definições de acessibilidade na administração.
-mep#:#mep_trans_import_info#:#Se exportou este módulo como XML/idioma principal para tradução para outra instalação, pode agora voltar a importar os ficheiros de exportação traduzidos a partir desta segunda instalação aqui.
-mep#:#mep_unknown#:#As definições de acessibilidade estão visíveis na administração.
-mep#:#mep_up_dir_copy#:#Copiar ficheiros do diretório upload (mantém ficheiros no diretório upload)
-mep#:#mep_up_dir_move#:#Mover ficheiro a partir do diretório upload (mais rápido)
-mep#:#mep_upload_dir_files#:#O utilizador pode editar definições de acessibilidade na administração.
-mep#:#mobs_activate_pages#:#Pré-condições
-mep#:#mobs_activate_pages_info#:#Adicionar horas de consulta
-mep#:#mobs_always_show_file_manager#:#Mostra sempre gestor de ficheiros
-mep#:#mobs_always_show_file_manager_info#:#Se estiver desativado, o gestor de ficheiros para objetos de media será ocultado para tipos simples de mime (p. ex. imagens).
-mep#:#mobs_black_list_file_types#:#Tipos de ficheiro proibidos
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###03 09 2026 new variable
-mep#:#mobs_restrict_file_types#:#O utilizador pode mudar permissões das definições gerais na administração.
-mep#:#mobs_restrict_file_types_info#:#Introduzir uma lista de sufixos de ficheiros separados por vírgulas (p. ex. jpg,gif) que são permitidos para serem carregados para objetos de media. Se não for inserido nenhum valor, são permitidos todos os tipos de ficheiros.
 meta#:#adt_error_max_length#:#Insira um texto mais curto.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###30 04 2021 new variable
 meta#:#md_adv_active#:#Ativo

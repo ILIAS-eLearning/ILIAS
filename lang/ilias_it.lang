@@ -10950,56 +10950,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#I membri possono disa
 membership#:#mem_force_notification_mode_blocked#:#I membri riceveranno automaticamente la notifica
 membership#:#mem_force_notification_mode_custom#:#Personalizza
 membership#:#mem_force_notification_mode_self#:#I membri devono attivare manualmente la notifica
-mep#:#mep_all#:#Tutti
-mep#:#mep_all_mobs#:#Tutti gli oggetti Media
-mep#:#mep_bulk_upload#:#Caricamento collettivo
-mep#:#mep_choose_from_folder#:#Scegli dalla cartella
-mep#:#mep_choose_from_mep#:#Scegli dal pool
-mep#:#mep_content#:#Contenuto
-mep#:#mep_content_snippet_in_use#:#Frammento di contenuto '%s' è in uso e non può essere eliminato.
-mep#:#mep_content_snippet_used_in_older_versions#:#Si prega di notare: Questo frammento di codice viene utilizzato nelle versioni precedenti di alcune pagine. Se queste pagine sono ripristinate ad una versione che include questo frammento, il frammento di codice mancherà nella pagina.
-mep#:#mep_copy_to_mep#:#Copia nella libreria multimediale
-mep#:#mep_create_content_snippet#:#Crea frammento Contenuto
-mep#:#mep_create_folder#:#Crea Contesto
-mep#:#mep_create_media_files#:#Creazione di oggetti multimediali
-mep#:#mep_create_mob#:#Crea oggetto multimediale
-mep#:#mep_default_height#:#Altezza predefinita
-mep#:#mep_default_width#:#Larghezza Predefinita
-mep#:#mep_default_width_height_info#:#La Larghezza e l'altezza di default vengono utilizzate come impostazioni predefinite per la creazione di nuovi oggetti media.
-mep#:#mep_edit_content_snippet#:#Modifica frammento di Contenuto
-mep#:#mep_edit_folder#:#Modifica cartella
-mep#:#mep_file#:#File
-mep#:#mep_folder#:#Cartella
-mep#:#mep_format#:#Formato
-mep#:#mep_import#:#Importazione di un pool di supporti
-mep#:#mep_import_lang#:#Lingua di destinazione
-mep#:#mep_import_trans#:#Importa traduzione
-mep#:#mep_master_language_only#:#Lingua principale per traduzione
-mep#:#mep_master_language_only_no_media#:#Lingua principale senza media
-mep#:#mep_media_files#:#File multimediali
-mep#:#mep_media_subtitles#:#Sottotitoli multimediali
-mep#:#mep_mob#:#Oggetto multimediale
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###31 03 2023 new variable
-mep#:#mep_mpg#:#Content Snippet###31 03 2023 new variable
-mep#:#mep_new_content_snippet#:#Nuovo frammento di contenuto
-mep#:#mep_new_folder#:#Nuova cartella
-mep#:#mep_page_properties#:#Proprieà della pagina
-mep#:#mep_page_type_mep#:#Frammento di contenuto
-mep#:#mep_thumbnail#:#Miniatura
-mep#:#mep_title_and_description#:#Titolo e descrizione
-mep#:#mep_trans_import_info#:#Se hai esportato questo modulo come XML/Lingua principale per traduzione in un’altra installazione, adesso puoi importare nuovamente i file di traduzione esportati da questa seconda installazione.
-mep#:#mep_unknown#:#Sconosciuto
-mep#:#mep_up_dir_copy#:#Copia files dalla directory di Upload (Mantiene i files nella directory di upload)
-mep#:#mep_up_dir_move#:#Spostare files da directory di Upload (più veloce)
-mep#:#mep_upload_dir_files#:#Files dalla directory di Upload
-mep#:#mobs_activate_pages#:#Attivare la gestione Pagine dei contenuti
-mep#:#mobs_activate_pages_info#:#Permette di aggiungere pagine di contenuto al pool dei Media. Queste pagine possono essere riutilizzate (non modificabili) in moduli di apprendimento.
-mep#:#mobs_always_show_file_manager#:#Mostra sempre File Manager
-mep#:#mobs_always_show_file_manager_info#:#Se disattivato il file manager per gli oggetti multimediali sarà nascosto per tipi semplici di mime (es. immagini).
-mep#:#mobs_black_list_file_types#:#Tipi di file vietati
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###30 04 2024 new variable
-mep#:#mobs_restrict_file_types#:#Limitare i tipi di file
-mep#:#mobs_restrict_file_types_info#:#Inserire un elenco separato da virgole di suffissi di file (ad esempio jpg, gif), che possono essere caricati in oggetti multimediali. Se nessun valore viene immesso, tutti i tipi di file sono ammessi.
 meta#:#adt_error_max_length#:#Si prega di inserire un testo più breve.
 meta#:#md_adn_int_error_no_default#:#Seleziona la lingua attiva come "Lingua predefinita".
 meta#:#md_adv_active#:#Attivo

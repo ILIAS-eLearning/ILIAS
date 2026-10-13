@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Członkowie mogą wy�
 membership#:#mem_force_notification_mode_blocked#:#Członkowie są automatycznie powiadamiani
 membership#:#mem_force_notification_mode_custom#:#Ustawienia dla każdego członka
 membership#:#mem_force_notification_mode_self#:#Członkowie muszą aktywować powiadomienia
-mep#:#mep_all#:#Każdy
-mep#:#mep_all_mobs#:#Wszystkie obiekty
-mep#:#mep_bulk_upload#:#Bulk Upload
-mep#:#mep_choose_from_folder#:#Wybierz z folderu
-mep#:#mep_choose_from_mep#:#Wybierz z puli
-mep#:#mep_content#:#Obiekty multimedialne
-mep#:#mep_content_snippet_in_use#:#moduł treści '%s' jest używany i dlatego nie można ich usunąć.
-mep#:#mep_content_snippet_used_in_older_versions#:#Uwaga: w starszych wersjach moduł treści był używany przed kilka stron. Jeśli przywrócona zostanie jedna z wersji takiej strony, nie będzie w niej tego modułu treści.
-mep#:#mep_copy_to_mep#:#Kopiuj do puli mediów
-mep#:#mep_create_content_snippet#:#Utwórz moduł treści
-mep#:#mep_create_folder#:#Utwórz folder
-mep#:#mep_create_media_files#:#Utwórz obiekty multimedialne
-mep#:#mep_create_mob#:#Utwórz obiekt
-mep#:#mep_default_height#:#Domyślna wysokość
-mep#:#mep_default_width#:#Domyślna szerokość
-mep#:#mep_default_width_height_info#:#Parametry standardowa szerokość i wysokość są używane dla nowych obiektów multimedialnych jako ustawienia domyślne.
-mep#:#mep_edit_content_snippet#:#Edytuj moduł treści
-mep#:#mep_edit_folder#:#Edycja folderu
-mep#:#mep_file#:#Plik
-mep#:#mep_folder#:#Folder
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Importuj pulę mediów
-mep#:#mep_import_lang#:#Język docelowy
-mep#:#mep_import_trans#:#Importuj tłumaczenie
-mep#:#mep_master_language_only#:#Główny język tłumaczeń - master
-mep#:#mep_master_language_only_no_media#:#Główny język dla tłumaczeń - bez obiektów multimedialnych
-mep#:#mep_media_files#:#Media Files
-mep#:#mep_media_subtitles#:#Podtytuł
-mep#:#mep_mob#:#Media Object
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#Nowy moduł treści
-mep#:#mep_new_folder#:#Nowy folder
-mep#:#mep_page_properties#:#Właściwości modułu
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#Miniaturka
-mep#:#mep_title_and_description#:#Tytuł i opis
-mep#:#mep_trans_import_info#:#Jeśli wyeksportowałeś ten moduł do innej instalacji jako "XML (główny język tłumaczeń - master", możesz tutaj ponownie zaimportować przetłumaczone pliki eksportowe tej instalacji.
-mep#:#mep_unknown#:#Nieznany
-mep#:#mep_up_dir_copy#:#Kopiuj pliki z indeksu pobierania (zawiera pliki w indeksie pobierania)
-mep#:#mep_up_dir_move#:#Przesuń pliki z indeksu pobierania (szybciej)
-mep#:#mep_upload_dir_files#:#Pliki z indeksu pobierania
-mep#:#mobs_activate_pages#:#Użyj modułów treści
-mep#:#mobs_activate_pages_info#:#Umożliwia tworzenie treści strony w pulach mediów jako modułów. Tych modułów treści można ponownie użyć w modułach nauczania ILIAS, nie można ich tam jednak edytować.
-mep#:#mobs_always_show_file_manager#:#Zawsze pokazuj strukturę pliku
-mep#:#mobs_always_show_file_manager_info#:#Jeśli ta opcja jest wyłączona, struktura prostych struktur plików, np. obrazy, nie jest wyświetlana.
-mep#:#mobs_black_list_file_types#:#Niedozwolone typy plików
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#Dopuszczalne typy plików
-mep#:#mobs_restrict_file_types_info#:#Określ wszystkie typy plików, które można wysłać w obiektach multimedialnych. Podaj końcówki nazw plików przedzielone przecinkiem (np. jpg, gif). Jeśli nie wprowadzisz żadnych danych, dozwolone będą wszystkie typy.
 meta#:#adt_error_max_length#:#Wprowadzony tekst jest za długi. Wpisz krótszy tekst.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Aktywny

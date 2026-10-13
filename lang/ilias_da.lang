@@ -10948,56 +10948,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivat
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically ###30 08 2015 new variable
 membership#:#mem_force_notification_mode_custom#:#Custom###30 08 2015 new variable
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation###30 08 2015 new variable
-mep#:#mep_all#:#Alle
-mep#:#mep_all_mobs#:#Alle medieobjekter
-mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
-mep#:#mep_choose_from_folder#:#Vælg fra mappe
-mep#:#mep_choose_from_mep#:#Vælg fra samling
-mep#:#mep_content#:#Content###31 08 2017 new variable
-mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
-mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.###12 06 2011 new variable
-mep#:#mep_copy_to_mep#:#Kopier til mediebibliotek
-mep#:#mep_create_content_snippet#:#Create Content Snippet###24 07 2009 new variable
-mep#:#mep_create_folder#:#Opret mappe
-mep#:#mep_create_media_files#:#Lav medieobjekter
-mep#:#mep_create_mob#:#Opret medieobjekt
-mep#:#mep_default_height#:#Standard højde
-mep#:#mep_default_width#:#Standard bredde
-mep#:#mep_default_width_height_info#:#Standard bredde og højde bruges som startindstillinger til nye medieobjekter.
-mep#:#mep_edit_content_snippet#:#Edit Content Snippet###24 07 2009 new variable
-mep#:#mep_edit_folder#:#Ret mappe
-mep#:#mep_file#:#Fil
-mep#:#mep_folder#:#mappe
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
-mep#:#mep_import_lang#:#Target Language###30 08 2015 new variable
-mep#:#mep_import_trans#:#Import Translation###30 08 2015 new variable
-mep#:#mep_master_language_only#:#Master Language for Translation###30 08 2015 new variable
-mep#:#mep_master_language_only_no_media#:#Master Language without Media###31 08 2017 new variable
-mep#:#mep_media_files#:#Media Files###10 11 2018 new variable
-mep#:#mep_media_subtitles#:#Media Subtitles###31 08 2017 new variable
-mep#:#mep_mob#:#Media Object###10 11 2018 new variable
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###26 08 2024 new variable
-mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_new_content_snippet#:#New Content Snippet###24 07 2009 new variable
-mep#:#mep_new_folder#:#Ny mappe
-mep#:#mep_page_properties#:#Page Properties###24 07 2009 new variable
-mep#:#mep_page_type_mep#:#Content Snippet###29 07 2022 new variable
-mep#:#mep_thumbnail#:#Miniature
-mep#:#mep_title_and_description#:#Titel og beskrivelse
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###30 08 2015 new variable
-mep#:#mep_unknown#:#Ukendt
-mep#:#mep_up_dir_copy#:#Kopier filer fra upload mappe (filer forbliver i mappen)
-mep#:#mep_up_dir_move#:#Flyt filer fra upload mappe (hurtigere)
-mep#:#mep_upload_dir_files#:#Filer fra upload mappe
-mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable
-mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc.###24 07 2009 new variable
-mep#:#mobs_always_show_file_manager#:#Vis altid filhåndtering
-mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).###15 12 2009 new variable
-mep#:#mobs_black_list_file_types#:#Forbidden File Types###31 08 2017 new variable
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###26 08 2024 new variable
-mep#:#mobs_restrict_file_types#:#Begræns filtyper
-mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###10 11 2018 new variable
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Aktiv

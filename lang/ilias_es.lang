@@ -10995,57 +10995,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Los miembros pueden d
 membership#:#mem_force_notification_mode_blocked#:#Los miembros serán notificados automáticamente
 membership#:#mem_force_notification_mode_custom#:#Personalizado
 membership#:#mem_force_notification_mode_self#:#Los miembros deben activar manualmente la notificación
-mep#:#mep_all#:#Todo
-mep#:#mep_all_mobs#:#Todos los objetos multimedia
-mep#:#mep_bulk_upload#:#Carga masiva
-mep#:#mep_choose_from_folder#:#Elegir de carpeta
-mep#:#mep_choose_from_mep#:#Elegir del repositorio
-mep#:#mep_clipboard_info#:#Aquí puede cargar archivos multimedia a los que podrá acceder desde cualquier página en la que tenga acceso al editor de páginas. El portapapeles también es accesible en los repositorios de medios. Este almacenamiento es solo para usted y no puede ser visto por otros usuarios.
-mep#:#mep_content#:#Contenido
-mep#:#mep_content_snippet_in_use#:#El fragmento de contenido '%s' está en uso y no se puede eliminar.
-mep#:#mep_content_snippet_used_in_older_versions#:#Tenga en cuenta: este fragmento se utiliza en versiones anteriores de algunas páginas. Si estas páginas se revierten a una versión que incluye este fragmento, el fragmento faltará en la página.
-mep#:#mep_copy_to_mep#:#Copiar al repositorio de medios
-mep#:#mep_create_content_snippet#:#Crear fragmento de contenido
-mep#:#mep_create_folder#:#Crear carpeta
-mep#:#mep_create_media_files#:#Crear objetos multimedia
-mep#:#mep_create_mob#:#Crear objeto multimedia
-mep#:#mep_default_height#:#Altura predeterminada
-mep#:#mep_default_width#:#Ancho predeterminado
-mep#:#mep_default_width_height_info#:#El ancho y la altura predeterminados se utilizan como ajustes preestablecidos para la creación de nuevos objetos multimedia.
-mep#:#mep_edit_content_snippet#:#Editar fragmento de contenido
-mep#:#mep_edit_folder#:#Editar carpeta
-mep#:#mep_file#:#Archivo
-mep#:#mep_folder#:#Carpeta
-mep#:#mep_format#:#Formato
-mep#:#mep_import#:#Importar un repositorio de objetos multimedia
-mep#:#mep_import_lang#:#Idioma de destino
-mep#:#mep_import_trans#:#Importar traducción
-mep#:#mep_master_language_only#:#Idioma maestro para traducción
-mep#:#mep_master_language_only_no_media#:#Idioma maestro sin multimedia
-mep#:#mep_media_files#:#Archivos multimedia
-mep#:#mep_media_subtitles#:#Subtítulos multimedia
-mep#:#mep_mob#:#Objeto multimedia
-mep#:#mep_move_select_insert#:#Navegue a la carpeta de destino y haga clic en "Insertar"
-mep#:#mep_mpg#:#Fragmento de contenido
-mep#:#mep_new_content_snippet#:#Nuevo fragmento de contenido
-mep#:#mep_new_folder#:#Nueva carpeta
-mep#:#mep_page_properties#:#Propiedades de la página
-mep#:#mep_page_type_mep#:#Fragmento de contenido
-mep#:#mep_thumbnail#:#Miniatura
-mep#:#mep_title_and_description#:#Título y descripción
-mep#:#mep_trans_import_info#:#Si exportó este módulo como XML/Idioma maestro para traducción a otra instalación, ahora puede volver a importar aquí los archivos de exportación traducidos de esa segunda instalación.
-mep#:#mep_unknown#:#Desconocido
-mep#:#mep_up_dir_copy#:#Copiar archivos del directorio de carga (mantiene los archivos en el directorio de carga)
-mep#:#mep_up_dir_move#:#Mover archivos del directorio de carga (más rápido)
-mep#:#mep_upload_dir_files#:#Archivos del directorio de carga
-mep#:#mobs_activate_pages#:#Usar fragmentos de contenido
-mep#:#mobs_activate_pages_info#:#Permite crear fragmentos de contenido en los repositorios de objetos multimedia. Estos fragmentos pueden ser reutilizados (no editados) en los módulos de aprendizaje.
-mep#:#mobs_always_show_file_manager#:#Mostrar siempre el administrador de archivos
-mep#:#mobs_always_show_file_manager_info#:#Si se desactiva, el administrador de archivos para objetos multimedia se ocultará para tipos MIME simples (p. ej., imágenes).
-mep#:#mobs_black_list_file_types#:#Tipos de archivo prohibidos
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Introduzca una lista de tipos MIME separados por comas. Esta lista restringirá el conjunto de tipos de archivo permitidos. Los tipos MIME permitidos actualmente son:
-mep#:#mobs_restrict_file_types#:#Tipos de archivo permitidos
-mep#:#mobs_restrict_file_types_info#:#Introduzca una lista de sufijos de archivo separados por comas (ej. jpg,gif) que se permiten cargar en objetos multimedia. Si no se introduce ningún valor, se permitirán todos los tipos de archivo.
 meta#:#adt_error_max_length#:#El texto introducido es demasiado largo. Por favor, introduzca un texto más corto.
 meta#:#md_adn_int_error_no_default#:#Por favor, seleccione un idioma activado como su "Idioma predeterminado".
 meta#:#md_adv_active#:#Activo

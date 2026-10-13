@@ -1,0 +1,167 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Svi"
+
+msgid "mep_all_mobs"
+msgstr "Svi medijski objekti"
+
+msgid "mep_bulk_upload"
+msgstr "Skupni prijenos"
+
+msgid "mep_choose_from_folder"
+msgstr "Odaberite iz mape"
+
+msgid "mep_choose_from_mep"
+msgstr "Odaberite iz bazena"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+msgid "mep_content"
+msgstr "Sadržaj"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Isječak sadržaja '%s' koristi se i ne može se izbrisati."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Napomena: Ovaj isječak koristi se u starijim verzijama nekih stranica. Ako se ove stranice vrate na inačicu koja uključuje ovaj isječak, isječak će nedostajati na stranici."
+
+msgid "mep_copy_to_mep"
+msgstr "Kopiraj u medijski bazen"
+
+msgid "mep_create_content_snippet"
+msgstr "Kreiraj isječak sadržaja"
+
+msgid "mep_create_folder"
+msgstr "Kreiraj mapu"
+
+msgid "mep_create_media_files"
+msgstr "Kreiraj medijske objekte"
+
+msgid "mep_create_mob"
+msgstr "Kreiraj medijski objekt"
+
+msgid "mep_default_height"
+msgstr "Zadana visina"
+
+msgid "mep_default_width"
+msgstr "Zadana širina"
+
+msgid "mep_default_width_height_info"
+msgstr "Zadane širina i visina koriste se kao unaprijed postavljene postavke za stvaranje novih medijskih objekata."
+
+msgid "mep_edit_content_snippet"
+msgstr "Kreiraj isječak sadržaja"
+
+msgid "mep_edit_folder"
+msgstr "Uredi mapu"
+
+msgid "mep_file"
+msgstr "Datoteka"
+
+msgid "mep_folder"
+msgstr "Mapa"
+
+msgid "mep_format"
+msgstr "Format"
+
+msgid "mep_import"
+msgstr "Uvezi medijski bazen"
+
+msgid "mep_import_lang"
+msgstr "Ciljani jezik"
+
+msgid "mep_import_trans"
+msgstr "Uvezi prijevod"
+
+msgid "mep_master_language_only"
+msgstr "Glavni jezik za prevođenje"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Glavni jezik bez medija"
+
+msgid "mep_media_files"
+msgstr "Medijske datoteke"
+
+msgid "mep_media_subtitles"
+msgstr "Medijski podnaslovi"
+
+msgid "mep_mob"
+msgstr "Medijski objekt"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Isječak novog sadržaja"
+
+msgid "mep_new_folder"
+msgstr "Nova mapa"
+
+msgid "mep_page_properties"
+msgstr "Svojstva stranice"
+
+#, fuzzy
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Sličica"
+
+msgid "mep_title_and_description"
+msgstr "Naslov i opis"
+
+msgid "mep_trans_import_info"
+msgstr "Ako ste izvezli ovaj modul kao XML / Glavni jezik za prijevod u drugu instalaciju, sada ovdje možete ponovo uvesti prevedene izvozne datoteke iz ove druge instalacije."
+
+msgid "mep_unknown"
+msgstr "Nepoznato"
+
+msgid "mep_up_dir_copy"
+msgstr "Kopiraj datoteke iz direktorija za učitavanje (čuva datoteke u direktoriju za pučitavanje)"
+
+msgid "mep_up_dir_move"
+msgstr "Premještanje datoteka iz direktorija za učitavanjep (brže)"
+
+msgid "mep_upload_dir_files"
+msgstr "Datoteke iz direktorija za učitavanje"
+
+msgid "mobs_activate_pages"
+msgstr "Koristite isječke sadržaja"
+
+msgid "mobs_activate_pages_info"
+msgstr "Omogućuje stvaranje isječaka sadržaja u medijskim bazenima. Ti se isječci mogu ponovno koristiti (ne urediti) u modulima za učenje."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Uvijek prikaži upravitelja datoteka"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Ako je deaktiviran, upravitelj datoteka za medijske objekte bit će skriven za jednostavne vrste mima (npr. slike)."
+
+msgid "mobs_black_list_file_types"
+msgstr "Zabranjene vrste datoteka"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Dopuštene vrste datoteka"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Unesite popis sufiksa datoteka (npr. jpg, gif) odvojenih zarezom koje je dopušteno prenositi u medijske objekte. Ako se ne unese vrijednost, dopuštene su sve vrste datoteka."

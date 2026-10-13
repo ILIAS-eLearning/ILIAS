@@ -11015,57 +11015,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Tagok kikapcsolhatjá
 membership#:#mem_force_notification_mode_blocked#:#Tagokat automatikusan értesítjük.
 membership#:#mem_force_notification_mode_custom#:#Egyéni
 membership#:#mem_force_notification_mode_self#:#Tagoknak saját maguknak kell aktiválniuk az értesítést.
-mep#:#mep_all#:#Összes
-mep#:#mep_all_mobs#:#Összes médiaobjektum
-mep#:#mep_bulk_upload#:#Tömeges feltöltés
-mep#:#mep_choose_from_folder#:#Válasszon a mappából
-mep#:#mep_choose_from_mep#:#Válasszon a gyűjteményből
-mep#:#mep_clipboard_info#:#Ide feltölthet médiafájlokat, amelyeket bármely szerkeszthető oldalra beilleszthet. A vágólap a médiagyűjteményekben is elérhető. Ez a tároló csak az öné, azaz más felhasználók nem tekintheti meg a tartalmát.
-mep#:#mep_content#:#Tartalom
-mep#:#mep_content_snippet_in_use#:#‘%s’ tartalom-építőelem használatban van, nem törölhető.
-mep#:#mep_content_snippet_used_in_older_versions#:#Ne feledje: néhány lap régebbi verziója használja ezt az építőelemet. Ha ezeket a lapokat visszaállítják egy olyan verzióra, amely tartalmazza ezt az építőelemet, az építőelem hiányozni fog a lapról.
-mep#:#mep_copy_to_mep#:#Másolás a médiagyűjteménybe
-mep#:#mep_create_content_snippet#:#Tartalom-építőelem létrehozása
-mep#:#mep_create_folder#:#Mappa létrehozása
-mep#:#mep_create_media_files#:#Médiaobjektum létrehozása
-mep#:#mep_create_mob#:#Médiaobjektum létrehozása
-mep#:#mep_default_height#:#Alapértelmezett magasság
-mep#:#mep_default_width#:#Alapértelmezett szélesség
-mep#:#mep_default_width_height_info#:#Az itt megadott szélesség és magasság lesz az új médiaobjektum alapértelmezett szélessége és magassága.
-mep#:#mep_edit_content_snippet#:#Tartalom-építőelem módosítása
-mep#:#mep_edit_folder#:#Mappa módosítása
-mep#:#mep_file#:#Fájl
-mep#:#mep_folder#:#Mappa
-mep#:#mep_format#:#Formátum
-mep#:#mep_import#:#Médiagyűjtemény importálása
-mep#:#mep_import_lang#:#Célnyelv
-mep#:#mep_import_trans#:#Fordítás importálása
-mep#:#mep_master_language_only#:#Fordításhoz főnyelv
-mep#:#mep_master_language_only_no_media#:#Főnyelv, média nélkül
-mep#:#mep_media_files#:#Mediafájlok
-mep#:#mep_media_subtitles#:#Feliratok
-mep#:#mep_mob#:#Mediaobjektum
-mep#:#mep_move_select_insert#:#Navigáljon a célmappába és kattintson a ‘Beillesztés’-re
-mep#:#mep_mpg#:#Tartalom-építőelem
-mep#:#mep_new_content_snippet#:#Új tartalom-építőelem
-mep#:#mep_new_folder#:#Új mappa
-mep#:#mep_page_properties#:#Laptulajdonságok
-mep#:#mep_page_type_mep#:#Tartalom-építőelem
-mep#:#mep_thumbnail#:#Bélyegkép
-mep#:#mep_title_and_description#:#Cím és leírás
-mep#:#mep_trans_import_info#:#Ha ezt a modult ‘XML/Fordításhoz mesternyelv’-ként exportálta egy másik telepítésbe, akkor most újra importálhatja a lefordított exportfájlokat innen a második telepítésből.
-mep#:#mep_unknown#:#Nem ismert
-mep#:#mep_up_dir_copy#:#Fájlok másolása a feltöltő mappából (a fájlokat a feltöltő mappában tartja)
-mep#:#mep_up_dir_move#:#Mozifájlok feltöltő mappából (gyorsabb)
-mep#:#mep_upload_dir_files#:#Fájlok feltöltési mappából
-mep#:#mobs_activate_pages#:#Tartalom-építőelemek használata
-mep#:#mobs_activate_pages_info#:#Tartalom-építőelemek létrehozásának engedélyezése médiagyűjteményekben. Ezen építőelemek többször felhasználhatók tananyagokban (de ott nem szerkeszthetőek).
-mep#:#mobs_always_show_file_manager#:#Mindig látszódjon a fájlkezelő
-mep#:#mobs_always_show_file_manager_info#:#Ha nincs bekapcsolva, a médiaobjektumok fájlkezelője el lesz rejtve az egyszerű MIME-típusok (például képek) esetén.
-mep#:#mobs_black_list_file_types#:#Tiltott fájltípusok
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Ez a felsorolás korlátozza az engedélyezett fájltípusokat. Adja meg a mime-típusokat vesszővel elválasztva (például text/html, application/pdf). A jelenleg engedélyzett mime-típusok:
-mep#:#mobs_restrict_file_types#:#Engedélyezett fájltípusok
-mep#:#mobs_restrict_file_types_info#:#Adja meg a médiaobjektumokba feltölthető fájlok kiterjesztésének (például jpg, gif) vesszővel elválasztott listáját. Ha nem ad meg értéket, minden fájltípus feltölthető.
 meta#:#adt_error_max_length#:#A beírt szöveg túl hosszú, kérem, írjon rövidebbet.
 meta#:#md_adn_int_error_no_default#:#Állítson be egy nyelvet ‘Alapértelmezett nyelv’-nek.
 meta#:#md_adv_active#:#Aktív
