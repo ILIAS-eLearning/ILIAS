@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qpl\n"
+
+#, fuzzy
+msgid "qpl_filter_commented_exclude"
+msgstr "Questions without comments"
+
+#, fuzzy
+msgid "qpl_filter_commented_only"
+msgstr "Questions with comments"
+
+#, fuzzy
+msgid "qpl_page_type_qfbg"
+msgstr "General Feedback"
+
+#, fuzzy
+msgid "qpl_page_type_qfbs"
+msgstr "Special Feedback"
+
+#, fuzzy
+msgid "qpl_page_type_qht"
+msgstr "Hint"
+
+#, fuzzy
+msgid "qpl_page_type_qpl"
+msgstr "Question Page"

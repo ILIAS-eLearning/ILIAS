@@ -13074,12 +13074,6 @@ ps#:#rbac_log_age_info#:#Maximales Alter der Log-Einträge in Monaten
 ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren
 ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
-qpl#:#qpl_filter_commented_exclude#:#Nur Fragen ohne Kommentare
-qpl#:#qpl_filter_commented_only#:#Nur Fragen mit Kommentaren
-qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
-qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
-qpl#:#qpl_page_type_qht#:#Hinweis
-qpl#:#qpl_page_type_qpl#:#Fragenseite
 rbac#:#accs_edit_permission#:#Rechteeinstellungen für die Einstellungen zur Barrierefreiheit ändern
 rbac#:#accs_read#:#Einstellungen zur Barrierefreiheit einsehen
 rbac#:#accs_visible#:#Administrationsknoten „Barrierefreiheit“ sehen

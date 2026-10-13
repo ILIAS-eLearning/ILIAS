@@ -12758,12 +12758,6 @@ ps#:#rbac_log_age_info#:#Ay içinde günlük girdilerini maksimum yaşı
 ps#:#rbac_log_info#:#Nesne izinlerinde yapılan tüm değişikliklerin günlüğünü tutulur
 ps#:#show_privacy#:#Gizlilik
 ps#:#show_security#:#Güvenlik
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#Kullanıcı Yönetimi Erişilebilirlik Ayarları izinlerini değiştirebilirsiniz.
 rbac#:#accs_read#:#Kullanıcı Yönetimi Erişilebilirlik Ayarlar okuma erişimine sahiptir.
 rbac#:#accs_visible#:#Erişilebilirlik Ayarları İdaresi görebilir.

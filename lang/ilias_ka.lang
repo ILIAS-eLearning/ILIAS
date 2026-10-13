@@ -12758,12 +12758,6 @@ ps#:#rbac_log_age_info#:#თვის ჩატვირთული შენ�
 ps#:#rbac_log_info#:#ყველა ცვლილების ობიექტის დაშვებებში ჩატვირთვის გააქტიურება
 ps#:#show_privacy#:#საიდუმლო
 ps#:#show_security#:#უსაფრთხოება
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#User can change permissions of Accessibility Settings  in Administration.
 rbac#:#accs_read#:#User has read access to Accessibility Settings in Administration.
 rbac#:#accs_visible#:#Accessibility Settings are visible in Administration.

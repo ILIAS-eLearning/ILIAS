@@ -12763,12 +12763,6 @@ ps#:#rbac_log_age_info#:#Durata massima degli inserimenti del log in mesi
 ps#:#rbac_log_info#:#Attiva Logging di tutti i cambiamenti e delle impostazioni di sicurezza
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Sicurezza
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#Feedback generale
-qpl#:#qpl_page_type_qfbs#:#Feedback speciali
-qpl#:#qpl_page_type_qht#:#Suggerimento
-qpl#:#qpl_page_type_qpl#:#Pagina delle domande
 rbac#:#accs_edit_permission#:#Modifica impostazioni dei permessi
 rbac#:#accs_read#:#Puoi accedere alle impostazioni di accessibilità
 rbac#:#accs_visible#:#Le impostazioni di Accessibilita' sono visibili

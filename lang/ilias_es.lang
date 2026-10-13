@@ -12811,12 +12811,6 @@ ps#:#rbac_log_age_info#:#Antigüedad máxima de las entradas del registro en mes
 ps#:#rbac_log_info#:#Registrar todos los cambios en los permisos de los objetos.
 ps#:#show_privacy#:#Privacidad
 ps#:#show_security#:#Seguridad
-qpl#:#qpl_filter_commented_exclude#:#Preguntas sin comentarios
-qpl#:#qpl_filter_commented_only#:#Preguntas con comentarios
-qpl#:#qpl_page_type_qfbg#:#Feedback general
-qpl#:#qpl_page_type_qfbs#:#Feedback especial
-qpl#:#qpl_page_type_qht#:#Sugerencia
-qpl#:#qpl_page_type_qpl#:#Página de pregunta
 rbac#:#accs_edit_permission#:#El usuario puede cambiar los permisos de la Configuración de Accesibilidad en la Administración.
 rbac#:#accs_read#:#El usuario tiene acceso de lectura a la Configuración de Accesibilidad en la Administración.
 rbac#:#accs_visible#:#La Configuración de Accesibilidad es visible en la Administración.

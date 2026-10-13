@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: qpl\n"
+
+msgid "qpl_filter_commented_exclude"
+msgstr ""
+
+msgid "qpl_filter_commented_only"
+msgstr ""
+
+msgid "qpl_page_type_qfbg"
+msgstr ""
+
+msgid "qpl_page_type_qfbs"
+msgstr ""
+
+msgid "qpl_page_type_qht"
+msgstr ""
+
+msgid "qpl_page_type_qpl"
+msgstr ""

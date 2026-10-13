@@ -12849,12 +12849,6 @@ ps#:#rbac_log_age_info#:#Idade máxima das entradas de registo num mês
 ps#:#rbac_log_info#:#Ativar logging de todas as alterações para permissões de objeto
 ps#:#show_privacy#:#Não insira as perguntas num banco de perguntas (apenas disponível neste inquérito)
 ps#:#show_security#:#Segurança
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###03 09 2026 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###03 09 2026 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###30 04 2021 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###30 04 2021 new variable
-qpl#:#qpl_page_type_qht#:#Hint###30 04 2021 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###30 04 2021 new variable
 rbac#:#accs_edit_permission#:#Pode aceder aos resultados do inquérito
 rbac#:#accs_read#:#Os participantes não podem aceder a resultados
 rbac#:#accs_visible#:#Todos os participantes do inquérito podem aceder aos resultados

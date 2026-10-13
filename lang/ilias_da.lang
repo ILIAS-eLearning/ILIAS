@@ -12758,12 +12758,6 @@ ps#:#rbac_log_age_info#:#Maximum age of log entries in month###16 07 2010 new va
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions###16 07 2010 new variable
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Sikkerhed
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#Ret rettighedsindstillinger
 rbac#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
 rbac#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
