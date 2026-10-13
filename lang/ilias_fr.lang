@@ -12726,12 +12726,6 @@ obj#:#select_object_type#:#Select Object Type###31 10 2023 new variable
 obj#:#svy_results#:#Résultats
 obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.###31 10 2023 new variable
 obj#:#user_owns_no_objects#:#No Repository Objects Available###31 10 2023 new variable
-objref#:#objref_custom_title#:#Utiliser un Titre Personnalisé
-objref#:#objref_edit_ref#:#Réglage de la Cible
-objref#:#objref_edit_title#:#Réglage du Titre
-objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
-objref#:#objref_reuse_title#:#Réutiliser le Titre de la Référence
-objref#:#objref_title_settings#:#Editer le Titre de la Référence
 orgu#:#Staff#:#Equipe
 orgu#:#add_position#:#Ajouter position
 orgu#:#authorities#:#Autorités

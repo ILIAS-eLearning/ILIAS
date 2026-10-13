@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "使用自定义标题"
+
+msgid "objref_edit_ref"
+msgstr "目标设置"
+
+msgid "objref_edit_title"
+msgstr "标题设置"
+
+#, fuzzy
+msgid "objref_failure_target_type"
+msgstr "Das Ziel des Links muss vom folgendem Typ sein:"
+
+msgid "objref_reuse_title"
+msgstr "重用标题参考"
+
+msgid "objref_title_settings"
+msgstr "编辑参考标题"

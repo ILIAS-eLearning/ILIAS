@@ -12800,12 +12800,6 @@ obj#:#select_object_type#:#Seleccionar tipo de objeto
 obj#:#svy_results#:#Resultados
 obj#:#unequal_items_for_availability_period_message#:#Ha seleccionado elementos con diferentes periodos de disponibilidad. Sobrescriba los ajustes existentes a continuación o cancele la acción para mantener los periodos de disponibilidad actuales.
 obj#:#user_owns_no_objects#:#No hay objetos del repositorio disponibles
-objref#:#objref_custom_title#:#Usar título propio
-objref#:#objref_edit_ref#:#Destino del enlace
-objref#:#objref_edit_title#:#Título
-objref#:#objref_failure_target_type#:#El destino del enlace debe ser del siguiente tipo:
-objref#:#objref_reuse_title#:#Adoptar título del objeto enlazado
-objref#:#objref_title_settings#:#Título del objeto enlazado
 orgu#:#Staff#:#Personal
 orgu#:#add_position#:#Añadir cargo
 orgu#:#authorities#:#Autoridades
