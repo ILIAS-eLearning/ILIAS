@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: svy\n"
+
+msgid "survey_360_appraisees_remind_info"
+msgstr "If ‘Self Evaluation’ has been activated, appraisees that have not yet finished the survey will be reminded to do so."
+
+msgid "survey_360_raters_remind_info"
+msgstr "Raters that have not yet finished the survey will be reminded to do so."
+
+msgid "svy_0_open_appraisees"
+msgstr "There are no more appraisees for you to rate or the survey is no longer open to raters."
+
+msgid "svy_all_pages"
+msgstr "All Pages"
+
+msgid "svy_all_participants"
+msgstr "All Participants"
+
+msgid "svy_all_questions"
+msgstr "All Questions"
+
+msgid "svy_code"
+msgstr "Access Code"
+
+msgid "svy_codes"
+msgstr "Access Codes"
+
+msgid "svy_current_page"
+msgstr "Current Page"
+
+msgid "svy_finish_survey"
+msgstr "Take part in survey ‘%1’"
+
+msgid "svy_finished_x_appraisees"
+msgstr "You have already left feedback for %s appraisee(s)."
+
+msgid "svy_info_participants"
+msgstr "Add users to this survey as participants, using one of the following search options. These users will have the survey added as a task on their dashboard."
+
+msgid "svy_information"
+msgstr "Information"
+
+msgid "svy_invite_participants"
+msgstr "Add to Tasks of Users"
+
+msgid "svy_link_to_svy"
+msgstr "Link to Survey"
+
+msgid "svy_part_overview"
+msgstr "Overview"
+
+msgid "svy_placeholders_label"
+msgstr "Available Placeholders"
+
+msgid "svy_print_selection"
+msgstr "Select Content of Print View"
+
+msgid "svy_remove_all_participants"
+msgstr "Delete All Participant Data"
+
+msgid "svy_remove_participants"
+msgstr "Remove Participants"
+
+msgid "svy_selected_participants"
+msgstr "Selected Participants"
+
+msgid "svy_selected_questions"
+msgstr "Selected Questions"
+
+msgid "svy_selection"
+msgstr "Selection"
+
+msgid "svy_status"
+msgstr "Status"
+
+msgid "svy_status_finished"
+msgstr "Finished"
+
+msgid "svy_status_in_progress"
+msgstr "In progress"
+
+msgid "svy_status_invited"
+msgstr "Added to tasks"
+
+msgid "svy_user_added_appraisee"
+msgstr "Survey ‘%1’"
+
+msgid "svy_user_added_appraisee_close_mail"
+msgstr "The survey has been closed for your raters."
+
+msgid "svy_user_added_appraisee_mail"
+msgstr "You have been added to the following survey as an appraisee. To be taken to the survey, click on the link below."
+
+msgid "svy_user_added_rater"
+msgstr "Survey ‘%1’"
+
+msgid "svy_user_added_rater_mail"
+msgstr "You have been added as a rater to the survey."
+
+msgid "svy_user_added_rater_reminder_mail"
+msgstr "Please don’t forget to rate the following appraisees:"
+
+msgid "svy_user_not_found"
+msgstr "User not found."
+
+msgid "svy_users_invited"
+msgstr "A ‘to do’, notifying users that they can take part in this survey, has been added to the ‘Tasks’ section of their dashboard(s)."
+
+msgid "svy_x_appraisees_closed_for_raters"
+msgstr "The survey has been closed to raters by %s appraisee(s)."
+
+msgid "svy_x_open_appraisees"
+msgstr "You have %s appraisee(s) awaiting your feedback."
+
+msgid "svy_your_appraisees"
+msgstr "Your Appraisees"
+
+msgid "svy_your_raters"
+msgstr "Your Raters"
+
+msgid "svy_your_raters_finished"
+msgstr "%s of your raters have finished the survey."

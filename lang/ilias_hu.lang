@@ -15405,46 +15405,6 @@ survey#:#values#:#Értékek
 survey#:#vertical#:#Függőleges
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#workingtime#:#Eltöltött idő
-svy#:#survey_360_appraisees_remind_info#:#Ha az ‘Önértékelés’ be van kapcsolva, értesítjük a saját magukat nem értékelt személyeket, hogy tegyék meg.
-svy#:#survey_360_raters_remind_info#:#Emlékeztetni fogjuk azokat az értékelőket, akik még nem fejezeték be a kérdőívet.
-svy#:#svy_0_open_appraisees#:#Nincs több értékelendője, értékelést már nem adhat le ebben a kérdőívben.
-svy#:#svy_all_pages#:#Összes oldal
-svy#:#svy_all_participants#:#Összes résztvevő
-svy#:#svy_all_questions#:#Összes kérdés
-svy#:#svy_code#:#Hozzáférési kód
-svy#:#svy_codes#:#Hozzáférési kódok
-svy#:#svy_current_page#:#Jelenlegi oldal
-svy#:#svy_finish_survey#:#‘%1’ kérdőívben részvétel
-svy#:#svy_finished_x_appraisees#:#%s értékelendő esetében már befejezet a kérdőívet.
-svy#:#svy_info_participants#:#Adjon hozzá felhasználókat a felmérés résztvevőiként az alábbi keresési lehetőségek egyikével. A felmérés feladatként jelenik meg ezeknek a felhasználóknak az irányítópultján.
-svy#:#svy_information#:#Információ
-svy#:#svy_invite_participants#:#Résztvevők feladatához hozzáadás
-svy#:#svy_link_to_svy#:#Kérdőívre mutató link
-svy#:#svy_part_overview#:#Áttekintés
-svy#:#svy_placeholders_label#:#Elérhető helyettesítő karakterek
-svy#:#svy_print_selection#:#Nyomtatási nézet választása
-svy#:#svy_remove_all_participants#:#Összes résztvevő eltávolítása
-svy#:#svy_remove_participants#:#Résztvevő eltávolítása
-svy#:#svy_selected_participants#:#Kiválasztott résztvevők
-svy#:#svy_selected_questions#:#Kiválasztott kérdések
-svy#:#svy_selection#:#Kiválasztás
-svy#:#svy_status#:#Állapot
-svy#:#svy_status_finished#:#Befejezve
-svy#:#svy_status_in_progress#:#Folyamatban
-svy#:#svy_status_invited#:#Sikeresen hozzáadta a feladatokhoz
-svy#:#svy_user_added_appraisee#:#‘%1’ kérdőív
-svy#:#svy_user_added_appraisee_close_mail#:#A kérdőív lezárult az értékelők számára.
-svy#:#svy_user_added_appraisee_mail#:#ezúton értesítjük, hogy értékelendő személynek hozzáadták a kérdőívhez.
-svy#:#svy_user_added_rater#:#‘%1’ kérdőív
-svy#:#svy_user_added_rater_mail#:#ezúton értesítjük, hogy értékelő személynek hozzáadták a kérdőívhez.
-svy#:#svy_user_added_rater_reminder_mail#:#Kérem, fejezze be a következő értékeléseket:
-svy#:#svy_user_not_found#:#A felhasználó nem található.
-svy#:#svy_users_invited#:#A felhasználók Műszerfaluk ‘Feladatok’ részéhez hozzáadtuk egy ‘teendő’ részt, amely értesíti őket arról, hogy részt vehetnek ebben a kérdőívben.
-svy#:#svy_x_appraisees_closed_for_raters#:#%s értékelendő már lezárta a kérdőívet az értékelők előtt.
-svy#:#svy_x_open_appraisees#:#%s értékelendője vár az Ön értékelésére.
-svy#:#svy_your_appraisees#:#Értékelendőim
-svy#:#svy_your_raters#:#Értékelőim
-svy#:#svy_your_raters_finished#:#Az értékelőiből %s fejezte be a kérdőívet.
 sysc#:#sysc_action_list_tree#:#Tartalomtárfa-lenyomat létrehozása
 sysc#:#sysc_action_repair#:#Javítás
 sysc#:#sysc_action_show_tree#:#Tartalomtárfa-lenyomat megjelenítése

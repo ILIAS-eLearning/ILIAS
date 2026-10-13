@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: svy\n"
+
+msgid "survey_360_appraisees_remind_info"
+msgstr ""
+
+msgid "survey_360_raters_remind_info"
+msgstr ""
+
+msgid "svy_0_open_appraisees"
+msgstr ""
+
+msgid "svy_all_pages"
+msgstr ""
+
+msgid "svy_all_participants"
+msgstr ""
+
+msgid "svy_all_questions"
+msgstr ""
+
+msgid "svy_code"
+msgstr ""
+
+msgid "svy_codes"
+msgstr ""
+
+msgid "svy_current_page"
+msgstr ""
+
+msgid "svy_finish_survey"
+msgstr ""
+
+msgid "svy_finished_x_appraisees"
+msgstr ""
+
+msgid "svy_info_participants"
+msgstr ""
+
+msgid "svy_information"
+msgstr ""
+
+msgid "svy_invite_participants"
+msgstr ""
+
+msgid "svy_link_to_svy"
+msgstr ""
+
+msgid "svy_part_overview"
+msgstr ""
+
+msgid "svy_placeholders_label"
+msgstr ""
+
+msgid "svy_print_selection"
+msgstr ""
+
+msgid "svy_remove_all_participants"
+msgstr ""
+
+msgid "svy_remove_participants"
+msgstr ""
+
+msgid "svy_selected_participants"
+msgstr ""
+
+msgid "svy_selected_questions"
+msgstr ""
+
+msgid "svy_selection"
+msgstr ""
+
+msgid "svy_status"
+msgstr ""
+
+msgid "svy_status_finished"
+msgstr ""
+
+msgid "svy_status_in_progress"
+msgstr ""
+
+msgid "svy_status_invited"
+msgstr ""
+
+msgid "svy_user_added_appraisee"
+msgstr ""
+
+msgid "svy_user_added_appraisee_close_mail"
+msgstr ""
+
+msgid "svy_user_added_appraisee_mail"
+msgstr ""
+
+msgid "svy_user_added_rater"
+msgstr ""
+
+msgid "svy_user_added_rater_mail"
+msgstr ""
+
+msgid "svy_user_added_rater_reminder_mail"
+msgstr ""
+
+msgid "svy_user_not_found"
+msgstr ""
+
+msgid "svy_users_invited"
+msgstr ""
+
+msgid "svy_x_appraisees_closed_for_raters"
+msgstr ""
+
+msgid "svy_x_open_appraisees"
+msgstr ""
+
+msgid "svy_your_appraisees"
+msgstr ""
+
+msgid "svy_your_raters"
+msgstr ""
+
+msgid "svy_your_raters_finished"
+msgstr ""

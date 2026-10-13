@@ -15435,46 +15435,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#vertical
 survey#:#warning_question_not_complete#:#A pergunta não está completa!
 survey#:#workingtime#:#Tempo de trabalho
-svy#:#survey_360_appraisees_remind_info#:#Se estiver ativada a autoavaliação, os avaliados que ainda não terminaram o inquérito serão lembrados.
-svy#:#survey_360_raters_remind_info#:#Os examinadores que ainda não terminaram o inquérito serão lembrados.
-svy#:#svy_0_open_appraisees#:#There are no more appraisees for you to rate or the survey is no longer open to raters.###03 09 2026 new variable
-svy#:#svy_all_pages#:#All Pages###03 09 2026 new variable
-svy#:#svy_all_participants#:#All Participants###03 09 2026 new variable
-svy#:#svy_all_questions#:#All Questions###03 09 2026 new variable
-svy#:#svy_code#:#Access Code###03 09 2026 new variable
-svy#:#svy_codes#:#Access Codes###07 02 2020 new variable
-svy#:#svy_current_page#:#Current Page###03 09 2026 new variable
-svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
-svy#:#svy_finished_x_appraisees#:#You have already completed the survey for %s appraisee(s).###03 09 2026 new variable
-svy#:#svy_info_participants#:#Adicione utilizadores como participantes deste inquérito utilizando uma das seguintes opções de pesquisa. O inquérito será adicionado como tarefa ao painel destes utilizadores.
-svy#:#svy_information#:#Information###03 09 2026 new variable
-svy#:#svy_invite_participants#:#Invite Participants###07 02 2020 new variable
-svy#:#svy_link_to_svy#:#Link to Survey###03 09 2026 new variable
-svy#:#svy_part_overview#:#Overview###07 02 2020 new variable
-svy#:#svy_placeholders_label#:#Available Placeholders###03 09 2026 new variable
-svy#:#svy_print_selection#:#Print View Selection###03 09 2026 new variable
-svy#:#svy_remove_all_participants#:#Remove all Participants###07 02 2020 new variable
-svy#:#svy_remove_participants#:#Remove Participants###07 02 2020 new variable
-svy#:#svy_selected_participants#:#Selected Participants###03 09 2026 new variable
-svy#:#svy_selected_questions#:#Selected Questions###03 09 2026 new variable
-svy#:#svy_selection#:#Selection###03 09 2026 new variable
-svy#:#svy_status#:#Status###07 02 2020 new variable
-svy#:#svy_status_finished#:#Finished###07 02 2020 new variable
-svy#:#svy_status_in_progress#:#In Progress###07 02 2020 new variable
-svy#:#svy_status_invited#:#Invited###07 02 2020 new variable
-svy#:#svy_user_added_appraisee#:#Survey ‘%1’###03 09 2026 new variable
-svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.###03 09 2026 new variable
-svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.###03 09 2026 new variable
-svy#:#svy_user_added_rater#:#Survey ‘%1’###03 09 2026 new variable
-svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.###03 09 2026 new variable
-svy#:#svy_user_added_rater_reminder_mail#:#Please don’t forget to rate the following appraisees:###03 09 2026 new variable
-svy#:#svy_user_not_found#:#User not found.###03 09 2026 new variable
-svy#:#svy_users_invited#:#Users have been invited.###07 02 2020 new variable
-svy#:#svy_x_appraisees_closed_for_raters#:#The survey has been closed to raters by %s appraisee(s).###03 09 2026 new variable
-svy#:#svy_x_open_appraisees#:#You have %s appraisee(s) awaiting your feedback.###03 09 2026 new variable
-svy#:#svy_your_appraisees#:#Your Appraisees###03 09 2026 new variable
-svy#:#svy_your_raters#:#Your Raters###03 09 2026 new variable
-svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.###03 09 2026 new variable
 sysc#:#sysc_action_list_tree#:#Criar depósito de árvore do repositório
 sysc#:#sysc_action_repair#:#Reparar
 sysc#:#sysc_action_show_tree#:#Mostrar depósito de árvore do repositório

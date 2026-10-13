@@ -15400,46 +15400,6 @@ survey#:#values#:#値
 survey#:#vertical#:#垂直
 survey#:#warning_question_not_complete#:#質問設定が不完全です!
 survey#:#workingtime#:#所要時間
-svy#:#survey_360_appraisees_remind_info#:#自己評価を有効にするとまだサーベイを終了していない評価は注意催促されます。
-svy#:#survey_360_raters_remind_info#:#まだサーベイを終了していない考課者は注意催促されます。
-svy#:#svy_0_open_appraisees#:#評価する対象者がもういないか、またはアンケートは評価者に対してもう公開されていません。
-svy#:#svy_all_pages#:#全ページ
-svy#:#svy_all_participants#:#全参加者
-svy#:#svy_all_questions#:#全問題
-svy#:#svy_code#:#アクセスコード
-svy#:#svy_codes#:#アクセスコード
-svy#:#svy_current_page#:#現在のページ
-svy#:#svy_finish_survey#:#サーベイ'%1'を実行
-svy#:#svy_finished_x_appraisees#:#あなたはすでに%s人の評価対象者に対するアンケートを完了しています。
-svy#:#svy_info_participants#:#次のいずれかの検索オプションを使用して、このアンケートにユーザーを参加者として追加します。追加されたユーザーには、このアンケートがダッシュボード上のタスクとして表示されます。
-svy#:#svy_information#:#インフォメーション
-svy#:#svy_invite_participants#:#参加者を招待
-svy#:#svy_link_to_svy#:#サーベイへのリンク
-svy#:#svy_part_overview#:#概要
-svy#:#svy_placeholders_label#:#利用可能なワイルドカード
-svy#:#svy_print_selection#:#印刷ビュー選択
-svy#:#svy_remove_all_participants#:#全参加者を削除
-svy#:#svy_remove_participants#:#参加者を削除
-svy#:#svy_selected_participants#:#選択の参加者
-svy#:#svy_selected_questions#:#選択の参加者
-svy#:#svy_selection#:#選択
-svy#:#svy_status#:#ステータス
-svy#:#svy_status_finished#:#終了
-svy#:#svy_status_in_progress#:#進行中
-svy#:#svy_status_invited#:#招待済
-svy#:#svy_user_added_appraisee#:#サーベイ '%1'
-svy#:#svy_user_added_appraisee_close_mail#:#サーベイは評価者用にクローズされました。
-svy#:#svy_user_added_appraisee_mail#:#評価対象者としてサーベイへ追加されました。
-svy#:#svy_user_added_rater#:#サーベイ '%1'
-svy#:#svy_user_added_rater_mail#:#サーベイへ評価者として追加されました。
-svy#:#svy_user_added_rater_reminder_mail#:#次の評価対象者の評価を終了してください。
-svy#:#svy_user_not_found#:#ユーザが見つかりませんでした。
-svy#:#svy_users_invited#:#ユーザは招待されました。
-svy#:#svy_x_appraisees_closed_for_raters#:#このサーベイは、%s 人の被評価者によって評価者に対して閉鎖されました。
-svy#:#svy_x_open_appraisees#:#あなたには、フィードバックを待っている%s人の評価対象者がいます。
-svy#:#svy_your_appraisees#:#あなたの被評価者
-svy#:#svy_your_raters#:#あなたの評価者
-svy#:#svy_your_raters_finished#:#あなたの評価者の%sがアンケートを完了しました。
 sysc#:#sysc_action_list_tree#:#リポジトリツリーダンプを作成
 sysc#:#sysc_action_repair#:#リペア
 sysc#:#sysc_action_show_tree#:#リポジトリツリーダンプを作成表示する

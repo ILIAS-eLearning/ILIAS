@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: svy\n"
+
+msgid "survey_360_appraisees_remind_info"
+msgstr "Ha az ‘Önértékelés’ be van kapcsolva, értesítjük a saját magukat nem értékelt személyeket, hogy tegyék meg."
+
+msgid "survey_360_raters_remind_info"
+msgstr "Emlékeztetni fogjuk azokat az értékelőket, akik még nem fejezeték be a kérdőívet."
+
+msgid "svy_0_open_appraisees"
+msgstr "Nincs több értékelendője, értékelést már nem adhat le ebben a kérdőívben."
+
+msgid "svy_all_pages"
+msgstr "Összes oldal"
+
+msgid "svy_all_participants"
+msgstr "Összes résztvevő"
+
+msgid "svy_all_questions"
+msgstr "Összes kérdés"
+
+msgid "svy_code"
+msgstr "Hozzáférési kód"
+
+msgid "svy_codes"
+msgstr "Hozzáférési kódok"
+
+msgid "svy_current_page"
+msgstr "Jelenlegi oldal"
+
+msgid "svy_finish_survey"
+msgstr "‘%1’ kérdőívben részvétel"
+
+msgid "svy_finished_x_appraisees"
+msgstr "%s értékelendő esetében már befejezet a kérdőívet."
+
+msgid "svy_info_participants"
+msgstr "Adjon hozzá felhasználókat a felmérés résztvevőiként az alábbi keresési lehetőségek egyikével. A felmérés feladatként jelenik meg ezeknek a felhasználóknak az irányítópultján."
+
+msgid "svy_information"
+msgstr "Információ"
+
+msgid "svy_invite_participants"
+msgstr "Résztvevők feladatához hozzáadás"
+
+msgid "svy_link_to_svy"
+msgstr "Kérdőívre mutató link"
+
+msgid "svy_part_overview"
+msgstr "Áttekintés"
+
+msgid "svy_placeholders_label"
+msgstr "Elérhető helyettesítő karakterek"
+
+msgid "svy_print_selection"
+msgstr "Nyomtatási nézet választása"
+
+msgid "svy_remove_all_participants"
+msgstr "Összes résztvevő eltávolítása"
+
+msgid "svy_remove_participants"
+msgstr "Résztvevő eltávolítása"
+
+msgid "svy_selected_participants"
+msgstr "Kiválasztott résztvevők"
+
+msgid "svy_selected_questions"
+msgstr "Kiválasztott kérdések"
+
+msgid "svy_selection"
+msgstr "Kiválasztás"
+
+msgid "svy_status"
+msgstr "Állapot"
+
+msgid "svy_status_finished"
+msgstr "Befejezve"
+
+msgid "svy_status_in_progress"
+msgstr "Folyamatban"
+
+msgid "svy_status_invited"
+msgstr "Sikeresen hozzáadta a feladatokhoz"
+
+msgid "svy_user_added_appraisee"
+msgstr "‘%1’ kérdőív"
+
+msgid "svy_user_added_appraisee_close_mail"
+msgstr "A kérdőív lezárult az értékelők számára."
+
+msgid "svy_user_added_appraisee_mail"
+msgstr "ezúton értesítjük, hogy értékelendő személynek hozzáadták a kérdőívhez."
+
+msgid "svy_user_added_rater"
+msgstr "‘%1’ kérdőív"
+
+msgid "svy_user_added_rater_mail"
+msgstr "ezúton értesítjük, hogy értékelő személynek hozzáadták a kérdőívhez."
+
+msgid "svy_user_added_rater_reminder_mail"
+msgstr "Kérem, fejezze be a következő értékeléseket:"
+
+msgid "svy_user_not_found"
+msgstr "A felhasználó nem található."
+
+msgid "svy_users_invited"
+msgstr "A felhasználók Műszerfaluk ‘Feladatok’ részéhez hozzáadtuk egy ‘teendő’ részt, amely értesíti őket arról, hogy részt vehetnek ebben a kérdőívben."
+
+msgid "svy_x_appraisees_closed_for_raters"
+msgstr "%s értékelendő már lezárta a kérdőívet az értékelők előtt."
+
+msgid "svy_x_open_appraisees"
+msgstr "%s értékelendője vár az Ön értékelésére."
+
+msgid "svy_your_appraisees"
+msgstr "Értékelendőim"
+
+msgid "svy_your_raters"
+msgstr "Értékelőim"
+
+msgid "svy_your_raters_finished"
+msgstr "Az értékelőiből %s fejezte be a kérdőívet."

@@ -15684,46 +15684,6 @@ survey#:#values#:#Werte
 survey#:#vertical#:#Vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
-svy#:#survey_360_appraisees_remind_info#:#Wenn die Selbsteinschätzung aktiviert wurde, werden alle Feedback-Nehmer, welche die Umfrage noch nicht abgeschlossen haben, benachrichtigt.
-svy#:#survey_360_raters_remind_info#:#Feedback-Geber, welche die Umfrage noch nicht abgeschlossen haben, erhalten eine Benachrichtigung.
-svy#:#svy_0_open_appraisees#:#Sie können die Umfrage für keinen Feedback-Nehmer mehr durchführen.
-svy#:#svy_all_pages#:#Alle Seiten
-svy#:#svy_all_participants#:#Alle Befragte
-svy#:#svy_all_questions#:#Alle Fragen
-svy#:#svy_code#:#Zugangscode
-svy#:#svy_codes#:#Zugangscodes
-svy#:#svy_current_page#:#Aktuelle Seite
-svy#:#svy_finish_survey#:#An Umfrage "%1" teilnehmen
-svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben.
-svy#:#svy_info_participants#:#Fügen Sie Personen über eine der folgenden Suchoptionen zu dieser Umfrage hinzu. Die Umfrage wird diesen Personen als Aufgabe auf ihrem Dashboard angezeigt.
-svy#:#svy_information#:#Information
-svy#:#svy_invite_participants#:#Personen hinzufügen
-svy#:#svy_link_to_svy#:#Link zur Umfrage
-svy#:#svy_part_overview#:#Übersicht
-svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
-svy#:#svy_print_selection#:#Inhalt der Druckansicht auswählen
-svy#:#svy_remove_all_participants#:#Alle Datensätze löschen
-svy#:#svy_remove_participants#:#Daten entfernen
-svy#:#svy_selected_participants#:#Ausgewählte Befragte
-svy#:#svy_selected_questions#:#Ausgewählte Fragen
-svy#:#svy_selection#:#Auswahl
-svy#:#svy_status#:#Status
-svy#:#svy_status_finished#:#Beendet
-svy#:#svy_status_in_progress#:#In Bearbeitung
-svy#:#svy_status_invited#:#Als To-Do eingetragen
-svy#:#svy_user_added_appraisee#:#Umfrage „%1“
-svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
-svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
-svy#:#svy_user_added_rater#:#Umfrage „%1“
-svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
-svy#:#svy_user_added_rater_reminder_mail#:#Bitte vergessen Sie nicht, die folgenden Feedback-Nehmer zu bewerten:
-svy#:#svy_user_not_found#:#Anmeldename nicht gefunden.
-svy#:#svy_users_invited#:#Die Umfrage wurde den ausgewählten Personen als „To-Do“ im Dashboard hinzugefügt.
-svy#:#svy_x_appraisees_closed_for_raters#:#%s der Feedback-Nehmer haben die Umfrage für Feedback-Geber geschlossen.
-svy#:#svy_x_open_appraisees#:#Es warten noch %s der Feedback-Nehmer auf Ihre Bewertung
-svy#:#svy_your_appraisees#:#Ihre Feedback-Nehmer
-svy#:#svy_your_raters#:#Ihre Feedback-Geber
-svy#:#svy_your_raters_finished#:#%s Ihrer Feedback-Geber haben die Umfrage beendet.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
 sysc#:#sysc_action_repair#:#Reparieren
 sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen
