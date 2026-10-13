@@ -1,5 +1,8 @@
-# Export
-Disclaimer: This documentation does not guarantee completeness or correctness. Please report any missing or incorrect information using the ILIAS issue tracker or contribute a fix via Pull Request (docs/development/contributing.md#pull-request-to-the-repositories).
+# Export Privacy
+
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
+
+
 ## General Information
 This privacy.md exclusively covers the export in Export-tabs. It does not cover exporting data from tables outside the Export-tab.  
 The Export creates XML file for download.a In some cases Microsoft Excel or Comma Separated Values are also offered. 
