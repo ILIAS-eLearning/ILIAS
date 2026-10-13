@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\SessionReminder\TokenCipher;
 use ILIAS\Data\Clock\ClockInterface;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -35,55 +36,81 @@ readonly class ilSessionReminderCheck
         private ilIniFile $client_ini,
         private ilLogger $logger,
         private ClockInterface $clock,
-        private ilSetting $settings
+        private ilSetting $settings,
+        private ?TokenCipher $token_cipher
     ) {
     }
 
     public function handle(): ResponseInterface
     {
-        $hash = ilUtil::stripSlashes(
-            $this->http->wrapper()->post()->retrieve(
-                'hash',
-                $this->refinery->kindlyTo()->string()
-            )
-        );
-
-        $this->logger->debug('Session reminder call for session id hash: ' . $hash);
-
         // disable session writing and extension of expiration time
         ilSession::enableWebAccessWithoutSession(true);
 
         $response = ['remind' => false];
 
-        $concat = $this->db->concat(
-            [
-                ['usess.session_id'],
-                ['usess.user_id'],
-                ['od.create_date']
-            ]
+        if ($this->token_cipher === null) {
+            $this->logger->warning('Session reminder call without encryption key, please run the ILIAS setup (update).');
+            $response['message'] = 'ILIAS could not decrypt the session reminder token.';
+            return $this->toJsonResponse($response);
+        }
+
+        $token = $this->http->wrapper()->post()->retrieve(
+            'token',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
         );
+
+        // Invalid tokens are rejected before the database is accessed
+        $token_data = $token !== '' ? $this->token_cipher->decode($token) : null;
+        if ($token_data === null || $token_data['user_id'] <= 0) {
+            $this->logger->debug('Session reminder call with missing or invalid token');
+            $response['message'] = 'ILIAS could not decrypt the session reminder token.';
+            return $this->toJsonResponse($response);
+        }
+
+        $user_id = $token_data['user_id'];
+        $hash = $token_data['session_hash'];
+
+        $this->logger->debug('Session reminder call for user ' . $user_id . ' and session id hash: ' . $hash);
+
+        // The hash is compared in PHP: Hashing in the query would have to be done for every row by the database server
         $res = $this->db->queryF(
-            'SELECT usess.expires, usess.user_id, usess.data ' .
+            'SELECT usess.session_id, usess.expires, usess.user_id, od.create_date ' .
             'FROM usr_session usess ' .
             'INNER JOIN object_data od ON od.obj_id = usess.user_id ' .
-            "WHERE SHA2($concat, 256) = %s",
-            [ilDBConstants::T_TEXT],
-            [$hash]
+            'WHERE usess.user_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$user_id]
         );
 
-        $num = $this->db->numRows($res);
+        $matches = [];
+        while ($row = $this->db->fetchAssoc($res)) {
+            $row_hash = hash(
+                'sha256',
+                implode('', [
+                    $row['session_id'],
+                    $row['user_id'],
+                    $row['create_date']
+                ])
+            );
+            if (hash_equals($row_hash, $hash)) {
+                $matches[] = $row;
+            }
+        }
 
-        if ($num === 0) {
+        if ($matches === []) {
             $response['message'] = 'ILIAS could not determine the session data.';
             return $this->toJsonResponse($response);
         }
 
-        if ($num > 1) {
+        if (count($matches) > 1) {
             $response['message'] = 'The determined session data is not unique.';
             return $this->toJsonResponse($response);
         }
 
-        $data = $this->db->fetchAssoc($res);
+        $data = $matches[0];
         if (!$this->isAuthenticatedUsrSession($data)) {
             $response['message'] = 'ILIAS could not fetch the session data or the corresponding user is no more authenticated.';
             return $this->toJsonResponse($response);

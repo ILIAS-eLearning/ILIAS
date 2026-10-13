@@ -35,6 +35,7 @@ il.SessionReminder = il.SessionReminder || (() => {
         url: '',
         clientId: '',
         hash: '',
+        token: '',
         frequency: 60,
         logLevel: Logger.INFO.value,
       };
