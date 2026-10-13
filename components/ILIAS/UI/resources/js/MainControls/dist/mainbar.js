@@ -797,6 +797,7 @@ var persistence = function() {
             additional_engage: function(){
                 var element = this.getElement(),
                     entry_id = dom_ref_to_element[this.html_id],
+                    triggerer_id = dom_references[entry_id].triggerer,
                     isInView = il.UI.maincontrols.mainbar.model.isInView(entry_id),
                     thrown = thrown_for[entry_id];
 
@@ -806,6 +807,9 @@ var persistence = function() {
                 if (!currentRole || currentRole === 'region') {
                     element.attr('role', 'region');
                 }
+                if (triggerer_id) {
+                    element.attr('aria-labelledby', triggerer_id);
+                }
                 if(isInView && !thrown) {
                     element.trigger('in_view'); //this is most important for async loading of slates,
                                                 //it triggers the GlobalScreen-Service.
@@ -814,6 +818,7 @@ var persistence = function() {
                 if(!isInView) {
                     thrown_for[entry_id] = false;
                 }
+                actions.focusSubentry(entry_id);
             },
             additional_disengage: function(){
                 var entry_id = dom_ref_to_element[this.html_id];
