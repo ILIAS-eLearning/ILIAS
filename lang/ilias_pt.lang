@@ -11981,44 +11981,6 @@ mme#:#type_separator_info#:#Tipo
 mme#:#type_top_link_item#:#learner_preference.delivery_speed
 mme#:#type_top_parent_item#:#Relatório básico para interações
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###03 09 2026 new variable
-mob#:#mob_choose_from_pool#:#Choose from Media Pool###30 04 2021 new variable
-mob#:#mob_copyright#:#Copyright###03 09 2026 new variable
-mob#:#mob_copyright_icon#:#Copyright Icon###03 09 2026 new variable
-mob#:#mob_external_url#:#External URL###30 04 2021 new variable
-mob#:#mob_extract_preview_image#:#Extract Preview Image###03 09 2026 new variable
-mob#:#mob_file#:#Ficheiro
-mob#:#mob_file_could_not_be_uploaded#:#Ficheiro não foi carregado.
-mob#:#mob_general#:#Geral
-mob#:#mob_image_extracted#:#Image has been extracted.###03 09 2026 new variable
-mob#:#mob_internal_usages_in_object#:#Page Usages###03 09 2026 new variable
-mob#:#mob_language#:#Idioma
-mob#:#mob_last_update#:#Last Update###03 09 2026 new variable
-mob#:#mob_media#:#Media###03 09 2026 new variable
-mob#:#mob_media_objects_overview#:#Media Objects on Pages###03 09 2026 new variable
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.###03 09 2026 new variable
-mob#:#mob_multi_srt_files#:#Ficheiros SRT
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###03 09 2026 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Descrição da interação
-mob#:#mob_object#:#Objeto
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.###03 09 2026 new variable
-mob#:#mob_preview_picture#:#Preview Picture###03 09 2026 new variable
-mob#:#mob_really_delete_srt#:#Tem a certeza que quer apagar os seguintes ficheiros srt?
-mob#:#mob_second#:#Second###03 09 2026 new variable
-mob#:#mob_srt_files_deleted#:#Os ficheiros de subtítulo foram apagados.
-mob#:#mob_srt_not_allowed#:#Files with a .vtt suffix are currently not allowed to be uploaded. If you would like to use vtt files, contact your system administrator.###03 09 2026 new variable
-mob#:#mob_subtitle_file#:#Ficheiro de subtítulo
-mob#:#mob_subtitle_files#:#Ficheiros de subtítulo
-mob#:#mob_subtitles#:#Subtítulos
-mob#:#mob_type_not_supported#:#Mime type not supported:###03 09 2026 new variable
-mob#:#mob_upload_file#:#Upload File###30 04 2021 new variable
-mob#:#mob_upload_multi_srt#:#Carregar como ZIP
-mob#:#mob_upload_multi_srt_howto#:#O ficheiro .zip não deve conter nenhum subdiretório, todos os ficheiros .srt devem encontrar-se no nível superior. Os nomes de ficheiro devem terminar com "_&lt;lang code&gt;.srt" em que o código do país é p. ex. "en", "it", "de".
-mob#:#mob_url#:#URL###30 04 2021 new variable
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.###30 04 2021 new variable
-mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:###03 09 2026 new variable
-mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.###03 09 2026 new variable
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages###03 09 2026 new variable
-mob#:#mob_usages_in_other_objects#:#Other Usages###03 09 2026 new variable
 mst#:#mst_cert_issued_on#:#Issued On###07 02 2020 new variable
 mst#:#mst_courses_of#:#Inscrições de %s
 mst#:#mst_download_certificate#:#Download Certificate###07 02 2020 new variable

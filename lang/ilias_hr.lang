@@ -11887,44 +11887,6 @@ mme#:#type_separator_info#:#Naslov ove stavke bit će prikazan u sivom natpisu. 
 mme#:#type_top_link_item#:#Poveznica
 mme#:#type_top_parent_item#:#Spremnik
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mob#:#mob_choose_from_pool#:#Choose from Media Pool###04 06 2021 new variable
-mob#:#mob_copyright#:#Copyright###29 10 2025 new variable
-mob#:#mob_copyright_icon#:#Copyright Icon###29 10 2025 new variable
-mob#:#mob_external_url#:#External URL###04 06 2021 new variable
-mob#:#mob_extract_preview_image#:#Extract Preview Image###26 08 2024 new variable
-mob#:#mob_file#:#Datoteka
-mob#:#mob_file_could_not_be_uploaded#:#Datoteka se nije mogla učitati.
-mob#:#mob_general#:#Općenito
-mob#:#mob_image_extracted#:#Image has been extracted.###26 08 2024 new variable
-mob#:#mob_internal_usages_in_object#:#Page Usages###29 10 2025 new variable
-mob#:#mob_language#:#Jezik
-mob#:#mob_last_update#:#Last Update###29 10 2025 new variable
-mob#:#mob_media#:#Media###29 10 2025 new variable
-mob#:#mob_media_objects_overview#:#Media Objects on Pages###29 10 2025 new variable
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.###29 07 2022 new variable
-mob#:#mob_multi_srt_files#:#SRT datoteke
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###26 08 2024 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Definirajte fiksnu veličinu slike prije korištenja područja karte. Ako je vaša slika prilagođena stilu sadržaja ili drugim CSS pravilima, područja vaše karte više neće odgovarati.
-mob#:#mob_object#:#Objekt
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.###26 08 2024 new variable
-mob#:#mob_preview_picture#:#Preview Picture###26 08 2024 new variable
-mob#:#mob_really_delete_srt#:#Želite li zaista izbrisati sljedeće srt datoteke?
-mob#:#mob_second#:#Second###26 08 2024 new variable
-mob#:#mob_srt_files_deleted#:#Datoteke titlova su izbrisane.
-mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.###26 08 2024 new variable
-mob#:#mob_subtitle_file#:#Datoteka titlova
-mob#:#mob_subtitle_files#:#Datoteke titlova
-mob#:#mob_subtitles#:#Prevodi
-mob#:#mob_type_not_supported#:#Mime type not supported:###26 08 2024 new variable
-mob#:#mob_upload_file#:#Upload File###04 06 2021 new variable
-mob#:#mob_upload_multi_srt#:#Učitaj kao ZIP
-mob#:#mob_upload_multi_srt_howto#:#.Zip datoteka ne smije sadržavati poddirektorij, sve .srt datoteke trebaju se nalaziti na najvišoj razini. Nazivi datoteka moraju završavati s "_ &lt;lang code &gt;.srt", gdje je jezični kod npr. "en", "it", "de".
-mob#:#mob_url#:#URL###04 06 2021 new variable
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.###04 06 2021 new variable
-mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:###26 08 2024 new variable
-mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.###26 08 2024 new variable
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages###29 10 2025 new variable
-mob#:#mob_usages_in_other_objects#:#Other Usages###29 10 2025 new variable
 mst#:#mst_cert_issued_on#:#Issued On###04 06 2021 new variable
 mst#:#mst_courses_of#:#Upisi %s
 mst#:#mst_download_certificate#:#Download Certificate###04 06 2021 new variable

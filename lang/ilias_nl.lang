@@ -11887,44 +11887,6 @@ mme#:#type_separator_info#:#The title of this item will be displayed in a grey b
 mme#:#type_top_link_item#:#Link###10 11 2018 new variable
 mme#:#type_top_parent_item#:#Container###10 11 2018 new variable
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mob#:#mob_choose_from_pool#:#Choose from Media Pool###29 07 2022 new variable
-mob#:#mob_copyright#:#Copyright###29 10 2025 new variable
-mob#:#mob_copyright_icon#:#Copyright Icon###29 10 2025 new variable
-mob#:#mob_external_url#:#External URL###29 07 2022 new variable
-mob#:#mob_extract_preview_image#:#Extract Preview Image###26 08 2024 new variable
-mob#:#mob_file#:#Bestand
-mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.###30 08 2015 new variable
-mob#:#mob_general#:#Algemeen
-mob#:#mob_image_extracted#:#Image has been extracted.###26 08 2024 new variable
-mob#:#mob_internal_usages_in_object#:#Page Usages###29 10 2025 new variable
-mob#:#mob_language#:#Taal
-mob#:#mob_last_update#:#Last Update###29 10 2025 new variable
-mob#:#mob_media#:#Media###29 10 2025 new variable
-mob#:#mob_media_objects_overview#:#Media Objects on Pages###29 10 2025 new variable
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.###29 07 2022 new variable
-mob#:#mob_multi_srt_files#:#SRT Files###30 08 2015 new variable
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###26 08 2024 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.###10 11 2018 new variable
-mob#:#mob_object#:#Object###06 02 2015 new variable
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.###26 08 2024 new variable
-mob#:#mob_preview_picture#:#Preview Picture###26 08 2024 new variable
-mob#:#mob_really_delete_srt#:#Wil je echt de volgende srt bestanden verwijderen?
-mob#:#mob_second#:#Second###26 08 2024 new variable
-mob#:#mob_srt_files_deleted#:#Ondertitelingsbestanden zijn verwijderd
-mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.###26 08 2024 new variable
-mob#:#mob_subtitle_file#:#Ondertitelingsbestand
-mob#:#mob_subtitle_files#:#Ondertitelingsbestanden
-mob#:#mob_subtitles#:#Ondertiteling
-mob#:#mob_type_not_supported#:#Mime type not supported:###26 08 2024 new variable
-mob#:#mob_upload_file#:#Upload File###29 07 2022 new variable
-mob#:#mob_upload_multi_srt#:#Upload as ZIP###30 08 2015 new variable
-mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".###30 08 2015 new variable
-mob#:#mob_url#:#URL###29 07 2022 new variable
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.###29 07 2022 new variable
-mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:###26 08 2024 new variable
-mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.###26 08 2024 new variable
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages###29 10 2025 new variable
-mob#:#mob_usages_in_other_objects#:#Other Usages###29 10 2025 new variable
 mst#:#mst_cert_issued_on#:#Issued On###07 02 2020 new variable
 mst#:#mst_courses_of#:#Enrolments of %s###31 08 2017 new variable
 mst#:#mst_download_certificate#:#Download Certificate###07 02 2020 new variable

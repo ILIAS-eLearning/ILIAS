@@ -11887,44 +11887,6 @@ mme#:#type_separator_info#:#Naslov ločila bo prikazan v sivem področju. Če ne
 mme#:#type_top_link_item#:#Povezava
 mme#:#type_top_parent_item#:#Shramba
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mob#:#mob_choose_from_pool#:#Choose from Media Pool###19 08 2022 new variable
-mob#:#mob_copyright#:#Copyright###29 10 2025 new variable
-mob#:#mob_copyright_icon#:#Copyright Icon###29 10 2025 new variable
-mob#:#mob_external_url#:#External URL###19 08 2022 new variable
-mob#:#mob_extract_preview_image#:#Extract Preview Image###26 08 2024 new variable
-mob#:#mob_file#:#Datoteka
-mob#:#mob_file_could_not_be_uploaded#:#Datoteke ni bilo mogoče naložiti.
-mob#:#mob_general#:#Splošno
-mob#:#mob_image_extracted#:#Image has been extracted.###26 08 2024 new variable
-mob#:#mob_internal_usages_in_object#:#Page Usages###29 10 2025 new variable
-mob#:#mob_language#:#Jezik
-mob#:#mob_last_update#:#Last Update###29 10 2025 new variable
-mob#:#mob_media#:#Media###29 10 2025 new variable
-mob#:#mob_media_objects_overview#:#Media Objects on Pages###29 10 2025 new variable
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.###19 08 2022 new variable
-mob#:#mob_multi_srt_files#:#Datoteke SRT
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###26 08 2024 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Določite fiksno velikost slike, preden definirate povezana področja. Če je vaša slika prilagojena slogu vsebine ali drugim pravilom CSS, potem področja ne bodo prilagojena.
-mob#:#mob_object#:#Object
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.###26 08 2024 new variable
-mob#:#mob_preview_picture#:#Preview Picture###26 08 2024 new variable
-mob#:#mob_really_delete_srt#:#Ali res želite izbrisati naslednje datoteke srt?
-mob#:#mob_second#:#Second###26 08 2024 new variable
-mob#:#mob_srt_files_deleted#:#Datoteke za podnapise so bile izbrisane.
-mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.###26 08 2024 new variable
-mob#:#mob_subtitle_file#:#Datoteka za podnapise
-mob#:#mob_subtitle_files#:#Datoteke za podnapise
-mob#:#mob_subtitles#:#Podnapisi
-mob#:#mob_type_not_supported#:#Mime type not supported:###26 08 2024 new variable
-mob#:#mob_upload_file#:#Upload File###19 08 2022 new variable
-mob#:#mob_upload_multi_srt#:#Naloži kot datoteko ZIP
-mob#:#mob_upload_multi_srt_howto#:#Datoteka .zip / arhiv .zip ne sme vsebovati podseznamov. Vse datoteke .srt morajo biti na najvišji ravni, da so prepoznane. Imena datotek se morajo končati z "_&lt;SPRACHE&gt;.srt", pri čemer je JEZIK ustrezna kratica jezika (npr. "en", "it" ali "de"). Preostanek imena datoteke mora ustrezati pripadajoči video datoteki. Datoteka za angleške podnapise v videu "my_video.mp4" se temu ustrezno imenuje "my_video_en.srt".
-mob#:#mob_url#:#URL###19 08 2022 new variable
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.###19 08 2022 new variable
-mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:###26 08 2024 new variable
-mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.###26 08 2024 new variable
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages###29 10 2025 new variable
-mob#:#mob_usages_in_other_objects#:#Other Usages###29 10 2025 new variable
 mst#:#mst_cert_issued_on#:#Issued On
 mst#:#mst_courses_of#:#Vpisi %s
 mst#:#mst_download_certificate#:#Download Certificate

@@ -1,0 +1,124 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mob\n"
+
+msgid "mob_choose_from_pool"
+msgstr "メディア集から選択"
+
+msgid "mob_copyright"
+msgstr "Copyright"
+
+msgid "mob_copyright_icon"
+msgstr "Copyright アイコン"
+
+msgid "mob_external_url"
+msgstr "外部URL"
+
+msgid "mob_extract_preview_image"
+msgstr "プレビューイメージを抽出"
+
+msgid "mob_file"
+msgstr "ファイル"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "ファイルをアップロードできませんでした。"
+
+msgid "mob_general"
+msgstr "全般"
+
+msgid "mob_image_extracted"
+msgstr "イメージの抽出を完了しました。"
+
+#, fuzzy
+msgid "mob_internal_usages_in_object"
+msgstr "Page Usages"
+
+msgid "mob_language"
+msgstr "言語"
+
+msgid "mob_last_update"
+msgstr "最終更新"
+
+msgid "mob_media"
+msgstr "Media"
+
+msgid "mob_media_objects_overview"
+msgstr "ページ上のMediaオブジェクト"
+
+msgid "mob_mime_type_not_allowed"
+msgstr "次のMIMEタイプは目的先で許容されません。"
+
+msgid "mob_multi_srt_files"
+msgstr "SRTファイル"
+
+msgid "mob_no_extraction_possible"
+msgstr "残念ながら、ファイルからイメージの抽出はできませんでした。"
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "マップエリアを使用する前にイメージの固定サイズを決めてください。コンテンツスタイルあるいは他のCSSルールでイメージを固定サイズにする場合は、マップイメージエリアは以降合わなくなります。"
+
+msgid "mob_object"
+msgstr "オブジェクト"
+
+msgid "mob_please_select_pool"
+msgstr "メディア プールを選択してください。"
+
+msgid "mob_preview_picture"
+msgstr "プレビュー画像"
+
+msgid "mob_really_delete_srt"
+msgstr "本当に次のsrtファイルを削除しますか？"
+
+msgid "mob_second"
+msgstr "2番目"
+
+msgid "mob_srt_files_deleted"
+msgstr "字幕ファイルが削除されました。"
+
+msgid "mob_srt_not_allowed"
+msgstr "拡張子.srtのファイルは現在アップロードを許容されていません。Srtファイルを使用したい場合は、システム管理者へコンタクトして下さい。"
+
+msgid "mob_subtitle_file"
+msgstr "字幕ファイル"
+
+msgid "mob_subtitle_files"
+msgstr "字幕ファイル"
+
+msgid "mob_subtitles"
+msgstr "字幕"
+
+msgid "mob_type_not_supported"
+msgstr "Mimeタイプはサポートしていません"
+
+msgid "mob_upload_file"
+msgstr "ファイルをUpload"
+
+msgid "mob_upload_multi_srt"
+msgstr "ZIPとしてアップロード"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr ".zipファイルはサブディレクトリへ含められないので全ての.srtファイルはトップレベル上に位置するようにしなければなりません。langコードは\"en\",\"it\",\"de\"の例のようにファイル名が\"_&lt;lang code&gt;.srt\"で終了するようにする必要があります。"
+
+msgid "mob_url"
+msgstr "URL"
+
+msgid "mob_url_info"
+msgstr "YoutubeまたはVimeo URLのような外部リソースのURL"
+
+msgid "mob_url_info1"
+msgstr "外部リソースURLと許容拡張子は:"
+
+msgid "mob_url_info_video"
+msgstr "Youtube 又は Vimeo URLを参照できます。"
+
+msgid "mob_usages_in_media_pools"
+msgstr "Media集用途"
+
+msgid "mob_usages_in_other_objects"
+msgstr "その他の用途"

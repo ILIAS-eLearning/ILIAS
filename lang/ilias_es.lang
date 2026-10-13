@@ -11937,44 +11937,6 @@ mme#:#type_separator_info#:#El título de este elemento se mostrará en un banne
 mme#:#type_top_link_item#:#Enlace
 mme#:#type_top_parent_item#:#Contenedor
 mme#:#unable_to_render#:#No se puede mostrar '%s' en '%s'.
-mob#:#mob_choose_from_pool#:#Elegir del Pool de Medios
-mob#:#mob_copyright#:#Copyright
-mob#:#mob_copyright_icon#:#Copyright Icon
-mob#:#mob_external_url#:#URL externa
-mob#:#mob_extract_preview_image#:#Extraer imagen de vista previa
-mob#:#mob_file#:#Archivo
-mob#:#mob_file_could_not_be_uploaded#:#El archivo no se pudo cargar.
-mob#:#mob_general#:#General
-mob#:#mob_image_extracted#:#La imagen ha sido extraída.
-mob#:#mob_internal_usages_in_object#:#Page Usages
-mob#:#mob_language#:#Idioma
-mob#:#mob_last_update#:#Last Update
-mob#:#mob_media#:#Media
-mob#:#mob_media_objects_overview#:#Media Objects on Pages
-mob#:#mob_mime_type_not_allowed#:#Los siguientes tipos MIME no están permitidos en el destino.
-mob#:#mob_multi_srt_files#:#Archivos de subtítulos
-mob#:#mob_no_extraction_possible#:#Lo sentimos, no fue posible extraer una imagen del archivo.
-mob#:#mob_no_fixed_size_map_editing#:#Por favor, defina un tamaño fijo para su imagen antes de usar áreas de mapa. Si su imagen es escalada por el estilo de contenido u otras reglas CSS, sus áreas de mapa ya no encajarán.
-mob#:#mob_object#:#Objeto
-mob#:#mob_please_select_pool#:#Por favor, seleccione un pool de medios.
-mob#:#mob_preview_picture#:#Imagen de vista previa
-mob#:#mob_really_delete_srt#:#¿Realmente desea eliminar los siguientes archivos de subtítulos?
-mob#:#mob_second#:#Segundo
-mob#:#mob_srt_files_deleted#:#Los archivos de subtítulos han sido eliminados.
-mob#:#mob_srt_not_allowed#:#Actualmente no está permitido subir archivos con la extensión .vtt. Si desea utilizar archivos vtt, póngase en contacto con el administrador del sistema.
-mob#:#mob_subtitle_file#:#Archivo de subtítulos
-mob#:#mob_subtitle_files#:#Archivos de subtítulos
-mob#:#mob_subtitles#:#Subtítulos
-mob#:#mob_type_not_supported#:#Tipo Mime no soportado:
-mob#:#mob_upload_file#:#Subir archivo
-mob#:#mob_upload_multi_srt#:#Subir como ZIP
-mob#:#mob_upload_multi_srt_howto#:#El archivo .zip no debe contener subdirectorios; todos los archivos .vtt deben estar situados en el nivel superior. Los nombres de los archivos deben terminar en "_&lt;lang code&gt;.vtt", donde lang code es, por ejemplo, "en", "it", "de".
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#URL del recurso externo, ej. URL de Youtube o Vimeo.
-mob#:#mob_url_info1#:#URL del recurso externo, las extensiones permitidas son:
-mob#:#mob_url_info_video#:#También puede hacer referencia a una URL de Youtube o Vimeo.
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages
-mob#:#mob_usages_in_other_objects#:#Other Usages
 mst#:#mst_cert_issued_on#:#Emitido el
 mst#:#mst_courses_of#:#Membresías de cursos de %s
 mst#:#mst_download_certificate#:#Descargar certificado

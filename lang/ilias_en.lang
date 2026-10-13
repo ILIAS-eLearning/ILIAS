@@ -12164,44 +12164,6 @@ mme#:#type_separator_info#:#The title of this item will be displayed in a grey b
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.
-mob#:#mob_choose_from_pool#:#Choose from Media Pool
-mob#:#mob_copyright#:#Copyright
-mob#:#mob_copyright_icon#:#Copyright Icon
-mob#:#mob_external_url#:#External URL
-mob#:#mob_extract_preview_image#:#Extract Preview Image
-mob#:#mob_file#:#File
-mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
-mob#:#mob_general#:#General
-mob#:#mob_image_extracted#:#Image has been extracted.
-mob#:#mob_internal_usages_in_object#:#Page Usages
-mob#:#mob_language#:#Language
-mob#:#mob_last_update#:#Last Update
-mob#:#mob_media#:#Media
-mob#:#mob_media_objects_overview#:#Media Objects on Pages
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
-mob#:#mob_multi_srt_files#:#Subtitle Files
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
-mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
-mob#:#mob_object#:#Object
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
-mob#:#mob_preview_picture#:#Preview Picture
-mob#:#mob_really_delete_srt#:#Do you really want to delete the following subtitle files?
-mob#:#mob_second#:#Second
-mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
-mob#:#mob_srt_not_allowed#:#Files with a .vtt suffix are currently not allowed to be uploaded. If you would like to use vtt files, contact your system administrator.
-mob#:#mob_subtitle_file#:#Subtitle File
-mob#:#mob_subtitle_files#:#Subtitle Files
-mob#:#mob_subtitles#:#Subtitles
-mob#:#mob_type_not_supported#:#Mime type not supported:
-mob#:#mob_upload_file#:#Upload File
-mob#:#mob_upload_multi_srt#:#Upload as ZIP
-mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .vtt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.vtt" where lang code is e.g. "en", "it", "de".
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
-mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:
-mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages
-mob#:#mob_usages_in_other_objects#:#Other Usages
 mst#:#mst_cert_issued_on#:#Issued On
 mst#:#mst_courses_of#:#Course Memberships of %s
 mst#:#mst_download_certificate#:#Download Certificate

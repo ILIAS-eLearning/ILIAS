@@ -11954,44 +11954,6 @@ mme#:#type_separator_info#:#Ennek az elemnek a címe egy szürke sávban fog meg
 mme#:#type_top_link_item#:#Linkel
 mme#:#type_top_parent_item#:#Tartalmazza
 mme#:#unable_to_render#:#‘%s’ / ‘%s’ nem jeleníthető meg.
-mob#:#mob_choose_from_pool#:#Választás médiagyűjteményből
-mob#:#mob_copyright#:#Szerzői jog
-mob#:#mob_copyright_icon#:#Szerzői jog ikonja
-mob#:#mob_external_url#:#Külső URL
-mob#:#mob_extract_preview_image#:#Előnézeti kép kicsomagolása
-mob#:#mob_file#:#Fájl
-mob#:#mob_file_could_not_be_uploaded#:#Fájl nem tölthető fel.
-mob#:#mob_general#:#Általános
-mob#:#mob_image_extracted#:#Az előnézeti képet sikeresen kicsomagolta.
-mob#:#mob_internal_usages_in_object#:#Oldal felhasználásai
-mob#:#mob_language#:#Nyelv
-mob#:#mob_last_update#:#Utolsó módosítás
-mob#:#mob_media#:#Média
-mob#:#mob_media_objects_overview#:#Médiaobjektumok az oldalon
-mob#:#mob_mime_type_not_allowed#:#A következő mime-típusok nem engedélyezettek a címzettnél.
-mob#:#mob_multi_srt_files#:#Feliratfájlok
-mob#:#mob_no_extraction_possible#:#A képet nem sikerült kicsomagolni a fájlból.
-mob#:#mob_no_fixed_size_map_editing#:#Térképterület használata előtt adja meg képének méretét. Ha a képét tartalomstílus vagy egyéb CSS szabály átméretezi, a térképterület nem fog illeszkedni.
-mob#:#mob_object#:#Objektum
-mob#:#mob_please_select_pool#:#Kérem, válasszon ki egy médiagyűjteményt.
-mob#:#mob_preview_picture#:#Előnézeti kép
-mob#:#mob_really_delete_srt#:#Biztos, hogy törli az alábbi feliratfájlokat?
-mob#:#mob_second#:#másodperc
-mob#:#mob_srt_files_deleted#:#A feliratfájlt sikeresen törölte.
-mob#:#mob_srt_not_allowed#:#A .vtt kiterjesztésű fájlok felöltése jelenleg nem megengedett. Kérem, keresse a rendszerüzemeltetőket.
-mob#:#mob_subtitle_file#:#Feliratfájl
-mob#:#mob_subtitle_files#:#Feliratfájlok
-mob#:#mob_subtitles#:#Feliratok
-mob#:#mob_type_not_supported#:#Mime-típus nem támogatott:
-mob#:#mob_upload_file#:#Fájl feltöltése
-mob#:#mob_upload_multi_srt#:#ZIP-fájl feltöltése
-mob#:#mob_upload_multi_srt_howto#:#A .zip fájl ne tartalmazzon mappát, egyik .vtt fájl se legyen mappában. Az fájlnév vége legyen ‘_&lt;nyelvi kód&gt;.vtt’, ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű, hogy a videófájl nevéhez illeszkedjen, például ‘video.mp4’ -> ‘video_hu.srt’.
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Külső erőforrás URL-je, például Youtube vagy Vimeo URL.
-mob#:#mob_url_info1#:#Külső erőforrás URL-je, az engedélyzett utótagok:
-mob#:#mob_url_info_video#:#Hivatkozhat Youtube vagy Vimeo URL-re is.
-mob#:#mob_usages_in_media_pools#:#Médiagyűjtemény felhasználása
-mob#:#mob_usages_in_other_objects#:#További felhasználások
 mst#:#mst_cert_issued_on#:#Kiállítás dátuma
 mst#:#mst_courses_of#:#%s kurzustagságai
 mst#:#mst_download_certificate#:#Tanúsítvány letöltése

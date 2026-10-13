@@ -1,0 +1,147 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: mob\n"
+
+#, fuzzy
+msgid "mob_choose_from_pool"
+msgstr "Choose from Media Pool"
+
+#, fuzzy
+msgid "mob_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "mob_copyright_icon"
+msgstr "Copyright Icon"
+
+#, fuzzy
+msgid "mob_external_url"
+msgstr "External URL"
+
+#, fuzzy
+msgid "mob_extract_preview_image"
+msgstr "Extract Preview Image"
+
+msgid "mob_file"
+msgstr "Soubor"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "Soubor nelze nahrát."
+
+msgid "mob_general"
+msgstr "Všeobecné"
+
+#, fuzzy
+msgid "mob_image_extracted"
+msgstr "Image has been extracted."
+
+#, fuzzy
+msgid "mob_internal_usages_in_object"
+msgstr "Page Usages"
+
+msgid "mob_language"
+msgstr "Jazyk"
+
+#, fuzzy
+msgid "mob_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "mob_media"
+msgstr "Media"
+
+#, fuzzy
+msgid "mob_media_objects_overview"
+msgstr "Media Objects on Pages"
+
+#, fuzzy
+msgid "mob_mime_type_not_allowed"
+msgstr "The following mime types are not allowed at the destination."
+
+msgid "mob_multi_srt_files"
+msgstr "Soubory SRT"
+
+#, fuzzy
+msgid "mob_no_extraction_possible"
+msgstr "Sorry, it was not able to extract an image from the file."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Před použitím oblastí mapy definujte pevnou velikost svého obrázku. Pokud dojde ke změně velikosti obrázku podle stylu obsahu nebo jiných pravidel CSS, vaše mapové oblasti se tam už nevejdou."
+
+msgid "mob_object"
+msgstr "Objekt"
+
+#, fuzzy
+msgid "mob_please_select_pool"
+msgstr "Bitte wählen Sie einen Medienpool aus."
+
+#, fuzzy
+msgid "mob_preview_picture"
+msgstr "Preview Picture"
+
+msgid "mob_really_delete_srt"
+msgstr "Opravdu chcete smazat následující soubory srt?"
+
+#, fuzzy
+msgid "mob_second"
+msgstr "Second"
+
+msgid "mob_srt_files_deleted"
+msgstr "Soubory titulků byly smazány."
+
+#, fuzzy
+msgid "mob_srt_not_allowed"
+msgstr "Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator."
+
+msgid "mob_subtitle_file"
+msgstr "Soubor titulků"
+
+msgid "mob_subtitle_files"
+msgstr "Soubory titulků"
+
+msgid "mob_subtitles"
+msgstr "Titulky"
+
+#, fuzzy
+msgid "mob_type_not_supported"
+msgstr "Mime type not supported:"
+
+#, fuzzy
+msgid "mob_upload_file"
+msgstr "Upload File"
+
+msgid "mob_upload_multi_srt"
+msgstr "Nahrát jako ZIP"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr "Soubor .zip by neměl obsahovat žádný podadresář, všechny soubory .srt by měly být umístěny na nejvyšší úrovni. Názvy souborů by měly končit tímto řetězcem „_&lt;lang code&gt;.srt“, kde je kód jazyka např. „e“, „it“, „de“."
+
+#, fuzzy
+msgid "mob_url"
+msgstr "URL"
+
+#, fuzzy
+msgid "mob_url_info"
+msgstr "External resource URL, e.g. Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_url_info1"
+msgstr "External resource URL, allowed suffixes are:"
+
+#, fuzzy
+msgid "mob_url_info_video"
+msgstr "You may also refer to a Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_usages_in_media_pools"
+msgstr "Media Pool Usages"
+
+#, fuzzy
+msgid "mob_usages_in_other_objects"
+msgstr "Other Usages"

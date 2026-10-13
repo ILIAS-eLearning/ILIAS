@@ -12193,44 +12193,6 @@ mme#:#type_separator_info#:#Der Titel des Trenners wird in einem grauen Bereich 
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Der Eintrag '%s' kann nicht in '%s' angezeigt werden.
-mob#:#mob_choose_from_pool#:#Aus Medienpool
-mob#:#mob_copyright#:#Lizenz
-mob#:#mob_copyright_icon#:#Lizenz-Icon
-mob#:#mob_external_url#:#Externe URL
-mob#:#mob_extract_preview_image#:#Vorschaubild erzeugen
-mob#:#mob_file#:#Datei
-mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
-mob#:#mob_general#:#Allgemein
-mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
-mob#:#mob_internal_usages_in_object#:#Auf Seiten
-mob#:#mob_language#:#Sprache
-mob#:#mob_last_update#:#Letztes Update
-mob#:#mob_media#:#Medien
-mob#:#mob_media_objects_overview#:#Medienobjekte auf Seiten
-mob#:#mob_mime_type_not_allowed#:#Die folgenden MIME-Typen sind am Zielort nicht erlaubt.
-mob#:#mob_multi_srt_files#:#Untertitel-Dateien
-mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
-mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
-mob#:#mob_object#:#Objekt
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
-mob#:#mob_preview_picture#:#Vorschaubild
-mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden Untertitel-Dateien löschen?
-mob#:#mob_second#:#Sekunde
-mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
-mob#:#mob_srt_not_allowed#:#Dateien vom Typ .vtt können aktuell nicht hochgeladen werden. Kontaktieren Sie die technische Betreuung, um .vtt-Dateien zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
-mob#:#mob_subtitle_file#:#Datei für Untertitel
-mob#:#mob_subtitle_files#:#Dateien für Untertitel
-mob#:#mob_subtitles#:#Untertitel
-mob#:#mob_type_not_supported#:#Der Mime-Type wird an dieser Stelle nicht unterstützt:
-mob#:#mob_upload_file#:#Datei hochladen
-mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
-mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .vtt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.vtt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.vtt".
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Externe URL, z.B. Youtube- oder Vimeo-URL.
-mob#:#mob_url_info1#:#URL des externen Inhalts. Erlaubte Dateikennungen sind:
-mob#:#mob_url_info_video#:#Sie können auch auf ein Video bei Youtube oder Vimeo verweisen.
-mob#:#mob_usages_in_media_pools#:#In Medienpools
-mob#:#mob_usages_in_other_objects#:#Andere Nutzungen
 mst#:#mst_cert_issued_on#:#Ausgestellt am
 mst#:#mst_courses_of#:#Einschreibungen von %s
 mst#:#mst_download_certificate#:#Zertifikat herunterladen

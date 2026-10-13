@@ -1,0 +1,136 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mob\n"
+
+msgid "mob_choose_from_pool"
+msgstr "Från mediapoolen"
+
+#, fuzzy
+msgid "mob_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "mob_copyright_icon"
+msgstr "Copyright Icon"
+
+msgid "mob_external_url"
+msgstr "Extern URL"
+
+#, fuzzy
+msgid "mob_extract_preview_image"
+msgstr "Extract Preview Image"
+
+msgid "mob_file"
+msgstr "Fil"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "Filen kunde inte laddas upp."
+
+msgid "mob_general"
+msgstr "Allmänt"
+
+#, fuzzy
+msgid "mob_image_extracted"
+msgstr "Image has been extracted."
+
+#, fuzzy
+msgid "mob_internal_usages_in_object"
+msgstr "Page Usages"
+
+msgid "mob_language"
+msgstr "Språk"
+
+#, fuzzy
+msgid "mob_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "mob_media"
+msgstr "Media"
+
+#, fuzzy
+msgid "mob_media_objects_overview"
+msgstr "Media Objects on Pages"
+
+msgid "mob_mime_type_not_allowed"
+msgstr "Följande mime-typer är inte tillåtna på destinationen."
+
+msgid "mob_multi_srt_files"
+msgstr "SRT-filer"
+
+#, fuzzy
+msgid "mob_no_extraction_possible"
+msgstr "Sorry, it was not able to extract an image from the file."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Var god ange en fast storlek för din bild innan du definierar länkade områden. Områdena kommer inte att justeras om din bild skalas av en innehållsstil eller andra CSS-regler."
+
+msgid "mob_object"
+msgstr "Objekt"
+
+msgid "mob_please_select_pool"
+msgstr "Vänligen välj en mediapool."
+
+#, fuzzy
+msgid "mob_preview_picture"
+msgstr "Preview Picture"
+
+msgid "mob_really_delete_srt"
+msgstr "Vill du verkligen ta bort följande srt-filer?"
+
+#, fuzzy
+msgid "mob_second"
+msgstr "Second"
+
+msgid "mob_srt_files_deleted"
+msgstr "Undertextfiler har tagits bort."
+
+msgid "mob_srt_not_allowed"
+msgstr "Filer av typen .srt kan för närvarande inte laddas upp. För att aktivera funktionen måste den konfigureras av en systemadministratör (Administration &gt; File Services)."
+
+msgid "mob_subtitle_file"
+msgstr "Fil för undertexter"
+
+msgid "mob_subtitle_files"
+msgstr "Filer för undertexter"
+
+msgid "mob_subtitles"
+msgstr "Underrubrik"
+
+msgid "mob_type_not_supported"
+msgstr "Mimetypen stöds inte för närvarande"
+
+msgid "mob_upload_file"
+msgstr "Ladda upp fil"
+
+msgid "mob_upload_multi_srt"
+msgstr "Ladda upp som ZIP-fil"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr ".zip-filen / .zip-arkivet får inte innehålla några underkataloger. Alla .srt-filer måste vara på toppnivå för att kunna identifieras. Filnamnen måste avslutas med \"_&lt;SPRACHE&gt;.srt\", där SPRACHE är motsvarande språkidentifierare (t.ex. \"en\", \"it\" ell"
+
+msgid "mob_url"
+msgstr "URL"
+
+msgid "mob_url_info"
+msgstr "Extern URL, t.ex. Youtube eller Vimeo URL."
+
+msgid "mob_url_info1"
+msgstr "Extern resurs-URL, tillåtna suffix är"
+
+msgid "mob_url_info_video"
+msgstr "Du kan också hänvisa till en Youtube- eller Vimeo-URL."
+
+#, fuzzy
+msgid "mob_usages_in_media_pools"
+msgstr "Media Pool Usages"
+
+#, fuzzy
+msgid "mob_usages_in_other_objects"
+msgstr "Other Usages"

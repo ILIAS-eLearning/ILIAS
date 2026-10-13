@@ -1,0 +1,147 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mob\n"
+
+#, fuzzy
+msgid "mob_choose_from_pool"
+msgstr "Choose from Media Pool"
+
+#, fuzzy
+msgid "mob_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "mob_copyright_icon"
+msgstr "Copyright Icon"
+
+#, fuzzy
+msgid "mob_external_url"
+msgstr "External URL"
+
+#, fuzzy
+msgid "mob_extract_preview_image"
+msgstr "Extract Preview Image"
+
+msgid "mob_file"
+msgstr "Ficheiro"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "Ficheiro não foi carregado."
+
+msgid "mob_general"
+msgstr "Geral"
+
+#, fuzzy
+msgid "mob_image_extracted"
+msgstr "Image has been extracted."
+
+#, fuzzy
+msgid "mob_internal_usages_in_object"
+msgstr "Page Usages"
+
+msgid "mob_language"
+msgstr "Idioma"
+
+#, fuzzy
+msgid "mob_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "mob_media"
+msgstr "Media"
+
+#, fuzzy
+msgid "mob_media_objects_overview"
+msgstr "Media Objects on Pages"
+
+#, fuzzy
+msgid "mob_mime_type_not_allowed"
+msgstr "The following mime types are not allowed at the destination."
+
+msgid "mob_multi_srt_files"
+msgstr "Ficheiros SRT"
+
+#, fuzzy
+msgid "mob_no_extraction_possible"
+msgstr "Sorry, it was not able to extract an image from the file."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Descrição da interação"
+
+msgid "mob_object"
+msgstr "Objeto"
+
+#, fuzzy
+msgid "mob_please_select_pool"
+msgstr "Bitte wählen Sie einen Medienpool aus."
+
+#, fuzzy
+msgid "mob_preview_picture"
+msgstr "Preview Picture"
+
+msgid "mob_really_delete_srt"
+msgstr "Tem a certeza que quer apagar os seguintes ficheiros srt?"
+
+#, fuzzy
+msgid "mob_second"
+msgstr "Second"
+
+msgid "mob_srt_files_deleted"
+msgstr "Os ficheiros de subtítulo foram apagados."
+
+#, fuzzy
+msgid "mob_srt_not_allowed"
+msgstr "Files with a .vtt suffix are currently not allowed to be uploaded. If you would like to use vtt files, contact your system administrator."
+
+msgid "mob_subtitle_file"
+msgstr "Ficheiro de subtítulo"
+
+msgid "mob_subtitle_files"
+msgstr "Ficheiros de subtítulo"
+
+msgid "mob_subtitles"
+msgstr "Subtítulos"
+
+#, fuzzy
+msgid "mob_type_not_supported"
+msgstr "Mime type not supported:"
+
+#, fuzzy
+msgid "mob_upload_file"
+msgstr "Upload File"
+
+msgid "mob_upload_multi_srt"
+msgstr "Carregar como ZIP"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr "O ficheiro .zip não deve conter nenhum subdiretório, todos os ficheiros .srt devem encontrar-se no nível superior. Os nomes de ficheiro devem terminar com \"_&lt;lang code&gt;.srt\" em que o código do país é p. ex. \"en\", \"it\", \"de\"."
+
+#, fuzzy
+msgid "mob_url"
+msgstr "URL"
+
+#, fuzzy
+msgid "mob_url_info"
+msgstr "External resource URL, e.g. Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_url_info1"
+msgstr "External resource URL, allowed suffixes are:"
+
+#, fuzzy
+msgid "mob_url_info_video"
+msgstr "You may also refer to a Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_usages_in_media_pools"
+msgstr "Media Pool Usages"
+
+#, fuzzy
+msgid "mob_usages_in_other_objects"
+msgstr "Other Usages"
