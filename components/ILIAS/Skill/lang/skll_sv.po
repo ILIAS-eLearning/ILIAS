@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr "Nya kompetensbedömningar och utvärderingar"
+
+msgid "skll_intro_skill_notification_for"
+msgstr "Följande är en översikt över dina senaste kompetensförändringar"
+
+msgid "skll_lhist_skill_achieved"
+msgstr "Status $4$ av $3$ tilldelades i $1$."
+
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "Kompetensprofil $3$ har uppfyllts."
+
+msgid "skll_lhist_skill_self_eval"
+msgstr "Status $4$ av $3$ är självtilldelad."
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "Status $4$ av $3$ var självtilldelad i $1$."
+
+msgid "skll_new_skill_achievements"
+msgstr "Du har uppnått följande kompetensnivåer under perioden %1$s till %2$s"
+
+msgid "skll_skill_notification"
+msgstr "Anmälan Kompetens Utvärdering"
+
+msgid "skll_skill_notification_desc"
+msgstr "Användare meddelas om ändrade kompetensnivåer."

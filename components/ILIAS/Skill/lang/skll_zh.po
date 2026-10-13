@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: skll\n"
+
+#, fuzzy
+msgid "skll_competence_achievements"
+msgstr "New competence achievements and appraisals"
+
+#, fuzzy
+msgid "skll_intro_skill_notification_for"
+msgstr "this is an overview of your latest competence achievements."
+
+#, fuzzy
+msgid "skll_lhist_skill_achieved"
+msgstr "Status $4$ of $3$ was assigned in $1$."
+
+#, fuzzy
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "Competence Profile $3$ was fulfilled."
+
+#, fuzzy
+msgid "skll_lhist_skill_self_eval"
+msgstr "Status $4$ of $3$ was self-assigned."
+
+#, fuzzy
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "Status $4$ of $3$ was self-assigned in $1$."
+
+#, fuzzy
+msgid "skll_new_skill_achievements"
+msgstr "You achieved new competence levels in the period of %1$s to %2$s:"
+
+#, fuzzy
+msgid "skll_skill_notification"
+msgstr "Competence Notification"
+
+#, fuzzy
+msgid "skll_skill_notification_desc"
+msgstr "Informs user on newly set competence levels."

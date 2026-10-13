@@ -1,0 +1,560 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr "Kategori"
+
+msgid "skll"
+msgstr "Kompetens"
+
+msgid "skmg_360_survey"
+msgstr "360° undersökning"
+
+msgid "skmg_add_assignment"
+msgstr "Tilldela roller/medlemmar"
+
+msgid "skmg_add_level"
+msgstr "Lägg till uttryck"
+
+msgid "skmg_add_local_profile"
+msgstr "Lägg till lokal profil"
+
+msgid "skmg_add_profile"
+msgstr "Lägg till profil"
+
+msgid "skmg_add_resource"
+msgstr " Tilldela tidskriftsobjekt"
+
+msgid "skmg_add_skill"
+msgstr "Lägg till kompetens"
+
+msgid "skmg_add_skill_tree"
+msgstr "Lägg till kompetensträd"
+
+msgid "skmg_add_user_to_profile"
+msgstr "Sök efter användare eller roller"
+
+msgid "skmg_all"
+msgstr "Alla"
+
+msgid "skmg_allow_local_profiles"
+msgstr "Tillåt skapande av lokala profiler"
+
+msgid "skmg_allow_local_profiles_info"
+msgstr "Användare med rätt \"Redigera inställningar\" i kurser och grupper kan skapa lokala kompetensprofiler med hjälp av globalt definierade kompetenser."
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr "Nu kan du tilldela innehåll från dina personliga resurser (t.ex. filer) till kompetenser. Om du nu vill lägga till innehåll i dina personliga resurser, vänligen klicka på följande länk."
+
+msgid "skmg_assign_level"
+msgstr "Tilldela uttryck"
+
+msgid "skmg_assign_materials"
+msgstr "Tilldela personliga resurser"
+
+msgid "skmg_assign_user"
+msgstr "Tilldela användare"
+
+msgid "skmg_assigned_objects"
+msgstr " Tilldelade objekt"
+
+msgid "skmg_assigned_profiles"
+msgstr "Tilldelade kompetensprofiler"
+
+msgid "skmg_assigned_skill_levels"
+msgstr " Tilldelade kompetensmål"
+
+msgid "skmg_assigned_users"
+msgstr " Tilldelade roller och användare"
+
+#, fuzzy
+msgid "skmg_bar_charts"
+msgstr "Bar Charts"
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "Vissa objekt kan inte raderas eftersom de fortfarande används."
+
+msgid "skmg_cert_skill_level_title"
+msgstr "Title Kompetensnivå"
+
+msgid "skmg_cert_skill_title"
+msgstr "Titel Kompetens"
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr "Titel Trigger"
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr "Vill du verkligen ta bort följande tidningsartiklar från profilen?"
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr "Vill du verkligen ta bort följande kompetensnivåer från profilen?"
+
+msgid "skmg_confirm_user_removal"
+msgstr "Vill du verkligen ta bort följande användare från profilen?"
+
+msgid "skmg_cont_profiles_info"
+msgstr "I denna vy kan du välja kompetensprofiler med kompetensposter som är relaterade till det för närvarande öppnade objektet (kurs/grupp). För att komma till den globala vyn med alla kompetensprofiler som tilldelats dig och alla kompetensposter, klicka på lä"
+
+#, fuzzy
+msgid "skmg_cont_profiles_info_empty"
+msgstr "There are no competence profiles related to the currently open object."
+
+#, fuzzy
+msgid "skmg_cont_records_info_empty"
+msgstr "There are no competences related to the currently opened object."
+
+msgid "skmg_context_global"
+msgstr "Global"
+
+msgid "skmg_context_local"
+msgstr "Lokalt"
+
+msgid "skmg_count_references"
+msgstr "Antal refererade kompetenser"
+
+msgid "skmg_create_sctp"
+msgstr "Skapa mall för kategori"
+
+msgid "skmg_create_skill_category"
+msgstr "Skapa kategori"
+
+msgid "skmg_create_skill_template"
+msgstr "Skapa mall"
+
+msgid "skmg_create_skill_template_category"
+msgstr "Skapa mall för kategori"
+
+msgid "skmg_create_skill_template_reference"
+msgstr "Infoga mall"
+
+msgid "skmg_create_skll"
+msgstr "Skapa kompetens"
+
+msgid "skmg_custom_image_alt"
+msgstr "Användardefinierad bild för kompetensprofil"
+
+msgid "skmg_delete_profiles"
+msgstr "Vill du verkligen radera följande profiler?"
+
+#, fuzzy
+msgid "skmg_delete_warning"
+msgstr "Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item."
+
+msgid "skmg_description_info"
+msgstr "Beskrivningen är hämtad från mallen."
+
+msgid "skmg_edit_level"
+msgstr "Redigera uttryck"
+
+msgid "skmg_edit_profile"
+msgstr "Redigera profil"
+
+msgid "skmg_edit_scat"
+msgstr "Ändra kategori"
+
+msgid "skmg_edit_sctp"
+msgstr "Redigera mallkategori"
+
+msgid "skmg_edit_skll"
+msgstr "Redigera inställningar för kompetens"
+
+msgid "skmg_edit_sktr"
+msgstr "Redigera mallreferens"
+
+msgid "skmg_enable_skmg"
+msgstr "Möjliggöra kompetenshantering"
+
+msgid "skmg_eval_type_1"
+msgstr "Utländsk opinion"
+
+msgid "skmg_eval_type_2"
+msgstr "Mätning"
+
+msgid "skmg_eval_type_3"
+msgstr "självutvärdering"
+
+msgid "skmg_eval_type_latest_1"
+msgstr "Sista externa utvärderingen"
+
+msgid "skmg_eval_type_latest_2"
+msgstr "Sista mätningen"
+
+msgid "skmg_eval_type_latest_3"
+msgstr "Senaste självutvärdering"
+
+msgid "skmg_execute_self_evaluation"
+msgstr "Start"
+
+msgid "skmg_form_presentation"
+msgstr "Presentation"
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "Vänligen ge lägre kompetensnivåer även lägre ordningsnummer. Per rad bör kompetensen öka nedåt."
+
+msgid "skmg_hide_profile_self_eval"
+msgstr "Visa kompetensmål enligt självutvärdering"
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "För enskilda kompetenser visas kompetensmålet först efter att användaren har gjort en självutvärdering."
+
+msgid "skmg_import_skills"
+msgstr "Import"
+
+msgid "skmg_input_file"
+msgstr "Importera fil"
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "Klipp in kompetenser från Urklipp."
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "Välj endast en objekttyp."
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "Klistra in kategorier från urklipp."
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "Klistra in mall från urklipp"
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "Klipp in mallreferens från urklipp"
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr "Klistra in mallkategori från urklipp"
+
+msgid "skmg_items"
+msgstr "Inträden"
+
+msgid "skmg_level"
+msgstr "Uttryck"
+
+msgid "skmg_list_skills"
+msgstr "Lista kompetenser"
+
+msgid "skmg_local_assignment_profiles"
+msgstr "Tillåt lokal tilldelning av globala profiler"
+
+msgid "skmg_lp_triggers_level"
+msgstr "Sätts av status 'Redigerad'"
+
+msgid "skmg_materials"
+msgstr "Personliga resurser"
+
+msgid "skmg_materials_resources"
+msgstr "Innehåll för lärande"
+
+msgid "skmg_new_level"
+msgstr "Nytt uttryck"
+
+msgid "skmg_new_sktr"
+msgstr "Ny mallreferens"
+
+msgid "skmg_next_step"
+msgstr "Nästa steg"
+
+msgid "skmg_no_nodes_selectable"
+msgstr "Inga kompetenser kan väljas för närvarande."
+
+msgid "skmg_no_skill_entries"
+msgstr "Du har ännu inga poster för denna kompetens."
+
+msgid "skmg_no_skills_selected_info"
+msgstr "Du har ännu inte valt eller förvärvat några kompetenser. Klicka på knappen \"Lägg till kompetens\" för att välja en kompetens. Du kan lägga till så många kompetenser som du vill. Om du förvärvar kompetenser genom att redigera lärandeinnehåll kommer de auto"
+
+msgid "skmg_no_trigger"
+msgstr "Ingen utlösare"
+
+msgid "skmg_nr"
+msgstr "Nej"
+
+msgid "skmg_number"
+msgstr "Nummer"
+
+#, fuzzy
+msgid "skmg_open"
+msgstr "Open"
+
+msgid "skmg_open_all_assigned_profiles"
+msgstr "Öppna alla tilldelade kompetensprofiler"
+
+msgid "skmg_order"
+msgstr "Beställ"
+
+msgid "skmg_order_nr"
+msgstr "Nummer"
+
+msgid "skmg_order_nr_info"
+msgstr "placerar kompetensen i listan över kompetenser."
+
+msgid "skmg_please_select_self_skill"
+msgstr "Ny självutvärdering"
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr "Välj dina färdigheter!"
+
+msgid "skmg_previous_step"
+msgstr "Föregående steg"
+
+msgid "skmg_profile"
+msgstr "Profil"
+
+msgid "skmg_really_delete_levels"
+msgstr "Bör följande kompetensnivåer verkligen tas bort?"
+
+msgid "skmg_really_remove_skills"
+msgstr "Vill du verkligen ta bort följande behörigheter?"
+
+msgid "skmg_recommended_learning_material_crs"
+msgstr "Lärandeinnehåll i kursen för att uppnå målet"
+
+msgid "skmg_recommended_learning_material_global"
+msgstr "Lärandeinnehåll för att uppnå målet"
+
+msgid "skmg_recommended_learning_material_grp"
+msgstr "Lärandeinnehåll i gruppen för att uppnå målet"
+
+msgid "skmg_recommended_learning_material_info"
+msgstr "Välj exakt ett av följande läranderesultat. Arbeta med det för att uppnå kompetensmålet."
+
+msgid "skmg_refresh_view"
+msgstr "Uppdatera vy"
+
+#, fuzzy
+msgid "skmg_remove"
+msgstr "Remove"
+
+msgid "skmg_remove_levels"
+msgstr "Ta bort egenskaper"
+
+msgid "skmg_remove_skill"
+msgstr "Ta bort kompetens"
+
+msgid "skmg_remove_trigger"
+msgstr "Ta bort utlösaren"
+
+msgid "skmg_resources"
+msgstr "Magasinobjekt"
+
+msgid "skmg_save_order"
+msgstr "Spara sekvens"
+
+msgid "skmg_save_self_evaluation"
+msgstr "Fullständig självutvärdering"
+
+msgid "skmg_save_settings"
+msgstr "Spara inställningar"
+
+msgid "skmg_sctp"
+msgstr "Mall för kategori"
+
+#, fuzzy
+msgid "skmg_select_level"
+msgstr "Select Competence Level"
+
+msgid "skmg_select_skill"
+msgstr "Klicka på en kompetens för att lägga till den till dina personliga kompetenser."
+
+msgid "skmg_select_skill_level_assign"
+msgstr "Vänligen välj en kompetens."
+
+msgid "skmg_select_trigger"
+msgstr "Välj utlösare"
+
+msgid "skmg_selectable"
+msgstr "Väljbar"
+
+msgid "skmg_selectable_info"
+msgstr "Tillåter användare att lägga till kompetensen som en personlig kompetens."
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr "De markerade objekten har kopierats."
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr "De valda objekten klipptes ut."
+
+msgid "skmg_selected_skills"
+msgstr "Utvalda kompetenser"
+
+msgid "skmg_self_evaluation"
+msgstr "självutvärdering"
+
+msgid "skmg_self_evaluation_byline"
+msgstr "Självutvärderingen beaktas inte i uppnåendet av ditt kompetensmål. Den är avsedd för orienteringsändamål."
+
+msgid "skmg_self_evaluations"
+msgstr "självutvärderingar"
+
+#, fuzzy
+msgid "skmg_set_as_lp_trigger"
+msgstr "Completion Should Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "Completion Should Not Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_suggested"
+msgstr "Do not Show as Learning Material"
+
+#, fuzzy
+msgid "skmg_set_as_suggested"
+msgstr "Show as Learning Material"
+
+msgid "skmg_settings"
+msgstr "Kompetenshantering Inställningar"
+
+msgid "skmg_show_all"
+msgstr "Visa alla"
+
+msgid "skmg_show_latest_entries"
+msgstr "Visa de senaste inmatningarna"
+
+msgid "skmg_skill"
+msgstr "Kompetens"
+
+msgid "skmg_skill_in_use"
+msgstr "Den här kompetensen används av användare eller innehåll. Därför är inte alla åtgärder tillgängliga. Kom ihåg att alla ändringar påverkar befintliga användningar."
+
+msgid "skmg_skill_level"
+msgstr "Kompetensnivå"
+
+msgid "skmg_skill_level_trigger"
+msgstr "Trigger"
+
+msgid "skmg_skill_levels"
+msgstr "Kompetensnivåer"
+
+msgid "skmg_skill_management_deactivated"
+msgstr "Competency management är för närvarande avaktiverat."
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "Du behöver förbättra denna kompetens. Tyvärr finns det för närvarande inget lämpligt utbildningsinnehåll som matchar ditt kompetensmål."
+
+msgid "skmg_skill_needs_impr_res"
+msgstr "Du behöver förbättra denna kompetens. Följande utbildningsinnehåll motsvarar ditt kompetensmål."
+
+msgid "skmg_skill_needs_self_eval"
+msgstr "Gör en självutvärdering först så att ditt kompetensmål visas."
+
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "Observera att för minst en kompetens i denna profil har ingen självutvärdering genomförts ännu. Du kommer att få se kompetensmålet för de berörda kompetenserna så snart en självutvärdering har genomförts."
+
+msgid "skmg_skill_no_needs_impr"
+msgstr "Kompetensmålet uppfyllt!"
+
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "Du har uppfyllt målet för denna kompetens."
+
+msgid "skmg_skill_overview"
+msgstr "Översikt"
+
+msgid "skmg_skill_profile_records"
+msgstr "Kompetens anmälningar"
+
+msgid "skmg_skill_profiles"
+msgstr "Kompetensprofiler"
+
+msgid "skmg_skill_template"
+msgstr "Mall"
+
+msgid "skmg_skill_templates"
+msgstr "Mallar"
+
+msgid "skmg_skill_tree"
+msgstr "Kompetens träd"
+
+msgid "skmg_skill_trees"
+msgstr "Kompetens träd"
+
+msgid "skmg_skills"
+msgstr "Kompetens"
+
+msgid "skmg_sktr"
+msgstr "Mall för referens"
+
+msgid "skmg_status"
+msgstr "Status"
+
+msgid "skmg_status_draft"
+msgstr "In förberedelse (Offline)"
+
+msgid "skmg_status_draft_info"
+msgstr "Entry visas inte för användare."
+
+msgid "skmg_status_outdated"
+msgstr "Veraltet"
+
+msgid "skmg_status_outdated_info"
+msgstr "Posten kan inte längre väljas av användaren som en ny personlig kompetens. Om kompetensen redan valts tidigare kvarstår detta val."
+
+msgid "skmg_status_publish"
+msgstr "Publicerad"
+
+msgid "skmg_status_publish_info"
+msgstr "Kompetensen kan användas av användare om alla överordnade poster också är frisläppta."
+
+msgid "skmg_suggested"
+msgstr "Visa som innehåll för lärande"
+
+msgid "skmg_suggested_resources"
+msgstr "Allokerade tidskriftsföremål"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "Vill du verkligen ta bort följande självutvärderingar?"
+
+msgid "skmg_target_level"
+msgstr "Kompetensmål"
+
+msgid "skmg_target_levels"
+msgstr "Kompetensmål"
+
+msgid "skmg_trigger"
+msgstr "Trigger"
+
+msgid "skmg_type"
+msgstr "Typ"
+
+msgid "skmg_type_of_formation"
+msgstr "Typ av undersökning"
+
+msgid "skmg_update_order"
+msgstr "Spara sekvens"
+
+msgid "skmg_usage"
+msgstr "Använda"
+
+msgid "skmg_usage_obj_objects"
+msgstr "Objekt(en)"
+
+msgid "skmg_usage_obj_profiles"
+msgstr "Profil(er)"
+
+msgid "skmg_usage_obj_users"
+msgstr "Användare"
+
+msgid "skmg_usage_type_info_gen"
+msgstr "Allmän användning i tidningsobjekt"
+
+msgid "skmg_usage_type_info_mat"
+msgstr "Användare har tilldelats personliga resurser"
+
+msgid "skmg_usage_type_info_pers"
+msgstr "Väljs av användare som en personlig kompetens"
+
+msgid "skmg_usage_type_info_prof"
+msgstr "Användning i kompetensprofiler"
+
+msgid "skmg_usage_type_info_res"
+msgstr "Uppdrag till magasinobjekt"
+
+msgid "skmg_usage_type_info_user"
+msgstr "Uppdrag till användare"
+
+msgid "skmg_your_self_evaluation"
+msgstr "Din självutvärdering"

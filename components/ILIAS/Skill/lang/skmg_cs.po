@@ -1,0 +1,598 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr "Kategorie způsobilosti"
+
+msgid "skll"
+msgstr "Základní způsobilost"
+
+msgid "skmg_360_survey"
+msgstr "360 ° přehled"
+
+#, fuzzy
+msgid "skmg_add_assignment"
+msgstr "Add Roles / Members"
+
+msgid "skmg_add_level"
+msgstr "Přidat úroveň"
+
+#, fuzzy
+msgid "skmg_add_local_profile"
+msgstr "Add Local Profile"
+
+msgid "skmg_add_profile"
+msgstr "Přidat profil"
+
+msgid "skmg_add_resource"
+msgstr "Přidat zdroj"
+
+msgid "skmg_add_skill"
+msgstr "Přidat způsobilost"
+
+#, fuzzy
+msgid "skmg_add_skill_tree"
+msgstr "Add Competence Tree"
+
+#, fuzzy
+msgid "skmg_add_user_to_profile"
+msgstr "Add users or roles to profile"
+
+msgid "skmg_all"
+msgstr "Všechno"
+
+#, fuzzy
+msgid "skmg_allow_local_profiles"
+msgstr "Allow Creation of Local Profiles"
+
+#, fuzzy
+msgid "skmg_allow_local_profiles_info"
+msgstr "Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences."
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr "Zde můžete přiřadit materiály, např. soubory, ze svého vašeho osobního pracovního prostoru do úrovně způsobilostí. Chcete-li nyní přidat materiály do svého osobního pracovního prostoru, klikněte na následující odkaz."
+
+msgid "skmg_assign_level"
+msgstr "Přiřadit úroveň"
+
+msgid "skmg_assign_materials"
+msgstr "Přiřadit materiály"
+
+msgid "skmg_assign_user"
+msgstr "Přiřadit uživatele"
+
+#, fuzzy
+msgid "skmg_assigned_objects"
+msgstr "Assigned Objects"
+
+msgid "skmg_assigned_profiles"
+msgstr "Přiřazené profily"
+
+msgid "skmg_assigned_skill_levels"
+msgstr "Přiřazené úrovně způsobilosti"
+
+msgid "skmg_assigned_users"
+msgstr "Přiřazení uživatelé"
+
+#, fuzzy
+msgid "skmg_bar_charts"
+msgstr "Bar Charts"
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "Některé položky nelze odstranit, protože se stále používají."
+
+msgid "skmg_cert_skill_level_title"
+msgstr "Název úrovně způsobilosti"
+
+msgid "skmg_cert_skill_title"
+msgstr "Název způsobilosti"
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr "Název spouštěcí způsobilosti"
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr "Opravdu chcete odstranit následující zdroje z úrovně způsobilostí?"
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr "Chcete tedy z profilu odstranit následující úrovně způsobilostí?"
+
+msgid "skmg_confirm_user_removal"
+msgstr "Opravdu chcete z tohoto profilu odebrat následující uživatele?"
+
+#, fuzzy
+msgid "skmg_cont_profiles_info"
+msgstr "In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below."
+
+#, fuzzy
+msgid "skmg_cont_profiles_info_empty"
+msgstr "There are no competence profiles related to the currently open object."
+
+#, fuzzy
+msgid "skmg_cont_records_info_empty"
+msgstr "There are no competences related to the currently opened object."
+
+#, fuzzy
+msgid "skmg_context_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "skmg_context_local"
+msgstr "Local"
+
+#, fuzzy
+msgid "skmg_count_references"
+msgstr "Number of referenced competences:"
+
+msgid "skmg_create_sctp"
+msgstr "Vytvořit kategorii šablony"
+
+msgid "skmg_create_skill_category"
+msgstr "Vytvořit kategorii způsobilosti"
+
+msgid "skmg_create_skill_template"
+msgstr "Vytvořit šablonu způsobilosti"
+
+msgid "skmg_create_skill_template_category"
+msgstr "Vytvořit kategorii šablony způsobilosti"
+
+msgid "skmg_create_skill_template_reference"
+msgstr "Vytvořit reference šablony způsobilosti"
+
+msgid "skmg_create_skll"
+msgstr "Vytvořit způsobilost"
+
+#, fuzzy
+msgid "skmg_custom_image_alt"
+msgstr "Custom image for competence profile"
+
+msgid "skmg_delete_profiles"
+msgstr "Opravdu chcete odstranit následující profily?"
+
+#, fuzzy
+msgid "skmg_delete_warning"
+msgstr "Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item."
+
+#, fuzzy
+msgid "skmg_description_info"
+msgstr "The description comes from the template."
+
+msgid "skmg_edit_level"
+msgstr "Upravit úroveň"
+
+msgid "skmg_edit_profile"
+msgstr "Upravit profil"
+
+msgid "skmg_edit_scat"
+msgstr "Upravit kategorii způsobilosti"
+
+#, fuzzy
+msgid "skmg_edit_sctp"
+msgstr "Edit Template Category"
+
+msgid "skmg_edit_skll"
+msgstr "Upravit nastavení způsobilosti"
+
+msgid "skmg_edit_sktr"
+msgstr "Upravit reference šablony způsobilosti"
+
+msgid "skmg_enable_skmg"
+msgstr "Aktivovat management způsobilosti"
+
+msgid "skmg_eval_type_1"
+msgstr "Posouzení"
+
+msgid "skmg_eval_type_2"
+msgstr "Měření"
+
+msgid "skmg_eval_type_3"
+msgstr "Vlastní hodnocení"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_1"
+msgstr "Latest Appraisal"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_2"
+msgstr "Latest Measurement"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_3"
+msgstr "Latest Self-Evaluation"
+
+msgid "skmg_execute_self_evaluation"
+msgstr "Start"
+
+#, fuzzy
+msgid "skmg_form_presentation"
+msgstr "Presentation"
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "Seřaďte prosím úrovně od nejnižší nahoře po nejvyšší dole."
+
+msgid "skmg_hide_profile_self_eval"
+msgstr "Skrýt profil bez vlastního hodnocení"
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "Cílové hodnoty profilu nebudou uživateli zobrazeny, pokud pro konkrétní dovednost nebylo provedeno vlastní hodnocení."
+
+msgid "skmg_import_skills"
+msgstr "Import"
+
+msgid "skmg_input_file"
+msgstr "Importovat soubor"
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "Vložit základní způsobilosti ze schránky"
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "Vyberte prosím jen jeden typ položky."
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "Vložit kategorii způsobilosti ze schránky"
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "Vložit kategorii šablony způsobilosti ze schránky"
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "Vložit reference šablony způsobilosti ze schránky"
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr "Vložit kategorii šablony ze schránky"
+
+msgid "skmg_items"
+msgstr "Položka"
+
+msgid "skmg_level"
+msgstr "Úroveň"
+
+msgid "skmg_list_skills"
+msgstr "Seznam způsobilostí"
+
+#, fuzzy
+msgid "skmg_local_assignment_profiles"
+msgstr "Allow Local Assignment of Global Profiles"
+
+msgid "skmg_lp_triggers_level"
+msgstr "Spuštěno dokončením"
+
+msgid "skmg_materials"
+msgstr "Materiály"
+
+#, fuzzy
+msgid "skmg_materials_resources"
+msgstr "Learning Materials"
+
+msgid "skmg_new_level"
+msgstr "Nová úroveň"
+
+msgid "skmg_new_sktr"
+msgstr "Nová reference šablony způsobilosti"
+
+msgid "skmg_next_step"
+msgstr "Další krok"
+
+msgid "skmg_no_nodes_selectable"
+msgstr "V současné době nejsou žádné volitelné způsobilosti."
+
+#, fuzzy
+msgid "skmg_no_skill_entries"
+msgstr "You do not have any entries for this competence yet."
+
+#, fuzzy
+msgid "skmg_no_skills_selected_info"
+msgstr "You have not selected any competences yet. Click on the button \"Add Competence\" to select a competence and to see it here. You can add any number of competences."
+
+msgid "skmg_no_trigger"
+msgstr "Žádný spouštěč"
+
+msgid "skmg_nr"
+msgstr "Čís."
+
+msgid "skmg_number"
+msgstr "Číslo"
+
+#, fuzzy
+msgid "skmg_open"
+msgstr "Open"
+
+#, fuzzy
+msgid "skmg_open_all_assigned_profiles"
+msgstr "Open All Assigned Competence Profiles"
+
+msgid "skmg_order"
+msgstr "Pořadí"
+
+msgid "skmg_order_nr"
+msgstr "Číslo pořadí"
+
+msgid "skmg_order_nr_info"
+msgstr "Polohy způsobilosti v seznamu způsobilostí."
+
+msgid "skmg_please_select_self_skill"
+msgstr "Spustit nové sebehodnocení. Způsobilost:"
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr "Vyberte prosím úroveň způsobilosti."
+
+msgid "skmg_previous_step"
+msgstr "Předchozí krok"
+
+msgid "skmg_profile"
+msgstr "Profil"
+
+msgid "skmg_really_delete_levels"
+msgstr "Skutečně chcete smazat následující úroveň způsobilosti?"
+
+msgid "skmg_really_remove_skills"
+msgstr "Skutečně chcete smazat následující způsobilosti z Vašeho seznamu?"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_crs"
+msgstr "Achieve your targets in this course"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_global"
+msgstr "Achieve your targets"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_grp"
+msgstr "Achieve your targets in this group"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_info"
+msgstr "Select exactly one of the following learning materials. Please work through it to achieve the competence target."
+
+msgid "skmg_refresh_view"
+msgstr "Obnovit"
+
+#, fuzzy
+msgid "skmg_remove"
+msgstr "Remove"
+
+msgid "skmg_remove_levels"
+msgstr "Odstranit úrovně"
+
+msgid "skmg_remove_skill"
+msgstr "Smazat způsobilost"
+
+msgid "skmg_remove_trigger"
+msgstr "Ostranit spouštěč"
+
+msgid "skmg_resources"
+msgstr "Zdroje"
+
+msgid "skmg_save_order"
+msgstr "Uložit pořadí"
+
+msgid "skmg_save_self_evaluation"
+msgstr "Ukončit sebehodnocení"
+
+msgid "skmg_save_settings"
+msgstr "Uložit nastavení"
+
+msgid "skmg_sctp"
+msgstr "Kategorie šablony způsobilosti"
+
+#, fuzzy
+msgid "skmg_select_level"
+msgstr "Select Competence Level"
+
+msgid "skmg_select_skill"
+msgstr "Klepněte na způsobilost j jejímu přidání do Vašich osobních způsobilostí."
+
+msgid "skmg_select_skill_level_assign"
+msgstr "Vyberte prosím dovednost."
+
+msgid "skmg_select_trigger"
+msgstr "Vybrat spouštěč."
+
+msgid "skmg_selectable"
+msgstr "Volitelné"
+
+msgid "skmg_selectable_info"
+msgstr "Umožňuje uživateli vybrat tuto kategorii jako osobní způsobilost."
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr "Vybrané položky byly zkopírovány."
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr "Vybrané položky byly vystřiženy."
+
+msgid "skmg_selected_skills"
+msgstr "Vybrané dovednosti"
+
+msgid "skmg_self_evaluation"
+msgstr "Sebehodnocení"
+
+#, fuzzy
+msgid "skmg_self_evaluation_byline"
+msgstr "The self-evaluation will be excluded from target achievement. It is used for your guidance."
+
+msgid "skmg_self_evaluations"
+msgstr "Sebehodnocení"
+
+#, fuzzy
+msgid "skmg_set_as_lp_trigger"
+msgstr "Completion Should Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "Completion Should Not Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_suggested"
+msgstr "Do not Show as Learning Material"
+
+#, fuzzy
+msgid "skmg_set_as_suggested"
+msgstr "Show as Learning Material"
+
+msgid "skmg_settings"
+msgstr "Nastavení managementu způsobilosti"
+
+#, fuzzy
+msgid "skmg_show_all"
+msgstr "Show All"
+
+#, fuzzy
+msgid "skmg_show_latest_entries"
+msgstr "Show Latest Entries"
+
+msgid "skmg_skill"
+msgstr "Způsobilost"
+
+msgid "skmg_skill_in_use"
+msgstr "Tato dovednost je používána uživateli nebo obsahem. Ne všechny příkazy jsou k dispozici. Mějte na paměti, že všechny provedené změny ovlivní stávající použití."
+
+msgid "skmg_skill_level"
+msgstr "Úroveň způsobilosti"
+
+msgid "skmg_skill_level_trigger"
+msgstr "Spouštěč úrovně dovedností"
+
+msgid "skmg_skill_levels"
+msgstr "Úroveň dovedností"
+
+msgid "skmg_skill_management_deactivated"
+msgstr "Management způsobilosti je právě deaktivován."
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "Je třeba, abyste tuto způsobilost zlepšili. Bohužel v současné době nejsou k dispozici žádné výukové zdroje, které by poskytovaly výukový materiál v souladu s cílovou úrovní způsobilosti."
+
+msgid "skmg_skill_needs_impr_res"
+msgstr "Je třeba, abyste tuto způsobilost zlepšili. Následující zdroje obsahují výukový materiál, který je přiřazen vaší cílové úrovni způsobilosti."
+
+#, fuzzy
+msgid "skmg_skill_needs_self_eval"
+msgstr "Please conduct a self-evaluation first to see your competence target. Please click on \"Actions\" for that."
+
+#, fuzzy
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done."
+
+msgid "skmg_skill_no_needs_impr"
+msgstr "Vaše úroveň způsobilosti je pro vybraný profil dostatečná."
+
+#, fuzzy
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "You achieved the target for this competence."
+
+#, fuzzy
+msgid "skmg_skill_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "skmg_skill_profile_records"
+msgstr "Competence Records"
+
+msgid "skmg_skill_profiles"
+msgstr "Profily"
+
+msgid "skmg_skill_template"
+msgstr "Šablona způsobilosti"
+
+msgid "skmg_skill_templates"
+msgstr "Šablony způsobilosti"
+
+#, fuzzy
+msgid "skmg_skill_tree"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "skmg_skill_trees"
+msgstr "Competence Trees"
+
+msgid "skmg_skills"
+msgstr "Způsobilosti"
+
+msgid "skmg_sktr"
+msgstr "Reference šablony způsobilosti"
+
+msgid "skmg_status"
+msgstr "Status"
+
+msgid "skmg_status_draft"
+msgstr "Návrh (offline)"
+
+msgid "skmg_status_draft_info"
+msgstr "Položka bude skryta."
+
+msgid "skmg_status_outdated"
+msgstr "Zastaralý"
+
+msgid "skmg_status_outdated_info"
+msgstr "Položka nemůže být nově vybrána uživateli jako osobní dovednost nebo nově přiřazen k objektům úložiště nebo profilům dovedností. Avšak existující úkoly a data jsou však stále uváděna."
+
+msgid "skmg_status_publish"
+msgstr "Zveřejněno"
+
+msgid "skmg_status_publish_info"
+msgstr "Položka může být použita, pokud budou zveřejněni i všechny nadřazené položky. Jakmile jsou položky použity, status již nemůže být nastaven na návrh, ani nemohou být vymazány."
+
+msgid "skmg_suggested"
+msgstr "Doporučený zdroj"
+
+msgid "skmg_suggested_resources"
+msgstr "Doporučené zdroje"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "Skutečně chcete smazat následující sebehodnocení?"
+
+msgid "skmg_target_level"
+msgstr "Cílová úroveň profilu"
+
+#, fuzzy
+msgid "skmg_target_levels"
+msgstr "Competence Targets"
+
+msgid "skmg_trigger"
+msgstr "Spouštěč"
+
+msgid "skmg_type"
+msgstr "Typ"
+
+msgid "skmg_type_of_formation"
+msgstr "Typ formace"
+
+msgid "skmg_update_order"
+msgstr "Aktualizovat pořadí"
+
+msgid "skmg_usage"
+msgstr "Používání"
+
+msgid "skmg_usage_obj_objects"
+msgstr "Objekt (y)"
+
+msgid "skmg_usage_obj_profiles"
+msgstr "Profil(y)"
+
+msgid "skmg_usage_obj_users"
+msgstr "Uživatel(é)"
+
+msgid "skmg_usage_type_info_gen"
+msgstr "Obecné použití v objektech úložiště"
+
+msgid "skmg_usage_type_info_mat"
+msgstr "Uživatelé přidělili materiál ze svého pracovního prostoru"
+
+msgid "skmg_usage_type_info_pers"
+msgstr "Vybráno uživateli jako osobní dovednost"
+
+msgid "skmg_usage_type_info_prof"
+msgstr "Používá se v profilech dovedností"
+
+msgid "skmg_usage_type_info_res"
+msgstr "Objekty úložiště přiřazené jako doporučený zdroj"
+
+msgid "skmg_usage_type_info_user"
+msgstr "Přidělené uživatelům"
+
+msgid "skmg_your_self_evaluation"
+msgstr "Vaše sebehodnocení"

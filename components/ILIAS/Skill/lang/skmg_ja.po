@@ -1,0 +1,549 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr "能力カテゴリ"
+
+msgid "skll"
+msgstr "基本能力"
+
+msgid "skmg_360_survey"
+msgstr "360° サーベイ"
+
+msgid "skmg_add_assignment"
+msgstr "役割 / メンバーを追加"
+
+msgid "skmg_add_level"
+msgstr "レベル追加"
+
+msgid "skmg_add_local_profile"
+msgstr "ローカルプロファイルを追加"
+
+msgid "skmg_add_profile"
+msgstr "プロファイル追加"
+
+msgid "skmg_add_resource"
+msgstr "リシース追加"
+
+msgid "skmg_add_skill"
+msgstr "能力追加"
+
+msgid "skmg_add_skill_tree"
+msgstr "Competenceツリーを追加"
+
+msgid "skmg_add_user_to_profile"
+msgstr "プロファイルへユーザまたは役割を追加"
+
+msgid "skmg_all"
+msgstr "All"
+
+msgid "skmg_allow_local_profiles"
+msgstr "ローカルプロファイルの基準を許可"
+
+msgid "skmg_allow_local_profiles_info"
+msgstr "コースとグループの'編集設定'権限を持つユーザはグルーバルに定義された能力を使用してローカル能力プロファイルを作成できます。"
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr "例えばファイルをパーソナル作業領域から能力レベルへのように教材を割り当てる事ができます。教材をパーソナル作業領域へすぐに追加したい場合は以下のリンクをクリックしてください。"
+
+msgid "skmg_assign_level"
+msgstr "レベル追加"
+
+msgid "skmg_assign_materials"
+msgstr "教材割当て"
+
+msgid "skmg_assign_user"
+msgstr "ユーザ追加"
+
+msgid "skmg_assigned_objects"
+msgstr "割当てのオブジェクト"
+
+msgid "skmg_assigned_profiles"
+msgstr "ポートフォリオを割当てました"
+
+msgid "skmg_assigned_skill_levels"
+msgstr "割り当て済み能力レベル"
+
+msgid "skmg_assigned_users"
+msgstr "割当て済みユーザ"
+
+msgid "skmg_bar_charts"
+msgstr "棒グラフ"
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "まだ使用中のため削除できないアイテムがあります。"
+
+msgid "skmg_cert_skill_level_title"
+msgstr "能力レベルタイトル"
+
+msgid "skmg_cert_skill_title"
+msgstr "能力タイトル"
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr "能力トリガータイトル"
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr "本当に能力レベルから次のリソースを削除しますか?"
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr "本当にプロファイルから次の能力レベルを削除しますか?"
+
+msgid "skmg_confirm_user_removal"
+msgstr "本当にこのプロファイルから次のユーザを削除しますか?"
+
+msgid "skmg_cont_profiles_info"
+msgstr "この表示では、現在開いているオブジェクト(コース/グループ)に関係する能力エントリーの能力プロファイルを選択できます。割当てられている全ての能力プロファイルと全ての能力エントリー付きでグローバル表示をするには、以下のリンクをクリックします。"
+
+msgid "skmg_cont_profiles_info_empty"
+msgstr "現在開いているオブジェクトに関連する能力プロファイルはありません。"
+
+msgid "skmg_cont_records_info_empty"
+msgstr "現在開いているオブジェクトに関連する能力はありません。"
+
+msgid "skmg_context_global"
+msgstr "グローバル"
+
+msgid "skmg_context_local"
+msgstr "ローカル"
+
+msgid "skmg_count_references"
+msgstr "参照したcompetence数:"
+
+msgid "skmg_create_sctp"
+msgstr "テンプレートカテゴリを作成"
+
+msgid "skmg_create_skill_category"
+msgstr "能力カテゴリを作成"
+
+msgid "skmg_create_skill_template"
+msgstr "能力テンプレートを作成"
+
+msgid "skmg_create_skill_template_category"
+msgstr "能力テンプレートカテゴリを作成"
+
+msgid "skmg_create_skill_template_reference"
+msgstr "能力テンプレートレファレンスを作成"
+
+msgid "skmg_create_skll"
+msgstr "能力を作成"
+
+msgid "skmg_custom_image_alt"
+msgstr "Competenceプロファイルのカスタムイメージ"
+
+msgid "skmg_delete_profiles"
+msgstr "本当にこの次のプロファイルを削除しますか?"
+
+msgid "skmg_delete_warning"
+msgstr "次のアイテムを本当に削除しますか?アイテムを削除すると、利用率、割り当て、達成度も合わせて削除されます。安全のために、以下の全利用リストが見つかります。アイテムが能力プロファイル内で使用されている場合は、プロファイルからも削除されます。割当られたユーザの能力プロファイルの達成につながることがあります。アイテムを削除すべきかどうか不明確な場合はシングルアイテム設定内のステータスを使用してください。"
+
+msgid "skmg_description_info"
+msgstr "説明はテンプレートから来ます。"
+
+msgid "skmg_edit_level"
+msgstr "レベル編集"
+
+msgid "skmg_edit_profile"
+msgstr "プロファイル編集"
+
+msgid "skmg_edit_scat"
+msgstr "能力カテゴリ編集"
+
+msgid "skmg_edit_sctp"
+msgstr "テンプレートカテゴリを編集"
+
+msgid "skmg_edit_skll"
+msgstr "能力設定を編集"
+
+msgid "skmg_edit_sktr"
+msgstr "能力テンプレートレファレンスを編集"
+
+msgid "skmg_enable_skmg"
+msgstr "能力管理を稼動"
+
+msgid "skmg_eval_type_1"
+msgstr "評価"
+
+msgid "skmg_eval_type_2"
+msgstr "計測者"
+
+msgid "skmg_eval_type_3"
+msgstr "自己評価"
+
+msgid "skmg_eval_type_latest_1"
+msgstr "最新評価"
+
+msgid "skmg_eval_type_latest_2"
+msgstr "最新測定"
+
+msgid "skmg_eval_type_latest_3"
+msgstr "最新自己評価"
+
+msgid "skmg_execute_self_evaluation"
+msgstr "スタート"
+
+msgid "skmg_form_presentation"
+msgstr "プレゼンテーション"
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "トップで低いものから最下位で高いもの順にレベルを合わせてください。"
+
+msgid "skmg_hide_profile_self_eval"
+msgstr "自己評価なしのプロファイルを表示しない"
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "自己評価が特定のスキルへ行われないとプロファイルターゲット値はユーザへ表示されません。"
+
+msgid "skmg_import_skills"
+msgstr "インポート"
+
+msgid "skmg_input_file"
+msgstr "インポートファイル"
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "クリップボードから基本能力を挿入"
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "アイテムの一つだけを選択してください。"
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "クリップボードから能力カテゴリを挿入"
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "サブアイテムとして能力テンプレートを挿入"
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "クリップボードからテンプレートレファレンスを挿入"
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr "クリップボードからテンプレートカテゴリを挿入"
+
+msgid "skmg_items"
+msgstr "アイテム"
+
+msgid "skmg_level"
+msgstr "レベル"
+
+msgid "skmg_list_skills"
+msgstr "能力をリスト"
+
+msgid "skmg_local_assignment_profiles"
+msgstr "グローバルプロファイルのローカル割当を許可"
+
+msgid "skmg_lp_triggers_level"
+msgstr "完了によりトリガーされました"
+
+msgid "skmg_materials"
+msgstr "教材"
+
+msgid "skmg_materials_resources"
+msgstr "学修教材"
+
+msgid "skmg_new_level"
+msgstr "新規レベル"
+
+msgid "skmg_new_sktr"
+msgstr "新規能力テンプレートレファレンス"
+
+msgid "skmg_next_step"
+msgstr "次のステップ"
+
+msgid "skmg_no_nodes_selectable"
+msgstr "現在選択可能な能力がありません。"
+
+msgid "skmg_no_skill_entries"
+msgstr "このCompetenceのどれにもまだエントリーできません。"
+
+msgid "skmg_no_skills_selected_info"
+msgstr "能力未記入もしくは選択されていません。能力を選択する\"能力追加ボタン\"をクリックします。教材編集におより能力記入の場合は自動的にここへ表示されます。"
+
+msgid "skmg_no_trigger"
+msgstr "トリガーがありません"
+
+msgid "skmg_nr"
+msgstr "Nr"
+
+msgid "skmg_number"
+msgstr "数字"
+
+msgid "skmg_open"
+msgstr "オープン"
+
+msgid "skmg_open_all_assigned_profiles"
+msgstr "全ての能力プロファイルを開く"
+
+msgid "skmg_order"
+msgstr "順番"
+
+msgid "skmg_order_nr"
+msgstr "順位"
+
+msgid "skmg_order_nr_info"
+msgstr "能力リスト内のポジション能力"
+
+msgid "skmg_please_select_self_skill"
+msgstr "新しい自己評価を開始します。能力:"
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr "能力レベルを選択してください。"
+
+msgid "skmg_previous_step"
+msgstr "以前の設定"
+
+msgid "skmg_profile"
+msgstr "プロファイル"
+
+msgid "skmg_really_delete_levels"
+msgstr "次の能力レベルを本当に削除しますか?"
+
+msgid "skmg_really_remove_skills"
+msgstr "一覧から次の能力を本当に削除しますか?"
+
+msgid "skmg_recommended_learning_material_crs"
+msgstr "このコースのターゲットをアーカイブ"
+
+msgid "skmg_recommended_learning_material_global"
+msgstr "ターゲットをアーカイブ"
+
+msgid "skmg_recommended_learning_material_grp"
+msgstr "このグループのターゲットをアーカイブ"
+
+msgid "skmg_recommended_learning_material_info"
+msgstr "次の学習教材の一つだけを選択。そのComptence目標達成に取り組んで下さい。"
+
+msgid "skmg_refresh_view"
+msgstr "リフレッシュ"
+
+msgid "skmg_remove"
+msgstr "削除"
+
+msgid "skmg_remove_levels"
+msgstr "レベル削除"
+
+msgid "skmg_remove_skill"
+msgstr "能力を削除"
+
+msgid "skmg_remove_trigger"
+msgstr "トリガーを削除"
+
+msgid "skmg_resources"
+msgstr "リソース"
+
+msgid "skmg_save_order"
+msgstr "順番を保存"
+
+msgid "skmg_save_self_evaluation"
+msgstr "自己評価を終了"
+
+msgid "skmg_save_settings"
+msgstr "設定を保存"
+
+msgid "skmg_sctp"
+msgstr "能力テンプレートカテゴリ"
+
+msgid "skmg_select_level"
+msgstr "能力レベルを選択する"
+
+msgid "skmg_select_skill"
+msgstr "パーソナル能力へ追加するには能力をクリックします。"
+
+msgid "skmg_select_skill_level_assign"
+msgstr "スキルを選択してください。"
+
+msgid "skmg_select_trigger"
+msgstr "トリガーを選択"
+
+msgid "skmg_selectable"
+msgstr "選択可能"
+
+msgid "skmg_selectable_info"
+msgstr "ユーザへパーソナル能力としてこのカテゴリ選択を許可します。"
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr "選択されたイアテムはコピーされました。"
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr "選択されたアイテムは切り取られました。"
+
+msgid "skmg_selected_skills"
+msgstr "スキルを選択しました"
+
+msgid "skmg_self_evaluation"
+msgstr "自己評価"
+
+msgid "skmg_self_evaluation_byline"
+msgstr "自己評価は目標達成から除外されます。ガイダンスが使用されます。"
+
+msgid "skmg_self_evaluations"
+msgstr "自己評価"
+
+msgid "skmg_set_as_lp_trigger"
+msgstr "完了は能力記録をトリガーにすべきです。"
+
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "完了は能力記録をトリガーにすべきでではありません。"
+
+msgid "skmg_set_as_no_suggested"
+msgstr "学習教材を表示してはいけません。"
+
+msgid "skmg_set_as_suggested"
+msgstr "学習教材を表示します。"
+
+msgid "skmg_settings"
+msgstr "能力管理設定"
+
+msgid "skmg_show_all"
+msgstr "全て表示"
+
+msgid "skmg_show_latest_entries"
+msgstr "最新エントリーを表示"
+
+msgid "skmg_skill"
+msgstr "能力"
+
+msgid "skmg_skill_in_use"
+msgstr "このスキルはユーザまたはコンテンツで使用されます。全てのコマンドは表示されません。変更した内容が反映されるのは現在の利用になることに留意願います。"
+
+msgid "skmg_skill_level"
+msgstr "能力レベル"
+
+msgid "skmg_skill_level_trigger"
+msgstr "能力レベルトリガー"
+
+msgid "skmg_skill_levels"
+msgstr "能力レベル"
+
+msgid "skmg_skill_management_deactivated"
+msgstr "能力管理は現在動作していません。"
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "この能力を向上する必要があります。目標としている能力レベルに沿うような提供された学習教材の現在学習リソースがありません。"
+
+msgid "skmg_skill_needs_impr_res"
+msgstr "この能力を向上する必要があります。次のリソースは目標の能力レベルに沿う学習教材を提供します。"
+
+msgid "skmg_skill_needs_self_eval"
+msgstr "あなたの能力目標をわかるために、自己評価を行ってください。"
+
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "このプロファイル一つも自己評価を実行されていない事に注意願います。"
+
+msgid "skmg_skill_no_needs_impr"
+msgstr "能力レベルは選択したプロファイルに適合します。"
+
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "このComptenceの目標を達成しました。"
+
+msgid "skmg_skill_overview"
+msgstr "概要"
+
+msgid "skmg_skill_profile_records"
+msgstr "Competence 記録"
+
+msgid "skmg_skill_profiles"
+msgstr "プロファイル"
+
+msgid "skmg_skill_template"
+msgstr "能力テンプレート"
+
+msgid "skmg_skill_templates"
+msgstr "能力テンプレート"
+
+msgid "skmg_skill_tree"
+msgstr "Competenceツリー"
+
+msgid "skmg_skill_trees"
+msgstr "Competenceツリー"
+
+msgid "skmg_skills"
+msgstr "能力"
+
+msgid "skmg_sktr"
+msgstr "能力テンプレートレファレンス"
+
+msgid "skmg_status"
+msgstr "ステータス"
+
+msgid "skmg_status_draft"
+msgstr "Draft (オフライン)"
+
+msgid "skmg_status_draft_info"
+msgstr "アイテムは非表示になります。"
+
+msgid "skmg_status_outdated"
+msgstr "古い"
+
+msgid "skmg_status_outdated_info"
+msgstr "アイテムはパーソナルスキルとしてユーザが新たに選択したりリポジトリオブジェクトやスキルプロファイルへ新たに割り当てたりする事はできません。しかし、現在の割当てとデータはそのまま維持されます。"
+
+msgid "skmg_status_publish"
+msgstr "公開"
+
+msgid "skmg_status_publish_info"
+msgstr "全ての親が公開されればアイテムを使用することもできます。一度アイテムが使用されると状態をドラフトへ戻すことも削除することもできなくなります。"
+
+msgid "skmg_suggested"
+msgstr "リソースを提案しました"
+
+msgid "skmg_suggested_resources"
+msgstr "推奨リソース"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "次の自己評価を本当に削除しますか?"
+
+msgid "skmg_target_level"
+msgstr "プロファイル目標レベル"
+
+msgid "skmg_target_levels"
+msgstr "目標レベル"
+
+msgid "skmg_trigger"
+msgstr "トリガー"
+
+msgid "skmg_type"
+msgstr "タイプ"
+
+msgid "skmg_type_of_formation"
+msgstr "フォーメーションのタイプ"
+
+msgid "skmg_update_order"
+msgstr "順番を更新"
+
+msgid "skmg_usage"
+msgstr "使用"
+
+msgid "skmg_usage_obj_objects"
+msgstr "オブジェクト"
+
+msgid "skmg_usage_obj_profiles"
+msgstr "プロファイル"
+
+msgid "skmg_usage_obj_users"
+msgstr "ユーザ"
+
+msgid "skmg_usage_type_info_gen"
+msgstr "リポジトリオブジェクトの一般利用"
+
+msgid "skmg_usage_type_info_mat"
+msgstr "パーソナルワークスペースからユーザの割り当てた教材"
+
+msgid "skmg_usage_type_info_pers"
+msgstr "パーソナルスキルとしてユーザにより選択済み"
+
+msgid "skmg_usage_type_info_prof"
+msgstr "スキルプロファイル内で使用済み"
+
+msgid "skmg_usage_type_info_res"
+msgstr "推奨リソースとして割当てられたリポジトリオブジェクト"
+
+msgid "skmg_usage_type_info_user"
+msgstr "ユーザへ割当て済み"
+
+msgid "skmg_your_self_evaluation"
+msgstr "あなたの自己評価"

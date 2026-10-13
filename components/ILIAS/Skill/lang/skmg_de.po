@@ -1,0 +1,549 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr "Kategorie"
+
+msgid "skll"
+msgstr "Kompetenz"
+
+msgid "skmg_360_survey"
+msgstr "360°-Umfrage"
+
+msgid "skmg_add_assignment"
+msgstr "Rollen / Mitglieder zuordnen"
+
+msgid "skmg_add_level"
+msgstr "Ausprägung hinzufügen"
+
+msgid "skmg_add_local_profile"
+msgstr "Lokales Profil hinzufügen"
+
+msgid "skmg_add_profile"
+msgstr "Profil hinzufügen"
+
+msgid "skmg_add_resource"
+msgstr "Magazinobjekt zuweisen"
+
+msgid "skmg_add_skill"
+msgstr "Kompetenz hinzufügen"
+
+msgid "skmg_add_skill_tree"
+msgstr "Kompetenzbaum hinzufügen"
+
+msgid "skmg_add_user_to_profile"
+msgstr "Benutzer oder Rollen suchen"
+
+msgid "skmg_all"
+msgstr "Alle"
+
+msgid "skmg_allow_local_profiles"
+msgstr "Erstellung von lokalen Profilen erlauben"
+
+msgid "skmg_allow_local_profiles_info"
+msgstr "Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden."
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr "An dieser Stelle können Sie Inhalte aus Ihren persönlichen Ressourcen (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Inhalte zu Ihren persönlichen Ressourcen hinzufügen wollen, klicken Sie bitte den folgenden Link."
+
+msgid "skmg_assign_level"
+msgstr "Ausprägung zuordnen"
+
+msgid "skmg_assign_materials"
+msgstr "Persönliche Ressourcen zuordnen"
+
+msgid "skmg_assign_user"
+msgstr "Benutzer zuordnen"
+
+msgid "skmg_assigned_objects"
+msgstr "Zugeordnete Objekte"
+
+msgid "skmg_assigned_profiles"
+msgstr "Zugewiesene Kompetenzprofile"
+
+msgid "skmg_assigned_skill_levels"
+msgstr "Zugeordnete Kompetenzziele"
+
+msgid "skmg_assigned_users"
+msgstr "Zugeordnete Rollen und Benutzer"
+
+msgid "skmg_bar_charts"
+msgstr "Balkendiagramme"
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "Einige Objekte können nicht gelöscht werden, da sie noch in Gebrauch sind."
+
+msgid "skmg_cert_skill_level_title"
+msgstr "Titel Kompetenzstufe"
+
+msgid "skmg_cert_skill_title"
+msgstr "Titel Kompetenz"
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr "Titel Auslöser"
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr "Wollen Sie wirklich die folgenden Magazinobjekte aus dem Profil entfernen?"
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr "Wollen Sie wirklich die folgenden Kompetenzstufen aus dem Profil entfernen?"
+
+msgid "skmg_confirm_user_removal"
+msgstr "Wollen Sie wirklich die folgenden Benutzer aus dem Profil entfernen?"
+
+msgid "skmg_cont_profiles_info"
+msgstr "In dieser Ansicht können Sie die Kompetenzprofile mit Kompetenzeinträgen auswählen, die im Zusammenhang mit dem derzeit geöffneten Objekt (Kurs/Gruppe) stehen. Um zu der globalen Ansicht mit allen Ihnen zugewiesenen Kompetenzprofilen und sämtlichen Kompetenzeinträgen zu gelangen, klicken Sie auf den unten stehenden Link."
+
+msgid "skmg_cont_profiles_info_empty"
+msgstr "Es gibt keine Kompetenzprofile, die mit dem derzeit geöffneten Objekt im Zusammenhang stehen."
+
+msgid "skmg_cont_records_info_empty"
+msgstr "Es gibt keine Kompetenzen, die mit dem derzeit geöffneten Objekt im Zusammenhang stehen."
+
+msgid "skmg_context_global"
+msgstr "Global"
+
+msgid "skmg_context_local"
+msgstr "Lokal"
+
+msgid "skmg_count_references"
+msgstr "Anzahl referenzierter Kompetenzen:"
+
+msgid "skmg_create_sctp"
+msgstr "Vorlagenkategorie erstellen"
+
+msgid "skmg_create_skill_category"
+msgstr "Kategorie erstellen"
+
+msgid "skmg_create_skill_template"
+msgstr "Vorlage erstellen"
+
+msgid "skmg_create_skill_template_category"
+msgstr "Vorlagenkategorie erstellen"
+
+msgid "skmg_create_skill_template_reference"
+msgstr "Vorlage einfügen"
+
+msgid "skmg_create_skll"
+msgstr "Kompetenz erstellen"
+
+msgid "skmg_custom_image_alt"
+msgstr "Bild für Kompetenzprofil"
+
+msgid "skmg_delete_profiles"
+msgstr "Wollen Sie wirklich die folgenden Profile löschen?"
+
+msgid "skmg_delete_warning"
+msgstr "Sind Sie sicher, dass folgende Kompetenzen, Kompetenzkategorien oder Kompetenzbäume gelöscht werden sollen? Sie löschen damit auch Zuordnungen zu Objekten, Benutzern und Profilen. Wird ein Teil eines Kompetenzprofils gelöscht, kann dies zur Erfüllung von Kompetenzprofilen für die zugewiesenen Personen führen. Die folgende Liste zählt auf, wie häufig das, was Sie löschen wollen, genutzt wird. Bitte prüfen Sie die Liste genau vor dem Löschen."
+
+msgid "skmg_description_info"
+msgstr "Die Beschreibung stammt aus der Vorlage."
+
+msgid "skmg_edit_level"
+msgstr "Ausprägung editieren"
+
+msgid "skmg_edit_profile"
+msgstr "Profil bearbeiten"
+
+msgid "skmg_edit_scat"
+msgstr "Kategorie ändern"
+
+msgid "skmg_edit_sctp"
+msgstr "Vorlagenkategorie bearbeiten"
+
+msgid "skmg_edit_skll"
+msgstr "Kompetenzeinstellungen bearbeiten"
+
+msgid "skmg_edit_sktr"
+msgstr "Vorlagenreferenz bearbeiten"
+
+msgid "skmg_enable_skmg"
+msgstr "Kompetenzmanagement aktivieren"
+
+msgid "skmg_eval_type_1"
+msgstr "Fremdeinschätzung"
+
+msgid "skmg_eval_type_2"
+msgstr "Messung"
+
+msgid "skmg_eval_type_3"
+msgstr "Selbsteinschätzung"
+
+msgid "skmg_eval_type_latest_1"
+msgstr "Letzte Fremdeinschätzung"
+
+msgid "skmg_eval_type_latest_2"
+msgstr "Letzte Messung"
+
+msgid "skmg_eval_type_latest_3"
+msgstr "Letzte Selbsteinschätzung"
+
+msgid "skmg_execute_self_evaluation"
+msgstr "Start"
+
+msgid "skmg_form_presentation"
+msgstr "Darstellung"
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "Bitte geben Sie niedrigeren Kompetenzstufen auch niedrigere Ordnungsnummern. Je Zeile sollte die Kompetenz nach unten zunehmen."
+
+msgid "skmg_hide_profile_self_eval"
+msgstr "Kompetenzziel nach Selbsteinschätzung anzeigen"
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "Für einzelne Kompetenzen wird das Kompetenzziel erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat."
+
+msgid "skmg_import_skills"
+msgstr "Importieren"
+
+msgid "skmg_input_file"
+msgstr "Importdatei"
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "Kompetenzen aus Zwischenablage einfügen."
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "Bitte wählen Sie nur einen Objekttyp aus."
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "Kategorien aus Zwischenablage einfügen."
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "Vorlage aus Zwischenablage einfügen"
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "Vorlagenreferenz aus Zwischenablage einfügen"
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr "Vorlagenkategorie aus Zwischenablage einfügen"
+
+msgid "skmg_items"
+msgstr "Einträge"
+
+msgid "skmg_level"
+msgstr "Ausprägung"
+
+msgid "skmg_list_skills"
+msgstr "Kompetenzen auflisten"
+
+msgid "skmg_local_assignment_profiles"
+msgstr "Lokale Zuordnung von globalen Profilen erlauben"
+
+msgid "skmg_lp_triggers_level"
+msgstr "Bearbeitung schreibt Kompetenzeintrag"
+
+msgid "skmg_materials"
+msgstr "Persönliche Ressourcen"
+
+msgid "skmg_materials_resources"
+msgstr "Lerninhalte"
+
+msgid "skmg_new_level"
+msgstr "Neue Ausprägung"
+
+msgid "skmg_new_sktr"
+msgstr "Neue Vorlagenreferenz"
+
+msgid "skmg_next_step"
+msgstr "Nächster Schritt"
+
+msgid "skmg_no_nodes_selectable"
+msgstr "Zur Zeit sind keine Kompetenzen auswählbar."
+
+msgid "skmg_no_skill_entries"
+msgstr "Sie besitzen für diese Kompetenz bisher keine Einträge."
+
+msgid "skmg_no_skills_selected_info"
+msgstr "Sie haben noch keine Kompetenzen ausgewählt oder erworben. Klicken Sie auf den Button \"Kompetenz hinzufügen\" um eine Kompetenz auszuwählen. Sie können beliebig viele Kompetenzen hinzufügen. Wenn Sie Kompetenzen durch das Bearbeiten von Lerninhalten erwerben, werden diese automatisch hier aufgelistet."
+
+msgid "skmg_no_trigger"
+msgstr "Kein Auslöser"
+
+msgid "skmg_nr"
+msgstr "Nr"
+
+msgid "skmg_number"
+msgstr "Nummmer"
+
+msgid "skmg_open"
+msgstr "Öffne"
+
+msgid "skmg_open_all_assigned_profiles"
+msgstr "Alle zugewiesenen Kompetenzprofile öffnen"
+
+msgid "skmg_order"
+msgstr "Reihenfolge"
+
+msgid "skmg_order_nr"
+msgstr "Nummer"
+
+msgid "skmg_order_nr_info"
+msgstr "Platziert die Kompetenz in der Liste der Kompetenzen."
+
+msgid "skmg_please_select_self_skill"
+msgstr "Neue Selbsteinschätzung"
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr "Bitte wählen Sie Ihre Fähigkeiten aus!"
+
+msgid "skmg_previous_step"
+msgstr "Voriger Schritt"
+
+msgid "skmg_profile"
+msgstr "Profil"
+
+msgid "skmg_really_delete_levels"
+msgstr "Sollen die folgenden Kompetenzstufen wirklich gelöscht werden?"
+
+msgid "skmg_really_remove_skills"
+msgstr "Möchten Sie die folgenden Kompetenzen wirklich entfernen?"
+
+msgid "skmg_recommended_learning_material_crs"
+msgstr "Lerninhalte im Kurs zur Zielerreichung"
+
+msgid "skmg_recommended_learning_material_global"
+msgstr "Lerninhalte zur Zielerreichung"
+
+msgid "skmg_recommended_learning_material_grp"
+msgstr "Lerninhalte in der Gruppe zur Zielerreichung"
+
+msgid "skmg_recommended_learning_material_info"
+msgstr "Bearbeiten Sie folgende Lerninhalte um das Kompetenzziel zu erreichen. Wählen Sie genau einen Lerninhalt pro Kompetenzstufe aus."
+
+msgid "skmg_refresh_view"
+msgstr "Ansicht aktualisieren"
+
+msgid "skmg_remove"
+msgstr "Entferne"
+
+msgid "skmg_remove_levels"
+msgstr "Ausprägungen entfernen"
+
+msgid "skmg_remove_skill"
+msgstr "Kompetenz entfernen"
+
+msgid "skmg_remove_trigger"
+msgstr "Auslöser entfernen"
+
+msgid "skmg_resources"
+msgstr "Magazinobjekte"
+
+msgid "skmg_save_order"
+msgstr "Reihenfolge speichern"
+
+msgid "skmg_save_self_evaluation"
+msgstr "Selbsteinschätzung abschließen"
+
+msgid "skmg_save_settings"
+msgstr "Einstellungen speichern"
+
+msgid "skmg_sctp"
+msgstr "Vorlagenkategorie"
+
+msgid "skmg_select_level"
+msgstr "Kompetenzstufe auswählen"
+
+msgid "skmg_select_skill"
+msgstr "Klicken Sie auf eine Kompetenz, um diese Ihren persönlichen Kompetenzen hinzuzufügen."
+
+msgid "skmg_select_skill_level_assign"
+msgstr "Bitte wählen Sie eine Kompetenz aus."
+
+msgid "skmg_select_trigger"
+msgstr "Auslöser auswählen"
+
+msgid "skmg_selectable"
+msgstr "Auswählbar"
+
+msgid "skmg_selectable_info"
+msgstr "Erlaubt Benutzern die Kompetenz als persönliche Kompetenz hinzuzufügen."
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr "Die ausgewählten Objekte wurden kopiert."
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr "Die ausgewählten Objekte wurden ausgeschnitten."
+
+msgid "skmg_selected_skills"
+msgstr "Ausgewählte Kompetenzen"
+
+msgid "skmg_self_evaluation"
+msgstr "Selbsteinschätzung"
+
+msgid "skmg_self_evaluation_byline"
+msgstr "Die Selbsteinschätzung wird bei der Erreichung Ihres Kompetenzziels nicht berücksichtigt. Sie dient zur Orientierung."
+
+msgid "skmg_self_evaluations"
+msgstr "Selbsteinschätzungen"
+
+msgid "skmg_set_as_lp_trigger"
+msgstr "Bearbeitung soll Kompetenzeintrag auslösen"
+
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "Bearbeitung soll keinen Kompetenzeintrag auslösen"
+
+msgid "skmg_set_as_no_suggested"
+msgstr "Nicht mehr als Lerninhalt anzeigen"
+
+msgid "skmg_set_as_suggested"
+msgstr "Als Lerninhalt anzeigen"
+
+msgid "skmg_settings"
+msgstr "Kompetenzmanagement Einstellungen"
+
+msgid "skmg_show_all"
+msgstr "Alle anzeigen"
+
+msgid "skmg_show_latest_entries"
+msgstr "Letzte Einträge anzeigen"
+
+msgid "skmg_skill"
+msgstr "Kompetenz"
+
+msgid "skmg_skill_in_use"
+msgstr "Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken."
+
+msgid "skmg_skill_level"
+msgstr "Kompetenzstufe"
+
+msgid "skmg_skill_level_trigger"
+msgstr "Auslöser"
+
+msgid "skmg_skill_levels"
+msgstr "Kompetenzstufen"
+
+msgid "skmg_skill_management_deactivated"
+msgstr "Das Kompetenzmanagement ist momentan deaktiviert."
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "Sie müssen diese Kompetenz verbessern. Leider gibt es momentan keine passenden Lerninhalte, welche Ihrem Kompetenzziel entsprechen."
+
+msgid "skmg_skill_needs_impr_res"
+msgstr "Sie müssen diese Kompetenz verbessern. Die folgenden Lerninhalte entsprechen Ihrem Kompetenzziel."
+
+msgid "skmg_skill_needs_self_eval"
+msgstr "Bitte führen Sie zunächst eine Selbsteinschätzung durch, damit Ihr Kompetenzziel angezeigt wird."
+
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde."
+
+msgid "skmg_skill_no_needs_impr"
+msgstr "Kompetenzziel erfüllt!"
+
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "Sie haben das Ziel für diese Kompetenz erfüllt."
+
+msgid "skmg_skill_overview"
+msgstr "Übersicht"
+
+msgid "skmg_skill_profile_records"
+msgstr "Kompetenzeinträge"
+
+msgid "skmg_skill_profiles"
+msgstr "Kompetenzprofile"
+
+msgid "skmg_skill_template"
+msgstr "Vorlage"
+
+msgid "skmg_skill_templates"
+msgstr "Vorlagen"
+
+msgid "skmg_skill_tree"
+msgstr "Kompetenzbaum"
+
+msgid "skmg_skill_trees"
+msgstr "Kompetenzbäume"
+
+msgid "skmg_skills"
+msgstr "Kompetenzen"
+
+msgid "skmg_sktr"
+msgstr "Vorlagenreferenz"
+
+msgid "skmg_status"
+msgstr "Status"
+
+msgid "skmg_status_draft"
+msgstr "In Vorbereitung (Offline)"
+
+msgid "skmg_status_draft_info"
+msgstr "Eintrag wird Benutzern nicht angezeigt."
+
+msgid "skmg_status_outdated"
+msgstr "Veraltet"
+
+msgid "skmg_status_outdated_info"
+msgstr "Der Eintrag kann von Benutzer nicht mehr als persönliche Kompetenz neu ausgewählt werden. Wurde die Kompetenz bereits früher ausgewählt, so bleibt diese Auswahl weiterhin bestehen."
+
+msgid "skmg_status_publish"
+msgstr "Veröffentlicht"
+
+msgid "skmg_status_publish_info"
+msgstr "Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind."
+
+msgid "skmg_suggested"
+msgstr "Als Lerninhalt anzeigen"
+
+msgid "skmg_suggested_resources"
+msgstr "Zugewiesene Magazinobjekte"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "Möchten Sie die folgenden Selbsteinschätzungen wirklich löschen?"
+
+msgid "skmg_target_level"
+msgstr "Kompetenzziel"
+
+msgid "skmg_target_levels"
+msgstr "Kompetenzziele"
+
+msgid "skmg_trigger"
+msgstr "Auslöser"
+
+msgid "skmg_type"
+msgstr "Typ"
+
+msgid "skmg_type_of_formation"
+msgstr "Erhebungsart"
+
+msgid "skmg_update_order"
+msgstr "Reihenfolge speichern"
+
+msgid "skmg_usage"
+msgstr "Gebrauch"
+
+msgid "skmg_usage_obj_objects"
+msgstr "Objekt(e)"
+
+msgid "skmg_usage_obj_profiles"
+msgstr "Profil(e)"
+
+msgid "skmg_usage_obj_users"
+msgstr "Benutzer"
+
+msgid "skmg_usage_type_info_gen"
+msgstr "Allgemeiner Gebrauch in Magazinobjekten"
+
+msgid "skmg_usage_type_info_mat"
+msgstr "Benutzer haben persönliche Ressourcen zugeordnet"
+
+msgid "skmg_usage_type_info_pers"
+msgstr "Von Benutzern als persönliche Kompetenz ausgewählt"
+
+msgid "skmg_usage_type_info_prof"
+msgstr "Nutzung in Kompetenzprofilen"
+
+msgid "skmg_usage_type_info_res"
+msgstr "Zuordnung zu Magazinobjekten"
+
+msgid "skmg_usage_type_info_user"
+msgstr "Zuordnung zu Benutzern"
+
+msgid "skmg_your_self_evaluation"
+msgstr "Ihre Selbsteinschätzung"
