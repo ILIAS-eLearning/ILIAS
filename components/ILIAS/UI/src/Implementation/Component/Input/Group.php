@@ -60,7 +60,7 @@ trait Group
      */
     public function withValue($value): self
     {
-        $this->checkArg("value", null === $value || $this->isClientSideValueOk($value), "Display value does not match input type.");
+        $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
         foreach ($this->getInputs() as $k => $i) {
             // note isClientSideValueOk() verifies the structure, there
@@ -132,6 +132,9 @@ trait Group
      */
     protected function _isClientSideValueOk($value): bool
     {
+        if ($value === null) {
+            return true;
+        }
         if (!is_array($value)) {
             return false;
         }
