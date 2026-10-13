@@ -12849,11 +12849,6 @@ ps#:#rbac_log_age_info#:#Idade máxima das entradas de registo num mês
 ps#:#rbac_log_info#:#Ativar logging de todas as alterações para permissões de objeto
 ps#:#show_privacy#:#Não insira as perguntas num banco de perguntas (apenas disponível neste inquérito)
 ps#:#show_security#:#Segurança
-pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
-pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
-pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
-pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###03 09 2026 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###03 09 2026 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###03 09 2026 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###30 04 2021 new variable

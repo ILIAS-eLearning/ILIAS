@@ -12811,11 +12811,6 @@ ps#:#rbac_log_age_info#:#Antigüedad máxima de las entradas del registro en mes
 ps#:#rbac_log_info#:#Registrar todos los cambios en los permisos de los objetos.
 ps#:#show_privacy#:#Privacidad
 ps#:#show_security#:#Seguridad
-pwsp#:#pwsp_enable_personal_resources#:#Activar recursos personales
-pwsp#:#pwsp_enable_wsp_blogs#:#Activar Blogs
-pwsp#:#pwsp_enable_wsp_files#:#Activar Archivos
-pwsp#:#pwsp_enable_wsp_links#:#Activar Enlaces
-pwsp#:#pwsp_type_cannot_be_copied#:#Los objetos de tipo '%s' no se pueden copiar.
 qpl#:#qpl_filter_commented_exclude#:#Preguntas sin comentarios
 qpl#:#qpl_filter_commented_only#:#Preguntas con comentarios
 qpl#:#qpl_page_type_qfbg#:#Feedback general

@@ -12745,11 +12745,6 @@ ps#:#rbac_log_age_info#:#Age maximun des entrées de Log en mois
 ps#:#rbac_log_info#:#Active le suivi de tous les changements de permissions sur les objets
 ps#:#show_privacy#:#Confidentialité
 ps#:#show_security#:#Sécurité
-pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
-pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
-pwsp#:#pwsp_enable_wsp_files#:#Enable Files
-pwsp#:#pwsp_enable_wsp_links#:#Enable Links
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###29 10 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback

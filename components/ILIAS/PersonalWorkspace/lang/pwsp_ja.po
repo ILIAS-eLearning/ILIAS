@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: pwsp\n"
+
+msgid "pwsp_enable_personal_resources"
+msgstr "パーソナルリソースを有効化"
+
+msgid "pwsp_enable_wsp_blogs"
+msgstr "ブログを有効化"
+
+msgid "pwsp_enable_wsp_files"
+msgstr "ファイルを有効化"
+
+msgid "pwsp_enable_wsp_links"
+msgstr "リンクを有効化"
+
+msgid "pwsp_type_cannot_be_copied"
+msgstr "オブジェクトタイプ '%s' をコピーできません"

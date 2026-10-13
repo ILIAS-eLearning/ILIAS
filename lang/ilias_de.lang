@@ -13074,11 +13074,6 @@ ps#:#rbac_log_age_info#:#Maximales Alter der Log-Einträge in Monaten
 ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren
 ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
-pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
-pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
-pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
-pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Nur Fragen ohne Kommentare
 qpl#:#qpl_filter_commented_only#:#Nur Fragen mit Kommentaren
 qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
