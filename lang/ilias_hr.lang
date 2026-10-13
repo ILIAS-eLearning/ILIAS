@@ -2560,62 +2560,6 @@ book#:#booking_nr_of_items#:#Broj stavki
 book#:#obj_book_duplicate#:#Kopira bazen rezervacija
 book#:#participants#:#Sudionici
 book#:#reservation_deleted#:#Reservation deleted###04 06 2021 new variable
-buddysystem#:#buddy_allow_to_contact_me#:#Dopusti da me se kontaktira
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#Ako je aktivirano, drugi korisnici mogu mi slati upite za kontakt.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Potvrdite zahtjev
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Otkaži zahtjev
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Prekini vezu
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Zanemari kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Potvrdi kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Otkaži zahtjev
-buddysystem#:#buddy_bs_action_already_ignored#:#Akcija nije moguća. Zahtjev za kontakt korisnika '%s' je već ignoriran.
-buddysystem#:#buddy_bs_action_already_linked#:#Akcija nije moguća. Već je prihvaćen zahtjev za kontakt korisnika '%s'.
-buddysystem#:#buddy_bs_action_already_requested#:#Akcija nije moguća. Korisniku '%s' je već poslan zahtev.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Akcija nije moguća. Svi kontakti s korisnikom '%s' su već prekinuti.
-buddysystem#:#buddy_bs_action_not_possible#:#Akcija nije moguća
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Zatražen kontakt
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Zahtjev je ignoriran
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Povezan
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Povezan
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Zatražen kontakt
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Zahtjev
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Zatraži kontakt
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Zatraženo
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignorirano
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Zanemaren
-buddysystem#:#buddy_bs_state_linked#:#Zanemaren
-buddysystem#:#buddy_bs_state_linked_a#:#Povezan
-buddysystem#:#buddy_bs_state_linked_p#:#Linked###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested#:#Zatražen
-buddysystem#:#buddy_bs_state_requested_a#:#Zatražen
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested_p#:#Zatražen
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_unlinked_a#:#Prekinuta veza
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###29 07 2022 new variable
-buddysystem#:#buddy_enable#:#Aktivirajte 'Kontakte'
-buddysystem#:#buddy_enable_info#:#Ako je aktivirano, korisnicima je dopušteno međusobno kontaktiranje iniciranjem zahtjeva za kontakt. Uz to, postoji osobna korisnička postavka koja omogućuje ili sprječava kontaktiranje.
-buddysystem#:#buddy_handle_contact_request#:#Zahtjev za kontakt
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nije objavljen
-buddysystem#:#buddy_notification_contact_request#:#Zahtjev za kontakt
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignoriraj zahtjev
-buddysystem#:#buddy_notification_contact_request_link#:#Approve Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Odobri zahtjev
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION] [BR] [BR] "[REQUESTING_USER]" želi vas dodati na svoj popis prijatelja. [BR] [BR] Link na osobni profil: [PERSONAL_PROFILE_LINK] [BR] [BR] [APPROVE_REQUEST_TXT] [APPROVE_REQUEST] [BR ] [IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#Korisnik "[REQUESTING_USER]" želi vas dodati na svoj popis prijatelja. [BR] [BR] [APPROVE_REQUEST] [BR] [IGNORE_REQUEST]
-buddysystem#:#buddy_relation_requested#:#Korisniku je poslan zahtjev.
-buddysystem#:#buddy_request_approved#:#Uspješno ste odobrili kontakt.
-buddysystem#:#buddy_request_ignored#:#Ignorirali ste korisnika.
-buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action###26 08 2024 new variable
-buddysystem#:#buddy_tbl_title_relations#:#Odnosi s ostalim korisnicima
-buddysystem#:#buddy_use_osd#:#Skočni zahtjevi za kontakt
-buddysystem#:#buddy_use_osd_info#:#Prikažite skočni prozor koji označava da vas korisnik želi dodati na svoje popise prijatelja.
-buddysystem#:#buddy_view_gallery#:#Galerija
-buddysystem#:#buddy_view_table#:#Popis
 cat#:#cat_copy#:#Kopiraj kategoriju
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###26 08 2024 new variable
 cat#:#cat_import#:#Uvezi kategoriju
@@ -5917,10 +5861,6 @@ cont#:#cont_tile_size_4#:#full (one tile in a row)###29 07 2022 new variable
 cont#:#cont_tile_view#:#Pločice
 cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###26 08 2024 new variable
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
-contact#:#contact_awrn_ap_contacts#:#Approved Contacts
-contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
-contact#:#contact_awrn_req_contacts#:#Contact Requests
-contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 content#:#Pages#:#Stranice
 content#:#add_menu_entry#:#Dodaj unos u izbornik
 content#:#all_pages#:#Cijeli modul učenja

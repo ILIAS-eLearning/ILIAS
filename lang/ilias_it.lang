@@ -2559,62 +2559,6 @@ book#:#booking_nr_of_items#:#Numero di elementi
 book#:#obj_book_duplicate#:#Copia gruppo di prenotazione
 book#:#participants#:#Partecipanti
 book#:#reservation_deleted#:#Prenotazione cancellata
-buddysystem#:#buddy_allow_to_contact_me#:#Consenti di contattarmi
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###28 11 2025 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#Se consentito, altri utenti possono inviare delle richieste per contattarmi.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Conferma richiesta
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Elimina richiesta
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Scollega
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignora
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confermare
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Elimina richiesta
-buddysystem#:#buddy_bs_action_already_ignored#:#Utente '%s' già ignorato.
-buddysystem#:#buddy_bs_action_already_linked#:#Ho già accettato la richiesta di contatto dall'utente '%s'.
-buddysystem#:#buddy_bs_action_already_requested#:#Utente già richiesto '%s'.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Lo stato del contatto per l'utente '%s' è già scollegato.
-buddysystem#:#buddy_bs_action_not_possible#:#Azione non possibile
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Contatto richiesto
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Richiesta ignorata
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Collegato
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Collegato
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Contatto richiesto
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Richiesta
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Richiedi contatto
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Richiesti
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignorato
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignorato
-buddysystem#:#buddy_bs_state_linked#:#Collegato
-buddysystem#:#buddy_bs_state_linked_a#:#Collegato
-buddysystem#:#buddy_bs_state_linked_p#:#Linked###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_requested#:#Richiesti
-buddysystem#:#buddy_bs_state_requested_a#:#Richiesti
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_requested_p#:#Richiesti
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_unlinked_a#:#Scollegato
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
-buddysystem#:#buddy_enable#:#Attiva “Contatti”
-buddysystem#:#buddy_enable_info#:#Se consentito, gli utenti possono contattarsi a vicenda avviando richieste di contatto. Inoltre, c'è un'impostazione utente personale per consentire o impedire di essere contattato.
-buddysystem#:#buddy_handle_contact_request#:#Richiesta di contatto
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profilo non reso pubblico
-buddysystem#:#buddy_notification_contact_request#:#Richiesta di contatto
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignora richiesta:
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignora richiesta
-buddysystem#:#buddy_notification_contact_request_link#:#Approva richiesta:
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Approva richiesta
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]l’utente "[REQUESTING_USER]" vuole aggiungerti alla sua lista degli amici.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#L’utente "[REQUESTING_USER]" vuole aggiungerti alla sua lista di amici.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
-buddysystem#:#buddy_relation_requested#:#Una richiesta è stata inviata all’utente.
-buddysystem#:#buddy_request_approved#:#Hai accetta il contatto con successo.
-buddysystem#:#buddy_request_ignored#:#Hai ignorato l’utente.
-buddysystem#:#buddy_tbl_filter_state#:#Stato
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action###31 03 2023 new variable
-buddysystem#:#buddy_tbl_title_relations#:#Relazioni con altri utenti
-buddysystem#:#buddy_use_osd#:#Richieste di contatto popup
-buddysystem#:#buddy_use_osd_info#:#Visualizza un popup per indicare che un utente vuole aggiungerti alle sue listi di amici.
-buddysystem#:#buddy_view_gallery#:#Galleria
-buddysystem#:#buddy_view_table#:#Lista
 cat#:#cat_copy#:#Copia categoria
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###30 04 2024 new variable
 cat#:#cat_import#:#Importa categoria
@@ -5918,10 +5862,6 @@ cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Mattonelle
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
-contact#:#contact_awrn_ap_contacts#:#Contatti confermati
-contact#:#contact_awrn_ap_contacts_info#:#Sono elencati tutti i contatti confermati dall’utente.
-contact#:#contact_awrn_req_contacts#:#Richieste di contatto
-contact#:#contact_awrn_req_contacts_info#:#Sono indicate tutte le richieste di contatto.
 content#:#Pages#:#Pagine
 content#:#add_menu_entry#:#Aggiungi voce nel menu >>
 content#:#all_pages#:#per l'intero modulo didattico

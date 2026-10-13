@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr ""
+
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr ""
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr ""
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr ""
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr ""
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr ""
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr ""
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr ""
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr ""
+
+msgid "buddy_bs_action_already_ignored"
+msgstr ""
+
+msgid "buddy_bs_action_already_linked"
+msgstr ""
+
+msgid "buddy_bs_action_already_requested"
+msgstr ""
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr ""
+
+msgid "buddy_bs_action_not_possible"
+msgstr ""
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr ""
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr ""
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr ""
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr ""
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr ""
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr ""
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr ""
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr ""
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr ""
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr ""
+
+msgid "buddy_bs_state_linked"
+msgstr ""
+
+msgid "buddy_bs_state_linked_a"
+msgstr ""
+
+msgid "buddy_bs_state_linked_p"
+msgstr ""
+
+msgid "buddy_bs_state_requested"
+msgstr ""
+
+msgid "buddy_bs_state_requested_a"
+msgstr ""
+
+msgid "buddy_bs_state_requested_filter_a"
+msgstr ""
+
+msgid "buddy_bs_state_requested_filter_p"
+msgstr ""
+
+msgid "buddy_bs_state_requested_p"
+msgstr ""
+
+msgid "buddy_bs_state_unlinked"
+msgstr ""
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr ""
+
+msgid "buddy_bs_state_unlinked_p"
+msgstr ""
+
+msgid "buddy_confirm_unlink"
+msgstr ""
+
+msgid "buddy_enable"
+msgstr ""
+
+msgid "buddy_enable_info"
+msgstr ""
+
+msgid "buddy_handle_contact_request"
+msgstr ""
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr ""
+
+msgid "buddy_notification_contact_request"
+msgstr ""
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr ""
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr ""
+
+msgid "buddy_notification_contact_request_link"
+msgstr ""
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr ""
+
+msgid "buddy_notification_contact_request_long"
+msgstr ""
+
+msgid "buddy_notification_contact_request_short"
+msgstr ""
+
+msgid "buddy_relation_requested"
+msgstr ""
+
+msgid "buddy_request_approved"
+msgstr ""
+
+msgid "buddy_request_ignored"
+msgstr ""
+
+msgid "buddy_tbl_filter_state"
+msgstr ""
+
+msgid "buddy_tbl_state_actions_col_label"
+msgstr ""
+
+msgid "buddy_tbl_title_relations"
+msgstr ""
+
+msgid "buddy_use_osd"
+msgstr ""
+
+msgid "buddy_use_osd_info"
+msgstr ""
+
+msgid "buddy_view_gallery"
+msgstr ""
+
+msgid "buddy_view_table"
+msgstr ""

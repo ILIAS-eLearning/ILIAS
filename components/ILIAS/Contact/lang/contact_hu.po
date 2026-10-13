@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: contact\n"
+
+msgid "contact_awrn_ap_contacts"
+msgstr "Elfogadott jelölések"
+
+msgid "contact_awrn_ap_contacts_info"
+msgstr "A felhasználó összes elfogadott jelölését felsoroljuk."
+
+msgid "contact_awrn_req_contacts"
+msgstr "‘Ismerősnek jelölés’ kérések"
+
+msgid "contact_awrn_req_contacts_info"
+msgstr "Az összes felhasználót felsoroljuk, aki ‘Ismerősnek jelölés’ kérést küldött."

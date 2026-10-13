@@ -2560,62 +2560,6 @@ book#:#booking_nr_of_items#:#Število
 book#:#obj_book_duplicate#:#Kopiraj skupino rezervacij
 book#:#participants#:#Udeleženec
 book#:#reservation_deleted#:#Reservation deleted
-buddysystem#:#buddy_allow_to_contact_me#:#Dovoli zahteve za stik
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#Če je aktivirano, mi lahko drugi uporabniki pošljejo zahtevo za v stik.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Potrdi zahtevo
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Prekliči zahtevo
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Prekini stik
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Prezri stik
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Potrdi stik
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Prekliči zahtevo
-buddysystem#:#buddy_bs_action_already_ignored#:#Dejanje ni mogoče, ker je bila zahteva za stik uporabnika '%s' že prezrta.
-buddysystem#:#buddy_bs_action_already_linked#:#Dejanje ni mogoče, ker je bila zahteva za stik za uporabnika '%s' že potrjena.
-buddysystem#:#buddy_bs_action_already_requested#:#Dejanje ni mogoče, ker je bila zahteva za stik že poslana uporabniku '%s'.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Dejanje ni mogoče. Vsi stiki z uporabnikom '%s' so že bili prekinjeni.
-buddysystem#:#buddy_bs_action_not_possible#:#Dejanje ni mogoče
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Stik je zahtevan
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Zahteva je prezrta
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Povezano
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Povezano
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Stik je zahtevan
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Zahteva za stik
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Zahtevaj stik
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Zahtevano
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Prezrto
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Prezrto
-buddysystem#:#buddy_bs_state_linked#:#Povezano
-buddysystem#:#buddy_bs_state_linked_a#:#Povezano
-buddysystem#:#buddy_bs_state_linked_p#:#Linked
-buddysystem#:#buddy_bs_state_requested#:#Zahtevano
-buddysystem#:#buddy_bs_state_requested_a#:#Zahtevano
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required
-buddysystem#:#buddy_bs_state_requested_p#:#Zahtevano
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
-buddysystem#:#buddy_bs_state_unlinked_a#:#Ni povezano
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
-buddysystem#:#buddy_enable#:#Aktiviraj „Stiki uporabnika“
-buddysystem#:#buddy_enable_info#:#Če je aktivirano, se lahko uporabniki povežejo tako, da preko sistema pošljejo zahtevo za stik. Dodatna osebna nastavitev vsakemu uporabniku omogoča, da dovoli ali prepreči vzpostavljanje stikov.
-buddysystem#:#buddy_handle_contact_request#:#Zahteva za stik
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil ni objavljen
-buddysystem#:#buddy_notification_contact_request#:#Zahteva za stik
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Prezri zahtevo
-buddysystem#:#buddy_notification_contact_request_link#:#Approve Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Potrdi zahtevo
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" želi stopiti v stik z vami.[BR][BR]Povezava do osebnega profila: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#Uporabnik "[REQUESTING_USER]" želi stopiti v stik z vami.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
-buddysystem#:#buddy_relation_requested#:#Uporabniku je bila poslana zahteva za stik.
-buddysystem#:#buddy_request_approved#:#Stik je bil uspešno vzpostavljen.
-buddysystem#:#buddy_request_ignored#:#Uporabnika ste prezrli.
-buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action###26 08 2024 new variable
-buddysystem#:#buddy_tbl_title_relations#:#Razmerja do drugih uporabnikov
-buddysystem#:#buddy_use_osd#:#Pojavno okno zahteve za stik
-buddysystem#:#buddy_use_osd_info#:#Pokaže pojavno okno, če želi uporabnik stopiti v stik z mano.
-buddysystem#:#buddy_view_gallery#:#Galerija
-buddysystem#:#buddy_view_table#:#Seznam
 cat#:#cat_copy#:#Kopiraj kategorijo
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###26 08 2024 new variable
 cat#:#cat_import#:#Uvozi kategorijo
@@ -5917,10 +5861,6 @@ cont#:#cont_tile_size_4#:#full (one tile in a row)###19 08 2022 new variable
 cont#:#cont_tile_view#:#Ploščice
 cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###26 08 2024 new variable
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
-contact#:#contact_awrn_ap_contacts#:#Approved Contacts
-contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
-contact#:#contact_awrn_req_contacts#:#Contact Requests
-contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 content#:#Pages#:#Strani
 content#:#add_menu_entry#:#Dodaj vnos v meni >>
 content#:#all_pages#:#za celoten učni modul

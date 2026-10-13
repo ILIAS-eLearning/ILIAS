@@ -2560,62 +2560,6 @@ book#:#booking_nr_of_items#:#Číslo položky
 book#:#obj_book_duplicate#:#Kopírovat zásobník objednávek
 book#:#participants#:#Účastníci
 book#:#reservation_deleted#:#Reservation deleted###29 07 2022 new variable
-buddysystem#:#buddy_allow_to_contact_me#:#Umožnit kontakt
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#Je-li aktivováno, ostatní uživatelé mi mohou poslat žádost o navázání kontaktu.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Potvrdit požadavek
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Zrušit požadavek
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Odpojit
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorovat
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Potvrdit
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Zrušit požadavek
-buddysystem#:#buddy_bs_action_already_ignored#:#Již ignorovaný uživatel „%s“.
-buddysystem#:#buddy_bs_action_already_linked#:#Již přijata žádost o kontakt od uživatele „%s“.
-buddysystem#:#buddy_bs_action_already_requested#:#Již požadovaný uživatel „%s“.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Stav kontaktu pro uživatele „%s“ je již odpojen.
-buddysystem#:#buddy_bs_action_not_possible#:#Akce není možná
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Požadovaný kontakt
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Požadavek ignorován
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Spojeno
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Spojeno
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Požadovaný kontakt
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Požadavek
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Požádat o kontakt
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Požadováno
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignorováno
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignorováno
-buddysystem#:#buddy_bs_state_linked#:#Spojeno
-buddysystem#:#buddy_bs_state_linked_a#:#Spojeno
-buddysystem#:#buddy_bs_state_linked_p#:#Linked###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested#:#Požadováno
-buddysystem#:#buddy_bs_state_requested_a#:#Požadováno
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_requested_p#:#Požadováno
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###29 07 2022 new variable
-buddysystem#:#buddy_bs_state_unlinked_a#:#Odpojeno
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###29 07 2022 new variable
-buddysystem#:#buddy_enable#:#Aktivovat „Kontakty“
-buddysystem#:#buddy_enable_info#:#Pokud je tato možnost povolena, uživatelé se mohou vzájemně kontaktovat tím, že zahájí žádosti o kontakt. Kromě toho osobní nastavení uživatele umožňuje povolit nebo zabránit kontaktu.
-buddysystem#:#buddy_handle_contact_request#:#Žádost o kontakt
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###07 02 2020 new variable
-buddysystem#:#buddy_notification_contact_request#:#Žádost o kontakt
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignorovat požadavek
-buddysystem#:#buddy_notification_contact_request_link#:#Approve Request###26 08 2024 new variable
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Schválit požadavek
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]uživatel „[REQUESTING_USER]“ vás chce přidat do seznamu přátel.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#Uživatel „[REQUESTING_USER]“ vás chce přidat do seznamu přátel.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
-buddysystem#:#buddy_relation_requested#:#Uživateli byl odeslán požadavek.
-buddysystem#:#buddy_request_approved#:#Úspěšně jste schválili kontakt.
-buddysystem#:#buddy_request_ignored#:#Ignorovali jste uživatele.
-buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action###26 08 2024 new variable
-buddysystem#:#buddy_tbl_title_relations#:#Vztahy s ostatními uživateli
-buddysystem#:#buddy_use_osd#:#Vyskakovací okno Žádosti o kontakt
-buddysystem#:#buddy_use_osd_info#:#Zobrazí se vyskakovací okno, které vás upozorní, že vás chce uživatel přidat do seznamů přátel.
-buddysystem#:#buddy_view_gallery#:#Galerie
-buddysystem#:#buddy_view_table#:#List
 cat#:#cat_copy#:#Kopírovat kategorii
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###26 08 2024 new variable
 cat#:#cat_import#:#Importovat kategorii
@@ -5917,10 +5861,6 @@ cont#:#cont_tile_size_4#:#full (one tile in a row)###29 07 2022 new variable
 cont#:#cont_tile_view#:#Dlaždice
 cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###26 08 2024 new variable
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
-contact#:#contact_awrn_ap_contacts#:#Schválené kontakty
-contact#:#contact_awrn_ap_contacts_info#:#Jsou uvedeny všechny kontakty schválené uživatelem.
-contact#:#contact_awrn_req_contacts#:#Žádosti o kontakt
-contact#:#contact_awrn_req_contacts_info#:#Jsou uvedeny všechny žádosti o kontakt.
 content#:#Pages#:#Stránky
 content#:#add_menu_entry#:#Přidat položku menu >>
 content#:#all_pages#:#Celý výukový modul

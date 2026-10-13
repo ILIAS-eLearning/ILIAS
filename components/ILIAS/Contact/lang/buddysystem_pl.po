@@ -1,0 +1,191 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Pozwól na zapytania dotyczące punktu kontaktowego"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Jeśli ta opcja jest aktywna, inni użytkownicy mogą wysyłać mi zapytania dotyczące punktu kontaktowego."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Zatwierdź zapytanie"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Cofnij zapytanie"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Anuluj punkt kontaktowy"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ignoruj punkt kontaktowy"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Zatwierdź punkt kontaktowy"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Cofnij zapytanie"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Akcja nie jest możliwa, ponieważ zapytanie dotyczące punktu kontaktowego złożone przez użytkownika '%s' zostało już zignorowane."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Akcja nie jest możliwa, ponieważ zapytanie dotyczące punktu kontaktowego dla użytkownika '%s' zostało już potwierdzone."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Akcja nie jest możliwa, ponieważ zapytanie zostało użytkownikowi '%s' już złożone."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Akcja nie jest możliwa. Wszelki kontakt do użytkownika '%s' został już przerwany."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Akcja nie jest możliwa"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Zapytano o punkt kontaktowy"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Zignorowano zapytanie"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Sieciowy"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Sieciowy"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Zapytano o punkt kontaktowy"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Zapytanie dotyczące punktu kontaktowego"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Zapytaj o punkt kontaktowy"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Złożono zapytanie"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Zignorowano"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Zignorowano"
+
+msgid "buddy_bs_state_linked"
+msgstr "Sieciowy"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Sieciowy"
+
+#, fuzzy
+msgid "buddy_bs_state_linked_p"
+msgstr "Linked"
+
+msgid "buddy_bs_state_requested"
+msgstr "Złożono zapytanie"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Złożono zapytanie"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Waiting for Reaction"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Action Required"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Złożono zapytanie"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked"
+msgstr "Unlinked"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Niesieciowy"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+msgid "buddy_enable"
+msgstr "Aktywuj „Kontakty“"
+
+msgid "buddy_enable_info"
+msgstr "Jeśli ta opcja jest aktywna, użytkownicy mogą się w systemie ze sobą kontaktować za pomocą zapytań dotyczących punktów kontaktowych. Dodatkowe indywidualne ustawienie umożliwia każdemu użytkownikowi na akceptowanie lub odrzucanie zapytań o kontakt."
+
+msgid "buddy_handle_contact_request"
+msgstr "Zapytanie dotyczące punktu kontaktowego"
+
+#, fuzzy
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profile not published"
+
+msgid "buddy_notification_contact_request"
+msgstr "Zapytanie dotyczące punktu kontaktowego"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignore Request"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ignoruj zapytanie"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_link"
+msgstr "Approve Request"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Zatwierdź zapytanie"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]Użytkownik \"[REQUESTING_USER]\" chce się z Tobą skontaktować.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "Użytkownik \"[REQUESTING_USER]\" chce się z Tobą skontaktować.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "Użytkownikowi zostało wysłane zapytanie dotyczące punktu kontaktowego."
+
+msgid "buddy_request_approved"
+msgstr "Udało się nawiązać kontakt."
+
+msgid "buddy_request_ignored"
+msgstr "Zignorowałeś użytkownika."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Status"
+
+#, fuzzy
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Relacja z innymi użytkownikami"
+
+msgid "buddy_use_osd"
+msgstr "Wyskakujące okienko z zapytaniami dotyczącymi punktu kontaktowego"
+
+msgid "buddy_use_osd_info"
+msgstr "Pokazuje wyskakujące okienko, gdy użytkownik chce się ze mną skontaktować."
+
+msgid "buddy_view_gallery"
+msgstr "Galeria"
+
+msgid "buddy_view_table"
+msgstr "Lista"

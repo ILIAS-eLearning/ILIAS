@@ -2560,62 +2560,6 @@ book#:#booking_nr_of_items#:#Nummer
 book#:#obj_book_duplicate#:#Kopiera bokningspool
 book#:#participants#:#Deltagare
 book#:#reservation_deleted#:#Reservation borttagen
-buddysystem#:#buddy_allow_to_contact_me#:#Tillåt kontaktförfrågningar
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#Om aktiverat kan andra användare skicka kontaktförfrågningar till mig.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Bekräfta begäran
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Begäran om återkallelse
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Avbryt kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorera kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bekräfta kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Begäran om återkallelse
-buddysystem#:#buddy_bs_action_already_ignored#:#Åtgärden är inte möjlig eftersom kontaktförfrågan från användaren '%s' redan har ignorerats.
-buddysystem#:#buddy_bs_action_already_linked#:#Åtgärden är inte möjlig eftersom kontaktförfrågan för användaren '%s' redan har bekräftats.
-buddysystem#:#buddy_bs_action_already_requested#:#Åtgärden är inte möjlig eftersom användaren '%s' redan har begärts.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Åtgärden är inte möjlig. All kontakt med användaren '%s' har redan lösts.
-buddysystem#:#buddy_bs_action_not_possible#:#Aktion ej möjlig
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Begärd kontakt
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Förfrågan ignorerad
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Nätverk
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Nätverk
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Begärd kontakt
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktförfrågan
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Förfrågan om kontakt
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Frågade
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignorerad
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignorerad
-buddysystem#:#buddy_bs_state_linked#:#Nätverk
-buddysystem#:#buddy_bs_state_linked_a#:#Nätverk
-buddysystem#:#buddy_bs_state_linked_p#:#Nätverk
-buddysystem#:#buddy_bs_state_requested#:#Frågade
-buddysystem#:#buddy_bs_state_requested_a#:#Frågade
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Väntar på reaktion
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Åtgärd krävs
-buddysystem#:#buddy_bs_state_requested_p#:#Frågade
-buddysystem#:#buddy_bs_state_unlinked#:#Inte nätverk
-buddysystem#:#buddy_bs_state_unlinked_a#:#Inte nätverk
-buddysystem#:#buddy_bs_state_unlinked_p#:#Inte nätverk
-buddysystem#:#buddy_enable#:#Aktivera "Användarkontakter
-buddysystem#:#buddy_enable_info#:#Om den är aktiverad kan användare i systemet kontakta varandra via kontaktförfrågningar. En ytterligare personlig inställning gör det möjligt för varje användare att tillåta eller förhindra kontaktförfrågningar.
-buddysystem#:#buddy_handle_contact_request#:#Kontaktförfrågan
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil ej publicerad
-buddysystem#:#buddy_notification_contact_request#:#Kontaktförfrågan
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignorera begäran
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignorera begäran
-buddysystem#:#buddy_notification_contact_request_link#:#Bekräfta begäran
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Bekräfta begäran
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR]"[REQUESTING_USER]" vill gärna komma i kontakt med dig.[BR][BR]Länk till personlig profil
-buddysystem#:#buddy_notification_contact_request_short#:#Användaren "[REQUESTING_USER]" vill gärna kontakta dig.
-buddysystem#:#buddy_relation_requested#:#En kontaktförfrågan har skickats till användaren.
-buddysystem#:#buddy_request_approved#:#Kontakten har framgångsrikt etablerats.
-buddysystem#:#buddy_request_ignored#:#Du har ignorerat användaren.
-buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#Status / Åtgärd
-buddysystem#:#buddy_tbl_title_relations#:#Relationer med andra användare
-buddysystem#:#buddy_use_osd#:#Popup kontaktförfrågningar
-buddysystem#:#buddy_use_osd_info#:#Visar en popup när en användare vill kontakta mig.
-buddysystem#:#buddy_view_gallery#:#Galleri
-buddysystem#:#buddy_view_table#:#Lista
 cat#:#cat_copy#:#Kopieringskategori
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###21 11 2023 new variable
 cat#:#cat_import#:#Kategori #Import
@@ -5917,10 +5861,6 @@ cont#:#cont_tile_size_4#:# full bredd (en kakelplatta på en rad)
 cont#:#cont_tile_view#:#Kakelplattor
 cont#:#cont_tile_view_info#:#Visa underordnade objekt som brickor. Bilder för dessa plattor kan laddas upp i inställningarna för varje enskilt objekt.
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
-contact#:#contact_awrn_ap_contacts#:#Bekräftade kontakter
-contact#:#contact_awrn_ap_contacts_info#:#Alla bekräftade kontakter för en användare listas.
-contact#:#contact_awrn_req_contacts#:#Kontaktförfrågningar
-contact#:#contact_awrn_req_contacts_info#:#Alla kontaktförfrågningar är listade.
 content#:#Pages#:#Sidor
 content#:#add_menu_entry#:#Lägg till menyalternativ &gt;&gt;
 content#:#all_pages#:# för hela utbildningsmodulen

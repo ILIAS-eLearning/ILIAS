@@ -2595,63 +2595,6 @@ book#:#obj_book_duplicate#:#Copiar banco de reservas
 book#:#participants#:#Ilimitado
 book#:#reservation_deleted#:#Reservation deleted###30 04 2021 new variable
 book#:#schedule_type#:#Schedule Type###03 09 2026 new variable
-buddysystem#:#buddy_allow_to_contact_me#:#Autorizar o contacto comigo
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###03 09 2026 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#Se estiver ativado, outros utilizadores podem enviar-me um pedido para entrar em contacto.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirmar pedido
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancelar pedido
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Desconectar
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ação abortada
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Ativar avaliação de teste e logging
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancelar pedido
-buddysystem#:#buddy_bs_action_already_ignored#:#Válido até
-buddysystem#:#buddy_bs_action_already_linked#:#A sua conta expira
-buddysystem#:#buddy_bs_action_already_requested#:#Ação
-buddysystem#:#buddy_bs_action_already_unlinked#:#Ações
-buddysystem#:#buddy_bs_action_not_possible#:#Ação impossível
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Contacto pedido
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Pedido ignorado
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Conectado
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Conectado
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Contacto pedido
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Pedir
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Pedir contacto
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Pedido
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignorado
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignorado
-buddysystem#:#buddy_bs_state_linked#:#Conectado
-buddysystem#:#buddy_bs_state_linked_a#:#Conectado
-buddysystem#:#buddy_bs_state_linked_p#:#Linked###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_requested#:#Pedido
-buddysystem#:#buddy_bs_state_requested_a#:#Pedido
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_requested_p#:#Pedido
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
-buddysystem#:#buddy_bs_state_unlinked_a#:#Desconectado
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
-buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?###03 09 2026 new variable
-buddysystem#:#buddy_enable#:#Ativar ‘Contactos’
-buddysystem#:#buddy_enable_info#:#Se estiver ativado, os utilizadores podem entrar em contactar uns com os outros iniciando pedidos de contacto. Além disso, existe uma definição de utilizadores pessoal para autorizar ou impedir que possa ser contactado.
-buddysystem#:#buddy_handle_contact_request#:#Pedido de contacto
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###07 02 2020 new variable
-buddysystem#:#buddy_notification_contact_request#:#Pedido de contacto
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignorar pedido:
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignorar pedido
-buddysystem#:#buddy_notification_contact_request_link#:#Aprovar pedido:
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Aprovar pedido
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]o utilizador "[REQUESTING_USER]" quer adicioná-lo à sua lista de amigos.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#O utilizador "[REQUESTING_USER]" quer adicioná-lo à sua lista de amigos.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
-buddysystem#:#buddy_relation_requested#:#O pedido foi enviado ao utilizador.
-buddysystem#:#buddy_request_approved#:#Aprovou com sucesso o contacto.
-buddysystem#:#buddy_request_ignored#:#Ignorou o utilizador.
-buddysystem#:#buddy_tbl_filter_state#:#Estado
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action###03 09 2026 new variable
-buddysystem#:#buddy_tbl_title_relations#:#Relações com outros utilizadores
-buddysystem#:#buddy_use_osd#:#Popup pedidos de contacto
-buddysystem#:#buddy_use_osd_info#:#Apresentar um popup para indicar que um utilizador quer adicioná-lo à sua lista de amigos.
-buddysystem#:#buddy_view_gallery#:#Galeria
-buddysystem#:#buddy_view_table#:#Lista
 cat#:#cat_copy#:#Copiar categoria
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###03 09 2026 new variable
 cat#:#cat_import#:#Importar categoria
@@ -5965,10 +5908,6 @@ cont#:#cont_tile_size_4#:#full (one tile in a row)###03 09 2026 new variable
 cont#:#cont_tile_view#:#Propriedades de instância
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###03 09 2026 new variable
-contact#:#contact_awrn_ap_contacts#:#Contactos aprovados
-contact#:#contact_awrn_ap_contacts_info#:#Todos os contactos aprovados pelo utilizador estão listados.
-contact#:#contact_awrn_req_contacts#:#Pedidos de contactos
-contact#:#contact_awrn_req_contacts_info#:#Todos os pedidos de contactos estão listados.
 content#:#Pages#:#a sua adesão ao curso "%s" foi restaurada.
 content#:#add_menu_entry#:#Uso
 content#:#all_pages#:#Nova área do link
