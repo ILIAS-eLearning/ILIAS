@@ -860,12 +860,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $ro->setInfo(sprintf($this->lng->txt("language_remove_local_file_info"), $this->object->key));
             $rg->addOption($ro);
             $ro = new ilRadioOption($this->lng->txt("language_merge_local_changes"), "merge");
-            // with the warning that the shipped .po of the modules maintained in PO files are shared
-            // by every client - they are only merged on an installation with a single client
-            $ro->setInfo(
-                sprintf($this->lng->txt("language_merge_local_changes_info"), $this->object->key)
-                . ' ' . $this->lng->txt("lng_merge_po_single_client_info")
-            );
+            $ro->setInfo(sprintf($this->lng->txt("language_merge_local_changes_info"), $this->object->key));
             $rg->addOption($ro);
         }
         $ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
@@ -1352,7 +1347,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      * Success, plus everything that failed or was left out in one failure message (setOnScreenMessage() keeps one
      * per type); details are in the log.
      *
-     * @param array{written: list<string>, skipped: list<string>, invalid_markup: array<string, list<string>>, not_merged: list<string>, unwritten_database: list<string>, not_single_client?: list<string>} $result
+     * @param array{written: list<string>, skipped: list<string>, invalid_markup: array<string, list<string>>, not_merged: list<string>, unwritten_database: list<string>} $result
      */
     private function mergeMessages(array $result): void
     {
@@ -1367,13 +1362,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->tpl->setOnScreenMessage('success', $success, true);
 
         $failures = [];
-        if (($result['not_single_client'] ?? []) !== []) {
-            // left out on purpose: the installation does not have exactly one client
-            $failures[] = sprintf(
-                $this->lng->txt("lng_merge_po_not_single_client"),
-                $escape(implode(', ', $result['not_single_client']))
-            );
-        }
         if ($result['skipped'] !== []) {
             // not written at all (e.g. no write permission): an error, not an intended skip
             $failures[] = sprintf(

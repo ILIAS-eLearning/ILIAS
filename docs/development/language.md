@@ -74,7 +74,7 @@ The initial files are generated with `components/ILIAS/Language/tools/po-migrati
 afterwards they are maintained directly, and `php cli/setup.php build` MUST be run after every change
 of a shipped `.po`. The developer mode action
 that merges local changes into the global language file writes the local changes of these modules
-into their shipped `.po` files (only on an installation with exactly one client). Each installation
+into their shipped `.po` files. Each installation
 keeps its local changes of these modules in the client data directory, which is why the ILIAS setup
 MUST be run as the web server user. Plural forms are available for these modules through
 `ilLanguage::ntxt()`. See

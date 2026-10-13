@@ -286,16 +286,13 @@ Where the rules apply:
 * "merge" (translation mode only, checked on the server) writes the global
   `.lang` file for modules that are not migrated, and the local changes of
   migrated modules into their shipped `.po` (new keys also into the `.pot`;
-  remarks become an additional `#.` line). This is done only if the
-  installation has exactly one client, since the shipped files are shared by
-  all clients; otherwise only the `.lang` file is written and the modules are
-  reported. The previous files are copied to `lang/customizing/` (ignored by
-  git), the written files belong to the web server user. Values with markup
-  that is not allowed are not taken over. The overlay keeps serving the merged
-  values until `php cli/setup.php build` and then `php cli/setup.php update`
-  ran. Afterwards remove the lines of the merged keys from
-  `lang/customizing/ilias_<lang>.lang.local`; otherwise the next update takes
-  them as local changes again (and a remark appears twice).
+  remarks become an additional `#.` line). The previous files are copied to
+  `lang/customizing/` (ignored by git), the written files belong to the web
+  server user. Values with markup that is not allowed are not taken over. The
+  overlay keeps serving the merged values until `php cli/setup.php build` and
+  then `php cli/setup.php update` ran. Afterwards remove the lines of the
+  merged keys from `lang/customizing/ilias_<lang>.lang.local`; otherwise the
+  next update takes them as local changes again (and a remark appears twice).
 
 ### Setup
 `setup update` (and "update" in the administration) reconciles each entry of a

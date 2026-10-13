@@ -395,17 +395,11 @@ class ilObjLanguageExt extends ilObjLanguage
      *     skipped: list<string>,
      *     invalid_markup: array<string, list<string>>,
      *     not_merged: list<string>,
-     *     unwritten_database: list<string>,
-     *     not_single_client: list<string>
-     * } for the modules maintained in PO files: written - the shipped .po files written (relative to
-     *   the ILIAS directory); skipped - the modules left out as a whole (e.g. not writable, logged
-     *   with the reason); invalid_markup - module.separator.identifier => violations of values not
-     *   taken over because of markup that is not allowed; not_merged - module.separator.identifier of
-     *   entries that could not be taken over (see ShippedPoMerger, logged); unwritten_database - modules whose lng_data
-     *   rows could not be updated (logged; their files are written); not_single_client - the modules
-     *   maintained in PO files with local changes (an overlay) left out because the installation does
-     *   not have exactly one client: their shipped .po are shared by every client (see
-     *   isSingleClientInstallation()), the global language file is written regardless
+     *     unwritten_database: list<string>
+     * } for the modules maintained in PO files: written - shipped .po files written (relative to the ILIAS directory);
+     *   skipped - modules left out as a whole (logged); invalid_markup - module.separator.identifier => violations of
+     *   values not taken over; not_merged - module.separator.identifier of entries not taken over (logged);
+     *   unwritten_database - modules whose lng_data rows could not be updated (logged; their files are written)
      */
     public function mergeLocalChangesIntoGlobalLanguageFile(): array
     {
@@ -427,68 +421,10 @@ class ilObjLanguageExt extends ilObjLanguage
         )));
         $global_file_obj->write();
 
-        if (!self::isSingleClientInstallation()) {
-            return [
-                'written' => [],
-                'skipped' => [],
-                'invalid_markup' => [],
-                'not_merged' => [],
-                'unwritten_database' => [],
-                'not_single_client' => $this->modulesWithOverlay($po_modules),
-            ];
-        }
         $result = $this->mergeLocalChangesIntoShippedPoFiles();
         $this->shipped_migrated_modules = null;
 
-        return $result + ['not_single_client' => []];
-    }
-
-    /**
-     * The modules of $modules (maintained in PO files) with local changes - an overlay, the modules
-     * ShippedPoMerger::merge() takes over.
-     *
-     * @param list<string> $modules
-     * @return list<string>
-     */
-    private function modulesWithOverlay(array $modules): array
-    {
-        global $DIC;
-
-        if (!$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
-            return [];
-        }
-        $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH);
-        if ($client_data_dir === null) {
-            return [];
-        }
-
-        return array_values(array_filter(
-            $modules,
-            fn(string $module): bool => MigratedLanguageFileSync::hasOverlay(
-                $DIC[LanguageFileDirectoryManager::class],
-                $this->key,
-                $module,
-                $client_data_dir
-            )
-        ));
-    }
-
-    /**
-     * Whether this installation has exactly one client - a client directory with a client.ini.php
-     * next to the one of the current client, found like ilSoapAdministration::getInstallationInfoXML()
-     * does. The shipped files (the global language file, the shipped .po of the modules maintained in
-     * PO files) are shared by every client, but a merge only takes over the local changes of the
-     * current client and updates only its database: with more than one client the others no longer
-     * match their shipped files. `false` if the client directory is not known (e.g. no web request).
-     */
-    public static function isSingleClientInstallation(): bool
-    {
-        if (!defined('CLIENT_WEB_DIR')) {
-            return false;
-        }
-        $client_ini_files = glob(dirname(rtrim((string) CLIENT_WEB_DIR, '/')) . '/*/client.ini.php');
-
-        return is_array($client_ini_files) && count($client_ini_files) === 1;
+        return $result;
     }
 
     /**

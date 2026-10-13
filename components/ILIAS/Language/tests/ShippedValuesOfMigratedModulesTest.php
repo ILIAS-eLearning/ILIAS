@@ -132,20 +132,6 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
         );
     }
 
-    /**
-     * Makes CLIENT_WEB_DIR name one of $clients client directories (each with a client.ini.php) below
-     * the fixture directory - the constant can be defined once per process (every test has its own).
-     */
-    private function defineClientDirectories(int $clients): void
-    {
-        $web = $this->fixture_directory . '/web';
-        for ($i = 1; $i <= $clients; $i++) {
-            mkdir($web . '/client_' . $i, 0775, true);
-            file_put_contents($web . '/client_' . $i . '/client.ini.php', '');
-        }
-        define('CLIENT_WEB_DIR', $web . '/client_1');
-    }
-
     private function registerDirectoryManager(): void
     {
         $this->setGlobalVariable(
@@ -480,7 +466,7 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
 
         // "itest" has no overlay (its lng_data rows are only the dual-write fallback): nothing to merge, so not reported as skipped
         $this->assertSame(
-            ['written' => [], 'skipped' => [], 'invalid_markup' => [], 'not_merged' => [], 'unwritten_database' => [], 'not_single_client' => []],
+            ['written' => [], 'skipped' => [], 'invalid_markup' => [], 'not_merged' => [], 'unwritten_database' => []],
             $result
         );
         $this->assertSame(
@@ -504,7 +490,7 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
         ];
 
         $this->assertSame(
-            ['written' => [], 'skipped' => [], 'invalid_markup' => [], 'not_merged' => [], 'unwritten_database' => [], 'not_single_client' => []],
+            ['written' => [], 'skipped' => [], 'invalid_markup' => [], 'not_merged' => [], 'unwritten_database' => []],
             $this->languageObject()->mergeLocalChangesIntoGlobalLanguageFile()
         );
         $this->assertSame(
@@ -533,7 +519,6 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
 
-        $this->defineClientDirectories(1);
         $object = $this->languageObject();
         $object->cust_lang_path = $this->fixture_directory;
         $result = $object->mergeLocalChangesIntoGlobalLanguageFile();
@@ -546,56 +531,5 @@ class ShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCase
             ],
             $this->manipulate_calls
         );
-    }
-
-    /**
-     * With more than one client the shared shipped .po stays as it is (their lng_data would no longer
-     * match it); the global language file is written, and the modules with local changes are reported.
-     */
-    public function testMergeInAMultiClientInstallationLeavesTheSharedShippedPoAloneAndReportsTheModules(): void
-    {
-        $this->defineClientDirectories(2);
-        $this->seedOverlay(['greeting' => 'Lokal geändert']);
-        $po_before = (string) file_get_contents($this->shippedPo());
-        $this->value_rows = [['module' => 'common', 'identifier' => 'yes', 'value' => 'Jawohl']];
-        $this->setGlobalVariable('ilLoggerFactory', $this->createStub(ilLoggerFactory::class));
-
-        $result = $this->languageObject()->mergeLocalChangesIntoGlobalLanguageFile();
-
-        $this->assertSame(
-            ['written' => [], 'skipped' => [], 'invalid_markup' => [], 'not_merged' => [], 'unwritten_database' => [], 'not_single_client' => ['itest']],
-            $result
-        );
-        $this->assertSame($po_before, file_get_contents($this->shippedPo()));
-        $this->assertSame([], $this->manipulate_calls, 'lng_data of the PO module is not touched');
-        $this->assertContains('common#:#yes#:#Jawohl###Zustimmung', $this->entryLinesOfTheGlobalFile());
-    }
-
-    public function testMergeInAMultiClientInstallationReportsNoModuleWithoutLocalChanges(): void
-    {
-        $this->defineClientDirectories(2);
-        $this->setGlobalVariable('ilLoggerFactory', $this->createStub(ilLoggerFactory::class));
-
-        $result = $this->languageObject()->mergeLocalChangesIntoGlobalLanguageFile();
-
-        $this->assertSame([], $result['not_single_client']);
-    }
-
-    public function testASingleClientInstallationHasExactlyOneClientDirectoryWithAClientIni(): void
-    {
-        $this->assertFalse(defined('CLIENT_WEB_DIR'), 'precondition');
-        $this->assertFalse(ilObjLanguageExt::isSingleClientInstallation(), 'client directory unknown');
-
-        $web = $this->fixture_directory . '/web';
-        mkdir($web . '/client_a', 0775, true);
-        define('CLIENT_WEB_DIR', $web . '/client_a');
-        $this->assertFalse(ilObjLanguageExt::isSingleClientInstallation(), 'no client.ini.php at all');
-
-        file_put_contents($web . '/client_a/client.ini.php', '');
-        $this->assertTrue(ilObjLanguageExt::isSingleClientInstallation());
-
-        mkdir($web . '/client_b');
-        file_put_contents($web . '/client_b/client.ini.php', '');
-        $this->assertFalse(ilObjLanguageExt::isSingleClientInstallation(), 'a second client');
     }
 }

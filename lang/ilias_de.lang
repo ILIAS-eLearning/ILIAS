@@ -11151,9 +11151,7 @@ lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
 lng#:#lng_error_clear_shipped_po_unreadable#:#Die lokalen Änderungen wurden nicht gelöscht: Die ausgelieferten PO-Dateien folgender Module können nicht gelesen werden: %s. Details stehen im Log.
 lng#:#lng_markup_not_allowed#:#Nicht erlaubtes Markup in folgenden Einträgen: %s
 lng#:#lng_merge_database_not_updated#:#Die ausgelieferten PO-Dateien folgender Module wurden geschrieben, ihre Einträge in der Datenbank konnten aber nicht aktualisiert werden (siehe Log): %s
-lng#:#lng_merge_po_not_single_client#:#Diese Installation hat mehr als einen Mandanten: Die lokalen Änderungen folgender über PO-Dateien gepflegter Module wurden nicht in ihre ausgelieferten PO-Dateien übernommen, die alle Mandanten gemeinsam nutzen: %s
 lng#:#lng_merge_po_not_written#:#Die lokalen Änderungen folgender Module konnten nicht in ihre ausgelieferten PO-Dateien übernommen werden (siehe Log): %s
-lng#:#lng_merge_po_single_client_info#:#Module, die über PO-Dateien gepflegt werden, werden in ihre ausgelieferten PO-Dateien im Code-Verzeichnis übernommen, die alle Mandanten dieser Installation gemeinsam nutzen. Das geschieht nur, wenn die Installation genau einen Mandanten hat.
 lng#:#lng_merged_po_modules#:#Die lokalen Änderungen folgender Module wurden in ihre ausgelieferten PO-Dateien übernommen: %s
 lng#:#lng_not_translated#:#Nicht übersetzt
 lng#:#lng_po_overlay_not_written#:#Die Änderungen wurden in der Datenbank gespeichert, aber die PO/MO-Dateien folgender über PO-Dateien gepflegter Module konnten nicht geschrieben werden: %s. Für diese Module werden weiterhin die bisherigen Texte angezeigt. Bitte prüfen Sie, ob der Webserver-Nutzer Schreibrechte auf das Verzeichnis "lang" im Client-Datenverzeichnis hat. Details stehen im Log.

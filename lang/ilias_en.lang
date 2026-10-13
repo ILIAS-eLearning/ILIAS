@@ -11124,9 +11124,7 @@ lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_error_clear_shipped_po_unreadable#:#The local changes were not cleared: the shipped PO files of the following modules cannot be read: %s. See the log for details.
 lng#:#lng_markup_not_allowed#:#Markup that is not allowed in the following entries: %s
 lng#:#lng_merge_database_not_updated#:#The shipped PO files of the following modules were written, but their database entries could not be updated (see the log): %s
-lng#:#lng_merge_po_not_single_client#:#This installation has more than one client: the local changes of the following modules maintained in PO files were not merged into their shipped PO files, which all clients share: %s
 lng#:#lng_merge_po_not_written#:#The local changes of the following modules could not be merged into their shipped PO files (see the log): %s
-lng#:#lng_merge_po_single_client_info#:#Modules maintained in PO files are merged into their shipped PO files in the code directory, which all clients of this installation share. This is only done if the installation has exactly one client.
 lng#:#lng_merged_po_modules#:#The local changes of the following modules were merged into their shipped PO files: %s
 lng#:#lng_not_translated#:#Not translated
 lng#:#lng_po_overlay_not_written#:#The changes were saved in the database, but the PO/MO files of the following modules maintained in PO files could not be written: %s. The previous texts are still shown for these modules. Please check whether the web server user may write to the directory "lang" in the client data directory. See the log for details.
