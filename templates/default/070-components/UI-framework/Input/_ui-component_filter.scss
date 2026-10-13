@@ -102,10 +102,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	}
 
 	.rightaddon {
-		padding-top: 0;
-		padding-bottom: 0;
-		padding-left: 0;
-		padding-right: 0;
+		padding: 0;
 		overflow: visible;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -203,7 +200,6 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		display: flex;
 		align-items: center;
 		padding-left: $il-standard-filter-bar-toggle-padding-left;
-		transform: translateY(2px);
 	}
 }
 
