@@ -11929,68 +11929,6 @@ news#:#news_x_postings#:#%s bidrag har lagts till.
 news#:#passwd_equals_ilpasswd#:#Var god ange ett annat lösenord än ditt ILIAS-lösenord av säkerhetsskäl
 news#:#priv_feed_disabled#:#Privat nyhetsflöde har avaktiverats.
 news#:#priv_feed_settings#:#Inställningar för privat nyhetsflöde
-note#:#note_comment_notification_link#:#Länk
-note#:#note_comment_notification_reason#:#Du får detta meddelande eftersom ILIAS administration är inställd på att meddela dig om alla kommentarer.
-note#:#note_comment_notification_salutation#:#Hej %s,
-note#:#note_comment_notification_subject#:#Ny kommentar i "%s".
-note#:#note_comment_notification_subjectc#:#Ändrad kommentar i "%s".
-note#:#note_comment_notification_user_has_written#:#%s har skrivit
-note#:#note_comments_notification#:#Generellt meddelande om alla kommentarer
-note#:#note_comments_notification_info#:#Kommaseparerad lista över ILIAS-konton som får varje kommentar som ett e-postmeddelande.
-note#:#note_enable_comments#:# Aktivera kommentarer
-note#:#note_enable_comments_del_tutor#:#Alla kommentarer kan raderas av handledare
-note#:#note_enable_comments_del_tutor_info#:#Användare med rätt "Redigera inställningar" på ett objekt kan radera alla kommentarer som gjorts i det.
-note#:#note_enable_comments_del_user#:#Kommentarer kan raderas av den person som skapade dem ###Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
-note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.###21 11 2023 new variable
-note#:#note_enable_comments_export_info#:#Gör det möjligt att exportera kommentarer i objekt som portföljer, bloggar eller wikis.
-note#:#note_enable_notes#:#Aktivera Noter
-note#:#note_html_export_include_comments#:#Bör även kommentarerna exporteras?
-notes#:#comments_feature_currently_not_activated_for_object#:#Den offentliga kommentarsfunktionen är för närvarande inte aktiverad för detta objekt.
-notes#:#note_add_comment#:#Lägg till kommentar
-notes#:#note_add_message#:#Add Message###21 11 2023 new variable
-notes#:#note_add_note#:#Lägg till anteckning
-notes#:#note_content_removed#:#Innehållet har tagits bort.
-notes#:#note_text#:#Text
-notes#:#note_update_comment#:#Redigera kommentar
-notes#:#note_update_message#:#Update Message###21 11 2023 new variable
-notes#:#note_update_note#:#Redigera anteckning
-notes#:#note_without_object#:#Utan objektreferens
-notes#:#notes_activate_comments#:#Öppna för offentliga kommentarer
-notes#:#notes_add_comment#:#Lägg till kommentar
-notes#:#notes_add_edit_comment#:#Lägg till/redigera kommentar
-notes#:#notes_add_edit_message#:#Add/Edit Message###21 11 2023 new variable
-notes#:#notes_add_edit_note#:#Add/Edit Note###21 11 2023 new variable
-notes#:#notes_all_comments#:#Alla kommentarer
-notes#:#notes_comment#:#Kommentar
-notes#:#notes_comment_deleted#:#Kommentaren raderades
-notes#:#notes_comments#:#Kommentarer
-notes#:#notes_comments_deleted#:#Kommentarerna har tagits bort.
-notes#:#notes_deactivate_comments#:#Stäng av offentliga kommentarer
-notes#:#notes_delete_comment#:#Ska följande kommentar verkligen raderas?
-notes#:#notes_delete_message#:#Do you really want to delete this message?###21 11 2023 new variable
-notes#:#notes_delete_note#:#Bör följande meddelande verkligen tas bort?
-notes#:#notes_hide_comments#:#Dölja kommentarer
-notes#:#notes_html_export#:#HTML-export
-notes#:#notes_latest_comment#:#Sista kommentaren
-notes#:#notes_latest_message#:#Latest Message###21 11 2023 new variable
-notes#:#notes_message_author_counterpart#:#Respondent###21 11 2023 new variable
-notes#:#notes_message_author_you#:#You###21 11 2023 new variable
-notes#:#notes_messages#:#Messages###21 11 2023 new variable
-notes#:#notes_my_comments#:#Mina kommentarer
-notes#:#notes_no_comments#:#Ingen kommentar har gjorts ännu.
-notes#:#notes_no_comments_found#:#Inga kommentarer hittades som matchar sökkriterierna.
-notes#:#notes_no_messages#:#No messages have been attached yet.###21 11 2023 new variable
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.###21 11 2023 new variable
-notes#:#notes_no_notes#:#Ingen notering har lagts till ännu.
-notes#:#notes_no_notes_found#:#Inga anteckningar hittades som matchar sökkriterierna.
-notes#:#notes_note_deleted#:#Anteckningen har tagits bort
-notes#:#notes_notes_deleted#:#Anteckningarna har tagits bort.
-notes#:#notes_origin#:#Ursprung
-notes#:#notes_public_comments#:#Offentliga kommentarer
-notes#:#notes_show_comments#:#Visa kommentarer
-notes#:#notes_sort_asc#:#Sortera stigande
-notes#:#notes_sort_desc#:#Sortera fallande
-notes#:#notes_text#:#Text
 noti#:#noti_activate_notification#:# Aktivera avisering
 noti#:#noti_deactivate_notification#:#Avaktivera avisering
 noti#:#noti_notification_activated#:#Notifieringar är aktiverade

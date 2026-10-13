@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "Área"
+
+msgid "note_add_comment"
+msgstr "A sua pesquisa de <b>%s</b> não correspondeu a nenhum documento.<br /><br />Sugestões:<br />• Certifique-se que todas as palavras estão corretamente escritas.<br />• Tente diferentes palavras-chave.<br />• Tente palavras-chave mais genéricas.<br />• Tente menos palavras-chave."
+
+#, fuzzy
+msgid "note_add_message"
+msgstr "Add Message"
+
+msgid "note_add_note"
+msgstr "Não selecionou nada."
+
+msgid "note_content_removed"
+msgstr "O conteúdo foi removido."
+
+#, fuzzy
+msgid "note_text"
+msgstr "Text"
+
+msgid "note_update_comment"
+msgstr "Atualizar comentário"
+
+#, fuzzy
+msgid "note_update_message"
+msgstr "Update Message"
+
+msgid "note_update_note"
+msgstr "Atualizar nota"
+
+#, fuzzy
+msgid "note_without_object"
+msgstr "Without reference"
+
+msgid "notes_activate_comments"
+msgstr "Ativar comentários públicos"
+
+msgid "notes_add_comment"
+msgstr "Adicionar comentário"
+
+msgid "notes_add_edit_comment"
+msgstr "Conteúdo da página"
+
+#, fuzzy
+msgid "notes_add_edit_message"
+msgstr "Add/Edit Message"
+
+#, fuzzy
+msgid "notes_add_edit_note"
+msgstr "Add/Edit Note"
+
+msgid "notes_comment_deleted"
+msgstr "O comentário foi apagado."
+
+msgid "notes_comments"
+msgstr "A pesquisa pode ser restringida aos tipos de ficheiro escolhidos."
+
+msgid "notes_comments_deleted"
+msgstr "Os comentários foram apagados."
+
+msgid "notes_deactivate_comments"
+msgstr "Desativar comentários públicos"
+
+#, fuzzy
+msgid "notes_delete_comment"
+msgstr "Do you really want to delete this comment?"
+
+#, fuzzy
+msgid "notes_delete_message"
+msgstr "Do you really want to delete this message?"
+
+#, fuzzy
+msgid "notes_delete_note"
+msgstr "Do you really want to delete this note?"
+
+#, fuzzy
+msgid "notes_html_export"
+msgstr "HTML Export"
+
+msgid "notes_latest_comment"
+msgstr "A sua pesquisa tem de ter pelo menos três caracteres."
+
+#, fuzzy
+msgid "notes_latest_message"
+msgstr "Latest Message"
+
+#, fuzzy
+msgid "notes_message_author_you"
+msgstr "You"
+
+#, fuzzy
+msgid "notes_message_deleted"
+msgstr "Message deleted."
+
+#, fuzzy
+msgid "notes_messages"
+msgstr "Messages"
+
+msgid "notes_no_comments"
+msgstr "Ainda não foi publicado nenhum comentário."
+
+#, fuzzy
+msgid "notes_no_comments_found"
+msgstr "No comments found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_messages"
+msgstr "No messages have been attached yet."
+
+#, fuzzy
+msgid "notes_no_messages_found"
+msgstr "No messages found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_notes"
+msgstr "No notes have been attached yet."
+
+#, fuzzy
+msgid "notes_no_notes_found"
+msgstr "No notes found that match your seach criteria."
+
+msgid "notes_note_deleted"
+msgstr "A nota foi apagada."
+
+msgid "notes_notes_deleted"
+msgstr "As notas foram apagadas."
+
+#, fuzzy
+msgid "notes_origin"
+msgstr "Origin"
+
+msgid "notes_public_comments"
+msgstr "A sua pesquisa não correspondeu a nenhum resultado"
+
+msgid "notes_sort_asc"
+msgstr "Ordem ascendente"
+
+msgid "notes_sort_desc"
+msgstr "Ordem descendente"
+
+#, fuzzy
+msgid "notes_text"
+msgstr "Text"

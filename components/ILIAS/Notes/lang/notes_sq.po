@@ -1,0 +1,173 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sq\n"
+"Language-Team: Albanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notes\n"
+
+#, fuzzy
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "The public comments feature is currently not ativated for this resource."
+
+#, fuzzy
+msgid "note_add_comment"
+msgstr "Add Comment"
+
+#, fuzzy
+msgid "note_add_message"
+msgstr "Add Message"
+
+#, fuzzy
+msgid "note_add_note"
+msgstr "Add Note"
+
+#, fuzzy
+msgid "note_content_removed"
+msgstr "The content has been removed."
+
+#, fuzzy
+msgid "note_text"
+msgstr "Text"
+
+#, fuzzy
+msgid "note_update_comment"
+msgstr "Update Comment"
+
+#, fuzzy
+msgid "note_update_message"
+msgstr "Update Message"
+
+#, fuzzy
+msgid "note_update_note"
+msgstr "Update Note"
+
+#, fuzzy
+msgid "note_without_object"
+msgstr "Without reference"
+
+#, fuzzy
+msgid "notes_activate_comments"
+msgstr "Activate Public Comments"
+
+#, fuzzy
+msgid "notes_add_comment"
+msgstr "Add Comment"
+
+#, fuzzy
+msgid "notes_add_edit_comment"
+msgstr "Add/Edit Comment"
+
+#, fuzzy
+msgid "notes_add_edit_message"
+msgstr "Add/Edit Message"
+
+#, fuzzy
+msgid "notes_add_edit_note"
+msgstr "Add/Edit Note"
+
+#, fuzzy
+msgid "notes_comment_deleted"
+msgstr "The comment has been deleted."
+
+#, fuzzy
+msgid "notes_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "notes_comments_deleted"
+msgstr "The comments have been deleted."
+
+#, fuzzy
+msgid "notes_deactivate_comments"
+msgstr "Deactivate Public Comments"
+
+#, fuzzy
+msgid "notes_delete_comment"
+msgstr "Do you really want to delete this comment?"
+
+#, fuzzy
+msgid "notes_delete_message"
+msgstr "Do you really want to delete this message?"
+
+#, fuzzy
+msgid "notes_delete_note"
+msgstr "Do you really want to delete this note?"
+
+#, fuzzy
+msgid "notes_html_export"
+msgstr "HTML Export"
+
+#, fuzzy
+msgid "notes_latest_comment"
+msgstr "Latest Comment"
+
+#, fuzzy
+msgid "notes_latest_message"
+msgstr "Latest Message"
+
+#, fuzzy
+msgid "notes_message_author_you"
+msgstr "You"
+
+#, fuzzy
+msgid "notes_message_deleted"
+msgstr "Message deleted."
+
+#, fuzzy
+msgid "notes_messages"
+msgstr "Messages"
+
+#, fuzzy
+msgid "notes_no_comments"
+msgstr "No comment has been posted yet."
+
+#, fuzzy
+msgid "notes_no_comments_found"
+msgstr "No comments found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_messages"
+msgstr "No messages have been attached yet."
+
+#, fuzzy
+msgid "notes_no_messages_found"
+msgstr "No messages found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_notes"
+msgstr "No notes have been attached yet."
+
+#, fuzzy
+msgid "notes_no_notes_found"
+msgstr "No notes found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_note_deleted"
+msgstr "The note has been deleted."
+
+#, fuzzy
+msgid "notes_notes_deleted"
+msgstr "The notes have been deleted."
+
+#, fuzzy
+msgid "notes_origin"
+msgstr "Origin"
+
+#, fuzzy
+msgid "notes_public_comments"
+msgstr "Public Comments"
+
+#, fuzzy
+msgid "notes_sort_asc"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "notes_sort_desc"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "notes_text"
+msgstr "Text"

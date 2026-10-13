@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "パブリックコメント機能は現在このリソースではオフになっています。"
+
+msgid "note_add_comment"
+msgstr "コメントを追加"
+
+msgid "note_add_message"
+msgstr "メッセージを追加"
+
+msgid "note_add_note"
+msgstr "メモを追加"
+
+msgid "note_content_removed"
+msgstr "コンテンツは削除されました。"
+
+msgid "note_text"
+msgstr "Text"
+
+msgid "note_update_comment"
+msgstr "コメントを更新"
+
+msgid "note_update_message"
+msgstr "メッセージを更新"
+
+msgid "note_update_note"
+msgstr "メモを更新"
+
+msgid "note_without_object"
+msgstr "参照なし"
+
+msgid "notes_activate_comments"
+msgstr "パブリックコメントの使用"
+
+msgid "notes_add_comment"
+msgstr "コメントを追加"
+
+msgid "notes_add_edit_comment"
+msgstr "コメントを追加/編集"
+
+msgid "notes_add_edit_message"
+msgstr "メッセージの追加/編集"
+
+msgid "notes_add_edit_note"
+msgstr "注釈の追加/編集"
+
+msgid "notes_comment_deleted"
+msgstr "コメントは削除されました。"
+
+msgid "notes_comments"
+msgstr "コメント"
+
+msgid "notes_comments_deleted"
+msgstr "コメントは削除されました。"
+
+msgid "notes_deactivate_comments"
+msgstr "パブリックコメント使用不可"
+
+msgid "notes_delete_comment"
+msgstr "本当にこのコメントを削除しますか?"
+
+msgid "notes_delete_message"
+msgstr "本当にこのメッセージを削除しますか？"
+
+msgid "notes_delete_note"
+msgstr "本当にこの注釈を削除しますか?"
+
+msgid "notes_html_export"
+msgstr "HTML Export"
+
+msgid "notes_latest_comment"
+msgstr "最終コメント"
+
+msgid "notes_latest_message"
+msgstr "最新メッセージ"
+
+msgid "notes_message_author_you"
+msgstr "あなた"
+
+msgid "notes_message_deleted"
+msgstr "メッセージを削除しました"
+
+msgid "notes_messages"
+msgstr "メッセージ"
+
+msgid "notes_no_comments"
+msgstr "コメントが投稿された形跡はまだありません。"
+
+msgid "notes_no_comments_found"
+msgstr "検索条件で一致するコメントは見つかりませんでした。"
+
+msgid "notes_no_messages"
+msgstr "メッセージはまだ添付されたいません。"
+
+msgid "notes_no_messages_found"
+msgstr "検索基準に適合するメッセージは見つかりませんでした。"
+
+msgid "notes_no_notes"
+msgstr "まだNoteは添付されていません。"
+
+msgid "notes_no_notes_found"
+msgstr "検索条件で一致するNoteは見つかりませんでした。"
+
+msgid "notes_note_deleted"
+msgstr "メモは削除されました。"
+
+msgid "notes_notes_deleted"
+msgstr "メモは削除されました。"
+
+msgid "notes_origin"
+msgstr "Origin"
+
+msgid "notes_public_comments"
+msgstr "パブリックコメント"
+
+msgid "notes_sort_asc"
+msgstr "昇順でソート"
+
+msgid "notes_sort_desc"
+msgstr "降順でソート"
+
+msgid "notes_text"
+msgstr "Text"

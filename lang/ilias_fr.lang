@@ -11914,68 +11914,6 @@ news#:#news_x_postings#:#%s articles ont été ajoutés.
 news#:#passwd_equals_ilpasswd#:#Veuillez saisir un mot de passe différent de votre mot de passe ILIAS.
 news#:#priv_feed_disabled#:#Flux RSS personnel d'actualités désactivé.
 news#:#priv_feed_settings#:#Paramètres du flux RSS personnel d'actualités
-note#:#note_comment_notification_link#:#Lien
-note#:#note_comment_notification_reason#:#Vous recevez ce message car votre compte est listé comme un destinataire global pour tous les commentaires dans l’administration ILIAS (paramètres d’ordinateur personnel).
-note#:#note_comment_notification_salutation#:#Bonjour %s,
-note#:#note_comment_notification_subject#:#Un commentaire a été ajouté à «%s»
-note#:#note_comment_notification_subjectc#:#Un commentaire a été modifié dans «%s»
-note#:#note_comment_notification_user_has_written#:#%s a écrit:
-note#:#note_comments_notification#:#General notification about all comments
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
-note#:#note_enable_comments#:#Enable Comments
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
-note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.###31 10 2023 new variable
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
-note#:#note_enable_notes#:#Enable Notes
-note#:#note_html_export_include_comments#:#Les commentaires doivent-ils être inclus dans l'exportation ?
-notes#:#comments_feature_currently_not_activated_for_object#:#Les commentaires publics ne sont actuellement pas activés pour cet objet.
-notes#:#note_add_comment#:#Ajouter un commentaire
-notes#:#note_add_message#:#Add Message###31 10 2023 new variable
-notes#:#note_add_note#:#Ajouter une note
-notes#:#note_content_removed#:#Le contenu a été supprimé.
-notes#:#note_text#:#Text###31 10 2023 new variable
-notes#:#note_update_comment#:#Enregistrer Commentaire
-notes#:#note_update_message#:#Update Message###31 10 2023 new variable
-notes#:#note_update_note#:#Enregistrer Note
-notes#:#note_without_object#:#Without reference
-notes#:#notes_activate_comments#:#Activer Commentaires Publics
-notes#:#notes_add_comment#:#Ajouter Commentaire
-notes#:#notes_add_edit_comment#:#Add/Edit Comment
-notes#:#notes_add_edit_message#:#Add/Edit Message###31 10 2023 new variable
-notes#:#notes_add_edit_note#:#Add/Edit Note###31 10 2023 new variable
-notes#:#notes_all_comments#:#Tous les Commentaires
-notes#:#notes_comment#:#Commentaire
-notes#:#notes_comment_deleted#:#Le commentaire a été supprimé.
-notes#:#notes_comments#:#Commentaires
-notes#:#notes_comments_deleted#:#Les commentaires ont été supprimés.
-notes#:#notes_deactivate_comments#:#Désactiver Commentaires Publics
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?###31 10 2023 new variable
-notes#:#notes_delete_message#:#Do you really want to delete this message?###31 10 2023 new variable
-notes#:#notes_delete_note#:#Do you really want to delete this note?###31 10 2023 new variable
-notes#:#notes_hide_comments#:#Masquer commentaires
-notes#:#notes_html_export#:#HTML Export###31 10 2023 new variable
-notes#:#notes_latest_comment#:#Latest Comment
-notes#:#notes_latest_message#:#Latest Message###31 10 2023 new variable
-notes#:#notes_message_author_counterpart#:#Respondent###31 10 2023 new variable
-notes#:#notes_message_author_you#:#You###31 10 2023 new variable
-notes#:#notes_messages#:#Messages###31 10 2023 new variable
-notes#:#notes_my_comments#:#Mes Commentaires
-notes#:#notes_no_comments#:#Aucun commentaire actuellement.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.###31 10 2023 new variable
-notes#:#notes_no_messages#:#No messages have been attached yet.###31 10 2023 new variable
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.###31 10 2023 new variable
-notes#:#notes_no_notes#:#No notes have been attached yet.###31 10 2023 new variable
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.###31 10 2023 new variable
-notes#:#notes_note_deleted#:#La note a été supprimée.
-notes#:#notes_notes_deleted#:#Les notes ont été supprimées.
-notes#:#notes_origin#:#Origin###31 10 2023 new variable
-notes#:#notes_public_comments#:#Commentaires publics
-notes#:#notes_show_comments#:#Afficher commentaires
-notes#:#notes_sort_asc#:#Trier par ordre croissant
-notes#:#notes_sort_desc#:#Trier par ordre décroissant
-notes#:#notes_text#:#Text###31 10 2023 new variable
 noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated

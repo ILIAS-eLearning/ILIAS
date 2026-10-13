@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "Link"
+
+msgid "note_comment_notification_reason"
+msgstr "Ezt az üzenetet azért kapta, mert felhasználói fiókja szerepel a Rendszerbeállítások » Műszerfal alatt az összes megjegyzésről értesítendők között."
+
+msgid "note_comment_notification_salutation"
+msgstr "Tisztelt %s,"
+
+msgid "note_comment_notification_subject"
+msgstr "Hozzászólás született itt: ‘%s’"
+
+msgid "note_comment_notification_subjectc"
+msgstr "Hozzászólást módosítottak itt: ‘%s’"
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s írta:"
+
+msgid "note_comments_notification"
+msgstr "Az összes hozzászólásról általános értesítés"
+
+msgid "note_comments_notification_info"
+msgstr "A felhasználói fiókok vesszővel elválasztott felsorolása, akik az összes hozzászólásról értesítést kapnak"
+
+msgid "note_enable_comments"
+msgstr "Hozzászólások bekapcsolása"
+
+msgid "note_enable_comments_del_tutor"
+msgstr "A tutorok törlhetik bármelyik hozzászólást"
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr "A ‘Beállítások módosítása’ jogosultsággal rendelkező felhasználók törölhetik az objektumban lévő bármelyik hozzászólást."
+
+msgid "note_enable_comments_del_user"
+msgstr "A szerzők törlhetik a saját hozzászólásaikat"
+
+msgid "note_enable_comments_del_user_info"
+msgstr "A hozzászólásokat azok törölhetik, akik létrehozták."
+
+msgid "note_enable_comments_export_info"
+msgstr "Ez a lehetőséggel tartalomobjektumoknál (portfólió, blog és wiki) a hozzászólások is exportálódnak."
+
+msgid "note_enable_notes"
+msgstr "Jegyzetek bekapcsolása"
+
+msgid "note_html_export_include_comments"
+msgstr "A hozzászólásokat is exportálja?"

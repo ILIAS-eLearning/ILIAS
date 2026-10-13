@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "Link"
+
+msgid "note_comment_notification_reason"
+msgstr "You have received this mail because your account is listed as a global recipient for all comments made on this installation."
+
+msgid "note_comment_notification_salutation"
+msgstr "Hello %s,"
+
+msgid "note_comment_notification_subject"
+msgstr "A comment has been added to \"%s\""
+
+msgid "note_comment_notification_subjectc"
+msgstr "A comment has been changed in \"%s\""
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s has commented:"
+
+msgid "note_comments_notification"
+msgstr "General Notification Mail for All Comments"
+
+msgid "note_comments_notification_info"
+msgstr "Comma-separated list of accounts that are to be notified each time a comment is made."
+
+msgid "note_enable_comments"
+msgstr "Enable Comments"
+
+msgid "note_enable_comments_del_tutor"
+msgstr "All Comments in Object Deletable"
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr "Users with the \"Edit Settings\" permission for an object can delete any comment or comments made in this object."
+
+msgid "note_enable_comments_del_user"
+msgstr "Own Comments Deletable"
+
+msgid "note_enable_comments_del_user_info"
+msgstr "Comments can be deleted by the person who created them."
+
+msgid "note_enable_comments_export_info"
+msgstr "Enable the export of comments from within objects such as portfolios, blogs and wikis."
+
+msgid "note_enable_notes"
+msgstr "Enable Notes"
+
+msgid "note_html_export_include_comments"
+msgstr "Should comments be included in the export?"
