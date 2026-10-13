@@ -3206,8 +3206,6 @@ cmix#:#use_fetch_info#:#Se la risorsa lo supporta, è consigliato utilizzare que
 cmix#:#xapi_statements_fetched_successfully#:#I risultati del Learning Record Store sono stati recuperati correttamente
 cmix#:#xapi_statements_last_fetch_date#:#Ultimo recupero dei risultati:
 cmix#:#xapi_statements_not_fetched_yet#:#I risultati di Learning Record Store non sono ancora stati recuperati
-cmxv#:#cmxv_create#:#Crea certificato per l'oggetto xAPI/cmi5
-cmxv#:#cmxv_create_info#:#Seleziona un oggetto xAPI/cmi5 completato per generare un certificato relativo ad esso
 cntr#:#cntr_add_new_item#:#Aggiungi nuovo elemento
 cntr#:#cntr_adopt_content#:#Adotta il contenuto
 cntr#:#cntr_container_only_on_their_own#:#Categorie, corsi, gruppi o cartelle possono essere copiati come singoli oggetti. Si prega di selezionare una sola voce.

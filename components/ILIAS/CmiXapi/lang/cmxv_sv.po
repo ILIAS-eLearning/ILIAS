@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmxv\n"
+
+msgid "cmxv_create"
+msgstr "Skapa certifikat för xAPI/cmi5-objekt"
+
+msgid "cmxv_create_info"
+msgstr "Välj ett slutfört xAPI/cmi5-objekt för att generera ett certifikat för det."

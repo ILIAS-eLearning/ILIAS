@@ -3192,8 +3192,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
-cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
-cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
 cntr#:#cntr_add_new_item#:#Ajouter un nouvel objet
 cntr#:#cntr_adopt_content#:#Adopter Contenu
 cntr#:#cntr_container_only_on_their_own#:#Veuillez ne sélectionner qu'un objet.

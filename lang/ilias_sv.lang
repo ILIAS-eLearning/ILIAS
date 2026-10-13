@@ -3207,8 +3207,6 @@ cmix#:#use_fetch_info#:#Så länge resursen stöder det här alternativet bör d
 cmix#:#xapi_statements_fetched_successfully#:#Resultat från Learning Record Store har hämtats framgångsrikt.
 cmix#:#xapi_statements_last_fetch_date#:#Sista hämtning av resultat
 cmix#:#xapi_statements_not_fetched_yet#:#Resultaten från Learning Record Store har ännu inte hämtats.
-cmxv#:#cmxv_create#:#Skapa certifikat för xAPI/cmi5-objekt
-cmxv#:#cmxv_create_info#:#Välj ett slutfört xAPI/cmi5-objekt för att generera ett certifikat för det.
 cntr#:#cntr_add_new_item#:#Lägg till nytt objekt
 cntr#:#cntr_adopt_content#:#Ta över innehåll
 cntr#:#cntr_container_only_on_their_own#:#Kategorier, kurser, grupper, mappar, inlärningssekvenser och studieprogram kan endast kopieras individuellt. Välj endast ett sådant objekt.

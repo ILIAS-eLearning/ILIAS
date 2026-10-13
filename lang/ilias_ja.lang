@@ -3219,8 +3219,6 @@ cmix#:#use_fetch_info#:#リソースがこのオプションをサポートす�
 cmix#:#xapi_statements_fetched_successfully#:#Learning Record Storeの結果は正しく取得されました。
 cmix#:#xapi_statements_last_fetch_date#:#結果の更新取得
 cmix#:#xapi_statements_not_fetched_yet#:#まだLearning Record Store結果が取得されていません。
-cmxv#:#cmxv_create#:#xAPI/cmi5 Objectの証明書を作成
-cmxv#:#cmxv_create_info#:#そのための証明書を作成するには、完了済xAPI/cmi5 objectを選択
 cntr#:#cntr_add_new_item#:#新規アイテムを追加
 cntr#:#cntr_adopt_content#:#コンテンツの取込み
 cntr#:#cntr_container_only_on_their_own#:#カテゴリあるいはコース、グループ、フォルダのみがシングルオブジェクトとしてコピーできます。項目を1つだけ選択してください。

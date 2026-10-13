@@ -3207,8 +3207,6 @@ cmix#:#use_fetch_info#:#Ако ресурсът поддържа тази опц
 cmix#:#xapi_statements_fetched_successfully#:#Резултатите от Learning Record Store бяха извлечени успешно
 cmix#:#xapi_statements_last_fetch_date#:#Последното извличане на резултати:
 cmix#:#xapi_statements_not_fetched_yet#:#Резултатите от Learning Record Store все още не са извлечени
-cmxv#:#cmxv_create#:#Създаване на сертификат за обект xAPI/cmi5
-cmxv#:#cmxv_create_info#:#Изберете завършен обект xAPI/cmi5, за да генерирате сертификат за него
 cntr#:#cntr_add_new_item#:#Добавяне на нов артикул
 cntr#:#cntr_adopt_content#:#Приемане на съдържание
 cntr#:#cntr_container_only_on_their_own#:#Категориите, курсовете, групите, папките или учебните програми могат да се копират само като единични обекти. Моля, изберете само един елемент.
