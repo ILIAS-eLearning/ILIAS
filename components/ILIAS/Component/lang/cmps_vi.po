@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cmps\n"
+
+#, fuzzy
+msgid "cmps_activate"
+msgstr "Activate"
+
+#, fuzzy
+msgid "cmps_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "cmps_add_new_rank"
+msgstr "Position in Add-New-Object List"
+
+#, fuzzy
+msgid "cmps_available"
+msgstr "Available"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+#, fuzzy
+msgid "cmps_basic_files"
+msgstr "Basic Files"
+
+#, fuzzy
+msgid "cmps_class_file"
+msgstr "Class File"
+
+#, fuzzy
+msgid "cmps_component"
+msgstr "Component"
+
+#, fuzzy
+msgid "cmps_configure"
+msgstr "Configure"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+#, fuzzy
+msgid "cmps_current_version"
+msgstr "Current Version"
+
+#, fuzzy
+msgid "cmps_database"
+msgstr "Database"
+
+#, fuzzy
+msgid "cmps_db_update"
+msgstr "DB Update Script"
+
+#, fuzzy
+msgid "cmps_deactivate"
+msgstr "Deactivate"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+#, fuzzy
+msgid "cmps_dir"
+msgstr "Directory"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+#, fuzzy
+msgid "cmps_enable_creation"
+msgstr "Enable Creation"
+
+#, fuzzy
+msgid "cmps_file_version"
+msgstr "Update File Version"
+
+#, fuzzy
+msgid "cmps_group"
+msgstr "Group"
+
+#, fuzzy
+msgid "cmps_id"
+msgstr "ID"
+
+#, fuzzy
+msgid "cmps_ilias_max_version"
+msgstr "Max. ILIAS Version"
+
+#, fuzzy
+msgid "cmps_ilias_min_version"
+msgstr "Min. ILIAS Version"
+
+#, fuzzy
+msgid "cmps_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "cmps_install"
+msgstr "Install"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+#, fuzzy
+msgid "cmps_lang_files"
+msgstr "Language Files"
+
+#, fuzzy
+msgid "cmps_lang_prefix"
+msgstr "Language Variables Prefix"
+
+#, fuzzy
+msgid "cmps_languages"
+msgstr "Languages"
+
+#, fuzzy
+msgid "cmps_main_dir"
+msgstr "Main Directory"
+
+#, fuzzy
+msgid "cmps_missing"
+msgstr "Missing"
+
+#, fuzzy
+msgid "cmps_module"
+msgstr "Module"
+
+#, fuzzy
+msgid "cmps_must_installed"
+msgstr "The component must be installed."
+
+#, fuzzy
+msgid "cmps_name"
+msgstr "Name"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+#, fuzzy
+msgid "cmps_needs_newer_ilias_version"
+msgstr "This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS."
+
+#, fuzzy
+msgid "cmps_needs_newer_plugin_version"
+msgstr "This ILIAS version needs a newer plugin version. Please upgrade the plugin."
+
+#, fuzzy
+msgid "cmps_needs_update"
+msgstr "Needs update."
+
+#, fuzzy
+msgid "cmps_needs_upgrade"
+msgstr "The plugin version currently installed is older than a previously installed version. Please upgrade the plugin."
+
+#, fuzzy
+msgid "cmps_no_db_update_file_available"
+msgstr "No DB update script available."
+
+#, fuzzy
+msgid "cmps_no_language_file_available"
+msgstr "No language file available."
+
+#, fuzzy
+msgid "cmps_plugin"
+msgstr "Plugin"
+
+#, fuzzy
+msgid "cmps_plugin_activated"
+msgstr "The plugin has been activated."
+
+#, fuzzy
+msgid "cmps_plugin_db_prefixes"
+msgstr "DB Table Prefixes"
+
+#, fuzzy
+msgid "cmps_plugin_deactivated"
+msgstr "The plugin has been deactivated."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+#, fuzzy
+msgid "cmps_plugin_file"
+msgstr "Plugin File"
+
+#, fuzzy
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Plugin Language Prefixes"
+
+#, fuzzy
+msgid "cmps_plugin_slot"
+msgstr "Plugin Slot"
+
+#, fuzzy
+msgid "cmps_plugin_uninstalled"
+msgstr "The plugin has been uninstalled."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+#, fuzzy
+msgid "cmps_plugins"
+msgstr "Plugins"
+
+#, fuzzy
+msgid "cmps_refresh"
+msgstr "Refresh"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+#, fuzzy
+msgid "cmps_rep_object"
+msgstr "Repository Object Type"
+
+#, fuzzy
+msgid "cmps_repository_object_types"
+msgstr "Repository Object Types"
+
+#, fuzzy
+msgid "cmps_responsible"
+msgstr "Responsible"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+#, fuzzy
+msgid "cmps_save_options"
+msgstr "Save Options"
+
+#, fuzzy
+msgid "cmps_service"
+msgstr "Service"
+
+#, fuzzy
+msgid "cmps_show_details"
+msgstr "Show Details"
+
+#, fuzzy
+msgid "cmps_slots"
+msgstr "Slots"
+
+#, fuzzy
+msgid "cmps_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+#, fuzzy
+msgid "cmps_uninstall"
+msgstr "Uninstall"
+
+#, fuzzy
+msgid "cmps_uninstall_confirm"
+msgstr "Are you sure you want to uninstall the plugin \"%s\"?"
+
+#, fuzzy
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "The plugin \"%1$s\" can currently not be activated (\"%2$s\"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?"
+
+#, fuzzy
+msgid "cmps_update"
+msgstr "Update"
+
+#, fuzzy
+msgid "cmps_version"
+msgstr "Version"
+
+#, fuzzy
+msgid "database_is_uptodate"
+msgstr "Die Datenbank ist aktuell."
+
+#, fuzzy
+msgid "no_changes"
+msgstr "Keine Änderungen"

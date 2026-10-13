@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktiviraj"
+
+msgid "cmps_active"
+msgstr "Aktivan"
+
+msgid "cmps_add_new_rank"
+msgstr "Pozicija na popisu dodavanja novih objekata"
+
+msgid "cmps_available"
+msgstr "Dostupno"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Osnovne datoteke"
+
+msgid "cmps_class_file"
+msgstr "Datoteka razreda"
+
+msgid "cmps_component"
+msgstr "Komponenta"
+
+msgid "cmps_configure"
+msgstr "Konfiguriraj"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Trenutačna verzija"
+
+msgid "cmps_database"
+msgstr "Baza podataka"
+
+msgid "cmps_db_update"
+msgstr "DB Skripta za ažuriranje"
+
+msgid "cmps_deactivate"
+msgstr "Deaktiviraj"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Direktorij"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Omogući kreiranje"
+
+msgid "cmps_file_version"
+msgstr "Ažuriranje verzije datoteke"
+
+msgid "cmps_group"
+msgstr "Skupina"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Maks. verzija ILIAS-a"
+
+msgid "cmps_ilias_min_version"
+msgstr "Min. verzija ILIAS-a"
+
+msgid "cmps_inactive"
+msgstr "Neaktivan"
+
+msgid "cmps_install"
+msgstr "Instaliraj"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Jezične datoteke"
+
+msgid "cmps_lang_prefix"
+msgstr "Prefiks jezičnih varijabli"
+
+msgid "cmps_languages"
+msgstr "Jezici"
+
+msgid "cmps_main_dir"
+msgstr "Glavni direktorij"
+
+msgid "cmps_missing"
+msgstr "Nedostaje"
+
+msgid "cmps_module"
+msgstr "Modul"
+
+msgid "cmps_must_installed"
+msgstr "Komponenta se mora instalirati."
+
+msgid "cmps_name"
+msgstr "Ime"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Ova verzija dodatka radi samo na novijim verzijama ILIAS-a. Molimo nadogradite ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "This ILIAS version needs a newer plugin version. Please upgrade the plugin."
+
+msgid "cmps_needs_update"
+msgstr "Potrebno je ažuriranje."
+
+msgid "cmps_needs_upgrade"
+msgstr "Trenutno instalirana verzija dodatka starija je od prethodno instalirane verzije. Molimo nadogradite dodatak."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Nije dostupna skripta za ažuriranje baze podataka"
+
+msgid "cmps_no_language_file_available"
+msgstr "Nije dostupna jezična datoteka."
+
+msgid "cmps_plugin"
+msgstr "Dodatak"
+
+msgid "cmps_plugin_activated"
+msgstr "Dodatak je aktiviran."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Prefiksi tablice baze podataka"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Dodatak je deaktiviran."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "Datoteka dodatka"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Dodatak jezičnih prefiksa"
+
+msgid "cmps_plugin_slot"
+msgstr "Slot dodatka"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Svi unosi povezani s jezikom i bazom podataka izbrisani su, a dodatak je neaktivan. Sada možete ukloniti direktorij i izvorni kod dodatka u direktoriju ‘Prilagođavanje’ kako biste dodatak definitivno deinstalirali."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Dodaci"
+
+msgid "cmps_refresh"
+msgstr "Osvježi jezike"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Tip objekta u repozitoriju"
+
+msgid "cmps_repository_object_types"
+msgstr "Tipovi objekata u repozitoriju"
+
+msgid "cmps_responsible"
+msgstr "Odgovoran"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Spremi"
+
+msgid "cmps_service"
+msgstr "Servis"
+
+msgid "cmps_show_details"
+msgstr "Pokaži detalje"
+
+msgid "cmps_slots"
+msgstr "Slotovi"
+
+msgid "cmps_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+msgid "cmps_uninstall"
+msgstr "Deinstaliraj"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Jeste li sigurni da želite deinstalirati dodatak \"%s\" i ukloniti sve povezane unose u bazu podataka?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Dodatak \"%1$s\" trenutačno se ne može aktivirati (\"%2$s\"). U ovom stanju dodaci se ne mogu potpuno deinstalirati. Kako se briše samo integracija u sustav, vlastite datoteke dodataka mogu ostati. Želite li nastaviti s djelomičnom deinstalacijom?"
+
+msgid "cmps_update"
+msgstr "Ažuriraj"
+
+msgid "cmps_version"
+msgstr "Verzija"
+
+msgid "database_is_uptodate"
+msgstr "Baza podataka je ažurirana."
+
+msgid "no_changes"
+msgstr "Nema promjena"
