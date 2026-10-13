@@ -15348,54 +15348,6 @@ survey#:#values#:#Valeurs
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#La question n'est pas complète !
 survey#:#workingtime#:#Durée
-sysc#:#sysc_action_list_tree#:#Créer un dépôt pour l’arborescence du répertoire
-sysc#:#sysc_action_repair#:#Réparer
-sysc#:#sysc_action_show_tree#:#Montrer le dépôt de l’arborescence du répertoire
-sysc#:#sysc_action_validate#:#Valider
-sysc#:#sysc_administrate_deleted#:#Administrer les Objets Supprimés
-sysc#:#sysc_btn_tree_missing#:#Restaurer les entrées manquantes
-sysc#:#sysc_btn_tree_structure#:#Recréer structure arborescente
-sysc#:#sysc_completed_num#:#Tâches Accomplies
-sysc#:#sysc_cron_empty_trash#:#Supprimer la Corbeille
-sysc#:#sysc_cron_empty_trash_desc#:#Si activé, la poubelle référentiel sera purgé par des critères donnés (âge, type d'objet ou le nombre maximum d'objets).
-sysc#:#sysc_failed_num#:#Tâches Non Accomplies
-sysc#:#sysc_groups#:#Groupes de Contrôle du Système
-sysc#:#sysc_grp_tree#:#Arborescence du Catalogue
-sysc#:#sysc_grp_tree_desc#:#Effectue une analyse de l'arborescence et imprime tous les nÅ“uds de l'arborescence ainsi que les données d'analyse.
-sysc#:#sysc_message_success#:#Aucune erreur trouvée
-sysc#:#sysc_message_tree_missing_confirm#:#Voulez-vous vraiment restaurer les entrées manquantes dans la structure arborescente de répertoires?
-sysc#:#sysc_message_tree_structure_confirm#:#Voulez-vous vraiment réparer la structure arborescente? Veuillez créer une sauvegarde de la base de données avant de continuer.
-sysc#:#sysc_overview#:#Aperçu
-sysc#:#sysc_status_completed#:#Complété
-sysc#:#sysc_status_failed#:#Échec
-sysc#:#sysc_status_na#:#Non Exécuté
-sysc#:#sysc_status_running#:#En cours
-sysc#:#sysc_tab_trash#:#Objets Supprimés
-sysc#:#sysc_task_overview#:#Tâches
-sysc#:#sysc_task_structure#:#Structure arborescente
-sysc#:#sysc_task_structure_desc#:#Analyse et corrige la structure arborescente des répertoires.
-sysc#:#sysc_task_tree_dump#:#Arborescence de listes
-sysc#:#sysc_task_tree_dump_desc#:#Analyse et imprime la structure arborescente des répertoires
-sysc#:#sysc_task_tree_duplicates#:#Dupliquer les entrées dans l’arborescence de répertoires
-sysc#:#sysc_task_tree_duplicates_desc#:#Rechercher des entrées dupliquées dans la structure arborescente de répertoires.
-sysc#:#sysc_task_tree_missing#:#Entrées manquantes dans l’arborescence de répertoires
-sysc#:#sysc_task_tree_missing_desc#:#Recherche et répare les entrées manquantes dans l’arborescence de répertoires.
-sysc#:#sysc_task_tree_missing_reference#:#Références des objets manquants
-sysc#:#sysc_task_tree_missing_reference_desc#:#Recherche et répare les références d’objets manquants dans l’arborescence de répertoires.
-sysc#:#sysc_task_tree_missing_tree#:#Entrées manquantes dans l’arborescence de répertoires
-sysc#:#sysc_task_tree_missing_tree_desc#:#Recherche et répare les entrées manquantes dans l’arborescence de répertoires.
-sysc#:#sysc_trash_action#:#Action
-sysc#:#sysc_trash_limit_age#:#Âge limite
-sysc#:#sysc_trash_limit_num#:#Nombre limite
-sysc#:#sysc_trash_limit_type#:#Limite par type
-sysc#:#sysc_trash_remove#:#Retirer les Objets Supprimés du système
-sysc#:#sysc_trash_remove_info#:#Retire les objets supprimés (poubelle bin) du système
-sysc#:#sysc_trash_restore#:#Restaurer des Objets Supprimés
-sysc#:#sysc_trash_restore_info#:#Restaure des objets supprimés de la poubelle et les déplace le vers le dossier 'Objets Restaurés'
-sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries
-sysc#:#sysc_tree_list_failures#:#Un dépôt de l’arborescence du répertoire a été créé. Nombre d’erreurs dans la structure arborescente:
-sysc#:#sysc_tree_missing_failures#:#Entrées manquantes trouvées dans la structure arborescente. Nombre d’entrées manquantes:
-sysc#:#sysc_tree_structure_failures#:#Nombre d’échecs dans la structure arborescente (relation parent):
 tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.

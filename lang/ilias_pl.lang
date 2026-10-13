@@ -15361,54 +15361,6 @@ survey#:#values#:#Wartości
 survey#:#vertical#:#Pionowo
 survey#:#warning_question_not_complete#:#Pytanie nie jest kompletne!
 survey#:#workingtime#:#Czas pracy
-sysc#:#sysc_action_list_tree#:#Wygeneruj zrzut struktury drzewa
-sysc#:#sysc_action_repair#:#Napraw
-sysc#:#sysc_action_show_tree#:#Pokaż strukturę drzewa
-sysc#:#sysc_action_validate#:#Sprawdź
-sysc#:#sysc_administrate_deleted#:#Zarządzaj usuniętymi obiektami
-sysc#:#sysc_btn_tree_missing#:#Uruchom przywracanie
-sysc#:#sysc_btn_tree_structure#:#Generuj nową strukturę drzewa
-sysc#:#sysc_completed_num#:#Spełnione zadania
-sysc#:#sysc_cron_empty_trash#:#Opróżnij kosz
-sysc#:#sysc_cron_empty_trash_desc#:#Jeśli ta opcja jest aktywna, obiekty w koszu automatycznie usuwane są z systemu na podstawie odpowiednich kryteriów (wiek, typ obiektu, liczba).
-sysc#:#sysc_failed_num#:#Niespełnione zadania
-sysc#:#sysc_groups#:#Grupa kontroli systemowej
-sysc#:#sysc_grp_tree#:#Drzewo dostępnych zasobów
-sysc#:#sysc_grp_tree_desc#:#Analizuje i naprawia integralność danych drzewa dostępnych zasobów
-sysc#:#sysc_message_success#:#Nie stwierdzono żadnego błędu.
-sysc#:#sysc_message_tree_missing_confirm#:#Czy chcesz przywrócić brakujące wpisy w strukturze drzewa?
-sysc#:#sysc_message_tree_structure_confirm#:#Jesteś pewien, że chcesz naprawić strukturę drzewa? Zaleca się, aby przed naprawą koniecznie wykonać kopię zapasową bazy danych ILIAS.
-sysc#:#sysc_overview#:#Przegląd
-sysc#:#sysc_status_completed#:#Spełnione
-sysc#:#sysc_status_failed#:#Nie udało się
-sysc#:#sysc_status_na#:#Jeszcze nie wykonano.
-sysc#:#sysc_status_running#:#W toku
-sysc#:#sysc_tab_trash#:#Usunięte obiekty
-sysc#:#sysc_task_overview#:#Zadania
-sysc#:#sysc_task_structure#:#Struktura drzewa
-sysc#:#sysc_task_structure_desc#:#Analizuje i koryguje strukturę drzewa dostępnych zasobów
-sysc#:#sysc_task_tree_dump#:#Kopiuj drzewo
-sysc#:#sysc_task_tree_dump_desc#:#Analizuje strukturę drzewa i tworzy zestawienie wszystkich węzłów drzewa wraz z danymi analitycznymi.
-sysc#:#sysc_task_tree_duplicates#:#Podwójne wpisy w strukturze drzewa
-sysc#:#sysc_task_tree_duplicates_desc#:#Szuka w systemie podwójnych wpisów w drzewie dostępnych zasobów.
-sysc#:#sysc_task_tree_missing#:#Brakujące wpisy w strukturze drzewa
-sysc#:#sysc_task_tree_missing_desc#:#Szuka w systemie brakujących wpisów w strukturze drzewa.
-sysc#:#sysc_task_tree_missing_reference#:#Brakujące referencje
-sysc#:#sysc_task_tree_missing_reference_desc#:#Szuka i naprawia brakujące obiekty odniesienia dla wpisów w drzewie dostępnych zasobów.
-sysc#:#sysc_task_tree_missing_tree#:#Brakujące wpisy w drzewie dostępnych zasobów
-sysc#:#sysc_task_tree_missing_tree_desc#:#Szuka i naprawia brakujące wpisy obiektów odniesienia w drzewie dostępnych zasobów.
-sysc#:#sysc_trash_action#:#Akcja
-sysc#:#sysc_trash_limit_age#:#Ograniczenie czasu
-sysc#:#sysc_trash_limit_num#:#Ograniczenie ilości
-sysc#:#sysc_trash_limit_type#:#Typ ograniczenia
-sysc#:#sysc_trash_remove#:#Usuń usunięte obiekty
-sysc#:#sysc_trash_remove_info#:#Usuń usunięte obiekty znajdujące się w koszu z systemu
-sysc#:#sysc_trash_restore#:#Przywróć usunięte obiekty
-sysc#:#sysc_trash_restore_info#:#Odtwarzanie wszystkich obiektów z kosza do folderu odtwarzania.
-sysc#:#sysc_tree_duplicate_failures#:#Znaleziono podwójne wpisy w strukturze drzewa. Liczba podwójnych wpisów:
-sysc#:#sysc_tree_list_failures#:#Utworzono zrzut struktury drzewa. Liczba znalezionych błędów:
-sysc#:#sysc_tree_missing_failures#:#W strukturze drzewa brakuje wpisów. Liczba brakujących wpisów:
-sysc#:#sysc_tree_structure_failures#:#Liczba błędów w strukturze drzewa (parent-relation):
 tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable

@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr ""
+
+msgid "sysc_action_repair"
+msgstr ""
+
+msgid "sysc_action_show_tree"
+msgstr ""
+
+msgid "sysc_action_validate"
+msgstr ""
+
+msgid "sysc_administrate_deleted"
+msgstr ""
+
+msgid "sysc_btn_tree_missing"
+msgstr ""
+
+msgid "sysc_btn_tree_structure"
+msgstr ""
+
+msgid "sysc_completed_num"
+msgstr ""
+
+msgid "sysc_cron_empty_trash"
+msgstr ""
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr ""
+
+msgid "sysc_failed_num"
+msgstr ""
+
+msgid "sysc_groups"
+msgstr ""
+
+msgid "sysc_grp_tree"
+msgstr ""
+
+msgid "sysc_grp_tree_desc"
+msgstr ""
+
+msgid "sysc_message_success"
+msgstr ""
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr ""
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr ""
+
+msgid "sysc_overview"
+msgstr ""
+
+msgid "sysc_status_completed"
+msgstr ""
+
+msgid "sysc_status_failed"
+msgstr ""
+
+msgid "sysc_status_na"
+msgstr ""
+
+msgid "sysc_status_running"
+msgstr ""
+
+msgid "sysc_tab_trash"
+msgstr ""
+
+msgid "sysc_task_overview"
+msgstr ""
+
+msgid "sysc_task_structure"
+msgstr ""
+
+msgid "sysc_task_structure_desc"
+msgstr ""
+
+msgid "sysc_task_tree_dump"
+msgstr ""
+
+msgid "sysc_task_tree_dump_desc"
+msgstr ""
+
+msgid "sysc_task_tree_duplicates"
+msgstr ""
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr ""
+
+msgid "sysc_task_tree_missing"
+msgstr ""
+
+msgid "sysc_task_tree_missing_desc"
+msgstr ""
+
+msgid "sysc_task_tree_missing_reference"
+msgstr ""
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr ""
+
+msgid "sysc_task_tree_missing_tree"
+msgstr ""
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr ""
+
+msgid "sysc_trash_action"
+msgstr ""
+
+msgid "sysc_trash_limit_age"
+msgstr ""
+
+msgid "sysc_trash_limit_num"
+msgstr ""
+
+msgid "sysc_trash_limit_type"
+msgstr ""
+
+msgid "sysc_trash_remove"
+msgstr ""
+
+msgid "sysc_trash_remove_info"
+msgstr ""
+
+msgid "sysc_trash_restore"
+msgstr ""
+
+msgid "sysc_trash_restore_info"
+msgstr ""
+
+msgid "sysc_tree_duplicate_failures"
+msgstr ""
+
+msgid "sysc_tree_list_failures"
+msgstr ""
+
+msgid "sysc_tree_missing_failures"
+msgstr ""
+
+msgid "sysc_tree_structure_failures"
+msgstr ""

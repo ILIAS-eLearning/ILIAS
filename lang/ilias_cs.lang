@@ -15361,54 +15361,6 @@ survey#:#values#:#Hodnoty
 survey#:#vertical#:#Svisle
 survey#:#warning_question_not_complete#:#Otázka není kompletní!
 survey#:#workingtime#:#Pracovní čas
-sysc#:#sysc_action_list_tree#:#Vytvoření koše pro strom úložiště
-sysc#:#sysc_action_repair#:#Opravit
-sysc#:#sysc_action_show_tree#:#Zobrazit koš pro strom úložiště
-sysc#:#sysc_action_validate#:#Ověřit
-sysc#:#sysc_administrate_deleted#:#Správa odstraněných objektů
-sysc#:#sysc_btn_tree_missing#:#Obnovit chybějící
-sysc#:#sysc_btn_tree_structure#:#Znovu vytvořit strukturu stromu
-sysc#:#sysc_completed_num#:#Splněné úkoly
-sysc#:#sysc_cron_empty_trash#:#Odstranění koše
-sysc#:#sysc_cron_empty_trash_desc#:#Je-li tato volba povolena, koš úložiště bude vymazán podle zadaných kritérií (stáří, typ objektu nebo maximální počet objektů).
-sysc#:#sysc_failed_num#:#Nesplněné úkoly
-sysc#:#sysc_groups#:#Kontrolní skupiny systému
-sysc#:#sysc_grp_tree#:#Strom úložiště
-sysc#:#sysc_grp_tree_desc#:#Provede analýzu stromu a vytiskne všechny uzly stromu spolu s daty analýzy.
-sysc#:#sysc_message_success#:#Nebyly nalezeny žádné chyby
-sysc#:#sysc_message_tree_missing_confirm#:#Opravdu chcete obnovit chybějící položky ve struktuře stromu úložiště?
-sysc#:#sysc_message_tree_structure_confirm#:#Opravdu chcete opravit strukturu stromu? Před pokračováním vytvořte záložní kopii databáze.
-sysc#:#sysc_overview#:#Přehled
-sysc#:#sysc_status_completed#:#Dokončeno
-sysc#:#sysc_status_failed#:#Nepodařilo se
-sysc#:#sysc_status_na#:#Nebylo provedeno
-sysc#:#sysc_status_running#:#Probíhá
-sysc#:#sysc_tab_trash#:#Smazané objekty
-sysc#:#sysc_task_overview#:#Úkoly
-sysc#:#sysc_task_structure#:#Struktura stromu
-sysc#:#sysc_task_structure_desc#:#Analyzuje a opravuje strukturu stromu úložiště.
-sysc#:#sysc_task_tree_dump#:#Seznam stromu
-sysc#:#sysc_task_tree_dump_desc#:#Analyzuje a opravuje strukturu stromu úložiště.
-sysc#:#sysc_task_tree_duplicates#:#Duplikovat záznamy ve stromu úložiště
-sysc#:#sysc_task_tree_duplicates_desc#:#Vyhledat duplicitní položky ve struktuře stromu úložiště.
-sysc#:#sysc_task_tree_missing#:#Chybějící záznamy ve stromu úložiště
-sysc#:#sysc_task_tree_missing_desc#:#Vyhledává a opravuje chybějící záznamy ve stromu úložiště.
-sysc#:#sysc_task_tree_missing_reference#:#Chybějící odkazy na objekty
-sysc#:#sysc_task_tree_missing_reference_desc#:#Vyhledává a opravuje chybějící odkazy na objekty ve stromu úložiště.
-sysc#:#sysc_task_tree_missing_tree#:#Chybějící záznamy ve stromu úložiště
-sysc#:#sysc_task_tree_missing_tree_desc#:#Vyhledává a opravuje chybějící záznamy ve stromu úložiště.
-sysc#:#sysc_trash_action#:#Akce
-sysc#:#sysc_trash_limit_age#:#Limitní stáří
-sysc#:#sysc_trash_limit_num#:#Limitní počet
-sysc#:#sysc_trash_limit_type#:#Limitní typ
-sysc#:#sysc_trash_remove#:#Odstranit vymazané objekty ze systému
-sysc#:#sysc_trash_remove_info#:#Odstranit vymazané objekty (koš) ze systému
-sysc#:#sysc_trash_restore#:#Obnovit vymazané objektů
-sysc#:#sysc_trash_restore_info#:#Obnovit vymazaných objekty z koše a přesunout je do „Složky pro obnovení“
-sysc#:#sysc_tree_duplicate_failures#:#Nalezeny duplicitní položky ve struktuře stromu. Počet duplicitních záznamů
-sysc#:#sysc_tree_list_failures#:#Byl vytvořen koš pro strom úložiště. Počet chyb ve struktuře stromu:
-sysc#:#sysc_tree_missing_failures#:#Ve struktuře stromu byly nalezeny chybějící záznamy. Počet chybějících záznamů:
-sysc#:#sysc_tree_structure_failures#:#Počet chyb ve struktuře stromu ( vztah k nadřazené položce):
 tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
