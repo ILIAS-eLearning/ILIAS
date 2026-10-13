@@ -3217,8 +3217,6 @@ cmix#:#use_fetch_info#:#Siempre que el recurso admita esta opción, debería uti
 cmix#:#xapi_statements_fetched_successfully#:#Los resultados del Learning Record Store se han obtenido correctamente
 cmix#:#xapi_statements_last_fetch_date#:#Última obtención de resultados:
 cmix#:#xapi_statements_not_fetched_yet#:#Aún no se han obtenido los resultados del Learning Record Store
-cmxv#:#cmxv_create#:#Crear certificado para objeto xAPI/cmi5
-cmxv#:#cmxv_create_info#:#Seleccione un objeto xAPI/cmi5 finalizado para generar un certificado para el mismo
 cntr#:#cntr_add_new_item#:#Añadir nuevo objeto
 cntr#:#cntr_adopt_content#:#Adoptar contenido
 cntr#:#cntr_container_only_on_their_own#:#Las categorías, cursos, grupos, carpetas, secuencias de aprendizaje o programas de estudio solo pueden copiarse como objetos individuales. Por favor, seleccione solo un elemento.

@@ -3248,8 +3248,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###07 02 2020 new variable
-cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###07 02 2020 new variable
 cntr#:#cntr_add_new_item#:#Aparecem popups de conteúdo quando o utilizador clica em partes interativas da imagem de fundo. Neste ecrã pode apenas definir os popups. O seu conteúdo pode ser editado no ecrã de edição da página.
 cntr#:#cntr_adopt_content#:#Adotar conteúdo
 cntr#:#cntr_container_only_on_their_own#:#As categorias, cursos, grupos ou pastas podem ser copiados apenas como objetos únicos. Selecione apenas um item.

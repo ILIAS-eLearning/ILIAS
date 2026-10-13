@@ -3270,8 +3270,6 @@ cmix#:#use_fetch_info#:#Solange die Ressource diese Option unterstützt, sollten
 cmix#:#xapi_statements_fetched_successfully#:#Ergebnisse aus dem Learning Record Store wurden erfolgreich abgerufen.
 cmix#:#xapi_statements_last_fetch_date#:#Letzter Abruf von Ergebnissen:
 cmix#:#xapi_statements_not_fetched_yet#:#Ergebnisse aus dem Learning Record Store wurden noch nicht abgerufen.
-cmxv#:#cmxv_create#:#Zertifikat für xAPI/cmi5-Objekt erstellen
-cmxv#:#cmxv_create_info#:#Wählen Sie ein abgeschlossenes xAPI/cmi5-Objekt aus, um ein Zertifikat dafür zu generieren.
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 cntr#:#cntr_adopt_content#:#Inhalte übernehmen
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner, Lernsequenzen und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
