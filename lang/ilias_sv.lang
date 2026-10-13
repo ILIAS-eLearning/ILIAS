@@ -15364,46 +15364,6 @@ survey#:#values#:#Värderingar
 survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Frågan är ofullständig!
 survey#:#workingtime#:#Bearbetningstid
-svy#:#survey_360_appraisees_remind_info#:#Om självutvärdering är aktiverat kommer feedbackmottagare som ännu inte har slutfört undersökningen att få ett påminnelsemeddelande.
-svy#:#survey_360_raters_remind_info#:#Feedback-donatorer som ännu inte har slutfört undersökningen kommer att få ett påminnelsemeddelande.
-svy#:#svy_0_open_appraisees#:#You cannot perform the survey for any appraisee anymore.###28 10 2024 new variable
-svy#:#svy_all_pages#:#Alla sidor
-svy#:#svy_all_participants#:#Alla deltagare
-svy#:#svy_all_questions#:#Alla frågor
-svy#:#svy_code#:#Access Code###28 10 2024 new variable
-svy#:#svy_codes#:#Nyckel för åtkomst
-svy#:#svy_current_page#:#Aktuell sida
-svy#:#svy_finish_survey#:#Redigera undersökning "%1
-svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
-svy#:#svy_info_participants#:#Lägg till användare som deltagare i den här enkäten med ett av följande sökalternativ. Enkäten läggs till för dessa användare som en uppgift på deras instrumentpanel.
-svy#:#svy_information#:#Information###28 10 2024 new variable
-svy#:#svy_invite_participants#:#Bjud in deltagare
-svy#:#svy_link_to_svy#:#Länk till undersökningen
-svy#:#svy_part_overview#:#Översikt
-svy#:#svy_placeholders_label#:#Available Placeholders###26 08 2024 new variable
-svy#:#svy_print_selection#:#Selektion utskriftsvy
-svy#:#svy_remove_all_participants#:#Radera alla deltagardata
-svy#:#svy_remove_participants#:#Ta bort deltagare
-svy#:#svy_selected_participants#:#Utvalda deltagare
-svy#:#svy_selected_questions#:#Utvalda frågor
-svy#:#svy_selection#:#Urval
-svy#:#svy_status#:#Status
-svy#:#svy_status_finished#:#Färdig
-svy#:#svy_status_in_progress#:#Pågår
-svy#:#svy_status_invited#:#Inbjuden
-svy#:#svy_user_added_appraisee#:#Förfrågan '%1
-svy#:#svy_user_added_appraisee_close_mail#:#Undersökningen har avslutats för dina feedbackgivare.
-svy#:#svy_user_added_appraisee_mail#:#Du har lagts till i undersökningen som en feedbackmottagare.
-svy#:#svy_user_added_rater#:#Förfrågan '%1
-svy#:#svy_user_added_rater_mail#:#Du har lagts till som en feedbackgivare.
-svy#:#svy_user_added_rater_reminder_mail#:#Bedöm fortfarande följande feedbackmottagare
-svy#:#svy_user_not_found#:#Ingen motsvarande användare hittades.
-svy#:#svy_users_invited#:#Användarna har bjudits in.
-svy#:#svy_x_appraisees_closed_for_raters#:#%s appraisee(s) has/have closed the survey for raters.###28 10 2024 new variable
-svy#:#svy_x_open_appraisees#:#%s appraisee(s) are open for you to rate.###28 10 2024 new variable
-svy#:#svy_your_appraisees#:#Your Appraisees###28 10 2024 new variable
-svy#:#svy_your_raters#:#Your Raters###28 10 2024 new variable
-svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.###28 10 2024 new variable
 sysc#:#sysc_action_list_tree#:#Skapa en dump av trädstrukturen
 sysc#:#sysc_action_repair#:#Repair
 sysc#:#sysc_action_show_tree#:#Visa trädstruktur

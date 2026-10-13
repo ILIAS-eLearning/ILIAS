@@ -1,0 +1,155 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: svy\n"
+
+msgid "survey_360_appraisees_remind_info"
+msgstr "Se l’autovalutazione è attivata, ai valutati che non hanno ancora terminato il sondaggio verrà inviato un promemoria."
+
+msgid "survey_360_raters_remind_info"
+msgstr "Ai valutatori che non hanno ancora terminato il sondaggio verrà inviato un promemoria."
+
+#, fuzzy
+msgid "svy_0_open_appraisees"
+msgstr "There are no more appraisees for you to rate or the survey is no longer open to raters."
+
+#, fuzzy
+msgid "svy_all_pages"
+msgstr "All Pages"
+
+#, fuzzy
+msgid "svy_all_participants"
+msgstr "All Participants"
+
+#, fuzzy
+msgid "svy_all_questions"
+msgstr "All Questions"
+
+#, fuzzy
+msgid "svy_code"
+msgstr "Access Code"
+
+msgid "svy_codes"
+msgstr "Codici di accesso"
+
+#, fuzzy
+msgid "svy_current_page"
+msgstr "Current Page"
+
+msgid "svy_finish_survey"
+msgstr "Finish survey '%1'"
+
+#, fuzzy
+msgid "svy_finished_x_appraisees"
+msgstr "You have already completed the survey for %s appraisee(s)."
+
+msgid "svy_info_participants"
+msgstr "Aggiungi utenti come partecipanti a questo sondaggio utilizzando una delle seguenti opzioni di ricerca. Il sondaggio verrà aggiunto come attività nella dashboard di questi utenti."
+
+#, fuzzy
+msgid "svy_information"
+msgstr "Information"
+
+msgid "svy_invite_participants"
+msgstr "Invita partecipanti"
+
+#, fuzzy
+msgid "svy_link_to_svy"
+msgstr "Link to Survey"
+
+msgid "svy_part_overview"
+msgstr "Panoramica"
+
+#, fuzzy
+msgid "svy_placeholders_label"
+msgstr "Verfügbare Platzhalter"
+
+#, fuzzy
+msgid "svy_print_selection"
+msgstr "Print View Selection"
+
+msgid "svy_remove_all_participants"
+msgstr "Rimuovi tutti i partecipanti"
+
+msgid "svy_remove_participants"
+msgstr "Rimuovi partecipanti"
+
+#, fuzzy
+msgid "svy_selected_participants"
+msgstr "Selected Participants"
+
+#, fuzzy
+msgid "svy_selected_questions"
+msgstr "Selected Questions"
+
+#, fuzzy
+msgid "svy_selection"
+msgstr "Selection"
+
+msgid "svy_status"
+msgstr "Stato"
+
+msgid "svy_status_finished"
+msgstr "Finito"
+
+msgid "svy_status_in_progress"
+msgstr "In Progress"
+
+msgid "svy_status_invited"
+msgstr "Invitato"
+
+#, fuzzy
+msgid "svy_user_added_appraisee"
+msgstr "Survey '%1'"
+
+#, fuzzy
+msgid "svy_user_added_appraisee_close_mail"
+msgstr "The survey has been closed for your raters."
+
+#, fuzzy
+msgid "svy_user_added_appraisee_mail"
+msgstr "You have been added to the survey as an appraisee."
+
+#, fuzzy
+msgid "svy_user_added_rater"
+msgstr "Survey '%1'"
+
+#, fuzzy
+msgid "svy_user_added_rater_mail"
+msgstr "You have been added as a rater to the survey."
+
+#, fuzzy
+msgid "svy_user_added_rater_reminder_mail"
+msgstr "Please finish to rate the following appraisees:"
+
+#, fuzzy
+msgid "svy_user_not_found"
+msgstr "User not found."
+
+msgid "svy_users_invited"
+msgstr "Gli utenti sono stati invitati."
+
+#, fuzzy
+msgid "svy_x_appraisees_closed_for_raters"
+msgstr "The survey has been closed to raters by %s appraisee(s)."
+
+#, fuzzy
+msgid "svy_x_open_appraisees"
+msgstr "You have %s appraisee(s) awaiting your feedback."
+
+#, fuzzy
+msgid "svy_your_appraisees"
+msgstr "Your Appraisees"
+
+#, fuzzy
+msgid "svy_your_raters"
+msgstr "Your Raters"
+
+#, fuzzy
+msgid "svy_your_raters_finished"
+msgstr "%s of your raters have finished the survey."
