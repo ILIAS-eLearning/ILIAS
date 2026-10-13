@@ -36,13 +36,26 @@ For any larger scale styling project, we recommend that you consider using SASS 
 well. This way, you can build on and modify all the work that has been done by the
 community to style the many views and components used in ILIAS.
 
-You may want to use the same version of SASS that is referenced in the NPM
-package.json and automatically installed to `node_modules/` when using `npm install`.
-This specific SASS version can be executed like this from the ILIAS root:
-`node_modules/.bin/sass`
+The repository pins the SASS version in `package.json` and `package-lock.json`.
+From the ILIAS root, install the pinned dependencies with:
 
-Alternatively, you can install the latest version of SASS globally with
-`npm install sass -g`.
+```
+npm ci
+```
+
+Do not install or use SASS globally. A global installation may use a different
+version and produce different CSS output. Check the installed version with:
+
+```
+./node_modules/.bin/sass --version
+```
+
+Compile the central Delos stylesheet from the ILIAS root with the project-local
+SASS binary:
+
+```
+./node_modules/.bin/sass ./templates/default/delos.scss ./templates/default/delos.css
+```
 
 You can find a starting point for a custom System Style based on the default Delos
 system style here: [Delos Repository](https://github.com/ILIAS-eLearning/delos)
