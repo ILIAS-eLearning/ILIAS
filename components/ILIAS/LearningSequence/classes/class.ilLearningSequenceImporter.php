@@ -19,6 +19,11 @@
 declare(strict_types=1);
 
 use ILIAS\COPage\Page\PageManagerInterface;
+use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
+use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
+use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
+use ILIAS\LearningSequence\Content\Condition\ilObjLearningSequenceConditionDiscover;
+use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 
 class ilLearningSequenceImporter extends ilXmlImporter
 {
@@ -99,7 +104,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
-        $this->buildSettings($this->data["settings"]);
+        $this->buildSettings($this->data["settings"], $a_mapping);
         $this->obj->update();
 
         // pages
@@ -119,6 +124,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
     {
         $this->updateRefId($mapping);
         $this->buildLSItems($this->data["item_data"], $mapping);
+        $this->buildItemConditions($this->data["item_data"], $mapping);
         $this->buildLPSettings($this->data["lp_settings"], $mapping);
 
         $roles = $this->obj->getLSRoles();
@@ -169,13 +175,123 @@ class ilLearningSequenceImporter extends ilXmlImporter
         }
     }
 
-    protected function buildSettings(array $ls_settings): void
+    /**
+     * Creates lso_conditions + condition payload (lso_c_*) based on parsed XML.
+     *
+     * Expected $ls_data format (per item):
+     *  [
+     *    'ref_id' => <old_ref_id>,
+     *    'conditions' => [
+     *      [
+     *        'type_id' => <int|string>, // maps to lso_condition_types.type_id
+     *        'subtype' => <string|null>,
+     *        'data' => <payload array exported by AbstractCondition::export()>
+     *      ],
+     *      ...
+     *    ]
+     *  ]
+     */
+    protected function buildItemConditions(array $ls_data, ilImportMapping $mapping): void
     {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $discover = new ilObjLearningSequenceConditionDiscover();
+        $factory = new ConditionFactory($discover, $db);
+        $handler = new ConditionHandler($db);
+
+        $new_lso_ref_id = $this->obj->getRefId();
+
+        foreach ($ls_data as $item_data) {
+            $old_item_ref_id = (string) ($item_data['ref_id'] ?? '');
+            if ($old_item_ref_id === '') {
+                continue;
+            }
+
+            $new_item_ref_id = $mapping->getMapping('components/ILIAS/Container', 'refs', $old_item_ref_id);
+            if ($new_item_ref_id === null) {
+                continue;
+            }
+            $new_item_ref_id = (int) $new_item_ref_id;
+
+            $conditions = is_array($item_data['conditions'] ?? null) ? $item_data['conditions'] : [];
+            if ($conditions === []) {
+                continue;
+            }
+
+            // Avoid duplicates when re-importing/updating: clear existing conditions for this item.
+            $handler->deleteConditionsByRefId($new_lso_ref_id, $new_item_ref_id);
+
+            foreach ($conditions as $cond) {
+                $created = false;
+
+                if (!is_array($cond)) {
+                    continue;
+                }
+
+                $type_id_raw = $cond['type'] ?? null;
+                $subtype = isset($cond['subtype']) && is_string($cond['subtype']) && $cond['subtype'] !== ''
+                    ? $cond['subtype']
+                    : null;
+
+                $payload = is_array($cond['data'] ?? null) ? $cond['data'] : [];
+
+                try {
+                    $condition = $factory->getConditionInstanceByName($type_id_raw);
+                    $condition->setLsoRefId($new_lso_ref_id);
+                    $condition->setObjRefId($new_item_ref_id);
+                    if ($subtype !== null && $condition instanceof SubtypeAwareInterface) {
+                        $condition->setSubtype($subtype);
+                    }
+
+                    $condition->create(true);
+                    $created = true;
+
+                    $new_condition_id = (int) $condition->getConditionId();
+                    if ($new_condition_id > 0) {
+                        $ref_mappings = array_map(
+                            'intval',
+                            $mapping->getAllMappings()['components/ILIAS/Container']['refs'] ?? []
+                        );
+                        $condition->setImportMapping($ref_mappings);
+                        $condition->import($payload, $new_condition_id);
+                    }
+                } catch (\Throwable $e) {
+                    if ($created && isset($condition)) {
+                        $condition->delete();
+                    }
+
+                    $this->log->warning(__METHOD__ . ': condition import failed: ' . $e->getMessage());
+                    continue;
+                }
+            }
+        }
+    }
+
+    protected function buildSettings(array $ls_settings, ilImportMapping $mapping): void
+    {
+        global $DIC;
         $settings = $this->obj->getLSSettings();
         $settings = $settings
             ->withMembersGallery($ls_settings["members_gallery"] === 'true' ? true : false)
         ;
+        $settings = $settings->withMode((int) $ls_settings["mode"]);
         $this->obj->updateSettings($settings);
+
+        // boundaries
+        $start_ref_id = (string) ($ls_settings["start_ref_id"] ?? '');
+        $end_ref_id = (string) ($ls_settings["end_ref_id"] ?? '');
+        $new_start_ref_id = $mapping->getMapping("components/ILIAS/Container", "refs", $start_ref_id);
+        $new_end_ref_id = $mapping->getMapping("components/ILIAS/Container", "refs", $end_ref_id);
+
+        $new_start_ref_id = (!empty($new_start_ref_id)) ? (int) $new_start_ref_id : 0;
+        $new_end_ref_id = (!empty($new_end_ref_id)) ? (int) $new_end_ref_id : 0;
+        if ($new_start_ref_id > 0 || $new_end_ref_id > 0) {
+            $boundaries = new LSOAdaptiveBoundaries($DIC->database());
+            $boundaries->setStartRefId($this->obj->getId(), $new_start_ref_id);
+            $boundaries->setEndRefId($this->obj->getId(), $new_end_ref_id);
+        }
     }
 
     protected function buildLPSettings(array $lp_settings, ilImportMapping $mapping): void
