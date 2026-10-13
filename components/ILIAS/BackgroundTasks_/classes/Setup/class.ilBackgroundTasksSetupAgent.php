@@ -25,6 +25,8 @@ use ILIAS\Setup\Objective;
 use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\BackgroundTasks\Setup\BackgoundWorkerObjective;
+use ILIAS\Setup\ObjectiveConstructor;
 
 class ilBackgroundTasksSetupAgent implements Agent
 {
@@ -93,6 +95,16 @@ class ilBackgroundTasksSetupAgent implements Agent
             new ilBackgroundTasksMetricsCollectedObjective($storage),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilBackgroundTasksDB80())
         );
+    }
+
+    public function getNamedObjectives(?Config $config = null): array
+    {
+        return [
+            'startBackgroundWorker' => new ObjectiveConstructor(
+                'Start Worker',
+                static fn(): Objective => new BackgoundWorkerObjective()
+            )
+        ];
     }
 
     /**
