@@ -158,7 +158,16 @@ JS;
         }
 
         $answer_trafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string());
-        $points_trafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->float());
+        // Deliberately not kindlyTo()->float(): it rejects a leading zero and
+        // throws a ConstraintViolationException that escapes to the error
+        // screen, taking the whole question with it. The gap builder validates
+        // this very field with isNaN(), and isNaN('01') is false, so the client
+        // lets "01" through. Convert it the way the browser does.
+        $points_trafo = $this->refinery->kindlyTo()->listOf(
+            $this->refinery->custom()->transformation(
+                static fn($value): float => (float) str_replace(',', '.', trim((string) $value))
+            )
+        );
 
         foreach (array_keys($gaps) as $idx) {
             $cloze_type = $this->request_data_collector->int('clozetype_' . $idx);
