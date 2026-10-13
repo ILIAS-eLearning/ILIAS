@@ -12761,12 +12761,6 @@ ps#:#rbac_log_age_info#:#Maximální věk záznamu vstupů v měsících
 ps#:#rbac_log_info#:#Zapnout záznam všech změn oprávnění objektů
 ps#:#show_privacy#:#Soukromé
 ps#:#show_security#:#Bezpečnost
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#accs_read#:#Přístup číst na nastavení přístupnosti
 rbac#:#accs_visible#:#Nastavení přístupnosti je viditelné

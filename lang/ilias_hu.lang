@@ -12825,12 +12825,6 @@ ps#:#rbac_log_age_info#:#Naplóbejegyzések maximális élettartama hónapokban
 ps#:#rbac_log_info#:#Az összes objektum-jogosultságbeli módosítás naplózása
 ps#:#show_privacy#:#Adatvédelem
 ps#:#show_security#:#Biztonság
-qpl#:#qpl_filter_commented_exclude#:#Megjegyzések nélküli kérdések
-qpl#:#qpl_filter_commented_only#:#Megjegyzéssel ellátott kérdések
-qpl#:#qpl_page_type_qfbg#:#Általános visszajelzés
-qpl#:#qpl_page_type_qfbs#:#Speciális visszajelzés
-qpl#:#qpl_page_type_qht#:#Tipp
-qpl#:#qpl_page_type_qpl#:#Kérdésoldala
 rbac#:#accs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Könnyű kezelés jogosultsági beállításait
 rbac#:#accs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Könnyű kezelés beállításaihoz
 rbac#:#accs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Könnyű kezelés menüpontot

@@ -12761,12 +12761,6 @@ ps#:#rbac_log_age_info#:#حداکثر اندازه سن وقایع ثبت شده
 ps#:#rbac_log_info#:#فعال کردن ثبت وقایع تمام تغییرات در مجوزهای شی ها
 ps#:#show_privacy#:#حریم خصوصی
 ps#:#show_security#:#امنیت
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#User can change permissions of Accessibility Settings  in Administration.###28 08 2012 new variable
 rbac#:#accs_read#:#User has read access to Accessibility Settings in Administration.###28 08 2012 new variable
 rbac#:#accs_visible#:#Accessibility Settings are visible in Administration.###28 08 2012 new variable

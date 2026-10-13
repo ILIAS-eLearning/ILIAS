@@ -12820,12 +12820,6 @@ ps#:#rbac_log_age_info#:#月間ログエントリー最高年齢
 ps#:#rbac_log_info#:#オブジェクトアクセス権限に対する全ての変更ログを有効にする
 ps#:#show_privacy#:#プライバシー
 ps#:#show_security#:#セキュリティ
-qpl#:#qpl_filter_commented_exclude#:#コメントなしの問題
-qpl#:#qpl_filter_commented_only#:#コメント有の問題
-qpl#:#qpl_page_type_qfbg#:#全般フィードバック
-qpl#:#qpl_page_type_qfbs#:#特別フィードバック
-qpl#:#qpl_page_type_qht#:#ヒント
-qpl#:#qpl_page_type_qpl#:#質問ページ
 rbac#:#accs_edit_permission#:#ユーザは管理のアクセス権設定を変更できます。
 rbac#:#accs_read#:#ユーザは管理のアクセス権設定の読込みアクセス権があります
 rbac#:#accs_visible#:#アクセス権設定を管理に表示します。

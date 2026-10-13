@@ -12746,12 +12746,6 @@ ps#:#rbac_log_age_info#:#Age maximun des entrées de Log en mois
 ps#:#rbac_log_info#:#Active le suivi de tous les changements de permissions sur les objets
 ps#:#show_privacy#:#Confidentialité
 ps#:#show_security#:#Sécurité
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback
-qpl#:#qpl_page_type_qfbs#:#Special Feedback
-qpl#:#qpl_page_type_qht#:#Hint
-qpl#:#qpl_page_type_qpl#:#Question Page
 rbac#:#accs_edit_permission#:#Permissions d'administration modifiables
 rbac#:#accs_read#:#Panneau d'administration accessible
 rbac#:#accs_visible#:#Panneau d'administration visible

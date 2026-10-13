@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qpl\n"
+
+msgid "qpl_filter_commented_exclude"
+msgstr "Nur Fragen ohne Kommentare"
+
+msgid "qpl_filter_commented_only"
+msgstr "Nur Fragen mit Kommentaren"
+
+msgid "qpl_page_type_qfbg"
+msgstr "Generelles Feedback"
+
+msgid "qpl_page_type_qfbs"
+msgstr "Spezielles Feedback"
+
+msgid "qpl_page_type_qht"
+msgstr "Hinweis"
+
+msgid "qpl_page_type_qpl"
+msgstr "Fragenseite"

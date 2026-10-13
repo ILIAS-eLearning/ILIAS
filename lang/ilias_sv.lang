@@ -12761,12 +12761,6 @@ ps#:#rbac_log_age_info#:#Maximal ålder för loggposter i månader
 ps#:#rbac_log_info#:#Aktivera loggning av alla ändringar av rättighetsinställningar
 ps#:#show_privacy#:#Skydd av personuppgifter
 ps#:#show_security#:#Säkerhet
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#Allmän feedback
-qpl#:#qpl_page_type_qfbs#:#Särskild feedback
-qpl#:#qpl_page_type_qht#:#Note
-qpl#:#qpl_page_type_qpl#:#Frågesida
 rbac#:#accs_edit_permission#:#Ändra rättighetsinställningar för tillgänglighetsinställningar
 rbac#:#accs_read#:#Settings Tillgänglighet i Administration kan läsas
 rbac#:#accs_visible#:#Accessibility-inställningar i Administration är synliga

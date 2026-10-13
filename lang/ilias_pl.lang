@@ -12761,12 +12761,6 @@ ps#:#rbac_log_age_info#:#Maksymalny wiek postów dotyczących logów w miesiąca
 ps#:#rbac_log_info#:#Aktywuj funkcję loggingu wszystkich zmian dotyczących ustawień uprawnień
 ps#:#show_privacy#:#Prywatność
 ps#:#show_security#:#Bezpieczeństwo
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#accs_read#:#Prawo czytania ustawień systemowych dotyczących dostępności
 rbac#:#accs_visible#:#Ustawienia dostępności są widoczne!!

@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: qpl\n"
+
+#, fuzzy
+msgid "qpl_filter_commented_exclude"
+msgstr "Questions without comments"
+
+#, fuzzy
+msgid "qpl_filter_commented_only"
+msgstr "Questions with comments"
+
+msgid "qpl_page_type_qfbg"
+msgstr "Feedback generale"
+
+msgid "qpl_page_type_qfbs"
+msgstr "Feedback speciali"
+
+msgid "qpl_page_type_qht"
+msgstr "Suggerimento"
+
+msgid "qpl_page_type_qpl"
+msgstr "Pagina delle domande"

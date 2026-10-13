@@ -12761,12 +12761,6 @@ ps#:#rbac_log_age_info#:#الحد الاقصى لعمر لمدخلات التس�
 ps#:#rbac_log_info#:#تمكين تسجيل كافة التغييرات في صلاحيات العنصر
 ps#:#show_privacy#:#الخصوصية
 ps#:#show_security#:#الحماية
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#Change permission settings
 rbac#:#accs_read#:#Read access to Accessibility Settings
 rbac#:#accs_visible#:#Accessibility Settings are visible

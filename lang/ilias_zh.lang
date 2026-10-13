@@ -12760,12 +12760,6 @@ ps#:#rbac_log_age_info#:#日志条目的最大寿命，以月为单位。
 ps#:#rbac_log_info#:#启用记录日志，记录所有对象权限的更改。
 ps#:#show_privacy#:#隐私
 ps#:#show_security#:#安全性
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
-qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
-qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
 rbac#:#accs_edit_permission#:#更改权限设置
 rbac#:#accs_read#:#Read access to Accessibility Settings
 rbac#:#accs_visible#:#Accessibility Settings are visible
