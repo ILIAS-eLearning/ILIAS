@@ -2097,32 +2097,6 @@ auth#:#lti_consumer_inactive#:#O consumidor da ferramenta LTI está desativado.
 auth#:#page_design_activate#:#Activate Page Design###03 09 2026 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###03 09 2026 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Online agora
-awrn#:#awareness_settings#:#Definições
-awrn#:#awrn_caching_period#:#Período Caching
-awrn#:#awrn_caching_period_info#:#Tempo que se espera antes do número de utilizadores na barra superior ser atualizado e de serem determinados novos utilizadores online.
-awrn#:#awrn_enable#:#Ativar ferramenta ‘Who is online?’ (Quem está online?)
-awrn#:#awrn_filter#:#User Filter###30 04 2021 new variable
-awrn#:#awrn_hide_from_awareness#:#Ocultar-me da ferramenta ‘Who is online?’ (Quem está online?)
-awrn#:#awrn_hide_from_awareness_info#:#A ferramenta ‘Who is online?’ está na barra superior e enumera os utilizadores selecionados (p. ex. contactos ou membros dos seus cursos).
-awrn#:#awrn_inactive#:#Não constam da lista
-awrn#:#awrn_incl_offline#:#Online e offline
-awrn#:#awrn_max_inactivity#:#Período máximo de inatividade
-awrn#:#awrn_max_inactivity_info#:#Depois deste período, os utilizadores são considerados offline. Se não estiver nada definido, será usado o tempo da sessão.
-awrn#:#awrn_max_nr_entries#:#Número máx. de itens
-awrn#:#awrn_max_nr_entries_info#:#Aqui pode procurar utilizadores que gostaria de adicionar a uma conversação. Se a caixa de diálogo de procura tiver sido aberta dentro de um chat de grupo, o novo utilizador será adicionado a este chat. Se começou a procura dentro de um chat 1:1, abre-se uma nova janela de chat de grupo.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Online apenas
-awrn#:#awrn_seconds#:#seg
-awrn#:#awrn_use_osd#:#Popup utilizadores online
-awrn#:#awrn_use_osd_info#:#Mostra um popup para indicar novos utilizadores online na lista ‘Who is online?’.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###30 04 2021 new variable
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###03 09 2026 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###03 09 2026 new variable
-awrn#:#user_awrn_default#:#Default###30 04 2021 new variable
-awrn#:#user_awrn_hide#:#Hide my status###30 04 2021 new variable
-awrn#:#user_awrn_show#:#Show my status###30 04 2021 new variable
 background_tasks#:#abort#:#Abortar
 background_tasks#:#background_tasks#:#Tarefas secundárias
 background_tasks#:#background_tasks_running#:#Adicionar sala de chat

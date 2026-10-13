@@ -2112,32 +2112,6 @@ auth#:#lti_consumer_inactive#:#LTI tool consumerは無効です。
 auth#:#page_design_activate#:#ページデザインをアクティブ化
 auth#:#page_design_deactivate#:#ページデザインを非アクティブ化
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#現在オンライン中
-awrn#:#awareness_settings#:#設定
-awrn#:#awrn_caching_period#:#キャッシュ期間
-awrn#:#awrn_caching_period_info#:#トップバー内のユーザ数が更新されて新規オンラインユーザが確定される前の待ち時間
-awrn#:#awrn_enable#:#`誰がオンラインですか？'ツールを有効化
-awrn#:#awrn_filter#:#ユーザフィルター
-awrn#:#awrn_hide_from_awareness#:#`誰がオンラインですか？' - ツールへ自分を表示しない
-awrn#:#awrn_hide_from_awareness_info#:#‘誰がオンラインですか？’-ツールはトップバーにあり選択したユーザを表示します。(例. コンタクトまたはコースメンバー)
-awrn#:#awrn_inactive#:#表示しない
-awrn#:#awrn_incl_offline#:#オンラインとオフライン
-awrn#:#awrn_max_inactivity#:#最大アクティビティのない期間
-awrn#:#awrn_max_inactivity_info#:#この期間の後ユーザはオフラインになるよう考慮されます。何も設定していない場合はセッションタイムを使用します。
-awrn#:#awrn_max_nr_entries#:#最大アイテム数
-awrn#:#awrn_max_nr_entries_info#:#`誰がオンラインですか？'リストの最大アイテム数
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#オンラインのみ
-awrn#:#awrn_seconds#:#sec
-awrn#:#awrn_use_osd#:#ポップアップオンラインユーザ
-awrn#:#awrn_use_osd_info#:#オンラインはだれ?'リスト上へ新しいオンラインユーザを示すポップアップを表示する。
-awrn#:#awrn_user_show#:#アカウントを"オンラインはだれ?"へ表示する
-awrn#:#awrn_user_show_default#:#「オンラインはだれ?」の表示用デフォルト値
-awrn#:#awrn_user_show_default_info#:#"オンラインはだれ?"のユーザーのステータス表示のデフォルト値を定義します。
-awrn#:#user_awrn_default#:#Default
-awrn#:#user_awrn_hide#:#ステータスを表示しない
-awrn#:#user_awrn_show#:#ステータスを表示する
 background_tasks#:#abort#:#強制終了
 background_tasks#:#background_tasks#:#バックグラウンドタスク
 background_tasks#:#background_tasks_running#:#バックグラウンドタスク

@@ -2114,32 +2114,6 @@ auth#:#lti_consumer_inactive#:#El consumidor de herramientas LTI está desactiva
 auth#:#page_design_activate#:#Activar diseño de página
 auth#:#page_design_deactivate#:#Desactivar diseño de página
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#En línea ahora
-awrn#:#awareness_settings#:#Ajustes
-awrn#:#awrn_caching_period#:#Periodo de almacenamiento en caché
-awrn#:#awrn_caching_period_info#:#Tiempo de espera antes de que se actualice el número de usuarios en la barra superior y se determinen los nuevos usuarios en línea.
-awrn#:#awrn_enable#:#Activar herramienta '¿Quién está en línea?'
-awrn#:#awrn_filter#:#Filtro de usuario
-awrn#:#awrn_hide_from_awareness#:#Ocultarme de la herramienta '¿Quién está en línea?'
-awrn#:#awrn_hide_from_awareness_info#:#La herramienta '¿Quién está en línea?' se encuentra en la barra de encabezado y enumera a los usuarios seleccionados (por ejemplo, contactos o miembros de sus cursos).
-awrn#:#awrn_inactive#:#No listado
-awrn#:#awrn_incl_offline#:#En línea y desconectado
-awrn#:#awrn_max_inactivity#:#Periodo máximo de inactividad
-awrn#:#awrn_max_inactivity_info#:#Después de este periodo, se considera que los usuarios están desconectados. Si no se establece nada, se utilizará el tiempo de la sesión.
-awrn#:#awrn_max_nr_entries#:#Número máximo de elementos
-awrn#:#awrn_max_nr_entries_info#:#Número máximo de elementos en la lista '¿Quién está en línea?'. Este ajuste solo tiene una influencia mínima en el rendimiento al mostrar la herramienta en la barra superior.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#En línea
-awrn#:#awrn_online_only#:#Solo en línea
-awrn#:#awrn_seconds#:#seg
-awrn#:#awrn_use_osd#:#Ventana emergente de usuarios en línea
-awrn#:#awrn_use_osd_info#:#Mostrar una ventana emergente para indicar nuevos usuarios en línea en la lista «¿Quién está en línea?».
-awrn#:#awrn_user_show#:#¿Mostrar tu cuenta en «Quién está en línea»?
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".
-awrn#:#user_awrn_default#:#Predeterminado
-awrn#:#user_awrn_hide#:#Ocultar mi estado
-awrn#:#user_awrn_show#:#Mostrar mi estado
 background_tasks#:#abort#:#Abortar
 background_tasks#:#background_tasks#:#Tareas en segundo plano
 background_tasks#:#background_tasks_running#:#Tareas en segundo plano

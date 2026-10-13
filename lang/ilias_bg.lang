@@ -2108,32 +2108,6 @@ auth#:#lti_consumer_inactive#:#Потребителят на инструмен�
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Онлайн сега
-awrn#:#awareness_settings#:#Настройки
-awrn#:#awrn_caching_period#:# Период на кеширане
-awrn#:#awrn_caching_period_info#:#Времето, което се изчаква, преди да се актуализира броят на потребителите в горната лента и да се определят новите онлайн потребители.
-awrn#:#awrn_enable#:#Активиране на "Кой е онлайн?
-awrn#:#awrn_filter#:#Филтър на потребителя
-awrn#:#awrn_hide_from_awareness#:#Скрий ме от блока "Кой е онлайн?"
-awrn#:#awrn_hide_from_awareness_info#:#Блокът "Кой е онлайн?" се намира в горната лента и съдържа списък с избрани потребители (напр. контакти или членове на вашите курсове).
-awrn#:#awrn_inactive#:#Не е включено в списъка
-awrn#:#awrn_incl_offline#:#Онлайн и офлайн
-awrn#:#awrn_max_inactivity#:#Максимален период на неактивност
-awrn#:#awrn_max_inactivity_info#:#След този период потребителите се считат за офлайн. Ако не е зададено нищо, ще се използва времето на сесията.
-awrn#:#awrn_max_nr_entries#:#Макс. Брой на елементите
-awrn#:#awrn_max_nr_entries_info#:#Максимален брой елементи в списъка "Кой е онлайн?".
-awrn#:#awrn_minutes#:#мин
-awrn#:#awrn_online#:#Онлайн
-awrn#:#awrn_online_only#:#Само онлайн
-awrn#:#awrn_seconds#:#сек
-awrn#:#awrn_use_osd#:#Изскачащи прозорци с онлайн потребители
-awrn#:#awrn_use_osd_info#:#Показване на изскачащ прозорец за обозначаване на нови онлайн потребители в списъка "Кой е онлайн?".
-awrn#:#awrn_user_show#:#Покажете профила си в "Кой е онлайн?"
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#По подразбиране
-awrn#:#user_awrn_hide#:#Скриване на състоянието ми
-awrn#:#user_awrn_show#:#Покажи състоянието ми
 background_tasks#:#abort#:#Прекратяване
 background_tasks#:#background_tasks#:#Задачи на заден план
 background_tasks#:#background_tasks_running#:#Забавени задачи

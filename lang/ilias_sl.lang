@@ -2108,32 +2108,6 @@ auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Online Now
-awrn#:#awareness_settings#:#Settings
-awrn#:#awrn_caching_period#:#Caching Period
-awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
-awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
-awrn#:#awrn_filter#:#User Filter
-awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
-awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
-awrn#:#awrn_inactive#:#Not Listed
-awrn#:#awrn_incl_offline#:#Online and Offline
-awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period
-awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.
-awrn#:#awrn_max_nr_entries#:#Max. Number of Items
-awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list. This setting has only minimal performance influence when displaying the tool in the top bar.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Online Only
-awrn#:#awrn_seconds#:#sec
-awrn#:#awrn_use_osd#:#Popup Online Users
-awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#Default
-awrn#:#user_awrn_hide#:#Hide my status
-awrn#:#user_awrn_show#:#Show my status
 background_tasks#:#abort#:#Abort
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks

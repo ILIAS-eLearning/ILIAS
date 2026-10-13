@@ -2107,32 +2107,6 @@ auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.###31 08 2017 new v
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP###31 08 2017 new variable
-awrn#:#awareness_now_online#:#Online Now###30 08 2015 new variable
-awrn#:#awareness_settings#:#Settings###30 08 2015 new variable
-awrn#:#awrn_caching_period#:#Caching Period###30 08 2015 new variable
-awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.###30 08 2015 new variable
-awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool###30 08 2015 new variable
-awrn#:#awrn_filter#:#User Filter###29 07 2022 new variable
-awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool###30 08 2015 new variable
-awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).###30 08 2015 new variable
-awrn#:#awrn_inactive#:#Not Listed###30 08 2015 new variable
-awrn#:#awrn_incl_offline#:#Online and Offline###30 08 2015 new variable
-awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period###08 10 2015 new variable
-awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.###08 10 2015 new variable
-awrn#:#awrn_max_nr_entries#:#Max. Number of Items###30 08 2015 new variable
-awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.###30 08 2015 new variable
-awrn#:#awrn_minutes#:#min###08 10 2015 new variable
-awrn#:#awrn_online#:#Online###22 11 2017 new variable
-awrn#:#awrn_online_only#:#Online Only###30 08 2015 new variable
-awrn#:#awrn_seconds#:#sec###30 08 2015 new variable
-awrn#:#awrn_use_osd#:#Popup Online Users###25 10 2016 new variable
-awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.###25 10 2016 new variable
-awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"###29 07 2022 new variable
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#Default###29 07 2022 new variable
-awrn#:#user_awrn_hide#:#Hide my status###29 07 2022 new variable
-awrn#:#user_awrn_show#:#Show my status###29 07 2022 new variable
 background_tasks#:#abort#:#Abort###23 10 2017 new variable
 background_tasks#:#background_tasks#:#Background Tasks###31 08 2017 new variable
 background_tasks#:#background_tasks_running#:#Running Tasks###31 08 2017 new variable

@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Awareness implements Component\Component
 {
     public function init(
@@ -36,5 +39,9 @@ class Awareness implements Component\Component
             new Component\Resource\ComponentJS($this, "Awareness.js");
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Awareness\UserSettings\Settings();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'awrn'
+        );
     }
 }

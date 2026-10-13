@@ -2108,32 +2108,6 @@ auth#:#lti_consumer_inactive#:#Odbiorca LTI jest wyłączony
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Teraz w trybie online
-awrn#:#awareness_settings#:#Ustawienia
-awrn#:#awrn_caching_period#:#Okres, pamięć podręczna
-awrn#:#awrn_caching_period_info#:#Ten okres musi upłynąć, zanim zostanie zaktualizowana liczba top-użytkowników i ustalona liczna nowych użytkowników online.
-awrn#:#awrn_enable#:#Aktywuj informację „Kto jest online?”
-awrn#:#awrn_filter#:#User Filter###29 07 2022 new variable
-awrn#:#awrn_hide_from_awareness#:#Nie ujmować mnie w liście „Kto jest online?”
-awrn#:#awrn_hide_from_awareness_info#:#Informacja „Kto jest online?” pojawia się u góry w nagłówku aplikacji i zawiera listę wybranych użytkowników (np. kontakty lub członkowie Twoich kursów).
-awrn#:#awrn_inactive#:#Brak informacji
-awrn#:#awrn_incl_offline#:#Online i offline
-awrn#:#awrn_max_inactivity#:#Maks. nieaktywność
-awrn#:#awrn_max_inactivity_info#:#Użytkownicy, którzy w określonym okresie nie wykonują żadnych czynności, oznaczeni są jako "offline". Jeśli nie zostanie podana żadna wartość, obowiązuje ważność sesji.
-awrn#:#awrn_max_nr_entries#:#Liczba maks. wpisów
-awrn#:#awrn_max_nr_entries_info#:#Ta liczba wpisów jest pokazywana w liście Kto jest online?”. To ustawienie nie wpływa zbytnio na moc obliczeniową wyświetlanych top-wartości.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Tylko online
-awrn#:#awrn_seconds#:#Sek.
-awrn#:#awrn_use_osd#:#Wyskakujące okienko z użytkownikami w trybie online
-awrn#:#awrn_use_osd_info#:#Wyświetla wyskakujące okienko, gdy w oknie „Kto jest online?” pojawią się nowi użytkownicy w trybie online.
-awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"###29 07 2022 new variable
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#Default###29 07 2022 new variable
-awrn#:#user_awrn_hide#:#Hide my status###29 07 2022 new variable
-awrn#:#user_awrn_show#:#Show my status###29 07 2022 new variable
 background_tasks#:#abort#:#Przerwij
 background_tasks#:#background_tasks#:#Zadania w tle
 background_tasks#:#background_tasks_running#:#Zadania w tle
