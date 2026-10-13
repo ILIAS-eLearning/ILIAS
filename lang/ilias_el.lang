@@ -13792,8 +13792,6 @@ rep#:#rep_tree_limit#:#Limit Items in Tree###10 11 2018 new variable
 rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.###10 11 2018 new variable
 rep#:#rep_tree_limit_number#:#Maximum Number###10 11 2018 new variable
 rep#:#rep_tree_limit_number_info#:#Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title.###10 11 2018 new variable
-rfil#:#rfil_call#:#Call ECS File ###28 08 2012 new variable
-rfil#:#rfil_version_tstamp#:#Upload Date###28 08 2012 new variable
 rglo#:#rglo_call#:#Call ECS Glossary###28 08 2012 new variable
 rgrp#:#rgrp_call#:#Call ECS Group ###28 08 2012 new variable
 rlm#:#rlm_call#:#Call ECS Learning Module###28 08 2012 new variable
