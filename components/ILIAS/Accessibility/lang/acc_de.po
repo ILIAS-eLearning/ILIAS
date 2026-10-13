@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: acc\n"
+
+msgid "acc_add_document_btn_label"
+msgstr "Dokument hinzufügen"
+
+msgid "acc_crit_type_usr_language"
+msgstr "Benutzersprache"
+
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung."
+
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung."
+
+msgid "acc_ctrl_cpt_txt"
+msgstr "Info Barrierefreiheit"
+
+msgid "acc_deleted_documents_p"
+msgstr "Die gewählten Dokumente wurden gelöscht."
+
+msgid "acc_deleted_documents_s"
+msgstr "Das Dokument wurde gelöscht."
+
+msgid "acc_doc_crit_attached"
+msgstr "Das Vorlagekriterium wurde zugewiesen."
+
+msgid "acc_doc_crit_changed"
+msgstr "Das Vorlagekriterium wurde aktualisiert."
+
+msgid "acc_doc_crit_detached"
+msgstr "Das Vorlagekriterium wurde entfernt."
+
+msgid "acc_doc_delete"
+msgstr "Dokument löschen"
+
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "Vorlagekriterium entfernen"
+
+msgid "acc_doc_sure_detach_crit"
+msgstr "Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?"
+
+msgid "acc_document"
+msgstr "Dokument"
+
+msgid "acc_form_attach_criterion_head"
+msgstr "Vorlagekriterium hinzufügen"
+
+msgid "acc_form_criterion"
+msgstr "Vorlagekriterium"
+
+msgid "acc_form_document"
+msgstr "Dokument"
+
+msgid "acc_form_document_content_changed"
+msgstr "Der Inhalt der hochgeladenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden im Zweifel eine neue Datei hoch."
+
+msgid "acc_form_document_info"
+msgstr "Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird."
+
+msgid "acc_form_document_new"
+msgstr "Inhalt ändern"
+
+msgid "acc_form_document_new_info"
+msgstr "Wählen Sie eine neue Datei von Ihrem lokalen Dateisystem, um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht."
+
+msgid "acc_form_document_title"
+msgstr "Titel"
+
+msgid "acc_form_document_title_info"
+msgstr "Geben Sie hier einen Titel für das Dokument ein."
+
+msgid "acc_form_edit_criterion_head"
+msgstr "Vorlagekriterium bearbeiten"
+
+msgid "acc_form_edit_doc_head"
+msgstr "Dokument bearbeiten"
+
+msgid "acc_form_new_doc_head"
+msgstr "Dokument erstellen"
+
+msgid "acc_forward_mail"
+msgstr "Weiterleiten"
+
+msgid "acc_function"
+msgstr "Funktion"
+
+msgid "acc_last_rep_visited"
+msgstr "Magazin/Zuletzt besucht"
+
+msgid "acc_saved_sorting"
+msgstr "Die Sortierung wurde gespeichert."
+
+msgid "acc_sure_delete_documents_p"
+msgstr "Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?"
+
+msgid "acc_sure_delete_documents_s"
+msgstr "Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?"
+
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "Vorlagekriterium hinzufügen"
+
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "Kein Vorlagekriterium zugewiesen"
+
+msgid "acc_tbl_docs_head_created"
+msgstr "Erstellungsdatum"
+
+msgid "acc_tbl_docs_head_criteria"
+msgstr "Vorlagekriterien"
+
+msgid "acc_tbl_docs_head_last_change"
+msgstr "Letzte Änderung"
+
+msgid "acc_tbl_docs_head_sorting"
+msgstr "Sortierung"
+
+msgid "acc_tbl_docs_head_title"
+msgstr "Titel"
+
+msgid "acc_tbl_docs_title"
+msgstr "Dokumente"
+
+msgid "acc_tree_off"
+msgstr "Baumansicht aus"
+
+msgid "acc_tree_on"
+msgstr "Baumansicht an"

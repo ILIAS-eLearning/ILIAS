@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: acc\n"
+
+msgid "acc_add_document_btn_label"
+msgstr "Dokumentum hozzáadása"
+
+msgid "acc_crit_type_usr_language"
+msgstr "A profil nyelve"
+
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "Ezt a nyelv már megjelenítési feltétele egy másik Hozzáférhetőségi dokumentumnak, nem állíthatja be ehhez is."
+
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "Ezt a nyelv már megjelenítési feltétele egy másik Hozzáférhetőségi dokumentumnak, nem állíthatja be ehhez is."
+
+msgid "acc_ctrl_cpt_txt"
+msgstr "Hozzáférhetőségi dokumentumok"
+
+msgid "acc_deleted_documents_p"
+msgstr "A dokumentumokat sikeresen törölte."
+
+msgid "acc_deleted_documents_s"
+msgstr "A dokumentumot sikeresen törölte."
+
+msgid "acc_doc_crit_attached"
+msgstr "A Hozzáférhetőségi dokumentum megjelenítési feltételét sikeresen hozzárendelte."
+
+msgid "acc_doc_crit_changed"
+msgstr "A Hozzáférhetőségi dokumentum megjelenítési feltételét sikeresen módosította."
+
+msgid "acc_doc_crit_detached"
+msgstr "A Hozzáférhetőségi dokumentum megjelenítési feltételét sikeresen eltávolította."
+
+msgid "acc_doc_delete"
+msgstr "Dokumentum törlése"
+
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "Nyelvi feltétel eltávolítása"
+
+msgid "acc_doc_sure_detach_crit"
+msgstr "Biztos, hogy eltávolítja ezt a nyelvi feltételt?"
+
+msgid "acc_document"
+msgstr "Dokumentum"
+
+msgid "acc_form_attach_criterion_head"
+msgstr "Nyelvi feltétel hozzárendelése a Hozzáférhetőségi dokumentum megjelenítési feltételéhez"
+
+msgid "acc_form_criterion"
+msgstr "Feltétel"
+
+msgid "acc_form_document"
+msgstr "Dokumentum"
+
+msgid "acc_form_document_content_changed"
+msgstr "Az ILIAS eltávolított a feltöltött fájl &lt;head&gt; tartalmát. Kérjük, ellenőrizze a végeredményt és szükség esetén töltsön fel új fájlt."
+
+msgid "acc_form_document_info"
+msgstr "Válasszon egy fájlt a saját gépéről. Feltölthet egy egyszerű szöveges fájlt vagy egy egyszerű HTML-fájlt. A HTML fájl &lt;head&gt; tartalmát eltávolítjuk, csak a törzselem tartalmát használjuk."
+
+msgid "acc_form_document_new"
+msgstr "Tartalom módosítása"
+
+msgid "acc_form_document_new_info"
+msgstr "Válasszon egy fájlt a saját gépéről, amit a Hozzáférhetőségi Dokumentum új tartalmának szeretne. Feltölthet egy egyszerű szöveges fájlt vagy egy egyszerű HTML-fájlt. A HTML fájl &lt;head&gt; tartalmát eltávolítjuk, csak a törzselem tartalmát használjuk. A már létező tartalmat lecseréljük."
+
+msgid "acc_form_document_title"
+msgstr "Cím"
+
+msgid "acc_form_document_title_info"
+msgstr "Adja meg a dokumentum címét."
+
+msgid "acc_form_edit_criterion_head"
+msgstr "Nyelvi feltétel módosítása"
+
+msgid "acc_form_edit_doc_head"
+msgstr "Dokumentum módosítása"
+
+msgid "acc_form_new_doc_head"
+msgstr "Dokumentum létrehozása"
+
+msgid "acc_forward_mail"
+msgstr "Továbbítás"
+
+msgid "acc_function"
+msgstr "Funkció"
+
+msgid "acc_last_rep_visited"
+msgstr "Tartalomtár/Utoljára látogatott"
+
+msgid "acc_saved_sorting"
+msgstr "A rendezést sikeresen mentette."
+
+msgid "acc_sure_delete_documents_p"
+msgstr "Biztos, hogy törli a kiválasztott dokumentumokat?"
+
+msgid "acc_sure_delete_documents_s"
+msgstr "Biztos, hogy törli a kiválasztott dokumentumot?"
+
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "Feltétel hozzáadása"
+
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "Egy nyelvi feltétel sincs hozzárendelve"
+
+msgid "acc_tbl_docs_head_created"
+msgstr "Létrehozása dátuma"
+
+msgid "acc_tbl_docs_head_criteria"
+msgstr "Feltétel"
+
+msgid "acc_tbl_docs_head_last_change"
+msgstr "Utolsó módosítás"
+
+msgid "acc_tbl_docs_head_sorting"
+msgstr "Rendezés"
+
+msgid "acc_tbl_docs_head_title"
+msgstr "Cím"
+
+msgid "acc_tbl_docs_title"
+msgstr "Dokumentumok"
+
+msgid "acc_tree_off"
+msgstr "Tartalomfa kikapcsolása"
+
+msgid "acc_tree_on"
+msgstr "Tartalomfa bekapcsolása"

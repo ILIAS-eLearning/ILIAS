@@ -29,48 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Dokumentum hozzáadása
-acc#:#acc_crit_type_usr_language#:#A profil nyelve
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#Ezt a nyelv már megjelenítési feltétele egy másik Hozzáférhetőségi dokumentumnak, nem állíthatja be ehhez is.
-acc#:#acc_criterion_assignment_must_be_unique_update#:#Ezt a nyelv már megjelenítési feltétele egy másik Hozzáférhetőségi dokumentumnak, nem állíthatja be ehhez is.
-acc#:#acc_ctrl_cpt_txt#:#Hozzáférhetőségi dokumentumok
-acc#:#acc_deleted_documents_p#:#A dokumentumokat sikeresen törölte.
-acc#:#acc_deleted_documents_s#:#A dokumentumot sikeresen törölte.
-acc#:#acc_doc_crit_attached#:#A Hozzáférhetőségi dokumentum megjelenítési feltételét sikeresen hozzárendelte.
-acc#:#acc_doc_crit_changed#:#A Hozzáférhetőségi dokumentum megjelenítési feltételét sikeresen módosította.
-acc#:#acc_doc_crit_detached#:#A Hozzáférhetőségi dokumentum megjelenítési feltételét sikeresen eltávolította.
-acc#:#acc_doc_delete#:#Dokumentum törlése
-acc#:#acc_doc_detach_crit_confirm_title#:#Nyelvi feltétel eltávolítása
-acc#:#acc_doc_sure_detach_crit#:#Biztos, hogy eltávolítja ezt a nyelvi feltételt?
-acc#:#acc_document#:#Dokumentum
-acc#:#acc_form_attach_criterion_head#:#Nyelvi feltétel hozzárendelése a Hozzáférhetőségi dokumentum megjelenítési feltételéhez
-acc#:#acc_form_criterion#:#Feltétel
-acc#:#acc_form_document#:#Dokumentum
-acc#:#acc_form_document_content_changed#:#Az ILIAS eltávolított a feltöltött fájl &lt;head&gt; tartalmát. Kérjük, ellenőrizze a végeredményt és szükség esetén töltsön fel új fájlt.
-acc#:#acc_form_document_info#:#Válasszon egy fájlt a saját gépéről. Feltölthet egy egyszerű szöveges fájlt vagy egy egyszerű HTML-fájlt. A HTML fájl &lt;head&gt; tartalmát eltávolítjuk, csak a törzselem tartalmát használjuk.
-acc#:#acc_form_document_new#:#Tartalom módosítása
-acc#:#acc_form_document_new_info#:#Válasszon egy fájlt a saját gépéről, amit a Hozzáférhetőségi Dokumentum új tartalmának szeretne. Feltölthet egy egyszerű szöveges fájlt vagy egy egyszerű HTML-fájlt. A HTML fájl &lt;head&gt; tartalmát eltávolítjuk, csak a törzselem tartalmát használjuk. A már létező tartalmat lecseréljük.
-acc#:#acc_form_document_title#:#Cím
-acc#:#acc_form_document_title_info#:#Adja meg a dokumentum címét.
-acc#:#acc_form_edit_criterion_head#:#Nyelvi feltétel módosítása
-acc#:#acc_form_edit_doc_head#:#Dokumentum módosítása
-acc#:#acc_form_new_doc_head#:#Dokumentum létrehozása
-acc#:#acc_forward_mail#:#Továbbítás
-acc#:#acc_function#:#Funkció
-acc#:#acc_last_rep_visited#:#Tartalomtár/Utoljára látogatott
-acc#:#acc_saved_sorting#:#A rendezést sikeresen mentette.
-acc#:#acc_sure_delete_documents_p#:#Biztos, hogy törli a kiválasztott dokumentumokat?
-acc#:#acc_sure_delete_documents_s#:#Biztos, hogy törli a kiválasztott dokumentumot?
-acc#:#acc_tbl_docs_action_add_criterion#:#Feltétel hozzáadása
-acc#:#acc_tbl_docs_cell_not_criterion#:#Egy nyelvi feltétel sincs hozzárendelve
-acc#:#acc_tbl_docs_head_created#:#Létrehozása dátuma
-acc#:#acc_tbl_docs_head_criteria#:#Feltétel
-acc#:#acc_tbl_docs_head_last_change#:#Utolsó módosítás
-acc#:#acc_tbl_docs_head_sorting#:#Rendezés
-acc#:#acc_tbl_docs_head_title#:#Cím
-acc#:#acc_tbl_docs_title#:#Dokumentumok
-acc#:#acc_tree_off#:#Tartalomfa kikapcsolása
-acc#:#acc_tree_on#:#Tartalomfa bekapcsolása
 adm#:#adm_acc_ctrl_cpt_desc#:#A Hozzáférhetőségi Dokumentum linkje jelenik meg a láblécben.
 adm#:#adm_acc_ctrl_cpt_enable#:#A Hozzáférhetőségi Dokumentum linkje a láblécben
 adm#:#adm_accessibility_contacts#:#Elérthetőségek hozzáférési problémák esetén

@@ -29,48 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#ドキュメントを追加
-acc#:#acc_crit_type_usr_language#:#プロファイル言語
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#この値をこの基準に添付できません。
-acc#:#acc_criterion_assignment_must_be_unique_update#:#ご希望の基準へ変更できません。すでに添付と同一の基準があります。
-acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept
-acc#:#acc_deleted_documents_p#:#ドキュメントは削除されました。
-acc#:#acc_deleted_documents_s#:#ドキュメントは削除されました。
-acc#:#acc_doc_crit_attached#:#基準が添付されました。
-acc#:#acc_doc_crit_changed#:#基準が変更されました。
-acc#:#acc_doc_crit_detached#:#基準が外されました。
-acc#:#acc_doc_delete#:#ドキュメントを削除
-acc#:#acc_doc_detach_crit_confirm_title#:#基準を外す
-acc#:#acc_doc_sure_detach_crit#:#本当に基準を外しますか?
-acc#:#acc_document#:#ドキュメント
-acc#:#acc_form_attach_criterion_head#:#基準を外す
-acc#:#acc_form_criterion#:#基準
-acc#:#acc_form_document#:#ドキュメント
-acc#:#acc_form_document_content_changed#:#アップロードファイルのコンテンツはILIASがクリヤにします。必要に応じて結果と新しいファイルのアップロードを確認してください。
-acc#:#acc_form_document_info#:#ローカルファイルシステムからファイルを選択してください。Pain textファイルまたはsimple HTMLファイルをuploadできます。HTMLファイルはクリヤにされてbody要素のコンテンツのみが使用されます。
-acc#:#acc_form_document_new#:#コンテンツを変更
-acc#:#acc_form_document_new_info#:#ローカルファイルシステムからファイルを選択してください。Pain textファイルまたはsimple HTMLファイルをuploadできます。HTMLファイルはクリヤにされてbody要素のコンテンツのみが使用されます。
-acc#:#acc_form_document_title#:#Title
-acc#:#acc_form_document_title_info#:#ドキュメントのタイトルを入力してください。
-acc#:#acc_form_edit_criterion_head#:#基準の割当てを編集
-acc#:#acc_form_edit_doc_head#:#ドキュメントを編集
-acc#:#acc_form_new_doc_head#:#ドキュメントを作成
-acc#:#acc_forward_mail#:#転送メール
-acc#:#acc_function#:#機能
-acc#:#acc_last_rep_visited#:#リポジトリ/前回訪問
-acc#:#acc_saved_sorting#:#並び替えは保存されました
-acc#:#acc_sure_delete_documents_p#:#本当に選択のドキュメントを削除しますか？
-acc#:#acc_sure_delete_documents_s#:#本当にドキュメントを削除しますか?
-acc#:#acc_tbl_docs_action_add_criterion#:#基準を追加
-acc#:#acc_tbl_docs_cell_not_criterion#:#割当ての基準がありません
-acc#:#acc_tbl_docs_head_created#:#作成日
-acc#:#acc_tbl_docs_head_criteria#:#基準
-acc#:#acc_tbl_docs_head_last_change#:#最終変更
-acc#:#acc_tbl_docs_head_sorting#:#並び替え
-acc#:#acc_tbl_docs_head_title#:#Title
-acc#:#acc_tbl_docs_title#:#ドキュメント
-acc#:#acc_tree_off#:#ツリー表示しない
-acc#:#acc_tree_on#:#ツリー表示する
 adm#:#adm_acc_ctrl_cpt_desc#:#有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。
 adm#:#adm_acc_ctrl_cpt_enable#:#アクセッシビリティコントロールコンセプトを有効にする
 adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point

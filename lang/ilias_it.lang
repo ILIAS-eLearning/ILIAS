@@ -28,48 +28,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Aggiungi Documento
-acc#:#acc_crit_type_usr_language#:#Lingua del profilo
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#Non puoi allegare questo criterio con questo valore. C'è già un criterio identico allegato.
-acc#:#acc_criterion_assignment_must_be_unique_update#:#Non è possibile cambiare il criterio come desiderato. C'è già un criterio identico allegato.
-acc#:#acc_ctrl_cpt_txt#:#Controllo dell'accessibilità
-acc#:#acc_deleted_documents_p#:#I documenti sono stati cancellati.
-acc#:#acc_deleted_documents_s#:#I documenti sono stati cancellati.
-acc#:#acc_doc_crit_attached#:#Il criterio è stato inserito.
-acc#:#acc_doc_crit_changed#:#Il criterio è stato cambiato.
-acc#:#acc_doc_crit_detached#:#Il criterio è stato rimosso.
-acc#:#acc_doc_delete#:#Cancella documento
-acc#:#acc_doc_detach_crit_confirm_title#:#Rimuovi criteri
-acc#:#acc_doc_sure_detach_crit#:#Sei sicuro di voler rimuovere il criterio?
-acc#:#acc_document#:#Documento
-acc#:#acc_form_attach_criterion_head#:#Inserisci criterio
-acc#:#acc_form_criterion#:#Criterio
-acc#:#acc_form_document#:#Documento
-acc#:#acc_form_document_content_changed#:#Il contenuto del file caricato è stato purificato da ILIAS. Per favore controlla il risultato e carica un nuovo file, se necessario.
-acc#:#acc_form_document_info#:#Seleziona un file dal tuo filesystem locale. Puoi caricare un file di testo semplice o un semplice file HTML. I file HTML saranno purificati, solo il contenuto dell'elemento body sarà utilizzato.
-acc#:#acc_form_document_new#:#Cambia il contenuto
-acc#:#acc_form_document_new_info#:#Seleziona un file dal tuo filesystem locale. Puoi caricare un file di testo semplice o un semplice file HTML. I file HTML saranno purificati, solo il contenuto dell'elemento body sarà utilizzato. Il contenuto esistente sarà sostituito.
-acc#:#acc_form_document_title#:#Titolo
-acc#:#acc_form_document_title_info#:#Inserisci un titolo per il documento.
-acc#:#acc_form_edit_criterion_head#:#modifica Criterio Assegnazione
-acc#:#acc_form_edit_doc_head#:#modifica Documento
-acc#:#acc_form_new_doc_head#:#Crea documento
-acc#:#acc_forward_mail#:#Inoltra Mail
-acc#:#acc_function#:#Funzione
-acc#:#acc_last_rep_visited#:#Archivio/Ultima Visita
-acc#:#acc_saved_sorting#:#L'ordinamento è stato salvato.
-acc#:#acc_sure_delete_documents_p#:#Sei sicuro di voler cancellare i documenti selezionati?
-acc#:#acc_sure_delete_documents_s#:#Sei sicuro di voler cancellare il documento?
-acc#:#acc_tbl_docs_action_add_criterion#:#Aggiungi criterio
-acc#:#acc_tbl_docs_cell_not_criterion#:#Nessun criterio assegnato
-acc#:#acc_tbl_docs_head_created#:#Data di creazione
-acc#:#acc_tbl_docs_head_criteria#:#Criteri
-acc#:#acc_tbl_docs_head_last_change#:#Ultima modifica
-acc#:#acc_tbl_docs_head_sorting#:#Ordinamento
-acc#:#acc_tbl_docs_head_title#:#Titolo
-acc#:#acc_tbl_docs_title#:#Documenti
-acc#:#acc_tree_off#:#Contrai albero
-acc#:#acc_tree_on#:#Espandi albero
 adm#:#adm_acc_ctrl_cpt_desc#:#Se attivato, il collegamento per il concetto di controllo dell'accessibilità viene visualizzato nel piè di pagina.
 adm#:#adm_acc_ctrl_cpt_enable#:#Abilita il concetto di controllo dell'accessibilità
 adm#:#adm_accessibility_contacts#:#Punto di contatto Accessibilità

@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: acc\n"
+
+msgid "acc_add_document_btn_label"
+msgstr "ドキュメントを追加"
+
+msgid "acc_crit_type_usr_language"
+msgstr "プロファイル言語"
+
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "この値をこの基準に添付できません。"
+
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "ご希望の基準へ変更できません。すでに添付と同一の基準があります。"
+
+msgid "acc_ctrl_cpt_txt"
+msgstr "Accessibility Control Concept"
+
+msgid "acc_deleted_documents_p"
+msgstr "ドキュメントは削除されました。"
+
+msgid "acc_deleted_documents_s"
+msgstr "ドキュメントは削除されました。"
+
+msgid "acc_doc_crit_attached"
+msgstr "基準が添付されました。"
+
+msgid "acc_doc_crit_changed"
+msgstr "基準が変更されました。"
+
+msgid "acc_doc_crit_detached"
+msgstr "基準が外されました。"
+
+msgid "acc_doc_delete"
+msgstr "ドキュメントを削除"
+
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "基準を外す"
+
+msgid "acc_doc_sure_detach_crit"
+msgstr "本当に基準を外しますか?"
+
+msgid "acc_document"
+msgstr "ドキュメント"
+
+msgid "acc_form_attach_criterion_head"
+msgstr "基準を外す"
+
+msgid "acc_form_criterion"
+msgstr "基準"
+
+msgid "acc_form_document"
+msgstr "ドキュメント"
+
+msgid "acc_form_document_content_changed"
+msgstr "アップロードファイルのコンテンツはILIASがクリヤにします。必要に応じて結果と新しいファイルのアップロードを確認してください。"
+
+msgid "acc_form_document_info"
+msgstr "ローカルファイルシステムからファイルを選択してください。Pain textファイルまたはsimple HTMLファイルをuploadできます。HTMLファイルはクリヤにされてbody要素のコンテンツのみが使用されます。"
+
+msgid "acc_form_document_new"
+msgstr "コンテンツを変更"
+
+msgid "acc_form_document_new_info"
+msgstr "ローカルファイルシステムからファイルを選択してください。Pain textファイルまたはsimple HTMLファイルをuploadできます。HTMLファイルはクリヤにされてbody要素のコンテンツのみが使用されます。"
+
+msgid "acc_form_document_title"
+msgstr "Title"
+
+msgid "acc_form_document_title_info"
+msgstr "ドキュメントのタイトルを入力してください。"
+
+msgid "acc_form_edit_criterion_head"
+msgstr "基準の割当てを編集"
+
+msgid "acc_form_edit_doc_head"
+msgstr "ドキュメントを編集"
+
+msgid "acc_form_new_doc_head"
+msgstr "ドキュメントを作成"
+
+msgid "acc_forward_mail"
+msgstr "転送メール"
+
+msgid "acc_function"
+msgstr "機能"
+
+msgid "acc_last_rep_visited"
+msgstr "リポジトリ/前回訪問"
+
+msgid "acc_saved_sorting"
+msgstr "並び替えは保存されました"
+
+msgid "acc_sure_delete_documents_p"
+msgstr "本当に選択のドキュメントを削除しますか？"
+
+msgid "acc_sure_delete_documents_s"
+msgstr "本当にドキュメントを削除しますか?"
+
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "基準を追加"
+
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "割当ての基準がありません"
+
+msgid "acc_tbl_docs_head_created"
+msgstr "作成日"
+
+msgid "acc_tbl_docs_head_criteria"
+msgstr "基準"
+
+msgid "acc_tbl_docs_head_last_change"
+msgstr "最終変更"
+
+msgid "acc_tbl_docs_head_sorting"
+msgstr "並び替え"
+
+msgid "acc_tbl_docs_head_title"
+msgstr "Title"
+
+msgid "acc_tbl_docs_title"
+msgstr "ドキュメント"
+
+msgid "acc_tree_off"
+msgstr "ツリー表示しない"
+
+msgid "acc_tree_on"
+msgstr "ツリー表示する"

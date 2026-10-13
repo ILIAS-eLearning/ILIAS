@@ -29,48 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Lägg till dokument
-acc#:#acc_crit_type_usr_language#:#Användarspråk
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#Du kan inte tilldela mallkriteriet med motsvarande konfiguration. En identisk tilldelning finns redan.
-acc#:#acc_criterion_assignment_must_be_unique_update#:#Du kan inte ändra konfigurationen av mallkriteriet efter önskemål. En identisk tilldelning finns redan.
-acc#:#acc_ctrl_cpt_txt#:#Info om tillgänglighet
-acc#:#acc_deleted_documents_p#:#De valda dokumenten har raderats.
-acc#:#acc_deleted_documents_s#:#Dokumentet har tagits bort.
-acc#:#acc_doc_crit_attached#:#Mallkriteriet har tilldelats.
-acc#:#acc_doc_crit_changed#:#Mallkriteriet har uppdaterats.
-acc#:#acc_doc_crit_detached#:#Mallkriteriet har tagits bort.
-acc#:#acc_doc_delete#:#Radera dokument
-acc#:#acc_doc_detach_crit_confirm_title#:#Ta bort kriteriet för mall
-acc#:#acc_doc_sure_detach_crit#:#Är du säker på att mallkriteriet ska tas bort?
-acc#:#acc_document#:#Dokument
-acc#:#acc_form_attach_criterion_head#:#Lägg till mallkriterium
-acc#:#acc_form_criterion#:#Kriterium för mall
-acc#:#acc_form_document#:#Dokument
-acc#:#acc_form_document_content_changed#:#Innehållet i den uppladdade filen har rensats av ILIAS. Kontrollera resultatet och ladda upp en ny fil om du är osäker.
-acc#:#acc_form_document_info#:#Välj en lämplig fil från ditt lokala filsystem. Du kan ladda upp en enkel textfil eller en HTML-fil. Endast delar av HTML-språket stöds. Observera att HTML-filer rensas under uppladdningen och att endast innehållet i body-elementet övertas.
-acc#:#acc_form_document_new#:#Ändra innehåll
-acc#:#acc_form_document_new_info#:#Här kan du välja en ny fil från ditt lokala filsystem för att ändra dokumentet. Du kan ladda upp en enkel textfil eller en HTML-fil. Hela HTML-språket stöds inte. Observera att HTML-filer rensas under uppladdningen och att endast innehållet i body-elemen
-acc#:#acc_form_document_title#:#Titel
-acc#:#acc_form_document_title_info#:# Ange en titel för dokumentet här.
-acc#:#acc_form_edit_criterion_head#:#Redigera kriterium för mall
-acc#:#acc_form_edit_doc_head#:#Redigera dokument
-acc#:#acc_form_new_doc_head#:#Skapa dokument
-acc#:#acc_forward_mail#:#Framåt
-acc#:#acc_function#:#Funktion
-acc#:#acc_last_rep_visited#:#Magazine/Last visited
-acc#:#acc_saved_sorting#:#Sorteringen har sparats.
-acc#:#acc_sure_delete_documents_p#:#Är du säker på att du vill radera de valda dokumenten?
-acc#:#acc_sure_delete_documents_s#:#Är du säker på att du vill ta bort det markerade dokumentet?
-acc#:#acc_tbl_docs_action_add_criterion#:#Lägg till mallkriterium
-acc#:#acc_tbl_docs_cell_not_criterion#:#Inget mallkriterium tilldelat
-acc#:#acc_tbl_docs_head_created#:#Datum för skapande
-acc#:#acc_tbl_docs_head_criteria#:#Kriterier för mall
-acc#:#acc_tbl_docs_head_last_change#:#Sista förändringen
-acc#:#acc_tbl_docs_head_sorting#:#Sortering
-acc#:#acc_tbl_docs_head_title#:#Titel
-acc#:#acc_tbl_docs_title#:#Dokument
-acc#:#acc_tree_off#:#Trädvy av
-acc#:#acc_tree_on#:#Trädutsikt på
 adm#:#adm_acc_ctrl_cpt_desc#:#Om den är aktiverad visas länken till "Tillgänglighetsinformation" i sidfoten.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Aktivera tillgänglighet
 adm#:#adm_accessibility_contacts#:#Kontaktpunkt för tillgänglighet

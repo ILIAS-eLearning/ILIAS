@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: acc\n"
+
+msgid "acc_add_document_btn_label"
+msgstr "Lägg till dokument"
+
+msgid "acc_crit_type_usr_language"
+msgstr "Användarspråk"
+
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "Du kan inte tilldela mallkriteriet med motsvarande konfiguration. En identisk tilldelning finns redan."
+
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "Du kan inte ändra konfigurationen av mallkriteriet efter önskemål. En identisk tilldelning finns redan."
+
+msgid "acc_ctrl_cpt_txt"
+msgstr "Info om tillgänglighet"
+
+msgid "acc_deleted_documents_p"
+msgstr "De valda dokumenten har raderats."
+
+msgid "acc_deleted_documents_s"
+msgstr "Dokumentet har tagits bort."
+
+msgid "acc_doc_crit_attached"
+msgstr "Mallkriteriet har tilldelats."
+
+msgid "acc_doc_crit_changed"
+msgstr "Mallkriteriet har uppdaterats."
+
+msgid "acc_doc_crit_detached"
+msgstr "Mallkriteriet har tagits bort."
+
+msgid "acc_doc_delete"
+msgstr "Radera dokument"
+
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "Ta bort kriteriet för mall"
+
+msgid "acc_doc_sure_detach_crit"
+msgstr "Är du säker på att mallkriteriet ska tas bort?"
+
+msgid "acc_document"
+msgstr "Dokument"
+
+msgid "acc_form_attach_criterion_head"
+msgstr "Lägg till mallkriterium"
+
+msgid "acc_form_criterion"
+msgstr "Kriterium för mall"
+
+msgid "acc_form_document"
+msgstr "Dokument"
+
+msgid "acc_form_document_content_changed"
+msgstr "Innehållet i den uppladdade filen har rensats av ILIAS. Kontrollera resultatet och ladda upp en ny fil om du är osäker."
+
+msgid "acc_form_document_info"
+msgstr "Välj en lämplig fil från ditt lokala filsystem. Du kan ladda upp en enkel textfil eller en HTML-fil. Endast delar av HTML-språket stöds. Observera att HTML-filer rensas under uppladdningen och att endast innehållet i body-elementet övertas."
+
+msgid "acc_form_document_new"
+msgstr "Ändra innehåll"
+
+msgid "acc_form_document_new_info"
+msgstr "Här kan du välja en ny fil från ditt lokala filsystem för att ändra dokumentet. Du kan ladda upp en enkel textfil eller en HTML-fil. Hela HTML-språket stöds inte. Observera att HTML-filer rensas under uppladdningen och att endast innehållet i body-elemen"
+
+msgid "acc_form_document_title"
+msgstr "Titel"
+
+msgid "acc_form_document_title_info"
+msgstr " Ange en titel för dokumentet här."
+
+msgid "acc_form_edit_criterion_head"
+msgstr "Redigera kriterium för mall"
+
+msgid "acc_form_edit_doc_head"
+msgstr "Redigera dokument"
+
+msgid "acc_form_new_doc_head"
+msgstr "Skapa dokument"
+
+msgid "acc_forward_mail"
+msgstr "Framåt"
+
+msgid "acc_function"
+msgstr "Funktion"
+
+msgid "acc_last_rep_visited"
+msgstr "Magazine/Last visited"
+
+msgid "acc_saved_sorting"
+msgstr "Sorteringen har sparats."
+
+msgid "acc_sure_delete_documents_p"
+msgstr "Är du säker på att du vill radera de valda dokumenten?"
+
+msgid "acc_sure_delete_documents_s"
+msgstr "Är du säker på att du vill ta bort det markerade dokumentet?"
+
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "Lägg till mallkriterium"
+
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "Inget mallkriterium tilldelat"
+
+msgid "acc_tbl_docs_head_created"
+msgstr "Datum för skapande"
+
+msgid "acc_tbl_docs_head_criteria"
+msgstr "Kriterier för mall"
+
+msgid "acc_tbl_docs_head_last_change"
+msgstr "Sista förändringen"
+
+msgid "acc_tbl_docs_head_sorting"
+msgstr "Sortering"
+
+msgid "acc_tbl_docs_head_title"
+msgstr "Titel"
+
+msgid "acc_tbl_docs_title"
+msgstr "Dokument"
+
+msgid "acc_tree_off"
+msgstr "Trädvy av"
+
+msgid "acc_tree_on"
+msgstr "Trädutsikt på"
