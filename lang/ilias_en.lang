@@ -9380,38 +9380,6 @@ file#:#upload_info#:#File
 file#:#upload_info_desc#:#Uploads and versions can be managed in the ‘Versions’ tab.
 file#:#version_uploaded#:#Version Uploaded
 file#:#versionname#:#Title
-fils#:#add_upload_policy#:#Add Policy
-fils#:#edit_upload_policy#:#Edit Policy
-fils#:#file_services#:#File Services
-fils#:#file_services_description#:#Configuration of File Service Settings.
-fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
-fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.
-fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)
-fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.
-fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Additions)
-fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.
-fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)
-fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
-fils#:#file_suffix_overall_positive#:#Overall Positive List
-fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
-fils#:#policy_audience#:#Target Group
-fils#:#policy_audience_all_users_option_desc#:#Apply policy to all users.
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy to users with specific global roles.
-fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed because policy could not be found.
-fils#:#policy_deletion_successful#:#Policy successfully deleted.
-fils#:#policy_filter#:#Policy Filter
-fils#:#policy_no_validity_limitation_set#:#Valid indefinitely
-fils#:#policy_scope#:#Scope
-fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.
-fils#:#policy_title_desc#:#Descriptive title for this policy.
-fils#:#policy_upload_limit#:#Upload Limit
-fils#:#policy_upload_limit_desc#:#Upload limit (in MB) imposed by this policy.
-fils#:#policy_valid_until#:#Valid Until
-fils#:#policy_valid_until_desc#:#Set an optional ‘valid until’ date, after which the policy expires.
-fils#:#policy_validity#:#Validity
-fils#:#upload_limits#:#Upload Limits
-fils#:#upload_policies#:#Upload Policies
 fold#:#fold_copy#:#Copy Folder
 fold#:#fold_import#:#Import Folder
 fold#:#fold_presentation#:#Folder Presentation

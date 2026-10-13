@@ -9375,38 +9375,6 @@ file#:#upload_info#:#Fájl
 file#:#upload_info_desc#:#Feltöltések és verziók kezelése a ‘Verziók’ lap alatt
 file#:#version_uploaded#:#A verziót sikeresen feltöltötte
 file#:#versionname#:#Cím
-fils#:#add_upload_policy#:#Szabály hozzáadása
-fils#:#edit_upload_policy#:#Szabály módosítása
-fils#:#file_services#:#Fájlszolgáltatás
-fils#:#file_services_description#:#A Fájlszolgáltatás beállításai.
-fils#:#file_suffix_custom_expl_negative#:#Tiltott kiterjesztések
-fils#:#file_suffix_custom_expl_negative_info#:#Ezeket a fájlnévkiterjesztéseket nem fogadjuk el feltöltéskor.
-fils#:#file_suffix_custom_negative#:#Negatív kiterjesztések (kiegészítés)
-fils#:#file_suffix_custom_negative_info#:#Ezek a fájlnévkiterjesztések kikerülnek a pozitív listából.
-fils#:#file_suffix_custom_positive#:#Pozitív kiterjesztések (kiegészítés)
-fils#:#file_suffix_custom_positive_info#:#Ezek a fájlnévkiterjesztések bekerülnek a pozitív listába.
-fils#:#file_suffix_default_positive#:#Pozitív kiterjesztések (alapértelmezett lista)
-fils#:#file_suffix_default_positive_info#:#Az alapértelmezetten elfogadott fájlnévkiterjesztések.
-fils#:#file_suffix_overall_positive#:#Összesített pozitív lista
-fils#:#file_suffix_overall_positive_info#:#Ez az elfogadott fájlnévkiterjesztések végleges listája.
-fils#:#policy_audience#:#Felhasználói kör
-fils#:#policy_audience_all_users_option_desc#:#Szabály alkalmazása az összes felhasználóra.
-fils#:#policy_audience_global_roles_option_desc#:#Szabály alkalmazása meghatározott szerepkörrel rendelkező felhasználókra.
-fils#:#policy_confirm_deletion#:#Biztos, hogy törli a következő szabályt?
-fils#:#policy_deletion_failure_not_found#:#HIBA: A szabály nem található.
-fils#:#policy_deletion_successful#:#A szabályt sikeresen törölte.
-fils#:#policy_filter#:#Szűrő
-fils#:#policy_no_validity_limitation_set#:#Korlátlan ideig érvényes
-fils#:#policy_scope#:#Hatókör
-fils#:#policy_table_info_no_policies#:#Még egy feltöltési szabály sincs.
-fils#:#policy_title_desc#:#A szabály leíró címe
-fils#:#policy_upload_limit#:#Feltöltési korlát
-fils#:#policy_upload_limit_desc#:#A szabályban beállított felöltési korlát MB-ban.
-fils#:#policy_valid_until#:#Érvényességi idő
-fils#:#policy_valid_until_desc#:#Az ‘Érvényességi idő’ után a szabály lejár.
-fils#:#policy_validity#:#Érvényesség
-fils#:#upload_limits#:#Feltöltési korlátok
-fils#:#upload_policies#:#Feltöltési szabályok
 fold#:#fold_copy#:#Mappa másolása
 fold#:#fold_import#:#Mappa importálása
 fold#:#fold_presentation#:#Mappa megjelenítése

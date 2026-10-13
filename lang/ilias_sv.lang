@@ -9323,38 +9323,6 @@ file#:#upload_info#:#Fil
 file#:#upload_info_desc#:#Du kan hantera filerna och filversionerna på fliken "Versioner".
 file#:#version_uploaded#:#Version uppladdad på
 file#:#versionname#:#Titel
-fils#:#add_upload_policy#:#Add Policy###21 11 2023 new variable
-fils#:#edit_upload_policy#:#Edit Policy###21 11 2023 new variable
-fils#:#file_services#:#Filtjänster
-fils#:#file_services_description#:#Konfigurera inställningarna för filservicen.
-fils#:#file_suffix_custom_expl_negative#:#Förbjudna filtillägg
-fils#:#file_suffix_custom_expl_negative_info#:#Filer med dessa tillägg accepteras inte vid uppladdning.
-fils#:#file_suffix_custom_negative#:#Filtillägg
-fils#:#file_suffix_custom_negative_info#:#Dessa filändelser är borttagna från positivlistan ovan.
-fils#:#file_suffix_custom_positive#:#Filtillägg
-fils#:#file_suffix_custom_positive_info#:#Dessa filändelser läggs till i den positiva listan ovan.
-fils#:#file_suffix_default_positive#:#Filtillägg
-fils#:#file_suffix_default_positive_info#:#Förinställd utdatalista för accepterade filtillägg.
-fils#:#file_suffix_overall_positive#:#Effektiv positiv lista
-fils#:#file_suffix_overall_positive_info#:#Detta är den slutliga listan över godkända filändelser.
-fils#:#policy_audience#:#Audience###21 11 2023 new variable
-fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.###21 11 2023 new variable
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.###21 11 2023 new variable
-fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:###21 11 2023 new variable
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.###21 11 2023 new variable
-fils#:#policy_deletion_successful#:#Deletion of policy was successful.###21 11 2023 new variable
-fils#:#policy_filter#:#Policy Filter###21 11 2023 new variable
-fils#:#policy_no_validity_limitation_set#:#Valid indefinitely###21 11 2023 new variable
-fils#:#policy_scope#:#Scope###21 11 2023 new variable
-fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.###21 11 2023 new variable
-fils#:#policy_title_desc#:#Descriptive title for the policy.###21 11 2023 new variable
-fils#:#policy_upload_limit#:#Upload Limit###21 11 2023 new variable
-fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.###21 11 2023 new variable
-fils#:#policy_valid_until#:#Valid Until###21 11 2023 new variable
-fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.###21 11 2023 new variable
-fils#:#policy_validity#:#Validity###21 11 2023 new variable
-fils#:#upload_limits#:#Upload Limits###21 11 2023 new variable
-fils#:#upload_policies#:#Upload Policies###21 11 2023 new variable
 fold#:#fold_copy#:#Kopiera mapp
 fold#:#fold_import#:#Importera mapp
 fold#:#fold_presentation#:#Presentation
