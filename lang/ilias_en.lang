@@ -12878,12 +12878,6 @@ obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
 obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.
 obj#:#user_owns_no_objects#:#No Repository Objects Available
-objref#:#objref_custom_title#:#Use Own Title
-objref#:#objref_edit_ref#:#Link Target
-objref#:#objref_edit_title#:#Title
-objref#:#objref_failure_target_type#:#Target of link must be of following type:
-objref#:#objref_reuse_title#:#Adopt Title of Linked Object
-objref#:#objref_title_settings#:#Title of Linked Object
 orgu#:#Staff#:#Staff
 orgu#:#add_position#:#Add Position
 orgu#:#authorities#:#Authorities

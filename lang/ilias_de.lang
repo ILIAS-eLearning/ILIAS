@@ -12913,12 +12913,6 @@ obj#:#select_object_type#:#Objekttyp wählen
 obj#:#svy_results#:#Ergebnisse
 obj#:#unequal_items_for_availability_period_message#:#Es wurden Objekte ausgewählt, deren zeitliche Verfügbarkeit nicht übereinstimmt. Vorgenommene Änderungen überschreiben die zeitliche Verfügbarkeit aller ausgewählten Objekte. Bitte wählen sie "Abbrechen", wenn dies nicht Ihrer Intention entspricht.
 obj#:#user_owns_no_objects#:#Keine Magazin-Objekte vorhanden
-objref#:#objref_custom_title#:#Eigenen Titel eingeben
-objref#:#objref_edit_ref#:#Ziel des Links
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
-objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
-objref#:#objref_title_settings#:#Titel des verlinkten Objekts
 orgu#:#Staff#:#Team
 orgu#:#add_position#:#Position hinzufügen
 orgu#:#authorities#:#Befugnisse

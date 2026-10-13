@@ -12823,12 +12823,6 @@ obj#:#select_object_type#:#Kiválasztott objektumtípusok
 obj#:#svy_results#:#Végeredmények
 obj#:#unequal_items_for_availability_period_message#:#Különböző elérhetőségi időszakú elemeket választott ki. Vagy írja felül lejjebb a meglévő beállításokat, vagy törölje a műveletet a jelenlegi elérhetőségi időszakok megtartásához.
 obj#:#user_owns_no_objects#:#Egy objektum sincs
-objref#:#objref_custom_title#:#Egyéni cím
-objref#:#objref_edit_ref#:#Forrás
-objref#:#objref_edit_title#:#Címbeállítások
-objref#:#objref_failure_target_type#:#A link céljának a következő típusúnak kell lennie:
-objref#:#objref_reuse_title#:#Forráskurzus címe
-objref#:#objref_title_settings#:#A linkelt objektum címe
 orgu#:#Staff#:#Személyi állomány
 orgu#:#add_position#:#Pozíció hozzáadása
 orgu#:#authorities#:#Utasítási jogkörök

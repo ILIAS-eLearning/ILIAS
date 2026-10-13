@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Use Own Title"
+
+msgid "objref_edit_ref"
+msgstr "Link Target"
+
+msgid "objref_edit_title"
+msgstr "Title"
+
+msgid "objref_failure_target_type"
+msgstr "Target of link must be of following type:"
+
+msgid "objref_reuse_title"
+msgstr "Adopt Title of Linked Object"
+
+msgid "objref_title_settings"
+msgstr "Title of Linked Object"

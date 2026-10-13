@@ -12821,12 +12821,6 @@ obj#:#select_object_type#:#オブジェクトタイプを選択
 obj#:#svy_results#:#結果
 obj#:#unequal_items_for_availability_period_message#:#異なるAvailability(空き状況)期間のアイテムが選択されました。以下の現在の設定を上書きするか、キャンセルして現在のアベイラビリティ期間をキープします。 2024 new variable
 obj#:#user_owns_no_objects#:#利用可能なリポジトリオブジェクトがありません
-objref#:#objref_custom_title#:#カスタムタイトルを使用
-objref#:#objref_edit_ref#:#ターゲット設定
-objref#:#objref_edit_title#:#タイトル設定
-objref#:#objref_failure_target_type#:#リンクのターゲットは次のタイプである必要があります:
-objref#:#objref_reuse_title#:#参照のタイトルを再利用
-objref#:#objref_title_settings#:#リンクされたオブジェクトのタイトル
 orgu#:#Staff#:#スタッフ
 orgu#:#add_position#:#ポジションを追加
 orgu#:#authorities#:#権限

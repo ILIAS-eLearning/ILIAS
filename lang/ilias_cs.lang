@@ -12742,12 +12742,6 @@ obj#:#select_object_type#:#Select Object Type###26 08 2024 new variable
 obj#:#svy_results#:#Výsledky
 obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.###26 08 2024 new variable
 obj#:#user_owns_no_objects#:#No Repository Objects Available###26 08 2024 new variable
-objref#:#objref_custom_title#:#Použít vlastní název
-objref#:#objref_edit_ref#:#Nastavení cíle
-objref#:#objref_edit_title#:#Nastavení názvu
-objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:###07 02 2020 new variable
-objref#:#objref_reuse_title#:#Opětovné použití referenčního názvu
-objref#:#objref_title_settings#:#Upravit referenční název
 orgu#:#Staff#:#Zaměstnanci
 orgu#:#add_position#:#Přidat pozici
 orgu#:#authorities#:#Oprávnění

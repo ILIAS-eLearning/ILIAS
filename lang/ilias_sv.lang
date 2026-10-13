@@ -12742,12 +12742,6 @@ obj#:#select_object_type#:#Select Object Type###21 11 2023 new variable
 obj#:#svy_results#:#Resultat
 obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.###21 11 2023 new variable
 obj#:#user_owns_no_objects#:#No Repository Objects Available###21 11 2023 new variable
-objref#:#objref_custom_title#:#Ange din egen titel
-objref#:#objref_edit_ref#:#Länkens mål
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_failure_target_type#:#Målet för länken måste vara av följande typ
-objref#:#objref_reuse_title#:#Ta över titeln på det länkade objektet
-objref#:#objref_title_settings#:#Titel på det länkade objektet
 orgu#:#Staff#:#Anställda
 orgu#:#add_position#:#Lägg till position
 orgu#:#authorities#:#Behaviours

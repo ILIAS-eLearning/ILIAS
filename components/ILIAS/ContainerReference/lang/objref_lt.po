@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: objref\n"
+
+#, fuzzy
+msgid "objref_custom_title"
+msgstr "Use Custom Title"
+
+#, fuzzy
+msgid "objref_edit_ref"
+msgstr "Target Settings"
+
+#, fuzzy
+msgid "objref_edit_title"
+msgstr "Title Settings"
+
+#, fuzzy
+msgid "objref_failure_target_type"
+msgstr "Das Ziel des Links muss vom folgendem Typ sein:"
+
+#, fuzzy
+msgid "objref_reuse_title"
+msgstr "Reuse Title of Reference"
+
+#, fuzzy
+msgid "objref_title_settings"
+msgstr "Edit Reference Title"
