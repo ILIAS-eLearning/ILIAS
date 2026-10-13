@@ -7002,57 +7002,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 cptch#:#cptch_freetype_support_needed#:#Aby wykorzystać tę funkcję, potrzebujesz funkcji freetype PHP.
 cptch#:#cptch_wrong_input#:#Wprowadzono nieprawidłowe dane
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Zadanie Cron zostało wyłączone, ponieważ było nieaktywne dłużej niż 3 godziny
-cron#:#cro_job_rc_job_manual_reset#:#Reset manualny
-cron#:#cro_job_rc_job_no_result#:#W ramach zadania Cron nie udało się przekazać prawidłowego wyniku
-cron#:#cron_action_activate#:#Aktywuj
-cron#:#cron_action_activate_success#:#Aktywowano zadanie Cron.
-cron#:#cron_action_activate_sure#:#Czy naprawdę chcesz aktywować zadanie Cron "%s"?
-cron#:#cron_action_activate_sure_multi#:#Czy naprawdę chcesz aktywować następujące zadania Cron?
-cron#:#cron_action_deactivate#:#Deaktywuj
-cron#:#cron_action_deactivate_success#:#Wyłączono zadanie Cron.
-cron#:#cron_action_deactivate_sure#:#Czy naprawdę chcesz wyłączyć zadanie Cron "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Czy naprawdę chcesz wyłączyć następujące zadania Cron?
-cron#:#cron_action_edit#:#Edytuj
-cron#:#cron_action_edit_success#:#Zaktualizowano harmonogram.
-cron#:#cron_action_reset#:#Resetuj
-cron#:#cron_action_reset_success#:#Zresetowano zadanie Cron.
-cron#:#cron_action_reset_sure#:#Czy naprawdę chcesz zresetować zadanie Cron "%s"?
-cron#:#cron_action_reset_sure_multi#:#Czy naprawdę chcesz zresetować następujące zadania Cron?
-cron#:#cron_action_run#:#Wykonaj
-cron#:#cron_action_run_fail#:#Wykonanie nie udało się.
-cron#:#cron_action_run_success#:#Zadanie Cron zostało z powodzeniem wykonane.
-cron#:#cron_action_run_sure#:#Czy naprawdę chcesz wykonać zadanie Cron "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEM
-cron#:#cron_component#:#Element
-cron#:#cron_job_id#:#Id
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###29 10 2025 new variable
-cron#:#cron_last_run#:#Ostatni przebieg
-cron#:#cron_no_executable_job_selected#:#Wybierz co najmniej jedno możliwe do wykonania zadanie Cron.
-cron#:#cron_result#:#Wynik
-cron#:#cron_result_info#:#Informacja o wyniku
-cron#:#cron_result_status_crashed#:#Przerwanie
-cron#:#cron_result_status_fail#:#Błędy
-cron#:#cron_result_status_invalid_configuration#:#Nieważna konfiguracja
-cron#:#cron_result_status_no_action#:#Ok, brak edycji
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Reset
-cron#:#cron_running_since#:#Działa od
-cron#:#cron_schedule#:#Harmonogram
-cron#:#cron_schedule_daily#:#Co dzień
-cron#:#cron_schedule_in_days#:#Co %s dni
-cron#:#cron_schedule_in_hours#:#Co %s godzin
-cron#:#cron_schedule_in_minutes#:#Co %s minut
-cron#:#cron_schedule_monthly#:#Co miesiąc
-cron#:#cron_schedule_quarterly#:#Co kwartał
-cron#:#cron_schedule_type#:#Harmonogram
-cron#:#cron_schedule_value#:#Interwał
-cron#:#cron_schedule_weekly#:#Co tydzień
-cron#:#cron_schedule_yearly#:#Co rok
-cron#:#cron_status#:#Status
-cron#:#cron_status_active#:#Aktywny
-cron#:#cron_status_inactive#:#Nieaktywny
-cron#:#cron_status_info#:#Informacja o statusie
 crs#:#activation_times_not_valid#:#Okres dostępności nie jest poprawny.
 crs#:#assigned#:#Przydzielone
 crs#:#contact_email_not_valid#:#Kontaktowy e-mail nie jest poprawny.

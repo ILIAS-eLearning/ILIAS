@@ -7002,57 +7002,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplikovat stránku obsahu
 cptch#:#cptch_freetype_support_needed#:#K použití tohoto rysu musíte zapnout podporu volného typu ve Vašem PHP.
 cptch#:#cptch_wrong_input#:#Chybný vstup
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PRAVDĚPODOBNĚ DOŠLO K PÁDU
-cron#:#cro_job_rc_job_manual_reset#:#MANUÁLNĚ RESETOVAT
-cron#:#cro_job_rc_job_no_result#:#Cronová úloha nevrátila správný výsledek
-cron#:#cron_action_activate#:#Aktivovat
-cron#:#cron_action_activate_success#:#Cron-Job aktivován.
-cron#:#cron_action_activate_sure#:#Skutečně chcete aktivovat cron-job "%s"?
-cron#:#cron_action_activate_sure_multi#:#Opravdu chcete aktivovat následující cronové úlohy?
-cron#:#cron_action_deactivate#:#Deaktivovat
-cron#:#cron_action_deactivate_success#:#Cron-Job deaktivován.
-cron#:#cron_action_deactivate_sure#:#Skutečně chcete deaktivovat cron-job "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Opravdu chcete deaktivovat následující cronové úlohy?
-cron#:#cron_action_edit#:#Upravit
-cron#:#cron_action_edit_success#:#Rozvrh aktualizován.
-cron#:#cron_action_reset#:#Resetovat
-cron#:#cron_action_reset_success#:#Cron-Job resetován.
-cron#:#cron_action_reset_sure#:#Skutečně chcete resetovat cron-job "%s"?
-cron#:#cron_action_reset_sure_multi#:#Opravdu chcete obnovit následující cronové úlohy?
-cron#:#cron_action_run#:#Vykonat
-cron#:#cron_action_run_fail#:#Cron-Job selhal.
-cron#:#cron_action_run_success#:#Cron-Job běží úspěšně.
-cron#:#cron_action_run_sure#:#Skutečně chcete spustit cron-job "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEM
-cron#:#cron_component#:#Komponenta
-cron#:#cron_job_id#:#Id
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###29 10 2025 new variable
-cron#:#cron_last_run#:#Poslední chod
-cron#:#cron_no_executable_job_selected#:#Vyberte alespoň jednu proveditelnou cronovou úlohu.
-cron#:#cron_result#:#Výsledek
-cron#:#cron_result_info#:#Info výsledku
-cron#:#cron_result_status_crashed#:#Havaroval
-cron#:#cron_result_status_fail#:#Nepodařilo se
-cron#:#cron_result_status_invalid_configuration#:#Chybná konfigurace
-cron#:#cron_result_status_no_action#:#Ok, nepracuje
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Reset
-cron#:#cron_running_since#:#Běží od
-cron#:#cron_schedule#:#Rozvrh
-cron#:#cron_schedule_daily#:#Denně
-cron#:#cron_schedule_in_days#:#Každých %s dnů
-cron#:#cron_schedule_in_hours#:#Každých %s hdin
-cron#:#cron_schedule_in_minutes#:#Každých %s minut
-cron#:#cron_schedule_monthly#:#Měsíčně
-cron#:#cron_schedule_quarterly#:#Čtvrtletně
-cron#:#cron_schedule_type#:#Rozvrh
-cron#:#cron_schedule_value#:#Interval
-cron#:#cron_schedule_weekly#:#Týdně
-cron#:#cron_schedule_yearly#:#Ročně
-cron#:#cron_status#:#Status
-cron#:#cron_status_active#:#Aktivní
-cron#:#cron_status_inactive#:#Neaktivní
-cron#:#cron_status_info#:#Status Info
 crs#:#activation_times_not_valid#:#Neplatné období dostupnosti.
 crs#:#assigned#:#Určen
 crs#:#contact_email_not_valid#:#Tento e-mail není platný.

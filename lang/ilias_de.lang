@@ -7073,57 +7073,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war.
-cron#:#cro_job_rc_job_manual_reset#:#Der Cron-Job wurde von der ILIAS-Administration zurückgesetzt.
-cron#:#cro_job_rc_job_no_result#:#Vom Cron-Job wurde kein sauberes Resultat übermittelt.
-cron#:#cron_action_activate#:#Aktivieren
-cron#:#cron_action_activate_success#:#Cron-Job aktiviert.
-cron#:#cron_action_activate_sure#:#Wollen Sie wirklich den Cron-Job „%s“ aktivieren?
-cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
-cron#:#cron_action_deactivate#:#Deaktivieren
-cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
-cron#:#cron_action_deactivate_sure#:#Wollen Sie wirklich den Cron-Job „%s“ deaktivieren?
-cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
-cron#:#cron_action_edit#:#Bearbeiten
-cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
-cron#:#cron_action_reset#:#Zurücksetzen
-cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
-cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job „%s“ zurücksetzen?
-cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
-cron#:#cron_action_run#:#Cron-Job ausführen
-cron#:#cron_action_run_fail#:#Ausführung gescheitert
-cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt
-cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
-cron#:#cron_changed_by_crontab#:#SYSTEM
-cron#:#cron_component#:#Komponente
-cron#:#cron_job_id#:#ID
-cron#:#cron_jobs_with_required_intervention#:#Folgende Cron-Jobs benötigen möglicherweise eine Begutachtung.
-cron#:#cron_last_run#:#Letzter Durchlauf
-cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
-cron#:#cron_result#:#Ergebnis
-cron#:#cron_result_info#:#Ergebnisdetails
-cron#:#cron_result_status_crashed#:#Abbruch
-cron#:#cron_result_status_fail#:#Fehler
-cron#:#cron_result_status_invalid_configuration#:#Ungültige Konfiguration
-cron#:#cron_result_status_no_action#:#Ausgeführt. Keine Änderungen
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Zurücksetzen
-cron#:#cron_running_since#:#Läuft seit
-cron#:#cron_schedule#:#Zeitplan
-cron#:#cron_schedule_daily#:#Täglich
-cron#:#cron_schedule_in_days#:#Alle %s Tage
-cron#:#cron_schedule_in_hours#:#Alle %s Stunden
-cron#:#cron_schedule_in_minutes#:#Alle %s Minuten
-cron#:#cron_schedule_monthly#:#Monatlich
-cron#:#cron_schedule_quarterly#:#Vierteljährlich
-cron#:#cron_schedule_type#:#Zeitplan
-cron#:#cron_schedule_value#:#Intervall
-cron#:#cron_schedule_weekly#:#Wöchentlich
-cron#:#cron_schedule_yearly#:#Jährlich
-cron#:#cron_status#:#Status
-cron#:#cron_status_active#:#Aktiv
-cron#:#cron_status_inactive#:#Inaktiv
-cron#:#cron_status_info#:#Statusänderung
 crs#:#activation_times_not_valid#:#Die Zeitdauer für „Verfügbarkeit“ ist nicht gültig.
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.

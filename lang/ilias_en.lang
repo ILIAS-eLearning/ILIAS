@@ -7075,57 +7075,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 cptch#:#cptch_wrong_input#:#Wrong Input
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cron job deactivated because it has been inactive for 3 hours
-cron#:#cro_job_rc_job_manual_reset#:#Cron job re-activated by admin
-cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result
-cron#:#cron_action_activate#:#Activate
-cron#:#cron_action_activate_success#:#Cron job activated.
-cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron job "%s"?
-cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron jobs?
-cron#:#cron_action_deactivate#:#Deactivate
-cron#:#cron_action_deactivate_success#:#Cron job deactivated.
-cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron job "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron jobs?
-cron#:#cron_action_edit#:#Edit
-cron#:#cron_action_edit_success#:#Schedule updated.
-cron#:#cron_action_reset#:#Reset
-cron#:#cron_action_reset_success#:#Cron job reset.
-cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron job "%s"?
-cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron jobs?
-cron#:#cron_action_run#:#Run Cron Job
-cron#:#cron_action_run_fail#:#Cron Job failed.
-cron#:#cron_action_run_success#:#Cron Job run successfully.
-cron#:#cron_action_run_sure#:#Are you sure you want to run the cron job "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEM
-cron#:#cron_component#:#Component
-cron#:#cron_job_id#:#ID
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.
-cron#:#cron_last_run#:#Last Run
-cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron job.
-cron#:#cron_result#:#Result
-cron#:#cron_result_info#:#Result Info
-cron#:#cron_result_status_crashed#:#Crashed
-cron#:#cron_result_status_fail#:#Failed
-cron#:#cron_result_status_invalid_configuration#:#Invalid Configuration
-cron#:#cron_result_status_no_action#:#Ok, no processing
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Reset
-cron#:#cron_running_since#:#Running since
-cron#:#cron_schedule#:#Schedule
-cron#:#cron_schedule_daily#:#Daily
-cron#:#cron_schedule_in_days#:#Every %s days
-cron#:#cron_schedule_in_hours#:#Every %s hours
-cron#:#cron_schedule_in_minutes#:#Every %s minutes
-cron#:#cron_schedule_monthly#:#Monthly
-cron#:#cron_schedule_quarterly#:#Quarterly
-cron#:#cron_schedule_type#:#Schedule
-cron#:#cron_schedule_value#:#Interval
-cron#:#cron_schedule_weekly#:#Weekly
-cron#:#cron_schedule_yearly#:#Yearly
-cron#:#cron_status#:#Status
-cron#:#cron_status_active#:#Active
-cron#:#cron_status_inactive#:#Inactive
-cron#:#cron_status_info#:#Status Info
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#assigned#:#Assigned
 crs#:#contact_email_not_valid#:#the contact e-mail is not valid.

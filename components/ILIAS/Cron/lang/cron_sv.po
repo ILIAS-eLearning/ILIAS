@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "Cronjobbet avaktiverades eftersom det var inaktivt i mer än 3 timmar."
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "Cronjobbet har återaktiverats av en administratör"
+
+msgid "cro_job_rc_job_no_result"
+msgstr "Inget rent resultat överfördes av cron-jobbet"
+
+msgid "cron_action_activate"
+msgstr "Aktivera"
+
+msgid "cron_action_activate_success"
+msgstr "Cron-jobbet aktiverat."
+
+msgid "cron_action_activate_sure"
+msgstr "Vill du verkligen aktivera cron-jobbet \"%s\"?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "Vill du verkligen aktivera följande cron-jobb?"
+
+msgid "cron_action_deactivate"
+msgstr "Avaktivera"
+
+msgid "cron_action_deactivate_success"
+msgstr "Cron-jobbet avaktiverat."
+
+msgid "cron_action_deactivate_sure"
+msgstr "Vill du verkligen avaktivera cron-jobbet \"%s\"?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Vill du verkligen inaktivera följande cron-jobb?"
+
+msgid "cron_action_edit"
+msgstr "Redigera"
+
+msgid "cron_action_edit_success"
+msgstr "Tidtabellen uppdaterad."
+
+msgid "cron_action_reset"
+msgstr "Återställ"
+
+msgid "cron_action_reset_success"
+msgstr "Återställning av kronjobb."
+
+msgid "cron_action_reset_sure"
+msgstr "Vill du verkligen återställa cron-jobbet \"%s\"?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "Vill du verkligen återställa följande cron-jobb?"
+
+msgid "cron_action_run"
+msgstr "Utför"
+
+msgid "cron_action_run_fail"
+msgstr "Exekveringen misslyckades."
+
+msgid "cron_action_run_success"
+msgstr "Cron-jobbet har utförts framgångsrikt."
+
+msgid "cron_action_run_sure"
+msgstr "Vill du verkligen köra cron-jobbet \"%s\"?"
+
+msgid "cron_changed_by_crontab"
+msgstr "SYSTEM"
+
+msgid "cron_component"
+msgstr "Komponent"
+
+msgid "cron_job_id"
+msgstr "Id"
+
+#, fuzzy
+msgid "cron_jobs_with_required_intervention"
+msgstr "The following jobs may require an intervention."
+
+msgid "cron_last_run"
+msgstr "Sista körningen"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Välj minst ett körbart cron-jobb."
+
+msgid "cron_result"
+msgstr "Resultat"
+
+msgid "cron_result_info"
+msgstr "Info om resultat"
+
+msgid "cron_result_status_crashed"
+msgstr "Avbryt"
+
+msgid "cron_result_status_fail"
+msgstr "Fel"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr " Ogiltig konfiguration"
+
+msgid "cron_result_status_no_action"
+msgstr "Okej, ingen redigering"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Återställ"
+
+msgid "cron_running_since"
+msgstr "Running sedan"
+
+msgid "cron_schedule"
+msgstr "Tidtabell"
+
+msgid "cron_schedule_daily"
+msgstr "Dagligen"
+
+msgid "cron_schedule_in_days"
+msgstr "Alla %s dagar"
+
+msgid "cron_schedule_in_hours"
+msgstr "Alla %s timmar"
+
+msgid "cron_schedule_in_minutes"
+msgstr "Alla %s minuter"
+
+msgid "cron_schedule_monthly"
+msgstr "Månadsvis"
+
+msgid "cron_schedule_quarterly"
+msgstr "Kvartalsvis"
+
+msgid "cron_schedule_type"
+msgstr "Tidtabell"
+
+msgid "cron_schedule_value"
+msgstr "Intervall"
+
+msgid "cron_schedule_weekly"
+msgstr "Veckovis"
+
+msgid "cron_schedule_yearly"
+msgstr "Årlig"
+
+msgid "cron_status"
+msgstr "Status"
+
+msgid "cron_status_active"
+msgstr "Aktiv"
+
+msgid "cron_status_inactive"
+msgstr "Inaktiv"
+
+msgid "cron_status_info"
+msgstr "Status info"

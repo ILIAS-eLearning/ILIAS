@@ -7048,57 +7048,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute###30 04 2021 new variable
 copa#:#obj_copa_duplicate#:#Atribuição de materiais
 cptch#:#cptch_freetype_support_needed#:#Para usar esta funcionalidade tem de ativar o suporte de tipo livre no seu PHP.
 cptch#:#cptch_wrong_input#:#Entrada errada
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Data e hora
-cron#:#cro_job_rc_job_manual_reset#:#O tempo para acabar é anterior ao tempo para começar. Insira um intervalo de tempo válido.
-cron#:#cro_job_rc_job_no_result#:#Ficheiros atribuídos
-cron#:#cron_action_activate#:#Ativar
-cron#:#cron_action_activate_success#:#Cron-Job ativado.
-cron#:#cron_action_activate_sure#:#Tem a certeza que quer ativar o cron job "%s"?
-cron#:#cron_action_activate_sure_multi#:#Tem a certeza que quer ativar os seguintes cron jobs?
-cron#:#cron_action_deactivate#:#Desativar
-cron#:#cron_action_deactivate_success#:#Cron-Job desativado.
-cron#:#cron_action_deactivate_sure#:#Tem a certeza que quer desativar o cron job "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Tem a certeza que quer desativar os seguintes cron jobs?
-cron#:#cron_action_edit#:#Editar
-cron#:#cron_action_edit_success#:#Marcação atualizada.
-cron#:#cron_action_reset#:#Repor
-cron#:#cron_action_reset_success#:#Cron-Job reposto.
-cron#:#cron_action_reset_sure#:#Tem a certeza que quer repor o cron job "%s"?
-cron#:#cron_action_reset_sure_multi#:#Tem a certeza que quer repor os seguintes cron jobs?
-cron#:#cron_action_run#:#Executar
-cron#:#cron_action_run_fail#:#Cron-Job falhou.
-cron#:#cron_action_run_success#:#Cron-Job executado com sucesso.
-cron#:#cron_action_run_sure#:#Tem a certeza que quer executar o cron job "%s"?
-cron#:#cron_changed_by_crontab#:#SISTEMA
-cron#:#cron_component#:#Componente
-cron#:#cron_job_id#:#Id
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###03 09 2026 new variable
-cron#:#cron_last_run#:#Última execução
-cron#:#cron_no_executable_job_selected#:#Selecione pelo menos um cron job executável.
-cron#:#cron_result#:#Resultado
-cron#:#cron_result_info#:#Informação do resultado
-cron#:#cron_result_status_crashed#:#Caiu
-cron#:#cron_result_status_fail#:#Falhou
-cron#:#cron_result_status_invalid_configuration#:#Configuração inválida
-cron#:#cron_result_status_no_action#:#Ok, nenhum processamento
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Repor
-cron#:#cron_running_since#:#A funcionar desde
-cron#:#cron_schedule#:#Marcação
-cron#:#cron_schedule_daily#:#Diariamente
-cron#:#cron_schedule_in_days#:#A cada %s dias
-cron#:#cron_schedule_in_hours#:#A cada %s horas
-cron#:#cron_schedule_in_minutes#:#A cada %s minutos
-cron#:#cron_schedule_monthly#:#Mensalmente
-cron#:#cron_schedule_quarterly#:#Semestralmente
-cron#:#cron_schedule_type#:#Marcação
-cron#:#cron_schedule_value#:#Intervalo
-cron#:#cron_schedule_weekly#:#Semanal
-cron#:#cron_schedule_yearly#:#Anual
-cron#:#cron_status#:#Estado
-cron#:#cron_status_active#:#Ativo
-cron#:#cron_status_inactive#:#Inativo
-cron#:#cron_status_info#:#Informação do estado
 crs#:#activation_times_not_valid#:#O período de disponibilidade não é válido.
 crs#:#assigned#:#Evento todo o dia
 crs#:#contact_email_not_valid#:#Nome

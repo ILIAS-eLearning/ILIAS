@@ -7002,57 +7002,6 @@ copa#:#copa_value_reading_time_f_s#:#%s minut
 copa#:#obj_copa_duplicate#:#Sidor med duplicerat innehåll
 cptch#:#cptch_freetype_support_needed#:#För att använda denna funktion behöver du freetype-stödet för PHP.
 cptch#:#cptch_wrong_input#:#Felaktig inmatning
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cronjobbet avaktiverades eftersom det var inaktivt i mer än 3 timmar.
-cron#:#cro_job_rc_job_manual_reset#:#Cronjobbet har återaktiverats av en administratör
-cron#:#cro_job_rc_job_no_result#:#Inget rent resultat överfördes av cron-jobbet
-cron#:#cron_action_activate#:#Aktivera
-cron#:#cron_action_activate_success#:#Cron-jobbet aktiverat.
-cron#:#cron_action_activate_sure#:#Vill du verkligen aktivera cron-jobbet "%s"?
-cron#:#cron_action_activate_sure_multi#:#Vill du verkligen aktivera följande cron-jobb?
-cron#:#cron_action_deactivate#:#Avaktivera
-cron#:#cron_action_deactivate_success#:#Cron-jobbet avaktiverat.
-cron#:#cron_action_deactivate_sure#:#Vill du verkligen avaktivera cron-jobbet "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Vill du verkligen inaktivera följande cron-jobb?
-cron#:#cron_action_edit#:#Redigera
-cron#:#cron_action_edit_success#:#Tidtabellen uppdaterad.
-cron#:#cron_action_reset#:#Återställ
-cron#:#cron_action_reset_success#:#Återställning av kronjobb.
-cron#:#cron_action_reset_sure#:#Vill du verkligen återställa cron-jobbet "%s"?
-cron#:#cron_action_reset_sure_multi#:#Vill du verkligen återställa följande cron-jobb?
-cron#:#cron_action_run#:#Utför
-cron#:#cron_action_run_fail#:#Exekveringen misslyckades.
-cron#:#cron_action_run_success#:#Cron-jobbet har utförts framgångsrikt.
-cron#:#cron_action_run_sure#:#Vill du verkligen köra cron-jobbet "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEM
-cron#:#cron_component#:#Komponent
-cron#:#cron_job_id#:#Id
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###29 10 2025 new variable
-cron#:#cron_last_run#:#Sista körningen
-cron#:#cron_no_executable_job_selected#:#Välj minst ett körbart cron-jobb.
-cron#:#cron_result#:#Resultat
-cron#:#cron_result_info#:#Info om resultat
-cron#:#cron_result_status_crashed#:#Avbryt
-cron#:#cron_result_status_fail#:#Fel
-cron#:#cron_result_status_invalid_configuration#:# Ogiltig konfiguration
-cron#:#cron_result_status_no_action#:#Okej, ingen redigering
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Återställ
-cron#:#cron_running_since#:#Running sedan
-cron#:#cron_schedule#:#Tidtabell
-cron#:#cron_schedule_daily#:#Dagligen
-cron#:#cron_schedule_in_days#:#Alla %s dagar
-cron#:#cron_schedule_in_hours#:#Alla %s timmar
-cron#:#cron_schedule_in_minutes#:#Alla %s minuter
-cron#:#cron_schedule_monthly#:#Månadsvis
-cron#:#cron_schedule_quarterly#:#Kvartalsvis
-cron#:#cron_schedule_type#:#Tidtabell
-cron#:#cron_schedule_value#:#Intervall
-cron#:#cron_schedule_weekly#:#Veckovis
-cron#:#cron_schedule_yearly#:#Årlig
-cron#:#cron_status#:#Status
-cron#:#cron_status_active#:#Aktiv
-cron#:#cron_status_inactive#:#Inaktiv
-cron#:#cron_status_info#:#Status info
 crs#:#activation_times_not_valid#:#Tidsperioden för 'Availability' är inte giltig.
 crs#:#assigned#:#Tilldelad
 crs#:#contact_email_not_valid#:#E-postadressen är inte giltig.

@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "Zadanie Cron zostało wyłączone, ponieważ było nieaktywne dłużej niż 3 godziny"
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "Reset manualny"
+
+msgid "cro_job_rc_job_no_result"
+msgstr "W ramach zadania Cron nie udało się przekazać prawidłowego wyniku"
+
+msgid "cron_action_activate"
+msgstr "Aktywuj"
+
+msgid "cron_action_activate_success"
+msgstr "Aktywowano zadanie Cron."
+
+msgid "cron_action_activate_sure"
+msgstr "Czy naprawdę chcesz aktywować zadanie Cron \"%s\"?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "Czy naprawdę chcesz aktywować następujące zadania Cron?"
+
+msgid "cron_action_deactivate"
+msgstr "Deaktywuj"
+
+msgid "cron_action_deactivate_success"
+msgstr "Wyłączono zadanie Cron."
+
+msgid "cron_action_deactivate_sure"
+msgstr "Czy naprawdę chcesz wyłączyć zadanie Cron \"%s\"?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Czy naprawdę chcesz wyłączyć następujące zadania Cron?"
+
+msgid "cron_action_edit"
+msgstr "Edytuj"
+
+msgid "cron_action_edit_success"
+msgstr "Zaktualizowano harmonogram."
+
+msgid "cron_action_reset"
+msgstr "Resetuj"
+
+msgid "cron_action_reset_success"
+msgstr "Zresetowano zadanie Cron."
+
+msgid "cron_action_reset_sure"
+msgstr "Czy naprawdę chcesz zresetować zadanie Cron \"%s\"?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "Czy naprawdę chcesz zresetować następujące zadania Cron?"
+
+msgid "cron_action_run"
+msgstr "Wykonaj"
+
+msgid "cron_action_run_fail"
+msgstr "Wykonanie nie udało się."
+
+msgid "cron_action_run_success"
+msgstr "Zadanie Cron zostało z powodzeniem wykonane."
+
+msgid "cron_action_run_sure"
+msgstr "Czy naprawdę chcesz wykonać zadanie Cron \"%s\"?"
+
+msgid "cron_changed_by_crontab"
+msgstr "SYSTEM"
+
+msgid "cron_component"
+msgstr "Element"
+
+msgid "cron_job_id"
+msgstr "Id"
+
+#, fuzzy
+msgid "cron_jobs_with_required_intervention"
+msgstr "The following jobs may require an intervention."
+
+msgid "cron_last_run"
+msgstr "Ostatni przebieg"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Wybierz co najmniej jedno możliwe do wykonania zadanie Cron."
+
+msgid "cron_result"
+msgstr "Wynik"
+
+msgid "cron_result_info"
+msgstr "Informacja o wyniku"
+
+msgid "cron_result_status_crashed"
+msgstr "Przerwanie"
+
+msgid "cron_result_status_fail"
+msgstr "Błędy"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "Nieważna konfiguracja"
+
+msgid "cron_result_status_no_action"
+msgstr "Ok, brak edycji"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Reset"
+
+msgid "cron_running_since"
+msgstr "Działa od"
+
+msgid "cron_schedule"
+msgstr "Harmonogram"
+
+msgid "cron_schedule_daily"
+msgstr "Co dzień"
+
+msgid "cron_schedule_in_days"
+msgstr "Co %s dni"
+
+msgid "cron_schedule_in_hours"
+msgstr "Co %s godzin"
+
+msgid "cron_schedule_in_minutes"
+msgstr "Co %s minut"
+
+msgid "cron_schedule_monthly"
+msgstr "Co miesiąc"
+
+msgid "cron_schedule_quarterly"
+msgstr "Co kwartał"
+
+msgid "cron_schedule_type"
+msgstr "Harmonogram"
+
+msgid "cron_schedule_value"
+msgstr "Interwał"
+
+msgid "cron_schedule_weekly"
+msgstr "Co tydzień"
+
+msgid "cron_schedule_yearly"
+msgstr "Co rok"
+
+msgid "cron_status"
+msgstr "Status"
+
+msgid "cron_status_active"
+msgstr "Aktywny"
+
+msgid "cron_status_inactive"
+msgstr "Nieaktywny"
+
+msgid "cron_status_info"
+msgstr "Informacja o statusie"

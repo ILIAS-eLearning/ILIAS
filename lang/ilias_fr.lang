@@ -6989,57 +6989,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 cptch#:#cptch_freetype_support_needed#:#Pour utiliser cette fonction, vous devez activer le support de FreeType dans PHP.
 cptch#:#cptch_wrong_input#:#Mauvaise Saisie
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY
-cron#:#cro_job_rc_job_no_result#:#NO RESULT
-cron#:#cron_action_activate#:#Activer
-cron#:#cron_action_activate_success#:#Tâche Cron activée.
-cron#:#cron_action_activate_sure#:#Etes-vous sûr de vouloir activer la tâche Cron "%s"?
-cron#:#cron_action_activate_sure_multi#:#Etes-vous sûr de vouloir activer les tâches CRON suivantes ?
-cron#:#cron_action_deactivate#:#Désactiver
-cron#:#cron_action_deactivate_success#:#Tâche Cron désactivée.
-cron#:#cron_action_deactivate_sure#:#Etes-vous sûr de vouloir désactiver la tâche Cron "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Etes-vous sûr de vouloir désactiver les tâches CRON suivantes ?
-cron#:#cron_action_edit#:#Editer
-cron#:#cron_action_edit_success#:#Planification mise à jour.
-cron#:#cron_action_reset#:#Réinitialisation
-cron#:#cron_action_reset_success#:#Tâche Cron réinitialisée.
-cron#:#cron_action_reset_sure#:#Etes-vous sûr de vouloir réinitialiser la tâche Cron "%s"?
-cron#:#cron_action_reset_sure_multi#:#Êtes-vous sûr de vouloir réinitialiser les tâches cron suivantes?
-cron#:#cron_action_run#:#Exécuter
-cron#:#cron_action_run_fail#:#Tâche Cron échouée.
-cron#:#cron_action_run_success#:#Tâche Cron effectuée avec succès.
-cron#:#cron_action_run_sure#:#Etes-vous sûr de vouloir exécuter la tâche Cron "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEME
-cron#:#cron_component#:#Composant
-cron#:#cron_job_id#:#Id
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###29 10 2025 new variable
-cron#:#cron_last_run#:#Dernière Exécution
-cron#:#cron_no_executable_job_selected#:#Veuillez sélectionner au moins une tache cron.
-cron#:#cron_result#:#Resultat
-cron#:#cron_result_info#:#Info de Résultat
-cron#:#cron_result_status_crashed#:#Crashé
-cron#:#cron_result_status_fail#:#Échec
-cron#:#cron_result_status_invalid_configuration#:#Configuration non Valide
-cron#:#cron_result_status_no_action#:#Ok, pas de traitement
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Réinitialisation
-cron#:#cron_running_since#:#Exécuté depuis
-cron#:#cron_schedule#:#Planification
-cron#:#cron_schedule_daily#:#Quotidien
-cron#:#cron_schedule_in_days#:#Tous les %s jours
-cron#:#cron_schedule_in_hours#:#Toutes les %s heures
-cron#:#cron_schedule_in_minutes#:#Toutes les %s minutes
-cron#:#cron_schedule_monthly#:#Mensuel
-cron#:#cron_schedule_quarterly#:#Par Trimestre
-cron#:#cron_schedule_type#:#Planification
-cron#:#cron_schedule_value#:#Intervalle
-cron#:#cron_schedule_weekly#:#Hebdomadaire
-cron#:#cron_schedule_yearly#:#Annuel
-cron#:#cron_status#:#Statut
-cron#:#cron_status_active#:#Actif
-cron#:#cron_status_inactive#:#Désactivé
-cron#:#cron_status_info#:#Info de Statut
 crs#:#activation_times_not_valid#:#La période d'accès n'est pas valide.
 crs#:#assigned#:#Assigné
 crs#:#contact_email_not_valid#:#L'adresse email de contact n'est pas valide.

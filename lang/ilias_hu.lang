@@ -7061,57 +7061,6 @@ copa#:#copa_value_reading_time_f_s#:#%s perc
 copa#:#obj_copa_duplicate#:#Tartalomlap duplikálása
 cptch#:#cptch_freetype_support_needed#:#Ennek a funkciónak a használatához a PHP freetype támogatását engedélyeznie kell.
 cptch#:#cptch_wrong_input#:#Hibás bemenet
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Az ütemezett feladatot deaktiváltuk, mert több, mint 3 órája inaktív
-cron#:#cro_job_rc_job_manual_reset#:#Az üzemeltető újraaktiválta az ütemezett feladatot.
-cron#:#cro_job_rc_job_no_result#:#Az ütemezett feladat nem megfelelő eredményt adott vissza
-cron#:#cron_action_activate#:#Bekapcsolás
-cron#:#cron_action_activate_success#:#Ütemezett feladatot sikeresen bekapcsolta.
-cron#:#cron_action_activate_sure#:#Biztos, hogy bekapcsolja az ütemezett feladatot: ‘%s’?
-cron#:#cron_action_activate_sure_multi#:#Biztos, hogy bekapcsolja az alábbi ütemezett feladatot?
-cron#:#cron_action_deactivate#:#Kikapcsolás
-cron#:#cron_action_deactivate_success#:#Ütemezett feladatot sikeresen kikapcsolta.
-cron#:#cron_action_deactivate_sure#:#Biztos, hogy kikapcsolja az ütemezett feladatot: ‘%s’?
-cron#:#cron_action_deactivate_sure_multi#:#Biztos, hogy kikapcsolja az alábbi ütemezett feladatot?
-cron#:#cron_action_edit#:#Ütemezés módosítása
-cron#:#cron_action_edit_success#:#Az ütemezést sikeresen frissítette.
-cron#:#cron_action_reset#:#Reszetelés
-cron#:#cron_action_reset_success#:#Az ütemezett feladatot sikeresen alapértékre állította.
-cron#:#cron_action_reset_sure#:#Biztos, hogy megállítja az ütemezett feladatot: ‘%s’?
-cron#:#cron_action_reset_sure_multi#:#Biztos, hogy alapértékre állítja az alábbi ütemezett feladatot?
-cron#:#cron_action_run#:#Futtatás
-cron#:#cron_action_run_fail#:#Ütemezett feladat futása sikertelen.
-cron#:#cron_action_run_success#:#Az ütemezett feladata sikeresen lefutott.
-cron#:#cron_action_run_sure#:#Biztos, hogy futtatja az ütemezett feladatot: ‘%s’?
-cron#:#cron_changed_by_crontab#:#RENDSZER
-cron#:#cron_component#:#Komponens
-cron#:#cron_job_id#:#Azonosító
-cron#:#cron_jobs_with_required_intervention#:#A következő feladatok igényelhetnek beavatkozást.
-cron#:#cron_last_run#:#Utolsó futás
-cron#:#cron_no_executable_job_selected#:#Legalább egy ütemezett feladatok jelöljön ki!
-cron#:#cron_result#:#Eredmény
-cron#:#cron_result_info#:#Eredményinformáció
-cron#:#cron_result_status_crashed#:#Összeomlott
-cron#:#cron_result_status_fail#:#Sikertelen
-cron#:#cron_result_status_invalid_configuration#:#Helytelen beállítás
-cron#:#cron_result_status_no_action#:#Ok, semmi nem kerül feldolgozásra
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Reszetelés
-cron#:#cron_running_since#:#Mióta fut
-cron#:#cron_schedule#:#Ütemezés
-cron#:#cron_schedule_daily#:#Naponta
-cron#:#cron_schedule_in_days#:#Minden %s. napon
-cron#:#cron_schedule_in_hours#:#Minden %s. órában
-cron#:#cron_schedule_in_minutes#:#Minden %s. percben
-cron#:#cron_schedule_monthly#:#Havonta
-cron#:#cron_schedule_quarterly#:#Negyedévente
-cron#:#cron_schedule_type#:#Ütemezés típusa
-cron#:#cron_schedule_value#:#Intervallum
-cron#:#cron_schedule_weekly#:#Hetente
-cron#:#cron_schedule_yearly#:#Évente
-cron#:#cron_status#:#Állapot
-cron#:#cron_status_active#:#Bekapcsolt
-cron#:#cron_status_inactive#:#Kikapcsolt
-cron#:#cron_status_info#:#Állapotinformáció
 crs#:#activation_times_not_valid#:#Az elérési időszak nem érvényes.
 crs#:#assigned#:#Engedélyezve
 crs#:#contact_email_not_valid#:#A kapcsolattartó e-mail címe nem érvényes.

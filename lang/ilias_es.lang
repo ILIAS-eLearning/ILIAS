@@ -7017,57 +7017,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minuto
 copa#:#obj_copa_duplicate#:#Duplicar Página de Contenido
 cptch#:#cptch_freetype_support_needed#:#Para usar esta función, debe habilitar el soporte de freetype en su PHP.
 cptch#:#cptch_wrong_input#:#Entrada incorrecta
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Tarea programada desactivada porque ha estado inactiva durante 3 horas
-cron#:#cro_job_rc_job_manual_reset#:#Tarea programada reactivada por el administrador
-cron#:#cro_job_rc_job_no_result#:#La tarea programada no devolvió un resultado adecuado
-cron#:#cron_action_activate#:#Activar
-cron#:#cron_action_activate_success#:#Tarea programada activada.
-cron#:#cron_action_activate_sure#:#¿Está seguro de que desea activar la tarea programada "%s"?
-cron#:#cron_action_activate_sure_multi#:#¿Está seguro de que desea activar las siguientes tareas programadas?
-cron#:#cron_action_deactivate#:#Desactivar
-cron#:#cron_action_deactivate_success#:#Tarea programada desactivada.
-cron#:#cron_action_deactivate_sure#:#¿Está seguro de que desea desactivar la tarea programada "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#¿Está seguro de que desea desactivar las siguientes tareas programadas?
-cron#:#cron_action_edit#:#Editar
-cron#:#cron_action_edit_success#:#Programación actualizada.
-cron#:#cron_action_reset#:#Reiniciar
-cron#:#cron_action_reset_success#:#Tarea programada reiniciada.
-cron#:#cron_action_reset_sure#:#¿Está seguro de que desea reiniciar la tarea programada "%s"?
-cron#:#cron_action_reset_sure_multi#:#¿Está seguro de que desea reiniciar las siguientes tareas programadas?
-cron#:#cron_action_run#:#Ejecutar tarea programada
-cron#:#cron_action_run_fail#:#La tarea programada falló.
-cron#:#cron_action_run_success#:#La tarea programada se ejecutó con éxito.
-cron#:#cron_action_run_sure#:#¿Está seguro de que desea ejecutar la tarea programada "%s"?
-cron#:#cron_changed_by_crontab#:#SISTEMA
-cron#:#cron_component#:#Componente
-cron#:#cron_job_id#:#ID
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.
-cron#:#cron_last_run#:#Última ejecución
-cron#:#cron_no_executable_job_selected#:#Por favor, seleccione al menos una tarea programada ejecutable.
-cron#:#cron_result#:#Resultado
-cron#:#cron_result_info#:#Información del resultado
-cron#:#cron_result_status_crashed#:#Colapsado
-cron#:#cron_result_status_fail#:#Fallido
-cron#:#cron_result_status_invalid_configuration#:#Configuración no válida
-cron#:#cron_result_status_no_action#:#Ok, sin procesamiento
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Restablecer
-cron#:#cron_running_since#:#En ejecución desde
-cron#:#cron_schedule#:#Programación
-cron#:#cron_schedule_daily#:#Diario
-cron#:#cron_schedule_in_days#:#Cada %s días
-cron#:#cron_schedule_in_hours#:#Cada %s horas
-cron#:#cron_schedule_in_minutes#:#Cada %s minutos
-cron#:#cron_schedule_monthly#:#Mensual
-cron#:#cron_schedule_quarterly#:#Trimestral
-cron#:#cron_schedule_type#:#Tipo de programación
-cron#:#cron_schedule_value#:#Intervalo
-cron#:#cron_schedule_weekly#:#Semanal
-cron#:#cron_schedule_yearly#:#Anual
-cron#:#cron_status#:#Estado
-cron#:#cron_status_active#:#Activo
-cron#:#cron_status_inactive#:#Inactivo
-cron#:#cron_status_info#:#Información del estado
 crs#:#activation_times_not_valid#:#El periodo de disponibilidad no es válido.
 crs#:#assigned#:#Asignado
 crs#:#contact_email_not_valid#:#El correo electrónico de contacto no es válido.
