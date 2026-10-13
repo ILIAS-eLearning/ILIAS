@@ -167,7 +167,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 
         $tpl->setVariable("LABEL", $label);
-        $tpl->setVariable("INPUT", $input_html);
         $tpl->setVariable("UI_COMPONENT_NAME", $this->getComponentCanonicalNameAttribute($component));
         $tpl->setVariable("INPUT_NAME", $component->getName());
 
@@ -181,12 +180,25 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ID", $id_for_label);
             $tpl->parseCurrentBlock();
         } else {
+            $label_id = $this->createId();
+            $tpl->setCurrentBlock('label_id');
+            $tpl->setVariable("LABEL_ID", $label_id);
+            $tpl->parseCurrentBlock();
+
             $tpl->touchBlock('tabindex');
+            $tpl->setCurrentBlock('fieldset_labelledby');
+            $tpl->setVariable("FIELDSET_LABEL_ID", $label_id);
+            $tpl->parseCurrentBlock();
         }
+
+        $described_by_ids = [];
 
         $byline = $component->getByline();
         if ($byline) {
+            $byline_id = $this->createId();
             $tpl->setVariable("BYLINE", $byline);
+            $tpl->setVariable("BYLINE_ID", $byline_id);
+            $described_by_ids[] = $byline_id;
         }
 
         $required = $component->isRequired();
@@ -206,8 +218,33 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ERROR_LABEL", $this->txt("ui_error"));
             $tpl->setVariable("ERROR_ID", $error_id);
             $tpl->setVariable("ERROR", $error);
+            $described_by_ids[] = $error_id;
             if ($id_for_label) {
                 $tpl->setVariable("ERROR_FOR_ID", $id_for_label);
+            }
+        }
+
+        $tpl->setVariable("INPUT", $input_html);
+
+        if (!empty($described_by_ids)) {
+            if ($id_for_label) {
+                $described_by_value = implode(' ', $described_by_ids);
+                $input_html = $this->addAriaDescribedByToInput($input_html, $id_for_label, $described_by_value);
+                $tpl->setVariable("INPUT", $input_html);
+            } else {
+                $input_id = $this->createId();
+                $input_html = $this->addIdToInput($input_html, $input_id);
+                $described_by_value = implode(' ', $described_by_ids);
+                $input_html = $this->addAriaDescribedByToInput($input_html, $input_id, $described_by_value);
+                $tpl->setVariable("INPUT", $input_html);
+
+                $tpl->setCurrentBlock('fieldset_describedby');
+                $tpl->setVariable("FIELDSET_DESCRIBED_BY", $described_by_value);
+                $tpl->parseCurrentBlock();
+                
+                $tpl->setCurrentBlock('for');
+                $tpl->setVariable("ID", $input_id);
+                $tpl->parseCurrentBlock();
             }
         }
 
@@ -215,6 +252,46 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
         }
         return $tpl->get();
+    }
+
+    protected function addIdToInput(string $input_html, string $input_id): string
+    {
+        $pattern = '/<(input|textarea|select)([^>]*)(\s*\/)?>/i';
+        
+        return preg_replace_callback($pattern, function ($matches) use ($input_id) {
+            $tag = $matches[1];
+            $attributes = $matches[2];
+            $slash = $matches[3] ?? '';
+            
+            if (strpos($attributes, 'id=') !== false) {
+                return $matches[0];
+            }
+            
+            return '<' . $tag . $attributes . ' id="' . htmlspecialchars($input_id, ENT_QUOTES) . '"' . $slash . '>';
+        }, $input_html);
+    }
+
+    protected function addAriaDescribedByToInput(string $input_html, string $input_id, string $described_by_value): string
+    {
+        $pattern = '/<(input|textarea|select)([^>]*id=["\']' . preg_quote($input_id, '/') . '["\'][^>]*?)(\s*\/)?>/i';
+
+        return preg_replace_callback($pattern, function ($matches) use ($described_by_value) {
+            $tag = $matches[1];
+            $attributes = $matches[2];
+            $slash = $matches[3] ?? '';
+
+            if (strpos($attributes, 'aria-describedby') !== false) {
+                $attributes = preg_replace(
+                    '/aria-describedby=["\']([^"\']*)["\']/',
+                    'aria-describedby="$1 ' . htmlspecialchars($described_by_value, ENT_QUOTES) . '"',
+                    $attributes
+                );
+            } else {
+                $attributes .= ' aria-describedby="' . htmlspecialchars($described_by_value, ENT_QUOTES) . '"';
+            }
+
+            return '<' . $tag . $attributes . $slash . '>';
+        }, $input_html);
     }
 
     protected function applyName(FormInput $component, Template $tpl): ?string
@@ -249,6 +326,23 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("VALUE", $value);
         }
     }
+
+    protected function getDescribedByIds(FormInput $component): array
+    {
+        $described_by_ids = [];
+
+        if ($component->getByline()) {
+            $described_by_ids[] = $this->createId();
+        }
+
+        if ($component->getError()) {
+            $described_by_ids[] = $this->createId();
+        }
+
+        return $described_by_ids;
+    }
+
+
 
     protected function escapeSpecialChars(): Closure
     {
@@ -448,9 +542,9 @@ class Renderer extends AbstractComponentRenderer
 
             $f = $this->getUIFactory();
             $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
-                              ->withOnClick($sig_reveal);
+                ->withOnClick($sig_reveal);
             $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
-                            ->withOnClick($sig_mask);
+                ->withOnClick($sig_mask);
 
             $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
@@ -738,7 +832,7 @@ class Renderer extends AbstractComponentRenderer
         $input_html = $this->wrapInFormContext($input, $input->getLabel(), $tpl->get(), $from_input_id);
 
         $input = array_shift($inputs) //until
-            ->withAdditionalPickerconfig(['useCurrent' => false]);
+        ->withAdditionalPickerconfig(['useCurrent' => false]);
         list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
         $until_input_id = $this->createId();
         $tpl->setVariable('ID', $until_input_id);

@@ -1,6 +1,6 @@
-<fieldset class="c-input" data-il-ui-component="{UI_COMPONENT_NAME}" data-il-ui-input-name="{INPUT_NAME}"<!-- BEGIN disabled --> disabled="disabled"<!-- END disabled --><!-- BEGIN described --> aria-describedby="{ERROR_ID}"<!-- END described --><!-- BEGIN binding --> id="{BINDING_ID}"<!-- END binding --><!-- BEGIN tabindex --> tabindex="0"<!-- END tabindex -->>
+<fieldset class="c-input" data-il-ui-component="{UI_COMPONENT_NAME}" data-il-ui-input-name="{INPUT_NAME}"<!-- BEGIN disabled --> disabled="disabled"<!-- END disabled --><!-- BEGIN binding --> id="{BINDING_ID}"<!-- END binding --><!-- BEGIN tabindex --> tabindex="0"<!-- END tabindex --><!-- BEGIN fieldset_labelledby --> aria-labelledby="{FIELDSET_LABEL_ID}"<!-- END fieldset_labelledby --><!-- BEGIN fieldset_describedby --> aria-describedby="{FIELDSET_DESCRIBED_BY}"<!-- END fieldset_describedby -->>
 
-	<label <!-- BEGIN for --> for="{ID}"<!-- END for -->>{LABEL}<!-- BEGIN required --><span class="asterisk" aria-label="{REQUIRED_ARIA}">*</span><!-- END required --></label>
+	<label <!-- BEGIN label_id --> id="{LABEL_ID}"<!-- END label_id --><!-- BEGIN for --> for="{ID}"<!-- END for -->>{LABEL}<!-- BEGIN required --><span class="asterisk" aria-label="{REQUIRED_ARIA}">*</span><!-- END required --></label>
 
 	<div class="c-input__field">
 		{INPUT}
@@ -11,7 +11,7 @@
 	<!-- END error -->
 
 	<!-- BEGIN byline -->
-	<div class="c-input__help-byline">{BYLINE}</div>
+	<div class="c-input__help-byline" id="{BYLINE_ID}">{BYLINE}</div>
 	<!-- END byline -->
 
 </fieldset>
