@@ -13787,7 +13787,6 @@ rep#:#rep_tree_limit#:#Limit Items in Tree###10 11 2018 new variable
 rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.###10 11 2018 new variable
 rep#:#rep_tree_limit_number#:#Maximum Number###10 11 2018 new variable
 rep#:#rep_tree_limit_number_info#:#Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title.###10 11 2018 new variable
-rtst#:#rtst_call#:#调用 ECS 测试
 rwik#:#rwik_call#:#调用 ECS Wiki
 sahs#:#cont_insert_after_chap#:#在章之后插入项目
 sahs#:#cont_insert_into_chap#:#在章里头插入项目
