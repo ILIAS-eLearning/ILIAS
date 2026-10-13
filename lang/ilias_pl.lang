@@ -2883,12 +2883,6 @@ chatroom_adm#:#public_chat_permissions#:#Publiczne forum: Prawa
 chatroom_adm#:#public_chat_settings#:#Publiczne forum: Ustawienia
 chatroom_adm#:#server_settings#:#Ustawienia dotyczące serwera czatu
 chatroom_adm#:#settings_has_been_saved#:#Ustawienia zostały zapisane.
-classification#:#clsfct_back_to_cat#:#Wróć do kategorii
-classification#:#clsfct_block_info#:#Twój wybór filtruje obiekty.
-classification#:#clsfct_block_title#:#Wybór wg wątków
-classification#:#clsfct_content_no_match#:#Nie znaleziono obiektów pasujących do wybranych kryteriów.
-classification#:#clsfct_content_title#:#Obiekty pasujące do Twojego wyboru.
-classification#:#clsfct_selected_objects#:#Wybrane obiekty
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.###29 07 2022 new variable
 cmix#:#achieved_label#:#Statements with the verb 'achieved'###29 07 2022 new variable
 cmix#:#activity_id#:#Activity-ID###07 02 2020 new variable
@@ -5782,85 +5776,6 @@ common#:#zip_structure_error#:#W archiwum znajdują się pliki o tej samej nazwi
 common#:#zip_test_failed#:#Nie udało się przeprowadzić testu ZIP. Skontaktuj się z administratorem ILIAS.
 common#:#zipcode#:#Kod pocztowy
 cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
-cont#:#cont_add_global_profile#:#Add Global Profile###29 07 2022 new variable
-cont#:#cont_add_local_profile#:#Add Local Profile###29 07 2022 new variable
-cont#:#cont_add_skill#:#Dodaj kompetencje
-cont#:#cont_assign_competence#:#Przydziel kompetencje członkom
-cont#:#cont_assign_skills#:#Przydziel kompetencje
-cont#:#cont_block_limit#:#Limit Items per Block
-cont#:#cont_block_limit_info#:#If a block contains more items, a "Show more" button will appear.
-cont#:#cont_cont_skills#:#Kompetencje członków
-cont#:#cont_deassign_competence#:#Przywróć kompetencje
-cont#:#cont_filter#:#Filter###07 02 2020 new variable
-cont#:#cont_filter_field#:#Field###07 02 2020 new variable
-cont#:#cont_filter_fields#:#Filter Fields###07 02 2020 new variable
-cont#:#cont_filter_record#:#Record###07 02 2020 new variable
-cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
-cont#:#cont_item_list#:#List
-cont#:#cont_item_list_info#:#Objects located within this container are displayed in the form of a list.###26 08 2024 new variable
-cont#:#cont_list_presentation#:#Item Presentation
-cont#:#cont_mem_skills#:#Kompetencje
-cont#:#cont_news_edited#:#Skompletowane
-cont#:#cont_news_settings#:#Ustawienia wewnętrznych wiadomości
-cont#:#cont_news_timeline#:#Linia czasu
-cont#:#cont_news_timeline_auto_entries#:#Automatycznie wygenerowane nowości
-cont#:#cont_news_timeline_auto_entries_info#:#Wyświetlane są również wszystkie automatycznie wygenerowane nowości, np. wpisy na forum, nowe pliki itd.
-cont#:#cont_news_timeline_info#:#Aktywuje zakładkę "Linia czasu" dla nowości.
-cont#:#cont_news_timeline_landing_page#:#Strona startowa
-cont#:#cont_news_timeline_landing_page_info#:#Linia czasu jako strona startowa
-cont#:#cont_news_timeline_tab#:#Linia czasu
-cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
-cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###29 07 2022 new variable
-cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###29 07 2022 new variable
-cont#:#cont_path#:#Ścieżka
-cont#:#cont_publish_assignment#:#Opublikuj kompetencje
-cont#:#cont_published#:#Opublikowanie
-cont#:#cont_really_deassign_skills#:#Czy na pewno chcesz przywrócić wszystkie przydziały kompetencji użytkownika?
-cont#:#cont_really_remove_skill_from_course#:#Czy kompetencje mają zostać usunięte z listy?
-cont#:#cont_select_fields#:#Select Fields###07 02 2020 new variable
-cont#:#cont_show_more#:#Show More
-cont#:#cont_skill#:#Kompetencje
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members###26 08 2024 new variable
-cont#:#cont_skill_assigned_comp#:#Wybór kompetencji
-cont#:#cont_skill_assigned_profiles#:#Profile Selection###29 07 2022 new variable
-cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.###29 07 2022 new variable
-cont#:#cont_skill_do_not_set#:#Nie ustawiaj
-cont#:#cont_skill_members#:#Członkowie
-cont#:#cont_skill_no_profile_selected#:#Please select a profile.###29 07 2022 new variable
-cont#:#cont_skill_no_skill#:#Brak wartości (przywróć)
-cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###26 08 2024 new variable
-cont#:#cont_skill_profile#:#Profile###29 07 2022 new variable
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members###29 07 2022 new variable
-cont#:#cont_skill_publish#:#Opublikowanie
-cont#:#cont_skill_publish_auto#:#Automatyczny
-cont#:#cont_skill_publish_auto_info#:#Przydziały poziomów kompetencji do członków są dla członków widoczne natychmiast.
-cont#:#cont_skill_publish_manual#:#Ręczny
-cont#:#cont_skill_publish_manual_info#:#Przydziały poziomów kompetencji do członków są widoczne dopiero wtedy, gdy te zostaną opublikowane.
-cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?###29 07 2022 new variable
-cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?###29 07 2022 new variable
-cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?###29 07 2022 new variable
-cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###29 07 2022 new variable
-cont#:#cont_skill_records#:#Competence Records###26 08 2024 new variable
-cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###29 07 2022 new variable
-cont#:#cont_std_filter_title_1#:#Title###07 02 2020 new variable
-cont#:#cont_std_filter_title_2#:#Description###07 02 2020 new variable
-cont#:#cont_std_filter_title_3#:#Title/Description###07 02 2020 new variable
-cont#:#cont_std_filter_title_4#:#Keyword###07 02 2020 new variable
-cont#:#cont_std_filter_title_5#:#Author###07 02 2020 new variable
-cont#:#cont_std_filter_title_6#:#Copyright###07 02 2020 new variable
-cont#:#cont_std_filter_title_7#:#Tutorial Support###07 02 2020 new variable
-cont#:#cont_std_filter_title_8#:#Object Type###07 02 2020 new variable
-cont#:#cont_std_filter_title_9#:#Online/Offline###07 02 2020 new variable
-cont#:#cont_std_record_title#:#Standard###07 02 2020 new variable
-cont#:#cont_tile_size#:#Tile Size###29 07 2022 new variable
-cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_1#:#small (up to six tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_2#:#large (up to three tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_4#:#full (one tile in a row)###29 07 2022 new variable
-cont#:#cont_tile_view#:#Tiles
-cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###26 08 2024 new variable
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
 content#:#Pages#:#Strony
 content#:#add_menu_entry#:#Dodaj pozycję menu >>
 content#:#all_pages#:#Wnętrze modułu nauczania

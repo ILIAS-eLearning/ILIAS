@@ -2940,12 +2940,6 @@ chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
-classification#:#clsfct_back_to_cat#:#Back to Category
-classification#:#clsfct_block_info#:#Your Selection filters the objects.
-classification#:#clsfct_block_title#:#Selection by Topics
-classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
-classification#:#clsfct_content_title#:#Objects matching your selection
-classification#:#clsfct_selected_objects#:#Selected Objects
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -5844,86 +5838,6 @@ common#:#zip_structure_error#:#Archive contains same file names. Upload aborted.
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
 common#:#zipcode#:#Zip Code / Post Code
 cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
-cont#:#cont_add_global_profile#:#Add Global Profile
-cont#:#cont_add_local_profile#:#Add Local Profile
-cont#:#cont_add_skill#:#Add Competence
-cont#:#cont_assign_competence#:#Assign Competences to Members
-cont#:#cont_assign_skills#:#Assign Competences
-cont#:#cont_block_limit#:#Limit Objects per Block
-cont#:#cont_block_limit_info#:#If a block contains more objects than the number set here, a "Show More" button will appear.
-cont#:#cont_cont_skills#:#Assigned Competences of Members
-cont#:#cont_deassign_competence#:#Deassign Competences
-cont#:#cont_filter#:#Filter
-cont#:#cont_filter_field#:#Field
-cont#:#cont_filter_fields#:#Filter Fields
-cont#:#cont_filter_record#:#Record
-cont#:#cont_found_objects#:#Found Objects
-cont#:#cont_item_list#:#List
-cont#:#cont_item_list_info#:#Objects located within this container are displayed in the form of a list.
-cont#:#cont_list_presentation#:#Content Display Options
-cont#:#cont_mem_skills#:#Competences
-cont#:#cont_news_edited#:#Edited
-cont#:#cont_news_settings#:#News Settings
-cont#:#cont_news_timeline#:#News Timeline
-cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
-cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
-cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
-cont#:#cont_news_timeline_landing_page#:#Landing Page
-cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
-cont#:#cont_news_timeline_tab#:#Timeline
-cont#:#cont_no_title#:#Empty Title
-cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.
-cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
-cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
-cont#:#cont_path#:#Path
-cont#:#cont_publish_assignment#:#Publish Assignments
-cont#:#cont_published#:#Published
-cont#:#cont_really_deassign_skills#:#Do you really want to deassign all competences from the users?
-cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these competences from the list?
-cont#:#cont_select_fields#:#Select Fields
-cont#:#cont_show_more#:#Show More
-cont#:#cont_skill#:#Competence
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members
-cont#:#cont_skill_assigned_comp#:#Competence Selection
-cont#:#cont_skill_assigned_profiles#:#Profile Selection
-cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.
-cont#:#cont_skill_do_not_set#:#Do not set
-cont#:#cont_skill_members#:#Members
-cont#:#cont_skill_no_profile_selected#:#Please select a profile.
-cont#:#cont_skill_no_skill#:#No value (Reset)
-cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".
-cont#:#cont_skill_profile#:#Profile
-cont#:#cont_skill_profiles#:#Competence Profiles
-cont#:#cont_skill_publish#:#Publish
-cont#:#cont_skill_publish_auto#:#Automatic
-cont#:#cont_skill_publish_auto_info#:#Competence assignments for members are immediately visible for members.
-cont#:#cont_skill_publish_manual#:#Manual
-cont#:#cont_skill_publish_manual_info#:#Competence assignments for members must be published before they become visible for members.
-cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?
-cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?
-cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?
-cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
-cont#:#cont_skill_records#:#Competence Records
-cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.
-cont#:#cont_std_filter_title_1#:#Title
-cont#:#cont_std_filter_title_2#:#Description
-cont#:#cont_std_filter_title_3#:#Title/Description
-cont#:#cont_std_filter_title_4#:#Keyword
-cont#:#cont_std_filter_title_5#:#Author
-cont#:#cont_std_filter_title_6#:#Copyright
-cont#:#cont_std_filter_title_7#:#Tutorial Support
-cont#:#cont_std_filter_title_8#:#Object Type
-cont#:#cont_std_filter_title_9#:#Online/Offline
-cont#:#cont_std_record_title#:#Standard
-cont#:#cont_tile_size#:#Tile Size
-cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)
-cont#:#cont_tile_size_1#:#small (up to six tiles in a row)
-cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
-cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
-cont#:#cont_tile_size_4#:#full (one tile in a row)
-cont#:#cont_tile_view#:#Tiles
-cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add Menu Entry
 content#:#all_pages#:#Entire Learning Module

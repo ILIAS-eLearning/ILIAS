@@ -2883,12 +2883,6 @@ chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
-classification#:#clsfct_back_to_cat#:#Back to Category
-classification#:#clsfct_block_info#:#Your Selection filters the objects.
-classification#:#clsfct_block_title#:#Selection by Topics
-classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
-classification#:#clsfct_content_title#:#Objects matching your selection
-classification#:#clsfct_selected_objects#:#Selected Objects
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.###04 06 2021 new variable
 cmix#:#achieved_label#:#Statements with the verb 'achieved'###04 06 2021 new variable
 cmix#:#activity_id#:#Activity-ID###04 06 2021 new variable
@@ -5782,85 +5776,6 @@ common#:#zip_structure_error#:#Arhiva sadrži ista imena datoteka. Učitavanje p
 common#:#zip_test_failed#:#Zip-test nije uspio. Molimo kontaktirajte svog ILIAS administratora.
 common#:#zipcode#:#Poštanski broj
 cond#:#cond_under_parent_control#:#Preduvjeti su pod nadzorom nadređenog objekta.
-cont#:#cont_add_global_profile#:#Add Global Profile###04 06 2021 new variable
-cont#:#cont_add_local_profile#:#Add Local Profile###04 06 2021 new variable
-cont#:#cont_add_skill#:#Dodaj kompetenciju
-cont#:#cont_assign_competence#:#Dodijeli kompetencije članovima
-cont#:#cont_assign_skills#:#Dodijeli kompetencije
-cont#:#cont_block_limit#:#Ograniči stavke po bloku
-cont#:#cont_block_limit_info#:#Ako blok sadrži više stavki, pojavit će se gumb "Prikaži više".
-cont#:#cont_cont_skills#:#Dodijeljene nadležnosti članova
-cont#:#cont_deassign_competence#:#Ukini dodjelu kompetencija
-cont#:#cont_filter#:#Filter###04 06 2021 new variable
-cont#:#cont_filter_field#:#Field###04 06 2021 new variable
-cont#:#cont_filter_fields#:#Filter Fields###04 06 2021 new variable
-cont#:#cont_filter_record#:#Record###04 06 2021 new variable
-cont#:#cont_found_objects#:#Found Objects###04 06 2021 new variable
-cont#:#cont_item_list#:#Popis
-cont#:#cont_item_list_info#:#Objects located within this container are displayed in the form of a list.###26 08 2024 new variable
-cont#:#cont_list_presentation#:#Prezentacija predmeta
-cont#:#cont_mem_skills#:#Kompetencije
-cont#:#cont_news_edited#:#Obrađeno
-cont#:#cont_news_settings#:#Postavke vijesti
-cont#:#cont_news_timeline#:#Vremenska traka vijesti
-cont#:#cont_news_timeline_auto_entries#:#Uključi automatske unose
-cont#:#cont_news_timeline_auto_entries_info#:#Uključi sve vijesti koje se kreiraju automatski, npr. postovi na forumu, nove datoteke itd.
-cont#:#cont_news_timeline_info#:#Aktivira karticu Vremenska traka vijesti
-cont#:#cont_news_timeline_landing_page#:#Odredišna stranica
-cont#:#cont_news_timeline_landing_page_info#:#Stranica vremenske trake bit će odredišna stranica.
-cont#:#cont_news_timeline_tab#:#Vremenska traka
-cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
-cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 06 2021 new variable
-cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 06 2021 new variable
-cont#:#cont_path#:#Staza
-cont#:#cont_publish_assignment#:#Objavi zadatke
-cont#:#cont_published#:#Objavljeno
-cont#:#cont_really_deassign_skills#:#Želite li stvarno ukinuti dodjelu svih kompetencija korisnicima?
-cont#:#cont_really_remove_skill_from_course#:#Želite li zaista ukloniti ove kompetencije s popisa?
-cont#:#cont_select_fields#:#Select Fields###04 06 2021 new variable
-cont#:#cont_show_more#:#Prikaži više
-cont#:#cont_skill#:#Kompetencija
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members###26 08 2024 new variable
-cont#:#cont_skill_assigned_comp#:#Izbor kompetencija
-cont#:#cont_skill_assigned_profiles#:#Profile Selection###04 06 2021 new variable
-cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.###04 06 2021 new variable
-cont#:#cont_skill_do_not_set#:#Ne postavljaj
-cont#:#cont_skill_members#:#Članovi
-cont#:#cont_skill_no_profile_selected#:#Please select a profile.###04 06 2021 new variable
-cont#:#cont_skill_no_skill#:#Nema vrijednosti (resetiraj)
-cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###26 08 2024 new variable
-cont#:#cont_skill_profile#:#Profile###04 06 2021 new variable
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members###04 06 2021 new variable
-cont#:#cont_skill_publish#:#Objavi
-cont#:#cont_skill_publish_auto#:#Automatski
-cont#:#cont_skill_publish_auto_info#:#Članovima su odmah vidljive dodjele kompetencija.
-cont#:#cont_skill_publish_manual#:#Ručno
-cont#:#cont_skill_publish_manual_info#:#Dodjele kompetencija članovima moraju se objaviti prije nego što postanu vidljivi za članove.
-cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?###04 06 2021 new variable
-cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?###04 06 2021 new variable
-cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?###04 06 2021 new variable
-cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###04 06 2021 new variable
-cont#:#cont_skill_records#:#Competence Records###26 08 2024 new variable
-cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###04 06 2021 new variable
-cont#:#cont_std_filter_title_1#:#Title###04 06 2021 new variable
-cont#:#cont_std_filter_title_2#:#Description###04 06 2021 new variable
-cont#:#cont_std_filter_title_3#:#Title/Description###04 06 2021 new variable
-cont#:#cont_std_filter_title_4#:#Keyword###04 06 2021 new variable
-cont#:#cont_std_filter_title_5#:#Author###04 06 2021 new variable
-cont#:#cont_std_filter_title_6#:#Copyright###04 06 2021 new variable
-cont#:#cont_std_filter_title_7#:#Tutorial Support###04 06 2021 new variable
-cont#:#cont_std_filter_title_8#:#Object Type###04 06 2021 new variable
-cont#:#cont_std_filter_title_9#:#Online/Offline###04 06 2021 new variable
-cont#:#cont_std_record_title#:#Standard###04 06 2021 new variable
-cont#:#cont_tile_size#:#Tile Size###29 07 2022 new variable
-cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_1#:#small (up to six tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_2#:#large (up to three tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_4#:#full (one tile in a row)###29 07 2022 new variable
-cont#:#cont_tile_view#:#Pločice
-cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###26 08 2024 new variable
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
 content#:#Pages#:#Stranice
 content#:#add_menu_entry#:#Dodaj unos u izbornik
 content#:#all_pages#:#Cijeli modul učenja

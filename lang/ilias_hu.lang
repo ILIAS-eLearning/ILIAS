@@ -2941,12 +2941,6 @@ chatroom_adm#:#public_chat_permissions#:#Nyilvános csevegőszoba jogosultságai
 chatroom_adm#:#public_chat_settings#:#Nyilvános csevegőszoba beállításai
 chatroom_adm#:#server_settings#:#Csevegőszerver beállításai
 chatroom_adm#:#settings_has_been_saved#:#A beállításokat sikeresen mentette
-classification#:#clsfct_back_to_cat#:#Vissza a kategóriához
-classification#:#clsfct_block_info#:#Tartalom szűréséhez kattintson egy címkére
-classification#:#clsfct_block_title#:#Címkefelhő
-classification#:#clsfct_content_no_match#:#Nincs találat
-classification#:#clsfct_content_title#:#Címke alapján szűrt tartalom
-classification#:#clsfct_selected_objects#:#Kiválasztott objektumok
 cmix#:#achieved_info#:#Erőfeszítéssel, ügyességgel vagy bátorsággal sikeresen elérni vagy elérni a kívánt célt, szintet, vagy eredményt.
 cmix#:#achieved_label#:#Nyilatkozatok az ‘elért’ állapottal
 cmix#:#activity_id#:#Aktivitás-ID
@@ -5841,86 +5835,6 @@ common#:#zip_structure_error#:#Az archívum fájl azonos nevű fájlokat tartalm
 common#:#zip_test_failed#:#ZIP tesztelése sikertelen. Lépjen kapcsolatba egy rendszergazdával.
 common#:#zipcode#:#Irányítószám / Postafiók
 cond#:#cond_under_parent_control#:#Az előfeltételek a szülő objektumnál vannak beállítva.
-cont#:#cont_add_global_profile#:#Globális profil hozzáadása
-cont#:#cont_add_local_profile#:#Helyi profil hozzáadása
-cont#:#cont_add_skill#:#Kompetencia hozzáadása
-cont#:#cont_assign_competence#:#Kompetenciák tagokhoz rendelése
-cont#:#cont_assign_skills#:#Kompetenciák hozzárendelése
-cont#:#cont_block_limit#:#Objektumok számának korlátozás blokkonként
-cont#:#cont_block_limit_info#:#Amennyiben a blokk több objektumot tartalmaz, egy ‘Több megjelenítése’ gomb fog megjelenni.
-cont#:#cont_cont_skills#:#Tagokhoz rendelt kompetenciák
-cont#:#cont_deassign_competence#:#Kompetenciák hozzárendeléseinek eltávolítása
-cont#:#cont_filter#:#Szűrés
-cont#:#cont_filter_field#:#Szűrő
-cont#:#cont_filter_fields#:#Szűrőmezők
-cont#:#cont_filter_record#:#Bejegyzések
-cont#:#cont_found_objects#:#Talált objektumok
-cont#:#cont_item_list#:#Felsorolás
-cont#:#cont_item_list_info#:#Ebben a tárolóban lévő objektumok felsorolásban jelennek meg.
-cont#:#cont_list_presentation#:#Tartalom megjelenítési beállításai
-cont#:#cont_mem_skills#:#Kompetenciák
-cont#:#cont_news_edited#:#Módosította
-cont#:#cont_news_settings#:#Hírek beállításai
-cont#:#cont_news_timeline#:#Hírek idővonala
-cont#:#cont_news_timeline_auto_entries#:#Automatikus bejegyzések is megjelenjenek
-cont#:#cont_news_timeline_auto_entries_info#:#Összes automatikusan létrehozott hír is megjelenjen, mint például fórumhozzászólások, fájlok létrehozása.
-cont#:#cont_news_timeline_info#:#Hírek idővonal lapjának bekapcsolása
-cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
-cont#:#cont_news_timeline_landing_page_info#:#Az Idővonal lap lesz a kezdőoldal.
-cont#:#cont_news_timeline_tab#:#Idővonal
-cont#:#cont_no_title#:#Üres cím
-cont#:#cont_only_crs_grp_fold_download#:#Csak kurzusok, csoportok, mappák vagy fájlok tölthetők le.
-cont#:#cont_page_type_cont#:#Tartalomtár oldal (kurzusok, csoportok, …)
-cont#:#cont_page_type_cstr#:#Kurzus kezdő oldala (tanulási cél nézet)
-cont#:#cont_path#:#Útvonal
-cont#:#cont_publish_assignment#:#Összerendelések közzététele
-cont#:#cont_published#:#Közzétéve
-cont#:#cont_really_deassign_skills#:#Biztos, hogy eltávolítja a felhasználóktól a kompetenciákat?
-cont#:#cont_really_remove_skill_from_course#:#Biztos, hogy eltávolítja ezeket a kompetenciákat a felsorolásból?
-cont#:#cont_select_fields#:#Válasszon mezőket
-cont#:#cont_show_more#:#Több megjelenítése
-cont#:#cont_skill#:#Kompetencia
-cont#:#cont_skill_ass_profiles#:#Tagokhoz rendelt profilok
-cont#:#cont_skill_assigned_comp#:#Kompetencia kiválasztása
-cont#:#cont_skill_assigned_profiles#:#Profil kiválasztása
-cont#:#cont_skill_deletion_not_possible#:#Globális kompetenciaprofilok törlése nem lehetésges. Csak helyi kompetenciaprofilokat jelöljön ki.
-cont#:#cont_skill_do_not_set#:#Nem állít be
-cont#:#cont_skill_members#:#Tagok
-cont#:#cont_skill_no_profile_selected#:#Kérem, válasszon egy profilt.
-cont#:#cont_skill_no_skill#:#Nincs érték (alapértékre állítás)
-cont#:#cont_skill_no_skills_selected#:#Egy kompetncia sincs még kiválasztva. Legalább egy kompetenciát adjon hozzá a "Kompetencia kiválasztása" alatt.
-cont#:#cont_skill_profile#:#Profil
-cont#:#cont_skill_profiles#:#Tagok profiljai
-cont#:#cont_skill_publish#:#Közzététel
-cont#:#cont_skill_publish_auto#:#Automatikus
-cont#:#cont_skill_publish_auto_info#:#A tagok azonnal láthatják a hozzájuk rendelt kompetenciákat.
-cont#:#cont_skill_publish_manual#:#Kézi
-cont#:#cont_skill_publish_manual_info#:#A tagok csak publikálás után láthatják a hozzájuk rendelt kompetenciákat.
-cont#:#cont_skill_really_delete_profile_from_list#:#Biztos, hogy törli ezt a profilt?
-cont#:#cont_skill_really_delete_profiles_from_list#:#Biztos, hogy törli ezeket a profilokat?
-cont#:#cont_skill_really_remove_profile_from_list#:#Biztos, hogy eltávolítja ezt a profilt a felsorolásból?
-cont#:#cont_skill_really_remove_profiles_from_list#:#Biztos, hogy eltávolítja ezeket a profilokat a felsorolásból?
-cont#:#cont_skill_records#:#Kompetencia-bejegyzések
-cont#:#cont_skill_removal_not_possible#:#Lokális kompetenciaprofilok eltávolítsa nem lehetséges. Csak globális kompetenciaprofilokat jelöljön ki.
-cont#:#cont_std_filter_title_1#:#Cím
-cont#:#cont_std_filter_title_2#:#Leírás
-cont#:#cont_std_filter_title_3#:#Cím/Leírás
-cont#:#cont_std_filter_title_4#:#Kulcsszó
-cont#:#cont_std_filter_title_5#:#Szerző
-cont#:#cont_std_filter_title_6#:#Szerzői jog
-cont#:#cont_std_filter_title_7#:#Oktatói támogatás
-cont#:#cont_std_filter_title_8#:#Objektumtípus
-cont#:#cont_std_filter_title_9#:#Online/Offline
-cont#:#cont_std_record_title#:#Standard
-cont#:#cont_tile_size#:#Csempeméret
-cont#:#cont_tile_size_0#:#normal (1-4 csempe soronként)
-cont#:#cont_tile_size_1#:#kicsi (1-6 csempe soronként)
-cont#:#cont_tile_size_2#:#nagy (1-3 csempe soronként)
-cont#:#cont_tile_size_3#:#extra nagy (1-2 csempe soronként)
-cont#:#cont_tile_size_4#:#teljes (1 csempe soronként)
-cont#:#cont_tile_view#:#Csempék
-cont#:#cont_tile_view_info#:#Az ebben a tárolóban lévő objektumok megjelenítése mint miniatűrstílusú csempeként. Csempekép minden objektum saját beállításaiban tölthető fel.
-cont#:#cont_trash_general_usage#:#Ha nagy mennyiségű régi, törölt objektumot kíván eltávolítani a rendszerből, akkor erősen tanácsos a nem tároló típusú objektumokkal kezdeni (például fájlok, fogalomtárak, tesztek), azaz célszerű először minden objektumot eltávolítani a tárolókból (kategóriákból, kurzusokból, csoportokból, tanulási sorokból stb. ). A ‘Típus" és a ‘Törlés helye’ szűrők használata segíti ezt a folyamatot. Végül távolítsa el a tárolókat.
 content#:#Pages#:#Lapok
 content#:#add_menu_entry#:#Menübejegyzés hozzáadása
 content#:#all_pages#:#a teljes tananyag

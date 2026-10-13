@@ -1,0 +1,293 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cont\n"
+
+#, fuzzy
+msgid "cont_add_global_profile"
+msgstr "Add Global Profile"
+
+#, fuzzy
+msgid "cont_add_local_profile"
+msgstr "Add Local Profile"
+
+msgid "cont_add_skill"
+msgstr "Dodaj kompetenciju"
+
+msgid "cont_assign_competence"
+msgstr "Dodijeli kompetencije članovima"
+
+msgid "cont_assign_skills"
+msgstr "Dodijeli kompetencije"
+
+msgid "cont_block_limit"
+msgstr "Ograniči stavke po bloku"
+
+msgid "cont_block_limit_info"
+msgstr "Ako blok sadrži više stavki, pojavit će se gumb \"Prikaži više\"."
+
+msgid "cont_cont_skills"
+msgstr "Dodijeljene nadležnosti članova"
+
+msgid "cont_deassign_competence"
+msgstr "Ukini dodjelu kompetencija"
+
+#, fuzzy
+msgid "cont_filter"
+msgstr "Filter"
+
+#, fuzzy
+msgid "cont_filter_field"
+msgstr "Field"
+
+#, fuzzy
+msgid "cont_filter_fields"
+msgstr "Filter Fields"
+
+#, fuzzy
+msgid "cont_filter_record"
+msgstr "Record"
+
+#, fuzzy
+msgid "cont_found_objects"
+msgstr "Found Objects"
+
+msgid "cont_item_list"
+msgstr "Popis"
+
+#, fuzzy
+msgid "cont_item_list_info"
+msgstr "Objects located within this container are displayed in the form of a list."
+
+msgid "cont_list_presentation"
+msgstr "Prezentacija predmeta"
+
+msgid "cont_mem_skills"
+msgstr "Kompetencije"
+
+msgid "cont_news_edited"
+msgstr "Obrađeno"
+
+msgid "cont_news_settings"
+msgstr "Postavke vijesti"
+
+msgid "cont_news_timeline"
+msgstr "Vremenska traka vijesti"
+
+msgid "cont_news_timeline_auto_entries"
+msgstr "Uključi automatske unose"
+
+msgid "cont_news_timeline_auto_entries_info"
+msgstr "Uključi sve vijesti koje se kreiraju automatski, npr. postovi na forumu, nove datoteke itd."
+
+msgid "cont_news_timeline_info"
+msgstr "Aktivira karticu Vremenska traka vijesti"
+
+msgid "cont_news_timeline_landing_page"
+msgstr "Odredišna stranica"
+
+msgid "cont_news_timeline_landing_page_info"
+msgstr "Stranica vremenske trake bit će odredišna stranica."
+
+msgid "cont_news_timeline_tab"
+msgstr "Vremenska traka"
+
+#, fuzzy
+msgid "cont_no_title"
+msgstr "Empty Title"
+
+#, fuzzy
+msgid "cont_only_crs_grp_fold_download"
+msgstr "Only courses, groups, folders or files can be downloaded."
+
+#, fuzzy
+msgid "cont_page_type_cont"
+msgstr "Repository Page (Cours, Group, ...)"
+
+#, fuzzy
+msgid "cont_page_type_cstr"
+msgstr "Course Start Page (Learning Objectives View)"
+
+msgid "cont_path"
+msgstr "Staza"
+
+msgid "cont_publish_assignment"
+msgstr "Objavi zadatke"
+
+msgid "cont_published"
+msgstr "Objavljeno"
+
+msgid "cont_really_deassign_skills"
+msgstr "Želite li stvarno ukinuti dodjelu svih kompetencija korisnicima?"
+
+msgid "cont_really_remove_skill_from_course"
+msgstr "Želite li zaista ukloniti ove kompetencije s popisa?"
+
+#, fuzzy
+msgid "cont_select_fields"
+msgstr "Select Fields"
+
+msgid "cont_show_more"
+msgstr "Prikaži više"
+
+msgid "cont_skill"
+msgstr "Kompetencija"
+
+#, fuzzy
+msgid "cont_skill_ass_profiles"
+msgstr "Assigned Profiles of Members"
+
+msgid "cont_skill_assigned_comp"
+msgstr "Izbor kompetencija"
+
+#, fuzzy
+msgid "cont_skill_assigned_profiles"
+msgstr "Profile Selection"
+
+#, fuzzy
+msgid "cont_skill_deletion_not_possible"
+msgstr "Deletion of global competence profiles is not possible. Please select only local competence profiles."
+
+msgid "cont_skill_do_not_set"
+msgstr "Ne postavljaj"
+
+msgid "cont_skill_members"
+msgstr "Članovi"
+
+#, fuzzy
+msgid "cont_skill_no_profile_selected"
+msgstr "Please select a profile."
+
+msgid "cont_skill_no_skill"
+msgstr "Nema vrijednosti (resetiraj)"
+
+#, fuzzy
+msgid "cont_skill_no_skills_selected"
+msgstr "No competences have been selected yet. Please add at least one competence first under \"Competence Selection\"."
+
+#, fuzzy
+msgid "cont_skill_profile"
+msgstr "Profile"
+
+#, fuzzy
+msgid "cont_skill_profiles"
+msgstr "Assigned Profiles of Members"
+
+msgid "cont_skill_publish"
+msgstr "Objavi"
+
+msgid "cont_skill_publish_auto"
+msgstr "Automatski"
+
+msgid "cont_skill_publish_auto_info"
+msgstr "Članovima su odmah vidljive dodjele kompetencija."
+
+msgid "cont_skill_publish_manual"
+msgstr "Ručno"
+
+msgid "cont_skill_publish_manual_info"
+msgstr "Dodjele kompetencija članovima moraju se objaviti prije nego što postanu vidljivi za članove."
+
+#, fuzzy
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr "Do you really want to delete this profile?"
+
+#, fuzzy
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr "Do you really want to delete these profiles?"
+
+#, fuzzy
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr "Do you really want to remove this profile from the list?"
+
+#, fuzzy
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr "Do you really want to remove these profiles from the list?"
+
+#, fuzzy
+msgid "cont_skill_records"
+msgstr "Competence Records"
+
+#, fuzzy
+msgid "cont_skill_removal_not_possible"
+msgstr "Removing of local competence profiles is not possible. Please select only global competence profiles."
+
+#, fuzzy
+msgid "cont_std_filter_title_1"
+msgstr "Title"
+
+#, fuzzy
+msgid "cont_std_filter_title_2"
+msgstr "Description"
+
+#, fuzzy
+msgid "cont_std_filter_title_3"
+msgstr "Title/Description"
+
+#, fuzzy
+msgid "cont_std_filter_title_4"
+msgstr "Keyword"
+
+#, fuzzy
+msgid "cont_std_filter_title_5"
+msgstr "Author"
+
+#, fuzzy
+msgid "cont_std_filter_title_6"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "cont_std_filter_title_7"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "cont_std_filter_title_8"
+msgstr "Object Type"
+
+#, fuzzy
+msgid "cont_std_filter_title_9"
+msgstr "Online/Offline"
+
+#, fuzzy
+msgid "cont_std_record_title"
+msgstr "Standard"
+
+#, fuzzy
+msgid "cont_tile_size"
+msgstr "Tile Size"
+
+#, fuzzy
+msgid "cont_tile_size_0"
+msgstr "normal (up to four tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_1"
+msgstr "small (up to six tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_2"
+msgstr "large (up to three tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_3"
+msgstr "extra large (up to two tiles in a row)"
+
+#, fuzzy
+msgid "cont_tile_size_4"
+msgstr "full (one tile in a row)"
+
+msgid "cont_tile_view"
+msgstr "Pločice"
+
+#, fuzzy
+msgid "cont_tile_view_info"
+msgstr "Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object."
+
+#, fuzzy
+msgid "cont_trash_general_usage"
+msgstr "If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters \"Type\" and \"Deleted on\" helps this process. Then finally remove the containers."

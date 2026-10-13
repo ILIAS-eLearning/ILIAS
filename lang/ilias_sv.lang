@@ -2883,12 +2883,6 @@ chatroom_adm#:#public_chat_permissions#:#Publikt chattrum
 chatroom_adm#:#public_chat_settings#:#Publikt chattrum
 chatroom_adm#:#server_settings#:#Inställningar för chatt-server
 chatroom_adm#:#settings_has_been_saved#:#Inställningarna har sparats.
-classification#:#clsfct_back_to_cat#:#Tillbaka till kategorin
-classification#:#clsfct_block_info#:#Ditt urval filtrerar objekten.
-classification#:#clsfct_block_title#:#Urval enligt teman
-classification#:#clsfct_content_no_match#:#Inga objekt hittades för de valda kriterierna.
-classification#:#clsfct_content_title#:#Objekt som matchar ditt urval.
-classification#:#clsfct_selected_objects#:#Utvalda objekt
 cmix#:#achieved_info#:#Successfully bring about or achieve a desired goal, level or result through effort, skill or courage.
 cmix#:#achieved_label#:#Uttalanden med verbet "uppnått
 cmix#:#activity_id#:#Aktivitets-ID
@@ -5782,85 +5776,6 @@ common#:#zip_structure_error#:#Arkivet innehåller samma filnamn. Uppladdning av
 common#:#zip_test_failed#:#ZIP-testet har misslyckats. Vänligen kontakta din ILIAS-administratör.
 common#:#zipcode#:#Postnummer
 cond#:#cond_under_parent_control#:#Förutsättningarna hanteras av det överordnade objektet.
-cont#:#cont_add_global_profile#:#Lägg till global profil
-cont#:#cont_add_local_profile#:#Lägg till lokal profil
-cont#:#cont_add_skill#:#Lägg till kompetens
-cont#:#cont_assign_competence#:#Tilldela kompetens till medlemmar
-cont#:#cont_assign_skills#:#Tilldela kompetenser
-cont#:#cont_block_limit#:#Begränsa inmatningar per block
-cont#:#cont_block_limit_info#:#Om ett block innehåller fler poster visas en åtgärdsknapp "Visa mer".
-cont#:#cont_cont_skills#:#Medlemmarnas kompetens
-cont#:#cont_deassign_competence#:#Återställa kompetenser
-cont#:#cont_filter#:#Filter
-cont#:#cont_filter_field#:#Fält
-cont#:#cont_filter_fields#:#Filterfält
-cont#:#cont_filter_record#:#Dataset
-cont#:#cont_found_objects#:#Fundna objekt
-cont#:#cont_item_list#:#Lista
-cont#:#cont_item_list_info#:#Visa underordnade objekt i en lista.
-cont#:#cont_list_presentation#:#Presentationsvy för innehåll
-cont#:#cont_mem_skills#:#Kompetens
-cont#:#cont_news_edited#:#Editerad
-cont#:#cont_news_settings#:#Nyheter
-cont#:#cont_news_timeline#:#Tidslinje
-cont#:#cont_news_timeline_auto_entries#:#Automatiskt skapade nyheter
-cont#:#cont_news_timeline_auto_entries_info#:#Alla automatiskt skapade nyheter visas också, t.ex. foruminlägg, nya filer, etc.
-cont#:#cont_news_timeline_info#:#Aktiverar fliken "Tidslinje" för nyheter
-cont#:#cont_news_timeline_landing_page#:#Startsida
-cont#:#cont_news_timeline_landing_page_info#:#Timeline som startsida
-cont#:#cont_news_timeline_tab#:#Tidslinje
-cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
-cont#:#cont_page_type_cont#:#Magazin-sida (kurs, grupp, kategori, ...)
-cont#:#cont_page_type_cstr#:#Startpage lärande målorienterad kurs
-cont#:#cont_path#:#Stig
-cont#:#cont_publish_assignment#:#Publicera uppdrag
-cont#:#cont_published#:#Publicering
-cont#:#cont_really_deassign_skills#:#Vill du verkligen återställa alla användarens kompetenstilldelningar?
-cont#:#cont_really_remove_skill_from_course#:#Bör kompetenserna verkligen tas bort från listan?
-cont#:#cont_select_fields#:#Välj fält
-cont#:#cont_show_more#:#Visa mer
-cont#:#cont_skill#:#Kompetens
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members###21 11 2023 new variable
-cont#:#cont_skill_assigned_comp#:#Urval av kompetenser
-cont#:#cont_skill_assigned_profiles#:#Urval av profil
-cont#:#cont_skill_deletion_not_possible#:#Det är inte möjligt att ta bort globala kompetensprofiler. Välj endast lokala kompetensprofiler.
-cont#:#cont_skill_do_not_set#:#Ställ inte in
-cont#:#cont_skill_members#:#Medlemmar
-cont#:#cont_skill_no_profile_selected#:#Vänligen välj en profil.
-cont#:#cont_skill_no_skill#:#Inget värde (återställning)
-cont#:#cont_skill_no_skills_selected#:#Inga kompetenser har valts ännu. Lägg till minst en kompetens under "Val av kompetens" först.
-cont#:#cont_skill_profile#:#Profil
-cont#:#cont_skill_profiles#:#Profiler över medlemmarna
-cont#:#cont_skill_publish#:#Publicering
-cont#:#cont_skill_publish_auto#:#Automatisk
-cont#:#cont_skill_publish_auto_info#:#Tilldelning av kompetensnivåer till medlemmar är omedelbart synliga för dem.
-cont#:#cont_skill_publish_manual#:#Handbok
-cont#:#cont_skill_publish_manual_info#:#Tilldelningar av kompetensnivåer till medlemmar är endast synliga för dem när de publiceras.
-cont#:#cont_skill_really_delete_profile_from_list#:#Bör profilen verkligen raderas?
-cont#:#cont_skill_really_delete_profiles_from_list#:#Bör profilerna verkligen raderas?
-cont#:#cont_skill_really_remove_profile_from_list#:#Bör profilen verkligen tas bort från listan?
-cont#:#cont_skill_really_remove_profiles_from_list#:#Bör profilerna verkligen tas bort från listan?
-cont#:#cont_skill_records#:#Competence Records###21 11 2023 new variable
-cont#:#cont_skill_removal_not_possible#:#Att ta bort lokala kompetensprofiler är inte möjligt. Vänligen välj endast globala kompetensprofiler.
-cont#:#cont_std_filter_title_1#:#Titel
-cont#:#cont_std_filter_title_2#:#Beskrivning
-cont#:#cont_std_filter_title_3#:#Titel/Beskrivning
-cont#:#cont_std_filter_title_4#:# nyckelord
-cont#:#cont_std_filter_title_5#:#Författare
-cont#:#cont_std_filter_title_6#:#Upphovsrätt
-cont#:#cont_std_filter_title_7#:#Stöd för undervisning
-cont#:#cont_std_filter_title_8#:#Objekttyp
-cont#:#cont_std_filter_title_9#:#Online/Offline
-cont#:#cont_std_record_title#:#Standard
-cont#:#cont_tile_size#:#Storlek på kakel
-cont#:#cont_tile_size_0#:#normal (upp till fyra brickor på en rad)
-cont#:#cont_tile_size_1#:#small (upp till sex brickor på en rad)
-cont#:#cont_tile_size_2#:#large (upp till tre brickor på en rad)
-cont#:#cont_tile_size_3#:#mycket stor (upp till två plattor på en rad)
-cont#:#cont_tile_size_4#:# full bredd (en kakelplatta på en rad)
-cont#:#cont_tile_view#:#Kakelplattor
-cont#:#cont_tile_view_info#:#Visa underordnade objekt som brickor. Bilder för dessa plattor kan laddas upp i inställningarna för varje enskilt objekt.
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
 content#:#Pages#:#Sidor
 content#:#add_menu_entry#:#Lägg till menyalternativ &gt;&gt;
 content#:#all_pages#:# för hela utbildningsmodulen

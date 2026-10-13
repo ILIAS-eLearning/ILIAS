@@ -2892,12 +2892,6 @@ chatroom_adm#:#public_chat_permissions#:#Permisos de la sala de chat pública
 chatroom_adm#:#public_chat_settings#:#Ajustes de la sala de chat pública
 chatroom_adm#:#server_settings#:#Ajustes del servidor de chat
 chatroom_adm#:#settings_has_been_saved#:#Se han guardado los ajustes
-classification#:#clsfct_back_to_cat#:#Volver a la categoría
-classification#:#clsfct_block_info#:#Su selección filtra los objetos.
-classification#:#clsfct_block_title#:#Selección por temas
-classification#:#clsfct_content_no_match#:#Ningún objeto coincide con los criterios seleccionados.
-classification#:#clsfct_content_title#:#Objetos que coinciden con su selección
-classification#:#clsfct_selected_objects#:#Objetos seleccionados
 cmix#:#achieved_info#:#Lograr con éxito o alcanzar un objetivo, nivel o resultado deseado mediante esfuerzo, habilidad o valor.
 cmix#:#achieved_label#:#Declaraciones con el verbo 'logrado' (achieved)
 cmix#:#activity_id#:#ID de actividad
@@ -5795,86 +5789,6 @@ common#:#zip_structure_error#:#El archivo contiene nombres de archivo idénticos
 common#:#zip_test_failed#:#La prueba de Zip ha fallado. Por favor, contacte con su administrador de ILIAS.
 common#:#zipcode#:#Código Postal
 cond#:#cond_under_parent_control#:#Las condiciones previas están bajo el control del objeto superior.
-cont#:#cont_add_global_profile#:#Añadir perfil global
-cont#:#cont_add_local_profile#:#Añadir perfil local
-cont#:#cont_add_skill#:#Añadir competencia
-cont#:#cont_assign_competence#:#Asignar competencias a los miembros
-cont#:#cont_assign_skills#:#Asignar competencias
-cont#:#cont_block_limit#:#Limitar objetos por bloque
-cont#:#cont_block_limit_info#:#Si un bloque contiene más objetos que el número establecido aquí, aparecerá un botón "Mostrar más".
-cont#:#cont_cont_skills#:#Competencias asignadas de los miembros
-cont#:#cont_deassign_competence#:#Desasignar competencias
-cont#:#cont_filter#:#Filtro
-cont#:#cont_filter_field#:#Campo
-cont#:#cont_filter_fields#:#Campos de filtrado
-cont#:#cont_filter_record#:#Registro
-cont#:#cont_found_objects#:#Objetos encontrados
-cont#:#cont_item_list#:#Lista
-cont#:#cont_item_list_info#:#Los objetos situados dentro de este contenedor se muestran en forma de lista.
-cont#:#cont_list_presentation#:#Opciones de visualización de contenido
-cont#:#cont_mem_skills#:#Competencias
-cont#:#cont_news_edited#:#Editado
-cont#:#cont_news_settings#:#Configuración de noticias
-cont#:#cont_news_timeline#:#Cronología de noticias
-cont#:#cont_news_timeline_auto_entries#:#Incluir entradas automáticas
-cont#:#cont_news_timeline_auto_entries_info#:#Incluir todas las noticias que se crean automáticamente, p. ej., mensajes del foro, archivos nuevos, etc.
-cont#:#cont_news_timeline_info#:#Activa la pestaña de Cronología de noticias
-cont#:#cont_news_timeline_landing_page#:#Página de inicio
-cont#:#cont_news_timeline_landing_page_info#:#La página de la línea de tiempo será la página de inicio.
-cont#:#cont_news_timeline_tab#:#Línea de tiempo
-cont#:#cont_no_title#:#Título vacío
-cont#:#cont_only_crs_grp_fold_download#:#Solo se pueden descargar cursos, grupos, carpetas o archivos.
-cont#:#cont_page_type_cont#:#Página del repositorio (Curso, Grupo, ...)
-cont#:#cont_page_type_cstr#:#Página de inicio del curso (Vista de objetivos de aprendizaje)
-cont#:#cont_path#:#Ruta
-cont#:#cont_publish_assignment#:#Publicar tareas
-cont#:#cont_published#:#Publicado
-cont#:#cont_really_deassign_skills#:#¿Realmente desea desasignar todas las competencias de los usuarios?
-cont#:#cont_really_remove_skill_from_course#:#¿Realmente desea eliminar estas competencias de la lista?
-cont#:#cont_select_fields#:#Seleccionar campos
-cont#:#cont_show_more#:#Mostrar más
-cont#:#cont_skill#:#Competencia
-cont#:#cont_skill_ass_profiles#:#Perfiles asignados de los miembros
-cont#:#cont_skill_assigned_comp#:#Selección de competencias
-cont#:#cont_skill_assigned_profiles#:#Selección de perfiles
-cont#:#cont_skill_deletion_not_possible#:#La eliminación de perfiles de competencias globales no es posible. Por favor, seleccione solo perfiles de competencias locales.
-cont#:#cont_skill_do_not_set#:#No establecer
-cont#:#cont_skill_members#:#Miembros
-cont#:#cont_skill_no_profile_selected#:#Por favor, seleccione un perfil.
-cont#:#cont_skill_no_skill#:#Sin valor (Restablecer)
-cont#:#cont_skill_no_skills_selected#:#Aún no se han seleccionado competencias. Por favor, añada primero al menos una competencia en "Selección de competencias".
-cont#:#cont_skill_profile#:#Perfil
-cont#:#cont_skill_profiles#:#Perfiles de competencias
-cont#:#cont_skill_publish#:#Publicar
-cont#:#cont_skill_publish_auto#:#Automático
-cont#:#cont_skill_publish_auto_info#:#Las asignaciones de competencias para los miembros son visibles inmediatamente para ellos.
-cont#:#cont_skill_publish_manual#:#Manual
-cont#:#cont_skill_publish_manual_info#:#Las asignaciones de competencias para los miembros deben publicarse antes de que sean visibles para ellos.
-cont#:#cont_skill_really_delete_profile_from_list#:#¿Realmente desea eliminar este perfil?
-cont#:#cont_skill_really_delete_profiles_from_list#:#¿Realmente desea eliminar estos perfiles?
-cont#:#cont_skill_really_remove_profile_from_list#:#¿Realmente desea quitar este perfil de la lista?
-cont#:#cont_skill_really_remove_profiles_from_list#:#¿Realmente desea quitar estos perfiles de la lista?
-cont#:#cont_skill_records#:#Registros de competencias
-cont#:#cont_skill_removal_not_possible#:#No es posible eliminar perfiles de competencias locales. Por favor, seleccione solo perfiles de competencias globales.
-cont#:#cont_std_filter_title_1#:#Título
-cont#:#cont_std_filter_title_2#:#Descripción
-cont#:#cont_std_filter_title_3#:#Título/Descripción
-cont#:#cont_std_filter_title_4#:#Palabra clave
-cont#:#cont_std_filter_title_5#:#Autor
-cont#:#cont_std_filter_title_6#:#Copyright
-cont#:#cont_std_filter_title_7#:#Soporte Tutorial
-cont#:#cont_std_filter_title_8#:#Tipo de objeto
-cont#:#cont_std_filter_title_9#:#En línea/Fuera de línea
-cont#:#cont_std_record_title#:#Estándar
-cont#:#cont_tile_size#:#Tamaño del mosaico
-cont#:#cont_tile_size_0#:#normal (hasta cuatro mosaicos en una fila)
-cont#:#cont_tile_size_1#:#pequeño (hasta seis mosaicos en una fila)
-cont#:#cont_tile_size_2#:#grande (hasta tres mosaicos en una fila)
-cont#:#cont_tile_size_3#:#extra grande (hasta dos mosaicos en una fila)
-cont#:#cont_tile_size_4#:#completo (un mosaico en una fila)
-cont#:#cont_tile_view#:#Mosaicos
-cont#:#cont_tile_view_info#:#Los objetos ubicados dentro de este contenedor se muestran en forma de mosaicos estilo miniatura. Las imágenes para estos mosaicos pueden subirse en la configuración de cada objeto individual.
-cont#:#cont_trash_general_usage#:#Si desea eliminar una gran cantidad de objetos antiguos y eliminados del sistema, es muy recomendable comenzar con objetos que no sean contenedores (es decir, archivos, glosarios, pruebas,...) y así eliminar todos los objetos de los contenedores (categorías, cursos, grupos, secuencias de aprendizaje,...). El uso de los filtros "Tipo" y "Eliminado el" ayuda en este proceso. Finalmente, elimine los contenedores.
 content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir entrada de menú
 content#:#all_pages#:#Módulo de aprendizaje completo
