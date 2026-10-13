@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#სიახლეების ბლოკის 
 news#:#news_hide_news_block_info#:#ბლოკის დამალვა მოსწავლისის ხედვიდან. სიახლეების ბლოკი ხილვადი იქნება მომხმარებლებისთვის წერილობითიი დაშვებით
 news#:#news_hide_news_date#:#დაწყების თარიღი
 news#:#news_hide_news_per_date#:#აჩვენეთ სიახლეები შემდეგ
-news#:#news_hide_news_per_date_info#:#მხოლოდ ის სიახლეები გამოჩნდება რომლებიც უფრო ახალია ვიდრე გარკვეული თარიღი
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
 news#:#news_internal_news#:#სიახლეები
 news#:#news_keep_minimal_x_items#:#Keep at least x items

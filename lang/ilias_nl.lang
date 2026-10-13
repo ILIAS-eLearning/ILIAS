@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#Verbergen nieuwsblok
 news#:#news_hide_news_block_info#:#Verbergen blok in leerling scherm. Het nieuwsblok zal enkel zichtbaar zijn voor gebruikers met schrijfrechten.
 news#:#news_hide_news_date#:#Starting Date
 news#:#news_hide_news_per_date#:#Show News After
-news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.
 news#:#news_inactive_private_feed_info#:#Je privé nieuws-feed is uitgeschakeld. Stel een wachtwoord in.
 news#:#news_internal_news#:#Intern nieuws
 news#:#news_keep_minimal_x_items#:#Bewaar tenminste x items

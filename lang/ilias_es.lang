@@ -12999,7 +12999,6 @@ news#:#news_hide_news_block#:#Ocultar bloque de noticias
 news#:#news_hide_news_block_info#:#Ocultar el bloque en la vista del alumno. El bloque de noticias sólo será visible para los usuarios con permiso de escritura.
 news#:#news_hide_news_date#:#Fecha de inicio
 news#:#news_hide_news_per_date#:#Mostrar noticias después de
-news#:#news_hide_news_per_date_info#:#Sólo se mostrarán las noticias posteriores a una fecha determinada.
 news#:#news_inactive_private_feed_info#:#Su canal de noticias privado está desactivado. Por favor, establezca una contraseña en la configuración.
 news#:#news_internal_news#:#Noticias
 news#:#news_keep_minimal_x_items#:#Mantener elementos antiguos

@@ -12923,7 +12923,6 @@ news#:#news_hide_news_block#:#Cacher de Bloc d'Actualités
 news#:#news_hide_news_block_info#:#Cache le bloc d'actualités pour les apprenants. Seules les personnes ayant des droits en écriture verront le bloc.
 news#:#news_hide_news_date#:#Date de Début
 news#:#news_hide_news_per_date#:#Afficher les Actualités Après
-news#:#news_hide_news_per_date_info#:#Seules les actualités plus récentes seront affichées.
 news#:#news_inactive_private_feed_info#:#Votre flux de nouvelles privées est désactivé. Veuillez définir un mot de passe dans les paramètres.
 news#:#news_internal_news#:#Actualités internes
 news#:#news_keep_minimal_x_items#:#Garder au moins x éléments

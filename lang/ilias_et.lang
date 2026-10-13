@@ -12938,7 +12938,6 @@ news#:#news_hide_news_block#:#Peida uudiste plokk
 news#:#news_hide_news_block_info#:#Peida plekk õppurite vaates. Uudiste plokk on nähtav vaid kirjutamisõigustega kasutajatele.
 news#:#news_hide_news_date#:#Algusaeg
 news#:#news_hide_news_per_date#:#Näita uudiseid pärast
-news#:#news_hide_news_per_date_info#:#Kuvatakse vaid uudised, mis on vanemad kui teatud kuupäev.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
 news#:#news_internal_news#:#Uudised
 news#:#news_keep_minimal_x_items#:#Keep at least x items
