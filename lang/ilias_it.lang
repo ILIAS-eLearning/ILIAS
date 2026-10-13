@@ -13796,7 +13796,6 @@ rep#:#rep_tree_limit#:#Limitare gli elementi nell'albero
 rep#:#rep_tree_limit_info#:#Il numero di oggetti nell'albero del repository sarà limitato per migliorare le prestazioni.
 rep#:#rep_tree_limit_number#:#Numero massimo
 rep#:#rep_tree_limit_number_info#:#Numero massimo di elementi figli che sono inizialmente mostrati per un nodo espanso. Se sono presenti più elementi figli, viene mostrato un campo di input di ricerca per filtrare gli elementi figli per titolo.
-rtst#:#rtst_call#:#Richiama test ESC
 rwik#:#rwik_call#:#Richiama Wiki ESC
 sahs#:#cont_insert_after_chap#:#Inserisci l'Oggetto dopo il Capitolo
 sahs#:#cont_insert_into_chap#:#Inserisci l'Oggetto dentro il Capitolo
