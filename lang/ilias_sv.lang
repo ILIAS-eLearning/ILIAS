@@ -17080,23 +17080,6 @@ tax#:#tax_tax_settings#:#Taxonomiska inställningar
 tax#:#tax_taxonomy#:#Taxonomi
 tbl#:#tbl_export_csv#:#.CSV-export
 tbl#:#tbl_export_excel#:#Excel export
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#Självregistrering är för närvarande inte möjlig eftersom inget användaravtal erbjuds i denna installation. Kontakta din <a href="%1$s">systemadministratör för</a> mer information.
-tos#:#tos_agree_date#:#ToS agreed on###21 11 2023 new variable
-tos#:#tos_agreement#:#Använda avtal
-tos#:#tos_disabled_no_docs_left#:#Användaravtalen har inaktiverats eftersom alla dokument har raderats. Skapa minst ett dokument innan du återaktiverar användaravtalen.
-tos#:#tos_last_reset_date#:#Användaravtalen återställdes senast den %s. Återställ endast användaravtalen om de har ändrats under tiden och samtycke till detta ändrade avtal önskas.
-tos#:#tos_never_reset#:#Användaravtalen har ännu inte återställts. Återställ endast användaravtalen om de har ändrats under tiden och samtycke till detta ändrade avtal önskas.
-tos#:#tos_no_documents_exist#:#Det finns för närvarande inga tillgängliga dokument om användningsavtal.
-tos#:#tos_no_documents_exist_cant_save#:#Det finns för närvarande inga tillgängliga användaravtal. Vänligen skapa minst ett dokument för att aktivera tjänsten.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###21 11 2023 new variable
-tos#:#tos_reset_successful#:#Användaravtalen har återställts framgångsrikt.
-tos#:#tos_status_desc#:#Användare ombeds att underteckna användaravtalet innan de kan använda ILIAS.
-tos#:#tos_status_enable#:#Aktivera användningsavtal
-tos#:#tos_sure_reset_tos#:#Är du säker på att användaravtalen för alla användare i systemet ska återställas? Detta gäller även de inloggningskonton som används för SOAP-webbtjänsterna, till exempel.
-tos#:#tos_withdrawal_usr_deletion#:#Radering av ILIAS-kontot efter återkallelse
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###21 11 2023 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning progress är avaktiverad
 trac#:#cmix_lp_mode_deactivated_info#:#Inlärningsstatus visas inte och har inget inflytande på objekt på högre nivå.
 trac#:#cmix_lp_mode_when_completed#:#Completed när "completed".

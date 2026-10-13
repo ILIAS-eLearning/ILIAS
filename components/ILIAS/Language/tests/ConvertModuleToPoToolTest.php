@@ -28,7 +28,6 @@ use PHPUnit\Framework\TestCase;
 class ConvertModuleToPoToolTest extends TestCase
 {
     private const string TOOL = __DIR__ . '/../tools/po-migration/convert_module_to_po.php';
-    private const string SHIPPED_DIRECTORY = __DIR__ . '/../../TermsOfService/lang';
     private const string POLL_SHIPPED_DIRECTORY = __DIR__ . '/../../Poll/lang';
 
     private string $directory;
@@ -119,26 +118,6 @@ class ConvertModuleToPoToolTest extends TestCase
         ksort($files);
 
         return $files;
-    }
-
-    /** The tool keeps the headers of an existing target file, so it runs over a copy of the shipped files. */
-    public function testReconvertingTosReproducesTheShippedFilesByteForByte(): void
-    {
-        $shipped = self::files(self::SHIPPED_DIRECTORY);
-        $this->assertNotSame([], $shipped, 'the shipped tos files were not found');
-        foreach ($shipped as $name => $content) {
-            file_put_contents($this->directory . '/out/' . $name, $content);
-        }
-
-        [$exit_code, $stdout, $stderr] = $this->runTool('tos', 'en', $this->directory . '/out');
-
-        $this->assertSame(0, $exit_code, $stdout . $stderr);
-        $this->assertSame('', $stderr, 'no warnings, notices or deprecations');
-        $this->assertStringContainsString('round-trip identically through PO', $stdout);
-        $this->assertSame(array_keys($shipped), array_keys(self::files($this->directory . '/out')), 'no file added or lost');
-        foreach (self::files($this->directory . '/out') as $name => $content) {
-            $this->assertSame($shipped[$name], $content, $name);
-        }
     }
 
     /**

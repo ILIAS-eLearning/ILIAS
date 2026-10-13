@@ -17144,23 +17144,6 @@ tbl#:#tbl_template_created#:#現在の表示が保存されました。
 tbl#:#tbl_template_delete#:#保存した表示を削除します
 tbl#:#tbl_template_deleted#:#保全した表示を削除しました。
 tbl#:#tbl_templates#:#表示
-tos#:#tos_accept_usr_agreement_anonymous#:#利用規約
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#ILIASを利用する前に次の利用規約を承諾するものとします。
-tos#:#tos_account_reg_not_possible#:#ユーザ許諾が無いので自己登録はできません。詳細に関しては<a href="%1$s">システム管理者</a>へコンタクトしてください。
-tos#:#tos_agree_date#:#使用許諾 承諾日
-tos#:#tos_agreement#:#サービス使用許諾
-tos#:#tos_disabled_no_docs_left#:#全てのドキュメントが削除されたのでユーザ許諾書は現在無効です。ユーザ許諾書を再度有効にする前に一つはドキュメントを作成してください。
-tos#:#tos_last_reset_date#:#サービス使用許諾は%sにリセットされました。
-tos#:#tos_never_reset#:#サービス規約はまだリセットされていません。
-tos#:#tos_no_documents_exist#:#現在インストール済言語のサービス使用許諾書はありません
-tos#:#tos_no_documents_exist_cant_save#:#インストール済の言語にはサービス用語が現在何もありません。どれかインストール済の言語用に一つはドキュメントを追加してください。
-tos#:#tos_reset_for_all_users#:#サービス使用許諾をリセット
-tos#:#tos_reset_successful#:#サービス規約は正しくリセットされました。
-tos#:#tos_status_desc#:#アクティブにするとユーザはILIASログイン前にサービス使用許諾への承諾を要求されます。
-tos#:#tos_status_enable#:#有効
-tos#:#tos_sure_reset_tos#:#本当にシステム内の全ユーザのサービス使用許諾をリセットしますか?SOAP webサービス、chatサービス、クローンjobを使用しているユーザアカウントに対しても適用される事になります。
-tos#:#tos_withdrawal_usr_deletion#:#利用許諾撤回の削除
-tos#:#tos_withdrawal_usr_deletion_desc#:#ユーザが事前に承諾したサービス使用許諾ドキュメントの承諾を破棄すると、ユーザのアカウント削除につながります。
 trac#:#cmix_lp_mode_deactivated#:#学習進捗は解除されます
 trac#:#cmix_lp_mode_deactivated_info#:#学習進捗ステータスは表示されないで親オブジェクトへの影響はありません。
 trac#:#cmix_lp_mode_when_completed#:#'完了'時に完了しました

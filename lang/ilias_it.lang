@@ -17087,23 +17087,6 @@ tax#:#tax_tax_settings#:#Impostazioni tassonomia
 tax#:#tax_taxonomy#:#Tassonomia
 tbl#:#tbl_export_csv#:#Esporta .csv
 tbl#:#tbl_export_excel#:#Esporta .xls
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###18 06 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###18 06 2024 new variable
-tos#:#tos_account_reg_not_possible#:#Una registrazione automatica non è possibile a causa del contratto utente mancante. Per favore contatta il tuo<a href="%1$s">amministratore di sistema</a> per maggiori informazioni.
-tos#:#tos_agree_date#:#ToS agreed on###30 04 2024 new variable
-tos#:#tos_agreement#:#Termini di servizio
-tos#:#tos_disabled_no_docs_left#:#I contratti utente sono ora disabilitati, poiché tutti i documenti sono stati eliminati. Si prega di creare almeno un documento prima di abilitare nuovamente gli accordi utente.
-tos#:#tos_last_reset_date#:#Gli accordi utente sono stati reimpostati l'ultima volta il %s. Reimposta il contratto utente solo se nel frattempo è cambiato e desideri approvare il contratto modificato.
-tos#:#tos_never_reset#:#I termini di servizio non sono ancora stati ripristinati.
-tos#:#tos_no_documents_exist#:#Attualmente non ci sono termini di servizio per ogni lingua installata.
-tos#:#tos_no_documents_exist_cant_save#:#Attualmente non ci sono termini di servizio per ogni lingua installata. Si prega di aggiungere almeno un documento per ogni lingua installata.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###30 04 2024 new variable
-tos#:#tos_reset_successful#:#I termini di servizio sono stati ripristinati correttamente.
-tos#:#tos_status_desc#:#Se attivato, gli utenti sono costretti ad accettare i termini di servizio prima di poter entrare in ILIAS.
-tos#:#tos_status_enable#:#Attiva i contratti di utilizzo
-tos#:#tos_sure_reset_tos#:#Sei sicuro di voler ripristinare i termini di servizio per tutti gli utenti del sistema? Questo vale anche per quegli account che vengono utilizzati per i servizi web SOAP, il server di chat o il cron job.
-tos#:#tos_withdrawal_usr_deletion#:#Eliminazione dell'account in caso di ritiro dei termini di servizio
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###30 04 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Il progresso di apprendimento è disattivato
 trac#:#cmix_lp_mode_deactivated_info#:#Lo stato di avanzamento dell'apprendimento non viene visualizzato e non influenza gli oggetti padre.
 trac#:#cmix_lp_mode_when_completed#:#Completato quando "completato"

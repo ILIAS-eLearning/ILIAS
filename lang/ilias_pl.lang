@@ -17080,23 +17080,6 @@ tax#:#tax_tax_settings#:#Ustawienia dotyczące klasyfikacji
 tax#:#tax_taxonomy#:#Klasyfikacja
 tbl#:#tbl_export_csv#:#Eksportuj do .csv
 tbl#:#tbl_export_excel#:#Eksportuj do .xls
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Zasady użytkowania
-tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.
-tos#:#tos_last_reset_date#:#Zasady użytkowania zostały po raz ostatni resetowane w dniu %s.
-tos#:#tos_never_reset#:#The terms of service have not been reset, yet.
-tos#:#tos_no_documents_exist#:#Aktualnie brak zasad użytkowania dostępnych w zapisanych językach.
-tos#:#tos_no_documents_exist_cant_save#:#Aktualnie brak zasad użytkowania dostępnych w zapisanych językach. Dlatego nie możesz aktywować tej usługi.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
-tos#:#tos_status_desc#:#Jeśli ta opcja jest aktywna, użytkownicy przed korzystaniem z ILIAS proszeni są o podpisanie zasad użytkowania.
-tos#:#tos_status_enable#:#Aktywuj
-tos#:#tos_sure_reset_tos#:#Jesteś pewien, że zasady użytkowania mają zostać zresetowane w systemie dla wszystkich użytkowników? Dotyczy to również tych kont użytkowników, które są ewentualnie wykorzystywane do usług sieciowych SOAP, serwerów czatowych i zadań Cron.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service###29 07 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

@@ -17150,23 +17150,6 @@ tax#:#tax_tax_settings#:#Ajustes de taxonomía
 tax#:#tax_taxonomy#:#Taxonomía
 tbl#:#tbl_export_csv#:#Exportar CSV
 tbl#:#tbl_export_excel#:#Exportar Excel
-tos#:#tos_accept_usr_agreement_anonymous#:#Condiciones del servicio
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Antes de continuar a ILIAS, debe aceptar las siguientes Condiciones del servicio.
-tos#:#tos_account_reg_not_possible#:#El registro autónomo no es posible actualmente porque no hay un acuerdo de Condiciones del servicio disponible. Por favor, contacte con su <a href="%1$s">administrador del sistema</a> para más información.
-tos#:#tos_agree_date#:#Condiciones aceptadas el
-tos#:#tos_agreement#:#Condiciones del servicio
-tos#:#tos_disabled_no_docs_left#:#Los documentos de Condiciones del servicio ya no pueden mostrarse porque todos han sido eliminados. Ya no se requerirá a los usuarios aceptar un documento de Condiciones al registrar una cuenta. Por favor, cree al menos un documento antes de volver a marcar la casilla 'Mostrar Condiciones del servicio'.
-tos#:#tos_last_reset_date#:#Las Condiciones del Servicio se restablecieron el %s. Solo restablezca las Condiciones del Servicio si se han realizado cambios en los documentos de los TyC y requiere que todos los usuarios acepten los nuevos términos.
-tos#:#tos_never_reset#:#Las Condiciones del Servicio aún no se han restablecido. Solo restablezca las Condiciones del Servicio si se han realizado cambios en los documentos de los TyC y requiere que todos los usuarios acepten los nuevos términos.
-tos#:#tos_no_documents_exist#:#Actualmente no hay documentos de Condiciones del Servicio disponibles.
-tos#:#tos_no_documents_exist_cant_save#:#Actualmente no hay documentos de Condiciones del Servicio disponibles. Por favor, añada al menos un documento para activar este servicio.
-tos#:#tos_reset_for_all_users#:#Restablecer Condiciones del Servicio
-tos#:#tos_reset_successful#:#Condiciones del Servicio restablecidas con éxito.
-tos#:#tos_status_desc#:#Muestra los documentos de Condiciones del Servicio pertinentes basados en el idioma al final del formulario de registro para nuevos usuarios y, si procede, en el primer inicio de sesión del usuario. Los usuarios deben aceptar las Condiciones del Servicio antes de poder entrar en ILIAS.
-tos#:#tos_status_enable#:#Mostrar Condiciones del Servicio
-tos#:#tos_sure_reset_tos#:#¿Está seguro de que desea restablecer las Condiciones del Servicio para todos los usuarios del sistema? Esto también se aplica, por ejemplo, a aquellas cuentas que se utilizan para los servicios web SOAP.
-tos#:#tos_withdrawal_usr_deletion#:#Eliminación de la cuenta al retirar los TyC
-tos#:#tos_withdrawal_usr_deletion_desc#:#Si un usuario retira su aceptación de un documento de Condiciones del Servicio aceptado previamente, esto resultará en la eliminación de la cuenta del usuario.
 trac#:#cmix_lp_mode_deactivated#:#El progreso de aprendizaje está desactivado
 trac#:#cmix_lp_mode_deactivated_info#:#El estado del progreso de aprendizaje no se muestra y no influye en los objetos superiores.
 trac#:#cmix_lp_mode_when_completed#:#Completado cuando esté 'completado'

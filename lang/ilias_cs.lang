@@ -17080,23 +17080,6 @@ tax#:#tax_tax_settings#:#Nastavení taxonomie
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#Exportovat .csv
 tbl#:#tbl_export_excel#:#Exportovat .xls
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#Vlastní registrace není možná kvůli chybějící uživatelské smlouvě. Další informace vám poskytne <a href="%1$s"> správce systému </a>.
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Smluvní podmínky
-tos#:#tos_disabled_no_docs_left#:#Uživatelské smlouvy jsou nyní zakázány, protože všechny dokumenty byly vymazány. Před opětovným povolením uživatelských smluv vytvořte alespoň jeden dokument.
-tos#:#tos_last_reset_date#:#Podmínky služby byly resetovány na %s.
-tos#:#tos_never_reset#:#Podmínky služby nebyly dosud resetovány.
-tos#:#tos_no_documents_exist#:#V současné době neexistují žádné podmínky služeb pro žádný z nainstalovaných jazyků.
-tos#:#tos_no_documents_exist_cant_save#:#V současné době neexistují žádné podmínky služeb pro žádný z nainstalovaných jazyků. Přidejte alespoň jeden dokument pro každý z nainstalovaných jazyků.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#Podmínky služby byly úspěšně resetovány.
-tos#:#tos_status_desc#:#Pokud jsou aktivováni, uživatelé jsou nuceni přijmout podmínky služby dříve, než jim je povoleno vstoupit do ILIAS.
-tos#:#tos_status_enable#:#Povolit
-tos#:#tos_sure_reset_tos#:#Opravdu chcete resetovat podmínky služby pro všechny uživatele v systému? To platí i pro ty účty, které se používají pro webové služby SOAP, chatový server nebo úkol cron.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service###29 07 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable
