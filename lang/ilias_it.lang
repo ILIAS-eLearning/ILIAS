@@ -15370,54 +15370,6 @@ survey#:#values#:#Valori
 survey#:#vertical#:#verticale
 survey#:#warning_question_not_complete#:#La domanda non è completa!
 survey#:#workingtime#:#Tempo di lavoro
-sysc#:#sysc_action_list_tree#:#Crea dump dell’albero del repository
-sysc#:#sysc_action_repair#:#Ripara
-sysc#:#sysc_action_show_tree#:#Mostra dump dell’albero del repository
-sysc#:#sysc_action_validate#:#Convalida
-sysc#:#sysc_administrate_deleted#:#Amministra oggetti eliminati
-sysc#:#sysc_btn_tree_missing#:#Ripristina mancante
-sysc#:#sysc_btn_tree_structure#:#Ricrea struttura ad albero
-sysc#:#sysc_completed_num#:#Compiti svolti
-sysc#:#sysc_cron_empty_trash#:#Elimina cestino
-sysc#:#sysc_cron_empty_trash_desc#:#Se abilitato, il cestino del repository verrà eliminato in base a determinati criteri (età, tipo di oggetto o numero massimo di oggetti).
-sysc#:#sysc_failed_num#:#Attività non soddisfatte
-sysc#:#sysc_groups#:#Gruppi di controllo del sistema
-sysc#:#sysc_grp_tree#:#Albero repository
-sysc#:#sysc_grp_tree_desc#:#Esegue un’analisi della struttura e stampa i nodi di struttura insieme ai dati dell’analisi.
-sysc#:#sysc_message_success#:#Nessun errore trovato
-sysc#:#sysc_message_tree_missing_confirm#:#Vuoi davvero ripristinare le voci mancanti nella struttura ad albero del repository?
-sysc#:#sysc_message_tree_structure_confirm#:#Vuoi davvero ripristinare la struttura ad albero? Si prega di creare un backup del database prima di procedere.
-sysc#:#sysc_overview#:#Panoramica
-sysc#:#sysc_status_completed#:#Completato
-sysc#:#sysc_status_failed#:#Non riuscito
-sysc#:#sysc_status_na#:#Non eseguito
-sysc#:#sysc_status_running#:#Funzionamento
-sysc#:#sysc_tab_trash#:#Oggetti eliminati
-sysc#:#sysc_task_overview#:#Attività
-sysc#:#sysc_task_structure#:#Struttura ad albero
-sysc#:#sysc_task_structure_desc#:#Analizza e corregge la struttura ad albero del repository.
-sysc#:#sysc_task_tree_dump#:#Elenco albero
-sysc#:#sysc_task_tree_dump_desc#:#Analisi e stampe della struttura ad albero del repository
-sysc#:#sysc_task_tree_duplicates#:#Duplica le voci nel repository ad albero
-sysc#:#sysc_task_tree_duplicates_desc#:#Ricerca per voci duplicate nella struttura ad albero del repository.
-sysc#:#sysc_task_tree_missing#:#Voci mancanti nell’albero del repository
-sysc#:#sysc_task_tree_missing_desc#:#Cerca e ripristina le voci mancanti nell’albero del repository.
-sysc#:#sysc_task_tree_missing_reference#:#Riferimenti a oggetti mancanti
-sysc#:#sysc_task_tree_missing_reference_desc#:#Cerca e ripristina i riferimenti a oggetti mancanti nell’albero del repository.
-sysc#:#sysc_task_tree_missing_tree#:#Voci mancanti nell’albero del repository
-sysc#:#sysc_task_tree_missing_tree_desc#:#Cerca e ripristina le voci mancanti nell’albero del repository.
-sysc#:#sysc_trash_action#:#Aziona
-sysc#:#sysc_trash_limit_age#:#Età limite
-sysc#:#sysc_trash_limit_num#:#Numero limite
-sysc#:#sysc_trash_limit_type#:#Limite per tipo
-sysc#:#sysc_trash_remove#:#Rimuovi oggetti eliminati dal sistema
-sysc#:#sysc_trash_remove_info#:#Rimuovi oggetti eliminati (nel cestino) dal sistema
-sysc#:#sysc_trash_restore#:#Ripristina oggetti eliminati
-sysc#:#sysc_trash_restore_info#:#Ripristina gli oggetti eliminati dal cestino e sposta la "Cartella di ripristino"
-sysc#:#sysc_tree_duplicate_failures#:#Trovate voci duplicate nella struttura ad albero. Numero di voci duplicate
-sysc#:#sysc_tree_list_failures#:#È stato creato un dump dell’albero del repository. Numero degli errori nella struttura ad albero:
-sysc#:#sysc_tree_missing_failures#:#Voci mancanti trovate nella struttura ad albero. Numero delle voci mancanti:
-sysc#:#sysc_tree_structure_failures#:#Numero dei guasti nella struttura ad albero (Relazione principale):
 tagging#:#no_tag_text_1#:#Non hai utilizzato ancora alcun tag. Per farlo, devi seguire due passaggi:
 tagging#:#no_tag_text_2#:#Clicca su '%s' e selezione un oggetto formativo dalla variabile offerta, ad esempio un modulo formativo o un forum.
 tagging#:#no_tag_text_3#:#Per associare qualsiasi tag all'ggetto, seleziona "Imposta Tag" dal menù delle azioni.

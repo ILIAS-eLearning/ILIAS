@@ -1,0 +1,201 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: sysc\n"
+
+#, fuzzy
+msgid "sysc_action_list_tree"
+msgstr "Create Repository Tree Dump"
+
+#, fuzzy
+msgid "sysc_action_repair"
+msgstr "Repair"
+
+#, fuzzy
+msgid "sysc_action_show_tree"
+msgstr "Show Repository Tree Dump"
+
+#, fuzzy
+msgid "sysc_action_validate"
+msgstr "Validate"
+
+#, fuzzy
+msgid "sysc_administrate_deleted"
+msgstr "Administrate Deleted Objects"
+
+#, fuzzy
+msgid "sysc_btn_tree_missing"
+msgstr "Restore Missing"
+
+#, fuzzy
+msgid "sysc_btn_tree_structure"
+msgstr "Recreate Tree Structure"
+
+#, fuzzy
+msgid "sysc_completed_num"
+msgstr "Fullfilled Tasks"
+
+#, fuzzy
+msgid "sysc_cron_empty_trash"
+msgstr "Delete Trash Bin"
+
+#, fuzzy
+msgid "sysc_cron_empty_trash_desc"
+msgstr "If enabled, the repository trash bin will be purged by given criteria (age, object type or maximum number of objects)."
+
+#, fuzzy
+msgid "sysc_failed_num"
+msgstr "Not Fullfilled Tasks"
+
+#, fuzzy
+msgid "sysc_groups"
+msgstr "System Check Groups"
+
+#, fuzzy
+msgid "sysc_grp_tree"
+msgstr "Repository Tree"
+
+#, fuzzy
+msgid "sysc_grp_tree_desc"
+msgstr "Performs an analysis of the tree and prints all tree nodes along with analysis data."
+
+#, fuzzy
+msgid "sysc_message_success"
+msgstr "No errors found"
+
+#, fuzzy
+msgid "sysc_message_tree_missing_confirm"
+msgstr "Do you really want to restore missing entries in the repository tree structure?"
+
+#, fuzzy
+msgid "sysc_message_tree_structure_confirm"
+msgstr "Do you really want to repair the tree structure? Please create a database backup before you proceed."
+
+#, fuzzy
+msgid "sysc_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "sysc_status_completed"
+msgstr "Completed"
+
+#, fuzzy
+msgid "sysc_status_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "sysc_status_na"
+msgstr "Not Executed"
+
+#, fuzzy
+msgid "sysc_status_running"
+msgstr "Running"
+
+#, fuzzy
+msgid "sysc_tab_trash"
+msgstr "Deleted Objects"
+
+#, fuzzy
+msgid "sysc_task_overview"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "sysc_task_structure"
+msgstr "Tree structure"
+
+#, fuzzy
+msgid "sysc_task_structure_desc"
+msgstr "Analyzes and corrects the repository tree structure."
+
+#, fuzzy
+msgid "sysc_task_tree_dump"
+msgstr "List Tree"
+
+#, fuzzy
+msgid "sysc_task_tree_dump_desc"
+msgstr "Analyses and prints the repository tree structure"
+
+#, fuzzy
+msgid "sysc_task_tree_duplicates"
+msgstr "Duplicate Entries in Repository Tree"
+
+#, fuzzy
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "Search for duplicate entries in the repository tree structure."
+
+#, fuzzy
+msgid "sysc_task_tree_missing"
+msgstr "Missing Entries in Repository Tree"
+
+#, fuzzy
+msgid "sysc_task_tree_missing_desc"
+msgstr "Searches and repairs missing entries in the repository tree."
+
+#, fuzzy
+msgid "sysc_task_tree_missing_reference"
+msgstr "Missing Object References"
+
+#, fuzzy
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "Searches and repairs missing object references in the repository tree."
+
+#, fuzzy
+msgid "sysc_task_tree_missing_tree"
+msgstr "Missing Entries in Repository Tree"
+
+#, fuzzy
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "Searches and repairs missing entries in the repository tree."
+
+#, fuzzy
+msgid "sysc_trash_action"
+msgstr "Action"
+
+#, fuzzy
+msgid "sysc_trash_limit_age"
+msgstr "Limit Age"
+
+#, fuzzy
+msgid "sysc_trash_limit_num"
+msgstr "Limit Number"
+
+#, fuzzy
+msgid "sysc_trash_limit_type"
+msgstr "Limit by Type"
+
+#, fuzzy
+msgid "sysc_trash_remove"
+msgstr "Remove deleted objects from system"
+
+#, fuzzy
+msgid "sysc_trash_remove_info"
+msgstr "Remove deleted objects (trash bin) from the system"
+
+#, fuzzy
+msgid "sysc_trash_restore"
+msgstr "Restore Deleted Objects"
+
+#, fuzzy
+msgid "sysc_trash_restore_info"
+msgstr "Restore deleted objects from trash bin and move the to the \"Recovery Folder\""
+
+#, fuzzy
+msgid "sysc_tree_duplicate_failures"
+msgstr "Found duplicate entries in tree structure. Number of duoplicate entries"
+
+#, fuzzy
+msgid "sysc_tree_list_failures"
+msgstr "A dump of the the repository tree has been created. Number of errors in tree structure:"
+
+#, fuzzy
+msgid "sysc_tree_missing_failures"
+msgstr "Found missing entries in the tree structure. Number of missing entries:"
+
+#, fuzzy
+msgid "sysc_tree_structure_failures"
+msgstr "Number of failures in the tree structure (parent-Relation):"

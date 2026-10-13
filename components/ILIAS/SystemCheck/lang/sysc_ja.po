@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr "リポジトリツリーダンプを作成"
+
+msgid "sysc_action_repair"
+msgstr "リペア"
+
+msgid "sysc_action_show_tree"
+msgstr "リポジトリツリーダンプを作成表示する"
+
+msgid "sysc_action_validate"
+msgstr "確認"
+
+msgid "sysc_administrate_deleted"
+msgstr "削除済みオブジェクトを管理する"
+
+msgid "sysc_btn_tree_missing"
+msgstr "欠損をリストア"
+
+msgid "sysc_btn_tree_structure"
+msgstr "ツリー構造を再作成"
+
+msgid "sysc_completed_num"
+msgstr "タスク遂行"
+
+msgid "sysc_cron_empty_trash"
+msgstr "ゴミ箱を削除"
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr "有効にするとリポジトリゴミ箱は一定の基準(年齢、オブジェクトタイプ、または最大オブジェクト数)で一掃されます。"
+
+msgid "sysc_failed_num"
+msgstr "タスク未遂行"
+
+msgid "sysc_groups"
+msgstr "システムチェックグループ"
+
+msgid "sysc_grp_tree"
+msgstr "リポジトリツリー"
+
+msgid "sysc_grp_tree_desc"
+msgstr "ツリーの解析を実行し解析データに沿って全てのツリーノードを印刷"
+
+msgid "sysc_message_success"
+msgstr "エラーは見つかりませんでした"
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr "リポジトリツリー構造内の欠損エントリーを本当にリストアしますか?"
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr "ツリー構造を本当に修理しますか? 実行する前にデータベースバックアップを作成してください。"
+
+msgid "sysc_overview"
+msgstr "概要"
+
+msgid "sysc_status_completed"
+msgstr "完了しました"
+
+msgid "sysc_status_failed"
+msgstr "失敗しました"
+
+msgid "sysc_status_na"
+msgstr "実行しませんでした。"
+
+msgid "sysc_status_running"
+msgstr "実行中"
+
+msgid "sysc_tab_trash"
+msgstr "オブジェクトを削除する"
+
+msgid "sysc_task_overview"
+msgstr "タスク"
+
+msgid "sysc_task_structure"
+msgstr "ツリー構造"
+
+msgid "sysc_task_structure_desc"
+msgstr "解析してリポジトリ構造を訂正します"
+
+msgid "sysc_task_tree_dump"
+msgstr "リストツリー"
+
+msgid "sysc_task_tree_dump_desc"
+msgstr "解析してリポジトリツリー構造を印刷"
+
+msgid "sysc_task_tree_duplicates"
+msgstr "リポジトリツリー内の重複エントリ"
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "リポジトリツリー構造内の重複エントリーを検索"
+
+msgid "sysc_task_tree_missing"
+msgstr "リポジトリツリー内の欠損エントリー"
+
+msgid "sysc_task_tree_missing_desc"
+msgstr "検索してリポジトリツリー内の欠損エントリーをリペア"
+
+msgid "sysc_task_tree_missing_reference"
+msgstr "欠損オブジェクトレファレンス"
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "検索してリポジトリツリー内の欠損オブジェクトレファレンスをリペアします。"
+
+msgid "sysc_task_tree_missing_tree"
+msgstr "リポジトリ内の欠損エントリー"
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "検索してリポジトリツリー内の欠損エントリーをリペア"
+
+msgid "sysc_trash_action"
+msgstr "Action"
+
+msgid "sysc_trash_limit_age"
+msgstr "期間制限"
+
+msgid "sysc_trash_limit_num"
+msgstr "数字制限"
+
+msgid "sysc_trash_limit_type"
+msgstr "タイプ制限"
+
+msgid "sysc_trash_remove"
+msgstr "システムから削除されたオブジェクトを削除する"
+
+msgid "sysc_trash_remove_info"
+msgstr "システムから削除されたオブジェクト(ゴミ箱)を削除する"
+
+msgid "sysc_trash_restore"
+msgstr "削除されたオブジェクトをリストアする"
+
+msgid "sysc_trash_restore_info"
+msgstr "ゴミ箱から削除されたオブジェクトをリエストアして\"リカバリーフォルダ\"へ移動する"
+
+msgid "sysc_tree_duplicate_failures"
+msgstr "ツリー構造内の重複エントリーが見つかりました"
+
+msgid "sysc_tree_list_failures"
+msgstr "リポジトリツリーのダンプが作成されました。ツリー構造内のエラー数。"
+
+msgid "sysc_tree_missing_failures"
+msgstr "ツリー構造内の欠損エントリーが見つかりました欠損エントリー数"
+
+msgid "sysc_tree_structure_failures"
+msgstr "ツリー構造(親-関係)内の不良数:"

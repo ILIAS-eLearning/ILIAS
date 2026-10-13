@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr "Crea dump dell’albero del repository"
+
+msgid "sysc_action_repair"
+msgstr "Ripara"
+
+msgid "sysc_action_show_tree"
+msgstr "Mostra dump dell’albero del repository"
+
+msgid "sysc_action_validate"
+msgstr "Convalida"
+
+msgid "sysc_administrate_deleted"
+msgstr "Amministra oggetti eliminati"
+
+msgid "sysc_btn_tree_missing"
+msgstr "Ripristina mancante"
+
+msgid "sysc_btn_tree_structure"
+msgstr "Ricrea struttura ad albero"
+
+msgid "sysc_completed_num"
+msgstr "Compiti svolti"
+
+msgid "sysc_cron_empty_trash"
+msgstr "Elimina cestino"
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr "Se abilitato, il cestino del repository verrà eliminato in base a determinati criteri (età, tipo di oggetto o numero massimo di oggetti)."
+
+msgid "sysc_failed_num"
+msgstr "Attività non soddisfatte"
+
+msgid "sysc_groups"
+msgstr "Gruppi di controllo del sistema"
+
+msgid "sysc_grp_tree"
+msgstr "Albero repository"
+
+msgid "sysc_grp_tree_desc"
+msgstr "Esegue un’analisi della struttura e stampa i nodi di struttura insieme ai dati dell’analisi."
+
+msgid "sysc_message_success"
+msgstr "Nessun errore trovato"
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr "Vuoi davvero ripristinare le voci mancanti nella struttura ad albero del repository?"
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr "Vuoi davvero ripristinare la struttura ad albero? Si prega di creare un backup del database prima di procedere."
+
+msgid "sysc_overview"
+msgstr "Panoramica"
+
+msgid "sysc_status_completed"
+msgstr "Completato"
+
+msgid "sysc_status_failed"
+msgstr "Non riuscito"
+
+msgid "sysc_status_na"
+msgstr "Non eseguito"
+
+msgid "sysc_status_running"
+msgstr "Funzionamento"
+
+msgid "sysc_tab_trash"
+msgstr "Oggetti eliminati"
+
+msgid "sysc_task_overview"
+msgstr "Attività"
+
+msgid "sysc_task_structure"
+msgstr "Struttura ad albero"
+
+msgid "sysc_task_structure_desc"
+msgstr "Analizza e corregge la struttura ad albero del repository."
+
+msgid "sysc_task_tree_dump"
+msgstr "Elenco albero"
+
+msgid "sysc_task_tree_dump_desc"
+msgstr "Analisi e stampe della struttura ad albero del repository"
+
+msgid "sysc_task_tree_duplicates"
+msgstr "Duplica le voci nel repository ad albero"
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "Ricerca per voci duplicate nella struttura ad albero del repository."
+
+msgid "sysc_task_tree_missing"
+msgstr "Voci mancanti nell’albero del repository"
+
+msgid "sysc_task_tree_missing_desc"
+msgstr "Cerca e ripristina le voci mancanti nell’albero del repository."
+
+msgid "sysc_task_tree_missing_reference"
+msgstr "Riferimenti a oggetti mancanti"
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "Cerca e ripristina i riferimenti a oggetti mancanti nell’albero del repository."
+
+msgid "sysc_task_tree_missing_tree"
+msgstr "Voci mancanti nell’albero del repository"
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "Cerca e ripristina le voci mancanti nell’albero del repository."
+
+msgid "sysc_trash_action"
+msgstr "Aziona"
+
+msgid "sysc_trash_limit_age"
+msgstr "Età limite"
+
+msgid "sysc_trash_limit_num"
+msgstr "Numero limite"
+
+msgid "sysc_trash_limit_type"
+msgstr "Limite per tipo"
+
+msgid "sysc_trash_remove"
+msgstr "Rimuovi oggetti eliminati dal sistema"
+
+msgid "sysc_trash_remove_info"
+msgstr "Rimuovi oggetti eliminati (nel cestino) dal sistema"
+
+msgid "sysc_trash_restore"
+msgstr "Ripristina oggetti eliminati"
+
+msgid "sysc_trash_restore_info"
+msgstr "Ripristina gli oggetti eliminati dal cestino e sposta la \"Cartella di ripristino\""
+
+msgid "sysc_tree_duplicate_failures"
+msgstr "Trovate voci duplicate nella struttura ad albero. Numero di voci duplicate"
+
+msgid "sysc_tree_list_failures"
+msgstr "È stato creato un dump dell’albero del repository. Numero degli errori nella struttura ad albero:"
+
+msgid "sysc_tree_missing_failures"
+msgstr "Voci mancanti trovate nella struttura ad albero. Numero delle voci mancanti:"
+
+msgid "sysc_tree_structure_failures"
+msgstr "Numero dei guasti nella struttura ad albero (Relazione principale):"

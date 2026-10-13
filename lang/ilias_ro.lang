@@ -15364,54 +15364,6 @@ survey#:#values#:#Valori
 survey#:#vertical#:#vertical
 survey#:#warning_question_not_complete#:#Intrebarea nu este completa!
 survey#:#workingtime#:#Working time###28 07 2010 new variable
-sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump###30 08 2015 new variable
-sysc#:#sysc_action_repair#:#Repair###30 08 2015 new variable
-sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump###30 08 2015 new variable
-sysc#:#sysc_action_validate#:#Validate###30 08 2015 new variable
-sysc#:#sysc_administrate_deleted#:#Administrate Deleted Objects###26 09 2014 new variable
-sysc#:#sysc_btn_tree_missing#:#Restore Missing###30 08 2015 new variable
-sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###25 10 2016 new variable
-sysc#:#sysc_completed_num#:#Fullfilled Tasks###30 08 2015 new variable
-sysc#:#sysc_cron_empty_trash#:#Delete Trash Bin###30 08 2015 new variable
-sysc#:#sysc_cron_empty_trash_desc#:#If enabled, the repository trash bin will be purged by given criteria (age, object type or maximum number of objects).###30 08 2015 new variable
-sysc#:#sysc_failed_num#:#Not Fullfilled Tasks###30 08 2015 new variable
-sysc#:#sysc_groups#:#System Check Groups###30 08 2015 new variable
-sysc#:#sysc_grp_tree#:#Repository Tree###30 08 2015 new variable
-sysc#:#sysc_grp_tree_desc#:#Performs an analysis of the tree and prints all tree nodes along with analysis data.###30 08 2015 new variable
-sysc#:#sysc_message_success#:#No errors found###30 08 2015 new variable
-sysc#:#sysc_message_tree_missing_confirm#:#Do you really want to restore missing entries in the repository tree structure?###30 08 2015 new variable
-sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###25 10 2016 new variable
-sysc#:#sysc_overview#:#Overview###30 08 2015 new variable
-sysc#:#sysc_status_completed#:#Completed###30 08 2015 new variable
-sysc#:#sysc_status_failed#:#Failed###30 08 2015 new variable
-sysc#:#sysc_status_na#:#Not Executed###30 08 2015 new variable
-sysc#:#sysc_status_running#:#Running###30 08 2015 new variable
-sysc#:#sysc_tab_trash#:#Deleted Objects###26 09 2014 new variable
-sysc#:#sysc_task_overview#:#Tasks###30 08 2015 new variable
-sysc#:#sysc_task_structure#:#Tree structure###30 08 2015 new variable
-sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.###30 08 2015 new variable
-sysc#:#sysc_task_tree_dump#:#List Tree###30 08 2015 new variable
-sysc#:#sysc_task_tree_dump_desc#:#Analyses and prints the repository tree structure###30 08 2015 new variable
-sysc#:#sysc_task_tree_duplicates#:#Duplicate Entries in Repository Tree###30 08 2015 new variable
-sysc#:#sysc_task_tree_duplicates_desc#:#Search for duplicate entries in the repository tree structure.###30 08 2015 new variable
-sysc#:#sysc_task_tree_missing#:#Missing Entries in Repository Tree###30 08 2015 new variable
-sysc#:#sysc_task_tree_missing_desc#:#Searches and repairs missing entries in the repository tree.###30 08 2015 new variable
-sysc#:#sysc_task_tree_missing_reference#:#Missing Object References###30 08 2015 new variable
-sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing object references in the repository tree.###30 08 2015 new variable
-sysc#:#sysc_task_tree_missing_tree#:#Missing Entries in Repository Tree###30 08 2015 new variable
-sysc#:#sysc_task_tree_missing_tree_desc#:#Searches and repairs missing entries in the repository tree.###30 08 2015 new variable
-sysc#:#sysc_trash_action#:#Action###26 09 2014 new variable
-sysc#:#sysc_trash_limit_age#:#Limit Age###26 09 2014 new variable
-sysc#:#sysc_trash_limit_num#:#Limit Number###26 09 2014 new variable
-sysc#:#sysc_trash_limit_type#:#Limit by Type###26 09 2014 new variable
-sysc#:#sysc_trash_remove#:#Remove deleted objects from system###26 09 2014 new variable
-sysc#:#sysc_trash_remove_info#:#Remove deleted objects (trash bin) from the system###26 09 2014 new variable
-sysc#:#sysc_trash_restore#:#Restore Deleted Objects###26 09 2014 new variable
-sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the "Recovery Folder"###26 09 2014 new variable
-sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries###30 08 2015 new variable
-sysc#:#sysc_tree_list_failures#:#A dump of the the repository tree has been created. Number of errors in tree structure:###30 08 2015 new variable
-sysc#:#sysc_tree_missing_failures#:#Found missing entries in the tree structure. Number of missing entries:###30 08 2015 new variable
-sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###25 10 2016 new variable
 tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable

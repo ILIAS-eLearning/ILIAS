@@ -15408,54 +15408,6 @@ survey#:#values#:#Értékek
 survey#:#vertical#:#Függőleges
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#workingtime#:#Eltöltött idő
-sysc#:#sysc_action_list_tree#:#Tartalomtárfa-lenyomat létrehozása
-sysc#:#sysc_action_repair#:#Javítás
-sysc#:#sysc_action_show_tree#:#Tartalomtárfa-lenyomat megjelenítése
-sysc#:#sysc_action_validate#:#Ellenőrzés
-sysc#:#sysc_administrate_deleted#:#Törölt objektumok kezelése
-sysc#:#sysc_btn_tree_missing#:#Hiányzók visszaállítása
-sysc#:#sysc_btn_tree_structure#:#Fastruktúra újralétrehozása
-sysc#:#sysc_completed_num#:#Elvégzett feladatok
-sysc#:#sysc_cron_empty_trash#:#Lomtár ürítése
-sysc#:#sysc_cron_empty_trash_desc#:#A lomtárat ürítjük a megfelelő feltételek alapján (életkor, objektumtípus vagy objektumok maximális száma).
-sysc#:#sysc_failed_num#:#El nem végzett feladatok
-sysc#:#sysc_groups#:#Rendszerellenőrzési csoportok
-sysc#:#sysc_grp_tree#:#Tartalomtár
-sysc#:#sysc_grp_tree_desc#:#A fa elemzése és az összes facsomópont megjelenítése az elemzési adatokkal.
-sysc#:#sysc_message_success#:#Nincs hiba
-sysc#:#sysc_message_tree_missing_confirm#:#Biztos, hogy visszaállítja a hiányzó bejegyzéseket a Tartalomtár faszerkezetében?
-sysc#:#sysc_message_tree_structure_confirm#:#Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról.
-sysc#:#sysc_overview#:#Áttekintés
-sysc#:#sysc_status_completed#:#Befejezve
-sysc#:#sysc_status_failed#:#Sikertelen
-sysc#:#sysc_status_na#:#Nem futott
-sysc#:#sysc_status_running#:#Fut
-sysc#:#sysc_tab_trash#:#Törölt objektumok
-sysc#:#sysc_task_overview#:#Feladatok
-sysc#:#sysc_task_structure#:#Fastruktúra
-sysc#:#sysc_task_structure_desc#:#Tartalomtár faszerkezetének elemzése és javítása.
-sysc#:#sysc_task_tree_dump#:#Fa listázása
-sysc#:#sysc_task_tree_dump_desc#:#Tartalomtár faszerkezetének elemzése és megjelenítése.
-sysc#:#sysc_task_tree_duplicates#:#Duplikált bejegyzések a Tartalomtárban
-sysc#:#sysc_task_tree_duplicates_desc#:#Duplikált bejegyzések keresése a Tartalomtár faszerkezetében.
-sysc#:#sysc_task_tree_missing#:#Hiányzó bejegyzések a Tartalomtárban
-sysc#:#sysc_task_tree_missing_desc#:#Hiányzó bejegyzések keresése és javítása a Tartalomtárban.
-sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
-sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Tartalomtárban.
-sysc#:#sysc_task_tree_missing_tree#:#Hiányzó bejegyzések a Tartalomtárban
-sysc#:#sysc_task_tree_missing_tree_desc#:#Hiányzó bejegyzések keresése és javítása a Tartalomtárban.
-sysc#:#sysc_trash_action#:#Művelet
-sysc#:#sysc_trash_limit_age#:#Évkorkorlát
-sysc#:#sysc_trash_limit_num#:#Számkorlát
-sysc#:#sysc_trash_limit_type#:#Típuskorlát
-sysc#:#sysc_trash_remove#:#Törölt objektumok végleges eltávolítása
-sysc#:#sysc_trash_remove_info#:#Törölt (lomtárban lévő) objektumok végleges eltávolítása a rendszerből
-sysc#:#sysc_trash_restore#:#Törölt objektumok visszaállítása
-sysc#:#sysc_trash_restore_info#:#A lomtárban lévő törölt objektumok visszaállítása és ‘Helyreállított objektumok’-ba helyezése
-sysc#:#sysc_tree_duplicate_failures#:#Duplikált bejegyzéseket találtunk a Tartalomtár faszerkezetében. Duplikált bejegyzések száma:
-sysc#:#sysc_tree_list_failures#:#A Tartalomtár falenyomatát létrehoztuk. Hibák száma a Tartalomtár szerkezetében:
-sysc#:#sysc_tree_missing_failures#:#Hiányzó bejegyzéseket találtunk a Tartalomtár faszerkezetében. Hiányzó bejegyzések száma:
-sysc#:#sysc_tree_structure_failures#:#Fastruktúra hibáinak száma (szülőkapcsolat):
 tagging#:#no_tag_text_1#:#Eddig még egy címkét sem használt, ezért tegye a következőket:
 tagging#:#no_tag_text_2#:#Kattintson %s kiindulópontra és válasszon egy tanulási objektumot a lehetségesek közül, például egy tananyagot vagy egy fórumot.
 tagging#:#no_tag_text_3#:#Tetszőleges címke objektumhoz rendeléséhez válassza a ‘Címkék’ lehetőséget a műveletek menüből.

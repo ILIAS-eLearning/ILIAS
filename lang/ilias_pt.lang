@@ -15438,54 +15438,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#vertical
 survey#:#warning_question_not_complete#:#A pergunta não está completa!
 survey#:#workingtime#:#Tempo de trabalho
-sysc#:#sysc_action_list_tree#:#Criar depósito de árvore do repositório
-sysc#:#sysc_action_repair#:#Reparar
-sysc#:#sysc_action_show_tree#:#Mostrar depósito de árvore do repositório
-sysc#:#sysc_action_validate#:#Validar
-sysc#:#sysc_administrate_deleted#:#Administrar objetos apagados
-sysc#:#sysc_btn_tree_missing#:#Restaurar o que falta
-sysc#:#sysc_btn_tree_structure#:#Recriar estrutura de árvore
-sysc#:#sysc_completed_num#:#Fullfilled Tasks
-sysc#:#sysc_cron_empty_trash#:#Apagar lixo
-sysc#:#sysc_cron_empty_trash_desc#:#Se estiver ativado, o lixo do repositório será purgado pelos critérios fornecidos (idade, tipo de objeto ou número máximo de objetos).
-sysc#:#sysc_failed_num#:#Not Fullfilled Tasks
-sysc#:#sysc_groups#:#Grupos de verificação do sistema
-sysc#:#sysc_grp_tree#:#Árvore do repositório
-sysc#:#sysc_grp_tree_desc#:#Faz uma análise da árvore e imprime todos os três nós juntamente com os dados de análise.
-sysc#:#sysc_message_success#:#Nenhum erro encontrado
-sysc#:#sysc_message_tree_missing_confirm#:#Tem a certeza que quer restaurar as entradas em falta na estrutura de árvore do repositório?
-sysc#:#sysc_message_tree_structure_confirm#:#Tem a certeza que quer reparar a estrutura de árvore? Crie um backup da base de dados antes de continuar.
-sysc#:#sysc_overview#:#Vista geral
-sysc#:#sysc_status_completed#:#Completado
-sysc#:#sysc_status_failed#:#Falhou
-sysc#:#sysc_status_na#:#Não executado
-sysc#:#sysc_status_running#:#Funcionar
-sysc#:#sysc_tab_trash#:#Objetos apagados
-sysc#:#sysc_task_overview#:#Tarefas
-sysc#:#sysc_task_structure#:#Estrutura de árvore
-sysc#:#sysc_task_structure_desc#:#Analisa e corrige a estrutura de árvore do repositório.
-sysc#:#sysc_task_tree_dump#:#Lista árvore
-sysc#:#sysc_task_tree_dump_desc#:#Analisa e imprime a estrutura de árvore do repositório
-sysc#:#sysc_task_tree_duplicates#:#Entradas duplicadas na árvore do repositório
-sysc#:#sysc_task_tree_duplicates_desc#:#Procurar entradas duplicadas na estrutura de árvore do repositório.
-sysc#:#sysc_task_tree_missing#:#Faltam entradas na árvore do repositório
-sysc#:#sysc_task_tree_missing_desc#:#Procura e repara entradas em falta na árvore do repositório.
-sysc#:#sysc_task_tree_missing_reference#:#Faltam referências do objeto
-sysc#:#sysc_task_tree_missing_reference_desc#:#Procura e repara referências de objetos em falta na árvore do repositório.
-sysc#:#sysc_task_tree_missing_tree#:#Faltam entradas na árvore do repositório
-sysc#:#sysc_task_tree_missing_tree_desc#:#Procura e repara entradas em falta na árvore do repositório.
-sysc#:#sysc_trash_action#:#Ação
-sysc#:#sysc_trash_limit_age#:#Limitar idade
-sysc#:#sysc_trash_limit_num#:#Limitar número
-sysc#:#sysc_trash_limit_type#:#Limitar por tipo
-sysc#:#sysc_trash_remove#:#Remover objetos apagados do sistema
-sysc#:#sysc_trash_remove_info#:#Remover objetos apagados (lixo) do sistema
-sysc#:#sysc_trash_restore#:#Restaurar objetos apagados
-sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the "Recovery Folder"
-sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries
-sysc#:#sysc_tree_list_failures#:#Foi criado um depósito da árvore do repositório. Número de erros na estrutura de árvore:
-sysc#:#sysc_tree_missing_failures#:#Encontrou entradas em falta na estrutura de árvore. Número de entradas em falta:
-sysc#:#sysc_tree_structure_failures#:#Número de falhas na estrutura de árvore (relação familiar):
 tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###30 04 2021 new variable
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###30 04 2021 new variable
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###30 04 2021 new variable

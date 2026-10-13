@@ -15423,54 +15423,6 @@ survey#:#values#:#Valores
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
 survey#:#workingtime#:#Tiempo de trabajo
-sysc#:#sysc_action_list_tree#:#Crear volcado del árbol de repositorio.
-sysc#:#sysc_action_repair#:#Reparar
-sysc#:#sysc_action_show_tree#:#Mostrar volcado del árbol del repositorio
-sysc#:#sysc_action_validate#:#Validar
-sysc#:#sysc_administrate_deleted#:#Administrar objetos eliminados
-sysc#:#sysc_btn_tree_missing#:#Restaurar faltantes
-sysc#:#sysc_btn_tree_structure#:#Recrear estructura de árbol
-sysc#:#sysc_completed_num#:#Tareas cumplidas
-sysc#:#sysc_cron_empty_trash#:#Vaciar papelera de reciclaje
-sysc#:#sysc_cron_empty_trash_desc#:#Si se habilita, la papelera del repositorio se purgará según los criterios establecidos (antigüedad, tipo de objeto o número máximo de objetos).
-sysc#:#sysc_failed_num#:#Tareas no cumplidas
-sysc#:#sysc_groups#:#Grupos de comprobación del sistema
-sysc#:#sysc_grp_tree#:#Árbol del repositorio
-sysc#:#sysc_grp_tree_desc#:#Realiza un análisis del árbol y muestra todos los nodos del mismo junto con los datos del análisis.
-sysc#:#sysc_message_success#:#No se han encontrado errores
-sysc#:#sysc_message_tree_missing_confirm#:#¿Realmente desea restaurar las entradas que faltan en la estructura del árbol del repositorio?
-sysc#:#sysc_message_tree_structure_confirm#:#¿Realmente desea reparar la estructura del árbol? Por favor, cree una copia de seguridad de la base de datos antes de continuar.
-sysc#:#sysc_overview#:#Vista general
-sysc#:#sysc_status_completed#:#Completado
-sysc#:#sysc_status_failed#:#Fallido
-sysc#:#sysc_status_na#:#Aún no ejecutado
-sysc#:#sysc_status_running#:#En ejecución
-sysc#:#sysc_tab_trash#:#Objetos eliminados
-sysc#:#sysc_task_overview#:#Tareas
-sysc#:#sysc_task_structure#:#Estructura de árbol
-sysc#:#sysc_task_structure_desc#:#Analiza y corrige la estructura del árbol del repositorio.
-sysc#:#sysc_task_tree_dump#:#Listar Árbol
-sysc#:#sysc_task_tree_dump_desc#:#Analiza e imprime la estructura del árbol del repositorio
-sysc#:#sysc_task_tree_duplicates#:#Entradas Duplicadas en el Árbol del Repositorio
-sysc#:#sysc_task_tree_duplicates_desc#:#Busca entradas duplicadas en la estructura del árbol del repositorio.
-sysc#:#sysc_task_tree_missing#:#Entradas Faltantes en el Árbol del Repositorio
-sysc#:#sysc_task_tree_missing_desc#:#Busca y repara entradas faltantes en el árbol del repositorio.
-sysc#:#sysc_task_tree_missing_reference#:#Referencias de Objeto Faltantes
-sysc#:#sysc_task_tree_missing_reference_desc#:#Busca y repara referencias de objetos faltantes en el árbol del repositorio.
-sysc#:#sysc_task_tree_missing_tree#:#Entradas Faltantes en el Árbol del Repositorio
-sysc#:#sysc_task_tree_missing_tree_desc#:#Busca y repara entradas faltantes en el árbol del repositorio.
-sysc#:#sysc_trash_action#:#Acción
-sysc#:#sysc_trash_limit_age#:#Límite de Antigüedad
-sysc#:#sysc_trash_limit_num#:#Límite de Cantidad
-sysc#:#sysc_trash_limit_type#:#Límite por Tipo
-sysc#:#sysc_trash_remove#:#Eliminar objetos borrados del sistema
-sysc#:#sysc_trash_remove_info#:#Eliminar objetos borrados (papelera de reciclaje) del sistema
-sysc#:#sysc_trash_restore#:#Restaurar Objetos Eliminados
-sysc#:#sysc_trash_restore_info#:#Restaura objetos eliminados de la papelera de reciclaje y los mueve a la 'Carpeta de Recuperación'
-sysc#:#sysc_tree_duplicate_failures#:#Se han encontrado entradas duplicadas en la estructura del árbol. Número de entradas duplicadas
-sysc#:#sysc_tree_list_failures#:#Se ha creado un volcado del árbol del repositorio. Número de errores en la estructura del árbol:
-sysc#:#sysc_tree_missing_failures#:#Se han encontrado entradas faltantes en la estructura del árbol. Número de entradas faltantes:
-sysc#:#sysc_tree_structure_failures#:#Número de fallos en la estructura del árbol (Relación-padre):
 tagging#:#no_tag_text_1#:#Todavía no ha utilizado ninguna etiqueta. Para hacerlo, debe seguir dos pasos:
 tagging#:#no_tag_text_2#:#Haga clic en '%s' y seleccione un objeto de aprendizaje de la oferta disponible, p. ej., un módulo de aprendizaje o un foro.
 tagging#:#no_tag_text_3#:#Para adjuntar etiquetas al objeto, seleccione 'Establecer Etiquetas' en el menú de acciones.

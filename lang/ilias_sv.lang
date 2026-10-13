@@ -15364,54 +15364,6 @@ survey#:#values#:#Värderingar
 survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Frågan är ofullständig!
 survey#:#workingtime#:#Bearbetningstid
-sysc#:#sysc_action_list_tree#:#Skapa en dump av trädstrukturen
-sysc#:#sysc_action_repair#:#Repair
-sysc#:#sysc_action_show_tree#:#Visa trädstruktur
-sysc#:#sysc_action_validate#:#Granskning
-sysc#:#sysc_administrate_deleted#:#Hantera raderade objekt
-sysc#:#sysc_btn_tree_missing#:#Starta återhämtning
-sysc#:#sysc_btn_tree_structure#:#Regenerera trädstruktur
-sysc#:#sysc_completed_num#:#Avslutade uppgifter
-sysc#:#sysc_cron_empty_trash#:#Ta bort papperskorgen
-sysc#:#sysc_cron_empty_trash_desc#:#Om aktiverat tas objekt i papperskorgen automatiskt bort från systemet baserat på vissa kriterier (ålder, objekttyp, antal).
-sysc#:#sysc_failed_num#:#Ouppfyllda uppgifter
-sysc#:#sysc_groups#:#Grupper för systemkontroll
-sysc#:#sysc_grp_tree#:#Magasin träd
-sysc#:#sysc_grp_tree_desc#:#Analyserar och reparerar dataintegriteten i tidskriftens träd
-sysc#:#sysc_message_success#:#Inga fel upptäcktes.
-sysc#:#sysc_message_tree_missing_confirm#:#Vill du återställa de saknade posterna i trädstrukturen?
-sysc#:#sysc_message_tree_structure_confirm#:#Var säker på att du vill reparera trädstrukturen. Vi rekommenderar starkt att du skapar en säkerhetskopia av ILIAS-databasen innan du reparerar den.
-sysc#:#sysc_overview#:#Översikt
-sysc#:#sysc_status_completed#:#Uppfyllt
-sysc#:#sysc_status_failed#:#Missad
-sysc#:#sysc_status_na#:#Ännu ej utförd
-sysc#:#sysc_status_running#:#Vill bli utförd
-sysc#:#sysc_tab_trash#:#Borttagna objekt
-sysc#:#sysc_task_overview#:#Arbetsuppgifter
-sysc#:#sysc_task_structure#:#Trädstruktur
-sysc#:#sysc_task_structure_desc#:#Analyserar och korrigerar strukturen i tidningsträdet
-sysc#:#sysc_task_tree_dump#:#Lista träd
-sysc#:#sysc_task_tree_dump_desc#:#Analyserar trädstrukturen och listar alla trädnoder tillsammans med analysdata.
-sysc#:#sysc_task_tree_duplicates#:#Dubbla poster i trädstrukturen
-sysc#:#sysc_task_tree_duplicates_desc#:#Söker i systemet efter dubbla poster i tidskriftsträdet.
-sysc#:#sysc_task_tree_missing#:#Saknade poster i trädstrukturen
-sysc#:#sysc_task_tree_missing_desc#:#Söker i systemet efter saknade poster i trädstrukturen
-sysc#:#sysc_task_tree_missing_reference#:#Saknade referenser
-sysc#:#sysc_task_tree_missing_reference_desc#:#Finnar och reparerar saknade objektreferenser för poster i tidningsträdet.
-sysc#:#sysc_task_tree_missing_tree#:#Saknade poster i tidskriftsträdet
-sysc#:#sysc_task_tree_missing_tree_desc#:#Söker och reparerar saknade poster för refererade objekt i tidningsträdet.
-sysc#:#sysc_trash_action#:#Åtgärder
-sysc#:#sysc_trash_limit_age#:#Åldersgräns
-sysc#:#sysc_trash_limit_num#:#Nummer gräns
-sysc#:#sysc_trash_limit_type#:#Typ av gränsvärde
-sysc#:#sysc_trash_remove#:#Ta bort raderade objekt
-sysc#:#sysc_trash_remove_info#:#Ta bort objekt i papperskorgen från systemet
-sysc#:#sysc_trash_restore#:#Återställ raderade objekt
-sysc#:#sysc_trash_restore_info#:#Återställ alla objekt i papperskorgen och flytta dem till räddningsmappen.
-sysc#:#sysc_tree_duplicate_failures#:#Duplicerade poster hittades i trädstrukturen. Antal dubbletter av poster
-sysc#:#sysc_tree_list_failures#:#En dump av magasinträdet skapades. Antal fel som hittades
-sysc#:#sysc_tree_missing_failures#:#Det saknas poster i trädstrukturen. Antal saknade poster
-sysc#:#sysc_tree_structure_failures#:#Antal fel i trädstrukturen (föräldrarelation)
 tagging#:#no_tag_text_1#:#Du har för närvarande inte använt några taggar. För att göra detta måste du vidta två åtgärder
 tagging#:#no_tag_text_2#:#Klicka på "%s" och välj ett lärandeobjekt från det tillgängliga utbudet, t.ex. en lärmodul eller ett forum.
 tagging#:#no_tag_text_3#:#Öppna sedan objektets <i>åtgärdsmeny</i> och välj<i>"Ange taggar</i>".
