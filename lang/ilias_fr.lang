@@ -2869,12 +2869,6 @@ chatroom_adm#:#public_chat_permissions#:#Permissions de la Salle de Chat Publiqu
 chatroom_adm#:#public_chat_settings#:#Paramètres de la Salle de Chat Publique
 chatroom_adm#:#server_settings#:#Paramètres Serveur
 chatroom_adm#:#settings_has_been_saved#:#Les paramètres ont été enregistrés
-classification#:#clsfct_back_to_cat#:#Retour à la catégorie
-classification#:#clsfct_block_info#:#Votre sélection filtre les objets.
-classification#:#clsfct_block_title#:#Sélection par sujets
-classification#:#clsfct_content_no_match#:#No hits
-classification#:#clsfct_content_title#:#Objets correspondant à  votre sélection
-classification#:#clsfct_selected_objects#:#Objets sélectionnés
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -5769,85 +5763,6 @@ common#:#zip_structure_error#:#L'archive ZIP contient des noms de fichiers ident
 common#:#zip_test_failed#:#Le test ZIP a échoué. Veuillez contacter votre administrateur ILIAS.
 common#:#zipcode#:#Code postal
 cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
-cont#:#cont_add_global_profile#:#Add Global Profile
-cont#:#cont_add_local_profile#:#Add Local Profile
-cont#:#cont_add_skill#:#Ajouter une compétence
-cont#:#cont_assign_competence#:#Assigner les compétences aux membres
-cont#:#cont_assign_skills#:#Assigner les compétences
-cont#:#cont_block_limit#:#Limit Items per Block
-cont#:#cont_block_limit_info#:#If a block contains more items, a "Show more" button will appear.
-cont#:#cont_cont_skills#:#Compétences assignées des membres
-cont#:#cont_deassign_competence#:#Annuler les assignations des compétences
-cont#:#cont_filter#:#Filter
-cont#:#cont_filter_field#:#Field
-cont#:#cont_filter_fields#:#Filter Fields
-cont#:#cont_filter_record#:#Record
-cont#:#cont_found_objects#:#Found Objects
-cont#:#cont_item_list#:#List
-cont#:#cont_item_list_info#:#Display content objects in a list.
-cont#:#cont_list_presentation#:#Présentation de l'objet
-cont#:#cont_mem_skills#:#Compétences
-cont#:#cont_news_edited#:#Traitées
-cont#:#cont_news_settings#:#Paramètres des nouvelles
-cont#:#cont_news_timeline#:#Chronologie des nouvelles
-cont#:#cont_news_timeline_auto_entries#:#Inclure les entrées automatiques
-cont#:#cont_news_timeline_auto_entries_info#:#Inclure toutes les nouvelles qui sont créées automatiquement, par ex. les publications de forum, les nouveaux fichiers, etc.
-cont#:#cont_news_timeline_info#:#Active l’onglet de chronologie des nouvelles
-cont#:#cont_news_timeline_landing_page#:#Page d’accueil
-cont#:#cont_news_timeline_landing_page_info#:#La page de chronologie sera la page d’accueil.
-cont#:#cont_news_timeline_tab#:#Chronologie
-cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
-cont#:#cont_page_type_cont#:#Page de catalogue (cours, group, ...)
-cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
-cont#:#cont_path#:#Chemin
-cont#:#cont_publish_assignment#:#Publier les affectations
-cont#:#cont_published#:#Publiées
-cont#:#cont_really_deassign_skills#:#Voulez-vous vraiment annuler l’affectation de toutes les compétences des utilisateurs?
-cont#:#cont_really_remove_skill_from_course#:#Voulez-vous vraiment retirer ces compétences de la liste?
-cont#:#cont_select_fields#:#Select Fields
-cont#:#cont_show_more#:#Show More
-cont#:#cont_skill#:#Compétence
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members###31 10 2023 new variable
-cont#:#cont_skill_assigned_comp#:#Sélection de compétences
-cont#:#cont_skill_assigned_profiles#:#Profile Selection
-cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.
-cont#:#cont_skill_do_not_set#:#Ne pas définir
-cont#:#cont_skill_members#:#Membres
-cont#:#cont_skill_no_profile_selected#:#Please select a profile.
-cont#:#cont_skill_no_skill#:#Aucune valeur (réinitialiser)
-cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".
-cont#:#cont_skill_profile#:#Profile
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members
-cont#:#cont_skill_publish#:#Publier
-cont#:#cont_skill_publish_auto#:#Automatique
-cont#:#cont_skill_publish_auto_info#:#Les affectations de compétences pour les membres sont immédiatement visibles pour les membres.
-cont#:#cont_skill_publish_manual#:#Manuel
-cont#:#cont_skill_publish_manual_info#:#Les affectations de compétences pour les membres doivent être publiées avant de devenir visibles pour les membres.
-cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?
-cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?
-cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?
-cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
-cont#:#cont_skill_records#:#Competence Records###31 10 2023 new variable
-cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.
-cont#:#cont_std_filter_title_1#:#Titre
-cont#:#cont_std_filter_title_2#:#Description
-cont#:#cont_std_filter_title_3#:#Titre/Description
-cont#:#cont_std_filter_title_4#:#Mot-clé
-cont#:#cont_std_filter_title_5#:#Auteur
-cont#:#cont_std_filter_title_6#:#Droit d'auteur
-cont#:#cont_std_filter_title_7#:#Tutoriel
-cont#:#cont_std_filter_title_8#:#Type d'objet
-cont#:#cont_std_filter_title_9#:#En ligne/Hors-ligne
-cont#:#cont_std_record_title#:#Standard
-cont#:#cont_tile_size#:#Tile Size###31 10 2023 new variable
-cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)###31 10 2023 new variable
-cont#:#cont_tile_size_1#:#small (up to six tiles in a row)###31 10 2023 new variable
-cont#:#cont_tile_size_2#:#large (up to three tiles in a row)###31 10 2023 new variable
-cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)###31 10 2023 new variable
-cont#:#cont_tile_size_4#:#full (one tile in a row)###31 10 2023 new variable
-cont#:#cont_tile_view#:#Tiles
-cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Ajouter Entrée de Menu
 content#:#all_pages#:#le module entier

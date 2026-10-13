@@ -2945,12 +2945,6 @@ chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
 chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum : Einstellungen
 chatroom_adm#:#server_settings#:#Chat-Server-Einstellungen
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
-classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
-classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
-classification#:#clsfct_block_title#:#Auswahl nach Themen
-classification#:#clsfct_content_no_match#:#Es wurden keine Objekte für die ausgewählten Kriterien gefunden.
-classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
-classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
 cmix#:#achieved_info#:#Erfolgreich ein gewünschtes Ziel, Niveau oder Ergebnis durch Anstrengung, Geschicklichkeit oder Mut herbeiführen oder erreichen.
 cmix#:#achieved_label#:#Statements mit dem Verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -5851,86 +5845,6 @@ common#:#zip_structure_error#:#Archiv enthält gleiche Dateinamen. Upload abgebr
 common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#zipcode#:#Postleitzahl
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
-cont#:#cont_add_global_profile#:#Globales Profil hinzufügen
-cont#:#cont_add_local_profile#:#Lokales Profil hinzufügen
-cont#:#cont_add_skill#:#Kompetenz hinzufügen
-cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
-cont#:#cont_assign_skills#:#Kompetenzen zuweisen
-cont#:#cont_block_limit#:#Einträge per Block begrenzen
-cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
-cont#:#cont_cont_skills#:#Kompetenzen der Mitglieder
-cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
-cont#:#cont_filter#:#Filter
-cont#:#cont_filter_field#:#Feld
-cont#:#cont_filter_fields#:#Filterfelder
-cont#:#cont_filter_record#:#Datensatz
-cont#:#cont_found_objects#:#Gefundene Objekte
-cont#:#cont_item_list#:#Liste
-cont#:#cont_item_list_info#:#Untergeordnete Objekte in einer Liste anzeigen.
-cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
-cont#:#cont_mem_skills#:#Kompetenzen
-cont#:#cont_news_edited#:#Bearbeitet
-cont#:#cont_news_settings#:#Neuigkeiten
-cont#:#cont_news_timeline#:#Timeline
-cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten einbeziehen
-cont#:#cont_news_timeline_auto_entries_info#:#Alle automatisch erstellten Neuigkeiten werden mit angezeigt, z.B. Forenbeiträge, neue Dateien etc.
-cont#:#cont_news_timeline_info#:#Blendet den Reiter „Timeline“ mit Neuigkeiten ein. Im Anschluss können Mitglieder einen täglichen Neuigkeitenüberblick per E-Mail abonnieren.
-cont#:#cont_news_timeline_landing_page#:#Timeline als Startseite
-cont#:#cont_news_timeline_landing_page_info#:#Wird das Objekt geöffnet, landet man direkt auf dem Reiter „Timeline“.
-cont#:#cont_news_timeline_tab#:#Timeline
-cont#:#cont_no_title#:#Leerer Titel
-cont#:#cont_only_crs_grp_fold_download#:#Es können nur Dateien, Kurse, Gruppen oder Ordner heruntergeladen werden.
-cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
-cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
-cont#:#cont_path#:#Pfad
-cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen
-cont#:#cont_published#:#Veröffentlichung
-cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzzuweisungen des Benutzers zurücksetzen?
-cont#:#cont_really_remove_skill_from_course#:#Sollen die Kompetenzen wirklich aus der Liste entfernt werden?
-cont#:#cont_select_fields#:#Felder auswählen
-cont#:#cont_show_more#:#Mehr anzeigen
-cont#:#cont_skill#:#Kompetenz
-cont#:#cont_skill_ass_profiles#:#Profile der Mitglieder
-cont#:#cont_skill_assigned_comp#:#Kompetenzauswahl
-cont#:#cont_skill_assigned_profiles#:#Profilauswahl
-cont#:#cont_skill_deletion_not_possible#:#Das Löschen von globalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich lokale Kompetenzprofile aus.
-cont#:#cont_skill_do_not_set#:#Nicht setzen
-cont#:#cont_skill_members#:#Mitglieder
-cont#:#cont_skill_no_profile_selected#:#Bitte wählen Sie ein Profil aus.
-cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
-cont#:#cont_skill_no_skills_selected#:#Es wurden noch keine Kompetenzen ausgewählt. Bitte fügen Sie zunächst mindestens eine Kompetenz hinzu unter "Kompetenzauswahl".
-cont#:#cont_skill_profile#:#Profil
-cont#:#cont_skill_profiles#:#Kompetenzprofile
-cont#:#cont_skill_publish#:#Veröffentlichung
-cont#:#cont_skill_publish_auto#:#Automatisch
-cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese sofort sichtbar.
-cont#:#cont_skill_publish_manual#:#Manuell
-cont#:#cont_skill_publish_manual_info#:#Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden.
-cont#:#cont_skill_really_delete_profile_from_list#:#Soll das Profil wirklich gelöscht werden?
-cont#:#cont_skill_really_delete_profiles_from_list#:#Sollen die Profile wirklich gelöscht werden?
-cont#:#cont_skill_really_remove_profile_from_list#:#Soll das Profil wirklich aus der Liste entfernt werden?
-cont#:#cont_skill_really_remove_profiles_from_list#:#Sollen die Profile wirklich aus der Liste entfernt werden?
-cont#:#cont_skill_records#:#Kompetenzeinträge
-cont#:#cont_skill_removal_not_possible#:#Das Entfernen von lokalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich globale Kompetenzprofile aus.
-cont#:#cont_std_filter_title_1#:#Titel
-cont#:#cont_std_filter_title_2#:#Beschreibung
-cont#:#cont_std_filter_title_3#:#Titel/Beschreibung
-cont#:#cont_std_filter_title_4#:#Schlagwort
-cont#:#cont_std_filter_title_5#:#Autor
-cont#:#cont_std_filter_title_6#:#Lizenz
-cont#:#cont_std_filter_title_7#:#Kontaktperson
-cont#:#cont_std_filter_title_8#:#Objekttyp
-cont#:#cont_std_filter_title_9#:#Online/Offline
-cont#:#cont_std_record_title#:#Standard
-cont#:#cont_tile_size#:#Kachelgröße
-cont#:#cont_tile_size_0#:#normal (bis zu vier Kacheln in einer Zeile)
-cont#:#cont_tile_size_1#:#klein (bis zu sechs Kacheln in einer Zeile)
-cont#:#cont_tile_size_2#:#groß (bis zu drei Kacheln in einer Zeile)
-cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
-cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
-cont#:#cont_tile_view#:#Kacheln
-cont#:#cont_tile_view_info#:#Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden.
-cont#:#cont_trash_general_usage#:#Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter "Typ" und "Gelöscht am" unterstützen den Vorgang. Abschließend löschen Sie dann die Container.
 content#:#Pages#:#Seiten
 content#:#add_menu_entry#:#Menüeintrag hinzufügen →
 content#:#all_pages#:#für das gesamte Lernmodul

@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cont\n"
+
+msgid "cont_add_global_profile"
+msgstr "Globales Profil hinzufügen"
+
+msgid "cont_add_local_profile"
+msgstr "Lokales Profil hinzufügen"
+
+msgid "cont_add_skill"
+msgstr "Kompetenz hinzufügen"
+
+msgid "cont_assign_competence"
+msgstr "Mitgliedern Kompetenzen zuweisen"
+
+msgid "cont_assign_skills"
+msgstr "Kompetenzen zuweisen"
+
+msgid "cont_block_limit"
+msgstr "Einträge per Block begrenzen"
+
+msgid "cont_block_limit_info"
+msgstr "Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf \"Mehr anzeigen\"."
+
+msgid "cont_cont_skills"
+msgstr "Kompetenzen der Mitglieder"
+
+msgid "cont_deassign_competence"
+msgstr "Kompetenzen zurücksetzen"
+
+msgid "cont_filter"
+msgstr "Filter"
+
+msgid "cont_filter_field"
+msgstr "Feld"
+
+msgid "cont_filter_fields"
+msgstr "Filterfelder"
+
+msgid "cont_filter_record"
+msgstr "Datensatz"
+
+msgid "cont_found_objects"
+msgstr "Gefundene Objekte"
+
+msgid "cont_item_list"
+msgstr "Liste"
+
+msgid "cont_item_list_info"
+msgstr "Untergeordnete Objekte in einer Liste anzeigen."
+
+msgid "cont_list_presentation"
+msgstr "Präsentationsansicht für Inhalte"
+
+msgid "cont_mem_skills"
+msgstr "Kompetenzen"
+
+msgid "cont_news_edited"
+msgstr "Bearbeitet"
+
+msgid "cont_news_settings"
+msgstr "Neuigkeiten"
+
+msgid "cont_news_timeline"
+msgstr "Timeline"
+
+msgid "cont_news_timeline_auto_entries"
+msgstr "Automatisch erstellte Neuigkeiten einbeziehen"
+
+msgid "cont_news_timeline_auto_entries_info"
+msgstr "Alle automatisch erstellten Neuigkeiten werden mit angezeigt, z.B. Forenbeiträge, neue Dateien etc."
+
+msgid "cont_news_timeline_info"
+msgstr "Blendet den Reiter „Timeline“ mit Neuigkeiten ein. Im Anschluss können Mitglieder einen täglichen Neuigkeitenüberblick per E-Mail abonnieren."
+
+msgid "cont_news_timeline_landing_page"
+msgstr "Timeline als Startseite"
+
+msgid "cont_news_timeline_landing_page_info"
+msgstr "Wird das Objekt geöffnet, landet man direkt auf dem Reiter „Timeline“."
+
+msgid "cont_news_timeline_tab"
+msgstr "Timeline"
+
+msgid "cont_no_title"
+msgstr "Leerer Titel"
+
+msgid "cont_only_crs_grp_fold_download"
+msgstr "Es können nur Dateien, Kurse, Gruppen oder Ordner heruntergeladen werden."
+
+msgid "cont_page_type_cont"
+msgstr "Magazinseite (Kurs, Gruppe, Kategorie, ...)"
+
+msgid "cont_page_type_cstr"
+msgstr "Startseite lernzielorientierter Kurs"
+
+msgid "cont_path"
+msgstr "Pfad"
+
+msgid "cont_publish_assignment"
+msgstr "Zuweisungen veröffentlichen"
+
+msgid "cont_published"
+msgstr "Veröffentlichung"
+
+msgid "cont_really_deassign_skills"
+msgstr "Wollen Sie wirklich alle Kompetenzzuweisungen des Benutzers zurücksetzen?"
+
+msgid "cont_really_remove_skill_from_course"
+msgstr "Sollen die Kompetenzen wirklich aus der Liste entfernt werden?"
+
+msgid "cont_select_fields"
+msgstr "Felder auswählen"
+
+msgid "cont_show_more"
+msgstr "Mehr anzeigen"
+
+msgid "cont_skill"
+msgstr "Kompetenz"
+
+msgid "cont_skill_ass_profiles"
+msgstr "Profile der Mitglieder"
+
+msgid "cont_skill_assigned_comp"
+msgstr "Kompetenzauswahl"
+
+msgid "cont_skill_assigned_profiles"
+msgstr "Profilauswahl"
+
+msgid "cont_skill_deletion_not_possible"
+msgstr "Das Löschen von globalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich lokale Kompetenzprofile aus."
+
+msgid "cont_skill_do_not_set"
+msgstr "Nicht setzen"
+
+msgid "cont_skill_members"
+msgstr "Mitglieder"
+
+msgid "cont_skill_no_profile_selected"
+msgstr "Bitte wählen Sie ein Profil aus."
+
+msgid "cont_skill_no_skill"
+msgstr "Kein Wert (zurücksetzen)"
+
+msgid "cont_skill_no_skills_selected"
+msgstr "Es wurden noch keine Kompetenzen ausgewählt. Bitte fügen Sie zunächst mindestens eine Kompetenz hinzu unter \"Kompetenzauswahl\"."
+
+msgid "cont_skill_profile"
+msgstr "Profil"
+
+msgid "cont_skill_profiles"
+msgstr "Kompetenzprofile"
+
+msgid "cont_skill_publish"
+msgstr "Veröffentlichung"
+
+msgid "cont_skill_publish_auto"
+msgstr "Automatisch"
+
+msgid "cont_skill_publish_auto_info"
+msgstr "Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese sofort sichtbar."
+
+msgid "cont_skill_publish_manual"
+msgstr "Manuell"
+
+msgid "cont_skill_publish_manual_info"
+msgstr "Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden."
+
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr "Soll das Profil wirklich gelöscht werden?"
+
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr "Sollen die Profile wirklich gelöscht werden?"
+
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr "Soll das Profil wirklich aus der Liste entfernt werden?"
+
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr "Sollen die Profile wirklich aus der Liste entfernt werden?"
+
+msgid "cont_skill_records"
+msgstr "Kompetenzeinträge"
+
+msgid "cont_skill_removal_not_possible"
+msgstr "Das Entfernen von lokalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich globale Kompetenzprofile aus."
+
+msgid "cont_std_filter_title_1"
+msgstr "Titel"
+
+msgid "cont_std_filter_title_2"
+msgstr "Beschreibung"
+
+msgid "cont_std_filter_title_3"
+msgstr "Titel/Beschreibung"
+
+msgid "cont_std_filter_title_4"
+msgstr "Schlagwort"
+
+msgid "cont_std_filter_title_5"
+msgstr "Autor"
+
+msgid "cont_std_filter_title_6"
+msgstr "Lizenz"
+
+msgid "cont_std_filter_title_7"
+msgstr "Kontaktperson"
+
+msgid "cont_std_filter_title_8"
+msgstr "Objekttyp"
+
+msgid "cont_std_filter_title_9"
+msgstr "Online/Offline"
+
+msgid "cont_std_record_title"
+msgstr "Standard"
+
+msgid "cont_tile_size"
+msgstr "Kachelgröße"
+
+msgid "cont_tile_size_0"
+msgstr "normal (bis zu vier Kacheln in einer Zeile)"
+
+msgid "cont_tile_size_1"
+msgstr "klein (bis zu sechs Kacheln in einer Zeile)"
+
+msgid "cont_tile_size_2"
+msgstr "groß (bis zu drei Kacheln in einer Zeile)"
+
+msgid "cont_tile_size_3"
+msgstr "sehr groß (bis zu zwei Kacheln in einer Zeile)"
+
+msgid "cont_tile_size_4"
+msgstr "volle Breite (eine Kachel in einer Zeile)"
+
+msgid "cont_tile_view"
+msgstr "Kacheln"
+
+msgid "cont_tile_view_info"
+msgstr "Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden."
+
+msgid "cont_trash_general_usage"
+msgstr "Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter \"Typ\" und \"Gelöscht am\" unterstützen den Vorgang. Abschließend löschen Sie dann die Container."

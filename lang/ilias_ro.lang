@@ -2883,12 +2883,6 @@ chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions###01 10 201
 chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings###01 10 2011 new variable
 chatroom_adm#:#server_settings#:#Server settings###06 08 2011 new variable
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved###06 08 2011 new variable
-classification#:#clsfct_back_to_cat#:#Back to Category###31 08 2017 new variable
-classification#:#clsfct_block_info#:#Your Selection filters the objects.###26 09 2014 new variable
-classification#:#clsfct_block_title#:#Selection by Topics###26 09 2014 new variable
-classification#:#clsfct_content_no_match#:#No hits###26 09 2014 new variable
-classification#:#clsfct_content_title#:#Objects matching your selection###26 09 2014 new variable
-classification#:#clsfct_selected_objects#:#Selected Objects###31 08 2017 new variable
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.###29 07 2022 new variable
 cmix#:#achieved_label#:#Statements with the verb 'achieved'###29 07 2022 new variable
 cmix#:#activity_id#:#Activity-ID###07 02 2020 new variable
@@ -5782,85 +5776,6 @@ common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.#
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.###15 09 2008 new variable
 common#:#zipcode#:#Cod Postal
 cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.###10 11 2018 new variable
-cont#:#cont_add_global_profile#:#Add Global Profile###29 07 2022 new variable
-cont#:#cont_add_local_profile#:#Add Local Profile###29 07 2022 new variable
-cont#:#cont_add_skill#:#Add Competence###31 08 2017 new variable
-cont#:#cont_assign_competence#:#Assign Competences to Members###31 08 2017 new variable
-cont#:#cont_assign_skills#:#Assign Competences###31 08 2017 new variable
-cont#:#cont_block_limit#:#Limit Items per Block###10 11 2018 new variable
-cont#:#cont_block_limit_info#:#If a block contains more items, a "Show more" button will appear.###10 11 2018 new variable
-cont#:#cont_cont_skills#:#Assigned Competences of Members###31 08 2017 new variable
-cont#:#cont_deassign_competence#:#Deassign Competences###31 08 2017 new variable
-cont#:#cont_filter#:#Filter###07 02 2020 new variable
-cont#:#cont_filter_field#:#Field###07 02 2020 new variable
-cont#:#cont_filter_fields#:#Filter Fields###07 02 2020 new variable
-cont#:#cont_filter_record#:#Record###07 02 2020 new variable
-cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
-cont#:#cont_item_list#:#List###10 11 2018 new variable
-cont#:#cont_item_list_info#:#Objects located within this container are displayed in the form of a list.###26 08 2024 new variable
-cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
-cont#:#cont_mem_skills#:#Competences###31 08 2017 new variable
-cont#:#cont_news_edited#:#Bearbeitet###25 10 2016 new variable
-cont#:#cont_news_settings#:#News Settings###25 10 2016 new variable
-cont#:#cont_news_timeline#:#News Timeline###25 10 2016 new variable
-cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries###25 10 2016 new variable
-cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.###25 10 2016 new variable
-cont#:#cont_news_timeline_info#:#Activates News Timeline Tab###25 10 2016 new variable
-cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
-cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
-cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
-cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
-cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###29 07 2022 new variable
-cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###29 07 2022 new variable
-cont#:#cont_path#:#Path###31 08 2017 new variable
-cont#:#cont_publish_assignment#:#Publish Assignments###31 08 2017 new variable
-cont#:#cont_published#:#Published###31 08 2017 new variable
-cont#:#cont_really_deassign_skills#:#Do you really want to deassign all competences from the users?###31 08 2017 new variable
-cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these competences from the list?###31 08 2017 new variable
-cont#:#cont_select_fields#:#Select Fields###07 02 2020 new variable
-cont#:#cont_show_more#:#Show More###10 11 2018 new variable
-cont#:#cont_skill#:#Competence###31 08 2017 new variable
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members###26 08 2024 new variable
-cont#:#cont_skill_assigned_comp#:#Competence Selection###31 08 2017 new variable
-cont#:#cont_skill_assigned_profiles#:#Profile Selection###29 07 2022 new variable
-cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.###29 07 2022 new variable
-cont#:#cont_skill_do_not_set#:#Do not set###31 08 2017 new variable
-cont#:#cont_skill_members#:#Members###31 08 2017 new variable
-cont#:#cont_skill_no_profile_selected#:#Please select a profile.###29 07 2022 new variable
-cont#:#cont_skill_no_skill#:#No value (Reset)###31 08 2017 new variable
-cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###26 08 2024 new variable
-cont#:#cont_skill_profile#:#Profile###29 07 2022 new variable
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members###29 07 2022 new variable
-cont#:#cont_skill_publish#:#Publish###31 08 2017 new variable
-cont#:#cont_skill_publish_auto#:#Automatic###31 08 2017 new variable
-cont#:#cont_skill_publish_auto_info#:#Competence assignments for members are immediately visible for members.###31 08 2017 new variable
-cont#:#cont_skill_publish_manual#:#Manual###31 08 2017 new variable
-cont#:#cont_skill_publish_manual_info#:#Competence assignments for members must be published before they become visible for members.###31 08 2017 new variable
-cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?###29 07 2022 new variable
-cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?###29 07 2022 new variable
-cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?###29 07 2022 new variable
-cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###29 07 2022 new variable
-cont#:#cont_skill_records#:#Competence Records###26 08 2024 new variable
-cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###29 07 2022 new variable
-cont#:#cont_std_filter_title_1#:#Title###07 02 2020 new variable
-cont#:#cont_std_filter_title_2#:#Description###07 02 2020 new variable
-cont#:#cont_std_filter_title_3#:#Title/Description###07 02 2020 new variable
-cont#:#cont_std_filter_title_4#:#Keyword###07 02 2020 new variable
-cont#:#cont_std_filter_title_5#:#Author###07 02 2020 new variable
-cont#:#cont_std_filter_title_6#:#Copyright###07 02 2020 new variable
-cont#:#cont_std_filter_title_7#:#Tutorial Support###07 02 2020 new variable
-cont#:#cont_std_filter_title_8#:#Object Type###07 02 2020 new variable
-cont#:#cont_std_filter_title_9#:#Online/Offline###07 02 2020 new variable
-cont#:#cont_std_record_title#:#Standard###07 02 2020 new variable
-cont#:#cont_tile_size#:#Tile Size###29 07 2022 new variable
-cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_1#:#small (up to six tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_2#:#large (up to three tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)###29 07 2022 new variable
-cont#:#cont_tile_size_4#:#full (one tile in a row)###29 07 2022 new variable
-cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
-cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###26 08 2024 new variable
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
 content#:#Pages#:#Pagini
 content#:#add_menu_entry#:#Adaugati in meniu >>
 content#:#all_pages#:#intregul Modul de Invatare###25 Jul 2006 content changed

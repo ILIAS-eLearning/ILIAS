@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cont\n"
+
+msgid "cont_add_global_profile"
+msgstr "Add Global Profile"
+
+msgid "cont_add_local_profile"
+msgstr "Add Local Profile"
+
+msgid "cont_add_skill"
+msgstr "Add Competence"
+
+msgid "cont_assign_competence"
+msgstr "Assign Competences to Members"
+
+msgid "cont_assign_skills"
+msgstr "Assign Competences"
+
+msgid "cont_block_limit"
+msgstr "Limit Objects per Block"
+
+msgid "cont_block_limit_info"
+msgstr "If a block contains more objects than the number set here, a \"Show More\" button will appear."
+
+msgid "cont_cont_skills"
+msgstr "Assigned Competences of Members"
+
+msgid "cont_deassign_competence"
+msgstr "Deassign Competences"
+
+msgid "cont_filter"
+msgstr "Filter"
+
+msgid "cont_filter_field"
+msgstr "Field"
+
+msgid "cont_filter_fields"
+msgstr "Filter Fields"
+
+msgid "cont_filter_record"
+msgstr "Record"
+
+msgid "cont_found_objects"
+msgstr "Found Objects"
+
+msgid "cont_item_list"
+msgstr "List"
+
+msgid "cont_item_list_info"
+msgstr "Objects located within this container are displayed in the form of a list."
+
+msgid "cont_list_presentation"
+msgstr "Content Display Options"
+
+msgid "cont_mem_skills"
+msgstr "Competences"
+
+msgid "cont_news_edited"
+msgstr "Edited"
+
+msgid "cont_news_settings"
+msgstr "News Settings"
+
+msgid "cont_news_timeline"
+msgstr "News Timeline"
+
+msgid "cont_news_timeline_auto_entries"
+msgstr "Include Automatically Generated News"
+
+msgid "cont_news_timeline_auto_entries_info"
+msgstr "Have ILIAS include automatically generated news items in the news timeline, for example when posts are made in forums or new files have been added."
+
+msgid "cont_news_timeline_info"
+msgstr "Make a ‘Timeline’ tab visible, in which your news items will be listed. Members will then be able to subscribe to a ‘daily news roundup’ e-mail."
+
+msgid "cont_news_timeline_landing_page"
+msgstr "Timeline as Landing Page"
+
+msgid "cont_news_timeline_landing_page_info"
+msgstr "Opening this object will take users directly to the ‘Timeline’ tab."
+
+msgid "cont_news_timeline_tab"
+msgstr "Timeline"
+
+msgid "cont_no_title"
+msgstr "Empty Title"
+
+msgid "cont_only_crs_grp_fold_download"
+msgstr "Only courses, groups, folders or files can be downloaded."
+
+msgid "cont_page_type_cont"
+msgstr "Repository Page (Cours, Group, ...)"
+
+msgid "cont_page_type_cstr"
+msgstr "Course Start Page (Learning Objectives View)"
+
+msgid "cont_path"
+msgstr "Path"
+
+msgid "cont_publish_assignment"
+msgstr "Publish Assignments"
+
+msgid "cont_published"
+msgstr "Published"
+
+msgid "cont_really_deassign_skills"
+msgstr "Do you really want to deassign all competences from the users?"
+
+msgid "cont_really_remove_skill_from_course"
+msgstr "Do you really want to remove these competences from the list?"
+
+msgid "cont_select_fields"
+msgstr "Select Fields"
+
+msgid "cont_show_more"
+msgstr "Show More"
+
+msgid "cont_skill"
+msgstr "Competence"
+
+msgid "cont_skill_ass_profiles"
+msgstr "Assigned Profiles of Members"
+
+msgid "cont_skill_assigned_comp"
+msgstr "Competence Selection"
+
+msgid "cont_skill_assigned_profiles"
+msgstr "Profile Selection"
+
+msgid "cont_skill_deletion_not_possible"
+msgstr "Deletion of global competence profiles is not possible. Please select only local competence profiles."
+
+msgid "cont_skill_do_not_set"
+msgstr "Do not set"
+
+msgid "cont_skill_members"
+msgstr "Members"
+
+msgid "cont_skill_no_profile_selected"
+msgstr "Please select a profile."
+
+msgid "cont_skill_no_skill"
+msgstr "No value (Reset)"
+
+msgid "cont_skill_no_skills_selected"
+msgstr "No competences have been selected yet. Please add at least one competence first under \"Competence Selection\"."
+
+msgid "cont_skill_profile"
+msgstr "Profile"
+
+msgid "cont_skill_profiles"
+msgstr "Competence Profiles"
+
+msgid "cont_skill_publish"
+msgstr "Publish"
+
+msgid "cont_skill_publish_auto"
+msgstr "Automatic"
+
+msgid "cont_skill_publish_auto_info"
+msgstr "Competence assignments for members are immediately visible for members."
+
+msgid "cont_skill_publish_manual"
+msgstr "Manual"
+
+msgid "cont_skill_publish_manual_info"
+msgstr "Competence assignments for members must be published before they become visible for members."
+
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr "Do you really want to delete this profile?"
+
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr "Do you really want to delete these profiles?"
+
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr "Do you really want to remove this profile from the list?"
+
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr "Do you really want to remove these profiles from the list?"
+
+msgid "cont_skill_records"
+msgstr "Competence Records"
+
+msgid "cont_skill_removal_not_possible"
+msgstr "Removing of local competence profiles is not possible. Please select only global competence profiles."
+
+msgid "cont_std_filter_title_1"
+msgstr "Title"
+
+msgid "cont_std_filter_title_2"
+msgstr "Description"
+
+msgid "cont_std_filter_title_3"
+msgstr "Title/Description"
+
+msgid "cont_std_filter_title_4"
+msgstr "Keyword"
+
+msgid "cont_std_filter_title_5"
+msgstr "Author"
+
+msgid "cont_std_filter_title_6"
+msgstr "Copyright"
+
+msgid "cont_std_filter_title_7"
+msgstr "Tutorial Support"
+
+msgid "cont_std_filter_title_8"
+msgstr "Object Type"
+
+msgid "cont_std_filter_title_9"
+msgstr "Online/Offline"
+
+msgid "cont_std_record_title"
+msgstr "Standard"
+
+msgid "cont_tile_size"
+msgstr "Tile Size"
+
+msgid "cont_tile_size_0"
+msgstr "normal (up to four tiles in a row)"
+
+msgid "cont_tile_size_1"
+msgstr "small (up to six tiles in a row)"
+
+msgid "cont_tile_size_2"
+msgstr "large (up to three tiles in a row)"
+
+msgid "cont_tile_size_3"
+msgstr "extra large (up to two tiles in a row)"
+
+msgid "cont_tile_size_4"
+msgstr "full (one tile in a row)"
+
+msgid "cont_tile_view"
+msgstr "Tiles"
+
+msgid "cont_tile_view_info"
+msgstr "Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object."
+
+msgid "cont_trash_general_usage"
+msgstr "If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters \"Type\" and \"Deleted on\" helps this process. Then finally remove the containers."

@@ -2923,12 +2923,6 @@ chatroom_adm#:#public_chat_permissions#:#Definições de categoria
 chatroom_adm#:#public_chat_settings#:#Nova categoria
 chatroom_adm#:#server_settings#:#Modificar
 chatroom_adm#:#settings_has_been_saved#:#As definições foram guardadas
-classification#:#clsfct_back_to_cat#:#Voltar à categoria
-classification#:#clsfct_block_info#:#A sua seleção filtra os objetos.
-classification#:#clsfct_block_title#:#Seleção por tópicos
-classification#:#clsfct_content_no_match#:#Possível alterar dados pessoas e perfis
-classification#:#clsfct_content_title#:#Objetos que correspondem à sua seleção
-classification#:#clsfct_selected_objects#:#Objetos selecionados
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.###30 04 2021 new variable
 cmix#:#achieved_label#:#Statements with the verb 'achieved'###30 04 2021 new variable
 cmix#:#activity_id#:#Activity-ID###07 02 2020 new variable
@@ -5828,86 +5822,6 @@ common#:#zip_structure_error#:#Definições
 common#:#zip_test_failed#:#Teste Zip falhou. Entre em contacto com o seu administrador ILIAS.
 common#:#zipcode#:#Idioma usado para textos predefinidos, p. ex. "Anterior" e "Próximo".
 cond#:#cond_under_parent_control#:#Manifesto
-cont#:#cont_add_global_profile#:#Add Global Profile###30 04 2021 new variable
-cont#:#cont_add_local_profile#:#Add Local Profile###30 04 2021 new variable
-cont#:#cont_add_skill#:#Adicionar competência
-cont#:#cont_assign_competence#:#Atribuir competências a membros
-cont#:#cont_assign_skills#:#Atribuir competências
-cont#:#cont_block_limit#:#adlcp:masteryscore
-cont#:#cont_block_limit_info#:#adlcp:maxtimeallowed
-cont#:#cont_cont_skills#:#Competências atribuídas a membros
-cont#:#cont_deassign_competence#:#Retirar a atribuição das competências
-cont#:#cont_filter#:#Filter###07 02 2020 new variable
-cont#:#cont_filter_field#:#Field###07 02 2020 new variable
-cont#:#cont_filter_fields#:#Filter Fields###07 02 2020 new variable
-cont#:#cont_filter_record#:#Record###07 02 2020 new variable
-cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
-cont#:#cont_item_list#:#Clicar e editar para inserir media
-cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
-cont#:#cont_list_presentation#:#Variável de media
-cont#:#cont_mem_skills#:#Competências
-cont#:#cont_news_edited#:#Processado
-cont#:#cont_news_settings#:#Definições das notícias
-cont#:#cont_news_timeline#:#Linha cronológica das notícias
-cont#:#cont_news_timeline_auto_entries#:#Incluir entradas automáticas
-cont#:#cont_news_timeline_auto_entries_info#:#Inclui todas as notícias que são criadas automaticamente, p. ex. posts de fóruns, novos ficheiros, etc.
-cont#:#cont_news_timeline_info#:#Ativa separador da linha cronológica das notícias
-cont#:#cont_news_timeline_landing_page#:#Página de desembarque
-cont#:#cont_news_timeline_landing_page_info#:#A página da linha cronológica será a página de desembarque.
-cont#:#cont_news_timeline_tab#:#Linha cronológica
-cont#:#cont_no_title#:#Empty Title###03 09 2026 new variable
-cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###03 09 2026 new variable
-cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
-cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
-cont#:#cont_path#:#Caminho
-cont#:#cont_publish_assignment#:#Publicar atribuições
-cont#:#cont_published#:#Publicado
-cont#:#cont_really_deassign_skills#:#Tem a certeza que quer retirar as atribuições a todas as competências dos utilizadores?
-cont#:#cont_really_remove_skill_from_course#:#Tem a certeza que quer remover estas competências da lista?
-cont#:#cont_select_fields#:#Select Fields###07 02 2020 new variable
-cont#:#cont_show_more#:#Fonte de media
-cont#:#cont_skill#:#Competência
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members###03 09 2026 new variable
-cont#:#cont_skill_assigned_comp#:#Seleção da competência
-cont#:#cont_skill_assigned_profiles#:#Profile Selection###30 04 2021 new variable
-cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.###30 04 2021 new variable
-cont#:#cont_skill_do_not_set#:#Não definir
-cont#:#cont_skill_members#:#Membros
-cont#:#cont_skill_no_profile_selected#:#Please select a profile.###30 04 2021 new variable
-cont#:#cont_skill_no_skill#:#Nenhum valor (repor)
-cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
-cont#:#cont_skill_profile#:#Profile###30 04 2021 new variable
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members###30 04 2021 new variable
-cont#:#cont_skill_publish#:#Publicar
-cont#:#cont_skill_publish_auto#:#Automático
-cont#:#cont_skill_publish_auto_info#:#As atribuições das competências para membros fica imediatamente visíveis aos membros.
-cont#:#cont_skill_publish_manual#:#Manual
-cont#:#cont_skill_publish_manual_info#:#As atribuições das competências para membros têm de ser publicadas antes de ficarem visíveis aos membros.
-cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?###30 04 2021 new variable
-cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?###30 04 2021 new variable
-cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?###30 04 2021 new variable
-cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###30 04 2021 new variable
-cont#:#cont_skill_records#:#Competence Records###03 09 2026 new variable
-cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###30 04 2021 new variable
-cont#:#cont_std_filter_title_1#:#Title###07 02 2020 new variable
-cont#:#cont_std_filter_title_2#:#Description###07 02 2020 new variable
-cont#:#cont_std_filter_title_3#:#Title/Description###07 02 2020 new variable
-cont#:#cont_std_filter_title_4#:#Keyword###07 02 2020 new variable
-cont#:#cont_std_filter_title_5#:#Author###07 02 2020 new variable
-cont#:#cont_std_filter_title_6#:#Copyright###07 02 2020 new variable
-cont#:#cont_std_filter_title_7#:#Tutorial Support###07 02 2020 new variable
-cont#:#cont_std_filter_title_8#:#Object Type###07 02 2020 new variable
-cont#:#cont_std_filter_title_9#:#Online/Offline###07 02 2020 new variable
-cont#:#cont_std_record_title#:#Standard###07 02 2020 new variable
-cont#:#cont_tile_size#:#Tile Size###03 09 2026 new variable
-cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)###03 09 2026 new variable
-cont#:#cont_tile_size_1#:#small (up to six tiles in a row)###03 09 2026 new variable
-cont#:#cont_tile_size_2#:#large (up to three tiles in a row)###03 09 2026 new variable
-cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)###03 09 2026 new variable
-cont#:#cont_tile_size_4#:#full (one tile in a row)###03 09 2026 new variable
-cont#:#cont_tile_view#:#Propriedades de instância
-cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###03 09 2026 new variable
 content#:#Pages#:#a sua adesão ao curso "%s" foi restaurada.
 content#:#add_menu_entry#:#Uso
 content#:#all_pages#:#Nova área do link

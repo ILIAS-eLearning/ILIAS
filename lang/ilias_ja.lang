@@ -2894,12 +2894,6 @@ chatroom_adm#:#public_chat_permissions#:#パブリックチャットルームの
 chatroom_adm#:#public_chat_settings#:#パブリックチャットルーム設定
 chatroom_adm#:#server_settings#:#サーバー設定
 chatroom_adm#:#settings_has_been_saved#:#設定を保存しました
-classification#:#clsfct_back_to_cat#:#カテゴリーへ戻る
-classification#:#clsfct_block_info#:#選択がオブジェクトをフィルターします。
-classification#:#clsfct_block_title#:#トピックで選択
-classification#:#clsfct_content_no_match#:#ヒットなし
-classification#:#clsfct_content_title#:#選択のオブジェクト整合
-classification#:#clsfct_selected_objects#:#オブジェクトを選択しました
 cmix#:#achieved_info#:#概要、所望のオブジェクト、レベル、努力、スキルの結果、または不屈などのようなものを正しく仕向ける。
 cmix#:#achieved_label#:#'achieve'の動詞付きステートメント
 cmix#:#activity_id#:#Activity-ID
@@ -5795,86 +5789,6 @@ common#:#zip_structure_error#:#アーカイブに同一 ファイル名が含ま
 common#:#zip_test_failed#:#郵便番号テストに失敗しました。ILIAS 管理者へ連絡してください。
 common#:#zipcode#:#郵便番号
 cond#:#cond_under_parent_control#:#前提条件は、親オブジェクトの管理下です。
-cont#:#cont_add_global_profile#:#グローバルプロファイルを追加
-cont#:#cont_add_local_profile#:#ローカルプロファイルを追加
-cont#:#cont_add_skill#:#能力を追加
-cont#:#cont_assign_competence#:#メンバーへ能力を割り当てる
-cont#:#cont_assign_skills#:#能力を割り当てる
-cont#:#cont_block_limit#:#ブロック当たりのアイテムを制限
-cont#:#cont_block_limit_info#:#ブロックがさらにアイテムを含む場合は"詳しく見る"ボタンが表示されます。
-cont#:#cont_cont_skills#:#メンバーの能力を割り当てました
-cont#:#cont_deassign_competence#:#能力を解除
-cont#:#cont_filter#:#フィルター
-cont#:#cont_filter_field#:#フィールド
-cont#:#cont_filter_fields#:#フィルタ－フィールド
-cont#:#cont_filter_record#:#記録
-cont#:#cont_found_objects#:#見つかったオブジェクト
-cont#:#cont_item_list#:#List
-cont#:#cont_item_list_info#:#リスト内のコンテンツオブジェクトを表示
-cont#:#cont_list_presentation#:#アイテム表示形式
-cont#:#cont_mem_skills#:#能力
-cont#:#cont_news_edited#:#編集済
-cont#:#cont_news_settings#:#ニュース設定
-cont#:#cont_news_timeline#:#ニュースタイムライン
-cont#:#cont_news_timeline_auto_entries#:#自動エントリを含める
-cont#:#cont_news_timeline_auto_entries_info#:#自動的に生成される掲示板投稿や新規ファイルなどの全てのニュースを含みます。
-cont#:#cont_news_timeline_info#:#ニュースタイムラインタブを有効にする
-cont#:#cont_news_timeline_landing_page#:#ランディングページ
-cont#:#cont_news_timeline_landing_page_info#:#タイムラインページはランディングページになります。
-cont#:#cont_news_timeline_tab#:#タイムライン
-cont#:#cont_no_title#:#空のタイトル
-cont#:#cont_only_crs_grp_fold_download#:#ダウンロードできるのは、コース、グループ、フォルダー、またはファイルのみです。
-cont#:#cont_page_type_cont#:#リポジトリ；ページ(Cours, Group, ...)
-cont#:#cont_page_type_cstr#:#コース開始ページ(学習オブジェクトビュー)
-cont#:#cont_path#:#Path
-cont#:#cont_publish_assignment#:#割当を発行
-cont#:#cont_published#:#発行しました
-cont#:#cont_really_deassign_skills#:#ユーザから全ての能力を本当に解除しますか?
-cont#:#cont_really_remove_skill_from_course#:#そのリストからそれらの能力を本当に削除しますか?
-cont#:#cont_select_fields#:#フィールドを選択
-cont#:#cont_show_more#:#詳しく見る
-cont#:#cont_skill#:#能力
-cont#:#cont_skill_ass_profiles#:#メンバーの割り当てプロファイル
-cont#:#cont_skill_assigned_comp#:#能力選択
-cont#:#cont_skill_assigned_profiles#:#プロファイル選択
-cont#:#cont_skill_deletion_not_possible#:#グローバル能力プロファイルの削除できません。ローカル能力プロファイルのみを選択して下さい。
-cont#:#cont_skill_do_not_set#:#セットしてはいけません
-cont#:#cont_skill_members#:#メンバー
-cont#:#cont_skill_no_profile_selected#:#プロファイルを選択してください。
-cont#:#cont_skill_no_skill#:#値がありません(リセット)
-cont#:#cont_skill_no_skills_selected#:#まだ能力が何も選択されていません。"能力セクション"下の能力を一つは追加してください。
-cont#:#cont_skill_profile#:#プロファイル
-cont#:#cont_skill_profiles#:#メンバーの割当てプロファイル
-cont#:#cont_skill_publish#:#公開
-cont#:#cont_skill_publish_auto#:#自動的に
-cont#:#cont_skill_publish_auto_info#:#メンバーの能力割当はすぐにメンバーへ表示されます。
-cont#:#cont_skill_publish_manual#:#手動
-cont#:#cont_skill_publish_manual_info#:#メンバーの能力割当はメンバーへ表示されるようになる前に公開される必要があります。
-cont#:#cont_skill_really_delete_profile_from_list#:#リストからこのプロファイルを本当に削除しますか?
-cont#:#cont_skill_really_delete_profiles_from_list#:#リストからこれらのプロファイルを本当に削除しますか?
-cont#:#cont_skill_really_remove_profile_from_list#:#リストからこのプロファイルを本当に削除しますか?
-cont#:#cont_skill_really_remove_profiles_from_list#:#リストからこれらのプロファイルを本当に削除しますか?
-cont#:#cont_skill_records#:#Competence記録
-cont#:#cont_skill_removal_not_possible#:#ローカル能力プロファイルの削除できません。グローバル能力プロファイルのみを選択して下さい。
-cont#:#cont_std_filter_title_1#:#タイトル
-cont#:#cont_std_filter_title_2#:#説明
-cont#:#cont_std_filter_title_3#:#タイトル/説明
-cont#:#cont_std_filter_title_4#:#キーワード
-cont#:#cont_std_filter_title_5#:#著者
-cont#:#cont_std_filter_title_6#:#Copyright
-cont#:#cont_std_filter_title_7#:#チュトリアルサポート
-cont#:#cont_std_filter_title_8#:#オブジェクトタイプ
-cont#:#cont_std_filter_title_9#:#Online/Offline
-cont#:#cont_std_record_title#:#標準
-cont#:#cont_tile_size#:#タイルサイズ
-cont#:#cont_tile_size_0#:#normal (1行当たり４タイルまで)
-cont#:#cont_tile_size_1#:#small (1行当たり6タイルまで)
-cont#:#cont_tile_size_2#:#large (1行当たり3タイルまで)
-cont#:#cont_tile_size_3#:#extra large (1行当たり2タイルまで)
-cont#:#cont_tile_size_4#:#full (1行当たり1タイル)
-cont#:#cont_tile_view#:#タイル
-cont#:#cont_tile_view_info#:#サムネイルスタイルタイルでコンテンツオブジェクトを表示。このタイルのイメージは個別オブジェクト別の設定でuploadできます。
-cont#:#cont_trash_general_usage#:#システムから削除された大量の古いオブジェクトを削除したい時は、コンテナなしオブジェクト (例　ファイル、カテゴリ、用語集、テスト。。。) で開始する事を強く推奨し、その結果コンテナ(カテゴリ、コース、グループ、ラーニングシーケンス。。。)から全オブジェクトが全て削除されます。”タイプ"と"削除日"フィルタを使用するとこの処理に役立ちます。最終的にコンテナを削除します。
 content#:#Pages#:#ページ
 content#:#add_menu_entry#:#新規のエントリーを追加
 content#:#all_pages#:#ラーニングモジュール全体
