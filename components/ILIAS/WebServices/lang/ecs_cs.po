@@ -1,0 +1,840 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr "Sériové číslo certifikátu"
+
+msgid "ecs_abr"
+msgstr "Zkratka"
+
+msgid "ecs_account_duration"
+msgstr "Aktivace rozšíření periody"
+
+msgid "ecs_account_duration_info"
+msgstr "Nový účet uživatele ECS je omezen na dobu lekce. Po zařazení uživatele do kurzu se období aktivace prodlouží o daný počet měsíců."
+
+msgid "ecs_activate"
+msgstr "Aktivovat"
+
+msgid "ecs_active"
+msgstr "Zapnout funkce ECS"
+
+msgid "ecs_active_header"
+msgstr "Export povolen"
+
+msgid "ecs_add_new_ecs"
+msgstr "Přidat nové ECS"
+
+msgid "ecs_apache_pass"
+msgstr "Heslo"
+
+msgid "ecs_apache_user"
+msgstr "Uživatelské jméno"
+
+msgid "ecs_approval_rcp"
+msgstr "Oznámení o schválených kurzech"
+
+msgid "ecs_approval_rcp_info"
+msgstr "Vložte jedno, nebo více jmen Login uživatelů (oddělených čárkou) kteří chtějí být informováni o schválení nových kurzů prostřednictvím e-mailu."
+
+msgid "ecs_attribute_name"
+msgstr "Název atributu"
+
+msgid "ecs_auth_type"
+msgstr "Typ autentizace"
+
+msgid "ecs_auth_type_apache"
+msgstr "Uživatelské jméno/Heslo"
+
+msgid "ecs_auth_type_cert"
+msgstr "Základ certifikátu"
+
+msgid "ecs_availability"
+msgstr "Dostupnost"
+
+msgid "ecs_available_ecs"
+msgstr "Dostupné ECS"
+
+msgid "ecs_back_settings"
+msgstr "Nastavení ECS"
+
+msgid "ecs_ca_cert"
+msgstr "CA Certifikát"
+
+msgid "ecs_campus_connect_title"
+msgstr "Mapování spojení Campusu"
+
+msgid "ecs_cat_export"
+msgstr "Uvolnění kategorie"
+
+msgid "ecs_cat_export_disabled"
+msgstr "Neuvolňujte tuto kategorii"
+
+msgid "ecs_cat_export_enabled"
+msgstr "Uvolněte tuto kategorii"
+
+msgid "ecs_cat_export_obj_settings"
+msgstr "Nastavení uvolnění kategorie"
+
+msgid "ecs_cat_mapping_by_type"
+msgstr "Podle typu"
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr "Vyberte tento režim pro přiřazení podle typu objektu."
+
+msgid "ecs_cat_mapping_duration"
+msgstr "Rozsah dat"
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr "Vybrat mód pro přiřazení odkazu kurzu založený na rozsahu data (např. startovací datum kurzu)."
+
+msgid "ecs_cat_mapping_fixed"
+msgstr "Pevné hodnoty"
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr "Vyberte tento mód pro přiřazení odkazu kurzu ke kategorii založené na pevných hodnotách."
+
+msgid "ecs_cat_mapping_type"
+msgstr "Přiřazení typu"
+
+msgid "ecs_cat_mapping_values"
+msgstr "Hodnota atributu"
+
+msgid "ecs_category_mapping"
+msgstr "Přiřazení ke kategorii"
+
+msgid "ecs_cc_mapping_overview"
+msgstr "Přehled mapování"
+
+msgid "ecs_cert_key"
+msgstr "Klíč certifikátu"
+
+msgid "ecs_cert_valid_until"
+msgstr "Certifikát platný do"
+
+msgid "ecs_check_import_id"
+msgstr "Import není platný. Zkontrolujte prosím nastavení."
+
+msgid "ecs_client_cert"
+msgstr "Certifikát klienta"
+
+msgid "ecs_cmap_add_attribute_btn"
+msgstr "Přidat atribut"
+
+msgid "ecs_cmap_all_in_one"
+msgstr "Kurz v jedné kategorii"
+
+msgid "ecs_cmap_all_in_one_cat"
+msgstr "Kategorie kurzu"
+
+msgid "ecs_cmap_all_in_one_info"
+msgstr "Vytvořte všechny nové kurzy v jedné kategorii."
+
+msgid "ecs_cmap_att_courseType"
+msgstr "Typ kurzu"
+
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr "Program stupňů"
+
+msgid "ecs_cmap_att_lecturer"
+msgstr "Přednášející"
+
+msgid "ecs_cmap_att_module"
+msgstr "Modul"
+
+msgid "ecs_cmap_att_organisation"
+msgstr "Organizace"
+
+msgid "ecs_cmap_att_orgunit"
+msgstr "Organizační jednotka"
+
+msgid "ecs_cmap_att_term"
+msgstr "Termín"
+
+msgid "ecs_cmap_att_title"
+msgstr "Název"
+
+msgid "ecs_cmap_att_venue"
+msgstr "Místo"
+
+msgid "ecs_cmap_attributes"
+msgstr "Atributy mapování"
+
+msgid "ecs_cmap_atts_table"
+msgstr "Konfigurace mapování atributů"
+
+msgid "ecs_cmap_def_cat"
+msgstr "Výchozí kategorie"
+
+msgid "ecs_cmap_def_cat_info"
+msgstr "Zadejte ID kategorie, ve které budou vytvořeny všechny kurzy, které nemohou být zpracovány jinými pravidly."
+
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr "Vymazat poslední atribut"
+
+msgid "ecs_cmap_delete_rule"
+msgstr "Vymazat mapování"
+
+msgid "ecs_cmap_enable"
+msgstr "Přidělení kurzu"
+
+msgid "ecs_cmap_form_all_values"
+msgstr "Všechny hodnoty"
+
+msgid "ecs_cmap_form_create_subdirs"
+msgstr "Vytvořit podadresáře"
+
+msgid "ecs_cmap_form_current_dir"
+msgstr "Aktuální adresář"
+
+msgid "ecs_cmap_form_dir_relation"
+msgstr "Odkaz na adresář"
+
+msgid "ecs_cmap_form_filter"
+msgstr "Nastavení filtru"
+
+msgid "ecs_cmap_form_filter_by_values"
+msgstr "Filtrovat podle hodnot atributů"
+
+msgid "ecs_cmap_form_filter_info"
+msgstr "Ruční hodnoty, s oddělovači"
+
+msgid "ecs_cmap_form_subdir_name"
+msgstr "Název podadresáře"
+
+msgid "ecs_cmap_form_subdir_type"
+msgstr "Název podadresáře"
+
+msgid "ecs_cmap_form_subdir_value"
+msgstr "Hodnota podadresáře"
+
+msgid "ecs_cmap_mapping_form_title"
+msgstr "Přiřazení kurzu pro kategorii:"
+
+msgid "ecs_cmap_multiple_atts"
+msgstr "Více atributů"
+
+msgid "ecs_cmap_overview"
+msgstr "Přehled mapování"
+
+msgid "ecs_cms_dir_tree"
+msgstr "Strom adresářů CMS"
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr "Stromové adresáře CMS"
+
+msgid "ecs_cms_id"
+msgstr "Id kořene v systému managementu kampusu"
+
+msgid "ecs_cms_tree_deleted"
+msgstr "Přiřazení stromu managementu kampusu byla smazána."
+
+msgid "ecs_cms_tree_synchronize"
+msgstr "Synchronizovat strom"
+
+msgid "ecs_cms_tree_synchronized"
+msgstr "Strom byl synchronizován."
+
+msgid "ecs_communities"
+msgstr "Účastníci"
+
+msgid "ecs_confirm_delete_tree"
+msgstr "Opravdu chcete vymazat všechna přiřazení pro tento strom managementu kampusu?"
+
+msgid "ecs_connection_settings"
+msgstr "Nastavení spojení"
+
+#, fuzzy
+msgid "ecs_consent_modal_btn_accept"
+msgstr "Agree and Proceed"
+
+#, fuzzy
+msgid "ecs_consent_modal_title"
+msgstr "Consent for data transfer"
+
+#, fuzzy
+msgid "ecs_consent_reset_confirm_title"
+msgstr "Reset user consent for this participant"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler"
+msgstr "ECS Task Scheduler"
+
+#, fuzzy
+msgid "ecs_cron_task_scheduler_info"
+msgstr "ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured."
+
+msgid "ecs_crs_alloc"
+msgstr "Přidělení kurzu"
+
+msgid "ecs_crs_alloc_set"
+msgstr "Upravit přidělení kurzu"
+
+msgid "ecs_crs_export"
+msgstr "Uvolnění kurzu"
+
+msgid "ecs_crs_export_disabled"
+msgstr "Neuvolňujte tento kurz"
+
+msgid "ecs_crs_export_enabled"
+msgstr "Uvolněte tento kurz"
+
+msgid "ecs_crs_export_obj_settings"
+msgstr "Nastavení uvolnění kurzu"
+
+msgid "ecs_deactivate"
+msgstr "Deaktivovat"
+
+msgid "ecs_delete_setting"
+msgstr "Opravdu chcete odstranit následující ECS"
+
+msgid "ecs_deprecated_token"
+msgstr "Podpora pro neschválený autentizační token"
+
+msgid "ecs_deprecated_token_info"
+msgstr "Nabízí podporu pro instalace (např. instalace ILIAS verze 4.x), které používají neschválený mechanismus autentizace tokenu."
+
+msgid "ecs_dir_alloc"
+msgstr "Přidělení adresáře"
+
+msgid "ecs_dir_alloc_set"
+msgstr "Upravit přidělení adresáře"
+
+msgid "ecs_dns"
+msgstr "Název domény"
+
+msgid "ecs_duration"
+msgstr "Trvání"
+
+msgid "ecs_econ_rcp"
+msgstr "Oznámení o novém ECS Obsahu"
+
+msgid "ecs_econ_rcp_info"
+msgstr "Vložte jedno, nebo více jmen Login uživatelů (oddělených čárkou) kteří chtějí být informováni o novém ECS Obsahu prostřednictvím e-mailu"
+
+msgid "ecs_edit_category_mapping"
+msgstr "Upravit přiřazení"
+
+msgid "ecs_email"
+msgstr "E-mail"
+
+msgid "ecs_enable_participant"
+msgstr "Umožnit Import/Export"
+
+msgid "ecs_err_invalid_by_type"
+msgstr "Při přiřazování podle typu vyberte typ."
+
+msgid "ecs_err_invalid_dates"
+msgstr "Čas začátku musí být dříve, než čas konce."
+
+msgid "ecs_err_invalid_type"
+msgstr "Vyberte prosím mód schůzky."
+
+msgid "ecs_err_missing_value"
+msgstr "Zkontrolujte prosím Váš vstup: Hodnoty atributů."
+
+msgid "ecs_error_extract_serial"
+msgstr "Nelze přečíst seriové číslo certifikátu. Zkontrolujte prosím cestu k certifikátu klienta."
+
+msgid "ecs_event_appointment"
+msgstr "datum události"
+
+msgid "ecs_export"
+msgstr "Spuštění kurzu"
+
+#, fuzzy
+msgid "ecs_export_auth_type"
+msgstr "Authentication method for users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_ilias"
+msgstr "User authentication via LDAP"
+
+#, fuzzy
+msgid "ecs_export_auth_type_info"
+msgstr "Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS."
+
+#, fuzzy
+msgid "ecs_export_auth_type_none"
+msgstr "Do not allow users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_oidc"
+msgstr "User authentication via OpenID Connect"
+
+#, fuzzy
+msgid "ecs_export_auth_type_shib"
+msgstr "User authentication via Shibboleth"
+
+msgid "ecs_export_created_body_a"
+msgstr "Nový kurz byl spuštěn"
+
+msgid "ecs_export_disabled"
+msgstr "Nespouštět tento kurz"
+
+msgid "ecs_export_enabled"
+msgstr "Spustit tento kurz"
+
+#, fuzzy
+msgid "ecs_export_local_account"
+msgstr "Local ILIAS accounts"
+
+#, fuzzy
+msgid "ecs_export_local_account_info"
+msgstr "If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation."
+
+msgid "ecs_export_obj_settings"
+msgstr "Nastavení spuštění kurzu"
+
+msgid "ecs_export_types"
+msgstr "Typy exportovatelných objektů"
+
+msgid "ecs_field_begin"
+msgstr "Začátek"
+
+msgid "ecs_field_community"
+msgstr "Komunita"
+
+msgid "ecs_field_courseID"
+msgstr "ID kurzu"
+
+msgid "ecs_field_courseType"
+msgstr "Typ kurzu"
+
+msgid "ecs_field_credits"
+msgstr "Kredity"
+
+msgid "ecs_field_cycle"
+msgstr "Cyklus"
+
+msgid "ecs_field_day"
+msgstr "Den"
+
+msgid "ecs_field_end"
+msgstr "Konec"
+
+msgid "ecs_field_lecturer"
+msgstr "Lektoři"
+
+msgid "ecs_field_part_id"
+msgstr "ID účastníka"
+
+msgid "ecs_field_room"
+msgstr "Místnost"
+
+msgid "ecs_field_semester_hours"
+msgstr "Období semestru po týdnech"
+
+msgid "ecs_field_start"
+msgstr "Začátek"
+
+msgid "ecs_field_study_courses"
+msgstr "Studuje kurzy"
+
+msgid "ecs_field_term"
+msgstr "Termín"
+
+msgid "ecs_field_time"
+msgstr "Čas"
+
+msgid "ecs_file_export"
+msgstr "Uvolnění souboru"
+
+msgid "ecs_file_export_disabled"
+msgstr "Neuvolňujte tento soubor"
+
+msgid "ecs_file_export_enabled"
+msgstr "Uvolněte tento soubor"
+
+msgid "ecs_file_export_obj_settings"
+msgstr "Nastavení uvolnění souboru"
+
+#, fuzzy
+msgid "ecs_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "ecs_form_consent"
+msgstr "Consent"
+
+#, fuzzy
+msgid "ecs_form_consent_option_title"
+msgstr "I hereby consent to the transfer of the following data to the above-mentioned target system:"
+
+#, fuzzy
+msgid "ecs_form_target_platform"
+msgstr "Target system"
+
+msgid "ecs_general_info"
+msgstr "Obecné informace"
+
+msgid "ecs_glo_export"
+msgstr "Uvolnění glosáře"
+
+msgid "ecs_glo_export_disabled"
+msgstr "Neuvolňujte tento glosář"
+
+msgid "ecs_glo_export_enabled"
+msgstr "Uvolněte tento glosář"
+
+msgid "ecs_glo_export_obj_settings"
+msgstr "Nastavení uvolnění glosáře"
+
+msgid "ecs_global_role_info"
+msgstr "Vybraná role bude přiřazena k nově vytvořenému ECS uživatelskému účtu."
+
+msgid "ecs_grp_export"
+msgstr "Uvolnění skupiny"
+
+msgid "ecs_grp_export_disabled"
+msgstr "Neuvolňujte tuto skupinu"
+
+msgid "ecs_grp_export_enabled"
+msgstr "Uvolněte tuto skupinu"
+
+msgid "ecs_grp_export_obj_settings"
+msgstr "Nastavení uvolnění skupiny"
+
+msgid "ecs_ignore_field"
+msgstr "Vypnout export/aktualitaci tohoto pole"
+
+msgid "ecs_import"
+msgstr "Importovat"
+
+#, fuzzy
+msgid "ecs_import_auth_mode"
+msgstr "Allow accounts of authentication method %s for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_auth_type_default"
+msgstr "Allow accounts authentication method \"Default\" for transmission via ECS"
+
+msgid "ecs_import_cms"
+msgstr "Managment campusu"
+
+msgid "ecs_import_id"
+msgstr "Importovat ID"
+
+msgid "ecs_import_id_info"
+msgstr "Vložte prosím ID kategorie, kde bude vytvořeno nové spojení s kurzem"
+
+msgid "ecs_import_types"
+msgstr "Typy importovatelných objektů"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr "Configuration of authentication methods for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr "Enable this option to allow accounts of authentication method \"Default\" to access participant's resources via ECS."
+
+msgid "ecs_imported_content"
+msgstr "ECS-Obsah importován"
+
+msgid "ecs_imported_from"
+msgstr "Importován z"
+
+#, fuzzy
+msgid "ecs_institution"
+msgstr "Institution"
+
+msgid "ecs_invalid_import_type_cms"
+msgstr "Import typu \"Managment campusu\" může být vybrán pouze jednou."
+
+msgid "ecs_key_password"
+msgstr "Klíčové heslo"
+
+#, fuzzy
+msgid "ecs_lastname"
+msgstr "Last name"
+
+msgid "ecs_lm_export"
+msgstr "Uvolnění výukového modulu"
+
+msgid "ecs_lm_export_disabled"
+msgstr "Neuvolňujte tento výukový modul"
+
+msgid "ecs_lm_export_enabled"
+msgstr "Uvolněte tento výukový modul"
+
+msgid "ecs_lm_export_obj_settings"
+msgstr "Nastavení uvolnění výukového modulu"
+
+msgid "ecs_local_information"
+msgstr "Další informace"
+
+msgid "ecs_local_settings"
+msgstr "Lokální nastavení"
+
+#, fuzzy
+msgid "ecs_login"
+msgstr "Username or External user account"
+
+msgid "ecs_mapping_crs"
+msgstr "Mapování kurzů"
+
+msgid "ecs_mapping_exp_tbl"
+msgstr "Mapování rozšířených metadat  ILIAS do ECS-dat"
+
+msgid "ecs_mapping_rcrs"
+msgstr "Mapování dálkových kurzů"
+
+msgid "ecs_mapping_tbl"
+msgstr "Mapování ECS-dat do rozšířených metadat ILIAS"
+
+msgid "ecs_mappings"
+msgstr "Mapování ECS Dat"
+
+msgid "ecs_member_auth_type"
+msgstr "Režim ověřování členů kurzu"
+
+msgid "ecs_meta_data"
+msgstr "Metadata"
+
+msgid "ecs_new_approval_subject"
+msgstr "Nový kurz byl spuštěn"
+
+msgid "ecs_new_category_mapping"
+msgstr "Nová schůzka kurzu odkazujícímu na kategorii"
+
+msgid "ecs_new_econtent_subject"
+msgstr "Nový E-Obsah vytvořen"
+
+msgid "ecs_new_user_body"
+msgstr "Nový ECS uživatelský účet byl vytvořen."
+
+msgid "ecs_new_user_profile"
+msgstr "Data uživatelského profilu:"
+
+msgid "ecs_new_user_subject"
+msgstr "Nový ECS účet uživatele"
+
+msgid "ecs_no_adv_md"
+msgstr "Nejsou k dispozici žádná pokročilá metadata."
+
+msgid "ecs_no_owner"
+msgstr "Vyberte prosím jméno komunity"
+
+msgid "ecs_no_value"
+msgstr "Nedostupné"
+
+msgid "ecs_node_mapping_activate"
+msgstr "Zapnout mapování adresáře"
+
+msgid "ecs_node_mapping_create_empty"
+msgstr "Vytvořit pouze kategorie, které obsahují kurzy"
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr "Použitelné pouze v kombinaci s mapováním kurzů, se kterými bude aktivováno automaticky."
+
+msgid "ecs_node_mapping_status_1"
+msgstr "Mapování celého stromu"
+
+msgid "ecs_node_mapping_status_2"
+msgstr "Manuální mapování"
+
+msgid "ecs_node_mapping_status_3"
+msgstr "Nemapováno"
+
+msgid "ecs_not_configured"
+msgstr "Není zkonfigurováno"
+
+msgid "ecs_not_published"
+msgstr "Nevybráno žádné schválení"
+
+msgid "ecs_notifications"
+msgstr "Oznámení"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials"
+msgstr "User attribute"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials_info"
+msgstr "Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com"
+
+msgid "ecs_part_settings"
+msgstr "Nastavení pro účastníka:"
+
+msgid "ecs_participants"
+msgstr "Účastníci"
+
+msgid "ecs_participants_infos"
+msgstr "Další informace"
+
+msgid "ecs_polling"
+msgstr "Čas volby"
+
+msgid "ecs_polling_info"
+msgstr "Definujte prosím čas dodotazování pro tvorbu a aktualizaci spojení kurzu"
+
+msgid "ecs_port"
+msgstr "Port"
+
+msgid "ecs_position_updates"
+msgstr "Aktualizace polohy přenosu"
+
+msgid "ecs_protocol"
+msgstr "Protokol"
+
+msgid "ecs_publish_as"
+msgstr "Publikováno jako:"
+
+msgid "ecs_publish_for"
+msgstr "Uvolněno pro:"
+
+msgid "ecs_published_for"
+msgstr "Publikováno pro:"
+
+#, fuzzy
+msgid "ecs_rcat_created_body_a"
+msgstr "A new ECS Category has been created:"
+
+msgid "ecs_rcrs_created_body_a"
+msgstr "Nový dálkový kurz byl vytvořen:"
+
+msgid "ecs_read_remote_links"
+msgstr "Aktualizace dálkových kurzů"
+
+msgid "ecs_refresh_participants"
+msgstr "Obnovit účastníky ECS"
+
+msgid "ecs_released"
+msgstr "Uvolněné kurzy"
+
+msgid "ecs_released_content"
+msgstr "Uvolněn E-Obsah"
+
+msgid "ecs_remote_imported"
+msgstr "Informace o dálkových kurzech byla aktualizována."
+
+msgid "ecs_remote_user_settings"
+msgstr "Nastavení uživatelského účtu ECS"
+
+msgid "ecs_role"
+msgstr "Přiřazení role"
+
+msgid "ecs_role_mapping_value"
+msgstr "Hodnota atributu"
+
+msgid "ecs_role_mappings"
+msgstr "Mapování rolí kurzu/skupiny"
+
+msgid "ecs_server_addr"
+msgstr "Adresa serveru"
+
+msgid "ecs_server_deleted"
+msgstr "Smazaný server"
+
+msgid "ecs_server_settings"
+msgstr "Funkčnost ECS"
+
+msgid "ecs_server_title"
+msgstr "Název konfigurace ECS"
+
+msgid "ecs_server_url"
+msgstr "URL Serveru"
+
+msgid "ecs_setting_deleted"
+msgstr "ECS smazána"
+
+msgid "ecs_settings"
+msgstr "Nastavení"
+
+msgid "ecs_status_deleted"
+msgstr "Smazáno"
+
+msgid "ecs_status_legend"
+msgstr "Legenda"
+
+msgid "ecs_status_mapped"
+msgstr "Mapováno"
+
+msgid "ecs_status_pending_unmapped"
+msgstr "Nevyřízené (nemapované)"
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr "Nevyřízené (mapované, možné odpojení)"
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr "Nevyřízené (mapované, nemožné odpojení)"
+
+msgid "ecs_sync_trees"
+msgstr "Synchronizovat stromové adresáře"
+
+msgid "ecs_tab_export"
+msgstr "Exportovat"
+
+msgid "ecs_tab_import"
+msgstr "Importovat"
+
+msgid "ecs_tbl_active"
+msgstr "Aktivní"
+
+msgid "ecs_tbl_active_rules"
+msgstr "Aktovní role pro přiřazení kategorie"
+
+msgid "ecs_tbl_export"
+msgstr "Exportovat"
+
+msgid "ecs_tbl_import"
+msgstr "Importovat"
+
+msgid "ecs_tbl_import_type"
+msgstr "Importovat typ"
+
+msgid "ecs_tbl_settings_for_server"
+msgstr "Nastavení ECS pro %s"
+
+msgid "ecs_title_updates"
+msgstr "Aktualizace názvu přenosu"
+
+msgid "ecs_token_mechanism"
+msgstr "Autentizační token"
+
+msgid "ecs_token_mechanism_info"
+msgstr "Pokud je povolen, ověřování na hostitelské platformě pro vzdálené objekty se provádí pomocí mechanismu ECS-Token."
+
+msgid "ecs_tree_updates"
+msgstr "Aktualizace stromu přenosu"
+
+msgid "ecs_tst_export"
+msgstr "Uvolnění testu"
+
+msgid "ecs_tst_export_disabled"
+msgstr "Neuvolňujte tento test"
+
+msgid "ecs_tst_export_enabled"
+msgstr "Uvolněte tento test"
+
+msgid "ecs_tst_export_obj_settings"
+msgstr "Nastavení uvolnění testu"
+
+msgid "ecs_unique_id"
+msgstr "ID účastníka"
+
+msgid "ecs_user_rcp"
+msgstr "Oznámení o ECS uživatelích"
+
+msgid "ecs_user_rcp_info"
+msgstr "Vložte jedno, nebo více jmen Login uživatelů (oddělených čárkou) kteří chtějí být informováni o nových ECS uživatelích prostřednictvím e-mailu."
+
+msgid "ecs_wiki_export"
+msgstr "Uvolnění Wiki"
+
+msgid "ecs_wiki_export_disabled"
+msgstr "Neuvolňujte tuto Wiki"
+
+msgid "ecs_wiki_export_enabled"
+msgstr "Uvolněte tuto Wiki"
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr "Nastavení uvolnění Wiki"

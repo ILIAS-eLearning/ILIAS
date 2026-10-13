@@ -1,0 +1,838 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ecs\n"
+
+msgid "cert_serial"
+msgstr "Numéro de Série du Certificat"
+
+msgid "ecs_abr"
+msgstr "Abréviation"
+
+msgid "ecs_account_duration"
+msgstr "Extension de la période d'activation"
+
+msgid "ecs_account_duration_info"
+msgstr "Les nouveaux comptes utilisateurs ECS sont limités à  la durée de session. Après l'assignation d'un utilisateur à  un cours, la période d'activation sera étendue par le nombre donné de mois."
+
+msgid "ecs_activate"
+msgstr "Activer"
+
+msgid "ecs_active"
+msgstr "Activer fonctionnalités ECS"
+
+msgid "ecs_active_header"
+msgstr "Exportation autorisée"
+
+msgid "ecs_add_new_ecs"
+msgstr "Ajouter ECS"
+
+msgid "ecs_apache_pass"
+msgstr "Mot de Passe"
+
+msgid "ecs_apache_user"
+msgstr "Nom d'Utilisateur"
+
+msgid "ecs_approval_rcp"
+msgstr "Notification sur les cours approuvés"
+
+msgid "ecs_approval_rcp_info"
+msgstr "Saisir un ou plusieurs noms de connexion d'utilisateur (séparé par des virgules) qui seront informés par e-mail sur les nouveaux cours approuvés."
+
+msgid "ecs_attribute_name"
+msgstr "Nom d'attribut"
+
+msgid "ecs_auth_type"
+msgstr "Type d'Authentification"
+
+msgid "ecs_auth_type_apache"
+msgstr "Nom d'Utilisateur/Mot de Passe"
+
+msgid "ecs_auth_type_cert"
+msgstr "Par Certificat"
+
+msgid "ecs_availability"
+msgstr "Disponibilité"
+
+msgid "ecs_available_ecs"
+msgstr "ECS Disponible"
+
+msgid "ecs_back_settings"
+msgstr "Paramètres ECS"
+
+msgid "ecs_ca_cert"
+msgstr "Certificat CA"
+
+msgid "ecs_campus_connect_title"
+msgstr "Mapping CampusConnect"
+
+msgid "ecs_cat_export"
+msgstr "Publications de Catégorie"
+
+msgid "ecs_cat_export_disabled"
+msgstr "Ne pas publier cette catégorie"
+
+msgid "ecs_cat_export_enabled"
+msgstr "Publier cette catégorie"
+
+msgid "ecs_cat_export_obj_settings"
+msgstr "Paramètres de Publication de Catégorie"
+
+msgid "ecs_cat_mapping_by_type"
+msgstr "Par Type"
+
+msgid "ecs_cat_mapping_by_type_info"
+msgstr "Choisir ce mode pour assigner par type d'objet."
+
+msgid "ecs_cat_mapping_duration"
+msgstr "Période"
+
+msgid "ecs_cat_mapping_duration_info"
+msgstr "Choisir ce mode pour assigner des \"course-link\" basé basé sur des périodes (e.g. date début d'un cours)."
+
+msgid "ecs_cat_mapping_fixed"
+msgstr "Valeurs fixées"
+
+msgid "ecs_cat_mapping_fixed_info"
+msgstr "Choisir ce mode pour assigner des \"course-link\" aux catégories basées sur des valeurs fixes."
+
+msgid "ecs_cat_mapping_type"
+msgstr "Type d'assignation"
+
+msgid "ecs_cat_mapping_values"
+msgstr "Valeur d'attribut"
+
+msgid "ecs_category_mapping"
+msgstr "Assignation aux catégories"
+
+msgid "ecs_cc_mapping_overview"
+msgstr "Vue du Mapping"
+
+msgid "ecs_cert_key"
+msgstr "Clé du certificat"
+
+msgid "ecs_cert_valid_until"
+msgstr "Certificat valide jusqu'à"
+
+msgid "ecs_check_import_id"
+msgstr "L'import id n'est pas valide. Veuillez vérifier ce paramètre."
+
+msgid "ecs_client_cert"
+msgstr "Certificat du client"
+
+msgid "ecs_cmap_add_attribute_btn"
+msgstr "Ajouter Attribut"
+
+msgid "ecs_cmap_all_in_one"
+msgstr "Cours dans une seule Catégorie"
+
+msgid "ecs_cmap_all_in_one_cat"
+msgstr "Catégorie de Cours"
+
+msgid "ecs_cmap_all_in_one_info"
+msgstr "Créer tous les cours dans une seule catégorie"
+
+msgid "ecs_cmap_att_courseType"
+msgstr "Type de Cours"
+
+msgid "ecs_cmap_att_degreeProgramme"
+msgstr "Programme"
+
+msgid "ecs_cmap_att_lecturer"
+msgstr "Conférencier"
+
+msgid "ecs_cmap_att_module"
+msgstr "Module"
+
+msgid "ecs_cmap_att_organisation"
+msgstr "Organisation"
+
+msgid "ecs_cmap_att_orgunit"
+msgstr "Unité organisationnelle"
+
+msgid "ecs_cmap_att_term"
+msgstr "Terme"
+
+msgid "ecs_cmap_att_title"
+msgstr "Titre"
+
+msgid "ecs_cmap_att_venue"
+msgstr "Lieu"
+
+msgid "ecs_cmap_attributes"
+msgstr "Correspondance entre Attributs"
+
+msgid "ecs_cmap_atts_table"
+msgstr "Correspondance entre Attributs"
+
+msgid "ecs_cmap_def_cat"
+msgstr "Catégorie par Défaut"
+
+msgid "ecs_cmap_def_cat_info"
+msgstr "Entrez l'ID d'une catégorie où tous les cours qui ne peuvent être traitées par d'autres règles seront créés."
+
+msgid "ecs_cmap_delete_attribute_btn"
+msgstr "Supprimer Dernier Attribut"
+
+msgid "ecs_cmap_delete_rule"
+msgstr "Supprimer Correspondance"
+
+msgid "ecs_cmap_enable"
+msgstr "Assignation du Cours"
+
+msgid "ecs_cmap_form_all_values"
+msgstr "Toutes les Valeurs"
+
+msgid "ecs_cmap_form_create_subdirs"
+msgstr "Créer des Sous-Dossiers"
+
+msgid "ecs_cmap_form_current_dir"
+msgstr "Dossier Courant"
+
+msgid "ecs_cmap_form_dir_relation"
+msgstr "Référence de Dossier"
+
+msgid "ecs_cmap_form_filter"
+msgstr "Paramètres de Filtrage"
+
+msgid "ecs_cmap_form_filter_by_values"
+msgstr "Filtrer par Valeurs d'Attributs"
+
+msgid "ecs_cmap_form_filter_info"
+msgstr "Valeurs manuelles, séparées par des virgules"
+
+msgid "ecs_cmap_form_subdir_name"
+msgstr "Nom de Sous-Dossier"
+
+msgid "ecs_cmap_form_subdir_type"
+msgstr "Titre de Sous-Dossier"
+
+msgid "ecs_cmap_form_subdir_value"
+msgstr "Valeur de Sous-Dossier"
+
+msgid "ecs_cmap_mapping_form_title"
+msgstr "Assignation du Cours pour la Catégorie"
+
+msgid "ecs_cmap_multiple_atts"
+msgstr "Attributs Multiples"
+
+msgid "ecs_cmap_overview"
+msgstr "Aperçu de la Correspondance"
+
+msgid "ecs_cms_dir_tree"
+msgstr "Arborescences CMS"
+
+msgid "ecs_cms_directory_trees_tbl"
+msgstr "Arborescences CMS"
+
+msgid "ecs_cms_id"
+msgstr "Root-Id dans le Campus-Managment-System"
+
+msgid "ecs_cms_tree_deleted"
+msgstr "L'arborescence du Campus Management a été supprimée."
+
+msgid "ecs_cms_tree_synchronize"
+msgstr "Synchroniser l'Arborescence"
+
+msgid "ecs_cms_tree_synchronized"
+msgstr "L'arborescence a été synchronisée."
+
+msgid "ecs_communities"
+msgstr "Participants"
+
+msgid "ecs_confirm_delete_tree"
+msgstr "Souhaitez-vous vraiment supprimer toutes les assignations pour l'arborescence du Campus Management ?"
+
+msgid "ecs_connection_settings"
+msgstr "Paramètres de connection"
+
+#, fuzzy
+msgid "ecs_consent_modal_btn_accept"
+msgstr "Agree and Proceed"
+
+#, fuzzy
+msgid "ecs_consent_modal_title"
+msgstr "Consent for data transfer"
+
+#, fuzzy
+msgid "ecs_consent_reset_confirm_title"
+msgstr "Reset user consent for this participant"
+
+msgid "ecs_cron_task_scheduler"
+msgstr "ECS Task Scheduler"
+
+msgid "ecs_cron_task_scheduler_info"
+msgstr "ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured."
+
+msgid "ecs_crs_alloc"
+msgstr "Allocation de Cours"
+
+msgid "ecs_crs_alloc_set"
+msgstr "Editer Allocation de Cours"
+
+msgid "ecs_crs_export"
+msgstr "Publications de Cours"
+
+msgid "ecs_crs_export_disabled"
+msgstr "Ne pas publier ce Cours"
+
+msgid "ecs_crs_export_enabled"
+msgstr "Publier ce Cours"
+
+msgid "ecs_crs_export_obj_settings"
+msgstr "Paramètres de Publication du Cours"
+
+msgid "ecs_deactivate"
+msgstr "Désactiver"
+
+msgid "ecs_delete_setting"
+msgstr "Etes-vous sûr de vouloir supprimer l'ECS suivant ?"
+
+msgid "ecs_deprecated_token"
+msgstr "Support pour un jeton d’authentification obsolète"
+
+msgid "ecs_deprecated_token_info"
+msgstr "Offre une assistance pour les installations (par ex. installations ILIAS de la version 4.x) qui utilisent un mécanisme d’authentification par jeton obsolète."
+
+msgid "ecs_dir_alloc"
+msgstr "Allocation de Dossier"
+
+msgid "ecs_dir_alloc_set"
+msgstr "Editer Allocation de Dossier"
+
+msgid "ecs_dns"
+msgstr "Nom de domaine"
+
+msgid "ecs_duration"
+msgstr "Durée"
+
+msgid "ecs_econ_rcp"
+msgstr "Notification sur nouveau E-contenu"
+
+msgid "ecs_econ_rcp_info"
+msgstr "Saisir un ou plusieurs login d'utilisateurs (séparé par des virgules) qui seront informés par e-mail sur les nouveaux contenus ECS."
+
+msgid "ecs_edit_category_mapping"
+msgstr "Modifier assignation"
+
+msgid "ecs_email"
+msgstr "E-mail"
+
+msgid "ecs_enable_participant"
+msgstr "Autoriser Export"
+
+msgid "ecs_err_invalid_by_type"
+msgstr "Veuillez choisir un type lors d'une assignation par type."
+
+msgid "ecs_err_invalid_dates"
+msgstr "Le début doit être avant la fin."
+
+msgid "ecs_err_invalid_type"
+msgstr "Veuillez choisir un mode d'assignation."
+
+msgid "ecs_err_missing_value"
+msgstr "Veuillez vérifier votre saisie : Valeurs d'attribut."
+
+msgid "ecs_error_extract_serial"
+msgstr "Ne peut lire le numéro de série du certificat. Veuillez vérifier le \"path\" du certificat client."
+
+msgid "ecs_event_appointment"
+msgstr "Date d'événement"
+
+msgid "ecs_export"
+msgstr "Mises à  jour du cours"
+
+#, fuzzy
+msgid "ecs_export_auth_type"
+msgstr "Authentication method for users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_ilias"
+msgstr "User authentication via LDAP"
+
+#, fuzzy
+msgid "ecs_export_auth_type_info"
+msgstr "Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS."
+
+#, fuzzy
+msgid "ecs_export_auth_type_none"
+msgstr "Do not allow users with external user attribute"
+
+#, fuzzy
+msgid "ecs_export_auth_type_oidc"
+msgstr "User authentication via OpenID Connect"
+
+#, fuzzy
+msgid "ecs_export_auth_type_shib"
+msgstr "User authentication via Shibboleth"
+
+msgid "ecs_export_created_body_a"
+msgstr "Un nouveau cours a été mis à  jour"
+
+msgid "ecs_export_disabled"
+msgstr "Ne pas mettre à  jour ce cours"
+
+msgid "ecs_export_enabled"
+msgstr "Mettre à  jour ce cours"
+
+#, fuzzy
+msgid "ecs_export_local_account"
+msgstr "Local ILIAS accounts"
+
+#, fuzzy
+msgid "ecs_export_local_account_info"
+msgstr "If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation."
+
+msgid "ecs_export_obj_settings"
+msgstr "Paramètres de mise à  jour du cours"
+
+msgid "ecs_export_types"
+msgstr "Types d'Objets Exportables"
+
+msgid "ecs_field_begin"
+msgstr "Commencer"
+
+msgid "ecs_field_community"
+msgstr "Communauté"
+
+msgid "ecs_field_courseID"
+msgstr "ID de cours"
+
+msgid "ecs_field_courseType"
+msgstr "Type de cours"
+
+msgid "ecs_field_credits"
+msgstr "Crédits"
+
+msgid "ecs_field_cycle"
+msgstr "Cycle"
+
+msgid "ecs_field_day"
+msgstr "Jour"
+
+msgid "ecs_field_end"
+msgstr "Fin"
+
+msgid "ecs_field_lecturer"
+msgstr "Lecteur(s)"
+
+msgid "ecs_field_part_id"
+msgstr "ID de Participant"
+
+msgid "ecs_field_room"
+msgstr "Pièce"
+
+msgid "ecs_field_semester_hours"
+msgstr "Semestriers par semaine"
+
+msgid "ecs_field_start"
+msgstr "Commencer"
+
+msgid "ecs_field_study_courses"
+msgstr "Etudier cours"
+
+msgid "ecs_field_term"
+msgstr "Terme"
+
+msgid "ecs_field_time"
+msgstr "Temps"
+
+msgid "ecs_file_export"
+msgstr "Publications de Fichier"
+
+msgid "ecs_file_export_disabled"
+msgstr "Ne pas publier ce Fichier"
+
+msgid "ecs_file_export_enabled"
+msgstr "Publier ce Fichier"
+
+msgid "ecs_file_export_obj_settings"
+msgstr "Paramètres de Publication du Fichier"
+
+#, fuzzy
+msgid "ecs_firstname"
+msgstr "First name"
+
+#, fuzzy
+msgid "ecs_form_consent"
+msgstr "Consent"
+
+#, fuzzy
+msgid "ecs_form_consent_option_title"
+msgstr "I hereby consent to the transfer of the following data to the above-mentioned target system:"
+
+#, fuzzy
+msgid "ecs_form_target_platform"
+msgstr "Target system"
+
+msgid "ecs_general_info"
+msgstr "Information Générale"
+
+msgid "ecs_glo_export"
+msgstr "Publications de Glossaire"
+
+msgid "ecs_glo_export_disabled"
+msgstr "Ne pas publier ce Glossaire"
+
+msgid "ecs_glo_export_enabled"
+msgstr "Publier ce Glossaire"
+
+msgid "ecs_glo_export_obj_settings"
+msgstr "Paramètres de Publication du Glossaire"
+
+msgid "ecs_global_role_info"
+msgstr "Le rôle choisi sera assigné aux nouveaux comptes utilisateurs ECS créés."
+
+msgid "ecs_grp_export"
+msgstr "Publications de Groupe"
+
+msgid "ecs_grp_export_disabled"
+msgstr "Ne pas publier ce Groupe"
+
+msgid "ecs_grp_export_enabled"
+msgstr "Publier ce Groupe"
+
+msgid "ecs_grp_export_obj_settings"
+msgstr "Paramètres de Publication du Groupe"
+
+msgid "ecs_ignore_field"
+msgstr "Désactiver export/Mise à  jour de cette zone"
+
+msgid "ecs_import"
+msgstr "Importer"
+
+#, fuzzy
+msgid "ecs_import_auth_mode"
+msgstr "Allow accounts of authentication method %s for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_auth_type_default"
+msgstr "Allow accounts authentication method \"Default\" for transmission via ECS"
+
+msgid "ecs_import_cms"
+msgstr "Campus Managment"
+
+msgid "ecs_import_id"
+msgstr "Importer ID"
+
+msgid "ecs_import_id_info"
+msgstr "Veuillez saisir l'ID de la catégorie où seront créés les nouveaux \"Course-Links\""
+
+msgid "ecs_import_types"
+msgstr "Types d'Objets Importables"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode"
+msgstr "Configuration of authentication methods for transmission via ECS"
+
+#, fuzzy
+msgid "ecs_import_user_credentials_by_auth_mode_info"
+msgstr "Enable this option to allow accounts of authentication method \"Default\" to access participant's resources via ECS."
+
+msgid "ecs_imported_content"
+msgstr "E-contenu importé"
+
+msgid "ecs_imported_from"
+msgstr "Importé depuis"
+
+#, fuzzy
+msgid "ecs_institution"
+msgstr "Institution"
+
+msgid "ecs_invalid_import_type_cms"
+msgstr "Le type d'import \"Campus Management\" ne peut être choisi qu'un fois."
+
+msgid "ecs_key_password"
+msgstr "Mot de passe de la clef"
+
+#, fuzzy
+msgid "ecs_lastname"
+msgstr "Last name"
+
+msgid "ecs_lm_export"
+msgstr "Publications de Module"
+
+msgid "ecs_lm_export_disabled"
+msgstr "Ne pas publier ce Module"
+
+msgid "ecs_lm_export_enabled"
+msgstr "Publier ce Module"
+
+msgid "ecs_lm_export_obj_settings"
+msgstr "Paramètres de Publication du Module"
+
+msgid "ecs_local_information"
+msgstr "Information Supplémentaire"
+
+msgid "ecs_local_settings"
+msgstr "Paramètres locaux"
+
+#, fuzzy
+msgid "ecs_login"
+msgstr "Username or External user account"
+
+msgid "ecs_mapping_crs"
+msgstr "Mapping pour les Cours"
+
+msgid "ecs_mapping_exp_tbl"
+msgstr "Mapping des Métadonnées Avancées ILIAS vers les Données ECS"
+
+msgid "ecs_mapping_rcrs"
+msgstr "Mapping pour les Cours Distants"
+
+msgid "ecs_mapping_tbl"
+msgstr "Mappage des données ECS en méta-données avancées d'ILIAS"
+
+msgid "ecs_mappings"
+msgstr "Mappage de donnée ECS"
+
+msgid "ecs_member_auth_type"
+msgstr "Course Member Auth Mode"
+
+msgid "ecs_meta_data"
+msgstr "Méta-donnée"
+
+msgid "ecs_new_approval_subject"
+msgstr "Un nouveau cours a été mis à  jour"
+
+msgid "ecs_new_category_mapping"
+msgstr "Nouvelle assignation des \"courses-link\" aux catégories"
+
+msgid "ecs_new_econtent_subject"
+msgstr "Nouveau E-contenu créé"
+
+msgid "ecs_new_user_body"
+msgstr "Un nouveau compte utilisateur ECS a été créé."
+
+msgid "ecs_new_user_profile"
+msgstr "Donnée de profl de l'utilisateur :"
+
+msgid "ecs_new_user_subject"
+msgstr "Nouveau compte utilisateur ECS"
+
+msgid "ecs_no_adv_md"
+msgstr "Aucune métadonnée avancée disponible."
+
+msgid "ecs_no_owner"
+msgstr "Veuillez sélectionner un nom de communauté."
+
+msgid "ecs_no_value"
+msgstr "Indisponible"
+
+msgid "ecs_node_mapping_activate"
+msgstr "Activer le Mapping des Dossiers"
+
+msgid "ecs_node_mapping_create_empty"
+msgstr "Ne créer que des Catégories, contenant des Cours"
+
+msgid "ecs_node_mapping_create_empty_info"
+msgstr "Utilisable uniquement avec le mapping des cours, qui sera activé automatiquement."
+
+msgid "ecs_node_mapping_status_1"
+msgstr "Mapping de l'Arborescence Entière"
+
+msgid "ecs_node_mapping_status_2"
+msgstr "Mapping Manuel"
+
+msgid "ecs_node_mapping_status_3"
+msgstr "Non mappé"
+
+msgid "ecs_not_configured"
+msgstr "Non configuré"
+
+msgid "ecs_not_published"
+msgstr "Pas d'approbation sélectionnée."
+
+msgid "ecs_notifications"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials"
+msgstr "User attribute"
+
+#, fuzzy
+msgid "ecs_outgoing_user_credentials_info"
+msgstr "Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com"
+
+msgid "ecs_part_settings"
+msgstr "Paramètres pour le participant:"
+
+msgid "ecs_participants"
+msgstr "Participants"
+
+msgid "ecs_participants_infos"
+msgstr "Informations supplémentaires"
+
+msgid "ecs_polling"
+msgstr "Intervalle de temps"
+
+msgid "ecs_polling_info"
+msgstr "Veuillez définir l'intervalle de temps pour créer et mettre à  jour les \"course-links\""
+
+msgid "ecs_port"
+msgstr "Port"
+
+msgid "ecs_position_updates"
+msgstr "Transférer les Mises à Jour de Positions"
+
+msgid "ecs_protocol"
+msgstr "Protocole"
+
+msgid "ecs_publish_as"
+msgstr "Publié comme :"
+
+msgid "ecs_publish_for"
+msgstr "Mettre à  jour pour :"
+
+msgid "ecs_published_for"
+msgstr "Publié pour :"
+
+#, fuzzy
+msgid "ecs_rcat_created_body_a"
+msgstr "A new ECS Category has been created:"
+
+msgid "ecs_rcrs_created_body_a"
+msgstr "Un nouveau cours à  distance a été créé :"
+
+msgid "ecs_read_remote_links"
+msgstr "Mettre à  jour cours à  distance"
+
+msgid "ecs_refresh_participants"
+msgstr "Rafraîchir les participants ECS"
+
+msgid "ecs_released"
+msgstr "Exporter"
+
+msgid "ecs_released_content"
+msgstr "Mettre à  jour E-contenu"
+
+msgid "ecs_remote_imported"
+msgstr "Les informations sur les cours à  distance ont été rafraichies."
+
+msgid "ecs_remote_user_settings"
+msgstr "Paramètres pour comptes utilisateurs ECS"
+
+msgid "ecs_role"
+msgstr "Assignation de rôle"
+
+msgid "ecs_role_mapping_value"
+msgstr "Valeur de l'Attribut"
+
+msgid "ecs_role_mappings"
+msgstr "Correspondance des Rôles de Cours/Groupes"
+
+msgid "ecs_server_addr"
+msgstr "Adresse Serveur"
+
+msgid "ecs_server_deleted"
+msgstr "Serveur Supprimé"
+
+msgid "ecs_server_settings"
+msgstr "Fonctionnalités ECS"
+
+msgid "ecs_server_title"
+msgstr "Nom de Configuration ECS"
+
+msgid "ecs_server_url"
+msgstr "Serveur URL"
+
+msgid "ecs_setting_deleted"
+msgstr "ECS supprimé"
+
+msgid "ecs_settings"
+msgstr "Paramètres"
+
+msgid "ecs_status_deleted"
+msgstr "Supprimé"
+
+msgid "ecs_status_legend"
+msgstr "Légende"
+
+msgid "ecs_status_mapped"
+msgstr "Mappé"
+
+msgid "ecs_status_pending_unmapped"
+msgstr "En attente (non mappé)"
+
+msgid "ecs_status_pending_unmapped_discon"
+msgstr "En attente (mappé, déconnexion possible)"
+
+msgid "ecs_status_pending_unmapped_nondiscon"
+msgstr "En attente (mappé, déconnexion impossible)"
+
+msgid "ecs_sync_trees"
+msgstr "Synchroniser les Arborescences"
+
+msgid "ecs_tab_export"
+msgstr "Exporter"
+
+msgid "ecs_tab_import"
+msgstr "Importer"
+
+msgid "ecs_tbl_active"
+msgstr "Actif"
+
+msgid "ecs_tbl_active_rules"
+msgstr "Règles Actives pour l'Assignation de Catégorie"
+
+msgid "ecs_tbl_export"
+msgstr "Exporter"
+
+msgid "ecs_tbl_import"
+msgstr "Importer"
+
+msgid "ecs_tbl_import_type"
+msgstr "Type d'Import"
+
+msgid "ecs_tbl_settings_for_server"
+msgstr "Paramètres ECS pour %s"
+
+msgid "ecs_title_updates"
+msgstr "Transférer les Mises à Jour de Titre"
+
+msgid "ecs_token_mechanism"
+msgstr "Jeton d’authentification"
+
+msgid "ecs_token_mechanism_info"
+msgstr "Si elle est activée, l’authentification sur la plateforme d’hébergement pour les objets à distance se fait via le mécanisme de jetons ECS."
+
+msgid "ecs_tree_updates"
+msgstr "Transférer les Mises à Jour d'Arborescence"
+
+msgid "ecs_tst_export"
+msgstr "Publications de Test"
+
+msgid "ecs_tst_export_disabled"
+msgstr "Ne pas publier ce Test"
+
+msgid "ecs_tst_export_enabled"
+msgstr "Publier ce Test"
+
+msgid "ecs_tst_export_obj_settings"
+msgstr "Paramètres de Publication du Test"
+
+msgid "ecs_unique_id"
+msgstr "ID Participant"
+
+msgid "ecs_user_rcp"
+msgstr "Notification sur les utilisateurs ECS"
+
+msgid "ecs_user_rcp_info"
+msgstr "Saisir un ou plusieurs login d'utilisateurs (séparé par des virgules) qui seront informés par e-mail sur les nouveaux contenus ECS."
+
+msgid "ecs_wiki_export"
+msgstr "Publications de Wiki"
+
+msgid "ecs_wiki_export_disabled"
+msgstr "Ne pas publier ce Wiki"
+
+msgid "ecs_wiki_export_enabled"
+msgstr "Publier ce Wiki"
+
+msgid "ecs_wiki_export_obj_settings"
+msgstr "Paramètres de Publication du Wiki"
