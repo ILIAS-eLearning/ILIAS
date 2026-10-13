@@ -353,34 +353,6 @@ adn#:#msg_type_2#:#Fontos
 adn#:#msg_type_3#:#Friss hírek
 adn#:#msg_type_during_event#:#Esemény közben
 adn#:#msg_type_info#:#A fontosság az értesítés színét határozza meg.
-adve#:#advanced_editing_excass_settings#:#Beadandó szöveges feladatok
-adve#:#advanced_editing_tst_editing#:#Lapszerkesztő használata a további kérdéstartalom szerkesztéséhez
-adve#:#advanced_editing_tst_editing_desc#:#Kapcsolja be az ILIAS-lapszerkesztőt a visszajelzések és a súgószövegek szerkesztéséhez.
-adve#:#adve_activation#:#Aktiválás
-adve#:#adve_auto_url_linking#:#URL Auto-linkelés
-adve#:#adve_auto_url_linking_info#:#Megpróbáljuk megtalálni a szövegben lévő az URL-eket (http://…) és automatikusa linkké alakítjuk.
-adve#:#adve_autosave#:#Automatikus mentési időköz
-adve#:#adve_autosave_info#:#Szöveges tartalom mentésének gyakorsága. A rövidebb időköz növeli a szerver terhelését.
-adve#:#adve_autosave_info_min_10#:#Kérem, legalább 10 mp-es értéket állítson be.
-adve#:#adve_blocking_mode#:#Szerkesztés zárolása
-adve#:#adve_excass_settings#:#Beadandó feladatok
-adve#:#adve_grp_copa#:#Tartalomlapok
-adve#:#adve_grp_frm#:#Fórumok
-adve#:#adve_grp_glo#:#Fogalomtárak
-adve#:#adve_grp_lm#:#ILIAS-tananyagok
-adve#:#adve_grp_rep#:#Tartalomtároló-lapok
-adve#:#adve_grp_scorm#:#SCORM-szerkesztés
-adve#:#adve_grp_test#:#Teszt és értékelés
-adve#:#adve_grp_wiki#:#Wikik
-adve#:#adve_minutes#:#Perc
-adve#:#adve_minutes_info#:#A szerkesztési zárolás ennyi inaktív perc után lejár, ezután az oldalt már másik felhasználó is szerkesztheti.
-adve#:#adve_page_editor_settings#:#ILIAS-tartalomszerkesztő
-adve#:#adve_pe_general#:#Általános
-adve#:#adve_rte_settings#:#TinyMCE szerkesztő
-adve#:#adve_text_content_features#:#Szövegtartalom menü
-adve#:#adve_use_physical#:#b/i/u használata str/emp/imp helyett
-adve#:#adve_use_physical_info#:#Ez a beállítás lecseréli a félkövér, dőlt, aláhúzott (strong, emphatic, important) szemantikus stílusosztályokhoz tartozó gombokat b (bold), i (italic), u (underline) fizikai attribútumok gombjaira. Ne feledje, hogy ez inkonzisztenciát okozhat, ha a stílusszerkesztőt használ és más fizikai attribútumokat rendelt a strong/emphatic/important stílusosztályokhoz.
-adve#:#adve_use_tiny_mce#:#TinyMCE szerkesztő engedélyezése WYSIWYG szerkesztéshez
 assessment#:#activate_logging#:#Teszt és értékelés naplózása
 assessment#:#activate_manual_scoring#:#Manuális pontozás bekapcsolása
 assessment#:#activate_manual_scoring_desc#:#Maunális pontozás bekapcsolása az összes kérdéstípushoz
@@ -7236,46 +7208,6 @@ copa#:#copa_prop_reading_time#:#Olvasási idő
 copa#:#copa_value_reading_time_f_p#:#%s perc
 copa#:#copa_value_reading_time_f_s#:#%s perc
 copa#:#obj_copa_duplicate#:#Tartalomlap duplikálása
-copg#:#copg_active_to_small#:#A dátumnak a kezdő dátumnál későbbinek kell lennie.
-copg#:#copg_add_content#:#Tartalom hozzáadása
-copg#:#copg_allow_html#:#HTML/Javascript bekapcsolása
-copg#:#copg_allow_html_info#:#HTML, illetve Javascript oldaltartalmakat használhat. Ez biztonsági rést okozhat, ezért ne kapcsolja be, ha lehet ártó szándékú felhasználója. Az ilyen módú HTML-tartalom hozzáadása várhatóan már nem lesz támogatott a későbbi verziókban.
-copg#:#copg_an_error_occured#:#Hiba történt.
-copg#:#copg_confirm_el_deletion#:#Biztos, hogy törli a kijelölt elemeket?
-copg#:#copg_cron_days#:#Ennél régebbi lapok törlése:
-copg#:#copg_cron_days_info#:#Töröljük a megadottnál régebbi lapelőzményeket.
-copg#:#copg_cron_keep_entries#:#Minimálisan megtartandók
-copg#:#copg_cron_keep_entries_info#:#Legalább ennyi bejegyzést akkor is megtartunk, ha azok régebbiek a megadottnál.
-copg#:#copg_days#:#Napok
-copg#:#copg_details#:#Részletek
-copg#:#copg_edit_iframe_title#:#Az oldalszerkesztő szövegszerkesztése
-copg#:#copg_entries#:#Bejegyzések
-copg#:#copg_error#:#Hiba
-copg#:#copg_error_occured_modal#:#Hiba az oldal betöltése közben. Kattintson az oldal újratöltésére, így visszatér a korábban mentett állapothoz.
-copg#:#copg_est_reading_time#:#Becsült olvasási idő
-copg#:#copg_history_cleanup_cron#:#Oldalszerkesztőelőzmény-tisztítás
-copg#:#copg_history_cleanup_cron_info#:#Régi bejegyzések eltávolítása az oldalelőzményekből.
-copg#:#copg_list_item_style#:#Felsorolás eleme
-copg#:#copg_list_style#:#Felsorolás
-copg#:#copg_list_styles#:#Felsorolási formátumok
-copg#:#copg_more_character_formats#:#További karakterstílusok
-copg#:#copg_obj_types#:#Objektumtípusok
-copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
-copg#:#copg_page_type_stys#:#Lapelrendezés
-copg#:#copg_pages#:#Lapok
-copg#:#copg_par_format_selection#:#Bekezdésformátumok
-copg#:#copg_pc_mob_does_not_exist#:#Ez a médiaelem nem létezik.
-copg#:#copg_plugin#:#Bővítmény
-copg#:#copg_plugin_not_avail#:#‘%s’ bővítmény nem érhető el
-copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
-copg#:#copg_reload_page#:#Oldal újratöltése
-copg#:#copg_remove_formats#:#Formázás eltávolítása
-copg#:#copg_sec_link_info#:#Válassza ki a célt, amire a blokk mutat. Figyelem: Ebben az esetben a blokk nem tartalmazhat további linket!
-copg#:#copg_snippet_cannot_be_edited#:#Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható.
-copg#:#copg_templates#:#Sablonok
-copg#:#copg_unsupported_media_type#:#Nem támogatott médiatípus.
-copg#:#copg_use_template#:#Sablon használata
-copg#:#copg_x_minutes#:#%s perc
 cpad#:#cpad_reading_time_status#:#Olvasási idő
 cpad#:#cpad_reading_time_status_desc#:#A tartalomlap becsült olvasási idejét megállapítjuk és megjelenítjük.
 cptch#:#cptch_freetype_support_needed#:#Ennek a funkciónak a használatához a PHP freetype támogatását engedélyeznie kell.
@@ -10906,11 +10838,6 @@ lhist#:#lhist_show_more#:#Több megjelenítése
 lhist#:#lhist_type_of_achievement#:#Megszerzés típusa
 like#:#like#:#Kedvel
 like#:#reaction#:#Reakció
-link#:#link_chapters#:#Fejezetek
-link#:#link_link#:#Link
-link#:#link_mobs#:#Médiaobjektumok
-link#:#link_terms#:#Fogalmak
-link#:#link_wpages#:#Wiki oldalak
 lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
 lm#:#lm_copy#:#Tananyag másolása

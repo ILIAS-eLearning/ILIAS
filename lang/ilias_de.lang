@@ -349,34 +349,6 @@ adn#:#msg_type_2#:#Wichtig
 adn#:#msg_type_3#:#Eilmeldung
 adn#:#msg_type_during_event#:#Während Ereignis
 adn#:#msg_type_info#:#Die Wichtigkeit entscheidet über die farbliche Darstellung der Ankündigungen
-adve#:#advanced_editing_excass_settings#:#Einstellungen Übungseinheiten (Textabgaben)
-adve#:#advanced_editing_tst_editing#:#ILIAS-Seiteneditor für zusätzliche Frageninhalte
-adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
-adve#:#adve_activation#:#Aktivierung
-adve#:#adve_auto_url_linking#:#URL Auto-Linking
-adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
-adve#:#adve_autosave#:#Intervall automatisches Speichern
-adve#:#adve_autosave_info#:#Textinhalte werden in diesem Intervall automatisch gespeichert. Kürzere Intervalle führen zu höherer Serverlast und geringerer Systemperformanz.
-adve#:#adve_autosave_info_min_10#:#Bitte setzen sie den Wert auf mindestens 10 Sekunden, falls sie Funktion nutzen.
-adve#:#adve_blocking_mode#:#Bearbeitungssperre
-adve#:#adve_excass_settings#:#Übungseinheiten
-adve#:#adve_grp_copa#:#Inhaltsseiten
-adve#:#adve_grp_frm#:#Foren
-adve#:#adve_grp_glo#:#Glossare
-adve#:#adve_grp_lm#:#ILIAS-Lernmodule
-adve#:#adve_grp_rep#:#Magazinseiten
-adve#:#adve_grp_scorm#:#SCORM-Module
-adve#:#adve_grp_test#:#Test und Assessment
-adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_minutes#:#Minuten
-adve#:#adve_minutes_info#:#Zeitraum in Minuten bis die Seite wegen fehlender Aktivität wieder freigegeben und dann von einem anderen Benutzer bearbeitet werden kann.
-adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
-adve#:#adve_pe_general#:#Einstellungen
-adve#:#adve_rte_settings#:#TinyMCE-Editor
-adve#:#adve_text_content_features#:#Unterstützte Zeichenformate
-adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
-adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
-adve#:#adve_use_tiny_mce#:#TinyMCE-Editor für WYSIWYG-Bearbeitung aktivieren
 assessment#:#activate_logging#:#Protokollieren des Test und Assessments aktivieren
 assessment#:#activate_manual_scoring#:#Bewertung aktivieren
 assessment#:#activate_manual_scoring_desc#:#Aktiviert die Bewertung für alle Fragentypen
@@ -7248,48 +7220,6 @@ copa#:#copa_prop_reading_time#:#Lesezeit
 copa#:#copa_value_reading_time_f_p#:#%s Minuten
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
-copg#:#copg_active_to_small#:#Dieses Datum muss größer als das „Aktiv ab“-Datum sein.
-copg#:#copg_add_content#:#Inhalte hinzufügen
-copg#:#copg_allow_html#:#HTML/Javascript erlauben
-copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
-copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
-copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
-copg#:#copg_cron_days#:#Einträge älter als x löschen
-copg#:#copg_cron_days_info#:#Löscht Einträge aus dem Verlauf, die älter als der angegebene Zeitraum sind.
-copg#:#copg_cron_keep_entries#:#Mindestanzahl Einträge
-copg#:#copg_cron_keep_entries_info#:#Diese Anzahl an Einträgen wird im Verlauf behalten, auch wenn diese älter als der angegebene Zeitraum sind.
-copg#:#copg_days#:#Tage
-copg#:#copg_details#:#Details
-copg#:#copg_edit_iframe_title#:#Text bearbeiten im Seiteneditor
-copg#:#copg_edit_style_class#:#Style-Klasse bearbeiten
-copg#:#copg_entries#:#Einträge
-copg#:#copg_error#:#Problem
-copg#:#copg_error_occured_modal#:#Es ist leider ein Fehler aufgetreten. Bitte drücken Sie "Seite neu laden" um zum zuletzt gespeicherten Inhalt zu gelangen.
-copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
-copg#:#copg_history_cleanup_cron#:#Verlaufsbereinigung
-copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Verlauf des Seiteneditors.
-copg#:#copg_list_item_style#:#Listeneintrag
-copg#:#copg_list_style#:#Liste
-copg#:#copg_list_styles#:#Listenformat
-copg#:#copg_more_character_formats#:#Weitere Zeichenformate
-copg#:#copg_obj_types#:#Objekttypen
-copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
-copg#:#copg_page_type_stys#:#Seitenlayout
-copg#:#copg_pages#:#Seiten
-copg#:#copg_par_format_selection#:#Absatzformatauswahl
-copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
-copg#:#copg_plugin#:#Plugin
-copg#:#copg_plugin_not_avail#:#Plugin %s nicht verfügbar.
-copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
-copg#:#copg_reload_page#:#Seite neu laden
-copg#:#copg_remove_formats#:#Zeichenformate entfernen
-copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
-copg#:#copg_select_two_versions#:#Bitte wählen Sie genau zwei Versionen zum Vergleich aus.
-copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
-copg#:#copg_templates#:#Vorlagen
-copg#:#copg_unsupported_media_type#:#Dieses Medienobjekt hat einen nicht unterstützen Medientyp.
-copg#:#copg_use_template#:#Vorlage nutzen
-copg#:#copg_x_minutes#:#%s Minute(n)
 cpad#:#cpad_reading_time_status#:#Lesezeit
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
@@ -10966,11 +10896,6 @@ lhist#:#lhist_show_more#:#Mehr anzeigen
 lhist#:#lhist_type_of_achievement#:#Typ des Lernerfolgs
 like#:#like#:#Like
 like#:#reaction#:#Reaktion
-link#:#link_chapters#:#Kapitel
-link#:#link_link#:#Link
-link#:#link_mobs#:#Medienobjekte
-link#:#link_terms#:#Begriffe
-link#:#link_wpages#:#Wikiseiten
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren

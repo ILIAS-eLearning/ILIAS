@@ -349,34 +349,6 @@ adn#:#msg_type_2#:#Viktigt
 adn#:#msg_type_3#:#Brytande nyheter
 adn#:#msg_type_during_event#:#Under evenemanget
 adn#:#msg_type_info#:#Viktigheten avgör färgvisningen av tillkännagivandena
-adve#:#advanced_editing_excass_settings#:#Settings Övningsenheter (textleveranser)
-adve#:#advanced_editing_tst_editing#:#Sidredigerare för ytterligare frågeinnehåll
-adve#:#advanced_editing_tst_editing_desc#:#Aktiverar ILIAS sidredigerare för feedback och notistexter.
-adve#:#adve_activation#:#Aktivering
-adve#:#adve_auto_url_linking#:#URL Automatisk länkning
-adve#:#adve_auto_url_linking_info#:#ILIAS söker i textstycken efter URL-adresser (t.ex. "http
-adve#:#adve_autosave#:#Automatiskt sparintervall
-adve#:#adve_autosave_info#:#Textinnehåll sparas automatiskt vid detta intervall. Kortare intervall leder till högre serverbelastning och lägre systemprestanda.
-adve#:#adve_autosave_info_min_10#:#Ställ in värdet på minst 10 sekunder om du använder funktionen.
-adve#:#adve_blocking_mode#:#Redigera lås
-adve#:#adve_excass_settings#:#Träningsenheter
-adve#:#adve_grp_copa#:#Innehållssidor
-adve#:#adve_grp_frm#:#Forum
-adve#:#adve_grp_glo#:#Glossarier
-adve#:#adve_grp_lm#:#ILIAS utbildningsmoduler
-adve#:#adve_grp_rep#:#Sidor i tidskrifter
-adve#:#adve_grp_scorm#:#SCORM-moduler
-adve#:#adve_grp_test#:#Test och bedömning
-adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_minutes#:#minuter
-adve#:#adve_minutes_info#:#Tidsperiod i minuter tills sidan kan släppas igen på grund av brist på aktivitet och sedan redigeras av en annan användare.
-adve#:#adve_page_editor_settings#:#ILIAS sidredigerare
-adve#:#adve_pe_general#:#Inställningar
-adve#:#adve_rte_settings#:#TinyMCE-editor
-adve#:#adve_text_content_features#:#Text Innehåll Meny
-adve#:#adve_use_physical#:#Ersätt #str|emp|imp med <u>B|I|U</u>
-adve#:#adve_use_physical_info#:#Inställningen ersätter knapparna i de semantiska stilklasserna för stark, eftertrycklig och viktig med de fast definierade distinktionerna <b>B</b> (fet), <i>I</i> (kursiv) och <u>U</u> (understruken). Uppmärksamhet
-adve#:#adve_use_tiny_mce#:#Aktivera TinyMCE för WYSIWYG-redigering
 assessment#:#activate_logging#:#Aktivera loggning av test och bedömning
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable
@@ -7175,44 +7147,6 @@ copa#:#copa_prop_reading_time#:#Tid för läsning
 copa#:#copa_value_reading_time_f_p#:#%s minuter
 copa#:#copa_value_reading_time_f_s#:#%s minut
 copa#:#obj_copa_duplicate#:#Sidor med duplicerat innehåll
-copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
-copg#:#copg_allow_html#:#Tillåt HTML/Javascript
-copg#:#copg_allow_html_info#:#Användare kan använda HTML eller Javascript i sidinnehåll. Detta kan leda till säkerhetsproblem. Du bör endast aktivera denna funktion för komponenter som används av betrodda användare. Möjligheten att inkludera HTML på detta sätt kan komma att tas bort
-copg#:#copg_an_error_occured#:#Tyvärr har ett problem uppstått.
-copg#:#copg_confirm_el_deletion#:#Vill du verkligen ta bort de markerade objekten?
-copg#:#copg_cron_days#:#Radera poster som är äldre än x
-copg#:#copg_cron_days_info#:#Raderar poster från historiken som är äldre än den angivna perioden.
-copg#:#copg_cron_keep_entries#:#Minsta antal bidrag
-copg#:#copg_cron_keep_entries_info#:#Detta antal poster sparas i historiken, även om de är äldre än den angivna perioden.
-copg#:#copg_days#:#dagar
-copg#:#copg_details#:#Detaljer
-copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###26 08 2024 new variable
-copg#:#copg_entries#:#Inträden
-copg#:#copg_error#:#Problem
-copg#:#copg_error_occured_modal#:#Tyvärr, ett fel har uppstått. Tryck på "Ladda om sidan" för att återgå till det senast sparade innehållet.
-copg#:#copg_est_reading_time#:#Uppskattad lästid
-copg#:#copg_history_cleanup_cron#:#Page Editor Historik rensning
-copg#:#copg_history_cleanup_cron_info#:# Raderar äldre poster från sidredigerarens historik.
-copg#:#copg_list_item_style#:#List Item###21 11 2023 new variable
-copg#:#copg_list_style#:#List###21 11 2023 new variable
-copg#:#copg_list_styles#:#List Formats###21 11 2023 new variable
-copg#:#copg_more_character_formats#:#More Styles for Characters###26 08 2024 new variable
-copg#:#copg_obj_types#:#Object Types###26 08 2024 new variable
-copg#:#copg_page_element_not_found#:# Okänt sidelement.
-copg#:#copg_page_type_stys#:#Sidans layout
-copg#:#copg_pages#:#Pages###29 10 2025 new variable
-copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
-copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###21 11 2023 new variable
-copg#:#copg_plugin#:#Plugin###29 10 2025 new variable
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.###29 10 2025 new variable
-copg#:#copg_questions_not_supported_here#:#Inga frågor stöds i detta sammanhang.
-copg#:#copg_reload_page#:#Reload sida
-copg#:#copg_remove_formats#:#Remove Formatting###26 08 2024 new variable
-copg#:#copg_sec_link_info#:#Välj en destination för länkning av blocket. Uppmärksamhet
-copg#:#copg_snippet_cannot_be_edited#:#Detta är en fördefinierad innehållsmodul som inte kan redigeras just nu.
-copg#:#copg_templates#:#Templates###29 10 2025 new variable
-copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
-copg#:#copg_x_minutes#:#%s minut(er)
 cpad#:#cpad_reading_time_status#:#Tid för läsning
 cpad#:#cpad_reading_time_status_desc#:#Om den är aktiverad beräknas och visas den uppskattade lästiden för innehållssidor.
 cptch#:#cptch_freetype_support_needed#:#För att använda denna funktion behöver du freetype-stödet för PHP.
@@ -10832,11 +10766,6 @@ lhist#:#lhist_show_more#:#Visa mer
 lhist#:#lhist_type_of_achievement#:#Typ av framgångsrikt lärande
 like#:#like#:#Like
 like#:#reaction#:#Reaktion
-link#:#link_chapters#:#Kapitel
-link#:#link_link#:#Länk
-link#:#link_mobs#:#Medieobjekt
-link#:#link_terms#:#Termer
-link#:#link_wpages#:#Wiki-sidor
 lm#:#lm_btn_lp_toggle_state_completed#:#Set till "Ej redigerad
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set till "Redigerad
 lm#:#lm_copy#:#Kopiera ILIAS utbildningsmodul

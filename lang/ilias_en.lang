@@ -349,34 +349,6 @@ adn#:#msg_type_2#:#Important
 adn#:#msg_type_3#:#Breaking News
 adn#:#msg_type_during_event#:#During Event
 adn#:#msg_type_info#:#the importance has an influence on the color representation of the notification
-adve#:#advanced_editing_excass_settings#:#Exercise Text Assignments
-adve#:#advanced_editing_tst_editing#:#ILIAS Page Editor for additional question content
-adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedback and hint text editing.
-adve#:#adve_activation#:#Activation
-adve#:#adve_auto_url_linking#:#URL Auto-Linking
-adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
-adve#:#adve_autosave#:#Automatic Saving Intervall
-adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
-adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.
-adve#:#adve_blocking_mode#:#Edit Lock
-adve#:#adve_excass_settings#:#Exercise Assignments
-adve#:#adve_grp_copa#:#Content Pages
-adve#:#adve_grp_frm#:#Forums
-adve#:#adve_grp_glo#:#Glossaries
-adve#:#adve_grp_lm#:#ILIAS Learning Modules
-adve#:#adve_grp_rep#:#Repository Pages
-adve#:#adve_grp_scorm#:#SCORM Editing
-adve#:#adve_grp_test#:#Test and Assessment
-adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_minutes#:#Minutes
-adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
-adve#:#adve_page_editor_settings#:#ILIAS Page Editor
-adve#:#adve_pe_general#:#General
-adve#:#adve_rte_settings#:#TinyMCE Editor
-adve#:#adve_text_content_features#:#Supported Characters
-adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
-adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
-adve#:#adve_use_tiny_mce#:#Enable TinyMCE Editor for WYSIWYG Editing
 assessment#:#activate_logging#:#Activate Test and Assessment Logging
 assessment#:#activate_manual_scoring#:#Enable Scoring
 assessment#:#activate_manual_scoring_desc#:#Enables Scoring for all question types.
@@ -7250,48 +7222,6 @@ copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
-copg#:#copg_active_to_small#:#This date must be higher than the starting date.
-copg#:#copg_add_content#:#Add Content
-copg#:#copg_allow_html#:#Enable HTML/Javascript
-copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
-copg#:#copg_an_error_occured#:#An error occured.
-copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
-copg#:#copg_cron_days#:#Delete pages older than
-copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.
-copg#:#copg_cron_keep_entries#:#Keep Minimum
-copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.
-copg#:#copg_days#:#Days
-copg#:#copg_details#:#Details
-copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor
-copg#:#copg_edit_style_class#:#Edit Style Class
-copg#:#copg_entries#:#Entries
-copg#:#copg_error#:#Error
-copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
-copg#:#copg_est_reading_time#:#Estimated Reading Time
-copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
-copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
-copg#:#copg_list_item_style#:#List Item
-copg#:#copg_list_style#:#List
-copg#:#copg_list_styles#:#List Formats
-copg#:#copg_more_character_formats#:#More Styles for Characters
-copg#:#copg_obj_types#:#Object Types
-copg#:#copg_page_element_not_found#:#Page element not found.
-copg#:#copg_page_type_stys#:#Layout Page
-copg#:#copg_pages#:#Pages
-copg#:#copg_par_format_selection#:#Paragraph Format Selection
-copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
-copg#:#copg_plugin#:#Plugin
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
-copg#:#copg_reload_page#:#Reload Page
-copg#:#copg_remove_formats#:#Remove Formatting
-copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
-copg#:#copg_select_two_versions#:#Select exactly two versions of the page to compare.
-copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
-copg#:#copg_templates#:#Templates
-copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.
-copg#:#copg_use_template#:#Use Template
-copg#:#copg_x_minutes#:#%s minute(s)
 cpad#:#cpad_reading_time_status#:#Reading Time
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
@@ -10939,11 +10869,6 @@ lhist#:#lhist_show_more#:#Show More
 lhist#:#lhist_type_of_achievement#:#Type of Achievement
 like#:#like#:#Like
 like#:#reaction#:#Reaction
-link#:#link_chapters#:#Chapters
-link#:#link_link#:#Link
-link#:#link_mobs#:#Media Objects
-link#:#link_terms#:#Terms
-link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module

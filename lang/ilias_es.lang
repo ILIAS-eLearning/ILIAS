@@ -352,34 +352,6 @@ adn#:#msg_type_2#:#Importante
 adn#:#msg_type_3#:#Última hora
 adn#:#msg_type_during_event#:#Durante el evento
 adn#:#msg_type_info#:#la importancia influye en la representación del color de la notificación
-adve#:#advanced_editing_excass_settings#:#Asignaciones de texto de ejercicios
-adve#:#advanced_editing_tst_editing#:#Editor de Páginas ILIAS para contenido adicional de la pregunta
-adve#:#advanced_editing_tst_editing_desc#:#Activa el Editor de Páginas ILIAS para la edición de texto de feedback y pistas.
-adve#:#adve_activation#:#Activación
-adve#:#adve_auto_url_linking#:#Vinculación automática de URL
-adve#:#adve_auto_url_linking_info#:#Intenta identificar URLs como "http://.." en los párrafos de texto y crea automáticamente enlaces alrededor de ellas.
-adve#:#adve_autosave#:#Intervalo de guardado automático
-adve#:#adve_autosave_info#:#Guardado automático del contenido de texto. Con intervalos más cortos, la carga del servidor aumenta y el rendimiento del sistema disminuye.
-adve#:#adve_autosave_info_min_10#:#Por favor, seleccione un valor mínimo de 10 segundos si ha activado esta función.
-adve#:#adve_blocking_mode#:#Bloqueo de edición
-adve#:#adve_excass_settings#:#Asignaciones de ejercicios
-adve#:#adve_grp_copa#:#Páginas de contenido
-adve#:#adve_grp_frm#:#Foros
-adve#:#adve_grp_glo#:#Glosarios
-adve#:#adve_grp_lm#:#Módulos de aprendizaje de ILIAS
-adve#:#adve_grp_rep#:#Páginas del repositorio
-adve#:#adve_grp_scorm#:#Edición SCORM
-adve#:#adve_grp_test#:#Pruebas y evaluación
-adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_minutes#:#Minutos
-adve#:#adve_minutes_info#:#Minutos de inactividad antes de que un bloqueo de edición expire y otra persona pueda editar la página.
-adve#:#adve_page_editor_settings#:#Editor de páginas de ILIAS
-adve#:#adve_pe_general#:#General
-adve#:#adve_rte_settings#:#Editor TinyMCE
-adve#:#adve_text_content_features#:#Caracteres admitidos
-adve#:#adve_use_physical#:#Usar b/i/u en lugar de str/emp/imp
-adve#:#adve_use_physical_info#:#Esta opción reemplaza los botones de clase de estilo semántico para ‘strong’, ‘emphatic’ y ‘important’ por botones de atributos físicos ‘b’ (negrita), ‘i’ (cursiva) y ‘u’ (subrayado). Tenga en cuenta que esto puede provocar inconsistencias si se utiliza el editor de estilos y se asignan otros atributos físicos a las clases de estilo strong/emphatic/important.
-adve#:#adve_use_tiny_mce#:#Activar el editor TinyMCE para edición WYSIWYG
 assessment#:#activate_logging#:#Activar el registro de pruebas y evaluaciones
 assessment#:#activate_manual_scoring#:#Activar puntuación manual
 assessment#:#activate_manual_scoring_desc#:#Habilita la puntuación manual para todos los tipos de preguntas.
@@ -7192,46 +7164,6 @@ copa#:#copa_prop_reading_time#:#Tiempo de lectura
 copa#:#copa_value_reading_time_f_p#:#%s Minutos
 copa#:#copa_value_reading_time_f_s#:#%s Minuto
 copa#:#obj_copa_duplicate#:#Duplicar Página de Contenido
-copg#:#copg_active_to_small#:#Esta fecha debe ser posterior a la fecha de inicio.
-copg#:#copg_add_content#:#Añadir Contenido
-copg#:#copg_allow_html#:#Activar HTML/Javascript
-copg#:#copg_allow_html_info#:#El usuario puede utilizar HTML o Javascript en el contenido de la página. Esto puede conllevar problemas de seguridad. No lo active si las funciones pueden ser utilizadas por usuarios que no considere de confianza. El soporte para añadir contenido HTML de esta forma podría interrumpirse en una versión futura.
-copg#:#copg_an_error_occured#:#Se ha producido un error.
-copg#:#copg_confirm_el_deletion#:#¿Realmente desea eliminar los elementos seleccionados?
-copg#:#copg_cron_days#:#Eliminar páginas anteriores a
-copg#:#copg_cron_days_info#:#Se eliminarán las entradas del historial de páginas anteriores a este periodo.
-copg#:#copg_cron_keep_entries#:#Mantener Mínimo
-copg#:#copg_cron_keep_entries_info#:#Este número es el mínimo de entradas que se conservarán, aunque sean anteriores al periodo de eliminación.
-copg#:#copg_days#:#Días
-copg#:#copg_details#:#Detalles
-copg#:#copg_edit_iframe_title#:#Edición de texto del editor de páginas
-copg#:#copg_entries#:#Entradas
-copg#:#copg_error#:#Error
-copg#:#copg_error_occured_modal#:#Se ha producido un error al procesar la página. Haga clic en "Recargar página" para volver al estado guardado anteriormente.
-copg#:#copg_est_reading_time#:#Tiempo estimado de lectura
-copg#:#copg_history_cleanup_cron#:#Limpieza del historial del editor de páginas
-copg#:#copg_history_cleanup_cron_info#:#Elimina las entradas antiguas del historial de la página.
-copg#:#copg_list_item_style#:#Elemento de lista
-copg#:#copg_list_style#:#Lista
-copg#:#copg_list_styles#:#Formatos de lista
-copg#:#copg_more_character_formats#:#Más estilos de caracteres
-copg#:#copg_obj_types#:#Tipos de objeto
-copg#:#copg_page_element_not_found#:#Elemento de página no encontrado.
-copg#:#copg_page_type_stys#:#Página de diseño
-copg#:#copg_pages#:#Páginas
-copg#:#copg_par_format_selection#:#Selección de formato de párrafo
-copg#:#copg_pc_mob_does_not_exist#:#Este objeto multimedia no existe.
-copg#:#copg_plugin#:#Plugin
-copg#:#copg_plugin_not_avail#:#El plugin %s no está disponible.
-copg#:#copg_questions_not_supported_here#:#Las preguntas no están soportadas en este contexto.
-copg#:#copg_reload_page#:#Recargar página
-copg#:#copg_remove_formats#:#Eliminar formato
-copg#:#copg_sec_link_info#:#Seleccione un destino para vincular el bloque. Atención: ¡En este caso, el contenido del bloque no debe contener más enlaces!
-copg#:#copg_snippet_cannot_be_edited#:#Este es un fragmento de contenido predefinido y no se puede editar aquí.
-copg#:#copg_templates#:#Templates
-copg#:#copg_unsupported_media_type#:#Este objeto multimedia tiene un tipo de medio no compatible.
-copg#:#copg_use_template#:#Usar plantilla
-copg#:#copg_x_minutes#:#%s minuto(s)
 cpad#:#cpad_reading_time_status#:#Tiempo de lectura
 cpad#:#cpad_reading_time_status_desc#:#Si se activa, se calculará y mostrará el tiempo estimado de lectura para los objetos de página de contenido.
 cptch#:#cptch_freetype_support_needed#:#Para usar esta función, debe habilitar el soporte de freetype en su PHP.
@@ -10883,11 +10815,6 @@ lhist#:#lhist_show_more#:#Mostrar más
 lhist#:#lhist_type_of_achievement#:#Tipo de logro
 like#:#like#:#Me gusta
 like#:#reaction#:#Reacción
-link#:#link_chapters#:#Capítulos
-link#:#link_link#:#Enlace
-link#:#link_mobs#:#Objetos multimedia
-link#:#link_terms#:#Términos
-link#:#link_wpages#:#Páginas de Wiki
 lm#:#lm_btn_lp_toggle_state_completed#:#Establecer como No completado
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Establecer como Completado
 lm#:#lm_copy#:#Copiar módulo de aprendizaje

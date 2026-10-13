@@ -349,34 +349,6 @@ adn#:#msg_type_2#:#Important###29 07 2022 new variable
 adn#:#msg_type_3#:#Breaking News###29 07 2022 new variable
 adn#:#msg_type_during_event#:#During Event###29 07 2022 new variable
 adn#:#msg_type_info#:#the importance has an influence on the color representation of the notification###29 07 2022 new variable
-adve#:#advanced_editing_excass_settings#:#Exercise Assignments Settings###24 10 2013 new variable
-adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content###12 03 2014 new variable
-adve#:#advanced_editing_tst_editing_desc#:#Aktivates ILIAS Page Eidotr for feedback and hint text editing.###12 03 2014 new variable
-adve#:#adve_activation#:#Activation###01 10 2011 new variable
-adve#:#adve_auto_url_linking#:#URL Auto-Linking###30 08 2015 new variable
-adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.###30 08 2015 new variable
-adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
-adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
-adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
-adve#:#adve_blocking_mode#:#Edit Lock###24 10 2013 new variable
-adve#:#adve_excass_settings#:#Exercise Assignments###24 10 2013 new variable
-adve#:#adve_grp_copa#:#Content Pages###10 11 2018 new variable
-adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
-adve#:#adve_grp_glo#:#Glossaries###15 05 2009 new variable
-adve#:#adve_grp_lm#:#ILIAS Learning Modules###15 05 2009 new variable
-adve#:#adve_grp_rep#:#Repository Pages###15 05 2009 new variable
-adve#:#adve_grp_scorm#:#SCORM Editing###15 05 2009 new variable
-adve#:#adve_grp_test#:#Test & Assessment###15 05 2009 new variable
-adve#:#adve_grp_wiki#:#Wikis###15 05 2009 new variable
-adve#:#adve_minutes#:#Minutes###24 10 2013 new variable
-adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.###24 10 2013 new variable
-adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings###15 05 2009 new variable
-adve#:#adve_pe_general#:#General###12 06 2011 new variable
-adve#:#adve_rte_settings#:#Rich Text Editor Settings###15 05 2009 new variable
-adve#:#adve_text_content_features#:#Text Content Menu###15 05 2009 new variable
-adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new variable
-adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
-adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#activate_logging#:#Aktivizo testin&Ruaj aktivitetin e vlerësimit
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable
@@ -7175,44 +7147,6 @@ copa#:#copa_prop_reading_time#:#Reading Time###29 07 2022 new variable
 copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
-copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
-copg#:#copg_allow_html#:#Enable HTML/Javascript###29 07 2022 new variable
-copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###29 07 2022 new variable
-copg#:#copg_an_error_occured#:#An error occured.###29 07 2022 new variable
-copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###25 10 2016 new variable
-copg#:#copg_cron_days#:#Delete pages older than###29 07 2022 new variable
-copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.###29 07 2022 new variable
-copg#:#copg_cron_keep_entries#:#Keep Minimum###29 07 2022 new variable
-copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###29 07 2022 new variable
-copg#:#copg_days#:#Days###29 07 2022 new variable
-copg#:#copg_details#:#Details###29 07 2022 new variable
-copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###26 08 2024 new variable
-copg#:#copg_entries#:#Entries###29 07 2022 new variable
-copg#:#copg_error#:#Error###29 07 2022 new variable
-copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 07 2022 new variable
-copg#:#copg_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
-copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###29 07 2022 new variable
-copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###29 07 2022 new variable
-copg#:#copg_list_item_style#:#List Item###26 08 2024 new variable
-copg#:#copg_list_style#:#List###26 08 2024 new variable
-copg#:#copg_list_styles#:#List Formats###26 08 2024 new variable
-copg#:#copg_more_character_formats#:#More Styles for Characters###26 08 2024 new variable
-copg#:#copg_obj_types#:#Object Types###26 08 2024 new variable
-copg#:#copg_page_element_not_found#:#Page element not found.###29 07 2022 new variable
-copg#:#copg_page_type_stys#:#Layout Page###29 07 2022 new variable
-copg#:#copg_pages#:#Pages###29 10 2025 new variable
-copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
-copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###26 08 2024 new variable
-copg#:#copg_plugin#:#Plugin###29 10 2025 new variable
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.###29 10 2025 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
-copg#:#copg_reload_page#:#Reload Page###29 07 2022 new variable
-copg#:#copg_remove_formats#:#Remove Formatting###26 08 2024 new variable
-copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.###25 10 2016 new variable
-copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.###25 10 2016 new variable
-copg#:#copg_templates#:#Templates###29 10 2025 new variable
-copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
-copg#:#copg_x_minutes#:#%s minute(s)###29 07 2022 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###29 07 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###29 07 2022 new variable
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.###28 08 2012 new variable
@@ -10832,11 +10766,6 @@ lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 lhist#:#lhist_type_of_achievement#:#Type of Achievement###10 11 2018 new variable
 like#:#like#:#Like###10 11 2018 new variable
 like#:#reaction#:#Reaction###10 11 2018 new variable
-link#:#link_chapters#:#Chapters###07 11 2014 new variable
-link#:#link_link#:#Link###30 08 2015 new variable
-link#:#link_mobs#:#Media Objects###07 11 2014 new variable
-link#:#link_terms#:#Terms###07 11 2014 new variable
-link#:#link_wpages#:#Wiki Pages###07 11 2014 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: link\n"
+
+msgid "link_chapters"
+msgstr "Hoofstukken"
+
+#, fuzzy
+msgid "link_link"
+msgstr "Link"
+
+msgid "link_mobs"
+msgstr "Media Objecten"
+
+msgid "link_terms"
+msgstr "Vakterm"
+
+msgid "link_wpages"
+msgstr "Wiki Pagina's"

@@ -349,34 +349,6 @@ adn#:#msg_type_2#:#Important###29 07 2022 new variable
 adn#:#msg_type_3#:#Breaking News###29 07 2022 new variable
 adn#:#msg_type_during_event#:#During Event###29 07 2022 new variable
 adn#:#msg_type_info#:#the importance has an influence on the color representation of the notification###29 07 2022 new variable
-adve#:#advanced_editing_excass_settings#:#Nastavení úkolů cvičení
-adve#:#advanced_editing_tst_editing#:#Editor stránky pro dodatečný obsah otázky
-adve#:#advanced_editing_tst_editing_desc#:#Aktivuje editor stránky ILIAS pro zpětnou vazbu a úpravu textu nápovědy.
-adve#:#adve_activation#:#Aktivace
-adve#:#adve_auto_url_linking#:#Automatické URL odkazy
-adve#:#adve_auto_url_linking_info#:#Snaží se identifikovat URL jako „http: // ..“ v odstavcích textu a automaticky z nich vytváří odkazy.
-adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
-adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
-adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
-adve#:#adve_blocking_mode#:#Uzamčení editace
-adve#:#adve_excass_settings#:#Úkoly cvičení
-adve#:#adve_grp_copa#:#Stránky obsahu
-adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
-adve#:#adve_grp_glo#:#Glosáře
-adve#:#adve_grp_lm#:#Výukové moduly ILIAS
-adve#:#adve_grp_rep#:#Stránky úložiště
-adve#:#adve_grp_scorm#:#Editace SCORM
-adve#:#adve_grp_test#:#Test & Hodnocení
-adve#:#adve_grp_wiki#:#Wiki
-adve#:#adve_minutes#:#Minuty
-adve#:#adve_minutes_info#:#Minuty neaktivity před vypršením uzamčení editace a uvolnění stránky k editaci jiným uživatelem.
-adve#:#adve_page_editor_settings#:#Editor obsahu ILIAS
-adve#:#adve_pe_general#:#Všeobecné
-adve#:#adve_rte_settings#:#Editor TinyMCE
-adve#:#adve_text_content_features#:#Nabídka textového obsahu
-adve#:#adve_use_physical#:#Použít b/i/u namísto str/emp/imp
-adve#:#adve_use_physical_info#:#Toto nastavení nahrazuje tlačítka sémantické třídy stylu pro silné (strong),  zdůrazněné (emphatic) a důležité (important) tlačítky fyzikálních atributů b (bold-tučné), i (italic-kurzíva) a u (underline-podtržené). Povšimněte si prosím, že to může mít za následek nekonzistence, pokud je použit tento editor stylu a jiné fyzické atributy jsou přiřazeny třídám stylu strong/emphatic/important.
-adve#:#adve_use_tiny_mce#:#Zapnout TinyMCE pro editaci WYSIWYG
 assessment#:#activate_logging#:#Aktivovat záznam Test a Hodnocení
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable
@@ -7175,44 +7147,6 @@ copa#:#copa_prop_reading_time#:#Reading Time###29 07 2022 new variable
 copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplikovat stránku obsahu
-copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
-copg#:#copg_allow_html#:#Enable HTML/Javascript###29 07 2022 new variable
-copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###29 07 2022 new variable
-copg#:#copg_an_error_occured#:#An error occured.###29 07 2022 new variable
-copg#:#copg_confirm_el_deletion#:#Opravdu chcete smazat vybrané prvky?
-copg#:#copg_cron_days#:#Delete pages older than###29 07 2022 new variable
-copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.###29 07 2022 new variable
-copg#:#copg_cron_keep_entries#:#Keep Minimum###29 07 2022 new variable
-copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###29 07 2022 new variable
-copg#:#copg_days#:#Days###29 07 2022 new variable
-copg#:#copg_details#:#Details###29 07 2022 new variable
-copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###26 08 2024 new variable
-copg#:#copg_entries#:#Entries###29 07 2022 new variable
-copg#:#copg_error#:#Error###29 07 2022 new variable
-copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 07 2022 new variable
-copg#:#copg_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
-copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###29 07 2022 new variable
-copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###29 07 2022 new variable
-copg#:#copg_list_item_style#:#List Item###26 08 2024 new variable
-copg#:#copg_list_style#:#List###26 08 2024 new variable
-copg#:#copg_list_styles#:#List Formats###26 08 2024 new variable
-copg#:#copg_more_character_formats#:#More Styles for Characters###26 08 2024 new variable
-copg#:#copg_obj_types#:#Object Types###26 08 2024 new variable
-copg#:#copg_page_element_not_found#:#Page element not found.###29 07 2022 new variable
-copg#:#copg_page_type_stys#:#Layout Page###29 07 2022 new variable
-copg#:#copg_pages#:#Pages###29 10 2025 new variable
-copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
-copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###26 08 2024 new variable
-copg#:#copg_plugin#:#Plugin###29 10 2025 new variable
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.###29 10 2025 new variable
-copg#:#copg_questions_not_supported_here#:#V tomto kontextu nejsou otázky podporovány.
-copg#:#copg_reload_page#:#Reload Page###29 07 2022 new variable
-copg#:#copg_remove_formats#:#Remove Formatting###26 08 2024 new variable
-copg#:#copg_sec_link_info#:#Pokud nastavíte odkaz na celou část, ujistěte se, že v této části nejsou obsaženy žádné další interaktivní prvky. Jinak může být jejich chování nevypočitatelné.
-copg#:#copg_snippet_cannot_be_edited#:#Jedná se o předem definovaný úryvek obsahu, který zde nelze upravovat.
-copg#:#copg_templates#:#Templates###29 10 2025 new variable
-copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
-copg#:#copg_x_minutes#:#%s minute(s)###29 07 2022 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###29 07 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###29 07 2022 new variable
 cptch#:#cptch_freetype_support_needed#:#K použití tohoto rysu musíte zapnout podporu volného typu ve Vašem PHP.
@@ -10832,11 +10766,6 @@ lhist#:#lhist_show_more#:#Zobrazit více
 lhist#:#lhist_type_of_achievement#:#Typ úspěchu
 like#:#like#:#Like
 like#:#reaction#:#Reakce
-link#:#link_chapters#:#Kapitoly
-link#:#link_link#:#Odkaz
-link#:#link_mobs#:#Mediální objekty
-link#:#link_terms#:#Podmínky
-link#:#link_wpages#:#Stránky Wiki
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Kopírovat výukový

@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Beadandó szöveges feladatok"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Lapszerkesztő használata a további kérdéstartalom szerkesztéséhez"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Kapcsolja be az ILIAS-lapszerkesztőt a visszajelzések és a súgószövegek szerkesztéséhez."
+
+msgid "adve_activation"
+msgstr "Aktiválás"
+
+msgid "adve_auto_url_linking"
+msgstr "URL Auto-linkelés"
+
+msgid "adve_auto_url_linking_info"
+msgstr "Megpróbáljuk megtalálni a szövegben lévő az URL-eket (http://…) és automatikusa linkké alakítjuk."
+
+msgid "adve_autosave"
+msgstr "Automatikus mentési időköz"
+
+msgid "adve_autosave_info"
+msgstr "Szöveges tartalom mentésének gyakorsága. A rövidebb időköz növeli a szerver terhelését."
+
+msgid "adve_autosave_info_min_10"
+msgstr "Kérem, legalább 10 mp-es értéket állítson be."
+
+msgid "adve_blocking_mode"
+msgstr "Szerkesztés zárolása"
+
+msgid "adve_excass_settings"
+msgstr "Beadandó feladatok"
+
+msgid "adve_grp_copa"
+msgstr "Tartalomlapok"
+
+msgid "adve_grp_frm"
+msgstr "Fórumok"
+
+msgid "adve_grp_glo"
+msgstr "Fogalomtárak"
+
+msgid "adve_grp_lm"
+msgstr "ILIAS-tananyagok"
+
+msgid "adve_grp_rep"
+msgstr "Tartalomtároló-lapok"
+
+msgid "adve_grp_scorm"
+msgstr "SCORM-szerkesztés"
+
+msgid "adve_grp_test"
+msgstr "Teszt és értékelés"
+
+msgid "adve_grp_wiki"
+msgstr "Wikik"
+
+msgid "adve_minutes"
+msgstr "Perc"
+
+msgid "adve_minutes_info"
+msgstr "A szerkesztési zárolás ennyi inaktív perc után lejár, ezután az oldalt már másik felhasználó is szerkesztheti."
+
+msgid "adve_page_editor_settings"
+msgstr "ILIAS-tartalomszerkesztő"
+
+msgid "adve_pe_general"
+msgstr "Általános"
+
+msgid "adve_rte_settings"
+msgstr "TinyMCE szerkesztő"
+
+msgid "adve_text_content_features"
+msgstr "Szövegtartalom menü"
+
+msgid "adve_use_physical"
+msgstr "b/i/u használata str/emp/imp helyett"
+
+msgid "adve_use_physical_info"
+msgstr "Ez a beállítás lecseréli a félkövér, dőlt, aláhúzott (strong, emphatic, important) szemantikus stílusosztályokhoz tartozó gombokat b (bold), i (italic), u (underline) fizikai attribútumok gombjaira. Ne feledje, hogy ez inkonzisztenciát okozhat, ha a stílusszerkesztőt használ és más fizikai attribútumokat rendelt a strong/emphatic/important stílusosztályokhoz."
+
+msgid "adve_use_tiny_mce"
+msgstr "TinyMCE szerkesztő engedélyezése WYSIWYG szerkesztéshez"
