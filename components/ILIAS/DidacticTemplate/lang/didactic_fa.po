@@ -1,0 +1,178 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: didactic\n"
+
+#, fuzzy
+msgid "activate_exclusive_template"
+msgstr "Grey Out Default"
+
+#, fuzzy
+msgid "activate_exclusive_template_info"
+msgstr "The standard template won't be available wherever this template is active."
+
+#, fuzzy
+msgid "activate_local_didactic_template"
+msgstr "Scope of Application"
+
+#, fuzzy
+msgid "activate_local_didactic_template_info"
+msgstr "Usage of this didactical template will be limited to these sub-areas."
+
+msgid "didactic_activated_msg"
+msgstr "Activated didactic templates"
+
+msgid "didactic_adm_tab"
+msgstr "Didactic"
+
+msgid "didactic_applicable_for"
+msgstr "Applicalble for"
+
+#, fuzzy
+msgid "didactic_auto_generated"
+msgstr "Automatic Generated"
+
+msgid "didactic_available_templates"
+msgstr "Available Didactic Templates"
+
+msgid "didactic_back_to_overview"
+msgstr "Back to Overview"
+
+#, fuzzy
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "It is not allowed to delete automatic generated didactic templates."
+
+#, fuzzy
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "At least one of the selected didactic templates is automatic generated and cannot be deleted."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Do you really want to apply the chosen didactic template? All current permission settings will get lost!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Do you really want to delete the following didactic templates?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Copied didactic template"
+
+msgid "didactic_deactivated_msg"
+msgstr "Deactivated didactic templates"
+
+#, fuzzy
+msgid "didactic_default_type"
+msgstr "Default"
+
+msgid "didactic_default_type_info"
+msgstr "مجوزهای پیش فرض را برای %s بکار می برد"
+
+msgid "didactic_delete_msg"
+msgstr "Deleted didactical templates."
+
+msgid "didactic_do_export"
+msgstr "صدور"
+
+msgid "didactic_edit_tpl"
+msgstr "Edit Didactic Template"
+
+#, fuzzy
+msgid "didactic_filter_with_icon"
+msgstr "with Icon"
+
+#, fuzzy
+msgid "didactic_filter_without_icon"
+msgstr "without Icon"
+
+#, fuzzy
+msgid "didactic_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "didactic_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "didactic_icon_error"
+msgstr "Icons cannot be assigned to non-container objects."
+
+#, fuzzy
+msgid "didactic_icon_info"
+msgstr "The Icon is shown for all objects, which use this object template. \"Custom Icons\" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects."
+
+msgid "didactic_import_btn"
+msgstr "Import Didactic Template"
+
+msgid "didactic_import_failed"
+msgstr "Importing the didactical template failed with message:"
+
+msgid "didactic_import_success"
+msgstr "Successfully imported didactical template"
+
+msgid "didactic_import_table_title"
+msgstr "Import of a didactic template"
+
+msgid "didactic_install_info"
+msgstr "اطلاعات همگانی"
+
+#, fuzzy
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "The didactic template setting is unchanged."
+
+#, fuzzy
+msgid "didactic_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "didactic_scope_list_header"
+msgstr "Limited to:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Applied didactic template:"
+
+msgid "didactic_template_applied"
+msgstr "Applied didactic template."
+
+#, fuzzy
+msgid "didactic_template_update_import"
+msgstr "Update Didactic Template"
+
+#, fuzzy
+msgid "didactic_template_update_import_info"
+msgstr "Properties will be changed according to this import. Objects which already applied this template will not be changed."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+#, fuzzy
+msgid "dtpl_obj_type_info"
+msgstr "This didactic template can be applied on this object type."
+
+#, fuzzy
+msgid "effective_form"
+msgstr "Template Effective From"
+
+msgid "grp_closed"
+msgstr "گروه بسته"
+
+msgid "grp_closed_info"
+msgstr "گروه فقط برای اعضا قابل مشاهده است."
+
+#, fuzzy
+msgid "more_translations"
+msgstr "More Translations"
+
+#, fuzzy
+msgid "sess_closed"
+msgstr "Closed Session"
+
+#, fuzzy
+msgid "sess_closed_info"
+msgstr "Session is not visible for non-participants."

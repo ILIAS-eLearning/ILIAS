@@ -8439,53 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Wyłącz standard
-didactic#:#activate_exclusive_template_info#:#Szablon standardowy wyłączany jest wszędzie tam, gdzie szablon dydaktyczny jest aktywny.
-didactic#:#activate_local_didactic_template#:#Obszar obowiązywania
-didactic#:#activate_local_didactic_template_info#:#Użycie szablonów dydaktycznych zostanie ograniczone do części dostępnych obszarów.
-didactic#:#didactic_activated_msg#:#Aktywowano wybrane szablony dydaktyczne.
-didactic#:#didactic_adm_tab#:#Szablony obiektów
-didactic#:#didactic_applicable_for#:#Można zastosować do
-didactic#:#didactic_auto_generated#:#Wygenerowane automatycznie
-didactic#:#didactic_available_templates#:#Dostępne szablony dydaktyczne
-didactic#:#didactic_back_to_overview#:#Przejdź do widoku ogólnego
-didactic#:#didactic_cannot_delete_auto_generated#:#Usuwanie automatycznie wygenerowanych szablonów dydaktycznych jest zabronione.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Co najmniej jeden z wybranych dydaktycznych szablonów został automatycznie wygenerowany i nie można go usunąć.
-didactic#:#didactic_confirm_apply_new_template#:#Jesteś pewien, że chcesz użyć tego szablonu dydaktycznego? Wszystkie dostosowane prawa zostaną nadpisane i dopasowane do nowych szablonów dydaktycznych.
-didactic#:#didactic_confirm_delete_msg#:#Jesteś pewien, że poniższe szablony dydaktyczne mają zostać usunięte?
-didactic#:#didactic_copy_suc_message#:#Skopiowano szablon dydaktyczny
-didactic#:#didactic_deactivated_msg#:#Wyłączono wybrane szablony dydaktyczne
-didactic#:#didactic_default_type#:#Domyślnie
-didactic#:#didactic_default_type_info#:#Domyślne uprawnienia %s
-didactic#:#didactic_delete_msg#:#Usunięto wybrane szablony dydaktyczne
-didactic#:#didactic_do_export#:#Eksport certyfikatu
-didactic#:#didactic_edit_tpl#:#Edytuj szablon dydaktyczny
-didactic#:#didactic_filter_with_icon#:#with Icon###29 07 2022 new variable
-didactic#:#didactic_filter_without_icon#:#without Icon###29 07 2022 new variable
-didactic#:#didactic_global#:#Global###29 07 2022 new variable
-didactic#:#didactic_icon#:#Icon###29 07 2022 new variable
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###29 07 2022 new variable
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###29 07 2022 new variable
-didactic#:#didactic_import_btn#:#Zaimportuj szablon dydaktyczny
-didactic#:#didactic_import_failed#:#Nie udało się zaimportować szablonu dydaktycznego:
-didactic#:#didactic_import_success#:#Szablon dydaktyczny został z powodzeniem zaimportowany
-didactic#:#didactic_import_table_title#:#Import szablony dydaktycznego
-didactic#:#didactic_install_info#:#Informacje ogólne
-didactic#:#didactic_local#:#Local###29 07 2022 new variable
-didactic#:#didactic_not_changed#:#Nie zmieniono aktywnego szablonu dydaktycznego.
-didactic#:#didactic_scope#:#Obszar obowiązywania
-didactic#:#didactic_scope_list_header#:#Ograniczony do:
-didactic#:#didactic_selected_tpl_option#:#Zastosowany szablon dydaktyczny:
-didactic#:#didactic_template_applied#:#Zastosowano szablon dydaktyczny.
-didactic#:#didactic_template_update_import#:#Aktualizacja szablonów dydaktycznych
-didactic#:#didactic_template_update_import_info#:#Wszystkie właściwości zostaną dostosowane zgodnie z importem. Obiekty, dla których zastosowano ten szablon, nie będą zmieniane.
-didactic#:#dtpl_obj_type_info#:#Informuje, dla jakich typów obiektu można zastosować szablon dydaktyczny.
-didactic#:#effective_form#:#Szablon ważny od
-didactic#:#grp_closed#:#Zamknięta grupa
-didactic#:#grp_closed_info#:#Grupa jest widoczna tylko dla jej uczestników.
-didactic#:#more_translations#:#Dodatkowe tłumaczenia
-didactic#:#sess_closed#:#Zamknięta sesja
-didactic#:#sess_closed_info#:#Sesja nie jest widoczna dla osób, które w niej nie uczestniczą
 ecs#:#cert_serial#:#Numer seryjny certyfikatu
 ecs#:#ecs_abr#:#Skrót
 ecs#:#ecs_account_duration#:#Przedłożenie czasu aktywacji

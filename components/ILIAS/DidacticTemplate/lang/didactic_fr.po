@@ -1,0 +1,154 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Griser par défaut"
+
+msgid "activate_exclusive_template_info"
+msgstr "Le modèle standard ne sera pas disponible là où le modèle est actif."
+
+msgid "activate_local_didactic_template"
+msgstr "Champ d’application"
+
+msgid "activate_local_didactic_template_info"
+msgstr "L’usage de ce modèle didactique sera limité à ces sous-zones."
+
+msgid "didactic_activated_msg"
+msgstr "Modèles d'objet avancés"
+
+msgid "didactic_adm_tab"
+msgstr "Modèles d'Objet"
+
+msgid "didactic_applicable_for"
+msgstr "Applicable pour"
+
+msgid "didactic_auto_generated"
+msgstr "Généré automatiquement"
+
+msgid "didactic_available_templates"
+msgstr "Modèles d'Objet Disponibles"
+
+msgid "didactic_back_to_overview"
+msgstr "Retour à l'Aperçu"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Il n’est pas permis de supprimer les modèles didactiques générés automatiquement."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Un moins un des modèles didactiques sélectionnés est généré automatiquement et ne peut pas être supprimé."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Souhaitez-vous réellement appliquer le modèle d'objet choisi ? Tous les réglages de permissions seront perdus !"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Souhaitez-vous réellement supprimer les modèles d'objet suivants ?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Modèle d'objet copié"
+
+msgid "didactic_deactivated_msg"
+msgstr "Modèles d'objet désactivés"
+
+msgid "didactic_default_type"
+msgstr "Par défaut"
+
+msgid "didactic_default_type_info"
+msgstr "Utiliser les paramètres par défaut"
+
+msgid "didactic_delete_msg"
+msgstr "Modèles d'objet supprimés"
+
+msgid "didactic_do_export"
+msgstr "Exporter"
+
+msgid "didactic_edit_tpl"
+msgstr "Editer Modèle d'Objet"
+
+msgid "didactic_filter_with_icon"
+msgstr "with Icon"
+
+msgid "didactic_filter_without_icon"
+msgstr "without Icon"
+
+msgid "didactic_global"
+msgstr "Global"
+
+msgid "didactic_icon"
+msgstr "Icon"
+
+msgid "didactic_icon_error"
+msgstr "Icons cannot be assigned to non-container objects."
+
+msgid "didactic_icon_info"
+msgstr "The Icon is shown for all objects, which use this object template. \"Custom Icons\" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects."
+
+msgid "didactic_import_btn"
+msgstr "Importer Modèle d'Objet"
+
+msgid "didactic_import_failed"
+msgstr "Echec lors de l'import du modèle d'objet :"
+
+msgid "didactic_import_success"
+msgstr "Modèles d'objet importés avec succès"
+
+msgid "didactic_import_table_title"
+msgstr "Import d'un modèle d'objet"
+
+msgid "didactic_install_info"
+msgstr "Information Générale"
+
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "Le réglage du modèles d'objet est inchangé."
+
+msgid "didactic_scope"
+msgstr "Étendue"
+
+msgid "didactic_scope_list_header"
+msgstr "Limité à:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Modèle d'objet appliqué :"
+
+msgid "didactic_template_applied"
+msgstr "Modèle d'objet appliqué."
+
+msgid "didactic_template_update_import"
+msgstr "Mettre le modèle didactique à jour"
+
+msgid "didactic_template_update_import_info"
+msgstr "Les propriétés seront modifiées en fonction de cette importation. Les objets qui ont déjà appliqué ce modèle ne seront pas changés."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+msgid "dtpl_obj_type_info"
+msgstr "Ce modèle didactique peut être appliqué sur ce type d’objet."
+
+msgid "effective_form"
+msgstr "Modèle effectif du"
+
+msgid "grp_closed"
+msgstr "Groupe Privé"
+
+msgid "grp_closed_info"
+msgstr "Le groupe n'est pas visible par les non-membres."
+
+msgid "more_translations"
+msgstr "Plus de traductions"
+
+msgid "sess_closed"
+msgstr "Session fermée"
+
+msgid "sess_closed_info"
+msgstr "La session n’est pas visible pour ceux qui ne participent pas."

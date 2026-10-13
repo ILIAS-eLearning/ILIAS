@@ -1,0 +1,161 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Wyłącz standard"
+
+msgid "activate_exclusive_template_info"
+msgstr "Szablon standardowy wyłączany jest wszędzie tam, gdzie szablon dydaktyczny jest aktywny."
+
+msgid "activate_local_didactic_template"
+msgstr "Obszar obowiązywania"
+
+msgid "activate_local_didactic_template_info"
+msgstr "Użycie szablonów dydaktycznych zostanie ograniczone do części dostępnych obszarów."
+
+msgid "didactic_activated_msg"
+msgstr "Aktywowano wybrane szablony dydaktyczne."
+
+msgid "didactic_adm_tab"
+msgstr "Szablony obiektów"
+
+msgid "didactic_applicable_for"
+msgstr "Można zastosować do"
+
+msgid "didactic_auto_generated"
+msgstr "Wygenerowane automatycznie"
+
+msgid "didactic_available_templates"
+msgstr "Dostępne szablony dydaktyczne"
+
+msgid "didactic_back_to_overview"
+msgstr "Przejdź do widoku ogólnego"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Usuwanie automatycznie wygenerowanych szablonów dydaktycznych jest zabronione."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Co najmniej jeden z wybranych dydaktycznych szablonów został automatycznie wygenerowany i nie można go usunąć."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Jesteś pewien, że chcesz użyć tego szablonu dydaktycznego? Wszystkie dostosowane prawa zostaną nadpisane i dopasowane do nowych szablonów dydaktycznych."
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Jesteś pewien, że poniższe szablony dydaktyczne mają zostać usunięte?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Skopiowano szablon dydaktyczny"
+
+msgid "didactic_deactivated_msg"
+msgstr "Wyłączono wybrane szablony dydaktyczne"
+
+msgid "didactic_default_type"
+msgstr "Domyślnie"
+
+msgid "didactic_default_type_info"
+msgstr "Domyślne uprawnienia %s"
+
+msgid "didactic_delete_msg"
+msgstr "Usunięto wybrane szablony dydaktyczne"
+
+msgid "didactic_do_export"
+msgstr "Eksport certyfikatu"
+
+msgid "didactic_edit_tpl"
+msgstr "Edytuj szablon dydaktyczny"
+
+#, fuzzy
+msgid "didactic_filter_with_icon"
+msgstr "with Icon"
+
+#, fuzzy
+msgid "didactic_filter_without_icon"
+msgstr "without Icon"
+
+#, fuzzy
+msgid "didactic_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "didactic_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "didactic_icon_error"
+msgstr "Icons cannot be assigned to non-container objects."
+
+#, fuzzy
+msgid "didactic_icon_info"
+msgstr "The Icon is shown for all objects, which use this object template. \"Custom Icons\" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects."
+
+msgid "didactic_import_btn"
+msgstr "Zaimportuj szablon dydaktyczny"
+
+msgid "didactic_import_failed"
+msgstr "Nie udało się zaimportować szablonu dydaktycznego:"
+
+msgid "didactic_import_success"
+msgstr "Szablon dydaktyczny został z powodzeniem zaimportowany"
+
+msgid "didactic_import_table_title"
+msgstr "Import szablony dydaktycznego"
+
+msgid "didactic_install_info"
+msgstr "Informacje ogólne"
+
+#, fuzzy
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "Nie zmieniono aktywnego szablonu dydaktycznego."
+
+msgid "didactic_scope"
+msgstr "Obszar obowiązywania"
+
+msgid "didactic_scope_list_header"
+msgstr "Ograniczony do:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Zastosowany szablon dydaktyczny:"
+
+msgid "didactic_template_applied"
+msgstr "Zastosowano szablon dydaktyczny."
+
+msgid "didactic_template_update_import"
+msgstr "Aktualizacja szablonów dydaktycznych"
+
+msgid "didactic_template_update_import_info"
+msgstr "Wszystkie właściwości zostaną dostosowane zgodnie z importem. Obiekty, dla których zastosowano ten szablon, nie będą zmieniane."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+msgid "dtpl_obj_type_info"
+msgstr "Informuje, dla jakich typów obiektu można zastosować szablon dydaktyczny."
+
+msgid "effective_form"
+msgstr "Szablon ważny od"
+
+msgid "grp_closed"
+msgstr "Zamknięta grupa"
+
+msgid "grp_closed_info"
+msgstr "Grupa jest widoczna tylko dla jej uczestników."
+
+msgid "more_translations"
+msgstr "Dodatkowe tłumaczenia"
+
+msgid "sess_closed"
+msgstr "Zamknięta sesja"
+
+msgid "sess_closed_info"
+msgstr "Sesja nie jest widoczna dla osób, które w niej nie uczestniczą"

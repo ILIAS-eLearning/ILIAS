@@ -8439,53 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
-didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
-didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable
-didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.###25 10 2016 new variable
-didactic#:#didactic_activated_msg#:#გააქტიურებული დიდაქტიკური ნიმუშები
-didactic#:#didactic_adm_tab#:#დიდაქტიკური ნიმუშები
-didactic#:#didactic_applicable_for#:#შესაფერისია
-didactic#:#didactic_auto_generated#:#Automatic Generated###25 10 2016 new variable
-didactic#:#didactic_available_templates#:#ხელმისაწვდომი დიდაქტიკური ნიმუშები
-didactic#:#didactic_back_to_overview#:#უკან მიმოხილვაში
-didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.###25 10 2016 new variable
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.###25 10 2016 new variable
-didactic#:#didactic_confirm_apply_new_template#:#ნამდვილად გსურთ ამ დიდაქტიკურ ნიმუშზე ხელის  მოწერა? Yყველა მიმდინარე დაშვება დაიკარგება!
-didactic#:#didactic_confirm_delete_msg#:#ნამდვილად გსურთ შემდეგი დიდაქტიკური ნიმუშების წაშლა?
-didactic#:#didactic_copy_suc_message#:#დიდაქტიკური ნიმუშების ასლი გაკეთებულია
-didactic#:#didactic_deactivated_msg#:#დიდაქტიკური ნიმუშები არააქტიურია
-didactic#:#didactic_default_type#:#Default###24 10 2013 new variable
-didactic#:#didactic_default_type_info#:#მომხმარებელთა სტანდარტული დაშვებები %s
-didactic#:#didactic_delete_msg#:#წაშლილი დიდაქტიკური ნიმუშები
-didactic#:#didactic_do_export#:#ექსპორტი
-didactic#:#didactic_edit_tpl#:#დიდაქტიკური ნიმუშის რედაქტირება
-didactic#:#didactic_filter_with_icon#:#with Icon###29 07 2022 new variable
-didactic#:#didactic_filter_without_icon#:#without Icon###29 07 2022 new variable
-didactic#:#didactic_global#:#Global###29 07 2022 new variable
-didactic#:#didactic_icon#:#Icon###29 07 2022 new variable
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###29 07 2022 new variable
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###29 07 2022 new variable
-didactic#:#didactic_import_btn#:#დიდაქტიკური ნიმუშის გადმოტანა
-didactic#:#didactic_import_failed#:#დიდაქტიკური ნიმუშის შეტყობინებასთან ერთად გადმოტანა ჩაიშალა
-didactic#:#didactic_import_success#:#წარმატებით გადმოტანილი დიდაქტიკური ნიმუში
-didactic#:#didactic_import_table_title#:#დიდაქტიკური ნიმუშის იმპორტირება
-didactic#:#didactic_install_info#:#ზოგადი ინფორმაცია
-didactic#:#didactic_local#:#Local###29 07 2022 new variable
-didactic#:#didactic_not_changed#:#დიდაქტიკური ნიმუში პარამეტრი უცვლელია
-didactic#:#didactic_scope#:#Scope###31 08 2017 new variable
-didactic#:#didactic_scope_list_header#:#Limited to:###31 08 2017 new variable
-didactic#:#didactic_selected_tpl_option#:#მორგებულია დიდაქტიკური ნიმუში
-didactic#:#didactic_template_applied#:#მორგებულია დიდაქტიკური ნიმუში
-didactic#:#didactic_template_update_import#:#Update Didactic Template###25 10 2016 new variable
-didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.###25 10 2016 new variable
-didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.###25 10 2016 new variable
-didactic#:#effective_form#:#Template Effective From###25 10 2016 new variable
-didactic#:#grp_closed#:#დაკეტილი ჯგუფი
-didactic#:#grp_closed_info#:#ჯგუფი ხილვადია მხოლოდ წევრებისთვის
-didactic#:#more_translations#:#More Translations###25 10 2016 new variable
-didactic#:#sess_closed#:#Closed Session###31 08 2017 new variable
-didactic#:#sess_closed_info#:#Session is not visible for non-participants.###31 08 2017 new variable
 ecs#:#cert_serial#:#სერთიფიკატის გამოცემის ნომერი
 ecs#:#ecs_abr#:#აბრევიატურა
 ecs#:#ecs_account_duration#:#აქტივაციის პერიოდის გაგრძელება

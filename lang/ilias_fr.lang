@@ -8424,53 +8424,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Griser par défaut
-didactic#:#activate_exclusive_template_info#:#Le modèle standard ne sera pas disponible là où le modèle est actif.
-didactic#:#activate_local_didactic_template#:#Champ d’application
-didactic#:#activate_local_didactic_template_info#:#L’usage de ce modèle didactique sera limité à ces sous-zones.
-didactic#:#didactic_activated_msg#:#Modèles d'objet avancés
-didactic#:#didactic_adm_tab#:#Modèles d'Objet
-didactic#:#didactic_applicable_for#:#Applicable pour
-didactic#:#didactic_auto_generated#:#Généré automatiquement
-didactic#:#didactic_available_templates#:#Modèles d'Objet Disponibles
-didactic#:#didactic_back_to_overview#:#Retour à l'Aperçu
-didactic#:#didactic_cannot_delete_auto_generated#:#Il n’est pas permis de supprimer les modèles didactiques générés automatiquement.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Un moins un des modèles didactiques sélectionnés est généré automatiquement et ne peut pas être supprimé.
-didactic#:#didactic_confirm_apply_new_template#:#Souhaitez-vous réellement appliquer le modèle d'objet choisi ? Tous les réglages de permissions seront perdus !
-didactic#:#didactic_confirm_delete_msg#:#Souhaitez-vous réellement supprimer les modèles d'objet suivants ?
-didactic#:#didactic_copy_suc_message#:#Modèle d'objet copié
-didactic#:#didactic_deactivated_msg#:#Modèles d'objet désactivés
-didactic#:#didactic_default_type#:#Par défaut
-didactic#:#didactic_default_type_info#:#Utiliser les paramètres par défaut
-didactic#:#didactic_delete_msg#:#Modèles d'objet supprimés
-didactic#:#didactic_do_export#:#Exporter
-didactic#:#didactic_edit_tpl#:#Editer Modèle d'Objet
-didactic#:#didactic_filter_with_icon#:#with Icon
-didactic#:#didactic_filter_without_icon#:#without Icon
-didactic#:#didactic_global#:#Global
-didactic#:#didactic_icon#:#Icon
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.
-didactic#:#didactic_import_btn#:#Importer Modèle d'Objet
-didactic#:#didactic_import_failed#:#Echec lors de l'import du modèle d'objet :
-didactic#:#didactic_import_success#:#Modèles d'objet importés avec succès
-didactic#:#didactic_import_table_title#:#Import d'un modèle d'objet
-didactic#:#didactic_install_info#:#Information Générale
-didactic#:#didactic_local#:#Local
-didactic#:#didactic_not_changed#:#Le réglage du modèles d'objet est inchangé.
-didactic#:#didactic_scope#:#Étendue
-didactic#:#didactic_scope_list_header#:#Limité à:
-didactic#:#didactic_selected_tpl_option#:#Modèle d'objet appliqué :
-didactic#:#didactic_template_applied#:#Modèle d'objet appliqué.
-didactic#:#didactic_template_update_import#:#Mettre le modèle didactique à jour
-didactic#:#didactic_template_update_import_info#:#Les propriétés seront modifiées en fonction de cette importation. Les objets qui ont déjà appliqué ce modèle ne seront pas changés.
-didactic#:#dtpl_obj_type_info#:#Ce modèle didactique peut être appliqué sur ce type d’objet.
-didactic#:#effective_form#:#Modèle effectif du
-didactic#:#grp_closed#:#Groupe Privé
-didactic#:#grp_closed_info#:#Le groupe n'est pas visible par les non-membres.
-didactic#:#more_translations#:#Plus de traductions
-didactic#:#sess_closed#:#Session fermée
-didactic#:#sess_closed_info#:#La session n’est pas visible pour ceux qui ne participent pas.
 ecs#:#cert_serial#:#Numéro de Série du Certificat
 ecs#:#ecs_abr#:#Abréviation
 ecs#:#ecs_account_duration#:#Extension de la période d'activation

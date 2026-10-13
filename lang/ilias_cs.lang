@@ -8439,53 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Výchozí šedá
-didactic#:#activate_exclusive_template_info#:#Standardní šablona nebude k dispozici, pokud je tato šablona aktivní.
-didactic#:#activate_local_didactic_template#:#Rozsah použití
-didactic#:#activate_local_didactic_template_info#:#Využití této didaktické šablony bude omezeno na tyto podoblasti.
-didactic#:#didactic_activated_msg#:#Didaktické šablony aktivovány
-didactic#:#didactic_adm_tab#:#Didaktické šablony
-didactic#:#didactic_applicable_for#:#Použitelné pro
-didactic#:#didactic_auto_generated#:#Automaticky generováno
-didactic#:#didactic_available_templates#:#Dostupné didaktické šablony
-didactic#:#didactic_back_to_overview#:#Zpět na přehled
-didactic#:#didactic_cannot_delete_auto_generated#:#Není dovoleno mazat automaticky generované didaktické šablony.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Alespoň jedna z vybraných didaktických šablon je generována automaticky a nemůže být vymazána.
-didactic#:#didactic_confirm_apply_new_template#:#Skutečně chcete použít vybrané didaktické šablony? Všechna aktuální nastavení oprávnění budou ztracena!
-didactic#:#didactic_confirm_delete_msg#:#Skutečně chcete smazat následující didaktické šablony?
-didactic#:#didactic_copy_suc_message#:#Didaktická šablona zkopírována
-didactic#:#didactic_deactivated_msg#:#Deaktivované didaktické šablony
-didactic#:#didactic_default_type#:#Výchozí
-didactic#:#didactic_default_type_info#:#Používá výchozí oprávnění pro %s
-didactic#:#didactic_delete_msg#:#Didaktické šablony smazány.
-didactic#:#didactic_do_export#:#Exportovat
-didactic#:#didactic_edit_tpl#:#Upravit didaktickou šablonu
-didactic#:#didactic_filter_with_icon#:#with Icon###29 07 2022 new variable
-didactic#:#didactic_filter_without_icon#:#without Icon###29 07 2022 new variable
-didactic#:#didactic_global#:#Global###29 07 2022 new variable
-didactic#:#didactic_icon#:#Icon###29 07 2022 new variable
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###29 07 2022 new variable
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###29 07 2022 new variable
-didactic#:#didactic_import_btn#:#Importovat didaktickou šablonu
-didactic#:#didactic_import_failed#:#Import didaktické šablony selhal s hlášením:
-didactic#:#didactic_import_success#:#Didaktická šablona importována úspěšně.
-didactic#:#didactic_import_table_title#:#Importovat didaktickou šablonu
-didactic#:#didactic_install_info#:#Obecné informace
-didactic#:#didactic_local#:#Local###29 07 2022 new variable
-didactic#:#didactic_not_changed#:#Nastavení didaktické šablony nezměněno.
-didactic#:#didactic_scope#:#Rozsah
-didactic#:#didactic_scope_list_header#:#Omezeno na:
-didactic#:#didactic_selected_tpl_option#:#Aplikovaná didaktická šablona:
-didactic#:#didactic_template_applied#:#Didaktická šablona aplikována.
-didactic#:#didactic_template_update_import#:#Aktualizovat didaktickou šablonu
-didactic#:#didactic_template_update_import_info#:#Vlastnosti budou změněny podle tohoto importu. Nebudou změněny objekty, které již použily tuto šablonu.
-didactic#:#dtpl_obj_type_info#:#Tuto didaktickou šablonu lze použít na tento typ objektu.
-didactic#:#effective_form#:#Šablona účinná od
-didactic#:#grp_closed#:#Skupina uzavřena
-didactic#:#grp_closed_info#:#Skupina není pro nečleny viditelná.
-didactic#:#more_translations#:#Více překladů
-didactic#:#sess_closed#:#Uzavřená relace
-didactic#:#sess_closed_info#:#Relace není viditelná pro nezúčastněné.
 ecs#:#cert_serial#:#Sériové číslo certifikátu
 ecs#:#ecs_abr#:#Zkratka
 ecs#:#ecs_account_duration#:#Aktivace rozšíření periody

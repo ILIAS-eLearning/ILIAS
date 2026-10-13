@@ -8439,53 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Zasivi zadano
-didactic#:#activate_exclusive_template_info#:#Standardni predložak neće biti dostupan svugdje gdje je ovaj predložak aktivan.
-didactic#:#activate_local_didactic_template#:#Opseg primjene
-didactic#:#activate_local_didactic_template_info#:#Upotreba ovog didaktičkog predloška bit će ograničena na ova podpodručja.
-didactic#:#didactic_activated_msg#:#Aktivirani didaktički predlošci
-didactic#:#didactic_adm_tab#:#Didaktički predlošci
-didactic#:#didactic_applicable_for#:#Primjenjivo za
-didactic#:#didactic_auto_generated#:#Automatski generirano
-didactic#:#didactic_available_templates#:#Dostupni didaktički predlošci
-didactic#:#didactic_back_to_overview#:#Povratak na Pregled
-didactic#:#didactic_cannot_delete_auto_generated#:#Nije dopušteno brisati automatski generirane didaktičke predloške.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Barem jedan od odabranih didaktičkih predložaka generira se automatski i ne može se izbrisati.
-didactic#:#didactic_confirm_apply_new_template#:#Želite li zaista primijeniti odabrani didaktički predložak? Izgubit će se sve trenutne postavke dozvola!
-didactic#:#didactic_confirm_delete_msg#:#Želite li zaista izbrisati sljedeće didaktičke predloške?
-didactic#:#didactic_copy_suc_message#:#Kopirani didaktički predložak
-didactic#:#didactic_deactivated_msg#:#Deaktivirani didaktički predlošci
-didactic#:#didactic_default_type#:#Zadano
-didactic#:#didactic_default_type_info#:#Primijenit će se zadani skup dozvola.
-didactic#:#didactic_delete_msg#:#Izbrisani didaktički predlošci.
-didactic#:#didactic_do_export#:#Izvoz
-didactic#:#didactic_edit_tpl#:#Uredi didaktički predložak
-didactic#:#didactic_filter_with_icon#:#with Icon###04 06 2021 new variable
-didactic#:#didactic_filter_without_icon#:#without Icon###04 06 2021 new variable
-didactic#:#didactic_global#:#Global###04 06 2021 new variable
-didactic#:#didactic_icon#:#Icon###04 06 2021 new variable
-didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###04 06 2021 new variable
-didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###04 06 2021 new variable
-didactic#:#didactic_import_btn#:#Uvezi didaktički predložak
-didactic#:#didactic_import_failed#:#Uvoz didaktičkog predloška nije uspio s porukom:
-didactic#:#didactic_import_success#:#Uspješno uvežen didaktički predložak
-didactic#:#didactic_import_table_title#:#Uvoz didaktičkog predloška
-didactic#:#didactic_install_info#:#Opće informacije
-didactic#:#didactic_local#:#Local###04 06 2021 new variable
-didactic#:#didactic_not_changed#:#Postavka didaktičkog predloška je nepromijenjena.
-didactic#:#didactic_scope#:#Opseg
-didactic#:#didactic_scope_list_header#:#Ograničeno na:
-didactic#:#didactic_selected_tpl_option#:#Primijenjeni didaktički predložak:
-didactic#:#didactic_template_applied#:#Primijenjeni didaktički predložak.
-didactic#:#didactic_template_update_import#:#Ažuriraj didaktički predložak
-didactic#:#didactic_template_update_import_info#:#Svojstva će se mijenjati prema ovom uvozu. Objekti koji su već primijenili ovaj predložak neće se mijenjati.
-didactic#:#dtpl_obj_type_info#:#Ovaj se didaktički predložak može primijeniti na ovu vrstu objekta.
-didactic#:#effective_form#:#Predložak na snazi od
-didactic#:#grp_closed#:#Zatvorena grupa
-didactic#:#grp_closed_info#:#Grupa nije vidljiva za nečlanove.
-didactic#:#more_translations#:#Još prijevoda
-didactic#:#sess_closed#:#Zatvorena sesija
-didactic#:#sess_closed_info#:#Sesija nije vidljiva za one koji nisu sudionici.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration#:#Activation Period Extension

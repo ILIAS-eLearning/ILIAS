@@ -8510,54 +8510,6 @@ dcl#:#roles_desc#:#Wählen sie zugriffsberechtigte Rollen für die Ansicht.
 dcl#:#set_as_default#:#Als Standard setzen
 dcl#:#table_not_found#:#Tabelle nicht gefunden!
 dcl#:#tableview_not_found#:#Tabellenansicht nicht gefunden!
-didactic#:#activate_exclusive_template#:#Standard ausgrauen
-didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
-didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
-didactic#:#activate_local_didactic_template_info#:#Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt.
-didactic#:#didactic_activated_msg#:#Die ausgewählten didaktischen Vorlagen wurden aktiviert.
-didactic#:#didactic_adm_tab#:#Didaktische Vorlagen
-didactic#:#didactic_applicable_for#:#Anwendbar auf
-didactic#:#didactic_auto_generated#:#Automatisch generiert
-didactic#:#didactic_available_templates#:#Verfügbare didaktische Vorlagen
-didactic#:#didactic_back_to_overview#:#Zurück zur Übersicht
-didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eine der gewählten Didaktischen Vorlagen ist automatisch generiert und kann daher nicht gelöscht werden.
-didactic#:#didactic_confirm_apply_new_template#:#Sind Sie sicher, dass Sie diese didaktische Vorlage anwenden möchten? Alle Rechteanpassungen werden überschrieben und an die neue didaktische Vorlage angepasst.
-didactic#:#didactic_confirm_delete_msg#:#Sind Sie sicher, dass die folgenden didaktischen Vorlagen gelöscht werden sollen?
-didactic#:#didactic_copy_suc_message#:#Die didaktische Vorlage wurde kopiert
-didactic#:#didactic_deactivated_msg#:#Die ausgewählten didaktischen Vorlagen wurden deaktiviert.
-didactic#:#didactic_default_type#:#Standard
-didactic#:#didactic_default_type_info#:#Es werden die Rechtevorgaben für die jeweiligen Rollen angewendet.
-didactic#:#didactic_delete_msg#:#Die ausgewählten didaktischen Vorlagen wurden gelöscht.
-didactic#:#didactic_do_export#:#Exportieren
-didactic#:#didactic_edit_tpl#:#Didaktische Vorlage bearbeiten
-didactic#:#didactic_filter_with_icon#:#mit Symbol
-didactic#:#didactic_filter_without_icon#:#ohne Symbol
-didactic#:#didactic_global#:#Global
-didactic#:#didactic_icon#:#Icon
-didactic#:#didactic_icon_error#:#Icons können nur für Container-Objekte genutzt werden.
-didactic#:#didactic_icon_info#:#Das Icon wird für alle Objekte angezeigt, die diese Vorlagen anwenden. "Angepasste Icons" der Objekte überschreiben das Icon der Vorlage. Icons können nur für Container-Objekte (wie zum Beispiel Kurs und Kategorien) konfiguriert werden.
-didactic#:#didactic_import_btn#:#Didaktische Vorlage importieren
-didactic#:#didactic_import_failed#:#Die didaktische Vorlage konnte nicht importiert werden:
-didactic#:#didactic_import_success#:#Die didaktische Vorlage wurde erfolgreich importiert
-didactic#:#didactic_import_table_title#:#Import einer didaktischen Vorlage
-didactic#:#didactic_install_info#:#Allgemeine Informationen
-didactic#:#didactic_local#:#Lokal
-didactic#:#didactic_not_changed#:#Die aktive didaktische Vorlage wurde nicht geändert.
-didactic#:#didactic_scope#:#Gültigkeitsbereich
-didactic#:#didactic_scope_list_header#:#Beschränkt auf:
-didactic#:#didactic_selected_tpl_option#:#Angewandte didaktische Vorlage:
-didactic#:#didactic_template_applied#:#Die didaktische Vorlage wurde angewandt.
-didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
-didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß der Importdatei angepasst. Objekte, die die Einstellungen dieser Vorlage bereits nutzen, werden nicht verändert.
-didactic#:#didactic_translation_add_languages#:#Sprachen hinzufügen
-didactic#:#dtpl_obj_type_info#:#Gibt an, auf welchen Objekttyp diese Didaktische Vorlage angewandt werden kann.
-didactic#:#effective_form#:#Vorlage wirksam ab
-didactic#:#grp_closed#:#Geschlossene Gruppe
-didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
-didactic#:#more_translations#:#Weitere Übersetzungen
-didactic#:#sess_closed#:#Geschlossene Sitzung
-didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
 ecs#:#cert_serial#:#Seriennummer des Zertifikates
 ecs#:#ecs_abr#:#Kürzel
 ecs#:#ecs_account_duration#:#Verlängerung der Aktivierungszeit

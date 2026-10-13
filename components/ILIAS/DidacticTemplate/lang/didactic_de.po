@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Standard ausgrauen"
+
+msgid "activate_exclusive_template_info"
+msgstr "Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist."
+
+msgid "activate_local_didactic_template"
+msgstr "Gültigkeitsbereich"
+
+msgid "activate_local_didactic_template_info"
+msgstr "Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt."
+
+msgid "didactic_activated_msg"
+msgstr "Die ausgewählten didaktischen Vorlagen wurden aktiviert."
+
+msgid "didactic_adm_tab"
+msgstr "Didaktische Vorlagen"
+
+msgid "didactic_applicable_for"
+msgstr "Anwendbar auf"
+
+msgid "didactic_auto_generated"
+msgstr "Automatisch generiert"
+
+msgid "didactic_available_templates"
+msgstr "Verfügbare didaktische Vorlagen"
+
+msgid "didactic_back_to_overview"
+msgstr "Zurück zur Übersicht"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Mindestens eine der gewählten Didaktischen Vorlagen ist automatisch generiert und kann daher nicht gelöscht werden."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Sind Sie sicher, dass Sie diese didaktische Vorlage anwenden möchten? Alle Rechteanpassungen werden überschrieben und an die neue didaktische Vorlage angepasst."
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Sind Sie sicher, dass die folgenden didaktischen Vorlagen gelöscht werden sollen?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Die didaktische Vorlage wurde kopiert"
+
+msgid "didactic_deactivated_msg"
+msgstr "Die ausgewählten didaktischen Vorlagen wurden deaktiviert."
+
+msgid "didactic_default_type"
+msgstr "Standard"
+
+msgid "didactic_default_type_info"
+msgstr "Es werden die Rechtevorgaben für die jeweiligen Rollen angewendet."
+
+msgid "didactic_delete_msg"
+msgstr "Die ausgewählten didaktischen Vorlagen wurden gelöscht."
+
+msgid "didactic_do_export"
+msgstr "Exportieren"
+
+msgid "didactic_edit_tpl"
+msgstr "Didaktische Vorlage bearbeiten"
+
+msgid "didactic_filter_with_icon"
+msgstr "mit Symbol"
+
+msgid "didactic_filter_without_icon"
+msgstr "ohne Symbol"
+
+msgid "didactic_global"
+msgstr "Global"
+
+msgid "didactic_icon"
+msgstr "Icon"
+
+msgid "didactic_icon_error"
+msgstr "Icons können nur für Container-Objekte genutzt werden."
+
+msgid "didactic_icon_info"
+msgstr "Das Icon wird für alle Objekte angezeigt, die diese Vorlagen anwenden. \"Angepasste Icons\" der Objekte überschreiben das Icon der Vorlage. Icons können nur für Container-Objekte (wie zum Beispiel Kurs und Kategorien) konfiguriert werden."
+
+msgid "didactic_import_btn"
+msgstr "Didaktische Vorlage importieren"
+
+msgid "didactic_import_failed"
+msgstr "Die didaktische Vorlage konnte nicht importiert werden:"
+
+msgid "didactic_import_success"
+msgstr "Die didaktische Vorlage wurde erfolgreich importiert"
+
+msgid "didactic_import_table_title"
+msgstr "Import einer didaktischen Vorlage"
+
+msgid "didactic_install_info"
+msgstr "Allgemeine Informationen"
+
+msgid "didactic_local"
+msgstr "Lokal"
+
+msgid "didactic_not_changed"
+msgstr "Die aktive didaktische Vorlage wurde nicht geändert."
+
+msgid "didactic_scope"
+msgstr "Gültigkeitsbereich"
+
+msgid "didactic_scope_list_header"
+msgstr "Beschränkt auf:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Angewandte didaktische Vorlage:"
+
+msgid "didactic_template_applied"
+msgstr "Die didaktische Vorlage wurde angewandt."
+
+msgid "didactic_template_update_import"
+msgstr "Aktualisierung Didaktischer Vorlagen"
+
+msgid "didactic_template_update_import_info"
+msgstr "Alle Eigenschaften werden gemäß der Importdatei angepasst. Objekte, die die Einstellungen dieser Vorlage bereits nutzen, werden nicht verändert."
+
+msgid "didactic_translation_add_languages"
+msgstr "Sprachen hinzufügen"
+
+msgid "dtpl_obj_type_info"
+msgstr "Gibt an, auf welchen Objekttyp diese Didaktische Vorlage angewandt werden kann."
+
+msgid "effective_form"
+msgstr "Vorlage wirksam ab"
+
+msgid "grp_closed"
+msgstr "Geschlossene Gruppe"
+
+msgid "grp_closed_info"
+msgstr "Die Gruppe ist für Nicht-Mitglieder unsichtbar."
+
+msgid "more_translations"
+msgstr "Weitere Übersetzungen"
+
+msgid "sess_closed"
+msgstr "Geschlossene Sitzung"
+
+msgid "sess_closed_info"
+msgstr "Die Sitzung ist für Nicht-Teilnehmer unsichtbar."

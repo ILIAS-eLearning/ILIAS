@@ -8439,53 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Grå ut standard
-didactic#:#activate_exclusive_template_info#:#Standardmallen är gråmarkerad när denna didaktiska mall är aktiv.
-didactic#:#activate_local_didactic_template#:#Validitetsintervall
-didactic#:#activate_local_didactic_template_info#:#Användningen av de didaktiska mallarna kommer att begränsas till underavsnitt i tidningen.
-didactic#:#didactic_activated_msg#:#De valda didaktiska mallarna har aktiverats.
-didactic#:#didactic_adm_tab#:#Didaktiska mallar
-didactic#:#didactic_applicable_for#:#Tillämplig på
-didactic#:#didactic_auto_generated#:#Automatiskt genererad
-didactic#:#didactic_available_templates#:#Tillgängliga didaktiska mallar
-didactic#:#didactic_back_to_overview#:#Tillbaka till översikten
-didactic#:#didactic_cannot_delete_auto_generated#:#Att radera automatiskt genererade didaktiska mallar är inte tillåtet.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Minst en av de valda didaktiska mallarna är automatiskt genererad och kan därför inte tas bort.
-didactic#:#didactic_confirm_apply_new_template#:#Är du säker på att du vill använda den här didaktiska mallen? Alla rättighetsjusteringar kommer att skrivas över och anpassas till den nya didaktiska mallen.
-didactic#:#didactic_confirm_delete_msg#:#Är du säker på att följande didaktiska mallar bör tas bort?
-didactic#:#didactic_copy_suc_message#:#Den didaktiska mallen kopierades
-didactic#:#didactic_deactivated_msg#:#De valda didaktiska mallarna har avaktiverats.
-didactic#:#didactic_default_type#:#Standard
-didactic#:#didactic_default_type_info#:#Rättsspecifikationerna för respektive roll tillämpas.
-didactic#:#didactic_delete_msg#:#De valda didaktiska mallarna har tagits bort.
-didactic#:#didactic_do_export#:#Export
-didactic#:#didactic_edit_tpl#:#Redigera didaktisk mall
-didactic#:#didactic_filter_with_icon#:#med symbol
-didactic#:#didactic_filter_without_icon#:#Utan symbol
-didactic#:#didactic_global#:#Global
-didactic#:#didactic_icon#:#Icon
-didactic#:#didactic_icon_error#:#Ikoner kan endast användas för containerobjekt.
-didactic#:#didactic_icon_info#:#Ikonen visas för alla objekt som tillämpar dessa mallar. "Anpassade ikoner" för objekten skriver över ikonen för mallen. Ikoner kan endast konfigureras för behållarobjekt (t.ex. kurs och kategorier).
-didactic#:#didactic_import_btn#:#Importera didaktisk mall
-didactic#:#didactic_import_failed#:#Den didaktiska mallen kunde inte importeras
-didactic#:#didactic_import_success#:#Den didaktiska mallen importerades framgångsrikt
-didactic#:#didactic_import_table_title#:#Import av en didaktisk mall
-didactic#:#didactic_install_info#:#Allmän information
-didactic#:#didactic_local#:#Lokalt
-didactic#:#didactic_not_changed#:#Den aktiva didaktiska mallen ändrades inte.
-didactic#:#didactic_scope#:#Validitetsintervall
-didactic#:#didactic_scope_list_header#:#Begränsad till
-didactic#:#didactic_selected_tpl_option#:#Tillämpad didaktisk mall
-didactic#:#didactic_template_applied#:#Den didaktiska mallen tillämpades.
-didactic#:#didactic_template_update_import#:#Uppdatering av didaktiska mallar
-didactic#:#didactic_template_update_import_info#:#Alla egenskaper justeras enligt importfilen. Objekt som redan använder inställningarna i denna mall ändras inte.
-didactic#:#dtpl_obj_type_info#:#Anger den objekttyp som denna didaktiska mall kan tillämpas på.
-didactic#:#effective_form#:#Template effektiv från
-didactic#:#grp_closed#:#Sluten grupp
-didactic#:#grp_closed_info#:#Gruppen är osynlig för icke-medlemmar.
-didactic#:#more_translations#:#Andra översättningar
-didactic#:#sess_closed#:#Avslutad session
-didactic#:#sess_closed_info#:#Sessionen är osynlig för icke-deltagare.
 ecs#:#cert_serial#:#Certifikatets serienummer
 ecs#:#ecs_abr#:#Abkortning
 ecs#:#ecs_account_duration#:#Förlängning av aktiveringstiden
