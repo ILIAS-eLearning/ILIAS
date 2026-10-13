@@ -1,0 +1,246 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: help\n"
+
+msgid "gdtr_active"
+msgstr ""
+
+msgid "gdtr_add_step"
+msgstr ""
+
+msgid "gdtr_add_tour"
+msgstr ""
+
+msgid "gdtr_close"
+msgstr ""
+
+msgid "gdtr_delete_step"
+msgstr ""
+
+msgid "gdtr_delete_step_mess"
+msgstr ""
+
+msgid "gdtr_delete_tour"
+msgstr ""
+
+msgid "gdtr_delete_tour_mess"
+msgstr ""
+
+msgid "gdtr_deleted_step"
+msgstr ""
+
+msgid "gdtr_deleted_tour"
+msgstr ""
+
+msgid "gdtr_edit_content"
+msgstr ""
+
+msgid "gdtr_edit_page_info"
+msgstr ""
+
+msgid "gdtr_edit_properties"
+msgstr ""
+
+msgid "gdtr_edit_step_info"
+msgstr ""
+
+msgid "gdtr_edit_steps"
+msgstr ""
+
+msgid "gdtr_element_id"
+msgstr ""
+
+msgid "gdtr_form"
+msgstr ""
+
+msgid "gdtr_form_info"
+msgstr ""
+
+msgid "gdtr_guided_tours"
+msgstr ""
+
+msgid "gdtr_id_pres_users"
+msgstr ""
+
+msgid "gdtr_id_pres_users_info"
+msgstr ""
+
+msgid "gdtr_id_settings"
+msgstr ""
+
+msgid "gdtr_import_tour"
+msgstr ""
+
+msgid "gdtr_language"
+msgstr ""
+
+msgid "gdtr_language_info"
+msgstr ""
+
+msgid "gdtr_list_tours_mess"
+msgstr ""
+
+msgid "gdtr_mainbar"
+msgstr ""
+
+msgid "gdtr_mainbar_ID_info"
+msgstr ""
+
+msgid "gdtr_mainbar_info"
+msgstr ""
+
+msgid "gdtr_metabar"
+msgstr ""
+
+msgid "gdtr_metabar_ID_info"
+msgstr ""
+
+msgid "gdtr_metabar_info"
+msgstr ""
+
+msgid "gdtr_next_step"
+msgstr ""
+
+msgid "gdtr_permission"
+msgstr ""
+
+msgid "gdtr_permission_info"
+msgstr ""
+
+msgid "gdtr_presentation_limitation"
+msgstr ""
+
+msgid "gdtr_primary_button"
+msgstr ""
+
+msgid "gdtr_primary_button_info"
+msgstr ""
+
+msgid "gdtr_reset_tour"
+msgstr ""
+
+msgid "gdtr_reset_tour_mess"
+msgstr ""
+
+msgid "gdtr_screen_ids"
+msgstr ""
+
+msgid "gdtr_screen_ids_info"
+msgstr ""
+
+msgid "gdtr_step"
+msgstr ""
+
+msgid "gdtr_step_type"
+msgstr ""
+
+msgid "gdtr_table"
+msgstr ""
+
+msgid "gdtr_table_info"
+msgstr ""
+
+msgid "gdtr_tabs"
+msgstr ""
+
+msgid "gdtr_tabs_ID_info"
+msgstr ""
+
+msgid "gdtr_tabs_info"
+msgstr ""
+
+msgid "gdtr_toolbar"
+msgstr ""
+
+msgid "gdtr_toolbar_info"
+msgstr ""
+
+msgid "gdtr_tour_has_been_reset"
+msgstr ""
+
+msgid "gdtr_tour_settings"
+msgstr ""
+
+msgid "gdtr_tour_steps"
+msgstr ""
+
+msgid "gdtr_tours"
+msgstr ""
+
+msgid "gdtr_type"
+msgstr ""
+
+msgid "guided_tour"
+msgstr ""
+
+msgid "help_all"
+msgstr ""
+
+msgid "help_component"
+msgstr ""
+
+msgid "help_filter"
+msgstr ""
+
+msgid "help_help_file"
+msgstr ""
+
+msgid "help_help_only"
+msgstr ""
+
+msgid "help_imported_on"
+msgstr ""
+
+msgid "help_module_uploaded"
+msgstr ""
+
+msgid "help_modules"
+msgstr ""
+
+msgid "help_no_content"
+msgstr ""
+
+msgid "help_open_online_help"
+msgstr ""
+
+msgid "help_order"
+msgstr ""
+
+msgid "help_search_label"
+msgstr ""
+
+msgid "help_select_a_file"
+msgstr ""
+
+msgid "help_set_mode"
+msgstr ""
+
+msgid "help_sure_delete_help_modules"
+msgstr ""
+
+msgid "help_toggle_tooltips"
+msgstr ""
+
+msgid "help_toggle_tooltips_info"
+msgstr ""
+
+msgid "help_tooltip_id"
+msgstr ""
+
+msgid "help_tooltips"
+msgstr ""
+
+msgid "help_tooltips_and_help"
+msgstr ""
+
+msgid "help_tooltips_only"
+msgstr ""
+
+msgid "help_topcis"
+msgstr ""
+
+msgid "help_tt_text"
+msgstr ""
