@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "Data e hora"
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "O tempo para acabar é anterior ao tempo para começar. Insira um intervalo de tempo válido."
+
+msgid "cro_job_rc_job_no_result"
+msgstr "Ficheiros atribuídos"
+
+msgid "cron_action_activate"
+msgstr "Ativar"
+
+msgid "cron_action_activate_success"
+msgstr "Cron-Job ativado."
+
+msgid "cron_action_activate_sure"
+msgstr "Tem a certeza que quer ativar o cron job \"%s\"?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "Tem a certeza que quer ativar os seguintes cron jobs?"
+
+msgid "cron_action_deactivate"
+msgstr "Desativar"
+
+msgid "cron_action_deactivate_success"
+msgstr "Cron-Job desativado."
+
+msgid "cron_action_deactivate_sure"
+msgstr "Tem a certeza que quer desativar o cron job \"%s\"?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Tem a certeza que quer desativar os seguintes cron jobs?"
+
+msgid "cron_action_edit"
+msgstr "Editar"
+
+msgid "cron_action_edit_success"
+msgstr "Marcação atualizada."
+
+msgid "cron_action_reset"
+msgstr "Repor"
+
+msgid "cron_action_reset_success"
+msgstr "Cron-Job reposto."
+
+msgid "cron_action_reset_sure"
+msgstr "Tem a certeza que quer repor o cron job \"%s\"?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "Tem a certeza que quer repor os seguintes cron jobs?"
+
+msgid "cron_action_run"
+msgstr "Executar"
+
+msgid "cron_action_run_fail"
+msgstr "Cron-Job falhou."
+
+msgid "cron_action_run_success"
+msgstr "Cron-Job executado com sucesso."
+
+msgid "cron_action_run_sure"
+msgstr "Tem a certeza que quer executar o cron job \"%s\"?"
+
+msgid "cron_changed_by_crontab"
+msgstr "SISTEMA"
+
+msgid "cron_component"
+msgstr "Componente"
+
+msgid "cron_job_id"
+msgstr "Id"
+
+#, fuzzy
+msgid "cron_jobs_with_required_intervention"
+msgstr "The following jobs may require an intervention."
+
+msgid "cron_last_run"
+msgstr "Última execução"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Selecione pelo menos um cron job executável."
+
+msgid "cron_result"
+msgstr "Resultado"
+
+msgid "cron_result_info"
+msgstr "Informação do resultado"
+
+msgid "cron_result_status_crashed"
+msgstr "Caiu"
+
+msgid "cron_result_status_fail"
+msgstr "Falhou"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "Configuração inválida"
+
+msgid "cron_result_status_no_action"
+msgstr "Ok, nenhum processamento"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Repor"
+
+msgid "cron_running_since"
+msgstr "A funcionar desde"
+
+msgid "cron_schedule"
+msgstr "Marcação"
+
+msgid "cron_schedule_daily"
+msgstr "Diariamente"
+
+msgid "cron_schedule_in_days"
+msgstr "A cada %s dias"
+
+msgid "cron_schedule_in_hours"
+msgstr "A cada %s horas"
+
+msgid "cron_schedule_in_minutes"
+msgstr "A cada %s minutos"
+
+msgid "cron_schedule_monthly"
+msgstr "Mensalmente"
+
+msgid "cron_schedule_quarterly"
+msgstr "Semestralmente"
+
+msgid "cron_schedule_type"
+msgstr "Marcação"
+
+msgid "cron_schedule_value"
+msgstr "Intervalo"
+
+msgid "cron_schedule_weekly"
+msgstr "Semanal"
+
+msgid "cron_schedule_yearly"
+msgstr "Anual"
+
+msgid "cron_status"
+msgstr "Estado"
+
+msgid "cron_status_active"
+msgstr "Ativo"
+
+msgid "cron_status_inactive"
+msgstr "Inativo"
+
+msgid "cron_status_info"
+msgstr "Informação do estado"

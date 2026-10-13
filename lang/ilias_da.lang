@@ -7002,57 +7002,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.###28 08 2012 new variable
 cptch#:#cptch_wrong_input#:#Forkert indtastning
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###07 02 2017 new variable
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###07 02 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result###10 11 2018 new variable
-cron#:#cron_action_activate#:#Activate###16 09 2013 new variable
-cron#:#cron_action_activate_success#:#Cron-Job activated.###16 09 2013 new variable
-cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron-job "%s"?###16 09 2013 new variable
-cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?###30 12 2013 new variable
-cron#:#cron_action_deactivate#:#Deactivate###16 09 2013 new variable
-cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.###16 09 2013 new variable
-cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron-job "%s"?###16 09 2013 new variable
-cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?###30 12 2013 new variable
-cron#:#cron_action_edit#:#Edit###16 09 2013 new variable
-cron#:#cron_action_edit_success#:#Schedule updated.###16 09 2013 new variable
-cron#:#cron_action_reset#:#Reset###16 09 2013 new variable
-cron#:#cron_action_reset_success#:#Cron-Job reset.###16 09 2013 new variable
-cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron-job "%s"?###16 09 2013 new variable
-cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?###25 10 2016 new variable
-cron#:#cron_action_run#:#Execute###16 09 2013 new variable
-cron#:#cron_action_run_fail#:#Cron-Job failed.###16 09 2013 new variable
-cron#:#cron_action_run_success#:#Cron-Job run successfully.###16 09 2013 new variable
-cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?###16 09 2013 new variable
-cron#:#cron_changed_by_crontab#:#SYSTEM ###16 09 2013 new variable
-cron#:#cron_component#:#Component###16 09 2013 new variable
-cron#:#cron_job_id#:#Id###16 09 2013 new variable
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###29 10 2025 new variable
-cron#:#cron_last_run#:#Last Run###16 09 2013 new variable
-cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.###08 09 2014 new variable
-cron#:#cron_result#:#Result###16 09 2013 new variable
-cron#:#cron_result_info#:#Result Info###16 09 2013 new variable
-cron#:#cron_result_status_crashed#:#Crashed###16 09 2013 new variable
-cron#:#cron_result_status_fail#:#Failed###30 08 2015 new variable
-cron#:#cron_result_status_invalid_configuration#:#Invalid Configuration###16 09 2013 new variable
-cron#:#cron_result_status_no_action#:#Ok, no processing###16 09 2013 new variable
-cron#:#cron_result_status_ok#:#Ok###16 09 2013 new variable
-cron#:#cron_result_status_reset#:#Reset###16 09 2013 new variable
-cron#:#cron_running_since#:#Running since###16 09 2013 new variable
-cron#:#cron_schedule#:#Schedule###16 09 2013 new variable
-cron#:#cron_schedule_daily#:#Daily###16 09 2013 new variable
-cron#:#cron_schedule_in_days#:#Every %s days###16 09 2013 new variable
-cron#:#cron_schedule_in_hours#:#Every %s hours###16 09 2013 new variable
-cron#:#cron_schedule_in_minutes#:#Every %s minutes###16 09 2013 new variable
-cron#:#cron_schedule_monthly#:#Monthly###16 09 2013 new variable
-cron#:#cron_schedule_quarterly#:#Quarterly###16 09 2013 new variable
-cron#:#cron_schedule_type#:#Schedule Type###16 09 2013 new variable
-cron#:#cron_schedule_value#:#Interval###16 09 2013 new variable
-cron#:#cron_schedule_weekly#:#Weekly###16 09 2013 new variable
-cron#:#cron_schedule_yearly#:#Yearly###16 09 2013 new variable
-cron#:#cron_status#:#Status###16 09 2013 new variable
-cron#:#cron_status_active#:#Active###16 09 2013 new variable
-cron#:#cron_status_inactive#:#Inactive###16 09 2013 new variable
-cron#:#cron_status_info#:#Status Info###16 09 2013 new variable
 crs#:#activation_times_not_valid#:#Tilgængelighedsperioden er ikke brugbar.
 crs#:#assigned#:#Tildelt
 crs#:#contact_email_not_valid#:#Kontakt adressen (email) er ikke gyldig.

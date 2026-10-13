@@ -7002,57 +7002,6 @@ copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.###28 08 2012 new variable
 cptch#:#cptch_wrong_input#:#Wrong Input###28 08 2012 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###07 02 2017 new variable
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###07 02 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result###10 11 2018 new variable
-cron#:#cron_action_activate#:#Activate###24 10 2013 new variable
-cron#:#cron_action_activate_success#:#Cron-Job activated.###24 10 2013 new variable
-cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron-job "%s"?###24 10 2013 new variable
-cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?###30 12 2013 new variable
-cron#:#cron_action_deactivate#:#Deactivate###24 10 2013 new variable
-cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.###24 10 2013 new variable
-cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron-job "%s"?###24 10 2013 new variable
-cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?###30 12 2013 new variable
-cron#:#cron_action_edit#:#Edit###24 10 2013 new variable
-cron#:#cron_action_edit_success#:#Schedule updated.###24 10 2013 new variable
-cron#:#cron_action_reset#:#Reset###24 10 2013 new variable
-cron#:#cron_action_reset_success#:#Cron-Job reset.###24 10 2013 new variable
-cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron-job "%s"?###24 10 2013 new variable
-cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?###25 10 2016 new variable
-cron#:#cron_action_run#:#Execute###24 10 2013 new variable
-cron#:#cron_action_run_fail#:#Cron-Job failed.###24 10 2013 new variable
-cron#:#cron_action_run_success#:#Cron-Job run successfully.###24 10 2013 new variable
-cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?###24 10 2013 new variable
-cron#:#cron_changed_by_crontab#:#SYSTEM ###24 10 2013 new variable
-cron#:#cron_component#:#Component###24 10 2013 new variable
-cron#:#cron_job_id#:#Id###24 10 2013 new variable
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###29 10 2025 new variable
-cron#:#cron_last_run#:#Last Run###24 10 2013 new variable
-cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.###08 09 2014 new variable
-cron#:#cron_result#:#Result###24 10 2013 new variable
-cron#:#cron_result_info#:#Result Info###24 10 2013 new variable
-cron#:#cron_result_status_crashed#:#Crashed###24 10 2013 new variable
-cron#:#cron_result_status_fail#:#Failed###30 08 2015 new variable
-cron#:#cron_result_status_invalid_configuration#:#Invalid Configuration###24 10 2013 new variable
-cron#:#cron_result_status_no_action#:#Ok, no processing###24 10 2013 new variable
-cron#:#cron_result_status_ok#:#Ok###24 10 2013 new variable
-cron#:#cron_result_status_reset#:#Reset###24 10 2013 new variable
-cron#:#cron_running_since#:#Running since###24 10 2013 new variable
-cron#:#cron_schedule#:#Schedule###24 10 2013 new variable
-cron#:#cron_schedule_daily#:#Daily###24 10 2013 new variable
-cron#:#cron_schedule_in_days#:#Every %s days###24 10 2013 new variable
-cron#:#cron_schedule_in_hours#:#Every %s hours###24 10 2013 new variable
-cron#:#cron_schedule_in_minutes#:#Every %s minutes###24 10 2013 new variable
-cron#:#cron_schedule_monthly#:#Monthly###24 10 2013 new variable
-cron#:#cron_schedule_quarterly#:#Quarterly###24 10 2013 new variable
-cron#:#cron_schedule_type#:#Schedule###24 10 2013 new variable
-cron#:#cron_schedule_value#:#Interval###24 10 2013 new variable
-cron#:#cron_schedule_weekly#:#Weekly###24 10 2013 new variable
-cron#:#cron_schedule_yearly#:#Yearly###24 10 2013 new variable
-cron#:#cron_status#:#Status###24 10 2013 new variable
-cron#:#cron_status_active#:#Active###24 10 2013 new variable
-cron#:#cron_status_inactive#:#Inactive###24 10 2013 new variable
-cron#:#cron_status_info#:#Status Info###24 10 2013 new variable
 crs#:#activation_times_not_valid#:#The availability period is not valid. ### 2006-8-11 --- Add new translation here.
 crs#:#assigned#:#Të Caktuar
 crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
