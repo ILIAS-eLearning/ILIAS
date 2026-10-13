@@ -15823,9 +15823,6 @@ user#:#usr_public_profile_disabled#:#Profil letiltva
 user#:#usr_public_profile_disabled_info#:#Az információit csak az adminisztratív személyzet láthatja.
 user#:#usr_public_profile_global#:#WWW / Minden felhasználó elérheti az interneten
 user#:#usr_public_profile_logged_in#:#Bejelentkezett felhasználók számára látható
-usr#:#user_action#:#Felhasználói művelet
-usr#:#user_actions#:#Felhasználói műveletek
-usr#:#user_actions_activation_info#:#A műveleteket csak akkor soroljuk fel a felhasználóknak, ha a kapcsolódó szolgáltatásokat bekapcsolták és az összes előfeltétel adott (például szükséges jogosultságok).
 validation#:#datetime_required#:#Idő/Dátum kötelező
 validation#:#no_array#:#A megadott érték nem halmaz
 validation#:#not_a_null#:#‘%s’ típus értéke nem üres.

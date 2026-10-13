@@ -15838,9 +15838,6 @@ user#:#usr_public_profile_disabled#:#Perfil desactivado
 user#:#usr_public_profile_disabled_info#:#Su información solo es visible para el personal administrativo.
 user#:#usr_public_profile_global#:#WWW / Accesible para todos los usuarios en Internet
 user#:#usr_public_profile_logged_in#:#Visible para usuarios con sesión iniciada
-usr#:#user_action#:#Acción de usuario
-usr#:#user_actions#:#Acciones de usuario
-usr#:#user_actions_activation_info#:#Las acciones solo se listarán para los usuarios si los servicios correspondientes han sido activados y se cumplen todas las condiciones previas (por ejemplo, requisitos de permisos).
 validation#:#datetime_required#:#Fecha/hora requerida
 validation#:#no_array#:#El valor proporcionado no es un array
 validation#:#not_a_null#:#El valor de tipo '%s' no es un nulo.

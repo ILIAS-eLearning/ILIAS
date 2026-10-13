@@ -15818,9 +15818,6 @@ user#:#usr_public_profile_disabled#:#プロファイルを公開しない
 user#:#usr_public_profile_disabled_info#:#情報は管理スタッフに限定して表示されます。
 user#:#usr_public_profile_global#:#グローバル表示
 user#:#usr_public_profile_logged_in#:#ログイン済みのユーザ
-usr#:#user_action#:#ユーザアクション
-usr#:#user_actions#:#ユーザアクション
-usr#:#user_actions_activation_info#:#応答サービスが有効で全ての前提条件(例 アクセス要件)が与えられている場合はユーザへアクションがリストされるだけです。
 validation#:#datetime_required#:#Time/Date 必須
 validation#:#no_array#:#入力の値はアレイではありません
 validation#:#not_a_null#:#タイプ'%s'の値は null ではありあせん。

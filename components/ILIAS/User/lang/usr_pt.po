@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: usr\n"
+
+msgid "user_action"
+msgstr "Ação do utilizador"
+
+msgid "user_actions"
+msgstr "Ações do utilizador"
+
+msgid "user_actions_activation_info"
+msgstr "As ações serão listadas apenas para utilizadores, se os serviços correspondentes estiverem ativados e todas as pré-condições fornecidas (p. e. requisitos de permissões)."

@@ -15782,9 +15782,6 @@ user#:#usr_public_profile_disabled#:#Profilo Pubblico disabilitato
 user#:#usr_public_profile_disabled_info#:#Le tue informazioni sono visibile solo agli amministratori
 user#:#usr_public_profile_global#:#Visibilità Globale
 user#:#usr_public_profile_logged_in#:#Utenti connessi
-usr#:#user_action#:#Azione utente
-usr#:#user_actions#:#Azioni utente
-usr#:#user_actions_activation_info#:#Le azioni saranno elencate solo per gli utenti, se i servizi corrispondenti vengono attivati e vengono fornite tutte le condizioni preliminari (ad esempio, i requisiti di autorizzazione).
 validation#:#datetime_required#:#Time/Date required###30 04 2024 new variable
 validation#:#no_array#:#Given value is not an array###31 03 2023 new variable
 validation#:#not_a_null#:#Value of type '%s' non è un null.

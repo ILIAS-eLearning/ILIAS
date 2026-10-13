@@ -29,6 +29,8 @@ use ILIAS\User\Profile\Fields\Custom\TextArea as CustomTypeTextArea;
 use ILIAS\User\Profile\Fields\Custom\Select as CustomTypeSelect;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
 use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class User implements Component\Component
 {
@@ -58,5 +60,9 @@ class User implements Component\Component
             new CustomTypeSelect();
         $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\User\StaticURLHandler();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'usr'
+        );
     }
 }

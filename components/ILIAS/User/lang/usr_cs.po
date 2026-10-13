@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: usr\n"
+
+msgid "user_action"
+msgstr "Akce uživatele"
+
+msgid "user_actions"
+msgstr "Akce uživatele"
+
+msgid "user_actions_activation_info"
+msgstr "Akce budou pouze vedeny v seznamech pouze pro uživatele, pokud budou aktivovány odpovídající služby a pokud jsou dány všechny předpoklady (např. požadavky na oprávnění)."
