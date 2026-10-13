@@ -15558,15 +15558,6 @@ webr#:#webr_set_to_list#:#Konvertera till insamling av webblänkar
 webr#:#webr_sort_manual#:#Manuell sortering
 webr#:#webr_sort_title#:#Alfabetiskt efter titel
 webr#:#webr_sorting#:#Sortering av webblänkar
-wfld#:#wfld_add#:# Skapa mapp
-wfld#:#wfld_alphabetically_asc#:#Alfabetisk, asc.
-wfld#:#wfld_alphabetically_desc#:#Alfabetisk, abst.
-wfld#:#wfld_creation_asc#:#Creation datum, asst.
-wfld#:#wfld_creation_desc#:#Datum för skapande, abst.
-wfld#:#wfld_derive#:#Som överordnad mapp
-wfld#:#wfld_edit#:#Redigera mapp
-wfld#:#wfld_new#:# Skapa ny mapp
-wfld#:#wfld_sortation#:#Sortering
 wiki#:#wiki_activate_extended_rating#:# Aktivera betygskategorier
 wiki#:#wiki_activate_new_page_rating#:#Aktivera betyg för nya sidor
 wiki#:#wiki_activate_page_rating#:#Tillåt betyg

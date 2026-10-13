@@ -15558,15 +15558,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List###29 07 2022 new variable
 webr#:#webr_sort_manual#:#Sorter manuelt
 webr#:#webr_sort_title#:#Sorter efter titel
 webr#:#webr_sorting#:#Linksortering
-wfld#:#wfld_add#:#Lav mappe
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.###07 02 2020 new variable
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.###07 02 2020 new variable
-wfld#:#wfld_creation_asc#:#Creation Date, asc.###07 02 2020 new variable
-wfld#:#wfld_creation_desc#:#Creation Date, desc.###07 02 2020 new variable
-wfld#:#wfld_derive#:#Adopt from parent###07 02 2020 new variable
-wfld#:#wfld_edit#:#Ret mappe
-wfld#:#wfld_new#:#Lav ny mappe
-wfld#:#wfld_sortation#:#Sortation###07 02 2020 new variable
 wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories###28 08 2012 new variable
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages###28 08 2012 new variable
 wiki#:#wiki_activate_page_rating#:#Slå vurdering til

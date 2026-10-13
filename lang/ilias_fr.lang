@@ -15543,15 +15543,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List
 webr#:#webr_sort_manual#:#Trié manuellement
 webr#:#webr_sort_title#:#Trié par titre
 webr#:#webr_sorting#:#Lien trié
-wfld#:#wfld_add#:#Créer Dossier
-wfld#:#wfld_alphabetically_asc#:#Alphabétique, ordre croissant
-wfld#:#wfld_alphabetically_desc#:#Alphabétique, ordre décroissant
-wfld#:#wfld_creation_asc#:#Date de création, ordre croissant
-wfld#:#wfld_creation_desc#:#Date de création, ordre décroissant
-wfld#:#wfld_derive#:#Adopt from parent
-wfld#:#wfld_edit#:#Editer Dossier
-wfld#:#wfld_new#:#Créer Nouveau Dossier
-wfld#:#wfld_sortation#:#Tri
 wiki#:#wiki_activate_extended_rating#:#Activer les Catégories de Notation
 wiki#:#wiki_activate_new_page_rating#:#Activer la Notation pour les Nouvelles Pages
 wiki#:#wiki_activate_page_rating#:#Activer la Notation

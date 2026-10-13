@@ -15600,15 +15600,6 @@ webr#:#webr_set_to_list#:#Weblink Listを設定
 webr#:#webr_sort_manual#:#手動で並び替え
 webr#:#webr_sort_title#:#アルファベット順のタイトルで並び替え
 webr#:#webr_sorting#:#Webリンクで並び替え
-wfld#:#wfld_add#:#フォルダ作成
-wfld#:#wfld_alphabetically_asc#:#アルファベット, asc.
-wfld#:#wfld_alphabetically_desc#:#アルファベット, desc.
-wfld#:#wfld_creation_asc#:#作成日付, asc.
-wfld#:#wfld_creation_desc#:#作成日付, desc.
-wfld#:#wfld_derive#:#親から採用
-wfld#:#wfld_edit#:#フォルダ編集
-wfld#:#wfld_new#:#新規フォルダ作成
-wfld#:#wfld_sortation#:#並べ替え
 wiki#:#wiki_activate_extended_rating#:#評価カテゴリを有効化
 wiki#:#wiki_activate_new_page_rating#:#新しいページの評価を有効化
 wiki#:#wiki_activate_page_rating#:#評価を有効

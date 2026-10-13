@@ -15559,15 +15559,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List###29 07 2022 new variable
 webr#:#webr_sort_manual#:#Handmatig sorteren
 webr#:#webr_sort_title#:#Sorteer op titel
 webr#:#webr_sorting#:#Link Sorting
-wfld#:#wfld_add#:#Aanmaken map
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.###07 02 2020 new variable
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.###07 02 2020 new variable
-wfld#:#wfld_creation_asc#:#Creation Date, asc.###07 02 2020 new variable
-wfld#:#wfld_creation_desc#:#Creation Date, desc.###07 02 2020 new variable
-wfld#:#wfld_derive#:#Adopt from parent###07 02 2020 new variable
-wfld#:#wfld_edit#:#Wijzigen map
-wfld#:#wfld_new#:#Nieuwe map aanmaken
-wfld#:#wfld_sortation#:#Sortation###07 02 2020 new variable
 wiki#:#wiki_activate_extended_rating#:#Inschakelen Beoordeel categorieën
 wiki#:#wiki_activate_new_page_rating#:#Inschakelen Beoordelen voor nieuwe pagina's
 wiki#:#wiki_activate_page_rating#:#Inschakelen "Beoordelingen"

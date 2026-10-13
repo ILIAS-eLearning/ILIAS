@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr "Create Folder"
+
+msgid "wfld_alphabetically_asc"
+msgstr "Alphabetically, asc."
+
+msgid "wfld_alphabetically_desc"
+msgstr "Alphabetically, desc."
+
+msgid "wfld_creation_asc"
+msgstr "Creation Date, asc."
+
+msgid "wfld_creation_desc"
+msgstr "Creation Date, desc."
+
+msgid "wfld_derive"
+msgstr "Adopt from parent"
+
+msgid "wfld_edit"
+msgstr "Edit Folder"
+
+msgid "wfld_new"
+msgstr "Create New Folder"
+
+msgid "wfld_sortation"
+msgstr "Sortation"

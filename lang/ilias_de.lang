@@ -15721,15 +15721,6 @@ webr#:#webr_set_to_list#:#In Weblink-Sammlung umwandeln
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Alphabetisch nach Titel
 webr#:#webr_sorting#:#Sortierung der Weblinks
-wfld#:#wfld_add#:#Ordner anlegen
-wfld#:#wfld_alphabetically_asc#:#Alphabetisch, aufst.
-wfld#:#wfld_alphabetically_desc#:#Alphabetisch, abst.
-wfld#:#wfld_creation_asc#:#Erstellungsdatum, aufst.
-wfld#:#wfld_creation_desc#:#Erstellungsdatum, abst.
-wfld#:#wfld_derive#:#Wie übergeordneter Ordner
-wfld#:#wfld_edit#:#Ordner bearbeiten
-wfld#:#wfld_new#:#Neuen Ordner anlegen
-wfld#:#wfld_sortation#:#Sortierung
 wiki#:#wiki_activate_extended_rating#:#Bewertungs-Kategorien aktivieren
 wiki#:#wiki_activate_new_page_rating#:#Bewertung bei neuen Seiten aktivieren
 wiki#:#wiki_activate_page_rating#:#Bewertung erlauben
