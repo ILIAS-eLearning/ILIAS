@@ -13877,7 +13877,6 @@ rep#:#rep_tree_limit#:#Limitar itens na árvore
 rep#:#rep_tree_limit_info#:#O número de objetos na árvore do repositório será limitada para melhorar o desempenho.
 rep#:#rep_tree_limit_number#:#Número máximo
 rep#:#rep_tree_limit_number_info#:#Número máximo de elementos de crianças que são inicialmente apresentados para um nó expandido. Se forem apresentados mais elementos de criança, aparece um campo de entrada de pesquisa para filtrar os elementos de crianças por título.
-rgrp#:#rgrp_call#:#Call ECS Group
 rlm#:#rlm_call#:#Aceder ao módulo de aprendizagem ECS
 rtst#:#rtst_call#:#Call ECS Test
 rwik#:#rwik_call#:#Aceder a ECS wiki
