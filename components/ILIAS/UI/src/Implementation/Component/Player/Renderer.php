@@ -128,10 +128,11 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component) ?? $this->createId();
 
-        foreach ($component->getSubtitleFiles() as $lang_key => $file) {
+        foreach ($component->getSubtitleFiles() as $lang_key => $subtitle) {
             $tpl->setCurrentBlock("track");
-            $tpl->setVariable("TRACK_SOURCE", $file);
+            $tpl->setVariable("TRACK_SOURCE", $subtitle["file"]);
             $tpl->setVariable("TRACK_LANG", $lang_key);
+            $tpl->setVariable("TRACK_LABEL", $subtitle["label"]);
             $tpl->parseCurrentBlock();
         }
 
