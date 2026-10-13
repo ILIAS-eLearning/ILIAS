@@ -13775,7 +13775,6 @@ rep#:#rep_tree_limit#:#Limit Items in Tree
 rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.
 rep#:#rep_tree_limit_number#:#Maximum Number
 rep#:#rep_tree_limit_number_info#:#Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title.
-rwik#:#rwik_call#:#Appeler Wiki ECS
 sahs#:#cont_insert_after_chap#:#Ajouter des objets après le chapitre
 sahs#:#cont_insert_into_chap#:#Ajouter des objets dans le chapitre
 sahs#:#sahs_activate_expert_mode#:#Activer le Séquencement en Mode Expert

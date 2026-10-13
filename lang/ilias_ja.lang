@@ -13842,7 +13842,6 @@ rep#:#rep_tree_limit#:#ツリーでアイテムを制限
 rep#:#rep_tree_limit_info#:#リポジトリーツリーのオブジェクト数は拡張機能へ制限されます。
 rep#:#rep_tree_limit_number#:#最大数
 rep#:#rep_tree_limit_number_info#:#子要素の最大数は展開ノードへ最初に表示されます。さらに子要素が存在する場合は、検索入力フィールドがタイトルで子要素フィルターへ表示されます。
-rwik#:#rwik_call#:#ECS Wikiをコール
 sahs#:#cont_insert_after_chap#:#章の後にアイテムを挿入
 sahs#:#cont_insert_into_chap#:#章内にアイテムを挿入
 sahs#:#sahs_add#:#SCORM学習モジュールを作成
