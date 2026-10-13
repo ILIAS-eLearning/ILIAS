@@ -112,7 +112,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
                 [
                     "inst_id" => $settings->get("inst_id"),
                     "id" => basename($client_directory),
-                    'enabled' =>  $ilClientIniFile->readVariable("client", "access") ? "TRUE" : "FALSE",
+                    'enabled' => $ilClientIniFile->readVariable("client", "access") ? "TRUE" : "FALSE",
                     "default_lang" => $ilClientIniFile->readVariable("language", "default")
                 ]
             );

@@ -22,7 +22,6 @@ require_once("vendor/composer/vendor/autoload.php");
 
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntry as Entry;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
-
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Crawler\Exception\CrawlerException;
 

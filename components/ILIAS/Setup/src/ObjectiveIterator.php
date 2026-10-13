@@ -146,7 +146,7 @@ class ObjectiveIterator implements \Iterator
                 }
                 throw new UnachievableException(
                     "Objective '" . $cur->getLabel() . "' had failed preconditions:\n  - " .
-                    implode("\n  - ", array_map(fn ($o) => $o->getLabel(), $failed_preconditions))
+                    implode("\n  - ", array_map(fn($o) => $o->getLabel(), $failed_preconditions))
                 );
             }
             $this->next();

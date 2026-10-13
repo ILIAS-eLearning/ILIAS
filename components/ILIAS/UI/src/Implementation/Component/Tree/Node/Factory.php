@@ -36,7 +36,7 @@ class Factory implements INode\Factory
         return new Bylined($label, $byline, $icon);
     }
 
-    public function keyValue(string $label, string $value, ?IIcon $icon = null) : KeyValue
+    public function keyValue(string $label, string $value, ?IIcon $icon = null): KeyValue
     {
         return new KeyValue($label, $value, $icon);
     }

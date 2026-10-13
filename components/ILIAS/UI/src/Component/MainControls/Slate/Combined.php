@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\UI\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Divider\Horizontal;

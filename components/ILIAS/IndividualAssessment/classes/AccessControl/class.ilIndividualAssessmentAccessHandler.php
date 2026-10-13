@@ -50,7 +50,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
      */
     public function checkRBACAccessToObj(string $operation): bool
     {
-        if($this->simulateMember()) {
+        if ($this->simulateMember()) {
             return $this->checkMemberRoleForPermission($operation);
         } else {
             return $this->isSystemAdmin() ||
@@ -100,13 +100,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
             $this->review->getParentRoleIds($ref_id),
             static fn(array $role): bool => str_starts_with($role['title'], 'il_crs_member_')
         );
-        if($roles === []) {
+        if ($roles === []) {
             return false;
         }
         $role = array_shift($roles);
         $active_ops = $this->review->getActiveOperationsOfRole($ref_id, $role['rol_id']);
-        foreach($active_ops as $op) {
-            if($this->review->getOperation($op)['operation'] === $operation) {
+        foreach ($active_ops as $op) {
+            if ($this->review->getOperation($op)['operation'] === $operation) {
                 return true;
             }
         }

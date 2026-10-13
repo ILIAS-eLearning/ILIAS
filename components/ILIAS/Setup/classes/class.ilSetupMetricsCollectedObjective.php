@@ -52,7 +52,7 @@ class ilSetupMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
                 "Id of the ILIAS client."
             );
         }
-        $settings_factory  = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $settings_factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         if ($settings_factory) {
             $common_settings = $settings_factory->settingsFor("common");
             $nic_enabled = $common_settings->get("nic_enabled") == "1";

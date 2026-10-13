@@ -318,7 +318,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             ));
             $node = $this->db->fetchAssoc($res);
 
-            if($node === null) {
+            if ($node === null) {
                 return; //Nothing to delete. $node does not exists
             }
 
@@ -587,7 +587,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function validateParentRelations(): array
     {
-        $query = 'select ' . $this->getTree()->getTreePk() .', child from ' . $this->getTree()->getTreeTable() . ' child where not exists ' .
+        $query = 'select ' . $this->getTree()->getTreePk() . ', child from ' . $this->getTree()->getTreeTable() . ' child where not exists ' .
             '( ' .
             'select child from ' . $this->getTree()->getTreeTable() . ' parent where child.parent = parent.child and ' .
             '(child.path BETWEEN parent.path AND CONCAT(parent.path,' . $this->db->quote('Z', 'text') . ') )' . ')' .

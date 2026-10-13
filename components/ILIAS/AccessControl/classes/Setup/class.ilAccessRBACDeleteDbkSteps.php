@@ -1,4 +1,6 @@
-<?php /**
+<?php
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -23,12 +25,12 @@ class ilAccessRBACDeleteDbkSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         //Delete all entries with type digibook from rbac_ta
         $sql =
@@ -50,7 +52,7 @@ class ilAccessRBACDeleteDbkSteps implements ilDatabaseUpdateSteps
         $this->db->manipulate($sql);
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         //Delete every row with the ops_id of the digibook create operation from the rbac tables
         $sql =
@@ -79,7 +81,7 @@ class ilAccessRBACDeleteDbkSteps implements ilDatabaseUpdateSteps
         $this->db->manipulate($sql);
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         //Delete all other rows in the rbac tables which refer to the type dbk
         $sql =

@@ -49,7 +49,7 @@ class ProperEntryFixture
     );
 
     public string $properEntryYamlString =
-"description:
+        "description:
   purpose: >
       Description of Purpose
   composition: >

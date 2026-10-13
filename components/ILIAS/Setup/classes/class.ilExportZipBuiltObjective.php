@@ -34,7 +34,7 @@ class ilExportZipBuiltObjective extends ilSetupObjective
         if (is_null($this->tmp_dir)) {
             throw new RuntimeException("Can't create temporary directory!");
         }
-        if(! array_key_exists('PWD', $_SERVER)) {
+        if (! array_key_exists('PWD', $_SERVER)) {
             throw new RuntimeException("Can't get to current directory. \nIf you ran the script using 'sudo', please try using 'sudo -s'");
         }
         $this->cwd = $_SERVER["PWD"];

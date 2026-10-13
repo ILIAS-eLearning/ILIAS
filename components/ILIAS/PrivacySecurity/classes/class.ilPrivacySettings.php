@@ -132,7 +132,7 @@ class ilPrivacySettings
         $permission_export_member_data = $this->rbacsystem->checkAccessOfUser($user_id, 'export_member_data', $this->getPrivacySettingsRefId());
         $permission_manage_member = $this->access->checkAccessOfUser($user_id, 'manage_members', '', $a_ref_id);
 
-        switch($object_type) {
+        switch ($object_type) {
             case 'crs':
                 return $this->enabledCourseExport()
                     && $permission_export_member_data && $permission_manage_member;

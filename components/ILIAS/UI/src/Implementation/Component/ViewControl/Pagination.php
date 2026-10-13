@@ -26,7 +26,6 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-
 use ILIAS\Data\Range;
 
 class Pagination implements PaginationInterface

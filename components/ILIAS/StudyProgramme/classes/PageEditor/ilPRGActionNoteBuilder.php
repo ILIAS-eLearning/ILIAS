@@ -80,7 +80,7 @@ class ilPRGActionNoteBuilder
                     $deadline = array_shift($failed)->getDeadline();
                     $dealine_str = ' ' . $deadline->format($this->getUserDateFormat());
                 }
-            } elseif($accredited_or_completed) {
+            } elseif ($accredited_or_completed) {
                 $instruction = 'pc_prgactionnote_no_actions_required';
             } else {
                 $instruction = 'pc_prgactionnote_complete_content';
