@@ -67,6 +67,7 @@ class LanguageComponentGraphTest extends TestCase
         $use[\ILIAS\Environment\Configuration\Installation\Directories::class] ??= $this->createDirectories(
             (string) realpath(__DIR__ . '/../../../../')
         );
+        $use[\ILIAS\Environment\Configuration\Installation\ClientIdProvider::class] ??= $this->createClientIdProvider('default');
         $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class] ??= $this->createStub(
             \ILIAS\Logging\Logger\LoggerFactoryInterface::class
         );
@@ -241,12 +242,66 @@ class LanguageComponentGraphTest extends TestCase
         );
     }
 
-    private function createDirectories(string $root): \ILIAS\Environment\Configuration\Installation\Directories
-    {
+    private function createDirectories(
+        string $root,
+        string $data_dir = '/nonexistent-ilias-data'
+    ): \ILIAS\Environment\Configuration\Installation\Directories {
         $directories = $this->createStub(\ILIAS\Environment\Configuration\Installation\Directories::class);
         $directories->method('getRoot')->willReturn($root);
+        $directories->method('getDataDir')->willReturn($data_dir);
 
         return $directories;
+    }
+
+    private function createClientIdProvider(string $client_id): \ILIAS\Environment\Configuration\Installation\ClientIdProvider
+    {
+        $provider = $this->createStub(\ILIAS\Environment\Configuration\Installation\ClientIdProvider::class);
+        $provider->method('getClientId')->willReturn(new \ILIAS\Data\ClientId($client_id));
+
+        return $provider;
+    }
+
+    public function testTheRuntimeClientDataDirComesFromDirectoriesAndTheClientId(): void
+    {
+        $data_dir = sys_get_temp_dir() . '/ilias_lang_graph_' . bin2hex(random_bytes(4));
+        mkdir($data_dir . '/myclient', 0775, true);
+        try {
+            [, , , , , $provide, , $internal] = $this->initComponent([
+                \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+                \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+                \ILIAS\Environment\Configuration\Installation\Directories::class => $this->createDirectories(
+                    (string) realpath(__DIR__ . '/../../../../'),
+                    $data_dir
+                ),
+                \ILIAS\Environment\Configuration\Installation\ClientIdProvider::class => $this->createClientIdProvider('myclient'),
+            ]);
+            $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+            $provider_resolver = self::readPrivateProperty($internal[RepositoryProvider::class], 'client_data_dir_resolver');
+
+            self::assertSame($data_dir . '/myclient', $setup_language->getClientDataDir());
+            self::assertSame($data_dir . '/myclient', $provider_resolver());
+        } finally {
+            rmdir($data_dir . '/myclient');
+            rmdir($data_dir);
+        }
+    }
+
+    public function testAnInvalidClientIdYieldsNoClientDataDir(): void
+    {
+        $client_id_provider = $this->createStub(\ILIAS\Environment\Configuration\Installation\ClientIdProvider::class);
+        $client_id_provider->method('getClientId')->willReturnCallback(
+            static fn(): \ILIAS\Data\ClientId => new \ILIAS\Data\ClientId('')
+        );
+        [, , , , , $provide, , $internal] = $this->initComponent([
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+            \ILIAS\Environment\Configuration\Installation\ClientIdProvider::class => $client_id_provider,
+        ]);
+        $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+        $provider_resolver = self::readPrivateProperty($internal[RepositoryProvider::class], 'client_data_dir_resolver');
+
+        self::assertNull($setup_language->getClientDataDir());
+        self::assertNull($provider_resolver());
     }
 
     public function testRepositoryGetsTheRootFromDirectories(): void

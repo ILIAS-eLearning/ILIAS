@@ -61,6 +61,8 @@ final class MigratedLanguageFilePaths
      *
      * A client directory that does not exist yet (fresh installation) yields `null`: the next `setup update`
      * creates the overlay then, instead of pre-creating a directory the installer may want to create itself.
+     *
+     * Only a fallback; the component graph and the Setup resolve it themselves.
      */
     public static function resolveClientDataDir(?string $ilias_absolute_path = null): ?string
     {

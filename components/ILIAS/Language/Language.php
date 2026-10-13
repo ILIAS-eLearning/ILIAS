@@ -34,6 +34,8 @@ use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Environment\Configuration\Installation\Directories;
+use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Logging\Logger\LoggerFactoryInterface;
 
 class Language implements Component\Component
@@ -77,13 +79,30 @@ class Language implements Component\Component
         $internal[Language\Setup\TranslationCache::class] = static fn() =>
             new Language\Setup\TranslationCacheLegacyProxy();
 
+        // $use must be read inside a container closure: the bootstrap only wires what is read there
+        $client_data_dir_resolver_of = static function (
+            Directories $directories,
+            ClientIdProvider $client_id_provider
+        ): \Closure {
+            return static function () use ($directories, $client_id_provider): ?string {
+                try {
+                    $client_id = $client_id_provider->getClientId()->toString();
+                } catch (\InvalidArgumentException) {
+                    // Missing or invalid client id: no overlay instead of a failing request.
+                    return null;
+                }
+                return MigratedLanguageFilePaths::fromDataDirAndClientId($directories->getDataDir(), $client_id);
+            };
+        };
+
         $runtime_setup_language = static fn(): \ilSetupLanguage =>
             new \ilSetupLanguage(
                 "en",
                 $internal[LanguageFileDirectoryManager::class],
                 $pull[\ILIAS\Database\Connection::class],
                 $internal[Language\Setup\TranslationCache::class],
-                $use[LoggerFactoryInterface::class]->getLazy('lang')
+                $use[LoggerFactoryInterface::class]->getLazy('lang'),
+                $client_data_dir_resolver_of($use[Directories::class], $use[ClientIdProvider::class])
             );
 
         $internal[Language\Activities\LanguageSettings::class] = static fn() =>
@@ -97,6 +116,7 @@ class Language implements Component\Component
                 $internal[Language\Activities\LanguageSettings::class],
                 $internal[LanguageFileDirectoryManager::class],
                 new Language\Setup\DirectoriesInstallationRoot($use[Directories::class]),
+                $client_data_dir_resolver_of($use[Directories::class], $use[ClientIdProvider::class]),
                 $use[LoggerFactoryInterface::class]->getLazy('lang'),
             );
 
