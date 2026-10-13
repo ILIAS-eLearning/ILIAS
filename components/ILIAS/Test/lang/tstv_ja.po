@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: tstv\n"
+
+msgid "tstv_create"
+msgstr "テスト証明の作成"
+
+msgid "tstv_create_info"
+msgstr "完了したテストを選択して証明書を作成します"

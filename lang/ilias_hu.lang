@@ -15668,8 +15668,6 @@ trac#:#view_mode_all#:#Összes
 trac#:#view_mode_current#:#Jelenlegi
 trac#:#view_mode_future#:#Jövőbeli
 trac#:#view_mode_past#:#Múltbeli
-tstv#:#tstv_create#:#Teszttanúsítvány létrehozása
-tstv#:#tstv_create_info#:#Válasszon ki egy befejezett tesztet, amelyhez tanúsítványt generál.
 ui#:#1stars#:#öt csillagból egy
 ui#:#2stars#:#öt csillagból kettő
 ui#:#3stars#:#öt csillagból három

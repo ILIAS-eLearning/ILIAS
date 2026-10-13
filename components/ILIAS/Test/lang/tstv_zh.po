@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: tstv\n"
+
+msgid "tstv_create"
+msgstr "创建测试验证"
+
+msgid "tstv_create_info"
+msgstr "选择一个已完成的测试来为它生成一个校验"

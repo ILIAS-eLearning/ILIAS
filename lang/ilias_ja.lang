@@ -15663,8 +15663,6 @@ trac#:#view_mode_all#:#All
 trac#:#view_mode_current#:#Current
 trac#:#view_mode_future#:#今後
 trac#:#view_mode_past#:#過去
-tstv#:#tstv_create#:#テスト証明の作成
-tstv#:#tstv_create_info#:#完了したテストを選択して証明書を作成します
 ui#:#1stars#:#5つ星のうちの1つ
 ui#:#2stars#:#5つ星のうちの2つ
 ui#:#3stars#:#5つ星のうちの3つ

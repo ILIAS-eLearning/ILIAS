@@ -15683,8 +15683,6 @@ trac#:#view_mode_all#:#All
 trac#:#view_mode_current#:#Current
 trac#:#view_mode_future#:#Future
 trac#:#view_mode_past#:#Past
-tstv#:#tstv_create#:#Crear certificado de prueba
-tstv#:#tstv_create_info#:#Seleccione una prueba completada para generar un certificado para la misma.
 ui#:#1stars#:#una de cinco estrellas
 ui#:#2stars#:#dos de cinco estrellas
 ui#:#3stars#:#tres de cinco estrellas
