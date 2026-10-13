@@ -1,0 +1,228 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr ""
+
+msgid "cmps_active"
+msgstr ""
+
+msgid "cmps_add_new_rank"
+msgstr ""
+
+msgid "cmps_available"
+msgstr ""
+
+msgid "cmps_available_version"
+msgstr ""
+
+msgid "cmps_basic_files"
+msgstr ""
+
+msgid "cmps_class_file"
+msgstr ""
+
+msgid "cmps_component"
+msgstr ""
+
+msgid "cmps_configure"
+msgstr ""
+
+msgid "cmps_current_db_version"
+msgstr ""
+
+msgid "cmps_current_version"
+msgstr ""
+
+msgid "cmps_database"
+msgstr ""
+
+msgid "cmps_db_update"
+msgstr ""
+
+msgid "cmps_deactivate"
+msgstr ""
+
+msgid "cmps_detailed_information"
+msgstr ""
+
+msgid "cmps_dir"
+msgstr ""
+
+msgid "cmps_disable_creation"
+msgstr ""
+
+msgid "cmps_enable_creation"
+msgstr ""
+
+msgid "cmps_file_version"
+msgstr ""
+
+msgid "cmps_group"
+msgstr ""
+
+msgid "cmps_id"
+msgstr ""
+
+msgid "cmps_ilias_max_version"
+msgstr ""
+
+msgid "cmps_ilias_min_version"
+msgstr ""
+
+msgid "cmps_inactive"
+msgstr ""
+
+msgid "cmps_install"
+msgstr ""
+
+msgid "cmps_is_active"
+msgstr ""
+
+msgid "cmps_is_installed"
+msgstr ""
+
+msgid "cmps_lang_files"
+msgstr ""
+
+msgid "cmps_lang_prefix"
+msgstr ""
+
+msgid "cmps_languages"
+msgstr ""
+
+msgid "cmps_main_dir"
+msgstr ""
+
+msgid "cmps_missing"
+msgstr ""
+
+msgid "cmps_module"
+msgstr ""
+
+msgid "cmps_must_installed"
+msgstr ""
+
+msgid "cmps_name"
+msgstr ""
+
+msgid "cmps_needs_matching_ilias_version"
+msgstr ""
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr ""
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr ""
+
+msgid "cmps_needs_update"
+msgstr ""
+
+msgid "cmps_needs_upgrade"
+msgstr ""
+
+msgid "cmps_no_db_update_file_available"
+msgstr ""
+
+msgid "cmps_no_language_file_available"
+msgstr ""
+
+msgid "cmps_plugin"
+msgstr ""
+
+msgid "cmps_plugin_activated"
+msgstr ""
+
+msgid "cmps_plugin_db_prefixes"
+msgstr ""
+
+msgid "cmps_plugin_deactivated"
+msgstr ""
+
+msgid "cmps_plugin_deinstalled"
+msgstr ""
+
+msgid "cmps_plugin_file"
+msgstr ""
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr ""
+
+msgid "cmps_plugin_slot"
+msgstr ""
+
+msgid "cmps_plugin_uninstalled"
+msgstr ""
+
+msgid "cmps_plugin_updated"
+msgstr ""
+
+msgid "cmps_plugins"
+msgstr ""
+
+msgid "cmps_refresh"
+msgstr ""
+
+msgid "cmps_refresh_lng"
+msgstr ""
+
+msgid "cmps_rep_object"
+msgstr ""
+
+msgid "cmps_repository_object_types"
+msgstr ""
+
+msgid "cmps_responsible"
+msgstr ""
+
+msgid "cmps_responsible_mail"
+msgstr ""
+
+msgid "cmps_save_options"
+msgstr ""
+
+msgid "cmps_service"
+msgstr ""
+
+msgid "cmps_show_details"
+msgstr ""
+
+msgid "cmps_slots"
+msgstr ""
+
+msgid "cmps_status"
+msgstr ""
+
+msgid "cmps_supports_cli_setup"
+msgstr ""
+
+msgid "cmps_supports_export"
+msgstr ""
+
+msgid "cmps_supports_learning_progress"
+msgstr ""
+
+msgid "cmps_uninstall"
+msgstr ""
+
+msgid "cmps_uninstall_confirm"
+msgstr ""
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr ""
+
+msgid "cmps_update"
+msgstr ""
+
+msgid "cmps_version"
+msgstr ""
+
+msgid "database_is_uptodate"
+msgstr ""
+
+msgid "no_changes"
+msgstr ""

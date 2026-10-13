@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktivieren"
+
+msgid "cmps_active"
+msgstr "Aktiv"
+
+msgid "cmps_add_new_rank"
+msgstr "Position in der Auswahlliste für hinzuzufügende Objekte"
+
+msgid "cmps_available"
+msgstr "Verfügbar"
+
+msgid "cmps_available_version"
+msgstr "Verfügbare Version"
+
+msgid "cmps_basic_files"
+msgstr "Basis-Dateien"
+
+msgid "cmps_class_file"
+msgstr "Klassen-Datei"
+
+msgid "cmps_component"
+msgstr "Komponente"
+
+msgid "cmps_configure"
+msgstr "Konfigurieren"
+
+msgid "cmps_current_db_version"
+msgstr "Aktuelle DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Aktuelle Version"
+
+msgid "cmps_database"
+msgstr "Datenbank"
+
+msgid "cmps_db_update"
+msgstr "Skript für Datenbankaktualisierung"
+
+msgid "cmps_deactivate"
+msgstr "Deaktivieren"
+
+msgid "cmps_detailed_information"
+msgstr "Detaillierte Informationen"
+
+msgid "cmps_dir"
+msgstr "Verzeichnis"
+
+msgid "cmps_disable_creation"
+msgstr "Erstellung ausschalten"
+
+msgid "cmps_enable_creation"
+msgstr "Erstellung einschalten"
+
+msgid "cmps_file_version"
+msgstr "Dateiversion aktualisieren"
+
+msgid "cmps_group"
+msgstr "Gruppe"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Maximale ILIAS-Version"
+
+msgid "cmps_ilias_min_version"
+msgstr "Minimale ILIAS-Version"
+
+msgid "cmps_inactive"
+msgstr "Inaktiv"
+
+msgid "cmps_install"
+msgstr "Installieren"
+
+msgid "cmps_is_active"
+msgstr "Aktiviert"
+
+msgid "cmps_is_installed"
+msgstr "Installiert"
+
+msgid "cmps_lang_files"
+msgstr "Sprachdatei"
+
+msgid "cmps_lang_prefix"
+msgstr "Präfix Sprachvariable"
+
+msgid "cmps_languages"
+msgstr "Sprachen"
+
+msgid "cmps_main_dir"
+msgstr "Hauptverzeichnis"
+
+msgid "cmps_missing"
+msgstr "Fehlt"
+
+msgid "cmps_module"
+msgstr "Modul"
+
+msgid "cmps_must_installed"
+msgstr "Die Komponente muss installiert werden."
+
+msgid "cmps_name"
+msgstr "Name"
+
+msgid "cmps_needs_matching_ilias_version"
+msgstr "Dieses Plugin kann nicht mit der aktuellen Version dieser ILIAS-Installation verwendet werden."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Dieses Plugin kann nur mit einer neueren ILIAS-Version verwendet werden. Bitte aktualisieren Sie Ihre ILIAS-Version."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Diese ILIAS-Version benötigt eine neuere Plugin-Version. Bitte aktualisieren Sie das Plugin."
+
+msgid "cmps_needs_update"
+msgstr "Aktualisierung notwendig"
+
+msgid "cmps_needs_upgrade"
+msgstr "Die aktuell installierte Plugin-Version ist älter als die zuvor installierte. Bitte installieren Sie das aktuelle Plugin."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Kein Datenbank-Update-Skript verfügbar"
+
+msgid "cmps_no_language_file_available"
+msgstr "Keine Sprachdatei verfügbar"
+
+msgid "cmps_plugin"
+msgstr "Plugin"
+
+msgid "cmps_plugin_activated"
+msgstr "Das Plugin wurde aktiviert."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Präfixe Datenbanktabelle"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Das Plugin wurde deaktiviert."
+
+msgid "cmps_plugin_deinstalled"
+msgstr "Das Plugin wurde deinstalliert."
+
+msgid "cmps_plugin_file"
+msgstr "Plugin-Datei"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Plugin-Sprachpräfixe"
+
+msgid "cmps_plugin_slot"
+msgstr "Plugin-Slot"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Alle Sprach- und Datenbankeinträge, die sich auf das Plugin beziehen, wurden gelöscht und das Plugin deaktiviert. Sie können jetzt das Verzeichnis und den Quellcode des Plugins aus dem ‘Customizing’-Verzeichnis entfernen, um das Plugin endgültig zu deinstallieren."
+
+msgid "cmps_plugin_updated"
+msgstr "Das Plugin wurde aktualisiert."
+
+msgid "cmps_plugins"
+msgstr "Plugins"
+
+msgid "cmps_refresh"
+msgstr "Sprachen neu laden"
+
+msgid "cmps_refresh_lng"
+msgstr "Sprache aktualisiert"
+
+msgid "cmps_rep_object"
+msgstr "Objekttyp im Magazin"
+
+msgid "cmps_repository_object_types"
+msgstr "Objekttypen im Magazin"
+
+msgid "cmps_responsible"
+msgstr "Verantwortlich"
+
+msgid "cmps_responsible_mail"
+msgstr "Mail (Verantwortlicher)"
+
+msgid "cmps_save_options"
+msgstr "Speichern"
+
+msgid "cmps_service"
+msgstr "Dienst"
+
+msgid "cmps_show_details"
+msgstr "Details anzeigen"
+
+msgid "cmps_slots"
+msgstr "Slots"
+
+msgid "cmps_status"
+msgstr "Status"
+
+msgid "cmps_supports_cli_setup"
+msgstr "Unterstützt CLI-Setup"
+
+msgid "cmps_supports_export"
+msgstr "Unterstützt Export"
+
+msgid "cmps_supports_learning_progress"
+msgstr "Unterstützt Lernfortschritt"
+
+msgid "cmps_uninstall"
+msgstr "Deinstallieren"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Wollen Sie wirklich das Plugin „%s“ deinstallieren und alle zugehörigen Datenbankeinträge löschen?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Das Plugin \"%1$s\" ist aktuell nicht aktivierbar (\"%2$s\"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?"
+
+msgid "cmps_update"
+msgstr "Aktualisieren"
+
+msgid "cmps_version"
+msgstr "Version"
+
+msgid "database_is_uptodate"
+msgstr "Die Datenbank ist aktuell."
+
+msgid "no_changes"
+msgstr "Keine Änderungen"

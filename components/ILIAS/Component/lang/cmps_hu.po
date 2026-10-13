@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktiválás"
+
+msgid "cmps_active"
+msgstr "Aktív"
+
+msgid "cmps_add_new_rank"
+msgstr "Pozíció az Új objektum létrehozása listában"
+
+msgid "cmps_available"
+msgstr "Elérhető"
+
+msgid "cmps_available_version"
+msgstr "Elérhető verzió"
+
+msgid "cmps_basic_files"
+msgstr "Alapfájlok"
+
+msgid "cmps_class_file"
+msgstr "Osztályfájl"
+
+msgid "cmps_component"
+msgstr "Komponens"
+
+msgid "cmps_configure"
+msgstr "Konfigurálás"
+
+msgid "cmps_current_db_version"
+msgstr "Jelenlegi adatbázis-verzió"
+
+msgid "cmps_current_version"
+msgstr "Jelenlegi verzió"
+
+msgid "cmps_database"
+msgstr "Adatbázis"
+
+msgid "cmps_db_update"
+msgstr "Adatbázis-frissítési szkript"
+
+msgid "cmps_deactivate"
+msgstr "Deaktiválás"
+
+msgid "cmps_detailed_information"
+msgstr "Részletes információ"
+
+msgid "cmps_dir"
+msgstr "Mappa"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Létrehozás engedélyezése"
+
+msgid "cmps_file_version"
+msgstr "Frissítési fájlverzió"
+
+msgid "cmps_group"
+msgstr "Csoport"
+
+msgid "cmps_id"
+msgstr "Azonosító"
+
+msgid "cmps_ilias_max_version"
+msgstr "Maximum ILIAS-verzió"
+
+msgid "cmps_ilias_min_version"
+msgstr "Minimum ILIAS-verzió"
+
+msgid "cmps_inactive"
+msgstr "Inaktív"
+
+msgid "cmps_install"
+msgstr "Telepítés"
+
+msgid "cmps_is_active"
+msgstr "Aktivált"
+
+msgid "cmps_is_installed"
+msgstr "Telepített"
+
+msgid "cmps_lang_files"
+msgstr "Nyelvi fájlok"
+
+msgid "cmps_lang_prefix"
+msgstr "Nyelvi változó előtag"
+
+msgid "cmps_languages"
+msgstr "Nyelvek"
+
+msgid "cmps_main_dir"
+msgstr "Főmappa"
+
+msgid "cmps_missing"
+msgstr "Hiányzik"
+
+msgid "cmps_module"
+msgstr "Modul"
+
+msgid "cmps_must_installed"
+msgstr "A komponenst telepíteni kell."
+
+msgid "cmps_name"
+msgstr "Név"
+
+msgid "cmps_needs_matching_ilias_version"
+msgstr "Ez a bővítmény nem működik ezen az ILIAS verzión."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Ez a bővítményverzió csak újabb ILIAS-verziókon fut. Frissítse az ILIAS-t!"
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Ehhez az ILIAS-verzióhoz újabb bővítményverzió szükséges. Frissítse a bővítményt!"
+
+msgid "cmps_needs_update"
+msgstr "Frissítés szükséges."
+
+msgid "cmps_needs_upgrade"
+msgstr "A jelenleg telepített bővítmény verziója régebbi, mint egy korábban telepítetté. Frissítse a bővítményt!"
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Nem érhető el az adatbázis-frissítő szkript."
+
+msgid "cmps_no_language_file_available"
+msgstr "Nem érhető el a nyelvi fájl."
+
+msgid "cmps_plugin"
+msgstr "Bővítmény"
+
+msgid "cmps_plugin_activated"
+msgstr "A bővítményt bekapcsolta."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Adatbázistábla előtag"
+
+msgid "cmps_plugin_deactivated"
+msgstr "A bővítményt kikapcsolta."
+
+msgid "cmps_plugin_deinstalled"
+msgstr "A bővítményt eltávolította."
+
+msgid "cmps_plugin_file"
+msgstr "Bővítmény fájl"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Bővítmény nyelvi előtagok"
+
+msgid "cmps_plugin_slot"
+msgstr "Bővítmény csatlakozás"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Az összes nyelvi- és adatbázis-bejegyzést sikeresen eltávolította, és a bővítményt inaktiválta. Most már biztonságosan letávolíthatja a bővítmény - ‘Customizing’ mappa alatt található - fájljait/mappáit."
+
+msgid "cmps_plugin_updated"
+msgstr "A bővítményt frissítette"
+
+msgid "cmps_plugins"
+msgstr "Bővítmények"
+
+msgid "cmps_refresh"
+msgstr "Frissítés"
+
+msgid "cmps_refresh_lng"
+msgstr "Nyelv frissítés"
+
+msgid "cmps_rep_object"
+msgstr "Tartalomtárban lévő objektumtípus"
+
+msgid "cmps_repository_object_types"
+msgstr "ILIAS-objektum típusok"
+
+msgid "cmps_responsible"
+msgstr "Felelős"
+
+msgid "cmps_responsible_mail"
+msgstr "E-mail cím (Felelős)"
+
+msgid "cmps_save_options"
+msgstr "Mentés"
+
+msgid "cmps_service"
+msgstr "Szolgáltatás"
+
+msgid "cmps_show_details"
+msgstr "Részletek megjelenítése"
+
+msgid "cmps_slots"
+msgstr "Foglalatok"
+
+msgid "cmps_status"
+msgstr "Állapot"
+
+msgid "cmps_supports_cli_setup"
+msgstr "Parancssori telepítés támogatása"
+
+msgid "cmps_supports_export"
+msgstr "Exportálás támogatása"
+
+msgid "cmps_supports_learning_progress"
+msgstr "Tanulási haladás támogatása"
+
+msgid "cmps_uninstall"
+msgstr "Eltávolítás"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Biztos, hogy eltávolítja a következő ‘%s’ bővítményt annak összes adatbázis-bejegyzésével együtt?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "‘%1$s’ bővítmény jelenleg nem aktiválható (‘%2$s’), így nem távolítható el teljesen, néhány adata a rendszerben marad. Biztos, hogy folytatja a részleges eltávolítást?"
+
+msgid "cmps_update"
+msgstr "Frissítés"
+
+msgid "cmps_version"
+msgstr "Verzió"
+
+msgid "database_is_uptodate"
+msgstr "Az adatbázis naprakész."
+
+msgid "no_changes"
+msgstr "Nincsenek változások"

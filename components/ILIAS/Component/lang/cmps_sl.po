@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktiviraj"
+
+msgid "cmps_active"
+msgstr "Aktivno"
+
+msgid "cmps_add_new_rank"
+msgstr "Položaj na izbirnem seznamu objektov za dodajanje"
+
+msgid "cmps_available"
+msgstr "Razpoložljivo"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Osnovne datoteke"
+
+msgid "cmps_class_file"
+msgstr "Razredna datoteka"
+
+msgid "cmps_component"
+msgstr "Komponenta"
+
+msgid "cmps_configure"
+msgstr "Konfiguriraj"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Aktualna različica"
+
+msgid "cmps_database"
+msgstr "Baza podatkov"
+
+msgid "cmps_db_update"
+msgstr "Skripta za posodobitev baze podatkov"
+
+msgid "cmps_deactivate"
+msgstr "Onemogoči"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Seznam"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Vključi ustvarjanje"
+
+msgid "cmps_file_version"
+msgstr "Posodobi različico datoteke"
+
+msgid "cmps_group"
+msgstr "Skupina"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Maksimalna različica ILIAS"
+
+msgid "cmps_ilias_min_version"
+msgstr "Minimalna različica ILIAS"
+
+msgid "cmps_inactive"
+msgstr "Neaktiven"
+
+msgid "cmps_install"
+msgstr "Namesti"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Jezikovna datoteka"
+
+msgid "cmps_lang_prefix"
+msgstr "Predpona jezikovnih spremenljivk"
+
+msgid "cmps_languages"
+msgstr "Jeziki"
+
+msgid "cmps_main_dir"
+msgstr "Glavni seznam"
+
+msgid "cmps_missing"
+msgstr "Manjka"
+
+msgid "cmps_module"
+msgstr "Module"
+
+msgid "cmps_must_installed"
+msgstr "Komponenta mora biti nameščena."
+
+msgid "cmps_name"
+msgstr "Ime"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Ta vtičnik se lahko uporablja samo z novejšo različico ILIAS. Posodobite različico ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Ta različica ILIAS potrebuje novejšo različico vtičnika. Posodobite vtičnik."
+
+msgid "cmps_needs_update"
+msgstr "Potrebna je posodobitev"
+
+msgid "cmps_needs_upgrade"
+msgstr "Trenutno nameščena različica vtičnika je starejša od predhodno nameščene. Namestite aktualen vtičnik."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Skripte za posodobitev baze podatkov ni na voljo"
+
+msgid "cmps_no_language_file_available"
+msgstr "Nobena jezikovna datoteka ni na voljo"
+
+msgid "cmps_plugin"
+msgstr "Vtičnik"
+
+msgid "cmps_plugin_activated"
+msgstr "Vtičnik je bil aktiviran."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Predpone tabele baze podatkov"
+
+msgid "cmps_plugin_deactivated"
+msgstr "Vtičnik je bil onemogočen."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "Datoteka vtičnika"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Jezikovne predpone vtičnika"
+
+msgid "cmps_plugin_slot"
+msgstr "Reža vtičnika"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Vsi jezikovni vnosi in vnosi v bazo podatkov, ki se nanašajo na vtičnik, so bili izbrisani in vtičnik je onemogočen. Zdaj lahko s seznama ’Prilagajanje’ odstranite seznam in izvorno kodo vtičnika, da vtičnik dokončno odstranite."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Vtičniki"
+
+msgid "cmps_refresh"
+msgstr "Na novo naloži jezike"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Tip objekta v magazinu"
+
+msgid "cmps_repository_object_types"
+msgstr "Tipi objektov v magazinu"
+
+msgid "cmps_responsible"
+msgstr "Odgovoren"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Shrani"
+
+msgid "cmps_service"
+msgstr "Storitev"
+
+msgid "cmps_show_details"
+msgstr "Prikaži podrobnosti"
+
+msgid "cmps_slots"
+msgstr "Dodeljeni čas"
+
+msgid "cmps_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+msgid "cmps_uninstall"
+msgstr "Odstrani"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Ali res želite odstraniti vtičnik \"%s\" in izbrisati vse povezane vnose v bazi podatkov?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "Vtičnika \"%1$s\" se trenutno ne da aktivirati (\"%2$s\"). V tem statusu ni mogoče v celoti odstraniti vtičnikov. Ker je izbrisana samo sistemska integracija, lahko lastne datoteke vtičnika ostanejo. Ali želite nadaljevati z delno odstranitvijo?"
+
+msgid "cmps_update"
+msgstr "Posodobi"
+
+msgid "cmps_version"
+msgstr "Različica"
+
+msgid "database_is_uptodate"
+msgstr "Baza podatkov je posodobljena."
+
+msgid "no_changes"
+msgstr "Brez sprememb"
