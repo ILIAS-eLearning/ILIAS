@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldoc\n"
+
+msgid "deleteDocument"
+msgstr "Löschen"
+
+msgid "detachCriterionAssignment"
+msgstr "Löschen"
+
+msgid "ldoc_acceptance_history"
+msgstr "Zustimmungshistorie"
+
+msgid "ldoc_account_reg_not_possible"
+msgstr "Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Nutzungsvereinbarung angeboten wird. Bitte kontaktieren Sie die <a href=\"%1$s\">technische Betreuung</a> für weitere Informationen."
+
+msgid "ldoc_add_document_btn_label"
+msgstr "Dokument hinzufügen"
+
+msgid "ldoc_agreement_document"
+msgstr "Dokument"
+
+msgid "ldoc_agreement_document_missing"
+msgstr "Nicht vorhanden"
+
+msgid "ldoc_agreement_documents_tab_label"
+msgstr "Dokumente"
+
+msgid "ldoc_agreement_exists"
+msgstr "Vorhanden"
+
+msgid "ldoc_agreement_missing"
+msgstr "Nicht vorhanden"
+
+msgid "ldoc_crit_type_usr_country"
+msgstr "Benutzerland"
+
+msgid "ldoc_crit_type_usr_country_info"
+msgstr "Das Dokument muss akzeptiert werden, wenn beim ersten Login dieses Land gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments."
+
+msgid "ldoc_crit_type_usr_global_role"
+msgstr "Globale Rolle"
+
+msgid "ldoc_crit_type_usr_global_role_info"
+msgstr "Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments."
+
+msgid "ldoc_crit_type_usr_language"
+msgstr "Benutzersprache"
+
+msgid "ldoc_crit_type_usr_language_info"
+msgstr "Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments."
+
+msgid "ldoc_criterion_assignment_cannot_match"
+msgstr "Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Durch ein anderes Vorlagekriterium wird das Dokument niemals zutreffen können."
+
+msgid "ldoc_criterion_assignment_must_be_unique"
+msgstr "Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung."
+
+msgid "ldoc_deleted_documents_p"
+msgstr "Die gewählten Dokumente wurden gelöscht."
+
+msgid "ldoc_deleted_documents_s"
+msgstr "Das Dokument wurde gelöscht."
+
+msgid "ldoc_disabled"
+msgstr "Deaktiviert"
+
+msgid "ldoc_doc_crit_attached"
+msgstr "Das Vorlagekriterium wurde zugewiesen."
+
+msgid "ldoc_doc_crit_changed"
+msgstr "Das Vorlagekriterium wurde aktualisiert."
+
+msgid "ldoc_doc_crit_detached"
+msgstr "Das Vorlagekriterium wurde entfernt."
+
+msgid "ldoc_doc_delete"
+msgstr "Dokument löschen"
+
+msgid "ldoc_doc_detach_crit_confirm_title"
+msgstr "Vorlagekriterium entfernen"
+
+msgid "ldoc_doc_sure_detach_crit"
+msgstr "Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?"
+
+msgid "ldoc_document"
+msgstr "Dokument"
+
+msgid "ldoc_enabled"
+msgstr "Aktiviert"
+
+msgid "ldoc_form_attach_criterion_head"
+msgstr "Vorlagekriterium hinzufügen"
+
+msgid "ldoc_form_criterion"
+msgstr "Vorlagekriterium"
+
+msgid "ldoc_form_criterion_standard_fields_info_text"
+msgstr "Überprüfen Sie bitte die Einstellungen der Standardfelder, bevor Sie die Vorlagekriterien definieren."
+
+msgid "ldoc_form_document"
+msgstr "Dokument"
+
+msgid "ldoc_form_document_content_changed"
+msgstr "Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch."
+
+msgid "ldoc_form_document_info"
+msgstr "Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird."
+
+msgid "ldoc_form_document_new"
+msgstr "Inhalt ändern"
+
+msgid "ldoc_form_document_new_info"
+msgstr "Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht, die Historie ist davon nicht betroffen."
+
+msgid "ldoc_form_document_title"
+msgstr "Titel"
+
+msgid "ldoc_form_document_title_info"
+msgstr "Geben Sie hier einen Titel für das Dokument ein."
+
+msgid "ldoc_form_edit_criterion_head"
+msgstr "Vorlagekriterium bearbeiten"
+
+msgid "ldoc_form_edit_doc_head"
+msgstr "Dokument bearbeiten"
+
+msgid "ldoc_form_new_doc_head"
+msgstr "Dokument erstellen"
+
+msgid "ldoc_last_modified"
+msgstr "Letzte Änderung"
+
+msgid "ldoc_ldoc_settings"
+msgstr "Einstellungen"
+
+msgid "ldoc_period"
+msgstr "Zeitraum"
+
+msgid "ldoc_period_from"
+msgstr "Von"
+
+msgid "ldoc_period_until"
+msgstr "Bis"
+
+msgid "ldoc_reevaluate_on_login"
+msgstr "Erneutes Prüfen der Vorlagekriterien beim Login"
+
+msgid "ldoc_reevaluate_on_login_desc"
+msgstr "Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu akzeptieren."
+
+msgid "ldoc_saved_sorting"
+msgstr "Die Sortierung wurde gespeichert."
+
+msgid "ldoc_sure_delete_documents_p"
+msgstr "Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?"
+
+msgid "ldoc_sure_delete_documents_s"
+msgstr "Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?"
+
+msgid "ldoc_tbl_docs_action_add_criterion"
+msgstr "Vorlagekriterium hinzufügen"
+
+msgid "ldoc_tbl_docs_cell_not_criterion"
+msgstr "Kein Vorlagekriterium zugewiesen"
+
+msgid "ldoc_tbl_docs_head_created"
+msgstr "Erstellungsdatum"
+
+msgid "ldoc_tbl_docs_head_criteria"
+msgstr "Vorlagekriterien"
+
+msgid "ldoc_tbl_docs_head_last_change"
+msgstr "Letzte Änderung"
+
+msgid "ldoc_tbl_docs_head_sorting"
+msgstr "Sortierung"
+
+msgid "ldoc_tbl_docs_head_title"
+msgstr "Titel"
+
+msgid "ldoc_tbl_docs_title"
+msgstr "Dokumente"
+
+msgid "ldoc_tbl_hist_cell_not_criterion"
+msgstr "Kein Vorlagekriterium zugewiesen"
+
+msgid "ldoc_tbl_hist_head_acceptance_date"
+msgstr "Datum"
+
+msgid "ldoc_tbl_hist_head_criteria"
+msgstr "Vorlagekriterien"
+
+msgid "ldoc_tbl_hist_head_document"
+msgstr "Dokument"
+
+msgid "ldoc_tbl_hist_head_firstname"
+msgstr "Vorname"
+
+msgid "ldoc_tbl_hist_head_lastname"
+msgstr "Nachname"
+
+msgid "ldoc_tbl_hist_head_login"
+msgstr "Anmeldename"
+
+msgid "ldoc_updated_document"
+msgstr "Dokument hochgeladen"
