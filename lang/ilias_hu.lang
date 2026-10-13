@@ -13761,7 +13761,6 @@ rbac#:#wiks_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbe�
 rbac#:#wiks_visible#:#A felhasználó láthatja a Rendszerbeállítások » Wiki menüpontot
 rbac#:#wiks_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Wiki beállításait
 rbac#:#write#:#Beállítások módosítása
-rcrs#:#rcrs_call#:#ECS-kurzus hívása
 rep#:#btn_undelete_new_location#:#Visszaállítás (új hely)
 rep#:#btn_undelete_origin_location#:#Visszaállítás (ugyanaz a hely)
 rep#:#rep_activation_access#:#Hozzáférés

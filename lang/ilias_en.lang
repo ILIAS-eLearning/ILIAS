@@ -13984,7 +13984,6 @@ rbac#:#wiks_read#:#User has read access to Wiki administration
 rbac#:#wiks_visible#:#Wiki administration is visible
 rbac#:#wiks_write#:#Edit settings in Wiki administration
 rbac#:#write#:#Edit Settings
-rcrs#:#rcrs_call#:#Call ECS Course
 rep#:#btn_undelete_new_location#:#Restore (new location)
 rep#:#btn_undelete_origin_location#:#Restore (same location)
 rep#:#rep_activation_access#:#Access

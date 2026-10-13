@@ -13698,7 +13698,6 @@ rbac#:#wiks_read#:#User has read access to Wiki administration###30 12 2013 new 
 rbac#:#wiks_visible#:#Wiki administration is visible###30 12 2013 new variable
 rbac#:#wiks_write#:#Edit settings in Wiki administration###30 12 2013 new variable
 rbac#:#write#:#Edit Settings###20 08 2010 new variable
-rcrs#:#rcrs_call#:#Call Remote Course###23 07 2008 new variable
 rep#:#btn_undelete_new_location#:#Restore (new location)###07 02 2020 new variable
 rep#:#btn_undelete_origin_location#:#Restore (same location)###07 02 2020 new variable
 rep#:#rep_activation_access#:#Access###28 08 2012 new variable

@@ -14013,7 +14013,6 @@ rbac#:#wiks_read#:#Lesezugriff auf Wiki-Verwaltung
 rbac#:#wiks_visible#:#Wiki-Verwaltung ist sichtbar
 rbac#:#wiks_write#:#Einstellungen in Wiki-Verwaltung bearbeiten
 rbac#:#write#:#Einstellungen bearbeiten
-rcrs#:#rcrs_call#:#ECS-Kurs aufrufen
 rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
 rep#:#btn_undelete_origin_location#:#Wiederherstellen (Originalort)
 rep#:#rep_activation_access#:#Zugriff

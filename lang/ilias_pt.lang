@@ -13788,7 +13788,6 @@ rbac#:#wiks_read#:#O utilizador tem acesso de leitura à administração de wiki
 rbac#:#wiks_visible#:#A administração de wiki está visível
 rbac#:#wiks_write#:#Editar definições na administração de wiki
 rbac#:#write#:#Editar configurações
-rcrs#:#rcrs_call#:#Call Remote Course
 rep#:#btn_undelete_new_location#:#Restore (new location)###07 02 2020 new variable
 rep#:#btn_undelete_origin_location#:#Restore (same location)###07 02 2020 new variable
 rep#:#rep_activation_access#:#Acesso

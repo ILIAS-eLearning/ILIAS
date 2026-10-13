@@ -13698,7 +13698,6 @@ rbac#:#wiks_read#:#Korisnik ima pristup za čitanje administraciji Wiki-ja
 rbac#:#wiks_visible#:#Administracija Wiki-ja je vidljiva
 rbac#:#wiks_write#:#Uredi postavke u administraciji Wiki-ja
 rbac#:#write#:#Uredi postavke
-rcrs#:#rcrs_call#:#Call ECS Course
 rep#:#btn_undelete_new_location#:#Restore (new location)###04 06 2021 new variable
 rep#:#btn_undelete_origin_location#:#Restore (same location)###04 06 2021 new variable
 rep#:#rep_activation_access#:#Access
