@@ -15405,15 +15405,6 @@ survey#:#values#:#Értékek
 survey#:#vertical#:#Függőleges
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#workingtime#:#Eltöltött idő
-task#:#task_deadline#:#Vége
-task#:#task_derived_tasks#:#Feladatok
-task#:#task_details#:#Részletek
-task#:#task_no_task_items#:#Nincsenek teendői.
-task#:#task_no_tasks#:#Egy nyitott feladata sincs.
-task#:#task_start#:#Kezdete
-task#:#task_task#:#Feladatok
-task#:#task_tasks_with_deadline#:#Határidővel
-task#:#task_tasks_without_deadline#:#Határidő nélkül
 tax#:#obj_taxn#:#Csomópont
 tax#:#tax_add_taxonomy#:#Taxonómia létrehozása
 tax#:#tax_added#:#Sikeresen létrehozott egy taxonómiát.

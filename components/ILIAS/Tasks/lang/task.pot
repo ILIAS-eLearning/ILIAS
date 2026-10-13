@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: task\n"
+
+msgid "task_deadline"
+msgstr ""
+
+msgid "task_derived_tasks"
+msgstr ""
+
+msgid "task_details"
+msgstr ""
+
+msgid "task_no_task_items"
+msgstr ""
+
+msgid "task_no_tasks"
+msgstr ""
+
+msgid "task_start"
+msgstr ""
+
+msgid "task_task"
+msgstr ""
+
+msgid "task_tasks_with_deadline"
+msgstr ""
+
+msgid "task_tasks_without_deadline"
+msgstr ""

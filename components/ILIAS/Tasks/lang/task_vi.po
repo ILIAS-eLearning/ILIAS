@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: task\n"
+
+#, fuzzy
+msgid "task_deadline"
+msgstr "End"
+
+#, fuzzy
+msgid "task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "task_details"
+msgstr "Details"
+
+#, fuzzy
+msgid "task_no_task_items"
+msgstr "Es sind keine To-Dos für Sie vorhanden."
+
+#, fuzzy
+msgid "task_no_tasks"
+msgstr "You do not have any open tasks."
+
+#, fuzzy
+msgid "task_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "task_task"
+msgstr "Task"
+
+#, fuzzy
+msgid "task_tasks_with_deadline"
+msgstr "With Deadline"
+
+#, fuzzy
+msgid "task_tasks_without_deadline"
+msgstr "Without Deadline"

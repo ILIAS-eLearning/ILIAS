@@ -15361,15 +15361,6 @@ survey#:#values#:#Значення
 survey#:#vertical#:#вертикальний
 survey#:#warning_question_not_complete#:#Питання не закінчене!
 survey#:#workingtime#:#Working time###28 07 2010 new variable
-task#:#task_deadline#:#End###07 02 2020 new variable
-task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
-task#:#task_details#:#Details###07 02 2020 new variable
-task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.###07 02 2020 new variable
-task#:#task_no_tasks#:#You do not have any open tasks.###07 02 2020 new variable
-task#:#task_start#:#Start###07 02 2020 new variable
-task#:#task_task#:#Task###07 02 2020 new variable
-task#:#task_tasks_with_deadline#:#With Deadline###07 02 2020 new variable
-task#:#task_tasks_without_deadline#:#Without Deadline###07 02 2020 new variable
 tax#:#obj_taxn#:#Node###28 08 2012 new variable
 tax#:#tax_add_taxonomy#:#Add Taxonomy###28 08 2012 new variable
 tax#:#tax_added#:#Taxonomy has been created.###24 10 2013 new variable
