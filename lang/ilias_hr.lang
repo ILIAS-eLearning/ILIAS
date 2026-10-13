@@ -11837,23 +11837,6 @@ mme#:#type_separator_info#:#Naslov ove stavke bit će prikazan u sivom natpisu. 
 mme#:#type_top_link_item#:#Poveznica
 mme#:#type_top_parent_item#:#Spremnik
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mst#:#mst_cert_issued_on#:#Issued On###04 06 2021 new variable
-mst#:#mst_courses_of#:#Upisi %s
-mst#:#mst_download_certificate#:#Download Certificate###04 06 2021 new variable
-mst#:#mst_list_certificates#:#Certificates###04 06 2021 new variable
-mst#:#mst_list_competences#:#Competences###04 06 2021 new variable
-mst#:#mst_list_courses#:#Upisi
-mst#:#mst_list_users#:#Popis osoblja
-mst#:#mst_memb_status_registered#:#Registrirano
-mst#:#mst_memb_status_requested#:#Zatraženo
-mst#:#mst_memb_status_waitinglist#:#Lista čekanja
-mst#:#mst_my_staff#:#Osoblje
-mst#:#mst_opt_all#:#Svi
-mst#:#mst_please_select_course#:#Molimo odaberite tečaj.
-mst#:#mst_profile_fulfilled#:#Not met, yet###04 06 2021 new variable
-mst#:#mst_profile_not_fulfilled#:#Fulfilled###04 06 2021 new variable
-mst#:#mst_select_course#:#Odaberi tečaj
-mst#:#mst_show_courses#:#Upisi
 news#:#lso_news_online_title#:#A new learning sequence object is online!
 news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 news#:#new_test_online#:#The Test was set online.

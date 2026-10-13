@@ -11824,23 +11824,6 @@ mme#:#type_separator_info#:#The title of this item will be displayed in a grey b
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mst#:#mst_cert_issued_on#:#Issued On
-mst#:#mst_courses_of#:#Inscriptions de %s
-mst#:#mst_download_certificate#:#Download Certificate
-mst#:#mst_list_certificates#:#Certificates
-mst#:#mst_list_competences#:#Competences
-mst#:#mst_list_courses#:#Inscriptions
-mst#:#mst_list_users#:#Liste du personnel
-mst#:#mst_memb_status_registered#:#Inscrit
-mst#:#mst_memb_status_requested#:#Demandé
-mst#:#mst_memb_status_waitinglist#:#Liste d’attente
-mst#:#mst_my_staff#:#Personnel
-mst#:#mst_opt_all#:#Tous
-mst#:#mst_please_select_course#:#Veuillez sélectionner un cours.
-mst#:#mst_profile_fulfilled#:#Not met, yet
-mst#:#mst_profile_not_fulfilled#:#Fulfilled
-mst#:#mst_select_course#:#Sélectionner un cours
-mst#:#mst_show_courses#:#Inscriptions
 news#:#lso_news_online_title#:#A new learning sequence object is online!
 news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 news#:#new_test_online#:#Le test a été mis en ligne.

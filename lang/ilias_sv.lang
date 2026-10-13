@@ -11837,23 +11837,6 @@ mme#:#type_separator_info#:#Separatorns titel visas i ett grått område. Du få
 mme#:#type_top_link_item#:#Länk
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mst#:#mst_cert_issued_on#:#Utställd på
-mst#:#mst_courses_of#:#Anmälningar från %s
-mst#:#mst_download_certificate#:#Ladda ner certifikat
-mst#:#mst_list_certificates#:#Certifikat
-mst#:#mst_list_competences#:#Kompetens
-mst#:#mst_list_courses#:#Anmälningar
-mst#:#mst_list_users#:#Lista över anställda
-mst#:#mst_memb_status_registered#:#Reported
-mst#:#mst_memb_status_requested#:#Ansökt för
-mst#:#mst_memb_status_waitinglist#:#Väntelista
-mst#:#mst_my_staff#:#Anställda
-mst#:#mst_opt_all#:#Alla
-mst#:#mst_please_select_course#:#Vänligen välj en kurs.
-mst#:#mst_profile_fulfilled#:#Achieved
-mst#:#mst_profile_not_fulfilled#:#Not yet reached
-mst#:#mst_select_course#:#Välj kurs
-mst#:#mst_show_courses#:#Anmälningar
 news#:#lso_news_online_title#:#Nytt inlärningssekvensobjekt är online!
 news#:#lso_news_online_txt#:#Ett nytt objekt för din inlärningssekvens har precis lagts online.
 news#:#new_test_online#:#Testet har kopplats upp online.

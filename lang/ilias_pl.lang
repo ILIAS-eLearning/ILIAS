@@ -11837,23 +11837,6 @@ mme#:#type_separator_info#:#The title of this item will be displayed in a grey b
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mst#:#mst_cert_issued_on#:#Issued On###07 02 2020 new variable
-mst#:#mst_courses_of#:#Zapisy z %s
-mst#:#mst_download_certificate#:#Download Certificate###07 02 2020 new variable
-mst#:#mst_list_certificates#:#Certificates###07 02 2020 new variable
-mst#:#mst_list_competences#:#Competences###07 02 2020 new variable
-mst#:#mst_list_courses#:#Zapisy
-mst#:#mst_list_users#:#Lista pracowników
-mst#:#mst_memb_status_registered#:#Zarejestrowany
-mst#:#mst_memb_status_requested#:#Złożono wniosek
-mst#:#mst_memb_status_waitinglist#:#Lista oczekujących
-mst#:#mst_my_staff#:#Pracownik
-mst#:#mst_opt_all#:#Wszyscy
-mst#:#mst_please_select_course#:#Wybierz kurs.
-mst#:#mst_profile_fulfilled#:#Not met, yet###07 02 2020 new variable
-mst#:#mst_profile_not_fulfilled#:#Fulfilled###07 02 2020 new variable
-mst#:#mst_select_course#:#Wybierz kurs
-mst#:#mst_show_courses#:#Zapisy
 news#:#lso_news_online_title#:#A new learning sequence object is online!###07 02 2020 new variable
 news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###07 02 2020 new variable
 news#:#new_test_online#:#Test został przełączony w tryb online.

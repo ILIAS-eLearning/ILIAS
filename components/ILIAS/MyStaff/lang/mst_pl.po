@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mst\n"
+
+#, fuzzy
+msgid "mst_cert_issued_on"
+msgstr "Issued On"
+
+msgid "mst_courses_of"
+msgstr "Zapisy z %s"
+
+#, fuzzy
+msgid "mst_download_certificate"
+msgstr "Download Certificate"
+
+#, fuzzy
+msgid "mst_list_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mst_list_competences"
+msgstr "Competences"
+
+msgid "mst_list_courses"
+msgstr "Zapisy"
+
+msgid "mst_list_users"
+msgstr "Lista pracowników"
+
+msgid "mst_memb_status_registered"
+msgstr "Zarejestrowany"
+
+msgid "mst_memb_status_requested"
+msgstr "Złożono wniosek"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "Lista oczekujących"
+
+msgid "mst_my_staff"
+msgstr "Pracownik"
+
+msgid "mst_opt_all"
+msgstr "Wszyscy"
+
+msgid "mst_please_select_course"
+msgstr "Wybierz kurs."
+
+#, fuzzy
+msgid "mst_profile_fulfilled"
+msgstr "Not met, yet"
+
+#, fuzzy
+msgid "mst_profile_not_fulfilled"
+msgstr "Fulfilled"
+
+msgid "mst_select_course"
+msgstr "Wybierz kurs"
+
+msgid "mst_show_courses"
+msgstr "Zapisy"

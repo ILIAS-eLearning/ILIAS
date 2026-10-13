@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: mst\n"
+
+msgid "mst_cert_issued_on"
+msgstr "Issued On"
+
+msgid "mst_courses_of"
+msgstr "Vpisi %s"
+
+msgid "mst_download_certificate"
+msgstr "Download Certificate"
+
+msgid "mst_list_certificates"
+msgstr "Certificates"
+
+msgid "mst_list_competences"
+msgstr "Competences"
+
+msgid "mst_list_courses"
+msgstr "Vpisi"
+
+msgid "mst_list_users"
+msgstr "Seznam sodelavcev"
+
+msgid "mst_memb_status_registered"
+msgstr "Prijavljen"
+
+msgid "mst_memb_status_requested"
+msgstr "Zahtevano"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "Čakalni seznam"
+
+msgid "mst_my_staff"
+msgstr "Sodelavci"
+
+msgid "mst_opt_all"
+msgstr "Vsi"
+
+msgid "mst_please_select_course"
+msgstr "Izberite tečaj."
+
+msgid "mst_profile_fulfilled"
+msgstr "Not met, yet"
+
+msgid "mst_profile_not_fulfilled"
+msgstr "Fulfilled"
+
+msgid "mst_select_course"
+msgstr "Izberi tečaj"
+
+msgid "mst_show_courses"
+msgstr "Vpisi"

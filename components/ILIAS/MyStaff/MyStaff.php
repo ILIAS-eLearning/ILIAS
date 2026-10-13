@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class MyStaff implements Component\Component
 {
     public function init(
@@ -33,5 +36,9 @@ class MyStaff implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         // ...
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'mst'
+        );
     }
 }

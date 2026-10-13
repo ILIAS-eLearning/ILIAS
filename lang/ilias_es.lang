@@ -11886,23 +11886,6 @@ mme#:#type_separator_info#:#El título de este elemento se mostrará en un banne
 mme#:#type_top_link_item#:#Enlace
 mme#:#type_top_parent_item#:#Contenedor
 mme#:#unable_to_render#:#No se puede mostrar '%s' en '%s'.
-mst#:#mst_cert_issued_on#:#Emitido el
-mst#:#mst_courses_of#:#Membresías de cursos de %s
-mst#:#mst_download_certificate#:#Descargar certificado
-mst#:#mst_list_certificates#:#Certificados
-mst#:#mst_list_competences#:#Competencias
-mst#:#mst_list_courses#:#Membresías de cursos
-mst#:#mst_list_users#:#Lista de personal
-mst#:#mst_memb_status_registered#:#Registrado
-mst#:#mst_memb_status_requested#:#Solicitado
-mst#:#mst_memb_status_waitinglist#:#Lista de espera
-mst#:#mst_my_staff#:#Personal
-mst#:#mst_opt_all#:#Todo
-mst#:#mst_please_select_course#:#Por favor, seleccione un curso.
-mst#:#mst_profile_fulfilled#:#No cumplido, aún
-mst#:#mst_profile_not_fulfilled#:#Cumplido
-mst#:#mst_select_course#:#Seleccionar curso
-mst#:#mst_show_courses#:#Membresías de cursos
 news#:#lso_news_online_title#:#¡Un nuevo objeto de secuencia de aprendizaje está en línea!
 news#:#lso_news_online_txt#:#Se acaba de publicar un nuevo objeto para su secuencia de aprendizaje.
 news#:#new_test_online#:#El examen se ha puesto en línea.

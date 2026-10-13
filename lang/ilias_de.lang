@@ -12142,23 +12142,6 @@ mme#:#type_separator_info#:#Der Titel des Trenners wird in einem grauen Bereich 
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Der Eintrag '%s' kann nicht in '%s' angezeigt werden.
-mst#:#mst_cert_issued_on#:#Ausgestellt am
-mst#:#mst_courses_of#:#Einschreibungen von %s
-mst#:#mst_download_certificate#:#Zertifikat herunterladen
-mst#:#mst_list_certificates#:#Zertifikate
-mst#:#mst_list_competences#:#Kompetenzen
-mst#:#mst_list_courses#:#Einschreibungen
-mst#:#mst_list_users#:#Liste Teammitglieder
-mst#:#mst_memb_status_registered#:#Angemeldet
-mst#:#mst_memb_status_requested#:#Beantragt
-mst#:#mst_memb_status_waitinglist#:#Warteliste
-mst#:#mst_my_staff#:#Team
-mst#:#mst_opt_all#:#Alle
-mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
-mst#:#mst_profile_fulfilled#:#Erreicht
-mst#:#mst_profile_not_fulfilled#:#Noch nicht erreicht
-mst#:#mst_select_course#:#Kurs auswählen
-mst#:#mst_show_courses#:#Einschreibungen
 news#:#cron_news_delete_old#:#Alte Neuigkeiten löschen
 news#:#cron_news_delete_old_desc#:#Löscht Neuigkeiten, die älter als der konfigurierte Schwellenwert sind. MediaCast-Neuigkeiten (context_obj_type mcst) werden immer ausgeschlossen.
 news#:#cron_news_delete_old_result#:#%s Neuigkeit(en) gelöscht.

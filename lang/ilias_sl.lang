@@ -11837,23 +11837,6 @@ mme#:#type_separator_info#:#Naslov ločila bo prikazan v sivem področju. Če ne
 mme#:#type_top_link_item#:#Povezava
 mme#:#type_top_parent_item#:#Shramba
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mst#:#mst_cert_issued_on#:#Issued On
-mst#:#mst_courses_of#:#Vpisi %s
-mst#:#mst_download_certificate#:#Download Certificate
-mst#:#mst_list_certificates#:#Certificates
-mst#:#mst_list_competences#:#Competences
-mst#:#mst_list_courses#:#Vpisi
-mst#:#mst_list_users#:#Seznam sodelavcev
-mst#:#mst_memb_status_registered#:#Prijavljen
-mst#:#mst_memb_status_requested#:#Zahtevano
-mst#:#mst_memb_status_waitinglist#:#Čakalni seznam
-mst#:#mst_my_staff#:#Sodelavci
-mst#:#mst_opt_all#:#Vsi
-mst#:#mst_please_select_course#:#Izberite tečaj.
-mst#:#mst_profile_fulfilled#:#Not met, yet
-mst#:#mst_profile_not_fulfilled#:#Fulfilled
-mst#:#mst_select_course#:#Izberi tečaj
-mst#:#mst_show_courses#:#Vpisi
 news#:#lso_news_online_title#:#A new learning sequence object is online!
 news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 news#:#new_test_online#:#The test was set online.

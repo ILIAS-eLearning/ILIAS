@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mst\n"
+
+msgid "mst_cert_issued_on"
+msgstr "Kiállítás dátuma"
+
+msgid "mst_courses_of"
+msgstr "%s kurzustagságai"
+
+msgid "mst_download_certificate"
+msgstr "Tanúsítvány letöltése"
+
+msgid "mst_list_certificates"
+msgstr "Tanúsítványok"
+
+msgid "mst_list_competences"
+msgstr "Kompetenciák"
+
+msgid "mst_list_courses"
+msgstr "Kurzustagságok"
+
+msgid "mst_list_users"
+msgstr "Munkatársak listája"
+
+msgid "mst_memb_status_registered"
+msgstr "Regisztrált"
+
+msgid "mst_memb_status_requested"
+msgstr "Elbírálás alatt"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "Várólista"
+
+msgid "mst_my_staff"
+msgstr "Munkatárs"
+
+msgid "mst_opt_all"
+msgstr "Összes"
+
+msgid "mst_please_select_course"
+msgstr "Kérem, válasszon egy kurzust."
+
+msgid "mst_profile_fulfilled"
+msgstr "Teljesített"
+
+msgid "mst_profile_not_fulfilled"
+msgstr "Még nem teljesített"
+
+msgid "mst_select_course"
+msgstr "Válasszon kurzust"
+
+msgid "mst_show_courses"
+msgstr "#Kurzustagságok"

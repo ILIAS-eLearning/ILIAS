@@ -11898,23 +11898,6 @@ mme#:#type_separator_info#:#このアイテムのタイトルはグレイバナ�
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#コンテナ
 mme#:#unable_to_render#:# '%s' in '%s'を表示不可
-mst#:#mst_cert_issued_on#:#発行日
-mst#:#mst_courses_of#:#%sの登録
-mst#:#mst_download_certificate#:#証明書をダウンロード
-mst#:#mst_list_certificates#:#証明書
-mst#:#mst_list_competences#:#強み
-mst#:#mst_list_courses#:#登録
-mst#:#mst_list_users#:#スタッフリスト
-mst#:#mst_memb_status_registered#:#登録されました
-mst#:#mst_memb_status_requested#:#リクエストされました
-mst#:#mst_memb_status_waitinglist#:#待ちリスト
-mst#:#mst_my_staff#:#スタッフ
-mst#:#mst_opt_all#:#全て
-mst#:#mst_please_select_course#:#コースを選択してください。
-mst#:#mst_profile_fulfilled#:#未確認
-mst#:#mst_profile_not_fulfilled#:#履行
-mst#:#mst_select_course#:#コースを選択
-mst#:#mst_show_courses#:#登録
 news#:#lso_news_online_title#:#新しい学習シーケンスオブジェクトはオンラインです!
 news#:#lso_news_online_txt#:#学習シーケンス用の新しいオブジェクトは公開されたばかりです。
 news#:#new_test_online#:#オンラインに設定されました。

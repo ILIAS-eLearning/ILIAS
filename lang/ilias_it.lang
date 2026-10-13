@@ -11839,23 +11839,6 @@ mme#:#type_separator_info#:#Il titolo di questo oggetto verrà visualizzato in u
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Contenitore
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###18 06 2024 new variable
-mst#:#mst_cert_issued_on#:#Rilasciato il
-mst#:#mst_courses_of#:#Iscrizioni di %s
-mst#:#mst_download_certificate#:#Scarica il certificato
-mst#:#mst_list_certificates#:#Certificati
-mst#:#mst_list_competences#:#Competenze
-mst#:#mst_list_courses#:#Iscrizioni
-mst#:#mst_list_users#:#Lista staff
-mst#:#mst_memb_status_registered#:#Registrati
-mst#:#mst_memb_status_requested#:#Richiesti
-mst#:#mst_memb_status_waitinglist#:#Lista di attesa
-mst#:#mst_my_staff#:#Staff
-mst#:#mst_opt_all#:#Tutte
-mst#:#mst_please_select_course#:#Si prega di selezionare un corso.
-mst#:#mst_profile_fulfilled#:#Profilo non ancora completo
-mst#:#mst_profile_not_fulfilled#:#Realizzato
-mst#:#mst_select_course#:#Seleziona corso
-mst#:#mst_show_courses#:#Iscrizioni
 news#:#lso_news_online_title#:#Un nuovo oggetto sequenza di apprendimento è online!
 news#:#lso_news_online_txt#:#È stato appena pubblicato un nuovo oggetto per la sequenza di apprendimento.
 news#:#new_test_online#:#Il test è ora online.
