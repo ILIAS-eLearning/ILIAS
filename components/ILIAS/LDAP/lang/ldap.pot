@@ -1,0 +1,387 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr ""
+
+msgid "ldap_add_missing"
+msgstr ""
+
+msgid "ldap_add_role_ass_rule"
+msgstr ""
+
+msgid "ldap_add_roles"
+msgstr ""
+
+msgid "ldap_as_ds"
+msgstr ""
+
+msgid "ldap_as_ds_info"
+msgstr ""
+
+msgid "ldap_assignment_type"
+msgstr ""
+
+msgid "ldap_authentication_settings"
+msgstr ""
+
+msgid "ldap_bind_anonymous"
+msgstr ""
+
+msgid "ldap_bind_user"
+msgstr ""
+
+msgid "ldap_btn_add_role_ass"
+msgstr ""
+
+msgid "ldap_check_role_assignment"
+msgstr ""
+
+msgid "ldap_choose_role"
+msgstr ""
+
+msgid "ldap_confirm_del_role_ass"
+msgstr ""
+
+msgid "ldap_deleted_role_mapping"
+msgstr ""
+
+msgid "ldap_deleted_rule"
+msgstr ""
+
+msgid "ldap_dn_info"
+msgstr ""
+
+msgid "ldap_edit_role_ass_rule"
+msgstr ""
+
+msgid "ldap_edit_role_assignment"
+msgstr ""
+
+msgid "ldap_err_missing_plugin_id"
+msgstr ""
+
+msgid "ldap_escapedn"
+msgstr ""
+
+msgid "ldap_escapedn_info"
+msgstr ""
+
+msgid "ldap_filter_info"
+msgstr ""
+
+msgid "ldap_global_role"
+msgstr ""
+
+msgid "ldap_global_role_assignment"
+msgstr ""
+
+msgid "ldap_global_role_info"
+msgstr ""
+
+msgid "ldap_group_attribute"
+msgstr ""
+
+msgid "ldap_group_attribute_info"
+msgstr ""
+
+msgid "ldap_group_dn"
+msgstr ""
+
+msgid "ldap_group_dn_info"
+msgstr ""
+
+msgid "ldap_group_dn_short"
+msgstr ""
+
+msgid "ldap_group_filter"
+msgstr ""
+
+msgid "ldap_group_filter_info"
+msgstr ""
+
+msgid "ldap_group_member"
+msgstr ""
+
+msgid "ldap_group_member_info"
+msgstr ""
+
+msgid "ldap_group_member_optional"
+msgstr ""
+
+msgid "ldap_group_member_short"
+msgstr ""
+
+msgid "ldap_group_membership"
+msgstr ""
+
+msgid "ldap_group_name"
+msgstr ""
+
+msgid "ldap_group_name_info"
+msgstr ""
+
+msgid "ldap_group_optional_info"
+msgstr ""
+
+msgid "ldap_group_restrictions"
+msgstr ""
+
+msgid "ldap_group_scope"
+msgstr ""
+
+msgid "ldap_group_scope_info"
+msgstr ""
+
+msgid "ldap_group_search_base"
+msgstr ""
+
+msgid "ldap_group_user_filter"
+msgstr ""
+
+msgid "ldap_ilias_role"
+msgstr ""
+
+msgid "ldap_info_text"
+msgstr ""
+
+msgid "ldap_info_text_info"
+msgstr ""
+
+msgid "ldap_local_role"
+msgstr ""
+
+msgid "ldap_mapping_info_type"
+msgstr ""
+
+msgid "ldap_mapping_table"
+msgstr ""
+
+msgid "ldap_mapping_template"
+msgstr ""
+
+msgid "ldap_member_info"
+msgstr ""
+
+msgid "ldap_memberisdn"
+msgstr ""
+
+msgid "ldap_missing_bind_user"
+msgstr ""
+
+msgid "ldap_missing_role_assignment"
+msgstr ""
+
+msgid "ldap_moment_sync"
+msgstr ""
+
+msgid "ldap_new_role_assignment"
+msgstr ""
+
+msgid "ldap_plugin"
+msgstr ""
+
+msgid "ldap_plugin_id"
+msgstr ""
+
+msgid "ldap_plugin_info"
+msgstr ""
+
+msgid "ldap_referrals"
+msgstr ""
+
+msgid "ldap_referrals_info"
+msgstr ""
+
+msgid "ldap_remove_deprecated"
+msgstr ""
+
+msgid "ldap_remove_roles"
+msgstr ""
+
+msgid "ldap_role_active"
+msgstr ""
+
+msgid "ldap_role_assignments"
+msgstr ""
+
+msgid "ldap_role_at_info"
+msgstr ""
+
+msgid "ldap_role_at_name"
+msgstr ""
+
+msgid "ldap_role_at_value"
+msgstr ""
+
+msgid "ldap_role_bind_pass"
+msgstr ""
+
+msgid "ldap_role_bind_pass_info"
+msgstr ""
+
+msgid "ldap_role_bind_user"
+msgstr ""
+
+msgid "ldap_role_bind_user_info"
+msgstr ""
+
+msgid "ldap_role_by_attribute"
+msgstr ""
+
+msgid "ldap_role_by_group"
+msgstr ""
+
+msgid "ldap_role_by_plugin"
+msgstr ""
+
+msgid "ldap_role_group_assignments"
+msgstr ""
+
+msgid "ldap_role_grp_at"
+msgstr ""
+
+msgid "ldap_role_grp_dn_info"
+msgstr ""
+
+msgid "ldap_role_grp_info"
+msgstr ""
+
+msgid "ldap_role_grp_isdn"
+msgstr ""
+
+msgid "ldap_role_info"
+msgstr ""
+
+msgid "ldap_role_mapping"
+msgstr ""
+
+msgid "ldap_role_name_info"
+msgstr ""
+
+msgid "ldap_role_not_exists"
+msgstr ""
+
+msgid "ldap_role_selection"
+msgstr ""
+
+msgid "ldap_role_selection_info"
+msgstr ""
+
+msgid "ldap_role_settings"
+msgstr ""
+
+msgid "ldap_rule_condition"
+msgstr ""
+
+msgid "ldap_rule_type"
+msgstr ""
+
+msgid "ldap_scope_one"
+msgstr ""
+
+msgid "ldap_scope_sub"
+msgstr ""
+
+msgid "ldap_search_base_info"
+msgstr ""
+
+msgid "ldap_search_filter"
+msgstr ""
+
+msgid "ldap_server_bind_dn"
+msgstr ""
+
+msgid "ldap_server_bind_pass"
+msgstr ""
+
+msgid "ldap_server_binding"
+msgstr ""
+
+msgid "ldap_server_name"
+msgstr ""
+
+msgid "ldap_server_name_info"
+msgstr ""
+
+msgid "ldap_server_security_settings"
+msgstr ""
+
+msgid "ldap_server_short"
+msgstr ""
+
+msgid "ldap_server_url_info"
+msgstr ""
+
+msgid "ldap_server_url_invalid_parts"
+msgstr ""
+
+msgid "ldap_server_url_invalid_uris"
+msgstr ""
+
+msgid "ldap_server_url_required"
+msgstr ""
+
+msgid "ldap_server_version_info"
+msgstr ""
+
+msgid "ldap_servers"
+msgstr ""
+
+msgid "ldap_settings"
+msgstr ""
+
+msgid "ldap_sync_cron"
+msgstr ""
+
+msgid "ldap_sync_login"
+msgstr ""
+
+msgid "ldap_tbl_role_ass"
+msgstr ""
+
+msgid "ldap_tls_conflict"
+msgstr ""
+
+msgid "ldap_update_field_info"
+msgstr ""
+
+msgid "ldap_update_roles"
+msgstr ""
+
+msgid "ldap_user_attribute"
+msgstr ""
+
+msgid "ldap_user_dn"
+msgstr ""
+
+msgid "ldap_user_mapping"
+msgstr ""
+
+msgid "ldap_user_scope"
+msgstr ""
+
+msgid "ldap_user_scope_info"
+msgstr ""
+
+msgid "ldap_user_sync"
+msgstr ""
+
+msgid "ldap_user_sync_cron"
+msgstr ""
+
+msgid "ldap_user_sync_cron_info"
+msgstr ""
+
+msgid "ldap_user_sync_info"
+msgstr ""
+
+msgid "ldap_username_filter"
+msgstr ""
+
+msgid "ldap_username_filter_info"
+msgstr ""

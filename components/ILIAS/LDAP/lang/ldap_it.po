@@ -1,0 +1,395 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Aggiungi Server"
+
+msgid "ldap_add_missing"
+msgstr "Assegna ruoli mancanti"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Nuova regola per le assegnazioni del ruolo"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Utilizza come sorgente dati"
+
+msgid "ldap_as_ds_info"
+msgstr "Se attivata, questa configurazione LDAP viene utilizzata solo per la sincronizzazione degli account utente in combinazione con altri metodi di autenticazione (ad esempio CAS o Radius)."
+
+msgid "ldap_assignment_type"
+msgstr "Tipo di Proprietà"
+
+msgid "ldap_authentication_settings"
+msgstr "Regole di autenticazione"
+
+msgid "ldap_bind_anonymous"
+msgstr "Relaziona anonimamente"
+
+msgid "ldap_bind_user"
+msgstr "Relaziona come utente:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Aggiungi un nuovo ruolo"
+
+msgid "ldap_check_role_assignment"
+msgstr "Assegnazione di ruoli dopo gli ultimi accessi"
+
+msgid "ldap_choose_role"
+msgstr "Scegli ruolo"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Cancella le assegnazioni di Ruolo"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Assegnazione cancellata."
+
+msgid "ldap_deleted_rule"
+msgstr "Cancellate le assegnazioni dei ruoli selezionati"
+
+msgid "ldap_dn_info"
+msgstr "Inserisci il nome esatto del gruppo LDAP."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Edita le regole di assegnazione del Ruolo."
+
+msgid "ldap_edit_role_assignment"
+msgstr "Modifica ruolo -> Assegnazione gruppo"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Si prega si inserire un valido plug-in id."
+
+msgid "ldap_escapedn"
+msgstr "Salva i caratteri speciali in DN"
+
+msgid "ldap_escapedn_info"
+msgstr "Se abilitato, i caratteri speciali in \"Distinguished Name (DN)\" degli account utenti sono salvati nelle query per i membri dei gruppi."
+
+msgid "ldap_filter_info"
+msgstr "Filtro che sarà aggiunto ai filtri di ricerca in questo modo: (&(userattr=username)<strong>(userfilter)</strong>)."
+
+msgid "ldap_global_role"
+msgstr "Ruolo globale"
+
+msgid "ldap_global_role_assignment"
+msgstr "Assegnazione di ruolo in ILIAS"
+
+msgid "ldap_global_role_info"
+msgstr "Per favore scegli un ruolo ILIAS a cui i nuovi tenti verranno assegnati."
+
+msgid "ldap_group_attribute"
+msgstr "Attributi del gruppo"
+
+msgid "ldap_group_attribute_info"
+msgstr "Attributi del Gruppo da ricercare."
+
+msgid "ldap_group_dn"
+msgstr "Gruppo DN"
+
+msgid "ldap_group_dn_info"
+msgstr "Viene anteposto a \"BaseDN\" quando si ricercano gruppi."
+
+msgid "ldap_group_dn_short"
+msgstr "Gruppo DN:"
+
+msgid "ldap_group_filter"
+msgstr "Filtro LDAP"
+
+msgid "ldap_group_filter_info"
+msgstr "Filtro che sarà aggiunto ai filtri di ricerca, in caso di ricerca di gruppi, in questo modo: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "Attributi dei Membri di Gruppo"
+
+msgid "ldap_group_member_info"
+msgstr "L'attributo dell'oggetto gruppo in cui è possibile trovare l'utente dn. Scegli \"Il valore dell'attributo è DN\" se l'attributo membro è il nome distinto degli utenti."
+
+msgid "ldap_group_member_optional"
+msgstr "L'appartenenza al gruppo è opzionale."
+
+msgid "ldap_group_member_short"
+msgstr "Attributo:"
+
+msgid "ldap_group_membership"
+msgstr "Appartenenza al gruppo"
+
+msgid "ldap_group_name"
+msgstr "Nome del Gruppo"
+
+msgid "ldap_group_name_info"
+msgstr "Il nome del gruppo degli utenti deve essere quello di un membro per essere autenticato con successo."
+
+msgid "ldap_group_optional_info"
+msgstr "Se abilitato, l'appartenenza al gruppo non è richiesta per l'autenticazione. Per favore inserisci un filtro utenti per i membri di questi gruppi:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Restrizioni dei Membri di Grupo"
+
+msgid "ldap_group_scope"
+msgstr "Tipo di ricerca"
+
+msgid "ldap_group_scope_info"
+msgstr "Estensione della ricerca di Gruppi. Se non sei sicuro, scegli \"Sub\"."
+
+msgid "ldap_group_search_base"
+msgstr "Base di ricerca del Gruppo"
+
+msgid "ldap_group_user_filter"
+msgstr "Filtro utenti"
+
+msgid "ldap_ilias_role"
+msgstr "Ruolo in ILIAS"
+
+msgid "ldap_info_text"
+msgstr "Testo informativo"
+
+msgid "ldap_info_text_info"
+msgstr "Se presente, questo testo sarà mostrato nella schermata delle informazioni dell'oggetto, assegnato a questo ruolo. Opzionalmente, questo testo è disponibile nel Repository."
+
+msgid "ldap_local_role"
+msgstr "Ruolo locale"
+
+msgid "ldap_mapping_info_type"
+msgstr "Mostra le Informazioni anche nel Repository"
+
+msgid "ldap_mapping_table"
+msgstr "Assegnazione di attributi LDAP al profilo utente ILIAS."
+
+msgid "ldap_mapping_template"
+msgstr "Modello per objectClass:"
+
+msgid "ldap_member_info"
+msgstr "L'attributo dell'oggetto Gruppo, dove si trova l'utente dn"
+
+msgid "ldap_memberisdn"
+msgstr "Il valore dell'attributo è DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "Hai scelto \"Relaziona come utente\". Per favore, inserisci username e password LDAP validi."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Per favore scegli un Ruolo generale a cui saranno assegnati i nuovi utenti"
+
+msgid "ldap_moment_sync"
+msgstr "Tipo di sincronizzazione"
+
+msgid "ldap_new_role_assignment"
+msgstr "Aggiungi un nuovo ruolo -> Assegnazione gruppo"
+
+msgid "ldap_plugin"
+msgstr "Assegna tramite plugin"
+
+msgid "ldap_plugin_id"
+msgstr "Id del plugin"
+
+msgid "ldap_plugin_info"
+msgstr "Convalidare l'assegnazione di ruolo con un plugin. Si prega si inserire un valido id plugin."
+
+msgid "ldap_referrals"
+msgstr "Referenze"
+
+msgid "ldap_referrals_info"
+msgstr "Se impostato, determina se la libreria LDAP si aggiorna ai riferimenti del server LDAP, oppure no. Questo dovrebbe essere disabilitato, se si usa un Active Server Directory."
+
+msgid "ldap_remove_deprecated"
+msgstr "Deassegna ruoli obsoleti"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Abilita la sincronizzazione del gruppo"
+
+msgid "ldap_role_assignments"
+msgstr "Assegnazione di ruolo"
+
+msgid "ldap_role_at_info"
+msgstr "L'assegnazione è basata su uno specifico attributo nel profilo utente LDAP."
+
+msgid "ldap_role_at_name"
+msgstr "Nome dell'attributo"
+
+msgid "ldap_role_at_value"
+msgstr "Valore dell'attributo"
+
+msgid "ldap_role_bind_pass"
+msgstr "Password"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Password"
+
+msgid "ldap_role_bind_user"
+msgstr "Usern DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Per favore inserisci il nome esatto di un account utente LDAP. Tale utente deve avere diritti di scrittura per i gruppi LDAP.<br />"
+
+msgid "ldap_role_by_attribute"
+msgstr "Attributo LDAP"
+
+msgid "ldap_role_by_group"
+msgstr "Appartenenza al gruppo"
+
+msgid "ldap_role_by_plugin"
+msgstr "Con plugin"
+
+msgid "ldap_role_group_assignments"
+msgstr "Ruoli esistenti -> Assegnazioni dei gruppi"
+
+msgid "ldap_role_grp_at"
+msgstr "Attributi"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Per favore inserisci il nome esatto del gruppo LDAP."
+
+msgid "ldap_role_grp_info"
+msgstr "Membri di uno specifico gruppo LDAP sarano assegnati ad un dato ruolo ILIAS."
+
+msgid "ldap_role_grp_isdn"
+msgstr "L'attributo del Valore è DN"
+
+msgid "ldap_role_info"
+msgstr "Inserisci il nome di un ruolo ILIAS che controllerà l'appartenenza al gruppo LDAP."
+
+msgid "ldap_role_mapping"
+msgstr "Ruolo ILIAS -> Mappatura gruppi LDAP"
+
+msgid "ldap_role_name_info"
+msgstr "Si prega di scegliere un ruolo globale o immettere il nome di un ruolo locale."
+
+msgid "ldap_role_not_exists"
+msgstr "Non esiste un ruolo con questo nome."
+
+msgid "ldap_role_selection"
+msgstr "Selezione del ruolo"
+
+msgid "ldap_role_selection_info"
+msgstr "La tua selezione è ambigua. Si prega di scegliere uno dei seguenti ruoli."
+
+msgid "ldap_role_settings"
+msgstr "Impostazioni delle sincronizzazioni dei Gruppi LDAP"
+
+msgid "ldap_rule_condition"
+msgstr "Condizione"
+
+msgid "ldap_rule_type"
+msgstr "Tipo di assegnazione"
+
+msgid "ldap_scope_one"
+msgstr "Uno"
+
+msgid "ldap_scope_sub"
+msgstr "Richiesta"
+
+msgid "ldap_search_base_info"
+msgstr "Viene anteposto a \"BaseDN\" quando si ricercano utenti."
+
+msgid "ldap_search_filter"
+msgstr "Filtro LDAP"
+
+msgid "ldap_server_bind_dn"
+msgstr "DN Utente"
+
+msgid "ldap_server_bind_pass"
+msgstr "Password"
+
+msgid "ldap_server_binding"
+msgstr "Relaziona"
+
+msgid "ldap_server_name"
+msgstr "Nome della configurazione LDAP"
+
+msgid "ldap_server_name_info"
+msgstr "Per favore scegli un nome per la configurazione di questo server LDAP."
+
+msgid "ldap_server_security_settings"
+msgstr "Impostazioni di sicurezza"
+
+msgid "ldap_server_short"
+msgstr "URL del server:"
+
+msgid "ldap_server_url_info"
+msgstr "Un URL qualificato per specificare il protocollo, url e porta di connessione.<br />Esempio:  \"ldap://ldap.ilias.de:389\".<br />Puoi aggiungere più server separati da una virgola."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Versione LDAP da usare, normalmente 3."
+
+msgid "ldap_servers"
+msgstr "Server LDAP"
+
+msgid "ldap_settings"
+msgstr "Impostazioni del server"
+
+msgid "ldap_sync_cron"
+msgstr "Per Cron-Job"
+
+msgid "ldap_sync_login"
+msgstr "Al login"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Regole attive"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS non può essere usato in combinazione con LDAPv2. Per favore, usa LDAP versione '3' o disabilita il supporto TLS."
+
+msgid "ldap_update_field_info"
+msgstr "Aggiorna automaticamente"
+
+msgid "ldap_update_roles"
+msgstr "Assegnazioni di ruolo"
+
+msgid "ldap_user_attribute"
+msgstr "Attributi del Login Name"
+
+msgid "ldap_user_dn"
+msgstr "Base di ricerca utenti"
+
+msgid "ldap_user_mapping"
+msgstr "Mappatura dei profili utenti"
+
+msgid "ldap_user_scope"
+msgstr "Tipo di ricerca"
+
+msgid "ldap_user_scope_info"
+msgstr "Ambito di ricerca degli utenti. Se non sei sicuro, scegli \"Sub\"."
+
+msgid "ldap_user_sync"
+msgstr "Impostazioni di sincronizzazione degli utenti"
+
+msgid "ldap_user_sync_cron"
+msgstr "Sincronizzazione utente LDAP"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Se attivo, gli account utenti saranno importati dalla directory LDAP e sincronizzati continuamente come operazione."
+
+msgid "ldap_user_sync_info"
+msgstr "Definisce se i nuovi utenti sono creati automaticamente al login oppure con regolarità secondo un Cron-Job."
+
+msgid "ldap_username_filter"
+msgstr "Filtro nome utente"
+
+msgid "ldap_username_filter_info"
+msgstr "Utilizza * come carattere jolly."

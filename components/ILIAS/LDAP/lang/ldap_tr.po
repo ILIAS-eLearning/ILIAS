@@ -1,0 +1,405 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldap\n"
+
+#, fuzzy
+msgid "add_ldap_server"
+msgstr "Add Server"
+
+msgid "ldap_add_missing"
+msgstr "Ata Eksik Rolleri"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Rol Atamaları için Yeni Kural"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Veri kaynağı olarak Kullanım"
+
+msgid "ldap_as_ds_info"
+msgstr "aktif ise, bu LDAP yapılandırmasını diğer kimlik doğrulama yöntemleri ile birlikte kullanıcı hesaplarının senkronizasyonu için kullanılır."
+
+msgid "ldap_assignment_type"
+msgstr "Atama Türü"
+
+msgid "ldap_authentication_settings"
+msgstr "Kimlik Doğrulama Ayarları"
+
+msgid "ldap_bind_anonymous"
+msgstr "Bind Anonim"
+
+msgid "ldap_bind_user"
+msgstr "Kullanıcı olarak Bind:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Yeni Kural"
+
+msgid "ldap_check_role_assignment"
+msgstr "Daha sonra oturumları sonra Rollerin Atama"
+
+#, fuzzy
+msgid "ldap_choose_role"
+msgstr "Choose Role"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Sil Rol Atama"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "atama Silindi."
+
+msgid "ldap_deleted_rule"
+msgstr "Seçilen rol atamalarını Silindi."
+
+msgid "ldap_dn_info"
+msgstr "LDAP grubunun ayırt edici adını girin."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Edit Rol Atama Kuralı"
+
+#, fuzzy
+msgid "ldap_edit_role_assignment"
+msgstr "Edit Role -> Group Assignment"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "geçerli bir eklenti kimliği girin."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "Arama eklenecektir Filtre bu şekilde filtre: (& (userattr = kullanıcıadı) <strong> (UserFilter) </ strong>)."
+
+msgid "ldap_global_role"
+msgstr "Global Rol"
+
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS-Rol Atama"
+
+msgid "ldap_global_role_info"
+msgstr "yeni kullanıcılara atanacak bir ILIAS Rolü seçiniz. <span class=\"asterisk\"> * </ span> rolü seçimi <b> gerekli </ b> durumda senkronizasyon türünü seçtik."
+
+msgid "ldap_group_attribute"
+msgstr "Grup Özellik"
+
+msgid "ldap_group_attribute_info"
+msgstr "grubunu aramak için bağlıyor."
+
+msgid "ldap_group_dn"
+msgstr "Grup DN"
+
+msgid "ldap_group_dn_info"
+msgstr "Gruplar ararken \"TemelDN\" önceleyerek izle."
+
+msgid "ldap_group_dn_short"
+msgstr "Grup DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP Filtre"
+
+msgid "ldap_group_filter_info"
+msgstr "Bir grup ararken Arama filtresini eklenecektir Filtre: (& (groupattr = grup) (memberattr = kullanıcıadı) <strong> (groupfilter) </ strong>)."
+
+msgid "ldap_group_member"
+msgstr "Grubu Üyesi Özellik"
+
+msgid "ldap_group_member_info"
+msgstr "Kullanıcı dn bulunabilir grubu nesnesinin özniteliği. Üye özniteliği kullanıcıların ayırt edici adı ise \"Özellik Değeri DN'sidir\" seçin."
+
+msgid "ldap_group_member_optional"
+msgstr "Grup Üyeliği İsteğe bağlı olduğunu"
+
+msgid "ldap_group_member_short"
+msgstr "Özellik:"
+
+msgid "ldap_group_membership"
+msgstr "Grup Üyeliği"
+
+msgid "ldap_group_name"
+msgstr "Grup Adı"
+
+msgid "ldap_group_name_info"
+msgstr "Grup kullanıcılarının adını başarıyla kimlik doğrulaması için bir üyesi olmak zorunda."
+
+msgid "ldap_group_optional_info"
+msgstr "Etkinse , grup üyeliği başarılı bir doğrulama için gerekli değildir. Bu grupların üyeleri için bir kullanıcı filtre giriniz: <br /> (& (userattr = kullanıcıadı) <strong> (UserFilter) </ strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Grup Üyeliği Kısıtlamalar"
+
+msgid "ldap_group_scope"
+msgstr "Arama Kapsamı"
+
+msgid "ldap_group_scope_info"
+msgstr "Grup arama için Kapsam. Emin \"Alt\" seçerseniz"
+
+msgid "ldap_group_search_base"
+msgstr "Grup Arama Tabanı"
+
+msgid "ldap_group_user_filter"
+msgstr "Kullanıcı Filtresi"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS Rol Adı"
+
+msgid "ldap_info_text"
+msgstr "Bilgi Metni"
+
+msgid "ldap_info_text_info"
+msgstr "Girdiyseniz , bu metin bu role atanan nesne için bilgi ekranı üzerinde gösterilecek. İsteğe bağlı olarak bu metin Havuzu'ndaki ve Kişisel Masaüstü mevcuttur."
+
+msgid "ldap_local_role"
+msgstr "Yerel Rolü"
+
+msgid "ldap_mapping_info_type"
+msgstr "Depo / Kişisel Masaüstü de Bilgi Göster"
+
+msgid "ldap_mapping_table"
+msgstr "ILIAS Kullanıcı Profili LDAP öznitelikleri Atama"
+
+msgid "ldap_mapping_template"
+msgstr "ObjectClass için Şablon:"
+
+msgid "ldap_member_info"
+msgstr "Kullanıcı dn bulunabilir grubu nesnesinin özniteliği."
+
+msgid "ldap_memberisdn"
+msgstr "Özellik Değeri DN'sidir"
+
+msgid "ldap_missing_bind_user"
+msgstr "Siz \"Kullanıcı olarak Bind\" seçmiş : Geçerli bir LDAP kullanıcı adınızı ve şifrenizi giriniz."
+
+msgid "ldap_missing_role_assignment"
+msgstr "yeni kullanıcılara atanacak küresel bir rol seçin."
+
+msgid "ldap_moment_sync"
+msgstr "Senkronizasyon ve tipi"
+
+msgid "ldap_new_role_assignment"
+msgstr "Add New Role -> Grubu Atama"
+
+msgid "ldap_plugin"
+msgstr "Plugin Atama"
+
+msgid "ldap_plugin_id"
+msgstr "Plugin Kimliği"
+
+msgid "ldap_plugin_info"
+msgstr "bir eklenti ile rol atama doğrulayın. Geçerli bir eklenti kimliği girin."
+
+msgid "ldap_referrals"
+msgstr "Tavsiye"
+
+msgid "ldap_referrals_info"
+msgstr "seti, LDAP kitaplığı otomatik LDAP sunucuları ya da değil tarafından döndürülen tavsiyeleri şöyle belirler. Etkin bir dizin sunucusu kullanıyorsanız, bu devre dışı bırakılmalıdır."
+
+msgid "ldap_remove_deprecated"
+msgstr "Önerilmeyen Roller Deassign"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "etkinleştir Grup Senkronizasyon"
+
+msgid "ldap_role_assignments"
+msgstr "Rol Atama"
+
+msgid "ldap_role_at_info"
+msgstr "atama LDAP kullanıcı profiline belli bir özellik esas alınmaktadır."
+
+msgid "ldap_role_at_name"
+msgstr "Özellik Adı"
+
+msgid "ldap_role_at_value"
+msgstr "Özellik Değeri"
+
+msgid "ldap_role_bind_pass"
+msgstr "Parola"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Parola"
+
+msgid "ldap_role_bind_user"
+msgstr "Usern DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Bir LDAP kullanıcı hesabının ayırt edici bir ad girin. Bu kullanıcı LDAP grupları için yazma erişimi gerektirir."
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP Özniteliği"
+
+msgid "ldap_role_by_group"
+msgstr "Groupmembership"
+
+msgid "ldap_role_by_plugin"
+msgstr "Plugin tarafından"
+
+msgid "ldap_role_group_assignments"
+msgstr "Mevcut Rolü -> Grubu Atamaları"
+
+msgid "ldap_role_grp_at"
+msgstr "Özellik"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "LDAP Grubu \"Ayırt Edici Ad\" girin."
+
+msgid "ldap_role_grp_info"
+msgstr "Belirli bir LDAP Grubu Üyeleri verilen ILIAS rolü atanır."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Özellik değeri DN'sidir"
+
+msgid "ldap_role_info"
+msgstr "LDAP grup üyeliği kontrol edecek bir ILIAS Rolü adını girin."
+
+msgid "ldap_role_mapping"
+msgstr "ILIAS Rolü -> LDAP Grup Haritalama"
+
+msgid "ldap_role_name_info"
+msgstr "ya da küresel bir rol seçebilir veya yerel rol adını giriniz."
+
+msgid "ldap_role_not_exists"
+msgstr "Bu isimde bir rol yok"
+
+msgid "ldap_role_selection"
+msgstr "Rol Seçimi"
+
+msgid "ldap_role_selection_info"
+msgstr "Seçiminiz belirsiz. Aşağıdaki rollerden birini seçiniz."
+
+msgid "ldap_role_settings"
+msgstr "LDAP Grup Senkronizasyon Ayarları"
+
+msgid "ldap_rule_condition"
+msgstr "Durumu"
+
+msgid "ldap_rule_type"
+msgstr "Temlik Türü"
+
+msgid "ldap_scope_one"
+msgstr "adet"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "Kullanıcıları ararken temelDN önceleyerek izle."
+
+msgid "ldap_search_filter"
+msgstr "LDAP Filtre"
+
+msgid "ldap_server_bind_dn"
+msgstr "Kullanıcı DN"
+
+msgid "ldap_server_bind_pass"
+msgstr "Parola"
+
+msgid "ldap_server_binding"
+msgstr "Ciltleme"
+
+msgid "ldap_server_name"
+msgstr "LDAP Yapılandırma Adı"
+
+msgid "ldap_server_name_info"
+msgstr "Bu LDAP sunucu yapılandırması için bir ad seçiniz."
+
+msgid "ldap_server_security_settings"
+msgstr "Güvenlik Ayarları"
+
+msgid "ldap_server_short"
+msgstr "Sunucu URL'si:"
+
+msgid "ldap_server_url_info"
+msgstr "protokolü, url ve bağlamak için bağlantı noktası belirlemek için bir tam URL. Örneğin \"ldap :/ / ldap.ilias.de: 389\". Sen virgüllerle ayrılmış birden fazla sunucu ekleyebilirsiniz."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "LDAP sürüm ususally 3, kullanmak için."
+
+#, fuzzy
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "Sunucu Ayarları"
+
+msgid "ldap_sync_cron"
+msgstr "Cron-İş Başına"
+
+msgid "ldap_sync_login"
+msgstr "Giriş üzerinde"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Aktif Kurallar"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS LDAPv2 ile kombinasyon halinde kullanılabilir değildir. LDAP sürüm \"3\" seçin veya TLS desteği devre dışı bırakın."
+
+msgid "ldap_update_field_info"
+msgstr "Otomatik Güncelleştirmesi"
+
+msgid "ldap_update_roles"
+msgstr "Rol Atamaları"
+
+msgid "ldap_user_attribute"
+msgstr "Giriş Adı Özellik"
+
+msgid "ldap_user_dn"
+msgstr "Kullanıcı Arama Tabanı"
+
+msgid "ldap_user_mapping"
+msgstr "Kullanıcı Profili Eşleme"
+
+msgid "ldap_user_scope"
+msgstr "Arama Kapsamı"
+
+msgid "ldap_user_scope_info"
+msgstr "Kullanıcı arama için Kapsam. Eğer emin değilseniz \"Alt\" seçin."
+
+msgid "ldap_user_sync"
+msgstr "Kullanıcı Senkronizasyon Ayarları"
+
+#, fuzzy
+msgid "ldap_user_sync_cron"
+msgstr "LDAP User Synchronization "
+
+#, fuzzy
+msgid "ldap_user_sync_cron_info"
+msgstr "If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option."
+
+msgid "ldap_user_sync_info"
+msgstr "yeni kullanıcılar otomatik oturum açma veya düzenli Cron-İş başına yaratılan olup olmadığını tanımlar."
+
+#, fuzzy
+msgid "ldap_username_filter"
+msgstr "Username Filter"
+
+#, fuzzy
+msgid "ldap_username_filter_info"
+msgstr "Use * as wildcard."
