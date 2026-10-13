@@ -61,12 +61,11 @@ Options:
 
 Unknown options fail, so a typo is never taken as module name or directory.
 
-Examples (the shipped files of both pilot modules are reproduced byte for
-byte):
+Examples (how the pilot modules were migrated):
 
 ```
-php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php tos en components/ILIAS/TermsOfService/lang
-php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php poll en components/ILIAS/Poll/lang
+php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php --remove-from-lang tos en components/ILIAS/TermsOfService/lang
+php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php --remove-from-lang poll en components/ILIAS/Poll/lang
 ```
 
 ### Input
@@ -172,9 +171,8 @@ not kept in the repository.
 
 ## Tests
 
-* `components/ILIAS/Language/tests/ConvertModuleToPoToolTest.php`: re-creates
-  the shipped files of `tos` and `poll` byte for byte and covers options,
-  failures, fuzzy handling, plural messages and `--remove-from-lang`.
+* `components/ILIAS/Language/tests/ConvertModuleToPoToolTest.php`: covers
+  options, failures, fuzzy handling, plural messages and `--remove-from-lang`.
 * `components/ILIAS/Language/tests/ComponentTranslation/PluralFormsShippedRulesTest.php`:
   every header of `plurals.json` against an independent CLDR reference.
 
