@@ -2116,32 +2116,6 @@ auth#:#lti_consumer_inactive#:#LTI-eszközfogyasztó ki van kapcsolva.
 auth#:#page_design_activate#:#Bekapcsolás
 auth#:#page_design_deactivate#:#Kikapcsolás
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Jelenleg online
-awrn#:#awareness_settings#:#Beállítások
-awrn#:#awrn_caching_period#:#Gyorsítótárazási időköz
-awrn#:#awrn_caching_period_info#:#Ennyi időnként frissül a felső sávban a felhasználók száma, illetve új felhasználó érzékelése.
-awrn#:#awrn_enable#:#‘Ki van online?’-eszköz engedélyezése
-awrn#:#awrn_filter#:#Felhasználószűrő
-awrn#:#awrn_hide_from_awareness#:#Rejtsen el engem a ‘Ki van online?’-eszközben
-awrn#:#awrn_hide_from_awareness_info#:#A ‘Ki van online?’ eszköz a felső sávban található és felhasználókat jelenít meg (például kurzusai tagjait).
-awrn#:#awrn_inactive#:#Nincs felsorolva
-awrn#:#awrn_incl_offline#:#Online és offline
-awrn#:#awrn_max_inactivity#:#Maximális tétlenségi időszak
-awrn#:#awrn_max_inactivity_info#:#Ennyi idő után tekintjük offline állapotúnak a felhasználót. Ha nem állít be értéket, a munkamenet idejét használjuk.
-awrn#:#awrn_max_nr_entries#:#Elemek maximális száma
-awrn#:#awrn_max_nr_entries_info#:#Maximum ennyi elem legyen a ‘Ki van online?’ felsorolásban. Ennek a beállításnak elhanyagolható hatása amikor az eszköz a felső sávban megjelenik.
-awrn#:#awrn_minutes#:#perc
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Csak online
-awrn#:#awrn_seconds#:#másodperc
-awrn#:#awrn_use_osd#:#Online felhasználók felugróban
-awrn#:#awrn_use_osd_info#:#‘Ki van online’ felsorolásában új felhasználók felugróban jelenjenek meg.
-awrn#:#awrn_user_show#:#ILIAS-fiókom megjelenítése a ‘Ki van online?’ eszközben
-awrn#:#awrn_user_show_default#:#‘Ki van online?’ láthatóságának alapértelmezett értéke
-awrn#:#awrn_user_show_default_info#:#Meghatározza a felhasználó állapotának láthatóságának alapértelmezett értékét a ‘Ki van online?’ eszközben.
-awrn#:#user_awrn_default#:#Alapértelmezett
-awrn#:#user_awrn_hide#:#Állapotom elrejtése
-awrn#:#user_awrn_show#:#Állapotom megjelenítése
 background_tasks#:#abort#:#Megállított
 background_tasks#:#background_tasks#:#Háttérfolyamatok
 background_tasks#:#background_tasks_running#:#Háttérfolyamatok

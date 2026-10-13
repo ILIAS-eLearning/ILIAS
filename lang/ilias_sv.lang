@@ -2108,32 +2108,6 @@ auth#:#lti_consumer_inactive#:#LTI Tool Consumer är avaktiverad
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Nu online
-awrn#:#awareness_settings#:#Inställningar
-awrn#:#awrn_caching_period#:#Caching-period
-awrn#:#awrn_caching_period_info#:#Denna period inväntas innan antalet användare i toppdisplayen uppdateras och nya online-användare identifieras.
-awrn#:#awrn_enable#:#Aktivera displayen "Vem är online?"
-awrn#:#awrn_filter#:#Användarfilter
-awrn#:#awrn_hide_from_awareness#:#Lista inte upp mig i "Vem är online?"-visningen
-awrn#:#awrn_hide_from_awareness_info#:#Indikatorn "Vem är online?" visas högst upp i applikationen och listar valda användare (t.ex. kontakter eller medlemmar i dina kurser).
-awrn#:#awrn_inactive#:#Ingen display
-awrn#:#awrn_incl_offline#:#Online och offline
-awrn#:#awrn_max_inactivity#:#Max. Inaktivitet
-awrn#:#awrn_max_inactivity_info#:#Användare som inte har agerat under den angivna tidsperioden listas som "offline". Om inget värde anges gäller sessionens giltighet.
-awrn#:#awrn_max_nr_entries#:#Antal max. inmatningar
-awrn#:#awrn_max_nr_entries_info#:#Detta är det maximala antalet poster som visas i listan "Vem är online?". Den här inställningen har ingen större inverkan på visningen i det övre fältet.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Endast online
-awrn#:#awrn_seconds#:#Sec.
-awrn#:#awrn_use_osd#:#Popup online-användare
-awrn#:#awrn_use_osd_info#:#Visar en popup när nya användare visas i "Vem är online?"-displayen med online-status.
-awrn#:#awrn_user_show#:#Visa min status i "Vem är online?
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#Standard
-awrn#:#user_awrn_hide#:#Visa inte
-awrn#:#user_awrn_show#:#Display
 background_tasks#:#abort#:#Avbryt
 background_tasks#:#background_tasks#:#Bakgrundsuppgifter
 background_tasks#:#background_tasks_running#:#Bakgrundsuppgifter

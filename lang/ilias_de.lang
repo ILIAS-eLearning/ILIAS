@@ -2113,32 +2113,6 @@ auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 auth#:#page_design_activate#:#Seitengestaltung aktivieren
 auth#:#page_design_deactivate#:#Seitengestaltung deaktivieren
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Jetzt online
-awrn#:#awareness_settings#:#Einstellungen
-awrn#:#awrn_caching_period#:#Caching-Zeitraum
-awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird abgewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert und neue Online-Benutzer ermittelt werden.
-awrn#:#awrn_enable#:#„Wer ist online?“-Anzeige aktivieren
-awrn#:#awrn_filter#:#Benutzerfilter
-awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
-awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
-awrn#:#awrn_inactive#:#Keine Anzeige
-awrn#:#awrn_incl_offline#:#Online und offline
-awrn#:#awrn_max_inactivity#:#Maximale Inaktivität
-awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
-awrn#:#awrn_max_nr_entries#:#Anzahl maximaler Einträge
-awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt. Diese Einstellung beeinflusst die Performanz der Anzeige in der Top-Bar nicht wesentlich.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Nur Online
-awrn#:#awrn_seconds#:#Sek.
-awrn#:#awrn_use_osd#:#Pop-up Online-Benutzer
-awrn#:#awrn_use_osd_info#:#Zeigt ein Pop-up an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
-awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
-awrn#:#awrn_user_show_default#:#Standardwert für die Anzeige in "Wer ist online?"
-awrn#:#awrn_user_show_default_info#:#Definiert den Standardwert für die Anzeige in "Wer ist online?".
-awrn#:#user_awrn_default#:#Standard
-awrn#:#user_awrn_hide#:#Nicht anzeigen
-awrn#:#user_awrn_show#:#Anzeigen
 background_tasks#:#abort#:#Abbrechen
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks

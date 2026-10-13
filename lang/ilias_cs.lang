@@ -2108,32 +2108,6 @@ auth#:#lti_consumer_inactive#:#Uživatel nástroje LTI je vypnutý.
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Nyní online
-awrn#:#awareness_settings#:#Nastavení
-awrn#:#awrn_caching_period#:#Doba ukládání do mezipaměti
-awrn#:#awrn_caching_period_info#:#Doba, po kterou se čeká, než je aktualizován počet uživatelů v horní liště a jsou zjišťování noví online uživatelé.
-awrn#:#awrn_enable#:#Povolit nástroj „Kdo je online?“
-awrn#:#awrn_filter#:#User Filter###29 07 2022 new variable
-awrn#:#awrn_hide_from_awareness#:#Skrýt mě v nástroji „Kdo je online?“
-awrn#:#awrn_hide_from_awareness_info#:#Nástroj „Kdo je online?“ je v horní liště a uvádí seznam vybraných uživatelů (např. kontakty nebo členové vašich kurzů).
-awrn#:#awrn_inactive#:#Neuvedeno
-awrn#:#awrn_incl_offline#:#Online a offline
-awrn#:#awrn_max_inactivity#:#Maximální doba nečinnosti
-awrn#:#awrn_max_inactivity_info#:#Po této době jsou uživatelé považováni, že jsou offline. Pokud není nic nastaveno, bude použit čas relace.
-awrn#:#awrn_max_nr_entries#:#Max. Počet položek
-awrn#:#awrn_max_nr_entries_info#:#Maximální počet položek v seznamu „Kdo je online?“.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Pouze online
-awrn#:#awrn_seconds#:#s
-awrn#:#awrn_use_osd#:#Vyskakovací okno Online uživatelé
-awrn#:#awrn_use_osd_info#:#Zobrazí se vyskakovací okno pro označení nových online uživatelů v seznamu „Kdo je online?“.
-awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"###29 07 2022 new variable
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#Default###29 07 2022 new variable
-awrn#:#user_awrn_hide#:#Hide my status###29 07 2022 new variable
-awrn#:#user_awrn_show#:#Show my status###29 07 2022 new variable
 background_tasks#:#abort#:#Přerušit
 background_tasks#:#background_tasks#:#Úlohy na pozadí
 background_tasks#:#background_tasks_running#:#Spuštěné úlohy

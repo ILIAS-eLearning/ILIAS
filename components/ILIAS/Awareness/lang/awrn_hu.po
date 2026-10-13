@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Jelenleg online"
+
+msgid "awareness_settings"
+msgstr "Beállítások"
+
+msgid "awrn_caching_period"
+msgstr "Gyorsítótárazási időköz"
+
+msgid "awrn_caching_period_info"
+msgstr "Ennyi időnként frissül a felső sávban a felhasználók száma, illetve új felhasználó érzékelése."
+
+msgid "awrn_enable"
+msgstr "‘Ki van online?’-eszköz engedélyezése"
+
+msgid "awrn_filter"
+msgstr "Felhasználószűrő"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Rejtsen el engem a ‘Ki van online?’-eszközben"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "A ‘Ki van online?’ eszköz a felső sávban található és felhasználókat jelenít meg (például kurzusai tagjait)."
+
+msgid "awrn_inactive"
+msgstr "Nincs felsorolva"
+
+msgid "awrn_incl_offline"
+msgstr "Online és offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Maximális tétlenségi időszak"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Ennyi idő után tekintjük offline állapotúnak a felhasználót. Ha nem állít be értéket, a munkamenet idejét használjuk."
+
+msgid "awrn_max_nr_entries"
+msgstr "Elemek maximális száma"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Maximum ennyi elem legyen a ‘Ki van online?’ felsorolásban. Ennek a beállításnak elhanyagolható hatása amikor az eszköz a felső sávban megjelenik."
+
+msgid "awrn_minutes"
+msgstr "perc"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Csak online"
+
+msgid "awrn_seconds"
+msgstr "másodperc"
+
+msgid "awrn_use_osd"
+msgstr "Online felhasználók felugróban"
+
+msgid "awrn_use_osd_info"
+msgstr "‘Ki van online’ felsorolásában új felhasználók felugróban jelenjenek meg."
+
+msgid "awrn_user_show"
+msgstr "ILIAS-fiókom megjelenítése a ‘Ki van online?’ eszközben"
+
+msgid "awrn_user_show_default"
+msgstr "‘Ki van online?’ láthatóságának alapértelmezett értéke"
+
+msgid "awrn_user_show_default_info"
+msgstr "Meghatározza a felhasználó állapotának láthatóságának alapértelmezett értékét a ‘Ki van online?’ eszközben."
+
+msgid "user_awrn_default"
+msgstr "Alapértelmezett"
+
+msgid "user_awrn_hide"
+msgstr "Állapotom elrejtése"
+
+msgid "user_awrn_show"
+msgstr "Állapotom megjelenítése"

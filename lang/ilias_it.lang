@@ -2107,32 +2107,6 @@ auth#:#lti_consumer_inactive#:#Il consumatore dello strumento LTI è disabilitat
 auth#:#page_design_activate#:#Activate Page Design###28 11 2025 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###28 11 2025 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Adesso online
-awrn#:#awareness_settings#:#Impostazioni
-awrn#:#awrn_caching_period#:#Periodo di memorizzazione nella cache
-awrn#:#awrn_caching_period_info#:#Il tempo di attesa prima che il numero degli utenti nella barra superiore venga aggiornato e i nuovi utenti online siano determinati.
-awrn#:#awrn_enable#:#Consenti strumento “Chi è online?”
-awrn#:#awrn_filter#:#Filtro Utente
-awrn#:#awrn_hide_from_awareness#:#Nascondimi dallo strumento “Chi è online?”
-awrn#:#awrn_hide_from_awareness_info#:#Lo strumento “Chi è online?” si trova nella barra superiore ed elenca tutti gli utenti selezionati (per esempio, contatti dei membri dei tuoi corsi).
-awrn#:#awrn_inactive#:#Non elencato
-awrn#:#awrn_incl_offline#:#Online e Offline
-awrn#:#awrn_max_inactivity#:#Periodo massimo di inattività
-awrn#:#awrn_max_inactivity_info#:#Dopo questo periodo gli utenti sono considerati offline. Se nulla è impostato, verrà utilizzato il tempo di sessione.
-awrn#:#awrn_max_nr_entries#:#Numero massimo di voci
-awrn#:#awrn_max_nr_entries_info#:#Numero massimo di elementi nell'elenco "Chi è online?".
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Solo online
-awrn#:#awrn_seconds#:#sec.
-awrn#:#awrn_use_osd#:#Popup utenti online
-awrn#:#awrn_use_osd_info#:#Mostra a popup per indicare nuovi utenti online nell’elenco “Chi è online?”.
-awrn#:#awrn_user_show#:#Mostra il tuo stato in "Chi è online?"
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###28 11 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###28 11 2025 new variable
-awrn#:#user_awrn_default#:#Predefinito
-awrn#:#user_awrn_hide#:#Nascondi
-awrn#:#user_awrn_show#:#Mostra
 background_tasks#:#abort#:#Interrompi
 background_tasks#:#background_tasks#:#Attività in background
 background_tasks#:#background_tasks_running#:#Attività in background

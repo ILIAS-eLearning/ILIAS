@@ -2093,32 +2093,6 @@ auth#:#lti_consumer_inactive#:#Le consommateur d’outils LTI est désactivé.
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Maintenant en ligne
-awrn#:#awareness_settings#:#Paramètres Généraux
-awrn#:#awrn_caching_period#:#Période de Rafraà®chissement
-awrn#:#awrn_caching_period_info#:#Le temps attendu avant que le nombre d'utilisateurs dans le bandeau supérieure soit mise à  jour et que les nouveaux utilisateurs en ligne soient déterminés.
-awrn#:#awrn_enable#:#Activer 'Qui est en Ligne ?'
-awrn#:#awrn_filter#:#Filtre utilisateur
-awrn#:#awrn_hide_from_awareness#:#Cacher Mon Statut En-Ligne
-awrn#:#awrn_hide_from_awareness_info#:#L'outil "Qui est en ligne ?" se trouve dans la barre supérieure et liste les utilisateurs sélectionnés (par ex. contacts ou membres de vos cours).
-awrn#:#awrn_inactive#:#Non Listé
-awrn#:#awrn_incl_offline#:#En ligne et Hors ligne
-awrn#:#awrn_max_inactivity#:#Période Maximale d'Inactivité
-awrn#:#awrn_max_inactivity_info#:#Après cette période, les utilisateurs sont considérés comme étant hors ligne. Si rien est défini, le temps de session sera utilisé.
-awrn#:#awrn_max_nr_entries#:#Nombre d'Objets Max.
-awrn#:#awrn_max_nr_entries_info#:#Nombre maximum d'éléments dans la liste 'Qui est en ligne?'.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#En ligne
-awrn#:#awrn_online_only#:#En ligne Seulement
-awrn#:#awrn_seconds#:#sec
-awrn#:#awrn_use_osd#:#Pop-up utilisateurs en ligne
-awrn#:#awrn_use_osd_info#:#Un pop-up apparaît pour indiquer de nouveaux utilisateurs en ligne dans la liste «Qui est en ligne?».
-awrn#:#awrn_user_show#:#Montrer votre profil dans "Qui est en ligne ?"
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#Par défaut
-awrn#:#user_awrn_hide#:#Cacher mon statut
-awrn#:#user_awrn_show#:#Montrer mon statut
 background_tasks#:#abort#:#Annuler
 background_tasks#:#background_tasks#:#Tâches d’arrière-plan
 background_tasks#:#background_tasks_running#:#Tâches d’arrière-plan
