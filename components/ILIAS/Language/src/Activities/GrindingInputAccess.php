@@ -28,16 +28,10 @@ use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\UI\Implementation\Component\Input\InputInternal;
 
 /**
- * Sole, deliberately isolated point of coupling between this component and
- * `ILIAS\UI\Implementation\Component\Input\*` (the UI framework's implementation, not component,
- * layer). `Activity::getInputDescription()` returns the public `FormInput`/`Group`/`Input`
- * interfaces, none of which expose the machinery needed to collect and validate raw request data
- * (`withNameFrom()`, `withInput()`, `getContent()`, `getDedicatedName()`) - that only exists on
- * `InputInternal` and the concrete `Input` implementation base class, with no public alternative.
- *
- * `GrindsFormInput` never names these UI-internal classes itself; every touch point goes through
- * here instead, so if a future UI refactoring changes their behaviour, every method below fails
- * loudly (a `\LogicException`, or a fatal type error) rather than silently misbehaving.
+ * Sole point of coupling to `ILIAS\UI\Implementation\Component\Input\*`: the public `FormInput`
+ * interfaces expose no way to collect raw request data (`withNameFrom()`, `withInput()`,
+ * `getContent()`, `getDedicatedName()`), and there is no public alternative. If the UI internals
+ * change, the methods here fail loudly instead of silently misbehaving.
  */
 final class GrindingInputAccess
 {
@@ -46,10 +40,7 @@ final class GrindingInputAccess
     }
 
     /**
-     * Assigns HTML input names throughout $description's tree, as required
-     * before raw request data can be collected into it. Fails loudly if
-     * $description was not built from the UI framework's Input factories,
-     * which are the only sources of FormInputs also implementing InputInternal.
+     * Assigns HTML input names throughout $description's tree; required before collecting raw data.
      */
     public static function named(FormInput $description, string $activity_class): FormInput
     {
@@ -64,10 +55,7 @@ final class GrindingInputAccess
         return $description->withNameFrom(new FormInputNameSource());
     }
 
-    /**
-     * @param array<string, mixed> $flat_raw_values keyed by the HTML input names assigned via
-     *        named() above
-     */
+    /** @param array<string, mixed> $flat_raw_values keyed by the HTML input names assigned by named() */
     public static function withRawValues(FormInput $named, array $flat_raw_values): FormInput
     {
         self::assertInternal($named, 'withInput()');
@@ -99,11 +87,6 @@ final class GrindingInputAccess
         return $input instanceof InputInternal;
     }
 
-    /**
-     * Throws $exception_message as a \LogicException unless $input is nameable
-     * (i.e. implements InputInternal) - kept here so callers never need to name
-     * InputInternal themselves.
-     */
     public static function requireNameable(Input $input, string $exception_message): void
     {
         if (!$input instanceof InputInternal) {
@@ -111,10 +94,7 @@ final class GrindingInputAccess
         }
     }
 
-    /**
-     * The dedicated name (see `withDedicatedName()`) is only available on the
-     * concrete implementation base class, not on the public `Input` interface.
-     */
+    /** Only available on the concrete implementation base class, not on the public `Input` interface. */
     public static function dedicatedNameOf(Input $input): ?string
     {
         return $input instanceof \ILIAS\UI\Implementation\Component\Input\Input

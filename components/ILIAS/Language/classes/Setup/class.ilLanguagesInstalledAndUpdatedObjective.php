@@ -31,21 +31,9 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     private ?array $install_languages = null;
 
     /**
-     * @param InstallLanguage|null $install_language Callers wired through
-     *        the component graph (see ilLanguageSetupAgent) pass the
-     *        resolved instance. Callers that are themselves constructed
-     *        deep inside the Setup Objective tree -
-     *        ilComponentPluginAdminInitObjective and
-     *        ilPluginLanguageUpdatedObjective, reached via
-     *        ilPluginDefaultAgent, which only ever receives a plugin name -
-     *        have nothing to inject and omit it; a Setup-only instance is
-     *        then built here (InstallLanguage::forSetup(), which needs the
-     *        concrete class, not just any Activity). This is the single
-     *        place that knows how, instead of each of those call sites
-     *        reaching into $GLOBALS['DIC'] for a key that Setup never
-     *        registers.
-     * @param UpdateLanguage|null $update_language Same reasoning as
-     *        $install_language above.
+     * @param InstallLanguage|null $install_language null only for callers constructed deep inside the Setup tree
+     *        (plugin objectives); a Setup-only instance is then built here instead of reading $GLOBALS['DIC']
+     * @param UpdateLanguage|null $update_language see $install_language
      */
     public function __construct(
         \ilSetupLanguage $il_setup_language,
@@ -120,8 +108,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function isApplicable(Setup\Environment $environment): bool
     {
-        // Determined here so that getLabel(), shown between isApplicable()
-        // and achieve(), can list the languages.
+        // getLabel() is shown between isApplicable() and achieve() and lists the languages.
         if ($environment->getResource(Setup\Environment::RESOURCE_DATABASE) instanceof \ilDBInterface) {
             $this->useSetupDatabase($environment);
             $this->getInstallLanguages();
@@ -149,23 +136,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     }
 
     /**
-     * Installs every given key that is not yet installed, and refreshes
-     * every given key that already is - unconditionally, this Objective's
-     * job (label "Install/Update languages") is to keep already-installed
-     * languages in sync with the current language files on every setup.php
-     * run (e.g. after a core update added or changed translations), not
-     * just to install missing ones.
-     *
-     * Both Activities are handed the same full $language_keys list and each
-     * decides for itself what applies to it: InstallLanguage::MODE_INSTALL
-     * installs a not-yet-installed key and is a no-op for an already
-     * installed one; UpdateLanguage refreshes an already installed key and
-     * is a no-op for one that is not installed. Neither call needs the
-     * caller to pre-filter by install status. Running UpdateLanguage on the
-     * keys InstallLanguage just installed is intentional, not wasted work
-     * avoided: it keeps this method's behaviour simple (one full list, two
-     * independent Activities) and the freshly installed keys are also
-     * freshly refreshed, which is harmless.
+     * Installs missing languages and refreshes installed ones on every run, so that changed language files take effect.
      *
      * Each Activity validates and throws \RuntimeException only for the
      * keys it actually processes (see InstallLanguage::perform() and

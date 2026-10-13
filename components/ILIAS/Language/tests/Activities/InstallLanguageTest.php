@@ -530,8 +530,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
             'nested array value' => [
                 ['language_keys' => ['de', ['fr']], 'mode' => InstallLanguage::MODE_INSTALL],
             ],
-            // Regression coverage for ParsesLanguageKeyList::toLanguageKeyList()'s
-            // format validation (exactly two lowercase ASCII letters).
+            // format validation of ParsesLanguageKeyList::toLanguageKeyList()
             'three letters' => [
                 ['language_keys' => 'deu', 'mode' => InstallLanguage::MODE_INSTALL],
             ],
@@ -651,10 +650,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $setup_language = $this->createSetupLanguageMock([], [], []);
-        // checkLanguageForInstallation() is called from within perform()'s
-        // own loop, well after isAllowedToPerform() succeeded - a realistic
-        // place for an unexpected \TypeError to surface (e.g. a
-        // misconfigured/incompatible collaborator), simulated here directly.
+        // raised inside perform()'s loop, after isAllowedToPerform() succeeded
         $setup_language->method('checkLanguageForInstallation')->willReturnCallback(
             static function (): bool {
                 throw new \TypeError('simulated TypeError, not an \Exception');

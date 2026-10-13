@@ -110,9 +110,7 @@ MARKDOWN
         $language_keys = $this->toLanguageKeyList($parameters['language_keys'] ?? null);
         [$obj_id_by_language_key, $ambiguous_language_keys] = $this->resolveObjIdsByLanguageKey();
 
-        // Checked upfront, for all requested keys at once, so a request naming both an
-        // unambiguous and an ambiguous key never changes the unambiguous one before
-        // rejecting the whole call.
+        // checked upfront, so one ambiguous key rejects the whole call before anything is changed
         $requested_ambiguous_language_keys = array_values(
             array_intersect($language_keys, array_keys($ambiguous_language_keys))
         );
@@ -128,8 +126,7 @@ MARKDOWN
         $invalid_language_file_keys = [];
         $not_installed_language_keys = [];
 
-        // Not transactional across multiple keys: a failure partway through (e.g. a database
-        // error) leaves languages processed so far changed.
+        // not transactional: a failure partway leaves the languages processed so far changed
         foreach ($language_keys as $language_key) {
             if (!array_key_exists($language_key, $obj_id_by_language_key)) {
                 $not_installed_language_keys[] = $language_key;
@@ -143,9 +140,8 @@ MARKDOWN
                 continue;
             }
 
-            // removeLocalChanges() re-checks isInstalled() internally (and additionally
-            // validates the language file) and returns false if either fails - "not installed"
-            // is already excluded above, so false here can only mean validation failed.
+            // removeLocalChanges() also validates the language file: false here means invalid
+            // (not installed is excluded above)
             if ($language_object->removeLocalChanges()) {
                 $removed_local_changes_language_keys[] = $language_key;
             } else {

@@ -219,9 +219,7 @@ class ilObjLanguageFolderGUITest extends TestCase
     // keeps its real implementation) makes that call directly assertable.
     // -----------------------------------------------------------------
 
-    /**
-     * @return ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @return ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject */
     private function createGuiWithMockedCheckPermission(): ilObjLanguageFolderGUI
     {
         /** @var ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject $gui */
@@ -234,14 +232,8 @@ class ilObjLanguageFolderGUITest extends TestCase
         $this->setProperty($gui, 'tpl', $this->createMock(ilGlobalTemplateInterface::class));
         $this->setProperty($gui, 'ctrl', $this->createMock(ilCtrl::class));
         $this->setProperty($gui, 'ui_factory', $this->stubUiFactoryForMaybePerformAs());
-        // 'current_user_id' is a private readonly property declared directly
-        // on ilObjLanguageFolderGUI (not an ancestor). On a PHPUnit mock
-        // subclass, plain `new ReflectionProperty($gui, name)` cannot locate
-        // a *readonly* property declared on the leaf class this way -
-        // unlike the plain (non-readonly) $tpl/$ctrl/$lng above, which are
-        // declared on the ilObjectGUI ancestor and are found fine either
-        // way - so it must be looked up via the exact declaring class
-        // instead, and set on the mock instance from there.
+        // a readonly property declared on the leaf class cannot be found on a PHPUnit mock via a plain ReflectionProperty,
+        // so it is looked up on the declaring class
         $this->setReadonlyPropertyDeclaredOnGuiClass($gui, 'current_user_id', 6);
         $this->setReadonlyPropertyDeclaredOnGuiClass(
             $gui,
@@ -304,10 +296,7 @@ class ilObjLanguageFolderGUITest extends TestCase
         $install_language->method('maybePerformAs')->willReturn(new ResultOk($this->emptyPerformResult()));
         $this->setReadonlyPropertyDeclaredOnGuiClass($gui, 'install_language', $install_language);
 
-        // Empty $ids, same reasoning as the other installObject() tests
-        // above: avoids the unrelated `new ilObjLanguage(...)` legacy
-        // coupling, which is irrelevant to whether the permission check
-        // happens at all.
+        // empty $ids avoid the legacy `new ilObjLanguage(...)` coupling
         $gui->installObject([], InstallLanguage::MODE_INSTALL);
     }
 
@@ -421,16 +410,6 @@ class ilObjLanguageFolderGUITest extends TestCase
         ];
     }
 
-    // -----------------------------------------------------------------
-    // refreshSelectedObject()
-    //
-    // Same reflection-based construction technique as installObject()
-    // above, with $ids always [] for the same reason: the only other
-    // piece of legacy coupling in the method (`new ilObjLanguage((int)
-    // $obj_id)` inside the per-id loop that builds $language_keys) must
-    // never be reached in a unit test.
-    // -----------------------------------------------------------------
-
     private function createGuiWithUpdateLanguageCollaborators(
         UpdateLanguage $update_language,
         ilGlobalTemplateInterface $tpl,
@@ -451,21 +430,7 @@ class ilObjLanguageFolderGUITest extends TestCase
         return $gui;
     }
 
-    /**
-     * Unlike installObject(), refreshSelectedObject() calls the legacy
-     * static ilObjLanguage::refreshPlugins() unconditionally on every
-     * success path (even when nothing was updated) - and that static
-     * method reaches into `global $DIC["component.repository"]`. An
-     * empty plugin iterator here means the foreach in refreshPlugins()
-     * never enters its body, which is what keeps this a unit test:
-     * anything beyond "is there a plugin" (ilPluginLanguage's actual
-     * update logic) reads real files and queries the database - legacy
-     * internals that are unrelated to and unchanged by this refactoring,
-     * so this test suite deliberately does not attempt to verify which
-     * exact keys refreshPlugins() receives from
-     * $value['updated_language_keys']. That one-line pass-through was
-     * verified by inspection instead.
-     */
+    /** refreshSelectedObject() always calls ilObjLanguage::refreshPlugins(): no plugins keep this a unit test. */
     private function stubComponentRepositoryWithNoPlugins(): void
     {
         $repository = $this->createMock(ilComponentRepository::class);
@@ -475,9 +440,7 @@ class ilObjLanguageFolderGUITest extends TestCase
         $GLOBALS['DIC']['component.repository'] = $repository;
     }
 
-    /**
-     * @return array{updated_language_keys: list<string>, not_installed_language_keys: list<string>}
-     */
+    /** @return array{updated_language_keys: list<string>, not_installed_language_keys: list<string>} */
     private function updatePerformResult(array $updated, array $not_installed): array
     {
         return [

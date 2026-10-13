@@ -21,19 +21,8 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * Regression coverage for ilObjLanguage's absolute_path computation.
- *
- * Constructing a real ilObjLanguage needs a full ilObject/DB bootstrap, so
- * this inspects the constructor's "../" expression directly instead - it is
- * a plain string of directory-traversal segments with no other moving
- * parts, so pinning it (and independently confirming it lands on the real
- * ILIAS root) is a cheap, reliable way to guard the exact regression that
- * slipped in here: components/ILIAS/Language/classes/ is four levels below
- * the ILIAS root, but the constructor used a fifth "../", pointing one
- * directory too high. With that bug, the "Main" language directory (lang/)
- * could never be found, so ilObjLanguage::check() (and therefore refresh()
- * and removeLocalChanges()) reported every installed language - including a
- * perfectly valid one - as invalid.
+ * ilObjLanguage's absolute_path must be four "../" up from components/ILIAS/Language/classes/ (a fifth once made
+ * check() report every language as invalid); the constructor's expression is inspected since a real object needs a DB.
  */
 class ilObjLanguageTest extends TestCase
 {

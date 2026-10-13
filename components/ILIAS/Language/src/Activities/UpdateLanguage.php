@@ -49,7 +49,7 @@ class UpdateLanguage extends LanguageActivity
             $setup_language,
             null,
             $setup_language,
-            // Never read: without RBAC, isAllowedToPerform() throws first.
+            // never read: without RBAC, isAllowedToPerform() throws first
             new LanguageFolderLegacyProxy()
         );
     }

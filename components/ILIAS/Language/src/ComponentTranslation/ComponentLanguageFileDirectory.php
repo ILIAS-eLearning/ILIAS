@@ -43,10 +43,7 @@ class ComponentLanguageFileDirectory implements LanguageFileDirectory
 
     public function getPath(): string
     {
-        // $this->component's file location never changes for the lifetime
-        // of this object, so the reflection/realpath work below only needs
-        // to happen once - cache it instead of redoing it on every call
-        // (this method is called repeatedly per directory-listing loop).
+        // cached: the location never changes and this is called repeatedly per directory loop
         if (!isset($this->base_directory)) {
             $reflector = new \ReflectionClass($this->component);
             $ilias_base_dir = (string) realpath(__DIR__ . '/../../../../../');

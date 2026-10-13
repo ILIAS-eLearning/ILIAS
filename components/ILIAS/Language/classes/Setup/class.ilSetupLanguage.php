@@ -40,20 +40,9 @@ use ILIAS\Language\Setup\LanguageInstallationManager;
  * @author Peter Gabriel <pgabriel@databay.de>
  * @version $Id$
  *
- * This class has two responsibilities that used to be more entangled than
- * they are now:
- *  - being a \ILIAS\Language\Language implementation (via ilLanguage), used
- *    as the txt()-lookup during Setup, before the full runtime DIC exists,
- *  - installing/managing languages in the database and validating language
- *    files on disk.
- * The latter responsibility has been extracted into
- * \ILIAS\Language\Setup\InstalledLanguageRepository (read access) and
- * \ILIAS\Language\Setup\LanguageInstallationManager (write access), per
- * docs/development/repository-pattern.md. This class now mostly delegates
- * to both and is kept around as the concrete \ILIAS\Language\Language
- * implementation for Setup and as a stable entry point for the many
- * existing callers (Setup Objectives, ilObjLanguage, ...) that are not
- * (yet) wired through components/ILIAS/Language/Language.php.
+ * Language implementation for Setup (txt() before the runtime DIC exists). Installation is delegated to
+ * \ILIAS\Language\Setup\InstalledLanguageRepository (read) and LanguageInstallationManager (write);
+ * kept as entry point for callers not wired through Language.php.
  */
 class ilSetupLanguage extends ilLanguage
 {
@@ -165,13 +154,7 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * Registers or updates the object_data bookkeeping row for a language
-     * that has just been flushed/(re-)inserted, deciding "installed" vs.
-     * "installed_local" and INSERTing a fresh row or UPDATEing the existing
-     * one accordingly. This is the single source of truth for that
-     * bookkeeping - both installLanguages() and
-     * \ILIAS\Language\Activities\InstallLanguage::perform() call this
-     * instead of duplicating the object_data INSERT/UPDATE.
+     * Single place for the object_data row ("installed" vs. "installed_local"), also used by InstallLanguage::perform().
      *
      * @param array<string, array{obj_id:int, status:string}> $known_languages result of getAvailableLanguages()/getAvailableLanguagesForInstallation()
      * @param list<string> $local_language_keys result of getLocalLanguages()
@@ -195,11 +178,7 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * Validates only the customizing/local language file for $lang_key
-     * (unlike checkLanguageForInstallation(), which treats a missing local
-     * file as acceptable). Used when a caller explicitly wants to validate
-     * a local customization file, e.g. before activating "installed_local"
-     * status for an already globally-installed language.
+     * Unlike checkLanguageForInstallation(), a missing local file is not acceptable here.
      */
     public function checkLocalLanguageFileForInstallation(string $lang_key): bool
     {
@@ -222,10 +201,7 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * (Re-)apply only the customizing/local language file for an already
-     * installed language, without touching the base/global data - see
-     * LanguageInstallationManager::insertLanguageForApplyingLocalChanges()
-     * for why.
+     * See LanguageInstallationManager::insertLanguageForApplyingLocalChanges().
      */
     public function insertLanguageForApplyingLocalChanges(string $lang_key): void
     {
@@ -303,8 +279,7 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * Returns local language files whose names contain a requested language key
-     * but do not match the expected naming scheme.
+     * Local language files that contain a requested key but do not match the naming scheme.
      *
      * @param list<string> $language_keys
      * @return list<string>
@@ -323,9 +298,7 @@ class ilSetupLanguage extends ilLanguage
     }
 
     /**
-     * Set the database this instance works on, taking precedence over
-     * $GLOBALS['ilDB']. Used by Setup Objectives to inject the
-     * Setup-provided database resource (see db()).
+     * Takes precedence over $GLOBALS['ilDB'].
      *
      * Return true on success
      */

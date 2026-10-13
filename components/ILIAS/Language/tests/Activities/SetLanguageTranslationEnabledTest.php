@@ -32,25 +32,10 @@ use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * SetLanguageTranslationEnabled is, like its sibling
- * SetLanguageDetectionEnabled, backed by a single \ILIAS\Administration\Setting
- * collaborator - a plain interface, mockable directly, never a real
- * \ilSetting/database connection. Unlike SetLanguageDetectionEnabled, this
- * Activity is parameterised by a language_key (the setting written/read is
- * "lang_translate_<key>", not a single fixed key), and perform() itself
- * (not just normalizeParameters()) validates its $parameters array and
- * computes a `changed` flag by comparing the requested value against the
- * *currently stored* one (read via a falsy (bool) cast, exactly mirroring
- * `ilObjLanguageAccess::_checkTranslate()` - see `$currently_enabled = (bool)
- * ($this->settings)()->get($translate_key, '0')` in perform()). That
- * comparison, and the "write only if changed" behaviour it drives, is the
- * most important regression surface in this file: a mutant that always
- * writes (or that inverts the comparison) must be caught here.
- *
- * The second most important regression this file guards is the same one as
- * SetLanguageDetectionEnabledTest: the enforced "write" RBAC check in
- * isAllowedToPerform()/maybePerformAs() must actually prevent both the
- * outcome *and* the side effect (no write to Settings) when denied.
+ * Backed by a single mockable \ILIAS\Administration\Setting. Unlike SetLanguageDetectionEnabled it is parameterised by
+ * a language_key ("lang_translate_<key>"), and perform() itself validates $parameters and writes only if the value
+ * changed, comparing against the stored one with a falsy (bool) cast like ilObjLanguageAccess::_checkTranslate().
+ * A denied "write" permission must prevent both the outcome and the Settings access.
  */
 class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 {
@@ -58,10 +43,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
     {
         return $this->createActivity();
     }
-
-    // -----------------------------------------------------------------
-    // isAllowedToPerform()
-    // -----------------------------------------------------------------
 
     public function testIsAllowedToPerformDelegatesToRbacSystemWithWriteAndTheConfiguredRefId(): void
     {
@@ -105,10 +86,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 
         $this->assertTrue($activity->isAllowedToPerform(6, ['language_key' => 'de', 'enabled' => true]));
     }
-
-    // -----------------------------------------------------------------
-    // perform() - the changed/unchanged decision
-    // -----------------------------------------------------------------
 
     /**
      * Core business rule: perform() must read the
@@ -196,10 +173,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $this->assertSame('de', $result['language_key']);
     }
 
-    // -----------------------------------------------------------------
-    // perform() - parameter validation
-    // -----------------------------------------------------------------
-
     public static function invalidPerformParametersProvider(): array
     {
         return [
@@ -232,10 +205,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 
         $this->createActivity(settings: $settings)->perform($parameters);
     }
-
-    // -----------------------------------------------------------------
-    // maybePerformAs()
-    // -----------------------------------------------------------------
 
     public function testMaybePerformAsWithGrantedPermissionPerformsAndReturnsOkResult(): void
     {
@@ -334,10 +303,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
     public static function invalidRawParametersRejectedByGrindWithStringErrorProvider(): array
     {
         return [
-            // The required 'language_key' Text field receives a blank raw
-            // value (missing entirely) and fails its own required-field
-            // constraint inside grind() itself - before normalizeParameters()/
-            // isAllowedToPerform() are ever reached.
             'missing language_key' => [['enabled' => true]],
         ];
     }
@@ -364,15 +329,9 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
     public static function invalidRawParametersProvider(): array
     {
         return [
-            // A non-string 'language_key' fails the Text field's own
-            // isClientSideValueOk() check inside grind() itself, which
-            // throws an InvalidArgumentException ("Display value does not
-            // match input type."), caught and preserved by grind()'s
-            // try/catch.
+            // a non-string 'language_key' fails the Text field's isClientSideValueOk() inside grind()
             'non-string language_key' => [['language_key' => 42, 'enabled' => true]],
-            // Outside GrindsFormInput::normalizeCheckboxRawValue()'s
-            // explicit whitelist - "konservativ normalisieren", not "alles
-            // akzeptieren".
+            // outside the whitelist of GrindsFormInput::normalizeCheckboxRawValue()
             'non-bool enabled: array' => [['language_key' => 'de', 'enabled' => [true]]],
             'non-bool enabled: float 1.0' => [['language_key' => 'de', 'enabled' => 1.0]],
         ];
@@ -499,8 +458,7 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
     }
 
     /**
-     * Same tolerance as above, but for the common primitive representations
-     * of "false".
+     * Same tolerance for the common representations of "false".
      */
     #[DataProvider('tolerantlyAcceptedFalsyEnabledValuesProvider')]
     public function testMaybePerformAsToleratesCommonPrimitiveFalsyEnabledRepresentations(mixed $value): void
@@ -521,10 +479,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
             $result->value()
         );
     }
-
-    // -----------------------------------------------------------------
-    // language_key must be an installed language (Punkt 4)
-    // -----------------------------------------------------------------
 
     /**
      * Regression test for Punkt 4 of this component's grinding task: unlike
@@ -621,10 +575,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
         $this->assertSame('de', $result->value()['language_key']);
     }
 
-    // -----------------------------------------------------------------
-    // getInputDescription() / getOutputDescription() / getDescription()
-    // -----------------------------------------------------------------
-
     public function testInputDescriptionBuildsAGroupWithARequiredLanguageKeyTextFieldAndAnEnabledCheckbox(): void
     {
         $text = $this->createMock(Text::class);
@@ -692,10 +642,6 @@ class SetLanguageTranslationEnabledTest extends ActivityContractTestCase
 
         $this->assertSame(['language_key', 'enabled', 'changed'], $field_names);
     }
-
-    // -----------------------------------------------------------------
-    // helpers
-    // -----------------------------------------------------------------
 
     private function createActivity(
         ?\ilRbacSystem $rbac_system = null,

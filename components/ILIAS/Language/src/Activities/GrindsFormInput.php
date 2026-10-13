@@ -28,29 +28,21 @@ use ILIAS\UI\Component\Input\Group as GroupInput;
 use ILIAS\UI\Component\Input\Input;
 
 /**
- * getInputDescription() returns the public FormInput interface, which lacks the input-collection
- * machinery grind() needs (withNameFrom()/withInput()/getContent()) - this trait never names the
- * UI-internal classes that provide it; every touch point goes through GrindingInputAccess instead
- * (see its own docblock for why).
+ * getInputDescription() returns the public FormInput interface; the UI-internal classes grind()
+ * needs are only touched through GrindingInputAccess.
  */
 trait GrindsFormInput
 {
-    // private: only LanguageActivity::maybePerformAs() (which composes this trait) calls grind()
-    // in production. A subclass that needs to influence perform()'s arguments uses
-    // LanguageActivity::additionalPerformParameters() instead, so no subclass needs direct access.
-    // GrindsFormInputTestHost exposes it via a public wrapper for isolated testing.
-    /**
-     * @param array<mixed> $raw_parameters
-     */
+    // private on purpose: subclasses influence perform()'s arguments via
+    // LanguageActivity::additionalPerformParameters()
+    /** @param array<mixed> $raw_parameters */
     private function grind(FormInput $description, array $raw_parameters): Result
     {
         try {
             $named = GrindingInputAccess::named($description, static::class);
 
             $flat_input = [];
-            // Unknown keys are tolerated at this top level (getInputDescription()'s outermost
-            // group is never itself validated against $raw_parameters), but rejected in every
-            // nested group - see the $enforce_known_keys parameter below.
+            // unknown keys are tolerated on the outermost group, but rejected in nested ones
             $this->collectRawValues($named, $raw_parameters, $flat_input);
 
             $with_input = GrindingInputAccess::withRawValues($named, $flat_input);
@@ -64,13 +56,7 @@ trait GrindsFormInput
         } catch (InvalidInputException $e) {
             return new Result\Error($e);
         } catch (\InvalidArgumentException $e) {
-            // Every \InvalidArgumentException reachable in this try block - from
-            // collectRawValues()/normalizeCheckboxRawValue() above, or from the UI framework
-            // applying $flat_input to an already-built field tree - describes a malformed request
-            // value, never an internal misconfiguration, and never leaks anything sensitive - safe
-            // to convert into an InvalidInputException shown to the end user. One thrown while
-            // BUILDING the FormInput itself happens inside getInputDescription(), in the caller's
-            // own try block, and never reaches here.
+            // a malformed request value, never an internal misconfiguration: safe to show the user
             return new Result\Error(new InvalidInputException($e->getMessage(), 0, $e));
         } catch (\Throwable $e) {
             return new Result\Error(
@@ -81,18 +67,13 @@ trait GrindsFormInput
 
     /**
      * @param array<string, mixed> $flat
-     * @param bool $enforce_known_keys Defaults to false for the outermost group (grind() above),
-     *        so an unrelated key in top-level $raw_parameters is silently ignored. Every nested
-     *        group is always recursed into with true (below) instead - its keys come entirely
-     *        from this Activity's own getInputDescription(), so an unknown one should fail loudly
-     *        instead of vanishing.
+     * @param bool $enforce_known_keys false for the outermost group (unrelated top-level keys are
+     *        ignored); nested group keys come from our own getInputDescription(), so unknown ones fail
      */
     private function collectRawValues(Input $named, mixed $raw_value, array &$flat, bool $enforce_known_keys = false): void
     {
         if ($named instanceof GroupInput) {
-            // null means the group was omitted entirely (treated as an empty array, so every
-            // child gets null in turn); any other non-array value is a genuine type mismatch and
-            // must be rejected loudly instead.
+            // null = group omitted (treated as empty); any other non-array is a type mismatch
             if ($raw_value !== null && !is_array($raw_value)) {
                 throw new InvalidInputException(
                     'Expected an array of values (or none at all) for '
@@ -136,11 +117,8 @@ trait GrindsFormInput
     }
 
     /**
-     * Returns $raw_value joined into a single comma-separated string if every one of its items
-     * is a string; otherwise returns $raw_value unchanged, in whatever shape the caller passed.
-     *
      * @param array<mixed> $raw_value
-     * @return array<mixed>|string
+     * @return array<mixed>|string comma-joined if all items are strings, otherwise unchanged
      */
     private function joinListOfStringsRawValue(array $raw_value): array|string
     {
@@ -188,9 +166,7 @@ trait GrindsFormInput
         return new InvalidInputException(implode('; ', $field_errors));
     }
 
-    /**
-     * @param list<string> $field_errors
-     */
+    /** @param list<string> $field_errors */
     private function collectFieldErrors(Input $named, array &$field_errors): void
     {
         if ($named instanceof GroupInput) {

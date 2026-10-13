@@ -22,13 +22,10 @@ namespace ILIAS\Language\Activities;
 
 trait ParsesLanguageKeyList
 {
-    // Every language key recognised by this component is exactly two lowercase ASCII letters
-    // (e.g. "de", "en", "fr"), matching the `ilias_<key>.lang` file naming convention.
+    // two lowercase ASCII letters, like the `ilias_<key>.lang` file names
     private const LANGUAGE_KEY_FORMAT = '/^[a-z]{2}$/';
 
-    /**
-     * @return list<string>
-     */
+    /** @return list<string> */
     private function toLanguageKeyList(mixed $value): array
     {
         if (!is_string($value) && !is_array($value)) {

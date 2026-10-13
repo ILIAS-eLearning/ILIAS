@@ -716,10 +716,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             ->with(6, 'write', $this->anything())
             ->willReturn(false);
 
-        // getInputDescription() (built for real via RealFieldsUiFactory) calls
-        // txt('meta_l_de') to label the 'de' translation field before
-        // isAllowedToPerform() is ever reached (grinding happens first) - the
-        // mock must tolerate that call too, not just 'msg_no_perm_write'.
+        // getInputDescription() calls txt('meta_l_de') before isAllowedToPerform(), so the mock must allow it too
         $language = $this->createMock(Language::class);
         $language->method('txt')->willReturnCallback(
             static fn(string $key): string => $key === 'msg_no_perm_write' ? 'no write permission' : $key
@@ -886,8 +883,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $this->assertSame('simulated failure while building the translation field label', $error->getMessage());
     }
 
-    // A missing 'module' fails the required Text field inside grind() itself, before
-    // normalizeParameters()/isAllowedToPerform() run - so rbac must never be touched.
+    // grind() already rejects a missing 'module', so rbac must never be touched
     public function testMissingModuleViaMaybePerformAsIsAResultErrorAndNeverChecksPermission(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -905,8 +901,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
         $this->assertStringContainsString('module:', $result->error()->getMessage());
     }
 
-    // Unlike the top level (unknown keys tolerated - see GrindsFormInput), a nested group like
-    // 'translations' rejects an unknown key outright, before isAllowedToPerform() runs.
+    // unlike the top level, a nested group rejects unknown keys outright
     public function testMaybePerformAsRejectsAnUnknownLanguageKeyInsideTheNestedTranslationsGroup(): void
     {
         $rbac = $this->createMock(\ilRbacSystem::class);
@@ -925,8 +920,6 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             'identifier' => 'new_topic',
             'translations' => [
                 'de' => 'Hallo',
-                // Not an installed language, i.e. not a field of the
-                // 'translations' group - must be rejected outright.
                 'xx' => 'whatever',
             ],
         ]);
@@ -986,17 +979,10 @@ class AddLanguageEntryTest extends ActivityContractTestCase
     public static function invalidRawParametersProvider(): array
     {
         return [
-            // 'de' is given a valid, non-blank value here on purpose, so
-            // that grind() itself succeeds and the blank module/identifier
-            // is instead caught by normalizeParameters()'s
-            // toNonEmptyString() - an InvalidInputException, reached
-            // before isAllowedToPerform().
+            // valid 'de' lets grind() succeed, so the blank module/identifier is caught by toNonEmptyString()
             'blank module' => [['module' => '   ', 'identifier' => 'foo', 'translations' => ['de' => 'Hallo']]],
             'blank identifier' => [['module' => 'common', 'identifier' => '   ', 'translations' => ['de' => 'Hallo']]],
-            // Outside the Text field's own type check - grind() itself
-            // converts the UI framework's own blank \InvalidArgumentException
-            // ("Display value does not match input type.") into an
-            // InvalidInputException (see grind()'s try/catch).
+            // grind() converts the UI framework's blank \InvalidArgumentException into an InvalidInputException
             'translations with non-string value' => [
                 ['module' => 'common', 'identifier' => 'foo', 'translations' => ['de' => 42]],
             ],
@@ -1078,10 +1064,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
     #[RunInSeparateProcess]
     public function testSubclassOverridingGetInputDescriptionWithThePlainInterfaceSignatureDoesNotTriggerAFatalError(): void
     {
-        // txt() must be stubbed (getInputDescription() calls it per translation field) - a bare
-        // mock would trigger PHPUnit's "no expectations configured" notice. createActivity() can't
-        // be reused here since the point of this test is the inline `extends AddLanguageEntry`
-        // class declaration.
+        // txt() must be stubbed (called per translation field); createActivity() can't be reused because of the inline subclass
         $language = $this->createMock(Language::class);
         $language->method('txt')->willReturnCallback(static fn(string $k): string => $k);
 
@@ -1093,9 +1076,6 @@ class AddLanguageEntryTest extends ActivityContractTestCase
             db: $this->createUnusedDb(),
             language_folder: $this->languageFolder(),
         ) extends AddLanguageEntry {
-            // Declaring this override (the plain interface signature) is the point of the test -
-            // the old, buggy signature with an extra optional parameter would already fail to
-            // compile here.
             public function getInputDescription(FieldFactory $f): FormInput
             {
                 return parent::getInputDescription($f);
@@ -1186,7 +1166,7 @@ class AddLanguageEntryTest extends ActivityContractTestCase
 
         $this->assertSame($outer_group, $activity->getInputDescription($field));
         $this->assertSame(['Module', 'Identifier', 'meta_l_de', 'meta_l_fr'], $text_calls);
-        // Only 'de' (and 'en', not present here) is required among translations.
+        // only 'de' is required among translations
         $this->assertTrue($de_required);
         $this->assertFalse($fr_required);
     }

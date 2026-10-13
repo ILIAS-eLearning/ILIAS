@@ -26,13 +26,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Focused coverage for InstalledLanguageDatabaseRepository, which previously
- * had no dedicated test class at all. Database-backed methods are exercised
- * with an ilDBInterface mock returning controlled rows (real assertions on
- * the resulting arrays and on the SQL fragments built from quote()/like(),
- * not just mock call-count expectations); filesystem-backed methods use a
- * real temporary installation root, mirroring the pattern in
- * LanguageInstallationManagerTest.
+ * Database-backed methods run against an ilDBInterface mock returning controlled rows; filesystem-backed methods
+ * use a real temporary installation root, like LanguageInstallationManagerTest.
  */
 class InstalledLanguageDatabaseRepositoryTest extends TestCase
 {
@@ -51,12 +46,8 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     }
 
     /**
-     * getInstalledLanguages()/getInstalledLocalLanguages()/getAvailableLanguages()
-     * call fetchObject() on the *database* object itself (passing the
-     * statement in), not on the statement - so the row sequence is stubbed on
-     * $db here. query() is deliberately left untouched - each test stubs it
-     * itself (once) so there is no ambiguity about which of two competing
-     * stubs for the same method wins.
+     * The read methods call fetchObject() on the database object, not on the statement, so the rows are stubbed on
+     * $db. query() is left to each test, so no two stubs compete.
      *
      * @param list<array<string, mixed>> $rows each row as an associative array of column => value
      */
@@ -254,11 +245,8 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     }
 
     /**
-     * The defining difference to getLocalChanges(): getLanguageEntries()
-     * must return every stored entry for the language key regardless of
-     * local_change, so its query must not filter on local_change at all -
-     * unlike getLocalChanges(), which restricts to a local_change date
-     * range (see testGetLocalChangesDefaultsMinAndMaxDateWhenEmptyStringsArePassed).
+     * Unlike getLocalChanges(), getLanguageEntries() returns every stored entry of the language key, so its query
+     * must not filter on local_change.
      */
     public function testGetLanguageEntriesQueryDoesNotFilterByLocalChange(): void
     {
@@ -282,7 +270,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         $root = $this->createTempInstallationRoot();
         file_put_contents($root . '/lang/customizing/ilias_de.lang.local', 'irrelevant content');
         file_put_contents($root . '/lang/customizing/ilias_en.lang.local', 'irrelevant content');
-        // Wrong naming scheme (missing .local suffix, and a typo) - must be ignored.
+        // wrong naming scheme (missing .local suffix, a typo): ignored
         file_put_contents($root . '/lang/customizing/ilias_fr.lang', 'irrelevant content');
         file_put_contents($root . '/lang/customizing/README.md', 'irrelevant content');
 
@@ -293,7 +281,6 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
 
             sort($result);
             $this->assertSame(['de', 'en'], $result);
-            // array_unique invariant: no duplicate keys in the result.
             $this->assertSame(array_values(array_unique($result)), array_values($result));
         } finally {
             $this->removeDirectory($root);
@@ -301,27 +288,16 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     }
 
     /**
-     * Regression test: the discovery regex must accept exactly the same
-     * shape as \ILIAS\Language\Activities\ParsesLanguageKeyList::LANGUAGE_KEY_FORMAT
-     * ('/^[a-z]{2}$/') - two lowercase ASCII letters, nothing else. A file
-     * whose "language key" part is uppercase, a digit, or longer/shorter
-     * than two characters must be silently ignored here, not listed as a
-     * local language: previously such a file WAS listed (any two
-     * characters were accepted), only to fail later at the stricter
-     * ParsesLanguageKeyList validation once an Activity actually tried to
-     * install/refresh it.
+     * The discovery regex must accept exactly ParsesLanguageKeyList::LANGUAGE_KEY_FORMAT ('/^[a-z]{2}$/'): other
+     * file names must be ignored, or they would fail later in the Activity's stricter validation.
      */
     public function testGetLocalLanguagesIgnoresFilesWithAnInvalidLanguageKeyShapeInTheirName(): void
     {
         $root = $this->createTempInstallationRoot();
         file_put_contents($root . '/lang/customizing/ilias_de.lang.local', 'irrelevant content');
-        // Uppercase letters - would fail ParsesLanguageKeyList's '/^[a-z]{2}$/' later.
         file_put_contents($root . '/lang/customizing/ilias_DE.lang.local', 'irrelevant content');
-        // Digits instead of letters.
         file_put_contents($root . '/lang/customizing/ilias_12.lang.local', 'irrelevant content');
-        // Mixed case.
         file_put_contents($root . '/lang/customizing/ilias_Fr.lang.local', 'irrelevant content');
-        // Three letters - too long for the fixed two-letter format.
         file_put_contents($root . '/lang/customizing/ilias_deu.lang.local', 'irrelevant content');
 
         try {
@@ -336,16 +312,13 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     }
 
     /**
-     * Same regression as above, for getInstallableLanguages() (the main
-     * lang/ directory) rather than getLocalLanguages() (lang/customizing/).
+     * Same for getInstallableLanguages() (lang/) instead of getLocalLanguages() (lang/customizing/).
      */
     public function testGetInstallableLanguagesIgnoresFilesWithAnInvalidLanguageKeyShapeInTheirName(): void
     {
         $root = $this->createTempInstallationRoot();
         file_put_contents($root . '/lang/ilias_de.lang', 'irrelevant content');
-        // Uppercase letters - would fail ParsesLanguageKeyList's '/^[a-z]{2}$/' later.
         file_put_contents($root . '/lang/ilias_DE.lang', 'irrelevant content');
-        // Digits instead of letters.
         file_put_contents($root . '/lang/ilias_12.lang', 'irrelevant content');
 
         try {
@@ -376,8 +349,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
         $root = $this->createTempInstallationRoot();
         file_put_contents($root . '/lang/ilias_de.lang', 'irrelevant content');
         file_put_contents($root . '/lang/ilias_en.lang', 'irrelevant content');
-        // Wrong naming scheme - a local file must not be picked up as installable,
-        // nor a file that doesn't follow the "ilias_xx.lang" scheme at all.
+        // a local file is not installable, nor is a name outside the "ilias_xx.lang" scheme
         file_put_contents($root . '/lang/ilias_fr.lang.local', 'irrelevant content');
         file_put_contents($root . '/lang/notes.txt', 'irrelevant content');
 
@@ -399,7 +371,7 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
 
         try {
             $repository = $this->createRepository($this->createReadDatabaseMock(), $root);
-            // Unlike checkLanguage(), a missing local file is NOT acceptable here.
+            // unlike checkLanguage(), a missing local file is not acceptable here
             $this->assertFalse($repository->checkLocalLanguageFile('de'));
         } finally {
             $this->removeDirectory($root);
@@ -425,7 +397,6 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     public function testCheckLocalLanguageFileReturnsFalseForAnInvalidLocalFile(): void
     {
         $root = $this->createTempInstallationRoot();
-        // Missing the "<!-- language file start -->" header entirely.
         file_put_contents(
             $root . '/lang/customizing/ilias_de.lang.local',
             "common#:#test#:#Custom Value\n"
@@ -442,7 +413,6 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     public function testCheckLocalLanguageFileReturnsFalseForMalformedLine(): void
     {
         $root = $this->createTempInstallationRoot();
-        // Valid header, but the line does not split into exactly 3 fields.
         file_put_contents(
             $root . '/lang/customizing/ilias_de.lang.local',
             "<!-- language file start -->\nonly_one_field\n"
@@ -457,22 +427,8 @@ class InstalledLanguageDatabaseRepositoryTest extends TestCase
     }
 
     /**
-     * checkLocalLanguageFile() used to be a `foreach (...) { return ...; }`
-     * loop that only ever looked at the first yielded directory (reading
-     * like an accidental early return) and fell through to `return false;`
-     * after the loop for zero directories. It was rewritten to make "only
-     * the first directory, false if there is none" explicit via
-     * iterator_to_array(). LanguageFileDirectoryManager::getCustomizingDirectories()
-     * always yields exactly one directory in production (see its own
-     * docblock/implementation), so this "zero directories" branch is not
-     * reachable through the real manager - it is only reachable by mocking
-     * the manager, which is otherwise a concrete collaborator this test
-     * class deliberately avoids mocking (see createRepository()). Covering
-     * it here guards the explicit `if ($directories === []) { return false; }`
-     * branch against a future refactor reintroducing the old foreach-return
-     * (which would throw/warn on an empty generator instead of cleanly
-     * returning false, or silently do the wrong thing for a differently
-     * shaped collaborator).
+     * getCustomizingDirectories() always yields one directory in production, so the "zero directories" branch
+     * (`return false`) is reachable only with a mocked manager, which this class otherwise avoids.
      */
     public function testCheckLocalLanguageFileReturnsFalseWhenNoCustomizingDirectoryIsConfiguredAtAll(): void
     {

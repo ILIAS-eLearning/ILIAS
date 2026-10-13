@@ -29,43 +29,15 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
- * Reusable helper mixed into every Activities test case that needs a
- * `\ILIAS\UI\Component\Input\Factory` (reached via `->input()` below) whose
- * `->field()->text()/checkbox()/select()/group()` return REAL, functioning
- * UI framework Field objects - i.e. one that GrindsFormInput::grind() (see
- * the trait's own docblock) can actually run
- * `withNameFrom()`/`withInput()`/`getContent()` against, instead of a plain
- * PHPUnit mock, which would either return null or a broken mock object for
- * these calls (and grind()'s own try/catch would silently turn every such
- * call into a Result\Error).
- *
- * `maybePerformAs()` (see LanguageActivity/every concrete Activity) only
- * ever needs `\ILIAS\UI\Component\Input\Factory` - it calls
- * `$input_factory->field()` directly and never touches any other
- * `\ILIAS\UI\Factory` method - so every call site here only ever chains
- * `->input()` off the returned factory before using it. The helper still
- * returns the full, enclosing `\ILIAS\UI\Factory` (rather than the narrower
- * `\ILIAS\UI\Component\Input\Factory` directly) purely because that is the
- * natural return type of the mocked `->input()` accessor below; only
- * `\ILIAS\UI\Factory::input()` and `\ILIAS\UI\Component\Input\Factory::field()`
- * are ever called by these tests, so those two collaborators are plain
- * PHPUnit mocks stubbed to return the real, concrete field factory below -
- * see CommonFieldRendering::getFieldFactory() in
- * components/ILIAS/UI/tests/Component/Input/Field/CommonFieldRendering.php
- * for the same, established recipe.
+ * Gives Activity tests a UI factory whose `->input()->field()` returns REAL field objects, so that
+ * GrindsFormInput::grind() can run withNameFrom()/withInput()/getContent() on them; a plain mock would turn
+ * every call into a Result\Error. Same recipe as CommonFieldRendering::getFieldFactory() in the UI tests.
  */
 trait RealFieldsUiFactory
 {
     /**
-     * Builds a `\ILIAS\UI\Factory` mock whose `input()` is a plain mock
-     * returning a REAL `\ILIAS\UI\Implementation\Component\Input\Field\Factory`
-     * from `field()` (the only two calls any Activity's `maybePerformAs()`/
-     * `getInputDescription()` ever makes on it), wired against a real
-     * `\ILIAS\Data\Factory`/`\ILIAS\Refinery\Factory` pair and a
-     * `\ILIAS\Language\Language` mock whose `txt()` simply echoes back the
-     * key it was given. Callers invariably chain `->input()` on the result
-     * to obtain the `\ILIAS\UI\Component\Input\Factory` that `maybePerformAs()`
-     * actually declares as its parameter type.
+     * `input()` is a mock returning the real field factory from `field()`, wired against real
+     * `\ILIAS\Data\Factory`/`\ILIAS\Refinery\Factory`; `txt()` of the Language mock echoes the key.
      */
     protected function createRealFieldsUiFactory(): \ILIAS\UI\Factory
     {

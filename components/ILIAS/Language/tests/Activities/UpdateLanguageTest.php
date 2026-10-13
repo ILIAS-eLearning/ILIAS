@@ -66,9 +66,8 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
     }
 
     /**
-     * A language that is not installed at all is a complete no-op - not even
-     * checkLanguageForInstallation may run for it, since there is nothing
-     * installed yet to refresh. Use InstallLanguage to install it first.
+     * A language that is not installed is a complete no-op, not even checkLanguageForInstallation may run;
+     * InstallLanguage installs it.
      */
     public function testSingleNotInstalledLanguageIsCompleteNoOp(): void
     {
@@ -87,9 +86,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
     }
 
     /**
-     * A single request can carry both already-installed and not-installed
-     * languages at once; each must land in its own bucket, and only the
-     * installed one may trigger any write method.
+     * Installed and not installed languages at once land in their own bucket; only the installed one triggers a write.
      */
     public function testMixedListPartitionsEachKeyIntoTheCorrectBucket(): void
     {
@@ -158,9 +155,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
     }
 
     /**
-     * All invalid keys among the ones actually being refreshed must be
-     * collected into a single error, not just the first one found - and the
-     * not-installed key must never even be validated, since it is a no-op.
+     * All invalid keys among the refreshed ones are collected into one error; the not-installed key is never validated.
      */
     public function testMultipleInvalidLanguageFilesAreAllReportedTogether(): void
     {
@@ -184,9 +179,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
     }
 
     /**
-     * When every requested language turns out to be not installed (a
-     * complete no-op), perform() must not even read the available/local
-     * languages - there is nothing left to do that would need them.
+     * If every requested language is not installed, perform() must not read the available/local languages.
      */
     public function testAllRequestedLanguagesNotInstalledSkipsLanguageLookupsEntirely(): void
     {
@@ -208,9 +201,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
     }
 
     /**
-     * UpdateLanguage never deals with customizing/local files as a distinct
-     * concept the way InstallLanguage does (mode "install_local") - it must
-     * never even look at whether a local file is invalid.
+     * UpdateLanguage must never look at whether a local file is invalid (InstallLanguage mode "install_local" does).
      */
     public function testNeverInspectsInvalidLocalLanguageFiles(): void
     {
@@ -247,8 +238,6 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
             'missing language_keys key' => [[]],
             'empty (only whitespace/commas)' => [['language_keys' => ' , ']],
             'nested array value' => [['language_keys' => ['de', ['fr']]]],
-            // Regression coverage for ParsesLanguageKeyList::toLanguageKeyList()'s
-            // format validation (exactly two lowercase ASCII letters).
             'three letters' => [['language_keys' => 'deu']],
             'one letter' => [['language_keys' => 'd']],
             'uppercase' => [['language_keys' => 'DE']],
@@ -292,8 +281,7 @@ class UpdateLanguageTest extends ActivityWithPerformResultContractTestCase
             'Language keys',
             'Comma-separated list of language keys, e.g. de, fr, it.'
         )->willReturn($text);
-        // UpdateLanguage has no mode parameter - the select field must never
-        // be built, unlike InstallLanguage's input description.
+        // no mode parameter: the select field must never be built
         $field->expects($this->never())->method('select');
 
         $group = $this->createMock(Group::class);

@@ -66,12 +66,7 @@ class ilObjLanguage extends ilObject
         global $DIC;
         $lng = $DIC->language();
 
-        // Fallback for when neither an explicit manager is injected nor the
-        // DIC provides one. The constructor's first argument is the
-        // local/customizing directory, not a global one - passing
-        // MainLanguageFileDirectory there (as before) mislabeled the global
-        // lang/ directory as "local" and left no global directory at all,
-        // which would make every entry in it look like a local override.
+        // the first constructor argument is the customizing directory, not a global one
         $this->language_file_directory_manager = $language_file_directory_manager
             ?? ($DIC[LanguageFileDirectoryManager::class] ?? null)
             ?? new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory());
@@ -88,22 +83,8 @@ class ilObjLanguage extends ilObject
         $this->cust_lang_path = $lng->getCustomLangPath();
         $this->separator = $lng->separator;
         $this->comment_separator = $lng->comment_separator;
-        // This file lives at components/ILIAS/Language/classes/ - four
-        // levels below the ILIAS root, not five. The extra "../" here used
-        // to point one directory too high (e.g. /var/www instead of
-        // /var/www/html), so the "Main" language directory (lang/) was never
-        // found - check()/refresh()/removeLocalChanges() would then always
-        // fail with "file not valid", for every language, even though the
-        // file itself was fine. Compare Language.php's own (correct)
-        // 3-level "../../../ " from components/ILIAS/Language/.
         $this->absolute_path = (string) realpath(__DIR__ . "/../../../../");
 
-        // Single source of truth for file-based language check/insert
-        // operations - see check()/insert() below. This avoids duplicating
-        // the file-parsing/DB-writing logic that used to live separately in
-        // this class and in ilObjLanguageDBAccess. Repository (read) and
-        // Manager (write) used to be bundled into ilSetupLanguage - see its
-        // class docblock and docs/development/repository-pattern.md.
         $this->repository = new InstalledLanguageDatabaseRepository(
             $DIC->database(),
             $this->language_file_directory_manager,
@@ -140,11 +121,8 @@ class ilObjLanguage extends ilObject
     /**
      * Return the language keys of the installed languages
      *
-     * KNOWN ISSUE (not fixed here, flagged for a follow-up): this checks for
-     * the exact status "installed" and therefore misses languages with the
-     * status "installed_local", unlike ilLanguage::_getInstalledLanguages()
-     * which matches on str_starts_with($desc, "installed") and thus includes
-     * both. This affects ilPluginLanguage's language selection.
+     * Matches only "installed", not "installed_local" (unlike ilLanguage::_getInstalledLanguages()); this affects
+     * ilPluginLanguage's language selection.
      *
      * @return array
      */
@@ -294,9 +272,7 @@ class ilObjLanguage extends ilObject
     /**
      * refresh current language
      *
-     * A single insert() call now covers both global and local/customizing
-     * content in one pass (see insert()'s doc comment), so the separate
-     * "refresh local on top" pass that used to follow is no longer needed.
+     * A single insert() covers global and local/customizing content.
      */
     public function refresh(): bool
     {
@@ -316,14 +292,8 @@ class ilObjLanguage extends ilObject
     /**
      * Refresh all installed languages.
      *
-     * @deprecated its only caller in this codebase,
-     * ilObjLanguageFolderGUI::refreshObject(), was removed as unreachable
-     * dead code (no link or ilCtrl command ever dispatched to it - verified
-     * repository-wide) once ilObjLanguageFolderGUI::refreshSelectedObject()
-     * was migrated to \ILIAS\Language\Activities\UpdateLanguage. Kept here,
-     * rather than removed outright, only because this is a public static
-     * method of a public API class that external/plugin code could still be
-     * calling directly.
+     * @deprecated no caller left in the core (ilObjLanguageFolderGUI::refreshObject() was unreachable and removed;
+     * refreshSelectedObject() uses \ILIAS\Language\Activities\UpdateLanguage). Kept as public API for external code.
      */
     public static function refreshAll(): void
     {
@@ -486,16 +456,8 @@ class ilObjLanguage extends ilObject
     /**
      * insert language data from file into database
      *
-     * @deprecated $scope is accepted for backwards compatibility but no
-     * longer selects a separate write path: LanguageInstallationManager::insertLanguageForInstallation()
-     * always processes every directory the LanguageFileDirectoryManager
-     * knows about (global/component directories *and* the customizing/local
-     * one) in a single, idempotent pass, correctly preserving local
-     * overrides for global entries. This replaces the previous separate
-     * ilObjLanguageDBAccess-based write path (removed). No caller in this
-     * repository passes a non-empty $scope any more (verified repo-wide) -
-     * the parameter is kept only in case external/plugin code still calls
-     * this public method with one; remove it once that can be ruled out.
+     * @deprecated $scope has no effect: LanguageInstallationManager::insertLanguageForInstallation() always processes
+     * every directory, including customizing, in one idempotent pass. No caller in the core passes it; kept for external code.
      */
     public function insert(string $scope = ""): void
     {
@@ -503,16 +465,8 @@ class ilObjLanguage extends ilObject
     }
 
     /**
-     * Remove all local changes of this language - both entries edited
-     * directly via the "adjust language variables" table and any override
-     * coming from a customizing/local language file - and reinstall the
-     * language purely from the global/component language files.
-     *
-     * This must go through insertLanguageForRemovingLocalChanges() rather
-     * than insert()/insertLanguageForInstallation(): the latter always
-     * merges the customizing directory back in, which would immediately
-     * reinstate the very data this method is supposed to remove (see
-     * LanguageInstallationManager::insertLanguageForRemovingLocalChanges()).
+     * Reinstalls the language purely from the global/component files. Must not use insert(): that merges the
+     * customizing directory back in and would reinstate what this method removes.
      *
      * Return true if the language was installed and could be reinstalled
      */
@@ -747,12 +701,7 @@ class ilObjLanguage extends ilObject
      * $scope  empty/"global" (all managed directories) or "local"
      *         (customizing directory only)
      *
-     * Delegates to InstalledLanguageRepository, which already implements
-     * this validation, keyed off the LanguageFileDirectoryManager. This
-     * used to be a separate, largely duplicated implementation that also
-     * caused hard UI redirects from this model class - callers (e.g.
-     * ilObjLanguageFolderGUI) are now responsible for turning a `false`
-     * return into user-facing feedback.
+     * Delegates to InstalledLanguageRepository; callers (e.g. ilObjLanguageFolderGUI) turn a `false` into user feedback.
      */
     public function check(string $scope = ""): bool
     {
