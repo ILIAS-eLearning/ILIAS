@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
-error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
-error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
-init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
-init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
-init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13174,20 +13168,6 @@ ps#:#rbac_log_age_info#:#თვის ჩატვირთული შენ�
 ps#:#rbac_log_info#:#ყველა ცვლილების ობიექტის დაშვებებში ჩატვირთვის გააქტიურება
 ps#:#show_privacy#:#საიდუმლო
 ps#:#show_security#:#უსაფრთხოება
-pwassist#:#password_assistance#:#პაროლის დახმარება
-pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
-pwassist#:#pwassist_enter_email#:#გთხოვთ შეიყვანოთ ემაილის მისამართი და ჩააბაროთ ფორმა.\ნილიასი გააგზავნის ემაილს ამ მისამართზე. ემაილი შეიცავს ყველა მომხმარებლის სახელს რომელმაც დაარეგისტრირა ამ ემაილის მისამართი. \ნ აირჩიეთ შესაფერისი მომხმარებლის სახელი და გამოიყენეთ პაროლის დახმარება იმისათვის რომ მიიღოთ ახალი პაროლი. თუ ვერ მიიღებთ ემაილს ამ სერვისით გთხოვთ დაუკავშირდეთ თქვენი კურსის ადმინისტრატორს ან %s 1$
-pwassist#:#pwassist_enter_username_and_email#:#შეიყვანეთ ამ ემაილთან დაკავშირებული მომხმარებლის სახელი ქვემოთ მოცემულ ველში. ნილიასი გააგზავნის შეტყობინებას ამ ემაილის მისამართზე. შეტყობინება შეიცავს ვებ გვერდის მისამართს სადაც თქვენ შეძლებთ თქვენი პაროლის აღდგენას. \ნ იმ შემთხვევაში თუ თქვენ ვერ შეძლებთ ამ ფორმიტ პაროლი აღდგენას დაუკავშირდით თქვენი კურსის ადმინისტრატორს ან გააგზავნეთ ემაილი %s1$
-pwassist#:#pwassist_enter_username_and_new_password#:#შეიყვანეთ მომხმარებლის სახელი და ახალი პაროლი ქვემოტ მოცემულ ველში
-pwassist#:#pwassist_login_not_match#:#გთხოვთ შეიყვანოთ მომხმარებლის სახელი. \ნ მომხმარებლის სახელი რომელიც თქვენ შეიყვანეთ არ შეესატყვისება იმ მომხმარებლის სახელს რომლისთვისაც თქვენ პაროლის აღდგენა მოითხოვეთ.
-pwassist#:#pwassist_mail_body#:#\n\n- If you have used the password assistance form on the ILIAS server by accident
-pwassist#:#pwassist_mail_sent#:#შეტყობინება გაგზავნილია %s1$. \ნ გთხოვთ შეამოწმოთ თქვენი შეტყობინების ყუთი
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
-pwassist#:#pwassist_mail_subject#:#ილიასის პაროლის დახმარება
-pwassist#:#pwassist_password_assigned#:#პაროლი წარმატებით დაინიშნა მომხარებელზე "%s1$".
-pwassist#:#pwassist_session_expired#:#გთხოვთ ხელახლა შეავსოთ ეს ფორმა. \ნ თქვენი პაროლის დახმარების სესია ამოიწურა. Eეს იმის გამო მოხდა რომ თქვენ გამოგზავნილი ლინკი რამდენიმეჯერ გამოიყენეთ ან დიდი დრო მოანდომეთ პაროლის აღდგენას
-pwassist#:#pwassist_username_mail_body#:#\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested
-pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

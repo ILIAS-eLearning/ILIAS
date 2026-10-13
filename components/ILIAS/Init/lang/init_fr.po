@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr "Mauvaise authentification"
+
+msgid "init_error_maintenance"
+msgstr "Le serveur est indisponible pour cause de maintenance. Veuillez nous excuser."
+
+msgid "init_error_redirect_click"
+msgstr "Cliquer pour continuer"
+
+msgid "init_error_redirect_info"
+msgstr "Redirection on supportée dans ce contexte"

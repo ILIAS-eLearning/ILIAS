@@ -8738,10 +8738,6 @@ ecs#:#ecs_wiki_export#:#Lançamentos wiki
 ecs#:#ecs_wiki_export_disabled#:#Não lance esta wiki
 ecs#:#ecs_wiki_export_enabled#:#Lançar esta wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Definições do lançamento de wikis
-error#:#error_back_to_repository#:#Voltar ao repositório
-error#:#error_sry_error#:#Seleção impossível por não ter sido introduzido nenhum endereço de e-mail
-error#:#http_404_not_found#:#The requested page could not be found.###03 09 2026 new variable
-error#:#http_500_internal_server_error#:#An internal server error occurred.###03 09 2026 new variable
 etal#:#appointments#:#Appointments###03 09 2026 new variable
 etal#:#cal_type_tals#:#Talks###03 09 2026 new variable
 etal#:#change_date_of_series#:#Change date of talk series###03 09 2026 new variable
@@ -10033,10 +10029,6 @@ iass#:#il_iass_members#:#Participantes
 iass#:#lp_inactive#:#Nota: o progresso de aprendizagem para este objeto está inativo. Assim sendo, as adesões poderão não ser finalizadas.
 iass#:#save_amend#:#Save Amended Record###03 09 2026 new variable
 impr#:#impr_page_type_impr#:#Imprint###30 04 2021 new variable
-init#:#init_error_authentication_fail#:#Autenticação falhou.
-init#:#init_error_maintenance#:#O servidor não está disponível devido a manutenção. Pedimos desculpa pelo incómodo.
-init#:#init_error_redirect_click#:#Clique para continuar.
-init#:#init_error_redirect_info#:#Redirecionamento não suportado pelo contexto.
 irss#:#action_download#:#Download###03 09 2026 new variable
 irss#:#action_goto#:#Open Resource###03 09 2026 new variable
 irss#:#action_remove_resource#:#Delete Resource###03 09 2026 new variable
@@ -13273,20 +13265,6 @@ ps#:#rbac_log_age_info#:#Idade máxima das entradas de registo num mês
 ps#:#rbac_log_info#:#Ativar logging de todas as alterações para permissões de objeto
 ps#:#show_privacy#:#Não insira as perguntas num banco de perguntas (apenas disponível neste inquérito)
 ps#:#show_security#:#Segurança
-pwassist#:#password_assistance#:#Comportamento padrão (certamente-mais positivo-indeciso-mais negativo-certamente que não)
-pwassist#:#pwassist_disabled_no_access#:#A assistência da palavra-passe não está ativada. Entre em contacto com o administrador do sistema para mais assistência: %s
-pwassist#:#pwassist_enter_email#:#Comportamento padrão (sim-não)
-pwassist#:#pwassist_enter_username_and_email#:#Comportamento padrão (sim-indeciso-não)
-pwassist#:#pwassist_enter_username_and_new_password#:#O sistema não conseguiu encontrar os dados do seu inquérito para o código de inquérito &quot;%s&quot;. Verifique o código de inquérito que introduziu!
-pwassist#:#pwassist_login_not_match#:#Os dados de importação devem conter pelo menos um campo de ‘e-mail’
-pwassist#:#pwassist_mail_body#:#Os dados de importação devem conter pelo menos uma coluna de ‘e-mail’ com o título ‘e-mail’ na primeira linha e os endereços de e-mail nas linhas seguintes
-pwassist#:#pwassist_mail_sent#:#Foi enviada uma mensagem para %1$s.\nPVerifique a sua caixa de correio.
-pwassist#:#pwassist_mail_sent_generic#:#O valor máximo tem de ser superior ou igual ao valor mínimo e deve ser inferior ou igual ao número máximo de respostas.
-pwassist#:#pwassist_mail_subject#:#Selecione exatamente %s resposta(s).
-pwassist#:#pwassist_password_assigned#:#A palavra-passe foi atribuída com sucesso ao utilizador "%1$s".
-pwassist#:#pwassist_session_expired#:#Selecione pelo menos %s resposta(s).
-pwassist#:#pwassist_username_mail_body#:#Estatística
-pwassist#:#unassist_disabled_no_access#:#A assistência do nome de utilizador não está ativada. Entre em contacto com o administrador do sistema para mais assistência: %s
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

@@ -8707,10 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wikiリリース
 ecs#:#ecs_wiki_export_disabled#:#このWikiをリリースしない
 ecs#:#ecs_wiki_export_enabled#:#このWikiをリリース
 ecs#:#ecs_wiki_export_obj_settings#:#Wikiリリース設定
-error#:#error_back_to_repository#:#リポジトリへ戻る
-error#:#error_sry_error#:#エラーが発生しました。
-error#:#http_404_not_found#:#リクエストされたページは見つかりませんでした。
-error#:#http_500_internal_server_error#:#内部サーバーエラーが発生しました。
 etal#:#appointments#:#アポイント
 etal#:#cal_type_tals#:#トーク
 etal#:#change_date_of_series#:#トークシリーズの日付を変更
@@ -9997,10 +9993,6 @@ iass#:#il_iass_members#:#参加者
 iass#:#lp_inactive#:#注意: このオブジェクトの学習進捗はアクティブではありません。よってメンバーシップは確定されません。
 iass#:#save_amend#:#修正されたレコードを保存
 impr#:#impr_page_type_impr#:#Imprint
-init#:#init_error_authentication_fail#:#認証に失敗しました。
-init#:#init_error_maintenance#:#メンテナンスのためサーバは利用できません。ご迷惑おかけして申し訳ありません。
-init#:#init_error_redirect_click#:#継続するにはクリックしてください
-init#:#init_error_redirect_info#:#コンテキストでのリダイレクトはサポートされていません。
 irss#:#action_download#:#Download
 irss#:#action_goto#:#リソースを開く
 irss#:#action_remove_resource#:#リソースを削除
@@ -13241,20 +13233,6 @@ ps#:#rbac_log_age_info#:#月間ログエントリー最高年齢
 ps#:#rbac_log_info#:#オブジェクトアクセス権限に対する全ての変更ログを有効にする
 ps#:#show_privacy#:#プライバシー
 ps#:#show_security#:#セキュリティ
-pwassist#:#password_assistance#:#パスワード支援
-pwassist#:#pwassist_disabled_no_access#:#パスワード支援が有効になっていません。以降の支援:についてはシステム管理者へコンタクトしてください。%s:
-pwassist#:#pwassist_enter_email#:#メールアドレスに入力してフォームを送信するとそのアドレスへメールを送ります。メールにはそのメールアドレスに登録されている全てのユーザ名が含まれます。適切なユーザ名を選択しパスワードサービスを利用して新しいパスワードを検索します。このサービスによる一切のメール検索をしないようにするにはコース管理者もしくは%1$sへ連絡してください。
-pwassist#:#pwassist_enter_username_and_email#:#以下の欄へユーザ名と関係するe-mailアドレスを入力します。ILIASはそのe-mailアドレスへメッセージを送ります。メッセージにはユーザアカウント用の新しいパスワードを入力ができるwebページのアドレスが含まれています。lnこのフォームを使ってユーザアカウントのパスワード設定ができない場合はコース管理者へ連絡するかまたは%1$sへメール連絡してください。
-pwassist#:#pwassist_enter_username_and_new_password#:#以下の欄へユーザ名と新しいパスワードを入力します。
-pwassist#:#pwassist_login_not_match#:#別のユーザ名を入力してください。入力されたユーザ名はパスワード支援用の質問の設定と一致しません。
-pwassist#:#pwassist_mail_body#:#ユーザアカウントの新しいパスワード登録を行います:\t%1$s:<br><br>このメッセージはILIASサーバ\t%2$sが自動生成したものです。:<br><br>あなた(もしくは%3$sのだれか）がユーザアカウント"%4$s"用の新しいパスワードを要求しました。以下に示された条件を十分確認の上で順次進んでください:<br><br>• 誤ってILIASサーバのパスワード支援フォームを送った場合:メールを削除。<br><br>• このILIASサーバのパスワード支援利用に心当たりがない場合: %5$sへ連絡してください。 <br><br>•パスワード支援を要求した場合は次の手順で進みます:<br>1. ブラウザを開きます。:<br>2. ブラウザに次のアドレスを入力します:\t%6$s<br>重要: アドレスは1行です。アドレスが複数行に分割される場合はご利用のメーラが分割行を自動挿入しています。<br>3. ブラウザに表示されるWebページにユーザアカウントの新しいパスワードを入力します。<br><br>セキュリティ上の理由により、上記の3ステップを同時に制限時間内にまとめて実行する必要があります。一定時間を過ぎるとアドレスは無効となるので、再度ILIASサーバのパスワード支援のページを使用する必要があります。
-pwassist#:#pwassist_mail_sent#:#入力されたユーザ名とメールアドレスのアカウントが見つかるとメッセージが %1$sへ送信されます。以降の情報はメールボックスをチェックしてください。
-pwassist#:#pwassist_mail_sent_generic#:#メッセージはILIASに設定されているemailアドレスへ送信されました。メールボックスを確認してください。
-pwassist#:#pwassist_mail_subject#:#ILIAS パスワード支援
-pwassist#:#pwassist_password_assigned#:#パスワードは、正しくユーザ "%1$s"へ割当てられました。
-pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください.パスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
-pwassist#:#pwassist_username_mail_body#:#これらは登録されたe-mailアドレス :%s に見つかったアクティブなユーザ名です。<br><br>このメッセージは自動的に次のILIAS :%s が自動作成したものです。<br><br>あなた(もしくはIP %sのだれか)がe-mailアドレス'%s'のユーザ名忘れのサポートを要求しました。次をチェックして対応を実行してください:<br><br> •間違ってメールを送信した:このメールを削除<br><br>• メールを要求したことはない:%sへ連絡してください。<br><br>• メールを要求した場合は次を実行してください:<br>1. インターネットブラウザを開始。<br>2.次のURL:%<br>を入力<br>Important: アドレスは1行にする事。アドレスが複数行に分離していると、メールプログラムは改行を挿入します。<br>3. ブラウザにはパスワードサービスが表示されます。このページは新しいパスワードに関係するユーザ名と相当するメールアドレスと合わせて使用する事。
-pwassist#:#unassist_disabled_no_access#:#ユーザ名支援が有効になっていません。以降の支援:についてはシステム管理者へコンタクトしてください。%s:
 pwsp#:#pwsp_enable_personal_resources#:#パーソナルリソースを有効化
 pwsp#:#pwsp_enable_wsp_blogs#:#ブログを有効化
 pwsp#:#pwsp_enable_wsp_files#:#ファイルを有効化

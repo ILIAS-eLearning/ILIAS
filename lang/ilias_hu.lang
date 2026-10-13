@@ -8753,10 +8753,6 @@ ecs#:#ecs_wiki_export#:#Wikikiadások
 ecs#:#ecs_wiki_export_disabled#:#Ne legyen kiadva ez a wiki
 ecs#:#ecs_wiki_export_enabled#:#Ezen wiki kiadása
 ecs#:#ecs_wiki_export_obj_settings#:#Wikikiadás beállításai
-error#:#error_back_to_repository#:#Vissza a Tartalomtárba
-error#:#error_sry_error#:#Sajnáljuk, hiba történt.
-error#:#http_404_not_found#:#A kért oldal nem található.
-error#:#http_500_internal_server_error#:#Belső szerverhiba történt.
 etal#:#appointments#:#Találkozók
 etal#:#cal_type_tals#:#Megbeszélések
 etal#:#change_date_of_series#:#Megbeszéléssorozat dátumának módosítása
@@ -10046,10 +10042,6 @@ iass#:#il_iass_members#:#Értékelendők
 iass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
 iass#:#save_amend#:#Módosított bejegyzés mentése
 impr#:#impr_page_type_impr#:#Impresszum
-init#:#init_error_authentication_fail#:#Hitelesítés sikertelen.
-init#:#init_error_maintenance#:#A szerver karbantartás miatt nem elérhető. Elnézést az esetleges kellemetlenségért.
-init#:#init_error_redirect_click#:#Kattintson a folytatáshoz.
-init#:#init_error_redirect_info#:#Az átirányítás nem támogatott.
 irss#:#action_download#:#Letöltés
 irss#:#action_goto#:#Erőforrás megnyitása
 irss#:#action_remove_resource#:#Erőforrás törlése
@@ -13243,20 +13235,6 @@ ps#:#rbac_log_age_info#:#Naplóbejegyzések maximális élettartama hónapokban
 ps#:#rbac_log_info#:#Az összes objektum-jogosultságbeli módosítás naplózása
 ps#:#show_privacy#:#Adatvédelem
 ps#:#show_security#:#Biztonság
-pwassist#:#password_assistance#:#Jelszósegédlet
-pwassist#:#pwassist_disabled_no_access#:#A jelszósegédlet nincs bekapcsolva. További információért keresse a üzemeltetőt: %s
-pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet. Az ILIAS egy e-mailt küld erre a címre, amely tartalmazza az összes felhasználónevet, amely ezt az e-mail címet adta meg. Válassza ki a kívánt felhasználónevet, és használja a jelszósegédletet új jelszó megadásához. Ha rövid időn belül nem kapja meg az e-mailt, vegye fel a kapcsolatot egy rendszergazdával vagy küldjön e-mailt a következő címre: %1$s
-pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához. Ha ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s
-pwassist#:#pwassist_enter_username_and_new_password#:#Adja meg a felhasználónevet és az új jelszót!
-pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg! A megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért.
-pwassist#:#pwassist_mail_body#:#Adjon meg új jelszót az ILIAS-fiókjához: %1$s<br/><br/>Ezt az üzenetet automatikusan generálta az alábbi ILIAS-szerver %2$s<br/><br/>Ön (vagy valaki %3$s) jelszósegédletet kért a ‘%4$s’ ILIAS-fiókhoz. Gondosan ellenőrizze az alább felsorolt lehetőségeket, és azok szerint járjon el:<br/><br/>• Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna: Törölje ezt a levelet.<br/><br/>• Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől: Vegye fel a kapcsolatot: %5$s.<br/><br/>• Ha kért jelszósegédletet, járjon el az alábbiak szerint:<br/>1. Nyissa meg böngészőjét.<br/>2. Adja meg a következő címet böngészőjében: %6$s<br/>Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.<br/>3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.<br/><br/>Vegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
-pwassist#:#pwassist_mail_sent#:#Üzenetet küldtünk a következő címre: %1$s Ellenőrizze postaládáját!
-pwassist#:#pwassist_mail_sent_generic#:#Üzenetet küldtünk az ILIAS-ban megadott e-mail címére. Ellenőrizze postaládáját!
-pwassist#:#pwassist_mail_subject#:#ILIAS-jelszósegédlet
-pwassist#:#pwassist_password_assigned#:#‘%1$s’ felhasználó jelszavát sikeresen cseréltük.
-pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot! Jelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
-pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak: %s<br/><br/>Ezt az üzenetet automatikusan küldte a következő ILIAS-szerver: %s<br/><br/>%s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt. Gondosan ellenőrizze az alább felsorolt lehetőségeket, és azok szerint járjon el:<br/><br/>• Ha véletlenül kérte ezt a levelet, törölje.<br/><br/>• Ha biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s.<br/><br/>• Ha Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint:<br/>1. Nyissa meg böngészőjét.<br/>2. Adja meg a következő címet böngészőjében: %s<br/>Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.<br/>3. A böngészője által megjelenített weboldalon adja meg az egyik fiók e-mail címét, melynek vissza kívánja szerzi jelszavát.
-pwassist#:#unassist_disabled_no_access#:#A felhasználónév-segédlet nincs bekapcsolva. További információért keresse az üzemeltetőt: %s
 pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogok bekapcsolása
 pwsp#:#pwsp_enable_wsp_files#:#Fájlok bekapcsolása

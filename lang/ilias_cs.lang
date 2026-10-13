@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Uvolnění Wiki
 ecs#:#ecs_wiki_export_disabled#:#Neuvolňujte tuto Wiki
 ecs#:#ecs_wiki_export_enabled#:#Uvolněte tuto Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Nastavení uvolnění Wiki
-error#:#error_back_to_repository#:#Zpět na úložiště
-error#:#error_sry_error#:#Je nám líto, ale došlo k chybě.
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Účastníci
 iass#:#lp_inactive#:#Poznámka: Postup učení pro tento objekt je neaktivní. Proto nesmí být členství dokončena.
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Ověření se nezdařilo.
-init#:#init_error_maintenance#:#Server není k dispozici z důvodu údržby. Omlouváme se za případné nepříjemnosti.
-init#:#init_error_redirect_click#:#Klikněte na tlačítko pokračovat.
-init#:#init_error_redirect_info#:#Přesměrování není podporováno kontextem.
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13174,20 +13168,6 @@ ps#:#rbac_log_age_info#:#Maximální věk záznamu vstupů v měsících
 ps#:#rbac_log_info#:#Zapnout záznam všech změn oprávnění objektů
 ps#:#show_privacy#:#Soukromé
 ps#:#show_security#:#Bezpečnost
-pwassist#:#password_assistance#:#Asistence hesla
-pwassist#:#pwassist_disabled_no_access#:#Pomoc s heslem není povolena. Pokud potřebujete další pomoc, obraťte se správce systému: %s
-pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář odešlete.\nILIAS zašle e-mail na tuto adresu. Tento E-mail bude obsahovat všechna uživatelská jména, která jsou na tuto e-mailovou adresu registrována.\nVyberte si příslušné jméno uživatele a použijte službu hesla k získání  nového hesla. Pokud neobdržíte žádný e-mail od této služby, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže.\nILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet.\nV případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Vložte jméno uživatele a nové heslo do polí níže.
-pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno.\nUživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
-pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet:\n\t%1$s\n\nTato zpráva byla vygenerována automaticky serverem ILIAS\n\t%2$s\n\nVy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".\n\nZkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:\n\n- Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě:\nSmažte tento e-mail.\n\n- Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS:\nKontaktujte prosím %5$s.\n\n- Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte do Vašeho prohlížeče následující adresu:\n t%1$s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.\n\n3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.\n\nPamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
-pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s.\nZkontrolujte prosím svou poštovní schránku.
-pwassist#:#pwassist_mail_sent_generic#:#Zpráva byla odeslána na e-mailovou adresu definovanou v ILIAS.\nPodívejte se laskavě do své poštovní schránky.
-pwassist#:#pwassist_mail_subject#:#Asistence hesla ILIAS
-pwassist#:#pwassist_password_assigned#:#Heslo bylo úspěšně přiřazeno uživateli "%1$s".
-pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu.\nVaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
-pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu:\n%s\n\nTato zpráva byla vytvořena automaticky serverem ILIAS:\n\t%s\n\nVy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.\n\nZkontrolujte prosím následující a postupujte podle doporučení::\n\n-Vy jste požádal(a) o tento e-mail při závadě:\nSmažte tento e-mail.\n\n-Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a):\nKontaktujte prosím %s.\n\n- Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte následující URL:\n\t%s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.\n\n3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
-pwassist#:#unassist_disabled_no_access#:#Pomoc s uživatelským jménem není povolena. Pokud potřebujete další pomoc, obraťte se správce systému: %s
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

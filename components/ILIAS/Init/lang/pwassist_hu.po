@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Jelszósegédlet"
+
+msgid "pwassist_disabled_no_access"
+msgstr "A jelszósegédlet nincs bekapcsolva. További információért keresse a üzemeltetőt: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Adjon meg egy e-mail címet. Az ILIAS egy e-mailt küld erre a címre, amely tartalmazza az összes felhasználónevet, amely ezt az e-mail címet adta meg. Válassza ki a kívánt felhasználónevet, és használja a jelszósegédletet új jelszó megadásához. Ha rövid időn belül nem kapja meg az e-mailt, vegye fel a kapcsolatot egy rendszergazdával vagy küldjön e-mailt a következő címre: %1$s"
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához. Ha ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s"
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Adja meg a felhasználónevet és az új jelszót!"
+
+msgid "pwassist_login_not_match"
+msgstr "Másik felhasználónevet adjon meg! A megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért."
+
+msgid "pwassist_mail_body"
+msgstr "Adjon meg új jelszót az ILIAS-fiókjához: %1$s<br/><br/>Ezt az üzenetet automatikusan generálta az alábbi ILIAS-szerver %2$s<br/><br/>Ön (vagy valaki %3$s) jelszósegédletet kért a ‘%4$s’ ILIAS-fiókhoz. Gondosan ellenőrizze az alább felsorolt lehetőségeket, és azok szerint járjon el:<br/><br/>• Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna: Törölje ezt a levelet.<br/><br/>• Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől: Vegye fel a kapcsolatot: %5$s.<br/><br/>• Ha kért jelszósegédletet, járjon el az alábbiak szerint:<br/>1. Nyissa meg böngészőjét.<br/>2. Adja meg a következő címet böngészőjében: %6$s<br/>Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.<br/>3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.<br/><br/>Vegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia."
+
+msgid "pwassist_mail_sent"
+msgstr "Üzenetet küldtünk a következő címre: %1$s Ellenőrizze postaládáját!"
+
+msgid "pwassist_mail_sent_generic"
+msgstr "Üzenetet küldtünk az ILIAS-ban megadott e-mail címére. Ellenőrizze postaládáját!"
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS-jelszósegédlet"
+
+msgid "pwassist_password_assigned"
+msgstr "‘%1$s’ felhasználó jelszavát sikeresen cseréltük."
+
+msgid "pwassist_session_expired"
+msgstr "Töltse ki újra ezt az űrlapot! Jelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket."
+
+msgid "pwassist_username_mail_body"
+msgstr "Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak: %s<br/><br/>Ezt az üzenetet automatikusan küldte a következő ILIAS-szerver: %s<br/><br/>%s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt. Gondosan ellenőrizze az alább felsorolt lehetőségeket, és azok szerint járjon el:<br/><br/>• Ha véletlenül kérte ezt a levelet, törölje.<br/><br/>• Ha biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s.<br/><br/>• Ha Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint:<br/>1. Nyissa meg böngészőjét.<br/>2. Adja meg a következő címet böngészőjében: %s<br/>Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.<br/>3. A böngészője által megjelenített weboldalon adja meg az egyik fiók e-mail címét, melynek vissza kívánja szerzi jelszavát."
+
+msgid "unassist_disabled_no_access"
+msgstr "A felhasználónév-segédlet nincs bekapcsolva. További információért keresse az üzemeltetőt: %s"

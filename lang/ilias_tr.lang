@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki Bültenleri
 ecs#:#ecs_wiki_export_disabled#:#bu Wiki bırakmayın
 ecs#:#ecs_wiki_export_enabled#:#bu Wiki bırakın
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Yayın Ayarları
-error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
-error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
-init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
-init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
-init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
-init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13174,20 +13168,6 @@ ps#:#rbac_log_age_info#:#Ay içinde günlük girdilerini maksimum yaşı
 ps#:#rbac_log_info#:#Nesne izinlerinde yapılan tüm değişikliklerin günlüğünü tutulur
 ps#:#show_privacy#:#Gizlilik
 ps#:#show_security#:#Güvenlik
-pwassist#:#password_assistance#:#Şifre Yardımı
-pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
-pwassist#:#pwassist_enter_email#:#e-posta adresinizi girin ve. \ Nilias bu adrese bir e-posta göndereceğiz formu doldurarak gönderiniz. E-posta Bu e-posta adresi kayıtlı tüm kullanıcı adlarını içerir. \ NChoose uygun bir kullanıcı adı ve yeni bir şifre almak için şifre servisini kullanmak. Bu hizmet ile herhangi bir e-posta almak istemiyorsanız kurs yöneticisi veya% 1 $ s ile iletişim kurunuz.
-pwassist#:#pwassist_enter_username_and_email#:#aşağıda gösterilen alanlara bir kullanıcı adı ve ilişkili e-posta adresini girin. \ Nilias bu e-posta adresine bir mesaj gönderecektir. Mesaj bir web sayfası için bir adres içerir, nereye kullanıcı hesabı için yeni bir parola girebilirsiniz. \ Nin durumunda bu formu kullanarak kullanıcı hesabı için bir parola atamak mümkün değildir, kurs yönetimi ile temas ya da bir e-posta göndermek % 1 $ s için.
-pwassist#:#pwassist_enter_username_and_new_password#:#kullanıcı adınızı ve aşağıda alanlarına yeni parolayı girin.
-pwassist#:#pwassist_login_not_match#:#başka bir kullanıcı adı giriniz. Girdiğiniz \ nBu kullanıcı adı şifre yardımı için sormuştu hangi kullanıcı adı eşleşmiyor.
-pwassist#:#pwassist_mail_body#:#$ S \ n \ nBu mesaj ILIAS sunucu tarafından otomatik olarak oluşturuldu \ n \ t% 2 $ s \ n \ nBu (veya% 3 birisiyle $ \ n \ t% 1: kullanıcı hesabınız için yeni bir şifre Kayıt s) "% 4 $ s" kullanıcı hesabı için parola yardım istedi \ n \ nLütfen aşağıda sıralanan koşulları dikkatle kontrol edin ve buna göre hareket edin:. Eğer ILIAS sunucudaki şifre yardımı formu kullanılmıştır \ n \ n-varsa kaza: \ nDelete bu mail \ n \ n-Eğer bu ILIAS sunucuda şifre yardım istedi asla, kesin:.. şifre yardım istedi $ s \ n \ n-Eğer \ nLütfen iletişim% 5, şu şekilde hareket edin: \ n \ n1. Tarayıcınızı açın. \ N \ n2. Tarayıcınızda aşağıdaki adresi girin: \ n \ t% 6 $ s \ n \ nImportant: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir. \ N \ n3. Tarayıcınız tarafından gösterilen web sayfasında, kullanıcı hesabınız için yeni bir şifre güvenlik nedenleriyle, sadece tam bir kez ve yalnızca sınırlı bir süre için yukarıdaki üç adımı gerçekleştirebilirsiniz. \ N \ nLütfen not girin. Daha sonra adres geçersiz olur ve tekrar ILIAS sunucuda şifre yardımı sayfasını kullanmak zorunda.
-pwassist#:#pwassist_mail_sent#:#Bir mesaj% 1 $ s gönderildi. \ NLütfen posta kutusunu işaretleyin.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
-pwassist#:#pwassist_mail_subject#:#ILIAS Şifre Yardımı
-pwassist#:#pwassist_password_assigned#:#parola başarıyla kullanıcı "% 1 $ s" atanmıştır.
-pwassist#:#pwassist_session_expired#:#yine bu formu doldurunuz. \ NDışa şifre yardım oturumunuzun süresi doldu. Eğer birden fazla kez size e-posta ile gönderilen linki kullanmaya çalıştım, çünkü bu olmuş olabilir, veya bağlantıyı size gönderilen beri çok zaman geçti çünkü.
-pwassist#:#pwassist_username_mail_body#:#Bu verilen e-posta adresi için bulunan aktif kullanıcı adı: \ n% s \ n \ nBu mesajı şu ILIAS Server tarafından otomatik olarak oluşturulmuştur \ n \ t% s \ n \ nBu (veya IP% olan biri ler) e-posta adresi '% s' için unutulmuş kullanıcı için destek talep etmiş önerdiği gibi \ n \ nLütfen aşağıdaki ve hareket kontrol :: \ n \ n-İstemeden Bu e-posta istedi:. \ nDelete bu E-posta \ n \ n-Sen bu e-posta talep asla, eminiz:.. \ nLütfen temas% s aşağıdaki gibi \ n \ n-Eğer bu e-posta talep, lütfen devam :: \ n \ n1. Internet tarayıcınızı açın. \ N \ n2. Aşağıdaki url girin: \ n \ t% s \ n \ nImportant: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir. \ N \ n3. Tarayıcınız artık Şifre-Servis gösterir. Adlarını biri ve yeni bir şifre almak için uygun e-posta adresi ile birlikte bu sayfayı kullanın.
-pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s###31 08 2017 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable

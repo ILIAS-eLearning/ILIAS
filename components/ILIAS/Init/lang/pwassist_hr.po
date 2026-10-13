@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Pomoć za lozinku"
+
+msgid "pwassist_disabled_no_access"
+msgstr "Pomoć za lozinku nije omogućena. Molimo kontaktirajte administraciju sustava za daljnju pomoć: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Unesite adresu e-pošte i pošaljite obrazac.\\nILIAS će poslati e-poštu na tu adresu. E-pošta sadrži sva korisnička imena koja su registrirala ovu adresu e-pošte.\\nOdaberite odgovarajuće korisničko ime i upotrijebite uslugu za lozinku kako biste postavili novu lozinku. Ako ne dobijete nijednu e-poštu putem ove usluge, obratite se administratoru tečaja ili %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Unesite korisničko ime i povezanu adresu e-pošte u dolje prikazana polja.\\nIlias će poslati poruku na tu adresu e-pošte. Poruka sadrži adresu in ternetske stranice na kojoj možete unijeti novu lozinku za korisnički račun.\\nU slučaju da pomoću ovog obrasca ne možete dodijeliti lozinku svom korisničkom računu, obratite se administraciji tečaja ili pošaljite e-poštu na %1$s."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Unesite korisničko ime i novu lozinku u polja ispod."
+
+msgid "pwassist_login_not_match"
+msgstr "Unesite drugo korisničko ime.\\nUneseno ime koje ste unijeli ne podudara se s korisničkim imenom za koje ste zatražili pomoć vezano za lozinku."
+
+msgid "pwassist_mail_body"
+msgstr "Registrirajte novu lozinku za svoj korisnički račun:\\n\\t% 1$s\\n\\nOvu poruku automatski je generirao server ILIAS\\n\\t%2$s\\n\\nVi (ili netko na %3$s) zatražio je pomoć za lozinku za korisnički račun \"%4$s\".\\n\\nPažljivo provjerite dolje navedene uvjete i nastavite u skladu s tim:\\n\\n- Ako ste na ILIAS serveru slučajno koristili obrazac za pomoć vezano za lozinku:\\nIzbrišite ovu poruku e-pošte.\\n\\n- Ako ste sigurni da nikada niste zatražili pomoć za lozinku na ovom ILIAS serveru:\\nMolimo kontaktirajte %5$s.\\n\\n- Ako ste zatražili pomoć za lozinku, molimo vas postupite na sljedeći način:\\n\\n1. Otvorite svoj preglednik.\\n\\n2. U svoj preglednik unesite sljedeću adresu:\\n\\t%6$s\\n\\nVažno: Adresa je jedan redak. Ako vidite da je ova adresa podijeljena u više redaka, tada je vaš program za e-poštu ubacio ove prijelome redaka.\\n\\n3. Na internetskoj stranici koju prikazuje vaš preglednik unesite novu lozinku za svoj korisnički račun.\\n\\nNapominjemo da gore navedena tri koraka možete izvršiti samo točno jednom i samo na ograničeno vrijeme. Nakon toga adresa postaje nevaljana i morate ponovno koristiti stranicu za pomoć s lozinkom na ILIAS serveru."
+
+msgid "pwassist_mail_sent"
+msgstr "Poruka je poslana na %1$s.\\nPrevjerite svoj poštanski sandučić."
+
+msgid "pwassist_mail_sent_generic"
+msgstr "Poruka je poslana na adresu e-pošte definiranu u ILIAS-u.\\nProvjerite svoj poštanski sandučić."
+
+msgid "pwassist_mail_subject"
+msgstr "Pomoć za lozinku ILIAS"
+
+msgid "pwassist_password_assigned"
+msgstr "Lozinka je uspješno dodijeljena korisničkom imenu \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Molimo vas da ponovo ispunite ovaj obrazac.\\nVaša sesija pomoći za lozinku je istekla. To se moglo dogoditi jer ste više puta pokušali koristiti poveznicuu koja vam je poslana e-poštom ili zato što je prošlo previše vremena otkad vam je poveznica poslana."
+
+msgid "pwassist_username_mail_body"
+msgstr "Ovo je aktivno korisničko ime pronađeno za danu adresu e-pošte:\\n%s\\n\\nOvu je poruku automatski kreirao sljedeći server ILIAS-a:\\n\\t%s\\n\\nVi (ili netko s IP adrese %s) zatražili ste podršku za zaboravljena korisnička imena za adresu e-pošte '% s'.\\n\\nProvjerite sljedeće i ponašajte se kao što je predloženo::\\n\\n-Slučajno ste zatražili ovu e-poštu:\\nIzbrišite ovu e-poštu.\\n\\n-Sigurni ste da nikada niste zatražili ovu e-poštu:\\nMolimo kontaktirajte % s.\\n\\n- Ako ste zatražili ovu e-poštu, postupite na sljedeći način::\\n\\n1. Pokrenite internetski preglednik.\\n\\n2. Unesite sljedeći url:\\n\\t%s\\n\\nVažno: Adresa je jedan redak. Ako vidite da je ova adresa podijeljena u više redaka, tada je vaš program za e-poštu ubacio ove prijelome redaka.\\n\\n3. Vaš preglednik sada prikazuje uslugu za lozinke. Upotrijebite ovu stranicu zajedno s jednim od korisničkih imena i odgovarajućom adresom e-pošte za dohvaćanje nove lozinke."
+
+msgid "unassist_disabled_no_access"
+msgstr "Pomoć oko korisničkog imena nije omogućena. Molimo kontaktirajte administraciju sustava za daljnju pomoć: %s"

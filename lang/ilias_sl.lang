@@ -8707,8 +8707,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
-error#:#error_back_to_repository#:#Back to Repository
-error#:#error_sry_error#:#Sorry, an error occurred.
 etal#:#appointments#:#Appointments###19 08 2022 new variable
 etal#:#cal_type_tals#:#Talks###19 08 2022 new variable
 etal#:#change_date_of_series#:#Change date of talk series###19 08 2022 new variable
@@ -9991,10 +9989,6 @@ iass#:#il_iass_members#:#Udeleženec
 iass#:#lp_inactive#:#Upoštevajte: določanje učnega napredka za ta objekt je onemogočeno. Zato udeležb ni mogoče zaključiti.
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
 impr#:#impr_page_type_impr#:#Imprint
-init#:#init_error_authentication_fail#:#Avtentikacija ni uspela.
-init#:#init_error_maintenance#:#Strežnik zaradi vzdrževalnih del trenutno ni na voljo. Prosimo za razumevanje. Poskusite ponovno pozneje.
-init#:#init_error_redirect_click#:#Kliknite za nadaljevanje.
-init#:#init_error_redirect_info#:#Posredovanje na podlagi konteksta ni podprto.
 irss#:#action_download#:#Download###26 08 2024 new variable
 irss#:#action_goto#:#Open Resource###26 08 2024 new variable
 irss#:#action_remove_resource#:#Delete Resource###26 08 2024 new variable
@@ -13174,20 +13168,6 @@ ps#:#rbac_log_age_info#:#Maximum age of log entries in month
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Security
-pwassist#:#password_assistance#:#Pomoč pri geslu
-pwassist#:#pwassist_disabled_no_access#:#Pomoč pri geslu ni aktivirana.  Za nadaljnjo pomoč se obrnite na sistemskega administratorja: %s
-pwassist#:#pwassist_enter_email#:#Vnesite e-poštni naslov in kliknite na pošlji. ILIAS bo poslal e-pošto na ta naslov. E-pošta vsebuje vsa uporabniška imena, ki imajo v profilu vnešen e-poštni naslov. Izberite ustrezno uporabniško ime in uporabite funkcijo "Pozabljeno geslo", da vam bo poslano novo geslo. Če prek te funkcije ne prejmete e-pošte, o tem obvestite vodstvo tečaja ali pošljite e-pošto na %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Vnesite svoje uporabniško ime in pripadajoč e-poštni naslov ter kliknite na pošlji. ILIAS bo poslal e-pošto na ta naslov. E-pošta vsebuje naslov spletne strani, kjer lahko vnesete novo geslo za svoj uporabniški račun. Če prek te funkcije ne morete nastaviti gesla, o tem obvestite vodstvo tečaja ali pošljite e-pošto na %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Vnesite uporabniško ime, za katero ste zahtevali pomoč pri geslu in dodeljeno geslo.
-pwassist#:#pwassist_login_not_match#:#Vnesite drugo uporabniško ime. Vneseno uporabniško ime se ne ujema z uporabniškim imenom, za katerega ste zahtevali pomoč pri geslu.
-pwassist#:#pwassist_mail_body#:#Vnesite novo geslo za svoj uporabniški račun: %1$ To sporočilo je samodejno ustvarila namestitev ILIAS: %2$s Vi (ali nekdo z naslovom %3$s) ste vprašali za pomoč pri geslu za uporabniški račun "%4$s".  Pozorno preverite spodnje primere in nadaljujte ustrezno: -Če ste pomoč pri geslu na strežniku uporabili pomotoma: Izbrišite to sporočilo. -Če ste prepričani, da še nikoli niste zahtevali pomoči pri geslu na tem strežniku ILIAS: Kontaktirajte %5$s. -Če ste zahtevali pomoč pri geslu: Nadaljujte kot sledi:  1. Odprite svoj brskalnik.  2. V brskalnik vnesite naslednji naslov: %6$s  Pomembno: Naslov je sestavljen iz ene same vrstice. Če vidite, da je naslov razdeljen na več vrstic, je vaš e-poštni program vstavil te prelome vrstic.  3. Brskalnik zdaj prikazuje stran, kjer lahko dodelite novo geslo za uporabniški račun.  Bodite pozorni na: Upoštevajte, da lahko zgornje tri korake iz varnostnih razlogov izvedete natanko enkrat in le v omejenem času. Po tem naslov postane neveljaven in morate znova zahtevati pomoč pri geslu na strežniku ILIAS.
-pwassist#:#pwassist_mail_sent#:#ILIAS je poslal e-pošto na naslov %1$s. Nadaljnja navodila najdete v tem sporočilu.
-pwassist#:#pwassist_mail_sent_generic#:#ILIAS je poslal e-pošto na shranjen naslov. Nadaljnja navodila najdete v tem sporočilu.
-pwassist#:#pwassist_mail_subject#:#Pomoč pri geslu ILIAS
-pwassist#:#pwassist_password_assigned#:#Geslo je uspešno dodeljeno uporabniškemu imenu %1$s.
-pwassist#:#pwassist_session_expired#:#Ponovno izpolnite obrazec. Vaš čas za izvedbo pomoči pri geslu je potekel. To je lahko zato, ker ste več kot enkrat poskušali uporabiti povezavo, ki vam je bila poslana po e-pošti, ali ker je minilo preveč časa, odkar vam je bila poslana.
-pwassist#:#pwassist_username_mail_body#:#To so aktivna uporabniška imena, ki jih ima ILIAS na voljo za dani e-poštni naslov: %s To sporočilo je samodejno ustvaril strežnik ILIAS: %s Vi (ali nekdo z naslovom %s) ste zahtevali seznam uporabniških imen za e-poštni naslov '% s'.  Skrbno preverite naslednje primere in ravnajte, kot je predlagano: -Pomotoma ste na strežniku zahtevali pomoč pri uporabniškem imenu: Izbrišite to e-pošto. -Prepričani ste, da na navedenem strežniku ILIAS nikoli niste zahtevali pomoči pri uporabniškem imenu: Kontaktirajte %s. - Zahtevali ste pomoč pri uporabniškem imenu. Nadaljujte kot sledi:  1. Odprite svoj brskalnik.  2. V brskalnik vnesite naslednji naslov: %s  Pomembno: Naslov je sestavljen iz ene same vrstice. Če vidite, da je naslov razdeljen na več vrstic, je vaš e-poštni program vstavil te prelome vrstic.  3. Vaš brskalnik zdaj prikazuje stran za pomoč pri uporabniškem geslu. Uporabite to funkcijo, da vam bo v kombinaciji z uporabniškim imenom in e-poštnim naslovom poslano novo geslo.
-pwassist#:#unassist_disabled_no_access#:#Pomoč pri uporabniškem imenu ni aktivirana. Za nadaljnjo pomoč se obrnite na sistemskega administratorja: %s
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files

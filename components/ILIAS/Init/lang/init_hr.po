@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr "Provjera autentičnosti nije uspjela."
+
+msgid "init_error_maintenance"
+msgstr "Server nije dostupan zbog održavanja. Ispričavamo se zbog neugodnosti."
+
+msgid "init_error_redirect_click"
+msgstr "Kliknite za nastavak."
+
+msgid "init_error_redirect_info"
+msgstr "Preusmjeravanje nije podržano kontekstom."
