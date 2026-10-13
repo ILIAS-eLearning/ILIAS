@@ -35,7 +35,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     private const FIELD_SEARCH_RECURSIVE = 'search_recursive';
 
     protected ilDBInterface $db;
-    protected int$current_usr_id;
+    protected int $current_usr_id;
 
     public function __construct(ilDBInterface $db, int $current_usr_id)
     {

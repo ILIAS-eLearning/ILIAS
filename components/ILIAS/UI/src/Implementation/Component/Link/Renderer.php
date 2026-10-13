@@ -69,7 +69,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable("LABEL", $label);
-        if($component->isDisabled()) {
+        if ($component->isDisabled()) {
             $tpl->touchBlock("ariadisabled", $action);
         } else {
             $tpl->setVariable("HREF", $action);
@@ -111,7 +111,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->setStandardVars($tpl_name, $component);
 
         $symbol = $component->getSymbol();
-        if($symbol !== null) {
+        if ($symbol !== null) {
             if ($component->getLabel() !== '') {
                 $symbol = $symbol->withLabel('');
             }

@@ -26,7 +26,7 @@ declare(strict_types=1);
 class ilEMailInputGUI extends ilFormPropertyGUI
 {
     protected string $value = "";
-    protected int  $size = 30;
+    protected int $size = 30;
     protected int $max_length = 80;
     protected bool $allowRFC822 = false;
     protected bool $retype = false;

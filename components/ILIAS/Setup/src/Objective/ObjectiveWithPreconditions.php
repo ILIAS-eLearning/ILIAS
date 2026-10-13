@@ -60,7 +60,7 @@ class ObjectiveWithPreconditions implements Setup\Objective
             . implode(
                 "",
                 array_map(
-                    fn ($o) => $o->getHash(),
+                    fn($o) => $o->getHash(),
                     $this->preconditions
                 )
             )

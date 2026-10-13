@@ -34,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        switch(true) {
+        switch (true) {
             case ($component instanceof Component\Layout\Alignment\Horizontal\EvenlyDistributed):
                 return $this->renderAlignment($component, 'alignment_horizontal_evenly', $default_renderer);
             case ($component instanceof Component\Layout\Alignment\Horizontal\DynamicallyDistributed):

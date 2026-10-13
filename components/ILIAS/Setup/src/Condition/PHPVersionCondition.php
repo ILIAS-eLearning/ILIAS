@@ -31,10 +31,9 @@ class PHPVersionCondition extends ExternalConditionObjective
     ) {
         parent::__construct(
             "PHP version >= $min_version and <= $max_version",
-            static fn (Setup\Environment $env): bool =>
+            static fn(Setup\Environment $env): bool =>
                 version_compare(phpversion(), $min_version, ">=")
-                && ($max_version !== null && version_compare(phpversion(), $max_version, "<="))
-            ,
+                && ($max_version !== null && version_compare(phpversion(), $max_version, "<=")),
             $max_version === null
                 ? "ILIAS " . ILIAS_VERSION_NUMERIC . " requires PHP $min_version - $max_version."
                 : "ILIAS " . ILIAS_VERSION_NUMERIC . " requires PHP $min_version or later.",

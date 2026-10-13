@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,5 +33,3 @@ throws a warning otherwise.
 
 smeyer: Removed deprecated set_magic_quotes_runtime line 2676
 */
-
-

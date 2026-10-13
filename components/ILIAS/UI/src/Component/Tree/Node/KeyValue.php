@@ -1,4 +1,6 @@
-<?php /**
+<?php
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -28,5 +30,5 @@ interface KeyValue extends Simple
      * The value string that will be displayed behind the label
      * of the node.
      */
-    public function getValue() : string;
+    public function getValue(): string;
 }

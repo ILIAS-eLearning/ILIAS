@@ -88,7 +88,7 @@ class ilStudyProgrammeTypeGUI
 
     protected function getCommandFromQueryToken(string $default): string
     {
-        if($this->request_wrapper->has($this->action_token->getName())) {
+        if ($this->request_wrapper->has($this->action_token->getName())) {
             return $this->request_wrapper->retrieve($this->action_token->getName(), $this->refinery->to()->string());
         }
         return $default;
@@ -96,12 +96,12 @@ class ilStudyProgrammeTypeGUI
 
     protected function getTypeIdFromQueryToken(): int
     {
-        if($this->request_wrapper->has($this->id_token->getName())) {
+        if ($this->request_wrapper->has($this->id_token->getName())) {
             $type_id = $this->request_wrapper->retrieve(
                 $this->id_token->getName(),
                 $this->refinery->byTrying([
                     $this->refinery->kindlyTo()->int(),
-                    $this->refinery->custom()->transformation(static fn($v): int => (int)current($v)),
+                    $this->refinery->custom()->transformation(static fn($v): int => (int) current($v)),
                 ])
             );
             return $type_id;
@@ -112,7 +112,7 @@ class ilStudyProgrammeTypeGUI
     protected function getUrl(string $action, ?int $type_id = null): string
     {
         $url_builder = $this->url_builder->withParameter($this->action_token, $action);
-        if($type_id) {
+        if ($type_id) {
             $url_builder = $url_builder->withParameter($this->id_token, [$type_id]);
         }
         return $url_builder->buildURI()->__toString();
@@ -234,7 +234,7 @@ class ilStudyProgrammeTypeGUI
             $this->lng->txt('file_allowed_suffixes') . ' .svg'
         );
 
-        if($current_identifier) {
+        if ($current_identifier) {
             $input = $input->withValue([$current_identifier]);
         }
 
@@ -281,11 +281,11 @@ class ilStudyProgrammeTypeGUI
             ->withRequest($this->request)
             ->getData();
 
-        if($data) {
+        if ($data) {
             $type = $type->withIconIdentifier(current($data));
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
         } else {
-            if($identifier = $type->getIconIdentifier()) {
+            if ($identifier = $type->getIconIdentifier()) {
                 $this->type_repository->removeIconFromIrss($identifier);
             }
             $type = $type->withIconIdentifier(null);

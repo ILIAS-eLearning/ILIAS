@@ -51,10 +51,10 @@ class Boolean extends Column implements C\Boolean
     {
         $column_value_true = $this->format(true);
         $column_value_false = $this->format(false);
-        if($column_value_true instanceof Symbol) {
+        if ($column_value_true instanceof Symbol) {
             $column_value_true = $column_value_true->getLabel();
         }
-        if($column_value_false instanceof Symbol) {
+        if ($column_value_false instanceof Symbol) {
             $column_value_false = $column_value_false->getLabel();
         }
         return [

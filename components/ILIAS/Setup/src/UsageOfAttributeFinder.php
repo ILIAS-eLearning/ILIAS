@@ -31,7 +31,7 @@ class UsageOfAttributeFinder extends AbstractOfFinder
         ?string $matching_path = null
     ): \Iterator {
         yield from $this->genericGetMatchingClassNames(
-            fn (\ReflectionClass $r) => $this->isClassMatching($attribute, $r),
+            fn(\ReflectionClass $r) => $this->isClassMatching($attribute, $r),
             $additional_ignore,
             $matching_path
         );

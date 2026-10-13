@@ -43,7 +43,7 @@ class Chaining implements HelpTextRetriever
         return array_unique(
             array_merge(
                 ...array_map(
-                    fn ($r) => $r->getHelpText($purpose, ...$topics),
+                    fn($r) => $r->getHelpText($purpose, ...$topics),
                     $this->retrievers
                 )
             )

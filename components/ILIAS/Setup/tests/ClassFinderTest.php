@@ -125,7 +125,7 @@ class ClassFinderTest extends TestCase
             TestClass3::class
         ];
 
-        $all_true = fn (\ReflectionClass $r): bool => true;
+        $all_true = fn(\ReflectionClass $r): bool => true;
         $expected = [
             TestClass1::class,
             TestClass2::class,
@@ -133,11 +133,11 @@ class ClassFinderTest extends TestCase
         ];
         $this->assertEquals($expected, iterator_to_array($finder->getMatchingClassNames($all_true)));
 
-        $all_false = fn (\ReflectionClass $r): bool => false;
+        $all_false = fn(\ReflectionClass $r): bool => false;
         $expected = [];
         $this->assertEquals($expected, iterator_to_array($finder->getMatchingClassNames($all_false)));
 
-        $only_class1 = fn (\ReflectionClass $r): bool => $r->getName() === TestClass1::class;
+        $only_class1 = fn(\ReflectionClass $r): bool => $r->getName() === TestClass1::class;
         $expected = [
             TestClass1::class
         ];

@@ -32,7 +32,6 @@ use ILIAS\Setup\Artifact;
  */
 class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
 {
-
     public function getArtifactName(): string
     {
         return "ctrl_security";

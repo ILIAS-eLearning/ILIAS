@@ -87,12 +87,12 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
         return $this->refinery->custom()->transformation(
             function ($v): Range {
                 list($offset, $limit) = $v->unpack();
-                if($limit === 0) {
+                if ($limit === 0) {
                     $limit = current($this->getLimitOptions());
                 }
                 $current_page = floor($offset / $limit);
                 $offset = $current_page * $limit;
-                return $this->data_factory->range((int)$offset, $limit);
+                return $this->data_factory->range((int) $offset, $limit);
             }
         );
     }
