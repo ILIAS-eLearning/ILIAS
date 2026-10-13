@@ -1,0 +1,546 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr ""
+
+msgid "skll"
+msgstr ""
+
+msgid "skmg_360_survey"
+msgstr ""
+
+msgid "skmg_add_assignment"
+msgstr ""
+
+msgid "skmg_add_level"
+msgstr ""
+
+msgid "skmg_add_local_profile"
+msgstr ""
+
+msgid "skmg_add_profile"
+msgstr ""
+
+msgid "skmg_add_resource"
+msgstr ""
+
+msgid "skmg_add_skill"
+msgstr ""
+
+msgid "skmg_add_skill_tree"
+msgstr ""
+
+msgid "skmg_add_user_to_profile"
+msgstr ""
+
+msgid "skmg_all"
+msgstr ""
+
+msgid "skmg_allow_local_profiles"
+msgstr ""
+
+msgid "skmg_allow_local_profiles_info"
+msgstr ""
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr ""
+
+msgid "skmg_assign_level"
+msgstr ""
+
+msgid "skmg_assign_materials"
+msgstr ""
+
+msgid "skmg_assign_user"
+msgstr ""
+
+msgid "skmg_assigned_objects"
+msgstr ""
+
+msgid "skmg_assigned_profiles"
+msgstr ""
+
+msgid "skmg_assigned_skill_levels"
+msgstr ""
+
+msgid "skmg_assigned_users"
+msgstr ""
+
+msgid "skmg_bar_charts"
+msgstr ""
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr ""
+
+msgid "skmg_cert_skill_level_title"
+msgstr ""
+
+msgid "skmg_cert_skill_title"
+msgstr ""
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr ""
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr ""
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr ""
+
+msgid "skmg_confirm_user_removal"
+msgstr ""
+
+msgid "skmg_cont_profiles_info"
+msgstr ""
+
+msgid "skmg_cont_profiles_info_empty"
+msgstr ""
+
+msgid "skmg_cont_records_info_empty"
+msgstr ""
+
+msgid "skmg_context_global"
+msgstr ""
+
+msgid "skmg_context_local"
+msgstr ""
+
+msgid "skmg_count_references"
+msgstr ""
+
+msgid "skmg_create_sctp"
+msgstr ""
+
+msgid "skmg_create_skill_category"
+msgstr ""
+
+msgid "skmg_create_skill_template"
+msgstr ""
+
+msgid "skmg_create_skill_template_category"
+msgstr ""
+
+msgid "skmg_create_skill_template_reference"
+msgstr ""
+
+msgid "skmg_create_skll"
+msgstr ""
+
+msgid "skmg_custom_image_alt"
+msgstr ""
+
+msgid "skmg_delete_profiles"
+msgstr ""
+
+msgid "skmg_delete_warning"
+msgstr ""
+
+msgid "skmg_description_info"
+msgstr ""
+
+msgid "skmg_edit_level"
+msgstr ""
+
+msgid "skmg_edit_profile"
+msgstr ""
+
+msgid "skmg_edit_scat"
+msgstr ""
+
+msgid "skmg_edit_sctp"
+msgstr ""
+
+msgid "skmg_edit_skll"
+msgstr ""
+
+msgid "skmg_edit_sktr"
+msgstr ""
+
+msgid "skmg_enable_skmg"
+msgstr ""
+
+msgid "skmg_eval_type_1"
+msgstr ""
+
+msgid "skmg_eval_type_2"
+msgstr ""
+
+msgid "skmg_eval_type_3"
+msgstr ""
+
+msgid "skmg_eval_type_latest_1"
+msgstr ""
+
+msgid "skmg_eval_type_latest_2"
+msgstr ""
+
+msgid "skmg_eval_type_latest_3"
+msgstr ""
+
+msgid "skmg_execute_self_evaluation"
+msgstr ""
+
+msgid "skmg_form_presentation"
+msgstr ""
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr ""
+
+msgid "skmg_hide_profile_self_eval"
+msgstr ""
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr ""
+
+msgid "skmg_import_skills"
+msgstr ""
+
+msgid "skmg_input_file"
+msgstr ""
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr ""
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr ""
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr ""
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr ""
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr ""
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr ""
+
+msgid "skmg_items"
+msgstr ""
+
+msgid "skmg_level"
+msgstr ""
+
+msgid "skmg_list_skills"
+msgstr ""
+
+msgid "skmg_local_assignment_profiles"
+msgstr ""
+
+msgid "skmg_lp_triggers_level"
+msgstr ""
+
+msgid "skmg_materials"
+msgstr ""
+
+msgid "skmg_materials_resources"
+msgstr ""
+
+msgid "skmg_new_level"
+msgstr ""
+
+msgid "skmg_new_sktr"
+msgstr ""
+
+msgid "skmg_next_step"
+msgstr ""
+
+msgid "skmg_no_nodes_selectable"
+msgstr ""
+
+msgid "skmg_no_skill_entries"
+msgstr ""
+
+msgid "skmg_no_skills_selected_info"
+msgstr ""
+
+msgid "skmg_no_trigger"
+msgstr ""
+
+msgid "skmg_nr"
+msgstr ""
+
+msgid "skmg_number"
+msgstr ""
+
+msgid "skmg_open"
+msgstr ""
+
+msgid "skmg_open_all_assigned_profiles"
+msgstr ""
+
+msgid "skmg_order"
+msgstr ""
+
+msgid "skmg_order_nr"
+msgstr ""
+
+msgid "skmg_order_nr_info"
+msgstr ""
+
+msgid "skmg_please_select_self_skill"
+msgstr ""
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr ""
+
+msgid "skmg_previous_step"
+msgstr ""
+
+msgid "skmg_profile"
+msgstr ""
+
+msgid "skmg_really_delete_levels"
+msgstr ""
+
+msgid "skmg_really_remove_skills"
+msgstr ""
+
+msgid "skmg_recommended_learning_material_crs"
+msgstr ""
+
+msgid "skmg_recommended_learning_material_global"
+msgstr ""
+
+msgid "skmg_recommended_learning_material_grp"
+msgstr ""
+
+msgid "skmg_recommended_learning_material_info"
+msgstr ""
+
+msgid "skmg_refresh_view"
+msgstr ""
+
+msgid "skmg_remove"
+msgstr ""
+
+msgid "skmg_remove_levels"
+msgstr ""
+
+msgid "skmg_remove_skill"
+msgstr ""
+
+msgid "skmg_remove_trigger"
+msgstr ""
+
+msgid "skmg_resources"
+msgstr ""
+
+msgid "skmg_save_order"
+msgstr ""
+
+msgid "skmg_save_self_evaluation"
+msgstr ""
+
+msgid "skmg_save_settings"
+msgstr ""
+
+msgid "skmg_sctp"
+msgstr ""
+
+msgid "skmg_select_level"
+msgstr ""
+
+msgid "skmg_select_skill"
+msgstr ""
+
+msgid "skmg_select_skill_level_assign"
+msgstr ""
+
+msgid "skmg_select_trigger"
+msgstr ""
+
+msgid "skmg_selectable"
+msgstr ""
+
+msgid "skmg_selectable_info"
+msgstr ""
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr ""
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr ""
+
+msgid "skmg_selected_skills"
+msgstr ""
+
+msgid "skmg_self_evaluation"
+msgstr ""
+
+msgid "skmg_self_evaluation_byline"
+msgstr ""
+
+msgid "skmg_self_evaluations"
+msgstr ""
+
+msgid "skmg_set_as_lp_trigger"
+msgstr ""
+
+msgid "skmg_set_as_no_lp_trigger"
+msgstr ""
+
+msgid "skmg_set_as_no_suggested"
+msgstr ""
+
+msgid "skmg_set_as_suggested"
+msgstr ""
+
+msgid "skmg_settings"
+msgstr ""
+
+msgid "skmg_show_all"
+msgstr ""
+
+msgid "skmg_show_latest_entries"
+msgstr ""
+
+msgid "skmg_skill"
+msgstr ""
+
+msgid "skmg_skill_in_use"
+msgstr ""
+
+msgid "skmg_skill_level"
+msgstr ""
+
+msgid "skmg_skill_level_trigger"
+msgstr ""
+
+msgid "skmg_skill_levels"
+msgstr ""
+
+msgid "skmg_skill_management_deactivated"
+msgstr ""
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr ""
+
+msgid "skmg_skill_needs_impr_res"
+msgstr ""
+
+msgid "skmg_skill_needs_self_eval"
+msgstr ""
+
+msgid "skmg_skill_needs_self_eval_box"
+msgstr ""
+
+msgid "skmg_skill_no_needs_impr"
+msgstr ""
+
+msgid "skmg_skill_no_needs_impr_info"
+msgstr ""
+
+msgid "skmg_skill_overview"
+msgstr ""
+
+msgid "skmg_skill_profile_records"
+msgstr ""
+
+msgid "skmg_skill_profiles"
+msgstr ""
+
+msgid "skmg_skill_template"
+msgstr ""
+
+msgid "skmg_skill_templates"
+msgstr ""
+
+msgid "skmg_skill_tree"
+msgstr ""
+
+msgid "skmg_skill_trees"
+msgstr ""
+
+msgid "skmg_skills"
+msgstr ""
+
+msgid "skmg_sktr"
+msgstr ""
+
+msgid "skmg_status"
+msgstr ""
+
+msgid "skmg_status_draft"
+msgstr ""
+
+msgid "skmg_status_draft_info"
+msgstr ""
+
+msgid "skmg_status_outdated"
+msgstr ""
+
+msgid "skmg_status_outdated_info"
+msgstr ""
+
+msgid "skmg_status_publish"
+msgstr ""
+
+msgid "skmg_status_publish_info"
+msgstr ""
+
+msgid "skmg_suggested"
+msgstr ""
+
+msgid "skmg_suggested_resources"
+msgstr ""
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr ""
+
+msgid "skmg_target_level"
+msgstr ""
+
+msgid "skmg_target_levels"
+msgstr ""
+
+msgid "skmg_trigger"
+msgstr ""
+
+msgid "skmg_type"
+msgstr ""
+
+msgid "skmg_type_of_formation"
+msgstr ""
+
+msgid "skmg_update_order"
+msgstr ""
+
+msgid "skmg_usage"
+msgstr ""
+
+msgid "skmg_usage_obj_objects"
+msgstr ""
+
+msgid "skmg_usage_obj_profiles"
+msgstr ""
+
+msgid "skmg_usage_obj_users"
+msgstr ""
+
+msgid "skmg_usage_type_info_gen"
+msgstr ""
+
+msgid "skmg_usage_type_info_mat"
+msgstr ""
+
+msgid "skmg_usage_type_info_pers"
+msgstr ""
+
+msgid "skmg_usage_type_info_prof"
+msgstr ""
+
+msgid "skmg_usage_type_info_res"
+msgstr ""
+
+msgid "skmg_usage_type_info_user"
+msgstr ""
+
+msgid "skmg_your_self_evaluation"
+msgstr ""

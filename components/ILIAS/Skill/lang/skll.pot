@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr ""
+
+msgid "skll_intro_skill_notification_for"
+msgstr ""
+
+msgid "skll_lhist_skill_achieved"
+msgstr ""
+
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr ""
+
+msgid "skll_lhist_skill_self_eval"
+msgstr ""
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr ""
+
+msgid "skll_new_skill_achievements"
+msgstr ""
+
+msgid "skll_skill_notification"
+msgstr ""
+
+msgid "skll_skill_notification_desc"
+msgstr ""

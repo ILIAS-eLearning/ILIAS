@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: skll\n"
+
+msgid "skll_competence_achievements"
+msgstr "Neue Kompetenzbewertungen und -einschätzungen"
+
+msgid "skll_intro_skill_notification_for"
+msgstr "nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:"
+
+msgid "skll_lhist_skill_achieved"
+msgstr "Status $4$ von $3$ wurde zugewiesen in $1$."
+
+msgid "skll_lhist_skill_profile_fulfilled"
+msgstr "Kompetenzprofil $3$ wurde erfüllt."
+
+msgid "skll_lhist_skill_self_eval"
+msgstr "Status $4$ von $3$ ist selbst zugewiesen."
+
+msgid "skll_lhist_skill_self_eval_in"
+msgstr "Status $4$ von $3$ wurde selbst zugewiesen in $1$."
+
+msgid "skll_new_skill_achievements"
+msgstr "Sie haben die folgenden Kompetenzstufen im Zeitraum %1$s bis %2$s erreicht:"
+
+msgid "skll_skill_notification"
+msgstr "Benachrichtigung Kompetenzauswertung"
+
+msgid "skll_skill_notification_desc"
+msgstr "Benutzer werden über geänderte Kompetenzstufen benachrichtigt."
