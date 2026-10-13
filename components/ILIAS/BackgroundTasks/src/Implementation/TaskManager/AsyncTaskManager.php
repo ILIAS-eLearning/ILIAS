@@ -157,7 +157,7 @@ class AsyncTaskManager extends BasicTaskManager
             } catch (UserInteractionRequiredException) {
                 // We're okay!
                 $this->persistence->saveBucketAndItsTasks($bucket);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $persistence->deleteBucket($bucket);
                 $DIC->logger()->bgtk()->info("Exception while async computing: "
                     . $e->getMessage());

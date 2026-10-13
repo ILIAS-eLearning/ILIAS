@@ -418,6 +418,11 @@ class BasicPersistence implements Persistence
         $factory = $DIC->backgroundTasks()->taskFactory();
         /** @var TaskContainer $taskContainer */
         $taskContainer = TaskContainer::find($taskContainerId);
+        if (!$taskContainer instanceof TaskContainer) {
+            throw new SerializationException(
+                "The requested task with container id $taskContainerId could not be found in the database."
+            );
+        }
         /** @noinspection PhpIncludeInspection */
         /** @var Task $task */
         $task = $factory->createTask($taskContainer->getClassName());
@@ -450,6 +455,11 @@ class BasicPersistence implements Persistence
 
         /** @var ValueContainer $valueContainer */
         $valueContainer = ValueContainer::find($valueContainerId);
+        if (!$valueContainer instanceof ValueContainer) {
+            throw new SerializationException(
+                "The requested value with container id $valueContainerId could not be found in the database."
+            );
+        }
         /** @noinspection PhpIncludeInspection */
 
         /** @var Value $value */
