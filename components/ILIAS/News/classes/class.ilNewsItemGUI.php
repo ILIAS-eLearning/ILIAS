@@ -16,8 +16,21 @@
  *
  *********************************************************************/
 
-use ILIAS\News\StandardGUIRequest;
+use ILIAS\News\Table\Action\DeleteNewsItemTableAction;
+use ILIAS\News\Table\Action\EditNewsItemTableAction;
 use ILIAS\News\Access\NewsAccess;
+use ILIAS\News\Common\HttpService;
+use ILIAS\News\Common\Table\TableActions;
+use ILIAS\News\Domain\NewsCollectionService;
+use ILIAS\News\StandardGUIRequest;
+use ILIAS\News\Table\NewsItemTable;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\URLBuilder;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * User Interface for NewsItem entities.
@@ -28,23 +41,30 @@ class ilNewsItemGUI
 {
     public const FORM_EDIT = 0;
     public const FORM_CREATE = 1;
-    public const FORM_RE_EDIT = 2;
     public const FORM_RE_CREATE = 2;
     protected NewsAccess $news_access;
-    protected ?ilNewsItem $news_item;
+    protected ?ilNewsItem $news_item = null;
 
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected ilObjUser $user;
     protected ilToolbarGUI $toolbar;
+    protected Renderer $renderer;
+    protected Factory $ui_factory;
+    private Refinery $refinery;
+    protected ilSetting $setting;
+    protected ServerRequestInterface $http_request;
+    protected ilUIFilterService $filter_service;
+    protected NewsCollectionService $news_collection_service;
+    protected DataFactory $data_factory;
+    protected HttpService $http_service;
 
     protected bool $enable_edit = false;
     protected int $context_obj_id = 0;
-    protected string $context_obj_type = "";
+    protected string $context_obj_type = '';
     protected int $context_sub_obj_id = 0;
-    protected string $context_sub_obj_type = "";
-    protected int $form_edit_mode;
+    protected string $context_sub_obj_type = '';
     protected int $requested_ref_id;
     protected int $requested_news_item_id;
     protected string $add_mode;
@@ -60,54 +80,67 @@ class ilNewsItemGUI
         $this->tabs = $DIC->tabs();
         $this->user = $DIC->user();
         $this->toolbar = $DIC->toolbar();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-
-        $this->ctrl = $ilCtrl;
-
-        $params = $DIC->http()->request()->getQueryParams();
-        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
-        $this->requested_news_item_id = (int) ($params["news_item_id"] ?? 0);
-        $this->add_mode = (string) ($params["add_mode"] ?? "");
-        $this->news_access = new NewsAccess($this->requested_ref_id);
+        $this->ctrl = $DIC->ctrl();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->http_request = $DIC->http()->request();
+        $this->setting = $DIC->settings();
+        $this->filter_service = $DIC->uiService()->filter();
+        $this->news_collection_service = $DIC->news()->internal()->domain()->collection();
+        $this->refinery = $DIC->refinery();
+        $this->http_service = new HttpService($DIC->http(), $this->refinery);
+        $this->data_factory = new DataFactory();
 
         $this->std_request = $DIC->news()
             ->internal()
             ->gui()
             ->standardRequest();
 
+        $query = $DIC->http()->wrapper()->query();
+
+        $this->requested_ref_id = $this->std_request->getRefId();
+        $this->requested_news_item_id = $query->has('news_item_id')
+            ? $query->retrieve('news_item_id', $this->refinery->kindlyTo()->int())
+            : 0;
+        $this->add_mode = $query->has('add_mode')
+            ? $query->retrieve('add_mode', $this->refinery->kindlyTo()->string())
+            : '';
+
+        $this->news_access = new NewsAccess($this->requested_ref_id);
+
         if ($this->requested_news_item_id > 0) {
             $this->news_item = new ilNewsItem($this->requested_news_item_id);
         }
 
-        $this->ctrl->saveParameter($this, ["news_item_id"]);
+        $this->ctrl->saveParameter($this, ['news_item_id']);
 
         // Init EnableEdit.
         $this->setEnableEdit(false);
 
         // Init Context.
-        $this->setContextObjId($ilCtrl->getContextObjId());
-        $this->setContextObjType($ilCtrl->getContextObjType());
+        $this->setContextObjId($this->ctrl->getContextObjId());
+        $this->setContextObjType($this->ctrl->getContextObjType());
         //$this->setContextSubObjId($ilCtrl->getContextSubObjId());
         //$this->setContextSubObjType($ilCtrl->getContextSubObjType());
 
-        $lng->loadLanguageModule("news");
+        $this->lng->loadLanguageModule('news');
 
-        $ilCtrl->saveParameter($this, "add_mode");
+        $this->ctrl->saveParameter($this, 'add_mode');
     }
 
     public function executeCommand(): string
     {
         // check, if news item id belongs to context
-        if (isset($this->news_item) && $this->news_item->getId() > 0
-            && ilNewsItem::_lookupContextObjId($this->news_item->getId()) !== $this->getContextObjId()) {
-            throw new ilException("News ID does not match object context.");
+        if (
+            ($this->news_item?->getId() ?? 0) > 0
+            && ilNewsItem::_lookupContextObjId($this->news_item->getId()) !== $this->getContextObjId()
+        ) {
+            throw new ilException('News ID does not match object context.');
         }
-
 
         // get next class and command
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $cmd = "{$this->ctrl->getCmd()}Cmd";
 
         switch ($next_class) {
             default:
@@ -168,13 +201,12 @@ class ilNewsItemGUI
         return $this->context_sub_obj_type;
     }
 
-    public function createNewsItem(): string
+    public function createNewsItemCmd(): string
     {
-        $form = $this->initFormNewsItem(self::FORM_CREATE);
-        return $form->getHTML();
+        return $this->initFormNewsItem(self::FORM_CREATE)->getHTML();
     }
 
-    public function editNewsItem(): string
+    public function editNewsItemCmd(): string
     {
         $form = $this->initFormNewsItem(self::FORM_EDIT);
         $this->getValuesNewsItem($form);
@@ -183,9 +215,7 @@ class ilNewsItemGUI
 
     protected function initFormNewsItem(int $a_mode): ilPropertyFormGUI
     {
-        $ilTabs = $this->tabs;
-
-        $ilTabs->clearTargets();
+        $this->tabs->clearTargets();
         $form = self::getEditForm($a_mode, $this->requested_ref_id);
         $form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -200,62 +230,63 @@ class ilNewsItemGUI
 
         $lng = $DIC->language();
 
-        $lng->loadLanguageModule("news");
+        $lng->loadLanguageModule('news');
 
         $form = new ilPropertyFormGUI();
 
         // Property Title
-        $text_input = new ilTextInputGUI($lng->txt("news_news_item_title"), "news_title");
-        $text_input->setInfo("");
+        $text_input = new ilTextInputGUI($lng->txt('news_news_item_title'), 'news_title');
+        $text_input->setInfo('');
         $text_input->setRequired(true);
         $text_input->setMaxLength(200);
         $form->addItem($text_input);
 
         // Property Content
-        $text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content"), "news_content");
-        $text_area->setInfo("");
+        $text_area = new ilTextAreaInputGUI($lng->txt('news_news_item_content'), 'news_content');
+        $text_area->setInfo('');
         $text_area->setRequired(false);
         $text_area->setRows(4);
         $form->addItem($text_area);
 
         // Property Visibility
-        $radio_group = new ilRadioGroupInputGUI($lng->txt("news_news_item_visibility"), "news_visibility");
-        $radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
+        $radio_group = new ilRadioGroupInputGUI($lng->txt('news_news_item_visibility'), 'news_visibility');
+        $radio_option = new ilRadioOption($lng->txt('news_visibility_users'), 'users');
         $radio_group->addOption($radio_option);
-        $radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
+        $radio_option = new ilRadioOption($lng->txt('news_visibility_public'), 'public');
         $radio_group->addOption($radio_option);
-        $radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+        $radio_group->setInfo($lng->txt('news_news_item_visibility_info'));
         $radio_group->setRequired(false);
-        $radio_group->setValue("users");
+        $radio_group->setValue('users');
         $form->addItem($radio_group);
 
         // media
         $media = new ilFileInputGUI($lng->txt('news_media'), 'media');
-        $media->setSuffixes(["jpeg", "jpg", "png", "gif", "mp4", "mp3", "pdf"]);
+        $media->setSuffixes(['jpeg', 'jpg', 'png', 'gif', 'mp4', 'mp3', 'pdf']);
         $media->setRequired(false);
         $media->setAllowDeletion(true);
-        $media->setValue(" ");
+        $media->setValue(' ');
         $form->addItem($media);
 
         // save and cancel commands
         if (in_array($a_mode, [self::FORM_CREATE, self::FORM_RE_CREATE])) {
-            $form->addCommandButton("saveNewsItem", $lng->txt("save"), "news_btn_create");
-            $form->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"), "news_btn_cancel_create");
+            $form->addCommandButton('saveNewsItem', $lng->txt('save'), 'news_btn_create');
+            $form->addCommandButton('cancelSaveNewsItem', $lng->txt('cancel'), 'news_btn_cancel_create');
         } else {
-            $form->addCommandButton("updateNewsItem", $lng->txt("save"), "news_btn_update");
-            $form->addCommandButton("cancelUpdateNewsItem", $lng->txt("cancel"), "news_btn_cancel_update");
+            $form->addCommandButton('updateNewsItem', $lng->txt('save'), 'news_btn_update');
+            $form->addCommandButton('cancelUpdateNewsItem', $lng->txt('cancel'), 'news_btn_cancel_update');
         }
 
-        $form->setTitle($lng->txt("news_news_item_head"));
+        $form->setTitle($lng->txt('news_news_item_head'));
 
-        $news_set = new ilSetting("news");
-        if (!$news_set->get("enable_rss_for_internal")) {
-            $form->removeItemByPostVar("news_visibility");
-        } else {
-            $nv = $form->getItemByPostVar("news_visibility");
-            if (is_object($nv)) {
-                $nv->setValue(ilNewsItem::_getDefaultVisibilityForRefId($a_ref_id));
-            }
+        $news_set = new ilSetting('news');
+        if (!$news_set->get('enable_rss_for_internal')) {
+            $form->removeItemByPostVar('news_visibility');
+            return $form;
+        }
+
+        $nv = $form->getItemByPostVar('news_visibility');
+        if ($nv instanceof ilRadioGroupInputGUI) {
+            $nv->setValue(ilNewsItem::_getDefaultVisibilityForRefId($a_ref_id));
         }
 
         return $form;
@@ -266,44 +297,45 @@ class ilNewsItemGUI
     {
         $values = [];
 
-        $values["news_title"] = $this->news_item->getTitle();
-        $values["news_content"] = $this->news_item->getContent() . $this->news_item->getContentLong();
-        $values["news_visibility"] = $this->news_item->getVisibility();
-        //$values["news_content_long"] = $this->news_item->getContentLong();
-        $values["news_content_long"] = "";
+        $values['news_title'] = $this->news_item->getTitle();
+        $values['news_content'] = $this->news_item->getContent() . $this->news_item->getContentLong();
+        $values['news_visibility'] = $this->news_item->getVisibility();
+        //$values['news_content_long'] = $this->news_item->getContentLong();
+        $values['news_content_long'] = '';
 
         $a_form->setValuesByArray($values);
 
         if ($this->news_item->getMobId() > 0) {
-            $fi = $a_form->getItemByPostVar("media");
+            $fi = $a_form->getItemByPostVar('media');
             $fi->setValue(ilObject::_lookupTitle($this->news_item->getMobId()));
         }
     }
 
     // FORM NewsItem: Save NewsItem.
-    public function saveNewsItem(): string
+    public function saveNewsItemCmd(): string
     {
-        $ilUser = $this->user;
-
         if (!$this->news_access->canAdd()) {
-            return "";
+            return '';
         }
 
         $form = $this->initFormNewsItem(self::FORM_CREATE);
         if ($form->checkInput()) {
             $this->news_item = new ilNewsItem();
-            $this->news_item->setTitle($form->getInput("news_title"));
-            $this->news_item->setContent($form->getInput("news_content"));
-            $this->news_item->setVisibility($form->getInput("news_visibility"));
+            $this->news_item->setTitle($form->getInput('news_title'));
+            $this->news_item->setContent($form->getInput('news_content'));
+            $this->news_item->setVisibility($form->getInput('news_visibility'));
 
-            $media = $_FILES["media"];
-            if ($media["name"] != "") {
-                $mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
+            $media_paths = $this->getUploadedMediaTempPath();
+            if (isset($media_paths['client_filename'], $media_paths['client_filename'])) {
+                $mob = ilObjMediaObject::_saveTempFileAsMediaObject(
+                    $media_paths['client_filename'],
+                    $media_paths['tmp_path'],
+                    true
+                );
                 $this->news_item->setMobId($mob->getId());
             }
 
-
-            $this->news_item->setContentLong("");
+            $this->news_item->setContentLong('');
             if (self::isRteActivated()) {
                 $this->news_item->setContentHtml(true);
             }
@@ -313,64 +345,66 @@ class ilNewsItemGUI
             $this->news_item->setContextObjType($this->getContextObjType());
             $this->news_item->setContextSubObjId($this->getContextSubObjId());
             $this->news_item->setContextSubObjType($this->getContextSubObjType());
-            $this->news_item->setUserId($ilUser->getId());
+            $this->news_item->setUserId($this->user->getId());
 
-            $news_set = new ilSetting("news");
-            if (!$news_set->get("enable_rss_for_internal")) {
-                $this->news_item->setVisibility("users");
+            $news_set = new ilSetting('news');
+            if (!$news_set->get('enable_rss_for_internal')) {
+                $this->news_item->setVisibility('users');
             }
 
             $this->news_item->create();
-            $this->exitSaveNewsItem();
+            $this->main_tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->lng->txt('msg_obj_created'), true);
+            $this->exitSaveNewsItemCmd();
         } else {
             $form->setValuesByPost();
             return $form->getHTML();
         }
-        return "";
+        return '';
     }
 
-    public function exitSaveNewsItem(): void
+    public function exitSaveNewsItemCmd(): void
     {
-        $ilCtrl = $this->ctrl;
-
-        if ($this->add_mode === "block") {
-            $ilCtrl->returnToParent($this);
+        if ($this->add_mode === 'block') {
+            $this->ctrl->returnToParent($this);
         } else {
-            $ilCtrl->redirect($this, "editNews");
+            $this->ctrl->redirect($this, 'editNews');
         }
     }
 
-    public function updateNewsItem(): string
+    public function updateNewsItemCmd(): string
     {
-        $ilUser = $this->user;
-
         if (!$this->news_access->canEdit($this->news_item)) {
-            return "";
+            return '';
         }
 
         $form = $this->initFormNewsItem(self::FORM_EDIT);
         if ($form->checkInput()) {
-            $this->news_item->setUpdateUserId($ilUser->getId());
-            $this->news_item->setTitle($form->getInput("news_title"));
-            $this->news_item->setContent($form->getInput("news_content"));
-            $this->news_item->setVisibility($form->getInput("news_visibility"));
-            //$this->news_item->setContentLong($form->getInput("news_content_long"));
-            $this->news_item->setContentLong("");
+            $this->news_item->setUpdateUserId($this->user->getId());
+            $this->news_item->setTitle($form->getInput('news_title'));
+            $this->news_item->setContent($form->getInput('news_content'));
+            $this->news_item->setVisibility($form->getInput('news_visibility'));
+            //$this->news_item->setContentLong($form->getInput('news_content_long'));
+            $this->news_item->setContentLong('');
 
-            $media = $_FILES["media"];
+            $media_paths = $this->getUploadedMediaTempPath();
+            $media_delete = $this->std_request->getDeleteMedia();
+            $has_new_media_upload = isset($media_paths['client_filename'], $media_paths['client_filename']);
             $old_mob_id = 0;
 
             // delete old media object
-            $media_delete = $this->std_request->getDeleteMedia();
-            if ($media["name"] != "" || $media_delete != "") {
-                if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) === "mob") {
+            if ($has_new_media_upload || $media_delete) {
+                if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) === 'mob') {
                     $old_mob_id = $this->news_item->getMobId();
                 }
                 $this->news_item->setMobId(0);
             }
 
-            if ($media["name"] != "") {
-                $mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
+            if ($has_new_media_upload) {
+                $mob = ilObjMediaObject::_saveTempFileAsMediaObject(
+                    $media_paths['client_filename'],
+                    $media_paths['tmp_path'],
+                    true
+                );
                 $this->news_item->setMobId($mob->getId());
             }
 
@@ -384,185 +418,190 @@ class ilNewsItemGUI
                 $old_mob->delete();
             }
 
-            $this->exitUpdateNewsItem();
+            $this->main_tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->lng->txt('msg_obj_modified'), true);
+            $this->exitUpdateNewsItemCmd();
         } else {
             $form->setValuesByPost();
             return $form->getHTML();
         }
-        return "";
+        return '';
     }
 
-    public function exitUpdateNewsItem(): void
+    public function exitUpdateNewsItemCmd(): void
     {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirect($this, "editNews");
+        $this->ctrl->redirect($this, 'editNews');
     }
 
-    public function cancelUpdateNewsItem(): string
+    public function cancelUpdateNewsItemCmd(): void
     {
-        return $this->editNews();
+        $this->ctrl->redirect($this, 'editNews');
     }
 
-    public function cancelSaveNewsItem(): string
+    public function cancelSaveNewsItemCmd(): void
     {
-        $ilCtrl = $this->ctrl;
-
-        if ($this->add_mode === "block") {
-            $ilCtrl->returnToParent($this);
-        } else {
-            return $this->editNews();
+        if ($this->add_mode === 'block') {
+            $this->ctrl->returnToParent($this);
+            return;
         }
-        return "";
+
+        $this->ctrl->redirect($this, 'editNews');
     }
 
-    public function editNews(): string
+    public function editNewsCmd(): string
     {
-        $ilToolbar = $this->toolbar;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $this->setTabs();
+
         if (!$this->news_access->canAccessManageOverview()) {
-            return "";
+            return '';
         }
 
         if ($this->news_access->canAdd()) {
-            $ilToolbar->addButton(
-                $lng->txt("news_add_news"),
-                $ilCtrl->getLinkTarget($this, "createNewsItem")
+            $this->toolbar->addComponent(
+                $this->ui_factory->button()->standard(
+                    $this->lng->txt('news_add_news'),
+                    $this->ctrl->getLinkTarget($this, 'createNewsItem')
+                )
             );
         }
 
-        return $this->getNewsForContextTable();
+        $url_builder = new URLBuilder($this->data_factory->uri($this->http_request->getUri()->__toString()));
+
+        $table = new NewsItemTable(
+            $this->ui_factory,
+            $this->lng,
+            $this->http_request,
+            $this->ctrl,
+            $this->setting,
+            $this->renderer,
+            $this->news_access,
+            $this->filter_service,
+            $this->news_collection_service,
+            $this->user,
+            $this->http_service,
+            $this->main_tpl,
+            $this->refinery
+        );
+
+        $table->execute($url_builder);
+
+        return $this->renderer->render($table->getComponents($url_builder));
     }
 
     public function cancelUpdate(): string
     {
-        return $this->editNews();
+        return $this->editNewsCmd();
     }
 
-    public function confirmDeletionNewsItems(): string
+    public function confirmDeletionNewsItemsCmd(): string
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-
         if (!$this->news_access->canAccessManageOverview()) {
-            return "";
+            return '';
         }
 
         // check whether at least one item is selected
         if (count($this->std_request->getNewsIds()) === 0) {
-            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
-            return $this->editNews();
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
+            return $this->editNewsCmd();
         }
 
-        $ilTabs->clearTargets();
+        $this->tabs->clearTargets();
 
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands
-        $c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteNewsItems"));
-        $c_gui->setHeaderText($lng->txt("info_delete_sure"));
-        $c_gui->setCancel($lng->txt("cancel"), "editNews");
-        $c_gui->setConfirm($lng->txt("confirm"), "deleteNewsItems");
+        $c_gui->setFormAction($this->ctrl->getFormAction($this, 'deleteNewsItems'));
+        $c_gui->setHeaderText($this->lng->txt('info_delete_sure'));
+        $c_gui->setCancel($this->lng->txt('cancel'), 'editNews');
+        $c_gui->setConfirm($this->lng->txt('confirm'), 'deleteNewsItems');
 
         // add items to delete
         foreach ($this->std_request->getNewsIds() as $news_id) {
             $news = new ilNewsItem($news_id);
             if ($this->news_access->canDelete($news)) {
-                $c_gui->addItem("news_id[]", $news_id, $news->getTitle());
+                $c_gui->addItem('news_id[]', $news_id, $news->getTitle());
             }
         }
 
         return $c_gui->getHTML();
     }
 
-    public function deleteNewsItems(): string
+    public function deleteNewsItemsCmd(): string
     {
         if (!$this->news_access->canAccessManageOverview()) {
-            return "";
+            return '';
         }
-        // delete all selected news items
+
+        $deleted_count = 0;
+        $failed_count = 0;
         foreach ($this->std_request->getNewsIds() as $news_id) {
             $news = new ilNewsItem($news_id);
-            if ($this->news_access->canDelete($news)) {
+            if (!$this->news_access->canDelete($news)) {
+                $failed_count++;
+                continue;
+            }
+
+            try {
                 $news->delete();
+                $deleted_count++;
+            } catch (Exception) {
+                $failed_count++;
             }
         }
 
-        return $this->editNews();
-    }
-
-    public function getNewsForContextTable(): string
-    {
-        $lng = $this->lng;
-
-        $news_item = new ilNewsItem();
-        $news_item->setContextObjId($this->getContextObjId());
-        $news_item->setContextObjType($this->getContextObjType());
-        $news_item->setContextSubObjId($this->getContextSubObjId());
-        $news_item->setContextSubObjType($this->getContextSubObjType());
-
-        $perm_ref_id = 0;
-        if (in_array($this->getContextObjType(), ["cat", "grp", "crs", "root"])) {
-            $data = $news_item->getNewsForRefId(
-                $this->requested_ref_id,
-                false,
-                false,
-                0,
-                true,
-                false,
-                true,
-                true
-            );
-        } else {
-            $perm_ref_id = $this->requested_ref_id;
-            if ($this->getContextSubObjId() > 0) {
-                $data = $news_item->queryNewsForContext(
-                    false,
-                    0,
-                    "",
-                    true,
-                    true
-                );
-            } else {
-                $data = $news_item->queryNewsForContext();
-            }
+        if ($deleted_count > 0) {
+            $this->main_tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->lng->txt('deleted'), true);
+        }
+        if ($failed_count > 0) {
+            $this->main_tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('msg_obj_already_deleted'), true);
         }
 
-        $table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable", $perm_ref_id);
-
-        $table_gui->setTitle($lng->txt("news_table_news_for_context"));
-        $table_gui->setRowTemplate("tpl.table_row_news_for_context.html", "components/ILIAS/News");
-        $table_gui->setData($data);
-
-        $table_gui->setDefaultOrderField("creation_date");
-        $table_gui->setDefaultOrderDirection("desc");
-        $table_gui->addMultiCommand("confirmDeletionNewsItems", $lng->txt("delete"));
-        $table_gui->setTitle($lng->txt("news"));
-        $table_gui->setSelectAllCheckbox("news_id");
-
-
-        return $table_gui->getHTML();
+        return $this->editNewsCmd();
     }
 
     public function setTabs(): void
     {
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
-            $lng->txt("back"),
-            (string) $ilCtrl->getParentReturn($this)
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt('back'),
+            (string) $this->ctrl->getParentReturn($this)
         );
     }
 
     public static function isRteActivated(): bool
     {
         return false;
+    }
+
+    /**
+     * @return array{client_filename: string, tmp_path: string}|null
+     */
+    private function getUploadedMediaTempPath(): ?array
+    {
+        $files = $this->http_request->getUploadedFiles();
+        if (!isset($files['media']) || !$files['media'] instanceof UploadedFileInterface) {
+            return null;
+        }
+
+        /** @var UploadedFileInterface $upload */
+        $upload = $files['media'];
+        if ($upload->getError() !== UPLOAD_ERR_OK) {
+            return null;
+        }
+
+        $client_filename = trim($upload->getClientFilename() ?? '');
+        if ($client_filename === '') {
+            return null;
+        }
+
+        $stream = $upload->getStream();
+        $temp_path = $stream->getMetadata('uri');
+        if (!is_string($temp_path) || $temp_path === '' || !$stream->isReadable()) {
+            return null;
+        }
+
+        return [
+            'client_filename' => $client_filename,
+            'tmp_path' => $temp_path,
+        ];
     }
 }
