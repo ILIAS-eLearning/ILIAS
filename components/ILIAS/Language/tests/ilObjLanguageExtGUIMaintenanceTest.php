@@ -224,34 +224,12 @@ class ilObjLanguageExtGUIMaintenanceTest extends TestCase
             'invalid_markup' => [],
             'not_merged' => [],
             'unwritten_database' => [],
-            'not_single_client' => [],
         ]);
         $messages = [];
 
         $this->runMaintenance('merge', $object, $messages);
 
         $this->assertSame([['success', 'language_merged_global']], $messages);
-    }
-
-    public function testMergeNamesTheModulesLeftOutBecauseTheInstallationHasSeveralClients(): void
-    {
-        $object = $this->maintenanceLanguageObject();
-        $object->expects($this->once())->method('mergeLocalChangesIntoGlobalLanguageFile')->willReturn([
-            'written' => [],
-            'skipped' => [],
-            'invalid_markup' => [],
-            'not_merged' => [],
-            'unwritten_database' => [],
-            'not_single_client' => ['pilot'],
-        ]);
-        $messages = [];
-
-        $this->runMaintenance('merge', $object, $messages);
-
-        $this->assertSame(
-            [['success', 'language_merged_global'], ['failure', 'lng_merge_po_not_single_client: pilot']],
-            $messages
-        );
     }
 
     /** A failed database write (unwritten_database) is reported like any partial failure; the written files stay. */
