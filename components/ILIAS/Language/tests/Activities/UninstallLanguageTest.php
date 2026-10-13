@@ -451,8 +451,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $result['system_language_keys']);
         $this->assertSame([], $result['user_language_keys']);
         $this->assertSame(['de'], $result['not_installed_language_keys']);
-        // uninstall() must still have been attempted - unlike the guarded
-        // cases (system/user/not-installed), where it is never called.
+        // uninstall() must still have been attempted
         $this->assertSame(1, $fakes[1]->uninstallCallCount());
     }
 
@@ -483,9 +482,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
     }
 
     /**
-     * A single request can carry languages in every possible state at once;
-     * each must land in its own bucket, and only the genuinely uninstalled
-     * one may ever call uninstall().
+     * Languages in every state at once land in their own bucket; only the uninstalled one calls uninstall().
      */
     public function testMixedBulkRequestPartitionsEachKeyIntoTheCorrectBucket(): void
     {
@@ -497,7 +494,6 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         ]);
 
         $result = $this->createActivity($lng_objects, $obj_language_factory)->perform([
-            // 'xx' has no backing object at all.
             'language_keys' => ['de', 'en', 'fr', 'it', 'xx'],
         ]);
 
@@ -532,8 +528,6 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
             'missing language_keys key' => [[]],
             'empty (only whitespace/commas)' => [['language_keys' => ' , ']],
             'nested array value' => [['language_keys' => ['de', ['fr']]]],
-            // Regression coverage for ParsesLanguageKeyList::toLanguageKeyList()'s
-            // format validation (exactly two lowercase ASCII letters).
             'three letters' => [['language_keys' => 'deu']],
             'one letter' => [['language_keys' => 'd']],
             'uppercase' => [['language_keys' => 'DE']],
@@ -579,8 +573,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
             'Language keys',
             'Comma-separated list of language keys, e.g. de, fr, it.'
         )->willReturn($text);
-        // UninstallLanguage has no mode parameter - the select field must
-        // never be built.
+        // no mode parameter: the select field must never be built
         $field->expects($this->never())->method('select');
 
         $group = $this->createMock(Group::class);

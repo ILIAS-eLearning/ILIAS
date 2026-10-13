@@ -132,9 +132,7 @@ class LanguageInstallationManagerTest extends TestCase
             new \DateTimeImmutable('2026-01-02 03:04:05', new \DateTimeZone('UTC'))
         );
 
-        // 'fr' was installed but is not part of the requested keys anymore -
-        // it must be flushed and its bookkeeping row flipped to
-        // "not_installed" with a freshly set last_update.
+        // 'fr' is no longer requested: flushed, bookkeeping row flipped to "not_installed" with a fresh last_update
         $result = $manager->installLanguages([]);
 
         $this->assertTrue($result);
@@ -182,12 +180,8 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for the "uninstall changes" bug: reinstalling a
-     * language while removing its local changes must not re-apply the
-     * customizing/local directory's file - otherwise the very data the
-     * action is asked to remove is immediately reinstated (see
-     * ilObjLanguageFolderGUI::uninstallChangesObject() and
-     * ilObjLanguage::removeLocalChanges()).
+     * Reinstalling a language while removing its local changes must not re-apply the customizing directory's file,
+     * which would reinstate the data being removed (see ilObjLanguageFolderGUI::uninstallChangesObject()).
      */
     public function testInsertLanguageForRemovingLocalChangesIgnoresCustomizingDirectory(): void
     {
@@ -205,8 +199,7 @@ class LanguageInstallationManagerTest extends TestCase
             });
 
             $repository = $this->createMock(InstalledLanguageRepository::class);
-            // No DB local changes must be consulted at all - a clean re-seed
-            // from the global files only has nothing to preserve/merge.
+            // no DB local changes are consulted: a clean re-seed has nothing to merge
             $repository->expects($this->never())->method('getLocalChanges');
 
             $manager = new LanguageInstallationManager(
@@ -231,9 +224,7 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Sanity check that the ordinary installation path is unaffected by the
-     * split above: it must keep merging the customizing/local directory's
-     * file on top of the global one.
+     * The ordinary installation path still merges the customizing directory's file on top of the global one.
      */
     public function testInsertLanguageForInstallationStillMergesCustomizingDirectory(): void
     {
@@ -276,14 +267,9 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * insertLanguage() used to ask the repository for the local changes once
-     * per *line* of a customizing file, which meant thousands of identical
-     * "SELECT ... FROM lng_data" queries for a realistically sized file. The
-     * lookup depends only on the language and the file's mtime, and nothing
-     * inside the loop writes to the database, so it is resolved once per
-     * directory now. This pins the query count down - it must not grow with
-     * the file - while the assertions below keep the precedence rules that
-     * the lookup exists for.
+     * The local-changes lookup depends only on language and file mtime and nothing in the loop writes to the
+     * database, so it runs once per directory, not once per line of a customizing file; the query count must not
+     * grow with the file.
      */
     public function testLocalChangesAreLookedUpOncePerDirectoryNotPerEntry(): void
     {
@@ -317,8 +303,7 @@ class LanguageInstallationManagerTest extends TestCase
             $repository->method('getLocalChanges')->willReturnCallback(
                 static function (string $lang_key, string $min_date = '') use (&$calls): array {
                     $calls++;
-                    // No date given: the seed of changes already in the database.
-                    // With a date: changes newer than the customizing file.
+                    // no date: the seed of changes already in the database; with a date: changes newer than the customizing file
                     return $min_date === ''
                         ? ['common' => ['locally_changed' => 'DB Local Change']]
                         : ['common' => ['newer_in_db' => 'DB Is Newer']];
@@ -335,18 +320,15 @@ class LanguageInstallationManagerTest extends TestCase
 
             $manager->insertLanguageForInstallation('de');
 
-            // One seed lookup plus one for the single customizing directory -
-            // independent of the 201 entries in that file.
+            // one seed lookup plus one for the single customizing directory, independent of the 201 entries
             $this->assertSame(2, $calls);
 
             $this->assertCount(1, $inserts);
             $insert = $inserts[0];
-            // A global entry with a local change in the database keeps the
-            // database value, so it is not re-inserted from the global file.
+            // a global entry with a local change in the database keeps the database value
             $this->assertStringNotContainsString("'Global Value'", $insert);
             $this->assertStringContainsString("'Plain Global'", $insert);
-            // A customizing entry the database has an even newer change for
-            // must not be overwritten by the file either.
+            // a customizing entry with an even newer database change is not overwritten by the file either
             $this->assertStringNotContainsString("'From Local File'", $insert);
             $this->assertStringContainsString("'Local 0'", $insert);
             $this->assertStringContainsString("'Local 199'", $insert);
@@ -356,10 +338,8 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * insertLanguageForApplyingLocalChanges() must read only the
-     * customizing/local directory - the base/global directory's content
-     * must never appear in the resulting INSERT, and no flush (DELETE FROM
-     * lng_data) may happen at all, since the base data is left untouched.
+     * insertLanguageForApplyingLocalChanges() reads only the customizing directory: no base content in the INSERT and
+     * no flush (DELETE FROM lng_data).
      */
     public function testInsertLanguageForApplyingLocalChangesOnlyReadsCustomizingDirectory(): void
     {
@@ -381,10 +361,8 @@ class LanguageInstallationManagerTest extends TestCase
                 ->method('getLanguageEntries')
                 ->with('de')
                 ->willReturn([]);
-            // insertLanguage()'s shared "does the DB hold an even newer
-            // change than this local file?" check still calls
-            // getLocalChanges() once per local directory - that is unrelated
-            // to the *seed*, which must come from getLanguageEntries() alone.
+            // insertLanguage()'s "newer change in the DB?" check still calls getLocalChanges() once per local directory;
+            // the seed itself comes from getLanguageEntries() alone
             $repository->method('getLocalChanges')->willReturn([]);
 
             $manager = new LanguageInstallationManager(
@@ -415,21 +393,14 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for the lng_modules cache correctness that the
-     * choice of seed exists for: insertLanguage() rebuilds the lng_modules
-     * cache row for a module entirely from the seed plus whatever it reads
-     * from the given directories. If the seed only contained previously
-     * *local* changes (getLocalChanges()) instead of every currently stored
-     * entry (getLanguageEntries()), a plain base entry the customizing file
-     * does not override would silently vanish from the rebuilt cache row -
-     * this pins that it survives.
+     * insertLanguage() rebuilds the lng_modules row from the seed plus the given directories: if the seed held only
+     * local changes (getLocalChanges()) instead of every stored entry (getLanguageEntries()), a base entry the
+     * customizing file does not override would vanish from the row.
      */
     public function testInsertLanguageForApplyingLocalChangesPreservesUnrelatedSeedEntriesInModulesCache(): void
     {
         $root = $this->createTempInstallationRoot();
-        // Only 'overridden' is touched by the customizing file below -
-        // 'untouched_by_customizing' must still make it into lng_modules,
-        // because getLanguageEntries() (the seed) already contains it.
+        // only 'overridden' is touched by the customizing file; 'untouched_by_customizing' must survive via the seed
         $this->writeLangFile(
             $root . '/lang/customizing/ilias_de.lang.local',
             [['common', 'overridden', 'New Custom Value']]
@@ -477,10 +448,8 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for the "brand new language" path: installLanguages()
-     * must register a language that passes validation and is not yet known in
-     * object_data, using registerInstalledLanguage()'s INSERT branch. Only the
-     * uninstall branch (empty $lang_keys) was previously covered.
+     * installLanguages() registers a language that passes validation and is not yet in object_data via the INSERT
+     * branch of registerInstalledLanguage().
      */
     public function testInstallLanguagesRegistersBrandNewLanguage(): void
     {
@@ -534,12 +503,8 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for validation failures: a language that fails
-     * checkLanguage() must be reported as failed (a list, not `true`) and must
-     * be completely skipped in the second pass - neither re-synced nor
-     * flushed - even though it is already known in object_data. Only the
-     * "all languages pass" and "none are requested" cases were previously
-     * covered.
+     * A language failing checkLanguage() is reported as failed (a list, not `true`) and skipped in the second pass:
+     * neither re-synced nor flushed, even though it is known in object_data.
      */
     public function testInstallLanguagesReportsFailedLanguageAndLeavesItUntouched(): void
     {
@@ -561,8 +526,7 @@ class LanguageInstallationManagerTest extends TestCase
                 ['xx', false],
             ]);
             $repository->method('getAvailableLanguages')->willReturn([
-                // Already known from a previous installation; its language
-                // file has since become invalid (e.g. removed/corrupted).
+                // known from a previous installation, its language file has become invalid
                 'xx' => ['obj_id' => 5, 'status' => 'installed'],
             ]);
             $repository->method('getLocalLanguages')->willReturn([]);
@@ -577,10 +541,8 @@ class LanguageInstallationManagerTest extends TestCase
 
             $result = $manager->installLanguages(['de', 'xx']);
 
-            // A list of the failing keys, not `true`.
             $this->assertSame(['xx'], $result);
 
-            // 'de' installs normally.
             $inserts_object_data = array_values(array_filter(
                 $calls,
                 static fn(string $query): bool => str_starts_with($query, /** @lang text */ 'INSERT INTO object_data')
@@ -588,9 +550,7 @@ class LanguageInstallationManagerTest extends TestCase
             $this->assertCount(1, $inserts_object_data);
             $this->assertStringContainsString("'de'", $inserts_object_data[0]);
 
-            // 'xx' is already known (obj_id 5) but failed validation this
-            // time - it must not be touched at all: no flush, no status
-            // update, no resync.
+            // 'xx' is known (obj_id 5) but failed validation: no flush, no status update, no resync
             foreach ($calls as $query) {
                 $this->assertStringNotContainsString("obj_id = '5'", $query);
                 $this->assertStringNotContainsString("lang_key = 'xx'", $query);
@@ -601,12 +561,8 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for the "resync" branch: a language that is
-     * already known in object_data and is still requested must have its
-     * bookkeeping row refreshed via registerInstalledLanguage() - without
-     * being fully flushed (flushLanguage("all")) or having its status forced
-     * to "not_installed". Previously only the "no longer requested"
-     * (uninstall) branch of this second loop was covered.
+     * A known, still requested language gets its bookkeeping row refreshed via registerInstalledLanguage(), without a
+     * full flushLanguage("all") or a forced "not_installed" status.
      */
     public function testInstallLanguagesResyncsAlreadyKnownRequestedLanguage(): void
     {
@@ -640,23 +596,19 @@ class LanguageInstallationManagerTest extends TestCase
             $result = $manager->installLanguages(['fr']);
             $this->assertTrue($result);
 
-            // Resync must not fully flush the language (flushLanguage("all")
-            // deletes with no module filter at all; insertLanguage's own
-            // per-module cleanup, which does run, always carries an
-            // "AND module IN (...)" filter and is a different query).
+            // no full flush: flushLanguage("all") deletes without a module filter, unlike insertLanguage()'s own
+            // per-module cleanup ("AND module IN (...)")
             $full_flush_deletes = array_values(array_filter(
                 $calls,
                 static fn(string $query): bool => $query === "DELETE FROM lng_modules WHERE lang_key = 'fr'"
             ));
             $this->assertCount(0, $full_flush_deletes);
 
-            // ...and must not force its status to "not_installed"...
             foreach ($calls as $query) {
                 $this->assertStringNotContainsString('not_installed', $query);
             }
 
-            // ...but does refresh the bookkeeping row via an UPDATE, keeping
-            // the "installed" status.
+            // ...but the bookkeeping row is refreshed via UPDATE, keeping "installed"
             $object_data_updates = array_values(array_filter(
                 $calls,
                 static fn(string $query): bool => str_starts_with($query, /** @lang text */ 'UPDATE object_data')
@@ -670,14 +622,9 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for the uninstall branch's status-update guard: a
-     * language already marked "not_installed" (not merely absent from
-     * $lang_keys, but explicitly already flagged as such) must still be
-     * flushed, but must NOT receive a redundant
-     * "UPDATE ... description = 'not_installed'". strpos("not_installed",
-     * "installed") is 3, not 0/false - this pins the exact `=== 0` boundary
-     * check against a `!== false` or `>= 0` mutation, either of which would
-     * wrongly re-fire the UPDATE for an already-"not_installed" row.
+     * A language already marked "not_installed" is still flushed but gets no redundant
+     * "UPDATE ... description = 'not_installed'": strpos("not_installed", "installed") is 3, so the guard must be
+     * `=== 0`, not `!== false` or `>= 0`.
      */
     public function testInstallLanguagesDoesNotReUpdateAlreadyNotInstalledLanguage(): void
     {
@@ -700,14 +647,12 @@ class LanguageInstallationManagerTest extends TestCase
 
         $this->assertTrue($result);
 
-        // Still flushed (uninstall path)...
         $this->assertStringContainsString(
             "DELETE FROM lng_modules WHERE lang_key = 'de'",
             implode("\n", $calls)
         );
 
-        // ...but no UPDATE at all: it was already "not_installed", so there
-        // is nothing to change.
+        // ...but no UPDATE: it was already "not_installed"
         $updates = array_values(array_filter(
             $calls,
             static fn(string $query): bool => str_starts_with($query, /** @lang text */ 'UPDATE object_data')
@@ -716,19 +661,9 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for the "remarks" (comment) column: a .lang line
-     * may carry an optional "###comment" suffix after the value (see real
-     * examples in lang/ilias_en.lang, e.g.
-     * "assessment#:#discard_answer#:#Delete Answer###fau: testNav"). The
-     * pre-refactor implementation
-     * (class.ilObjLanguageDBAccess::insertLangEntries()) extracted that
-     * suffix into $separated[3] and wrote it into lng_data.remarks.
-     * insertLanguage() still truncates the value at "###" (so the value
-     * itself stays clean), but never assigns $separated[3] - the INSERT
-     * therefore always quotes `$separated[3] ?? null`, i.e. NULL, silently
-     * discarding every comment on every (re-)install/refresh. This pins the
-     * expected (pre-refactor) behavior: the comment must survive into the
-     * remarks column.
+     * A .lang line may carry a "###comment" suffix (e.g. "...#:#Delete Answer###fau: testNav"). The value is truncated
+     * at "###" and the comment must survive into lng_data.remarks, as in the former
+     * ilObjLanguageDBAccess::insertLangEntries().
      */
     public function testInsertLanguageStoresCommentSuffixInRemarksColumn(): void
     {
@@ -766,14 +701,11 @@ class LanguageInstallationManagerTest extends TestCase
             ));
             $this->assertCount(1, $insert);
 
-            // The value itself must be truncated at "###" - the comment
-            // separator (and the comment text after it) must never leak
-            // into the value.
+            // the value is truncated at "###": the comment must not leak into it
             $this->assertStringContainsString("'Delete Answer'", $insert[0]);
             $this->assertStringNotContainsString('Delete Answer###', $insert[0]);
 
-            // The comment itself must be preserved in the remarks column -
-            // not silently discarded as NULL.
+            // the comment is preserved in the remarks column, not discarded as NULL
             $this->assertStringContainsString(
                 "'fau: testNav'",
                 $insert[0],
@@ -785,12 +717,7 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Boundary/companion to the regression test above: a line with no
-     * "###" comment suffix at all must keep leaving the remarks column
-     * NULL - this is the pre-existing, correct behavior for the (much more
-     * common) case of a plain line, and must not regress either way (e.g.
-     * a naive fix that always writes an empty string, or the literal text
-     * "null", instead of a real NULL).
+     * A line without a "###" suffix leaves the remarks column NULL, not an empty string or the text "null".
      */
     public function testInsertLanguageLeavesRemarksNullWhenLineHasNoCommentSuffix(): void
     {
@@ -824,10 +751,7 @@ class LanguageInstallationManagerTest extends TestCase
             ));
             $this->assertCount(1, $insert);
             $this->assertStringContainsString("'Plain Value'", $insert[0]);
-            // The mock's quote() callback casts every value through
-            // (string), so a NULL remarks column surfaces as the tuple
-            // ending in an empty quoted string right before the closing
-            // paren - this pins that shape rather than a literal "NULL".
+            // the mock's quote() casts values to string, so NULL shows as an empty quoted string before the closing paren
             $this->assertMatchesRegularExpression(
                 "/,'',''\\)/",
                 $insert[0],
@@ -839,13 +763,9 @@ class LanguageInstallationManagerTest extends TestCase
     }
 
     /**
-     * Regression coverage for prefix handling on the write path: a component
-     * directory's two-field lines (identifier#:#value, no module) must be
-     * written with the directory's prefix as the module - not with the
-     * file's own first field misread as the module, nor with the four
-     * resulting fields shifted out of place. The read path (checkLanguage())
-     * already has prefix coverage in ilSetupLanguageTest; this covers the
-     * write path in insertLanguage().
+     * The two-field lines (identifier#:#value) of a component directory are written with the directory's prefix as
+     * module, not with the first field misread as module. The read path (checkLanguage()) is covered in
+     * ilSetupLanguageTest.
      */
     public function testInsertLanguageUsesDirectoryPrefixAsModuleForComponentFiles(): void
     {
@@ -886,8 +806,7 @@ class LanguageInstallationManagerTest extends TestCase
                 static fn(string $query): bool => str_starts_with($query, /** @lang text */ 'INSERT INTO lng_data')
             ));
             $this->assertCount(1, $insert);
-            // module=prefix, identifier=first field of the 2-field line,
-            // value=second field - not the line's own first field as module.
+            // module=prefix, identifier=first field, value=second field
             $this->assertStringContainsString("('file','add_file','de','Add File'", $insert[0]);
         } finally {
             $this->removeDirectory($root);

@@ -31,9 +31,7 @@ use PHPUnit\Framework\TestCase;
  */
 class LanguageComponentDependenciesTest extends TestCase
 {
-    /**
-     * @return list<string>
-     */
+    /** @return list<string> */
     private function names(InType $type): array
     {
         $result = (new Reader(new EvalLightMockBuilder()))->read(new ILIAS\Language());

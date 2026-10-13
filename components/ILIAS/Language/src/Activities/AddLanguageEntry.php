@@ -109,32 +109,17 @@ MARKDOWN
     }
 
     /**
-     * Must keep exactly `Activity::getInputDescription(FieldFactory $f): FormInput`'s signature.
-     * An earlier version added an optional `?array $installed_language_keys` parameter here to
-     * avoid a second repository round-trip; while PHP itself permits an optional extra parameter,
-     * a *subclass* overriding the method with the plain interface signature then has FEWER
-     * parameters than its own parent, which PHP rejects as a variance fatal error at class-load
-     * time (reproduced with a minimal subclass under PHP 8.5.4). Hence this resolves the
-     * installed-language snapshot itself, on every call, via the repository directly.
-     *
-     * Consequence: getInputDescription() and perform() can observe different installed-language
-     * snapshots if a language is installed/uninstalled between the two calls within one
-     * maybePerformAs() call. A newly installed optional language just ends up in
-     * `skipped_empty_language_keys`; a newly installed "de"/"en" makes perform() reject the whole
-     * request (fail-closed, since no value could have been submitted for it); a language
-     * uninstalled in the meantime has its submitted value silently dropped rather than written or
-     * reported. No case crashes or writes partial data.
+     * Must keep exactly `Activity::getInputDescription(FieldFactory $f): FormInput`'s signature: an
+     * optional extra parameter here would make a subclass using the plain signature a variance fatal.
+     * So the installed languages are resolved here, and may differ from perform()'s snapshot if a
+     * language is (un)installed in between; perform() fails closed for "de"/"en", no partial data.
      */
     public function getInputDescription(FieldFactory $f): FormInput
     {
         $installed_language_keys = $this->installed_language_repository->getInstalledLanguages();
 
-        // Field labels use $this->lng->txt('meta_l_' . $lang_key), which requires the caller to
-        // have already loaded the "meta" language module. This method deliberately does not load
-        // it itself: loadLanguageModule() merges keys unnamespaced into the shared $lng instance,
-        // which could clobber another module's keys if this ran generically alongside other
-        // Activities. The GUI caller already loads it; a caller that doesn't gets the raw,
-        // untranslated placeholder (e.g. "-meta_l_de-") instead of a crash.
+        // labels need the "meta" module loaded by the caller (not loaded here: it would clobber keys
+        // of other modules in the shared $lng); otherwise the placeholder "-meta_l_de-" shows
         $module = $f->text(
             'Module',
             'Name of the language module the new entry belongs to.'
@@ -195,12 +180,8 @@ MARKDOWN
     }
 
     /**
-     * @param mixed $parameters may additionally carry a `usr_id` (int) key, merged in by
-     *        LanguageActivity::maybePerformAs() via additionalPerformParameters() (never part of
-     *        getInputDescription(), so it can never be spoofed via form data): if given, it is
-     *        recorded as the author of the local change made to every written entry. It is
-     *        optional - a generic caller following the plain Activity contract never supplies it,
-     *        and the entries are then written without an attributed author instead.
+     * @param mixed $parameters may carry a trusted `usr_id` (int), see additionalPerformParameters();
+     *        it is recorded as the author of the local change, without it no author is attributed.
      */
     public function perform(mixed $parameters): array
     {
@@ -245,21 +226,19 @@ MARKDOWN
             );
         }
 
-        // $login is '' when usr_id is absent; replaceLangEntry() treats '' as "no remarks", so
-        // the entry is written without an attributed author rather than the request failing.
+        // '' (no usr_id) means "no remarks" for replaceLangEntry()
         $login = is_int($usr_id) ? ($this->user_login)($usr_id) : '';
         $local_change = gmdate('Y-m-d H:i:s');
 
         $added_language_keys = [];
         $skipped_empty_language_keys = [];
 
-        // Not transactional across multiple languages: a failure partway through (e.g. a
-        // database error) leaves languages processed so far written.
+        // not transactional: a failure partway leaves the languages processed so far written
         foreach ($installed_language_keys as $lang_key) {
             $value = $translations[$lang_key] ?? '';
             $value = is_string($value) ? trim($value) : '';
 
-            // A value of exactly "0" is treated as blank too, matching the legacy behaviour.
+            // "0" counts as blank too (legacy behaviour)
             if (!$value) {
                 $skipped_empty_language_keys[] = $lang_key;
                 continue;
@@ -280,9 +259,7 @@ MARKDOWN
     }
 
     /**
-     * Threads the trusted, server-resolved `usr_id` into perform()'s $parameters via
-     * LanguageActivity's template-method hook - see LanguageActivity::maybePerformAs()'s
-     * array_merge() for why this wins over a same-named key from form input.
+     * Threads the trusted `usr_id` into perform(); wins over a form key, see LanguageActivity::maybePerformAs().
      *
      * @return array{usr_id: int}
      */
@@ -307,8 +284,7 @@ MARKDOWN
     private function toNonEmptyString(mixed $value, string $field): string
     {
         if (!is_string($value) || trim($value) === '') {
-            // getInputDescription()'s withRequired(true) only rejects an entirely empty raw
-            // string, not a whitespace-only one - reject that here too.
+            // withRequired(true) lets whitespace-only strings pass
             throw new InvalidInputException("The $field parameter must be a non-empty string.");
         }
 

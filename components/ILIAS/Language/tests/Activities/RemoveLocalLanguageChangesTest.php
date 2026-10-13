@@ -425,7 +425,6 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
         $this->assertSame([], $result['removed_local_changes_language_keys']);
         $this->assertSame(['de'], $result['invalid_language_file_keys']);
         $this->assertSame([], $result['not_installed_language_keys']);
-        // removeLocalChanges() must still have been attempted.
         $this->assertSame(1, $fakes[1]->removeLocalChangesCallCount());
     }
 
@@ -470,7 +469,6 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
         ]);
 
         $result = $this->createActivity($lng_objects, $obj_language_factory)->perform([
-            // 'xx' has no backing object at all.
             'language_keys' => ['de', 'fr', 'it', 'xx'],
         ]);
 
@@ -519,8 +517,6 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
             'empty (only whitespace/commas)' => [['language_keys' => ' , ']],
             'nested array value' => [['language_keys' => ['de', ['fr']]]],
             'non-array, non-string value' => [['language_keys' => 42]],
-            // Regression coverage for ParsesLanguageKeyList::toLanguageKeyList()'s
-            // format validation (exactly two lowercase ASCII letters).
             'three letters' => [['language_keys' => 'deu']],
             'one letter' => [['language_keys' => 'd']],
             'uppercase' => [['language_keys' => 'DE']],
@@ -661,9 +657,7 @@ class RemoveLocalLanguageChangesTest extends ActivityWithPerformResultContractTe
         $lng_objects = static fn(): array => [];
         $obj_language_factory = static fn(int $id) => null;
 
-        // An empty language_keys value normalizes to [] and throws inside
-        // perform() (via toLanguageKeyList()) - reachable only after the
-        // permission check has already passed, exercising the catch block.
+        // an empty language_keys value throws inside perform(), after the permission check passed
         $result = $this->createActivity(
             $lng_objects,
             $obj_language_factory,

@@ -32,18 +32,15 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ilLanguageBaseTestCase;
 
 /**
- * LanguageActivity is abstract, exercised indirectly by every concrete Activity's own test suite;
- * this file targets LanguageActivity::maybePerformAs() directly via minimal throwing test doubles,
- * for behaviour no concrete Activity can trigger without an artificial collaborator failure.
+ * Targets LanguageActivity::maybePerformAs() directly via throwing test doubles, for behaviour no concrete
+ * Activity can trigger without an artificial collaborator failure.
  */
 class LanguageActivityTest extends ilLanguageBaseTestCase
 {
     use RealFieldsUiFactory;
 
     /**
-     * A \Throwable raised while BUILDING the input description (not grinding, not perform()) must
-     * still come back as a Result\Error, per Activity::maybePerformAs()'s contract - rbac must
-     * never be reached either, since the failure happens before permission-checking.
+     * A \Throwable while building the input description must come back as a Result\Error, without reaching rbac.
      */
     public function testExceptionWhileBuildingTheInputDescriptionIsTurnedIntoAResultErrorNotPropagated(): void
     {
@@ -66,9 +63,8 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
     }
 
     /**
-     * Same scenario, but the \Throwable is not an \Exception (a \TypeError) - `new
-     * Result\Error($e)` only accepts string|\Exception, so it must arrive wrapped in a
-     * \RuntimeException instead of raising an uncaught \InvalidArgumentException.
+     * A non-\Exception \Throwable (\TypeError) must arrive wrapped in a \RuntimeException, since Result\Error
+     * accepts only string|\Exception.
      */
     public function testATypeErrorWhileBuildingTheInputDescriptionIsWrappedInARuntimeExceptionResultError(): void
     {
@@ -94,11 +90,8 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
     }
 
     /**
-     * Regression test for maybePerformAs()'s array_merge() precedence: additionalPerformParameters()
-     * must win over a same-named key from normalizeParameters(). Uses a dedicated LanguageActivity
-     * double whose normalizeParameters() always returns a colliding 'usr_id', since
-     * AddLanguageEntry's own getInputDescription() never collects a 'usr_id' field and so never
-     * actually reaches this collision.
+     * additionalPerformParameters() must win over a same-named key from normalizeParameters() in maybePerformAs()'s
+     * array_merge(). Needs a dedicated double, as AddLanguageEntry never collects a 'usr_id' field.
      */
     public function testAdditionalPerformParametersWinsOverANormalizeParametersKeyCollisionInMaybePerformAs(): void
     {
@@ -116,24 +109,15 @@ class LanguageActivityTest extends ilLanguageBaseTestCase
 
         $this->assertFalse($result->isError());
         $parameters = $result->value();
-        // The trusted, server-resolved usr_id (42, from maybePerformAs()'s own
-        // argument via additionalPerformParameters()) must win over the
-        // spoofed value normalizeParameters() produced from (simulated) form
-        // input.
+        // the trusted usr_id (42) wins over the spoofed one from normalizeParameters()
         $this->assertSame(42, $parameters['usr_id']);
-        // A non-colliding key from normalizeParameters() must still survive
-        // the merge untouched.
+        // a non-colliding key survives the merge
         $this->assertSame('form', $parameters['source']);
     }
 }
 
 /**
- * Minimal concrete LanguageActivity whose getInputDescription() always
- * throws, used exclusively to exercise LanguageActivity::maybePerformAs()'s
- * generic try/catch around getInputDescription()/$input_factory->field() in
- * isolation - every other abstract method is unreachable from
- * maybePerformAs() once getInputDescription() throws, and simply throws
- * itself if a test ever calls it by mistake.
+ * LanguageActivity whose getInputDescription() always throws; every other abstract method throws too.
  */
 final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageActivity
 {
@@ -178,11 +162,8 @@ final class LanguageActivityThrowingInputDescriptionTestDouble extends LanguageA
 }
 
 /**
- * Minimal LanguageActivity used only by
- * testAdditionalPerformParametersWinsOverANormalizeParametersKeyCollisionInMaybePerformAs():
- * normalizeParameters() always returns a colliding 'usr_id', simulating spoofed form input.
- * getInputDescription() returns an empty group so grind() trivially succeeds; perform() returns
- * $parameters unchanged so the test can inspect what survived the merge.
+ * normalizeParameters() always returns a colliding 'usr_id' (spoofed form input); perform() returns $parameters
+ * unchanged so the test can inspect the merge.
  */
 final class LanguageActivityMergePrecedenceTestDouble extends LanguageActivity
 {
@@ -211,8 +192,7 @@ final class LanguageActivityMergePrecedenceTestDouble extends LanguageActivity
      */
     protected function normalizeParameters(array $grind_result): array
     {
-        // Simulates a spoofed 'usr_id' smuggled in through form input - must
-        // never win over additionalPerformParameters()'s trusted value below.
+        // spoofed 'usr_id' that must lose against additionalPerformParameters()
         return ['usr_id' => 'SPOOFED-VALUE', 'source' => 'form'];
     }
 

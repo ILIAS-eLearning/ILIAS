@@ -64,18 +64,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule("lng");
 
-        // Resolved once here, per the constructor-injection idiom already
-        // used by sibling GUI classes in this component (see
-        // ilObjLanguageExtGUI::__construct()) - action methods must not
-        // reach into `global $DIC` themselves.
         $this->install_language = $DIC[InstallLanguage::class];
         $this->update_language = $DIC[UpdateLanguage::class];
         $this->uninstall_language = $DIC[UninstallLanguage::class];
         $this->remove_local_language_changes = $DIC[RemoveLocalLanguageChanges::class];
         $this->set_language_detection_enabled = $DIC[SetLanguageDetectionEnabled::class];
         $this->current_user_id = $DIC->user()->getId();
-        // Used exclusively by activityErrorMessage() (see RendersActivityErrors) -
-        // resolved once here, per the same idiom as the Activities above.
+        // used by activityErrorMessage() (see RendersActivityErrors)
         $this->activity_error_logger = $DIC->logger()->lang();
         $this->df = new ILIAS\Data\Factory();
 
@@ -178,12 +173,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         if (!empty($ids)) {
             if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
-                // The request has already been aborted above (a failure
-                // message plus a redirect to "view") - this method's return
-                // type still requires a Modal value, but it is never
-                // actually rendered to the user: the redirect() response
-                // takes precedence in production. See
-                // abortIfAnyIdIsNotALanguageObject() for why.
+                // already aborted (failure message and redirect); the Modal is only needed for the return type
                 return $f->modal()->interruptive($title, '', '')->withActionButtonLabel($this->lng->txt('ok'));
             }
 
@@ -229,8 +219,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     }
 
     /**
-     * Turn a list of language keys into a localized, comma-separated list
-     * (e.g. for "German, French installed." style messages).
+     * Localized, comma-separated list of language names.
      *
      * @param list<string> $lang_keys
      */
@@ -243,35 +232,14 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     }
 
     /**
-     * Restores, for a batch of ids taken directly from request input (see
-     * getIdsFromQueryToken()), the implicit type guarantee
-     * `new ilObjLanguage((int) $obj_id)` used to give before every caller
-     * below was switched away from it towards `ilObject::_lookupTitle()`: the
-     * former threw ilObjectTypeMismatchException for a non-"lng" id, while
-     * the latter returns ANY object's title regardless of type (or "" for a
-     * non-existing id) without any type check at all. $ids is completely
-     * unvalidated request input, so every id must be confirmed to actually be
-     * a "lng" object BEFORE its title is trusted as a language key anywhere
-     * in this class.
+     * $ids is unvalidated request input, and ilObject::_lookupTitle() returns the title of ANY object type, so every
+     * id must be confirmed to be a "lng" object before its title is trusted as a language key.
      *
-     * Aborts the WHOLE request - a generic, user-visible failure message
-     * followed by a redirect back to "view" - the moment a SINGLE id in
-     * $ids is not a "lng" object, rather than silently skipping just that
-     * one: a caller submitting an id that does not belong on this screen at
-     * all must never have any part of their request honoured. The message
-     * deliberately does not name the actual mismatch (e.g. which id, or what
-     * type it actually is), to avoid confirming to a caller probing this
-     * parameter which ids exist and of what type.
-     *
-     * `ilObject::_lookupType()` is backed by `ilObjDataCache` (see its own
-     * implementation), exactly like `ilObject::_lookupTitle()` already is -
-     * so checking every id here costs no additional, uncached database
-     * round trip compared to before.
+     * Aborts the WHOLE request (generic failure message, redirect to "view") if a single id is not one. The message
+     * deliberately does not name the mismatch, so probing the parameter reveals nothing about existing ids.
      *
      * @param list<string|int> $ids
-     * @return bool true if the request was aborted (the caller must return
-     *         immediately without acting on $ids at all); false if every id
-     *         in $ids is confirmed to be a "lng" object.
+     * @return bool true if the request was aborted (the caller must return immediately)
      */
     private function abortIfAnyIdIsNotALanguageObject(array $ids): bool
     {
@@ -290,22 +258,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     }
 
     /**
-     * Install languages, or (re-)apply just their customizing/local file -
-     * see InstallLanguage::MODE_INSTALL / MODE_INSTALL_LOCAL. $mode is
-     * passed straight from the "install"/"install_local" command that was
-     * dispatched (see executeCommand()) - both are valid InstallLanguage
-     * modes as-is.
+     * $mode is the dispatched "install"/"install_local" command, both are InstallLanguage modes (MODE_INSTALL/MODE_INSTALL_LOCAL).
      */
     public function installObject(array $ids, string $mode): void
     {
         $this->checkPermission('write');
 
-        // An empty selection must never reach InstallLanguage itself: its
-        // own field-level validation would reject it with a technical,
-        // untranslated message (e.g. "language_keys: not_min_length") -
-        // exactly the same "nothing was selected" case buildConfirmModal()
-        // already handles for the confirmation step, so the same
-        // established message is shown here too.
+        // an empty selection must not reach the Activity, its validation message is technical and untranslated
         if ($ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'view');
@@ -334,11 +293,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $error = $result->error();
             $error_message = $this->activityErrorMessage($error);
 
-            // activityErrorMessage() already returns a complete, self-
-            // contained message (see uninstallObject()) - a fixed
-            // "language_not_installed" prefix does not apply to every
-            // possible error here (e.g. a permission failure, or an invalid
-            // language file), so it must not be prepended unconditionally.
+            // activityErrorMessage() is complete: no prefix ("language_not_installed", "action_aborted") applies to every error
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $error_message,
@@ -350,12 +305,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
         $value = $result->value();
 
-        // Both of these are "success" messages, but setOnScreenMessage()
-        // only keeps one message per type (a second call for the same type
-        // would silently overwrite the first) - so if both buckets are
-        // non-empty in the same request (e.g. installing several languages
-        // at once, some plain, some with a custom file), they are combined
-        // into a single message instead of two separate calls.
+        // setOnScreenMessage() keeps one message per type, so messages of one type are combined
         $success_messages = [];
 
         if (($lang_installed = $value['installed_language_keys']) !== []) {
@@ -363,11 +313,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                 . " " . strtolower($this->lng->txt("installed")) . ".";
         }
 
-        // A language gets a customizing/local file (re-)applied either as
-        // part of a fresh installation (mode "install") or as the result of
-        // mode "install_local" - either way, something did change for it, so
-        // this must be reported explicitly rather than disappearing into
-        // "already installed", which would wrongly suggest nothing happened.
+        // reported explicitly, else it would vanish into "already installed" and suggest nothing happened
         if (($lang_installed_with_local_file = $value['installed_with_local_language_keys']) !== []) {
             $success_messages[] = $this->languageKeysToLocalizedList($lang_installed_with_local_file)
                 . ": " . $this->lng->txt("installed_local") . ".";
@@ -381,11 +327,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             );
         }
 
-        // Both of these are "info" messages about requests that changed
-        // nothing at all (mode "install" on an already installed language,
-        // or mode "install_local" on a language that is not installed) -
-        // combined into a single message for the same reason as the success
-        // messages above.
         $info_messages = [];
 
         if (($lang_already_installed = $value['already_installed_language_keys']) !== []) {
@@ -422,9 +363,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 
     /**
-     * Uninstall languages - see UninstallLanguage. A language among $ids
-     * that is not installed, the system language, or the language currently
-     * in use is left completely untouched.
+     * Languages that are not installed, the system language and the language in use are left untouched.
      */
     public function uninstallObject(array $ids): void
     {
@@ -450,12 +389,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $error = $result->error();
             $error_message = $this->activityErrorMessage($error);
 
-            // activityErrorMessage() already returns a complete, self-
-            // contained message - a generic, localized "action_aborted" text
-            // for an unexpected internal failure, or the concrete,
-            // already-actionable message for a SafeToDisplayActivityError -
-            // appending "action_aborted" again would either duplicate it or
-            // wrongly imply every rejection is a generic abort.
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $error_message,
@@ -475,10 +408,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             );
         }
 
-        // These three outcomes are all "nothing changed for this language,
-        // and here is why" - combined into a single info message for the
-        // same reason as installObject()/refreshSelectedObject() combine
-        // theirs: setOnScreenMessage() only keeps one message per type.
         $info_messages = [];
 
         if (($lang_system = $value['system_language_keys']) !== []) {
@@ -505,10 +434,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 
     /**
-     * Remove local changes of one or more already installed languages - see
-     * RemoveLocalLanguageChanges. A language among $ids that is not
-     * installed (or not a known language key at all) is left completely
-     * untouched.
+     * Languages that are not installed (or no language key) are left untouched.
      */
     public function uninstallChangesObject(array $ids): void
     {
@@ -534,12 +460,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $error = $result->error();
             $error_message = $this->activityErrorMessage($error);
 
-            // activityErrorMessage() already returns a complete, self-
-            // contained message - a generic, localized "action_aborted" text
-            // for an unexpected internal failure, or the concrete,
-            // already-actionable message for a SafeToDisplayActivityError -
-            // appending "action_aborted" again would either duplicate it or
-            // wrongly imply every rejection is a generic abort.
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $error_message,
@@ -586,17 +506,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     }
 
     /**
-     * Refresh (already installed) languages, re-seeding their base data
-     * (plus a customizing/local file if one exists) from the current
-     * language files - see UpdateLanguage. A language among $ids that is
-     * not installed is left completely untouched.
+     * Languages that are not installed are left untouched.
      */
     public function refreshSelectedObject(array $ids): void
     {
         $this->checkPermission('write');
 
-        // See installObject() for why an empty selection must never reach
-        // the Activity itself.
+        // see installObject()
         if ($ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'view');
@@ -622,11 +538,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $error = $result->error();
             $error_message = $this->activityErrorMessage($error);
 
-            // activityErrorMessage() already returns a complete, self-
-            // contained message (see uninstallObject()) - a fixed
-            // "language_not_installed" prefix does not apply to every
-            // possible error here (e.g. a permission failure, or an invalid
-            // language file), so it must not be prepended unconditionally.
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $error_message,
@@ -872,11 +783,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                                     $ids[] = (string) $lang["obj_id"];
                                 }
                             }
-                            // $action is exactly 'install' or 'install_local'
-                            // here (the two case labels above) - which are
-                            // also InstallLanguage::MODE_INSTALL and
-                            // MODE_INSTALL_LOCAL's values, so it can be
-                            // passed straight through as the mode.
+                            // 'install'/'install_local' are the InstallLanguage mode values
                             $this->installObject($ids, $action);
                             break;
                         case 'lang_uninstall_changes':
@@ -1053,29 +960,16 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->ctrl->redirectByClass("ilobjlanguageextgui");
     }
 
-    /**
-     * Disable language detection - see SetLanguageDetectionEnabled.
-     */
     protected function disableLanguageDetectionObject(): void
     {
         $this->setLanguageDetectionEnabledObject(false);
     }
 
-    /**
-     * Enable language detection - see SetLanguageDetectionEnabled.
-     */
     protected function enableLanguageDetectionObject(): void
     {
         $this->setLanguageDetectionEnabledObject(true);
     }
 
-    /**
-     * Common implementation of enableLanguageDetectionObject()/
-     * disableLanguageDetectionObject() - both flip the very same
-     * "lang_detection" system setting to a fixed value, so both are backed
-     * by the same SetLanguageDetectionEnabled Activity with a different
-     * boolean argument.
-     */
     private function setLanguageDetectionEnabledObject(bool $enabled): void
     {
         $result = $this->set_language_detection_enabled->maybePerformAs(
@@ -1088,12 +982,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $error = $result->error();
             $error_message = $this->activityErrorMessage($error);
 
-            // activityErrorMessage() already returns a complete, self-
-            // contained message - a generic, localized "action_aborted" text
-            // for an unexpected internal failure, or the concrete,
-            // already-actionable message for a SafeToDisplayActivityError -
-            // appending "action_aborted" again would either duplicate it or
-            // wrongly imply every rejection is a generic abort.
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $error_message,
@@ -1104,10 +992,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             return;
         }
 
-        // Unlike installObject()/uninstallObject()/refreshSelectedObject(),
-        // which redirect after a persisted message, this preserves the
-        // extracted code's original behaviour: render the view directly with
-        // a non-persisted message, rather than an HTTP redirect.
+        // rendered directly with a non-persisted message, no redirect (unlike installObject() & Co.)
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"));
         $this->viewObject();
     }

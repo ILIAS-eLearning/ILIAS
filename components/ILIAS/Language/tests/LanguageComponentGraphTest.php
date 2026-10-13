@@ -43,33 +43,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Regression coverage for the wiring performed by
- * components/ILIAS/Language/Language.php::init().
+ * Wiring of Language.php::init() through container types that mirror the generated bootstrap (Pimple\Container,
+ * RenamingDIC for $implement/$contribute), so regressions that only show with a real lazily-evaluated container are caught.
  *
- * Language.php was reorganised so that $internal entries are declared in
- * dependency order.
- * Nothing about *which* class ends up behind which $implement / $contribute
- * / $provide key was meant to change - the container types involved
- * (Pimple\Container, wrapped in RenamingDIC for $implement/$contribute) are
- * exactly what makes the reordering safe: closures created early still see
- * later mutations of the same container object, because a PHP arrow
- * function captures the *variable* by value, and for an object-typed
- * variable ("by value" copies only the handle) that value is a reference to
- * the very same underlying container.
- *
- * These tests exercise Language.php::init() through container types that
- * mirror what artifacts/bootstrap_*.php actually builds at runtime (see
- * ILIAS\Component\Dependencies\Renderer::renderComponent()), so a
- * regression that only breaks when a real, mutable, lazily-evaluated
- * container is used (as opposed to a plain PHP array test double) would
- * still be caught here.
- *
- * $use only seeds \ILIAS\Language\Language::class, the RBAC service the
- * Activities need and Directories: Language.php::init() does
- * not (any longer) read a \ILIAS\UI\Factory entry from $use - seeding one
- * here regardless would silently keep passing even if init() started reading
- * it again incorrectly (e.g. the old $ui_factory dependency reappearing by
- * accident), since a mock nobody asserts against never fails a test.
+ * $use is seeded only with what init() reads: a mock nobody asserts against would hide a reappearing $ui_factory dependency.
  */
 class LanguageComponentGraphTest extends TestCase
 {
@@ -95,11 +72,7 @@ class LanguageComponentGraphTest extends TestCase
             \ILIAS\Database\Connection::class => $connection ?? $this->createStub(\ILIAS\Database\Connection::class),
         ];
 
-        // $implement and $contribute are wrapped in RenamingDIC in the real
-        // generated bootstrap (see Renderer::renderComponent()) so that
-        // several assignments to the very same key don't collide - a plain
-        // Pimple\Container would silently let the second assignment
-        // overwrite the first.
+        // RenamingDIC (as in the generated bootstrap) keeps several assignments to one key apart; a plain Pimple\Container overwrites
         $implement = new RenamingDIC(new PimpleContainer());
         $contribute = new RenamingDIC(new PimpleContainer());
         $provide = new PimpleContainer();
@@ -146,9 +119,7 @@ class LanguageComponentGraphTest extends TestCase
     {
         [, , , , , $provide, , $internal] = $this->initComponent();
 
-        // $provide[...] is only a thin re-export of $internal[...]; both
-        // must resolve to the exact same object (Pimple caches the closure
-        // result), not merely to objects of the same class.
+        // $provide[...] re-exports $internal[...]: both must be the same object
         self::assertSame($internal[LanguageFileDirectoryManager::class], $provide[LanguageFileDirectoryManager::class]);
         self::assertSame($internal[InstallLanguage::class], $provide[InstallLanguage::class]);
         self::assertSame($internal[UpdateLanguage::class], $provide[UpdateLanguage::class]);
@@ -169,27 +140,8 @@ class LanguageComponentGraphTest extends TestCase
     {
         [, , , $contribute] = $this->initComponent();
 
-        // RenamingDIC assigns a single, container-wide "_<counter>" suffix
-        // to every offsetSet call, in call order. Reading these exact keys
-        // back pins the relative order of the ten $contribute entries,
-        // which the reorganisation was explicitly required to preserve -
-        // including the seven \ILIAS\Component\Activities\Activity::class
-        // entries (InstallLanguage, then UpdateLanguage, then
-        // UninstallLanguage, then RemoveLocalLanguageChanges, then
-        // AddLanguageEntry, then SetLanguageDetectionEnabled, then
-        // SetLanguageTranslationEnabled), one per Activity this component
-        // offers. The UserSettings contribution's counter shifted from _4
-        // to _5 when UninstallLanguage's own Activity contribution was
-        // added ahead of it, then from _5 to _6 when
-        // RemoveLocalLanguageChanges' Activity contribution was added ahead
-        // of it in turn, then from _6 to _7 with AddLanguageEntry's Activity
-        // contribution added ahead of it, then from _7 to _8 with
-        // SetLanguageDetectionEnabled's Activity contribution added ahead of
-        // it, and has now shifted again from _8 to _9 with
-        // SetLanguageTranslationEnabled's Activity contribution added ahead
-        // of it - a hardcoded '_8' for UserSettingsSettings would otherwise
-        // silently start resolving to the wrong contribute entry (or, as
-        // happened before, to no entry at all).
+        // RenamingDIC suffixes every offsetSet with a container-wide "_<counter>" in call order, so these keys pin the order of
+        // the $contribute entries: a hardcoded counter shifts whenever a contribution is added ahead of it
         self::assertInstanceOf(MainLanguageFileDirectory::class, $contribute[LanguageFileDirectory::class . '_0']);
         self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
         self::assertInstanceOf(InstallLanguage::class, $contribute[\ILIAS\Component\Activities\Activity::class . '_2']);
@@ -206,12 +158,7 @@ class LanguageComponentGraphTest extends TestCase
     {
         [, , , $contribute, , $provide] = $this->initComponent();
 
-        // ilLanguageSetupAgent (Setup path) and ilObjLanguageFolderGUI
-        // (via $provide[InstallLanguage::class]) must operate on the exact
-        // same InstallLanguage instance, not merely equal ones - and the
-        // same holds for UpdateLanguage, UninstallLanguage,
-        // RemoveLocalLanguageChanges, AddLanguageEntry,
-        // SetLanguageDetectionEnabled and SetLanguageTranslationEnabled.
+        // the Setup path and the GUI must share the very same Activity instances, not merely equal ones
         self::assertSame(
             $provide[InstallLanguage::class],
             $contribute[\ILIAS\Component\Activities\Activity::class . '_2']
@@ -246,13 +193,7 @@ class LanguageComponentGraphTest extends TestCase
     {
         [, $implement] = $this->initComponent();
 
-        // The Setup-path candidate (\ilSetupLanguage) must be registered
-        // before the runtime/Init-path candidate
-        // (LanguageLegacyInitialisationAdapter) - consumers disambiguate
-        // by position (see cli/build_bootstrap.php /
-        // Renderer::renderUse()), so a swap here would silently flip which
-        // candidate every $use[\ILIAS\Language\Language::class] consumer
-        // gets wired to.
+        // consumers disambiguate by position (Renderer::renderUse()): the Setup candidate must be registered before the runtime one
         self::assertInstanceOf(\ilSetupLanguage::class, $implement[\ILIAS\Language\Language::class . '_0']);
         self::assertInstanceOf(
             LanguageLegacyInitialisationAdapter::class,
@@ -303,10 +244,7 @@ class LanguageComponentGraphTest extends TestCase
         return $db;
     }
 
-    /**
-     * Repository and AddLanguageEntry query the pulled connection, never the
-     * database in $GLOBALS['ilDB'].
-     */
+    /** Repository and AddLanguageEntry query the pulled connection, never $GLOBALS['ilDB']. */
     public function testDatabaseConsumersGetThePulledConnectionNotTheGlobals(): void
     {
         $dic = new \ILIAS\DI\Container();
@@ -318,15 +256,11 @@ class LanguageComponentGraphTest extends TestCase
         $this->resolveEverything($provide, $contribute);
 
         self::assertSame([], $internal[InstalledLanguageDatabaseRepository::class]->getInstalledLanguages());
-        // The default of AddLanguageEntry's module cache update; the public path
-        // to it also calls the legacy static ilObjLanguage::replaceLangEntry().
+        // default of AddLanguageEntry's module cache update, whose public path also calls the static ilObjLanguage::replaceLangEntry()
         self::readPrivateProperty($internal[AddLanguageEntry::class], 'update_module_cache')('de', 'common', 'x', 'y');
         self::assertSame($dic, $GLOBALS['DIC']);
     }
 
-    /**
-     * Language must not call RBAC->system() while the services are resolved.
-     */
     public function testWiringNeverCallsRbacSystemWhileResolving(): void
     {
         $rbac = $this->createMock(\ILIAS\AccessControl\PublicInterface\RBAC::class);
@@ -358,9 +292,7 @@ class LanguageComponentGraphTest extends TestCase
         self::assertInstanceOf(\ilLanguageSetupAgent::class, $contribute[\ILIAS\Setup\Agent::class . '_1']);
     }
 
-    /**
-     * @return array<string, array{0: class-string<InstallLanguage|UpdateLanguage>}>
-     */
+    /** @return array<string, array{0: class-string<InstallLanguage|UpdateLanguage>}> */
     public static function setupLanguageActivities(): array
     {
         return [
@@ -369,9 +301,6 @@ class LanguageComponentGraphTest extends TestCase
         ];
     }
 
-    /**
-     * Not installed, so perform() only reads the installed languages.
-     */
     private function performReadOnly(InstallLanguage|UpdateLanguage $activity): void
     {
         $activity->perform(
@@ -381,9 +310,7 @@ class LanguageComponentGraphTest extends TestCase
         );
     }
 
-    /**
-     * @param class-string<InstallLanguage|UpdateLanguage> $class
-     */
+    /** @param class-string<InstallLanguage|UpdateLanguage> $class */
     #[DataProvider('setupLanguageActivities')]
     public function testWebActivitiesReadTheInstalledLanguagesFromThePulledConnection(string $class): void
     {

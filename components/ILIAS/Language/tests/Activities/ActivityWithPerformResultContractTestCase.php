@@ -24,20 +24,13 @@ use ILIAS\Language\Tests\Activities\ActivityContractTestCase;
 use ILIAS\Data\Description\Factory as DescriptionFactory;
 
 /**
- * Extends ActivityContractTestCase with the getOutputDescription()-vs-
- * perform() cross-check shared by InstallLanguageTest/UpdateLanguageTest/
- * UninstallLanguageTest/RemoveLocalLanguageChangesTest: a real
- * DescriptionFactory (not a mock) is used so a field swap/typo in
- * getOutputDescription() would actually be caught. This additionally
- * cross-checks the declared field names against the keys an actual
- * perform() call returns, so a field renamed in one place but not the other
- * would fail here too.
+ * Cross-checks the declared output field names against the keys perform() returns, using a real
+ * DescriptionFactory so a field swap or typo is caught.
  */
 abstract class ActivityWithPerformResultContractTestCase extends ActivityContractTestCase
 {
     /**
-     * @return array valid raw parameters createDefaultActivity()'s activity
-     *         can perform() without throwing.
+     * @return array raw parameters that createDefaultActivity()'s activity can perform() without throwing
      */
     abstract protected function validPerformParameters(): array;
 

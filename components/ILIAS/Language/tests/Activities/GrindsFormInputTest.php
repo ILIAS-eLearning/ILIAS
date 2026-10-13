@@ -29,9 +29,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests for the GrindsFormInput trait in isolation from any concrete Activity, via
- * GrindsFormInputTestHost (mixes in the trait, exposes grind() through a public wrapper).
- * Activity-specific contract tests live in each Activity's own test class instead.
+ * GrindsFormInput in isolation from any concrete Activity, via GrindsFormInputTestHost.
  */
 class GrindsFormInputTest extends TestCase
 {
@@ -43,9 +41,8 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * getInputDescription() returns the public FormInput interface, which doesn't guarantee
-     * InputInternal - grind() must not assume it does; a FormInput missing it must be a clean
-     * Result\Error, never a fatal TypeError.
+     * getInputDescription() returns FormInput, which doesn't guarantee InputInternal: a FormInput lacking it must
+     * give a clean Result\Error, never a TypeError.
      */
     public function testGrindReturnsResultErrorInsteadOfCrashingWhenDescriptionIsNotInputInternal(): void
     {
@@ -75,8 +72,7 @@ class GrindsFormInputTest extends TestCase
         ];
     }
 
-    // Uses a REAL Checkbox field (not a mock) to also cover 'checked'/'on', the two raw values an
-    // actual HTML checkbox submits.
+    // real Checkbox field to cover 'checked'/'on', the raw values an HTML checkbox submits
     #[DataProvider('checkboxWhitelistAcceptsRawValueProvider')]
     public function testGrindNormalizesEveryWhitelistedCheckboxRawValue(mixed $raw_value, bool $expected): void
     {
@@ -91,10 +87,8 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * Every field this trait grinds is nested inside a top-level Group in real Activities -
-     * collectRawValues() only narrows $raw_value to one key when recursing into a Group's
-     * children, so a bare top-level field would wrongly receive the whole $raw_parameters array
-     * as its own value.
+     * Real Activities nest every field in a top-level Group: collectRawValues() narrows $raw_value only when
+     * recursing into a Group, so a bare top-level field would receive the whole array.
      */
     private function checkboxGroupDescription(): FormInput
     {
@@ -114,11 +108,8 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * Anything outside the explicit whitelist must be rejected, not guessed at - grind()'s
-     * dedicated catch(\InvalidArgumentException) (before the generic catch(\Throwable)) must turn
-     * this into an InvalidInputException (a SafeToDisplayActivityError), which
-     * RendersActivityErrors relies on to show the rejection to the end user directly rather than
-     * logging it as an internal failure.
+     * Values outside the whitelist must become an InvalidInputException (SafeToDisplayActivityError), which
+     * RendersActivityErrors shows to the user instead of logging an internal failure.
      */
     #[DataProvider('checkboxWhitelistRejectsRawValueProvider')]
     public function testGrindRejectsRawValueOutsideTheCheckboxWhitelist(mixed $raw_value): void
@@ -132,9 +123,7 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * Same \InvalidArgumentException -> InvalidInputException conversion, but reached via the UI
-     * framework's own Text::isClientSideValueOk() type check instead of
-     * normalizeCheckboxRawValue().
+     * Same conversion, reached via Text::isClientSideValueOk() instead of normalizeCheckboxRawValue().
      */
     public function testGrindConvertsAUiFrameworkInvalidArgumentExceptionFromANonStringTextValueIntoInvalidInputException(): void
     {
@@ -144,9 +133,7 @@ class GrindsFormInputTest extends TestCase
             'language_key' => $text,
         ]);
 
-        // A bool is neither a string nor an array - collectRawValues()
-        // passes it straight through unmodified (only array/Checkbox raw
-        // values are special-cased), so it reaches Text::withValue() as-is.
+        // a bool is passed through collectRawValues() unmodified and reaches Text::withValue() as-is
         $result = $this->host()->callGrind($description, ['language_key' => true]);
 
         $this->assertTrue($result->isError());
@@ -156,9 +143,7 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * A validation failure must produce "<field>: <error>" (via describeInputError()/
-     * collectFieldErrors()), identifying the field by its dedicated name - not the generic,
-     * uninformative "ui_error_in_group" text Group::withInput() would otherwise surface.
+     * A validation failure must read "<field>: <error>", not Group::withInput()'s generic "ui_error_in_group".
      */
     public function testGrindReportsAFieldAttributedInvalidInputExceptionOnValidationFailure(): void
     {
@@ -169,8 +154,6 @@ class GrindsFormInputTest extends TestCase
             'language_key' => $language_key,
         ]);
 
-        // Blank/missing raw value for a required field - fails its own
-        // hasMinLength(1) constraint inside grind() itself.
         $result = $this->host()->callGrind($description, []);
 
         $this->assertTrue($result->isError());
@@ -182,9 +165,8 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * A raw array-of-strings value (e.g. the shape class.ilObjLanguageFolderGUI.php sends for
-     * 'language_keys') must be joined into the same comma-separated string a real HTML text input
-     * would carry, before it reaches the field.
+     * A raw array of strings (as sent by class.ilObjLanguageFolderGUI.php for 'language_keys') is joined into one
+     * comma-separated string.
      */
     public function testGrindJoinsAnArrayOfStringsRawValueForATextFieldIntoACommaSeparatedString(): void
     {
@@ -201,9 +183,7 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * Regression test for the outermost group's $enforce_known_keys=false default (see
-     * collectRawValues()): an unrelated key elsewhere in top-level $raw_parameters must be
-     * ignored, not rejected.
+     * The outermost group does not enforce known keys: an unrelated top-level key is ignored.
      */
     public function testGrindSilentlyIgnoresAnUnknownKeyAtTheTopLevelOfRawParameters(): void
     {
@@ -215,7 +195,6 @@ class GrindsFormInputTest extends TestCase
 
         $result = $this->host()->callGrind($description, [
             'name' => 'Foo',
-            // Not a field of the outermost group - must be tolerated, not rejected.
             'some_unrelated_form_field' => 'bar',
         ]);
 
@@ -224,9 +203,8 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * The unknown-key message must embed the key RAW/unescaped - escaping is
-     * RendersActivityErrors::activityErrorMessage()'s job, the single rendering seam; escaping
-     * here too would double-escape it.
+     * The unknown-key message embeds the key unescaped: escaping is RendersActivityErrors::activityErrorMessage()'s
+     * job, escaping here would double-escape.
      */
     public function testGrindReportsUnknownNestedGroupKeysRawAndUnescaped(): void
     {
@@ -253,8 +231,6 @@ class GrindsFormInputTest extends TestCase
         $this->assertInstanceOf(InvalidInputException::class, $error);
         $this->assertInstanceOf(SafeToDisplayActivityError::class, $error);
         $this->assertStringContainsString('Unknown key(s) for translations: ' . $dangerous_unknown_key, $error->getMessage());
-        // Not escaped here - htmlspecialchars() would turn '<'/'>' into
-        // '&lt;'/'&gt;', which must NOT happen at this layer.
         $this->assertStringContainsString('<script>alert(1)</script>', $error->getMessage());
     }
 
@@ -268,10 +244,8 @@ class GrindsFormInputTest extends TestCase
     }
 
     /**
-     * A group's raw value that is neither null (omitted) nor an array is a genuine type mismatch
-     * and must be rejected - silently degrading it to an empty array would instead make every
-     * child field look merely "omitted", masking the real problem behind a misleading
-     * required-field error.
+     * A group value that is neither null nor an array must be rejected; degrading it to an empty array would mask
+     * it as a misleading required-field error.
      */
     #[DataProvider('nonArrayNonNullGroupRawValueProvider')]
     public function testGrindRejectsANonArrayNonNullRawValueForANestedGroupInsteadOfSilentlyDegradingToEmptyArray(

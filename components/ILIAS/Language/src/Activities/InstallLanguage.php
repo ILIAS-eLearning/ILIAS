@@ -54,7 +54,7 @@ class InstallLanguage extends LanguageActivity
             $setup_language,
             null,
             $setup_language,
-            // Never read: without RBAC, isAllowedToPerform() throws first.
+            // never read: without RBAC, isAllowedToPerform() throws first
             new LanguageFolderLegacyProxy()
         );
     }
@@ -218,8 +218,7 @@ MARKDOWN
                 if (in_array($language_key, $local_language_keys, true)) {
                     $installed_with_local_language_keys[] = $language_key;
                 } else {
-                    // "install_local" had no customizing/local file to apply for this language -
-                    // the same outcome as "already installed, nothing changed".
+                    // "install_local" had nothing to apply: same as "already installed"
                     $already_installed_no_op[] = $language_key;
                 }
             }

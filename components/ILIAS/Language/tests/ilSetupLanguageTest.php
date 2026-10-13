@@ -234,7 +234,6 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
         );
         $setup_language = new ilSetupLanguage('en', $manager);
 
-        // 'en' exists in lang/ (MainLanguageFileDirectory) but mock component directory has no ilias_en.lang
         $this->assertTrue($this->callCheckLanguage($setup_language, 'en'));
         $this->assertTrue($this->callCheckLanguage($setup_language, 'de'));
     }
@@ -276,7 +275,6 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
         );
         $setup_language = new ilSetupLanguage('xx', $manager);
 
-        // Non-existent language key must fail validation because main file is missing
         $this->assertFalse($this->callCheckLanguage($setup_language, 'xx'));
     }
 
@@ -288,7 +286,6 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
         }
 
         try {
-            // Write a component file without valid header
             file_put_contents($fullPath . '/ilias_en.lang', "invalid content without header\n");
 
             $mockDir = $this->createMockComponentDirectory($this->tempComponentDir, 'test');
@@ -300,7 +297,6 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
 
             $this->assertFalse($this->callCheckLanguage($setup_language, 'en'));
 
-            // Write a component file with valid header but invalid line (wrong part count)
             file_put_contents(
                 $fullPath . '/ilias_en.lang',
                 "<!-- language file start -->\nonly_one_part\n"

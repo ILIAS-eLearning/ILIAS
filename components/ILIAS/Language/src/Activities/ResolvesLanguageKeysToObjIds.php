@@ -22,10 +22,8 @@ namespace ILIAS\Language\Activities;
 
 trait ResolvesLanguageKeysToObjIds
 {
-    // Requires the using class to declare and initialize its own
-    // `private readonly \Closure $lng_objects` ((): list<array{obj_id: int, title: string}>)
-    // - left to each using class (rather than declared here) since its default value differs
-    // per Activity.
+    // the using class declares `private readonly \Closure $lng_objects`
+    // ((): list<array{obj_id: int, title: string}>), as its default differs per Activity
 
     /**
      * Language keys (titles) shared by more than one "lng" object are excluded from the first

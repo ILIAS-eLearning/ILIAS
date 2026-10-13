@@ -24,14 +24,8 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 
 /**
- * Write access to the language installation domain: installing, flushing
- * and registering languages in the database. This is the "management" half
- * of what used to be bundled into ilSetupLanguage - see its class docblock
- * and docs/development/repository-pattern.md.
- *
- * Read access (which languages/files are known or valid) lives in
- * InstalledLanguageRepository instead; this class uses it internally rather
- * than duplicating queries or filesystem-checks.
+ * Write access to the language installation: installing, flushing and registering languages in the
+ * database. Reading lives in InstalledLanguageRepository.
  */
 class LanguageInstallationManager
 {
@@ -64,13 +58,10 @@ class LanguageInstallationManager
     }
 
     /**
-     * Install the given languages, uninstall/flush all others that were
-     * previously known. Mirrors ilSetupLanguage::installLanguages().
+     * Installs the given languages, flushes all other known ones. Mirrors ilSetupLanguage::installLanguages().
      *
      * @param list<string> $lang_keys
-     * @param list<string> $local_keys unused, kept for backwards compatibility - see
-     *        ilSetupLanguage::installLanguages(), which never used it either;
-     *        local languages are always looked up via the repository instead.
+     * @param list<string> $local_keys unused, kept for backwards compatibility (as in ilSetupLanguage)
      * @return list<string>|bool list of language keys that failed validation, or true
      */
     public function installLanguages(array $lang_keys, array $local_keys = []): array|bool
@@ -86,8 +77,7 @@ class LanguageInstallationManager
                 $this->flushLanguage($lang_key, "keep_local");
                 $this->insertLanguageForInstallation($lang_key);
 
-                // register language first time install; an already-known
-                // language's status is (re-)synced below instead.
+                // an already-known language is (re-)registered below
                 if (!array_key_exists($lang_key, $db_langs)) {
                     $this->registerInstalledLanguage($lang_key, $db_langs, $local_langs);
                 }
@@ -119,13 +109,8 @@ class LanguageInstallationManager
     }
 
     /**
-     * Registers or updates the object_data bookkeeping row for a language
-     * that has just been flushed/(re-)inserted, deciding "installed" vs.
-     * "installed_local" and INSERTing a fresh row or UPDATEing the existing
-     * one accordingly. This is the single source of truth for that
-     * bookkeeping - both installLanguages() and
-     * \ILIAS\Language\Activities\InstallLanguage::perform() call this
-     * instead of duplicating the object_data INSERT/UPDATE.
+     * Registers or updates the object_data row of a (re-)inserted language ("installed" vs.
+     * "installed_local"); single place for this bookkeeping of installLanguages() and InstallLanguage::perform().
      *
      * @param array<string, array{obj_id:int, status:string}> $known_languages result of
      *        InstalledLanguageRepository::getAvailableLanguages()
@@ -239,29 +224,12 @@ class LanguageInstallationManager
     }
 
     /**
-     * (Re-)apply only the customizing/local directory's file on top of an
-     * already installed language, without touching the base/global data at
-     * all - the opposite split from insertLanguageForRemovingLocalChanges().
+     * Applies only the customizing/local file on top of an installed language, leaving the base data
+     * untouched: the write path of "Install local" (see InstallLanguage::perform()). The caller flushes nothing.
      *
-     * This is the write path behind the "Install local" GUI command applied
-     * to an already-installed language (see ilObjLanguageFolderGUI and
-     * \ILIAS\Language\Activities\InstallLanguage::perform()): unlike
-     * insertLanguageForInstallation(), the caller does not flush anything
-     * first, and the base/global directories are never read here either -
-     * so there is no re-parsing of the (usually much larger) base language
-     * files, and no risk of the base data being touched.
-     *
-     * Because nothing here re-reads the base directories to fill in what the
-     * customizing file does not cover, the seed passed to insertLanguage()
-     * must already contain every entry currently stored for the language -
-     * both base data and any previously recorded local changes - not just
-     * the local changes the way insertLanguageForInstallation()'s seed does.
-     * insertLanguage() rebuilds the lng_modules cache row for every module
-     * it sees an entry for, from scratch, using exactly the seed plus
-     * whatever it reads from the given directories; a narrower seed (e.g.
-     * only previously local entries) would make any base entry not
-     * overridden by the customizing file silently disappear from that
-     * module's cache row.
+     * The seed must hold every stored entry, not only the local changes: insertLanguage() rebuilds the
+     * lng_modules row of each module from the seed plus the given directories, so a narrower seed would
+     * silently drop base entries the customizing file does not override.
      */
     public function insertLanguageForApplyingLocalChanges(string $lang_key): void
     {
@@ -330,13 +298,11 @@ class LanguageInstallationManager
                 $change_date = null;
                 $newer_db_changes = [];
                 if ($is_local) {
-                    // A local file overwrites, unless the database holds an
-                    // even newer change for that entry.
+                    // a local file overwrites unless the database holds a newer change for the entry
                     $newer_db_changes = $this->repository->getLocalChanges(
                         $lang_key,
                         $this->utcTimestamp(filemtime($lang_file))
                     );
-                    // One import timestamp for every entry of this file.
                     $change_date = $this->utcTimestamp();
                 }
 
@@ -362,8 +328,7 @@ class LanguageInstallationManager
                     $value = $separated[2];
 
                     if (!$is_local) {
-                        // Respect local changes already recorded in the
-                        // database, and let an earlier directory win.
+                        // respect recorded local changes; an earlier directory wins
                         if (isset($lang_array[$module][$identifier])) {
                             continue;
                         }

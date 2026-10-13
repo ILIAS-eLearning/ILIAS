@@ -25,9 +25,7 @@ use ILIAS\Language\Activities\GrindsFormInput;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
- * Minimal host for GrindsFormInput: only mixes in the trait and exposes its
- * private grind() through a public wrapper, so the trait's own contract can
- * be tested in isolation from any concrete Activity - see GrindsFormInputTest.
+ * Exposes the private grind() of GrindsFormInput through a public wrapper.
  */
 final class GrindsFormInputTestHost
 {

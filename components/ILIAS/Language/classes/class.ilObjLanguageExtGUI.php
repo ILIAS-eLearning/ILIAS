@@ -69,14 +69,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $lng = $DIC->language();
         $this->http = $DIC['http'];
         $this->refinery = $DIC['refinery'];
-        // Resolved once here, per the constructor-injection idiom already
-        // used by sibling GUI classes in this component (see
-        // ilObjLanguageFolderGUI::__construct()) - action methods must not
-        // reach into `global $DIC` themselves.
         $this->add_language_entry = $DIC[AddLanguageEntry::class];
         $this->set_language_translation_enabled = $DIC[SetLanguageTranslationEnabled::class];
-        // Used exclusively by activityErrorMessage() (see RendersActivityErrors) -
-        // resolved once here, per the same idiom as the Activities above.
+        // used by activityErrorMessage() (see RendersActivityErrors)
         $this->activity_error_logger = $DIC->logger()->lang();
 
         // language maintenance strings are defined in administration
@@ -782,21 +777,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Set the language settings - see SetLanguageTranslationEnabled.
     *
-    * An unchecked HTML checkbox is not submitted at all, so a missing/empty
-    * "translation" POST value means "disabled", exactly as the extracted
-    * code's `?? ""` default did. SetLanguageTranslationEnabled::perform()
-    * requires `enabled` as a strict bool and itself derives the setting's
-    * current state via `(bool) $this->settings->get($translate_key, '0')` -
-    * the same true/false convention the raw stored string already encoded -
-    * so this strict bool is equivalent to the raw value the form used to
-    * carry directly.
+    * An unchecked checkbox is not submitted, so a missing/empty "translation" means "disabled".
     */
     public function saveSettingsObject(): void
     {
-        // $this->user/$this->ctrl (set up by the parent ilObjectGUI
-        // constructor) are used here rather than reaching into global $DIC -
-        // see the comment on the constructor-injected Activities above for
-        // why action methods must not reach into it themselves.
         $ilUser = $this->user;
 
         $post_translation = $this->http->request()->getParsedBody()['translation'] ?? null;
@@ -817,20 +801,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
             $this->tpl->setOnScreenMessage('failure', $error_message);
         } elseif ($result->value()['changed']) {
-            // Only shown if the value actually changed - exactly reproducing
-            // the extracted code's original behaviour: 'changed' comes from
-            // SetLanguageTranslationEnabled::perform()'s own strict bool
-            // comparison against the previously stored setting.
+            // only shown if the value changed
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
 
         $form = $this->initNewSettingsForm();
 
-        // Unlike installObject()/uninstallObject()/refreshSelectedObject(),
-        // which redirect after a persisted message, this preserves the
-        // extracted code's original behaviour: render the settings form
-        // directly with a non-persisted message, rather than an HTTP
-        // redirect.
+        // rendered directly with a non-persisted message, no redirect (unlike installObject() & Co.)
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -1067,10 +1044,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
     public function saveNewEntryObject(): void
     {
-        // $this->ctrl/$this->user (set up by the parent ilObjectGUI
-        // constructor) are used here rather than reaching into global $DIC -
-        // see the comment on the constructor-injected Activities above for
-        // why action methods must not reach into it themselves.
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
@@ -1079,9 +1052,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $mod = $form->getInput("mod");
             $id = $form->getInput("id");
 
-            // One value per installed language - an installed language left
-            // blank by the user is skipped entirely by AddLanguageEntry,
-            // exactly as this loop used to skip it via `if ($trans) {...}`.
+            // a language left blank is skipped by AddLanguageEntry
             $translations = [];
             foreach ($this->lng->getInstalledLanguages() as $lang_key) {
                 $translations[$lang_key] = trim((string) $form->getInput("trans_" . $lang_key));
@@ -1102,25 +1073,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 $error_message = $this->activityErrorMessage($error);
 
                 if ($error instanceof SafeToDisplayActivityError) {
-                    // A genuine input rejection (e.g. a missing/blank "de"/
-                    // "en" translation - AddLanguageEntry::perform() rejects
-                    // the whole request if either is blank, mirroring the
-                    // legacy ilPropertyFormGUI's setRequired(true) on these
-                    // two fields; other languages left blank are merely
-                    // skipped) - re-render the same form with the values
-                    // the user already entered still filled in, exactly like
-                    // the $form->checkInput() === false branch below does,
-                    // instead of redirecting to "view" and discarding them.
+                    // input rejection (e.g. blank "de"/"en"): re-render the form, keeping the entered values
                     $this->tpl->setOnScreenMessage('failure', $error_message);
                     $form->setValuesByPost();
                     $this->addNewEntryObject($form);
                     return;
                 }
 
-                // An unexpected internal failure (already logged by
-                // activityErrorMessage()) - redirecting away, losing the
-                // entered values, matches every other Activity error path in
-                // this component.
+                // unexpected failure (logged by activityErrorMessage()): redirect, like every other Activity error path
                 $this->tpl->setOnScreenMessage('failure', $error_message, true);
                 $ilCtrl->redirect($this, "view");
                 return;

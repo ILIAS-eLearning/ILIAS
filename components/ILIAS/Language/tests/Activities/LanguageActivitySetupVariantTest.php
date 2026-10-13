@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 namespace ILIAS\Language\Tests\Activities;
@@ -27,8 +26,7 @@ use ILIAS\Language\Activities\UpdateLanguage;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * The RBAC-free Setup variants and the lazy RBAC access of
- * LanguageActivity.
+ * The RBAC-free Setup variants and the lazy RBAC access of LanguageActivity.
  */
 class LanguageActivitySetupVariantTest extends \ilLanguageBaseTestCase
 {

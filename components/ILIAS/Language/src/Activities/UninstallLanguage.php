@@ -116,9 +116,7 @@ MARKDOWN
         $language_keys = $this->toLanguageKeyList($parameters['language_keys'] ?? null);
         [$obj_id_by_language_key, $ambiguous_language_keys] = $this->resolveObjIdsByLanguageKey();
 
-        // Checked upfront, for all requested keys at once, so a request naming both an
-        // unambiguous and an ambiguous key never uninstalls the unambiguous one before
-        // rejecting the whole call.
+        // checked upfront, so one ambiguous key rejects the whole call before anything is uninstalled
         $requested_ambiguous_language_keys = array_values(
             array_intersect($language_keys, array_keys($ambiguous_language_keys))
         );
@@ -135,8 +133,7 @@ MARKDOWN
         $user_language_keys = [];
         $not_installed_language_keys = [];
 
-        // Not transactional across multiple keys: a failure partway through (e.g. a database
-        // error) leaves languages processed so far uninstalled.
+        // not transactional: a failure partway leaves the languages processed so far uninstalled
         foreach ($language_keys as $language_key) {
             if (!array_key_exists($language_key, $obj_id_by_language_key)) {
                 $not_installed_language_keys[] = $language_key;
@@ -148,16 +145,13 @@ MARKDOWN
             if ($language_object->isSystemLanguage()) {
                 $system_language_keys[] = $language_key;
             } elseif ($language_object->isUserLanguage()) {
-                // Compares against the ambient Language service's lang_user (this request's
-                // session), not against $usr_id - a caller acting for another user's $usr_id
-                // (e.g. a webservice or background job) does not protect that user's language.
+                // compares against this request's session language, not $usr_id: another user's
+                // language is not protected
                 $user_language_keys[] = $language_key;
             } elseif (!$language_object->isInstalled()) {
                 $not_installed_language_keys[] = $language_key;
             } elseif ($language_object->uninstall() !== '') {
-                // uninstall() re-checks these same guards internally and returns "" if any
-                // still applies - the outcome is decided by this return value, not the checks
-                // above alone.
+                // uninstall() re-checks the guards and returns "" if one applies: its result decides
                 $uninstalled_language_keys[] = $language_key;
             } else {
                 $not_installed_language_keys[] = $language_key;
