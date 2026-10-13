@@ -17085,23 +17085,6 @@ tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
 tax#:#tax_taxonomy#:#Taxonomy###28 08 2012 new variable
 tbl#:#tbl_export_csv#:#Export .csv###16 07 2010 new variable
 tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.###10 11 2018 new variable
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Terms of Service###24 10 2013 new variable
-tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.###10 11 2018 new variable
-tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.###24 10 2013 new variable
-tos#:#tos_never_reset#:#The terms of service have not been reset, yet.###10 11 2018 new variable
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.###10 02 2014 new variable
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.###20 07 2014 new variable
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#The terms of service have been reset successfully.###10 11 2018 new variable
-tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.###24 10 2013 new variable
-tos#:#tos_status_enable#:#Enable###24 10 2013 new variable
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.###24 10 2013 new variable
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service###29 07 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

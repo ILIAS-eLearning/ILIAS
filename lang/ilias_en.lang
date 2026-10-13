@@ -17220,23 +17220,6 @@ tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.
-tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
-tos#:#tos_agree_date#:#ToS agreed on
-tos#:#tos_agreement#:#Terms of Service
-tos#:#tos_disabled_no_docs_left#:#Terms of Service documents can no longer be displayed, because all ToS documents have been deleted. Users will no longer be required to agree to a ToS document when registering an account. Please create at least one document before re-checking the ‘Display Terms of Service’ box.
-tos#:#tos_last_reset_date#:#The Terms of Service were reset on %s. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
-tos#:#tos_never_reset#:#The Terms of Service have not yet been reset. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
-tos#:#tos_no_documents_exist#:#There are currently no Terms of Service documents available.
-tos#:#tos_no_documents_exist_cant_save#:#There are currently no Terms of Service documents available. Please add at least one document in order to activate this service.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service
-tos#:#tos_reset_successful#:#Terms of Service successfully reset.
-tos#:#tos_status_desc#:#Display relevant language-based Terms of Service documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Terms of Service before they can enter ILIAS.
-tos#:#tos_status_enable#:#Display Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the Terms of Service for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
-tos#:#tos_withdrawal_usr_deletion#:#Account deletion upon ToS withdrawal
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'

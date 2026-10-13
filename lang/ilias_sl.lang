@@ -17083,23 +17083,6 @@ tax#:#tax_tax_settings#:#Taxonomy Settings
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Izvoz .CSV
 tbl#:#tbl_export_excel#:#Izvoz Excel
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#Samoregistracija trenutno ni mogoča zaradi pomanjkanja uporabniške pogodbe. Za nadaljnje informacije se obrnite na svojega <a href="%1$s">Sistemskega administratorja>.
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Pogoji uporabe
-tos#:#tos_disabled_no_docs_left#:#Pogoji uporabe so bili deaktivirani, ker so bili vsi dokumenti izbrisani. Ustvarite vsaj en dokument, preden ponovno aktivirate pogoje uporabe.
-tos#:#tos_last_reset_date#:#Pogoji uporabe se bili nazadnje ponastavljeni dne %s. Pogoje uporabe ponastavite samo takrat, ko so se ti v vmesnem času spremenili in je zaželeno soglasje za te spremenjene pogoje.
-tos#:#tos_never_reset#:#Pogoji uporabe do sedaj še niso bili ponastavljeni. Pogoje uporabe ponastavite samo takrat, ko so se ti v vmesnem času spremenili in je zaželeno soglasje za te spremenjene pogoje.
-tos#:#tos_no_documents_exist#:#Trenutno ni na voljo nobenih dokumentov o pogojih uporabe.
-tos#:#tos_no_documents_exist_cant_save#:#Trenutno ni na voljo nobenih pogojev uporabe. Ustvarite vsaj en dokument, da aktivirate storitev.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#Pogoji uporabe so bili uspešno ponastavljeni.
-tos#:#tos_status_desc#:#Uporabniki morajo podpisati pogoje uporabe, preden lahko začnejo uporabljati ILIAS.
-tos#:#tos_status_enable#:#Aktiviraj pogoje uporabe
-tos#:#tos_sure_reset_tos#:#Ali ste prepričani, da želite ponastaviti pogoje uporabe za vse uporabnike v sistemu? To velja tudi za tiste uporabniške račune, ki se npr. uporabljajo za internetno storitev SOAP.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal###19 08 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'

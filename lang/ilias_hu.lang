@@ -17148,23 +17148,6 @@ tbl#:#tbl_template_created#:#Ezt a nézetet sikeresen mentette.
 tbl#:#tbl_template_delete#:#Mentett nézet törlése
 tbl#:#tbl_template_deleted#:#A mentett nézetet sikeresen törölte.
 tbl#:#tbl_templates#:#Nézet
-tos#:#tos_accept_usr_agreement_anonymous#:#Szolgáltatási feltételek
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Mielőtt továbblép az ILIAS-hoz, elfogadja az alábbi Szolgáltatási feltételeket
-tos#:#tos_account_reg_not_possible#:#Nem regisztrálhatja saját magát, mert hiányzik a Szolgáltatási feltételek. További információkért vegye fel a kapcsolatot a <a href="%1$s">rendszerüzemeltetőkkel</a>.
-tos#:#tos_agree_date#:#Elfogadás időpontja
-tos#:#tos_agreement#:#Szolgáltatási feltételek
-tos#:#tos_disabled_no_docs_left#:#A felhasználási feltételeket kikapcsoltuk, mert az összes dokumentumot letörölték. Legalább egy dokumentumot hozzon létre a felhasználási feltételek újbóli bekapcsolása előtt.
-tos#:#tos_last_reset_date#:#A szolgáltatási feltételek alapértékre állítva: %s.
-tos#:#tos_never_reset#:#A Szolgáltatási feltételeket még sosem állították még alapértékre.
-tos#:#tos_no_documents_exist#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel.
-tos#:#tos_no_documents_exist_cant_save#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel. Kérem, legalább egy nyelvhez hozzon létre.
-tos#:#tos_reset_for_all_users#:#Szolgáltatási feltételek elfogadásainak törlése
-tos#:#tos_reset_successful#:#Szolgáltatási feltételek elfogadásait sikeresen törölte.
-tos#:#tos_status_desc#:#A felhasználóknak az ILAS-ba belépés előtt el kell fogadniuk a Szolgáltatási feltételeket.
-tos#:#tos_status_enable#:#Engedélyezés
-tos#:#tos_sure_reset_tos#:#Biztos, hogy törli az összes felhasználó Szolgáltatási feltételeit? Ez azokra a fiókokra is hatással van, melyeket SOAP webszolgáltatások, a csevegőszerver, vagy az ütemezett feladatok használnak.
-tos#:#tos_withdrawal_usr_deletion#:#ILIAS-fiók törlése a Szolgáltatási feltételek elutasítás esetén
-tos#:#tos_withdrawal_usr_deletion_desc#:#Ha egy felhasználó visszavonja egy korábbi Szolgáltatási feltételek elfogadását, az ILIAS-fiókja törlését vonja maga után.
 trac#:#cmix_lp_mode_deactivated#:#A tanulási haladás ki van kapcsolva
 trac#:#cmix_lp_mode_deactivated_info#:#A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumokra.
 trac#:#cmix_lp_mode_when_completed#:#Sikeresen teljesített amikor ‘befejezte’

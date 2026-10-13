@@ -17182,23 +17182,6 @@ tbl#:#tbl_template_created#:#A vista atual foi guardada.
 tbl#:#tbl_template_delete#:#Apagar vista guardada
 tbl#:#tbl_template_deleted#:#A vista atual foi apagada.
 tbl#:#tbl_templates#:#Visão
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###03 09 2026 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###03 09 2026 new variable
-tos#:#tos_account_reg_not_possible#:#Não é possível registar-se a si próprio porque falta um acordo do utilizador. Entre em contacto com o administrador <a href="%1$s">do seu sistema</a> para mais informação.
-tos#:#tos_agree_date#:#ToS agreed on###03 09 2026 new variable
-tos#:#tos_agreement#:#Termos de serviço
-tos#:#tos_disabled_no_docs_left#:#Os acordos do utilizador estão agora desativados porque todos os documentos foram apagados. Crie pelo menos um documento antes de ativar novamente os acordos do utilizador.
-tos#:#tos_last_reset_date#:#Os termos de serviço foram repostos em %s.
-tos#:#tos_never_reset#:#Os termos de serviço ainda não foram repostos.
-tos#:#tos_no_documents_exist#:#Atualmente não há termos de serviço para qualquer idioma instalado.
-tos#:#tos_no_documents_exist_cant_save#:#Atualmente não há termos de serviço para qualquer idioma instalado. Adicione pelo menos um documento para qualquer idioma instalado.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###03 09 2026 new variable
-tos#:#tos_reset_successful#:#Os termos de serviço foram repostos com sucesso.
-tos#:#tos_status_desc#:#Se estiver ativado, os utilizadores são forçados a aceitar os termos de serviço antes de poderem entrar em ILIAS.
-tos#:#tos_status_enable#:#Ativar
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal###30 04 2021 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###03 09 2026 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable
