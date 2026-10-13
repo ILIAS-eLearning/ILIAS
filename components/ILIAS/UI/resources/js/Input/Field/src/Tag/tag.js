@@ -109,10 +109,8 @@ function buildSettings(inputId, config) {
       highlightFirst: config.highlight,
     },
     transformTag(tagData) {
-      if (!tagData.display) {
-        tagData.display = tagData.value;
-        tagData.value = encodeURIComponent(tagData.value);
-      }
+      tagData.display = tagData.value;
+      tagData.value = encodeURIComponent(tagData.value);
       tagData.display = tagData.display
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
