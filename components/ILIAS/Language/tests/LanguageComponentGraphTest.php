@@ -41,7 +41,6 @@ use ILIAS\Component\Dependencies\Reader;
 use ILIAS\Component\Dependencies\RenamingDIC;
 use Pimple\Container as PimpleContainer;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -299,16 +298,9 @@ class LanguageComponentGraphTest extends TestCase
         return $db;
     }
 
-    /**
-     * Repository and RepositoryProvider query the pulled connection, never $GLOBALS['ilDB'].
-     * Own process: the provider still reads ILIAS_ABSOLUTE_PATH, which other tests may or may not define.
-     */
-    #[RunInSeparateProcess]
+    /** Repository and RepositoryProvider query the pulled connection, never $GLOBALS['ilDB']. */
     public function testDatabaseConsumersGetThePulledConnectionNotTheGlobals(): void
     {
-        if (!defined('ILIAS_ABSOLUTE_PATH')) {
-            define('ILIAS_ABSOLUTE_PATH', dirname(__DIR__, 4));
-        }
         $dic = new \ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
         $GLOBALS['ilDB'] = $this->databaseExpectingQueries(\ilDBInterface::class, 0);
@@ -320,7 +312,7 @@ class LanguageComponentGraphTest extends TestCase
         self::assertSame([], $internal[InstalledLanguageDatabaseRepository::class]->getInstalledLanguages());
         // the lookup behind the provider's updateModuleCache(); the update itself needs the legacy container
         (new ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))
-            ->invoke($internal[RepositoryProvider::class], 'de', 'common');
+            ->invoke($internal[RepositoryProvider::class], 'de', 'common', null);
         self::assertSame($dic, $GLOBALS['DIC']);
     }
 
