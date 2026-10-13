@@ -28,6 +28,7 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Filesystem\Stream\Stream;
 
@@ -317,6 +318,165 @@ class UnzipTest extends TestCase
         $this->assertSame(4, $options->getMaxUncompressedSize());
         $this->assertSame(5, $options->getMaxCompressionRatio());
         $this->assertSame(6, $options->getRatioCheckMinUncompressedSize());
+    }
+
+    public static function getDirectoryHandlings(): array
+    {
+        return [
+            [ZipDirectoryHandling::KEEP_STRUCTURE],
+            [ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR],
+            [ZipDirectoryHandling::FLAT_STRUCTURE],
+        ];
+    }
+
+    #[DataProvider('getDirectoryHandlings')]
+    public function testExtractReleasesAllFileHandles(ZipDirectoryHandling $directory_handling): void
+    {
+        $archive = $this->copyToTemporaryDirectory($this->zips_dir . '1_folder_1_file_mac.zip');
+        $out = $this->unzips_dir . uniqid('handles', true);
+        $open_handles_before = $this->countOpenFileHandles();
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out)->withDirectoryHandling($directory_handling),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+        $this->assertGreaterThan($open_handles_before, $this->countOpenFileHandles());
+
+        $this->assertTrue($unzip->extract());
+
+        // the Unzip is still in scope, nevertheless the ZIP-file must not be open anymore
+        $this->assertSame($open_handles_before, $this->countOpenFileHandles());
+        $this->assertTrue($this->recurseRmdir(dirname($archive)));
+        $this->assertTrue($this->recurseRmdir($out));
+    }
+
+    public function testExtractReleasesAllFileHandlesForRejectedArchive(): void
+    {
+        $archive = $this->copyToTemporaryDirectory($this->zips_dir . '1_folder_1_file_mac.zip');
+        $out = $this->unzips_dir . uniqid('handles', true);
+        $open_handles_before = $this->countOpenFileHandles();
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out)->withMaxAmountOfEntries(1),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+
+        $this->assertFalse($unzip->extract());
+        $this->assertSame($open_handles_before, $this->countOpenFileHandles());
+        $this->assertDirectoryDoesNotExist($out);
+        $this->assertTrue($this->recurseRmdir(dirname($archive)));
+    }
+
+    public function testExtractReleasesAllFileHandlesForWrongZip(): void
+    {
+        $open_handles_before = $this->countOpenFileHandles();
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($this->unzips_dir . uniqid('wrong', true)),
+            Streams::ofResource(fopen(__FILE__, 'rb'))
+        );
+
+        $this->assertTrue($unzip->hasZipReadingError());
+        $this->assertFalse($unzip->extract());
+        $unzip->close();
+        $this->assertSame($open_handles_before, $this->countOpenFileHandles());
+    }
+
+    public function testExtractDoesNotCloseAStreamHeldByTheConsumer(): void
+    {
+        $out = $this->unzips_dir . uniqid('stream', true);
+        $stream = Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'rb'));
+
+        $unzip = new Unzip((new UnzipOptions())->withZipOutputPath($out), $stream);
+        $this->assertTrue($unzip->extract());
+
+        // the stream belongs to the consumer, only the handle of the archive is released
+        $this->assertTrue($stream->isReadable());
+        $this->assertNotSame('', $stream->read(4));
+        $stream->close();
+        $this->assertTrue($this->recurseRmdir($out));
+    }
+
+    public function testArchiveIsReopenedWhenAccessedAfterExtract(): void
+    {
+        $out = $this->unzips_dir . uniqid('reopen', true);
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out),
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'rb'))
+        );
+
+        $this->assertTrue($unzip->extract());
+
+        // e.g. Repository's ZipAdapter reads the files after extracting
+        $this->assertSame(self::$files_mixed, iterator_to_array($unzip->getFiles()));
+        $this->assertSame(self::$directories_mixed, iterator_to_array($unzip->getDirectories()));
+        $this->assertCount(5, iterator_to_array($unzip->getFileStreams()));
+        $this->assertFalse($unzip->hasZipReadingError());
+        $this->assertTrue($this->recurseRmdir($out));
+    }
+
+    public function testExtractCanBeRepeated(): void
+    {
+        $out_first = $this->unzips_dir . uniqid('first', true);
+        $out_second = $this->unzips_dir . uniqid('second', true);
+        $archive = $this->zips_dir . '1_folder_1_file_mac.zip';
+
+        $unzip = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out_first),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+        $this->assertTrue($unzip->extract());
+        $this->assertTrue($unzip->extract());
+
+        $unzip_second = new Unzip(
+            (new UnzipOptions())->withZipOutputPath($out_second),
+            Streams::ofResource(fopen($archive, 'rb'))
+        );
+        $this->assertTrue($unzip_second->extract());
+
+        $this->assertSame($this->directoryToArray($out_second), $this->directoryToArray($out_first));
+        $this->assertTrue($this->recurseRmdir($out_first));
+        $this->assertTrue($this->recurseRmdir($out_second));
+    }
+
+    public function testCloseReleasesAllFileHandlesAndCanBeCalledRepeatedly(): void
+    {
+        $open_handles_before = $this->countOpenFileHandles();
+        $unzip = new Unzip(
+            new UnzipOptions(),
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'rb'))
+        );
+
+        $this->assertSame(self::$files_mixed, iterator_to_array($unzip->getFiles()));
+        $this->assertGreaterThan($open_handles_before, $this->countOpenFileHandles());
+
+        $unzip->close();
+        $unzip->close();
+        $this->assertSame($open_handles_before, $this->countOpenFileHandles());
+
+        // the archive is opened again on demand
+        $this->assertSame(self::$files_mixed, iterator_to_array($unzip->getFiles()));
+        $unzip->close();
+        $this->assertSame($open_handles_before, $this->countOpenFileHandles());
+    }
+
+    private function countOpenFileHandles(): int
+    {
+        $open_handles = @scandir('/dev/fd');
+        if ($open_handles === false) {
+            $this->markTestSkipped('Open file handles can not be determined on this system.');
+        }
+        return count($open_handles);
+    }
+
+    private function copyToTemporaryDirectory(string $file): string
+    {
+        $directory = sys_get_temp_dir() . '/' . uniqid('unzip_source', true);
+        mkdir($directory);
+        $copy = $directory . '/' . basename($file);
+        copy($file, $copy);
+
+        return $copy;
     }
 
     private function recurseRmdir(string $path_to_directory): bool
