@@ -15528,14 +15528,6 @@ tax#:#tax_tax_assignment#:#Assignment to Taxonomies
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
 tax#:#tax_tax_settings#:#Display Taxonomies
 tax#:#tax_taxonomy#:#Taxonomy
-tbl#:#tbl_export_csv#:#Export CSV
-tbl#:#tbl_export_excel#:#Export Excel
-tbl#:#tbl_selection#:#Selection
-tbl#:#tbl_template_create#:#Save Current View
-tbl#:#tbl_template_created#:#The current view has been saved.
-tbl#:#tbl_template_delete#:#Delete Saved View
-tbl#:#tbl_template_deleted#:#The saved view has been deleted.
-tbl#:#tbl_templates#:#View
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'

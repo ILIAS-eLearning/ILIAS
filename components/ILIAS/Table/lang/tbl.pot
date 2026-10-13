@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: tbl\n"
+
+msgid "tbl_export_csv"
+msgstr ""
+
+msgid "tbl_export_excel"
+msgstr ""
+
+msgid "tbl_selection"
+msgstr ""
+
+msgid "tbl_template_create"
+msgstr ""
+
+msgid "tbl_template_created"
+msgstr ""
+
+msgid "tbl_template_delete"
+msgstr ""
+
+msgid "tbl_template_deleted"
+msgstr ""
+
+msgid "tbl_templates"
+msgstr ""

@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tbl\n"
+
+msgid "tbl_export_csv"
+msgstr ".CSV-Export"
+
+msgid "tbl_export_excel"
+msgstr "Excel-Export"
+
+msgid "tbl_selection"
+msgstr "Auswahl"
+
+msgid "tbl_template_create"
+msgstr "Aktuelle Ansicht speichern"
+
+msgid "tbl_template_created"
+msgstr "Die aktuelle Ansicht wurde gespeichert."
+
+msgid "tbl_template_delete"
+msgstr "Gespeicherte Ansicht löschen"
+
+msgid "tbl_template_deleted"
+msgstr "Die gespeicherte Ansicht wurde gelöscht."
+
+msgid "tbl_templates"
+msgstr "Ansicht"

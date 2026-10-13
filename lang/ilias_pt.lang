@@ -15493,14 +15493,6 @@ tax#:#tax_tax_assignment#:#Atribuição de taxonomia
 tax#:#tax_tax_deleted#:#A taxonomia foi apagada.
 tax#:#tax_tax_settings#:#Definições de taxonomia
 tax#:#tax_taxonomy#:#Taxonomia
-tbl#:#tbl_export_csv#:#Exportar .csv
-tbl#:#tbl_export_excel#:#Exportar .xls
-tbl#:#tbl_selection#:#Selection###03 09 2026 new variable
-tbl#:#tbl_template_create#:#Guardar vista atual
-tbl#:#tbl_template_created#:#A vista atual foi guardada.
-tbl#:#tbl_template_delete#:#Apagar vista guardada
-tbl#:#tbl_template_deleted#:#A vista atual foi apagada.
-tbl#:#tbl_templates#:#Visão
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable
