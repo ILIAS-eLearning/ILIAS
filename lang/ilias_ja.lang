@@ -9245,18 +9245,6 @@ exc#:#submissions_only#:#提出のみ
 exc#:#text_assignment#:#テキスト割当て
 excv#:#excv_create#:#演習問題証明書の作成
 excv#:#excv_create_info#:#証明書を作成するには完了した演習問題を選択します
-exercise#:#exc_admin_settings#:#ステートメントの演習
-exercise#:#exc_comment#:#ステートメントの評価
-exercise#:#exc_comment_for_learner#:#ステートメントの評価
-exercise#:#exc_failed#:#不合格
-exercise#:#exc_feedback_from_tutor#:#指導教員からのフィードバック
-exercise#:#exc_grading#:#評価
-exercise#:#exc_mark#:#マ－ク
-exercise#:#exc_notgraded#:#未評価
-exercise#:#exc_passed#:#合格
-exercise#:#exc_send_mail#:#メールで送る
-exercise#:#exc_start_date_should_be_before_end_date#:#開始時間は終了前にならなければなりません。
-exercise#:#exc_your_submission#:#Submission
 exp#:#exp_create_file#:#エクスポートファイルを作成
 exp#:#exp_error_disabled#:#コンテナのエクスポート機能は使用できません。システム管理者へ相談できます。
 exp#:#exp_error_too_many_objects#:#エクスポートは許容オブジェクト最大数 (%1)を超えています。もっと少ないオブジェクト数を選択して下さい。

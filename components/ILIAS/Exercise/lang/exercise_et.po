@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Harjutuse haldus"
+
+msgid "exc_comment"
+msgstr "Kommentaar"
+
+msgid "exc_comment_for_learner"
+msgstr "Kommentaar õppurile"
+
+msgid "exc_failed"
+msgstr "Ebaõnnestunud"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Õppejõu tagasiside"
+
+msgid "exc_grading"
+msgstr "Hindamine"
+
+msgid "exc_mark"
+msgstr "Hinne"
+
+msgid "exc_notgraded"
+msgstr "Pole hinnatud"
+
+msgid "exc_passed"
+msgstr "Läbitud"
+
+msgid "exc_send_mail"
+msgstr "Saada kiri"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Algusaeg peab olema enne tähtaega."
+
+msgid "exc_your_submission"
+msgstr "Koduse töö vastus"

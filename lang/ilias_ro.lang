@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Create Exercise Verification###12 06 2011 new variable
 excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it###12 06 2011 new variable
-exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
-exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
-exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
-exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
-exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
-exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
-exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
-exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
-exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
-exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
-exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.###18 01 2012 new variable
-exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

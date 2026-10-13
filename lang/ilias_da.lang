@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Create Exercise Verification###12 06 2011 new variable
 excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it###12 06 2011 new variable
-exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
-exercise#:#exc_comment#:#Kommentar
-exercise#:#exc_comment_for_learner#:#Kommentar til aflevering
-exercise#:#exc_failed#:#Ikke bestået
-exercise#:#exc_feedback_from_tutor#:#Feedback fra hjælpeinstruktør
-exercise#:#exc_grading#:#Evaluering
-exercise#:#exc_mark#:#Karakter
-exercise#:#exc_notgraded#:#Ikke vurderet
-exercise#:#exc_passed#:#Bestået
-exercise#:#exc_send_mail#:#Send mail
-exercise#:#exc_start_date_should_be_before_end_date#:#Starttidspunktet skal være før deadline.
-exercise#:#exc_your_submission#:#Aflevering af opgave
 exp#:#exp_create_file#:#Lav eksportfil
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

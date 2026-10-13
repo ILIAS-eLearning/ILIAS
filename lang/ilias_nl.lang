@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it
-exercise#:#exc_admin_settings#:#Oefeningbeheer
-exercise#:#exc_comment#:#Informatie
-exercise#:#exc_comment_for_learner#:#Informatie voor de leerling
-exercise#:#exc_failed#:#Niet geslaagd
-exercise#:#exc_feedback_from_tutor#:#Feedback van de leerkracht
-exercise#:#exc_grading#:#Graad
-exercise#:#exc_mark#:#Punt
-exercise#:#exc_notgraded#:#Geen graad
-exercise#:#exc_passed#:#Geslaagd
-exercise#:#exc_send_mail#:#Stuur e-mail
-exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
-exercise#:#exc_your_submission#:#Uw voorlegging
 exp#:#exp_create_file#:#Aanmaken Export Bestand
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Egzersiz Sertifika Oluştur
 excv#:#excv_create_info#:#bunun için bir sertifika oluşturmak için tamamlanmış bir egzersiz seçin
-exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
-exercise#:#exc_comment#:#Yorum
-exercise#:#exc_comment_for_learner#:#Öğrenci için Yorum
-exercise#:#exc_failed#:#Başarısız
-exercise#:#exc_feedback_from_tutor#:#Danışman'ın Görüşleri
-exercise#:#exc_grading#:#Notlandırma
-exercise#:#exc_mark#:#Not
-exercise#:#exc_notgraded#:#Derecelendirilmemiş
-exercise#:#exc_passed#:#Geçti
-exercise#:#exc_send_mail#:#Posta Gönder
-exercise#:#exc_start_date_should_be_before_end_date#:#Başlangıç ​​saati tarihinden önce olmalıdır.
-exercise#:#exc_your_submission#:#Sizin Gönderme
 exp#:#exp_create_file#:#Dışa Aktarma Dosyası Oluştur
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

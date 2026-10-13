@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#Создать сертификат проверки прохождения упражнения
 excv#:#excv_create_info#:#Выберите выполненное упражнение чтобы создать для него сертификат
-exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
-exercise#:#exc_comment#:#Comment
-exercise#:#exc_comment_for_learner#:#Комментарий для учащегося
-exercise#:#exc_failed#:#Не выполнено
-exercise#:#exc_feedback_from_tutor#:#Рецензия тьютора.
-exercise#:#exc_grading#:#Оценки
-exercise#:#exc_mark#:#Оценка
-exercise#:#exc_notgraded#:#Не оценено
-exercise#:#exc_passed#:#Выполнено
-exercise#:#exc_send_mail#:#Написать письмо
-exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
-exercise#:#exc_your_submission#:#Ваше решение
 exp#:#exp_create_file#:#Создать файл экспорта
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

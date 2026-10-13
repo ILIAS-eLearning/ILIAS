@@ -9321,18 +9321,6 @@ exc#:#submissions_only#:#Nur Abgaben
 exc#:#text_assignment#:#Text Übungseinheit
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
-exercise#:#exc_admin_settings#:#Übungs-Administration
-exercise#:#exc_comment#:#Rückmeldung
-exercise#:#exc_comment_for_learner#:#Rückmeldung zur Abgabe
-exercise#:#exc_failed#:#Nicht bestanden
-exercise#:#exc_feedback_from_tutor#:#Bewertung
-exercise#:#exc_grading#:#Bewertung
-exercise#:#exc_mark#:#Note
-exercise#:#exc_notgraded#:#Nicht bewertet
-exercise#:#exc_passed#:#Bestanden
-exercise#:#exc_send_mail#:#Als Mail versenden
-exercise#:#exc_start_date_should_be_before_end_date#:#Die Startzeit sollte vor dem Abgabetermin liegen.
-exercise#:#exc_your_submission#:#Ihre Einreichung
 exp#:#exp_create_file#:#Exportdatei erzeugen
 exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
 exp#:#exp_error_too_many_objects#:#Der Export überschreitet die maximal erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleinere Anzahl an Objekten.

@@ -9239,18 +9239,6 @@ exc#:#submissions_only#:#Submissions Only
 exc#:#text_assignment#:#Text Assignment
 excv#:#excv_create#:#Utwórz certyfikat
 excv#:#excv_create_info#:#Wybierz ćwiczenie, dla którego potrzebujesz certyfikat
-exercise#:#exc_admin_settings#:#Ustawienia systemowe dotyczące ćwiczeń
-exercise#:#exc_comment#:#Komentarz
-exercise#:#exc_comment_for_learner#:#Komentarz dla uczniów
-exercise#:#exc_failed#:#Błędny
-exercise#:#exc_feedback_from_tutor#:#Odpowiedź od opiekuna
-exercise#:#exc_grading#:#Klasyfikacja
-exercise#:#exc_mark#:#Ocena
-exercise#:#exc_notgraded#:#Nieklasyfikowany
-exercise#:#exc_passed#:#Wykonany
-exercise#:#exc_send_mail#:#Wyślij e-mail
-exercise#:#exc_start_date_should_be_before_end_date#:#Czas rozpoczęcia powinien być przed terminem oddania.
-exercise#:#exc_your_submission#:#Twoje ćwiczenie
 exp#:#exp_create_file#:#Utwórz plik eksportu
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

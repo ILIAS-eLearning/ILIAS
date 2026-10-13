@@ -9238,18 +9238,6 @@ exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
 exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
 excv#:#excv_create#:#创建练习校验
 excv#:#excv_create_info#:#选择一个已完成的练习来为它生成一个校验
-exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
-exercise#:#exc_comment#:#评论
-exercise#:#exc_comment_for_learner#:#评论学习者
-exercise#:#exc_failed#:#失败
-exercise#:#exc_feedback_from_tutor#:#来自导师的反馈
-exercise#:#exc_grading#:#分级
-exercise#:#exc_mark#:#标记
-exercise#:#exc_notgraded#:#未分级的
-exercise#:#exc_passed#:#已经通过的
-exercise#:#exc_send_mail#:#发送邮件
-exercise#:#exc_start_date_should_be_before_end_date#:#开始时间应在截止时间之前。
-exercise#:#exc_your_submission#:#您提交
 exp#:#exp_create_file#:#创建导出文件
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable

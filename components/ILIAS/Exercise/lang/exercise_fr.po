@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Paramétrage de l'Exercice"
+
+msgid "exc_comment"
+msgstr "Commentaire"
+
+msgid "exc_comment_for_learner"
+msgstr "Commentaire pour l'apprenant"
+
+msgid "exc_failed"
+msgstr "Echec"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Retours du Tuteur"
+
+msgid "exc_grading"
+msgstr "Notation"
+
+msgid "exc_mark"
+msgstr "Note"
+
+msgid "exc_notgraded"
+msgstr "Non Noté"
+
+msgid "exc_passed"
+msgstr "Réussite"
+
+msgid "exc_send_mail"
+msgstr "Envoyer un Message"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "La date de début doit être antérieure à la date de fin."
+
+msgid "exc_your_submission"
+msgstr "Votre Travail"
