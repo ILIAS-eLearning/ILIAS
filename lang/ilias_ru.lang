@@ -15416,8 +15416,6 @@ tax#:#tax_tax_assignment#:#Taxonomy Assignment###31 08 2017 new variable
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
 tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
 tax#:#tax_taxonomy#:#Taxonomy
-tbl#:#tbl_export_csv#:#Экспортировать в .csv
-tbl#:#tbl_export_excel#:#Экспортировать в .xls
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

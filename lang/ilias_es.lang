@@ -15475,8 +15475,6 @@ tax#:#tax_tax_assignment#:#Asignación de taxonomía
 tax#:#tax_tax_deleted#:#La taxonomía ha sido eliminada.
 tax#:#tax_tax_settings#:#Ajustes de taxonomía
 tax#:#tax_taxonomy#:#Taxonomía
-tbl#:#tbl_export_csv#:#Exportar CSV
-tbl#:#tbl_export_excel#:#Exportar Excel
 trac#:#cmix_lp_mode_deactivated#:#El progreso de aprendizaje está desactivado
 trac#:#cmix_lp_mode_deactivated_info#:#El estado del progreso de aprendizaje no se muestra y no influye en los objetos superiores.
 trac#:#cmix_lp_mode_when_completed#:#Completado cuando esté 'completado'

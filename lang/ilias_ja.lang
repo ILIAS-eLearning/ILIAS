@@ -15455,14 +15455,6 @@ tax#:#tax_tax_assignment#:#分類学割当て
 tax#:#tax_tax_deleted#:#分類基準は削除されました。
 tax#:#tax_tax_settings#:#分類学設定
 tax#:#tax_taxonomy#:#分類
-tbl#:#tbl_export_csv#:#.csvをエクスポート
-tbl#:#tbl_export_excel#:#.xlsをエクスポート
-tbl#:#tbl_selection#:#選択
-tbl#:#tbl_template_create#:#現在の表示を保存する
-tbl#:#tbl_template_created#:#現在の表示が保存されました。
-tbl#:#tbl_template_delete#:#保存した表示を削除します
-tbl#:#tbl_template_deleted#:#保全した表示を削除しました。
-tbl#:#tbl_templates#:#表示
 trac#:#cmix_lp_mode_deactivated#:#学習進捗は解除されます
 trac#:#cmix_lp_mode_deactivated_info#:#学習進捗ステータスは表示されないで親オブジェクトへの影響はありません。
 trac#:#cmix_lp_mode_when_completed#:#'完了'時に完了しました

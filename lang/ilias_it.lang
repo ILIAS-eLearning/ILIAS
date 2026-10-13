@@ -15422,8 +15422,6 @@ tax#:#tax_tax_assignment#:#Assegnazione della tassonomia
 tax#:#tax_tax_deleted#:#La tassonomia è stata eliminata.
 tax#:#tax_tax_settings#:#Impostazioni tassonomia
 tax#:#tax_taxonomy#:#Tassonomia
-tbl#:#tbl_export_csv#:#Esporta .csv
-tbl#:#tbl_export_excel#:#Esporta .xls
 trac#:#cmix_lp_mode_deactivated#:#Il progresso di apprendimento è disattivato
 trac#:#cmix_lp_mode_deactivated_info#:#Lo stato di avanzamento dell'apprendimento non viene visualizzato e non influenza gli oggetti padre.
 trac#:#cmix_lp_mode_when_completed#:#Completato quando "completato"

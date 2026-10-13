@@ -15460,14 +15460,6 @@ tax#:#tax_tax_assignment#:#Taxonómia hozzárendelési
 tax#:#tax_tax_deleted#:#A taxonómiát törölte
 tax#:#tax_tax_settings#:#Taxonómia beállításai
 tax#:#tax_taxonomy#:#Taxonómia
-tbl#:#tbl_export_csv#:#Exportálás vesszővel tagolt (.csv) fájlba
-tbl#:#tbl_export_excel#:#Exportálás Excel (.xlsx) fájlba
-tbl#:#tbl_selection#:#Kiválasztás
-tbl#:#tbl_template_create#:#Jelenlegi nézet mentése
-tbl#:#tbl_template_created#:#Ezt a nézetet sikeresen mentette.
-tbl#:#tbl_template_delete#:#Mentett nézet törlése
-tbl#:#tbl_template_deleted#:#A mentett nézetet sikeresen törölte.
-tbl#:#tbl_templates#:#Nézet
 trac#:#cmix_lp_mode_deactivated#:#A tanulási haladás ki van kapcsolva
 trac#:#cmix_lp_mode_deactivated_info#:#A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumokra.
 trac#:#cmix_lp_mode_when_completed#:#Sikeresen teljesített amikor ‘befejezte’
