@@ -22,14 +22,12 @@ session, or container state. It must not be used as the runtime language service
         $language->loadLanguageModule("frm");
         $tpl->setVariable("TEXT", $language->txt("frm_new_posting"));
 
-### `translate()` and Language Identifier Enums
-`ilLanguage::translate(string|LanguageIdentifier $key, ?int $n = null, ?string $lang = null)` is the successor of `txt()`,
-`ntxt()` and `txtlng()`:
+### Language Identifier Enums
+`txt()` (`ILIAS\Language\Language`) and `ilLanguage::ntxt()` accept, besides a string, a `LanguageIdentifier`:
 
-        $language->translate(PollLanguageIdentifier::POLL_ANSWERS);             // text of the current language
-        $language->translate(PollLanguageIdentifier::POLL_ANSWERS, $count);     // plural form for $count
-        $language->translate(PollLanguageIdentifier::POLL_ANSWERS, null, 'de'); // text in another language
-        $language->translate('poll_answers');                                   // exactly like txt('poll_answers')
+        $language->txt(PollLanguageIdentifier::POLL_ANSWERS);          // text of the current language
+        $language->ntxt(PollLanguageIdentifier::POLL_ANSWERS, $count); // plural form for $count
+        $language->txt('poll_answers');                                // unchanged
 
 - `ILIAS\Language\LanguageIdentifier` is implemented by a string backed enum per module (`<Component>LanguageIdentifier`):
   the case value is the identifier, `module()` the module. The enum is generated from the module's `.pot` with
@@ -38,20 +36,17 @@ session, or container state. It must not be used as the runtime language service
 - With a `LanguageIdentifier` the identifier is read from exactly its module - no `loadLanguageModule()` beforehand, no
   dependency on which module was loaded last (no collision of identifiers that exist in several modules). A migrated
   module is looked up directly in its build and overlay; of a module that is not migrated the values for the current
-  language are read (cache of `lng_modules`, else `lng_modules`) and kept for the request, for another language its
-  entry is read from `lng_data`. No side effect on `txt()`: the module is not loaded, so the order "the module loaded
-  last wins" of string calls stays as it is. Without a text in the language the one of the
-  default language is served, otherwise `-identifier-`.
-- With a string and without `$lang` it is exactly `txt($key)` or `ntxt($key, $n)`. With another `$lang` the module
-  `txt()` serves the identifier from (the migrated module it is assigned to, else the module loaded last that contains
-  it) is read in that language - one lookup; no fallback to the default language, as with `txtlng()`.
-- A `$lang` that is no language key (two lower case letters) is treated like a language without texts. An empty
-  identifier (as for `txt()`, also `"0"`) gives `""`.
+  language are read (cache of `lng_modules`, else `lng_modules`) and kept for the request, for the default language its
+  entry is read from `lng_data`. No side effect on string calls: the module is not loaded, so the order "the module
+  loaded last wins" stays as it is. Without a text in the current language the one of the default language is served,
+  otherwise `-identifier-`. The fallback module argument is ignored, the module is known.
+- With a string `txt()` and `ntxt()` behave exactly as before.
+- An empty identifier (as for a string, also `"0"`) gives `""`.
 - `$n` only selects a plural form of a plural message of a migrated module; the quantity is not inserted into the text.
-- `translate()` is not (yet) part of the interface `ILIAS\Language\Language`, so existing implementations of it do not
-  break: it is available on `ilLanguage` (`$DIC->language()`) and `LanguageLegacyInitialisationAdapter`.
-  Consumers typed against the interface can use it only once it is part of it (announced for the Jour Fixe).
-  `ilSetupLanguage::translate()` is exactly its `txt()` - Setup needs English at most.
+- `txtlng()` and `exists()` take a string only.
+- Breaking change (announced for the Jour Fixe): implementations of `ILIAS\Language\Language` and subclasses of
+  `ilLanguage` that declare the parameter type of `txt()`/`ntxt()` must widen it to `string|LanguageIdentifier`.
+  `ilSetupLanguage` reads only the identifier of a `LanguageIdentifier` - Setup needs English at most.
 
 ## Installing and Managing Languages
 Which languages are installed/available (`ILIAS\Language\Setup\InstalledLanguageRepository`) and installing, flushing
@@ -150,8 +145,8 @@ module that is not migrated).
 * Behaviour change: an identifier that the migrated module loaded last does not
   translate gives `-identifier-`, not the value of a module loaded before. The
   fallback module passed to `txt()` still applies.
-* `translate()` with a `LanguageIdentifier` reads from exactly its module, see
-  [above](#translate-and-language-identifier-enums).
+* `txt()`/`ntxt()` with a `LanguageIdentifier` read from exactly its module, see
+  [above](#language-identifier-enums).
 * Apart from these lookups, `.po`/`.mo` files are read and written with the
   library `gettext/gettext`, only through the adapter in
   `src/ComponentTranslation/Catalog/` (`TranslationCatalog`,
