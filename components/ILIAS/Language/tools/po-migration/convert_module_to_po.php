@@ -63,11 +63,16 @@ declare(strict_types=1);
  *              left out keys are not part of the round-trip check
  *   --remove-from-lang  only after a completely successful run (every file written and round-tripped): remove every
  *              line of the module - the left out ones included - from every lang/ilias_<lang>.lang read (atomically
- *              per file, all other bytes unchanged; if one file cannot be processed, none is changed). Requires
+ *              per file, all other bytes unchanged; computed and checked before anything is written). Requires
  *              (checked first) an existing outputDir components/<Vendor>/<Component>/lang whose <Component>.php
- *              already contributes the module's ComponentLanguageFileDirectory, and no symbolic link in lang/
- * Unknown options (anything starting with "-") fail; module and reference language must match [A-Za-z0-9_]+.
- * A module without any line in lang/ fails without writing anything (most likely migrated already).
+ *              already contributes the module's ComponentLanguageFileDirectory, no symbolic link in lang/ and the
+ *              start marker in every lang/ilias_<lang>.lang
+ * <module> is required. Unknown options (anything starting with "-") fail; module and reference language must match
+ * [A-Za-z0-9_]+. Like the installer, a `.lang` file is only read behind its line "<!-- language file start -->"; a
+ * file without that line is skipped with a WARNING (a FAILURE with --remove-from-lang). A module without any line in
+ * lang/ fails without writing anything (most likely migrated already). Every check runs before anything is
+ * written: a failing run writes no `.po`/`.pot` and changes no `.lang` file (except on write errors or a `.lang`
+ * file changed during the run, both reported).
  * Example: php convert_module_to_po.php tos en ../../../TermsOfService/lang
  */
 
@@ -106,13 +111,39 @@ $read_file = static function (string $file): string {
 };
 
 /**
+ * The lines of $content the installer reads (see LanguageFileParsing::cutHeader()).
+ *
+ * @return array<int, string> line number (0-based) => line, split at "\n" only like file()
+ */
+$body_lines = static function (string $content): array {
+    $lines = explode("\n", $content);
+    foreach ($lines as $number => $line) {
+        if (trim($line) === '<!-- language file start -->') {
+            return array_slice($lines, $number + 1, null, true);
+        }
+    }
+
+    return [];
+};
+
+$has_start_marker = static function (string $content): bool {
+    foreach (explode("\n", $content) as $line) {
+        if (trim($line) === '<!-- language file start -->') {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+/**
  * @param string $content of the `.lang` file $file (only named in warnings)
  * @return list<array{0: string, 1: string, 2: string}> [module, key, raw value] of every entry line
  */
-$read_lines = static function (string $file, string $content): array {
+$read_lines = static function (string $file, string $content) use ($body_lines): array {
     $entries = [];
-    // split at "\n" only, like file() (a "\r" before it is trimmed below)
-    foreach (explode("\n", $content) as $number => $line) {
+    // a "\r" before the "\n" is trimmed below
+    foreach ($body_lines($content) as $number => $line) {
         // trimmed like ILIAS' own .lang reader, or a value would keep trailing whitespace the database never had
         $parts = explode('#:#', trim($line));
         if (count($parts) < 3) {
@@ -208,8 +239,8 @@ $format_keys = static function (array $keys) use ($printable): string {
 
 /**
  * $content without the lines of $module - exactly those $read_lines reports, and only behind the line
- * "<!-- language file start -->" (the installer ignores everything before it; without that line the whole file
- * counts as body). Every other byte stays: header, comments, line endings, order, a missing final line break.
+ * "<!-- language file start -->" (the installer ignores everything before it; only called for files with that line).
+ * Every other byte stays: header, comments, line endings, order, a missing final line break.
  *
  * @return array{0: string, 1: int} the new content and the number of removed lines
  */
@@ -499,7 +530,8 @@ $removal_target_problem = static function (string $repo_root, ?string $output_ar
 $existing_headers = static function (string $file): array {
     try {
         return is_file($file) ? TranslationCatalog::fromPoFile($file)->getHeaders() : [];
-    } catch (RuntimeException) {
+    } catch (RuntimeException $e) {
+        fwrite(STDERR, "WARNING: the existing $file is not readable, its headers are not kept: {$e->getMessage()}\n");
         return [];
     }
 };
@@ -538,7 +570,12 @@ foreach (array_slice($argv, 1) as $argument) {
     }
     $arguments[] = $argument;
 }
-$module = $arguments[0] ?? 'tos';
+if (!isset($arguments[0])) {
+    fwrite(STDERR, "FAILURE: the module is required. Usage: php convert_module_to_po.php [--pattern=<pattern>]"
+        . " [--skip-unmigratable-keys] [--remove-from-lang] <module> [referenceLangKey] [outputDir]\n");
+    exit(1);
+}
+$module = $arguments[0];
 $reference_lang_key = $arguments[1] ?? 'en';
 // a module name is a lng_data module: it names the output directory and the files
 if (preg_match('/\A[A-Za-z0-9_]+\z/', $module) !== 1 || preg_match('/\A[A-Za-z0-9_]+\z/', $reference_lang_key) !== 1) {
@@ -601,8 +638,10 @@ if ($lang_files === []) {
 }
 
 $per_language = [];
-// lang_key => path, hash and number of the module's lines of every file read (for --remove-from-lang)
+// lang_key => path, hash, number of the module's lines and the content without them of every file read
 $read_files = [];
+$files_without_marker = [];
+$removal_problems = [];
 // lang_key => identifier => whether all occurrences are the same, see $find_duplicate_keys
 $duplicates = [];
 $unsafe_files = [];
@@ -624,14 +663,58 @@ foreach ($lang_files as $file) {
     }
     $lang_key = $m[1];
     $content = $read_file($file);
+    if (!$has_start_marker($content)) {
+        $files_without_marker[] = $file;
+        continue;
+    }
     $lines = $module_lines($file, $content, $module);
+    [$new_content, $removed] = $without_module_lines($content, $module);
+    // a safeguard: exactly the lines read are removed
+    if ($remove_from_lang && $removed !== count($lines)) {
+        $removal_problems[] = "$file: " . count($lines) . " line(s) of the module were read, but $removed would be removed";
+    }
     $per_language[$lang_key] = $entries_of($lines);
-    $read_files[$lang_key] = ['path' => $file, 'hash' => hash('sha256', $content), 'lines' => count($lines)];
+    $read_files[$lang_key] = [
+        'path' => $file,
+        'hash' => hash('sha256', $content),
+        'lines' => count($lines),
+        'new_content' => $new_content,
+        'removed' => $removed,
+    ];
     $duplicates[$lang_key] = $find_duplicate_keys($lines);
 }
 if ($unsafe_files !== []) {
     fwrite(STDERR, "FAILURE: --remove-from-lang only changes regular files, these are symbolic links or no files (nothing was written):\n  "
         . implode("\n  ", $unsafe_files) . "\n");
+    exit(1);
+}
+if ($files_without_marker !== [] && $remove_from_lang) {
+    fwrite(STDERR, "FAILURE: --remove-from-lang: these files have no line \"<!-- language file start -->\", the installer"
+        . " does not read them (nothing was written):\n  " . implode("\n  ", $files_without_marker) . "\n");
+    exit(1);
+}
+foreach ($files_without_marker as $file) {
+    fwrite(STDERR, "WARNING: skipping $file - no line \"<!-- language file start -->\", the installer does not read it.\n");
+}
+if ($removal_problems !== []) {
+    fwrite(STDERR, "FAILURE: --remove-from-lang (nothing was written):\n  " . implode("\n  ", $removal_problems) . "\n");
+    exit(1);
+}
+
+// the .po files are UTF-8 and are read back as such: a value in another encoding (e.g. Latin-1) is no text there
+$invalid_encoding = [];
+foreach ($per_language as $lang_key => $entries) {
+    foreach ($entries as $key => $entry) {
+        if (!mb_check_encoding((string) $key . $entry['value'] . ($entry['comment'] ?? ''), 'UTF-8')) {
+            $invalid_encoding[$lang_key][] = mb_check_encoding((string) $key, 'UTF-8') ? (string) $key : bin2hex((string) $key) . ' (hex)';
+        }
+    }
+}
+if ($invalid_encoding !== []) {
+    fwrite(STDERR, "FAILURE: module '$module' has lines that are not valid UTF-8 in the source .lang files (nothing was written):\n");
+    foreach ($invalid_encoding as $lang_key => $keys) {
+        fwrite(STDERR, "  $lang_key: " . $format_keys($keys) . "\n");
+    }
     exit(1);
 }
 
@@ -792,40 +875,46 @@ foreach (array_keys($per_language) as $lang_key) {
     }
 }
 
-if (!is_dir($output_dir) && !mkdir($output_dir, 0775, true) && !is_dir($output_dir)) {
-    throw new RuntimeException("Cannot create $output_dir");
-}
-
+// every file is built and read back in memory first: a failing run writes nothing
 $pot_path = $output_dir . '/' . MigratedLanguageFilePaths::templateFileName($pattern, $module);
-$write($pot_path, $build_catalog($module, '', $reference_entries, null, $existing_headers($pot_path), null, $plural_definitions)->toPoString());
-
+$contents = [];
 $report = [];
+$pot_headers = $existing_headers($pot_path);
+try {
+    $contents[$pot_path] = $build_catalog($module, '', $reference_entries, null, $pot_headers, null, $plural_definitions)->toPoString();
+} catch (RuntimeException $e) {
+    fwrite(STDERR, "FAILURE: the template of module '$module' cannot be written: {$e->getMessage()} Nothing was written.\n");
+    exit(1);
+}
 foreach ($per_language as $lang_key => $entries) {
     $po_path = $output_dir . '/' . sprintf($pattern, $lang_key) . '.po';
-    $write(
-        $po_path,
-        $build_catalog(
+    $po_mismatches = [];
+    $po_headers = $existing_headers($po_path);
+    try {
+        $contents[$po_path] = $build_catalog(
             $module,
             $lang_key,
             $reference_entries,
             $entries,
-            $existing_headers($po_path),
+            $po_headers,
             $plural_rules[$lang_key] ?? null,
             $plural_definitions,
             $language_names[$lang_key] ?? null,
             $filled[$lang_key] ?? [],
             in_array($lang_key, $source_lang_keys, true)
-        )->toPoString()
-    );
+        )->toPoString();
+        $parsed = TranslationCatalog::fromPoString($contents[$po_path]);
+    } catch (RuntimeException $e) {
+        $parsed = null;
+        $po_mismatches[] = '(not readable back) ' . $e->getMessage();
+    }
 
-    // self-check: read the file back; every value (also one taken from the reference language, flagged fuzzy) must match and nothing else may be in it
-    $parsed = TranslationCatalog::fromPoFile($po_path);
-    $po_mismatches = [];
+    // self-check: every value (also one taken from the reference language, flagged fuzzy) must match and nothing else may be in it
     $expected_keys = array_unique(array_merge(
         array_map('strval', array_keys($reference_entries)),
         array_map('strval', array_keys($entries))
     ));
-    foreach ($expected_keys as $key) {
+    foreach ($parsed !== null ? $expected_keys : [] as $key) {
         $expected = $entries[$key]['value'] ?? '';
         $parsed_entry = $parsed->find(null, $key);
         // find(null, ...) also finds msgctxt "" (same library id) - only an entry without msgctxt counts
@@ -856,7 +945,7 @@ foreach ($per_language as $lang_key => $entries) {
             $po_mismatches[] = $key . ' (plural)';
         }
     }
-    foreach ($parsed->getEntries() as $parsed_entry) {
+    foreach ($parsed?->getEntries() ?? [] as $parsed_entry) {
         if ($parsed_entry->getContext() !== null || !in_array($parsed_entry->getId(), $expected_keys, true)) {
             $po_mismatches[] = '(unexpected) ' . $parsed_entry->getId();
         }
@@ -892,39 +981,49 @@ foreach ($report as $row) {
 }
 
 echo "\n";
-echo $all_ok
-    ? "OK: all " . count($report) . " languages round-trip identically through PO ("
-        . array_sum(array_column($report, 'filled')) . " entries filled from '$reference_lang_key', flagged fuzzy).\n"
-    : "FAILURE: at least one language did not round-trip correctly, see stderr above.\n";
-
-if (!$all_ok || !$remove_from_lang) {
-    if (!$all_ok && $remove_from_lang) {
-        fwrite(STDERR, "--remove-from-lang: no .lang file was changed.\n");
-    }
-    exit($all_ok ? 0 : 1);
+if (!$all_ok) {
+    fwrite(STDERR, "FAILURE: at least one language did not round-trip correctly, see stderr above. Nothing was written.\n");
+    exit(1);
 }
 
-// --remove-from-lang: the module's .po files become its only source; all new contents are computed and checked first
+if (!is_dir($output_dir) && !@mkdir($output_dir, 0775, true) && !is_dir($output_dir)) {
+    fwrite(STDERR, "FAILURE: cannot create $output_dir. Nothing was written.\n");
+    exit(1);
+}
+$written = [];
+foreach ($contents as $path => $content) {
+    try {
+        $write($path, $content);
+    } catch (RuntimeException $e) {
+        fwrite(STDERR, "FAILURE: {$e->getMessage()} - written already: " . ($written === [] ? 'nothing' : implode(', ', $written))
+            . ". No .lang file was changed.\n");
+        exit(1);
+    }
+    $written[] = basename($path);
+}
+echo "OK: all " . count($report) . " languages round-trip identically through PO ("
+    . array_sum(array_column($report, 'filled')) . " entries filled from '$reference_lang_key', flagged fuzzy).\n";
+
+if (!$remove_from_lang) {
+    exit(0);
+}
+
+// --remove-from-lang: the module's .po files become its only source; the new contents were computed while reading
 $new_lang_contents = [];
-$removal_problems = [];
+$changed_files = [];
 foreach ($read_files as $lang_key => $read) {
     $content = file_get_contents($read['path']);
     if ($content === false || hash('sha256', $content) !== $read['hash']) {
-        $removal_problems[] = "{$read['path']} could not be read again or changed during the run";
+        $changed_files[] = $read['path'];
         continue;
     }
-    [$new_content, $removed] = $without_module_lines($content, $module);
-    // e.g. a line of the module above "<!-- language file start -->" - read, but never removed
-    if ($removed !== $read['lines']) {
-        $removal_problems[] = "{$read['path']}: {$read['lines']} line(s) of the module were read, but $removed would be removed";
-        continue;
-    }
-    if ($removed > 0) {
-        $new_lang_contents[$lang_key] = [$new_content, $removed];
+    if ($read['removed'] > 0) {
+        $new_lang_contents[$lang_key] = [$read['new_content'], $read['removed']];
     }
 }
-if ($removal_problems !== []) {
-    fwrite(STDERR, "FAILURE: --remove-from-lang: no .lang file was changed (the .po/.pot files are written):\n  " . implode("\n  ", $removal_problems) . "\n");
+if ($changed_files !== []) {
+    fwrite(STDERR, "FAILURE: --remove-from-lang: no .lang file was changed (the .po/.pot files are written), these were"
+        . " changed during the run or cannot be read again:\n  " . implode("\n  ", $changed_files) . "\n");
     exit(1);
 }
 

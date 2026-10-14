@@ -102,8 +102,12 @@ class ConvertModuleToPoToolTest extends TestCase
         );
     }
 
+    /** The marker is put in front if $content has none: like the installer, the tool reads only such files. */
     private function writeLangFile(string $fixture_root, string $lang_key, string $content): void
     {
+        if (!str_contains($content, self::START)) {
+            $content = self::START . "\n" . $content;
+        }
         file_put_contents($fixture_root . '/lang/ilias_' . $lang_key . '.lang', $content);
     }
 
@@ -678,7 +682,7 @@ class ConvertModuleToPoToolTest extends TestCase
         $this->assertSame("# header\n$start\ncrsr#:#a#:#Other\nxcrs#:#a#:#X\nmeta#:#crs#:#crs#:#M\n", $after['ilias_de.lang'][0]);
         $this->assertSame("# header\r\n$start\r\ncrsr#:#a#:#R\r\n", $after['ilias_fr.lang'][0]);
         $this->assertSame("$start\ncrsr#:#a#:#R", $after['ilias_en.lang'][0], 'no final line break stays none');
-        $this->assertSame("keep#:#k#:#K\n", $after['ilias_es.lang'][0]);
+        $this->assertSame("$start\nkeep#:#k#:#K\n", $after['ilias_es.lang'][0]);
         $this->assertSame($before['ilias_it.lang'], $after['ilias_it.lang']);
         $this->assertSame($before['ilias_ABC.lang'], $after['ilias_ABC.lang']);
         $this->assertSame(0640, $after['ilias_de.lang'][1] & 07777);
@@ -715,22 +719,114 @@ class ConvertModuleToPoToolTest extends TestCase
         $this->assertSame(['a', 'b'], self::idsOf($out . '/crs_fr.po'));
     }
 
-    /** A module line above the start marker is never removed: the run then changes no .lang file at all. */
-    public function testRemoveFromLangChangesNoFileWhenOneFileHoldsALineThatWouldNotBeRemoved(): void
+    /** Like the installer, the tool reads only behind the start marker: a line above it is neither converted nor removed. */
+    public function testALineAboveTheStartMarkerIsNeitherConvertedNorRemoved(): void
     {
         $root = $this->buildFixtureRepo();
         $out = $this->addRegisteredComponent($root, 'crs');
         $start = self::START;
+        // the header line would fail twice if it was read: a key the reference language lacks, a Latin-1 byte
+        $header = "crs#:#x#:#Kopfzeile \xFC\n";
         $this->writeLangFile($root, 'de', "$start\ncrs#:#a#:#A\ncrs#:#b#:#B\n");
-        $this->writeLangFile($root, 'fr', "crs#:#a#:#FA\n$start\ncrs#:#b#:#FB\n");
-        $this->writeLangFile($root, 'en', "$start\ncrs#:#a#:#EA\n");
+        $this->writeLangFile($root, 'fr', "$header$start\ncrs#:#b#:#FB\n");
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), '--remove-from-lang', 'crs', 'de', $out);
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        $after = self::langSnapshot($root);
+        $this->assertSame("$header$start\n", $after['ilias_fr.lang'][0]);
+        $this->assertSame("$start\n", $after['ilias_de.lang'][0]);
+        $ids = self::idsOf($out . '/crs_fr.po');
+        sort($ids);
+        $this->assertSame(['a', 'b'], $ids, '"x" of the header line is no key');
+        $this->assertSame('FB', TranslationCatalog::fromPoFile($out . '/crs_fr.po')->find(null, 'b')?->getTranslation());
+    }
+
+    /** Like the installer, a file without the start marker is not read; --remove-from-lang refuses to run then. */
+    public function testAFileWithoutTheStartMarkerIsSkippedAndRefusedByRemoveFromLang(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $out = $this->addRegisteredComponent($root, 'crs');
+        $this->writeLangFile($root, 'de', self::START . "\ncrs#:#a#:#A\n");
+        file_put_contents($root . '/lang/ilias_fr.lang', "crs#:#a#:#FA\ncrs#:#x#:#X\n");
         $before = self::langSnapshot($root);
 
         [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), '--remove-from-lang', 'crs', 'de', $out);
 
         $this->assertSame(1, $exit_code, $stdout . $stderr);
-        $this->assertStringContainsString('ilias_fr.lang: 2 line(s) of the module were read, but 1 would be removed', $stderr);
+        $this->assertStringContainsString('ilias_fr.lang', $stderr);
+        $this->assertStringContainsString('nothing was written', $stderr);
         $this->assertSame($before, self::langSnapshot($root));
+        $this->assertSame([], glob($out . '/*') ?: []);
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), 'crs', 'de', $root . '/out');
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        $this->assertStringContainsString('WARNING: skipping ' . $root . '/lang/ilias_fr.lang', $stderr);
+        $this->assertFileDoesNotExist($root . '/out/crs_fr.po', '"x" would have failed the run if the file was read');
+        $this->assertSame($before, self::langSnapshot($root));
+    }
+
+    /** A .lang file with bytes that are no UTF-8 fails the run before anything is written: no .po/.pot replaced, no .lang changed. */
+    public function testALatinOneLangFileFailsTheRunAndKeepsPoAndLangFilesByteIdentical(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $out = $this->addRegisteredComponent($root, 'crs');
+        $start = self::START;
+        $this->writeLangFile($root, 'de', "$start\ncrs#:#a#:#Gr\xC3\xBC\xC3\x9Fe\n");
+        $this->writeLangFile($root, 'fr', "$start\ncrs#:#a#:#Gr\xFC\xDFe\n");
+        file_put_contents($out . '/crs_de.po', "existing de\n");
+        file_put_contents($out . '/crs_fr.po', "existing fr\n");
+        file_put_contents($out . '/crs.pot', "existing pot\n");
+        $lang_before = self::langSnapshot($root);
+        $out_before = self::files($out);
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), '--remove-from-lang', 'crs', 'de', $out);
+
+        $this->assertSame(1, $exit_code, $stdout . $stderr);
+        $this->assertStringContainsString('not valid UTF-8', $stderr);
+        $this->assertStringContainsString('fr: a', $stderr);
+        $this->assertSame($lang_before, self::langSnapshot($root));
+        $this->assertSame($out_before, self::files($out));
+    }
+
+    /** An existing target .po that cannot be read only costs its kept headers: a WARNING, the run goes on and replaces it. */
+    public function testAnUnreadableExistingPoIsWarnedAboutAndReplaced(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $this->writeLangFile($root, 'de', "crs#:#a#:#A\n");
+        file_put_contents($root . '/out/crs_de.po', "msgid \"kaputt\n");
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), 'crs', 'de', $root . '/out');
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        $this->assertStringContainsString('WARNING: the existing ' . $root . '/out/crs_de.po is not readable', $stderr);
+        $this->assertSame(['a'], self::idsOf($root . '/out/crs_de.po'));
+    }
+
+    /** @return array<string, array{list<string>}> */
+    public static function runsWithoutAModule(): array
+    {
+        return [
+            'no argument' => [[]],
+            'only options' => [['--skip-unmigratable-keys']],
+        ];
+    }
+
+    /** There is no default module any more: a run without one fails and writes nothing. */
+    #[DataProvider('runsWithoutAModule')]
+    public function testARunWithoutAModuleFailsAndWritesNothing(array $arguments): void
+    {
+        $root = $this->buildFixtureRepo();
+        $this->writeLangFile($root, 'en', self::START . "\ntos#:#a#:#A\n");
+        $before = self::langSnapshot($root);
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), ...$arguments);
+
+        $this->assertSame(1, $exit_code, $stdout . $stderr);
+        $this->assertStringContainsString('the module is required', $stderr);
+        $this->assertSame($before, self::langSnapshot($root));
+        $this->assertSame([], glob($root . '/out/*') ?: []);
     }
 
     /** A second run must not overwrite the now only-source .po/.pot with empty ones. */
