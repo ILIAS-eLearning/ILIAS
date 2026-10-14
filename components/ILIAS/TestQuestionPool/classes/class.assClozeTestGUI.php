@@ -18,6 +18,7 @@
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed;
 
@@ -158,16 +159,7 @@ JS;
         }
 
         $answer_trafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string());
-        // Deliberately not kindlyTo()->float(): it rejects a leading zero and
-        // throws a ConstraintViolationException that escapes to the error
-        // screen, taking the whole question with it. The gap builder validates
-        // this very field with isNaN(), and isNaN('01') is false, so the client
-        // lets "01" through. Convert it the way the browser does.
-        $points_trafo = $this->refinery->kindlyTo()->listOf(
-            $this->refinery->custom()->transformation(
-                static fn($value): float => (float) str_replace(',', '.', trim((string) $value))
-            )
-        );
+        $points_trafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->float());
 
         foreach (array_keys($gaps) as $idx) {
             $cloze_type = $this->request_data_collector->int('clozetype_' . $idx);
@@ -304,6 +296,12 @@ JS;
                 $errors = true;
             }
 
+            $gaps = $this->request_data_collector->strArray('gap');
+            if ($gaps !== [] && $this->hasErrorInGapPoints($gaps)) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('points_non_numeric_or_negative_msg'));
+                $errors = true;
+            }
+
             if ($errors) {
                 $checkonly = false;
             }
@@ -322,6 +320,27 @@ JS;
                 $points_standardized = str_replace(',', '.', $points);
                 if (!is_numeric($points_standardized)
                     || (float) $points_standardized < 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function hasErrorInGapPoints(array $gaps): bool
+    {
+        $to_float = $this->refinery->kindlyTo()->float();
+
+        foreach (array_keys($gaps) as $gap_index) {
+            $gap = $this->request_data_collector->raw('gap_' . $gap_index);
+            if (!is_array($gap)) {
+                continue;
+            }
+
+            foreach ($gap['points'] ?? [] as $points) {
+                $result = $to_float->applyTo(new Ok($points));
+                if (!$result->isOK() || $result->value() < 0) {
                     return true;
                 }
             }
