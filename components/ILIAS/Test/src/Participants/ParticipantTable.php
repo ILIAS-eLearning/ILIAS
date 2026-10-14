@@ -217,11 +217,14 @@ class ParticipantTable implements DataRetrieval
             ) => $a->getRemainingDuration($processing_time, $reset_time_on_new_attempt)
                 <=> $b->getRemainingDuration($processing_time, $reset_time_on_new_attempt),
             'last_access' => static fn(Participant $a, Participant $b) => $a->getLastAccess() <=> $b->getLastAccess(),
-            'status_of_attempt' => static fn(
+            'status_of_attempt' => fn(
                 Participant $a,
                 Participant $b
-            ) => $a->getAttemptOverviewInformation()?->getStatusOfAttempt()
-                <=> $b->getAttemptOverviewInformation()?->getStatusOfAttempt(),
+            ) => $this->lng->txt(
+                $a->getAttemptOverviewInformation()?->getStatusOfAttempt()->value ?? StatusOfAttempt::NOT_YET_STARTED->value
+            ) <=> $this->lng->txt(
+                $b->getAttemptOverviewInformation()?->getStatusOfAttempt()->value ?? StatusOfAttempt::NOT_YET_STARTED->value
+            ),
             'reached_points' => static fn(
                 Participant $a,
                 Participant $b
