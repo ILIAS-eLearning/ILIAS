@@ -76,9 +76,11 @@ and `LanguageFileDirectoryManager` aggregates all of them, contributed by other 
 A module can be shipped by its component as gettext files instead of lines in
 `lang/ilias_<lang>.lang`. Currently this applies to the modules `tos`
 (`TermsOfService`) and `poll` (`Poll`). For such a module the shipped `.po` is
-the only source of its shipped values: its lines in `lang/ilias_<lang>.lang`
-are ignored when installing or updating a language and are not the default the
-administration compares with. They are kept as long as a rollback is possible.
+the only source of its shipped values: its lines are removed from
+`lang/ilias_<lang>.lang` when it is migrated (`--remove-from-lang`, see
+[Migrating a Module](#migrating-a-module)); a rollback restores them from git
+(see [Rollback](#rollback)). Lines left there would be ignored when installing
+or updating a language.
 
 1. [Shipped Files](#shipped-files)
 2. [Build](#build)
@@ -109,8 +111,9 @@ administration compares with. They are kept as long as a rollback is possible.
   translations are not shipped (`-identifier-`, as before).
 * The initial files are generated with
   [`tools/po-migration/convert_module_to_po.php`](tools/po-migration/README.md),
-  later changes are made in the `.po`/`.pot` files directly (a new run of the
-  tool would overwrite them with the `.lang` lines).
+  later changes are made in the `.po`/`.pot` files directly. The module has no
+  `.lang` lines any more, so a new run of the tool fails ("Nothing was
+  written") and leaves the files unchanged.
 * A module counts as migrated for a language while its shipped `.po` exists
   (Setup, administration) and the build contains it (runtime).
 
@@ -119,16 +122,24 @@ administration compares with. They are kept as long as a rollback is possible.
 `composer dump-autoload`, see `ShippedTranslationsBuild`) compiles every
 shipped `.po` into `artifacts/language/<build>/`:
 `messages/LC_MESSAGES/<module>.<lang>.mo`, `keys/<module>.php`, a copy of the C
-library's `C.utf8` locale and a manifest. `artifacts/language/current.json`
-names the build that is served; it is switched only after the new build is
-complete and passed a real lookup through native gettext, and the previous
-build is kept for running requests.
+library's `C.utf8` locale and a manifest (also the hashes of the compiled
+`.po` files, warnings and collisions). `artifacts/language/current.json` names
+the build that is served and its languages per module, nothing else, as every
+request reads it; it is switched only after the new build is complete and
+passed a real lookup through native gettext, and the previous build is kept
+for running requests.
 
-* **The build aborts** if the PHP extension `gettext` or `C.utf8` is missing.
+* **The build aborts** if the PHP extension `gettext` (a precondition of
+  `setup build`) or `C.utf8` is missing.
 * Not aborting, but reported on every build: values with markup that is not
   allowed (compiled cleaned, see [Markup Policy](#markup-policy)), a `.po` that
-  cannot be compiled (the module is not served for that language) and
-  identifiers that two migrated modules ship with different values.
+  cannot be compiled (e.g. merge conflict markers) and identifiers that two
+  migrated modules ship with different values. For a `.po` that cannot be
+  compiled the language keeps the catalog of the served (or previous) build,
+  if that build was made by the same compiler and its catalog is intact and
+  passes the markup policy; otherwise the module is not served for that
+  language (`-identifier-`, like a `.lang` line that cannot be read) until the
+  file is fixed; the runtime logs it when the module is used.
 * **Deployment requirement:** run `php cli/setup.php build` after every change
   of a shipped `.po`. The runtime never compiles; a file that is not in the
   build is not served.
@@ -162,7 +173,8 @@ module that is not migrated).
 `msgstr[n]`) that the `Plural-Forms` rule of the language selects for `$n`.
 The quantity is not inserted; callers do that, e.g. with `sprintf()`. In every
 other case (module not migrated, plugin, no plural message, empty form) it
-returns exactly what `txt()` without `$n` returns.
+returns exactly what `txt()` without `$n` returns in that language, never the
+form of another language.
 
 * `txt()` without `$n` returns the default form of a plural message: the last form
   (CLDR "other"), or the last non-empty one before it. The database holds this
@@ -270,8 +282,10 @@ Where the rules apply:
   per key, also for plural messages.
 * Import of a language file: for a migrated module, imported values that
   differ from the shipped ones become local changes in the overlay, in every
-  mode. "delete" first deletes the language's database rows and then writes
-  every module anew; markup is checked before anything is deleted.
+  mode. A line without `###` comment keeps the stored remark. "delete" first
+  deletes the language's database rows and then writes every module anew; a
+  remark that is not in the file is removed from the overlay as well. Markup is
+  checked before anything is deleted.
 * "Remove local changes" and the maintenance action "clear" are the same
   activity (`RemoveLocalLanguageChanges`): values, locally added keys and
   remarks are removed from database and overlay, the shipped state is
@@ -314,7 +328,8 @@ shipped `.po` is removed unless it carries a real local change.
 * Warnings are printed for skipped customizing entries, local changes with
   markup that is not allowed, overlay directories that are not writable, a
   Setup not running as owner of the client data directory, and a missing
-  client data directory (the overlay is then written by the next update).
+  client data directory (the overlay is then written by the next update; until
+  then migrated modules show their shipped values without local changes).
 
 ### Plugins
 Plugins cannot contribute a `LanguageFileDirectory` yet. A plugin may ship
@@ -327,11 +342,13 @@ of a plugin `.po` with markup that is not allowed are cleaned and logged;
 values of a plugin `.lang` are only logged and taken over unchanged.
 
 ### Migrating a Module
-1. Generate the `.pot`/`.po` files into the component's `lang/` directory with
-   [`convert_module_to_po.php`](tools/po-migration/README.md) and compare the
-   placeholders with the reference language.
-2. Contribute the module's `ComponentLanguageFileDirectory` in the
-   component's `<Component>.php`.
+1. Contribute the module's `ComponentLanguageFileDirectory` in the
+   component's `<Component>.php` (`$contribute[LanguageFileDirectory::class]`);
+   `--remove-from-lang` refuses to run without it.
+2. Generate the `.pot`/`.po` files into the component's `lang/` directory and
+   remove the module's lines from `lang/ilias_<lang>.lang` with
+   [`convert_module_to_po.php --remove-from-lang`](tools/po-migration/README.md),
+   then compare the placeholders with the reference language.
 3. Run `composer dump-autoload` (or `php cli/setup.php build`) and
    `php cli/setup.php update`.
 
@@ -339,12 +356,12 @@ values of a plugin `.lang` are only logged and taken over unchanged.
 The database tables are written on every path, so a rollback removes code or
 files, it never writes data back.
 
-* Per module: remove the contribution, run `composer dump-autoload` (rebuilds
-  the component graph and the build) and `php cli/setup.php update`; the
-  module's `.lang` lines are used again (restore them from git if they were
-  removed with `--remove-from-lang`). Local changes of plural forms other than
-  the default form are lost, values merged into the `.po` must be added to the
-  `.lang` files.
+* Per module: revert the migration with git (restores the module's `.lang`
+  lines, removes the contribution and the `.po`/`.pot`, e.g. `git revert` of
+  the migration commit), run `composer dump-autoload` (rebuilds the component
+  graph and the build) and `php cli/setup.php update`. Local changes of plural
+  forms other than the default form are lost, values merged into the `.po` must
+  be added to the `.lang` files.
 * Per language: remove its shipped `.po` and run `php cli/setup.php build`.
   The overlay is kept unchanged and reconciled again once the `.po` is back.
 * `artifacts/language/` can be deleted and rebuilt with
