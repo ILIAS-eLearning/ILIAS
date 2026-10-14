@@ -99,7 +99,7 @@ function buildSettings(inputId, config) {
     whitelist: config.options,
     enforceWhitelist: !config.userInput,
     duplicates: config.allowDuplicates,
-    maxTags: config.maxItems,
+    maxTags: config.maxItems > 0 ? config.maxItems : Infinity,
     delimiters: null,
     originalInputValueFormat: (valuesArr) => valuesArr.map((item) => item.value),
     dropdown: {
