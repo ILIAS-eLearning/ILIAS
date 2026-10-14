@@ -18,11 +18,25 @@ no named classes or functions, so they never end up in Composer's classmap.
 
 Generates the initial shipped `.pot` and `.po` files of one module from the
 lines of that module in `lang/ilias_*.lang` (never write them by hand). After
-the migration the `.po`/`.pot` files are maintained directly. A new run
-regenerates them from the `.lang` lines and overwrites values merged into the
-`.po` by the language administration ("merge"), keys added there and their
-`#.` lines; after `--remove-from-lang` it fails, since the module has no
-`.lang` lines any more.
+the migration the `.po`/`.pot` files are maintained directly. A migration
+removes the module's `.lang` lines (`--remove-from-lang`), so a new run fails
+("Nothing was written") and the `.po`/`.pot` files stay as they are. Without
+that option a new run would regenerate them from the `.lang` lines and
+overwrite values merged into the `.po` by the language administration
+("merge"), keys added there and their `#.` lines.
+
+Order of a migration (see the
+[Language component's README](../../README.md#migrating-a-module)):
+
+1. contribute `$contribute[LanguageFileDirectory::class]` in the component's
+   `<Component>.php`,
+2. run this tool with `--remove-from-lang` and the component's `lang/`
+   directory as `outputDir`,
+3. `composer dump-autoload` (or `php cli/setup.php build`) and
+   `php cli/setup.php update`.
+
+Rollback: revert the migration with git (it restores the `.lang` lines), then
+step 3 again.
 
 ```
 php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php \
@@ -32,7 +46,8 @@ php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php \
 
 Arguments:
 
-* `<module>`: the language module (`lng_data.module`), `[A-Za-z0-9_]` only.
+* `<module>` (required): the language module (`lng_data.module`),
+  `[A-Za-z0-9_]` only.
 * `referenceLanguage`: default `en`. It is the template of every language: it
   gives the `msgid`s, their order and the `.pot`.
 * `outputDir`: default `tools/po-migration/output/<module>/` (ignored by git).
@@ -55,9 +70,13 @@ Options:
   before anything is read: `outputDir` must be an existing
   `components/<Vendor>/<Component>/lang` whose `<Component>.php` already
   contributes the module's `ComponentLanguageFileDirectory` (literal arguments,
-  same pattern), and no `lang/ilias_<lang>.lang` may be a symbolic link. If one
-  file cannot be processed, no `.lang` file is changed. Afterwards the `.po`
-  files are the only source of the module; a second run for it fails.
+  same pattern), and no `lang/ilias_<lang>.lang` may be a symbolic link or lack
+  the start marker. The new content of every `.lang` file is computed and
+  checked while reading, before anything is written. After the `.po` files are
+  written, each `.lang` file is only checked to be unchanged since it was read;
+  if one was changed meanwhile, no `.lang` file is changed (the `.po` files
+  stay written). Afterwards the `.po` files are the only source of the module;
+  a second run for it fails.
 
 Unknown options fail, so a typo is never taken as module name or directory.
 
@@ -70,8 +89,11 @@ php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php --remo
 
 ### Input
 
-* Every `lang/ilias_<lang>.lang` of the ILIAS root, lines trimmed like the
-  installer does. Component and customizing `.lang` files are not read.
+* Every `lang/ilias_<lang>.lang` of the ILIAS root, like the installer only
+  behind the line `<!-- language file start -->` and with trimmed lines. A file
+  without that line is skipped with a `WARNING` (the installer ignores it);
+  with `--remove-from-lang` the run fails. The module's lines must be valid
+  UTF-8. Component and customizing `.lang` files are not read.
 * `plurals.json` next to the tool (see below). Without it no `Plural-Forms`
   header and no plural message is written (a note is printed).
 * For the `Language-Team` header: `meta_l_<lang>` of `lang/ilias_en.lang`, or of
@@ -97,20 +119,25 @@ php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php --remo
 
 ### Checks
 
-Nothing is written if a language has a key the reference language lacks, an
-empty key, a key with ` [` or a duplicate key (unless
-`--skip-unmigratable-keys`), if a plural definition of `plurals.json` does not
-fit the module, or if the module has no line in any `.lang` file. After writing,
-every `.po` is read again with the strict loader and compared with its source:
-every value, every plural form and the default form of a plural message (exit
-code 1 on any difference). The tool reads and writes through the same adapter
-as the language component (`TranslationCatalog`), so it writes exactly what
-Setup and the administration read.
+Nothing is written (exit code 1) if a language has a key the reference
+language lacks, an empty key, a key with ` [` or a duplicate key (unless
+`--skip-unmigratable-keys`), if a line of the module is not valid UTF-8, if a
+plural definition of `plurals.json` does not fit the module, or if the module
+has no line in any `.lang` file. Before writing, every `.po` is read back in
+memory with the strict loader and compared with its source: every value,
+every plural form and the default form of a plural message; on any difference
+nothing is written either. Only a failure while writing (e.g. no permission)
+or a `.lang` file changed by someone else during the run can leave the
+`.po`/`.pot` files written without the `.lang` lines removed; the message
+names the files. An existing target `.po` that cannot be read only loses its
+headers (`WARNING`). The tool reads and writes through the same adapter as the
+language component (`TranslationCatalog`), so it writes exactly what Setup and
+the administration read.
 
 stdout lists per language the module's own lines (`entries`), those with a
 "new variable" marker (`fuzzy`), the entries filled from the reference language
 (`filled`) and the result of the round trip (`po_ok`). Exit code 0 means every
-file was written and verified.
+file was verified and written.
 
 Before committing generated files, compare the placeholders (`%s`, `[x]`) of
 each language with the reference language.
