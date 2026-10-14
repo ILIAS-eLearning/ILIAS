@@ -386,6 +386,50 @@ class ImportUsesShippedValuesOfMigratedModulesTest extends ilLanguageBaseTestCas
         $this->assertNotContains('Notiz des Entwicklers', $this->replaced_remarks);
     }
 
+    /** "Delete" mode wipes lng_data and with it the overlay's remarks: only the imported ones remain. */
+    public function testDeleteModeImportDropsTheFormerOverlayRemarksAndKeepsTheImportedOnes(): void
+    {
+        $this->seedGlobalLanguageFile([]);
+        $overlay = MigratedPoFixture::catalog('itest', ['greeting' => 'Lokal', 'farewell' => 'Tschüss aus der PO']);
+        \ILIAS\Language\ComponentTranslation\LocalChangeComments::setRemark($overlay->find('itest', 'greeting'), 'Alte Bemerkung');
+        \ILIAS\Language\ComponentTranslation\LocalChangeComments::setRemark($overlay->find('itest', 'farewell'), 'Alte Bemerkung 2');
+        MigratedPoFixture::writePair($this->overlayDirectory() . '/itest_' . self::LANG, $overlay);
+        $this->assertSame('Alte Bemerkung 2', $this->overlayRemark('farewell'), 'precondition');
+        file_put_contents(
+            $this->upload_file,
+            "<!-- language file start -->\nitest#:#greeting#:#Lokal###Importierte Bemerkung\nitest#:#farewell#:#Tschüss aus der PO\n"
+        );
+
+        $this->languageObject()->importLanguageFile($this->upload_file, 'delete');
+
+        $this->assertSame('Importierte Bemerkung', $this->overlayRemark('greeting'));
+        $this->assertNull($this->overlayRemark('farewell'), 'not imported, so gone with the wiped lng_data');
+    }
+
+    /** The remark of a plural message is one for the whole message: imported with its forms, it replaces the former one. */
+    public function testDeleteModeImportReplacesTheOverlayRemarkOfAPluralMessage(): void
+    {
+        $this->seedGlobalLanguageFile([]);
+        $catalog = MigratedPoFixture::catalog('itest', []);
+        $catalog->setHeader('Plural-Forms', 'nplurals=2; plural=(n != 1);');
+        $entry = new \ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry('itest', 'item');
+        $entry->setPlural('items', ['Eintrag', 'Einträge']);
+        $catalog->add($entry);
+        MigratedPoFixture::writePo($this->fixture_directory . '/itest_' . self::LANG . '.po', $catalog);
+        $overlay = clone $catalog;
+        \ILIAS\Language\ComponentTranslation\LocalChangeComments::setRemark($overlay->find('itest', 'item'), 'Alte Bemerkung');
+        MigratedPoFixture::writePair($this->overlayDirectory() . '/itest_' . self::LANG, $overlay);
+        $this->assertSame('Alte Bemerkung', $this->overlayRemark('item'), 'precondition');
+        file_put_contents(
+            $this->upload_file,
+            "<!-- language file start -->\nitest#:#item [0]#:#Eintrag###Neue Bemerkung\nitest#:#item [1]#:#Einträge###Neue Bemerkung\n"
+        );
+
+        $this->languageObject()->importLanguageFile($this->upload_file, 'delete');
+
+        $this->assertSame('Neue Bemerkung', $this->overlayRemark('item'));
+    }
+
     /** "Delete" mode wiped lng_data: every file line is written for a migrated module too, a deviation from the shipped value is a local change. */
     public function testDeleteModeImportWritesEveryRowOfAMigratedModule(): void
     {

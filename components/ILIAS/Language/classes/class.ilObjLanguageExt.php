@@ -738,17 +738,18 @@ class ilObjLanguageExt extends ilObjLanguage
             }
         }
         // "delete" wiped every module: $to_save is each module's complete content, not merged onto the overlay
-        $modules_with_unwritten_overlay = self::saveValues(
+        $saved = self::saveValues(
             $this->key,
             $to_save,
             $file_comments,
             $a_mode_existing !== "delete"
         );
+        $modules_with_unwritten_overlay = $saved['unwritten'];
 
         if ($a_mode_existing === "delete") {
             $modules_with_unwritten_overlay = array_merge(
                 $modules_with_unwritten_overlay,
-                $this->syncMigratedFilesAfterDeleteModeImport($modules_before_delete, $to_save)
+                $this->syncMigratedFilesAfterDeleteModeImport($modules_before_delete, $to_save, $saved['remarks'])
             );
         }
 
@@ -762,11 +763,13 @@ class ilObjLanguageExt extends ilObjLanguage
      *
      * @param list<string> $modules_before_delete every module this language had any lng_data row for, captured before the DELETE
      * @param array<string, string> $to_save module.separator.topic => value, the complete final DB content now
+     * @param array<string, array<string, string>> $remarks module => identifier => remark, the complete remarks now
      * @return list<string> the modules whose overlay could not be written
      */
     private function syncMigratedFilesAfterDeleteModeImport(
         array $modules_before_delete,
-        array $to_save
+        array $to_save,
+        array $remarks
     ): array {
         global $DIC;
 
@@ -793,7 +796,10 @@ class ilObjLanguageExt extends ilObjLanguage
                     $this->key,
                     (string) $module,
                     $entries_by_module[$module] ?? [],
-                    $client_data_dir
+                    $client_data_dir,
+                    false,
+                    null,
+                    $remarks[$module] ?? []
                 );
             } catch (\Throwable $t) {
                 $DIC->logger()->forComponent('lang')->warning(sprintf(
@@ -1160,13 +1166,14 @@ class ilObjLanguageExt extends ilObjLanguage
         array $a_values = array(),
         array $a_remarks = array()
     ): array {
-        return self::saveValues($a_lang_key, $a_values, $a_remarks, true);
+        return self::saveValues($a_lang_key, $a_values, $a_remarks, true)['unwritten'];
     }
 
     /**
      * With $merge_onto_current_content `false` the saved entries are each module's complete new content ("delete"-mode import).
      *
-     * @return list<string> see _saveValues()
+     * @return array{unwritten: list<string>, remarks: array<string, array<string, string>>} unwritten: see
+     *         _saveValues(); remarks: the non-empty remarks written into the overlays
      */
     private static function saveValues(
         string $a_lang_key,
@@ -1289,7 +1296,8 @@ class ilObjLanguageExt extends ilObjLanguage
                         ? MigratedLanguageFileSync::databaseValues([$key => $value], $shipped_migrated['values'])[$key]
                         : $value,
                     $local_change,
-                    $a_remarks[$key] ?? null
+                    // PO module: without a requested remark the stored one stays, as in its overlay
+                    $a_remarks[$key] ?? ($is_po_module ? ($db_comments[$key] ?? null) : null)
                 );
             }
         }
@@ -1307,6 +1315,11 @@ class ilObjLanguageExt extends ilObjLanguage
                 }
             }
         }
+
+        $remarks = array_filter(array_map(
+            static fn(array $changes): array => array_filter($changes, static fn(string $remark): bool => $remark !== ''),
+            $remark_changes
+        ));
 
         // save the serialized module entries in lng_modules
         $modules_with_unwritten_overlay = [];
@@ -1335,7 +1348,7 @@ class ilObjLanguageExt extends ilObjLanguage
 
         ilCachedLanguage::getInstance($a_lang_key)->flush();
 
-        return $modules_with_unwritten_overlay;
+        return ['unwritten' => $modules_with_unwritten_overlay, 'remarks' => $remarks];
     }
 
     /**
