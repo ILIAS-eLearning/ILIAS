@@ -112,6 +112,9 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::OWNER => "glyphicon glyphicon-owner",
         G\Glyph::DATE => "glyphicon glyphicon-date",
         G\Glyph::LOCATION => "glyphicon glyphicon-location",
+        G\Glyph::SELECT => 'glyphicon glyphicon-select',
+        G\Glyph::UNSELECT => 'glyphicon glyphicon-unselect',
+        G\Glyph::CLEAR => 'glyphicon glyphicon-clear',
     );
 
     public static array $aria_labels = array(
@@ -179,6 +182,9 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::OWNER => "owner",
         G\Glyph::DATE => "date",
         G\Glyph::LOCATION => "location",
+        G\Glyph::SELECT => 'select',
+        G\Glyph::UNSELECT => 'unselect',
+        G\Glyph::CLEAR => 'clear',
     );
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
