@@ -26,7 +26,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * ilLanguage with migrated modules (native gettext) mixed with legacy modules (lng_modules): the module loaded last wins
- * for an identifier. Every test in its own process (CLIENT_DATA_DIR and ILIAS_ABSOLUTE_PATH cannot be redefined, see NtxtTest).
+ * for an identifier. Own process per test, see PluralTxtTest.
  */
 #[RunTestsInSeparateProcesses]
 #[PreserveGlobalState(false)]

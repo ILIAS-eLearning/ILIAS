@@ -247,4 +247,36 @@ class ilPluginLanguageTest extends ilLanguageBaseTestCase
         $this->assertSame('Hello', $captured['comp_slot_ptest#:#comp_slot_ptest_greeting'], 'the valid "en" .po is still applied');
         $this->assertNotEmpty(array_filter($warnings, static fn(string $w): bool => str_contains($w, 'cannot be read')));
     }
+
+    public function testTxtFallsBackToTheDefaultLanguageForAKeyMissingInTheUserLanguage(): void
+    {
+        $plugin_language = new ilPluginLanguage($this->createPluginInfo('ptest'));
+        $lng = $this->createStub(ilLanguage::class);
+        $lng->method('txt')->willReturnCallback(static fn(string $key): string => $key === 'comp_slot_ptest_known' ? 'Bekannt' : '-' . $key . '-');
+        $lng->method('getDefaultLanguage')->willReturn('en');
+        $this->setGlobalVariable('lng', $lng);
+        $this->setGlobalVariable('ilClientIniFile', $this->createStub(ilIniFile::class));
+        $statement = $this->createStub(ilDBStatement::class);
+        $db = $this->createStub(ilDBInterface::class);
+        $db->method('quote')->willReturnCallback(static fn($value): string => "'" . (string) $value . "'");
+        $queries = [];
+        $db->method('query')->willReturnCallback(static function (string $sql) use (&$queries, $statement) {
+            $queries[] = $sql;
+
+            return $statement;
+        });
+        // answers only the lookup of the default language for exactly this module and key
+        $db->method('fetchAssoc')->willReturnCallback(static function () use (&$queries): ?array {
+            return str_contains(end($queries), "module = 'comp_slot_ptest' AND lang_key = 'en' AND identifier = 'comp_slot_ptest_missing'")
+                ? ['value' => 'Missing en']
+                : null;
+        });
+        $this->setGlobalVariable('ilDB', $db);
+
+        $this->assertSame('Bekannt', $plugin_language->txt('known'));
+        $this->assertSame([], $queries, 'a key present in the user language is not looked up again');
+        $this->assertSame('Missing en', $plugin_language->txt('missing'));
+        $this->assertCount(1, $queries);
+        $this->assertSame('-comp_slot_ptest_none-', $plugin_language->txt('none'));
+    }
 }

@@ -2,12 +2,12 @@
 
 `generate_language_identifier_enum.php` generates the enum of the language identifiers of one module from
 the module's `.pot` - an implementation of `ILIAS\Language\LanguageIdentifier`, to be passed to
-`txt()` or `ntxt()` (see the README of the Language component) - and checks an existing enum
+`txt()` (see the README of the Language component) - and checks an existing enum
 against the `.pot` (`--check`, for CI).
 
 ```php
-$this->lng->txt(PollLanguageIdentifier::POLL_ANSWERS);          // no loadLanguageModule('poll') needed
-$this->lng->ntxt(PollLanguageIdentifier::POLL_ANSWERS, $count); // plural form for $count
+$this->lng->txt(PollLanguageIdentifier::POLL_ANSWERS);         // no loadLanguageModule('poll') needed
+$this->lng->txt(PollLanguageIdentifier::POLL_ANSWERS, $count); // plural form for $count
 ```
 
 The enum is generated, not written by hand: it lists exactly the msgids of the `.pot`, so a key

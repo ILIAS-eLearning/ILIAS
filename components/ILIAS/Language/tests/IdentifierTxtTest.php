@@ -82,8 +82,8 @@ enum IdentifierTxtTestLegacy2Identifier: string implements LanguageIdentifier
 }
 
 /**
- * ilLanguage::txt()/ntxt() with a LanguageIdentifier. Own process per test: CLIENT_DATA_DIR and ILIAS_ABSOLUTE_PATH
- * cannot be redefined (see NtxtTest).
+ * ilLanguage::txt() with a LanguageIdentifier. Own process per test: CLIENT_DATA_DIR and ILIAS_ABSOLUTE_PATH
+ * cannot be redefined (see PluralTxtTest).
  */
 #[RunTestsInSeparateProcesses]
 #[PreserveGlobalState(false)]
@@ -261,19 +261,9 @@ class IdentifierTxtTest extends ilLanguageBaseTestCase
         $language = $this->language([], $lang, $default);
         $before = self::state($language);
 
-        $this->assertSame($expected, $n === null ? $language->txt($key) : $language->ntxt($key, $n));
+        $this->assertSame($expected, $language->txt($key, $n));
 
         $this->assertSame($before, self::state($language), 'no module is loaded, nothing is assigned to a module');
-    }
-
-    public function testTheFallbackModuleIsIgnoredForAnIdentifier(): void
-    {
-        $this->forbidDatabaseQueries();
-        $language = $this->language();
-
-        $this->assertSame('-missing-', $language->txt(IdentifierTxtTestMigAIdentifier::MISSING, 'legacy'));
-        $this->assertSame('-missing-', $language->ntxt(IdentifierTxtTestMigAIdentifier::MISSING, 2, 'legacy'));
-        $this->assertSame('Mig A', $language->txt(IdentifierTxtTestMigAIdentifier::SHARED, 'mig_b'), 'its own module, not the named one');
     }
 
     private function forbidDatabaseQueries(): void
@@ -290,8 +280,8 @@ class IdentifierTxtTest extends ilLanguageBaseTestCase
         $language = $this->language();
 
         $this->assertSame('Overlay A', $language->txt(IdentifierTxtTestMigAIdentifier::SHARED));
-        $this->assertSame('Overlay-Eintrag', $language->ntxt(IdentifierTxtTestMigAIdentifier::ITEM, 1));
-        $this->assertSame('Overlay-Einträge', $language->ntxt(IdentifierTxtTestMigAIdentifier::ITEM, 2));
+        $this->assertSame('Overlay-Eintrag', $language->txt(IdentifierTxtTestMigAIdentifier::ITEM, 1));
+        $this->assertSame('Overlay-Einträge', $language->txt(IdentifierTxtTestMigAIdentifier::ITEM, 2));
         $this->assertSame('Mig B', $language->txt(IdentifierTxtTestMigBIdentifier::SHARED), 'another module is not affected');
     }
 
@@ -459,9 +449,9 @@ class IdentifierTxtTest extends ilLanguageBaseTestCase
         self::enableUsageLog($language);
 
         $this->assertSame('', $language->txt(IdentifierTxtTestMigAIdentifier::EMPTY));
-        $this->assertSame('', $language->ntxt(IdentifierTxtTestMigAIdentifier::EMPTY, 2));
+        $this->assertSame('', $language->txt(IdentifierTxtTestMigAIdentifier::EMPTY, 2));
         $this->assertSame('', $language->txt(IdentifierTxtTestMigAIdentifier::NUL));
-        $this->assertSame('', $language->ntxt(IdentifierTxtTestMigAIdentifier::NUL, 1));
+        $this->assertSame('', $language->txt(IdentifierTxtTestMigAIdentifier::NUL, 1));
 
         $this->assertSame([], $language->getUsedTopics());
         $this->assertSame([], $language->getUsedModules());

@@ -25,9 +25,9 @@ namespace ILIAS\Language;
  */
 class LanguageLegacyInitialisationAdapter implements Language
 {
-    public function txt(string|LanguageIdentifier $a_topic, string $a_default_lang_fallback_mod = ""): string
+    public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string
     {
-        return $this->getLegacyLanguageInstance()->txt($a_topic, $a_default_lang_fallback_mod);
+        return $this->getLegacyLanguageInstance()->txt($a_topic, $n);
     }
 
     public function loadLanguageModule(string $a_module): void
