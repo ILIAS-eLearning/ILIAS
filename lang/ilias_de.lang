@@ -9355,6 +9355,10 @@ exc#:#exc_assignment_type#:#Abgabetyp
 exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten
 exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
+exc#:#exc_auto_last_save#:#Zuletzt gespeichert:
+exc#:#exc_auto_save_info#:#Der Text wird alle 30 Sekunden automatisch gespeichert, falls Sie Änderungen vornehmen.
+exc#:#exc_auto_saved_minutes_p#:#Vor %s Minuten
+exc#:#exc_auto_saved_minutes_s#:#Vor %s Minute
 exc#:#exc_blog_created#:#Blog wurde erstellt.
 exc#:#exc_blog_returned#:#Blog zur Übungseinheit
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.

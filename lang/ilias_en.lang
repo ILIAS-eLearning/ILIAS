@@ -9329,6 +9329,10 @@ exc#:#exc_assignment_type#:#Type of Submission
 exc#:#exc_assignment_view#:#Assignment View
 exc#:#exc_assignments#:#Assignments
 exc#:#exc_assignments_deleted#:#The assignments have been deleted.
+exc#:#exc_auto_last_save#:#Last saved:
+exc#:#exc_auto_save_info#:#The text will be saved every 30 seconds, if changes are made.
+exc#:#exc_auto_saved_minutes_p#:#%s minute ago
+exc#:#exc_auto_saved_minutes_s#:#%s minutes ago
 exc#:#exc_blog_created#:#Blog successfully created.
 exc#:#exc_blog_returned#:#Assignment Blog
 exc#:#exc_blog_selected#:#The blog has been assigned.
