@@ -59,6 +59,9 @@ use ILIAS\ResourceStorage\Events\Observer;
 use ILIAS\ResourceStorage\IRSSEventLogObserver;
 use ILIAS\ResourceStorage\Events\ObserverCollection;
 use ILIAS\Environment\Configuration\Installation\Directories;
+use ILIAS\FileDelivery\Activities\FilePayloadFactory;
+use ILIAS\ResourceStorage\Activities\DeliverResource;
+use ILIAS\ResourceStorage\Activities\ServiceProvider;
 
 class ResourceStorage implements Component
 {
@@ -172,7 +175,7 @@ class ResourceStorage implements Component
         );
 
         // IRSS Services
-        $implement[IRSSServices::class] = static fn(): Services =>
+        $internal[IRSSServices::class] = static fn(): Services =>
             new Services(
                 $internal[StorageHandlerFactory::class],
                 $internal[Repositories::class],
@@ -185,5 +188,35 @@ class ResourceStorage implements Component
                 $internal[DBRepositoryPreloader::class],
                 $internal[ObserverCollection::class]
             );
+
+        $implement[IRSSServices::class] = static fn() => $internal[IRSSServices::class];
+
+        $internal[ServiceProvider::class] = static fn() => new ServiceProvider(
+            $internal[IRSSServices::class],
+        );
+
+        /**
+         * Delivering a resource builds the same payload every other delivering
+         * activity builds, so all of them look alike to a consumer.
+         */
+        $internal[DeliverResource::class] = static fn() => new DeliverResource(
+            $internal[ServiceProvider::class],
+            $pull[FilePayloadFactory::class],
+        );
+
+        /**
+         * Components that own something stored in here need the facade to read
+         * versions of their resources - see ILIAS\File\Activities.
+         */
+        $provide[ServiceProvider::class] = static fn() => $internal[ServiceProvider::class];
+
+        /**
+         * This is not contributed as an Activity: a resource identification is
+         * not a domain address, nobody asks for "the resource 7d654653-...". It
+         * is the storage API of this component, offered as code to the activities
+         * that own the things stored here - those know who may see what and check
+         * it themselves.
+         */
+        $provide[DeliverResource::class] = static fn() => $internal[DeliverResource::class];
     }
 }

@@ -21,13 +21,17 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\FileUpload\Activities\FileParameter;
+use ILIAS\FileUpload\Activities\TempFileStore;
 use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\FileUpload\FileUploadImpl;
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorCollection;
 use ILIAS\FileUpload\Processor\PreProcessorCollectionImpl;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
+use ILIAS\UI\Component\Input\Field\GlobalUploadLimit;
 use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\FileSystems\FilesystemTemp;
 use ILIAS\HTTP\GlobalHttpState;
 
 class FileUpload implements Component
@@ -56,5 +60,25 @@ class FileUpload implements Component
                 $use[Filesystems::class],
                 $use[GlobalHttpState::class]
             );
+
+        $internal[TempFileStore::class] = static fn() => new TempFileStore(
+            $use[FilesystemTemp::class],
+        );
+
+        /**
+         * How an activity takes a file: the description of the parameters and
+         * the reading of them. Uploading is no activity of its own - a user does
+         * not want a handle, they want a file somewhere - so the bytes travel
+         * with the activity that uses them, and this is the code doing that,
+         * shared by all of them. See src/Activities/README.md.
+         */
+        $internal[FileParameter::class] = static fn() => new FileParameter(
+            $internal[TempFileStore::class],
+            $internal[PreProcessorManagerImpl::class],
+            $use[GlobalUploadLimit::class],
+        );
+
+        $provide[FileParameter::class] = static fn() => $internal[FileParameter::class];
+        $provide[TempFileStore::class] = static fn() => $internal[TempFileStore::class];
     }
 }
