@@ -217,8 +217,8 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     }
 
     /**
-     * Typically during "setup install", before the client directory exists: the PO/MO files cannot be
-     * written and the texts come from the database until the next "setup update".
+     * Typically during "setup install", before the client directory exists: the overlay of local changes
+     * cannot be written, the web serves the shipped values (the build) until the next "setup update".
      *
      * @param list<string> $language_keys
      */
@@ -234,10 +234,10 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
 
         $this->inform(
             $environment,
-            'WARNING: The client data directory is not known or does not exist yet, so the PO/MO language '
-            . 'files of modules maintained in PO files are not written in this run - these modules are served '
-            . 'from the database until then. Run "setup update" (as the web server user) once the client data '
-            . 'directory exists.'
+            'WARNING: The client data directory is not known or does not exist yet, so the local changes '
+            . '(e.g. lang/*.lang.local) of modules maintained in PO files are not written to their overlay in '
+            . 'this run - these modules show their shipped texts without local changes until then. Run "setup '
+            . 'update" (as the web server user) once the client data directory exists.'
         );
     }
 
