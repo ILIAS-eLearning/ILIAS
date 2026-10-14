@@ -196,6 +196,7 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
         $cache->setValue(null, $existing + [$lang_key => $fake_global_file]);
     }
 
+    /** @return list<string> the modules whose overlay could not be written */
     private function callSaveValues(
         string $lang_key,
         array $values,
@@ -204,7 +205,7 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
     ): array {
         return (new ReflectionClass(ilObjLanguageExt::class))
             ->getMethod('saveValues')
-            ->invoke(null, $lang_key, $values, $remarks, $merge_onto_current_content);
+            ->invoke(null, $lang_key, $values, $remarks, $merge_onto_current_content)['unwritten'];
     }
 
     /** `->never()` on query(): once a readable overlay is found the database must not be queried at all. */

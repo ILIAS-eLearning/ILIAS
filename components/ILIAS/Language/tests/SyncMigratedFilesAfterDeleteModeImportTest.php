@@ -236,15 +236,16 @@ class SyncMigratedFilesAfterDeleteModeImportTest extends ilLanguageBaseTestCase
 
     /**
      * @param array<string, string> $to_save module.separator.topic => value, the shape importLanguageFile() passes to _saveValues()
+     * @param array<string, array<string, string>> $remarks module => identifier => remark
      */
-    private function invoke(array $modules_before_delete, array $to_save): void
+    private function invoke(array $modules_before_delete, array $to_save, array $remarks = []): void
     {
         $instance = (new ReflectionClass(ilObjLanguageExt::class))->newInstanceWithoutConstructor();
         $instance->key = 'de';
         $instance->separator = '#:#';
 
         $method = new ReflectionMethod(ilObjLanguageExt::class, 'syncMigratedFilesAfterDeleteModeImport');
-        $method->invoke($instance, $modules_before_delete, $to_save);
+        $method->invoke($instance, $modules_before_delete, $to_save, $remarks);
     }
 
     /** A module that existed before the wipe but is absent from $to_save is synced with an empty map; the shipped `.po` stays untouched. */
@@ -279,6 +280,33 @@ class SyncMigratedFilesAfterDeleteModeImportTest extends ilLanguageBaseTestCase
         $shipped_translation = $this->loadFixturePo('dtest', 'de')->find('dtest', 'greeting');
         $this->assertNotNull($shipped_translation);
         $this->assertSame('Hallo', $shipped_translation->getTranslation(), 'the shipped .po must never be touched');
+    }
+
+    /** @return array<string, string> identifier => remark in the overlay of $module */
+    private function overlayRemarks(string $module): array
+    {
+        return \ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync::loadRemarks(
+            $GLOBALS['DIC'][LanguageFileDirectoryManager::class],
+            'de',
+            $module,
+            CLIENT_DATA_DIR
+        ) ?? [];
+    }
+
+    /** The remarks of a module are exactly the passed ones: those of the import are written, former ones of a module without are dropped. */
+    public function testWritesThePassedRemarksOfEachModuleAndDropsTheFormerOnesOfTheOthers(): void
+    {
+        $with = $this->seedFixtureModule('dtest', 'de', ['greeting' => 'Hallo']);
+        $without = $this->seedFixtureModule('ktest', 'de', ['greeting' => 'Hallo']);
+        $this->registerDirectoryManager($with, $without);
+        $to_save = ['dtest#:#greeting' => 'Hallo, neu', 'ktest#:#greeting' => 'Hallo, neu'];
+        $this->invoke(['dtest', 'ktest'], $to_save, ['dtest' => ['greeting' => 'Alt'], 'ktest' => ['greeting' => 'Alt']]);
+        $this->assertSame(['greeting' => 'Alt'], $this->overlayRemarks('ktest'), 'precondition');
+
+        $this->invoke(['dtest', 'ktest'], $to_save, ['dtest' => ['greeting' => 'Importiert']]);
+
+        $this->assertSame(['greeting' => 'Importiert'], $this->overlayRemarks('dtest'));
+        $this->assertSame([], $this->overlayRemarks('ktest'));
     }
 
     public function testDoesNotThrowForANonMigratedModuleMissingFromTheImport(): void

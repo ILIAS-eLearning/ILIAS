@@ -215,6 +215,30 @@ class SaveValuesOverlayRemarksTest extends ilLanguageBaseTestCase
         $this->assertSame('Bitte prüfen', $this->overlayRemark('greeting'), 'mirrored into the overlay');
     }
 
+    /** Saving only a new value of a PO module's singular message (no remark requested) keeps the stored remark in lng_data. */
+    public function testChangingOnlyTheValueOfASingularIdentifierKeepsItsStoredRemark(): void
+    {
+        $this->seedShippedModule();
+        $lng = $this->stubLng();
+        $this->seedEmptyGlobalLanguageFile(self::LANG_KEY);
+        $replace_calls = [];
+        $manipulate_calls = [];
+        $this->mockDatabaseForWrites($replace_calls, $manipulate_calls, [
+            ['module' => self::MODULE, 'identifier' => 'greeting', 'remarks' => 'Gespeicherte Bemerkung'],
+        ]);
+
+        ilObjLanguageExt::_saveValues(
+            self::LANG_KEY,
+            [self::MODULE . $lng->separator . 'greeting' => 'Hallo, neu'],
+            []
+        );
+
+        $greeting_replace_calls = array_values(array_filter($replace_calls, static fn(array $call): bool => $call[0] === 'greeting'));
+        $this->assertCount(1, $greeting_replace_calls);
+        $this->assertSame('Hallo, neu', $greeting_replace_calls[0][1]['value']);
+        $this->assertSame('Gespeicherte Bemerkung', $greeting_replace_calls[0][1]['remarks']);
+    }
+
     /** A remark that is not valid UTF-8 is dropped with a warning; the save still succeeds. */
     public function testSaveValuesDropsAnInvalidUtf8RemarkWithoutSavingItAnywhere(): void
     {
