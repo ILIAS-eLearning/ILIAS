@@ -2256,6 +2256,8 @@ awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
 background_tasks#:#abort#:#Abort
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#completed#:#Completed

@@ -57,7 +57,7 @@ class BasicPersistence implements Persistence
         $this->taskHashToTaskContainerId = new \SplObjectStorage();
     }
 
-    protected function gc(): void
+    public function garbageCollection(): void
     {
         $atom = $this->db->buildAtomQuery();
 
@@ -157,13 +157,6 @@ class BasicPersistence implements Persistence
      */
     public function getBucketIdsOfUser(int $user_id, string $order_by = "id", string $order_direction = "ASC"): array
     {
-        // Garbage Collection
-        $random = new \Random\Randomizer();
-
-        if($random->getInt(1, 100) === 1) {
-            $this->gc();
-        }
-
         return BucketContainer::where(['user_id' => $user_id])
                               ->orderBy($order_by, $order_direction)
                               ->getArray(null, 'id');
@@ -194,9 +187,10 @@ class BasicPersistence implements Persistence
      */
     public function getBucketIdsByState(int $state): array
     {
-        $buckets = BucketContainer::where(['state' => $state])->get();
-
-        return array_map(fn (BucketContainer $bucket_container): int => $bucket_container->getId(), $buckets);
+        return array_map(
+            static fn(BucketContainer $bucket_container): int => $bucket_container->getId(),
+            BucketContainer::where(['state' => $state])->get()
+        );
     }
 
     /**
@@ -375,7 +369,7 @@ class BasicPersistence implements Persistence
                 . print_r($value, true));
         }
 
-        return (int )$this->valueHashToValueContainerId[$value];
+        return (int) $this->valueHashToValueContainerId[$value];
     }
 
     /**
