@@ -179,7 +179,7 @@ class LanguageMock extends ilLanguage
     {
     }
 
-    public function txt($a_topic, $a_default_lang_fallback_mod = ""): string
+    public function txt($a_topic, ?int $n = null): string
     {
         $this->requested[] = $a_topic;
         return $a_topic;
