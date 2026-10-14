@@ -73,7 +73,7 @@ final class ilLTI1p1ConsumerLaunchParameterBuilder
 
         $usr_image = '';
         if ($tool->getIncludeUserPicture()) {
-            $usr_image = ilLTIEndpoint::getBaseUrl() . "/" . $DIC->user()->getPersonalPicturePath();
+            $usr_image = $DIC->user()->getPersonalPicturePath();
         }
 
         $document_target = "window";

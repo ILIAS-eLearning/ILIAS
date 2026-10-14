@@ -11390,7 +11390,7 @@ lti#:#lti_success_delete_provider#:#Successfully deleted
 lti#:#lti_success_reset_to_usr_def#:#Successfully reseted as User Defined Provider
 lti#:#lti_tutor#:#Mentor LTI
 lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.
-lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.
+lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'read' for repository and categories.
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
 lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Mastery Score

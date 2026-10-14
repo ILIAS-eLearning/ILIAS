@@ -58,6 +58,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
         private readonly ServerRequestInterface $request,
         private readonly bool $writable
     ) {
+        $this->lng->loadLanguageModule("rbac");
         $this->url_builder = new URLBuilder(new DataFactory()->uri((string) $this->request->getUri()));
         [$this->url_builder, $this->action_token, $this->id_token] = $this->url_builder->acquireParameters(
             ["lti", "platform"],
@@ -109,6 +110,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
 
             case self::ACTION_DELETE:
                 // the released objects go with the platform
+                $this->db->manipulate("DELETE FROM lti_int_provider_obj WHERE " . $this->db->in("ext_consumer_id", $ids, false, "integer"));
                 $this->db->manipulate("DELETE FROM lti_ext_consumer WHERE " . $this->db->in("id", $ids, false, "integer"));
                 $this->db->manipulate("DELETE FROM lti_ext_consumer_otype WHERE " . $this->db->in("consumer_id", $ids, false, "integer"));
                 $this->db->manipulate("DELETE FROM lti2_consumer WHERE " . $this->db->in("ext_consumer_id", $ids, false, "integer"));
@@ -183,7 +185,7 @@ class ilLTIAdministrationPlatformTable implements DataRetrieval
                 "prefix" => htmlspecialchars((string) $row["prefix"]),
                 "language" => (string) $row["user_language"],
                 "objects" => $this->ui_factory->listing()->unordered($this->getObjectTypes((int) $row["id"])),
-                "role" => (string) $row["role_title"],
+                "role" => ilObjRole::_getTranslation((string) $row["role_title"]),
                 "version" => ilLTITool::getVersionLabels($this->lng)[
                     $row["advantage"] > 0 ? ilLTITool::VERSION_ADVANTAGE : ilLTITool::VERSION_1P1
                 ],

@@ -287,9 +287,10 @@ class ilLTIAdministrationPlatformForm
      */
     private function getRoleOptions(): array
     {
+        $this->lng->loadLanguageModule("rbac");
         $options = [];
         foreach (array_diff($this->rbac_review->getGlobalRoles(), [SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID]) as $role_id) {
-            $options[(string) $role_id] = ilObject::_lookupTitle((int) $role_id);
+            $options[(string) $role_id] = ilObjRole::_getTranslation(ilObject::_lookupTitle((int) $role_id));
         }
 
         return $options;

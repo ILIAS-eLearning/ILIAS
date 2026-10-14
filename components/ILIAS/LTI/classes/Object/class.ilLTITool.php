@@ -176,6 +176,7 @@ class ilLTITool
      */
     public static function getCategoryLabels(ilLanguage $lng): array
     {
+        $lng->loadLanguageModule('rep');
         $labels = [];
         foreach (self::CATEGORIES as $category) {
             $labels[$category] = $lng->txt('rep_add_new_def_grp_' . $category);

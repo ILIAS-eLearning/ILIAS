@@ -231,13 +231,13 @@ class ilLTIToolTable implements DataRetrieval
             "keywords" => "p.keywords",
             "outcome" => "p.has_outcome",
             "internal" => "p.external_provider",
-            "with_key" => "p.provider_key_customizable",
+            "with_key" => "CASE WHEN p.provider_key_customizable = 0 THEN 1 ELSE 0 END",
             "availability" => "p.availability",
             "own_provider" => "own_provider",
             "provider_creator" => "creator_name",
             "usages_untrashed" => "usages_untrashed",
             "usages_trashed" => "usages_trashed",
-            "version" => "p.lti_version",
+            "version" => "CASE p.lti_version WHEN '" . ilLTITool::VERSION_1P1 . "' THEN 0 ELSE 1 END",
         ];
         $order_by = ($order_columns[$order_field] ?? "p.title") . ($order_direction === Order::DESC ? " DESC" : " ASC");
 

@@ -11393,7 +11393,7 @@ lti#:#lti_success_delete_provider#:#Eliminato correttamente
 lti#:#lti_success_reset_to_usr_def#:#Reimpostato con successo come fornitore definito dall'utente
 lti#:#lti_tutor#:#Istruttore LTI
 lti#:#lti_user_role_created#:#Il ruolo globale raccomandato per gli utenti LTI è stato creato.
-lti#:#lti_user_role_info#:#Il ruolo globale raccomandato per gli utenti LTI non è ancora stato creato in questa installazione. Questo ruolo globale speciale contiene solo il permesso 'visibile' per il repository e per le categorie.
+lti#:#lti_user_role_info#:#Il ruolo globale raccomandato per gli utenti LTI non è ancora stato creato in questa installazione. Questo ruolo globale speciale contiene solo il permesso 'lettura' per il repository e per le categorie.
 lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
 lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Punteggio di padronanza

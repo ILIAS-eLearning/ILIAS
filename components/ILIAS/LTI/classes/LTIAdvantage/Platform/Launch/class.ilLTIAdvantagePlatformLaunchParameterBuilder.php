@@ -165,7 +165,7 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
         ] + self::getContext($ref_id);
 
         if ($tool->getIncludeUserPicture()) {
-            $parameters['user_image'] = ilLTIEndpoint::getBaseUrl() . '/' . $user->getPersonalPicturePath();
+            $parameters['user_image'] = $user->getPersonalPicturePath();
         }
 
         // the library sends custom_foo as the custom parameter foo: a parameter named custom_foo keeps its

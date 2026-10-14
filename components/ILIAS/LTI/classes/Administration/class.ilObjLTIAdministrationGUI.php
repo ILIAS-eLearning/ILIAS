@@ -376,6 +376,11 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     {
         $this->checkPermission("write");
 
+        if (ilObject::_getIdsForTitle(self::LTI_USER_ROLE, "role") !== []) {
+            $this->ctrl->redirect($this, self::CMD_LIST_PLATFORMS);
+            return;
+        }
+
         $role = new ilObjRole();
         $role->setTitle(self::LTI_USER_ROLE);
         $role->setDescription("This global role should only contain the permission 'read' for repository and categories. Do not rename this role.");
