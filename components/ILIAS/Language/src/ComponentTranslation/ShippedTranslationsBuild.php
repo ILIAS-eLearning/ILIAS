@@ -41,9 +41,10 @@ use RuntimeException;
  * - `<build>/keys/<module>.php`: all identifiers of the module's `.po` files and template, the same for every
  *   language, as a PHP file for the opcache;
  * - `<build>/locale/`: the locale native gettext is activated with (see NativeGettext), a copy of "C.utf8";
- * - `<build>/manifest.json`: size and hash of every file, to tell an intact build;
- * - `current.json`: the build the runtime serves, its languages per module and the hash of each built `.po`
- *   (see servesShippedPo()).
+ * - `<build>/manifest.json`: size and hash of every file, to tell an intact build, the hash of each built `.po`
+ *   (see servesShippedPo()), the warnings and collisions;
+ * - `current.json`: the build the runtime serves and its languages per module - read on every request, so
+ *   nothing else.
  *
  * The build id fingerprints everything that determines the build: the shipped files, the compiling code (see
  * FORMAT_VERSION) and the locale. An intact build with the same id (its manifest also keeps its warnings) is
@@ -52,14 +53,16 @@ use RuntimeException;
  * keep their build. The previous build is kept, older ones (and the files of the former layout
  * `<lang>/<module>.mo`, `index.json`) are removed. Builds are serialized by `build.lock`.
  *
- * A `.po` that cannot be compiled is reported and left out (its module is not served for that language);
- * values with disallowed markup are compiled cleaned and reported; identifiers with different values in
- * several modules (txt() serves the one loaded last) are listed. All of that repeats on every build until fixed.
+ * A `.po` that cannot be compiled is reported and served with the catalog of the served (or else the previous)
+ * build, so a broken file never turns a working language into `-identifier-`; without such a catalog the module is
+ * not served for that language. Values with disallowed markup are compiled cleaned and reported; identifiers with different values in several modules (txt() serves the one loaded last) are
+ * listed. All of that repeats on every build until fixed.
  *
  * Files are written without fsync(): a build can be repeated any time, and the manifest reveals a build
  * damaged by a crash.
  *
- * @phpstan-type Manifest array{files: array<string, array{0: int, 1: string}>, sample: array{module: string, lang: string, key: string, value: string}, languages: array<string, list<string>>, hashes: array<string, array<string, string>>, warnings: list<string>, collisions: list<string>}
+ * @phpstan-type Manifest array{files: array<string, array{0: int, 1: string}>, sample: array{module: string, lang: string, key: string, value: string}, languages: array<string, list<string>>, hashes: array<string, array<string, string>>, warnings: list<string>, collisions: list<string>, compatibility: string}
+ * @phpstan-type Pointer array{build: ?string, previous: ?string, modules: array<string, list<string>>}
  */
 final class ShippedTranslationsBuild
 {
@@ -72,6 +75,13 @@ final class ShippedTranslationsBuild
     private const string MANIFEST_FILE = 'manifest.json';
 
     private const string LOCK_FILE = 'build.lock';
+
+    /**
+     * Per build directory: a build never changes once written.
+     *
+     * @var array<string, Manifest>
+     */
+    private static array $manifests = [];
 
     /**
      * Where the C library's "C.utf8" locale is looked for (Debian/Ubuntu, Fedora/RHEL, Arch, ...).
@@ -99,8 +109,8 @@ final class ShippedTranslationsBuild
      * @return array{build: ?string, compiled: int, unchanged: bool, removed: int, warnings: list<string>, collisions: list<string>}
      *         build: the id now served (`null` without any migrated module); compiled: `.po` files
      *         compiled (0 for an unchanged build); removed: files and directories of former builds
-     * @throws RuntimeException if the build cannot be written, the locale is missing, or native
-     *         gettext does not serve it - `current.json` is left unchanged then
+     * @throws RuntimeException if the build cannot be written, the locale is missing, or native gettext
+     *         does not serve it - `current.json` is left unchanged then
      */
     public function run(callable $inform): array
     {
@@ -130,7 +140,7 @@ final class ShippedTranslationsBuild
         $modules = $this->findShippedFiles($inform);
 
         if ($modules === []) {
-            $this->writePointer($artifact_directory, ['build' => null, 'previous' => null, 'modules' => [], 'hashes' => [], 'warnings' => [], 'collisions' => []]);
+            $this->writePointer($artifact_directory, ['build' => null, 'previous' => null, 'modules' => []]);
             return [
                 'build' => null,
                 'compiled' => 0,
@@ -144,10 +154,14 @@ final class ShippedTranslationsBuild
         $locale_source = $this->findLocaleSource();
         $build_id = $this->buildId($modules, $locale_source);
         $build_directory = MigratedLanguageFilePaths::buildDirectory($artifact_directory, $build_id);
-        $manifest = $this->readManifest($build_directory);
+        $manifest = self::readManifest($build_directory);
         $compiled = 0;
         if ($manifest === null || !$this->isIntact($build_directory, $manifest)) {
-            [$manifest, $compiled] = $this->write($artifact_directory, $build_directory, $build_id, $modules, $locale_source);
+            $former_builds = array_values(array_diff(
+                array_filter([$pointer['build'] ?? null, $pointer['previous'] ?? null], 'is_string'),
+                [$build_id]
+            ));
+            [$manifest, $compiled] = $this->write($artifact_directory, $build_directory, $build_id, $modules, $locale_source, $former_builds);
         }
 
         try {
@@ -167,9 +181,6 @@ final class ShippedTranslationsBuild
             'build' => $build_id,
             'previous' => $previous,
             'modules' => $manifest['languages'],
-            'hashes' => $manifest['hashes'],
-            'warnings' => $manifest['warnings'],
-            'collisions' => $manifest['collisions'],
         ];
         if ($new_pointer !== $pointer) {
             $this->writePointer($artifact_directory, $new_pointer);
@@ -188,8 +199,7 @@ final class ShippedTranslationsBuild
     /**
      * `current.json` of $artifact_directory, `null` if it is missing or not valid.
      *
-     * @return array{build: ?string, previous: ?string, modules: array<string, list<string>>, hashes: array<string, array<string, string>>, warnings: list<string>, collisions: list<string>}|null
-     *         modules: module => the languages it is built for
+     * @return Pointer|null modules: module => the languages it is built for
      */
     public static function readPointer(string $artifact_directory): ?array
     {
@@ -222,9 +232,6 @@ final class ShippedTranslationsBuild
             'build' => $build,
             'previous' => $previous,
             'modules' => $modules,
-            'hashes' => self::hashes($data['hashes'] ?? []),
-            'warnings' => self::stringList($data['warnings'] ?? []),
-            'collisions' => self::stringList($data['collisions'] ?? []),
         ];
     }
 
@@ -232,6 +239,7 @@ final class ShippedTranslationsBuild
      * Writes the build $build_id into a temporary directory and renames that to $build_directory.
      *
      * @param array<string, array{directory: LanguageFileDirectory, languages: array<string, string>, template: ?string}> $modules
+     * @param list<string> $former_builds where the catalog of a `.po` that cannot be compiled is taken from
      * @return array{0: Manifest, 1: int} the manifest of the build and the number of compiled `.po` files
      */
     private function write(
@@ -239,7 +247,8 @@ final class ShippedTranslationsBuild
         string $build_directory,
         string $build_id,
         array $modules,
-        string $locale_source
+        string $locale_source,
+        array $former_builds
     ): array {
         $temporary = $artifact_directory . '/.' . $build_id . '.' . bin2hex(random_bytes(6));
         $this->ensureDirectory($temporary . '/' . NativeGettext::CATALOG_DIRECTORY);
@@ -268,9 +277,30 @@ final class ShippedTranslationsBuild
                                 $warnings[] = sprintf('%s (module "%s"): %s', $source, $module, $message);
                             }
                         );
+                        $compiled++;
                     } catch (\Throwable $t) {
-                        $warnings[] = sprintf('Could not compile "%s", module "%s" is not served for "%s": %s', $source, $module, $lang_key, $t->getMessage());
-                        continue;
+                        $former = $this->formerCatalog($artifact_directory, $former_builds, $module, $lang_key);
+                        if ($former === null) {
+                            $warnings[] = sprintf(
+                                'Could not compile "%s", module "%s" is not served for "%s" until the file is fixed (no former build has it): %s',
+                                $source,
+                                $module,
+                                $lang_key,
+                                $t->getMessage()
+                            );
+                            continue;
+                        }
+                        $warnings[] = sprintf(
+                            'Could not compile "%s", module "%s" is served for "%s" as in build %s until the file is fixed: %s',
+                            $source,
+                            $module,
+                            $lang_key,
+                            $former['build'],
+                            $t->getMessage()
+                        );
+                        $catalog = $former;
+                        // the build does not serve this .po, see servesShippedPo()
+                        $po_hash = $former['hash'];
                     }
                     $file = MigratedLanguageFilePaths::buildMoFile($temporary, $module, $lang_key);
                     $this->writeFile($file, $catalog['mo']);
@@ -279,7 +309,6 @@ final class ShippedTranslationsBuild
                     $hashes[$module][$lang_key] = $po_hash;
                     $keys += array_fill_keys(array_map('strval', array_keys($catalog['values'])), true);
                     $values_per_language[$lang_key][$module] = $catalog['values'];
-                    $compiled++;
                     foreach ($catalog['values'] as $identifier => $value) {
                         if ($sample === null && $value !== (string) $identifier) {
                             $sample = ['module' => $module, 'lang' => $lang_key, 'key' => (string) $identifier, 'value' => $value];
@@ -309,6 +338,7 @@ final class ShippedTranslationsBuild
                 'hashes' => $hashes,
                 'warnings' => $warnings,
                 'collisions' => $this->findCollisions($values_per_language),
+                'compatibility' => self::catalogCompatibility(),
             ];
             $this->writeFile($temporary . '/' . self::MANIFEST_FILE, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) . "\n");
 
@@ -323,6 +353,81 @@ final class ShippedTranslationsBuild
         }
 
         return [$manifest, $compiled];
+    }
+
+    /**
+     * The catalog of $module/$lang_key in the first former build that has it intact and compiled the same way
+     * (see catalogCompatibility()).
+     *
+     * The bytes are taken over, not recompiled: reading a `.mo` back would shift plural forms (see
+     * TranslationCatalog::fromMoString()). Values are checked against the markup policy again.
+     *
+     * @param list<string> $former_builds build ids
+     * @return array{mo: string, values: array<string, string>, build: string, hash: string}|null values: see
+     *         ShippedTranslations::compileCatalog(); hash: of the `.po` it was compiled from
+     */
+    private function formerCatalog(string $artifact_directory, array $former_builds, string $module, string $lang_key): ?array
+    {
+        $policy = new TranslationMarkupPolicy();
+        foreach ($former_builds as $former_build) {
+            $build_directory = MigratedLanguageFilePaths::buildDirectory($artifact_directory, $former_build);
+            $manifest = self::readManifest($build_directory);
+            if ($manifest === null || $manifest['compatibility'] !== self::catalogCompatibility()) {
+                continue;
+            }
+            $file = MigratedLanguageFilePaths::buildMoFile($build_directory, $module, $lang_key);
+            [$size, $hash] = $manifest['files'][substr($file, strlen($build_directory) + 1)] ?? [null, null];
+            $resolved_file = realpath($file);
+            $resolved_directory = realpath($build_directory);
+            $mo = $size === null
+                || $resolved_file === false
+                || $resolved_directory === false
+                || !str_starts_with($resolved_file, $resolved_directory . '/')
+                ? false
+                : @file_get_contents($resolved_file);
+            if ($mo === false || strlen($mo) !== $size || hash('sha256', $mo) !== $hash) {
+                continue;
+            }
+            try {
+                $catalog = TranslationCatalog::fromMoString($mo);
+            } catch (RuntimeException) {
+                continue;
+            }
+            $values = [];
+            foreach ($catalog->getEntries() as $entry) {
+                foreach ([$entry->getTranslation(), ...$entry->getPluralTranslations()] as $value) {
+                    if (!$policy->isAllowed($value)) {
+                        continue 3;
+                    }
+                }
+                if ($entry->getContext() === null && !$entry->isPlural() && $entry->getTranslation() !== '') {
+                    $values[$entry->getId()] = $entry->getTranslation();
+                }
+            }
+
+            return [
+                'mo' => $mo,
+                'values' => $values,
+                'build' => $former_build,
+                'hash' => $manifest['hashes'][$module][$lang_key] ?? '',
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Fingerprint of the compiling and cleaning code: formerCatalog() only takes over catalogs with the same one.
+     */
+    private static function catalogCompatibility(): string
+    {
+        $parts = [(string) self::FORMAT_VERSION];
+        foreach ([ShippedTranslations::class, TranslationMarkupPolicy::class] as $class) {
+            $file = (new \ReflectionClass($class))->getFileName();
+            $parts[] = is_string($file) ? (string) @hash_file('sha256', $file) : '';
+        }
+
+        return hash('sha256', implode('|', $parts));
     }
 
     /**
@@ -574,7 +679,7 @@ final class ShippedTranslationsBuild
     /**
      * @return Manifest|null
      */
-    private function readManifest(string $build_directory): ?array
+    private static function readManifest(string $build_directory): ?array
     {
         $content = is_link($build_directory) ? false : @file_get_contents($build_directory . '/' . self::MANIFEST_FILE);
         $data = $content === false ? null : json_decode($content, true);
@@ -617,6 +722,7 @@ final class ShippedTranslationsBuild
             'warnings' => self::stringList($data['warnings'] ?? []),
             'hashes' => self::hashes($data['hashes'] ?? []),
             'collisions' => self::stringList($data['collisions'] ?? []),
+            'compatibility' => is_string($data['compatibility'] ?? null) ? $data['compatibility'] : '',
         ];
     }
 
@@ -646,7 +752,7 @@ final class ShippedTranslationsBuild
     }
 
     /**
-     * @param array{build: ?string, previous: ?string, modules: array<string, list<string>>, warnings: list<string>, collisions: list<string>} $pointer
+     * @param Pointer $pointer
      */
     private function writePointer(string $artifact_directory, array $pointer): void
     {
@@ -776,7 +882,19 @@ final class ShippedTranslationsBuild
      */
     public static function servesShippedPo(string $artifact_directory, string $module, string $lang_key, string $shipped_po): bool
     {
-        $hash = self::readPointer($artifact_directory)['hashes'][$module][$lang_key] ?? null;
+        $build = self::readPointer($artifact_directory)['build'] ?? null;
+        if ($build === null) {
+            return false;
+        }
+        $build_directory = MigratedLanguageFilePaths::buildDirectory($artifact_directory, $build);
+        if (!isset(self::$manifests[$build_directory])) {
+            $manifest = self::readManifest($build_directory);
+            if ($manifest === null) {
+                return false;
+            }
+            self::$manifests[$build_directory] = $manifest;
+        }
+        $hash = self::$manifests[$build_directory]['hashes'][$module][$lang_key] ?? null;
 
         return $hash !== null && $hash === @hash_file('sha256', $shipped_po);
     }

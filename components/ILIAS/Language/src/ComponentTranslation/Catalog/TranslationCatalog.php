@@ -23,6 +23,7 @@ namespace ILIAS\Language\ComponentTranslation\Catalog;
 use ErrorException;
 use Gettext\Generator\MoGenerator;
 use Gettext\Generator\PoGenerator;
+use Gettext\Loader\MoLoader;
 use Gettext\Loader\StrictPoLoader;
 use Gettext\Translation;
 use Gettext\Translations;
@@ -34,7 +35,7 @@ use Throwable;
 /**
  * An in-memory gettext catalog (header block plus messages) and the only place of the component that reads
  * or writes the gettext file formats (a `.mo` is read at runtime by native gettext, see NativeGettext).
- * A narrow adapter around gettext/gettext (Translations, StrictPoLoader, PoGenerator, MoGenerator): nothing
+ * A narrow adapter around gettext/gettext (Translations, StrictPoLoader, MoLoader, PoGenerator, MoGenerator): nothing
  * else imports the Gettext namespace, so a library change stays local to this class and TranslationEntry.
  * The library's Scanner is not used.
  *
@@ -126,6 +127,29 @@ final class TranslationCatalog
         foreach ($translations->getTranslations() as $translation) {
             if ($translation->isDisabled()) {
                 $translations->remove($translation);
+            }
+        }
+
+        $catalog = new self();
+        $catalog->translations = $translations;
+
+        return $catalog;
+    }
+
+    /**
+     * Reads a `.mo` of toMoString() for reading only: the library drops empty plural forms and forms "0", so
+     * later forms move up. Never compile the result again.
+     *
+     * @throws RuntimeException if $content is not valid `.mo` data
+     */
+    public static function fromMoString(string $content): self
+    {
+        $translations = self::withLibraryErrorsAsExceptions(
+            static fn(): Translations => (new MoLoader())->loadString($content)
+        );
+        foreach ($translations->getTranslations() as $translation) {
+            if ($translation->getTranslation() === "0\0") {
+                $translation->translate('0');
             }
         }
 

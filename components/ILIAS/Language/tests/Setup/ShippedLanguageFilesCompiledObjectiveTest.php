@@ -28,8 +28,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * ShippedLanguageFilesCompiledObjective builds every shipped `.po` for native gettext (see ShippedTranslationsBuild):
- * an intact build is kept, a damaged one rebuilt, obsolete files removed, markup cleanup or a failed `.po` only
- * warns, and nothing is ever written outside the artifact directory.
+ * an intact build is kept, a damaged one rebuilt, obsolete files removed, markup cleanup only warns, a `.po` that cannot be compiled is served from
+ * the former build, and nothing is ever written outside the artifact directory.
  */
 class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
 {
@@ -235,9 +235,34 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
     }
 
     /**
-     * A syntactically broken `.po` is reported and its artifact removed; other modules are still compiled.
+     * A broken `.po` is reported and served from the former build; the fallback is not counted as compiled.
      */
-    public function testABrokenPoIsReportedAndDoesNotAbortTheBuild(): void
+    public function testABrokenPoIsReportedAndServedFromTheFormerBuild(): void
+    {
+        $this->writeShippedPo('broken/', 'broken', 'de', ['greeting' => 'Funktioniert']);
+        $this->writeShippedPo('itest/', 'itest', 'de', ['greeting' => 'Hallo']);
+        $manager = $this->directoryManager(
+            MigratedPoFixture::directory('broken', 'broken/'),
+            MigratedPoFixture::directory('itest', 'itest/')
+        );
+        $this->achieve($manager);
+        file_put_contents($this->root . '/broken/broken_de.po', "msgid \"kaputt\n");
+        $this->writeShippedPo('itest/', 'itest', 'de', ['greeting' => 'Hallo, neu']);
+
+        $messages = [];
+        $io = $this->informer($messages);
+        $this->achieve($manager, $io);
+
+        $warning = implode("\n", $messages);
+        $this->assertStringContainsString('WARNING: Could not compile', $warning);
+        $this->assertStringContainsString('broken', $warning);
+        $this->assertSame(['greeting' => 'Funktioniert'], MigratedPoFixture::readMo($this->artifactPath('de', 'broken')));
+        $this->assertSame(['greeting' => 'Hallo, neu'], MigratedPoFixture::readMo($this->artifactPath('de', 'itest')));
+        $this->assertStringContainsString(', 1 compiled', $messages[array_key_last($messages)]);
+    }
+
+    /** Without a former build a broken `.po` is only reported and its module not served for that language. */
+    public function testABrokenPoWithoutAFormerBuildIsReportedAndNotServed(): void
     {
         mkdir($this->root . '/broken', 0775, true);
         file_put_contents($this->root . '/broken/broken_de.po', "msgid \"kaputt\n");
@@ -253,9 +278,9 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
 
         $warning = implode("\n", $messages);
         $this->assertStringContainsString('WARNING: Could not compile', $warning);
-        $this->assertStringContainsString('broken', $warning);
+        $this->assertStringContainsString('"broken" is not served for "de"', $warning);
         $this->assertFileDoesNotExist($this->artifactPath('de', 'broken'));
-        $this->assertFileExists($this->artifactPath('de', 'itest'));
+        $this->assertSame(['greeting' => 'Hallo'], MigratedPoFixture::readMo($this->artifactPath('de', 'itest')));
     }
 
     /**
@@ -402,20 +427,21 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
     }
 
     /**
-     * A .po that cannot even be hashed (unreadable) is a generic \Throwable and must not abort the build either.
+     * A .po that cannot even be read is treated like a broken one.
      */
-    public function testAnUnreadablePoIsReportedAndDoesNotAbortTheBuild(): void
+    public function testAnUnreadablePoIsReportedAndServedFromTheFormerBuild(): void
     {
         if (posix_getuid() === 0) {
             $this->markTestSkipped('Cannot make a file unreadable while running as root; skipping.');
         }
         $this->writeShippedPo('itest/', 'itest', 'de', ['greeting' => 'Hallo']);
-        $this->writeShippedPo('unreadable/', 'unreadable', 'de', ['greeting' => 'Hallo']);
-        chmod($this->root . '/unreadable/unreadable_de.po', 0000);
+        $this->writeShippedPo('unreadable/', 'unreadable', 'de', ['greeting' => 'Lesbar']);
         $manager = $this->directoryManager(
             MigratedPoFixture::directory('itest', 'itest/'),
             MigratedPoFixture::directory('unreadable', 'unreadable/')
         );
+        $this->achieve($manager);
+        chmod($this->root . '/unreadable/unreadable_de.po', 0000);
 
         try {
             $messages = [];
@@ -428,6 +454,7 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
         $warning = implode("\n", $messages);
         $this->assertStringContainsString('WARNING: Could not compile', $warning);
         $this->assertStringContainsString('unreadable', $warning);
+        $this->assertSame(['greeting' => 'Lesbar'], MigratedPoFixture::readMo($this->artifactPath('de', 'unreadable')));
         $this->assertFileExists($this->artifactPath('de', 'itest'));
     }
 
@@ -570,15 +597,22 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
         $this->assertFileExists($this->artifactPath('de', 'itest'));
     }
 
-    public function testIsNotableAndHasNoPreconditions(): void
+    public function testIsNotableAndNeedsTheGettextExtension(): void
     {
+        // read by the message of the condition only
+        if (!defined('ILIAS_VERSION_NUMERIC')) {
+            define('ILIAS_VERSION_NUMERIC', '12.0');
+        }
         $objective = new ShippedLanguageFilesCompiledObjective(
             $this->directoryManager(),
             $this->root
         );
 
         $this->assertTrue($objective->isNotable());
-        $this->assertSame([], $objective->getPreconditions($this->createStub(Environment::class)));
         $this->assertTrue($objective->isApplicable($this->createStub(Environment::class)));
+        $preconditions = $objective->getPreconditions($this->createStub(Environment::class));
+        $this->assertCount(1, $preconditions);
+        $this->assertInstanceOf(\ILIAS\Setup\Condition\PHPExtensionLoadedCondition::class, $preconditions[0]);
+        $this->assertStringContainsString('gettext', $preconditions[0]->getLabel());
     }
 }

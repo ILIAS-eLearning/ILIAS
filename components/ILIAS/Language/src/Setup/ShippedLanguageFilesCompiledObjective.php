@@ -31,9 +31,9 @@ use ILIAS\Setup;
  * Build step (`php cli/setup.php build`) for the migrated modules: builds what native gettext serves
  * from every shipped `.po` into `artifacts/language/`, see ShippedTranslationsBuild.
  *
- * Disallowed markup, uncompilable `.po` files and identifier collisions are warnings on every build.
- * The build is aborted (Setup\UnachievableException) if it cannot be written or native gettext does
- * not serve it.
+ * Disallowed markup, uncompilable `.po` files (served from a former build if possible, else not served) and
+ * identifier collisions are warnings on every build. The build is aborted (Setup\UnachievableException) if it
+ * cannot be written or native gettext does not serve it.
  */
 final class ShippedLanguageFilesCompiledObjective implements Setup\Objective
 {
@@ -67,7 +67,7 @@ final class ShippedLanguageFilesCompiledObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment): array
     {
-        return [];
+        return [new Setup\Condition\PHPExtensionLoadedCondition('gettext')];
     }
 
     public function isApplicable(Setup\Environment $environment): bool

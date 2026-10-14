@@ -39,7 +39,7 @@ namespace ILIAS\Language\ComponentTranslation;
  * Static: ilLanguage::_lookupEntry() is static, and native gettext's state is per process anyway.
  *
  * @phpstan-type State array{keys: array<string, string>, ok: bool, domain: string, overlay_domain: ?string, overlay_keys: array<string, true>}
- * @phpstan-type Pointer array{build: ?string, previous: ?string, modules: array<string, list<string>>, hashes: array<string, array<string, string>>, warnings: list<string>, collisions: list<string>}
+ * @phpstan-import-type Pointer from ShippedTranslationsBuild
  */
 final class MigratedTranslations
 {

@@ -455,4 +455,107 @@ class TranslationCatalogMoTest extends TestCase
             throw new \TypeError('type error');
         });
     }
+
+    /**
+     * fromMoString() reads back what toMoString() wrote: values incl. "0" and multi-line, context, plural forms, headers.
+     */
+    public function testFromMoStringReadsBackWhatToMoStringWrote(): void
+    {
+        $catalog = self::sampleCatalog();
+        $plural = new TranslationEntry('mod', 'item');
+        $plural->setPlural('items', ['Eintrag', 'Einträge']);
+        $catalog->add($plural);
+
+        $read = TranslationCatalog::fromMoString($catalog->toMoString());
+
+        $this->assertSame('de', $read->getHeader('Language'));
+        $this->assertSame('nplurals=2; plural=(n != 1);', $read->getHeader('Plural-Forms'));
+        $this->assertSame('0', $read->find('mod', 'zero')?->getTranslation(), 'the value "0" is not "0" plus its NUL');
+        $this->assertSame("Mehr\nzeilig", $read->find('mod', 'alpha')?->getTranslation());
+        $this->assertSame('Z', $read->find('mod', 'zeta')?->getTranslation());
+        $this->assertSame('Hello', $read->find('mod', 'fuzzy')?->getTranslation(), 'fuzzy messages are compiled');
+        $this->assertSame('ohne Kontext', $read->find(null, 'no_context')?->getTranslation());
+        $this->assertNull($read->find('mod', 'untranslated'), 'left out of the .mo');
+        $item = $read->find('mod', 'item');
+        $this->assertNotNull($item);
+        $this->assertTrue($item->isPlural());
+        $this->assertSame('items', $item->getPluralId());
+        $this->assertSame(['Eintrag', 'Einträge'], $item->getPluralTranslations());
+        $this->assertCount(6, $read->getEntries());
+    }
+
+    /** For singular messages (also "0") and plurals without empty or "0" forms the read catalog compiles to the same values. */
+    public function testAReadMoWithoutEmptyOrZeroPluralFormsCompilesToTheSameValuesAgain(): void
+    {
+        $catalog = self::sampleCatalog();
+        $plural = new TranslationEntry('mod', 'item');
+        $plural->setPlural('items', ['Eintrag', 'Einträge']);
+        $catalog->add($plural);
+        $mo = $catalog->toMoString();
+
+        $this->assertSame(
+            $this->read($mo),
+            $this->read(TranslationCatalog::fromMoString($mo)->toMoString())
+        );
+        $this->assertSame(
+            \MigratedPoFixture::readMoPluralForms($mo),
+            \MigratedPoFixture::readMoPluralForms(TranslationCatalog::fromMoString($mo)->toMoString())
+        );
+    }
+
+    /**
+     * @return array<string, array{list<string>, list<string>}> forms written, forms read back
+     */
+    public static function pluralFormsTheLibraryDrops(): array
+    {
+        return [
+            'empty intermediate form' => [['eins', '', 'viele'], ['eins', 'viele']],
+            'form "0"' => [['eins', 'zwei', '0'], ['eins', 'zwei']],
+        ];
+    }
+
+    /**
+     * Documents why fromMoString() is for reading only: the library drops empty plural forms and forms "0".
+     *
+     * @param list<string> $written
+     * @param list<string> $read
+     */
+    #[DataProvider('pluralFormsTheLibraryDrops')]
+    public function testFromMoStringLosesEmptyAndZeroPluralForms(array $written, array $read): void
+    {
+        $catalog = new TranslationCatalog();
+        $catalog->setHeader('Plural-Forms', 'nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);');
+        $entry = new TranslationEntry('mod', 'item');
+        $entry->setPlural('items', $written);
+        $catalog->add($entry);
+        $mo = $catalog->toMoString();
+        $this->assertSame(['item' => $written], \MigratedPoFixture::readMoPluralForms($mo), 'precondition: the .mo holds every form');
+
+        $item = TranslationCatalog::fromMoString($mo)->find('mod', 'item');
+
+        $this->assertSame($read, $item?->getPluralTranslations());
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function invalidMoData(): array
+    {
+        $mo = self::sampleCatalog()->toMoString();
+
+        return [
+            'empty' => [''],
+            'no .mo' => ['this is no gettext catalog'],
+            'cut in the header' => [substr($mo, 0, 20)],
+            'cut in the tables' => [substr($mo, 0, 30)],
+        ];
+    }
+
+    #[DataProvider('invalidMoData')]
+    public function testFromMoStringRejectsInvalidOrTruncatedData(string $content): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        TranslationCatalog::fromMoString($content);
+    }
 }
