@@ -1157,11 +1157,8 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pub.paintGaps = function () {
-    // The window does not scroll in ILIAS 10, <main class="il-layout-page-content">
-    // carries the overflow, so $(window).scrollTop() always returned 0 and the
-    // restore below was a no-op.
     const scroll_container = document.querySelector('main.il-layout-page-content')
-      || document.scrollingElement || document.documentElement;
+      || document.scrollingElement;
     const last_position = scroll_container.scrollTop;
     $('.interactive').remove();
     let c = 0;
