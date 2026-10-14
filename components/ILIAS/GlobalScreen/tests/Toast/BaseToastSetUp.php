@@ -44,7 +44,7 @@ abstract class BaseToastSetUp extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->provider = $this->createMock(ToastProvider::class);
+        $this->provider = $this->createStub(ToastProvider::class);
         $this->provider->method('getProviderNameForPresentation')->willReturn('Provider');
         $this->factory = (new ToastServices($this->createStub(UIServices::class)))->factory();
     }

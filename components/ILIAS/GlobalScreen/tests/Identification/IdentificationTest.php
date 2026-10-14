@@ -27,16 +27,13 @@ use ILIAS\GlobalScreen\Identification\Serializer\CoreSerializer;
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
-use ilPlugin;
-use Mockery;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use LogicException;
 
 require_once('./vendor/composer/vendor/autoload.php');
 
 /**
- * Class IdentificationFactoryTest
+ * Class IdentificationTest
  *
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -46,12 +43,8 @@ require_once('./vendor/composer/vendor/autoload.php');
 #[RunTestsInSeparateProcesses]
 class IdentificationTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-    public const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
-    /**
-     * @var Mockery\MockInterface|Provider
-     */
-    private $provider_mock;
+    private Provider $provider_mock;
+    private string $provider_class_name;
     private IdentificationFactory $identification;
 
 
@@ -62,15 +55,16 @@ class IdentificationTest extends TestCase
     {
         parent::setUp();
 
-        $plugin_mock = Mockery::mock(ilPlugin::class);
+        $this->provider_mock = $this->createStub(Provider::class);
+        $this->provider_mock->method('getProviderNameForPresentation')->willReturn('Provider');
+        $this->provider_class_name = $this->provider_mock::class;
 
-        $this->provider_mock = Mockery::mock(Provider::class);
-        $this->provider_mock->shouldReceive('getProviderNameForPresentation')->andReturn('Provider')->byDefault();
-
-        $provider_factory = Mockery::mock(ProviderFactory::class);
-        $provider_factory->shouldReceive('getProviderByClassName')->with(self::MOCKED_PROVIDER_CLASSNAME)->andReturn($this->provider_mock);
-        $provider_factory->shouldReceive('isInstanceCreationPossible')->andReturn(true);
-        $provider_factory->shouldReceive('isRegistered')->andReturn(true);
+        $provider_factory = $this->createStub(ProviderFactory::class);
+        $provider_factory->method('getProviderByClassName')->willReturnMap([
+            [$this->provider_class_name, $this->provider_mock],
+        ]);
+        $provider_factory->method('isInstanceCreationPossible')->willReturn(true);
+        $provider_factory->method('isRegistered')->willReturn(true);
 
         $this->identification = new IdentificationFactory($provider_factory);
     }
@@ -78,7 +72,7 @@ class IdentificationTest extends TestCase
 
     public function testMustThrowExceptionSinceSerializedIdentificationIsTooLong(): void
     {
-        $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER) + 1);
+        $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen($this->provider_class_name) - strlen(CoreSerializer::DIVIDER) + 1);
         $this->expectException(LogicException::class);
         $this->identification->core($this->provider_mock)->identifier($string);
     }
@@ -86,8 +80,8 @@ class IdentificationTest extends TestCase
 
     public function testMustNotThrowExceptionSinceSerializedIdentificationIsExactLength(): void
     {
-        $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER));
-        $this->identification->core($this->provider_mock)->identifier($string);
-        $this->assertTrue(true); // No Exception is thrown
+        $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen($this->provider_class_name) - strlen(CoreSerializer::DIVIDER));
+        $identification = $this->identification->core($this->provider_mock)->identifier($string);
+        $this->assertSame(SerializerInterface::MAX_LENGTH, strlen($identification->serialize()));
     }
 }

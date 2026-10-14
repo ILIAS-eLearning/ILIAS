@@ -18,18 +18,24 @@
 
 namespace ILIAS\GlobalScreen\MainMenu;
 
+use ILIAS\DI\Container;
+use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
 require_once('./vendor/composer/vendor/autoload.php');
@@ -40,21 +46,46 @@ require_once('./vendor/composer/vendor/autoload.php');
  */
 class CollectorTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
+    private MainMenuItemFactory $factory;
+    private mixed $dic_backup;
 
     protected function setUp(): void
     {
         parent::setUp();
+        global $DIC;
+        $this->dic_backup = $DIC ?? null;
+        $DIC = $this->createStub(Container::class);
+        $DIC->method('ui')->willReturn($this->createStub(UIServices::class));
+
+        $this->factory = new MainMenuItemFactory();
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+        $DIC = $this->dic_backup;
+        parent::tearDown();
     }
 
     public function testBasic(): void
     {
-        $this->assertTrue(true);
-        return; // WIP
-        $collector = new MainMenuMainCollector([$this->getDummyProvider()], $this->getItemInformation());
+        $provider = $this->getDummyProvider();
+        $renderer = $this->createStub(TypeRenderer::class);
+        foreach ([TopParentItem::class, Link::class] as $type) {
+            $provider->provideTypeInformation()->add(new TypeInformation($type, $type, $renderer));
+        }
+
+        $collector = new MainMenuMainCollector([$provider], $this->factory, $this->getItemInformation());
         $collector->collectOnce();
 
         $this->assertTrue($collector->hasItems());
+        $this->assertTrue($collector->hasVisibleItems());
+        $top_items = iterator_to_array($collector->getItemsForUIRepresentation(), false);
+        $this->assertCount(4, $top_items);
+        foreach ($top_items as $top_item) {
+            $this->assertInstanceOf(TopParentItem::class, $top_item);
+            $this->assertCount(4, $top_item->getChildren());
+        }
     }
 
     private function getItemInformation(): ItemInformation
@@ -77,7 +108,7 @@ class CollectorTest extends TestCase
 
             public function getParent(isItem $item): IdentificationInterface
             {
-                return $item->getParent();
+                return $item instanceof isChild ? $item->getParent() : $item->getProviderIdentification();
             }
 
             public function customSymbol(hasSymbol $item): hasSymbol
@@ -89,7 +120,7 @@ class CollectorTest extends TestCase
 
     private function getDummyProvider(): StaticMainMenuProvider
     {
-        return new class () implements StaticMainMenuProvider {
+        return new class ($this->factory) implements StaticMainMenuProvider {
             /**
              * @var IdentificationInterface[]
              */
@@ -97,15 +128,14 @@ class CollectorTest extends TestCase
             /**
              * @var IdentificationInterface[]
              */
-            protected $c_identifications = [];
+            private array $c_identifications = [];
+            private TypeInformationCollection $type_information;
 
-            public function __construct()
+            public function __construct(private MainMenuItemFactory $factory)
             {
                 $if = new IdentificationFactory(new NullProviderFactory());
                 $iff = (fn(string $id): IdentificationInterface => $if->core($this)->identifier($id));
-                $this->factory = new MainMenuItemFactory();
                 $this->type_information = new TypeInformationCollection();
-                $this->type_information->add();
 
                 for ($x = 1; $x < 5; $x++) {
                     $this->p_identifications['id_' . $x] = $iff('id_' . $x);
@@ -144,7 +174,10 @@ class CollectorTest extends TestCase
                 $items = [];
                 foreach ($this->c_identifications as $if) {
                     $identifier = $if->getInternalIdentifier();
-                    $items[] = $this->factory->link($if)->withTitle($identifier)->withParent($this->p_identifications[strstr($identifier, '/', true)]);
+                    $items[] = $this->factory->link($if)
+                                             ->withTitle($identifier)
+                                             ->withAction('#')
+                                             ->withParent($this->p_identifications[strstr($identifier, '/', true)]);
                 }
                 return $items;
             }

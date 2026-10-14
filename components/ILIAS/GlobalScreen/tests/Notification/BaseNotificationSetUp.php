@@ -24,7 +24,6 @@ use ILIAS\GlobalScreen\Provider\NullProviderFactory;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use PHPUnit\Framework\TestCase;
@@ -41,8 +40,6 @@ require_once(__DIR__ . "/../../../UI/tests/Base.php");
  */
 abstract class BaseNotificationSetUp extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-
     /**
      * @var IdentificationInterface
      */
@@ -68,8 +65,8 @@ abstract class BaseNotificationSetUp extends TestCase
         parent::setUp();
 
         $this->identification = new IdentificationFactory(new NullProviderFactory());
-        $this->provider = \Mockery::mock(NotificationProvider::class);
-        $this->provider->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
+        $this->provider = $this->createStub(NotificationProvider::class);
+        $this->provider->method('getProviderNameForPresentation')->willReturn('Provider');
 
         $this->id = $this->identification->core($this->provider)->identifier('dummy');
 
@@ -78,16 +75,20 @@ abstract class BaseNotificationSetUp extends TestCase
 
     public function getUIFactory(): NoUIFactory
     {
-        $language_mock = $this->createMock(\ILIAS\Language\Language::class);
+        $language_mock = $this->createStub(\ILIAS\Language\Language::class);
         $language_mock->method('txt')->willReturnArgument(0);
 
-        $factory = new class ($language_mock) extends NoUIFactory {
+        $sig_gen = $this->createStub(I\SignalGeneratorInterface::class);
+        $sig_gen->method('create')->willReturn(new I\Signal("id"));
+
+        return new class ($language_mock, $sig_gen) extends NoUIFactory {
             public function __construct(
                 protected \ILIAS\Language\Language $language,
+                protected I\SignalGeneratorInterface $sig_gen,
             ) {
             }
 
-            public function item(): ILIAS\UI\Component\Item\Factory
+            public function item(): I\Item\Factory
             {
                 return new I\Item\Factory();
             }
@@ -117,10 +118,6 @@ abstract class BaseNotificationSetUp extends TestCase
                 );
             }
         };
-
-        $factory->sig_gen = Mockery::mock(I\SignalGeneratorInterface::class);
-        $factory->sig_gen->shouldReceive("create")->andReturn(new I\Signal("id"));
-        return $factory;
     }
 
     public function getDIC(): Container

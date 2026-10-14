@@ -106,9 +106,10 @@ class GroupNotificationTest extends BaseNotificationSetUp
     {
         $callable = (fn(): string => "something");
         $standard_notification = $this->factory->standard($this->id);
-        $this->assertEquals(function (): void {
-        }, $standard_notification->getOpenedCallable());
+        $default_callable = $standard_notification->getOpenedCallable();
+        $this->assertInstanceOf(Closure::class, $default_callable);
+        $this->assertNull($default_callable());
         $standard_notification = $standard_notification->withOpenedCallable($callable);
-        $this->assertEquals($callable, $standard_notification->getOpenedCallable());
+        $this->assertSame($callable, $standard_notification->getOpenedCallable());
     }
 }
