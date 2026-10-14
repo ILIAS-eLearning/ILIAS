@@ -25,27 +25,9 @@ namespace ILIAS\Language;
  */
 class LanguageLegacyInitialisationAdapter implements Language
 {
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ""): string
+    public function txt(string|LanguageIdentifier $a_topic, string $a_default_lang_fallback_mod = ""): string
     {
         return $this->getLegacyLanguageInstance()->txt($a_topic, $a_default_lang_fallback_mod);
-    }
-
-    /**
-     * Not part of the interface Language, so other implementations do not break; without translate()
-     * the identifier is looked up via txt() and $n/$lang have no effect.
-     */
-    public function translate(string|LanguageIdentifier $key, ?int $n = null, ?string $lang = null): string
-    {
-        $language = $this->getLegacyLanguageInstance();
-        if ($language instanceof \ilLanguage) {
-            return $language->translate($key, $n, $lang);
-        }
-        if ($key instanceof LanguageIdentifier) {
-            $language->loadLanguageModule($key->module());
-            return $language->txt((string) $key->value);
-        }
-
-        return $language->txt($key);
     }
 
     public function loadLanguageModule(string $a_module): void

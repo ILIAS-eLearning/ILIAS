@@ -22,8 +22,8 @@ namespace ILIAS\Language;
 
 /**
  * A language identifier as an enum case (backing value = identifier), generated per module from its
- * `.pot` (see components/ILIAS/Language/tools/language-identifier-enum/). \ilLanguage::translate()
- * reads it from exactly module(), regardless of which module was loaded last.
+ * `.pot` (see components/ILIAS/Language/tools/language-identifier-enum/). Language::txt() and
+ * \ilLanguage::ntxt() read it from exactly module(), regardless of which module was loaded last.
  */
 interface LanguageIdentifier extends \BackedEnum
 {

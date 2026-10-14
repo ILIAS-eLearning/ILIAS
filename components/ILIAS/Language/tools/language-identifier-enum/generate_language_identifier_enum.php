@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * Generates the enum of the language identifiers of one module (an implementation of
- * ILIAS\Language\LanguageIdentifier, see \ilLanguage::translate()) from the module's `.pot`, or checks an
+ * ILIAS\Language\LanguageIdentifier, see Language::txt()) from the module's `.pot`, or checks an
  * existing one against it (--check, for CI). See README.md next to this file.
  *
  * Usage: php generate_language_identifier_enum.php [--check | --stdout] [--module=<module>]

@@ -80,8 +80,7 @@ class ilLanguage implements \ILIAS\Language\Language
     private static array $shipped_without_build = [];
 
     /**
-     * Identifier => value per module that is not migrated, so translate() serves the module a LanguageIdentifier
-     * names, not the one loaded last ($text). Shares the arrays of cached_modules/$text (copy-on-write).
+     * Identifier => value per non-migrated module, cached by loadLanguageModule() and txt() with a LanguageIdentifier.
      *
      * @var array<string, array<string|int, mixed>>
      */
@@ -200,9 +199,15 @@ class ilLanguage implements \ILIAS\Language\Language
     /**
      * gets the text for a given topic
      * if the topic is not in the list, the topic itself with "-" will be returned
+     *
+     * A LanguageIdentifier is read from exactly its module without loadLanguageModule() and without side effect,
+     * falling back to the default language; $a_default_lang_fallback_mod is then ignored.
      */
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ""): string
+    public function txt(string|LanguageIdentifier $a_topic, string $a_default_lang_fallback_mod = ""): string
     {
+        if ($a_topic instanceof LanguageIdentifier) {
+            return $this->translateInModule($a_topic->module(), (string) $a_topic->value, null);
+        }
         if (empty($a_topic)) {
             return "";
         }
@@ -265,14 +270,17 @@ class ilLanguage implements \ILIAS\Language\Language
      * Plural form selected by the "Plural-Forms" rule (native gettext) for a plural message of a migrated
      * module, otherwise exactly txt(). The quantity is not inserted; callers do that, e.g. with sprintf().
      *
-     * A fallback module is read like translate() reads a LanguageIdentifier, language of this instance first,
-     * then the default language (#13467).
+     * A LanguageIdentifier is read as in txt(), $a_default_lang_fallback_mod is then ignored. A fallback module is
+     * read the same way, language of this instance first, then the default language (#13467).
      */
-    public function ntxt(string $a_topic, int $a_n, string $a_default_lang_fallback_mod = ""): string
+    public function ntxt(string|LanguageIdentifier $a_topic, int $a_n, string $a_default_lang_fallback_mod = ""): string
     {
+        if ($a_topic instanceof LanguageIdentifier) {
+            return $this->translateInModule($a_topic->module(), (string) $a_topic->value, $a_n);
+        }
         $module = $a_topic === '' ? null : ($this->migrated_key_modules[$a_topic] ?? null);
         if ($module === null && $a_default_lang_fallback_mod !== '' && ($this->text[$a_topic] ?? '') === '') {
-            return $this->translateInModule($a_default_lang_fallback_mod, $a_topic, $a_n, $this->migratedLangKey());
+            return $this->translateInModule($a_default_lang_fallback_mod, $a_topic, $a_n);
         }
         $value = $module === null
             ? null
@@ -301,36 +309,13 @@ class ilLanguage implements \ILIAS\Language\Language
         return isset($this->text[$a_topic]);
     }
 
-    /**
-     * Successor of txt(), ntxt() and txtlng().
-     *
-     * - A LanguageIdentifier is read from exactly its module, without loadLanguageModule() and without side
-     *   effect on txt() & Co. (nothing goes into $text or the loaded modules). Falls back to the default
-     *   language like txt() with a fallback module (#13467), otherwise "-identifier-".
-     * - A string without $lang behaves like txt($key) or ntxt($key, $n); the module loaded last wins. With another
-     *   $lang exactly one lookup in the module responsible for $key, without default-language fallback (as txtlng()).
-     *
-     * A $lang that is no language key gives no text. An empty identifier (as for txt(): also "0") gives "".
-     * $n only selects a plural form of a migrated module. The quantity is not inserted; callers do that.
-     */
-    public function translate(string|LanguageIdentifier $key, ?int $n = null, ?string $lang = null): string
-    {
-        if ($key instanceof LanguageIdentifier) {
-            return $this->translateInModule($key->module(), (string) $key->value, $n, $lang ?? $this->migratedLangKey());
-        }
-        if ($lang === null || $lang === $this->migratedLangKey()) {
-            return $n === null ? $this->txt($key) : $this->ntxt($key, $n);
-        }
-
-        return $this->translateInLanguage($key, $n, $lang);
-    }
-
-    private function translateInModule(string $module, string $a_topic, ?int $n, string $lang_key): string
+    private function translateInModule(string $module, string $a_topic, ?int $n): string
     {
         // like txt(""): never the header of a catalog
         if (empty($a_topic)) {
             return '';
         }
+        $lang_key = $this->migratedLangKey();
         self::$used_topics[$a_topic] = $a_topic;
 
         $translation = $this->moduleText($module, $a_topic, $n, $lang_key);
@@ -339,35 +324,14 @@ class ilLanguage implements \ILIAS\Language\Language
             $translation = $this->moduleText($module, $a_topic, $n, $default_lang_key);
         }
 
-        return $translation ?? $this->missingText($a_topic, $lang_key);
-    }
-
-    private function translateInLanguage(string $a_topic, ?int $n, string $lang_key): string
-    {
-        if (empty($a_topic)) {
-            return '';
+        if ($translation !== null) {
+            return $translation;
         }
-        self::$used_topics[$a_topic] = $a_topic;
-
-        $module = $this->responsibleModule($a_topic);
-
-        return ($module === null ? null : $this->moduleText($module, $a_topic, $n, $lang_key))
-            ?? $this->missingText($a_topic, $lang_key);
-    }
-
-    private function responsibleModule(string $a_topic): ?string
-    {
-        $module = $this->migrated_key_modules[$a_topic] ?? null;
-        if ($module !== null) {
-            return $module;
-        }
-        foreach (array_reverse($this->loaded_modules) as $loaded_module) {
-            if (array_key_exists($a_topic, $this->module_texts[$loaded_module] ?? [])) {
-                return (string) $loaded_module;
-            }
+        if (ILIAS_LOG_ENABLED && is_object($this->log)) {
+            $this->log->debug("Language (" . $lang_key . "): topic -" . $a_topic . "- not present");
         }
 
-        return null;
+        return "-" . $a_topic . "-";
     }
 
     private function moduleText(string $module, string $a_topic, ?int $n, string $lang_key): ?string
@@ -400,7 +364,7 @@ class ilLanguage implements \ILIAS\Language\Language
     }
 
     /**
-     * Without loading the module (see translate()).
+     * Without loading the module (see txt() with a LanguageIdentifier).
      *
      * @return array<string|int, mixed>
      */
@@ -435,16 +399,6 @@ class ilLanguage implements \ILIAS\Language\Language
         return is_array($texts) ? $texts : null;
     }
 
-    private function missingText(string $a_topic, string $lang_key): string
-    {
-        if (ILIAS_LOG_ENABLED && is_object($this->log)) {
-            $lang_key = MigratedLanguageFilePaths::isValidLanguageKey($lang_key) ? $lang_key : 'invalid language key';
-            $this->log->debug("Language (" . $lang_key . "): topic -" . $a_topic . "- not present");
-        }
-
-        return "-" . $a_topic . "-";
-    }
-
     /**
      * Load language module
      */
@@ -475,7 +429,6 @@ class ilLanguage implements \ILIAS\Language\Language
         }
 
         if (isset($this->cached_modules[$a_module]) && is_array($this->cached_modules[$a_module])) {
-            $this->module_texts[$a_module] = $this->cached_modules[$a_module];
             $this->text = array_merge($this->text, $this->cached_modules[$a_module]);
             $this->forgetMigratedKeys($this->cached_modules[$a_module]);
 
