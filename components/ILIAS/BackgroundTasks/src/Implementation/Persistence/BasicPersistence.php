@@ -160,7 +160,7 @@ class BasicPersistence implements Persistence
         // Garbage Collection
         $random = new \Random\Randomizer();
 
-        if($random->getInt(1, 100) === 1) {
+        if ($random->getInt(1, 100) === 1) {
             $this->gc();
         }
 
@@ -196,7 +196,7 @@ class BasicPersistence implements Persistence
     {
         $buckets = BucketContainer::where(['state' => $state])->get();
 
-        return array_map(fn (BucketContainer $bucket_container): int => $bucket_container->getId(), $buckets);
+        return array_map(fn(BucketContainer $bucket_container): int => $bucket_container->getId(), $buckets);
     }
 
     /**
@@ -375,7 +375,7 @@ class BasicPersistence implements Persistence
                 . print_r($value, true));
         }
 
-        return (int )$this->valueHashToValueContainerId[$value];
+        return (int) $this->valueHashToValueContainerId[$value];
     }
 
     /**
