@@ -23,9 +23,9 @@ namespace ILIAS\Language;
 interface Language
 {
     /**
-     * $a_default_lang_fallback_mod is ignored for a LanguageIdentifier.
+     * $n selects a plural form, e.g. txt($id, 5).
      */
-    public function txt(string|LanguageIdentifier $a_topic, string $a_default_lang_fallback_mod = ""): string;
+    public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string;
 
     public function loadLanguageModule(string $a_module): void;
 

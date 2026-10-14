@@ -362,20 +362,6 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $this->assertSame('Nutzungsvereinbarung', $language->txtlng('tos', 'tos_agreement', 'de'));
     }
 
-    /** txt()'s fallback-module branch also goes through _lookupEntry(); lang_key === lang_default takes the "default language" branch. */
-    public function testTxtsFallbackModuleParameterReadsTheMigratedMoFileTooWhenTheTopicIsNotAlreadyLoaded(): void
-    {
-        $this->ensureRealTosDeMoFileExists();
-        $this->stubUsageLogDependencies();
-        $this->registerDirectoryManager(
-            new ComponentLanguageFileDirectory(new \ILIAS\TermsOfService(), 'tos')
-        );
-
-        $language = $this->buildLanguageWithoutRunningConstructor('de');
-
-        $this->assertSame('Nutzungsvereinbarung', $language->txt('tos_agreement', 'tos'));
-    }
-
     /**
      * The build is checked before $cached_modules: ilCachedLanguage is always active and a migrated module keeps its
      * lng_modules row (dual-write), so the old order never read the build in production.

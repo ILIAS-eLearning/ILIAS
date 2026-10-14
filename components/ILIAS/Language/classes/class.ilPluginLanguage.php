@@ -384,6 +384,13 @@ class ilPluginLanguage
         $lng = $DIC->language();
         $this->loadLanguageModule();
 
-        return $lng->txt($this->getPrefix() . "_" . $a_var, $this->getPrefix());
+        $key = $this->getPrefix() . "_" . $a_var;
+        $text = $lng->txt($key);
+        if ($text !== "-" . $key . "-" || !$lng instanceof ilLanguage) {
+            return $text;
+        }
+
+        // plugin language files are often incomplete: the default language fills the gap, as before
+        return ilLanguage::_lookupEntry($lng->getDefaultLanguage(), $this->getPrefix(), $key);
     }
 }

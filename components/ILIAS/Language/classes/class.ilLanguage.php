@@ -201,12 +201,18 @@ class ilLanguage implements \ILIAS\Language\Language
      * if the topic is not in the list, the topic itself with "-" will be returned
      *
      * A LanguageIdentifier is read from exactly its module without loadLanguageModule() and without side effect,
-     * falling back to the default language; $a_default_lang_fallback_mod is then ignored.
+     * falling back to the default language.
+     *
+     * $n selects a plural form of a migrated module; the quantity is not inserted, callers do that.
      */
-    public function txt(string|LanguageIdentifier $a_topic, string $a_default_lang_fallback_mod = ""): string
+    public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string
     {
         if ($a_topic instanceof LanguageIdentifier) {
-            return $this->translateInModule($a_topic->module(), (string) $a_topic->value, null);
+            return $this->translateInModule($a_topic->module(), (string) $a_topic->value, $n);
+        }
+        if ($n !== null) {
+            // $this->txt(): a subclass (ilSetupLanguage) serves the singular as before
+            return $this->pluralTxt($a_topic, $n) ?? $this->txt($a_topic);
         }
         if (empty($a_topic)) {
             return "";
@@ -226,31 +232,10 @@ class ilLanguage implements \ILIAS\Language\Language
             }
             // deliberately not the value of an earlier module: with the same identifier it mostly means
             // something else, and "-key-" is noticed. Differs from the .lang path (array_merge kept the earlier value).
-            // Only the fallback module the caller names still applies.
             $translation = "";
         } else {
             $translation = $this->text[$a_topic] ?? "";
         }
-
-        if ($translation === "" && $a_default_lang_fallback_mod !== "") {
-            // #13467 - try current language first (could be missing module)
-            if ($this->lang_key != $this->lang_default) {
-                $translation = self::_lookupEntry(
-                    $this->lang_key,
-                    $a_default_lang_fallback_mod,
-                    $a_topic
-                );
-            }
-            // try default language last
-            if ($translation === "" || $translation === "-" . $a_topic . "-") {
-                $translation = self::_lookupEntry(
-                    $this->lang_default,
-                    $a_default_lang_fallback_mod,
-                    $a_topic
-                );
-            }
-        }
-
 
         if ($translation === "") {
             if (ILIAS_LOG_ENABLED && is_object($this->log)) {
@@ -267,33 +252,24 @@ class ilLanguage implements \ILIAS\Language\Language
     }
 
     /**
-     * Plural form selected by the "Plural-Forms" rule (native gettext) for a plural message of a migrated
-     * module, otherwise exactly txt(). The quantity is not inserted; callers do that, e.g. with sprintf().
-     *
-     * A LanguageIdentifier is read as in txt(), $a_default_lang_fallback_mod is then ignored. A fallback module is
-     * read the same way, language of this instance first, then the default language (#13467).
+     * `null` if txt() without $n applies.
      */
-    public function ntxt(string|LanguageIdentifier $a_topic, int $a_n, string $a_default_lang_fallback_mod = ""): string
+    private function pluralTxt(string $a_topic, int $n): ?string
     {
-        if ($a_topic instanceof LanguageIdentifier) {
-            return $this->translateInModule($a_topic->module(), (string) $a_topic->value, $a_n);
-        }
         $module = $a_topic === '' ? null : ($this->migrated_key_modules[$a_topic] ?? null);
-        if ($module === null && $a_default_lang_fallback_mod !== '' && ($this->text[$a_topic] ?? '') === '') {
-            return $this->translateInModule($a_default_lang_fallback_mod, $a_topic, $a_n);
+        if ($module === null) {
+            return null;
         }
-        $value = $module === null
-            ? null
-            : MigratedTranslations::pluralText($module, $this->migratedLangKey(), $a_topic, $a_n, self::clientDataDir());
-        if ($value !== null && $value !== '') {
-            self::$used_topics[$a_topic] = $a_topic;
-            if ($this->usage_log_enabled) {
-                self::logUsage($module, $a_topic);
-            }
-            return $value;
+        $value = MigratedTranslations::pluralText($module, $this->migratedLangKey(), $a_topic, $n, self::clientDataDir());
+        if ($value === null || $value === '') {
+            return null;
+        }
+        self::$used_topics[$a_topic] = $a_topic;
+        if ($this->usage_log_enabled) {
+            self::logUsage($module, $a_topic);
         }
 
-        return $this->txt($a_topic, $a_default_lang_fallback_mod);
+        return $value;
     }
 
     /**

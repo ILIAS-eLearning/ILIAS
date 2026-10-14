@@ -77,7 +77,7 @@ that merges local changes into the global language file writes the local changes
 into their shipped `.po` files. Each installation
 keeps its local changes of these modules in the client data directory, which is why the ILIAS setup
 MUST be run as the web server user. Plural forms are available for these modules through
-`ilLanguage::ntxt()`. See
+`txt($a_topic, $n)`. See
 [the Language component](../../components/ILIAS/Language/README.md#translations-maintained-in-po-files)
 for details.
 

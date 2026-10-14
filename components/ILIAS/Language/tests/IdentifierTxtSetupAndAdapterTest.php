@@ -58,24 +58,34 @@ class IdentifierTxtSetupAndAdapterTest extends ilLanguageBaseTestCase
         $this->assertSame($expected, $language->txt($key));
     }
 
-    public function testSetupLanguageNtxtOfAnEnumIsTxtOfItsValue(): void
+    public function testSetupLanguageIgnoresNForAnEnum(): void
     {
         $GLOBALS['log'] = $this->createStub(ilLogger::class);
         $language = new ilSetupLanguage('de');
         $language->text = ['known' => 'Bekannt'];
 
         foreach ([0, 1, 5] as $n) {
-            $this->assertSame('Bekannt', $language->ntxt(IdentifierTxtSetupTestIdentifier::KNOWN, $n));
-            $this->assertSame('-unknown-', $language->ntxt(IdentifierTxtSetupTestIdentifier::UNKNOWN, $n));
+            $this->assertSame('Bekannt', $language->txt(IdentifierTxtSetupTestIdentifier::KNOWN, $n));
+            $this->assertSame('-unknown-', $language->txt(IdentifierTxtSetupTestIdentifier::UNKNOWN, $n));
         }
-        $this->assertSame('', $language->ntxt(IdentifierTxtSetupTestIdentifier::EMPTY, 2));
+        $this->assertSame('', $language->txt(IdentifierTxtSetupTestIdentifier::EMPTY, 2));
     }
 
-    public function testAdapterPassesEnumAndFallbackOnUnchanged(): void
+    public function testSetupLanguageServesAStringWithNFromThePluralPathOfIlLanguage(): void
+    {
+        $GLOBALS['log'] = $this->createStub(ilLogger::class);
+        $language = new ilSetupLanguage('de');
+        $language->text = ['known' => 'Bekannt'];
+
+        $this->assertSame('Bekannt', $language->txt('known', 3));
+        $this->assertSame('-unknown-', $language->txt('unknown', 3));
+    }
+
+    public function testAdapterPassesEnumAndNOnUnchanged(): void
     {
         $key = IdentifierTxtSetupTestIdentifier::KNOWN;
         $inner = $this->createMock(Language::class);
-        $inner->expects($this->once())->method('txt')->with($this->identicalTo($key), 'fallback_mod')->willReturn('Bekannt');
+        $inner->expects($this->once())->method('txt')->with($this->identicalTo($key), 3)->willReturn('Bekannt');
         $inner->expects($this->never())->method('loadLanguageModule');
         $adapter = new class ($inner) extends LanguageLegacyInitialisationAdapter {
             public function __construct(private readonly Language $language)
@@ -88,6 +98,6 @@ class IdentifierTxtSetupAndAdapterTest extends ilLanguageBaseTestCase
             }
         };
 
-        $this->assertSame('Bekannt', $adapter->txt($key, 'fallback_mod'));
+        $this->assertSame('Bekannt', $adapter->txt($key, 3));
     }
 }

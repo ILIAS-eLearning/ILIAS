@@ -27,12 +27,12 @@ use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
- * ilLanguage::ntxt(), the plural-aware sibling of txt(). Separate processes: CLIENT_DATA_DIR/ILIAS_ABSOLUTE_PATH cannot
+ * ilLanguage::txt() with $n, the plural-aware form. Separate processes: CLIENT_DATA_DIR/ILIAS_ABSOLUTE_PATH cannot
  * be redefined and the migrated-file cache is a static property.
  */
 #[RunTestsInSeparateProcesses]
 #[PreserveGlobalState(false)]
-class NtxtTest extends ilLanguageBaseTestCase
+class PluralTxtTest extends ilLanguageBaseTestCase
 {
     private ?string $fixture_directory = null;
 
@@ -69,7 +69,7 @@ class NtxtTest extends ilLanguageBaseTestCase
     private function contributeModule(string $module, TranslationCatalog $catalog, ?TranslationCatalog $overlay = null): LanguageFileDirectory
     {
         MigratedPoFixture::ensureClientDataDirDefinedOrSkip($this);
-        $this->fixture_directory ??= __DIR__ . '/tmp-ntxt-fixtures-' . bin2hex(random_bytes(4));
+        $this->fixture_directory ??= __DIR__ . '/tmp-plural-txt-fixtures-' . bin2hex(random_bytes(4));
 
         $relative_path = 'components/ILIAS/Language/tests/' . basename($this->fixture_directory) . '/';
         if ($overlay !== null) {
@@ -142,10 +142,10 @@ class NtxtTest extends ilLanguageBaseTestCase
         $language = $this->buildLanguage();
         $language->loadLanguageModule('ntxt');
 
-        $this->assertSame('Eintrag', $language->ntxt('item', 1));
-        $this->assertSame('Einträge', $language->ntxt('item', 0));
-        $this->assertSame('Einträge', $language->ntxt('item', 5));
-        $this->assertSame('Einträge', $language->ntxt('item', -5), 'a negative n counts like its absolute value');
+        $this->assertSame('Eintrag', $language->txt('item', 1));
+        $this->assertSame('Einträge', $language->txt('item', 0));
+        $this->assertSame('Einträge', $language->txt('item', 5));
+        $this->assertSame('Einträge', $language->txt('item', -5), 'a negative n counts like its absolute value');
     }
 
     public function testFallsBackToTxtForAnOrdinarySingularIdentifier(): void
@@ -157,27 +157,15 @@ class NtxtTest extends ilLanguageBaseTestCase
         $language = $this->buildLanguage();
         $language->loadLanguageModule('ntxt');
 
-        $this->assertSame('Einfach', $language->ntxt('plain', 1));
-        $this->assertSame('Einfach', $language->ntxt('plain', 5));
+        $this->assertSame('Einfach', $language->txt('plain', 1));
+        $this->assertSame('Einfach', $language->txt('plain', 5));
     }
 
     public function testFallsBackToTxtForATopicThatWasNeverLoadedAtAll(): void
     {
         $language = $this->buildLanguage();
 
-        $this->assertSame($language->txt('unknown_topic'), $language->ntxt('unknown_topic', 5));
-    }
-
-    public function testServesThePluralFormFromTheFallbackModuleWithoutLoadingIt(): void
-    {
-        $catalog = self::pluralCatalog('ntxt', 'nplurals=2; plural=(n != 1);', 'item', ['Eintrag', 'Einträge']);
-        $this->stubUsageLogDependencies();
-        $this->registerDirectoryManager($this->contributeModule('ntxt', $catalog));
-
-        $language = $this->buildLanguage();
-
-        $this->assertSame('Eintrag', $language->ntxt('item', 1, 'ntxt'));
-        $this->assertSame('Einträge', $language->ntxt('item', 5, 'ntxt'));
+        $this->assertSame($language->txt('unknown_topic'), $language->txt('unknown_topic', 5));
     }
 
     /** Without a "Plural-Forms" header the Germanic rule (n==1 -> form 0, else 1) applies instead of failing. */
@@ -191,8 +179,8 @@ class NtxtTest extends ilLanguageBaseTestCase
         $language = $this->buildLanguage();
         $language->loadLanguageModule('ntxt');
 
-        $this->assertSame('Eintrag', $language->ntxt('item', 1));
-        $this->assertSame('Einträge', $language->ntxt('item', 5));
+        $this->assertSame('Eintrag', $language->txt('item', 1));
+        $this->assertSame('Einträge', $language->txt('item', 5));
     }
 
     /** An empty selected form falls back to txt() rather than returning an empty string. */
@@ -205,12 +193,12 @@ class NtxtTest extends ilLanguageBaseTestCase
         $language = $this->buildLanguage();
         $language->loadLanguageModule('ntxt');
 
-        // an empty default form falls back to form 0, which txt() and the n=5 fallback of ntxt() both serve
+        // an empty default form falls back to form 0, which txt() and the n=5 fallback with $n both serve
         $this->assertSame('Eintrag', $language->txt('item'));
-        $this->assertSame('Eintrag', $language->ntxt('item', 5));
+        $this->assertSame('Eintrag', $language->txt('item', 5));
     }
 
-    /** A later module overwriting the identifier with a plain value must win for ntxt() too. */
+    /** A later module overwriting the identifier with a plain value must win with $n too. */
     public function testALaterModuleOverwritingTheIdentifierWinsOverTheEarlierPluralForms(): void
     {
         $plural = self::pluralCatalog('ntxt_a', 'nplurals=2; plural=(n != 1);', 'shared', ['Eintrag', 'Einträge']);
@@ -225,7 +213,7 @@ class NtxtTest extends ilLanguageBaseTestCase
         $language->loadLanguageModule('ntxt_a');
         $language->loadLanguageModule('ntxt_b');
 
-        $this->assertSame('Überschrieben', $language->ntxt('shared', 5));
+        $this->assertSame('Überschrieben', $language->txt('shared', 5));
     }
 
     public function testAnOverlayReplacingThePluralFormsIsUsedForFormSelection(): void
@@ -238,7 +226,7 @@ class NtxtTest extends ilLanguageBaseTestCase
         $language = $this->buildLanguage();
         $language->loadLanguageModule('ntxt');
 
-        $this->assertSame('Datensatz', $language->ntxt('item', 1));
-        $this->assertSame('Datensätze', $language->ntxt('item', 5));
+        $this->assertSame('Datensatz', $language->txt('item', 1));
+        $this->assertSame('Datensätze', $language->txt('item', 5));
     }
 }

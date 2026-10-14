@@ -173,15 +173,17 @@ class ilSetupLanguage extends ilLanguage
      *
      * if the topic is not in the list, the topic itself with "-" will be returned
      *
-     * $a_topic    topic; the module of a LanguageIdentifier has no effect in Setup
+     * $a_topic    topic; the module of a LanguageIdentifier and $n have no effect for it in Setup
      */
-    public function txt(string|LanguageIdentifier $a_topic, string $a_default_lang_fallback_mod = ''): string
+    public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string
     {
         /** @var ilLogger $log */
         global $log;
 
         if ($a_topic instanceof LanguageIdentifier) {
             $a_topic = (string) $a_topic->value;
+        } elseif ($n !== null) {
+            return parent::txt($a_topic, $n);
         }
         if (empty($a_topic)) {
             return "";
@@ -203,16 +205,6 @@ class ilSetupLanguage extends ilLanguage
         }
 
         return $translation;
-    }
-
-    /**
-     * Same as txt() for a LanguageIdentifier: ilLanguage would read its module from the database.
-     */
-    public function ntxt(string|LanguageIdentifier $a_topic, int $a_n, string $a_default_lang_fallback_mod = ""): string
-    {
-        return $a_topic instanceof LanguageIdentifier
-            ? $this->txt($a_topic)
-            : parent::ntxt($a_topic, $a_n, $a_default_lang_fallback_mod);
     }
 
     /**

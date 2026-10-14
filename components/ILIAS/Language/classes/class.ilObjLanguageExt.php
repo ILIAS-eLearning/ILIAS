@@ -350,7 +350,13 @@ class ilObjLanguageExt extends ilObjLanguage
             return $comments;
         }
         global $DIC;
-        $marker = $DIC->language()->txt(self::SHIPPED_FUZZY_MARKER_TOPIC, 'lng');
+        $lng = $DIC->language();
+        $lng->loadLanguageModule('lng');
+        $marker = $lng->txt(self::SHIPPED_FUZZY_MARKER_TOPIC);
+        if ($marker === '-' . self::SHIPPED_FUZZY_MARKER_TOPIC . '-' && $lng instanceof ilLanguage) {
+            // only shipped in de/en: the default language fills the gap, as before
+            $marker = ilLanguage::_lookupEntry($lng->getDefaultLanguage(), 'lng', self::SHIPPED_FUZZY_MARKER_TOPIC);
+        }
         foreach ($shipped['fuzzy'] as $key) {
             $comments[$key] = isset($comments[$key]) && $comments[$key] !== ''
                 ? $comments[$key] . ' - ' . $marker

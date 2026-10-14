@@ -23,11 +23,11 @@ session, or container state. It must not be used as the runtime language service
         $tpl->setVariable("TEXT", $language->txt("frm_new_posting"));
 
 ### Language Identifier Enums
-`txt()` (`ILIAS\Language\Language`) and `ilLanguage::ntxt()` accept, besides a string, a `LanguageIdentifier`:
+`txt()` (`ILIAS\Language\Language`) accepts, besides a string, a `LanguageIdentifier`:
 
-        $language->txt(PollLanguageIdentifier::POLL_ANSWERS);          // text of the current language
-        $language->ntxt(PollLanguageIdentifier::POLL_ANSWERS, $count); // plural form for $count
-        $language->txt('poll_answers');                                // unchanged
+        $language->txt(PollLanguageIdentifier::POLL_ANSWERS);         // text of the current language
+        $language->txt(PollLanguageIdentifier::POLL_ANSWERS, $count); // plural form for $count
+        $language->txt('poll_answers');                               // unchanged
 
 - `ILIAS\Language\LanguageIdentifier` is implemented by a string backed enum per module (`<Component>LanguageIdentifier`):
   the case value is the identifier, `module()` the module. The enum is generated from the module's `.pot` with
@@ -39,14 +39,19 @@ session, or container state. It must not be used as the runtime language service
   language are read (cache of `lng_modules`, else `lng_modules`) and kept for the request, for the default language its
   entry is read from `lng_data`. No side effect on string calls: the module is not loaded, so the order "the module
   loaded last wins" stays as it is. Without a text in the current language the one of the default language is served,
-  otherwise `-identifier-`. The fallback module argument is ignored, the module is known.
-- With a string `txt()` and `ntxt()` behave exactly as before.
+  otherwise `-identifier-`.
+- With a string and without `$n`, `txt()` behaves as before, without a fallback module (see below).
 - An empty identifier (as for a string, also `"0"`) gives `""`.
-- `$n` only selects a plural form of a plural message of a migrated module; the quantity is not inserted into the text.
+- `$n` only selects a plural form of a plural message of a migrated module, see [Plural Forms](#plural-forms).
 - `txtlng()` and `exists()` take a string only.
 - Breaking change (announced for the Jour Fixe): implementations of `ILIAS\Language\Language` and subclasses of
-  `ilLanguage` that declare the parameter type of `txt()`/`ntxt()` must widen it to `string|LanguageIdentifier`.
-  `ilSetupLanguage` reads only the identifier of a `LanguageIdentifier` - Setup needs English at most.
+  `ilLanguage` that override `txt()` must accept `string|LanguageIdentifier $a_topic, ?int $n = null`. `ntxt()` is
+  gone, use `txt($a_topic, $n)`. The second parameter `$a_default_lang_fallback_mod` is gone: load the module with
+  `loadLanguageModule()` or pass a `LanguageIdentifier`. A string no longer falls back to the default language
+  (#13467); only a `LanguageIdentifier` does. Behaviour change: where callers passed a fallback module, a key missing
+  in the user's language now shows `-key-` instead of the text of the default language (`ilPluginLanguage` and the fuzzy marker of the
+  language editor keep the fallback).
+  `ilSetupLanguage` reads only the identifier of a `LanguageIdentifier` (`$n` without effect) - Setup needs English at most.
 
 ## Installing and Managing Languages
 Which languages are installed/available (`ILIAS\Language\Setup\InstalledLanguageRepository`) and installing, flushing
@@ -143,9 +148,8 @@ module that is not migrated).
   problem is logged and shown in the language administration. With a
   thread-safe PHP (ZTS) the locale applies to every thread of the process.
 * Behaviour change: an identifier that the migrated module loaded last does not
-  translate gives `-identifier-`, not the value of a module loaded before. The
-  fallback module passed to `txt()` still applies.
-* `txt()`/`ntxt()` with a `LanguageIdentifier` read from exactly its module, see
+  translate gives `-identifier-`, not the value of a module loaded before.
+* `txt()` with a `LanguageIdentifier` reads from exactly its module, see
   [above](#language-identifier-enums).
 * Apart from these lookups, `.po`/`.mo` files are read and written with the
   library `gettext/gettext`, only through the adapter in
@@ -154,16 +158,13 @@ module that is not migrated).
   library's `Scanner` is not used.
 
 ### Plural Forms
-`ilLanguage::ntxt(string $a_topic, int $a_n, string
-$a_default_lang_fallback_mod = ""): string` returns the form of a plural
-message (`msgid_plural`, `msgstr[n]`) that the `Plural-Forms` rule of the
-language selects for `$a_n`. The quantity is not inserted; callers do that,
-e.g. with `sprintf()`. In every other case (module not migrated, plugin, no
-plural message, empty form) it returns exactly what `txt()` returns.
+`txt($a_topic, $n)` returns the form of a plural message (`msgid_plural`,
+`msgstr[n]`) that the `Plural-Forms` rule of the language selects for `$n`.
+The quantity is not inserted; callers do that, e.g. with `sprintf()`. In every
+other case (module not migrated, plugin, no plural message, empty form) it
+returns exactly what `txt()` without `$n` returns.
 
-* `ntxt()` is not part of the interface `ILIAS\Language\Language` (adding it
-  would break implementations); it is available on `ilLanguage`.
-* `txt()` returns the default form of a plural message: the last form
+* `txt()` without `$n` returns the default form of a plural message: the last form
   (CLDR "other"), or the last non-empty one before it. The database holds this
   form only; all forms exist only in the `.po` files, the build and the
   overlay.
@@ -321,7 +322,7 @@ Plugins cannot contribute a `LanguageFileDirectory` yet. A plugin may ship
 both exist): `msgid` is the key without the plugin prefix, entries with a
 `msgctxt` are ignored and logged. The values go into the database as before
 (no build, no overlay), `#.` comments are not stored, plural messages are
-stored with their default form (`ntxt()` returns `txt()` for plugins). Values
+stored with their default form (`$n` has no effect for plugins). Values
 of a plugin `.po` with markup that is not allowed are cleaned and logged;
 values of a plugin `.lang` are only logged and taken over unchanged.
 
