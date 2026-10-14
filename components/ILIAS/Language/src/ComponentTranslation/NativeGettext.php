@@ -103,7 +103,7 @@ final class NativeGettext
     public static function activate(string $locale_directory): bool
     {
         if (!self::isExtensionLoaded()) {
-            self::$problem = 'the PHP extension "gettext" is not loaded';
+            self::$problem = 'the PHP extension "gettext" is not loaded in this PHP (the web server needs it like the CLI that ran the build)';
             return false;
         }
         if (self::$locale_directory === $locale_directory && self::isActive()) {

@@ -26,8 +26,8 @@ use RuntimeException;
 
 /**
  * ShippedTranslationsBuild: on success a collision list, the previous build kept, older ones removed, an unchanged run
- * touching nothing, one build at a time; on failure `current.json` (what running requests are served from) stays as it
- * was and no half-written build remains.
+ * touching nothing, one build at a time, a `.po` that cannot be compiled served from a former build; on failure
+ * `current.json` stays as it was and no half-written build remains.
  */
 class ShippedTranslationsBuildTest extends TestCase
 {
@@ -98,6 +98,27 @@ class ShippedTranslationsBuildTest extends TestCase
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    private function manifest(string $build): array
+    {
+        return json_decode((string) file_get_contents($this->buildDirectory($build) . '/manifest.json'), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    private function breakPo(string $module, string $lang_key): void
+    {
+        file_put_contents($this->root . '/' . $module . '/' . $module . '_' . $lang_key . '.po', "msgid \"kaputt\n");
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function servedValues(string $build, string $module, string $lang_key): array
+    {
+        return MigratedPoFixture::readMo(MigratedLanguageFilePaths::buildMoFile($this->buildDirectory($build), $module, $lang_key));
+    }
+
+    /**
      * A locale directory the C library cannot load (see findLocaleSource(): it only looks for the file).
      */
     private function brokenLocaleSource(): string
@@ -126,7 +147,7 @@ class ShippedTranslationsBuildTest extends TestCase
         ];
         $this->assertSame($expected, $first['collisions'], '"same" has one value everywhere, "only_a" is in one module only');
         $this->assertSame($expected, $second['collisions'], 'listed again by an unchanged build, not only by the one that wrote it');
-        $this->assertSame($expected, ShippedTranslationsBuild::readPointer($this->artifacts)['collisions'] ?? null);
+        $this->assertSame($expected, $this->manifest((string) $first['build'])['collisions'] ?? null, 'kept in the manifest of the build');
     }
 
     public function testOnlyFilesOfNoModuleInTheSameDirectoryAreReportedAsWithoutLanguageKey(): void
@@ -364,14 +385,261 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->assertTrue($serves('msp', 'de', $po));
     }
 
-    public function testServesShippedPoIsFalseWhenCurrentJsonHasNoHashes(): void
+    /** The manifests are cached per build directory: each variant changes the file before the first call. */
+    public function testServesShippedPoIsFalseWhenTheManifestOfTheCurrentBuildHasNoHashes(): void
     {
         $this->ship('msp', 'de', ['greeting' => 'Hallo']);
-        $this->build(['msp']);
-        $pointer = json_decode((string) file_get_contents($this->pointerFile()), true);
-        unset($pointer['hashes']);
-        file_put_contents($this->pointerFile(), json_encode($pointer));
+        $build = (string) $this->build(['msp'])['build'];
+        $manifest = $this->manifest($build);
+        unset($manifest['hashes']);
+        file_put_contents($this->buildDirectory($build) . '/manifest.json', json_encode($manifest));
 
         $this->assertFalse(ShippedTranslationsBuild::servesShippedPo($this->artifacts, 'msp', 'de', $this->root . '/msp/msp_de.po'));
+    }
+
+    public function testServesShippedPoIsFalseWhenTheManifestOfTheCurrentBuildIsGone(): void
+    {
+        $this->ship('msp', 'de', ['greeting' => 'Hallo']);
+        $build = (string) $this->build(['msp'])['build'];
+        unlink($this->buildDirectory($build) . '/manifest.json');
+
+        $this->assertFalse(ShippedTranslationsBuild::servesShippedPo($this->artifacts, 'msp', 'de', $this->root . '/msp/msp_de.po'));
+    }
+
+    public function testCurrentJsonHoldsExactlyTheBuildThePreviousBuildAndTheModules(): void
+    {
+        $this->ship('mpa', 'de', ['greeting' => 'Hallo']);
+        $this->ship('mpa', 'en', ['greeting' => 'Hello']);
+        $first = (string) $this->build(['mpa'])['build'];
+        $this->ship('mpa', 'de', ['greeting' => 'Moin']);
+        $second = (string) $this->build(['mpa'])['build'];
+
+        $data = json_decode((string) file_get_contents($this->pointerFile()), true, 512, JSON_THROW_ON_ERROR);
+
+        $keys = array_keys($data);
+        sort($keys);
+        $this->assertSame(['build', 'modules', 'previous'], $keys);
+        sort($data['modules']['mpa']);
+        $this->assertSame(['build' => $second, 'previous' => $first, 'modules' => ['mpa' => ['de', 'en']]], $data);
+    }
+
+    public function testReadPointerIgnoresFieldsAFormerVersionWroteIntoCurrentJson(): void
+    {
+        $this->ship('mpa', 'de', ['greeting' => 'Hallo']);
+        $build = (string) $this->build(['mpa'])['build'];
+        $pointer = ShippedTranslationsBuild::readPointer($this->artifacts);
+        $data = json_decode((string) file_get_contents($this->pointerFile()), true, 512, JSON_THROW_ON_ERROR);
+        $data['hashes'] = ['mpa' => ['de' => str_repeat('a', 64)]];
+        $data['warnings'] = ['old warning'];
+        $data['collisions'] = ['old collision'];
+        file_put_contents($this->pointerFile(), json_encode($data));
+
+        $this->assertSame(['build' => $build, 'previous' => null, 'modules' => ['mpa' => ['de']]], ShippedTranslationsBuild::readPointer($this->artifacts));
+        $this->assertSame($pointer, ShippedTranslationsBuild::readPointer($this->artifacts));
+        $this->assertTrue($this->build(['mpa'])['unchanged'], 'a current.json of the former layout is no reason to rebuild');
+    }
+
+    public function testABrokenPoIsServedFromTheServedBuildAndIsNotCountedAsCompiled(): void
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $this->ship('mfb', 'de', ['greeting' => 'Servus']);
+        $good = (string) $this->build(['mfa', 'mfb'])['build'];
+        $this->breakPo('mfa', 'de');
+
+        $result = $this->build(['mfa', 'mfb']);
+
+        $this->assertNotSame($good, $result['build']);
+        $this->assertSame(['greeting' => 'Hallo'], $this->servedValues((string) $result['build'], 'mfa', 'de'));
+        $this->assertSame(['greeting' => 'Servus'], $this->servedValues((string) $result['build'], 'mfb', 'de'));
+        $this->assertSame(1, $result['compiled'], 'only "mfb"; the catalog of "mfa" is taken over, not compiled');
+        $this->assertCount(1, $result['warnings']);
+        $this->assertStringContainsString('mfa_de.po', $result['warnings'][0]);
+        $this->assertStringContainsString($good, $result['warnings'][0], 'names the build it is served from');
+        $this->assertSame($result['warnings'], $this->manifest((string) $result['build'])['warnings']);
+        $this->assertSame(['mfa' => ['de'], 'mfb' => ['de']], ShippedTranslationsBuild::readPointer($this->artifacts)['modules'] ?? null);
+        $this->assertSame($good, ShippedTranslationsBuild::readPointer($this->artifacts)['previous'] ?? null);
+        $this->assertFalse(ShippedTranslationsBuild::servesShippedPo($this->artifacts, 'mfa', 'de', $this->root . '/mfa/mfa_de.po'), 'the broken .po is not what is served');
+        $this->assertTrue(ShippedTranslationsBuild::servesShippedPo($this->artifacts, 'mfb', 'de', $this->root . '/mfb/mfb_de.po'));
+    }
+
+    public function testTheFallbackChainsOverSeveralBuildsAndWarnsOnEveryRun(): void
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $this->ship('mfb', 'de', ['greeting' => 'Servus']);
+        $this->build(['mfa', 'mfb']);
+        $this->breakPo('mfa', 'de');
+        $second = $this->build(['mfa', 'mfb']);
+        // another module changes, the broken file stays broken: the catalog of "mfa" comes from the second build
+        $this->ship('mfb', 'de', ['greeting' => 'Moin']);
+
+        $third = $this->build(['mfa', 'mfb']);
+
+        $this->assertNotSame($second['build'], $third['build']);
+        $this->assertSame(['greeting' => 'Hallo'], $this->servedValues((string) $third['build'], 'mfa', 'de'));
+        $this->assertSame(['greeting' => 'Moin'], $this->servedValues((string) $third['build'], 'mfb', 'de'));
+        $this->assertCount(1, $third['warnings']);
+        $this->assertFalse(ShippedTranslationsBuild::servesShippedPo($this->artifacts, 'mfa', 'de', $this->root . '/mfa/mfa_de.po'));
+        // an unchanged run repeats the warning
+        $this->assertSame($third['warnings'], $this->build(['mfa', 'mfb'])['warnings']);
+    }
+
+    public function testABrokenPoIsServedFromThePreviousBuildWhenTheServedOneIsDamaged(): void
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $this->ship('mfb', 'de', ['greeting' => 'Servus']);
+        $first = (string) $this->build(['mfa', 'mfb'])['build'];
+        $this->ship('mfb', 'de', ['greeting' => 'Moin']);
+        $second = (string) $this->build(['mfa', 'mfb'])['build'];
+        // the C library keeps what it read from a path: damage a file of a path it has not seen
+        MigratedPoFixture::moveArtifactsToFreshDirectory();
+        $this->artifacts = MigratedLanguageFilePaths::shippedArtifactDirectory($this->root);
+        $damaged = MigratedLanguageFilePaths::buildMoFile($this->buildDirectory($second), 'mfa', 'de');
+        $content = (string) file_get_contents($damaged);
+        file_put_contents($damaged, substr($content, 0, -1) . ($content[-1] === "\x00" ? "\x01" : "\x00"));
+        $this->breakPo('mfa', 'de');
+
+        $result = $this->build(['mfa', 'mfb']);
+
+        $this->assertSame(['greeting' => 'Hallo'], $this->servedValues((string) $result['build'], 'mfa', 'de'));
+        $this->assertStringContainsString($first, $result['warnings'][0], 'the intact previous build, not the damaged served one');
+    }
+
+    public function testADamagedCatalogOfTheFormerBuildIsNotTakenOver(): void
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $good = (string) $this->build(['mfa'])['build'];
+        MigratedPoFixture::moveArtifactsToFreshDirectory();
+        $this->artifacts = MigratedLanguageFilePaths::shippedArtifactDirectory($this->root);
+        $damaged = MigratedLanguageFilePaths::buildMoFile($this->buildDirectory($good), 'mfa', 'de');
+        $content = (string) file_get_contents($damaged);
+        file_put_contents($damaged, substr($content, 0, -1) . ($content[-1] === "\x00" ? "\x01" : "\x00"));
+        $this->assertSame(strlen($content), strlen((string) file_get_contents($damaged)), 'precondition: same size, other hash');
+        $this->breakPo('mfa', 'de');
+        $this->ship('mfb', 'de', ['greeting' => 'Servus']);
+
+        $result = $this->build(['mfa', 'mfb']);
+
+        $this->assertCount(1, $result['warnings']);
+        $this->assertStringContainsString('"mfa" is not served for "de"', $result['warnings'][0]);
+        $this->assertSame(['mfb' => ['de']], ShippedTranslationsBuild::readPointer($this->artifacts)['modules'] ?? null, 'the damaged catalog is not taken over');
+    }
+
+    public function testABrokenPoWithoutAFormerBuildIsNotServedAndTheBuildGoesOn(): void
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $this->ship('mfb', 'de', ['greeting' => 'Servus']);
+        $this->breakPo('mfb', 'de');
+
+        $result = $this->build(['mfa', 'mfb']);
+
+        $this->assertNotNull($result['build']);
+        $this->assertSame(1, $result['compiled']);
+        $this->assertCount(1, $result['warnings']);
+        $this->assertStringContainsString('mfb_de.po', $result['warnings'][0]);
+        $this->assertStringContainsString('"mfb" is not served for "de"', $result['warnings'][0]);
+        $this->assertSame(['mfa' => ['de']], ShippedTranslationsBuild::readPointer($this->artifacts)['modules'] ?? null);
+        $this->assertSame(['greeting' => 'Hallo'], $this->servedValues((string) $result['build'], 'mfa', 'de'));
+        $this->assertFalse(ShippedTranslationsBuild::servesShippedPo($this->artifacts, 'mfb', 'de', $this->root . '/mfb/mfb_de.po'));
+    }
+
+    public function testABrokenPoOfANewModuleIsNotServedAndTheBuildIsSwitched(): void
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $good = (string) $this->build(['mfa'])['build'];
+        $this->ship('mfb', 'de', ['greeting' => 'Servus']);
+        $this->breakPo('mfb', 'de');
+        $this->ship('mfa', 'de', ['greeting' => 'Moin']);
+
+        $result = $this->build(['mfa', 'mfb']);
+
+        $this->assertNotSame($good, $result['build']);
+        $this->assertStringContainsString('"mfb" is not served for "de"', $result['warnings'][0] ?? '');
+        $pointer = ShippedTranslationsBuild::readPointer($this->artifacts);
+        $this->assertSame($result['build'], $pointer['build'] ?? null);
+        $this->assertSame($good, $pointer['previous'] ?? null);
+        $this->assertSame(['mfa' => ['de']], $pointer['modules'] ?? null);
+        $this->assertSame(['greeting' => 'Moin'], $this->servedValues((string) $result['build'], 'mfa', 'de'));
+    }
+
+    /**
+     * Builds "mfa"/"mfb" and moves the artifacts to a path the C library has not seen (it caches per path).
+     *
+     * @return array{string, string} build id, path of the `.mo`
+     */
+    private function formerBuildWithMovedArtifacts(): array
+    {
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+        $this->ship('mfb', 'de', ['greeting' => 'Servus']);
+        $good = (string) $this->build(['mfa', 'mfb'])['build'];
+        MigratedPoFixture::moveArtifactsToFreshDirectory();
+        $this->artifacts = MigratedLanguageFilePaths::shippedArtifactDirectory($this->root);
+
+        return [$good, MigratedLanguageFilePaths::buildMoFile($this->buildDirectory($good), 'mfa', 'de')];
+    }
+
+    /**
+     * @param array<string, mixed> $changes
+     */
+    private function changeManifest(string $build, array $changes): void
+    {
+        file_put_contents(
+            $this->buildDirectory($build) . '/manifest.json',
+            json_encode($changes + $this->manifest($build), JSON_THROW_ON_ERROR)
+        );
+    }
+
+    private function assertMfaIsNotServed(): void
+    {
+        $result = $this->build(['mfa', 'mfb']);
+
+        $this->assertCount(1, $result['warnings']);
+        $this->assertStringContainsString('"mfa" is not served for "de"', $result['warnings'][0]);
+        $this->assertSame(['mfb' => ['de']], ShippedTranslationsBuild::readPointer($this->artifacts)['modules'] ?? null);
+    }
+
+    public function testACatalogOfABuildCompiledByOtherCodeIsNotTakenOver(): void
+    {
+        [$good] = $this->formerBuildWithMovedArtifacts();
+        $this->changeManifest($good, ['compatibility' => 'compiled by other code']);
+        $this->breakPo('mfa', 'de');
+
+        $this->assertMfaIsNotServed();
+    }
+
+    public function testACatalogOfABuildWithoutACompatibilityValueIsNotTakenOver(): void
+    {
+        [$good] = $this->formerBuildWithMovedArtifacts();
+        $manifest = $this->manifest($good);
+        unset($manifest['compatibility']);
+        file_put_contents($this->buildDirectory($good) . '/manifest.json', json_encode($manifest, JSON_THROW_ON_ERROR));
+        $this->breakPo('mfa', 'de');
+
+        $this->assertMfaIsNotServed();
+    }
+
+    public function testACatalogWithMarkupThePolicyDisallowsIsNotTakenOver(): void
+    {
+        [$good, $mo_file] = $this->formerBuildWithMovedArtifacts();
+        // an intact file as far as the manifest tells (size and hash fit), but with a value no build would write
+        $mo = MigratedPoFixture::catalog('mfa', ['greeting' => '<script>alert(1)</script>Hallo'])->toMoString();
+        file_put_contents($mo_file, $mo);
+        $manifest = $this->manifest($good);
+        $manifest['files'][substr($mo_file, strlen($this->buildDirectory($good)) + 1)] = [strlen($mo), hash('sha256', $mo)];
+        file_put_contents($this->buildDirectory($good) . '/manifest.json', json_encode($manifest, JSON_THROW_ON_ERROR));
+        $this->breakPo('mfa', 'de');
+
+        $this->assertMfaIsNotServed();
+    }
+
+    public function testACatalogReachedOnlyThroughASymlinkOutOfTheBuildIsNotTakenOver(): void
+    {
+        [, $mo_file] = $this->formerBuildWithMovedArtifacts();
+        // size and hash fit: only the location tells
+        $outside = $this->root . '/outside.mo';
+        rename($mo_file, $outside);
+        symlink($outside, $mo_file);
+        $this->breakPo('mfa', 'de');
+
+        $this->assertMfaIsNotServed();
     }
 }

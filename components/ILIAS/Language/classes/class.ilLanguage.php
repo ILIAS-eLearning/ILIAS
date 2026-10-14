@@ -203,7 +203,8 @@ class ilLanguage implements \ILIAS\Language\Language
      * A LanguageIdentifier is read from exactly its module without loadLanguageModule() and without side effect,
      * falling back to the default language.
      *
-     * $n selects a plural form of a migrated module; the quantity is not inserted, callers do that.
+     * $n selects a plural form of a migrated module; the quantity is not inserted, callers do that. Without a
+     * form for $n in the language the value without $n is served, never another language's form.
      */
     public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string
     {
@@ -500,7 +501,8 @@ class ilLanguage implements \ILIAS\Language\Language
             return $keys;
         }
         MigratedTranslations::reportProblem(sprintf(
-            'Module "%s" ships a language file for "%s" that is not built - run "php cli/setup.php build".',
+            'Module "%s" ships a language file for "%s" that is not built - if "php cli/setup.php build" warns'
+                . ' that the file cannot be compiled, fix the file; otherwise run the build.',
             $a_module,
             $lang_key
         ));
