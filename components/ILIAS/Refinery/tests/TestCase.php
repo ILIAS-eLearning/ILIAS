@@ -36,7 +36,7 @@ class ilLanguageMock implements Language
     {
     }
 
-    public function txt(string|LanguageIdentifier $a_topic, string $a_default_lang_fallback_mod = ''): string
+    public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string
     {
         $this->requested[] = $a_topic;
         return is_string($a_topic) ? $a_topic : (string) $a_topic->value;
