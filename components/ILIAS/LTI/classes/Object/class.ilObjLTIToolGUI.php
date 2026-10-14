@@ -645,7 +645,11 @@ class ilObjLTIToolGUI extends ilObject2GUI
         }
         if ($response['items'] === []) {
             if ($response['error'] === '') {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('lti_deep_linking_no_content'), true);
+                $message = $this->lng->txt('lti_deep_linking_no_content');
+                if ($response['message'] !== '') {
+                    $message = htmlspecialchars($response['message'], ENT_QUOTES) . ' ' . $message;
+                }
+                $this->tpl->setOnScreenMessage('info', $message, true);
             }
             ilLTIAdvantagePlatformDeepLinking::sendTopRedirect($create_url);
         }

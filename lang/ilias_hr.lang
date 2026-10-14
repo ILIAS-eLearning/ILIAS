@@ -4537,6 +4537,7 @@ common#:#lso_edit#:#Uredi sekvencu učenja
 common#:#lso_import#:#Uvezi sekvencu učenja
 common#:#lso_new#:#Nova sekvenca učenja
 common#:#lso_wizard_page#:#Kopiraj sekvencu učenja (korak 2/2)
+common#:#lti#:#LTI Tool (Consumer)###14 10 2026 new variable
 common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
 common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#Obavijest o napretku učenja u LTI-ju

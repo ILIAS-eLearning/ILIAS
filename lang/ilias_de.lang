@@ -4595,6 +4595,7 @@ common#:#lso_edit#:#Lernsequenz bearbeiten
 common#:#lso_import#:#Lernsequenz importieren
 common#:#lso_new#:#Neue Lernsequenz anlegen
 common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+common#:#lti#:#LTI-Tool (Konsument)###14 10 2026 new variable
 common#:#lti_add#:#LTI-Tool (Konsument) anlegen###22 09 2026 new variable
 common#:#lti_new#:#Neues LTI-Tool (Konsument)###22 09 2026 new variable
 common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt

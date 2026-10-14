@@ -250,16 +250,18 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     {
         $this->checkPermission("write");
 
-        $form = $this->getToolForm()->save($this->getToolFormAction(), $this->request);
+        $tool_form = $this->getToolForm();
+        $form = $tool_form->save($this->getToolFormAction(), $this->request);
         if ($form !== null) {
             $this->showToolForm($form);
             return;
         }
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("settings_saved"), true);
+        $global = (bool) (ilLTITool::read($tool_form->getSavedId())["global"] ?? true);
         $this->ctrl->clearParameterByClass(self::class, "tool_id");
         $this->ctrl->clearParameterByClass(self::class, self::VERSION_PARAM);
-        $this->ctrl->redirect($this, self::CMD_SHOW_GLOBAL_TOOLS);
+        $this->ctrl->redirect($this, $global ? self::CMD_SHOW_GLOBAL_TOOLS : self::CMD_SHOW_USER_TOOLS);
     }
 
     private function getToolForm(): ilLTIToolForm

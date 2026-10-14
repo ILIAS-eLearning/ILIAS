@@ -2900,7 +2900,7 @@ certificate#:#cmix_cert_ph_reached_score#:#Score achieved in percent
 certificate#:#default_background_info#:#This background image will be used as the default background for all certificates unless a different image is uploaded when creating a certificate for a specific object.
 certificate#:#download_certificate#:#Download Certificate
 certificate#:#learning_progress_deactivated#:#Learning progress for this object is currently deactivated. In order to edit the certificate template and for users to be able to obtain certificates, learning progress for this object needs to be activated via Learning Progress » Settings.
-certificate#:#lti_cert_ph_mastery_score#:#Score achieved in percent
+certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage
 certificate#:#lti_cert_ph_object_description#:#Description
 certificate#:#lti_cert_ph_object_title#:#Title of the LTI Consumer Object
 certificate#:#lti_cert_ph_reached_score#:#Reached score as percentage
@@ -4596,6 +4596,7 @@ common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
+common#:#lti#:#LTI Tool (Consumer)###14 10 2026 new variable
 common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung

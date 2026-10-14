@@ -2857,7 +2857,7 @@ certificate#:#cmix_cert_ph_reached_score#:#Puntuación alcanzada en porcentaje
 certificate#:#default_background_info#:#Esta imagen de fondo se utilizará como fondo predeterminado para todos los certificados, a menos que se cargue una imagen diferente al crear un certificado para un objeto específico.
 certificate#:#download_certificate#:#Descargar certificado
 certificate#:#learning_progress_deactivated#:#El progreso de aprendizaje para este objeto está desactivado actualmente. Para poder editar la plantilla del certificado y para que los usuarios puedan obtener certificados, el progreso de aprendizaje de este objeto debe activarse a través de Progreso de aprendizaje » Configuración.
-certificate#:#lti_cert_ph_mastery_score#:#Puntuación alcanzada en porcentaje
+certificate#:#lti_cert_ph_mastery_score#:#Puntuación de dominio en porcentaje
 certificate#:#lti_cert_ph_object_description#:#Descripción
 certificate#:#lti_cert_ph_object_title#:#Título del objeto LTI Consumer
 certificate#:#lti_cert_ph_reached_score#:#Puntuación alcanzada como porcentaje
@@ -4547,6 +4547,7 @@ common#:#lso_edit#:#Editar Secuencia de Aprendizaje
 common#:#lso_import#:#Importar Secuencia de Aprendizaje
 common#:#lso_new#:#Nueva Secuencia de Aprendizaje
 common#:#lso_wizard_page#:#Copiar Secuencia de Aprendizaje (Paso 2/2)
+common#:#lti#:#Herramienta LTI (consumidor)###14 10 2026 new variable
 common#:#lti_add#:#Añadir herramienta LTI (consumidor)###22 09 2026 new variable
 common#:#lti_new#:#Nueva herramienta LTI (consumidor)###22 09 2026 new variable
 common#:#lti_outcome#:#Notificación de progreso de aprendizaje LTI

@@ -4536,6 +4536,7 @@ common#:#lso_edit#:#Modifica sequenza di apprendimento
 common#:#lso_import#:#Importa sequenza di apprendimento
 common#:#lso_new#:#Nuova Sequenza di Apprendimento
 common#:#lso_wizard_page#:#Copia sequenza di apprendimento (Step 2/2)
+common#:#lti#:#Consumer LTI###14 10 2026 new variable
 common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
 common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#LTI Notifica progresso dell’apprendimento

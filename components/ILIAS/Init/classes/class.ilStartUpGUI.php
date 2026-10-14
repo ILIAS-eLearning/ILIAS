@@ -604,6 +604,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function doLTIAuthentication(): void
     {
+        $this->lng->loadLanguageModule('lti');
         $this->getLogger()->debug('Trying lti authentication');
 
         $credentials = new ilAuthFrontendCredentialsLTI();

@@ -2901,7 +2901,7 @@ certificate#:#cmix_cert_ph_reached_score#:#Elért pontszám százalékos érték
 certificate#:#default_background_info#:#A tanúsítványokhoz alapértelmezetten ez a háttérkép kerül kiválasztásra. Ha másikra van szüksége, a tanúsítványszerkesztőbe kell feltöltenie.
 certificate#:#download_certificate#:#Tanúsítvány letöltése
 certificate#:#learning_progress_deactivated#:#A tanulási haladás ki van kapcsolva ennél az objektumnál. A tanúsítványsablon módosításához és a felhasználók tanúsítványának legeneráláshoz be kell kapcsolni.
-certificate#:#lti_cert_ph_mastery_score#:#Az elért pontszám százalékos értéke
+certificate#:#lti_cert_ph_mastery_score#:#Kötelező pontszám százalékban
 certificate#:#lti_cert_ph_object_description#:#Leírás
 certificate#:#lti_cert_ph_object_title#:#Az LTI-fogyasztó objektum címe
 certificate#:#lti_cert_ph_reached_score#:#Elért pontok százalékos értéke
@@ -4595,6 +4595,7 @@ common#:#lso_edit#:#Tanulási sor módosítása
 common#:#lso_import#:#Tanulási sor importálása
 common#:#lso_new#:#Új tanulási sor
 common#:#lso_wizard_page#:#Tanulási sor másolása (2/2 lépés)
+common#:#lti#:#LTI-Fogyasztó###14 10 2026 new variable
 common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
 common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#LTI Tanulási haladási értesítő

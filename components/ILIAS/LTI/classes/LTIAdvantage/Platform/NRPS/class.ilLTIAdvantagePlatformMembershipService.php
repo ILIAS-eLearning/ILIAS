@@ -138,9 +138,9 @@ final class ilLTIAdvantagePlatformMembershipService
 
         $roles = [];
         foreach ([
-            $instructor => array_merge($participants->getAdmins(), $participants->getTutors()),
-            ilLTIAdvantagePlatformLaunchParameterBuilder::ROLE_LEARNER => $participants->getMembers(),
-        ] as $role => $usr_ids) {
+            [$instructor, array_merge($participants->getAdmins(), $participants->getTutors())],
+            [ilLTIAdvantagePlatformLaunchParameterBuilder::ROLE_LEARNER, $participants->getMembers()],
+        ] as [$role, $usr_ids]) {
             foreach ($usr_ids as $usr_id) {
                 $roles[(int) $usr_id][] = ilLTIAdvantagePlatformLaunchParameterBuilder::ROLE_PREFIX . $role;
             }

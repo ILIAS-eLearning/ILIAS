@@ -4537,6 +4537,7 @@ common#:#lso_edit#:#Redigera inlärningssekvens
 common#:#lso_import#:#Import av inlärningssekvens
 common#:#lso_new#:#Skapa en ny inlärningssekvens
 common#:#lso_wizard_page#:#Kopiera inlärningssekvensen (steg 2/2)
+common#:#lti#:#LTI konsument###14 10 2026 new variable
 common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
 common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#Notifiering om LTI-inlärningsframsteg

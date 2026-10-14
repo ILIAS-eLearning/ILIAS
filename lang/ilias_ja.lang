@@ -4549,6 +4549,7 @@ common#:#lso_edit#:#学習シーケンスを編集
 common#:#lso_import#:#学習シーケンスを編集
 common#:#lso_new#:#新しい学習シーケンス
 common#:#lso_wizard_page#:#学習シーケンスをコピー (Step 2/2)
+common#:#lti#:#LTI Tool (Consumer)###14 10 2026 new variable
 common#:#lti_add#:#Add LTI Consumer###22 09 2026 new variable
 common#:#lti_new#:#New LTI Consumer###22 09 2026 new variable
 common#:#lti_outcome#:#LTI の学習進行状況の通知
