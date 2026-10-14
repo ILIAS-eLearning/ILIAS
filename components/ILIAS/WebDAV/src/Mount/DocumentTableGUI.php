@@ -55,6 +55,7 @@ class DocumentTableGUI extends ilTable2GUI
         $this->setFormName('mount_instructions_documents');
 
         parent::__construct($parent_obj, $command);
+        $this->lng->loadLanguageModule('meta');
 
         $columns = $this->getColumnDefinition();
         $this->optional_columns = $this->getSelectableColumns();
@@ -163,7 +164,7 @@ class DocumentTableGUI extends ilTable2GUI
 
         $columns[++$i] = [
             'field' => 'sorting',
-            'txt' => $this->lng->txt('meta_order', 'meta'),
+            'txt' => $this->lng->txt('meta_order'),
             'default' => true,
             'optional' => false,
             'sortable' => false,
