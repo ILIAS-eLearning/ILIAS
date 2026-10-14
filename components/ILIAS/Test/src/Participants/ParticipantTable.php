@@ -187,9 +187,10 @@ class ParticipantTable implements DataRetrieval
         return [
             'solution' => fn(string $value, Participant $record) =>
                 $value === 'true' ? $record->hasAnsweredQuestionsForScoredAttempt() : !$record->hasAnsweredQuestionsForScoredAttempt(),
-            'status_of_attempt' => fn(string $value, Participant $record) =>
-                ($value === StatusOfAttempt::NOT_YET_STARTED->value && $record->getAttemptOverviewInformation()?->getStatusOfAttempt() === null) ||
-                $value === $record->getAttemptOverviewInformation()?->getStatusOfAttempt()->value,
+            'status_of_attempt' => fn(array $value, Participant $record) =>
+                (in_array(StatusOfAttempt::NOT_YET_STARTED->value, $value)
+                    && $record->getAttemptOverviewInformation()?->getStatusOfAttempt() === null)
+                || in_array($record->getAttemptOverviewInformation()?->getStatusOfAttempt()->value, $value),
             'test_passed' => fn(string $value, Participant $record) => $value === 'true'
                 ? $record->getAttemptOverviewInformation()?->hasPassingMark() === true
                 : $record->getAttemptOverviewInformation()?->hasPassingMark() !== true
@@ -319,7 +320,7 @@ class ParticipantTable implements DataRetrieval
         }
 
         $filters['status_of_attempt'] = [
-            $field_factory->select($this->lng->txt('status_of_attempt'), $status_of_attempt_options),
+            $field_factory->multiSelect($this->lng->txt('status_of_attempt'), $status_of_attempt_options),
             true
         ];
 
