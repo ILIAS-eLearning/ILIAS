@@ -206,59 +206,6 @@ class ilObjLanguage extends ilObject
     }
 
     /**
-     * Check language object status, and return true if a local language file
-     * is installed.
-     *
-     * Return     true if local language is installed
-     */
-    public function isLocal(): bool
-    {
-        if (substr($this->getStatus(), 10) === "local") {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * install current language
-     *
-     * $scope empty (global) or "local"
-     * Return installed language key
-     */
-    public function install(string $scope = ""): string
-    {
-        if ($scope === "global") {
-            $scope = "";
-        }
-
-        if (!$this->isInstalled() || (!$this->isLocal() && !empty($scope))) {
-            if ($this->check($scope)) {
-                // lang-file is ok. Flush data in db and...
-                if (empty($scope)) {
-                    $this->flush("keep_local");
-                }
-
-                // ...re-insert data from lang-file
-                $this->insert($scope);
-
-                // update information in db-table about available/installed languages
-                $newDesc = '';
-                if (empty($scope)) {
-                    $newDesc = "installed";
-                } elseif ($scope === "local") {
-                    $newDesc = "installed_local";
-                }
-                $this->setDescription($newDesc);
-                $this->update();
-                return $this->getKey();
-            }
-        }
-        return "";
-    }
-
-
-    /**
      * uninstall current language
      *
      * Return uninstalled language key
@@ -340,29 +287,6 @@ class ilObjLanguage extends ilObject
 
         return false;
     }
-
-    /**
-     * Refresh all installed languages.
-     *
-     * @deprecated no caller left in the core (ilObjLanguageFolderGUI::refreshObject() was unreachable and removed;
-     * refreshSelectedObject() uses \ILIAS\Language\Activities\UpdateLanguage). Kept as public API for external code.
-     */
-    public static function refreshAll(): void
-    {
-        $languages = ilObject::_getObjectsByType("lng");
-        $refreshed = array();
-
-        foreach ($languages as $lang) {
-            $langObj = new ilObjLanguage($lang["obj_id"], false);
-            if ($langObj->refresh()) {
-                $refreshed[] = $langObj->getKey();
-            }
-            unset($langObj);
-        }
-
-        self::refreshPlugins($refreshed);
-    }
-
 
     /**
      * Refresh languages of activated plugins
@@ -572,19 +496,16 @@ class ilObjLanguage extends ilObject
 
 
     /**
-     * insert language data from file into database
-     *
-     * @deprecated $scope has no effect: LanguageInstallationManager::insertLanguageForInstallation() always processes
-     * every directory, including customizing, in one idempotent pass. No caller in the core passes it; kept for external code.
+     * insert language data from file into database, customizing included
      */
-    public function insert(string $scope = ""): void
+    public function insert(): void
     {
         $this->modules_with_unwritten_overlay = $this->manager->insertLanguageForInstallation($this->key);
     }
 
     /**
-     * Modules whose PO/MO overlay could not be written by the last insert()/install()/refresh()/removeLocalChanges()
-     * (the database was written regardless) or removed by the last uninstall().
+     * Modules whose PO/MO overlay could not be written or removed by the last operation (the database was written
+     * regardless).
      *
      * @return list<string>
      */
@@ -602,7 +523,7 @@ class ilObjLanguage extends ilObject
     public function removeLocalChanges(): bool
     {
         // The customizing file is not applied here - an invalid one must not block the reset
-        if (!$this->isInstalled() || !$this->check("shipped")) {
+        if (!$this->isInstalled() || !$this->check(true)) {
             return false;
         }
 
@@ -916,18 +837,13 @@ class ilObjLanguage extends ilObject
      * header, and each lang-entry consists of exactly three elements
      * (module, identifier, value).
      *
-     * $scope  empty/"global" (all managed directories), "local"
-     *         (customizing directory only) or "shipped" (all but the customizing directory, see
-     *         removeLocalChanges(); like "global" for another repository implementation)
+     * $shipped_only  all but the customizing directory (see removeLocalChanges())
      *
      * Delegates to InstalledLanguageRepository; callers (e.g. ilObjLanguageFolderGUI) turn a `false` into user feedback.
      */
-    public function check(string $scope = ""): bool
+    public function check(bool $shipped_only = false): bool
     {
-        if ($scope === "local") {
-            return $this->repository->checkLocalLanguageFile($this->key);
-        }
-        if ($scope === "shipped" && $this->repository instanceof InstalledLanguageDatabaseRepository) {
+        if ($shipped_only && $this->repository instanceof InstalledLanguageDatabaseRepository) {
             return $this->repository->checkShippedLanguage($this->key);
         }
 
