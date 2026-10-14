@@ -627,7 +627,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this, "unlinkPortfolio"));
-        $conf->setHeaderText($this->lng->txt("exc_sure_unlink_portfolio", "sure_unlink_portfolio"));
+        $conf->setHeaderText($this->lng->txt("exc_sure_unlink_portfolio"));
         $conf->setConfirm($this->lng->txt("confirm"), "unlinkPortfolio");
         $conf->setCancel($this->lng->txt("cancel"), "returnToParent");
 
