@@ -7577,49 +7577,6 @@ dcl#:#roles_desc#:#Only the roles selected above will have access to this view.#
 dcl#:#set_as_default#:#Set as default###03 09 2026 new variable
 dcl#:#table_not_found#:#Table not found!###03 09 2026 new variable
 dcl#:#tableview_not_found#:#Tableview not found!###03 09 2026 new variable
-etal#:#appointments#:#Appointments###03 09 2026 new variable
-etal#:#cal_type_tals#:#Talks###03 09 2026 new variable
-etal#:#change_date_of_series#:#Change date of talk series###03 09 2026 new variable
-etal#:#change_date_of_talk#:#Change date of talk###03 09 2026 new variable
-etal#:#date_of_talk#:#Start Date###03 09 2026 new variable
-etal#:#etal_add#:#Add Talk###03 09 2026 new variable
-etal#:#etal_add_new_item#:#Add new Talk###03 09 2026 new variable
-etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###03 09 2026 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###03 09 2026 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###03 09 2026 new variable
-etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###03 09 2026 new variable
-etal#:#etal_edit#:#General###03 09 2026 new variable
-etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###03 09 2026 new variable
-etal#:#etal_location#:#Location###03 09 2026 new variable
-etal#:#etal_new#:#New Talk###03 09 2026 new variable
-etal#:#etal_open#:#Open Employee Talk###03 09 2026 new variable
-etal#:#etal_recurrence#:#Recurrence###03 09 2026 new variable
-etal#:#etal_status_all#:#All###03 09 2026 new variable
-etal#:#etal_status_completed#:#Completed###03 09 2026 new variable
-etal#:#etal_status_pending#:#Pending###03 09 2026 new variable
-etal#:#etal_unknown_username#:#Unknown User###03 09 2026 new variable
-etal#:#lock_edititng_for_others#:#Lock editing for others###03 09 2026 new variable
-etal#:#meta_adv_records#:#Metadata###03 09 2026 new variable
-etal#:#mm_org_etal#:#Talks###03 09 2026 new variable
-etal#:#mm_talk_template#:#Talk Templates###03 09 2026 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###03 09 2026 new variable
-etal#:#notification_talks_date_list_header#:#Dates###03 09 2026 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###03 09 2026 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###03 09 2026 new variable
-etal#:#notification_talks_subject_update#:#Update: %s###03 09 2026 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###03 09 2026 new variable
-etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###03 09 2026 new variable
-etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###03 09 2026 new variable
-etal#:#talk_serial#:#Talk Serial###03 09 2026 new variable
-etal#:#tals_add#:#Add Talks###03 09 2026 new variable
-etal#:#tals_new#:#New Talks###03 09 2026 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###03 09 2026 new variable
-etal#:#talt_add#:#Add Template###03 09 2026 new variable
-etal#:#talt_edit#:#General###03 09 2026 new variable
-etal#:#talt_etal#:#Employee Talk###03 09 2026 new variable
-etal#:#talt_new#:#New Talk Template###03 09 2026 new variable
-etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###03 09 2026 new variable
-etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###03 09 2026 new variable
 exc#:#exc_add_assignment#:#Adicionar atribuição
 exc#:#exc_add_criteria#:#Adicionar critério
 exc#:#exc_add_criteria_catalogue#:#Adicionar catálogo

@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: etal\n"
+
+msgid "appointments"
+msgstr "Appointments"
+
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "change_date_of_series"
+msgstr "Change date of talk series"
+
+msgid "change_date_of_talk"
+msgstr "Change date of talk"
+
+msgid "date_of_talk"
+msgstr "Start Date"
+
+msgid "etal_add"
+msgstr "Add Talk"
+
+msgid "etal_add_new_item"
+msgstr "Add New Talk"
+
+msgid "etal_create_invalid_template_ref"
+msgstr "Invalid Talk Template ID"
+
+msgid "etal_date_appointment_edit"
+msgstr "Date of Talk"
+
+msgid "etal_date_series_edit"
+msgstr "Date of Talk Series"
+
+msgid "etal_delete_confirmation_msg"
+msgstr "Are you sure that you want to delete the following talk?"
+
+msgid "etal_edit"
+msgstr "General"
+
+msgid "etal_invalid_user"
+msgstr "This user either does not exist or can't be invited."
+
+msgid "etal_location"
+msgstr "Location"
+
+msgid "etal_new"
+msgstr "New Talk"
+
+msgid "etal_open"
+msgstr "Open Employee Talk"
+
+msgid "etal_recurrence"
+msgstr "Recurrence"
+
+msgid "etal_status_all"
+msgstr "All"
+
+msgid "etal_status_completed"
+msgstr "Completed"
+
+msgid "etal_status_pending"
+msgstr "Pending"
+
+msgid "etal_unknown_username"
+msgstr "Unknown User"
+
+msgid "lock_edititng_for_others"
+msgstr "Lock editing for others"
+
+msgid "meta_adv_records"
+msgstr "Metadata"
+
+msgid "mm_org_etal"
+msgstr "Talks"
+
+msgid "mm_talk_template"
+msgstr "Talk Templates"
+
+msgid "notification_talks_created"
+msgstr "You have been invited to the following employee talks."
+
+msgid "notification_talks_date_list_header"
+msgstr "Dates"
+
+msgid "notification_talks_removed"
+msgstr "The following appointments have been canceled."
+
+msgid "notification_talks_subject"
+msgstr "Invitation: %s"
+
+msgid "notification_talks_subject_update"
+msgstr "Update: %s"
+
+msgid "notification_talks_updated"
+msgstr "The following talk appointments have been changed."
+
+msgid "pending_talks_warning"
+msgstr "The following pending talk appointments will be replaced:"
+
+msgid "tala_no_content_without_admin_info"
+msgstr "The Administrator role is required for access to Talk Templates."
+
+msgid "talk_serial"
+msgstr "Talk Serial"
+
+msgid "tals_add"
+msgstr "Add Talks"
+
+msgid "tals_new"
+msgstr "New Talks"
+
+msgid "talt_activation_online_info"
+msgstr "Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it."
+
+msgid "talt_add"
+msgstr "Add Template"
+
+msgid "talt_edit"
+msgstr "General"
+
+msgid "talt_etal"
+msgstr "Employee Talk"
+
+msgid "talt_new"
+msgstr "New Talk Template"
+
+msgid "will_update_series_info_lock"
+msgstr "Lock the editing of all appointments in this series"
+
+msgid "will_update_series_info_title"
+msgstr "Changes to the title will be made to all appointments in this series."
