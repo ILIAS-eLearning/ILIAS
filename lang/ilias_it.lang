@@ -2160,11 +2160,6 @@ bibl#:#sorting_6#:#By Year (Descending)###28 11 2025 new variable
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Traduci
 bkm#:#bkm_fold_created#:#La cartella dei segnalibri è stata creata.
-cat#:#cat_copy#:#Copia categoria
-cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###30 04 2024 new variable
-cat#:#cat_import#:#Importa categoria
-cat#:#cat_more_translations#:#Ulteriori traduzioni
-cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###30 04 2024 new variable
 cert#:#cert_currently_no_certs#:#Al momento non hai ancora ottenuto alcun certificato.
 cert#:#cert_description_label#:#Descrizione
 cert#:#cert_download_label#:#Scarica

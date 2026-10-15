@@ -2146,11 +2146,6 @@ bibl#:#sorting_6#:#By Year (Descending)###28 10 2024 new variable
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Translate
 bkm#:#bkm_fold_created#:#Un dossier de signets a été créé.
-cat#:#cat_copy#:#Copier Catégorie
-cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###31 10 2023 new variable
-cat#:#cat_import#:#Importer Catégorie
-cat#:#cat_more_translations#:#Plus de Traductions
-cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###31 10 2023 new variable
 cert#:#cert_currently_no_certs#:#Pour l'instant, vous n'avez pas encore obtenu de certificat.
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download

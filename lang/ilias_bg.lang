@@ -2161,11 +2161,6 @@ bibl#:#sorting_6#:#By Year (Descending)###28 10 2024 new variable
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Превод
 bkm#:#bkm_fold_created#:# Създадена е папка с отметки.
-cat#:#cat_copy#:#Копиране на категория
-cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###30 04 2024 new variable
-cat#:#cat_import#:#Импорт на категория
-cat#:#cat_more_translations#:#Още преводи
-cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###30 04 2024 new variable
 cert#:#cert_currently_no_certs#:#В момента все още не сте получили никакъв сертификат.
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download
