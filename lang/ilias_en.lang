@@ -9356,27 +9356,6 @@ noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
 notifications#:#push_notification#:#Push Notifications
-notifications_adm#:#available_providers#:#Available Providers
-notifications_adm#:#client_settings#:#Client Settings
-notifications_adm#:#enable_osd#:#Enable Toasts
-notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.
-notifications_adm#:#enable_push#:#Enable Push Notifications
-notifications_adm#:#enable_push_desc#:#If enabled, users are notified by push notifications. User can change this behaviour within their user settings.
-notifications_adm#:#notification_settings#:#Notification Settings
-notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
-notifications_adm#:#osd_interval#:#Refresh interval
-notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
-notifications_adm#:#osd_play_sound#:#Play a Sound
-notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
-notifications_adm#:#osd_settings#:#Toasts
-notifications_adm#:#push_client_already_used#:#Push notifications are already used by another user for this client.
-notifications_adm#:#push_client_edge_case#:#The Edge Browser might have deactivated notifications without your consent. Enter your browser settings to reactivate them.
-notifications_adm#:#push_client_inactive#:#Push notifications are disabled for this website. Open your browser settings to activate them.
-notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, Ipod) push notifications for websites are not supported. Create an access via web app to enable them.
-notifications_adm#:#push_settings#:#Push Notifications
-notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful
-notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.
-notifications_adm#:#user_settings#:#User Settings
 orgu#:#Staff#:#Staff
 orgu#:#add_position#:#Add Position
 orgu#:#authorities#:#Authorities
