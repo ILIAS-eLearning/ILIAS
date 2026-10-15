@@ -1,0 +1,285 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: news\n"
+
+msgid "lso_news_online_title"
+msgstr ""
+
+msgid "lso_news_online_txt"
+msgstr ""
+
+msgid "new_test_online"
+msgstr ""
+
+msgid "news_1_file_created"
+msgstr ""
+
+msgid "news_1_file_updated"
+msgstr ""
+
+msgid "news_1_postings"
+msgstr ""
+
+msgid "news_add_news"
+msgstr ""
+
+msgid "news_all_items"
+msgstr ""
+
+msgid "news_allow_longer_periods"
+msgstr ""
+
+msgid "news_allow_longer_periods_info"
+msgstr ""
+
+msgid "news_allow_shorter_periods"
+msgstr ""
+
+msgid "news_allow_shorter_periods_info"
+msgstr ""
+
+msgid "news_attached_to"
+msgstr ""
+
+msgid "news_block_information"
+msgstr ""
+
+msgid "news_cache"
+msgstr ""
+
+msgid "news_cache_info"
+msgstr ""
+
+msgid "news_default_visibility"
+msgstr ""
+
+msgid "news_edit_news_settings"
+msgstr ""
+
+msgid "news_enable_internal_news"
+msgstr ""
+
+msgid "news_enable_internal_news_info"
+msgstr ""
+
+msgid "news_enable_internal_rss"
+msgstr ""
+
+msgid "news_enable_internal_rss_info"
+msgstr ""
+
+msgid "news_enable_private_feed"
+msgstr ""
+
+msgid "news_enable_private_feed_info"
+msgstr ""
+
+msgid "news_feed_url"
+msgstr ""
+
+msgid "news_feed_url_for"
+msgstr ""
+
+msgid "news_first_letter_of_word_notification"
+msgstr ""
+
+msgid "news_get_feed_info"
+msgstr ""
+
+msgid "news_get_feed_title"
+msgstr ""
+
+msgid "news_get_feed_url"
+msgstr ""
+
+msgid "news_get_priv_feed_info"
+msgstr ""
+
+msgid "news_get_priv_feed_title"
+msgstr ""
+
+msgid "news_hide_news_block"
+msgstr ""
+
+msgid "news_hide_news_block_info"
+msgstr ""
+
+msgid "news_hide_news_date"
+msgstr ""
+
+msgid "news_hide_news_per_date"
+msgstr ""
+
+msgid "news_hide_news_per_date_info"
+msgstr ""
+
+msgid "news_inactive_private_feed_info"
+msgstr ""
+
+msgid "news_internal_news"
+msgstr ""
+
+msgid "news_keep_minimal_x_items"
+msgstr ""
+
+msgid "news_keep_minimal_x_items_info"
+msgstr ""
+
+msgid "news_loading_news"
+msgstr ""
+
+msgid "news_media"
+msgstr ""
+
+msgid "news_new_comments"
+msgstr ""
+
+msgid "news_new_reactions"
+msgstr ""
+
+msgid "news_news_block"
+msgstr ""
+
+msgid "news_news_item_content"
+msgstr ""
+
+msgid "news_news_item_content_long"
+msgstr ""
+
+msgid "news_news_item_content_long_info"
+msgstr ""
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr ""
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr ""
+
+msgid "news_news_item_head"
+msgstr ""
+
+msgid "news_news_item_title"
+msgstr ""
+
+msgid "news_news_item_visibility"
+msgstr ""
+
+msgid "news_news_item_visibility_info"
+msgstr ""
+
+msgid "news_news_items"
+msgstr ""
+
+msgid "news_no_js_click_here"
+msgstr ""
+
+msgid "news_no_news_items"
+msgstr ""
+
+msgid "news_not_available"
+msgstr ""
+
+msgid "news_notifications"
+msgstr ""
+
+msgid "news_notifications_public"
+msgstr ""
+
+msgid "news_notifications_public_info"
+msgstr ""
+
+msgid "news_nr_of_items"
+msgstr ""
+
+msgid "news_nr_of_items_info"
+msgstr ""
+
+msgid "news_pd_period"
+msgstr ""
+
+msgid "news_pd_period_info"
+msgstr ""
+
+msgid "news_period_1_month"
+msgstr ""
+
+msgid "news_period_1_week"
+msgstr ""
+
+msgid "news_period_1_year"
+msgstr ""
+
+msgid "news_period_x_days"
+msgstr ""
+
+msgid "news_period_x_months"
+msgstr ""
+
+msgid "news_period_x_weeks"
+msgstr ""
+
+msgid "news_public_feed"
+msgstr ""
+
+msgid "news_public_feed_info"
+msgstr ""
+
+msgid "news_really_delete_news"
+msgstr ""
+
+msgid "news_rss"
+msgstr ""
+
+msgid "news_rss_period"
+msgstr ""
+
+msgid "news_rss_title_format"
+msgstr ""
+
+msgid "news_rss_title_format_news_obj"
+msgstr ""
+
+msgid "news_rss_title_format_obj_news"
+msgstr ""
+
+msgid "news_settings"
+msgstr ""
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr ""
+
+msgid "news_time_period"
+msgstr ""
+
+msgid "news_timline_add_entries_info"
+msgstr ""
+
+msgid "news_timline_no_entries"
+msgstr ""
+
+msgid "news_visibility_public"
+msgstr ""
+
+msgid "news_visibility_users"
+msgstr ""
+
+msgid "news_x_files_created"
+msgstr ""
+
+msgid "news_x_files_updated"
+msgstr ""
+
+msgid "news_x_postings"
+msgstr ""
+
+msgid "passwd_equals_ilpasswd"
+msgstr ""
+
+msgid "priv_feed_disabled"
+msgstr ""
+
+msgid "priv_feed_settings"
+msgstr ""

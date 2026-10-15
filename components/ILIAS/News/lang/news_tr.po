@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "1 Dosya eklendi."
+
+msgid "news_1_file_updated"
+msgstr "1 Dosya güncellendi."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "ekle Haberler"
+
+msgid "news_all_items"
+msgstr "Kişisel Masaüstü'ndeki tüm öğeleri için Haberleri"
+
+msgid "news_allow_longer_periods"
+msgstr "uzun Dönemleri İzin"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Kullanıcılar kişisel masaüstündeki artık haber süre seçebilirsiniz."
+
+msgid "news_allow_shorter_periods"
+msgstr "kısa süreli sahip"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Kullanıcılar kişisel masaüstünde kısa haberler dönemlerde seçebilirsiniz."
+
+msgid "news_attached_to"
+msgstr "Bağlı"
+
+msgid "news_block_information"
+msgstr "<b> Haberler </ b> blok <b> Kişisel Öğeler ile ilgili tüm haberler listeler </ b> kişisel masaüstünde seçtiniz."
+
+msgid "news_cache"
+msgstr "Haberler Önbellek (Dakika)"
+
+msgid "news_cache_info"
+msgstr "Güncelleme haberler bloklar her x dakika. '0 'Her anlamına gelir. Yüksek değerler performansını artırmak, ancak haber erişilebilir olmayan ürün bağlantı verebilirsiniz."
+
+msgid "news_default_visibility"
+msgstr "Standart Erişim"
+
+msgid "news_edit_news_settings"
+msgstr "Ayarları Düzenle"
+
+msgid "news_enable_internal_news"
+msgstr "İç Haberler etkinleştir"
+
+msgid "news_enable_internal_news_info"
+msgstr "Kategorileri için etkinleştirir haber blokları, kurslar, gruplar ve diğer nesneleri. Kullanıcılar haber ve abone olabilirsiniz masaüstü kişisel gösterilmektedir."
+
+msgid "news_enable_internal_rss"
+msgstr "İç Haberler etkinleştir RSS"
+
+msgid "news_enable_internal_rss_info"
+msgstr "RSS ile haber yayınlamak için izin verir. Bu öğeler kimlik doğrulaması yapılmadan sistemin dışında erişilebilir olacaktır."
+
+msgid "news_enable_private_feed"
+msgstr "Özel Haber beslemeleri etkinleştir"
+
+msgid "news_enable_private_feed_info"
+msgstr "Bu seçenek etkinleştirilirse, kamu ve özel haber kişisel RSS ile elde edilebilir. ILIAS dışında beslenir. Yetkilendirme şifre tarafından sağlanmaktadır."
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "'% S' için Feed URL"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "Bu kişisel bir haber besleme URL'si. Besleme yazar tarafından ortak olarak ilan sadece haberleri içerir. Besleme herhangi bir kimlik doğrulama prosedürü ile korunmaktadır değildir. Diğer insanlarla bu URL paylaşmak etmeyiniz."
+
+msgid "news_get_feed_title"
+msgstr "Kişisel Feed URL"
+
+msgid "news_get_feed_url"
+msgstr "Feed URL alın"
+
+msgid "news_get_priv_feed_info"
+msgstr "Bu kişisel bir özel haber besleme URL'si. Besleme yazar tarafından kamu ve özel olarak beyan edildiği haberleri içerir. Bu besleme \"Ayarlar\" altında değiştirilebilir bir şifre ile korunmaktadır. Diğer insanlarla bu URL paylaşmak etmeyiniz. Lütfen yerine-şifre-in Yem-Parola Bu URL."
+
+msgid "news_get_priv_feed_title"
+msgstr "Kişisel özel Feed URL"
+
+msgid "news_hide_news_block"
+msgstr "Gizle Haber Bloğu"
+
+msgid "news_hide_news_block_info"
+msgstr "Öğrenenin görünümünde gizle blok. Haber bloğu yalnızca yazma izni olan kullanıcılar için görünür olacak."
+
+msgid "news_hide_news_date"
+msgstr "Başlama Tarihi"
+
+msgid "news_hide_news_per_date"
+msgstr "Sonra Göster Haberler"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Belirli bir tarihten daha yeni olan Sadece haber görüntülenir."
+
+#, fuzzy
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+msgid "news_internal_news"
+msgstr "Haberleri"
+
+msgid "news_keep_minimal_x_items"
+msgstr "en az x öğeleri koru"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "bir değer> 0 olarak ayarlanırsa, bu onlar varsayılan ömrü daha eski olsa bile, yem tutulur ürün sayısıdır."
+
+msgid "news_loading_news"
+msgstr "Yükleniyor Haberler ..."
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Metin"
+
+msgid "news_news_item_content_long"
+msgstr "Uzun Metin"
+
+msgid "news_news_item_content_long_info"
+msgstr "Bu metin RSS aracılığıyla yayınlanan olmayacaktır."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+msgid "news_news_item_head"
+msgstr "Haber"
+
+msgid "news_news_item_title"
+msgstr "Başlık"
+
+msgid "news_news_item_visibility"
+msgstr "Erişim"
+
+msgid "news_news_item_visibility_info"
+msgstr "Herkese açık haberlere RSS aracılığıyla ILIAS kimlik doğrulaması yapılmadan ulaşılabilir. Herhangi bir gizli bilgiyi dahil etmeyiniz."
+
+msgid "news_news_items"
+msgstr "Haber (ler)"
+
+msgid "news_no_js_click_here"
+msgstr "Haber görüntülenmezse, buraya tıklayın."
+
+msgid "news_no_news_items"
+msgstr "Mevcut haber yok."
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+msgid "news_notifications"
+msgstr "Bildirimler"
+
+msgid "news_notifications_public"
+msgstr "Genel Bildirimler"
+
+msgid "news_notifications_public_info"
+msgstr "Bu seçenek etkinleştirilirse, bildirimlerini kişisel RSS ile elde edilebilir ILIAS dışında beslenir. Bu yetkilendirme olmadan bildirimleri erişilebilir yapar unutmayın."
+
+msgid "news_nr_of_items"
+msgstr "Nesne başına maksimum Haber Haber sayısı"
+
+msgid "news_nr_of_items_info"
+msgstr "Veritabanında bir nesne için tutulur haber başlıklarının sayısı (bir dosya ya da öğrenme modülü gibi). Onlar subobjects haber toplamalısınız, çünkü kapsayıcı nesneleri (örneğin kategoriler, kurslar), Daha fazla öğe listeleyebilir unutmayınız."
+
+msgid "news_pd_period"
+msgstr "Kişisel Masaüstü Haberler Dönemi"
+
+msgid "news_pd_period_info"
+msgstr "kişisel masaüstü haber için kullanılan süreyi tanımlar. Herhangi bir performans sorunları yaşıyorsanız, daha düşük değerler seçin."
+
+msgid "news_period_1_month"
+msgstr "Son Ay"
+
+msgid "news_period_1_week"
+msgstr "Son Hafta"
+
+msgid "news_period_1_year"
+msgstr "Geçen Yıl"
+
+msgid "news_period_x_days"
+msgstr "Son% s gün"
+
+msgid "news_period_x_months"
+msgstr "Son% s Ay"
+
+msgid "news_period_x_weeks"
+msgstr "Son% s Haftalar"
+
+msgid "news_public_feed"
+msgstr "Ekstra RSS Feed"
+
+msgid "news_public_feed_info"
+msgstr "Bu seçenek etkinleştirilirse, ayrı bir RSS beslemesi, Bu Mediacast sağlanır."
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS Dönem"
+
+msgid "news_rss_title_format"
+msgstr "RSS Girişleri Başlık Formatı"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Haber Başlıkları (Object Başlık)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Nesne Başlık - Haber Başlıkları"
+
+msgid "news_settings"
+msgstr "Haberleri Ayarları"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+msgid "news_time_period"
+msgstr "Zaman Periyodu"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Herkese Açık"
+
+msgid "news_visibility_users"
+msgstr "Kullanıcı Girişi"
+
+msgid "news_x_files_created"
+msgstr "% s dosyaları eklenmiştir."
+
+msgid "news_x_files_updated"
+msgstr "% s Dosyalar güncellendi."
+
+msgid "news_x_postings"
+msgstr "% s İlanları eklenmiştir."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "sizin ILIAS-şifresinden farklı bir şifre giriniz."
+
+msgid "priv_feed_disabled"
+msgstr "Özel Haber beslemeleri devre dışı."
+
+msgid "priv_feed_settings"
+msgstr "Özel Haber beslemeleri ayarları"
