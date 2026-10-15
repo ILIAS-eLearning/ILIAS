@@ -9339,27 +9339,6 @@ noti#:#noti_deactivate_notification#:#Desactivar notificación
 noti#:#noti_notification_activated#:#Notificación activada
 noti#:#noti_notification_deactivated#:#Notificación desactivada
 notifications#:#push_notification#:#Push Notifications
-notifications_adm#:#available_providers#:#Proveedores disponibles
-notifications_adm#:#client_settings#:#Ajustes generales
-notifications_adm#:#enable_osd#:#Habilitar notificaciones emergentes (Toasts)
-notifications_adm#:#enable_osd_desc#:#Si está habilitado, los usuarios son notificados mediante una ventana emergente sobre nuevas notificaciones.
-notifications_adm#:#enable_push#:#Enable Push Notifications
-notifications_adm#:#enable_push_desc#:#If enabled, users are notified by push notifications. User can change this behaviour within their user settings.
-notifications_adm#:#notification_settings#:#Ajustes de notificación
-notifications_adm#:#osd_error_refresh_interval_too_small#:#El intervalo de actualización debe ser de al menos 3000 milisegundos.
-notifications_adm#:#osd_interval#:#Intervalo de actualización
-notifications_adm#:#osd_interval_desc#:#Intervalo de sondeo para comprobar nuevas notificaciones en milisegundos. Un número menor notificará al usuario más rápidamente, pero aumenta el número de solicitudes que el servidor web debe manejar.
-notifications_adm#:#osd_play_sound#:#Reproducir un sonido
-notifications_adm#:#osd_play_sound_desc#:#Reproducir un sonido al recibir una nueva notificación.
-notifications_adm#:#osd_settings#:#Notificaciones emergentes (Toasts)
-notifications_adm#:#push_client_already_used#:#Push notifications are already used by another user for this client.
-notifications_adm#:#push_client_edge_case#:#The Edge Browser might have deactivated notifications without your consent. Enter your browser settings to reactivate them.
-notifications_adm#:#push_client_inactive#:#Push notifications are disabled for this website. Open your browser settings to activate them.
-notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, Ipod) push notifications for websites are not supported. Create an access via web app to enable them.
-notifications_adm#:#push_settings#:#Push Notifications
-notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful
-notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.
-notifications_adm#:#user_settings#:#Configuración del usuario
 orgu#:#Staff#:#Personal
 orgu#:#add_position#:#Añadir cargo
 orgu#:#authorities#:#Autoridades

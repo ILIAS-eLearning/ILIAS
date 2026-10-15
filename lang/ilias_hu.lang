@@ -9306,27 +9306,6 @@ noti#:#noti_deactivate_notification#:#Értesítés kikapcsolása
 noti#:#noti_notification_activated#:#Az értesítőt sikeresen bekapcsolta
 noti#:#noti_notification_deactivated#:#Az értesítőt sikeresen kikapcsolta
 notifications#:#push_notification#:#Push értesítések
-notifications_adm#:#available_providers#:#Elérhető szolgáltatók
-notifications_adm#:#client_settings#:#Kliens beállításai
-notifications_adm#:#enable_osd#:#Képernyő-értesítések bekapcsolása
-notifications_adm#:#enable_osd_desc#:#A felhasználók értesítése felugró ablakban.
-notifications_adm#:#enable_push#:#Push értesítések bekapcsolása
-notifications_adm#:#enable_push_desc#:#Ha be van kapcsolva, a felhasználók push értesítéseket kapnak. A felhasználó ezt a saját felhasználói beállításaiban módosíthatja.
-notifications_adm#:#notification_settings#:#Értesítés beállításai
-notifications_adm#:#osd_error_refresh_interval_too_small#:#A frissítési időköz legalább 3000 ezredmásodperc lehet.
-notifications_adm#:#osd_interval#:#Frissítési időköz
-notifications_adm#:#osd_interval_desc#:#Új értesítések ellenőrzési ideje másodpercekben. Az alacsonyabb értéke gyorsabb értesítést jelent, de növeli a kérések számát és az adatforgalmat.
-notifications_adm#:#osd_play_sound#:#Hang lejátszása
-notifications_adm#:#osd_play_sound_desc#:#Új értesítéskor hangot játszunk le.
-notifications_adm#:#osd_settings#:#Képernyőértesítések
-notifications_adm#:#push_client_already_used#:#Push értesítéseket már egy másik felhasználó használja ehhez a klienshez.
-notifications_adm#:#push_client_edge_case#:#Lehetséges, hogy az Edge böngésző az Ön beleegyezése nélkül kikapcsolta az értesítéseket. A böngésző beállításaiban aktiválhatja őket újra.
-notifications_adm#:#push_client_inactive#:#Push értesítések ki vannak kapcsolva ezen a weboldalon. Nyissa meg a böngésző beállításait az aktiváláshoz.
-notifications_adm#:#push_client_ios_case#:#A push értesítéseket az IOS (Iphone, Ipad, Ipod) nem támogatja. Hozzon létre egy hozzáférést webes alkalmazáson keresztül.
-notifications_adm#:#push_settings#:#Push értesítések
-notifications_adm#:#push_subscription_successfull#:#A push értesítéseket sikeresen bekapcsolta.
-notifications_adm#:#push_subscription_successfull_desc#:#Ez egy próbaértesítés, hogy ellenőrizze a push értesítések bekapcsolását.
-notifications_adm#:#user_settings#:#Felhasználó beállítások
 orgu#:#Staff#:#Személyi állomány
 orgu#:#add_position#:#Pozíció hozzáadása
 orgu#:#authorities#:#Utasítási jogkörök

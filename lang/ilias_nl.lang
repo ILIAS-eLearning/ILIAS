@@ -9317,24 +9317,6 @@ noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new v
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
 notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
-notifications_adm#:#enable_osd#:#Enable Toasts###26 08 2024 new variable
-notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.###26 08 2024 new variable
-notifications_adm#:#enable_push#:#Enable Push Notifications###29 10 2025 new variable
-notifications_adm#:#enable_push_desc#:#If enabled, users are notified by push notifications. User can change this behaviour within their user settings.###29 10 2025 new variable
-notifications_adm#:#notification_settings#:#Notification Settings###26 08 2024 new variable
-notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###26 08 2024 new variable
-notifications_adm#:#osd_interval#:#Refreshinterval###26 08 2024 new variable
-notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###26 08 2024 new variable
-notifications_adm#:#osd_play_sound#:#Play a Sound###26 08 2024 new variable
-notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.###26 08 2024 new variable
-notifications_adm#:#osd_settings#:#Toasts###26 08 2024 new variable
-notifications_adm#:#push_client_already_used#:#Push notifications are already used by another user for this client.###29 10 2025 new variable
-notifications_adm#:#push_client_edge_case#:#The Edge Browser might have deactivated notifications without your consent. Enter your browser settings to reactivate them.###29 10 2025 new variable
-notifications_adm#:#push_client_inactive#:#Push notifications are disabled for this website. Open your browser settings to activate them.###29 10 2025 new variable
-notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, Ipod) push notifications for websites are not supported. Create an access via web app to enable them.###29 10 2025 new variable
-notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
-notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
-notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
 orgu#:#Staff#:#Staf
 orgu#:#add_position#:#Add Position###10 11 2018 new variable
 orgu#:#authorities#:#Authorities###31 08 2017 new variable
