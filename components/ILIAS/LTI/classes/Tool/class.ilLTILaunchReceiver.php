@@ -85,7 +85,29 @@ class ilLTILaunchReceiver extends Tool
         // the OpenID Connect login of LTI Advantage goes back to the platform by GET, which carries the cookies
         // of the platform that SameSite=Lax holds back from a POST, as in earlier releases
         self::$authenticateUsingGet = true;
-        $this->handleRequest();
+
+        // the library ends the request once it has checked the launch, so it is asked to throw instead
+        $this->onExitExceptionClass = ilLTIExitException::class;
+        try {
+            $this->handleRequest();
+        } catch (ilLTIExitException) {
+            $this->sendPendingResponse();
+        }
+    }
+
+    /**
+     * Sends what the library prepared before it tried to end the request: a redirect back to the platform with
+     * an error, or a page, which is an error or one of the forms that check the cookies of the browser. A launch
+     * the library accepted leaves neither, and ILIAS takes over.
+     */
+    private function sendPendingResponse(): void
+    {
+        if ($this->redirectUrl !== null) {
+            Util::redirect($this->redirectUrl);
+        }
+        if ($this->output !== null) {
+            ilLTIAdvantageResponse::html($this->output);
+        }
     }
 
     /**

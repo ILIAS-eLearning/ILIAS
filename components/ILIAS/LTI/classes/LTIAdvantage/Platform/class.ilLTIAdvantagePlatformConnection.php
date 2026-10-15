@@ -89,6 +89,9 @@ class ilLTIAdvantagePlatformConnection extends Platform
         ilLTIAdvantageKeyPair::applyTo($this);
 
         $counterpart = new Tool(new ilLTIDataConnector());
+        // the library answers the authentication request only for an enabled tool; whether the tool may be
+        // launched is up to ILIAS
+        $counterpart->enabled = true;
         $counterpart->ltiVersion = LtiVersion::V1P3;
         $counterpart->messageUrl = $tool->getUrl();
         $counterpart->initiateLoginUrl = $tool->getInitiateLoginUrl();

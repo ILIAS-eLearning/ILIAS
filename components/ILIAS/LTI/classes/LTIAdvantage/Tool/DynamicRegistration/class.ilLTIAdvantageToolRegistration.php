@@ -151,7 +151,7 @@ final class ilLTIAdvantageToolRegistration extends Tool
      * ILIAS is launched at lti.php, which also takes the OpenID Connect login and the Deep Linking requests.
      * What it asks for of the user and of the services is what a launch uses.
      */
-    protected function getConfiguration(array $platformConfig): array
+    protected function getConfiguration(?array $platformConfig): array
     {
         $title = ilObjSystemFolder::_getHeaderTitle();
         $this->product = new Item(null, $title !== '' ? $title : 'ILIAS', 'ILIAS');

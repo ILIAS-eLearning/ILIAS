@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86aadacf4def78da39319d6c6ca18110",
+    "content-hash": "2b858b71ec8bdfbcbf1a4de417423914",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -123,16 +123,16 @@
         },
         {
             "name": "celtic/lti",
-            "version": "v5.3.2",
+            "version": "v5.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/celtic-project/LTI-PHP.git",
-                "reference": "3abd0f53079371491f13286ea1a7ea031a4117e0"
+                "reference": "ce0658e7d4e3d4b8d02f5d92c2c863032f4b7210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/celtic-project/LTI-PHP/zipball/3abd0f53079371491f13286ea1a7ea031a4117e0",
-                "reference": "3abd0f53079371491f13286ea1a7ea031a4117e0",
+                "url": "https://api.github.com/repos/celtic-project/LTI-PHP/zipball/ce0658e7d4e3d4b8d02f5d92c2c863032f4b7210",
+                "reference": "ce0658e7d4e3d4b8d02f5d92c2c863032f4b7210",
                 "shasum": ""
             },
             "require": {
@@ -162,9 +162,9 @@
             ],
             "support": {
                 "issues": "https://github.com/celtic-project/LTI-PHP/issues",
-                "source": "https://github.com/celtic-project/LTI-PHP/tree/v5.3.2"
+                "source": "https://github.com/celtic-project/LTI-PHP/tree/v5.4.7"
             },
-            "time": "2026-03-04T12:05:01+00:00"
+            "time": "2026-09-28T23:33:13+00:00"
         },
         {
             "name": "composer/pcre",
@@ -11131,5 +11131,5 @@
         "ext-imagick": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
