@@ -1,0 +1,114 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr ""
+
+msgid "cntr_adopt_content"
+msgstr ""
+
+msgid "cntr_container_only_on_their_own"
+msgstr ""
+
+msgid "cntr_copy_crs_grp"
+msgstr ""
+
+msgid "cntr_copy_repo_tree"
+msgstr ""
+
+msgid "cntr_hide_title_and_icon"
+msgstr ""
+
+msgid "cntr_manage"
+msgstr ""
+
+msgid "cntr_ordering"
+msgstr ""
+
+msgid "cntr_saved_sorting"
+msgstr ""
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr ""
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr ""
+
+msgid "cntr_switched_editor"
+msgstr ""
+
+msgid "cntr_tax_none_available"
+msgstr ""
+
+msgid "cntr_tax_settings_info"
+msgstr ""
+
+msgid "cntr_taxonomy_definitions"
+msgstr ""
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr ""
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr ""
+
+msgid "cntr_text_media_editor"
+msgstr ""
+
+msgid "cntr_view_by_type"
+msgstr ""
+
+msgid "cntr_view_info_by_type"
+msgstr ""
+
+msgid "cntr_view_info_sessions"
+msgstr ""
+
+msgid "cntr_view_info_simple"
+msgstr ""
+
+msgid "cntr_view_sessions"
+msgstr ""
+
+msgid "cntr_view_simple"
+msgstr ""
+
+msgid "container_import_zip_file_invalid"
+msgstr ""
+
+msgid "edit_questions"
+msgstr ""
+
+msgid "exc_next_deadline_single"
+msgstr ""
+
+msgid "msg_no_downloadable_objects"
+msgstr ""
+
+msgid "objects_duplicated"
+msgstr ""
+
+msgid "prtf_create_portfolio_from_template"
+msgstr ""
+
+msgid "sorting_new_items_at_bottom"
+msgstr ""
+
+msgid "sorting_new_items_at_top"
+msgstr ""
+
+msgid "sorting_new_items_direction"
+msgstr ""
+
+msgid "sorting_new_items_order"
+msgstr ""
+
+msgid "sorting_new_items_position"
+msgstr ""
+
+msgid "tab_back_to_repository"
+msgstr ""

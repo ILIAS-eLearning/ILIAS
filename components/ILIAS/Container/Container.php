@@ -53,5 +53,9 @@ class Container implements Component\Component
             $this,
             'cont'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'cntr'
+        );
     }
 }

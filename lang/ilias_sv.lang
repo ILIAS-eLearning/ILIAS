@@ -2423,42 +2423,6 @@ cmix#:#use_fetch_info#:#Så länge resursen stöder det här alternativet bör d
 cmix#:#xapi_statements_fetched_successfully#:#Resultat från Learning Record Store har hämtats framgångsrikt.
 cmix#:#xapi_statements_last_fetch_date#:#Sista hämtning av resultat
 cmix#:#xapi_statements_not_fetched_yet#:#Resultaten från Learning Record Store har ännu inte hämtats.
-cntr#:#cntr_add_new_item#:#Lägg till nytt objekt
-cntr#:#cntr_adopt_content#:#Ta över innehåll
-cntr#:#cntr_container_only_on_their_own#:#Kategorier, kurser, grupper, mappar, inlärningssekvenser och studieprogram kan endast kopieras individuellt. Välj endast ett sådant objekt.
-cntr#:#cntr_copy_crs_grp#:#Val av medlemskap
-cntr#:#cntr_copy_repo_tree#:#Urval magasin träd
-cntr#:#cntr_hide_title_and_icon#:# Visa inte titel och ikon
-cntr#:#cntr_manage#:#Hantering
-cntr#:#cntr_ordering#:#Sortera
-cntr#:#cntr_saved_sorting#:#Sortering sparad
-cntr#:#cntr_switch_to_new_editor_cmd#:#Byt till innehållet nedan. Gammalt innehåll kommer att raderas.
-cntr#:#cntr_switch_to_new_editor_message#:#Detta är standardredigeraren för sidor. Om du vill använda den måste du lägga till innehållet genom att klicka på platshållarna nedan. Om du klickar på länken nedan kommer innehållet nedan att användas för att visa sidan.
-cntr#:#cntr_switched_editor#:#Konverterad till ny representation
-cntr#:#cntr_tax_none_available#:#Det finns inga tillgängliga taxonomier.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###21 11 2023 new variable
-cntr#:#cntr_taxonomy_definitions#:#Definition av taxonomi
-cntr#:#cntr_taxonomy_show_sideblock#:#Visa taxonomi i sidblocket
-cntr#:#cntr_taxonomy_sideblock_settings#:#Inställningar för presentation
-cntr#:#cntr_text_media_editor#:#Design sida
-cntr#:#cntr_view_by_type#:#Grupperade efter typ
-cntr#:#cntr_view_info_by_type#:#Alla objekt av en viss typ visas i en separat lista.
-cntr#:#cntr_view_info_sessions#:#Sessioner visas i sin egen lista. Objekt som inte är tilldelade sessioner listas nedan.
-cntr#:#cntr_view_info_simple#:#Alla objekt visas i en enda lista.
-cntr#:#cntr_view_sessions#:#Session vy
-cntr#:#cntr_view_simple#:#Enkel lista
-cntr#:#container_import_zip_file_invalid#:#Den uppladdade filen är inte en giltig ILIAS exportfil. För att ladda upp katalogstrukturer, använd ett filobjekt.
-cntr#:#edit_questions#:#Redigera frågor
-cntr#:#exc_next_deadline_single#:#Tidsfrist för leverans
-cntr#:#msg_no_downloadable_objects#:#Inga nedladdningsbara objekt hittades.
-cntr#:#objects_duplicated#:#Objekten har kopierats.
-cntr#:#prtf_create_portfolio_from_template#:#Skapa portfölj från mall
-cntr#:#sorting_new_items_at_bottom#:#Botten
-cntr#:#sorting_new_items_at_top#:#Topp
-cntr#:#sorting_new_items_direction#:#Inriktning
-cntr#:#sorting_new_items_order#:#Beställ
-cntr#:#sorting_new_items_position#:#Insätt nya objekt
-cntr#:#tab_back_to_repository#:#Tillbaka till tidningen
 common#:#HH#:#SS
 common#:#absolute_path#:#Absolut väg
 common#:#accept_usr_agreement_btn#:#Agree

@@ -2422,42 +2422,6 @@ cmix#:#use_fetch_info#:#Se la risorsa lo supporta, è consigliato utilizzare que
 cmix#:#xapi_statements_fetched_successfully#:#I risultati del Learning Record Store sono stati recuperati correttamente
 cmix#:#xapi_statements_last_fetch_date#:#Ultimo recupero dei risultati:
 cmix#:#xapi_statements_not_fetched_yet#:#I risultati di Learning Record Store non sono ancora stati recuperati
-cntr#:#cntr_add_new_item#:#Aggiungi nuovo elemento
-cntr#:#cntr_adopt_content#:#Adotta il contenuto
-cntr#:#cntr_container_only_on_their_own#:#Categorie, corsi, gruppi o cartelle possono essere copiati come singoli oggetti. Si prega di selezionare una sola voce.
-cntr#:#cntr_copy_crs_grp#:#I miei corsi e gruppi
-cntr#:#cntr_copy_repo_tree#:#Albero archivio
-cntr#:#cntr_hide_title_and_icon#:#Nascondi titolo ed icona
-cntr#:#cntr_manage#:#Gestisci
-cntr#:#cntr_ordering#:#Ordinamento
-cntr#:#cntr_saved_sorting#:#Ordinamento salvato.
-cntr#:#cntr_switch_to_new_editor_cmd#:#Visualizza il nuovo contenuto della pagina. Il vecchio contenuto sarà rimosso
-cntr#:#cntr_switch_to_new_editor_message#:#Questo è l'editor standard di ILIAS. Non è possibile trasferire contenuti dal vecchio editor. Inizia aggiungendo nuovi contenuti in basso. Se clicchi sul link che segue i nuovi contenuti saranno in uso.
-cntr#:#cntr_switched_editor#:#Nuovo contenuto visualizzato
-cntr#:#cntr_tax_none_available#:#Non ci sono tassonomie disponibili.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Definizione tassonomia
-cntr#:#cntr_taxonomy_show_sideblock#:#Mostra tassonomie nel blocco laterale
-cntr#:#cntr_taxonomy_sideblock_settings#:#Impostazioni blocco tassonomia
-cntr#:#cntr_text_media_editor#:#Text/Media Editor
-cntr#:#cntr_view_by_type#:#Visualizzazione per tipo
-cntr#:#cntr_view_info_by_type#:#Questa visualizzazione ordina tutti gli elementi a seconda del tipo.
-cntr#:#cntr_view_info_sessions#:#Questa visualizzazione mostra tutte le sessioni disponibili. Elementi, che non si riferiscono ad una sessione, verranno mostrati di seguito.
-cntr#:#cntr_view_info_simple#:#Questa visualizzazione mostra tutti gli elementi in una lista.
-cntr#:#cntr_view_sessions#:#Visualizzazione della sessione
-cntr#:#cntr_view_simple#:#Visualizzazione semplice
-cntr#:#container_import_zip_file_invalid#:#Il file caricato non è un file di esportazione ILIAS valido. Per caricare la struttura di directory si prega di utilizzare un oggetto file.
-cntr#:#edit_questions#:#Modifica domande
-cntr#:#exc_next_deadline_single#:#Scadenza
-cntr#:#msg_no_downloadable_objects#:#Nessun oggetto scaricabile trovato.
-cntr#:#objects_duplicated#:#Oggetti copiati
-cntr#:#prtf_create_portfolio_from_template#:#Crea portfolio dal modello
-cntr#:#sorting_new_items_at_bottom#:#Pulsante
-cntr#:#sorting_new_items_at_top#:#In alto
-cntr#:#sorting_new_items_direction#:#Direzione di ordinamento per i nuovi oggetti
-cntr#:#sorting_new_items_order#:#Ordine per i nuovi oggetti
-cntr#:#sorting_new_items_position#:#Posizione per i nuovi oggetti
-cntr#:#tab_back_to_repository#:#Torna al repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement_btn#:#Accettare

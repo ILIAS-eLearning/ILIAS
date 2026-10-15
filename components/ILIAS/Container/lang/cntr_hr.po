@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Dodaj novu stavku"
+
+msgid "cntr_adopt_content"
+msgstr "Preuzmi sadržaj"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Kategorije, tečajevi, grupe, mape ili studijski programi mogu se kopirati samo kao pojedinačni objekti. Odaberite samo jednu stavku."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Moji tečajevi i grupe"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Stablo repozitorija"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Sakrij naslov i ikonu"
+
+msgid "cntr_manage"
+msgstr "Upravljaj"
+
+msgid "cntr_ordering"
+msgstr "Sortiranje"
+
+msgid "cntr_saved_sorting"
+msgstr "Sortiranje spremljeno."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Prebacite se na novi sadržaj ove stranice. Stari će se sadržaj ukloniti."
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Ovo je podržani standardni urednik. Sadržaj iz starog urednika ne može se prenijeti. Počnite dodavati novi sadržaj stranice u nastavku. Ako kliknete sljedeću poveznicu, koristit će se novi sadržaj."
+
+msgid "cntr_switched_editor"
+msgstr "Prebačen na novi sadržaj."
+
+msgid "cntr_tax_none_available"
+msgstr "Ne postoje dostupne taksonomije."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Definicija taksonomije"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Prikaži taksonomiju u bočnom bloku"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Postavke prezentacije"
+
+msgid "cntr_text_media_editor"
+msgstr "Prilagodi stranicu"
+
+msgid "cntr_view_by_type"
+msgstr "Prikaz grupiran po tipu"
+
+msgid "cntr_view_info_by_type"
+msgstr "Ova prezentacija sadržaja grupira sve stavke prema vrsti resursa."
+
+msgid "cntr_view_info_sessions"
+msgstr "Ova prezentacija sadržaja prvo grupira sve sesije. Nakon toga se navodi drugi sadržaj tečaja."
+
+msgid "cntr_view_info_simple"
+msgstr "Ova prezentacija sadržaja navodi sve stavke u jednom bloku."
+
+msgid "cntr_view_sessions"
+msgstr "Prikaz sesije"
+
+msgid "cntr_view_simple"
+msgstr "Jednostavan prikaz"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Učitana datoteka nije važeća datoteka za izvoz ILIAS-a. Kako biste učitali strukturu direktorija, koristite objekt datoteke."
+
+msgid "edit_questions"
+msgstr "Uredi pitanja"
+
+msgid "exc_next_deadline_single"
+msgstr "Rok"
+
+msgid "msg_no_downloadable_objects"
+msgstr "Nisu pronađeni objekti za preuzimanje."
+
+msgid "objects_duplicated"
+msgstr "Objekti su kopirani"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Izradi portfelj iz predloška"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Dno"
+
+msgid "sorting_new_items_at_top"
+msgstr "Vrh"
+
+msgid "sorting_new_items_direction"
+msgstr "Smjer za sortiranje novih objekata"
+
+msgid "sorting_new_items_order"
+msgstr "Redoslijed novih objekata"
+
+msgid "sorting_new_items_position"
+msgstr "Položaj za nove objekte"
+
+msgid "tab_back_to_repository"
+msgstr "Natrag na repozitorij"

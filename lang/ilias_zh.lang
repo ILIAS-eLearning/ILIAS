@@ -2422,42 +2422,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cntr#:#cntr_add_new_item#:#加入新条目
-cntr#:#cntr_adopt_content#:#适用的内容
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
-cntr#:#cntr_copy_crs_grp#:#我的课程和小组
-cntr#:#cntr_copy_repo_tree#:#Repository Tree###30 08 2015 new variable
-cntr#:#cntr_hide_title_and_icon#:#隐藏标题和图标
-cntr#:#cntr_manage#:#管理
-cntr#:#cntr_ordering#:#排序
-cntr#:#cntr_saved_sorting#:#已保存的排序
-cntr#:#cntr_switch_to_new_editor_cmd#:#切换到这个页面介绍
-cntr#:#cntr_switch_to_new_editor_message#:#这是已支持的标准编辑器。请使用它设置内容页面。如果您点击下面的链接，知识库中的内容介绍将从老编辑器的内容切换到这个页面。
-cntr#:#cntr_switched_editor#:#已切换到新内容。
-cntr#:#cntr_tax_none_available#:#There are no taxonomies available.###26 09 2014 new variable
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###26 08 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition###27 01 2015 new variable
-cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block###26 09 2014 new variable
-cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomy Block Settings###26 09 2014 new variable
-cntr#:#cntr_text_media_editor#:#文本/媒体编辑器
-cntr#:#cntr_view_by_type#:#类型分组(Grouped-by-Type) 视图
-cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
-cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
-cntr#:#cntr_view_info_simple#:#此内容介绍在一个区块中列出所有条目。
-cntr#:#cntr_view_sessions#:#会话视图
-cntr#:#cntr_view_simple#:#简单视图
-cntr#:#container_import_zip_file_invalid#:#已上传文件不是一个有效的ILIAS导出文件。请使用一个文件对象去上传一个目录结构。
-cntr#:#edit_questions#:#编辑题目
-cntr#:#exc_next_deadline_single#:#Deadline###30 12 2013 new variable
-cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###10 11 2018 new variable
-cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
-cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template###24 10 2013 new variable
-cntr#:#sorting_new_items_at_bottom#:#Bottom###26 09 2014 new variable
-cntr#:#sorting_new_items_at_top#:#Top###26 09 2014 new variable
-cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects###23 12 2015 new variable
-cntr#:#sorting_new_items_order#:#Order For New Objects###26 09 2014 new variable
-cntr#:#sorting_new_items_position#:#Position For New Objects###26 09 2014 new variable
-cntr#:#tab_back_to_repository#:#Back to Repository###30 08 2015 new variable
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#绝对路径
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

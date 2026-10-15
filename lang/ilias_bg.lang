@@ -2423,42 +2423,6 @@ cmix#:#use_fetch_info#:#Ако ресурсът поддържа тази опц
 cmix#:#xapi_statements_fetched_successfully#:#Резултатите от Learning Record Store бяха извлечени успешно
 cmix#:#xapi_statements_last_fetch_date#:#Последното извличане на резултати:
 cmix#:#xapi_statements_not_fetched_yet#:#Резултатите от Learning Record Store все още не са извлечени
-cntr#:#cntr_add_new_item#:#Добавяне на нов артикул
-cntr#:#cntr_adopt_content#:#Приемане на съдържание
-cntr#:#cntr_container_only_on_their_own#:#Категориите, курсовете, групите, папките или учебните програми могат да се копират само като единични обекти. Моля, изберете само един елемент.
-cntr#:#cntr_copy_crs_grp#:#Моите курсове и групи
-cntr#:#cntr_copy_repo_tree#:#Дърво на хранилището
-cntr#:#cntr_hide_title_and_icon#:#Скриване на заглавието и иконата
-cntr#:#cntr_manage#:#Управление
-cntr#:#cntr_ordering#:#Sorting
-cntr#:#cntr_saved_sorting#:#Спазено сортиране.
-cntr#:#cntr_switch_to_new_editor_cmd#:# Превключване към тази страница за представяне
-cntr#:#cntr_switch_to_new_editor_message#:#Това е поддържаният стандартен редактор. Използвайте го, за да настроите страницата със съдържание. Ако щракнете върху следната връзка, представянето на съдържанието в хранилището ще премине от съдържанието на стария редактор към тази страница.
-cntr#:#cntr_switched_editor#:#Преминаване към ново съдържание.
-cntr#:#cntr_tax_none_available#:#Няма налични таксономии.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Определение на таксономия
-cntr#:#cntr_taxonomy_show_sideblock#:#Показване на таксономията в страничен блок
-cntr#:#cntr_taxonomy_sideblock_settings#:#Настройки на блока за таксономия
-cntr#:#cntr_text_media_editor#:#Редактор на текст/медия
-cntr#:#cntr_view_by_type#:#Групиран по тип изглед
-cntr#:#cntr_view_info_by_type#:#Тази презентация на съдържанието групира всички елементи по тип ресурс.
-cntr#:#cntr_view_info_sessions#:#Тази презентация на съдържанието първо групира всички сесии. След това се изброява другото съдържание на курса.
-cntr#:#cntr_view_info_simple#:#Тази презентация на съдържанието изброява всички елементи в един блок.
-cntr#:#cntr_view_sessions#:# Преглед на сесиите
-cntr#:#cntr_view_simple#:#Опростен изглед
-cntr#:#container_import_zip_file_invalid#:#Представеният файл не е валиден експортен файл на ILIAS. За да качите структура на директория, използвайте файлов обект.
-cntr#:#edit_questions#:#Изправяне на въпроси
-cntr#:#exc_next_deadline_single#:#Deadline
-cntr#:#msg_no_downloadable_objects#:#Не са открити обекти за изтегляне.
-cntr#:#objects_duplicated#:#Копирани обекти
-cntr#:#prtf_create_portfolio_from_template#:#Създаване на портфолио от шаблон
-cntr#:#sorting_new_items_at_bottom#:#Bottom
-cntr#:#sorting_new_items_at_top#:#Top
-cntr#:#sorting_new_items_direction#:#Направление на сортиране за нови обекти
-cntr#:#sorting_new_items_order#:#Поредба за нови обекти
-cntr#:#sorting_new_items_position#:#Позиция за нови обекти
-cntr#:#tab_back_to_repository#:#Връщане към хранилището
 common#:#HH#:#ЧЧ:ММ###22 06 2022 new variable
 common#:#absolute_path#:#Абсолютен път до файл
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
