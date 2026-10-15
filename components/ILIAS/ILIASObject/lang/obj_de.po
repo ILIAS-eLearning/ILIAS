@@ -1,0 +1,282 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr "Sichtbarkeit"
+
+msgid "activation_visible_when_disabled_info"
+msgstr "Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden."
+
+msgid "availability_period_changed"
+msgstr "Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst."
+
+msgid "available_languages"
+msgstr "Available Languages"
+
+msgid "cont_filter_empty"
+msgstr "Bitte nutzen Sie den Filter zur Anzeige von Objekten."
+
+msgid "cont_skll_published"
+msgstr "Alle Kompetenzzuweisungen wurden veröffentlicht."
+
+msgid "cont_skll_published_some_not"
+msgstr "Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen."
+
+msgid "copy_container_page_no_label"
+msgstr "Seitengestaltung nicht übernehmen"
+
+msgid "copy_container_page_yes_byline"
+msgstr "Die komplette Seitengestaltung des Kurses, aus dem Sie Objekte kopieren, wird in den Zielkurs übernommen. Allfällig vorhandene Seitenelemente werden überschrieben."
+
+msgid "copy_container_page_yes_label"
+msgstr "Seitengestaltung übernehmen"
+
+msgid "custom_icon"
+msgstr "Angepasstes Icon"
+
+msgid "default_base_lang_not_deletable"
+msgstr "Die Basis- und die Standardsprache können nicht gelöscht werden."
+
+msgid "edit_availability_period"
+msgstr "Zeitliche Verfügbarkeit"
+
+msgid "edit_language"
+msgstr "Sprache bearbeiten"
+
+msgid "edit_questions"
+msgstr "Fragen bearbeiten"
+
+msgid "make_default_language"
+msgstr "Zur Standardsprache machen"
+
+msgid "missing_migration"
+msgstr "Sie können die Informationen auf dieser Seite nicht bearbeiten, da nicht alle Migrationen auf dem System durchgeführt wurden. Bitte kontaktieren Sie Ihre*n Systemadministator*in."
+
+msgid "multiple_reference_deletion_info"
+msgstr "Für die folgenden Objekte existieren weitere Referenzen."
+
+msgid "multiple_selection"
+msgstr "Mehrfachauswahl"
+
+msgid "no_objects_selected"
+msgstr "Es muss mindestens ein Objekt ausgewählt werden."
+
+msgid "obj_activate_content_lang"
+msgstr "Mehrsprachigkeit für die Bearbeitung aktivieren"
+
+msgid "obj_activate_multilang"
+msgstr "Mehrsprachigkeit aktivieren"
+
+msgid "obj_activation"
+msgstr "Aktivierung"
+
+msgid "obj_activation_list_gui"
+msgstr "Verfügbarkeit"
+
+msgid "obj_add_language"
+msgstr "Sprache hinzufügen"
+
+msgid "obj_additional_langs"
+msgstr "Zusätzliche Sprachen"
+
+msgid "obj_base_lang"
+msgstr "Basissprache"
+
+msgid "obj_conf_delete_lang"
+msgstr "Wollen Sie die Anzeige von Titel und Beschreibung für diese Sprachen wirklich beenden?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert."
+
+msgid "obj_copy_progress"
+msgstr "Fortschritt des Kopierens"
+
+msgid "obj_copy_progress_estimate"
+msgstr "Dauer wird geschätzt..."
+
+msgid "obj_copy_progress_failure"
+msgstr "Kopieren fehlgeschlagen."
+
+msgid "obj_copy_progress_success"
+msgstr "Erfolgreich kopiert."
+
+msgid "obj_copy_progress_to"
+msgstr "Kopieren nach %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Mehrsprachigkeit für die Bearbeitung deaktivieren"
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr " Wollen Sie die Unterstützung für mehrsprachige Inhalte im Seiteneditor wirklich deaktivieren? Nur die Inhalte der Standardsprache bleiben verfügbar."
+
+msgid "obj_deactivate_multilang"
+msgstr "Mehrsprachigkeit deaktivieren"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben."
+
+msgid "obj_fallback_lang"
+msgstr "Standardsprache"
+
+msgid "obj_features"
+msgstr "Zusätzliche Funktionen"
+
+msgid "obj_import_file_error"
+msgstr "Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist."
+
+msgid "obj_insert_into_clipboard"
+msgstr "In Zwischenablage übernehmen"
+
+msgid "obj_inserted_clipboard"
+msgstr "Die Objekte wurden in die Zwischenablage übernommen."
+
+msgid "obj_master_lang"
+msgstr "Basissprache"
+
+msgid "obj_more_translations"
+msgstr "Weitere Übersetzungen"
+
+msgid "obj_multilang_deactivated"
+msgstr "Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor (\"Seite bearbeiten\") kann separat aktiviert werden."
+
+msgid "obj_multilinguality"
+msgstr "Mehrsprachigkeit"
+
+msgid "obj_orgunit_positions"
+msgstr "Zugriffsregelungen nach Organisationseinheiten"
+
+msgid "obj_orgunit_positions_info"
+msgstr "Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden."
+
+msgid "obj_permission_settings"
+msgstr "Rechteeinstellungen"
+
+msgid "obj_presentation"
+msgstr "Darstellung"
+
+msgid "obj_select_base_lang"
+msgstr "Bitte wählen Sie die Basissprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Basissprache kann anschließend nicht geändert werden."
+
+msgid "obj_select_one_language"
+msgstr "Bitte genau eine Sprache auswählen"
+
+msgid "obj_set_fallback_lang"
+msgstr "Standardsprache setzen"
+
+msgid "obj_settings_for_all_members"
+msgstr "Mitglieder werden automatisch benachrichtigt"
+
+msgid "obj_show_header_actions"
+msgstr "Aktionen anzeigen"
+
+msgid "obj_show_title_and_icon"
+msgstr "Titel und Icon anzeigen"
+
+msgid "obj_target_location"
+msgstr "Zielordner"
+
+msgid "obj_tile_image"
+msgstr "Kachelbild"
+
+msgid "obj_tile_image_info"
+msgstr "Das Kachelbild wird genutzt, um dieses Objekt zu repräsentieren, wenn im übergeordneten Container die Kachelansicht gewählt wurde."
+
+msgid "obj_tool_booking"
+msgstr "Ressourcen"
+
+msgid "obj_tool_booking_info"
+msgstr "Buchungspools nutzen um Ressourcen zu buchen."
+
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Prefix E-Mail-Betreff"
+
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Eingegebener Text wird bei externen E-Mails in die Betreffzeile aufgenommen. Dies erleichtert das Identifizieren und Filtern von E-Mails aus unterschiedlichen Gruppen und Kursen."
+
+msgid "obj_tool_setting_badges"
+msgstr "Badges"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Wenn aktiviert können Badges konfiguriert werden."
+
+msgid "obj_tool_setting_booking"
+msgstr "Ressourcen"
+
+msgid "obj_tool_setting_filter"
+msgstr "Filter"
+
+msgid "obj_tool_setting_filter_empty"
+msgstr "Anzeige bei leerem Filter"
+
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Zeigt alle Elemente, wenn der Filter leer ist."
+
+msgid "obj_tool_setting_filter_info"
+msgstr "Ein Filter wird im Reiter „Inhalte“ angezeigt."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Info-Reiter"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Der Reiter „Info“ wird angezeigt."
+
+msgid "obj_tool_setting_skills"
+msgstr "Kompetenzen"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzstufen zuzuweisen."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Tag Cloud"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "Es wird eine Tag Cloud im Block „Auswahl nach Themen“ im Reiter „Inhalt“ angezeigt."
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Taxonomien"
+
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "Taxonomien erlauben das Filtern von Objekten. Sie werden im Unterreiter „Taxonomie“ im Reiter \"Einstellungen\" angelegt."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Neuigkeiten"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Blendet den Unterreiter „Neuigkeiten“ ein. Dort können Sie die „Timeline“ und den Seitenblock „Neuigkeiten“ für den Reiter „Inhalt“ konfigurieren. Sobald der Block oder die Timeline aktiv ist, können Mitglieder über das ▼-Aktionsmenü einen täglichen Neuigkeitenüberblick per E-Mail abonnieren."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Einstellungen für die „Neuigkeiten“ öffnen"
+
+msgid "obj_user_decides_notification"
+msgstr "Mitglieder müssen Benachrichtigungen selbst aktivieren."
+
+msgid "obj_user_not_disable_not"
+msgstr "Mitglieder können die Benachrichtigung nicht deaktiveren."
+
+msgid "online_input_byline"
+msgstr "Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus."
+
+msgid "select_import_type_info"
+msgstr "Der Typ des zu importierenden Objekts konnte nicht automatisch ermittelt werden. Vermutlich wurde die Datei umbenannt. Bitte wählen Sie den Objekt-Typen aus, den Sie importieren möchten."
+
+msgid "select_object_type"
+msgstr "Objekttyp wählen"
+
+msgid "svy_results"
+msgstr "Ergebnisse"
+
+msgid "unequal_items_for_availability_period_message"
+msgstr "Es wurden Objekte ausgewählt, deren zeitliche Verfügbarkeit nicht übereinstimmt. Vorgenommene Änderungen überschreiben die zeitliche Verfügbarkeit aller ausgewählten Objekte. Bitte wählen sie \"Abbrechen\", wenn dies nicht Ihrer Intention entspricht."
+
+msgid "user_owns_no_objects"
+msgstr "Keine Magazin-Objekte vorhanden"

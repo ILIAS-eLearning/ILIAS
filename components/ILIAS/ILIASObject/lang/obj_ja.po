@@ -1,0 +1,282 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr "表示"
+
+msgid "activation_visible_when_disabled_info"
+msgstr "アイテムは、選択されたアベイラビリティ期間外に表示されますが、開くことはできません。"
+
+msgid "availability_period_changed"
+msgstr "選択されたオブジェクトのアベイラビリティ期間は正しく変更されました。"
+
+msgid "available_languages"
+msgstr "利用可能な言語"
+
+msgid "cont_filter_empty"
+msgstr "どのオブジェクトを見るにもフィルタを使用してください。"
+
+msgid "cont_skll_published"
+msgstr "全ての割当ては発行されました。"
+
+msgid "cont_skll_published_some_not"
+msgstr "全ての割当ては発行済です。能力割当ての不足しているユーザがいるので、それに発行可能な割当てはありません。"
+
+msgid "copy_container_page_no_label"
+msgstr "コンテンツページはコピーできません。"
+
+msgid "copy_container_page_yes_byline"
+msgstr "コンテンツページとソースオブジェクトの応答スタイル設定はこのオブジェクトへコピーされます。事前に存在したページ要素は上書きされます。"
+
+msgid "copy_container_page_yes_label"
+msgstr "コンテンツページをコピー"
+
+msgid "custom_icon"
+msgstr "カスタムアイコン"
+
+msgid "default_base_lang_not_deletable"
+msgstr "基本言語もデフォルト言語も削除することはできません。"
+
+msgid "edit_availability_period"
+msgstr "Availability(空き状況)期間"
+
+msgid "edit_language"
+msgstr "言語を編集"
+
+msgid "edit_questions"
+msgstr "問題編集"
+
+msgid "make_default_language"
+msgstr "デフォルト言語に設定"
+
+msgid "missing_migration"
+msgstr "すべての移行が実行されるまで、このページの情報を編集することはできません。システム管理者に連絡してください。"
+
+msgid "multiple_reference_deletion_info"
+msgstr "次のオブエクトにはさらに参考資料が存在します。"
+
+msgid "multiple_selection"
+msgstr "府K数選択"
+
+msgid "no_objects_selected"
+msgstr "オブジェクトを一つは選択する必要があります。"
+
+msgid "obj_activate_content_lang"
+msgstr "ページ編集用の翻訳を有効化"
+
+msgid "obj_activate_multilang"
+msgstr "多言語機能を有効化"
+
+msgid "obj_activation"
+msgstr "アクティベーション"
+
+msgid "obj_activation_list_gui"
+msgstr "Availability(空き状況)"
+
+msgid "obj_add_language"
+msgstr "言語を追加"
+
+msgid "obj_additional_langs"
+msgstr "追加言語"
+
+msgid "obj_base_lang"
+msgstr "マスター言語"
+
+msgid "obj_conf_delete_lang"
+msgstr "それらの言語のタイトルと説明表示を本当に停止しますか？"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "ページ編集用の翻訳は解除されました。"
+
+msgid "obj_copy_progress"
+msgstr "進捗をコピー"
+
+msgid "obj_copy_progress_estimate"
+msgstr "期間を推定中…"
+
+msgid "obj_copy_progress_failure"
+msgstr "コピーに失敗しました"
+
+msgid "obj_copy_progress_success"
+msgstr "コピーに成功しました"
+
+msgid "obj_copy_progress_to"
+msgstr " %s へコピー"
+
+msgid "obj_deactivate_content_lang"
+msgstr "ページ編集用の翻訳を解除"
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "ページ編集用の翻訳を本当に解除しますか? マスタ言語のコンテンツのみしか保持されません。"
+
+msgid "obj_deactivate_multilang"
+msgstr "多言語機能を解除"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "本当に多言語機能を解除しますか? マスタ言語のコンテンツのみ保持されます。"
+
+msgid "obj_fallback_lang"
+msgstr "既定の言語"
+
+msgid "obj_features"
+msgstr "機能"
+
+msgid "obj_import_file_error"
+msgstr "このファイルをインポートできませんでした。これが同じオブジェクトタイプの有効なILIASエクスポートファイル(XMLエクスポート)であることを確認してください。ファイル名はエクスポート後に変更してはいけません。エラーメッセージ:"
+
+msgid "obj_insert_into_clipboard"
+msgstr "クリップボードへ挿入"
+
+msgid "obj_inserted_clipboard"
+msgstr "オブジュエクトはクリップボードへ移動されました。"
+
+msgid "obj_master_lang"
+msgstr "マスタ言語"
+
+msgid "obj_more_translations"
+msgstr "追加翻訳"
+
+msgid "obj_multilang_deactivated"
+msgstr "多言語機能は解除されました。"
+
+msgid "obj_multilang_title_descr_only"
+msgstr "翻訳はタイトルと説明のみに適用されます。ページ編集(\"Customize Page\")の翻訳サポートには追加のアクティベーションが必要です。"
+
+msgid "obj_multilinguality"
+msgstr "多言語"
+
+msgid "obj_orgunit_positions"
+msgstr "組織ユニットポジションによるアクセス制御"
+
+msgid "obj_orgunit_positions_info"
+msgstr "有効にすると追加のアクセス制御ルールは組織ユニット内のポジションにより定義することができます。"
+
+msgid "obj_permission_settings"
+msgstr "アクセス権設定"
+
+msgid "obj_presentation"
+msgstr "プレゼンテーション"
+
+msgid "obj_select_base_lang"
+msgstr "基準言語を選択してください。現在のコンテンツは基準言語に割り当てられます。基準言語は後で変更できません。"
+
+msgid "obj_select_one_language"
+msgstr "言語を一つ選択してください"
+
+msgid "obj_set_fallback_lang"
+msgstr "既定の言語を設定"
+
+msgid "obj_settings_for_all_members"
+msgstr "メンバーは自動的に通知されます。"
+
+msgid "obj_show_header_actions"
+msgstr "Header Actionsを表示"
+
+msgid "obj_show_title_and_icon"
+msgstr "タイトルとアイコンを表示"
+
+msgid "obj_target_location"
+msgstr "目標場所"
+
+msgid "obj_tile_image"
+msgstr "タイルイメージ"
+
+msgid "obj_tile_image_info"
+msgstr "この画像はサムネイルスタイルイメージ(通称タイトル)として配置されているコンテナ内のこのオブジェクト表示(例:カテゴリ、フォルダーグループ等)のために使用されます。タイトルは現在のコンテナ設定が'コンテンツ表示オプション'を('リスト'ではなく）'タイル'にした場合のみ使用されます。"
+
+msgid "obj_tool_booking"
+msgstr "リソース"
+
+msgid "obj_tool_booking_info"
+msgstr "リソースを予約するには予約集を使用"
+
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Mail Subject Prefix"
+
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "外部メールをメンバーへこのメールがわかりやすいように認識させるための件名へ追加するショートメッセージを入力します。"
+
+msgid "obj_tool_setting_badges"
+msgstr "バッジ"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "有効にするとバッジが管理できます。"
+
+msgid "obj_tool_setting_booking"
+msgstr "リソース"
+
+msgid "obj_tool_setting_filter"
+msgstr "フィルタ"
+
+msgid "obj_tool_setting_filter_empty"
+msgstr "空のフィルターを表示"
+
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "フィルタが空の状態の項目を表示"
+
+msgid "obj_tool_setting_filter_info"
+msgstr "フィルタはコンテンツタブ内に表示されます。"
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Infoタブを表示"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Info タブが表示されます。"
+
+msgid "obj_tool_setting_skills"
+msgstr "能力"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "能力管理とメンバーへの能力割当を有効にする"
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "クラウドをタグ"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr " \"クラウドをタグ\" ブロックは\"コンテンツ\"タブの内側へ表示されます。"
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "分類"
+
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "分類はオブジェクトをフィルタします。”設定タブ\"内の”分類”サブタブ内に作成されます。"
+
+msgid "obj_tool_setting_use_news"
+msgstr "ニュース"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "ニュースブロックそうでなければタイムライン表示を有効にする"
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "設定を開く"
+
+msgid "obj_user_decides_notification"
+msgstr "メンバーは手動で通知を有効にする必要があります。"
+
+msgid "obj_user_not_disable_not"
+msgstr "メンバーは通知を無効にすることはできません。"
+
+msgid "online_input_byline"
+msgstr "オブジェクトは公開されたのでだれでも読込アクセス権でアクセスできます。その他のアクセス必須条件または期間限定アクセス制限が適用されることがあります。この設定はリポジトリ内の使用依存によりオブジェクトへ適用されます。"
+
+msgid "select_import_type_info"
+msgstr "インポートするファイルのオブジェクトタイプを自動的に判定できません。"
+
+msgid "select_object_type"
+msgstr "オブジェクトタイプを選択"
+
+msgid "svy_results"
+msgstr "結果"
+
+msgid "unequal_items_for_availability_period_message"
+msgstr "異なるAvailability(空き状況)期間のアイテムが選択されました。以下の現在の設定を上書きするか、キャンセルして現在のアベイラビリティ期間をキープします。 2024 new variable"
+
+msgid "user_owns_no_objects"
+msgstr "利用可能なリポジトリオブジェクトがありません"

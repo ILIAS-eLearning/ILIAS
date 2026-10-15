@@ -1,0 +1,325 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: obj\n"
+
+#, fuzzy
+msgid "activation_visible_when_disabled"
+msgstr "Visibility"
+
+#, fuzzy
+msgid "activation_visible_when_disabled_info"
+msgstr "The item is visible outside of the selected availability period, but it cannot be opened."
+
+#, fuzzy
+msgid "availability_period_changed"
+msgstr "The availability period for the selected objects has been changed successfully."
+
+#, fuzzy
+msgid "available_languages"
+msgstr "Available Languages"
+
+#, fuzzy
+msgid "cont_filter_empty"
+msgstr "Please use the filter to see any objects."
+
+msgid "cont_skll_published"
+msgstr "Todas as atribuições foram publicadas."
+
+msgid "cont_skll_published_some_not"
+msgstr "Todas as atribuições fornecidas foram publicadas. A alguns utilizadores faltam atribuições de competência, e, por isso, não foi possível publicar atribuições para esses."
+
+#, fuzzy
+msgid "copy_container_page_no_label"
+msgstr "Don't Copy Content Page"
+
+#, fuzzy
+msgid "copy_container_page_yes_byline"
+msgstr "The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten."
+
+#, fuzzy
+msgid "copy_container_page_yes_label"
+msgstr "Copy Content Page"
+
+#, fuzzy
+msgid "custom_icon"
+msgstr "Custom Icon"
+
+#, fuzzy
+msgid "default_base_lang_not_deletable"
+msgstr "Neither the base language nor the default language can be deleted."
+
+#, fuzzy
+msgid "edit_availability_period"
+msgstr "Availability Period"
+
+#, fuzzy
+msgid "edit_language"
+msgstr "Edit Language"
+
+msgid "edit_questions"
+msgstr "Editar perguntas"
+
+#, fuzzy
+msgid "make_default_language"
+msgstr "Make Default Language"
+
+#, fuzzy
+msgid "missing_migration"
+msgstr "You cannot edit information on this page until all migrations have been run. Please contact your system administrator."
+
+#, fuzzy
+msgid "multiple_reference_deletion_info"
+msgstr "Further references exist for the following objects."
+
+#, fuzzy
+msgid "multiple_selection"
+msgstr "Multiple Selection"
+
+#, fuzzy
+msgid "no_objects_selected"
+msgstr "At least one object needs to be selected."
+
+msgid "obj_activate_content_lang"
+msgstr "Ativar tradução para edição de página"
+
+msgid "obj_activate_multilang"
+msgstr "Utilizadores"
+
+msgid "obj_activation"
+msgstr "Ativação"
+
+msgid "obj_activation_list_gui"
+msgstr "Disponibilidade"
+
+#, fuzzy
+msgid "obj_add_language"
+msgstr "Add Language"
+
+msgid "obj_additional_langs"
+msgstr "Idiomas adicionais"
+
+#, fuzzy
+msgid "obj_base_lang"
+msgstr "Master Language"
+
+#, fuzzy
+msgid "obj_conf_delete_lang"
+msgstr "Do you really want to stop the presentation of title and description in these languages?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "A tradução para edição de página foi desativada."
+
+msgid "obj_copy_progress"
+msgstr "Copiar progresso"
+
+#, fuzzy
+msgid "obj_copy_progress_estimate"
+msgstr "Estimating duration..."
+
+#, fuzzy
+msgid "obj_copy_progress_failure"
+msgstr "Copying failed."
+
+#, fuzzy
+msgid "obj_copy_progress_success"
+msgstr "Copied successfully."
+
+#, fuzzy
+msgid "obj_copy_progress_to"
+msgstr "Copying to %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Desativar tradução para edição de página"
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "Tem a certeza que quer desativar a tradução para edição de página? Apenas os conteúdos do idioma principal é que serão mantidos."
+
+msgid "obj_deactivate_multilang"
+msgstr "Pesquisar utilizadores"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "Pesquisa em perfis pessoais"
+
+#, fuzzy
+msgid "obj_fallback_lang"
+msgstr "Default Language"
+
+msgid "obj_features"
+msgstr "Os dados nos perfis pessoais dos utilizadores são indexados e podem ser usados para pesquisar utilizadores."
+
+msgid "obj_import_file_error"
+msgstr "Não foi possível importar este ficheiro. Certifique-se que este é um ficheiro de exportação ILIAS válido (exportação XML), do mesmo tipo de objeto. O nome do ficheiro não pode ser modificado depois da exportação. Mensagem de erro:"
+
+msgid "obj_insert_into_clipboard"
+msgstr "Inserir na área de transferência"
+
+msgid "obj_inserted_clipboard"
+msgstr "Os objetos foram movidos para a área de transferência."
+
+msgid "obj_master_lang"
+msgstr "Idioma principal"
+
+msgid "obj_more_translations"
+msgstr "Ativa o progresso de aprendizagem para todos os eventos de sessão que serão criados."
+
+msgid "obj_multilang_deactivated"
+msgstr "A participação requer confirmação por parte de um administrador. Será notificado quando a sua aplicação estiver tratada."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "Declarar participação"
+
+msgid "obj_multilinguality"
+msgstr "Não requer registo"
+
+msgid "obj_orgunit_positions"
+msgstr "Controlo de acesso através das posições de unidade organizacional"
+
+msgid "obj_orgunit_positions_info"
+msgstr "Se estiver ativado, as regras adicionais do controlo de acesso podem ser definidas por posições nas unidades organizacionais."
+
+msgid "obj_permission_settings"
+msgstr "Definições de permissões"
+
+msgid "obj_presentation"
+msgstr "Apresentação"
+
+#, fuzzy
+msgid "obj_select_base_lang"
+msgstr "Please select the base language. The current content will be assigned to the base language. The base language cannot be changed afterwards."
+
+#, fuzzy
+msgid "obj_select_one_language"
+msgstr "Please select one language"
+
+#, fuzzy
+msgid "obj_set_fallback_lang"
+msgstr "Set default language"
+
+msgid "obj_settings_for_all_members"
+msgstr "Os membros serão notificados automaticamente"
+
+msgid "obj_show_header_actions"
+msgstr "Os utilizadores não precisam de se registar para participarem na sessão."
+
+msgid "obj_show_title_and_icon"
+msgstr "Definir o número máximo de utilizadores que podem participar nesta sessão."
+
+msgid "obj_target_location"
+msgstr "Localização de destino"
+
+msgid "obj_tile_image"
+msgstr "Concorrer à participação"
+
+msgid "obj_tile_image_info"
+msgstr "Um administrador tem de decidir sobre cada candidatura de utilizador para participar na sessão."
+
+#, fuzzy
+msgid "obj_tool_booking"
+msgstr "Resources"
+
+#, fuzzy
+msgid "obj_tool_booking_info"
+msgstr "Use the booking pools to book resources."
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Mail Subject Prefix"
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier."
+
+msgid "obj_tool_setting_badges"
+msgstr "Badges"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Os participantes são recrutados da lista de espera automaticamente aquando cancelamentos. Isso não deve ser usado com o procedimento de registo “Concorrer à participação”, uma vez que o autopreenchimento vai contornar isso."
+
+#, fuzzy
+msgid "obj_tool_setting_booking"
+msgstr "Resources"
+
+#, fuzzy
+msgid "obj_tool_setting_filter"
+msgstr "Filter"
+
+#, fuzzy
+msgid "obj_tool_setting_filter_empty"
+msgstr "Show on Empty Filter"
+
+#, fuzzy
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Show all items while filter is empty."
+
+#, fuzzy
+msgid "obj_tool_setting_filter_info"
+msgstr "A filter will be displayed in the content tab."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Categoria de competências"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Competência básica"
+
+msgid "obj_tool_setting_skills"
+msgstr "Competências"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Ativa a gestão e atribuição de competências aos membros."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Tag cloud"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "Adicionar competência"
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Taxonomias"
+
+#, fuzzy
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "Taxonomies allow the filtering of objects. They are created in the \"Taxonomy\" sub-tab in the \"Settings\" tab."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Notícias"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Ativa o bloco de notícias e/ou a vista da linha cronológica."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Abrir definições"
+
+msgid "obj_user_decides_notification"
+msgstr "Os membros têm de ativar manualmente notificações"
+
+msgid "obj_user_not_disable_not"
+msgstr "O membro não está autorizado a desativar notificações"
+
+#, fuzzy
+msgid "online_input_byline"
+msgstr "The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository."
+
+#, fuzzy
+msgid "select_import_type_info"
+msgstr "The type of the object in the file to be imported cannot be determined automatically. The file was probably renamed. Please select the type of object in the file."
+
+#, fuzzy
+msgid "select_object_type"
+msgstr "Select Object Type"
+
+msgid "svy_results"
+msgstr "Resultados"
+
+#, fuzzy
+msgid "unequal_items_for_availability_period_message"
+msgstr "You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods."
+
+#, fuzzy
+msgid "user_owns_no_objects"
+msgstr "No Repository Objects Available"

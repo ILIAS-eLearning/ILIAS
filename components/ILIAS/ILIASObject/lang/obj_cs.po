@@ -1,0 +1,320 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr "Viditelnost"
+
+msgid "activation_visible_when_disabled_info"
+msgstr "Je-li vybráno, materiál je viditelný i mimo danou dostupnost."
+
+#, fuzzy
+msgid "availability_period_changed"
+msgstr "The availability period for the selected objects has been changed successfully."
+
+#, fuzzy
+msgid "available_languages"
+msgstr "Available Languages"
+
+#, fuzzy
+msgid "cont_filter_empty"
+msgstr "Please use the filter to see any objects."
+
+msgid "cont_skll_published"
+msgstr "Všechna přiřazení byla publikována."
+
+msgid "cont_skll_published_some_not"
+msgstr "Všechna daná přiřazení byla publikována. Někteří uživatelé nemají přiřazenou způsobilost, takže pro ně nemohla být publikována žádná přiřazení."
+
+#, fuzzy
+msgid "copy_container_page_no_label"
+msgstr "Don't Copy Content Page"
+
+#, fuzzy
+msgid "copy_container_page_yes_byline"
+msgstr "The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten."
+
+#, fuzzy
+msgid "copy_container_page_yes_label"
+msgstr "Copy Content Page"
+
+msgid "custom_icon"
+msgstr "Vlastní ikona"
+
+#, fuzzy
+msgid "default_base_lang_not_deletable"
+msgstr "Neither the base language nor the default language can be deleted."
+
+#, fuzzy
+msgid "edit_availability_period"
+msgstr "Availability Period"
+
+#, fuzzy
+msgid "edit_language"
+msgstr "Edit Language"
+
+msgid "edit_questions"
+msgstr "Upravit dotazy"
+
+#, fuzzy
+msgid "make_default_language"
+msgstr "Make Default Language"
+
+#, fuzzy
+msgid "missing_migration"
+msgstr "You cannot edit information on this page until all migrations have been run. Please contact your system administrator."
+
+#, fuzzy
+msgid "multiple_reference_deletion_info"
+msgstr "Further references exist for the following objects."
+
+msgid "multiple_selection"
+msgstr "Mnohonásobný výběr"
+
+#, fuzzy
+msgid "no_objects_selected"
+msgstr "At least one object needs to be selected."
+
+msgid "obj_activate_content_lang"
+msgstr "Aktivovat překlad pro úpravy stránky"
+
+msgid "obj_activate_multilang"
+msgstr "Aktivovat vícejazyčnost"
+
+msgid "obj_activation"
+msgstr "Aktivace"
+
+msgid "obj_activation_list_gui"
+msgstr "Dostupnost"
+
+#, fuzzy
+msgid "obj_add_language"
+msgstr "Add Language"
+
+msgid "obj_additional_langs"
+msgstr "Další jazyky"
+
+msgid "obj_base_lang"
+msgstr "Hlavní jazyk"
+
+#, fuzzy
+msgid "obj_conf_delete_lang"
+msgstr "Do you really want to stop the presentation of title and description in these languages?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "Překlad pro úpravy stránky byl deaktivován."
+
+msgid "obj_copy_progress"
+msgstr "Kopírovat postup"
+
+#, fuzzy
+msgid "obj_copy_progress_estimate"
+msgstr "Estimating duration..."
+
+#, fuzzy
+msgid "obj_copy_progress_failure"
+msgstr "Copying failed."
+
+#, fuzzy
+msgid "obj_copy_progress_success"
+msgstr "Copied successfully."
+
+#, fuzzy
+msgid "obj_copy_progress_to"
+msgstr "Copying to %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Deaktivovat překlad pro úpravy stránky"
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "Opravdu chcete deaktivovat překlad pro úpravy stránky? Bude zachován pouze obsah hlavního jazyka."
+
+msgid "obj_deactivate_multilang"
+msgstr "Deaktivovat vícejazyčnost"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "Opravdu chcete deaktivovat vícejazyčnost? Bude zachován pouze obsah hlavního jazyka."
+
+#, fuzzy
+msgid "obj_fallback_lang"
+msgstr "Default Language"
+
+msgid "obj_features"
+msgstr "Funkce"
+
+msgid "obj_import_file_error"
+msgstr "Tento soubor nelze importovat. Ujistěte se, že se jedná o platný exportní soubor ILIAS (XML Export) stejného typu objektu. Po exportu nesmí být název souboru změněn. Chybové hlášení:"
+
+msgid "obj_insert_into_clipboard"
+msgstr "Vložit do schránky"
+
+msgid "obj_inserted_clipboard"
+msgstr "Objekty byly přesunuty do schránky."
+
+#, fuzzy
+msgid "obj_master_lang"
+msgstr "Master Language"
+
+msgid "obj_more_translations"
+msgstr "Více překladů"
+
+msgid "obj_multilang_deactivated"
+msgstr "Vícejazyčnost byla deaktivována."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "Překlad je aktivován pouze pro název a popis. Podpora překladu pro úpravu stránky (\"Přizpůsobení stránky\") vyžaduje další aktivaci."
+
+msgid "obj_multilinguality"
+msgstr "Vícejazyčnost"
+
+msgid "obj_orgunit_positions"
+msgstr "Řízení přístupu podle pozic v organizační jednotce"
+
+msgid "obj_orgunit_positions_info"
+msgstr "Je-li tato volba povolena, lze definovat další pravidla pro řízení přístupu pomocí pozic v organizačních jednotkách."
+
+msgid "obj_permission_settings"
+msgstr "Nastavení oprávnění"
+
+msgid "obj_presentation"
+msgstr "Prezentace"
+
+msgid "obj_select_base_lang"
+msgstr "Vyberte hlavní jazyk. Aktuální obsah bude přiřazen hlavnímu jazyku. Hlavní jazyk nelze později změnit."
+
+#, fuzzy
+msgid "obj_select_one_language"
+msgstr "Please select one language"
+
+#, fuzzy
+msgid "obj_set_fallback_lang"
+msgstr "Set default language"
+
+msgid "obj_settings_for_all_members"
+msgstr "Členové budou informováni automaticky"
+
+msgid "obj_show_header_actions"
+msgstr "Zobrazit akce záhlaví"
+
+msgid "obj_show_title_and_icon"
+msgstr "Zobrazit název a ikonu"
+
+msgid "obj_target_location"
+msgstr "Cílové umístění"
+
+msgid "obj_tile_image"
+msgstr "Obrázek - dlaždice"
+
+msgid "obj_tile_image_info"
+msgstr "Použije se obrázek - dlaždice, pokud kontejner (kurz, složka, skupina, ...) aktivuje prezentaci obrázků ve formě dlaždic."
+
+#, fuzzy
+msgid "obj_tool_booking"
+msgstr "Resources"
+
+#, fuzzy
+msgid "obj_tool_booking_info"
+msgstr "Use the booking pools to book resources."
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Mail Subject Prefix"
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier."
+
+msgid "obj_tool_setting_badges"
+msgstr "Odznaky"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Pokud jsou aktivovány, je možné spravovat odznaky."
+
+#, fuzzy
+msgid "obj_tool_setting_booking"
+msgstr "Resources"
+
+#, fuzzy
+msgid "obj_tool_setting_filter"
+msgstr "Filter"
+
+#, fuzzy
+msgid "obj_tool_setting_filter_empty"
+msgstr "Show on Empty Filter"
+
+#, fuzzy
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Show all items while filter is empty."
+
+#, fuzzy
+msgid "obj_tool_setting_filter_info"
+msgstr "A filter will be displayed in the content tab."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Zobrazit informační záložku"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Zobrazí se „Informační“ záložka."
+
+msgid "obj_tool_setting_skills"
+msgstr "Způsobilosti"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Aktivuje řízení a přiřazování způsobilostí členům."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Tag Cloud"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "Na záložce „Obsah“ se zobrazí „tag cloud“."
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Taxonomie"
+
+#, fuzzy
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "Taxonomies allow the filtering of objects. They are created in the \"Taxonomy\" sub-tab in the \"Settings\" tab."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Zprávy"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Aktivujte zobrazení bloku zpráv anebo časové osy."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Otevřete Nastavení"
+
+msgid "obj_user_decides_notification"
+msgstr "Členové musejí ručně aktivovat oznámení"
+
+msgid "obj_user_not_disable_not"
+msgstr "Členové nesmějí deaktivovat oznámení"
+
+#, fuzzy
+msgid "online_input_byline"
+msgstr "The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository."
+
+#, fuzzy
+msgid "select_import_type_info"
+msgstr "The type of the object in the file to be imported cannot be determined automatically. The file was probably renamed. Please select the type of object in the file."
+
+#, fuzzy
+msgid "select_object_type"
+msgstr "Select Object Type"
+
+msgid "svy_results"
+msgstr "Výsledky"
+
+#, fuzzy
+msgid "unequal_items_for_availability_period_message"
+msgstr "You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods."
+
+#, fuzzy
+msgid "user_owns_no_objects"
+msgstr "No Repository Objects Available"

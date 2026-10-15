@@ -1,0 +1,310 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: obj\n"
+
+#, fuzzy
+msgid "activation_visible_when_disabled"
+msgstr "Visibility"
+
+#, fuzzy
+msgid "activation_visible_when_disabled_info"
+msgstr "If chosen, the material is visible even outside of the given availability."
+
+#, fuzzy
+msgid "availability_period_changed"
+msgstr "The availability period for the selected objects has been changed successfully."
+
+#, fuzzy
+msgid "available_languages"
+msgstr "Available Languages"
+
+msgid "cont_filter_empty"
+msgstr "Välkomna att använda filtret för att visa objekt."
+
+msgid "cont_skll_published"
+msgstr "Alla kompetensuppdrag har publicerats."
+
+msgid "cont_skll_published_some_not"
+msgstr "Alla givna kompetenstilldelningar har publicerats. Inga kompetenser kunde publiceras för vissa användare eftersom inga uppdrag var tillgängliga."
+
+#, fuzzy
+msgid "copy_container_page_no_label"
+msgstr "Don't Copy Content Page"
+
+#, fuzzy
+msgid "copy_container_page_yes_byline"
+msgstr "The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten."
+
+#, fuzzy
+msgid "copy_container_page_yes_label"
+msgstr "Copy Content Page"
+
+#, fuzzy
+msgid "custom_icon"
+msgstr "Custom Icon"
+
+#, fuzzy
+msgid "default_base_lang_not_deletable"
+msgstr "Neither the base language nor the default language can be deleted."
+
+#, fuzzy
+msgid "edit_availability_period"
+msgstr "Edit Availability Period"
+
+#, fuzzy
+msgid "edit_language"
+msgstr "Edit Language"
+
+msgid "edit_questions"
+msgstr "Redigera frågor"
+
+#, fuzzy
+msgid "make_default_language"
+msgstr "Make Default Language"
+
+#, fuzzy
+msgid "missing_migration"
+msgstr "You cannot edit information on this page until all migrations have been run. Please contact your system administrator."
+
+#, fuzzy
+msgid "multiple_reference_deletion_info"
+msgstr "Further references exist for the following objects."
+
+msgid "multiple_selection"
+msgstr "Multipelt urval"
+
+#, fuzzy
+msgid "no_objects_selected"
+msgstr "At least one object needs to be selected."
+
+msgid "obj_activate_content_lang"
+msgstr "Aktivera flerspråkighet för sidredigeraren"
+
+msgid "obj_activate_multilang"
+msgstr "Möjliggöra flerspråkighet"
+
+msgid "obj_activation"
+msgstr "Aktivering"
+
+msgid "obj_activation_list_gui"
+msgstr "Tillgänglighet"
+
+#, fuzzy
+msgid "obj_add_language"
+msgstr "Add Language"
+
+msgid "obj_additional_langs"
+msgstr "Ytterligare språk"
+
+msgid "obj_base_lang"
+msgstr "Grundläggande språk"
+
+#, fuzzy
+msgid "obj_conf_delete_lang"
+msgstr "Do you really want to stop the presentation of title and description in these languages?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "Stödet för flerspråkigt innehåll i sidredigeraren har inaktiverats."
+
+msgid "obj_copy_progress"
+msgstr "Kopiering av framsteg"
+
+#, fuzzy
+msgid "obj_copy_progress_estimate"
+msgstr "Estimating duration..."
+
+#, fuzzy
+msgid "obj_copy_progress_failure"
+msgstr "Copying failed."
+
+#, fuzzy
+msgid "obj_copy_progress_success"
+msgstr "Copied successfully."
+
+#, fuzzy
+msgid "obj_copy_progress_to"
+msgstr "Copying to %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Inaktivera flerspråkighet för sidredigeraren."
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "Vill du verkligen inaktivera stödet för flerspråkigt innehåll i sidredigeraren? Endast innehåll på standardspråk kommer att förbli tillgängligt."
+
+msgid "obj_deactivate_multilang"
+msgstr "Avaktivera flerspråkighet"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "Vill du verkligen inaktivera stödet för flerspråkigt innehåll? Endast innehåll på standardspråk kommer att förbli tillgängligt."
+
+msgid "obj_fallback_lang"
+msgstr "Standardspråk"
+
+msgid "obj_features"
+msgstr "Ytterligare funktioner"
+
+msgid "obj_import_file_error"
+msgstr "Filen kunde inte importeras. Kontrollera att det är en ILIAS-exportfil (XML-export) av samma objekttyp och att filnamnet är oförändrat. Felmeddelande"
+
+msgid "obj_insert_into_clipboard"
+msgstr "Klistra in i urklipp"
+
+msgid "obj_inserted_clipboard"
+msgstr "Objekten klistrades in i klippbordet"
+
+#, fuzzy
+msgid "obj_master_lang"
+msgstr "Master Language"
+
+msgid "obj_more_translations"
+msgstr "Andra översättningar"
+
+msgid "obj_multilang_deactivated"
+msgstr "Stöd för flerspråkigt innehåll har inaktiverats."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "Multilingualism är endast aktiverat för titel och beskrivning. Stöd för innehåll i sidredigeraren (\"Designsida\") kan aktiveras separat."
+
+msgid "obj_multilinguality"
+msgstr "Flerspråkighet"
+
+msgid "obj_orgunit_positions"
+msgstr "Tillgång till föreskrifter enligt organisatoriska enheter"
+
+msgid "obj_orgunit_positions_info"
+msgstr "Om aktiverat kan ytterligare tillträdesregler tilldelas via positioner i organisatoriska enheter."
+
+msgid "obj_permission_settings"
+msgstr "Inställningar för rättigheter"
+
+msgid "obj_presentation"
+msgstr "Presentation"
+
+msgid "obj_select_base_lang"
+msgstr "Välkomna att välja standardspråk. Befintligt innehåll tilldelas detta språk. Standardspråket kan inte ändras i efterhand."
+
+msgid "obj_select_one_language"
+msgstr "Välkomna att välja exakt ett språk"
+
+msgid "obj_set_fallback_lang"
+msgstr "Sätta standardspråk"
+
+msgid "obj_settings_for_all_members"
+msgstr "Medlemmar kommer att meddelas automatiskt"
+
+msgid "obj_show_header_actions"
+msgstr "Visa åtgärder"
+
+msgid "obj_show_title_and_icon"
+msgstr "Visa titel och ikon"
+
+msgid "obj_target_location"
+msgstr "Destination mapp"
+
+msgid "obj_tile_image"
+msgstr "Bild av kakel"
+
+msgid "obj_tile_image_info"
+msgstr "Kakelbilden används för att representera detta objekt när kakelvyn är vald i den överordnade behållaren. För att undvika prestandaproblem bör du endast ladda upp bilder med en upplösning på 72 dpi och en bredd på mindre än 1000 px."
+
+msgid "obj_tool_booking"
+msgstr "Resurser"
+
+msgid "obj_tool_booking_info"
+msgstr "Använd bokningspooler för att boka resurser."
+
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Prefix e-postämne"
+
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Angiven text inkluderas i ämnesraden för externa e-postmeddelanden. Detta gör det lättare att identifiera och filtrera e-post från olika grupper och kurser."
+
+msgid "obj_tool_setting_badges"
+msgstr "Badges"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Badges kan konfigureras om de aktiveras."
+
+msgid "obj_tool_setting_booking"
+msgstr "Resurser"
+
+msgid "obj_tool_setting_filter"
+msgstr "Filter"
+
+msgid "obj_tool_setting_filter_empty"
+msgstr "Visas när filtret är tomt"
+
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Visar alla objekt när filtret är tomt."
+
+msgid "obj_tool_setting_filter_info"
+msgstr "Ett filter visas på fliken \"Innehåll\"."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Fliken Information"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Fliken \"Info\" visas."
+
+msgid "obj_tool_setting_skills"
+msgstr "Kompetens"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Funktionen gör det möjligt att välja kompetenser och tilldela kompetensnivåer till medlemmar."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Tag Moln"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "Ett taggmoln visas i blocket \"Urval efter ämne\" på fliken \"Innehåll\"."
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Taxonomier"
+
+#, fuzzy
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "Taxonomies allow the filtering of objects. They are created in the \"Taxonomy\" sub-tab in the \"Settings\" tab."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Nyheter"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Användning av News-blocket eller Timeline för nyheter. Användare kan aktivera aviseringar för nyheter så snart blocket eller tidslinjen är aktiv."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Öppna inställningar för block och tidslinje"
+
+msgid "obj_user_decides_notification"
+msgstr "Medlemmar måste själva aktivera aviseringar"
+
+msgid "obj_user_not_disable_not"
+msgstr "Medlemmar kan inte avaktivera aviseringen"
+
+#, fuzzy
+msgid "online_input_byline"
+msgstr "The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository."
+
+#, fuzzy
+msgid "select_import_type_info"
+msgstr "The type of the object in the file to be imported cannot be determined automatically. The file was probably renamed. Please select the type of object in the file."
+
+#, fuzzy
+msgid "select_object_type"
+msgstr "Select Object Type"
+
+msgid "svy_results"
+msgstr "Resultat"
+
+#, fuzzy
+msgid "unequal_items_for_availability_period_message"
+msgstr "You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods."
+
+#, fuzzy
+msgid "user_owns_no_objects"
+msgstr "No Repository Objects Available"
