@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Riassunto"
+
+msgid "abstract_img"
+msgstr "Immagine per il riassunto"
+
+msgid "avail_time_period"
+msgstr "Periodo"
+
+msgid "completed_steps"
+msgstr "Passi completati"
+
+msgid "condition_always"
+msgstr "Sempre"
+
+#, fuzzy
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "Insert Learning Sequence Curriculum"
+
+#, fuzzy
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+msgid "curriculum"
+msgstr "Curriculum"
+
+msgid "delete_confirmation"
+msgstr "Sei sicuro di voler eliminare questi oggetti?"
+
+msgid "entries_deleted"
+msgstr "Voci eliminate."
+
+msgid "entries_updated"
+msgstr "Voci salvate."
+
+msgid "extro"
+msgstr "Pagina di uscita"
+
+msgid "extro_img"
+msgstr "Immagine per pagina di uscita"
+
+msgid "failed"
+msgstr "Fallito"
+
+msgid "finished"
+msgstr "Finito"
+
+msgid "first_access"
+msgstr "Primo accesso"
+
+msgid "last_visited_step"
+msgstr "Ultimo passo visitato"
+
+msgid "learner_view"
+msgstr "Panoramica"
+
+#, fuzzy
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+msgid "lso_activation_online_info"
+msgstr "Imposta la sequenza di apprendimento online per renderla visibile e disponibile per i membri della sequenza di apprendimento. In caso contrario, solo gli amministratori e i tutor potranno accedervi."
+
+msgid "lso_at_least_one_admin"
+msgstr "Deve esserci almeno un amministratore della sequenza di apprendimento."
+
+msgid "lso_edit_permission"
+msgstr "L'utente può modificare le impostazioni di autorizzazione"
+
+msgid "lso_header_delete_members"
+msgstr "Vuoi rimuovere i seguenti membri da questa sequenza di apprendimento?"
+
+msgid "lso_header_edit_members"
+msgstr "Modifica membri"
+
+#, fuzzy
+msgid "lso_intropages_deprecationhint"
+msgstr "You can edit the abstract and exit page in the tab \"Content\"."
+
+#, fuzzy
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "Siamo lieti di annunciare la tua registrazione per la sequenza di apprendimento \"%s\"."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "La tua registrazione per la sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_dismiss_bod"
+msgstr "La tua iscrizione alla sequenza di apprendimento \"%s\" è stata terminata."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Iscrizione terminata nella sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s si è registrato per la sequenza di apprendimento \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s ha richiesto l'iscrizione alla sequenza di apprendimento \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "Per confermare questa registrazione, vai a:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Richiesta di partecipare alla sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Utente registrato per la sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "%s ha annullato la sua iscrizione per la sequenza di apprendimento \"%s\"."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Potrebbero esserci altri membri in una lista di attesa della tua sequenza di apprendimento. Dovresti controllare la lista di attesa ora. Per visualizzare i membri della tua sequenza di apprendimento, fai clic qui:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "L'utente ha lasciato la sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_permanent_link"
+msgstr "Fai clic sul seguente link per trovare tutte le informazioni necessarie sulla sequenza di apprendimento:"
+
+msgid "lso_mail_status_bod"
+msgstr "Il tuo stato nella sequenza di apprendimento \"%s\" è stato modificato."
+
+msgid "lso_mail_status_sub"
+msgstr "Stato cambiato nella sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "Siamo lieti di confermare la tua registrazione alla sequenza di apprendimento \"%s\"."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Registrazione confermata per \"%s\""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "Ci dispiace informarti che la tua registrazione è stata rifiutata per l'apprendimento della sequenza \"%s\"."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Registrazione rifiutata per la sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "Siamo lieti di confermare la tua registrazione alla sequenza di apprendimento \"%s\"."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "La tua registrazione per la sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "Confermiamo la tua cancellazione all'iscrizione della sequenza di apprendimento %s. Speriamo che tu abbia l'opportunità di partecipare ad un'altra sequenza di apprendimento."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Annullamento dell'iscrizione alla sequenza di apprendimento \"%s\""
+
+msgid "lso_mail_wl_bod"
+msgstr "Sei stato assegnato alla lista di attesa della sequenza di apprendimento \"%s\", in posizione %s nell'elenco. Riceverai un messaggio da un amministratore della sequenza di apprendimento quando la richiesta sarà stata approvata o rifiutata."
+
+msgid "lso_mail_wl_sub"
+msgstr "La tua registrazione per la sequenza di apprendimento \"%s\""
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Curriculum"
+
+msgid "lso_mainbar_button_label_toc"
+msgstr "Contenuto"
+
+msgid "lso_mem_tbl_header"
+msgstr "Membro della sequenza di apprendimento"
+
+msgid "lso_member_administration"
+msgstr "Modifica partecipanti"
+
+msgid "lso_members_deleted"
+msgstr "Membri rimossi"
+
+msgid "lso_members_gallery"
+msgstr "Galleria dei membri della sequenza di apprendimento"
+
+msgid "lso_members_print_title"
+msgstr "Membri della sequenza di apprendimento"
+
+msgid "lso_min_one_admin"
+msgstr "Deve essere assegnato almeno un amministratore a questa sequenza di apprendimento."
+
+msgid "lso_msg_member_assigned"
+msgstr "Utente/i assegnato/i come membro/i della sequenza di apprendimento"
+
+#, fuzzy
+msgid "lso_multidownload_not_available"
+msgstr "Downloading multiple objects is currently not available for Learning Sequence Objects."
+
+msgid "lso_new_status"
+msgstr "Il tuo nuovo stato è:"
+
+msgid "lso_notification"
+msgstr "Notifica"
+
+msgid "lso_notification_explanation_admin"
+msgstr "Hai ricevuto una e-mail da ILIAS perchè sei un amministratore delle sequenze di apprendimento e hai le notifiche abilitate."
+
+msgid "lso_notify_off"
+msgstr "Notifica per le nuove registrazioni disabilitata"
+
+msgid "lso_notify_on"
+msgstr "Notifica per le nuove registrazioni abilitata"
+
+msgid "lso_player_abstract"
+msgstr "Mostra informazioni riassunto"
+
+msgid "lso_player_extro"
+msgstr "Mostra ultima pagina"
+
+msgid "lso_player_finish"
+msgstr "Finito"
+
+msgid "lso_player_next"
+msgstr "Prossimo"
+
+#, fuzzy
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+msgid "lso_player_previous"
+msgstr "Precedente"
+
+msgid "lso_player_resume"
+msgstr "Riprendi la sequenza di apprendimento"
+
+msgid "lso_player_review"
+msgstr "Rivedi la sequenza di apprendimento"
+
+msgid "lso_player_start"
+msgstr "Inizia la sequenza di apprendimento"
+
+msgid "lso_player_suspend"
+msgstr "Sospendi"
+
+#, fuzzy
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+msgid "lso_print_list"
+msgstr "Stampa l'elenco"
+
+msgid "lso_read"
+msgstr "L'utente ha accesso in lettura alla sequenza di apprendimento"
+
+msgid "lso_search_users"
+msgstr "Cerca utente"
+
+msgid "lso_settings_availability"
+msgstr "Disponibilità"
+
+msgid "lso_settings_extro"
+msgstr "Impostazioni della pagina di uscita"
+
+msgid "lso_settings_intro"
+msgstr "Impostazioni della pagina introduttiva"
+
+#, fuzzy
+msgid "lso_settings_old_extro"
+msgstr "View Old Exit Page"
+
+#, fuzzy
+msgid "lso_settings_old_intro"
+msgstr "View Old Intro Page"
+
+msgid "lso_show_members_info"
+msgstr "Galleria membri disponibile per gli utenti"
+
+msgid "lso_start_item"
+msgstr "Avvio di %s"
+
+#, fuzzy
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+#, fuzzy
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+msgid "lso_users_already_assigned"
+msgstr "L'utente è già assegnato a questa sequenza di apprendimento"
+
+msgid "mail_lso_roles"
+msgstr "Invia mail ai ruoli della sequenza di apprendimento."
+
+msgid "manage"
+msgstr "Gestisci"
+
+msgid "manage_content_maintab"
+msgstr "Contenuto"
+
+msgid "members_gallery"
+msgstr "Galleria dei membri"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Deve essere selezionata almeno una voce."
+
+msgid "not_finished"
+msgstr "Non finito"
+
+#, fuzzy
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+msgid "show_summary"
+msgstr "Info"
+
+msgid "table_actions"
+msgstr "Azioni"
+
+#, fuzzy
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+msgid "table_may_proceed"
+msgstr "L'utente può procedere"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Posizione"
+
+msgid "table_sequence_content"
+msgstr "Gestione del contenuto"
+
+msgid "table_title"
+msgstr "Titolo"
+
+msgid "unparticipate"
+msgstr "Annulla l'iscrizione"

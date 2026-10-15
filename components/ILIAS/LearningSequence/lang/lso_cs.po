@@ -1,0 +1,343 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Abstrakt"
+
+msgid "abstract_img"
+msgstr "Obrázek pro abstrakt"
+
+msgid "avail_time_period"
+msgstr "Doba"
+
+msgid "completed_steps"
+msgstr "Provedené kroky"
+
+msgid "condition_always"
+msgstr "Vždy"
+
+#, fuzzy
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "Insert Learning Sequence Curriculum"
+
+#, fuzzy
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+msgid "curriculum"
+msgstr "Učební plán"
+
+msgid "delete_confirmation"
+msgstr "Opravdu chcete odstranit tyto objekty?"
+
+msgid "entries_deleted"
+msgstr "Záznamy úspěšně smazány"
+
+msgid "entries_updated"
+msgstr "Záznamy uloženy"
+
+msgid "extro"
+msgstr "Exitpage"
+
+msgid "extro_img"
+msgstr "Obrázek pro Exitpage"
+
+msgid "failed"
+msgstr "Nepodařilo se"
+
+msgid "finished"
+msgstr "Dokončeno"
+
+msgid "first_access"
+msgstr "První přístup"
+
+msgid "last_visited_step"
+msgstr "Naposledy navštívený krok"
+
+msgid "learner_view"
+msgstr "Přehled"
+
+#, fuzzy
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+msgid "lso_activation_online_info"
+msgstr "Nastavte sekvenci učení online, aby byla viditelná a dostupná pro členy výukové sekvence. Pokud ne, budou mít přístup pouze správci a lektoři."
+
+msgid "lso_at_least_one_admin"
+msgstr "Musí existovat alespoň jeden správce výukové sekvence."
+
+msgid "lso_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "lso_header_delete_members"
+msgstr "Chcete z této výukové sekvence odstranit následující členy?"
+
+msgid "lso_header_edit_members"
+msgstr "Upravit členy"
+
+#, fuzzy
+msgid "lso_intropages_deprecationhint"
+msgstr "You can edit the abstract and exit page in the tab \"Content\"."
+
+#, fuzzy
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "s potěšením vám oznamujeme, že jste byli registrováni pro výukovou sekvenci \"% s\"."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "Vaše registrace pro výukovou sekvenci \"% s\""
+
+msgid "lso_mail_dismiss_bod"
+msgstr "vaše členství ve výukové sekvenci \"% s\" bylo ukončeno."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Členství ukončeno ve výukové sekvenci \"% s\""
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s se registroval pro výukovou sekvenci „%s“."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s požádal o členství ve výukové sekvenci „%s“."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "Chcete-li tuto registraci potvrdit, přejděte na adresu:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Požadavek na spojení výuková sekvence „%s“"
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Uživatel byl registrován pro výukovou sekvenci \"%s\""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "%s zrušil své členství ve výukové sekvenci \"%s\"."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Mohou existovat i další členové na pořadníku vaší výukové sekvence.\\nMěli byste si teď zkontrolovat pořadník.\\nChcete-li zobrazit členy své výukové sekvence, klikněte zde:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "Uživatel opustil výukovou sekvenci \"%s\""
+
+msgid "lso_mail_permanent_link"
+msgstr "Klikněte na následující odkaz, kde najděte všechny potřebné informace týkající se výukové sekvence:"
+
+msgid "lso_mail_status_bod"
+msgstr "váš status ve výukové sekvenci \"%s\" byl změněn."
+
+msgid "lso_mail_status_sub"
+msgstr "Změněný status ve výukové sekvenci \"% s\""
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "s potěšením vám potvrzujeme, že jste byli registrováni do výukové sekvence \"%s\"."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Registrace potvrzena pro \"%s\""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "s politováním vám oznamujeme, že vaše registrace výukové sekvence \"%s\" byla odmítnuta."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Registrace do výukové sekvence \"%s\" byla odmítnuta."
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "s potěšením vám potvrzujeme, že jste byli registrováni do výukové sekvence \"%s\"."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Vaše registrace pro výukovou sekvenci \"% s\""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "Potvrzujeme zrušení vašeho členství ve výukové sekvenci %s. \\nDoufáme, že najdete příležitost k účasti v jiné výukové sekvenci."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Zrušení vašeho členství ve výukové sekvenci \"% s\""
+
+msgid "lso_mail_wl_bod"
+msgstr "byli jste přiřazeni do pořadníku výukové sekvence \"%s\".\\nNa listině máte přiřazenu pozici %s.\\nPo schválení nebo zamítnutí žádosti obdržíte zprávu od správce výukové sekvence."
+
+msgid "lso_mail_wl_sub"
+msgstr "Vaše registrace pro výukovou sekvenci \"% s\""
+
+#, fuzzy
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Curriculum"
+
+#, fuzzy
+msgid "lso_mainbar_button_label_toc"
+msgstr "Content"
+
+msgid "lso_mem_tbl_header"
+msgstr "Člen výukové sekvence"
+
+msgid "lso_member_administration"
+msgstr "Upravit účastníky"
+
+msgid "lso_members_deleted"
+msgstr "Smazaní členové"
+
+msgid "lso_members_gallery"
+msgstr "Galerie členů výukové sekvence"
+
+msgid "lso_members_print_title"
+msgstr "Členové výukové sekvence"
+
+msgid "lso_min_one_admin"
+msgstr "Musí existovat alespoň jeden správce přiřazený této sekvence učení."
+
+msgid "lso_msg_member_assigned"
+msgstr "Uživatel(é) přiřazený(í) jako člen(ové) sekvence učení"
+
+#, fuzzy
+msgid "lso_multidownload_not_available"
+msgstr "Downloading multiple objects is currently not available for Learning Sequence Objects."
+
+msgid "lso_new_status"
+msgstr "Váš nový status je:"
+
+msgid "lso_notification"
+msgstr "Oznámení"
+
+msgid "lso_notification_explanation_admin"
+msgstr "Dostáváte poštu od ILIAS, protože jste správcem sekvence učení s aktivovaným oznámením."
+
+msgid "lso_notify_off"
+msgstr "Oznámení nových registracích bylo zakázáno"
+
+msgid "lso_notify_on"
+msgstr "Oznámení nových registracích bylo povoleno"
+
+msgid "lso_player_abstract"
+msgstr "Zobrazit informace o abstraktu"
+
+msgid "lso_player_extro"
+msgstr "Zobrazit poslední stránku"
+
+msgid "lso_player_finish"
+msgstr "Dokončit"
+
+msgid "lso_player_next"
+msgstr "Další"
+
+#, fuzzy
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+msgid "lso_player_previous"
+msgstr "Předchozí"
+
+msgid "lso_player_resume"
+msgstr "Obnovit sekvenci učení"
+
+msgid "lso_player_review"
+msgstr "Vyhodnotit sekvenci učení"
+
+msgid "lso_player_start"
+msgstr "Začít sekvenci učení"
+
+msgid "lso_player_suspend"
+msgstr "Pozastavit"
+
+#, fuzzy
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+msgid "lso_print_list"
+msgstr "Vytisknout seznam"
+
+msgid "lso_read"
+msgstr "Uživatel má přístup pro čtení k sekvenci učení"
+
+msgid "lso_search_users"
+msgstr "Vyhledat uživatele"
+
+msgid "lso_settings_availability"
+msgstr "dostupnost"
+
+msgid "lso_settings_extro"
+msgstr "Nastavení Exitpage"
+
+msgid "lso_settings_intro"
+msgstr "Nastavení Intropage"
+
+#, fuzzy
+msgid "lso_settings_old_extro"
+msgstr "View Old Exit Page"
+
+#, fuzzy
+msgid "lso_settings_old_intro"
+msgstr "View Old Intro Page"
+
+msgid "lso_show_members_info"
+msgstr "Galerie uživatelů dostupná pro uživatele"
+
+msgid "lso_start_item"
+msgstr "Open %s"
+
+#, fuzzy
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+#, fuzzy
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+msgid "lso_users_already_assigned"
+msgstr "Uživatel je již přiřazen k této sekvenci učení"
+
+msgid "mail_lso_roles"
+msgstr "Posílat maily rolím sekvence učení."
+
+msgid "manage"
+msgstr "Spravovat"
+
+msgid "manage_content_maintab"
+msgstr "Obsah"
+
+msgid "members_gallery"
+msgstr "Galerie členů"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Musí být vybrán alespoň jeden záznam."
+
+msgid "not_finished"
+msgstr "Nedokončeno"
+
+#, fuzzy
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+msgid "show_summary"
+msgstr "Informace"
+
+msgid "table_actions"
+msgstr "Akce"
+
+#, fuzzy
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+msgid "table_may_proceed"
+msgstr "Uživatel může pokračovat"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Pozice"
+
+msgid "table_sequence_content"
+msgstr "Správa obsahu"
+
+msgid "table_title"
+msgstr "Název"
+
+msgid "unparticipate"
+msgstr "Odhlásit z odběru"
