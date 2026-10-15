@@ -1,0 +1,172 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: form\n"
+
+#, fuzzy
+msgid "email_not_match"
+msgstr "Your entries for the email address don't match! Please re-enter your email address."
+
+msgid "form_alphabet_all"
+msgstr "所有"
+
+#, fuzzy
+msgid "form_chars_remaining"
+msgstr "Characters remaining:"
+
+#, fuzzy
+msgid "form_date_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "form_date_duration_start"
+msgstr "Start"
+
+msgid "form_days"
+msgstr "Days"
+
+msgid "form_file_input"
+msgstr "文件输入"
+
+msgid "form_format"
+msgstr "格式"
+
+msgid "form_get_link"
+msgstr "选择目标对象"
+
+#, fuzzy
+msgid "form_hier_click_to_add"
+msgstr "Click here to add new elements."
+
+msgid "form_hierarchy_add_elements"
+msgstr "点击占位符去添加新元素。"
+
+msgid "form_hierarchy_drag_drop_help"
+msgstr "在占位符上播放图标去移动元素。"
+
+msgid "form_hours"
+msgstr "小时"
+
+msgid "form_image_file_input"
+msgstr "图像文件输入"
+
+#, fuzzy
+msgid "form_invalid_uri"
+msgstr "Invalid URI format."
+
+msgid "form_link_external"
+msgstr "外部的"
+
+msgid "form_link_internal"
+msgstr "内部的"
+
+#, fuzzy
+msgid "form_location_radius"
+msgstr "Radius"
+
+#, fuzzy
+msgid "form_location_radius_km"
+msgstr "km"
+
+msgid "form_max_value"
+msgstr "最大值"
+
+msgid "form_min_value"
+msgstr "最小值"
+
+msgid "form_minutes"
+msgstr "分钟"
+
+msgid "form_months"
+msgstr "月份"
+
+msgid "form_msg_file_cannot_write_to_disk"
+msgstr "不能写入磁盘。"
+
+#, fuzzy
+msgid "form_msg_file_missing_file_ext"
+msgstr "The uploaded file has no file type exension."
+
+msgid "form_msg_file_missing_tmp_dir"
+msgstr "文件上传的临时目录缺失。"
+
+msgid "form_msg_file_no_upload"
+msgstr "这是必选项。请选择一个上传文件。"
+
+msgid "form_msg_file_partially_uploaded"
+msgstr "文件上传不完整。"
+
+msgid "form_msg_file_size_exceeds"
+msgstr "上传的文件超出了允许的最大文件大小。"
+
+#, fuzzy
+msgid "form_msg_file_type_is_not_allowed"
+msgstr "This file type is not allowed."
+
+msgid "form_msg_file_upload_stopped_ext"
+msgstr "File upload stopped by extension."
+
+msgid "form_msg_file_virus_found"
+msgstr "上传的文件中发现病毒。"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "错误的文件类型。"
+
+msgid "form_msg_formula_is_required"
+msgstr "请输入一个正确的公式。"
+
+#, fuzzy
+msgid "form_msg_max_upload"
+msgstr "Maximum number of simultaneously uploadable files:"
+
+msgid "form_msg_numeric_value_required"
+msgstr "请输入一个数值。"
+
+msgid "form_msg_value_too_high"
+msgstr "数值太大。请输入一个小点的值。"
+
+msgid "form_msg_value_too_low"
+msgstr "数值太小。请输入一个大点的值。"
+
+msgid "form_msg_wrong_date"
+msgstr "错误的日期。请输入一个有效日期。"
+
+#, fuzzy
+msgid "form_no_link"
+msgstr "No Link"
+
+#, fuzzy
+msgid "form_open_answer"
+msgstr "Open Answer"
+
+msgid "form_password_not_allowed_for_auth"
+msgstr "选定的身份验证方法不可能修改密码。"
+
+msgid "form_password_required_for_auth"
+msgstr "选定的身份验证方法必须设定密码。"
+
+msgid "form_please_select"
+msgstr "请选择"
+
+#, fuzzy
+msgid "form_retype_email"
+msgstr "Retype Email"
+
+msgid "form_retype_password"
+msgstr "重新输入密码"
+
+msgid "form_seconds"
+msgstr "秒"
+
+#, fuzzy
+msgid "form_take_snapshot"
+msgstr "Take Snapshot"
+
+#, fuzzy
+msgid "form_use_camera"
+msgstr "Use Camera"

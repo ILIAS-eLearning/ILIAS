@@ -7601,55 +7601,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Créer un Certificat d'Exercice
 excv#:#excv_create_info#:#Sélectionner un exercice terminé pour générer un certificat
-form#:#email_not_match#:#Les informations fournies ne correspondent pas à l'adresse email !
-form#:#form_alphabet_all#:#Tous
-form#:#form_chars_remaining#:#Caractères restants:
-form#:#form_date_duration_end#:#Terminer
-form#:#form_date_duration_start#:#Démarrer
-form#:#form_days#:#Jours
-form#:#form_file_input#:#Ajout de fichier
-form#:#form_format#:#Format
-form#:#form_get_link#:#Choisir l'Objet Cible
-form#:#form_hier_click_to_add#:#Cliquez ici pour ajouter de nouveaux éléments.
-form#:#form_hierarchy_add_elements#:#Cliquez sur ces liens pour ajouter de nouveaux éléments.
-form#:#form_hierarchy_drag_drop_help#:#Glissez-déposez les icônes sur les emplacements pour déplacer les éléments.
-form#:#form_hours#:#Heures
-form#:#form_image_file_input#:#Ajout fichier image
-form#:#form_invalid_uri#:#Invalid URI format.
-form#:#form_link_external#:#Externe à ILIAS (Web)
-form#:#form_link_internal#:#Interne à ILIAS
-form#:#form_location_radius#:#Rayon
-form#:#form_location_radius_km#:#km
-form#:#form_max_value#:#Valeur Maximale
-form#:#form_min_value#:#Valeur Minimale
-form#:#form_minutes#:#Minutes
-form#:#form_months#:#Mois
-form#:#form_msg_file_cannot_write_to_disk#:#Impossible d'écrire sur le disque.
-form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.
-form#:#form_msg_file_missing_tmp_dir#:#Répertoire temporaire de dépôt absent.
-form#:#form_msg_file_no_upload#:#Cette information est nécessaire. Veuillez sélectionner un fichier à télécharger.
-form#:#form_msg_file_partially_uploaded#:#Le fichier ne peut pas être téléchargé dans son intégralité.
-form#:#form_msg_file_size_exceeds#:#La taille du fichier téléchargé excède le maximum autorisé.
-form#:#form_msg_file_type_is_not_allowed#:#Ce type de fichier n’est pas autorisé.
-form#:#form_msg_file_upload_stopped_ext#:#Dépôt du fichier interrompu à cause de son extension.
-form#:#form_msg_file_virus_found#:#Virus trouvé dans le fichier téléchargé.
-form#:#form_msg_file_wrong_file_type#:#Format de fichier incorrect.
-form#:#form_msg_formula_is_required#:#Veuillez saisir une formule correcte.
-form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
-form#:#form_msg_numeric_value_required#:#Veuillez saisir une valeur numérique.
-form#:#form_msg_value_too_high#:#Valeur trop élevée. Veuillez saisir une valeur plus basse.
-form#:#form_msg_value_too_low#:#Valeur trop basse. Veuillez saisir une valeur plus élevée.
-form#:#form_msg_wrong_date#:#Date non valide. Veuillez saisir une date valide.
-form#:#form_no_link#:#Pas de lien
-form#:#form_open_answer#:#Ouvrir réponse
-form#:#form_password_not_allowed_for_auth#:#Il n'est pas possible de changer de mot de passe avec cette méthode d'authentification.
-form#:#form_password_required_for_auth#:#Un mot de passe est nécessaire pour cette méthode d'authentification.
-form#:#form_please_select#:#Veuillez sélectionner
-form#:#form_retype_email#:#Re-saisir Email
-form#:#form_retype_password#:#Ressaisir le mot de passe
-form#:#form_seconds#:#Secondes
-form#:#form_take_snapshot#:#Take Snapshot###31 10 2023 new variable
-form#:#form_use_camera#:#Use Camera###31 10 2023 new variable
 forum#:#activate_new_posts#:#Modérer les nouveaux articles
 forum#:#activate_only_current#:#Accepter les articles à  jour
 forum#:#activate_post#:#Accepter

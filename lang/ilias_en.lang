@@ -7601,55 +7601,6 @@ dcl#:#table_not_found#:#Table not found!
 dcl#:#tableview_not_found#:#Table view not found!
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it.
-form#:#email_not_match#:#Your entries for the e-mail address don't match! Please re-enter your e-mail address.
-form#:#form_alphabet_all#:#All
-form#:#form_chars_remaining#:#Characters remaining:
-form#:#form_date_duration_end#:#End
-form#:#form_date_duration_start#:#Start
-form#:#form_days#:#Days
-form#:#form_file_input#:#File Input
-form#:#form_format#:#Format
-form#:#form_get_link#:#Select Target Object
-form#:#form_hier_click_to_add#:#Click here to add new elements.
-form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.
-form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.
-form#:#form_hours#:#Hours
-form#:#form_image_file_input#:#Image File Input
-form#:#form_invalid_uri#:#Invalid URI format.
-form#:#form_link_external#:#External Link
-form#:#form_link_internal#:#Internal Link
-form#:#form_location_radius#:#Radius
-form#:#form_location_radius_km#:#km
-form#:#form_max_value#:#Maximum Value
-form#:#form_min_value#:#Minimum Value
-form#:#form_minutes#:#Minutes
-form#:#form_months#:#Months
-form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.
-form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.
-form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.
-form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.
-form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.
-form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.
-form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
-form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
-form#:#form_msg_file_virus_found#:#Virus found in uploaded file.
-form#:#form_msg_file_wrong_file_type#:#Wrong file type.
-form#:#form_msg_formula_is_required#:#Please enter a correct formula.
-form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
-form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
-form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.
-form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.
-form#:#form_msg_wrong_date#:#Please check your date entry. Both a start date and an end date are required and the start date cannot be later than the end date.
-form#:#form_no_link#:#No Link
-form#:#form_open_answer#:#Open Answer
-form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.
-form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.
-form#:#form_please_select#:#Please Select
-form#:#form_retype_email#:#Retype E-Mail
-form#:#form_retype_password#:#Retype Password
-form#:#form_seconds#:#Seconds
-form#:#form_take_snapshot#:#Take Snapshot
-form#:#form_use_camera#:#Use Camera
 forum#:#activate_new_posts#:#Approve Posts
 forum#:#activate_only_current#:#Approve Post
 forum#:#activate_post#:#Approve

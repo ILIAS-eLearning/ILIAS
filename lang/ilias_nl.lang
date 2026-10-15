@@ -7614,55 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it
-form#:#email_not_match#:#Je ingaven voor het e-mail adres zijn niet gelijk! Voer je e-mail adres nogmaals in.
-form#:#form_alphabet_all#:#Alle
-form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable
-form#:#form_date_duration_end#:#End###25 10 2016 new variable
-form#:#form_date_duration_start#:#Start###25 10 2016 new variable
-form#:#form_days#:#Dagen
-form#:#form_file_input#:#Invoer van bestand
-form#:#form_format#:#Format
-form#:#form_get_link#:#Select Target Object
-form#:#form_hier_click_to_add#:#Click here to add new elements.###06 02 2015 new variable
-form#:#form_hierarchy_add_elements#:#Klik op plaatsaanduidingen om nieuwe elementen toe te voegen
-form#:#form_hierarchy_drag_drop_help#:#Drag and drop iconen op plaatsaanduidingen om elementen te verplaatsen.
-form#:#form_hours#:#Uren
-form#:#form_image_file_input#:#Invoeren afbeeldingsbestand
-form#:#form_invalid_uri#:#Invalid URI format.###29 07 2022 new variable
-form#:#form_link_external#:#External
-form#:#form_link_internal#:#Internal
-form#:#form_location_radius#:#Radius
-form#:#form_location_radius_km#:#km
-form#:#form_max_value#:#Maximale waarde
-form#:#form_min_value#:#Minimale waarde
-form#:#form_minutes#:#Minuten
-form#:#form_months#:#Months
-form#:#form_msg_file_cannot_write_to_disk#:#Kan niet schrijven
-form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###07 02 2020 new variable
-form#:#form_msg_file_missing_tmp_dir#:#Tijdelijke map voor ontbrekende uploadbestanden
-form#:#form_msg_file_no_upload#:#Deze invoer is verplicht. Selecteer een bestand voor upload.
-form#:#form_msg_file_partially_uploaded#:#Het bestand kon niet geüpload worden.
-form#:#form_msg_file_size_exceeds#:#Het bestand overschrijd de maximale toelating.
-form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.###31 08 2017 new variable
-form#:#form_msg_file_upload_stopped_ext#:#Upload bestand gestopt door extentie
-form#:#form_msg_file_virus_found#:#Virus gevonden in upload bestand
-form#:#form_msg_file_wrong_file_type#:#Verkeerd bestandstype
-form#:#form_msg_formula_is_required#:#Please enter a correct formula.
-form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###29 07 2022 new variable
-form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
-form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.
-form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.
-form#:#form_msg_wrong_date#:#Onjuiste datum
-form#:#form_no_link#:#No Link###25 10 2016 new variable
-form#:#form_open_answer#:#Open Answer###06 02 2015 new variable
-form#:#form_password_not_allowed_for_auth#:#Het is niet mogelijk om het wachtwoord voor de gekozen authenticatiemethode te wijzigen
-form#:#form_password_required_for_auth#:#Wachtwoord is vereist voor de gekozen authenticatiemethode
-form#:#form_please_select#:#Selecteren
-form#:#form_retype_email#:#E-mail opnieuw intypen
-form#:#form_retype_password#:#Wachtwoord opnieuw invoeren
-form#:#form_seconds#:#Seconden
-form#:#form_take_snapshot#:#Take Snapshot###29 07 2022 new variable
-form#:#form_use_camera#:#Use Camera###29 07 2022 new variable
 forum#:#activate_new_posts#:#Modereren plaatsen van berichten
 forum#:#activate_only_current#:#Activate Current
 forum#:#activate_post#:#Activate

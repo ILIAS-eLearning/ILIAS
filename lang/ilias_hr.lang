@@ -7614,55 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Izradi certifikat za vježbu
 excv#:#excv_create_info#:#Odaberi dovršenu vježbu kako biste generirali certifikat za nju.
-form#:#email_not_match#:#Vaši unosi za adresu e-pošte se ne podudaraju! Ponovno unesite svoju adresu e-pošte.
-form#:#form_alphabet_all#:#Svi
-form#:#form_chars_remaining#:#Preostali znakovi:
-form#:#form_date_duration_end#:#Kraj
-form#:#form_date_duration_start#:#Početak
-form#:#form_days#:#Dani
-form#:#form_file_input#:#Odabir datoteke
-form#:#form_format#:#Format
-form#:#form_get_link#:#Odaberi ciljani objekt
-form#:#form_hier_click_to_add#:#Klikni ovdje za dodavanje novih elemenata.
-form#:#form_hierarchy_add_elements#:#Kliknite na zamjenske znakove kako biste dodali nove elemente.
-form#:#form_hierarchy_drag_drop_help#:#Povucite i ispustite ikone na zamjenske znakove kako biste premjestili elemente.
-form#:#form_hours#:#Sati
-form#:#form_image_file_input#:#Odabir slikovne datoteke
-form#:#form_invalid_uri#:#Invalid URI format.###04 06 2021 new variable
-form#:#form_link_external#:#World Wide Web
-form#:#form_link_internal#:#Unutar ILIAS-a
-form#:#form_location_radius#:#Radijus
-form#:#form_location_radius_km#:#km
-form#:#form_max_value#:#Maksimalna vrijednost
-form#:#form_min_value#:#Minimalna vrijednost
-form#:#form_minutes#:#Minute
-form#:#form_months#:#Mjeseci
-form#:#form_msg_file_cannot_write_to_disk#:#Ne mogu pisati na disk.
-form#:#form_msg_file_missing_file_ext#:#Učitana datoteka nema ekstenziju tipa datoteke.
-form#:#form_msg_file_missing_tmp_dir#:#Nedostaje privremeni direktorij za učitavanje datoteke.
-form#:#form_msg_file_no_upload#:#Ovaj unos je potreban. Odaberite datoteku za učitavanje.
-form#:#form_msg_file_partially_uploaded#:#Datoteka se nije mogla u potpunosti učitati.
-form#:#form_msg_file_size_exceeds#:#Učitana datoteka premašuje maks. dopuštenu veličinu datoteke.
-form#:#form_msg_file_type_is_not_allowed#:#Ova vrsta datoteke nije dopuštena.
-form#:#form_msg_file_upload_stopped_ext#:#Učitavanje datoteke zaustavljeno je ekstenzijom.
-form#:#form_msg_file_virus_found#:#U učitanoj datoteci pronađen je virus.
-form#:#form_msg_file_wrong_file_type#:#Pogrešna vrsta datoteke.
-form#:#form_msg_formula_is_required#:#Unesite ispravnu formulu.
-form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###04 06 2021 new variable
-form#:#form_msg_numeric_value_required#:#Unesite brojčanu vrijednost.
-form#:#form_msg_value_too_high#:#Vrijednost previsoka. Unesite nižu vrijednost.
-form#:#form_msg_value_too_low#:#Vrijednost preniska. Unesite veću vrijednost.
-form#:#form_msg_wrong_date#:#Pogrešan datum. Unesite valjani datum.
-form#:#form_no_link#:#Nema poveznice
-form#:#form_open_answer#:#Otvorite odgovor
-form#:#form_password_not_allowed_for_auth#:#Nije moguće promijeniti lozinku za odabrani način provjere autentičnosti.
-form#:#form_password_required_for_auth#:#Za odabrani način provjere autentičnosti potrebna je lozinka.
-form#:#form_please_select#:#Molimo odaberite
-form#:#form_retype_email#:#Ponovno unesite e-poštu
-form#:#form_retype_password#:#Ponovno unesite lozinku
-form#:#form_seconds#:#Sekunde
-form#:#form_take_snapshot#:#Take Snapshot###29 07 2022 new variable
-form#:#form_use_camera#:#Use Camera###29 07 2022 new variable
 forum#:#activate_new_posts#:#Odobri objave
 forum#:#activate_only_current#:#Odobri objavu
 forum#:#activate_post#:#Odobri
