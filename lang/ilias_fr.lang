@@ -6854,8 +6854,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block###28 10 2024 new variable
 crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Champs Utilisateur
-crsv#:#crsv_create#:#Créer Certificat de Cours
-crsv#:#crsv_create_info#:#Sélectionner un cours terminé pour générer le certificat
 dash#:#dash_activation#:#activation
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
 dash#:#dash_avail_presentation#:#Available Presentations

@@ -6869,8 +6869,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block###28 10 2024 new variable
 crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Personliga profiluppgifter
-crsv#:#crsv_create#:#Skapa kursintyg
-crsv#:#crsv_create_info#:#Välj en kurs för vilken du behöver ett intyg
 dash#:#dash_activation#:#Aktivering
 dash#:#dash_added_to_favs#:#Posten har lagts till i personliga favoriter.
 dash#:#dash_avail_presentation#:#Tillgängliga presentationer

@@ -6879,8 +6879,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block
 crs#:#tutorial_support_block_title#:#Contact Person
 crs#:#user_fields#:#User Fields
-crsv#:#crsv_create#:#Create Course Certificate
-crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it
 dash#:#add_to_favourites#:#Add to Favourites
 dash#:#added_to_favourites#:#The item has been added to your favourites.
 dash#:#dash_activation#:#activation

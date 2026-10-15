@@ -6870,8 +6870,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block###28 11 2025 new variable
 crs#:#tutorial_support_block_title#:#Contact Person###28 11 2025 new variable
 crs#:#user_fields#:#Campi utente
-crsv#:#crsv_create#:#Crea certificato del corso
-crsv#:#crsv_create_info#:#Seleziona un corso terminato per generare un certificato per questo
 dash#:#dash_activation#:#Attivazione
 dash#:#dash_added_to_favs#:#Il contenuto è stato aggiunto ai tuoi preferiti.
 dash#:#dash_avail_presentation#:#Presentazioni disponibili

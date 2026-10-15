@@ -6878,8 +6878,6 @@ crs#:#tutorial_support_block_setting_desc#:#Az ‘Oktatóanyag támogatási blok
 crs#:#tutorial_support_block_setting_title#:#Oktatóanyag támogatási blokk
 crs#:#tutorial_support_block_title#:#Kapcsolattartó
 crs#:#user_fields#:#Felhasználói mezők
-crsv#:#crsv_create#:#Kurzustanúsítvány létrehozása
-crsv#:#crsv_create_info#:#Válasszon egy teljesített kurzust, hogy tanúsítványt generálhassunk hozzá
 dash#:#add_to_favourites#:#Hozzáadás a Kedvencekhez
 dash#:#added_to_favourites#:#az elemet sikeresen hozzáadta a kedvenceihez.
 dash#:#dash_activation#:#aktiválás

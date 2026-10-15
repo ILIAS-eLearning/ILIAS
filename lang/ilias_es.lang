@@ -6881,8 +6881,6 @@ crs#:#tutorial_support_block_setting_desc#:#El bloque 'Soporte de Tutoría' se m
 crs#:#tutorial_support_block_setting_title#:#Bloque de Soporte de Tutoría
 crs#:#tutorial_support_block_title#:#Persona de contacto
 crs#:#user_fields#:#Campos de Usuario
-crsv#:#crsv_create#:#Crear Certificado de curso
-crsv#:#crsv_create_info#:#Seleccione un curso completado para generar un certificado para el mismo
 dash#:#dash_activation#:#activación
 dash#:#dash_added_to_favs#:#La recomendación se ha añadido a sus favoritos personales.
 dash#:#dash_avail_presentation#:#Presentaciones Disponibles
