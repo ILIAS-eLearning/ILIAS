@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\components\Database\PDO\FieldDefinition\ForeignKeyConstraints;
+use ILIAS\Database\PDO\FieldDefinition\ForeignKeyConstraints;
 
 class ilBackgroundTasksDBHotfixes10 implements ilDatabaseUpdateSteps
 {
