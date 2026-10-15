@@ -2010,7 +2010,7 @@ assessment#:#uploaded_material#:#Materiale salvato
 assessment#:#use_previous_solution#:#Usa soluzione precedente
 assessment#:#use_previous_solution_advice#:#La soluzione mostrata per la domanda è quella che avete dato precedentemente. Bisogna confermare la soluzione adottata se si desidera utilizzarla senza modifiche.
 assessment#:#user_has_finished_a_test#:#Un partecipante ha terminato il test.
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###28 11 2025 new variable
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.###28 11 2025 new variable
 assessment#:#user_not_invited#:#Non sei ammesso ad eseguire questo test.
 assessment#:#usr_manscoring_complete#:#Marke as 'scored'###28 11 2025 new variable
 assessment#:#value_between_x_and_y#:#Il valore deve essere tra %s e %s

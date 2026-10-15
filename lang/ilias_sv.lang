@@ -2011,7 +2011,7 @@ assessment#:#uploaded_material#:#Uppladdade material
 assessment#:#use_previous_solution#:#Använd tidigare lösning
 assessment#:#use_previous_solution_advice#:#Lösningen som visas har tidigare lämnats in av dig. Du måste bekräfta antagandet av denna lösning under frågan om du vill anta lösningen utan ändringar.
 assessment#:#user_has_finished_a_test#:#En deltagare har avslutat ett test.
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Du är inte en deltagare i provet.
 assessment#:#usr_manscoring_complete#:#Marke as 'scored'###29 10 2025 new variable
 assessment#:#value_between_x_and_y#:#Värdet måste vara mellan %s och %s

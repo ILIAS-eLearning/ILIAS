@@ -1999,7 +1999,7 @@ assessment#:#uploaded_material#:#E-mail de contacto
 assessment#:#use_previous_solution#:#Usar solução anterior
 assessment#:#use_previous_solution_advice#:#A solução apresentada para a pergunta é a que deu anteriormente. Tem de confirmar a adoção da solução, se quiser usá-la sem qualquer alteração.
 assessment#:#user_has_finished_a_test#:#Um participante acabou um teste.
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###03 09 2026 new variable
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.###03 09 2026 new variable
 assessment#:#user_not_invited#:#Copiar bibliografia
 assessment#:#usr_manscoring_complete#:#Marked as 'scored'###03 09 2026 new variable
 assessment#:#value_between_x_and_y#:#O valor deve estar entre %s e %s

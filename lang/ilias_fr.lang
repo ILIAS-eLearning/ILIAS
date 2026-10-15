@@ -1996,7 +1996,7 @@ assessment#:#uploaded_material#:#Matériau téléchargé
 assessment#:#use_previous_solution#:#Utiliser la solution précédente
 assessment#:#use_previous_solution_advice#:#La solution montrée pour la question est celle que vous avez donné précédemment. Si vous voulez l’utiliser sans modification, vous devez confirmer l’adoption de la solution.
 assessment#:#user_has_finished_a_test#:#Un participant a terminé le test.
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Vous n'êtes pas censé passer ce test.
 assessment#:#usr_manscoring_complete#:#Marke as 'scored'###29 10 2025 new variable
 assessment#:#value_between_x_and_y#:#La valeur doit être comprise entre %s et %s
