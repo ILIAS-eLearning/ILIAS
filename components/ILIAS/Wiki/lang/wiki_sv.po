@@ -1,0 +1,598 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr " Aktivera betygskategorier"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "Aktivera betyg för nya sidor"
+
+msgid "wiki_activate_page_rating"
+msgstr "Tillåt betyg"
+
+msgid "wiki_activate_rating"
+msgstr "Tillåt klassificering av sidorna"
+
+msgid "wiki_add_link"
+msgstr "Lägg till länk"
+
+msgid "wiki_add_template"
+msgstr "Använd som mall för innehåll"
+
+msgid "wiki_advmd_block_title"
+msgstr " Användardefinierade metadata för sidan"
+
+msgid "wiki_all_pages"
+msgstr "Alla sidor"
+
+msgid "wiki_block_page"
+msgstr "Skrivskydd för sida"
+
+msgid "wiki_change_notification_body_new"
+msgstr "Följande wiki-sida har nyligen skapats"
+
+msgid "wiki_change_notification_link"
+msgstr "URL"
+
+msgid "wiki_change_notification_page_body_comment"
+msgstr "Följande wiki-sida kommenterades"
+
+msgid "wiki_change_notification_page_body_delete"
+msgstr " följande wiki-sida har tagits bort"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "Följande wiki-sida har redigerats"
+
+msgid "wiki_change_notification_page_link"
+msgstr "URL"
+
+msgid "wiki_change_notification_salutation"
+msgstr "Hej %s,"
+
+msgid "wiki_change_notification_subject"
+msgstr "Wiki \"%1$s\" har redigerats"
+
+msgid "wiki_changed_by"
+msgstr "Ändrad från"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+msgid "wiki_commented_by"
+msgstr "From##Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8"
+
+msgid "wiki_contributor"
+msgstr "Deltagare"
+
+msgid "wiki_contributors"
+msgstr "Deltagare"
+
+msgid "wiki_copy"
+msgstr "Kopiera Wiki"
+
+msgid "wiki_create_page"
+msgstr "Skapa sida"
+
+msgid "wiki_created_by"
+msgstr "Skapad av"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "Inte tillåta betyg"
+
+msgid "wiki_delete_page"
+msgstr "Ta bort sida"
+
+msgid "wiki_download_submission"
+msgstr "Ladda ner inlämningsfilen"
+
+msgid "wiki_empty_page"
+msgstr "Blank sida"
+
+msgid "wiki_empty_page_template"
+msgstr "Skapa en ny sida utan mall (tom sida)"
+
+msgid "wiki_exc_template"
+msgstr "Wiki-mall"
+
+msgid "wiki_exc_wiki_created"
+msgstr "Wiki skapades"
+
+msgid "wiki_exercise_info"
+msgstr "Den här wikin är tilldelad övningsenheten \"%s\" i övningen \"%s\"."
+
+msgid "wiki_exercise_submitted_info"
+msgstr "Din senaste inlämning var den %s. Kontrollera inlämningsfilen."
+
+msgid "wiki_failed"
+msgstr "Misslyckad"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "Feedback från lärare"
+
+msgid "wiki_finalize_wiki"
+msgstr "Stäng och lämna in wiki"
+
+msgid "wiki_finalized"
+msgstr "Wikin har lämnats in."
+
+msgid "wiki_functions"
+msgstr "Wiki-funktioner"
+
+msgid "wiki_general_settings"
+msgstr "Allmänna inställningar"
+
+msgid "wiki_grading"
+msgstr "Rating"
+
+msgid "wiki_html_export"
+msgstr "HTML-export"
+
+msgid "wiki_imp_page_added"
+msgstr "Sidan har lagts till."
+
+msgid "wiki_import"
+msgstr "Import wiki"
+
+msgid "wiki_incl_comments"
+msgstr "inklusive kommentarer"
+
+msgid "wiki_indentation"
+msgstr "Inledning"
+
+msgid "wiki_introduction"
+msgstr "Inledning"
+
+msgid "wiki_last_changed"
+msgstr "Sista förändringen"
+
+msgid "wiki_last_changed_by"
+msgstr "Sista ändring från"
+
+msgid "wiki_last_edited"
+msgstr "Senast ändrad"
+
+msgid "wiki_last_visited_page"
+msgstr "Sista besökta sidan"
+
+msgid "wiki_link_md_values"
+msgstr "Automatisk länkning"
+
+msgid "wiki_link_md_values_info"
+msgstr "Automatiskt länkar egenskapsvärden i sidblocket till wiki-sidor med samma namn (om sådana finns)."
+
+msgid "wiki_link_text"
+msgstr "Länktext"
+
+msgid "wiki_mark"
+msgstr "Note"
+
+#, fuzzy
+msgid "wiki_master_existing"
+msgstr "Page Exists in Master Language"
+
+#, fuzzy
+msgid "wiki_master_title"
+msgstr "Title of Page in Master Language"
+
+msgid "wiki_navigation"
+msgstr "Wiki-navigering"
+
+msgid "wiki_navigation_info"
+msgstr "Här kan du lägga till och ta bort befintliga wiki-sidor från navigeringsblocket."
+
+msgid "wiki_new_page"
+msgstr "Ny sida"
+
+msgid "wiki_new_page_name"
+msgstr "Ny sidtitel"
+
+msgid "wiki_new_pages"
+msgstr "Nya sidor"
+
+msgid "wiki_news_page_changed"
+msgstr "Wikisidan har ändrats."
+
+msgid "wiki_news_page_created"
+msgstr "Wikisidan har skapats."
+
+#, fuzzy
+msgid "wiki_no_master"
+msgstr "Page Does Not Exist in Master Language"
+
+msgid "wiki_no_page_found"
+msgstr "Inga sidor hittades för söktermen '$1'."
+
+msgid "wiki_no_search_term"
+msgstr "Ingen sökterm angavs. Alla wiki-sidor listas nedan."
+
+msgid "wiki_no_start_page"
+msgstr "Wikin har ingen giltig startsida"
+
+#, fuzzy
+msgid "wiki_not_existing"
+msgstr "not existing yet"
+
+msgid "wiki_notgraded"
+msgstr "Ej betygsatt"
+
+msgid "wiki_notification_activate_page"
+msgstr "Aktivera avisering för wiki-sida"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "Aktivera avisering för wiki"
+
+msgid "wiki_notification_activated"
+msgstr "Notifiering aktiv (hela wikin)"
+
+msgid "wiki_notification_comment"
+msgstr " följande sida kommenterades"
+
+msgid "wiki_notification_comment_subject"
+msgstr "Det fanns en kommentar på sidan \"%s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "Inaktivera avisering för wiki-sida"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "Inaktivera avisering för wiki"
+
+msgid "wiki_notification_deactivated"
+msgstr "Notifieringar avaktiverade"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "Antal användare som har skrivit noteringar eller kommentarer på denna sida."
+
+msgid "wiki_ordering"
+msgstr "Beställ"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "Order och indrag sparades."
+
+msgid "wiki_orphaned_pages"
+msgstr "Förgätna sidor"
+
+msgid "wiki_other_pages_linking"
+msgstr "Andra sidor som länkar till denna sida"
+
+msgid "wiki_page"
+msgstr "Sida"
+
+msgid "wiki_page_actions"
+msgstr "Aktioner till sidan"
+
+msgid "wiki_page_already_exists"
+msgstr "Det finns redan en sida med detta namn."
+
+msgid "wiki_page_blocked"
+msgstr "Skrivskydd är aktiverat. Endast användare med rättigheten \"Redigera inställningar\" har skrivbehörighet."
+
+msgid "wiki_page_changes"
+msgstr "Ändrade sidor"
+
+msgid "wiki_page_deleted"
+msgstr "Wiki-sidan har tagits bort."
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "Vill du verkligen ta bort den här wiki-sidan?"
+
+msgid "wiki_page_exists"
+msgstr "Befintlig sida"
+
+msgid "wiki_page_hits"
+msgstr "Sidvisningar"
+
+#, fuzzy
+msgid "wiki_page_in_master_language"
+msgstr "Page in Master Language"
+
+msgid "wiki_page_list_form_info"
+msgstr "Lägger till en lista över wiki-sidor som är associerade med efterföljande metadata. Endast sökbara metadatafält från wiki-metadataposterna erbjuds."
+
+msgid "wiki_page_list_mode"
+msgstr "Typ av lista"
+
+msgid "wiki_page_list_mode_ordered"
+msgstr "Numrerad"
+
+msgid "wiki_page_list_mode_unordered"
+msgstr "Inte numrerad"
+
+msgid "wiki_page_lists"
+msgstr "Listor över sidor"
+
+msgid "wiki_page_not_exist_select_templ"
+msgstr "Denna sida finns inte ännu. Vänligen välj en mall för den nya sidan."
+
+msgid "wiki_page_notification_activated"
+msgstr "Notifiering aktiv (en sida)"
+
+msgid "wiki_page_status_blocked"
+msgstr "Sidan är skrivskyddad."
+
+msgid "wiki_page_template"
+msgstr "Mall för innehåll"
+
+msgid "wiki_page_templates"
+msgstr "Mallar för innehåll"
+
+msgid "wiki_page_title_too_long"
+msgstr "Sidan kunde inte skapas eftersom titeln är för lång. Vänligen välj en kortare sidtitel."
+
+msgid "wiki_page_toc"
+msgstr "Aktivera sidöversikt"
+
+msgid "wiki_page_toc_info"
+msgstr "Om minst två rubriker används på sidan visas en lista över alla rubriker högst upp på sidan."
+
+msgid "wiki_page_type_wpg"
+msgstr "Wiki-sida"
+
+msgid "wiki_page_unblocked"
+msgstr "Skrivskyddet har tagits bort."
+
+msgid "wiki_pages"
+msgstr "Sidor"
+
+msgid "wiki_pages_found"
+msgstr "Följande sidor hittades som matchar söktermen '$1'."
+
+msgid "wiki_passed"
+msgstr "Bekräftad"
+
+msgid "wiki_pg_list_no_search_fields"
+msgstr "Det finns inga sökbara metadatafält i wikins metadataposter."
+
+msgid "wiki_please_enter_search_term"
+msgstr "Var god ange en sökterm."
+
+msgid "wiki_popular_pages"
+msgstr "Populära sidor"
+
+msgid "wiki_print_view"
+msgstr " Skriv ut vy"
+
+msgid "wiki_public_comments"
+msgstr "Kommentarer"
+
+msgid "wiki_purpose"
+msgstr "Syfte"
+
+msgid "wiki_quick_navigation"
+msgstr "Wiki snabbnavigering"
+
+msgid "wiki_rate_overall"
+msgstr "Betygsättning Wiki"
+
+msgid "wiki_rate_page"
+msgstr "Rate wiki-sida"
+
+msgid "wiki_recent_changes"
+msgstr "Sista förändringar"
+
+msgid "wiki_remove_template_status"
+msgstr "Används inte längre som innehållsmall"
+
+msgid "wiki_removed_imp_pages"
+msgstr "Sidorna har tagits bort från listan."
+
+msgid "wiki_rename"
+msgstr "Rename"
+
+msgid "wiki_rename_page"
+msgstr "Namn på sidan"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "Spara ordning och indrag"
+
+msgid "wiki_search"
+msgstr "Sökning"
+
+msgid "wiki_search_results"
+msgstr "Sökresultat"
+
+msgid "wiki_sec_protect_info"
+msgstr "Skyddade block kan endast redigeras av användare med behörigheten \"Redigera inställningar\"."
+
+msgid "wiki_select_one_item"
+msgstr "Vänligen välj ett objekt."
+
+msgid "wiki_selected_pages"
+msgstr "Utvalda sidor"
+
+msgid "wiki_set_as_start_page"
+msgstr "Sätt som startsida"
+
+msgid "wiki_settings"
+msgstr "Wiki-inställningar"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "Den här titeln används redan av en wiki. Vänligen välj en annan titel."
+
+msgid "wiki_show_pdf_export"
+msgstr "PDF-export"
+
+msgid "wiki_show_print_view"
+msgstr " Skriv ut vy"
+
+msgid "wiki_start_page"
+msgstr "Startsida"
+
+msgid "wiki_start_page_info"
+msgstr "Om det ännu inte finns en wiki-sida med denna titel, skapas en ny, tom sida."
+
+msgid "wiki_stat_chars"
+msgstr "Antal tecken"
+
+msgid "wiki_stat_chars_avg"
+msgstr "Genomsnittligt antal tecken per sida"
+
+msgid "wiki_stat_deleted_pages"
+msgstr "Antal raderade sidor"
+
+msgid "wiki_stat_edit_pages"
+msgstr "Antal sidor som ändrats"
+
+msgid "wiki_stat_edit_pages_avg"
+msgstr "Genomsnittligt antal ändrade sidor per användare"
+
+msgid "wiki_stat_external_links"
+msgstr "Antal externa länkar"
+
+msgid "wiki_stat_external_links_avg"
+msgstr "Genomsnittligt antal externa länkar per sida"
+
+msgid "wiki_stat_figure"
+msgstr "Nyckeltal"
+
+msgid "wiki_stat_footnotes"
+msgstr "Antal fotnoter"
+
+msgid "wiki_stat_footnotes_avg"
+msgstr "Genomsnittligt antal fotnoter per sida"
+
+msgid "wiki_stat_internal_links"
+msgstr "Antal interna länkar"
+
+msgid "wiki_stat_internal_links_avg"
+msgstr "Genomsnittligt antal interna länkar per sida"
+
+msgid "wiki_stat_new_pages"
+msgstr "Antal nya sidor"
+
+msgid "wiki_stat_new_pages_avg"
+msgstr "Genomsnittligt antal nya sidor per användare"
+
+msgid "wiki_stat_num_pages"
+msgstr "Antal sidor"
+
+msgid "wiki_stat_num_rating"
+msgstr "Antal betyg"
+
+msgid "wiki_stat_num_rating_avg"
+msgstr "Genomsnittligt antal betyg per sida"
+
+msgid "wiki_stat_page_changes"
+msgstr "Antal ändringar"
+
+msgid "wiki_stat_page_changes_avg"
+msgstr "Genomsnittligt antal ändringar per användare"
+
+msgid "wiki_stat_page_characters"
+msgstr "Antal tecken"
+
+msgid "wiki_stat_page_external_links"
+msgstr "Antal externa länkar"
+
+msgid "wiki_stat_page_footnotes"
+msgstr "Antal fotnoter"
+
+msgid "wiki_stat_page_internal_links"
+msgstr "Antal interna länkar"
+
+msgid "wiki_stat_page_ratings"
+msgstr "Antal betyg"
+
+msgid "wiki_stat_page_read"
+msgstr "Antal läsaccesser"
+
+msgid "wiki_stat_page_user_edit"
+msgstr "Antal användare som har ändrat sidan"
+
+msgid "wiki_stat_page_words"
+msgstr "Antal ord"
+
+msgid "wiki_stat_rating_avg"
+msgstr "Genomsnittlig rating"
+
+msgid "wiki_stat_read_pages"
+msgstr "Antal läsaccesser"
+
+msgid "wiki_stat_scope"
+msgstr "Tidsperiod"
+
+msgid "wiki_stat_user_edit_pages"
+msgstr "Antal användare som har bytt sida"
+
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "Genomsnittligt antal användare som har bytt sida"
+
+msgid "wiki_stat_words"
+msgstr "Antal ord"
+
+msgid "wiki_stat_words_avg"
+msgstr "Genomsnittligt antal ord per sida"
+
+msgid "wiki_style"
+msgstr "Stil"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "Vill du verkligen ta bort följande sidor från listan över viktiga sidor?"
+
+msgid "wiki_target_page"
+msgstr "Målsida"
+
+msgid "wiki_team_members"
+msgstr "Teammedlemmar"
+
+msgid "wiki_templ_add_to_page"
+msgstr "Tillgänglig för befintlig sida"
+
+msgid "wiki_templ_new_pages"
+msgstr "Tillgänglig för ny sida"
+
+msgid "wiki_template_added"
+msgstr "Innehållsmall tillagd"
+
+msgid "wiki_template_status_removed"
+msgstr "Använd som innehållsmall annullerad."
+
+#, fuzzy
+msgid "wiki_translate_page_master_info"
+msgstr "You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version."
+
+#, fuzzy
+msgid "wiki_translation_page"
+msgstr "Translation Page"
+
+#, fuzzy
+msgid "wiki_translations"
+msgstr "Translations"
+
+msgid "wiki_type_wiki_team"
+msgstr "Team Wiki"
+
+msgid "wiki_unblock_page"
+msgstr "Oskydda skrivande"
+
+msgid "wiki_unhide_meta_adv_records"
+msgstr "Visa användardefinierade metadata"
+
+msgid "wiki_what_links_here"
+msgstr "Vad länkar här?"
+
+msgid "wiki_what_links_to_page"
+msgstr "Vilka länkar till sidan \"%s\"?"
+
+msgid "wiki_whole_wiki"
+msgstr "Övergripande Wiki"
+
+msgid "wiki_wiki_page"
+msgstr "Wiki-sida"
+
+msgid "wiki_wiki_search"
+msgstr "Sök i wikin"
+
+msgid "wiki_wpg"
+msgstr "Wiki-sida"

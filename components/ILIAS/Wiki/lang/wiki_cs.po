@@ -1,0 +1,604 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr "Aktivovat kategorie hodnocení"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "Aktivovat hodnocení pro nové stránky"
+
+msgid "wiki_activate_page_rating"
+msgstr "Aktivovat hodnocení"
+
+msgid "wiki_activate_rating"
+msgstr "Aktivovat hodnocení"
+
+msgid "wiki_add_link"
+msgstr "Přidat odkaz"
+
+msgid "wiki_add_template"
+msgstr "Nastavit status šablony"
+
+msgid "wiki_advmd_block_title"
+msgstr "Pokročilá metadata strany"
+
+msgid "wiki_all_pages"
+msgstr "Všechny stránky"
+
+msgid "wiki_block_page"
+msgstr "Stránka bloku"
+
+msgid "wiki_change_notification_body_new"
+msgstr "byla vytvořena následující wiki stránka"
+
+msgid "wiki_change_notification_link"
+msgstr "Odkaz na wiki: %s"
+
+msgid "wiki_change_notification_page_body_comment"
+msgstr "na následující stránku wiki byl přidán komentář"
+
+msgid "wiki_change_notification_page_body_delete"
+msgstr "byla smazána následující wiki stránka"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "Ve wiki \"%s\" stránka \"%s\" byla aktualizována."
+
+msgid "wiki_change_notification_page_link"
+msgstr "Odkaz na wiki stránku: %s"
+
+msgid "wiki_change_notification_salutation"
+msgstr "Ahoj %s,"
+
+msgid "wiki_change_notification_subject"
+msgstr "Wiki \"%s\" byla změněna"
+
+msgid "wiki_changed_by"
+msgstr "Změněno"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+#, fuzzy
+msgid "wiki_commented_by"
+msgstr "Commented by"
+
+msgid "wiki_contributor"
+msgstr "Přispěvatel"
+
+msgid "wiki_contributors"
+msgstr "Přispěvatelé"
+
+msgid "wiki_copy"
+msgstr "Kopírovat Wiki"
+
+msgid "wiki_create_page"
+msgstr "Vytvořit stránku"
+
+msgid "wiki_created_by"
+msgstr "Vytvořen"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "Deaktivovat hodnocení"
+
+msgid "wiki_delete_page"
+msgstr "Smazat stránku"
+
+msgid "wiki_download_submission"
+msgstr "Stáhnout soubor podání"
+
+msgid "wiki_empty_page"
+msgstr "Vyprázdnit stránku"
+
+msgid "wiki_empty_page_template"
+msgstr "Šablona prázdné stránky na Vytvoření stránky"
+
+msgid "wiki_exc_template"
+msgstr "Šablona Wiki"
+
+msgid "wiki_exc_wiki_created"
+msgstr "Wiki byla vytvořena."
+
+msgid "wiki_exercise_info"
+msgstr "Tato wiki je součástí úlohy \"%s\" cvičení \"%s\"."
+
+msgid "wiki_exercise_submitted_info"
+msgstr "Vaše poslední podání bylo na %s. Zkontrolujte exportní soubor."
+
+msgid "wiki_failed"
+msgstr "Selhal"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "Ohlas od lektora"
+
+msgid "wiki_finalize_wiki"
+msgstr "Dokončit a odeslat Wiki"
+
+msgid "wiki_finalized"
+msgstr "Wiki byla dokončena a odeslána."
+
+msgid "wiki_functions"
+msgstr "Funkce Wiki"
+
+msgid "wiki_general_settings"
+msgstr "Obecná nastavení"
+
+msgid "wiki_grading"
+msgstr "Stupnice"
+
+msgid "wiki_html_export"
+msgstr "Exportovat HTML"
+
+msgid "wiki_imp_page_added"
+msgstr "Stránka přidána."
+
+msgid "wiki_import"
+msgstr "Importovat Wiki"
+
+#, fuzzy
+msgid "wiki_incl_comments"
+msgstr "including comments"
+
+msgid "wiki_indentation"
+msgstr "Odsazení"
+
+msgid "wiki_introduction"
+msgstr "Implementace"
+
+msgid "wiki_last_changed"
+msgstr "Poslední změna"
+
+msgid "wiki_last_changed_by"
+msgstr "Naposledy změněno"
+
+msgid "wiki_last_edited"
+msgstr "Neposledy editováno"
+
+msgid "wiki_last_visited_page"
+msgstr "Poslední návštěva stránky"
+
+msgid "wiki_link_md_values"
+msgstr "Automatické propojení"
+
+msgid "wiki_link_md_values_info"
+msgstr "Automaticky propojuje vlastnosti uvedené v bočním bloku s wiki stránkami se stejným názvem."
+
+msgid "wiki_link_text"
+msgstr "Text odkazu"
+
+msgid "wiki_mark"
+msgstr "Označit"
+
+#, fuzzy
+msgid "wiki_master_existing"
+msgstr "Page Exists in Master Language"
+
+#, fuzzy
+msgid "wiki_master_title"
+msgstr "Title of Page in Master Language"
+
+msgid "wiki_navigation"
+msgstr "Navigace Wiki"
+
+msgid "wiki_navigation_info"
+msgstr "Zde můžete přidat a odstranit odkazy na existující wiki stránky do bloku navigace ve wiki."
+
+msgid "wiki_new_page"
+msgstr "Nová stránka"
+
+msgid "wiki_new_page_name"
+msgstr "Nový název"
+
+msgid "wiki_new_pages"
+msgstr "Nová stránka"
+
+msgid "wiki_news_page_changed"
+msgstr "Wiki stránka byla aktualizována."
+
+msgid "wiki_news_page_created"
+msgstr "Nová wiki stránka byla vytvořena."
+
+#, fuzzy
+msgid "wiki_no_master"
+msgstr "Page Does Not Exist in Master Language"
+
+msgid "wiki_no_page_found"
+msgstr "Nebyla nalezena žádná stránka wiki pro hledaný výraz '$1'."
+
+msgid "wiki_no_search_term"
+msgstr "Nebyl zadán žádný hledaný výraz. Všechny stránky wiki jsou uvedeny níže."
+
+msgid "wiki_no_start_page"
+msgstr "Wiki chybí platná startovací stránka"
+
+#, fuzzy
+msgid "wiki_not_existing"
+msgstr "not existing yet"
+
+msgid "wiki_notgraded"
+msgstr "Nehodnoceno"
+
+msgid "wiki_notification_activate_page"
+msgstr "Aktivovat upozorňování na stránku"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "Aktivovat upozorňování pro Wiki"
+
+msgid "wiki_notification_activated"
+msgstr "Upozornění bylo aktivováno (celá wiki)"
+
+#, fuzzy
+msgid "wiki_notification_comment"
+msgstr "the following Wiki Page has been commented."
+
+#, fuzzy
+msgid "wiki_notification_comment_subject"
+msgstr "A comment was added to %s: %s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "Deaktivovat upozorňování na stránku"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "Deaktivovat upozorňování na Wiki"
+
+msgid "wiki_notification_deactivated"
+msgstr "Upozorňování deaktivováno"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "Počet uživatelů, kteří připojili poznámky nebo komentáře k této stránce"
+
+msgid "wiki_ordering"
+msgstr "Řazení"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "Řazení a odsazení uloženo."
+
+msgid "wiki_orphaned_pages"
+msgstr "Osiřelé stránky"
+
+msgid "wiki_other_pages_linking"
+msgstr "Jiné stránky odkazující na tuto stránku"
+
+msgid "wiki_page"
+msgstr "Stránka"
+
+msgid "wiki_page_actions"
+msgstr "Akce stránky"
+
+msgid "wiki_page_already_exists"
+msgstr "Stránka s tímto názvem už existuje."
+
+msgid "wiki_page_blocked"
+msgstr "Wiki stránky blokována."
+
+msgid "wiki_page_changes"
+msgstr "Změny stránky"
+
+msgid "wiki_page_deleted"
+msgstr "Wiki stránka smazána."
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "Skutečně chcete smazat tuto stránku wiki?"
+
+msgid "wiki_page_exists"
+msgstr "Stávající stránka"
+
+msgid "wiki_page_hits"
+msgstr "Návštěvy stránky"
+
+#, fuzzy
+msgid "wiki_page_in_master_language"
+msgstr "Page in Master Language"
+
+msgid "wiki_page_list_form_info"
+msgstr "Přidá seznam stránek této wiki, které jsou všechny přiřazeny k vybraným metadatům níže."
+
+msgid "wiki_page_list_mode"
+msgstr "Typ seznamu"
+
+msgid "wiki_page_list_mode_ordered"
+msgstr "Číslované"
+
+msgid "wiki_page_list_mode_unordered"
+msgstr "Nečíslované"
+
+msgid "wiki_page_lists"
+msgstr "Seznam stránek"
+
+msgid "wiki_page_not_exist_select_templ"
+msgstr "Tato stránka ještě neexistuje. Vyberte šablonu pro novou stránku."
+
+msgid "wiki_page_notification_activated"
+msgstr "Upozorňování aktivováno (jedna stránka)"
+
+msgid "wiki_page_status_blocked"
+msgstr "Ediace této stránky je pro studenty aktuálně blokována."
+
+msgid "wiki_page_template"
+msgstr "Šablona stránky"
+
+msgid "wiki_page_templates"
+msgstr "Šablony stránky"
+
+msgid "wiki_page_title_too_long"
+msgstr "Název wiki stránky je bohužel příliš dlouhý. Nahraďte jej kratším názvem."
+
+msgid "wiki_page_toc"
+msgstr "Zapnout blokování přehledu stránek"
+
+msgid "wiki_page_toc_info"
+msgstr "Tento seznam vypisuje všechny hlavičky odkazující na obsah na začátků každé stránky pokud tato stránka používá nejméně dva nadpisy."
+
+#, fuzzy
+msgid "wiki_page_type_wpg"
+msgstr "Wiki Page"
+
+msgid "wiki_page_unblocked"
+msgstr "Wiki stránka odblokována."
+
+msgid "wiki_pages"
+msgstr "Stránky"
+
+msgid "wiki_pages_found"
+msgstr "Následující stránky odpovídají vámi vyhledávacímu výrazu „$1“."
+
+msgid "wiki_passed"
+msgstr "Prošlo"
+
+msgid "wiki_pg_list_no_search_fields"
+msgstr "V metadatových sadách wiki nebyla nalezena žádná vyhledatelná pole metadat."
+
+msgid "wiki_please_enter_search_term"
+msgstr "Vložte prosím hledaný termín"
+
+msgid "wiki_popular_pages"
+msgstr "Populární stránky"
+
+msgid "wiki_print_view"
+msgstr "Náhled tisku"
+
+msgid "wiki_public_comments"
+msgstr "Veřejný komentář"
+
+msgid "wiki_purpose"
+msgstr "Účel"
+
+msgid "wiki_quick_navigation"
+msgstr "Rychlá navigace Wiki"
+
+msgid "wiki_rate_overall"
+msgstr "Zhodnotit Wiki"
+
+msgid "wiki_rate_page"
+msgstr "Ocenění této wiki stránky"
+
+msgid "wiki_recent_changes"
+msgstr "Poslední změny"
+
+msgid "wiki_remove_template_status"
+msgstr "Odstranit status šablony"
+
+msgid "wiki_removed_imp_pages"
+msgstr "Důležité stránky byly odstraněny ze seznamu."
+
+msgid "wiki_rename"
+msgstr "Přejmenovat"
+
+msgid "wiki_rename_page"
+msgstr "Přejmenovat stránku"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "Uložit řazení a odsazení"
+
+msgid "wiki_search"
+msgstr "Hledat"
+
+msgid "wiki_search_results"
+msgstr "Výsledky hledání"
+
+#, fuzzy
+msgid "wiki_sec_protect_info"
+msgstr "Protected sections can only be edited by users having \"Edit Settings\" permission."
+
+msgid "wiki_select_one_item"
+msgstr "Vyberte jednu položku."
+
+msgid "wiki_selected_pages"
+msgstr "Vybrané stránky"
+
+msgid "wiki_set_as_start_page"
+msgstr "Nastavit jako výchozí stránku"
+
+msgid "wiki_settings"
+msgstr "Nastavení Wiki"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "Tento název užívá již jiná stránka wiki. Vyberte prosím jiný název."
+
+msgid "wiki_show_pdf_export"
+msgstr "Export PDF"
+
+msgid "wiki_show_print_view"
+msgstr "Zobrazení tisku"
+
+msgid "wiki_start_page"
+msgstr "Úvodní stránka"
+
+msgid "wiki_start_page_info"
+msgstr "Pokud ještě neexistuje stránka s tímto názvem, bude vytvořena nová stránka."
+
+msgid "wiki_stat_chars"
+msgstr "Počet znaků"
+
+msgid "wiki_stat_chars_avg"
+msgstr "Průměrný počet znaků na stránku"
+
+msgid "wiki_stat_deleted_pages"
+msgstr "Počet odstraněných stránek"
+
+msgid "wiki_stat_edit_pages"
+msgstr "Počet upravených stránek"
+
+msgid "wiki_stat_edit_pages_avg"
+msgstr "Průměrný počet upravených stránek na uživatele"
+
+msgid "wiki_stat_external_links"
+msgstr "Počet externích odkazů"
+
+msgid "wiki_stat_external_links_avg"
+msgstr "Průměrný počet externích odkazů na stránku"
+
+msgid "wiki_stat_figure"
+msgstr "Číslo"
+
+msgid "wiki_stat_footnotes"
+msgstr "Počet poznámek pod čarou"
+
+msgid "wiki_stat_footnotes_avg"
+msgstr "Průměrný počet externích odkazů na stránku"
+
+msgid "wiki_stat_internal_links"
+msgstr "Počet vnitřních odkazů"
+
+msgid "wiki_stat_internal_links_avg"
+msgstr "Průměrný počet vnitřních odkazů na stránku"
+
+msgid "wiki_stat_new_pages"
+msgstr "Počet nových stránek"
+
+msgid "wiki_stat_new_pages_avg"
+msgstr "Průměrný počet nových stránek na uživatele"
+
+msgid "wiki_stat_num_pages"
+msgstr "Počet stránek"
+
+msgid "wiki_stat_num_rating"
+msgstr "Počet hodnocení"
+
+msgid "wiki_stat_num_rating_avg"
+msgstr "Průměrný počet hodnocení na stránku"
+
+msgid "wiki_stat_page_changes"
+msgstr "Počet změn"
+
+msgid "wiki_stat_page_changes_avg"
+msgstr "Průměrný počet změn"
+
+msgid "wiki_stat_page_characters"
+msgstr "Počet znaků"
+
+msgid "wiki_stat_page_external_links"
+msgstr "Počet externích odkazů"
+
+msgid "wiki_stat_page_footnotes"
+msgstr "Počet poznámek pod čarou"
+
+msgid "wiki_stat_page_internal_links"
+msgstr "Počet vnitřních odkazů"
+
+msgid "wiki_stat_page_ratings"
+msgstr "Počet hodnocení"
+
+msgid "wiki_stat_page_read"
+msgstr "Počet přístupů jen pro čtení"
+
+msgid "wiki_stat_page_user_edit"
+msgstr "Počet uživatelů, kteří upravili stránku"
+
+msgid "wiki_stat_page_words"
+msgstr "Počet slov"
+
+msgid "wiki_stat_rating_avg"
+msgstr "Průměrné hodnocení"
+
+msgid "wiki_stat_read_pages"
+msgstr "Počet přístupů jen pro čtení"
+
+msgid "wiki_stat_scope"
+msgstr "Časové okno"
+
+msgid "wiki_stat_user_edit_pages"
+msgstr "Počet uživatelů, kteří upravovali stránky"
+
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "Průměrný počet uživatelů, kteří upravovali stránky"
+
+msgid "wiki_stat_words"
+msgstr "Počet slov"
+
+msgid "wiki_stat_words_avg"
+msgstr " Průměrný počet hodnocení na stránku"
+
+msgid "wiki_style"
+msgstr "Styl"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "Skutečně chcete odstranit následující stránky ze seznamu důležitých stránek?"
+
+msgid "wiki_target_page"
+msgstr "Cílová stránka"
+
+msgid "wiki_team_members"
+msgstr "Členové týmu"
+
+msgid "wiki_templ_add_to_page"
+msgstr "K dispozici pro možnost přidávání do existujících stránek"
+
+msgid "wiki_templ_new_pages"
+msgstr "K dispozici na stránce Tvorba stránek"
+
+msgid "wiki_template_added"
+msgstr "Přidána stránka šablony."
+
+msgid "wiki_template_status_removed"
+msgstr "Odstraněn status šablony"
+
+#, fuzzy
+msgid "wiki_translate_page_master_info"
+msgstr "You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version."
+
+#, fuzzy
+msgid "wiki_translation_page"
+msgstr "Translation Page"
+
+#, fuzzy
+msgid "wiki_translations"
+msgstr "Translations"
+
+msgid "wiki_type_wiki_team"
+msgstr "Tým Wiki"
+
+msgid "wiki_unblock_page"
+msgstr "Odblokovat stránku"
+
+msgid "wiki_unhide_meta_adv_records"
+msgstr "Zobrazit další vlastnosti"
+
+msgid "wiki_what_links_here"
+msgstr "Co je zde připojeno?"
+
+msgid "wiki_what_links_to_page"
+msgstr "Co je připojeno ke stránce \"%s\"?"
+
+msgid "wiki_whole_wiki"
+msgstr "Celá Wiki"
+
+msgid "wiki_wiki_page"
+msgstr "Stránka Wiki"
+
+msgid "wiki_wiki_search"
+msgstr "Hledání ve Wiki"
+
+msgid "wiki_wpg"
+msgstr "Stránka Wiki"
