@@ -9458,63 +9458,6 @@ itgr#:#itgr_tile#:#Kacheln
 itgr#:#itgr_tile_size#:#Kachelgröße
 itgr#:#itgr_unassign#:#Zuordnung aufheben
 itgr#:#itgr_unassigned_first#:#Nicht zugewiesene zuerst
-jscalendar#:#about_calendar#:#Über den Kalender
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die Schaltflächen « und » , um das Jahr auszuwählen - Verwenden Sie die Schaltflächen < und > , um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
-jscalendar#:#about_time#:#Auswahl der Zeit: Auf die Zeitfelder klicken, um den Wert zu erhöhen oder Umschalten und Klicken, um den Wert zu verringern oder Klicken und Ziehen für eine Schnellauswahl.
-jscalendar#:#day_first#:#%s zuerst anzeigen
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Ziehen zum Verschieben
-jscalendar#:#go_today#:#Heute
-jscalendar#:#l_01#:#Januar
-jscalendar#:#l_02#:#Februar
-jscalendar#:#l_03#:#März
-jscalendar#:#l_04#:#April
-jscalendar#:#l_05#:#Mai
-jscalendar#:#l_06#:#Juni
-jscalendar#:#l_07#:#Juli
-jscalendar#:#l_08#:#August
-jscalendar#:#l_09#:#September
-jscalendar#:#l_10#:#Oktober
-jscalendar#:#l_11#:#November
-jscalendar#:#l_12#:#Dezember
-jscalendar#:#l_fr#:#Freitag
-jscalendar#:#l_mo#:#Montag
-jscalendar#:#l_sa#:#Samstag
-jscalendar#:#l_su#:#Sonntag
-jscalendar#:#l_th#:#Donnerstag
-jscalendar#:#l_tu#:#Dienstag
-jscalendar#:#l_we#:#Mittwoch
-jscalendar#:#next_month#:#Nächster Monat (Festhalten für Schnellauswahl)
-jscalendar#:#next_year#:#Nächstes Jahr (Festhalten für Schnellauswahl)
-jscalendar#:#open_calendar#:#Klicken Sie hier, um einen Kalender zur Datumsauswahl anzuzeigen (JavaScript benötigt!)
-jscalendar#:#part_today#:# (heute)
-jscalendar#:#prev_month#:#Voriger Monate (Festhalten für Schnellauswahl)
-jscalendar#:#prev_year#:#Voriges Jahr (Festhalten für Schnellauswahl)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mär
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#Mai
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Aug
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Okt
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dez
-jscalendar#:#s_fr#:#Fr
-jscalendar#:#s_mo#:#Mo
-jscalendar#:#s_sa#:#Sa
-jscalendar#:#s_su#:#So
-jscalendar#:#s_th#:#Do
-jscalendar#:#s_tu#:#Di
-jscalendar#:#s_we#:#Mi
-jscalendar#:#select_date#:#Datum auswählen
-jscalendar#:#time#:#Zeit
-jscalendar#:#time_part#:#(Umschalten-)Klick oder festhalten und ziehen, um den Wert zu ändern
-jscalendar#:#today#:#Heute
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#KW
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren

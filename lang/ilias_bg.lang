@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#За календара
-jscalendar#:#about_calendar_long#:#DHTML селектор за дата/час\n(c) dynarch.com 2002-2003\nЗа най-новата версия посетете: http://dynarch.com/mishoo/calendar.epl\nРазпространява се съгласно GNU LGPL.  Вижте http://gnu.org/licenses/lgpl.html за подробности.\n\nИзбор на дата:\n- Използвайте «, » бутоните, за да изберете година\n- Използвайте <, > бутоните, за да изберете месец\n- Задръжте бутона на мишката над някой от горните бутони за по-бърз избор.
-jscalendar#:#about_time#:#\n\nИзбор на час:\n- Кликнете на някой от елементите за часа, за да го придвижите напред\n- или Shift-кликване за придвижване назад\n- или кликнете и влачете за по-бърз избор.
-jscalendar#:#day_first#:#Показване най-напред на %s
-jscalendar#:#def_date_format#:#%Г-%м-%д
-jscalendar#:#drag_to_move#:#Влачете, за да го придвижите
-jscalendar#:#go_today#:#Към днешната дата
-jscalendar#:#l_01#:#Януари
-jscalendar#:#l_02#:#Февруари
-jscalendar#:#l_03#:#Март
-jscalendar#:#l_04#:#Април
-jscalendar#:#l_05#:#Май
-jscalendar#:#l_06#:#Юни
-jscalendar#:#l_07#:#Юли
-jscalendar#:#l_08#:#Август
-jscalendar#:#l_09#:#Септември
-jscalendar#:#l_10#:#Октомври
-jscalendar#:#l_11#:#Ноември
-jscalendar#:#l_12#:#Декември
-jscalendar#:#l_fr#:#Петък
-jscalendar#:#l_mo#:#Понеделник
-jscalendar#:#l_sa#:#Събота
-jscalendar#:#l_su#:#Неделя
-jscalendar#:#l_th#:#Четвъртък
-jscalendar#:#l_tu#:#Вторник
-jscalendar#:#l_we#:#Сряда
-jscalendar#:#next_month#:#Следващ месец (задръжте за меню)
-jscalendar#:#next_year#:#Следваща година (задръжте за меню)
-jscalendar#:#open_calendar#:#Кликнете тук, за да отворите календар за избор на дата (изисква се JavaScript!)
-jscalendar#:#part_today#:# (днес)
-jscalendar#:#prev_month#:#Пред. месец (задръжте за меню)
-jscalendar#:#prev_year#:#Пред. година (задръжте за меню)
-jscalendar#:#s_01#:#Ян
-jscalendar#:#s_02#:#Фев
-jscalendar#:#s_03#:#Март
-jscalendar#:#s_04#:#Апр
-jscalendar#:#s_05#:#Май
-jscalendar#:#s_06#:#Юни
-jscalendar#:#s_07#:#Юли
-jscalendar#:#s_08#:#Авг
-jscalendar#:#s_09#:#Сеп
-jscalendar#:#s_10#:#Окт
-jscalendar#:#s_11#:#Ноем
-jscalendar#:#s_12#:#Дек
-jscalendar#:#s_fr#:#Пет
-jscalendar#:#s_mo#:#Пон
-jscalendar#:#s_sa#:#Съб
-jscalendar#:#s_su#:#Нед
-jscalendar#:#s_th#:#Чет
-jscalendar#:#s_tu#:#Вт
-jscalendar#:#s_we#:#Ср
-jscalendar#:#select_date#:#Избор на датата
-jscalendar#:#time#:#Час
-jscalendar#:#time_part#:#(Shift-)Кликване или влачене за промяна на стойността
-jscalendar#:#today#:#Днес
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#седм
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

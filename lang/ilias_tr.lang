@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Takvim hakkında
-jscalendar#:#about_calendar_long#:#DHTML Tarih / Saat Seçici \ n (c) dynarch.com 2002-2003 \ nDaha son sürümünü ziyaretiniz: http://dynarch.com/mishoo/calendar.epl \ GNU LGPL altında nDistributed. Ayrıntılar için http://gnu.org/licenses/lgpl.html bakınız \ n \ nTarih seçimi:. \ Seçmek için «Â» düğmeleri Â n kullan yıl \ n kullan <,> düğmelerini ayı seçmek için \ Daha hızlı seçim için yukarıdaki düğmelerden birine üzerinde fare düğmesi n-tutun.
-jscalendar#:#about_time#:#\ n \ nTime seçimi: \ arttırmak için zaman parçalarının üzerinde n-tıklayın \ n-veya azaltmak \ n-veya daha hızlı seçimi için tıklayın ve sürükleyin Shift-tıklatın.
-jscalendar#:#day_first#:#Ekran% ilk
-jscalendar#:#def_date_format#:#%Y-% m-% d
-jscalendar#:#drag_to_move#:#Taşımak için Sürükle
-jscalendar#:#go_today#:#Bugüne git
-jscalendar#:#l_01#:#Ocak
-jscalendar#:#l_02#:#Şubat
-jscalendar#:#l_03#:#Mart
-jscalendar#:#l_04#:#Nisan
-jscalendar#:#l_05#:#Mayıs
-jscalendar#:#l_06#:#Haziran
-jscalendar#:#l_07#:#Temmuz
-jscalendar#:#l_08#:#Ağustos
-jscalendar#:#l_09#:#Eylül
-jscalendar#:#l_10#:#Ekim
-jscalendar#:#l_11#:#Kasım
-jscalendar#:#l_12#:#Aralık
-jscalendar#:#l_fr#:#Cuma
-jscalendar#:#l_mo#:#Pazartesi
-jscalendar#:#l_sa#:#Cumartesi
-jscalendar#:#l_su#:#Pazar
-jscalendar#:#l_th#:#Perşembe
-jscalendar#:#l_tu#:#Salı
-jscalendar#:#l_we#:#Çarşamba
-jscalendar#:#next_month#:#Sonraki Ay (Menü için basılı tutunuz)
-jscalendar#:#next_year#:#Sonraki Yıl (Menü için basılı tutunuz)
-jscalendar#:#open_calendar#:#tarih seçimi (JavaScript gerekli!) Için bir takvim açmak için buraya tıklayın
-jscalendar#:#part_today#:#(bugün)
-jscalendar#:#prev_month#:#Prev. Ay (Menü için basılı tutunuz)
-jscalendar#:#prev_year#:#Prev. Yıl (Menü için basılı tutunuz)
-jscalendar#:#s_01#:#Ocak
-jscalendar#:#s_02#:#Şubat
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Nisan
-jscalendar#:#s_05#:#Mayıs
-jscalendar#:#s_06#:#Haziran
-jscalendar#:#s_07#:#Temmuz
-jscalendar#:#s_08#:#Ağustos
-jscalendar#:#s_09#:#Eylül
-jscalendar#:#s_10#:#Ekim
-jscalendar#:#s_11#:#Kasım
-jscalendar#:#s_12#:#Aralık
-jscalendar#:#s_fr#:#Cu
-jscalendar#:#s_mo#:#Pazt
-jscalendar#:#s_sa#:#Cum
-jscalendar#:#s_su#:#Paz
-jscalendar#:#s_th#:#Per
-jscalendar#:#s_tu#:#Sal
-jscalendar#:#s_we#:#Çar
-jscalendar#:#select_date#:#Tarih Seç
-jscalendar#:#time#:#Zaman
-jscalendar#:#time_part#:#(Shift) tıklayın veya değeri değiştirmek için sürükleyin
-jscalendar#:#today#:#Bugün
-jscalendar#:#tt_date_format#:#% a,% b% e
-jscalendar#:#wk#:#wk
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

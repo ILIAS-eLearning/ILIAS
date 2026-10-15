@@ -9403,63 +9403,6 @@ itgr#:#itgr_show_title#:#タイトルを表示
 itgr#:#itgr_show_title_info#:#学習者用のプレゼンテーション内にアイテムグループのタイトルを表示します。
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
-jscalendar#:#about_calendar#:#カレンダーについて
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector(c) dynarch.com 2002-2003。最新版のURL：http://dynarch.com/mishoo/calendar.epl GNU LGPLの下に配布。詳細はhttp://gnu.org/licenses/lgpl.html を参照の事。日付選択:-年を選択するには^A<と^A>ボタンを使用-月を選択するには<
-jscalendar#:#about_time#:#タイムセッション：- 増やすにはどこかをクリック- 減らすにはShiftをクリック- すばやく選択するにはクリックしてドラッグ
-jscalendar#:#day_first#:#%sを先に表示
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#ドラッグして移動
-jscalendar#:#go_today#:#Go Today
-jscalendar#:#l_01#:#1月
-jscalendar#:#l_02#:#2月
-jscalendar#:#l_03#:#3月
-jscalendar#:#l_04#:#4月
-jscalendar#:#l_05#:#5月
-jscalendar#:#l_06#:#6月
-jscalendar#:#l_07#:#7月
-jscalendar#:#l_08#:#8月
-jscalendar#:#l_09#:#9月
-jscalendar#:#l_10#:#10月
-jscalendar#:#l_11#:#11月
-jscalendar#:#l_12#:#12月
-jscalendar#:#l_fr#:#金曜日
-jscalendar#:#l_mo#:#月曜日
-jscalendar#:#l_sa#:#土曜日
-jscalendar#:#l_su#:#日曜日
-jscalendar#:#l_th#:#木曜日
-jscalendar#:#l_tu#:#火曜日
-jscalendar#:#l_we#:#水曜日
-jscalendar#:#next_month#:#翌月 (メニューをホールド)
-jscalendar#:#next_year#:#翌年 (メニューをホールド)
-jscalendar#:#open_calendar#:#ここをクリックして日付選択用にカレンダーを開く(JavaScript必須!)
-jscalendar#:#part_today#:# (today)
-jscalendar#:#prev_month#:#前月 (メニューをホールド)
-jscalendar#:#prev_year#:#前年 (メニューをホールド)
-jscalendar#:#s_01#:#1月
-jscalendar#:#s_02#:#2月
-jscalendar#:#s_03#:#3月
-jscalendar#:#s_04#:#4月
-jscalendar#:#s_05#:#5月
-jscalendar#:#s_06#:#6月
-jscalendar#:#s_07#:#7月
-jscalendar#:#s_08#:#8月
-jscalendar#:#s_09#:#9月
-jscalendar#:#s_10#:#10月
-jscalendar#:#s_11#:#11月
-jscalendar#:#s_12#:#12月
-jscalendar#:#s_fr#:#金
-jscalendar#:#s_mo#:#月
-jscalendar#:#s_sa#:#土
-jscalendar#:#s_su#:#日
-jscalendar#:#s_th#:#木
-jscalendar#:#s_tu#:#火
-jscalendar#:#s_we#:#水
-jscalendar#:#select_date#:#日を選択
-jscalendar#:#time#:#時間
-jscalendar#:#time_part#:#(Shift-)クリックまたはドラッグして値を変更
-jscalendar#:#today#:#Today
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#週
 lm#:#lm_btn_lp_toggle_state_completed#:#未完了を設定
 lm#:#lm_btn_lp_toggle_state_not_completed#:#完了を設定
 lm#:#lm_copy#:#ラーニングモジュールをコピー

@@ -9397,63 +9397,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Về lịch
-jscalendar#:#about_calendar_long#:#Chương trình chọn ngày/thời gian DHTML (c) dynarch.com 2002-2003\nPhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl\nPhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.\n\nChọn ngày:\n- Sử dụng các nút «, » để chọn năm\n- Sử dụng các nút <, > để chọn tháng\n- Nhấn giữ chuột trên các nút này để chọn nhanh hơn.
-jscalendar#:#about_time#:#\n\nLựa chọn thời gian:\n- Kích chuột vào bất kỳ thành phần thời gian nào để tăng\n- hoặc nhấn giữ phím Shift và kích chuột để giảm\n- hoặc kích vào kéo chuột để chọn nhanh hơn.
-jscalendar#:#day_first#:#Hiển thị %s đầu tuần
-jscalendar#:#def_date_format#:#%d-%m-%Y
-jscalendar#:#drag_to_move#:#Kéo để di chuyển
-jscalendar#:#go_today#:#Đi tới hôm nay
-jscalendar#:#l_01#:#Tháng Một
-jscalendar#:#l_02#:#Tháng Hai
-jscalendar#:#l_03#:#Tháng Ba
-jscalendar#:#l_04#:#Tháng Tư
-jscalendar#:#l_05#:#Tháng Năm
-jscalendar#:#l_06#:#Tháng Sáu
-jscalendar#:#l_07#:#Tháng Bảy
-jscalendar#:#l_08#:#Tháng Tám
-jscalendar#:#l_09#:#Tháng Chín
-jscalendar#:#l_10#:#Tháng Mười
-jscalendar#:#l_11#:#Tháng Mười Một
-jscalendar#:#l_12#:#Tháng Mười Hai
-jscalendar#:#l_fr#:#Thứ sáu
-jscalendar#:#l_mo#:#Thứ hai
-jscalendar#:#l_sa#:#Thứ bảy
-jscalendar#:#l_su#:#Chủ nhật
-jscalendar#:#l_th#:#Thứ năm
-jscalendar#:#l_tu#:#Thứ ba
-jscalendar#:#l_we#:#Thứ tư
-jscalendar#:#next_month#:#Tháng sau (giữ để có bảng chọn)
-jscalendar#:#next_year#:#Năm sau (giữ để có bảng chọn)
-jscalendar#:#open_calendar#:#Kích vào đây để mở lịch chọn ngày (yêu cầu có JavaScript hoạt động!)
-jscalendar#:#part_today#:# (hôm nay)
-jscalendar#:#prev_month#:#Tháng trước (giữ để có bảng chọn)
-jscalendar#:#prev_year#:#Năm trước (giữ để có bảng chọn)
-jscalendar#:#s_01#:#Tháng Một
-jscalendar#:#s_02#:#Tháng Hai
-jscalendar#:#s_03#:#Tháng Ba
-jscalendar#:#s_04#:#Tháng Tư
-jscalendar#:#s_05#:#Tháng Năm
-jscalendar#:#s_06#:#Tháng Sáu
-jscalendar#:#s_07#:#Tháng Bảy
-jscalendar#:#s_08#:#Tháng Tám
-jscalendar#:#s_09#:#Tháng Chín
-jscalendar#:#s_10#:#Tháng Mười
-jscalendar#:#s_11#:#Tháng Mười Một
-jscalendar#:#s_12#:#Tháng Mười Hai
-jscalendar#:#s_fr#:#Thứ sáu
-jscalendar#:#s_mo#:#Thứ hai
-jscalendar#:#s_sa#:#Thứ bảy
-jscalendar#:#s_su#:#Chủ nhật
-jscalendar#:#s_th#:#Thứ năm
-jscalendar#:#s_tu#:#Thứ ba
-jscalendar#:#s_we#:#Thứ tư
-jscalendar#:#select_date#:#Chọn ngày
-jscalendar#:#time#:#Thời gian
-jscalendar#:#time_part#:#Nhấn giữ Shift và kích chuột hoặc kéo để thay đổi giá trị
-jscalendar#:#today#:#Hôm nay
-jscalendar#:#tt_date_format#:#%a, %e %b
-jscalendar#:#wk#:#Tuần
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

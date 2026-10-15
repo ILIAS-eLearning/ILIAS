@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Om kalenderen
-jscalendar#:#about_calendar_long#:#DHTML Dato/Tid Selector\n(c) dynarch.com 2002-2003\nFor seneste versions besøg: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Se http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\\n- Use the ., / knapper for at
-jscalendar#:#about_time#:#\\n\\nTime selection:\\n- Klik på en vilkårlig del for at øge den\\n- eller shift-klik for at mindske den\\n- eller klik og træk for at vælge hurtigere.
-jscalendar#:#day_first#:#Vis %s først
-jscalendar#:#def_date_format#:#%d-%m-%y
-jscalendar#:#drag_to_move#:#Træk til
-jscalendar#:#go_today#:#Gå til dag
-jscalendar#:#l_01#:#Januar
-jscalendar#:#l_02#:#Feburar
-jscalendar#:#l_03#:#Marts
-jscalendar#:#l_04#:#April
-jscalendar#:#l_05#:#Maj
-jscalendar#:#l_06#:#Juni
-jscalendar#:#l_07#:#Juli
-jscalendar#:#l_08#:#August###21 Apr 2005 new variable
-jscalendar#:#l_09#:#September###21 Apr 2005 new variable
-jscalendar#:#l_10#:#Oktober
-jscalendar#:#l_11#:#November###21 Apr 2005 new variable
-jscalendar#:#l_12#:#December###21 Apr 2005 new variable
-jscalendar#:#l_fr#:#Fredag
-jscalendar#:#l_mo#:#Mandag
-jscalendar#:#l_sa#:#Lørdag
-jscalendar#:#l_su#:#Søndag
-jscalendar#:#l_th#:#Torsdag
-jscalendar#:#l_tu#:#Tirsdag
-jscalendar#:#l_we#:#Onsdag
-jscalendar#:#next_month#:#Næste måned (hold for menu)
-jscalendar#:#next_year#:#Næste år (hold for menu)
-jscalendar#:#open_calendar#:#Klik her for at åbne en kalender for at vælge en dato (JavaScript nødvendigt!)
-jscalendar#:#part_today#:#(idag)
-jscalendar#:#prev_month#:#Tidligere måned (hold for menu)
-jscalendar#:#prev_year#:#Tidligere år (hold for menu)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#Maj
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Aug
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Okt
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dec
-jscalendar#:#s_fr#:#Fr
-jscalendar#:#s_mo#:#Ma
-jscalendar#:#s_sa#:#Lø
-jscalendar#:#s_su#:#Sø
-jscalendar#:#s_th#:#To
-jscalendar#:#s_tu#:#Ti
-jscalendar#:#s_we#:#On
-jscalendar#:#select_date#:#Vælg dato
-jscalendar#:#time#:#Tid
-jscalendar#:#time_part#:#(Shift-)klik eller træk for at ændre værdi
-jscalendar#:#today#:#I dag
-jscalendar#:#tt_date_format#:#%a, %b %e###21 Apr 2005 new variable
-jscalendar#:#wk#:#wk###21 Apr 2005 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

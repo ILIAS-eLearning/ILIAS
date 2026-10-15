@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Visa titel
 itgr#:#itgr_show_title_info#:#Objektblockets titel visas.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
 itgr#:#itgr_tile#:#Kakelplattor
 itgr#:#itgr_tile_size#:#Storlek på kakel
-jscalendar#:#about_calendar#:#Om kalendern
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 För senaste versionen besök
-jscalendar#:#about_time#:#Välja tid
-jscalendar#:#day_first#:#Visa %s först
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Dra för att flytta
-jscalendar#:#go_today#:#Idag
-jscalendar#:#l_01#:#Januari
-jscalendar#:#l_02#:#Februari
-jscalendar#:#l_03#:#Mars
-jscalendar#:#l_04#:#April
-jscalendar#:#l_05#:#Maj
-jscalendar#:#l_06#:#Juni
-jscalendar#:#l_07#:#Juli
-jscalendar#:#l_08#:#Augusti
-jscalendar#:#l_09#:#September
-jscalendar#:#l_10#:#Oktober
-jscalendar#:#l_11#:#November
-jscalendar#:#l_12#:#December
-jscalendar#:#l_fr#:#Fredag
-jscalendar#:#l_mo#:#Måndag
-jscalendar#:#l_sa#:#Lördag
-jscalendar#:#l_su#:#Söndag
-jscalendar#:#l_th#:#Torsdag
-jscalendar#:#l_tu#:#Tisdag
-jscalendar#:#l_we#:#Vardag
-jscalendar#:#next_month#:#Nästa månad (håll ned för snabbval)
-jscalendar#:#next_year#:#Nästa år (håll kvar för snabbval)
-jscalendar#:#open_calendar#:#Klicka här för att se en kalender för val av datum (JavaScript krävs!)
-jscalendar#:#part_today#:# (idag)
-jscalendar#:#prev_month#:#Previous months (Håll ned för snabbval)
-jscalendar#:#prev_year#:#Previous year (Håll ned för snabbval)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mär
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#Maj
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Aug
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Okt
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dec
-jscalendar#:#s_fr#:#Fr
-jscalendar#:#s_mo#:#Mo
-jscalendar#:#s_sa#:#Sa
-jscalendar#:#s_su#:#Så
-jscalendar#:#s_th#:#Do
-jscalendar#:#s_tu#:#Di
-jscalendar#:#s_we#:#Mi
-jscalendar#:#select_date#:#Välj datum
-jscalendar#:#time#:#Tid
-jscalendar#:#time_part#:#(Toggle) klicka eller håll och dra för att ändra värdet
-jscalendar#:#today#:#Idag
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#KW
 lm#:#lm_btn_lp_toggle_state_completed#:#Set till "Ej redigerad
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set till "Redigerad
 lm#:#lm_copy#:#Kopiera ILIAS utbildningsmodul

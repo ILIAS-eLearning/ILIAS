@@ -9380,63 +9380,6 @@ itgr#:#itgr_show_title#:#Montrer titre
 itgr#:#itgr_show_title_info#:#Montre le titre du groupe d'articles dans la présentation pour l’apprenant.
 itgr#:#itgr_tile#:#Tiles###31 10 2023 new variable
 itgr#:#itgr_tile_size#:#Tile Size###31 10 2023 new variable
-jscalendar#:#about_calendar#:#A propos du calendrier
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selectorn(c) dynarch.com 2002-2003nPour la dernière version, voir : http://dynarch.com/mishoo/calendar.eplnDistribué  selon les termes de la licence GNU LGPL.  Voir http://gnu.org/licenses/lgpl.html pour plus de détails.nnSélection de la date:n- Utiliser les boutons « et » pour sélectionner l'annéen- Utiliser les boutons < et > pour sélectionner le moisn- Maintenir le bouton de la souris appuyé plus longtemps pour une sélection rapide.
-jscalendar#:#about_time#:#nnSélection de l'heure :n- Cliquer sur n'importe quelle partie de l'heure pour l'augmentern- cliquer en maintenant la touche 'Shift' (majuscule) du clavier appuyée pour la diminuer, ou cliquez et déplacez la souris pour une sélection rapide.
-jscalendar#:#day_first#:#Afficher %s en premier
-jscalendar#:#def_date_format#:#%d-%m-%Y
-jscalendar#:#drag_to_move#:#Faire glisser pour déplacer
-jscalendar#:#go_today#:#Aller à Aujourd'hui
-jscalendar#:#l_01#:#Janvier
-jscalendar#:#l_02#:#Février
-jscalendar#:#l_03#:#Mars
-jscalendar#:#l_04#:#Avril
-jscalendar#:#l_05#:#Mai
-jscalendar#:#l_06#:#Juin
-jscalendar#:#l_07#:#Juillet
-jscalendar#:#l_08#:#Août
-jscalendar#:#l_09#:#Septembre
-jscalendar#:#l_10#:#Octobre
-jscalendar#:#l_11#:#Novembre
-jscalendar#:#l_12#:#Décembre
-jscalendar#:#l_fr#:#Vendredi
-jscalendar#:#l_mo#:#Lundi
-jscalendar#:#l_sa#:#Samedi
-jscalendar#:#l_su#:#Dimanche
-jscalendar#:#l_th#:#Jeudi
-jscalendar#:#l_tu#:#Mardi
-jscalendar#:#l_we#:#Mercredi
-jscalendar#:#next_month#:#Mois suivant (maintenir enfoncé pour afficher le menu)
-jscalendar#:#next_year#:#Année suivante (maintenir enfoncé pour afficher le menu)
-jscalendar#:#open_calendar#:#Cliquer ici pour ouvrir un calendrier et sélectionner la date (JavaScript nécessaire)
-jscalendar#:#part_today#:#(aujourd'hui)
-jscalendar#:#prev_month#:#Mois précédent (maintenir enfoncé pour afficher le menu)
-jscalendar#:#prev_year#:#Année précédente (maintenir enfoncé pour afficher le menu)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Fév
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Avr
-jscalendar#:#s_05#:#Mai
-jscalendar#:#s_06#:#Juin
-jscalendar#:#s_07#:#Juil
-jscalendar#:#s_08#:#Aoû
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Oct
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Déc
-jscalendar#:#s_fr#:#Ve
-jscalendar#:#s_mo#:#Lu
-jscalendar#:#s_sa#:#Sa
-jscalendar#:#s_su#:#Di
-jscalendar#:#s_th#:#Je
-jscalendar#:#s_tu#:#Ma
-jscalendar#:#s_we#:#Me
-jscalendar#:#select_date#:#Sélectionner date
-jscalendar#:#time#:#Heure
-jscalendar#:#time_part#:#(Shift-)Clic ou faire glisser pour changer la valeur
-jscalendar#:#today#:#Aujourd'hui
-jscalendar#:#tt_date_format#:#%a %b %e
-jscalendar#:#wk#:#sem
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copier Module ILIAS

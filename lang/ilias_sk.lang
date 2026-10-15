@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#O tomto kalendáři
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPoslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/\nDistribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.\n\nVýběr data:\n- Použijte tlačítka «, » pro výběr roku\n- Použijte tlačítka <, > pro výběr měsíce\n- Podržte tlačítko myši nebo tlačítko výše pro rychlý výběr\n- Mezerník slouží pro skok na dnešní den.
-jscalendar#:#about_time#:#\n\nVýběr času:\n- Klepněte na některé z časových částí k jejímu zvětšení\n- nebo klepnutím se Shiftem ke zmenšení\n- nebo klepnout a táhnout pro rychlý výběr.
-jscalendar#:#day_first#:#Zobrazit nejprve %s
-jscalendar#:#def_date_format#:#%d-%m-%Y
-jscalendar#:#drag_to_move#:#Uchopit k přesunu
-jscalendar#:#go_today#:#Dnes
-jscalendar#:#l_01#:#Leden
-jscalendar#:#l_02#:#Únor
-jscalendar#:#l_03#:#Březen
-jscalendar#:#l_04#:#Duben
-jscalendar#:#l_05#:#Květen
-jscalendar#:#l_06#:#Červen
-jscalendar#:#l_07#:#Červenen
-jscalendar#:#l_08#:#Srpen
-jscalendar#:#l_09#:#Září
-jscalendar#:#l_10#:#Říjen
-jscalendar#:#l_11#:#Listopad
-jscalendar#:#l_12#:#Prosinec
-jscalendar#:#l_fr#:#Pátek
-jscalendar#:#l_mo#:#Ponděli
-jscalendar#:#l_sa#:#Sobota
-jscalendar#:#l_su#:#Neděle
-jscalendar#:#l_th#:#Čtvrtek
-jscalendar#:#l_tu#:#Úterý
-jscalendar#:#l_we#:#Středa
-jscalendar#:#next_month#:#Další měsíc (držet pro menu)
-jscalendar#:#next_year#:#Další rok (držet pro menu)
-jscalendar#:#open_calendar#:#Klepněte k otevření kalendáře pro výběr data (vyžadován JavaScript!)
-jscalendar#:#part_today#:#(dnes)
-jscalendar#:#prev_month#:#Předch. měsíc (držet pro menu)
-jscalendar#:#prev_year#:#Předch. rok (držet pro menu)
-jscalendar#:#s_01#:#Le
-jscalendar#:#s_02#:#Ún
-jscalendar#:#s_03#:#Bř
-jscalendar#:#s_04#:#Du
-jscalendar#:#s_05#:#Kv
-jscalendar#:#s_06#:#Če
-jscalendar#:#s_07#:#Čc
-jscalendar#:#s_08#:#Sr
-jscalendar#:#s_09#:#Zá
-jscalendar#:#s_10#:#Ří
-jscalendar#:#s_11#:#Li
-jscalendar#:#s_12#:#Pr
-jscalendar#:#s_fr#:#Pá
-jscalendar#:#s_mo#:#Po
-jscalendar#:#s_sa#:#So
-jscalendar#:#s_su#:#Ne
-jscalendar#:#s_th#:#Čt
-jscalendar#:#s_tu#:#Út
-jscalendar#:#s_we#:#St
-jscalendar#:#select_date#:#Vybrat datum
-jscalendar#:#time#:#Čas
-jscalendar#:#time_part#:#(Shift-)Klepnout nebo táhnout pro změnu hodnoty.
-jscalendar#:#today#:#Dnes
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#Týd
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

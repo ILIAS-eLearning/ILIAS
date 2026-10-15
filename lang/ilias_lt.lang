@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Apie kalendorių
-jscalendar#:#about_calendar_long#:#DHTML Datos/Laiko Parinkėjas\n(c) dynarch.com 2002-2003\nNaujasią versiją rasite: http://dynarch.com/mishoo/calendar.epl\nPlatinama pagal GNU LGPL.  Žiūrėti http://gnu.org/licenses/lgpl.html .\n\nDatos parinkimas:\n- Naudokite «, » mygtukus metų parinkimui\n- Naudokite <, > bygtukus mėnesio parinkimui\n- Laikykyte pelės mygtuką ant aukščiau esančių mygtukų greitesnei parinkčiai.
-jscalendar#:#about_time#:#\n\nLaiko pasirinkimas:\n- Norėdami padidinti laiką, paspauskite ant bet kurios laiko dalies.\n- arba Shift-paspaudimas norint jį sumažinti\n- ar paspauskite ir paleiskite greitesniai parinkčiai.
-jscalendar#:#day_first#:#Rodyti %s pirma
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Paimite perkėlimui
-jscalendar#:#go_today#:#Eiti į Šiandieną
-jscalendar#:#l_01#:#Sausis
-jscalendar#:#l_02#:#Vasaris
-jscalendar#:#l_03#:#Kovas
-jscalendar#:#l_04#:#Balandis
-jscalendar#:#l_05#:#Gegužė
-jscalendar#:#l_06#:#Birželis
-jscalendar#:#l_07#:#Liepa
-jscalendar#:#l_08#:#Rugpjūtis
-jscalendar#:#l_09#:#Rugsėjis
-jscalendar#:#l_10#:#Spalis
-jscalendar#:#l_11#:#Lapkritis
-jscalendar#:#l_12#:#Gruodis
-jscalendar#:#l_fr#:#Penktadienis
-jscalendar#:#l_mo#:#Pirmadienis
-jscalendar#:#l_sa#:#Šeštadienis
-jscalendar#:#l_su#:#Sekmadienis
-jscalendar#:#l_th#:#Ketvirtadienis
-jscalendar#:#l_tu#:#Antradienis
-jscalendar#:#l_we#:#Trečiadienis
-jscalendar#:#next_month#:#Kitas mėnuo (laikydami iškv. meniu)
-jscalendar#:#next_year#:#Kiti metai (laikydami iškv. meniu)
-jscalendar#:#open_calendar#:#Spauskite čia norėdami atverti kalendorių datos pasirinkimui (JavaScript būtinas!)
-jscalendar#:#part_today#:# (šiandien)
-jscalendar#:#prev_month#:#Ankst. mėnuo (laikydami iškv. meniu)
-jscalendar#:#prev_year#:#Ankst. metai (laikydami iškv. meniu)
-jscalendar#:#s_01#:#Sau
-jscalendar#:#s_02#:#Vas
-jscalendar#:#s_03#:#Kov
-jscalendar#:#s_04#:#Bal
-jscalendar#:#s_05#:#Geg
-jscalendar#:#s_06#:#Bir
-jscalendar#:#s_07#:#Lie
-jscalendar#:#s_08#:#Rug
-jscalendar#:#s_09#:#Rgs
-jscalendar#:#s_10#:#Spa
-jscalendar#:#s_11#:#Lap
-jscalendar#:#s_12#:#Grd
-jscalendar#:#s_fr#:#Pn
-jscalendar#:#s_mo#:#P
-jscalendar#:#s_sa#:#Š
-jscalendar#:#s_su#:#S
-jscalendar#:#s_th#:#K
-jscalendar#:#s_tu#:#A
-jscalendar#:#s_we#:#T
-jscalendar#:#select_date#:#Pasirinkite datą
-jscalendar#:#time#:#Laikas
-jscalendar#:#time_part#:#(Shift-)Paspauskite ar paleiskite norėdami pakeisti reikšmę
-jscalendar#:#today#:#Šiandien
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#sv
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

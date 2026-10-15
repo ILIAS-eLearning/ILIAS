@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Prikaži naslov
 itgr#:#itgr_show_title_info#:#Prikazuje naslov grupe predmeta u prezentaciji za sudionike.
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#O kalendaru
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa najnoviju verziju posjetite: http://dynarch.com/mishoo/calendar.epl\nDistributed pod GNU LGPL. Za detalje vidi http://gnu.org/licenses/lgpl.html.\n\nOdabir datuma:\n- Pomoću gumba Â«, Â» odaberite godinu\n-Pomoću gumba <,> odaberite mjesec\n-Držite tipku miša na bilo kojoj od gore navedenih tipki za brži odabir.
-jscalendar#:#about_time#:#\n\nOdabir vremena:\n-Kliknite na bilo koji od dijelova vremena kako biste ga povećali\n-ili kliknite Shift kako biste ga smanjili\n- ili kliknite i povucite za brži odabir.
-jscalendar#:#day_first#:#Prvo prikaži %s
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Povucite za pomicanje
-jscalendar#:#go_today#:#Idi na danas
-jscalendar#:#l_01#:#Siječanj
-jscalendar#:#l_02#:#Veljača
-jscalendar#:#l_03#:#Ožujak
-jscalendar#:#l_04#:#Travanj
-jscalendar#:#l_05#:#Svibanj
-jscalendar#:#l_06#:#Lipanj
-jscalendar#:#l_07#:#Srpanj
-jscalendar#:#l_08#:#Kolovoz
-jscalendar#:#l_09#:#Rujan
-jscalendar#:#l_10#:#Listopad
-jscalendar#:#l_11#:#Studeni
-jscalendar#:#l_12#:#Prosinac
-jscalendar#:#l_fr#:#Petak
-jscalendar#:#l_mo#:#Ponedjeljak
-jscalendar#:#l_sa#:#Subota
-jscalendar#:#l_su#:#Nedjelja
-jscalendar#:#l_th#:#Četvrtak
-jscalendar#:#l_tu#:#Utorak
-jscalendar#:#l_we#:#Srijeda
-jscalendar#:#next_month#:#Sljedeći mjesec (držite za brzi odabir)
-jscalendar#:#next_year#:#Sljedeća godina (držite za brzi odabir)
-jscalendar#:#open_calendar#:#Kliknite ovdje kako biste otvorili kalendar za odabir datuma (potreban JavaScript!)
-jscalendar#:#part_today#:#  (danas)
-jscalendar#:#prev_month#:#Pret. mjesec (držite za brzi odabir)
-jscalendar#:#prev_year#:#Pret. godina (držite za brzi odabir)
-jscalendar#:#s_01#:#Sij
-jscalendar#:#s_02#:#Velj
-jscalendar#:#s_03#:#Ožu
-jscalendar#:#s_04#:#Tra
-jscalendar#:#s_05#:#Svi
-jscalendar#:#s_06#:#Lip
-jscalendar#:#s_07#:#Srp
-jscalendar#:#s_08#:#Kol
-jscalendar#:#s_09#:#Ruj
-jscalendar#:#s_10#:#Lis
-jscalendar#:#s_11#:#Stu
-jscalendar#:#s_12#:#Pro
-jscalendar#:#s_fr#:#Pet
-jscalendar#:#s_mo#:#Pon
-jscalendar#:#s_sa#:#Sub
-jscalendar#:#s_su#:#Ned
-jscalendar#:#s_th#:#Čet
-jscalendar#:#s_tu#:#Uto
-jscalendar#:#s_we#:#Sr
-jscalendar#:#select_date#:#Odaberite datum
-jscalendar#:#time#:#Vrijeme
-jscalendar#:#time_part#:#Pritisnite (Shift) ili povucite za promjenu vrijednosti
-jscalendar#:#today#:#Danas
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#KT
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###04 06 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###04 06 2021 new variable
 lm#:#lm_copy#:#Kopiraj modul za učenje

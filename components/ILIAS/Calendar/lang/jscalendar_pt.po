@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Suazilândia"
+
+msgid "about_calendar_long"
+msgstr "Ilhas Turcas e Caicos"
+
+msgid "about_time"
+msgstr "Terras Austrais e Antárticas Francesas"
+
+msgid "day_first"
+msgstr "Tajiquistão"
+
+msgid "def_date_format"
+msgstr "Toquelau"
+
+msgid "drag_to_move"
+msgstr "Turquemenistão"
+
+msgid "go_today"
+msgstr "Tunísia"
+
+msgid "l_01"
+msgstr "Turquia"
+
+msgid "l_02"
+msgstr "Trindade e Tobago"
+
+msgid "l_03"
+msgstr "Tanzânia"
+
+msgid "l_04"
+msgstr "Ucrânia"
+
+msgid "l_05"
+msgstr "Ilhas Menores Distantes dos Estados Unidos"
+
+msgid "l_06"
+msgstr "E.U.A"
+
+msgid "l_07"
+msgstr "Uruguai"
+
+msgid "l_08"
+msgstr "Uzbequistão"
+
+msgid "l_09"
+msgstr "Estado da Cidade do Vaticano"
+
+msgid "l_10"
+msgstr "São Vicente e Granadinas"
+
+msgid "l_11"
+msgstr "Ilhas Virgens (Britânicas)"
+
+msgid "l_12"
+msgstr "Ilhas Virgens (EUA)"
+
+msgid "l_fr"
+msgstr "Vietname"
+
+msgid "l_mo"
+msgstr "Ilhas Wallis e Futuna"
+
+msgid "l_sa"
+msgstr "Iémen"
+
+msgid "l_su"
+msgstr "Maiote"
+
+msgid "l_th"
+msgstr "África do Sul"
+
+msgid "l_tu"
+msgstr "Zâmbia"
+
+msgid "l_we"
+msgstr "Zimbabué"
+
+msgid "next_month"
+msgstr "Data"
+
+msgid "next_year"
+msgstr "Apagar"
+
+msgid "open_calendar"
+msgstr "Descrição"
+
+msgid "part_today"
+msgstr "Diagrama"
+
+msgid "prev_month"
+msgstr "Dificuldade"
+
+msgid "prev_year"
+msgstr "Esboço"
+
+msgid "s_01"
+msgstr "Jan"
+
+msgid "s_02"
+msgstr "Fácil"
+
+msgid "s_03"
+msgstr "Mar"
+
+msgid "s_04"
+msgstr "Nível Educacional"
+
+msgid "s_05"
+msgstr "Objetivo Educacional"
+
+msgid "s_06"
+msgstr "Jun"
+
+msgid "s_07"
+msgstr "Jul"
+
+msgid "s_08"
+msgstr "Entidade"
+
+msgid "s_09"
+msgstr "Entrada"
+
+msgid "s_10"
+msgstr "Exame"
+
+msgid "s_11"
+msgstr "Nov"
+
+msgid "s_12"
+msgstr "Exercício"
+
+msgid "s_fr"
+msgstr "Experiência"
+
+msgid "s_mo"
+msgstr "Expositivo"
+
+msgid "s_sa"
+msgstr "Figura"
+
+msgid "s_su"
+msgstr "Formato"
+
+msgid "s_th"
+msgstr "Geral"
+
+msgid "s_tu"
+msgstr "Gráfico"
+
+msgid "s_we"
+msgstr "Tem formato"
+
+msgid "select_date"
+msgstr "Duração"
+
+msgid "time"
+msgstr "Tem parte"
+
+msgid "time_part"
+msgstr "Tem versão"
+
+msgid "today"
+msgstr "Hierárquico"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "Alto"

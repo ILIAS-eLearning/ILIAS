@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: uk\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Про календар"
+
+msgid "about_calendar_long"
+msgstr "DHTML Вибір Дати/Часу\\n(c) dynarch.com 2002-2003\\nДля оновленої версії відвідайте: http://dynarch.com/mishoo/calendar.epl\\nПоширюється під GNU LGPL.  Дивіться http://gnu.org/licenses/lgpl.html для деталуй.\\n\\nВибір дати:\\n- Використовуйте кнопки «, » для вибору року\\n- Використовуйте кнопки <, > для вибору місяця\\n- Утримуйте кнопку мишки або будь яку іншу з наведених вище кнопок для більш швидкого вибору."
+
+msgid "about_time"
+msgstr "\\n\\nВибір часу:\\n- Клікніть на будь яку частину часу щоб збільшити її\\n- або Shift-клік щоб зменшити\\n- або клікніть та перетягніть для більш швидкого вибору."
+
+msgid "day_first"
+msgstr "Показати %s спочатку"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Перетягніть для переміщення"
+
+msgid "go_today"
+msgstr "Перейти на Сьогодні"
+
+msgid "l_01"
+msgstr "Січень"
+
+msgid "l_02"
+msgstr "Лютий"
+
+msgid "l_03"
+msgstr "Березень"
+
+msgid "l_04"
+msgstr "Квітень"
+
+msgid "l_05"
+msgstr "Травень"
+
+msgid "l_06"
+msgstr "Липень"
+
+msgid "l_07"
+msgstr "Червень"
+
+msgid "l_08"
+msgstr "Серпень"
+
+msgid "l_09"
+msgstr "Вересень"
+
+msgid "l_10"
+msgstr "Жовтень"
+
+msgid "l_11"
+msgstr "Листопад"
+
+msgid "l_12"
+msgstr "Грудень"
+
+msgid "l_fr"
+msgstr "П'ятниця"
+
+msgid "l_mo"
+msgstr "Понеділок"
+
+msgid "l_sa"
+msgstr "Субота"
+
+msgid "l_su"
+msgstr "Неділя"
+
+msgid "l_th"
+msgstr "Четвер"
+
+msgid "l_tu"
+msgstr "Вівторок"
+
+msgid "l_we"
+msgstr "Середа"
+
+msgid "next_month"
+msgstr "Наступний місяць (hold for menu)"
+
+msgid "next_year"
+msgstr "Наступний рік (hold for menu)"
+
+msgid "open_calendar"
+msgstr "Клікніть тут для того щоб відкрити календар для вибору дати (потрібен JavaScript!)"
+
+msgid "part_today"
+msgstr " (сьогодні)"
+
+msgid "prev_month"
+msgstr "Попередній місяць (hold for menu)"
+
+msgid "prev_year"
+msgstr "Попередній рік (hold for menu)"
+
+msgid "s_01"
+msgstr "Січ"
+
+msgid "s_02"
+msgstr "Лют"
+
+msgid "s_03"
+msgstr "Бер"
+
+msgid "s_04"
+msgstr "Кві"
+
+msgid "s_05"
+msgstr "Тра"
+
+msgid "s_06"
+msgstr "Лип"
+
+msgid "s_07"
+msgstr "Чер"
+
+msgid "s_08"
+msgstr "Сер"
+
+msgid "s_09"
+msgstr "Вер"
+
+msgid "s_10"
+msgstr "Жов"
+
+msgid "s_11"
+msgstr "Лис"
+
+msgid "s_12"
+msgstr "Гру"
+
+msgid "s_fr"
+msgstr "Пт"
+
+msgid "s_mo"
+msgstr "Пн"
+
+msgid "s_sa"
+msgstr "Сб"
+
+msgid "s_su"
+msgstr "Нд"
+
+msgid "s_th"
+msgstr "Чт"
+
+msgid "s_tu"
+msgstr "Вт"
+
+msgid "s_we"
+msgstr "Ср"
+
+msgid "select_date"
+msgstr "Віберіть дату"
+
+msgid "time"
+msgstr "Час"
+
+msgid "time_part"
+msgstr "(Shift-)Клік або перетягніть для зміни значення"
+
+msgid "today"
+msgstr "СЬогодні"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "wk"

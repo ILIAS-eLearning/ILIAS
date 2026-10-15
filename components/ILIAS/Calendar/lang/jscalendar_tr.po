@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Takvim hakkında"
+
+msgid "about_calendar_long"
+msgstr "DHTML Tarih / Saat Seçici \\ n (c) dynarch.com 2002-2003 \\ nDaha son sürümünü ziyaretiniz: http://dynarch.com/mishoo/calendar.epl \\ GNU LGPL altında nDistributed. Ayrıntılar için http://gnu.org/licenses/lgpl.html bakınız \\ n \\ nTarih seçimi:. \\ Seçmek için «Â» düğmeleri Â n kullan yıl \\ n kullan <,> düğmelerini ayı seçmek için \\ Daha hızlı seçim için yukarıdaki düğmelerden birine üzerinde fare düğmesi n-tutun."
+
+msgid "about_time"
+msgstr "\\ n \\ nTime seçimi: \\ arttırmak için zaman parçalarının üzerinde n-tıklayın \\ n-veya azaltmak \\ n-veya daha hızlı seçimi için tıklayın ve sürükleyin Shift-tıklatın."
+
+msgid "day_first"
+msgstr "Ekran% ilk"
+
+msgid "def_date_format"
+msgstr "%Y-% m-% d"
+
+msgid "drag_to_move"
+msgstr "Taşımak için Sürükle"
+
+msgid "go_today"
+msgstr "Bugüne git"
+
+msgid "l_01"
+msgstr "Ocak"
+
+msgid "l_02"
+msgstr "Şubat"
+
+msgid "l_03"
+msgstr "Mart"
+
+msgid "l_04"
+msgstr "Nisan"
+
+msgid "l_05"
+msgstr "Mayıs"
+
+msgid "l_06"
+msgstr "Haziran"
+
+msgid "l_07"
+msgstr "Temmuz"
+
+msgid "l_08"
+msgstr "Ağustos"
+
+msgid "l_09"
+msgstr "Eylül"
+
+msgid "l_10"
+msgstr "Ekim"
+
+msgid "l_11"
+msgstr "Kasım"
+
+msgid "l_12"
+msgstr "Aralık"
+
+msgid "l_fr"
+msgstr "Cuma"
+
+msgid "l_mo"
+msgstr "Pazartesi"
+
+msgid "l_sa"
+msgstr "Cumartesi"
+
+msgid "l_su"
+msgstr "Pazar"
+
+msgid "l_th"
+msgstr "Perşembe"
+
+msgid "l_tu"
+msgstr "Salı"
+
+msgid "l_we"
+msgstr "Çarşamba"
+
+msgid "next_month"
+msgstr "Sonraki Ay (Menü için basılı tutunuz)"
+
+msgid "next_year"
+msgstr "Sonraki Yıl (Menü için basılı tutunuz)"
+
+msgid "open_calendar"
+msgstr "tarih seçimi (JavaScript gerekli!) Için bir takvim açmak için buraya tıklayın"
+
+msgid "part_today"
+msgstr "(bugün)"
+
+msgid "prev_month"
+msgstr "Prev. Ay (Menü için basılı tutunuz)"
+
+msgid "prev_year"
+msgstr "Prev. Yıl (Menü için basılı tutunuz)"
+
+msgid "s_01"
+msgstr "Ocak"
+
+msgid "s_02"
+msgstr "Şubat"
+
+msgid "s_03"
+msgstr "Mar"
+
+msgid "s_04"
+msgstr "Nisan"
+
+msgid "s_05"
+msgstr "Mayıs"
+
+msgid "s_06"
+msgstr "Haziran"
+
+msgid "s_07"
+msgstr "Temmuz"
+
+msgid "s_08"
+msgstr "Ağustos"
+
+msgid "s_09"
+msgstr "Eylül"
+
+msgid "s_10"
+msgstr "Ekim"
+
+msgid "s_11"
+msgstr "Kasım"
+
+msgid "s_12"
+msgstr "Aralık"
+
+msgid "s_fr"
+msgstr "Cu"
+
+msgid "s_mo"
+msgstr "Pazt"
+
+msgid "s_sa"
+msgstr "Cum"
+
+msgid "s_su"
+msgstr "Paz"
+
+msgid "s_th"
+msgstr "Per"
+
+msgid "s_tu"
+msgstr "Sal"
+
+msgid "s_we"
+msgstr "Çar"
+
+msgid "select_date"
+msgstr "Tarih Seç"
+
+msgid "time"
+msgstr "Zaman"
+
+msgid "time_part"
+msgstr "(Shift) tıklayın veya değeri değiştirmek için sürükleyin"
+
+msgid "today"
+msgstr "Bugün"
+
+msgid "tt_date_format"
+msgstr "% a,% b% e"
+
+msgid "wk"
+msgstr "wk"

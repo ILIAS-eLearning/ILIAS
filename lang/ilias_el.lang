@@ -9396,63 +9396,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Σχετικά με το ημερολόγιο
-jscalendar#:#about_calendar_long#:#Ημερομηνία DHTML/Επιλογέας χρόνου\n(c) dynarch.com 2002-2003\nΓια την τελευταία έκδοση επισκεφτείτε: http://dynarch.com/mishoo/calendar.epl\nΔιανεμήθηκε σύμφωνα με την GNU LGPL. Δείτε http://gnu.org/licenses/lgpl.html για λεπτομέρειες.\n\nΕπιλογή Ημερομηνίας:\n- Χρησιμοποιείστε τα κουμπιά «, » για να επιλέξετε έτος\n- Χρησιμοποιείστε τα κουμπιά <, > για να επιλέξετε μήνα\n- Για ταχύτερη επιλογή κρατήστε πατημένο το κουμπί του ποντικιού μαζί με οποιοδήποτε από τα παραπάνω κουμπιά.
-jscalendar#:#about_time#:#\n\nΕπιλογή χρόνου:\n- Πατήστε σε οποιοδήποτε από τα μέρη της ώρα για να την αυξήσετε\n- ή Shift-κλικ για να τη μειώσετε\n- ή σύρτε-ρίξτε για πιο γρήγορη επιλογή.
-jscalendar#:#day_first#:#Εμφάνιση πρώτων %s
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Σύρε για μετακίνηση
-jscalendar#:#go_today#:#Πήγαινε στο σήμερα
-jscalendar#:#l_01#:#Ιανουάριος
-jscalendar#:#l_02#:#Φεβρουάριος
-jscalendar#:#l_03#:#Μάρτιος
-jscalendar#:#l_04#:#Απρίλιος
-jscalendar#:#l_05#:#Μάιος
-jscalendar#:#l_06#:#Ιούνιος
-jscalendar#:#l_07#:#Ιούλιος
-jscalendar#:#l_08#:#Αύγουστος
-jscalendar#:#l_09#:#Σεπτέμβριος
-jscalendar#:#l_10#:#Οκτώβριος
-jscalendar#:#l_11#:#Νοέμβριος
-jscalendar#:#l_12#:#Δεκέμβριος
-jscalendar#:#l_fr#:#Παρασκευή
-jscalendar#:#l_mo#:#Δευτέρα
-jscalendar#:#l_sa#:#Σάββατο
-jscalendar#:#l_su#:#Κυριακή
-jscalendar#:#l_th#:#Πέμπτη
-jscalendar#:#l_tu#:#Τρίτη
-jscalendar#:#l_we#:#Τετάρτη
-jscalendar#:#next_month#:#Επόμενος μήνας (κρατήστε για μενού)
-jscalendar#:#next_year#:#Επόμενο έτος (κρατήστε για μενού)
-jscalendar#:#open_calendar#:#Κάντε κλικ εδώ για να ανοίξετε το ημερολόγιο για την επιλογή ημερομηνίας. (απαιτείται JavaScript!)
-jscalendar#:#part_today#:# (σήμερα)
-jscalendar#:#prev_month#:#Προηγ. Μήνας (κρατήστε για μενού)
-jscalendar#:#prev_year#:#Προηγ. Έτος (κρατήστε για μενού)
-jscalendar#:#s_01#:#Ιαν
-jscalendar#:#s_02#:#Φεβ
-jscalendar#:#s_03#:#Μαρ
-jscalendar#:#s_04#:#Απρ
-jscalendar#:#s_05#:#Μάι
-jscalendar#:#s_06#:#Ιουν
-jscalendar#:#s_07#:#Ιουλ
-jscalendar#:#s_08#:#Αυγ
-jscalendar#:#s_09#:#Σεπ
-jscalendar#:#s_10#:#Οκτ
-jscalendar#:#s_11#:#Νοε
-jscalendar#:#s_12#:#Δεκ
-jscalendar#:#s_fr#:#Πα
-jscalendar#:#s_mo#:#Δε
-jscalendar#:#s_sa#:#Σα
-jscalendar#:#s_su#:#Κυ
-jscalendar#:#s_th#:#Πε
-jscalendar#:#s_tu#:#Τρ
-jscalendar#:#s_we#:#Τε
-jscalendar#:#select_date#:#Επιλογή ημερομηνίας
-jscalendar#:#time#:#Ώρα
-jscalendar#:#time_part#:#(Shift-)κλικ ή σύρε για να αλλάξεις τιμή
-jscalendar#:#today#:#Σήμερα
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#εβ
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

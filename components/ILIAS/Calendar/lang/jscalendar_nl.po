@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Betreffende de agenda"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nKijk voor de laatste versie op : http://dynarch.com/mishoo/calendar.epl\\nDistribueerd onder GNU LGPL.  Zie http://gnu.org/licenses/lgpl.html voor details.\\n\\nDatumkeuze:\\n- Gebruik de  «, » knoppen om het jaar te kiezen\\n- Gebruik de <, > knoppen om de maand te kiezen\\n- Houd de muisknop ingedrukt op één van de genoemde knoppen om sneller te kiezen."
+
+msgid "about_time"
+msgstr "\\n\\nKies de tijd:\\n- Klik on een tijdsdeel om het te verhogen\\n- of Shift-kick om het te verlagen\\n- of klik-en-drag voor een snellere tijdselectie."
+
+msgid "day_first"
+msgstr "Tonen eerste"
+
+msgid "def_date_format"
+msgstr "%d-%m-%Y"
+
+msgid "drag_to_move"
+msgstr "Sleep om te verplaatsen"
+
+msgid "go_today"
+msgstr "Vandaag"
+
+msgid "l_01"
+msgstr "januari"
+
+msgid "l_02"
+msgstr "februari"
+
+msgid "l_03"
+msgstr "maart"
+
+msgid "l_04"
+msgstr "april"
+
+msgid "l_05"
+msgstr "mei"
+
+msgid "l_06"
+msgstr "juni"
+
+msgid "l_07"
+msgstr "juli"
+
+msgid "l_08"
+msgstr "augustus"
+
+msgid "l_09"
+msgstr "september"
+
+msgid "l_10"
+msgstr "oktober"
+
+msgid "l_11"
+msgstr "november"
+
+msgid "l_12"
+msgstr "december"
+
+msgid "l_fr"
+msgstr "vrijdag"
+
+msgid "l_mo"
+msgstr "maandag"
+
+msgid "l_sa"
+msgstr "zaterdag"
+
+msgid "l_su"
+msgstr "zondag"
+
+msgid "l_th"
+msgstr "donderdag"
+
+msgid "l_tu"
+msgstr "dinsdag"
+
+msgid "l_we"
+msgstr "woensdag"
+
+msgid "next_month"
+msgstr "Volgende maand"
+
+msgid "next_year"
+msgstr "Volgend jaar"
+
+msgid "open_calendar"
+msgstr "Openen van agenda"
+
+msgid "part_today"
+msgstr " (vandaag)"
+
+msgid "prev_month"
+msgstr "Vorige maand"
+
+msgid "prev_year"
+msgstr "Vorig jaar"
+
+msgid "s_01"
+msgstr "jan"
+
+msgid "s_02"
+msgstr "feb"
+
+msgid "s_03"
+msgstr "maa"
+
+msgid "s_04"
+msgstr "apr"
+
+msgid "s_05"
+msgstr "mei"
+
+msgid "s_06"
+msgstr "jun"
+
+msgid "s_07"
+msgstr "jul"
+
+msgid "s_08"
+msgstr "aug"
+
+msgid "s_09"
+msgstr "sep"
+
+msgid "s_10"
+msgstr "okt"
+
+msgid "s_11"
+msgstr "nov"
+
+msgid "s_12"
+msgstr "dec"
+
+msgid "s_fr"
+msgstr "vr"
+
+msgid "s_mo"
+msgstr "ma"
+
+msgid "s_sa"
+msgstr "za"
+
+msgid "s_su"
+msgstr "zon"
+
+msgid "s_th"
+msgstr "don"
+
+msgid "s_tu"
+msgstr "din"
+
+msgid "s_we"
+msgstr "woe"
+
+msgid "select_date"
+msgstr "Selecteren datum"
+
+msgid "time"
+msgstr "Tijd"
+
+msgid "time_part"
+msgstr "(Shift-)Klikken of slepen om de waarde te veranderen"
+
+msgid "today"
+msgstr "Vandaag"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "wk"

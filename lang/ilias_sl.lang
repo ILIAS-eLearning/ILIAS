@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Prikaži naslov
 itgr#:#itgr_show_title_info#:#Naslov bloka objektov se prikaže v predstavitvi za učence.
 itgr#:#itgr_tile#:#Tiles###19 08 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###19 08 2022 new variable
-jscalendar#:#about_calendar#:#O koledarju
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. Za podrobnosti glej http://gnu.org/licenses/lgpl.html.  Izbira datuma: - Uporabite gumba «, », da izberete leto - Uporabite gumba <, >, da izberete mesec - Za hitrejšo izbiro pridržite gumb miške nad vsakim od zgornjih gumbov.
-jscalendar#:#about_time#:#  Izbira časa: - Kliknite na polje za čas, da povečate vrednost - ali Shift+klikajte, da vrednost zmanjšate - ali kliknite in povlecite za hitrejšo izbiro.
-jscalendar#:#day_first#:#%s prikaži najprej
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Povleci za premikanje
-jscalendar#:#go_today#:#Danes
-jscalendar#:#l_01#:#Januar
-jscalendar#:#l_02#:#Februar
-jscalendar#:#l_03#:#Marec
-jscalendar#:#l_04#:#April
-jscalendar#:#l_05#:#Maj
-jscalendar#:#l_06#:#Junij
-jscalendar#:#l_07#:#Julij
-jscalendar#:#l_08#:#Avgust
-jscalendar#:#l_09#:#September
-jscalendar#:#l_10#:#Oktober
-jscalendar#:#l_11#:#November
-jscalendar#:#l_12#:#December
-jscalendar#:#l_fr#:#Petek
-jscalendar#:#l_mo#:#Ponedeljek
-jscalendar#:#l_sa#:#Sobota
-jscalendar#:#l_su#:#Nedelja
-jscalendar#:#l_th#:#Četrtek
-jscalendar#:#l_tu#:#Torek
-jscalendar#:#l_we#:#Sreda
-jscalendar#:#next_month#:#Naslednji mesec (zadržite za hitro izbiro)
-jscalendar#:#next_year#:#Naslednje leto (zadržite za hitro izbiro)
-jscalendar#:#open_calendar#:#Kliknite tukaj, da odprete koledar za izbiro datuma (potreben je JavaScript!)
-jscalendar#:#part_today#:# (danes)
-jscalendar#:#prev_month#:#Prejšnji mesec (zadržite za hitro izbiro)
-jscalendar#:#prev_year#:#Prejšnje leto (zadržite za hitro izbiro)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#Maj
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Avg
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Okt
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dec
-jscalendar#:#s_fr#:#Pet
-jscalendar#:#s_mo#:#Pon
-jscalendar#:#s_sa#:#Sob
-jscalendar#:#s_su#:#Ned
-jscalendar#:#s_th#:#Čet
-jscalendar#:#s_tu#:#Tor
-jscalendar#:#s_we#:#Sre
-jscalendar#:#select_date#:#Izberi datum
-jscalendar#:#time#:#Čas
-jscalendar#:#time_part#:#(shift-)kliknite ali zadržite in povlecite, da spremenite vrednost
-jscalendar#:#today#:#Danes
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#KT
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###19 08 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###19 08 2022 new variable
 lm#:#lm_copy#:#Kopiraj učni modul ILIAS

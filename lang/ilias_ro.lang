@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Despre calendar
-jscalendar#:#about_calendar_long#:#Selector de Data / Timp DHTML \n(c) dynarch.com 2002-2003\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\n\nSelectarea datei:\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\n- Folositi butoanele <, > pentru a selecta luna \n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida.
-jscalendar#:#about_time#:#\n\nSelectarea timpului:\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\n- sau tineti apasat si shift pentru ai scadea valoarea\n- sau apasati si trageti pentru o selectare mai rapida.
-jscalendar#:#day_first#:#Afiseaza %s mai intai
-jscalendar#:#def_date_format#:#%A-%l-%z
-jscalendar#:#drag_to_move#:#Trageti pentru a muta
-jscalendar#:#go_today#:#Mergi la data de azi
-jscalendar#:#l_01#:#Ianuarie
-jscalendar#:#l_02#:#Februarie
-jscalendar#:#l_03#:#Martie
-jscalendar#:#l_04#:#Aprilie
-jscalendar#:#l_05#:#Mai
-jscalendar#:#l_06#:#Iunie
-jscalendar#:#l_07#:#Iulie
-jscalendar#:#l_08#:#August
-jscalendar#:#l_09#:#Septembrie
-jscalendar#:#l_10#:#Octombrie
-jscalendar#:#l_11#:#Noiembrie
-jscalendar#:#l_12#:#Decembrie
-jscalendar#:#l_fr#:#Vineri
-jscalendar#:#l_mo#:#Luni
-jscalendar#:#l_sa#:#Sambata
-jscalendar#:#l_su#:#Duminica
-jscalendar#:#l_th#:#Joi
-jscalendar#:#l_tu#:#Marti
-jscalendar#:#l_we#:#Miercuri
-jscalendar#:#next_month#:#luna urmatoare (pastreaza pentru meniu)
-jscalendar#:#next_year#:#anul urmator (pastreaza pentru meniu)
-jscalendar#:#open_calendar#:#Apasati aici pentru a deschide un calendar pentru selectarea datei (JavaScript este necesar!)
-jscalendar#:#part_today#:# (azi)
-jscalendar#:#prev_month#:#Luna trecuta (pastreaza pentru meniu)
-jscalendar#:#prev_year#:#Anul trecut (pastreaza pentru meniu)
-jscalendar#:#s_01#:#Ian
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#Mai
-jscalendar#:#s_06#:#Iun
-jscalendar#:#s_07#:#Iul
-jscalendar#:#s_08#:#Aug
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Oct
-jscalendar#:#s_11#:#Noi
-jscalendar#:#s_12#:#Dec
-jscalendar#:#s_fr#:#Vi
-jscalendar#:#s_mo#:#Lu
-jscalendar#:#s_sa#:#Sa
-jscalendar#:#s_su#:#Du
-jscalendar#:#s_th#:#Jo
-jscalendar#:#s_tu#:#Ma
-jscalendar#:#s_we#:#Mi
-jscalendar#:#select_date#:#Selectati data
-jscalendar#:#time#:#Timp
-jscalendar#:#time_part#:#(Shift-)Apasati sau trageti pentru a schimba valoarea
-jscalendar#:#today#:#Azi
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#sapt
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
