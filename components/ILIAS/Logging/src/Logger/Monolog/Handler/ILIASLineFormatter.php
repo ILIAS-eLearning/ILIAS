@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Logging\Logger\Monolog;
+namespace ILIAS\Logging\Logger\Monolog\Handler;
 
 use Monolog\Formatter\LineFormatter as LineFormatter;
 use Monolog\LogRecord;
