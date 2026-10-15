@@ -1,0 +1,303 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Dodaj novu stavku za Mediacast"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Popis sufiksa datoteka odvojenih zarezom"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Proširenja datoteka za audio format"
+
+msgid "mcst_audioportable_title"
+msgstr "Dodatna audio datoteka za prijenosne uređaje"
+
+msgid "mcst_automatic_detection"
+msgstr "Automatsko otkrivanje"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Izbriši"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "Datoteka je pretvorena."
+
+msgid "mcst_copy"
+msgstr "Kopiraj Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "Prikazuje trenutnu vrijednost ovog formata."
+
+msgid "mcst_default_visibility"
+msgstr "Zadani pristup"
+
+msgid "mcst_det_playtime"
+msgstr "Odredi vrijeme reprodukcije"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "Preuzmi Audio Portable"
+
+msgid "mcst_download_cnt"
+msgstr "Preuzeto"
+
+msgid "mcst_download_standard"
+msgstr "Preuzimanje datoteka"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+msgid "mcst_download_videoalternative"
+msgstr "Preuzmi alternativnu datoteku"
+
+msgid "mcst_download_videoportable"
+msgstr "Preuzmi prijenosni video"
+
+msgid "mcst_downloadable"
+msgstr "Poveznice za preuzimanje"
+
+msgid "mcst_downloadable_info"
+msgstr "Ako je ova opcija omogućena, pružaju se poveznice za preuzimanje stavki s medijskim sadržajem."
+
+msgid "mcst_duration"
+msgstr "Vrijeme reprodukcije"
+
+msgid "mcst_duration_info"
+msgstr "Ako se ne unese vrijednost, ILIAS pokušava automatski odrediti vrijeme reprodukcije."
+
+msgid "mcst_edit_item"
+msgstr "Uredi stavku Mediacast"
+
+msgid "mcst_edit_settings"
+msgstr "Postavke MediaCast-a"
+
+msgid "mcst_gallery"
+msgstr "Pločice"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "Uvezi Mediacast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Uključi medijske datoteke kao privitak"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Ako je omogućeno, medijske datoteke uključuju se kao privitci u RSS feed. U protivnom, feed samo obavještava pretplatnike o novim stavkama."
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Navedite datoteku ili URL. Ako navedete datoteku, imajte na umu najveću dopuštenu veličinu datoteke za prijenos."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "Posljednji podnesak"
+
+msgid "mcst_list"
+msgstr "Popis"
+
+msgid "mcst_manage"
+msgstr "Upravljaj"
+
+msgid "mcst_media_cast"
+msgstr "Mediacast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "Mediacast nije na mreži"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "Mediacast nije na mreži ili je onemogućen"
+
+msgid "mcst_mimetype"
+msgstr "Tip Mime"
+
+msgid "mcst_mimetype_info"
+msgstr "Odaberite vrstu mime za upravljanje dodatkom koji se koristi za reprodukciju. <br> apomena: Imajte na umu da svaki preglednik ne sadrži dodatak koji namjeravate koristiti."
+
+msgid "mcst_mimetypes"
+msgstr "Vrste mime"
+
+msgid "mcst_mimetypes_info"
+msgstr "Popis vrsta mime vrsta odvojenih zarezom"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Javnim vijestima može se pristupiti bez provjere autentičnosti izvan ILIAS-a putem RSS-a. Nemojte sadržavati povjerljive podatke."
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Broj predmeta"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "Sortiranje"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Prema datumu izrade, najstariji predmet na vrhu"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Prema datumu izrade, najnovija stavka na vrhu"
+
+msgid "mcst_ordering_manual"
+msgstr "Ručno"
+
+msgid "mcst_ordering_title"
+msgstr "Naslovi po abecednom redu"
+
+msgid "mcst_play"
+msgstr "Reproduciraj"
+
+msgid "mcst_play_cnt"
+msgstr "Reproducirano"
+
+msgid "mcst_play_time"
+msgstr "Vrijeme reprodukcije"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "Pregled slike"
+
+msgid "mcst_preview_picture_info"
+msgstr "Podržavaju samo sljedeće glavne vrste medija:"
+
+msgid "mcst_reference_info"
+msgstr "Navedi URL koji upućuje na resurs"
+
+msgid "mcst_save_order"
+msgstr "Spremi narudžbu"
+
+msgid "mcst_set_playtime"
+msgstr "Vrijeme reprodukcije je postavljeno."
+
+msgid "mcst_settings"
+msgstr "Postavke Mediacast-a"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "Popis sufiksa datoteka odvojenih zarezom"
+
+msgid "mcst_standard_settings_title"
+msgstr "Proširenja datoteka za standardni format"
+
+msgid "mcst_standard_title"
+msgstr "Standardna medijska datoteka"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Nije moguće utvrditi vrijeme reprodukcije. Molimo postavite ga ručno klikom na Uredi."
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternativna video datoteka (upotreba u pregledniku)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Popis sufiksa datoteka odvojenih zarezom"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Proširenja datoteka za video format"
+
+msgid "mcst_videoportable_title"
+msgstr "Dodatna video datoteka za prijenosne uređaje"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "Način prezentacije"
+
+msgid "mcst_visibility_info"
+msgstr "Javnim stavkama može se pristupiti putem RSS-a bez ikakve provjere autentičnosti."
+
+msgid "mcst_visibility_public"
+msgstr "Javno"
+
+msgid "mcst_visibility_users"
+msgstr "Prijavljeni korisnici"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+msgid "mcst_webfeed"
+msgstr "RSS web feed"

@@ -1,0 +1,279 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Új médiasugárzás-objektum létrehozása"
+
+msgid "mcst_audio_files"
+msgstr "Hangfájl"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Fájlkiterjesztések vesszővel elválasztott felsorolása"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Hangformátumok fájlkiterjesztési"
+
+msgid "mcst_audioportable_title"
+msgstr "További hangfájl hordozható eszközökhöz"
+
+msgid "mcst_automatic_detection"
+msgstr "Automatikus felismerés"
+
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Alapértelmezetten be)"
+
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Alapértelmezetten ki)"
+
+msgid "mcst_autoplay_info"
+msgstr "A videó automatikusan indul az előző befejezésekor. Youtube videók ezt nem támogatják."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Törlés"
+
+msgid "mcst_confirm_deletion"
+msgstr "Törlés megerősítése"
+
+msgid "mcst_converted_file"
+msgstr "A fájlt konvertáltuk."
+
+msgid "mcst_copy"
+msgstr "Médiasugárzás másolása"
+
+msgid "mcst_current_value_info"
+msgstr "Ezen formátum aktuális értékének megjelenítése"
+
+msgid "mcst_default_visibility"
+msgstr "Alapértelmezett elérés"
+
+msgid "mcst_det_playtime"
+msgstr "Lejátszási idő meghatározása"
+
+msgid "mcst_download_all"
+msgstr "Összes letöltése"
+
+msgid "mcst_download_audioportable"
+msgstr "Hangfájl letöltése"
+
+msgid "mcst_download_cnt"
+msgstr "Letöltve"
+
+msgid "mcst_download_standard"
+msgstr "Letöltés"
+
+msgid "mcst_download_started_bg"
+msgstr "A fájlok letöltése megkezdődött. Ellenőrizze a jobb felső sarokban a háttérfolyamatoknál."
+
+msgid "mcst_download_videoalternative"
+msgstr "Alternatív fájl leöltése"
+
+msgid "mcst_download_videoportable"
+msgstr "Videófájl letöltése"
+
+msgid "mcst_downloadable"
+msgstr "Letöltési linkek"
+
+msgid "mcst_downloadable_info"
+msgstr "Linkek jelennek meg a letöltéshez."
+
+msgid "mcst_duration"
+msgstr "Lejátszási idő"
+
+msgid "mcst_duration_info"
+msgstr "Ha 00:00:00 az érték, kérem, módosítsa, mert az ILIAS automatikusan nem tudja meghatározni a lejátszási időt."
+
+msgid "mcst_edit_item"
+msgstr "Médiasugárzás-objektum módosítása"
+
+msgid "mcst_edit_settings"
+msgstr "Médiasugárzás beállítások"
+
+msgid "mcst_gallery"
+msgstr "Csempék"
+
+msgid "mcst_img_gallery"
+msgstr "Képgalléria"
+
+msgid "mcst_import"
+msgstr "Médiasugárzás importálása"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "A médiafájlokat is beleértve csatolmányként"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "A médiafájlok csatolásként kerülnek be az RSS-csatornába. Máskülönben a csatorna csak értesíti a feliratkozottat az új objektumról."
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Adjon meg egy fájlt vagy URL-t. Fájl esetén figyeljen a feltölthető maximális méretre."
+
+msgid "mcst_items"
+msgstr "Elemek"
+
+msgid "mcst_last_submission"
+msgstr "Utolsó elküldés"
+
+msgid "mcst_list"
+msgstr "Lista"
+
+msgid "mcst_manage"
+msgstr "Kezelés"
+
+msgid "mcst_media_cast"
+msgstr "Médiasugárzás"
+
+msgid "mcst_media_cast_not_online"
+msgstr "A médiasugárzás nem online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "A médiasugárzás nem online vagy le van tiltva"
+
+msgid "mcst_mimetype"
+msgstr "MIME-típus"
+
+msgid "mcst_mimetype_info"
+msgstr " MIME-típus kiválasztása a visszajátszáshoz használt bővítmény vezérléséhez.<br/>Ne feledje: Legyen körültekintő, mert előfordulhat, hogy nem minden böngésző tartalmazza a használni kívánt bővítményt."
+
+msgid "mcst_mimetypes"
+msgstr "MIME-típusok"
+
+msgid "mcst_mimetypes_info"
+msgstr "MIME-típusok vesszővel elválasztott felsorolása"
+
+msgid "mcst_new_items_det_lp"
+msgstr "Az új elem hozzáadása a tanulási haladáshoz"
+
+msgid "mcst_new_items_det_lp_info"
+msgstr "Az új elemek automatikusan bekerülnek a tanulási haladásban."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "A nyilvános hírek bejelentkezés nélkül is elérhetők az ILIAS-on kívülről RSS-en keresztül. Ne tegyen bele bizalmas információkat!"
+
+msgid "mcst_next_items"
+msgstr "Következő elemek"
+
+msgid "mcst_no_autoplay"
+msgstr "Nincs Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Objektumok száma"
+
+msgid "mcst_nr_videos"
+msgstr "Kiinduló videók száma"
+
+msgid "mcst_ordering"
+msgstr "Rendezés"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Létrehozási dátum szerint ↑"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Létrehozási dátum szerint ↓"
+
+msgid "mcst_ordering_manual"
+msgstr "Kézi"
+
+msgid "mcst_ordering_title"
+msgstr "Cím szerint"
+
+msgid "mcst_play"
+msgstr "Lejátszás"
+
+msgid "mcst_play_cnt"
+msgstr "Lejátszva"
+
+msgid "mcst_play_time"
+msgstr "Lejátszási idő"
+
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+msgid "mcst_prev_items"
+msgstr "Előző elemek"
+
+msgid "mcst_preview"
+msgstr "Előnézet"
+
+msgid "mcst_preview_picture"
+msgstr "Előkép"
+
+msgid "mcst_preview_picture_info"
+msgstr "Csak az alábbi fő médiatípusoknál támogatott:"
+
+msgid "mcst_reference_info"
+msgstr "URL a forráshoz"
+
+msgid "mcst_save_order"
+msgstr "Sorrend mentése"
+
+msgid "mcst_set_playtime"
+msgstr "A lejátszási időt sikeresen beállította."
+
+msgid "mcst_settings"
+msgstr "Médiasugárzás beállítások"
+
+msgid "mcst_show_description"
+msgstr "Leírás megjelenítése"
+
+msgid "mcst_standard_settings_info"
+msgstr "Fájlkiterjesztések vesszővel elválasztott felsorolása"
+
+msgid "mcst_standard_settings_title"
+msgstr "Általános formátumok fájlkiterjesztései"
+
+msgid "mcst_standard_title"
+msgstr "Normál médiafájl"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Nem lehet megállapítani a lejátszási időt. Állítsa be kézzel a szerkesztésre kattintva."
+
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+msgid "mcst_video_completion_threshold"
+msgstr "Video teljesítésének küszöbértéke"
+
+msgid "mcst_video_completion_threshold_info"
+msgstr "A sikeresen teljesített állapot küszöbértéke. Kérjük, vegye figyelembe, hogy a felhasználók a videóban előreugrással is elérhetik ezt az értéket."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternatív videófájl (böngészőben történő lejátszáshoz)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Fájlkiterjesztések vesszővel elválasztott felsorolása"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Videóformátumok fájlkiterjesztései"
+
+msgid "mcst_videoportable_title"
+msgstr "További videófájl hordozható eszközökhöz"
+
+msgid "mcst_view_abandoned"
+msgstr "A beállított megjelenítési mód már nem támogatott, a beállításokban válasszon másikat."
+
+msgid "mcst_viewmode"
+msgstr "Megjelenítés módja"
+
+msgid "mcst_visibility_info"
+msgstr "Nyilvános tételek elérhetők RSS-en keresztül hitelesítés nélkül."
+
+msgid "mcst_visibility_public"
+msgstr "Nyilvános"
+
+msgid "mcst_visibility_users"
+msgstr "Bejelentkezett felhasználók"
+
+msgid "mcst_watched"
+msgstr "megtekintve"
+
+msgid "mcst_webfeed"
+msgstr "RSS Web hírcsatorna"
