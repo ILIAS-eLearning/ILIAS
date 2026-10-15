@@ -1,0 +1,312 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr "Vidnost"
+
+msgid "activation_visible_when_disabled_info"
+msgstr "Če je aktivirano, je učno gradivo vidno tudi zunaj predvidene razpoložljivosti."
+
+#, fuzzy
+msgid "availability_period_changed"
+msgstr "The availability period for the selected objects has been changed successfully."
+
+#, fuzzy
+msgid "available_languages"
+msgstr "Available Languages"
+
+msgid "cont_filter_empty"
+msgstr "Please use the filter to see any objects."
+
+msgid "cont_skll_published"
+msgstr "Vse dodelitve kompetenc so bile objavljene."
+
+msgid "cont_skll_published_some_not"
+msgstr "Vse obstoječe dodelitve kompetenc so bile objavljene. Pri nekaterih uporabnikih kompetence niso bile objavljene, ker ni bilo nobenih dodelitev."
+
+#, fuzzy
+msgid "copy_container_page_no_label"
+msgstr "Don't Copy Content Page"
+
+#, fuzzy
+msgid "copy_container_page_yes_byline"
+msgstr "The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten."
+
+#, fuzzy
+msgid "copy_container_page_yes_label"
+msgstr "Copy Content Page"
+
+msgid "custom_icon"
+msgstr "Prilagojena ikona"
+
+#, fuzzy
+msgid "default_base_lang_not_deletable"
+msgstr "Neither the base language nor the default language can be deleted."
+
+#, fuzzy
+msgid "edit_availability_period"
+msgstr "Availability Period"
+
+#, fuzzy
+msgid "edit_language"
+msgstr "Edit Language"
+
+msgid "edit_questions"
+msgstr "Uredi vprašanja"
+
+#, fuzzy
+msgid "make_default_language"
+msgstr "Make Default Language"
+
+#, fuzzy
+msgid "missing_migration"
+msgstr "You cannot edit information on this page until all migrations have been run. Please contact your system administrator."
+
+#, fuzzy
+msgid "multiple_reference_deletion_info"
+msgstr "Further references exist for the following objects."
+
+msgid "multiple_selection"
+msgstr "Večkratna izbira"
+
+#, fuzzy
+msgid "no_objects_selected"
+msgstr "At least one object needs to be selected."
+
+msgid "obj_activate_content_lang"
+msgstr "Aktiviraj večjezičnost za urejevalnik strani"
+
+msgid "obj_activate_multilang"
+msgstr "Aktiviraj večjezičnost"
+
+msgid "obj_activation"
+msgstr "Aktiviranje"
+
+msgid "obj_activation_list_gui"
+msgstr "Razpoložljivost"
+
+#, fuzzy
+msgid "obj_add_language"
+msgstr "Add Language"
+
+msgid "obj_additional_langs"
+msgstr "Dodatni jeziki"
+
+msgid "obj_base_lang"
+msgstr "Privzeti jezik"
+
+#, fuzzy
+msgid "obj_conf_delete_lang"
+msgstr "Do you really want to stop the presentation of title and description in these languages?"
+
+msgid "obj_cont_transl_deactivated"
+msgstr "Podpora za večjezične vsebine v urejevalniku strani je bila onemogočena."
+
+msgid "obj_copy_progress"
+msgstr "Napredek kopiranja"
+
+#, fuzzy
+msgid "obj_copy_progress_estimate"
+msgstr "Estimating duration..."
+
+#, fuzzy
+msgid "obj_copy_progress_failure"
+msgstr "Copying failed."
+
+#, fuzzy
+msgid "obj_copy_progress_success"
+msgstr "Copied successfully."
+
+#, fuzzy
+msgid "obj_copy_progress_to"
+msgstr "Copying to %s"
+
+msgid "obj_deactivate_content_lang"
+msgstr "Onemogoči večjezičnost za urejevalnik strani."
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr "Ali res želite onemogočiti podporo za večjezične vsebine v urejevalniku strani? Samo vsebine privzetega jezika bodo ostale na voljo."
+
+msgid "obj_deactivate_multilang"
+msgstr "Onemogoči večjezičnost"
+
+msgid "obj_deactivate_multilang_conf"
+msgstr "Ali res želite onemogočiti podporo za večjezične vsebine? Samo vsebine privzetega jezika bodo ostale na voljo."
+
+#, fuzzy
+msgid "obj_fallback_lang"
+msgstr "Default Language"
+
+msgid "obj_features"
+msgstr "Dodatne funkcije"
+
+msgid "obj_import_file_error"
+msgstr "Datoteke ni bilo mogoče uvoziti. Preverite, ali gre pri izvozni datoteki ILIAS (izvoz XML) za objekt istega tipa in ali je ime datoteke nespremenjeno. Obvestilo o napaki:"
+
+msgid "obj_insert_into_clipboard"
+msgstr "Vstavi v odložišče"
+
+msgid "obj_inserted_clipboard"
+msgstr "Objekti so bili vstavljeni v odložišče."
+
+#, fuzzy
+msgid "obj_master_lang"
+msgstr "Master Language"
+
+msgid "obj_more_translations"
+msgstr "Nadaljnji prevodi"
+
+msgid "obj_multilang_deactivated"
+msgstr "Podpora za večjezične vsebine je bila onemogočena."
+
+msgid "obj_multilang_title_descr_only"
+msgstr "Večjezičnost je aktivirana samo za naslov in opis. Podpora za vsebino v urejevalniku strani (\"Oblikuj stran\") se lahko aktivira ločeno."
+
+msgid "obj_multilinguality"
+msgstr "Večjezičnost"
+
+msgid "obj_orgunit_positions"
+msgstr "Pravila dostopa po organizacijskih enotah"
+
+msgid "obj_orgunit_positions_info"
+msgstr "Če je aktivirano, se lahko dodatna pravila dostopa določijo po položajih v organizacijskih enotah."
+
+msgid "obj_permission_settings"
+msgstr "Nastavitve pravic"
+
+msgid "obj_presentation"
+msgstr "Prikaz"
+
+msgid "obj_select_base_lang"
+msgstr "Izberite privzeti jezik. Obstoječe vsebine bodo dodeljene temu jeziku. Po tem privzetega jezika ni mogoče spremeniti."
+
+#, fuzzy
+msgid "obj_select_one_language"
+msgstr "Please select one language"
+
+#, fuzzy
+msgid "obj_set_fallback_lang"
+msgstr "Set default language"
+
+msgid "obj_settings_for_all_members"
+msgstr "Člani bodo samodejno obveščeni"
+
+msgid "obj_show_header_actions"
+msgstr "Prikaži dejavnosti"
+
+msgid "obj_show_title_and_icon"
+msgstr "Prikaži naslov in ikono"
+
+msgid "obj_target_location"
+msgstr "Ciljna mapa"
+
+msgid "obj_tile_image"
+msgstr "Slika ploščice"
+
+msgid "obj_tile_image_info"
+msgstr "Slika ploščice bo uporabljena, če je bil v nadrejenem shrambi izbran pogled ploščic."
+
+msgid "obj_tool_booking"
+msgstr "Resources"
+
+msgid "obj_tool_booking_info"
+msgstr "Use the booking pools to book resources."
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr "Mail Subject Prefix"
+
+#, fuzzy
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr "Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier."
+
+msgid "obj_tool_setting_badges"
+msgstr "Značke"
+
+msgid "obj_tool_setting_badges_info"
+msgstr "Če je aktivirano, se lahko konfigurirajo značke."
+
+msgid "obj_tool_setting_booking"
+msgstr "Resources"
+
+msgid "obj_tool_setting_filter"
+msgstr "Filter"
+
+msgid "obj_tool_setting_filter_empty"
+msgstr "Show on Empty Filter"
+
+msgid "obj_tool_setting_filter_empty_info"
+msgstr "Show all items while filter is empty."
+
+msgid "obj_tool_setting_filter_info"
+msgstr "A filter will be displayed in the content tab."
+
+msgid "obj_tool_setting_info_tab"
+msgstr "Zavihek z informacijami"
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr "Prikazal se bo zavihek \"Info\"."
+
+msgid "obj_tool_setting_skills"
+msgstr "Kompetence"
+
+msgid "obj_tool_setting_skills_info"
+msgstr "Funkcija omogoča izbiro kompetenc in dodelitev ravni kompetenc članom."
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr "Oznaka v oblaku"
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr "Oznaka v oblaku \"Izbira po temah\" bo prikazana v zavihku \"Vsebina\"."
+
+msgid "obj_tool_setting_taxonomies"
+msgstr "Taksonomije"
+
+#, fuzzy
+msgid "obj_tool_setting_taxonomies_info"
+msgstr "Taxonomies allow the filtering of objects. They are created in the \"Taxonomy\" sub-tab in the \"Settings\" tab."
+
+msgid "obj_tool_setting_use_news"
+msgstr "Novosti"
+
+msgid "obj_tool_setting_use_news_info"
+msgstr "Uporaba bloka \"Novosti\" ali časovnice za novosti."
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr "Odpri nastavitve"
+
+msgid "obj_user_decides_notification"
+msgstr "Člani morajo sami aktivirati obveščanje"
+
+msgid "obj_user_not_disable_not"
+msgstr "Člani ne morejo onemogočiti obveščanja"
+
+#, fuzzy
+msgid "online_input_byline"
+msgstr "The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository."
+
+#, fuzzy
+msgid "select_import_type_info"
+msgstr "The type of the object in the file to be imported cannot be determined automatically. The file was probably renamed. Please select the type of object in the file."
+
+#, fuzzy
+msgid "select_object_type"
+msgstr "Select Object Type"
+
+msgid "svy_results"
+msgstr "Rezultati"
+
+#, fuzzy
+msgid "unequal_items_for_availability_period_message"
+msgstr "You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods."
+
+#, fuzzy
+msgid "user_owns_no_objects"
+msgstr "No Repository Objects Available"
