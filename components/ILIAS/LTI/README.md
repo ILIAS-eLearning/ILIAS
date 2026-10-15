@@ -191,8 +191,9 @@ the endpoints:
   of a platform as a score, through celtic/lti, when the launch named a line item and granted the score scope. When
   the launch named no line item but the line item service, ILIAS uses its own line item for the object (resource id =
   ref id), creating it the first time, and the resource link keeps it. The cron job "LTI Grade Service"
-  (`ilLTICronOutcomeService`) sends the status changes Tracking writes without an event, as after new learning
-  progress settings, and reads the results first so that a final score the platform has is not sent again.
+  (`ilLTICronOutcomeService`) sends the status changes since its last run again, so that a score the platform could
+  not take when the event came, e.g. because it was not reachable, still reaches it. It reads the results first so
+  that a final score the platform has is not sent again.
 * Tokens ILIAS gives out and takes back itself, such as the registration tokens, are signed and checked by
   `ilLTIAdvantageKeyPair` and name what they are for, so that no other token of ILIAS is taken for them.
 

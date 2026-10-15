@@ -11389,7 +11389,7 @@ lti#:#lti_consuming_tab#:#ILIAS como Consumidor LTI
 lti#:#lti_create_consumer#:#Crear Consumidor
 lti#:#lti_create_lti_user_role#:#Crear el rol global recomendado para usuarios LTI
 lti#:#lti_cron_title#:#Servicio de calificaciones LTI
-lti#:#lti_cron_title_desc#:#Envía el progreso de aprendizaje de los usuarios LTI a su plataforma cuando ha cambiado sin un evento, por ejemplo tras cambiar los ajustes de progreso de aprendizaje de un objeto. No se reenvían las calificaciones que la plataforma ya tiene.
+lti#:#lti_cron_title_desc#:#Vuelve a enviar a su plataforma el progreso de aprendizaje de los usuarios LTI que ha cambiado desde la última ejecución, para que llegue también una calificación que la plataforma no pudo recibir en su momento, por ejemplo porque no estaba disponible. No se reenvían las calificaciones que la plataforma ya tiene.
 lti#:#lti_custom_new#:#Crear ajustes de proveedor propios
 lti#:#lti_deep_linking_expired#:#Esta selección ha caducado. Vuelva a iniciar la selección de contenido en la plataforma.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#No se ha podido añadir el contenido seleccionado en la herramienta. Inténtelo de nuevo.###29 09 2026 new variable

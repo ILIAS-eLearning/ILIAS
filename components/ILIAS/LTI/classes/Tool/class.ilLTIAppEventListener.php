@@ -108,10 +108,9 @@ class ilLTIAppEventListener implements ilAppEventListener
     }
 
     /**
-     * Reports the learning progress of the LTI users whose status changed since the given date. Tracking
-     * raises no event when it recalculates the status, as it does after the learning progress settings of
-     * an object change; the other changes were reported by their event already, so a score the platform
-     * has is not sent again.
+     * Reports the learning progress of the LTI users whose status changed since the given date again. The
+     * event reported each change already, but the platform may not have taken it, e.g. because it was not
+     * reachable; a final score the platform has is not sent again.
      *
      * @throws RandomException
      */

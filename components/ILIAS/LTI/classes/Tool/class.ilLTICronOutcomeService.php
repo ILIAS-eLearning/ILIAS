@@ -25,7 +25,8 @@ use Random\RandomException;
 
 /**
  * Cron job "LTI Grade Service": reports the learning progress of LTI users whose status changed since
- * its last run, for the changes that raise no event, like new learning progress settings.
+ * its last run again, for the scores a platform could not take when the event came, e.g. because it was not
+ * reachable.
  *
  * The name and the id are fixed: the table cron_job stores them.
  *

@@ -11430,7 +11430,7 @@ lti#:#lti_consuming_tab#:#ILIAS as LTI Platform (Consumer)
 lti#:#lti_create_consumer#:#Add Platform
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_cron_title#:#LTI Grade Service
-lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users to their platform when it changed without an event, e.g. after the learning progress settings of an object changed. Scores the platform has already are not sent again.
+lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again.
 lti#:#lti_custom_new#:#Create Own Provider Settings
 lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
 lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
