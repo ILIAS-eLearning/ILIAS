@@ -211,6 +211,28 @@ class TagInputTest extends ILIAS_UI_TestBase
         );
     }
 
+    public function testConfigurationDoesNotLimitAmountOfTagsByDefault(): void
+    {
+        $f = $this->getFieldFactory();
+
+        /** @var I\Input\Field\Tag $tag */
+        $tag = $f->tag("label", []);
+
+        $this->assertSame(I\Input\Field\Tag::INFINITE, $tag->getMaxTags());
+        $this->assertSame(I\Input\Field\Tag::INFINITE, $tag->getConfiguration()->maxItems);
+    }
+
+    public function testConfigurationReflectsMaxTags(): void
+    {
+        $f = $this->getFieldFactory();
+
+        /** @var I\Input\Field\Tag $tag */
+        $tag = $f->tag("label", [])->withMaxTags(42);
+
+        $this->assertSame(42, $tag->getMaxTags());
+        $this->assertSame(42, $tag->getConfiguration()->maxItems);
+    }
+
     public function testMaxTaglengthTagsOk(): void
     {
         $f = $this->getFieldFactory();
