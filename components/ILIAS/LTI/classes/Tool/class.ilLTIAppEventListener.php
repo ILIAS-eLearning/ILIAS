@@ -240,14 +240,18 @@ class ilLTIAppEventListener implements ilAppEventListener
     /**
      * The Assignment and Grade Services report how far the user is besides the score; the LTI 1.1
      * outcome service only sends the score. Without a status the library reports a completed result.
+     * A failed result is graded as well: the grading progress Failed means that grading could not be done,
+     * and platforms such as Moodle keep no grade for it.
      *
      * @return array{0: ilLTIToolActivityProgress, 1: ilLTIToolGradingProgress}
      */
     private function getProgress(?int $status): array
     {
         return match ($status) {
-            null, ilLPStatus::LP_STATUS_COMPLETED_NUM => [ilLTIToolActivityProgress::COMPLETED, ilLTIToolGradingProgress::FULLY_GRADED],
-            ilLPStatus::LP_STATUS_FAILED_NUM => [ilLTIToolActivityProgress::COMPLETED, ilLTIToolGradingProgress::FAILED],
+            null, ilLPStatus::LP_STATUS_COMPLETED_NUM, ilLPStatus::LP_STATUS_FAILED_NUM => [
+                ilLTIToolActivityProgress::COMPLETED,
+                ilLTIToolGradingProgress::FULLY_GRADED,
+            ],
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => [ilLTIToolActivityProgress::INITIALIZED, ilLTIToolGradingProgress::NOT_READY],
             default => [ilLTIToolActivityProgress::IN_PROGRESS, ilLTIToolGradingProgress::PENDING],
         };
