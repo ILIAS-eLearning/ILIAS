@@ -1,0 +1,268 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "記録ファイルをダウンロード"
+
+msgid "grading"
+msgstr "採点"
+
+msgid "grading_info"
+msgstr "採点情報"
+
+msgid "grading_record"
+msgstr "採点記録"
+
+msgid "iass_add"
+msgstr "個別アセスメントを作成"
+
+msgid "iass_add_user_failure"
+msgstr "ユーザが追加されなかった可能性があります。"
+
+msgid "iass_add_user_success"
+msgstr "受験者としてユーザを追加しました。"
+
+msgid "iass_added"
+msgstr "個別アセスメントを追加しました"
+
+msgid "iass_amend_saved"
+msgstr "修正された記録が保存されました。"
+
+msgid "iass_assessment_not_completed"
+msgstr "アセスメントは完了していません"
+
+msgid "iass_cancel"
+msgstr "キャンセル"
+
+msgid "iass_changed_by"
+msgstr "ファイナライズ後に変更されました"
+
+msgid "iass_confirm_finalize"
+msgstr "ファイナライズ"
+
+msgid "iass_consultation_hours"
+msgstr "会議時間"
+
+msgid "iass_contact"
+msgstr "名前"
+
+msgid "iass_contact_info"
+msgstr "コンタクト情報"
+
+msgid "iass_content"
+msgstr "アセスメントコンテンツ説明"
+
+msgid "iass_content_explanation"
+msgstr "関連のトピックスのようなアセスメントのコンテンツ"
+
+msgid "iass_copy"
+msgstr "個別アセスメントをコピー"
+
+msgid "iass_download"
+msgstr "Download"
+
+msgid "iass_edit"
+msgstr "設定"
+
+msgid "iass_edit_info"
+msgstr "設定情報"
+
+msgid "iass_edit_record"
+msgstr "ユーザ記録"
+
+msgid "iass_event_time"
+msgstr "イベント時刻"
+
+msgid "iass_event_time_place_required"
+msgstr "日付と場所が必須"
+
+msgid "iass_event_time_place_required_info"
+msgstr "アセスメントの日付と場所は各参加者の記録へ追加される必要があります。"
+
+msgid "iass_file"
+msgstr "File"
+
+msgid "iass_file_dropzone"
+msgstr "ファイルをここへドロップできます"
+
+msgid "iass_file_required"
+msgstr "記録ファイルが必須"
+
+msgid "iass_file_required_info"
+msgstr "記録ファイルは各参加者の記録へアップロードされる必要があります。"
+
+msgid "iass_file_visible_examinee"
+msgstr "参加者へファイルを表示"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "All"
+
+msgid "iass_filter_failed"
+msgstr "失敗のみ"
+
+msgid "iass_filter_finalized"
+msgstr "完了のみ"
+
+msgid "iass_filter_not_finalized"
+msgstr "未完了のみ"
+
+msgid "iass_filter_not_started"
+msgstr "未開始のみ"
+
+msgid "iass_finalize"
+msgstr "確定"
+
+msgid "iass_finalize_info"
+msgstr "個別の割当てはファイナライズされます。"
+
+msgid "iass_finalize_user_qst"
+msgstr "受験者のステータスを本当に確定しますか? これ以降は変更できなくなります。"
+
+msgid "iass_further_field_headline"
+msgstr "詳細情報"
+
+msgid "iass_graded_by"
+msgstr "採点者"
+
+msgid "iass_info_emails_expl"
+msgstr "コンマ区切りで複数のアドレスを提供できます。"
+
+msgid "iass_internal_note"
+msgstr "内部記録ノート(受験者には見えません)"
+
+msgid "iass_internal_note_info"
+msgstr "内部ノートは受験者ではなく指導教員にのみ表示されます。"
+
+msgid "iass_location"
+msgstr "ロケーション"
+
+msgid "iass_mails"
+msgstr "メール"
+
+msgid "iass_may_not_finalize"
+msgstr "受験者は確定していない可能性があります。"
+
+msgid "iass_membership_finalized"
+msgstr "記録を確定しました"
+
+msgid "iass_membership_saved"
+msgstr "記録を保存しましたが未確定です。"
+
+msgid "iass_mess_notification_completed"
+msgstr "アセスメント%sは合格です。詳細は次の記録を確認して下さい:"
+
+msgid "iass_mess_notification_failed"
+msgstr "アセスメント%sは不合格です。詳細は次の記録を確認して下さい:"
+
+msgid "iass_notify"
+msgstr "確定後にユーザへ通知"
+
+msgid "iass_notify_explanation"
+msgstr "受験者は確定後にemailで通知されInfo画面上のj記録へアクセスします。"
+
+msgid "iass_phone"
+msgstr "電話"
+
+msgid "iass_place"
+msgstr "イベントロケーション"
+
+msgid "iass_record"
+msgstr "記録ノート"
+
+msgid "iass_record_info"
+msgstr "受験者は最後に採点された後で記録を見ることができます。記録注釈を以下へ有効にしていると記録ノートは受験者へemailで送信することもできます。"
+
+msgid "iass_record_template"
+msgstr "記録テンプレート"
+
+msgid "iass_record_template_explanation"
+msgstr "受験者採点記録用のテンプレート。新しい受験者用に自動的に使用。"
+
+msgid "iass_remove_user_qst"
+msgstr "受験者を本当に削除しますか?"
+
+msgid "iass_responsibility"
+msgstr "責任"
+
+msgid "iass_save_amend"
+msgstr "修正を保存"
+
+msgid "iass_settings_availability"
+msgstr "Availability(空き状況)"
+
+msgid "iass_settings_saved"
+msgstr "設定を保存しました。"
+
+msgid "iass_sort_changetime_asc"
+msgstr "昇順最終変更"
+
+msgid "iass_sort_changetime_desc"
+msgstr "降順最終変更"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "昇順審査員"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "降順審査員"
+
+msgid "iass_sort_name_asc"
+msgstr "昇順ユーザ名"
+
+msgid "iass_sort_name_desc"
+msgstr "降順ユーザ名"
+
+msgid "iass_status_completed"
+msgstr "完了"
+
+msgid "iass_status_failed"
+msgstr "失敗しました"
+
+msgid "iass_status_pending"
+msgstr "ステータスを保留"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: 個別アセスメントを完了しました。"
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: 個別アセスメントは失敗しました。"
+
+msgid "iass_upload_file"
+msgstr "ファイルをアップロード"
+
+msgid "iass_user_removed"
+msgstr "参加者を正しく削除"
+
+msgid "iass_usr_amend"
+msgstr "修正グレード"
+
+msgid "iass_usr_download_attachment"
+msgstr "添付をダウンロード"
+
+msgid "iass_usr_edit"
+msgstr "ユーザ記録と学習進捗を編集"
+
+msgid "iass_usr_remove"
+msgstr "オブジェクトからユーザを削除"
+
+msgid "iass_usr_view"
+msgstr "ユーザ記録"
+
+msgid "il_iass_members"
+msgstr "参加者"
+
+msgid "lp_inactive"
+msgstr "注意: このオブジェクトの学習進捗はアクティブではありません。よってメンバーシップは確定されません。"
+
+msgid "save_amend"
+msgstr "修正されたレコードを保存"
