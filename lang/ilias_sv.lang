@@ -8431,13 +8431,6 @@ mem#:#mem_print_view_form#:#Standardinställningar för utskriftsvy
 mem#:#mem_settings_tab_print_view#:#Inställningar Utskriftsvy
 mem#:#mem_settings_tab_settings#:#Allmänna inställningar
 mem#:#mmbr_gallery_user_actions#:#Aktioner i medlemsgalleriet
-membership#:#mem_error_preconditions#:#Inspelningen kunde inte äga rum eftersom minst en inställning förhindrar detta.
-membership#:#mem_force_notification#:#Notifiering via post
-membership#:#mem_force_notification_mode_all#:#Aktiverad för alla medlemmar (kan ändras fritt)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Medlemmar kan avaktivera aviseringar
-membership#:#mem_force_notification_mode_blocked#:#Medlemmar kommer att meddelas automatiskt
-membership#:#mem_force_notification_mode_custom#:#Inställningar för varje medlem
-membership#:#mem_force_notification_mode_self#:#Medlemmar måste aktivera aviseringar
 meta#:#adt_error_max_length#:#Den text du har skrivit är för lång. Vänligen ange en kortare text.
 meta#:#md_adn_int_error_no_default#:#Välj ett aktiverat språk som "Standardspråk".
 meta#:#md_adv_active#:#Aktiv
@@ -9225,14 +9218,6 @@ meta#:#udf_type_integer#:#Integer
 meta#:#udf_type_internallink#:#Intern länk
 meta#:#udf_type_location#:#Lokalisering
 meta#:#udf_type_selectmulti#:#Vallista (flera urval)
-mmbr#:#info_refuse_sure#:#Är du säker på att du vill avvisa följande användare?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Mina kurser och grupper
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alla medlemmar i grupper och kurser för en användare listas.
-mmbr#:#mmbr_btn_mail_selected_users#:#Skicka e-post
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Vill du verkligen säga upp ditt medlemskap för följande kurser och grupper?
-mmbr#:#mmbr_memberships#:#Memberships
-mmbr#:#mmbr_selected_users#:#Utvalda deltagare
-mmbr#:#mmbr_unsubscribed_from_objs#:#Du har loggats ut från de valda objekten.
 mme#:#add_languages#:#Lägg till språk
 mme#:#additional_langs#:#Ytterligare språk
 mme#:#button_save#:#Spara

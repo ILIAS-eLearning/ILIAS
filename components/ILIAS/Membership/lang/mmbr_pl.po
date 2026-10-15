@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "Jesteś pewien, że chcesz odrzucić poniższego użytkownika/poniższych użytkowników?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "Moje kursy i grupy"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "Wszyscy użytkownicy grup i kursów użytkownika zostaną ujęci w liście."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Wyślij e-mail"
+
+#, fuzzy
+msgid "mmbr_memberships"
+msgstr "Memberships"
+
+#, fuzzy
+msgid "mmbr_role_error"
+msgstr "Members must have at least one role assigned."
+
+#, fuzzy
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "You have been unsubscribed from the selected objects."

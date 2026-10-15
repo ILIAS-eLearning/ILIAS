@@ -8431,13 +8431,6 @@ mem#:#mem_print_view_form#:#Výchozí nastavení pro zobrazení tisku
 mem#:#mem_settings_tab_print_view#:#Nastavení zobrazení tisku
 mem#:#mem_settings_tab_settings#:#Obecná nastavení
 mem#:#mmbr_gallery_user_actions#:#Akce uživatele v galerii členů
-membership#:#mem_error_preconditions#:#Registrace není možná, protože není splněna alespoň jedna podmínka.
-membership#:#mem_force_notification#:#Oznámení poštou
-membership#:#mem_force_notification_mode_all#:#Oznámení aktivováno pro všechny členy (měnitelné)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Členové mohou oznámení deaktivovat
-membership#:#mem_force_notification_mode_blocked#:#Členové budou informováni automaticky
-membership#:#mem_force_notification_mode_custom#:#Vlastní
-membership#:#mem_force_notification_mode_self#:#Členové musejí ručně aktivovat oznámení
 meta#:#adt_error_max_length#:#Zadejte kratší text.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Aktivní
@@ -9225,14 +9218,6 @@ meta#:#udf_type_integer#:#Celé číslo
 meta#:#udf_type_internallink#:#Externí odkaz
 meta#:#udf_type_location#:#Umístění
 meta#:#udf_type_selectmulti#:#Seznam voleb (zaškrtávací políčka)
-mmbr#:#info_refuse_sure#:#Opravdu chcete odstranit následující(ho) uživatele?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Moje skupiny a kurzy
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Uvedeni jsou všichni členové skupin nebo kursů aktuálního uživatele.
-mmbr#:#mmbr_btn_mail_selected_users#:#Poslat mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###07 02 2020 new variable
-mmbr#:#mmbr_memberships#:#Memberships###29 07 2022 new variable
-mmbr#:#mmbr_selected_users#:#Vybraní účastníci
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###07 02 2020 new variable
 mme#:#add_languages#:#Přidat jazyk
 mme#:#additional_langs#:#Další jazyky
 mme#:#button_save#:#Uložit

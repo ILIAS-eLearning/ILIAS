@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "Sei sicuro di voler rifiutare il/i seguente/i utente/i?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "I miei gruppi e corsi"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "Sono elencati tutti i membri di gruppi o corsi dell'attuale utente."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Invia mail"
+
+msgid "mmbr_memberships"
+msgstr "Memberships"
+
+#, fuzzy
+msgid "mmbr_role_error"
+msgstr "Members must have at least one role assigned."
+
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "Sei stato cancellato dagli oggetti selezionati."

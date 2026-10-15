@@ -8431,13 +8431,6 @@ mem#:#mem_print_view_form#:#Privzete nastavitve pogleda za tiskanje
 mem#:#mem_settings_tab_print_view#:#Nastavitve pogleda za tiskanje
 mem#:#mem_settings_tab_settings#:#Splošne nastavitve
 mem#:#mmbr_gallery_user_actions#:#Dejanja v galeriji članov
-membership#:#mem_error_preconditions#:#Sprejem ni bil mogoč, ker to preprečuje vsaj ena nastavitev.
-membership#:#mem_force_notification#:#Obveščanje po e-pošti
-membership#:#mem_force_notification_mode_all#:#Aktivirano za vse člane (prosto spremenljivo)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Člani lahko onemogočijo obveščanje
-membership#:#mem_force_notification_mode_blocked#:#Člani bodo samodejno obveščeni
-membership#:#mem_force_notification_mode_custom#:#Nastavitve za vsakega člana
-membership#:#mem_force_notification_mode_self#:#Člani morajo aktivirati obveščanje
 meta#:#adt_error_max_length#:#Vneseno besedilo je predolgo. Vnesite krajše besedilo.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###19 08 2022 new variable
 meta#:#md_adv_active#:#Aktivno
@@ -9225,14 +9218,6 @@ meta#:#udf_type_integer#:#Celo število
 meta#:#udf_type_internallink#:#Notranja povezava
 meta#:#udf_type_location#:#Lokacija
 meta#:#udf_type_selectmulti#:#Izbirni seznam (večkratni izbor)
-mmbr#:#info_refuse_sure#:#Ali ste prepričani, da želite zavrniti naslednje uporabnike?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Moji tečaji in skupine
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Navedeni so vsi člani uporabnikovih skupin in tečajev.
-mmbr#:#mmbr_btn_mail_selected_users#:#Pošlji e-pošto
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
-mmbr#:#mmbr_memberships#:#Memberships
-mmbr#:#mmbr_selected_users#:#Izbrani udeleženci
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#add_languages#:#Dodaj jezik
 mme#:#additional_langs#:#Dodatni jeziki
 mme#:#button_save#:#Shrani

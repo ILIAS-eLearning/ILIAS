@@ -8433,13 +8433,6 @@ mem#:#mem_print_view_form#:#Impostazioni predefinite per visualizzazione stampa
 mem#:#mem_settings_tab_print_view#:#Impostazioni di visualizzazione stampa
 mem#:#mem_settings_tab_settings#:#Impostazioni generali
 mem#:#mmbr_gallery_user_actions#:#Azioni dell'utente nella galleria dei membri
-membership#:#mem_error_preconditions#:#Una registrazione non è possibile, in quanto non è soddisfatta una precondizione minima.
-membership#:#mem_force_notification#:#Notifica tramite mail
-membership#:#mem_force_notification_mode_all#:#Notifica attivata per tutti i membri (variabile)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#I membri possono disattivare le notifiche
-membership#:#mem_force_notification_mode_blocked#:#I membri riceveranno automaticamente la notifica
-membership#:#mem_force_notification_mode_custom#:#Personalizza
-membership#:#mem_force_notification_mode_self#:#I membri devono attivare manualmente la notifica
 meta#:#adt_error_max_length#:#Si prega di inserire un testo più breve.
 meta#:#md_adn_int_error_no_default#:#Seleziona la lingua attiva come "Lingua predefinita".
 meta#:#md_adv_active#:#Attivo
@@ -9227,14 +9220,6 @@ meta#:#udf_type_integer#:#Valore intero
 meta#:#udf_type_internallink#:#Collegamento interno
 meta#:#udf_type_location#:#Posizione
 meta#:#udf_type_selectmulti#:#Elenco di selezione (caselle di controllo)
-mmbr#:#info_refuse_sure#:#Sei sicuro di voler rifiutare il/i seguente/i utente/i?
-mmbr#:#mmbr_awrn_my_groups_courses#:#I miei gruppi e corsi
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Sono elencati tutti i membri di gruppi o corsi dell'attuale utente.
-mmbr#:#mmbr_btn_mail_selected_users#:#Invia mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Sei sicuro di voler annullare l'iscrizione ai seguenti oggetti?
-mmbr#:#mmbr_memberships#:#Memberships
-mmbr#:#mmbr_selected_users#:#Seleziona partecipanti
-mmbr#:#mmbr_unsubscribed_from_objs#:#Sei stato cancellato dagli oggetti selezionati.
 mme#:#add_languages#:#Aggiungi lingua
 mme#:#additional_langs#:#Lingue aggiuntive
 mme#:#button_save#:#Salva

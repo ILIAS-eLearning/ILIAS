@@ -8416,11 +8416,6 @@ mem#:#mem_print_view_form#:#Default Settings for Print View
 mem#:#mem_settings_tab_print_view#:#Print View Settings
 mem#:#mem_settings_tab_settings#:#General Settings
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
-membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
-membership#:#mem_force_notification#:#Notification per Mail
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
-membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
-membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification
 meta#:#adt_error_max_length#:#The text you have entered is too long. Please enter a shorter text.
 meta#:#md_adn_int_error_no_default#:#Please select an activated language as your "Default-Language".
 meta#:#md_adv_active#:#Active
@@ -9253,13 +9248,6 @@ meta#:#udf_type_integer#:#Integer
 meta#:#udf_type_internallink#:#Internal Link
 meta#:#udf_type_location#:#Location
 meta#:#udf_type_selectmulti#:#Selection List (Multiple Choice)
-mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
-mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
-mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
-mmbr#:#mmbr_memberships#:#Memberships
-mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#add_languages#:#Add Language
 mme#:#additional_langs#:#Additional Languages
 mme#:#button_save#:#Save

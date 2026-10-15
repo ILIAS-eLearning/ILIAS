@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "Är du säker på att du vill avvisa följande användare?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "Mina kurser och grupper"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "Alla medlemmar i grupper och kurser för en användare listas."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Skicka e-post"
+
+msgid "mmbr_memberships"
+msgstr "Memberships"
+
+#, fuzzy
+msgid "mmbr_role_error"
+msgstr "Members must have at least one role assigned."
+
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "Du har loggats ut från de valda objekten."

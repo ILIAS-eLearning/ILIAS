@@ -8431,13 +8431,6 @@ mem#:#mem_print_view_form#:#Zadane postavke za prikaz ispisa
 mem#:#mem_settings_tab_print_view#:#Postavke prikaza ispisa
 mem#:#mem_settings_tab_settings#:#Opće postavke
 mem#:#mmbr_gallery_user_actions#:#Akcije galerije članova
-membership#:#mem_error_preconditions#:#Registracija nije moguća jer to sprečava minimalno jedna postavka.
-membership#:#mem_force_notification#:#Obavijest poštom
-membership#:#mem_force_notification_mode_all#:#Obavijest aktivirana za sve članove (promjenjiva)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Članovi mogu deaktivirati obavijesti
-membership#:#mem_force_notification_mode_blocked#:#Članovi će biti automatski obaviješteni
-membership#:#mem_force_notification_mode_custom#:#Prilagođen
-membership#:#mem_force_notification_mode_self#:#Članovi moraju ručno aktivirati obavijest
 meta#:#adt_error_max_length#:#Unesite kraći tekst.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###04 06 2021 new variable
 meta#:#md_adv_active#:#Aktivan
@@ -9225,14 +9218,6 @@ meta#:#udf_type_integer#:#Cijeli broj
 meta#:#udf_type_internallink#:#Interna poveznica
 meta#:#udf_type_location#:#Lokacija
 meta#:#udf_type_selectmulti#:#Popis za odabir (višestruki izbor)
-mmbr#:#info_refuse_sure#:#Jeste li sigurni da želite odbiti sljedećeg(-e) korisnika(-e)?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Moje grupe i tečajevi
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Navedeni su svi članovi grupa ili tečajeva trenutnog korisnika.
-mmbr#:#mmbr_btn_mail_selected_users#:#Pošalji e-poštu
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###04 06 2021 new variable
-mmbr#:#mmbr_memberships#:#Memberships###04 06 2021 new variable
-mmbr#:#mmbr_selected_users#:#Odabrani sudionici
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###04 06 2021 new variable
 mme#:#add_languages#:#Dodaj jezik
 mme#:#additional_langs#:#Dodatni jezici
 mme#:#button_save#:#Spremi

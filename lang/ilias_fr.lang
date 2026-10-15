@@ -8416,13 +8416,6 @@ mem#:#mem_print_view_form#:#Paramètres par défaut pour l’aperçu avant impre
 mem#:#mem_settings_tab_print_view#:#Paramètres de la vue avant impression
 mem#:#mem_settings_tab_settings#:#Paramètres généraux
 mem#:#mmbr_gallery_user_actions#:#Actions de la galerie des membres
-membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one precondition is not fullfilled.
-membership#:#mem_force_notification#:#Notification par e-mail
-membership#:#mem_force_notification_mode_all#:#Notification activée pour tous les membres (modifiable)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Les membres peuvent désactiver les notifications
-membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
-membership#:#mem_force_notification_mode_custom#:#Personnaliser
-membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation
 meta#:#adt_error_max_length#:#Veuillez entrer un texte plus court.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".
 meta#:#md_adv_active#:#Actif
@@ -9210,14 +9203,6 @@ meta#:#udf_type_integer#:#Nombre entier
 meta#:#udf_type_internallink#:#Lien interne
 meta#:#udf_type_location#:#Emplacement
 meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)
-mmbr#:#info_refuse_sure#:#Etes-vous sûr de vouloir refuser l'utilisateur(s) suivant?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Mes cours et groupes
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Tous les membres des groupes ou des cours de l'utilisateur actuel sont répertoriés.
-mmbr#:#mmbr_btn_mail_selected_users#:#Envoyer mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
-mmbr#:#mmbr_memberships#:#Inscriptions
-mmbr#:#mmbr_selected_users#:#Participants sélectionnés
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#add_languages#:#Add Language
 mme#:#additional_langs#:#Additional Languages
 mme#:#button_save#:#Save

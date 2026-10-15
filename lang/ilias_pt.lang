@@ -8397,11 +8397,6 @@ mem#:#mem_print_view_form#:#Definições padrão para vista da impressão
 mem#:#mem_settings_tab_print_view#:#Definição da vista da impressão
 mem#:#mem_settings_tab_settings#:#Definições gerais
 mem#:#mmbr_gallery_user_actions#:#Define o tamanho mínimo das palavras-passe da conta. Se estiver definido para 0, as palavras-passe têm de ter sempre um tamanho mínimo de 1. Se o comprimento exigido for alterado, o novo requisito é aplicado apenas a essas contas que foram criadas ou alteradas depois de ter sido definido um novo comprimento. As contas existentes não são afetadas.
-membership#:#mem_error_preconditions#:#Obrigar a caracteres especiais
-membership#:#mem_force_notification#:#Notificação por mail
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Os membros podem desativar notificações
-membership#:#mem_force_notification_mode_blocked#:#Os membros serão notificados automaticamente
-membership#:#mem_force_notification_mode_self#:#Privacidade
 meta#:#adt_error_max_length#:#Insira um texto mais curto.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###30 04 2021 new variable
 meta#:#md_adv_active#:#Ativo
@@ -9234,13 +9229,6 @@ meta#:#udf_type_integer#:#Inteiro
 meta#:#udf_type_internallink#:#Link interno
 meta#:#udf_type_location#:#Localização
 meta#:#udf_type_selectmulti#:#Seleção da lista especificada
-mmbr#:#info_refuse_sure#:#Tem a certeza que quer recusar o(s) seguinte(s) utilizador(es)?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Os meus grupos e cursos
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Todos os membro dos grupos ou cursos do utilizador atual estão listados.
-mmbr#:#mmbr_btn_mail_selected_users#:#Enviar mail
-mmbr#:#mmbr_memberships#:#Memberships###30 04 2021 new variable
-mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.###03 09 2026 new variable
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###07 02 2020 new variable
 mme#:#add_languages#:#para ativar a sua conta e confirmar que este endereço de e-mail lhe pertence, clique no link abaixo:
 mme#:#additional_langs#:#Se estiver ativada, as palavras-passe são automaticamente enviadas para novos utilizadores por e-mail.
 mme#:#button_save#:#Já se registou no ILIAS eLearning e recebeu um e-mail com os dados da sua conta. Agora a sua conta foi ativada por um administrador.
