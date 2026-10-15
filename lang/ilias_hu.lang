@@ -8115,33 +8115,6 @@ irss#:#title_manage_container#:#Fájlok és mappák kezelése
 irss#:#type#:#Fájl típusa
 irss#:#upload_field_title#:#Kiválasztott fájlok
 irss#:#upload_modal_title#:#Fájlok hozzáadása
-lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
-lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
-lm#:#lm_copy#:#Tananyag másolása
-lm#:#lm_edit_chapters#:#Fejezetek módosítása
-lm#:#lm_edit_content#:#Tartalom módosítás
-lm#:#lm_edit_lm_settings#:#Tananyag beállításainak módosítása
-lm#:#lm_est_reading_time#:#Becsült olvasási idő
-lm#:#lm_est_reading_time_info#:#A tananyagokban a becsült olvasási idő megállapítható és megjeleníthető.
-lm#:#lm_insert_chapter#:#Új fejezet
-lm#:#lm_insert_chapter_after#:#Új fejezet beszúrása mögé
-lm#:#lm_insert_chapter_before#:#Új fejezet beszúrása elé
-lm#:#lm_insert_chapter_clip#:#Fejezet beszúrás a vágólapról
-lm#:#lm_insert_chapter_clip_after#:#Fejezet beszúrás a vágólapról mögé
-lm#:#lm_insert_chapter_clip_before#:#Fejezet beszúrás a vágólapról elé
-lm#:#lm_insert_layout_after#:#Új sablon beszúrása mögé
-lm#:#lm_insert_layout_before#:#Új sablon beszúrása elé
-lm#:#lm_insert_page#:#Új lap
-lm#:#lm_insert_page_after#:#Új lap beszúrása mögé
-lm#:#lm_insert_page_before#:#Új lap beszúrása elé
-lm#:#lm_insert_page_clip#:#Új lap beszúrása a vágólapről
-lm#:#lm_insert_page_clip_after#:#Új lap beszúrása a vágólapről mögé
-lm#:#lm_insert_page_clip_before#:#Új lap beszúrása a vágólapről elé
-lm#:#lm_list_pages#:#Oldalak módosítása
-lm#:#lm_page_added#:#Az oldalt sikeresen hozzáadta.
-lm#:#lm_page_type_lm#:#Tananyagoldal
-lm#:#lm_pages_added#:#Az oldalakat sikeresen hozzáadta.
-lm#:#lm_save_titles#:#A címeket sikeresen mentette.
 log#:#log_browser#:#Böngésző konzolnaplózása
 log#:#log_browser_users#:#Felhasználónevek használata a konzolnaplózásban
 log#:#log_cache_#:#Gyorsítótárazás

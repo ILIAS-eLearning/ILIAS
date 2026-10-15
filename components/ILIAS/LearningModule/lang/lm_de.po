@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lm\n"
+
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr "Auf \"Nicht bearbeitet\" setzen"
+
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr "Auf \"Bearbeitet\" setzen"
+
+msgid "lm_copy"
+msgstr "ILIAS-Lernmodul kopieren"
+
+msgid "lm_edit_chapters"
+msgstr "Kapitel bearbeiten"
+
+msgid "lm_edit_content"
+msgstr "Inhalt bearbeiten"
+
+msgid "lm_edit_lm_settings"
+msgstr "Lernmoduleinstellungen bearbeiten"
+
+msgid "lm_est_reading_time"
+msgstr "Geschätzte Lesedauer"
+
+msgid "lm_est_reading_time_info"
+msgstr "In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden."
+
+msgid "lm_insert_chapter"
+msgstr "Kapitel einfügen"
+
+msgid "lm_insert_chapter_after"
+msgstr "Kapitel danach einfügen"
+
+msgid "lm_insert_chapter_before"
+msgstr "Kapitel davor einfügen"
+
+msgid "lm_insert_chapter_clip"
+msgstr "Kapitel aus Zwischenablage einfügen"
+
+msgid "lm_insert_chapter_clip_after"
+msgstr "Kapitel aus Zwischenablage danach einfügen"
+
+msgid "lm_insert_chapter_clip_before"
+msgstr "Kapitel aus Zwischenablage davor einfügen"
+
+msgid "lm_insert_layout_after"
+msgstr "Vorlage danach einfügen"
+
+msgid "lm_insert_layout_before"
+msgstr "Vorlage davor einfügen"
+
+msgid "lm_insert_page"
+msgstr "Seite einfügen"
+
+msgid "lm_insert_page_after"
+msgstr "Seite danach einfügen"
+
+msgid "lm_insert_page_before"
+msgstr "Seite davor einfügen"
+
+msgid "lm_insert_page_clip"
+msgstr "Seiten aus Zwischenablage einfügen"
+
+msgid "lm_insert_page_clip_after"
+msgstr "Seiten aus Zwischenablage danach einfügen"
+
+msgid "lm_insert_page_clip_before"
+msgstr "Seiten aus Zwischenablage davor einfügen"
+
+msgid "lm_list_pages"
+msgstr "Seiten bearbeiten"
+
+msgid "lm_page_added"
+msgstr "Eine Seite wurde hinzugefügt."
+
+msgid "lm_page_type_lm"
+msgstr "Lernmodulseite"
+
+msgid "lm_pages_added"
+msgstr "Die Seiten wurden hinzugefügt."
+
+msgid "lm_save_titles"
+msgstr "Titel wurden gespeichert."

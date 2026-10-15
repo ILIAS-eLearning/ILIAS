@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: lm\n"
+
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr "未完了を設定"
+
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr "完了を設定"
+
+msgid "lm_copy"
+msgstr "ラーニングモジュールをコピー"
+
+msgid "lm_edit_chapters"
+msgstr "章を編集"
+
+msgid "lm_edit_content"
+msgstr "コンテンツを変更編集"
+
+msgid "lm_edit_lm_settings"
+msgstr "学習モジュール設定を編集"
+
+msgid "lm_est_reading_time"
+msgstr "予測読込み時間"
+
+msgid "lm_est_reading_time_info"
+msgstr "リポジトリ内の学習モジュール予測読込み時間が確定されて表示できます。"
+
+msgid "lm_insert_chapter"
+msgstr "章を挿入"
+
+msgid "lm_insert_chapter_after"
+msgstr "後に章を挿入"
+
+msgid "lm_insert_chapter_before"
+msgstr "前に章を挿入"
+
+msgid "lm_insert_chapter_clip"
+msgstr "クリップボードから章を挿入"
+
+msgid "lm_insert_chapter_clip_after"
+msgstr "クリップボードから後に章を挿入"
+
+msgid "lm_insert_chapter_clip_before"
+msgstr "クリップボードから前に章を挿入"
+
+msgid "lm_insert_layout_after"
+msgstr "テンプレートを後に挿入"
+
+msgid "lm_insert_layout_before"
+msgstr "テンプレートを前に挿入"
+
+msgid "lm_insert_page"
+msgstr "ページを挿入"
+
+msgid "lm_insert_page_after"
+msgstr "後にページを挿入"
+
+msgid "lm_insert_page_before"
+msgstr "前にページを挿入"
+
+msgid "lm_insert_page_clip"
+msgstr "クリップボードからページを挿入"
+
+msgid "lm_insert_page_clip_after"
+msgstr "クリップボードから後にページを挿入"
+
+msgid "lm_insert_page_clip_before"
+msgstr "クリップボードから前にページを挿入"
+
+msgid "lm_list_pages"
+msgstr "ページを編集"
+
+msgid "lm_page_added"
+msgstr "ページが追加されました。"
+
+msgid "lm_page_type_lm"
+msgstr "LMページ"
+
+msgid "lm_pages_added"
+msgstr "ページが追加されました。"
+
+msgid "lm_save_titles"
+msgstr "タイトルは保存されました。"

@@ -8128,31 +8128,6 @@ irss#:#title_manage_container#:#Manage files and folders###28 11 2025 new variab
 irss#:#type#:#File Type###30 04 2024 new variable
 irss#:#upload_field_title#:#Selected Files###30 04 2024 new variable
 irss#:#upload_modal_title#:#Add Files###30 04 2024 new variable
-lm#:#lm_btn_lp_toggle_state_completed#:#Imposta come non completato
-lm#:#lm_btn_lp_toggle_state_not_completed#:#Imposta come completato
-lm#:#lm_copy#:#Copia il modulo di apprendimento
-lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
-lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
-lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
-lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
-lm#:#lm_insert_chapter#:#Insert chapter###28 11 2025 new variable
-lm#:#lm_insert_chapter_after#:#Insert chapter after###28 11 2025 new variable
-lm#:#lm_insert_chapter_before#:#Insert chapter before###28 11 2025 new variable
-lm#:#lm_insert_chapter_clip#:#Insert chapter from clipboard###28 11 2025 new variable
-lm#:#lm_insert_chapter_clip_after#:#Insert chapter from clipboard after###28 11 2025 new variable
-lm#:#lm_insert_chapter_clip_before#:#Insert chapter from clipboard before###28 11 2025 new variable
-lm#:#lm_insert_layout_after#:#Insert template after###28 11 2025 new variable
-lm#:#lm_insert_layout_before#:#Insert template before###28 11 2025 new variable
-lm#:#lm_insert_page#:#Insert page###28 11 2025 new variable
-lm#:#lm_insert_page_after#:#Insert page after###28 11 2025 new variable
-lm#:#lm_insert_page_before#:#Insert page before###28 11 2025 new variable
-lm#:#lm_insert_page_clip#:#Insert page from clipboard###28 11 2025 new variable
-lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after###28 11 2025 new variable
-lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before###28 11 2025 new variable
-lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
-lm#:#lm_page_type_lm#:#Pagina LM
-lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
-lm#:#lm_save_titles#:#Titoli salvati.
 log#:#log_browser#:#Registro della console del browser
 log#:#log_browser_users#:#Nomi utente utilizzando il registro della console
 log#:#log_cache_#:#Caching
