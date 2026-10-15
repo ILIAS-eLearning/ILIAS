@@ -1,0 +1,222 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: glo\n"
+
+msgid "glo_add_from_other"
+msgstr ""
+
+msgid "glo_add_glossary"
+msgstr ""
+
+msgid "glo_add_to_collection"
+msgstr ""
+
+msgid "glo_added_to_collection_info"
+msgstr ""
+
+msgid "glo_answered_correctly"
+msgstr ""
+
+msgid "glo_answered_not_correctly"
+msgstr ""
+
+msgid "glo_box"
+msgstr ""
+
+msgid "glo_box_completed"
+msgstr ""
+
+msgid "glo_box_last_presented"
+msgstr ""
+
+msgid "glo_boxes"
+msgstr ""
+
+msgid "glo_boxes_really_reset"
+msgstr ""
+
+msgid "glo_boxes_reset"
+msgstr ""
+
+msgid "glo_bulk_confirmation"
+msgstr ""
+
+msgid "glo_bulk_creation"
+msgstr ""
+
+msgid "glo_change_to_collection_unavailable_info"
+msgstr ""
+
+msgid "glo_change_to_standard_unavailable_info"
+msgstr ""
+
+msgid "glo_check"
+msgstr ""
+
+msgid "glo_collection"
+msgstr ""
+
+msgid "glo_collection_empty_info"
+msgstr ""
+
+msgid "glo_collection_info"
+msgstr ""
+
+msgid "glo_content_assembly"
+msgstr ""
+
+msgid "glo_copy"
+msgstr ""
+
+msgid "glo_copy_terms"
+msgstr ""
+
+msgid "glo_create_term_definition_pairs"
+msgstr ""
+
+msgid "glo_days_ago"
+msgstr ""
+
+msgid "glo_def_vs_term"
+msgstr ""
+
+msgid "glo_def_vs_term_info"
+msgstr ""
+
+msgid "glo_flashcard_training"
+msgstr ""
+
+msgid "glo_flashcard_training_info"
+msgstr ""
+
+msgid "glo_flashcards"
+msgstr ""
+
+msgid "glo_flashcards_from_today_confirmation"
+msgstr ""
+
+msgid "glo_flashcards_from_today_only_info"
+msgstr ""
+
+msgid "glo_flashcards_intro"
+msgstr ""
+
+msgid "glo_flashcards_progress"
+msgstr ""
+
+msgid "glo_introduction"
+msgstr ""
+
+msgid "glo_link_glo_in_glo"
+msgstr ""
+
+msgid "glo_link_to_usages"
+msgstr ""
+
+msgid "glo_md_advanced"
+msgstr ""
+
+msgid "glo_page_type_gdf"
+msgstr ""
+
+msgid "glo_please_select_other_glo"
+msgstr ""
+
+msgid "glo_quit_box"
+msgstr ""
+
+msgid "glo_really_remove_from_collection"
+msgstr ""
+
+msgid "glo_reference"
+msgstr ""
+
+msgid "glo_reference_terms"
+msgstr ""
+
+msgid "glo_referenced_term"
+msgstr ""
+
+msgid "glo_remove_glossary"
+msgstr ""
+
+msgid "glo_removed_from_collection_info"
+msgstr ""
+
+msgid "glo_reset_all_boxes"
+msgstr ""
+
+msgid "glo_save_and_continue"
+msgstr ""
+
+msgid "glo_select_source_glo"
+msgstr ""
+
+msgid "glo_select_terms"
+msgstr ""
+
+msgid "glo_selected_glossaries"
+msgstr ""
+
+msgid "glo_selected_glossaries_info"
+msgstr ""
+
+msgid "glo_selected_glossary_is_current_info"
+msgstr ""
+
+msgid "glo_selected_terms_have_been_copied"
+msgstr ""
+
+msgid "glo_show_in_presentation"
+msgstr ""
+
+msgid "glo_show_in_presentation_off"
+msgstr ""
+
+msgid "glo_show_in_presentation_on"
+msgstr ""
+
+msgid "glo_tax_info"
+msgstr ""
+
+msgid "glo_term"
+msgstr ""
+
+msgid "glo_term_definition_pairs"
+msgstr ""
+
+msgid "glo_term_definition_pairs_info"
+msgstr ""
+
+msgid "glo_term_letter"
+msgstr ""
+
+msgid "glo_term_reference"
+msgstr ""
+
+msgid "glo_term_vs_def"
+msgstr ""
+
+msgid "glo_term_vs_def_info"
+msgstr ""
+
+msgid "glo_terms_per_page"
+msgstr ""
+
+msgid "glo_usage_link"
+msgstr ""
+
+msgid "glo_use_all_flashcards"
+msgstr ""
+
+msgid "glo_use_remaining_flashcards"
+msgstr ""
+
+msgid "glo_what_means_definition"
+msgstr ""
+
+msgid "glo_what_means_term"
+msgstr ""
