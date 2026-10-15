@@ -24,11 +24,11 @@ namespace ILIAS\Language\ComponentTranslation;
  * The dated "not translated yet" marker of the legacy `.lang` files ("28 08 2012 new variable") in
  * a `###` comment or a lng_data remark. The conversion to PO turns it into the `fuzzy` flag, the
  * installation does not take it over as a remark. Only the dated marker counts - a note merely
- * mentioning "new variable" is a note.
+ * mentioning "new variable" is a note. Leading "#" are tolerated ("####30 08 2015 new variable").
  */
 final class LegacyFuzzyMarker
 {
-    private const string PATTERN = '/^\s*(\d{1,2}\s+\d{1,2}\s+\d{4}|\d{1,2}\s+[A-Za-z]{3}\s+\d{4}|\d{4}-\d{1,2}-\d{1,2})\b.*\bnew variable\b/i';
+    private const string PATTERN = '/^[\s#]*(\d{1,2}\s+\d{1,2}\s+\d{4}|\d{1,2}\s+[A-Za-z]{3}\s+\d{4}|\d{4}-\d{1,2}-\d{1,2})\b.*\bnew variable\b/i';
 
     public static function matches(string $comment): bool
     {
