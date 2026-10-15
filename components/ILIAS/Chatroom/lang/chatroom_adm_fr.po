@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS ne parvient pas à créer une connexion socket avec le serveur de Chat."
+
+msgid "chat_enabled"
+msgstr "Activer le Chat"
+
+msgid "chatserver_settings_title"
+msgstr "Paramètres du Serveur de Chat"
+
+msgid "client_settings"
+msgstr "Paramètres Client"
+
+msgid "general_settings_title"
+msgstr "Paramètres Généraux du Chat"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground."
+
+msgid "osc_adm_browser_noti_label"
+msgstr "Browser Notifications"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages.."
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Time between Browser Notifications"
+
+msgid "port_info"
+msgstr "Les ports rarement utilisés sont souvent bloqués par les firewalls et serveurs proxy. Le navigateur de l'utilisateur ne parviendra pas à établir une connexion avec le serveur de Chat si le port défini est bloqué."
+
+msgid "protocol"
+msgstr "Protocole"
+
+msgid "public_chat_permissions"
+msgstr "Permissions de la Salle de Chat Publique"
+
+msgid "public_chat_settings"
+msgstr "Paramètres de la Salle de Chat Publique"
+
+msgid "server_settings"
+msgstr "Paramètres Serveur"
+
+msgid "settings_has_been_saved"
+msgstr "Les paramètres ont été enregistrés"

@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "Az ILIAS nem tud socket kapcsolatot felépíteni a csevegőszerverhez."
+
+msgid "chat_enabled"
+msgstr "Csevegés engedélyezése"
+
+msgid "chatserver_settings_title"
+msgstr "Csevegőszerver beállításai"
+
+msgid "client_settings"
+msgstr "Általános beállítások"
+
+msgid "general_settings_title"
+msgstr "Általános csevegésbeállítások"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "A felhasználók maguk eldönthetik, hogy kérnek-e értesítést böngészőjükben az új beszélgetésekről és üzenetekről. Az értesítések aktiválódnak amikor az ILIAS másik böngészőlapon vagy a háttérben van, illetve az előtérben egy bizonyos tételenségi idő után is."
+
+msgid "osc_adm_browser_noti_label"
+msgstr "Böngésző-értesítések"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Az értesítés számának csökkentése egy minimális időköz megadásával, mely időzíti a bejövő üzenetek böngésző-értesítéseit."
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Böngész-értesítési időköz"
+
+msgid "port_info"
+msgstr "A ritkán használt portokat gyakran blokkolják tűzfalak vagy proxyszerverek. A felhasználó böngészője nem fog tudni kapcsolatot létesíteni a csevegőszerverrel, ha blokkolt az adott port."
+
+msgid "protocol"
+msgstr "Protokoll"
+
+msgid "public_chat_permissions"
+msgstr "Nyilvános csevegőszoba jogosultságai"
+
+msgid "public_chat_settings"
+msgstr "Nyilvános csevegőszoba beállításai"
+
+msgid "server_settings"
+msgstr "Csevegőszerver beállításai"
+
+msgid "settings_has_been_saved"
+msgstr "A beállításokat sikeresen mentette"

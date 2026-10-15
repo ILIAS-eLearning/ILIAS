@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Chatroom implements Component\Component
 {
     public function init(
@@ -49,5 +52,13 @@ class Chatroom implements Component\Component
                 $contribute[Component\Resource\PublicAsset::class] = fn() => new $class($this, $file);
             }
         }
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'chatroom'
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'chatroom_adm'
+        );
     }
 }
