@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Resource\ComponentCSS;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Mail implements Component\Component
 {
@@ -46,5 +48,9 @@ class Mail implements Component\Component
             new Mail\UserSettings\Settings();
         $contribute[User\Profile\ChangeListeners\UserFieldAttributesChangeListener::class] = fn() =>
             new Mail\ilMailUserFieldChangeListener();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'mail'
+        );
     }
 }
