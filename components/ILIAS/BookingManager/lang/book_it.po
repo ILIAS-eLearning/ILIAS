@@ -1,0 +1,706 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: book\n"
+
+msgid "X_reservations_of"
+msgstr "%s prenotazioni di"
+
+msgid "book_add"
+msgstr "Aggiungi da gruppo di prenotazione"
+
+msgid "book_add_object"
+msgstr "Aggiungi oggetto"
+
+#, fuzzy
+msgid "book_add_participant"
+msgstr "Add Participant"
+
+msgid "book_add_schedule"
+msgstr "Aggiungi programma"
+
+msgid "book_additional_info_file"
+msgstr "Descrizione aggiuntiva"
+
+msgid "book_all"
+msgstr "Mostra tutto"
+
+#, fuzzy
+msgid "book_all_day"
+msgstr "All-Day"
+
+msgid "book_all_pools_need_schedules"
+msgstr "Le modifiche non sono state salvate. Tutti i gruppi di prenotazione assegnati necessitano  di un orario."
+
+msgid "book_all_users"
+msgstr "Tutti i partecipanti"
+
+msgid "book_assign"
+msgstr "Assegnare"
+
+msgid "book_assign_object"
+msgstr "Assegna oggetto prenotazione"
+
+msgid "book_assign_participant"
+msgstr "Assegna al Partecipante"
+
+#, fuzzy
+msgid "book_assign_participants"
+msgstr "Book for other Participant(s)"
+
+msgid "book_back_to_list"
+msgstr "Torna all’elenco"
+
+msgid "book_bobj"
+msgstr "Prenota oggetto"
+
+msgid "book_book"
+msgstr "Prenota"
+
+#, fuzzy
+msgid "book_book_available"
+msgstr "Book Available Dates"
+
+#, fuzzy
+msgid "book_book_recurrence"
+msgstr "Book multiple dates"
+
+msgid "book_booked_in"
+msgstr "Prenotato in"
+
+#, fuzzy
+msgid "book_booking"
+msgstr "Booking"
+
+msgid "book_booking_information"
+msgstr "Informazione"
+
+#, fuzzy
+msgid "book_booking_objects"
+msgstr "Booking Objects"
+
+msgid "book_booking_reminders"
+msgstr "Prossime prenotazioni"
+
+#, fuzzy
+msgid "book_bulk_confirmation"
+msgstr "Please check that all values are listed correctly."
+
+#, fuzzy
+msgid "book_bulk_creation"
+msgstr "Bulk Creation"
+
+#, fuzzy
+msgid "book_bulk_data"
+msgstr "Item Data"
+
+msgid "book_cal_entry"
+msgstr "Prenotazione di:"
+
+msgid "book_confirm_booking"
+msgstr "Conferma prenotazione"
+
+#, fuzzy
+msgid "book_confirm_booking_for_users"
+msgstr "Are you sure you want to book this item for the following user(s)?"
+
+msgid "book_confirm_booking_no_schedule"
+msgstr "Sei sicuro di voler prenotare il seguente oggetto?"
+
+msgid "book_confirm_booking_schedule_number_of_objects"
+msgstr "Conferma prenotazione"
+
+msgid "book_confirm_booking_schedule_number_of_objects_info"
+msgstr "Si prega di indicare il numero di oggetti da prenotare."
+
+msgid "book_confirm_cancel"
+msgstr "Sei sicuro di voler cancellare la seguente prenotazione?"
+
+msgid "book_confirm_cancel_aggregation"
+msgstr "Numero di cancellazioni"
+
+#, fuzzy
+msgid "book_confirm_cancel_info"
+msgstr "The selected bookings will be cancelled."
+
+msgid "book_confirm_delete"
+msgstr "Vuoi davvero eliminare i seguenti articoli?"
+
+#, fuzzy
+msgid "book_confirm_remove_participant"
+msgstr "Are you sure you want to remove the following Participant(s)? This will delete all related Bookings."
+
+msgid "book_copy"
+msgstr "Copia gruppo di prenotazione"
+
+#, fuzzy
+msgid "book_create_objects"
+msgstr "Create Items"
+
+#, fuzzy
+msgid "book_date_from"
+msgstr "From date"
+
+#, fuzzy
+msgid "book_date_to"
+msgstr "To date"
+
+msgid "book_deadline"
+msgstr "Scadenza"
+
+msgid "book_deadline_hours"
+msgstr "X ore prima del periodo di prenotazione"
+
+msgid "book_deadline_info"
+msgstr "Tempo minimo tra prenotazione e periodo prenotato"
+
+msgid "book_deadline_options"
+msgstr "Scadenza di prenotazione"
+
+msgid "book_deadline_slot_end"
+msgstr "Fino alla fine per periodo di prenotazione"
+
+msgid "book_deadline_slot_start"
+msgstr "Fino all’inizio del periodo di prenotazione"
+
+msgid "book_deassign"
+msgstr "Togli assegnazione"
+
+#, fuzzy
+msgid "book_delete_object"
+msgstr "Delete"
+
+#, fuzzy
+msgid "book_deleted_booking"
+msgstr "Deleted Booking(s)"
+
+#, fuzzy
+msgid "book_deleted_object"
+msgstr "Deleted Bookable Item"
+
+msgid "book_download_info"
+msgstr "Scarica descrizione aggiuntiva"
+
+msgid "book_edit"
+msgstr "Modifica gruppo di prenotazione"
+
+msgid "book_edit_object"
+msgstr "Modifica oggetto"
+
+msgid "book_edit_schedule"
+msgstr "Modifica programma"
+
+#, fuzzy
+msgid "book_filter_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "book_filter_objects"
+msgstr "Bookable Items"
+
+msgid "book_filter_past_reservations"
+msgstr "Mostra prenotazioni passate"
+
+#, fuzzy
+msgid "book_filter_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "book_filter_start_date"
+msgstr "Start Date"
+
+msgid "book_fromto"
+msgstr "Intervallo di tempo"
+
+msgid "book_hours"
+msgstr "Ore"
+
+msgid "book_is_used"
+msgstr "Usate"
+
+msgid "book_limit_objects_available"
+msgstr "Non puoi assegnare %s partecipanti a \"%s\" perche' ha solo %s oggetti disponibili."
+
+#, fuzzy
+msgid "book_list"
+msgstr "List"
+
+msgid "book_log"
+msgstr "Prenotazioni"
+
+#, fuzzy
+msgid "book_mail_permanent_link"
+msgstr "Link to Booking Pool"
+
+#, fuzzy
+msgid "book_mail_to_booker"
+msgstr "Mail to User"
+
+#, fuzzy
+msgid "book_message"
+msgstr "Message"
+
+#, fuzzy
+msgid "book_message_info"
+msgstr "You may enter a message for the booking organiser here."
+
+#, fuzzy
+msgid "book_messages"
+msgstr "Messages"
+
+#, fuzzy
+msgid "book_messages_info"
+msgstr "Allow users to add a message when booking an item."
+
+#, fuzzy
+msgid "book_missing_availability"
+msgstr "It was not possible to book all items on all dates."
+
+#, fuzzy
+msgid "book_missing_items"
+msgstr "$1 missing item(s)."
+
+#, fuzzy
+msgid "book_modal_booking_confirmation"
+msgstr "Booking Confirmation"
+
+#, fuzzy
+msgid "book_modal_enter_quantity_intro"
+msgstr "Please enter the number of items that you would like to book."
+
+#, fuzzy
+msgid "book_modal_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_modal_recurrence_multiple"
+msgstr "Book multiple dates"
+
+#, fuzzy
+msgid "book_modal_recurrence_single"
+msgstr "Book only this date"
+
+#, fuzzy
+msgid "book_modal_skipped_unknown_item"
+msgstr "Unknown or invalid selection (%s)."
+
+#, fuzzy
+msgid "book_modal_warning_skipped_selections"
+msgstr "Some selected items or periods are not available for booking and are excluded from this confirmation."
+
+msgid "book_new"
+msgstr "Crea nuovo gruppo di prenotazione"
+
+msgid "book_no_bookings_for_you"
+msgstr "Non sono state finora effettuate prenotazioni per Lei."
+
+msgid "book_no_objects"
+msgstr "Nessuna assegnazione"
+
+#, fuzzy
+msgid "book_no_objects_available"
+msgstr "None of the selected items are currently available for booking."
+
+msgid "book_no_of_objects"
+msgstr "Numero di oggetti"
+
+#, fuzzy
+msgid "book_no_pools_selected"
+msgstr "No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab."
+
+msgid "book_no_preferences_for_you"
+msgstr "Non ha salvato alcuna preferenza."
+
+#, fuzzy
+msgid "book_no_recurrence"
+msgstr "Book only this date"
+
+msgid "book_not"
+msgstr "No"
+
+#, fuzzy
+msgid "book_not_cancelled"
+msgstr "Not cancelled"
+
+msgid "book_not_enough_preferences"
+msgstr "Non è stato selezionato un numero sufficiente di preferenze. Le preferenze non sono state salvate."
+
+msgid "book_notification"
+msgstr "Invia notifiche di prenotazione"
+
+#, fuzzy
+msgid "book_notification_cron_not_active"
+msgstr "Note: The corresponding cron job \"Send Reservation Notifications\" is currently not activated."
+
+msgid "book_notification_info"
+msgstr "Invia un elenco di prenotazioni del giorno successivo agli utenti (proprie prenotazioni) e agli amministratori (se attivato)."
+
+msgid "book_nr_of_preferences"
+msgstr "Numero preferenze"
+
+msgid "book_nr_of_preferences_info"
+msgstr "Numero preferenze, che ogni partecipante può esprimere."
+
+#, fuzzy
+msgid "book_nr_preferences"
+msgstr "Prefences"
+
+#, fuzzy
+msgid "book_obj_select"
+msgstr "Select"
+
+msgid "book_object_added"
+msgstr "È stato aggiunto un oggetto di prenotazione."
+
+msgid "book_object_deleted"
+msgstr "L’oggetto di prenotazione è stato eliminato."
+
+#, fuzzy
+msgid "book_object_selection"
+msgstr "Item Selection"
+
+#, fuzzy
+msgid "book_object_title_or_description"
+msgstr "Title/Description"
+
+msgid "book_object_updated"
+msgstr "L’oggetto di prenotazione è stato aggiornato."
+
+msgid "book_objects_available"
+msgstr "Oggetti disponibili %s"
+
+msgid "book_open"
+msgstr "Apri gruppo di prenotazione"
+
+msgid "book_overall_limit"
+msgstr "Limita numero di prenotazioni"
+
+msgid "book_overall_limit_warning"
+msgstr "Hai raggiunto il numero massimo di prenotazioni."
+
+#, fuzzy
+msgid "book_overall_limit_would_be_exceeded"
+msgstr "Invalid selection. The overall limit would be exceeded."
+
+#, fuzzy
+msgid "book_participant"
+msgstr "Participant"
+
+msgid "book_participant_already_assigned"
+msgstr "Partecipante/i già assegnato/i."
+
+msgid "book_participant_assigned"
+msgstr "Partecipante/i assegnato/i"
+
+#, fuzzy
+msgid "book_participant_removed"
+msgstr "The participants and all related bookings have been removed successfully."
+
+#, fuzzy
+msgid "book_past_bookings"
+msgstr "Past bookings"
+
+msgid "book_period"
+msgstr "Periodo"
+
+msgid "book_pool_added"
+msgstr "È stato aggiunto un gruppo di prenotazione."
+
+msgid "book_pool_selection"
+msgstr "Scelta del pool di prenotazione"
+
+msgid "book_post_booking_file"
+msgstr "File"
+
+msgid "book_post_booking_information"
+msgstr "Informazioni messaggio di prenotazione"
+
+#, fuzzy
+msgid "book_post_booking_information_for"
+msgstr "Booking Information for \"%s\""
+
+msgid "book_post_booking_text"
+msgstr "Testo"
+
+msgid "book_post_booking_text_info"
+msgstr "Utilizzare [PERIODO] e [OGGETTO] per aggiungere i dettagli della prenotazione al testo."
+
+msgid "book_pref_book_cron"
+msgstr "Prenotazione con preferenze"
+
+msgid "book_pref_book_cron_info"
+msgstr "Prenotazione automatica delle prenotazioni con preferenze oltre la scadenza."
+
+msgid "book_pref_deadline"
+msgstr "Scadenza"
+
+#, fuzzy
+msgid "book_pref_deadline_info"
+msgstr "Preferences can be given up to this point."
+
+msgid "book_pref_overview"
+msgstr "Panoramica"
+
+msgid "book_preference_info"
+msgstr "Si prega di selezionare %1 preferenza/e fino a %2. Dopo la scadenza, le assegnazioni vengono effettuate automaticamente in base alle preferenze di tutti i partecipanti."
+
+msgid "book_preferences"
+msgstr "Preferenze"
+
+msgid "book_preferences_saved"
+msgstr "Le preferenze sono state salvate"
+
+#, fuzzy
+msgid "book_present_bookings"
+msgstr "Present bookings"
+
+msgid "book_public_log"
+msgstr "Prenotazioni pubbliche"
+
+msgid "book_public_log_info"
+msgstr "L'elenco delle prenotazioni può essere visualizzato da tutti gli utenti."
+
+#, fuzzy
+msgid "book_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_refresh"
+msgstr "Refresh"
+
+msgid "book_rem_intro"
+msgstr "Questa è una panoramica delle prossime prenotazioni:"
+
+msgid "book_rem_reason"
+msgstr "Ricevi queste e-mail perché sei iscritto alle notifiche dei pool di prenotazione corrispondenti."
+
+msgid "book_reminder_day"
+msgstr "Prima della prenotazione"
+
+msgid "book_reminder_day_info"
+msgstr "Invia l'elenco delle proprie prenotazioni agli utenti e l'elenco completo delle prenotazioni agli amministratori."
+
+msgid "book_reminder_days"
+msgstr "Giorno(i)"
+
+msgid "book_reminder_setting"
+msgstr "Promemoria"
+
+#, fuzzy
+msgid "book_remove_participants"
+msgstr "Remove Participant(s)"
+
+#, fuzzy
+msgid "book_rerun_assignments"
+msgstr "Run Assignment Process"
+
+#, fuzzy
+msgid "book_rerun_confirmation"
+msgstr "Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process."
+
+msgid "book_reservation_available"
+msgstr "%s disponibile"
+
+#, fuzzy
+msgid "book_reservation_cancelled"
+msgstr "Reservation(s) cancelled."
+
+msgid "book_reservation_confirmed"
+msgstr "La tua prenotazione è stata confermata."
+
+msgid "book_reservation_failed"
+msgstr "La tua prenotazione è fallita."
+
+msgid "book_reservation_failed_overbooked"
+msgstr "La prenotazione è fallita perché l’oggetto non è più disponibile."
+
+msgid "book_reservation_filter_period"
+msgstr "Periodo di tempo per la lista di prenotazione"
+
+msgid "book_reservation_filter_period_info"
+msgstr "Il valore predefinito per il filtro del periodo in giorni dalla data attuale."
+
+msgid "book_reservation_fix_info"
+msgstr "La prenotazione più essere effettuata solo nelle ore stabilite."
+
+msgid "book_reservation_overview"
+msgstr "Panoramica delle prenotazioni"
+
+msgid "book_reservation_status_5"
+msgstr "Eliminata"
+
+msgid "book_reservation_title"
+msgstr "Prenota prenotazione per"
+
+msgid "book_reservations_list"
+msgstr "Prenotazioni"
+
+msgid "book_schedule"
+msgstr "Programma"
+
+msgid "book_schedule_added"
+msgstr "È stato aggiunto un programma di prenotazione."
+
+#, fuzzy
+msgid "book_schedule_all_day"
+msgstr "All-Day Schedule"
+
+msgid "book_schedule_days"
+msgstr "Giorni della settimana"
+
+msgid "book_schedule_days_info"
+msgstr "Orari di prenotazione validi per ogni giorno (HH:MM-HH:MM)"
+
+msgid "book_schedule_deleted"
+msgstr "Il programma di prenotazione è stato eliminato."
+
+msgid "book_schedule_slot"
+msgstr "Fascia oraria"
+
+msgid "book_schedule_type"
+msgstr "Tipo"
+
+msgid "book_schedule_type_fixed"
+msgstr "Programma fisso"
+
+msgid "book_schedule_type_fixed_info"
+msgstr "Questo tipo può essere usato per stanze, proiettori e simili"
+
+msgid "book_schedule_type_none"
+msgstr "Nessun programma"
+
+msgid "book_schedule_type_none_direct"
+msgstr "Prenotazione diretta, senza programma"
+
+msgid "book_schedule_type_none_direct_info"
+msgstr "Questo tipo di prenotazione è adatto per gli  argomenti delle relazioni, i posti dei seminari ecc. I partecipanti possono effettuare direttamente le prenotazioni."
+
+msgid "book_schedule_type_none_info"
+msgstr "Questo tipo può essere utilizzato per articoli per seminari, luoghi per seminari e simili"
+
+msgid "book_schedule_type_none_preference"
+msgstr "Senza programma, con preference"
+
+msgid "book_schedule_type_none_preference_info"
+msgstr "Questo tipo di prenotazione è adatto per gli  argomenti delle relazioni, i posti dei seminari ecc.. I partecipanti possono esprimere le proprie preferenze. Al termine della scadenza le prenotazioni verranno eseguite automaticamente."
+
+msgid "book_schedule_updated"
+msgstr "Il programma di prenotazione è stato aggiornato."
+
+msgid "book_schedule_warning_edit"
+msgstr "Attualmente non è disponibile alcun programma. Per utilizzare il pool di prenotazioni è necessario creare un programma per la prenotazione."
+
+msgid "book_schedules"
+msgstr "Programmi"
+
+msgid "book_select_pool"
+msgstr "Seleziona gruppo"
+
+msgid "book_set_cancel"
+msgstr "Cancella prenotazione"
+
+msgid "book_set_delete"
+msgstr "Cancella"
+
+#, fuzzy
+msgid "book_show_message"
+msgstr "Show Message"
+
+#, fuzzy
+msgid "book_show_past_bookings"
+msgstr "Show past bookings"
+
+#, fuzzy
+msgid "book_some_reservations_unavailable"
+msgstr "Some of the selected items could not be booked because they are no longer available."
+
+#, fuzzy
+msgid "book_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "book_table_col_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "book_table_col_datetime"
+msgstr "Date/Time"
+
+#, fuzzy
+msgid "book_title_description_nr"
+msgstr "Title; Description; Number of Units"
+
+#, fuzzy
+msgid "book_title_description_nr_info"
+msgstr "Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item."
+
+msgid "book_too_many_preferences"
+msgstr "Sono state selezionate troppe preferenze. Le preferenze non sono state salvate."
+
+#, fuzzy
+msgid "book_total_individual_bookings_limit"
+msgstr "Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant."
+
+msgid "book_type_warning"
+msgstr "Attualmente non ci sono oggetti di prenotazione disponibili. Per utilizzare il gruppo di prenotazione è necessario creare oggetti di prenotazione."
+
+#, fuzzy
+msgid "book_view"
+msgstr "View"
+
+#, fuzzy
+msgid "book_week"
+msgstr "Week"
+
+#, fuzzy
+msgid "book_week_no_objects_selected"
+msgstr "Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button."
+
+msgid "book_your_bookings"
+msgstr "Le Sue prenotazioni"
+
+msgid "book_your_preferences"
+msgstr "Le Sue preferenze"
+
+msgid "book_your_reservations"
+msgstr "Le Sue prenotazioni"
+
+msgid "booking_multiple_succesfully"
+msgstr "Prenotazioni create correttamente."
+
+msgid "booking_nr_of_items"
+msgstr "Numero di elementi"
+
+#, fuzzy
+msgid "booking_process_error"
+msgstr "There was an error while processing your booking(s). Please try again."
+
+#, fuzzy
+msgid "bookings_log"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "delete_bookable_item"
+msgstr "Delete Bookable Item"
+
+#, fuzzy
+msgid "no_valid_selection"
+msgstr "No valid selection"
+
+msgid "obj_book_duplicate"
+msgstr "Copia gruppo di prenotazione"
+
+msgid "participants"
+msgstr "Partecipanti"
+
+msgid "reservation_deleted"
+msgstr "Prenotazione cancellata"
+
+#, fuzzy
+msgid "schedule_type"
+msgstr "Schedule Type"

@@ -1,0 +1,671 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: book\n"
+
+msgid "X_reservations_of"
+msgstr "%s reservations of"
+
+msgid "book_add"
+msgstr "予約集を追加"
+
+msgid "book_add_object"
+msgstr "オブジェクトを追加"
+
+msgid "book_add_participant"
+msgstr "参加者を追加"
+
+msgid "book_add_schedule"
+msgstr "スケジュールを追加"
+
+msgid "book_additional_info_file"
+msgstr "追加説明"
+
+msgid "book_all"
+msgstr "全表示"
+
+#, fuzzy
+msgid "book_all_day"
+msgstr "All-Day"
+
+msgid "book_all_pools_need_schedules"
+msgstr "設定は保存されませんでした。全ての予約集は一つのスケジュールである必要があります。"
+
+msgid "book_all_users"
+msgstr "全受験者"
+
+msgid "book_assign"
+msgstr "割当て"
+
+msgid "book_assign_object"
+msgstr "予約オブジェクトを割当てる"
+
+msgid "book_assign_participant"
+msgstr "受験者へ割当てる"
+
+#, fuzzy
+msgid "book_assign_participants"
+msgstr "Book for other Participant(s)"
+
+msgid "book_back_to_list"
+msgstr "リストへ戻る"
+
+msgid "book_bobj"
+msgstr "ブッキングオブジェクト"
+
+msgid "book_book"
+msgstr "予約"
+
+msgid "book_book_available"
+msgstr "予約可能日"
+
+msgid "book_book_recurrence"
+msgstr "複数日予約"
+
+msgid "book_booked_in"
+msgstr "予約"
+
+msgid "book_booking"
+msgstr "予約する"
+
+msgid "book_booking_information"
+msgstr "Information"
+
+msgid "book_booking_objects"
+msgstr "予約オブジェクト"
+
+msgid "book_booking_reminders"
+msgstr "今後の予約"
+
+msgid "book_bulk_confirmation"
+msgstr "全ての項目が正しいことを確認してください。"
+
+msgid "book_bulk_creation"
+msgstr "大量作成"
+
+msgid "book_bulk_data"
+msgstr "項目データ"
+
+msgid "book_cal_entry"
+msgstr "予約名:"
+
+msgid "book_confirm_booking"
+msgstr "予約確認"
+
+msgid "book_confirm_booking_for_users"
+msgstr "次のユーザーのためにこのアイテムを予約してもよろしいですか？"
+
+msgid "book_confirm_booking_no_schedule"
+msgstr "次のオブジェクトを本当に予約しますか?"
+
+msgid "book_confirm_booking_schedule_number_of_objects"
+msgstr "予約確認"
+
+msgid "book_confirm_booking_schedule_number_of_objects_info"
+msgstr "予約するにはオブジェクト数を宣言してください。"
+
+msgid "book_confirm_cancel"
+msgstr "本当に次の予約をキャンセルしますか?"
+
+msgid "book_confirm_cancel_aggregation"
+msgstr "キャンセル数"
+
+#, fuzzy
+msgid "book_confirm_cancel_info"
+msgstr "The selected bookings will be cancelled."
+
+msgid "book_confirm_delete"
+msgstr "本当に次のアイテムを削除しますか?"
+
+#, fuzzy
+msgid "book_confirm_remove_participant"
+msgstr "Are you sure you want to remove the following Participant(s)? This will delete all related Bookings."
+
+msgid "book_copy"
+msgstr "予約集をコピー"
+
+msgid "book_create_objects"
+msgstr "項目を生成"
+
+#, fuzzy
+msgid "book_date_from"
+msgstr "From date"
+
+#, fuzzy
+msgid "book_date_to"
+msgstr "To date"
+
+msgid "book_deadline"
+msgstr "期限"
+
+msgid "book_deadline_hours"
+msgstr "予約期間に先立つX hours"
+
+msgid "book_deadline_info"
+msgstr "予約受付と終了時間の最短間隔"
+
+msgid "book_deadline_options"
+msgstr "予約可能期間:"
+
+msgid "book_deadline_slot_end"
+msgstr "予約期間締め切りまで"
+
+msgid "book_deadline_slot_start"
+msgstr "予約期間開始まで"
+
+msgid "book_deassign"
+msgstr "割り当て解除"
+
+#, fuzzy
+msgid "book_delete_object"
+msgstr "Delete"
+
+#, fuzzy
+msgid "book_deleted_booking"
+msgstr "Deleted Booking(s)"
+
+#, fuzzy
+msgid "book_deleted_object"
+msgstr "Deleted Bookable Item"
+
+msgid "book_download_info"
+msgstr "追加説明をダウンロード"
+
+msgid "book_edit"
+msgstr "予約集を編集"
+
+msgid "book_edit_object"
+msgstr "オブジェクトを編集"
+
+msgid "book_edit_schedule"
+msgstr "スケジュールを編集"
+
+#, fuzzy
+msgid "book_filter_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "book_filter_objects"
+msgstr "Bookable Items"
+
+msgid "book_filter_past_reservations"
+msgstr "過去の予約を表示"
+
+#, fuzzy
+msgid "book_filter_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "book_filter_start_date"
+msgstr "Start Date"
+
+msgid "book_fromto"
+msgstr "日付範囲"
+
+msgid "book_hours"
+msgstr "時間"
+
+msgid "book_is_used"
+msgstr "使用中"
+
+msgid "book_limit_objects_available"
+msgstr "アイテムのみしか利用できないので%sを受講者へ\"%s\"を割当てる事ができません。"
+
+msgid "book_list"
+msgstr "List"
+
+msgid "book_log"
+msgstr "予約"
+
+msgid "book_mail_permanent_link"
+msgstr "予約集へのリンク"
+
+msgid "book_mail_to_booker"
+msgstr "ユーザへメール"
+
+msgid "book_message"
+msgstr "Message"
+
+msgid "book_message_info"
+msgstr "予約組織用にメッセージをここで入力可能です。"
+
+msgid "book_messages"
+msgstr "Messages"
+
+msgid "book_messages_info"
+msgstr "項目を予約した時にユーザはメッセージを追加できます。"
+
+msgid "book_missing_availability"
+msgstr "全ての日に全項目を予約することはできませんでした。"
+
+msgid "book_missing_items"
+msgstr "$1 missing item(s)."
+
+#, fuzzy
+msgid "book_modal_booking_confirmation"
+msgstr "Booking Confirmation"
+
+#, fuzzy
+msgid "book_modal_enter_quantity_intro"
+msgstr "Please enter the number of items that you would like to book."
+
+#, fuzzy
+msgid "book_modal_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_modal_recurrence_multiple"
+msgstr "Book multiple dates"
+
+#, fuzzy
+msgid "book_modal_recurrence_single"
+msgstr "Book only this date"
+
+#, fuzzy
+msgid "book_modal_skipped_unknown_item"
+msgstr "Unknown or invalid selection (%s)."
+
+#, fuzzy
+msgid "book_modal_warning_skipped_selections"
+msgstr "Some selected items or periods are not available for booking and are excluded from this confirmation."
+
+msgid "book_new"
+msgstr "新規予約集"
+
+msgid "book_no_bookings_for_you"
+msgstr "予約は何も実行されていません。"
+
+msgid "book_no_objects"
+msgstr "割当てなし"
+
+#, fuzzy
+msgid "book_no_objects_available"
+msgstr "None of the selected items are currently available for booking."
+
+msgid "book_no_of_objects"
+msgstr "ユニット数"
+
+msgid "book_no_pools_selected"
+msgstr "このコースには予約プールが割り当てられていません。予約プールはコースの「リソース」タブから割り当てることができます。"
+
+msgid "book_no_preferences_for_you"
+msgstr "preferenceが何も保存されていません。"
+
+msgid "book_no_recurrence"
+msgstr "この日にちのみ予約"
+
+msgid "book_not"
+msgstr "不明"
+
+#, fuzzy
+msgid "book_not_cancelled"
+msgstr "Not cancelled"
+
+msgid "book_not_enough_preferences"
+msgstr "十分なpreferenceが選択されました。preferenceはまだ保存されていません。"
+
+msgid "book_notification"
+msgstr "予約通知を送信"
+
+msgid "book_notification_cron_not_active"
+msgstr "注意: 対応のcron job\"予約通知を送信\"は現在アクティブではありません。"
+
+msgid "book_notification_info"
+msgstr "翌日の予約リストをユーザ(自己予約)と管理者(有効の場合)へ送る。"
+
+msgid "book_nr_of_preferences"
+msgstr "Preference数"
+
+msgid "book_nr_of_preferences_info"
+msgstr "各受験者のPreferences数を表示できます。"
+
+msgid "book_nr_preferences"
+msgstr "Preference"
+
+msgid "book_obj_select"
+msgstr "選択"
+
+msgid "book_object_added"
+msgstr "予約オブジェクトが追加されました。"
+
+msgid "book_object_deleted"
+msgstr "予約オブジェクトが削除されました。"
+
+msgid "book_object_selection"
+msgstr "アイテム選択"
+
+#, fuzzy
+msgid "book_object_title_or_description"
+msgstr "Title/Description"
+
+msgid "book_object_updated"
+msgstr "予約オブジェクトが更新されました。"
+
+msgid "book_objects_available"
+msgstr "オブジェクト利用可能 %s"
+
+msgid "book_open"
+msgstr "予約集を開く"
+
+msgid "book_overall_limit"
+msgstr "予約制限数"
+
+msgid "book_overall_limit_warning"
+msgstr "予約数上限に達しました。"
+
+#, fuzzy
+msgid "book_overall_limit_would_be_exceeded"
+msgstr "Invalid selection. The overall limit would be exceeded."
+
+#, fuzzy
+msgid "book_participant"
+msgstr "Participant"
+
+msgid "book_participant_already_assigned"
+msgstr "参加者は既に割当て済です。"
+
+msgid "book_participant_assigned"
+msgstr "参加者を割当てました"
+
+#, fuzzy
+msgid "book_participant_removed"
+msgstr "The participants and all related bookings have been removed successfully."
+
+#, fuzzy
+msgid "book_past_bookings"
+msgstr "Past bookings"
+
+msgid "book_period"
+msgstr "予定時間"
+
+msgid "book_pool_added"
+msgstr "予約集が追加されました。"
+
+msgid "book_pool_selection"
+msgstr "要約集の選択"
+
+msgid "book_post_booking_file"
+msgstr "ファイル"
+
+msgid "book_post_booking_information"
+msgstr "投稿予約情報"
+
+#, fuzzy
+msgid "book_post_booking_information_for"
+msgstr "Booking Information for \"%s\""
+
+msgid "book_post_booking_text"
+msgstr "テキスト"
+
+msgid "book_post_booking_text_info"
+msgstr "テキストへ予約詳細を追加するには[PERIOD]と[OBJECT]を使用。"
+
+msgid "book_pref_book_cron"
+msgstr "Preferencesで予約"
+
+msgid "book_pref_book_cron_info"
+msgstr "期限後preferenceを使い自動的に予約集へ追記"
+
+msgid "book_pref_deadline"
+msgstr "期限後preferenceを使い自動的に予約集へ追記"
+
+msgid "book_pref_deadline_info"
+msgstr "Preferencesはこの時点で取り止め"
+
+msgid "book_pref_overview"
+msgstr "Overview"
+
+msgid "book_preference_info"
+msgstr "%2 まで %1 preference を選択して下さい。.期限を過ぎると予約は全てのユーザのpreferenceを基に自動的に実行されます。"
+
+msgid "book_preferences"
+msgstr "Preferences"
+
+msgid "book_preferences_saved"
+msgstr "Preferencesは保存されました。"
+
+#, fuzzy
+msgid "book_present_bookings"
+msgstr "Present bookings"
+
+msgid "book_public_log"
+msgstr "パブリック予約"
+
+msgid "book_public_log_info"
+msgstr "予約リストは全ユーザへ表示されます。"
+
+msgid "book_recurrence"
+msgstr "再現"
+
+msgid "book_refresh"
+msgstr "Refresh"
+
+msgid "book_rem_intro"
+msgstr "これは今後の予約の概要です。"
+
+msgid "book_rem_reason"
+msgstr "予約集のやり取り通知を有効にしているのでこのメールを受信します。"
+
+msgid "book_reminder_day"
+msgstr "予約前"
+
+msgid "book_reminder_day_info"
+msgstr "自己予約リストをユーザと予約のフルリスト管理者へ送る"
+
+msgid "book_reminder_days"
+msgstr "Day(s)"
+
+msgid "book_reminder_setting"
+msgstr "注意喚起"
+
+#, fuzzy
+msgid "book_remove_participants"
+msgstr "Remove Participant(s)"
+
+msgid "book_rerun_assignments"
+msgstr "割当てプロセスを走らせる"
+
+msgid "book_rerun_confirmation"
+msgstr "注意。すでにプレファレンスプロセス経由の割当ての当途中です。何らかのエラー(例:割当をまだ保存していない）が発生した場合はプロセスを再開できます。複数の割当てを回避するにはプロセス再開前に全ての予約を削除します。"
+
+msgid "book_reservation_available"
+msgstr "%s利用可能"
+
+#, fuzzy
+msgid "book_reservation_cancelled"
+msgstr "Reservation(s) cancelled."
+
+msgid "book_reservation_confirmed"
+msgstr "予約が確認されました。"
+
+msgid "book_reservation_failed"
+msgstr "予約できませんでした。"
+
+msgid "book_reservation_failed_overbooked"
+msgstr "オブジェクトが利用できないので予約に失敗しました。"
+
+msgid "book_reservation_filter_period"
+msgstr "予約リストの期間"
+
+msgid "book_reservation_filter_period_info"
+msgstr "現在の日付から日数内期間フィルタ用の既定値"
+
+msgid "book_reservation_fix_info"
+msgstr "確定している時間のみ予約可能です。"
+
+msgid "book_reservation_overview"
+msgstr "予約概要"
+
+msgid "book_reservation_status_5"
+msgstr "キャンセル済み"
+
+msgid "book_reservation_title"
+msgstr "予約確定"
+
+msgid "book_reservations_list"
+msgstr "予約"
+
+msgid "book_schedule"
+msgstr "スケジュール"
+
+msgid "book_schedule_added"
+msgstr "予約スケジュールが追加されました。"
+
+#, fuzzy
+msgid "book_schedule_all_day"
+msgstr "All-Day Schedule"
+
+msgid "book_schedule_days"
+msgstr "週日"
+
+msgid "book_schedule_days_info"
+msgstr "各曜日の有効予約時間(HH:MM-HH:MM)"
+
+msgid "book_schedule_deleted"
+msgstr "予約スケジュールが削除されました。"
+
+msgid "book_schedule_slot"
+msgstr "スロット"
+
+msgid "book_schedule_type"
+msgstr "タイプ"
+
+msgid "book_schedule_type_fixed"
+msgstr "確定予定"
+
+msgid "book_schedule_type_fixed_info"
+msgstr "このタイプは部屋やビデオプロジェクター等に使用されます。"
+
+msgid "book_schedule_type_none"
+msgstr "予定なし"
+
+msgid "book_schedule_type_none_direct"
+msgstr "直接予約にスケジュールがありません。"
+
+msgid "book_schedule_type_none_direct_info"
+msgstr "このタイプはセミナー案内、セミナー場所等へ利用できます。受講者は直接アイテムを予約できます。"
+
+msgid "book_schedule_type_none_info"
+msgstr "このタイプはセミナー資料やセミナー場所等に使用されます。"
+
+msgid "book_schedule_type_none_preference"
+msgstr "予定なし、Preference使用"
+
+msgid "book_schedule_type_none_preference_info"
+msgstr "このタイプはセミナー案内、セミナー場所等へ利用できます。受講者はプレファレンスをひゅじします。アイテムは、プレファレンス締め切り後自動的に割当てられます。"
+
+msgid "book_schedule_updated"
+msgstr "予約スケジュールが更新されました。"
+
+msgid "book_schedule_warning_edit"
+msgstr "現在利用できるスケジュールはありません。ブッキング集を使用するにはブッキング用のスケジュールを作成する必要があります。"
+
+msgid "book_schedules"
+msgstr "スケジュール"
+
+msgid "book_select_pool"
+msgstr "予約集を選択"
+
+msgid "book_set_cancel"
+msgstr "予約キャンセル"
+
+msgid "book_set_delete"
+msgstr "削除"
+
+msgid "book_show_message"
+msgstr "メッセージを表示"
+
+#, fuzzy
+msgid "book_show_past_bookings"
+msgstr "Show past bookings"
+
+#, fuzzy
+msgid "book_some_reservations_unavailable"
+msgstr "Some of the selected items could not be booked because they are no longer available."
+
+#, fuzzy
+msgid "book_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "book_table_col_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "book_table_col_datetime"
+msgstr "Date/Time"
+
+msgid "book_title_description_nr"
+msgstr "タイトル; 説明; ユニット数"
+
+msgid "book_title_description_nr_info"
+msgstr "セミコロンまたはタブ文字で区切られたタイトル, 説明とユニット数 (スプレッドシートソフトウエアからインポートした場合). アイテム別に1ライン使用。"
+
+msgid "book_too_many_preferences"
+msgstr "Preference選択が多すぎます。Preferenceは保存されませんでした。"
+
+msgid "book_total_individual_bookings_limit"
+msgstr "個々の参加者によって、または個々の参加者のために、すべての利用可能なアイテムにわたって実行できる予約の総数を制限します。各予約可能なアイテムは、それぞれの参加者につき1回だけ予約できます。"
+
+msgid "book_type_warning"
+msgstr "現在利用できるオブジェクトはありませんブッキング集を使用するにはブッキングオブジェクトを作成する必要があります"
+
+#, fuzzy
+msgid "book_view"
+msgstr "View"
+
+msgid "book_week"
+msgstr "Week"
+
+#, fuzzy
+msgid "book_week_no_objects_selected"
+msgstr "Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button."
+
+msgid "book_your_bookings"
+msgstr "予約"
+
+msgid "book_your_preferences"
+msgstr "Preference"
+
+msgid "book_your_reservations"
+msgstr "あなたの予約"
+
+msgid "booking_multiple_succesfully"
+msgstr "予約が正しく作成されました"
+
+msgid "booking_nr_of_items"
+msgstr "アイテム番号"
+
+#, fuzzy
+msgid "booking_process_error"
+msgstr "There was an error while processing your booking(s). Please try again."
+
+#, fuzzy
+msgid "bookings_log"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "delete_bookable_item"
+msgstr "Delete Bookable Item"
+
+#, fuzzy
+msgid "no_valid_selection"
+msgstr "No valid selection"
+
+msgid "obj_book_duplicate"
+msgstr "予約集をコピー"
+
+msgid "participants"
+msgstr "参加者"
+
+msgid "reservation_deleted"
+msgstr "予約を削除しました"
+
+#, fuzzy
+msgid "schedule_type"
+msgstr "Schedule Type"
