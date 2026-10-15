@@ -1,0 +1,275 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: iass\n"
+
+#, fuzzy
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+msgid "grading"
+msgstr "Ocjenjivanje"
+
+msgid "grading_info"
+msgstr "Informacije o ocjenjivanju"
+
+msgid "grading_record"
+msgstr "Zapis o ocjenjivanju"
+
+msgid "iass_add"
+msgstr "Izradite individualnu procjenu"
+
+msgid "iass_add_user_failure"
+msgstr "Nije moguće dodati jednog ili više korisnika."
+
+msgid "iass_add_user_success"
+msgstr "Korisnik je dodan kao sudionik."
+
+msgid "iass_added"
+msgstr "Dodana je individualna procjena"
+
+msgid "iass_amend_saved"
+msgstr "Izmijenjeni zapis je spremljen."
+
+msgid "iass_assessment_not_completed"
+msgstr "Nije još dovršeno"
+
+#, fuzzy
+msgid "iass_cancel"
+msgstr "Cancel"
+
+msgid "iass_changed_by"
+msgstr "Promijenjeno nakon finalizacije"
+
+#, fuzzy
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+msgid "iass_consultation_hours"
+msgstr "Vrijeme konzultacija"
+
+msgid "iass_contact"
+msgstr "Ime"
+
+msgid "iass_contact_info"
+msgstr "Podaci za kontakt"
+
+msgid "iass_content"
+msgstr "Opis sadržaja procjene"
+
+msgid "iass_content_explanation"
+msgstr "Sadržaj ocjene, npr. relevantne teme."
+
+msgid "iass_copy"
+msgstr "Kopiraj individualnu procjenu"
+
+msgid "iass_download"
+msgstr "Preuzimanje datoteka"
+
+msgid "iass_edit"
+msgstr "Postavke"
+
+msgid "iass_edit_info"
+msgstr "Postavke informacija"
+
+msgid "iass_edit_record"
+msgstr "Zapis sudionika"
+
+msgid "iass_event_time"
+msgstr "Datum procjene"
+
+msgid "iass_event_time_place_required"
+msgstr "Potreban datum i mjesto"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Datum i mjesto ocjenjivanja moraju se dodati svakom zapisu sudionika."
+
+msgid "iass_file"
+msgstr "Datoteka"
+
+#, fuzzy
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+msgid "iass_file_required"
+msgstr "Potrebna je datoteka zapisa"
+
+msgid "iass_file_required_info"
+msgstr "Datoteka zapisa mora se učitati u svaki zapis sudionika."
+
+msgid "iass_file_visible_examinee"
+msgstr "Datoteka vidljiva sudioniku"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Svi"
+
+msgid "iass_filter_failed"
+msgstr "Samo koji nisu položeni"
+
+msgid "iass_filter_finalized"
+msgstr "Samo dovršeni"
+
+msgid "iass_filter_not_finalized"
+msgstr "Samo nedovršeni"
+
+msgid "iass_filter_not_started"
+msgstr "Samo nezapočeti"
+
+msgid "iass_finalize"
+msgstr "Dovrši"
+
+#, fuzzy
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+msgid "iass_finalize_user_qst"
+msgstr "Doista želite finalizirati status sudionika? Nakon toga nisu moguće promjene."
+
+msgid "iass_further_field_headline"
+msgstr "Detaljne informacije"
+
+msgid "iass_graded_by"
+msgstr "Ocijenio"
+
+msgid "iass_info_emails_expl"
+msgstr "Možete unijeti nekoliko adresa odvojenih zarezom."
+
+msgid "iass_internal_note"
+msgstr "Interna bilješka o zapisu"
+
+msgid "iass_internal_note_info"
+msgstr "Interne bilješke vidljive su samo mentorima, ali ne i sudionicima."
+
+msgid "iass_location"
+msgstr "Mjesto"
+
+msgid "iass_mails"
+msgstr "E-pošta"
+
+msgid "iass_may_not_finalize"
+msgstr "Sudionik se ne može finalno ocijeniti."
+
+msgid "iass_membership_finalized"
+msgstr "Zapis finaliziran"
+
+msgid "iass_membership_saved"
+msgstr "Zapis je spremljen, ali još nije finaliziran"
+
+msgid "iass_mess_notification_completed"
+msgstr "Položili ste ispit <i>%s</i>. Za detalje molimo provjerite sljedeći zapis o ocjenjivanju:"
+
+msgid "iass_mess_notification_failed"
+msgstr "Niste položili ispit <i>%s</i>. Za detalje molimo provjerite sljedeći zapis o ocjenjivanju:"
+
+msgid "iass_notify"
+msgstr "Obavijesti sudionika nakon finalizacije"
+
+msgid "iass_notify_explanation"
+msgstr "Sudionik će nakon finalizacije biti obaviješten putem e-pošte i dobit će pristup svom zapisu na stranici za informacije."
+
+msgid "iass_phone"
+msgstr "Telefon"
+
+msgid "iass_place"
+msgstr "Mjesto ispita"
+
+msgid "iass_record"
+msgstr "Bilješka o zapisu"
+
+msgid "iass_record_info"
+msgstr "Ispitanici mogu vidjeti bilješku nakon što su konačno ocijenjeni. Ako je obavijest omogućena u nastavku, bilješka o zapisu će se sudioniku također poslati e-poštom."
+
+msgid "iass_record_template"
+msgstr "Predložak zapisa"
+
+msgid "iass_record_template_explanation"
+msgstr "Predložak za zapis o ocjenjivanju sudionika. Automatski će se koristiti za svakog novog sudionika."
+
+msgid "iass_remove_user_qst"
+msgstr "Treba li sudionika zaista ukloniti?"
+
+msgid "iass_responsibility"
+msgstr "Odgovornost"
+
+msgid "iass_save_amend"
+msgstr "Spremi izmijenjeni zapis"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Postavke spremljene."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Posljednja promjena, uzlazno"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Posljednja promjena, silazno"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Ispitivač, uzlazno"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Ispitivač, silazno"
+
+msgid "iass_sort_name_asc"
+msgstr "Korisničko ime, uzlazno"
+
+msgid "iass_sort_name_desc"
+msgstr "Korisničko ime, silazno"
+
+msgid "iass_status_completed"
+msgstr "Dovršeno"
+
+msgid "iass_status_failed"
+msgstr "Nije položio"
+
+msgid "iass_status_pending"
+msgstr "Status \"na čekanju\""
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: pojedinačno ocjenjivanje završeno."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: pojedinačno ocjenjivanje nije bilo uspješno."
+
+msgid "iass_upload_file"
+msgstr "Datoteka zapisa"
+
+msgid "iass_user_removed"
+msgstr "Uspješno uklonjen sudionik."
+
+msgid "iass_usr_amend"
+msgstr "Izmijeni ocjenu"
+
+msgid "iass_usr_download_attachment"
+msgstr "Preuzmi prilog"
+
+msgid "iass_usr_edit"
+msgstr "Uredi zapis sudionika i napredak učenja"
+
+msgid "iass_usr_remove"
+msgstr "Uklonite sudionika iz ocjenjivanja"
+
+msgid "iass_usr_view"
+msgstr "Zapis sudionika"
+
+msgid "il_iass_members"
+msgstr "Sudionici"
+
+msgid "lp_inactive"
+msgstr "Napomena: napredak učenja za ovaj objekt je neaktivan. Stoga članstvo ne može biti finalizirano."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"

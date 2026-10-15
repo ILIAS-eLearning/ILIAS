@@ -1,0 +1,270 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Scarica il file di record"
+
+msgid "grading"
+msgstr "Classificazione"
+
+msgid "grading_info"
+msgstr "Informazioni di classificazione"
+
+msgid "grading_record"
+msgstr "Resoconto della classificazione"
+
+msgid "iass_add"
+msgstr "Crea assegnazione individuale"
+
+msgid "iass_add_user_failure"
+msgstr "Non possono essere aggiunti uno o più utenti."
+
+msgid "iass_add_user_success"
+msgstr "Utente aggiunto come candidato."
+
+msgid "iass_added"
+msgstr "Assegnazione individuale aggiunta"
+
+msgid "iass_amend_saved"
+msgstr "La registrazione modificata è stata salvata."
+
+msgid "iass_assessment_not_completed"
+msgstr "Valutazione non completata"
+
+msgid "iass_cancel"
+msgstr "Cancella"
+
+msgid "iass_changed_by"
+msgstr "Modificato dopo la finalizzazione"
+
+msgid "iass_confirm_finalize"
+msgstr "Finalizza"
+
+msgid "iass_consultation_hours"
+msgstr "Ore di consultazione"
+
+msgid "iass_contact"
+msgstr "Nome"
+
+msgid "iass_contact_info"
+msgstr "Informazioni di contatto"
+
+msgid "iass_content"
+msgstr "Descrizione del contenuto della valutazione"
+
+msgid "iass_content_explanation"
+msgstr "Contenuti dell’assegnazione, per esempio argomenti pertinenti."
+
+msgid "iass_copy"
+msgstr "Copia assegnazione individuale"
+
+msgid "iass_download"
+msgstr "Download"
+
+msgid "iass_edit"
+msgstr "Impostazioni"
+
+msgid "iass_edit_info"
+msgstr "Impostazioni di informazione"
+
+msgid "iass_edit_record"
+msgstr "Storico utente"
+
+msgid "iass_event_time"
+msgstr "Data dell'evento:"
+
+msgid "iass_event_time_place_required"
+msgstr "Data e luogo richiesti"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Data e luogo di assegnazione devono essere aggiunti a ogni registrazione del partecipante."
+
+msgid "iass_file"
+msgstr "File"
+
+msgid "iass_file_dropzone"
+msgstr "Puoi trascinare i tuoi file qui"
+
+msgid "iass_file_required"
+msgstr "File di registrazione richiesto"
+
+msgid "iass_file_required_info"
+msgstr "Un file di registrazione deve essere caricato per ogni registrazione del partecipante."
+
+msgid "iass_file_visible_examinee"
+msgstr "File visibile al partecipante"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Tutti"
+
+msgid "iass_filter_failed"
+msgstr "Solo i falliti"
+
+msgid "iass_filter_finalized"
+msgstr "Solo i completati"
+
+msgid "iass_filter_not_finalized"
+msgstr "Solo i non completati"
+
+msgid "iass_filter_not_started"
+msgstr "Solo i non iniziati"
+
+msgid "iass_finalize"
+msgstr "Finalizza"
+
+msgid "iass_finalize_info"
+msgstr "La valutazione individuale verrà finalizzata"
+
+msgid "iass_finalize_user_qst"
+msgstr "Lo stato del candidato dovrebbe davvero essere eliminato? Non sono possibili modifiche."
+
+msgid "iass_further_field_headline"
+msgstr "Informazioni dettagliate"
+
+msgid "iass_graded_by"
+msgstr "Classificato da"
+
+msgid "iass_info_emails_expl"
+msgstr "È possibile fornire diversi indirizzi, separati da una virgola"
+
+msgid "iass_internal_note"
+msgstr "Note interne (da non mostrare al partecipante)"
+
+msgid "iass_internal_note_info"
+msgstr "Le note interne sono visibili solo per i tutor, ma non per i candidati."
+
+msgid "iass_location"
+msgstr "Luogo"
+
+msgid "iass_mails"
+msgstr "E-Mail"
+
+msgid "iass_may_not_finalize"
+msgstr "L’esaminato non può essere finalizzato."
+
+msgid "iass_membership_finalized"
+msgstr "Registrazione finalizzata"
+
+msgid "iass_membership_saved"
+msgstr "Registrazione salvata, non ancora finalizzata"
+
+msgid "iass_mess_notification_completed"
+msgstr "Hai superato la valutazione con punteggio <i>%s</i>. Controlla i seguenti risultati per dettagli:"
+
+msgid "iass_mess_notification_failed"
+msgstr "Hai fallito la valutazione con punteggio <i>%s</i>. Controlla i seguenti risultati per dettagli:"
+
+msgid "iass_notify"
+msgstr "Notifica l'utente dopo la finalizzazione"
+
+msgid "iass_notify_explanation"
+msgstr "L'utente esaminato verrà notificato via e-mail e riceverà l'accesso al suo risultato nella pagina di informazioni."
+
+msgid "iass_phone"
+msgstr "Telefono"
+
+msgid "iass_place"
+msgstr "Luogo di valutazione"
+
+msgid "iass_record"
+msgstr "Nota di registrazione"
+
+msgid "iass_record_info"
+msgstr "Il candidato può vedere la nota di registrazione dopo essere stato classificato. Se la notifica è abilitata di seguito, la nota di registrazione sarà inviata al candidato anche via e-mail."
+
+msgid "iass_record_template"
+msgstr "Modello di registrazione"
+
+msgid "iass_record_template_explanation"
+msgstr "Modello per il resoconto della classificazione per il candidato. Verrà utilizzato automaticamente per ogni nuovo candidato."
+
+msgid "iass_remove_user_qst"
+msgstr "Il candidato dovrebbe essere davvero eliminato?"
+
+msgid "iass_responsibility"
+msgstr "Competenza"
+
+msgid "iass_save_amend"
+msgstr "Salva il record modificato"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Impostazioni salvate."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Ultima modifica crescente"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Ultima modifica decrescente"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Esaminatore crescente"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Esaminatore decrescente"
+
+msgid "iass_sort_name_asc"
+msgstr "Nome utente ? crescente"
+
+msgid "iass_sort_name_desc"
+msgstr "Nome utente ? decrescente"
+
+msgid "iass_status_completed"
+msgstr "Passato"
+
+msgid "iass_status_failed"
+msgstr "Non riuscito"
+
+msgid "iass_status_pending"
+msgstr "Non ancora valutato"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Assegnazione individuale completata."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Assegnazione individuale fallita."
+
+msgid "iass_upload_file"
+msgstr "Caricare un file"
+
+msgid "iass_user_removed"
+msgstr "Rimuovere correttamente il partecipante."
+
+msgid "iass_usr_amend"
+msgstr "Modifica della classificazione"
+
+msgid "iass_usr_download_attachment"
+msgstr "Scarica allegato"
+
+msgid "iass_usr_edit"
+msgstr "Modifica i record degli utenti e i progressi di apprendimento"
+
+msgid "iass_usr_remove"
+msgstr "Rimuovi l'utente dall'oggetto"
+
+msgid "iass_usr_view"
+msgstr "Record dell'utente"
+
+msgid "il_iass_members"
+msgstr "Partecipanti"
+
+msgid "lp_inactive"
+msgstr "Nota: il progresso di apprendimento per questo oggetto non è attivo. Pertanto, le adesioni non possono essere finalizzate."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"
