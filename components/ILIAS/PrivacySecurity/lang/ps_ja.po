@@ -1,0 +1,308 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "ユーザ名"
+
+msgid "crs_ps_cdf_info"
+msgstr "今後のコース別データ"
+
+msgid "crs_ps_required_info"
+msgstr "今後のコース別フィールドはコースコンテンツへのアスセスに必要です。"
+
+msgid "grp_ps_cdf_info"
+msgstr "今後のグループ別データ"
+
+msgid "grp_ps_required_info"
+msgstr "今後のグループ別フィールドはグループコンテンツへのアスセスに必要です。"
+
+msgid "ps_agreement_accepted"
+msgstr "利用規約を許諾しました"
+
+msgid "ps_auto_https"
+msgstr "HTTPSを自動検知"
+
+msgid "ps_auto_https_description"
+msgstr "有効にすると、ILIASは下記に示すヘッダー値を分析してHTTPsステータスを検知しようとします。"
+
+msgid "ps_auto_https_header_name"
+msgstr "ヘッダー名"
+
+msgid "ps_auto_https_header_value"
+msgstr "ヘッダー値"
+
+msgid "ps_btn_add_value"
+msgstr "新しい値"
+
+msgid "ps_cdf_add_field"
+msgstr "ユーザフィールドを追加"
+
+msgid "ps_cdf_added_field"
+msgstr "新しい選択ボックスが追加されました。"
+
+msgid "ps_cdf_data_fields"
+msgstr "利用可能なユーザフィールド"
+
+msgid "ps_cdf_delete_sure"
+msgstr "本当に、これらのユーザのフィールドを削除しますか ?"
+
+msgid "ps_cdf_deleted"
+msgstr "削除するユーザフィーロド"
+
+msgid "ps_cdf_deleted_field"
+msgstr "削除する値"
+
+msgid "ps_cdf_edit_field"
+msgstr "データフィールドを編集"
+
+msgid "ps_cdf_name"
+msgstr "名前"
+
+msgid "ps_cdf_no_fields"
+msgstr "未定義のユーザフィールド"
+
+msgid "ps_cdf_no_name_given"
+msgstr "名前を入力してください。"
+
+msgid "ps_cdf_required"
+msgstr "必須項目です"
+
+msgid "ps_cdf_select_one"
+msgstr "一つ選択。"
+
+msgid "ps_cdf_type"
+msgstr "タイプ"
+
+msgid "ps_cdf_value"
+msgstr "値"
+
+msgid "ps_cdf_warning_modify"
+msgstr "注意：ユーザの少なくとも一人は利用条件を承諾する必要があります。コース特定の欄を修正すると、全ての利用条件の承諾はリセットされます。"
+
+msgid "ps_crs_user_fields"
+msgstr "コース-別ユーザフィールド"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "https の自動検出を有効にする場合は、ヘッダー名とヘッダーの値を提供しなければなりません。"
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "最大ログイン回数が0未満のことがあります。"
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "最大パスワード年数が0未満のことがあります。"
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "最大パスワードサイズが0未満のことがあります。"
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "最小パスワードサイズが0未満のことがあります。"
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "最大パスワードサイズが最少パスワードサイズ未満のことがあります。"
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "最小パスワードサイズが%s以下でない可能性があります。"
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "パスワードが文字と数字の場合に最少パスワードサイズが %s 未満のことがあります。"
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "パスワードが文字と数字と特殊文字の場合に最少パスワードサイズが %s 未満のことがあります。"
+
+msgid "ps_export_admin"
+msgstr "管理者"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "コース参加時のユーザ確認"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "グループ参加時のユーザ確認"
+
+msgid "ps_export_confirm_group_info"
+msgstr "グループに参加する際、ユーザーは自分の個人データがグループ管理者によって閲覧されることを受け入れる必要があります。"
+
+msgid "ps_export_confirm_info"
+msgstr "コースに参加する際、ユーザーは自分の個人データがコースの管理者によって閲覧されることを受け入れる必要があります。"
+
+msgid "ps_export_course"
+msgstr "コースのユーザデータプロファイルの表示"
+
+msgid "ps_export_data"
+msgstr "パーソナルプロファイルのデータ種類"
+
+msgid "ps_export_excel"
+msgstr "Excelのエクスポートを開始"
+
+msgid "ps_export_files"
+msgstr "エクスポートファイル"
+
+msgid "ps_export_groups"
+msgstr "グループのユーザデータプロファイルの表示"
+
+msgid "ps_export_member"
+msgstr "メンバー"
+
+msgid "ps_export_prgs"
+msgstr "学習プログラムのユーザプロファイルデータエクスポートを許可"
+
+msgid "ps_export_settings"
+msgstr "エクスポート設定"
+
+msgid "ps_export_sub"
+msgstr "購読者"
+
+msgid "ps_export_tutor"
+msgstr "指導教員"
+
+msgid "ps_export_user_data"
+msgstr "データタイプ"
+
+msgid "ps_export_wait"
+msgstr "待ちリスト上のユーザ"
+
+msgid "ps_field_type"
+msgstr "フィールドタイプ"
+
+msgid "ps_files_deleted"
+msgstr "エクスポートファイルが削除されました"
+
+msgid "ps_grp_user_fields"
+msgstr "グループ別ユーザフィールド"
+
+msgid "ps_login_max_attempts"
+msgstr "最大ログイン回数"
+
+msgid "ps_login_max_attempts_info"
+msgstr "間違ってログインする回数の最大カウントをセットします。これをを無効にするには0に設定します。"
+
+msgid "ps_not_accepted"
+msgstr "承諾しませんでした"
+
+msgid "ps_participants_list_courses"
+msgstr "コースのメンバーギャラリー内で受講者リストのアクティベーションを許可"
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "変更は正しく適用されました。"
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "変更は正しく保存されました。パスワードポリシー設定の一つを変更しました。次回の正しいログイン後にローカルユーザへパスワード変更を強制しますか?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "初回ログイン時のパスワードを変更"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "有効にすると初回ログオン時にユーザはパスワードを変更しなければなりません。(自分自身で登録したユーザを除く）"
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "文字と数字"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "有効にするとパスワードには文字と数字を含めなければなりません。"
+
+msgid "ps_password_force_user_reset"
+msgstr "パスワードリセットを強制"
+
+msgid "ps_password_max_age"
+msgstr "パスワード最長期限"
+
+msgid "ps_password_max_age_info"
+msgstr "パスワードの最長有効日数を設定します。このオプションを無効にするには0に設定します。"
+
+msgid "ps_password_max_length"
+msgstr "パスワードの最大長"
+
+msgid "ps_password_max_length_info"
+msgstr "アカウントパスワードの最大長を設定します。このオプションを無効にするには0に設定します。"
+
+msgid "ps_password_min_length"
+msgstr "最少パスワードサイズ"
+
+msgid "ps_password_min_length_info"
+msgstr "アカウントパスワードの最少サイズを設定します。0に設定するとパスワード最少サイズは1になります。"
+
+msgid "ps_password_settings"
+msgstr "パスワード設定"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "特殊文字"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "有効にすると、パスワードは特殊文字を含めなければなりません。"
+
+msgid "ps_perform_export"
+msgstr "CSVエクスポートを開始"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "同時ログイン防止"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "有効にすると、異なるコンピューターから同一アカウントで同時にログインはできません。"
+
+msgid "ps_privacy_protection"
+msgstr "プライバシー設定"
+
+msgid "ps_profile_export"
+msgstr "ユーザプロファイルデータの保護"
+
+msgid "ps_security_protection"
+msgstr "セキュリティ設定"
+
+msgid "ps_select_one"
+msgstr "エクスポート ファイルを一つ選択"
+
+msgid "ps_show_crs_access"
+msgstr "コース受講者の最終アクセス時間を表示"
+
+msgid "ps_show_grp_access"
+msgstr "グループ受講者の最終アクセス時間を表示"
+
+msgid "ps_show_lso_access"
+msgstr "受講者のラーニングシーケンスの最終アクセス時間を表示"
+
+msgid "ps_size"
+msgstr "ファイルサイズ"
+
+msgid "ps_type_select"
+msgstr "フィールドを選択"
+
+msgid "ps_type_select_long"
+msgstr "選択ボックス(固定値)"
+
+msgid "ps_type_text"
+msgstr "テキストフィールド"
+
+msgid "ps_type_txt_long"
+msgstr "テキストフィールド(オプション値)"
+
+msgid "ps_user_selection"
+msgstr "参加者の選択"
+
+msgid "ps_warning_modify"
+msgstr "注意。少なくとも一人が利用条件を許諾する必要があります。設定を変更すると全ての利用条件の許諾をリセットする事になります。"
+
+msgid "rbac_log"
+msgstr "アクセス権限ログ"
+
+msgid "rbac_log_age"
+msgstr "ログエントリーを保持"
+
+msgid "rbac_log_age_info"
+msgstr "月間ログエントリー最高年齢"
+
+msgid "rbac_log_info"
+msgstr "オブジェクトアクセス権限に対する全ての変更ログを有効にする"
+
+msgid "show_privacy"
+msgstr "プライバシー"
+
+msgid "show_security"
+msgstr "セキュリティ"

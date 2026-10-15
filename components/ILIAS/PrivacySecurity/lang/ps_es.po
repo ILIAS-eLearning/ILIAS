@@ -1,0 +1,308 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "por el Usuario"
+
+msgid "crs_ps_cdf_info"
+msgstr "Otros datos específicos del curso:"
+
+msgid "crs_ps_required_info"
+msgstr "Se requieren otros campos específicos del curso para acceder al contenido del mismo."
+
+msgid "grp_ps_cdf_info"
+msgstr "Otros datos específicos del grupo:"
+
+msgid "grp_ps_required_info"
+msgstr "Se requieren otros campos específicos del grupo para acceder al contenido del mismo."
+
+msgid "ps_agreement_accepted"
+msgstr "Acuerdo de usuario aceptado"
+
+msgid "ps_auto_https"
+msgstr "Detección automática de HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Si está activado, ILIAS intenta detectar el estado HTTPs analizando el valor de cabecera especificado a continuación."
+
+msgid "ps_auto_https_header_name"
+msgstr "Nombre de cabecera"
+
+msgid "ps_auto_https_header_value"
+msgstr "Valor de cabecera"
+
+msgid "ps_btn_add_value"
+msgstr "Nuevo valor"
+
+msgid "ps_cdf_add_field"
+msgstr "Añadir campo de usuario"
+
+msgid "ps_cdf_added_field"
+msgstr "Añadido nuevo cuadro de selección."
+
+msgid "ps_cdf_data_fields"
+msgstr "Campos de usuario disponibles"
+
+msgid "ps_cdf_delete_sure"
+msgstr "¿Realmente desea eliminar estos campos de usuario?"
+
+msgid "ps_cdf_deleted"
+msgstr "Campos de usuario eliminados"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Valor eliminado"
+
+msgid "ps_cdf_edit_field"
+msgstr "Editar campo de datos"
+
+msgid "ps_cdf_name"
+msgstr "Nombre"
+
+msgid "ps_cdf_no_fields"
+msgstr "No se han definido campos de usuario"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Por favor, introduzca un nombre."
+
+msgid "ps_cdf_required"
+msgstr "Campo requerido"
+
+msgid "ps_cdf_select_one"
+msgstr "Por favor, seleccione uno."
+
+msgid "ps_cdf_type"
+msgstr "Tipo"
+
+msgid "ps_cdf_value"
+msgstr "Valor"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Atención: Al menos un usuario ha aceptado el acuerdo de usuario. Modificar estos campos específicos del curso restablecerá todos los acuerdos de usuario."
+
+msgid "ps_crs_user_fields"
+msgstr "Campos de usuario específicos del curso"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Si activa la detección automática de https, debe proporcionar un nombre de encabezado y un valor de encabezado."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "El máximo de intentos de inicio de sesión no puede ser inferior a 0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "La antigüedad máxima de la contraseña no puede ser inferior a 0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "El tamaño máximo de la contraseña no puede ser inferior a 0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "El tamaño mínimo de la contraseña no puede ser inferior a 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "El tamaño máximo de la contraseña no puede ser inferior al tamaño mínimo de la contraseña."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "El tamaño mínimo de la contraseña no puede ser inferior a %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "El tamaño mínimo de la contraseña no puede ser inferior a %s si la contraseña debe contener letras y números."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "El tamaño mínimo de la contraseña no puede ser inferior a %s si la contraseña debe contener letras, números y caracteres especiales."
+
+msgid "ps_export_admin"
+msgstr "Administradores"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Confirmación del usuario al entrar en cursos"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Confirmación del usuario al entrar en grupos"
+
+msgid "ps_export_confirm_group_info"
+msgstr "Al unirse a un grupo, se requiere que los usuarios acepten que sus datos personales puedan ser vistos por los administradores del grupo."
+
+msgid "ps_export_confirm_info"
+msgstr "Al unirse a un curso, se requiere que los usuarios acepten que sus datos personales puedan ser vistos por los administradores del curso."
+
+msgid "ps_export_course"
+msgstr "Permitir exportación de datos del perfil de usuario en cursos"
+
+msgid "ps_export_data"
+msgstr "Tipos de datos del perfil personal"
+
+msgid "ps_export_excel"
+msgstr "Iniciar exportación a Excel"
+
+msgid "ps_export_files"
+msgstr "Exportar archivos"
+
+msgid "ps_export_groups"
+msgstr "Permitir exportación de datos del perfil de usuario en grupos"
+
+msgid "ps_export_member"
+msgstr "Miembros"
+
+msgid "ps_export_prgs"
+msgstr "Permitir exportación de datos del perfil de usuario en Programas de Estudio"
+
+msgid "ps_export_settings"
+msgstr "Ajustes de exportación"
+
+msgid "ps_export_sub"
+msgstr "Suscriptores"
+
+msgid "ps_export_tutor"
+msgstr "Tutores"
+
+msgid "ps_export_user_data"
+msgstr "Tipos de datos"
+
+msgid "ps_export_wait"
+msgstr "Usuarios en la lista de espera"
+
+msgid "ps_field_type"
+msgstr "Tipo de campo"
+
+msgid "ps_files_deleted"
+msgstr "Archivos de exportación eliminados"
+
+msgid "ps_grp_user_fields"
+msgstr "Campos de usuario específicos del grupo"
+
+msgid "ps_login_max_attempts"
+msgstr "Número máximo de intentos de inicio de sesión"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Introduzca el número máximo de intentos fallidos de inicio de sesión permitidos. Una vez superado el número máximo de intentos fallidos, la cuenta de usuario en cuestión se configurará como 'inactiva' y requerirá una reactivación en la Gestión de Usuarios. Deje el campo vacío para desactivar esta opción e ILIAS no contará los intentos fallidos de inicio de sesión."
+
+msgid "ps_not_accepted"
+msgstr "No aceptado"
+
+msgid "ps_participants_list_courses"
+msgstr "Permitir la activación de listas de participantes en la galería de miembros de los cursos"
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "Los cambios se han aplicado correctamente."
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "Sus cambios se han guardado correctamente. Acaba de modificar al menos un ajuste de la política de contraseñas. ¿Desea obligar a los usuarios locales a cambiar su contraseña tras su próximo inicio de sesión con éxito?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Cambiar contraseña en el primer inicio de sesión"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Requerir a los usuarios que cambien su contraseña la primera vez que inicien sesión (a menos que se hayan registrado por sí mismos)."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Obligar el uso de letras y números"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Requerir que las contraseñas contengan letras y números."
+
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Antigüedad máxima de la contraseña"
+
+msgid "ps_password_max_age_info"
+msgstr "Introduzca la antigüedad máxima permitida para las contraseñas en días. Establezca 0 para desactivar esta opción."
+
+msgid "ps_password_max_length"
+msgstr "Longitud máxima de la contraseña"
+
+msgid "ps_password_max_length_info"
+msgstr "Introduzca el tamaño máximo permitido para las contraseñas de las cuentas. Establezca 0 para desactivar esta opción."
+
+msgid "ps_password_min_length"
+msgstr "Longitud mínima de la contraseña"
+
+msgid "ps_password_min_length_info"
+msgstr "Introduzca la longitud mínima requerida para las contraseñas de las cuentas. Si se establece en 0, las contraseñas seguirán requiriendo una longitud mínima de 1. Si se modifica la longitud requerida, el nuevo requisito se aplicará sólo a las cuentas creadas o modificadas después de establecer la nueva longitud. Las cuentas existentes no se verán afectadas."
+
+msgid "ps_password_settings"
+msgstr "Ajustes de contraseña"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Obligar el uso de caracteres especiales"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Requerir que las contraseñas contengan caracteres especiales."
+
+msgid "ps_perform_export"
+msgstr "Iniciar exportación CSV"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Evitar inicios de sesión simultáneos"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Evita inicios de sesión simultáneos en la misma cuenta desde diferentes ordenadores."
+
+msgid "ps_privacy_protection"
+msgstr "Privacidad"
+
+msgid "ps_profile_export"
+msgstr "Protección de los datos del perfil de usuario"
+
+msgid "ps_security_protection"
+msgstr "Configuración de seguridad"
+
+msgid "ps_select_one"
+msgstr "Por favor, seleccione un archivo de exportación"
+
+msgid "ps_show_crs_access"
+msgstr "Mostrar la hora del último acceso de los participantes del curso"
+
+msgid "ps_show_grp_access"
+msgstr "Mostrar la hora del último acceso de los participantes del grupo"
+
+msgid "ps_show_lso_access"
+msgstr "Mostrar la hora del último acceso de los participantes de la secuencia de aprendizaje"
+
+msgid "ps_size"
+msgstr "Tamaño de los archivos"
+
+msgid "ps_type_select"
+msgstr "Seleccionar campo"
+
+msgid "ps_type_select_long"
+msgstr "Cuadro de selección (valores fijos)"
+
+msgid "ps_type_text"
+msgstr "Campo de texto"
+
+msgid "ps_type_txt_long"
+msgstr "Campo de texto (valores opcionales)"
+
+msgid "ps_user_selection"
+msgstr "Selección de participantes"
+
+msgid "ps_warning_modify"
+msgstr "Atención: al menos un usuario ha aceptado el acuerdo de usuario. Al modificar estos ajustes, se restablecerán todos los acuerdos de usuario."
+
+msgid "rbac_log"
+msgstr "Registro de permisos"
+
+msgid "rbac_log_age"
+msgstr "Mantener entradas de registro"
+
+msgid "rbac_log_age_info"
+msgstr "Antigüedad máxima de las entradas del registro en meses"
+
+msgid "rbac_log_info"
+msgstr "Registrar todos los cambios en los permisos de los objetos."
+
+msgid "show_privacy"
+msgstr "Privacidad"
+
+msgid "show_security"
+msgstr "Seguridad"

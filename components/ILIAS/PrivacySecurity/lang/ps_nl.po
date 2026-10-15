@@ -1,0 +1,316 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "door de gebruiker"
+
+msgid "crs_ps_cdf_info"
+msgstr "Nadere cursus specifieke gegevens:"
+
+msgid "crs_ps_required_info"
+msgstr "Nadere cursus specifieke velden zijn vereist om de cursus inhoud in te zien."
+
+msgid "grp_ps_cdf_info"
+msgstr "Nadere groep specifieke gegevens:"
+
+msgid "grp_ps_required_info"
+msgstr "Nadere groep specifieke velden zijn vereist om de groep inhoud te zien."
+
+msgid "ps_agreement_accepted"
+msgstr "Gebruikersovereenkomst geaccepteerd"
+
+msgid "ps_auto_https"
+msgstr "Autodetect HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Indien ingeschakeld, probeert ILIAS de HTTP status te detecteren door de hoofding te analyseren."
+
+msgid "ps_auto_https_header_name"
+msgstr "Naam van de hoofding"
+
+msgid "ps_auto_https_header_value"
+msgstr "Waarde van de hoofding"
+
+msgid "ps_btn_add_value"
+msgstr "Nieuwe waarde"
+
+msgid "ps_cdf_add_field"
+msgstr "Voeg gebruikersvelden toe"
+
+msgid "ps_cdf_added_field"
+msgstr "Nieuw selectiebox toegevoegd"
+
+msgid "ps_cdf_data_fields"
+msgstr "Beschikbare gebruikersvelden"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Wil je echt alle gebruikersvelden verwijderen?"
+
+msgid "ps_cdf_deleted"
+msgstr "Gebruikersvelden verwijderd"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Waarde verwijderd"
+
+msgid "ps_cdf_edit_field"
+msgstr "Gegevensveld wijzigen"
+
+msgid "ps_cdf_name"
+msgstr "Naam"
+
+msgid "ps_cdf_no_fields"
+msgstr "Geen gebruikersvelden gedefinieerd"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Geef een naam in"
+
+msgid "ps_cdf_required"
+msgstr "Verplichte velden"
+
+msgid "ps_cdf_select_one"
+msgstr "Selecteer één."
+
+msgid "ps_cdf_type"
+msgstr "Type"
+
+msgid "ps_cdf_value"
+msgstr "Waarde"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Attention: Minimum 1 gebruiker moet de gebruikersovereenkomst accepteren. Aanpassingen aan deze instellingen zal alle gebruikersovereenkomsten resetten."
+
+msgid "ps_crs_user_fields"
+msgstr "Cursusspecifieke gebruikersvelden"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Als je de autodetect HTTPS inschakelt moet je een hoofding naam en waarde invoeren."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Het maximum aantal toegestane login-pogingen mag niet minder zijn dan nul."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maximale wachtwoordleeftijd kan niet minder zijn dan 0"
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maximale lengte wachtwoord kan niet minder zijn dan 0"
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimale lengte wachtwoord mag niet minder zijn dan 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maximale lengte wachtwoord kan niet minder zijn dan minimale lengte wachtwoord"
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Wachtwoord moet minimaal %s tekens bevatten."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minimale lengte wachtwoord kan niet minder zijn dan 2 als wachtwoorden zowel karakters en cijfers moeten bevatten."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minimale lengte wachtwoord kan niet minder zijn dan 3 als wachtwoorden zowel karakters, cijfersen speciale karakters moeten bevatten."
+
+msgid "ps_export_admin"
+msgstr "Beheerders"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Gebruikers bevestiging tijdens inschrijven cursus"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Gebruikers bevestiging bij het binnengaan van groepen"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Geavanceerde export van profielgegevens gebruiker in cursussen"
+
+msgid "ps_export_data"
+msgstr "Types gegevens van het persoonlijk profiel"
+
+msgid "ps_export_excel"
+msgstr "Start Excel-Export"
+
+msgid "ps_export_files"
+msgstr "Bestanden exporteren"
+
+msgid "ps_export_groups"
+msgstr "Zichtbaarheid van gebruikersprofiel gegevens in groepen"
+
+msgid "ps_export_member"
+msgstr "Deelnemers"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Export instellingen"
+
+msgid "ps_export_sub"
+msgstr "Abonnees"
+
+msgid "ps_export_tutor"
+msgstr "Leraren"
+
+msgid "ps_export_user_data"
+msgstr "Gegevenstypes"
+
+msgid "ps_export_wait"
+msgstr "Gebruikers op wachtlijst"
+
+msgid "ps_field_type"
+msgstr "Veldtype"
+
+msgid "ps_files_deleted"
+msgstr "Export bestanden verwijderd"
+
+msgid "ps_grp_user_fields"
+msgstr "Groep specifieke gebruikers velden"
+
+msgid "ps_login_max_attempts"
+msgstr "Maximum Login Attempts"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Maximaal aantal foutieve logins. Zet dit op 0 om deze functie uit te zetten."
+
+msgid "ps_not_accepted"
+msgstr "Niet geaccepteerd"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Verander wachtwoord bij eerste login."
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Indien ingeschakeld moeten gebruikers hun wachtwoord veranderen bij de eerste login."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Karakters en cijfers"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Als ingeschakeld moeten wachtwoorden zowel karakters en cijfers bevatten."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Maximale wachtwoordleeftijd"
+
+msgid "ps_password_max_age_info"
+msgstr "Stel de maximale wachtwoordleeftijd in dagen. Een waarde van 0 zal deze optie inactief maken."
+
+msgid "ps_password_max_length"
+msgstr "Maximale lengte van wachtwoord"
+
+msgid "ps_password_max_length_info"
+msgstr "Sets the maximum size of account passwords. Set this to 0 for disabling this option."
+
+msgid "ps_password_min_length"
+msgstr "Minimale lengte wachtwoord"
+
+msgid "ps_password_min_length_info"
+msgstr "Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1."
+
+msgid "ps_password_settings"
+msgstr "Wachtwoordinstellingen"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Speciale karakters"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Indien ingeschakeld, moeten wachtwoorden speciale karakters bevatten."
+
+msgid "ps_perform_export"
+msgstr "Start CSV-Export"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Voorkom simultane logins"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "If enabled, simultaneous logins with the same account from different computers are not possible."
+
+msgid "ps_privacy_protection"
+msgstr "Privacy instellingen"
+
+msgid "ps_profile_export"
+msgstr "Beveiliging van profielgegevens gebruiker"
+
+msgid "ps_security_protection"
+msgstr "Veiligheidsinstellingen"
+
+msgid "ps_select_one"
+msgstr "Gelieve een bestand te selecteren om te exporteren"
+
+msgid "ps_show_crs_access"
+msgstr "Tonen laatste toegang van cursusdeelnemers"
+
+msgid "ps_show_grp_access"
+msgstr "Tonen laatste toegang van groepsdeelnemers"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Bestandsgrootte"
+
+msgid "ps_type_select"
+msgstr "Selecteer veld"
+
+msgid "ps_type_select_long"
+msgstr "Selectiebox (Vaste waarde)"
+
+msgid "ps_type_text"
+msgstr "Tekstveld"
+
+msgid "ps_type_txt_long"
+msgstr "Tekstveld (Optionele waarde)"
+
+msgid "ps_user_selection"
+msgstr "Deelnemers selectie"
+
+msgid "ps_warning_modify"
+msgstr "opgelet: minstens 1 gebruiker moet de gebruikersovereenkomst accepteren. Aanpassingen aan deze instellingen zal alle gebruikersovereenkomsten resetten."
+
+msgid "rbac_log"
+msgstr "Permissie Log"
+
+msgid "rbac_log_age"
+msgstr "Bijhouden log invoer"
+
+msgid "rbac_log_age_info"
+msgstr "Maximale leeftijd van log invoer in maanden"
+
+msgid "rbac_log_info"
+msgstr "Inschakelen loggen van alle wijzigingen in object permissies inschakelen"
+
+msgid "show_privacy"
+msgstr "Privacy"
+
+msgid "show_security"
+msgstr "Veiligheid"

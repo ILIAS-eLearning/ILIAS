@@ -1,0 +1,312 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "av användaren"
+
+msgid "crs_ps_cdf_info"
+msgstr "Lägg till mer information om denna kurs och fyll i följande fält."
+
+msgid "crs_ps_required_info"
+msgstr "Ytterligare information krävs för deltagande i denna kurs."
+
+msgid "grp_ps_cdf_info"
+msgstr "Var god lägg till ytterligare information för denna grupp och fyll i följande fält"
+
+msgid "grp_ps_required_info"
+msgstr "Fler information behövs för deltagande i denna grupp."
+
+msgid "ps_agreement_accepted"
+msgstr "Användaravtal accepterat"
+
+msgid "ps_auto_https"
+msgstr "Automatisk HTTPS-detektering"
+
+msgid "ps_auto_https_description"
+msgstr "Om den är aktiverad försöker ILIAS fastställa HTTPS-statusen för en begäran via headeranalys."
+
+msgid "ps_auto_https_header_name"
+msgstr "Huvudets namn"
+
+msgid "ps_auto_https_header_value"
+msgstr "Header värde"
+
+msgid "ps_btn_add_value"
+msgstr "Nytt värde"
+
+msgid "ps_cdf_add_field"
+msgstr "Skapa nytt datafält"
+
+msgid "ps_cdf_added_field"
+msgstr "Ett nytt datafält har skapats."
+
+msgid "ps_cdf_data_fields"
+msgstr "Tillgängliga datafält"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Är du säker på att du vill ta bort detta datafält?"
+
+msgid "ps_cdf_deleted"
+msgstr "Datafälten har raderats."
+
+msgid "ps_cdf_deleted_field"
+msgstr "Värdet har tagits bort."
+
+msgid "ps_cdf_edit_field"
+msgstr "Redigera datafält"
+
+msgid "ps_cdf_name"
+msgstr "Namn"
+
+msgid "ps_cdf_no_fields"
+msgstr "Den här kursen innehåller inga datafält"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Var god ange ett namn."
+
+msgid "ps_cdf_required"
+msgstr "Obligatoriskt fält"
+
+msgid "ps_cdf_select_one"
+msgstr "Vänligen gör ett urval."
+
+msgid "ps_cdf_type"
+msgstr "Typ"
+
+msgid "ps_cdf_value"
+msgstr "Värde"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Attention"
+
+msgid "ps_crs_user_fields"
+msgstr "Personliga detaljer om denna kurs"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Den automatiska HTTPS-avkänningen kräver ett rubriknamn och ett rubrikvärde."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maximalt antal inloggningsförsök får inte vara mindre än 0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr " Högsta lösenordsålder får inte vara lägre än 0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maximal lösenordslängd får inte vara mindre än 0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minsta lösenordslängd får inte vara mindre än 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maximal lösenordslängd får inte vara mindre än den minimala lösenordslängden."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minsta lösenordslängd får inte vara mindre än %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minsta lösenordslängd får inte vara mindre än %s om lösenordet ska innehålla bokstäver och siffror."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minsta lösenordslängd får inte vara mindre än %s om lösenordet ska innehålla bokstäver, siffror och specialtecken."
+
+msgid "ps_export_admin"
+msgstr "Administratörer"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Consent för nya medlemmar att se sina personliga profildata när de går med i en kurs."
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Samtycke för nya medlemmar som går med i gruppen att tillåta gruppledningen att se deras personliga profildata."
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Tillåt export av personuppgifter från kurser"
+
+msgid "ps_export_data"
+msgstr "Personliga profiluppgifter"
+
+msgid "ps_export_excel"
+msgstr "Starta Excel-export"
+
+msgid "ps_export_files"
+msgstr "Exportera filer"
+
+msgid "ps_export_groups"
+msgstr "Tillåt export av personuppgifter från grupper"
+
+msgid "ps_export_member"
+msgstr "Deltagare"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Inställningar för export"
+
+msgid "ps_export_sub"
+msgstr "Användare som ännu inte aktiverats"
+
+msgid "ps_export_tutor"
+msgstr "Tutorer"
+
+msgid "ps_export_user_data"
+msgstr "Användardata"
+
+msgid "ps_export_wait"
+msgstr "Användare på väntelistan"
+
+msgid "ps_field_type"
+msgstr "Typ av datafält"
+
+msgid "ps_files_deleted"
+msgstr "Exportfilerna har raderats."
+
+msgid "ps_grp_user_fields"
+msgstr "Personliga uppgifter om denna grupp"
+
+msgid "ps_login_max_attempts"
+msgstr "Maximalt antal inloggningsförsök"
+
+msgid "ps_login_max_attempts_info"
+msgstr " Bestämmer det maximala antalet inloggningsförsök som en användare får misslyckas med. Om fler inloggningsförsök misslyckas, sätts användaren till \"inaktiv\" och måste återaktiveras i \"Användarhantering\" innan han kan använda plattformen. Om inget värde a"
+
+msgid "ps_not_accepted"
+msgstr "Not agreed"
+
+msgid "ps_participants_list_courses"
+msgstr "Tillåt aktivering av deltagarlistor i kursens medlemsgalleri"
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "Åtgärden genomfördes framgångsrikt."
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "Ändringarna har tillämpats framgångsrikt. Du har gjort minst en ändring i lösenordspolicyn. Vill du att lokala inloggningskonton ska behöva ange ett nytt lösenord efter nästa lyckade inloggning?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Ändra lösenord vid första inloggningen"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Tvingar användare som inte har registrerat sig att ändra sitt lösenord första gången de loggar in i ILIAS."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Tvinga fram bokstäver och siffror"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "När detta är aktiverat måste lösenord innehålla bokstäver och siffror."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Högsta ålder för lösenord"
+
+msgid "ps_password_max_age_info"
+msgstr "Ställer in maxåldern för lösenord i dagar. Om värdet är 0 upphör inte lösenord att gälla."
+
+msgid "ps_password_max_length"
+msgstr "Maximal längd på lösenordet"
+
+msgid "ps_password_max_length_info"
+msgstr "Ställer in maximal längd för lösenord. Om värdet är 0 kan lösenorden ha valfri längd."
+
+msgid "ps_password_min_length"
+msgstr "Minsta längd på lösenordet"
+
+msgid "ps_password_min_length_info"
+msgstr "Ställer in minsta längd för lösenord. Om värdet sätts till 0 måste lösenorden fortfarande innehålla minst 1 tecken."
+
+msgid "ps_password_settings"
+msgstr "Lösenordsinställningar"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Tvinga fram specialtecken"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Om aktiverat måste lösenord innehålla specialtecken."
+
+msgid "ps_perform_export"
+msgstr "Starta CSV export"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Förhindra samtidiga inloggningar"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Om detta är aktiverat förhindras samtidiga inloggningar med samma ILIAS-konto via olika datorer."
+
+msgid "ps_privacy_protection"
+msgstr "Privatlivsinställningar"
+
+msgid "ps_profile_export"
+msgstr "Skydd av personliga profiluppgifter"
+
+msgid "ps_security_protection"
+msgstr "Säkerhetsinställningar"
+
+msgid "ps_select_one"
+msgstr "Välj en fil."
+
+msgid "ps_show_crs_access"
+msgstr "Anvisning av den senaste åtkomsttiden för kursdeltagare"
+
+msgid "ps_show_grp_access"
+msgstr "Display av den senaste åtkomsttiden för gruppdeltagare"
+
+msgid "ps_show_lso_access"
+msgstr "Display av den senaste åtkomsttiden för deltagarna i inlärningssekvensen"
+
+msgid "ps_size"
+msgstr "Filens storlek"
+
+msgid "ps_type_select"
+msgstr "Välj lista"
+
+msgid "ps_type_select_long"
+msgstr "Urvalslista (fasta värden)"
+
+msgid "ps_type_text"
+msgstr "Textfält"
+
+msgid "ps_type_txt_long"
+msgstr "Textfält (valfria värden)"
+
+msgid "ps_user_selection"
+msgstr "Användarval"
+
+msgid "ps_warning_modify"
+msgstr "Attention"
+
+msgid "rbac_log"
+msgstr "Rättighetsinställningslogg"
+
+msgid "rbac_log_age"
+msgstr "Behåll Log-poster"
+
+msgid "rbac_log_age_info"
+msgstr "Maximal ålder för loggposter i månader"
+
+msgid "rbac_log_info"
+msgstr "Aktivera loggning av alla ändringar av rättighetsinställningar"
+
+msgid "show_privacy"
+msgstr "Skydd av personuppgifter"
+
+msgid "show_security"
+msgstr "Säkerhet"

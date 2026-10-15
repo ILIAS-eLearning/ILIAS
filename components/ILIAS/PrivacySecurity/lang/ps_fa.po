@@ -1,0 +1,319 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: ps\n"
+
+#, fuzzy
+msgid "cdf_edited_by_self"
+msgstr "by the User"
+
+msgid "crs_ps_cdf_info"
+msgstr "Further Course-Specific Data:"
+
+msgid "crs_ps_required_info"
+msgstr "Further Course-Specific fields are required for accessing the course content."
+
+msgid "grp_ps_cdf_info"
+msgstr "Further Group-Specific Data:"
+
+msgid "grp_ps_required_info"
+msgstr "Further Group-Specific fields are required for accessing the group content."
+
+msgid "ps_agreement_accepted"
+msgstr "توافقنامه کاربر پذیرفته شد"
+
+msgid "ps_auto_https"
+msgstr "تشخیص اتوماتیک HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "اگر غیر فعال شود، سیستم سعی می کند وضعیت HTTPS را با آنالیز مقدار سربرگی که در زیر مشخص شده تعیین کند."
+
+msgid "ps_auto_https_header_name"
+msgstr "نام سربرگ"
+
+msgid "ps_auto_https_header_value"
+msgstr "مقدار سربرگ"
+
+msgid "ps_btn_add_value"
+msgstr "New Value"
+
+msgid "ps_cdf_add_field"
+msgstr "Add User Field"
+
+msgid "ps_cdf_added_field"
+msgstr "Added new selection box."
+
+msgid "ps_cdf_data_fields"
+msgstr "Available User Fields"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Do you really want to delete these user fields ?"
+
+msgid "ps_cdf_deleted"
+msgstr "Deleted user fields"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Deleted value"
+
+msgid "ps_cdf_edit_field"
+msgstr "Edit Data Field"
+
+msgid "ps_cdf_name"
+msgstr "Name"
+
+msgid "ps_cdf_no_fields"
+msgstr "No User Fields Defined"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Please enter a name."
+
+msgid "ps_cdf_required"
+msgstr "Required Field"
+
+msgid "ps_cdf_select_one"
+msgstr "Please select one."
+
+msgid "ps_cdf_type"
+msgstr "Type"
+
+msgid "ps_cdf_value"
+msgstr "Value"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements."
+
+msgid "ps_crs_user_fields"
+msgstr "Course-Specific User Fields"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "اگر تشخیص اتوماتیک https فعال شود، باید یک نام سربرگ و یک مقدار سربرگ مشخص کنید."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "حداکثر تعداد سعی در ورود به سیستم، نباید کمتر از 0 باشد"
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "حداکثر سن رمز عبور، نباید کمتر از 0 باشد"
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "حداکثر اندازه رمز عبور، نباید کمتر از 0 باشد"
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "حدااقل اندازه رمز عبور، نباید کمتر از 0 باشد"
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "حداکثر اندازه رمز عبور، نباید کمتر از حداقل اندازه سن رمز عبور باشد."
+
+#, fuzzy
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimum password size may not be less than %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "حدااقل اندازه رمز عبور، اگر رمز عبور باید هم شامل کاراکتر و هم عدد شود نباید کمتر از 2 باشد."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "حدااقل اندازه رمز عبور، اگر رمز عبور باید هم شامل کاراکتر، هم عدد و هم کاراکتر ویژه شود نباید کمتر از 3 باشد."
+
+msgid "ps_export_admin"
+msgstr "Administrators"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "تایید کاربر موقع وارد کردن درسها"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "تایید کاربر موقع وارد کردن گروهها"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "دیده شدن داده های نمایه کاربر در درسها"
+
+msgid "ps_export_data"
+msgstr "Data Types of the Personal Profile"
+
+msgid "ps_export_excel"
+msgstr "Start Excel Export"
+
+msgid "ps_export_files"
+msgstr "صدور فایل ها"
+
+msgid "ps_export_groups"
+msgstr "دیده شدن داده های نمایه کاربر در گروهها"
+
+msgid "ps_export_member"
+msgstr "Members"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "تنظیمات صدور"
+
+msgid "ps_export_sub"
+msgstr "Subscribers"
+
+msgid "ps_export_tutor"
+msgstr "Tutors"
+
+msgid "ps_export_user_data"
+msgstr "Data Types"
+
+msgid "ps_export_wait"
+msgstr "Users on the Waiting List"
+
+msgid "ps_field_type"
+msgstr "Field Type"
+
+msgid "ps_files_deleted"
+msgstr "Export Files Deleted"
+
+msgid "ps_grp_user_fields"
+msgstr "Group-Specific User Fields"
+
+msgid "ps_login_max_attempts"
+msgstr "حداکثر تعداد سعی برای ورود به سیستم"
+
+msgid "ps_login_max_attempts_info"
+msgstr "حداکثر تعداد سعی اشتباه برای ورود به سیستم را مشخص می کند. برای غیرفعال کردن این گزینه مقدار 0 وارد کنید."
+
+msgid "ps_not_accepted"
+msgstr "Not Accepted"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "تغییر رمز عبور بعد از اولین ورود به سیستم"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "اگر فعال شود، کاربران باید رمز عبور خود را پس از اولین ورود به سیستم تعییر دهند (بجز کاربرانی که خودشان ثبت نام کرده اند.)"
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "کارکتر و عدد"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "اگر فعال شود، رمزهای عبور باید حتما شامل کاراکتر و عدد باشند."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "حداکثر سن رمز عبور"
+
+msgid "ps_password_max_age_info"
+msgstr "حداکثر سن رمز عبور را براساس روز مشخص می کند. مقدار 0 را برای غیرفعال کردن این گزینه وارد کنید."
+
+msgid "ps_password_max_length"
+msgstr "حداکثر اندازه رمز عبور"
+
+msgid "ps_password_max_length_info"
+msgstr "حداکثر اندازه رمز عبور حسابهای کاربری را مشخص می کند. مقدار 0 را برای غیرفعال کردن این گزینه وارد کنید."
+
+msgid "ps_password_min_length"
+msgstr "حداقل اندازه رمز عبور"
+
+msgid "ps_password_min_length_info"
+msgstr "حداکثر اندازه رمز عبور حسابهای کاربری را مشخص می کند. اگر مقدار 0 وارد شود، باز هم اندازه رمز عبور حداقل 1 خواهد بود."
+
+#, fuzzy
+msgid "ps_password_settings"
+msgstr "Password Settings"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "کاراکترهای ویژه"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "اگر فعال شود، رمزهای عبور باید حتما شامل کاراکترهای ویژه باشند."
+
+msgid "ps_perform_export"
+msgstr "Start CSV-Export"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "جلوگیری از ورود به سیستم بصورت همزمان"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "اگر فعال شود، ورود به سیستم بصورت همزمان با یک حساب کاربری و از کامپیوترهای متفاوت امکان نخواهد داشت."
+
+msgid "ps_privacy_protection"
+msgstr "تنظیمات حریم خصوصی"
+
+msgid "ps_profile_export"
+msgstr "محافظت از داده های نمایه کاربر"
+
+msgid "ps_security_protection"
+msgstr "تنظیمات امنیت"
+
+msgid "ps_select_one"
+msgstr "Please select one export file"
+
+msgid "ps_show_crs_access"
+msgstr "نمایش زمان آخرین دسترسی شرکت کنندگان درس"
+
+msgid "ps_show_grp_access"
+msgstr "نمایش زمان آخرین دسترسی شرکت کنندگان گروه"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Files Size"
+
+msgid "ps_type_select"
+msgstr "Select Field"
+
+msgid "ps_type_select_long"
+msgstr "Selection Box (Fixed Values)"
+
+msgid "ps_type_text"
+msgstr "Text Field"
+
+msgid "ps_type_txt_long"
+msgstr "Text Field (Optional Values)"
+
+msgid "ps_user_selection"
+msgstr "Participants Selection"
+
+msgid "ps_warning_modify"
+msgstr "Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements."
+
+msgid "rbac_log"
+msgstr "مجوز ثبت وقایع"
+
+msgid "rbac_log_age"
+msgstr "نگه داشتن وقایع ثبت شده"
+
+msgid "rbac_log_age_info"
+msgstr "حداکثر اندازه سن وقایع ثبت شده در ماه"
+
+msgid "rbac_log_info"
+msgstr "فعال کردن ثبت وقایع تمام تغییرات در مجوزهای شی ها"
+
+msgid "show_privacy"
+msgstr "حریم خصوصی"
+
+msgid "show_security"
+msgstr "امنیت"

@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr ""
+
+msgid "crs_ps_cdf_info"
+msgstr ""
+
+msgid "crs_ps_required_info"
+msgstr ""
+
+msgid "grp_ps_cdf_info"
+msgstr ""
+
+msgid "grp_ps_required_info"
+msgstr ""
+
+msgid "ps_agreement_accepted"
+msgstr ""
+
+msgid "ps_auto_https"
+msgstr ""
+
+msgid "ps_auto_https_description"
+msgstr ""
+
+msgid "ps_auto_https_header_name"
+msgstr ""
+
+msgid "ps_auto_https_header_value"
+msgstr ""
+
+msgid "ps_btn_add_value"
+msgstr ""
+
+msgid "ps_cdf_add_field"
+msgstr ""
+
+msgid "ps_cdf_added_field"
+msgstr ""
+
+msgid "ps_cdf_data_fields"
+msgstr ""
+
+msgid "ps_cdf_delete_sure"
+msgstr ""
+
+msgid "ps_cdf_deleted"
+msgstr ""
+
+msgid "ps_cdf_deleted_field"
+msgstr ""
+
+msgid "ps_cdf_edit_field"
+msgstr ""
+
+msgid "ps_cdf_name"
+msgstr ""
+
+msgid "ps_cdf_no_fields"
+msgstr ""
+
+msgid "ps_cdf_no_name_given"
+msgstr ""
+
+msgid "ps_cdf_required"
+msgstr ""
+
+msgid "ps_cdf_select_one"
+msgstr ""
+
+msgid "ps_cdf_type"
+msgstr ""
+
+msgid "ps_cdf_value"
+msgstr ""
+
+msgid "ps_cdf_warning_modify"
+msgstr ""
+
+msgid "ps_crs_user_fields"
+msgstr ""
+
+msgid "ps_error_message_https_header_missing"
+msgstr ""
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr ""
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr ""
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr ""
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr ""
+
+msgid "ps_error_message_password_max_less_min"
+msgstr ""
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr ""
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr ""
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr ""
+
+msgid "ps_export_admin"
+msgstr ""
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr ""
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr ""
+
+msgid "ps_export_confirm_group_info"
+msgstr ""
+
+msgid "ps_export_confirm_info"
+msgstr ""
+
+msgid "ps_export_course"
+msgstr ""
+
+msgid "ps_export_data"
+msgstr ""
+
+msgid "ps_export_excel"
+msgstr ""
+
+msgid "ps_export_files"
+msgstr ""
+
+msgid "ps_export_groups"
+msgstr ""
+
+msgid "ps_export_member"
+msgstr ""
+
+msgid "ps_export_prgs"
+msgstr ""
+
+msgid "ps_export_settings"
+msgstr ""
+
+msgid "ps_export_sub"
+msgstr ""
+
+msgid "ps_export_tutor"
+msgstr ""
+
+msgid "ps_export_user_data"
+msgstr ""
+
+msgid "ps_export_wait"
+msgstr ""
+
+msgid "ps_field_type"
+msgstr ""
+
+msgid "ps_files_deleted"
+msgstr ""
+
+msgid "ps_grp_user_fields"
+msgstr ""
+
+msgid "ps_login_max_attempts"
+msgstr ""
+
+msgid "ps_login_max_attempts_info"
+msgstr ""
+
+msgid "ps_not_accepted"
+msgstr ""
+
+msgid "ps_participants_list_courses"
+msgstr ""
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr ""
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr ""
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr ""
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr ""
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr ""
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr ""
+
+msgid "ps_password_force_user_reset"
+msgstr ""
+
+msgid "ps_password_max_age"
+msgstr ""
+
+msgid "ps_password_max_age_info"
+msgstr ""
+
+msgid "ps_password_max_length"
+msgstr ""
+
+msgid "ps_password_max_length_info"
+msgstr ""
+
+msgid "ps_password_min_length"
+msgstr ""
+
+msgid "ps_password_min_length_info"
+msgstr ""
+
+msgid "ps_password_settings"
+msgstr ""
+
+msgid "ps_password_special_chars_enabled"
+msgstr ""
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr ""
+
+msgid "ps_perform_export"
+msgstr ""
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr ""
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr ""
+
+msgid "ps_privacy_protection"
+msgstr ""
+
+msgid "ps_profile_export"
+msgstr ""
+
+msgid "ps_security_protection"
+msgstr ""
+
+msgid "ps_select_one"
+msgstr ""
+
+msgid "ps_show_crs_access"
+msgstr ""
+
+msgid "ps_show_grp_access"
+msgstr ""
+
+msgid "ps_show_lso_access"
+msgstr ""
+
+msgid "ps_size"
+msgstr ""
+
+msgid "ps_type_select"
+msgstr ""
+
+msgid "ps_type_select_long"
+msgstr ""
+
+msgid "ps_type_text"
+msgstr ""
+
+msgid "ps_type_txt_long"
+msgstr ""
+
+msgid "ps_user_selection"
+msgstr ""
+
+msgid "ps_warning_modify"
+msgstr ""
+
+msgid "rbac_log"
+msgstr ""
+
+msgid "rbac_log_age"
+msgstr ""
+
+msgid "rbac_log_age_info"
+msgstr ""
+
+msgid "rbac_log_info"
+msgstr ""
+
+msgid "show_privacy"
+msgstr ""
+
+msgid "show_security"
+msgstr ""

@@ -1,0 +1,319 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ps\n"
+
+#, fuzzy
+msgid "cdf_edited_by_self"
+msgstr "by the User"
+
+msgid "crs_ps_cdf_info"
+msgstr "详细的具体课程数据："
+
+msgid "crs_ps_required_info"
+msgstr "详细的具体课程字段在访问课程内容时是必需的。"
+
+msgid "grp_ps_cdf_info"
+msgstr "详细的具体组数据："
+
+msgid "grp_ps_required_info"
+msgstr "详细的具体组字段在访问组内容时是必需的。"
+
+msgid "ps_agreement_accepted"
+msgstr "用户协议已接受"
+
+msgid "ps_auto_https"
+msgstr "自动侦测HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "如果启用，ILIAS通过下面指定的头信息值去尝试检测HTTPs状态。"
+
+msgid "ps_auto_https_header_name"
+msgstr "http头名称"
+
+msgid "ps_auto_https_header_value"
+msgstr "http头值"
+
+msgid "ps_btn_add_value"
+msgstr "新值"
+
+msgid "ps_cdf_add_field"
+msgstr "添加用户字段"
+
+msgid "ps_cdf_added_field"
+msgstr "添加新选择框"
+
+msgid "ps_cdf_data_fields"
+msgstr "可用的用户字段"
+
+msgid "ps_cdf_delete_sure"
+msgstr "您真的要删除这些用户字段？"
+
+msgid "ps_cdf_deleted"
+msgstr "用户字段已删除"
+
+msgid "ps_cdf_deleted_field"
+msgstr "值已删除"
+
+msgid "ps_cdf_edit_field"
+msgstr "编辑数据字段"
+
+msgid "ps_cdf_name"
+msgstr "名字"
+
+msgid "ps_cdf_no_fields"
+msgstr "没有定义用户字段"
+
+msgid "ps_cdf_no_name_given"
+msgstr "请输入一个名字。"
+
+msgid "ps_cdf_required"
+msgstr "必填字段"
+
+msgid "ps_cdf_select_one"
+msgstr "请选择一个。"
+
+msgid "ps_cdf_type"
+msgstr "类型"
+
+msgid "ps_cdf_value"
+msgstr "值"
+
+msgid "ps_cdf_warning_modify"
+msgstr "注意：至少一个用户已接受此用户协议。修改这些课程特定字段将重置所有用户协议。"
+
+msgid "ps_crs_user_fields"
+msgstr "特定的课程用户字段"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "如果您启用了自动检测https，您必须提供一个http名称和值。"
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "最大登录尝试次数可能不小于0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "密码最长使用期限可能不小于0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "密码最大长度可能不小于0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "密码最小长度可能不小于0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "最大密码长度可能不小于最小密码长度。"
+
+#, fuzzy
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimum password size may not be less than %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "如果密码必须包含字母和数字，则最小长度不能小于2。"
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "如果密码必须包含字母、数字和指定字符，则最小长度不能小3."
+
+msgid "ps_export_admin"
+msgstr "管理员"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "当进入课程时需用户确认"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "当进入组时需要用户确认"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "课程中用户资料(profile)高级导出。"
+
+msgid "ps_export_data"
+msgstr "个人资料(profile)的数据类型"
+
+msgid "ps_export_excel"
+msgstr "开始Excel导出"
+
+msgid "ps_export_files"
+msgstr "导出文件"
+
+msgid "ps_export_groups"
+msgstr "组中用户资料(profile)数据的可见性"
+
+msgid "ps_export_member"
+msgstr "成员"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "导出设置"
+
+msgid "ps_export_sub"
+msgstr "订阅者"
+
+msgid "ps_export_tutor"
+msgstr "导师"
+
+msgid "ps_export_user_data"
+msgstr "数据类型"
+
+msgid "ps_export_wait"
+msgstr "等待名单上的用户"
+
+msgid "ps_field_type"
+msgstr "字段类型"
+
+msgid "ps_files_deleted"
+msgstr "导出文件已删除"
+
+msgid "ps_grp_user_fields"
+msgstr "具体的组用户字段"
+
+msgid "ps_login_max_attempts"
+msgstr "登录尝试的最大资料"
+
+msgid "ps_login_max_attempts_info"
+msgstr "设置登录尝试的最大错误次数。禁用此选项请设置为0."
+
+msgid "ps_not_accepted"
+msgstr "没有接受"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "在第一次登录时更改密码"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "如果启用，用户必须在首次登录时更改他们的密码(用户自己注册的除外)。"
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "字符和数字"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "如果启用，密码必须包含字符和数字。"
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "最大密码使用期"
+
+msgid "ps_password_max_age_info"
+msgstr "设置密码的最大使用期(单位：天)。禁用此选项请设置为0."
+
+msgid "ps_password_max_length"
+msgstr "密码的最大长度"
+
+msgid "ps_password_max_length_info"
+msgstr "设置账号密码的最大长度。禁用此选项请设置为0."
+
+msgid "ps_password_min_length"
+msgstr "密码的最小长度"
+
+msgid "ps_password_min_length_info"
+msgstr "设置账号密码的最小长度。如果设置为0，则无论如何也必须至少有一位数。"
+
+#, fuzzy
+msgid "ps_password_settings"
+msgstr "Password Settings"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "特殊字符；"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "如果启用，密码必须包含特殊字符。"
+
+msgid "ps_perform_export"
+msgstr "开始csv导出"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "防止同时登录"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "如果启用，同一个账号将不可能从不同的电脑上同时登录。"
+
+msgid "ps_privacy_protection"
+msgstr "隐私设置"
+
+msgid "ps_profile_export"
+msgstr "用户资料(profile)数据保护"
+
+msgid "ps_security_protection"
+msgstr "安全设置"
+
+msgid "ps_select_one"
+msgstr "请选择一个导出文件"
+
+msgid "ps_show_crs_access"
+msgstr "显示课程参与者最后一次访问的时间。"
+
+msgid "ps_show_grp_access"
+msgstr "显示组参与者最后一次访问的时间。"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "文件大小"
+
+msgid "ps_type_select"
+msgstr "选择字段"
+
+msgid "ps_type_select_long"
+msgstr "选择框(固定值)"
+
+msgid "ps_type_text"
+msgstr "文本字段"
+
+msgid "ps_type_txt_long"
+msgstr "文本字段 (可选值)"
+
+msgid "ps_user_selection"
+msgstr "参与者选择"
+
+msgid "ps_warning_modify"
+msgstr "注意：至少有一个用户接受了这个用户协议。修改这些设置将重置所有用户协议。"
+
+msgid "rbac_log"
+msgstr "权限日志"
+
+msgid "rbac_log_age"
+msgstr "保持日志条目"
+
+msgid "rbac_log_age_info"
+msgstr "日志条目的最大寿命，以月为单位。"
+
+msgid "rbac_log_info"
+msgstr "启用记录日志，记录所有对象权限的更改。"
+
+msgid "show_privacy"
+msgstr "隐私"
+
+msgid "show_security"
+msgstr "安全性"
