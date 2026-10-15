@@ -4329,7 +4329,7 @@ common#:#grp_mem_change_status#:#Change Participant Status
 common#:#grp_mem_send_mail#:#Send member a mail
 common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
-common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
+common#:#grp_msg_member_assigned#:#User(s) added to group.
 common#:#grp_msg_membership_annulled#:#Cancelled membership.
 common#:#grp_new#:#New Group
 common#:#grp_registration#:#Join Group
