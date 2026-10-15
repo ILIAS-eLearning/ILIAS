@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
 
@@ -60,18 +61,21 @@ readonly class ilForumNotificationTaskProcessor
                 'recipients' => array_values($recipients),
             ], JSON_THROW_ON_ERROR),
         ]);
-        $interaction = $this->task_factory->createTask(
-            ilMailDeliveryJobUserInteraction::class,
-            [$push_job, $this->user->getId()],
-        );
 
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user->getId());
-        $bucket->setTask($interaction);
+        $bucket->setTask($push_job);
         $this->lng->loadLanguageModule('forum');
         $bucket->setTitle($this->lng->txt('frm_notification_bg_task_title'));
 
         $this->logger->info('Delegated forum notification delivery to background task.');
         $this->task_manager->run($bucket);
+        if ($bucket->getState() === State::FINISHED) {
+            $this->logger->info('Delivery of forum notifications successfull!');
+        } elseif ($bucket->getState() === State::ERROR) {
+            $this->logger->warning('Delivery of forum notifications failed!');
+        } else {
+            $this->logger->info('Delivery status of forum notifications unknown.');
+        }
     }
 }

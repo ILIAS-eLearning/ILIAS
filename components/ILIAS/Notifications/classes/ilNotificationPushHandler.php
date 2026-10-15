@@ -135,7 +135,6 @@ class ilNotificationPushHandler extends ilNotificationHandler
             $curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
             $curl->setOpt(CURLOPT_POSTFIELDS, $post);
             $response = $curl->exec();
-
             if ($response === false) {
                 $this->logger->error('Push notification [' . $subscription->getAuth() . '] request failed.');
                 $this->setLastQueueResult(PushQueueResult::FAILED);
