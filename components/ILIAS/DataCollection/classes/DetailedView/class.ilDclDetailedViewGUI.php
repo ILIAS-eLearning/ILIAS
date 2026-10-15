@@ -154,6 +154,11 @@ class ilDclDetailedViewGUI
 
     public function renderRecord(bool $editComments = false): void
     {
+        if (!ilDclDetailedViewDefinition::isActive($this->tableview_id)) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            return;
+        }
+
         global $DIC;
         $x = $DIC->help();
         $DIC->help()->setScreenId('dcl_record');
@@ -344,8 +349,6 @@ class ilDclDetailedViewGUI
 
     protected function checkAccess(): bool
     {
-        $has_accass = ilObjDataCollectionAccess::hasAccessTo($this->dcl_gui_object->getRefId(), $this->table->getId(), $this->tableview_id);
-        $is_active = ilDclDetailedViewDefinition::isActive($this->tableview_id);
-        return $has_accass && $is_active;
+        return ilObjDataCollectionAccess::hasAccessTo($this->dcl_gui_object->getRefId(), $this->table->getId(), $this->tableview_id);
     }
 }
