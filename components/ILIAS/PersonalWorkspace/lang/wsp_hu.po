@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wsp\n"
+
+msgid "element_already_shared"
+msgstr "Ezt az objektumot már megosztotta evvel a felhasználóval."
+
+msgid "element_shared"
+msgstr "Az objektumot sikeresen megosztotta."
+
+msgid "error_creating_certificate_pdf"
+msgstr "A tanúsítványt nem sikerült létrehozni. Kérem, keresse a szerver üzemeltetőjét."
+
+msgid "share"
+msgstr "Megosztás"
+
+msgid "share_content"
+msgstr "Megosztott objektum"
+
+msgid "share_with"
+msgstr "Felhasználónév"
+
+msgid "wsp_copy_to_repository"
+msgstr "Tartalomtárba másolás"
+
+msgid "wsp_invalid_password"
+msgstr "A megadott jelszó érvénytelen."
+
+msgid "wsp_list_cmxv"
+msgstr "xAPI/cmi5-objektum tanúsítványa"
+
+msgid "wsp_list_crsv"
+msgstr "Kurzustanúsítvány"
+
+msgid "wsp_list_excv"
+msgstr "Beadandó feladatról tanúsítvány"
+
+msgid "wsp_list_ltiv"
+msgstr "LTI-Fogyasztóobjektum tanúsítványa"
+
+msgid "wsp_list_scov"
+msgstr "SCORM-tanúsítvány"
+
+msgid "wsp_list_tstv"
+msgstr "Tesztről tanúsítvány"
+
+msgid "wsp_move_to_repository"
+msgstr "Tartalomtárba mozgatás"
+
+msgid "wsp_password_for"
+msgstr "Jelszó ehhez:"
+
+msgid "wsp_password_protected_resource"
+msgstr "Jelszóvédett forrás"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Ennek a forrásnak az eléréséhez jelszót kell megadnia."
+
+msgid "wsp_permission_all_info"
+msgstr "Ezt az objektumot az internet összes felhasználója láthatja."
+
+msgid "wsp_permission_all_pw_info"
+msgstr "A jelszó beállítása után ezt az objektumot az internet összes felhasználója láthatja."
+
+msgid "wsp_permission_registered_info"
+msgstr "Az objektumot megosztotta az összes regisztrált felhasználóval."
+
+msgid "wsp_permission_removed"
+msgstr "A bejegyzést sikeresen törölte."
+
+msgid "wsp_permissions"
+msgstr "Megosztás"
+
+msgid "wsp_personal_resources_description"
+msgstr "Itt kezelheti személyes fájljait, blogjait és alkotásait."
+
+msgid "wsp_search_no_match"
+msgstr "Nincs találat a keresésére."
+
+msgid "wsp_send_mail"
+msgstr "Levél küldése"
+
+msgid "wsp_set_permission_all"
+msgstr "World Wide Web"
+
+msgid "wsp_set_permission_all_password"
+msgstr "World Wide Web (jelszóval)"
+
+msgid "wsp_set_permission_course"
+msgstr "Kurzus"
+
+msgid "wsp_set_permission_group"
+msgstr "Csoport"
+
+msgid "wsp_set_permission_registered"
+msgstr "Összes regisztrált felhasználó"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Kiválasztott felhasználó"
+
+msgid "wsp_share_search_users"
+msgstr "Felhasználók keresése"
+
+msgid "wsp_share_success"
+msgstr "Új bejegyzés keletkezett."
+
+msgid "wsp_share_with_members"
+msgstr "Megosztás tagokkal"
+
+msgid "wsp_share_with_users"
+msgstr "Megosztás felhasználókkal"
+
+msgid "wsp_shared_date"
+msgstr "Megosztás dátuma"
+
+msgid "wsp_shared_date_filter"
+msgstr "Megosztva ez után"
+
+msgid "wsp_shared_filter_button"
+msgstr "Keresés"
+
+msgid "wsp_shared_filter_reset_button"
+msgstr "Keresési feltételek törlése"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Legalább egy szűrőattribútumot célszerű használni. A szövegszűrőknek legalább 4 karakter hosszúnak kell lenniük."
+
+msgid "wsp_shared_member_filter"
+msgstr "Kurzusok/Csoportok tagjai"
+
+msgid "wsp_shared_object_type"
+msgstr "Erőforrás típusa"
+
+msgid "wsp_shared_resources"
+msgstr "Megosztott források"
+
+msgid "wsp_shared_table_title"
+msgstr "Megosztások"
+
+msgid "wsp_shared_title"
+msgstr "Erőforrás címe"
+
+msgid "wsp_shared_type"
+msgstr "Megosztva az alábbival"
+
+msgid "wsp_shared_user_filter"
+msgstr "Felhasználónév/Név"
+
+msgid "wsp_shared_with"
+msgstr "Megosztva vele"
+
+msgid "wsp_status_shared"
+msgstr "Megosztva"
+
+msgid "wsp_switch_to_repo_tree"
+msgstr "Ugrás a Tartalomtárhoz"
+
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Ugrás a Személyes Erőforrásokhoz"
+
+msgid "wsp_tab_ownership"
+msgstr "Tartalomtárban lévő objektumaim"
+
+msgid "wsp_tab_personal"
+msgstr "Forrásaim"
+
+msgid "wsp_tab_shared"
+msgstr "Más felhasználók forrásai"
+
+msgid "wsp_type_blog"
+msgstr "Blog"
+
+msgid "wsp_type_cmxv"
+msgstr "Tanúsítvány: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Tanúsítvány: Kurzus"
+
+msgid "wsp_type_excv"
+msgstr "Tanúsítvány: beadandó feladat"
+
+msgid "wsp_type_file"
+msgstr "Fájl"
+
+msgid "wsp_type_ltiv"
+msgstr "Tanúsítvány: LTI-Fogyasztók"
+
+msgid "wsp_type_scov"
+msgstr "Tanúsítvány: SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Tanúsítvány: teszt"
+
+msgid "wsp_type_webr"
+msgstr "Weblink"
+
+msgid "wsp_type_wfld"
+msgstr "Mappa"

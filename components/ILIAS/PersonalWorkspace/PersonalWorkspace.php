@@ -41,5 +41,9 @@ class PersonalWorkspace implements Component\Component
             $this,
             'pwsp'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'wsp'
+        );
     }
 }

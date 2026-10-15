@@ -1,0 +1,223 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wsp\n"
+
+#, fuzzy
+msgid "element_already_shared"
+msgstr "This object is already shared with this user."
+
+#, fuzzy
+msgid "element_shared"
+msgstr "Object shared."
+
+#, fuzzy
+msgid "error_creating_certificate_pdf"
+msgstr "The certificate could not be created. Please contact the administrator to check the certificate server."
+
+#, fuzzy
+msgid "share"
+msgstr "Share"
+
+#, fuzzy
+msgid "share_content"
+msgstr "Share Object"
+
+#, fuzzy
+msgid "share_with"
+msgstr "Username"
+
+msgid "wsp_copy_to_repository"
+msgstr "Kopieer naar Studiecentrum"
+
+msgid "wsp_invalid_password"
+msgstr "Het ingegeven wachtwoord is incorrect"
+
+#, fuzzy
+msgid "wsp_list_cmxv"
+msgstr "Certificate of xAPI/cmi5 Object"
+
+msgid "wsp_list_crsv"
+msgstr "Cursuscertificaat"
+
+msgid "wsp_list_excv"
+msgstr "Oefening Certificaat"
+
+#, fuzzy
+msgid "wsp_list_ltiv"
+msgstr "Certificate of LTI Consumer Object"
+
+msgid "wsp_list_scov"
+msgstr "SCORM Certificaat"
+
+msgid "wsp_list_tstv"
+msgstr "Toets Certificaat"
+
+msgid "wsp_move_to_repository"
+msgstr "Verplaats naar studiecentrum"
+
+msgid "wsp_password_for"
+msgstr "Wachtwoord voor"
+
+msgid "wsp_password_protected_resource"
+msgstr "Het hulpmiddel is beschermd met een wachtwoord"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Voor toegang tot dit hulpmiddel is een wachtwoord nodig."
+
+msgid "wsp_permission_all_info"
+msgstr "Dit object is gepubliceerd."
+
+#, fuzzy
+msgid "wsp_permission_all_pw_info"
+msgstr "After providing the password this object is visible for all users of the internet."
+
+msgid "wsp_permission_registered_info"
+msgstr "Dit object wordt gedeeld met alle aangemelde gebruikers."
+
+msgid "wsp_permission_removed"
+msgstr "Het item is verwijderd."
+
+msgid "wsp_permissions"
+msgstr "Delen"
+
+#, fuzzy
+msgid "wsp_personal_resources_description"
+msgstr "Here you can manage your private files, blogs and artifacts."
+
+#, fuzzy
+msgid "wsp_search_no_match"
+msgstr "Your search did not match any results."
+
+#, fuzzy
+msgid "wsp_send_mail"
+msgstr "Send Mail"
+
+msgid "wsp_set_permission_all"
+msgstr "Publiceren"
+
+msgid "wsp_set_permission_all_password"
+msgstr "Publiceren (wachtwoord vereist)"
+
+msgid "wsp_set_permission_course"
+msgstr "Cursus"
+
+msgid "wsp_set_permission_group"
+msgstr "Groep"
+
+msgid "wsp_set_permission_registered"
+msgstr "Alle geregistreerde gebruikers"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Enkele gebruiker"
+
+msgid "wsp_share_search_users"
+msgstr "Zoeken gebruikers"
+
+msgid "wsp_share_success"
+msgstr "A new entry has been added."
+
+msgid "wsp_share_with_members"
+msgstr "Delen met deelnemers"
+
+msgid "wsp_share_with_users"
+msgstr "Delen met gebruikers"
+
+msgid "wsp_shared_date"
+msgstr "Datum waarop gedeeld"
+
+msgid "wsp_shared_date_filter"
+msgstr "Gedeeld van"
+
+#, fuzzy
+msgid "wsp_shared_filter_button"
+msgstr "Search"
+
+#, fuzzy
+msgid "wsp_shared_filter_reset_button"
+msgstr "Reset Search"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Geef tenminste één kenmerk op. Tekstfilters moeten minimaal 4 tekens bevatten."
+
+msgid "wsp_shared_member_filter"
+msgstr "Deelnemers van Cursus / Groep"
+
+msgid "wsp_shared_object_type"
+msgstr "Type Object"
+
+msgid "wsp_shared_resources"
+msgstr "Gedeelde hulpmiddelen"
+
+msgid "wsp_shared_table_title"
+msgstr "Shares"
+
+msgid "wsp_shared_title"
+msgstr "Titel van middel"
+
+#, fuzzy
+msgid "wsp_shared_type"
+msgstr "Shared With"
+
+msgid "wsp_shared_user_filter"
+msgstr "Login/Naam"
+
+msgid "wsp_shared_with"
+msgstr "Gedeeld met"
+
+msgid "wsp_status_shared"
+msgstr "Shared"
+
+#, fuzzy
+msgid "wsp_switch_to_repo_tree"
+msgstr "Switch to Repository"
+
+#, fuzzy
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Switch to Personal Resources"
+
+msgid "wsp_tab_ownership"
+msgstr "Mijn studiecentrum objecten"
+
+msgid "wsp_tab_personal"
+msgstr "Mijn objecten"
+
+msgid "wsp_tab_shared"
+msgstr "Objecten van andere gebruikers"
+
+msgid "wsp_type_blog"
+msgstr "Blog"
+
+#, fuzzy
+msgid "wsp_type_cmxv"
+msgstr "Certificate: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Certificaat: Cursus"
+
+msgid "wsp_type_excv"
+msgstr "Certificaat: Oefening"
+
+msgid "wsp_type_file"
+msgstr "Bestand"
+
+#, fuzzy
+msgid "wsp_type_ltiv"
+msgstr "Certificate: LTI Consumer"
+
+msgid "wsp_type_scov"
+msgstr "Certificaat: SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Certificaat: Toets"
+
+msgid "wsp_type_webr"
+msgstr "Weblink"
+
+msgid "wsp_type_wfld"
+msgstr "Map"
