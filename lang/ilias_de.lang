@@ -8152,33 +8152,6 @@ irss#:#title_manage_container#:#Dateien und Ordner verwalten
 irss#:#type#:#Dateityp
 irss#:#upload_field_title#:#Ausgewählte Dateien
 irss#:#upload_modal_title#:#Dateien hinzufügen
-lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
-lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
-lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
-lm#:#lm_edit_chapters#:#Kapitel bearbeiten
-lm#:#lm_edit_content#:#Inhalt bearbeiten
-lm#:#lm_edit_lm_settings#:#Lernmoduleinstellungen bearbeiten
-lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
-lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
-lm#:#lm_insert_chapter#:#Kapitel einfügen
-lm#:#lm_insert_chapter_after#:#Kapitel danach einfügen
-lm#:#lm_insert_chapter_before#:#Kapitel davor einfügen
-lm#:#lm_insert_chapter_clip#:#Kapitel aus Zwischenablage einfügen
-lm#:#lm_insert_chapter_clip_after#:#Kapitel aus Zwischenablage danach einfügen
-lm#:#lm_insert_chapter_clip_before#:#Kapitel aus Zwischenablage davor einfügen
-lm#:#lm_insert_layout_after#:#Vorlage danach einfügen
-lm#:#lm_insert_layout_before#:#Vorlage davor einfügen
-lm#:#lm_insert_page#:#Seite einfügen
-lm#:#lm_insert_page_after#:#Seite danach einfügen
-lm#:#lm_insert_page_before#:#Seite davor einfügen
-lm#:#lm_insert_page_clip#:#Seiten aus Zwischenablage einfügen
-lm#:#lm_insert_page_clip_after#:#Seiten aus Zwischenablage danach einfügen
-lm#:#lm_insert_page_clip_before#:#Seiten aus Zwischenablage davor einfügen
-lm#:#lm_list_pages#:#Seiten bearbeiten
-lm#:#lm_page_added#:#Eine Seite wurde hinzugefügt.
-lm#:#lm_page_type_lm#:#Lernmodulseite
-lm#:#lm_pages_added#:#Die Seiten wurden hinzugefügt.
-lm#:#lm_save_titles#:#Titel wurden gespeichert.
 log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
 log#:#log_component_col_component#:#Komponente
 log#:#log_component_col_level#:#Log-Level

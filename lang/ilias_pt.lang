@@ -8099,33 +8099,6 @@ irss#:#title_manage_container#:#Manage files and folders###03 09 2026 new variab
 irss#:#type#:#File Type###03 09 2026 new variable
 irss#:#upload_field_title#:#Selected Files###03 09 2026 new variable
 irss#:#upload_modal_title#:#Add Files###03 09 2026 new variable
-lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
-lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
-lm#:#lm_copy#:#Copiar módulo de aprendizagem
-lm#:#lm_edit_chapters#:#Edit Chapters###03 09 2026 new variable
-lm#:#lm_edit_content#:#Edit Content###03 09 2026 new variable
-lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###03 09 2026 new variable
-lm#:#lm_est_reading_time#:#Estimated Reading Time###03 09 2026 new variable
-lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###03 09 2026 new variable
-lm#:#lm_insert_chapter#:#Insert chapter###03 09 2026 new variable
-lm#:#lm_insert_chapter_after#:#Insert chapter after###03 09 2026 new variable
-lm#:#lm_insert_chapter_before#:#Insert chapter before###03 09 2026 new variable
-lm#:#lm_insert_chapter_clip#:#Insert chapter from clipboard###03 09 2026 new variable
-lm#:#lm_insert_chapter_clip_after#:#Insert chapter from clipboard after###03 09 2026 new variable
-lm#:#lm_insert_chapter_clip_before#:#Insert chapter from clipboard before###03 09 2026 new variable
-lm#:#lm_insert_layout_after#:#Insert template after###03 09 2026 new variable
-lm#:#lm_insert_layout_before#:#Insert template before###03 09 2026 new variable
-lm#:#lm_insert_page#:#Insert page###03 09 2026 new variable
-lm#:#lm_insert_page_after#:#Insert page after###03 09 2026 new variable
-lm#:#lm_insert_page_before#:#Insert page before###03 09 2026 new variable
-lm#:#lm_insert_page_clip#:#Insert page from clipboard###03 09 2026 new variable
-lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after###03 09 2026 new variable
-lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before###03 09 2026 new variable
-lm#:#lm_list_pages#:#Edit Pages###03 09 2026 new variable
-lm#:#lm_page_added#:#Page has been added.###03 09 2026 new variable
-lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
-lm#:#lm_pages_added#:#Pages have been added.###03 09 2026 new variable
-lm#:#lm_save_titles#:#Títulos guardados.
 log#:#log_component_btn_reset#:#Repor definições
 log#:#log_component_col_component#:#Componente
 log#:#log_component_col_level#:#Nível log

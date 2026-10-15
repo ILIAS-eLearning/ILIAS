@@ -1,0 +1,115 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: lm\n"
+
+#, fuzzy
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr "Set Not Completed"
+
+#, fuzzy
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr "Set Completed"
+
+msgid "lm_copy"
+msgstr "Copiar módulo de aprendizagem"
+
+#, fuzzy
+msgid "lm_edit_chapters"
+msgstr "Edit Chapters"
+
+#, fuzzy
+msgid "lm_edit_content"
+msgstr "Edit Content"
+
+#, fuzzy
+msgid "lm_edit_lm_settings"
+msgstr "Edit Learning Module Settings"
+
+#, fuzzy
+msgid "lm_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "lm_est_reading_time_info"
+msgstr "In Learning Modules in the repository the estimated reading time can be determined and displayed."
+
+#, fuzzy
+msgid "lm_insert_chapter"
+msgstr "Insert chapter"
+
+#, fuzzy
+msgid "lm_insert_chapter_after"
+msgstr "Insert chapter after"
+
+#, fuzzy
+msgid "lm_insert_chapter_before"
+msgstr "Insert chapter before"
+
+#, fuzzy
+msgid "lm_insert_chapter_clip"
+msgstr "Insert chapter from clipboard"
+
+#, fuzzy
+msgid "lm_insert_chapter_clip_after"
+msgstr "Insert chapter from clipboard after"
+
+#, fuzzy
+msgid "lm_insert_chapter_clip_before"
+msgstr "Insert chapter from clipboard before"
+
+#, fuzzy
+msgid "lm_insert_layout_after"
+msgstr "Insert template after"
+
+#, fuzzy
+msgid "lm_insert_layout_before"
+msgstr "Insert template before"
+
+#, fuzzy
+msgid "lm_insert_page"
+msgstr "Insert page"
+
+#, fuzzy
+msgid "lm_insert_page_after"
+msgstr "Insert page after"
+
+#, fuzzy
+msgid "lm_insert_page_before"
+msgstr "Insert page before"
+
+#, fuzzy
+msgid "lm_insert_page_clip"
+msgstr "Insert page from clipboard"
+
+#, fuzzy
+msgid "lm_insert_page_clip_after"
+msgstr "Insert page from clipboard after"
+
+#, fuzzy
+msgid "lm_insert_page_clip_before"
+msgstr "Insert page from clipboard before"
+
+#, fuzzy
+msgid "lm_list_pages"
+msgstr "Edit Pages"
+
+#, fuzzy
+msgid "lm_page_added"
+msgstr "Page has been added."
+
+#, fuzzy
+msgid "lm_page_type_lm"
+msgstr "LM Page"
+
+#, fuzzy
+msgid "lm_pages_added"
+msgstr "Pages have been added."
+
+msgid "lm_save_titles"
+msgstr "Títulos guardados."

@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: lm\n"
+
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr ""
+
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr ""
+
+msgid "lm_copy"
+msgstr ""
+
+msgid "lm_edit_chapters"
+msgstr ""
+
+msgid "lm_edit_content"
+msgstr ""
+
+msgid "lm_edit_lm_settings"
+msgstr ""
+
+msgid "lm_est_reading_time"
+msgstr ""
+
+msgid "lm_est_reading_time_info"
+msgstr ""
+
+msgid "lm_insert_chapter"
+msgstr ""
+
+msgid "lm_insert_chapter_after"
+msgstr ""
+
+msgid "lm_insert_chapter_before"
+msgstr ""
+
+msgid "lm_insert_chapter_clip"
+msgstr ""
+
+msgid "lm_insert_chapter_clip_after"
+msgstr ""
+
+msgid "lm_insert_chapter_clip_before"
+msgstr ""
+
+msgid "lm_insert_layout_after"
+msgstr ""
+
+msgid "lm_insert_layout_before"
+msgstr ""
+
+msgid "lm_insert_page"
+msgstr ""
+
+msgid "lm_insert_page_after"
+msgstr ""
+
+msgid "lm_insert_page_before"
+msgstr ""
+
+msgid "lm_insert_page_clip"
+msgstr ""
+
+msgid "lm_insert_page_clip_after"
+msgstr ""
+
+msgid "lm_insert_page_clip_before"
+msgstr ""
+
+msgid "lm_list_pages"
+msgstr ""
+
+msgid "lm_page_added"
+msgstr ""
+
+msgid "lm_page_type_lm"
+msgstr ""
+
+msgid "lm_pages_added"
+msgstr ""
+
+msgid "lm_save_titles"
+msgstr ""

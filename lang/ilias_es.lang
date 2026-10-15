@@ -8147,33 +8147,6 @@ irss#:#title_manage_container#:#Gestionar archivos y carpetas
 irss#:#type#:#Tipo de archivo
 irss#:#upload_field_title#:#Archivos seleccionados
 irss#:#upload_modal_title#:#Añadir archivos
-lm#:#lm_btn_lp_toggle_state_completed#:#Establecer como No completado
-lm#:#lm_btn_lp_toggle_state_not_completed#:#Establecer como Completado
-lm#:#lm_copy#:#Copiar módulo de aprendizaje
-lm#:#lm_edit_chapters#:#Editar capítulos
-lm#:#lm_edit_content#:#Editar contenido
-lm#:#lm_edit_lm_settings#:#Editar ajustes del módulo de aprendizaje
-lm#:#lm_est_reading_time#:#Tiempo estimado de lectura
-lm#:#lm_est_reading_time_info#:#En los módulos de aprendizaje del repositorio se puede determinar y mostrar el tiempo estimado de lectura.
-lm#:#lm_insert_chapter#:#Insertar capítulo
-lm#:#lm_insert_chapter_after#:#Insertar capítulo después
-lm#:#lm_insert_chapter_before#:#Insertar capítulo antes
-lm#:#lm_insert_chapter_clip#:#Insertar capítulo desde el portapapeles
-lm#:#lm_insert_chapter_clip_after#:#Insertar capítulo desde el portapapeles después
-lm#:#lm_insert_chapter_clip_before#:#Insertar capítulo desde el portapapeles antes
-lm#:#lm_insert_layout_after#:#Insertar plantilla después
-lm#:#lm_insert_layout_before#:#Insertar plantilla antes
-lm#:#lm_insert_page#:#Insertar página
-lm#:#lm_insert_page_after#:#Insertar página después
-lm#:#lm_insert_page_before#:#Insertar página antes
-lm#:#lm_insert_page_clip#:#Insertar página desde el portapapeles
-lm#:#lm_insert_page_clip_after#:#Insertar página desde el portapapeles después
-lm#:#lm_insert_page_clip_before#:#Insertar página desde el portapapeles antes
-lm#:#lm_list_pages#:#Editar páginas
-lm#:#lm_page_added#:#La página ha sido añadida.
-lm#:#lm_page_type_lm#:#Página de ML
-lm#:#lm_pages_added#:#Las páginas han sido añadidas.
-lm#:#lm_save_titles#:#Títulos guardados.
 log#:#log_browser#:#Registro de consola del navegador
 log#:#log_browser_users#:#Nombres de usuario utilizando el registro de consola
 log#:#log_cache_#:#Almacenamiento en caché
