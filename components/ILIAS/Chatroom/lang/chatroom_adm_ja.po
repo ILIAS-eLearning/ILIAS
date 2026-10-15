@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIASはチャットサーバーへソケット接続できませんでした。"
+
+msgid "chat_enabled"
+msgstr "チャットを有効にする"
+
+msgid "chatserver_settings_title"
+msgstr "チャットサーバー設定"
+
+msgid "client_settings"
+msgstr "クライアント設定"
+
+msgid "general_settings_title"
+msgstr "全般チャット設定"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "有効にすると新しい会話とメッセージをブラウザ通知で受信したいか否かを個別に決定可能です。通知はユーザが別ブラウザタブあるいはブラウザを非表示で使用するとトリガーされてILIASはバックグラウンドへ移行されます。ILIASがforegroundの場合は会話の一定のアイドル時間後にユーザはブラウザ通知を受取ります。"
+
+msgid "osc_adm_browser_noti_label"
+msgstr "ブウラウザ通知"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "ブラウザ通知が受信チャットメッセージでトリガーされる最小インターバルで通知を切る"
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "ブウラウザ通知間の時間"
+
+msgid "port_info"
+msgstr "使用中のポートがファイヤーウォールやプロキシーサーバーによりブロックされ事があります。設定したポートがブロックされるとユーザのブラウザはチャットサーバーとの接続を確立する事ができなくなります。"
+
+msgid "protocol"
+msgstr "プロトコル"
+
+msgid "public_chat_permissions"
+msgstr "パブリックチャットルームのアクセス権"
+
+msgid "public_chat_settings"
+msgstr "パブリックチャットルーム設定"
+
+msgid "server_settings"
+msgstr "サーバー設定"
+
+msgid "settings_has_been_saved"
+msgstr "設定を保存しました"

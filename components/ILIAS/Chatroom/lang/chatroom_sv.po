@@ -1,0 +1,563 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: chatroom\n"
+
+msgid "allow_anonymous"
+msgstr "Tillåt anonym inloggning"
+
+msgid "allow_custom_usernames"
+msgstr "Fritt valbara chattnamn"
+
+#, fuzzy
+msgid "allow_custom_usernames_info"
+msgstr "Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room."
+
+msgid "anonymous_hint"
+msgstr "Observera att för åtkomst av anonyma användare måste motsvarande behörigheter ställas in på fliken \"Behörigheter\"."
+
+msgid "auto_scroll"
+msgstr "Automatiskt bläddra till slutet"
+
+msgid "autogen_usernames"
+msgstr "Chat-namn för anonymt deltagande"
+
+msgid "autogen_usernames_info"
+msgstr "Icke-registrerade personer får automatiskt ett chattnamn så att de kan urskiljas. Romb ersätts automatiskt med en siffra."
+
+msgid "ban_question"
+msgstr "Vill du verkligen utesluta användaren från det aktuella chattrummet?"
+
+msgid "ban_table_title"
+msgstr "Förbjudna användare"
+
+msgid "banned"
+msgstr "Du har blivit avstängd från detta chattrum."
+
+msgid "bans"
+msgstr "Förbjudna användare"
+
+msgid "chat_address"
+msgstr "Adress"
+
+msgid "chat_anonymous_not_allowed"
+msgstr "För att använda chattrummet, logga in."
+
+msgid "chat_auth_token_info"
+msgstr "Please define here two unique strings that ILIAS uses for authentication in requests to the chat server. Alternativt kan dessa genereras automatiskt när man klickar på knappen. Chatt-servern kan hantera flera ILIAS-klienter, men varje klient behöver ett"
+
+msgid "chat_ban"
+msgstr "Block"
+
+msgid "chat_broadcast_typing"
+msgstr "Visa skrivande i chatten"
+
+#, fuzzy
+msgid "chat_broadcast_typing_default_info"
+msgstr "If enabled, typing will be broadcasted to other participants of a conversation or chat room by default."
+
+msgid "chat_broadcast_typing_info"
+msgstr "Others present in a chat or chat room visas när du börjar skriva ett meddelande."
+
+msgid "chat_connection_disconnected"
+msgstr "--- <b>#username#</b> har lämnat chattrummet ---."
+
+msgid "chat_connection_established"
+msgstr "+++ <b>#användarnamn#</b> har kommit in i chattrummet +++"
+
+msgid "chat_deletion_disabled"
+msgstr "Funktionshindrad"
+
+msgid "chat_deletion_interval"
+msgstr "Intervall"
+
+msgid "chat_deletion_interval_info"
+msgstr "Om markerat raderas meddelanden i magasinschatten och chatten på skärmen om de är äldre än det tröskelvärde som definieras här."
+
+msgid "chat_deletion_interval_run_at"
+msgstr "Tid"
+
+msgid "chat_deletion_interval_run_at_info"
+msgstr "Ange tiden här i formatet 'HH"
+
+msgid "chat_deletion_interval_unit"
+msgstr "Enhet"
+
+msgid "chat_deletion_interval_value"
+msgstr "Värde"
+
+msgid "chat_deletion_ival_max_val"
+msgstr "Det maximala värdet för den valda enheten '%s' är"
+
+msgid "chat_deletion_section_head"
+msgstr "Radera gamla meddelanden"
+
+msgid "chat_enable_history"
+msgstr "Framsteg"
+
+msgid "chat_enable_history_info"
+msgstr "Everyone kan läsa och exportera publika chattinlägg från tidigare år under fliken \"Historik\". Inlägg från séparées är endast tillgängliga för användare som var inbjudna dit."
+
+msgid "chat_error_log_info"
+msgstr "Ange den absoluta sökvägen till den fil (t.ex. /var/www/ilias/data/chat_errors.log) där chatt-servern loggar fel. Om ingen sökväg anges skapas en loggfil i samma katalog som chatt-servern finns i."
+
+#, fuzzy
+msgid "chat_functions"
+msgstr "Chat Functions"
+
+msgid "chat_https_cert_info"
+msgstr "Ange den absoluta serversökvägen till SSL-certifikatet (t.ex."
+
+msgid "chat_https_dhparam_info"
+msgstr "Ange här den absoluta serversökvägen till en fil (t.ex."
+
+msgid "chat_https_key_info"
+msgstr "Ange den absoluta serversökvägen till den privata nyckeln (t.ex."
+
+msgid "chat_invitation"
+msgstr "\"[INVITER_NAME]\" bjuder in till chattrummet \"[ROOM_NAME]\""
+
+msgid "chat_invitation_long"
+msgstr "[SALUTATION][BR][BR]Du har blivit inbjuden till ett chattrum"
+
+#, fuzzy
+msgid "chat_invitation_modal_headline"
+msgstr "Invitation to Chat Room"
+
+#, fuzzy
+msgid "chat_invitation_modal_section"
+msgstr "Invite User"
+
+msgid "chat_invitation_nc_inv_x"
+msgstr "Du har %s chattinbjudningar."
+
+msgid "chat_invitation_nc_no_inv"
+msgstr "De har inga chattrum."
+
+msgid "chat_invitation_short"
+msgstr "Klicka på länken för att komma till chattrummet."
+
+#, fuzzy
+msgid "chat_invitation_username_input_label"
+msgstr "Enter Username:"
+
+msgid "chat_invitations"
+msgstr "chat inbjudningar"
+
+msgid "chat_invite"
+msgstr "Inbjudan"
+
+msgid "chat_join"
+msgstr "Ange"
+
+msgid "chat_kick"
+msgstr "Eject"
+
+msgid "chat_log_info"
+msgstr "Ange den absoluta sökvägen till den fil (t.ex. /var/www/ilias/data/chat.log) där chatt-servern loggar allmänna händelser. Om ingen sökväg anges skapas en loggfil i samma katalog som chatt-servern är placerad i."
+
+msgid "chat_log_level"
+msgstr "Loggnivå"
+
+msgid "chat_mainroom"
+msgstr "huvudrum"
+
+msgid "chat_message"
+msgstr "Meddelande"
+
+msgid "chat_message_display"
+msgstr "Display"
+
+msgid "chat_message_options"
+msgstr "Alternativ"
+
+msgid "chat_no_use_typing_broadcast"
+msgstr "Typning visas inte för andra i chatten"
+
+msgid "chat_not_use_osc"
+msgstr "Använder inte chatt på skärmen"
+
+msgid "chat_osc_accept_msg"
+msgstr "Tillåt chatt"
+
+#, fuzzy
+msgid "chat_osc_accept_msg_default_info"
+msgstr "If enabled, users are by default allowed to send each other messages using the on-screen chat system."
+
+msgid "chat_osc_accept_msg_info"
+msgstr "När den är aktiverad kan andra användare skicka meddelanden till mig via chatten på skärmen."
+
+msgid "chat_osc_accept_msg_info_slate"
+msgstr "För att kunna använda privata konversationer måste du aktivera inställningarna \"Tillåt chatt\"."
+
+msgid "chat_osc_accept_msg_info_slate_link_txt"
+msgstr "Synlighet (i \"Profil och privatliv)"
+
+msgid "chat_osc_accept_no_conv_info_slate"
+msgstr "Current det finns inga minimerade konversationer."
+
+msgid "chat_osc_accepts_messages_no"
+msgstr "Tar inte emot chattmeddelanden"
+
+msgid "chat_osc_accepts_messages_yes"
+msgstr "Tar emot chattmeddelanden"
+
+msgid "chat_osc_add_user"
+msgstr "Lägg till fler användare i chatten"
+
+msgid "chat_osc_conversations"
+msgstr "Chatt"
+
+msgid "chat_osc_doesnt_accept_msg"
+msgstr "Chatting inte möjligt"
+
+msgid "chat_osc_head_grp_x_persons"
+msgstr "%s användare"
+
+msgid "chat_osc_invite_to_conversation"
+msgstr "Lägg till i chatten"
+
+msgid "chat_osc_leave_grp_conv"
+msgstr "Lämna chatten"
+
+msgid "chat_osc_minimize"
+msgstr "Minimera"
+
+msgid "chat_osc_nc_conv_x_p"
+msgstr "Du har %s minimerade chattar."
+
+msgid "chat_osc_nc_conv_x_s"
+msgstr "Du har en minimerad chatt."
+
+msgid "chat_osc_nc_no_conv"
+msgstr "Inga chattar tillgängliga"
+
+msgid "chat_osc_nc_prop_time"
+msgstr "Tid"
+
+msgid "chat_osc_no_conv"
+msgstr "Inga chattar tillgängliga."
+
+msgid "chat_osc_no_sub_directory"
+msgstr "Relativ väg"
+
+msgid "chat_osc_no_sub_directory_info"
+msgstr "Om chattservern är konfigurerad så att den associerade URL-adressen har en subväg av typen \"http(s)"
+
+msgid "chat_osc_no_usr_found"
+msgstr "Ingen användare kunde hittas."
+
+msgid "chat_osc_search_modal_info"
+msgstr "Sök här efter en person som du vill lägga till i chatten. Om du har öppnat sökdialogen i en gruppchatt kommer personen att läggas till i den. Om du har öppnat sökdialogen från en enskild chatt öppnas ett nytt fönster för gruppchatten efter att du har lag"
+
+msgid "chat_osc_self_rej_msgs"
+msgstr "Du kan för närvarande inte delta i chatten eftersom du för närvarande har undertryckt mottagandet av chattmeddelanden i dina inställningar."
+
+msgid "chat_osc_send"
+msgstr "Skicka"
+
+msgid "chat_osc_start_conversation"
+msgstr "Starta chatt"
+
+msgid "chat_osc_subs_rej_msgs"
+msgstr "Den kontaktade personen vill inte ta emot meddelanden för tillfället. De kan dock återaktivera mottagandet av chattmeddelanden i sina chattinställningar."
+
+msgid "chat_osc_subs_rej_msgs_p"
+msgstr "Följande personer vill inte ta emot fler meddelanden för tillfället"
+
+msgid "chat_osc_sure_to_leave_grp_conv"
+msgstr "Är du säker på att du vill lämna gruppchatten?"
+
+msgid "chat_osc_user"
+msgstr "Användare"
+
+msgid "chat_osc_user_left_grp_conv"
+msgstr "Användaren '%s' har lämnat gruppchatten."
+
+msgid "chat_osc_write_a_msg"
+msgstr "Skriv ett meddelande ..."
+
+#, fuzzy
+msgid "chat_select_room"
+msgstr "Select Chat Room"
+
+msgid "chat_settings"
+msgstr "Chat-inställningar"
+
+msgid "chat_settings_functions_header"
+msgstr "Funktioner för chatten"
+
+msgid "chat_show_auto_messages"
+msgstr "Visa automatiska meddelanden"
+
+msgid "chat_to_mainroom"
+msgstr "Till huvudrummet"
+
+msgid "chat_use_osc"
+msgstr "Använder chatt på skärmen"
+
+msgid "chat_use_typing_broadcast"
+msgstr "Typning visas för andra i chatten"
+
+msgid "chat_user_action_invite_osd"
+msgstr "Starta chatt på skärmen"
+
+msgid "chat_user_action_invite_public_room"
+msgstr "Inbjuda till offentligt chattrum"
+
+msgid "chat_user_x_is_typing"
+msgstr "Användaren %s skriver ..."
+
+msgid "chat_users_are_typing"
+msgstr "Flera användare skriver ..."
+
+msgid "chat_whisper"
+msgstr "Viskning"
+
+#, fuzzy
+msgid "chatroom_anonymous_default"
+msgstr "Anonymous #"
+
+msgid "chatroom_auth"
+msgstr "Autentisering"
+
+msgid "chatroom_auth_btn_txt"
+msgstr "Generera nyckel"
+
+msgid "chatroom_auth_key"
+msgstr "Autentiseringsnyckel"
+
+msgid "chatroom_auth_secret"
+msgstr "autentiseringshemlighet"
+
+msgid "chatroom_client_name"
+msgstr "Namn"
+
+msgid "chatroom_client_name_info"
+msgstr "Ange ett globalt unikt namn på klienten för registrering på chatt-servern. Initialt används klient-ID här. Om du ändrar detta värde måste chatt-servern startas om."
+
+msgid "chatroom_enable_osc"
+msgstr "Aktivera #chatt på skärmen"
+
+msgid "chatroom_enable_osc_info"
+msgstr "Skärmchatten är tillgänglig för alla på plattformen. Varje person kan dock själv bestämma om han eller hon vill bli tilltalad av andra. Chattar kan startas via verktyget \"Vem är online?\"."
+
+msgid "chatroom_log"
+msgstr "Chatserver Loggfil"
+
+msgid "chatserver_address"
+msgstr "IP-adress/FQN för chatt-servern"
+
+msgid "chatserver_port"
+msgstr "Port för chatt-servern"
+
+msgid "chtr_activation_limited_visibility_info"
+msgstr "Utanför den angivna perioden visas chattrummets titel men inte innehållet."
+
+msgid "chtr_activation_online_info"
+msgstr "Endast när chatten är online kan användare se och använda chatten."
+
+msgid "chtr_add"
+msgstr "Chatroom skapa"
+
+msgid "chtr_ban_actor_tbl_head"
+msgstr "blockerad av"
+
+msgid "chtr_ban_ts_tbl_head"
+msgstr "Tid"
+
+msgid "chtr_new"
+msgstr "Skapa nytt chattrum"
+
+msgid "chtr_server_status"
+msgstr "Status för server"
+
+msgid "clear_room_history"
+msgstr "Radera meddelandehistorik"
+
+msgid "clear_room_history_question"
+msgstr "Vill du verkligen radera alla meddelanden i det aktuella rummet?"
+
+msgid "client_chatserver_connection"
+msgstr "Anslutning klient till server"
+
+msgid "client_proxy_info"
+msgstr "Om servern inte kan nås via den aktuella IP-adressen och porten är det möjligt att definiera en alternativ URL för anslutningen mellan klient och server."
+
+msgid "connection_url_info"
+msgstr "Ange här en URL via vilken servern kan nås."
+
+msgid "custom_username"
+msgstr "Own chat namn"
+
+msgid "dhparam"
+msgstr "Diffie-Hellman-parametrar"
+
+msgid "display_past_msgs"
+msgstr "Chat recension"
+
+msgid "duration_from"
+msgstr "Från"
+
+msgid "duration_to"
+msgstr "Till"
+
+msgid "end_whisper"
+msgstr "Utgång"
+
+msgid "enter"
+msgstr "Delta i chatten"
+
+msgid "error_log"
+msgstr "Chatserver Fel-Logg-fil"
+
+msgid "hint_display_past_msgs"
+msgstr "Antal tidigare inlägg som visas när du går in i chattrummet. Om du anger \"0\" inaktiveras visningen."
+
+msgid "history_byday_title"
+msgstr "Välj tidsperiod"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "history_cleared"
+msgstr " Meddelandets historik har tagits bort av moderering."
+
+msgid "history_title_general"
+msgstr "Konversationer i chattrummet \"%s\""
+
+msgid "ilias_chatserver_connection"
+msgstr "Anslutning ILIAS till servern"
+
+msgid "ilias_proxy_info"
+msgstr "Om servern inte är tillgänglig via den faktiska IP-adressen och porten är det möjligt att definiera en alternativ URL för anslutningen mellan ILIAS och servern."
+
+msgid "invite_to_private_room"
+msgstr "Inbjuda till aktuellt rum"
+
+msgid "invite_username"
+msgstr "Login namn"
+
+msgid "key"
+msgstr "Nyckel"
+
+msgid "kick_question"
+msgstr "Vill du verkligen sparka ut användaren från det aktuella chattrummet?"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "kicked"
+msgstr "Moderering har tagit bort dig från chatten."
+
+msgid "lost_connection"
+msgstr " Anslutningen till chattservern avbröts."
+
+msgid "main"
+msgstr "huvudrum"
+
+#, fuzzy
+msgid "messages"
+msgstr "Messages"
+
+msgid "no_further_users"
+msgstr "Inga andra användare närvarande"
+
+msgid "no_messages"
+msgstr "Det finns inga meddelanden tillgängliga för den valda perioden."
+
+msgid "no_username_given"
+msgstr "Välj ett inloggningsnamn!"
+
+msgid "osc_browser_noti_no_permission_error"
+msgstr "Ta bort ILIAS-domänen från listan över blockerade webbplatser i meddelandeinställningarna i din webbläsare eller ditt operativsystem. Annars kommer ILIAS inte att kunna leverera webbläsarmeddelanden."
+
+msgid "osc_browser_noti_no_support_error"
+msgstr "Browser notifications stöds inte av din nuvarande webbläsare. Kontrollera att du har åtkomst till ILIAS via HTTPS och att din webbläsare är konfigurerad som &lt;a href=\"https"
+
+msgid "osc_browser_noti_req_permission_error"
+msgstr "Browser notifications kunde inte aktiveras eftersom du har nekat åtkomst i din webbläsare. Ta bort ILIAS-domänen från listan över blockerade webbplatser i meddelandeinställningarna i din webbläsare eller ditt operativsystem."
+
+msgid "osc_enable_browser_notifications_info"
+msgstr "Om den är aktiverad får du ett webbläsarmeddelande när nya chattar eller chattmeddelanden anländer om mer än %s minut(er) har gått mellan två chattinlägg. Om ILIAS är i bakgrunden och du arbetar i andra webbläsarflikar, eller om webbläsaren är dold, komm"
+
+msgid "osc_enable_browser_notifications_label"
+msgstr "Meddelanden från webbläsaren"
+
+msgid "osc_noti_title"
+msgstr "Nytt chattmeddelande"
+
+msgid "period"
+msgstr "Tidsperiod"
+
+msgid "permissions"
+msgstr "Rättigheter"
+
+# Ny introducerad variabel i samband med jämställdhetsintegrering för ILIAS 8
+msgid "preferred_chatname"
+msgstr "Wanted name"
+
+msgid "public_chat_created"
+msgstr "Ett nytt offentligt chattrum har skapats i tidningen."
+
+msgid "scope"
+msgstr "Rum/Séparée"
+
+msgid "select_custom_username"
+msgstr "Visat namn i chatten"
+
+msgid "server_further_information"
+msgstr " Mer information om hur du konfigurerar servern finns i <a href=\"%1$s\" target=\"_blank\">filen readme</a>."
+
+#, fuzzy
+msgid "server_readme_file_btn_label"
+msgstr "Readme File"
+
+msgid "session"
+msgstr "Session"
+
+msgid "settings_general"
+msgstr "Allmänt"
+
+msgid "settings_title"
+msgstr "Chat-inställningar"
+
+#, fuzzy
+msgid "start_private_chat"
+msgstr "Start Private Chat"
+
+msgid "unable_to_connect"
+msgstr "Anslutningen till chattservern kunde inte upprättas."
+
+msgid "unban"
+msgstr "Lås upp"
+
+#, fuzzy
+msgid "user_banned"
+msgstr "The user #user# has been banned."
+
+msgid "user_in_ilias"
+msgstr "Sök och bjud in användare i ILIAS"
+
+msgid "user_in_room"
+msgstr "Bjud in #Users i det aktuella chattrummet"
+
+msgid "user_invited"
+msgstr "Användaren har blivit inbjuden."
+
+msgid "user_invited_self"
+msgstr "Du har blivit inbjuden till <b>#room#</b> av <b>#user#</b>."
+
+msgid "user_kicked"
+msgstr "Användaren <b>#user#</b> har sparkats ut från chattrummet."
+
+msgid "users"
+msgstr "Användare"
+
+msgid "welcome_to_chat"
+msgstr "Välkommen till chattrummet"
+
+#, fuzzy
+msgid "write_message"
+msgstr "New Message"

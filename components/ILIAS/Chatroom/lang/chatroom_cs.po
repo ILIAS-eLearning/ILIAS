@@ -1,0 +1,591 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: chatroom\n"
+
+msgid "allow_anonymous"
+msgstr "Povolit anonymní přihlášení"
+
+msgid "allow_custom_usernames"
+msgstr "Povolit volitelné uživatelské jméno"
+
+#, fuzzy
+msgid "allow_custom_usernames_info"
+msgstr "Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room."
+
+msgid "anonymous_hint"
+msgstr "Zajistěte nastavení řádného oprávnění v tabulce \"Oprávnění\" k povolení anonymních uživatelů k položkám úložiště."
+
+msgid "auto_scroll"
+msgstr "Rolovat dolů"
+
+msgid "autogen_usernames"
+msgstr "Automatické generování uživatelských jmen"
+
+msgid "autogen_usernames_info"
+msgstr "Vzor pro automatické generování uživatelských jmen. '"
+
+msgid "ban_question"
+msgstr "Skutečně chcete vyhostit uživatele z této hovorny?"
+
+msgid "ban_table_title"
+msgstr "Vyhoštění uživatelé"
+
+msgid "banned"
+msgstr "Byl(a) jste vyhoštěn(a) z této hovorny"
+
+msgid "bans"
+msgstr "Vyhoštění"
+
+msgid "chat_address"
+msgstr "Adresa"
+
+msgid "chat_anonymous_not_allowed"
+msgstr "Přihlaste se, pokud chcete používat chat."
+
+msgid "chat_auth_token_info"
+msgstr "Definujte unikátní řetězce, které používá systém ILIAS pro účely ověření při odesílání požadavků na chatovací server. Tyto řetězce můžete automaticky vytvořit kliknutím na příslušné tlačítko. Povšimněte si, že chatovací server je schopen komunikovat s více klienty ILIAS, ale každé ID klienta musí být <b>unikátní</b>."
+
+msgid "chat_ban"
+msgstr "Zákaz"
+
+#, fuzzy
+msgid "chat_broadcast_typing"
+msgstr "Broadcast Typing"
+
+#, fuzzy
+msgid "chat_broadcast_typing_default_info"
+msgstr "If enabled, typing will be broadcasted to other participants of a conversation or chat room by default."
+
+#, fuzzy
+msgid "chat_broadcast_typing_info"
+msgstr "If enabled, your typing will be broadcasted to other participants of a conversation or chat room."
+
+msgid "chat_connection_disconnected"
+msgstr "--- <b>"
+
+msgid "chat_connection_established"
+msgstr "+++ <b>"
+
+msgid "chat_deletion_disabled"
+msgstr "Vypnuto"
+
+msgid "chat_deletion_interval"
+msgstr "Interval"
+
+msgid "chat_deletion_interval_info"
+msgstr "Je-li vybráno, zprávy v úložišti chatu při konverzacích na obrazovce budou vymazány po definované prahové hodnotě."
+
+msgid "chat_deletion_interval_run_at"
+msgstr "Čas"
+
+msgid "chat_deletion_interval_run_at_info"
+msgstr "Definujte čas (formát: HH:MM), kdy má server zpracovat smazání zprávy."
+
+msgid "chat_deletion_interval_unit"
+msgstr "Jednotka"
+
+msgid "chat_deletion_interval_value"
+msgstr "Hodnota"
+
+msgid "chat_deletion_ival_max_val"
+msgstr "Maximální hodnota vybrané jednotky „%s“ je: %s"
+
+msgid "chat_deletion_section_head"
+msgstr "Mazání starých zpráv"
+
+#, fuzzy
+msgid "chat_enable_history"
+msgstr "Enable History"
+
+#, fuzzy
+msgid "chat_enable_history_info"
+msgstr "Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users."
+
+msgid "chat_error_log_info"
+msgstr "Definujte absolutní cestu k serveru pro soubor protokolu chyb serveru chatu (např.: /var/www/ilias/data/chat_error.log). Pokud neurčíte cestu, chatovací server automaticky vytvoří soubor umístěný v adresáři chatovacího serveru."
+
+#, fuzzy
+msgid "chat_functions"
+msgstr "Chat Functions"
+
+msgid "chat_https_cert_info"
+msgstr "Definujte absolutní cestu k serveru pro soubor SSL certifikátu (např.: /etc/ssl/certs/server.pem)."
+
+msgid "chat_https_dhparam_info"
+msgstr "Definujte absolutní cestu k serveru pro soubor (např.: /etc/ssl/private/dhparam.pem), používá se pro převod parametrů Diffie-Hellman (např. generované přes: openssl dhparam-out /etc/ssl/private/dhparam.pem 2048)."
+
+msgid "chat_https_key_info"
+msgstr "Definujte absolutní cestu k serveru pro soubor privátního klíče (např.: /etc/ssl/private/server.key)."
+
+msgid "chat_invitation"
+msgstr "Pozvání od [INVITER_NAME] do hovorny [ROOM_NAME]"
+
+msgid "chat_invitation_long"
+msgstr "[SALUTATION]\\n\\nByl(a) jste pozván(a) do hovorny:\\nNázev hovorny: [ROOM_NAME]\\nPozvání od: [INVITER_NAME]\\nURL: [LINK]\\n\\nPokud se chcete zapojit do hovorny, následujte prosím uvedený URL."
+
+#, fuzzy
+msgid "chat_invitation_modal_headline"
+msgstr "Invitation to Chat Room"
+
+#, fuzzy
+msgid "chat_invitation_modal_section"
+msgstr "Invite User"
+
+#, fuzzy
+msgid "chat_invitation_nc_inv_x"
+msgstr "You have %s chat invitations."
+
+#, fuzzy
+msgid "chat_invitation_nc_no_inv"
+msgstr "You have no chat invitations."
+
+msgid "chat_invitation_short"
+msgstr "Ke vstupu do hovorny klepněte prosím na název odkazu."
+
+#, fuzzy
+msgid "chat_invitation_username_input_label"
+msgstr "Enter Username:"
+
+#, fuzzy
+msgid "chat_invitations"
+msgstr "Chat invitations"
+
+msgid "chat_invite"
+msgstr "Pozvat"
+
+msgid "chat_join"
+msgstr "Připojit"
+
+msgid "chat_kick"
+msgstr "Vyhostit"
+
+msgid "chat_log_info"
+msgstr "Definujte absolutní cestu k serveru pro soubor protokolu chatovacího serveru (např.: /var/www/ilias/data/chat.log). Pokud neurčíte cestu, chatovací server automaticky vytvoří soubor umístěný v adresáři chatovacího serveru."
+
+#, fuzzy
+msgid "chat_log_level"
+msgstr "Log Level"
+
+msgid "chat_mainroom"
+msgstr "Hlavní hovorna"
+
+msgid "chat_message"
+msgstr "Zpráva"
+
+msgid "chat_message_display"
+msgstr "Volby"
+
+msgid "chat_message_options"
+msgstr "Zobrazení"
+
+#, fuzzy
+msgid "chat_no_use_typing_broadcast"
+msgstr "Typing will not be broadcasted"
+
+#, fuzzy
+msgid "chat_not_use_osc"
+msgstr "Not Using On-Screen-Chat"
+
+msgid "chat_osc_accept_msg"
+msgstr "Povolit konverzace chatu na obrazovce"
+
+#, fuzzy
+msgid "chat_osc_accept_msg_default_info"
+msgstr "If enabled, users are by default allowed to send each other messages using the on-screen chat system."
+
+msgid "chat_osc_accept_msg_info"
+msgstr "Pokud je aktivováno, ostatní uživatelé se mnou mohou zahájit konverzaci."
+
+#, fuzzy
+msgid "chat_osc_accept_msg_info_slate"
+msgstr "To have private conversations, you must enable your setting \"Allow On-Screen Chat Conversations\"."
+
+#, fuzzy
+msgid "chat_osc_accept_msg_info_slate_link_txt"
+msgstr "Visibility (in Profile and Privacy)"
+
+#, fuzzy
+msgid "chat_osc_accept_no_conv_info_slate"
+msgstr "There are currently no minimzed conversations."
+
+msgid "chat_osc_accepts_messages_no"
+msgstr "Nedostává zprávy z chatu"
+
+msgid "chat_osc_accepts_messages_yes"
+msgstr "Dostává zprávy chatu"
+
+msgid "chat_osc_add_user"
+msgstr "Přidat další uživatele"
+
+msgid "chat_osc_conversations"
+msgstr "Konverzace"
+
+msgid "chat_osc_doesnt_accept_msg"
+msgstr "Konverzace nejsou možné"
+
+msgid "chat_osc_head_grp_x_persons"
+msgstr "%s Uživatelé"
+
+msgid "chat_osc_invite_to_conversation"
+msgstr "Přidat do konverzace"
+
+msgid "chat_osc_leave_grp_conv"
+msgstr "Opustit konverzaci"
+
+#, fuzzy
+msgid "chat_osc_minimize"
+msgstr "Minimize"
+
+#, fuzzy
+msgid "chat_osc_nc_conv_x_p"
+msgstr "You have %s hidden conversations."
+
+#, fuzzy
+msgid "chat_osc_nc_conv_x_s"
+msgstr "You have one hidden conversation."
+
+#, fuzzy
+msgid "chat_osc_nc_no_conv"
+msgstr "No Conversations available"
+
+#, fuzzy
+msgid "chat_osc_nc_prop_time"
+msgstr "Time"
+
+msgid "chat_osc_no_conv"
+msgstr "Žádné konverzace."
+
+msgid "chat_osc_no_sub_directory"
+msgstr "Podadresář"
+
+msgid "chat_osc_no_sub_directory_info"
+msgstr "Pokud je chatovací server dostupný pouze prostřednictvím podadresáře s adresou URL „http(s)://[IP/Domain]/[PATH]“ je požadováno vložit [PATH] pro tento chatovací server."
+
+msgid "chat_osc_no_usr_found"
+msgstr "Nelze najít žádného uživatele, který by vyhovoval vašemu vyhledávání."
+
+msgid "chat_osc_search_modal_info"
+msgstr "Zde můžete vyhledávat uživatele, které chcete přidat do konverzace. Pokud byl vyhledávací dialog otevřen v rámci skupinového chatu, bude nový uživatel přidán do tohoto chatu. Pokud jste spustili vyhledávání v chatu 1:1, otevře se nové okno skupinového chatu."
+
+msgid "chat_osc_self_rej_msgs"
+msgstr "V současné době se nemůžete zúčastnit této konverzace, protože jste ve svém nastavení zastavili příjem zpráv."
+
+msgid "chat_osc_send"
+msgstr "Odeslat"
+
+msgid "chat_osc_start_conversation"
+msgstr "Zahájit konverzaci"
+
+msgid "chat_osc_subs_rej_msgs"
+msgstr "V současné době není možné pokračovat v této konverzaci. Váš chatovací partner musí aktivovat chaty v nastavení chatu."
+
+msgid "chat_osc_subs_rej_msgs_p"
+msgstr "Následující chatovací partneři vaší konverzace již nechtějí přijímat zprávy: %s"
+
+msgid "chat_osc_sure_to_leave_grp_conv"
+msgstr "Opravdu chcete opustit skupinovou konverzaci?"
+
+msgid "chat_osc_user"
+msgstr "Uživatel"
+
+msgid "chat_osc_user_left_grp_conv"
+msgstr "Uživatel „%s“ opustil skupinovou konverzaci."
+
+msgid "chat_osc_write_a_msg"
+msgstr "Napsat zprávu ..."
+
+msgid "chat_select_room"
+msgstr "Vybrat hovornu"
+
+msgid "chat_settings"
+msgstr "Nastavení diskuze"
+
+#, fuzzy
+msgid "chat_settings_functions_header"
+msgstr "Chat Room Functions"
+
+#, fuzzy
+msgid "chat_show_auto_messages"
+msgstr "Show Status Messages"
+
+msgid "chat_to_mainroom"
+msgstr "Do hlavní hovorny"
+
+#, fuzzy
+msgid "chat_use_osc"
+msgstr "Using On-Screen-Chat"
+
+#, fuzzy
+msgid "chat_use_typing_broadcast"
+msgstr "Typing will be broadcasted"
+
+msgid "chat_user_action_invite_osd"
+msgstr "Pozvat do chatu na obrazovce"
+
+msgid "chat_user_action_invite_public_room"
+msgstr "Pozvat do veřejné chatovací místnosti"
+
+#, fuzzy
+msgid "chat_user_x_is_typing"
+msgstr "User %s is typing ..."
+
+#, fuzzy
+msgid "chat_users_are_typing"
+msgstr "Multiple users are typing ..."
+
+msgid "chat_whisper"
+msgstr "Šeptání"
+
+#, fuzzy
+msgid "chatroom_anonymous_default"
+msgstr "Anonymous #"
+
+msgid "chatroom_auth"
+msgstr "Ověření"
+
+msgid "chatroom_auth_btn_txt"
+msgstr "Generovat klíče"
+
+msgid "chatroom_auth_key"
+msgstr "Autentizační klíč"
+
+msgid "chatroom_auth_secret"
+msgstr "Autentizační tajemství"
+
+msgid "chatroom_client_name"
+msgstr "Jméno"
+
+msgid "chatroom_client_name_info"
+msgstr "Zadejte jméno pro tohoto klienta ILIAS. Zadaný řetězec musí být globálně jedinečný. Tato hodnota je původně nastavena na ID klienta od klienta ILIAS. Pokud se změní, je třeba restartovat chatovací server."
+
+msgid "chatroom_enable_osc"
+msgstr "Povolit chat na obrazovce"
+
+msgid "chatroom_enable_osc_info"
+msgstr "Pokud je aktivován, bude pro každého uživatele k dispozici chat na obrazovce. Ale každý uživatel se může rozhodnout, zda chce být kontaktován ostatními. Konverzace mohou být zahájeny v nástroji „Kdo je online?“."
+
+#, fuzzy
+msgid "chatroom_log"
+msgstr "Chatserver Log"
+
+msgid "chatserver_address"
+msgstr "IP-Adresa diskuzního serveru"
+
+msgid "chatserver_port"
+msgstr "Port diskuzního serveru"
+
+msgid "chtr_activation_limited_visibility_info"
+msgstr "Pokud je zaškrtnuto, bude název chatu viditelný i mimo danou dostupnost. Ale k chatu nelze přistupovat."
+
+msgid "chtr_activation_online_info"
+msgstr "Nastavte online chat tak, aby byl viditelný a dostupný pro účastníky. Pokud ne, budou k němu mít přístup pouze uživatelé s oprávněním „Upravit nastavení“."
+
+msgid "chtr_add"
+msgstr "Přidat hovornu"
+
+msgid "chtr_ban_actor_tbl_head"
+msgstr "Aktér"
+
+msgid "chtr_ban_ts_tbl_head"
+msgstr "Časové razítko"
+
+msgid "chtr_new"
+msgstr "Nová hovorna"
+
+msgid "chtr_server_status"
+msgstr "Stav serveru"
+
+msgid "clear_room_history"
+msgstr "Smazat historii zpráv"
+
+msgid "clear_room_history_question"
+msgstr "Skutečně chcete smazat všechny zprávy v aktuální hovorně?"
+
+msgid "client_chatserver_connection"
+msgstr "Připojení klienta k serveru"
+
+msgid "client_proxy_info"
+msgstr "Pokud server není přístupný s výchozí IP adresou a portem, je možné konfigurovat vlastní URL adresu pro připojení klienta k serveru."
+
+msgid "connection_url_info"
+msgstr "Vložte URL adresu pro připojení k serveru."
+
+msgid "custom_username"
+msgstr "Volitelné uživatelské jméno"
+
+msgid "dhparam"
+msgstr "Parametr Diffie-Hellman"
+
+msgid "display_past_msgs"
+msgstr "Počet posledních zpráv"
+
+msgid "duration_from"
+msgstr "Od"
+
+msgid "duration_to"
+msgstr "Komu"
+
+msgid "end_whisper"
+msgstr "Zpět"
+
+msgid "enter"
+msgstr "Vstoupit do hovorny"
+
+msgid "error_log"
+msgstr "Protokol chyb chatovacího serveru"
+
+msgid "hint_display_past_msgs"
+msgstr "Počet posledních zpráv ke zobrazení, při vstupu do hovorny. Hodnota \"0\" tento rys vypíná."
+
+msgid "history_byday_title"
+msgstr "Zobraz konverzaci po dnech"
+
+msgid "history_cleared"
+msgstr "Historie zpráv byla smazána moderátorem."
+
+msgid "history_title_general"
+msgstr "Konverzace v hovorně \"%s\""
+
+msgid "ilias_chatserver_connection"
+msgstr "Připojení systému ILIAS k serveru"
+
+msgid "ilias_proxy_info"
+msgstr "Pokud server není přístupný s výchozí IP adresou a portem, je možné konfigurovat vlastní URL adresu pro připojení systému ILIAS k serveru."
+
+msgid "invite_to_private_room"
+msgstr "Pozvat do aktuální hovorny"
+
+msgid "invite_username"
+msgstr "Uživatelské jméno"
+
+msgid "key"
+msgstr "Klíč"
+
+msgid "kick_question"
+msgstr "Skutečně chcete vykázat tohoto uživatele z aktuální hovorny?"
+
+msgid "kicked"
+msgstr "Byl(a) jste vyloučen(a) z této chatovací místnosti"
+
+msgid "lost_connection"
+msgstr "Spojení s diskuzním serverem bylo přerušeno."
+
+msgid "main"
+msgstr "Hlavní hovorna"
+
+#, fuzzy
+msgid "messages"
+msgstr "Messages"
+
+msgid "no_further_users"
+msgstr "Žádný další uživatel není přítomen"
+
+msgid "no_messages"
+msgstr "Zde není žádná uložená zpráva po dané období."
+
+msgid "no_username_given"
+msgstr "Zvolte uživatelské jméno"
+
+#, fuzzy
+msgid "osc_browser_noti_no_permission_error"
+msgstr "Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications."
+
+#, fuzzy
+msgid "osc_browser_noti_no_support_error"
+msgstr "Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href=\"https://caniuse.com/#feat=notifications\" target=\"_blank\" rel=\"noopener noreferrer\">supported browser</a>."
+
+#, fuzzy
+msgid "osc_browser_noti_req_permission_error"
+msgstr "The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system."
+
+#, fuzzy
+msgid "osc_enable_browser_notifications_info"
+msgstr "If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground."
+
+#, fuzzy
+msgid "osc_enable_browser_notifications_label"
+msgstr "Browser Notifications"
+
+#, fuzzy
+msgid "osc_noti_title"
+msgstr "New Chat Message"
+
+msgid "period"
+msgstr "Období"
+
+msgid "permissions"
+msgstr "Oprávnění"
+
+#, fuzzy
+msgid "preferred_chatname"
+msgstr "Preferred Name"
+
+msgid "public_chat_created"
+msgstr "Tato veřejná hovorna byla přidána do úložiště."
+
+msgid "scope"
+msgstr "Hovorna/Soukromá hovorna"
+
+msgid "select_custom_username"
+msgstr "Vybrat libovolné uživatelské jméno"
+
+msgid "server_further_information"
+msgstr "Další informace o nastavení serveru můžete najít v <a href=\"%1$s\" target=\"_blank\">readme file</a>."
+
+#, fuzzy
+msgid "server_readme_file_btn_label"
+msgstr "Readme File"
+
+msgid "session"
+msgstr "Sezení"
+
+msgid "settings_general"
+msgstr "Obecné"
+
+msgid "settings_title"
+msgstr "Nastavení"
+
+#, fuzzy
+msgid "start_private_chat"
+msgstr "Start Private Chat"
+
+msgid "unable_to_connect"
+msgstr "Spojení s diskuzním serverem nebylo navázáno."
+
+msgid "unban"
+msgstr "Zrušit vyhoštění"
+
+#, fuzzy
+msgid "user_banned"
+msgstr "The user #user# has been banned."
+
+msgid "user_in_ilias"
+msgstr "Vyhledat a pozvat uživatele ILIAS"
+
+msgid "user_in_room"
+msgstr "Pozvat uživatele z aktuální hovorny"
+
+msgid "user_invited"
+msgstr "Uživatel byl pozván."
+
+msgid "user_invited_self"
+msgstr "<b>"
+
+msgid "user_kicked"
+msgstr "Uživatel <b>"
+
+msgid "users"
+msgstr "Uživatelé"
+
+msgid "welcome_to_chat"
+msgstr "Vítejte v hovorně"
+
+#, fuzzy
+msgid "write_message"
+msgstr "New Message"
