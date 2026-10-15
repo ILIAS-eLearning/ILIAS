@@ -7579,10 +7579,6 @@ dcl#:#table_not_found#:#Table not found!###03 09 2026 new variable
 dcl#:#tableview_not_found#:#Tableview not found!###03 09 2026 new variable
 excv#:#excv_create#:#Título e descrição
 excv#:#excv_create_info#:#Desconhecido
-fold#:#fold_copy#:#Copiar pasta
-fold#:#fold_import#:#Predefinições de copyrights
-fold#:#fold_presentation#:#O delimitador é usado no ecrã de edição rápida para a separação de palavras-chave e autores. O padrão é ‘,’.
-fold#:#fold_settings#:#Definições de pasta
 form#:#email_not_match#:#Objetos atribuídos
 form#:#form_alphabet_all#:#Conjuntos de metadados personalizados
 form#:#form_chars_remaining#:#Caracteres restantes:

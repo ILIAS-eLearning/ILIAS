@@ -7593,10 +7593,6 @@ dcl#:#table_not_found#:#Table not found!
 dcl#:#tableview_not_found#:#Table view not found!
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it.
-fold#:#fold_copy#:#Copy Folder
-fold#:#fold_import#:#Import Folder
-fold#:#fold_presentation#:#Folder Presentation
-fold#:#fold_settings#:#Folder Settings
 form#:#email_not_match#:#Your entries for the e-mail address don't match! Please re-enter your e-mail address.
 form#:#form_alphabet_all#:#All
 form#:#form_chars_remaining#:#Characters remaining:

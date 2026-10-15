@@ -7614,10 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Vytvořit certifikát cvičení
 excv#:#excv_create_info#:#Vybrat ukončené cvičení ke generování certifikátu o jeho splnění.
-fold#:#fold_copy#:#Kopírovat složku
-fold#:#fold_import#:#Importovat složku
-fold#:#fold_presentation#:#Prezentace složky
-fold#:#fold_settings#:#Nastavení složky
 form#:#email_not_match#:#Vaše vstupy pro e-mailovou adresu se neshodují! Zadejte znovu svoji e-mailovou adresu.
 form#:#form_alphabet_all#:#Všechno
 form#:#form_chars_remaining#:#Zbývající znaky:

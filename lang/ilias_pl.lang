@@ -7614,10 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Utwórz certyfikat
 excv#:#excv_create_info#:#Wybierz ćwiczenie, dla którego potrzebujesz certyfikat
-fold#:#fold_copy#:#Kopiuj folder
-fold#:#fold_import#:#Importuj folder
-fold#:#fold_presentation#:#Folder Presentation
-fold#:#fold_settings#:#Właściwości folderu
 form#:#email_not_match#:#Twoje dane dotyczące adresu mailowych nie są zgodne! Wpisz raz jeszcze adres mailowy.
 form#:#form_alphabet_all#:#Wszystko
 form#:#form_chars_remaining#:#Pozostałe znaki:

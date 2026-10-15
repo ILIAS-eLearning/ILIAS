@@ -7613,10 +7613,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#创建练习校验
 excv#:#excv_create_info#:#选择一个已完成的练习来为它生成一个校验
-fold#:#fold_copy#:#复制文件夹
-fold#:#fold_import#:#导入文件夹
-fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
-fold#:#fold_settings#:#Folder Settings###24 10 2013 new variable
 form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.###24 10 2013 new variable
 form#:#form_alphabet_all#:#所有
 form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable

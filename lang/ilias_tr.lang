@@ -7614,10 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Egzersiz Sertifika Oluştur
 excv#:#excv_create_info#:#bunun için bir sertifika oluşturmak için tamamlanmış bir egzersiz seçin
-fold#:#fold_copy#:#Klasör Kopyala
-fold#:#fold_import#:#Klasör İçe Aktar
-fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
-fold#:#fold_settings#:#Folder Settings###24 10 2013 new variable
 form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.###24 10 2013 new variable
 form#:#form_alphabet_all#:#Tüm
 form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable

@@ -7616,10 +7616,6 @@ dcl#:#table_not_found#:#Table not found!###28 11 2025 new variable
 dcl#:#tableview_not_found#:#Tableview not found!###28 11 2025 new variable
 excv#:#excv_create#:#Crea verifica esercizio
 excv#:#excv_create_info#:#Seleziona un esercizio completato per generare una verifica per esso
-fold#:#fold_copy#:#Copia cartella
-fold#:#fold_import#:#Importa Cartella
-fold#:#fold_presentation#:#Presentazione cartella
-fold#:#fold_settings#:#Impostazioni cartella
 form#:#email_not_match#:#Le voci per l'indirizzo e-mail non corrispondono! Inserisci nuovamente il tuo indirizzo email.
 form#:#form_alphabet_all#:#Tutto
 form#:#form_chars_remaining#:#Caratteri rimanenti:

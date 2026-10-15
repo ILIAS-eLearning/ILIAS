@@ -7599,10 +7599,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Créer un Certificat d'Exercice
 excv#:#excv_create_info#:#Sélectionner un exercice terminé pour générer un certificat
-fold#:#fold_copy#:#Copier Dossier
-fold#:#fold_import#:#Importer dossier
-fold#:#fold_presentation#:#Folder Presentation
-fold#:#fold_settings#:#Paramètres de Dossier
 form#:#email_not_match#:#Les informations fournies ne correspondent pas à l'adresse email !
 form#:#form_alphabet_all#:#Tous
 form#:#form_chars_remaining#:#Caractères restants:

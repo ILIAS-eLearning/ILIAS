@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: fold\n"
+
+msgid "fold_copy"
+msgstr "Mappa másolása"
+
+msgid "fold_import"
+msgstr "Mappa importálása"
+
+msgid "fold_presentation"
+msgstr "Mappa megjelenítése"
+
+msgid "fold_settings"
+msgstr "Mappabeállítások"

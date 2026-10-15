@@ -7619,10 +7619,6 @@ dcl#:#table_not_found#:#Tabelle nicht gefunden!
 dcl#:#tableview_not_found#:#Tabellenansicht nicht gefunden!
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
-fold#:#fold_copy#:#Ordner kopieren
-fold#:#fold_import#:#Ordner importieren
-fold#:#fold_presentation#:#Darstellung
-fold#:#fold_settings#:#Ordnereigenschaften
 form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht überein! Bitte geben Sie die E-Mail-Adresse erneut ein.
 form#:#form_alphabet_all#:#Alle
 form#:#form_chars_remaining#:#Verbleibende Zeichen:

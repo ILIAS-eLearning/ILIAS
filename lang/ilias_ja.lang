@@ -7592,10 +7592,6 @@ dcl#:#table_not_found#:#テーブルが見つかりませんでした
 dcl#:#tableview_not_found#:#テーブルビューが見つかりませんでした
 excv#:#excv_create#:#演習問題証明書の作成
 excv#:#excv_create_info#:#証明書を作成するには完了した演習問題を選択します
-fold#:#fold_copy#:#フォルダを表示コピー
-fold#:#fold_import#:#インポートフォルダ
-fold#:#fold_presentation#:#フォルダープレゼンテ－ション
-fold#:#fold_settings#:#フォルダ設定
 form#:#email_not_match#:#メールアドレスのエントリが一致しません!メールアドレスを再入力してください。
 form#:#form_alphabet_all#:#全て
 form#:#form_chars_remaining#:#残りの文字:
