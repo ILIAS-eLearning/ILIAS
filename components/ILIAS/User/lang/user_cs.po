@@ -1,0 +1,532 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: user\n"
+
+#, fuzzy
+msgid "account_not_flagged_for_deletion"
+msgstr "The account is not flagged for deletion."
+
+#, fuzzy
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+#, fuzzy
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+msgid "all_roles_has_starting_point"
+msgstr "Všechny role mají výchozí body"
+
+msgid "back_to_starting_points_list"
+msgstr "Zpět na výchozí body"
+
+#, fuzzy
+msgid "change_email_email_confirmation_body"
+msgstr "The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirm Email Address"
+
+#, fuzzy
+msgid "change_email_email_information_body"
+msgstr "The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_information_subject"
+msgstr "Information about Change of Email Address"
+
+#, fuzzy
+msgid "change_email_email_sent"
+msgstr "An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes."
+
+#, fuzzy
+msgid "change_email_info_message"
+msgstr "There is a pending request to change the email address for this account."
+
+msgid "clipboard_add_btn"
+msgstr "Přidat do schránky"
+
+msgid "clipboard_add_from_btn"
+msgstr "Přidat ze schránky"
+
+msgid "clipboard_empty_btn"
+msgstr "Vysypat schránku"
+
+msgid "clipboard_remove_btn"
+msgstr "Odstranit ze schránky"
+
+msgid "clipboard_table_title"
+msgstr "Schránka (uživatelské účty)"
+
+msgid "clipboard_user_added"
+msgstr "Do schránky přidáni vybraní uživatelé."
+
+msgid "confirm_delete_starting_point"
+msgstr "Opravdu chcete odstranit toto pravidlo?"
+
+#, fuzzy
+msgid "confirm_logout_for_email_change"
+msgstr "You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out."
+
+#, fuzzy
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized."
+
+msgid "create_starting_point"
+msgstr "Vytvořit pravidlo"
+
+msgid "criteria"
+msgstr "Kritéria"
+
+msgid "del_mail_body"
+msgstr "Dobrý den, %1$s, %2 jste se nepřihlásili už dlouhou dobu, na %3$s. Váš účet bude proto smazán za %4$s dnů. Chcete-li zabránit vymazání účtu, musíte se znovu přihlásit."
+
+msgid "del_mail_subject"
+msgstr "(ILIAS) - Váš účet bude smazán"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Frekvence"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Frekvence, ve které bude testováno vymazání a distribuce pošty."
+
+#, fuzzy
+msgid "edit_field"
+msgstr "Edit Field"
+
+#, fuzzy
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+msgid "editing_this_role"
+msgstr "Role"
+
+#, fuzzy
+msgid "email_could_not_be_changed"
+msgstr "The request to change your email could not be finalized."
+
+msgid "enable_local_user_administration"
+msgstr "Zapnout lokální uživatelskou správu"
+
+msgid "enable_local_user_administration_info"
+msgstr "Je-li zapnuto, lokální uživatelské účty mohou být spravovány v kategoriích."
+
+msgid "feedhash"
+msgstr "Newsfeedhash"
+
+#, fuzzy
+msgid "field_type_custom"
+msgstr "Custom"
+
+msgid "has_role"
+msgstr "Role"
+
+#, fuzzy
+msgid "info_accessFree_sure"
+msgstr "Are you sure you want to remove the valid until date from the following accounts?"
+
+msgid "inform_user_mail_info"
+msgstr "Pokud je toto aktivováno, bude uživateli zaslán e-mail. Jeho obsah lze definovat v Správa> Správa uživatelů> Nastavení> Nový účet pošty."
+
+msgid "interests"
+msgstr "Zájmy"
+
+msgid "interests_general"
+msgstr "Obecné zájmy"
+
+msgid "interests_help_looking"
+msgstr "Vyhledání nápovědy"
+
+msgid "interests_help_offered"
+msgstr "Nabídka pomoci"
+
+#, fuzzy
+msgid "ldoc_accepted_content"
+msgstr "Accepted Content"
+
+#, fuzzy
+msgid "ldoc_not_accepted_yet"
+msgstr "Not accepted yet"
+
+msgid "msg_spoint_not_modified"
+msgstr "Výchozí bod nebyl změněn"
+
+#, fuzzy
+msgid "no_deactivate_yourself"
+msgstr "You cannot deactivate your own user account."
+
+msgid "obj_ref_id_not_exist"
+msgstr "Zadané ID odkazu neexistuje"
+
+#, fuzzy
+msgid "personalise_additional"
+msgstr "Personalise Additional Settings"
+
+#, fuzzy
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+#, fuzzy
+msgid "personalise_privacy"
+msgstr "Personalise Privacy Settings"
+
+#, fuzzy
+msgid "profile_fields"
+msgstr "Profile Fields"
+
+#, fuzzy
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "Omezený přístup k uživatelským účtům"
+
+msgid "restrict_user_access_info"
+msgstr "Je-li zapnuto, přístup k uživatelským účtům je omezen. Přísup závisí na oprávnění \"Přístup číst na lokální uživatelské účty\" v \"Uživatelských účtech\" a \"Kategoriích\"."
+
+msgid "roles_without_starting_point"
+msgstr "Role bez definovaného výchozího bodu:"
+
+msgid "save_order"
+msgstr "Uložit objednávku"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "Nastavení vaší frekvence je pro tuto hodnotu upomínky příliš velké."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Nejdřívější datum ve dnech pro odeslání upomínky"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "Na e-mailovou adresu uživatele bude zaslána upomínka, která upozorní na nadcházející smazání účtu."
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "Tato hodnota musí být menší než hodnota 'Počet dní od posledního přihlášení'."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Přijímají se pouze kladná desetinná čísla."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "Dnů před vymazáním."
+
+#, fuzzy
+msgid "show_own_online_status"
+msgstr "Show My Online Status"
+
+msgid "starting_page"
+msgstr "Výchoz bod"
+
+msgid "starting_point"
+msgstr "Výchoz bod"
+
+msgid "starting_point_settings"
+msgstr "Nastavení výchozího bodu"
+
+msgid "starting_points"
+msgstr "Výchozí body"
+
+#, fuzzy
+msgid "udf_select_options"
+msgstr "Options"
+
+msgid "user_access_limited"
+msgstr "Omezen"
+
+msgid "user_access_unlimited"
+msgstr "Neomezený"
+
+msgid "user_account_code"
+msgstr "Kód"
+
+msgid "user_account_code_generated"
+msgstr "Datum generování"
+
+msgid "user_account_code_generated_all"
+msgstr "Všechny data"
+
+msgid "user_account_code_not_valid"
+msgstr "Daný registrační kód je neplatný nebo již bylk použit."
+
+msgid "user_account_code_setting"
+msgstr "Zapnout reaktivaci účtu kódem"
+
+msgid "user_account_code_setting_info"
+msgstr "Neaktivní účty mohou být reaktivovány uživateli s předdefinovanými kódy."
+
+msgid "user_account_code_used"
+msgstr "Datum použití"
+
+msgid "user_account_code_valid_until"
+msgstr "Platný do"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Počet dnů"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Konečné datum"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Neomezeno"
+
+msgid "user_account_codes_add"
+msgstr "Přidat kódy"
+
+msgid "user_account_codes_edit_header"
+msgstr "Přidat kódy"
+
+msgid "user_account_codes_export"
+msgstr "Exportovat kódy"
+
+msgid "user_account_codes_number"
+msgstr "Počet kódů"
+
+msgid "user_account_deleted_confirmation"
+msgstr "Váš účet byl smazán. Byl vám zaslán e-mail s podrobnými informacemi."
+
+msgid "user_activate_public_profile"
+msgstr "Aktivovat veřejný profil"
+
+msgid "user_activate_public_profile_info"
+msgstr "První a poslední jméno bude vždy viditelné ve Vašem profilu, pokud je toto aktivováno."
+
+msgid "user_activation"
+msgstr "Aktivace"
+
+#, fuzzy
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "Všichni"
+
+msgid "user_allow_delete_own_account"
+msgstr "Povolit uživatelům smazat svůj účet"
+
+msgid "user_any"
+msgstr "Kterýkoli"
+
+msgid "user_awrn_all_users"
+msgstr "Všichni uživatelé"
+
+msgid "user_awrn_all_users_info"
+msgstr "Na seznamu jsou uvedeni všichni uživatelé platformy."
+
+#, fuzzy
+msgid "user_check_profile_data"
+msgstr "Check profile data"
+
+msgid "user_chooses_starting_page"
+msgstr "Uživatel vybere výchozí bod"
+
+msgid "user_delete_own_account"
+msgstr "Smazat účet"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Zrušení smazání, účet nebyl změněn."
+
+msgid "user_delete_own_account_email_body"
+msgstr "Váš uživatelský účet \"%s\" byl smazán od %s dne %s."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "Uživatelský účet byl smazán"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "Potvrďte, prosím, naposledy smazání svého uživatelského účet z ILIAS!"
+
+msgid "user_delete_own_account_info"
+msgstr "Zde můžete smazat svůj aktuální uživatelský účet. Mějte na paměti, že smazání Vašeho uživatelského účtu je nevratné!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Přejděte k ověřování"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Váš účet byl označen ke smazání. Potvrďte, že proces může pokračovat."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Mail obsahující oznámení"
+
+msgid "user_field"
+msgstr "Pole"
+
+msgid "user_global_role"
+msgstr "Globální role"
+
+msgid "user_last_login_before"
+msgstr "Poslední přihlášení dříve"
+
+msgid "user_limited_access"
+msgstr "Omezený přístup"
+
+#, fuzzy
+msgid "user_local_role"
+msgstr "Local Role"
+
+msgid "user_lv_do_not_store"
+msgstr "Nikdy nepamatovat naposledy navštíveno"
+
+msgid "user_lv_keep_entries"
+msgstr "Pamatovat naposledy navštíveno"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Pamatovat jen během aktuálního sezení"
+
+msgid "user_make_profile_public"
+msgstr "Publikovat profil"
+
+msgid "user_member_of_course_group"
+msgstr "Člen kurzu/skupiny"
+
+msgid "user_no_courses"
+msgstr "Žádné přiřazené kurzy"
+
+msgid "user_no_groups"
+msgstr "Žádné skupiny nebyly přiřazeny"
+
+msgid "user_order"
+msgstr "Pořadí"
+
+msgid "user_ownership"
+msgstr "Objekty úložiště"
+
+msgid "user_please_select_course_group"
+msgstr "Vyberte prosím kurz nebo skupinu."
+
+msgid "user_portfolios"
+msgstr "Portfolia"
+
+msgid "user_portfolios_desc"
+msgstr "Uživatelé mohou vytvořit portfolia a použít je jako profil."
+
+#, fuzzy
+msgid "user_privacy_checklist"
+msgstr "Privacy Checklist"
+
+#, fuzzy
+msgid "user_profile_data"
+msgstr "Profile Data"
+
+#, fuzzy
+msgid "user_profile_data_checked"
+msgstr "Profile data checked"
+
+msgid "user_profile_info"
+msgstr "Informace o profilu uživatele"
+
+msgid "user_profile_info_std"
+msgstr "Výchozí informace o profilu uživatele"
+
+msgid "user_profile_info_text_info"
+msgstr "Tento text je uveden v horní části formuláře pro zadávání osobních údajů."
+
+msgid "user_profile_portfolio"
+msgstr "Pokud chcete pužít portfolio jako Váš profil, vstupte do sekce portfolia a nastavte \"Můj profil\" pro toto portfolio."
+
+msgid "user_profile_portfolio_selected"
+msgstr "Právě používáte portfolio jako Váš profil. Aktivace může být nastavena použitím tabulky \"Sdílet\"."
+
+msgid "user_profile_preview"
+msgstr "Náhled"
+
+#, fuzzy
+msgid "user_profile_prompt_text"
+msgstr "Prompt Text"
+
+msgid "user_profile_prompt_text_info"
+msgstr "Tento text nahradí výchozí informační text, pokud byl uživatel vyzván k otevření profilu."
+
+msgid "user_prompt_incomplete"
+msgstr "Pouze pokud je profil neúplný"
+
+msgid "user_prompt_incomplete_info"
+msgstr "Pokud má uživatel zadat požadovaná pole, profil se zobrazí po přihlášení."
+
+msgid "user_prompt_once_after_login"
+msgstr "Jednou po určitém počtu dnů po prvním přihlášení"
+
+msgid "user_prompt_once_after_login_info"
+msgstr "Po uplynutí této doby bude uživatel vyzván profilem, pokud uživatel profil ještě nezveřejnil."
+
+msgid "user_prompt_repeat"
+msgstr "Opakujte každý konkrétní počet dní"
+
+msgid "user_prompt_repeat_info"
+msgstr "Uživatel bude periodicky vyzýván profilem, pokud profil ještě nezveřejnil."
+
+msgid "user_prompting_recurrence"
+msgstr "Výzva k opakování"
+
+msgid "user_prompting_settings"
+msgstr "Výzva k nastavení"
+
+msgid "user_public_profile_info"
+msgstr "Vyberte prosím která osobní data by měla být viditelná jiným uživatelům."
+
+#, fuzzy
+msgid "user_publish_options"
+msgstr "Publish Profile"
+
+#, fuzzy
+msgid "user_role_selection"
+msgstr "Role Selection"
+
+msgid "user_role_starting_point"
+msgstr "Uživatel - Výchozí bod"
+
+#, fuzzy
+msgid "user_save_continue"
+msgstr "Save and Continue"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Uložit řazení a názvy"
+
+msgid "user_select_course_group"
+msgstr "Vybrat kurz/skupinu"
+
+#, fuzzy
+msgid "user_set_publishing_options"
+msgstr "Set publishing options"
+
+#, fuzzy
+msgid "user_set_visibilty_options"
+msgstr "Set visibility options"
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "Naposledy navštíveno"
+
+#, fuzzy
+msgid "user_visibility_settings"
+msgstr "Visibility"
+
+msgid "user_visible_in_profile"
+msgstr "Viditelné v profilu"
+
+msgid "usr_id"
+msgstr "ID systému"
+
+msgid "usr_letter_avatars"
+msgstr "Avatary písmena"
+
+msgid "usr_letter_avatars_info"
+msgstr "Zobrazuje iniciály jména uživatele nebo login jako obrázek profilu, pokud není poskytován veřejný obrázek."
+
+msgid "usr_public_profile_disabled"
+msgstr "Veřejný profil vypnut"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Vaše informace je viditelná jen sboru správců."
+
+msgid "usr_public_profile_global"
+msgstr "Globální viditelnost"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Viditelné pro přihlášené uživatele."

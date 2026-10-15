@@ -1,0 +1,521 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: user\n"
+
+#, fuzzy
+msgid "account_not_flagged_for_deletion"
+msgstr "The account is not flagged for deletion."
+
+#, fuzzy
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+#, fuzzy
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+msgid "all_roles_has_starting_point"
+msgstr "Alla roller med definierad startsida"
+
+msgid "back_to_starting_points_list"
+msgstr "Tillbaka till startsidorna"
+
+#, fuzzy
+msgid "change_email_email_confirmation_body"
+msgstr "The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirm Email Address"
+
+#, fuzzy
+msgid "change_email_email_information_body"
+msgstr "The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_information_subject"
+msgstr "Information about Change of Email Address"
+
+#, fuzzy
+msgid "change_email_email_sent"
+msgstr "An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes."
+
+#, fuzzy
+msgid "change_email_info_message"
+msgstr "There is a pending request to change the email address for this account."
+
+msgid "clipboard_add_btn"
+msgstr "Lägg till i Urklipp"
+
+msgid "clipboard_add_from_btn"
+msgstr "Add från urklipp"
+
+msgid "clipboard_empty_btn"
+msgstr "Klart klippbord"
+
+msgid "clipboard_remove_btn"
+msgstr "Ta bort från Urklipp"
+
+msgid "clipboard_table_title"
+msgstr "Clipboard (inloggningskonton)"
+
+msgid "clipboard_user_added"
+msgstr "De valda användarna har lagts till i Urklipp."
+
+msgid "confirm_delete_starting_point"
+msgstr "Är du säker på att du vill ta bort den här regeln?"
+
+msgid "confirm_logout_for_email_change"
+msgstr "Du har ändrat din e-postadress. För att slutföra denna ändring är det nödvändigt att ange ditt lösenord. Du kommer därför att loggas ut och sedan ha 5 minuter på dig att logga in igen för att slutföra ändringarna. Alla andra ändringar sparas innan du log"
+
+#, fuzzy
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized."
+
+msgid "create_starting_point"
+msgstr "Skapa regel"
+
+msgid "criteria"
+msgstr "Kriterium"
+
+msgid "del_mail_body"
+msgstr "Hello %1$s, %2$s Du har inte loggat in på %3$s på länge. Därför förväntas ditt ILIAS-konto raderas den %4$s. Om du vill behålla ditt ILIAS-konto måste du logga in igen före det ovannämnda datumet."
+
+msgid "del_mail_subject"
+msgstr "Ditt ILIAS-konto kommer snart att raderas"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Intervall"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Intervall som används för att testa radering och för att skicka e-post."
+
+#, fuzzy
+msgid "edit_field"
+msgstr "Edit Field"
+
+#, fuzzy
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+msgid "editing_this_role"
+msgstr "Redigera regel"
+
+msgid "email_could_not_be_changed"
+msgstr "Din e-postadress kunde inte ändras."
+
+msgid "enable_local_user_administration"
+msgstr "Lokala konton"
+
+msgid "enable_local_user_administration_info"
+msgstr "I kategorier och organisatoriska enheter visas en flik \"Lokala konton\". Där kan lokala ILIAS-konton skapas, importeras och hanteras. Detta gör det också möjligt för personer utan tillgång till administrationen att skapa nya ILIAS-konton."
+
+msgid "feedhash"
+msgstr "Nyhetsflöde hash"
+
+#, fuzzy
+msgid "field_type_custom"
+msgstr "Custom"
+
+msgid "has_role"
+msgstr "Roll"
+
+#, fuzzy
+msgid "info_accessFree_sure"
+msgstr "Are you sure you want to remove the valid until date from the following accounts?"
+
+msgid "inform_user_mail_info"
+msgstr "Ett meddelande kommer att skickas till den e-postadress som angetts ovan. Dess innehåll kan definieras i administrationen"
+
+msgid "interests"
+msgstr "Intressen"
+
+msgid "interests_general"
+msgstr "Allmänna intressen"
+
+msgid "interests_help_looking"
+msgstr "Hjälp med sökningar"
+
+msgid "interests_help_offered"
+msgstr "Erbjud hjälp"
+
+#, fuzzy
+msgid "ldoc_accepted_content"
+msgstr "Accepted Content"
+
+#, fuzzy
+msgid "ldoc_not_accepted_yet"
+msgstr "Not accepted yet"
+
+msgid "msg_spoint_not_modified"
+msgstr "Hemsidan har inte ändrats."
+
+msgid "no_deactivate_yourself"
+msgstr "Du kan inte avaktivera ditt eget användarkonto."
+
+msgid "obj_ref_id_not_exist"
+msgstr "Det angivna referens-ID:t existerar inte."
+
+#, fuzzy
+msgid "personalise_additional"
+msgstr "Personalise Additional Settings"
+
+#, fuzzy
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+#, fuzzy
+msgid "personalise_privacy"
+msgstr "Personalise Privacy Settings"
+
+#, fuzzy
+msgid "profile_fields"
+msgstr "Profile Fields"
+
+#, fuzzy
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "Begränsad åtkomst till inloggningskonton"
+
+msgid "restrict_user_access_info"
+msgstr "Aktivera endast detta alternativ om du vill begränsa åtkomsten till inloggningskonton. Om alternativet är aktiverat behöver användare rättigheten \"Läsbehörighet till inloggningskonton\" för att komma åt lokala inloggningskonton i kategorier och de globala"
+
+msgid "roles_without_starting_point"
+msgstr "Roller utan definierad startsida"
+
+msgid "save_order"
+msgstr "Spara sekvens"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "Intervallen är för lång för att garantera att ett e-postmeddelande skickas innan kontot raderas."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Meddelanden via e-post"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "Innan ILIAS-konton raderas skickar ILIAS ett e-postmeddelande till de berörda personerna. Genom att logga in på ILIAS igen skjuts raderingen upp under den inställda tidsperioden. Se till att extern e-postmottagning är möjlig. Vid aktivering av cron-jobbe"
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "Detta värde måste vara mindre än värdet \"Dagar sedan senaste inloggning\"."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Ange endast heltal, positiva värden. Din post har avrundats."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "dagar till radering."
+
+msgid "show_own_online_status"
+msgstr "Visa din egen online-status"
+
+msgid "starting_page"
+msgstr "Startsida"
+
+msgid "starting_point"
+msgstr "Startsida"
+
+msgid "starting_point_settings"
+msgstr "Inställningar Hemsida"
+
+msgid "starting_points"
+msgstr "Starta sidor"
+
+#, fuzzy
+msgid "udf_select_options"
+msgstr "Options"
+
+msgid "user_access_limited"
+msgstr "Tillfälligt"
+
+msgid "user_access_unlimited"
+msgstr "Obegränsad"
+
+msgid "user_account_code"
+msgstr "Kod"
+
+msgid "user_account_code_generated"
+msgstr "Skapad på"
+
+msgid "user_account_code_generated_all"
+msgstr "Alla datum"
+
+msgid "user_account_code_not_valid"
+msgstr "Den angivna koden är ogiltig eller har redan använts."
+
+msgid "user_account_code_setting"
+msgstr " Möjliggör återaktivering av ILIAS-konton via koder"
+
+msgid "user_account_code_setting_info"
+msgstr "Enskilda personer kan återaktivera sitt utgångna ILIAS-konto med hjälp av en registreringskod. Motsvarande koder för förnyelse av tillfälliga ILIAS-konton finns i \"Administration \" Autentisering / Ny registrering \" ILIAS-Auth/Self-Registration"
+
+msgid "user_account_code_used"
+msgstr "Konsumeras på"
+
+msgid "user_account_code_valid_until"
+msgstr "Giltig tills"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Antal dagar"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Slutdatum"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Obegränsad"
+
+msgid "user_account_codes_add"
+msgstr "Skapa koder"
+
+msgid "user_account_codes_edit_header"
+msgstr "Skapa nya koder"
+
+msgid "user_account_codes_export"
+msgstr "Exportkoder"
+
+msgid "user_account_codes_number"
+msgstr "Antal koder"
+
+msgid "user_account_deleted_confirmation"
+msgstr "Ditt ILIAS-konto har tagits bort. Ett e-postmeddelande med ytterligare information har skickats till dig."
+
+msgid "user_activate_public_profile"
+msgstr "Aktivering"
+
+msgid "user_activate_public_profile_info"
+msgstr "För- och efternamn är alltid synliga när profilen är aktiverad."
+
+msgid "user_activation"
+msgstr "Aktivering"
+
+#, fuzzy
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "Alla"
+
+msgid "user_allow_delete_own_account"
+msgstr "Användaren kan radera sitt eget ILIAS-konto"
+
+msgid "user_any"
+msgstr "Alla"
+
+msgid "user_awrn_all_users"
+msgstr "Alla användare"
+
+msgid "user_awrn_all_users_info"
+msgstr "Alla användare av plattformen är listade. Uppmärksamhet"
+
+msgid "user_check_profile_data"
+msgstr "Kontrollera profilens data"
+
+msgid "user_chooses_starting_page"
+msgstr "User sätter startsida"
+
+msgid "user_delete_own_account"
+msgstr "Radera ILIAS-konto"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Raderingsprocessen avbröts. Kontot är oförändrat."
+
+msgid "user_delete_own_account_email_body"
+msgstr "Ditt ILIAS-konto \"%s\" på %s raderades på %s."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "ILIAS-konto raderat"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "Bekräfta en sista gång att ditt ILIAS-konto oåterkalleligen ska tas bort från systemet."
+
+msgid "user_delete_own_account_info"
+msgstr "Här kan du radera ditt nuvarande ILIAS-konto. Tänk på att denna process inte kan ångras!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Fortsätt med autentisering"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Your ILIAS account has been marked for deletion, please authenticate to continue the process."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Meddelanden via e-post"
+
+msgid "user_field"
+msgstr "Fält"
+
+msgid "user_global_role"
+msgstr "Global roll"
+
+msgid "user_last_login_before"
+msgstr "Sista inloggning före"
+
+msgid "user_limited_access"
+msgstr "Tillfälligt"
+
+msgid "user_local_role"
+msgstr "Lokal roll"
+
+msgid "user_lv_do_not_store"
+msgstr "Spara inga poster"
+
+msgid "user_lv_keep_entries"
+msgstr "Spara poster"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Radera poster efter sessionen"
+
+msgid "user_make_profile_public"
+msgstr "Publicering"
+
+msgid "user_member_of_course_group"
+msgstr "Medlem i kurs/grupp"
+
+msgid "user_no_courses"
+msgstr "Ingen kurs tilldelad"
+
+msgid "user_no_groups"
+msgstr "Ingen grupp tilldelad"
+
+msgid "user_order"
+msgstr "Beställ"
+
+msgid "user_ownership"
+msgstr "Magasinobjekt"
+
+msgid "user_please_select_course_group"
+msgstr "Vänligen välj en grupp eller kurs."
+
+msgid "user_portfolios"
+msgstr "Portföljer"
+
+msgid "user_portfolios_desc"
+msgstr "Användare kan skapa portföljer och använda dem som profiler."
+
+msgid "user_privacy_checklist"
+msgstr "Checklista för dataskydd"
+
+msgid "user_profile_data"
+msgstr "Profiluppgifter"
+
+msgid "user_profile_data_checked"
+msgstr "Profiluppgifter kontrollerade"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "user_profile_info"
+msgstr "Infotext Profile Publication"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "user_profile_info_std"
+msgstr "Infotext"
+
+msgid "user_profile_info_text_info"
+msgstr "Denna text visas ovanför formuläret för inmatning av personuppgifter."
+
+msgid "user_profile_portfolio"
+msgstr "Om du vill använda en portfölj som din profil, ange attributet \"Min profil\" i portföljområdet."
+
+msgid "user_profile_portfolio_selected"
+msgstr "Du använder för närvarande en portfölj som din profil. Aktivering sker där via fliken \"Frigör\"."
+
+msgid "user_profile_preview"
+msgstr "Förhandsgranskning av profilen"
+
+#, fuzzy
+msgid "user_profile_prompt_text"
+msgstr "Prompt Text"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "user_profile_prompt_text_info"
+msgstr "Den här texten ersätter informationstexten ovan om du använder profilpublikationens prompt."
+
+msgid "user_prompt_incomplete"
+msgstr "Nie"
+
+msgid "user_prompt_incomplete_info"
+msgstr "Användaren ombeds aldrig att publicera sin profil."
+
+msgid "user_prompt_once_after_login"
+msgstr "Efter en viss tid efter den första inloggningen"
+
+msgid "user_prompt_once_after_login_info"
+msgstr "Efter denna tid kommer användaren att uppmanas att publicera sin profil om den inte redan har publicerats."
+
+msgid "user_prompt_repeat"
+msgstr "Upprepas efter x dagar"
+
+msgid "user_prompt_repeat_info"
+msgstr "Users uppmanas upprepade gånger att publicera sin profil om den inte redan är publicerad."
+
+msgid "user_prompting_recurrence"
+msgstr "Frekvens"
+
+msgid "user_prompting_settings"
+msgstr "Prompt profil publicering"
+
+msgid "user_public_profile_info"
+msgstr "Välj vilken data som ska visas i din profil och vilka användare som kan se den."
+
+msgid "user_publish_options"
+msgstr "Publicera profil"
+
+#, fuzzy
+msgid "user_role_selection"
+msgstr "Role Selection"
+
+msgid "user_role_starting_point"
+msgstr "User - Hemsida"
+
+msgid "user_save_continue"
+msgstr "Spara och gå vidare"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Spara order och titel"
+
+msgid "user_select_course_group"
+msgstr "Välj kurs/grupp"
+
+msgid "user_set_publishing_options"
+msgstr "Konfigurera publikation"
+
+msgid "user_set_visibilty_options"
+msgstr "Konfigurera synlighet"
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "Sista besöket"
+
+msgid "user_visibility_settings"
+msgstr "Synlighet"
+
+msgid "user_visible_in_profile"
+msgstr "Visible i personuppgifterna"
+
+msgid "usr_id"
+msgstr "Internt system-ID"
+
+msgid "usr_letter_avatars"
+msgstr "Bokstäver avatarer"
+
+msgid "usr_letter_avatars_info"
+msgstr "Om det inte finns någon offentlig profilbild visar ILIAS initialerna i för- och efternamnet eller inloggningsnamnet som avatar."
+
+msgid "usr_public_profile_disabled"
+msgstr "Profil avaktiverad"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Dina uppgifter är endast synliga för systemadministratörer."
+
+msgid "usr_public_profile_global"
+msgstr "WWW / Synlig för alla användare av internet"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Synlig för inloggade användare"

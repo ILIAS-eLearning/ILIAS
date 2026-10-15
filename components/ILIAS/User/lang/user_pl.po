@@ -1,0 +1,535 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: user\n"
+
+#, fuzzy
+msgid "account_not_flagged_for_deletion"
+msgstr "The account is not flagged for deletion."
+
+#, fuzzy
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+#, fuzzy
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+msgid "all_roles_has_starting_point"
+msgstr "Wszystkie role ze zdefiniowaną stroną startową"
+
+msgid "back_to_starting_points_list"
+msgstr "Wróć do stron startowych"
+
+#, fuzzy
+msgid "change_email_email_confirmation_body"
+msgstr "The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirm Email Address"
+
+#, fuzzy
+msgid "change_email_email_information_body"
+msgstr "The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_information_subject"
+msgstr "Information about Change of Email Address"
+
+#, fuzzy
+msgid "change_email_email_sent"
+msgstr "An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes."
+
+#, fuzzy
+msgid "change_email_info_message"
+msgstr "There is a pending request to change the email address for this account."
+
+msgid "clipboard_add_btn"
+msgstr "Dodaj do schowka"
+
+msgid "clipboard_add_from_btn"
+msgstr "Dodaj ze schowka"
+
+msgid "clipboard_empty_btn"
+msgstr "Opróżnij schowek"
+
+msgid "clipboard_remove_btn"
+msgstr "Usuń ze schowka"
+
+msgid "clipboard_table_title"
+msgstr "Schowek (konta użytkowników)"
+
+msgid "clipboard_user_added"
+msgstr "Wybrani użytkownicy zostali dodani do schowka."
+
+msgid "confirm_delete_starting_point"
+msgstr "Jesteś pewien, że poniższa zasada ma zostać usunięta?"
+
+#, fuzzy
+msgid "confirm_logout_for_email_change"
+msgstr "You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out."
+
+#, fuzzy
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized."
+
+msgid "create_starting_point"
+msgstr "Utwórz zasadę"
+
+msgid "criteria"
+msgstr "Kryterium"
+
+msgid "del_mail_body"
+msgstr "Cześć %1$s, %2$sod dłuższego czasu nie logowałeś się na platformie do nauki %3$s. W związku z tym Twoje konto użytkownika zostanie planowo usunięte w dniu %4$s. Aby zachować swoje konto, ponownie się zaloguj."
+
+msgid "del_mail_subject"
+msgstr "(ILIAS) – Twoje konto użytkownika wkrótce zostanie usunięte"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Interwał"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Interwał, na podstawie którego przeprowadzany jest test usuwania i wysyłania wiadomości mailowych."
+
+#, fuzzy
+msgid "edit_field"
+msgstr "Edit Field"
+
+#, fuzzy
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+msgid "editing_this_role"
+msgstr "Edytuj zasadę"
+
+#, fuzzy
+msgid "email_could_not_be_changed"
+msgstr "The request to change your email could not be finalized."
+
+msgid "enable_local_user_administration"
+msgstr "Aktywuj zarządzanie lokalnymi użytkownikami"
+
+msgid "enable_local_user_administration_info"
+msgstr "Jeśli ta opcja jest aktywna, wejścia użytkowników można przydzielać do kategorii i jednostek organizacyjnych i nimi zarządzać."
+
+msgid "feedhash"
+msgstr "Feed-hash"
+
+#, fuzzy
+msgid "field_type_custom"
+msgstr "Custom"
+
+msgid "has_role"
+msgstr "Rola"
+
+#, fuzzy
+msgid "info_accessFree_sure"
+msgstr "Are you sure you want to remove the valid until date from the following accounts?"
+
+msgid "inform_user_mail_info"
+msgstr "Jeśli ta opcja jest aktywna, do użytkownika zostanie wysłana wiadomość mailowa. Jej treść można definiować w menu 'Ustawienia systemowe » Zarządzanie użytkownikami » Ustawienia » Wiadomość dotycząca nowego konta'."
+
+msgid "interests"
+msgstr "Zainteresowania"
+
+msgid "interests_general"
+msgstr "Ogólne zainteresowania"
+
+msgid "interests_help_looking"
+msgstr "Szukam pomocy"
+
+msgid "interests_help_offered"
+msgstr "Oferuję pomoc"
+
+#, fuzzy
+msgid "ldoc_accepted_content"
+msgstr "Accepted Content"
+
+#, fuzzy
+msgid "ldoc_not_accepted_yet"
+msgstr "Not accepted yet"
+
+#, fuzzy
+msgid "msg_spoint_not_modified"
+msgstr "Starting point not modified"
+
+#, fuzzy
+msgid "no_deactivate_yourself"
+msgstr "You cannot deactivate your own user account."
+
+#, fuzzy
+msgid "obj_ref_id_not_exist"
+msgstr "The entered Reference-Id does not exist"
+
+#, fuzzy
+msgid "personalise_additional"
+msgstr "Personalise Additional Settings"
+
+#, fuzzy
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+#, fuzzy
+msgid "personalise_privacy"
+msgstr "Personalise Privacy Settings"
+
+#, fuzzy
+msgid "profile_fields"
+msgstr "Profile Fields"
+
+#, fuzzy
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "Ograniczony dostęp do kont użytkowników"
+
+msgid "restrict_user_access_info"
+msgstr "Aktywuj tę opcję tylko wtedy, gdy chcesz ograniczyć dostęp do kont użytkowników. Jeśli ta opcja jest aktywna, użytkownicy będą potrzebowali uprawnienia \"Prawo czytania kont użytkowników\", aby mieć dostęp do lokalnych kont użytkowników w kategoriach oraz globalnych kont użytkowników."
+
+msgid "roles_without_starting_point"
+msgstr "Role bez zdefiniowanych stron startowych"
+
+msgid "save_order"
+msgstr "Zapisz kolejność"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "Interwał jest za duży, aby zapewnić wysyłkę wiadomości mailowej przed usunięciem konta."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Wiadomość powiadamiająca"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "Przed usunięciem konta użytkownika ILIAS wysyła do danych użytkowników wiadomość mailową. Jeśli użytkownik zaloguje się do ILIAS, usunięcie konta zostanie przesunięte w czasie o ustawiony okres. Upewnij się, że istnieje możliwość odbierania zewnętrznych wiadomości mailowych. Przy aktywacji zadania Cron z wiadomością powiadamiającą może się zdarzyć, że na początku okres między powiadomieniem a usunięciem konta jest krótszy niż ustawiony czas."
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "Ta wartość musi być mniejsza niż wartość \"Dni, które upłynęły od ostatniego logowania\"."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Wpisz tylko dodatnie liczby całkowite. Wprowadzone przez Ciebie dane zostały zaokrąglone."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "Dni do usunięcia"
+
+#, fuzzy
+msgid "show_own_online_status"
+msgstr "Show My Online Status"
+
+msgid "starting_page"
+msgstr "Strona startowa"
+
+msgid "starting_point"
+msgstr "Strona startowa"
+
+msgid "starting_point_settings"
+msgstr "Ustawienia dotyczące stron startowych"
+
+msgid "starting_points"
+msgstr "Strony startowe"
+
+#, fuzzy
+msgid "udf_select_options"
+msgstr "Options"
+
+msgid "user_access_limited"
+msgstr "Ograniczony"
+
+msgid "user_access_unlimited"
+msgstr "Nieograniczony"
+
+msgid "user_account_code"
+msgstr "Kod"
+
+msgid "user_account_code_generated"
+msgstr "Data utworzenia"
+
+msgid "user_account_code_generated_all"
+msgstr "Wszystkie dane"
+
+msgid "user_account_code_not_valid"
+msgstr "Podany kod jest nieważny lub został już wykorzystany."
+
+msgid "user_account_code_setting"
+msgstr "Umożliw ponowną aktywację przy użyciu kodów"
+
+msgid "user_account_code_setting_info"
+msgstr "Za pomocą kodu rejestracyjnego użytkownicy mogą reaktywować swoje nieważne konto. Odpowiednie kody do przedłużenia tymczasowo zablokowanych kont użytkowników generowane są w 'Ustawienia systemowe »Identyfikacja / Nowa rejestracja » Identyfikacja ILIAS/Samodzielna rejestracja : Kody rejestracyjne'. Za pomocą kodów nie można aktywować nieaktywnych kont."
+
+msgid "user_account_code_used"
+msgstr "Wykorzystane w dniu"
+
+msgid "user_account_code_valid_until"
+msgstr "Ważne do"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Liczba dni"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Data końcowa"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Nielimitowany"
+
+msgid "user_account_codes_add"
+msgstr "Wygeneruj kody"
+
+msgid "user_account_codes_edit_header"
+msgstr "Wygeneruj nowe kody"
+
+msgid "user_account_codes_export"
+msgstr "Eksportuj kody"
+
+msgid "user_account_codes_number"
+msgstr "Liczba kodów"
+
+msgid "user_account_deleted_confirmation"
+msgstr "Twoje konto zostało usunięte. Wysłano do Ciebie wiadomość mailową z dodatkowymi informacjami."
+
+msgid "user_activate_public_profile"
+msgstr "Aktywuj profil publiczny"
+
+msgid "user_activate_public_profile_info"
+msgstr "Jeśli aktywowane, twoje imię i nazwisko będzie zawsze widoczne."
+
+msgid "user_activation"
+msgstr "Aktywacja"
+
+#, fuzzy
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "Wszyscy"
+
+msgid "user_allow_delete_own_account"
+msgstr "Użytkownicy mogą usuwać własne konta"
+
+msgid "user_any"
+msgstr "Każdy"
+
+msgid "user_awrn_all_users"
+msgstr "Wszyscy użytkownicy"
+
+msgid "user_awrn_all_users_info"
+msgstr "Wszyscy użytkownicy platformy ujęci zostaną w listę. Uwaga: jeśli zostanie wybrana opcja \"online i offline\", w przypadku dużej liczby użytkowników należy liczyć się z dużym ograniczeniem mocy obliczeniowej."
+
+#, fuzzy
+msgid "user_check_profile_data"
+msgstr "Check profile data"
+
+msgid "user_chooses_starting_page"
+msgstr "Użytkownik aktywuje stronę startową"
+
+msgid "user_delete_own_account"
+msgstr "Usuń konto"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Proces usuwania został przerwany, konto nie zostało zmienione."
+
+msgid "user_delete_own_account_email_body"
+msgstr "Twoje konto użytkownika \"%s\" na %s zostało usunięte w dniu %s."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "Usunięto konto użytkownika"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "Zatwierdź ostatecznie, że Twoje konto użytkownika ma zostać definitywnie usunięte."
+
+msgid "user_delete_own_account_info"
+msgstr "Tutaj możesz usunąć swoje aktualne konto użytkownika. Pamiętaj, że nie można cofnąć tej czynności!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Kontynuuj z funkcją identyfikacji"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Twoje konto zostało zaznaczone do usunięcia; zaloguj się, aby kontynuować proces."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Wiadomość mailowa powiadamiająca"
+
+msgid "user_field"
+msgstr "Pole"
+
+msgid "user_global_role"
+msgstr "Globalna rola"
+
+msgid "user_last_login_before"
+msgstr "Ostatnie logowanie"
+
+msgid "user_limited_access"
+msgstr "Ograniczony dostęp"
+
+#, fuzzy
+msgid "user_local_role"
+msgstr "Local Role"
+
+msgid "user_lv_do_not_store"
+msgstr "Nie zapisuj wpisów"
+
+msgid "user_lv_keep_entries"
+msgstr "Zapisz wpisy"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Usuń wpisy po sesji"
+
+msgid "user_make_profile_public"
+msgstr "Opublikuj profil"
+
+msgid "user_member_of_course_group"
+msgstr "Członek w kursie/grupie"
+
+msgid "user_no_courses"
+msgstr "Nie przydzielono do kursu"
+
+msgid "user_no_groups"
+msgstr "Nie przydzielono do grupy"
+
+msgid "user_order"
+msgstr "Kolejność"
+
+msgid "user_ownership"
+msgstr "Obiekty w zasobach"
+
+msgid "user_please_select_course_group"
+msgstr "Wybierz grupę lub kurs."
+
+msgid "user_portfolios"
+msgstr "Portfolia"
+
+msgid "user_portfolios_desc"
+msgstr "Użytkownicy mogą tworzyć portfolia i używać ich jako profili."
+
+#, fuzzy
+msgid "user_privacy_checklist"
+msgstr "Privacy Checklist"
+
+#, fuzzy
+msgid "user_profile_data"
+msgstr "Profile Data"
+
+#, fuzzy
+msgid "user_profile_data_checked"
+msgstr "Profile data checked"
+
+msgid "user_profile_info"
+msgstr "Tekst informacyjny na profilu użytkownika"
+
+#, fuzzy
+msgid "user_profile_info_std"
+msgstr "Default User Profile Info"
+
+msgid "user_profile_info_text_info"
+msgstr "Ten tekst widoczny jest na formularzem do wpisywania danych osobowych."
+
+msgid "user_profile_portfolio"
+msgstr "Możesz skorzystać z portfolio jako publicznego profilu."
+
+msgid "user_profile_portfolio_selected"
+msgstr "Obecnie używasz Portfolio jako domyślnego profilu."
+
+msgid "user_profile_preview"
+msgstr "Podgląd"
+
+#, fuzzy
+msgid "user_profile_prompt_text"
+msgstr "Prompt Text"
+
+msgid "user_profile_prompt_text_info"
+msgstr "This text will replace the default info text, if a user has been prompted to the profile."
+
+msgid "user_prompt_incomplete"
+msgstr "Only if profile is incomplete"
+
+msgid "user_prompt_incomplete_info"
+msgstr "If the user has to enter required fields, the profile will be shown after login."
+
+msgid "user_prompt_once_after_login"
+msgstr "Once after specific number of days after first login"
+
+msgid "user_prompt_once_after_login_info"
+msgstr "After this period the user will be prompted with the profile, if the user did not publish the profile yet."
+
+msgid "user_prompt_repeat"
+msgstr "Repeat every specific number of days"
+
+msgid "user_prompt_repeat_info"
+msgstr "The user will be prompted periodically with the profile, if the user did not publish the profile yet."
+
+msgid "user_prompting_recurrence"
+msgstr "Prompting Recurrence"
+
+msgid "user_prompting_settings"
+msgstr "Prompting Settings"
+
+msgid "user_public_profile_info"
+msgstr "Proszę określ, które informacje osobiste mogą być widoczne dla innych użytkowników."
+
+#, fuzzy
+msgid "user_publish_options"
+msgstr "Publish Profile"
+
+#, fuzzy
+msgid "user_role_selection"
+msgstr "Role Selection"
+
+msgid "user_role_starting_point"
+msgstr "Użytkownik - strona startowa"
+
+#, fuzzy
+msgid "user_save_continue"
+msgstr "Save and Continue"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Zapisz kolejność i nazwy"
+
+msgid "user_select_course_group"
+msgstr "Wybierz kurs/grupę"
+
+#, fuzzy
+msgid "user_set_publishing_options"
+msgstr "Set publishing options"
+
+#, fuzzy
+msgid "user_set_visibilty_options"
+msgstr "Set visibility options"
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "Ostatnio odwiedzone"
+
+#, fuzzy
+msgid "user_visibility_settings"
+msgstr "Visibility"
+
+msgid "user_visible_in_profile"
+msgstr "Widoczne w danych osobistych"
+
+msgid "usr_id"
+msgstr "Systemowy numer ID"
+
+msgid "usr_letter_avatars"
+msgstr "Awatary literowe"
+
+msgid "usr_letter_avatars_info"
+msgstr "Pokazują inicjały nazwy użytkownika lub loginu, jeśli brak opublikowanego zdjęcia profilowego."
+
+msgid "usr_public_profile_disabled"
+msgstr "Publiczny profil jest wyłączony"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Twoje dane będą widoczne tylko dla zespołu administratorów."
+
+msgid "usr_public_profile_global"
+msgstr "Ogólna widoczność"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Zalogowani użytkownicy"
