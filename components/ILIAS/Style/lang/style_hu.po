@@ -1,0 +1,1404 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: style\n"
+
+msgid "adapt_icon"
+msgstr "Ikon átvétele"
+
+msgid "adapt_icon_description"
+msgstr "Ikonszínek átvétele vagy az ikon módosítása."
+
+msgid "adapt_icons"
+msgstr "Ikonszínek átalakítása"
+
+msgid "adapt_icons_description"
+msgstr "A skin-ek képek mappájában lévő összes svg ikont felsoroljuk itt. Ha egy színt módosít, az az összes, azt a színt tartalmazó ikonban is módosul."
+
+msgid "adapt_scss"
+msgstr "Az scss adaptálása"
+
+msgid "adapt_scss_description"
+msgstr "Ez a kiválasztott skinen használt beállítások fájljaiból származó összes scss-változó közvetlen ábrázolása. A változók nevei és leírásai közvetlenül ezekből a fájlokból származnak, ezért csak az eredeti nyelvükön érhetők el. A kiválasztott stílust a rendszer a változók frissítésével/visszaállításával teljesen újrafordítja. A változók visszaállítása létrehozza az alapértelmezett delos stílus másolatát."
+
+msgid "add_substyle"
+msgstr "Alstílus létrehozása"
+
+msgid "add_system_style"
+msgstr "Rendszerstílus létrehozása"
+
+msgid "assignment"
+msgstr "Hozzárendelés"
+
+msgid "blue_color"
+msgstr "Kék szín"
+
+msgid "blue_colors"
+msgstr "Kék színek"
+
+msgid "blue_colors_description"
+msgstr "Kék szín leírása"
+
+msgid "can_not_read_scss_file"
+msgstr "Az scss fájl nem olvasható. Útvonala:"
+
+msgid "cant_deactivate_default_style"
+msgstr "Alapértelmezett stílusok nem kapcsolhatók ki."
+
+msgid "cant_delete_activated_style"
+msgstr "Aktív stílus nem törölhető."
+
+msgid "cant_delete_if_users_assigned"
+msgstr "Azok a stílusok nem törölhetőek, melyekhez felhasználó van rendelve."
+
+msgid "cant_delete_style_with_substyles"
+msgstr "Stílusok alstílusokkal nem törölhető."
+
+msgid "change_icon"
+msgstr "Szín módosítása"
+
+msgid "color"
+msgstr "Szín"
+
+msgid "color_changed_from"
+msgstr "Szín változott erről:"
+
+msgid "color_changed_to"
+msgstr "erre:"
+
+msgid "color_reset"
+msgstr "Az ikonok színeit alapértelmezettre állította. Fontos: a gyorsítótárazás megakadályozhatja a változások megjelenítését, szükséges lehet a böngésző gyorsítótárának ürítése."
+
+msgid "color_update"
+msgstr "Az ikonok színeit sikeresen frissítette. Fontos: a gyorsítótárazás megakadályozhatja a változások megjelenítését, szükséges lehet a böngésző gyorsítótárának ürítése."
+
+msgid "default_style_set_to"
+msgstr "Az alapértelmezett rendszerstílusa mostantól:"
+
+msgid "dir_changed_to"
+msgstr "A mappát sikeresen áthelyezte:"
+
+msgid "dir_copied_from"
+msgstr "A mappát innen másolta:"
+
+msgid "dir_created"
+msgstr "A mappát sikeresen létrehozta:"
+
+msgid "dir_deleted"
+msgstr "Az alábbi mappát sikeresen törölte:"
+
+msgid "dir_preserved_backup"
+msgstr "Lefoglalt Biztonsági mentés mappa:"
+
+msgid "dir_preserved_linked"
+msgstr "Lefoglalt link:"
+
+msgid "directory_created"
+msgstr "Mappa létrejött:"
+
+msgid "documentation"
+msgstr "Dokumentáció"
+
+msgid "edit_by_color"
+msgstr "Szín alapján módosítása"
+
+msgid "edit_by_icon"
+msgstr "Ikon alapján módosítása"
+
+msgid "enable_system_styles_management_no_write_perm"
+msgstr "Bár a Rendszerstílusok kezelése be van kapcsolva, de az ILIAS-nak nincs írási jogosultsága a Customizing/global/skin mappába, ezért új stílus nem hozható létre és meglévő sem módosítható."
+
+msgid "entries_reloaded"
+msgstr "Az összes bejegyzést sikeresen újratöltötte."
+
+msgid "file_deleted"
+msgstr "A következő fájlt töröltük:"
+
+msgid "font_dir"
+msgstr "Betűtípusok mappája"
+
+msgid "font_dir_description"
+msgstr "A skin betűtípusait tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható. Vigyázat, a mappa módosítását az ‘in-web-font-path’ SCSS-változóba is át kell vezetni."
+
+msgid "from_skin"
+msgstr "skin-je a következőnek:"
+
+msgid "green_color"
+msgstr "Zöld szín"
+
+msgid "green_colors"
+msgstr "Zöld színek"
+
+msgid "green_colors_description"
+msgstr "Zöld szín leírása"
+
+msgid "grey_color"
+msgstr "Szürke szín"
+
+msgid "grey_colors"
+msgstr "Szürke színek"
+
+msgid "grey_colors_description"
+msgstr "Szürke szín leírása"
+
+msgid "icons"
+msgstr "Ikonok"
+
+msgid "icons_gallery"
+msgstr "Ikonok képtára"
+
+msgid "image_dir"
+msgstr "Képek mappája"
+
+msgid "image_dir_description"
+msgstr "A skin képeit (főleg ikonokat) tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható."
+
+msgid "in_main_scss_file"
+msgstr "nincs importálva a rendszerstílusok fő scss fájljába:"
+
+msgid "invalid_scss_path"
+msgstr "A megadott sass/scss elérési útvonala nem érvényes, vagy a webszervernek nincs megfelelő engedélye a sass/scss olvasásához és végrehajtásához. Az Sass/scss-t (vagy azt a fájlt, amelyre az scss elérési úton hivatkozott fájl hivatkozik) a webszerver futtatója olvasni és futtatni kell tudnia."
+
+msgid "ks_documentation_of_style"
+msgstr "Kitchen Sink stílus dokumentációja"
+
+msgid "ks_documentation_of_substyle"
+msgstr "Kitchen Sink alstílus dokumentációja"
+
+msgid "main_scss_created"
+msgstr "A fő SCSS-t sikeresen létrehozta:"
+
+msgid "manage_system_styles"
+msgstr "Rendszerstílusok kezelése"
+
+msgid "msg_sub_style_created"
+msgstr "Az alstílust sikeresen létrehozta."
+
+msgid "msg_sys_style_created"
+msgstr "Az új rendszerstílust sikeresen létrehozta."
+
+msgid "msg_sys_style_update"
+msgstr "A rendszerstílusokat sikeresen frissítette"
+
+msgid "no_scss_path_set"
+msgstr "Nincs Scss útvonal beállítva"
+
+msgid "no_style_selected"
+msgstr "Egy alstílust sem jelölt ki."
+
+msgid "of_parent"
+msgstr "szülője a következőnek:"
+
+msgid "open_documentation"
+msgstr "Dokumentáció megnyitása"
+
+msgid "parent"
+msgstr "Szülőstílus"
+
+msgid "personal"
+msgstr "Személyes"
+
+msgid "personal_style_set_to"
+msgstr "Az Ön személyes rendszerstílusa mostantól:"
+
+msgid "provided_scss_path"
+msgstr "Megadott scss útvonal:"
+
+msgid "red_color"
+msgstr "Piros szín"
+
+msgid "red_colors"
+msgstr "Piros színek"
+
+msgid "red_colors_description"
+msgstr "Piros szín leírása"
+
+msgid "refresh_entries"
+msgstr "Bejegyzések frissítése"
+
+msgid "remove_assignment"
+msgstr "Hozzárendelés eltávolítása"
+
+msgid "reset_icons"
+msgstr "Ikonok alapértelmezettre állítása"
+
+msgid "reset_variables"
+msgstr "Változók alapértelmezettre állítása"
+
+msgid "scope"
+msgstr "Hatókör"
+
+msgid "scss"
+msgstr "Scss"
+
+msgid "scss_can_not_be_modified"
+msgstr "Scss nem módosítható"
+
+msgid "scss_compile_failed"
+msgstr "Valami hiba történt az scss fájl összeállításában. Az scss telepítve van, és az elérési út megfelelően van beállítva az ILIAS telepítőjében? Eredeti hiba:"
+
+msgid "scss_file_reset"
+msgstr "A scss változókat sikeresen alaphelyzetve állította. Fontos: A gyorsítótárazás megakadályozhatja a módosítások megjelenését. Lehet, hogy törölnie kell a böngésző gyorsítótárát."
+
+msgid "scss_file_updated"
+msgstr "A scss változókat sikeresen frissítette. Fontos: A gyorsítótárazás megakadályozhatja a módosítások megjelenését. Lehet, hogy törölnie kell a böngésző gyorsítótárát."
+
+msgid "scss_folder_reset"
+msgstr "Scss mappát alapértelmezettre állította"
+
+msgid "scss_folder_updated"
+msgstr "Scss mappát sikeresen módosította"
+
+msgid "scss_scss_installation_detected"
+msgstr "Scss/sass telepítést detektáltunk:"
+
+msgid "scss_variable_empty"
+msgstr "Ez a változó üres volt. A beállítási fájlokból származó alapértelmezett értéket állítottuk be. Kérem, a fordítás előtt ellenőrizze, hogy ez helyes-e."
+
+msgid "scss_variables_empty_might_have_changed"
+msgstr "Üres változók vannak az űrlapon. Lehet, hogy megváltoztatta a beállítási fájlokat az űrlap betöltése óta. Az üres mezők alapértelmezett értékei a beállítási fájlokból lettek beállítva. Kérem, ellenőrizze a megjelölt üres mezőket, mielőtt összeállítja és elmenti az értékeket a beállítások fájljaiba."
+
+msgid "scss_variables_file_not_included"
+msgstr "A scss változók fájljai:"
+
+msgid "select_icon"
+msgstr "Ikon kiválasztása"
+
+msgid "settings_of_style"
+msgstr "Stílus kezelése"
+
+msgid "settings_of_substyle"
+msgstr "Alstílus kezelése"
+
+msgid "skin"
+msgstr "Skin"
+
+msgid "skin_deleted"
+msgstr "A következő skin-t töröltük"
+
+msgid "skin_id"
+msgstr "Skin ID"
+
+msgid "skin_id_description"
+msgstr "A skin-ek stílusokat és alstílusokat tartalmaznak. A skin-ID egyben azon mappa neve is, ahol az összes, a stílusra és az alstílusokra vonatkozó információt tároljuk. A skin ID csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhat."
+
+msgid "skin_id_exists"
+msgstr "Ilyen ID-jű skin már létezik."
+
+msgid "skin_name"
+msgstr "Skin megnevezése"
+
+msgid "skin_name_description"
+msgstr "A skin neve alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő skin kiválasztását."
+
+msgid "skin_version"
+msgstr "Skin verziója"
+
+msgid "skin_version_description"
+msgstr "A skin verziószámát használjuk a módosítása után a stílus újra gyorsítótárazásra. Ez automatikusan módosul."
+
+msgid "sound_dir"
+msgstr "Hangok mappája"
+
+msgid "sound_dir_description"
+msgstr "A skin hangfájljait tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható."
+
+msgid "sty_acopy"
+msgstr "Másolás"
+
+msgid "sty_add_assignment"
+msgstr "Összerendelés létrehozása"
+
+msgid "sty_add_characteristic"
+msgstr "Stílusosztály hozzáadása"
+
+msgid "sty_add_color"
+msgstr "Szín hozzáadása"
+
+msgid "sty_add_content_style"
+msgstr "Tartalomstílus létrehozása"
+
+msgid "sty_add_image"
+msgstr "Kép hozzáadása"
+
+msgid "sty_add_media_query"
+msgstr "Médialekérdezés létrehozása"
+
+msgid "sty_add_media_query_info"
+msgstr "Például ‘csak képernyő és (max-szélesség: 600px)’ 600px-nél kisebb böngészőablakokhoz vagy ‘nyomtatás’ nyomtatókhoz."
+
+msgid "sty_add_pgl"
+msgstr "Lapelrendezés hozzáadása"
+
+msgid "sty_add_template"
+msgstr "Sablon hozzáadása"
+
+msgid "sty_added_characteristic"
+msgstr "Stílusosztályok hozzáadva."
+
+msgid "sty_all"
+msgstr "Mind"
+
+msgid "sty_all_styles_obligatory"
+msgstr "A kiválasztott stílusosztályok mindegyike kötelező és nem törölhető."
+
+msgid "sty_assign_categories"
+msgstr "Kategóriák összerendelése"
+
+msgid "sty_background"
+msgstr "Háttér"
+
+msgid "sty_background_attachment"
+msgstr "Háttércsatolás"
+
+msgid "sty_background_color"
+msgstr "Háttérszín"
+
+msgid "sty_background_image"
+msgstr "Háttérkép"
+
+msgid "sty_background_position"
+msgstr "Háttérelhelyezkedés"
+
+msgid "sty_background_repeat"
+msgstr "Háttérismétlés"
+
+msgid "sty_base_color"
+msgstr "Alapszín"
+
+msgid "sty_based_on"
+msgstr "Ezen alapul"
+
+msgid "sty_bg_img_info"
+msgstr "Ha képeket szeretne hozzáadni a legördülő menühöz, kérjük, először töltse fel őket a stílus ‘Képek’ részébe."
+
+msgid "sty_border"
+msgstr "Keret"
+
+msgid "sty_border_color"
+msgstr "Keretszín"
+
+msgid "sty_border_style"
+msgstr "Keretstílus"
+
+msgid "sty_border_width"
+msgstr "Keretszélesség"
+
+msgid "sty_bottom"
+msgstr "Le"
+
+msgid "sty_ca_cntr_class"
+msgstr "Körhintatároló"
+
+msgid "sty_ca_icntr_class"
+msgstr "Körhintaelem-tároló"
+
+msgid "sty_ca_icont_class"
+msgstr "Körhintaelem-tartalom"
+
+msgid "sty_ca_ihead_class"
+msgstr "Körhintafejléc"
+
+msgid "sty_cannot_be_copied"
+msgstr "A következő stílustípusok nem másolhatók:"
+
+msgid "sty_caption"
+msgstr "Felirat"
+
+msgid "sty_caption_class"
+msgstr "Felirat"
+
+msgid "sty_carousel_templates"
+msgstr "Körhinta-sablonok"
+
+msgid "sty_cat_assignments"
+msgstr "Stílus/kategória összerendelések"
+
+msgid "sty_change_user_assignment"
+msgstr "Felhasználó összerendelés módosítása"
+
+msgid "sty_characteristic_already_exists"
+msgstr "Ilyen nevű stílusosztály már létezik ebben a stílusban."
+
+msgid "sty_class"
+msgstr "Stílusosztály"
+
+msgid "sty_class_name"
+msgstr "Osztály neve"
+
+msgid "sty_clear"
+msgstr "Törlés (Clear)"
+
+msgid "sty_col_foot_class"
+msgstr "Oszloplábléc"
+
+msgid "sty_col_head_class"
+msgstr "Oszlopfejléc"
+
+msgid "sty_color"
+msgstr "Szín"
+
+msgid "sty_color_already_exists"
+msgstr "Ezzel a névvel már van szín a stílusban."
+
+msgid "sty_color_code"
+msgstr "Színkód"
+
+msgid "sty_color_flavors"
+msgstr "Színárnyalat"
+
+msgid "sty_color_info"
+msgstr "Az előredefiniált színek könnyűvé teszik egy szín különböző felhasználását. Az előredefiniált színekre a színek nevét megelőző ‘!’ jellel hivatkozunk a stílusosztályban a színattribútumnál. Árnyalat használatához fűzzünk a színhez zárójelben világosságértéket, például !MyColor(20)."
+
+msgid "sty_color_name"
+msgstr "Színnév"
+
+msgid "sty_colors"
+msgstr "Színek"
+
+msgid "sty_commands"
+msgstr "Műveletek"
+
+msgid "sty_confirm_char_deletion"
+msgstr "Biztos, hogy törli az alábbi stílusosztályokat?"
+
+msgid "sty_confirm_color_deletion"
+msgstr "Színtörlés megerősítése"
+
+msgid "sty_confirm_del_ind_styles"
+msgstr "Egyedi tartalomstílus törlésének megerősítése"
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr "Az összes egyedi stílusú tananyag a(z) ‘%s’ stílushoz lesz rendelve. Ezzel törlődik az összes egyedi tartalomstílus. Biztos, hogy folytatja?"
+
+msgid "sty_confirm_template_deletion"
+msgstr "Sablon törlésének megerősítése"
+
+msgid "sty_copied_please_select_target"
+msgstr "A stílusosztályokat sikeresen másolta. Nyissa meg a célstílust, majd kattintson a ‘Stílusosztályok beillesztése’-re."
+
+msgid "sty_copy_other_stylesheet"
+msgstr "Stílus másolása helyi forrásból"
+
+msgid "sty_copy_other_system_style"
+msgstr "Meglévő rendszerstílus klónozása."
+
+msgid "sty_copy_to"
+msgstr "ide:"
+
+msgid "sty_create_ind_style"
+msgstr "Egyedi stílus létrehozása"
+
+msgid "sty_create_new_class"
+msgstr "Új stílusosztály létrehozása"
+
+msgid "sty_create_new_stylesheet"
+msgstr "Új stílus létrehozása"
+
+msgid "sty_create_new_system_style"
+msgstr "Új rendszerstílus létrehozása."
+
+msgid "sty_create_new_system_sub_style"
+msgstr "Új rendszeralstílus létrehozása."
+
+msgid "sty_create_pgl"
+msgstr "Lapelrendezés létrehozása"
+
+msgid "sty_cursor"
+msgstr "Kurzor"
+
+msgid "sty_custom"
+msgstr "Egyéni"
+
+msgid "sty_custom_par"
+msgstr "Egyéni paraméterek"
+
+msgid "sty_custom_par_info"
+msgstr "Egyéni CSS paramétereket a következő formátumban tud hozzáadni: ‘paraméter: érték’."
+
+msgid "sty_default"
+msgstr "alapértelmezett"
+
+msgid "sty_default_style"
+msgstr "Alapértelmezett stílus"
+
+msgid "sty_del_template"
+msgstr "Sablonok és osztályok törlése"
+
+msgid "sty_del_template_keep_classes"
+msgstr "Stílusosztályok törlése és megtartása"
+
+msgid "sty_delete_other_selected"
+msgstr "Folytatás"
+
+msgid "sty_disable_auto_margins"
+msgstr "Automatikus margók letiltása"
+
+msgid "sty_disable_auto_margins_info"
+msgstr "Automatikus 0px bal/jobb beállítás letiltása, ha a médiaobjektumok vagy a táblázatok balra/jobbra rendezettek."
+
+msgid "sty_edit_template"
+msgstr "Sablon módosítása"
+
+msgid "sty_even_col_class"
+msgstr "Páros oszlopok"
+
+msgid "sty_even_row_class"
+msgstr "Páros sorok"
+
+msgid "sty_example"
+msgstr "Példa"
+
+msgid "sty_flist_char"
+msgstr "Fájllista"
+
+msgid "sty_float"
+msgstr "Lebegés"
+
+msgid "sty_font_family"
+msgstr "Betűcsalád"
+
+msgid "sty_font_size"
+msgstr "Betűméret"
+
+msgid "sty_font_style"
+msgstr "Betűstílus"
+
+msgid "sty_font_variant"
+msgstr "Betűváltozó"
+
+msgid "sty_font_weight"
+msgstr "Betűszélesség"
+
+msgid "sty_from"
+msgstr "erről"
+
+msgid "sty_generate_template"
+msgstr "Sablon generálása"
+
+msgid "sty_glo_char"
+msgstr "Fogalomtár"
+
+msgid "sty_ha_cntr_class"
+msgstr "Vízszintes harmonikatároló"
+
+msgid "sty_ha_icntr_class"
+msgstr "Vízszintes harmonikaelem-tároló"
+
+msgid "sty_ha_icont_class"
+msgstr "Vízszintes harmonikaelem-tartalom"
+
+msgid "sty_ha_ihcap_class"
+msgstr "Vízszintes harmonikafelirat"
+
+msgid "sty_ha_ihead_class"
+msgstr "Vízszintes harmonikaelem-fejléc (inaktív)"
+
+msgid "sty_ha_iheada_class"
+msgstr "Vízszintes harmonikafejléc (aktív)"
+
+msgid "sty_haccordion_templates"
+msgstr "Vízszintes harmonikasablonok"
+
+msgid "sty_height"
+msgstr "Magasság"
+
+msgid "sty_hide"
+msgstr "Rejtett"
+
+msgid "sty_horizontal"
+msgstr "Vízszintes"
+
+msgid "sty_if_style_class_already_exists"
+msgstr "Ha a stílusosztály már létezik…"
+
+msgid "sty_image_file"
+msgstr "Képfájl"
+
+msgid "sty_images"
+msgstr "Képek"
+
+msgid "sty_import_page_layout"
+msgstr "Lapelrendezés importálása"
+
+msgid "sty_import_stylesheet"
+msgstr "Stílus importálása"
+
+msgid "sty_import_system_style"
+msgstr "Rendszerstílus importálása"
+
+msgid "sty_imported_layout"
+msgstr "Importált oldalstílus"
+
+msgid "sty_individual_styles"
+msgstr "Egyéni stílusok"
+
+msgid "sty_keep_existing"
+msgstr "Meglévők megtartása"
+
+msgid "sty_left"
+msgstr "Balra"
+
+msgid "sty_left_right_padding"
+msgstr "Cellaköz balra/jobbra"
+
+msgid "sty_legacy_image_directory_found"
+msgstr "Van még egy régi képkönyvtár. A könyvtárat az ILIAS 9-ből a ‘Képek migrálása’ lehetőségre kattintva migrálhatja."
+
+msgid "sty_letter_spacing"
+msgstr "Betűköz"
+
+msgid "sty_lightness_border"
+msgstr "Világosság szegély"
+
+msgid "sty_lightness_cell1_bg"
+msgstr "Világosság 1. cella háttér"
+
+msgid "sty_lightness_cell1_text"
+msgstr "Világosság 1. cella szöveg"
+
+msgid "sty_lightness_cell2_bg"
+msgstr "Világosság 2. cella háttér"
+
+msgid "sty_lightness_cell2_text"
+msgstr "Világosság 2. cella szöveg"
+
+msgid "sty_lightness_header_bg"
+msgstr "Világosság fejlécháttér"
+
+msgid "sty_lightness_header_text"
+msgstr "Világosság fejlécszöveg"
+
+msgid "sty_line_height"
+msgstr "Sormagasság"
+
+msgid "sty_link_char"
+msgstr "Link"
+
+msgid "sty_list_char"
+msgstr "Felsorolás"
+
+msgid "sty_list_style_position"
+msgstr "Felsorolás stílus pozíció"
+
+msgid "sty_list_style_type"
+msgstr "Felsorolás stípus típus"
+
+msgid "sty_make_global_default"
+msgstr "Beállítás alapértelmezett stílusként"
+
+msgid "sty_make_global_fixed"
+msgstr "Ennek a stílusnak kényszerítése az összes objektumokra"
+
+msgid "sty_margin"
+msgstr "Margó"
+
+msgid "sty_margin_and_padding"
+msgstr "Margó és térköz"
+
+msgid "sty_media_char"
+msgstr "Média"
+
+msgid "sty_media_queries"
+msgstr "Médialekérdezés"
+
+msgid "sty_media_query_info"
+msgstr "Az alapértelmezett (nem speciális médialekérdezés) blokk után mindegyik médialekérdezéshez különálló CSS blokkot hozunk létre."
+
+msgid "sty_migrate_images"
+msgstr "Képek migrálása"
+
+msgid "sty_min_height"
+msgstr "Minimális magasság"
+
+msgid "sty_move_lm_styles"
+msgstr "Tananyag stílusának cseréje"
+
+msgid "sty_move_obj_styles"
+msgstr "Objektumok stílusának a módosítása"
+
+msgid "sty_move_style"
+msgstr "Stílus cseréje"
+
+msgid "sty_move_user_styles"
+msgstr "Felhasználók stílusának cseréje"
+
+msgid "sty_move_user_styles_saved"
+msgstr "A felhasználókhoz rendelt skin-id módosult: %s → %s."
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr "A stílusosztályok címe betűvel kell, hogy kezdőjön, nem tartalmazhat szóközt és továbbá csak az alábbi karaktereket tartalmazhatja:"
+
+msgid "sty_msg_color_must_only_include"
+msgstr "A színnév csak az alábbi karaktereket tartalmazhatja:"
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr "A bemenetnek számnak kell lennie."
+
+msgid "sty_name"
+msgstr "Név"
+
+msgid "sty_nr_learning_modules"
+msgstr "Tananyagok száma"
+
+msgid "sty_nr_objects"
+msgstr "Objektumok száma"
+
+msgid "sty_odd_col_class"
+msgstr "Páratlan oszlopok"
+
+msgid "sty_odd_row_class"
+msgstr "Páratlan sorok"
+
+msgid "sty_ol"
+msgstr "Számozott felsorolás"
+
+msgid "sty_opacity"
+msgstr "Átlátszatlanság"
+
+msgid "sty_opt_saved"
+msgstr "Az beállításokat sikeren mentette"
+
+msgid "sty_order"
+msgstr "Rendezés"
+
+msgid "sty_outdated"
+msgstr "Elavult"
+
+msgid "sty_overflow"
+msgstr "Túlcsordulás"
+
+msgid "sty_overwrite"
+msgstr "Felülírás"
+
+msgid "sty_overwrite_existing_class"
+msgstr "Lézető stílusosztály felülírása"
+
+msgid "sty_padding"
+msgstr "Térköz"
+
+msgid "sty_page_char"
+msgstr "Lap"
+
+msgid "sty_parameters"
+msgstr "Paraméterek"
+
+msgid "sty_paste_characteristics"
+msgstr "Stílusosztályok beillesztése"
+
+msgid "sty_paste_chars"
+msgstr "Osztályok beillesztése"
+
+msgid "sty_paste_style_classes"
+msgstr "Stílusosztályok beillesztése"
+
+msgid "sty_position"
+msgstr "Pozíció"
+
+msgid "sty_positioning"
+msgstr "Pozicionálás"
+
+msgid "sty_preview"
+msgstr "Előnézet"
+
+msgid "sty_query"
+msgstr "Lekérdezés"
+
+msgid "sty_question_char"
+msgstr "Kérdés"
+
+msgid "sty_remove_global_default_state"
+msgstr "Globálisan alapértelmezett állapot eltávolítása"
+
+msgid "sty_remove_global_fixed_state"
+msgstr "Globálisan rögzített állapot eltávolítása"
+
+msgid "sty_remove_outdated"
+msgstr "Elavult állapot eltávolítása"
+
+msgid "sty_resize"
+msgstr "Méretezés"
+
+msgid "sty_resize_image"
+msgstr "Kép méretezése"
+
+msgid "sty_right"
+msgstr "Jobbra"
+
+msgid "sty_row_foot_class"
+msgstr "Sorlábléc"
+
+msgid "sty_row_head_class"
+msgstr "Sorfejléc"
+
+msgid "sty_rte_char"
+msgstr "SCORM RTE"
+
+msgid "sty_save_active_styles"
+msgstr "Aktív stílus mentése"
+
+msgid "sty_save_hide_order_status"
+msgstr "Sorrend és rejtett állapot mentése"
+
+msgid "sty_save_hide_status"
+msgstr "Mentés"
+
+msgid "sty_save_order"
+msgstr "Sorrend mentése"
+
+msgid "sty_save_order_status"
+msgstr "Sorrend mentése"
+
+msgid "sty_sco_char"
+msgstr "SCO és cél"
+
+msgid "sty_scope"
+msgstr "Hatókör"
+
+msgid "sty_section_char"
+msgstr "Blokk"
+
+msgid "sty_set_outdated"
+msgstr "Elavultnak megjelölés"
+
+msgid "sty_set_scope"
+msgstr "Hatókör beállítása"
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr "Az alábbi stílusosztályok kötelezőek és nem törölhetők. Folytatja, és törli a többi kiválasztott stílusosztályt?"
+
+msgid "sty_source"
+msgstr "Forrás"
+
+msgid "sty_special"
+msgstr "Speciális"
+
+msgid "sty_style_chars"
+msgstr "Stílusosztályok"
+
+msgid "sty_style_class"
+msgstr "Stílusosztályok"
+
+msgid "sty_style_classes_copied"
+msgstr "Stílusosztályokat sikeresen lemásolta."
+
+msgid "sty_style_not_migrated"
+msgstr "Ez a tartalomstílus még nem lett migrálva az ILIAS 10 adatstruktúrába. A változtatások nem lépnek érvénybe."
+
+msgid "sty_substyle"
+msgstr "Alstílus"
+
+msgid "sty_substyle_of"
+msgstr "alstílusa a következőnek:"
+
+msgid "sty_substyles"
+msgstr "Alstílusok"
+
+msgid "sty_sure_del_mqueries"
+msgstr "Biztos, hogy törli ezt a médialekérdezést és az összes hozzá kapcsolódó CSS szabályt?"
+
+msgid "sty_switch"
+msgstr "Kapcsoló"
+
+msgid "sty_table_char"
+msgstr "Táblázat"
+
+msgid "sty_table_class"
+msgstr "Táblázat stílusosztály"
+
+msgid "sty_table_template_bw_zebra"
+msgstr "Szürke zebra"
+
+msgid "sty_table_template_colored_zebra"
+msgstr "Színezett zebra"
+
+msgid "sty_table_template_no_zebra"
+msgstr "Nincs zebra"
+
+msgid "sty_table_templates"
+msgstr "Táblázatsablonok"
+
+msgid "sty_tabs_char"
+msgstr "Harmonika és panelek"
+
+msgid "sty_tag_hover"
+msgstr ":hover"
+
+msgid "sty_tag_normal"
+msgstr "Normál"
+
+msgid "sty_template_layout"
+msgstr "Sablon elrendezése"
+
+msgid "sty_template_name"
+msgstr "Név"
+
+msgid "sty_templates"
+msgstr "Sablonok"
+
+msgid "sty_text"
+msgstr "Szöveg"
+
+msgid "sty_text_align"
+msgstr "Szövegigazítás"
+
+msgid "sty_text_block_char"
+msgstr "Szöveg (bekezdés)"
+
+msgid "sty_text_decoration"
+msgstr "Szövegdekoráció"
+
+msgid "sty_text_indent"
+msgstr "Szöveg behúzása"
+
+msgid "sty_text_inline_char"
+msgstr "Szöveg (karakter)"
+
+msgid "sty_text_transform"
+msgstr "Szövegtranszformáció"
+
+msgid "sty_titles"
+msgstr "Címek"
+
+msgid "sty_to"
+msgstr "erre"
+
+msgid "sty_top"
+msgstr "Fel"
+
+msgid "sty_top_bottom_padding"
+msgstr "Cellaköz felül/alul"
+
+msgid "sty_transform"
+msgstr "Transform"
+
+msgid "sty_transform_origin"
+msgstr "Transform-Origin"
+
+msgid "sty_type"
+msgstr "Típus"
+
+msgid "sty_type_ca_cntr"
+msgstr "Körhintatároló (Carousel)"
+
+msgid "sty_type_ca_icntr"
+msgstr "Körhintaelem-tároló"
+
+msgid "sty_type_ca_icont"
+msgstr "Körhintaelem-tartalom"
+
+msgid "sty_type_ca_ihead"
+msgstr "Körhintaelem-fejléc"
+
+msgid "sty_type_code_block"
+msgstr "Kód (blokk)"
+
+msgid "sty_type_code_inline"
+msgstr "Kód (sorban)"
+
+msgid "sty_type_em"
+msgstr "Dőlt"
+
+msgid "sty_type_flist"
+msgstr "Fájllista"
+
+msgid "sty_type_flist_a"
+msgstr "Fájllistaelem-hivatkozás"
+
+msgid "sty_type_flist_cont"
+msgstr "Fájllista-tároló"
+
+msgid "sty_type_flist_head"
+msgstr "Fájllista-címsor"
+
+msgid "sty_type_flist_li"
+msgstr "Fájllista-elem"
+
+msgid "sty_type_glo_ovclink"
+msgstr "Fogalomtár külső részét lezáró link"
+
+msgid "sty_type_glo_overlay"
+msgstr "Fogalomtár overlay"
+
+msgid "sty_type_glo_ovtitle"
+msgstr "Fogalom/cím (overlay)"
+
+msgid "sty_type_glo_ovuglink"
+msgstr "Fogalomhivatkozás"
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr "Fogalomhivatkozás-lista"
+
+msgid "sty_type_ha_cntr"
+msgstr "Vízszintes harmonikatároló"
+
+msgid "sty_type_ha_icntr"
+msgstr "Vízszintes harmonikaelem-tároló"
+
+msgid "sty_type_ha_icont"
+msgstr "Vízszintes harmonikaelem-tartalom"
+
+msgid "sty_type_ha_ihcap"
+msgstr "Vízszintes harmonikaelem-fejlécfelirat"
+
+msgid "sty_type_ha_ihead"
+msgstr "Vízszintes harmonikaelem-fejléc (inaktív)"
+
+msgid "sty_type_ha_iheada"
+msgstr "Vízszintes harmonikaelem-fejléc (aktív)"
+
+msgid "sty_type_heading1"
+msgstr "1. címsor"
+
+msgid "sty_type_heading2"
+msgstr "2. címsor"
+
+msgid "sty_type_heading3"
+msgstr "3. címsor"
+
+msgid "sty_type_iim"
+msgstr "Interaktív kép előreugró ablaka"
+
+msgid "sty_type_link"
+msgstr "Link"
+
+msgid "sty_type_list_item"
+msgstr "Listaelem"
+
+msgid "sty_type_list_o"
+msgstr "Számozott felsorolás"
+
+msgid "sty_type_list_u"
+msgstr "Listajeles felsorolás"
+
+msgid "sty_type_marker"
+msgstr "Interaktív kép jelzője"
+
+msgid "sty_type_media_caption"
+msgstr "Médiafelirat"
+
+msgid "sty_type_media_cont"
+msgstr "Médiatároló"
+
+msgid "sty_type_page_bnav"
+msgstr "Alsó navigáció"
+
+msgid "sty_type_page_cont"
+msgstr "Laptároló"
+
+msgid "sty_type_page_fn"
+msgstr "Lábléc"
+
+msgid "sty_type_page_frame"
+msgstr "Lapkeret"
+
+msgid "sty_type_page_lnav"
+msgstr "Bal oldali navigáció"
+
+msgid "sty_type_page_lnavimage"
+msgstr "Bal oldali navigációs kép"
+
+msgid "sty_type_page_lnavlink"
+msgstr "Bal oldali navigációs link"
+
+msgid "sty_type_page_rnav"
+msgstr "Jobb oldali navigáció"
+
+msgid "sty_type_page_rnavimage"
+msgstr "Jobb oldali navigációs kép"
+
+msgid "sty_type_page_rnavlink"
+msgstr "Jobb oldali navigációs link"
+
+msgid "sty_type_page_title"
+msgstr "Lapcím"
+
+msgid "sty_type_page_tnav"
+msgstr "Felső navigáció"
+
+msgid "sty_type_qanswer"
+msgstr "Válasz"
+
+msgid "sty_type_qetcorr"
+msgstr "Hibás szöveg javítva"
+
+msgid "sty_type_qetitem"
+msgstr "Hibás szöveg eleme"
+
+msgid "sty_type_qfeedr"
+msgstr "Visszajelzés, helyes"
+
+msgid "sty_type_qfeedw"
+msgstr "Visszajelzés, hibás"
+
+msgid "sty_type_qimg"
+msgstr "Kérdéskép"
+
+msgid "sty_type_qimgd"
+msgstr "Kép tulajdonságainak linkje"
+
+msgid "sty_type_qinput"
+msgstr "Szövegbevitel"
+
+msgid "sty_type_qlinput"
+msgstr "Hosszú szöveg bevitele"
+
+msgid "sty_type_qordli"
+msgstr "Számozott felsorolás eleme"
+
+msgid "sty_type_qordul"
+msgstr "Számozott felsorolás"
+
+msgid "sty_type_qover"
+msgstr "Kérdésáttekintés"
+
+msgid "sty_type_qsubmit"
+msgstr "Kérdéselküldési gombok"
+
+msgid "sty_type_qtitle"
+msgstr "Kérdéscím"
+
+msgid "sty_type_question"
+msgstr "Kérdés"
+
+msgid "sty_type_rte_drag"
+msgstr "Húzósáv"
+
+msgid "sty_type_rte_menu"
+msgstr "RTE-menü"
+
+msgid "sty_type_rte_mlink"
+msgstr "RTE-menü linkje"
+
+msgid "sty_type_rte_node"
+msgstr "RTE-fa csomópontja"
+
+msgid "sty_type_rte_status"
+msgstr "RTE-állapot"
+
+msgid "sty_type_rte_tclink"
+msgstr "Favezérlő link"
+
+msgid "sty_type_rte_texp"
+msgstr "Faikon"
+
+msgid "sty_type_rte_tli"
+msgstr "Falista-elem"
+
+msgid "sty_type_rte_tlink"
+msgstr "RTE-fa csomópontjának linkje"
+
+msgid "sty_type_rte_tree"
+msgstr "RTE-fa rész"
+
+msgid "sty_type_rte_tul"
+msgstr "Falista"
+
+msgid "sty_type_sco_desc"
+msgstr "SCO-leírás"
+
+msgid "sty_type_sco_fmess"
+msgstr "SCORM befejező üzenet"
+
+msgid "sty_type_sco_keyw"
+msgstr "SCO-kulcsszavak"
+
+msgid "sty_type_sco_obj"
+msgstr "SCO-cél"
+
+msgid "sty_type_sco_title"
+msgstr "SCO-cím"
+
+msgid "sty_type_section"
+msgstr "Rész"
+
+msgid "sty_type_strong"
+msgstr "Félkövér"
+
+msgid "sty_type_sub"
+msgstr "Alsó index"
+
+msgid "sty_type_sup"
+msgstr "Felső index"
+
+msgid "sty_type_table"
+msgstr "Táblázat"
+
+msgid "sty_type_table_cell"
+msgstr "Táblázatcella"
+
+msgid "sty_type_text_block"
+msgstr "Szövegblokk"
+
+msgid "sty_type_text_inline"
+msgstr "Karakter"
+
+msgid "sty_type_va_cntr"
+msgstr "Függőleges harmonikatároló"
+
+msgid "sty_type_va_icntr"
+msgstr "Függőleges harmonikaelem-tároló"
+
+msgid "sty_type_va_icont"
+msgstr "Függőleges harmonikaelem-tartalom"
+
+msgid "sty_type_va_ihcap"
+msgstr "Függőleges harmonikaelem-fejlécfelirat"
+
+msgid "sty_type_va_ihead"
+msgstr "Függőleges harmonikaelem-fejléc (inaktív)"
+
+msgid "sty_type_va_iheada"
+msgstr "Függőleges harmonikaelem-fejléc (aktív)"
+
+msgid "sty_ul"
+msgstr "Listajeles felsorolás"
+
+msgid "sty_va_cntr_class"
+msgstr "Függőleges harmonikatároló"
+
+msgid "sty_va_icntr_class"
+msgstr "Függőleges harmonikaelem-tároló"
+
+msgid "sty_va_icont_class"
+msgstr "Függőleges harmonikaelem-tartalom"
+
+msgid "sty_va_ihcap_class"
+msgstr "Függőleges harmonikafelirat"
+
+msgid "sty_va_ihead_class"
+msgstr "Függőleges harmonikaelem-fejléc (inaktív)"
+
+msgid "sty_va_iheada_class"
+msgstr "Függőleges harmonikafejléc (aktív)"
+
+msgid "sty_vaccordion_templates"
+msgstr "Függőleges harmonikasablonok"
+
+msgid "sty_vertical"
+msgstr "Függőleges"
+
+msgid "sty_vertical_align"
+msgstr "Függőleges igazítás"
+
+msgid "sty_white_space"
+msgstr "Fehér karakter"
+
+msgid "sty_width"
+msgstr "Szélesség"
+
+msgid "sty_width_height"
+msgstr "Szélesség x magasság"
+
+msgid "sty_word_spacing"
+msgstr "Szóköz"
+
+msgid "style"
+msgstr "Stílus"
+
+msgid "style_assignments_deleted"
+msgstr "Az alábbi alstílushoz stílushoz rendelésit törölte:"
+
+msgid "style_copied"
+msgstr "A stílust sikeresen másolta."
+
+msgid "style_current_style"
+msgstr "Jelenlegi stílus"
+
+msgid "style_delete_style"
+msgstr "Stílus törlése"
+
+msgid "style_deleted"
+msgstr "Törölt stílus:"
+
+msgid "style_edit_style"
+msgstr "Stílus módosítása"
+
+msgid "style_id"
+msgstr "Stílus ID"
+
+msgid "style_id_description"
+msgstr "Az stílus ID-jét használjuk a skinek mappájában lévő stílus specifikus css és less fájlok neveként. Ezért az ID-k csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhatnak."
+
+msgid "style_imported"
+msgstr "A stílust sikeren importálta a ide:"
+
+msgid "style_name"
+msgstr "Stílus megnevezése"
+
+msgid "style_name_description"
+msgstr "A stílus neve alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő stílus kiválasztását."
+
+msgid "style_not_deleted"
+msgstr "A stílus az alábbi ok miatt nem törölhető:"
+
+msgid "style_page_layout_module_learning_module"
+msgstr "ILIAS-tananyag"
+
+msgid "style_page_layout_module_portfolio"
+msgstr "Portfólió"
+
+msgid "style_page_layout_module_scorm"
+msgstr "SCORM"
+
+msgid "style_support_reuse"
+msgstr "Újbóli felhasználás"
+
+msgid "style_support_reuse_info"
+msgstr "Az aktuális tároló alobjektumai számára is lehetővé teszi ennek a tartalomstílusnak a használatát."
+
+msgid "styles_not_deleted"
+msgstr "A stílus az alábbi okok miatt nem törölhető:"
+
+msgid "sub_style"
+msgstr "Alstílus"
+
+msgid "sub_style_id"
+msgstr "Alstílus ID"
+
+msgid "sub_style_id_description"
+msgstr "Az alstílus ID-jét használjuk a skinek mappájában lévő alstílus specifikus css és less fájlok neveként. Ezért az ID-k csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhatnak."
+
+msgid "sub_style_name"
+msgstr "Alstílus megnevezése"
+
+msgid "sub_style_name_description"
+msgstr "Az alstílus neve a stílus alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő skin kiválasztását."
+
+msgid "sub_style_parent_style_description"
+msgstr "Az alstílusok pontosan egy szülőstílushoz vannak hozzárendelve. Csak akkor jelennek meg a megfelelő felhasználónál, ha ehhez a felhasználóhoz hozzárendelték a szülőstílust. Az alstílus létrehozása után annak szülőstílusa már nem módosítható."
+
+msgid "system_style_activation"
+msgstr "Rendszerstílust sikeresen aktiválta"
+
+msgid "system_style_activation_description"
+msgstr "Aktív rendszerstílust rendelhet felhasználókhoz, illetve aktív rendszerstílust választhatnak a felhasználók maguknak, ha a Rendszerbeállítások » ILIAS-fiókok » Beállítások » Standard mezők » Alapértelmezett skin be van kapcsolva."
+
+msgid "system_style_default_description"
+msgstr "Stílus beállítása alapértelmezett rendszerstílusnak. Az alapértelmezett rendszerstílust rendeljük azon felhasználókhoz, akikhez nem volt stílus rendelve vagy a felhasználó nincs bejelentkezve."
+
+msgid "system_style_personal_description"
+msgstr "Stílus beállítása személyes rendszerstílusnak. Ez a jelenlegi módosítások megtekintését könnyítheti."
+
+msgid "update_colors"
+msgstr "Színek frissítése"
+
+msgid "update_icon"
+msgstr "Ikon frissítése"
+
+msgid "update_variables"
+msgstr "Változók frissítése"
+
+msgid "usages"
+msgstr "Használat:"
+
+msgid "used_colors"
+msgstr "Felhasznált színek:"
+
+msgid "zip_export_failed"
+msgstr "ZIP exportálás sikertelen a következő hiba miatt:"

@@ -1,0 +1,1606 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: style\n"
+
+#, fuzzy
+msgid "adapt_icon"
+msgstr "Adapt Icon"
+
+#, fuzzy
+msgid "adapt_icon_description"
+msgstr "Adapt icon colors or change the icon itself."
+
+#, fuzzy
+msgid "adapt_icons"
+msgstr "Adapt Icon Colors"
+
+#, fuzzy
+msgid "adapt_icons_description"
+msgstr "All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once."
+
+#, fuzzy
+msgid "adapt_scss"
+msgstr "Adapt scss"
+
+#, fuzzy
+msgid "adapt_scss_description"
+msgstr "This is a direct representation of all scss variables from the settings files used in the selected skin. Variable names and descriptions are drawn directly from those files and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a copy of the default delos style."
+
+#, fuzzy
+msgid "add_substyle"
+msgstr "Add Sub Style"
+
+#, fuzzy
+msgid "add_system_style"
+msgstr "Add System Style"
+
+#, fuzzy
+msgid "assignment"
+msgstr "Assignment"
+
+#, fuzzy
+msgid "blue_color"
+msgstr "Blue Color"
+
+#, fuzzy
+msgid "blue_colors"
+msgstr "Blue Colors"
+
+#, fuzzy
+msgid "blue_colors_description"
+msgstr "Blue Color Description"
+
+#, fuzzy
+msgid "can_not_read_scss_file"
+msgstr "Cannot read scss file. Path:"
+
+#, fuzzy
+msgid "cant_deactivate_default_style"
+msgstr "Default styles cannot be deactivated."
+
+#, fuzzy
+msgid "cant_delete_activated_style"
+msgstr "Active Styles cannot be deleted."
+
+#, fuzzy
+msgid "cant_delete_if_users_assigned"
+msgstr "Styles can not be deleted if users are still assigned."
+
+#, fuzzy
+msgid "cant_delete_style_with_substyles"
+msgstr "Styles with sub styles cannot be deleted."
+
+#, fuzzy
+msgid "change_icon"
+msgstr "Change Icon"
+
+#, fuzzy
+msgid "color"
+msgstr "Color"
+
+#, fuzzy
+msgid "color_changed_from"
+msgstr "Color changed from:"
+
+#, fuzzy
+msgid "color_changed_to"
+msgstr "to:"
+
+#, fuzzy
+msgid "color_reset"
+msgstr "The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "color_update"
+msgstr "The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "default_style_set_to"
+msgstr "The default system style has been set to:"
+
+#, fuzzy
+msgid "dir_changed_to"
+msgstr "The directory has been moved to:"
+
+#, fuzzy
+msgid "dir_copied_from"
+msgstr "The directory has been copied to from:"
+
+#, fuzzy
+msgid "dir_created"
+msgstr "The following directory has been created:"
+
+#, fuzzy
+msgid "dir_deleted"
+msgstr "The following directory has been deleted:"
+
+#, fuzzy
+msgid "dir_preserved_backup"
+msgstr "Preserved Backup folder:"
+
+#, fuzzy
+msgid "dir_preserved_linked"
+msgstr "Preserved Link:"
+
+#, fuzzy
+msgid "directory_created"
+msgstr "Directory created:"
+
+#, fuzzy
+msgid "documentation"
+msgstr "Documentation"
+
+#, fuzzy
+msgid "edit_by_color"
+msgstr "Edit by Color"
+
+#, fuzzy
+msgid "edit_by_icon"
+msgstr "Edit by Icon"
+
+#, fuzzy
+msgid "enable_system_styles_management_no_write_perm"
+msgstr "System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited."
+
+#, fuzzy
+msgid "entries_reloaded"
+msgstr "All entries have been reloaded"
+
+#, fuzzy
+msgid "file_deleted"
+msgstr "Following file has been deleted:"
+
+#, fuzzy
+msgid "font_dir"
+msgstr "Font Directory"
+
+#, fuzzy
+msgid "font_dir_description"
+msgstr "Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin."
+
+#, fuzzy
+msgid "from_skin"
+msgstr "of skin:"
+
+#, fuzzy
+msgid "green_color"
+msgstr "Green Color"
+
+#, fuzzy
+msgid "green_colors"
+msgstr "Green Colors"
+
+#, fuzzy
+msgid "green_colors_description"
+msgstr "Green Color Description"
+
+#, fuzzy
+msgid "grey_color"
+msgstr "Gray Color"
+
+#, fuzzy
+msgid "grey_colors"
+msgstr "Gray Colors"
+
+#, fuzzy
+msgid "grey_colors_description"
+msgstr "Gray Color Description"
+
+#, fuzzy
+msgid "icons"
+msgstr "Icons"
+
+#, fuzzy
+msgid "icons_gallery"
+msgstr "Icons Gallery"
+
+#, fuzzy
+msgid "image_dir"
+msgstr "Image Directory"
+
+#, fuzzy
+msgid "image_dir_description"
+msgstr "Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin."
+
+#, fuzzy
+msgid "in_main_scss_file"
+msgstr "is not imported inside the system styles main scss file:"
+
+#, fuzzy
+msgid "invalid_scss_path"
+msgstr "The provided sass/scss path is either not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readable and executable by your webserver."
+
+#, fuzzy
+msgid "ks_documentation_of_style"
+msgstr "Kitchen Sink documentation of style:"
+
+#, fuzzy
+msgid "ks_documentation_of_substyle"
+msgstr "Kitchen Sink documentation of sub style:"
+
+#, fuzzy
+msgid "main_scss_created"
+msgstr "Main SCSS has been created:"
+
+#, fuzzy
+msgid "manage_system_styles"
+msgstr "Manage System Styles"
+
+#, fuzzy
+msgid "msg_sub_style_created"
+msgstr "The sub style has been created."
+
+#, fuzzy
+msgid "msg_sys_style_created"
+msgstr "The new system style has successfully been created."
+
+#, fuzzy
+msgid "msg_sys_style_update"
+msgstr "System Styles have been updated"
+
+#, fuzzy
+msgid "no_scss_path_set"
+msgstr "No Scss Path set"
+
+#, fuzzy
+msgid "no_style_selected"
+msgstr "No sub style has been selected."
+
+#, fuzzy
+msgid "of_parent"
+msgstr "of parent:"
+
+#, fuzzy
+msgid "open_documentation"
+msgstr "Open Documentation"
+
+#, fuzzy
+msgid "parent"
+msgstr "Parent Style"
+
+#, fuzzy
+msgid "personal"
+msgstr "Personal"
+
+#, fuzzy
+msgid "personal_style_set_to"
+msgstr "Your personal style has been set to:"
+
+#, fuzzy
+msgid "provided_scss_path"
+msgstr "Provided scss path:"
+
+#, fuzzy
+msgid "red_color"
+msgstr "Red Color"
+
+#, fuzzy
+msgid "red_colors"
+msgstr "Red Colors"
+
+#, fuzzy
+msgid "red_colors_description"
+msgstr "Red Color Description"
+
+#, fuzzy
+msgid "refresh_entries"
+msgstr "Refresh Entries"
+
+#, fuzzy
+msgid "remove_assignment"
+msgstr "Remove Assignment"
+
+#, fuzzy
+msgid "reset_icons"
+msgstr "Reset Icons"
+
+#, fuzzy
+msgid "reset_variables"
+msgstr "Reset Variables"
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "scss"
+msgstr "Scss"
+
+#, fuzzy
+msgid "scss_can_not_be_modified"
+msgstr "Scss cannot be modified"
+
+#, fuzzy
+msgid "scss_compile_failed"
+msgstr "Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:"
+
+#, fuzzy
+msgid "scss_file_reset"
+msgstr "The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_file_updated"
+msgstr "The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_folder_reset"
+msgstr "Scss folder reset"
+
+#, fuzzy
+msgid "scss_folder_updated"
+msgstr "Scss folder has been updated"
+
+#, fuzzy
+msgid "scss_scss_installation_detected"
+msgstr "Scss/sass installation detected at:"
+
+#, fuzzy
+msgid "scss_variable_empty"
+msgstr "This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling."
+
+#, fuzzy
+msgid "scss_variables_empty_might_have_changed"
+msgstr "There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files."
+
+#, fuzzy
+msgid "scss_variables_file_not_included"
+msgstr "The scss variables files:"
+
+#, fuzzy
+msgid "select_icon"
+msgstr "Select Icon"
+
+#, fuzzy
+msgid "settings_of_style"
+msgstr "Manage style"
+
+#, fuzzy
+msgid "settings_of_substyle"
+msgstr "Manage sub style"
+
+#, fuzzy
+msgid "skin"
+msgstr "Skin"
+
+#, fuzzy
+msgid "skin_deleted"
+msgstr "Following skin has been deleted:"
+
+#, fuzzy
+msgid "skin_id"
+msgstr "Skin ID"
+
+#, fuzzy
+msgid "skin_id_description"
+msgstr "Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's."
+
+#, fuzzy
+msgid "skin_id_exists"
+msgstr "There exists already a skin with this ID."
+
+#, fuzzy
+msgid "skin_name"
+msgstr "Skin Name"
+
+#, fuzzy
+msgid "skin_name_description"
+msgstr "The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins."
+
+#, fuzzy
+msgid "skin_version"
+msgstr "Skin Version"
+
+#, fuzzy
+msgid "skin_version_description"
+msgstr "The skin version is used to re-cache the style after changes. It gets automatically updated."
+
+#, fuzzy
+msgid "sound_dir"
+msgstr "Sound Directory"
+
+#, fuzzy
+msgid "sound_dir_description"
+msgstr "Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin."
+
+msgid "sty_acopy"
+msgstr "复制"
+
+msgid "sty_add_assignment"
+msgstr "添加分配"
+
+msgid "sty_add_characteristic"
+msgstr "添加样式类"
+
+msgid "sty_add_color"
+msgstr "添加颜色"
+
+msgid "sty_add_content_style"
+msgstr "添加内容样式"
+
+msgid "sty_add_image"
+msgstr "添加图像"
+
+#, fuzzy
+msgid "sty_add_media_query"
+msgstr "Add Media Query"
+
+#, fuzzy
+msgid "sty_add_media_query_info"
+msgstr "E.g. \"only screen and (max-width: 600px)\" for browser window smaller than 600px or \"print\" for printing devices."
+
+msgid "sty_add_pgl"
+msgstr "添加页面布局"
+
+msgid "sty_add_template"
+msgstr "添加模板"
+
+msgid "sty_added_characteristic"
+msgstr "样式类已添加"
+
+msgid "sty_all"
+msgstr "全部"
+
+msgid "sty_all_styles_obligatory"
+msgstr "所有选定的样式都是必需的，不能删除。"
+
+msgid "sty_assign_categories"
+msgstr "分配类目"
+
+msgid "sty_background"
+msgstr "背景"
+
+msgid "sty_background_attachment"
+msgstr "背景附件"
+
+msgid "sty_background_color"
+msgstr "背景颜色"
+
+msgid "sty_background_image"
+msgstr "背景影像"
+
+msgid "sty_background_position"
+msgstr "背景位置"
+
+msgid "sty_background_repeat"
+msgstr "背景重复"
+
+msgid "sty_base_color"
+msgstr "基准颜色"
+
+msgid "sty_based_on"
+msgstr "基于"
+
+#, fuzzy
+msgid "sty_bg_img_info"
+msgstr "To add images to the dropdown selection please upload them in the \"Images\" section of the style first."
+
+msgid "sty_border"
+msgstr "边框"
+
+msgid "sty_border_color"
+msgstr "边框颜色"
+
+msgid "sty_border_style"
+msgstr "边框样式"
+
+msgid "sty_border_width"
+msgstr "边框宽度"
+
+msgid "sty_bottom"
+msgstr "底部"
+
+#, fuzzy
+msgid "sty_ca_cntr_class"
+msgstr "Carousel Container"
+
+#, fuzzy
+msgid "sty_ca_icntr_class"
+msgstr "Carousel Item Container"
+
+#, fuzzy
+msgid "sty_ca_icont_class"
+msgstr "Carousel Item Content"
+
+#, fuzzy
+msgid "sty_ca_ihead_class"
+msgstr "Carousel Item Header"
+
+#, fuzzy
+msgid "sty_cannot_be_copied"
+msgstr "The following style types cannot be copied"
+
+msgid "sty_caption"
+msgstr "标题(Caption)"
+
+msgid "sty_caption_class"
+msgstr "标题(Caption)"
+
+#, fuzzy
+msgid "sty_carousel_templates"
+msgstr "Carousel Templates"
+
+msgid "sty_cat_assignments"
+msgstr "样式/类目预约"
+
+#, fuzzy
+msgid "sty_change_user_assignment"
+msgstr "Change User Assignment"
+
+msgid "sty_characteristic_already_exists"
+msgstr "这个标题的样式类已经在这个样式中。"
+
+#, fuzzy
+msgid "sty_class"
+msgstr "Style Class"
+
+#, fuzzy
+msgid "sty_class_name"
+msgstr "Class Name"
+
+msgid "sty_clear"
+msgstr "清除"
+
+msgid "sty_col_foot_class"
+msgstr "列脚"
+
+msgid "sty_col_head_class"
+msgstr "列头"
+
+msgid "sty_color"
+msgstr "颜色"
+
+msgid "sty_color_already_exists"
+msgstr "这个名字的颜色已经在这个样式中。"
+
+msgid "sty_color_code"
+msgstr "颜色代码"
+
+msgid "sty_color_flavors"
+msgstr "颜色偏好"
+
+msgid "sty_color_info"
+msgstr "预定义颜色易于在不同目的中重用。您通过使用它的以\"!\"打头的名字为您的样式类中任意颜色属性参考一个预定义颜色。去使用一个偏好，在括号中追加一个高亮值到这个颜色名，例如，!MyColor(20)。"
+
+msgid "sty_color_name"
+msgstr "颜色名"
+
+msgid "sty_colors"
+msgstr "颜色"
+
+msgid "sty_commands"
+msgstr "命令"
+
+msgid "sty_confirm_char_deletion"
+msgstr "您确认想删除以下样式类吗？"
+
+msgid "sty_confirm_color_deletion"
+msgstr "确认要删除的颜色"
+
+msgid "sty_confirm_del_ind_styles"
+msgstr "确认要删除的单个内容样式"
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr "所有单个样式的学习模块将被分配到样式 '%s'。这也将删除所有单个内容样式。您真的要继续吗？"
+
+msgid "sty_confirm_template_deletion"
+msgstr "确定删除模板"
+
+msgid "sty_copied_please_select_target"
+msgstr "此样式类已被复制。请打开目标样式并点击“粘贴样式类”。"
+
+msgid "sty_copy_other_stylesheet"
+msgstr "从本地源中复制样式"
+
+#, fuzzy
+msgid "sty_copy_other_system_style"
+msgstr "Clone an existing system style."
+
+#, fuzzy
+msgid "sty_copy_to"
+msgstr "to:"
+
+msgid "sty_create_ind_style"
+msgstr "创建单个的样式"
+
+#, fuzzy
+msgid "sty_create_new_class"
+msgstr "Create new style class"
+
+msgid "sty_create_new_stylesheet"
+msgstr "创建新样式"
+
+#, fuzzy
+msgid "sty_create_new_system_style"
+msgstr "Create a new system style."
+
+#, fuzzy
+msgid "sty_create_new_system_sub_style"
+msgstr "Create a new system sub style."
+
+msgid "sty_create_pgl"
+msgstr "创建页面布局"
+
+msgid "sty_cursor"
+msgstr "光标"
+
+#, fuzzy
+msgid "sty_custom"
+msgstr "Custom"
+
+#, fuzzy
+msgid "sty_custom_par"
+msgstr "Custom Parameters"
+
+#, fuzzy
+msgid "sty_custom_par_info"
+msgstr "Add custom CSS parameters using format \"parameter: value\"."
+
+#, fuzzy
+msgid "sty_default"
+msgstr "Default"
+
+msgid "sty_default_style"
+msgstr "默认样式"
+
+msgid "sty_del_template"
+msgstr "删除模板和类"
+
+msgid "sty_del_template_keep_classes"
+msgstr "删除和保持样式类"
+
+msgid "sty_delete_other_selected"
+msgstr "继续"
+
+msgid "sty_disable_auto_margins"
+msgstr "禁用自动边距"
+
+msgid "sty_disable_auto_margins_info"
+msgstr "如果媒体对象或表格以左/右对齐，则禁用左/右自动设置为0像素。"
+
+msgid "sty_edit_template"
+msgstr "编辑模板"
+
+msgid "sty_even_col_class"
+msgstr "偶数列"
+
+msgid "sty_even_row_class"
+msgstr "偶数行"
+
+msgid "sty_example"
+msgstr "例子"
+
+msgid "sty_flist_char"
+msgstr "文件列表"
+
+msgid "sty_float"
+msgstr "浮动"
+
+msgid "sty_font_family"
+msgstr "字体族"
+
+msgid "sty_font_size"
+msgstr "字体大小"
+
+msgid "sty_font_style"
+msgstr "字体样式"
+
+msgid "sty_font_variant"
+msgstr "字体变量"
+
+msgid "sty_font_weight"
+msgstr "字体粗细"
+
+msgid "sty_from"
+msgstr "来自"
+
+msgid "sty_generate_template"
+msgstr "生成模板"
+
+msgid "sty_glo_char"
+msgstr "词汇表"
+
+msgid "sty_ha_cntr_class"
+msgstr "水平(Hor.)层叠容器"
+
+msgid "sty_ha_icntr_class"
+msgstr "水平(Hor.)层叠项容器"
+
+msgid "sty_ha_icont_class"
+msgstr "水平(Hor.)层叠项内容"
+
+#, fuzzy
+msgid "sty_ha_ihcap_class"
+msgstr "Hor. Accordion Caption"
+
+msgid "sty_ha_ihead_class"
+msgstr "水平(Hor.)层叠项标头"
+
+#, fuzzy
+msgid "sty_ha_iheada_class"
+msgstr "Hor. Accordion Header (active)"
+
+msgid "sty_haccordion_templates"
+msgstr "水平(Hor.)层叠模板"
+
+msgid "sty_height"
+msgstr "高度"
+
+msgid "sty_hide"
+msgstr "隐藏"
+
+msgid "sty_horizontal"
+msgstr "水平"
+
+msgid "sty_if_style_class_already_exists"
+msgstr "如果样式类已存在……"
+
+msgid "sty_image_file"
+msgstr "图象文件"
+
+msgid "sty_images"
+msgstr "图象"
+
+msgid "sty_import_page_layout"
+msgstr "导入页面布局"
+
+msgid "sty_import_stylesheet"
+msgstr "导入样式"
+
+#, fuzzy
+msgid "sty_import_system_style"
+msgstr "Import an existing system style as zip."
+
+#, fuzzy
+msgid "sty_imported_layout"
+msgstr "Imported Page Layout"
+
+msgid "sty_individual_styles"
+msgstr "个性样式"
+
+msgid "sty_keep_existing"
+msgstr "保持现有的"
+
+msgid "sty_left"
+msgstr "左"
+
+msgid "sty_left_right_padding"
+msgstr "单元格左/右填充"
+
+#, fuzzy
+msgid "sty_legacy_image_directory_found"
+msgstr "Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking \"Migrate Images\""
+
+msgid "sty_letter_spacing"
+msgstr "字间距"
+
+msgid "sty_lightness_border"
+msgstr "高亮边框"
+
+msgid "sty_lightness_cell1_bg"
+msgstr "高亮单元格1背景"
+
+msgid "sty_lightness_cell1_text"
+msgstr "高亮单元格1文本"
+
+msgid "sty_lightness_cell2_bg"
+msgstr "高亮单元格2背景"
+
+msgid "sty_lightness_cell2_text"
+msgstr "高亮单元格2文本"
+
+msgid "sty_lightness_header_bg"
+msgstr "高亮标头背景"
+
+msgid "sty_lightness_header_text"
+msgstr "高亮标头文本"
+
+msgid "sty_line_height"
+msgstr "行高"
+
+msgid "sty_link_char"
+msgstr "链接"
+
+msgid "sty_list_char"
+msgstr "列表"
+
+#, fuzzy
+msgid "sty_list_style_position"
+msgstr "List Style Position"
+
+#, fuzzy
+msgid "sty_list_style_type"
+msgstr "List Style Type"
+
+msgid "sty_make_global_default"
+msgstr "作为全局默认"
+
+msgid "sty_make_global_fixed"
+msgstr "作为全局修正"
+
+msgid "sty_margin"
+msgstr "边距"
+
+msgid "sty_margin_and_padding"
+msgstr "边距和填充"
+
+msgid "sty_media_char"
+msgstr "媒体"
+
+#, fuzzy
+msgid "sty_media_queries"
+msgstr "Media Queries"
+
+#, fuzzy
+msgid "sty_media_query_info"
+msgstr "A separete CSS block is added for each media query after the default (no special media query) block."
+
+#, fuzzy
+msgid "sty_migrate_images"
+msgstr "Migrate Images"
+
+msgid "sty_min_height"
+msgstr "最小高度"
+
+msgid "sty_move_lm_styles"
+msgstr "更改学习模块的样式"
+
+#, fuzzy
+msgid "sty_move_obj_styles"
+msgstr "Change Style of Objects"
+
+msgid "sty_move_style"
+msgstr "更改风格"
+
+msgid "sty_move_user_styles"
+msgstr "改变用户风格"
+
+#, fuzzy
+msgid "sty_move_user_styles_saved"
+msgstr "The assignment of the users assigned to skind-id %s has been changed to skin-id %s."
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr "样式类的标题可能仅包含以下字符："
+
+msgid "sty_msg_color_must_only_include"
+msgstr "颜色名可能仅包含以下字符："
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr "只能输入数字："
+
+msgid "sty_name"
+msgstr "名字"
+
+msgid "sty_nr_learning_modules"
+msgstr "学习模块的数目"
+
+#, fuzzy
+msgid "sty_nr_objects"
+msgstr "Number of Objects"
+
+msgid "sty_odd_col_class"
+msgstr "奇数列"
+
+msgid "sty_odd_row_class"
+msgstr "奇数行"
+
+#, fuzzy
+msgid "sty_ol"
+msgstr "Ordered List"
+
+msgid "sty_opacity"
+msgstr "不透明"
+
+msgid "sty_opt_saved"
+msgstr "选项已保存"
+
+#, fuzzy
+msgid "sty_order"
+msgstr "Order"
+
+#, fuzzy
+msgid "sty_outdated"
+msgstr "Outdated"
+
+msgid "sty_overflow"
+msgstr "溢出"
+
+msgid "sty_overwrite"
+msgstr "覆盖"
+
+#, fuzzy
+msgid "sty_overwrite_existing_class"
+msgstr "Overwrite existing style class"
+
+msgid "sty_padding"
+msgstr "填充"
+
+msgid "sty_page_char"
+msgstr "页面"
+
+#, fuzzy
+msgid "sty_parameters"
+msgstr "Parameters"
+
+msgid "sty_paste_characteristics"
+msgstr "粘贴样式类"
+
+#, fuzzy
+msgid "sty_paste_chars"
+msgstr "Paste Classes"
+
+msgid "sty_paste_style_classes"
+msgstr "粘贴样式类"
+
+msgid "sty_position"
+msgstr "位置"
+
+msgid "sty_positioning"
+msgstr "定位"
+
+msgid "sty_preview"
+msgstr "预览"
+
+#, fuzzy
+msgid "sty_query"
+msgstr "Query"
+
+msgid "sty_question_char"
+msgstr "题目"
+
+msgid "sty_remove_global_default_state"
+msgstr "移除全局默认状态"
+
+msgid "sty_remove_global_fixed_state"
+msgstr "移除全局修正的状态"
+
+#, fuzzy
+msgid "sty_remove_outdated"
+msgstr "Remove Outdated Status"
+
+#, fuzzy
+msgid "sty_resize"
+msgstr "Resize"
+
+#, fuzzy
+msgid "sty_resize_image"
+msgstr "Resize Image"
+
+msgid "sty_right"
+msgstr "右"
+
+msgid "sty_row_foot_class"
+msgstr "行页脚"
+
+msgid "sty_row_head_class"
+msgstr "行标头"
+
+msgid "sty_rte_char"
+msgstr "SCORM运行时环境"
+
+msgid "sty_save_active_styles"
+msgstr "保存活动样式"
+
+#, fuzzy
+msgid "sty_save_hide_order_status"
+msgstr "Save Order and Hidden Status"
+
+msgid "sty_save_hide_status"
+msgstr "保存隐藏状态"
+
+#, fuzzy
+msgid "sty_save_order"
+msgstr "Save Order"
+
+#, fuzzy
+msgid "sty_save_order_status"
+msgstr "Save Order"
+
+msgid "sty_sco_char"
+msgstr "SCO & 目标"
+
+msgid "sty_scope"
+msgstr "范围"
+
+msgid "sty_section_char"
+msgstr "段落"
+
+#, fuzzy
+msgid "sty_set_outdated"
+msgstr "Set Outdated"
+
+msgid "sty_set_scope"
+msgstr "置范围"
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr "以下样式类是必须的，不能被删除。您想继续删除其余选定的样式类吗？"
+
+msgid "sty_source"
+msgstr "源"
+
+msgid "sty_special"
+msgstr "特殊"
+
+msgid "sty_style_chars"
+msgstr "样式类"
+
+msgid "sty_style_class"
+msgstr "样式类"
+
+msgid "sty_style_classes_copied"
+msgstr "样式类已复制。"
+
+#, fuzzy
+msgid "sty_style_not_migrated"
+msgstr "This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied."
+
+msgid "sty_substyle"
+msgstr "子样式"
+
+#, fuzzy
+msgid "sty_substyle_of"
+msgstr "Sub Style of"
+
+msgid "sty_substyles"
+msgstr "子样式"
+
+#, fuzzy
+msgid "sty_sure_del_mqueries"
+msgstr "Do you really want to delete this media query and all related CSS rules?"
+
+#, fuzzy
+msgid "sty_switch"
+msgstr "Switch"
+
+msgid "sty_table_char"
+msgstr "表格"
+
+msgid "sty_table_class"
+msgstr "表格样式类"
+
+msgid "sty_table_template_bw_zebra"
+msgstr "灰色条纹"
+
+msgid "sty_table_template_colored_zebra"
+msgstr "彩色条纹"
+
+msgid "sty_table_template_no_zebra"
+msgstr "无条纹"
+
+msgid "sty_table_templates"
+msgstr "表格模板"
+
+msgid "sty_tabs_char"
+msgstr "选项卡 & 层叠"
+
+msgid "sty_tag_hover"
+msgstr ":悬停"
+
+msgid "sty_tag_normal"
+msgstr "正常"
+
+msgid "sty_template_layout"
+msgstr "模板布局"
+
+msgid "sty_template_name"
+msgstr "名字"
+
+msgid "sty_templates"
+msgstr "模板"
+
+msgid "sty_text"
+msgstr "文本"
+
+msgid "sty_text_align"
+msgstr "文本对齐"
+
+msgid "sty_text_block_char"
+msgstr "文本(块)"
+
+msgid "sty_text_decoration"
+msgstr "文本修饰"
+
+msgid "sty_text_indent"
+msgstr "文本缩进"
+
+msgid "sty_text_inline_char"
+msgstr "文本(字符)"
+
+msgid "sty_text_transform"
+msgstr "文本转换"
+
+#, fuzzy
+msgid "sty_titles"
+msgstr "Titles"
+
+msgid "sty_to"
+msgstr "到"
+
+msgid "sty_top"
+msgstr "顶端"
+
+msgid "sty_top_bottom_padding"
+msgstr "单元格上/下填充下"
+
+#, fuzzy
+msgid "sty_transform"
+msgstr "Transform"
+
+#, fuzzy
+msgid "sty_transform_origin"
+msgstr "Transform-Origin"
+
+msgid "sty_type"
+msgstr "类型"
+
+#, fuzzy
+msgid "sty_type_ca_cntr"
+msgstr "Carousel Container"
+
+#, fuzzy
+msgid "sty_type_ca_icntr"
+msgstr "Carousel Item Container"
+
+#, fuzzy
+msgid "sty_type_ca_icont"
+msgstr "Carousel Item Content"
+
+#, fuzzy
+msgid "sty_type_ca_ihead"
+msgstr "Carousel Item Header"
+
+#, fuzzy
+msgid "sty_type_code_block"
+msgstr "Code (Block)"
+
+#, fuzzy
+msgid "sty_type_code_inline"
+msgstr "Code (Inline)"
+
+#, fuzzy
+msgid "sty_type_em"
+msgstr "Emphasised"
+
+msgid "sty_type_flist"
+msgstr "文件列表"
+
+msgid "sty_type_flist_a"
+msgstr "文件列表条目的链接"
+
+msgid "sty_type_flist_cont"
+msgstr "文件列表容器"
+
+msgid "sty_type_flist_head"
+msgstr "文件列表标题"
+
+msgid "sty_type_flist_li"
+msgstr "File List Item文件列表项"
+
+msgid "sty_type_glo_ovclink"
+msgstr "词汇表叠加关闭链接"
+
+msgid "sty_type_glo_overlay"
+msgstr "词汇叠加"
+
+msgid "sty_type_glo_ovtitle"
+msgstr "术语/标题(叠加)"
+
+msgid "sty_type_glo_ovuglink"
+msgstr "单元词汇表链接"
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr "单元词汇列表链接"
+
+msgid "sty_type_ha_cntr"
+msgstr "水平(Hor.)层叠容器"
+
+msgid "sty_type_ha_icntr"
+msgstr "水平(Hor.)层叠项容器"
+
+msgid "sty_type_ha_icont"
+msgstr "水平(Hor.)层叠项内容"
+
+#, fuzzy
+msgid "sty_type_ha_ihcap"
+msgstr "Hor. Accordion Caption"
+
+msgid "sty_type_ha_ihead"
+msgstr "水平(Hor.)层叠项标头"
+
+#, fuzzy
+msgid "sty_type_ha_iheada"
+msgstr "Hor. Accordion Header (active)"
+
+msgid "sty_type_heading1"
+msgstr "标题 1"
+
+msgid "sty_type_heading2"
+msgstr "标题 2"
+
+msgid "sty_type_heading3"
+msgstr "标题 3"
+
+msgid "sty_type_iim"
+msgstr "交互式图像内容弹窗"
+
+msgid "sty_type_link"
+msgstr "链接"
+
+msgid "sty_type_list_item"
+msgstr "列表项目"
+
+msgid "sty_type_list_o"
+msgstr "已编号列表"
+
+msgid "sty_type_list_u"
+msgstr "项目符号列表"
+
+msgid "sty_type_marker"
+msgstr "交互式图像标记"
+
+msgid "sty_type_media_caption"
+msgstr "媒体标题(caption)"
+
+msgid "sty_type_media_cont"
+msgstr "媒体容器"
+
+msgid "sty_type_page_bnav"
+msgstr "底部导航"
+
+msgid "sty_type_page_cont"
+msgstr "页面容器"
+
+msgid "sty_type_page_fn"
+msgstr "脚注"
+
+msgid "sty_type_page_frame"
+msgstr "页框"
+
+msgid "sty_type_page_lnav"
+msgstr "左侧导航"
+
+msgid "sty_type_page_lnavimage"
+msgstr "左导航图像"
+
+msgid "sty_type_page_lnavlink"
+msgstr "左导航链接"
+
+msgid "sty_type_page_rnav"
+msgstr "右侧导航"
+
+msgid "sty_type_page_rnavimage"
+msgstr "右导航图像"
+
+msgid "sty_type_page_rnavlink"
+msgstr "右导航链接"
+
+msgid "sty_type_page_title"
+msgstr "页面标题"
+
+msgid "sty_type_page_tnav"
+msgstr "顶部导航"
+
+msgid "sty_type_qanswer"
+msgstr "回答"
+
+msgid "sty_type_qetcorr"
+msgstr "错误文本已更正"
+
+msgid "sty_type_qetitem"
+msgstr "错误的文本项"
+
+msgid "sty_type_qfeedr"
+msgstr "回馈，正确"
+
+msgid "sty_type_qfeedw"
+msgstr "回馈，错误"
+
+msgid "sty_type_qimg"
+msgstr "题目图像"
+
+msgid "sty_type_qimgd"
+msgstr "图像细节链接"
+
+msgid "sty_type_qinput"
+msgstr "文本输入"
+
+msgid "sty_type_qlinput"
+msgstr "长文本输入"
+
+msgid "sty_type_qordli"
+msgstr "顺序列表项"
+
+msgid "sty_type_qordul"
+msgstr "顺序列表"
+
+msgid "sty_type_qover"
+msgstr "问题概况"
+
+msgid "sty_type_qsubmit"
+msgstr "题目提交按钮"
+
+msgid "sty_type_qtitle"
+msgstr "题目标题"
+
+msgid "sty_type_question"
+msgstr "题目"
+
+msgid "sty_type_rte_drag"
+msgstr "拖动栏(Drag Bar)"
+
+msgid "sty_type_rte_menu"
+msgstr "运行时环境菜单"
+
+msgid "sty_type_rte_mlink"
+msgstr "运行时环境菜单链接"
+
+msgid "sty_type_rte_node"
+msgstr "运行时环境树节点"
+
+msgid "sty_type_rte_status"
+msgstr "运行时环境状态"
+
+msgid "sty_type_rte_tclink"
+msgstr "树控制链接"
+
+msgid "sty_type_rte_texp"
+msgstr "树图标"
+
+msgid "sty_type_rte_tli"
+msgstr "树列表项"
+
+msgid "sty_type_rte_tlink"
+msgstr "运行时环境树节点链接"
+
+msgid "sty_type_rte_tree"
+msgstr "运行时环境树段落"
+
+msgid "sty_type_rte_tul"
+msgstr "树状列表"
+
+msgid "sty_type_sco_desc"
+msgstr "SCO 描述"
+
+msgid "sty_type_sco_fmess"
+msgstr "SCORM 最终消息"
+
+msgid "sty_type_sco_keyw"
+msgstr "SCO 关键词"
+
+msgid "sty_type_sco_obj"
+msgstr "SCO 目标"
+
+msgid "sty_type_sco_title"
+msgstr "SCO 标题"
+
+msgid "sty_type_section"
+msgstr "段落"
+
+#, fuzzy
+msgid "sty_type_strong"
+msgstr "Strong"
+
+#, fuzzy
+msgid "sty_type_sub"
+msgstr "Subscript"
+
+#, fuzzy
+msgid "sty_type_sup"
+msgstr "Superscript"
+
+msgid "sty_type_table"
+msgstr "表格"
+
+msgid "sty_type_table_cell"
+msgstr "表格单元格"
+
+msgid "sty_type_text_block"
+msgstr "文本块"
+
+msgid "sty_type_text_inline"
+msgstr "字符"
+
+msgid "sty_type_va_cntr"
+msgstr "垂直(Vert.)层叠容器"
+
+msgid "sty_type_va_icntr"
+msgstr "垂直(Vert.)层叠项容器"
+
+msgid "sty_type_va_icont"
+msgstr "垂直(Vert.)层叠项内容"
+
+#, fuzzy
+msgid "sty_type_va_ihcap"
+msgstr "Vert. Accordion Caption"
+
+msgid "sty_type_va_ihead"
+msgstr "垂直(Vert.)层叠项标头"
+
+#, fuzzy
+msgid "sty_type_va_iheada"
+msgstr "Vert. Accordion Header (active)"
+
+#, fuzzy
+msgid "sty_ul"
+msgstr "Unordered List"
+
+msgid "sty_va_cntr_class"
+msgstr "垂直(Vert.)层叠容器"
+
+msgid "sty_va_icntr_class"
+msgstr "垂直(Vert.)层叠项容器"
+
+msgid "sty_va_icont_class"
+msgstr "垂直(Vert.)层叠项内容"
+
+#, fuzzy
+msgid "sty_va_ihcap_class"
+msgstr "Vert. Accordion Caption"
+
+msgid "sty_va_ihead_class"
+msgstr "垂直(Vert.)层叠项标头"
+
+#, fuzzy
+msgid "sty_va_iheada_class"
+msgstr "Vert. Accordion Header (active)"
+
+msgid "sty_vaccordion_templates"
+msgstr "垂直(Vert.)层叠项模板"
+
+msgid "sty_vertical"
+msgstr "垂直"
+
+msgid "sty_vertical_align"
+msgstr "垂直对齐"
+
+msgid "sty_white_space"
+msgstr "空白"
+
+msgid "sty_width"
+msgstr "宽度"
+
+msgid "sty_width_height"
+msgstr "宽度x高度"
+
+msgid "sty_word_spacing"
+msgstr "字间距"
+
+#, fuzzy
+msgid "style"
+msgstr "Style"
+
+#, fuzzy
+msgid "style_assignments_deleted"
+msgstr "Style assignments of the following Sub Style have been deleted:"
+
+#, fuzzy
+msgid "style_copied"
+msgstr "Style has been successfully copied."
+
+msgid "style_current_style"
+msgstr "当前样式"
+
+msgid "style_delete_style"
+msgstr "删除样式"
+
+#, fuzzy
+msgid "style_deleted"
+msgstr "Deleted Style:"
+
+msgid "style_edit_style"
+msgstr "编辑样式"
+
+#, fuzzy
+msgid "style_id"
+msgstr "Style ID"
+
+#, fuzzy
+msgid "style_id_description"
+msgstr "The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's."
+
+#, fuzzy
+msgid "style_imported"
+msgstr "Style has been successfully imported into:"
+
+#, fuzzy
+msgid "style_name"
+msgstr "Style Name"
+
+#, fuzzy
+msgid "style_name_description"
+msgstr "The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles."
+
+#, fuzzy
+msgid "style_not_deleted"
+msgstr "The style could not be deleted for the following reasons:"
+
+#, fuzzy
+msgid "style_page_layout_module_learning_module"
+msgstr "ILIAS Learning Module"
+
+msgid "style_page_layout_module_portfolio"
+msgstr "组合"
+
+msgid "style_page_layout_module_scorm"
+msgstr "Scorm"
+
+#, fuzzy
+msgid "style_support_reuse"
+msgstr "Re-Use"
+
+#, fuzzy
+msgid "style_support_reuse_info"
+msgstr "Allow sub-objects of the current container to re-use this content style."
+
+#, fuzzy
+msgid "styles_not_deleted"
+msgstr "The styles could not have been deleted for the following reasons:"
+
+#, fuzzy
+msgid "sub_style"
+msgstr "Sub Style"
+
+#, fuzzy
+msgid "sub_style_id"
+msgstr "Sub Style ID"
+
+#, fuzzy
+msgid "sub_style_id_description"
+msgstr "The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's."
+
+#, fuzzy
+msgid "sub_style_name"
+msgstr "Sub Style Name"
+
+#, fuzzy
+msgid "sub_style_name_description"
+msgstr "The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins."
+
+#, fuzzy
+msgid "sub_style_parent_style_description"
+msgstr "Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style."
+
+#, fuzzy
+msgid "system_style_activation"
+msgstr "System Style Activated"
+
+#, fuzzy
+msgid "system_style_activation_description"
+msgstr "Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin)."
+
+#, fuzzy
+msgid "system_style_default_description"
+msgstr "Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in."
+
+#, fuzzy
+msgid "system_style_personal_description"
+msgstr "Set this style as your personal system style. This might be handy to see the changes that are currently performed."
+
+#, fuzzy
+msgid "update_colors"
+msgstr "Update Colors"
+
+#, fuzzy
+msgid "update_icon"
+msgstr "Update Icon"
+
+#, fuzzy
+msgid "update_variables"
+msgstr "Update Variables"
+
+#, fuzzy
+msgid "usages"
+msgstr "Usages:"
+
+#, fuzzy
+msgid "used_colors"
+msgstr "Used Colors:"
+
+#, fuzzy
+msgid "zip_export_failed"
+msgstr "The ZIP export failed. The following error occured:"
