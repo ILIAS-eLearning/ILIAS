@@ -42,8 +42,9 @@ class CollectionTest extends AbstractBaseResourceBuilderTestCase
     public $collection_builder;
     /**
      * @var \ILIAS\ResourceStorage\Preloader\RepositoryPreloader&\PHPUnit\Framework\MockObject\MockObject|mixed
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\ResourceStorage\Preloader\RepositoryPreloader
      */
-    public MockObject $preloader;
+    public \PHPUnit\Framework\MockObject\Stub $preloader;
     /**
      * @var Collections|mixed
      */
@@ -64,9 +65,7 @@ class CollectionTest extends AbstractBaseResourceBuilderTestCase
             $this->rcid_generator
         );
 
-        $this->preloader = $this->getMockBuilder(RepositoryPreloader::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->preloader = $this->createStub(RepositoryPreloader::class);
 
         $this->resource_builder = new ResourceBuilder(
             $this->storage_handler_factory,
@@ -86,7 +85,7 @@ class CollectionTest extends AbstractBaseResourceBuilderTestCase
     public function testCreateCollection(): void
     {
         $identifiation = $this->rcid_generator->getUniqueResourceCollectionIdentification();
-        $this->collection_repository->method('blank')->with($identifiation)->willReturn(
+        $this->collection_repository->expects($this->atLeastOnce())->method('blank')->with($identifiation)->willReturn(
             new ResourceCollection($identifiation, -1, '')
         );
 
@@ -100,15 +99,11 @@ class CollectionTest extends AbstractBaseResourceBuilderTestCase
     public function testGetCollectionOfUser(): void
     {
         $identifiation = $this->rcid_generator->getUniqueResourceCollectionIdentification();
-        $this->collection_repository->method('blank')->with($identifiation)->willReturn(
+        $this->collection_repository->expects($this->atLeastOnce())->method('blank')->with($identifiation)->willReturn(
             new ResourceCollection($identifiation, 42, '')
         );
 
         $id = $this->collections->id($identifiation->serialize());
-
-        $this->collection_repository->method('getResourceIdStrings')->with($identifiation)->willReturn(
-            $this->arrayAsGenerator([])
-        );
 
         $collection = $this->collections->get($id, 42);
 

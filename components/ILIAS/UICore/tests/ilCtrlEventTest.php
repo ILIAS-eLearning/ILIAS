@@ -40,7 +40,7 @@ class ilCtrlEventTest extends TestCase
     public function testObserverAttachment(): void
     {
         // Default Attachment
-        $mocked_observer = $this->createMock(ilCtrlObserver::class);
+        $mocked_observer = $this->createStub(ilCtrlObserver::class);
         $mocked_subject = $this->createMock(ilCtrlSubject::class);
         $mocked_ilctrl = $this->getMockedCtrl($mocked_subject);
         $mocked_subject->expects($this->once())
@@ -55,7 +55,7 @@ class ilCtrlEventTest extends TestCase
         $mocked_ilctrl->detachObserver($mocked_observer);
 
         // Command Class Attachment
-        $mocked_observer = $this->createMock(ilCtrlObserver::class);
+        $mocked_observer = $this->createStub(ilCtrlObserver::class);
         $mocked_subject = $this->createMock(ilCtrlSubject::class);
         $mocked_ilctrl = $this->getMockedCtrl($mocked_subject);
         $mocked_subject->expects($this->once())
@@ -70,7 +70,7 @@ class ilCtrlEventTest extends TestCase
         $mocked_ilctrl->detachObserver($mocked_observer, ilCtrlEvent::COMMAND_CLASS_FORWARD);
 
         // Command Determination Attachment
-        $mocked_observer = $this->createMock(ilCtrlObserver::class);
+        $mocked_observer = $this->createStub(ilCtrlObserver::class);
         $mocked_subject = $this->createMock(ilCtrlSubject::class);
         $mocked_ilctrl = $this->getMockedCtrl($mocked_subject);
         $mocked_subject->expects($this->once())
@@ -119,18 +119,18 @@ class ilCtrlEventTest extends TestCase
     private function getMockedCtrl(?ilCtrlSubject $subject = null): ilCtrlInterface
     {
         return new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ilCtrlTokenRepositoryInterface::class),
-            $this->createMock(ilCtrlPathFactoryInterface::class),
-            $this->createMock(ilCtrlContextInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-            $this->createMock(ilComponentFactory::class),
+            $this->createStub(ilCtrlStructureInterface::class),
+            $this->createStub(ilCtrlTokenRepositoryInterface::class),
+            $this->createStub(ilCtrlPathFactoryInterface::class),
+            $this->createStub(ilCtrlContextInterface::class),
+            $this->createStub(ResponseSenderStrategy::class),
+            $this->createStub(ServerRequestInterface::class),
+            $this->createStub(RequestWrapper::class),
+            $this->createStub(RequestWrapper::class),
+            $this->createStub(Refinery::class),
+            $this->createStub(ilComponentFactory::class),
             $subject ?? $this->subject,
-            $this->createMock(ilCtrlQueryParserInterface::class),
+            $this->createStub(ilCtrlQueryParserInterface::class),
         );
     }
 }

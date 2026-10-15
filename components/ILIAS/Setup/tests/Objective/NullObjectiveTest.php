@@ -50,7 +50,7 @@ class NullObjectiveTest extends TestCase
 
     public function testGetPreconditions(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $pre = $this->o->getPreconditions($env);
         $this->assertEquals([], $pre);
@@ -58,7 +58,7 @@ class NullObjectiveTest extends TestCase
 
     public function testAchieve(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $res = $this->o->achieve($env);
         $this->assertSame($env, $res);

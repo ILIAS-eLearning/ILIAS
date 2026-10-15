@@ -45,6 +45,9 @@ require_once __DIR__ . '/../AbstractTestBase.php';
 
 class FlavourTest extends AbstractTestBase
 {
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Resource\ResourceBuilder
+     */
     public MockObject $resource_builder;
     private const string BASE_DIR = '/var';
     private Factory $machine_factory;
@@ -52,6 +55,9 @@ class FlavourTest extends AbstractTestBase
      * @var StorageHandlerFactory|MockObject
      */
     protected $storage_handler_factory;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Resource\Repository\FlavourRepository
+     */
     private MockObject $flavour_repo;
     private StreamAccess $stream_access;
 
@@ -190,7 +196,7 @@ class FlavourTest extends AbstractTestBase
 
         $revision->expects($this->once())
             ->method('getInformation')
-            ->willReturn($this->createMock(FileInformation::class));
+            ->willReturn($this->createStub(FileInformation::class));
 
         $stream = Streams::ofString('test');
 

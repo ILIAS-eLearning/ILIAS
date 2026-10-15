@@ -38,7 +38,7 @@ class RevisionRepositoryTest extends AbstractTestBase
      */
     public $resource;
     /**
-     * @var MockObject|InfoResolver
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver
      */
     private MockObject $info_resolver;
 

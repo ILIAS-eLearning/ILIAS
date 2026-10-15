@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\Filesystem\Util;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use ILIAS\Filesystem\Util;
+
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+class FilenameSanitizingTest extends TestCase
+{
+    public static function provideFilenames(): \Iterator
+    {
+        yield ["Control\u{00a0}Character", 'ControlCharacter'];
+        yield ["Soft\u{00ad}Hyphen", 'SoftHyphen'];
+        yield ["No\u{0083}Break", 'NoBreak'];
+        yield ["ZeroWidth\u{200C}NonJoiner", 'ZeroWidthNonJoiner'];
+        yield ["ZeroWidth\u{200d}Joiner", 'ZeroWidthJoiner'];
+        yield ["Invisible\u{2062}Times", 'InvisibleTimes'];
+        yield ["Invisible\u{2063}Comma", 'InvisibleComma'];
+        yield ["Funky\u{200B}Whitespace", 'FunkyWhitespace'];
+        // https://mantis.ilias.de/view.php?id=47801
+        yield ['document.pdf   ', 'document.pdf'];
+        yield ['   document.pdf', 'document.pdf'];
+        yield ['Beipackzettel_10   ', 'Beipackzettel_10'];
+        yield ['keeps inner spaces.pdf', 'keeps inner spaces.pdf'];
+    }
+
+    #[DataProvider('provideFilenames')]
+    public function testSanitize(string $filename, string $expected): void
+    {
+        $this->assertSame($expected, Util::sanitizeFilename($filename));
+    }
+}

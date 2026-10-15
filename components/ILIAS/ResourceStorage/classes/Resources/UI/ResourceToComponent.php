@@ -39,13 +39,16 @@ class ResourceToComponent extends BaseToComponent implements ToComponent
 
     public function __construct(
         protected StorableResource $resource,
-        ?ActionGenerator $action_generator = null
+        ?ActionGenerator $action_generator = null,
+        ?ConfidentialityPolicy $confidentiality_policy = null
     ) {
         parent::__construct($action_generator);
         $this->current_revision = $this->resource->getCurrentRevision();
         $this->revision_to_component = new RevisionToComponent(
             $this->current_revision,
-            $action_generator
+            $action_generator,
+            $this->resource->isConfidential(),
+            $confidentiality_policy?->isRedacted($this->resource) ?? $this->resource->isConfidential()
         );
     }
 

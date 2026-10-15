@@ -40,11 +40,20 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
 
     protected CollectionIdentificationGenerator $rcid_generator;
     private ResourceIdentification $rid_one;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Revision\Revision
+     */
     private MockObject $revision_one;
     private ResourceIdentification $rid_two;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Revision\Revision
+     */
     private MockObject $revision_two;
     private Sorter $sorter;
     private ResourceIdentification $rid_three;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Revision\Revision
+     */
     private MockObject $revision_three;
 
     #[\Override]
@@ -53,7 +62,6 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
         parent::setUp();
         $this->rcid_generator = new DummyIDGenerator(self::DUMMY_RCID);
         $this->resource_builder = $this->createMock(ResourceBuilder::class);
-        $collection_builder = $this->createMock(CollectionBuilder::class);
         $rcid = new ResourceCollectionIdentification(self::DUMMY_RCID);
         $collection = new ResourceCollection(
             $rcid,
@@ -74,7 +82,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
 
         $this->sorter = new Sorter(
             $this->resource_builder,
-            $collection_builder,
+            $this->createStub(CollectionBuilder::class),
             $collection
         );
 

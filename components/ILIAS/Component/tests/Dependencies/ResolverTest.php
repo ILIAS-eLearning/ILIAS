@@ -43,7 +43,7 @@ class ResolverTest extends TestCase
 
     public function testResolvePull(): void
     {
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -69,7 +69,7 @@ class ResolverTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -84,7 +84,7 @@ class ResolverTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -101,7 +101,7 @@ class ResolverTest extends TestCase
 
     public function testEmptySeek(): void
     {
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -116,7 +116,7 @@ class ResolverTest extends TestCase
 
     public function testResolveSeek(): void
     {
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -146,7 +146,7 @@ class ResolverTest extends TestCase
 
     public function testResolveUseOneOption(): void
     {
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -172,7 +172,7 @@ class ResolverTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -187,7 +187,7 @@ class ResolverTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -204,7 +204,7 @@ class ResolverTest extends TestCase
 
     public function testUseDisambiguateDuplicateSpecific(): void
     {
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -238,7 +238,7 @@ class ResolverTest extends TestCase
 
     public function testUseDisambiguateDuplicateGeneric(): void
     {
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
 
@@ -275,7 +275,7 @@ class ResolverTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
         $name2 = TestInterface2::class;
@@ -296,7 +296,7 @@ class ResolverTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $component = $this->createMock(Component::class);
+        $component = $this->createStub(Component::class);
 
         $name = TestInterface::class;
         $name2 = TestInterface2::class;

@@ -201,7 +201,8 @@ PHP;
         }
 
         if ($method->isStatic()) {
-            return false;
+            // an abstract static method must be declared, otherwise the class cannot be generated
+            return $method->isAbstract();
         }
         // only methods that can visibly be overridden in the target class or its parents
         if ($method->isPublic()) {
@@ -219,20 +220,24 @@ PHP;
     private function buildMethod(ReflectionMethod $method, array &$return_map): string
     {
         $visibility = $method->isPublic() ? 'public' : 'protected';
+        $static = $method->isStatic() ? ' static' : '';
         $name = $method->getName();
         $params = $this->buildParameterList($method);
         $return_type = $this->renderType($method->getReturnType());
 
         $return_map[$name] = $this->normalizeType($method->getReturnType());
 
-        $body = $this->buildMethodBody($name, $method->getReturnType());
+        $body = $method->isStatic()
+            ? $this->buildStaticMethodBody($name)
+            : $this->buildMethodBody($name, $method->getReturnType());
         $attribute = $this->buildMethodAttributes($method);
 
         return trim(
             $attribute .
             sprintf(
-                '%s function %s(%s)%s %s',
+                '%s%s function %s(%s)%s %s',
                 $visibility,
+                $static,
                 $name,
                 $params,
                 $return_type !== '' ? ': ' . $return_type : '',
@@ -301,6 +306,19 @@ PHP;
         return <<<PHP
 {
     return \$this->__mockInvoke('{$method_name}', func_get_args());
+}
+PHP;
+    }
+
+    /**
+     * Static methods have no instance to record the call on, they are only declared
+     * to satisfy the signature of the mocked type.
+     */
+    private function buildStaticMethodBody(string $method_name): string
+    {
+        return <<<PHP
+{
+    throw new \\LogicException('Static methods of mocks cannot be called: {$method_name}');
 }
 PHP;
     }

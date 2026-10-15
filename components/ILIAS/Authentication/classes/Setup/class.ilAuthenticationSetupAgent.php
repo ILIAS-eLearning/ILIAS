@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Authentication\Setup\AbandonCASAuthModeUpdateObjective;
+use ILIAS\Authentication\Setup\SessionReminderKeyCreatedObjective;
 use ILIAS\Setup;
 use ILIAS\Refinery;
 
@@ -46,12 +47,13 @@ class ilAuthenticationSetupAgent implements Setup\Agent
 
     public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
-        if ($config !== null) {
-            return new ilSessionMaxIdleIsSetObjective($config);
-        }
-
-        return new ilSessionMaxIdleIsSetObjective(
-            new ilAuthenticationSetupConfig(self::DEFAULT_SESSION_EXPIRE_IN_SECONDS)
+        return new Setup\ObjectiveCollection(
+            'Authentication',
+            true,
+            new ilSessionMaxIdleIsSetObjective(
+                $config ?? new ilAuthenticationSetupConfig(self::DEFAULT_SESSION_EXPIRE_IN_SECONDS)
+            ),
+            new SessionReminderKeyCreatedObjective(),
         );
     }
 
@@ -61,11 +63,12 @@ class ilAuthenticationSetupAgent implements Setup\Agent
             return new Setup\ObjectiveCollection(
                 'Authentication',
                 true,
-                new ilSessionMaxIdleIsSetObjective($config)
+                new ilSessionMaxIdleIsSetObjective($config),
+                new SessionReminderKeyCreatedObjective(),
             );
         }
 
-        return new Setup\Objective\NullObjective();
+        return new SessionReminderKeyCreatedObjective();
     }
 
     public function getBuildObjective(): Setup\Objective

@@ -87,9 +87,7 @@ class ilFileUtils
     public static function getValidFilename(string $a_filename): string
     {
         global $DIC;
-        $sanitizer = new ilFileServicesFilenameSanitizer(
-            $DIC->fileServiceSettings()
-        );
+        $sanitizer = $DIC['filesystem.security.sanitizing.filename'];
 
         return $sanitizer->sanitize($a_filename);
     }
@@ -101,9 +99,7 @@ class ilFileUtils
     {
         $pi = pathinfo($a_target);
         global $DIC;
-        $sanitizer = new ilFileServicesFilenameSanitizer(
-            $DIC->fileServiceSettings()
-        );
+        $sanitizer = $DIC['filesystem.security.sanitizing.filename'];
 
         if (!$sanitizer->isClean($a_target)) {
             throw new ilFileUtilsException("Invalid target file");
@@ -210,29 +206,29 @@ class ilFileUtils
         }
 
         $old_mask = umask(0000);
-        foreach ($dirs as $dirindex => $dir) {
-            // starting with the longest existing path
-            if ($dirindex >= $found_index) {
-                if (!file_exists($dir)) {
-                    if (strcmp(substr($dir, strlen($dir) - 1, 1), "/") == 0) {
-                        // on some systems there is an error when there is a slash
-                        // at the end of a directory in mkdir, see Mantis #2554
-                        $dir = substr($dir, 0, strlen($dir) - 1);
-                    }
-                    if (!mkdir($dir)) {
-                        error_log("Can't make directory: $dir");
+        try {
+            foreach ($dirs as $dirindex => $dir) {
+                // starting with the longest existing path
+                if ($dirindex >= $found_index) {
+                    if (!file_exists($dir)) {
+                        if (strcmp(substr($dir, strlen($dir) - 1, 1), "/") == 0) {
+                            // on some systems there is an error when there is a slash
+                            // at the end of a directory in mkdir, see Mantis #2554
+                            $dir = substr($dir, 0, strlen($dir) - 1);
+                        }
+                        if (!mkdir($dir)) {
+                            ilLoggerFactory::getLogger('fils')->error("Can't make directory: $dir");
+                            return false;
+                        }
+                    } elseif (!is_dir($dir)) {
+                        ilLoggerFactory::getLogger('fils')->error("$dir is not a directory");
                         return false;
                     }
-                } elseif (!is_dir($dir)) {
-                    error_log("$dir is not a directory");
-                    return false;
-                } else {
-                    // get umask of the last existing parent directory
-                    $umask = fileperms($dir);
                 }
             }
+        } finally {
+            umask($old_mask);
         }
-        umask($old_mask);
 
         return true;
     }
@@ -680,7 +676,7 @@ class ilFileUtils
         if (!is_dir($temp_path)) {
             ilFileUtils::createDirectory($temp_path);
         }
-        $temp_name = $temp_path . "/" . uniqid("tmp");
+        $temp_name = $temp_path . "/" . uniqid("tmp", true);
 
         return $temp_name;
     }

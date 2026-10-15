@@ -4661,7 +4661,6 @@ common#:#main_menu#:#Hauptmenü
 common#:#mainbar_aria_label#:#Hauptleiste
 common#:#mainbar_more_label#:#Mehr
 common#:#manage_members#:#Mitglieder verwalten
-common#:#marked_entries#:#Markierte Einträge
 common#:#matriculation#:#Matrikelnummer
 common#:#max_previews_per_object#:#Anzahl Vorschaubilder
 common#:#max_previews_per_object_info#:#Anzahl an Vorschaubildern, die pro Datei angezeigt werden.
@@ -7301,6 +7300,8 @@ content#:#cont_versions#:#Versionen
 content#:#cont_whole_glossary#:#Gesamtes Glossar
 content#:#cont_width#:#Breite in Pixel
 content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Breite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, bestimmt der Browser die Fenstergröße.
+content#:#cont_width_px_perc#:#Breite
+content#:#cont_width_px_perc_info#:#(z.B. px oder %)
 content#:#cont_wiki_link_dialog#:#Wikiseite (Dialog)
 content#:#cont_wiki_page#:#Wiki-Seite
 content#:#cont_wiki_page_link#:#Wiki-Seiten-Link
@@ -8594,7 +8595,6 @@ dateplaner#:#cal_type_rl#:#Ort des Kalenders
 dateplaner#:#cal_type_sess#:#Sitzungskalender
 dateplaner#:#cal_type_system#:#Öffentlicher Kalender
 dateplaner#:#cal_type_tals#:#Gespräche
-dateplaner#:#cal_unshare#:#Freigabe beenden
 dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
 dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
@@ -9355,6 +9355,10 @@ exc#:#exc_assignment_type#:#Abgabetyp
 exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten
 exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
+exc#:#exc_auto_last_save#:#Zuletzt gespeichert:
+exc#:#exc_auto_save_info#:#Der Text wird alle 30 Sekunden automatisch gespeichert, falls Sie Änderungen vornehmen.
+exc#:#exc_auto_saved_minutes_p#:#Vor %s Minuten
+exc#:#exc_auto_saved_minutes_s#:#Vor %s Minute
 exc#:#exc_blog_created#:#Blog wurde erstellt.
 exc#:#exc_blog_returned#:#Blog zur Übungseinheit
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
@@ -10776,6 +10780,9 @@ irss#:#by_size_asc#:#Dateigröße (aufsteigend)
 irss#:#by_size_desc#:#Dateigröße (absteigend)
 irss#:#by_title_asc#:#Titel (aufsteigend)
 irss#:#by_title_desc#:#Titel (absteigend)
+irss#:#confidential#:#Vertraulich
+irss#:#confidential_no_download#:#Diese Ressource ist vertraulich und kann nur von ihrem Besitzer heruntergeladen werden.
+irss#:#confidential_redacted#:#[Vertraulich]
 irss#:#create_directory#:#Verzeichnis erstellen
 irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
 irss#:#directory_name#:#Verzeichnisname
@@ -17169,7 +17176,7 @@ svy#:#svy_code#:#Zugangscode
 svy#:#svy_codes#:#Zugangscodes
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#An Umfrage "%1" teilnehmen
-svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben.  
+svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben.
 svy#:#svy_info_participants#:#Fügen Sie Personen über eine der folgenden Suchoptionen zu dieser Umfrage hinzu. Die Umfrage wird diesen Personen als Aufgabe auf ihrem Dashboard angezeigt.
 svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Personen hinzufügen

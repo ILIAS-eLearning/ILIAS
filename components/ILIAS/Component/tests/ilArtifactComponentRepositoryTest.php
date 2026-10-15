@@ -82,7 +82,10 @@ class ilArtifactComponentRepositoryTest extends TestCase
     ];
 
     protected Data\Factory $data_factory;
-    protected Data\Version $ilias_version;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Data\Version
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $ilias_version;
     protected ilPluginStateDB $plugin_state_db;
     protected ilArtifactComponentRepository $db;
     protected ilComponentInfo $mod1;
@@ -100,7 +103,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->data_factory = new Data\Factory();
-        $this->ilias_version = $this->createMock(Data\Version::class);
+        $this->ilias_version = $this->createStub(Data\Version::class);
         $this->plugin_state_db = new class () implements ilPluginStateDB {
             public function isPluginActivated(string $id): bool
             {
@@ -491,15 +494,15 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $DB_VERSION = 1000;
 
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
-        $plugin_state_db
+        $plugin_state_db->expects($this->atLeastOnce())
             ->method("isPluginActivated")
             ->with("plg1")
             ->willReturn(true);
-        $plugin_state_db
+        $plugin_state_db->expects($this->atLeastOnce())
             ->method("getCurrentPluginVersion")
             ->with("plg1")
             ->willReturn($this->data_factory->version("1.8.0"));
-        $plugin_state_db
+        $plugin_state_db->expects($this->atLeastOnce())
             ->method("getCurrentPluginDBVersion")
             ->with("plg1")
             ->willReturn(42);
@@ -541,7 +544,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $VERSION = $this->data_factory->version("1000.0.0");
         $DB_VERSION = 1000;
 
-        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $plugin_state_db = $this->createStub(ilPluginStateDB::class);
         $db = new class ($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
             protected function buildDatabase(): void
@@ -631,7 +634,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
 
     public function testSetActivationTriggersRebuild(): void
     {
-        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $plugin_state_db = $this->createStub(ilPluginStateDB::class);
         $db = new class ($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
             protected function buildDatabase(): void
@@ -710,7 +713,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
 
     public function testRemoveStateInformationOfTriggersRebuild(): void
     {
-        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $plugin_state_db = $this->createStub(ilPluginStateDB::class);
         $db = new class ($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
             protected function buildDatabase(): void

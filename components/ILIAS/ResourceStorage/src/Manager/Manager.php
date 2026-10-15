@@ -53,6 +53,7 @@ class Manager extends BaseManager
                 $info_resolver
             );
             $resource->addStakeholder($stakeholder);
+            $this->applyConfidentiality($resource, $stakeholder);
             $this->resource_builder->store($resource);
 
             return $resource->getIdentification();

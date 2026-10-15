@@ -77,18 +77,6 @@ class ilCalendarActions
     }
 
     /**
-     * Check un-sharing (other users) calendar
-     */
-    public function checkUnshareCal(int $a_cat_id): bool
-    {
-        $info = $this->cats->getCategoryInfo($a_cat_id);
-        if ($info['accepted'] ?? false) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Check synchronize remote calendar
      */
     public function checkSynchronizeCal(int $a_cat_id): bool

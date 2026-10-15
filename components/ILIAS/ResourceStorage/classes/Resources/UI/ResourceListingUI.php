@@ -53,7 +53,8 @@ class ResourceListingUI
     public function __construct(
         private ViewDefinition $view_definition,
         private TableDataSource $data_source,
-        private ActionGenerator $action_generator = new NullActionGenerator()
+        private ActionGenerator $action_generator = new NullActionGenerator(),
+        private ?ConfidentialityPolicy $confidentiality_policy = null
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
@@ -125,7 +126,8 @@ class ResourceListingUI
             $resource = $this->irss->manage()->getResource($resource_identification);
             $resource_to_component = new ResourceToComponent(
                 $resource,
-                $this->action_generator
+                $this->action_generator,
+                $this->confidentiality_policy
             );
             return $resource_to_component->getAsRowMapping()($row, $resource_identification);
         };

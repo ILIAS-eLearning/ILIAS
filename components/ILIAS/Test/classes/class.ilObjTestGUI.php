@@ -371,6 +371,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $selected_files = [$selected_files];
                 }
 
+
+                $this->tpl->setOnScreenMessage(
+                    'info',
+                    $this->lng->txt('no_manual_feedback_export_info')
+                );
+
                 $export_gui = new ilTestExportGUI(
                     $this,
                     $this->db,
@@ -1052,8 +1058,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->db,
             $this->refinery->random(),
             $this->global_screen,
-            $this->http,
-            $this->refinery,
+            $this->content_style,
             $this->ref_id
         );
 

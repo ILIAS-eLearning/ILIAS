@@ -38,7 +38,10 @@ require_once('./vendor/composer/vendor/autoload.php');
 class FactoryImplTest extends TestCase
 {
     protected IdentificationInterface $id;
-    protected StaticMainMenuProvider $provider;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $provider;
     protected IdentificationFactory $identification;
     protected MainMenuItemFactory $factory;
 
@@ -51,7 +54,7 @@ class FactoryImplTest extends TestCase
         parent::setUp();
 
         $this->identification = new IdentificationFactory(new NullProviderFactory());
-        $this->provider = $this->getMockBuilder(StaticMainMenuProvider::class)->getMock();
+        $this->provider = $this->createStub(StaticMainMenuProvider::class);
 
         $this->id = $this->identification->core($this->provider)->identifier('dummy');
 

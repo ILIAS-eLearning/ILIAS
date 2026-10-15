@@ -97,7 +97,8 @@ class ResourceBuilder
         Repositories $repositories,
         private LockHandler $lock_handler,
         private StreamAccess $stream_access,
-        protected FileNamePolicy $file_name_policy = new NoneFileNamePolicy()
+        protected FileNamePolicy $file_name_policy = new NoneFileNamePolicy(),
+        private ?Migrator $migrator = null,
     ) {
         $this->primary_storage_handler = $this->storage_handler_factory->getPrimary();
         $this->revision_repository = $repositories->getRevisionRepository();
@@ -386,6 +387,7 @@ class ResourceBuilder
     public function clone(StorableResource $resource): StorableResource
     {
         $new_resource = $this->newBlank($resource->getType());
+        $new_resource->setConfidential($resource->isConfidential());
         foreach ($resource->getStakeholders() as $stakeholder) {
             $stakeholder = clone $stakeholder;
             $new_resource->addStakeholder($stakeholder);
@@ -469,11 +471,11 @@ class ResourceBuilder
         }
         $resource = $this->resource_repository->get($identification);
 
-        if ($this->auto_migrate && $resource->getStorageID() !== $this->primary_storage_handler->getID()) {
-            global $DIC;
-            /** @var Migrator $migrator */
-            $migrator = $DIC[\InitResourceStorage::D_MIGRATOR];
-            $migrator->migrate($resource, $this->primary_storage_handler->getID());
+        if ($this->auto_migrate
+            && $this->migrator !== null
+            && $resource->getStorageID() !== $this->primary_storage_handler->getID()
+        ) {
+            $this->migrator->migrate($resource, $this->primary_storage_handler->getID());
             $resource->setStorageID($this->primary_storage_handler->getID());
         }
 

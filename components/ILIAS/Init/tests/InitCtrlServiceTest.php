@@ -35,7 +35,7 @@ final class InitCtrlServiceTest extends TestCase
     {
         $dic = new Container();
         // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
-        $dic['http'] = $this->createMock(HttpService::class);
+        $dic['http'] = $this->createStub(HttpService::class);
 
         $this->expectException(ilCtrlException::class);
         $this->expectExceptionMessage("Cannot initialize ilCtrl if Refinery Factory is not yet available.");
@@ -46,7 +46,7 @@ final class InitCtrlServiceTest extends TestCase
     {
         $dic = new Container();
         // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
-        $dic['refinery'] = $this->createMock(Refinery::class);
+        $dic['refinery'] = $this->createStub(Refinery::class);
 
         $this->expectException(ilCtrlException::class);
         $this->expectExceptionMessage("Cannot initialize ilCtrl if HTTP Services are not yet available.");
@@ -67,16 +67,16 @@ final class InitCtrlServiceTest extends TestCase
     public function testCtrlServiceInitializationSuccess(): void
     {
         $dic = new Container();
-        $dic['refinery'] = $this->createMock(Refinery::class);
+        $dic['refinery'] = $this->createStub(Refinery::class);
         // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
-        $dic['http.response_sender_strategy'] = $this->createMock(DefaultResponseSenderStrategy::class);
-        $dic['http'] = $this->createMock(HttpService::class);
+        $dic['http.response_sender_strategy'] = $this->createStub(DefaultResponseSenderStrategy::class);
+        $dic['http'] = $this->createStub(HttpService::class);
         $dic['http']
             ->method('request')
             ->willReturn(
-                $this->createMock(ServerRequestInterface::class)
+                $this->createStub(ServerRequestInterface::class)
             );
-        $dic['component.factory'] = $this->createMock(ilComponentFactory::class);
+        $dic['component.factory'] = $this->createStub(ilComponentFactory::class);
 
         $this->assertFalse(isset($dic['ilCtrl']));
 

@@ -19,6 +19,8 @@
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
+use ILIAS\BackgroundTasks\Exceptions\BucketNotFoundException;
+use ILIAS\BackgroundTasks\Exceptions\SerializationException;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionSkippedException;
@@ -100,13 +102,48 @@ class AsyncTaskManager extends BasicTaskManager
             return null;
         }
 
+        $ids = [];
         while (true) {
-            $ids = $persistence->getBucketIdsByState(State::SCHEDULED);
-            if (count($ids) === 0) {
-                break;
+            if ($ids === []) {
+                $ids = $persistence->getBucketIdsByState(State::SCHEDULED);
+                if ($ids === []) {
+                    break;
+                }
             }
 
-            $bucket = $persistence->loadBucket(array_shift($ids));
+            $bucket_id = (int) array_shift($ids);
+            try {
+                $bucket = $persistence->loadBucket($bucket_id);
+            } catch (BucketNotFoundException $e) {
+                // Another worker already removed this bucket. Keep the remaining ids.
+                $DIC->logger()->bgtk()->info(
+                    "Bucket with id $bucket_id no longer exists, skipping it."
+                );
+                continue;
+            } catch (SerializationException $e) {
+                // Missing or corrupt entries in il_bt_task / il_bt_value. Remove the bucket,
+                // otherwise it would be picked up again and again.
+                $DIC->logger()->bgtk()->warning(
+                    "Could not load bucket with id $bucket_id, skipping and deleting it: " . $e->getMessage()
+                );
+                try {
+                    $persistence->deleteBucketById($bucket_id);
+                } catch (\Throwable $t) {
+                    $DIC->logger()->bgtk()->error(
+                        "Could not delete bucket with id $bucket_id, worker going down: " . $t->getMessage()
+                    );
+                    break;
+                }
+                continue;
+            } catch (\Throwable $t) {
+                // A database failure or a bucket that is still being saved must not be deleted.
+                $DIC->logger()->bgtk()->error(
+                    "Could not load bucket with id $bucket_id, worker going down: " . $t->getMessage()
+                );
+                break;
+            }
+            // A job may take long enough for the queue to change. Reload after it finishes.
+            $ids = [];
             $observer = new PersistingObserver($bucket, $persistence);
             $task = $bucket->getTask();
 
@@ -120,7 +157,7 @@ class AsyncTaskManager extends BasicTaskManager
             } catch (UserInteractionRequiredException) {
                 // We're okay!
                 $this->persistence->saveBucketAndItsTasks($bucket);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $persistence->deleteBucket($bucket);
                 $DIC->logger()->bgtk()->info("Exception while async computing: "
                     . $e->getMessage());

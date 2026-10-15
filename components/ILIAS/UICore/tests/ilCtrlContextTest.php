@@ -39,9 +39,9 @@ class ilCtrlContextTest extends TestCase
     private ilCtrlPathFactory $factory;
 
     /**
-     * @var Refinery
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Refinery\Factory
      */
-    private Refinery $refinery;
+    private \PHPUnit\Framework\MockObject\Stub $refinery;
 
     /**
      * @var array
@@ -54,7 +54,7 @@ class ilCtrlContextTest extends TestCase
     protected function setUp(): void
     {
         $this->values = [];
-        $this->refinery = $this->createMock(Refinery::class);
+        $this->refinery = $this->createStub(Refinery::class);
         $this->factory = $this->createMock(ilCtrlPathFactory::class);
         $this->request = $this->createMock(ArrayBasedRequestWrapper::class);
         $this->request->method('has')->willReturn(true);

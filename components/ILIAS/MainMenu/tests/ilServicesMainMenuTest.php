@@ -65,8 +65,7 @@ class ilServicesMainMenuTest extends TestCase
         }
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
         $this->dic_mock = $DIC = new Container();
-        $provider_factory_mock = $this->createMock(ProviderFactory::class);
-        $gs_mock = $DIC['global_screen'] = new Services($provider_factory_mock);
+        $gs_mock = $DIC['global_screen'] = new Services($this->createStub(ProviderFactory::class));
         $this->db_mock = $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
         $this->dic_mock['ilUser'] = $DIC['ilUser'] = $this->createMock(ilObjUser::class);
         $this->dic_mock['ilSetting'] = $DIC['ilSetting'] = $this->createMock(ilSetting::class);
@@ -86,7 +85,7 @@ class ilServicesMainMenuTest extends TestCase
     /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
     public function testTypeHandlers(): void
     {
-        $provider = new CustomMainBarProvider($this->dic_mock, $this->createMock(ilMainMenuAccess::class));
+        $provider = new CustomMainBarProvider($this->dic_mock, $this->createStub(ilMainMenuAccess::class));
         $type_info = $provider->provideTypeInformation();
         $this->assertInstanceOf(TypeInformationCollection::class, $type_info);
 
@@ -127,8 +126,8 @@ class ilServicesMainMenuTest extends TestCase
         );
 
         // RepositoryLink Item
-        $this->dic_mock['ilObjDataCache'] = $this->createMock(ilObjectDataCache::class);
-        $this->dic_mock['static_url'] = $this->createMock(\ILIAS\StaticURL\Services::class);
+        $this->dic_mock['ilObjDataCache'] = $this->createStub(ilObjectDataCache::class);
+        $this->dic_mock['static_url'] = $this->createStub(\ILIAS\StaticURL\Services::class);
         $item_type_info = $type_info->get(RepositoryLink::class);
         $renderer = $item_type_info->getRenderer();
         $this->assertInstanceOf(ilMMRepositoryLinkItemRenderer::class, $renderer);
@@ -141,8 +140,8 @@ class ilServicesMainMenuTest extends TestCase
 
     public function testStandardTopItems(): void
     {
-        $this->dic_mock['lng'] = $this->createMock(ilLanguage::class);
-        $this->dic_mock['tree'] = $this->createMock(ilTree::class);
+        $this->dic_mock['lng'] = $this->createStub(ilLanguage::class);
+        $this->dic_mock['tree'] = $this->createStub(ilTree::class);
         $standard_top_items = new StandardTopItemsProvider($this->dic_mock);
         $items = $standard_top_items->getStaticTopItems();
         $item_identifications = array_map(

@@ -29,56 +29,61 @@ use PHPUnit\Framework\TestCase;
 
 class PostingAttachmentGuardTest extends TestCase
 {
-    private const int OWNER_OBJ_ID = 4711;
-    private const int DECOY_OBJ_ID = 815;
-    private const int POSTING_ID = 23;
-    private const int THREAD_ID = 77;
+    private const int OBJ_ID = 1;
+    private const int POSTING_ID = 1;
+    private const int THREAD_ID = 1;
+    private const int OTHER_OBJ_ID = 815;
+    private const int OTHER_THREAD_ID = 2;
 
-    public function testPostingIsDeliverableThroughItsOwningForum(): void
+    public function testSmallestPostingIsAcceptedWithoutAThreadConstraint(): void
     {
-        $guard = new PostingAttachmentGuard($this->repositoryReturningOwnedPosting());
+        $repository = $this->createMock(OwnershipRepository::class);
+        $repository->expects($this->once())
+            ->method('findPostingOwnership')
+            ->with(self::POSTING_ID)
+            ->willReturn($this->ownership());
 
-        $this->assertTrue($guard->decide(self::OWNER_OBJ_ID, self::POSTING_ID)->isGranted());
+        $decision = (new PostingAttachmentGuard($repository))->decide(self::OBJ_ID, self::POSTING_ID);
+
+        self::assertTrue($decision->isGranted());
     }
 
-    public function testPostingIsNotDeliverableThroughADecoyForum(): void
+    public function testPostingIsAcceptedWhenTheRoutedThreadMatches(): void
     {
-        $guard = new PostingAttachmentGuard($this->repositoryReturningOwnedPosting());
+        $decision = (new PostingAttachmentGuard($this->repositoryReturningOwnership(), self::THREAD_ID))
+            ->decide(self::OBJ_ID, self::POSTING_ID);
 
-        $this->assertSame(
-            DenialReason::FOREIGN_FORUM,
-            $guard->decide(self::DECOY_OBJ_ID, self::POSTING_ID)->denialReason()
-        );
+        self::assertTrue($decision->isGranted());
     }
 
-    public function testPostingIsDeliverableWhenTheRoutedThreadMatches(): void
+    /**
+     * @return array<string, array{0: ?int, 1: int, 2: DenialReason}>
+     */
+    public static function mismatchProvider(): array
     {
-        $guard = new PostingAttachmentGuard($this->repositoryReturningOwnedPosting(), self::THREAD_ID);
-
-        $this->assertTrue($guard->decide(self::OWNER_OBJ_ID, self::POSTING_ID)->isGranted());
+        return [
+            'other forum' => [null, self::OTHER_OBJ_ID, DenialReason::FOREIGN_FORUM],
+            'other thread' => [self::OTHER_THREAD_ID, self::OBJ_ID, DenialReason::FOREIGN_THREAD],
+        ];
     }
 
-    public function testPostingOfAnotherThreadIsRejectedWhenTheRequestIsRoutedThroughAThread(): void
+    #[DataProvider('mismatchProvider')]
+    public function testPostingOutsideTheRequestIsRejected(?int $thread_id, int $obj_id, DenialReason $denial): void
     {
-        $guard = new PostingAttachmentGuard($this->repositoryReturningOwnedPosting(), self::THREAD_ID + 1);
+        $decision = (new PostingAttachmentGuard($this->repositoryReturningOwnership(), $thread_id))
+            ->decide($obj_id, self::POSTING_ID);
 
-        $this->assertSame(
-            DenialReason::FOREIGN_THREAD,
-            $guard->decide(self::OWNER_OBJ_ID, self::POSTING_ID)->denialReason()
-        );
+        self::assertSame($denial, $decision->denialReason());
     }
 
-    public function testUnknownPostingIsRejected(): void
+    public function testMissingPostingIsRejected(): void
     {
         $repository = $this->createStub(OwnershipRepository::class);
         $repository->method('findPostingOwnership')->willReturn(null);
 
-        $guard = new PostingAttachmentGuard($repository);
+        $decision = (new PostingAttachmentGuard($repository))->decide(self::OBJ_ID, self::POSTING_ID);
 
-        $this->assertSame(
-            DenialReason::UNKNOWN_CONTAINER,
-            $guard->decide(self::OWNER_OBJ_ID, self::POSTING_ID)->denialReason()
-        );
+        self::assertSame(DenialReason::UNKNOWN_CONTAINER, $decision->denialReason());
     }
 
     /**
@@ -87,46 +92,33 @@ class PostingAttachmentGuardTest extends TestCase
     public static function incompleteSelectorProvider(): array
     {
         return [
-            'unset forum object' => [0, self::POSTING_ID],
-            'negative forum object' => [-1, self::POSTING_ID],
-            'unset posting' => [self::OWNER_OBJ_ID, 0],
-            'negative posting' => [self::OWNER_OBJ_ID, -1],
+            'forum object zero' => [0, self::POSTING_ID],
+            'forum object negative' => [-1, self::POSTING_ID],
+            'posting zero' => [self::OBJ_ID, 0],
+            'posting negative' => [self::OBJ_ID, -1],
         ];
     }
 
     #[DataProvider('incompleteSelectorProvider')]
-    public function testIncompleteSelectorsAreRejectedWithoutQueryingTheRepository(
-        int $routed_obj_id,
-        int $posting_id
-    ): void {
+    public function testIncompleteSelectorsAreRejectedWithoutAQuery(int $obj_id, int $posting_id): void
+    {
         $repository = $this->createMock(OwnershipRepository::class);
         $repository->expects($this->never())->method('findPostingOwnership');
 
-        $guard = new PostingAttachmentGuard($repository, self::THREAD_ID);
+        $decision = (new PostingAttachmentGuard($repository, self::THREAD_ID))->decide($obj_id, $posting_id);
 
-        $this->assertSame(
-            DenialReason::INCOMPLETE_SELECTORS,
-            $guard->decide($routed_obj_id, $posting_id)->denialReason()
-        );
+        self::assertSame(DenialReason::INCOMPLETE_SELECTORS, $decision->denialReason());
     }
 
-    public function testOwnershipIsResolvedForTheAddressedPosting(): void
+    private function ownership(): AttachmentOwnership
     {
-        $repository = $this->createMock(OwnershipRepository::class);
-        $repository->expects($this->once())
-                   ->method('findPostingOwnership')
-                   ->with(self::POSTING_ID)
-                   ->willReturn(null);
-
-        (new PostingAttachmentGuard($repository))->decide(self::OWNER_OBJ_ID, self::POSTING_ID);
+        return new AttachmentOwnership(self::POSTING_ID, 12, self::OBJ_ID, self::THREAD_ID, 6);
     }
 
-    private function repositoryReturningOwnedPosting(): OwnershipRepository
+    private function repositoryReturningOwnership(): OwnershipRepository
     {
         $repository = $this->createStub(OwnershipRepository::class);
-        $repository->method('findPostingOwnership')->willReturn(
-            new AttachmentOwnership(self::POSTING_ID, 12, self::OWNER_OBJ_ID, self::THREAD_ID, 6)
-        );
+        $repository->method('findPostingOwnership')->willReturn($this->ownership());
 
         return $repository;
     }

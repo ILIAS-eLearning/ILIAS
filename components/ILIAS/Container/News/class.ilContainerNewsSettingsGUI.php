@@ -151,8 +151,7 @@ class ilContainerNewsSettingsGUI
             0,
             $block_id
         );
-
-        if ($hide_news_date != "") {
+        if (is_string($hide_news_date) && $hide_news_date !== "") {
             $hide_news_date = explode(" ", $hide_news_date);
         }
 
@@ -168,8 +167,8 @@ class ilContainerNewsSettingsGUI
 
             $dt_prop = new ilDateTimeInputGUI($this->lng->txt("news_hide_news_date"), "hide_news_date");
             $dt_prop->setRequired(true);
-            if (is_array($hide_news_date)) {
-                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . ($hide_news_date[1] ?? "12:00:00"), IL_CAL_DATETIME));
+            if (isset($hide_news_date[0], $hide_news_date[1])) {
+                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . " " . $hide_news_date[1], IL_CAL_DATETIME));
             }
 
             $dt_prop->setShowTime(true);
@@ -216,7 +215,6 @@ class ilContainerNewsSettingsGUI
                 //save contextblock settings
                 $context_block_settings = [
                     "public_feed" => $form->getInput("notifications_public_feed") ?? "",
-                    "default_visibility" => $form->getInput("default_visibility"),
                     "hide_news_per_date" => $form->getInput("hide_news_per_date"),
                     "hide_news_date" => $form->getInput("hide_news_date")
                 ];

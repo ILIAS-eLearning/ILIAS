@@ -45,7 +45,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     public const F_CREATION_DATE = 'create_date';
     public const FIELD_TITLE = 'title';
     public const F_FILENAME = 'filename';
-    private \ILIAS\Data\Factory $data_factory;
+    private \ilObjUser $user;
     private \ILIAS\ResourceStorage\Services $irss;
 
     public function __construct(
@@ -60,7 +60,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     ) {
         global $DIC;
         $this->irss = $DIC->resourceStorage();
-        $this->data_factory = new \ILIAS\Data\Factory();
+        $this->user = $DIC->user();
     }
 
     public function getComponents(): \Generator
@@ -90,7 +90,9 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
                 )->withIsSortable(true),
                 self::F_CREATION_DATE => $this->ui_factory->table()->column()->date(
                     $this->language->txt(self::F_CREATION_DATE),
-                    $this->data_factory->dateFormat()->germanLong()
+                    // the weekday of germanLong() is rendered by PHP and therefore always
+                    // english, see https://mantis.ilias.de/view.php?id=45152
+                    $this->user->getDateFormat()
                 )->withIsSortable(true),
                 self::F_TYPE => $this->ui_factory->table()->column()->text(
                     $this->language->txt(self::F_TYPE)

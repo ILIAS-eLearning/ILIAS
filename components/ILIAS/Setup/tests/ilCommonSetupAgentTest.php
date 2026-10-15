@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\Tests\Setup;
 
 use PHPUnit\Framework\TestCase;
@@ -40,12 +41,12 @@ class ilCommonSetupAgentTest extends TestCase
     protected function setUp(): void
     {
         $refinery = new Refinery(
-            $this->createMock(DataFactory::class),
-            $this->createMock(ilLanguage::class)
+            $this->createStub(DataFactory::class),
+            $this->createStub(ilLanguage::class)
         );
 
         parent::setUp();
-        $this->testObj = new ilCommonSetupAgent($refinery, $this->createMock(DataFactory::class));
+        $this->testObj = new ilCommonSetupAgent($refinery, $this->createStub(DataFactory::class));
     }
 
     public function testGetNamedObjectives(): void

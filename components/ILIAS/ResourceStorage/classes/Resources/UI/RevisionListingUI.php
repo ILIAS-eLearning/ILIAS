@@ -40,6 +40,7 @@ class RevisionListingUI
     public function __construct(
         private ViewDefinition $view_definition,
         protected StorableResource $resource,
+        private ?ConfidentialityPolicy $confidentiality_policy = null,
     ) {
         global $DIC;
         $this->language = $DIC->language();
@@ -56,9 +57,7 @@ class RevisionListingUI
     private function initItems(): void
     {
         $this->components = array_map(function (Revision $revision): Item {
-            $revision_to_component = new RevisionToComponent(
-                $revision
-            );
+            $revision_to_component = $this->getRevisionToComponent($revision);
             $item = $revision_to_component->getAsItem(false);
             return $item->withLeadText($this->language->txt('revision') . ' ' . $revision->getVersionNumber());
         }, array_reverse($this->resource->getAllRevisionsIncludingDraft()));
@@ -69,9 +68,7 @@ class RevisionListingUI
         $this->components[] = $this->ui_factory->deck(
             array_map(
                 function (Revision $revision): Card {
-                    $revision_to_component = new RevisionToComponent(
-                        $revision
-                    );
+                    $revision_to_component = $this->getRevisionToComponent($revision);
                     $card = $revision_to_component->getAsCard();
                     return $card->withTitle($this->prependRevisionNumberToTitle($revision, $card->getTitle()));
                 },
@@ -98,9 +95,7 @@ class RevisionListingUI
             PresentationRow $row,
             Revision $revision
         ): PresentationRow {
-            $revision_to_component = new RevisionToComponent(
-                $revision
-            );
+            $revision_to_component = $this->getRevisionToComponent($revision);
             $row = $revision_to_component->getAsRowMapping()($row, $revision->getIdentification());
             /** @var PresentationRow $row */
             $title = $row->getHeadline();
@@ -110,6 +105,16 @@ class RevisionListingUI
         };
     }
 
+
+    private function getRevisionToComponent(Revision $revision): RevisionToComponent
+    {
+        return new RevisionToComponent(
+            $revision,
+            null,
+            $this->resource->isConfidential(),
+            $this->confidentiality_policy?->isRedacted($this->resource) ?? $this->resource->isConfidential()
+        );
+    }
 
     public function getComponents(): array
     {

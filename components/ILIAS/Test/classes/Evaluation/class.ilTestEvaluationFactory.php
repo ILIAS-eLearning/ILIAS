@@ -101,6 +101,10 @@ class ilTestEvaluationFactory
         $current_attempt = null;
 
         foreach ($this->retrieveEvaluationData($this->getAccessFilteredActiveIds()) as $row) {
+            if ($row['pass'] === null) {
+                continue;
+            }
+
             $active_id = $row['active_id'];
             $pass = $row['pass'];
 

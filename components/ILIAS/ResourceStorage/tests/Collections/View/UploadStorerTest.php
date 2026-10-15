@@ -46,9 +46,9 @@ final class UploadStorerTest extends TestCase
     private Manager&MockObject $manage;
     private Collections&MockObject $collections;
     private ResourceCollection&MockObject $collection;
-    private ResourceStakeholder&MockObject $stakeholder;
+    private ResourceStakeholder&\PHPUnit\Framework\MockObject\Stub $stakeholder;
     private UploadResult $result;
-    private FileStream&MockObject $stream;
+    private FileStream&\PHPUnit\Framework\MockObject\Stub $stream;
     private UploadStorer $storer;
 
     protected function setUp(): void
@@ -57,7 +57,7 @@ final class UploadStorerTest extends TestCase
         $this->manage = $this->createMock(Manager::class);
         $this->collections = $this->createMock(Collections::class);
         $this->collection = $this->createMock(ResourceCollection::class);
-        $this->stakeholder = $this->createMock(ResourceStakeholder::class);
+        $this->stakeholder = $this->createStub(ResourceStakeholder::class);
         $this->result = new UploadResult(
             self::FILE_NAME,
             123,
@@ -66,7 +66,7 @@ final class UploadStorerTest extends TestCase
             new ProcessingStatus(ProcessingStatus::OK, 'ok'),
             'dummy/path'
         );
-        $this->stream = $this->createMock(FileStream::class);
+        $this->stream = $this->createStub(FileStream::class);
         $this->storer = new UploadStorer($this->manage, $this->collections);
     }
 
@@ -292,14 +292,14 @@ final class UploadStorerTest extends TestCase
 
     private function givenExistingResource(ResourceIdentification $existing_rid): void
     {
-        $this->collections->method('findIdentificationByNameIn')
+        $this->collections->expects($this->atLeastOnce())->method('findIdentificationByNameIn')
                           ->with($this->collection, self::FILE_NAME)
                           ->willReturn($existing_rid);
     }
 
     private function givenNoExistingResource(): void
     {
-        $this->collections->method('findIdentificationByNameIn')
+        $this->collections->expects($this->atLeastOnce())->method('findIdentificationByNameIn')
                           ->with($this->collection, self::FILE_NAME)
                           ->willReturn(null);
     }

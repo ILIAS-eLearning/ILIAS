@@ -29,7 +29,7 @@ class ToastServicesTest extends TestCase
 {
     public function testFactory(): void
     {
-        $ui_mock = $this->createMock(UIServices::class);
+        $ui_mock = $this->createStub(UIServices::class);
 
         $services = new ToastServices($ui_mock);
         $this->assertInstanceOf(ToastFactory::class, $services->factory());

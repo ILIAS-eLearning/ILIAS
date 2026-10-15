@@ -60,17 +60,15 @@ class EventTest extends TestCase
         );
         $this->setGlobalVariable(
             "ilSetting",
-            $this->createMock(ilSetting::class)
+            $this->createStub(ilSetting::class)
         );
-        $component_repository = $this->createMock(ilComponentRepository::class);
         $this->setGlobalVariable(
             "component.repository",
-            $component_repository
+            $this->createStub(ilComponentRepository::class)
         );
-        $component_factory = $this->createMock(ilComponentFactory::class);
         $this->setGlobalVariable(
             "component.factory",
-            $component_factory
+            $this->createStub(ilComponentFactory::class)
         );
     }
 

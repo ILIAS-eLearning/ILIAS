@@ -127,6 +127,17 @@ class MigrationObjective implements Setup\Objective
     {
         $this->migration->prepare($environment);
 
-        return $this->migration->getRemainingAmountOfSteps() > 0;
+        if ($this->migration->getRemainingAmountOfSteps() > 0) {
+            return true;
+        }
+
+        // the objective will be skipped silently, so we tell why nothing happens
+        $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        if ($io instanceof Setup\AdminInteraction) {
+            $key = (new \ReflectionClass($this->migration))->getShortName();
+            $io->inform("Migration '{$key}' has no remaining steps left.");
+        }
+
+        return false;
     }
 }

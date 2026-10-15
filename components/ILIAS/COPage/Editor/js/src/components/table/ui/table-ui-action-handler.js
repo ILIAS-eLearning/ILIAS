@@ -12,35 +12,34 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import ACTIONS from "../actions/table-action-types.js";
-import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
+import ACTIONS from '../actions/table-action-types.js';
+import PAGE_ACTIONS from '../../page/actions/page-action-types.js';
 
 /**
  * Table UI action handler
  */
 export default class TableUIActionHandler {
-
   /**
    * @type {TableUI}
    */
-  //tableUI;
+  // tableUI;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @param {ActionFactory} actionFactory
@@ -74,22 +73,20 @@ export default class TableUIActionHandler {
    * @param {TableModel} table_model
    */
   handle(action, page_model, table_model) {
-    const dispatcher = this.dispatcher;
-    const actionFactory = this.actionFactory;
-    const client = this.client;
-    let form_sent = false;
+    const { dispatcher } = this;
+    const { actionFactory } = this;
+    const { client } = this;
+    const form_sent = false;
 
     if (!this.tableUI.in_data_table && !this.tableUI.in_table) {
       return;
     }
     const params = action.getParams();
-    if (action.getComponent() === "Paragraph") {
+    if (action.getComponent() === 'Paragraph') {
       this.tableUI.updateModelFromCell();
     }
-    if (action.getComponent() === "Table") {
-
+    if (action.getComponent() === 'Table') {
       switch (action.getType()) {
-
         case ACTIONS.EDIT_CELL:
           this.tableUI.editCell(params.tablePcid, params.row, params.column);
           break;
@@ -98,11 +95,11 @@ export default class TableUIActionHandler {
           this.sendUpdateDataCommand(
             page_model.getCurrentPCId(),
             page_model.getPCModel(page_model.getCurrentPCId()),
-            false
+            false,
           );
           this.tableUI.refreshUIFromModelState(page_model, table_model);
           this.tableUI.tinyWrapper.stopEditing();
-//          this.ui.handleSaveOnEdit();
+          //          this.ui.handleSaveOnEdit();
           break;
 
         case ACTIONS.CANCEL_CELL_EDIT:
@@ -112,10 +109,10 @@ export default class TableUIActionHandler {
             page_model.getCurrentPCId(),
             page_model.getPCModel(page_model.getCurrentPCId()),
             page_model,
-            "none",
+            'none',
             0,
             0,
-            0
+            0,
           );
           break;
 
@@ -136,7 +133,7 @@ export default class TableUIActionHandler {
             action.getType(),
             params.nr,
             params.cellPcid,
-            params.cnt
+            params.cnt,
           );
           break;
 
@@ -144,22 +141,25 @@ export default class TableUIActionHandler {
           this.sendUpdateDataCommand(
             page_model.getCurrentPCId(),
             page_model.getPCModel(page_model.getCurrentPCId()),
-            false
+            false,
           );
           break;
 
         case ACTIONS.SWITCH_EDIT_TABLE:
           this.tableUI.refreshUIFromModelState(page_model, table_model);
+          this.tableUI.activateGrid(true);
           this.tableUI.initDropdowns();
           this.tableUI.markSelectedCells();
           break;
 
         case ACTIONS.SWITCH_FORMAT_CELLS:
+          this.tableUI.activateGrid(false);
           this.tableUI.refreshUIFromModelState(page_model, table_model);
           this.tableUI.initHeadSelection();
           break;
 
         case ACTIONS.SWITCH_MERGE_CELLS:
+          this.tableUI.activateGrid(true);
           this.tableUI.refreshUIFromModelState(page_model, table_model);
           this.tableUI.initHeadSelection();
           break;
@@ -170,7 +170,7 @@ export default class TableUIActionHandler {
             params.selected,
             params.data,
             page_model,
-            table_model
+            table_model,
           );
           break;
 
@@ -179,7 +179,7 @@ export default class TableUIActionHandler {
             params.pcid,
             params.selected,
             page_model,
-            table_model
+            table_model,
           );
           break;
 
@@ -187,13 +187,14 @@ export default class TableUIActionHandler {
         case ACTIONS.TOGGLE_ROW:
         case ACTIONS.TOGGLE_TABLE:
         case ACTIONS.TOGGLE_COL:
-          this.tableUI.updateMergeButton(page_model,
-            table_model);
+          this.tableUI.updateMergeButton(
+            page_model,
+            table_model,
+          );
           break;
       }
-
     }
-    if (action.getComponent() === "DataTable") {
+    if (action.getComponent() === 'DataTable') {
       switch (action.getType()) {
         case PAGE_ACTIONS.COMPONENT_FORM_LOADED:
           this.tableUI.initAfterFormLoaded();
@@ -201,8 +202,8 @@ export default class TableUIActionHandler {
       }
     }
 
-    if (table_model.getState() === table_model.STATE_CELLS ||
-      table_model.getState() === table_model.STATE_MERGE) {
+    if (table_model.getState() === table_model.STATE_CELLS
+      || table_model.getState() === table_model.STATE_MERGE) {
       this.tableUI.markSelectedCells();
       // switch info text and action buttons, if selected status changes
       if (table_model.hasSelected() !== this.old_selected) {
@@ -217,11 +218,11 @@ export default class TableUIActionHandler {
     const update_action = af.table().command().updateData(
       pcid,
       pcmodel.content,
-      redirectToPage
+      redirectToPage,
     );
     this.tableUI.updateModelFromCell();
     this.tableUI.paragraphUI.autoSaveStarted();
-    this.client.sendCommand(update_action).then(result => {
+    this.client.sendCommand(update_action).then((result) => {
       const pl = result.getPayload();
       if (redirectToPage) {
         this.tableUI.pageModifier.redirectToPage(pcid);
@@ -246,10 +247,10 @@ export default class TableUIActionHandler {
       modification,
       nr,
       cellPcid,
-      cnt
+      cnt,
     );
     console.log(this.client);
-    this.client.sendCommand(update_action).then(result => {
+    this.client.sendCommand(update_action).then((result) => {
       const pl = result.getPayload();
       this.handleModificationResponse(pl, page_model);
     });
@@ -257,7 +258,7 @@ export default class TableUIActionHandler {
 
   handleModificationResponse(pl, page_model) {
     if (pl.renderedContent !== undefined) {
-      const tableArea = document.getElementById("copg-ed-table-area");
+      const tableArea = document.getElementById('copg-ed-table-area');
 
       this.tableUI.tinyWrapper.stopEditing();
       tableArea.outerHTML = pl.renderedContent;
@@ -279,12 +280,12 @@ export default class TableUIActionHandler {
 
     setPropertiesAction = af.table().command().setProperties(
       pcid,
-      "Table",
+      'Table',
       selected,
-      data
+      data,
     );
 
-    this.client.sendCommand(setPropertiesAction).then(result => {
+    this.client.sendCommand(setPropertiesAction).then((result) => {
       const pl = result.getPayload();
       this.handleModificationResponse(pl, page_model);
       dispatch.dispatch(af.table().editor().switchFormatCells());
@@ -298,16 +299,15 @@ export default class TableUIActionHandler {
 
     toggleMergeAction = af.table().command().toggleMerge(
       pcid,
-      "Table",
-      selected
+      'Table',
+      selected,
     );
 
-    this.client.sendCommand(toggleMergeAction).then(result => {
+    this.client.sendCommand(toggleMergeAction).then((result) => {
       const pl = result.getPayload();
       this.handleModificationResponse(pl, page_model);
       table_model.selectNone();
       dispatch.dispatch(af.table().editor().switchMergeCells());
     });
   }
-
 }

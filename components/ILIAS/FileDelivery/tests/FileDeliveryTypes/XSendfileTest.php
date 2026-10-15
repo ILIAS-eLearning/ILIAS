@@ -51,9 +51,7 @@ class XSendfileTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->httpServiceMock = $this->getMockBuilder(Services::class)
-                                      ->disableOriginalConstructor()
-                                      ->getMock();
+        $this->httpServiceMock = $this->createMock(Services::class);
     }
 
     #[Test]
@@ -62,9 +60,7 @@ class XSendfileTest extends TestCase
         $expectedHeader = 'X-Sendfile';
         $filePath = __FILE__;
 
-        $response = $this->getMockBuilder(ResponseInterface::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $response = $this->createMock(ResponseInterface::class);
 
         $response->expects($this->once())
                  ->method('withHeader')

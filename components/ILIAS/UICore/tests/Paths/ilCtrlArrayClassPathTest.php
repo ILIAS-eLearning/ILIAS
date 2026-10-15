@@ -30,7 +30,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
     {
         $path = new ilCtrlArrayClassPath(
             $this->structure,
-            $this->createMock(ilCtrlContextInterface::class),
+            $this->createStub(ilCtrlContextInterface::class),
             []
         );
 
@@ -45,7 +45,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $invalid_class = ilCtrlInvalidGuiClass::class;
         $path = new ilCtrlArrayClassPath(
             $this->structure,
-            $this->createMock(ilCtrlContextInterface::class),
+            $this->createStub(ilCtrlContextInterface::class),
             [$invalid_class]
         );
 
@@ -61,7 +61,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $child_class = ilCtrlCommandClass2TestGUI::class;
         $path = new ilCtrlArrayClassPath(
             $this->structure,
-            $this->createMock(ilCtrlContextInterface::class),
+            $this->createStub(ilCtrlContextInterface::class),
             [$parent_class, $child_class]
         );
 

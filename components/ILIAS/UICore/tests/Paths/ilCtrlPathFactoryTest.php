@@ -44,7 +44,7 @@ class ilCtrlPathFactoryTest extends ilCtrlPathTestBase
 
     public function testPathFactoryFindSingleClassTargetPath(): void
     {
-        $context = $this->createMock(ilCtrlContextInterface::class);
+        $context = $this->createStub(ilCtrlContextInterface::class);
         $path = $this->factory->find($context, ilCtrlBaseClass1TestGUI::class);
 
         $this->assertEquals('0', $path->getCidPath());
@@ -56,7 +56,7 @@ class ilCtrlPathFactoryTest extends ilCtrlPathTestBase
 
     public function testPathFactoryFindArrayClassTargetPath(): void
     {
-        $context = $this->createMock(ilCtrlContextInterface::class);
+        $context = $this->createStub(ilCtrlContextInterface::class);
         $path = $this->factory->find($context, [
             ilCtrlBaseClass1TestGUI::class,
             ilCtrlCommandClass1TestGUI::class,

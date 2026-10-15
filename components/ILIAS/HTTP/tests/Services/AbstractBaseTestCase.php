@@ -31,7 +31,7 @@ use Psr\Http\Message\ServerRequestInterface;
 abstract class AbstractBaseTestCase extends TestCase
 {
     /**
-     * @var MockObject|RequestInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Psr\Http\Message\ServerRequestInterface
      */
     protected MockObject $request_interface;
 

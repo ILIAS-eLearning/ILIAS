@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Logging\Logger\LoggerInterface;
+
 /**
  * Class ilRbacAdmin
  *  Core functions for role based access control.
@@ -30,21 +32,15 @@ declare(strict_types=1);
  */
 class ilRbacAdmin
 {
-    protected ilDBInterface $db;
-    protected ilRbacReview $rbacreview;
-    protected ilLogger $logger;
-
     /**
      * Constructor
      * @access    public
      */
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->db = $DIC->database();
-        $this->rbacreview = $DIC->rbac()->review();
-        $this->logger = $DIC->logger()->ac();
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilRbacReview $rbacreview,
+        protected LoggerInterface $logger
+    ) {
     }
 
     public function setBlockedStatus(int $a_role_id, int $a_ref_id, bool $a_blocked_status): void

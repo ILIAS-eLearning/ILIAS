@@ -39,11 +39,8 @@ class WrapperTest extends AbstractBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $language = $this->getMockBuilder('\ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
 
-        $this->refinery = new Factory(new \ILIAS\Data\Factory(), $language);
+        $this->refinery = new Factory(new \ILIAS\Data\Factory(), $this->createStub('\ilLanguage'));
     }
 
 

@@ -32,7 +32,7 @@ class SuperGlobalDropInReplacementTest extends AbstractBaseTestCase
     {
         return new Refinery(
             new DataFactory(),
-            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
+            $this->createStub(ilLanguage::class)
         );
     }
 

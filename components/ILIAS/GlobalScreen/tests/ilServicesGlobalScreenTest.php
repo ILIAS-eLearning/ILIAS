@@ -37,6 +37,9 @@ class ilServicesGlobalScreenTest extends TestCase
         if (!defined('ROOT_FOLDER_ID')) {
             define('ROOT_FOLDER_ID', 24);
         }
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
         $this->ROOT_FOLDER_ID = ROOT_FOLDER_ID;
     }
 

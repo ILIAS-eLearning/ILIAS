@@ -43,5 +43,8 @@ class Registration implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "confirmReg.php");
+
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
+            new \ILIAS\Registration\URL\StaticUrlHandler();
     }
 }

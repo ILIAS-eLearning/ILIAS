@@ -18,13 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\SessionReminder\TokenCipher;
+use ILIAS\Logging\Config\ConfigInterface as LoggingConfig;
+
 readonly class ilSessionReminderGUI
 {
     public function __construct(
         private ilSessionReminder $session_reminder,
         private ilGlobalTemplateInterface $page,
         private ilLanguage $lng,
-        private ilLoggerFactory $logger_factory
+        private LoggingConfig $logging_config,
+        private ?TokenCipher $token_cipher
     ) {
     }
 
@@ -34,25 +38,34 @@ readonly class ilSessionReminderGUI
             return;
         }
 
+        if ($this->token_cipher === null) {
+            return;
+        }
+
         $this->page->addJavaScript('assets/js/SessionReminder.min.js');
 
         $url = './sessioncheck.php?client_id=' . CLIENT_ID . '&lang=' . $this->lng->getLangKey();
         $client_id = defined('CLIENT_ID') ? CLIENT_ID : '';
+        $user_id = $this->session_reminder->getUser()->getId();
         $hash = hash(
             'sha256',
             implode('', [
                 session_id(),
-                $this->session_reminder->getUser()->getId(),
+                $user_id,
                 $this->session_reminder->getUser()->getCreateDate()
             ])
         );
-        $log_level = $this->logger_factory->getSettings()->getLevelByComponent('auth');
+        $token = $this->token_cipher->encode($user_id, $hash);
+        // Identifies the session for the client (e.g. to detect a new login in another tab), but must not reveal the hash
+        $session_identifier = hash('sha256', 'session_reminder_state' . $hash);
+        $log_level = $this->logging_config->byComponent()->level('auth')->value;
 
         $javascript = <<<JS
             il.SessionReminder.init({
                 url: "$url",
                 clientId: "$client_id",
-                hash: "$hash",
+                hash: "$session_identifier",
+                token: "$token",
                 frequency: 60,
                 logLevel: $log_level
             }, window, console);

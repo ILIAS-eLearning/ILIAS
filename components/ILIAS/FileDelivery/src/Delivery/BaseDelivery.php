@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Delivery;
 
-use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Isolation\IsolationConfig;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Psr\Http\Message\ResponseInterface;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -36,7 +36,7 @@ abstract class BaseDelivery
     protected array $mime_type_map;
 
     public function __construct(
-        protected Services $http,
+        protected GlobalHttpState $http,
         protected ResponseBuilder $response_builder,
         protected ResponseBuilder $fallback_response_builder,
         protected IsolationConfig $isolation = new IsolationConfig(false, null, null),
@@ -102,27 +102,21 @@ abstract class BaseDelivery
         ResponseInterface $r,
         ?string $path_to_delete = null
     ): never {
-        $sender = function () use ($r): void {
-            $this->http->saveResponse($r);
-            $this->http->sendResponse();
-            $this->http->close();
-        };
-
         if ($path_to_delete !== null && file_exists($path_to_delete)) {
+            // close() ends the request, the file can only be deleted by a shutdown function,
+            // see https://mantis.ilias.de/view.php?id=48312
             ignore_user_abort(true);
             set_time_limit(0);
-            ob_start();
-
-            $sender();
-
-            ob_flush();
-            ob_end_flush();
-            flush();
-
-            unlink($path_to_delete);
-        } else {
-            $sender();
+            register_shutdown_function(static function () use ($path_to_delete): void {
+                if (file_exists($path_to_delete)) {
+                    unlink($path_to_delete);
+                }
+            });
         }
+
+        $this->http->saveResponse($r);
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function setGeneralHeaders(

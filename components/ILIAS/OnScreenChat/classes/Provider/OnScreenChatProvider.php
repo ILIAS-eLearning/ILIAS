@@ -121,7 +121,8 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                         $this->getSlateMessageBox(),
                         $this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
                             static function ($id): string {
-                                return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
+                                // the element is missing if the main bar has been removed afterwards (e.g. kiosk mode)
+                                return "(function (el) { if (el) { il.OnScreenChat.menuCollector = el.parentNode; el.remove(); } })(document.getElementById('$id'));";
                             }
                         )
                     ];

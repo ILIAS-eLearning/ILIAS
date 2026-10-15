@@ -22,6 +22,7 @@ declare(strict_types=1);
  *
  * @deprecated Please use {@see \ILIAS\Logging\Logger\LoggerInterface} via
  *   {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
+ *   Ideally in your Component.php. If that's not possible then via $DIC['logging.factory'].
  *
  * @author Stefan Meyer
  */

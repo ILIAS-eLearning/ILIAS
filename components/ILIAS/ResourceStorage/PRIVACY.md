@@ -18,6 +18,7 @@ Disclaimer: This documentation does not warrant completeness or correctness. Ple
 ## Data being presented
 - Persons with "Read" permission for the FileServices object are presented with the date and time of the resource creation in the Resource Overview.
   - The Resource Overview is located under "Administration" > "System Settings and Maintenance" > "File Services" > "Resource Overview".
+- For resources marked as confidential, file names and revision titles are only presented to the owner of the current revision. Persons with "Read" permission for the FileServices object can neither see them nor download the resource in the Resource Overview.
 
 ## Data being deleted
 - Personal data that is stored regarding resources or revisions is deleted by the IRSS when directed to do so by the component who created the resource or revision.

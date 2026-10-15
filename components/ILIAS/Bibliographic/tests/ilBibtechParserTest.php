@@ -37,7 +37,7 @@ class ilBibtechParserTest extends TestCase
         $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
         $DIC['refinery'] = new Factory(
             new ILIAS\Data\Factory(),
-            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
+            $this->createStub(ilLanguage::class)
         );
     }
 
@@ -49,9 +49,9 @@ class ilBibtechParserTest extends TestCase
 
     public function testParseBibtechAsArray(): void
     {
-        $ilBiblEntryFactory = $this->createMock(ilBiblEntryFactoryInterface::class);
-        $ilBiblFieldFactory = $this->createMock(ilBiblFieldFactoryInterface::class);
-        $ilBiblAttributeFactory = $this->createMock(ilBiblAttributeFactoryInterface::class);
+        $ilBiblEntryFactory = $this->createStub(ilBiblEntryFactoryInterface::class);
+        $ilBiblFieldFactory = $this->createStub(ilBiblFieldFactoryInterface::class);
+        $ilBiblAttributeFactory = $this->createStub(ilBiblAttributeFactoryInterface::class);
         $reader = new ilBiblTexFileReader(
             $ilBiblEntryFactory,
             $ilBiblFieldFactory,
@@ -97,9 +97,9 @@ class ilBibtechParserTest extends TestCase
     public function testParseBibtechAsItems(): void
     {
         $ilBiblEntryFactory = $this->createMock(ilBiblEntryFactoryInterface::class);
-        $ilBiblFieldFactory = $this->createMock(ilBiblFieldFactoryInterface::class);
-        $ilBiblAttributeFactory = $this->createMock(ilBiblAttributeFactoryInterface::class);
-        $ilObjBibliographic = $this->createMock(ilObjBibliographic::class);
+        $ilBiblFieldFactory = $this->createStub(ilBiblFieldFactoryInterface::class);
+        $ilBiblAttributeFactory = $this->createStub(ilBiblAttributeFactoryInterface::class);
+        $ilObjBibliographic = $this->createStub(ilObjBibliographic::class);
 
         $reader = new ilBiblTexFileReader(
             $ilBiblEntryFactory,

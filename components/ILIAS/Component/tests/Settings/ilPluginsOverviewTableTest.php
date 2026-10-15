@@ -28,18 +28,27 @@ use ILIAS\UI\Component\Button\Shy;
 
 class ilPluginsOverviewTableTest extends TestCase
 {
-    protected ilObjComponentSettingsGUI $parent_gui;
-    protected ilCtrl $ctrl;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ilObjComponentSettingsGUI
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $parent_gui;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ilCtrl
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $ctrl;
     protected Factory $ui;
-    protected Renderer $renderer;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\UI\Renderer
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $renderer;
     protected ilLanguage $lng;
 
     protected function setUp(): void
     {
-        $this->parent_gui = $this->createMock(ilObjComponentSettingsGUI::class);
-        $this->ctrl = $this->createMock(ilCtrl::class);
+        $this->parent_gui = $this->createStub(ilObjComponentSettingsGUI::class);
+        $this->ctrl = $this->createStub(ilCtrl::class);
         $this->ui = $this->createMock(Factory::class);
-        $this->renderer = $this->createMock(Renderer::class);
+        $this->renderer = $this->createStub(Renderer::class);
         $this->lng = $this->createMock(ilLanguage::class);
         $this->lng->method("txt")
             ->willReturnCallback(fn($id) => $id);
@@ -300,7 +309,7 @@ class ilPluginsOverviewTableTest extends TestCase
 
     public function testGetActionsPluginNotInstalled(): void
     {
-        $shy = $this->createMock(Shy::class);
+        $shy = $this->createStub(Shy::class);
 
         $standard = $this->createMock(Standard::class);
         $standard
@@ -368,7 +377,7 @@ class ilPluginsOverviewTableTest extends TestCase
 
     public function testGetActionsPluginInstalled(): void
     {
-        $shy = $this->createMock(Shy::class);
+        $shy = $this->createStub(Shy::class);
 
         $standard = $this->createMock(Standard::class);
         $standard

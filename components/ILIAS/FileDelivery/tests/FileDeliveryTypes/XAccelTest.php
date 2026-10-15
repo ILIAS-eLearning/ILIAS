@@ -57,9 +57,7 @@ class XAccelTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->httpServiceMock = $this->getMockBuilder(Services::class)
-                                      ->disableOriginalConstructor()
-                                      ->getMock();
+        $this->httpServiceMock = $this->createMock(Services::class);
     }
 
     #[Test]
@@ -67,9 +65,7 @@ class XAccelTest extends TestCase
     {
         $expectedContentValue = '';
 
-        $response = $this->getMockBuilder(ResponseInterface::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $response = $this->createMock(ResponseInterface::class);
 
         $response->expects($this->once())
                  ->method('withHeader')
@@ -99,9 +95,7 @@ class XAccelTest extends TestCase
         $expectedHeader = 'X-Accel-Redirect';
         $path = './normal/path';
 
-        $response = $this->getMockBuilder(ResponseInterface::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $response = $this->createMock(ResponseInterface::class);
 
         $response->expects($this->once())
                  ->method('withHeader')
@@ -131,9 +125,7 @@ class XAccelTest extends TestCase
         $path = './data/path/to/what/ever';
         $expectedPath = '/secured-data/path/to/what/ever';
 
-        $response = $this->getMockBuilder(ResponseInterface::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $response = $this->createMock(ResponseInterface::class);
 
         $response->expects($this->once())
                  ->method('withHeader')

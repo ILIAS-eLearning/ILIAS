@@ -50,7 +50,10 @@ class ilCountPDFPages
 
     public function extractAmountOfPagesByRID(ResourceIdentification $rid): ?int
     {
-        if (!$this->postscript_available) {
+        // the same condition as in isAvailable() and extractAmountOfPagesByPath():
+        // asking for Ghostscript alone skipped the page count on every installation
+        // that only has Imagick, see https://mantis.ilias.de/view.php?id=47827
+        if (!$this->postscript_available && !$this->imagick_available) {
             return null;
         }
         $revision = $this->irss->manage()->getCurrentRevision($rid);

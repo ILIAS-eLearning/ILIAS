@@ -295,6 +295,9 @@ Add the following block to your setup `config.json`. The top-level key is
   Reconfiguring `http.path` and re-running the Setup updates it automatically.
 * `activated: false` (the default) keeps the previous behaviour: assets are
   served from the ILIAS domain via the regular signed delivery.
+* Without a `content_isolation` block (or without a `config.json` at all, as in
+  automated `setup update` runs) the current settings are kept; only the ILIAS
+  domain is refreshed from `http.path`.
 
 Run `setup install`/`setup update` to write the artefact. Because the ILIAS domain
 is taken from `http.path`, run the FileDelivery setup *after* `http.path` is

@@ -73,7 +73,7 @@ class ExternalConditionObjectiveTest extends TestCase
 
     public function testGetPreconditions(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $pre = $this->f->getPreconditions($env);
         $this->assertEquals([], $pre);
@@ -82,20 +82,20 @@ class ExternalConditionObjectiveTest extends TestCase
     public function testAchieveFalse(): void
     {
         $this->expectException(Setup\UnachievableException::class);
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
         $this->f->achieve($env);
     }
 
     public function testAchieveTrue(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
         $res = $this->t->achieve($env);
         $this->assertEquals($env, $res);
     }
 
     public function testNotExecutable(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $throws_not_executable = new Condition\ExternalConditionObjective(
             "Not executable",
@@ -112,7 +112,7 @@ class ExternalConditionObjectiveTest extends TestCase
 
     public function testUnachievable(): void
     {
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $throws_unachievable = new Condition\ExternalConditionObjective(
             "Unachievable",

@@ -1002,7 +1002,7 @@ assessment#:#passed_short#:#passed
 assessment#:#passed_status#:#Passed Status
 assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
-assessment#:#percentage_points_achieved#:#Reached Points
+assessment#:#percentage_points_achieved#:#Average Percentage
 assessment#:#percentile#:#Percentile
 assessment#:#personal_settings_apply#:#Apply Settings Template
 assessment#:#personal_settings_apply_changed_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!
@@ -4329,7 +4329,7 @@ common#:#grp_mem_change_status#:#Change Participant Status
 common#:#grp_mem_send_mail#:#Send member a mail
 common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
-common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
+common#:#grp_msg_member_assigned#:#User(s) added to group.
 common#:#grp_msg_membership_annulled#:#Cancelled membership.
 common#:#grp_new#:#New Group
 common#:#grp_registration#:#Join Group
@@ -4662,7 +4662,6 @@ common#:#main_menu#:#Main Menu
 common#:#mainbar_aria_label#:#Mainbar
 common#:#mainbar_more_label#:#More
 common#:#manage_members#:#Manage Members
-common#:#marked_entries#:#Marked Entries
 common#:#matriculation#:#Matriculation Number
 common#:#max_previews_per_object#:#Number of preview images per file
 common#:#max_previews_per_object_info#:#Defines the maximum number of preview images that are created per file.
@@ -7302,6 +7301,8 @@ content#:#cont_versions#:#Versions
 content#:#cont_whole_glossary#:#Whole Glossary
 content#:#cont_width#:#Width in pixels
 content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
+content#:#cont_width_px_perc#:#Width
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)
 content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)
 content#:#cont_wiki_page#:#Wiki Page
 content#:#cont_wiki_page_link#:#Wiki Page Link
@@ -8595,7 +8596,6 @@ dateplaner#:#cal_type_rl#:#Calendar Location
 dateplaner#:#cal_type_sess#:#Session Calendar
 dateplaner#:#cal_type_system#:#Public Calendar
 dateplaner#:#cal_type_tals#:#Talks
-dateplaner#:#cal_unshare#:#Cancel Sharing
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
 dateplaner#:#cal_upcoming_events_header#:#Upcoming Events
@@ -9329,6 +9329,10 @@ exc#:#exc_assignment_type#:#Type of Submission
 exc#:#exc_assignment_view#:#Assignment View
 exc#:#exc_assignments#:#Assignments
 exc#:#exc_assignments_deleted#:#The assignments have been deleted.
+exc#:#exc_auto_last_save#:#Last saved:
+exc#:#exc_auto_save_info#:#The text will be saved every 30 seconds, if changes are made.
+exc#:#exc_auto_saved_minutes_p#:#%s minute ago
+exc#:#exc_auto_saved_minutes_s#:#%s minutes ago
 exc#:#exc_blog_created#:#Blog successfully created.
 exc#:#exc_blog_returned#:#Assignment Blog
 exc#:#exc_blog_selected#:#The blog has been assigned.
@@ -10750,6 +10754,9 @@ irss#:#by_size_asc#:#By File Size (Ascending)
 irss#:#by_size_desc#:#By File Size (Descending)
 irss#:#by_title_asc#:#By Title (Ascending)
 irss#:#by_title_desc#:#By Title (Descending)
+irss#:#confidential#:#Confidential
+irss#:#confidential_no_download#:#This resource is confidential and can only be downloaded by its owner.
+irss#:#confidential_redacted#:#[Confidential]
 irss#:#create_directory#:#Create Directory
 irss#:#creation_date#:#Creation Date (This Revision)
 irss#:#directory_name#:#Directory Name

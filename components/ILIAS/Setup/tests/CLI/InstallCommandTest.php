@@ -40,7 +40,7 @@ class InstallCommandTest extends TestCase
 
     public function basicFunctionality(bool $is_applicable): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
@@ -54,7 +54,6 @@ class InstallCommandTest extends TestCase
         $config_file_content = ["config_file"];
 
         $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
 
         $config_overwrites = [
             "a.b.c" => "foo",
@@ -132,7 +131,7 @@ class InstallCommandTest extends TestCase
         $objective
             ->expects($expects)
             ->method("achieve")
-            ->willReturn($env);
+            ->willReturn($this->createStub(Setup\Environment::class));
 
         $objective
             ->expects($this->once())
@@ -148,14 +147,14 @@ class InstallCommandTest extends TestCase
     public function testPluginInstallation(): void
     {
         $agent = $this->createMock(Setup\AgentCollection::class);
-        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
+        $config_reader = $this->createStub(Setup\CLI\ConfigReader::class);
         $agent_finder = $this->createMock(Setup\AgentFinder::class);
         $command = new Setup\CLI\InstallCommand($agent_finder, $config_reader, []);
 
         $tester = new CommandTester($command);
 
         $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
+        $env = $this->createStub(Setup\Environment::class);
 
         $agent
             ->expects($this->once())

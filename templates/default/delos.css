@@ -17612,7 +17612,7 @@ div.ilc_va_icont_VAccordICont {
   padding-top: 8px;
 }
 
-#awareness-content .media-body h4, #awareness-content .media-body p {
+#awareness-content .media-body .media-heading, #awareness-content .media-body p {
   color: rgb(111.25, 111.25, 111.25);
   font-size: 0.75rem;
   padding: 5px 3px 0 3px;
@@ -17620,9 +17620,8 @@ div.ilc_va_icont_VAccordICont {
   margin: 0;
 }
 
-#awareness-content .media-body h4 {
+#awareness-content .media-body .media-heading {
   padding-top: 0px;
-  font-size: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -18856,7 +18855,6 @@ div.ilTinyMenuSection, .il-copg-button-group {
 div.ilTinyMenuSection p, .il-copg-button-group p {
   margin-bottom: 5px;
   padding: 2px 5px;
-  background-color: rgb(238.8, 238.8, 238.8);
 }
 
 div.ilTinyMenuSection button.btn {
@@ -18977,10 +18975,6 @@ a.ilc_page_toc_PageTOCLink {
 
 a.ilc_page_toc_PageTOCLink:hover {
   color: rgb(57.5428571429, 76.4714285714, 101.4571428571);
-}
-
-a.ilc_page_toc_PageTOCLink:visited {
-  color: #82639e;
 }
 
 /* --- content styles (will move to content.css) --- */
@@ -19261,7 +19255,7 @@ div.ilCOPGMediaPrint {
 #copg-editor-slate-content {
   padding: 9px 0px;
 }
-#copg-editor-slate-content p {
+#copg-editor-slate-content p:not([class^=ilc_text_block]) {
   padding: 0;
   margin: 5px 0;
 }
@@ -19360,6 +19354,7 @@ p#copg-auto-save {
 
 #ed_datatable {
   background-color: white;
+  border: 1px solid #f0f0f0;
 }
 #ed_datatable th {
   background-color: #f9f9f9;
@@ -19371,11 +19366,31 @@ p#copg-auto-save {
   width: 100%;
   border: 0;
 }
-#ed_datatable th, #ed_datatable td {
-  border: 1px solid #CCCCCC;
+#ed_datatable th .dropdown {
+  width: 100%;
+}
+#ed_datatable th {
+  cursor: pointer;
+}
+#ed_datatable th[data-copg-ed-type=data-column-head] .dropdown-menu {
+  left: 50%;
+  transform: translateX(-50%);
+}
+#ed_datatable td {
+  cursor: pointer;
+}
+#ed_datatable th:hover {
+  background-color: #f0f0f0;
+}
+#ed_datatable th:hover .btn {
+  background-color: #f0f0f0;
+}
+#ed_datatable.grid th, #ed_datatable.grid td {
+  border: 1px solid #f0f0f0;
 }
 #ed_datatable th {
   vertical-align: middle;
+  padding: 3px;
 }
 
 .copg-new-content-placeholder,

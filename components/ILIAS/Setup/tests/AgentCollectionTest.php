@@ -35,7 +35,7 @@ class AgentCollectionTest extends TestCase
 
     public function testHasConfig(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -62,7 +62,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetArrayToConfigTransformation(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -114,7 +114,7 @@ class AgentCollectionTest extends TestCase
 
     public function testArrayToConfigTransformationAllowsUnsetFields(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -166,7 +166,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetInstallObjective(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -207,8 +207,8 @@ class AgentCollectionTest extends TestCase
 
     public function testGetUpdateObjective(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
-        $storage = $this->createMock(Setup\Metrics\Storage::class);
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
+        $storage = $this->createStub(Setup\Metrics\Storage::class);
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -241,7 +241,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetCollectMetricsObjective(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -273,7 +273,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetAgent(): void
     {
-        $refinery = $this->createMock(Refinery::class);
+        $refinery = $this->createStub(Refinery::class);
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -294,7 +294,7 @@ class AgentCollectionTest extends TestCase
 
     public function testWithRemovedAgent(): void
     {
-        $refinery = $this->createMock(Refinery::class);
+        $refinery = $this->createStub(Refinery::class);
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -324,7 +324,7 @@ class AgentCollectionTest extends TestCase
 
     public function testWithAdditionalAgent(): void
     {
-        $refinery = $this->createMock(Refinery::class);
+        $refinery = $this->createStub(Refinery::class);
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
@@ -354,7 +354,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetNamedObjectivesSorting(): void
     {
-        $refinery = $this->createMock(Refinery::class);
+        $refinery = $this->createStub(Refinery::class);
         $config = new Setup\ConfigCollection([]);
 
         $aAgent = $this->newAgent();
@@ -427,7 +427,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetNamedObjectives(): void
     {
-        $refinery = $this->createMock(Refinery::class);
+        $refinery = $this->createStub(Refinery::class);
         $config = new Setup\ConfigCollection([]);
 
         $aAgent = $this->newAgent();
@@ -467,7 +467,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetNamedObjectivePassesCorrectConfig()
     {
-        $refinery = $this->createMock(Refinery::class);
+        $refinery = $this->createStub(Refinery::class);
         $agent = $this->newAgent();
 
         $seen_config = null;
@@ -483,7 +483,7 @@ class AgentCollectionTest extends TestCase
             ["agent" => $agent]
         );
 
-        $agent_config = $this->createMock(Setup\Config::class);
+        $agent_config = $this->createStub(Setup\Config::class);
         $config = new Setup\ConfigCollection(
             ["agent" => $agent_config]
         );
@@ -495,7 +495,7 @@ class AgentCollectionTest extends TestCase
 
     public function testGetAgents(): void
     {
-        $refinery = $this->createMock(Refinery::class);
+        $refinery = $this->createStub(Refinery::class);
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();

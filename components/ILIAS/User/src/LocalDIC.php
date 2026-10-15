@@ -122,7 +122,9 @@ class LocalDIC extends PimpleContainer
                     ),
                     new Standard\Roles(
                         $DIC['ilAuthSession'],
-                        $DIC['ilObjDataCache']
+                        $DIC['ilObjDataCache'],
+                        $DIC['rbacreview'],
+                        $DIC['rbacadmin']
                     ),
                     new Standard\OrganisationalUnits(),
                     new Standard\Interests(

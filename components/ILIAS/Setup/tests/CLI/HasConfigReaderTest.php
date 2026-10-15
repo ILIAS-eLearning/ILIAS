@@ -27,12 +27,15 @@ use ILIAS\Setup\Agent;
 
 class HasConfigReaderTest extends TestCase
 {
-    protected ConfigReader $config_reader;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Setup\CLI\ConfigReader
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $config_reader;
     protected $has_config_reader;
 
     public function setUp(): void
     {
-        $this->config_reader = $this->createMock(ConfigReader::class);
+        $this->config_reader = $this->createStub(ConfigReader::class);
         $this->has_config_reader = new class ($this->config_reader) {
             use HasConfigReader;
             public function __construct($cr)
@@ -50,7 +53,7 @@ class HasConfigReaderTest extends TestCase
     public function testReadAgentConfigWithoutConfig()
     {
         $agent = $this->createMock(Agent::class);
-        $ii = $this->createMock(InputInterface::class);
+        $ii = $this->createStub(InputInterface::class);
 
         $agent
             ->method("hasConfig")

@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\FileUpload\MimeType;
-use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
@@ -35,11 +34,9 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
 {
     // Firefox determines the content type from the file content anyway for some content.
     private const NON_VALID_EXTENSION_MIME = MimeType::APPLICATION__OCTET_STREAM;
-    private Services $http;
     private StreamDelivery $delivery;
 
     public function __construct(
-        Services $http,
         StorableResource $resource,
         StreamAccess $stream_access,
         FileNamePolicy $file_name_policy
@@ -54,7 +51,10 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
     public function run(): void
     {
         $revision = $this->getRevision();
-        $filename_with_extension = $this->file_name ?? $revision->getInformation()->getTitle();
+        // trimmed before the extension is read: a trailing space would make pathinfo
+        // report "pdf " and the file would be delivered as an unknown type,
+        // see https://mantis.ilias.de/view.php?id=47801
+        $filename_with_extension = trim($this->file_name ?? $revision->getInformation()->getTitle());
         $extension = pathinfo($filename_with_extension, PATHINFO_EXTENSION);
         $file_name_for_consumer = $this->file_name_policy->prepareFileNameForConsumer($filename_with_extension);
 

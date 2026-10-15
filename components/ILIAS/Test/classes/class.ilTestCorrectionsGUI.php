@@ -302,7 +302,7 @@ class ilTestCorrectionsGUI
             $this->scorer,
             $this->database,
             $this->test_result_repository
-        ))->recalculateSolutions(true, $question_index);
+        ))->recalculateSolutions(true, $question->getId());
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(

@@ -111,7 +111,7 @@ class Properties implements Property
                 'qpl' => $title_builder->buildAccessCheckedQuestionpoolTitleAsLink($this->question_properties->getOriginObjectId()),
                 'nr_of_answers' => $this->getAggregatedResults()->getNumberOfAnswers(),
                 'average_points' => $this->getAggregatedResults()->getAveragePoints(),
-                'percentage_points_achieved' => "{$this->getAggregatedResults()->getPercentageOfPointsAchieved()}%"
+                'percentage_points_achieved' => round($this->getAggregatedResults()->getPercentageOfPointsAchieved(), 2) . '%'
             ]
         );
     }

@@ -57,7 +57,7 @@ class CollectionBuilderTest extends TestCase
         $this->collections = new Collections(
             $this->resource_builder = $this->createMock(ResourceBuilder::class),
             $collection_builder,
-            $this->createMock(RepositoryPreloader::class),
+            $this->createStub(RepositoryPreloader::class),
             new Subject()
         );
     }

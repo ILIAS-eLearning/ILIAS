@@ -44,6 +44,9 @@ class ilModulesFileTest extends TestCase
      * @var ilDBInterface|MockObject
      */
     protected ?MockObject $db_mock = null;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ILIAS\ResourceStorage\Manager\Manager
+     */
     protected MockObject $manager_mock;
 
     protected function setUp(): void
@@ -185,7 +188,7 @@ class ilModulesFileTest extends TestCase
                            ->with($rid)
                            ->willReturn($revision);
 
-        $this->manager_mock
+        $this->manager_mock->expects($this->atLeastOnce())
                            ->method('getResource')
                            ->with($rid)
                            ->willReturn($resource);

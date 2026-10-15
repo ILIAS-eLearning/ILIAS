@@ -43,10 +43,9 @@ class CacheTest extends TestCase
 
     protected function setUp(): void
     {
-        $language_mock = $this->createMock(\ilLanguage::class);
         $this->refinery = new Factory(
             new \ILIAS\Data\Factory(),
-            $language_mock
+            $this->createStub(\ilLanguage::class)
         );
         // prevent chached values between tests
         $static_flush = new PHPStatic($this->getConfig(Config::PHPSTATIC));
@@ -144,26 +143,30 @@ class CacheTest extends TestCase
         $this->assertTrue($container->has('test'));
         $this->assertSame('test_value', $container->get('test', $this->refinery->to()->string()));
 
-        $container->lock(1 / 1000);
+        // A lock of one millisecond is not guaranteed to survive ordinary scheduling jitter,
+        // which is itself in the millisecond range: the process may be
+        // descheduled between lock() and the assertions below, leaving the lock
+        // already expired. Use a scale with enough scheduling margin instead.
+        $container->lock(0.2);
         $this->assertTrue($container->isLocked());
         $this->assertFalse($container->has('test'));
         $this->assertNull($container->get('test', $this->refinery->to()->string()));
-        usleep(1000);
+        usleep(250000); // past the lock
         $this->assertFalse($container->isLocked());
         $this->assertTrue($container->has('test'));
         $this->assertSame('test_value', $container->get('test', $this->refinery->to()->string()));
 
-        // Second Run
-        $container->lock(1 / 1000);
+        // Second Run: only the locked state is checked here, expiry is covered above
+        $container->lock(5.0);
         $this->assertTrue($container->isLocked());
         $this->assertFalse($container->has('test'));
         $this->assertNull($container->get('test', $this->refinery->to()->string()));
-        usleep(100);
+        usleep(20000); // still well inside the lock
         $this->assertTrue($container->isLocked());
         $this->assertFalse($container->has('test'));
         $this->assertNull($container->get('test', $this->refinery->to()->string()));
 
-        usleep(5000); // to avoid problems with the next test
+        $container->unlock();
         $this->assertFalse($container->isLocked());
     }
 

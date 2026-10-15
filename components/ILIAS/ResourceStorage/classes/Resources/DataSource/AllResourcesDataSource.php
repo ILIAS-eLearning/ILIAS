@@ -34,8 +34,13 @@ use ILIAS\UI\Factory;
  */
 class AllResourcesDataSource extends BaseTableDataSource implements TableDataSource
 {
-    public function __construct()
-    {
+    /**
+     * @param int|null $acting_user_id Owner whose confidential resources may be found by title, see
+     *                                 {@see \ILIAS\components\ResourceStorage\Resources\UI\ConfidentialityPolicy}
+     */
+    public function __construct(
+        private readonly ?int $acting_user_id = null
+    ) {
         global $DIC;
         parent::__construct(
             $DIC->resourceStorage()->collection()->id() // ad hoc collection
@@ -135,7 +140,8 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
         $q .= " FROM il_resource_revision
          JOIN il_resource_info ON il_resource_revision.rid = il_resource_info.rid AND
                                   il_resource_info.version_number = il_resource_revision.version_number
-         JOIN il_resource_stkh_u ON il_resource_revision.rid = il_resource_stkh_u.rid";
+         JOIN il_resource_stkh_u ON il_resource_revision.rid = il_resource_stkh_u.rid
+         JOIN il_resource ON il_resource_revision.rid = il_resource.rid";
 
         // WHERE
         $q .= $this->buildQueryFilter();
@@ -184,6 +190,9 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
             if (isset($this->filter_values['title']) && $this->filter_values['title'] !== '') {
                 $filter_values[] = $this->db->quote("%" . $this->filter_values['title'] . "%", 'text');
                 $filters[] = " il_resource_revision.title LIKE %s ";
+                // titles of confidential resources must not be searchable, except for their owner
+                $filter_values[] = $this->db->quote($this->acting_user_id ?? 0, 'integer');
+                $filters[] = " (il_resource.confidential = 0 OR il_resource_revision.owner_id = %s) ";
             }
             if (isset($this->filter_values['size']) && $this->filter_values['size'] !== '') {
                 $greater_than = (int) $this->filter_values['size'] * BaseToComponent::SIZE_FACTOR * BaseToComponent::SIZE_FACTOR;

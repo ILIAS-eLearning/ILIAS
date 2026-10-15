@@ -26,12 +26,15 @@ use ILIAS\Component\Dependencies as D;
 
 class OfComponentTest extends TestCase
 {
-    protected Component $component;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\ILIAS\Component\Component
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $component;
     protected D\OfComponent $of_component;
 
     public function setUp(): void
     {
-        $this->component = $this->createMock(Component::class);
+        $this->component = $this->createStub(Component::class);
         $this->of_component = new D\OfComponent(
             $this->component
         );

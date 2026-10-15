@@ -51,7 +51,7 @@ class ilOrgUnitOperationRegisteredObjectiveTest extends TestCase
         }
 
         $env = $this->createMock(Environment::class);
-        $env
+        $env->expects($this->atLeastOnce())
             ->method('getResource')
             ->with(Environment::RESOURCE_DATABASE)
             ->willReturn($db);
@@ -72,11 +72,12 @@ class ilOrgUnitOperationRegisteredObjectiveTest extends TestCase
             ->onlyMethods(['getContextId', 'doesOperationExistInContext'])
             ->getMock();
 
-        $obj
+        $obj->expects($this->atLeastOnce())
             ->method('getContextId')
             ->with($this->isInstanceOf(ilDBInterface::class), 'context')
             ->willReturn($context_id);
-        $obj
+        // an unknown context (id 0) fails before the operation is looked up
+        $obj->expects($context_id === 0 ? $this->never() : $this->atLeastOnce())
             ->method('doesOperationExistInContext')
             ->with($this->isInstanceOf(ilDBInterface::class), $context_id, $operation_name)
             ->willReturn($does_op_already_exist);
@@ -96,11 +97,10 @@ class ilOrgUnitOperationRegisteredObjectiveTest extends TestCase
 
     protected function testGetPreconditions(): void
     {
-        $env = $this->createMock(Environment::class);
         $obj = $this->getMockObjective(true, 0, $this->operation, '');
         $this->assertContainsOnlyInstancesOf(
             ilDatabaseInitializedObjective::class,
-            $obj->getPreconditions($env)
+            $obj->getPreconditions($this->createStub(Environment::class))
         );
     }
 

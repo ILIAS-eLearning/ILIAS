@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\SessionReminder\TokenCipher;
 use ILIAS\Data\Factory as DataFactory;
 
 if (!file_exists('../ilias.ini.php')) {
@@ -41,7 +42,8 @@ $DIC->http()->saveResponse(
         $DIC['ilClientIniFile'],
         $DIC->logger()->auth(),
         (new DataFactory())->clock()->utc(),
-        $DIC->settings()
+        $DIC->settings(),
+        TokenCipher::fromKeyFile()
     )
     )->handle()
 );

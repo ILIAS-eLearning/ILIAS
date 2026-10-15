@@ -32,7 +32,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $invalid_class = ilCtrlInvalidGuiClass::class;
         $path = new ilCtrlSingleClassPath(
             $this->structure,
-            $this->createMock(ilCtrlContextInterface::class),
+            $this->createStub(ilCtrlContextInterface::class),
             $invalid_class
         );
 
@@ -123,7 +123,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
     {
         $path = new ilCtrlSingleClassPath(
             $this->structure,
-            $this->createMock(ilCtrlContextInterface::class),
+            $this->createStub(ilCtrlContextInterface::class),
             ''
         );
 

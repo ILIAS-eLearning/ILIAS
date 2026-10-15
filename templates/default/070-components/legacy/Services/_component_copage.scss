@@ -277,7 +277,6 @@ div.ilTinyMenuSection, .il-copg-button-group {
 	p {
 		margin-bottom: 5px;
 		padding: 2px 5px;
-		background-color: darken($il-main-dark-bg, 4%);
 	}
 }
 
@@ -411,9 +410,6 @@ a.ilc_page_toc_PageTOCLink:hover {
 	color: $il-link-hover-color;
 }
 
-a.ilc_page_toc_PageTOCLink:visited {
-	color: $il-extended-color-6;
-}
 
 /* --- content styles (will move to content.css) --- */
 td.ilc_PageDisabled {
@@ -704,8 +700,8 @@ div.ilCOPGMediaPrint {
 #copg-editor-slate-content {
 	padding: $il-padding-xlarge-vertical 0px;
 
-	p {
-		padding: 0;
+	p:not([class^="ilc_text_block"]) {
+		padding: 0;	
 		margin: 5px 0;
 	}
 
@@ -808,24 +804,47 @@ p#copg-auto-save {
 #ed_datatable {
 
 	background-color: $il-main-bg;
+	border: 1px solid $il-main-darker-bg;
 
 	th {
 		background-color: $il-main-dark-bg;
-		.dropdown button {
-			background-color: $il-main-dark-bg;
-			text-align: center;
-			color: $il-text-color;
+		.dropdown {
+			button {
+				background-color: $il-main-dark-bg;
+				text-align: center;
+				color: $il-text-color;
+				width: 100%;
+				border: 0;
+			}
 			width: 100%;
-			border: 0;
+		}
+		cursor: pointer;
+	}
+	th[data-copg-ed-type="data-column-head"] {
+		.dropdown-menu {
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+	td {
+		cursor: pointer;
+	}
+	th:hover {
+		background-color: $il-main-darker-bg;
+		.btn {
+			background-color: $il-main-darker-bg;
 		}
 	}
 
-	th, td {
-		border: 1px solid #CCCCCC;
+	&.grid {
+		th, td {
+			border: 1px solid $il-main-darker-bg;
+		}
 	}
 
 	th {
 		vertical-align: middle;
+		padding: 3px;
 	}
 }
 

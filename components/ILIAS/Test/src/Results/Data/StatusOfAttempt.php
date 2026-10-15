@@ -28,9 +28,9 @@ enum StatusOfAttempt: string
     case RUNNING = 'running';
     case FINISHED_BY_UNKNOWN = 'finished_by_unknown';
     case FINISHED_BY_ADMINISTRATOR = 'finished_by_administrator';
+    case FINISHED_BY_CRONJOB = 'finished_by_cronjob';
     case FINISHED_BY_DURATION = 'finished_by_duration';
     case FINISHED_BY_PARTICIPANT = 'finished_by_participant';
-    case FINISHED_BY_CRONJOB = 'finished_by_cronjob';
 
     public function isFinished(): bool
     {

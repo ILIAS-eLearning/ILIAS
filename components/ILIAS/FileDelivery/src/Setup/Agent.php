@@ -28,14 +28,19 @@ use ILIAS\Setup\Objective;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\Config;
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Agent implements Setup\NamedAgent
 {
+    /**
+     * @param string|null $isolation_artefact path of the current isolation settings, for tests
+     */
     public function __construct(
         private readonly Refinery $refinery,
+        private readonly ?string $isolation_artefact = null,
     ) {
     }
 
@@ -63,7 +68,11 @@ class Agent implements Setup\NamedAgent
     {
         return $this->refinery->custom()->transformation(
             static function (?array $data): FileDeliverySetupConfig {
-                $data ??= [];
+                if ($data === null) {
+                    // no "content_isolation" section, e.g. a setup update with a
+                    // config.json of other components only
+                    return new FileDeliverySetupConfig(false, null, false);
+                }
 
                 return new FileDeliverySetupConfig(
                     (bool) ($data['activated'] ?? false),
@@ -111,8 +120,15 @@ class Agent implements Setup\NamedAgent
 
     private function buildIsolationObjective(?Config $config): Objective
     {
-        if (!$config instanceof FileDeliverySetupConfig) {
-            return new IsolationObjective();
+        // Without a config (e.g. "setup update" without config.json, as run by
+        // automated updates) the current settings are kept; writing the defaults
+        // would silently deactivate the isolation of an installation.
+        if (!$config instanceof FileDeliverySetupConfig || !$config->isIsolationConfigured()) {
+            $current = IsolationConfig::fromArtefact($this->isolation_artefact);
+            return new IsolationObjective(
+                $current->isActivated(),
+                $current->getContentDomain(),
+            );
         }
 
         return new IsolationObjective(

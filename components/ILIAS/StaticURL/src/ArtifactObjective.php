@@ -28,6 +28,7 @@ use ILIAS\Setup\Artifact;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
+ * @deprecated Handlers are now contributed via the component bootstrap mechanism using $contribute[Handler::class]. This artifact is no longer built or used at runtime.
  */
 class ArtifactObjective extends BuildArtifactObjective
 {

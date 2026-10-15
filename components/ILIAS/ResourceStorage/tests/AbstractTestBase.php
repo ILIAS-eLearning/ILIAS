@@ -40,7 +40,7 @@ abstract class AbstractTestBase extends TestCase
 {
     protected DummyIDGenerator $id_generator;
     /**
-     * @var \ilDBInterface|mixed|MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject&\ilDBInterface
      */
     protected MockObject $db_mock;
 
@@ -51,7 +51,7 @@ abstract class AbstractTestBase extends TestCase
     {
         parent::setUp();
         $this->id_generator = new DummyIDGenerator();
-        $this->db_mock = $this->getMockBuilder(\ilDBInterface::class)->getMock();
+        $this->db_mock = $this->createMock(\ilDBInterface::class);
     }
 
     protected function getDummyUploadResult(string $file_name, string $mime_type, int $size): UploadResult

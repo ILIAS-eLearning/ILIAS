@@ -797,8 +797,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             0,
             (int) $this->block_id
         );
-
-        if (is_string($hide_news_date) && $hide_news_date !== '') {
+        if (is_string($hide_news_date) && $hide_news_date !== "") {
             $hide_news_date = explode(" ", $hide_news_date);
         }
 
@@ -827,38 +826,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "hide_news_date"
             );
             $dt_prop->setRequired(true);
-            if (is_array($hide_news_date) && count($hide_news_date) === 2) {
-                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . $hide_news_date[1], IL_CAL_DATETIME));
+            if (isset($hide_news_date[0], $hide_news_date[1])) {
+                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . " " . $hide_news_date[1], IL_CAL_DATETIME));
             }
             $dt_prop->setShowTime(true);
             $hnpd->addSubItem($dt_prop);
 
             $this->settings_form->addItem($hnpd);
-        }
-
-        // default visibility
-        if ($enable_internal_rss && $this->getProperty("default_visibility_option")) {
-            $default_visibility = ilBlockSetting::_lookup(
-                $this->getBlockType(),
-                "default_visibility",
-                0,
-                (int) $this->block_id
-            );
-            if ($default_visibility == "") {
-                $default_visibility =
-                    ilNewsItem::_getDefaultVisibilityForRefId($this->std_request->getRefId());
-            }
-
-            // Default Visibility
-            $radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "default_visibility");
-            $radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
-            $radio_group->addOption($radio_option);
-            $radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
-            $radio_group->addOption($radio_option);
-            $radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
-            $radio_group->setRequired(false);
-            $radio_group->setValue($default_visibility);
-            $this->settings_form->addItem($radio_group);
         }
 
         // public notifications
@@ -895,11 +869,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     {
         global $DIC;
 
-        $std_request = $DIC->news()
-            ->internal()
-            ->gui()
-            ->standardRequest();
-
         $lng = $DIC->language();
         $block_id = $DIC->ctrl()->getContextObjId();
 
@@ -912,20 +881,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             0,
             $block_id
         );
-        $default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility", 0, $block_id);
-        if ($default_visibility == "") {
-            $default_visibility =
-                ilNewsItem::_getDefaultVisibilityForRefId($std_request->getRefId());
-        }
-        $radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "default_visibility");
-        $radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
-        $radio_group->addOption($radio_option);
-        $radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
-        $radio_group->addOption($radio_option);
-        $radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
-        $radio_group->setRequired(false);
-        $radio_group->setValue($default_visibility);
-        $a_input->addSubItem($radio_group);
 
         // extra rss feed
         if ($enable_internal_rss) {
@@ -978,13 +933,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $this->getBlockType(),
                     "public_feed",
                     $form->getInput("notifications_public_feed"),
-                    0,
-                    (int) $this->block_id
-                );
-                ilBlockSetting::_write(
-                    $this->getBlockType(),
-                    "default_visibility",
-                    $form->getInput("default_visibility"),
                     0,
                     (int) $this->block_id
                 );

@@ -26,6 +26,12 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
+use ILIAS\Forum\Posting\BindingDecision;
+use ILIAS\Forum\Posting\DbPlacementRepository;
+use ILIAS\Forum\Posting\DraftBindingGuard;
+use ILIAS\Forum\Posting\DraftPlacementRepository;
+use ILIAS\Forum\Posting\PostingBindingGuard;
+use ILIAS\Forum\Posting\PostingPlacementRepository;
 use ILIAS\Forum\Files\Access\AddressedAttachmentDelivery;
 use ILIAS\Forum\Files\Access\AttachmentAccessDenied;
 use ILIAS\Forum\Files\Access\AttachmentDelivery;
@@ -90,6 +96,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
     private readonly OwnershipRepository $attachment_ownership;
+    private readonly PostingPlacementRepository $posting_placement;
+    private readonly DraftPlacementRepository $draft_placement;
     private readonly ilLogger $attachment_logger;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
@@ -132,6 +140,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->objCurrentTopic = new ilForumTopic($this->retrieveThrPk(), $this->is_moderator);
         $this->requestAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
         $this->attachment_ownership = new DbOwnershipRepository($DIC->database());
+        $placement = new DbPlacementRepository($DIC->database());
+        $this->posting_placement = $placement;
+        $this->draft_placement = $placement;
         $this->attachment_logger = $DIC->logger()->root();
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
@@ -237,6 +248,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     {
         $forumId = ilObjForum::lookupForumIdByObjId($objId);
         if ($thread->getForumId() !== $forumId) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+    }
+
+    private function denyUnlessGranted(BindingDecision $decision): void
+    {
+        if (!$decision->isGranted()) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
     }
@@ -2668,6 +2686,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $draft = new ilForumPostDraft($this->user->getId(), $this->objCurrentPost->getId(), $this->retrieveDraftId());
         $this->checkDraftAccess($draft->getDraftId());
+        $this->denyUnlessGranted(
+            (new PostingBindingGuard($this->posting_placement))->decide(
+                $this->object->getId(),
+                $this->objCurrentTopic->getId(),
+                $this->objCurrentPost->getId()
+            )
+        );
+        $this->denyUnlessGranted(
+            (new DraftBindingGuard($this->draft_placement, $this->user->getId()))->decideReply(
+                $this->object->getId(),
+                $this->objCurrentTopic->getId(),
+                $this->objCurrentPost->getId(),
+                $draft->getDraftId()
+            )
+        );
 
         if ($use_replyform) {
             $oReplyEditForm = $this->getReplyEditForm();
@@ -2814,6 +2847,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->viewThreadObject();
                 return;
             }
+
+            $this->denyUnlessGranted(
+                (new PostingBindingGuard($this->posting_placement))->decide(
+                    $this->object->getId(),
+                    $this->objCurrentTopic->getId(),
+                    $this->objCurrentPost->getId()
+                )
+            );
 
             $oForumObjects = $this->getForumObjects();
             $forumObj = $oForumObjects['forumObj'];
@@ -3491,7 +3532,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
             if (
                 $firstNodeInThread instanceof ilForumPost && $doRenderDrafts &&
-                $this->selectedSorting === ilForumProperties::VIEW_TREE
+                $this->selectedSorting === ilForumProperties::VIEW_TREE &&
+                $firstNodeInThread->getLft() <= 1
             ) {
                 $this->renderDraftContent(
                     $threadContentTemplate,
@@ -3819,7 +3861,10 @@ EOD
             $this->ctrl->redirect($this, 'showThreads');
         }
 
-        if (!$this->access->checkAccess('read', '', (int) $frm_ref_id)) {
+        if ((int) $frm_ref_id === $this->object->getRefId()
+            || ilObject::_lookupType((int) $frm_ref_id, true) !== 'frm'
+            || !$this->access->checkAccess('read', '', (int) $frm_ref_id)
+            || !$this->access->checkAccess('moderate_frm', '', (int) $frm_ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -4281,6 +4326,12 @@ EOD
 
         $draft = ilForumPostDraft::newInstanceByDraftId($this->retrieveDraftId());
         $this->checkDraftAccess($draft);
+        $this->denyUnlessGranted(
+            (new DraftBindingGuard($this->draft_placement, $this->user->getId()))->decideUnboundThread(
+                $this->object->getId(),
+                $draft->getDraftId()
+            )
+        );
 
         $this->createThread($draft, true);
     }
@@ -4291,6 +4342,12 @@ EOD
         if (ilForumPostDraft::isSavePostDraftAllowed() && $this->retrieveDraftId() > 0) {
             $draft = ilForumPostDraft::newInstanceByDraftId($this->retrieveDraftId());
             $this->checkDraftAccess($draft);
+            $this->denyUnlessGranted(
+                (new DraftBindingGuard($this->draft_placement, $this->user->getId()))->decideUnboundThread(
+                    $this->object->getId(),
+                    $draft->getDraftId()
+                )
+            );
         }
 
         $this->createThread($draft);
@@ -5134,6 +5191,14 @@ EOD
                 $this->viewThreadObject();
                 return;
             }
+
+            $this->denyUnlessGranted(
+                (new PostingBindingGuard($this->posting_placement))->decide(
+                    $this->object->getId(),
+                    $this->objCurrentTopic->getId(),
+                    $this->objCurrentPost->getId()
+                )
+            );
 
             $oForumObjects = $this->getForumObjects();
             $frm = $oForumObjects['frm'];

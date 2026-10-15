@@ -22,6 +22,7 @@ namespace ILIAS\Notifications\Provider;
 
 use ilDateTime;
 use ILIAS\Awareness\User\Collector;
+use ILIAS\GlobalScreen\Client\Notifications;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\AbstractToastProvider;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard;
 use ILIAS\UI\Implementation\Component\Toast\Toast;
@@ -59,10 +60,15 @@ class AwarenessToastProvider extends AbstractToastProvider
         unset($users[$this->dic->user()->getId()], $users[ANONYMOUS_USER_ID]);
         $users = array_slice($users, 0, self::MAX_ONLINE_USER_COUNT, true);
 
+        $query = $this->dic->http()->request()->getQueryParams();
+        // a click on a toast action collects the toasts again, without a 'max_age'. The toast must
+        // then contain all online users, otherwise the action is not found and nothing happens.
+        $is_toast_action = ($query[Notifications::MODE] ?? null) === Notifications::MODE_HANDLE_TOAST_ACTION;
+
         $new_user_ids = [];
         foreach ($users as $id => $user) {
             $time = (new ilDateTime($user['last_login'], IL_CAL_DATETIME, $this->dic->user()->getTimeZone()))->getUnixTime();
-            if ($time >= (time() - ($this->dic->http()->request()->getQueryParams()['max_age'] ?? 0))) {
+            if ($is_toast_action || $time >= (time() - ($query['max_age'] ?? 0))) {
                 $new_user_ids[] = $id;
             }
         }
@@ -98,7 +104,7 @@ class AwarenessToastProvider extends AbstractToastProvider
                         self::PROVIDER_KEY . '_' . $user['id'],
                         $uname,
                         function () use ($user): void {
-                            $this->dic->ctrl()->redirectToURL('/goto.php?target=usr_' . $user['id']);
+                            $this->dic->ctrl()->redirectToURL('goto.php?target=usr_' . $user['id']);
                         }
                     )
                 );

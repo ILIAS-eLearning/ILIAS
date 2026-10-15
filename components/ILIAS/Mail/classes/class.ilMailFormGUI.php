@@ -522,10 +522,6 @@ class ilMailFormGUI
     {
         $this->saveMailBeforeSearch();
 
-        if (ilSession::get('search_crs')) {
-            $this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'cmd', 'showMembers');
-        }
-
         $this->ctrl->setParameterByClass(ilMailSearchCoursesGUI::class, 'ref', 'mail');
         $this->ctrl->redirectByClass(ilMailSearchCoursesGUI::class);
     }

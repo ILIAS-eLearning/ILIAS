@@ -24,9 +24,12 @@ use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\DI\Container;
 use ILIAS\HTTP\Agent\AgentDetermination;
 use ILIAS\HTTP\Duration\DurationFactory;
+use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
+use ILIAS\HTTP\Cookies\CookieJarFactory;
+use ILIAS\HTTP\Request\RequestFactory;
+use ILIAS\HTTP\Response\ResponseFactory;
 
 /**
  * Class Services
@@ -37,23 +40,32 @@ use ILIAS\HTTP\Duration\DurationFactory;
 class Services implements GlobalHttpState
 {
     protected GlobalHttpState $raw;
-    protected WrapperFactory $wrapper;
+    protected ?WrapperFactory $wrapper = null;
     protected AgentDetermination $agent;
 
     /**
      * Services constructor.
      */
-    public function __construct(Container $dic)
-    {
+    public function __construct(
+        RequestFactory $request_factory,
+        ResponseFactory $response_factory,
+        CookieJarFactory $cookie_jar,
+        ResponseSenderStrategy $response_sender_strategy,
+        DurationFactory $duration_factory,
+    ) {
         $this->raw = new RawHTTPServices(
-            $dic['http.response_sender_strategy'],
-            $dic['http.cookie_jar_factory'],
-            $dic['http.request_factory'],
-            $dic['http.response_factory'],
-            $dic['http.duration_factory']
+            $response_sender_strategy,
+            $cookie_jar,
+            $request_factory,
+            $response_factory,
+            $duration_factory
         );
-        $this->wrapper = new WrapperFactory($this->raw->request());
         $this->agent = new AgentDetermination();
+    }
+
+    public function sender(): ResponseSenderStrategy
+    {
+        return $this->raw()->sender();
     }
 
     public function durations(): DurationFactory
@@ -63,7 +75,7 @@ class Services implements GlobalHttpState
 
     public function wrapper(): WrapperFactory
     {
-        return $this->wrapper;
+        return $this->wrapper ?? $this->wrapper = new WrapperFactory($this->raw->request());
     }
 
     /**
