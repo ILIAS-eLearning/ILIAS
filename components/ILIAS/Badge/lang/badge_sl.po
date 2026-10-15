@@ -1,0 +1,258 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: badge\n"
+
+#, fuzzy
+msgid "awarded_by"
+msgstr "Awarded by"
+
+msgid "badge_activity_badges"
+msgstr "Značke dejavnosti"
+
+msgid "badge_add_template"
+msgstr "Dodaj predlogo"
+
+msgid "badge_add_to_profile"
+msgstr "Dodaj v profil"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "Ali res želite preklicati naslednje dodelitve značke za \"%s\"?"
+
+msgid "badge_award_badge"
+msgstr "Podeli značko"
+
+#, fuzzy
+msgid "badge_award_revoke"
+msgstr "Award/Revoke Badge"
+
+msgid "badge_badge"
+msgstr "Značka"
+
+msgid "badge_course_lp"
+msgstr "Tečaj LP"
+
+msgid "badge_course_lp_invalid"
+msgstr "Naslednji objekti uporabljajo nepodprt način učnega napredka: %s."
+
+#, fuzzy
+msgid "badge_create"
+msgstr "Create Badge"
+
+#, fuzzy
+msgid "badge_create_image_processing_failed"
+msgstr "The badge could not be created, an error occurred while processing the image."
+
+msgid "badge_criteria"
+msgstr "Kriteriji"
+
+msgid "badge_crs_merit"
+msgstr "Zasluge"
+
+#, fuzzy
+msgid "badge_deletion"
+msgstr "Badge successfully deleted."
+
+msgid "badge_deletion_confirmation"
+msgstr "Ali res želite izbrisati naslednje značke in vse njihove dodelitve?"
+
+msgid "badge_image_from_template"
+msgstr "Uporabi predlogo"
+
+msgid "badge_image_from_upload"
+msgstr "Naloži sliko"
+
+msgid "badge_image_template_form"
+msgstr "Predloga slike"
+
+msgid "badge_image_templates"
+msgstr "Predloge slik"
+
+msgid "badge_in_profile"
+msgstr "V profilu"
+
+msgid "badge_issued_on"
+msgstr "Prejeto dne"
+
+msgid "badge_lhist_badge_completed"
+msgstr "Značka $3$ je bila pridobljena."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "Značka $3$ je bila pridobljena v $1$."
+
+msgid "badge_manual"
+msgstr "Ročna podelitev"
+
+msgid "badge_new_badges"
+msgstr "You have %1 new badge(s)."
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "Trenutno ni aktivnih tipov značk. Ne morete ustvariti novih značk. Obrnite se na svojega administratorja."
+
+msgid "badge_notification_badges"
+msgstr "Nove značke"
+
+msgid "badge_notification_badges_goto"
+msgstr "Na značke"
+
+msgid "badge_notification_body"
+msgstr "Pravkar ste prejeli nove značke."
+
+msgid "badge_notification_osd"
+msgstr "Pravkar ste prejeli nove značke: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "Na magazin"
+
+msgid "badge_notification_reason"
+msgstr "To sporočilo ste prejeli, da bi lahko značke dodali v svoj profil."
+
+msgid "badge_notification_subject"
+msgstr "Značka je prejeta"
+
+msgid "badge_object_badges"
+msgstr "Značke objekta"
+
+msgid "badge_personal_badges"
+msgstr "Moje značke"
+
+msgid "badge_profile_less"
+msgstr "Pokaži manj"
+
+msgid "badge_profile_more"
+msgstr "Pokaži vse"
+
+msgid "badge_remove_badge"
+msgstr "Prekliči značko"
+
+msgid "badge_remove_from_profile"
+msgstr "Odstrani iz profila"
+
+#, fuzzy
+msgid "badge_select_one"
+msgstr "You have to select at least one badge"
+
+msgid "badge_service_activate"
+msgstr "Aktiviraj storitev"
+
+msgid "badge_service_activate_info"
+msgstr "Aktivirajte storitev, da bodo značke na voljo"
+
+msgid "badge_settings"
+msgstr "Nastavitve značke"
+
+#, fuzzy
+msgid "badge_sort_active_badges_first"
+msgstr "Active Badges First"
+
+#, fuzzy
+msgid "badge_sort_active_badges_last"
+msgstr "Active Badges Last"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_first"
+msgstr "Activity Badges First"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_last"
+msgstr "Activity Badges Last"
+
+#, fuzzy
+msgid "badge_sort_added_to_profile_last"
+msgstr "Added To Profile First"
+
+#, fuzzy
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "Excluded From Profile First"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_first"
+msgstr "Badges mit manueller Vergabe zuerst"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_last"
+msgstr "Badges mit manueller Vergabe zuletzt"
+
+msgid "badge_subtype_auto"
+msgstr "samodejno"
+
+msgid "badge_subtype_manual"
+msgstr "ročno"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "Ali res želite izbrisati naslednje predloge slik?"
+
+msgid "badge_template_types"
+msgstr "Veljavni tipi"
+
+msgid "badge_template_types_all"
+msgstr "Vsi"
+
+msgid "badge_template_types_specific"
+msgstr "Določene"
+
+msgid "badge_types"
+msgstr "Tip"
+
+#, fuzzy
+msgid "badge_update_image_processing_failed"
+msgstr "The badge could not be updated, an error occurred while processing the image."
+
+#, fuzzy
+msgid "badge_uploaded_image_file_not_found"
+msgstr "No uploaded image for the badge could be found."
+
+msgid "badge_user_profile"
+msgstr "Uporabniški profil"
+
+msgid "badge_valid"
+msgstr "Veljavno do"
+
+#, fuzzy
+msgid "criteria"
+msgstr "Criteria"
+
+#, fuzzy
+msgid "endless"
+msgstr "Always"
+
+#, fuzzy
+msgid "issued_on"
+msgstr "Issued on"
+
+#, fuzzy
+msgid "position_updated"
+msgstr "Profil assignment updated."
+
+#, fuzzy
+msgid "sort_by_date_asc"
+msgstr "Sort by Date Ascending"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "Sort by Date Descending"
+
+#, fuzzy
+msgid "sort_by_title_asc"
+msgstr "Sort by Title Ascending"
+
+#, fuzzy
+msgid "sort_by_title_desc"
+msgstr "Sort by Title Descending"
+
+#, fuzzy
+msgid "table_view"
+msgstr "Table View"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+#, fuzzy
+msgid "valid_until"
+msgstr "Valid until"

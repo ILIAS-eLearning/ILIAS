@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: badge\n"
+
+msgid "awarded_by"
+msgstr "Odaítélte"
+
+msgid "badge_activity_badges"
+msgstr "Aktivitás érdemérmek"
+
+msgid "badge_add_template"
+msgstr "Sablon létrehozása"
+
+msgid "badge_add_to_profile"
+msgstr "Hozzáadás a Profilhoz"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "Biztos, hogy visszavonja az alábbi érdemérmet a következőktől: ‘%s’?"
+
+msgid "badge_award_badge"
+msgstr "Érdemérem odaítélése"
+
+msgid "badge_award_revoke"
+msgstr "Érdemérem odaítélése/visszavonása"
+
+msgid "badge_badge"
+msgstr "Érdemérem"
+
+msgid "badge_course_lp"
+msgstr "Kurzushaladás"
+
+msgid "badge_course_lp_invalid"
+msgstr "Az alábbi objektumok tanulási haladásának módja nem támogatott: %s."
+
+msgid "badge_create"
+msgstr "Érdemérem létrehozása"
+
+msgid "badge_create_image_processing_failed"
+msgstr "Az érdemérmet nem sikerült létrehozni, hiba történt a kép feldolgozása közben."
+
+msgid "badge_criteria"
+msgstr "Kritérium"
+
+msgid "badge_crs_merit"
+msgstr "Érdem"
+
+msgid "badge_deletion"
+msgstr "Az érdemérmet sikeresen törölte."
+
+msgid "badge_deletion_confirmation"
+msgstr "Biztos, hogy törli az alábbi érdemérmeket? Evvel törlöd a felhasználók által megszerzett vagy nekik odaítélt érdemérmeket is."
+
+msgid "badge_image_from_template"
+msgstr "Sablon használata"
+
+msgid "badge_image_from_upload"
+msgstr "Kép feltöltése"
+
+msgid "badge_image_template_form"
+msgstr "Képsablon"
+
+msgid "badge_image_templates"
+msgstr "Képsablonok"
+
+msgid "badge_in_profile"
+msgstr "Profilban"
+
+msgid "badge_issued_on"
+msgstr "Kiállítás dátuma"
+
+msgid "badge_lhist_badge_completed"
+msgstr "$3$ érdemérmet elnyerte."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "$3$ érdemérmet elnyerte $1$ alatt."
+
+msgid "badge_manual"
+msgstr "Manuális odaítélés"
+
+msgid "badge_new_badges"
+msgstr "%1 új érdemérme van."
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "Nem hozhat létre új érdemérmet, mert egy aktív érdemérem-típus sem érhető el. Keresse a rendszergazdát."
+
+msgid "badge_notification_badges"
+msgstr "Új érdemérem"
+
+msgid "badge_notification_badges_goto"
+msgstr "Érdemérmeimhez"
+
+msgid "badge_notification_body"
+msgstr "ezúton értesítjük, hogy új érdemérmet kapott."
+
+msgid "badge_notification_osd"
+msgstr "Új érdemérmet kapott: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "Tartalomtárhoz"
+
+msgid "badge_notification_reason"
+msgstr "Profilodhoz új vagy meglévő érdemérmeket a ‘Teljesítmények’ / ‘Érdemérmek’ menüpontban (lásd a fenti link) adhatsz."
+
+msgid "badge_notification_subject"
+msgstr "Érdemérmet kapott"
+
+msgid "badge_object_badges"
+msgstr "Érdemérem-objektumok"
+
+msgid "badge_personal_badges"
+msgstr "Érdemérmeim"
+
+msgid "badge_profile_less"
+msgstr "Kevesebb megjelenítése"
+
+msgid "badge_profile_more"
+msgstr "Összes megjelenítése"
+
+msgid "badge_remove_badge"
+msgstr "Érdemérem visszavonása"
+
+msgid "badge_remove_from_profile"
+msgstr "Eltávolítás a Profilból"
+
+msgid "badge_select_one"
+msgstr "Legalább egy érdemérmet ki kell választania"
+
+msgid "badge_service_activate"
+msgstr "Szolgáltatás bekapcsolása"
+
+msgid "badge_service_activate_info"
+msgstr "A szolgáltatás bekapcsolása érdemérmek elérhetővé tételéhez"
+
+msgid "badge_settings"
+msgstr "Érdemérem beállításai"
+
+msgid "badge_sort_active_badges_first"
+msgstr "Aktív érdemérmék előre"
+
+msgid "badge_sort_active_badges_last"
+msgstr "Aktív érdemérmék hátra"
+
+msgid "badge_sort_activity_badges_first"
+msgstr "Aktivitás érdemérmék előre"
+
+msgid "badge_sort_activity_badges_last"
+msgstr "Aktivitás érdemérmék hátra"
+
+msgid "badge_sort_added_to_profile_last"
+msgstr "A profilhoz hozzárendeltek előre"
+
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "A profilból kizátrak előre"
+
+msgid "badge_sort_manual_awarding_first"
+msgstr "Manuális hozzárendelésű érdemérmék előre"
+
+msgid "badge_sort_manual_awarding_last"
+msgstr "Manuális hozzárendelésű érdemérmék hátra"
+
+msgid "badge_subtype_auto"
+msgstr "Automatikus"
+
+msgid "badge_subtype_manual"
+msgstr "Manuális"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "Biztos, hogy törli a következő képsablont?"
+
+msgid "badge_template_types"
+msgstr "Érdemérem-típus kiosztása"
+
+msgid "badge_template_types_all"
+msgstr "Összes"
+
+msgid "badge_template_types_specific"
+msgstr "Specifikus"
+
+msgid "badge_types"
+msgstr "Típusok"
+
+msgid "badge_update_image_processing_failed"
+msgstr "Az érdemérmet nem sikerült módosítani, hiba történt a kép feldolgozása közben."
+
+msgid "badge_uploaded_image_file_not_found"
+msgstr "Nem található az érdeméremhez feltöltött kép."
+
+msgid "badge_user_profile"
+msgstr "Felhasználói profil"
+
+msgid "badge_valid"
+msgstr "Érvényes eddig"
+
+msgid "criteria"
+msgstr "Feltétel"
+
+msgid "endless"
+msgstr "Örökké"
+
+msgid "issued_on"
+msgstr "Kiállítás időpontja"
+
+msgid "position_updated"
+msgstr "A profil összerendelését sikeresen módosította."
+
+msgid "sort_by_date_asc"
+msgstr "Dátum ↑"
+
+msgid "sort_by_date_desc"
+msgstr "Dátum ↓"
+
+msgid "sort_by_title_asc"
+msgstr "Cím A→Z"
+
+msgid "sort_by_title_desc"
+msgstr "Cím Z→A"
+
+msgid "table_view"
+msgstr "Táblázatos nézet"
+
+msgid "tile_view"
+msgstr "Csempe nézet"
+
+msgid "valid_until"
+msgstr "Érvényes eddig"

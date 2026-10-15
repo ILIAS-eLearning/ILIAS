@@ -1,0 +1,260 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: badge\n"
+
+#, fuzzy
+msgid "awarded_by"
+msgstr "Awarded by"
+
+msgid "badge_activity_badges"
+msgstr "Баджове за активност"
+
+msgid "badge_add_template"
+msgstr "Прибавяне на шаблон"
+
+msgid "badge_add_to_profile"
+msgstr "Прибавяне към профила"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "Сигурни ли сте, че искате да отмените следните назначения на значки за \"%s\"?"
+
+msgid "badge_award_badge"
+msgstr "Награден знак"
+
+#, fuzzy
+msgid "badge_award_revoke"
+msgstr "Award/Revoke Badge"
+
+msgid "badge_badge"
+msgstr "Значка"
+
+msgid "badge_course_lp"
+msgstr "Напредък в обучението по курса"
+
+msgid "badge_course_lp_invalid"
+msgstr "Следващите обекти имат режим LP, който не се поддържа: %s."
+
+#, fuzzy
+msgid "badge_create"
+msgstr "Create Badge"
+
+#, fuzzy
+msgid "badge_create_image_processing_failed"
+msgstr "The badge could not be created, an error occurred while processing the image."
+
+msgid "badge_criteria"
+msgstr "Критерий"
+
+msgid "badge_crs_merit"
+msgstr "Заслуга"
+
+#, fuzzy
+msgid "badge_deletion"
+msgstr "Badge successfully deleted."
+
+msgid "badge_deletion_confirmation"
+msgstr "Сигурни ли сте, че искате да изтриете следните значки и всичките им съответни назначения?"
+
+msgid "badge_image_from_template"
+msgstr "Използвайте шаблона"
+
+msgid "badge_image_from_upload"
+msgstr "Закачване на изображение"
+
+msgid "badge_image_template_form"
+msgstr "Шаблон на изображение"
+
+msgid "badge_image_templates"
+msgstr "Шаблони за изображения"
+
+msgid "badge_in_profile"
+msgstr "В профила"
+
+msgid "badge_issued_on"
+msgstr "Издадена на"
+
+msgid "badge_lhist_badge_completed"
+msgstr "Създадена е значка $3$."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "Баджа $3$ е присъдена през $1$."
+
+msgid "badge_manual"
+msgstr "Мануално връчване"
+
+msgid "badge_new_badges"
+msgstr " Имате %1 нова(и) значка(и)."
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "В момента няма активни типове значки. Не можете да създавате нови значки. Свържете се с вашия администратор."
+
+msgid "badge_notification_badges"
+msgstr "Нови значки"
+
+msgid "badge_notification_badges_goto"
+msgstr " Към вашите значки"
+
+msgid "badge_notification_body"
+msgstr " току-що получихте нови значки."
+
+msgid "badge_notification_osd"
+msgstr " Току-що получихте нови значки: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "За хранилище"
+
+msgid "badge_notification_reason"
+msgstr "Получавате това съобщение, за да можете да добавите значките в профила си."
+
+msgid "badge_notification_subject"
+msgstr "Получени значки"
+
+msgid "badge_object_badges"
+msgstr "Значки за обекти"
+
+msgid "badge_personal_badges"
+msgstr "Моите значки"
+
+msgid "badge_profile_less"
+msgstr "Покажи по-малко"
+
+msgid "badge_profile_more"
+msgstr "Показване на всички"
+
+msgid "badge_remove_badge"
+msgstr "Отмяна на значката"
+
+msgid "badge_remove_from_profile"
+msgstr "Отстраняване от профила"
+
+#, fuzzy
+msgid "badge_select_one"
+msgstr "You have to select at least one badge"
+
+msgid "badge_service_activate"
+msgstr "Активиране на услугата"
+
+msgid "badge_service_activate_info"
+msgstr "Активиране на услугата за предоставяне на баджове"
+
+msgid "badge_settings"
+msgstr "Настройки на значката"
+
+#, fuzzy
+msgid "badge_sort_active_badges_first"
+msgstr "Active Badges First"
+
+#, fuzzy
+msgid "badge_sort_active_badges_last"
+msgstr "Active Badges Last"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_first"
+msgstr "Activity Badges First"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_last"
+msgstr "Activity Badges Last"
+
+#, fuzzy
+msgid "badge_sort_added_to_profile_last"
+msgstr "Added To Profile First"
+
+#, fuzzy
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "Excluded From Profile First"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_first"
+msgstr "Badges mit manueller Vergabe zuerst"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_last"
+msgstr "Badges mit manueller Vergabe zuletzt"
+
+#, fuzzy
+msgid "badge_subtype_auto"
+msgstr "автоматично"
+
+msgid "badge_subtype_manual"
+msgstr "manual"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "Сигурни ли сте, че искате да изтриете следните шаблони за изображения?"
+
+msgid "badge_template_types"
+msgstr "Валидни типове"
+
+msgid "badge_template_types_all"
+msgstr "All"
+
+msgid "badge_template_types_specific"
+msgstr "Specific"
+
+#, fuzzy
+msgid "badge_types"
+msgstr "Видове"
+
+#, fuzzy
+msgid "badge_update_image_processing_failed"
+msgstr "The badge could not be updated, an error occurred while processing the image."
+
+#, fuzzy
+msgid "badge_uploaded_image_file_not_found"
+msgstr "No uploaded image for the badge could be found."
+
+msgid "badge_user_profile"
+msgstr "Профил на потребителя"
+
+msgid "badge_valid"
+msgstr " Валидно до"
+
+#, fuzzy
+msgid "criteria"
+msgstr "Criteria"
+
+#, fuzzy
+msgid "endless"
+msgstr "Always"
+
+#, fuzzy
+msgid "issued_on"
+msgstr "Issued on"
+
+#, fuzzy
+msgid "position_updated"
+msgstr "Profil assignment updated."
+
+#, fuzzy
+msgid "sort_by_date_asc"
+msgstr "Sort by Date Ascending"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "Sort by Date Descending"
+
+#, fuzzy
+msgid "sort_by_title_asc"
+msgstr "Sort by Title Ascending"
+
+#, fuzzy
+msgid "sort_by_title_desc"
+msgstr "Sort by Title Descending"
+
+#, fuzzy
+msgid "table_view"
+msgstr "Table View"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+#, fuzzy
+msgid "valid_until"
+msgstr "Valid until"
