@@ -73,8 +73,28 @@ final class ShippedTranslations
         ?callable $on_markup_violation = null,
         ?callable $on_invalid_plural_forms = null
     ): array {
-        return self::compileCatalog(
+        return $this->compileShippedCatalog(
             TranslationCatalog::fromPoFile($shipped_po),
+            $module,
+            $on_markup_violation,
+            $on_invalid_plural_forms
+        );
+    }
+
+    /**
+     * @param (callable(string $identifier, list<string> $violations): void)|null $on_markup_violation see compile()
+     * @param (callable(string $message): void)|null $on_invalid_plural_forms see compile()
+     * @return array{mo: string, values: array<string, string>} see compile()
+     * @throws RuntimeException if the messages cannot be compiled
+     */
+    public function compileShippedCatalog(
+        TranslationCatalog $shipped,
+        string $module,
+        ?callable $on_markup_violation = null,
+        ?callable $on_invalid_plural_forms = null
+    ): array {
+        return self::compileCatalog(
+            $shipped,
             $module,
             true,
             fn(string $value, string $key): string => $this->sanitized($value, $key, $on_markup_violation),
