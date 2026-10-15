@@ -2423,42 +2423,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
-cntr#:#cntr_add_new_item#:#Dodaj nov objekt
-cntr#:#cntr_adopt_content#:#Prevzemi vsebino
-cntr#:#cntr_container_only_on_their_own#:#Kategorije, tečaji, skupine, mape in študijski programi se lahko kopirajo samo posamezno. Izberite samo en tak objekt.
-cntr#:#cntr_copy_crs_grp#:#Izbira članstev
-cntr#:#cntr_copy_repo_tree#:#Izbira drevesa magazina
-cntr#:#cntr_hide_title_and_icon#:#Ne prikaži imena in ikone
-cntr#:#cntr_manage#:#Upravljaj
-cntr#:#cntr_ordering#:#Razvrstitev
-cntr#:#cntr_saved_sorting#:#Razvrstitev je shranjena
-cntr#:#cntr_switch_to_new_editor_cmd#:#Zamenjaj na spodnjo vsebino. Stara vsebina bo izbrisana.
-cntr#:#cntr_switch_to_new_editor_message#:#To je privzet urejevalnik strani. Če ga želite uporabiti, morate vsebino s klikom dodati na rezervirana mesta spodaj. Če kliknete na naslednjo povezavo, bo spodnja vsebina uporabljena za prikaz strani.
-cntr#:#cntr_switched_editor#:#Preklopljeno na nov prikaz
-cntr#:#cntr_tax_none_available#:#Ni razpoložljivih taksonomij.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###26 08 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Definicija taksonomije
-cntr#:#cntr_taxonomy_show_sideblock#:#Prikaži taksonomijo v bloku strani
-cntr#:#cntr_taxonomy_sideblock_settings#:#Nastavitve predstavitve
-cntr#:#cntr_text_media_editor#:#Oblikuj stran
-cntr#:#cntr_view_by_type#:#Razvrščeno v skupine glede na tip
-cntr#:#cntr_view_info_by_type#:#Vsi objekti določenega tipa bodo prikazani v ločenem seznamu.
-cntr#:#cntr_view_info_sessions#:#Seje bodo prikazane v ločenem seznamu. Na seznamu bodo prikazani tudi objekti, ki niso dodeljeni nobenim sejam.
-cntr#:#cntr_view_info_simple#:#Vsi objekti bodo prikazani v enem seznamu.
-cntr#:#cntr_view_sessions#:#Pogled seje
-cntr#:#cntr_view_simple#:#Enostaven seznam
-cntr#:#container_import_zip_file_invalid#:#Naložena datoteka ni veljaven izvoz ILIAS. Za nalaganje struktur seznamov uporabite datotečni objekt.
-cntr#:#edit_questions#:#Uredi vprašanja
-cntr#:#exc_next_deadline_single#:#Rok za oddajo
-cntr#:#msg_no_downloadable_objects#:#Najden ni bil noben objekt za prenos.
-cntr#:#objects_duplicated#:#Objekti so bili kopirani.
-cntr#:#prtf_create_portfolio_from_template#:#Ustvari portfelj iz predloge
-cntr#:#sorting_new_items_at_bottom#:#Spodaj
-cntr#:#sorting_new_items_at_top#:#Zgoraj
-cntr#:#sorting_new_items_direction#:#Smer za razvrstitev novih objektov
-cntr#:#sorting_new_items_order#:#Vrstni red novih objektov
-cntr#:#sorting_new_items_position#:#Položaj novih objektov
-cntr#:#tab_back_to_repository#:#Nazaj na magazin
 common#:#HH#:#UU:MM
 common#:#absolute_path#:#Absolutna pot
 common#:#accept_usr_agreement_btn#:#Accept###19 08 2022 new variable

@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Ajouter un nouvel objet"
+
+msgid "cntr_adopt_content"
+msgstr "Adopter Contenu"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Veuillez ne sélectionner qu'un objet."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Mes cours et mes groupes"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Arborescence du Catalogue"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Masquer titre et icone"
+
+msgid "cntr_manage"
+msgstr "Gérer"
+
+msgid "cntr_ordering"
+msgstr "Classer"
+
+msgid "cntr_saved_sorting"
+msgstr "Classement Enregistré."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Basculer à  cette page pour la présentation"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Ceci est l'éditeur standard. Veuillez l'utiliser pour mettre à  jour le contenu de la page. Si vous cliquez sur le lien suivant, le contenu de la présentation dans le catalogue sera basculer de l'ancien éditeur dans cette page."
+
+msgid "cntr_switched_editor"
+msgstr "Nouveau contenu adopté."
+
+msgid "cntr_tax_none_available"
+msgstr "Il n’y a plus de taxonomies de disponibles."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Définition de la Taxinomie"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Afficher la taxonomie dans le bloc latéral"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Paramètres du bloc Taxonomie"
+
+msgid "cntr_text_media_editor"
+msgstr "Editer la page"
+
+msgid "cntr_view_by_type"
+msgstr "Vue regroupement par type"
+
+msgid "cntr_view_info_by_type"
+msgstr "Cette présentation groupe tous les objets par type."
+
+msgid "cntr_view_info_sessions"
+msgstr "Cette présentation regroupe les sessions en premier, puis les autres objets du cours."
+
+msgid "cntr_view_info_simple"
+msgstr "Cette présentation liste tous les objets dans un seul bloc."
+
+msgid "cntr_view_sessions"
+msgstr "Vue sessions"
+
+msgid "cntr_view_simple"
+msgstr "Vue simplifiée"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Le fichier déposé n'est pas valide. Pour importer une structure de dossiers, veuillez utiliser l'objet Fichier."
+
+msgid "edit_questions"
+msgstr "Editer Questions"
+
+msgid "exc_next_deadline_single"
+msgstr "Echéance"
+
+msgid "msg_no_downloadable_objects"
+msgstr "No downloadable objects found."
+
+msgid "objects_duplicated"
+msgstr "Objets copiés"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Créer Portfolio Depuis Modèle"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "En Bas"
+
+msgid "sorting_new_items_at_top"
+msgstr "En Haut"
+
+msgid "sorting_new_items_direction"
+msgstr "Choix du Tri des Nouveaux Objets"
+
+msgid "sorting_new_items_order"
+msgstr "Ordre des Nouveaux Objets"
+
+msgid "sorting_new_items_position"
+msgstr "Position des Nouveaux Objets"
+
+msgid "tab_back_to_repository"
+msgstr "Retour au Catalogue"

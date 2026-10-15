@@ -2429,42 +2429,6 @@ cmix#:#use_fetch_info#:#Siempre que el recurso admita esta opción, debería uti
 cmix#:#xapi_statements_fetched_successfully#:#Los resultados del Learning Record Store se han obtenido correctamente
 cmix#:#xapi_statements_last_fetch_date#:#Última obtención de resultados:
 cmix#:#xapi_statements_not_fetched_yet#:#Aún no se han obtenido los resultados del Learning Record Store
-cntr#:#cntr_add_new_item#:#Añadir nuevo objeto
-cntr#:#cntr_adopt_content#:#Adoptar contenido
-cntr#:#cntr_container_only_on_their_own#:#Las categorías, cursos, grupos, carpetas, secuencias de aprendizaje o programas de estudio solo pueden copiarse como objetos individuales. Por favor, seleccione solo un elemento.
-cntr#:#cntr_copy_crs_grp#:#Mis cursos y grupos
-cntr#:#cntr_copy_repo_tree#:#Árbol del repositorio
-cntr#:#cntr_hide_title_and_icon#:#Ocultar título e icono
-cntr#:#cntr_manage#:#Gestionar
-cntr#:#cntr_ordering#:#Ordenación
-cntr#:#cntr_saved_sorting#:#Ordenación guardada.
-cntr#:#cntr_switch_to_new_editor_cmd#:#Cambiar al nuevo contenido de esta página. El contenido antiguo será eliminado.
-cntr#:#cntr_switch_to_new_editor_message#:#Este es el editor estándar soportado. El contenido del editor antiguo no puede transferirse. Por favor, comience a añadir nuevo contenido de página a continuación. Si hace clic en el siguiente enlace, se utilizará el nuevo contenido.
-cntr#:#cntr_switched_editor#:#Se ha cambiado al nuevo contenido.
-cntr#:#cntr_tax_none_available#:#No hay taxonomías disponibles.
-cntr#:#cntr_tax_settings_info#:#Las taxonomías en las categorías clasifican y filtran los objetos contenidos en la categoría. Después de añadir taxonomías, las clasificaciones pueden realizarse a través de las pestañas "Metadatos" y las subpestañas "Asignación de taxonomía" de los respectivos objetos. Las taxonomías pueden mostrarse adicionalmente en el bloque lateral de la pestaña "Contenidos" de la categoría para permitir el filtrado directo de los objetos asignados.
-cntr#:#cntr_taxonomy_definitions#:#Definición de taxonomía
-cntr#:#cntr_taxonomy_show_sideblock#:#Presentar en el panel lateral
-cntr#:#cntr_taxonomy_sideblock_settings#:#Ajustes de presentación
-cntr#:#cntr_text_media_editor#:#Editar página
-cntr#:#cntr_view_by_type#:#Vista agrupada por tipo
-cntr#:#cntr_view_info_by_type#:#Esta presentación de contenido agrupa todos los elementos por tipo de recurso.
-cntr#:#cntr_view_info_sessions#:#Esta presentación de contenido agrupa primero todas las sesiones. Después se listan los otros contenidos del curso.
-cntr#:#cntr_view_info_simple#:#Esta presentación de contenido lista todos los elementos en un solo bloque.
-cntr#:#cntr_view_sessions#:#Vista de sesiones
-cntr#:#cntr_view_simple#:#Vista simple
-cntr#:#container_import_zip_file_invalid#:#El archivo subido no es un archivo de exportación de ILIAS válido. Para subir una estructura de directorios, por favor use un objeto de archivo.
-cntr#:#edit_questions#:#Editar preguntas
-cntr#:#exc_next_deadline_single#:#Fecha límite
-cntr#:#msg_no_downloadable_objects#:#No se encontraron objetos descargables.
-cntr#:#objects_duplicated#:#Objetos copiados
-cntr#:#prtf_create_portfolio_from_template#:#Crear portafolio a partir de plantilla
-cntr#:#sorting_new_items_at_bottom#:#Abajo
-cntr#:#sorting_new_items_at_top#:#Arriba
-cntr#:#sorting_new_items_direction#:#Dirección de ordenación para nuevos objetos
-cntr#:#sorting_new_items_order#:#Disposición de nuevos objetos
-cntr#:#sorting_new_items_position#:#Posición de nuevos objetos
-cntr#:#tab_back_to_repository#:#Volver al Repositorio
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Ruta absoluta
 common#:#accept_usr_agreement_btn#:#Aceptar

@@ -2423,42 +2423,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###04 06 2021 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###04 06 2021 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###04 06 2021 new variable
-cntr#:#cntr_add_new_item#:#Dodaj novu stavku
-cntr#:#cntr_adopt_content#:#Preuzmi sadržaj
-cntr#:#cntr_container_only_on_their_own#:#Kategorije, tečajevi, grupe, mape ili studijski programi mogu se kopirati samo kao pojedinačni objekti. Odaberite samo jednu stavku.
-cntr#:#cntr_copy_crs_grp#:#Moji tečajevi i grupe
-cntr#:#cntr_copy_repo_tree#:#Stablo repozitorija
-cntr#:#cntr_hide_title_and_icon#:#Sakrij naslov i ikonu
-cntr#:#cntr_manage#:#Upravljaj
-cntr#:#cntr_ordering#:#Sortiranje
-cntr#:#cntr_saved_sorting#:#Sortiranje spremljeno.
-cntr#:#cntr_switch_to_new_editor_cmd#:#Prebacite se na novi sadržaj ove stranice. Stari će se sadržaj ukloniti.
-cntr#:#cntr_switch_to_new_editor_message#:#Ovo je podržani standardni urednik. Sadržaj iz starog urednika ne može se prenijeti. Počnite dodavati novi sadržaj stranice u nastavku. Ako kliknete sljedeću poveznicu, koristit će se novi sadržaj.
-cntr#:#cntr_switched_editor#:#Prebačen na novi sadržaj.
-cntr#:#cntr_tax_none_available#:#Ne postoje dostupne taksonomije.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###26 08 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Definicija taksonomije
-cntr#:#cntr_taxonomy_show_sideblock#:#Prikaži taksonomiju u bočnom bloku
-cntr#:#cntr_taxonomy_sideblock_settings#:#Postavke prezentacije
-cntr#:#cntr_text_media_editor#:#Prilagodi stranicu
-cntr#:#cntr_view_by_type#:#Prikaz grupiran po tipu
-cntr#:#cntr_view_info_by_type#:#Ova prezentacija sadržaja grupira sve stavke prema vrsti resursa.
-cntr#:#cntr_view_info_sessions#:#Ova prezentacija sadržaja prvo grupira sve sesije. Nakon toga se navodi drugi sadržaj tečaja.
-cntr#:#cntr_view_info_simple#:#Ova prezentacija sadržaja navodi sve stavke u jednom bloku.
-cntr#:#cntr_view_sessions#:#Prikaz sesije
-cntr#:#cntr_view_simple#:#Jednostavan prikaz
-cntr#:#container_import_zip_file_invalid#:#Učitana datoteka nije važeća datoteka za izvoz ILIAS-a. Kako biste učitali strukturu direktorija, koristite objekt datoteke.
-cntr#:#edit_questions#:#Uredi pitanja
-cntr#:#exc_next_deadline_single#:#Rok
-cntr#:#msg_no_downloadable_objects#:#Nisu pronađeni objekti za preuzimanje.
-cntr#:#objects_duplicated#:#Objekti su kopirani
-cntr#:#prtf_create_portfolio_from_template#:#Izradi portfelj iz predloška
-cntr#:#sorting_new_items_at_bottom#:#Dno
-cntr#:#sorting_new_items_at_top#:#Vrh
-cntr#:#sorting_new_items_direction#:#Smjer za sortiranje novih objekata
-cntr#:#sorting_new_items_order#:#Redoslijed novih objekata
-cntr#:#sorting_new_items_position#:#Položaj za nove objekte
-cntr#:#tab_back_to_repository#:#Natrag na repozitorij
 common#:#HH#:#HH: MM
 common#:#absolute_path#:#Apsolutni put
 common#:#accept_usr_agreement_btn#:#Accept###04 06 2021 new variable

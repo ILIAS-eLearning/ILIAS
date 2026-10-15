@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Neues Objekt hinzufügen"
+
+msgid "cntr_adopt_content"
+msgstr "Inhalte übernehmen"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Kategorien, Kurse, Gruppen, Ordner, Lernsequenzen und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Auswahl Mitgliedschaften"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Auswahl Magazinbaum"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Titel und Icon nicht anzeigen"
+
+msgid "cntr_manage"
+msgstr "Verwalten"
+
+msgid "cntr_ordering"
+msgstr "Sortieren"
+
+msgid "cntr_saved_sorting"
+msgstr "Sortierung gespeichert"
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht."
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Klick auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die unterstehenden Inhalte für die Seitendarstellung genutzt."
+
+msgid "cntr_switched_editor"
+msgstr "Auf neue Darstellung umgestellt"
+
+msgid "cntr_tax_none_available"
+msgstr "Es gibt keine verfügbaren Taxonomien."
+
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomien in Kategorien klassifizieren und filtern die in der Kategorie enthaltenen Objekte. Nach dem Hinzufügen von Taxonomien können über die Reiter „Metadaten“ und die Unterreiter „Taxonomiezuordnung“ der jeweiligen Objekte Klassifizierungen vorgenommen werden. Taxonomien können zusätzlich im Seitenblock des Reiters „Inhalt“ der Kategorie angezeigt werden, um ein direktes Filtern der zugeordneten Objekte zu ermöglichen."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Taxonomien"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Taxonomie im Seitenblock darstellen"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Präsentationseinstellungen"
+
+msgid "cntr_text_media_editor"
+msgstr "Seite bearbeiten"
+
+msgid "cntr_view_by_type"
+msgstr "Gruppiert nach Typen"
+
+msgid "cntr_view_info_by_type"
+msgstr "Alle Objekte eines Typs werden in einer eigenen Liste dargestellt."
+
+msgid "cntr_view_info_sessions"
+msgstr "Sitzungen werden in einer eigenen Liste angezeigt. Objekte, die keinen Sitzungen zugeordnet sind, werden darunter aufgelistet."
+
+msgid "cntr_view_info_simple"
+msgstr "Alle Objekte werden in einer einzigen Liste dargestellt."
+
+msgid "cntr_view_sessions"
+msgstr "Sitzungsansicht"
+
+msgid "cntr_view_simple"
+msgstr "Einfache Liste"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Die hochgeladene Datei ist keine gültige ILIAS-Exportdatei. Um Verzeichnisstrukturen hochzuladen, benutzen Sie bitte ein Datei-Objekt."
+
+msgid "edit_questions"
+msgstr "Fragen bearbeiten"
+
+msgid "exc_next_deadline_single"
+msgstr "Abgabefrist"
+
+msgid "msg_no_downloadable_objects"
+msgstr "Keine herunterladbaren Objekte gefunden."
+
+msgid "objects_duplicated"
+msgstr "Die Objekte wurden kopiert."
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Portfolio aus Vorlage erstellen"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Unten"
+
+msgid "sorting_new_items_at_top"
+msgstr "Oben"
+
+msgid "sorting_new_items_direction"
+msgstr "Ausrichtung neuer Objekte"
+
+msgid "sorting_new_items_order"
+msgstr "Reihenfolge"
+
+msgid "sorting_new_items_position"
+msgstr "Einfügen neuer Objekte"
+
+msgid "tab_back_to_repository"
+msgstr "Zurück zum Magazin"

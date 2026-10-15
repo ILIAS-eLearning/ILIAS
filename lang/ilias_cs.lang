@@ -2423,42 +2423,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cntr#:#cntr_add_new_item#:#Přidat novou položku
-cntr#:#cntr_adopt_content#:#Převzít obsah
-cntr#:#cntr_container_only_on_their_own#:#Kategorie, kurzy, skupiny, složky nebo studijní programy lze kopírovat pouze jako jednotlivé objekty. Vyberte pouze jednu položku.
-cntr#:#cntr_copy_crs_grp#:#Moje kurzy a skupiny
-cntr#:#cntr_copy_repo_tree#:#Strom úložiště
-cntr#:#cntr_hide_title_and_icon#:#Skrýt název a ikonu
-cntr#:#cntr_manage#:#Spravovat
-cntr#:#cntr_ordering#:#Řazení
-cntr#:#cntr_saved_sorting#:#Řazení uloženo.
-cntr#:#cntr_switch_to_new_editor_cmd#:#Přepnout zobrazení na tuto stránku
-cntr#:#cntr_switch_to_new_editor_message#:#To je podporovaný standardní editor. Použijte jej prosím k nastavení obsahu stránky. Pokud klepnete na následující odkaz, obsah zobrazení úložiště bude přepnut ze starého editoru obsahu na tuto stránku.
-cntr#:#cntr_switched_editor#:#Přepnuto na nový obsah.
-cntr#:#cntr_tax_none_available#:#Nejsou k dispozici žádné taxonomie.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###26 08 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Definice taxonomie
-cntr#:#cntr_taxonomy_show_sideblock#:#Zobrazit taxonomii v bočním bloku
-cntr#:#cntr_taxonomy_sideblock_settings#:#Nastavení bloku taxonomie
-cntr#:#cntr_text_media_editor#:#Přizpůsobit stránku
-cntr#:#cntr_view_by_type#:#Zobrazit sekupení podle typu
-cntr#:#cntr_view_info_by_type#:#Toto zobrazení obsahu seskupuje všechny položky podle zdrojového typu.
-cntr#:#cntr_view_info_sessions#:#Toto zobrazení obsahu nejprve seskupuje všechny lekce. Pak vypisuje ostatní obsah kurzu.
-cntr#:#cntr_view_info_simple#:#Toto zobrazení obsahu vypisuje všechny položky v jediném bloku.
-cntr#:#cntr_view_sessions#:#Zobrazit sezení
-cntr#:#cntr_view_simple#:#Jednoduché zobrazení
-cntr#:#container_import_zip_file_invalid#:#Ukládaný soubor není platný exportní soubor ILIAS. K uložení adresářové struktury použijte prosím souborový objekt.
-cntr#:#edit_questions#:#Upravit otázky
-cntr#:#exc_next_deadline_single#:#Konečný termín
-cntr#:#msg_no_downloadable_objects#:#Nebyly nalezeny žádné objekty ke stažení.
-cntr#:#objects_duplicated#:#Objekty zkopírovány
-cntr#:#prtf_create_portfolio_from_template#:#Vytvořit Portfolio ze šablony
-cntr#:#sorting_new_items_at_bottom#:#Nejnižší úroveň
-cntr#:#sorting_new_items_at_top#:#Vrcholná úroveň
-cntr#:#sorting_new_items_direction#:#Směr třídění pro nové objekty
-cntr#:#sorting_new_items_order#:#Pořadí pro nové objekty
-cntr#:#sorting_new_items_position#:#Pozice pro nové objekty
-cntr#:#tab_back_to_repository#:#Zpět na úložiště
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolutní cesta
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

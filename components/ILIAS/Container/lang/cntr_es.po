@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Añadir nuevo objeto"
+
+msgid "cntr_adopt_content"
+msgstr "Adoptar contenido"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Las categorías, cursos, grupos, carpetas, secuencias de aprendizaje o programas de estudio solo pueden copiarse como objetos individuales. Por favor, seleccione solo un elemento."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Mis cursos y grupos"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Árbol del repositorio"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Ocultar título e icono"
+
+msgid "cntr_manage"
+msgstr "Gestionar"
+
+msgid "cntr_ordering"
+msgstr "Ordenación"
+
+msgid "cntr_saved_sorting"
+msgstr "Ordenación guardada."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Cambiar al nuevo contenido de esta página. El contenido antiguo será eliminado."
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Este es el editor estándar soportado. El contenido del editor antiguo no puede transferirse. Por favor, comience a añadir nuevo contenido de página a continuación. Si hace clic en el siguiente enlace, se utilizará el nuevo contenido."
+
+msgid "cntr_switched_editor"
+msgstr "Se ha cambiado al nuevo contenido."
+
+msgid "cntr_tax_none_available"
+msgstr "No hay taxonomías disponibles."
+
+msgid "cntr_tax_settings_info"
+msgstr "Las taxonomías en las categorías clasifican y filtran los objetos contenidos en la categoría. Después de añadir taxonomías, las clasificaciones pueden realizarse a través de las pestañas \"Metadatos\" y las subpestañas \"Asignación de taxonomía\" de los respectivos objetos. Las taxonomías pueden mostrarse adicionalmente en el bloque lateral de la pestaña \"Contenidos\" de la categoría para permitir el filtrado directo de los objetos asignados."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Definición de taxonomía"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Presentar en el panel lateral"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Ajustes de presentación"
+
+msgid "cntr_text_media_editor"
+msgstr "Editar página"
+
+msgid "cntr_view_by_type"
+msgstr "Vista agrupada por tipo"
+
+msgid "cntr_view_info_by_type"
+msgstr "Esta presentación de contenido agrupa todos los elementos por tipo de recurso."
+
+msgid "cntr_view_info_sessions"
+msgstr "Esta presentación de contenido agrupa primero todas las sesiones. Después se listan los otros contenidos del curso."
+
+msgid "cntr_view_info_simple"
+msgstr "Esta presentación de contenido lista todos los elementos en un solo bloque."
+
+msgid "cntr_view_sessions"
+msgstr "Vista de sesiones"
+
+msgid "cntr_view_simple"
+msgstr "Vista simple"
+
+msgid "container_import_zip_file_invalid"
+msgstr "El archivo subido no es un archivo de exportación de ILIAS válido. Para subir una estructura de directorios, por favor use un objeto de archivo."
+
+msgid "edit_questions"
+msgstr "Editar preguntas"
+
+msgid "exc_next_deadline_single"
+msgstr "Fecha límite"
+
+msgid "msg_no_downloadable_objects"
+msgstr "No se encontraron objetos descargables."
+
+msgid "objects_duplicated"
+msgstr "Objetos copiados"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Crear portafolio a partir de plantilla"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Abajo"
+
+msgid "sorting_new_items_at_top"
+msgstr "Arriba"
+
+msgid "sorting_new_items_direction"
+msgstr "Dirección de ordenación para nuevos objetos"
+
+msgid "sorting_new_items_order"
+msgstr "Disposición de nuevos objetos"
+
+msgid "sorting_new_items_position"
+msgstr "Posición de nuevos objetos"
+
+msgid "tab_back_to_repository"
+msgstr "Volver al Repositorio"

@@ -2408,42 +2408,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
-cntr#:#cntr_add_new_item#:#Ajouter un nouvel objet
-cntr#:#cntr_adopt_content#:#Adopter Contenu
-cntr#:#cntr_container_only_on_their_own#:#Veuillez ne sélectionner qu'un objet.
-cntr#:#cntr_copy_crs_grp#:#Mes cours et mes groupes
-cntr#:#cntr_copy_repo_tree#:#Arborescence du Catalogue
-cntr#:#cntr_hide_title_and_icon#:#Masquer titre et icone
-cntr#:#cntr_manage#:#Gérer
-cntr#:#cntr_ordering#:#Classer
-cntr#:#cntr_saved_sorting#:#Classement Enregistré.
-cntr#:#cntr_switch_to_new_editor_cmd#:#Basculer à  cette page pour la présentation
-cntr#:#cntr_switch_to_new_editor_message#:#Ceci est l'éditeur standard. Veuillez l'utiliser pour mettre à  jour le contenu de la page. Si vous cliquez sur le lien suivant, le contenu de la présentation dans le catalogue sera basculer de l'ancien éditeur dans cette page.
-cntr#:#cntr_switched_editor#:#Nouveau contenu adopté.
-cntr#:#cntr_tax_none_available#:#Il n’y a plus de taxonomies de disponibles.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###31 10 2023 new variable
-cntr#:#cntr_taxonomy_definitions#:#Définition de la Taxinomie
-cntr#:#cntr_taxonomy_show_sideblock#:#Afficher la taxonomie dans le bloc latéral
-cntr#:#cntr_taxonomy_sideblock_settings#:#Paramètres du bloc Taxonomie
-cntr#:#cntr_text_media_editor#:#Editer la page
-cntr#:#cntr_view_by_type#:#Vue regroupement par type
-cntr#:#cntr_view_info_by_type#:#Cette présentation groupe tous les objets par type.
-cntr#:#cntr_view_info_sessions#:#Cette présentation regroupe les sessions en premier, puis les autres objets du cours.
-cntr#:#cntr_view_info_simple#:#Cette présentation liste tous les objets dans un seul bloc.
-cntr#:#cntr_view_sessions#:#Vue sessions
-cntr#:#cntr_view_simple#:#Vue simplifiée
-cntr#:#container_import_zip_file_invalid#:#Le fichier déposé n'est pas valide. Pour importer une structure de dossiers, veuillez utiliser l'objet Fichier.
-cntr#:#edit_questions#:#Editer Questions
-cntr#:#exc_next_deadline_single#:#Echéance
-cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
-cntr#:#objects_duplicated#:#Objets copiés
-cntr#:#prtf_create_portfolio_from_template#:#Créer Portfolio Depuis Modèle
-cntr#:#sorting_new_items_at_bottom#:#En Bas
-cntr#:#sorting_new_items_at_top#:#En Haut
-cntr#:#sorting_new_items_direction#:#Choix du Tri des Nouveaux Objets
-cntr#:#sorting_new_items_order#:#Ordre des Nouveaux Objets
-cntr#:#sorting_new_items_position#:#Position des Nouveaux Objets
-cntr#:#tab_back_to_repository#:#Retour au Catalogue
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Chemin absolu
 common#:#accept_usr_agreement_btn#:#Accept

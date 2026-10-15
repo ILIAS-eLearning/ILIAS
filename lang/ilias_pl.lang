@@ -2423,42 +2423,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cntr#:#cntr_add_new_item#:#Dodaj nowy obiekt
-cntr#:#cntr_adopt_content#:#Przejmij treści
-cntr#:#cntr_container_only_on_their_own#:#Kategorie, kursy, grupy i foldery można kopiować tylko pojedynczo. Wybierz tylko taki obiekt.
-cntr#:#cntr_copy_crs_grp#:#Wybór członkostwa
-cntr#:#cntr_copy_repo_tree#:#Wybór drzewa dostępnych zasobów
-cntr#:#cntr_hide_title_and_icon#:#Ukryj tytuł i ikonę
-cntr#:#cntr_manage#:#Zarządzaj
-cntr#:#cntr_ordering#:#Sortowanie
-cntr#:#cntr_saved_sorting#:#Zapisz sortowanie
-cntr#:#cntr_switch_to_new_editor_cmd#:#Przejdź do poniższych treści. Poprzednie treści zostały usunięte.
-cntr#:#cntr_switch_to_new_editor_message#:#To jest domyślny edytor stron. Jeśli chcesz z niego korzystać, musisz dodać treści kliknięciem na pola do wypełnienia znajdujące się na dole. Jeśli klikniesz w poniższy link, poniższe treści zostaną dodane na stronę.
-cntr#:#cntr_switched_editor#:#Przejście na nowy wygląd
-cntr#:#cntr_tax_none_available#:#Brak dostępnych klasyfikacji.
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###26 08 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Definicja klasyfikacji
-cntr#:#cntr_taxonomy_show_sideblock#:#Pokaż klasyfikację w sekcji strony
-cntr#:#cntr_taxonomy_sideblock_settings#:#Ustawienia prezentacji
-cntr#:#cntr_text_media_editor#:#Projektuj stronę
-cntr#:#cntr_view_by_type#:#Grupowane wg typów
-cntr#:#cntr_view_info_by_type#:#Wszystkie obiekty jednego typu przedstawiane są w jednej liście.
-cntr#:#cntr_view_info_sessions#:#Sesje pokazywane są w jednej liście. Obiekty, które nie zostały przyporządkowane do żadnych sesji, zostały przedstawione w liście poniżej.
-cntr#:#cntr_view_info_simple#:#Wszystkie obiekty przedstawiane są tylko w jednej liście.
-cntr#:#cntr_view_sessions#:#Widok sesji
-cntr#:#cntr_view_simple#:#Prosta lista
-cntr#:#container_import_zip_file_invalid#:#Załadowany plik nie jest ważnym plikiem eksportowym ILIAS. Aby załadować struktury indeksu, należy użyć obiektu pliku.
-cntr#:#edit_questions#:#Edytuj pytania
-cntr#:#exc_next_deadline_single#:#Termin oddania
-cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
-cntr#:#objects_duplicated#:#Skopiowano obiekty.
-cntr#:#prtf_create_portfolio_from_template#:#Utwórz portfolio z szablonu
-cntr#:#sorting_new_items_at_bottom#:#Dół
-cntr#:#sorting_new_items_at_top#:#Góra
-cntr#:#sorting_new_items_direction#:#Kierunek sortowania nowych obiektów
-cntr#:#sorting_new_items_order#:#Kolejność nowych obiektów
-cntr#:#sorting_new_items_position#:#Pozycja nowych obiektów
-cntr#:#tab_back_to_repository#:#Wróć do dostępnych zasobów
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

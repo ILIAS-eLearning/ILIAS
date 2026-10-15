@@ -2424,42 +2424,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cntr#:#cntr_add_new_item#:#Add New Item###30 04 2009 new variable
-cntr#:#cntr_adopt_content#:#Adopt Content###12 06 2011 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
-cntr#:#cntr_copy_crs_grp#:#My Courses and Groups###30 08 2015 new variable
-cntr#:#cntr_copy_repo_tree#:#Repository Tree###30 08 2015 new variable
-cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
-cntr#:#cntr_manage#:#Manage###26 06 2009 new variable
-cntr#:#cntr_ordering#:#Sorting###26 06 2009 new variable
-cntr#:#cntr_saved_sorting#:#Saved Sorting.###26 06 2009 new variable
-cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation
-cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.
-cntr#:#cntr_switched_editor#:#Switched to new content.
-cntr#:#cntr_tax_none_available#:#There are no taxonomies available.###26 09 2014 new variable
-cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###26 08 2024 new variable
-cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition###27 01 2015 new variable
-cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block###26 09 2014 new variable
-cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomy Block Settings###26 09 2014 new variable
-cntr#:#cntr_text_media_editor#:#Text/Media Editor###26 06 2009 new variable
-cntr#:#cntr_view_by_type#:#Grouped-by-Type View
-cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
-cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
-cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
-cntr#:#cntr_view_sessions#:#Sessions View
-cntr#:#cntr_view_simple#:#Simple View
-cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.###12 06 2011 new variable
-cntr#:#edit_questions#:#Edit Questions###12 06 2011 new variable
-cntr#:#exc_next_deadline_single#:#Deadline###30 12 2013 new variable
-cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###10 11 2018 new variable
-cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
-cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template###24 10 2013 new variable
-cntr#:#sorting_new_items_at_bottom#:#Bottom###26 09 2014 new variable
-cntr#:#sorting_new_items_at_top#:#Top###26 09 2014 new variable
-cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects###23 12 2015 new variable
-cntr#:#sorting_new_items_order#:#Order For New Objects###26 09 2014 new variable
-cntr#:#sorting_new_items_position#:#Position For New Objects###26 09 2014 new variable
-cntr#:#tab_back_to_repository#:#Back to Repository###30 08 2015 new variable
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Απόλυτη διαδρομή
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable

@@ -2431,42 +2431,6 @@ cmix#:#use_fetch_info#:#Mindaddig, amíg az erőforrás támogatja ezt a beáll�
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
-cntr#:#cntr_add_new_item#:#Új objektum létrehozása
-cntr#:#cntr_adopt_content#:#Tartalom örökítése
-cntr#:#cntr_container_only_on_their_own#:#Egyszerű objektumonként csak kategóriák, kurzusok, csoportok, mappák, tanulási sorok, illetve képzési programok másolhatók. Csak egy elemet válasszon.
-cntr#:#cntr_copy_crs_grp#:#Kurzusaim és csoportjaim
-cntr#:#cntr_copy_repo_tree#:#Tartalomtár
-cntr#:#cntr_hide_title_and_icon#:#Cím és ikon elrejtése
-cntr#:#cntr_manage#:#Kezelés
-cntr#:#cntr_ordering#:#Rendezés
-cntr#:#cntr_saved_sorting#:#Rendezés mentése sikerült
-cntr#:#cntr_switch_to_new_editor_cmd#:#Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül.
-cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Lentebb vegyen fel új laptartalmat. Ha az alábbi linkre kattint, az új tartalom kerül használatra.
-cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
-cntr#:#cntr_tax_none_available#:#Nincsenek elérhető taxonómiák.
-cntr#:#cntr_tax_settings_info#:#A kategóriákban lévő taxonómiák osztályozzák és szűrik a kategóriában lévő objektumokat. A taxonómiák hozzáadása után a besorolásokat a megfelelő objektumok ‘Metaadatok’ és ‘Taxonómia hozzárendelése’ allapjain lehet elvégezni. A taxonómiák emellett a kategória ‘Tartalom’ lapjának oldalsó blokkjában is megjeleníthetők, így lehetővé válik a hozzárendelt objektumok közvetlen szűrése is.
-cntr#:#cntr_taxonomy_definitions#:#Taxonómia meghatározása
-cntr#:#cntr_taxonomy_show_sideblock#:#Taxonómiát mutassa az oldalblokkban
-cntr#:#cntr_taxonomy_sideblock_settings#:#Megjelenítési beállítások
-cntr#:#cntr_text_media_editor#:#Lap szerkesztése
-cntr#:#cntr_view_by_type#:#Típus szerint csoportosított nézet
-cntr#:#cntr_view_info_by_type#:#Az objektumokat típusuk alapján csoportosítva jelenítjük meg.
-cntr#:#cntr_view_info_sessions#:#Először az eseményeket azok objektumaival, alatta pedig a további kurzustartalmakat jelenítjük meg.
-cntr#:#cntr_view_info_simple#:#Az objektumokat nem csoportosítjuk, azokat egymás alatt jelenítjük meg.
-cntr#:#cntr_view_sessions#:#Események nézete
-cntr#:#cntr_view_simple#:#Egyszerű nézet
-cntr#:#container_import_zip_file_invalid#:#A feltöltött fájl nem érvényes ILIAS-exportfájl. A mappaszerkezet feltöltéséhez használjon fájlobjektumot.
-cntr#:#edit_questions#:#Kérdések módosítása
-cntr#:#exc_next_deadline_single#:#Határidő
-cntr#:#msg_no_downloadable_objects#:#Egy letölthető objektumot sem találtunk.
-cntr#:#objects_duplicated#:#Objektumok átmásolva
-cntr#:#prtf_create_portfolio_from_template#:#Portfólió létrehozása sablonból
-cntr#:#sorting_new_items_at_bottom#:#Alulra
-cntr#:#sorting_new_items_at_top#:#Felülre
-cntr#:#sorting_new_items_direction#:#Új objektumok rendezési iránya
-cntr#:#sorting_new_items_order#:#Új objektumok rendezése
-cntr#:#sorting_new_items_position#:#Új objektumok pozíciója
-cntr#:#tab_back_to_repository#:#Vissza a Tartalomtárhoz
 common#:#HH#:#ÓÓ:PP
 common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement_btn#:#Elfogadás
