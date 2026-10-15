@@ -37,9 +37,11 @@ declare(strict_types=1);
  * from `meta_l_<lang>` of `lang/ilias_en.lang`, or, once "meta" is migrated, of a shipped
  * `components/<Vendor>/<Component>/lang/meta_en.po` (default file name pattern only).
  *
- * The reference language (default "en") gives the msgids, their order and the `.pot`. A reference key that a
- * language lacks or has empty gets the reference value, flagged "fuzzy" (fuzzy entries are shipped like all
- * others). A key only other languages have cannot be taken over (see --skip-unmigratable-keys).
+ * The reference language (default "en") gives the msgids, their order and the `.pot`. A reference key that a language
+ * lacks or has empty gets the reference value, flagged "fuzzy" (fuzzy entries are shipped like all others). A key only
+ * other languages have cannot be taken over (see --skip-unmigratable-keys). A value with markup the build cleans
+ * (TranslationMarkupPolicy) is kept (WARNING), unless cleaning leaves nothing: then it counts as missing. The reference
+ * language's "###" note becomes "#.", another own note a translator comment "# " (msgmerge keeps it).
  *
  * Plural messages (plurals.json, "modules"): the tool invents no text, it distributes existing values (one taken
  * from the reference language counts). Where the rule has a form for n = 1 alone (found by evaluating the rule:
@@ -67,12 +69,14 @@ declare(strict_types=1);
  *              (checked first) an existing outputDir components/<Vendor>/<Component>/lang whose <Component>.php
  *              already contributes the module's ComponentLanguageFileDirectory, no symbolic link in lang/ and the
  *              start marker in every lang/ilias_<lang>.lang
- * <module> is required. Unknown options (anything starting with "-") fail; module and reference language must match
- * [A-Za-z0-9_]+. Like the installer, a `.lang` file is only read behind its line "<!-- language file start -->"; a
- * file without that line is skipped with a WARNING (a FAILURE with --remove-from-lang). A module without any line in
- * lang/ fails without writing anything (most likely migrated already). Every check runs before anything is
- * written: a failing run writes no `.po`/`.pot` and changes no `.lang` file (except on write errors or a `.lang`
- * file changed during the run, both reported).
+ * <module> is required. Unknown options (anything starting with "-") and a fourth argument fail; module and reference
+ * language must match [A-Za-z0-9_]+; a given outputDir must exist. An existing unreadable target
+ * `.po`/`.pot` is replaced without its headers (WARNING). Like the installer, a `.lang` file is
+ * only read behind its line "<!-- language file start -->"; a file without that line is skipped with a WARNING (a
+ * FAILURE with --remove-from-lang). A module without any line in lang/ fails without writing anything (most likely
+ * migrated already). Every check runs before anything is written: a failing run writes no `.po`/`.pot` and changes no
+ * `.lang` file (except on write errors or a `.lang` file changed during the run, both reported). The self-check reads
+ * every `.po` back and compiles it.
  * Example: php convert_module_to_po.php tos en ../../../TermsOfService/lang
  */
 
@@ -88,7 +92,10 @@ use ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog;
 use ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry;
 use ILIAS\Language\ComponentTranslation\LegacyFuzzyMarker;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Language\ComponentTranslation\PluralFormKey;
 use ILIAS\Language\ComponentTranslation\PluralForms;
+use ILIAS\Language\ComponentTranslation\ShippedTranslations;
+use ILIAS\Language\ComponentTranslation\TranslationMarkupPolicy;
 
 /**
  * Makes control characters (e.g. the ESC of a terminal escape sequence) visible in everything printed from a `.lang`
@@ -440,8 +447,8 @@ $build_catalog = static function (
             }
             if ($own_comment !== null && $is_fuzzy_marker($own_comment)) {
                 $entry->addFlag('fuzzy');
-            } elseif ($own_comment !== null) {
-                $comment = $own_comment;
+            } elseif ($own_comment !== null && $own_comment !== '' && $own_comment !== $comment) {
+                $entry->addTranslatorNote($own_comment);
             }
             // the own value copied into several forms still needs a translation, except in a source language
             if (!$is_source_language && $plural_definition !== null && $copies_own_value((string) $key, $plural_definition, $translation_entries, $plural_forms, $filled_keys)) {
@@ -531,7 +538,8 @@ $existing_headers = static function (string $file): array {
     try {
         return is_file($file) ? TranslationCatalog::fromPoFile($file)->getHeaders() : [];
     } catch (RuntimeException $e) {
-        fwrite(STDERR, "WARNING: the existing $file is not readable, its headers are not kept: {$e->getMessage()}\n");
+        fwrite(STDERR, "WARNING: the existing $file is not readable, its headers are not kept (the file is replaced): "
+            . $e->getMessage() . "\n");
         return [];
     }
 };
@@ -570,9 +578,20 @@ foreach (array_slice($argv, 1) as $argument) {
     }
     $arguments[] = $argument;
 }
+$usage = "Usage: php convert_module_to_po.php [--pattern=<pattern>] [--skip-unmigratable-keys] [--remove-from-lang]"
+    . " <module> [referenceLangKey] [outputDir]\n";
 if (!isset($arguments[0])) {
-    fwrite(STDERR, "FAILURE: the module is required. Usage: php convert_module_to_po.php [--pattern=<pattern>]"
-        . " [--skip-unmigratable-keys] [--remove-from-lang] <module> [referenceLangKey] [outputDir]\n");
+    fwrite(STDERR, "FAILURE: the module is required. $usage");
+    exit(1);
+}
+if (count($arguments) > 3) {
+    $surplus = $printable(implode("' '", array_slice($arguments, 3)));
+    fwrite(STDERR, "FAILURE: too many arguments ('$surplus'). $usage");
+    exit(1);
+}
+// a mistyped outputDir must not become a new directory tree (--remove-from-lang checks it further below)
+if (!$remove_from_lang && isset($arguments[2]) && !is_dir($arguments[2])) {
+    fwrite(STDERR, "FAILURE: outputDir '" . $printable($arguments[2]) . "' does not exist. Nothing was written.\n");
     exit(1);
 }
 $module = $arguments[0];
@@ -808,6 +827,35 @@ if ($reference_entries === []) {
     exit(1);
 }
 
+// a value cleaned to nothing is missing (an empty value is not served) and gets the reference value below
+$markup_policy = new TranslationMarkupPolicy();
+$markup_report = [];
+$markup_messages = [];
+foreach ($per_language as $lang_key => $entries) {
+    foreach ($entries as $key => $entry) {
+        $violations = $markup_policy->findViolations($entry['value']);
+        if ($violations === []) {
+            continue;
+        }
+        $markup_report[$lang_key][(string) $key] = true;
+        $emptied = $lang_key !== $reference_lang_key && $markup_policy->sanitize($entry['value']) === '';
+        if ($emptied) {
+            $per_language[$lang_key][$key]['value'] = '';
+        }
+        $message = match (true) {
+            !$emptied => 'kept, the build cleans it',
+            ($per_language[$reference_lang_key][$key]['value'] ?? '') === ''
+                => 'empty once cleaned, left empty like a missing value',
+            default => 'empty once cleaned, replaced by the reference value (fuzzy)',
+        };
+        $markup_messages[$message][] = "  $lang_key: " . $printable($key . ' (' . implode('; ', $violations) . ')');
+    }
+}
+foreach ($markup_messages as $message => $lines) {
+    fwrite(STDERR, "WARNING: module '$module': values with markup the build removes - $message:\n"
+        . implode("\n", $lines) . "\n");
+}
+
 $own_entry_counts = array_map('count', $per_language);
 $filled = [];
 foreach ($per_language as $lang_key => $entries) {
@@ -948,6 +996,37 @@ foreach ($per_language as $lang_key => $entries) {
     foreach ($parsed?->getEntries() ?? [] as $parsed_entry) {
         if ($parsed_entry->getContext() !== null || !in_array($parsed_entry->getId(), $expected_keys, true)) {
             $po_mismatches[] = '(unexpected) ' . $parsed_entry->getId();
+        }
+    }
+    // must serve exactly these values, cleaned only where markup was warned about above
+    $known_markup = ($markup_report[$reference_lang_key] ?? []) + ($markup_report[$lang_key] ?? []);
+    // a plural message also carries the value of its singular key (plurals.json)
+    $has_known_markup = static fn(string $message): bool => isset($known_markup[$message])
+        || isset($known_markup[$plural_definitions[$message]['singular'] ?? '']);
+    try {
+        $compiled = $parsed === null ? null : (new ShippedTranslations($markup_policy))->compileShippedCatalog(
+            $parsed,
+            $module,
+            static function (string $identifier) use (&$po_mismatches, $has_known_markup): void {
+                if (!$has_known_markup(PluralFormKey::parse($identifier)[0] ?? $identifier)) {
+                    $po_mismatches[] = '(markup) ' . $identifier;
+                }
+            },
+            static function (string $message) use (&$po_mismatches): void {
+                $po_mismatches[] = '(build) ' . $message;
+            }
+        );
+    } catch (RuntimeException $e) {
+        $compiled = null;
+        $po_mismatches[] = '(not compilable) ' . $e->getMessage();
+    }
+    foreach ($expected_keys as $key) {
+        if (
+            $compiled !== null
+            && !$has_known_markup($key)
+            && ($compiled['values'][$key] ?? '') !== ($entries[$key]['value'] ?? '')
+        ) {
+            $po_mismatches[] = $key . ' (build)';
         }
     }
 

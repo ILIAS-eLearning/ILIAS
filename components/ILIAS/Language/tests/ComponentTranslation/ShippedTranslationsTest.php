@@ -137,6 +137,18 @@ class ShippedTranslationsTest extends TestCase
         $this->assertArrayNotHasKey('good', $reported);
     }
 
+    /** A value cleaned to nothing (e.g. "<nome del Ruolo ILIAS") is left out like an empty one. */
+    public function testAValueCleanedToNothingIsNotServed(): void
+    {
+        $compiled = $this->shipped_translations->compileShippedCatalog(
+            \MigratedPoFixture::catalog('itest', ['role' => '<nome del Ruolo ILIAS', 'other' => 'Altro']),
+            'itest'
+        );
+
+        $this->assertSame(['other' => 'Altro'], $compiled['values']);
+        $this->assertArrayNotHasKey('role', self::served($compiled['mo']));
+    }
+
     public function testCompileThrowsForAnUnreadableShippedPo(): void
     {
         $this->expectException(RuntimeException::class);

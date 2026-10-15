@@ -23,7 +23,7 @@ removes the module's `.lang` lines (`--remove-from-lang`), so a new run fails
 ("Nothing was written") and the `.po`/`.pot` files stay as they are. Without
 that option a new run would regenerate them from the `.lang` lines and
 overwrite values merged into the `.po` by the language administration
-("merge"), keys added there and their `#.` lines.
+("merge"), keys added there and their comments.
 
 Order of a migration (see the
 [Language component's README](../../README.md#migrating-a-module)):
@@ -50,8 +50,9 @@ Arguments:
   `[A-Za-z0-9_]` only.
 * `referenceLanguage`: default `en`. It is the template of every language: it
   gives the `msgid`s, their order and the `.pot`.
-* `outputDir`: default `tools/po-migration/output/<module>/` (ignored by git).
-  To migrate a module, pass the `lang/` directory of the owning component.
+* `outputDir`: default `tools/po-migration/output/<module>/` (ignored by git,
+  created if missing). A given `outputDir` must exist. To migrate a module,
+  pass the `lang/` directory of the owning component.
 
 Options:
 
@@ -78,7 +79,8 @@ Options:
   stay written). Afterwards the `.po` files are the only source of the module;
   a second run for it fails.
 
-Unknown options fail, so a typo is never taken as module name or directory.
+Unknown options and more than three arguments fail, so a typo is never taken
+as module name or directory.
 
 Examples (how the pilot modules were migrated):
 
@@ -108,12 +110,20 @@ php components/ILIAS/Language/tools/po-migration/convert_module_to_po.php --remo
   (the file belongs to exactly one module). Headers `Content-Type` (UTF-8),
   `Language` (the language key), `Language-Team` (the English language name),
   `Plural-Forms` (from `plurals.json`), `X-Domain`.
-* A `###` comment that is a "new variable" placeholder becomes `#, fuzzy`, any
-  other comment an extracted comment `#.`.
+* A `###` comment that is a "new variable" placeholder (also with further
+  leading `#`, e.g. `####30 08 2015 new variable`) becomes `#, fuzzy`. The
+  reference language's comment becomes an extracted comment `#.` (also in the
+  `.pot`), a different comment of a language a translator comment `# `:
+  `msgmerge` takes `#.` from the `.pot` but keeps `# `.
 * A key the language lacks, or has with an empty value, gets the value of the
   reference language and `#, fuzzy`. Fuzzy entries are compiled and served like
   all others, so a language without translation shows the English text instead
   of `-identifier-`.
+* A value with markup that `TranslationMarkupPolicy` does not allow is kept
+  as it is, like the installer did; the build cleans it. A `WARNING` names
+  language and key. Only a value of another language that the cleaning would
+  leave empty is treated like a missing one: the reference value and
+  `#, fuzzy` (it stays empty if the reference value is empty).
 * No `.mo` file and nothing in the database: run `php cli/setup.php build`
   afterwards.
 
@@ -126,11 +136,14 @@ plural definition of `plurals.json` does not fit the module, or if the module
 has no line in any `.lang` file. Before writing, every `.po` is read back in
 memory with the strict loader and compared with its source: every value,
 every plural form and the default form of a plural message; on any difference
-nothing is written either. Only a failure while writing (e.g. no permission)
-or a `.lang` file changed by someone else during the run can leave the
-`.po`/`.pot` files written without the `.lang` lines removed; the message
-names the files. An existing target `.po` that cannot be read only loses its
-headers (`WARNING`). The tool reads and writes through the same adapter as the
+nothing is written either. Every `.po` is also compiled like the build
+(`ShippedTranslations`, including the markup policy): an error, or a value the
+build would serve differently (except a value with markup warned about), fails
+the run as well. Only a failure while writing (e.g. no permission) or a `.lang`
+file changed by someone else during the run can leave the `.po`/`.pot` files
+written without the `.lang` lines removed; the message names the files. An
+existing target `.po`/`.pot` that cannot be read is replaced; its headers are
+not kept (`WARNING`). The tool reads and writes through the same adapter as the
 language component (`TranslationCatalog`), so it writes exactly what Setup and
 the administration read.
 

@@ -193,7 +193,7 @@ class ConvertModuleToPoToolTest extends TestCase
 
     /**
      * A reference key a language lacks or has empty gets the reference value, flagged fuzzy; an own note of
-     * the empty entry stays its extracted comment.
+     * the empty entry stays its translator comment.
      */
     public function testAMissingOrEmptyValueGetsTheReferenceValueFlaggedFuzzy(): void
     {
@@ -220,7 +220,8 @@ class ConvertModuleToPoToolTest extends TestCase
         $fr = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($out . '/tst_fr.po');
         $this->assertSame('Hello', $fr->find(null, 'greeting')?->getTranslation(), 'empty value: the en value');
         $this->assertTrue($fr->find(null, 'greeting')->hasFlag('fuzzy'));
-        $this->assertSame(['Bitte uebersetzen'], $fr->find(null, 'greeting')->getExtractedComments());
+        $this->assertSame(['Bitte uebersetzen'], $fr->find(null, 'greeting')->getTranslatorComments());
+        $this->assertSame([], $fr->find(null, 'greeting')->getExtractedComments());
         $this->assertFalse($fr->find(null, 'bye')?->hasFlag('fuzzy'));
 
         $this->assertMatchesRegularExpression('/^de\s+1\s+0\s+1\s+yes$/m', $stdout);
@@ -535,6 +536,7 @@ class ConvertModuleToPoToolTest extends TestCase
             'misspelled long option' => [['--foo', 'tst', 'de']],
             'module with a path' => [['../x', 'de']],
             'reference language with a path' => [['tst', '../de']],
+            'a fourth argument' => [['tst', 'de', 'out']],
         ];
     }
 
@@ -802,6 +804,116 @@ class ConvertModuleToPoToolTest extends TestCase
         $this->assertSame(0, $exit_code, $stdout . $stderr);
         $this->assertStringContainsString('WARNING: the existing ' . $root . '/out/crs_de.po is not readable', $stderr);
         $this->assertSame(['a'], self::idsOf($root . '/out/crs_de.po'));
+    }
+
+    /** A mistyped outputDir must not become a new directory tree. */
+    public function testAMissingOutputDirFailsAndIsNotCreated(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $this->writeLangFile($root, 'de', "crs#:#a#:#A\n");
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), 'crs', 'de', $root . '/typo/lang');
+
+        $this->assertSame(1, $exit_code, $stdout . $stderr);
+        $this->assertStringContainsString("outputDir '$root/typo/lang' does not exist. Nothing was written.", $stderr);
+        $this->assertDirectoryDoesNotExist($root . '/typo');
+    }
+
+    /** Markup the build cleans is kept (WARNING); only a value cleaned to nothing counts as missing. */
+    public function testAValueWithMarkupIsKeptUnlessTheBuildWouldCleanItToNothing(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $this->writeLangFile(
+            $root,
+            'en',
+            "tst#:#role#:#ILIAS role name\ntst#:#bad#:#Bad <b onclick=\"x\">en</b>\ntst#:#open#:#Open\ntst#:#none#:#\n"
+        );
+        $this->writeLangFile(
+            $root,
+            'it',
+            "tst#:#role#:#<nome del Ruolo ILIAS\ntst#:#bad#:#Male\ntst#:#open#:#Apri <a href=\"x\">qui\ntst#:#none#:#<niente\n"
+        );
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), 'tst', 'en', $root . '/out');
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        $this->assertStringContainsString("empty once cleaned, replaced by the reference value (fuzzy):\n  it: role (", $stderr);
+        $this->assertStringContainsString("empty once cleaned, left empty like a missing value:\n  it: none (", $stderr);
+        $this->assertMatchesRegularExpression('/kept, the build cleans it:\n(  .*\n)*  en: bad \(/', $stderr);
+        $this->assertMatchesRegularExpression('/kept, the build cleans it:\n(  .*\n)*  it: open \(/', $stderr);
+        $it = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($root . '/out/tst_it.po');
+        $this->assertSame('ILIAS role name', $it->find(null, 'role')?->getTranslation());
+        $this->assertTrue($it->find(null, 'role')->hasFlag('fuzzy'));
+        $this->assertSame('Apri <a href="x">qui', $it->find(null, 'open')?->getTranslation(), 'kept, the build cleans it');
+        $this->assertFalse($it->find(null, 'open')->hasFlag('fuzzy'));
+        $this->assertSame('', $it->find(null, 'none')?->getTranslation());
+        $this->assertFalse($it->find(null, 'none')->hasFlag('fuzzy'));
+        $this->assertSame('Male', $it->find(null, 'bad')?->getTranslation());
+        $this->assertFalse($it->find(null, 'bad')->hasFlag('fuzzy'));
+        $this->assertMatchesRegularExpression('/^it\s+4\s+0\s+1\s+yes$/m', $stdout);
+        $en = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($root . '/out/tst_en.po');
+        $this->assertSame('Bad <b onclick="x">en</b>', $en->find(null, 'bad')?->getTranslation(), 'the reference value is kept');
+        $this->assertFalse($en->find(null, 'bad')->hasFlag('fuzzy'));
+    }
+
+    /** A plural form taken from the singular key (plurals.json) may carry its warned markup. */
+    public function testMarkupOfTheSingularKeyInAPluralFormPassesTheSelfCheck(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $this->writeLangFile($root, 'en', "tst#:#item#:#Items\ntst#:#item_singular#:#One <b>item\n");
+        $this->writeLangFile($root, 'de', "tst#:#item#:#Eintraege\ntst#:#item_singular#:#Ein <b>Eintrag\n");
+        $this->writePluralsConfig(
+            $root,
+            ['en' => 'nplurals=2; plural=(n != 1);', 'de' => 'nplurals=2; plural=(n != 1);'],
+            ['tst' => ['item' => ['singular' => 'item_singular']]]
+        );
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), 'tst', 'en', $root . '/out');
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        foreach (['en' => ['One <b>item', 'Items'], 'de' => ['Ein <b>Eintrag', 'Eintraege']] as $lang_key => $forms) {
+            $item = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($root . "/out/tst_$lang_key.po")
+                ->find(null, 'item');
+            $this->assertSame($forms, $item?->getPluralTranslations(), $lang_key);
+        }
+    }
+
+    /** "####" + date + marker is the fuzzy marker; "##" + date + marker stays in the value. */
+    public function testFuzzyMarkerBehindFourHashesIsFuzzyAndTwoHashesStayInTheValue(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $this->writeLangFile($root, 'en', "tst#:#a#:#A\ntst#:#b#:#B\n");
+        $this->writeLangFile($root, 'sv', "tst#:#a#:#Ä####24 10 2013 new variable\ntst#:#b#:#Bb##24 10 2013 new variable\n");
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), 'tst', 'en', $root . '/out');
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        $sv = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($root . '/out/tst_sv.po');
+        $this->assertTrue($sv->find(null, 'a')?->hasFlag('fuzzy'));
+        $this->assertSame([], $sv->find(null, 'a')->getTranslatorComments());
+        $this->assertFalse($sv->find(null, 'b')?->hasFlag('fuzzy'));
+        $this->assertSame('Bb##24 10 2013 new variable', $sv->find(null, 'b')->getTranslation());
+    }
+
+    /** The reference note is "#." like in the .pot, a differing own note a translator comment. */
+    public function testAnOwnNoteIsATranslatorCommentAndTheReferenceNoteAnExtractedOne(): void
+    {
+        $root = $this->buildFixtureRepo();
+        $this->writeLangFile($root, 'en', "tst#:#a#:#A###en note\ntst#:#b#:#B###same note\n");
+        $this->writeLangFile($root, 'sv', "tst#:#a#:#Ä###egen anteckning\ntst#:#b#:#Bb###same note\n");
+
+        [$exit_code, $stdout, $stderr] = $this->runToolAt($this->toolPathOf($root), 'tst', 'en', $root . '/out');
+
+        $this->assertSame(0, $exit_code, $stdout . $stderr);
+        $pot = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($root . '/out/tst.pot');
+        $this->assertSame(['en note'], $pot->find(null, 'a')?->getExtractedComments());
+        $en = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($root . '/out/tst_en.po');
+        $this->assertSame([], $en->find(null, 'a')?->getTranslatorComments());
+        $this->assertSame(['en note'], $en->find(null, 'a')->getExtractedComments());
+        $sv = \ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog::fromPoFile($root . '/out/tst_sv.po');
+        $this->assertSame(['egen anteckning'], $sv->find(null, 'a')?->getTranslatorComments());
+        $this->assertSame(['en note'], $sv->find(null, 'a')->getExtractedComments());
+        $this->assertSame([], $sv->find(null, 'b')?->getTranslatorComments(), 'a note equal to the reference note is not repeated');
     }
 
     /** @return array<string, array{list<string>}> */
