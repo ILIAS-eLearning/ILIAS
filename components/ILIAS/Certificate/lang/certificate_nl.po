@@ -1,0 +1,371 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: certificate\n"
+
+#, fuzzy
+msgid "cert_cron_task_desc"
+msgstr "This job's responsibility is the creation of persisting certificate data based on learning achievements of users."
+
+#, fuzzy
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+#, fuzzy
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Liggend (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Liggend (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Achtergrondafbeelding"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+#, fuzzy
+msgid "certificate_change_active_status"
+msgstr "The active state of the certificate has been changed"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "Wil je werkelijk het certificaat en al zijn verwante gegevens verwijderen?"
+
+msgid "certificate_custom"
+msgstr "Normaal..."
+
+msgid "certificate_edit"
+msgstr "Maak/wijzig een certificaat sjabloon"
+
+msgid "certificate_error_import"
+msgstr "Een fout is opgetreden tijdens het importeren van een certificaat!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "Een fout is opgetreden tijdens het uploaden van de achtergrondafbeelding!"
+
+msgid "certificate_export"
+msgstr "Certificaat exporteren"
+
+msgid "certificate_failed"
+msgstr "niet geslaagd"
+
+msgid "certificate_file_basename"
+msgstr "Certificaat"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+#, fuzzy
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "Letter (11 inch x 8.5 inch)"
+
+msgid "certificate_letter_landscape"
+msgstr "Letter Liggend (8.5 inch x 11 inch)"
+
+msgid "certificate_margin_body"
+msgstr "Body Marge"
+
+msgid "certificate_not_well_formed"
+msgstr "De certificaattekst is niet goed opgemaakt. Gelieve een geldige XHTML-formaat in te geven voor de certificaattekst!"
+
+msgid "certificate_page_format"
+msgstr "Paginaformaat"
+
+msgid "certificate_page_format_info"
+msgstr "Selecteer het standaard pagina formaat voor nieuwe certificaten."
+
+msgid "certificate_pageheight"
+msgstr "Paginahoogte"
+
+msgid "certificate_pagewidth"
+msgstr "Paginabreedte"
+
+msgid "certificate_passed"
+msgstr "geslaagd"
+
+msgid "certificate_ph_birthday"
+msgstr "Geboortdatum"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "Stad van adres gebruiker"
+
+msgid "certificate_ph_country"
+msgstr "Land"
+
+msgid "certificate_ph_date"
+msgstr "Actuele datum"
+
+msgid "certificate_ph_date_completed"
+msgstr "Datum van afronding"
+
+msgid "certificate_ph_datetime"
+msgstr "Actuele datum en tijd."
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Datum en tijd van afronding"
+
+msgid "certificate_ph_department"
+msgstr "Afdeling van gebruiker"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Titel van oefening"
+
+msgid "certificate_ph_firstname"
+msgstr "Voornaam van de gebruiker"
+
+msgid "certificate_ph_fullname"
+msgstr "Volledige naam van de gebruiker (titel, voornaam en familienaam)"
+
+msgid "certificate_ph_institution"
+msgstr "Naam van organisatie/instelling"
+
+msgid "certificate_ph_introduction"
+msgstr "De volgende plaatsaanduidingen kunnen worden gebruikt"
+
+msgid "certificate_ph_lastaccess"
+msgstr "Datum/tijd laatste toegang van gebruiker"
+
+msgid "certificate_ph_lastname"
+msgstr "Achternaam"
+
+msgid "certificate_ph_login"
+msgstr "Login"
+
+msgid "certificate_ph_mark"
+msgstr "Gebruikerskenmerk"
+
+msgid "certificate_ph_marklong"
+msgstr "Gebruikersaanduiding (officiële versie)"
+
+msgid "certificate_ph_markshort"
+msgstr "Gebruikersaanduiding (korte versie)"
+
+msgid "certificate_ph_matriculation"
+msgstr "Inschrijvingsnummer van de gebruiker"
+
+msgid "certificate_ph_no_sco"
+msgstr "Indien items zijn geselecteerd om de algehele voortgangsstatus te bepalen, kunnen titels en punten van deze items getoond worden op het certificaat."
+
+msgid "certificate_ph_salutation"
+msgstr "Aanhef"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "plaatsaanduiding <br/>voor punten<br/>max"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "plaatsaanduiding <br/>voor punten"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "plaatsaanduiding <br/>voor punten<br/>in procenten"
+
+msgid "certificate_ph_sco_title"
+msgstr "plaatsaanduiding <br/>voor titel"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Hoogste waarde in de reeks voor de ruwe score van de minst relevante sco (meest geschikt voor een eindexamen)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "Punten van de SCORM leermodule in procenten"
+
+msgid "certificate_ph_scormtitle"
+msgstr "Titel van SCORM leermodule"
+
+msgid "certificate_ph_scos"
+msgstr "De volgende items zijn geselecteerd om te bepalen wat de status van de totale voortgang is en die beschikbaar zijn voor vermelding op het certificaat:"
+
+msgid "certificate_ph_street"
+msgstr "Straatnaam van gebruiker"
+
+msgid "certificate_ph_testtitle"
+msgstr "Titel van de toets"
+
+msgid "certificate_ph_title"
+msgstr "Titel van de gebruiker"
+
+msgid "certificate_ph_title_sco"
+msgstr "titel"
+
+msgid "certificate_ph_zipcode"
+msgstr "Postcode van het adres van de gebruiker"
+
+msgid "certificate_points_notavailable"
+msgstr "Deze waarde kan niet worden berekend."
+
+msgid "certificate_preview"
+msgstr "Toon voorbeeld van het certificaat"
+
+msgid "certificate_settings"
+msgstr "Certificaat instellingen"
+
+msgid "certificate_short_name"
+msgstr "Korte titel certificaatsbestand"
+
+msgid "certificate_short_name_description"
+msgstr "Voer een korte titel in voor de naam van het certificaat. De korte titel wordt deel van de naam van het certificaat: YYMMDD_[achternaam]_[SHORT_TITLE]_certificaat.pdf."
+
+msgid "certificate_text"
+msgstr "Certificaat tekst"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "Geef meeteenheden in als WAARDE [cm|mm|in|pt|pc|px|em], vb. 10mm of 3in"
+
+msgid "certificate_usage"
+msgstr "Let op: het gebruik van certificaten is alleen beschikbaar als  de ILIAS Java-Server draait. De configuratie van Java-Server is beschikbaar op de hoofdpagina van ILIAS Beheer in de sectie Webservices."
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Goed"
+
+msgid "certificate_var_result_mark_short"
+msgstr "B"
+
+msgid "certificate_var_result_passed"
+msgstr "geslaagd"
+
+msgid "certificate_var_result_percent"
+msgstr "83%"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "1977-05-08"
+
+msgid "certificate_var_user_city"
+msgstr "Stad"
+
+msgid "certificate_var_user_country"
+msgstr "NL"
+
+msgid "certificate_var_user_department"
+msgstr "Gebruikersondersteuning"
+
+msgid "certificate_var_user_firstname"
+msgstr "Voornaam"
+
+msgid "certificate_var_user_fullname"
+msgstr "Dr. Voornaam Achternaam"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Open Source"
+
+msgid "certificate_var_user_lastname"
+msgstr "Achternaam"
+
+msgid "certificate_var_user_login"
+msgstr "onbekende"
+
+#, fuzzy
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Mevr."
+
+msgid "certificate_var_user_street"
+msgstr "Straatnaam"
+
+msgid "certificate_var_user_title"
+msgstr "Dr."
+
+msgid "certificate_var_user_zipcode"
+msgstr "1000"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "Deze achtergrondafbeelding wordt gekozen als de standaard achtergrond voor al de certificaten. Als je een andere achtergrond wilt op een certificaat moet je het uploaden in de certificaateditor."
+
+msgid "download_certificate"
+msgstr "Downloaden Certificaat"
+
+#, fuzzy
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+#, fuzzy
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+#, fuzzy
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+#, fuzzy
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+#, fuzzy
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high user interaction."
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the \"Cron Job\" option."

@@ -1,0 +1,349 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: certificate\n"
+
+msgid "cert_cron_task_desc"
+msgstr "Uppgiften för detta jobb är att behandla inskrivna inlärningsframgångar för databehandling för och generering av beständiga certifikat för användare vid lärandeobjekt."
+
+msgid "cert_cron_task_title"
+msgstr "Certifikat"
+
+msgid "cert_form_sec_add_features"
+msgstr "Ytterligare funktioner"
+
+msgid "cert_form_sec_availability"
+msgstr "Tillgänglighet"
+
+msgid "cert_form_sec_layout"
+msgstr "Layout och text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Quer (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Quer (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Bakgrundsbild"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+msgid "certificate_change_active_status"
+msgstr "Den aktiva statusen för certifikatet har ändrats"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "Vill du verkligen radera certifikatmallen och alla tillhörande data?"
+
+msgid "certificate_custom"
+msgstr "Own format..."
+
+msgid "certificate_edit"
+msgstr "Skapa/redigera certifikatmall"
+
+msgid "certificate_error_import"
+msgstr "Ett fel uppstod under importen av certifikatet!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "Ett fel uppstod vid uppladdningen av bakgrundsbilden!"
+
+msgid "certificate_export"
+msgstr "Export"
+
+msgid "certificate_failed"
+msgstr "Misslyckad"
+
+msgid "certificate_file_basename"
+msgstr "Certifikat"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Endast objekt med aktiv inlärningsprocess kan väljas. Inlärningsförloppet är inte aktivt för följande objekt"
+
+msgid "certificate_letter"
+msgstr "US Letter (11 tum x 8,5 tum)"
+
+msgid "certificate_letter_landscape"
+msgstr "US Letter Landscape (8,5 tum x 11 tum)"
+
+msgid "certificate_margin_body"
+msgstr "Kanter för textområdet"
+
+msgid "certificate_not_well_formed"
+msgstr "Certifikatets textfil innehåller inte giltig XHTML. Använd giltig XHTML!"
+
+msgid "certificate_page_format"
+msgstr "Sidformat"
+
+msgid "certificate_page_format_info"
+msgstr "Välkomna att välja standardformat för nya certifikat."
+
+msgid "certificate_pageheight"
+msgstr "Sidans höjd"
+
+msgid "certificate_pagewidth"
+msgstr "Sidans bredd"
+
+msgid "certificate_passed"
+msgstr "bekräftad"
+
+msgid "certificate_ph_birthday"
+msgstr "Deltagarens födelsedag"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "Staden för deltagarens adress"
+
+msgid "certificate_ph_country"
+msgstr "Land där deltagaren har sin adress"
+
+msgid "certificate_ph_date"
+msgstr "Aktuellt datum"
+
+msgid "certificate_ph_date_completed"
+msgstr "Datum för existens"
+
+msgid "certificate_ph_datetime"
+msgstr "Aktuellt datum och tid"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Datum och tid för existens"
+
+msgid "certificate_ph_department"
+msgstr "Avdelning för deltagaren eller deltagaren"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Titel på övningen"
+
+msgid "certificate_ph_firstname"
+msgstr "Förnamn på deltagaren"
+
+msgid "certificate_ph_fullname"
+msgstr "Deltagarens namn (titel, förnamn och efternamn)"
+
+msgid "certificate_ph_institution"
+msgstr "Institution av deltagaren"
+
+msgid "certificate_ph_introduction"
+msgstr "Följande platshållare kan användas"
+
+msgid "certificate_ph_lastaccess"
+msgstr "Datum och tid för deltagarens senaste åtkomst"
+
+msgid "certificate_ph_lastname"
+msgstr "Efternamn på deltagaren"
+
+msgid "certificate_ph_login"
+msgstr "Login namn"
+
+msgid "certificate_ph_mark"
+msgstr "Grad uppnådd"
+
+msgid "certificate_ph_marklong"
+msgstr "Grad uppnådd (officiell beteckning)"
+
+msgid "certificate_ph_markshort"
+msgstr "Grad uppnådd (kort beteckning)"
+
+msgid "certificate_ph_matriculation"
+msgstr "Användarens matrikelnummer"
+
+msgid "certificate_ph_no_sco"
+msgstr "När material väljs för att fastställa inlärningsframsteg kan titel och poäng också visas i certifikatet."
+
+msgid "certificate_ph_salutation"
+msgstr "Adress"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "placeholder<br/>för poäng<br/>maximalt"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "Placeholder<br/>för poäng"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "placeholder<br/>för poäng<br/>i procent"
+
+msgid "certificate_ph_sco_title"
+msgstr "placeholder<br/>för titel"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Maximalt uppnåelig poäng i den sista SCO där värdet för score.max sattes (t.ex. lämplig för ett slutprov)."
+
+msgid "certificate_ph_scormpoints"
+msgstr "Antal poäng i SCORM-inlärningsmodulen i procent"
+
+msgid "certificate_ph_scormtitle"
+msgstr "Titel på SCORM-inlärningsmodulen"
+
+msgid "certificate_ph_scos"
+msgstr "Följande material valdes ut för att fastställa inlärningsframstegen och finns tillgängligt för information i certifikatet"
+
+msgid "certificate_ph_street"
+msgstr "Adressen till deltagaren eller deltagaren"
+
+msgid "certificate_ph_testtitle"
+msgstr "Titel på testet"
+
+msgid "certificate_ph_title"
+msgstr "Titel på deltagaren eller deltagaren"
+
+msgid "certificate_ph_title_sco"
+msgstr "Titel"
+
+msgid "certificate_ph_zipcode"
+msgstr "Postnummer för deltagarens adress"
+
+msgid "certificate_points_notavailable"
+msgstr "Detta värde kan inte fastställas"
+
+msgid "certificate_preview"
+msgstr "Förhandsgranskning"
+
+msgid "certificate_settings"
+msgstr "Inställningar för certifikat"
+
+msgid "certificate_short_name"
+msgstr "Kort titel för filnamn"
+
+msgid "certificate_short_name_description"
+msgstr "Var god ange en kort titel för filnamnet. Den korta titeln används som en del av certifikatets filnamn"
+
+msgid "certificate_text"
+msgstr "Text för certifikatet"
+
+msgid "certificate_text_info"
+msgstr "Välkomna att ange certifikatets text här. Om WYSIWYG-redigeraren har inaktiverats i ILIAS-administrationen kan du fortfarande använda giltig XHTML för formatering här."
+
+msgid "certificate_unit_description"
+msgstr "Ange alltid mått i formen VALUE[cm|mm|in|pt|pc|px|em], t.ex. 10mm eller 3in"
+
+msgid "certificate_usage"
+msgstr "Observera att användning och skapande av certifikat endast är möjligt om du använder ILIAS Java-server. Java-servern konfigureras på administrationens huvudsida i kategorin Webbtjänster och krävs bland annat för generering av PDF-filer."
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Bra"
+
+msgid "certificate_var_result_mark_short"
+msgstr "2"
+
+msgid "certificate_var_result_passed"
+msgstr "bekräftad"
+
+msgid "certificate_var_result_percent"
+msgstr "83%"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "08.05.1977"
+
+msgid "certificate_var_user_city"
+msgstr "Köln"
+
+msgid "certificate_var_user_country"
+msgstr "Tyskland"
+
+msgid "certificate_var_user_department"
+msgstr "Användarstöd"
+
+msgid "certificate_var_user_firstname"
+msgstr "Erika"
+
+msgid "certificate_var_user_fullname"
+msgstr "Erika Mustermann"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS öppen källkod"
+
+msgid "certificate_var_user_lastname"
+msgstr "Mönster man"
+
+msgid "certificate_var_user_login"
+msgstr "emustermann"
+
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Kvinna"
+
+msgid "certificate_var_user_street"
+msgstr "Heidestraße 17"
+
+msgid "certificate_var_user_title"
+msgstr "Dr."
+
+msgid "certificate_var_user_zipcode"
+msgstr "51147"
+
+msgid "cmix_cert_ph_object_description"
+msgstr "Beskrivning"
+
+msgid "cmix_cert_ph_object_title"
+msgstr "Titel för xAPI/cmi5-objektet"
+
+msgid "cmix_cert_ph_reached_score"
+msgstr "Score uppnådd i procent"
+
+msgid "default_background_info"
+msgstr "Den bakgrundsbild som anges här används som standardbakgrund för alla certifikat om du inte uttryckligen anger en annan bakgrundsbild i certifikatredigeraren."
+
+msgid "download_certificate"
+msgstr "Ladda ner certifikat"
+
+msgid "learning_progress_deactivated"
+msgstr "Inlärningsförloppet för detta objekt är inaktiverat. Inlärningsprocessen måste vara aktiverad för att du ska kunna redigera certifikatmallen och erhålla användarcertifikat."
+
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery Resultat i procent"
+
+msgid "lti_cert_ph_object_description"
+msgstr "Beskrivning"
+
+msgid "lti_cert_ph_object_title"
+msgstr "Titel på LTI-konsumentobjektet"
+
+msgid "lti_cert_ph_reached_score"
+msgstr "Score uppnådd i procent"
+
+msgid "persistent_certificate_mode"
+msgstr "Skapa användarcertifikat"
+
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron-jobb"
+
+msgid "persistent_certificate_mode_cron_info"
+msgstr "Detta alternativ rekommenderas för system med hög användarinteraktion"
+
+msgid "persistent_certificate_mode_instant"
+msgstr "Direkt"
+
+msgid "persistent_certificate_mode_instant_info"
+msgstr "Detta alternativ rekommenderas för system med låg till medelhög användarinteraktion. För system som är utsatta för hög belastning under skapandet av certifikat rekommenderas alternativet \"Cron Job\"."

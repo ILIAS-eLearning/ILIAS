@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: certificate\n"
+
+msgid "cert_cron_task_desc"
+msgstr "This cron job creates persistent certificates based on the learning achievements of users."
+
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Landscape (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Landscape (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Background Image"
+
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+msgid "certificate_change_active_status"
+msgstr "The ‘Active’ status of the certificate has been changed."
+
+msgid "certificate_confirm_deletion_text"
+msgstr "Are you sure you want to delete all of the data entered for this certificate template?"
+
+msgid "certificate_custom"
+msgstr "Custom"
+
+msgid "certificate_edit"
+msgstr "Create/Edit a Certificate Template"
+
+msgid "certificate_error_import"
+msgstr "An error occurred while trying to import the certificate!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "An error occurred while trying to upload the background image."
+
+msgid "certificate_export"
+msgstr "Export"
+
+msgid "certificate_failed"
+msgstr "Failed"
+
+msgid "certificate_file_basename"
+msgstr "Certificate"
+
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+msgid "certificate_issue_date"
+msgstr "Date of Issue"
+
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "Letter (11 inch x 8.5 inch)"
+
+msgid "certificate_letter_landscape"
+msgstr "Letter Landscape (8.5 inch x 11 inch)"
+
+msgid "certificate_margin_body"
+msgstr "Text Margins"
+
+msgid "certificate_not_well_formed"
+msgstr "The certificate text is not correctly formatted. Please enter valid XHTML for the certificate text."
+
+msgid "certificate_page_format"
+msgstr "Page Format"
+
+msgid "certificate_page_format_info"
+msgstr "Please select the page format to be used as the default for new certificates."
+
+msgid "certificate_pageheight"
+msgstr "Page Height"
+
+msgid "certificate_pagewidth"
+msgstr "Page Width"
+
+msgid "certificate_passed"
+msgstr "Passed"
+
+msgid "certificate_ph_birthday"
+msgstr "User’s date of birth"
+
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "City from user's address"
+
+msgid "certificate_ph_country"
+msgstr "Country from user's address"
+
+msgid "certificate_ph_date"
+msgstr "Current date"
+
+msgid "certificate_ph_date_completed"
+msgstr "Date of completion"
+
+msgid "certificate_ph_datetime"
+msgstr "Current date and time"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Date and time of completion"
+
+msgid "certificate_ph_department"
+msgstr "Department to which user belongs"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Title of exercise"
+
+msgid "certificate_ph_firstname"
+msgstr "User’s first name"
+
+msgid "certificate_ph_fullname"
+msgstr "User’s full name (title, first name and last name)"
+
+msgid "certificate_ph_institution"
+msgstr "Institution to which user belongs"
+
+msgid "certificate_ph_introduction"
+msgstr "The following placeholders may be used"
+
+msgid "certificate_ph_lastaccess"
+msgstr "Date and time of last access by user"
+
+msgid "certificate_ph_lastname"
+msgstr "User’s last name"
+
+msgid "certificate_ph_login"
+msgstr "Username"
+
+msgid "certificate_ph_mark"
+msgstr "User’s mark"
+
+msgid "certificate_ph_marklong"
+msgstr "User’s mark (official version)"
+
+msgid "certificate_ph_markshort"
+msgstr "User’s mark (short version)"
+
+msgid "certificate_ph_matriculation"
+msgstr "User’s matriculation number"
+
+msgid "certificate_ph_no_sco"
+msgstr "If the learning progress for this learning module is determined by a collection of objects, then placeholders for the titles and points of these objects will be made available here."
+
+msgid "certificate_ph_salutation"
+msgstr "Salutation"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "Placeholder<br/>for max<br/>points"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "Placeholder<br/>for points"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "Placeholder<br/>for points<br/>in percent"
+
+msgid "certificate_ph_sco_title"
+msgstr "Placeholder<br/>for title"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "Points of the SCORM learning module in percent"
+
+msgid "certificate_ph_scormtitle"
+msgstr "Title of the SCORM learning module"
+
+msgid "certificate_ph_scos"
+msgstr "The following were selected to determine the overall learning progress status and are available for statements in the certificate:"
+
+msgid "certificate_ph_street"
+msgstr "Street from user's address"
+
+msgid "certificate_ph_testtitle"
+msgstr "Title of test"
+
+msgid "certificate_ph_title"
+msgstr "User’s title"
+
+msgid "certificate_ph_title_sco"
+msgstr "Title"
+
+msgid "certificate_ph_zipcode"
+msgstr "ZIP / Post code from user's address"
+
+msgid "certificate_points_notavailable"
+msgstr "This value cannot be calculated"
+
+msgid "certificate_preview"
+msgstr "Preview"
+
+msgid "certificate_settings"
+msgstr "Certificate Settings"
+
+msgid "certificate_short_name"
+msgstr "Certificate File Short Title"
+
+msgid "certificate_short_name_description"
+msgstr "Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf."
+
+msgid "certificate_text"
+msgstr "Certificate Text"
+
+msgid "certificate_text_info"
+msgstr "Please enter the text you want to have displayed on the certificate. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "Enter units of measurement as: VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in"
+
+msgid "certificate_usage"
+msgstr "Please note that the use and creation of certificates is only possible if you use the ILIAS Java server. The Java server is configured by specifying the network host and port via the ILIAS Setup and is required, among other things, for generating PDF files."
+
+msgid "certificate_var_max_points"
+msgstr "Maximum number of points in the test used"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Achieved mark presented in 'official form'"
+
+msgid "certificate_var_result_mark_short"
+msgstr "Achieved mark presented in 'short form'"
+
+msgid "certificate_var_result_passed"
+msgstr "Passed"
+
+msgid "certificate_var_result_percent"
+msgstr "Percentage achieved in the test"
+
+msgid "certificate_var_result_points"
+msgstr "Number of points achieved in the test"
+
+msgid "certificate_var_user_birthday"
+msgstr "22.05.1952"
+
+msgid "certificate_var_user_city"
+msgstr "London"
+
+msgid "certificate_var_user_country"
+msgstr "UK"
+
+msgid "certificate_var_user_department"
+msgstr "Customer Support"
+
+msgid "certificate_var_user_firstname"
+msgstr "John"
+
+msgid "certificate_var_user_fullname"
+msgstr "John H. Watson, M.D"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Investigations Ltd."
+
+msgid "certificate_var_user_lastname"
+msgstr "Watson"
+
+msgid "certificate_var_user_login"
+msgstr "jwatson"
+
+msgid "certificate_var_user_matriculation"
+msgstr "8201754"
+
+msgid "certificate_var_user_salutation"
+msgstr "Mr"
+
+msgid "certificate_var_user_street"
+msgstr "221B Baker Street"
+
+msgid "certificate_var_user_title"
+msgstr "Dr"
+
+msgid "certificate_var_user_zipcode"
+msgstr "NW1 6XE"
+
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+msgid "cmix_cert_ph_reached_score"
+msgstr "Score achieved in percent"
+
+msgid "default_background_info"
+msgstr "This background image will be used as the default background for all certificates unless a different image is uploaded when creating a certificate for a specific object."
+
+msgid "download_certificate"
+msgstr "Download Certificate"
+
+msgid "learning_progress_deactivated"
+msgstr "Learning progress for this object is currently deactivated. In order to edit the certificate template and for users to be able to obtain certificates, learning progress for this object needs to be activated via Learning Progress » Settings."
+
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high levels of user interaction."
+
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option."

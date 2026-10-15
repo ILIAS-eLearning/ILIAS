@@ -1,0 +1,350 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: certificate\n"
+
+msgid "cert_cron_task_desc"
+msgstr "This job's responsibility is the creation of persisting certificate data based on learning achievements of users."
+
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+msgid "certificate_a4"
+msgstr "A4 portrait (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 paysage (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 portrait (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 paysage (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Image d'Arrière-Plan"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+msgid "certificate_change_active_status"
+msgstr "The active state of the certificate has been changed"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "Voulez-vous vraiment supprimer le certificat et toutes les données associées ?"
+
+msgid "certificate_custom"
+msgstr "Personnaliser..."
+
+msgid "certificate_edit"
+msgstr "Créer/modifier un modèle de certificat"
+
+msgid "certificate_error_import"
+msgstr "Une erreur s'est produite pendant l'importation d'un certificat !"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "Une erreur s'est produite pendant le téléchargement de l'image d'arrière-plan !"
+
+msgid "certificate_export"
+msgstr "Exporter Certificat"
+
+msgid "certificate_failed"
+msgstr "échec"
+
+msgid "certificate_file_basename"
+msgstr "Certificat"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "Lettre (21.59 cm x 27.94 cm)"
+
+msgid "certificate_letter_landscape"
+msgstr "Lettre paysage (27,94 cm x 21,59 cm)"
+
+msgid "certificate_margin_body"
+msgstr "Marges du certificat"
+
+msgid "certificate_not_well_formed"
+msgstr "Le texte du certificat n'est pas bien formaté. Veuillez saisir du XHTML valide pour le texte du certificat !"
+
+msgid "certificate_page_format"
+msgstr "Format de Page"
+
+msgid "certificate_page_format_info"
+msgstr "Veuillez sélectionner le format par défaut de la page pour les nouveaux certificats."
+
+msgid "certificate_pageheight"
+msgstr "Hauteur de Page"
+
+msgid "certificate_pagewidth"
+msgstr "Largeur de Page"
+
+msgid "certificate_passed"
+msgstr "réussi"
+
+msgid "certificate_ph_birthday"
+msgstr "Date de naissance de l'utilisateur"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "Adresse : Ville de l'utilisateur"
+
+msgid "certificate_ph_country"
+msgstr "Adresse : Pays de l'utilisateur"
+
+msgid "certificate_ph_date"
+msgstr "Date actuelle"
+
+msgid "certificate_ph_date_completed"
+msgstr "Date d'achèvement"
+
+msgid "certificate_ph_datetime"
+msgstr "Date et heure actuelles"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Date et heure d'achèvement"
+
+msgid "certificate_ph_department"
+msgstr "Département/service de l'utilisateur"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Titre d'Exercice"
+
+msgid "certificate_ph_firstname"
+msgstr "Prénom de l'utilisateur"
+
+msgid "certificate_ph_fullname"
+msgstr "Nom complet de l'utilisateur (titre, prénom et nom)"
+
+msgid "certificate_ph_institution"
+msgstr "Organisme/unité de l'utilisateur"
+
+msgid "certificate_ph_introduction"
+msgstr "Les champs de fusion suivants peuvent être utilisés"
+
+msgid "certificate_ph_lastaccess"
+msgstr "Date et heure du dernier accès de l'utilisateur"
+
+msgid "certificate_ph_lastname"
+msgstr "Nom de l'utilisateur"
+
+msgid "certificate_ph_login"
+msgstr "Nom d'utilisateur (login)"
+
+msgid "certificate_ph_mark"
+msgstr "Notation des utilisateurs"
+
+msgid "certificate_ph_marklong"
+msgstr "Notation des utilisateurs (version officielle)"
+
+msgid "certificate_ph_markshort"
+msgstr "Notation des utilisateurs (version courte)"
+
+msgid "certificate_ph_matriculation"
+msgstr "Numéro de matricule de l’utilisateur"
+
+msgid "certificate_ph_no_sco"
+msgstr "Lorsque des objets sont sélectionnés pour déterminer l'état de progression, leurs titres et scores peuvent être affichés dans le certificat."
+
+msgid "certificate_ph_salutation"
+msgstr "Salutation"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "Score<br/>max"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "Score<br/>brut"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "Score<br/>en %"
+
+msgid "certificate_ph_sco_title"
+msgstr "Titre"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Score maximum (en valeur brute) du dernier SCO concerné (le plus probable pour un examen)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "Points obtenus en pourcentage par l'utilisateur"
+
+msgid "certificate_ph_scormtitle"
+msgstr "Titre du document SCORM"
+
+msgid "certificate_ph_scos"
+msgstr "Les objets suivants ont été sélectionnés pour déterminer l'état de progression du module et sont disponibles pour figurer dans le certificat :"
+
+msgid "certificate_ph_street"
+msgstr "Adresse : Rue de l'utilisateur"
+
+msgid "certificate_ph_testtitle"
+msgstr "Titre du test"
+
+msgid "certificate_ph_title"
+msgstr "Titre de l'utilisateur"
+
+msgid "certificate_ph_title_sco"
+msgstr "Titre"
+
+msgid "certificate_ph_zipcode"
+msgstr "Adresse : Code postal de l'utilisateur"
+
+msgid "certificate_points_notavailable"
+msgstr "Cette valeur ne peut être calculée"
+
+msgid "certificate_preview"
+msgstr "Prévisualiser Certificat"
+
+msgid "certificate_settings"
+msgstr "Paramètres certificat"
+
+msgid "certificate_short_name"
+msgstr "Libellé court du fichier du certificat"
+
+msgid "certificate_short_name_description"
+msgstr "Veuillez saisir un libellé court pour le fichier du certificat. Ce libellé court sera une partie du titre du fichier du certificat : YYMMDD_[nom]_[libelle_court]_certificate.pdf."
+
+msgid "certificate_text"
+msgstr "Texte du Certificat"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "Entrer une valeur avec unité de mesure : VALEUR [cm|mm|in|pt|pc|px|em], par ex. 10mm ou 3in"
+
+msgid "certificate_usage"
+msgstr "Veuillez noter que les certificats sont utilisables uniquement si le serveur Java d'ILIAS fonctionne. La configuration du serveur Java est disponible sur la page Paramètres système d'ILIAS dans la section Webservices."
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Bien"
+
+msgid "certificate_var_result_mark_short"
+msgstr "B"
+
+msgid "certificate_var_result_passed"
+msgstr "réussi"
+
+msgid "certificate_var_result_percent"
+msgstr "83"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "28253"
+
+msgid "certificate_var_user_city"
+msgstr "Perpette sous bois"
+
+msgid "certificate_var_user_country"
+msgstr "USA"
+
+msgid "certificate_var_user_department"
+msgstr "Assistance client"
+
+msgid "certificate_var_user_firstname"
+msgstr "Denise"
+
+msgid "certificate_var_user_fullname"
+msgstr "Dr. Denise Dupond"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Open Source"
+
+msgid "certificate_var_user_lastname"
+msgstr "Dupond"
+
+msgid "certificate_var_user_login"
+msgstr "jdoe"
+
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Mme"
+
+msgid "certificate_var_user_street"
+msgstr "100 rue principale"
+
+msgid "certificate_var_user_title"
+msgstr "Dr"
+
+msgid "certificate_var_user_zipcode"
+msgstr "12345"
+
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "Cette image d'arrière-plan sera appliquée par défaut à  tous les certificats. L'éditeur de certificat permet toutefois de téléverser une image différente pour chaque certificat."
+
+msgid "download_certificate"
+msgstr "Télécharger certificat"
+
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high user interaction."
+
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the \"Cron Job\" option."

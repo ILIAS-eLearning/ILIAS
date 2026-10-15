@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "Currently you did not achieve any certificate, yet."
+
+msgid "cert_description_label"
+msgstr "Description"
+
+msgid "cert_download_label"
+msgstr "Download"
+
+msgid "cert_error_no_access"
+msgstr "You have no access to this certificate."
+
+msgid "cert_issued_on_label"
+msgstr "Issued On"
+
+msgid "cert_object_label"
+msgstr "Object"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Nach Ausstellungsdatum aufsteigend"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Nach Ausstellungsdatum absteigend"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Nach Titel aufsteigend"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Nach Titel absteigend"
+
+msgid "certificate_achievement"
+msgstr "%1$s achieved."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Certificate for %1$s"
+
+msgid "certificate_no_object_title"
+msgstr "No object title available"
+
+msgid "certificate_same_not_saved"
+msgstr "No new version of certificate template was saved, because the values didn't change."
+
+msgid "error_creating_certificate_pdf"
+msgstr "The certificate could not be created. Please contact the administrator to check the certificate server."
+
+msgid "user_certificates"
+msgstr "Certificates"
