@@ -1,0 +1,394 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: prtf\n"
+
+#, fuzzy
+msgid "pdf_export"
+msgstr "PDF Export"
+
+#, fuzzy
+msgid "prtf_add_assignment"
+msgstr "Add Assignment"
+
+msgid "prtf_add_page"
+msgstr "添加页面"
+
+msgid "prtf_add_portfolio"
+msgstr "添加组合"
+
+#, fuzzy
+msgid "prtf_add_portfolio_from_template"
+msgstr "Add Portfolio From Template"
+
+#, fuzzy
+msgid "prtf_all_pages"
+msgstr "All Pages"
+
+#, fuzzy
+msgid "prtf_allow_html"
+msgstr "Allow HTML/Javascript"
+
+#, fuzzy
+msgid "prtf_allow_html_info"
+msgstr "Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues."
+
+#, fuzzy
+msgid "prtf_allow_my_courses"
+msgstr "Page Element \"My Courses\""
+
+#, fuzzy
+msgid "prtf_allow_my_courses_info"
+msgstr "Enables to include a list of current course memberships in a portfolio."
+
+#, fuzzy
+msgid "prtf_author"
+msgstr "Author"
+
+#, fuzzy
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Edit Portfolio "
+
+#, fuzzy
+msgid "prtf_blog_page_created"
+msgstr "Blog has been added."
+
+#, fuzzy
+msgid "prtf_copy_blog_pg"
+msgstr "Copy Blog Page"
+
+msgid "prtf_copy_page"
+msgstr "复制页面"
+
+#, fuzzy
+msgid "prtf_copy_pg"
+msgstr "Copy Page"
+
+#, fuzzy
+msgid "prtf_copy_tab"
+msgstr "Copy Tab"
+
+msgid "prtf_create_portfolio"
+msgstr "添加组合"
+
+#, fuzzy
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Select a portfolio to use its content and settings for the template."
+
+#, fuzzy
+msgid "prtf_creation_mode"
+msgstr "New Portfolio"
+
+#, fuzzy
+msgid "prtf_creation_mode_scratch"
+msgstr "Create without Template"
+
+#, fuzzy
+msgid "prtf_creation_mode_template"
+msgstr "Create from Template"
+
+#, fuzzy
+msgid "prtf_date_of_print"
+msgstr "Date of Print"
+
+#, fuzzy
+msgid "prtf_decl_authorship"
+msgstr "Declaration of Authorship"
+
+msgid "prtf_default_portfolio"
+msgstr "我的组合"
+
+#, fuzzy
+msgid "prtf_delete_assignment"
+msgstr "Delete Assignments"
+
+#, fuzzy
+msgid "prtf_delete_assignment_sure"
+msgstr "Do you really want to delete the following assignment(s)?"
+
+#, fuzzy
+msgid "prtf_download_submission"
+msgstr "Download Submission"
+
+#, fuzzy
+msgid "prtf_edit_content"
+msgstr "Edit Content"
+
+#, fuzzy
+msgid "prtf_edit_data"
+msgstr "Edit Data"
+
+#, fuzzy
+msgid "prtf_edit_embedded_blog"
+msgstr "Edit Blog \"%s\""
+
+msgid "prtf_edit_portfolio"
+msgstr "编辑组合"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "这个组合是分配 \"%s\"(此分配属于练习\"%s\")的一部分。"
+
+msgid "prtf_exercise_submitted_info"
+msgstr "您最后一次提交是在 %s，请检查导出文件：%s 。"
+
+msgid "prtf_existing_portfolio"
+msgstr "现有组合"
+
+msgid "prtf_finalize_portfolio"
+msgstr "完成并提交组合"
+
+msgid "prtf_finalized"
+msgstr "组合已提交"
+
+msgid "prtf_first_page_title"
+msgstr "首页的标题"
+
+#, fuzzy
+msgid "prtf_has_been_set_online"
+msgstr "Portfolio has been set online."
+
+#, fuzzy
+msgid "prtf_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "prtf_manage_portfolios"
+msgstr "Manage Portfolios"
+
+msgid "prtf_new_portfolio"
+msgstr "新组合"
+
+msgid "prtf_no_blogs_info"
+msgstr "您的工作空间不包含任何博客。创建博客并作为您的组合的一部分使用它们。"
+
+#, fuzzy
+msgid "prtf_no_offline_share_info"
+msgstr "A portfolio has to be online to be shared by other users."
+
+#, fuzzy
+msgid "prtf_no_submission"
+msgstr "No Submission"
+
+msgid "prtf_page_created"
+msgstr "页面已创建"
+
+#, fuzzy
+msgid "prtf_page_element_my_courses_info"
+msgstr "This is a list of all my courses which are currently online and where I have a membership."
+
+#, fuzzy
+msgid "prtf_page_element_my_courses_title"
+msgstr "Current Courses"
+
+#, fuzzy
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "The portfolio will display a blog of your personal workspace here."
+
+#, fuzzy
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "The portfolio will display a consultation hours calendar here."
+
+#, fuzzy
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "The portfolio will display a list of your current courses here."
+
+#, fuzzy
+msgid "prtf_page_element_teaser_settings"
+msgstr "Settings"
+
+#, fuzzy
+msgid "prtf_page_element_teaser_skills"
+msgstr "The portfolio will display your competence level here."
+
+#, fuzzy
+msgid "prtf_page_type_prtf"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "prtf_page_type_prtt"
+msgstr "Portfolio Template Page"
+
+msgid "prtf_pages_copied"
+msgstr "页面已被复制"
+
+#, fuzzy
+msgid "prtf_pdf"
+msgstr "PDF"
+
+#, fuzzy
+msgid "prtf_permanent_link"
+msgstr "Link to Portfolio:"
+
+msgid "prtf_portfolio_created"
+msgstr "组合已添加"
+
+#, fuzzy
+msgid "prtf_portfolio_created_from_template"
+msgstr "This is the preview of your new portfolio. To add pages and manage the content of the portfolio click on \"Edit Portfolio\" on top of this page."
+
+msgid "prtf_portfolio_deleted"
+msgstr "组合已删除"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "组合页面已删除"
+
+msgid "prtf_portfolios"
+msgstr "组合"
+
+#, fuzzy
+msgid "prtf_print_options"
+msgstr "Options"
+
+#, fuzzy
+msgid "prtf_print_selection"
+msgstr "Page Selection"
+
+msgid "prtf_profile_picture"
+msgstr "显示资料(profile)图片"
+
+#, fuzzy
+msgid "prtf_properties"
+msgstr "Portfolio Properties"
+
+msgid "prtf_public_comments"
+msgstr "公共评论"
+
+#, fuzzy
+msgid "prtf_role_assignment"
+msgstr "Role Assignment"
+
+#, fuzzy
+msgid "prtf_role_title"
+msgstr "Role"
+
+msgid "prtf_save_status_and_titles"
+msgstr "保存状态和标题"
+
+#, fuzzy
+msgid "prtf_sec_protected_info"
+msgstr "Protected sections cannot be edited by portfolio owners."
+
+#, fuzzy
+msgid "prtf_selected_pages"
+msgstr "Selected Pages"
+
+#, fuzzy
+msgid "prtf_set_default_publish_global"
+msgstr "Share with unregistered users also"
+
+#, fuzzy
+msgid "prtf_set_default_publish_registered"
+msgstr "Share with registered users only"
+
+#, fuzzy
+msgid "prtf_set_offline"
+msgstr "Set Offline"
+
+#, fuzzy
+msgid "prtf_set_online"
+msgstr "Set Online"
+
+msgid "prtf_settings"
+msgstr "组合管理"
+
+#, fuzzy
+msgid "prtf_shared_offline_info"
+msgstr "A portfolio has to be online to be accessible by shared users."
+
+#, fuzzy
+msgid "prtf_signature"
+msgstr "Signature Field"
+
+#, fuzzy
+msgid "prtf_signature_date"
+msgstr "Date, Signature"
+
+#, fuzzy
+msgid "prtf_signature_info"
+msgstr "Adds a field to the print where the author can sign the portfolio."
+
+#, fuzzy
+msgid "prtf_style"
+msgstr "Portfolio Style"
+
+#, fuzzy
+msgid "prtf_submission_on"
+msgstr "Submitted on $1"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf"
+msgstr "Confirmation Shared Portfolio '%s'"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "You have shared your portfolio '%s' with:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "您确定要删除以下组合页面？"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "您确定要删除以下组合？"
+
+msgid "prtf_tab_other_users"
+msgstr "来自其他用户的组合"
+
+msgid "prtf_tab_portfolios"
+msgstr "我的组合"
+
+#, fuzzy
+msgid "prtf_table_of_contents"
+msgstr "Table of Contents"
+
+#, fuzzy
+msgid "prtf_template_editor_placeholder_info"
+msgstr "This placeholder will be replaced in the portfolio."
+
+#, fuzzy
+msgid "prtf_template_import_blog_create"
+msgstr "Create New Blog"
+
+#, fuzzy
+msgid "prtf_template_import_blog_ignore"
+msgstr "Remove Blog Page"
+
+#, fuzzy
+msgid "prtf_template_import_blog_reuse"
+msgstr "Use Existing Blog"
+
+#, fuzzy
+msgid "prtf_template_import_new_skills"
+msgstr "If activated, these items will be added to your personal competences."
+
+#, fuzzy
+msgid "prtf_template_title"
+msgstr "Portfolio Template"
+
+msgid "prtf_unset_as_default"
+msgstr "不设置为我的资料(profile)"
+
+msgid "prtf_unset_default_share_info"
+msgstr "请检查组合共享的当前设置，然后保存更改。"
+
+msgid "prtf_use_page_layout"
+msgstr "使用页面布局"
+
+#, fuzzy
+msgid "prtf_visible_for_tutor"
+msgstr "Visible For Tutor"
+
+#, fuzzy
+msgid "prtt_title_info"
+msgstr "Please note that this will be also the default title for all portfolios being created form this template."

@@ -1,0 +1,338 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "PDF Export"
+
+#, fuzzy
+msgid "prtf_add_assignment"
+msgstr "Add Assignment"
+
+msgid "prtf_add_page"
+msgstr "Add Page"
+
+msgid "prtf_add_portfolio"
+msgstr "Add Portfolio"
+
+#, fuzzy
+msgid "prtf_add_portfolio_from_template"
+msgstr "Add Portfolio From Template"
+
+msgid "prtf_all_pages"
+msgstr "All Pages"
+
+msgid "prtf_allow_html"
+msgstr "Allow HTML/Javascript"
+
+msgid "prtf_allow_html_info"
+msgstr "Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues."
+
+msgid "prtf_allow_my_courses"
+msgstr "Page Element ‘My Courses’"
+
+msgid "prtf_allow_my_courses_info"
+msgstr "Enables to include a list of current course memberships in a portfolio."
+
+msgid "prtf_author"
+msgstr "Author"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Edit Portfolio"
+
+msgid "prtf_blog_page_created"
+msgstr "Blog has been added."
+
+#, fuzzy
+msgid "prtf_copy_blog_pg"
+msgstr "Copy Blog Page"
+
+msgid "prtf_copy_page"
+msgstr "Copy Page(s)"
+
+#, fuzzy
+msgid "prtf_copy_pg"
+msgstr "Copy Page"
+
+msgid "prtf_copy_tab"
+msgstr "Copy Tab"
+
+msgid "prtf_create_portfolio"
+msgstr "Add Portfolio"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portfolio"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Select a portfolio to use its content and settings for the template."
+
+msgid "prtf_creation_mode"
+msgstr "New Portfolio"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "Create without Template"
+
+msgid "prtf_creation_mode_template"
+msgstr "Create from Template"
+
+msgid "prtf_date_of_print"
+msgstr "Date of Print"
+
+msgid "prtf_decl_authorship"
+msgstr "Declaration of Authorship"
+
+msgid "prtf_default_portfolio"
+msgstr "My Profile"
+
+#, fuzzy
+msgid "prtf_delete_assignment"
+msgstr "Delete Assignments"
+
+#, fuzzy
+msgid "prtf_delete_assignment_sure"
+msgstr "Do you really want to delete the following assignment(s)?"
+
+msgid "prtf_download_submission"
+msgstr "Download Submission"
+
+msgid "prtf_edit_content"
+msgstr "Edit Content"
+
+#, fuzzy
+msgid "prtf_edit_data"
+msgstr "Edit Data"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "Edit Blog \"%s\""
+
+msgid "prtf_edit_portfolio"
+msgstr "Edit Portfolio"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "This portfolio is part of the assignment \"%s\" of exercise \"%s\"."
+
+msgid "prtf_exercise_submitted_info"
+msgstr "You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files."
+
+msgid "prtf_existing_portfolio"
+msgstr "Existing Portfolio"
+
+msgid "prtf_finalize_portfolio"
+msgstr "Finalize and Submit Portfolio"
+
+msgid "prtf_finalized"
+msgstr "The portfolio has been submitted."
+
+msgid "prtf_first_page_title"
+msgstr "Type of first page"
+
+msgid "prtf_has_been_set_online"
+msgstr "Portfolio has been set online."
+
+msgid "prtf_link"
+msgstr "Link"
+
+msgid "prtf_manage_portfolios"
+msgstr "Manage Portfolios"
+
+msgid "prtf_new_portfolio"
+msgstr "New Portfolio"
+
+msgid "prtf_no_blogs_info"
+msgstr "Your \"%s\" does not contain any blogs. Create blogs to use them as part of your portfolios."
+
+msgid "prtf_no_offline_share_info"
+msgstr "A portfolio has to be online to be shared by other users."
+
+msgid "prtf_no_submission"
+msgstr "No Submission"
+
+msgid "prtf_page_created"
+msgstr "Page created"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "This is a list of all my courses which are currently online and where I have a membership."
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "Course Memberships"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "The portfolio will display a blog of your personal resources here."
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "The portfolio will display a consultation hours calendar here."
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "The portfolio will display a list of your current courses here."
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "Settings"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "The portfolio will display your competence level here."
+
+msgid "prtf_page_type_prtf"
+msgstr "Portfolio Page"
+
+msgid "prtf_page_type_prtt"
+msgstr "Portfolio Template Page"
+
+msgid "prtf_pages_copied"
+msgstr "The pages have been copied."
+
+msgid "prtf_pdf"
+msgstr "Export as PDF"
+
+#, fuzzy
+msgid "prtf_permanent_link"
+msgstr "Link to Portfolio:"
+
+msgid "prtf_portfolio_created"
+msgstr "Portfolio added"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "This is the preview of your new portfolio. To add pages and manage the content of the portfolio click on \"Edit Portfolio\" on top of this page."
+
+msgid "prtf_portfolio_deleted"
+msgstr "Portfolio deleted"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "Portfolio / blog page deleted."
+
+msgid "prtf_portfolios"
+msgstr "Portfolios"
+
+msgid "prtf_print_options"
+msgstr "Options"
+
+msgid "prtf_print_selection"
+msgstr "Page Selection"
+
+msgid "prtf_profile_picture"
+msgstr "Display Profile Picture"
+
+msgid "prtf_properties"
+msgstr "Portfolio Properties"
+
+msgid "prtf_public_comments"
+msgstr "Public Comments"
+
+#, fuzzy
+msgid "prtf_role_assignment"
+msgstr "Role Assignment"
+
+#, fuzzy
+msgid "prtf_role_title"
+msgstr "Role"
+
+msgid "prtf_save_status_and_titles"
+msgstr "Save Status and Titles"
+
+#, fuzzy
+msgid "prtf_sec_protected_info"
+msgstr "Protected sections cannot be edited by portfolio owners."
+
+msgid "prtf_selected_pages"
+msgstr "Selected Pages"
+
+msgid "prtf_set_default_publish_global"
+msgstr "Share with unregistered users also"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "Share with registered users only"
+
+msgid "prtf_set_offline"
+msgstr "Set Offline"
+
+msgid "prtf_set_online"
+msgstr "Set Online"
+
+msgid "prtf_settings"
+msgstr "Portfolio Administration"
+
+msgid "prtf_shared_offline_info"
+msgstr "A portfolio has to be online to be accessible by shared users."
+
+msgid "prtf_signature"
+msgstr "Signature Field"
+
+msgid "prtf_signature_date"
+msgstr "Date, Signature"
+
+msgid "prtf_signature_info"
+msgstr "Adds a field to the print where the author can sign the portfolio."
+
+msgid "prtf_style"
+msgstr "Portfolio Style"
+
+msgid "prtf_submission_on"
+msgstr "Submitted on $1"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf"
+msgstr "Confirmation Shared Portfolio '%s'"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "You have shared your portfolio '%s' with:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "Are you sure you want to delete the following portfolio page / blog page?"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "Are you sure you want to delete the following portfolio?"
+
+msgid "prtf_tab_other_users"
+msgstr "Portfolios of Other Users"
+
+msgid "prtf_tab_portfolios"
+msgstr "My Portfolios"
+
+#, fuzzy
+msgid "prtf_table_of_contents"
+msgstr "Table of Contents"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "This placeholder will be replaced in the portfolio."
+
+msgid "prtf_template_import_blog_create"
+msgstr "Create New Blog"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "Remove Blog Page"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "Use Existing Blog"
+
+msgid "prtf_template_import_new_skills"
+msgstr "If activated, these items will be added to your personal competences."
+
+#, fuzzy
+msgid "prtf_template_title"
+msgstr "Portfolio Template"
+
+msgid "prtf_unset_as_default"
+msgstr "Unset As My Profile"
+
+msgid "prtf_unset_default_share_info"
+msgstr "Then changes were saved. Please check the current settings for the portfolio sharing."
+
+msgid "prtf_use_page_layout"
+msgstr "Use Page Layout"
+
+#, fuzzy
+msgid "prtf_visible_for_tutor"
+msgstr "Visible For Tutor"
+
+msgid "prtt_title_info"
+msgstr "Please note that this will be also the default title for all portfolios being created form this template."

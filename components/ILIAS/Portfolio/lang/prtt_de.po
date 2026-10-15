@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Falls aktiv, ist die Portfoliovorlage auch außerhalb der Zugriffszeiten sichtbar."
+
+msgid "prtt_activation_online_info"
+msgstr "Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zu machen."
+
+msgid "prtt_add"
+msgstr "Portfoliovorlage anlegen"
+
+msgid "prtt_copy"
+msgstr "Portfoliovorlage kopieren"
+
+msgid "prtt_edit"
+msgstr "Portfoliovorlage bearbeiten"
+
+msgid "prtt_import"
+msgstr "Portfoliovorlage importieren"
+
+msgid "prtt_new"
+msgstr "Neue Portfoliovorlage anlegen"
+
+msgid "prtt_pfpg"
+msgstr "Portfolioseite"
+
+msgid "prtt_portfolio_created"
+msgstr "Portfoliovorlage wurde hinzugefügt"
+
+msgid "prtt_properties"
+msgstr "Portfoliovorlagen-Eigenschaften"
+
+msgid "prtt_select_datasets"
+msgstr "Formulare auswählen"
+
+msgid "prtt_style"
+msgstr "Portfoliovorlagen-Style"

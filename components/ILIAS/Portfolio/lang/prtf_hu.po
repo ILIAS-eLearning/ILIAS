@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "PDF export"
+
+msgid "prtf_add_assignment"
+msgstr "Hozzárendelés hozzáadása"
+
+msgid "prtf_add_page"
+msgstr "Lap létrehozása"
+
+msgid "prtf_add_portfolio"
+msgstr "Portfólió hozzáadása"
+
+msgid "prtf_add_portfolio_from_template"
+msgstr "Portfólió létrehozása sablonból"
+
+msgid "prtf_all_pages"
+msgstr "Összes oldal"
+
+msgid "prtf_allow_html"
+msgstr "HTML/JavaScript engedélyezése"
+
+msgid "prtf_allow_html_info"
+msgstr "HTML és JavaScript tartalmak engedélyezése a felhasználók portfólió oldalain. Ez biztonsági problémákhoz vezethet."
+
+msgid "prtf_allow_my_courses"
+msgstr "‘Kurzusaim’ oldalelemei"
+
+msgid "prtf_allow_my_courses_info"
+msgstr "A felhasználók pillanatnyi kurzustagságainak felsorolása a portfóliókban."
+
+msgid "prtf_author"
+msgstr "Szerző"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Portfólió módosítása"
+
+msgid "prtf_blog_page_created"
+msgstr "Sikeresen létrehozott egy blogot."
+
+msgid "prtf_copy_blog_pg"
+msgstr "Blogoldal másolása"
+
+msgid "prtf_copy_page"
+msgstr "Lap(ok) másolása"
+
+msgid "prtf_copy_pg"
+msgstr "Lap másolása"
+
+msgid "prtf_copy_tab"
+msgstr "Fül másolása"
+
+msgid "prtf_create_portfolio"
+msgstr "Portfólió létrehozása"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portfólió"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Válasszon egy portfóliót, hogy annak tartalma és beállításai legyen a sablon."
+
+msgid "prtf_creation_mode"
+msgstr "Új portfólió"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "Létrehozás sablon nélkül"
+
+msgid "prtf_creation_mode_template"
+msgstr "Létrehozás sablonból"
+
+msgid "prtf_date_of_print"
+msgstr "Nyomtatás dátuma"
+
+msgid "prtf_decl_authorship"
+msgstr "Szerzői nyilatkozat"
+
+msgid "prtf_default_portfolio"
+msgstr "Személyes adataim"
+
+msgid "prtf_delete_assignment"
+msgstr "Hozzárendelések törlése"
+
+msgid "prtf_delete_assignment_sure"
+msgstr "Biztos, hogy törli az alábbi hozzárendekelés(eke)t?"
+
+msgid "prtf_download_submission"
+msgstr "A kézbesítés egy példányának letöltése"
+
+msgid "prtf_edit_content"
+msgstr "Tartalom módosítása"
+
+msgid "prtf_edit_data"
+msgstr "Adat szerkesztése"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "‘%s’ blog módosítása"
+
+msgid "prtf_edit_portfolio"
+msgstr "Portfólió módosítása"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "Ez a portfólió a(z) ‘%s’ értékelés része, amely a(z) ‘%s’ beadandó feladathoz tartozik."
+
+msgid "prtf_exercise_submitted_info"
+msgstr "Portfóliója beadásának időpontja: %s. Másolatot készíthet saját fájljairól."
+
+msgid "prtf_existing_portfolio"
+msgstr "Meglévő portfólió"
+
+msgid "prtf_finalize_portfolio"
+msgstr "Portfólió véglegesítése és elküldése"
+
+msgid "prtf_finalized"
+msgstr "A portfóliót elküldte."
+
+msgid "prtf_first_page_title"
+msgstr "Az első lap típusa"
+
+msgid "prtf_has_been_set_online"
+msgstr "A portfóliónak online-nak kell lennie."
+
+msgid "prtf_link"
+msgstr "Link"
+
+msgid "prtf_manage_portfolios"
+msgstr "Portfóliók kezelése"
+
+msgid "prtf_new_portfolio"
+msgstr "Új portfólió"
+
+msgid "prtf_no_blogs_info"
+msgstr "‘%s’ egy blogot sem tartalmaz. Hozzon létre blogokat, hogy portfóliója részeként használhassa azokat."
+
+msgid "prtf_no_offline_share_info"
+msgstr "A portfóliónak online-nak kell lennie, hogy megoszthassa másokkal."
+
+msgid "prtf_no_submission"
+msgstr "Nincs beküldve"
+
+msgid "prtf_page_created"
+msgstr "Sikeresen létrehozott egy lapot"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "Az összes online kurzus felsorolása, melynek tagja vagyok."
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "Kurzustagságok"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "A portfólió itt fogja megjeleníten a személyes erőforrása blogját."
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "A portfólió a konzultációs időpontok naptárát fogja itt megjeleníteni."
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "A portfólió a jelenlegi kurzusai listáját itt fogja felsorolni."
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "Beállítások"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "A portfólió a kompetenciaszintjeit fogja itt megjeleníteni."
+
+msgid "prtf_page_type_prtf"
+msgstr "Portfólióoldal"
+
+msgid "prtf_page_type_prtt"
+msgstr "Portfólió-sablonoldal"
+
+msgid "prtf_pages_copied"
+msgstr "A lapokat sikeresen másolta."
+
+msgid "prtf_pdf"
+msgstr "Exportálás PDF-ként"
+
+msgid "prtf_permanent_link"
+msgstr "A portfólióra mutató link:"
+
+msgid "prtf_portfolio_created"
+msgstr "Sikeresen létrehozott egy portfóliót"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "Ez portfóliójának új előnézete. Új oldal hozzáadásához és a portfólió tartalmának kezeléséhez kattintson ennek az oldalnak a tetején lévő ‘Portfólió módosítása’ lehetőségre."
+
+msgid "prtf_portfolio_deleted"
+msgstr "Portfóliót sikeresen törölte."
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "Portfólió-/bloglapot sikeresen törölte."
+
+msgid "prtf_portfolios"
+msgstr "Portfóliók"
+
+msgid "prtf_print_options"
+msgstr "Lehetőségek"
+
+msgid "prtf_print_selection"
+msgstr "Oldalak kijelölése"
+
+msgid "prtf_profile_picture"
+msgstr "Profilkép megjelenítése"
+
+msgid "prtf_properties"
+msgstr "Portfólió tulajdonságai"
+
+msgid "prtf_public_comments"
+msgstr "Nyilvános megjegyzése"
+
+msgid "prtf_role_assignment"
+msgstr "Szerepkör hozzárendelés"
+
+msgid "prtf_role_title"
+msgstr "Szerepkör"
+
+msgid "prtf_save_status_and_titles"
+msgstr "Állapot és címek mentése"
+
+msgid "prtf_sec_protected_info"
+msgstr "A védett fejezeteket nem módosíthatják a portfólió tulajdonosai."
+
+msgid "prtf_selected_pages"
+msgstr "Kijelölt oldalak"
+
+msgid "prtf_set_default_publish_global"
+msgstr "Nem csak regisztrált felhasználókkal legyen megosztva"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "Csak regisztrált felhasználókkal legyen megosztva"
+
+msgid "prtf_set_offline"
+msgstr "Legyen offline"
+
+msgid "prtf_set_online"
+msgstr "Legyen online"
+
+msgid "prtf_settings"
+msgstr "Portfólió beállításainak kezelése"
+
+msgid "prtf_shared_offline_info"
+msgstr "A portfóliónak online-nak kell lennie, hogy elérjék azok a felhasználók, akikkel meg van osztva."
+
+msgid "prtf_signature"
+msgstr "Aláírásmező"
+
+msgid "prtf_signature_date"
+msgstr "Dátum, aláírása"
+
+msgid "prtf_signature_info"
+msgstr "Egy mezőt ad a nyomtatáshoz, ahol a szerző aláírhatja a portfólióját."
+
+msgid "prtf_style"
+msgstr "Portfólió stílus"
+
+msgid "prtf_submission_on"
+msgstr "Beküldve: $1"
+
+msgid "prtf_successfully_shared_prtf"
+msgstr "‘%s’ portfólió megosztásának megerősítése"
+
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "Megosztotta ‘%s’ protfólióját vele:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "Biztos, hogy törli az alábbi portfólió-/bloglapot?"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "Biztos, hogy törli az alábbi portfóliót?"
+
+msgid "prtf_tab_other_users"
+msgstr "Felhasználók portfóliói"
+
+msgid "prtf_tab_portfolios"
+msgstr "Portfólióim"
+
+msgid "prtf_table_of_contents"
+msgstr "Tartalomjegyzék"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "A portfólióban ezt a helyőrzőt majd lecseréljük."
+
+msgid "prtf_template_import_blog_create"
+msgstr "Új blog létrehozása"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "Blogoldal eltávolítása"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "Létező blog használata"
+
+msgid "prtf_template_import_new_skills"
+msgstr "A személyes kompetenciáidhoz hozzáadódnak ezek az elemek."
+
+msgid "prtf_template_title"
+msgstr "Portfólió sablon"
+
+msgid "prtf_unset_as_default"
+msgstr "Profilomként megszüntetés"
+
+msgid "prtf_unset_default_share_info"
+msgstr "A módosításokat sikeresen mentette. Ellenőrizze a portfóliómegosztás jelenlegi beállításait!"
+
+msgid "prtf_use_page_layout"
+msgstr "Lapelrendezés használata"
+
+msgid "prtf_visible_for_tutor"
+msgstr "A tutorok láthatják"
+
+msgid "prtt_title_info"
+msgstr "Ez lesz a címe az összes, evvel a sablonnal létrehozott portfóliónak."

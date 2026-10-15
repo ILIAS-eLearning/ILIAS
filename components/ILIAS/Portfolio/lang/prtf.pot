@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr ""
+
+msgid "prtf_add_assignment"
+msgstr ""
+
+msgid "prtf_add_page"
+msgstr ""
+
+msgid "prtf_add_portfolio"
+msgstr ""
+
+msgid "prtf_add_portfolio_from_template"
+msgstr ""
+
+msgid "prtf_all_pages"
+msgstr ""
+
+msgid "prtf_allow_html"
+msgstr ""
+
+msgid "prtf_allow_html_info"
+msgstr ""
+
+msgid "prtf_allow_my_courses"
+msgstr ""
+
+msgid "prtf_allow_my_courses_info"
+msgstr ""
+
+msgid "prtf_author"
+msgstr ""
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr ""
+
+msgid "prtf_blog_page_created"
+msgstr ""
+
+msgid "prtf_copy_blog_pg"
+msgstr ""
+
+msgid "prtf_copy_page"
+msgstr ""
+
+msgid "prtf_copy_pg"
+msgstr ""
+
+msgid "prtf_copy_tab"
+msgstr ""
+
+msgid "prtf_create_portfolio"
+msgstr ""
+
+msgid "prtf_create_template_from_portfolio"
+msgstr ""
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr ""
+
+msgid "prtf_creation_mode"
+msgstr ""
+
+msgid "prtf_creation_mode_scratch"
+msgstr ""
+
+msgid "prtf_creation_mode_template"
+msgstr ""
+
+msgid "prtf_date_of_print"
+msgstr ""
+
+msgid "prtf_decl_authorship"
+msgstr ""
+
+msgid "prtf_default_portfolio"
+msgstr ""
+
+msgid "prtf_delete_assignment"
+msgstr ""
+
+msgid "prtf_delete_assignment_sure"
+msgstr ""
+
+msgid "prtf_download_submission"
+msgstr ""
+
+msgid "prtf_edit_content"
+msgstr ""
+
+msgid "prtf_edit_data"
+msgstr ""
+
+msgid "prtf_edit_embedded_blog"
+msgstr ""
+
+msgid "prtf_edit_portfolio"
+msgstr ""
+
+msgid "prtf_edit_title"
+msgstr ""
+
+msgid "prtf_exercise_info"
+msgstr ""
+
+msgid "prtf_exercise_submitted_info"
+msgstr ""
+
+msgid "prtf_existing_portfolio"
+msgstr ""
+
+msgid "prtf_finalize_portfolio"
+msgstr ""
+
+msgid "prtf_finalized"
+msgstr ""
+
+msgid "prtf_first_page_title"
+msgstr ""
+
+msgid "prtf_has_been_set_online"
+msgstr ""
+
+msgid "prtf_link"
+msgstr ""
+
+msgid "prtf_manage_portfolios"
+msgstr ""
+
+msgid "prtf_new_portfolio"
+msgstr ""
+
+msgid "prtf_no_blogs_info"
+msgstr ""
+
+msgid "prtf_no_offline_share_info"
+msgstr ""
+
+msgid "prtf_no_submission"
+msgstr ""
+
+msgid "prtf_page_created"
+msgstr ""
+
+msgid "prtf_page_element_my_courses_info"
+msgstr ""
+
+msgid "prtf_page_element_my_courses_title"
+msgstr ""
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr ""
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr ""
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr ""
+
+msgid "prtf_page_element_teaser_settings"
+msgstr ""
+
+msgid "prtf_page_element_teaser_skills"
+msgstr ""
+
+msgid "prtf_page_type_prtf"
+msgstr ""
+
+msgid "prtf_page_type_prtt"
+msgstr ""
+
+msgid "prtf_pages_copied"
+msgstr ""
+
+msgid "prtf_pdf"
+msgstr ""
+
+msgid "prtf_permanent_link"
+msgstr ""
+
+msgid "prtf_portfolio_created"
+msgstr ""
+
+msgid "prtf_portfolio_created_from_template"
+msgstr ""
+
+msgid "prtf_portfolio_deleted"
+msgstr ""
+
+msgid "prtf_portfolio_page_deleted"
+msgstr ""
+
+msgid "prtf_portfolios"
+msgstr ""
+
+msgid "prtf_print_options"
+msgstr ""
+
+msgid "prtf_print_selection"
+msgstr ""
+
+msgid "prtf_profile_picture"
+msgstr ""
+
+msgid "prtf_properties"
+msgstr ""
+
+msgid "prtf_public_comments"
+msgstr ""
+
+msgid "prtf_role_assignment"
+msgstr ""
+
+msgid "prtf_role_title"
+msgstr ""
+
+msgid "prtf_save_status_and_titles"
+msgstr ""
+
+msgid "prtf_sec_protected_info"
+msgstr ""
+
+msgid "prtf_selected_pages"
+msgstr ""
+
+msgid "prtf_set_default_publish_global"
+msgstr ""
+
+msgid "prtf_set_default_publish_registered"
+msgstr ""
+
+msgid "prtf_set_offline"
+msgstr ""
+
+msgid "prtf_set_online"
+msgstr ""
+
+msgid "prtf_settings"
+msgstr ""
+
+msgid "prtf_shared_offline_info"
+msgstr ""
+
+msgid "prtf_signature"
+msgstr ""
+
+msgid "prtf_signature_date"
+msgstr ""
+
+msgid "prtf_signature_info"
+msgstr ""
+
+msgid "prtf_style"
+msgstr ""
+
+msgid "prtf_submission_on"
+msgstr ""
+
+msgid "prtf_successfully_shared_prtf"
+msgstr ""
+
+msgid "prtf_successfully_shared_prtf_body"
+msgstr ""
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr ""
+
+msgid "prtf_sure_delete_portfolios"
+msgstr ""
+
+msgid "prtf_tab_other_users"
+msgstr ""
+
+msgid "prtf_tab_portfolios"
+msgstr ""
+
+msgid "prtf_table_of_contents"
+msgstr ""
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr ""
+
+msgid "prtf_template_import_blog_create"
+msgstr ""
+
+msgid "prtf_template_import_blog_ignore"
+msgstr ""
+
+msgid "prtf_template_import_blog_reuse"
+msgstr ""
+
+msgid "prtf_template_import_new_skills"
+msgstr ""
+
+msgid "prtf_template_title"
+msgstr ""
+
+msgid "prtf_unset_as_default"
+msgstr ""
+
+msgid "prtf_unset_default_share_info"
+msgstr ""
+
+msgid "prtf_use_page_layout"
+msgstr ""
+
+msgid "prtf_visible_for_tutor"
+msgstr ""
+
+msgid "prtt_title_info"
+msgstr ""

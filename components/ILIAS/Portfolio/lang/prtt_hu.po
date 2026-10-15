@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Amennyiben ezt választja, a portfólió sablon a megadott elérhetőségen kívül is láthatóvá válik."
+
+msgid "prtt_activation_online_info"
+msgstr "Ezen beállítás bekapcsolása elérhetővé teszi a felhasználók számára a portfóliósablont."
+
+msgid "prtt_add"
+msgstr "Portfólió sablon létrehozása"
+
+msgid "prtt_copy"
+msgstr "Portfólió sablon másolása"
+
+msgid "prtt_edit"
+msgstr "Portfólió sablon módosítása"
+
+msgid "prtt_import"
+msgstr "Portfólió sablon importálása"
+
+msgid "prtt_new"
+msgstr "Új portfólió sablon"
+
+msgid "prtt_pfpg"
+msgstr "Portfólió oldal"
+
+msgid "prtt_portfolio_created"
+msgstr "Sikeresen létrehozott egy portfóliómintát"
+
+msgid "prtt_properties"
+msgstr "Portfóliósablon tulajdonságai"
+
+msgid "prtt_select_datasets"
+msgstr "Adathalmaz választása"
+
+msgid "prtt_style"
+msgstr "Portfóliósablon stílus"
