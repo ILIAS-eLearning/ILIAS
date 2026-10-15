@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: etal\n"
+
+msgid "appointments"
+msgstr "Sessioner"
+
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "change_date_of_series"
+msgstr "Anpassa samtalsserier"
+
+msgid "change_date_of_talk"
+msgstr "Justera datum för konversation"
+
+msgid "date_of_talk"
+msgstr "Startdatum"
+
+msgid "etal_add"
+msgstr "Add"
+
+msgid "etal_add_new_item"
+msgstr "Lägg till ny konversation"
+
+msgid "etal_create_invalid_template_ref"
+msgstr "Ogiltigt ID för samtalsmall"
+
+msgid "etal_date_appointment_edit"
+msgstr "Talk datum"
+
+msgid "etal_date_series_edit"
+msgstr "Talkserie"
+
+#, fuzzy
+msgid "etal_delete_confirmation_msg"
+msgstr "Are you sure that you want to delete the following talk?"
+
+msgid "etal_edit"
+msgstr "Allmänt"
+
+msgid "etal_invalid_user"
+msgstr "Detta konto existerar inte eller kan inte bjudas in."
+
+#, fuzzy
+msgid "etal_location"
+msgstr "Location"
+
+msgid "etal_new"
+msgstr "Nytt samtal"
+
+msgid "etal_open"
+msgstr "Öppen konversation"
+
+#, fuzzy
+msgid "etal_recurrence"
+msgstr "Recurrence"
+
+msgid "etal_status_all"
+msgstr "Alla"
+
+msgid "etal_status_completed"
+msgstr "Fullbordad"
+
+msgid "etal_status_pending"
+msgstr "Utgående"
+
+msgid "etal_unknown_username"
+msgstr " Okänd användare"
+
+msgid "lock_edititng_for_others"
+msgstr "Lås redigering för andra"
+
+msgid "meta_adv_records"
+msgstr "Metadata"
+
+msgid "mm_org_etal"
+msgstr "Talk"
+
+msgid "mm_talk_template"
+msgstr "Tala mallar"
+
+msgid "notification_talks_created"
+msgstr "Du har blivit kallad till en intervju."
+
+msgid "notification_talks_date_list_header"
+msgstr "Data"
+
+msgid "notification_talks_removed"
+msgstr "Följande datum har ställts in."
+
+msgid "notification_talks_subject"
+msgstr "Datum inbjudan"
+
+msgid "notification_talks_subject_update"
+msgstr "Uppdatering av datum"
+
+msgid "notification_talks_updated"
+msgstr "Följande mötesdatum har justerats."
+
+msgid "pending_talks_warning"
+msgstr "Följande utestående intervjutillsättningar kommer att ersättas"
+
+#, fuzzy
+msgid "tala_no_content_without_admin_info"
+msgstr "The Administrator role is required for access to Talk Templates."
+
+msgid "talk_serial"
+msgstr "Talk Serial"
+
+msgid "tals_add"
+msgstr "Lägg till konversationer"
+
+msgid "tals_new"
+msgstr "Nya samtalsserier"
+
+msgid "talt_activation_online_info"
+msgstr "Markera mallen som aktiv så att den är tillgänglig för personalen."
+
+msgid "talt_add"
+msgstr "Skapa"
+
+msgid "talt_edit"
+msgstr "Allmänt"
+
+msgid "talt_etal"
+msgstr "Samtal med anställda"
+
+msgid "talt_new"
+msgstr "Ny samtalsmall"
+
+msgid "will_update_series_info_lock"
+msgstr "Blockera redigering av alla samtalsdatum i denna serie"
+
+msgid "will_update_series_info_title"
+msgstr "Ändringar i titeln gäller för alla samtalsdatum i denna serie."

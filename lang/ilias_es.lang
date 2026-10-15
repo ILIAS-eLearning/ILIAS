@@ -7628,49 +7628,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.
 dcl#:#set_as_default#:#Establecer como predeterminado
 dcl#:#table_not_found#:#¡Tabla no encontrada!
 dcl#:#tableview_not_found#:#¡Vista de tabla no encontrada!
-etal#:#appointments#:#Citas
-etal#:#cal_type_tals#:#Charlas
-etal#:#change_date_of_series#:#Cambiar fecha de la serie de charlas
-etal#:#change_date_of_talk#:#Cambiar fecha de la charla
-etal#:#date_of_talk#:#Fecha de inicio
-etal#:#etal_add#:#Añadir charla
-etal#:#etal_add_new_item#:#Añadir nueva charla
-etal#:#etal_create_invalid_template_ref#:#ID de plantilla de charla no válido
-etal#:#etal_date_appointment_edit#:#Fecha de la charla
-etal#:#etal_date_series_edit#:#Fecha de la serie de charlas
-etal#:#etal_delete_confirmation_msg#:#¿Está seguro de que desea eliminar la siguiente charla?
-etal#:#etal_edit#:#General
-etal#:#etal_invalid_user#:#Este usuario no existe o no puede ser invitado.
-etal#:#etal_location#:#Ubicación
-etal#:#etal_new#:#Nueva charla
-etal#:#etal_open#:#Abrir charla con el empleado
-etal#:#etal_recurrence#:#Recurrencia
-etal#:#etal_status_all#:#Todo
-etal#:#etal_status_completed#:#Completado
-etal#:#etal_status_pending#:#Pendiente
-etal#:#etal_unknown_username#:#Usuario desconocido
-etal#:#lock_edititng_for_others#:#Bloquear edición para otros
-etal#:#meta_adv_records#:#Metadatos
-etal#:#mm_org_etal#:#Charlas
-etal#:#mm_talk_template#:#Plantillas de charla
-etal#:#notification_talks_created#:#Se le ha invitado a las siguientes charlas con empleados.
-etal#:#notification_talks_date_list_header#:#Fechas
-etal#:#notification_talks_removed#:#Las siguientes citas han sido canceladas.
-etal#:#notification_talks_subject#:#Invitación: %s
-etal#:#notification_talks_subject_update#:#Actualización: %s
-etal#:#notification_talks_updated#:#Se han modificado las siguientes citas de entrevista.
-etal#:#pending_talks_warning#:#Se sustituirán las siguientes citas de entrevista pendientes:
-etal#:#tala_no_content_without_admin_info#:#Se requiere el rol de Administrador para acceder a las Plantillas de Entrevista.
-etal#:#talk_serial#:#Serie de Entrevistas
-etal#:#tals_add#:#Añadir Entrevistas
-etal#:#tals_new#:#Nuevas Entrevistas
-etal#:#talt_activation_online_info#:#Ponga la plantilla de entrevista en línea para que sea visible y esté disponible para los empleados. De lo contrario, solo los administradores tendrán acceso a ella.
-etal#:#talt_add#:#Añadir Plantilla
-etal#:#talt_edit#:#General
-etal#:#talt_etal#:#Entrevista con el Empleado
-etal#:#talt_new#:#Nueva Plantilla de Entrevista
-etal#:#will_update_series_info_lock#:#Bloquear la edición de todas las citas de esta serie
-etal#:#will_update_series_info_title#:#Los cambios en el título se aplicarán a todas las citas de esta serie.
 exc#:#exc_add_assignment#:#Añadir Tarea
 exc#:#exc_add_criteria#:#Añadir Criterios
 exc#:#exc_add_criteria_catalogue#:#Añadir Catálogo

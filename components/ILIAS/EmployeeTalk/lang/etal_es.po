@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: etal\n"
+
+msgid "appointments"
+msgstr "Citas"
+
+msgid "cal_type_tals"
+msgstr "Charlas"
+
+msgid "change_date_of_series"
+msgstr "Cambiar fecha de la serie de charlas"
+
+msgid "change_date_of_talk"
+msgstr "Cambiar fecha de la charla"
+
+msgid "date_of_talk"
+msgstr "Fecha de inicio"
+
+msgid "etal_add"
+msgstr "Añadir charla"
+
+msgid "etal_add_new_item"
+msgstr "Añadir nueva charla"
+
+msgid "etal_create_invalid_template_ref"
+msgstr "ID de plantilla de charla no válido"
+
+msgid "etal_date_appointment_edit"
+msgstr "Fecha de la charla"
+
+msgid "etal_date_series_edit"
+msgstr "Fecha de la serie de charlas"
+
+msgid "etal_delete_confirmation_msg"
+msgstr "¿Está seguro de que desea eliminar la siguiente charla?"
+
+msgid "etal_edit"
+msgstr "General"
+
+msgid "etal_invalid_user"
+msgstr "Este usuario no existe o no puede ser invitado."
+
+msgid "etal_location"
+msgstr "Ubicación"
+
+msgid "etal_new"
+msgstr "Nueva charla"
+
+msgid "etal_open"
+msgstr "Abrir charla con el empleado"
+
+msgid "etal_recurrence"
+msgstr "Recurrencia"
+
+msgid "etal_status_all"
+msgstr "Todo"
+
+msgid "etal_status_completed"
+msgstr "Completado"
+
+msgid "etal_status_pending"
+msgstr "Pendiente"
+
+msgid "etal_unknown_username"
+msgstr "Usuario desconocido"
+
+msgid "lock_edititng_for_others"
+msgstr "Bloquear edición para otros"
+
+msgid "meta_adv_records"
+msgstr "Metadatos"
+
+msgid "mm_org_etal"
+msgstr "Charlas"
+
+msgid "mm_talk_template"
+msgstr "Plantillas de charla"
+
+msgid "notification_talks_created"
+msgstr "Se le ha invitado a las siguientes charlas con empleados."
+
+msgid "notification_talks_date_list_header"
+msgstr "Fechas"
+
+msgid "notification_talks_removed"
+msgstr "Las siguientes citas han sido canceladas."
+
+msgid "notification_talks_subject"
+msgstr "Invitación: %s"
+
+msgid "notification_talks_subject_update"
+msgstr "Actualización: %s"
+
+msgid "notification_talks_updated"
+msgstr "Se han modificado las siguientes citas de entrevista."
+
+msgid "pending_talks_warning"
+msgstr "Se sustituirán las siguientes citas de entrevista pendientes:"
+
+msgid "tala_no_content_without_admin_info"
+msgstr "Se requiere el rol de Administrador para acceder a las Plantillas de Entrevista."
+
+msgid "talk_serial"
+msgstr "Serie de Entrevistas"
+
+msgid "tals_add"
+msgstr "Añadir Entrevistas"
+
+msgid "tals_new"
+msgstr "Nuevas Entrevistas"
+
+msgid "talt_activation_online_info"
+msgstr "Ponga la plantilla de entrevista en línea para que sea visible y esté disponible para los empleados. De lo contrario, solo los administradores tendrán acceso a ella."
+
+msgid "talt_add"
+msgstr "Añadir Plantilla"
+
+msgid "talt_edit"
+msgstr "General"
+
+msgid "talt_etal"
+msgstr "Entrevista con el Empleado"
+
+msgid "talt_new"
+msgstr "Nueva Plantilla de Entrevista"
+
+msgid "will_update_series_info_lock"
+msgstr "Bloquear la edición de todas las citas de esta serie"
+
+msgid "will_update_series_info_title"
+msgstr "Los cambios en el título se aplicarán a todas las citas de esta serie."

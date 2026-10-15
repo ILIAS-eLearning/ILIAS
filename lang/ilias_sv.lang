@@ -7612,49 +7612,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-etal#:#appointments#:#Sessioner
-etal#:#cal_type_tals#:#Talks
-etal#:#change_date_of_series#:#Anpassa samtalsserier
-etal#:#change_date_of_talk#:#Justera datum för konversation
-etal#:#date_of_talk#:#Startdatum
-etal#:#etal_add#:#Add
-etal#:#etal_add_new_item#:#Lägg till ny konversation
-etal#:#etal_create_invalid_template_ref#:#Ogiltigt ID för samtalsmall
-etal#:#etal_date_appointment_edit#:#Talk datum
-etal#:#etal_date_series_edit#:#Talkserie
-etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###26 08 2024 new variable
-etal#:#etal_edit#:#Allmänt
-etal#:#etal_invalid_user#:#Detta konto existerar inte eller kan inte bjudas in.
-etal#:#etal_location#:#Location###29 10 2025 new variable
-etal#:#etal_new#:#Nytt samtal
-etal#:#etal_open#:#Öppen konversation
-etal#:#etal_recurrence#:#Recurrence###29 10 2025 new variable
-etal#:#etal_status_all#:#Alla
-etal#:#etal_status_completed#:#Fullbordad
-etal#:#etal_status_pending#:#Utgående
-etal#:#etal_unknown_username#:# Okänd användare
-etal#:#lock_edititng_for_others#:#Lås redigering för andra
-etal#:#meta_adv_records#:#Metadata
-etal#:#mm_org_etal#:#Talk
-etal#:#mm_talk_template#:#Tala mallar
-etal#:#notification_talks_created#:#Du har blivit kallad till en intervju.
-etal#:#notification_talks_date_list_header#:#Data
-etal#:#notification_talks_removed#:#Följande datum har ställts in.
-etal#:#notification_talks_subject#:#Datum inbjudan
-etal#:#notification_talks_subject_update#:#Uppdatering av datum
-etal#:#notification_talks_updated#:#Följande mötesdatum har justerats.
-etal#:#pending_talks_warning#:#Följande utestående intervjutillsättningar kommer att ersättas
-etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###29 10 2025 new variable
-etal#:#talk_serial#:#Talk Serial
-etal#:#tals_add#:#Lägg till konversationer
-etal#:#tals_new#:#Nya samtalsserier
-etal#:#talt_activation_online_info#:#Markera mallen som aktiv så att den är tillgänglig för personalen.
-etal#:#talt_add#:#Skapa
-etal#:#talt_edit#:#Allmänt
-etal#:#talt_etal#:#Samtal med anställda
-etal#:#talt_new#:#Ny samtalsmall
-etal#:#will_update_series_info_lock#:#Blockera redigering av alla samtalsdatum i denna serie
-etal#:#will_update_series_info_title#:#Ändringar i titeln gäller för alla samtalsdatum i denna serie.
 exc#:#exc_add_assignment#:#Lägg till träningsenhet
 exc#:#exc_add_criteria#:#Lägg till kriterium
 exc#:#exc_add_criteria_catalogue#:#Lägg till katalog

@@ -7625,49 +7625,6 @@ dcl#:#roles_desc#:#Wählen sie zugriffsberechtigte Rollen für die Ansicht.
 dcl#:#set_as_default#:#Als Standard setzen
 dcl#:#table_not_found#:#Tabelle nicht gefunden!
 dcl#:#tableview_not_found#:#Tabellenansicht nicht gefunden!
-etal#:#appointments#:#Sitzungen
-etal#:#cal_type_tals#:#Gespräche
-etal#:#change_date_of_series#:#Gesprächsserie anpassen
-etal#:#change_date_of_talk#:#Gesprächsdatum anpassen
-etal#:#date_of_talk#:#Start Datum
-etal#:#etal_add#:#Hinzufügen
-etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
-etal#:#etal_create_invalid_template_ref#:#Ungültige Gesprächsvorlagen-ID
-etal#:#etal_date_appointment_edit#:#Gesprächsdatum
-etal#:#etal_date_series_edit#:#Gesprächsserie
-etal#:#etal_delete_confirmation_msg#:#Sind Sie sicher, dass das folgende Gespräch gelöscht werden soll?
-etal#:#etal_edit#:#Allgemein
-etal#:#etal_invalid_user#:#Dieses Konto existiert nicht, oder kann nicht eingeladen werden.
-etal#:#etal_location#:#Ort
-etal#:#etal_new#:#Neues Gespräch
-etal#:#etal_open#:#Gespräch öffnen
-etal#:#etal_recurrence#:#Wiederholung
-etal#:#etal_status_all#:#Alle
-etal#:#etal_status_completed#:#Abgeschlossen
-etal#:#etal_status_pending#:#Ausstehend
-etal#:#etal_unknown_username#:#Unbekannter Benutzer
-etal#:#lock_edititng_for_others#:#Bearbeitung für andere sperren
-etal#:#meta_adv_records#:#Metadaten
-etal#:#mm_org_etal#:#Gespräch
-etal#:#mm_talk_template#:#Gesprächsvorlagen
-etal#:#notification_talks_created#:#Sie wurden zu einem Gespräch eingeladen.
-etal#:#notification_talks_date_list_header#:#Daten
-etal#:#notification_talks_removed#:#Folgende Termine wurden abgesagt.
-etal#:#notification_talks_subject#:#Termineinladung: %s
-etal#:#notification_talks_subject_update#:#Terminaktualisierung: %s
-etal#:#notification_talks_updated#:#Folgende Gesprächstermine wurden angepasst.
-etal#:#pending_talks_warning#:#Die folgenden ausstehenden Gesprächstermine werden ersetzt:
-etal#:#tala_no_content_without_admin_info#:#Um auf Gesprächsvorlagen zuzugreifen, wird die Administrator-Rolle benötigt.
-etal#:#talk_serial#:#Talk Serial
-etal#:#tals_add#:#Gespräche hinzufügen
-etal#:#tals_new#:#Neue Gesprächsserie
-etal#:#talt_activation_online_info#:#Markieren Sie die Vorlage als aktiv, damit diese für Teammitglieder zur Verfügung steht.
-etal#:#talt_add#:#Erstellen
-etal#:#talt_edit#:#Allgemein
-etal#:#talt_etal#:#Gespräch Teammitglied
-etal#:#talt_new#:#Neue Gesprächsvorlage
-etal#:#will_update_series_info_lock#:#Die Bearbeitung von allen Gesprächsterminen dieser Serie sperren
-etal#:#will_update_series_info_title#:#Änderungen am Titel gelten für alle Gesprächstermine dieser Serie.
 exc#:#exc_add_assignment#:#Übungseinheit hinzufügen
 exc#:#exc_add_criteria#:#Kriterium hinzufügen
 exc#:#exc_add_criteria_catalogue#:#Katalog hinzufügen

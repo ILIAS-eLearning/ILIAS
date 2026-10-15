@@ -7593,49 +7593,6 @@ dcl#:#roles_desc#:#Határozza meg, hogy mely szerepkörök férhetnek hozzá a n
 dcl#:#set_as_default#:#Beállításnak alapértelmezettnek
 dcl#:#table_not_found#:#A tábla nem található!
 dcl#:#tableview_not_found#:#A táblanézet nem található!
-etal#:#appointments#:#Találkozók
-etal#:#cal_type_tals#:#Megbeszélések
-etal#:#change_date_of_series#:#Megbeszéléssorozat dátumának módosítása
-etal#:#change_date_of_talk#:#Megbeszélés dátumának módosítása
-etal#:#date_of_talk#:#Megbeszélés dátuma
-etal#:#etal_add#:#Megbeszélés hozzáadása
-etal#:#etal_add_new_item#:#Új Megbeszélés hozzáadása
-etal#:#etal_create_invalid_template_ref#:#Érvénytelen Megbeszéléssablon ID
-etal#:#etal_date_appointment_edit#:#Megbeszélés dátuma
-etal#:#etal_date_series_edit#:#Megbeszéléssorozat dátuma
-etal#:#etal_delete_confirmation_msg#:#Biztos, hogy törli az alábbi megbeszélést?
-etal#:#etal_edit#:#Általános
-etal#:#etal_invalid_user#:#A felhasználó nem létezik vagy nem hívható meg.
-etal#:#etal_location#:#Helyszín
-etal#:#etal_new#:#Új Talk
-etal#:#etal_open#:#Munkavállalói megbeszélés megnyitása
-etal#:#etal_recurrence#:#Ismétlődés
-etal#:#etal_status_all#:#Összes
-etal#:#etal_status_completed#:#Befejezve
-etal#:#etal_status_pending#:#Függőben
-etal#:#etal_unknown_username#:#Ismeretlen felhasználó
-etal#:#lock_edititng_for_others#:#Szerkesztés zárolása a többeiknél
-etal#:#meta_adv_records#:#Metaadat
-etal#:#mm_org_etal#:#Megbeszélés
-etal#:#mm_talk_template#:#Megbeszéléssablonok
-etal#:#notification_talks_created#:#Önt meghívták a következő munkavállalói megbeszélésre.
-etal#:#notification_talks_date_list_header#:#Dátumok
-etal#:#notification_talks_removed#:#Az alábbi találkozókat törölték.
-etal#:#notification_talks_subject#:#Meghívás: %s
-etal#:#notification_talks_subject_update#:#Módosítás: %s
-etal#:#notification_talks_updated#:#Az alábbi találkozókat módosították.
-etal#:#pending_talks_warning#:#A következő függőben lévő megbeszéléseket cseréljük le:
-etal#:#tala_no_content_without_admin_info#:#Az Administrator szerepkörnek hozzáféréssel kell rendelkezni a Megbeszéléssablonokhoz.
-etal#:#talk_serial#:#Megbeszéléssorozat
-etal#:#tals_add#:#Megbeszélés hozzáadása
-etal#:#tals_new#:#Új Megbeszélés
-etal#:#talt_activation_online_info#:#Állítsa be a megbeszéléssablont onlinera, hogy láthatóvá és elérhetővé tegye az alkalmazottak számára. Ha nem, akkor csak a rendszergazdák férhetnek hozzá.
-etal#:#talt_add#:#Sablon hozzáadása
-etal#:#talt_edit#:#Általános
-etal#:#talt_etal#:#Munkavállalói megbeszélés
-etal#:#talt_new#:#Új Megbeszéléssablon
-etal#:#will_update_series_info_lock#:#A sorozat összes időpontjának szerkesztésének zárolása
-etal#:#will_update_series_info_title#:#A sorozat összes talákozójának címének módosítása.
 exc#:#exc_add_assignment#:#Feladat létrehozása
 exc#:#exc_add_criteria#:#Szempont hozzáadása
 exc#:#exc_add_criteria_catalogue#:#Szempontgyűjtemény hozzáadása

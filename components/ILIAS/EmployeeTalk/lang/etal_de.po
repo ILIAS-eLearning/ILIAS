@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: etal\n"
+
+msgid "appointments"
+msgstr "Sitzungen"
+
+msgid "cal_type_tals"
+msgstr "Gespräche"
+
+msgid "change_date_of_series"
+msgstr "Gesprächsserie anpassen"
+
+msgid "change_date_of_talk"
+msgstr "Gesprächsdatum anpassen"
+
+msgid "date_of_talk"
+msgstr "Start Datum"
+
+msgid "etal_add"
+msgstr "Hinzufügen"
+
+msgid "etal_add_new_item"
+msgstr "Neues Gespräch hinzufügen"
+
+msgid "etal_create_invalid_template_ref"
+msgstr "Ungültige Gesprächsvorlagen-ID"
+
+msgid "etal_date_appointment_edit"
+msgstr "Gesprächsdatum"
+
+msgid "etal_date_series_edit"
+msgstr "Gesprächsserie"
+
+msgid "etal_delete_confirmation_msg"
+msgstr "Sind Sie sicher, dass das folgende Gespräch gelöscht werden soll?"
+
+msgid "etal_edit"
+msgstr "Allgemein"
+
+msgid "etal_invalid_user"
+msgstr "Dieses Konto existiert nicht, oder kann nicht eingeladen werden."
+
+msgid "etal_location"
+msgstr "Ort"
+
+msgid "etal_new"
+msgstr "Neues Gespräch"
+
+msgid "etal_open"
+msgstr "Gespräch öffnen"
+
+msgid "etal_recurrence"
+msgstr "Wiederholung"
+
+msgid "etal_status_all"
+msgstr "Alle"
+
+msgid "etal_status_completed"
+msgstr "Abgeschlossen"
+
+msgid "etal_status_pending"
+msgstr "Ausstehend"
+
+msgid "etal_unknown_username"
+msgstr "Unbekannter Benutzer"
+
+msgid "lock_edititng_for_others"
+msgstr "Bearbeitung für andere sperren"
+
+msgid "meta_adv_records"
+msgstr "Metadaten"
+
+msgid "mm_org_etal"
+msgstr "Gespräch"
+
+msgid "mm_talk_template"
+msgstr "Gesprächsvorlagen"
+
+msgid "notification_talks_created"
+msgstr "Sie wurden zu einem Gespräch eingeladen."
+
+msgid "notification_talks_date_list_header"
+msgstr "Daten"
+
+msgid "notification_talks_removed"
+msgstr "Folgende Termine wurden abgesagt."
+
+msgid "notification_talks_subject"
+msgstr "Termineinladung: %s"
+
+msgid "notification_talks_subject_update"
+msgstr "Terminaktualisierung: %s"
+
+msgid "notification_talks_updated"
+msgstr "Folgende Gesprächstermine wurden angepasst."
+
+msgid "pending_talks_warning"
+msgstr "Die folgenden ausstehenden Gesprächstermine werden ersetzt:"
+
+msgid "tala_no_content_without_admin_info"
+msgstr "Um auf Gesprächsvorlagen zuzugreifen, wird die Administrator-Rolle benötigt."
+
+msgid "talk_serial"
+msgstr "Talk Serial"
+
+msgid "tals_add"
+msgstr "Gespräche hinzufügen"
+
+msgid "tals_new"
+msgstr "Neue Gesprächsserie"
+
+msgid "talt_activation_online_info"
+msgstr "Markieren Sie die Vorlage als aktiv, damit diese für Teammitglieder zur Verfügung steht."
+
+msgid "talt_add"
+msgstr "Erstellen"
+
+msgid "talt_edit"
+msgstr "Allgemein"
+
+msgid "talt_etal"
+msgstr "Gespräch Teammitglied"
+
+msgid "talt_new"
+msgstr "Neue Gesprächsvorlage"
+
+msgid "will_update_series_info_lock"
+msgstr "Die Bearbeitung von allen Gesprächsterminen dieser Serie sperren"
+
+msgid "will_update_series_info_title"
+msgstr "Änderungen am Titel gelten für alle Gesprächstermine dieser Serie."
