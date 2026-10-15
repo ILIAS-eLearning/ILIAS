@@ -1,0 +1,1401 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: style\n"
+
+msgid "adapt_icon"
+msgstr ""
+
+msgid "adapt_icon_description"
+msgstr ""
+
+msgid "adapt_icons"
+msgstr ""
+
+msgid "adapt_icons_description"
+msgstr ""
+
+msgid "adapt_scss"
+msgstr ""
+
+msgid "adapt_scss_description"
+msgstr ""
+
+msgid "add_substyle"
+msgstr ""
+
+msgid "add_system_style"
+msgstr ""
+
+msgid "assignment"
+msgstr ""
+
+msgid "blue_color"
+msgstr ""
+
+msgid "blue_colors"
+msgstr ""
+
+msgid "blue_colors_description"
+msgstr ""
+
+msgid "can_not_read_scss_file"
+msgstr ""
+
+msgid "cant_deactivate_default_style"
+msgstr ""
+
+msgid "cant_delete_activated_style"
+msgstr ""
+
+msgid "cant_delete_if_users_assigned"
+msgstr ""
+
+msgid "cant_delete_style_with_substyles"
+msgstr ""
+
+msgid "change_icon"
+msgstr ""
+
+msgid "color"
+msgstr ""
+
+msgid "color_changed_from"
+msgstr ""
+
+msgid "color_changed_to"
+msgstr ""
+
+msgid "color_reset"
+msgstr ""
+
+msgid "color_update"
+msgstr ""
+
+msgid "default_style_set_to"
+msgstr ""
+
+msgid "dir_changed_to"
+msgstr ""
+
+msgid "dir_copied_from"
+msgstr ""
+
+msgid "dir_created"
+msgstr ""
+
+msgid "dir_deleted"
+msgstr ""
+
+msgid "dir_preserved_backup"
+msgstr ""
+
+msgid "dir_preserved_linked"
+msgstr ""
+
+msgid "directory_created"
+msgstr ""
+
+msgid "documentation"
+msgstr ""
+
+msgid "edit_by_color"
+msgstr ""
+
+msgid "edit_by_icon"
+msgstr ""
+
+msgid "enable_system_styles_management_no_write_perm"
+msgstr ""
+
+msgid "entries_reloaded"
+msgstr ""
+
+msgid "file_deleted"
+msgstr ""
+
+msgid "font_dir"
+msgstr ""
+
+msgid "font_dir_description"
+msgstr ""
+
+msgid "from_skin"
+msgstr ""
+
+msgid "green_color"
+msgstr ""
+
+msgid "green_colors"
+msgstr ""
+
+msgid "green_colors_description"
+msgstr ""
+
+msgid "grey_color"
+msgstr ""
+
+msgid "grey_colors"
+msgstr ""
+
+msgid "grey_colors_description"
+msgstr ""
+
+msgid "icons"
+msgstr ""
+
+msgid "icons_gallery"
+msgstr ""
+
+msgid "image_dir"
+msgstr ""
+
+msgid "image_dir_description"
+msgstr ""
+
+msgid "in_main_scss_file"
+msgstr ""
+
+msgid "invalid_scss_path"
+msgstr ""
+
+msgid "ks_documentation_of_style"
+msgstr ""
+
+msgid "ks_documentation_of_substyle"
+msgstr ""
+
+msgid "main_scss_created"
+msgstr ""
+
+msgid "manage_system_styles"
+msgstr ""
+
+msgid "msg_sub_style_created"
+msgstr ""
+
+msgid "msg_sys_style_created"
+msgstr ""
+
+msgid "msg_sys_style_update"
+msgstr ""
+
+msgid "no_scss_path_set"
+msgstr ""
+
+msgid "no_style_selected"
+msgstr ""
+
+msgid "of_parent"
+msgstr ""
+
+msgid "open_documentation"
+msgstr ""
+
+msgid "parent"
+msgstr ""
+
+msgid "personal"
+msgstr ""
+
+msgid "personal_style_set_to"
+msgstr ""
+
+msgid "provided_scss_path"
+msgstr ""
+
+msgid "red_color"
+msgstr ""
+
+msgid "red_colors"
+msgstr ""
+
+msgid "red_colors_description"
+msgstr ""
+
+msgid "refresh_entries"
+msgstr ""
+
+msgid "remove_assignment"
+msgstr ""
+
+msgid "reset_icons"
+msgstr ""
+
+msgid "reset_variables"
+msgstr ""
+
+msgid "scope"
+msgstr ""
+
+msgid "scss"
+msgstr ""
+
+msgid "scss_can_not_be_modified"
+msgstr ""
+
+msgid "scss_compile_failed"
+msgstr ""
+
+msgid "scss_file_reset"
+msgstr ""
+
+msgid "scss_file_updated"
+msgstr ""
+
+msgid "scss_folder_reset"
+msgstr ""
+
+msgid "scss_folder_updated"
+msgstr ""
+
+msgid "scss_scss_installation_detected"
+msgstr ""
+
+msgid "scss_variable_empty"
+msgstr ""
+
+msgid "scss_variables_empty_might_have_changed"
+msgstr ""
+
+msgid "scss_variables_file_not_included"
+msgstr ""
+
+msgid "select_icon"
+msgstr ""
+
+msgid "settings_of_style"
+msgstr ""
+
+msgid "settings_of_substyle"
+msgstr ""
+
+msgid "skin"
+msgstr ""
+
+msgid "skin_deleted"
+msgstr ""
+
+msgid "skin_id"
+msgstr ""
+
+msgid "skin_id_description"
+msgstr ""
+
+msgid "skin_id_exists"
+msgstr ""
+
+msgid "skin_name"
+msgstr ""
+
+msgid "skin_name_description"
+msgstr ""
+
+msgid "skin_version"
+msgstr ""
+
+msgid "skin_version_description"
+msgstr ""
+
+msgid "sound_dir"
+msgstr ""
+
+msgid "sound_dir_description"
+msgstr ""
+
+msgid "sty_acopy"
+msgstr ""
+
+msgid "sty_add_assignment"
+msgstr ""
+
+msgid "sty_add_characteristic"
+msgstr ""
+
+msgid "sty_add_color"
+msgstr ""
+
+msgid "sty_add_content_style"
+msgstr ""
+
+msgid "sty_add_image"
+msgstr ""
+
+msgid "sty_add_media_query"
+msgstr ""
+
+msgid "sty_add_media_query_info"
+msgstr ""
+
+msgid "sty_add_pgl"
+msgstr ""
+
+msgid "sty_add_template"
+msgstr ""
+
+msgid "sty_added_characteristic"
+msgstr ""
+
+msgid "sty_all"
+msgstr ""
+
+msgid "sty_all_styles_obligatory"
+msgstr ""
+
+msgid "sty_assign_categories"
+msgstr ""
+
+msgid "sty_background"
+msgstr ""
+
+msgid "sty_background_attachment"
+msgstr ""
+
+msgid "sty_background_color"
+msgstr ""
+
+msgid "sty_background_image"
+msgstr ""
+
+msgid "sty_background_position"
+msgstr ""
+
+msgid "sty_background_repeat"
+msgstr ""
+
+msgid "sty_base_color"
+msgstr ""
+
+msgid "sty_based_on"
+msgstr ""
+
+msgid "sty_bg_img_info"
+msgstr ""
+
+msgid "sty_border"
+msgstr ""
+
+msgid "sty_border_color"
+msgstr ""
+
+msgid "sty_border_style"
+msgstr ""
+
+msgid "sty_border_width"
+msgstr ""
+
+msgid "sty_bottom"
+msgstr ""
+
+msgid "sty_ca_cntr_class"
+msgstr ""
+
+msgid "sty_ca_icntr_class"
+msgstr ""
+
+msgid "sty_ca_icont_class"
+msgstr ""
+
+msgid "sty_ca_ihead_class"
+msgstr ""
+
+msgid "sty_cannot_be_copied"
+msgstr ""
+
+msgid "sty_caption"
+msgstr ""
+
+msgid "sty_caption_class"
+msgstr ""
+
+msgid "sty_carousel_templates"
+msgstr ""
+
+msgid "sty_cat_assignments"
+msgstr ""
+
+msgid "sty_change_user_assignment"
+msgstr ""
+
+msgid "sty_characteristic_already_exists"
+msgstr ""
+
+msgid "sty_class"
+msgstr ""
+
+msgid "sty_class_name"
+msgstr ""
+
+msgid "sty_clear"
+msgstr ""
+
+msgid "sty_col_foot_class"
+msgstr ""
+
+msgid "sty_col_head_class"
+msgstr ""
+
+msgid "sty_color"
+msgstr ""
+
+msgid "sty_color_already_exists"
+msgstr ""
+
+msgid "sty_color_code"
+msgstr ""
+
+msgid "sty_color_flavors"
+msgstr ""
+
+msgid "sty_color_info"
+msgstr ""
+
+msgid "sty_color_name"
+msgstr ""
+
+msgid "sty_colors"
+msgstr ""
+
+msgid "sty_commands"
+msgstr ""
+
+msgid "sty_confirm_char_deletion"
+msgstr ""
+
+msgid "sty_confirm_color_deletion"
+msgstr ""
+
+msgid "sty_confirm_del_ind_styles"
+msgstr ""
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr ""
+
+msgid "sty_confirm_template_deletion"
+msgstr ""
+
+msgid "sty_copied_please_select_target"
+msgstr ""
+
+msgid "sty_copy_other_stylesheet"
+msgstr ""
+
+msgid "sty_copy_other_system_style"
+msgstr ""
+
+msgid "sty_copy_to"
+msgstr ""
+
+msgid "sty_create_ind_style"
+msgstr ""
+
+msgid "sty_create_new_class"
+msgstr ""
+
+msgid "sty_create_new_stylesheet"
+msgstr ""
+
+msgid "sty_create_new_system_style"
+msgstr ""
+
+msgid "sty_create_new_system_sub_style"
+msgstr ""
+
+msgid "sty_create_pgl"
+msgstr ""
+
+msgid "sty_cursor"
+msgstr ""
+
+msgid "sty_custom"
+msgstr ""
+
+msgid "sty_custom_par"
+msgstr ""
+
+msgid "sty_custom_par_info"
+msgstr ""
+
+msgid "sty_default"
+msgstr ""
+
+msgid "sty_default_style"
+msgstr ""
+
+msgid "sty_del_template"
+msgstr ""
+
+msgid "sty_del_template_keep_classes"
+msgstr ""
+
+msgid "sty_delete_other_selected"
+msgstr ""
+
+msgid "sty_disable_auto_margins"
+msgstr ""
+
+msgid "sty_disable_auto_margins_info"
+msgstr ""
+
+msgid "sty_edit_template"
+msgstr ""
+
+msgid "sty_even_col_class"
+msgstr ""
+
+msgid "sty_even_row_class"
+msgstr ""
+
+msgid "sty_example"
+msgstr ""
+
+msgid "sty_flist_char"
+msgstr ""
+
+msgid "sty_float"
+msgstr ""
+
+msgid "sty_font_family"
+msgstr ""
+
+msgid "sty_font_size"
+msgstr ""
+
+msgid "sty_font_style"
+msgstr ""
+
+msgid "sty_font_variant"
+msgstr ""
+
+msgid "sty_font_weight"
+msgstr ""
+
+msgid "sty_from"
+msgstr ""
+
+msgid "sty_generate_template"
+msgstr ""
+
+msgid "sty_glo_char"
+msgstr ""
+
+msgid "sty_ha_cntr_class"
+msgstr ""
+
+msgid "sty_ha_icntr_class"
+msgstr ""
+
+msgid "sty_ha_icont_class"
+msgstr ""
+
+msgid "sty_ha_ihcap_class"
+msgstr ""
+
+msgid "sty_ha_ihead_class"
+msgstr ""
+
+msgid "sty_ha_iheada_class"
+msgstr ""
+
+msgid "sty_haccordion_templates"
+msgstr ""
+
+msgid "sty_height"
+msgstr ""
+
+msgid "sty_hide"
+msgstr ""
+
+msgid "sty_horizontal"
+msgstr ""
+
+msgid "sty_if_style_class_already_exists"
+msgstr ""
+
+msgid "sty_image_file"
+msgstr ""
+
+msgid "sty_images"
+msgstr ""
+
+msgid "sty_import_page_layout"
+msgstr ""
+
+msgid "sty_import_stylesheet"
+msgstr ""
+
+msgid "sty_import_system_style"
+msgstr ""
+
+msgid "sty_imported_layout"
+msgstr ""
+
+msgid "sty_individual_styles"
+msgstr ""
+
+msgid "sty_keep_existing"
+msgstr ""
+
+msgid "sty_left"
+msgstr ""
+
+msgid "sty_left_right_padding"
+msgstr ""
+
+msgid "sty_legacy_image_directory_found"
+msgstr ""
+
+msgid "sty_letter_spacing"
+msgstr ""
+
+msgid "sty_lightness_border"
+msgstr ""
+
+msgid "sty_lightness_cell1_bg"
+msgstr ""
+
+msgid "sty_lightness_cell1_text"
+msgstr ""
+
+msgid "sty_lightness_cell2_bg"
+msgstr ""
+
+msgid "sty_lightness_cell2_text"
+msgstr ""
+
+msgid "sty_lightness_header_bg"
+msgstr ""
+
+msgid "sty_lightness_header_text"
+msgstr ""
+
+msgid "sty_line_height"
+msgstr ""
+
+msgid "sty_link_char"
+msgstr ""
+
+msgid "sty_list_char"
+msgstr ""
+
+msgid "sty_list_style_position"
+msgstr ""
+
+msgid "sty_list_style_type"
+msgstr ""
+
+msgid "sty_make_global_default"
+msgstr ""
+
+msgid "sty_make_global_fixed"
+msgstr ""
+
+msgid "sty_margin"
+msgstr ""
+
+msgid "sty_margin_and_padding"
+msgstr ""
+
+msgid "sty_media_char"
+msgstr ""
+
+msgid "sty_media_queries"
+msgstr ""
+
+msgid "sty_media_query_info"
+msgstr ""
+
+msgid "sty_migrate_images"
+msgstr ""
+
+msgid "sty_min_height"
+msgstr ""
+
+msgid "sty_move_lm_styles"
+msgstr ""
+
+msgid "sty_move_obj_styles"
+msgstr ""
+
+msgid "sty_move_style"
+msgstr ""
+
+msgid "sty_move_user_styles"
+msgstr ""
+
+msgid "sty_move_user_styles_saved"
+msgstr ""
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr ""
+
+msgid "sty_msg_color_must_only_include"
+msgstr ""
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr ""
+
+msgid "sty_name"
+msgstr ""
+
+msgid "sty_nr_learning_modules"
+msgstr ""
+
+msgid "sty_nr_objects"
+msgstr ""
+
+msgid "sty_odd_col_class"
+msgstr ""
+
+msgid "sty_odd_row_class"
+msgstr ""
+
+msgid "sty_ol"
+msgstr ""
+
+msgid "sty_opacity"
+msgstr ""
+
+msgid "sty_opt_saved"
+msgstr ""
+
+msgid "sty_order"
+msgstr ""
+
+msgid "sty_outdated"
+msgstr ""
+
+msgid "sty_overflow"
+msgstr ""
+
+msgid "sty_overwrite"
+msgstr ""
+
+msgid "sty_overwrite_existing_class"
+msgstr ""
+
+msgid "sty_padding"
+msgstr ""
+
+msgid "sty_page_char"
+msgstr ""
+
+msgid "sty_parameters"
+msgstr ""
+
+msgid "sty_paste_characteristics"
+msgstr ""
+
+msgid "sty_paste_chars"
+msgstr ""
+
+msgid "sty_paste_style_classes"
+msgstr ""
+
+msgid "sty_position"
+msgstr ""
+
+msgid "sty_positioning"
+msgstr ""
+
+msgid "sty_preview"
+msgstr ""
+
+msgid "sty_query"
+msgstr ""
+
+msgid "sty_question_char"
+msgstr ""
+
+msgid "sty_remove_global_default_state"
+msgstr ""
+
+msgid "sty_remove_global_fixed_state"
+msgstr ""
+
+msgid "sty_remove_outdated"
+msgstr ""
+
+msgid "sty_resize"
+msgstr ""
+
+msgid "sty_resize_image"
+msgstr ""
+
+msgid "sty_right"
+msgstr ""
+
+msgid "sty_row_foot_class"
+msgstr ""
+
+msgid "sty_row_head_class"
+msgstr ""
+
+msgid "sty_rte_char"
+msgstr ""
+
+msgid "sty_save_active_styles"
+msgstr ""
+
+msgid "sty_save_hide_order_status"
+msgstr ""
+
+msgid "sty_save_hide_status"
+msgstr ""
+
+msgid "sty_save_order"
+msgstr ""
+
+msgid "sty_save_order_status"
+msgstr ""
+
+msgid "sty_sco_char"
+msgstr ""
+
+msgid "sty_scope"
+msgstr ""
+
+msgid "sty_section_char"
+msgstr ""
+
+msgid "sty_set_outdated"
+msgstr ""
+
+msgid "sty_set_scope"
+msgstr ""
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr ""
+
+msgid "sty_source"
+msgstr ""
+
+msgid "sty_special"
+msgstr ""
+
+msgid "sty_style_chars"
+msgstr ""
+
+msgid "sty_style_class"
+msgstr ""
+
+msgid "sty_style_classes_copied"
+msgstr ""
+
+msgid "sty_style_not_migrated"
+msgstr ""
+
+msgid "sty_substyle"
+msgstr ""
+
+msgid "sty_substyle_of"
+msgstr ""
+
+msgid "sty_substyles"
+msgstr ""
+
+msgid "sty_sure_del_mqueries"
+msgstr ""
+
+msgid "sty_switch"
+msgstr ""
+
+msgid "sty_table_char"
+msgstr ""
+
+msgid "sty_table_class"
+msgstr ""
+
+msgid "sty_table_template_bw_zebra"
+msgstr ""
+
+msgid "sty_table_template_colored_zebra"
+msgstr ""
+
+msgid "sty_table_template_no_zebra"
+msgstr ""
+
+msgid "sty_table_templates"
+msgstr ""
+
+msgid "sty_tabs_char"
+msgstr ""
+
+msgid "sty_tag_hover"
+msgstr ""
+
+msgid "sty_tag_normal"
+msgstr ""
+
+msgid "sty_template_layout"
+msgstr ""
+
+msgid "sty_template_name"
+msgstr ""
+
+msgid "sty_templates"
+msgstr ""
+
+msgid "sty_text"
+msgstr ""
+
+msgid "sty_text_align"
+msgstr ""
+
+msgid "sty_text_block_char"
+msgstr ""
+
+msgid "sty_text_decoration"
+msgstr ""
+
+msgid "sty_text_indent"
+msgstr ""
+
+msgid "sty_text_inline_char"
+msgstr ""
+
+msgid "sty_text_transform"
+msgstr ""
+
+msgid "sty_titles"
+msgstr ""
+
+msgid "sty_to"
+msgstr ""
+
+msgid "sty_top"
+msgstr ""
+
+msgid "sty_top_bottom_padding"
+msgstr ""
+
+msgid "sty_transform"
+msgstr ""
+
+msgid "sty_transform_origin"
+msgstr ""
+
+msgid "sty_type"
+msgstr ""
+
+msgid "sty_type_ca_cntr"
+msgstr ""
+
+msgid "sty_type_ca_icntr"
+msgstr ""
+
+msgid "sty_type_ca_icont"
+msgstr ""
+
+msgid "sty_type_ca_ihead"
+msgstr ""
+
+msgid "sty_type_code_block"
+msgstr ""
+
+msgid "sty_type_code_inline"
+msgstr ""
+
+msgid "sty_type_em"
+msgstr ""
+
+msgid "sty_type_flist"
+msgstr ""
+
+msgid "sty_type_flist_a"
+msgstr ""
+
+msgid "sty_type_flist_cont"
+msgstr ""
+
+msgid "sty_type_flist_head"
+msgstr ""
+
+msgid "sty_type_flist_li"
+msgstr ""
+
+msgid "sty_type_glo_ovclink"
+msgstr ""
+
+msgid "sty_type_glo_overlay"
+msgstr ""
+
+msgid "sty_type_glo_ovtitle"
+msgstr ""
+
+msgid "sty_type_glo_ovuglink"
+msgstr ""
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr ""
+
+msgid "sty_type_ha_cntr"
+msgstr ""
+
+msgid "sty_type_ha_icntr"
+msgstr ""
+
+msgid "sty_type_ha_icont"
+msgstr ""
+
+msgid "sty_type_ha_ihcap"
+msgstr ""
+
+msgid "sty_type_ha_ihead"
+msgstr ""
+
+msgid "sty_type_ha_iheada"
+msgstr ""
+
+msgid "sty_type_heading1"
+msgstr ""
+
+msgid "sty_type_heading2"
+msgstr ""
+
+msgid "sty_type_heading3"
+msgstr ""
+
+msgid "sty_type_iim"
+msgstr ""
+
+msgid "sty_type_link"
+msgstr ""
+
+msgid "sty_type_list_item"
+msgstr ""
+
+msgid "sty_type_list_o"
+msgstr ""
+
+msgid "sty_type_list_u"
+msgstr ""
+
+msgid "sty_type_marker"
+msgstr ""
+
+msgid "sty_type_media_caption"
+msgstr ""
+
+msgid "sty_type_media_cont"
+msgstr ""
+
+msgid "sty_type_page_bnav"
+msgstr ""
+
+msgid "sty_type_page_cont"
+msgstr ""
+
+msgid "sty_type_page_fn"
+msgstr ""
+
+msgid "sty_type_page_frame"
+msgstr ""
+
+msgid "sty_type_page_lnav"
+msgstr ""
+
+msgid "sty_type_page_lnavimage"
+msgstr ""
+
+msgid "sty_type_page_lnavlink"
+msgstr ""
+
+msgid "sty_type_page_rnav"
+msgstr ""
+
+msgid "sty_type_page_rnavimage"
+msgstr ""
+
+msgid "sty_type_page_rnavlink"
+msgstr ""
+
+msgid "sty_type_page_title"
+msgstr ""
+
+msgid "sty_type_page_tnav"
+msgstr ""
+
+msgid "sty_type_qanswer"
+msgstr ""
+
+msgid "sty_type_qetcorr"
+msgstr ""
+
+msgid "sty_type_qetitem"
+msgstr ""
+
+msgid "sty_type_qfeedr"
+msgstr ""
+
+msgid "sty_type_qfeedw"
+msgstr ""
+
+msgid "sty_type_qimg"
+msgstr ""
+
+msgid "sty_type_qimgd"
+msgstr ""
+
+msgid "sty_type_qinput"
+msgstr ""
+
+msgid "sty_type_qlinput"
+msgstr ""
+
+msgid "sty_type_qordli"
+msgstr ""
+
+msgid "sty_type_qordul"
+msgstr ""
+
+msgid "sty_type_qover"
+msgstr ""
+
+msgid "sty_type_qsubmit"
+msgstr ""
+
+msgid "sty_type_qtitle"
+msgstr ""
+
+msgid "sty_type_question"
+msgstr ""
+
+msgid "sty_type_rte_drag"
+msgstr ""
+
+msgid "sty_type_rte_menu"
+msgstr ""
+
+msgid "sty_type_rte_mlink"
+msgstr ""
+
+msgid "sty_type_rte_node"
+msgstr ""
+
+msgid "sty_type_rte_status"
+msgstr ""
+
+msgid "sty_type_rte_tclink"
+msgstr ""
+
+msgid "sty_type_rte_texp"
+msgstr ""
+
+msgid "sty_type_rte_tli"
+msgstr ""
+
+msgid "sty_type_rte_tlink"
+msgstr ""
+
+msgid "sty_type_rte_tree"
+msgstr ""
+
+msgid "sty_type_rte_tul"
+msgstr ""
+
+msgid "sty_type_sco_desc"
+msgstr ""
+
+msgid "sty_type_sco_fmess"
+msgstr ""
+
+msgid "sty_type_sco_keyw"
+msgstr ""
+
+msgid "sty_type_sco_obj"
+msgstr ""
+
+msgid "sty_type_sco_title"
+msgstr ""
+
+msgid "sty_type_section"
+msgstr ""
+
+msgid "sty_type_strong"
+msgstr ""
+
+msgid "sty_type_sub"
+msgstr ""
+
+msgid "sty_type_sup"
+msgstr ""
+
+msgid "sty_type_table"
+msgstr ""
+
+msgid "sty_type_table_cell"
+msgstr ""
+
+msgid "sty_type_text_block"
+msgstr ""
+
+msgid "sty_type_text_inline"
+msgstr ""
+
+msgid "sty_type_va_cntr"
+msgstr ""
+
+msgid "sty_type_va_icntr"
+msgstr ""
+
+msgid "sty_type_va_icont"
+msgstr ""
+
+msgid "sty_type_va_ihcap"
+msgstr ""
+
+msgid "sty_type_va_ihead"
+msgstr ""
+
+msgid "sty_type_va_iheada"
+msgstr ""
+
+msgid "sty_ul"
+msgstr ""
+
+msgid "sty_va_cntr_class"
+msgstr ""
+
+msgid "sty_va_icntr_class"
+msgstr ""
+
+msgid "sty_va_icont_class"
+msgstr ""
+
+msgid "sty_va_ihcap_class"
+msgstr ""
+
+msgid "sty_va_ihead_class"
+msgstr ""
+
+msgid "sty_va_iheada_class"
+msgstr ""
+
+msgid "sty_vaccordion_templates"
+msgstr ""
+
+msgid "sty_vertical"
+msgstr ""
+
+msgid "sty_vertical_align"
+msgstr ""
+
+msgid "sty_white_space"
+msgstr ""
+
+msgid "sty_width"
+msgstr ""
+
+msgid "sty_width_height"
+msgstr ""
+
+msgid "sty_word_spacing"
+msgstr ""
+
+msgid "style"
+msgstr ""
+
+msgid "style_assignments_deleted"
+msgstr ""
+
+msgid "style_copied"
+msgstr ""
+
+msgid "style_current_style"
+msgstr ""
+
+msgid "style_delete_style"
+msgstr ""
+
+msgid "style_deleted"
+msgstr ""
+
+msgid "style_edit_style"
+msgstr ""
+
+msgid "style_id"
+msgstr ""
+
+msgid "style_id_description"
+msgstr ""
+
+msgid "style_imported"
+msgstr ""
+
+msgid "style_name"
+msgstr ""
+
+msgid "style_name_description"
+msgstr ""
+
+msgid "style_not_deleted"
+msgstr ""
+
+msgid "style_page_layout_module_learning_module"
+msgstr ""
+
+msgid "style_page_layout_module_portfolio"
+msgstr ""
+
+msgid "style_page_layout_module_scorm"
+msgstr ""
+
+msgid "style_support_reuse"
+msgstr ""
+
+msgid "style_support_reuse_info"
+msgstr ""
+
+msgid "styles_not_deleted"
+msgstr ""
+
+msgid "sub_style"
+msgstr ""
+
+msgid "sub_style_id"
+msgstr ""
+
+msgid "sub_style_id_description"
+msgstr ""
+
+msgid "sub_style_name"
+msgstr ""
+
+msgid "sub_style_name_description"
+msgstr ""
+
+msgid "sub_style_parent_style_description"
+msgstr ""
+
+msgid "system_style_activation"
+msgstr ""
+
+msgid "system_style_activation_description"
+msgstr ""
+
+msgid "system_style_default_description"
+msgstr ""
+
+msgid "system_style_personal_description"
+msgstr ""
+
+msgid "update_colors"
+msgstr ""
+
+msgid "update_icon"
+msgstr ""
+
+msgid "update_variables"
+msgstr ""
+
+msgid "usages"
+msgstr ""
+
+msgid "used_colors"
+msgstr ""
+
+msgid "zip_export_failed"
+msgstr ""

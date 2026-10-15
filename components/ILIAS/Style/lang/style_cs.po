@@ -1,0 +1,1461 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: style\n"
+
+msgid "adapt_icon"
+msgstr "Upravte ikonu"
+
+msgid "adapt_icon_description"
+msgstr "Upravte barvy ikony nebo změňte samotnou ikonu."
+
+msgid "adapt_icons"
+msgstr "Upravte barvy ikon"
+
+msgid "adapt_icons_description"
+msgstr "Zde jsou uvedeny všechny ikony, které lze nalézt ve svg ikonách ve složce skins images. Pokud se změní jedna barva, změní se ve všech ikonách obsahujících tuto barvu najednou."
+
+#, fuzzy
+msgid "adapt_scss"
+msgstr "Adapt scss"
+
+#, fuzzy
+msgid "adapt_scss_description"
+msgstr "This is a direct representation of all scss variables from the settings files used in the selected skin. Variable names and descriptions are drawn directly from those files and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a copy of the default delos style."
+
+msgid "add_substyle"
+msgstr "Přidat podstyl"
+
+msgid "add_system_style"
+msgstr "Upravit styly systému"
+
+msgid "assignment"
+msgstr "Přiřazení"
+
+msgid "blue_color"
+msgstr "Modrá barva"
+
+msgid "blue_colors"
+msgstr "Modré barvy"
+
+msgid "blue_colors_description"
+msgstr "Popis modré barvy"
+
+#, fuzzy
+msgid "can_not_read_scss_file"
+msgstr "Cannot read scss file. Path:"
+
+msgid "cant_deactivate_default_style"
+msgstr "Výchozí styly nelze deaktivovat."
+
+msgid "cant_delete_activated_style"
+msgstr "Aktivní styly nelze odstranit."
+
+msgid "cant_delete_if_users_assigned"
+msgstr "Styly nelze odstranit, pokud jsou uživatelé stále přiřazeni."
+
+msgid "cant_delete_style_with_substyles"
+msgstr "Styly s podstyly nelze odstranit."
+
+msgid "change_icon"
+msgstr "Změnit ikonu"
+
+msgid "color"
+msgstr "Barva"
+
+msgid "color_changed_from"
+msgstr "Barva změněna z:"
+
+msgid "color_changed_to"
+msgstr "na:"
+
+msgid "color_reset"
+msgstr "Barvy ikon byly resetovány. Důležité: Mějte na paměti, že ukládání do mezipaměti může zabránit zobrazování změn. Možná bude nutné vymazat mezipaměť prohlížečů."
+
+msgid "color_update"
+msgstr "Barvy ikon byly aktualizovány. Důležité: Mějte na paměti, že ukládání do mezipaměti může zabránit zobrazování změn. Možná bude nutné vymazat mezipaměť prohlížečů."
+
+msgid "default_style_set_to"
+msgstr "Výchozí styl systému byl nastaven na:"
+
+#, fuzzy
+msgid "dir_changed_to"
+msgstr "The directory has been moved to:"
+
+msgid "dir_copied_from"
+msgstr "Adresář byl zkopírován z:"
+
+#, fuzzy
+msgid "dir_created"
+msgstr "The following directory has been created:"
+
+msgid "dir_deleted"
+msgstr "Následující adresář byl smazán:"
+
+#, fuzzy
+msgid "dir_preserved_backup"
+msgstr "Preserved Backup folder:"
+
+msgid "dir_preserved_linked"
+msgstr "Zachovaný odkaz:"
+
+msgid "directory_created"
+msgstr "Adresář byl vytvořen:"
+
+msgid "documentation"
+msgstr "Dokumentace"
+
+msgid "edit_by_color"
+msgstr "Upravit podle barvy"
+
+msgid "edit_by_icon"
+msgstr "Upravit podle ikony"
+
+msgid "enable_system_styles_management_no_write_perm"
+msgstr "Správa stylů systému je povolena, ale ILIAS nemá oprávnění pro zápis do složky Customizing/global/skin. Nelze tedy vytvářet ani upravovat žádné nové styly."
+
+msgid "entries_reloaded"
+msgstr "Všechny položky byly znovu načteny"
+
+msgid "file_deleted"
+msgstr "Následující soubor byl smazán:"
+
+msgid "font_dir"
+msgstr "Adresář písma"
+
+msgid "font_dir_description"
+msgstr "Složka pro ukládání písem pro soubory skin. Tento adresář může být sdílen s jinými styly a podstyly tohoto souboru skin."
+
+msgid "from_skin"
+msgstr "Souboru skin:"
+
+msgid "green_color"
+msgstr "Zelená barva"
+
+msgid "green_colors"
+msgstr "Zelené barvy"
+
+msgid "green_colors_description"
+msgstr "Popis zelené barvy"
+
+msgid "grey_color"
+msgstr "Šedá barva"
+
+msgid "grey_colors"
+msgstr "Šedé barvy"
+
+msgid "grey_colors_description"
+msgstr "Popis šedé barvy"
+
+msgid "icons"
+msgstr "Ikony"
+
+msgid "icons_gallery"
+msgstr "Galerie ikon"
+
+msgid "image_dir"
+msgstr "Adresář obrázků"
+
+msgid "image_dir_description"
+msgstr "Složka pro ukládání obrázků (převážně ikon) do souboru skin. Tento adresář může být sdílen s jinými styly a podstyly tohoto souboru skin."
+
+#, fuzzy
+msgid "in_main_scss_file"
+msgstr "is not imported inside the system styles main scss file:"
+
+#, fuzzy
+msgid "invalid_scss_path"
+msgstr "The provided sass/scss path is either not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readable and executable by your webserver."
+
+msgid "ks_documentation_of_style"
+msgstr "Dokumentace stylu Kitchen Sink:"
+
+msgid "ks_documentation_of_substyle"
+msgstr "Dokumentace podstylu Kitchen Sink:"
+
+#, fuzzy
+msgid "main_scss_created"
+msgstr "Main SCSS has been created:"
+
+msgid "manage_system_styles"
+msgstr "Správa systémových stylů"
+
+msgid "msg_sub_style_created"
+msgstr "Byl vytvořen podstyl."
+
+msgid "msg_sys_style_created"
+msgstr "Byl úspěšně vytvořen nový systémový styl."
+
+msgid "msg_sys_style_update"
+msgstr "Byly aktualizovány systémové styly"
+
+#, fuzzy
+msgid "no_scss_path_set"
+msgstr "No Scss Path set"
+
+msgid "no_style_selected"
+msgstr "Nebyl vybrán žádný podstyl."
+
+msgid "of_parent"
+msgstr "nadřazený:"
+
+msgid "open_documentation"
+msgstr "Otevření Dokumentace"
+
+msgid "parent"
+msgstr "Nadřazený styl"
+
+msgid "personal"
+msgstr "Osobní"
+
+msgid "personal_style_set_to"
+msgstr "Váš osobní styl byl nastaven na:"
+
+#, fuzzy
+msgid "provided_scss_path"
+msgstr "Provided scss path:"
+
+msgid "red_color"
+msgstr "Červená barva"
+
+msgid "red_colors"
+msgstr "Červené barvy"
+
+msgid "red_colors_description"
+msgstr "Popis červené barvy"
+
+msgid "refresh_entries"
+msgstr "Obnovit položky"
+
+msgid "remove_assignment"
+msgstr "Odebrat přiřazení"
+
+msgid "reset_icons"
+msgstr "Obnovit ikony"
+
+msgid "reset_variables"
+msgstr "Obnovit proměnné"
+
+msgid "scope"
+msgstr "Rozsah"
+
+#, fuzzy
+msgid "scss"
+msgstr "Scss"
+
+#, fuzzy
+msgid "scss_can_not_be_modified"
+msgstr "Scss cannot be modified"
+
+#, fuzzy
+msgid "scss_compile_failed"
+msgstr "Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:"
+
+#, fuzzy
+msgid "scss_file_reset"
+msgstr "The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_file_updated"
+msgstr "The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_folder_reset"
+msgstr "Scss folder reset"
+
+#, fuzzy
+msgid "scss_folder_updated"
+msgstr "Scss folder has been updated"
+
+#, fuzzy
+msgid "scss_scss_installation_detected"
+msgstr "Scss/sass installation detected at:"
+
+#, fuzzy
+msgid "scss_variable_empty"
+msgstr "This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling."
+
+#, fuzzy
+msgid "scss_variables_empty_might_have_changed"
+msgstr "There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files."
+
+#, fuzzy
+msgid "scss_variables_file_not_included"
+msgstr "The scss variables files:"
+
+msgid "select_icon"
+msgstr "Vyberte ikonu"
+
+msgid "settings_of_style"
+msgstr "Správa stylu"
+
+msgid "settings_of_substyle"
+msgstr "Správa podstylu"
+
+msgid "skin"
+msgstr "Soubor skin"
+
+msgid "skin_deleted"
+msgstr "Byl smazán následující soubor skin:"
+
+msgid "skin_id"
+msgstr "ID souboru skin"
+
+msgid "skin_id_description"
+msgstr "Soubory skin jsou místem, kam se ukládají styly a podstyly. ID souboru skin nastavuje název složky obsahující všechny informace o stylu a podstylu. V identifikátorech souboru skin se smějí používat jen písmena, čísla a pomlčky nebo podtržené znaky."
+
+msgid "skin_id_exists"
+msgstr "Soubor skin s tímto ID již existuje."
+
+msgid "skin_name"
+msgstr "Název souboru skin"
+
+msgid "skin_name_description"
+msgstr "Název souboru skin může být použit k popisu oblasti aplikace kůže v souboru skin ve formátu čitelném pro lidi. Objeví se ve všech prvcích uživatelského rozhraní umožňujících výběr souborů skin."
+
+msgid "skin_version"
+msgstr "Verze souboru skin"
+
+msgid "skin_version_description"
+msgstr "Verze souboru skin se použije k opětovnému uložení stylu do mezipaměti po změně. Aktualizuje se automaticky."
+
+msgid "sound_dir"
+msgstr "Adresář zvuků"
+
+msgid "sound_dir_description"
+msgstr "Složka pro ukládání zvuků pro soubory skin. Tento adresář může být sdílen s jinými styly a podstyly tohoto souboru skin."
+
+msgid "sty_acopy"
+msgstr "Kopírovat"
+
+msgid "sty_add_assignment"
+msgstr "Přidat přiřazení"
+
+msgid "sty_add_characteristic"
+msgstr "Přidat styl třídy"
+
+msgid "sty_add_color"
+msgstr "Přidat barvu"
+
+msgid "sty_add_content_style"
+msgstr "Přidat styl obsahu"
+
+msgid "sty_add_image"
+msgstr "Přidat obrázek"
+
+msgid "sty_add_media_query"
+msgstr "Přidat dotaz na média"
+
+#, fuzzy
+msgid "sty_add_media_query_info"
+msgstr "E.g. \"only screen and (max-width: 600px)\" for browser window smaller than 600px or \"print\" for printing devices."
+
+msgid "sty_add_pgl"
+msgstr "Přidat rozvržení stránky"
+
+msgid "sty_add_template"
+msgstr "Přidat šablonu"
+
+msgid "sty_added_characteristic"
+msgstr "Přidán styl třídy."
+
+msgid "sty_all"
+msgstr "Všechny"
+
+msgid "sty_all_styles_obligatory"
+msgstr "Všechny vybrané styly jsou povinné a nemohou být smazány."
+
+msgid "sty_assign_categories"
+msgstr "Přiřadit kategorie"
+
+msgid "sty_background"
+msgstr "Pozadí"
+
+msgid "sty_background_attachment"
+msgstr "Vodoznak"
+
+msgid "sty_background_color"
+msgstr "Barva pozadí"
+
+msgid "sty_background_image"
+msgstr "Obrázek pozadí"
+
+msgid "sty_background_position"
+msgstr "Umístění pozadí"
+
+msgid "sty_background_repeat"
+msgstr "Opakování pozadí"
+
+msgid "sty_base_color"
+msgstr "Barva podkladu"
+
+msgid "sty_based_on"
+msgstr "Založeno na"
+
+#, fuzzy
+msgid "sty_bg_img_info"
+msgstr "To add images to the dropdown selection please upload them in the \"Images\" section of the style first."
+
+msgid "sty_border"
+msgstr "Okraj"
+
+msgid "sty_border_color"
+msgstr "Barva okraje"
+
+msgid "sty_border_style"
+msgstr "Styl okraje"
+
+msgid "sty_border_width"
+msgstr "Šířka okraje"
+
+msgid "sty_bottom"
+msgstr "Spodek"
+
+msgid "sty_ca_cntr_class"
+msgstr "Kontejner Carousel"
+
+msgid "sty_ca_icntr_class"
+msgstr "Kontejner na položky Carousel"
+
+msgid "sty_ca_icont_class"
+msgstr "Obsah položky Carousel"
+
+msgid "sty_ca_ihead_class"
+msgstr "Záhlaví položky Carousel"
+
+#, fuzzy
+msgid "sty_cannot_be_copied"
+msgstr "The following style types cannot be copied"
+
+msgid "sty_caption"
+msgstr "Titulek"
+
+msgid "sty_caption_class"
+msgstr "Titulek"
+
+msgid "sty_carousel_templates"
+msgstr "Šablony Carousel"
+
+msgid "sty_cat_assignments"
+msgstr "Úlohy stylu / kategorie"
+
+#, fuzzy
+msgid "sty_change_user_assignment"
+msgstr "Change User Assignment"
+
+msgid "sty_characteristic_already_exists"
+msgstr "Třída stylu s tímto názvem již v tomto stylu existuje."
+
+#, fuzzy
+msgid "sty_class"
+msgstr "Style Class"
+
+#, fuzzy
+msgid "sty_class_name"
+msgstr "Class Name"
+
+msgid "sty_clear"
+msgstr "Vyčistit"
+
+msgid "sty_col_foot_class"
+msgstr "Zápatí sloupce"
+
+msgid "sty_col_head_class"
+msgstr "Záhlaví sloupce"
+
+msgid "sty_color"
+msgstr "Barva"
+
+msgid "sty_color_already_exists"
+msgstr "Barva tohoto jména již v tomto stylu existuje."
+
+msgid "sty_color_code"
+msgstr "Barva kódu"
+
+msgid "sty_color_flavors"
+msgstr "Druhy barev"
+
+msgid "sty_color_info"
+msgstr "Předdefinované barvy umožňují je použít znovu pro jiné účely. Odkazujeme Vás na předdefinované barvy použitím jejich názvu s čelním\"!\" pro každý atribut barvy ve Vašich třídách stylu. K použití odstínu, připojte hodnotu jasu v závorkách ke jménu barvy, např. !MojeBarva(20)."
+
+msgid "sty_color_name"
+msgstr "Název barvy"
+
+msgid "sty_colors"
+msgstr "Barvy"
+
+msgid "sty_commands"
+msgstr "Povely"
+
+msgid "sty_confirm_char_deletion"
+msgstr "Určitě chcete smazat nasledující styl(y) tříd(y)?"
+
+msgid "sty_confirm_color_deletion"
+msgstr "Potvrdit smazání barvy"
+
+msgid "sty_confirm_del_ind_styles"
+msgstr "Potvrdit smazání obsahu individuálních stylů"
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr "Všechny výukové moduly budou přiřazeny ke stylu '%s'. Tyto také budou smazány v obsahu individuálních stylů. Chcete určitě pokračovat?"
+
+msgid "sty_confirm_template_deletion"
+msgstr "Potvrdit smazání šablony"
+
+msgid "sty_copied_please_select_target"
+msgstr "Třídy stylu byly zkopírovány. Otevřete prosím cílový styl a klepněte na \"Vložit třídy stylu\"."
+
+msgid "sty_copy_other_stylesheet"
+msgstr "Kopírovat styl z lokálního zdroje"
+
+msgid "sty_copy_other_system_style"
+msgstr "Klonovat existující systémový styl."
+
+#, fuzzy
+msgid "sty_copy_to"
+msgstr "to:"
+
+msgid "sty_create_ind_style"
+msgstr "Vytvořit individuální styl"
+
+#, fuzzy
+msgid "sty_create_new_class"
+msgstr "Create new style class"
+
+msgid "sty_create_new_stylesheet"
+msgstr "Vytvořit nový styl"
+
+msgid "sty_create_new_system_style"
+msgstr "Vytvořte nový systémový styl."
+
+msgid "sty_create_new_system_sub_style"
+msgstr "Vytvořte nový systémový podstyl."
+
+msgid "sty_create_pgl"
+msgstr "Vytvořit rozvržení stránky"
+
+msgid "sty_cursor"
+msgstr "Kurzor"
+
+msgid "sty_custom"
+msgstr "Vlastní"
+
+msgid "sty_custom_par"
+msgstr "Vlastní parametry"
+
+msgid "sty_custom_par_info"
+msgstr "Přidejte vlastní parametry CSS pomocí formátu \"parametr: hodnota\"."
+
+msgid "sty_default"
+msgstr "Výchozí"
+
+msgid "sty_default_style"
+msgstr "Výchozí styl"
+
+msgid "sty_del_template"
+msgstr "Smazat šablony a třídy"
+
+msgid "sty_del_template_keep_classes"
+msgstr "Smazat a zachovat třídu stylu"
+
+msgid "sty_delete_other_selected"
+msgstr "Dále"
+
+msgid "sty_disable_auto_margins"
+msgstr "Vypnout automatické okraje"
+
+msgid "sty_disable_auto_margins_info"
+msgstr "Vypne automatické nastavení vlevo/vpravo na 0 px, pokud mediální objekt nebo tabulka je zarovnána vlevo/vpravo."
+
+msgid "sty_edit_template"
+msgstr "Upravit šablonu"
+
+msgid "sty_even_col_class"
+msgstr "Vyvážené sloupce"
+
+msgid "sty_even_row_class"
+msgstr "Vyvážené řádky"
+
+msgid "sty_example"
+msgstr "Příklad"
+
+msgid "sty_flist_char"
+msgstr "Seznam souborů"
+
+msgid "sty_float"
+msgstr "Plovoucí"
+
+msgid "sty_font_family"
+msgstr "Skupina fontu"
+
+msgid "sty_font_size"
+msgstr "Velikost fontu"
+
+msgid "sty_font_style"
+msgstr "Styl fontu"
+
+msgid "sty_font_variant"
+msgstr "Varianta fontu"
+
+msgid "sty_font_weight"
+msgstr "Váha fontu"
+
+msgid "sty_from"
+msgstr "Od"
+
+msgid "sty_generate_template"
+msgstr "Obecná šablona"
+
+msgid "sty_glo_char"
+msgstr "Glosář"
+
+msgid "sty_ha_cntr_class"
+msgstr "Hor. složení kontejneru"
+
+msgid "sty_ha_icntr_class"
+msgstr "Hor. složení položek kontejneru"
+
+msgid "sty_ha_icont_class"
+msgstr "Hor. složení položek obsahu"
+
+msgid "sty_ha_ihcap_class"
+msgstr "Hor. Titulek Accordion"
+
+msgid "sty_ha_ihead_class"
+msgstr "Hor. složení položek hlavičky"
+
+msgid "sty_ha_iheada_class"
+msgstr "Hor. Záhlaví Accordion (aktivní)"
+
+msgid "sty_haccordion_templates"
+msgstr "Hor. složení šablony"
+
+msgid "sty_height"
+msgstr "Výška"
+
+msgid "sty_hide"
+msgstr "Skrýt"
+
+msgid "sty_horizontal"
+msgstr "Horizontální"
+
+msgid "sty_if_style_class_already_exists"
+msgstr "Když třída stylu již existuje..."
+
+msgid "sty_image_file"
+msgstr "Soubor obrázku"
+
+msgid "sty_images"
+msgstr "Obrázky"
+
+msgid "sty_import_page_layout"
+msgstr "Import rozvržení stránky"
+
+msgid "sty_import_stylesheet"
+msgstr "Import stylu"
+
+msgid "sty_import_system_style"
+msgstr "Importovat existující systémový styl jako .zip soubor."
+
+#, fuzzy
+msgid "sty_imported_layout"
+msgstr "Imported Page Layout"
+
+msgid "sty_individual_styles"
+msgstr "Individuální styly"
+
+msgid "sty_keep_existing"
+msgstr "Zachovat existující"
+
+msgid "sty_left"
+msgstr "Levý"
+
+msgid "sty_left_right_padding"
+msgstr "Odsazení buňky vlevo/vpravo"
+
+#, fuzzy
+msgid "sty_legacy_image_directory_found"
+msgstr "Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking \"Migrate Images\""
+
+msgid "sty_letter_spacing"
+msgstr "Odsazení znaků"
+
+msgid "sty_lightness_border"
+msgstr "Jasnost ohraničení"
+
+msgid "sty_lightness_cell1_bg"
+msgstr "Jasnost pozadí 1.buňky"
+
+msgid "sty_lightness_cell1_text"
+msgstr "Tmavý text 1.buňky"
+
+msgid "sty_lightness_cell2_bg"
+msgstr "Jasnost pozadí 2.buňky"
+
+msgid "sty_lightness_cell2_text"
+msgstr "Tmavý text 2.buňky"
+
+msgid "sty_lightness_header_bg"
+msgstr "Jasnost pozadí hlavičky"
+
+msgid "sty_lightness_header_text"
+msgstr "Jasnost textu hlavičky"
+
+msgid "sty_line_height"
+msgstr "Výška řádku"
+
+msgid "sty_link_char"
+msgstr "Odkaz"
+
+msgid "sty_list_char"
+msgstr "Seznam"
+
+#, fuzzy
+msgid "sty_list_style_position"
+msgstr "List Style Position"
+
+#, fuzzy
+msgid "sty_list_style_type"
+msgstr "List Style Type"
+
+msgid "sty_make_global_default"
+msgstr "Vytvořit výchzí globální standard"
+
+msgid "sty_make_global_fixed"
+msgstr "Nastavit pevný globální standard"
+
+msgid "sty_margin"
+msgstr "Okraj"
+
+msgid "sty_margin_and_padding"
+msgstr "Okraj a rozteč"
+
+msgid "sty_media_char"
+msgstr "Média"
+
+msgid "sty_media_queries"
+msgstr "Dotazy na média"
+
+msgid "sty_media_query_info"
+msgstr "Oddělený blok CSS je přidán pro každý dotaz na média po výchozím bloku (bez speciálního dotazu na média)."
+
+#, fuzzy
+msgid "sty_migrate_images"
+msgstr "Migrate Images"
+
+msgid "sty_min_height"
+msgstr "Minimální výška"
+
+msgid "sty_move_lm_styles"
+msgstr "Změnit styl výukových modulů"
+
+#, fuzzy
+msgid "sty_move_obj_styles"
+msgstr "Change Style of Objects"
+
+msgid "sty_move_style"
+msgstr "Změnit styl"
+
+msgid "sty_move_user_styles"
+msgstr "Změnit styl uživatelů"
+
+#, fuzzy
+msgid "sty_move_user_styles_saved"
+msgstr "The assignment of the users assigned to skind-id %s has been changed to skin-id %s."
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr "Název třídy stylu může obsahovat pouze následující znaky:"
+
+msgid "sty_msg_color_must_only_include"
+msgstr "Název barvy může obsahovat pouze následující znaky:"
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr "Vstup musí být číselný."
+
+msgid "sty_name"
+msgstr "Jméno"
+
+msgid "sty_nr_learning_modules"
+msgstr "Počet výukových modulů"
+
+#, fuzzy
+msgid "sty_nr_objects"
+msgstr "Number of Objects"
+
+msgid "sty_odd_col_class"
+msgstr "Liché sloupce"
+
+msgid "sty_odd_row_class"
+msgstr "Liché řádky"
+
+#, fuzzy
+msgid "sty_ol"
+msgstr "Ordered List"
+
+msgid "sty_opacity"
+msgstr "Neprůhlednost"
+
+msgid "sty_opt_saved"
+msgstr "Volby uloženy"
+
+msgid "sty_order"
+msgstr "Objednat"
+
+#, fuzzy
+msgid "sty_outdated"
+msgstr "Outdated"
+
+msgid "sty_overflow"
+msgstr "Přetékání"
+
+msgid "sty_overwrite"
+msgstr "Přepsat"
+
+#, fuzzy
+msgid "sty_overwrite_existing_class"
+msgstr "Overwrite existing style class"
+
+msgid "sty_padding"
+msgstr "Rozteč"
+
+msgid "sty_page_char"
+msgstr "Stránka"
+
+#, fuzzy
+msgid "sty_parameters"
+msgstr "Parameters"
+
+msgid "sty_paste_characteristics"
+msgstr "Vložit třídy stylu"
+
+#, fuzzy
+msgid "sty_paste_chars"
+msgstr "Paste Classes"
+
+msgid "sty_paste_style_classes"
+msgstr "Vložit třídy stylu"
+
+msgid "sty_position"
+msgstr "Pozice"
+
+msgid "sty_positioning"
+msgstr "Umístění"
+
+msgid "sty_preview"
+msgstr "Náhled"
+
+msgid "sty_query"
+msgstr "Dotaz"
+
+msgid "sty_question_char"
+msgstr "Otázka"
+
+msgid "sty_remove_global_default_state"
+msgstr "Odstranit výchozí globální standard"
+
+msgid "sty_remove_global_fixed_state"
+msgstr "Odstranit pevný globální standard"
+
+#, fuzzy
+msgid "sty_remove_outdated"
+msgstr "Remove Outdated Status"
+
+#, fuzzy
+msgid "sty_resize"
+msgstr "Resize"
+
+#, fuzzy
+msgid "sty_resize_image"
+msgstr "Resize Image"
+
+msgid "sty_right"
+msgstr "Pravý"
+
+msgid "sty_row_foot_class"
+msgstr "Řádek zápatí"
+
+msgid "sty_row_head_class"
+msgstr "Řádek záhlaví"
+
+msgid "sty_rte_char"
+msgstr "SCORM RTE"
+
+msgid "sty_save_active_styles"
+msgstr "Uložit aktivní styly"
+
+#, fuzzy
+msgid "sty_save_hide_order_status"
+msgstr "Save Order and Hidden Status"
+
+msgid "sty_save_hide_status"
+msgstr "Uložit skrytý status"
+
+msgid "sty_save_order"
+msgstr "Uložit objednávku"
+
+#, fuzzy
+msgid "sty_save_order_status"
+msgstr "Save Order"
+
+msgid "sty_sco_char"
+msgstr "SCO & cíl"
+
+msgid "sty_scope"
+msgstr "Rozsah platnosti"
+
+msgid "sty_section_char"
+msgstr "Část"
+
+#, fuzzy
+msgid "sty_set_outdated"
+msgstr "Set Outdated"
+
+msgid "sty_set_scope"
+msgstr "Nastavit rozsah platnosti"
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr "Následující styly tříd jsou povinné a nelze je mazat. Chcete pokračovat a smazat zbývající vybrané třídy stylů?"
+
+msgid "sty_source"
+msgstr "Zdroj"
+
+msgid "sty_special"
+msgstr "Speciální"
+
+msgid "sty_style_chars"
+msgstr "Třídy stylu"
+
+msgid "sty_style_class"
+msgstr "Třídy stylu"
+
+msgid "sty_style_classes_copied"
+msgstr "Třídy stylů byly zkopírovány."
+
+#, fuzzy
+msgid "sty_style_not_migrated"
+msgstr "This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied."
+
+msgid "sty_substyle"
+msgstr "Podstyl"
+
+msgid "sty_substyle_of"
+msgstr "Podstyl"
+
+msgid "sty_substyles"
+msgstr "Podstyly"
+
+msgid "sty_sure_del_mqueries"
+msgstr "Opravdu chcete tento dotaz na média a všechna související pravidla CSS odstranit?"
+
+msgid "sty_switch"
+msgstr "Přepnout"
+
+msgid "sty_table_char"
+msgstr "Tabulka"
+
+msgid "sty_table_class"
+msgstr "Třída stylu tabulky"
+
+msgid "sty_table_template_bw_zebra"
+msgstr "Šedá zebra"
+
+msgid "sty_table_template_colored_zebra"
+msgstr "Barevná Zebra"
+
+msgid "sty_table_template_no_zebra"
+msgstr "Žádná Zebra"
+
+msgid "sty_table_templates"
+msgstr "Šablony tabulky"
+
+msgid "sty_tabs_char"
+msgstr "Tabulky & složení"
+
+msgid "sty_tag_hover"
+msgstr ":hover"
+
+msgid "sty_tag_normal"
+msgstr "Normální"
+
+msgid "sty_template_layout"
+msgstr "Rozvržení šablony"
+
+msgid "sty_template_name"
+msgstr "Jméno"
+
+msgid "sty_templates"
+msgstr "Šablony"
+
+msgid "sty_text"
+msgstr "Text"
+
+msgid "sty_text_align"
+msgstr "Zarovnání textu"
+
+msgid "sty_text_block_char"
+msgstr "Text (Blok)"
+
+msgid "sty_text_decoration"
+msgstr "Dekorace textu"
+
+msgid "sty_text_indent"
+msgstr "Odsazení textu"
+
+msgid "sty_text_inline_char"
+msgstr "Text (Znak)"
+
+msgid "sty_text_transform"
+msgstr "Transformace textu"
+
+#, fuzzy
+msgid "sty_titles"
+msgstr "Titles"
+
+msgid "sty_to"
+msgstr "Na"
+
+msgid "sty_top"
+msgstr "Vrchol"
+
+msgid "sty_top_bottom_padding"
+msgstr "Odsazení buňky nahoře/dole"
+
+msgid "sty_transform"
+msgstr "Transformovat"
+
+msgid "sty_transform_origin"
+msgstr "Transformace-původ"
+
+msgid "sty_type"
+msgstr "Typ"
+
+msgid "sty_type_ca_cntr"
+msgstr "Kontejner Carousel"
+
+msgid "sty_type_ca_icntr"
+msgstr "Kontejner na položky Carousel"
+
+msgid "sty_type_ca_icont"
+msgstr "Obsah položky Carousel"
+
+msgid "sty_type_ca_ihead"
+msgstr "Záhlaví položky Carousel"
+
+msgid "sty_type_code_block"
+msgstr "Kód (blok)"
+
+msgid "sty_type_code_inline"
+msgstr "Kód (Inline)"
+
+#, fuzzy
+msgid "sty_type_em"
+msgstr "Emphasised"
+
+msgid "sty_type_flist"
+msgstr "Seznam souborů"
+
+msgid "sty_type_flist_a"
+msgstr "Odkaz položky seznamu souborů"
+
+msgid "sty_type_flist_cont"
+msgstr "Konejner seznamu souborů"
+
+msgid "sty_type_flist_head"
+msgstr "Hlavička seznamu souborů"
+
+msgid "sty_type_flist_li"
+msgstr "Položka seznamu souborů"
+
+msgid "sty_type_glo_ovclink"
+msgstr "Uzavřít odkaz překrývání glosáře"
+
+msgid "sty_type_glo_overlay"
+msgstr "Překrývání glosáře"
+
+msgid "sty_type_glo_ovtitle"
+msgstr "Termín/Název (Překrývání)"
+
+msgid "sty_type_glo_ovuglink"
+msgstr "Odkaz na jednotku glosáře"
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr "Odkaz na seznam jednotek glosáře"
+
+msgid "sty_type_ha_cntr"
+msgstr "Hor. skladba kontejneru"
+
+msgid "sty_type_ha_icntr"
+msgstr "Hor. skladba položek kontejneru"
+
+msgid "sty_type_ha_icont"
+msgstr "Hor. skladba položek obsahu"
+
+msgid "sty_type_ha_ihcap"
+msgstr "Hor. Titulek Accordion"
+
+msgid "sty_type_ha_ihead"
+msgstr "Hor. skladba položek hlavičky"
+
+msgid "sty_type_ha_iheada"
+msgstr "Hor. Záhlaví Accordion (aktivní)"
+
+msgid "sty_type_heading1"
+msgstr "Nadpis 1"
+
+msgid "sty_type_heading2"
+msgstr "Nadpis 2"
+
+msgid "sty_type_heading3"
+msgstr "Nadpis 3"
+
+msgid "sty_type_iim"
+msgstr "Roletová nabídka obsahu interaktivních obrázků"
+
+msgid "sty_type_link"
+msgstr "Odkaz"
+
+msgid "sty_type_list_item"
+msgstr "Položka seznamu"
+
+msgid "sty_type_list_o"
+msgstr "Číslovaný seznam"
+
+msgid "sty_type_list_u"
+msgstr "Puntíkovaný seznam"
+
+msgid "sty_type_marker"
+msgstr "Značka interaktivního obrázku"
+
+msgid "sty_type_media_caption"
+msgstr "Hlavička médií"
+
+msgid "sty_type_media_cont"
+msgstr "Mediální konejner"
+
+msgid "sty_type_page_bnav"
+msgstr "Navigace dole"
+
+msgid "sty_type_page_cont"
+msgstr "Zásobník stránky"
+
+msgid "sty_type_page_fn"
+msgstr "Poznámka pod čarou"
+
+msgid "sty_type_page_frame"
+msgstr "Rám stránky"
+
+msgid "sty_type_page_lnav"
+msgstr "Navigace vlevo"
+
+msgid "sty_type_page_lnavimage"
+msgstr "Obrázek navigace vlevo"
+
+msgid "sty_type_page_lnavlink"
+msgstr "Odkaz navigace vlevo"
+
+msgid "sty_type_page_rnav"
+msgstr "Navigace vpravo"
+
+msgid "sty_type_page_rnavimage"
+msgstr "Obrázek navigace vpravo"
+
+msgid "sty_type_page_rnavlink"
+msgstr "Odkaz navigace vpravo"
+
+msgid "sty_type_page_title"
+msgstr "Název stránky"
+
+msgid "sty_type_page_tnav"
+msgstr "Navigace nahoře"
+
+msgid "sty_type_qanswer"
+msgstr "Odpověď"
+
+msgid "sty_type_qetcorr"
+msgstr "Chybný text opraven"
+
+msgid "sty_type_qetitem"
+msgstr "Položka chybného textu"
+
+msgid "sty_type_qfeedr"
+msgstr "Správný ohlas"
+
+msgid "sty_type_qfeedw"
+msgstr "Chybný ohlas"
+
+msgid "sty_type_qimg"
+msgstr "Obrázek otázky"
+
+msgid "sty_type_qimgd"
+msgstr "Odkaz detailů obrázku"
+
+msgid "sty_type_qinput"
+msgstr "Vstup textu"
+
+msgid "sty_type_qlinput"
+msgstr "Vstup dlouhého textu"
+
+msgid "sty_type_qordli"
+msgstr "Seřadit seznam položek"
+
+msgid "sty_type_qordul"
+msgstr "Seřadit seznam"
+
+msgid "sty_type_qover"
+msgstr "Přehled otázek"
+
+msgid "sty_type_qsubmit"
+msgstr "Otázka nabízí tlačítka"
+
+msgid "sty_type_qtitle"
+msgstr "Název otázky"
+
+msgid "sty_type_question"
+msgstr "Otázka"
+
+msgid "sty_type_rte_drag"
+msgstr "Přesunout lištu"
+
+msgid "sty_type_rte_menu"
+msgstr "Nabídka RTE"
+
+msgid "sty_type_rte_mlink"
+msgstr "Odkaz nabídky RTE"
+
+msgid "sty_type_rte_node"
+msgstr "Uzel stromu RTE"
+
+msgid "sty_type_rte_status"
+msgstr "Status RTE"
+
+msgid "sty_type_rte_tclink"
+msgstr "Odkaz řízení stromu"
+
+msgid "sty_type_rte_texp"
+msgstr "Ikona stromu"
+
+msgid "sty_type_rte_tli"
+msgstr "Položka seznamu stromu"
+
+msgid "sty_type_rte_tlink"
+msgstr "Odkaz uzlu stromu RTE"
+
+msgid "sty_type_rte_tree"
+msgstr "Sekce stromu RTE"
+
+msgid "sty_type_rte_tul"
+msgstr "Seznam stromu"
+
+msgid "sty_type_sco_desc"
+msgstr "Popis SCO"
+
+msgid "sty_type_sco_fmess"
+msgstr "Finální zpráva SCORM"
+
+msgid "sty_type_sco_keyw"
+msgstr "Klíčová slova SCO"
+
+msgid "sty_type_sco_obj"
+msgstr "Cíl SCO"
+
+msgid "sty_type_sco_title"
+msgstr "Název SCO"
+
+msgid "sty_type_section"
+msgstr "Část"
+
+#, fuzzy
+msgid "sty_type_strong"
+msgstr "Strong"
+
+msgid "sty_type_sub"
+msgstr "Subscript"
+
+msgid "sty_type_sup"
+msgstr "Superscript"
+
+msgid "sty_type_table"
+msgstr "Tabulka"
+
+msgid "sty_type_table_cell"
+msgstr "Buňka tabulky"
+
+msgid "sty_type_text_block"
+msgstr "Blok Textu"
+
+msgid "sty_type_text_inline"
+msgstr "Znak"
+
+msgid "sty_type_va_cntr"
+msgstr "Vert. skladba kontejneru"
+
+msgid "sty_type_va_icntr"
+msgstr "Vert. skladba položky kontejneru"
+
+msgid "sty_type_va_icont"
+msgstr "Vert. skladba položky obsahu"
+
+msgid "sty_type_va_ihcap"
+msgstr "Vert. Titulek Accordion"
+
+msgid "sty_type_va_ihead"
+msgstr "Vert. skladba položky hlavičky"
+
+msgid "sty_type_va_iheada"
+msgstr "Vert. Záhlaví Accordion (aktivní)"
+
+#, fuzzy
+msgid "sty_ul"
+msgstr "Unordered List"
+
+msgid "sty_va_cntr_class"
+msgstr "Vert. skladba kontejneru"
+
+msgid "sty_va_icntr_class"
+msgstr "Vert. skladba položky kontejneru"
+
+msgid "sty_va_icont_class"
+msgstr "Vert. skladba položky obsahu"
+
+msgid "sty_va_ihcap_class"
+msgstr "Vert. Titulek Accordion"
+
+msgid "sty_va_ihead_class"
+msgstr "Vert. skladba položky hlavičky"
+
+msgid "sty_va_iheada_class"
+msgstr "Vert. Záhlaví Accordion (aktivní)"
+
+msgid "sty_vaccordion_templates"
+msgstr "Vert. skladba šablon"
+
+msgid "sty_vertical"
+msgstr "Vertikální"
+
+msgid "sty_vertical_align"
+msgstr "Vertikální zarovnání"
+
+msgid "sty_white_space"
+msgstr "Prázdná řádka"
+
+msgid "sty_width"
+msgstr "Šířka"
+
+msgid "sty_width_height"
+msgstr "Šířka x Výška"
+
+msgid "sty_word_spacing"
+msgstr "Rozteč slov"
+
+msgid "style"
+msgstr "Styl"
+
+msgid "style_assignments_deleted"
+msgstr "Byla odstraněna přiřazení stylů následujícího podstylu:"
+
+msgid "style_copied"
+msgstr "Styl byl úspěšně zkopírován."
+
+msgid "style_current_style"
+msgstr "Aktuální styl"
+
+msgid "style_delete_style"
+msgstr "Smazat styl"
+
+msgid "style_deleted"
+msgstr "Smazaný styl:"
+
+msgid "style_edit_style"
+msgstr "Upravit styl"
+
+msgid "style_id"
+msgstr "ID stylu"
+
+msgid "style_id_description"
+msgstr "ID stylu se používá jako názvu konkrétních souborů, jako css a less, které jsou umístěny uvnitř složky souborů skin. V ID stylu se smějí používat jen písmena, čísla a pomlčky nebo podtržené znaky."
+
+msgid "style_imported"
+msgstr "Styl byl úspěšně importován do:"
+
+msgid "style_name"
+msgstr "Název stylu"
+
+msgid "style_name_description"
+msgstr "Název stylu lze použít k popisu oblasti použití stylu ve formátu, který je čitelný pro lidi. Objeví se ve všech prvcích uživatelského rozhraní umožňujících výběr stylů."
+
+msgid "style_not_deleted"
+msgstr "Styl nelze odstranit z následujících důvodů:"
+
+#, fuzzy
+msgid "style_page_layout_module_learning_module"
+msgstr "ILIAS Learning Module"
+
+msgid "style_page_layout_module_portfolio"
+msgstr "Portfolio"
+
+msgid "style_page_layout_module_scorm"
+msgstr "Scorm"
+
+#, fuzzy
+msgid "style_support_reuse"
+msgstr "Re-Use"
+
+#, fuzzy
+msgid "style_support_reuse_info"
+msgstr "Allow sub-objects of the current container to re-use this content style."
+
+msgid "styles_not_deleted"
+msgstr "Styly nemohly být odstraněny z následujících důvodů:"
+
+msgid "sub_style"
+msgstr "Podstyl"
+
+msgid "sub_style_id"
+msgstr "ID podstylu"
+
+msgid "sub_style_id_description"
+msgstr "ID podstylu se používá jako název pro soubory specifické pro podstyl, jako je css a less umístěné uvnitř složky skinů. V ID souboru skin se smějí používat jen písmena, čísla a pomlčky nebo podtržené znaky."
+
+msgid "sub_style_name"
+msgstr "Název podstylu"
+
+msgid "sub_style_name_description"
+msgstr "Název podstylu lze použít k popisu oblasti použití stylu ve formátu, který je čitelný pro lidi. Objeví se ve všech prvcích uživatelského rozhraní umožňujících výběr souborů skin."
+
+msgid "sub_style_parent_style_description"
+msgstr "Podstyly jsou přiřazeny přesně jednomu nadřazenému stylu. Jsou zobrazeny pouze určitému uživateli, pokud je nadřazený styl přiřazen tomuto přesnému uživateli. Nadřazený styl podstylu není možné měnit po vytvoření podstylu."
+
+msgid "system_style_activation"
+msgstr "Systémový styl aktivován"
+
+msgid "system_style_activation_description"
+msgstr "Aktivní systémové styly mohou být uživatelům přiřazeny nebo dokonce vybrány uživateli, pokud je toto nastavení aktivováno (viz Správa uživatelů / Nastavení / Výchozí soubor skin)."
+
+msgid "system_style_default_description"
+msgstr "Nastavit tento styl jako výchozí systémový styl. Výchozí systémový styl se používá, pokud aktuální uživatel nemá přiřazený styl nebo pokud není uživatel přihlášen."
+
+msgid "system_style_personal_description"
+msgstr "Nastavte tento styl jako svůj osobní systémový styl. To by mohlo být užitečné vidět ke zobrazení změn, které jsou v současné době prováděny."
+
+msgid "update_colors"
+msgstr "Aktualizovat barvy"
+
+msgid "update_icon"
+msgstr "Aktualizovat ikonu"
+
+msgid "update_variables"
+msgstr "Aktualizovat proměnné"
+
+msgid "usages"
+msgstr "Použití:"
+
+msgid "used_colors"
+msgstr "Použité barvy:"
+
+msgid "zip_export_failed"
+msgstr "Export souboru ZIP se nezdařil. Došlo k následující chybě:"
