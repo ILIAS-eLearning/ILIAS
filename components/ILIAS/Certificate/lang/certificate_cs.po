@@ -1,0 +1,360 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: certificate\n"
+
+msgid "cert_cron_task_desc"
+msgstr "Úkolem této práce je vytvoření trvalých dat certifikátů založených na výsledcích učení uživatelů."
+
+msgid "cert_cron_task_title"
+msgstr "Certifikáty"
+
+msgid "cert_form_sec_add_features"
+msgstr "Další funkce"
+
+msgid "cert_form_sec_availability"
+msgstr "Dostupnost"
+
+msgid "cert_form_sec_layout"
+msgstr "Rozložení a text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 horizontálně (210 x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 horizontálně (148 x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Obrázek na pozadí"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+msgid "certificate_change_active_status"
+msgstr "Byl změněn aktivní stav certifikátu"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?"
+
+msgid "certificate_custom"
+msgstr "Vlastní formát..."
+
+msgid "certificate_edit"
+msgstr "Vytvořit/upravit formulář certifikátu"
+
+msgid "certificate_error_import"
+msgstr "Během importu certifikátu se vyskytla chyba!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "Během ukládání obrázku pozadí se vyskytla chyba!"
+
+msgid "certificate_export"
+msgstr "Export certifikátu"
+
+msgid "certificate_failed"
+msgstr "selhalo"
+
+msgid "certificate_file_basename"
+msgstr "Certifikát"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+#, fuzzy
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "Letter (11 x 8,5 palců)"
+
+msgid "certificate_letter_landscape"
+msgstr "Letter horizontálně (8,5 x 11 palců)"
+
+msgid "certificate_margin_body"
+msgstr "Okraje hlavní části"
+
+msgid "certificate_not_well_formed"
+msgstr "Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!"
+
+msgid "certificate_page_format"
+msgstr "Formát stránky"
+
+msgid "certificate_page_format_info"
+msgstr "Vyberte prosím výchozí formát stránky pro nové certifikáty."
+
+msgid "certificate_pageheight"
+msgstr "Výška stránky"
+
+msgid "certificate_pagewidth"
+msgstr "Šířka stránky"
+
+msgid "certificate_passed"
+msgstr "předáno"
+
+msgid "certificate_ph_birthday"
+msgstr "Datum narození uživatele"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "Město adresy uživatele"
+
+msgid "certificate_ph_country"
+msgstr "Země adresy uživatele"
+
+msgid "certificate_ph_date"
+msgstr "Aktuální datum"
+
+msgid "certificate_ph_date_completed"
+msgstr "Datum dokončení"
+
+msgid "certificate_ph_datetime"
+msgstr "Aktuální datum a čas"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Datum a čas dokončení"
+
+msgid "certificate_ph_department"
+msgstr "Katedra uživatele"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Název cvičení"
+
+msgid "certificate_ph_firstname"
+msgstr "Křestní jméno uživatele"
+
+msgid "certificate_ph_fullname"
+msgstr "Celé jméno uživatelé (titul, jméno a příjmení)"
+
+msgid "certificate_ph_institution"
+msgstr "Instituce uživatele"
+
+msgid "certificate_ph_introduction"
+msgstr "Následující rezervovaná místa lze využít"
+
+msgid "certificate_ph_lastaccess"
+msgstr "Datum a čas posledního přístupu uživatele"
+
+msgid "certificate_ph_lastname"
+msgstr "Příjmení uživatele"
+
+msgid "certificate_ph_login"
+msgstr "Přihlašovací jméno"
+
+msgid "certificate_ph_mark"
+msgstr "Známka uživatele"
+
+msgid "certificate_ph_marklong"
+msgstr "Známka uživatele (oficiální verze)"
+
+msgid "certificate_ph_markshort"
+msgstr "Známka uživatele (zkrácená verze)"
+
+msgid "certificate_ph_matriculation"
+msgstr "Matriculation number of the user"
+
+msgid "certificate_ph_no_sco"
+msgstr "Pokud jsou položky vybrány k určení statusu celkového postupu výuky, názvy a body pro tyto položky mohou být zobrazeny v certifikátu."
+
+msgid "certificate_ph_salutation"
+msgstr "Oslovení"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "rezervované místo <br/>pro body<br/>max"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "rezervované místo <br/>pro body"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "rezervované místo <br/>pro body<br/>v procentech"
+
+msgid "certificate_ph_sco_title"
+msgstr "rezervované místo <br/>pro název"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Maximální hodnota v rozsahu pro hrubé hodnocení posledních relevantních bodů (nejvhodnější např. pro finální přezkoušení)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "Body výukového modulu SCORM v procentech"
+
+msgid "certificate_ph_scormtitle"
+msgstr "Název výukového modulu SCORM"
+
+msgid "certificate_ph_scos"
+msgstr "Následující položky byly vybrány k určení celkového statusu postupu výuky a jsou dostupné pro výroky v certifikátu:"
+
+msgid "certificate_ph_street"
+msgstr "Ulice adresy uživatele"
+
+msgid "certificate_ph_testtitle"
+msgstr "Název testu"
+
+msgid "certificate_ph_title"
+msgstr "Titul uživatele"
+
+msgid "certificate_ph_title_sco"
+msgstr "Titul"
+
+msgid "certificate_ph_zipcode"
+msgstr "PSČ adresy uživatele"
+
+msgid "certificate_points_notavailable"
+msgstr "Tato hodnota nemůže být spočítána"
+
+msgid "certificate_preview"
+msgstr "Zobrazit náhled certifikátu"
+
+msgid "certificate_settings"
+msgstr "Nastavení certifikátu"
+
+msgid "certificate_short_name"
+msgstr "Krátký název certifikátu"
+
+msgid "certificate_short_name_description"
+msgstr "Vložte prosím krátký název pro název certifikátu. Tento krátký název bude částí názvu certifikátu: RRMMDD_[příjmení]_[SHORT_TITLE]_certifikat.pdf."
+
+msgid "certificate_text"
+msgstr "Text certifikátu"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in"
+
+msgid "certificate_usage"
+msgstr "Povšimněte si prosím, že použití certifikátů je možné jen když v ILIAS běží Java-Server. Konfigurace Java-Serveru je dostupná na hlavní stránce správy ILIAS v části Webové služby."
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Výborně-mínus"
+
+msgid "certificate_var_result_mark_short"
+msgstr "-1"
+
+msgid "certificate_var_result_passed"
+msgstr "Prospěl"
+
+msgid "certificate_var_result_percent"
+msgstr "0,83"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+#, fuzzy
+msgid "certificate_var_user_birthday"
+msgstr "22.05.1952"
+
+msgid "certificate_var_user_city"
+msgstr "Praha"
+
+msgid "certificate_var_user_country"
+msgstr "Česká republika"
+
+msgid "certificate_var_user_department"
+msgstr "Uživatelská podpora"
+
+msgid "certificate_var_user_firstname"
+msgstr "Jan"
+
+msgid "certificate_var_user_fullname"
+msgstr "Ing. Jan Novák"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS open source"
+
+msgid "certificate_var_user_lastname"
+msgstr "Novák"
+
+msgid "certificate_var_user_login"
+msgstr "jnovak"
+
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Pan"
+
+msgid "certificate_var_user_street"
+msgstr "Hlavní třída 100"
+
+msgid "certificate_var_user_title"
+msgstr "Ing."
+
+msgid "certificate_var_user_zipcode"
+msgstr "61200"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "Tento obrázek pozadí bude zvolen jako výchozí pozadí pro všechny certifikáty. Potřebudete-li jiný obrázek pozadí v certifikátu, musíte jej uložit v editoru certifikátu."
+
+msgid "download_certificate"
+msgstr "Stažení certifikátu"
+
+#, fuzzy
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+#, fuzzy
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+#, fuzzy
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+#, fuzzy
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "persistent_certificate_mode"
+msgstr "Vytvoření certifikátu uživatele"
+
+msgid "persistent_certificate_mode_cron"
+msgstr "Cronová úloha"
+
+msgid "persistent_certificate_mode_cron_info"
+msgstr "Tato možnost se doporučuje pro systémy s vysokou interakcí uživatele."
+
+msgid "persistent_certificate_mode_instant"
+msgstr "Okamžitý"
+
+msgid "persistent_certificate_mode_instant_info"
+msgstr "Tato možnost se doporučuje pro systémy s nízkou až střední interakcí uživatele. Systémy, které mají tendenci k dlouhým dobám načítání během vytváření certifikátů pro více uživatelů, se musí přepnout na možnost „Cronová úloha“."

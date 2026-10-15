@@ -1,0 +1,350 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: certificate\n"
+
+msgid "cert_cron_task_desc"
+msgstr "Naloga tega dela je poravnava doseženih učnih uspehov za obdelavo podatkov in ustvarjanje trajnih certifikatov za uporabnike učnih objektov."
+
+msgid "cert_cron_task_title"
+msgstr "Certifikati"
+
+msgid "cert_form_sec_add_features"
+msgstr "Dodatne funkcije"
+
+msgid "cert_form_sec_availability"
+msgstr "Razpoložljivost"
+
+msgid "cert_form_sec_layout"
+msgstr "Postavitev in besedilo"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 vodoravno (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 vodoravno (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Slika ozadja"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+msgid "certificate_change_active_status"
+msgstr "Aktiven status certifikata je bil spremenjen"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "Ali res želite izbrisati predlogo certifikata in vse povezane podatke?"
+
+msgid "certificate_custom"
+msgstr "Lastna oblika..."
+
+msgid "certificate_edit"
+msgstr "Ustvari/uredi predlogo certifikata"
+
+msgid "certificate_error_import"
+msgstr "Med uvozom certifikata je prišlo do napake!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "Pri nalaganju slike ozadja je prišlo do napake!"
+
+msgid "certificate_export"
+msgstr "Izvozi"
+
+msgid "certificate_failed"
+msgstr "ni opravljeno"
+
+msgid "certificate_file_basename"
+msgstr "Certifikat"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Izberete lahko samo objekte z aktivnim učnim napredkom. Pri naslednjih objektih učni napredek ni aktiven: %s"
+
+msgid "certificate_letter"
+msgstr "US pismo (11 palcev x 8,5 palcev)"
+
+msgid "certificate_letter_landscape"
+msgstr "US pismo vodoravno (8,5 palcev x 11 palcev)"
+
+msgid "certificate_margin_body"
+msgstr "Robovi območja besedila"
+
+msgid "certificate_not_well_formed"
+msgstr "Datoteka besedila certifikata ne vsebuje veljavnega XHTML. Uporabite veljaven XHTML!"
+
+msgid "certificate_page_format"
+msgstr "Oblika strani"
+
+msgid "certificate_page_format_info"
+msgstr "Izberite privzeto obliko strani za nove certifikate."
+
+msgid "certificate_pageheight"
+msgstr "Višina strani"
+
+msgid "certificate_pagewidth"
+msgstr "Širina strani"
+
+msgid "certificate_passed"
+msgstr "opravljeno"
+
+msgid "certificate_ph_birthday"
+msgstr "Rojstni datum udeleženca ali udeleženke"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "Mesto naslova udeleženca ali udeleženke"
+
+msgid "certificate_ph_country"
+msgstr "Država naslova udeleženca ali udeleženke"
+
+msgid "certificate_ph_date"
+msgstr "Aktualni datum"
+
+msgid "certificate_ph_date_completed"
+msgstr "Datum opravljanja"
+
+msgid "certificate_ph_datetime"
+msgstr "Aktualni datum in čas"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Datum in čas opravljanja"
+
+msgid "certificate_ph_department"
+msgstr "Oddelek udeleženca ali udeleženke"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Naslov vaje"
+
+msgid "certificate_ph_firstname"
+msgstr "Ime udeleženca ali udeleženke"
+
+msgid "certificate_ph_fullname"
+msgstr "Priimek udeleženca ali udeleženke (naziv, ime in priimek)"
+
+msgid "certificate_ph_institution"
+msgstr "Ustanova udeleženca ali udeleženke"
+
+msgid "certificate_ph_introduction"
+msgstr "Uporabljajo se lahko naslednja rezervirana mesta"
+
+msgid "certificate_ph_lastaccess"
+msgstr "Datum in čas zadnjega dostopa udeleženca ali udeleženke"
+
+msgid "certificate_ph_lastname"
+msgstr "Priimek udeleženca ali udeleženke"
+
+msgid "certificate_ph_login"
+msgstr "Uporabniško ime"
+
+msgid "certificate_ph_mark"
+msgstr "Dosežena ocena"
+
+msgid "certificate_ph_marklong"
+msgstr "Dosežena ocena (uradno ime)"
+
+msgid "certificate_ph_markshort"
+msgstr "Dosežena ocena (kratko ime)"
+
+msgid "certificate_ph_matriculation"
+msgstr "Vpisna številka uporabnika"
+
+msgid "certificate_ph_no_sco"
+msgstr "Če so izbrana gradiva za določitev učnega napredka, se lahko v certifikatu prikažejo naslovi in stanje točk."
+
+msgid "certificate_ph_salutation"
+msgstr "Naslavljanje"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "Rezervirano mesto<br/>za točke<br/>maksimalno"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "Rezervirano mesto<br/>za točke"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "Rezervirano mesto<br/>za točke<br/>v odstotkih"
+
+msgid "certificate_ph_sco_title"
+msgstr "Rezervirano mesto<br/>za naslov"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Maksimalno število točk, ki jih je mogoče doseči v zadnjem SCO, v katerem je bila nastavljena vrednost za score.max (npr. primerno za zaključni test)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "Točke učnega modula SCORM v odstotkih"
+
+msgid "certificate_ph_scormtitle"
+msgstr "Naslov učnega modula SCORM"
+
+msgid "certificate_ph_scos"
+msgstr "Za določitev učnega napredka so bila izbrana naslednja gradiva in so na voljo za navedbe v certifikatu:"
+
+msgid "certificate_ph_street"
+msgstr "Ulica naslova udeleženca ali udeleženke"
+
+msgid "certificate_ph_testtitle"
+msgstr "Naslov testa"
+
+msgid "certificate_ph_title"
+msgstr "Naziv udeleženca ali udeleženke"
+
+msgid "certificate_ph_title_sco"
+msgstr "Naslov"
+
+msgid "certificate_ph_zipcode"
+msgstr "Poštna številka naslova udeleženca ali udeleženke"
+
+msgid "certificate_points_notavailable"
+msgstr "Te vrednosti ni mogoče določiti"
+
+msgid "certificate_preview"
+msgstr "Predogled"
+
+msgid "certificate_settings"
+msgstr "Nastavitve za certifikate"
+
+msgid "certificate_short_name"
+msgstr "Kratko ime za poimenovanje datoteke"
+
+msgid "certificate_short_name_description"
+msgstr "Vnesite kratko ime za poimenovanje datoteke. Kratko ime bo uporabljeno kot del imena datoteke certifikata: LLMMDD_[priimek]_[KRATKO_IME]_certifikat.pdf."
+
+msgid "certificate_text"
+msgstr "Besedilo certifikata"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "Merske enote vedno vnesite v obliki VREDNOST[cm|mm|in|pt|pc|px|em], npr. 10mm ali 3in"
+
+msgid "certificate_usage"
+msgstr "Upoštevajte, da sta uporaba in ustvarjanje certifikatov mogoča samo, če uporabljate ILIAS-ov strežnik Java. Strežnik Java se konfigurira na glavni administracijski strani v kategoriji Spletne storitve in je med drugim potreben tudi za ustvarjanje datotek PDF."
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Dobro"
+
+msgid "certificate_var_result_mark_short"
+msgstr "2"
+
+msgid "certificate_var_result_passed"
+msgstr "opravljeno"
+
+msgid "certificate_var_result_percent"
+msgstr "83%"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "08.05.1977"
+
+msgid "certificate_var_user_city"
+msgstr "Köln"
+
+msgid "certificate_var_user_country"
+msgstr "Nemčija"
+
+msgid "certificate_var_user_department"
+msgstr "Pomoč uporabnikom"
+
+msgid "certificate_var_user_firstname"
+msgstr "Janez"
+
+msgid "certificate_var_user_fullname"
+msgstr "Janez Novak"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Open Source"
+
+msgid "certificate_var_user_lastname"
+msgstr "Novak"
+
+msgid "certificate_var_user_login"
+msgstr "jnovak"
+
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Gospa"
+
+msgid "certificate_var_user_street"
+msgstr "Heidestraße 17"
+
+msgid "certificate_var_user_title"
+msgstr "Dr."
+
+msgid "certificate_var_user_zipcode"
+msgstr "51147"
+
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "Tukaj navedena slika ozadja bo pri vseh certifikatih uporabljena kot privzeto ozadje, razen če v urejevalniku certifikatov eksplicitno navedete drugo sliko ozadja."
+
+msgid "download_certificate"
+msgstr "Prenesi certifikat"
+
+msgid "learning_progress_deactivated"
+msgstr "Učni napredek za ta objekt ni aktiviran. Če želite urediti predlogo certifikata in pridobiti uporabniške certifikate, morate aktivirati učni napredek."
+
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "persistent_certificate_mode"
+msgstr "Uporabniško ustvarjanje certifikatov"
+
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron job"
+
+msgid "persistent_certificate_mode_cron_info"
+msgstr "Ta možnost je priporočljiva za sisteme z visoko interakcijo uporabnikov"
+
+msgid "persistent_certificate_mode_instant"
+msgstr "Neposredno"
+
+msgid "persistent_certificate_mode_instant_info"
+msgstr "Ta možnost je priporočljiva za sisteme z nizko do zmerno interakcijo uporabnikov. Za sisteme, ki so nagnjeni k visoki obremenjenosti pri ustvarjanju certifikatov, je priporočljiva možnost \"Cron job\"."

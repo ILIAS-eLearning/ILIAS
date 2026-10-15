@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: certificate\n"
+
+msgid "cert_cron_task_desc"
+msgstr "このジョブの責任はユーザの学習達成度を基準とした継続の証明書作成です。"
+
+msgid "cert_cron_task_title"
+msgstr "証明書"
+
+msgid "cert_form_sec_add_features"
+msgstr "追加機能"
+
+msgid "cert_form_sec_availability"
+msgstr "Availability(空き状況)"
+
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Landscape (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Landscape (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "バックグラウンドイメージ"
+
+msgid "certificate_card_tile_image"
+msgstr "サムネイルイメージ"
+
+msgid "certificate_change_active_status"
+msgstr "証明書のアクティブ状態は変更されました。"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "本当に証明書と関係するデータを削除しますか?"
+
+msgid "certificate_custom"
+msgstr "カスタム..."
+
+msgid "certificate_edit"
+msgstr "証明書テンプレートを作成/編集"
+
+msgid "certificate_error_import"
+msgstr "証明書のインポート中にエラーが発生しました!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "バックグラウンドイメージをアップロード中にエラーが発生しました!"
+
+msgid "certificate_export"
+msgstr "証明書をエクスポート"
+
+msgid "certificate_failed"
+msgstr "失敗"
+
+msgid "certificate_file_basename"
+msgstr "証書"
+
+msgid "certificate_id"
+msgstr "証書ID"
+
+msgid "certificate_issue_date"
+msgstr "発行日"
+
+msgid "certificate_learning_progress_must_be_active"
+msgstr "アクティブな学習進捗のオブジェクトのみを選択可能です。学習進捗は次のオブジェクト:%s 上で解除されます。"
+
+msgid "certificate_letter"
+msgstr "Letter (11 inch x 8.5 inch)"
+
+msgid "certificate_letter_landscape"
+msgstr "Letter Landscape (8.5 inch x 11 inch)"
+
+msgid "certificate_margin_body"
+msgstr "Body Margin"
+
+msgid "certificate_not_well_formed"
+msgstr "証明書のテキストは適切に書式化されていません。証明テキスト用の有効なXHTMLを入力してください!"
+
+msgid "certificate_page_format"
+msgstr "ページ形式"
+
+msgid "certificate_page_format_info"
+msgstr "新しい証明書用の初期設定ページ形式を選択してください。"
+
+msgid "certificate_pageheight"
+msgstr "ページ高さ"
+
+msgid "certificate_pagewidth"
+msgstr "ページ幅"
+
+msgid "certificate_passed"
+msgstr "passed(通過)"
+
+msgid "certificate_ph_birthday"
+msgstr "ユーザの誕生日"
+
+msgid "certificate_ph_cert_id"
+msgstr "ユニークな証明書ID"
+
+msgid "certificate_ph_city"
+msgstr "ユーザの市区郡名"
+
+msgid "certificate_ph_country"
+msgstr "ユーザの国名"
+
+msgid "certificate_ph_date"
+msgstr "実際の日"
+
+msgid "certificate_ph_date_completed"
+msgstr "完了日"
+
+msgid "certificate_ph_datetime"
+msgstr "実際の日時"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "完了時間と日付"
+
+msgid "certificate_ph_department"
+msgstr "ユーザの部署"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "演習問題タイトル"
+
+msgid "certificate_ph_firstname"
+msgstr "ユーザの名前"
+
+msgid "certificate_ph_fullname"
+msgstr "ユーザのフルネーム(役職名"
+
+msgid "certificate_ph_institution"
+msgstr "ユーザの団体"
+
+msgid "certificate_ph_introduction"
+msgstr "次のプレースフォルダ－が使用できます"
+
+msgid "certificate_ph_lastaccess"
+msgstr "ユーザの最終アクセス日時"
+
+msgid "certificate_ph_lastname"
+msgstr "ユーザの姓"
+
+msgid "certificate_ph_login"
+msgstr "Login"
+
+msgid "certificate_ph_mark"
+msgstr "ユーザーのマーク"
+
+msgid "certificate_ph_marklong"
+msgstr "ユーザマーク (オフィシャルバージョン)"
+
+msgid "certificate_ph_markshort"
+msgstr "ユーザマーク (短縮バージョン)"
+
+msgid "certificate_ph_matriculation"
+msgstr "入学者数"
+
+msgid "certificate_ph_no_sco"
+msgstr "アイテムが全体学習進捗決定用に選択されるとこれらのタイトルと点数が証明書に表示できます。"
+
+msgid "certificate_ph_salutation"
+msgstr "挨拶文"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "最高<br/>点数用<br/>プレースフォルダ"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "点数用</br>プレースフォルダ"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "パーセント</br>プレースフォルダ"
+
+msgid "certificate_ph_sco_title"
+msgstr "タイトル<br/>プレースフォルダ"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "前回の関連SCO(最終テストに最適な)生スコアの最高値範囲"
+
+msgid "certificate_ph_scormpoints"
+msgstr "パーセントによるSCORMラーニングモジュール点数"
+
+msgid "certificate_ph_scormtitle"
+msgstr "SCORMラーニングモジュールのタイトル"
+
+msgid "certificate_ph_scos"
+msgstr "次のアイテムが全体学習進捗決定用に選択されており証明書のステートメントとして利用可能です。"
+
+msgid "certificate_ph_street"
+msgstr "ユーザ住所の町名・番地"
+
+msgid "certificate_ph_testtitle"
+msgstr "テストのタイトル"
+
+msgid "certificate_ph_title"
+msgstr "ユーザの役職"
+
+msgid "certificate_ph_title_sco"
+msgstr "タイトル"
+
+msgid "certificate_ph_zipcode"
+msgstr "ユーザの郵便番号"
+
+msgid "certificate_points_notavailable"
+msgstr "この値は計算できません"
+
+msgid "certificate_preview"
+msgstr "証明書プレビューを表示"
+
+msgid "certificate_settings"
+msgstr "証明書設定"
+
+msgid "certificate_short_name"
+msgstr "短いタイトルの証明書ファイル"
+
+msgid "certificate_short_name_description"
+msgstr "証明書の名前用の短いタイトルを入力してください。短いタイトルは証明書名 YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdfの一部になります。"
+
+msgid "certificate_text"
+msgstr "証明書テキスト"
+
+msgid "certificate_text_info"
+msgstr "認証テキストを入力してください。ILIAS管理内のWYSIWYGエディタが無効の場合は、テキストをフォーマットするXHTMLを使用することができます。"
+
+msgid "certificate_unit_description"
+msgstr "10mm又は3inの例のように値[cm|mm|in|pt|pc|px|em]の単位を入力"
+
+msgid "certificate_usage"
+msgstr "ILIASJavaサーバーが稼働中の場合は、証明書の使用法のみ利用可能である事に注意願います。Javaサーバーの設定はILIASWebサービスの管理メインページにあります。"
+
+msgid "certificate_var_max_points"
+msgstr "テストで使用される最高点"
+
+msgid "certificate_var_result_mark_long"
+msgstr "公式形式で表示された達成されたマーク"
+
+msgid "certificate_var_result_mark_short"
+msgstr "短縮形式で表示された達成されたマーク"
+
+msgid "certificate_var_result_passed"
+msgstr "テストが合格したかどうかの情報"
+
+msgid "certificate_var_result_percent"
+msgstr "テストで達成された割合"
+
+msgid "certificate_var_result_points"
+msgstr "テストで達成した点数"
+
+msgid "certificate_var_user_birthday"
+msgstr "1977-05-08"
+
+msgid "certificate_var_user_city"
+msgstr "Anytown, NY"
+
+msgid "certificate_var_user_country"
+msgstr "USA"
+
+msgid "certificate_var_user_department"
+msgstr "カスタマーサポート"
+
+msgid "certificate_var_user_firstname"
+msgstr "Jane"
+
+msgid "certificate_var_user_fullname"
+msgstr "Dr. Jane Doe"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS オープンソース"
+
+msgid "certificate_var_user_lastname"
+msgstr "Doe"
+
+msgid "certificate_var_user_login"
+msgstr "jdoe"
+
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Mrs."
+
+msgid "certificate_var_user_street"
+msgstr "100 Main Street"
+
+msgid "certificate_var_user_title"
+msgstr "Dr."
+
+msgid "certificate_var_user_zipcode"
+msgstr "12345"
+
+msgid "cmix_cert_ph_object_description"
+msgstr "説明"
+
+msgid "cmix_cert_ph_object_title"
+msgstr "xAPI/cmi5 オブジェクトのタイトル"
+
+msgid "cmix_cert_ph_reached_score"
+msgstr "達成点パーセント"
+
+msgid "default_background_info"
+msgstr "この背景イメージは全ての証明書の背景として選択されます。証明書に別の背景イメージが必要な場合は証明書エディターで一つにしてアップロードしなければなりません。"
+
+msgid "download_certificate"
+msgstr "証明書をダウンロード"
+
+msgid "learning_progress_deactivated"
+msgstr "このオブジェクトの学習進捗は解除されます。証明書テンプレートを編集してユーザの証明書はアーカイブするにはこのオブジェクトの学習進捗を有効にする必要があります。"
+
+msgid "lti_cert_ph_mastery_score"
+msgstr "修得点パーセント"
+
+msgid "lti_cert_ph_object_description"
+msgstr "説明"
+
+msgid "lti_cert_ph_object_title"
+msgstr "LTI Consumer Objectのタイトル"
+
+msgid "lti_cert_ph_reached_score"
+msgstr "達成点パーセント"
+
+msgid "persistent_certificate_mode"
+msgstr "ユーザ証明書作成"
+
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+msgid "persistent_certificate_mode_cron_info"
+msgstr "このオプションは高度ユーザ相互運用のシステム用として推奨します。"
+
+msgid "persistent_certificate_mode_instant"
+msgstr "インスタント"
+
+msgid "persistent_certificate_mode_instant_info"
+msgstr "このオプションは比較的低めの並みまでのユーザインタラクションのシステム用として推奨します。複数のユーザー証明書の作成中に大きなロード時間のかかる傾向のシステムでは\"Cron Job\"へ切り替えるべきです。"

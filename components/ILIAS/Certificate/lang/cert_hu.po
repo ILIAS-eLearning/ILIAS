@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "Még egy tanúsítványt sem szerzett"
+
+msgid "cert_description_label"
+msgstr "Leírás"
+
+msgid "cert_download_label"
+msgstr "Letöltés"
+
+msgid "cert_error_no_access"
+msgstr "Önnek nincs hozzáférése ehhez a tanúsítványhoz."
+
+msgid "cert_issued_on_label"
+msgstr "Megszerezve ekkor"
+
+msgid "cert_object_label"
+msgstr "Objektum"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Dátum ↑"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Dátum ↓"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Cím A→Z"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Cím Z→A"
+
+msgid "certificate_achievement"
+msgstr "%1$s megszerezve."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "%1$s számára tanúsítvány"
+
+msgid "certificate_no_object_title"
+msgstr "Az objektum címe nem érhető el"
+
+msgid "certificate_same_not_saved"
+msgstr "Nem jött létre új tanúsítványsablon, mert az értékek nem módosultak."
+
+msgid "error_creating_certificate_pdf"
+msgstr "A tanúsítványt nem sikerült létrehozni. Kérem, keresse a szerver üzemeltetőjét."
+
+msgid "user_certificates"
+msgstr "Tanúsítványok"

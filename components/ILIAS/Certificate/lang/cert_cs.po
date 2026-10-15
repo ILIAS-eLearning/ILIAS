@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "V současné době jste dosud nezískali žádný certifikát."
+
+msgid "cert_description_label"
+msgstr "Popis"
+
+msgid "cert_download_label"
+msgstr "Stáhnout"
+
+msgid "cert_error_no_access"
+msgstr "Nemáte přístup k tomuto certifikátu."
+
+msgid "cert_issued_on_label"
+msgstr "Vydáno dne"
+
+msgid "cert_object_label"
+msgstr "Objekt"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Vzestupně podle data vystavení"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Sestupně podle data vystavení"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Vzestupně podle titulu"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Sestupně podle titulu"
+
+msgid "certificate_achievement"
+msgstr "Dosaženo %1$s."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Certifikát pro %1$s"
+
+msgid "certificate_no_object_title"
+msgstr "Není k dispozici žádný titulek objektu"
+
+msgid "certificate_same_not_saved"
+msgstr "Nebyla uložena žádná nová verze šablony certifikátu, protože hodnoty se nezměnily."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Nebylo možné vytvořit certifikát. Obraťte se na správce a zkontrolujte certifikační server."
+
+msgid "user_certificates"
+msgstr "Certifikáty"

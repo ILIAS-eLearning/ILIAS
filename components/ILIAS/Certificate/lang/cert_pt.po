@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "Adicionar membro"
+
+msgid "cert_description_label"
+msgstr "Adicionar novo campo personalizado"
+
+msgid "cert_download_label"
+msgstr "Adicionar nota"
+
+msgid "cert_error_no_access"
+msgstr "Adicionar tradução"
+
+msgid "cert_issued_on_label"
+msgstr "Administração"
+
+msgid "cert_object_label"
+msgstr "Administrador"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Adotar"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Tags HTML permitidos para a ferramenta de teste e avaliação ILIAS"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Esta funcionalidade permite adicionar texto/media a páginas de uma categoria, curso, grupo ou pasta. Se estiver desativada, o conteúdo existente será ocultado."
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Definições de teste e avaliação"
+
+msgid "certificate_achievement"
+msgstr "Tratamento HTTPS por ILIAS<br />(Login)"
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Ativação"
+
+msgid "certificate_no_object_title"
+msgstr "Endereço"
+
+msgid "certificate_same_not_saved"
+msgstr "Adicionar condição prévia"
+
+msgid "error_creating_certificate_pdf"
+msgstr "Definições do inquérito"
+
+msgid "user_certificates"
+msgstr "Disponível no formulário de registo para novos utilizadores"

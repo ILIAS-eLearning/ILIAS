@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "För närvarande har du inga certifikat."
+
+msgid "cert_description_label"
+msgstr "Beskrivning"
+
+msgid "cert_download_label"
+msgstr "Ladda ner"
+
+msgid "cert_error_no_access"
+msgstr "Du har inte behörighet att komma åt detta certifikat."
+
+msgid "cert_issued_on_label"
+msgstr "Utställd på"
+
+msgid "cert_object_label"
+msgstr "Objekt"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Sorterat efter utgivningsdatum - äldst först"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Sorterat efter utgivningsdatum - nyaste först"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Sorterad efter titel (A?Z)"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Sorterad efter titel (Z?A)"
+
+msgid "certificate_achievement"
+msgstr "%1$s har mottagits."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Certifikat för %1$s"
+
+msgid "certificate_no_object_title"
+msgstr "Ingen titel tillgänglig"
+
+msgid "certificate_same_not_saved"
+msgstr "Ingen ny version av certifikatmallen sparades eftersom motsvarande värden inte ändrades."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Certifikatet kunde inte skapas. Låt en administratör kontrollera certifikatservern."
+
+msgid "user_certificates"
+msgstr "Certifikat"
