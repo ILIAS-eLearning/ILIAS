@@ -7614,55 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Ustvari certifikat za vajo
 excv#:#excv_create_info#:#Izberite vajo, za katero potrebujete certifikat
-form#:#email_not_match#:#Vaši podatki za e-poštni naslov se ne ujemajo! Ponovno vnesite svoj e-poštni naslov.
-form#:#form_alphabet_all#:#Vsi
-form#:#form_chars_remaining#:#Preostali znaki:
-form#:#form_date_duration_end#:#Konec
-form#:#form_date_duration_start#:#Začetek
-form#:#form_days#:#Dnevi
-form#:#form_file_input#:#Izberi datoteko
-form#:#form_format#:#Format
-form#:#form_get_link#:#Izberi ciljni objekt
-form#:#form_hier_click_to_add#:#Kliknite tukaj, če želite dodati nove elemente.
-form#:#form_hierarchy_add_elements#:#Za dodajanje novih elementov kliknite na rezervirana mesta.
-form#:#form_hierarchy_drag_drop_help#:#Ikone z miško povlecite na rezervirana mesta, da premaknete elemente.
-form#:#form_hours#:#Ure
-form#:#form_image_file_input#:#Izberi slikovno datoteko
-form#:#form_invalid_uri#:#Invalid URI format.
-form#:#form_link_external#:#WWW / Svetovni splet
-form#:#form_link_internal#:#Znotraj ILIAS
-form#:#form_location_radius#:#Okrožje
-form#:#form_location_radius_km#:#km
-form#:#form_max_value#:#Maksimalna vrednost
-form#:#form_min_value#:#Minimalna vrednost
-form#:#form_minutes#:#Minute
-form#:#form_months#:#Meseci
-form#:#form_msg_file_cannot_write_to_disk#:#Ni dostopa za pisanje na trdem disku
-form#:#form_msg_file_missing_file_ext#:#Naložena datoteka nima končnice vrste datoteke.
-form#:#form_msg_file_missing_tmp_dir#:#Ni začasnega seznama za nalaganje datotek.
-form#:#form_msg_file_no_upload#:#Ta vnos je obvezen. Izberite datoteko za nalaganje!
-form#:#form_msg_file_partially_uploaded#:#Datoteke ni bilo mogoče v celoti naložiti.
-form#:#form_msg_file_size_exceeds#:#Datoteka za nalaganje presega maksimalno velikost datoteke.
-form#:#form_msg_file_type_is_not_allowed#:#Ta tip datoteke ni dovoljen.
-form#:#form_msg_file_upload_stopped_ext#:#Nalaganje datoteke je bilo prekinjeno zaradi razširitve PHP.
-form#:#form_msg_file_virus_found#:#V datoteki za nalaganje je bil najden virus!
-form#:#form_msg_file_wrong_file_type#:#Napačen tip datoteke
-form#:#form_msg_formula_is_required#:#Vnesite pravilno formulo.
-form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files
-form#:#form_msg_numeric_value_required#:#Vnesite številsko vrednost.
-form#:#form_msg_value_too_high#:#Vrednost je previsoka. Vnesite nižjo vrednost.
-form#:#form_msg_value_too_low#:#Vrednost je prenizka. Vnesite višjo vrednost.
-form#:#form_msg_wrong_date#:#Napačen datum. Vnesite veljaven datum.
-form#:#form_no_link#:#Ni povezave
-form#:#form_open_answer#:#Poljubno besedilo
-form#:#form_password_not_allowed_for_auth#:#Za izbrano metodo avtentikacije ni mogoče spremeniti gesla
-form#:#form_password_required_for_auth#:#Za izbrano metodo avtentikacije je potrebno geslo.
-form#:#form_please_select#:#Izberite
-form#:#form_retype_email#:#Ponovno vnesi e-pošto
-form#:#form_retype_password#:#Ponovno vnesite geslo
-form#:#form_seconds#:#Sekunde
-form#:#form_take_snapshot#:#Take Snapshot###19 08 2022 new variable
-form#:#form_use_camera#:#Use Camera###19 08 2022 new variable
 forum#:#activate_new_posts#:#Odobri nove objave
 forum#:#activate_only_current#:#Odobri objavo
 forum#:#activate_post#:#Odobri

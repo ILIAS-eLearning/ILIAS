@@ -7613,55 +7613,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#创建练习校验
 excv#:#excv_create_info#:#选择一个已完成的练习来为它生成一个校验
-form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.###24 10 2013 new variable
-form#:#form_alphabet_all#:#所有
-form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable
-form#:#form_date_duration_end#:#End###25 10 2016 new variable
-form#:#form_date_duration_start#:#Start###25 10 2016 new variable
-form#:#form_days#:#Days
-form#:#form_file_input#:#文件输入
-form#:#form_format#:#格式
-form#:#form_get_link#:#选择目标对象
-form#:#form_hier_click_to_add#:#Click here to add new elements.###27 01 2015 new variable
-form#:#form_hierarchy_add_elements#:#点击占位符去添加新元素。
-form#:#form_hierarchy_drag_drop_help#:#在占位符上播放图标去移动元素。
-form#:#form_hours#:#小时
-form#:#form_image_file_input#:#图像文件输入
-form#:#form_invalid_uri#:#Invalid URI format.###29 07 2022 new variable
-form#:#form_link_external#:#外部的
-form#:#form_link_internal#:#内部的
-form#:#form_location_radius#:#Radius###26 09 2014 new variable
-form#:#form_location_radius_km#:#km###26 09 2014 new variable
-form#:#form_max_value#:#最大值
-form#:#form_min_value#:#最小值
-form#:#form_minutes#:#分钟
-form#:#form_months#:#月份
-form#:#form_msg_file_cannot_write_to_disk#:#不能写入磁盘。
-form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###07 02 2020 new variable
-form#:#form_msg_file_missing_tmp_dir#:#文件上传的临时目录缺失。
-form#:#form_msg_file_no_upload#:#这是必选项。请选择一个上传文件。
-form#:#form_msg_file_partially_uploaded#:#文件上传不完整。
-form#:#form_msg_file_size_exceeds#:#上传的文件超出了允许的最大文件大小。
-form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.###31 08 2017 new variable
-form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
-form#:#form_msg_file_virus_found#:#上传的文件中发现病毒。
-form#:#form_msg_file_wrong_file_type#:#错误的文件类型。
-form#:#form_msg_formula_is_required#:#请输入一个正确的公式。
-form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###29 07 2022 new variable
-form#:#form_msg_numeric_value_required#:#请输入一个数值。
-form#:#form_msg_value_too_high#:#数值太大。请输入一个小点的值。
-form#:#form_msg_value_too_low#:#数值太小。请输入一个大点的值。
-form#:#form_msg_wrong_date#:#错误的日期。请输入一个有效日期。
-form#:#form_no_link#:#No Link###25 10 2016 new variable
-form#:#form_open_answer#:#Open Answer###27 01 2015 new variable
-form#:#form_password_not_allowed_for_auth#:#选定的身份验证方法不可能修改密码。
-form#:#form_password_required_for_auth#:#选定的身份验证方法必须设定密码。
-form#:#form_please_select#:#请选择
-form#:#form_retype_email#:#Retype Email###24 10 2013 new variable
-form#:#form_retype_password#:#重新输入密码
-form#:#form_seconds#:#秒
-form#:#form_take_snapshot#:#Take Snapshot###29 07 2022 new variable
-form#:#form_use_camera#:#Use Camera###29 07 2022 new variable
 forum#:#activate_new_posts#:#激活帖子
 forum#:#activate_only_current#:#激活当前
 forum#:#activate_post#:#激活

@@ -7595,55 +7595,6 @@ dcl#:#table_not_found#:#A tábla nem található!
 dcl#:#tableview_not_found#:#A táblanézet nem található!
 excv#:#excv_create#:#Beadandó feladat tanúsítványának létrehozása
 excv#:#excv_create_info#:#Válasszon ki egy befejezett beadandó feladatot, hogy tanúsítványt generáljon hozzá.
-form#:#email_not_match#:#A beírt e-mail címek nem egyeznek! Írd be újra az e-mail címed.
-form#:#form_alphabet_all#:#Összes
-form#:#form_chars_remaining#:#Fennmaradó karakterszám:
-form#:#form_date_duration_end#:#Záró időpont
-form#:#form_date_duration_start#:#Kezdő időpont
-form#:#form_days#:#Nap
-form#:#form_file_input#:#Fájlbemenet
-form#:#form_format#:#Formátum
-form#:#form_get_link#:#Válasszon célobjektumot
-form#:#form_hier_click_to_add#:#Új elemek hozzáadásához kattintson ide.
-form#:#form_hierarchy_add_elements#:#Kattintson a helyőrzőkre új oldal vagy fejezet létrehozásához.
-form#:#form_hierarchy_drag_drop_help#:#Fogd-és-vidd az ikonokat a helyőrzőkre az oldal vagy fejezet mozgatásához.
-form#:#form_hours#:#Óra
-form#:#form_image_file_input#:#Képfájl-input
-form#:#form_invalid_uri#:#Érvénytelen URI formátum.
-form#:#form_link_external#:#Külső link
-form#:#form_link_internal#:#Belső link
-form#:#form_location_radius#:#rádiusz
-form#:#form_location_radius_km#:#km
-form#:#form_max_value#:#Maximális érték
-form#:#form_min_value#:#Minimális érték
-form#:#form_minutes#:#Perc
-form#:#form_months#:#Hónap
-form#:#form_msg_file_cannot_write_to_disk#:#Nem írható a merevlemez.
-form#:#form_msg_file_missing_file_ext#:#A feltöltött fájlnak nincs fájlkiterjesztése.
-form#:#form_msg_file_missing_tmp_dir#:#Hiányzik az ideiglenes mappa a fájlfeltöltéshez.
-form#:#form_msg_file_no_upload#:#Ez a beviteli adat kötelező. Válasszon ki egy feltöltendő fájlt.
-form#:#form_msg_file_partially_uploaded#:#A fájlt nem sikerült teljesen feltölteni.
-form#:#form_msg_file_size_exceeds#:#A feltöltött fájl mérete elérte a maximálisan engedélyezettet.
-form#:#form_msg_file_type_is_not_allowed#:#Ez a fájltípus nem engedélyezett.
-form#:#form_msg_file_upload_stopped_ext#:#A kiterjesztés miatt megszakítottuk a fájl felöltését.
-form#:#form_msg_file_virus_found#:#A feltöltendő fájlban vírus található.
-form#:#form_msg_file_wrong_file_type#:#Rossz fájltípus.
-form#:#form_msg_formula_is_required#:#Helyes képletet adjon meg!
-form#:#form_msg_max_upload#:#Egyidőben feltölthető fájlok maximális száma:
-form#:#form_msg_numeric_value_required#:#Számértéket adjon meg!
-form#:#form_msg_value_too_high#:#Az érték túl magas. Adjon meg alacsonyabb értéket!
-form#:#form_msg_value_too_low#:#Az érték túl alacsony. Adjon meg magasabb értéket!
-form#:#form_msg_wrong_date#:#Kérjük, ellenőrizze a dátumokat. Mind a kezdő, mind a záró dátum megadása kötelező, és a kezdő dátum nem lehet későbbi a záró dátumnál.
-form#:#form_no_link#:#Nincs link
-form#:#form_open_answer#:#Szabadszöveges
-form#:#form_password_not_allowed_for_auth#:#A választott hitelesítési módhoz nem lehet megváltoztatni a jelszót.
-form#:#form_password_required_for_auth#:#Jelszó szükséges a hitelesítési mód választásához.
-form#:#form_please_select#:#Válasszon
-form#:#form_retype_email#:#E-mail újragépelése
-form#:#form_retype_password#:#Új jelszó megerősítése
-form#:#form_seconds#:#Másodperc
-form#:#form_take_snapshot#:#Pillanatkép készítése
-form#:#form_use_camera#:#Kamera használata
 forum#:#activate_new_posts#:#Új hozzászólások jóváhagyása
 forum#:#activate_only_current#:#Hozzászólás jóváhagyása
 forum#:#activate_post#:#Jóváhagyás

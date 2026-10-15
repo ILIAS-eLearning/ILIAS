@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 /**
  * @deprecated 12 This component will be removed with ILIAS 12
  */
@@ -51,5 +54,9 @@ class Form implements Component\Component
             new Component\Resource\ComponentJS($this, "textwizard.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "autocomplete/dist/legacyAutocomplete.js");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'form'
+        );
     }
 }

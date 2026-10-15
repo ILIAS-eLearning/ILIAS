@@ -1,0 +1,158 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: form\n"
+
+msgid "email_not_match"
+msgstr "Vaši podatki za e-poštni naslov se ne ujemajo! Ponovno vnesite svoj e-poštni naslov."
+
+msgid "form_alphabet_all"
+msgstr "Vsi"
+
+msgid "form_chars_remaining"
+msgstr "Preostali znaki:"
+
+msgid "form_date_duration_end"
+msgstr "Konec"
+
+msgid "form_date_duration_start"
+msgstr "Začetek"
+
+msgid "form_days"
+msgstr "Dnevi"
+
+msgid "form_file_input"
+msgstr "Izberi datoteko"
+
+msgid "form_format"
+msgstr "Format"
+
+msgid "form_get_link"
+msgstr "Izberi ciljni objekt"
+
+msgid "form_hier_click_to_add"
+msgstr "Kliknite tukaj, če želite dodati nove elemente."
+
+msgid "form_hierarchy_add_elements"
+msgstr "Za dodajanje novih elementov kliknite na rezervirana mesta."
+
+msgid "form_hierarchy_drag_drop_help"
+msgstr "Ikone z miško povlecite na rezervirana mesta, da premaknete elemente."
+
+msgid "form_hours"
+msgstr "Ure"
+
+msgid "form_image_file_input"
+msgstr "Izberi slikovno datoteko"
+
+msgid "form_invalid_uri"
+msgstr "Invalid URI format."
+
+msgid "form_link_external"
+msgstr "WWW / Svetovni splet"
+
+msgid "form_link_internal"
+msgstr "Znotraj ILIAS"
+
+msgid "form_location_radius"
+msgstr "Okrožje"
+
+msgid "form_location_radius_km"
+msgstr "km"
+
+msgid "form_max_value"
+msgstr "Maksimalna vrednost"
+
+msgid "form_min_value"
+msgstr "Minimalna vrednost"
+
+msgid "form_minutes"
+msgstr "Minute"
+
+msgid "form_months"
+msgstr "Meseci"
+
+msgid "form_msg_file_cannot_write_to_disk"
+msgstr "Ni dostopa za pisanje na trdem disku"
+
+msgid "form_msg_file_missing_file_ext"
+msgstr "Naložena datoteka nima končnice vrste datoteke."
+
+msgid "form_msg_file_missing_tmp_dir"
+msgstr "Ni začasnega seznama za nalaganje datotek."
+
+msgid "form_msg_file_no_upload"
+msgstr "Ta vnos je obvezen. Izberite datoteko za nalaganje!"
+
+msgid "form_msg_file_partially_uploaded"
+msgstr "Datoteke ni bilo mogoče v celoti naložiti."
+
+msgid "form_msg_file_size_exceeds"
+msgstr "Datoteka za nalaganje presega maksimalno velikost datoteke."
+
+msgid "form_msg_file_type_is_not_allowed"
+msgstr "Ta tip datoteke ni dovoljen."
+
+msgid "form_msg_file_upload_stopped_ext"
+msgstr "Nalaganje datoteke je bilo prekinjeno zaradi razširitve PHP."
+
+msgid "form_msg_file_virus_found"
+msgstr "V datoteki za nalaganje je bil najden virus!"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Napačen tip datoteke"
+
+msgid "form_msg_formula_is_required"
+msgstr "Vnesite pravilno formulo."
+
+msgid "form_msg_max_upload"
+msgstr "Maximum number of simultaneously uploadable files"
+
+msgid "form_msg_numeric_value_required"
+msgstr "Vnesite številsko vrednost."
+
+msgid "form_msg_value_too_high"
+msgstr "Vrednost je previsoka. Vnesite nižjo vrednost."
+
+msgid "form_msg_value_too_low"
+msgstr "Vrednost je prenizka. Vnesite višjo vrednost."
+
+msgid "form_msg_wrong_date"
+msgstr "Napačen datum. Vnesite veljaven datum."
+
+msgid "form_no_link"
+msgstr "Ni povezave"
+
+msgid "form_open_answer"
+msgstr "Poljubno besedilo"
+
+msgid "form_password_not_allowed_for_auth"
+msgstr "Za izbrano metodo avtentikacije ni mogoče spremeniti gesla"
+
+msgid "form_password_required_for_auth"
+msgstr "Za izbrano metodo avtentikacije je potrebno geslo."
+
+msgid "form_please_select"
+msgstr "Izberite"
+
+msgid "form_retype_email"
+msgstr "Ponovno vnesi e-pošto"
+
+msgid "form_retype_password"
+msgstr "Ponovno vnesite geslo"
+
+msgid "form_seconds"
+msgstr "Sekunde"
+
+#, fuzzy
+msgid "form_take_snapshot"
+msgstr "Take Snapshot"
+
+#, fuzzy
+msgid "form_use_camera"
+msgstr "Use Camera"
