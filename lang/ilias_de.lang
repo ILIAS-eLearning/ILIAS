@@ -12908,25 +12908,6 @@ user#:#usr_public_profile_disabled#:#Profil deaktiviert
 user#:#usr_public_profile_disabled_info#:#Nur Ihr Anmeldename wird öffentlich angezeigt. Weitere persönliche Daten sind nur für Personen mit Zugriff auf die Kontenverwaltung einsehbar.
 user#:#usr_public_profile_global#:#WWW / Für alle Benutzer des Internets sichtbar
 user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
-validation#:#datetime_required#:#Zeit/Datum erforderlich
-validation#:#no_array#:#Wert ist kein Feld
-validation#:#not_a_null#:#Wert vom Typ „%s“ ist keine Null.
-validation#:#not_a_string#:#Wert vom Typ „%s“ ist kein String.
-validation#:#not_an_array#:#„%s“ ist kein Array.
-validation#:#not_an_array_of#:#Die Elemente des Arrays scheitern an Bedingungen: %s
-validation#:#not_an_int#:#Wert vom Typ „%s“ ist kein Integer.
-validation#:#not_generic#:#Es ist nicht der Fall, dass %s
-validation#:#not_greater_than#:#„%s“ ist nicht größer als „%s“.
-validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich „%s“.
-validation#:#not_less_than#:#„%s“ ist nicht kleiner als „%s“.
-validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich „%s“.
-validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als „%s“.
-validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
-validation#:#not_numeric#:#„%s“ ist nicht nummerisch.
-validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
-validation#:#numeric_only#:#Bitte geben sie eine ganze Zahl ein.
-validation#:#required#:#Diese Eingabe ist erforderlich.
-validation#:#tag_required#:#Bitte geben sie mindestens ein Tag ein.
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 webr#:#invalid_links_tbl#:#Ungültige Links
 webr#:#webr_active#:#Aktiv

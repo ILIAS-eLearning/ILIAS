@@ -1,0 +1,70 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: validation\n"
+
+#, fuzzy
+msgid "datetime_required"
+msgstr "Time/Date required"
+
+msgid "no_array"
+msgstr "Value är inte ett fält"
+
+msgid "not_a_null"
+msgstr "Värde av typen '%s' är inte en nolla."
+
+msgid "not_a_string"
+msgstr "Värde av typen '%s' är inte en sträng."
+
+msgid "not_an_array"
+msgstr "'%s' är inte en array."
+
+msgid "not_an_array_of"
+msgstr "Elementen i matrisen misslyckas med villkoren"
+
+msgid "not_an_int"
+msgstr "Värde av typen '%s' är inte ett heltal."
+
+msgid "not_generic"
+msgstr "Det är inte fallet att %s"
+
+msgid "not_greater_than"
+msgstr "'%s' är inte större än '%s'."
+
+msgid "not_greater_than_or_equal"
+msgstr "Värdet är inte större än eller lika med '%s'."
+
+msgid "not_less_than"
+msgstr "'%s' är inte mindre än '%s'."
+
+msgid "not_less_than_or_equal"
+msgstr "Värdet är inte mindre än eller lika med '%s'."
+
+msgid "not_max_length"
+msgstr "Den angivna texten har en längd på mer än '%s'."
+
+msgid "not_min_length"
+msgstr "Din inmatning har en längd på %d och är därför under minimilängden på %d."
+
+msgid "not_numeric"
+msgstr "'%s' är inte numeriskt."
+
+msgid "not_numeric_empty_string"
+msgstr "Din inmatning är inte numerisk."
+
+#, fuzzy
+msgid "numeric_only"
+msgstr "Please insert a whole number."
+
+#, fuzzy
+msgid "required"
+msgstr "This input is required."
+
+#, fuzzy
+msgid "tag_required"
+msgstr "Please insert at least one tag."

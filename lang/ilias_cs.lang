@@ -12839,25 +12839,6 @@ user#:#usr_public_profile_disabled#:#Veřejný profil vypnut
 user#:#usr_public_profile_disabled_info#:#Vaše informace je viditelná jen sboru správců.
 user#:#usr_public_profile_global#:#Globální viditelnost
 user#:#usr_public_profile_logged_in#:#Viditelné pro přihlášené uživatele.
-validation#:#datetime_required#:#Time/Date required###29 07 2022 new variable
-validation#:#no_array#:#Given value is not an array###29 07 2022 new variable
-validation#:#not_a_null#:#Hodnota typu '%s' není nula.
-validation#:#not_a_string#:#Hodnota typu '%s' není řada.
-validation#:#not_an_array#:#'% s' není pole.
-validation#:#not_an_array_of#:#Prvky pole selhávají: % s
-validation#:#not_an_int#:#Hodnota typu '%s' není celé číslo.
-validation#:#not_generic#:#Neplatí, že: % s
-validation#:#not_greater_than#:#'%s' není větší než '%s'.
-validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.###29 07 2022 new variable
-validation#:#not_less_than#:#'%s' není menší než '%s'.
-validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.###29 07 2022 new variable
-validation#:#not_max_length#:#Zadaný text má délku větší než '%s'.
-validation#:#not_min_length#:#Váš vstup má délku %d a je tedy kratší než minimální délka %d.
-validation#:#not_numeric#:#'%s' není číselná hodnota.
-validation#:#not_numeric_empty_string#:#Your input is not numeric.###07 02 2020 new variable
-validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
-validation#:#required#:#This input is required.###29 10 2025 new variable
-validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
 webr#:#invalid_links_tbl#:#Neplatné odkazy
 webr#:#webr_active#:#Aktivní

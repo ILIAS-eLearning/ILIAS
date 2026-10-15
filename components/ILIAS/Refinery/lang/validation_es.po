@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: validation\n"
+
+msgid "datetime_required"
+msgstr "Fecha/hora requerida"
+
+msgid "no_array"
+msgstr "El valor proporcionado no es un array"
+
+msgid "not_a_null"
+msgstr "El valor de tipo '%s' no es un nulo."
+
+msgid "not_a_string"
+msgstr "El valor de tipo '%s' no es una cadena de texto."
+
+msgid "not_an_array"
+msgstr " '%s' no es un array."
+
+msgid "not_an_array_of"
+msgstr "Los elementos del array no cumplen las restricciones: %s"
+
+msgid "not_an_int"
+msgstr "El valor de tipo '%s' no es un número entero."
+
+msgid "not_generic"
+msgstr "No es el caso que: %s"
+
+msgid "not_greater_than"
+msgstr " '%s' no es mayor que '%s'."
+
+msgid "not_greater_than_or_equal"
+msgstr "El valor no es mayor o igual a '%s'."
+
+msgid "not_less_than"
+msgstr " '%s' no es menor que '%s'."
+
+msgid "not_less_than_or_equal"
+msgstr "El valor no es menor o igual a '%s'."
+
+msgid "not_max_length"
+msgstr "El texto introducido tiene una longitud superior a '%s'."
+
+msgid "not_min_length"
+msgstr "Su entrada tiene una longitud de %d y es inferior a la longitud mínima %d."
+
+msgid "not_numeric"
+msgstr " '%s' no es numérico."
+
+msgid "not_numeric_empty_string"
+msgstr "Su entrada no es numérica."
+
+msgid "numeric_only"
+msgstr "Por favor, introduzca un número entero."
+
+msgid "required"
+msgstr "Esta entrada es obligatoria."
+
+msgid "tag_required"
+msgstr "Por favor, introduzca al menos una etiqueta."

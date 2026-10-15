@@ -1,0 +1,74 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: validation\n"
+
+#, fuzzy
+msgid "datetime_required"
+msgstr "Time/date required"
+
+#, fuzzy
+msgid "no_array"
+msgstr "Given value is not an array"
+
+msgid "not_a_null"
+msgstr "O valor do tipo '%s' não é zero."
+
+msgid "not_a_string"
+msgstr "O valor do tipo '%s' não é um string."
+
+msgid "not_an_array"
+msgstr "'%s' não é uma rede."
+
+msgid "not_an_array_of"
+msgstr "Os elementos da rede falham as limitações: %s"
+
+msgid "not_an_int"
+msgstr "O valor do tipo '%s' não é um número inteiro."
+
+msgid "not_generic"
+msgstr "Não é o caso: %s"
+
+msgid "not_greater_than"
+msgstr "'%s' não é superior a '%s'."
+
+#, fuzzy
+msgid "not_greater_than_or_equal"
+msgstr "The value is not greater than or equal '%s'."
+
+msgid "not_less_than"
+msgstr "'%s' não é inferior a '%s'."
+
+#, fuzzy
+msgid "not_less_than_or_equal"
+msgstr "The value is not less than or equal '%s'."
+
+msgid "not_max_length"
+msgstr "O texto introduzido tem um comprimento maior do que '%s'."
+
+msgid "not_min_length"
+msgstr "A sua entrada tem um comprimento de %d e cai abaixo do comprimento mínimo %d."
+
+msgid "not_numeric"
+msgstr "'%s' não é numérico."
+
+#, fuzzy
+msgid "not_numeric_empty_string"
+msgstr "Your input is not numeric."
+
+#, fuzzy
+msgid "numeric_only"
+msgstr "Please insert a whole number."
+
+#, fuzzy
+msgid "required"
+msgstr "This input is required."
+
+#, fuzzy
+msgid "tag_required"
+msgstr "Please insert at least one tag."

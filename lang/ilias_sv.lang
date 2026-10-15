@@ -12839,25 +12839,6 @@ user#:#usr_public_profile_disabled#:#Profil avaktiverad
 user#:#usr_public_profile_disabled_info#:#Dina uppgifter är endast synliga för systemadministratörer.
 user#:#usr_public_profile_global#:#WWW / Synlig för alla användare av internet
 user#:#usr_public_profile_logged_in#:#Synlig för inloggade användare
-validation#:#datetime_required#:#Time/Date required###21 11 2023 new variable
-validation#:#no_array#:#Value är inte ett fält
-validation#:#not_a_null#:#Värde av typen '%s' är inte en nolla.
-validation#:#not_a_string#:#Värde av typen '%s' är inte en sträng.
-validation#:#not_an_array#:#'%s' är inte en array.
-validation#:#not_an_array_of#:#Elementen i matrisen misslyckas med villkoren
-validation#:#not_an_int#:#Värde av typen '%s' är inte ett heltal.
-validation#:#not_generic#:#Det är inte fallet att %s
-validation#:#not_greater_than#:#'%s' är inte större än '%s'.
-validation#:#not_greater_than_or_equal#:#Värdet är inte större än eller lika med '%s'.
-validation#:#not_less_than#:#'%s' är inte mindre än '%s'.
-validation#:#not_less_than_or_equal#:#Värdet är inte mindre än eller lika med '%s'.
-validation#:#not_max_length#:#Den angivna texten har en längd på mer än '%s'.
-validation#:#not_min_length#:#Din inmatning har en längd på %d och är därför under minimilängden på %d.
-validation#:#not_numeric#:#'%s' är inte numeriskt.
-validation#:#not_numeric_empty_string#:#Din inmatning är inte numerisk.
-validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
-validation#:#required#:#This input is required.###29 10 2025 new variable
-validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Värdet är inte en sträng
 webr#:#invalid_links_tbl#:#Ogiltiga länkar
 webr#:#webr_active#:#Aktiv

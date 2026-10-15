@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Refinery implements Component\Component
 {
     public function init(
@@ -37,5 +40,9 @@ class Refinery implements Component\Component
                 $pull[\ILIAS\Data\Factory::class],
                 $use[\ILIAS\Language\Language::class]
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'validation'
+        );
     }
 }

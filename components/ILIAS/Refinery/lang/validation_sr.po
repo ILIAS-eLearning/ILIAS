@@ -1,0 +1,85 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sr\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: validation\n"
+
+#, fuzzy
+msgid "datetime_required"
+msgstr "Time/Date required"
+
+#, fuzzy
+msgid "no_array"
+msgstr "Given value is not an array"
+
+#, fuzzy
+msgid "not_a_null"
+msgstr "Value of type '%s' is not a null."
+
+#, fuzzy
+msgid "not_a_string"
+msgstr "Value of type '%s' is not a string."
+
+#, fuzzy
+msgid "not_an_array"
+msgstr "'%s' is not an array."
+
+#, fuzzy
+msgid "not_an_array_of"
+msgstr "The elements of the array fail constraints: %s"
+
+#, fuzzy
+msgid "not_an_int"
+msgstr "Value of type '%s' is not an integer."
+
+#, fuzzy
+msgid "not_generic"
+msgstr "It is not the case that: %s"
+
+#, fuzzy
+msgid "not_greater_than"
+msgstr "'%s' is not greater than '%s'."
+
+#, fuzzy
+msgid "not_greater_than_or_equal"
+msgstr "The value is not greater than or equal '%s'."
+
+#, fuzzy
+msgid "not_less_than"
+msgstr "'%s' is not less than '%s'."
+
+#, fuzzy
+msgid "not_less_than_or_equal"
+msgstr "The value is not less than or equal '%s'."
+
+#, fuzzy
+msgid "not_max_length"
+msgstr "The entered text has a length more than '%s'."
+
+#, fuzzy
+msgid "not_min_length"
+msgstr "Your input has a length of %d and falls below the minimum length %d."
+
+#, fuzzy
+msgid "not_numeric"
+msgstr "'%s' is not numeric."
+
+#, fuzzy
+msgid "not_numeric_empty_string"
+msgstr "Your input is not numeric."
+
+#, fuzzy
+msgid "numeric_only"
+msgstr "Please insert a whole number."
+
+#, fuzzy
+msgid "required"
+msgstr "This input is required."
+
+#, fuzzy
+msgid "tag_required"
+msgstr "Please insert at least one tag."

@@ -12841,25 +12841,6 @@ user#:#usr_public_profile_disabled#:#Public Profile Disabled###24 07 2009 new va
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###24 07 2009 new variable
 user#:#usr_public_profile_global#:#Globale Visible###24 07 2009 new variable
 user#:#usr_public_profile_logged_in#:#Logged in Users###24 07 2009 new variable
-validation#:#datetime_required#:#Time/Date required###29 07 2022 new variable
-validation#:#no_array#:#Given value is not an array###29 07 2022 new variable
-validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
-validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
-validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
-validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
-validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
-validation#:#not_generic#:#It is not the case that: %s###10 11 2018 new variable
-validation#:#not_greater_than#:#'%s' is not greater than '%s'.###10 11 2018 new variable
-validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.###29 07 2022 new variable
-validation#:#not_less_than#:#'%s' is not less than '%s'.###10 11 2018 new variable
-validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.###29 07 2022 new variable
-validation#:#not_max_length#:#The entered text has a length more than '%s'.###10 11 2018 new variable
-validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.###10 11 2018 new variable
-validation#:#not_numeric#:#'%s' is not numeric.###10 11 2018 new variable
-validation#:#not_numeric_empty_string#:#Your input is not numeric.###07 02 2020 new variable
-validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
-validation#:#required#:#This input is required.###29 10 2025 new variable
-validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
 webr#:#invalid_links_tbl#:#Invalid Links###28 11 2012 new variable
 webr#:#webr_active#:#Active###07 09 2009 new variable

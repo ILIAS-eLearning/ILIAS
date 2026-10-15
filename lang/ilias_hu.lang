@@ -12805,25 +12805,6 @@ user#:#usr_public_profile_disabled#:#Profil letiltva
 user#:#usr_public_profile_disabled_info#:#Az információit csak az adminisztratív személyzet láthatja.
 user#:#usr_public_profile_global#:#WWW / Minden felhasználó elérheti az interneten
 user#:#usr_public_profile_logged_in#:#Bejelentkezett felhasználók számára látható
-validation#:#datetime_required#:#Idő/Dátum kötelező
-validation#:#no_array#:#A megadott érték nem halmaz
-validation#:#not_a_null#:#‘%s’ típus értéke nem üres.
-validation#:#not_a_string#:#‘%s’ típus értéke nem sztring.
-validation#:#not_an_array#:#‘%s’ nem egy halmaz.
-validation#:#not_an_array_of#:#A halmaza elemszáma nem %s.
-validation#:#not_an_int#:#‘%s’ típus értéke nem egész szám.
-validation#:#not_generic#:#Ez nem ilyen: %s
-validation#:#not_greater_than#:#‘%s’ nem nagyobb, mint ‘%s’.
-validation#:#not_greater_than_or_equal#:#‘%s’ nem nagyobb vagy egyenlő, mint ‘%s’.
-validation#:#not_less_than#:#‘%s’ nem kisebb, mint ‘%s’.
-validation#:#not_less_than_or_equal#:#A megadott szöveg nem kisebb vagy egyenlő, mint ‘%s’.
-validation#:#not_max_length#:#A megadott szöveg hossza több, mint ‘%s’.
-validation#:#not_min_length#:#A megadott érték hossza %d, ami a minimumnál (%d) kevesebb.
-validation#:#not_numeric#:#‘%s’ nem szám.
-validation#:#not_numeric_empty_string#:#A megadott adat nem szám.
-validation#:#numeric_only#:#Egész számot adjon meg.
-validation#:#required#:#Ezt kötelező megadni.
-validation#:#tag_required#:#Legalább egy címkét adjon meg.
 violation#:#not_a_string#:#A megadott érték nem szöveg
 webr#:#invalid_links_tbl#:#Érvénytelen linkek
 webr#:#webr_active#:#Aktív

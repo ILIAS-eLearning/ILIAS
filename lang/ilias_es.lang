@@ -12870,25 +12870,6 @@ user#:#usr_public_profile_disabled#:#Perfil desactivado
 user#:#usr_public_profile_disabled_info#:#Su información solo es visible para el personal administrativo.
 user#:#usr_public_profile_global#:#WWW / Accesible para todos los usuarios en Internet
 user#:#usr_public_profile_logged_in#:#Visible para usuarios con sesión iniciada
-validation#:#datetime_required#:#Fecha/hora requerida
-validation#:#no_array#:#El valor proporcionado no es un array
-validation#:#not_a_null#:#El valor de tipo '%s' no es un nulo.
-validation#:#not_a_string#:#El valor de tipo '%s' no es una cadena de texto.
-validation#:#not_an_array#:# '%s' no es un array.
-validation#:#not_an_array_of#:#Los elementos del array no cumplen las restricciones: %s
-validation#:#not_an_int#:#El valor de tipo '%s' no es un número entero.
-validation#:#not_generic#:#No es el caso que: %s
-validation#:#not_greater_than#:# '%s' no es mayor que '%s'.
-validation#:#not_greater_than_or_equal#:#El valor no es mayor o igual a '%s'.
-validation#:#not_less_than#:# '%s' no es menor que '%s'.
-validation#:#not_less_than_or_equal#:#El valor no es menor o igual a '%s'.
-validation#:#not_max_length#:#El texto introducido tiene una longitud superior a '%s'.
-validation#:#not_min_length#:#Su entrada tiene una longitud de %d y es inferior a la longitud mínima %d.
-validation#:#not_numeric#:# '%s' no es numérico.
-validation#:#not_numeric_empty_string#:#Su entrada no es numérica.
-validation#:#numeric_only#:#Por favor, introduzca un número entero.
-validation#:#required#:#Esta entrada es obligatoria.
-validation#:#tag_required#:#Por favor, introduzca al menos una etiqueta.
 violation#:#not_a_string#:#El valor proporcionado no es una cadena de texto
 webr#:#invalid_links_tbl#:#Enlaces no válidos
 webr#:#webr_active#:#Activo

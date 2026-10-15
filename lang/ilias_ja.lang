@@ -12845,25 +12845,6 @@ user#:#usr_public_profile_disabled#:#プロファイルを公開しない
 user#:#usr_public_profile_disabled_info#:#情報は管理スタッフに限定して表示されます。
 user#:#usr_public_profile_global#:#グローバル表示
 user#:#usr_public_profile_logged_in#:#ログイン済みのユーザ
-validation#:#datetime_required#:#Time/Date 必須
-validation#:#no_array#:#入力の値はアレイではありません
-validation#:#not_a_null#:#タイプ'%s'の値は null ではありあせん。
-validation#:#not_a_string#:#タイプ'%s'の値はストリングではありません。
-validation#:#not_an_array#:#%s'は行列ではりません。
-validation#:#not_an_array_of#:#行列失敗強制の要素: %s
-validation#:#not_an_int#:#タイプ'%s'の値は整数ではありません。
-validation#:#not_generic#:#そのようなケースではありません: %s
-validation#:#not_greater_than#:#%s' は'%s'以上です。
-validation#:#not_greater_than_or_equal#:#値が '%s' 以上ではありません。
-validation#:#not_less_than#:#%s'は'%s'以下です。
-validation#:#not_less_than_or_equal#:#値が '%s' 以下ではありません。
-validation#:#not_max_length#:#入力のテキスト長は'%s'以上あります。
-validation#:#not_min_length#:#入力の長さはf %dで最小長%dなので失敗します。
-validation#:#not_numeric#:#%s' は数字ではありません。
-validation#:#not_numeric_empty_string#:#入力が数字ではありません。
-validation#:#numeric_only#:#全ての番号を挿入してください。
-validation#:#required#:#この入力は必須です。
-validation#:#tag_required#:#tagを一つは挿入してください。
 violation#:#not_a_string#:#入力の値がストリングではありません。
 webr#:#invalid_links_tbl#:#不正なリンク
 webr#:#webr_active#:#アクティブ

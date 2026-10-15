@@ -12831,25 +12831,6 @@ user#:#usr_public_profile_disabled#:#Perfil Público desativado
 user#:#usr_public_profile_disabled_info#:#Sua informação é visível apenas para o corpo administrativo.
 user#:#usr_public_profile_global#:#Visão global
 user#:#usr_public_profile_logged_in#:#Visível para usuários conectados.
-validation#:#datetime_required#:#Time/date required###03 09 2026 new variable
-validation#:#no_array#:#Given value is not an array###03 09 2026 new variable
-validation#:#not_a_null#:#O valor do tipo '%s' não é zero.
-validation#:#not_a_string#:#O valor do tipo '%s' não é um string.
-validation#:#not_an_array#:#'%s' não é uma rede.
-validation#:#not_an_array_of#:#Os elementos da rede falham as limitações: %s
-validation#:#not_an_int#:#O valor do tipo '%s' não é um número inteiro.
-validation#:#not_generic#:#Não é o caso: %s
-validation#:#not_greater_than#:#'%s' não é superior a '%s'.
-validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.###03 09 2026 new variable
-validation#:#not_less_than#:#'%s' não é inferior a '%s'.
-validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.###03 09 2026 new variable
-validation#:#not_max_length#:#O texto introduzido tem um comprimento maior do que '%s'.
-validation#:#not_min_length#:#A sua entrada tem um comprimento de %d e cai abaixo do comprimento mínimo %d.
-validation#:#not_numeric#:#'%s' não é numérico.
-validation#:#not_numeric_empty_string#:#Your input is not numeric.###07 02 2020 new variable
-validation#:#numeric_only#:#Please insert a whole number.###03 09 2026 new variable
-validation#:#required#:#This input is required.###03 09 2026 new variable
-validation#:#tag_required#:#Please insert at least one tag.###03 09 2026 new variable
 violation#:#not_a_string#:#Given value is not a String###03 09 2026 new variable
 webr#:#invalid_links_tbl#:#Links inválidos
 webr#:#webr_active#:#Ativo
