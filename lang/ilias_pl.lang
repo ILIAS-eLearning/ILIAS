@@ -6229,19 +6229,6 @@ content#:#st#:#Rozdział
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Tekst alternatywny
 content#:#text_repr_info#:#Używany jest wtedy, gdy nie można wyświetlić grafiki.
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###29 07 2022 new variable
-copa#:#copa_add#:#Add Content Page
-copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
-copa#:#copa_copy#:#Copy Content Page
-copa#:#copa_edit#:#Edit Content Page
-copa#:#copa_import#:#Import Content Page
-copa#:#copa_new#:#Create Content Page
-copa#:#copa_page_type_copa#:#Content Page###29 07 2022 new variable
-copa#:#copa_prop_reading_time#:#Reading Time###29 07 2022 new variable
-copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
-copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
-copa#:#obj_copa_duplicate#:#Duplicate Content Page
 cptch#:#cptch_freetype_support_needed#:#Aby wykorzystać tę funkcję, potrzebujesz funkcji freetype PHP.
 cptch#:#cptch_wrong_input#:#Wprowadzono nieprawidłowe dane
 crs#:#activation_times_not_valid#:#Okres dostępności nie jest poprawny.

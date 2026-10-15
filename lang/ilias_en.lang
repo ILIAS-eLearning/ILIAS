@@ -6242,19 +6242,6 @@ content#:#st#:#Chapter
 content#:#start_lm#:#Launch Learning Module
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image ‘alt’ attribute.
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.
-copa#:#copa_add#:#Add Content Page
-copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
-copa#:#copa_copy#:#Copy Content Page
-copa#:#copa_edit#:#Edit Content Page
-copa#:#copa_import#:#Import Content Page
-copa#:#copa_new#:#Create Content Page
-copa#:#copa_page_type_copa#:#Content Page
-copa#:#copa_prop_reading_time#:#Reading Time
-copa#:#copa_value_reading_time_f_p#:#%s Minutes
-copa#:#copa_value_reading_time_f_s#:#%s Minute
-copa#:#obj_copa_duplicate#:#Duplicate Content Page
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 cptch#:#cptch_wrong_input#:#Wrong Input
 crs#:#activation_times_not_valid#:#The availability period is not valid.

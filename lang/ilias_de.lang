@@ -6241,19 +6241,6 @@ content#:#st#:#Kapitel
 content#:#start_lm#:#Lernmodul starten
 content#:#text_repr#:#Alternativtext
 content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann.
-copa#:#copa_activation_online_info#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
-copa#:#copa_add#:#Inhaltsseite anlegen
-copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
-copa#:#copa_copy#:#Inhaltsseite kopieren
-copa#:#copa_edit#:#Einstellungen der Inhaltsseite
-copa#:#copa_import#:#Inhaltsseite importieren
-copa#:#copa_new#:#Neue Inhaltsseite anlegen
-copa#:#copa_page_type_copa#:#Inhaltsseite
-copa#:#copa_prop_reading_time#:#Lesezeit
-copa#:#copa_value_reading_time_f_p#:#%s Minuten
-copa#:#copa_value_reading_time_f_s#:#%s Minute
-copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
 crs#:#activation_times_not_valid#:#Die Zeitdauer für „Verfügbarkeit“ ist nicht gültig.

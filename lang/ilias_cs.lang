@@ -6229,19 +6229,6 @@ content#:#st#:#Kapitola
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###29 07 2022 new variable
-copa#:#copa_add#:#Přidat stránku obsahu
-copa#:#copa_btn_lp_toggle_state_completed#:#Sada nedokončena
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Sada dokončena
-copa#:#copa_copy#:#Kopírovat stránku obsahu
-copa#:#copa_edit#:#Upravit stránku obsahu
-copa#:#copa_import#:#Importovat stránku obsahu
-copa#:#copa_new#:#Vytvořit stránku obsahu
-copa#:#copa_page_type_copa#:#Content Page###29 07 2022 new variable
-copa#:#copa_prop_reading_time#:#Reading Time###29 07 2022 new variable
-copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
-copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
-copa#:#obj_copa_duplicate#:#Duplikovat stránku obsahu
 cptch#:#cptch_freetype_support_needed#:#K použití tohoto rysu musíte zapnout podporu volného typu ve Vašem PHP.
 cptch#:#cptch_wrong_input#:#Chybný vstup
 crs#:#activation_times_not_valid#:#Neplatné období dostupnosti.

@@ -6230,19 +6230,6 @@ content#:#st#:#Capitolo
 content#:#start_lm#:#Launch Learning Module###30 04 2024 new variable
 content#:#text_repr#:#Testo alternativo
 content#:#text_repr_info#:#Verrà usato quando l'immagine non verrà mostrata
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###31 03 2023 new variable
-copa#:#copa_add#:#Aggiungi pagina di contenuti
-copa#:#copa_btn_lp_toggle_state_completed#:#Set non completato
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Imposta completata
-copa#:#copa_copy#:#Copia la pagina del contenuto
-copa#:#copa_edit#:#Modifica la pagina del contenuto
-copa#:#copa_import#:#Importa pagina di contenuti
-copa#:#copa_new#:#Crea pagina di contenuti
-copa#:#copa_page_type_copa#:#Pagina dei contenuti
-copa#:#copa_prop_reading_time#:#Reading Time
-copa#:#copa_value_reading_time_f_p#:#%s Minutes
-copa#:#copa_value_reading_time_f_s#:#%s Minute
-copa#:#obj_copa_duplicate#:#Pagina di contenuti duplicati
 cptch#:#cptch_freetype_support_needed#:#Per utilizzare questa funzione è necessario abilitare il supporto FreeType nel vostro PHP.
 cptch#:#cptch_wrong_input#:#Input sbagliato
 crs#:#activation_times_not_valid#:#Il periodo di attivazione non è valido.

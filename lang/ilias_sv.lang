@@ -6229,19 +6229,6 @@ content#:#st#:#Kapitel
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Alternativ text
 content#:#text_repr_info#:#Används när grafiken inte kan visas.
-copa#:#copa_activation_online_info#:#Endast när innehållssidan är online kan användare komma åt innehållssidan. Om inte, är innehållssidan endast tillgänglig för administratörer.
-copa#:#copa_add#:#Skapa innehållssida
-copa#:#copa_btn_lp_toggle_state_completed#:#Set till "Ej redigerad
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Set till "Redigerad
-copa#:#copa_copy#:#Kopiera innehållssida
-copa#:#copa_edit#:#Inställningar för innehållssida
-copa#:#copa_import#:#Importera innehållssida
-copa#:#copa_new#:#Skapa ny innehållssida
-copa#:#copa_page_type_copa#:#Innehållssida
-copa#:#copa_prop_reading_time#:#Tid för läsning
-copa#:#copa_value_reading_time_f_p#:#%s minuter
-copa#:#copa_value_reading_time_f_s#:#%s minut
-copa#:#obj_copa_duplicate#:#Sidor med duplicerat innehåll
 cptch#:#cptch_freetype_support_needed#:#För att använda denna funktion behöver du freetype-stödet för PHP.
 cptch#:#cptch_wrong_input#:#Felaktig inmatning
 crs#:#activation_times_not_valid#:#Tidsperioden för 'Availability' är inte giltig.

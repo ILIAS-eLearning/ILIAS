@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: copa\n"
+
+msgid "copa_activation_online_info"
+msgstr ""
+
+msgid "copa_add"
+msgstr ""
+
+msgid "copa_btn_lp_toggle_state_completed"
+msgstr ""
+
+msgid "copa_btn_lp_toggle_state_not_completed"
+msgstr ""
+
+msgid "copa_copy"
+msgstr ""
+
+msgid "copa_edit"
+msgstr ""
+
+msgid "copa_import"
+msgstr ""
+
+msgid "copa_new"
+msgstr ""
+
+msgid "copa_page_type_copa"
+msgstr ""
+
+msgid "copa_prop_reading_time"
+msgstr ""
+
+msgid "copa_value_reading_time_f_p"
+msgstr ""
+
+msgid "copa_value_reading_time_f_s"
+msgstr ""
+
+msgid "obj_copa_duplicate"
+msgstr ""

@@ -6224,19 +6224,6 @@ content#:#st#:#Modo de apresentação para definições de temporizações.
 content#:#start_lm#:#Launch Learning Module###03 09 2026 new variable
 content#:#text_repr#:#Representação de texto
 content#:#text_repr_info#:#Curso orientado por objetivos de aprendizagem
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###03 09 2026 new variable
-copa#:#copa_add#:#Ilimitado
-copa#:#copa_btn_lp_toggle_state_completed#:#Período de disponibilidade limitada
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Os participantes são recrutados da lista de espera automaticamente aquando cancelamentos. Isso não deve ser usado com o procedimento de registo “Pedir adesão”, uma vez que o autopreenchimento vai contornar isso.
-copa#:#copa_copy#:#Se o número máximo de utilizadores for excedido, os novos registos ficarão em lista de espera.
-copa#:#copa_edit#:#O número máximo de membros do curso foi excedido. Pode definir-se a si próprio na lista de espera. Receberá uma mensagem de um administrador do curso quando o seu pedido for aprovado ou rejeitado.
-copa#:#copa_import#:#Guardar
-copa#:#copa_new#:#Os materiais atribuídos são apresentados diretamente por baixo da sessão.
-copa#:#copa_page_type_copa#:#Content Page###30 04 2021 new variable
-copa#:#copa_prop_reading_time#:#Reading Time###30 04 2021 new variable
-copa#:#copa_value_reading_time_f_p#:#%s Minutes###30 04 2021 new variable
-copa#:#copa_value_reading_time_f_s#:#%s Minute###30 04 2021 new variable
-copa#:#obj_copa_duplicate#:#Atribuição de materiais
 cptch#:#cptch_freetype_support_needed#:#Para usar esta funcionalidade tem de ativar o suporte de tipo livre no seu PHP.
 cptch#:#cptch_wrong_input#:#Entrada errada
 crs#:#activation_times_not_valid#:#O período de disponibilidade não é válido.

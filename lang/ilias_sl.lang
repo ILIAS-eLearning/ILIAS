@@ -6229,19 +6229,6 @@ content#:#st#:#Poglavje
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Alternativno besedilo
 content#:#text_repr_info#:#Se uporabi, če ni mogoče prikazati grafike.
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###19 08 2022 new variable
-copa#:#copa_add#:#Dodaj stran z vsebino
-copa#:#copa_btn_lp_toggle_state_completed#:#Nastavi na "Ni urejeno"
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Nastavi na "Urejeno"
-copa#:#copa_copy#:#Kopiraj stran z vsebino
-copa#:#copa_edit#:#Uredi stran z vsebino
-copa#:#copa_import#:#Uvozi stran z vsebino
-copa#:#copa_new#:#Ustvari novo stran z vsebino
-copa#:#copa_page_type_copa#:#Content Page
-copa#:#copa_prop_reading_time#:#Reading Time###19 08 2022 new variable
-copa#:#copa_value_reading_time_f_p#:#%s Minutes###19 08 2022 new variable
-copa#:#copa_value_reading_time_f_s#:#%s Minute###19 08 2022 new variable
-copa#:#obj_copa_duplicate#:#Podvoji stran z vsebino
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 cptch#:#cptch_wrong_input#:#Wrong Input
 crs#:#activation_times_not_valid#:#Obdobje za 'Razpoložljivost' ni veljavno.
