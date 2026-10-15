@@ -1,0 +1,316 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "pelo utilizador"
+
+msgid "crs_ps_cdf_info"
+msgstr "Mais dados específicos do curso:"
+
+msgid "crs_ps_required_info"
+msgstr "Mais campos específicos do curso necessários para aceder ao conteúdo do curso."
+
+msgid "grp_ps_cdf_info"
+msgstr "Mais dados específicos do grupo:"
+
+msgid "grp_ps_required_info"
+msgstr "Mais campos específicos do grupo necessários para aceder ao conteúdo do grupo."
+
+msgid "ps_agreement_accepted"
+msgstr "O estado não pode ser mudado para &quot;online&quot; porque não há perguntas no inquérito!"
+
+msgid "ps_auto_https"
+msgstr "Autodetetar HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Se estiver ativado, ILIAS tenta detetar o estado de HTTPs analisando o valor do cabeçalho especificado em baixo."
+
+msgid "ps_auto_https_header_name"
+msgstr "Nome do cabeçalho"
+
+msgid "ps_auto_https_header_value"
+msgstr "Valor do cabeçalho"
+
+msgid "ps_btn_add_value"
+msgstr "Novo valor"
+
+msgid "ps_cdf_add_field"
+msgstr "Campo de utilizador adicionado"
+
+msgid "ps_cdf_added_field"
+msgstr "Nova caixa de seleção adicionada."
+
+msgid "ps_cdf_data_fields"
+msgstr "Campos de utilizador disponíveis"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Tem a certeza que quer apagar estes campos de utilizador?"
+
+msgid "ps_cdf_deleted"
+msgstr "Campos de utilizador apagados"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Valor apagado"
+
+msgid "ps_cdf_edit_field"
+msgstr "Editar campo de dados"
+
+msgid "ps_cdf_name"
+msgstr "Resposta"
+
+msgid "ps_cdf_no_fields"
+msgstr "Nenhum campo de utilizador definido"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Introduza um nome."
+
+msgid "ps_cdf_required"
+msgstr "Campo exigido"
+
+msgid "ps_cdf_select_one"
+msgstr "Selecione um."
+
+msgid "ps_cdf_type"
+msgstr "Tipo"
+
+msgid "ps_cdf_value"
+msgstr "Valor"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Atenção: No mínimo um utilizador aceitou o acordo do utilizador. Modificar estes campos específicos do curso vai repor todos os acordos do utilizador."
+
+msgid "ps_crs_user_fields"
+msgstr "Campos do utilizador específicos do curso"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Se ativar a deteção automática de https, tem de fornecer um nome e um valor para o cabeçalho."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "As tentativas de login máximas não podem ser inferiores a 0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "A idade máxima da palavra-passe não pode ser inferior a 0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "O tamanho máximo da palavra-passe não pode ser inferior a 0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "O tamanho mínimo da palavra-passe não pode ser inferior a 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "O tamanho máximo da palavra-passe não pode ser inferior ao tamanho mínimo da palavra-passe."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "O tamanho mínimo da palavra-passe não pode ser inferior a %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Número de seleções"
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Encaminhamento"
+
+msgid "ps_export_admin"
+msgstr "Administradores"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Confirmação de utilizador quando entra em cursos"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Confirmação de utilizador quando entra em grupos"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "A primeira entidade não podia ter nenhum encaminhamento porque não há perguntas anteriores."
+
+msgid "ps_export_data"
+msgstr "Pode adicionar uma regra de encaminhamento a uma única pergunta ou a um bloco de perguntas com múltiplas perguntas. Dependendo da resposta específica dada a uma pergunta anterior, os participantes recebem uma próxima pergunta definida. Desse modo, não serão colocadas as perguntas irrelevantes a um participante e o inquérito fica mais curo ou mais específico em função das respostas dadas antes. Num inquérito não podem ser definidas regras de encaminhamento na primeira pergunta ou no bloco de perguntas."
+
+msgid "ps_export_excel"
+msgstr "Ganchos disponíveis para regras de encaminhamento"
+
+msgid "ps_export_files"
+msgstr "Exportar ficheiros"
+
+msgid "ps_export_groups"
+msgstr "Visibilidade dos dados do perfil de utilizador em grupos:"
+
+msgid "ps_export_member"
+msgstr "Não há perguntas anteriores disponíveis para definir as regras de encaminhamento. São suportados os seguintes tipos: pergunta métrica, de escolha única e de escolha múltipla."
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Exportar definições"
+
+msgid "ps_export_sub"
+msgstr "Subscritores"
+
+msgid "ps_export_tutor"
+msgstr "Tutores"
+
+msgid "ps_export_user_data"
+msgstr "Tipos de dados"
+
+msgid "ps_export_wait"
+msgstr "Utilizadores na lista de espera"
+
+msgid "ps_field_type"
+msgstr "Tipo de campo"
+
+msgid "ps_files_deleted"
+msgstr "Exportar ficheiros apagados"
+
+msgid "ps_grp_user_fields"
+msgstr "Campos do utilizador específicos do grupo"
+
+msgid "ps_login_max_attempts"
+msgstr "Tentativas de login máximas"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Selecione pelo menos uma pergunta ou bloco de perguntas!"
+
+msgid "ps_not_accepted"
+msgstr "Não aceite"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Mudar palavra-passe aquando o primeiro login"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Se estiver ativado, os utilizadores têm de mudar a sua palavra-passe aquando o primeiro login (exceto utilizadores eles próprios registados)."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Adicionar regra de encaminhamento"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Se estiver ativado, as palavras-passe têm de incluir caracteres e números."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Idade máxima da palavra-passe"
+
+msgid "ps_password_max_age_info"
+msgstr "Define a idade máxima das palavras-passe em dias. Para desativar opção tem de definir isso para 0."
+
+msgid "ps_password_max_length"
+msgstr "Tamanho máximo da palavra-passe"
+
+msgid "ps_password_max_length_info"
+msgstr "Define o tamanho máximo das palavras-chave da conta. Para desativar opção tem de definir isso para 0."
+
+msgid "ps_password_min_length"
+msgstr "Tamanho mínimo da palavra-passe"
+
+msgid "ps_password_min_length_info"
+msgstr "Apagar texto de mensagem"
+
+msgid "ps_password_settings"
+msgstr "Definições de palavra-passe"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Tirado do computador pessoal"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Se estiver ativado, as palavras-passe têm de incluir caracteres especiais."
+
+msgid "ps_perform_export"
+msgstr "Iniciar exportação CSV"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Evitar logins simultâneos"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Se estiver ativado, não são possíveis logins simultâneos com a mesma conta de diferentes computadores."
+
+msgid "ps_privacy_protection"
+msgstr "Definições de privacidade"
+
+msgid "ps_profile_export"
+msgstr "Proteção dados do perfil de utilizador"
+
+msgid "ps_security_protection"
+msgstr "Definições de segurança"
+
+msgid "ps_select_one"
+msgstr "Selecione um ficheiro de exportação"
+
+msgid "ps_show_crs_access"
+msgstr "Mostrar a última hora de acesso dos participantes do curso"
+
+msgid "ps_show_grp_access"
+msgstr "Mostrar a última hora de acesso dos participantes do grupo"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Tamanho dos ficheiros"
+
+msgid "ps_type_select"
+msgstr "Campo selecionado"
+
+msgid "ps_type_select_long"
+msgstr "Caixa de seleção (valores fixos)"
+
+msgid "ps_type_text"
+msgstr "Campo de texto"
+
+msgid "ps_type_txt_long"
+msgstr "Campo de texto (valores opcionais)"
+
+msgid "ps_user_selection"
+msgstr "Seleção de participantes"
+
+msgid "ps_warning_modify"
+msgstr "Atenção: No mínimo um utilizador aceitou o acordo do utilizador. Modificar estas definições vai repor todos os acordos do utilizador."
+
+msgid "rbac_log"
+msgstr "Registo de permissões"
+
+msgid "rbac_log_age"
+msgstr "Manter entradas de registo"
+
+msgid "rbac_log_age_info"
+msgstr "Idade máxima das entradas de registo num mês"
+
+msgid "rbac_log_info"
+msgstr "Ativar logging de todas as alterações para permissões de objeto"
+
+msgid "show_privacy"
+msgstr "Não insira as perguntas num banco de perguntas (apenas disponível neste inquérito)"
+
+msgid "show_security"
+msgstr "Segurança"

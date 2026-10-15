@@ -1,0 +1,308 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "durch den Benutzer"
+
+msgid "crs_ps_cdf_info"
+msgstr "Bitte ergänzen Sie für diesen Kurs weitere Angaben und füllen Sie folgende Felder aus."
+
+msgid "crs_ps_required_info"
+msgstr "Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt."
+
+msgid "grp_ps_cdf_info"
+msgstr "Bitte ergänzen Sie für diese Gruppe weitere Angaben und füllen Sie folgende Felder aus:"
+
+msgid "grp_ps_required_info"
+msgstr "Für die Teilnahme an dieser Gruppe werden weitere Informationen benötigt."
+
+msgid "ps_agreement_accepted"
+msgstr "Nutzungsvereinbarung akzeptiert"
+
+msgid "ps_auto_https"
+msgstr "Automatische HTTPS-Erkennung"
+
+msgid "ps_auto_https_description"
+msgstr "Wenn aktiviert, versucht ILIAS den HTTPS-Status eines Request per Header-Analyse zu bestimmen."
+
+msgid "ps_auto_https_header_name"
+msgstr "Headername"
+
+msgid "ps_auto_https_header_value"
+msgstr "Headerwert"
+
+msgid "ps_btn_add_value"
+msgstr "Neuer Wert"
+
+msgid "ps_cdf_add_field"
+msgstr "Neues Datenfeld anlegen"
+
+msgid "ps_cdf_added_field"
+msgstr "Eine neues Datenfeld wurde angelegt."
+
+msgid "ps_cdf_data_fields"
+msgstr "Verfügbare Datenfelder"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Sind Sie sicher, dass Sie dieses Datenfeld löschen möchten ?"
+
+msgid "ps_cdf_deleted"
+msgstr "Die Datenfelder wurden gelöscht."
+
+msgid "ps_cdf_deleted_field"
+msgstr "Der Wert wurde gelöscht."
+
+msgid "ps_cdf_edit_field"
+msgstr "Datenfeld bearbeiten"
+
+msgid "ps_cdf_name"
+msgstr "Name"
+
+msgid "ps_cdf_no_fields"
+msgstr "Dieser Kurs enthält keine Datenfelder"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Bitte geben Sie einen Namen ein."
+
+msgid "ps_cdf_required"
+msgstr "Pflichtfeld"
+
+msgid "ps_cdf_select_one"
+msgstr "Bitte treffen Sie eine Auswahl."
+
+msgid "ps_cdf_type"
+msgstr "Typ"
+
+msgid "ps_cdf_value"
+msgstr "Wert"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern von Datenfeldern bewirkt, dass diese Nutzungsvereinbarung zurückgesetzt wird."
+
+msgid "ps_crs_user_fields"
+msgstr "Persönliche Angaben zu diesem Kurs"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Die automatische HTTPS-Erkennung erfordert einen Header-Namen und einen Header-Wert."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maximales Passwortalter darf nicht kleiner sein als 0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maximale Passwortlänge darf nicht kleiner sein  als 0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimale Passwortlänge darf nicht kleiner sein als 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maximale Passwortlänge darf nicht kleiner sein als die minimale Passwortlänge."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimale Passwortlänge darf nicht kleiner als %s sein."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll."
+
+msgid "ps_export_admin"
+msgstr "Administration"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Zustimmung neuer Mitglieder beim Kursbeitritt, dass Kursverwaltung ihre persönlichen Profildaten einsehen kann"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Zustimmung neuer Mitglieder beim Gruppenbeitritt, dass Gruppenverwaltung ihre persönlichen Profildaten einsehen kann"
+
+msgid "ps_export_confirm_group_info"
+msgstr "Vor dem Gruppenbeitritt müssen Mitglieder zustimmen, dass ihre persönlichen Daten von der Gruppenverwaltung eingesehen werden können."
+
+msgid "ps_export_confirm_info"
+msgstr "Vor dem Kursbeitritt müssen Mitglieder zustimmen, dass ihre persönlichen Daten von der Kursverwaltung eingesehen werden können."
+
+msgid "ps_export_course"
+msgstr "Export der Persönlichen Daten aus Kursen erlauben"
+
+msgid "ps_export_data"
+msgstr "Daten des Persönlichen Profils"
+
+msgid "ps_export_excel"
+msgstr "Starte Excel-Export"
+
+msgid "ps_export_files"
+msgstr "Personenbezogene Daten: Exportdateien"
+
+msgid "ps_export_groups"
+msgstr "Export der Persönlichen Daten aus Gruppen erlauben"
+
+msgid "ps_export_member"
+msgstr "Mitglieder"
+
+msgid "ps_export_prgs"
+msgstr "Persönliche Daten in Studienprogrammen anzeigen und exportieren"
+
+msgid "ps_export_settings"
+msgstr "Einstellungen für den Export"
+
+msgid "ps_export_sub"
+msgstr "Noch nicht freigeschaltete Personen"
+
+msgid "ps_export_tutor"
+msgstr "Kursbetreuung"
+
+msgid "ps_export_user_data"
+msgstr "Personenbezogene Daten"
+
+msgid "ps_export_wait"
+msgstr "Personen auf der Warteliste"
+
+msgid "ps_field_type"
+msgstr "Datenfeldtyp"
+
+msgid "ps_files_deleted"
+msgstr "Die Exportdateien wurden gelöscht."
+
+msgid "ps_grp_user_fields"
+msgstr "Persönliche Angaben zu dieser Gruppe"
+
+msgid "ps_login_max_attempts"
+msgstr "Maximale Anzahl von Anmeldeversuchen"
+
+msgid "ps_login_max_attempts_info"
+msgstr " Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht."
+
+msgid "ps_not_accepted"
+msgstr "Nicht zugestimmt"
+
+msgid "ps_participants_list_courses"
+msgstr "Aktivierung der Teilnahmeliste in Galerien von Kursen erlauben"
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "Die Aktion wurde erfolgreich durchgeführt."
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "Die Änderungen wurden erfolgreich übernommen. Sie haben mindestens eine Änderung bzgl. der Passwortrichtlinie vorgenommen. Möchten Sie, dass lokale Anmeldekonten nach der nächsten erfolgreichen Anmeldung ein neues Passwort vergeben müssen?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Passwort ändern bei Erstanmeldung"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Zwingt Benutzer, die sich nicht selbst registriert haben, bei der ersten Anmeldung in ILIAS ihr Passwort zu ändern."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Buchstaben und Zahlen erzwingen"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten."
+
+msgid "ps_password_force_user_reset"
+msgstr "Passwortänderung erzwingen"
+
+msgid "ps_password_max_age"
+msgstr "Maximales Alter von Passwörtern"
+
+msgid "ps_password_max_age_info"
+msgstr "Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist, laufen Passwörter nicht ab."
+
+msgid "ps_password_max_length"
+msgstr "Maximale Länge des Passworts"
+
+msgid "ps_password_max_length_info"
+msgstr "Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist, können Passwörter beliebige Längen haben."
+
+msgid "ps_password_min_length"
+msgstr "Minimale Länge des Passworts"
+
+msgid "ps_password_min_length_info"
+msgstr "Setzt die minimale Länge von Passwörtern."
+
+msgid "ps_password_settings"
+msgstr "Passworteinstellungen"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Sonderzeichen erzwingen"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten."
+
+msgid "ps_perform_export"
+msgstr "CSV-Export starten"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Verhindern gleichzeitiger Logins"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Wenn dies aktiviert ist, werden gleichzeitige Logins mit dem gleichem ILIAS-Konto über verschiedene Rechner verhindert."
+
+msgid "ps_privacy_protection"
+msgstr "Einstellungen für den Datenschutz"
+
+msgid "ps_profile_export"
+msgstr "Schutz der Daten des Persönlichen Profils"
+
+msgid "ps_security_protection"
+msgstr "Einstellungen zur Sicherheit"
+
+msgid "ps_select_one"
+msgstr "Bitte wählen Sie eine Datei aus."
+
+msgid "ps_show_crs_access"
+msgstr "Anzeige der letzten Zugriffszeit von Kursmitgliedern"
+
+msgid "ps_show_grp_access"
+msgstr "Anzeige der letzten Zugriffszeit von Gruppenmitgliedern"
+
+msgid "ps_show_lso_access"
+msgstr "Anzeige der letzten Zugriffszeit von Lernsequenzmitgliedern"
+
+msgid "ps_size"
+msgstr "Dateigröße"
+
+msgid "ps_type_select"
+msgstr "Auswahlliste"
+
+msgid "ps_type_select_long"
+msgstr "Auswahlliste (feste Werte)"
+
+msgid "ps_type_text"
+msgstr "Textfeld"
+
+msgid "ps_type_txt_long"
+msgstr "Textfeld (beliebige Werte)"
+
+msgid "ps_user_selection"
+msgstr "Personenkreis"
+
+msgid "ps_warning_modify"
+msgstr "Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern der Einstellungen bewirkt, dass die Nutzungsvereinbarung zurückgesetzt wird."
+
+msgid "rbac_log"
+msgstr "Rechteeinstellungs-Log"
+
+msgid "rbac_log_age"
+msgstr "Log-Einträge vorhalten"
+
+msgid "rbac_log_age_info"
+msgstr "Maximales Alter der Log-Einträge in Monaten"
+
+msgid "rbac_log_info"
+msgstr "Logging aller Änderungen an Rechteeinstellungen aktivieren"
+
+msgid "show_privacy"
+msgstr "Datenschutz"
+
+msgid "show_security"
+msgstr "Sicherheit"

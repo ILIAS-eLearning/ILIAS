@@ -1,0 +1,316 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "Uživatelem"
+
+msgid "crs_ps_cdf_info"
+msgstr "Další kurzu odpovídající údaje:"
+
+msgid "crs_ps_required_info"
+msgstr "Pro zpřístupnění kurzu jsou požadovány další kurzu odpovídající pole."
+
+msgid "grp_ps_cdf_info"
+msgstr "Další skupině odpovídající údaje:"
+
+msgid "grp_ps_required_info"
+msgstr "Pro zpřístupnění skupiny jsou požadovány další kurzu odpovídající pole."
+
+msgid "ps_agreement_accepted"
+msgstr "Uživatelské ujednání akceptováno"
+
+msgid "ps_auto_https"
+msgstr "Autodetekce HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Je-li zapnuto, ILIAS zkouší zjistit status HTTPs analyzováním hodnoty hlavičky specifikované níže."
+
+msgid "ps_auto_https_header_name"
+msgstr "Název hlavičky"
+
+msgid "ps_auto_https_header_value"
+msgstr "Hodnota hlavičky"
+
+msgid "ps_btn_add_value"
+msgstr "Nová hodnota"
+
+msgid "ps_cdf_add_field"
+msgstr "Přidat uživatelské pole"
+
+msgid "ps_cdf_added_field"
+msgstr "Přidán nový rámeček výběru."
+
+msgid "ps_cdf_data_fields"
+msgstr "Dostupná uživatelská pole"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Určitě chcete smazat tato uživatelská pole?"
+
+msgid "ps_cdf_deleted"
+msgstr "Smazaná uživatelská pole"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Smazaná hodnota"
+
+msgid "ps_cdf_edit_field"
+msgstr "Upravit datová pole"
+
+msgid "ps_cdf_name"
+msgstr "Jméno"
+
+msgid "ps_cdf_no_fields"
+msgstr "Žádné uživatelské pole nedefinováno."
+
+msgid "ps_cdf_no_name_given"
+msgstr "Vložte prosím jméno"
+
+msgid "ps_cdf_required"
+msgstr "Požadované pole"
+
+msgid "ps_cdf_select_one"
+msgstr "Vyberte prosím jeden."
+
+msgid "ps_cdf_type"
+msgstr "Typ"
+
+msgid "ps_cdf_value"
+msgstr "Hodnota"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Pozor: Minimálně jeden uživatel akceptoval uživatelské ujednání. Modifikace tohoto pole specifického kurzu resetuje všechna uživatelské ujednání."
+
+msgid "ps_crs_user_fields"
+msgstr "Uživatelská pole specifického kurzu"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Zapnete-li automatickou detekci https, musíte stanovit název hlavičky a její hodnotu."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maximální počet pokusů přihlášení nesmí být menší než 0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maximální stáří hesla nesmí být menší než 0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maximální délka hesla nemůže být menší než 0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimální délka hesla nemůže být menší než 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maximální délka hesla nemůže být menší než minimální délka hesla."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimální délka hesla nesmí být menší než %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minimální délka hesla nemůže být menší než 2 pokud heslo má obsahovat písmena a číslice."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minimální délka hesla nemůže být kratší než 3 znaky pokud má obsahovat písmena, číslice a zvláštní znaky."
+
+msgid "ps_export_admin"
+msgstr "Administrátoři"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Schválení uživatele při vstupu do kurzu"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Stvrzení uživatelského ujednání při vstupu do skupiny"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Rozšířený export dat uživatelského profilu v kurzech"
+
+msgid "ps_export_data"
+msgstr "Typy dat osobního profilu"
+
+msgid "ps_export_excel"
+msgstr "Spustit export Excelu"
+
+msgid "ps_export_files"
+msgstr "Soubory k exportu"
+
+msgid "ps_export_groups"
+msgstr "Viditelnost dat uživatelského profilu ve skupině"
+
+msgid "ps_export_member"
+msgstr "Členové"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Nastavení exportu"
+
+msgid "ps_export_sub"
+msgstr "Předplatitelé"
+
+msgid "ps_export_tutor"
+msgstr "Lektoři"
+
+msgid "ps_export_user_data"
+msgstr "Typy dat"
+
+msgid "ps_export_wait"
+msgstr "Uživatelé na seznamu čekatelů"
+
+msgid "ps_field_type"
+msgstr "Typ pole"
+
+msgid "ps_files_deleted"
+msgstr "Exportní soubory smazány"
+
+msgid "ps_grp_user_fields"
+msgstr "Skupině odpovídají uživatelská pole"
+
+msgid "ps_login_max_attempts"
+msgstr "Maximální počet přihlášení"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Nastaví maximální počet chybných pokusů přihlášení. Nastavení na 0 tuto volbu vypíná."
+
+msgid "ps_not_accepted"
+msgstr "Neakceptováno"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Změnit heslo při prvním přihlášení"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Je-li zapnuto, uživatelé musí změnit své heslo při prvním přihlášení (kromě uživatelů zaregistrovaných sami sebou)."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Písmena a číslice"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Je-li zapnuto, heslo musí obsahovat písmena a číslice."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Maximální stáří hesla"
+
+msgid "ps_password_max_age_info"
+msgstr "Nastaví maximální dobu platnosti hesla ve dnech. Nastavení na 0 tuto volbu vypíná."
+
+msgid "ps_password_max_length"
+msgstr "Maximální délka hesla"
+
+msgid "ps_password_max_length_info"
+msgstr "Nastaví maximální délku hesla. Nastavení na 0 tuto volbu vypíná."
+
+msgid "ps_password_min_length"
+msgstr "Minimální délka hesla"
+
+msgid "ps_password_min_length_info"
+msgstr "Nastaví minimální délku hesla. Je-li nastaveno na 0, hesla musí mít délku nejméně 1."
+
+msgid "ps_password_settings"
+msgstr "Nastavení hesla"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Zvláštní znaky"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Je-li zapnuto, heslo musí obsahovat zvláštní znaky."
+
+msgid "ps_perform_export"
+msgstr "Spustit CSV-Export"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Zabránit simultánnímu přihlášení"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Je-li zapnuto, simultánní přihlášení se stejným přihlášením z různých počítačů nejsou možná."
+
+msgid "ps_privacy_protection"
+msgstr "Privátní nastavení"
+
+msgid "ps_profile_export"
+msgstr "Ochrana dat uživatelského profilu"
+
+msgid "ps_security_protection"
+msgstr "Nastavení bezpečnosti"
+
+msgid "ps_select_one"
+msgstr "Vyberte prosím jeden soubor k exportu"
+
+msgid "ps_show_crs_access"
+msgstr "Zobrazit čas posledního přístupu účastníků kurzu"
+
+msgid "ps_show_grp_access"
+msgstr "Zobrazit poslední čas přístupu skupiny uživatelů"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Velikost souborů"
+
+msgid "ps_type_select"
+msgstr "Vybrat pole"
+
+msgid "ps_type_select_long"
+msgstr "Rámeček výběru (pevné hodnoty)"
+
+msgid "ps_type_text"
+msgstr "Textové pole"
+
+msgid "ps_type_txt_long"
+msgstr "Textové pole (volitelné hodnoty)"
+
+msgid "ps_user_selection"
+msgstr "Výběr uživatelů"
+
+msgid "ps_warning_modify"
+msgstr "Pozor: Toto uživatelské ujednání akceptoval nejméně jeden uživatel. Změna tohoto nastavení resetuje všechna uživatelská ujednání."
+
+msgid "rbac_log"
+msgstr "Záznam oprávnění"
+
+msgid "rbac_log_age"
+msgstr "Zachovat vstupy záznamu"
+
+msgid "rbac_log_age_info"
+msgstr "Maximální věk záznamu vstupů v měsících"
+
+msgid "rbac_log_info"
+msgstr "Zapnout záznam všech změn oprávnění objektů"
+
+msgid "show_privacy"
+msgstr "Soukromé"
+
+msgid "show_security"
+msgstr "Bezpečnost"

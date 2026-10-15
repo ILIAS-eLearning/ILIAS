@@ -1,0 +1,319 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+#, fuzzy
+msgid "cdf_edited_by_self"
+msgstr "by the User"
+
+msgid "crs_ps_cdf_info"
+msgstr "Ek Ders Özgü Veri:"
+
+msgid "crs_ps_required_info"
+msgstr "Ek Ders Özgü alanları dersin içeriğini erişmek için gereklidir."
+
+msgid "grp_ps_cdf_info"
+msgstr "Ek Grubuna Özgü Veri:"
+
+msgid "grp_ps_required_info"
+msgstr "Ek Grubuna Özgü alanları grup içeriğe erişmek için gereklidir."
+
+msgid "ps_agreement_accepted"
+msgstr "Kullanıcı Sözleşmesi Kabul"
+
+msgid "ps_auto_https"
+msgstr "Autodetect HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Etkinse, ILIAS aşağıda belirtilen header değerini analiz ederek HTTPs durumunu algılamaya çalışır."
+
+msgid "ps_auto_https_header_name"
+msgstr "Header Adı"
+
+msgid "ps_auto_https_header_value"
+msgstr "Header Değeri"
+
+msgid "ps_btn_add_value"
+msgstr "Yeni Değer"
+
+msgid "ps_cdf_add_field"
+msgstr "Kullanıcı Ekle Alan"
+
+msgid "ps_cdf_added_field"
+msgstr "yeni seçim kutusu eklendi."
+
+msgid "ps_cdf_data_fields"
+msgstr "Kullanılabilir Kullanıcı Alanlar"
+
+msgid "ps_cdf_delete_sure"
+msgstr "gerçekten bu kullanım alanları silmek istiyor musunuz?"
+
+msgid "ps_cdf_deleted"
+msgstr "Silinmiş kullanım alanları"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Silinmiş değeri"
+
+msgid "ps_cdf_edit_field"
+msgstr "Veri Düzenle Alan"
+
+msgid "ps_cdf_name"
+msgstr "Adı"
+
+msgid "ps_cdf_no_fields"
+msgstr "Tanımlı Hayır Kullanıcı Alanlar"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Lütfen bir isim girin."
+
+msgid "ps_cdf_required"
+msgstr "Gerekli Alan"
+
+msgid "ps_cdf_select_one"
+msgstr "Lütfen birini seçiniz."
+
+msgid "ps_cdf_type"
+msgstr "Tip"
+
+msgid "ps_cdf_value"
+msgstr "Değer"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Dikkat: Minimum bir kullanıcının kullanıcı sözleşmesini kabul etti. Bu ders belirli alanlar Değiştirme Tüm kullanıcı anlaşmaları sıfırlayacak."
+
+msgid "ps_crs_user_fields"
+msgstr "Dersin Özgü Kullanım Alanları"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Eğer otomatik algılama https etkinleştirirseniz. Bir başlık adı ve üstbilgi değeri sağlamak zorunda."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maksimum giriş denemeleri 0'dan az olamaz."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maksimum parola yaş 0'dan az olamaz."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maksimum parola boyutu 0'dan az olamaz."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimum parola boyutu 0'dan az olamaz."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maksimum parola boyutu minimum şifre boyutundan daha az olamaz."
+
+#, fuzzy
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimum password size may not be less than %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Şifre karakterleri ve sayıları içeren varsa. Minimum parola boyutu 2'den az olamaz."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Şifre karakterler, sayılar ve özel karakterler içeren gerekirse. Minimum parola boyutu 3 'ünden az olamaz."
+
+msgid "ps_export_admin"
+msgstr "Yöneticiler"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Ders girişinde kullanıcı doğrulaması yapılsın"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Gruplara girişte kullanıcı doğrulaması yapılsın"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Kullanıcı Profil Bilgisi Derslerde Görünsün"
+
+msgid "ps_export_data"
+msgstr "Kişisel Profili Veri Türleri"
+
+msgid "ps_export_excel"
+msgstr "​​Excel Olarak Kaydet"
+
+msgid "ps_export_files"
+msgstr "Dosyaları Dışa Aktar"
+
+msgid "ps_export_groups"
+msgstr "Kullanıcı Profil Bilgisi Gruplarda Görünsün"
+
+msgid "ps_export_member"
+msgstr "Üyeler"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Dışa Aktarma Ayarları"
+
+msgid "ps_export_sub"
+msgstr "Aboneleri"
+
+msgid "ps_export_tutor"
+msgstr "Tutors"
+
+msgid "ps_export_user_data"
+msgstr "Veri Türleri"
+
+msgid "ps_export_wait"
+msgstr "Bekleme Listesinde Kullanıcıları"
+
+msgid "ps_field_type"
+msgstr "Alan Türü"
+
+msgid "ps_files_deleted"
+msgstr "Dışa aktarma dosyaları silindi"
+
+msgid "ps_grp_user_fields"
+msgstr "Grup Özgü Kullanım Alanları"
+
+msgid "ps_login_max_attempts"
+msgstr "Maksimum Oturum Açma Denemesi"
+
+msgid "ps_login_max_attempts_info"
+msgstr "yanlış giriş denemelerinin maksimum sayısını ayarlar. Bu seçeneği devre dışı bırakmak için 0 olarak ayarlayın."
+
+msgid "ps_not_accepted"
+msgstr "Kabul Edilmedi"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "İlk Girişte Şifre Değiştir"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Etkinse, kullanıcılar (kendileri kayıt yapmış kullanıcılar hariç) ilk girişte şifrelerini değiştirmek zorundadır."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Karakterler ve Sayılar"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Etkinse, şifreler karakter ve sayı içeren zorunda."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Maksimum Parola Yaş"
+
+msgid "ps_password_max_age_info"
+msgstr "gün içinde şifreleri maksimum yaş ayarlar. Bu seçeneği devre dışı bırakmak için 0 olarak ayarlayın."
+
+msgid "ps_password_max_length"
+msgstr "Maksimum Şifre Boyutu"
+
+msgid "ps_password_max_length_info"
+msgstr "hesap şifreleri maksimum boyutunu ayarlar. Bu seçeneği devre dışı bırakmak için 0 olarak ayarlayın."
+
+msgid "ps_password_min_length"
+msgstr "Minimum Şifre Boyutu"
+
+msgid "ps_password_min_length_info"
+msgstr "hesap şifrelerinin minimum boyutu ayarlar. Grubu şifreleri 0'a Eğer zaten en az 1 boyut olması gerekir."
+
+#, fuzzy
+msgid "ps_password_settings"
+msgstr "Password Settings"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Özel Karakterler"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Etkinse, şifreleri özel karakterleri içermesi gerekir."
+
+msgid "ps_perform_export"
+msgstr "CSV Olarak Kaydet"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Eşzamanlı Oturumları Önleyin"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Etkinse, farklı bilgisayarlardan aynı hesap ile eşzamanlı girişler mümkün değildir."
+
+msgid "ps_privacy_protection"
+msgstr "Gizlilik Ayarları"
+
+msgid "ps_profile_export"
+msgstr "Kullanıcı Profil Bilgisi Koruma"
+
+msgid "ps_security_protection"
+msgstr "Güvenlik Ayarları"
+
+msgid "ps_select_one"
+msgstr "Bir dışa aktarım dosyası seçin"
+
+msgid "ps_show_crs_access"
+msgstr "Ders katılımcılarının son erişim zamanını göster"
+
+msgid "ps_show_grp_access"
+msgstr "Grup katılımcılarının son erişim zamanını göster"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Dosya Boyutu"
+
+msgid "ps_type_select"
+msgstr "Seç Alan"
+
+msgid "ps_type_select_long"
+msgstr "Seçim Kutusu (Sabit Değerler)"
+
+msgid "ps_type_text"
+msgstr "Metin Alanı"
+
+msgid "ps_type_txt_long"
+msgstr "Metin Alanı (İsteğe Bağlı Değerler)"
+
+msgid "ps_user_selection"
+msgstr "Katılımcılar Seçimi"
+
+msgid "ps_warning_modify"
+msgstr "Dikkat: Minimum bir kullanıcının kullanıcı sözleşmesini kabul etti. Bu ayarları değiştirmek, tüm kullanıcı anlaşmaları sıfırlayacak."
+
+msgid "rbac_log"
+msgstr "Yetki Günlüğü Etkin"
+
+msgid "rbac_log_age"
+msgstr "Log Yazılar tutun"
+
+msgid "rbac_log_age_info"
+msgstr "Ay içinde günlük girdilerini maksimum yaşı"
+
+msgid "rbac_log_info"
+msgstr "Nesne izinlerinde yapılan tüm değişikliklerin günlüğünü tutulur"
+
+msgid "show_privacy"
+msgstr "Gizlilik"
+
+msgid "show_security"
+msgstr "Güvenlik"

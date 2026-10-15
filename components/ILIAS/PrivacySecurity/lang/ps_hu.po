@@ -1,0 +1,308 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "a felhasználó"
+
+msgid "crs_ps_cdf_info"
+msgstr "További kurzusspecifikus adatok:"
+
+msgid "crs_ps_required_info"
+msgstr "További kurzusspecifikus adatok szükségesek a kurzustartalom hozzárendeléshez."
+
+msgid "grp_ps_cdf_info"
+msgstr "További csoportspecifikus adatok:"
+
+msgid "grp_ps_required_info"
+msgstr "További csoport-specifikus mezők szükségesek a csoporttartalom eléréséhez."
+
+msgid "ps_agreement_accepted"
+msgstr "Felhasználói megállapodást elfogadta"
+
+msgid "ps_auto_https"
+msgstr "Automatikus HTTPS felismerés"
+
+msgid "ps_auto_https_description"
+msgstr "Az ILIAS megpróbálja felismerni a HTTP állapotát az alább megadott fejlécérték elemzésével."
+
+msgid "ps_auto_https_header_name"
+msgstr "Fejlécnév"
+
+msgid "ps_auto_https_header_value"
+msgstr "Fejlécérték"
+
+msgid "ps_btn_add_value"
+msgstr "Új érték"
+
+msgid "ps_cdf_add_field"
+msgstr "Felhasználói mező létrehozása"
+
+msgid "ps_cdf_added_field"
+msgstr "Sikeresen hozzáadott egy új kiválasztódobozt."
+
+msgid "ps_cdf_data_fields"
+msgstr "Elérhető felhasználói mezők"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Biztos, hogy törli ezeket a felhasználói mezőket?"
+
+msgid "ps_cdf_deleted"
+msgstr "Törölt felhasználói mezők"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Törölt értékek"
+
+msgid "ps_cdf_edit_field"
+msgstr "Adatmezők módosítása"
+
+msgid "ps_cdf_name"
+msgstr "Név"
+
+msgid "ps_cdf_no_fields"
+msgstr "Nincsenek felhasználói mezők definiálva"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Adjon meg egy nevet."
+
+msgid "ps_cdf_required"
+msgstr "Kötelező mező"
+
+msgid "ps_cdf_select_one"
+msgstr "Egyet válasszon!"
+
+msgid "ps_cdf_type"
+msgstr "Típus"
+
+msgid "ps_cdf_value"
+msgstr "Érték"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Figyelmeztetés: Legalább egy felhasználó elfogadta a felhasználói megállapodást. Ezeknek a kurzusspecifikus mezőknek a módosítása visszaállítja alapértékre az összes felhasználói elfogadást."
+
+msgid "ps_crs_user_fields"
+msgstr "Kurzusspecifikus felhasználói mezők"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Ha engedélyezi az automatikus HTTPS felismerést, biztosítania kell egy fejlécnevet és fejlécértéket."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "A maximális bejelentkezési kísérletek száma nem lehet kisebb 0-nál."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "A maximális jelszóélettartam nem lehet kisebb 0-nál."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "A maximális jelszóméret nem lehet kisebb 0-nál."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "A minimális jelszóméret nem lehet kisebb 0-nál."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "A maximális jelszóméret nem lehet kisebb a minimális jelszóméretnél."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "A maximális jelszóméret nem lehet kisebb mint %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "A maximális jelszóméret nem lehet kisebb, mint %s, ha a jelszónak karaktereket és számokat is kell tartalmaznia."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "A maximális jelszóméret nem lehet kisebb, mint %s, ha a jelszónak karaktereket, számokat és speciális karaktereket is kell tartalmaznia."
+
+msgid "ps_export_admin"
+msgstr "Vezetők"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Felhasználói megerősítés, amikor kurzusba lép be"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Felhasználói megerősítés, amikor csoportba lép be"
+
+msgid "ps_export_confirm_group_info"
+msgstr "Amikor valaki egy csporthoz csatlakozik, el kell fogadnia, hogy a csoportvezetők láthatják a személyes adatait."
+
+msgid "ps_export_confirm_info"
+msgstr "Amikor valaki egy kurzushoz csatlakozik, el kell fogadnia, hogy a kurzusvezetők láthatják a személyes adatait."
+
+msgid "ps_export_course"
+msgstr "Felhasználó profiladatainak exportálásának engedélyezése kurzusokban"
+
+msgid "ps_export_data"
+msgstr "Felhasználói adatok adattípusai"
+
+msgid "ps_export_excel"
+msgstr "Excel-export indítása"
+
+msgid "ps_export_files"
+msgstr "Exportfájlok"
+
+msgid "ps_export_groups"
+msgstr "Felhasználó profiladatainak exportálásának engedélyezése csoportokban"
+
+msgid "ps_export_member"
+msgstr "Tagok"
+
+msgid "ps_export_prgs"
+msgstr "A Képzési programban a felhasználó profiladatok exportálásának engedélyezése"
+
+msgid "ps_export_settings"
+msgstr "Exportbeállítások"
+
+msgid "ps_export_sub"
+msgstr "Feliratkozottak"
+
+msgid "ps_export_tutor"
+msgstr "Tutorok"
+
+msgid "ps_export_user_data"
+msgstr "Adattípusok"
+
+msgid "ps_export_wait"
+msgstr "Várólistán levő felhasználók"
+
+msgid "ps_field_type"
+msgstr "Mezőtípus"
+
+msgid "ps_files_deleted"
+msgstr "Exportfájlokat sikeresen törölte"
+
+msgid "ps_grp_user_fields"
+msgstr "Csoport-specifikus felhasználói mezők"
+
+msgid "ps_login_max_attempts"
+msgstr "Maximális bejelentkezési próbálkozásszám"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Hibás bejelentkezési próbálkozások maximális számának beállítása. Hagyja üresen az opció letiltásához."
+
+msgid "ps_not_accepted"
+msgstr "Nincs elfogadva"
+
+msgid "ps_participants_list_courses"
+msgstr "Résztvevők felsorolásának bekapcsolása a kurzus tagok képtárában"
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "A módosításokat sikeresen alkalmazta."
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "A módosításokat sikeresen mentette. Az egyik jelszószabályt módosította. Kényszerítsük az összes felhasználót jelszava cseréjére a következő bejelentkezéskor?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Jelszó cseréje első bejelentkezéskor"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "A felhasználóknak le kell cserélniük jelszavukat első bejelentkezéskor (kivéve azoknak a felhasználóknak, akik magukat regisztrálták)."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Karakterek és számok"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "A jelszavaknak karaktereket és számokat is kell tartalmaznia."
+
+msgid "ps_password_force_user_reset"
+msgstr "Jelszó-visszaállítás kényszerítése"
+
+msgid "ps_password_max_age"
+msgstr "Maximális jelszóélettartam"
+
+msgid "ps_password_max_age_info"
+msgstr "Jelszavak napokban kifejezett érvényességének beállítása. Állítsa 0-ra az opció letiltásához."
+
+msgid "ps_password_max_length"
+msgstr "Maximális jelszóhossz"
+
+msgid "ps_password_max_length_info"
+msgstr "ILIAS-fiók jelszavak maximális hosszának beállítása. Állítsa 0-ra az opció letiltásához."
+
+msgid "ps_password_min_length"
+msgstr "Minimális jelszóméret"
+
+msgid "ps_password_min_length_info"
+msgstr "ILIAS-fiók jelszavak minimális hosszának beállítása. Ha 0-ra állítja, a jelszavaknak minimálisan 1 karakter hosszúnak kell lenniük."
+
+msgid "ps_password_settings"
+msgstr "Jelszóbeállítások"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Speciális karakterek"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "A jelszavaknak speciális karaktereket kell tartalmaznia."
+
+msgid "ps_perform_export"
+msgstr "CSV-export indítása"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Párhuzamos bejelentkezések megakadályozása"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Bejelentkezés ugyanazon felhasználónévvel különböző számítógépekről egy időben nem lehetséges."
+
+msgid "ps_privacy_protection"
+msgstr "Adatvédelmi beállítások"
+
+msgid "ps_profile_export"
+msgstr "Felhasználói adatok védelme"
+
+msgid "ps_security_protection"
+msgstr "Biztonsági beállítások"
+
+msgid "ps_select_one"
+msgstr "Válasszon egy exportfájlt"
+
+msgid "ps_show_crs_access"
+msgstr "Kurzustagok utolsó látogatási idejének megjelenítése"
+
+msgid "ps_show_grp_access"
+msgstr "Csoporttagok utolsó látogatási idejének megjelenítése"
+
+msgid "ps_show_lso_access"
+msgstr "A tanulási sor résztvevőinél az utolsó elérési idő megjelenítése"
+
+msgid "ps_size"
+msgstr "Fájlméret"
+
+msgid "ps_type_select"
+msgstr "Mező kiválasztása"
+
+msgid "ps_type_select_long"
+msgstr "Kiválasztódoboz (megadott értékek)"
+
+msgid "ps_type_text"
+msgstr "Szövegmező"
+
+msgid "ps_type_txt_long"
+msgstr "Szövegmező (opcionális értékek)"
+
+msgid "ps_user_selection"
+msgstr "Résztvevők kiválasztása"
+
+msgid "ps_warning_modify"
+msgstr "Figyelmeztetés: Legalább egy felhasználó elfogadta a felhasználói megállapodást. Ezeknek a kurzusspecifikus mezőknek a módosítása visszaállítja alapértékre az összes felhasználói elfogadást."
+
+msgid "rbac_log"
+msgstr "Naplózási jogosultság"
+
+msgid "rbac_log_age"
+msgstr "Naplóbejegyzések megtartása"
+
+msgid "rbac_log_age_info"
+msgstr "Naplóbejegyzések maximális élettartama hónapokban"
+
+msgid "rbac_log_info"
+msgstr "Az összes objektum-jogosultságbeli módosítás naplózása"
+
+msgid "show_privacy"
+msgstr "Adatvédelem"
+
+msgid "show_security"
+msgstr "Biztonság"
