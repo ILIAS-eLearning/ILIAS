@@ -2150,11 +2150,6 @@ bibl#:#sorting_6#:#By Year (Descending)###03 09 2026 new variable
 bibl#:#standard#:#Definições do servidor de chat
 bibl#:#translate#:#Nenhum objeto corresponde aos seus critérios selecionados.
 bkm#:#bkm_fold_created#:#Foi criada pasta de favoritos.
-cat#:#cat_copy#:#Copiar categoria
-cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###03 09 2026 new variable
-cat#:#cat_import#:#Importar categoria
-cat#:#cat_more_translations#:#Mais traduções
-cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###03 09 2026 new variable
 cert#:#cert_currently_no_certs#:#Adicionar membro
 cert#:#cert_description_label#:#Adicionar novo campo personalizado
 cert#:#cert_download_label#:#Adicionar nota

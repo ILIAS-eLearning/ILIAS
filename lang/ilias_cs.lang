@@ -2161,11 +2161,6 @@ bibl#:#sorting_6#:#By Year (Descending)###28 10 2024 new variable
 bibl#:#standard#:#Norma
 bibl#:#translate#:#Přeložit
 bkm#:#bkm_fold_created#:#Byla vytvořena složka záložek.
-cat#:#cat_copy#:#Kopírovat kategorii
-cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###26 08 2024 new variable
-cat#:#cat_import#:#Importovat kategorii
-cat#:#cat_more_translations#:#Více překladů
-cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###26 08 2024 new variable
 cert#:#cert_currently_no_certs#:#V současné době jste dosud nezískali žádný certifikát.
 cert#:#cert_description_label#:#Popis
 cert#:#cert_download_label#:#Stáhnout

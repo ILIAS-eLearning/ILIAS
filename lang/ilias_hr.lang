@@ -2161,11 +2161,6 @@ bibl#:#sorting_6#:#By Year (Descending)###28 10 2024 new variable
 bibl#:#standard#:#Standardno
 bibl#:#translate#:#Prevedi
 bkm#:#bkm_fold_created#:#Kreirana je mapa s oznakama.
-cat#:#cat_copy#:#Kopiraj kategoriju
-cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###26 08 2024 new variable
-cat#:#cat_import#:#Uvezi kategoriju
-cat#:#cat_more_translations#:#Daljnji prijevodi
-cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###26 08 2024 new variable
 cert#:#cert_currently_no_certs#:#Trenutno još niste dobili nijedan certifikat.
 cert#:#cert_description_label#:#Opis
 cert#:#cert_download_label#:#Preuzimanje datoteka

@@ -2165,11 +2165,6 @@ bibl#:#sorting_6#:#年代順(降順)
 bibl#:#standard#:#標準
 bibl#:#translate#:#翻訳
 bkm#:#bkm_fold_created#:#ブックマークフォルダが作成されました。
-cat#:#cat_copy#:#カテゴリをコピー
-cat#:#cat_hide_tax_in_side_block#:#サイドパネルに表示しない
-cat#:#cat_import#:#カテゴリをインポート
-cat#:#cat_more_translations#:#翻訳継続
-cat#:#cat_show_tax_in_side_block#:#サイドパネルに表示
 cert#:#cert_currently_no_certs#:#現時点であなたはまだ何の資格も達成していません。
 cert#:#cert_description_label#:#説明
 cert#:#cert_download_label#:#Download

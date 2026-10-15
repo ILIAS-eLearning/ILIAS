@@ -2161,11 +2161,6 @@ bibl#:#sorting_6#:#By Year (Descending)###28 10 2024 new variable
 bibl#:#standard#:#Standard###10 11 2018 new variable
 bibl#:#translate#:#Translate###10 11 2018 new variable
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
-cat#:#cat_copy#:#Copy Category###28 08 2012 new variable
-cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###26 08 2024 new variable
-cat#:#cat_import#:#Import Category###28 08 2012 new variable
-cat#:#cat_more_translations#:#More Translations###30 12 2013 new variable
-cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###26 08 2024 new variable
 cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.###10 11 2018 new variable
 cert#:#cert_description_label#:#Description###10 11 2018 new variable
 cert#:#cert_download_label#:#Download###10 11 2018 new variable
