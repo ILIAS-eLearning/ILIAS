@@ -1,0 +1,914 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "フォルダへ戻る"
+
+msgid "chat_users_have_been_invited"
+msgstr "ユーザは招待されています。"
+
+msgid "chat_users_without_login"
+msgstr "次のユーザはILIAS アカウントがなく、チャットルームへ招待することはできません。"
+
+msgid "chat_users_without_permission"
+msgstr "次のユーザは選択したチャットルームへアクセスできません。"
+
+msgid "current_folder"
+msgstr "現在のフォルダ: %s"
+
+msgid "deleteTemplate"
+msgstr "削除"
+
+msgid "edit_attachments"
+msgstr "添付を編集"
+
+msgid "first_email_missing_info"
+msgstr "emailアドレスが入力されていないので選択できません。"
+
+msgid "forward"
+msgstr "転送"
+
+msgid "goto_invitation_chat"
+msgstr "チャットルームを開く"
+
+msgid "invite_to_chat"
+msgstr "チャットへ招待"
+
+msgid "link_check_affected_links"
+msgstr "影響のあるリンク"
+
+msgid "link_check_introduction"
+msgstr "次のweblinkは無効です:"
+
+msgid "link_check_perma_link"
+msgstr "Permanent Link"
+
+msgid "link_check_reason"
+msgstr "無効なリンクの通知を有効にしているのでメールを受信します。"
+
+msgid "mail_1"
+msgstr "1 Mail"
+
+msgid "mail_absence_auto_responder_body"
+msgstr "Message"
+
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "これは自動生成されたメッセージです。不在中にこのユーザへ以降のメッセージを送信すると、[NEXT_AUTO_RESPONDER_DATETIME]まで自動応答を受信しません。"
+
+msgid "mail_absence_auto_responder_body_info"
+msgstr "ILIASからユーザがメールを送ると不在中にこのメッセージが自動送信されます。<br>以降のメッセージを送信するとユーザには %1$s 日毎に自動通知されます。"
+
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "ILIASからユーザがメールを送ると不在中にこのメッセージが自動送信されます。<br>以降のメッセージを送信すると不在翌日に再度ユーザへ通知されます。"
+
+msgid "mail_absence_auto_responder_subject"
+msgstr "Subject"
+
+msgid "mail_absence_duration"
+msgstr "期間"
+
+msgid "mail_absence_status"
+msgstr "自動応答システムを有効にする"
+
+msgid "mail_absence_status_info"
+msgstr "自動オフィスカットオフメッセージを有効にする"
+
+msgid "mail_absent_from"
+msgstr "いつから不在"
+
+msgid "mail_absent_until"
+msgstr "いつまで不在"
+
+msgid "mail_account_mail"
+msgstr "メールアカウント"
+
+msgid "mail_add_folder"
+msgstr "新規サブフォルダを追加"
+
+msgid "mail_add_recipient"
+msgstr "宛先を入力してください"
+
+msgid "mail_add_subfolder"
+msgstr "サブフォルダを追加"
+
+msgid "mail_add_subject"
+msgstr "件名を入力してください。"
+
+msgid "mail_adopt_selected_attachements"
+msgstr "選択した添付ファイルを採用"
+
+msgid "mail_all_in_trash"
+msgstr "ゴミ箱内の全て"
+
+msgid "mail_allow_external"
+msgstr "外部email"
+
+msgid "mail_allow_external_info"
+msgstr "無効にすると外部email(SMTP経由)の配送はグローバル的に不可になります。"
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "メーリングリストに連絡先のエントリーを割当てます"
+
+msgid "mail_assign_to_mailing_list"
+msgstr "割当"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "次の添付のいずれかがありません: %1$s"
+
+msgid "mail_attachments"
+msgstr "添付"
+
+msgid "mail_auto_generated_info"
+msgstr "これはILIASシステム %s, %s から自動送信されたメールです。"
+
+msgid "mail_auto_responder"
+msgstr "自動応答システム"
+
+msgid "mail_auto_responder_idle_time"
+msgstr "再送信"
+
+msgid "mail_auto_responder_idle_time_info"
+msgstr "以降メール送信されたメール応答者へオフィス不在返信が再送される前の何日経ったかを指定。"
+
+msgid "mail_bcc"
+msgstr "BCC"
+
+msgid "mail_bg_task_desc"
+msgstr "Subject: %s"
+
+msgid "mail_bg_task_title"
+msgstr "E-mail 配信"
+
+msgid "mail_both_email"
+msgstr "両方のemailアドレス"
+
+msgid "mail_cc"
+msgstr "CC"
+
+msgid "mail_change_to_folder"
+msgstr "フォルダ切替: %s"
+
+msgid "mail_create_tpl"
+msgstr "Textテンプレートを作成"
+
+msgid "mail_cronjob_notification_info"
+msgstr "ここで新しいメールに関する定期的な通知を有効にできます。"
+
+msgid "mail_crs_list_members_not_available"
+msgstr "マーク付きのコースのメンバーを一覧表示することはできません。"
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "最低 1つ選択したコースのメンバーを一覧表示できます。"
+
+msgid "mail_crs_roles"
+msgstr "コース役割へメールを送信"
+
+msgid "mail_deleted"
+msgstr "メールは削除されました"
+
+msgid "mail_deleted_entry"
+msgstr "エントリーは削除されました"
+
+msgid "mail_download_attachment"
+msgstr "添付をダウンロード"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "添付が見つかりません。"
+
+msgid "mail_edit_tpl"
+msgstr "Textテンプレートを編集"
+
+msgid "mail_email_sys_body"
+msgstr "これは外部アカウントへのシステムメール配信テスト用のテストメールです。"
+
+msgid "mail_email_sys_subject"
+msgstr "Test E-Mailシステムメール"
+
+msgid "mail_email_usr_body"
+msgstr "これは外部アカウントへのユーザメール配信テスト用のテストメールです。"
+
+msgid "mail_email_usr_subject"
+msgstr "Test E-Mailユーザメール"
+
+msgid "mail_empty_trash"
+msgstr "ごみ箱を空にする"
+
+msgid "mail_empty_trash_confirmation"
+msgstr "本当にごみ箱の中の全てのメールを削除しますか?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr "コース管理者通知"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "新しいコース設定の'新メンバーに関する通知'は既定で有効です。コースの'メンバー'-タブ内で設定します。コース管理者はメンバーがコースへ参加するか受講者の最小要求数がコース開催の要件に達しない場合はeメールを受信します。"
+
+msgid "mail_enable_crs_member_notification"
+msgstr "コース通知"
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "有効にするとコース受講者はメンバーシップ変更に関して自動的に通知されます。"
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "グループ管理者通知"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "新しいグループ設定の'通知'は既定で有効です。グループの'メンバー'-タブ内で設定します。コース管理者はメンバーがコースへ参加するか退会するか受講者の最小要求数がコース開催の要件に達しない場合はeメールを受信します。"
+
+msgid "mail_enable_grp_member_notification"
+msgstr "グループ通知"
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "有効にするとグループ受講者はメンバーシップ変更に関して自動的に通知されます。"
+
+msgid "mail_enable_lso_admin_notification"
+msgstr "Learning Sequence 管理者へ通知"
+
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "'新規メンバーに関する通知'の新規Learning Sequences設定は既定で有効化されます。Learning Sequenceの'メンバー'-タブ内に設定されます。 メンバーがLearning Sequenceみ参加するか離れると管理者はe-mailを受信します。"
+
+msgid "mail_enable_lso_member_notification"
+msgstr "Learning Sequenceメンバーを通知"
+
+msgid "mail_enable_lso_member_notification_info"
+msgstr "メンバーシップステータスが変更されると各メンバーへILIASは自動的にe-mailを送信します。この設定はプラットフォーム上の全Learning Sequenceへ適用されます。"
+
+msgid "mail_entry_of_contacts"
+msgstr "コンタクトのエントリー"
+
+msgid "mail_error_reading_attachment"
+msgstr "添付を確定することができませんでした。"
+
+msgid "mail_external_send_test_sys"
+msgstr "テストemail(システムメール)を送る"
+
+msgid "mail_external_send_test_usr"
+msgstr "テストemail(ユーザメール)を送る"
+
+msgid "mail_external_test_sent"
+msgstr "emailがプロファイルに設定されているemailアドレス宛に送信されました。"
+
+msgid "mail_file_name"
+msgstr "ファイル名"
+
+msgid "mail_file_size"
+msgstr "ファイルサイズ"
+
+msgid "mail_files_deleted"
+msgstr "ファイルは削除されます"
+
+msgid "mail_filter"
+msgstr "フィルタ"
+
+msgid "mail_filter_attach"
+msgstr "添付"
+
+msgid "mail_filter_body"
+msgstr "ボディ"
+
+msgid "mail_filter_display"
+msgstr "表示"
+
+msgid "mail_filter_field_placeholder"
+msgstr "メッセージをフォルタ…"
+
+msgid "mail_filter_period"
+msgstr "期間"
+
+msgid "mail_filter_recipients"
+msgstr "受信者"
+
+msgid "mail_filter_sender"
+msgstr "送信者"
+
+msgid "mail_filter_show_read"
+msgstr "既読を表示"
+
+msgid "mail_filter_show_system_mails"
+msgstr "システム通知を表示"
+
+msgid "mail_filter_show_unread"
+msgstr "未読を表示"
+
+msgid "mail_filter_show_user_mails"
+msgstr "ユーザメールを表示"
+
+msgid "mail_filter_show_with_attachments"
+msgstr "添付ありを表示"
+
+msgid "mail_filter_show_without_attachment"
+msgstr "添付なしを表示"
+
+msgid "mail_filter_subject"
+msgstr "Subject"
+
+msgid "mail_filter_txt"
+msgstr "メッセージでフィルタ"
+
+msgid "mail_first_email"
+msgstr "第1emailアドレス"
+
+msgid "mail_firstname_last_name_superior"
+msgstr "各管理者のコンマ区切りリスト"
+
+msgid "mail_folder_created"
+msgstr "新規フォルダが作成されました"
+
+msgid "mail_folder_deleted"
+msgstr "フォルダは削除されました"
+
+msgid "mail_folder_exists"
+msgstr "この名前のフォルダは既に使用されています"
+
+msgid "mail_folder_name_changed"
+msgstr "フォルダは名前変更されました"
+
+msgid "mail_following_rcp_not_valid"
+msgstr "次の受信者は正しくありません"
+
+msgid "mail_form_placeholders_label"
+msgstr "利用可能なプレースフォルダ"
+
+msgid "mail_generic_rcp_error"
+msgstr "受信者: %1$sを有効期間中にエラーが発生しました"
+
+msgid "mail_global_reply_to_addr"
+msgstr "Reply-To"
+
+msgid "mail_global_reply_to_addr_info"
+msgstr "希望する'Reply-To'アドレスを入力してください。"
+
+msgid "mail_grp_roles"
+msgstr "グループ役割へメールを送信"
+
+msgid "mail_hint_add_placeholder_x"
+msgstr "メッセージボディへプレースフォルダ '%s' を追加"
+
+#, fuzzy
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally."
+
+msgid "mail_incoming"
+msgstr "受信メール"
+
+msgid "mail_incoming_both"
+msgstr "ローカル受信と転送"
+
+msgid "mail_incoming_local"
+msgstr "ローカル受信のみ"
+
+msgid "mail_incoming_mail"
+msgstr "受信メール"
+
+msgid "mail_incoming_smtp"
+msgstr "emailアドレスへ転送"
+
+msgid "mail_insert_folder_name"
+msgstr "フォルダ名を挿入してください"
+
+msgid "mail_insert_query"
+msgstr "質問を挿入してください"
+
+msgid "mail_invite_users_to_chat"
+msgstr "ユーザをチャットへ招待します"
+
+msgid "mail_is_read"
+msgstr "既読"
+
+msgid "mail_is_unread"
+msgstr "未読"
+
+msgid "mail_list_members"
+msgstr "メンバー一覧表示"
+
+msgid "mail_mailing_list"
+msgstr "メーリングリスト"
+
+msgid "mail_mailing_lists"
+msgstr "メーリングリスト"
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "このメーリングリストの全てのコンタクトへすでに割り当て済です。"
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "リストへ追加するコンタクトのエントリーがありません。"
+
+msgid "mail_main_folder"
+msgstr "メインフォルダ"
+
+msgid "mail_manage_attachments"
+msgstr "添付を管理"
+
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "作成へ戻る"
+
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "アップロードへファイルをドロップ"
+
+msgid "mail_mark_read"
+msgstr "既読メールのマーク"
+
+msgid "mail_mark_unread"
+msgstr "未読メールのマーク"
+
+msgid "mail_max_size_attachments_total"
+msgstr "メール1通に添付可能な最大ファイルサイズを入力してください。この設定はmax_upload_,filesizeなどの様な他のリソースの制限には無関係です。(複数ファイルを添付可能)"
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "添付できるサイズ:"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "アップロード制限:"
+
+msgid "mail_member_notification"
+msgstr "受講者通知"
+
+msgid "mail_members_of_mailing_list"
+msgstr "メーリングリストのメンバー"
+
+msgid "mail_members_search_continue"
+msgstr "続く"
+
+msgid "mail_message_send"
+msgstr "メッセージ送信"
+
+msgid "mail_mode_switch_label"
+msgstr "「個人メール」と「シリアルレター」モードを切り替える。"
+
+msgid "mail_mode_switch_locked"
+msgstr "「%s」モードに切り替えることはできません。"
+
+msgid "mail_move_error"
+msgstr "メール移動中エラー"
+
+msgid "mail_move_to"
+msgstr "移動:"
+
+msgid "mail_move_to_folder_btn_label"
+msgstr "メールを移動"
+
+msgid "mail_move_to_folder_x"
+msgstr "to \"%s\""
+
+msgid "mail_moved"
+msgstr "メールは移動されました"
+
+msgid "mail_moved_to_trash"
+msgstr "メールはごみ箱へ移動されました"
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "%1$s (受信者: %2$sの複数の役割が見つかりました)"
+
+msgid "mail_my_courses"
+msgstr "マイコース"
+
+msgid "mail_my_groups"
+msgstr "マイグループ"
+
+msgid "mail_my_mailing_lists"
+msgstr "マイメーリングリスト"
+
+msgid "mail_nacc_admin_mail"
+msgstr "管理者のメールアドレス"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "ユーザのアクセス期間制限がある場合に限りこのテキストが含まれます。"
+
+msgid "mail_nacc_ilias_url"
+msgstr "ILIASシステムのURL"
+
+msgid "mail_nacc_installation_desc"
+msgstr "Installation Description"
+
+msgid "mail_nacc_installation_name"
+msgstr "Installation Name"
+
+msgid "mail_nacc_login"
+msgstr "ログイン アカウント"
+
+msgid "mail_nacc_no_pw_block"
+msgstr "このテキストブロックは、新しいユーザアカウントがパスワードなしで作成された場合のみ含まれます。"
+
+msgid "mail_nacc_pw_block"
+msgstr "このテキストブロックは、新しいユーザがパスワードを含めて作成された場合のみ含まれます。"
+
+msgid "mail_nacc_salutation"
+msgstr "挨拶文"
+
+msgid "mail_nacc_target"
+msgstr "外部からILLIASへ渡されるリンクコース等の対象アイテムのURLです。"
+
+msgid "mail_nacc_target_block"
+msgstr "このテキストは、対象アイテムを指定した場合のみ含まれます。"
+
+msgid "mail_nacc_target_title"
+msgstr "コースタイトルのような対象アイテムのタイトル。"
+
+msgid "mail_nacc_target_type"
+msgstr "コースアイテムの\"コース\"のような対象アイテムのタイプ。"
+
+msgid "mail_nacc_timelimit"
+msgstr "ユーザアクセス期限"
+
+msgid "mail_nacc_title"
+msgstr "タイトル"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "次のプレースフォルダを使用できます"
+
+msgid "mail_nacc_user_fullname"
+msgstr "ユーザフルネーム"
+
+msgid "mail_nacc_user_login"
+msgstr "ユーザログイン"
+
+msgid "mail_new"
+msgstr "新規メール"
+
+msgid "mail_new_template"
+msgstr "新しいTextテンプレート"
+
+msgid "mail_no_mail_items"
+msgstr "未読メールはありません"
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "外部emailに対する書込みアクセス権限がありません"
+
+msgid "mail_no_subject"
+msgstr "Subjectがありません"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "メーリングリストが正しくありません"
+
+msgid "mail_notification_membership_section"
+msgstr "メンバーシップ"
+
+msgid "mail_notification_subject"
+msgstr " 受信トレイの新しいメール"
+
+msgid "mail_notify_orphaned"
+msgstr "通知メール"
+
+msgid "mail_notify_orphaned_info"
+msgstr "ここで1以上の値を入力するとILIASは内部メールの削除前にemailをユーザへ送信します。外部e-mail受信が可能であること確認してください。"
+
+msgid "mail_operation_on_invalid_folder"
+msgstr "サーバ要求に対するフォルダが無効につき操作を実行できません。管理者へコンタクトしてください。"
+
+#, fuzzy
+msgid "mail_options"
+msgstr "Mail Options"
+
+msgid "mail_options_saved"
+msgstr "オプションが保存されました"
+
+msgid "mail_orphaned_mails"
+msgstr "旧または孤立メールを削除"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "古いまたは孤立メールを削除"
+
+msgid "mail_recipient_not_found"
+msgstr "%1$s (有効な受信者を見つけることができませんでした)"
+
+msgid "mail_rename_folder"
+msgstr "フォルダ名を変更"
+
+msgid "mail_roles"
+msgstr "次のローカル役割の一つ以上を持つ全ユーザ"
+
+msgid "mail_s"
+msgstr "%sメール"
+
+msgid "mail_salutation_anonymous"
+msgstr "こんにちは"
+
+msgid "mail_salutation_f"
+msgstr "Dear Mrs."
+
+msgid "mail_salutation_female"
+msgstr "女性向けのプレースフォルダ[MAIL_SALUTATION]用の出力"
+
+msgid "mail_salutation_general"
+msgstr "一般向けのプレースフォルダ[MAIL_SALUTATION]用の出力"
+
+msgid "mail_salutation_m"
+msgstr "Dear Mr."
+
+msgid "mail_salutation_male"
+msgstr "男性向けのプレースフォルダ[MAIL_SALUTATION]用の出力"
+
+msgid "mail_salutation_n"
+msgstr "こんにちは"
+
+msgid "mail_saved"
+msgstr "メッセージは保存されました"
+
+msgid "mail_second_email"
+msgstr "第2メールアドレス"
+
+msgid "mail_sel_label"
+msgstr "受信者を選択"
+
+msgid "mail_sel_users"
+msgstr "選択したユーザへメールを送信"
+
+msgid "mail_select_attachment"
+msgstr "ダウンロード用の添付ファイルを選択してください。"
+
+msgid "mail_select_crs"
+msgstr "コースを一つは選択して下さい。"
+
+msgid "mail_select_grp"
+msgstr "グループを一つは選択してください。"
+
+msgid "mail_select_one_entry"
+msgstr "エントリーを一つ選択しなければなりません"
+
+msgid "mail_select_one_file"
+msgstr "ファイルを一つ選択しなければなりません"
+
+msgid "mail_send_html"
+msgstr "HTMLフレーム"
+
+msgid "mail_send_html_info"
+msgstr "有効にすると外部emailのボディーがHTMLフレーム内へ埋め込まれます。対応するテンプレートは './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' へ'./Services/Mail/templates/default/tpl.html_mail_template.html' をコピーしてカスタマイズすることができます。"
+
+msgid "mail_sent_datetime"
+msgstr "日付"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "シリアルレタープレースフォルダ"
+
+msgid "mail_settings_external_frm_head"
+msgstr "外部email"
+
+msgid "mail_settings_external_tab"
+msgstr "外部"
+
+msgid "mail_settings_general_tab"
+msgstr "全般"
+
+msgid "mail_settings_incoming_type_see_also"
+msgstr "<a href=\"%s\">ここ</a>でユーザの受信emaiタイプを修正可能です。"
+
+msgid "mail_settings_system_frm_head"
+msgstr "システムemail"
+
+msgid "mail_settings_user_frm_head"
+msgstr "ユーザemail"
+
+msgid "mail_smtp_encryption"
+msgstr "エンクリプション"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Host"
+
+msgid "mail_smtp_host_info"
+msgstr "希望するメールサーバのホスト名もしくはPを入力してください。"
+
+msgid "mail_smtp_password"
+msgstr "パスワード"
+
+msgid "mail_smtp_password_req"
+msgstr "認証目的用にユーザを定義するにはパスワードを設定する必要があります。"
+
+msgid "mail_smtp_port"
+msgstr "ポート"
+
+msgid "mail_smtp_port_info"
+msgstr "メールサーバポート(例 25)用の数字を入力してください。"
+
+msgid "mail_smtp_status"
+msgstr "SMTP経由で送信"
+
+msgid "mail_smtp_status_info"
+msgstr "有効にするとILIASはPHP runtime(mail() function, sendmail)の内部機能を使使わずにSMTPサーバへ外部emailを配送します。"
+
+msgid "mail_smtp_user"
+msgstr "ユーザ"
+
+msgid "mail_subject_prefix"
+msgstr "メール件名"
+
+msgid "mail_subject_prefix_info"
+msgstr "自動生成される発信メール件名の行の部分へ挿入するテキストを入力します。"
+
+msgid "mail_subject_too_long"
+msgstr "件名が長すぎます。"
+
+msgid "mail_success_removed_user"
+msgstr "メーリングリストから正しくユーザが削除されました。"
+
+msgid "mail_sure_delete_entry"
+msgstr "本当に次のエントリーを削除しますか?"
+
+msgid "mail_sure_delete_file"
+msgstr "ファイルは完全に削除されます"
+
+msgid "mail_sure_delete_folder"
+msgstr "フォルダとそのコンテンツは完全に削除されます"
+
+msgid "mail_sure_delete_p"
+msgstr "次のメールを削除しますか?"
+
+msgid "mail_sure_delete_s"
+msgstr "次のメールを削除しますか?"
+
+msgid "mail_sure_remove_user"
+msgstr "メンバーから次のユーザを本当に削除しますか?"
+
+msgid "mail_system_sys_env_from_addr"
+msgstr "テクニカル送信者"
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr "このフィールドを空にしておくとSMTP転送が有効の場合に送信者のemailアドレスが使用されます。そうでなければ、管理者責任でこの値を構成することです。"
+
+msgid "mail_system_sys_from_addr"
+msgstr "送信者email(From)"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "‘FROM’ヘッダーへ使用するe-mailアドレスを入力してください。 'FROM' ヘッダーは受信e-mailクライアントの送信者表示に使用されます。.<br /><br />例: <span style=\"font-style: italic\">info@institution.de</span> or <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_sys_from_name"
+msgstr "送信者フルネーム(From)"
+
+msgid "mail_system_sys_general_signature"
+msgstr "署名"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Reply-To"
+
+msgid "mail_system_usr_env_from_addr"
+msgstr "テクニカル送信者"
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr "このフィールドを空にしておくとSMTP転送が有効の場合に送信者のemailアドレスが使用されます。そうでなければ、管理者責任でこの値を構成することです。"
+
+msgid "mail_system_usr_from_addr"
+msgstr "送信者email(From)"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "‘FROM’ヘッダーへ使用するe-mailアドレスを入力してください。 'FROM' ヘッダーは受信e-mailクライアントの送信者表示に使用されます。ILIAS経由で送信されるユーザのe-mailアドレスは自動的に'Reply-To'ヘッダーへ使用されます。<br /><br />例: <span style=\"font-style: italic\">info@institution.de</span> or <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_usr_from_name"
+msgstr "送信者フルネーム(From)"
+
+msgid "mail_system_usr_from_name_info"
+msgstr "プレースフォルダー [FULLNAME], [FIRSTNAME] , [LASTNAME]を使用することができます。それらはemailイニシエータのそれぞれの日付で置き換えられます。"
+
+msgid "mail_system_usr_general_signature"
+msgstr "ユーザ署名"
+
+msgid "mail_tbl_head_attachments"
+msgstr "添付"
+
+msgid "mail_template_client"
+msgstr "Textテンプレート"
+
+msgid "mail_template_client_info"
+msgstr "利用可能なTextテンプレートの一つを選択してそのプレースフォルダを作成します。Textテンプレートを選択するとこのフォームの本文と件名(Textテンプレート内にある場合)が生成されます。"
+
+msgid "mail_template_context"
+msgstr "コンテキスト"
+
+msgid "mail_template_default"
+msgstr " (Default)"
+
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "無効な構文が検知されました。特にプレースフォルダ構文関連が有効な構文であることを確認してください。"
+
+msgid "mail_template_missing_id"
+msgstr "TextテンプレートIDがないのでアクションを実行できません。"
+
+msgid "mail_template_no_context_available"
+msgstr "コンテキストはILIASのサービスやモジュールから提供されません。よってテキストテンプレートの作成や編集はできません。"
+
+msgid "mail_template_no_valid_context"
+msgstr "入力されたコンテキストは有効ではありません。"
+
+msgid "mail_template_orphaned_context"
+msgstr "孤立したコンテキスト"
+
+msgid "mail_template_set_as_default"
+msgstr "Defaul設定"
+
+msgid "mail_template_title"
+msgstr "名前"
+
+msgid "mail_template_unset_as_default"
+msgstr "デフォルトステータスを削除"
+
+msgid "mail_templates"
+msgstr "Textテンプレート"
+
+msgid "mail_threshold"
+msgstr "スレッショールド"
+
+msgid "mail_threshold_info"
+msgstr "ここで定義されたスレッショールド値よりも古い内部メッセージは削除されます。(既存の添付の可能性を含みます) <br>このクローンjobの最初の実行中は警告待ちとして最初にメール送信ができないために大量のメッセージが削除されます。"
+
+msgid "mail_to"
+msgstr "To"
+
+msgid "mail_tpl_deleted_p"
+msgstr "Textテンプレートは正しく削除されました。"
+
+msgid "mail_tpl_deleted_s"
+msgstr "Textテンプレートは正しく削除されました。"
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "次のエントリーを本当に削除しますか?"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "テキストテンプレートを本当に削除しますか?"
+
+msgid "mail_use_global_reply_to_addr"
+msgstr "Global Reply-Toを使用"
+
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "有効にすると以下へ入力したメールアドレスが'Reply-To'ヘッダー用の値として使用されます。送信者のメールアドレスは受信者へ表示されません。ダイレクトの返信は以降不可能になります。"
+
+msgid "nc_mail_noti_item_title"
+msgstr "Inbox"
+
+msgid "nc_mail_prop_time"
+msgstr "Time"
+
+msgid "nc_mail_unread_messages"
+msgstr "inbox内にメールが %s 件あります。"
+
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s 件の未読メール"
+
+msgid "nc_mail_unread_messages_number_s"
+msgstr "1 未読メール"
+
+msgid "only_inbox_trash"
+msgstr "次のユーザには正しいemailアドレスがありません"
+
+msgid "only_inbox_trash_info"
+msgstr "Inbox/ゴミ箱のみを考慮"
+
+msgid "orphaned_mail_body"
+msgstr "有効にするとユーザそれぞれのInbox内とゴミ箱にあるメールのみは削除されます。さもなければ全てのメッセージはフォルダーに関係なく削除されます。"
+
+msgid "orphaned_mail_subject"
+msgstr "次のメールボックス内に古いまたは孤立メールがあります。これらのメールはまもなく自動的に削除される事に注意願います。"
+
+msgid "placeholders_advise"
+msgstr "孤立メールに関する通知"
+
+msgid "regular_mail"
+msgstr "個人メール"
+
+msgid "search_content"
+msgstr "結果を検索"
+
+msgid "search_recipients"
+msgstr "宛先を検索"
+
+msgid "second_email_missing_info"
+msgstr "第2emailアドレスが入力されていないので選択はできません。"
+
+msgid "select_mail_with_subject_x"
+msgstr "メールsubjectが „%s“を選択"
+
+msgid "send_mail_admins"
+msgstr "全ての管理者"
+
+msgid "send_mail_members"
+msgstr "全てのメンバー"
+
+msgid "send_mail_to"
+msgstr "Mail to"
+
+msgid "send_mail_tutors"
+msgstr "全ての指導教員"
+
+msgid "serial_letter"
+msgstr "シリアルレター"
+
+msgid "show_mail_settings"
+msgstr "メール設定を表示"
+
+msgid "show_mail_settings_info"
+msgstr "有効にするとユーザの`メール設定`が `パーソナル設定`または or `メール`セクション経由でアクセス可能になります。"
+
+msgid "system_notification_installation_changed_by"
+msgstr "更新者"
+
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "フィールド \"%s\"の属性 \"%s\" を変更しました。<br>これは全てのアカウント設定を、外部配信用の\"優先アドレスで受信\" へリセットする事につながります。<br>全ての新規アカウントに限らず、現在アクティブ設定にしているユーザを含みます。"

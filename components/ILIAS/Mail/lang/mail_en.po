@@ -1,0 +1,912 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "Back to Folder"
+
+msgid "chat_users_have_been_invited"
+msgstr "The following users have been invited:"
+
+msgid "chat_users_without_login"
+msgstr "The following users don't have an ILIAS account and can't be invited to a chat room:"
+
+msgid "chat_users_without_permission"
+msgstr "The following users don't have access to the selected chat room:"
+
+msgid "current_folder"
+msgstr "Current Folder: %s"
+
+msgid "deleteTemplate"
+msgstr "Delete"
+
+msgid "edit_attachments"
+msgstr "Edit Attachments"
+
+msgid "first_email_missing_info"
+msgstr "Selection not possible because no e-mail address has been entered"
+
+msgid "forward"
+msgstr "Forward"
+
+msgid "goto_invitation_chat"
+msgstr "Open Chat Room"
+
+msgid "invite_to_chat"
+msgstr "Invite to Chat"
+
+msgid "link_check_affected_links"
+msgstr "Affected Links"
+
+msgid "link_check_introduction"
+msgstr "the following weblinks are invalid:"
+
+msgid "link_check_perma_link"
+msgstr "Permanent Link"
+
+msgid "link_check_reason"
+msgstr "You recife this mail because you enabled the notification for invalid links."
+
+msgid "mail_1"
+msgstr "1 Mail"
+
+msgid "mail_absence_auto_responder_body"
+msgstr "Message"
+
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME]."
+
+msgid "mail_absence_auto_responder_body_info"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages."
+
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified again of your absence the next day if they send further messages."
+
+msgid "mail_absence_auto_responder_subject"
+msgstr "Subject"
+
+msgid "mail_absence_duration"
+msgstr "Duration"
+
+msgid "mail_absence_status"
+msgstr "Enable Autoresponder"
+
+msgid "mail_absence_status_info"
+msgstr "Activate an automatic out-of-office message."
+
+msgid "mail_absent_from"
+msgstr "Absent from"
+
+msgid "mail_absent_until"
+msgstr "Absent until"
+
+msgid "mail_account_mail"
+msgstr "Notify New Account Holders"
+
+msgid "mail_add_folder"
+msgstr "Add New Sub-Folder"
+
+msgid "mail_add_recipient"
+msgstr "Please enter a recipient in the form of a valid e-mail address or ILIAS username."
+
+msgid "mail_add_subfolder"
+msgstr "Add Sub-Folder"
+
+msgid "mail_add_subject"
+msgstr "Please enter a subject."
+
+msgid "mail_adopt_selected_attachements"
+msgstr "Adopt selected Attachments"
+
+msgid "mail_all_in_trash"
+msgstr "All in Trash"
+
+msgid "mail_allow_external"
+msgstr "External E-Mails"
+
+msgid "mail_allow_external_info"
+msgstr "Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation."
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "#Add One of Your Contacts to the Mailing List"
+
+msgid "mail_assign_to_mailing_list"
+msgstr "Assign"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "At least one of the following attachments does not exist: %1$s"
+
+msgid "mail_attachments"
+msgstr "Attachments"
+
+msgid "mail_auto_generated_info"
+msgstr "This mail was automatically sent to you by the ILIAS installation %s, %s"
+
+msgid "mail_auto_responder"
+msgstr "Autoresponder"
+
+msgid "mail_auto_responder_idle_time"
+msgstr "Resend"
+
+msgid "mail_auto_responder_idle_time_info"
+msgstr "Specify here how many days should elapse before your out-of-office reply is resent to a mail correspondent who has sent you further mails."
+
+msgid "mail_bcc"
+msgstr "BCC"
+
+msgid "mail_bg_task_desc"
+msgstr "Subject: %s"
+
+msgid "mail_bg_task_title"
+msgstr "E-mail Delivery"
+
+msgid "mail_both_email"
+msgstr "Both E-Mail Addresses"
+
+msgid "mail_cc"
+msgstr "CC"
+
+msgid "mail_change_to_folder"
+msgstr "Switch to folder: %s"
+
+msgid "mail_create_tpl"
+msgstr "Create Text Template"
+
+msgid "mail_cronjob_notification_info"
+msgstr "Allow ILIAS to periodically send you notifications about new e-mails."
+
+msgid "mail_crs_list_members_not_available"
+msgstr "The members of the selected courses can not be listed."
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "The members of at least one selected course can not be listed."
+
+msgid "mail_crs_roles"
+msgstr "Send Mail to Course Roles"
+
+msgid "mail_deleted"
+msgstr "Mail(s) deleted."
+
+msgid "mail_deleted_entry"
+msgstr "Entries deleted."
+
+msgid "mail_download_attachment"
+msgstr "Download Attachment"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "No attachments could be found."
+
+msgid "mail_edit_tpl"
+msgstr "Edit Text Template"
+
+msgid "mail_email_sys_body"
+msgstr "This is a test e-mail to test the delivery of system mails to external mail accounts."
+
+msgid "mail_email_sys_subject"
+msgstr "Test E-Mail: System Mail"
+
+msgid "mail_email_usr_body"
+msgstr "This is a test e-mail to test the delivery of user mails to external mail accounts."
+
+msgid "mail_email_usr_subject"
+msgstr "Test E-Mail: User Mail"
+
+msgid "mail_empty_trash"
+msgstr "Empty Trash"
+
+msgid "mail_empty_trash_confirmation"
+msgstr "Are you sure you want to delete all mails in the Trash folder?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr "Notify Course Administrators"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "In new courses, the setting 'Notification' will be activated by default for members with ‘Course Administrator’ and/or ‘Course Tutor’ status. This can be altered in the 'Member' tab of courses (in the ‘Course Participants’ list for each admin/tutor individually). Admins/tutors will receive an e-mail when a user joins the course or leaves it, or if the minimum number of participants required for a course to take place has not been met."
+
+msgid "mail_enable_crs_member_notification"
+msgstr "Notify Course Members"
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "ILIAS will automatically send an e-mail to any course member whose membership status changes. This setting applies to all courses on the platform."
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "Notify Group Administrators"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "In new groups, the setting 'Notification' will be activated by default for members with ‘Group Administrator’ status. This can be altered in the 'Member' tab of groups (in the ‘Group Participants’ list for each administrator individually). Admins will receive an e-mail when a member joins the group or leaves it, or if the minimum number of participants required for a group to be formed has not been met."
+
+msgid "mail_enable_grp_member_notification"
+msgstr "Notify Group Members"
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "ILIAS will automatically send an e-mail to any group member whose membership status changes. This setting applies to all groups on the platform."
+
+msgid "mail_enable_lso_admin_notification"
+msgstr "Notify Learning Sequence Administrators"
+
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "In new learning sequences, the setting 'Notification’ will be activated by default for members with ‘Learning Sequence Administrator’ status. This can be altered in the 'Member' tab of a learning sequence (in the ‘Learning Sequence Members’ list for each administrator individually). With notifications active, administrators will receive an e-mail whenever a member joins or leaves the learning sequence."
+
+msgid "mail_enable_lso_member_notification"
+msgstr "Notify Learning Sequence Members"
+
+msgid "mail_enable_lso_member_notification_info"
+msgstr "ILIAS will automatically send an e-mail to any member whose membership status changes. This setting applies to all learning sequences on the platform."
+
+msgid "mail_entry_of_contacts"
+msgstr "Name/Username of Contact"
+
+msgid "mail_error_reading_attachment"
+msgstr "Could not determine any attachment."
+
+msgid "mail_external_send_test_sys"
+msgstr "Send Test E-Mail (System Mail)"
+
+msgid "mail_external_send_test_usr"
+msgstr "Send Test E-Mail (User Mail)"
+
+msgid "mail_external_test_sent"
+msgstr "An e-mail has been sent to the e-mail address associated with your profile."
+
+msgid "mail_file_name"
+msgstr "File Name"
+
+msgid "mail_file_size"
+msgstr "File Size"
+
+msgid "mail_files_deleted"
+msgstr "File(s) deleted."
+
+msgid "mail_filter"
+msgstr "Filter"
+
+msgid "mail_filter_attach"
+msgstr "Attachments"
+
+msgid "mail_filter_body"
+msgstr "Body"
+
+msgid "mail_filter_display"
+msgstr "Display"
+
+msgid "mail_filter_field_placeholder"
+msgstr "Filter these messages ..."
+
+msgid "mail_filter_period"
+msgstr "Period"
+
+msgid "mail_filter_recipients"
+msgstr "Recipients"
+
+msgid "mail_filter_sender"
+msgstr "Sender"
+
+msgid "mail_filter_show_read"
+msgstr "Show Read"
+
+msgid "mail_filter_show_system_mails"
+msgstr "Show System Notifications"
+
+msgid "mail_filter_show_unread"
+msgstr "Show Unread"
+
+msgid "mail_filter_show_user_mails"
+msgstr "Show User Mails"
+
+msgid "mail_filter_show_with_attachments"
+msgstr "Show With Attachments"
+
+msgid "mail_filter_show_without_attachment"
+msgstr "Show Without Attachment"
+
+msgid "mail_filter_subject"
+msgstr "Subject"
+
+msgid "mail_filter_txt"
+msgstr "Filter messages by"
+
+msgid "mail_first_email"
+msgstr "First E-Mail Address"
+
+msgid "mail_firstname_last_name_superior"
+msgstr "Comma separated list of first name and last name of user's superior(s)"
+
+msgid "mail_folder_created"
+msgstr "New folder successfully created."
+
+msgid "mail_folder_deleted"
+msgstr "Folder deleted."
+
+msgid "mail_folder_exists"
+msgstr "A folder with this name already exists."
+
+msgid "mail_folder_name_changed"
+msgstr "Folder successfully renamed."
+
+msgid "mail_following_rcp_not_valid"
+msgstr "The following recipients are not valid:"
+
+msgid "mail_form_placeholders_label"
+msgstr "Available Placeholders"
+
+msgid "mail_generic_rcp_error"
+msgstr "An error occurred while validating the recipients: %1$s"
+
+msgid "mail_global_reply_to_addr"
+msgstr "Reply-To"
+
+msgid "mail_global_reply_to_addr_info"
+msgstr "Please enter the desired 'Reply-To' address."
+
+msgid "mail_grp_roles"
+msgstr "Send Mail to Group Roles"
+
+msgid "mail_hint_add_placeholder_x"
+msgstr "Add the placeholder '%s' to the message body."
+
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally."
+
+msgid "mail_incoming"
+msgstr "Incoming Mail"
+
+msgid "mail_incoming_both"
+msgstr "Receive Mail Locally and Forward to:"
+
+msgid "mail_incoming_local"
+msgstr "Receive Mail Locally Only"
+
+msgid "mail_incoming_mail"
+msgstr "Incoming Mail"
+
+msgid "mail_incoming_smtp"
+msgstr "Forward to E-Mail Address:"
+
+msgid "mail_insert_folder_name"
+msgstr "Please insert a folder name"
+
+msgid "mail_insert_query"
+msgstr "Please insert a query"
+
+msgid "mail_invite_users_to_chat"
+msgstr "Invite Users to Chat"
+
+msgid "mail_is_read"
+msgstr "Read"
+
+msgid "mail_is_unread"
+msgstr "Unread"
+
+msgid "mail_list_members"
+msgstr "List Members"
+
+msgid "mail_mailing_list"
+msgstr "Mailing List"
+
+msgid "mail_mailing_lists"
+msgstr "Mailing Lists"
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "You have already added all of your contacts to this mailing list."
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "You don’t have any entries in your contacts to add to a mailing list."
+
+msgid "mail_main_folder"
+msgstr "Main Folder"
+
+msgid "mail_manage_attachments"
+msgstr "Manage Attachments"
+
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "Back to Compose"
+
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "Drop file to upload"
+
+msgid "mail_mark_read"
+msgstr "Mark as Read"
+
+msgid "mail_mark_unread"
+msgstr "Mark as Unread"
+
+msgid "mail_max_size_attachments_total"
+msgstr "Please enter the maximum combined size of all attachments allowed per mail. This setting is not related to other resource limits, e.g. server limits such as ‘upload_max_filesize’, as you can attach multiple files to a single mail."
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "The maximum combined size of all attachments may not exceed:"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "The upload limit is:"
+
+msgid "mail_member_notification"
+msgstr "Participant Notification"
+
+msgid "mail_members_of_mailing_list"
+msgstr "Members of Mailing List \"%s\""
+
+msgid "mail_members_search_continue"
+msgstr "Continue"
+
+msgid "mail_message_send"
+msgstr "Message sent."
+
+msgid "mail_mode_switch_label"
+msgstr "Switch between „Personal Mail” and „Serial Letter” mode"
+
+msgid "mail_mode_switch_locked"
+msgstr "You cannot switch to „%s” mode."
+
+msgid "mail_move_error"
+msgstr "An error occurred while trying to move your mail."
+
+msgid "mail_move_to"
+msgstr "Move to:"
+
+msgid "mail_move_to_folder_btn_label"
+msgstr "Move Mail"
+
+msgid "mail_move_to_folder_x"
+msgstr "to \"%s\""
+
+msgid "mail_moved"
+msgstr "Mail(s) moved."
+
+msgid "mail_moved_to_trash"
+msgstr "Mail(s) moved to trash."
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "The value %1$s could apply to multiple recipient roles. Please send this mail directly from the ‘Members’ tab of the group or course in question."
+
+msgid "mail_my_courses"
+msgstr "My Courses"
+
+msgid "mail_my_groups"
+msgstr "My Groups"
+
+msgid "mail_my_mailing_lists"
+msgstr "My Mailing Lists"
+
+msgid "mail_nacc_admin_mail"
+msgstr "Mail address of administrator"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "This text is only included if the user has a limited access period."
+
+msgid "mail_nacc_ilias_url"
+msgstr "URL of ILIAS system"
+
+msgid "mail_nacc_installation_desc"
+msgstr "Installation Description"
+
+msgid "mail_nacc_installation_name"
+msgstr "Installation Name"
+
+msgid "mail_nacc_login"
+msgstr "Username (Login ID)"
+
+msgid "mail_nacc_no_pw_block"
+msgstr "This text block is only included if the new user account has been created without a password."
+
+msgid "mail_nacc_pw_block"
+msgstr "This text block is only included if the new user account has been created with a password included."
+
+msgid "mail_nacc_salutation"
+msgstr "Greeting"
+
+msgid "mail_nacc_target"
+msgstr "URL of target item, e.g. a link to a course outside of ILIAS."
+
+msgid "mail_nacc_target_block"
+msgstr "This text is only included if a target item is provided."
+
+msgid "mail_nacc_target_title"
+msgstr "Title of target item, e.g. course title."
+
+msgid "mail_nacc_target_type"
+msgstr "Type of target item, e.g. ‘Course’ for a course item."
+
+msgid "mail_nacc_timelimit"
+msgstr "User access period"
+
+msgid "mail_nacc_title"
+msgstr "Title"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "The following placeholders may be used (only in the ‘Message Content’ field)"
+
+msgid "mail_nacc_user_fullname"
+msgstr "User Full Name"
+
+msgid "mail_nacc_user_login"
+msgstr "User Login"
+
+msgid "mail_new"
+msgstr "New Mail"
+
+msgid "mail_new_template"
+msgstr "New Text Template"
+
+msgid "mail_no_mail_items"
+msgstr "No unread mails."
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "You do not have permission to send external e-mails."
+
+msgid "mail_no_subject"
+msgstr "No subject available"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "%1$s (not a valid mailing list)"
+
+msgid "mail_notification_membership_section"
+msgstr "Membership"
+
+msgid "mail_notification_subject"
+msgstr "New mail in your inbox"
+
+msgid "mail_notify_orphaned"
+msgstr "Notification Mail"
+
+msgid "mail_notify_orphaned_info"
+msgstr "If you enter a value here that is larger than or equal to 1, ILIAS will send a notification e-mail to all affected accounts that many days before any internal mails are deleted. Please make sure that external e-mail reception is possible."
+
+msgid "mail_operation_on_invalid_folder"
+msgstr "It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator."
+
+msgid "mail_options"
+msgstr "Mail Options"
+
+msgid "mail_options_saved"
+msgstr "Options saved."
+
+msgid "mail_orphaned_mails"
+msgstr "Delete old or orphaned mails"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "Deletes orphaned mails and mails that are older than the configured threshold value (configurable via the ‘Edit’ link to the right of this cron job)."
+
+msgid "mail_recipient_not_found"
+msgstr "%1$s - Please correct this entry in the ‘To’ field."
+
+msgid "mail_rename_folder"
+msgstr "Rename Folder"
+
+msgid "mail_roles"
+msgstr "All users with one or more of the following local roles"
+
+msgid "mail_s"
+msgstr " %s Mails"
+
+msgid "mail_salutation_anonymous"
+msgstr "Hello"
+
+msgid "mail_salutation_f"
+msgstr "Dear Ms"
+
+msgid "mail_salutation_female"
+msgstr "Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Ms'"
+
+msgid "mail_salutation_general"
+msgstr "Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if no salutation is desired or specified"
+
+msgid "mail_salutation_m"
+msgstr "Dear Mr"
+
+msgid "mail_salutation_male"
+msgstr "Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Mr'"
+
+msgid "mail_salutation_n"
+msgstr "Hello"
+
+msgid "mail_saved"
+msgstr "Your mail has been saved."
+
+msgid "mail_second_email"
+msgstr "Second E-Mail Address"
+
+msgid "mail_sel_label"
+msgstr "Send mail to"
+
+msgid "mail_sel_users"
+msgstr "Selected users"
+
+msgid "mail_select_attachment"
+msgstr "Please select an attachment to download."
+
+msgid "mail_select_crs"
+msgstr "Please select at least one course."
+
+msgid "mail_select_grp"
+msgstr "Please select at least one group."
+
+msgid "mail_select_one_entry"
+msgstr "You must select at least one entry."
+
+msgid "mail_select_one_file"
+msgstr "You must select at least one file."
+
+msgid "mail_send_html"
+msgstr "HTML Frame"
+
+msgid "mail_send_html_info"
+msgstr "When this option is enabled, the message body of external emails is embedded in an HTML frame. The logo, header title, and the colors of the header, background, and footer are taken from the default system style."
+
+msgid "mail_sent_datetime"
+msgstr "Date"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "Mail Merge Placeholders"
+
+msgid "mail_settings_external_frm_head"
+msgstr "External E-Mails"
+
+msgid "mail_settings_external_tab"
+msgstr "External"
+
+msgid "mail_settings_general_tab"
+msgstr "General"
+
+msgid "mail_settings_incoming_type_see_also"
+msgstr "How incoming e-mails for users are handled can also be set <a href=\"%s\">here</a>."
+
+msgid "mail_settings_system_frm_head"
+msgstr "System E-Mails"
+
+msgid "mail_settings_user_frm_head"
+msgstr "User E-Mails"
+
+msgid "mail_smtp_encryption"
+msgstr "Encryption"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Host"
+
+msgid "mail_smtp_host_info"
+msgstr "Please enter the hostname or IP of the desired mail server."
+
+msgid "mail_smtp_password"
+msgstr "Password"
+
+msgid "mail_smtp_password_req"
+msgstr "If you have entered a user for authentication purposes, then you are also required to set a password."
+
+msgid "mail_smtp_port"
+msgstr "Port"
+
+msgid "mail_smtp_port_info"
+msgstr "Please enter a numeric value for the mail server port (e.g. 25)."
+
+msgid "mail_smtp_status"
+msgstr "Send via SMTP"
+
+msgid "mail_smtp_status_info"
+msgstr "Have ILIAS dispatch external e-mails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail)."
+
+msgid "mail_smtp_user"
+msgstr "User"
+
+msgid "mail_subject_prefix"
+msgstr "Mail Subject"
+
+msgid "mail_subject_prefix_info"
+msgstr "Enter a text which will be prepended to the subject line of outgoing auto-generated e-mails. The usage of a prefix is recommended, as it makes it easier for users to filter messages."
+
+msgid "mail_subject_too_long"
+msgstr "The subject is too long."
+
+msgid "mail_success_removed_user"
+msgstr "User(s) successfully removed from mailing list."
+
+msgid "mail_sure_delete_entry"
+msgstr "Are you sure you want to delete the following entries?"
+
+msgid "mail_sure_delete_file"
+msgstr "Are you sure you want to delete the selected file(s)?"
+
+msgid "mail_sure_delete_folder"
+msgstr "The folder and its contents will be irrevocably deleted."
+
+msgid "mail_sure_delete_p"
+msgstr "Are you sure you want to delete the following mails?"
+
+msgid "mail_sure_delete_s"
+msgstr "Are you sure you want to delete the following mail?"
+
+msgid "mail_sure_remove_user"
+msgstr "Are you sure you want to remove the following user(s) from the members list?"
+
+msgid "mail_system_sys_env_from_addr"
+msgstr "Technical Sender"
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr "If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value."
+
+msgid "mail_system_sys_from_addr"
+msgstr "Sender E-Mail (From)"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style=\"font-style: italic\">info@institution.de</span> or <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_sys_from_name"
+msgstr "Name of Sender (From)"
+
+msgid "mail_system_sys_general_signature"
+msgstr "Signature"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Reply-To"
+
+msgid "mail_system_usr_env_from_addr"
+msgstr "Technical Sender"
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr "If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value."
+
+msgid "mail_system_usr_from_addr"
+msgstr "Sender E-Mail (From)"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client and helps prevent mails being rejected as spam. When a user manually sends an e-mail via ILIAS, the e-mail address associated with that user’s account will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style=\"font-style: italic\">info@institution.de</span> or <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_usr_from_name"
+msgstr "Name of Sender (From)"
+
+msgid "mail_system_usr_from_name_info"
+msgstr "The name of the sender is normally displayed in e-mail clients in the ‘From’ line. You can use the placeholders &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; and &lbrace;&lbrace;LASTNAME&rbrace;&rbrace;. These will then be replaced by the relevant data of the user who manually sent the mail."
+
+msgid "mail_system_usr_general_signature"
+msgstr "User Signature"
+
+msgid "mail_tbl_head_attachments"
+msgstr "Attachment"
+
+msgid "mail_template_client"
+msgstr "Text Template"
+
+msgid "mail_template_client_info"
+msgstr "Choose one of the available text templates and, if required, make use of its placeholders. Switching to a different text template will change the message content of your mail and lose any changes you may have made. The subject line of your mail will not change and needs to be altered manually."
+
+msgid "mail_template_context"
+msgstr "Context"
+
+msgid "mail_template_default"
+msgstr " (Default)"
+
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "An invalid syntax has been detected. Please ensure a valid input, especially regarding the placeholder syntax."
+
+msgid "mail_template_missing_id"
+msgstr "This action cannot be carried out because the text template ID is missing."
+
+msgid "mail_template_no_context_available"
+msgstr "Currently, no context is being provided by any ILIAS service or module. It is therefore not possible to create or edit a text template."
+
+msgid "mail_template_no_valid_context"
+msgstr "The selected context is not valid."
+
+msgid "mail_template_orphaned_context"
+msgstr "Orphaned Context"
+
+msgid "mail_template_set_as_default"
+msgstr "Set as Default"
+
+msgid "mail_template_title"
+msgstr "Name"
+
+msgid "mail_template_unset_as_default"
+msgstr "Remove Default Status"
+
+msgid "mail_templates"
+msgstr "Text Templates"
+
+msgid "mail_threshold"
+msgstr "Threshold"
+
+msgid "mail_threshold_info"
+msgstr "Internal messages that are older than the entered threshold value will be deleted (including any attachments they may have). <br> Please keep in mind that the first time this cron job is run, a lot of messages may need to be deleted (depending on the threshold value) and because of this it will not be possible to warn users via notification mail."
+
+msgid "mail_to"
+msgstr "To"
+
+msgid "mail_tpl_deleted_p"
+msgstr "Text templates successfully deleted."
+
+msgid "mail_tpl_deleted_s"
+msgstr "Text template successfully deleted."
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "Are you sure you want to delete the following text templates?"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "Are you sure you want to delete the following text template?"
+
+msgid "mail_use_global_reply_to_addr"
+msgstr "Use Global Reply-To Address"
+
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "Use an email address as the reply-to address across the whole platform. Senders’ email addresses will not be disclosed to recipients. Direct replies to e-mails will also no longer be possible."
+
+msgid "nc_mail_noti_item_title"
+msgstr "Inbox"
+
+msgid "nc_mail_prop_time"
+msgstr "Time"
+
+msgid "nc_mail_unread_messages"
+msgstr "You have %s in your inbox."
+
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s unread mails"
+
+msgid "nc_mail_unread_messages_number_s"
+msgstr "1 unread mail"
+
+msgid "only_inbox_trash"
+msgstr "Limit to Inbox / Trash"
+
+msgid "only_inbox_trash_info"
+msgstr "Only delete e-mails that are located in the Inbox or Trash folders of users. Otherwise, all messages are deleted regardless of the folder they are in."
+
+msgid "orphaned_mail_body"
+msgstr "Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted."
+
+msgid "orphaned_mail_subject"
+msgstr "Notification of old mails"
+
+msgid "placeholders_advise"
+msgstr "Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders."
+
+msgid "regular_mail"
+msgstr "Personal Mail"
+
+msgid "search_content"
+msgstr "Search Result"
+
+msgid "search_recipients"
+msgstr "Look up Users"
+
+msgid "second_email_missing_info"
+msgstr "Selection not possible because no second e-mail address has been entered."
+
+msgid "select_mail_with_subject_x"
+msgstr "Select mail with subject „%s“"
+
+msgid "send_mail_admins"
+msgstr "All Administrators"
+
+msgid "send_mail_members"
+msgstr "All Members"
+
+msgid "send_mail_to"
+msgstr "Mail to"
+
+msgid "send_mail_tutors"
+msgstr "All Tutors"
+
+msgid "serial_letter"
+msgstr "Serial Letter"
+
+msgid "show_mail_settings"
+msgstr "Show Mail Settings"
+
+msgid "show_mail_settings_info"
+msgstr "Enable individual users to alter their mail settings, thereby overriding the global mail settings that would otherwise apply to them. ‘Mail Settings’ are accessible via ‘Communication > Mail’. Note: In order for users to be allowed to change their individual mail settings and thereby override the global settings, this needs to be set in the 'Standard Fields' section of the global user account administration settings. If users do not have the permission to change these profile settings, the global default is applied even if users were able to and did change their personal mail settings in the past."
+
+msgid "system_notification_installation_changed_by"
+msgstr "Changed by"
+
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "You have changed the attribute \"%s\" of the field \"%s\".<br>This leads to all accounts settings being reset to \"receive on primary address\" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users."

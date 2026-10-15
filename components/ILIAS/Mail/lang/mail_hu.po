@@ -1,0 +1,913 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "Vissza a mappához"
+
+msgid "chat_users_have_been_invited"
+msgstr "Az alábbi felhasználókat hívta meg"
+
+msgid "chat_users_without_login"
+msgstr "Az alábbi felhasználóknak nincs ILIAS-fiókja, nem lehetnek meghívva csevegőszobába."
+
+msgid "chat_users_without_permission"
+msgstr "Az alábbi felhasználóknak nincs hozzáférése a kiválasztott csevegőszobához:"
+
+msgid "current_folder"
+msgstr "Jelenlegi mappa: %s"
+
+msgid "deleteTemplate"
+msgstr "Törlés"
+
+msgid "edit_attachments"
+msgstr "Csatolás módosítása"
+
+msgid "first_email_missing_info"
+msgstr "Ez a kiválasztás nem lehetséges, mert nincs megadva e-mail cím."
+
+msgid "forward"
+msgstr "Továbbküld"
+
+msgid "goto_invitation_chat"
+msgstr "A csevegőszoba nyitva."
+
+msgid "invite_to_chat"
+msgstr "Meghívás csevegésbe"
+
+msgid "link_check_affected_links"
+msgstr "Érintett linkek:"
+
+msgid "link_check_introduction"
+msgstr "az alábbi weblinkek érvénytelenek:"
+
+msgid "link_check_perma_link"
+msgstr "Állandó link"
+
+msgid "link_check_reason"
+msgstr "Ezt a levelet azért kapta, mert beállította, hogy kér értesítést érvénytelen weblink észrevételekor."
+
+msgid "mail_1"
+msgstr "1 levél"
+
+msgid "mail_absence_auto_responder_body"
+msgstr "Üzenet"
+
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "Ez egy automatikus üzenet. Nem fog ilyen üzenetet kapni eddig: [NEXT_AUTO_RESPONDER_DATETIME]."
+
+msgid "mail_absence_auto_responder_body_info"
+msgstr "Ezt az üzenetet a rendszer automatikusan elküldi távolléte alatt, amikor a felhasználók belső ILIAS-üzenetet küldenek Önnek.<br />A felhasználók %1$s naponta értesítést kapnak távollétéről, ha további üzeneteket küldenek."
+
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "Ezt az üzenetet a rendszer automatikusan elküldi távolléte alatt, amikor a felhasználók belső ILIAS-üzenetet küldenek Önnek.<br />A felhasználók másnap ismét értesítést kapnak távollétéről, ha további üzeneteket küldenek."
+
+msgid "mail_absence_auto_responder_subject"
+msgstr "Tárgy"
+
+msgid "mail_absence_duration"
+msgstr "Időtartam"
+
+msgid "mail_absence_status"
+msgstr "Automatikus válaszok"
+
+msgid "mail_absence_status_info"
+msgstr "A házon kívül vagyok üzenet automatikus küldésének bekapcsolása"
+
+msgid "mail_absent_from"
+msgstr "Kezdő időpont"
+
+msgid "mail_absent_until"
+msgstr "Záró időpont"
+
+msgid "mail_account_mail"
+msgstr "Az új fióktulajdonosok értesítése"
+
+msgid "mail_add_folder"
+msgstr "Új almappa létrehozása"
+
+msgid "mail_add_recipient"
+msgstr "Adja meg az elküldendő levél címzettjét!"
+
+msgid "mail_add_subfolder"
+msgstr "Almappa létrehozása"
+
+msgid "mail_add_subject"
+msgstr "Adja meg az elküldendő levél tárgyát!"
+
+msgid "mail_adopt_selected_attachements"
+msgstr "Kijelölt mellékletek elfogadása"
+
+msgid "mail_all_in_trash"
+msgstr "Az összeset a lomtárban"
+
+msgid "mail_allow_external"
+msgstr "Külső levelek"
+
+msgid "mail_allow_external_info"
+msgstr "Ha ki van kapcsolva, külső levelek küldése (SMTP-n keresztül) központilag le van tiltva."
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "Rendeljen hozzá egy névjegyet ‘%s’ levelezési csoporthoz"
+
+msgid "mail_assign_to_mailing_list"
+msgstr "Hozzárendelés"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "Legalább az egyik csatolmány nem található: %1$s"
+
+msgid "mail_attachments"
+msgstr "Mellékletek"
+
+msgid "mail_auto_generated_info"
+msgstr "Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s"
+
+msgid "mail_auto_responder"
+msgstr "Automatikus válasz"
+
+msgid "mail_auto_responder_idle_time"
+msgstr "Újraküldés"
+
+msgid "mail_auto_responder_idle_time_info"
+msgstr "Ennyi napnak kell eltelnie a házon kívüli levél ugyanannak a feladónak történő újraküldése között."
+
+msgid "mail_bcc"
+msgstr "Titkos másolat (BCC)"
+
+msgid "mail_bg_task_desc"
+msgstr "Tárgy: %s"
+
+msgid "mail_bg_task_title"
+msgstr "E-mail szállítás"
+
+msgid "mail_both_email"
+msgstr "Mindkét e-mail cím"
+
+msgid "mail_cc"
+msgstr "Másolat (CC)"
+
+msgid "mail_change_to_folder"
+msgstr "Mappaváltás: %s"
+
+msgid "mail_create_tpl"
+msgstr "Szövegminta létrehozása"
+
+msgid "mail_cronjob_notification_info"
+msgstr "Periodikus értesítés aktiválása az új e-mailekről"
+
+msgid "mail_crs_list_members_not_available"
+msgstr "Nem lehet felsorolni a kiválasztott kurzusok tagjait."
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "Legalább egy kiválasztott kurzus tagjait nem lehet felsorolni."
+
+msgid "mail_crs_roles"
+msgstr "Kurzusszerepköröknek levélküldés"
+
+msgid "mail_deleted"
+msgstr "A level(ek)et sikeresen törölte."
+
+msgid "mail_deleted_entry"
+msgstr "A névjegy(ek)et sikeresen törölte"
+
+msgid "mail_download_attachment"
+msgstr "Csatolmány letöltése"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "Egy csatolmány sem található."
+
+msgid "mail_edit_tpl"
+msgstr "Szövegminta módosítása"
+
+msgid "mail_email_sys_body"
+msgstr "Ez a rendszer e-mailek külső e-mail címre küldésének tesztelése."
+
+msgid "mail_email_sys_subject"
+msgstr "Rendszer teszt e-mail"
+
+msgid "mail_email_usr_body"
+msgstr "Ez a felhasználói e-mailek külső e-mail címre küldésének tesztelése."
+
+msgid "mail_email_usr_subject"
+msgstr "Felhasználói teszt e-mail"
+
+msgid "mail_empty_trash"
+msgstr "Kuka ürítése"
+
+msgid "mail_empty_trash_confirmation"
+msgstr "Biztos, hogy minden levelet töröl a kukából?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr "Kurzusvezetők értesítése"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "Új kurzus létrehozásakor az ‘Új tagokról értesítés’ alapértelmezetten aktív lesz. Ez a beállítás a kurzus ‘Tagok’ lapján található. A kurzusvezetők levélben értesítést kapnak, amikor valaki csatlakozik a kurzushoz vagy elhagyja azt, illetve ha a kurzushoz előírt minimális létszám nem jön össze."
+
+msgid "mail_enable_crs_member_notification"
+msgstr "Kurzustagok értesítése"
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "ILIAS automatikus értesítést küld a kurzustagság változásáról. Ez a beállítás a rendszer összes kurzusára hat."
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "Csoportvezetők értesítése"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "Új csoport létrehozásakor az ‘Értesítés’ alapértelmezetten aktív lesz. Ez a beállítás a csoport ‘Tagok’ lapján található. A csoportvezetők levélben értesítést kapnak, amikor valaki csatlakozik a kurzushoz vagy elhagyja azt, illetve ha a csoporthoz előírt minimális létszám nem jön össze."
+
+msgid "mail_enable_grp_member_notification"
+msgstr "Csoporttagok értesítése"
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "ILIAS automatikus értesítést küld a csoporttagság változásáról. Ez a beállítás a rendszer összes csoportjára hat."
+
+msgid "mail_enable_lso_admin_notification"
+msgstr "Tanulási sor vezetőinek értesítése"
+
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "Az új Tanulási sor létrehozásakor az ‘Új tagokról értesítés’ alapértelmezetten aktív lesz. Ez a beállítás a Tanulás sor ‘Tagok’ lapján található. A vezetők levélben értesítést kapnak, amikor valaki csatlakozik a Tanulási sorhoz vagy elhagyja azt."
+
+msgid "mail_enable_lso_member_notification"
+msgstr "Tanulási sor tagjainak értesítése"
+
+msgid "mail_enable_lso_member_notification_info"
+msgstr "Az ILIAS automatikus értesítéset küld a résztvevőnek, amikor a tagsági állapota módosul. Ez az összes Tanulás sorra hat."
+
+msgid "mail_entry_of_contacts"
+msgstr "Névjegy"
+
+msgid "mail_error_reading_attachment"
+msgstr "Egy csatolmány sem azonosítható be."
+
+msgid "mail_external_send_test_sys"
+msgstr "Teszt e-mail küldése (rendszerüzenet)"
+
+msgid "mail_external_send_test_usr"
+msgstr "Teszt e-mail küldése (felhasználói levél)"
+
+msgid "mail_external_test_sent"
+msgstr "A profiljában megadott e-mail címre elküldtünk egy levelet."
+
+msgid "mail_file_name"
+msgstr "Fájlnév"
+
+msgid "mail_file_size"
+msgstr "Fájlméret"
+
+msgid "mail_files_deleted"
+msgstr "A fájl(oka)t sikeresen törölte."
+
+msgid "mail_filter"
+msgstr "Szűrő"
+
+msgid "mail_filter_attach"
+msgstr "Mellékletek"
+
+msgid "mail_filter_body"
+msgstr "Törzsszöveg"
+
+msgid "mail_filter_display"
+msgstr "Megjelenítés"
+
+msgid "mail_filter_field_placeholder"
+msgstr "Keresett szöveg…"
+
+msgid "mail_filter_period"
+msgstr "Időszak"
+
+msgid "mail_filter_recipients"
+msgstr "Címzett"
+
+msgid "mail_filter_sender"
+msgstr "Feladó"
+
+msgid "mail_filter_show_read"
+msgstr "Olvasottak megjelenítése"
+
+msgid "mail_filter_show_system_mails"
+msgstr "Rendszerértesítések megjelenítése"
+
+msgid "mail_filter_show_unread"
+msgstr "Olvasatlanok megjelenítése"
+
+msgid "mail_filter_show_user_mails"
+msgstr "Felhasználói levelek megjelenítése"
+
+msgid "mail_filter_show_with_attachments"
+msgstr "Megjelenítés csatolmányokkal"
+
+msgid "mail_filter_show_without_attachment"
+msgstr "Megjelenítés csatolmányok nélkül"
+
+msgid "mail_filter_subject"
+msgstr "Tárgy"
+
+msgid "mail_filter_txt"
+msgstr "Keresés a következőkben"
+
+msgid "mail_first_email"
+msgstr "Elsődleges e-mail cím"
+
+msgid "mail_firstname_last_name_superior"
+msgstr "A felhasználó feletteseinek családi- és utóneve vesszővel elválasztott listája"
+
+msgid "mail_folder_created"
+msgstr "Sikeresen létrehozott egy új mappát."
+
+msgid "mail_folder_deleted"
+msgstr "A mappát sikeresen törölte"
+
+msgid "mail_folder_exists"
+msgstr "Mappa már létezik ezen a néven."
+
+msgid "mail_folder_name_changed"
+msgstr "A mappát sikeresen átnevezte."
+
+msgid "mail_following_rcp_not_valid"
+msgstr "Az alábbi címzettek érvénytelenek:"
+
+msgid "mail_form_placeholders_label"
+msgstr "Használható helyőrzők"
+
+msgid "mail_generic_rcp_error"
+msgstr "Hiba a címzettek ellenőrzése közben: %1$s"
+
+msgid "mail_global_reply_to_addr"
+msgstr "Válaszcím"
+
+msgid "mail_global_reply_to_addr_info"
+msgstr "Adja meg a kívánt válaszcímet (‘Reply-To’) címet."
+
+msgid "mail_grp_roles"
+msgstr "Csoportszerepköröknek levélküldés"
+
+msgid "mail_hint_add_placeholder_x"
+msgstr "Adja a(z) ‘%s’ helyőrzőt a levél szövegéhez."
+
+#, fuzzy
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally."
+
+msgid "mail_incoming"
+msgstr "Beérkező levél"
+
+msgid "mail_incoming_both"
+msgstr "Levelek helyi fogadása és továbbküldése"
+
+msgid "mail_incoming_local"
+msgstr "Levelek csak helyi fogadása"
+
+msgid "mail_incoming_mail"
+msgstr "Beérkező levél"
+
+msgid "mail_incoming_smtp"
+msgstr "Továbbküldés az e-mail címre:"
+
+msgid "mail_insert_folder_name"
+msgstr "Adjon meg mappanevet."
+
+msgid "mail_insert_query"
+msgstr "Írja be a keresendő szöveget."
+
+msgid "mail_invite_users_to_chat"
+msgstr "Felhasználók meghívása csevegésbe"
+
+msgid "mail_is_read"
+msgstr "olvasott"
+
+msgid "mail_is_unread"
+msgstr "olvasatlan"
+
+msgid "mail_list_members"
+msgstr "Tagok felsorolása"
+
+msgid "mail_mailing_list"
+msgstr "Névjegycsoport"
+
+msgid "mail_mailing_lists"
+msgstr "Névjegycsoportok"
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "Minden névjegyet hozzárendelte ehhez a csoporthoz."
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "Egy névjegy sincs a címtárában."
+
+msgid "mail_main_folder"
+msgstr "Fő mappa"
+
+msgid "mail_manage_attachments"
+msgstr "Csatolmányok kezelése"
+
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "Vissza a levélíráshoz"
+
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "Dobja ide a fájlt a feltöltéshez"
+
+msgid "mail_mark_read"
+msgstr "Megjelölés olvasottként"
+
+msgid "mail_mark_unread"
+msgstr "Megjelölés olvasatlanként"
+
+msgid "mail_max_size_attachments_total"
+msgstr "Adja meg egy levél mellékleteinek maximálisan engedélyezett összméretét. Ez a beállítás független más korláttól (például upload_max_filesize, stb.), mert egy levélhez több fájlt is csatolhat mellékletként."
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "Mellékletek maximálisan engedélyezett összmérete:"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "A feltöltési határ:"
+
+msgid "mail_member_notification"
+msgstr "Résztvevők értesítése"
+
+msgid "mail_members_of_mailing_list"
+msgstr "‘%s’ levelezési csoport tagjai"
+
+msgid "mail_members_search_continue"
+msgstr "Folytatás"
+
+msgid "mail_message_send"
+msgstr "Üzenetet elküldte."
+
+msgid "mail_mode_switch_label"
+msgstr "Váltás ‘Személyes levél’ és ‘Körlevél’ mód között"
+
+msgid "mail_mode_switch_locked"
+msgstr "Nem válthat ‘%s’ módba."
+
+msgid "mail_move_error"
+msgstr "Hiba a levél áthelyezésekor"
+
+msgid "mail_move_to"
+msgstr "Áthelyezés ide:"
+
+msgid "mail_move_to_folder_btn_label"
+msgstr "Levél mozgatása"
+
+msgid "mail_move_to_folder_x"
+msgstr "‘%s’ mappába"
+
+msgid "mail_moved"
+msgstr "A levelet sikeresen áthelyezte."
+
+msgid "mail_moved_to_trash"
+msgstr "A levelet a kukába helyezte."
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "%1$s (címzetthez több szerepkör is létezik: %2$s)"
+
+msgid "mail_my_courses"
+msgstr "Kurzusaim"
+
+msgid "mail_my_groups"
+msgstr "Csoportjaim"
+
+msgid "mail_my_mailing_lists"
+msgstr "Névjegycsoportok"
+
+msgid "mail_nacc_admin_mail"
+msgstr "Rendszergazda e-mail címe"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "Ezt a szöveget csak akkor tartalmazza, ha a felhasználónak korlátozott hozzáférési időszaka van."
+
+msgid "mail_nacc_ilias_url"
+msgstr "ILIAS linkje (URL)"
+
+msgid "mail_nacc_installation_desc"
+msgstr "Telepítés leírása"
+
+msgid "mail_nacc_installation_name"
+msgstr "Telepítés neve"
+
+msgid "mail_nacc_login"
+msgstr "Felhasználónév"
+
+msgid "mail_nacc_no_pw_block"
+msgstr "Ez a szövegblokk csak akkor jelenik meg, ha az ILIAS-fiók jelszó nélkül jött létre."
+
+msgid "mail_nacc_pw_block"
+msgstr "Ez a szövegblokk csak akkor jelenik meg, ha az ILIAS-fiók jelszóval jött létre."
+
+msgid "mail_nacc_salutation"
+msgstr "Üdvözlés"
+
+msgid "mail_nacc_target"
+msgstr "A cél URL-je, például egy ILIAS-on kívüli kurzusé."
+
+msgid "mail_nacc_target_block"
+msgstr "Ez a szöveg csak akkor jelenik meg, ha van cél."
+
+msgid "mail_nacc_target_title"
+msgstr "Cél címe, például kurzuscím."
+
+msgid "mail_nacc_target_type"
+msgstr "Cél típusa, például ‘Kurzus’."
+
+msgid "mail_nacc_timelimit"
+msgstr "Hozzáférési időszak"
+
+msgid "mail_nacc_title"
+msgstr "Cím"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "Az alábbi helyőrzők használhatók"
+
+msgid "mail_nacc_user_fullname"
+msgstr "A felhasználó teljes neve"
+
+msgid "mail_nacc_user_login"
+msgstr "Felhasználónév"
+
+msgid "mail_new"
+msgstr "Új levél"
+
+msgid "mail_new_template"
+msgstr "Új szövegminta"
+
+msgid "mail_no_mail_items"
+msgstr "Nincs olvasatlan üzenete"
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "Nincs jogosultsága külső levelet írni"
+
+msgid "mail_no_subject"
+msgstr "Nincs tárgy"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "%1$s (egy használható névjegycsoport sincs)"
+
+msgid "mail_notification_membership_section"
+msgstr "Tagság"
+
+msgid "mail_notification_subject"
+msgstr "Új levele érkezett"
+
+msgid "mail_notify_orphaned"
+msgstr "Értesítő levél"
+
+msgid "mail_notify_orphaned_info"
+msgstr "Ha 1 vagy annál nagyobb értéket ad meg, ILIAS levelet küld a felhasználónak belső levél törlése előtt. Ellenőrizze, hogy külső címzett megadása lehetséges."
+
+msgid "mail_operation_on_invalid_folder"
+msgstr "A műveletet nem lehet végrehajtani, a szerveren a mappakérés érvénytelen. Keresse az üzemeltetőt."
+
+msgid "mail_options"
+msgstr "Beállítások"
+
+msgid "mail_options_saved"
+msgstr "Beállításokat sikeresen mentette."
+
+msgid "mail_orphaned_mails"
+msgstr "Régi és gazdátlan levelek törlése"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "Régi és gazdátlan levelek törlése"
+
+msgid "mail_recipient_not_found"
+msgstr "%1$s - Kérem, javítsd a ‘Címzett’ mezőt"
+
+msgid "mail_rename_folder"
+msgstr "Mappa átnevezése"
+
+msgid "mail_roles"
+msgstr "Az alábbi helyi szerepkörökkel bíró felhasználóknak"
+
+msgid "mail_s"
+msgstr "levél"
+
+msgid "mail_salutation_anonymous"
+msgstr "Tisztelt"
+
+msgid "mail_salutation_f"
+msgstr "Tisztelt"
+
+msgid "mail_salutation_female"
+msgstr "Üdvözlés &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace; helyőrzője hölgy esetén"
+
+msgid "mail_salutation_general"
+msgstr "Üdvözlés &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace; helyőrzője, ha nincs a neme megadva"
+
+msgid "mail_salutation_m"
+msgstr "Tisztelt"
+
+msgid "mail_salutation_male"
+msgstr "Üdvözlés &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace; helyőrzője férfi esetén"
+
+msgid "mail_salutation_n"
+msgstr "Tisztelt"
+
+msgid "mail_saved"
+msgstr "Az üzenetet mentette"
+
+msgid "mail_second_email"
+msgstr "Másodlagos e-mail cím"
+
+msgid "mail_sel_label"
+msgstr "Címzettek kiválasztása"
+
+msgid "mail_sel_users"
+msgstr "Kiválasztott felhasználóknak levélküldés"
+
+msgid "mail_select_attachment"
+msgstr "Válasszon egy mellékletet a letöltéshez!"
+
+msgid "mail_select_crs"
+msgstr "Legalább egy kurzust válasszon!"
+
+msgid "mail_select_grp"
+msgstr "Legalább egy csoportot válasszon!"
+
+msgid "mail_select_one_entry"
+msgstr "Ki kell választania egy bejegyzést"
+
+msgid "mail_select_one_file"
+msgstr "Ki kell választania egy fájlt"
+
+msgid "mail_send_html"
+msgstr "Külső e-mailekhez HTML-keret"
+
+msgid "mail_send_html_info"
+msgstr "A külső e-mailek szövegrészét HTML-keretbe ágyazzuk. Ennek sablonja egyénre szabható a ‘./Services/Mail/templates/default/tpl.html_mail_template.html’ fájl ‘./Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html’ fájlba másolásával."
+
+msgid "mail_sent_datetime"
+msgstr "Dátum"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "Körlevélhelyőrzők"
+
+msgid "mail_settings_external_frm_head"
+msgstr "Külső levelek"
+
+msgid "mail_settings_external_tab"
+msgstr "Külső"
+
+msgid "mail_settings_general_tab"
+msgstr "Általános"
+
+msgid "mail_settings_incoming_type_see_also"
+msgstr "További lehetőséget a felhasználókhoz beérkező leveleinek módosítására <a href=\"%s\">itt</a> talál."
+
+msgid "mail_settings_system_frm_head"
+msgstr "Rendszerlevelek"
+
+msgid "mail_settings_user_frm_head"
+msgstr "Felhasználói levelek"
+
+msgid "mail_smtp_encryption"
+msgstr "Titkosítás"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Kiszolgáló"
+
+msgid "mail_smtp_host_info"
+msgstr "Adja meg a levelezőszerver kiszolgálónevét vagy IP címét."
+
+msgid "mail_smtp_password"
+msgstr "Jelszó"
+
+msgid "mail_smtp_password_req"
+msgstr "Ha hitelesítés céljából megad egy felhasználót, jelszót is meg kell adnia hozzá."
+
+msgid "mail_smtp_port"
+msgstr "Port"
+
+msgid "mail_smtp_port_info"
+msgstr "Adja meg a levelezőszerver portját (például 25)."
+
+msgid "mail_smtp_status"
+msgstr "Küldés SMTP-n keresztül"
+
+msgid "mail_smtp_status_info"
+msgstr "Az ILIAS a PHP függvény (sendmail, mail() függvény) helyett SMTP szerveren keresztül küld külső leveleket."
+
+msgid "mail_smtp_user"
+msgstr "Felhasználó"
+
+msgid "mail_subject_prefix"
+msgstr "Levél tárgya"
+
+msgid "mail_subject_prefix_info"
+msgstr "Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet."
+
+msgid "mail_subject_too_long"
+msgstr "A tárgy túl hosszú."
+
+msgid "mail_success_removed_user"
+msgstr "A felhasználó(ka)t sikeresen eltávolította a levelezési listáról."
+
+msgid "mail_sure_delete_entry"
+msgstr "Biztos, hogy törli az alábbi névjegy(ek)et?"
+
+msgid "mail_sure_delete_file"
+msgstr "Biztos, hogy törli a kiválasztott fájlokat?"
+
+msgid "mail_sure_delete_folder"
+msgstr "A mappát annak tartalmával véglegesen eltávolítja."
+
+msgid "mail_sure_delete_p"
+msgstr "Biztos, hogy törli a következő leveleket?"
+
+msgid "mail_sure_delete_s"
+msgstr "Biztos, hogy törli a következő levelet?"
+
+msgid "mail_sure_remove_user"
+msgstr "Biztos, hogy eltávolítja a felhasználó(ka)t a levelezési listáról?"
+
+msgid "mail_system_sys_env_from_addr"
+msgstr "Technikai feladó"
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr "Üres mező esetén a feladó e-mail címét használjuk, ha az SMTP be van kapcsolva. Különben a szerver rendszergazdájának a feladta beállítani ezt az értéket."
+
+msgid "mail_system_sys_from_addr"
+msgstr "Küldő e-mail címe (feladó)"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "Adja meg a ‘Feladó’ részbe szánt e-mail címet. A ‘Feladó’ rész a küldőt jeleníti meg a címzett e-mail kliensénél.<br /><br />Példa: <span style=\"font-style: italic\">info@intezmeny.hu</span> vagy <span style=\"font-style: italic\">no-reply@intezmeny.hu/span>"
+
+msgid "mail_system_sys_from_name"
+msgstr "Küldő teljes neve (feladó)"
+
+msgid "mail_system_sys_general_signature"
+msgstr "Aláírás"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Válaszcím"
+
+msgid "mail_system_usr_env_from_addr"
+msgstr "Technikai feladó"
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr "Üres mező esetén a feladó e-mail címét használjuk, ha az SMTP be van kapcsolva. Különben a szerver rendszergazdájának a feladta beállítani ezt az értéket."
+
+msgid "mail_system_usr_from_addr"
+msgstr "Küldő e-mail címe (feladó)"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "Adja meg a ‘Feladó’ részbe szánt e-mail címet. A ‘Feladó’ rész a küldőt jeleníti meg a címzett e-mail kliensénél. Az ILIAS-on keresztül e-mailt küldő felhasználó e-mail címét automatikusan betesszük a ‘Válasz’ részbe.<br /><br />Példa: <span style=\"font-style: italic\">info@intezmeny.hu</span> vagy <span style=\"font-style: italic\">no-reply@intezmeny.hu/span>"
+
+msgid "mail_system_usr_from_name"
+msgstr "Küldő teljes neve (feladó)"
+
+msgid "mail_system_usr_from_name_info"
+msgstr "A &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; és &lbrace;&lbrace;LASTNAME&rbrace;&rbrace; helyőrzőket használhatja, melyeket személy megfelelő adatára cseréljünk."
+
+msgid "mail_system_usr_general_signature"
+msgstr "Felhasználó aláírása"
+
+msgid "mail_tbl_head_attachments"
+msgstr "Csatolmány"
+
+msgid "mail_template_client"
+msgstr "Szövegminta"
+
+msgid "mail_template_client_info"
+msgstr "Válasszon egyet ez elérhető szövegminták közül, és használja annak helyőrzőit. Amikor egy szövegmintát választ, űrlapjának szövegében és tárgyában lévő helyőrzőket lecseréljük (ha azok léteznek a szövegmintában)."
+
+msgid "mail_template_context"
+msgstr "Szövegkörnyezet"
+
+msgid "mail_template_default"
+msgstr " (Alapértelmezett)"
+
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "Szintaktikai hiba: ellenőrizze a bemenet érvénysségét, különösen a helyőrzőket."
+
+msgid "mail_template_missing_id"
+msgstr "Nem futtatható a művelet, mert hiányzik a szövegminta azonosítója."
+
+msgid "mail_template_no_context_available"
+msgstr "Egy ILIAS szolgáltatás, illetve modul által biztosított szövegkörnyezet sincs, ezért nem lehetséges szövegmintát sem létrehozni, sem szerkeszteni."
+
+msgid "mail_template_no_valid_context"
+msgstr "A megadott szövegkörnyezet nem érvényes."
+
+msgid "mail_template_orphaned_context"
+msgstr "Árva szövegkörnyezet"
+
+msgid "mail_template_set_as_default"
+msgstr "Beállítás alapértelmezettként"
+
+msgid "mail_template_title"
+msgstr "Megnevezés"
+
+msgid "mail_template_unset_as_default"
+msgstr "Ne legyen ez az alapértelmezett"
+
+msgid "mail_templates"
+msgstr "Szövegminták"
+
+msgid "mail_threshold"
+msgstr "Küszöb"
+
+msgid "mail_threshold_info"
+msgstr "A küszöb értékénél régebbi belső leveleket (mellékleteikkel együtt) végérvényesen töröljük. <br /> Ezen ütemezett feladat első futásakor sok üzenetet törlünk, ezért figyelmeztető levél küldése nem lehetséges."
+
+msgid "mail_to"
+msgstr "Címzett"
+
+msgid "mail_tpl_deleted_p"
+msgstr "Szövegmintákat sikeresen törölte."
+
+msgid "mail_tpl_deleted_s"
+msgstr "Szövegmintát sikeresen törölte."
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "Biztos, hogy törli a következő bejegyzéseket?"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "Biztos, hogy törli a szövegmintát?"
+
+msgid "mail_use_global_reply_to_addr"
+msgstr "A globális válaszcím használata"
+
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "Ha bekapcsolja, az itt beállított e-mail cím kerül a ‘Reply-To’ fejlécbe. A küldő e-mail címe nem jut el a címzettekhez, így arra válaszolni sem tudnak."
+
+msgid "nc_mail_noti_item_title"
+msgstr "Beérkezett üzenetek"
+
+msgid "nc_mail_prop_time"
+msgstr "Időpont"
+
+msgid "nc_mail_unread_messages"
+msgstr "%s van"
+
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s olvasatlan levele"
+
+msgid "nc_mail_unread_messages_number_s"
+msgstr "1 olvasatlan levele"
+
+msgid "only_inbox_trash"
+msgstr "Csak Beérkező / Kuka"
+
+msgid "only_inbox_trash_info"
+msgstr "Csak a Beérkező levelekben és a Kukában lévőket töröljük. Különben mappától függetlenül töröljük a leveleket."
+
+msgid "orphaned_mail_body"
+msgstr "Az alábbi levelezési fiókokban régi vagy gazdátlan levelek hevernek. Ezeket a leveleket automatikus töröljük hamarosan."
+
+msgid "orphaned_mail_subject"
+msgstr "Értesítés gazdátlan levelekről"
+
+msgid "placeholders_advise"
+msgstr "Csak a Címzett mezőben lévő felhasználók helyőrzőit oldjuk fel, %s a Másolat (CC) és a Titkos másolat (BCC) mezőkben lévőkét nem, azok helyőrzők maradnak."
+
+msgid "regular_mail"
+msgstr "Személyes levél"
+
+msgid "search_content"
+msgstr "Keresés eredménye"
+
+msgid "search_recipients"
+msgstr "Címzettek keresése"
+
+msgid "second_email_missing_info"
+msgstr "Ez a kiválasztás nem lehetséges, mert nincs megadva másodlagos e-mail cím."
+
+msgid "select_mail_with_subject_x"
+msgstr "‘%s’ tárgyú levél kiválasztása"
+
+msgid "send_mail_admins"
+msgstr "Összes vezető"
+
+msgid "send_mail_members"
+msgstr "Összes tag"
+
+msgid "send_mail_to"
+msgstr "Címzettek közé"
+
+msgid "send_mail_tutors"
+msgstr "Összes tutor"
+
+msgid "serial_letter"
+msgstr "Körlevél"
+
+msgid "show_mail_settings"
+msgstr "Levelezési beállítások megjelenítése"
+
+msgid "show_mail_settings_info"
+msgstr "A ‘Levelezési beállítások’ elérhető a ‘Személyes beállítások’ vagy a ‘Levelezés’ részben. Ennek módosíthatósága függ a jogosultsági beállításoktól."
+
+msgid "system_notification_installation_changed_by"
+msgstr "Módosította"
+
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "A ‘%s’ attribútumot (‘%s’ mező) módosította.<br />Ez azt eredményezi, hogy az összes fiók beállítása visszaáll az ‘Elsődleges címre történő fogadás’ értékre külső kézbesítésnél,<br />nemcsak az új fiók esetében, hanem a felhasználók jelenleg beállításait is felülírjuk."

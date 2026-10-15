@@ -1,0 +1,979 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "Torna alla cartella"
+
+msgid "chat_users_have_been_invited"
+msgstr "I seguenti utenti sono stati invitati:"
+
+msgid "chat_users_without_login"
+msgstr "I seguenti utenti non hanno un account di ILIAS e quindi non possono essere invitati alla Chat Room:"
+
+msgid "chat_users_without_permission"
+msgstr "I seguenti utenti non hanno accesso alla chat room:"
+
+msgid "current_folder"
+msgstr "Cartella attuale: %s"
+
+#, fuzzy
+msgid "deleteTemplate"
+msgstr "Delete"
+
+#, fuzzy
+msgid "edit_attachments"
+msgstr "Edit Attachments"
+
+msgid "first_email_missing_info"
+msgstr "Selezione impossibile perché non è stato inserito alcun indirizzo e-mail"
+
+msgid "forward"
+msgstr "Inoltra"
+
+msgid "goto_invitation_chat"
+msgstr "Apri la  Chat Room"
+
+msgid "invite_to_chat"
+msgstr "Invita alla chat"
+
+msgid "link_check_affected_links"
+msgstr "Collegamenti interessati"
+
+msgid "link_check_introduction"
+msgstr "I seguenti collegamenti web non sono validi:"
+
+msgid "link_check_perma_link"
+msgstr "Collegamento permanente"
+
+msgid "link_check_reason"
+msgstr "Ricevi questa mail perché è stata abilitata la notifica per i collegamenti non validi."
+
+#, fuzzy
+msgid "mail_1"
+msgstr "1 Mail"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body"
+msgstr "Message"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME]."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified again of your absence the next day if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_subject"
+msgstr "Subject"
+
+#, fuzzy
+msgid "mail_absence_duration"
+msgstr "Duration"
+
+#, fuzzy
+msgid "mail_absence_status"
+msgstr "Enable Autoresponder"
+
+#, fuzzy
+msgid "mail_absence_status_info"
+msgstr "Activate an automatic out-of-office message."
+
+#, fuzzy
+msgid "mail_absent_from"
+msgstr "Absent from"
+
+#, fuzzy
+msgid "mail_absent_until"
+msgstr "Absent until"
+
+msgid "mail_account_mail"
+msgstr "Account mail"
+
+msgid "mail_add_folder"
+msgstr "Aggiungi nuova sottocartella"
+
+msgid "mail_add_recipient"
+msgstr "Per favore, specifica il destinatario"
+
+msgid "mail_add_subfolder"
+msgstr "Aggiungi cartella"
+
+msgid "mail_add_subject"
+msgstr "Per favore, inserisci un argomento"
+
+#, fuzzy
+msgid "mail_adopt_selected_attachements"
+msgstr "Adopt selected Attachments"
+
+#, fuzzy
+msgid "mail_all_in_trash"
+msgstr "All in Trash"
+
+msgid "mail_allow_external"
+msgstr "Email esterne"
+
+msgid "mail_allow_external_info"
+msgstr "Se disabilitato, la consegna di e-mail esterne (tramite SMTP) è disabilitata a livello globale."
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "Assegna un indirizzo della tua rubrica alla tua  Mailing List"
+
+#, fuzzy
+msgid "mail_assign_to_mailing_list"
+msgstr "Assign"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "Almeno uno dei seguenti allegati non esiste: %1$s"
+
+msgid "mail_attachments"
+msgstr "Allegati"
+
+msgid "mail_auto_generated_info"
+msgstr "Questa mail ti è stata mandata in automatico dalla installazione %s, %s di ILIAS"
+
+#, fuzzy
+msgid "mail_auto_responder"
+msgstr "Autoresponder"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time"
+msgstr "Resend"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time_info"
+msgstr "Specify here how many days should elapse before your out-of-office reply is resent to a mail correspondent who has sent you further mails."
+
+#, fuzzy
+msgid "mail_bcc"
+msgstr "BCC"
+
+msgid "mail_bg_task_desc"
+msgstr "Soggetto: %s"
+
+msgid "mail_bg_task_title"
+msgstr "E-mail consegnata"
+
+msgid "mail_both_email"
+msgstr "Entrambi gli indirizzi e-mail"
+
+#, fuzzy
+msgid "mail_cc"
+msgstr "CC"
+
+msgid "mail_change_to_folder"
+msgstr "Spostare nella cartella: %s"
+
+msgid "mail_create_tpl"
+msgstr "Crea modello di testo"
+
+msgid "mail_cronjob_notification_info"
+msgstr "Puoi attivare qui una notifica periodica per nuove mail."
+
+msgid "mail_crs_list_members_not_available"
+msgstr "Non è possibile inserire in lista i seguenti utenti dei corsi selezionati."
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "Gli utenti di almeno un corso di ILIAS non possono essere listati."
+
+msgid "mail_crs_roles"
+msgstr "Invia mail ai ruoli del corso"
+
+msgid "mail_deleted"
+msgstr "Le eMail sono state cancellate"
+
+msgid "mail_deleted_entry"
+msgstr "Le voci sono state cancellate"
+
+#, fuzzy
+msgid "mail_download_attachment"
+msgstr "Download Attachment"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "Impossibile trovare allegati."
+
+msgid "mail_edit_tpl"
+msgstr "Modifica modello di testo"
+
+msgid "mail_email_sys_body"
+msgstr "Questa è una e-mail di prova per testare la consegna delle mail di sistema all'account di posta esterno."
+
+msgid "mail_email_sys_subject"
+msgstr "Prova del sistema di posta elettronica"
+
+msgid "mail_email_usr_body"
+msgstr "Questa è una mail di prova per testare la consegna delle mail degli utenti all'account di posta esterno."
+
+msgid "mail_email_usr_subject"
+msgstr "Test E-Mail Posta Utente"
+
+msgid "mail_empty_trash"
+msgstr "Svuota il cestino"
+
+msgid "mail_empty_trash_confirmation"
+msgstr "Sei sicuro di voler spostare questa mail nel cestino?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr "Notifica per gli amministratori del corso"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "Nei nuovi corsi l’impostazione 'Notifica sui nuovi membri' verrà attivata per impostazione predefinita. Viene impostata nella scheda 'Membri' dei corsi. Gli amministratori del corso riceveranno una mail quando un membro parteciperà o abbandonerà il corso, o se il numero minimo dei partecipanti richiesti non è stato soddisfatto, affinché il corso avvenga."
+
+msgid "mail_enable_crs_member_notification"
+msgstr "Notifica i membri del corso"
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "Se abilitato, i partecipanti al corso verranno avvisati automaticamente delle modifiche all'iscrizione. Questa impostazione si applica a tutti i corsi della piattaforma."
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "Notifica per gli amministratori del gruppo"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "Nei nuovi gruppi l’impostazione 'Notifica' verrà attivata per impostazione predefinita. Viene impostata nella scheda 'Membri' dei gruppi. Gli amministratori del corso riceveranno una mail quando un membro parteciperà o abbandonerà il gruppo, o se il numero minimo dei partecipanti richiesti non è stato soddisfatto, affinché il gruppo si formi."
+
+msgid "mail_enable_grp_member_notification"
+msgstr "Notifica del gruppo"
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "Se abilitato, i partecipanti al gruppo verranno avvisati automaticamente delle modifiche all'iscrizione. Questa impostazione si applica a tutti i corsi della piattaforma. Questa impostazione si applica a tutti i corsi della piattaforma."
+
+msgid "mail_enable_lso_admin_notification"
+msgstr "Notifica agli amministratori delle sequenze di apprendimento"
+
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "Nelle nuove sequenze di apprendimento l'impostazione \"Notifica sui nuovi membri\" sarà attivata di default. E' impostata nella scheda 'Membro' delle sequenze di apprendimento. Gli amministratori riceveranno una e-mail quando un membro si unisce alla sequenza di apprendimento o la lascia."
+
+msgid "mail_enable_lso_member_notification"
+msgstr "Notifica ai membri della sequenza di apprendimento"
+
+msgid "mail_enable_lso_member_notification_info"
+msgstr "ILIAS invierà automaticamente un'e-mail ad ogni membro se il suo stato di membro è cambiato. Questa impostazione si applica a tutte le sequenze di apprendimento della piattaforma."
+
+msgid "mail_entry_of_contacts"
+msgstr "Inserimento dei contatti"
+
+msgid "mail_error_reading_attachment"
+msgstr "Impossibile determinare alcun allegato."
+
+msgid "mail_external_send_test_sys"
+msgstr "Invia e-mail di prova (posta di sistema)"
+
+msgid "mail_external_send_test_usr"
+msgstr "Invia e-mail di prova (posta utente)"
+
+msgid "mail_external_test_sent"
+msgstr "È stata inviata un'email all'indirizzo di posta elettronica definito nel profilo."
+
+msgid "mail_file_name"
+msgstr "Nome del file"
+
+msgid "mail_file_size"
+msgstr "Dimensioni del file"
+
+msgid "mail_files_deleted"
+msgstr "I file sono stati cancellati"
+
+msgid "mail_filter"
+msgstr "Filtro"
+
+msgid "mail_filter_attach"
+msgstr "Allegati"
+
+msgid "mail_filter_body"
+msgstr "Testo"
+
+#, fuzzy
+msgid "mail_filter_display"
+msgstr "Display"
+
+msgid "mail_filter_field_placeholder"
+msgstr "Filtra questi messaggi..."
+
+msgid "mail_filter_period"
+msgstr "Periodo"
+
+msgid "mail_filter_recipients"
+msgstr "Destinatari"
+
+msgid "mail_filter_sender"
+msgstr "Mittente"
+
+#, fuzzy
+msgid "mail_filter_show_read"
+msgstr "Show Read"
+
+#, fuzzy
+msgid "mail_filter_show_system_mails"
+msgstr "Show System Notifications"
+
+#, fuzzy
+msgid "mail_filter_show_unread"
+msgstr "Show Unread"
+
+#, fuzzy
+msgid "mail_filter_show_user_mails"
+msgstr "Show User Mails"
+
+#, fuzzy
+msgid "mail_filter_show_with_attachments"
+msgstr "Show With Attachments"
+
+#, fuzzy
+msgid "mail_filter_show_without_attachment"
+msgstr "Show Without Attachment"
+
+msgid "mail_filter_subject"
+msgstr "Oggetto"
+
+msgid "mail_filter_txt"
+msgstr "Filtra messaggi per"
+
+msgid "mail_first_email"
+msgstr "Primo indirizzo email"
+
+msgid "mail_firstname_last_name_superior"
+msgstr "Una lista separata da virgole del nome e cognome del rispettivo supervisore (o dei rispettivi supervisori)."
+
+msgid "mail_folder_created"
+msgstr "È stata creata una nuova cartella"
+
+msgid "mail_folder_deleted"
+msgstr "La cartella è stata cancellata"
+
+msgid "mail_folder_exists"
+msgstr "Esiste già una cartella con questo nome"
+
+msgid "mail_folder_name_changed"
+msgstr "La cartella è stata rinominata"
+
+msgid "mail_following_rcp_not_valid"
+msgstr "I seguenti destinatari non sono validi:"
+
+#, fuzzy
+msgid "mail_form_placeholders_label"
+msgstr "Available Placeholders"
+
+msgid "mail_generic_rcp_error"
+msgstr "Ha avuto luogo un errore durante la convalida dei destinatari: %1$s"
+
+msgid "mail_global_reply_to_addr"
+msgstr "Rispondi a"
+
+msgid "mail_global_reply_to_addr_info"
+msgstr "Inserisci l'indirizzo a cui desideri ricevere la risposta"
+
+msgid "mail_grp_roles"
+msgstr "Invia mail ai ruoli del gruppo"
+
+#, fuzzy
+msgid "mail_hint_add_placeholder_x"
+msgstr "Add the placeholder '%s' to the message body."
+
+#, fuzzy
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally."
+
+msgid "mail_incoming"
+msgstr "E-Mail in arrivo"
+
+msgid "mail_incoming_both"
+msgstr "Interna a ILIAS ed inoltro alle mail principali"
+
+msgid "mail_incoming_local"
+msgstr "Solamente interna a ILIAS"
+
+msgid "mail_incoming_mail"
+msgstr "Posta in arrivo"
+
+msgid "mail_incoming_smtp"
+msgstr "Inoltra all'indirizzo e-mail"
+
+msgid "mail_insert_folder_name"
+msgstr "Per favore, inserisci il nome della cartella"
+
+msgid "mail_insert_query"
+msgstr "Per favore, inserisci la parola da cercare"
+
+msgid "mail_invite_users_to_chat"
+msgstr "Invita l'utente alla chat"
+
+#, fuzzy
+msgid "mail_is_read"
+msgstr "gelesen"
+
+#, fuzzy
+msgid "mail_is_unread"
+msgstr "ungelesen"
+
+msgid "mail_list_members"
+msgstr "Lista degli indirizzi email"
+
+msgid "mail_mailing_list"
+msgstr "Elenco mail"
+
+msgid "mail_mailing_lists"
+msgstr "Elenchi mail"
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "Hai già assegnato tutti i tuoi contatti a questo elenco mail."
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "Non sono presenti voci nei contatti da aggiungere a un elenco."
+
+#, fuzzy
+msgid "mail_main_folder"
+msgstr "Main Folder"
+
+#, fuzzy
+msgid "mail_manage_attachments"
+msgstr "Manage Attachments"
+
+#, fuzzy
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "Back to Compose"
+
+#, fuzzy
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "Drop file to upload"
+
+msgid "mail_mark_read"
+msgstr "Segna la eMail come letta"
+
+msgid "mail_mark_unread"
+msgstr "Segna la eMail come non letta"
+
+msgid "mail_max_size_attachments_total"
+msgstr "Inserisci la dimensione massima del file consentita come allegato per email. Questa impostazione non è correlata ad altri limiti di risorse, ad es. upload_max_filesize ecc. (poiché è possibile allegare più file)."
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "La grandezza dell’allegato consentito è:"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "Il limite di upload è:"
+
+msgid "mail_member_notification"
+msgstr "Notifica dei partecipanti"
+
+msgid "mail_members_of_mailing_list"
+msgstr "Membri della Mailing List"
+
+msgid "mail_members_search_continue"
+msgstr "Continua"
+
+msgid "mail_message_send"
+msgstr "Messaggio inviato"
+
+#, fuzzy
+msgid "mail_mode_switch_label"
+msgstr "Switch between „Personal Mail” and „Serial Letter” mode"
+
+#, fuzzy
+msgid "mail_mode_switch_locked"
+msgstr "You cannot switch to „%s” mode."
+
+msgid "mail_move_error"
+msgstr "Errore nell'invio della eMail"
+
+msgid "mail_move_to"
+msgstr "Sposta le eMail in"
+
+#, fuzzy
+msgid "mail_move_to_folder_btn_label"
+msgstr "Move Mail"
+
+#, fuzzy
+msgid "mail_move_to_folder_x"
+msgstr "to \"%s\""
+
+msgid "mail_moved"
+msgstr "Le eMail sono state spostate"
+
+msgid "mail_moved_to_trash"
+msgstr "Le eMail sono state spostate nel cestino"
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "%1$s (trova diversi ruoli per il destinatario: %2$s)"
+
+msgid "mail_my_courses"
+msgstr "Miei corsi"
+
+msgid "mail_my_groups"
+msgstr "Miei gruppi"
+
+msgid "mail_my_mailing_lists"
+msgstr "Mia mailing list"
+
+msgid "mail_nacc_admin_mail"
+msgstr "Indirizzo e-mail dell'amministratore"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "Questo testo è incluso solo se l'utente ha un periodo di accesso limitato."
+
+msgid "mail_nacc_ilias_url"
+msgstr "URL del sistema di ILIAS"
+
+#, fuzzy
+msgid "mail_nacc_installation_desc"
+msgstr "Installation Description"
+
+#, fuzzy
+msgid "mail_nacc_installation_name"
+msgstr "Installation Name"
+
+msgid "mail_nacc_login"
+msgstr "Account del login"
+
+msgid "mail_nacc_no_pw_block"
+msgstr "Questo blocco di testo verrà creato solamente alla creazione di un nuovo utente senza password."
+
+msgid "mail_nacc_pw_block"
+msgstr "Questo blocco di testo verrà creato solamente quando il nuovo utente di ILIAS avrà incluso una password."
+
+msgid "mail_nacc_salutation"
+msgstr "Intestazione"
+
+msgid "mail_nacc_target"
+msgstr "URL dell'oggetto chiave, p.e. un link ad un corso esterno da ILIAS"
+
+msgid "mail_nacc_target_block"
+msgstr "Questo blocco di testo verrà inserito solamente quando sarà stabilito un oggetto chiave."
+
+msgid "mail_nacc_target_title"
+msgstr "Titolo dell'oggetto chiave, p.e. titolo del corso"
+
+msgid "mail_nacc_target_type"
+msgstr "Tipo di oggetto chiave, p.e. \"Corso\" per un oggetto Corso"
+
+msgid "mail_nacc_timelimit"
+msgstr "Periodo di accesso dell’utente"
+
+msgid "mail_nacc_title"
+msgstr "Titolo"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "I seguenti segnaposto possono essere utilizzati (solo nel contenuto del messaggio)"
+
+#, fuzzy
+msgid "mail_nacc_user_fullname"
+msgstr "User Full Name"
+
+#, fuzzy
+msgid "mail_nacc_user_login"
+msgstr "User Login"
+
+#, fuzzy
+msgid "mail_new"
+msgstr "New Mail"
+
+msgid "mail_new_template"
+msgstr "Nuovo modello di testo"
+
+#, fuzzy
+msgid "mail_no_mail_items"
+msgstr "No unread mails."
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "Non sei autorizzato a scrivere e-mail verso l'esterno"
+
+#, fuzzy
+msgid "mail_no_subject"
+msgstr "No Subject available"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "Mailing List errata"
+
+msgid "mail_notification_membership_section"
+msgstr "Appartenenza"
+
+msgid "mail_notification_subject"
+msgstr "Nuova mail nella tua casella"
+
+msgid "mail_notify_orphaned"
+msgstr "Mail di notifica"
+
+msgid "mail_notify_orphaned_info"
+msgstr "Se inserisci un valore qui maggiore o uguale a 1, ILIAS invierà un'email all'utente prima che venga eliminata una e-mail interna. Assicurati che sia possibile ricevere un'e-mail esterna."
+
+#, fuzzy
+msgid "mail_operation_on_invalid_folder"
+msgstr "The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator."
+
+#, fuzzy
+msgid "mail_options"
+msgstr "Mail Options"
+
+msgid "mail_options_saved"
+msgstr "Opzioni salvate"
+
+msgid "mail_orphaned_mails"
+msgstr "Eliminare mail vecchie o orfane"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "Eliminare mail vecchie o orfane"
+
+msgid "mail_recipient_not_found"
+msgstr "%1$s (non è possibile trovare un destinatario valido)"
+
+msgid "mail_rename_folder"
+msgstr "Rinomina cartella"
+
+#, fuzzy
+msgid "mail_roles"
+msgstr "Users with the following local roles"
+
+msgid "mail_s"
+msgstr "eMail"
+
+msgid "mail_salutation_anonymous"
+msgstr "Salve"
+
+msgid "mail_salutation_f"
+msgstr "Salve"
+
+msgid "mail_salutation_female"
+msgstr "Output per il segnaposto [MAIL_SALUTATION], se il saluto è 'Ms.'"
+
+msgid "mail_salutation_general"
+msgstr "Output per il segnaposto [MAIL_SALUTATION], se nessun saluto è desiderato o specificato"
+
+msgid "mail_salutation_m"
+msgstr "Salve"
+
+msgid "mail_salutation_male"
+msgstr "Output per il segnaposto [MAIL_SALUTATION], se il saluto è 'Mr.'"
+
+msgid "mail_salutation_n"
+msgstr "Salve"
+
+msgid "mail_saved"
+msgstr "Il messaggio è stato salvato"
+
+msgid "mail_second_email"
+msgstr "Secondo indirizzo email"
+
+msgid "mail_sel_label"
+msgstr "Scegli i destinatari"
+
+msgid "mail_sel_users"
+msgstr "Invia mail agli utenti selezionati"
+
+msgid "mail_select_attachment"
+msgstr "Seleziona per favore un allegato da scaricare."
+
+#, fuzzy
+msgid "mail_select_crs"
+msgstr "Please select at least one course."
+
+#, fuzzy
+msgid "mail_select_grp"
+msgstr "Please select at least one group."
+
+msgid "mail_select_one_entry"
+msgstr "Devi selezionare almeno una voce"
+
+msgid "mail_select_one_file"
+msgstr "Devi selezionare almeno un file"
+
+msgid "mail_send_html"
+msgstr "HTML Frame per e-mail esterne"
+
+msgid "mail_send_html_info"
+msgstr "Se abilitata, il corpo delle e-mail esterne verrà incorporato in un fotogramma HTML. Il modello corrispondente può essere personalizzato creando una copia di './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' ."
+
+#, fuzzy
+msgid "mail_sent_datetime"
+msgstr "Date"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "Segnaposti di lettera seriale"
+
+msgid "mail_settings_external_frm_head"
+msgstr "Email esterne"
+
+msgid "mail_settings_external_tab"
+msgstr "Esterno"
+
+msgid "mail_settings_general_tab"
+msgstr "Generale"
+
+msgid "mail_settings_incoming_type_see_also"
+msgstr "Puoi trovare un'ulteriore possibilità di modificare il tipo di e-mail in arrivo per gli utenti <a href=\"%s\"> qui </a>"
+
+msgid "mail_settings_system_frm_head"
+msgstr "Email di sistema"
+
+msgid "mail_settings_user_frm_head"
+msgstr "Email dell'utente"
+
+msgid "mail_smtp_encryption"
+msgstr "Cifratura"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Host"
+
+msgid "mail_smtp_host_info"
+msgstr "Si prega di inserire il nome host e l’IP del server di posta desiderato."
+
+msgid "mail_smtp_password"
+msgstr "Password"
+
+msgid "mail_smtp_password_req"
+msgstr "Se è stato definito un utente a scopo di autenticazione, è necessario impostare una password."
+
+msgid "mail_smtp_port"
+msgstr "Porta"
+
+msgid "mail_smtp_port_info"
+msgstr "Immettere un valore numerico per la porta del server di posta (ad es. 25)."
+
+msgid "mail_smtp_status"
+msgstr "Invia tramite SMTP"
+
+msgid "mail_smtp_status_info"
+msgstr "Se abilitato, ILIAS invierà e-mail esterne a un server SMTP invece di utilizzare la funzionalità interna fornita dalla funzione di runtime PHP (mail (), sendmail)."
+
+msgid "mail_smtp_user"
+msgstr "Utente"
+
+msgid "mail_subject_prefix"
+msgstr "Oggetto"
+
+msgid "mail_subject_prefix_info"
+msgstr "Inserisci un testo, che verrà anteposto alla riga dell'oggetto di auto generazione di e-mail in uscita. Si raccomanda l'uso di un prefisso per supportare il filtraggio dei messaggi da parte degli utenti."
+
+#, fuzzy
+msgid "mail_subject_too_long"
+msgstr "The subject is too long."
+
+#, fuzzy
+msgid "mail_success_removed_user"
+msgstr "User(s) successfully removed from mailing list."
+
+msgid "mail_sure_delete_entry"
+msgstr "Sei sicuro di voler eliminare le voci selezionate?"
+
+msgid "mail_sure_delete_file"
+msgstr "Sei sicuro di voler eliminare il file selezionato?"
+
+msgid "mail_sure_delete_folder"
+msgstr "Sei sicuro di voler eliminare la cartella selezionata?"
+
+#, fuzzy
+msgid "mail_sure_delete_p"
+msgstr "Are you sure you want to delete the following mails?"
+
+#, fuzzy
+msgid "mail_sure_delete_s"
+msgstr "Are you sure you want to delete the following mail?"
+
+#, fuzzy
+msgid "mail_sure_remove_user"
+msgstr "Are you sure you want to remove the following user(s) from the members list?"
+
+msgid "mail_system_sys_env_from_addr"
+msgstr "Mittente tecnico"
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr "Se si lascia vuoto questo campo, verrà utilizzato l'indirizzo e-mail del mittente se il trasferimento SMTP è abilitato. In caso contrario, è responsabilità dell'amministratore del server configurare questo valore."
+
+msgid "mail_system_sys_from_addr"
+msgstr "Email mittente (da)"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "Inserisci l'indirizzo e-mail da mettere nell'intestazione 'FROM'. L'intestazione 'FROM' è usata per visualizzare il mittente nel client di posta elettronica del destinatario.<br /><br />Esempi: <span style=\"font-style: italic\">info@institution.de</span> o <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_sys_from_name"
+msgstr "Nome completo mittente (Da)"
+
+#, fuzzy
+msgid "mail_system_sys_general_signature"
+msgstr "Signature"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Rispondi a"
+
+msgid "mail_system_usr_env_from_addr"
+msgstr "Mittente tecnico"
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr "Se si lascia vuoto questo campo, verrà utilizzato l'indirizzo e-mail del mittente se il trasferimento SMTP è abilitato. In caso contrario, è responsabilità dell'amministratore del server configurare questo valore."
+
+msgid "mail_system_usr_from_addr"
+msgstr "Mittente e-mail (Da)"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "Inserisci l'indirizzo e-mail da inserire nell'intestazione 'FROM'. L'intestazione 'FROM' è utilizzata per visualizzare il mittente nel client di posta elettronica del destinatario. L'indirizzo e-mail dell'utente che invia un'e-mail tramite ILIAS sarà automaticamente messo nell'intestazione 'Reply-To'.<br /><br />Esempi: <span style=\"font-style: italic\">info@institution.de</span> o <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_usr_from_name"
+msgstr "Nome completo mittente (Da)"
+
+msgid "mail_system_usr_from_name_info"
+msgstr "Puoi utilizzare i segnaposto [FULLNAME], [FIRSTNAME] e [LASTNAME]. Questi verranno quindi sostituiti dalla rispettiva data dell'iniziatore e-mail."
+
+#, fuzzy
+msgid "mail_system_usr_general_signature"
+msgstr "User Signature"
+
+msgid "mail_tbl_head_attachments"
+msgstr "Allegato"
+
+msgid "mail_template_client"
+msgstr "Modello di testo"
+
+msgid "mail_template_client_info"
+msgstr "Scegli uno dei modelli di testo disponibili e utilizza i suoi segnaposti. Se si sceglie un modello di testo, il corpo e l'oggetto di questo modulo (se definito nel modello di testo) verranno sostituiti."
+
+msgid "mail_template_context"
+msgstr "Contesto"
+
+msgid "mail_template_default"
+msgstr " (Predefinito)"
+
+#, fuzzy
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "An invalid syntax has been detected. Please ensure a valid input, especially regarding the placeholder syntax."
+
+msgid "mail_template_missing_id"
+msgstr "Impossibile eseguire l'azione perché manca l'ID del modello di testo."
+
+msgid "mail_template_no_context_available"
+msgstr "Non esiste alcun contesto fornito da alcun servizio o modulo ILIAS. Non è quindi possibile creare o modificare un modello di testo."
+
+msgid "mail_template_no_valid_context"
+msgstr "Il contesto fornito non è valido."
+
+msgid "mail_template_orphaned_context"
+msgstr "Contesto orfano"
+
+msgid "mail_template_set_as_default"
+msgstr "Imposta come predefinito"
+
+msgid "mail_template_title"
+msgstr "Nome"
+
+msgid "mail_template_unset_as_default"
+msgstr "Disinserito come predefinito"
+
+msgid "mail_templates"
+msgstr "Modelli di testo"
+
+msgid "mail_threshold"
+msgstr "Soglia"
+
+msgid "mail_threshold_info"
+msgstr "I messaggi interni che sono più datati del valore di soglia definito qui, verranno eliminati (compresi gli allegati eventualmente esistenti). <br> Si prega di ricordare che alla prima esecuzione di questo cron job, molti messaggi verranno eliminati e per questo non è possibile inviare una mail come avvertimento."
+
+msgid "mail_to"
+msgstr "A"
+
+msgid "mail_tpl_deleted_p"
+msgstr "I modelli di testo sono stati eliminati con successo."
+
+msgid "mail_tpl_deleted_s"
+msgstr "Il modello di testo è stato eliminato con successo."
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "Sei sicuro di voler eliminare le seguenti voci?"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "Sei sicuro di voler eliminare il modello di testo?"
+
+msgid "mail_use_global_reply_to_addr"
+msgstr "Utilizza 'Rispondi a' globale"
+
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "Se abilitato, l'indirizzo mail inserito è utilizzato come valore dell'intestazione 'Rispondi a'. L'indirizzo email del mittente non sarà divulgato ai destinatari. Una risposta diretta non è più possibile."
+
+msgid "nc_mail_noti_item_title"
+msgstr "Posta in arrivo"
+
+msgid "nc_mail_prop_time"
+msgstr "Tempo"
+
+msgid "nc_mail_unread_messages"
+msgstr "Hai %s mail nella tua casella."
+
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s messaggi non letti"
+
+msgid "nc_mail_unread_messages_number_s"
+msgstr "1 mail non letta"
+
+msgid "only_inbox_trash"
+msgstr "Considera solo la posta in arrivo e il cestino"
+
+msgid "only_inbox_trash_info"
+msgstr "Se abilitato, le e-mail vengono eliminate solo se si trovano nella Posta in arrivo e nel Cestino del rispettivo utente. Altrimenti, tutti i messaggi vengono eliminati indipendentemente dalla cartella."
+
+msgid "orphaned_mail_body"
+msgstr "Ci sono mail vecchie o orfane nelle seguenti caselle di posta. Si noti che queste e-mail verranno eliminate automaticamente a breve."
+
+msgid "orphaned_mail_subject"
+msgstr "Notifica sulle mail orfane"
+
+msgid "placeholders_advise"
+msgstr "I segnaposto vengono mantenuti solo per gli indirizzi inseriti nel campo \"A\".%sAgli indirizzi nei campi CC e BCC il messaggio verrà inviato senza segnaposto/i."
+
+#, fuzzy
+msgid "regular_mail"
+msgstr "Personal Mail"
+
+msgid "search_content"
+msgstr "Cerca risultato"
+
+msgid "search_recipients"
+msgstr "Cerca destinatario"
+
+msgid "second_email_missing_info"
+msgstr "Selezione impossibile perché non è stato inserito un secondo indirizzo e-mail"
+
+#, fuzzy
+msgid "select_mail_with_subject_x"
+msgstr "Select mail with subject „%s“"
+
+msgid "send_mail_admins"
+msgstr "Tutti gli amministratori"
+
+msgid "send_mail_members"
+msgstr "Tutti i membri"
+
+msgid "send_mail_to"
+msgstr "Mail a"
+
+msgid "send_mail_tutors"
+msgstr "Tutti i tutor"
+
+#, fuzzy
+msgid "serial_letter"
+msgstr "Serial Letter"
+
+msgid "show_mail_settings"
+msgstr "Mostra impostazioni di posta"
+
+msgid "show_mail_settings_info"
+msgstr "Se abilitato, le \"Impostazioni posta\" dell'utente sono accessibili tramite la sezione \"Impostazioni personali\" o \"Posta\"."
+
+msgid "system_notification_installation_changed_by"
+msgstr "Modificato da"
+
+#, fuzzy
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "You have changed the attribute \"%s\" of the field \"%s\".<br>This leads to all accounts settings being reset to \"receive on primary address\" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users."
