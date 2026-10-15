@@ -1,0 +1,691 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr "Activate Rating Categories"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "Activate Rating For New Pages"
+
+msgid "wiki_activate_page_rating"
+msgstr "Activate Rating"
+
+msgid "wiki_activate_rating"
+msgstr "აქტიური რეიტინგი"
+
+#, fuzzy
+msgid "wiki_add_link"
+msgstr "Add Link"
+
+#, fuzzy
+msgid "wiki_add_template"
+msgstr "Set Template Status"
+
+#, fuzzy
+msgid "wiki_advmd_block_title"
+msgstr "Advanced Metadata of Page"
+
+msgid "wiki_all_pages"
+msgstr "ყველა გვერდი"
+
+msgid "wiki_block_page"
+msgstr "გვერდის დაბლოკვა"
+
+#, fuzzy
+msgid "wiki_change_notification_body_new"
+msgstr "the following wiki page was created"
+
+msgid "wiki_change_notification_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "wiki_change_notification_page_body_comment"
+msgstr "a comment has been added to the following wiki page"
+
+#, fuzzy
+msgid "wiki_change_notification_page_body_delete"
+msgstr "the following wiki page has been deleted"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "wikiს შემდეგი გვერდი განახლებულია"
+
+msgid "wiki_change_notification_page_link"
+msgstr "URL"
+
+msgid "wiki_change_notification_salutation"
+msgstr "გამარჯობა %s"
+
+msgid "wiki_change_notification_subject"
+msgstr "wiki \"%s\" შეცვლილია"
+
+msgid "wiki_changed_by"
+msgstr "შეცვლილია"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+#, fuzzy
+msgid "wiki_commented_by"
+msgstr "Commented by"
+
+msgid "wiki_contributor"
+msgstr "დამხმარეები"
+
+msgid "wiki_contributors"
+msgstr "დამხმარეები"
+
+#, fuzzy
+msgid "wiki_copy"
+msgstr "Copy Wiki"
+
+#, fuzzy
+msgid "wiki_create_page"
+msgstr "Create Page"
+
+msgid "wiki_created_by"
+msgstr "შექმნილია მიერ"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "Deactivate Rating"
+
+msgid "wiki_delete_page"
+msgstr "გვერდის წაშლა"
+
+#, fuzzy
+msgid "wiki_download_submission"
+msgstr "Download Submission File"
+
+#, fuzzy
+msgid "wiki_empty_page"
+msgstr "Empty Page"
+
+#, fuzzy
+msgid "wiki_empty_page_template"
+msgstr "Empty Page Template on Page Creation"
+
+#, fuzzy
+msgid "wiki_exc_template"
+msgstr "Wiki Template"
+
+#, fuzzy
+msgid "wiki_exc_wiki_created"
+msgstr "Wiki has been created."
+
+#, fuzzy
+msgid "wiki_exercise_info"
+msgstr "This wiki is part of the assignment \"%s\" of exercise \"%s\"."
+
+#, fuzzy
+msgid "wiki_exercise_submitted_info"
+msgstr "Your last submission was on %s. Please check the export file."
+
+msgid "wiki_failed"
+msgstr "ჩაჭრილია"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "უკუკავშირი მასწავლებლისაგან"
+
+#, fuzzy
+msgid "wiki_finalize_wiki"
+msgstr "Finalize and Submit Wiki"
+
+#, fuzzy
+msgid "wiki_finalized"
+msgstr "Wiki has been finalized and submitted."
+
+msgid "wiki_functions"
+msgstr "wikiს ფუნქციები"
+
+msgid "wiki_general_settings"
+msgstr "ზოგადი პარამეტრები"
+
+msgid "wiki_grading"
+msgstr "შეფასება"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "HTML exportieren"
+
+msgid "wiki_imp_page_added"
+msgstr "გვერდი დამატებულია"
+
+msgid "wiki_import"
+msgstr "wikiს იმპორტი"
+
+#, fuzzy
+msgid "wiki_incl_comments"
+msgstr "including comments"
+
+msgid "wiki_indentation"
+msgstr "ქირა"
+
+msgid "wiki_introduction"
+msgstr "შესავალი"
+
+msgid "wiki_last_changed"
+msgstr "ბოლო ცვლილება"
+
+msgid "wiki_last_changed_by"
+msgstr "ბოლო ცვლილება მიერ"
+
+msgid "wiki_last_edited"
+msgstr "ბოლოს რედაქტირებულია"
+
+msgid "wiki_last_visited_page"
+msgstr "გვერდის ბოლო ვიზიტი"
+
+#, fuzzy
+msgid "wiki_link_md_values"
+msgstr "Automatic Linking"
+
+#, fuzzy
+msgid "wiki_link_md_values_info"
+msgstr "Autmatically links properties presented in the side block to wiki pages with the same name."
+
+#, fuzzy
+msgid "wiki_link_text"
+msgstr "Link Text"
+
+msgid "wiki_mark"
+msgstr "ნიშანი"
+
+#, fuzzy
+msgid "wiki_master_existing"
+msgstr "Page Exists in Master Language"
+
+#, fuzzy
+msgid "wiki_master_title"
+msgstr "Title of Page in Master Language"
+
+msgid "wiki_navigation"
+msgstr "wikiს ნავიგაცია"
+
+msgid "wiki_navigation_info"
+msgstr "Here you can add and remove links to existing wiki pages to the navigation block in the wiki."
+
+#, fuzzy
+msgid "wiki_new_page"
+msgstr "New Page"
+
+msgid "wiki_new_page_name"
+msgstr "ახალი დასახელება"
+
+msgid "wiki_new_pages"
+msgstr "ახალი გვერდები"
+
+msgid "wiki_news_page_changed"
+msgstr "wikiს გვერდი განახლებულია"
+
+msgid "wiki_news_page_created"
+msgstr "ახალი wikiს გვერდი შექმნილია"
+
+#, fuzzy
+msgid "wiki_no_master"
+msgstr "Page Does Not Exist in Master Language"
+
+#, fuzzy
+msgid "wiki_no_page_found"
+msgstr "No wiki page has been found for search term '$1'."
+
+#, fuzzy
+msgid "wiki_no_search_term"
+msgstr "No search term has been entered. All pages of the wiki are listed below."
+
+msgid "wiki_no_start_page"
+msgstr "wikiს აკლია სწორი დაწყების გვერდი"
+
+#, fuzzy
+msgid "wiki_not_existing"
+msgstr "not existing yet"
+
+msgid "wiki_notgraded"
+msgstr "არ არის შეფასებული"
+
+msgid "wiki_notification_activate_page"
+msgstr "გვერდზე შეტყობინების გააქტიურება"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "შეტყობინებების გააქტიურება wikiში"
+
+msgid "wiki_notification_activated"
+msgstr "შეტყობინება გააქტიურებულია ( მთელი წიკი)"
+
+#, fuzzy
+msgid "wiki_notification_comment"
+msgstr "the following Wiki Page has been commented."
+
+#, fuzzy
+msgid "wiki_notification_comment_subject"
+msgstr "A comment was added to %s: %s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "შეტყობინებების გაუქმება გვერდზე"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "შეტყობინებების გაუქმება wikiსთვის"
+
+msgid "wiki_notification_deactivated"
+msgstr "შეტყობინება გაუქმებულია"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "იმ მომხმარებელთა რიცხვი ვინცამ გვერდს კომენტარები და შენიშვნები დაამატა"
+
+msgid "wiki_ordering"
+msgstr "შეკვეთა"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "შეკვეთა და ქირა შენახულია"
+
+#, fuzzy
+msgid "wiki_orphaned_pages"
+msgstr "Orphaned Pages"
+
+msgid "wiki_other_pages_linking"
+msgstr "ამ გვერდთან დაკავშირებული სხვა გვერდები"
+
+msgid "wiki_page"
+msgstr "გვერდი"
+
+msgid "wiki_page_actions"
+msgstr "გვერდის მოქმედებები"
+
+msgid "wiki_page_already_exists"
+msgstr "ამ დასახელებით გვერდი უკვე არსებობს"
+
+msgid "wiki_page_blocked"
+msgstr "wikiს გვერდი დაბლოკილია"
+
+msgid "wiki_page_changes"
+msgstr "გვერდის ცვლილებები"
+
+msgid "wiki_page_deleted"
+msgstr "წიკის გვერდი წაშლილია"
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "ნამდვილად გსურთ ამ wikiს გვერდის წაშლა?"
+
+#, fuzzy
+msgid "wiki_page_exists"
+msgstr "Existing Page"
+
+msgid "wiki_page_hits"
+msgstr "გვერდის დარტყმები"
+
+#, fuzzy
+msgid "wiki_page_in_master_language"
+msgstr "Page in Master Language"
+
+#, fuzzy
+msgid "wiki_page_list_form_info"
+msgstr "Adds a list of pages of this wiki that are all assigned to the selected metadata below."
+
+#, fuzzy
+msgid "wiki_page_list_mode"
+msgstr "Type of List"
+
+#, fuzzy
+msgid "wiki_page_list_mode_ordered"
+msgstr "Numbered"
+
+#, fuzzy
+msgid "wiki_page_list_mode_unordered"
+msgstr "Not numbered"
+
+msgid "wiki_page_lists"
+msgstr "გვერდის სიები"
+
+#, fuzzy
+msgid "wiki_page_not_exist_select_templ"
+msgstr "This page does not exist yet. Please select a template for the new page."
+
+msgid "wiki_page_notification_activated"
+msgstr "შეტყობინებების გააქტიურება wikiსთვის"
+
+msgid "wiki_page_status_blocked"
+msgstr "მოსწავლეებისთვის ამ გვერდის რედაქტირება ამჟამად დაბლოკილია"
+
+#, fuzzy
+msgid "wiki_page_template"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "wiki_page_templates"
+msgstr "Page Templates"
+
+#, fuzzy
+msgid "wiki_page_title_too_long"
+msgstr "Sorry, the title of the wiki page is too long. Please replace it with a shorter title."
+
+msgid "wiki_page_toc"
+msgstr "გვერდის მიმოხილვის ბლოკის გააქტიურება"
+
+msgid "wiki_page_toc_info"
+msgstr "ეს ჩამოთვლის შინაარსთან დაკავშირებულ სათაურებს თითოეული გვერდის დასაწყისში თუ ეს გვერდი იყენებს სულ მცირე ორ სათაურს"
+
+#, fuzzy
+msgid "wiki_page_type_wpg"
+msgstr "Wiki Page"
+
+msgid "wiki_page_unblocked"
+msgstr "wikiს გვერდის ბლოკის მოხსნა"
+
+msgid "wiki_pages"
+msgstr "გვერდები"
+
+#, fuzzy
+msgid "wiki_pages_found"
+msgstr "The following pages match your search term '$1'."
+
+msgid "wiki_passed"
+msgstr "ჩაბარებულია"
+
+#, fuzzy
+msgid "wiki_pg_list_no_search_fields"
+msgstr "No searchable meta data fields found in the metadata sets of the wiki."
+
+msgid "wiki_please_enter_search_term"
+msgstr "გთხოვთ შეიყვანოთ ძიების პერიოდი"
+
+msgid "wiki_popular_pages"
+msgstr "პოპულარული გვერდები"
+
+msgid "wiki_print_view"
+msgstr "ბეჭდვის ხედვა"
+
+msgid "wiki_public_comments"
+msgstr "საჯარო კომენტარები"
+
+#, fuzzy
+msgid "wiki_purpose"
+msgstr "Purpose"
+
+msgid "wiki_quick_navigation"
+msgstr "wikiს სწრაფი ნავიგაცია"
+
+#, fuzzy
+msgid "wiki_rate_overall"
+msgstr "Rate Wiki"
+
+msgid "wiki_rate_page"
+msgstr "wikiს გვერდის შეფასება"
+
+msgid "wiki_recent_changes"
+msgstr "ახლანდელი ცვლილებები"
+
+#, fuzzy
+msgid "wiki_remove_template_status"
+msgstr "Remove Template Status"
+
+msgid "wiki_removed_imp_pages"
+msgstr "მნიშვნელოვანი გვერდები ამოშლილია სიიდან"
+
+msgid "wiki_rename"
+msgstr "სახელის შეცვლა"
+
+msgid "wiki_rename_page"
+msgstr "გვერდის სახელის შეცვლა"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "შეკვეთისა და ქირის შენახვა"
+
+msgid "wiki_search"
+msgstr "ძიება"
+
+msgid "wiki_search_results"
+msgstr "ძიების შედეგები"
+
+#, fuzzy
+msgid "wiki_sec_protect_info"
+msgstr "Protected sections can only be edited by users having \"Edit Settings\" permission."
+
+#, fuzzy
+msgid "wiki_select_one_item"
+msgstr "Please select one item."
+
+msgid "wiki_selected_pages"
+msgstr "მონიშნული გვერდები"
+
+#, fuzzy
+msgid "wiki_set_as_start_page"
+msgstr "Set as Start Page"
+
+msgid "wiki_settings"
+msgstr "wikiს პარამეტრები"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "ამ დასახელებას იყენებს სხვა wiki. გთხოვთ შეიყვანოთ სხვა დასახელება"
+
+#, fuzzy
+msgid "wiki_show_pdf_export"
+msgstr "PDF Export"
+
+#, fuzzy
+msgid "wiki_show_print_view"
+msgstr "Print View"
+
+msgid "wiki_start_page"
+msgstr "დაწყების გვერდი"
+
+#, fuzzy
+msgid "wiki_start_page_info"
+msgstr "If there does not exist a page with this title yet, a new page will be created."
+
+#, fuzzy
+msgid "wiki_stat_chars"
+msgstr "Number of Characters"
+
+#, fuzzy
+msgid "wiki_stat_chars_avg"
+msgstr "Average Number of Characters per Page"
+
+#, fuzzy
+msgid "wiki_stat_deleted_pages"
+msgstr "Number of Deleted Pages"
+
+#, fuzzy
+msgid "wiki_stat_edit_pages"
+msgstr "Number of Edited Pages"
+
+#, fuzzy
+msgid "wiki_stat_edit_pages_avg"
+msgstr "Average Number of Edited Pages per User"
+
+#, fuzzy
+msgid "wiki_stat_external_links"
+msgstr "Number of External Links"
+
+#, fuzzy
+msgid "wiki_stat_external_links_avg"
+msgstr "Average Number of External Links per Page"
+
+#, fuzzy
+msgid "wiki_stat_figure"
+msgstr "Figure"
+
+#, fuzzy
+msgid "wiki_stat_footnotes"
+msgstr "Number of Footnotes"
+
+#, fuzzy
+msgid "wiki_stat_footnotes_avg"
+msgstr "Average Number of Footnotes per Page"
+
+#, fuzzy
+msgid "wiki_stat_internal_links"
+msgstr "Number of Internal Links"
+
+#, fuzzy
+msgid "wiki_stat_internal_links_avg"
+msgstr "Average Number of Internal Links per Page"
+
+#, fuzzy
+msgid "wiki_stat_new_pages"
+msgstr "Number of New Pages"
+
+#, fuzzy
+msgid "wiki_stat_new_pages_avg"
+msgstr "Average Number of New Pages per User"
+
+#, fuzzy
+msgid "wiki_stat_num_pages"
+msgstr "Number of Pages"
+
+#, fuzzy
+msgid "wiki_stat_num_rating"
+msgstr "Number of Ratings"
+
+#, fuzzy
+msgid "wiki_stat_num_rating_avg"
+msgstr "Average Number of Ratings per Page"
+
+#, fuzzy
+msgid "wiki_stat_page_changes"
+msgstr "Number of Changes"
+
+#, fuzzy
+msgid "wiki_stat_page_changes_avg"
+msgstr "Average Number of Changes"
+
+#, fuzzy
+msgid "wiki_stat_page_characters"
+msgstr "Number of Characters"
+
+#, fuzzy
+msgid "wiki_stat_page_external_links"
+msgstr "Number of External Links"
+
+#, fuzzy
+msgid "wiki_stat_page_footnotes"
+msgstr "Number of Footnotes"
+
+#, fuzzy
+msgid "wiki_stat_page_internal_links"
+msgstr "Number of Internal Links"
+
+#, fuzzy
+msgid "wiki_stat_page_ratings"
+msgstr "Number of Ratings"
+
+#, fuzzy
+msgid "wiki_stat_page_read"
+msgstr "Number of Read Accesses"
+
+#, fuzzy
+msgid "wiki_stat_page_user_edit"
+msgstr "Number of Users Who Edited Page"
+
+#, fuzzy
+msgid "wiki_stat_page_words"
+msgstr "Number of Words"
+
+#, fuzzy
+msgid "wiki_stat_rating_avg"
+msgstr "Average Rating"
+
+#, fuzzy
+msgid "wiki_stat_read_pages"
+msgstr "Number of Read Accesses"
+
+#, fuzzy
+msgid "wiki_stat_scope"
+msgstr "Timeframe"
+
+#, fuzzy
+msgid "wiki_stat_user_edit_pages"
+msgstr "Number of Users Who Edited Pages "
+
+#, fuzzy
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "Average Number of Users Who Edited Pages "
+
+#, fuzzy
+msgid "wiki_stat_words"
+msgstr "Number of Words"
+
+#, fuzzy
+msgid "wiki_stat_words_avg"
+msgstr " Average Number of Words per Page"
+
+msgid "wiki_style"
+msgstr "სტილი"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "ნამდვილად გსურთ შემდეგი გვერდების ამოშლა მნიშვნელოვანი გვერდების სიისან?"
+
+#, fuzzy
+msgid "wiki_target_page"
+msgstr "Target Page"
+
+#, fuzzy
+msgid "wiki_team_members"
+msgstr "Team Members"
+
+#, fuzzy
+msgid "wiki_templ_add_to_page"
+msgstr "Available for Being Added to Existing Pages"
+
+#, fuzzy
+msgid "wiki_templ_new_pages"
+msgstr "Available on Page Creation"
+
+#, fuzzy
+msgid "wiki_template_added"
+msgstr "Template page added."
+
+#, fuzzy
+msgid "wiki_template_status_removed"
+msgstr "Template status removed."
+
+#, fuzzy
+msgid "wiki_translate_page_master_info"
+msgstr "You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version."
+
+#, fuzzy
+msgid "wiki_translation_page"
+msgstr "Translation Page"
+
+#, fuzzy
+msgid "wiki_translations"
+msgstr "Translations"
+
+#, fuzzy
+msgid "wiki_type_wiki_team"
+msgstr "Team Wiki"
+
+msgid "wiki_unblock_page"
+msgstr "გვერდის ბლოკის მოხსნა"
+
+#, fuzzy
+msgid "wiki_unhide_meta_adv_records"
+msgstr "Show additional properties"
+
+msgid "wiki_what_links_here"
+msgstr "რა ლინკებია აქ?"
+
+msgid "wiki_what_links_to_page"
+msgstr "გვერდის რა ლინკებია \"%s\"?"
+
+msgid "wiki_whole_wiki"
+msgstr "მთელი wiki"
+
+msgid "wiki_wiki_page"
+msgstr "wikiს გვერდი"
+
+msgid "wiki_wiki_search"
+msgstr "wikiს ძიება"
+
+#, fuzzy
+msgid "wiki_wpg"
+msgstr "Wiki Page"

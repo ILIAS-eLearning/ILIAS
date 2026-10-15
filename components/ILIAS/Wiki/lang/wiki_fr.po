@@ -1,0 +1,599 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr "Activer les Catégories de Notation"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "Activer la Notation pour les Nouvelles Pages"
+
+msgid "wiki_activate_page_rating"
+msgstr "Activer la Notation"
+
+msgid "wiki_activate_rating"
+msgstr "Activer la Notation"
+
+msgid "wiki_add_link"
+msgstr "Ajouter lien"
+
+msgid "wiki_add_template"
+msgstr "Définir le Modèle"
+
+msgid "wiki_advmd_block_title"
+msgstr "Métadonnées avancées de la page"
+
+msgid "wiki_all_pages"
+msgstr "Toutes les Pages"
+
+msgid "wiki_block_page"
+msgstr "Bloquer la Page"
+
+msgid "wiki_change_notification_body_new"
+msgstr "La page wiki suivante a été créée"
+
+msgid "wiki_change_notification_link"
+msgstr "Lier au wiki : %s"
+
+msgid "wiki_change_notification_page_body_comment"
+msgstr "a comment has been added to the following wiki page"
+
+msgid "wiki_change_notification_page_body_delete"
+msgstr "the following wiki page has been deleted"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "Dans le wiki %s, la page %s a été modifiée."
+
+msgid "wiki_change_notification_page_link"
+msgstr "Lier à  la page wiki : %s"
+
+msgid "wiki_change_notification_salutation"
+msgstr "Bonjour %s,"
+
+msgid "wiki_change_notification_subject"
+msgstr "Le wiki %s a été modifié"
+
+msgid "wiki_changed_by"
+msgstr "Modifié par"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+msgid "wiki_commented_by"
+msgstr "Commented by"
+
+msgid "wiki_contributor"
+msgstr "Contributeur"
+
+msgid "wiki_contributors"
+msgstr "Contributeurs"
+
+msgid "wiki_copy"
+msgstr "Copier Wiki"
+
+msgid "wiki_create_page"
+msgstr "Créer une page"
+
+msgid "wiki_created_by"
+msgstr "Créé Par"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "Désactiver la Notation"
+
+msgid "wiki_delete_page"
+msgstr "Supprimer la Page"
+
+msgid "wiki_download_submission"
+msgstr "Download Submission File"
+
+msgid "wiki_empty_page"
+msgstr "Page vierge"
+
+msgid "wiki_empty_page_template"
+msgstr "Modèle de page Vide sur la page Création"
+
+msgid "wiki_exc_template"
+msgstr "Wiki Template"
+
+msgid "wiki_exc_wiki_created"
+msgstr "Wiki has been created."
+
+msgid "wiki_exercise_info"
+msgstr "This wiki is part of the assignment \"%s\" of exercise \"%s\"."
+
+msgid "wiki_exercise_submitted_info"
+msgstr "Your last submission was on %s. Please check the export file."
+
+msgid "wiki_failed"
+msgstr "Echec"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "Remarques du Tuteur"
+
+msgid "wiki_finalize_wiki"
+msgstr "Finalize and Submit Wiki"
+
+msgid "wiki_finalized"
+msgstr "Wiki has been finalized and submitted."
+
+msgid "wiki_functions"
+msgstr "Fonctions du Wiki"
+
+msgid "wiki_general_settings"
+msgstr "Paramètres généraux"
+
+msgid "wiki_grading"
+msgstr "Notation"
+
+msgid "wiki_html_export"
+msgstr "HTML exportieren"
+
+msgid "wiki_imp_page_added"
+msgstr "Page ajoutée."
+
+msgid "wiki_import"
+msgstr "Importer Wiki"
+
+msgid "wiki_incl_comments"
+msgstr "including comments"
+
+msgid "wiki_indentation"
+msgstr "Indentation"
+
+msgid "wiki_introduction"
+msgstr "Introduction"
+
+msgid "wiki_last_changed"
+msgstr "Dernière Modification"
+
+msgid "wiki_last_changed_by"
+msgstr "Dernière Modification Par"
+
+msgid "wiki_last_edited"
+msgstr "Dernière édition"
+
+msgid "wiki_last_visited_page"
+msgstr "Dernière Page Visitée"
+
+msgid "wiki_link_md_values"
+msgstr "Lien automatique"
+
+msgid "wiki_link_md_values_info"
+msgstr "Lie automatiquement les propriétés présentées dans le bloc latéral avec les pages Wiki portant le même nom."
+
+msgid "wiki_link_text"
+msgstr "Créer un lien vers le texte"
+
+msgid "wiki_mark"
+msgstr "Note"
+
+#, fuzzy
+msgid "wiki_master_existing"
+msgstr "Page Exists in Master Language"
+
+#, fuzzy
+msgid "wiki_master_title"
+msgstr "Title of Page in Master Language"
+
+msgid "wiki_navigation"
+msgstr "Navigation dans le Wiki"
+
+msgid "wiki_navigation_info"
+msgstr "Vous pouvez ajouter et supprimer ici des liens vers les pages du Wiki."
+
+msgid "wiki_new_page"
+msgstr "Nouvelle page"
+
+msgid "wiki_new_page_name"
+msgstr "Nouveau Titre"
+
+msgid "wiki_new_pages"
+msgstr "Nouvelles Pages"
+
+msgid "wiki_news_page_changed"
+msgstr "Page de Wiki modifiée."
+
+msgid "wiki_news_page_created"
+msgstr "Nouvelle page de Wiki créée."
+
+#, fuzzy
+msgid "wiki_no_master"
+msgstr "Page Does Not Exist in Master Language"
+
+msgid "wiki_no_page_found"
+msgstr "Aucune page wiki n’a été trouvée pour le terme de recherche «$1»."
+
+msgid "wiki_no_search_term"
+msgstr "Aucun terme de recherche n’a été saisi. Toutes les pages du wiki sont listées ci-après."
+
+msgid "wiki_no_start_page"
+msgstr "Il manque une page de démarrage valide pour ce Wiki."
+
+#, fuzzy
+msgid "wiki_not_existing"
+msgstr "not existing yet"
+
+msgid "wiki_notgraded"
+msgstr "Non Noté"
+
+msgid "wiki_notification_activate_page"
+msgstr "Activer la Notification pour la Page"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "Activer la Notification pour le Wiki"
+
+msgid "wiki_notification_activated"
+msgstr "Notification Activée (pour le Wiki)"
+
+msgid "wiki_notification_comment"
+msgstr "the following Wiki Page has been commented."
+
+msgid "wiki_notification_comment_subject"
+msgstr "A comment was added to %s: %s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "Désactiver la Notification pour la Page"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "Désactiver la Notification pour le Wiki"
+
+msgid "wiki_notification_deactivated"
+msgstr "Notification Désactivée"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "Nombre d'utilisateurs ayant ajouté des notes et commentaires à cette page"
+
+msgid "wiki_ordering"
+msgstr "Positions"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "Classement et Indentation enregistrés."
+
+msgid "wiki_orphaned_pages"
+msgstr "Pages Orphelines"
+
+msgid "wiki_other_pages_linking"
+msgstr "Autres Pages Pointant vers cette Page"
+
+msgid "wiki_page"
+msgstr "Page"
+
+msgid "wiki_page_actions"
+msgstr "Actions de Page"
+
+msgid "wiki_page_already_exists"
+msgstr "Une page avec le même titre existe déjà."
+
+msgid "wiki_page_blocked"
+msgstr "Page de Wiki bloquée."
+
+msgid "wiki_page_changes"
+msgstr "Modifications de Page"
+
+msgid "wiki_page_deleted"
+msgstr "Page de Wiki supprimée."
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "Êtes-vous certain de vouloir supprimer cette page du Wiki ?"
+
+msgid "wiki_page_exists"
+msgstr "Page existante"
+
+msgid "wiki_page_hits"
+msgstr "Page des résultats de recherche"
+
+#, fuzzy
+msgid "wiki_page_in_master_language"
+msgstr "Page in Master Language"
+
+msgid "wiki_page_list_form_info"
+msgstr "Adds a list of pages of this wiki that are all assigned to the selected metadata below."
+
+msgid "wiki_page_list_mode"
+msgstr "Type de liste"
+
+msgid "wiki_page_list_mode_ordered"
+msgstr "Numérotée"
+
+msgid "wiki_page_list_mode_unordered"
+msgstr "Non numérotée"
+
+msgid "wiki_page_lists"
+msgstr "Listes de Pages"
+
+msgid "wiki_page_not_exist_select_templ"
+msgstr "Cette page n'existe pas encore. Veuillez sélectionner un modèle pour la nouvelle page."
+
+msgid "wiki_page_notification_activated"
+msgstr "Notification Activée (pour la Page)"
+
+msgid "wiki_page_status_blocked"
+msgstr "La modification de cette page par les apprenants est actuellement bloquée."
+
+msgid "wiki_page_template"
+msgstr "Modèle de Page"
+
+msgid "wiki_page_templates"
+msgstr "Modèles de Page"
+
+msgid "wiki_page_title_too_long"
+msgstr "Désolé, le titre de la page wiki est trop long. Veuillez le remplacer par un titre plus court."
+
+msgid "wiki_page_toc"
+msgstr "Activer le Bloc d'Aperçu de Page"
+
+msgid "wiki_page_toc_info"
+msgstr "Liste les titres en début de page s'il y a au moins 2 titres dans la page."
+
+msgid "wiki_page_type_wpg"
+msgstr "Wiki Page"
+
+msgid "wiki_page_unblocked"
+msgstr "Page Wiki débloquée."
+
+msgid "wiki_pages"
+msgstr "Pages"
+
+msgid "wiki_pages_found"
+msgstr "Les pages suivantes correspondent à  votre terme de recherche '$1'."
+
+msgid "wiki_passed"
+msgstr "Réussite"
+
+msgid "wiki_pg_list_no_search_fields"
+msgstr "Pas de champs de métadonnées consultables trouvés dans les jeux de métadonnées du wiki."
+
+msgid "wiki_please_enter_search_term"
+msgstr "Veuillez saisir un terme à  rechercher."
+
+msgid "wiki_popular_pages"
+msgstr "Pages Populaires"
+
+msgid "wiki_print_view"
+msgstr "Vue Imprimable"
+
+msgid "wiki_public_comments"
+msgstr "Commentaires Publics"
+
+msgid "wiki_purpose"
+msgstr "Objectif"
+
+msgid "wiki_quick_navigation"
+msgstr "Navigation Rapide du Wiki"
+
+msgid "wiki_rate_overall"
+msgstr "Noter Wiki"
+
+msgid "wiki_rate_page"
+msgstr "Notez cette Page"
+
+msgid "wiki_recent_changes"
+msgstr "Modifications Récentes"
+
+msgid "wiki_remove_template_status"
+msgstr "Supprimer le statut du modèle"
+
+msgid "wiki_removed_imp_pages"
+msgstr "Pages importantes retirées de la liste."
+
+msgid "wiki_rename"
+msgstr "Renommer"
+
+msgid "wiki_rename_page"
+msgstr "Renommer la Page"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "Enregistrer Positions et Indentation"
+
+msgid "wiki_search"
+msgstr "Rechercher"
+
+msgid "wiki_search_results"
+msgstr "Résultats de Recherche"
+
+#, fuzzy
+msgid "wiki_sec_protect_info"
+msgstr "Protected sections can only be edited by users having \"Edit Settings\" permission."
+
+msgid "wiki_select_one_item"
+msgstr "Veuillez sélectionner un élément."
+
+msgid "wiki_selected_pages"
+msgstr "Pages Sélectionnées"
+
+msgid "wiki_set_as_start_page"
+msgstr "Définir comme Page de Démarrage"
+
+msgid "wiki_settings"
+msgstr "Paramètres du Wiki"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "Ce titre est déjà utilisé par un autre Wiki. Veuillez choisir un autre titre."
+
+msgid "wiki_show_pdf_export"
+msgstr "Export PDF"
+
+msgid "wiki_show_print_view"
+msgstr "Imprimer"
+
+msgid "wiki_start_page"
+msgstr "Page de Démarrage"
+
+msgid "wiki_start_page_info"
+msgstr "S'il n'existe pas encore de page avec ce titre, une nouvelle page sera créée."
+
+msgid "wiki_stat_chars"
+msgstr "Nombre de Caractères"
+
+msgid "wiki_stat_chars_avg"
+msgstr "Nombre moyen de Caractères par Page"
+
+msgid "wiki_stat_deleted_pages"
+msgstr "Nombre de Pages Supprimées"
+
+msgid "wiki_stat_edit_pages"
+msgstr "Nombre de Pages Editées"
+
+msgid "wiki_stat_edit_pages_avg"
+msgstr "Nombre moyen de Pages Editées par Utilisateur"
+
+msgid "wiki_stat_external_links"
+msgstr "Nombre de Liens Externes"
+
+msgid "wiki_stat_external_links_avg"
+msgstr "Nombre moyen de Liens Externes par Page"
+
+msgid "wiki_stat_figure"
+msgstr "Chiffre"
+
+msgid "wiki_stat_footnotes"
+msgstr "Nombre de Notes"
+
+msgid "wiki_stat_footnotes_avg"
+msgstr "Nombre moyen de Notes par Page"
+
+msgid "wiki_stat_internal_links"
+msgstr "Nombre de Liens Internes"
+
+msgid "wiki_stat_internal_links_avg"
+msgstr "Nombre moyen de Liens Internes par Page"
+
+msgid "wiki_stat_new_pages"
+msgstr "Nombre de Nouvelles Pages"
+
+msgid "wiki_stat_new_pages_avg"
+msgstr "Nombre moyen de Nouvelles Pages par Utilisateur"
+
+msgid "wiki_stat_num_pages"
+msgstr "Nombre de Pages"
+
+msgid "wiki_stat_num_rating"
+msgstr "Nombre d'Evaluations"
+
+msgid "wiki_stat_num_rating_avg"
+msgstr "Nombre moyen d'Evaluations par Page"
+
+msgid "wiki_stat_page_changes"
+msgstr "Nombre de Changements"
+
+msgid "wiki_stat_page_changes_avg"
+msgstr "Nombre moyen de Changements"
+
+msgid "wiki_stat_page_characters"
+msgstr "Nombre de Caractères"
+
+msgid "wiki_stat_page_external_links"
+msgstr "Nombre de Liens Externes"
+
+msgid "wiki_stat_page_footnotes"
+msgstr "Nombre de Notes"
+
+msgid "wiki_stat_page_internal_links"
+msgstr "Nombre de Liens Internes"
+
+msgid "wiki_stat_page_ratings"
+msgstr "Nombre d'Evaluations"
+
+msgid "wiki_stat_page_read"
+msgstr "Nombre de Vue"
+
+msgid "wiki_stat_page_user_edit"
+msgstr "Nombre d'Utilisateurs qui a édité la Page"
+
+msgid "wiki_stat_page_words"
+msgstr "Nombre de Mots"
+
+msgid "wiki_stat_rating_avg"
+msgstr "Note Moyenne"
+
+msgid "wiki_stat_read_pages"
+msgstr "Nombre de Vue"
+
+msgid "wiki_stat_scope"
+msgstr "Délai"
+
+msgid "wiki_stat_user_edit_pages"
+msgstr "Nombre d'Utilisateurs qui a édité la Page"
+
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "Nombre moyen d'Utilisateurs qui a édité la Page"
+
+msgid "wiki_stat_words"
+msgstr "Nombre de Mots"
+
+msgid "wiki_stat_words_avg"
+msgstr "Nombre moyen de Mots par Page"
+
+msgid "wiki_style"
+msgstr "Style"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "Voulez-vous vraiment supprimer les pages suivantes de la liste des pages importantes ?"
+
+msgid "wiki_target_page"
+msgstr "Page cible"
+
+msgid "wiki_team_members"
+msgstr "Team Members"
+
+msgid "wiki_templ_add_to_page"
+msgstr "Disponible pour être ajouté aux Pages Existantes"
+
+msgid "wiki_templ_new_pages"
+msgstr "Disponible sur la Page Création"
+
+msgid "wiki_template_added"
+msgstr "Page modèle ajoutée."
+
+msgid "wiki_template_status_removed"
+msgstr "Statut du modèle supprimé."
+
+#, fuzzy
+msgid "wiki_translate_page_master_info"
+msgstr "You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version."
+
+#, fuzzy
+msgid "wiki_translation_page"
+msgstr "Translation Page"
+
+#, fuzzy
+msgid "wiki_translations"
+msgstr "Translations"
+
+msgid "wiki_type_wiki_team"
+msgstr "Team Wiki"
+
+msgid "wiki_unblock_page"
+msgstr "Débloquer la Page"
+
+msgid "wiki_unhide_meta_adv_records"
+msgstr "Montrer propriétés supplémentaires"
+
+msgid "wiki_what_links_here"
+msgstr "Liens vers cette Page"
+
+msgid "wiki_what_links_to_page"
+msgstr "Quels liens pointent vers la page %s ?"
+
+msgid "wiki_whole_wiki"
+msgstr "Wiki Entier"
+
+msgid "wiki_wiki_page"
+msgstr "Page de Wiki"
+
+msgid "wiki_wiki_search"
+msgstr "Recherche dans le Wiki"
+
+msgid "wiki_wpg"
+msgstr "Page Wiki"
