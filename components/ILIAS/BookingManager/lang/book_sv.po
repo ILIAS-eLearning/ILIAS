@@ -1,0 +1,701 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: book\n"
+
+msgid "X_reservations_of"
+msgstr "%s reservationer från"
+
+msgid "book_add"
+msgstr "Skapa bokningspool"
+
+msgid "book_add_object"
+msgstr "Lägg till objekt"
+
+#, fuzzy
+msgid "book_add_participant"
+msgstr "Add Participant"
+
+msgid "book_add_schedule"
+msgstr "Lägg till tidsraster"
+
+msgid "book_additional_info_file"
+msgstr "Tilläggsbeskrivning"
+
+msgid "book_all"
+msgstr "Visa alla"
+
+#, fuzzy
+msgid "book_all_day"
+msgstr "All-Day"
+
+msgid "book_all_pools_need_schedules"
+msgstr "Ändringarna har inte sparats. Alla tilldelade bokningspooler kräver minst ett schema."
+
+msgid "book_all_users"
+msgstr "Alla deltagare"
+
+msgid "book_assign"
+msgstr "Assign"
+
+msgid "book_assign_object"
+msgstr "Tilldela bokningsobjekt"
+
+msgid "book_assign_participant"
+msgstr "Tilldela deltagare"
+
+#, fuzzy
+msgid "book_assign_participants"
+msgstr "Book for other Participant(s)"
+
+msgid "book_back_to_list"
+msgstr "Tillbaka till listan"
+
+msgid "book_bobj"
+msgstr "Postningsobjekt"
+
+msgid "book_book"
+msgstr "Böcker"
+
+#, fuzzy
+msgid "book_book_available"
+msgstr "Book Available Dates"
+
+#, fuzzy
+msgid "book_book_recurrence"
+msgstr "Book multiple dates"
+
+msgid "book_booked_in"
+msgstr "Bokad i"
+
+#, fuzzy
+msgid "book_booking"
+msgstr "Booking"
+
+msgid "book_booking_information"
+msgstr "Information"
+
+msgid "book_booking_objects"
+msgstr "Bokningsobjekt"
+
+msgid "book_booking_reminders"
+msgstr "Väntande reservationer"
+
+#, fuzzy
+msgid "book_bulk_confirmation"
+msgstr "Please check, if all values are listed correctly."
+
+#, fuzzy
+msgid "book_bulk_creation"
+msgstr "Bulk Creation"
+
+#, fuzzy
+msgid "book_bulk_data"
+msgstr "Object Data"
+
+msgid "book_cal_entry"
+msgstr "Bokning från"
+
+msgid "book_confirm_booking"
+msgstr "Gör en bokning"
+
+#, fuzzy
+msgid "book_confirm_booking_for_users"
+msgstr "Are you sure you want to book this item for the following user(s)?"
+
+msgid "book_confirm_booking_no_schedule"
+msgstr "Är du säker på att du vill boka följande objekt?"
+
+msgid "book_confirm_booking_schedule_number_of_objects"
+msgstr "Bekräftelse av bokning"
+
+#, fuzzy
+msgid "book_confirm_booking_schedule_number_of_objects_info"
+msgstr "Please enter the number of items that you would like to book."
+
+msgid "book_confirm_cancel"
+msgstr "Är du säker på att du vill avboka följande bokning?"
+
+msgid "book_confirm_cancel_aggregation"
+msgstr "Antal avbokningar"
+
+#, fuzzy
+msgid "book_confirm_cancel_info"
+msgstr "The selected bookings will be cancelled."
+
+msgid "book_confirm_delete"
+msgstr "Vill du verkligen ta bort följande objekt?"
+
+#, fuzzy
+msgid "book_confirm_remove_participant"
+msgstr "Are you sure you want to remove the following Participant(s)? This will delete all related Bookings."
+
+msgid "book_copy"
+msgstr "Kopiera bokningspool"
+
+#, fuzzy
+msgid "book_create_objects"
+msgstr "Create Objects"
+
+#, fuzzy
+msgid "book_date_from"
+msgstr "From date"
+
+#, fuzzy
+msgid "book_date_to"
+msgstr "To date"
+
+msgid "book_deadline"
+msgstr "Tidsspann"
+
+msgid "book_deadline_hours"
+msgstr "Till n timmar före starten av tidsfönstret"
+
+msgid "book_deadline_info"
+msgstr "Minsta tid mellan bokning och bokningsperiod"
+
+msgid "book_deadline_options"
+msgstr "Senaste bokningstid"
+
+msgid "book_deadline_slot_end"
+msgstr "Till slutet av tidsfönstret"
+
+msgid "book_deadline_slot_start"
+msgstr "Till början av tidsfönstret"
+
+msgid "book_deassign"
+msgstr "Utilldela"
+
+#, fuzzy
+msgid "book_delete_object"
+msgstr "Delete"
+
+#, fuzzy
+msgid "book_deleted_booking"
+msgstr "Deleted Booking(s)"
+
+#, fuzzy
+msgid "book_deleted_object"
+msgstr "Deleted Bookable Item"
+
+msgid "book_download_info"
+msgstr "Ladda ner ytterligare beskrivning"
+
+msgid "book_edit"
+msgstr "Redigera beläggningsplan"
+
+msgid "book_edit_object"
+msgstr "Ändra objekt"
+
+msgid "book_edit_schedule"
+msgstr "Redigera schema"
+
+#, fuzzy
+msgid "book_filter_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "book_filter_objects"
+msgstr "Bookable Items"
+
+msgid "book_filter_past_reservations"
+msgstr "Visa utgångna bokningar"
+
+#, fuzzy
+msgid "book_filter_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "book_filter_start_date"
+msgstr "Start Date"
+
+msgid "book_fromto"
+msgstr "Datumintervall"
+
+msgid "book_hours"
+msgstr "Timmar"
+
+msgid "book_is_used"
+msgstr "I användning"
+
+msgid "book_limit_objects_available"
+msgstr "Du kan inte lägga till %s deltagare i \"%s\" eftersom endast %s poster är tillgängliga."
+
+#, fuzzy
+msgid "book_list"
+msgstr "List"
+
+msgid "book_log"
+msgstr "Reserveringar"
+
+#, fuzzy
+msgid "book_mail_permanent_link"
+msgstr "Link to Booking Pool"
+
+#, fuzzy
+msgid "book_mail_to_booker"
+msgstr "Mail to User"
+
+#, fuzzy
+msgid "book_message"
+msgstr "Message"
+
+#, fuzzy
+msgid "book_message_info"
+msgstr "You may enter a message for the booking organisator here."
+
+#, fuzzy
+msgid "book_messages"
+msgstr "Messages"
+
+#, fuzzy
+msgid "book_messages_info"
+msgstr "Users may add a message when booking an object."
+
+#, fuzzy
+msgid "book_missing_availability"
+msgstr "It was not possible to book all items on all dates."
+
+#, fuzzy
+msgid "book_missing_items"
+msgstr "$1 missing item(s)."
+
+#, fuzzy
+msgid "book_modal_booking_confirmation"
+msgstr "Booking Confirmation"
+
+#, fuzzy
+msgid "book_modal_enter_quantity_intro"
+msgstr "Please enter the number of items that you would like to book."
+
+#, fuzzy
+msgid "book_modal_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_modal_recurrence_multiple"
+msgstr "Book multiple dates"
+
+#, fuzzy
+msgid "book_modal_recurrence_single"
+msgstr "Book only this date"
+
+#, fuzzy
+msgid "book_modal_skipped_unknown_item"
+msgstr "Unknown or invalid selection (%s)."
+
+#, fuzzy
+msgid "book_modal_warning_skipped_selections"
+msgstr "Some selected items or periods are not available for booking and are excluded from this confirmation."
+
+msgid "book_new"
+msgstr "Skapa ny bokningspool"
+
+msgid "book_no_bookings_for_you"
+msgstr "Inga reservationer har gjorts för dig."
+
+msgid "book_no_objects"
+msgstr "Ingen tilldelning"
+
+#, fuzzy
+msgid "book_no_objects_available"
+msgstr "None of the selected items are currently available for booking."
+
+msgid "book_no_of_objects"
+msgstr "Antal objekt"
+
+#, fuzzy
+msgid "book_no_pools_selected"
+msgstr "No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab."
+
+msgid "book_no_preferences_for_you"
+msgstr "Du har inte sparat några inställningar."
+
+#, fuzzy
+msgid "book_no_recurrence"
+msgstr "Book only this date"
+
+msgid "book_not"
+msgstr "Not"
+
+#, fuzzy
+msgid "book_not_cancelled"
+msgstr "Not cancelled"
+
+msgid "book_not_enough_preferences"
+msgstr "Du har inte valt tillräckligt många preferenser. Inställningarna har inte sparats."
+
+msgid "book_notification"
+msgstr "Notifieringar om reservationer"
+
+msgid "book_notification_cron_not_active"
+msgstr "Attention"
+
+msgid "book_notification_info"
+msgstr "Skickar en lista över nästa dags bokningar till användare (endast egna) och administratörer (om aktiverat)."
+
+msgid "book_nr_of_preferences"
+msgstr "Nummer"
+
+msgid "book_nr_of_preferences_info"
+msgstr "Antal preferenser som varje deltagare får ange."
+
+msgid "book_nr_preferences"
+msgstr "Preferenser"
+
+#, fuzzy
+msgid "book_obj_select"
+msgstr "Select"
+
+msgid "book_object_added"
+msgstr "Ett bokningsobjekt har lagts till."
+
+msgid "book_object_deleted"
+msgstr "Bokningsobjektet har tagits bort."
+
+#, fuzzy
+msgid "book_object_selection"
+msgstr "Object Selection"
+
+#, fuzzy
+msgid "book_object_title_or_description"
+msgstr "Title/Description"
+
+msgid "book_object_updated"
+msgstr "Bokningsobjektet har ändrats."
+
+msgid "book_objects_available"
+msgstr "Tillgängliga objekt"
+
+msgid "book_open"
+msgstr "Öppen bokningspool"
+
+msgid "book_overall_limit"
+msgstr "Begränsning"
+
+msgid "book_overall_limit_warning"
+msgstr "Du har nått det maximala antalet bokningar."
+
+#, fuzzy
+msgid "book_overall_limit_would_be_exceeded"
+msgstr "Invalid selection. The overall limit would be exceeded."
+
+#, fuzzy
+msgid "book_participant"
+msgstr "Participant"
+
+msgid "book_participant_already_assigned"
+msgstr "En eller flera deltagare var redan utsedda."
+
+msgid "book_participant_assigned"
+msgstr "Deltagaren/deltagarna har tilldelats."
+
+#, fuzzy
+msgid "book_participant_removed"
+msgstr "The participants and all related bookings have been removed successfully."
+
+#, fuzzy
+msgid "book_past_bookings"
+msgstr "Past bookings"
+
+msgid "book_period"
+msgstr "Varaktighet"
+
+msgid "book_pool_added"
+msgstr "En bokningspool har skapats."
+
+msgid "book_pool_selection"
+msgstr "Urval bokning pool"
+
+msgid "book_post_booking_file"
+msgstr "Fil"
+
+msgid "book_post_booking_information"
+msgstr "Information efter en bokning"
+
+#, fuzzy
+msgid "book_post_booking_information_for"
+msgstr "Booking Information for \"%s\""
+
+msgid "book_post_booking_text"
+msgstr "Text"
+
+msgid "book_post_booking_text_info"
+msgstr "Platshållarna kan användas för att lägga till bokningsinformation i infotexten.<br />Platshållaren [OBJECT] ersätts med respektive bokningsobjekt.<br />Platshållaren [PERIOD] ersätts med den valda bokningsperioden."
+
+msgid "book_pref_book_cron"
+msgstr "Boka med preferenser"
+
+msgid "book_pref_book_cron_info"
+msgstr "Automatisk bokning av bokningar med preferenser efter tidsfristen."
+
+msgid "book_pref_deadline"
+msgstr "Slutdatum"
+
+msgid "book_pref_deadline_info"
+msgstr "Preferenser kan ges upp till denna punkt."
+
+msgid "book_pref_overview"
+msgstr "Översikt"
+
+msgid "book_preference_info"
+msgstr "Please select %1 preference(s) to %2. Efter deadline kommer tilldelningar att göras automatiskt baserat på alla deltagares preferenser."
+
+msgid "book_preferences"
+msgstr "Preferenser"
+
+msgid "book_preferences_saved"
+msgstr "Inställningarna har sparats."
+
+#, fuzzy
+msgid "book_present_bookings"
+msgstr "Present bookings"
+
+msgid "book_public_log"
+msgstr "Users ser alla bokningar"
+
+msgid "book_public_log_info"
+msgstr "Användare med läsbehörighet kan också se andra användares reservationer på fliken \"Reservationer\"."
+
+#, fuzzy
+msgid "book_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_refresh"
+msgstr "Refresh"
+
+msgid "book_rem_intro"
+msgstr "Detta är en översikt över kommande bokningar."
+
+msgid "book_rem_reason"
+msgstr "Du får detta mail eftersom du har aktiverat aviseringen av motsvarande bokningsobjekt."
+
+msgid "book_reminder_day"
+msgstr "Skicka"
+
+msgid "book_reminder_day_info"
+msgstr "En lista över dina egna bokningar skickas automatiskt. Användare med rättigheten \"Redigera inställningar\" får en total lista över alla pågående bokningar."
+
+msgid "book_reminder_days"
+msgstr "Dagar före bokning"
+
+msgid "book_reminder_setting"
+msgstr "Påminn deltagarna om reservationen"
+
+#, fuzzy
+msgid "book_remove_participants"
+msgstr "Remove Participant(s)"
+
+msgid "book_rerun_assignments"
+msgstr "Utför uppdrag igen"
+
+msgid "book_rerun_confirmation"
+msgstr "Attention. Tilldelningen enligt preferenser har redan gjorts. I sällsynta fall kan avbrytande av processen leda till inga eller ofullständiga bokningar och göra det nödvändigt att starta om processen. Innan du startar om den automatiska processen måste d"
+
+msgid "book_reservation_available"
+msgstr "%s tillgänglig"
+
+#, fuzzy
+msgid "book_reservation_cancelled"
+msgstr "Reservation(s) cancelled."
+
+msgid "book_reservation_confirmed"
+msgstr "Bokningen slutfördes framgångsrikt."
+
+msgid "book_reservation_failed"
+msgstr "Bokningen misslyckades."
+
+msgid "book_reservation_failed_overbooked"
+msgstr "Bokningen misslyckades eftersom objektet inte längre är tillgängligt."
+
+msgid "book_reservation_filter_period"
+msgstr "Förvald inställning för filtret \"Datumintervall\""
+
+msgid "book_reservation_filter_period_info"
+msgstr "I fliken \"Reservationer\" är filtret \"Datumintervall\" förinställt till detta värde från det aktuella datumet."
+
+msgid "book_reservation_fix_info"
+msgstr "Reservation kan endast göras för bestämda tider."
+
+msgid "book_reservation_overview"
+msgstr "Reserveringar för alla användare"
+
+msgid "book_reservation_status_5"
+msgstr "Avbruten"
+
+msgid "book_reservation_title"
+msgstr "Bokningsförfrågan för"
+
+msgid "book_reservations_list"
+msgstr "Reserveringar"
+
+msgid "book_schedule"
+msgstr "Tidtabell"
+
+msgid "book_schedule_added"
+msgstr "Ett schema har lagts till."
+
+#, fuzzy
+msgid "book_schedule_all_day"
+msgstr "All-Day Schedule"
+
+msgid "book_schedule_days"
+msgstr "Veckodagar"
+
+msgid "book_schedule_days_info"
+msgstr "Giltiga tider för varje dag (HH"
+
+msgid "book_schedule_deleted"
+msgstr "Schemat har tagits bort."
+
+msgid "book_schedule_slot"
+msgstr "Tidsperiod"
+
+msgid "book_schedule_type"
+msgstr "Bokningsläge"
+
+msgid "book_schedule_type_fixed"
+msgstr "Bokning av möten"
+
+msgid "book_schedule_type_fixed_info"
+msgstr "Lämplig för bokningar av saker under en viss tidsperiod, t.ex. rum, tjänster eller utrustning."
+
+msgid "book_schedule_type_none"
+msgstr "Distribuera utan schema"
+
+msgid "book_schedule_type_none_direct"
+msgstr "Bokning utan datum"
+
+msgid "book_schedule_type_none_direct_info"
+msgstr "Deltagare kan boka direkt. Läget är lämpligt för presentationsämnen eller seminarieplatser som tilldelas utan tidsbokning."
+
+msgid "book_schedule_type_none_info"
+msgstr "Detta bokningssätt är lämpligt för tilldelning av uppsatsämnen, seminarieplatser eller jämförbara erbjudanden."
+
+msgid "book_schedule_type_none_preference"
+msgstr "Automatiskt distribuera enligt preferenser"
+
+msgid "book_schedule_type_none_preference_info"
+msgstr "Deltagarnas preferenser för förnamn. Bokningar görs sedan automatiskt på ett valt slutdatum. Bokningsläget är lämpligt för presentationsämnen eller seminarieplatser som tilldelas utan datum."
+
+msgid "book_schedule_updated"
+msgstr "Schemat har ändrats."
+
+msgid "book_schedule_warning_edit"
+msgstr "Det finns för närvarande inga tillgängliga scheman. För att använda poolen måste ett schema först skapas (eller så måste typen av bokningspool ändras)."
+
+msgid "book_schedules"
+msgstr "Tidtabeller"
+
+msgid "book_select_pool"
+msgstr "Välj pool"
+
+msgid "book_set_cancel"
+msgstr "Avbryt"
+
+msgid "book_set_delete"
+msgstr "Radera"
+
+#, fuzzy
+msgid "book_show_message"
+msgstr "Show Message"
+
+#, fuzzy
+msgid "book_show_past_bookings"
+msgstr "Show past bookings"
+
+#, fuzzy
+msgid "book_some_reservations_unavailable"
+msgstr "Some of the selected items could not be booked because they are no longer available."
+
+#, fuzzy
+msgid "book_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "book_table_col_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "book_table_col_datetime"
+msgstr "Date/Time"
+
+#, fuzzy
+msgid "book_title_description_nr"
+msgstr "Title; Description; Number of Objects"
+
+#, fuzzy
+msgid "book_title_description_nr_info"
+msgstr "Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object."
+
+msgid "book_too_many_preferences"
+msgstr "Du har valt för många inställningar. Inställningarna har inte sparats."
+
+#, fuzzy
+msgid "book_total_individual_bookings_limit"
+msgstr "Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant."
+
+msgid "book_type_warning"
+msgstr "Det finns för närvarande inga bokningsobjekt tillgängliga. För att kunna använda poolen måste bokningsobjekt först skapas."
+
+#, fuzzy
+msgid "book_view"
+msgstr "View"
+
+#, fuzzy
+msgid "book_week"
+msgstr "Week"
+
+#, fuzzy
+msgid "book_week_no_objects_selected"
+msgstr "Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button."
+
+msgid "book_your_bookings"
+msgstr "Dina bokningar"
+
+msgid "book_your_preferences"
+msgstr "Dina preferenser"
+
+msgid "book_your_reservations"
+msgstr "Dina bokningar"
+
+msgid "booking_multiple_succesfully"
+msgstr "Bokningar framgångsrikt genomförda"
+
+msgid "booking_nr_of_items"
+msgstr "Nummer"
+
+#, fuzzy
+msgid "booking_process_error"
+msgstr "There was an error while processing your booking(s). Please try again."
+
+#, fuzzy
+msgid "bookings_log"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "delete_bookable_item"
+msgstr "Delete Bookable Item"
+
+#, fuzzy
+msgid "no_valid_selection"
+msgstr "No valid selection"
+
+msgid "obj_book_duplicate"
+msgstr "Kopiera bokningspool"
+
+msgid "participants"
+msgstr "Deltagare"
+
+msgid "reservation_deleted"
+msgstr "Reservation borttagen"
+
+#, fuzzy
+msgid "schedule_type"
+msgstr "Schedule Type"
