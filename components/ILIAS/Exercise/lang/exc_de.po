@@ -1,0 +1,1491 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr "Übungseinheit hinzufügen"
+
+msgid "exc_add_criteria"
+msgstr "Kriterium hinzufügen"
+
+msgid "exc_add_criteria_catalogue"
+msgstr "Katalog hinzufügen"
+
+msgid "exc_add_feedback_file"
+msgstr "Als Datei hinterlegen"
+
+msgid "exc_add_participant"
+msgstr "Personen hinzufügen"
+
+msgid "exc_adopt_group_teams"
+msgstr "Teams aus Gruppen bilden"
+
+msgid "exc_adopt_group_teams_added"
+msgstr "%s Benutzer wurden hinzugefügt."
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr "%s Benutzer waren bereits vorhanden."
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr "Benutzer \"%1$s\" ist bereits in Gruppe \"%2$s\" gewählt."
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr "Keine Mitglieder"
+
+msgid "exc_after_submission"
+msgstr "Nach der Abgabe"
+
+msgid "exc_all"
+msgstr "Alle"
+
+msgid "exc_all_new_files_offered_already"
+msgstr "Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste."
+
+msgid "exc_ass_submission_zip"
+msgstr "Abgaben"
+
+msgid "exc_ass_team_wiki"
+msgstr "Team-Wiki"
+
+msgid "exc_assignment"
+msgstr "Übungseinheit"
+
+msgid "exc_assignment_list"
+msgstr "Liste der Übungseinheiten"
+
+msgid "exc_assignment_type"
+msgstr "Abgabetyp"
+
+msgid "exc_assignment_view"
+msgstr "Je Übungseinheit"
+
+msgid "exc_assignments"
+msgstr "Übungseinheiten"
+
+msgid "exc_assignments_deleted"
+msgstr "Die Übungseinheiten wurden gelöscht."
+
+msgid "exc_auto_last_save"
+msgstr "Zuletzt gespeichert:"
+
+msgid "exc_auto_save_info"
+msgstr "Der Text wird alle 30 Sekunden automatisch gespeichert, falls Sie Änderungen vornehmen."
+
+msgid "exc_auto_saved_minutes_p"
+msgstr "Vor %s Minuten"
+
+msgid "exc_auto_saved_minutes_s"
+msgstr "Vor %s Minute"
+
+msgid "exc_blog_created"
+msgstr "Blog wurde erstellt."
+
+msgid "exc_blog_returned"
+msgstr "Blog zur Übungseinheit"
+
+msgid "exc_blog_selected"
+msgstr "Das Blog wurde verknüpft."
+
+msgid "exc_cannot_submit_any_files"
+msgstr "Sie können keine Dateien mehr einreichen."
+
+msgid "exc_chars_remaining"
+msgstr "Verbleibende Zeichen"
+
+msgid "exc_comment_for_learner_edit"
+msgstr "Als Kommentar in Textfeld eingeben"
+
+msgid "exc_comment_for_learner_info"
+msgstr "Die Person, die die Abgabe eingereicht hat, wird per Mail benachrichtigt. <br /><br /> Die Rückmeldung wird im Reiter „Übersicht“ der Übungseinheit angezeigt."
+
+msgid "exc_compare_selected_submissions"
+msgstr "Vergleiche ausgewählte Lösungsabgaben"
+
+msgid "exc_compare_submissions"
+msgstr "Vergleiche Lösungsabgaben"
+
+msgid "exc_completion_by_submission"
+msgstr "Automatisch bei Abgabe"
+
+msgid "exc_completion_by_submission_info"
+msgstr "Wird für eine Übungseinheit eine Lösung eingereicht, setzt ILIAS den Status automatisch auf „Bestanden“. Personen mit dem Recht „Abgaben und Noten bearbeiten“ können den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bereits erfolgte Bewertungen."
+
+msgid "exc_completion_by_tutor"
+msgstr "Manuell setzen"
+
+msgid "exc_conf_del_assignments"
+msgstr "Möchten Sie die folgenden Übungseinheiten wirklich löschen?"
+
+msgid "exc_copy"
+msgstr "Übung kopieren"
+
+msgid "exc_copy_zip_error"
+msgstr "Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten."
+
+msgid "exc_create_blog"
+msgstr "Blog erstellen"
+
+msgid "exc_create_blog_select_info"
+msgstr "Wählen Sie in Ihren persönlichen Ressourcen die Stelle aus, an der das Blog erstellt werden soll."
+
+msgid "exc_create_portfolio"
+msgstr "Portfolio erstellen"
+
+msgid "exc_create_portfolio_no_template"
+msgstr "Keine Vorlage verwenden"
+
+msgid "exc_create_team"
+msgstr "Team erstellen"
+
+msgid "exc_create_team_times_up_warning"
+msgstr "Sie können kein Team mehr erstellen oder einem Team beitreten. Die Zeit ist abgelaufen."
+
+msgid "exc_create_wiki"
+msgstr "Wiki erstellen"
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr "Aktives Peer-Feedback"
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr "Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden."
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr "Neuen Katalog hinzufügen"
+
+msgid "exc_criteria_catalogue_default"
+msgstr "Kein Katalog"
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr "Wollen Sie wirklich die folgenden Kriterienkataloge löschen?"
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr "Katalog bearbeiten"
+
+msgid "exc_criteria_catalogues"
+msgstr "Kriterienkataloge"
+
+msgid "exc_criteria_create_form"
+msgstr "Neues Kriterium hinzufügen"
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr "Wollen Sie wirklich die folgenden Kriterien löschen?"
+
+msgid "exc_criteria_type_bool"
+msgstr "Erfüllt Ja/Nein"
+
+msgid "exc_criteria_type_file"
+msgstr "Dateiupload"
+
+msgid "exc_criteria_type_rating"
+msgstr "5-Sterne-Bewertung"
+
+msgid "exc_criteria_type_text"
+msgstr "Text"
+
+msgid "exc_criteria_update_form"
+msgstr "Kriterium bearbeiten"
+
+msgid "exc_criterias"
+msgstr "Kriterien"
+
+msgid "exc_deadline"
+msgstr "Abgabetermin"
+
+msgid "exc_deadline_ext_mismatch"
+msgstr "Die Nachfrist muss nach dem Abgabetermin enden."
+
+msgid "exc_deadline_extended"
+msgstr "Nachfrist"
+
+msgid "exc_deadline_extended_info"
+msgstr "Im Zeitraum zwischen dem Abgabetermin und dem Ende der Nachfrist können verspätete Abgaben vorgenommen werden."
+
+msgid "exc_deadline_not_set_yet"
+msgstr "Noch nicht gesetzt"
+
+msgid "exc_deadline_requested"
+msgstr "Angefragt"
+
+msgid "exc_delete_team"
+msgstr "Team löschen"
+
+msgid "exc_deleted_user"
+msgstr "Gelöschter Benutzer"
+
+msgid "exc_denied_has_peer_reviews"
+msgstr "Grund: Einige Übungseinheiten haben Peer-Reviewing aktiviert."
+
+msgid "exc_denied_has_submissions"
+msgstr "Grund: Benutzer haben bereits Abgaben getätigt."
+
+msgid "exc_denied_has_team_assignments"
+msgstr "Grund: Die Übung enthält Team-Abgaben."
+
+msgid "exc_direct_no_submit"
+msgstr "Nicht abgeben"
+
+msgid "exc_direct_submit"
+msgstr "Abgeben"
+
+msgid "exc_direct_submit_blog"
+msgstr "Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun."
+
+msgid "exc_direct_submit_portfolio"
+msgstr "Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun."
+
+msgid "exc_down_files_started_bg"
+msgstr "Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen."
+
+msgid "exc_download_selected"
+msgstr "Ausgewählte Abgaben herunterladen"
+
+msgid "exc_download_zip_structure"
+msgstr "ZIP-Verzeichnisstruktur herunterladen"
+
+msgid "exc_earliest_start_time"
+msgstr "Frühester Starttermin"
+
+msgid "exc_edit_assignment"
+msgstr "Einstellungen der Übungseinheit"
+
+msgid "exc_edit_assignments"
+msgstr "Übungseinheiten bearbeiten"
+
+msgid "exc_edit_blog"
+msgstr "Blog bearbeiten"
+
+msgid "exc_edit_criterias"
+msgstr "Kriterien bearbeiten"
+
+msgid "exc_edit_portfolio"
+msgstr "Portfolio bearbeiten"
+
+msgid "exc_edit_submission"
+msgstr "Eingereichte Lösungen ändern"
+
+msgid "exc_edit_wiki"
+msgstr "Wiki bearbeiten"
+
+msgid "exc_ended"
+msgstr "Beendet"
+
+msgid "exc_ended_on"
+msgstr "Beendet am"
+
+msgid "exc_export_excel"
+msgstr "Export (Excel)"
+
+msgid "exc_fb_files"
+msgstr "Bewertungsdateien"
+
+msgid "exc_fb_tutor_info"
+msgstr "Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann die Datei in der Übersicht der Übungseinheiten herunterladen und einsehen."
+
+msgid "exc_feedback"
+msgstr "Rückmeldungen"
+
+msgid "exc_feedback_notification_body"
+msgstr "Die Musterlösung zur folgenden Übungseinheit wurde freigeschaltet."
+
+msgid "exc_feedback_notification_link"
+msgstr "Link zur Übung"
+
+msgid "exc_feedback_notification_reason"
+msgstr "Sie erhalten diese Nachricht, da Sie an der oben genannten Übung teilnehmen."
+
+msgid "exc_feedback_notification_subject"
+msgstr "Musterlösung für Übungseinheit der Übung „%s“ freigeschaltet"
+
+msgid "exc_files_returned_text"
+msgstr "Abgegebener Text"
+
+msgid "exc_find_zip_error"
+msgstr "Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden."
+
+msgid "exc_fixed_date"
+msgstr "Festes Datum"
+
+msgid "exc_fixed_date_individual"
+msgstr "Nur individuelle Termine"
+
+msgid "exc_fixed_date_individual_info"
+msgstr "Es gibt keinen gemeinsamen Abgabetermin. Setzen Sie für jede Person einen individuellen Termin."
+
+msgid "exc_fixed_date_info"
+msgstr "Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum."
+
+msgid "exc_fullscreen"
+msgstr "Vollbild"
+
+msgid "exc_future"
+msgstr "Kommende"
+
+msgid "exc_given_feedback"
+msgstr "Gegebenes Feedback"
+
+msgid "exc_global_feedback_file"
+msgstr "Musterlösung"
+
+msgid "exc_global_feedback_file_after_date"
+msgstr "Nach festem Datum"
+
+msgid "exc_global_feedback_file_cron"
+msgstr "Benachrichtigung bei Verfügbarkeit"
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr "Alle Personen, die an einer Übungseinheit teilnehmen, werden per Mail benachrichtigt, sobald deren Musterlösung verfügbar ist."
+
+msgid "exc_global_feedback_file_date"
+msgstr "Verfügbarkeit"
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr "Nach dem Abgabetermin"
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr "Nach der Abgabe"
+
+msgid "exc_go_to_exercise"
+msgstr "Zur Übung"
+
+msgid "exc_graded_mem_notified"
+msgstr "Alle ausgewählten Personen mit einer Bewertung wurden benachrichtigt."
+
+msgid "exc_grades"
+msgstr "Notenübersicht"
+
+msgid "exc_grades_overview"
+msgstr "Notenübersicht"
+
+msgid "exc_hand_in"
+msgstr "Datei abgeben"
+
+msgid "exc_hand_in_lead_text"
+msgstr "In %s abzugeben"
+
+msgid "exc_idl_request_and_tutor_needed"
+msgstr "Bitten Sie um eine individuelle Abgabefrist. Die für Sie zuständige Person wird automatisch benachrichtigt."
+
+msgid "exc_idl_tutor_needed"
+msgstr "Ihre Anfrage wurde gesendet. Sie werden benachrichtigt, sobald Ihnen eine individuelle Abgabefrist gesetzt worden ist."
+
+msgid "exc_import"
+msgstr "Übung importieren"
+
+msgid "exc_individual_deadline"
+msgstr "Individueller Abgabetermin"
+
+msgid "exc_individual_deadline_action"
+msgstr "Individuellen Abgabetermin setzen"
+
+msgid "exc_individual_deadline_before_global"
+msgstr "Das Datum muss hinter der (letzten) Deadline liegen: %s."
+
+msgid "exc_instruction_files"
+msgstr "Dateien zur Arbeitsanweisung"
+
+msgid "exc_instruction_migration_not_run"
+msgstr "Die Migration der Dateien zur Arbeitsanweisung ist noch nicht abgeschlossen. Kontaktieren Sie die technische Betreuung."
+
+msgid "exc_late_submission"
+msgstr "Verspätete Abgabe"
+
+msgid "exc_late_submission_warning"
+msgstr "Abgaben nach %s werden als verspätet gekennzeichnet."
+
+msgid "exc_lead_request_idl"
+msgstr "Abgabefrist anfragen"
+
+msgid "exc_lead_wait_for_idl"
+msgstr "Wartet auf individuelle Abgabefrist"
+
+msgid "exc_limit_characters"
+msgstr "Anzahl der Zeichen beschränken"
+
+msgid "exc_link_to_assignment"
+msgstr "Link zur Übungseinheit"
+
+msgid "exc_list_submission"
+msgstr "Alle Lösungsabgaben"
+
+msgid "exc_list_text_assignment"
+msgstr "Liste aller Abgaben"
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr "Personen, welche in einer Übungseinheit die Erinnerungen aktiviert haben, werden an die Bewertung der Einreichungen erinnert."
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr "Übung: Erinnerung an Bewertung"
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr "Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert."
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr "Übung: Erinnerung an Peer-Feedback"
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr "Titel der Übungseinheit"
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr "Übungstitel"
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr "Die Nutzer werden an die Abgabe ihrer Einreichungen erinnert."
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr "Übung: Erinnerung an Abgabe"
+
+msgid "exc_mail_permanent_link"
+msgstr "Der folgende Link leitet weiter zur Übung:"
+
+msgid "exc_manage_team"
+msgstr "Team verwalten"
+
+msgid "exc_mandatory"
+msgstr "Verpflichtend"
+
+msgid "exc_mandatory_info"
+msgstr "Verpflichtende Übungseinheiten müssen bestanden werden, um die ganze Übung zu bestehen."
+
+msgid "exc_mandatory_rand_determined"
+msgstr "Zufällige Auswahl"
+
+msgid "exc_max_char_limit"
+msgstr "Höchstanzahl Zeichen"
+
+msgid "exc_max_file"
+msgstr "Maximale Dateianzahl"
+
+msgid "exc_max_file_info"
+msgstr "Nach Erreichen des Limits können Teilnehmer keine weiteren Dateien hochladen."
+
+msgid "exc_max_file_reached"
+msgstr "Sie können maximal %s Dateien hochladen."
+
+msgid "exc_max_file_tgl"
+msgstr "Uploads begrenzen"
+
+msgid "exc_max_team_participants"
+msgstr "Maximale Anzahl"
+
+msgid "exc_members_already_assigned_team"
+msgstr "Dieser Benutzer ist bereits einem Team zugeordnet."
+
+msgid "exc_min_char_limit"
+msgstr "Mindestanzahl Zeichen"
+
+msgid "exc_min_nr"
+msgstr "Anzahl Übungseinheiten"
+
+msgid "exc_min_nr_info"
+msgstr "Dieser Wert muss mindestens so hoch sein, wie die Anzahl der verpflichtenden Übungseinheiten."
+
+msgid "exc_min_team_participants"
+msgstr "Mindestanzahl"
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr "Sie müssen alle verpflichtenden Übungseinheiten bestehen, um die Übung als ganze zu bestehen."
+
+msgid "exc_msg_deadline_request_body"
+msgstr "Der folgende Benutzer hat eine individuelle Abgabefrist angefragt."
+
+msgid "exc_msg_deadline_request_subject"
+msgstr "Es wurde eine Abgabefrist in Übung „%s“ angefragt."
+
+msgid "exc_msg_failed_mandatory"
+msgstr "Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden."
+
+msgid "exc_msg_grading_done"
+msgstr "Es wurde eine Übungseinheit in Übung „%s“ bewertet."
+
+msgid "exc_msg_grading_done_body"
+msgstr "Ihre Einreichung für die Übung „%s“ wurde bewertet."
+
+msgid "exc_msg_idl_set_body"
+msgstr "Sie haben einen individuellen Abgabetermin erhalten. Nähere Informationen dazu finden Sie in der Übung."
+
+msgid "exc_msg_idl_set_subject"
+msgstr "Es wurde eine Abgabefrist in Übung „%s“ gesetzt."
+
+msgid "exc_msg_min_number_ass"
+msgstr "Sie müssen mindestens %s Übungseinheiten bestehen, um die Übung zu bestehen."
+
+msgid "exc_msg_missed_minimum_number"
+msgstr "Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden."
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr "Es wurde eine neue Feedback-Datei zur Übung „%s“ hinzugefügt."
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr "Eine neue Feedback-Datei wurde für Sie hochgeladen."
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr "Es wurde ein neuer Kommentar zur Übung „%s“ hinzugefügt."
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr "die folgende Einreichung von Ihnen wurde kommentiert."
+
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr "Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt."
+
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr "Eine Person, die Ihnen Feedback gegeben hat, hat folgende Mitteilung an Sie:"
+
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr "Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt."
+
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr "Eine Person, die von Ihnen Feedback erhalten hat, hat folgende Mitteilung an Sie:"
+
+msgid "exc_msg_participants_removed"
+msgstr "Die Personen wurden aus der Übung entfernt."
+
+msgid "exc_msg_public_submission"
+msgstr "Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht."
+
+msgid "exc_msg_saved_grades"
+msgstr "Die Änderungen wurden gespeichert."
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr "Wollen Sie die folgenden Personen wirklich aus allen Übungseinheiten der Übung entfernen? Sämtliche Abgaben dieser Personen werden gelöscht."
+
+msgid "exc_multi_feedb_info"
+msgstr "Hier können Sie Dateien mit Rückmeldungen für mehrere Personen auf einmal hochladen. <b>Wichtig</b>: Vermeiden Sie unbedingt Umlaute und Sonderzeichen im Dateinamen. Das erzeugt Probleme bei der Zuordnung der Dateien.<br /><ol><li>Klicken Sie unten auf den Button „ZIP-Verzeichnisstruktur herunterladen“, und speichern Sie die ZIP-Datei auf Ihrem Computer.</li><li>Entpacken Sie die ZIP-Datei auf Ihrem Computer.</li><li>Öffnen Sie den Ordner. Jede Person, die an der Übung teilnimmt, hat darin einen eigenen Ordner.</li><li>Legen Sie die Dateien mit den Rückmeldungen in die entsprechenden Ordner.</li><li>Komprimieren Sie das Verzeichnis wieder als ZIP-Datei.</li><li>Wählen Sie unten auf dieser Seite unter „ZIP-Datei mit Rückmeldungen“ Ihre ZIP-Datei aus und laden diese hoch.</li><li>ILIAS zeigt eine Tabelle mit allen Namen und zugehörigen Dateien.</li><li>Prüfen Sie die Zuordnung und klicken Sie abschließend auf „Speichern“.</li></ol>"
+
+msgid "exc_multi_feedback"
+msgstr "Rückmeldung an mehrere Personen"
+
+msgid "exc_multi_feedback_file"
+msgstr "ZIP-Datei mit Rückmeldungen"
+
+msgid "exc_multi_feedback_files"
+msgstr "Multi-Feedback-Dateien"
+
+msgid "exc_needs_deadline"
+msgstr "Diese Option benötigt einen Abgabetermin."
+
+msgid "exc_needs_fixed_deadline"
+msgstr "Diese Funktion benötigt ein festes Abgabedatum."
+
+msgid "exc_new_assignment"
+msgstr "Neue Übungseinheit"
+
+msgid "exc_no_assignments"
+msgstr "Keine Übungseinheiten vorhanden."
+
+msgid "exc_no_assignments_available"
+msgstr "Keine Übungseinheiten vorhanden. Bitte wählen Sie \"Übungseinheiten\" und \"Bearbeiten\", um eine Übungseinheit zu erstellen."
+
+msgid "exc_no_deadline"
+msgstr "Keine Abgabefrist"
+
+msgid "exc_no_deadline_info"
+msgstr "Die Abgabe ist jederzeit möglich."
+
+msgid "exc_no_deadline_specified"
+msgstr "Es wurde kein Abgabetermin festgelegt."
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr "Die Verzeichnisstruktur des hochgeladenen Zip-Archivs konnte nicht verarbeitet werden."
+
+msgid "exc_no_get_target"
+msgstr "Kein gültiges Link-Ziel gefunden."
+
+msgid "exc_no_graded_mem_selected"
+msgstr "Wählen Sie nur Personen aus, die auch bewertet wurden."
+
+msgid "exc_no_participants"
+msgstr "Bisher hat noch niemand an der Übung teilgenommen."
+
+msgid "exc_no_peer_feedback_deadline"
+msgstr "Keine Frist für Abgabe des Feedbacks"
+
+msgid "exc_no_portfolio_templates"
+msgstr "Es sind keine Portfoliovorlagen vorhanden."
+
+msgid "exc_no_submission_yet"
+msgstr "Bisher keine Abgabe"
+
+msgid "exc_no_team_yet"
+msgstr "Keinem Team zugeordnet"
+
+msgid "exc_no_team_yet_info"
+msgstr "Sie können selbst ein Team erstellen oder in ein anderes Team von dessen Teammitgliedern hinzugefügt werden."
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr "Sie werden später einem Team zugewiesen."
+
+msgid "exc_no_team_yet_notice"
+msgstr "Sie gehören noch keinem Team an."
+
+msgid "exc_note_for_tutor"
+msgstr "Interne Bemerkung"
+
+msgid "exc_notification"
+msgstr "Persönliche Benachrichtigung"
+
+msgid "exc_nr_random_mand"
+msgstr "Anzahl verpflichtender Übungseinheiten"
+
+msgid "exc_num_teams"
+msgstr "Anzahl"
+
+msgid "exc_ongoing"
+msgstr "Laufende"
+
+msgid "exc_optional"
+msgstr "Optional"
+
+msgid "exc_order_by_deadline"
+msgstr "Nach Abgabetermin sortieren"
+
+msgid "exc_overview"
+msgstr "Übersicht"
+
+msgid "exc_participant"
+msgstr "Alle Übungseinheiten von"
+
+msgid "exc_participant_view"
+msgstr "Je Person"
+
+msgid "exc_participants"
+msgstr "Personen"
+
+msgid "exc_pass_all"
+msgstr "Nur verpflichtende Übungseinheiten"
+
+msgid "exc_pass_all_info"
+msgstr "Um die gesamte Übung zu bestehen, müssen alle verpflichtenden Übungseinheiten bestanden werden."
+
+msgid "exc_pass_minimum_nr"
+msgstr "Mindestanzahl an Übungseinheiten"
+
+msgid "exc_pass_minimum_nr_info"
+msgstr "Um die gesamte Übung zu bestehen, muss eine Mindestanzahl an Übungseinheiten bestanden werden."
+
+msgid "exc_pass_mode"
+msgstr "Anforderung"
+
+msgid "exc_pass_mode_not_changeable_info"
+msgstr "Diese Option kann nicht mehr geändert werden."
+
+msgid "exc_passed_status_determination"
+msgstr "Bewertung als „Bestanden“"
+
+msgid "exc_passing_exc"
+msgstr "Bestehen der Übung"
+
+msgid "exc_past"
+msgstr "Vergangene"
+
+msgid "exc_peer_deadline_mismatch"
+msgstr "Da das Feedback erst nach dem Abgabetermin der Übungseinheit gegeben werden kann, darf die Deadline für das Feedback nicht vor dem Abgabedatum liegen."
+
+msgid "exc_peer_feedback_status"
+msgstr "Status"
+
+msgid "exc_peer_review"
+msgstr "Peer-Feedback"
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr "Der zusätzliche Reiter „Peer-Feedback“ wird aktiviert. Dort legen Sie fest, wie teilnehmende Personen einander Feedback geben sollen. Feedback kann abgegeben werden, sobald der Abgabetermin und eine etwaige Nachfrist abgelaufen sind."
+
+msgid "exc_peer_review_chars_invalid"
+msgstr "Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen erreicht."
+
+msgid "exc_peer_review_completion"
+msgstr "Bestimmung des Status \"Bestanden\""
+
+msgid "exc_peer_review_completion_all"
+msgstr "Alle geforderten Feedbacks"
+
+msgid "exc_peer_review_completion_all_info"
+msgstr "Die Übungseinheit wird automatisch auf \"Bestanden\" gesetzt, nachdem eine Lösung eingereicht wurde und die Anzahl der geforderten Feedback gegeben wurde."
+
+msgid "exc_peer_review_completion_none"
+msgstr "Peer-Feedback ist optional"
+
+msgid "exc_peer_review_completion_none_info"
+msgstr "Die Übungseinheit wird automatisch nach der Einreichung auf \"Bestanden\" gesetzt, egal ob Feedbacks gegeben wurden oder nicht."
+
+msgid "exc_peer_review_completion_one"
+msgstr "Mindestens ein Feedback"
+
+msgid "exc_peer_review_completion_one_info"
+msgstr "Die Übungseinheit wird automatisch auf \"Bestanden\" gesetzt, nachdem eine Lösung eingereicht wurde und mindestens ein Feedback gegeben wurde."
+
+msgid "exc_peer_review_deadline"
+msgstr "Feedback geben bis"
+
+msgid "exc_peer_review_deadline_info"
+msgstr "Bis zu diesem Termin kann Feedback abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar."
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr "Endtermin: %s"
+
+msgid "exc_peer_review_deadline_reached"
+msgstr "Feedback-Zeit ist abgelaufen."
+
+msgid "exc_peer_review_file"
+msgstr "Datei-Upload"
+
+msgid "exc_peer_review_file_info"
+msgstr "Ermöglicht Peers eine Datei je Review hochzuladen"
+
+msgid "exc_peer_review_give"
+msgstr "Feedback geben"
+
+msgid "exc_peer_review_given"
+msgstr "Gegebenes Feedback zeigen"
+
+msgid "exc_peer_review_giver"
+msgstr "Feedback von"
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr "Personen, die Feedback geben sollten, aber nicht an der Übung teilgenommen oder kein Feedback abgegeben haben"
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr "Personen, denen ein Feedback gegeben werden sollte, die aber nicht an der Übung teilgenommen haben oder denen kein Feedback gegeben wurde"
+
+msgid "exc_peer_review_min_chars"
+msgstr "Mindestanzahl Zeichen"
+
+msgid "exc_peer_review_min_chars_info"
+msgstr "Die nötige Anzahl Zeichen für ein gültiges Feedback"
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr "Mindestlänge"
+
+msgid "exc_peer_review_min_number"
+msgstr "Geforderte Anzahl von Feedbacks"
+
+msgid "exc_peer_review_min_number_info"
+msgstr "Anzahl von Einreichungen, zu denen man Feedback geben muss. Sollte die Anzahl der geforderten Rückmeldungen die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert."
+
+msgid "exc_peer_review_missing_info"
+msgstr "Um das erhaltene Feedback zu sehen, fehlen noch %s eigene Feedbacks."
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr "Um das erhaltene Feedback zu sehen, fehlen noch %1$s eigene Feedbacks. Die Freischaltung erfolgt am: %2$s."
+
+msgid "exc_peer_review_missing_users"
+msgstr "Benutzer mit einer Abgabe, die nicht Teil des Peer-Feedbacks sind"
+
+msgid "exc_peer_review_no_peers"
+msgstr "Es konnten keine Peers gefunden werden."
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr "Es wurden bisher noch keine Bewertungen vorgenommen."
+
+msgid "exc_peer_review_not_returned_users"
+msgstr "Personen ohne Abgabe, die nicht Teil des Peer-Feedbacks sind"
+
+msgid "exc_peer_review_overview"
+msgstr "Peer-Gruppen anzeigen"
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr "Andere Personen"
+
+msgid "exc_peer_review_personal"
+msgstr "Personalisiertes Peer-Feedback"
+
+msgid "exc_peer_review_personal_info"
+msgstr "Peers werden mit vollem Namen gezeigt"
+
+msgid "exc_peer_review_rating"
+msgstr "5-Sterne-Bewertung"
+
+msgid "exc_peer_review_recipient"
+msgstr "Feedback an"
+
+msgid "exc_peer_review_reset"
+msgstr "Peer-Feedback löschen und zurücksetzen"
+
+msgid "exc_peer_review_reset_done"
+msgstr "Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht."
+
+msgid "exc_peer_review_reset_sure"
+msgstr "Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit „%s“ löschen?"
+
+msgid "exc_peer_review_show"
+msgstr "Erhaltenes Feedback zeigen"
+
+msgid "exc_peer_review_show_missing"
+msgstr "Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben."
+
+msgid "exc_peer_review_show_received_none"
+msgstr "Sie haben kein Feedback erhalten."
+
+msgid "exc_peer_review_simple_unlock"
+msgstr "Anzeige des erhaltenen Feedbacks"
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr "Direkt nach erstem abgegebenen Feedback"
+
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr "Erhaltenes Feedback immer anzeigen"
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr "Nur wenn die geforderte Anzahl an Feedback gegeben wurde"
+
+msgid "exc_peer_review_text"
+msgstr "Texteingabe"
+
+msgid "exc_peer_review_updated"
+msgstr "Ihr Feedback wurde gespeichert."
+
+msgid "exc_peer_reviews_in_lead_text"
+msgstr "In %s Feedback geben"
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr "Ungültige Peer-Gruppen"
+
+msgid "exc_portfolio_created"
+msgstr "Portfolio wurde erstellt."
+
+msgid "exc_portfolio_returned"
+msgstr "Portfolio zur Übungseinheit"
+
+msgid "exc_portfolio_selected"
+msgstr "Das Portfolio wurde zugeordnet."
+
+msgid "exc_portfolio_template"
+msgstr "Portfoliovorlage bestimmen"
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr "Das Portfolio wurde aus der Übungseinheit entfernt."
+
+msgid "exc_presentation_order"
+msgstr "Reihenfolge"
+
+msgid "exc_print_pdf"
+msgstr "Drucken/PDF"
+
+msgid "exc_public_submission"
+msgstr "Öffentliche Lösungsabgaben"
+
+msgid "exc_publishing"
+msgstr "Veröffentlichung"
+
+msgid "exc_rand_nr_mandatory"
+msgstr "Anzahl verpflichtender Übungseinheiten"
+
+msgid "exc_rand_overall_ass"
+msgstr "Gesamtzahl an Übungseinheiten"
+
+msgid "exc_random"
+msgstr "Zufällig"
+
+msgid "exc_random_assignment"
+msgstr "Zufällige Auswahl"
+
+msgid "exc_random_assignment_info"
+msgstr "Wenn Sie die Übung starten, wird Ihnen eine zufällige Auswahl an verpflichtenden Übungseinheiten zugewiesen."
+
+msgid "exc_random_selection"
+msgstr "Zufällige Auswahl"
+
+msgid "exc_random_selection_info"
+msgstr "Jeder Person wird eine zufällige Auswahl an verpflichtenden Übungseinheiten zugeordnet."
+
+msgid "exc_random_selection_not_changeable_info"
+msgstr "Diese Option kann nicht aktiviert werden."
+
+msgid "exc_received_feedback"
+msgstr "Erhaltenes Feedback"
+
+msgid "exc_rel_last_submission"
+msgstr "Letztmöglicher Abgabetermin"
+
+msgid "exc_rel_last_submission_info"
+msgstr "Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden."
+
+msgid "exc_rel_start_latest_lead_text"
+msgstr "spätestens am %s"
+
+msgid "exc_rel_start_lead_text"
+msgstr "%s Tage nach Starten abgeben"
+
+msgid "exc_relative_date"
+msgstr "Relatives Datum"
+
+msgid "exc_relative_date_info"
+msgstr "Aus dem individuell gewählten Startzeitpunkt und der Länge des Bearbeitungszeitraums ergibt sich ein Abgabedatum."
+
+msgid "exc_relative_date_period"
+msgstr "Bearbeitungszeitraum"
+
+msgid "exc_rem_time_after_start"
+msgstr "Bearbeitungszeitraum nach Start"
+
+msgid "exc_reminder_cron_ok"
+msgstr "Erinnerungen wurden verschickt"
+
+msgid "exc_reminder_end"
+msgstr "Letzte Erinnerung"
+
+msgid "exc_reminder_feedback_setting"
+msgstr "An Peer-Feedback erinnern"
+
+msgid "exc_reminder_feedback_start"
+msgstr "Start vor Peer-Feedback-Termin"
+
+msgid "exc_reminder_frequency"
+msgstr "Häufigkeit"
+
+msgid "exc_reminder_grade_body"
+msgstr "Die folgende Übungseinheit wurde noch nicht bewertet"
+
+msgid "exc_reminder_grade_setting"
+msgstr "Erinnerung an notwendige Bewertung"
+
+msgid "exc_reminder_grade_subject"
+msgstr "Übungseinheit „%s“ wurde nicht berwertet"
+
+msgid "exc_reminder_link"
+msgstr "URL"
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr "Keine Mail-Vorlage verwenden"
+
+msgid "exc_reminder_mail_template"
+msgstr "Mail-Vorlage"
+
+msgid "exc_reminder_peer_body"
+msgstr "Zur folgenden Übungseinheit fehlen noch Rückmeldungen"
+
+msgid "exc_reminder_peer_subject"
+msgstr "Zur Übungseinheit „%s“ fehlen Rückmeldungen"
+
+msgid "exc_reminder_salutation"
+msgstr "Hallo %s,"
+
+msgid "exc_reminder_start"
+msgstr "Start vor Abgabetermin"
+
+msgid "exc_reminder_start_info"
+msgstr "Alle Mitglieder der übergeordneten Gruppe oder des übergeordneten Kurses werden benachrichtigt.<br>Ohne Kurs oder Gruppe wird niemand benachrichtigt."
+
+msgid "exc_reminder_submit_body"
+msgstr "die folgenden Übungseinheiten wurden von Ihnen noch nicht abgegeben"
+
+msgid "exc_reminder_submit_setting"
+msgstr "An Abgabe erinnern"
+
+msgid "exc_reminder_submit_subject"
+msgstr "Übungseinheit „%s“ wurde noch nicht abgegeben"
+
+msgid "exc_reminders_cron"
+msgstr "Erinnerungen für Übungseinheiten"
+
+msgid "exc_reminders_cron_info"
+msgstr "Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks"
+
+msgid "exc_reminders_cron_not_active"
+msgstr "Hinweis: Benachrichtigungen werden erst versendet, wenn der Cron-Job „Erinnerungen für Übungseinheiten“ aktiviert ist. Aktuell ist der Cron-Job deaktiviert."
+
+msgid "exc_request_deadline"
+msgstr "Abgabefrist anfragen"
+
+msgid "exc_requirement"
+msgstr "Anforderung"
+
+msgid "exc_review_anytime"
+msgstr "Jederzeit Feedback geben"
+
+msgid "exc_save_all"
+msgstr "Alle speichern"
+
+msgid "exc_save_order"
+msgstr "Reihenfolge speichern"
+
+msgid "exc_save_selected"
+msgstr "Ausgewählte Eingaben speichern"
+
+msgid "exc_saved_order"
+msgstr "Reihenfolge gespeichert"
+
+msgid "exc_select_ass"
+msgstr "Übungseinheit auswählen"
+
+msgid "exc_select_blog"
+msgstr "Vorhandenes Blog nutzen"
+
+msgid "exc_select_blog_change"
+msgstr "Anderes Blog benutzen"
+
+msgid "exc_select_blog_info"
+msgstr "Bitte wählen Sie eines Ihrer Blogs, um es in dieser Übungseinheit zu benutzen."
+
+msgid "exc_select_blog_unlink"
+msgstr "Blog entfernen"
+
+msgid "exc_select_portfolio"
+msgstr "Vorhandenes Portfolio nutzen"
+
+msgid "exc_select_portfolio_change"
+msgstr "Anderes Portfolio benutzen"
+
+msgid "exc_select_portfolio_info"
+msgstr "Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen."
+
+msgid "exc_select_portfolio_unlink"
+msgstr "Portfolio entfernen"
+
+msgid "exc_send_assignment"
+msgstr "Übungseinheit per Mail verschicken"
+
+msgid "exc_send_grading_notification"
+msgstr "Benachrichtigung über Bewertung schicken"
+
+msgid "exc_set_failed"
+msgstr "Auf 'nicht bestanden' setzen"
+
+msgid "exc_set_passed"
+msgstr "Auf 'bestanden' setzen"
+
+msgid "exc_settings_feedback"
+msgstr "Rückmeldung"
+
+msgid "exc_settings_feedback_file"
+msgstr "Datei"
+
+msgid "exc_settings_feedback_file_info"
+msgstr "Rückmeldungen werden als Datei hochgeladen und im Reiter „Übungseinheiten“ angezeigt. Teilnehmende Personen werden darüber per Mail benachrichtigt."
+
+msgid "exc_settings_feedback_mail"
+msgstr "per Mail"
+
+msgid "exc_settings_feedback_mail_info"
+msgstr "Rückmeldungen zur jeweiligen Abgabe werden in ein Mailformular eingegeben und von ILIAS versandt."
+
+msgid "exc_settings_feedback_text"
+msgstr "Texteingabe"
+
+msgid "exc_settings_feedback_text_info"
+msgstr "Rückmeldungen zur jeweiligen Abgabe werden in ein Textfeld eingegeben und im Reiter „Übungseinheiten“ angezeigt. Zusätzlich erhalten teilnehmende Personen eine Benachrichtigung per Mail."
+
+msgid "exc_show_instructions"
+msgstr "Arbeitsanweisung anzeigen"
+
+msgid "exc_show_more"
+msgstr "Mehr anzeigen"
+
+msgid "exc_show_peer_review"
+msgstr "Peer-Feedback anzeigen"
+
+msgid "exc_show_submissions"
+msgstr "Lösungsabgaben veröffentlichen"
+
+msgid "exc_show_submissions_info"
+msgstr "Bei Übungseinheiten mit einem festen Datum können nach dem Abgabetermin alle Personen die Einreichungen der anderen einsehen."
+
+msgid "exc_start_assignment"
+msgstr "Übungseinheit starten"
+
+msgid "exc_start_exercise"
+msgstr "Übung beginnen"
+
+msgid "exc_start_time"
+msgstr "Startzeit"
+
+msgid "exc_starting_on"
+msgstr "Startet am"
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr "Link zur Übung (Abgaben und Noten): %s"
+
+msgid "exc_submission_downloads_notification_link"
+msgstr "Neue Abgaben herunterladen: %s"
+
+msgid "exc_submission_file"
+msgstr "Dateiabgabe"
+
+msgid "exc_submission_no_new_files"
+msgstr "Keine neuen Abgaben vorhanden."
+
+msgid "exc_submission_notification"
+msgstr "Mail-Benachrichtigungen"
+
+msgid "exc_submission_notification_body"
+msgstr "Eine neue Abgabe für die Übung „%s“ liegt vor."
+
+msgid "exc_submission_notification_info"
+msgstr "Sie werden per Mail benachrichtigt, wenn neue Lösungen abgegeben werden oder Teilnehmende einen individuellen Abgabetermin beantragen. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten, erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren."
+
+msgid "exc_submission_notification_link"
+msgstr "Link zur Übung: %s"
+
+msgid "exc_submission_notification_subject"
+msgstr "Eine neue Abgabe für die Übung „%s“ liegt vor"
+
+msgid "exc_submission_open_notification_link"
+msgstr "Abgabe öffnen: %s"
+
+msgid "exc_submission_text"
+msgstr "Textabgabe"
+
+msgid "exc_submissions_and_grades"
+msgstr "Abgaben und Noten"
+
+msgid "exc_submit_anytime"
+msgstr "Jederzeit abgeben"
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr "Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin."
+
+msgid "exc_submitted_files_deleted"
+msgstr "Die ausgewählten Dateien wurden gelöscht."
+
+msgid "exc_sure_unlink_blog"
+msgstr "Möchten Sie das Blog aus dieser Übungseinheit entfernen?"
+
+msgid "exc_sure_unlink_portfolio"
+msgstr "Möchten Sie das Portfolio aus dieser Übungseinheit entfernen?"
+
+msgid "exc_target_not_valid"
+msgstr "Das Link-Ziel ist nicht mehr gültig."
+
+msgid "exc_task_grading"
+msgstr "Bewertung der Übungseinheit \"%1\""
+
+msgid "exc_task_peer_feedback"
+msgstr "Peer-Feedback geben in Übungseinheit \"%1\""
+
+msgid "exc_task_submission"
+msgstr "Abgabe zur Übungseinheit \"%1\""
+
+msgid "exc_tbl_action_download_all_files"
+msgstr "Alle Abgaben herunterladen"
+
+msgid "exc_tbl_action_download_files"
+msgstr "Abgaben herunterladen"
+
+msgid "exc_tbl_action_download_new_files"
+msgstr "Neue Abgaben herunterladen"
+
+msgid "exc_tbl_action_feedback_file"
+msgstr "Rückmeldung per Datei"
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr "Rückmeldung per Mail"
+
+msgid "exc_tbl_action_feedback_text"
+msgstr "Rückmeldung per Text"
+
+msgid "exc_tbl_action_open_submission"
+msgstr "Abgaben öffnen"
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr "Gegebenes Peer-Feedback anzeigen"
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr "Erhaltenes Peer-Feedback anzeigen"
+
+msgid "exc_tbl_action_team_log"
+msgstr "Team-Log anzeigen"
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr "Abgabe anzeigen"
+
+msgid "exc_tbl_calculated_deadline"
+msgstr "Errechneter Abgabetermin"
+
+msgid "exc_tbl_comment"
+msgstr "Text-Feedback"
+
+msgid "exc_tbl_feedback_time"
+msgstr "Rückmeldung am"
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr "Hat noch nicht abgegeben"
+
+msgid "exc_tbl_filter_has_submission"
+msgstr "Hat abgegeben"
+
+msgid "exc_tbl_filter_submission"
+msgstr "Abgabe"
+
+msgid "exc_tbl_filter_submission_after"
+msgstr "Abgabe nach"
+
+msgid "exc_tbl_filter_submission_before"
+msgstr "Abgabe vor"
+
+msgid "exc_tbl_individual_deadline"
+msgstr "Individueller Abgabetermin"
+
+msgid "exc_tbl_mark"
+msgstr "Note"
+
+msgid "exc_tbl_notice"
+msgstr "Interne Anmerkung"
+
+msgid "exc_tbl_sent_time"
+msgstr "Übungseinheit verschickt am"
+
+msgid "exc_tbl_status"
+msgstr "Bewertung"
+
+msgid "exc_tbl_status_time"
+msgstr "Bewertet am"
+
+msgid "exc_tbl_submission_date"
+msgstr "Abgegeben am"
+
+msgid "exc_tbl_team"
+msgstr "Team"
+
+msgid "exc_team"
+msgstr "Team"
+
+msgid "exc_team_assignment_adopt"
+msgstr "Teams von bestehender Übungseinheit übernehmen"
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr "bereits zugewiesen"
+
+msgid "exc_team_assignment_adopt_none"
+msgstr "Keine Teams übernehmen"
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr "Ein neues Team erstellen"
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr "Teams"
+
+msgid "exc_team_assignment_adopt_user"
+msgstr "Team aus Übungseinheit übernehmen"
+
+msgid "exc_team_at_least_one"
+msgstr "Es muss mindestens ein Team-Mitglied geben."
+
+msgid "exc_team_by_assignment"
+msgstr "Übernahme von Übungseinheit"
+
+msgid "exc_team_by_assignment_info"
+msgstr "Die Teams werden von einer bestehender Übungseinheit übernommen."
+
+msgid "exc_team_by_participants"
+msgstr "Teams werden selbstorganisiert gebildet."
+
+msgid "exc_team_by_participants_info"
+msgstr "An der Übung teilnehmende Personen gründen selbst ein Team und legen Teammitglieder fest."
+
+msgid "exc_team_by_random"
+msgstr "Automatische Zuordnung"
+
+msgid "exc_team_by_random_add_info"
+msgstr "Um diese Option sinnvoll zu nutzen, müssen Sie der Übung zuerst alle Personen zuordnen."
+
+msgid "exc_team_by_random_info"
+msgstr "Teammitglieder werden per Zufall bestimmt."
+
+msgid "exc_team_by_tutors"
+msgstr "Teams werden vorgegeben."
+
+msgid "exc_team_by_tutors_info"
+msgstr "Mitglieder werden manuell oder automatisch auf Teams verteilt."
+
+msgid "exc_team_by_tutors_manual"
+msgstr "Manuelle Zuordnung"
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr "Personen mit dem Recht „Abgaben und Noten bearbeiten“ ordnen die teilnehmenden Personen manuell den Teams zu."
+
+msgid "exc_team_creation"
+msgstr "Erstellung"
+
+msgid "exc_team_formation"
+msgstr "Organisation der Teams"
+
+msgid "exc_team_log"
+msgstr "Team Log"
+
+msgid "exc_team_log_add_file"
+msgstr "Datei %s hinzugefügt."
+
+msgid "exc_team_log_add_member"
+msgstr "Mitglied %s hinzugefügt."
+
+msgid "exc_team_log_create_team"
+msgstr "Team erstellt."
+
+msgid "exc_team_log_remove_file"
+msgstr "Datei %s entfernt."
+
+msgid "exc_team_log_remove_member"
+msgstr "Mitglied %s entfernt."
+
+msgid "exc_team_max_small_than_members"
+msgstr "Die maximale Anzahl teilnehmender Personen kann nicht auf %s gesetzt werden, da einige Teams %s Personen enthalten müssen."
+
+msgid "exc_team_member_add"
+msgstr "Team-Mitglied hinzufügen (Suche)"
+
+msgid "exc_team_member_container_add"
+msgstr "Team-Mitglied aus Kurs/Gruppe hinzufügen"
+
+msgid "exc_team_member_remove_sure"
+msgstr "Wollen Sie wirklich die folgenden Mitglieder Ihres Teams entfernen? Bitte beachten Sie, dass auch die jeweiligen hochgeladenen Dateien aus dem Team entfernt werden."
+
+msgid "exc_team_members"
+msgstr "Team-Mitglieder"
+
+msgid "exc_team_min_big_than_max"
+msgstr "Die maximale Anzahl teilnehmender Personen kann nicht kleiner als die Mindestanzahl sein."
+
+msgid "exc_team_min_small_than_members"
+msgstr "Die Mindestanzahl teilnehmender Personen kann nicht auf %s gesetzt werden, da einige Teams %s Personen enthalten müssen."
+
+msgid "exc_team_minimal_too_big"
+msgstr "Die Mindestanzahl teilnehmender Personen beträgt %s und ist damit zu groß. Tragen Sie eine kleinere Zahl ein."
+
+msgid "exc_team_multi_create"
+msgstr "Team erstellen"
+
+msgid "exc_team_multi_dissolve"
+msgstr "Team(s) auflösen"
+
+msgid "exc_team_notification_body_add"
+msgstr "Sie wurden zu einer Team-Upload-Übungseinheit hinzugefügt."
+
+msgid "exc_team_notification_body_rmv"
+msgstr "Sie wurden aus einer Team-Upload-Übungseinheit entfernt."
+
+msgid "exc_team_notification_link"
+msgstr "Link zur Übung"
+
+msgid "exc_team_notification_reason"
+msgstr "Sie erhalten diese Nachricht, da Sie an der oben genannten Übung teilnehmen."
+
+msgid "exc_team_notification_subject_add"
+msgstr "Als Team-Mitglied zu einer Übungseinheit der Übung „%s“ hinzugefügt"
+
+msgid "exc_team_notification_subject_rmv"
+msgstr "Als Team-Mitglied aus einer Übungseinheit der Übung „%s“ entfernt"
+
+msgid "exc_teams_assignment_adopted"
+msgstr "Die Teams wurden von der bestehender Übungseinheit übernommen."
+
+msgid "exc_template"
+msgstr "Vorlage"
+
+msgid "exc_text_assignment_edit"
+msgstr "Text bearbeiten"
+
+msgid "exc_text_assignment_show"
+msgstr "Text anzeigen"
+
+msgid "exc_text_saved"
+msgstr "Der Text wurde gespeichert."
+
+msgid "exc_too_many_files"
+msgstr "Der Upload beinhaltet zu viele Dateien."
+
+msgid "exc_total_exc"
+msgstr "Gesamte Übung"
+
+msgid "exc_total_members"
+msgstr "Gesamtanzahl an teilnehmenden Personen"
+
+msgid "exc_type"
+msgstr "Typ"
+
+msgid "exc_type_blog"
+msgstr "Blog"
+
+msgid "exc_type_portfolio"
+msgstr "Portfolio"
+
+msgid "exc_type_text"
+msgstr "Text"
+
+msgid "exc_type_upload"
+msgstr "Datei"
+
+msgid "exc_type_upload_team"
+msgstr "Datei als Team einreichen"
+
+msgid "exc_value_can_not_set"
+msgstr "Dieser Wert kann nicht gesetzt werden"
+
+msgid "exc_view_portfolio"
+msgstr "Portfolio anzeigen"
+
+msgid "exc_view_wiki"
+msgstr "Wiki anzeigen"
+
+msgid "exc_wait_for_files"
+msgstr "Der Download sollte automatisch starten. Bei Problemen klicken Sie bitte hier."
+
+msgid "exc_wiki_container"
+msgstr "Wiki-Container"
+
+msgid "exc_wiki_container_info"
+msgstr "An dieser Stelle werden die neuen Team-Wikis angelegt."
+
+msgid "exc_with_template"
+msgstr "Mit Portfoliovorlage"
+
+msgid "exc_with_template_info"
+msgstr "Neue Portfolios werden automatisch auf Basis der Portfoliovorlage erstellt."
+
+msgid "exc_with_wiki_template"
+msgstr "Mit Vorlage"
+
+msgid "exc_with_wiki_template_info"
+msgstr "Neue Team-Wikis werden automatisch auf Basis der Vorlage erstellt."
+
+msgid "exc_without_template"
+msgstr "Ohne Portfoliovorlage"
+
+msgid "exc_without_template_info"
+msgstr "Portfolios werden selbstständig ohne Vorlage erstellt."
+
+msgid "exc_without_wiki_template"
+msgstr "Ohne Vorlage"
+
+msgid "exc_without_wiki_template_info"
+msgstr "Teams starten mit leerem Wiki."
+
+msgid "exc_work_instructions"
+msgstr "Arbeitsanweisung"
+
+msgid "exc_x_of_y"
+msgstr "von"
+
+msgid "exc_your_text"
+msgstr "Ihr Text"
+
+msgid "feedback_from"
+msgstr "Feedback von"
+
+msgid "feedback_given"
+msgstr "Gegebenes Feedback"
+
+msgid "feedback_received"
+msgstr "Gegebenes Feedback"
+
+msgid "fiter_no_results"
+msgstr "Zu den aktuellen Einstellungen des Filters passen kein Abgaben."
+
+msgid "grade_evaluate"
+msgstr "Bewerten/Benoten"
+
+msgid "not_yet"
+msgstr "noch nicht"
+
+msgid "submissions_feedback"
+msgstr "Abgaben und Peer-Feedback"
+
+msgid "submissions_only"
+msgstr "Nur Abgaben"
+
+msgid "text_assignment"
+msgstr "Text Übungseinheit"

@@ -1,0 +1,1496 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr "課題を追加"
+
+msgid "exc_add_criteria"
+msgstr "基準を追加"
+
+msgid "exc_add_criteria_catalogue"
+msgstr "カタログを追加"
+
+msgid "exc_add_feedback_file"
+msgstr "フィードバックファイルを預ける"
+
+msgid "exc_add_participant"
+msgstr "参加者を追加"
+
+msgid "exc_adopt_group_teams"
+msgstr "グループからチームへ適合"
+
+msgid "exc_adopt_group_teams_added"
+msgstr "%s名のユーザが追加されました。"
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr "%s名のユーザがすでに割り当て済です。"
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr "ユーザ\"%1$s\"はすでにグループ\"%2$s\"へ選択済です。"
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr "メンバーなし"
+
+msgid "exc_after_submission"
+msgstr "提出後"
+
+msgid "exc_all"
+msgstr "All"
+
+msgid "exc_all_new_files_offered_already"
+msgstr "全ての新しいファイルはダウンロード用に既に提示されています。さらにダウンロードするには以下のアクションリンクをクリックしてください。"
+
+msgid "exc_ass_submission_zip"
+msgstr "Submission"
+
+msgid "exc_ass_team_wiki"
+msgstr "チームWikiの割当て"
+
+msgid "exc_assignment"
+msgstr "課題（Assignment）"
+
+msgid "exc_assignment_list"
+msgstr "割り当てリスト"
+
+msgid "exc_assignment_type"
+msgstr "提出のタイプ"
+
+msgid "exc_assignment_view"
+msgstr "課題表示(Assignment View)"
+
+msgid "exc_assignments"
+msgstr "課題（Assignment）"
+
+msgid "exc_assignments_deleted"
+msgstr "課題は削除されました。"
+
+#, fuzzy
+msgid "exc_auto_last_save"
+msgstr "Last saved:"
+
+#, fuzzy
+msgid "exc_auto_save_info"
+msgstr "The text will be saved every 30 seconds, if changes are made."
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_p"
+msgstr "%s minute ago"
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_s"
+msgstr "%s minutes ago"
+
+msgid "exc_blog_created"
+msgstr "ブログが作成されました。"
+
+msgid "exc_blog_returned"
+msgstr "割当てブログ"
+
+msgid "exc_blog_selected"
+msgstr "ブログが割当てられました。"
+
+msgid "exc_cannot_submit_any_files"
+msgstr "これ以上ファイルの提出はできません。"
+
+msgid "exc_chars_remaining"
+msgstr "残りの文字数:"
+
+msgid "exc_comment_for_learner_edit"
+msgstr "コメントとしてテキストフィールドへ入力"
+
+msgid "exc_comment_for_learner_info"
+msgstr "ユーザへ通知が送られてフィードバックはユーザの課題表示内に一覧表示されます。"
+
+msgid "exc_compare_selected_submissions"
+msgstr "選択の提出物を比較"
+
+msgid "exc_compare_submissions"
+msgstr "提出物を比較"
+
+msgid "exc_completion_by_submission"
+msgstr "提出すれば完了"
+
+msgid "exc_completion_by_submission_info"
+msgstr "有効にするとファイルを一つ提出すれば課題完了となります。別途点数は手動変更できます。この設定を変更しても提出済みの解答には影響しません。"
+
+msgid "exc_completion_by_tutor"
+msgstr "指導教員による手動操作に限定"
+
+msgid "exc_conf_del_assignments"
+msgstr "本当に次の課題を削除しますか?"
+
+msgid "exc_copy"
+msgstr "演習をコピー"
+
+msgid "exc_copy_zip_error"
+msgstr "提出物と開くことができません。ファイルのコピー時にエラーが発生しました。"
+
+msgid "exc_create_blog"
+msgstr "ブログ作成"
+
+msgid "exc_create_blog_select_info"
+msgstr "ブログへ追加するリソースフォルダを選択してください。"
+
+msgid "exc_create_portfolio"
+msgstr "ポートフォリオを作成"
+
+msgid "exc_create_portfolio_no_template"
+msgstr "テンプレートを使用しない"
+
+msgid "exc_create_team"
+msgstr "チームを作成"
+
+msgid "exc_create_team_times_up_warning"
+msgstr "これ以上チームを作成できません - 指導教員へ連絡してください。"
+
+msgid "exc_create_wiki"
+msgstr "Create Wiki"
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr "ピアフィードバックをアクティブ"
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr "アクティブフィードバック付きの割り当ての基準カタログはこれ以上編集できません。"
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr "新しい基準カタログを追加"
+
+msgid "exc_criteria_catalogue_default"
+msgstr "カタログなし"
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr "次の基準カタログを本当に削除しますか?"
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr "基準カタログを編集"
+
+msgid "exc_criteria_catalogues"
+msgstr "基準カタログ"
+
+msgid "exc_criteria_create_form"
+msgstr "新しい基準を追加"
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr "次の基準を本当に削除しますか?"
+
+msgid "exc_criteria_type_bool"
+msgstr "Yes/No 履行"
+
+msgid "exc_criteria_type_file"
+msgstr "ファイルアップロード"
+
+msgid "exc_criteria_type_rating"
+msgstr "5つ星評価"
+
+msgid "exc_criteria_type_text"
+msgstr "テキスト"
+
+msgid "exc_criteria_update_form"
+msgstr "基準を編集"
+
+msgid "exc_criterias"
+msgstr "基準"
+
+msgid "exc_deadline"
+msgstr "期限"
+
+msgid "exc_deadline_ext_mismatch"
+msgstr "猶予期間は期限後に終了する必要があります。"
+
+msgid "exc_deadline_extended"
+msgstr "猶予期間"
+
+msgid "exc_deadline_extended_info"
+msgstr "期限期限と最終猶予期限の間で遅れての提出が可能となります。"
+
+msgid "exc_deadline_not_set_yet"
+msgstr "まだ未設定"
+
+msgid "exc_deadline_requested"
+msgstr "要求済"
+
+msgid "exc_delete_team"
+msgstr "チームを削除"
+
+msgid "exc_deleted_user"
+msgstr "ユーザを削除しました。"
+
+msgid "exc_denied_has_peer_reviews"
+msgstr "理由: 割当てにアクティブ化しているpeerビューのあるものがあります。"
+
+msgid "exc_denied_has_submissions"
+msgstr "理由: ユーザはすでに割当てを提出済です。"
+
+msgid "exc_denied_has_team_assignments"
+msgstr "理由: この演習問題にはチーム割当てのものがあります。"
+
+msgid "exc_direct_no_submit"
+msgstr "提出禁止"
+
+msgid "exc_direct_submit"
+msgstr "送信"
+
+msgid "exc_direct_submit_blog"
+msgstr "現在のバージョンのブログを直ぐに提出しますか? 後からブログエディタからいつでもできます。"
+
+msgid "exc_direct_submit_portfolio"
+msgstr "現在のバージョンのポートフォリオを直ぐに提出しますか?後からポートフォリオエディタからいつでもできます。"
+
+msgid "exc_down_files_started_bg"
+msgstr "提出ファイルのダウンロードを開始しました。Top右コーナーのバックグラウンドタスクを確認してください。"
+
+msgid "exc_download_selected"
+msgstr "選択の提出をダウンロード"
+
+msgid "exc_download_zip_structure"
+msgstr "ZIP構造をダウンロード"
+
+msgid "exc_earliest_start_time"
+msgstr "最も早い開始時間"
+
+msgid "exc_edit_assignment"
+msgstr "課題を編集"
+
+msgid "exc_edit_assignments"
+msgstr "課題を編集"
+
+msgid "exc_edit_blog"
+msgstr "ブログを編集"
+
+msgid "exc_edit_criterias"
+msgstr "基準を編集"
+
+msgid "exc_edit_portfolio"
+msgstr "ポートフォリオを編集"
+
+msgid "exc_edit_submission"
+msgstr "提出を編集"
+
+msgid "exc_edit_wiki"
+msgstr "Wikiを編集"
+
+msgid "exc_ended"
+msgstr "終了"
+
+msgid "exc_ended_on"
+msgstr "終了日"
+
+msgid "exc_export_excel"
+msgstr "エクスポート(Excel)"
+
+msgid "exc_fb_files"
+msgstr "フィードバックファイル"
+
+msgid "exc_fb_tutor_info"
+msgstr "フィードバックファイルをuploadする際に通知がユーザへ送信されてフィードバックファイルがユーザの課題表示内に一覧表示されます。"
+
+msgid "exc_feedback"
+msgstr "フィードバック"
+
+msgid "exc_feedback_notification_body"
+msgstr "フィードバックは今後次の課題へ利用できます。"
+
+msgid "exc_feedback_notification_link"
+msgstr "演習問題へリンク"
+
+msgid "exc_feedback_notification_reason"
+msgstr "上記の試験の受講者はこのメールを受領します。"
+
+msgid "exc_feedback_notification_subject"
+msgstr "フィードバックは演習問題\"%s\"の課題で利用可能になります。"
+
+msgid "exc_files_returned_text"
+msgstr "課題テキスト"
+
+msgid "exc_find_zip_error"
+msgstr "提出物を開くことができません。オリジナルファイルが見つかりません。"
+
+msgid "exc_fixed_date"
+msgstr "確定日"
+
+msgid "exc_fixed_date_individual"
+msgstr "個別期限のみ"
+
+msgid "exc_fixed_date_individual_info"
+msgstr "共通の期限はありません。指導教員は各参加者別の個別期限を設定する必要があります。"
+
+msgid "exc_fixed_date_info"
+msgstr "初期状態では、全ユーザは同じ固定の期限日です。"
+
+msgid "exc_fullscreen"
+msgstr "Fullscreen"
+
+msgid "exc_future"
+msgstr "近日中"
+
+msgid "exc_given_feedback"
+msgstr "フィードバック"
+
+msgid "exc_global_feedback_file"
+msgstr "サンプル解答"
+
+msgid "exc_global_feedback_file_after_date"
+msgstr "日付設定後"
+
+msgid "exc_global_feedback_file_cron"
+msgstr "通知"
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr "サンプル解答が利用可能になるとクローンジョブ経由で全学習者へ通知されます。"
+
+msgid "exc_global_feedback_file_date"
+msgstr "Availability(空き状況)"
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr "期限後"
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr "提出後"
+
+msgid "exc_go_to_exercise"
+msgstr "演習問題へ"
+
+msgid "exc_graded_mem_notified"
+msgstr "全ての評価済受験者は通知されました。"
+
+msgid "exc_grades"
+msgstr "評価概要"
+
+msgid "exc_grades_overview"
+msgstr "評価ビュー"
+
+msgid "exc_hand_in"
+msgstr "提出する"
+
+msgid "exc_hand_in_lead_text"
+msgstr "提出まで %s"
+
+msgid "exc_idl_request_and_tutor_needed"
+msgstr "個別期限設定について指導教員へリクエストを送って下さい。"
+
+msgid "exc_idl_tutor_needed"
+msgstr "既に期限を要求済です。リクセストはまだ保留中です。個別期限が一旦設定されると通知されます。"
+
+msgid "exc_import"
+msgstr "演習問題をインポート"
+
+msgid "exc_individual_deadline"
+msgstr "個別の期限"
+
+msgid "exc_individual_deadline_action"
+msgstr "個別の期限を設定"
+
+msgid "exc_individual_deadline_before_global"
+msgstr "日付は(最終)期限: %sの後になる必要があります。"
+
+msgid "exc_instruction_files"
+msgstr "報告書式(指示ファイル)"
+
+msgid "exc_instruction_migration_not_run"
+msgstr "組織ファイル移行はまだ終了していません。システム管理者へ通知してください。"
+
+msgid "exc_late_submission"
+msgstr "遅れて提出"
+
+msgid "exc_late_submission_warning"
+msgstr "%s後の提出は遅れとしてマークされます。"
+
+msgid "exc_lead_request_idl"
+msgstr "期限を要求"
+
+msgid "exc_lead_wait_for_idl"
+msgstr "個別期限の待機"
+
+msgid "exc_limit_characters"
+msgstr "文字数制限"
+
+msgid "exc_link_to_assignment"
+msgstr "課題へのリンク"
+
+msgid "exc_list_submission"
+msgstr "全ての提出を一覧表示"
+
+msgid "exc_list_text_assignment"
+msgstr "全ての提出物を一覧表示する"
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr "成績評価割当てする指導教員/先生への注意喚起"
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr "演習問題評価注意喚起"
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr "ユーザへ割当てのフィードバックを提供する注意喚起"
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr "演習問題フィードバック/Peer注意喚起"
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr "割当てタイトル"
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr "演習問題タイトル"
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr "ユーザへ割当て提出の注意喚起"
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr "演習問題提出注意喚起"
+
+msgid "exc_mail_permanent_link"
+msgstr "演習にアクセスするには次のリンクをクリックします"
+
+msgid "exc_manage_team"
+msgstr "チームを管理"
+
+msgid "exc_mandatory"
+msgstr "必須項目"
+
+msgid "exc_mandatory_info"
+msgstr "必須項目の課題は全演習を通して合格する必要があります。"
+
+msgid "exc_mandatory_rand_determined"
+msgstr "ランダムに確定しました。"
+
+msgid "exc_max_char_limit"
+msgstr "最大文字数"
+
+msgid "exc_max_file"
+msgstr "最大ファイル数"
+
+msgid "exc_max_file_info"
+msgstr "受験者は一度上限になるとファイルをまとめて一度にアップロードできなくなります。チーム割当てはチーム全体単位ではなく参加者別に制限されます。"
+
+msgid "exc_max_file_reached"
+msgstr "ファイル数%s以上のアップロードはできません。"
+
+msgid "exc_max_file_tgl"
+msgstr "アップロード制限"
+
+msgid "exc_max_team_participants"
+msgstr "最大数"
+
+msgid "exc_members_already_assigned_team"
+msgstr "このユーザは既にチームへ割当てられています。"
+
+msgid "exc_min_char_limit"
+msgstr "最小文字数"
+
+msgid "exc_min_nr"
+msgstr "課題数"
+
+msgid "exc_min_nr_info"
+msgstr "この値は必須課題数以上にする必要があります。"
+
+msgid "exc_min_team_participants"
+msgstr "最小数"
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr "演習に合格するには全ての必須課題試験に合格する必要があります。"
+
+msgid "exc_msg_deadline_request_body"
+msgstr "次のユーザーが個別期限を要求しました。"
+
+msgid "exc_msg_deadline_request_subject"
+msgstr "期限が演習問題 \"%s\" で要求されました。"
+
+msgid "exc_msg_failed_mandatory"
+msgstr "少なくとも一つの条件に不合格です。"
+
+msgid "exc_msg_grading_done"
+msgstr "割り当ては演習問題 \"%s\" で評価されました。"
+
+msgid "exc_msg_grading_done_body"
+msgstr "指導教員は演習問題 \"%s\" の提出を評価しました。"
+
+msgid "exc_msg_idl_set_body"
+msgstr "新しい個別期限が設定されました。"
+
+msgid "exc_msg_idl_set_subject"
+msgstr "新しい期限が演習問題 \"%s\" に設定されました。"
+
+msgid "exc_msg_min_number_ass"
+msgstr "演習に合格するには少なくとも%sの条件に合格する必要があります。"
+
+msgid "exc_msg_missed_minimum_number"
+msgstr "最低課題数を達成できませんでした。"
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr "新しいフィードバックファイルが演習 \"%s\"に追加されました。"
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr "指導教員が新しいフィードバックファイルをアップロードしました。"
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr "新しいコメントが演習\"%s\"へ追加されました。"
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr "指導教員が新しいコメントを追加しました。"
+
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr "ピアフィードバックからのメッセージが演習問題 \"%s\" へ追加されました。"
+
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr "ピアフィードバックが新規メッセージへ追加されました。"
+
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr "ピアフィードバック受信からの新しいメッセージが演習問題 \"%s\" へ追加されました。"
+
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr "ピアフィードバック受信が新規メッセージへ追加されました。"
+
+msgid "exc_msg_participants_removed"
+msgstr "受講者が演習から削除されました。"
+
+msgid "exc_msg_public_submission"
+msgstr "すべての応募期限後に公開されます。"
+
+msgid "exc_msg_saved_grades"
+msgstr "グレードとコメントが保存されました。"
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr "本当に全ての演習の課題から受講者を削除しますか？ これによりリソースの全ての手動設定も削除されます。"
+
+msgid "exc_multi_feedb_info"
+msgstr "この画面では1個のファイルに複数フィードバックをアップロードできます。最初に\"ZIP構造をダウンロード\"をクリックしてZIPファイルを保存してローカルコンピュータ上に展開します。フィードバックファイルを対象のユーザディレクトリへ置きます。全ディレクトリが1個のZIPファイルへ再度圧縮されます。ローカルファイルシステムのファイルを参照して以下のフォームの\"マルチ-フィードバックファイル\"を選択します。その後\"アップロード\"をクリックします。確認画面にファイル一覧が表示されます。ファイル名には特殊文字を使わないでください。"
+
+msgid "exc_multi_feedback"
+msgstr "複数の参加者の評価"
+
+msgid "exc_multi_feedback_file"
+msgstr "マルチ-フィードバックファイル"
+
+msgid "exc_multi_feedback_files"
+msgstr "マルチ-フィードバックファイル"
+
+msgid "exc_needs_deadline"
+msgstr "この機能は課題期限一つでのみしか動作しません。"
+
+msgid "exc_needs_fixed_deadline"
+msgstr "この機能は期限固定でしか動作しません。"
+
+msgid "exc_new_assignment"
+msgstr "新しい課題"
+
+msgid "exc_no_assignments"
+msgstr "割り当て利用不可"
+
+msgid "exc_no_assignments_available"
+msgstr "まだ割当てが未作成です。最初に割当てを作成するには\"割当て\"と\"編集\"を開いてください。"
+
+msgid "exc_no_deadline"
+msgstr "期限なし"
+
+msgid "exc_no_deadline_info"
+msgstr "受験者の提出期限がありません。"
+
+msgid "exc_no_deadline_specified"
+msgstr "確定期限なし"
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr "アップロードされたzipアーカイブのディレクトリ構造を処理できませんでした。"
+
+msgid "exc_no_get_target"
+msgstr "有効なターゲットが送られていません。"
+
+msgid "exc_no_graded_mem_selected"
+msgstr "受験者を一人は選択してください。"
+
+msgid "exc_no_participants"
+msgstr "現時点の受講者はいません。"
+
+msgid "exc_no_peer_feedback_deadline"
+msgstr "フィードバック用の期限がありません。"
+
+msgid "exc_no_portfolio_templates"
+msgstr "利用可能なポートフォリオテンプレートがありません。"
+
+msgid "exc_no_submission_yet"
+msgstr "まだ未提出です。"
+
+msgid "exc_no_team_yet"
+msgstr "チームへ割当てられていません"
+
+msgid "exc_no_team_yet_info"
+msgstr "自身でチームを作成またはそのチームメンバーにより既存のチームへ追加することができます。"
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr "チームは試験官によって管理されます。"
+
+msgid "exc_no_team_yet_notice"
+msgstr "まだチームへ割り当てられていません!"
+
+msgid "exc_note_for_tutor"
+msgstr "指導教員のメモ"
+
+msgid "exc_notification"
+msgstr "パーソナル通知"
+
+msgid "exc_nr_random_mand"
+msgstr "必須の役割割当て数"
+
+msgid "exc_num_teams"
+msgstr "Number"
+
+msgid "exc_ongoing"
+msgstr "進行中"
+
+msgid "exc_optional"
+msgstr "進行可"
+
+msgid "exc_order_by_deadline"
+msgstr "期限順"
+
+msgid "exc_overview"
+msgstr "全般"
+
+msgid "exc_participant"
+msgstr "受講者"
+
+msgid "exc_participant_view"
+msgstr "受講者表示"
+
+msgid "exc_participants"
+msgstr "受講者"
+
+msgid "exc_pass_all"
+msgstr "必須問題すべて"
+
+msgid "exc_pass_all_info"
+msgstr "演習に合格するにはすべての必須問題に合格する必要があります。"
+
+msgid "exc_pass_minimum_nr"
+msgstr "最小課題数"
+
+msgid "exc_pass_minimum_nr_info"
+msgstr "演習に合格するには最小課題数を達成する必要があります。この値は必須の課題数よりも多くする必要があります。"
+
+msgid "exc_pass_mode"
+msgstr "合格モード"
+
+msgid "exc_pass_mode_not_changeable_info"
+msgstr "passモードはこれ以上変更できません。"
+
+msgid "exc_passed_status_determination"
+msgstr "'合格'ステータスの確定"
+
+msgid "exc_passing_exc"
+msgstr "演習問題の遂行"
+
+msgid "exc_past"
+msgstr "過去分"
+
+msgid "exc_peer_deadline_mismatch"
+msgstr "期限り後にフィードバックをする場合は、割当てる設定の期限よりフィードバック期限りを早くしてはいけません。"
+
+msgid "exc_peer_feedback_status"
+msgstr "フィードバックステータス"
+
+msgid "exc_peer_review"
+msgstr "ピアフィードバック"
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr "期限後の猶予期間が経過したことを承認されるとユーザはピア回答を評価できます。ピアフィードバックの設定次第でそれぞれのタブが作られます。有効にした後でこのオプションは保存され'ピアーフィードバック'タブが表示されます。"
+
+msgid "exc_peer_review_chars_invalid"
+msgstr "フィードバックには最小%sの文字長がありません。"
+
+msgid "exc_peer_review_completion"
+msgstr "合格ステータスの決定"
+
+msgid "exc_peer_review_completion_all"
+msgstr "全ての必須フィードバック"
+
+msgid "exc_peer_review_completion_all_info"
+msgstr "課題は解答と全ての必須フィードバックの掲出後に限り自動的に\"合格\"と設定されます。"
+
+msgid "exc_peer_review_completion_none"
+msgstr "ピアフィードバックはオプションです"
+
+msgid "exc_peer_review_completion_none_info"
+msgstr "課題はフィードバックが提供されているいないにかかわらず提出後に自動的に\"合格\"と設定されます。"
+
+msgid "exc_peer_review_completion_one"
+msgstr "一つはフィードバック"
+
+msgid "exc_peer_review_completion_one_info"
+msgstr "課題は解答とフィードバック一つの掲出後に限り自動的に\"合格\"と設定されます。"
+
+msgid "exc_peer_review_deadline"
+msgstr "フィードバック期限期限"
+
+msgid "exc_peer_review_deadline_info"
+msgstr "フィードバックをこの日に止めることが可能で受領したフィードバックはその時点からのみアクセス可能となります。"
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr "期限期限: %s"
+
+msgid "exc_peer_review_deadline_reached"
+msgstr "フィードバック時間は終了します。"
+
+msgid "exc_peer_review_file"
+msgstr "ファイルをアップロード"
+
+msgid "exc_peer_review_file_info"
+msgstr "レビューごとに1ファイルをアップロードするにはピアを利用可能にする"
+
+msgid "exc_peer_review_give"
+msgstr "フィードバック提供"
+
+msgid "exc_peer_review_given"
+msgstr "提出のフィードバックを表示"
+
+msgid "exc_peer_review_giver"
+msgstr "フィードバック者"
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr "演習メンバーでも提出もしないピア寄贈者"
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr "演習メンバーでも提出もしないピア受信者"
+
+msgid "exc_peer_review_min_chars"
+msgstr "最小文字数"
+
+msgid "exc_peer_review_min_chars_info"
+msgstr "有効なフィードバック用の必須文字数"
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr "最小長"
+
+msgid "exc_peer_review_min_number"
+msgstr "パーソナルフィードバックを見るための要求されているフィードバック数"
+
+msgid "exc_peer_review_min_number_info"
+msgstr "受験者自身の処理の評価が表示される前にその他ユーザ処理のこの数字は受験者によって評価される必要があります。"
+
+msgid "exc_peer_review_missing_info"
+msgstr "受領済みフィードバックを見るにはあとフィードバック数%sが必要です。"
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr "受領済みフィードバックを見るにはあとフィードバック数 %1$sが必要です。アクセス許可数: %2$s"
+
+msgid "exc_peer_review_missing_users"
+msgstr "ピアフィードバックの一部ではない提出ユーザ"
+
+msgid "exc_peer_review_no_peers"
+msgstr "フィードバックされるピアがありません。"
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr "フィードバックがありませんでした。"
+
+msgid "exc_peer_review_not_returned_users"
+msgstr "ピアフィードバックの一部ではない未提出ユーザ"
+
+msgid "exc_peer_review_overview"
+msgstr "ピアグループを表示する"
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr "無効ユーザ"
+
+msgid "exc_peer_review_personal"
+msgstr "個別化されたピアフィードバック"
+
+msgid "exc_peer_review_personal_info"
+msgstr "ピアはフルネーム表示します"
+
+msgid "exc_peer_review_rating"
+msgstr "レート"
+
+msgid "exc_peer_review_recipient"
+msgstr "フィードバック受領者"
+
+msgid "exc_peer_review_reset"
+msgstr "ピアフィードバックの追加とリセット"
+
+msgid "exc_peer_review_reset_done"
+msgstr "全てのピアフィードバック関連データは割り当て用に削除されました。"
+
+msgid "exc_peer_review_reset_sure"
+msgstr "本当に割り当て\"%s\"用の完全なピアフィードバックを削除しますか?"
+
+msgid "exc_peer_review_show"
+msgstr "受領済みフィードバックを表示"
+
+msgid "exc_peer_review_show_missing"
+msgstr "不十分なフィードバックとして受信したフィードバックを表示できません。"
+
+msgid "exc_peer_review_show_received_none"
+msgstr "フィードバックを何も受領していません。"
+
+msgid "exc_peer_review_simple_unlock"
+msgstr "受信したフィードバックへアクセス"
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr "一つは有効なフィードバックを提供後"
+
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr "受信したピアフィードバックを常に表示"
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr "全ての要求されたフィードバックを提供後"
+
+msgid "exc_peer_review_text"
+msgstr "Text入力"
+
+msgid "exc_peer_review_updated"
+msgstr "フィードバックは保存されました。"
+
+msgid "exc_peer_reviews_in_lead_text"
+msgstr "%s のフィードバック"
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr "無効のピアグループ"
+
+msgid "exc_portfolio_created"
+msgstr "ポートフォリオが作成されました。"
+
+msgid "exc_portfolio_returned"
+msgstr "ポートフォリアが提出されました"
+
+msgid "exc_portfolio_selected"
+msgstr "ポートフォリオが割当てられました。"
+
+msgid "exc_portfolio_template"
+msgstr "ポートフォリオテンプレート"
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr "ポートフォリオはこの割り当てから削除されました。"
+
+msgid "exc_presentation_order"
+msgstr "表示順"
+
+msgid "exc_print_pdf"
+msgstr "Print/PDF"
+
+msgid "exc_public_submission"
+msgstr "公開提出物"
+
+msgid "exc_publishing"
+msgstr "公開"
+
+msgid "exc_rand_nr_mandatory"
+msgstr "必須の役割割当て数"
+
+msgid "exc_rand_overall_ass"
+msgstr "全体の割当て数"
+
+msgid "exc_random"
+msgstr "ランダム"
+
+msgid "exc_random_assignment"
+msgstr "ランダム割当て"
+
+msgid "exc_random_assignment_info"
+msgstr "開始すると演習問題割り当てのいくつかはランダムに必須となるよう選択されます。"
+
+msgid "exc_random_selection"
+msgstr "ランダムセクション"
+
+msgid "exc_random_selection_info"
+msgstr "各ユーザはランダムに必須割当てセクションを割当てられます。"
+
+msgid "exc_random_selection_not_changeable_info"
+msgstr "このモードは有効にできません。"
+
+msgid "exc_received_feedback"
+msgstr "受信済のフィードバック"
+
+msgid "exc_rel_last_submission"
+msgstr "最終可能性の提出物"
+
+msgid "exc_rel_last_submission_info"
+msgstr "このオプションdateを設定すると全てのユーザはこの期限が来るまでに提出する必要があります。"
+
+msgid "exc_rel_start_latest_lead_text"
+msgstr " %s が最終"
+
+msgid "exc_rel_start_lead_text"
+msgstr "開始後の提出日にち %s"
+
+msgid "exc_relative_date"
+msgstr "相対日数"
+
+msgid "exc_relative_date_info"
+msgstr "期限はユーザが課題を開始する時間に応じて個別に設定されます。"
+
+msgid "exc_relative_date_period"
+msgstr "作業時間"
+
+msgid "exc_rem_time_after_start"
+msgstr "開始後の残り時間"
+
+msgid "exc_reminder_cron_ok"
+msgstr "注意喚起を送信しました:"
+
+msgid "exc_reminder_end"
+msgstr "注意喚起終了"
+
+msgid "exc_reminder_feedback_setting"
+msgstr "参加者へフィードバックを注意喚起"
+
+msgid "exc_reminder_feedback_start"
+msgstr "フィードバック期限前に 注意喚起を開始"
+
+msgid "exc_reminder_frequency"
+msgstr "間隔"
+
+msgid "exc_reminder_grade_body"
+msgstr "次の割当てはまだ評価されていません。"
+
+msgid "exc_reminder_grade_setting"
+msgstr "評価を指導教員へ注意喚起"
+
+msgid "exc_reminder_grade_subject"
+msgstr "割当て\"%s\"は評価されていません。"
+
+msgid "exc_reminder_link"
+msgstr "URL"
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr "メールテンプレートは利用できません。"
+
+msgid "exc_reminder_mail_template"
+msgstr "メールテンプレート"
+
+msgid "exc_reminder_peer_body"
+msgstr "次の割当てはまだフィードバックされていません。"
+
+msgid "exc_reminder_peer_subject"
+msgstr "割当て\"%s\"はフィードバックがありません。"
+
+msgid "exc_reminder_salutation"
+msgstr "こんにちは%s, さん"
+
+msgid "exc_reminder_start"
+msgstr "期限前に注意喚起を開始"
+
+msgid "exc_reminder_start_info"
+msgstr "親コース/グループの全てのメンバーへ 注意喚起 が送信されます。<br>設定されたコース/グループがありません - 注意喚起 は送信されません。"
+
+msgid "exc_reminder_submit_body"
+msgstr "次の割当てはまだ完了していません。"
+
+msgid "exc_reminder_submit_setting"
+msgstr "ユーザへ注意喚起を送信"
+
+msgid "exc_reminder_submit_subject"
+msgstr "割当て\"%s\"は完了していません。"
+
+msgid "exc_reminders_cron"
+msgstr "割当ての 注意喚起"
+
+msgid "exc_reminders_cron_info"
+msgstr "有効にすると、3個の注意喚起がアクティブになります: 送信するユーザ、評価する指導教員、フィードバックする参加者"
+
+#, fuzzy
+msgid "exc_reminders_cron_not_active"
+msgstr "Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated."
+
+msgid "exc_request_deadline"
+msgstr "期限を要求"
+
+msgid "exc_requirement"
+msgstr "要件"
+
+msgid "exc_review_anytime"
+msgstr "いつでもフィードバック"
+
+msgid "exc_save_all"
+msgstr "全て保存"
+
+msgid "exc_save_order"
+msgstr "順番を保存"
+
+msgid "exc_save_selected"
+msgstr "選択したものを保存"
+
+msgid "exc_saved_order"
+msgstr "プレゼンテーション順番を保存しました"
+
+msgid "exc_select_ass"
+msgstr "割当てを選択"
+
+msgid "exc_select_blog"
+msgstr "既存のブログを使用"
+
+msgid "exc_select_blog_change"
+msgstr "別のブログを使用"
+
+msgid "exc_select_blog_info"
+msgstr "この課題を一緒に使ってブログのどれか一つを選択してください。"
+
+msgid "exc_select_blog_unlink"
+msgstr "ブログを削除"
+
+msgid "exc_select_portfolio"
+msgstr "既存のポートフォリオを使用"
+
+msgid "exc_select_portfolio_change"
+msgstr "別のポートフォリオを使用"
+
+msgid "exc_select_portfolio_info"
+msgstr "この課題を一緒に使ってポートフォリオをどれか一つ選択してください。"
+
+msgid "exc_select_portfolio_unlink"
+msgstr "ポートフォリオを削除"
+
+msgid "exc_send_assignment"
+msgstr "課題をメールで送信"
+
+msgid "exc_send_grading_notification"
+msgstr "評価通知を送信"
+
+msgid "exc_set_failed"
+msgstr "不合格設定"
+
+msgid "exc_set_passed"
+msgstr "合格設定"
+
+msgid "exc_settings_feedback"
+msgstr "指導教員フィードバック"
+
+msgid "exc_settings_feedback_file"
+msgstr "By File"
+
+msgid "exc_settings_feedback_file_info"
+msgstr "指導教員はファイルをアップロードします。参加者はそれに関する通知を受領し、割当(Assingment)の全般からファイルへアクセスできます。"
+
+msgid "exc_settings_feedback_mail"
+msgstr "By Mail"
+
+msgid "exc_settings_feedback_mail_info"
+msgstr "指導教員はメールフォームへ評価を入力します。評価は参加者へ送られます。"
+
+msgid "exc_settings_feedback_text"
+msgstr "テキスト入力"
+
+msgid "exc_settings_feedback_text_info"
+msgstr "指導教員はテキストフィールド内へ評価を入力します。参加者はそれに関する通知を受領し割当て全般へテキストが表示されます。"
+
+msgid "exc_show_instructions"
+msgstr "作業指示を表示"
+
+msgid "exc_show_more"
+msgstr "もっと表示"
+
+msgid "exc_show_peer_review"
+msgstr "ピア - フィードバックを表示"
+
+msgid "exc_show_submissions"
+msgstr "期限後に提出物公開"
+
+msgid "exc_show_submissions_info"
+msgstr "期限後にすべての学習者へ全提出物を公開します。"
+
+msgid "exc_start_assignment"
+msgstr "割当てを開始"
+
+msgid "exc_start_exercise"
+msgstr "演習問題を開始"
+
+msgid "exc_start_time"
+msgstr "開始時間"
+
+msgid "exc_starting_on"
+msgstr "開始日時"
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr "編集問題へリンク(提出と学年): %s"
+
+msgid "exc_submission_downloads_notification_link"
+msgstr "新しい提出: %sをダウンロード"
+
+msgid "exc_submission_file"
+msgstr "提出ファイル"
+
+msgid "exc_submission_no_new_files"
+msgstr "利用可能な新しい提出はありません。"
+
+msgid "exc_submission_notification"
+msgstr "書類提出のEmail通知"
+
+msgid "exc_submission_notification_body"
+msgstr "演習問題\"%s\"用に新しい提出書類がアップロードされました。"
+
+msgid "exc_submission_notification_info"
+msgstr "提出書類をアップロードすると通知されます。"
+
+msgid "exc_submission_notification_link"
+msgstr "演習問題:%sへのリンク"
+
+msgid "exc_submission_notification_subject"
+msgstr "演習問題\"%s\"用に新しい提出書類がアップロードされました。"
+
+msgid "exc_submission_open_notification_link"
+msgstr "提出: %s を表示"
+
+msgid "exc_submission_text"
+msgstr "提出文字"
+
+msgid "exc_submissions_and_grades"
+msgstr "提出物 & 評価"
+
+msgid "exc_submit_anytime"
+msgstr "常時提出"
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr "適時提出します。特に期限はありません。"
+
+msgid "exc_submitted_files_deleted"
+msgstr "選択のファイルは削除されました。"
+
+msgid "exc_sure_unlink_blog"
+msgstr "この割り当てからこのブログを本当に削除しますか?"
+
+msgid "exc_sure_unlink_portfolio"
+msgstr "この割当てのこのポートフォリオフォームを本当に削除しますか?"
+
+msgid "exc_target_not_valid"
+msgstr "要求のターゲットは無効または不完全です"
+
+msgid "exc_task_grading"
+msgstr "割当て \"%1\"の評価"
+
+msgid "exc_task_peer_feedback"
+msgstr "Give Peer Feedback割当て\"%1\"のPeerフィードバックを行う"
+
+msgid "exc_task_submission"
+msgstr "割当て \"%1\"の提出"
+
+msgid "exc_tbl_action_download_all_files"
+msgstr "全ての提出をダウンロード"
+
+msgid "exc_tbl_action_download_files"
+msgstr "提出をダウンロード"
+
+msgid "exc_tbl_action_download_new_files"
+msgstr "新しい提出をダウンロード"
+
+msgid "exc_tbl_action_feedback_file"
+msgstr "ファイルで評価"
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr "評価メールを送信"
+
+msgid "exc_tbl_action_feedback_text"
+msgstr "評価ステートメントを書き込む"
+
+msgid "exc_tbl_action_open_submission"
+msgstr "提出を開く"
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr "評価済ピアフィードバックを表示"
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr "受領したピアフィードバックを表示"
+
+msgid "exc_tbl_action_team_log"
+msgstr "チームログを表示"
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr "提出を表示"
+
+msgid "exc_tbl_calculated_deadline"
+msgstr "計算上の期限"
+
+msgid "exc_tbl_comment"
+msgstr "評価ステートメント"
+
+msgid "exc_tbl_feedback_time"
+msgstr "評価日"
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr "まだ提出していない"
+
+msgid "exc_tbl_filter_has_submission"
+msgstr "提出済"
+
+msgid "exc_tbl_filter_submission"
+msgstr "Submission"
+
+msgid "exc_tbl_filter_submission_after"
+msgstr "Submission After"
+
+msgid "exc_tbl_filter_submission_before"
+msgstr "Submission Before"
+
+msgid "exc_tbl_individual_deadline"
+msgstr "個別期限"
+
+msgid "exc_tbl_mark"
+msgstr "マーク"
+
+msgid "exc_tbl_notice"
+msgstr "指導教員用の注釈"
+
+msgid "exc_tbl_sent_time"
+msgstr "割当て送信日"
+
+msgid "exc_tbl_status"
+msgstr "採点"
+
+msgid "exc_tbl_status_time"
+msgstr "採点日"
+
+msgid "exc_tbl_submission_date"
+msgstr "提出日"
+
+msgid "exc_tbl_team"
+msgstr "チーム"
+
+msgid "exc_team"
+msgstr "チーム"
+
+msgid "exc_team_assignment_adopt"
+msgstr "既存の割り当てからチームを採用"
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr "割り当て済"
+
+msgid "exc_team_assignment_adopt_none"
+msgstr "どのチームにも採用しません"
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr "新しいチームを作成"
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr "チーム"
+
+msgid "exc_team_assignment_adopt_user"
+msgstr "課題からチームを採用"
+
+msgid "exc_team_at_least_one"
+msgstr "最低一人はチームメンバである必要があります。"
+
+msgid "exc_team_by_assignment"
+msgstr "割当てからチームを適合"
+
+msgid "exc_team_by_assignment_info"
+msgstr "他の割当てのチーム方式はこの割り当てにも利用されます。"
+
+msgid "exc_team_by_participants"
+msgstr "自己組織型チームの参加者"
+
+msgid "exc_team_by_participants_info"
+msgstr "チームの参加者オプション"
+
+msgid "exc_team_by_random"
+msgstr "チームはランダムで自動的に形成されます。"
+
+msgid "exc_team_by_random_add_info"
+msgstr "このノードの利用前に全受講者を割当てる必要があります。"
+
+msgid "exc_team_by_random_info"
+msgstr "ILIASはチームの設定メンバーへ参加者を配置します。"
+
+msgid "exc_team_by_tutors"
+msgstr "チームは指導教員により形成されます。"
+
+msgid "exc_team_by_tutors_info"
+msgstr "指導教員はチームへ参加者を配置するので参加者は自己組織化できません。"
+
+msgid "exc_team_by_tutors_manual"
+msgstr "手動で"
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr "指導教員は手動でチームへ参加者を割当てます。"
+
+msgid "exc_team_creation"
+msgstr "作成"
+
+msgid "exc_team_formation"
+msgstr "チーム形成"
+
+msgid "exc_team_log"
+msgstr "チームログ"
+
+msgid "exc_team_log_add_file"
+msgstr "ファイル%sを追加しました。"
+
+msgid "exc_team_log_add_member"
+msgstr "メンバ%sを追加しました。"
+
+msgid "exc_team_log_create_team"
+msgstr "チームを作成しました。"
+
+msgid "exc_team_log_remove_file"
+msgstr "ファイル %s　を削除しました。"
+
+msgid "exc_team_log_remove_member"
+msgstr "メンバ %s を削除しました。"
+
+msgid "exc_team_max_small_than_members"
+msgstr "チームのいくつかは%sに設定する必要があるため参加者最大数は%sに設定できません。"
+
+msgid "exc_team_member_add"
+msgstr "チームメンバを追加(検索)"
+
+msgid "exc_team_member_container_add"
+msgstr "コース・グループからチームメンバを追加"
+
+msgid "exc_team_member_remove_sure"
+msgstr "本当にチームの次のメンバを削除しますか?彼らのアップロードしたファイルもチームから併せて削除される事を了承願います。"
+
+msgid "exc_team_members"
+msgstr "チームメンバ"
+
+msgid "exc_team_min_big_than_max"
+msgstr "チーム参加者最大数はチーム最小参加者数以下にできません。"
+
+msgid "exc_team_min_small_than_members"
+msgstr "チームが%sの参加者で設定されているので最小参加者数は%sに設定できません。"
+
+msgid "exc_team_minimal_too_big"
+msgstr "最小チーム参加者数%sは大きすぎますので値を減らしてください。"
+
+msgid "exc_team_multi_create"
+msgstr "チームを作成"
+
+msgid "exc_team_multi_dissolve"
+msgstr "チームを解消"
+
+msgid "exc_team_notification_body_add"
+msgstr "アップロード割り当てをチームへ追加しました"
+
+msgid "exc_team_notification_body_rmv"
+msgstr "アップロード割り当てをチームから削除しました"
+
+msgid "exc_team_notification_link"
+msgstr "演習問題へのリンク"
+
+msgid "exc_team_notification_reason"
+msgstr "上記の試験の受講者はこのメールを受領します。"
+
+msgid "exc_team_notification_subject_add"
+msgstr "演習問題\"%s\"の課題をアップロードするためにチームメンバとして追加しました"
+
+msgid "exc_team_notification_subject_rmv"
+msgstr "演習問題\"%s\"の課題アップロードチームから削除されました"
+
+msgid "exc_teams_assignment_adopted"
+msgstr "割当てからチームを適合"
+
+msgid "exc_template"
+msgstr "テンプレート"
+
+msgid "exc_text_assignment_edit"
+msgstr "テキストを編集"
+
+msgid "exc_text_assignment_show"
+msgstr "テキストを表示"
+
+msgid "exc_text_saved"
+msgstr "テキストは保存されました。"
+
+msgid "exc_too_many_files"
+msgstr "アップロードにはファイルが多すぎます。"
+
+msgid "exc_total_exc"
+msgstr "全演習問題"
+
+msgid "exc_total_members"
+msgstr "全演習者数"
+
+msgid "exc_type"
+msgstr "Type"
+
+msgid "exc_type_blog"
+msgstr "ブログ"
+
+msgid "exc_type_portfolio"
+msgstr "ポートフォリオ"
+
+msgid "exc_type_text"
+msgstr "テキスト"
+
+msgid "exc_type_upload"
+msgstr "アップロード"
+
+msgid "exc_type_upload_team"
+msgstr "チームアップロード"
+
+msgid "exc_value_can_not_set"
+msgstr "この値は設定できません。"
+
+msgid "exc_view_portfolio"
+msgstr "ポートフォリオを表示"
+
+msgid "exc_view_wiki"
+msgstr "Wikiを表示"
+
+msgid "exc_wait_for_files"
+msgstr "ダウンロードは自動開始されます。5秒経ってもダウンロードが開始されない場合はここをクリックしてください。"
+
+msgid "exc_wiki_container"
+msgstr "Wiki コンテナ"
+
+msgid "exc_wiki_container_info"
+msgstr "参加者の wiki の場所が作成されます。"
+
+msgid "exc_with_template"
+msgstr "ポートフォリオ - テンプレートあり"
+
+msgid "exc_with_template_info"
+msgstr "空のポートフォリオは特定のポートフォリオテンプレートから自動配送されます。"
+
+msgid "exc_with_wiki_template"
+msgstr "Wiki テンプレートあり"
+
+msgid "exc_with_wiki_template_info"
+msgstr "Wiki テンプレートは参加者のwiki作成用にコピーされます。"
+
+msgid "exc_without_template"
+msgstr "ポートフォリオ - テンプレートなし"
+
+msgid "exc_without_template_info"
+msgstr "参加者はスクラッチからポートフォリオが作成されます。"
+
+msgid "exc_without_wiki_template"
+msgstr "Wiki テンプレートなし"
+
+msgid "exc_without_wiki_template_info"
+msgstr "参加者は寄せ集めからwikiを作成します。"
+
+msgid "exc_work_instructions"
+msgstr "記入要領"
+
+msgid "exc_x_of_y"
+msgstr "of"
+
+msgid "exc_your_text"
+msgstr "文字"
+
+msgid "feedback_from"
+msgstr "フィードバック者"
+
+msgid "feedback_given"
+msgstr "フィードバックされる人"
+
+msgid "feedback_received"
+msgstr "フィードバックを受領しました"
+
+msgid "fiter_no_results"
+msgstr "現在のフィルターはどの提出物にも合致しません。"
+
+msgid "grade_evaluate"
+msgstr "採点と評価"
+
+msgid "not_yet"
+msgstr "未着手"
+
+msgid "submissions_feedback"
+msgstr "提出とフィードバック"
+
+msgid "submissions_only"
+msgstr "提出のみ"
+
+msgid "text_assignment"
+msgstr "テキスト割当て"
