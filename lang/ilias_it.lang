@@ -295,59 +295,6 @@ administration#:#vc_information#:#Informazione di controllo versione
 administration#:#vc_information_not_determined#:#ILIAS non ha potuto determinare alcuna informazione sul controllo della versione.
 administration#:#view_last_log#:#Vedi l'ultimo log
 administration#:#view_log#:#Vedi dettagli
-adn#:#action_confirm_delete#:#Delete Notifications###28 11 2025 new variable
-adn#:#action_confirm_delete_msg#:#Would you like to delete the following notification(s)?###28 11 2025 new variable
-adn#:#administrative_notification#:#Administrative Notifications###30 04 2024 new variable
-adn#:#administrative_notification_description#:#Fornisci notifiche a livello di sistema nella barra superiore di ILIAS
-adn#:#btn_cancel#:#Annulla
-adn#:#btn_delete#:#Cancella
-adn#:#btn_delete_confirm#:#Vuoi eliminare questa notifica?
-adn#:#btn_duplicate#:#Duplicate###30 04 2024 new variable
-adn#:#btn_edit#:#Modifica
-adn#:#btn_reset#:#Reset
-adn#:#btn_reset_confirm#:#Vuoi reimpostare questa notifica per tutti gli utenti?
-adn#:#common_actions#:#Azioni
-adn#:#common_add_msg#:#Aggiungi Notifiche
-adn#:#main#:#Notifiche
-adn#:#msg_body#:#Corpo
-adn#:#msg_body_info#:#Corpo Notifica
-adn#:#msg_dismissable#:#Ignorabile
-adn#:#msg_dismissable_info#:#Le notifiche possono essere chiuse dall'utente. L'utente non vedrà più questa notifica.
-adn#:#msg_display_date_end#:#Visibile fino al
-adn#:#msg_display_date_start#:#Visibile dal
-adn#:#msg_error_false_date_configuration#:#Impossibile creare una notifica con questa configurazione di date. L'evento deve rientrare nel tempo di visualizzazione.
-adn#:#msg_event_date_end#:#Termine Evento
-adn#:#msg_event_date_start#:#Inizio Evento
-adn#:#msg_form_title#:#Notifiche
-adn#:#msg_has_language_limitation#:#Limited to selected languages###30 04 2024 new variable
-adn#:#msg_has_language_limitation_info#:#Only selected languages will see the notification.###30 04 2024 new variable
-adn#:#msg_languages#:#Languages###30 04 2024 new variable
-adn#:#msg_limit_to_roles#:#Presentazione dipendente dal ruolo
-adn#:#msg_limit_to_roles_info#:#Solo i ruoli selezionati vedranno la notifica.
-adn#:#msg_limited_to_role_ids#:#Ruoli
-adn#:#msg_permanent#:#Visualizza
-adn#:#msg_permanent_info#:#Visualizza notifiche in modo permanente o temporaneo
-adn#:#msg_permanent_no#:#Mostra temporaneamente
-adn#:#msg_permanent_yes#:#Mostra permanentemente
-adn#:#msg_presentation#:#Presentation###31 08 2022 new variable
-adn#:#msg_show_to_all_languages#:#Show to all languages###30 04 2024 new variable
-adn#:#msg_show_to_all_roles#:#Show to all roles###31 08 2022 new variable
-adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.###31 08 2022 new variable
-adn#:#msg_success_created#:#Notifica creata
-adn#:#msg_success_deleted#:#Notifica cancellata
-adn#:#msg_success_duplicated#:#Notification sucessfully duplicated###30 04 2024 new variable
-adn#:#msg_success_reset#:#Notifica resettata
-adn#:#msg_success_updated#:#Notifica aggiornata
-adn#:#msg_table_title#:#Notifiche
-adn#:#msg_title#:#Titolo
-adn#:#msg_title_info#:#Breve titolo della notifica
-adn#:#msg_type#:#Importanza
-adn#:#msg_type_0#:#Avviso
-adn#:#msg_type_1#:#Avviso
-adn#:#msg_type_2#:#Importante
-adn#:#msg_type_3#:#Breaking News
-adn#:#msg_type_during_event#:#During Event
-adn#:#msg_type_info#:#l'importanza ha un'influenza sulla rappresentazione del colore della notifica
 assessment#:#activate_logging#:#Activate Test and Assessment Logging###28 11 2025 new variable
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 11 2025 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 11 2025 new variable

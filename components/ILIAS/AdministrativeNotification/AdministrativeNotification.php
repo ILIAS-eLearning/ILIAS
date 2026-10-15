@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Component\Component;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class AdministrativeNotification implements Component
 {
@@ -40,5 +42,9 @@ class AdministrativeNotification implements Component
             new \ilADNAgent(
                 $pull[Factory::class]
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'adn'
+        );
     }
 }
