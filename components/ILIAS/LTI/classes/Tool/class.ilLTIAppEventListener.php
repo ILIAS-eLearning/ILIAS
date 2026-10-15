@@ -23,6 +23,7 @@ use ceLTIc\LTI\Enum\ServiceAction;
 use ceLTIc\LTI\LineItem;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\Service\LineItem as LineItemService;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\UserResult;
 use Random\RandomException;
@@ -337,7 +338,10 @@ class ilLTIAppEventListener implements ilAppEventListener
             'resource_link_id' => $link->ltiResourceLinkId,
             'ref_id' => $ref_id,
         ];
-        $line_items = $link->getLineItems((string) $ref_id);
+        // the column may come from the launch of another link of the object: unlike getLineItems() of the
+        // link, the service then must not ask only for the columns of this link
+        $line_items = (new LineItemService($link->getPlatform(), $link->getSetting('custom_lineitems_url')))
+            ->getAll(null, (string) $ref_id);
         $line_item = is_array($line_items) && $line_items !== [] ? reset($line_items) : null;
         if ($line_item === null) {
             $line_item = new LineItem($link->getPlatform(), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)), 1);
