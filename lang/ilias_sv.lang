@@ -6869,60 +6869,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block###28 10 2024 new variable
 crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Personliga profiluppgifter
-dash#:#dash_activation#:#Aktivering
-dash#:#dash_added_to_favs#:#Posten har lagts till i personliga favoriter.
-dash#:#dash_avail_presentation#:#Tillgängliga presentationer
-dash#:#dash_avail_sortation#:#Tillgängliga sorter
-dash#:#dash_click_here#:#Klicka här
-dash#:#dash_co_delete#:#Delete Dashboard style###28 10 2024 new variable
-dash#:#dash_co_lang#:#Dashboard style by languages###28 10 2024 new variable
-dash#:#dash_customization#:#Customize Dashboard Content###28 10 2024 new variable
-dash#:#dash_dashboard#:#Dashboard
-dash#:#dash_default_presentation#:#Standardiserad presentation
-dash#:#dash_default_sortation#:#Standard sortering
-dash#:#dash_enable_cal#:#Kalender
-dash#:#dash_enable_favourites#:#Favoriter
-dash#:#dash_enable_learning_sequences#:#Learning Sequences###21 11 2023 new variable
-dash#:#dash_enable_mail#:#E-post
-dash#:#dash_enable_memberships#:#Mina kurser och grupper
-dash#:#dash_enable_news#:#Nyheter
-dash#:#dash_enable_recommended_content#:#Recommended Content###21 11 2023 new variable
-dash#:#dash_enable_study_programmes#:#Study Programmes###21 11 2023 new variable
-dash#:#dash_enable_task#:#Att göra
-dash#:#dash_favourites#:#Favoriter
-dash#:#dash_info_sure_remove_from_favs#:#Vill du verkligen ta bort följande objekt från dina favoriter?
-dash#:#dash_item_removed#:#Posten har tagits bort från listan.
-dash#:#dash_learning_sequences#:#My Learning Sequences###21 11 2023 new variable
-dash#:#dash_list#:#Lista
-dash#:#dash_main_panel#:#Huvudområde
-dash#:#dash_make_favourite#:#Lägg till i favoriter
-dash#:#dash_manual_new_item_pos#:#Position of New Objects###29 10 2025 new variable
-dash#:#dash_manual_new_item_pos_bot#:#Bottom###29 10 2025 new variable
-dash#:#dash_manual_new_item_pos_top#:#Top###29 10 2025 new variable
-dash#:#dash_manual_sorting_title#:#Manual Sorting of Favorites###29 10 2025 new variable
-dash#:#dash_member_main_alt#:#En vy över medlemskapen kan också inkluderas direkt i huvudmenyn.
-dash#:#dash_memberships#:#Mina kurser och grupper
-dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
-dash#:#dash_presentation#:#Presentation
-dash#:#dash_recommended_content#:#Recommended Content###21 11 2023 new variable
-dash#:#dash_remove_from_list#:#Ta bort från listan
-dash#:#dash_side_panel#:#Sida område
-dash#:#dash_sort_by_alphabet#:#Sortera efter alfabet
-dash#:#dash_sort_by_location#:#Sortera efter plats
-dash#:#dash_sort_by_manually#:#Manually###29 10 2025 new variable
-dash#:#dash_sort_by_start_date#:#Sortera efter händelseperiod
-dash#:#dash_sort_by_type#:#Sortera efter typ
-dash#:#dash_sort_option_bot#:#Bottom###29 10 2025 new variable
-dash#:#dash_sort_option_top#:#Top###29 10 2025 new variable
-dash#:#dash_sort_options#:#Postition of new Objects###29 10 2025 new variable
-dash#:#dash_sortation#:#Sortering
-dash#:#dash_study_programmes#:#My Study Programmes###21 11 2023 new variable
-dash#:#dash_tile#:#Kakelplattor
-dash#:#dash_view_courses_groups#:#Blockera 'Mina kurser och grupper
-dash#:#dash_view_favourites#:#Blockera 'Favoriter
-dash#:#favourites_disabled_info#:#Inställning av favoriter är avaktiverad. Du kan ändra detta i tidningsinställningarna.
-dash#:#memberships_disabled_info#:#Inställningen av medlemskap är avaktiverad. Du kan ändra detta i kursinställningarna.
-dash#:#topitem_block#:#Block###21 11 2023 new variable
 dateplaner#:#Fr_long#:#Fredag
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Måndag

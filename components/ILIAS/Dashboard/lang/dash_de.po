@@ -1,0 +1,216 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dash\n"
+
+msgid "add_to_favourites"
+msgstr "Zu Favoriten hinzufügen"
+
+msgid "added_to_favourites"
+msgstr "Das Objekt wurde den Favoriten hinzugefügt."
+
+msgid "dash_activation"
+msgstr "Aktivierung"
+
+msgid "dash_added_to_favs"
+msgstr "Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt."
+
+msgid "dash_avail_presentation"
+msgstr "Verfügbare Präsentationen"
+
+msgid "dash_avail_sortation"
+msgstr "Verfügbare Sortierungen"
+
+msgid "dash_click_here"
+msgstr "Hier klicken"
+
+msgid "dash_co_delete"
+msgstr "Dashboard-Gestaltung löschen"
+
+msgid "dash_co_lang"
+msgstr "Dashboard-Gestaltung nach Sprachen"
+
+msgid "dash_customization"
+msgstr "Gestaltung der Dashboard-Seite"
+
+msgid "dash_dash_fav_remove"
+msgstr "Entfernen"
+
+msgid "dash_dash_fav_remove_info"
+msgstr "Wollen Sie die folgenden Objekte wirklich aus Ihren Favoriten entfernen?"
+
+msgid "dash_dash_fav_remove_multiple"
+msgstr "Mehrere Favoriten entfernen"
+
+msgid "dash_dash_ls_remove"
+msgstr "Mitgliedschaften beenden"
+
+msgid "dash_dash_ls_remove_info"
+msgstr "Wollen Sie die folgenden Mitgliedschaften für Lernsequenzen wirklich beenden?"
+
+msgid "dash_dash_ls_remove_multiple"
+msgstr "Mehrere Mitgliedschaften beenden"
+
+msgid "dash_dash_mem_remove"
+msgstr "Mitgliedschaften beenden"
+
+msgid "dash_dash_mem_remove_info"
+msgstr "Wollen Sie die folgenden Mitgliedschaften für Kurse und Gruppen wirklich beenden?"
+
+msgid "dash_dash_mem_remove_multiple"
+msgstr "Mehrere Mitgliedschaften beenden"
+
+msgid "dash_dash_rc_remove"
+msgstr "Entfernen"
+
+msgid "dash_dash_rc_remove_info"
+msgstr "Wollen Sie die folgenden Objekte wirklich aus Ihren empfohlenen Inhalten entfernen?"
+
+msgid "dash_dash_rc_remove_multiple"
+msgstr "Mehrere Inhalte entfernen"
+
+msgid "dash_dashboard"
+msgstr "Dashboard"
+
+msgid "dash_default_presentation"
+msgstr "Standardpräsentation"
+
+msgid "dash_default_sortation"
+msgstr "Standardsortierung"
+
+msgid "dash_enable_cal"
+msgstr "Kalender"
+
+msgid "dash_enable_favourites"
+msgstr "Favoriten"
+
+msgid "dash_enable_learning_sequences"
+msgstr "Lernsequenzen"
+
+msgid "dash_enable_mail"
+msgstr "Mail"
+
+msgid "dash_enable_memberships"
+msgstr "Meine Kurse und Gruppen"
+
+msgid "dash_enable_news"
+msgstr "Neuigkeiten"
+
+msgid "dash_enable_recommended_content"
+msgstr "Empfohlene Inhalte"
+
+msgid "dash_enable_study_programmes"
+msgstr "Studienprogramme"
+
+msgid "dash_enable_task"
+msgstr "To-Dos"
+
+msgid "dash_favourites"
+msgstr "Favoriten"
+
+msgid "dash_item_removed"
+msgstr "Der Eintrag wurde aus der Liste entfernt."
+
+msgid "dash_learning_sequences"
+msgstr "Meine Lernsequenzen"
+
+msgid "dash_list"
+msgstr "Liste"
+
+msgid "dash_main_panel"
+msgstr "Hauptbereich"
+
+msgid "dash_manual_new_item_pos"
+msgstr "Position von neuen Objekten"
+
+msgid "dash_manual_new_item_pos_bot"
+msgstr "Unten"
+
+msgid "dash_manual_new_item_pos_top"
+msgstr "Oben"
+
+msgid "dash_manual_sorting_title"
+msgstr "Manuelles Sortieren von Favoriten"
+
+msgid "dash_member_main_alt"
+msgstr "Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden."
+
+msgid "dash_memberships"
+msgstr "Meine Kurse und Gruppen"
+
+msgid "dash_no_items_to_manage"
+msgstr "Keine Objekte zum Entfernen verfügbar."
+
+msgid "dash_page_edit_info"
+msgstr "Der Inhalt dieser Seite wird allen Nutzern auf ihrem Dashboard angezeigt. Die Inhaltsblöcke des Dashboards werden darunter angezeigt."
+
+msgid "dash_presentation"
+msgstr "Präsentation"
+
+msgid "dash_recommended_content"
+msgstr "Empfohlene Inhalte"
+
+msgid "dash_remove_from_list"
+msgstr "Aus Liste entfernen"
+
+msgid "dash_side_panel"
+msgstr "Seitenbereich"
+
+msgid "dash_sort_by_alphabet"
+msgstr "Alphabet"
+
+msgid "dash_sort_by_location"
+msgstr "Ort"
+
+msgid "dash_sort_by_manually"
+msgstr "Manuell"
+
+msgid "dash_sort_by_start_date"
+msgstr "Veranstaltungszeitraum"
+
+msgid "dash_sort_by_type"
+msgstr "Typ"
+
+msgid "dash_sort_option_bot"
+msgstr "Unten"
+
+msgid "dash_sort_option_top"
+msgstr "Oben"
+
+msgid "dash_sort_options"
+msgstr "Postition von neuen Objekten"
+
+msgid "dash_sortation"
+msgstr "Sortierung"
+
+msgid "dash_study_programmes"
+msgstr "Meine Studienprogramme"
+
+msgid "dash_tile"
+msgstr "Kacheln"
+
+msgid "dash_view_courses_groups"
+msgstr "Block ‘Meine Kurse und Gruppen’"
+
+msgid "dash_view_favourites"
+msgstr "Block ‘Favoriten’"
+
+msgid "favourites_disabled_info"
+msgstr "Das Setzen von Favoriten ist deaktiviert. Sie können dieses in den Magazin-Einstellungen ändern."
+
+msgid "memberships_disabled_info"
+msgstr "Das Setzen von Mitgliedschaften ist deaktiviert. Sie können dieses in den Kurs-Einstellungen ändern."
+
+msgid "remove_from_favourites"
+msgstr "Von Favoriten entfernen"
+
+msgid "removed_from_favourites"
+msgstr "Das Objekt wurde aus den Favoriten entfernt."
+
+msgid "topitem_block"
+msgstr "Block"

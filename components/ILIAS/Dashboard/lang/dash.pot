@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: dash\n"
+
+msgid "add_to_favourites"
+msgstr ""
+
+msgid "added_to_favourites"
+msgstr ""
+
+msgid "dash_activation"
+msgstr ""
+
+msgid "dash_added_to_favs"
+msgstr ""
+
+msgid "dash_avail_presentation"
+msgstr ""
+
+msgid "dash_avail_sortation"
+msgstr ""
+
+msgid "dash_click_here"
+msgstr ""
+
+msgid "dash_co_delete"
+msgstr ""
+
+msgid "dash_co_lang"
+msgstr ""
+
+msgid "dash_customization"
+msgstr ""
+
+msgid "dash_dash_fav_remove"
+msgstr ""
+
+msgid "dash_dash_fav_remove_info"
+msgstr ""
+
+msgid "dash_dash_fav_remove_multiple"
+msgstr ""
+
+msgid "dash_dash_ls_remove"
+msgstr ""
+
+msgid "dash_dash_ls_remove_info"
+msgstr ""
+
+msgid "dash_dash_ls_remove_multiple"
+msgstr ""
+
+msgid "dash_dash_mem_remove"
+msgstr ""
+
+msgid "dash_dash_mem_remove_info"
+msgstr ""
+
+msgid "dash_dash_mem_remove_multiple"
+msgstr ""
+
+msgid "dash_dash_rc_remove"
+msgstr ""
+
+msgid "dash_dash_rc_remove_info"
+msgstr ""
+
+msgid "dash_dash_rc_remove_multiple"
+msgstr ""
+
+msgid "dash_dashboard"
+msgstr ""
+
+msgid "dash_default_presentation"
+msgstr ""
+
+msgid "dash_default_sortation"
+msgstr ""
+
+msgid "dash_enable_cal"
+msgstr ""
+
+msgid "dash_enable_favourites"
+msgstr ""
+
+msgid "dash_enable_learning_sequences"
+msgstr ""
+
+msgid "dash_enable_mail"
+msgstr ""
+
+msgid "dash_enable_memberships"
+msgstr ""
+
+msgid "dash_enable_news"
+msgstr ""
+
+msgid "dash_enable_recommended_content"
+msgstr ""
+
+msgid "dash_enable_study_programmes"
+msgstr ""
+
+msgid "dash_enable_task"
+msgstr ""
+
+msgid "dash_favourites"
+msgstr ""
+
+msgid "dash_item_removed"
+msgstr ""
+
+msgid "dash_learning_sequences"
+msgstr ""
+
+msgid "dash_list"
+msgstr ""
+
+msgid "dash_main_panel"
+msgstr ""
+
+msgid "dash_manual_new_item_pos"
+msgstr ""
+
+msgid "dash_manual_new_item_pos_bot"
+msgstr ""
+
+msgid "dash_manual_new_item_pos_top"
+msgstr ""
+
+msgid "dash_manual_sorting_title"
+msgstr ""
+
+msgid "dash_member_main_alt"
+msgstr ""
+
+msgid "dash_memberships"
+msgstr ""
+
+msgid "dash_no_items_to_manage"
+msgstr ""
+
+msgid "dash_page_edit_info"
+msgstr ""
+
+msgid "dash_presentation"
+msgstr ""
+
+msgid "dash_recommended_content"
+msgstr ""
+
+msgid "dash_remove_from_list"
+msgstr ""
+
+msgid "dash_side_panel"
+msgstr ""
+
+msgid "dash_sort_by_alphabet"
+msgstr ""
+
+msgid "dash_sort_by_location"
+msgstr ""
+
+msgid "dash_sort_by_manually"
+msgstr ""
+
+msgid "dash_sort_by_start_date"
+msgstr ""
+
+msgid "dash_sort_by_type"
+msgstr ""
+
+msgid "dash_sort_option_bot"
+msgstr ""
+
+msgid "dash_sort_option_top"
+msgstr ""
+
+msgid "dash_sort_options"
+msgstr ""
+
+msgid "dash_sortation"
+msgstr ""
+
+msgid "dash_study_programmes"
+msgstr ""
+
+msgid "dash_tile"
+msgstr ""
+
+msgid "dash_view_courses_groups"
+msgstr ""
+
+msgid "dash_view_favourites"
+msgstr ""
+
+msgid "favourites_disabled_info"
+msgstr ""
+
+msgid "memberships_disabled_info"
+msgstr ""
+
+msgid "remove_from_favourites"
+msgstr ""
+
+msgid "removed_from_favourites"
+msgstr ""
+
+msgid "topitem_block"
+msgstr ""

@@ -6869,60 +6869,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block###28 10 2024 new variable
 crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#User Fields###25 02 2007 new variable
-dash#:#dash_activation#:#activation###07 02 2020 new variable
-dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.###07 02 2020 new variable
-dash#:#dash_avail_presentation#:#Available Presentations###07 02 2020 new variable
-dash#:#dash_avail_sortation#:#Available Sortations###07 02 2020 new variable
-dash#:#dash_click_here#:#Click here###07 02 2020 new variable
-dash#:#dash_co_delete#:#Delete Dashboard style###28 10 2024 new variable
-dash#:#dash_co_lang#:#Dashboard style by languages###28 10 2024 new variable
-dash#:#dash_customization#:#Customize Dashboard Content###28 10 2024 new variable
-dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
-dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
-dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
-dash#:#dash_enable_cal#:#Calendar###07 02 2020 new variable
-dash#:#dash_enable_favourites#:#Favourites###07 02 2020 new variable
-dash#:#dash_enable_learning_sequences#:#Learning Sequences###26 08 2024 new variable
-dash#:#dash_enable_mail#:#Mail###07 02 2020 new variable
-dash#:#dash_enable_memberships#:#My Courses and Groups###07 02 2020 new variable
-dash#:#dash_enable_news#:#News###07 02 2020 new variable
-dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new variable
-dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
-dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
-dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?###07 02 2020 new variable
-dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
-dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
-dash#:#dash_list#:#List###07 02 2020 new variable
-dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
-dash#:#dash_make_favourite#:#Add to Favourites###07 02 2020 new variable
-dash#:#dash_manual_new_item_pos#:#Position of New Objects###29 10 2025 new variable
-dash#:#dash_manual_new_item_pos_bot#:#Bottom###29 10 2025 new variable
-dash#:#dash_manual_new_item_pos_top#:#Top###29 10 2025 new variable
-dash#:#dash_manual_sorting_title#:#Manual Sorting of Favorites###29 10 2025 new variable
-dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
-dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
-dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
-dash#:#dash_recommended_content#:#Recommended Content###26 08 2024 new variable
-dash#:#dash_remove_from_list#:#Remove from List###07 02 2020 new variable
-dash#:#dash_side_panel#:#Side Panel###07 02 2020 new variable
-dash#:#dash_sort_by_alphabet#:#Sort by Alphabet###29 07 2022 new variable
-dash#:#dash_sort_by_location#:#Sort by Location###07 02 2020 new variable
-dash#:#dash_sort_by_manually#:#Manually###29 10 2025 new variable
-dash#:#dash_sort_by_start_date#:#Sort by Start Date###07 02 2020 new variable
-dash#:#dash_sort_by_type#:#Sort by Type###07 02 2020 new variable
-dash#:#dash_sort_option_bot#:#Bottom###29 10 2025 new variable
-dash#:#dash_sort_option_top#:#Top###29 10 2025 new variable
-dash#:#dash_sort_options#:#Postition of new Objects###29 10 2025 new variable
-dash#:#dash_sortation#:#Sortation###07 02 2020 new variable
-dash#:#dash_study_programmes#:#My Study Programmes###26 08 2024 new variable
-dash#:#dash_tile#:#Tile###07 02 2020 new variable
-dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
-dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
-dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###26 08 2024 new variable
-dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###26 08 2024 new variable
-dash#:#topitem_block#:#Block###26 08 2024 new variable
 dateplaner#:#Fr_long#:#Петък
 dateplaner#:#Fr_short#:#Пет
 dateplaner#:#Mo_long#:#Понеделник
