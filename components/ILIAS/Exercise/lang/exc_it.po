@@ -1,0 +1,1566 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr "Aggiungi assegnazione"
+
+msgid "exc_add_criteria"
+msgstr "Aggiungi criteri"
+
+msgid "exc_add_criteria_catalogue"
+msgstr "Aggiungi catalogo"
+
+msgid "exc_add_feedback_file"
+msgstr "Aggiungi File di Feedback"
+
+msgid "exc_add_participant"
+msgstr "Aggiungi Partecipante"
+
+msgid "exc_adopt_group_teams"
+msgstr "Adotta squadra da gruppi"
+
+msgid "exc_adopt_group_teams_added"
+msgstr "%s Gli utenti sono stati aggiunti."
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr "%s L’utente è già assegnato."
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr "L’utente \"%1$s\" è ancora selezionato per il gruppo \"%2$s\"."
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr "Nessun membro"
+
+msgid "exc_after_submission"
+msgstr "Dopo la presentazione"
+
+#, fuzzy
+msgid "exc_all"
+msgstr "All"
+
+msgid "exc_all_new_files_offered_already"
+msgstr "Tutti i nuovi file sono già stati forniti per il download. Per un altro download, si prega di cliccare sui link di azione qui sotto."
+
+msgid "exc_ass_submission_zip"
+msgstr "Contributi"
+
+msgid "exc_ass_team_wiki"
+msgstr "Incarico Team Wiki"
+
+msgid "exc_assignment"
+msgstr "Assegnazione"
+
+#, fuzzy
+msgid "exc_assignment_list"
+msgstr "Assignments List"
+
+msgid "exc_assignment_type"
+msgstr "Tipo di presentazione"
+
+msgid "exc_assignment_view"
+msgstr "Vista assegnazione"
+
+msgid "exc_assignments"
+msgstr "Assegnazioni"
+
+msgid "exc_assignments_deleted"
+msgstr "Questa assegnazione è stata cancellata."
+
+#, fuzzy
+msgid "exc_auto_last_save"
+msgstr "Last saved:"
+
+#, fuzzy
+msgid "exc_auto_save_info"
+msgstr "The text will be saved every 30 seconds, if changes are made."
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_p"
+msgstr "%s minute ago"
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_s"
+msgstr "%s minutes ago"
+
+msgid "exc_blog_created"
+msgstr "Il blog e'stato creato"
+
+msgid "exc_blog_returned"
+msgstr "Assegnazione di Blog"
+
+msgid "exc_blog_selected"
+msgstr "Il blog è stato assegnato"
+
+#, fuzzy
+msgid "exc_cannot_submit_any_files"
+msgstr "You cannot submit any files anymore."
+
+msgid "exc_chars_remaining"
+msgstr "Caratteri rimanenti:"
+
+msgid "exc_comment_for_learner_edit"
+msgstr "Modifica commento per studente"
+
+msgid "exc_comment_for_learner_info"
+msgstr "Viene inviata una notifica all'utente e il feedback verrà elencato nella visualizzazione di assegnazione dell'utente."
+
+msgid "exc_compare_selected_submissions"
+msgstr "Confronta le consegne selezionate"
+
+msgid "exc_compare_submissions"
+msgstr "Confronta consegne"
+
+msgid "exc_completion_by_submission"
+msgstr "Completato inserimento"
+
+msgid "exc_completion_by_submission_info"
+msgstr "Se abilitato, l'inserimento di almeno un file provoca il completamento dell'assegnazione. Il punteggio puo'essere cambiato in un secondo tempo. Cambiare questo setting non ha effetti sulle soluzioni gia'proposte."
+
+msgid "exc_completion_by_tutor"
+msgstr "Solo manuale tramite tutor"
+
+msgid "exc_conf_del_assignments"
+msgstr "Vuoi proprio cancellare quest'assegnazione?"
+
+msgid "exc_copy"
+msgstr "Copia Esercizio"
+
+msgid "exc_copy_zip_error"
+msgstr "La presentazione non può essere aperta. Si è verificato un errore durante la copia dei file."
+
+msgid "exc_create_blog"
+msgstr "Crea Blog"
+
+msgid "exc_create_blog_select_info"
+msgstr "Seleziona la directory risorse dove aggiungere il blog."
+
+msgid "exc_create_portfolio"
+msgstr "Crea Portfolio"
+
+msgid "exc_create_portfolio_no_template"
+msgstr "Non utilizzare il modello"
+
+msgid "exc_create_team"
+msgstr "Crea squadra"
+
+msgid "exc_create_team_times_up_warning"
+msgstr "Non puoi più creare una squadra - si prega di contattare il proprio tutor."
+
+msgid "exc_create_wiki"
+msgstr "Crea Wiki"
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr "Feedback tra pari attivato"
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr "I cataloghi dei criteri delle assegnazioni con un feedback tra pari attivato non può essere ulteriormente modificato."
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr "Aggiungi nuovo catalogo di criteri"
+
+msgid "exc_criteria_catalogue_default"
+msgstr "Nessun catalogo"
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr "Sei sicuro di voler eliminare i seguenti cataloghi di criteri?"
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr "Modifica catalogo di criteri"
+
+msgid "exc_criteria_catalogues"
+msgstr "Cataloghi dei criteri"
+
+msgid "exc_criteria_create_form"
+msgstr "Aggiungi nuovi criteri"
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr "Sei sicuro di voler eliminare i seguenti criteri?"
+
+msgid "exc_criteria_type_bool"
+msgstr "Soddisfatto Sì/No"
+
+msgid "exc_criteria_type_file"
+msgstr "File caricato"
+
+msgid "exc_criteria_type_rating"
+msgstr "Valutazione a 5 stelle"
+
+msgid "exc_criteria_type_text"
+msgstr "Testo"
+
+msgid "exc_criteria_update_form"
+msgstr "Modifica criteri"
+
+msgid "exc_criterias"
+msgstr "Criteri"
+
+msgid "exc_deadline"
+msgstr "Scadenza"
+
+msgid "exc_deadline_ext_mismatch"
+msgstr "Il periodo di tolleranza deve terminare dopo la scadenza."
+
+msgid "exc_deadline_extended"
+msgstr "Periodo di tolleranza"
+
+msgid "exc_deadline_extended_info"
+msgstr "La presentazione tardiva è possibile tra la scadenza e la fine del periodo di tolleranza."
+
+#, fuzzy
+msgid "exc_deadline_not_set_yet"
+msgstr "Not Set Yet"
+
+#, fuzzy
+msgid "exc_deadline_requested"
+msgstr "Requested"
+
+msgid "exc_delete_team"
+msgstr "Elimina squadra"
+
+msgid "exc_deleted_user"
+msgstr "Utente eliminato"
+
+msgid "exc_denied_has_peer_reviews"
+msgstr "Motivo: per alcuni compiti è stata attivata la revisione tra pari."
+
+msgid "exc_denied_has_submissions"
+msgstr "Motivo: gli utenti hanno già inviato le assegnazioni."
+
+msgid "exc_denied_has_team_assignments"
+msgstr "Motivo: in questo esercizio sono presenti incarichi di squadra."
+
+msgid "exc_direct_no_submit"
+msgstr "Non consegnare"
+
+msgid "exc_direct_submit"
+msgstr "Consegna"
+
+msgid "exc_direct_submit_blog"
+msgstr "Volete pubblicare ora la versione attuale del blog? Potete farlo piu'tardi in qualsiasi momento dal blog editor."
+
+msgid "exc_direct_submit_portfolio"
+msgstr "Volete pubblicare ora la versione attuale del portfolio? Potete farlo piu'tardi in qualsiasi momento dal portfolio editor."
+
+msgid "exc_down_files_started_bg"
+msgstr "Motivo: in questo esercizio sono presenti incarichi di squadra."
+
+#, fuzzy
+msgid "exc_download_selected"
+msgstr "Download Selected Submission"
+
+msgid "exc_download_zip_structure"
+msgstr "Scarica struttura ZIP"
+
+msgid "exc_earliest_start_time"
+msgstr "Prima ora di inizio"
+
+msgid "exc_edit_assignment"
+msgstr "edita assegnazione"
+
+msgid "exc_edit_assignments"
+msgstr "edita assegnazioni"
+
+#, fuzzy
+msgid "exc_edit_blog"
+msgstr "Edit Blog"
+
+msgid "exc_edit_criterias"
+msgstr "Modifica criteri"
+
+#, fuzzy
+msgid "exc_edit_portfolio"
+msgstr "Edit Portfolio"
+
+msgid "exc_edit_submission"
+msgstr "edita richiesta"
+
+#, fuzzy
+msgid "exc_edit_wiki"
+msgstr "Edit Wiki"
+
+#, fuzzy
+msgid "exc_ended"
+msgstr "Ended"
+
+msgid "exc_ended_on"
+msgstr "Finito il"
+
+msgid "exc_export_excel"
+msgstr "Esporta (Excel)"
+
+msgid "exc_fb_files"
+msgstr "file di feedback"
+
+msgid "exc_fb_tutor_info"
+msgstr "Quando viene caricato un file di feedback, viene inviata una notifica all'utente e il file di feedback verrà elencato nella visualizzazione di assegnazione dell'utente."
+
+msgid "exc_feedback"
+msgstr "Feedback"
+
+msgid "exc_feedback_notification_body"
+msgstr "Il feedback adesso è disponibile per la seguente assegnazione."
+
+msgid "exc_feedback_notification_link"
+msgstr "Link all’esercizio"
+
+msgid "exc_feedback_notification_reason"
+msgstr "Ricevi questa email perché partecipi all'esercizio menzionato sopra."
+
+msgid "exc_feedback_notification_subject"
+msgstr "Il feedback è disponibile per l'assegnazione dell'esercizio \"%s\""
+
+msgid "exc_files_returned_text"
+msgstr "Assegnazione del testo"
+
+msgid "exc_find_zip_error"
+msgstr "La presentazione non può essere aperta. I file originali non sono stati trovati."
+
+msgid "exc_fixed_date"
+msgstr "Appuntamento fissato"
+
+#, fuzzy
+msgid "exc_fixed_date_individual"
+msgstr "Individual Deadlines Only"
+
+#, fuzzy
+msgid "exc_fixed_date_individual_info"
+msgstr "There is no common deadline. Tutors must set individual deadlines for each participant individually."
+
+msgid "exc_fixed_date_info"
+msgstr "Inizialmente tutti gli utenti ottengono la stessa scadenza fissa."
+
+#, fuzzy
+msgid "exc_fullscreen"
+msgstr "Fullscreen"
+
+#, fuzzy
+msgid "exc_future"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "exc_given_feedback"
+msgstr "Given Feedback"
+
+msgid "exc_global_feedback_file"
+msgstr "File di feedback per tutti gli studenti"
+
+msgid "exc_global_feedback_file_after_date"
+msgstr "Dopo la data impostata"
+
+msgid "exc_global_feedback_file_cron"
+msgstr "Notifica"
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr "Tutti gli studenti riceveranno una notifica tramite cron job quando il file di feedback sarà disponibile."
+
+msgid "exc_global_feedback_file_date"
+msgstr "Disponibilità"
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr "Dopo la scadenza"
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr "Dopo la presentazione"
+
+msgid "exc_go_to_exercise"
+msgstr "Vai all’esercizio"
+
+#, fuzzy
+msgid "exc_graded_mem_notified"
+msgstr "All graded participants have been notified."
+
+msgid "exc_grades"
+msgstr "Panoramica Gradi"
+
+msgid "exc_grades_overview"
+msgstr "Vista Gradi"
+
+msgid "exc_hand_in"
+msgstr "Consegna"
+
+#, fuzzy
+msgid "exc_hand_in_lead_text"
+msgstr "%s to Submit"
+
+#, fuzzy
+msgid "exc_idl_request_and_tutor_needed"
+msgstr "Please send a request to your tutor for setting an individual deadline for you."
+
+#, fuzzy
+msgid "exc_idl_tutor_needed"
+msgstr "You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set."
+
+msgid "exc_import"
+msgstr "Importa esercizio"
+
+msgid "exc_individual_deadline"
+msgstr "Scadenza singola"
+
+msgid "exc_individual_deadline_action"
+msgstr "Imposta scadenza singola"
+
+msgid "exc_individual_deadline_before_global"
+msgstr "La data deve essere successiva all’(ultima) scadenza: %s."
+
+msgid "exc_instruction_files"
+msgstr "File di istruzioni"
+
+#, fuzzy
+msgid "exc_instruction_migration_not_run"
+msgstr "The instruction file migration has not been finished yet. Please contact your system administrator."
+
+msgid "exc_late_submission"
+msgstr "Presentazione tardiva"
+
+msgid "exc_late_submission_warning"
+msgstr "Le presentazione successive a %s sono segnate come tardive."
+
+#, fuzzy
+msgid "exc_lead_request_idl"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_lead_wait_for_idl"
+msgstr "Waiting For Individual Deadline"
+
+msgid "exc_limit_characters"
+msgstr "Limiti dei caratteri"
+
+#, fuzzy
+msgid "exc_link_to_assignment"
+msgstr "Link to assignment"
+
+msgid "exc_list_submission"
+msgstr "Lista richieste"
+
+msgid "exc_list_text_assignment"
+msgstr "Elenca tutte le presentazioni"
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr "Promemoria tutor/insegnanti per valutare un compito"
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr "Promemoria del grado di esercizio"
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr "Ricorda agli utenti di fornire feedback in un'assegnazione"
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr "Feedback sull'esercizio/promemoria tra pari"
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr "Titolo dell'incarico"
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr "Titolo dell'esercizio"
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr "Ricorda agli utenti di inviare un compito"
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr "Esercizio Invia promemoria"
+
+msgid "exc_mail_permanent_link"
+msgstr "Clicca sul prossimo link per accedere all'esercizio."
+
+msgid "exc_manage_team"
+msgstr "Gestisci squadra"
+
+msgid "exc_mandatory"
+msgstr "Obbligatorio"
+
+msgid "exc_mandatory_info"
+msgstr "I compiti obbligatori devono essere superati per superare l'intero esercizio"
+
+msgid "exc_mandatory_rand_determined"
+msgstr "Determinato a caso"
+
+msgid "exc_max_char_limit"
+msgstr "Numero massimo di caratteri"
+
+msgid "exc_max_file"
+msgstr "Numero massimo di file"
+
+msgid "exc_max_file_info"
+msgstr "I partecipanti non potranno caricare più file una volta raggiunto il limite."
+
+msgid "exc_max_file_reached"
+msgstr "Non puoi caricare più di %s file."
+
+msgid "exc_max_file_tgl"
+msgstr "Limite caricato"
+
+msgid "exc_max_team_participants"
+msgstr "Numero massimo"
+
+msgid "exc_members_already_assigned_team"
+msgstr "Questo utente è già assegnato a una squadra."
+
+msgid "exc_min_char_limit"
+msgstr "Numero minimo di caratteri"
+
+msgid "exc_min_nr"
+msgstr "Numero compiti"
+
+msgid "exc_min_nr_info"
+msgstr "Questo valore deve essere uguale o superiore al numero di incarichi obbligatori."
+
+msgid "exc_min_team_participants"
+msgstr "Numero minimo"
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr "I compiti obbligatori devono essere superati per superare l'intero esercizio."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_body"
+msgstr "the following user requested an individual deadline."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_subject"
+msgstr "A deadline has been requested in exercise \"%s\"."
+
+msgid "exc_msg_failed_mandatory"
+msgstr "Hai sbagliato almeno un compito obbligatorio."
+
+#, fuzzy
+msgid "exc_msg_grading_done"
+msgstr "An assignment has been graded in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_grading_done_body"
+msgstr "a tutor has graded your submission in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_idl_set_body"
+msgstr "a new individual deadline has been set."
+
+#, fuzzy
+msgid "exc_msg_idl_set_subject"
+msgstr "A new deadline has been set in exercise \"%s\"."
+
+msgid "exc_msg_min_number_ass"
+msgstr "Devi superare un minimo di %s compiti per superare l'esercizio."
+
+msgid "exc_msg_missed_minimum_number"
+msgstr "Non hai superato il numero minimo di compiti."
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr "Un nuovo feedback è stato aggiunto all'esercizio \"%s\"."
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr "Un tutor ha caricato un nuovo file di feedback per te."
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr "Un nuovo commento è stato aggiunto all’esercizio \"%s\"."
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr "un tutor ha aggiunto un commento per te."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr "A new message from a peer feedback giver has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr "a peer feedback giver has added a new message for you:"
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr "A new message from a peer feedback recipient has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr "a peer feedback recipient has added a new message for you:"
+
+msgid "exc_msg_participants_removed"
+msgstr "I partecipanti sono stati rimossi dall'esercizio."
+
+msgid "exc_msg_public_submission"
+msgstr "Tutte le richieste saranno pubblicate dopo la scadenza."
+
+msgid "exc_msg_saved_grades"
+msgstr "I gradi sono stati salvati."
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr "Siete sicuri di rimuovere i partecipanti da tutti i compiti dell'esercizio? questo cancellera' tutti i loro dati nelle risorse!"
+
+msgid "exc_multi_feedb_info"
+msgstr "In questa schermata è possibile caricare più feedback in un unico file. Fai prima clic su \"Scarica ZIP Structure\", salva il file ZIP ed estrailo sul tuo computer locale. Inserire i file di feedback nelle directory utente corrispondenti. Ora comprimi l'intera directory come un unico file ZIP. Cerca il file system locale per il file e selezionalo come \"File multi-feedback\" nel modulo seguente. Successivamente fai clic su \"Carica\". Una schermata di conferma elencherà i file. Si prega di evitare l'uso di caratteri speciali nei nomi dei file."
+
+msgid "exc_multi_feedback"
+msgstr "Dare un riscontro a più partecipanti"
+
+msgid "exc_multi_feedback_file"
+msgstr "File multi-feedback"
+
+msgid "exc_multi_feedback_files"
+msgstr "File multi-feedback"
+
+msgid "exc_needs_deadline"
+msgstr "Questa funzionalità funziona solo con una scadenza di assegnazione."
+
+msgid "exc_needs_fixed_deadline"
+msgstr "Questa funzione necessita di un termine ultimo per la consegna."
+
+msgid "exc_new_assignment"
+msgstr "Nuovo compito"
+
+#, fuzzy
+msgid "exc_no_assignments"
+msgstr "No assignments available."
+
+msgid "exc_no_assignments_available"
+msgstr "Non vi sono compiti. Apri \"Compiti\" e \"Edit\" per creare un primo compito."
+
+#, fuzzy
+msgid "exc_no_deadline"
+msgstr "No Deadline"
+
+#, fuzzy
+msgid "exc_no_deadline_info"
+msgstr "There is no submission deadline for participants."
+
+msgid "exc_no_deadline_specified"
+msgstr "Non e'specificata alcuna scadenza."
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr "Impossibile elaborare la struttura di directory dell'archivio zip caricato."
+
+msgid "exc_no_get_target"
+msgstr "Non è stato inviato un obiettivo valido."
+
+#, fuzzy
+msgid "exc_no_graded_mem_selected"
+msgstr "Please select at least one graded participant."
+
+msgid "exc_no_participants"
+msgstr "Non ci sono iscritti."
+
+#, fuzzy
+msgid "exc_no_peer_feedback_deadline"
+msgstr "No Deadline for Giving Feedback"
+
+msgid "exc_no_portfolio_templates"
+msgstr "Non ci sono modelli di portfolio disponibili."
+
+#, fuzzy
+msgid "exc_no_submission_yet"
+msgstr "No submission yet."
+
+msgid "exc_no_team_yet"
+msgstr "Ancora nessun Team"
+
+msgid "exc_no_team_yet_info"
+msgstr "È possibile creare una squadra da soli o essere aggiunti a una squadra esistente dai membri della squadra."
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr "Le squadre sono gestite dai tutor di esercizi."
+
+msgid "exc_no_team_yet_notice"
+msgstr "Non sei ancora stato assegnato a una squadra!"
+
+msgid "exc_note_for_tutor"
+msgstr "Nota per i tutor"
+
+msgid "exc_notification"
+msgstr "Notifica personale"
+
+msgid "exc_nr_random_mand"
+msgstr "Numero di consegne obbligatorie"
+
+msgid "exc_num_teams"
+msgstr "Numero"
+
+#, fuzzy
+msgid "exc_ongoing"
+msgstr "Ongoing"
+
+#, fuzzy
+msgid "exc_optional"
+msgstr "Optional"
+
+msgid "exc_order_by_deadline"
+msgstr "Ordina per scadenza"
+
+msgid "exc_overview"
+msgstr "Panoramica"
+
+msgid "exc_participant"
+msgstr "Iscritto"
+
+msgid "exc_participant_view"
+msgstr "Vista Iscritti"
+
+msgid "exc_participants"
+msgstr "Partecipanti"
+
+msgid "exc_pass_all"
+msgstr "Tutti i compiti obbligatori"
+
+msgid "exc_pass_all_info"
+msgstr "Tutti i compiti obbligatori devono essere superati per passare l'esercizio."
+
+msgid "exc_pass_minimum_nr"
+msgstr "Numero Minimo di Compiti"
+
+msgid "exc_pass_minimum_nr_info"
+msgstr "Tutti i compiti obbligatori devono essere superati per passare l'esercizio. Questo valore deve essere maggiore o uguale al numero di compiti obbligatori."
+
+msgid "exc_pass_mode"
+msgstr "Modalità pass"
+
+msgid "exc_pass_mode_not_changeable_info"
+msgstr "Questa opzione non può più essere cambiata."
+
+msgid "exc_passed_status_determination"
+msgstr "Determinazione dello Staus \"superato\""
+
+msgid "exc_passing_exc"
+msgstr "Superamento dell’esercizio"
+
+#, fuzzy
+msgid "exc_past"
+msgstr "Past"
+
+msgid "exc_peer_deadline_mismatch"
+msgstr "Poiché il feedback è dato dopo che la scadenza ha superato il termine di feedback non deve essere precedente al termine di assegnazione."
+
+#, fuzzy
+msgid "exc_peer_feedback_status"
+msgstr "Feedback Status"
+
+msgid "exc_peer_review"
+msgstr "Feedback tra pari"
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr "Se abilitato, gli utenti possono valutare i propri colleghi dopo la scadenza."
+
+msgid "exc_peer_review_chars_invalid"
+msgstr "Almeno uno dei tuoi feedback non ha la lunghezza minima richiesta di %s caratteri."
+
+msgid "exc_peer_review_completion"
+msgstr "Definizione di stato \"superato\""
+
+msgid "exc_peer_review_completion_all"
+msgstr "Tutti i feedback richiesti"
+
+msgid "exc_peer_review_completion_all_info"
+msgstr "L'assegnazione verrà automaticamente impostata su \"Passato\" solo dopo l'invio di una soluzione e tutti i feedback richiesti."
+
+msgid "exc_peer_review_completion_none"
+msgstr "Il feedback tra pari è opzionale"
+
+msgid "exc_peer_review_completion_none_info"
+msgstr "L'assegnazione verrà automaticamente impostata su \"superato\" dopo l'invio, indipendentemente dal feedback fornito o meno."
+
+msgid "exc_peer_review_completion_one"
+msgstr "Almeno un feedback"
+
+msgid "exc_peer_review_completion_one_info"
+msgstr "L'assegnazione verrà automaticamente impostata su \"superato\" solo dopo l'invio di una soluzione e almeno un feedback."
+
+msgid "exc_peer_review_deadline"
+msgstr "Scadenza feedback"
+
+msgid "exc_peer_review_deadline_info"
+msgstr "Il feedback può essere fornito fino a questa data e il feedback ricevuto è accessibile solo da quel momento."
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr "Scadenza: %s"
+
+msgid "exc_peer_review_deadline_reached"
+msgstr "Tempo del feedback scaduto."
+
+msgid "exc_peer_review_file"
+msgstr "File caricato"
+
+msgid "exc_peer_review_file_info"
+msgstr "Consenti ai pari di caricare un file per la revisione"
+
+msgid "exc_peer_review_give"
+msgstr "Fornisci Feedback"
+
+msgid "exc_peer_review_given"
+msgstr "Mostra feedback forniti"
+
+msgid "exc_peer_review_giver"
+msgstr "Dispensatore del feedback"
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr "I partecipanti peer che non sono più membri dell’esercizio o non hanno una presentazione"
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr "I destinatari peer che non sono più membri dell’esercizio o non hanno una presentazione"
+
+msgid "exc_peer_review_min_chars"
+msgstr "Numero minimo dei caratteri"
+
+msgid "exc_peer_review_min_chars_info"
+msgstr "Numero dei caratteri richiesti per un feedback valido."
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr "Lunghezza minima"
+
+msgid "exc_peer_review_min_number"
+msgstr "Numero di feedback fornito richiesto per visualizzare il feedback personale"
+
+msgid "exc_peer_review_min_number_info"
+msgstr "Questo numero di altri lavori degli utenti deve essere valutato da un partecipante prima che sia visibile la valutazione del proprio lavoro."
+
+msgid "exc_peer_review_missing_info"
+msgstr "Per vedere i feedback ricevuti, è necessario fornire dei %s feedback."
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr "Per vedere i feedback ricevuti, è necessario fornire dei %1$s feedback. L’accesso sarà concesso su: %2$s."
+
+msgid "exc_peer_review_missing_users"
+msgstr "Gli utenti con presentazioni che non fanno parte del feedback tra pari"
+
+msgid "exc_peer_review_no_peers"
+msgstr "Non ci sono pari per fornire un feedback."
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr "Non sono ancora stati forniti dei feedback."
+
+msgid "exc_peer_review_not_returned_users"
+msgstr "Gli utenti senza presentazioni che non fanno parte del feedback tra pari"
+
+msgid "exc_peer_review_overview"
+msgstr "Mostra gruppi peer"
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr "Utenti non validi"
+
+msgid "exc_peer_review_personal"
+msgstr "Feedback tra pari personalizzato"
+
+msgid "exc_peer_review_personal_info"
+msgstr "I pari vengono mostrati con il nome completo"
+
+msgid "exc_peer_review_rating"
+msgstr "Classificazione"
+
+msgid "exc_peer_review_recipient"
+msgstr "Destinatario del feedback"
+
+msgid "exc_peer_review_reset"
+msgstr "Elimina e ripristina il feedback tra pari"
+
+msgid "exc_peer_review_reset_done"
+msgstr "Tutti i dati relativi al feedback tra pari sono stati eliminati per l’assegnazione."
+
+msgid "exc_peer_review_reset_sure"
+msgstr "Sei sicuro di voler eliminare il feedback tra pari completo per l’assegnazione \"%s\"?"
+
+msgid "exc_peer_review_show"
+msgstr "Mostra feedback ricevuti"
+
+msgid "exc_peer_review_show_missing"
+msgstr "Non puoi visualizzare i feedback ricevuti se non hai fornito abbastanza feedback."
+
+msgid "exc_peer_review_show_received_none"
+msgstr "Non hai ricevuto alcun feedback."
+
+msgid "exc_peer_review_simple_unlock"
+msgstr "Accesso ai feedback ricevuti"
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr "Dopo aver fornito almeno 1 feedback valido"
+
+#, fuzzy
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr "Always show received peer feedback"
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr "Dopo aver fornito tutti i feedback richiesti"
+
+msgid "exc_peer_review_text"
+msgstr "Immissione di testo"
+
+msgid "exc_peer_review_updated"
+msgstr "Il tuo riscontro è stato salvato."
+
+#, fuzzy
+msgid "exc_peer_reviews_in_lead_text"
+msgstr "%s to Give Feedback"
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr "Gruppi peer non validi"
+
+msgid "exc_portfolio_created"
+msgstr "Il portfolio e'stato creato"
+
+msgid "exc_portfolio_returned"
+msgstr "Assegnazione Portfolio"
+
+msgid "exc_portfolio_selected"
+msgstr "Il portfolio è stato assegnato"
+
+msgid "exc_portfolio_template"
+msgstr "Modello di portfolio"
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr "Portfolio rimosso da questa assegnazione"
+
+msgid "exc_presentation_order"
+msgstr "Ordine presentazione"
+
+#, fuzzy
+msgid "exc_print_pdf"
+msgstr "Print/PDF"
+
+msgid "exc_public_submission"
+msgstr "Presentazione pubblica"
+
+msgid "exc_publishing"
+msgstr "Pubblicazione"
+
+msgid "exc_rand_nr_mandatory"
+msgstr "Numero di domande obbligatorie"
+
+msgid "exc_rand_overall_ass"
+msgstr "Numero complessivo di domande"
+
+msgid "exc_random"
+msgstr "Casuale"
+
+msgid "exc_random_assignment"
+msgstr "Selezione casuale"
+
+msgid "exc_random_assignment_info"
+msgstr "When starting the exercise some assignments will be randomly selected being mandatory for you."
+
+msgid "exc_random_selection"
+msgstr "Selezione casuale"
+
+msgid "exc_random_selection_info"
+msgstr "Ad ogni utente viene assegnata una selezione casuale di domande obbligatorie."
+
+msgid "exc_random_selection_not_changeable_info"
+msgstr "Questa opzione non può essere attivata."
+
+#, fuzzy
+msgid "exc_received_feedback"
+msgstr "Received Feedbacks"
+
+msgid "exc_rel_last_submission"
+msgstr "Ultimo termine utile per la consegna"
+
+msgid "exc_rel_last_submission_info"
+msgstr "Se viene impostata una data, tutte le consegne devono avvenire prima di tale termine."
+
+#, fuzzy
+msgid "exc_rel_start_latest_lead_text"
+msgstr "%s the Latest"
+
+#, fuzzy
+msgid "exc_rel_start_lead_text"
+msgstr "Submit %s Days After Start"
+
+msgid "exc_relative_date"
+msgstr "Data relativa"
+
+msgid "exc_relative_date_info"
+msgstr "La scadenza è impostata individualmente rispetto al momento in cui un utente ha iniziato l'incarico."
+
+#, fuzzy
+msgid "exc_relative_date_period"
+msgstr "Working Time"
+
+msgid "exc_rem_time_after_start"
+msgstr "Tempo rimanente dopo l'avvio"
+
+msgid "exc_reminder_cron_ok"
+msgstr "Promemoria inviati:"
+
+msgid "exc_reminder_end"
+msgstr "Il promemoria termina"
+
+msgid "exc_reminder_feedback_setting"
+msgstr "Ricorda ai partecipanti di feedback"
+
+msgid "exc_reminder_feedback_start"
+msgstr "Avvia promemoria prima della scadenza del feedback"
+
+msgid "exc_reminder_frequency"
+msgstr "Frequenza"
+
+msgid "exc_reminder_grade_body"
+msgstr "il seguente incarico non è stato ancora valutato da te"
+
+msgid "exc_reminder_grade_setting"
+msgstr "Ricorda ai tutor di voto"
+
+msgid "exc_reminder_grade_subject"
+msgstr "L'assegnazione \"%s\" non è stata classificata"
+
+msgid "exc_reminder_link"
+msgstr "URL"
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr "Non utilizzare il modello di posta"
+
+msgid "exc_reminder_mail_template"
+msgstr "Modello e-mail"
+
+msgid "exc_reminder_peer_body"
+msgstr "il seguente incarico non ha ancora feedback da parte tua"
+
+msgid "exc_reminder_peer_subject"
+msgstr "L'assegnazione \"%s\" non ha feedback"
+
+msgid "exc_reminder_salutation"
+msgstr "Ciao%s,"
+
+msgid "exc_reminder_start"
+msgstr "Avvia promemoria prima della scadenza"
+
+msgid "exc_reminder_start_info"
+msgstr "A tutti i membri del corso / gruppo parent verranno inviati promemoria. <br> Nessun corso / gruppo parent girven - nessun promemoria verrà inviato!"
+
+msgid "exc_reminder_submit_body"
+msgstr "il seguente incarico non è stato ancora completato da te"
+
+msgid "exc_reminder_submit_setting"
+msgstr "Ricorda agli utenti di inviare"
+
+msgid "exc_reminder_submit_subject"
+msgstr "L'assegnazione \"%s\" non è stata completata"
+
+msgid "exc_reminders_cron"
+msgstr "Promemoria per le assegnazioni"
+
+msgid "exc_reminders_cron_info"
+msgstr "Se abilitato, saranno attivi 3 promemoria: Utenti da inviare, Tutor da classificare e Partecipanti a Feedback."
+
+#, fuzzy
+msgid "exc_reminders_cron_not_active"
+msgstr "Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated."
+
+#, fuzzy
+msgid "exc_request_deadline"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_requirement"
+msgstr "Requirement"
+
+#, fuzzy
+msgid "exc_review_anytime"
+msgstr "Give Feedback Anytime"
+
+msgid "exc_save_all"
+msgstr "Salva tutto"
+
+msgid "exc_save_order"
+msgstr "Salva Ordine"
+
+msgid "exc_save_selected"
+msgstr "Salva selezione"
+
+msgid "exc_saved_order"
+msgstr "Ordine presentazione salvato"
+
+msgid "exc_select_ass"
+msgstr "Seleziona Compiti"
+
+msgid "exc_select_blog"
+msgstr "Usa blog esistente"
+
+msgid "exc_select_blog_change"
+msgstr "Usa blog differente"
+
+msgid "exc_select_blog_info"
+msgstr "Seleziona uno dei tuoi blog per usarlo all'interno del compito"
+
+#, fuzzy
+msgid "exc_select_blog_unlink"
+msgstr "Remove Blog"
+
+msgid "exc_select_portfolio"
+msgstr "Usa Portfolio esistente"
+
+msgid "exc_select_portfolio_change"
+msgstr "Usa Portfolio diverso"
+
+msgid "exc_select_portfolio_info"
+msgstr "Seleziona uno dei tuoi portfolio per usarlo all'interno di questo compito."
+
+msgid "exc_select_portfolio_unlink"
+msgstr "Rimuovi portfolio"
+
+msgid "exc_send_assignment"
+msgstr "Invia Compito per email"
+
+#, fuzzy
+msgid "exc_send_grading_notification"
+msgstr "Send Grading Notification"
+
+#, fuzzy
+msgid "exc_set_failed"
+msgstr "Set as Failed"
+
+#, fuzzy
+msgid "exc_set_passed"
+msgstr "Set as Passed"
+
+msgid "exc_settings_feedback"
+msgstr "Riscontro"
+
+msgid "exc_settings_feedback_file"
+msgstr "Tramite File"
+
+msgid "exc_settings_feedback_file_info"
+msgstr "I tutor caricano un file. Il partecipante riceve una notifica e può accedere al file nella panoramica dell'assegnazione."
+
+msgid "exc_settings_feedback_mail"
+msgstr "Tramite Mail"
+
+msgid "exc_settings_feedback_mail_info"
+msgstr "I tutor inseriscono la loro valutazione in un modulo di posta. La valutazione viene inviata ai partecipanti."
+
+msgid "exc_settings_feedback_text"
+msgstr "Immissione di testo"
+
+msgid "exc_settings_feedback_text_info"
+msgstr "I tutor digitano la loro valutazione in un campo di testo. Il partecipante riceve una notifica e il testo viene visualizzato nella panoramica dell'assegnazione."
+
+#, fuzzy
+msgid "exc_show_instructions"
+msgstr "Show Work Instructions"
+
+#, fuzzy
+msgid "exc_show_more"
+msgstr "Show More"
+
+msgid "exc_show_peer_review"
+msgstr "Mostra feedback tra pari"
+
+msgid "exc_show_submissions"
+msgstr "Pubblica le richieste dopo la scadenza"
+
+msgid "exc_show_submissions_info"
+msgstr "Pubblica le richieste a tutti i discenti dopo la scadenza"
+
+msgid "exc_start_assignment"
+msgstr "Inizia assegnazione"
+
+msgid "exc_start_exercise"
+msgstr "Inizia esercizio"
+
+msgid "exc_start_time"
+msgstr "Ora di inizio"
+
+msgid "exc_starting_on"
+msgstr "Inizia il"
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr "Link all'esercizio (presentazioni e voti): %s"
+
+msgid "exc_submission_downloads_notification_link"
+msgstr "Scarica nuove presentazioni: %s"
+
+msgid "exc_submission_file"
+msgstr "File di invio"
+
+msgid "exc_submission_no_new_files"
+msgstr "Non sono disponibili nuove presentazioni."
+
+msgid "exc_submission_notification"
+msgstr "Email di notifica sulle richieste"
+
+msgid "exc_submission_notification_body"
+msgstr "Una nuova richiesta e'stata caricata per l'esercizio \"%s\""
+
+msgid "exc_submission_notification_info"
+msgstr "Riceverai una notifica quando vengono caricati gli invii. Questa è un'impostazione personale che non influisce sugli altri amministratori dell'esercizio."
+
+msgid "exc_submission_notification_link"
+msgstr "Link all'esercizio: %s"
+
+msgid "exc_submission_notification_subject"
+msgstr "Una nuova richiesta e'stata caricata per l'esercizio \"%s\""
+
+#, fuzzy
+msgid "exc_submission_open_notification_link"
+msgstr "Open submission: %s"
+
+msgid "exc_submission_text"
+msgstr "Testo di presentazione"
+
+msgid "exc_submissions_and_grades"
+msgstr "Richieste e Gradi"
+
+#, fuzzy
+msgid "exc_submit_anytime"
+msgstr "Submit Anytime"
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr "Invia il tuo a tuo piacimento. Non c’è una scadenza specifica."
+
+msgid "exc_submitted_files_deleted"
+msgstr "I file selezionati sono stati cancellati."
+
+#, fuzzy
+msgid "exc_sure_unlink_blog"
+msgstr "Are you sure to remove this blog form this assignment?"
+
+msgid "exc_sure_unlink_portfolio"
+msgstr "Sei sicuro di voler rimuovere questo portfolio da questa assegnazione?"
+
+msgid "exc_target_not_valid"
+msgstr "L’obiettivo richiesto non è valido o è incompleto."
+
+msgid "exc_task_grading"
+msgstr "Valutazione del compito \"%1\""
+
+msgid "exc_task_peer_feedback"
+msgstr "Dare un riscontro tra pari per il compito \"%1\""
+
+msgid "exc_task_submission"
+msgstr "Consegna del compito \"%1\""
+
+msgid "exc_tbl_action_download_all_files"
+msgstr "Scarica tutte le presentazioni"
+
+msgid "exc_tbl_action_download_files"
+msgstr "Scarica presentazioni"
+
+msgid "exc_tbl_action_download_new_files"
+msgstr "Scarica nuove presentazioni"
+
+msgid "exc_tbl_action_feedback_file"
+msgstr "Invia feedback come file"
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr "Invia feedback come posta"
+
+msgid "exc_tbl_action_feedback_text"
+msgstr "Invia feedback come testo"
+
+msgid "exc_tbl_action_open_submission"
+msgstr "Apri consegne"
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr "Mostra feedback tra pari forniti"
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr "Mostra feedback tra pari ricevuti"
+
+msgid "exc_tbl_action_team_log"
+msgstr "Mostra registro di squadra"
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr "Mostra presentazioni"
+
+msgid "exc_tbl_calculated_deadline"
+msgstr "Scadenza calcolata"
+
+msgid "exc_tbl_comment"
+msgstr "Feedback Testo"
+
+msgid "exc_tbl_feedback_time"
+msgstr "Feedback attivo"
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr "Non ha ancora presentato"
+
+msgid "exc_tbl_filter_has_submission"
+msgstr "Ha presentato"
+
+msgid "exc_tbl_filter_submission"
+msgstr "Presentazione"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_after"
+msgstr "Submission After"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_before"
+msgstr "Submission Before"
+
+msgid "exc_tbl_individual_deadline"
+msgstr "Scadenza singola"
+
+msgid "exc_tbl_mark"
+msgstr "Segno"
+
+msgid "exc_tbl_notice"
+msgstr "Nota per i tutor"
+
+msgid "exc_tbl_sent_time"
+msgstr "Assegnazione inviata"
+
+msgid "exc_tbl_status"
+msgstr "Punteggio"
+
+msgid "exc_tbl_status_time"
+msgstr "Classificato su"
+
+msgid "exc_tbl_submission_date"
+msgstr "Presentato il"
+
+msgid "exc_tbl_team"
+msgstr "Squadra"
+
+msgid "exc_team"
+msgstr "Squadra"
+
+msgid "exc_team_assignment_adopt"
+msgstr "Adotta la squadra da un’assegnazione esistente"
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr "già assegnata"
+
+msgid "exc_team_assignment_adopt_none"
+msgstr "Non adottare alcuna squadra"
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr "Crea nuova squadra"
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr "Squadre"
+
+msgid "exc_team_assignment_adopt_user"
+msgstr "Adotta squadra da un’assegnazione"
+
+msgid "exc_team_at_least_one"
+msgstr "Almeno un membro del team deve essere  presente."
+
+msgid "exc_team_by_assignment"
+msgstr "Adotta squadre dall'assegnazione"
+
+msgid "exc_team_by_assignment_info"
+msgstr "Le squadre formate in altri incarichi verranno utilizzate anche per questo compito."
+
+msgid "exc_team_by_participants"
+msgstr "I partecipanti si auto-organizzano formando squadre"
+
+msgid "exc_team_by_participants_info"
+msgstr "I partecipanti optano per i team."
+
+msgid "exc_team_by_random"
+msgstr "Le squadre si formano casualmente e automaticamente."
+
+msgid "exc_team_by_random_add_info"
+msgstr "Si noti che è necessario assegnare tutti i partecipanti prima di utilizzare questa modalità."
+
+msgid "exc_team_by_random_info"
+msgstr "ILIAS assegnerà i partecipanti a un determinato numero di squadre."
+
+msgid "exc_team_by_tutors"
+msgstr "Le squadre sono formate da tutor."
+
+msgid "exc_team_by_tutors_info"
+msgstr "I tutor assegnano i partecipanti alle squadre, i partecipanti non possono auto-organizzarsi."
+
+msgid "exc_team_by_tutors_manual"
+msgstr "Manualmente"
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr "I tutor assegnano manualmente i partecipanti ai team."
+
+msgid "exc_team_creation"
+msgstr "Creazione"
+
+msgid "exc_team_formation"
+msgstr "Formazione Team"
+
+msgid "exc_team_log"
+msgstr "Log di squadra"
+
+msgid "exc_team_log_add_file"
+msgstr "Aggiunto file %s."
+
+msgid "exc_team_log_add_member"
+msgstr "Aggiunto membro %s."
+
+msgid "exc_team_log_create_team"
+msgstr "Team creato."
+
+#, fuzzy
+msgid "exc_team_log_remove_file"
+msgstr "Removed file %s."
+
+msgid "exc_team_log_remove_member"
+msgstr "Eliminato membro %s."
+
+msgid "exc_team_max_small_than_members"
+msgstr "Il numero massimo di partecipanti non può essere impostato come %s perché alcuni team devono essere impostati con %s partecipanti."
+
+msgid "exc_team_member_add"
+msgstr "Aggiungi Membro Team (Ricerca)"
+
+msgid "exc_team_member_container_add"
+msgstr "Aggiungi Membro Team da Corso o Gruppo"
+
+msgid "exc_team_member_remove_sure"
+msgstr "Sei sicuro di voler rimuovere i seguenti membri della tua squadra? Si prega di ricordare che tutti i file caricati verranno anche rimossi dalla propria squadra."
+
+msgid "exc_team_members"
+msgstr "Membri del Team"
+
+msgid "exc_team_min_big_than_max"
+msgstr "Il numero massimo di partecipanti al team non può essere inferiore al numero minimo di partecipanti al team."
+
+msgid "exc_team_min_small_than_members"
+msgstr "Il numero minimo di partecipanti non può essere impostato come %s perché i team sono impostati con %s partecipanti."
+
+msgid "exc_team_minimal_too_big"
+msgstr "Il numero minimo di partecipanti al team %s è troppo grande, si prega di ridurre il valore."
+
+msgid "exc_team_multi_create"
+msgstr "Crea squadra"
+
+msgid "exc_team_multi_dissolve"
+msgstr "Sciogli squadra/e"
+
+msgid "exc_team_notification_body_add"
+msgstr "sei stato aggiunto ad un compito di caricamento team."
+
+msgid "exc_team_notification_body_rmv"
+msgstr "sei stato eliminato da un compito di caricamento team."
+
+msgid "exc_team_notification_link"
+msgstr "Link all'esercizio"
+
+msgid "exc_team_notification_reason"
+msgstr "Stai ricevendo questa email perché sei un partecipante dell'esercizio sopra menzionato."
+
+msgid "exc_team_notification_subject_add"
+msgstr "Sei stato aggiunto come membro del team per caricare compiti"
+
+msgid "exc_team_notification_subject_rmv"
+msgstr "Rimosso da un compito"
+
+msgid "exc_teams_assignment_adopted"
+msgstr "Squadre adottate dall'incarico esistente"
+
+msgid "exc_template"
+msgstr "Modello"
+
+msgid "exc_text_assignment_edit"
+msgstr "Modifica testo"
+
+msgid "exc_text_assignment_show"
+msgstr "Mostra testo"
+
+msgid "exc_text_saved"
+msgstr "Il testo è stato salvato."
+
+#, fuzzy
+msgid "exc_too_many_files"
+msgstr "The upload contains too many files."
+
+msgid "exc_total_exc"
+msgstr "Totale esercizio"
+
+msgid "exc_total_members"
+msgstr "Membri totali dell'esercizio"
+
+#, fuzzy
+msgid "exc_type"
+msgstr "Type"
+
+msgid "exc_type_blog"
+msgstr "Blog"
+
+msgid "exc_type_portfolio"
+msgstr "Portfolio"
+
+msgid "exc_type_text"
+msgstr "Testo"
+
+msgid "exc_type_upload"
+msgstr "Carica"
+
+msgid "exc_type_upload_team"
+msgstr "Squadra caricata"
+
+msgid "exc_value_can_not_set"
+msgstr "Questo valore non può essere impostato."
+
+#, fuzzy
+msgid "exc_view_portfolio"
+msgstr "View Portfolio"
+
+#, fuzzy
+msgid "exc_view_wiki"
+msgstr "View Wiki"
+
+msgid "exc_wait_for_files"
+msgstr "Il download dovrebbe iniziare automaticamente. Se il download non si avvia in 5 secondi, si prega di cliccare qui"
+
+msgid "exc_wiki_container"
+msgstr "Contenitore Wiki"
+
+msgid "exc_wiki_container_info"
+msgstr "Luogo in cui verranno creati i wiki dei partecipanti."
+
+msgid "exc_with_template"
+msgstr "Con portfolio - Modello"
+
+msgid "exc_with_template_info"
+msgstr "Un portfolio vuoto verrà derivato automaticamente da un modello di portfolio specifico."
+
+msgid "exc_with_wiki_template"
+msgstr "Con modello Wiki"
+
+msgid "exc_with_wiki_template_info"
+msgstr "Il template wiki verrà copiato per creare le wiki dei partecipanti."
+
+msgid "exc_without_template"
+msgstr "Senza portfolio - Modello"
+
+msgid "exc_without_template_info"
+msgstr "I partecipanti creeranno il loro portfolio da zero"
+
+msgid "exc_without_wiki_template"
+msgstr "Senza modello Wiki"
+
+msgid "exc_without_wiki_template_info"
+msgstr "I partecipanti creeranno la loro wiki da zero."
+
+msgid "exc_work_instructions"
+msgstr "Istruzioni del lavoro"
+
+#, fuzzy
+msgid "exc_x_of_y"
+msgstr "of"
+
+msgid "exc_your_text"
+msgstr "Il tuo testo"
+
+msgid "feedback_from"
+msgstr "Feedback da"
+
+msgid "feedback_given"
+msgstr "Feedback dato"
+
+msgid "feedback_received"
+msgstr "Feedback ricevuto"
+
+msgid "fiter_no_results"
+msgstr "Il filtro corrente non corrisponde ad alcun invio."
+
+msgid "grade_evaluate"
+msgstr "Classificare e valutare"
+
+msgid "not_yet"
+msgstr "non ancora"
+
+msgid "submissions_feedback"
+msgstr "Invio e feedback"
+
+msgid "submissions_only"
+msgstr "Solo invii"
+
+msgid "text_assignment"
+msgstr "Assegnazione del testo"

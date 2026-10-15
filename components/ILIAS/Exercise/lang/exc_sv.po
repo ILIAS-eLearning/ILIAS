@@ -1,0 +1,1564 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr "Lägg till träningsenhet"
+
+msgid "exc_add_criteria"
+msgstr "Lägg till kriterium"
+
+msgid "exc_add_criteria_catalogue"
+msgstr "Lägg till katalog"
+
+msgid "exc_add_feedback_file"
+msgstr "Deposit som fil"
+
+msgid "exc_add_participant"
+msgstr "Lägg till deltagare"
+
+msgid "exc_adopt_group_teams"
+msgstr "Bilda team från grupper"
+
+msgid "exc_adopt_group_teams_added"
+msgstr "%s användare har lagts till."
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr "%s användare var redan närvarande."
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr "Användaren \"%1$s\" är redan vald i gruppen \"%2$s\"."
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr "Inga medlemmar"
+
+msgid "exc_after_submission"
+msgstr "Efter leveransen"
+
+#, fuzzy
+msgid "exc_all"
+msgstr "All"
+
+msgid "exc_all_new_files_offered_already"
+msgstr "Alla nya filer har redan erbjudits för nedladdning. För att ladda ner igen, klicka på motsvarande åtgärdslänkar i listan nedan."
+
+msgid "exc_ass_submission_zip"
+msgstr "Skatter"
+
+msgid "exc_ass_team_wiki"
+msgstr "Team Wiki"
+
+msgid "exc_assignment"
+msgstr "Träningsenhet"
+
+#, fuzzy
+msgid "exc_assignment_list"
+msgstr "Assignments List"
+
+msgid "exc_assignment_type"
+msgstr "Typ av leverans"
+
+msgid "exc_assignment_view"
+msgstr "Varje träningspass"
+
+msgid "exc_assignments"
+msgstr "Träningsenheter"
+
+msgid "exc_assignments_deleted"
+msgstr "Träningspassen har tagits bort."
+
+#, fuzzy
+msgid "exc_auto_last_save"
+msgstr "Last saved:"
+
+#, fuzzy
+msgid "exc_auto_save_info"
+msgstr "The text will be saved every 30 seconds, if changes are made."
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_p"
+msgstr "%s minute ago"
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_s"
+msgstr "%s minutes ago"
+
+msgid "exc_blog_created"
+msgstr "Blog skapades."
+
+msgid "exc_blog_returned"
+msgstr "Blogg om träningspass"
+
+msgid "exc_blog_selected"
+msgstr "Bloggen har länkats."
+
+#, fuzzy
+msgid "exc_cannot_submit_any_files"
+msgstr "You cannot submit any files anymore."
+
+msgid "exc_chars_remaining"
+msgstr " Återstående tecken"
+
+msgid "exc_comment_for_learner_edit"
+msgstr "Ange som kommentar i textfältet"
+
+msgid "exc_comment_for_learner_info"
+msgstr "Ett meddelande skickas till deltagaren. <br /><br />Återkopplingen visas i hans eller hennes personliga träningsenhetsöversikt."
+
+msgid "exc_compare_selected_submissions"
+msgstr "Jämför valda lösningsleveranser"
+
+msgid "exc_compare_submissions"
+msgstr "Jämförelse Lösning Leverans"
+
+msgid "exc_completion_by_submission"
+msgstr "Automatisk vid leverans"
+
+msgid "exc_completion_by_submission_info"
+msgstr "Om en deltagare skickar in ett arbetsresultat sätts statusen \"Godkänd\". Handledaren kan manuellt åsidosätta statusen. Att ändra denna inställning har ingen effekt på befintliga bedömningar."
+
+msgid "exc_completion_by_tutor"
+msgstr "Endast manuellt av handledare"
+
+msgid "exc_conf_del_assignments"
+msgstr "Vill du verkligen ta bort följande träningsenheter?"
+
+msgid "exc_copy"
+msgstr "Kopieringsövning"
+
+msgid "exc_copy_zip_error"
+msgstr "Inlämningen kan inte öppnas. Ett fel uppstod när filerna kopierades."
+
+msgid "exc_create_blog"
+msgstr "Skapa blogg"
+
+msgid "exc_create_blog_select_info"
+msgstr "Välj den plats i dina personliga resurser där bloggen ska skapas."
+
+msgid "exc_create_portfolio"
+msgstr "Skapa portfölj"
+
+msgid "exc_create_portfolio_no_template"
+msgstr "Använd inte en mall"
+
+msgid "exc_create_team"
+msgstr "Skapa Team"
+
+msgid "exc_create_team_times_up_warning"
+msgstr "Du kan inte längre skapa ett team. Vänligen kontakta din handledare."
+
+msgid "exc_create_wiki"
+msgstr "Skapa Wiki"
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr "Aktiv återkoppling från kollegor"
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr "Kriteriekataloger för övningsenheter med aktiv peer feedback kan inte längre redigeras."
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr "Lägg till ny katalog"
+
+msgid "exc_criteria_catalogue_default"
+msgstr "Ingen katalog"
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr "Vill du verkligen radera följande kriteriekataloger?"
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr "Redigera katalog"
+
+msgid "exc_criteria_catalogues"
+msgstr "Kriteriekataloger"
+
+msgid "exc_criteria_create_form"
+msgstr "Lägg till nytt kriterium"
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr "Vill du verkligen ta bort följande kriterier?"
+
+msgid "exc_criteria_type_bool"
+msgstr "Uppfyllt Ja/Nej"
+
+msgid "exc_criteria_type_file"
+msgstr "Uppladdning av fil"
+
+msgid "exc_criteria_type_rating"
+msgstr "5 stjärnklassificering"
+
+msgid "exc_criteria_type_text"
+msgstr "Text"
+
+msgid "exc_criteria_update_form"
+msgstr "Redigera kriterium"
+
+msgid "exc_criterias"
+msgstr "Kriterier"
+
+msgid "exc_deadline"
+msgstr "Förfallodag"
+
+msgid "exc_deadline_ext_mismatch"
+msgstr "Anståndsperioden måste avslutas efter tidsfristen."
+
+msgid "exc_deadline_extended"
+msgstr "Sen deadline"
+
+msgid "exc_deadline_extended_info"
+msgstr "Under perioden mellan sista inlämningsdag och slutet av anståndsperioden får sena inlämningar göras."
+
+#, fuzzy
+msgid "exc_deadline_not_set_yet"
+msgstr "Not Set Yet"
+
+#, fuzzy
+msgid "exc_deadline_requested"
+msgstr "Requested"
+
+msgid "exc_delete_team"
+msgstr "Radera Team"
+
+msgid "exc_deleted_user"
+msgstr "Borttagen användare"
+
+msgid "exc_denied_has_peer_reviews"
+msgstr "Anledning"
+
+msgid "exc_denied_has_submissions"
+msgstr "Anledning"
+
+msgid "exc_denied_has_team_assignments"
+msgstr "Anledning"
+
+msgid "exc_direct_no_submit"
+msgstr "Leverera inte"
+
+msgid "exc_direct_submit"
+msgstr "Leverans"
+
+msgid "exc_direct_submit_blog"
+msgstr "Vill du skicka in den aktuella versionen av din blogg nu? Det kan du också göra när som helst i bloggredigeraren."
+
+msgid "exc_direct_submit_portfolio"
+msgstr "Vill du skicka in den aktuella versionen av din portfölj nu? Du kan också göra det när som helst i portföljredigeraren."
+
+msgid "exc_down_files_started_bg"
+msgstr "Ett ZIP-arkiv med alla nedladdningsfiler skapas nu i bakgrunden. Du kan se status för dina bakgrundsprocesser längst upp till höger i meddelandecentret. Du kan också ladda ner ZIP-arkivet där."
+
+#, fuzzy
+msgid "exc_download_selected"
+msgstr "Download Selected Submission"
+
+msgid "exc_download_zip_structure"
+msgstr "Ladda ner ZIP katalogstruktur"
+
+msgid "exc_earliest_start_time"
+msgstr "Tidigt startdatum"
+
+msgid "exc_edit_assignment"
+msgstr "Inställningar för träningspass"
+
+msgid "exc_edit_assignments"
+msgstr "Redigera träningsenheter"
+
+#, fuzzy
+msgid "exc_edit_blog"
+msgstr "Edit Blog"
+
+msgid "exc_edit_criterias"
+msgstr "Redigera kriterier"
+
+#, fuzzy
+msgid "exc_edit_portfolio"
+msgstr "Edit Portfolio"
+
+msgid "exc_edit_submission"
+msgstr "Förändring presenterade lösningar"
+
+#, fuzzy
+msgid "exc_edit_wiki"
+msgstr "Edit Wiki"
+
+#, fuzzy
+msgid "exc_ended"
+msgstr "Ended"
+
+msgid "exc_ended_on"
+msgstr "Avslutad på"
+
+msgid "exc_export_excel"
+msgstr "Export (Excel)"
+
+msgid "exc_fb_files"
+msgstr "Utvärderingsfiler"
+
+msgid "exc_fb_tutor_info"
+msgstr "När en utvärderingsfil för en övningsenhet har laddats upp får deltagaren ett meddelande och kan sedan ladda ner och visa den i översikten över övningsenheten."
+
+msgid "exc_feedback"
+msgstr "Återkoppling"
+
+msgid "exc_feedback_notification_body"
+msgstr "Feedback på följande träningspass har aktiverats."
+
+msgid "exc_feedback_notification_link"
+msgstr "Länk till övningen"
+
+msgid "exc_feedback_notification_reason"
+msgstr "Du får detta meddelande eftersom du är en deltagare i övningen ovan."
+
+msgid "exc_feedback_notification_subject"
+msgstr "Feedback för träningsenhet för träning \"%s\" upplåst"
+
+msgid "exc_files_returned_text"
+msgstr "Levererad text"
+
+msgid "exc_find_zip_error"
+msgstr "Leveransen kan inte öppnas. Originalfilerna hittades inte."
+
+msgid "exc_fixed_date"
+msgstr "Fastställt datum"
+
+#, fuzzy
+msgid "exc_fixed_date_individual"
+msgstr "Individual Deadlines Only"
+
+#, fuzzy
+msgid "exc_fixed_date_individual_info"
+msgstr "There is no common deadline. Tutors must set individual deadlines for each participant individually."
+
+msgid "exc_fixed_date_info"
+msgstr "Alla deltagare får initialt samma fasta inlämningsdatum."
+
+msgid "exc_fullscreen"
+msgstr "Fullskärm"
+
+#, fuzzy
+msgid "exc_future"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "exc_given_feedback"
+msgstr "Given Feedback"
+
+msgid "exc_global_feedback_file"
+msgstr "Exempel på lösning"
+
+msgid "exc_global_feedback_file_after_date"
+msgstr "Efter fastställt datum"
+
+msgid "exc_global_feedback_file_cron"
+msgstr "Notifiering om tillgänglighet"
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr "Deltagarna kommer att informeras via e-post om provlösningens tillgänglighet."
+
+msgid "exc_global_feedback_file_date"
+msgstr "Tillgänglighet"
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr "Efter deadline"
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr "Efter leveransen"
+
+msgid "exc_go_to_exercise"
+msgstr "Till övningen"
+
+#, fuzzy
+msgid "exc_graded_mem_notified"
+msgstr "All graded participants have been notified."
+
+msgid "exc_grades"
+msgstr "Översikt över noterna"
+
+msgid "exc_grades_overview"
+msgstr "Översikt över noterna"
+
+msgid "exc_hand_in"
+msgstr "Sänd in fil"
+
+#, fuzzy
+msgid "exc_hand_in_lead_text"
+msgstr "%s to Submit"
+
+#, fuzzy
+msgid "exc_idl_request_and_tutor_needed"
+msgstr "Please send a request to your tutor for setting an individual deadline for you."
+
+#, fuzzy
+msgid "exc_idl_tutor_needed"
+msgstr "You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set."
+
+msgid "exc_import"
+msgstr "Import av övningar"
+
+msgid "exc_individual_deadline"
+msgstr "Individuell tidsfrist"
+
+msgid "exc_individual_deadline_action"
+msgstr "Sätt individuell deadline"
+
+msgid "exc_individual_deadline_before_global"
+msgstr "Datumet måste ligga efter (den sista) tidsfristen"
+
+msgid "exc_instruction_files"
+msgstr "Filer för arbetsinstruktioner"
+
+#, fuzzy
+msgid "exc_instruction_migration_not_run"
+msgstr "The instruction file migration has not been finished yet. Please contact your system administrator."
+
+msgid "exc_late_submission"
+msgstr "Sen leverans"
+
+msgid "exc_late_submission_warning"
+msgstr "Delegationer efter %s markeras som sena."
+
+#, fuzzy
+msgid "exc_lead_request_idl"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_lead_wait_for_idl"
+msgstr "Waiting For Individual Deadline"
+
+msgid "exc_limit_characters"
+msgstr "Begränsning av antalet tecken"
+
+#, fuzzy
+msgid "exc_link_to_assignment"
+msgstr "Link to assignment"
+
+msgid "exc_list_submission"
+msgstr "All Solution Duties"
+
+msgid "exc_list_text_assignment"
+msgstr "Lista över alla avgifter"
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr "Tutorerna påminns om utvärderingen av registreringarna."
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr "Träning"
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr "Användarna påminns om att ge feedback till sina kollegor."
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr "Träning"
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr "Titel på övningsenheten"
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr "Träningstitel"
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr "Users påminns om att skicka in sina bidrag."
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr "Träning"
+
+msgid "exc_mail_permanent_link"
+msgstr "Följande länk leder till övningen"
+
+msgid "exc_manage_team"
+msgstr "Leda Team"
+
+msgid "exc_mandatory"
+msgstr "Åtagande"
+
+msgid "exc_mandatory_info"
+msgstr "Obligatoriska övningsmoment måste godkännas för att hela övningen ska godkännas."
+
+msgid "exc_mandatory_rand_determined"
+msgstr "Slumpmässigt urval"
+
+msgid "exc_max_char_limit"
+msgstr "Maximalt antal tecken"
+
+msgid "exc_max_file"
+msgstr "Maximalt antal filer"
+
+msgid "exc_max_file_info"
+msgstr "När gränsen har uppnåtts kan deltagarna inte ladda upp fler filer."
+
+msgid "exc_max_file_reached"
+msgstr "Du kan ladda upp högst %s filer."
+
+msgid "exc_max_file_tgl"
+msgstr "Begränsa uppladdningar"
+
+msgid "exc_max_team_participants"
+msgstr "Maximalt antal"
+
+msgid "exc_members_already_assigned_team"
+msgstr "Den här användaren är redan tilldelad ett team."
+
+msgid "exc_min_char_limit"
+msgstr "Minsta antal tecken"
+
+msgid "exc_min_nr"
+msgstr "Antal träningsenheter"
+
+msgid "exc_min_nr_info"
+msgstr "Detta värde måste vara minst lika högt som antalet obligatoriska övningsenheter."
+
+msgid "exc_min_team_participants"
+msgstr "Minsta antal"
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr "Du måste klara alla obligatoriska övningsdelar för att klara övningen som helhet."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_body"
+msgstr "the following user requested an individual deadline."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_subject"
+msgstr "A deadline has been requested in exercise \"%s\"."
+
+msgid "exc_msg_failed_mandatory"
+msgstr "Du har underkänts i minst ett obligatoriskt övningsmoment."
+
+#, fuzzy
+msgid "exc_msg_grading_done"
+msgstr "An assignment has been graded in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_grading_done_body"
+msgstr "a tutor has graded your submission in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_idl_set_body"
+msgstr "a new individual deadline has been set."
+
+#, fuzzy
+msgid "exc_msg_idl_set_subject"
+msgstr "A new deadline has been set in exercise \"%s\"."
+
+msgid "exc_msg_min_number_ass"
+msgstr "Du måste klara minst %s övningsdelar för att bli godkänd på övningen."
+
+msgid "exc_msg_missed_minimum_number"
+msgstr "Du har inte klarat det minsta antalet träningspass."
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr "En ny feedbackfil har lagts till i övningen \"%s\"."
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr "En ny feedbackfil har laddats upp för dig."
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr "En ny kommentar har lagts till övningen \"%s\"."
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr "En handledare har skrivit en ny kommentar till dig."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr "A new message from a peer feedback giver has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr "a peer feedback giver has added a new message for you:"
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr "A new message from a peer feedback recipient has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr "a peer feedback recipient has added a new message for you:"
+
+msgid "exc_msg_participants_removed"
+msgstr "Deltagarna avlägsnades från övningen."
+
+msgid "exc_msg_public_submission"
+msgstr "Alla lösningar som lämnas in kommer att publiceras efter tidsfristen."
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "exc_msg_saved_grades"
+msgstr "Ändringarna har sparats "
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr "Vill du verkligen ta bort följande deltagare från alla övningsenheter i övningen? Alla lösningsförslag från deltagarnas alla övningsenheter kommer att raderas."
+
+msgid "exc_multi_feedb_info"
+msgstr "På denna sida kan du ladda upp feedbackfilerna för flera övningsdeltagare samtidigt.<br /> <br />Klicka först på knappen \"Ladda ner ZIP-katalogstruktur\" nedan och spara ZIP-filen på din dator. I nästa steg öppnar du ZIP-filen för att packa upp katalogstr"
+
+msgid "exc_multi_feedback"
+msgstr "Feedback till flera deltagare"
+
+msgid "exc_multi_feedback_file"
+msgstr "Fil med flera återkopplingar"
+
+msgid "exc_multi_feedback_files"
+msgstr "Filer med flera återkopplingar"
+
+msgid "exc_needs_deadline"
+msgstr "Detta alternativ kräver en tidsfrist."
+
+msgid "exc_needs_fixed_deadline"
+msgstr "Den här funktionen kräver ett fast inlämningsdatum."
+
+msgid "exc_new_assignment"
+msgstr "Nytt träningspass"
+
+#, fuzzy
+msgid "exc_no_assignments"
+msgstr "No assignments available."
+
+msgid "exc_no_assignments_available"
+msgstr "Inga träningsenheter tillgängliga. Välj \"Träningsenheter\" och \"Redigera\" för att skapa en träningsenhet."
+
+#, fuzzy
+msgid "exc_no_deadline"
+msgstr "No Deadline"
+
+#, fuzzy
+msgid "exc_no_deadline_info"
+msgstr "There is no submission deadline for participants."
+
+msgid "exc_no_deadline_specified"
+msgstr "Ingen tidsfrist har fastställts."
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr "Katalogstrukturen för det uppladdade zip-arkivet kunde inte bearbetas."
+
+msgid "exc_no_get_target"
+msgstr "Ingen giltig länkdestination hittades."
+
+#, fuzzy
+msgid "exc_no_graded_mem_selected"
+msgstr "Please select at least one graded participant."
+
+msgid "exc_no_participants"
+msgstr "Det finns inga deltagare för tillfället."
+
+#, fuzzy
+msgid "exc_no_peer_feedback_deadline"
+msgstr "No Deadline for Giving Feedback"
+
+msgid "exc_no_portfolio_templates"
+msgstr "Det finns inga portföljmallar tillgängliga."
+
+#, fuzzy
+msgid "exc_no_submission_yet"
+msgstr "No submission yet."
+
+msgid "exc_no_team_yet"
+msgstr "Inget team utsett"
+
+msgid "exc_no_team_yet_info"
+msgstr "Du kan skapa ett team själv eller läggas till i ett annat team av dess teammedlemmar."
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr "Teamen leds av övningsledarna."
+
+msgid "exc_no_team_yet_notice"
+msgstr "Du tillhör inte ett team ännu."
+
+msgid "exc_note_for_tutor"
+msgstr "Note för handledare"
+
+msgid "exc_notification"
+msgstr "Personlig anmälan"
+
+msgid "exc_nr_random_mand"
+msgstr "Antal obligatoriska träningsenheter"
+
+msgid "exc_num_teams"
+msgstr "Nummer"
+
+#, fuzzy
+msgid "exc_ongoing"
+msgstr "Ongoing"
+
+#, fuzzy
+msgid "exc_optional"
+msgstr "Optional"
+
+msgid "exc_order_by_deadline"
+msgstr "Sortera efter deadline"
+
+msgid "exc_overview"
+msgstr "Översikt"
+
+msgid "exc_participant"
+msgstr "Deltagare"
+
+msgid "exc_participant_view"
+msgstr "Varje deltagare"
+
+msgid "exc_participants"
+msgstr "Deltagare"
+
+msgid "exc_pass_all"
+msgstr "Endast obligatoriska övningar"
+
+msgid "exc_pass_all_info"
+msgstr "Deltagarna måste klara alla obligatoriska övningspass för att klara hela övningen."
+
+msgid "exc_pass_minimum_nr"
+msgstr "Minsta antal träningspass"
+
+msgid "exc_pass_minimum_nr_info"
+msgstr "Deltagarna måste klara ett minsta antal övningstillfällen för att klara hela övningen."
+
+msgid "exc_pass_mode"
+msgstr "Förfrågan"
+
+msgid "exc_pass_mode_not_changeable_info"
+msgstr "Detta alternativ kan inte längre ändras."
+
+msgid "exc_passed_status_determination"
+msgstr "Rating som \"Godkänd"
+
+msgid "exc_passing_exc"
+msgstr "Passning av övningen"
+
+#, fuzzy
+msgid "exc_past"
+msgstr "Past"
+
+msgid "exc_peer_deadline_mismatch"
+msgstr "Eftersom feedback endast kan ges efter deadline för övningsenheten, får deadline för feedback inte vara före inlämningsdatumet."
+
+#, fuzzy
+msgid "exc_peer_feedback_status"
+msgstr "Feedback Status"
+
+msgid "exc_peer_review"
+msgstr "Feedback från peers"
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr "Efter att tidsfristen och, i förekommande fall, respittiden har löpt ut kan deltagarna betygsätta varandras arbetsresultat. Exakta inställningar för kamratrespons görs på fliken med samma namn. Fliken visas när detta alternativ har aktiverats och sparats"
+
+msgid "exc_peer_review_chars_invalid"
+msgstr "Du har ännu inte uppnått den önskade textlängden på %s tecken."
+
+msgid "exc_peer_review_completion"
+msgstr "Bestämning av status \"Godkänd\""
+
+msgid "exc_peer_review_completion_all"
+msgstr "All feedback önskas"
+
+msgid "exc_peer_review_completion_all_info"
+msgstr "Övningsenheten sätts automatiskt till \"Godkänd\" efter att en lösning har skickats in och det antal feedback som krävs har getts."
+
+msgid "exc_peer_review_completion_none"
+msgstr "Peer feedback är frivilligt"
+
+msgid "exc_peer_review_completion_none_info"
+msgstr "Övningsenheten sätts automatiskt till \"Godkänd\" efter inlämning, oavsett om feedback har getts eller inte."
+
+msgid "exc_peer_review_completion_one"
+msgstr "Minst en återkoppling"
+
+msgid "exc_peer_review_completion_one_info"
+msgstr "Övningen sätts automatiskt till \"Godkänd\" efter att en lösning har skickats in och minst en feedback har getts."
+
+msgid "exc_peer_review_deadline"
+msgstr "Ge feedback tills"
+
+msgid "exc_peer_review_deadline_info"
+msgstr "Utvärderingar kan lämnas in fram till detta datum. Efteråt kan den mottagna feedbacken visas."
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr "Sista datum"
+
+msgid "exc_peer_review_deadline_reached"
+msgstr "Tiden för Feedback har gått ut."
+
+msgid "exc_peer_review_file"
+msgstr "Uppladdning av fil"
+
+msgid "exc_peer_review_file_info"
+msgstr "Tillåter peers att ladda upp en fil per granskning"
+
+msgid "exc_peer_review_give"
+msgstr "Ge feedback"
+
+msgid "exc_peer_review_given"
+msgstr "Visa given feedback"
+
+msgid "exc_peer_review_giver"
+msgstr "Feedback givare"
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr "Feedback-donatorer som inte längre deltar i övningen eller inte har någon inlämning"
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr "Feedback-deltagare som inte längre deltar i övningen eller inte har någon inlämning"
+
+msgid "exc_peer_review_min_chars"
+msgstr "Minsta antal tecken"
+
+msgid "exc_peer_review_min_chars_info"
+msgstr "Det antal tecken som krävs för en giltig feedback."
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr "Minsta längd"
+
+msgid "exc_peer_review_min_number"
+msgstr "Nödvändigt antal feedbacks"
+
+msgid "exc_peer_review_min_number_info"
+msgstr "Antal feedback som en deltagare måste ge till sina kollegor. Om antalet obligatoriska återkopplingar överstiger antalet faktiska inlämningar minskas det obligatoriska antalet automatiskt till antalet faktiska inlämningar."
+
+msgid "exc_peer_review_missing_info"
+msgstr "För att se den mottagna feedbacken saknas fortfarande %s egna feedbacks."
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr "För att se den mottagna feedbacken saknas fortfarande %1$s egna feedbacks. Aktiveringen sker den"
+
+msgid "exc_peer_review_missing_users"
+msgstr "Utnyttjare med en avgift som inte är en del av peer feedback"
+
+msgid "exc_peer_review_no_peers"
+msgstr "Inga peers kunde hittas."
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr "Inga recensioner har gjorts ännu."
+
+msgid "exc_peer_review_not_returned_users"
+msgstr "Users utan avgift som inte är en del av peer feedback"
+
+msgid "exc_peer_review_overview"
+msgstr "Visa Peer-grupper"
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr "Invalid användare"
+
+msgid "exc_peer_review_personal"
+msgstr "Personlig feedback från kollegor"
+
+msgid "exc_peer_review_personal_info"
+msgstr "Peers visas med fullständiga namn"
+
+msgid "exc_peer_review_rating"
+msgstr "Rating"
+
+msgid "exc_peer_review_recipient"
+msgstr "Feedback taker"
+
+msgid "exc_peer_review_reset"
+msgstr "Ta bort och återställa feedback från kollegor"
+
+msgid "exc_peer_review_reset_done"
+msgstr "All peer feedback-data har raderats för övningssessionen."
+
+msgid "exc_peer_review_reset_sure"
+msgstr "Vill du verkligen radera den fullständiga återkopplingen för övningsenheten \"%s\"?"
+
+msgid "exc_peer_review_show"
+msgstr "Visa mottagen feedback"
+
+msgid "exc_peer_review_show_missing"
+msgstr "Du kan inte se den feedback du har fått eftersom du inte har gett tillräckligt med feedback."
+
+msgid "exc_peer_review_show_received_none"
+msgstr "Du har inte fått någon feedback."
+
+msgid "exc_peer_review_simple_unlock"
+msgstr "Anvisning av mottagna betyg"
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr "Efter att ha skickat in ett betyg"
+
+#, fuzzy
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr "Always show received peer feedback"
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr "Efter att alla betyg har lämnats in"
+
+msgid "exc_peer_review_text"
+msgstr " Textinmatning"
+
+msgid "exc_peer_review_updated"
+msgstr "Din feedback har sparats."
+
+#, fuzzy
+msgid "exc_peer_reviews_in_lead_text"
+msgstr "%s to Give Feedback"
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr "Invalid peer groups"
+
+msgid "exc_portfolio_created"
+msgstr "Portfolio skapades."
+
+msgid "exc_portfolio_returned"
+msgstr "Portfölj för övningsenheten"
+
+msgid "exc_portfolio_selected"
+msgstr "Portföljen har tilldelats."
+
+msgid "exc_portfolio_template"
+msgstr "Determinera portföljmall"
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr "Portföljen har tagits bort från övningsenheten."
+
+msgid "exc_presentation_order"
+msgstr "Beställ"
+
+msgid "exc_print_pdf"
+msgstr "Print/PDF"
+
+msgid "exc_public_submission"
+msgstr "Avgifter för offentliga lösningar"
+
+msgid "exc_publishing"
+msgstr "Publicering"
+
+msgid "exc_rand_nr_mandatory"
+msgstr "Antal obligatoriska träningsenheter"
+
+msgid "exc_rand_overall_ass"
+msgstr "Totalt antal inlösenrätter"
+
+msgid "exc_random"
+msgstr "Random"
+
+msgid "exc_random_assignment"
+msgstr "Slumpmässigt urval"
+
+msgid "exc_random_assignment_info"
+msgstr "När du startar övningen kommer du att tilldelas ett slumpmässigt urval av obligatoriska övningsenheter."
+
+msgid "exc_random_selection"
+msgstr "Slumpmässigt urval"
+
+msgid "exc_random_selection_info"
+msgstr "Ett slumpmässigt urval av obligatoriska träningspass tilldelas varje användare."
+
+msgid "exc_random_selection_not_changeable_info"
+msgstr "Detta alternativ kan inte aktiveras."
+
+#, fuzzy
+msgid "exc_received_feedback"
+msgstr "Received Feedbacks"
+
+msgid "exc_rel_last_submission"
+msgstr "Sista möjliga tidsfrist"
+
+msgid "exc_rel_last_submission_info"
+msgstr "Om detta datum är fastställt måste alla avgifter betalas före detta datum."
+
+#, fuzzy
+msgid "exc_rel_start_latest_lead_text"
+msgstr "%s the Latest"
+
+#, fuzzy
+msgid "exc_rel_start_lead_text"
+msgstr "Submit %s Days After Start"
+
+msgid "exc_relative_date"
+msgstr "Relativt datum"
+
+msgid "exc_relative_date_info"
+msgstr "Inlämningsdatumet är resultatet av den bearbetningsperiod och starttid som deltagaren har valt."
+
+#, fuzzy
+msgid "exc_relative_date_period"
+msgstr "Working Time"
+
+msgid "exc_rem_time_after_start"
+msgstr "Bearbetningsperiod efter start"
+
+msgid "exc_reminder_cron_ok"
+msgstr "Minnen skickades"
+
+msgid "exc_reminder_end"
+msgstr "Sista minnet"
+
+msgid "exc_reminder_feedback_setting"
+msgstr "Påminn deltagarna om återkoppling från kollegor"
+
+msgid "exc_reminder_feedback_start"
+msgstr "Börja före mötet om peer feedback"
+
+msgid "exc_reminder_frequency"
+msgstr "Frekvens"
+
+msgid "exc_reminder_grade_body"
+msgstr "Följande övningsgrupp har ännu inte utvärderats"
+
+msgid "exc_reminder_grade_setting"
+msgstr "Påminnelse om nödvändig bedömning"
+
+msgid "exc_reminder_grade_subject"
+msgstr "Övningsenhet \"%s\" utvärderades inte"
+
+msgid "exc_reminder_link"
+msgstr "URL"
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr "Använd inte en e-postmall"
+
+msgid "exc_reminder_mail_template"
+msgstr "Mall för e-post"
+
+msgid "exc_reminder_peer_body"
+msgstr "Feedback saknas fortfarande för följande träningsenhet"
+
+msgid "exc_reminder_peer_subject"
+msgstr "Feedback saknas för träningsenhet \"%s"
+
+msgid "exc_reminder_salutation"
+msgstr "Hej %s,"
+
+msgid "exc_reminder_start"
+msgstr "Starta före deadline"
+
+msgid "exc_reminder_start_info"
+msgstr "Alla medlemmar i den överordnade gruppen eller kursen kommer att meddelas.<br>Utan en kurs eller grupp kommer ingen att meddelas."
+
+msgid "exc_reminder_submit_body"
+msgstr "Följande övningsuppgifter har ännu inte lämnats in av dig"
+
+msgid "exc_reminder_submit_setting"
+msgstr "Påminn deltagarna om avgifter"
+
+msgid "exc_reminder_submit_subject"
+msgstr " Övningsenhet \"%s\" har ännu inte skickats in"
+
+msgid "exc_reminders_cron"
+msgstr "Påminnelser för träningspass"
+
+msgid "exc_reminders_cron_info"
+msgstr "Tre påminnelser skickas vid aktivering"
+
+#, fuzzy
+msgid "exc_reminders_cron_not_active"
+msgstr "Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated."
+
+#, fuzzy
+msgid "exc_request_deadline"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_requirement"
+msgstr "Requirement"
+
+#, fuzzy
+msgid "exc_review_anytime"
+msgstr "Give Feedback Anytime"
+
+msgid "exc_save_all"
+msgstr "Spara allt"
+
+msgid "exc_save_order"
+msgstr "Spara sekvens"
+
+msgid "exc_save_selected"
+msgstr "Spara valda poster"
+
+msgid "exc_saved_order"
+msgstr "Beställning sparad"
+
+msgid "exc_select_ass"
+msgstr "Välj träningsenhet"
+
+msgid "exc_select_blog"
+msgstr "Använd befintlig blogg"
+
+msgid "exc_select_blog_change"
+msgstr "Använd andra bloggar"
+
+msgid "exc_select_blog_info"
+msgstr "Välj en av dina bloggar att använda i detta övningstillfälle."
+
+#, fuzzy
+msgid "exc_select_blog_unlink"
+msgstr "Remove Blog"
+
+msgid "exc_select_portfolio"
+msgstr "Använd befintlig portfölj"
+
+msgid "exc_select_portfolio_change"
+msgstr "Använd annan portfölj"
+
+msgid "exc_select_portfolio_info"
+msgstr "Välj en av dina portföljer att använda i detta övningspass."
+
+msgid "exc_select_portfolio_unlink"
+msgstr "Ta bort portfölj"
+
+msgid "exc_send_assignment"
+msgstr "Skicka övningsenhet via e-post"
+
+#, fuzzy
+msgid "exc_send_grading_notification"
+msgstr "Send Grading Notification"
+
+#, fuzzy
+msgid "exc_set_failed"
+msgstr "Set as Failed"
+
+#, fuzzy
+msgid "exc_set_passed"
+msgstr "Set as Passed"
+
+msgid "exc_settings_feedback"
+msgstr "Återgång"
+
+msgid "exc_settings_feedback_file"
+msgstr "Fil"
+
+msgid "exc_settings_feedback_file_info"
+msgstr "Tutorer laddar upp sin fil. Respektive deltagare får ett meddelande och filen visas i översikten över övningsenheten."
+
+msgid "exc_settings_feedback_mail"
+msgstr "per post"
+
+msgid "exc_settings_feedback_mail_info"
+msgstr "Tutors anger sin feedback på inlämningen i ett e-postformulär. Mailet skickas till motsvarande deltagare."
+
+msgid "exc_settings_feedback_text"
+msgstr " Textinmatning"
+
+msgid "exc_settings_feedback_text_info"
+msgstr "Tutorer anger sin feedback i ett textfält. Respektive deltagare får ett meddelande och texten visas i översikten över övningsenheten."
+
+#, fuzzy
+msgid "exc_show_instructions"
+msgstr "Show Work Instructions"
+
+#, fuzzy
+msgid "exc_show_more"
+msgstr "Show More"
+
+msgid "exc_show_peer_review"
+msgstr "Visa Peer feedback"
+
+msgid "exc_show_submissions"
+msgstr "Publicera lösningsavgifter"
+
+msgid "exc_show_submissions_info"
+msgstr "Alla inlämnade lösningar för en övningsenhet kan ses av alla deltagare efter tidsfristen för inlämning."
+
+msgid "exc_start_assignment"
+msgstr "Starta träningspass"
+
+msgid "exc_start_exercise"
+msgstr "Börja träna"
+
+msgid "exc_start_time"
+msgstr "Starttid"
+
+msgid "exc_starting_on"
+msgstr "Startar på"
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr "Länk till övningen (hand-ins och betyg)"
+
+msgid "exc_submission_downloads_notification_link"
+msgstr "Ladda ner nya avgifter"
+
+msgid "exc_submission_file"
+msgstr "Leverans av filer"
+
+msgid "exc_submission_no_new_files"
+msgstr "Inga nya avgifter tillgängliga."
+
+msgid "exc_submission_notification"
+msgstr "Notifiering vid leverans"
+
+msgid "exc_submission_notification_body"
+msgstr "En ny inlämning för övningen \"%s\" är tillgänglig."
+
+msgid "exc_submission_notification_info"
+msgstr "Du kommer att meddelas via e-post så snart nya lösningar har skickats in. Detta är en personlig inställning som bara gäller dig. Andra handledare för övningen påverkas inte av detta."
+
+msgid "exc_submission_notification_link"
+msgstr "Länk till övningen"
+
+msgid "exc_submission_notification_subject"
+msgstr "En ny avgift för övningen \"%s\" är tillgänglig"
+
+#, fuzzy
+msgid "exc_submission_open_notification_link"
+msgstr "Open submission: %s"
+
+msgid "exc_submission_text"
+msgstr "Text leverans"
+
+msgid "exc_submissions_and_grades"
+msgstr "Avgifter och betyg"
+
+#, fuzzy
+msgid "exc_submit_anytime"
+msgstr "Submit Anytime"
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr "Lämna in efter avslutad övningsenhet. Det finns ingen fast deadline."
+
+msgid "exc_submitted_files_deleted"
+msgstr "De valda filerna har raderats."
+
+#, fuzzy
+msgid "exc_sure_unlink_blog"
+msgstr "Are you sure to remove this blog form this assignment?"
+
+msgid "exc_sure_unlink_portfolio"
+msgstr "Vill du ta bort portföljen från denna övningsenhet?"
+
+msgid "exc_target_not_valid"
+msgstr "Länkens destination är inte längre giltig."
+
+msgid "exc_task_grading"
+msgstr "Utvärdering av inlösenenheten \"%1"
+
+msgid "exc_task_peer_feedback"
+msgstr "Ge feedback till kollegor i övningsenheten \"%1"
+
+msgid "exc_task_submission"
+msgstr "Leverans till träningsenhet \"%1"
+
+msgid "exc_tbl_action_download_all_files"
+msgstr "Ladda ner alla avgifter"
+
+msgid "exc_tbl_action_download_files"
+msgstr "Ladda ner avgifter"
+
+msgid "exc_tbl_action_download_new_files"
+msgstr "Ladda ner nya avgifter"
+
+msgid "exc_tbl_action_feedback_file"
+msgstr "Feedback via fil"
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr "Feedback via e-post"
+
+msgid "exc_tbl_action_feedback_text"
+msgstr "Feedback via text"
+
+msgid "exc_tbl_action_open_submission"
+msgstr "Öppna avgifter"
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr "Visa given feedback från kollegor"
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr "Visa mottagen feedback från kollegor"
+
+msgid "exc_tbl_action_team_log"
+msgstr "Show Team Log"
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr "Avgift för visning"
+
+msgid "exc_tbl_calculated_deadline"
+msgstr "Beräknad tidsfrist"
+
+msgid "exc_tbl_comment"
+msgstr "Text feedback"
+
+msgid "exc_tbl_feedback_time"
+msgstr "Retur på"
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr "Har ännu inte levererat"
+
+msgid "exc_tbl_filter_has_submission"
+msgstr "Har gett"
+
+msgid "exc_tbl_filter_submission"
+msgstr "Levy"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_after"
+msgstr "Submission After"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_before"
+msgstr "Submission Before"
+
+msgid "exc_tbl_individual_deadline"
+msgstr "Individuell tidsfrist"
+
+msgid "exc_tbl_mark"
+msgstr "Note"
+
+msgid "exc_tbl_notice"
+msgstr "Note för handledare"
+
+msgid "exc_tbl_sent_time"
+msgstr "Träningsenhet skickas vidare"
+
+msgid "exc_tbl_status"
+msgstr "Rating"
+
+msgid "exc_tbl_status_time"
+msgstr "Rated på"
+
+msgid "exc_tbl_submission_date"
+msgstr "Levererad på"
+
+msgid "exc_tbl_team"
+msgstr "Team"
+
+msgid "exc_team"
+msgstr "Team"
+
+msgid "exc_team_assignment_adopt"
+msgstr "Överta team från befintlig övningsenhet"
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr "redan tilldelad"
+
+msgid "exc_team_assignment_adopt_none"
+msgstr "Ta inte över team"
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr "Skapa ett nytt team"
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr "Lag"
+
+msgid "exc_team_assignment_adopt_user"
+msgstr "Ta över team från övningsgrupp"
+
+msgid "exc_team_at_least_one"
+msgstr "Det måste finnas minst en teammedlem."
+
+msgid "exc_team_by_assignment"
+msgstr "Övertagande av träningsenhet"
+
+msgid "exc_team_by_assignment_info"
+msgstr "Teams är hämtade från en befintlig övningsenhet."
+
+msgid "exc_team_by_participants"
+msgstr "Av deltagare"
+
+msgid "exc_team_by_participants_info"
+msgstr "Deltagarna organiserar själva sina team."
+
+msgid "exc_team_by_random"
+msgstr "Automatisk, slumpmässig tilldelning"
+
+msgid "exc_team_by_random_add_info"
+msgstr "Observera att du först måste tilldela alla deltagare till övningen innan du kan använda detta alternativ på ett meningsfullt sätt."
+
+msgid "exc_team_by_random_info"
+msgstr "Deltagarna delas automatiskt och slumpmässigt in i lag."
+
+msgid "exc_team_by_tutors"
+msgstr "Genom handledare"
+
+msgid "exc_team_by_tutors_info"
+msgstr "Tutor organiserar teamen."
+
+msgid "exc_team_by_tutors_manual"
+msgstr "Handbok"
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr "Tutorer tilldelar deltagare manuellt till team."
+
+msgid "exc_team_creation"
+msgstr "Skapande"
+
+msgid "exc_team_formation"
+msgstr "Organisering av teamen"
+
+msgid "exc_team_log"
+msgstr "Team Log"
+
+msgid "exc_team_log_add_file"
+msgstr "Filen %s har lagts till."
+
+msgid "exc_team_log_add_member"
+msgstr "Member %s tillagd."
+
+msgid "exc_team_log_create_team"
+msgstr "Team skapat."
+
+msgid "exc_team_log_remove_file"
+msgstr "Filen %s har tagits bort."
+
+msgid "exc_team_log_remove_member"
+msgstr "Member %s borttagen."
+
+msgid "exc_team_max_small_than_members"
+msgstr "Det maximala antalet deltagare kan inte sättas till %s, eftersom vissa lag måste ha %s deltagare."
+
+msgid "exc_team_member_add"
+msgstr "Lägg till teammedlem (sök)"
+
+msgid "exc_team_member_container_add"
+msgstr "Lägg till Teammedlem från kurs/grupp"
+
+msgid "exc_team_member_remove_sure"
+msgstr "Vill du verkligen ta bort följande medlemmar från ditt team? Observera att de respektive uppladdade filerna också kommer att tas bort från teamet."
+
+msgid "exc_team_members"
+msgstr "Teammedlemmar"
+
+msgid "exc_team_min_big_than_max"
+msgstr "Det maximala antalet deltagare får inte vara lägre än det minimala antalet."
+
+msgid "exc_team_min_small_than_members"
+msgstr "Minsta antal deltagare kan inte sättas till %s, eftersom vissa lag måste ha %s deltagare."
+
+msgid "exc_team_minimal_too_big"
+msgstr "Det minsta antalet deltagare %s är för stort, vänligen minska värdet."
+
+msgid "exc_team_multi_create"
+msgstr "Skapa Team"
+
+msgid "exc_team_multi_dissolve"
+msgstr "Upplös team(s)"
+
+msgid "exc_team_notification_body_add"
+msgstr "Du har lagts till i ett träningspass för teamuppladdning."
+
+msgid "exc_team_notification_body_rmv"
+msgstr "Du har tagits bort från ett träningspass för teamuppladdning."
+
+msgid "exc_team_notification_link"
+msgstr "Länk till övningen"
+
+msgid "exc_team_notification_reason"
+msgstr "Du får detta meddelande eftersom du är en deltagare i övningen ovan."
+
+msgid "exc_team_notification_subject_add"
+msgstr "Lagd som teammedlem till en övningsenhet i övning \"%s"
+
+msgid "exc_team_notification_subject_rmv"
+msgstr "Removerad som teammedlem från en %s övningsenhet"
+
+msgid "exc_teams_assignment_adopted"
+msgstr "Teamen togs från det befintliga träningspasset."
+
+msgid "exc_template"
+msgstr "Mall"
+
+msgid "exc_text_assignment_edit"
+msgstr "Redigera text"
+
+msgid "exc_text_assignment_show"
+msgstr "Visa text"
+
+msgid "exc_text_saved"
+msgstr "Texten har sparats."
+
+#, fuzzy
+msgid "exc_too_many_files"
+msgstr "The upload contains too many files."
+
+msgid "exc_total_exc"
+msgstr "Övergripande träning"
+
+msgid "exc_total_members"
+msgstr "Totalt antal deltagare"
+
+#, fuzzy
+msgid "exc_type"
+msgstr "Type"
+
+msgid "exc_type_blog"
+msgstr "Blogg"
+
+msgid "exc_type_portfolio"
+msgstr "Portfölj"
+
+msgid "exc_type_text"
+msgstr "Text"
+
+msgid "exc_type_upload"
+msgstr "Fil"
+
+msgid "exc_type_upload_team"
+msgstr "Skicka in filen som ett team"
+
+msgid "exc_value_can_not_set"
+msgstr "Detta värde kan inte ställas in"
+
+#, fuzzy
+msgid "exc_view_portfolio"
+msgstr "View Portfolio"
+
+#, fuzzy
+msgid "exc_view_wiki"
+msgstr "View Wiki"
+
+msgid "exc_wait_for_files"
+msgstr "Nedladdningen bör starta automatiskt. Om du har några problem, vänligen klicka här."
+
+msgid "exc_wiki_container"
+msgstr "Wiki behållare"
+
+msgid "exc_wiki_container_info"
+msgstr "Plats där nya wikis för deltagarna skapas."
+
+msgid "exc_with_template"
+msgstr "Med portföljmall"
+
+msgid "exc_with_template_info"
+msgstr "En tom portfölj härleds automatiskt från en specifik portföljmall."
+
+msgid "exc_with_wiki_template"
+msgstr "Med mall"
+
+msgid "exc_with_wiki_template_info"
+msgstr "Nya wikis för deltagare skapas genom att kopiera mallen."
+
+msgid "exc_without_template"
+msgstr "Utan portföljmall"
+
+msgid "exc_without_template_info"
+msgstr "Deltagarna skapar sina portföljer självständigt utan en mall."
+
+msgid "exc_without_wiki_template"
+msgstr "Utan mall"
+
+msgid "exc_without_wiki_template_info"
+msgstr "Deltagarna börjar med en tom wiki."
+
+msgid "exc_work_instructions"
+msgstr "Arbetsinstruktion"
+
+#, fuzzy
+msgid "exc_x_of_y"
+msgstr "of"
+
+msgid "exc_your_text"
+msgstr "Din text"
+
+msgid "feedback_from"
+msgstr "Återkoppling från"
+
+msgid "feedback_given"
+msgstr "Given feedback"
+
+msgid "feedback_received"
+msgstr "Given feedback"
+
+msgid "fiter_no_results"
+msgstr "Inga avgifter passar de aktuella inställningarna för filtret."
+
+msgid "grade_evaluate"
+msgstr "Utvärdering/Gradering"
+
+msgid "not_yet"
+msgstr "inte ännu"
+
+msgid "submissions_feedback"
+msgstr "Avdrag och feedback från kollegor"
+
+msgid "submissions_only"
+msgstr "Endast skatter"
+
+msgid "text_assignment"
+msgstr "Text Övning Enhet"

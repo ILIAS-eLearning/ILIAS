@@ -55,5 +55,9 @@ class Exercise implements Component\Component
             $this,
             'exercise'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'exc'
+        );
     }
 }
