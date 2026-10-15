@@ -1,0 +1,354 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Visa första bilden"
+
+msgid "blog_abstract_image_height"
+msgstr "Höjd"
+
+msgid "blog_abstract_image_info"
+msgstr "Den första bilden i inlägget kommer att förminskas till den storlek som anges här. Bilder som är mindre än den angivna storleken kommer inte att visas."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Bredd"
+
+msgid "blog_abstract_shorten"
+msgstr "Visa endast början av inlägget"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "karaktärer"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Maximal längd"
+
+msgid "blog_add"
+msgstr "Skapa blogg"
+
+msgid "blog_add_contributor"
+msgstr "Lägg till bidragsgivare"
+
+msgid "blog_add_posting"
+msgstr "Lägg till bidrag"
+
+msgid "blog_admin_inactive_info"
+msgstr "Bloggfunktionen kan aktiveras i administrationen av \"Personliga resurser\"."
+
+msgid "blog_admin_toggle_info"
+msgstr "Bloggfunktionen kan avaktiveras i administrationen för \"Personliga resurser\"."
+
+msgid "blog_approve"
+msgstr "Lås upp post"
+
+msgid "blog_author"
+msgstr "Bidrag från"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "blog_authors"
+msgstr "Contributors"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Redigera blogg"
+
+msgid "blog_change_notification_body_approve"
+msgstr "Följande bidrag måste fortfarande aktiveras"
+
+msgid "blog_change_notification_body_comment"
+msgstr " följande inlägg har kommenterats"
+
+msgid "blog_change_notification_body_new"
+msgstr " följande inlägg har nyligen skapats"
+
+msgid "blog_change_notification_body_update"
+msgstr "Följande inlägg har ändrats"
+
+msgid "blog_change_notification_link"
+msgstr "Länk till artikeln"
+
+msgid "blog_change_notification_reason"
+msgstr "Du får detta meddelande eftersom du har aktiverat meddelandefunktionen för ovanstående blogg."
+
+msgid "blog_change_notification_subject"
+msgstr "Bloggen \"%s\" har uppdaterats"
+
+msgid "blog_comments"
+msgstr "Kommentarer"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "blog_confirm_delete_contributors"
+msgstr "Vill du verkligen beröva följande personer deras roll?"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för I
+msgid "blog_contribute_other_roles"
+msgstr "Förutom bidragsgivare kan personer med %s-rollen också skriva inlägg på den här bloggen. De är inte listade i tabellen eftersom de får motsvarande rättighet genom ett föräldraobjekt."
+
+msgid "blog_contributors"
+msgstr "Deltagare"
+
+msgid "blog_copy"
+msgstr "Copy blogg"
+
+msgid "blog_download_submission"
+msgstr "Ladda ner kopia av avgiften"
+
+msgid "blog_draft"
+msgstr "Draft"
+
+msgid "blog_draft_info"
+msgstr "Innehållet i detta inlägg är endast synligt för dig som ett utkast."
+
+msgid "blog_draft_info_contributors"
+msgstr "Detta inlägg är endast synligt som utkast för bidragsgivare."
+
+msgid "blog_draft_text"
+msgstr "Offentliggjort inlägg"
+
+msgid "blog_edit"
+msgstr "Redigera blogg"
+
+msgid "blog_edit_date"
+msgstr "Ändra datum"
+
+msgid "blog_edit_date_info"
+msgstr "Publikationens status är inte beroende av detta datum."
+
+msgid "blog_edit_keywords"
+msgstr "Redigera nyckelord"
+
+msgid "blog_edit_posting"
+msgstr "Redigera inlägg"
+
+msgid "blog_enable_approval"
+msgstr "Aktivera nya inlägg"
+
+msgid "blog_enable_approval_info"
+msgstr "Alla bidrag måste aktiveras av en användare med rättigheten \"Redigera inställningar\" innan de blir synliga för andra användare."
+
+msgid "blog_enable_keywords"
+msgstr "nyckelord"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "blog_enable_keywords_info"
+msgstr "Inlägg kan taggas med nyckelord för att filtrera inlägg i sidblocket."
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "blog_enable_nav_authors"
+msgstr "Filter by contributor"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "blog_enable_nav_authors_info"
+msgstr "Ett sidblock med namnen på alla bidragsgivare visas. Om du klickar på ett namn visas alla bidrag från den personen i huvudkolumnen."
+
+msgid "blog_enable_notes"
+msgstr "Offentliga kommentarer"
+
+msgid "blog_enable_rss"
+msgstr "Aktivera #RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "RSS-flödet är offentligt och oberoende av bloggens delningar eller behörigheter."
+
+msgid "blog_est_reading_time"
+msgstr "Uppskattad lästid"
+
+msgid "blog_est_reading_time_info"
+msgstr "I bloggar i tidningen kan en uppskattad lästid bestämmas och visas."
+
+msgid "blog_exercise_info"
+msgstr "Den här bloggen är tilldelad övningsenheten \"%s\" i övningen \"%s\"."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Din senaste inlämning var den %s. Vänligen kontrollera exportfilen"
+
+msgid "blog_finalize_blog"
+msgstr "Stäng och skicka in blogg"
+
+msgid "blog_finalized"
+msgstr "Bloggen lämnades in."
+
+msgid "blog_import"
+msgstr "Import blogg"
+
+msgid "blog_incl_comments"
+msgstr "inklusive kommentarer"
+
+msgid "blog_keyword"
+msgstr " nyckelord"
+
+msgid "blog_keyword_enter"
+msgstr "Ange ett nyckelord och tryck på Enter."
+
+msgid "blog_keywords"
+msgstr "nyckelord"
+
+msgid "blog_latest_posting"
+msgstr "Nyaste inlägget"
+
+msgid "blog_link"
+msgstr "Länk"
+
+msgid "blog_list_more"
+msgstr "Mer"
+
+msgid "blog_list_num_postings"
+msgstr "Antal poster i den första översikten"
+
+msgid "blog_list_num_postings_info"
+msgstr "Denna inställning används endast om ingen specifik månad har valts."
+
+msgid "blog_nav_mode"
+msgstr "Månadsvis navigering"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Aktuella månader som en lista"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Sidblocket visar en lista över månader. Antalet månader och inlägg som visas kan ställas in."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Totalt antal månader som visas"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Månader visas som standard endast med antalet av deras bidrag."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Antal månader med länkar till alla inlägg"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "För detta antal aktuella månader visas länkar till alla inlägg i sidoblocket."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Alla månader med rullgardinsmeny"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "I sidblocket finns en rullgardinsmeny där alla månader kan väljas. Alla bidrag listas för den valda månaden."
+
+msgid "blog_nav_sortorder"
+msgstr "Ordning på sidblocken"
+
+msgid "blog_navigation"
+msgstr "Bidrag"
+
+msgid "blog_needs_approval"
+msgstr "Posten är ännu inte aktiverad"
+
+msgid "blog_new"
+msgstr "Skapa ny blogg"
+
+msgid "blog_new_posting_info"
+msgstr "Posten har publicerats. Det första textblocket används som ett utdrag i listan över poster."
+
+msgid "blog_news_posting_authors"
+msgstr "Deltagare"
+
+msgid "blog_news_posting_published"
+msgstr "Ett nytt blogginlägg publicerades av %s."
+
+msgid "blog_news_posting_updated"
+msgstr "Ett blogginlägg uppdaterades av %s."
+
+msgid "blog_no_keywords"
+msgstr "Inga nyckelord har tilldelats ännu."
+
+msgid "blog_notification_activated"
+msgstr "Anmälan om ändring aktiverad"
+
+msgid "blog_notification_deactivated"
+msgstr "Ändringsmeddelande avaktiverat"
+
+msgid "blog_notification_toggle_off"
+msgstr "Avaktivera meddelande om ändringar"
+
+msgid "blog_notification_toggle_on"
+msgstr "Aktivera meddelande om ändringar"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Antal användare som har skrivit noteringar eller kommentarer om detta inlägg."
+
+msgid "blog_posting"
+msgstr "Bidrag"
+
+msgid "blog_posting_deleted"
+msgstr "Inlägget har tagits bort."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Vill du verkligen ta bort det här inlägget?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "Bidraget måste godkännas av en handledare innan det publiceras."
+
+msgid "blog_posting_not_found"
+msgstr "Inlägget är inte tillgängligt."
+
+msgid "blog_postings"
+msgstr "Bidrag"
+
+msgid "blog_presentation_frame"
+msgstr "Presentation"
+
+msgid "blog_presentation_overview"
+msgstr "Presentation av bidragen"
+
+msgid "blog_preview"
+msgstr "Förhandsgranskning"
+
+msgid "blog_profile_picture"
+msgstr "Visa profilbild"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
+msgid "blog_profile_picture_repository_info"
+msgstr "Profilbilder visas endast för enskilda inlägg, inte på översiktssidor."
+
+msgid "blog_properties"
+msgstr "Bloggegenskaper"
+
+msgid "blog_rename_posting"
+msgstr "Rename post"
+
+msgid "blog_selected_pages"
+msgstr "Utvalda bidrag"
+
+msgid "blog_settings"
+msgstr "bloggadministration"
+
+msgid "blog_settings_navigation"
+msgstr "Navigation"
+
+msgid "blog_show_latest"
+msgstr "Visa senaste inlägg/utkast"
+
+msgid "blog_show_print_view"
+msgstr " Skriv ut vy"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+msgid "blog_task_publishing_draft_title"
+msgstr "Publicera utkast \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Återkalla publicering"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Avaktivera bidrag"
+
+msgid "blog_toggle_final"
+msgstr "Publicera bidrag"
+
+msgid "blog_whole_blog"
+msgstr "Övergripande blogg"

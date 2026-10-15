@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Kép absztrakthoz rendelése"
+
+msgid "blog_abstract_image_height"
+msgstr "Magasság"
+
+msgid "blog_abstract_image_info"
+msgstr "A kép nem lehet kisebb, mint:"
+
+msgid "blog_abstract_image_pixels"
+msgstr "px"
+
+msgid "blog_abstract_image_width"
+msgstr "Szélesség"
+
+msgid "blog_abstract_shorten"
+msgstr "Absztrakt rövidítése"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Karakterek"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Maximális hossz"
+
+msgid "blog_add"
+msgstr "Blog létrehozása"
+
+msgid "blog_add_contributor"
+msgstr "Szerző hozzáadása"
+
+msgid "blog_add_posting"
+msgstr "Bejegyzés létrehozása"
+
+msgid "blog_admin_inactive_info"
+msgstr "A blogfunkciót a Rendszerbeállítások » Személyes munkaterület » Személyes erőforrások kezelése menüpont alatt kapcsolhatja be."
+
+msgid "blog_admin_toggle_info"
+msgstr "A blogfunkciót a Rendszerbeállítások » Személyes munkaterület » Személyes erőforrások kezelése menüpont alatt kapcsolhatja ki teljesen."
+
+msgid "blog_approve"
+msgstr "Blogbejegyzés jóváhagyása"
+
+msgid "blog_author"
+msgstr "Írta"
+
+msgid "blog_authors"
+msgstr "Szerzők"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Blog módosítása"
+
+msgid "blog_change_notification_body_approve"
+msgstr "az alábbi blogbejegyzéshez jóváhagyás szükséges."
+
+msgid "blog_change_notification_body_comment"
+msgstr "az alábbi bloghozzászóláshoz megjegyzést fűztek"
+
+msgid "blog_change_notification_body_new"
+msgstr "az alábbi bloghozzászólás jött létre"
+
+msgid "blog_change_notification_body_update"
+msgstr "az alábbi bloghozzászólás frissült"
+
+msgid "blog_change_notification_link"
+msgstr "URL"
+
+msgid "blog_change_notification_reason"
+msgstr "Ezt a levelet azért kapta, mert fent említett blognál beállította, hogy kér értesítést."
+
+msgid "blog_change_notification_subject"
+msgstr "‘%s’ blog frissült"
+
+msgid "blog_comments"
+msgstr "Bejegyzések"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Biztos, hogy törli a következő blogszerzőket?"
+
+msgid "blog_contribute_other_roles"
+msgstr "A ‘Blogszerzők’ szerepkör mellett a következő szerepkörök tagjai is hozhatnak létre új bejegyzéseket: %s. Az alábbi táblázatban nem szerepelnek, mert a megfelelő engedélyt egy átfogó objektumtól kapják."
+
+msgid "blog_contributors"
+msgstr "Blogközreműködők"
+
+msgid "blog_copy"
+msgstr "Blog másolása"
+
+msgid "blog_download_submission"
+msgstr "Benyújtás letöltése"
+
+msgid "blog_draft"
+msgstr "Piszkozat"
+
+msgid "blog_draft_info"
+msgstr "Ezt a bejegyzéspiszkozatot csak a szerző látja."
+
+msgid "blog_draft_info_contributors"
+msgstr "Ezt a bejegyzéstervezetet csak a szerkesztők láthatják."
+
+msgid "blog_draft_text"
+msgstr "Nem közzétett bejegyzések"
+
+msgid "blog_edit"
+msgstr "Blog módosítása"
+
+msgid "blog_edit_date"
+msgstr "Dátum módosítása"
+
+msgid "blog_edit_date_info"
+msgstr "A hozzászólás állapota nem függ ettől a dátumtól."
+
+msgid "blog_edit_keywords"
+msgstr "Kulcsszavak módosítása"
+
+msgid "blog_edit_posting"
+msgstr "Bejegyzés módosítása"
+
+msgid "blog_enable_approval"
+msgstr "Bejegyzések jóváhagyása"
+
+msgid "blog_enable_approval_info"
+msgstr "A bejegyzések csak a blog egy ‘Beállítások módosítása’ jogosultsággal rendelkező felhasználójának jóváhagyása után kerülnek közzétételre."
+
+msgid "blog_enable_keywords"
+msgstr "Kulcsszavak"
+
+msgid "blog_enable_keywords_info"
+msgstr "A bejegyzésekhez kulcsszavak állíthatók be, melyre kattintva az összes avval a kulcsszóval megjelölt bejegyzése megjelenik."
+
+msgid "blog_enable_nav_authors"
+msgstr "Szerzők"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "A szerzők felsorolása, ahol a névre kattintva megjelenik az adott szerző összes bejegyzése."
+
+msgid "blog_enable_notes"
+msgstr "Nyilvános megjegyzések"
+
+msgid "blog_enable_rss"
+msgstr "RSS bekapcsolása"
+
+msgid "blog_enable_rss_info"
+msgstr "Az RSS csatorna nyilvános, és független a blogmegosztástól vagy felhasználói jogoktól."
+
+msgid "blog_est_reading_time"
+msgstr "Becsült olvasási idő"
+
+msgid "blog_est_reading_time_info"
+msgstr "Blogoknál az olvasási időt meghatározhatjuk és megjeleníthetjük."
+
+msgid "blog_exercise_info"
+msgstr "Ez a blog a(z) ‘%s’ értékelés része, amely a(z) ‘%s’ beadandó feladathoz tartozik."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Utolsó beadásának időpontja: %s. Ellenőrizze az exportfájlt: %s"
+
+msgid "blog_finalize_blog"
+msgstr "Blog véglegesítése és elküldése"
+
+msgid "blog_finalized"
+msgstr "A blogot elküldte."
+
+msgid "blog_import"
+msgstr "Blog importálása"
+
+msgid "blog_incl_comments"
+msgstr "hozzászólásokkal együtt"
+
+msgid "blog_keyword"
+msgstr "Kulcsszó"
+
+msgid "blog_keyword_enter"
+msgstr "Írjon be egy kulcsszót, majd nyomjon Enter-t."
+
+msgid "blog_keywords"
+msgstr "Kulcsszavak"
+
+msgid "blog_latest_posting"
+msgstr "Utolsó bejegyzés"
+
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "Bővebben"
+
+msgid "blog_list_num_postings"
+msgstr "Bejegyzések száma"
+
+msgid "blog_list_num_postings_info"
+msgstr "Ez a beállítás csak akkor használható, ha nincs konkrét hónap kiválasztva."
+
+msgid "blog_nav_mode"
+msgstr "Bejegyzések"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Hónapok listájának megjelenítése"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Összes hónap felsorolása bejegyzéseikkel együtt a ‘Bejegyzések’ blokkban."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Felsorolt hónapok száma"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "A korlát feletti hónapokat nem soroljuk fel és az azokhoz kapcsolódó bejegyzéseket nem lehet elérni."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Hónapok száma"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "A navigációs blokkban ezek a hónap jelennek meg a bejegyzéseikkel együtt."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Kiválasztott hónap megjelenítése"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "Csak a kiválasztott hónap összes bejegyzése kerül felsorolásra a ‘Bejegyzések’ blokkban. A kívánt hónap legördülőből választható."
+
+msgid "blog_nav_sortorder"
+msgstr "Blokkok rendezése"
+
+msgid "blog_navigation"
+msgstr "Bejegyzések"
+
+msgid "blog_needs_approval"
+msgstr "A blogbejegyzést még senki sem hagyta jóvá"
+
+msgid "blog_new"
+msgstr "Új blog létrehozása"
+
+msgid "blog_new_posting_info"
+msgstr "A hozzászólást sikeresen publikálta."
+
+msgid "blog_news_posting_authors"
+msgstr "Szerzők: %s"
+
+msgid "blog_news_posting_published"
+msgstr "%s közzétett egy bloghozzászólást."
+
+msgid "blog_news_posting_updated"
+msgstr "%s módosított egy bloghozzászólást."
+
+msgid "blog_no_keywords"
+msgstr "Egy kulcsszó sincs megadva."
+
+msgid "blog_notification_activated"
+msgstr "Értesítés bekapcsolva"
+
+msgid "blog_notification_deactivated"
+msgstr "Értesítés kikapcsolva"
+
+msgid "blog_notification_toggle_off"
+msgstr "Értesítés kikapcsolása"
+
+msgid "blog_notification_toggle_on"
+msgstr "Értesítés bekapcsolása"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Ezen bejegyzés jegyzeteihez és megjegyzéseihez csatlakozott felhasználóknak a száma"
+
+msgid "blog_posting"
+msgstr "Bloghozzászólás"
+
+msgid "blog_posting_deleted"
+msgstr "A bejegyzést sikeresen törölte."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Biztos, hogy törli az alábbi bejegyzéseket?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "A hozzászólást a közzététel előtt egy tutornak jóvá kell hagynia."
+
+msgid "blog_posting_not_found"
+msgstr "Ez a blogbejegyzés nem elérhető."
+
+msgid "blog_postings"
+msgstr "Bejegyzések"
+
+msgid "blog_presentation_frame"
+msgstr "Blogmegjelenítés"
+
+msgid "blog_presentation_overview"
+msgstr "Kezdeti áttekintés"
+
+msgid "blog_preview"
+msgstr "Előnézet"
+
+msgid "blog_profile_picture"
+msgstr "Profilkép megjelenítése"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "A szerzők profilképe megjelenik a bejegyzések oldalain, de az áttekintő oldalakon nem."
+
+msgid "blog_properties"
+msgstr "Blog tulajdonságai"
+
+msgid "blog_rename_posting"
+msgstr "Bejegyzés átnevezése"
+
+msgid "blog_selected_pages"
+msgstr "Kijelölt bejegyzések"
+
+msgid "blog_settings"
+msgstr "Blog beállításainak kezelése"
+
+msgid "blog_settings_navigation"
+msgstr "Navigáció oszlop"
+
+msgid "blog_show_latest"
+msgstr "Utolsó bejegyzés/piszkozat megjelenítése"
+
+msgid "blog_show_print_view"
+msgstr "Nyomtatási nézet megjelenítése"
+
+msgid "blog_side_blocks"
+msgstr "Oldalsó blokkok"
+
+msgid "blog_starting_page"
+msgstr "Kezdőoldal"
+
+msgid "blog_task_publishing_draft_title"
+msgstr "‘%s’ bejegyzéspiszkozat közzététele"
+
+msgid "blog_toggle_draft"
+msgstr "Közzététel visszavonása"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Blog hozzászólások tiltása"
+
+msgid "blog_toggle_final"
+msgstr "Bejegyzés közzététele"
+
+msgid "blog_whole_blog"
+msgstr "Teljes blog"

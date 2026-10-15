@@ -1,0 +1,354 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Mostra la prima immagine"
+
+msgid "blog_abstract_image_height"
+msgstr "Altezza"
+
+msgid "blog_abstract_image_info"
+msgstr "La prima immagine dell'articolo viene ridimensionata alle misure qui definite. Le immagini più piccole di tali misure non verranno mostrate."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Larghezza"
+
+msgid "blog_abstract_shorten"
+msgstr "Abbreviare abstract"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Caratteri"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Lunghezza massima"
+
+msgid "blog_add"
+msgstr "Crea blog"
+
+msgid "blog_add_contributor"
+msgstr "Aggiungi collaboratore"
+
+msgid "blog_add_posting"
+msgstr "Aggiungi post"
+
+msgid "blog_admin_inactive_info"
+msgstr "È possibile attivare la funzionalità blog nell’amministrazione del desktop personale."
+
+msgid "blog_admin_toggle_info"
+msgstr "È possibile disattivare completamente la funzionalità blog nell’amministrazione del desktop personale."
+
+msgid "blog_approve"
+msgstr "Approvare"
+
+msgid "blog_author"
+msgstr "Autore"
+
+msgid "blog_authors"
+msgstr "Autori"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Modifica blog"
+
+msgid "blog_change_notification_body_approve"
+msgstr "i seguenti messaggi blog devono essere approvati."
+
+msgid "blog_change_notification_body_comment"
+msgstr "è stato commentato il seguente post pubblicato."
+
+msgid "blog_change_notification_body_new"
+msgstr "è stato creato il seguente post sul blog"
+
+msgid "blog_change_notification_body_update"
+msgstr "il seguente post sul blog è stato aggiornato"
+
+msgid "blog_change_notification_link"
+msgstr "Link al post del Blog"
+
+msgid "blog_change_notification_reason"
+msgstr "Ricevi questa email perché hai attivato le notifiche per il blog sopra menzionato."
+
+msgid "blog_change_notification_subject"
+msgstr "Blog \"%s\" è stato aggiornato"
+
+msgid "blog_comments"
+msgstr "Commenti"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Sei sicuro di voler eliminare i seguenti contributori?"
+
+msgid "blog_contribute_other_roles"
+msgstr "I seguenti ruoli concedono un'autorizzazione \"contributiva\" attiva: %s."
+
+msgid "blog_contributors"
+msgstr "Contributori"
+
+msgid "blog_copy"
+msgstr "Copia blog"
+
+msgid "blog_download_submission"
+msgstr "Scarica l'invio"
+
+msgid "blog_draft"
+msgstr "Bozza"
+
+msgid "blog_draft_info"
+msgstr "Questa bozza di pubblicazione è visibile solo per l'autore."
+
+msgid "blog_draft_info_contributors"
+msgstr "Questa bozza di registrazione è visibile solo per i contributori."
+
+msgid "blog_draft_text"
+msgstr "Messaggio non pubblicato"
+
+msgid "blog_edit"
+msgstr "Modifica blog"
+
+msgid "blog_edit_date"
+msgstr "Modifica data"
+
+msgid "blog_edit_date_info"
+msgstr "Lo stato della pubblicazione non dipende da questa data."
+
+msgid "blog_edit_keywords"
+msgstr "Modifica parole chiave"
+
+msgid "blog_edit_posting"
+msgstr "Modifica messaggio"
+
+msgid "blog_enable_approval"
+msgstr "Approvazione"
+
+msgid "blog_enable_approval_info"
+msgstr "Tutte le pubblicazioni devono essere approvate da un amministratore prima di essere pubblicate."
+
+msgid "blog_enable_keywords"
+msgstr "Parole chiave"
+
+msgid "blog_enable_keywords_info"
+msgstr "Le parole chiave possono essere impostate per le pubblicazioni. Cliccando su una parola chiave vengono mostrate tutte le pubblicazioni contrassegnate con questa parola chiave."
+
+msgid "blog_enable_nav_authors"
+msgstr "Autori"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "Viene visualizzato l’elenco degli autori del blog. Cliccando su un nome utente vengono mostrate tutte le pubblicazioni di questo autore."
+
+msgid "blog_enable_notes"
+msgstr "Commenti pubblici"
+
+msgid "blog_enable_rss"
+msgstr "Attiva RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "Il feed RSS è pubblico e indipendente dalla condivisione del blog o dalle autorizzazioni utente."
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "For Blogs in the repository reading time can be determined and displayed."
+
+msgid "blog_exercise_info"
+msgstr "Questo blog fa parte del compito \"%s\" dell'esercizio \"%s\"."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Il tuo ultimo invio è stato su %s, controlla il file di esportazione: %s."
+
+msgid "blog_finalize_blog"
+msgstr "Finalizza e invia blog"
+
+msgid "blog_finalized"
+msgstr "Il blog è stato inviato."
+
+msgid "blog_import"
+msgstr "Importa blog"
+
+msgid "blog_incl_comments"
+msgstr "inclusi i commenti"
+
+msgid "blog_keyword"
+msgstr "Parola chiave"
+
+msgid "blog_keyword_enter"
+msgstr "Scrivi una parola chiave e premi Invio."
+
+msgid "blog_keywords"
+msgstr "Parole chiave"
+
+msgid "blog_latest_posting"
+msgstr "Ultimi messaggi"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "altro"
+
+msgid "blog_list_num_postings"
+msgstr "Numero delle pubblicazioni"
+
+msgid "blog_list_num_postings_info"
+msgstr "Queste impostazioni sono utilizzate se non viene selezionato un mese specifico."
+
+msgid "blog_nav_mode"
+msgstr "Messaggi"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Mostra lista mesi"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Tutti i mesi con le pubblicazioni sono elencati nel blocco \"Pubblicazioni\"."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Numero di mesi elencati"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "I mesi superiori al limite non verranno elencati e le pubblicazioni correlate non sono accessibili."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Numero dei mesi con registrazioni elencate"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "Questi mesi verranno mostrati con tutte le registrazione nel blocco di navigazione."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Mostra mese selezionato"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "Solo i post del mese selezionato sono elencati nel blocco \"Postings\". Il mese può essere modificato dal menu a discesa."
+
+msgid "blog_nav_sortorder"
+msgstr "Ordine dei blocchi"
+
+msgid "blog_navigation"
+msgstr "Messaggi"
+
+msgid "blog_needs_approval"
+msgstr "Necessità di Approvazione"
+
+msgid "blog_new"
+msgstr "Crea nuovo blog"
+
+msgid "blog_new_posting_info"
+msgstr "Il primo blocco di testo viene utilizzato come astratto nell'elenco dei post."
+
+msgid "blog_news_posting_authors"
+msgstr "Autori contributori: %s"
+
+msgid "blog_news_posting_published"
+msgstr "Un messaggio di blog è stato pubblicato da %s."
+
+msgid "blog_news_posting_updated"
+msgstr "Un messaggio di blog è stato aggiornato da %s."
+
+msgid "blog_no_keywords"
+msgstr "Non sono state digitate ancora parole chiave."
+
+msgid "blog_notification_activated"
+msgstr "Notifica attivata"
+
+msgid "blog_notification_deactivated"
+msgstr "Notifica disattivata"
+
+msgid "blog_notification_toggle_off"
+msgstr "Disattiva notifica"
+
+msgid "blog_notification_toggle_on"
+msgstr "Attiva notifica"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Numero di utenti che hanno allegato note o commenti a questa voce"
+
+msgid "blog_posting"
+msgstr "Messaggi blog"
+
+msgid "blog_posting_deleted"
+msgstr "La voce è stata cancellata"
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Sei sicuro di voler eliminare la seguente voce?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "La pubblicazione resta da approvare da un tutor prima di essere pubblicata."
+
+msgid "blog_posting_not_found"
+msgstr "Questo messaggio del blog non è disponibile."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Postings"
+
+msgid "blog_presentation_frame"
+msgstr "Presentazione blog"
+
+msgid "blog_presentation_overview"
+msgstr "Panoramica iniziale"
+
+msgid "blog_preview"
+msgstr "Anteprima"
+
+msgid "blog_profile_picture"
+msgstr "Visualizza immagine del profilo"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "Le immagini del profilo degli autori vengono mostrate solo nelle pagine di pubblicazione, non nelle pagine di sommario."
+
+msgid "blog_properties"
+msgstr "Proprietà blog"
+
+msgid "blog_rename_posting"
+msgstr "Rinomina post"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected Postings"
+
+msgid "blog_settings"
+msgstr "Amministrazione blog"
+
+msgid "blog_settings_navigation"
+msgstr "Colonna di navigazione"
+
+msgid "blog_show_latest"
+msgstr "Mostra ultimi messaggi/bozze"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+msgid "blog_task_publishing_draft_title"
+msgstr "Pubblicazione della Bozza \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Salva come bozza"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Disattiva messaggi blog"
+
+msgid "blog_toggle_final"
+msgstr "Pubblica post"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole Blog"

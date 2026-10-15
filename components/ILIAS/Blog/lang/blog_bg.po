@@ -1,0 +1,357 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Прибавяне на изображение към реферата"
+
+msgid "blog_abstract_image_height"
+msgstr "Височина"
+
+msgid "blog_abstract_image_info"
+msgstr "Ображенията, които са по-малки, няма да бъдат използвани."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Широчина"
+
+msgid "blog_abstract_shorten"
+msgstr "Кратък реферат"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Символи"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Максимална дължина"
+
+msgid "blog_add"
+msgstr "Създаване на блог"
+
+msgid "blog_add_contributor"
+msgstr "Прибавяне на сътрудник"
+
+msgid "blog_add_posting"
+msgstr "Прибавяне на публикация"
+
+msgid "blog_admin_inactive_info"
+msgstr " Можете да активирате функцията блог в администрацията на личния работен плот."
+
+msgid "blog_admin_toggle_info"
+msgstr " Можете да деактивирате напълно функцията блог в администрацията на личния работен плот."
+
+msgid "blog_approve"
+msgstr "Одобряване"
+
+msgid "blog_author"
+msgstr "Автор"
+
+msgid "blog_authors"
+msgstr "Автори"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Редактиране на блог"
+
+msgid "blog_change_notification_body_approve"
+msgstr "Следващата публикация в блога се нуждае от одобрение."
+
+msgid "blog_change_notification_body_comment"
+msgstr "Следващата публикация в блога е коментирана."
+
+msgid "blog_change_notification_body_new"
+msgstr "създадена е следната публикация в блога"
+
+msgid "blog_change_notification_body_update"
+msgstr "Следващата публикация в блога е актуализирана"
+
+msgid "blog_change_notification_link"
+msgstr "URL"
+
+msgid "blog_change_notification_reason"
+msgstr "Получавате този имейл, защото сте активирали известия за гореспоменатия блог."
+
+msgid "blog_change_notification_subject"
+msgstr "Блогът \"%s\" е актуализиран"
+
+msgid "blog_comments"
+msgstr "Коментари"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Сигурни ли сте, че искате да изтриете следните сътрудници?"
+
+msgid "blog_contribute_other_roles"
+msgstr "Следващите роли дават активно разрешение за \"допринасяне\": %s."
+
+msgid "blog_contributors"
+msgstr "Съмишленици"
+
+#, fuzzy
+msgid "blog_copy"
+msgstr "Копиране на блог"
+
+msgid "blog_download_submission"
+msgstr "Download Submission"
+
+msgid "blog_draft"
+msgstr "Чернова"
+
+msgid "blog_draft_info"
+msgstr "Тази чернова на публикацията е видима само за автора."
+
+msgid "blog_draft_info_contributors"
+msgstr "Тази чернова на публикация е видима само за участниците."
+
+msgid "blog_draft_text"
+msgstr "Непубликувана публикация"
+
+msgid "blog_edit"
+msgstr "Редактиране на блог"
+
+msgid "blog_edit_date"
+msgstr "Дата на редакция"
+
+msgid "blog_edit_date_info"
+msgstr "Статусът на публикацията не зависи от тази дата."
+
+msgid "blog_edit_keywords"
+msgstr "Редактиране на ключови думи"
+
+msgid "blog_edit_posting"
+msgstr "Редактиране на публикация"
+
+msgid "blog_enable_approval"
+msgstr "Одобрение"
+
+msgid "blog_enable_approval_info"
+msgstr "Всички публикации трябва да бъдат одобрени от администратор, преди да бъдат публикувани."
+
+msgid "blog_enable_keywords"
+msgstr "Кейови думи"
+
+msgid "blog_enable_keywords_info"
+msgstr "Могат да се задават ключови думи за публикациите. Щракването върху ключова дума показва всички публикации, маркирани с тази ключова дума."
+
+msgid "blog_enable_nav_authors"
+msgstr "Authors"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "Показва се списък на авторите на блога. Щракването върху потребителско име показва всички публикации на този автор."
+
+msgid "blog_enable_notes"
+msgstr "Публични коментари"
+
+msgid "blog_enable_rss"
+msgstr "Активиране на RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "РЅЅканалът е публичен и не зависи от споделянето на блога или от разрешенията на потребителите."
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "For Blogs in the repository reading time can be determined and displayed."
+
+msgid "blog_exercise_info"
+msgstr "Този блог е част от задачата \"%s\" на упражнението \"%s\"."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Последното ви подаване е на %s, моля, проверете файла за експорт: %s."
+
+msgid "blog_finalize_blog"
+msgstr "Финализиране и изпращане на блог"
+
+msgid "blog_finalized"
+msgstr "Блогът е изпратен."
+
+#, fuzzy
+msgid "blog_import"
+msgstr "Импортиране на блог"
+
+#, fuzzy
+msgid "blog_incl_comments"
+msgstr "включително коментарите"
+
+msgid "blog_keyword"
+msgstr "Кейуорд"
+
+msgid "blog_keyword_enter"
+msgstr "Напишете ключова дума и натиснете Enter."
+
+msgid "blog_keywords"
+msgstr "Ключови думи"
+
+msgid "blog_latest_posting"
+msgstr "Най-новите публикации"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "more"
+
+msgid "blog_list_num_postings"
+msgstr "Брой публикации"
+
+msgid "blog_list_num_postings_info"
+msgstr "Тази настройка се използва само ако не е избран конкретен месец."
+
+msgid "blog_nav_mode"
+msgstr "Postings"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Показване на списък с месеци"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Всички месеци с публикации са изброени в блока \"Публикации\"."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Брой на изброените месеци"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Месеците над лимита няма да бъдат изброени и свързаните с тях публикации няма да са достъпни."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Брой на месеца с изброени публикации"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "Тези месеци ще бъдат показани с всички техни публикации в навигационния блок."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Показване на избрания месец"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "В блока \"Публикации\" се показват само публикациите от избрания месец. Месецът може да бъде променен чрез падащо меню."
+
+msgid "blog_nav_sortorder"
+msgstr "Поредност на блоковете"
+
+msgid "blog_navigation"
+msgstr "Postings"
+
+msgid "blog_needs_approval"
+msgstr "Необходимо одобрение"
+
+msgid "blog_new"
+msgstr "Създаване на нов блог"
+
+msgid "blog_new_posting_info"
+msgstr "Първият текстов блок се използва като резюме в списъка с публикации."
+
+msgid "blog_news_posting_authors"
+msgstr "Автори на публикацията: %s"
+
+msgid "blog_news_posting_published"
+msgstr "Публикувана е публикация в блог от %s."
+
+msgid "blog_news_posting_updated"
+msgstr "А блог публикация е актуализирана от %s."
+
+msgid "blog_no_keywords"
+msgstr "Няма въведени ключови думи."
+
+msgid "blog_notification_activated"
+msgstr "Активирано уведомяване"
+
+msgid "blog_notification_deactivated"
+msgstr "Известието е деактивирано"
+
+msgid "blog_notification_toggle_off"
+msgstr "Деактивиране на известието"
+
+msgid "blog_notification_toggle_on"
+msgstr "Активиране на известието"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Брой потребители, които са добавили бележки или коментари към този запис"
+
+msgid "blog_posting"
+msgstr "Публикуване на блог"
+
+msgid "blog_posting_deleted"
+msgstr "Вписването е изтрито."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Със сигурност ли искате да изтриете следния запис?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "Постингът трябва да бъде одобрен от преподавател, преди да бъде публикуван."
+
+msgid "blog_posting_not_found"
+msgstr "Тази публикация в блога не е налична."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Postings"
+
+msgid "blog_presentation_frame"
+msgstr "Представяне на блога"
+
+msgid "blog_presentation_overview"
+msgstr "Инициативен преглед"
+
+msgid "blog_preview"
+msgstr "Preview"
+
+msgid "blog_profile_picture"
+msgstr "Показване на профилна снимка"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "Профилните снимки на авторите се показват само на страниците с публикации, но не и на страниците с прегледи."
+
+msgid "blog_properties"
+msgstr "Свойства на блога"
+
+msgid "blog_rename_posting"
+msgstr "Преименуване на публикацията"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected Postings"
+
+msgid "blog_settings"
+msgstr "Администрация на блога"
+
+msgid "blog_settings_navigation"
+msgstr "Колона за навигиране"
+
+msgid "blog_show_latest"
+msgstr "Показване на последните публикации/чертежи"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+msgid "blog_task_publishing_draft_title"
+msgstr "Публикуване на проект \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Запазване като чернова"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Деактивиране на публикуването в блога"
+
+msgid "blog_toggle_final"
+msgstr "Публикуване на публикация"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole Blog"
