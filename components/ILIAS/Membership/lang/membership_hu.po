@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Regisztráció nem lehetséges, mert legalább egy előfeltétel nem teljesül."
+
+msgid "mem_force_notification"
+msgstr "Értesítés levelenként."
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Tagok kikapcsolhatják az értesítéseket"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Tagokat automatikusan értesítjük."
+
+msgid "mem_force_notification_mode_self"
+msgstr "Tagoknak saját maguknak kell aktiválniuk az értesítést."

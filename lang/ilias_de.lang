@@ -8450,13 +8450,6 @@ mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
 mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
 mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
 mem#:#mmbr_gallery_user_actions#:#Aktionen in Galerie
-membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
-membership#:#mem_force_notification#:#Täglicher Neuigkeitenüberblick
-membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können ihre Abonnierung des täglichen Neuigkeitenüberblicks kündigen
-membership#:#mem_force_notification_mode_blocked#:#Mitglieder abonnieren automatisch die tägliche E-Mail mit Neuigkeitenüberblick
-membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
-membership#:#mem_force_notification_mode_self#:#Mitglieder müssen den täglichen Neuigkeitenüberblick selbst abonnieren
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
 meta#:#md_adn_int_error_no_default#:#Bitte wählen Sie eine aktivierte Sprache als "Default-Sprache" aus.
 meta#:#md_adv_active#:#Aktiv
@@ -9289,13 +9282,6 @@ meta#:#udf_type_integer#:#Ganzzahl
 meta#:#udf_type_internallink#:#Interner Link
 meta#:#udf_type_location#:#Standort
 meta#:#udf_type_selectmulti#:#Auswahlliste (Mehrfachauswahl)
-mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
-mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
-mmbr#:#mmbr_memberships#:#Mitgliedschaften
-mmbr#:#mmbr_role_error#:#Mitglieder müssen mindestens eine Rolle haben.
-mmbr#:#mmbr_unsubscribed_from_objs#:#Sie wurden von den ausgewählten Objekten abgemeldet.
 mme#:#add_languages#:#Sprache hinzufügen
 mme#:#additional_langs#:#Zusätzliche Sprachen
 mme#:#button_save#:#Speichern

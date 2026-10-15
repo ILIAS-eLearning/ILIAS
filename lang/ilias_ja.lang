@@ -8414,13 +8414,6 @@ mem#:#mem_print_view_form#:#印刷表示用の既定値
 mem#:#mem_settings_tab_print_view#:#印刷表示設定値
 mem#:#mem_settings_tab_settings#:#全般設定値
 mem#:#mmbr_gallery_user_actions#:#メンバーギャラリー内のユーザアクション
-membership#:#mem_error_preconditions#:#最低前提条件一つが未記入のため登録はできません。
-membership#:#mem_force_notification#:#メールでの通知
-membership#:#mem_force_notification_mode_all#:#全メンバーへの通知有効化(変更可)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#メンバーは通知を解除できます
-membership#:#mem_force_notification_mode_blocked#:#メンバーは自動的に通知されます。
-membership#:#mem_force_notification_mode_custom#:#カスタム
-membership#:#mem_force_notification_mode_self#:#メンバーは手動で通知を有効にしなければなりません。
 meta#:#adt_error_max_length#:#短いテキストを入力してください。
 meta#:#md_adn_int_error_no_default#:#”既定の言語"として有効化する言語を選択してください。
 meta#:#md_adv_active#:#アクティブ
@@ -9253,13 +9246,6 @@ meta#:#udf_type_integer#:#整数
 meta#:#udf_type_internallink#:#内部リンク
 meta#:#udf_type_location#:#ロケーション
 meta#:#udf_type_selectmulti#:#選択リスト(チェックボックス)
-mmbr#:#info_refuse_sure#:#次のユーザを本当に拒否しますか?
-mmbr#:#mmbr_awrn_my_groups_courses#:#マイグループとコース
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#全てのグループメンバーまたは現在のユーザのコースが表示されます。
-mmbr#:#mmbr_btn_mail_selected_users#:#メールを送る
-mmbr#:#mmbr_memberships#:#メンバーシップ
-mmbr#:#mmbr_role_error#:#メンバーは少なくとも1つのロールを割り当てられている必要があります。
-mmbr#:#mmbr_unsubscribed_from_objs#:#選択したオブジェクトからユーザ登録削除されました。
 mme#:#add_languages#:#言語を追加
 mme#:#additional_langs#:#追加言語
 mme#:#button_save#:#保存

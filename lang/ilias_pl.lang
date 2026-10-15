@@ -8431,13 +8431,6 @@ mem#:#mem_print_view_form#:#Ustawienia domyślne dla podglądu wydruku
 mem#:#mem_settings_tab_print_view#:#Ustawienia dotyczące podglądu wydruku
 mem#:#mem_settings_tab_settings#:#Ustawienia ogólne
 mem#:#mmbr_gallery_user_actions#:#Działania użytkowników w galerii członków
-membership#:#mem_error_preconditions#:#Przyjęcie nie udało się, ponieważ co najmniej jedno ustawienie na to nie pozwala.
-membership#:#mem_force_notification#:#Powiadomienie mailowe
-membership#:#mem_force_notification_mode_all#:#Aktywny dla wszystkich członków (dowolnie zmienialne)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Członkowie mogą wyłączać powiadomienia
-membership#:#mem_force_notification_mode_blocked#:#Członkowie są automatycznie powiadamiani
-membership#:#mem_force_notification_mode_custom#:#Ustawienia dla każdego członka
-membership#:#mem_force_notification_mode_self#:#Członkowie muszą aktywować powiadomienia
 meta#:#adt_error_max_length#:#Wprowadzony tekst jest za długi. Wpisz krótszy tekst.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###29 07 2022 new variable
 meta#:#md_adv_active#:#Aktywny
@@ -9225,14 +9218,6 @@ meta#:#udf_type_integer#:#Liczba całkowita
 meta#:#udf_type_internallink#:#Link wewnętrzny
 meta#:#udf_type_location#:#Miejsce
 meta#:#udf_type_selectmulti#:#Lista wyboru (wybór wielokrotny)
-mmbr#:#info_refuse_sure#:#Jesteś pewien, że chcesz odrzucić poniższego użytkownika/poniższych użytkowników?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Moje kursy i grupy
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Wszyscy użytkownicy grup i kursów użytkownika zostaną ujęci w liście.
-mmbr#:#mmbr_btn_mail_selected_users#:#Wyślij e-mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###07 02 2020 new variable
-mmbr#:#mmbr_memberships#:#Memberships###29 07 2022 new variable
-mmbr#:#mmbr_selected_users#:#Wybrani uczestnicy
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###07 02 2020 new variable
 mme#:#add_languages#:#Add Language
 mme#:#additional_langs#:#Additional Languages
 mme#:#button_save#:#Save

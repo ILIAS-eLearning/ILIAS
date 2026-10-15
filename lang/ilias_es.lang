@@ -8452,13 +8452,6 @@ mem#:#mem_print_view_form#:#Configuración predeterminada para la vista de impre
 mem#:#mem_settings_tab_print_view#:#Ajustes de la vista de impresión
 mem#:#mem_settings_tab_settings#:#Ajustes generales
 mem#:#mmbr_gallery_user_actions#:#Acciones de la galería de miembros
-membership#:#mem_error_preconditions#:#El registro no es posible, ya que al menos un ajuste lo impide.
-membership#:#mem_force_notification#:#Notificación por correo electrónico
-membership#:#mem_force_notification_mode_all#:#Notificación activada para todos los miembros (modificable)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Los miembros pueden desactivar las notificaciones
-membership#:#mem_force_notification_mode_blocked#:#Los miembros serán notificados automáticamente
-membership#:#mem_force_notification_mode_custom#:#Personalizado
-membership#:#mem_force_notification_mode_self#:#Los miembros deben activar manualmente la notificación
 meta#:#adt_error_max_length#:#El texto introducido es demasiado largo. Por favor, introduzca un texto más corto.
 meta#:#md_adn_int_error_no_default#:#Por favor, seleccione un idioma activado como su "Idioma predeterminado".
 meta#:#md_adv_active#:#Activo
@@ -9246,15 +9239,6 @@ meta#:#udf_type_integer#:#Entero
 meta#:#udf_type_internallink#:#Enlace interno
 meta#:#udf_type_location#:#Ubicación
 meta#:#udf_type_selectmulti#:#Lista de selección (opción múltiple)
-mmbr#:#info_refuse_sure#:#¿Está seguro de que desea rechazar a los siguientes usuarios?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Mis grupos y cursos
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#Se enumeran todos los miembros de los grupos o cursos del usuario actual.
-mmbr#:#mmbr_btn_mail_selected_users#:#Enviar correo
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###07 02 2020 new variable
-mmbr#:#mmbr_memberships#:#Membresías
-mmbr#:#mmbr_role_error#:#Los miembros deben tener asignado al menos un rol.
-mmbr#:#mmbr_selected_users#:#Participantes seleccionados
-mmbr#:#mmbr_unsubscribed_from_objs#:#Se le ha dado de baja de los objetos seleccionados.
 mme#:#add_languages#:#Añadir idioma
 mme#:#additional_langs#:#Idiomas adicionales
 mme#:#button_save#:#Guardar

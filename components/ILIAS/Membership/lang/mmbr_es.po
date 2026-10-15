@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "¿Está seguro de que desea rechazar a los siguientes usuarios?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "Mis grupos y cursos"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "Se enumeran todos los miembros de los grupos o cursos del usuario actual."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Enviar correo"
+
+msgid "mmbr_memberships"
+msgstr "Membresías"
+
+msgid "mmbr_role_error"
+msgstr "Los miembros deben tener asignado al menos un rol."
+
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "Se le ha dado de baja de los objetos seleccionados."

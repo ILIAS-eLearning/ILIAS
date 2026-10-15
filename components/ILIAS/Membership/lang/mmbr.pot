@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr ""
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr ""
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr ""
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr ""
+
+msgid "mmbr_memberships"
+msgstr ""
+
+msgid "mmbr_role_error"
+msgstr ""
+
+msgid "mmbr_unsubscribed_from_objs"
+msgstr ""

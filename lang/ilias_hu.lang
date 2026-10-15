@@ -8420,13 +8420,6 @@ mem#:#mem_print_view_form#:#Nyomtatási nézet alapértelmezett beállításai
 mem#:#mem_settings_tab_print_view#:#Nyomtatási nézet beállításai
 mem#:#mem_settings_tab_settings#:#Általános beállítások
 mem#:#mmbr_gallery_user_actions#:#Műveletek a tagok képgalériájában
-membership#:#mem_error_preconditions#:#Regisztráció nem lehetséges, mert legalább egy előfeltétel nem teljesül.
-membership#:#mem_force_notification#:#Értesítés levelenként.
-membership#:#mem_force_notification_mode_all#:#Értesítés aktiválása az összes tag számára (módosítható)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Tagok kikapcsolhatják az értesítéseket
-membership#:#mem_force_notification_mode_blocked#:#Tagokat automatikusan értesítjük.
-membership#:#mem_force_notification_mode_custom#:#Egyéni
-membership#:#mem_force_notification_mode_self#:#Tagoknak saját maguknak kell aktiválniuk az értesítést.
 meta#:#adt_error_max_length#:#A beírt szöveg túl hosszú, kérem, írjon rövidebbet.
 meta#:#md_adn_int_error_no_default#:#Állítson be egy nyelvet ‘Alapértelmezett nyelv’-nek.
 meta#:#md_adv_active#:#Aktív
@@ -9213,13 +9206,6 @@ meta#:#udf_type_integer#:#Egész szám
 meta#:#udf_type_internallink#:#Belső link
 meta#:#udf_type_location#:#Helyszín
 meta#:#udf_type_selectmulti#:#Választási lista (többválasztásos)
-mmbr#:#info_refuse_sure#:#Biztos, hogy elutasítja az alábbi felhasználó(ka)t?
-mmbr#:#mmbr_awrn_my_groups_courses#:#Csoportjaim és kurzusaim
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#A jelenlegi felhasználó kurzusainak vagy csoportjainak összes tagját felsoroljuk itt.
-mmbr#:#mmbr_btn_mail_selected_users#:#Levél küldése
-mmbr#:#mmbr_memberships#:#Tagság
-mmbr#:#mmbr_role_error#:#Minden tagnak legalább egy szerepkörrel kell rendelkeznie.
-mmbr#:#mmbr_unsubscribed_from_objs#:#Sikeresen leiratkozott a kiválaszott objektumokról.
 mme#:#add_languages#:#Nyelv hozzáadása
 mme#:#additional_langs#:#További nyelvek
 mme#:#button_save#:#Mentés
