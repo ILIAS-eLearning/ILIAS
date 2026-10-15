@@ -8111,26 +8111,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###31 10 2023 new variable
 irss#:#upload_field_title#:#Selected Files###31 10 2023 new variable
 irss#:#upload_modal_title#:#Add Files###31 10 2023 new variable
-itgr#:#itgr_always_open#:#Toujours ouvert
-itgr#:#itgr_assign_materials#:#Assign Materials###31 10 2023 new variable
-itgr#:#itgr_assigned_materials#:#Ressources Associées
-itgr#:#itgr_assignment#:#Association
-itgr#:#itgr_behaviour#:#Comportement du bloc
-itgr#:#itgr_behaviour_info#:#Le système stockera l’état ouvert/fermé pour l’utilisateur actuel jusqu’à la déconnexion.
-itgr#:#itgr_desc_info#:#La description ne fera pas partie de la présentation des groupes d’articles dans son conteneur.
-itgr#:#itgr_edit#:#Editer Objets du Groupe
-itgr#:#itgr_expandable_closed#:#Extensible (initialement fermé)
-itgr#:#itgr_expandable_open#:#Extensible (initialement ouvert)
-itgr#:#itgr_item#:#Objet
-itgr#:#itgr_list#:#List###31 10 2023 new variable
-itgr#:#itgr_list_default#:#Default###31 10 2023 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###31 10 2023 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###31 10 2023 new variable
-itgr#:#itgr_materials#:#Ressources
-itgr#:#itgr_show_title#:#Montrer titre
-itgr#:#itgr_show_title_info#:#Montre le titre du groupe d'articles dans la présentation pour l’apprenant.
-itgr#:#itgr_tile#:#Tiles###31 10 2023 new variable
-itgr#:#itgr_tile_size#:#Tile Size###31 10 2023 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copier Module ILIAS

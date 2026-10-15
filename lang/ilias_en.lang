@@ -8118,38 +8118,6 @@ irss#:#title_manage_container#:#Manage files and folders
 irss#:#type#:#File Type
 irss#:#upload_field_title#:#Selected Files
 irss#:#upload_modal_title#:#Add Files
-itgr#:#itgr_always_open#:#Always Open
-itgr#:#itgr_assign#:#Assign
-itgr#:#itgr_assign_materials#:#Organize Objects
-itgr#:#itgr_assigned_first#:#Assigned First
-itgr#:#itgr_assigned_materials#:#Assigned Objects
-itgr#:#itgr_assignment#:#Assigned to this Object Group
-itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Object Group
-itgr#:#itgr_behaviour#:#Block Behaviour
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
-itgr#:#itgr_create_and_assign_object#:#Create and Assign Object
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
-itgr#:#itgr_display#:#Display
-itgr#:#itgr_display_with_title#:#With Title
-itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened
-itgr#:#itgr_display_without_title#:#Without Title
-itgr#:#itgr_edit#:#Edit Object Groups
-itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
-itgr#:#itgr_expandable_open#:#Expandable (initially opened)
-itgr#:#itgr_item#:#Item
-itgr#:#itgr_list#:#List
-itgr#:#itgr_list_default#:#Default
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.
-itgr#:#itgr_list_presentation#:#Item Presentation
-itgr#:#itgr_materials#:#Materials
-itgr#:#itgr_organise_objects#:#Manage Objects
-itgr#:#itgr_tile#:#Tiles
-itgr#:#itgr_tile_size#:#Tile Size
-itgr#:#itgr_unassign#:#Unassign
-itgr#:#itgr_unassigned_first#:#Unassigned First
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module

@@ -8099,32 +8099,6 @@ irss#:#title_manage_container#:#Manage files and folders###03 09 2026 new variab
 irss#:#type#:#File Type###03 09 2026 new variable
 irss#:#upload_field_title#:#Selected Files###03 09 2026 new variable
 irss#:#upload_modal_title#:#Add Files###03 09 2026 new variable
-itgr#:#itgr_always_open#:#Sempre aberto
-itgr#:#itgr_assign_materials#:#Assign Materials###03 09 2026 new variable
-itgr#:#itgr_assigned_materials#:#Materiais atribuídos
-itgr#:#itgr_assignment#:#Atribuição
-itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group###03 09 2026 new variable
-itgr#:#itgr_behaviour#:#Block Behaviour###03 09 2026 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###03 09 2026 new variable
-itgr#:#itgr_desc_info#:#A descrição não fará parte da apresentação do grupos de itens no seu recipiente.
-itgr#:#itgr_display#:#Display###03 09 2026 new variable
-itgr#:#itgr_display_with_title#:#With Title###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###03 09 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###03 09 2026 new variable
-itgr#:#itgr_display_without_title#:#Without Title###03 09 2026 new variable
-itgr#:#itgr_edit#:#Editar grupos de itens
-itgr#:#itgr_expandable_closed#:#Expansível (inicialmente fechado)
-itgr#:#itgr_expandable_open#:#Expansível (inicialmente aberto)
-itgr#:#itgr_item#:#Item
-itgr#:#itgr_list#:#List###03 09 2026 new variable
-itgr#:#itgr_list_default#:#Default###03 09 2026 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###03 09 2026 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###03 09 2026 new variable
-itgr#:#itgr_materials#:#Materiais
-itgr#:#itgr_tile#:#Tiles###03 09 2026 new variable
-itgr#:#itgr_tile_size#:#Tile Size###03 09 2026 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Copiar módulo de aprendizagem

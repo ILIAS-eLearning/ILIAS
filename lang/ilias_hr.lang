@@ -8126,26 +8126,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Uvijek otvoreno
-itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
-itgr#:#itgr_assigned_materials#:#Dodijeljeni materijali
-itgr#:#itgr_assignment#:#Zadatak
-itgr#:#itgr_behaviour#:#Blokiraj ponašanje
-itgr#:#itgr_behaviour_info#:#Sustav će pohraniti otvoreno/zatvoreno stanje za trenutnog korisnika do odjave.
-itgr#:#itgr_desc_info#:#Opis neće biti dio prezentacije predmeta grupe u njezinom spremniku.
-itgr#:#itgr_edit#:#Uredi stavke grupe
-itgr#:#itgr_expandable_closed#:#Proširivo (inicijalno zatvoreno)
-itgr#:#itgr_expandable_open#:#Proširivo (inicijalno otvoreno)
-itgr#:#itgr_item#:#Stavka
-itgr#:#itgr_list#:#List###29 07 2022 new variable
-itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
-itgr#:#itgr_materials#:#Materijali
-itgr#:#itgr_show_title#:#Prikaži naslov
-itgr#:#itgr_show_title_info#:#Prikazuje naslov grupe predmeta u prezentaciji za sudionike.
-itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###04 06 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###04 06 2021 new variable
 lm#:#lm_copy#:#Kopiraj modul za učenje

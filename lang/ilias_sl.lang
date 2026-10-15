@@ -8126,26 +8126,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Vedno odprto
-itgr#:#itgr_assign_materials#:#Assign Materials###19 08 2022 new variable
-itgr#:#itgr_assigned_materials#:#Objekti v bloku objektov
-itgr#:#itgr_assignment#:#Vključeno
-itgr#:#itgr_behaviour#:#Vedenje
-itgr#:#itgr_behaviour_info#:#Sistem si zapomni stanje (odprto/zaprto) uporabnika, dokler se ta ne odjavi (logout).
-itgr#:#itgr_desc_info#:#Opis ne bo izpisan v objavi bloka objektov.
-itgr#:#itgr_edit#:#Uredi blok objektov
-itgr#:#itgr_expandable_closed#:#Razširljivo (sprva zaprto)
-itgr#:#itgr_expandable_open#:#Razširljivo (sprva odprto)
-itgr#:#itgr_item#:#Objekti, ki bi lahko bili vključeni
-itgr#:#itgr_list#:#List###19 08 2022 new variable
-itgr#:#itgr_list_default#:#Default###19 08 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###19 08 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###19 08 2022 new variable
-itgr#:#itgr_materials#:#Objekti
-itgr#:#itgr_show_title#:#Prikaži naslov
-itgr#:#itgr_show_title_info#:#Naslov bloka objektov se prikaže v predstavitvi za učence.
-itgr#:#itgr_tile#:#Tiles###19 08 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###19 08 2022 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###19 08 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###19 08 2022 new variable
 lm#:#lm_copy#:#Kopiraj učni modul ILIAS

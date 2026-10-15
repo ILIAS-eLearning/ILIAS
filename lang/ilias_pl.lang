@@ -8126,26 +8126,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Zawsze otwarty
-itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
-itgr#:#itgr_assigned_materials#:#Obiekty w sekcji obiektów
-itgr#:#itgr_assignment#:#Włączone
-itgr#:#itgr_behaviour#:#Reakcja
-itgr#:#itgr_behaviour_info#:#System zapamiętuje status każdego użytkownika (otwarty/zamknięty) do momentu wylogowania (logout).
-itgr#:#itgr_desc_info#:#Przy wyświetlaniu sekcji obiektu opis nie jest pokazywany.
-itgr#:#itgr_edit#:#Edytuj sekcję obiektów
-itgr#:#itgr_expandable_closed#:#Rozwijany (najpierw zamknięty)
-itgr#:#itgr_expandable_open#:#Rozwijany (najpierw otwarty)
-itgr#:#itgr_item#:#Obiekt
-itgr#:#itgr_list#:#List###29 07 2022 new variable
-itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
-itgr#:#itgr_materials#:#Materiały
-itgr#:#itgr_show_title#:#Pokaż tytuł
-itgr#:#itgr_show_title_info#:#Tytuł sekcji obiektu wyświetlany jest w prezentacji dla uczestników kursu.
-itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Kopiuj moduł nauczania ILIAS

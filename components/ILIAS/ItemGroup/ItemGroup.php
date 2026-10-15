@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class ItemGroup implements Component\Component
 {
     public function init(
@@ -36,5 +39,9 @@ class ItemGroup implements Component\Component
             new \ILIAS\ItemGroup\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'itgr'
+        );
     }
 }

@@ -8115,29 +8115,6 @@ irss#:#title_manage_container#:#Fájlok és mappák kezelése
 irss#:#type#:#Fájl típusa
 irss#:#upload_field_title#:#Kiválasztott fájlok
 irss#:#upload_modal_title#:#Fájlok hozzáadása
-itgr#:#itgr_always_open#:#Mindig nyitva
-itgr#:#itgr_assign_materials#:#Objektumok hozzárendelése
-itgr#:#itgr_assigned_materials#:#Hozzárendelt objektumok
-itgr#:#itgr_assignment#:#Hozzárendelve
-itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
-itgr#:#itgr_display#:#Display###07 07 2026 new variable
-itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
-itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
-itgr#:#itgr_edit#:#Objektumcsoportok módosítása
-itgr#:#itgr_expandable_closed#:#Kibontható (kezdetben zárt)
-itgr#:#itgr_expandable_open#:#Kibontható (kezdetben nyitott)
-itgr#:#itgr_item#:#Objektum
-itgr#:#itgr_list#:#Felsorolás
-itgr#:#itgr_list_default#:#Alapértelmezett
-itgr#:#itgr_list_default_info#:#Értékek örökítése a feljebbi tárolókból.
-itgr#:#itgr_list_presentation#:#Elemmegjelenítés
-itgr#:#itgr_materials#:#Objektumok
-itgr#:#itgr_tile#:#Csempe
-itgr#:#itgr_tile_size#:#Csempe mérete
 lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
 lm#:#lm_copy#:#Tananyag másolása
