@@ -1,0 +1,356 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Dodaj sliku sažetku"
+
+msgid "blog_abstract_image_height"
+msgstr "Visina"
+
+msgid "blog_abstract_image_info"
+msgstr "Slike koje su manje od određene veličine neće se koristiti."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Širina"
+
+msgid "blog_abstract_shorten"
+msgstr "Skrati sažetak"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Znakovi"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Maksimalna duljina"
+
+msgid "blog_add"
+msgstr "Kreiraj blog"
+
+msgid "blog_add_contributor"
+msgstr "Dodaj suradnika"
+
+msgid "blog_add_posting"
+msgstr "Dodaj objavljivanja"
+
+msgid "blog_admin_inactive_info"
+msgstr "Značajku bloga možete aktivirati u administriranju osobnih resursa."
+
+msgid "blog_admin_toggle_info"
+msgstr "Značajku bloga možete u potpunosti deaktivirati u administriranju osobnih resursa."
+
+msgid "blog_approve"
+msgstr "Odobri objavljivanje"
+
+msgid "blog_author"
+msgstr "Napisao"
+
+msgid "blog_authors"
+msgstr "Autori"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Uredi blog"
+
+msgid "blog_change_notification_body_approve"
+msgstr "sljedeće objave na blogu trebaju još odobrenje:"
+
+msgid "blog_change_notification_body_comment"
+msgstr "sljedeća objava na blogu je komentirana:"
+
+msgid "blog_change_notification_body_new"
+msgstr "sljedeća objava na blogu je novo kreirana:"
+
+msgid "blog_change_notification_body_update"
+msgstr "sljedeća objava na blogu je izmijenjena:"
+
+msgid "blog_change_notification_link"
+msgstr "Poveznica na objavu na blogu"
+
+msgid "blog_change_notification_reason"
+msgstr "Ovu ste e-poštu primili jer ste aktivirali funkciju obavještavanja za gore spomenuti blog."
+
+msgid "blog_change_notification_subject"
+msgstr "Blog \"%s\" je ažuriran"
+
+msgid "blog_comments"
+msgstr "Komentari"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Jeste li sigurni da želite izbrisati sljedeće suradnike?"
+
+msgid "blog_contribute_other_roles"
+msgstr "Osim popisa ‘Suradnici’, korisnici s jednom od sljedećih uloga također mogu dodavati objave:%s"
+
+msgid "blog_contributors"
+msgstr "Blog-suradnici"
+
+msgid "blog_copy"
+msgstr "Kopiraj blog"
+
+msgid "blog_download_submission"
+msgstr "Preuzmi prijavu"
+
+msgid "blog_draft"
+msgstr "Nacrt"
+
+msgid "blog_draft_info"
+msgstr "Objava je povučena i vidljiva je samo vama kao nacrt."
+
+msgid "blog_draft_info_contributors"
+msgstr "Ovaj nacrt objave vidljiv je samo suradnicima kao nacrt."
+
+msgid "blog_draft_text"
+msgstr "Neobjavljena objava"
+
+msgid "blog_edit"
+msgstr "Uredi blog"
+
+msgid "blog_edit_date"
+msgstr "Uredi datum"
+
+msgid "blog_edit_date_info"
+msgstr "Status objave ne ovisi o ovom datumu."
+
+msgid "blog_edit_keywords"
+msgstr "Uredi ključne riječi"
+
+msgid "blog_edit_posting"
+msgstr "Uredi objave"
+
+msgid "blog_enable_approval"
+msgstr "Odobri objave"
+
+msgid "blog_enable_approval_info"
+msgstr "Objave se objavljuju tek nakon što ih odobri korisnik s pravom ‘Uredi postavke’ za ovaj blog."
+
+msgid "blog_enable_keywords"
+msgstr "Ključne riječi"
+
+msgid "blog_enable_keywords_info"
+msgstr "Ključne riječi mogu se postaviti za objave. Klikom na ključnu riječ prikazuju se svi postovi označeni tom ključnom riječi."
+
+msgid "blog_enable_nav_authors"
+msgstr "Filtriraj prema autorima"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "Prikazuje se popis autora blogova. Klikom na korisničko ime prikazuju se sve objave ovog autora."
+
+msgid "blog_enable_notes"
+msgstr "Javni komentari"
+
+msgid "blog_enable_rss"
+msgstr "Aktiviraj RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "RSS feed je javan i neovisan o odobrenju blogova ili korisničkim pravima."
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "For Blogs in the repository reading time can be determined and displayed."
+
+msgid "blog_exercise_info"
+msgstr "Ovaj je blog dio zadatka \"%s\" u vježbi \"%s\"."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Vaša posljednja predaja bila je %s. Molimo provjerite datoteku za izvoz: %s"
+
+msgid "blog_finalize_blog"
+msgstr "Dovršite i pošaljite blog"
+
+msgid "blog_finalized"
+msgstr "Blog je poslan."
+
+msgid "blog_import"
+msgstr "Uvezi blog"
+
+#, fuzzy
+msgid "blog_incl_comments"
+msgstr "including comments"
+
+msgid "blog_keyword"
+msgstr "Ključna riječ"
+
+msgid "blog_keyword_enter"
+msgstr "Napiši ključnu riječ i pritisni Enter."
+
+msgid "blog_keywords"
+msgstr "Ključne riječi"
+
+msgid "blog_latest_posting"
+msgstr "Najnovije objave"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "više"
+
+msgid "blog_list_num_postings"
+msgstr "Broj objava"
+
+msgid "blog_list_num_postings_info"
+msgstr "Ova se postavka koristi samo ako nije odabran određeni mjesec."
+
+msgid "blog_nav_mode"
+msgstr "Objave - navigacija po mjesecima"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Prikaži popis mjeseci"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Svi mjeseci s objavama navedeni su u bloku ‘Objava’."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Ukupan broj prikazanih mjeseci"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Prikazat će se dodatni mjeseci s njihovim ukupnim brojem objava."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Broj mjeseca s poveznicama na sve objave"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "Ovi će mjeseci biti prikazani sa svim bjavama u navigacijskom bloku."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Prikaži odabrani mjesec"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "U bloku ‘Objave’ navedene su samo objave  odabranog mjeseca. Mjesec se može promijeniti padajućim izbornikom."
+
+msgid "blog_nav_sortorder"
+msgstr "Poredak blokova"
+
+msgid "blog_navigation"
+msgstr "Objave"
+
+msgid "blog_needs_approval"
+msgstr "Objava još nije odobrena"
+
+msgid "blog_new"
+msgstr "Kreiraj novi blog"
+
+msgid "blog_new_posting_info"
+msgstr "Objava je objavljena."
+
+msgid "blog_news_posting_authors"
+msgstr "Autori koji su sudjelovali: %s"
+
+msgid "blog_news_posting_published"
+msgstr "Objavu na blogu objavio je %s."
+
+msgid "blog_news_posting_updated"
+msgstr "Objavu na blogu ažurirao je %s."
+
+msgid "blog_no_keywords"
+msgstr "Još nije unesena nijedna ključna riječ."
+
+msgid "blog_notification_activated"
+msgstr "Obavijest o izmjenama aktivirana"
+
+msgid "blog_notification_deactivated"
+msgstr "Obavijest o izmjenama deaktivirana"
+
+msgid "blog_notification_toggle_off"
+msgstr "Deaktiviraj obavijest o izmjenama"
+
+msgid "blog_notification_toggle_on"
+msgstr "Aktiviraj obavijest o izmjenama"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Broj korisnika koji su uz ovu obavu napisali bilješke ili komentare"
+
+msgid "blog_posting"
+msgstr "Objava na blogu"
+
+msgid "blog_posting_deleted"
+msgstr "Objava je izbrisana."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Jeste li sigurni da želite izbrisati sljedeću objavu?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "Prije objavljivanja, objavu još mora odobriti mentor."
+
+msgid "blog_posting_not_found"
+msgstr "Ova objava na blogu nije dostupna."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Postings"
+
+msgid "blog_presentation_frame"
+msgstr "Prezentacija bloga"
+
+msgid "blog_presentation_overview"
+msgstr "Početni pregled"
+
+msgid "blog_preview"
+msgstr "Pregled"
+
+msgid "blog_profile_picture"
+msgstr "Prikaži sliku profila"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "Slike profila autora prikazuju se samo na stranicama s objavama, a ne i na stranicama s pregledom."
+
+msgid "blog_properties"
+msgstr "Svojstva bloga"
+
+msgid "blog_rename_posting"
+msgstr "Preimenuj objavu"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected Postings"
+
+msgid "blog_settings"
+msgstr "Administracija bloga"
+
+msgid "blog_settings_navigation"
+msgstr "Navigacijski stupac"
+
+msgid "blog_show_latest"
+msgstr "Prikaži najnovije objave/nacrte"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+#, fuzzy
+msgid "blog_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Povuci objavu"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Deaktiviraj objavu"
+
+msgid "blog_toggle_final"
+msgstr "Objavi objavu"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole Blog"

@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Erstes Bild anzeigen"
+
+msgid "blog_abstract_image_height"
+msgstr "Höhe"
+
+msgid "blog_abstract_image_info"
+msgstr "Das erste im Beitrag verwendete Bild wird in der Größe so angepasst, dass seine längste Kante dem hier eingegebenen Wert entspricht. Dieses Bild wird zusammen mit der Zusammenfassung des Textinhalts angezeigt. Bilder, die kleiner als die Mindestgröße sind, werden nicht angezeigt."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Breite"
+
+msgid "blog_abstract_shorten"
+msgstr "Nur Anfang des Beitrags zeigen"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Zeichen"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Maximale Länge"
+
+msgid "blog_add"
+msgstr "Blog anlegen"
+
+msgid "blog_add_contributor"
+msgstr "Mitwirkende hinzufügen"
+
+msgid "blog_add_posting"
+msgstr "Beitrag hinzufügen"
+
+msgid "blog_admin_inactive_info"
+msgstr "Das Blog-Feature kann in der Administration unter „Administration » Persönlicher Arbeitsraum » Persönliche Ressourcen“ aktiviert werden."
+
+msgid "blog_admin_toggle_info"
+msgstr "Das Blog-Feature kann in der Administration unter „Administration » Persönlicher Arbeitsraum » Persönliche Ressourcen“ deaktiviert werden."
+
+msgid "blog_approve"
+msgstr "Beitrag freischalten"
+
+msgid "blog_author"
+msgstr "Beiträge von"
+
+msgid "blog_authors"
+msgstr "Beitragende Personen"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Blog bearbeiten"
+
+msgid "blog_change_notification_body_approve"
+msgstr "der folgende Beitrag muss noch freigeschaltet werden:"
+
+msgid "blog_change_notification_body_comment"
+msgstr "der folgende Beitrag wurde kommentiert:"
+
+msgid "blog_change_notification_body_new"
+msgstr "der folgende Beitrag wurde neu angelegt:"
+
+msgid "blog_change_notification_body_update"
+msgstr "der folgende Beitrag wurde geändert:"
+
+msgid "blog_change_notification_link"
+msgstr "Link zum Beitrag"
+
+msgid "blog_change_notification_reason"
+msgstr "Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben."
+
+msgid "blog_change_notification_subject"
+msgstr "Blog „%s“ wurde aktualisiert"
+
+msgid "blog_comments"
+msgstr "Kommentare"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Wollen Sie wirklich den folgenden Personen ihre Rolle entziehen?"
+
+msgid "blog_contribute_other_roles"
+msgstr "Zusätzlich zu den Mitwirkenden können auch Personen mit der Rolle %s Beiträge in diesem Blog verfassen. Sie werden nicht in der Tabelle aufgeführt, denn sie erhalten das entsprechende Recht durch ein übergeordnetes Objekt."
+
+msgid "blog_contributors"
+msgstr "Mitwirkende"
+
+msgid "blog_copy"
+msgstr "Blog kopieren"
+
+msgid "blog_download_submission"
+msgstr "Kopie der Abgabe herunterladen"
+
+msgid "blog_draft"
+msgstr "Entwurf"
+
+msgid "blog_draft_info"
+msgstr "Die Veröffentlichung dieses Beitrags wurde zurückgenommen. Dieser Beitrag ist jetzt nur für Mitwirkende sichtbar."
+
+msgid "blog_draft_info_contributors"
+msgstr "Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar."
+
+msgid "blog_draft_text"
+msgstr "Unveröffentlichter Beitrag"
+
+msgid "blog_edit"
+msgstr "Blog bearbeiten"
+
+msgid "blog_edit_date"
+msgstr "Datum bearbeiten"
+
+msgid "blog_edit_date_info"
+msgstr "Der Status der Veröffentlichung hängt nicht von diesem Datum ab."
+
+msgid "blog_edit_keywords"
+msgstr "Schlagwörter bearbeiten"
+
+msgid "blog_edit_posting"
+msgstr "Beitrag bearbeiten"
+
+msgid "blog_enable_approval"
+msgstr "Neue Beiträge freischalten"
+
+msgid "blog_enable_approval_info"
+msgstr "Alle Beiträge müssen durch einen Benutzer mit dem Recht \"Einstellungen bearbeiten\" freigeschaltet werden, bevor sie für andere Benutzer sichtbar werden."
+
+msgid "blog_enable_keywords"
+msgstr "Schlagwörter"
+
+msgid "blog_enable_keywords_info"
+msgstr "Beiträge können mit Schlagwörtern versehen werden, um im Seitenblock Beiträge zu filtern."
+
+msgid "blog_enable_nav_authors"
+msgstr "Nach Mitwirkenden filtern"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "Es wird ein Seitenblock mit den Namen aller Mitwirkenden eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieser Person an."
+
+msgid "blog_enable_notes"
+msgstr "Öffentliche Kommentare"
+
+msgid "blog_enable_rss"
+msgstr "RSS aktivieren"
+
+msgid "blog_enable_rss_info"
+msgstr "Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Rechten."
+
+msgid "blog_est_reading_time"
+msgstr "Geschätzte Lesedauer"
+
+msgid "blog_est_reading_time_info"
+msgstr "Eine automatisch geschätzte Lesezeit wird allen Blog-Beiträge im Magazin hinzugefügt."
+
+msgid "blog_exercise_info"
+msgstr "Dieses Blog ist der Übungseinheit „%s“ in der Übung „%s“ zugeordnet."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s"
+
+msgid "blog_finalize_blog"
+msgstr "Blog abschließen und abgeben"
+
+msgid "blog_finalized"
+msgstr "Das Blog wurde abgegeben."
+
+msgid "blog_import"
+msgstr "Blog importieren"
+
+msgid "blog_incl_comments"
+msgstr "inklusive Kommentare"
+
+msgid "blog_keyword"
+msgstr "Schlagwort"
+
+msgid "blog_keyword_enter"
+msgstr "Geben Sie ein Schlagwort ein und drücken Sie Enter."
+
+msgid "blog_keywords"
+msgstr "Schlagwörter"
+
+msgid "blog_latest_posting"
+msgstr "Neuester Beitrag"
+
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "mehr"
+
+msgid "blog_list_num_postings"
+msgstr "Anzahl Einträge in der initialen Übersicht"
+
+msgid "blog_list_num_postings_info"
+msgstr "Die maximale Anzahl von Beiträgen, die angezeigt werden, wenn kein konkreter Monat ausgewählt ist."
+
+msgid "blog_nav_mode"
+msgstr "Monatsweise Navigation"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Aktuelle Monate als Liste"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Der Seitenblock zeigt eine Liste der Monate. Die Anzahl angezeigter Monate und Beiträge kann festgelegt werden."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Gesamtanzahl angezeigter Monate"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Die Anzahl der Monate, die in dem „Beiträge“ Block gezeigt werde, wird beschränkt. Die angezeigten Monate sind immer die aktuellsten und werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Anzahl Monate mit Links zu allen Beiträgen"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "Für diese Anzahl aktueller Monate werden im Seitenblock Links zu allen Beiträgen angezeigt. Weitere Monate werden mit einer Zahl angezeigt, die die Gesamtzahl der Beiträge in diesem Monat angibt."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Alle Monate per Dropdown"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "Anstelle einer Liste wird im Seitenblock ein Dropdown-Menü gezeigt, das alle Monate zur Auswahl anbietet. Nur Beiträge der gewählten Monat werden aufgelistet."
+
+msgid "blog_nav_sortorder"
+msgstr "Reihenfolge der Seitenblöcke"
+
+msgid "blog_navigation"
+msgstr "Beiträge"
+
+msgid "blog_needs_approval"
+msgstr "Beitrag ist noch nicht freigeschaltet"
+
+msgid "blog_new"
+msgstr "Neues Blog anlegen"
+
+msgid "blog_new_posting_info"
+msgstr "Der Beitrag wurde veröffentlicht. Der erste Textblock wird als Auszug in der Liste der Einträge verwendet."
+
+msgid "blog_news_posting_authors"
+msgstr "Mitwirkende: %s"
+
+msgid "blog_news_posting_published"
+msgstr "Ein neuer Blogbeitrag wurde veröffentlicht von %s."
+
+msgid "blog_news_posting_updated"
+msgstr "Ein Blogbeitrag wurde aktualisiert von %s."
+
+msgid "blog_no_keywords"
+msgstr "Es sind bisher keine Schlagwörter vergeben worden."
+
+msgid "blog_notification_activated"
+msgstr "Sie haben die Benachrichtigung aktiviert."
+
+msgid "blog_notification_deactivated"
+msgstr "Sie haben die Benachrichtigung deaktiviert."
+
+msgid "blog_notification_toggle_off"
+msgstr "Benachrichtigung deaktivieren"
+
+msgid "blog_notification_toggle_on"
+msgstr "Benachrichtigung aktivieren"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Anzahl der Benutzer, die zu diesem Beitrag Notizen oder Kommentare verfasst haben."
+
+msgid "blog_posting"
+msgstr "Beitrag"
+
+msgid "blog_posting_deleted"
+msgstr "Der Beitrag wurde gelöscht."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Wollen Sie diesen Beitrag wirklich löschen?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "Der Beitrag muss durch die Blog-Redaktion freigeschaltet werden, bevor er sichtbar wird. Die Freischaltung kann nur stattfinden, wenn der Beitrag schon veröffentlicht wurde."
+
+msgid "blog_posting_not_found"
+msgstr "Der Beitrag ist nicht verfügbar."
+
+msgid "blog_postings"
+msgstr "Beiträge"
+
+msgid "blog_presentation_frame"
+msgstr "Darstellung"
+
+msgid "blog_presentation_overview"
+msgstr "Präsentation der Beiträge"
+
+msgid "blog_preview"
+msgstr "Vorschau"
+
+msgid "blog_profile_picture"
+msgstr "Profil-Bild anzeigen"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "Profilbilder werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten."
+
+msgid "blog_properties"
+msgstr "Blog-Eigenschaften"
+
+msgid "blog_rename_posting"
+msgstr "Beitrag umbenennen"
+
+msgid "blog_selected_pages"
+msgstr "Ausgewählte Beiträge"
+
+msgid "blog_settings"
+msgstr "Blog-Administration"
+
+msgid "blog_settings_navigation"
+msgstr "Navigation"
+
+msgid "blog_show_latest"
+msgstr "Neueste Beiträge/Entwürfe anzeigen"
+
+msgid "blog_show_print_view"
+msgstr "Druckansicht"
+
+msgid "blog_side_blocks"
+msgstr "Seitenblöcke"
+
+msgid "blog_starting_page"
+msgstr "Startseite"
+
+msgid "blog_task_publishing_draft_title"
+msgstr "Veröffentlichen des Entwurfs „%s“"
+
+msgid "blog_toggle_draft"
+msgstr "Veröffentlichung zurücknehmen"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Beitrag deaktivieren"
+
+msgid "blog_toggle_final"
+msgstr "Beitrag veröffentlichen"
+
+msgid "blog_whole_blog"
+msgstr "Gesamtes Blog"
