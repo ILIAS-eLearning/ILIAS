@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: wsp\n"
+
+msgid "element_already_shared"
+msgstr "Este objeto já é partilhado com este utilizador."
+
+msgid "element_shared"
+msgstr "Objeto partilhado."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Não foi possível criar o certificado. Entre em contacto com o administrador para verificar o servidor de certificados."
+
+msgid "share"
+msgstr "Partilhar"
+
+msgid "share_content"
+msgstr "Partilhar objeto"
+
+msgid "share_with"
+msgstr "Nome de utilizador"
+
+msgid "wsp_copy_to_repository"
+msgstr "Copiar para repositório"
+
+msgid "wsp_invalid_password"
+msgstr "A palavra-passe inserida é inválida."
+
+#, fuzzy
+msgid "wsp_list_cmxv"
+msgstr "Certificate of xAPI/cmi5 Object"
+
+msgid "wsp_list_crsv"
+msgstr "Certificado de curso"
+
+msgid "wsp_list_excv"
+msgstr "Certificado de exercício"
+
+#, fuzzy
+msgid "wsp_list_ltiv"
+msgstr "Certificate of LTI Consumer Object"
+
+msgid "wsp_list_scov"
+msgstr "Certificado SCORM"
+
+msgid "wsp_list_tstv"
+msgstr "Certificado de teste"
+
+msgid "wsp_move_to_repository"
+msgstr "Mover para repositório"
+
+msgid "wsp_password_for"
+msgstr "Palavra-passe para"
+
+msgid "wsp_password_protected_resource"
+msgstr "Recurso protegido por palavra-passe"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Para aceder a este recurso, tem de inserir uma palavra-passe."
+
+msgid "wsp_permission_all_info"
+msgstr "This object has been published."
+
+msgid "wsp_permission_all_pw_info"
+msgstr "Depois de fornecer a palavra-passe, este objeto é visível a todos os utilizadores da Internet."
+
+msgid "wsp_permission_registered_info"
+msgstr "Este objeto é partilhado com todos os utilizadores registados."
+
+msgid "wsp_permission_removed"
+msgstr "The item has been removed."
+
+msgid "wsp_permissions"
+msgstr "Partilhar"
+
+#, fuzzy
+msgid "wsp_personal_resources_description"
+msgstr "Here you can manage your private files, blogs and artifacts."
+
+#, fuzzy
+msgid "wsp_search_no_match"
+msgstr "Your search did not match any results."
+
+#, fuzzy
+msgid "wsp_send_mail"
+msgstr "Send Mail"
+
+msgid "wsp_set_permission_all"
+msgstr "Publish"
+
+msgid "wsp_set_permission_all_password"
+msgstr "Publish (Password required)"
+
+msgid "wsp_set_permission_course"
+msgstr "Course"
+
+msgid "wsp_set_permission_group"
+msgstr "Group"
+
+msgid "wsp_set_permission_registered"
+msgstr "Todos os utilizadores registados"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Single User"
+
+msgid "wsp_share_search_users"
+msgstr "Pesquisar utilizadores"
+
+msgid "wsp_share_success"
+msgstr "Foi adicionada uma entrada nova."
+
+msgid "wsp_share_with_members"
+msgstr "Partilhar com membros"
+
+msgid "wsp_share_with_users"
+msgstr "Partilhar com utilizadores"
+
+msgid "wsp_shared_date"
+msgstr "Data da partilha"
+
+msgid "wsp_shared_date_filter"
+msgstr "Partilhado a partir de"
+
+msgid "wsp_shared_filter_button"
+msgstr "Pesquisa"
+
+msgid "wsp_shared_filter_reset_button"
+msgstr "Repor pesquisa"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Defina pelo menos um atributo de filtro. Os filtros de texto têm de ter pelo menos 4 caracteres."
+
+msgid "wsp_shared_member_filter"
+msgstr "Membros do curso/grupo"
+
+msgid "wsp_shared_object_type"
+msgstr "Tipo de recurso"
+
+msgid "wsp_shared_resources"
+msgstr "Recursos partilhados"
+
+msgid "wsp_shared_table_title"
+msgstr "Partilhas"
+
+msgid "wsp_shared_title"
+msgstr "Título do recurso"
+
+msgid "wsp_shared_type"
+msgstr "Partilhado com"
+
+msgid "wsp_shared_user_filter"
+msgstr "Login/Nome"
+
+msgid "wsp_shared_with"
+msgstr "Partilhado com"
+
+msgid "wsp_status_shared"
+msgstr "Partilhado"
+
+#, fuzzy
+msgid "wsp_switch_to_repo_tree"
+msgstr "Switch to Repository"
+
+#, fuzzy
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Switch to Personal Resources"
+
+msgid "wsp_tab_ownership"
+msgstr "Os meus objetos do repositório"
+
+msgid "wsp_tab_personal"
+msgstr "Meus Recursos"
+
+msgid "wsp_tab_shared"
+msgstr "Compartilhado com outros usuários"
+
+msgid "wsp_type_blog"
+msgstr "Blog"
+
+#, fuzzy
+msgid "wsp_type_cmxv"
+msgstr "Certificate: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Certificado. Curso"
+
+msgid "wsp_type_excv"
+msgstr "Verificação: Exercício"
+
+msgid "wsp_type_file"
+msgstr "Arquivo"
+
+#, fuzzy
+msgid "wsp_type_ltiv"
+msgstr "Certificate: LTI Consumer"
+
+msgid "wsp_type_scov"
+msgstr "Certificado. SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Verificação: Teste"
+
+msgid "wsp_type_webr"
+msgstr "Weblink"
+
+msgid "wsp_type_wfld"
+msgstr "Pasta"

@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: wsp\n"
+
+msgid "element_already_shared"
+msgstr "Te zasoby zostały temu użytkownikowi już udostępnione."
+
+msgid "element_shared"
+msgstr "Udostępniono zasoby."
+
+msgid "error_creating_certificate_pdf"
+msgstr "The certificate could not be created. Please contact the administrator to check the certificate server."
+
+msgid "share"
+msgstr "Udostępnij"
+
+msgid "share_content"
+msgstr "Udostępnij zasoby"
+
+msgid "share_with"
+msgstr "Użytkownik"
+
+msgid "wsp_copy_to_repository"
+msgstr "Kopiuj do dostępnych zasobów"
+
+msgid "wsp_invalid_password"
+msgstr "Hasło jest nieważne."
+
+#, fuzzy
+msgid "wsp_list_cmxv"
+msgstr "Certificate of xAPI/cmi5 Object"
+
+msgid "wsp_list_crsv"
+msgstr "Certyfikat kursu"
+
+msgid "wsp_list_excv"
+msgstr "Certyfikat ćwiczeń"
+
+#, fuzzy
+msgid "wsp_list_ltiv"
+msgstr "Certificate of LTI Consumer Object"
+
+msgid "wsp_list_scov"
+msgstr "Certyfikat SCORM"
+
+msgid "wsp_list_tstv"
+msgstr "Certyfikat testu"
+
+msgid "wsp_move_to_repository"
+msgstr "Przesuń do dostępnych zasobów"
+
+msgid "wsp_password_for"
+msgstr "Hasła dla"
+
+msgid "wsp_password_protected_resource"
+msgstr "Zasoby chronione hasłem"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Aby mieć dostęp do tego zasobu, potrzebujesz hasła."
+
+msgid "wsp_permission_all_info"
+msgstr "Ten obiekt jest widoczny dla wszystkich użytkowników Internetu."
+
+msgid "wsp_permission_all_pw_info"
+msgstr "Po wpisaniu hasła ten obiekt jest widoczny dla wszystkich użytkowników Internetu."
+
+msgid "wsp_permission_registered_info"
+msgstr "Ten obiekt jest dostępny dla wszystkich zarejestrowanych użytkowników Internetu."
+
+msgid "wsp_permission_removed"
+msgstr "Wpis został usunięty."
+
+msgid "wsp_permissions"
+msgstr "Udostępnij"
+
+#, fuzzy
+msgid "wsp_personal_resources_description"
+msgstr "Here you can manage your private files, blogs and artifacts."
+
+#, fuzzy
+msgid "wsp_search_no_match"
+msgstr "Your search did not match any results."
+
+#, fuzzy
+msgid "wsp_send_mail"
+msgstr "Send Mail"
+
+msgid "wsp_set_permission_all"
+msgstr "Publiczne"
+
+msgid "wsp_set_permission_all_password"
+msgstr "Publiczne (Wymagane hasło)"
+
+msgid "wsp_set_permission_course"
+msgstr "Kursy"
+
+msgid "wsp_set_permission_group"
+msgstr "Grupy"
+
+msgid "wsp_set_permission_registered"
+msgstr "Wszyscy zarejestrowani użytkownicy"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Użytkownicy"
+
+msgid "wsp_share_search_users"
+msgstr "Wyszukaj użytkowników"
+
+msgid "wsp_share_success"
+msgstr "Dodano nowy wpis."
+
+msgid "wsp_share_with_members"
+msgstr "Dostępne dla członków"
+
+msgid "wsp_share_with_users"
+msgstr "Dostępne dla użytkowników"
+
+msgid "wsp_shared_date"
+msgstr "Data udostępnienia"
+
+msgid "wsp_shared_date_filter"
+msgstr "Udostępnienie od dnia"
+
+msgid "wsp_shared_filter_button"
+msgstr "Szukaj"
+
+msgid "wsp_shared_filter_reset_button"
+msgstr "Resetuj wyszukiwanie"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Ustal co najmniej jeden atrybut filtra. Filtry tekstu muszą mieć co najmniej 4 litery."
+
+msgid "wsp_shared_member_filter"
+msgstr "Członkowie kursu/grupy"
+
+msgid "wsp_shared_object_type"
+msgstr "Typ zasobów"
+
+msgid "wsp_shared_resources"
+msgstr "Udostępnione zasoby"
+
+msgid "wsp_shared_table_title"
+msgstr "Udostępnij"
+
+msgid "wsp_shared_title"
+msgstr "Tytuł zasobu"
+
+msgid "wsp_shared_type"
+msgstr "Podziel się z"
+
+msgid "wsp_shared_user_filter"
+msgstr "Nazwa użytkownika/nazwa"
+
+msgid "wsp_shared_with"
+msgstr "Podziel się z"
+
+msgid "wsp_status_shared"
+msgstr "Udostępnione"
+
+#, fuzzy
+msgid "wsp_switch_to_repo_tree"
+msgstr "Switch to Repository"
+
+#, fuzzy
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Switch to Personal Resources"
+
+msgid "wsp_tab_ownership"
+msgstr "Moje obiekty w zasobach"
+
+msgid "wsp_tab_personal"
+msgstr "Moje zasoby"
+
+msgid "wsp_tab_shared"
+msgstr "Zasoby innych"
+
+msgid "wsp_type_blog"
+msgstr "Blog"
+
+#, fuzzy
+msgid "wsp_type_cmxv"
+msgstr "Certificate: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Certyfikat: kurs"
+
+msgid "wsp_type_excv"
+msgstr "Certyfikat: ćwiczenie"
+
+msgid "wsp_type_file"
+msgstr "Plik"
+
+#, fuzzy
+msgid "wsp_type_ltiv"
+msgstr "Certificate: LTI Consumer"
+
+msgid "wsp_type_scov"
+msgstr "Certyfikat: SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Certyfikat: test"
+
+msgid "wsp_type_webr"
+msgstr "Zasób web"
+
+msgid "wsp_type_wfld"
+msgstr "Folder"

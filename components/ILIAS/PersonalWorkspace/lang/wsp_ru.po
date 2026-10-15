@@ -1,0 +1,223 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: wsp\n"
+
+#, fuzzy
+msgid "element_already_shared"
+msgstr "This object is already shared with this user."
+
+#, fuzzy
+msgid "element_shared"
+msgstr "Object shared."
+
+#, fuzzy
+msgid "error_creating_certificate_pdf"
+msgstr "The certificate could not be created. Please contact the administrator to check the certificate server."
+
+#, fuzzy
+msgid "share"
+msgstr "Share"
+
+#, fuzzy
+msgid "share_content"
+msgstr "Share Object"
+
+#, fuzzy
+msgid "share_with"
+msgstr "Username"
+
+msgid "wsp_copy_to_repository"
+msgstr "Скопировать в репозиторий"
+
+msgid "wsp_invalid_password"
+msgstr "Данный пароль неверен."
+
+#, fuzzy
+msgid "wsp_list_cmxv"
+msgstr "Certificate of xAPI/cmi5 Object"
+
+msgid "wsp_list_crsv"
+msgstr "Course Certificate"
+
+msgid "wsp_list_excv"
+msgstr "Exercise Certificate"
+
+#, fuzzy
+msgid "wsp_list_ltiv"
+msgstr "Certificate of LTI Consumer Object"
+
+msgid "wsp_list_scov"
+msgstr "SCORM Certificate"
+
+msgid "wsp_list_tstv"
+msgstr "Test Certificate"
+
+msgid "wsp_move_to_repository"
+msgstr "Переместить в репозиторий"
+
+msgid "wsp_password_for"
+msgstr "Пароль для"
+
+msgid "wsp_password_protected_resource"
+msgstr "Ресурс защищенный паролем"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Для доступа к данному ресурсу вы должны ввести пароль."
+
+msgid "wsp_permission_all_info"
+msgstr "Объект опубликован."
+
+#, fuzzy
+msgid "wsp_permission_all_pw_info"
+msgstr "After providing the password this object is visible for all users of the internet."
+
+msgid "wsp_permission_registered_info"
+msgstr "Данный объект доступен для всех зарегистрированных пользователей."
+
+msgid "wsp_permission_removed"
+msgstr "Элемент удален."
+
+msgid "wsp_permissions"
+msgstr "Сделать общим"
+
+#, fuzzy
+msgid "wsp_personal_resources_description"
+msgstr "Here you can manage your private files, blogs and artifacts."
+
+#, fuzzy
+msgid "wsp_search_no_match"
+msgstr "Your search did not match any results."
+
+#, fuzzy
+msgid "wsp_send_mail"
+msgstr "Send Mail"
+
+msgid "wsp_set_permission_all"
+msgstr "World Wide Web"
+
+msgid "wsp_set_permission_all_password"
+msgstr "World Wide Web with Password"
+
+msgid "wsp_set_permission_course"
+msgstr "Участники курса"
+
+msgid "wsp_set_permission_group"
+msgstr "Участники группы"
+
+msgid "wsp_set_permission_registered"
+msgstr "Все зарегистрированные пользователи"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Отдельный пользователь"
+
+msgid "wsp_share_search_users"
+msgstr "Найти пользователей"
+
+msgid "wsp_share_success"
+msgstr "Новый пункт был успешно добавлен."
+
+msgid "wsp_share_with_members"
+msgstr "Сделать доступным для подписчиков"
+
+msgid "wsp_share_with_users"
+msgstr "Сделать доступным для пользователей"
+
+msgid "wsp_shared_date"
+msgstr "Date of Share"
+
+msgid "wsp_shared_date_filter"
+msgstr "Shared From"
+
+#, fuzzy
+msgid "wsp_shared_filter_button"
+msgstr "Search"
+
+#, fuzzy
+msgid "wsp_shared_filter_reset_button"
+msgstr "Reset Search"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Please set at least one filter attribute. Text filters have to be at least 4 characters long."
+
+msgid "wsp_shared_member_filter"
+msgstr "Members of Course / Group"
+
+msgid "wsp_shared_object_type"
+msgstr "Type of Resource"
+
+msgid "wsp_shared_resources"
+msgstr "Общие ресурсы"
+
+#, fuzzy
+msgid "wsp_shared_table_title"
+msgstr "Shares"
+
+msgid "wsp_shared_title"
+msgstr "Title of Resource"
+
+msgid "wsp_shared_type"
+msgstr "Shared With"
+
+msgid "wsp_shared_user_filter"
+msgstr "Login/Name"
+
+msgid "wsp_shared_with"
+msgstr "Доступно для"
+
+msgid "wsp_status_shared"
+msgstr "Сделано доступным"
+
+#, fuzzy
+msgid "wsp_switch_to_repo_tree"
+msgstr "Switch to Repository"
+
+#, fuzzy
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Switch to Personal Resources"
+
+msgid "wsp_tab_ownership"
+msgstr "Мои объекты репозитория"
+
+msgid "wsp_tab_personal"
+msgstr "Мои ресурсы"
+
+msgid "wsp_tab_shared"
+msgstr "Ресурсы других пользователей"
+
+msgid "wsp_type_blog"
+msgstr "Блог"
+
+#, fuzzy
+msgid "wsp_type_cmxv"
+msgstr "Certificate: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Certificate: Course"
+
+msgid "wsp_type_excv"
+msgstr "Сертификат: Упражнение"
+
+msgid "wsp_type_file"
+msgstr "Файл"
+
+#, fuzzy
+msgid "wsp_type_ltiv"
+msgstr "Certificate: LTI Consumer"
+
+msgid "wsp_type_scov"
+msgstr "Certificate: SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Сертификат: Тест"
+
+msgid "wsp_type_webr"
+msgstr "Web ссылка"
+
+msgid "wsp_type_wfld"
+msgstr "Папка"

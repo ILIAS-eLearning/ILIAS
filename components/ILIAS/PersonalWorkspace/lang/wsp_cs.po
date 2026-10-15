@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: wsp\n"
+
+msgid "element_already_shared"
+msgstr "Tento objekt je již s tímto uživatelem sdílen."
+
+msgid "element_shared"
+msgstr "Objekt je sdílen."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Nebylo možné vytvořit certifikát. Obraťte se na správce a zkontrolujte certifikační server."
+
+msgid "share"
+msgstr "Sdílet"
+
+msgid "share_content"
+msgstr "Sdílet objekt"
+
+msgid "share_with"
+msgstr "Uživatelské jméno"
+
+msgid "wsp_copy_to_repository"
+msgstr "Zkopírovat do úložiště"
+
+msgid "wsp_invalid_password"
+msgstr "Dané heslo není platné."
+
+#, fuzzy
+msgid "wsp_list_cmxv"
+msgstr "Certificate of xAPI/cmi5 Object"
+
+msgid "wsp_list_crsv"
+msgstr "Certifikát kurzu"
+
+msgid "wsp_list_excv"
+msgstr "Certifikát cvičení"
+
+#, fuzzy
+msgid "wsp_list_ltiv"
+msgstr "Certificate of LTI Consumer Object"
+
+msgid "wsp_list_scov"
+msgstr "Certifikát SCORM"
+
+msgid "wsp_list_tstv"
+msgstr "Certifikát testu"
+
+msgid "wsp_move_to_repository"
+msgstr "Přesunout do úložiště"
+
+msgid "wsp_password_for"
+msgstr "Heslo pro"
+
+msgid "wsp_password_protected_resource"
+msgstr "Heslem chráněný zdroj"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Pro přístup k tomuto zdroji musíte vložit heslo."
+
+msgid "wsp_permission_all_info"
+msgstr "Tento objekt byl zveřejněn."
+
+msgid "wsp_permission_all_pw_info"
+msgstr "Po zadání hesla bude tento objekt viditelný pro všechny uživatele internetu."
+
+msgid "wsp_permission_registered_info"
+msgstr "Tento objekt je sdílen se všemi registrovanými uživateli."
+
+msgid "wsp_permission_removed"
+msgstr "Položka byla odstraněna."
+
+msgid "wsp_permissions"
+msgstr "Sdílet"
+
+#, fuzzy
+msgid "wsp_personal_resources_description"
+msgstr "Here you can manage your private files, blogs and artifacts."
+
+#, fuzzy
+msgid "wsp_search_no_match"
+msgstr "Your search did not match any results."
+
+#, fuzzy
+msgid "wsp_send_mail"
+msgstr "Send Mail"
+
+msgid "wsp_set_permission_all"
+msgstr "Zveřejnit"
+
+msgid "wsp_set_permission_all_password"
+msgstr "Zveřejnit (požadováno heslo)"
+
+msgid "wsp_set_permission_course"
+msgstr "Kurz"
+
+msgid "wsp_set_permission_group"
+msgstr "Skupina"
+
+msgid "wsp_set_permission_registered"
+msgstr "Všichni registrovaní uživatelé"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Jednotlivý uživatel"
+
+msgid "wsp_share_search_users"
+msgstr "Hledat uživatele"
+
+msgid "wsp_share_success"
+msgstr "Nový údaj byl přidán."
+
+msgid "wsp_share_with_members"
+msgstr "Sdílet se členy"
+
+msgid "wsp_share_with_users"
+msgstr "Sdílet s uživateli"
+
+msgid "wsp_shared_date"
+msgstr "Datum sdílení"
+
+msgid "wsp_shared_date_filter"
+msgstr "Převzaté od"
+
+msgid "wsp_shared_filter_button"
+msgstr "Vyhledat"
+
+msgid "wsp_shared_filter_reset_button"
+msgstr "Resetovat vyhledávání"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Nastavte alespoň jeden atribut filtru. Textové filtry musí mít minimálně 4 znaky."
+
+msgid "wsp_shared_member_filter"
+msgstr "Členové kurzu / skupiny"
+
+msgid "wsp_shared_object_type"
+msgstr "Typ zdroje"
+
+msgid "wsp_shared_resources"
+msgstr "Sdílené zdroje"
+
+msgid "wsp_shared_table_title"
+msgstr "Sdílení"
+
+msgid "wsp_shared_title"
+msgstr "Název zdroje"
+
+msgid "wsp_shared_type"
+msgstr "Sdíleno s"
+
+msgid "wsp_shared_user_filter"
+msgstr "Login/Název"
+
+msgid "wsp_shared_with"
+msgstr "Sdíleno s"
+
+msgid "wsp_status_shared"
+msgstr "Sdíleno"
+
+#, fuzzy
+msgid "wsp_switch_to_repo_tree"
+msgstr "Switch to Repository"
+
+#, fuzzy
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Switch to Personal Resources"
+
+msgid "wsp_tab_ownership"
+msgstr "Objekty z mého úložiště"
+
+msgid "wsp_tab_personal"
+msgstr "Mé zdroje"
+
+msgid "wsp_tab_shared"
+msgstr "Sdéleno s ostatními uživateli"
+
+msgid "wsp_type_blog"
+msgstr "Blog"
+
+#, fuzzy
+msgid "wsp_type_cmxv"
+msgstr "Certificate: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Certificate: Kurz"
+
+msgid "wsp_type_excv"
+msgstr "Verifikace: Cvičení"
+
+msgid "wsp_type_file"
+msgstr "Soubor"
+
+#, fuzzy
+msgid "wsp_type_ltiv"
+msgstr "Certificate: LTI Consumer"
+
+msgid "wsp_type_scov"
+msgstr "Certificate: SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Verifikace: Test"
+
+msgid "wsp_type_webr"
+msgstr "Weblový odkaz"
+
+msgid "wsp_type_wfld"
+msgstr "Složka"
