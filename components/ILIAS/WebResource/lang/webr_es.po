@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: webr\n"
+
+msgid "invalid_links_tbl"
+msgstr "Enlaces no válidos"
+
+msgid "webr_active"
+msgstr "Activo"
+
+msgid "webr_container_info"
+msgstr "Por favor, introduzca un título y opcionalmente una descripción para la presentación de esta lista de enlaces web en el repositorio."
+
+msgid "webr_copy"
+msgstr "Copiar enlace web"
+
+msgid "webr_deactivate"
+msgstr "Desactivar enlace web"
+
+msgid "webr_edit_links"
+msgstr "Editar enlaces web"
+
+msgid "webr_edit_list"
+msgstr "Editar enlaces web"
+
+msgid "webr_edit_settings"
+msgstr "Editar configuración"
+
+msgid "webr_import"
+msgstr "Importar enlace web"
+
+msgid "webr_inactive_success"
+msgstr "El enlace seleccionado ha sido desactivado."
+
+msgid "webr_link_added"
+msgstr "Se ha creado un nuevo enlace."
+
+msgid "webr_link_target"
+msgstr "Destino del enlace web"
+
+msgid "webr_link_title"
+msgstr "Nombre del enlace web / Nombre de la lista de enlaces web"
+
+msgid "webr_link_type_list"
+msgstr "Lista de enlaces web"
+
+msgid "webr_link_type_single"
+msgstr "Enlace web individual"
+
+msgid "webr_list_added"
+msgstr "Se ha creado una nueva lista de enlaces web."
+
+msgid "webr_list_desc"
+msgstr "Descripción de la lista de enlaces web"
+
+msgid "webr_list_set"
+msgstr "El enlace web se ha asignado a una lista de enlaces web."
+
+msgid "webr_list_title"
+msgstr "Título de la lista de enlaces web"
+
+msgid "webr_new"
+msgstr "Crear enlace web"
+
+msgid "webr_new_link"
+msgstr "Agregar nuevo enlace web"
+
+msgid "webr_new_list"
+msgstr "Agregar nueva lista de enlaces web"
+
+msgid "webr_new_list_info"
+msgstr "Por favor, introduzca un título y opcionalmente una descripción para la presentación de esta lista de enlaces web en el repositorio."
+
+msgid "webr_set_to_list"
+msgstr "Asignar a lista de enlaces web"
+
+msgid "webr_sort_manual"
+msgstr "Ordenar manualmente"
+
+msgid "webr_sort_title"
+msgstr "Títulos en orden alfabético"
+
+msgid "webr_sorting"
+msgstr "Ordenación de enlaces web"

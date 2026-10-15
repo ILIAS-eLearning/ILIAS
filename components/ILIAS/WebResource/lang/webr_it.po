@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: webr\n"
+
+msgid "invalid_links_tbl"
+msgstr "Collegamenti non validi"
+
+msgid "webr_active"
+msgstr "Attiva"
+
+msgid "webr_container_info"
+msgstr "Si prega di inserire un titolo e facoltativamente una descrizione per la presentazione di questo elenco di collegamenti web nel repository."
+
+msgid "webr_copy"
+msgstr "Copia collegamento web"
+
+msgid "webr_deactivate"
+msgstr "Disattiva collegamento web"
+
+msgid "webr_edit_links"
+msgstr "Modifica collegamento web"
+
+msgid "webr_edit_list"
+msgstr "Modifica raccolta collegamenti web"
+
+msgid "webr_edit_settings"
+msgstr "Modifica impostazioni"
+
+msgid "webr_import"
+msgstr "Importa collegamento web"
+
+msgid "webr_inactive_success"
+msgstr "Il collegamento web scelto è stato disattivato."
+
+msgid "webr_link_added"
+msgstr "È stato creato un nuovo collegamento web."
+
+msgid "webr_link_target"
+msgstr "Target collegamento web"
+
+msgid "webr_link_title"
+msgstr "Nome collegamento web/ Nome raccolta collegamento web"
+
+msgid "webr_link_type_list"
+msgstr "Elenco dei collegamenti web"
+
+msgid "webr_link_type_single"
+msgstr "Collegamento web singolo"
+
+msgid "webr_list_added"
+msgstr "È stato creato un nuovo elenco di collegamenti web."
+
+msgid "webr_list_desc"
+msgstr "Descrizione della raccolta di collegamenti web"
+
+msgid "webr_list_set"
+msgstr "Il collegamento web è stato modificato in una raccolta di collegamenti web."
+
+msgid "webr_list_title"
+msgstr "Titolo dell'a raccolta di collegamenti web"
+
+#, fuzzy
+msgid "webr_new"
+msgstr "Create Weblink"
+
+msgid "webr_new_link"
+msgstr "Aggiungi Nuovo collegamento web"
+
+msgid "webr_new_list"
+msgstr "Aggiungi nuova raccolta di collegamenti web"
+
+msgid "webr_new_list_info"
+msgstr "Si prega di inserire un titolo e, facoltativamente, una descrizione per la presentazione di questa raccolta di collegamento web nel repository."
+
+msgid "webr_set_to_list"
+msgstr "Modificare in elenco di collegamenti web"
+
+msgid "webr_sort_manual"
+msgstr "Ordina manualmente"
+
+msgid "webr_sort_title"
+msgstr "Ordina alfabeticamente per titolo"
+
+msgid "webr_sorting"
+msgstr "Ordinamento dei collegamenti web"

@@ -11864,33 +11864,6 @@ survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Frågan är ofullständig!
 survey#:#workingtime#:#Bearbetningstid
 violation#:#not_a_string#:#Värdet är inte en sträng
-webr#:#invalid_links_tbl#:#Ogiltiga länkar
-webr#:#webr_active#:#Aktiv
-webr#:#webr_container_info#:#Eftersom denna webblänksamling bör innehålla mer än en webblänk, bör du tilldela en titel och eventuellt en beskrivningstext för visningen i tidningen.
-webr#:#webr_copy#:#Kopiera Webblänk
-webr#:#webr_deactivate#:#Avaktivera Webblänk
-webr#:#webr_edit_links#:#Redigera Webblänkar
-webr#:#webr_edit_list#:#Redigera Webblänk samling
-webr#:#webr_edit_settings#:#Redigera inställningar
-webr#:#webr_import#:#Import webblänk
-webr#:#webr_inactive_success#:#Webblänken har avaktiverats.
-webr#:#webr_link_added#:#En ny webblänk har skapats.
-webr#:#webr_link_target#:#Mål
-webr#:#webr_link_title#:#titel på webblänken / titel på webblänkens samling
-webr#:#webr_link_type_list#:#Samling av webblänkar
-webr#:#webr_link_type_single#:#Enstaka webblänk
-webr#:#webr_list_added#:#En ny webblänksamling har skapats.
-webr#:#webr_list_desc#:#Beskrivning av samlingen av webblänkar
-webr#:#webr_list_set#:#Webblänken har omvandlats till en webblänksamling.
-webr#:#webr_list_title#:#Titel på samlingen av webblänkar
-webr#:#webr_new#:#Create Weblink###29 10 2025 new variable
-webr#:#webr_new_link#:#Skapa ny webblänk
-webr#:#webr_new_list#:#Skapa ny webblänksamling
-webr#:#webr_new_list_info#:#Please enter a title and optional a description for the presentation of this web link collection in the magazine.
-webr#:#webr_set_to_list#:#Konvertera till insamling av webblänkar
-webr#:#webr_sort_manual#:#Manuell sortering
-webr#:#webr_sort_title#:#Alfabetiskt efter titel
-webr#:#webr_sorting#:#Sortering av webblänkar
 wiki#:#wiki_activate_extended_rating#:# Aktivera betygskategorier
 wiki#:#wiki_activate_new_page_rating#:#Aktivera betyg för nya sidor
 wiki#:#wiki_activate_page_rating#:#Tillåt betyg
