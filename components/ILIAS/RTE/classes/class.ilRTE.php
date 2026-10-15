@@ -28,6 +28,13 @@ use ILIAS\HTTP\Agent\AgentDetermination;
  */
 class ilRTE
 {
+    /**
+     * Media-object images are stored as src="…" data-id="123".
+     * The value must not cross the closing quote. A greedy ".*" backtracks
+     * over large data-URI payloads and hits the PCRE backtrack limit.
+     */
+    private const MEDIA_OBJECT_SRC_PATTERN = '/src="[^"]*" data-id="([0-9]+)"/';
+
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
     protected ilObjUser $user;
@@ -141,7 +148,7 @@ class ilRTE
     public static function _cleanupMediaObjectUsage(string $a_text, string $a_usage_type, int $a_usage_id): void
     {
         $mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type, $a_usage_id);
-        while (preg_match('/src=".*" data-id="([0-9]+)"/', $a_text, $found)) {
+        while (preg_match(self::MEDIA_OBJECT_SRC_PATTERN, $a_text, $found)) {
             $a_text = str_replace($found[0], '', $a_text);
             $found_mob_id = (int) $found[1];
 
@@ -185,11 +192,16 @@ class ilRTE
         }
 
         if ($a_direction === 0) {
-            $a_text = preg_replace(
-                '/src=".*" data-id="([0-9]+)"/',
-                'src="il_' . $nic . '_mob_\\1"',
+            $replaced = preg_replace_callback(
+                self::MEDIA_OBJECT_SRC_PATTERN,
+                static fn (array $match): string => 'src="il_' . $nic . '_mob_' . $match[1] . '"',
                 $a_text
             );
+            // A PCRE failure returns null. Keep the original text instead of
+            // violating the string return type.
+            if (is_string($replaced)) {
+                $a_text = $replaced;
+            }
         } else {
             $resulttext = $a_text;
             if (preg_match_all('/src="(il_[0-9]+_mob_([0-9]+))"/', $a_text, $matches)) {
@@ -221,7 +233,7 @@ class ilRTE
 
         $mediaObjects = [];
         if ($a_direction === 0) {
-            $is_matching = preg_match_all('/src=".*" data-id="([0-9]+)"/', $a_text, $matches);
+            $is_matching = preg_match_all(self::MEDIA_OBJECT_SRC_PATTERN, $a_text, $matches);
         } else {
             $is_matching = preg_match_all('/src="il_[0-9]+_mob_([0-9]+)"/', $a_text, $matches);
         }
