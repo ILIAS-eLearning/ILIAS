@@ -296,59 +296,6 @@ administration#:#vc_information#:# Visa information om versionskontroll
 administration#:#vc_information_not_determined#:#Ingen information om versionskontroll kunde fastställas.
 administration#:#view_last_log#:#Visa loggen för senaste skanning
 administration#:#view_log#:#Visa detaljer
-adn#:#action_confirm_delete#:#Delete Notifications###26 08 2024 new variable
-adn#:#action_confirm_delete_msg#:#Would you like to delete the following notification(s)?###26 08 2024 new variable
-adn#:#administrative_notification#:#Administrative Notifications###21 11 2023 new variable
-adn#:#administrative_notification_description#:#Gå ut systemövergripande meddelanden i rubriken för ILIAS
-adn#:#btn_cancel#:#Avbryt
-adn#:#btn_delete#:#Radera
-adn#:#btn_delete_confirm#:#Vill du ta bort detta meddelande?
-adn#:#btn_duplicate#:#Duplicate###21 11 2023 new variable
-adn#:#btn_edit#:#Redigera
-adn#:#btn_reset#:#Återställ
-adn#:#btn_reset_confirm#:#Vill du återställa detta meddelande för alla användare?
-adn#:#common_actions#:#Åtgärder
-adn#:#common_add_msg#:#Lägg till tillkännagivande
-adn#:#main#:#Meddelanden
-adn#:#msg_body#:#Text
-adn#:#msg_body_info#:#Texten för tillkännagivandena
-adn#:#msg_dismissable#:#Manuell stängning
-adn#:#msg_dismissable_info#:#Användare kan stänga meddelanden och inte längre se dem i framtiden.
-adn#:#msg_display_date_end#:#Visa till
-adn#:#msg_display_date_start#:#Visa från
-adn#:#msg_error_false_date_configuration#:#Notification kan inte skapas med denna konfiguration av data. Händelsen måste vara inom visningstiden.
-adn#:#msg_event_date_end#:#Avsluta händelse
-adn#:#msg_event_date_start#:#Börja evenemang
-adn#:#msg_form_title#:#Tillkännagivande
-adn#:#msg_has_language_limitation#:#Limited to selected languages###21 11 2023 new variable
-adn#:#msg_has_language_limitation_info#:#Only selected languages will see the notification.###21 11 2023 new variable
-adn#:#msg_languages#:#Languages###21 11 2023 new variable
-adn#:#msg_limit_to_roles#:#Begränsad till utvalda roller
-adn#:#msg_limit_to_roles_info#:#Notification visas endast för personer med någon av de roller som valts nedan.
-adn#:#msg_limited_to_role_ids#:#Display
-adn#:#msg_permanent#:#Display
-adn#:#msg_permanent_info#:#Visa meddelanden permanent eller under en begränsad tidsperiod
-adn#:#msg_permanent_no#:#Tillfälligt
-adn#:#msg_permanent_yes#:#Permanent
-adn#:#msg_presentation#:#Display
-adn#:#msg_show_to_all_languages#:#Show to all languages###21 11 2023 new variable
-adn#:#msg_show_to_all_roles#:#Visa alla roller
-adn#:#msg_show_to_all_roles_info#:#Meddelandet visas för alla användare och är även synligt i det offentliga området för personer som inte är inloggade.
-adn#:#msg_success_created#:#Anmälan skapad
-adn#:#msg_success_deleted#:#Announcement framgångsrikt raderat
-adn#:#msg_success_duplicated#:#Notification sucessfully duplicated###21 11 2023 new variable
-adn#:#msg_success_reset#:#Återställning av tillkännagivandet
-adn#:#msg_success_updated#:#Anmälan uppdaterad
-adn#:#msg_table_title#:#Meddelanden
-adn#:#msg_title#:#Titel
-adn#:#msg_title_info#:#Kort titel på meddelandet
-adn#:#msg_type#:#betydelse
-adn#:#msg_type_0#:#Note
-adn#:#msg_type_1#:#Note
-adn#:#msg_type_2#:#Viktigt
-adn#:#msg_type_3#:#Brytande nyheter
-adn#:#msg_type_during_event#:#Under evenemanget
-adn#:#msg_type_info#:#Viktigheten avgör färgvisningen av tillkännagivandena
 assessment#:#activate_logging#:#Aktivera loggning av test och bedömning
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable

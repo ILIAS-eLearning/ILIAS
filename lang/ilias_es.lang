@@ -299,59 +299,6 @@ administration#:#vc_information#:#Mostrar información de control de versiones
 administration#:#vc_information_not_determined#:#ILIAS no pudo determinar ninguna información de control de versiones.
 administration#:#view_last_log#:#Ver último registro de escaneo
 administration#:#view_log#:#Ver detalles
-adn#:#action_confirm_delete#:#Eliminar notificaciones
-adn#:#action_confirm_delete_msg#:#¿Desea eliminar la(s) siguiente(s) notificación(es)?
-adn#:#administrative_notification#:#Notificaciones administrativas
-adn#:#administrative_notification_description#:#Proporcionar notificaciones a nivel del sistema en la barra superior de ILIAS
-adn#:#btn_cancel#:#Cancelar
-adn#:#btn_delete#:#Eliminar
-adn#:#btn_delete_confirm#:#¿Desea eliminar esta notificación?
-adn#:#btn_duplicate#:#Duplicar
-adn#:#btn_edit#:#Editar
-adn#:#btn_reset#:#Restablecer
-adn#:#btn_reset_confirm#:#¿Desea restablecer esta notificación para todos los usuarios?
-adn#:#common_actions#:#Acciones
-adn#:#common_add_msg#:#Agregar Notificación
-adn#:#main#:#Notificaciones
-adn#:#msg_body#:#Cuerpo
-adn#:#msg_body_info#:#Cuerpo de la notificación
-adn#:#msg_dismissable#:#Descartable
-adn#:#msg_dismissable_info#:#Las notificaciones pueden cerrarse por el usuario. El usuario no volverá a ver esta notificación.
-adn#:#msg_display_date_end#:#Mostrado hasta
-adn#:#msg_display_date_start#:#Mostrado desde
-adn#:#msg_error_false_date_configuration#:#No se puede crear una notificación con esta configuración de fechas. El evento debe estar dentro del período de visualización.
-adn#:#msg_event_date_end#:#Fin del evento
-adn#:#msg_event_date_start#:#Inicio del evento
-adn#:#msg_form_title#:#Notificación
-adn#:#msg_has_language_limitation#:#Limitado a los idiomas seleccionados
-adn#:#msg_has_language_limitation_info#:#Solo los idiomas seleccionados verán la notificación.
-adn#:#msg_languages#:#Idiomas
-adn#:#msg_limit_to_roles#:#Limitado a los roles seleccionados
-adn#:#msg_limit_to_roles_info#:#Solo los roles seleccionados verán la notificación.
-adn#:#msg_limited_to_role_ids#:#Presentación
-adn#:#msg_permanent#:#Mostrar
-adn#:#msg_permanent_info#:#Mostrar las notificaciones de forma permanente o temporal
-adn#:#msg_permanent_no#:#Mostrar temporalmente
-adn#:#msg_permanent_yes#:#Mostrar permanentemente
-adn#:#msg_presentation#:#Presentación
-adn#:#msg_show_to_all_languages#:#Mostrar en todos los idiomas
-adn#:#msg_show_to_all_roles#:#Mostrar a todos los roles
-adn#:#msg_show_to_all_roles_info#:#Todos los usuarios, incluso si no han iniciado sesión, verán la notificación.
-adn#:#msg_success_created#:#Notificación creada
-adn#:#msg_success_deleted#:#Notificación(es) eliminada(s) correctamente
-adn#:#msg_success_duplicated#:#Notificación duplicada correctamente
-adn#:#msg_success_reset#:#Notificación restablecida
-adn#:#msg_success_updated#:#Notificación actualizada
-adn#:#msg_table_title#:#Notificaciones
-adn#:#msg_title#:#Título
-adn#:#msg_title_info#:#Breve título de la notificación
-adn#:#msg_type#:#Importancia
-adn#:#msg_type_0#:#Aviso
-adn#:#msg_type_1#:#Aviso
-adn#:#msg_type_2#:#Importante
-adn#:#msg_type_3#:#Última hora
-adn#:#msg_type_during_event#:#Durante el evento
-adn#:#msg_type_info#:#la importancia influye en la representación del color de la notificación
 assessment#:#activate_logging#:#Activar el registro de pruebas y evaluaciones
 assessment#:#activate_manual_scoring#:#Activar puntuación manual
 assessment#:#activate_manual_scoring_desc#:#Habilita la puntuación manual para todos los tipos de preguntas.

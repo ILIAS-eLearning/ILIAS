@@ -1,0 +1,165 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: adn\n"
+
+msgid "action_confirm_delete"
+msgstr ""
+
+msgid "action_confirm_delete_msg"
+msgstr ""
+
+msgid "administrative_notification"
+msgstr ""
+
+msgid "administrative_notification_description"
+msgstr ""
+
+msgid "btn_cancel"
+msgstr ""
+
+msgid "btn_delete"
+msgstr ""
+
+msgid "btn_delete_confirm"
+msgstr ""
+
+msgid "btn_duplicate"
+msgstr ""
+
+msgid "btn_edit"
+msgstr ""
+
+msgid "btn_reset"
+msgstr ""
+
+msgid "btn_reset_confirm"
+msgstr ""
+
+msgid "common_actions"
+msgstr ""
+
+msgid "common_add_msg"
+msgstr ""
+
+msgid "main"
+msgstr ""
+
+msgid "msg_body"
+msgstr ""
+
+msgid "msg_body_info"
+msgstr ""
+
+msgid "msg_dismissable"
+msgstr ""
+
+msgid "msg_dismissable_info"
+msgstr ""
+
+msgid "msg_display_date_end"
+msgstr ""
+
+msgid "msg_display_date_start"
+msgstr ""
+
+msgid "msg_error_false_date_configuration"
+msgstr ""
+
+msgid "msg_event_date_end"
+msgstr ""
+
+msgid "msg_event_date_start"
+msgstr ""
+
+msgid "msg_form_title"
+msgstr ""
+
+msgid "msg_has_language_limitation"
+msgstr ""
+
+msgid "msg_has_language_limitation_info"
+msgstr ""
+
+msgid "msg_languages"
+msgstr ""
+
+msgid "msg_limit_to_roles"
+msgstr ""
+
+msgid "msg_limit_to_roles_info"
+msgstr ""
+
+msgid "msg_limited_to_role_ids"
+msgstr ""
+
+msgid "msg_permanent"
+msgstr ""
+
+msgid "msg_permanent_info"
+msgstr ""
+
+msgid "msg_permanent_no"
+msgstr ""
+
+msgid "msg_permanent_yes"
+msgstr ""
+
+msgid "msg_presentation"
+msgstr ""
+
+msgid "msg_show_to_all_languages"
+msgstr ""
+
+msgid "msg_show_to_all_roles"
+msgstr ""
+
+msgid "msg_show_to_all_roles_info"
+msgstr ""
+
+msgid "msg_success_created"
+msgstr ""
+
+msgid "msg_success_deleted"
+msgstr ""
+
+msgid "msg_success_duplicated"
+msgstr ""
+
+msgid "msg_success_reset"
+msgstr ""
+
+msgid "msg_success_updated"
+msgstr ""
+
+msgid "msg_table_title"
+msgstr ""
+
+msgid "msg_title"
+msgstr ""
+
+msgid "msg_title_info"
+msgstr ""
+
+msgid "msg_type"
+msgstr ""
+
+msgid "msg_type_0"
+msgstr ""
+
+msgid "msg_type_1"
+msgstr ""
+
+msgid "msg_type_2"
+msgstr ""
+
+msgid "msg_type_3"
+msgstr ""
+
+msgid "msg_type_during_event"
+msgstr ""
+
+msgid "msg_type_info"
+msgstr ""

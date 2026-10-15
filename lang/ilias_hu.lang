@@ -300,59 +300,6 @@ administration#:#vc_information#:#SVN verzió megjelenítése
 administration#:#vc_information_not_determined#:#ILIAS nem tudja megállapítani az verzióinformációt.
 administration#:#view_last_log#:#Utolsó átvizsgálás napló megtekintése
 administration#:#view_log#:#Részletek megtekintése
-adn#:#action_confirm_delete#:#Értesítések törlése
-adn#:#action_confirm_delete_msg#:#Biztos, hohgy törli a következő értesítés(eke)t?
-adn#:#administrative_notification#:#Rendszerértesítések
-adn#:#administrative_notification_description#:#Rendszerértesítések megjelenítésének lehetősége az ILIAS felső sávjában
-adn#:#btn_cancel#:#Mégsem
-adn#:#btn_delete#:#Törlés
-adn#:#btn_delete_confirm#:#Biztos, hogy törli ezt az értesítést?
-adn#:#btn_duplicate#:#Duplikálás
-adn#:#btn_edit#:#Módosítás
-adn#:#btn_reset#:#Reszetelés
-adn#:#btn_reset_confirm#:#Biztos, hogy alapértékre álítja ezt az értesítést az összes felhasználónál?
-adn#:#common_actions#:#Műveletek
-adn#:#common_add_msg#:#Értesítés létrehozása
-adn#:#main#:#Értesítések
-adn#:#msg_body#:#Szöveg
-adn#:#msg_body_info#:#Az értesítés szövege.
-adn#:#msg_dismissable#:#Levehető
-adn#:#msg_dismissable_info#:#A felhasználók az értesítést bezárhassák-e. Bezárás után az értesítés többet nem jelenik meg.
-adn#:#msg_display_date_end#:#Megjelenés eddig
-adn#:#msg_display_date_start#:#Megjelenés ekkortól
-adn#:#msg_error_false_date_configuration#:#Az értesítés nem hozható létre ezekkel a időpontokkal. Az eseménynek a megjelenítési idő között kell lennie.
-adn#:#msg_event_date_end#:#Esemény vége
-adn#:#msg_event_date_start#:#Esemény eleje
-adn#:#msg_form_title#:#Értesítés
-adn#:#msg_has_language_limitation#:#Korlátozás a telpeített nyelvekre
-adn#:#msg_has_language_limitation_info#:#Csak a kijelölt nyelveken jelennek meg az értesítések
-adn#:#msg_languages#:#Nyelvek
-adn#:#msg_limit_to_roles#:#Szerepkörfüggő megjelenítés
-adn#:#msg_limit_to_roles_info#:#Csak a kijelölt szerepkörök tagjainak jelenik meg az értesítés.
-adn#:#msg_limited_to_role_ids#:#Szerepkörök
-adn#:#msg_permanent#:#Megjelenítés
-adn#:#msg_permanent_info#:#Megadható, hogy az értesítés állandó vagy ideiglenes legyen-e.
-adn#:#msg_permanent_no#:#Ideiglenesen
-adn#:#msg_permanent_yes#:#Állandóan
-adn#:#msg_presentation#:#Megjelenítés
-adn#:#msg_show_to_all_languages#:#Megjelenítés az összes nyelven
-adn#:#msg_show_to_all_roles#:#Megjelenítés az összes szerepkörnek
-adn#:#msg_show_to_all_roles_info#:#Mindenki, még a be nem jelentkezett felhasználók is látni fogják ezt az értesítést.
-adn#:#msg_success_created#:#Az értesítést sikeresen létrehozta
-adn#:#msg_success_deleted#:#Az értesítést sikeresen törölte
-adn#:#msg_success_duplicated#:#Az értesítést sikeresen duplikálta
-adn#:#msg_success_reset#:#Az értesítést sikeresen alapértékre állította
-adn#:#msg_success_updated#:#Az értesítést sikeresen módosította
-adn#:#msg_table_title#:#Értesítések
-adn#:#msg_title#:#Tárgy
-adn#:#msg_title_info#:#Az értesítés rövid tárgya.
-adn#:#msg_type#:#Fontosság
-adn#:#msg_type_0#:#Értesítés
-adn#:#msg_type_1#:#Értesítés
-adn#:#msg_type_2#:#Fontos
-adn#:#msg_type_3#:#Friss hírek
-adn#:#msg_type_during_event#:#Esemény közben
-adn#:#msg_type_info#:#A fontosság az értesítés színét határozza meg.
 assessment#:#activate_logging#:#Teszt és értékelés naplózása
 assessment#:#activate_manual_scoring#:#Manuális pontozás bekapcsolása
 assessment#:#activate_manual_scoring_desc#:#Maunális pontozás bekapcsolása az összes kérdéstípushoz

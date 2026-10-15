@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: adn\n"
+
+msgid "action_confirm_delete"
+msgstr "通知を削除"
+
+msgid "action_confirm_delete_msg"
+msgstr "次の通知を削除しますか?"
+
+msgid "administrative_notification"
+msgstr "管理上の通知"
+
+msgid "administrative_notification_description"
+msgstr "ILIASのトップバーへシステム-ワイド通知を提供する"
+
+msgid "btn_cancel"
+msgstr "キャンセル"
+
+msgid "btn_delete"
+msgstr "削除"
+
+msgid "btn_delete_confirm"
+msgstr "この通知を削除しますか?"
+
+msgid "btn_duplicate"
+msgstr "重複"
+
+msgid "btn_edit"
+msgstr "編集"
+
+msgid "btn_reset"
+msgstr "Reset"
+
+msgid "btn_reset_confirm"
+msgstr "全ユーザのこの通知をリセットしますか?"
+
+msgid "common_actions"
+msgstr "Actions"
+
+msgid "common_add_msg"
+msgstr "通知を追加"
+
+msgid "main"
+msgstr "通知"
+
+msgid "msg_body"
+msgstr "Body"
+
+msgid "msg_body_info"
+msgstr "通知のBody"
+
+msgid "msg_dismissable"
+msgstr "回避不可"
+
+msgid "msg_dismissable_info"
+msgstr "通知はユーザがクローズできます。ユーザにこれは再通知されません。"
+
+msgid "msg_display_date_end"
+msgstr "表示終了"
+
+msgid "msg_display_date_start"
+msgstr "表示開始"
+
+msgid "msg_error_false_date_configuration"
+msgstr "この日付設定で通知作成は不可。イベントは表示時間内にする必要があります。"
+
+msgid "msg_event_date_end"
+msgstr "イベント終了"
+
+msgid "msg_event_date_start"
+msgstr "イベントステータス"
+
+msgid "msg_form_title"
+msgstr "通知"
+
+msgid "msg_has_language_limitation"
+msgstr "選択言語へ限定"
+
+msgid "msg_has_language_limitation_info"
+msgstr "選択の言語に限り通知表示されます。"
+
+msgid "msg_languages"
+msgstr "言語"
+
+msgid "msg_limit_to_roles"
+msgstr "役割反応のプレゼンテーション"
+
+msgid "msg_limit_to_roles_info"
+msgstr "選択した役割に限り通知されます。"
+
+msgid "msg_limited_to_role_ids"
+msgstr "役割"
+
+msgid "msg_permanent"
+msgstr "表示"
+
+msgid "msg_permanent_info"
+msgstr "恒久的または暫定的に表示"
+
+msgid "msg_permanent_no"
+msgstr "暫定表示"
+
+msgid "msg_permanent_yes"
+msgstr "恒久的に表示"
+
+msgid "msg_presentation"
+msgstr "プレゼンテーション"
+
+msgid "msg_show_to_all_languages"
+msgstr "全言語へ表示"
+
+msgid "msg_show_to_all_roles"
+msgstr "全ての役割を表示"
+
+msgid "msg_show_to_all_roles_info"
+msgstr "ログインなしでも全てのユーザは通知されます。"
+
+msgid "msg_success_created"
+msgstr "通知を作成しました"
+
+msgid "msg_success_deleted"
+msgstr "通知は正しく削除されました"
+
+msgid "msg_success_duplicated"
+msgstr "通知は正しく複製されました"
+
+msgid "msg_success_reset"
+msgstr "通知をリセットしました"
+
+msgid "msg_success_updated"
+msgstr "通知を更新しました"
+
+msgid "msg_table_title"
+msgstr "通知"
+
+msgid "msg_title"
+msgstr "Headline"
+
+msgid "msg_title_info"
+msgstr "通知のショートヘッドライン"
+
+msgid "msg_type"
+msgstr "重大性"
+
+msgid "msg_type_0"
+msgstr "Notice"
+
+msgid "msg_type_1"
+msgstr "Notice"
+
+msgid "msg_type_2"
+msgstr "Important"
+
+msgid "msg_type_3"
+msgstr "Breaking News"
+
+msgid "msg_type_during_event"
+msgstr "イベント開催中"
+
+msgid "msg_type_info"
+msgstr "重大性は通知のカラー表示に反映されます。"
