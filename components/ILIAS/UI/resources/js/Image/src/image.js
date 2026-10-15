@@ -18,9 +18,14 @@ import il from 'il';
 import document from 'document';
 import getImageElement from './getImageElement';
 import loadHighResolutionSource from './loadHighResolutionSource';
+import IntersectionObserver from 'IntersectionObserver';
 
 il.UI = il.UI || {};
 il.UI.image = il.UI.image || {};
 
 il.UI.image.getImageElement = (imageId) => getImageElement(document, imageId);
-il.UI.image.loadHighResolutionSource = loadHighResolutionSource;
+il.UI.image.loadHighResolutionSource = (imageElement, highResDefinitions) => loadHighResolutionSource(
+  IntersectionObserver,
+  imageElement,
+  highResDefinitions,
+);
