@@ -6235,19 +6235,6 @@ content#:#st#:#章
 content#:#start_lm#:#学習モジュールを表示
 content#:#text_repr#:#テキスト表現
 content#:#text_repr_info#:#イメージ "alt"属性用として使用されます。
-copa#:#copa_activation_online_info#:#コンテンツページをオンラインへ設定し他のユーザが見えるように表示する。そうしないと管理者のみしかアクセスできなくなります。
-copa#:#copa_add#:#コンテンツページを追加
-copa#:#copa_btn_lp_toggle_state_completed#:#未完了を設定
-copa#:#copa_btn_lp_toggle_state_not_completed#:#完了を設定
-copa#:#copa_copy#:#コンテンツページをコピー
-copa#:#copa_edit#:#コンテンツページを編集
-copa#:#copa_import#:#コンテンツページをインポート
-copa#:#copa_new#:#コンテンツページを作成
-copa#:#copa_page_type_copa#:#ページコンテンツ
-copa#:#copa_prop_reading_time#:#読み取り時間
-copa#:#copa_value_reading_time_f_p#:#%s 分
-copa#:#copa_value_reading_time_f_s#:#%s 分
-copa#:#obj_copa_duplicate#:#コンテンツページを複製
 cptch#:#cptch_freetype_support_needed#:#この機能を使用するにはPHPのフリータイプサポートを有効にする必要があります。
 cptch#:#cptch_wrong_input#:#入力間違い
 crs#:#activation_times_not_valid#:#利用可能な時間が間違っています。

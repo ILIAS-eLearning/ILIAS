@@ -6229,19 +6229,6 @@ content#:#st#:#Глава
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image "alt" attribute.
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###29 07 2022 new variable
-copa#:#copa_add#:#Add Content Page###10 11 2018 new variable
-copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed###10 11 2018 new variable
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed###10 11 2018 new variable
-copa#:#copa_copy#:#Copy Content Page###10 11 2018 new variable
-copa#:#copa_edit#:#Edit Content Page###10 11 2018 new variable
-copa#:#copa_import#:#Import Content Page###10 11 2018 new variable
-copa#:#copa_new#:#Create Content Page###10 11 2018 new variable
-copa#:#copa_page_type_copa#:#Content Page###29 07 2022 new variable
-copa#:#copa_prop_reading_time#:#Reading Time###29 07 2022 new variable
-copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
-copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
-copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 cptch#:#cptch_wrong_input#:#Wrong Input
 crs#:#activation_times_not_valid#:#Период активации закончился.

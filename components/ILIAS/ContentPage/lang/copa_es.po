@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: copa\n"
+
+msgid "copa_activation_online_info"
+msgstr "Ponga la Página de Contenido en línea para que sea visible y esté disponible para otros usuarios. Si no, solo los administradores tendrán acceso a ella."
+
+msgid "copa_add"
+msgstr "Añadir Página de Contenido"
+
+msgid "copa_btn_lp_toggle_state_completed"
+msgstr "Establecer como No Completado"
+
+msgid "copa_btn_lp_toggle_state_not_completed"
+msgstr "Establecer como Completado"
+
+msgid "copa_copy"
+msgstr "Copiar Página de Contenido"
+
+msgid "copa_edit"
+msgstr "Editar Página de Contenido"
+
+msgid "copa_import"
+msgstr "Importar Página de Contenido"
+
+msgid "copa_new"
+msgstr "Crear Página de Contenido"
+
+msgid "copa_page_type_copa"
+msgstr "Página de Contenido"
+
+msgid "copa_prop_reading_time"
+msgstr "Tiempo de lectura"
+
+msgid "copa_value_reading_time_f_p"
+msgstr "%s Minutos"
+
+msgid "copa_value_reading_time_f_s"
+msgstr "%s Minuto"
+
+msgid "obj_copa_duplicate"
+msgstr "Duplicar Página de Contenido"

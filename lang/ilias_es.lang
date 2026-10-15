@@ -6241,19 +6241,6 @@ content#:#st#:#Capítulo
 content#:#start_lm#:#Iniciar Módulo de Aprendizaje
 content#:#text_repr#:#Representación de texto
 content#:#text_repr_info#:#Se utiliza para el atributo ‘alt’ de la imagen.
-copa#:#copa_activation_online_info#:#Ponga la Página de Contenido en línea para que sea visible y esté disponible para otros usuarios. Si no, solo los administradores tendrán acceso a ella.
-copa#:#copa_add#:#Añadir Página de Contenido
-copa#:#copa_btn_lp_toggle_state_completed#:#Establecer como No Completado
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Establecer como Completado
-copa#:#copa_copy#:#Copiar Página de Contenido
-copa#:#copa_edit#:#Editar Página de Contenido
-copa#:#copa_import#:#Importar Página de Contenido
-copa#:#copa_new#:#Crear Página de Contenido
-copa#:#copa_page_type_copa#:#Página de Contenido
-copa#:#copa_prop_reading_time#:#Tiempo de lectura
-copa#:#copa_value_reading_time_f_p#:#%s Minutos
-copa#:#copa_value_reading_time_f_s#:#%s Minuto
-copa#:#obj_copa_duplicate#:#Duplicar Página de Contenido
 cptch#:#cptch_freetype_support_needed#:#Para usar esta función, debe habilitar el soporte de freetype en su PHP.
 cptch#:#cptch_wrong_input#:#Entrada incorrecta
 crs#:#activation_times_not_valid#:#El periodo de disponibilidad no es válido.

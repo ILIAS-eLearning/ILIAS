@@ -6238,19 +6238,6 @@ content#:#st#:#Fejezet
 content#:#start_lm#:#Tananyag indítása
 content#:#text_repr#:#Kép szöveges leírása
 content#:#text_repr_info#:#A kép ‘alt’ attribútumához használva.
-copa#:#copa_activation_online_info#:#Állítsa a Tartalomlapot online-ra, hogy a felhasználók láthassák és elérhessék, különben csak magasabb jogosultsággal érhető el.
-copa#:#copa_add#:#Tartalomlap hozzáadása
-copa#:#copa_btn_lp_toggle_state_completed#:#Beállítás nem teljesítettre
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Beállítás teljesítettre
-copa#:#copa_copy#:#Tartalomlap másolása
-copa#:#copa_edit#:#Tartalomlap módosítása
-copa#:#copa_import#:#Tartalomlap importálása
-copa#:#copa_new#:#Tartalomlap létrehozása
-copa#:#copa_page_type_copa#:#Tartalomoldal
-copa#:#copa_prop_reading_time#:#Olvasási idő
-copa#:#copa_value_reading_time_f_p#:#%s perc
-copa#:#copa_value_reading_time_f_s#:#%s perc
-copa#:#obj_copa_duplicate#:#Tartalomlap duplikálása
 cptch#:#cptch_freetype_support_needed#:#Ennek a funkciónak a használatához a PHP freetype támogatását engedélyeznie kell.
 cptch#:#cptch_wrong_input#:#Hibás bemenet
 crs#:#activation_times_not_valid#:#Az elérési időszak nem érvényes.

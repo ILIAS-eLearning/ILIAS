@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: copa\n"
+
+msgid "copa_activation_online_info"
+msgstr "Állítsa a Tartalomlapot online-ra, hogy a felhasználók láthassák és elérhessék, különben csak magasabb jogosultsággal érhető el."
+
+msgid "copa_add"
+msgstr "Tartalomlap hozzáadása"
+
+msgid "copa_btn_lp_toggle_state_completed"
+msgstr "Beállítás nem teljesítettre"
+
+msgid "copa_btn_lp_toggle_state_not_completed"
+msgstr "Beállítás teljesítettre"
+
+msgid "copa_copy"
+msgstr "Tartalomlap másolása"
+
+msgid "copa_edit"
+msgstr "Tartalomlap módosítása"
+
+msgid "copa_import"
+msgstr "Tartalomlap importálása"
+
+msgid "copa_new"
+msgstr "Tartalomlap létrehozása"
+
+msgid "copa_page_type_copa"
+msgstr "Tartalomoldal"
+
+msgid "copa_prop_reading_time"
+msgstr "Olvasási idő"
+
+msgid "copa_value_reading_time_f_p"
+msgstr "%s perc"
+
+msgid "copa_value_reading_time_f_s"
+msgstr "%s perc"
+
+msgid "obj_copa_duplicate"
+msgstr "Tartalomlap duplikálása"

@@ -6229,19 +6229,6 @@ content#:#st#:#Poglavlje
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Prezentacija teksta
 content#:#text_repr_info#:#Koristi se za atribut slike 'staro’.
-copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###29 07 2022 new variable
-copa#:#copa_add#:#Dodaj stranicu sa sadržajem
-copa#:#copa_btn_lp_toggle_state_completed#:#Postavljanje na "nije dovršeno"
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Postavljanje na "dovršeno"
-copa#:#copa_copy#:#Kopiraj stranicu sadržaja
-copa#:#copa_edit#:#Uredi stranicu sadržaja
-copa#:#copa_import#:#Uvezi stranicu sadržaja
-copa#:#copa_new#:#Stvori stranicu sadržaja
-copa#:#copa_page_type_copa#:#Content Page###04 06 2021 new variable
-copa#:#copa_prop_reading_time#:#Reading Time###04 06 2021 new variable
-copa#:#copa_value_reading_time_f_p#:#%s Minutes###04 06 2021 new variable
-copa#:#copa_value_reading_time_f_s#:#%s Minute###04 06 2021 new variable
-copa#:#obj_copa_duplicate#:#Dupliciraj stranicu sadržaja
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 cptch#:#cptch_wrong_input#:#Wrong Input
 crs#:#activation_times_not_valid#:#Razdoblje dostupnosti nije važeće.
