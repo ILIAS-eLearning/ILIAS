@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Als geselecteerd is het portfolio sjabloon zichtbaar, zelfs buiten de beschikbaarheid."
+
+msgid "prtt_activation_online_info"
+msgstr "Schakel deze instelling in om het portfolio sjabloon toegankelijk te maken voor gebruikers."
+
+msgid "prtt_add"
+msgstr "Aanmaken Portfolio Sjabloon"
+
+msgid "prtt_copy"
+msgstr "Kopiëren Portfolio Sjabloon"
+
+msgid "prtt_edit"
+msgstr "Wijzigen Portfolio Sjabloon"
+
+msgid "prtt_import"
+msgstr "Importeer Portfolio Sjabloon"
+
+msgid "prtt_new"
+msgstr "Nieuw Portfolio Sjabloon"
+
+#, fuzzy
+msgid "prtt_pfpg"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "prtt_portfolio_created"
+msgstr "Portfolio Template added"
+
+msgid "prtt_properties"
+msgstr "Portfolio Sjabloon eigenschappen"
+
+#, fuzzy
+msgid "prtt_select_datasets"
+msgstr "Select Datasets"
+
+msgid "prtt_style"
+msgstr "Portfolio Sjabloon stijl"

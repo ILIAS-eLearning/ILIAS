@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: prtt\n"
+
+#, fuzzy
+msgid "prtt_activation_limited_visibility_info"
+msgstr "If chosen, the portfolio template is visible even outside of the given availability."
+
+#, fuzzy
+msgid "prtt_activation_online_info"
+msgstr "Activate this setting to make the portfolio template accessible to users."
+
+#, fuzzy
+msgid "prtt_add"
+msgstr "Create Portfolio Template"
+
+#, fuzzy
+msgid "prtt_copy"
+msgstr "Copy Portfolio Template"
+
+#, fuzzy
+msgid "prtt_edit"
+msgstr "Edit Portfolio Template"
+
+#, fuzzy
+msgid "prtt_import"
+msgstr "Import Portfolio Template"
+
+#, fuzzy
+msgid "prtt_new"
+msgstr "New Portfolio Template"
+
+#, fuzzy
+msgid "prtt_pfpg"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "prtt_portfolio_created"
+msgstr "Portfolio Template added"
+
+#, fuzzy
+msgid "prtt_properties"
+msgstr "Portfolio Template Properties"
+
+#, fuzzy
+msgid "prtt_select_datasets"
+msgstr "Select Datasets"
+
+#, fuzzy
+msgid "prtt_style"
+msgstr "Portfolio Template Style"

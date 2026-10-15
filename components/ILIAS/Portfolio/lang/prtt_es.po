@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Si se selecciona, la plantilla de portafolio es visible incluso fuera de la disponibilidad establecida."
+
+msgid "prtt_activation_online_info"
+msgstr "Active esta configuración para que la plantilla de portafolio sea accesible para los usuarios."
+
+msgid "prtt_add"
+msgstr "Crear plantilla de portafolio"
+
+msgid "prtt_copy"
+msgstr "Copiar plantilla de portafolio"
+
+msgid "prtt_edit"
+msgstr "Editar plantilla de portafolio"
+
+msgid "prtt_import"
+msgstr "Importar plantilla de portafolio"
+
+msgid "prtt_new"
+msgstr "Nueva plantilla de portafolio"
+
+msgid "prtt_pfpg"
+msgstr "Página de portafolio"
+
+msgid "prtt_portfolio_created"
+msgstr "Plantilla de portafolio añadida"
+
+msgid "prtt_properties"
+msgstr "Propiedades de la plantilla de portafolio"
+
+msgid "prtt_select_datasets"
+msgstr "Seleccionar conjuntos de datos"
+
+msgid "prtt_style"
+msgstr "Estilo de la plantilla de portafolio"
