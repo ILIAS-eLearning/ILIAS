@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Tracking\Setup\Agent as SetupAgent;
 use ILIAS\Setup\Agent as SetupAgentInterface;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Tracking implements Component\Component
 {
@@ -37,5 +39,9 @@ class Tracking implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[SetupAgentInterface::class] = fn() => new SetupAgent($pull[Refinery::class]);
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'trac'
+        );
     }
 }

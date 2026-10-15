@@ -1,0 +1,980 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+#, fuzzy
+msgid "create_date_max"
+msgstr "Latest Registration"
+
+#, fuzzy
+msgid "create_date_min"
+msgstr "Earliest Registration"
+
+msgid "info_valid_request"
+msgstr "Ο μέγιστος έγκυρος χρόνος μεταξύ δυο αιτήσεων του ίδιου χρήστη."
+
+msgid "meta_typical_learning_time"
+msgstr "Τυπικός χρόνος εκπαίδευσης"
+
+msgid "obj_types"
+msgstr "Τύποι αντικειμένων:"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+#, fuzzy
+msgid "read_count_avg"
+msgstr "Average page views"
+
+#, fuzzy
+msgid "registration_filter"
+msgstr "Date of Registration"
+
+msgid "search_area_info"
+msgstr "Παρακαλώ επιλέξτε ένα αντικείμενο."
+
+msgid "search_terms"
+msgstr "Όροι αναζήτησης"
+
+#, fuzzy
+msgid "session_statistics"
+msgstr "Session Statistics"
+
+#, fuzzy
+msgid "trac_aggregation"
+msgstr "Aggregation"
+
+#, fuzzy
+msgid "trac_all"
+msgstr "All"
+
+msgid "trac_anonymized"
+msgstr "Ανώνυμο"
+
+msgid "trac_anonymized_info"
+msgstr "Αν ενεργοποιηθεί, όλα τα στατιστικά θα γίνουν ανώνυμα."
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonymized)"
+
+msgid "trac_assigned"
+msgstr "Ανατέθηκε"
+
+#, fuzzy
+msgid "trac_average"
+msgstr "Average"
+
+#, fuzzy
+msgid "trac_begin_at"
+msgstr "Start date"
+
+#, fuzzy
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+#, fuzzy
+msgid "trac_closed_login"
+msgstr "Anonymous To Login"
+
+#, fuzzy
+msgid "trac_closed_manual"
+msgstr "Logout"
+
+#, fuzzy
+msgid "trac_closed_misc"
+msgstr "Misc."
+
+msgid "trac_collection_assign"
+msgstr "Ανάθεση"
+
+msgid "trac_collection_deassign"
+msgstr "Ακύρωση ανάθεσης"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Changed on"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_info"
+msgstr "The learning progress for this object has to be set manually."
+
+#, fuzzy
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Activate all chapters you completed."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_info"
+msgstr "The learning progress for this object is based on the typical learning time."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "You have spent %s of the %s needed for completion (%s%%)."
+
+msgid "trac_comment"
+msgstr "Σχόλιο"
+
+msgid "trac_completed"
+msgstr "Ολοκληρώθηκε"
+
+#, fuzzy
+msgid "trac_cron_info"
+msgstr "Please activate the \"Object Statistics\" cron job to gather data."
+
+msgid "trac_crs_objects"
+msgstr "Εκπαιδευτική πρόοδος μελών μαθήματος"
+
+#, fuzzy
+msgid "trac_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "trac_current_system_load"
+msgstr "Current System Load"
+
+#, fuzzy
+msgid "trac_data_deleted"
+msgstr "Data has been deleted."
+
+#, fuzzy
+msgid "trac_defaults"
+msgstr "Completion Status"
+
+#, fuzzy
+msgid "trac_defaults_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "trac_defaults_info"
+msgstr "Set the completion status determination mode for supported object types. Used by certain badge types."
+
+#, fuzzy
+msgid "trac_delete_data"
+msgstr "Delete Data"
+
+#, fuzzy
+msgid "trac_determines_learning_progress"
+msgstr "Determines Learning Progress"
+
+msgid "trac_edit_collection"
+msgstr "Παρακαλώ αναθέστε αντικείμενα μαθήματος. Αν η κατάσταση όλων των ανατεθημένων αντικειμένων είναι 'Ολοκληρώθηκε' όλο το μάθημα ολοκληρώθηκε από το χρήστη."
+
+#, fuzzy
+msgid "trac_end_at"
+msgstr "End Date"
+
+msgid "trac_failed"
+msgstr "Αποτυχία"
+
+#, fuzzy
+msgid "trac_figure"
+msgstr "Key Figure"
+
+msgid "trac_filter_area"
+msgstr "Περιοχή:"
+
+#, fuzzy
+msgid "trac_filter_has_status"
+msgstr "Show not attempted objects"
+
+msgid "trac_filter_hidden"
+msgstr "Κρυφό:"
+
+#, fuzzy
+msgid "trac_first_access"
+msgstr "First Access"
+
+#, fuzzy
+msgid "trac_first_and_last_access"
+msgstr "First and Last Acces"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+#, fuzzy
+msgid "trac_group_materials"
+msgstr "Group Materials"
+
+#, fuzzy
+msgid "trac_group_materials_save"
+msgstr "Save Number of Obligatory Materials"
+
+#, fuzzy
+msgid "trac_grouped_material_obligatory_err"
+msgstr "The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping."
+
+msgid "trac_hide"
+msgstr "Απόκρυψη"
+
+#, fuzzy
+msgid "trac_hide_selected"
+msgstr "Hide Selected Items"
+
+msgid "trac_in_progress"
+msgstr "Σε εξέλιξη"
+
+msgid "trac_info_edited"
+msgstr "Ορίστε την κατάσταση σε 'Ολοκληρώθηκε' αν νομίζετε ότι επεξεργαστήκατε ολόκληρο το περιεχόμενο."
+
+msgid "trac_last_access"
+msgstr "Τελευταία πρόσβαση"
+
+#, fuzzy
+msgid "trac_last_aggregation"
+msgstr "Last Aggregation"
+
+msgid "trac_learning_progress"
+msgstr "Εκπαιδευτική πρόοδος"
+
+#, fuzzy
+msgid "trac_learning_progress_of"
+msgstr "Lernfortschritt von %s"
+
+#, fuzzy
+msgid "trac_learning_progress_settings_info"
+msgstr "Activate the display of the following values inside the Learning Progress tables:"
+
+#, fuzzy
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ was completed."
+
+#, fuzzy
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ was completed in $2$."
+
+#, fuzzy
+msgid "trac_log_info"
+msgstr "Last Aggregation: %s (Unprocessed items: %s)"
+
+#, fuzzy
+msgid "trac_log_info_link"
+msgstr "Update"
+
+#, fuzzy
+msgid "trac_long_system_load"
+msgstr "Long term"
+
+msgid "trac_lp_determination"
+msgstr "Καθορισμός κατάστασης εκπαιδευτικής προόδου"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Επιλέξτε τα αντικείμενα που καθορίζουν την κατάσταση συνολικής εκπαιδευτικής προόδου."
+
+#, fuzzy
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "This selection is not connected to the learning progress status."
+
+#, fuzzy
+msgid "trac_lp_determination_info_mob"
+msgstr "Select the items that determine the overall learning progress status of the Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Επιλέξτε τα αντικείμενα που καθορίζουν την κατάσταση συνολικής εκπαιδευτικής προόδου της εκπαιδευτικής μονάδας SCORM."
+
+#, fuzzy
+msgid "trac_lp_determination_tutor"
+msgstr "Display of objects in learning progress"
+
+#, fuzzy
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+#, fuzzy
+msgid "trac_lp_learner_access_info"
+msgstr "If active, users can access their own learning progress status."
+
+#, fuzzy
+msgid "trac_lp_list_gui"
+msgstr "Personal Desktop, Repository, Search"
+
+#, fuzzy
+msgid "trac_lp_list_gui_info"
+msgstr "If activated, the learning progress status is included in objects lists."
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Learning Progress of Parent Objects"
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "The learning progress status of this object is influenced by \"%s\"."
+
+#, fuzzy
+msgid "trac_manual_display"
+msgstr "Display in Learning Progress"
+
+#, fuzzy
+msgid "trac_manual_is_displayed"
+msgstr "Is Displayed"
+
+#, fuzzy
+msgid "trac_manual_no_display"
+msgstr "Do not display in Learning Progress"
+
+msgid "trac_mark"
+msgstr "Βαθμός"
+
+#, fuzzy
+msgid "trac_matrix"
+msgstr "Matrix View"
+
+#, fuzzy
+msgid "trac_measure"
+msgstr "Figure"
+
+#, fuzzy
+msgid "trac_members_short"
+msgstr "Members"
+
+#, fuzzy
+msgid "trac_min_passed"
+msgstr "Minimum Number of Passed Materials:"
+
+msgid "trac_mode"
+msgstr "Τρόπος"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Συλλογή αντικειμένων"
+
+msgid "trac_mode_collection_info"
+msgstr "Define the materials that will determine the learning progress status."
+
+#, fuzzy
+msgid "trac_mode_collection_manual"
+msgstr "Manual by Learner (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_manual_info"
+msgstr "Users have to decide for each chapter whether their status is completed or not."
+
+#, fuzzy
+msgid "trac_mode_collection_mobs"
+msgstr "Collection of Media Objects"
+
+#, fuzzy
+msgid "trac_mode_collection_mobs_info"
+msgstr "The learning progress status will be determined by the viewing status of selected media objects."
+
+#, fuzzy
+msgid "trac_mode_collection_tlt"
+msgstr "Typical Learning Time (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_tlt_info"
+msgstr "Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'."
+
+#, fuzzy
+msgid "trac_mode_content_visited"
+msgstr "Visited"
+
+#, fuzzy
+msgid "trac_mode_content_visited_info"
+msgstr "Learning progress status is set to 'completed' when object has been presented to user."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+#, fuzzy
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+#, fuzzy
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "Απενεργοποιήθηκε"
+
+#, fuzzy
+msgid "trac_mode_deactivated_info_new"
+msgstr "The learning progress status will not be displayed."
+
+msgid "trac_mode_event"
+msgstr "Participation in Sessions"
+
+#, fuzzy
+msgid "trac_mode_event_info"
+msgstr "The learning progress status will be determined by the participation status."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Η άσκηση επιλύθηκε"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "The status 'Completed' can be set only by tutors."
+
+#, fuzzy
+msgid "trac_mode_individual_assessment"
+msgstr "Graded manually by tutor or trainer"
+
+#, fuzzy
+msgid "trac_mode_individual_assessment_info"
+msgstr "The record of a user has to be finalized by the tutor in order to complete individual assessment."
+
+#, fuzzy
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+#, fuzzy
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "Εγχειρίδιο"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Manual by Tutor"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "The overall status can only be set by tutors."
+
+msgid "trac_mode_manual_info"
+msgstr "Users have to decide whether their status is completed or not."
+
+msgid "trac_mode_objectives"
+msgstr "Εκπαιδευτικοί σκοποί"
+
+msgid "trac_mode_objectives_info"
+msgstr "The learning progress will be calculated automatically according to the number of passed learning objectives."
+
+#, fuzzy
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+#, fuzzy
+msgid "trac_mode_questions"
+msgstr "Questions"
+
+#, fuzzy
+msgid "trac_mode_questions_info"
+msgstr "Users who answered all questions correctly will gain the status 'Completed'."
+
+msgid "trac_mode_scorm"
+msgstr "SCORM/AICC"
+
+msgid "trac_mode_scorm_info"
+msgstr "The learning progress status will be determined by the status of SCO's."
+
+msgid "trac_mode_scorm_package"
+msgstr "Automatic by SCORM Course Status"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "The learning progress status will be determined by the SCORM course package status directly."
+
+#, fuzzy
+msgid "trac_mode_study_programme"
+msgstr "Study Programme Completed"
+
+#, fuzzy
+msgid "trac_mode_survey_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "trac_mode_survey_finished_info"
+msgstr "The survey has to be finished by an user to receive the status 'Completed'."
+
+msgid "trac_mode_test_finished"
+msgstr "Η εξέταση τελείωσε"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Users have to finish a test completely."
+
+msgid "trac_mode_test_passed"
+msgstr "Πέρασε την εξέταση"
+
+msgid "trac_mode_test_passed_info"
+msgstr "The test has to be passed by an user to receive the status 'Completed'."
+
+msgid "trac_mode_tlt"
+msgstr "Τυπικός εκπαιδευτικός χρόνος"
+
+msgid "trac_mode_tlt_info"
+msgstr "Users who reached the Typical Learning Time will gain the status 'Completed'."
+
+#, fuzzy
+msgid "trac_mode_visited_pages"
+msgstr "Visited Pages"
+
+#, fuzzy
+msgid "trac_mode_visited_pages_info"
+msgstr "Users who visited all pages will gain the status ‘Completed’."
+
+msgid "trac_mode_visits"
+msgstr "Αριθμός επισκέψεων"
+
+msgid "trac_mode_visits_info"
+msgstr "Define the number of visits that is required for completing this learning material."
+
+#, fuzzy
+msgid "trac_name_of_installation"
+msgstr "Name of Installation"
+
+msgid "trac_no_attempted"
+msgstr "Δεν επιχειρήθηκε"
+
+msgid "trac_not_accessed"
+msgstr "Δεν προσπελάστηκε"
+
+msgid "trac_not_assigned"
+msgstr "Δεν ανατέθηκε"
+
+msgid "trac_not_attempted"
+msgstr "Δεν επιχειρήθηκε"
+
+msgid "trac_not_completed"
+msgstr "Δεν ολοκληρώθηκε"
+
+msgid "trac_not_participated"
+msgstr "Δεν συμμετείχαν"
+
+msgid "trac_not_registered"
+msgstr "Δεν εγγράφηκε"
+
+#, fuzzy
+msgid "trac_object_link"
+msgstr "Link to Object"
+
+#, fuzzy
+msgid "trac_object_name"
+msgstr "Name of Object"
+
+#, fuzzy
+msgid "trac_object_owner"
+msgstr "Owner of Object"
+
+#, fuzzy
+msgid "trac_object_stat_access"
+msgstr "Usage Intensity"
+
+#, fuzzy
+msgid "trac_object_stat_admin"
+msgstr "Manage Data"
+
+#, fuzzy
+msgid "trac_object_stat_daily"
+msgstr "Daily Usage"
+
+#, fuzzy
+msgid "trac_object_stat_lp"
+msgstr "Learning Progress Statistics Course"
+
+#, fuzzy
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+#, fuzzy
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+#, fuzzy
+msgid "trac_object_stat_types"
+msgstr "Number of Objects"
+
+#, fuzzy
+msgid "trac_object_statistics"
+msgstr "Object Statistics"
+
+#, fuzzy
+msgid "trac_object_statistics_info"
+msgstr "If activated, the basic data for the usage statistics will be gathered and processed."
+
+msgid "trac_objects"
+msgstr "Εκπαιδευτική πρόοδος των χρηστών"
+
+#, fuzzy
+msgid "trac_others"
+msgstr "Other"
+
+#, fuzzy
+msgid "trac_participants"
+msgstr "Show Participants"
+
+msgid "trac_participated"
+msgstr "Συμμετείχαν"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+#, fuzzy
+msgid "trac_percentage"
+msgstr "Percentage"
+
+#, fuzzy
+msgid "trac_periodic_system_load"
+msgstr "Periodic "
+
+msgid "trac_progress"
+msgstr "Προσωπική εκπαιδευτική πρόοδος"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+#, fuzzy
+msgid "trac_read_count"
+msgstr "Access Number"
+
+#, fuzzy
+msgid "trac_read_count_spent_seconds"
+msgstr "Time Spent / Access"
+
+#, fuzzy
+msgid "trac_reference"
+msgstr "References"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Εγγράφηκαν"
+
+#, fuzzy
+msgid "trac_release_materials"
+msgstr "Disintegrate Material Group"
+
+#, fuzzy
+msgid "trac_report_date"
+msgstr "Date of Report"
+
+#, fuzzy
+msgid "trac_report_owner"
+msgstr "Owner of Report"
+
+msgid "trac_required_visits"
+msgstr "Αριθμός απαιτούμενων επισκέψεων"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCO's"
+
+#, fuzzy
+msgid "trac_scale"
+msgstr "Scale"
+
+#, fuzzy
+msgid "trac_select_area"
+msgstr "Select Area"
+
+#, fuzzy
+msgid "trac_session_active_avg"
+msgstr "Active Sessions (Average)"
+
+#, fuzzy
+msgid "trac_session_active_max"
+msgstr "Active Sessions (Maximum)"
+
+#, fuzzy
+msgid "trac_session_active_min"
+msgstr "Active Sessions (Minimum)"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_day"
+msgstr "Day"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Last 24 Hours"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Last 30 Days"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Last 7 Days"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_month"
+msgstr "Month"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_today"
+msgstr "Today"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_week"
+msgstr "Week"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_year"
+msgstr "Year"
+
+#, fuzzy
+msgid "trac_session_statistics_no_data"
+msgstr "No data for this statistics could be found."
+
+#, fuzzy
+msgid "trac_sessions_closed"
+msgstr "Leavings"
+
+#, fuzzy
+msgid "trac_sessions_opened"
+msgstr "Admissions"
+
+msgid "trac_settings"
+msgstr "Ρυθμίσεις"
+
+msgid "trac_settings_saved"
+msgstr "Αποθηκευμένες ρυθμίσεις."
+
+#, fuzzy
+msgid "trac_short_system_load"
+msgstr "Short term"
+
+#, fuzzy
+msgid "trac_show_graph"
+msgstr "Show Graph"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Changes in the repository"
+
+#, fuzzy
+msgid "trac_show_repository_views_info"
+msgstr "Show tracking information for repository objects on info page."
+
+#, fuzzy
+msgid "trac_spent_seconds"
+msgstr "Time Spent"
+
+msgid "trac_spent_time"
+msgstr "Χρόνος που ξοδεύτηκε"
+
+msgid "trac_status"
+msgstr "Κατάσταση"
+
+#, fuzzy
+msgid "trac_status_changed"
+msgstr "Last Status Change"
+
+#, fuzzy
+msgid "trac_subitems"
+msgstr "Show Sub-Items"
+
+#, fuzzy
+msgid "trac_sum"
+msgstr "Sum"
+
+#, fuzzy
+msgid "trac_summary"
+msgstr "Summary "
+
+#, fuzzy
+msgid "trac_sure_delete_data"
+msgstr "Are you sure you want to delete the complete data for the following months?"
+
+#, fuzzy
+msgid "trac_sync_obj_stats"
+msgstr "Update Data"
+
+#, fuzzy
+msgid "trac_sync_obj_stats_success"
+msgstr "Data has been updated."
+
+#, fuzzy
+msgid "trac_sync_session_stats"
+msgstr "Aggregate Data"
+
+#, fuzzy
+msgid "trac_sync_session_stats_success"
+msgstr "Data aggregation was done successfully."
+
+msgid "trac_time_passed"
+msgstr "Ο χρόνος επεξεργασίας ξεπεράστηκε"
+
+#, fuzzy
+msgid "trac_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "trac_title_description"
+msgstr "Title / Description"
+
+msgid "trac_total_online"
+msgstr "Συνολικός αριθμός online"
+
+#, fuzzy
+msgid "trac_trash"
+msgstr "moved to Trash"
+
+msgid "trac_update_edit_user"
+msgstr "Αποθηκευμένες ρυθμίσεις"
+
+msgid "trac_updated_status"
+msgstr "Κατάσταση αποθηκευμένης εκπαιδευτικής προόδου."
+
+msgid "trac_user_data"
+msgstr "Δεδομένα χρήστη"
+
+msgid "trac_valid_request"
+msgstr "Μέγιστος χρόνος ανάμεσα στις αιτήσεις"
+
+msgid "trac_view_crs"
+msgstr "Πίσω στο μάθημα"
+
+msgid "trac_view_list"
+msgstr "Πίσω στη λίστα"
+
+#, fuzzy
+msgid "trac_view_mode"
+msgstr "View Mode"
+
+#, fuzzy
+msgid "trac_view_mode_all"
+msgstr "All Objects"
+
+#, fuzzy
+msgid "trac_view_mode_collection"
+msgstr "Only objects that determine the overall status"
+
+msgid "trac_visits"
+msgstr "Αριθμός επισκέψεων"
+
+msgid "trac_visits_info"
+msgstr "Κάθε επίσκεψη στη σελίδα μετράει ως μια επίσκεψη."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+#, fuzzy
+msgid "user_total"
+msgstr "User Total"
+
+msgid "view_mode"
+msgstr "Κατάσταση προβολής"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

@@ -1,0 +1,878 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "Yeni Kayıt"
+
+msgid "create_date_min"
+msgstr "Erken Kayıt"
+
+msgid "info_valid_request"
+msgstr "Bir kullanıcı iki istek arasında maksimum geçerli zamanı."
+
+msgid "meta_typical_learning_time"
+msgstr "Tipik öğrenme zamanı"
+
+msgid "obj_types"
+msgstr "Nesne Tipleri"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Ortalama sayfa görünümleri"
+
+msgid "registration_filter"
+msgstr "Kayıt Tarihi"
+
+msgid "search_area_info"
+msgstr "bir nesne seçin."
+
+msgid "search_terms"
+msgstr "Arama Terimi (ler)"
+
+msgid "session_statistics"
+msgstr "Oturum İstatistikleri"
+
+msgid "trac_aggregation"
+msgstr "Agregasyon"
+
+msgid "trac_all"
+msgstr "Hepsi"
+
+msgid "trac_anonymized"
+msgstr "anonim"
+
+msgid "trac_anonymized_info"
+msgstr "Etkinse , tüm istatistikleri anonimleştirilir edilecektir."
+
+msgid "trac_anonymized_info_short"
+msgstr "(anonim)"
+
+msgid "trac_assigned"
+msgstr "Atanan"
+
+msgid "trac_average"
+msgstr "Ortalama"
+
+msgid "trac_begin_at"
+msgstr "Başlangıç ​​tarihi"
+
+msgid "trac_closed_expire"
+msgstr "Zaman Aşımı"
+
+msgid "trac_closed_login"
+msgstr "Giriş için Anonim"
+
+msgid "trac_closed_manual"
+msgstr "Çıkış"
+
+msgid "trac_closed_misc"
+msgstr "Misc."
+
+msgid "trac_collection_assign"
+msgstr "İlerleme Belirlenmesi Öğrenme için seçin"
+
+msgid "trac_collection_deassign"
+msgstr "İlerleme Belirlenmesi Öğrenme kaldırın"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Changed on"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_info"
+msgstr "The learning progress for this object has to be set manually."
+
+#, fuzzy
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Activate all chapters you completed."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_info"
+msgstr "The learning progress for this object is based on the typical learning time."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "You have spent %s of the %s needed for completion (%s%%)."
+
+msgid "trac_comment"
+msgstr "Yorum"
+
+msgid "trac_completed"
+msgstr "Tamamlandı"
+
+#, fuzzy
+msgid "trac_cron_info"
+msgstr "Please activate the \"Object Statistics\" cron job to gather data."
+
+msgid "trac_crs_objects"
+msgstr "kurslarına katılanlar"
+
+msgid "trac_current"
+msgstr "Mevcut"
+
+msgid "trac_current_system_load"
+msgstr "Geçerli Sistem Yük"
+
+msgid "trac_data_deleted"
+msgstr "Veri silindi."
+
+#, fuzzy
+msgid "trac_defaults"
+msgstr "Completion Status"
+
+#, fuzzy
+msgid "trac_defaults_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "trac_defaults_info"
+msgstr "Set the completion status determination mode for supported object types. Used by certain badge types."
+
+msgid "trac_delete_data"
+msgstr "Delete Data"
+
+msgid "trac_determines_learning_progress"
+msgstr "Öğrenme İlerleme belirler"
+
+msgid "trac_edit_collection"
+msgstr "malzemeleri atayın. Tüm atanan öğelerin durumu 'Tamamlandı' ise genel durumu kullanıcı tarafından tamamlanır."
+
+msgid "trac_end_at"
+msgstr "Bitiş Tarihi"
+
+msgid "trac_failed"
+msgstr "Başarısız"
+
+msgid "trac_figure"
+msgstr "Key Şekil"
+
+msgid "trac_filter_area"
+msgstr "Alan"
+
+msgid "trac_filter_has_status"
+msgstr "göster nesneleri girişiminde"
+
+msgid "trac_filter_hidden"
+msgstr "Gizli"
+
+msgid "trac_first_access"
+msgstr "First Access"
+
+msgid "trac_first_and_last_access"
+msgstr "İlk ve Son Erişim"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Opsiyonel Malzemeler Gruplaması oluştur"
+
+msgid "trac_group_materials_save"
+msgstr "Zorunlu Malzeme Kaydet sayısı"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "Geçmesi gereken sayı malzemeler 0 'dan büyük ve gruplama malzeme sayısının daha küçük olması gerekir."
+
+msgid "trac_hide"
+msgstr "gizle"
+
+msgid "trac_hide_selected"
+msgstr "Gizle Seçili Öğeler"
+
+msgid "trac_in_progress"
+msgstr "Sürüyor"
+
+msgid "trac_info_edited"
+msgstr "durumunu size tüm içeriği işledik düşünüyorsanız 'Tamamlandı' olarak ayarlayın."
+
+msgid "trac_last_access"
+msgstr "Son Erişim"
+
+msgid "trac_last_aggregation"
+msgstr "Son Toplama"
+
+msgid "trac_learning_progress"
+msgstr "Öğrenme İlerleme"
+
+msgid "trac_learning_progress_of"
+msgstr "%S Öğrenme İlerleme"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "genişletilmiş veri etkinleştirin"
+
+#, fuzzy
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ was completed."
+
+#, fuzzy
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ was completed in $2$."
+
+msgid "trac_log_info"
+msgstr "Son Aggregation:% s (İşlenmemiş ürün:% s)"
+
+msgid "trac_log_info_link"
+msgstr "Güncelleme"
+
+msgid "trac_long_system_load"
+msgstr "Uzun vadeli"
+
+msgid "trac_lp_determination"
+msgstr "Öğrenme İlerleme Belirlenmesi"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "öğrenmenin genel ilerleme durumunu belirlemek öğeleri seçin."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Bu seçim öğrenme ilerleme durumuna bağlı değildir."
+
+#, fuzzy
+msgid "trac_lp_determination_info_mob"
+msgstr "Select the items that determine the overall learning progress status of the Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "SCORM öğrenme modülü genel öğrenme ilerleme durumunu belirlemek öğeleri seçin."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Öğrenmedeki ilerlemenin nesnelerin Görüntü"
+
+#, fuzzy
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+msgid "trac_lp_learner_access_info"
+msgstr "aktifse, kullanıcıların kendi öğrenme ilerleme durumunu erişebilirsiniz."
+
+#, fuzzy
+msgid "trac_lp_list_gui"
+msgstr "Personal Desktop, Repository, Search"
+
+#, fuzzy
+msgid "trac_lp_list_gui_info"
+msgstr "If activated, the learning progress status is included in objects lists."
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Learning Progress of Parent Objects"
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "The learning progress status of this object is influenced by \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "İlerleme Öğrenme Görüntü"
+
+msgid "trac_manual_is_displayed"
+msgstr "Görüntüleniyor"
+
+msgid "trac_manual_no_display"
+msgstr "İlerleme Öğrenme görüntüleme"
+
+msgid "trac_mark"
+msgstr "Mark"
+
+msgid "trac_matrix"
+msgstr "Matris Görünümü"
+
+msgid "trac_measure"
+msgstr "Şekil"
+
+msgid "trac_members_short"
+msgstr "Üyeler"
+
+msgid "trac_min_passed"
+msgstr "Geçti Malzemelerin Minimum sayısı:"
+
+msgid "trac_mode"
+msgstr "Modu"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Nesneleri Koleksiyonu ile Otomatik"
+
+msgid "trac_mode_collection_info"
+msgstr "öğrenme ilerleme durumunu belirleyecek malzeme tanımlayın."
+
+#, fuzzy
+msgid "trac_mode_collection_manual"
+msgstr "Manual by Learner (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_manual_info"
+msgstr "Users have to decide for each chapter whether their status is completed or not."
+
+#, fuzzy
+msgid "trac_mode_collection_mobs"
+msgstr "Collection of Media Objects"
+
+#, fuzzy
+msgid "trac_mode_collection_mobs_info"
+msgstr "The learning progress status will be determined by the viewing status of selected media objects."
+
+#, fuzzy
+msgid "trac_mode_collection_tlt"
+msgstr "Typical Learning Time (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_tlt_info"
+msgstr "Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'."
+
+#, fuzzy
+msgid "trac_mode_content_visited"
+msgstr "Visited"
+
+#, fuzzy
+msgid "trac_mode_content_visited_info"
+msgstr "Learning progress status is set to 'completed' when object has been presented to user."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+#, fuzzy
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+#, fuzzy
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "deaktive"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "öğrenme ilerleme durumunu gösterilmeyecektir."
+
+msgid "trac_mode_event"
+msgstr "Oturumlar yılında Katılım"
+
+#, fuzzy
+msgid "trac_mode_event_info"
+msgstr "The learning progress status will be determined by the participation status."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Egzersiz Çözüldü"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "durumu 'Tamamlandı' sadece öğretmenler tarafından ayarlanabilir."
+
+#, fuzzy
+msgid "trac_mode_individual_assessment"
+msgstr "Graded manually by tutor or trainer"
+
+#, fuzzy
+msgid "trac_mode_individual_assessment_info"
+msgstr "The record of a user has to be finalized by the tutor in order to complete individual assessment."
+
+#, fuzzy
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+#, fuzzy
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "Öğrenci tarafından Kılavuzu"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Tutor tarafından Kılavuzu"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "genel durumu (yani 'Tamamlandı 'veya') 'Başarısız öğretmenler tarafından ayarlanır edilir."
+
+msgid "trac_mode_manual_info"
+msgstr "Kullanıcılar, 'Tamamlanan' statüsüne ulaştı eğer karar vermek zorunda."
+
+msgid "trac_mode_objectives"
+msgstr "Öğrenme Hedefleri ile Otomatik"
+
+msgid "trac_mode_objectives_info"
+msgstr "öğrenme ilerleme geçti öğrenme hedeflerinin sayısına göre otomatik olarak hesaplanacaktır."
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+#, fuzzy
+msgid "trac_mode_questions"
+msgstr "Questions"
+
+#, fuzzy
+msgid "trac_mode_questions_info"
+msgstr "Users who answered all questions correctly will gain the status 'Completed'."
+
+msgid "trac_mode_scorm"
+msgstr "SCORM Items Collection Otomatik"
+
+msgid "trac_mode_scorm_info"
+msgstr "öğrenme ilerleme durumu Seçilen SCO'nun durumuna göre belirlenecektir."
+
+msgid "trac_mode_scorm_package"
+msgstr "SCORM Dersin Türü ile Otomatik"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "öğrenme ilerleme durumunu doğrudan SCORM ders paket durumu tespit edilecektir."
+
+#, fuzzy
+msgid "trac_mode_study_programme"
+msgstr "Study Programme Completed"
+
+#, fuzzy
+msgid "trac_mode_survey_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "trac_mode_survey_finished_info"
+msgstr "The survey has to be finished by an user to receive the status 'Completed'."
+
+msgid "trac_mode_test_finished"
+msgstr "Deney Biten"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Kullanıcılar tamamen testi bitirmek zorundayız."
+
+msgid "trac_mode_test_passed"
+msgstr "Testi Geçti"
+
+msgid "trac_mode_test_passed_info"
+msgstr "test durumu 'Tamamlandı' almak için bir kullanıcı tarafından kabul edilmelidir."
+
+msgid "trac_mode_tlt"
+msgstr "Tipik Öğrenme Süresi"
+
+msgid "trac_mode_tlt_info"
+msgstr "Tipik Öğrenme Zaman ulaştı Kullanıcıların durumu 'Tamamlandı' kazanacaktır. % S saniye içinde bir kullanıcının iki istekleri tek bir tutarlı ziyaret olarak sayılacaktır."
+
+#, fuzzy
+msgid "trac_mode_visited_pages"
+msgstr "Visited Pages"
+
+#, fuzzy
+msgid "trac_mode_visited_pages_info"
+msgstr "Users who visited all pages will gain the status ‘Completed’."
+
+msgid "trac_mode_visits"
+msgstr "Ziyaret sayısı"
+
+msgid "trac_mode_visits_info"
+msgstr "Bu öğrenme materyali tamamlamak için gerekli olan ziyaretlerin sayısını tanımlayın."
+
+msgid "trac_name_of_installation"
+msgstr "Kurulum Adı"
+
+msgid "trac_no_attempted"
+msgstr "girişimi değil"
+
+msgid "trac_not_accessed"
+msgstr "erişildi Değil"
+
+msgid "trac_not_assigned"
+msgstr "Atanmamış"
+
+msgid "trac_not_attempted"
+msgstr "girişimi değil"
+
+msgid "trac_not_completed"
+msgstr "Tamamlandı"
+
+msgid "trac_not_participated"
+msgstr "Katıldığı Değil"
+
+msgid "trac_not_registered"
+msgstr "Kayıtlı Değil"
+
+msgid "trac_object_link"
+msgstr "Nesne Linki"
+
+msgid "trac_object_name"
+msgstr "Eserin Adı"
+
+msgid "trac_object_owner"
+msgstr "Object Owner"
+
+msgid "trac_object_stat_access"
+msgstr "Kullanım Yoğunluğu"
+
+msgid "trac_object_stat_admin"
+msgstr "Yönet Veri"
+
+msgid "trac_object_stat_daily"
+msgstr "​​Günlük Kullanım"
+
+msgid "trac_object_stat_lp"
+msgstr "Öğrenme İlerleme İstatistik Ders"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Nesneler sayısı"
+
+msgid "trac_object_statistics"
+msgstr "Nesne İstatistikleri"
+
+#, fuzzy
+msgid "trac_object_statistics_info"
+msgstr "If activated, the basic data for the usage statistics will be gathered and processed."
+
+msgid "trac_objects"
+msgstr "Kullanıcıları"
+
+msgid "trac_others"
+msgstr "Diğerleri"
+
+msgid "trac_participants"
+msgstr "göster Katılımcılar"
+
+msgid "trac_participated"
+msgstr "Katıldığı"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "Yüzde"
+
+msgid "trac_periodic_system_load"
+msgstr "Periyodik"
+
+msgid "trac_progress"
+msgstr "Kişisel Öğrenme İlerleme"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Erişim Numarası"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Saat / Erişim Geçirilen"
+
+msgid "trac_reference"
+msgstr "Referanslar"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Kayıtlı"
+
+msgid "trac_release_materials"
+msgstr "Opsiyonel Malzemeler Gruplama Ayrışmak"
+
+msgid "trac_report_date"
+msgstr "Raporu Tarihi"
+
+msgid "trac_report_owner"
+msgstr "Raporu Owner"
+
+msgid "trac_required_visits"
+msgstr "Gerekli Ziyareti sayısı"
+
+msgid "trac_sahs_relevant_items"
+msgstr "İçerik Öğeler"
+
+msgid "trac_scale"
+msgstr "Ölçeği"
+
+msgid "trac_select_area"
+msgstr "Seç Alan"
+
+msgid "trac_session_active_avg"
+msgstr "Etkin Oturumlar (Ortalama)"
+
+msgid "trac_session_active_max"
+msgstr "Etkin Oturumlar (Maksimum)"
+
+msgid "trac_session_active_min"
+msgstr "Etkin Oturumlar (Minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Gün"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Son 24 Saat"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Son 30 Gün"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Son 7 Gün"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Ay"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Bugün"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Hafta"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Yıl"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Bu istatistikleri Veri yok bulunamadı."
+
+msgid "trac_sessions_closed"
+msgstr "Artıklar"
+
+msgid "trac_sessions_opened"
+msgstr "Başvurular"
+
+msgid "trac_settings"
+msgstr "Ayarlar"
+
+msgid "trac_settings_saved"
+msgstr "Kayıtlı ayarlar."
+
+msgid "trac_short_system_load"
+msgstr "Kısa vadeli"
+
+msgid "trac_show_graph"
+msgstr "Grafiği Göster"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Depodaki Değişiklikler"
+
+#, fuzzy
+msgid "trac_show_repository_views_info"
+msgstr "Show tracking information for repository objects on info page."
+
+msgid "trac_spent_seconds"
+msgstr "Geçirilen Zaman"
+
+msgid "trac_spent_time"
+msgstr "Geçirilen Zaman"
+
+msgid "trac_status"
+msgstr "Durum"
+
+msgid "trac_status_changed"
+msgstr "Son Durum Değişikliği"
+
+msgid "trac_subitems"
+msgstr "Göster Alt Kalemler"
+
+msgid "trac_sum"
+msgstr "Sum"
+
+msgid "trac_summary"
+msgstr "Özet"
+
+msgid "trac_sure_delete_data"
+msgstr "aşağıdaki ay için tam veri silmek istediğinizden emin misiniz?"
+
+msgid "trac_sync_obj_stats"
+msgstr "Update Data"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Veri güncellendi."
+
+msgid "trac_sync_session_stats"
+msgstr "Toplam Veri"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Veri toplama başarılı bir şekilde yapıldı."
+
+msgid "trac_time_passed"
+msgstr "Düzenleme Süresi Aşıldı"
+
+msgid "trac_title"
+msgstr "Başlık"
+
+msgid "trac_title_description"
+msgstr "Başlık / Açıklama"
+
+msgid "trac_total_online"
+msgstr "Çevrimiçi olduğu toplam süre"
+
+msgid "trac_trash"
+msgstr "Çöp Kutusuna taşındı"
+
+msgid "trac_update_edit_user"
+msgstr "Ayarlar kaydedildi"
+
+msgid "trac_updated_status"
+msgstr "ilerleme durumunu öğrenme Kaydedildi."
+
+msgid "trac_user_data"
+msgstr "Kullanıcı Verileri"
+
+msgid "trac_valid_request"
+msgstr "Max. İstekleri Time Between"
+
+msgid "trac_view_crs"
+msgstr "Course dön"
+
+msgid "trac_view_list"
+msgstr "Listeye geri dön"
+
+msgid "trac_view_mode"
+msgstr "Görünüm Modu"
+
+msgid "trac_view_mode_all"
+msgstr "Tüm Nesneler"
+
+msgid "trac_view_mode_collection"
+msgstr "Genel durumunu belirlemek Yalnızca nesneleri"
+
+msgid "trac_visits"
+msgstr "Ziyareti sayısı"
+
+msgid "trac_visits_info"
+msgstr "Bir tıklama sadece% s saniye sonra yeni bir ziyaret olarak sayar."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "Kullanıcı Toplam"
+
+msgid "view_mode"
+msgstr "Görünüm Modu"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

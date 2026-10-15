@@ -1,0 +1,798 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr "A tanulási haladás ki van kapcsolva"
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumokra."
+
+msgid "cmix_lp_mode_when_completed"
+msgstr "Sikeresen teljesített amikor ‘befejezte’"
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "A ‘befejezte’ ILIAS állapotot akkor állítjuk be, amikor az utolsó releváns xAPI-Nyilatkozat értéke ‘befejezte’."
+
+msgid "cmix_lp_mode_when_passed"
+msgstr "Sikeresen teljesített amikor ‘sikeresen teljesítette’"
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "A ‘befejezte’ ILIAS állapotot akkor állítjuk be, amikor az utolsó releváns xAPI-Nyilatkozat értéke ‘sikeresen teljesítette’ vagy ‘elégedett’."
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Sikeresen teljesített amikor ‘sikeresen teljesítette’ vagy ‘befejezte’"
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "A ‘befejezte’ ILIAS állapotot akkor állítjuk be, amikor az utolsó releváns xAPI-Nyilatkozat értéke ‘befejezte’ vagy ‘sikeresen teljesítette’ vagy ‘elégedett’."
+
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "Az állapot legyen ‘nem teljesítette’ a ‘folyamatban’ helyett."
+
+msgid "create_date_max"
+msgstr "Legkésőbbi regisztráció"
+
+msgid "create_date_min"
+msgstr "Legkorábbi regisztráció"
+
+msgid "info_valid_request"
+msgstr "A maximális érvényességi idő egy felhasználó két kérése között."
+
+msgid "meta_typical_learning_time"
+msgstr "Szokásos tanulási idő"
+
+msgid "obj_types"
+msgstr "Objektumtípusok"
+
+msgid "personal_learning_progress_view_description"
+msgstr "Futó kurzusok tagsággal"
+
+msgid "personal_learning_progress_view_title"
+msgstr "Személyes tanulási haladásom"
+
+msgid "read_count_avg"
+msgstr "Átlag lapmegtekintés"
+
+msgid "registration_filter"
+msgstr "Regisztráció dátuma"
+
+msgid "search_area_info"
+msgstr "Válasszon egy objektumot."
+
+msgid "search_terms"
+msgstr "Keresett kifejezés(ek)"
+
+msgid "session_statistics"
+msgstr "Munkamenet-statisztikák"
+
+msgid "trac_aggregation"
+msgstr "Aggregálás"
+
+msgid "trac_all"
+msgstr "Összes"
+
+msgid "trac_anonymized"
+msgstr "Anonimizált"
+
+msgid "trac_anonymized_info"
+msgstr "Az adatok nem köthetőek személyhez (így például az objektumteljesítés és a tanulási haladás állapota között nem lehet kapcsolat)."
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonimizált)"
+
+msgid "trac_assigned"
+msgstr "Hozzárendelve"
+
+msgid "trac_average"
+msgstr "Átlag"
+
+msgid "trac_begin_at"
+msgstr "Kezdő dátum"
+
+msgid "trac_closed_expire"
+msgstr "Időtúllépés"
+
+msgid "trac_closed_login"
+msgstr "Anonymous belépés"
+
+msgid "trac_closed_manual"
+msgstr "Kijelentkezés"
+
+msgid "trac_closed_misc"
+msgstr "Egyéb"
+
+msgid "trac_collection_assign"
+msgstr "Hozzárendelés a tanulási haladás meghatározói közé"
+
+msgid "trac_collection_deassign"
+msgstr "Eltávolítás a tanulási haladás meghatározói közül"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Változás dátuma"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "Erre az objektumra a tanulási haladást manuálisan kell beállítani."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Valamennyi Ön által teljesített fejezet aktiválása."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "Erre az objektumra a tanulási haladás a jellemző tanulási időre épül."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "Eltöltött / szükséges: %s / %s (%s%%)."
+
+msgid "trac_comment"
+msgstr "Észrevétel"
+
+msgid "trac_completed"
+msgstr "Teljesített"
+
+msgid "trac_cron_info"
+msgstr "Adatgyűjtéshez kapcsolja be az ‘Objektumstatisztikák’ ütemezett feladatot."
+
+msgid "trac_crs_objects"
+msgstr "Kurzusrésztvevők"
+
+msgid "trac_current"
+msgstr "Jelenleg"
+
+msgid "trac_current_system_load"
+msgstr "Jelenlegi rendszerterhelés"
+
+msgid "trac_data_deleted"
+msgstr "Az adatokat sikeresen törölte."
+
+msgid "trac_defaults"
+msgstr "Teljesítettségi állapot"
+
+msgid "trac_defaults_inactive"
+msgstr "Inaktív"
+
+msgid "trac_defaults_info"
+msgstr "Meghatározza, hogy hogyan történjen a következő objektumtípusok teljesítési állapotának meghatározása, amikor egy kurzus vagy csoport elemeként használják őket. Több érdemérem-típus, illetve a tanúsítvány használja ezt."
+
+msgid "trac_delete_data"
+msgstr "Adatok törlése"
+
+msgid "trac_determines_learning_progress"
+msgstr "Meghatározza-e a tanulási haladást"
+
+msgid "trac_edit_collection"
+msgstr "Itt találhatók a tanulási haladást meghatározó objektumok."
+
+msgid "trac_end_at"
+msgstr "Záró dátum"
+
+msgid "trac_failed"
+msgstr "Sikertelen"
+
+msgid "trac_figure"
+msgstr "Mutatószám"
+
+msgid "trac_filter_area"
+msgstr "Terület"
+
+msgid "trac_filter_has_status"
+msgstr "‘Nem próbálkozott’ állapotúak is"
+
+msgid "trac_filter_hidden"
+msgstr "Rejtett"
+
+msgid "trac_first_access"
+msgstr "Első hozzáférés"
+
+msgid "trac_first_and_last_access"
+msgstr "Első és utolsó hozzáférés"
+
+msgid "trac_frm_contribution_num_postings"
+msgstr "Hozzászólások minimális száma"
+
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s hozzászólás"
+
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s hozzászólás"
+
+msgid "trac_group_materials"
+msgstr "Választható anyagok csoportosítása"
+
+msgid "trac_group_materials_save"
+msgstr "Kötelező segédanyagok számának mentése"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "A teljesítendő segédanyagok száma, amelynek 0-nál nagyobbnak kell lenni, és kisebbnek, mint a csoportosítás anyagainak száma."
+
+msgid "trac_hide"
+msgstr "Elrejtés"
+
+msgid "trac_hide_selected"
+msgstr "Kiválasztott objektumok elrejtése"
+
+msgid "trac_in_progress"
+msgstr "Folyamatban"
+
+msgid "trac_info_edited"
+msgstr "Állítsa ‘Teljesített’-re az állapotot, ha úgy gondolja, hogy a teljes tartalmat feldolgozta."
+
+msgid "trac_last_access"
+msgstr "Utolsó hozzáférés"
+
+msgid "trac_last_aggregation"
+msgstr "Utolsó aggregálás"
+
+msgid "trac_learning_progress"
+msgstr "Tanulási haladás"
+
+msgid "trac_learning_progress_of"
+msgstr "%s tanulási haladása"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Bővített adatok bekapcsolása"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ befejezve."
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ befejezve $2$ alatt."
+
+msgid "trac_log_info"
+msgstr "Utolsó összesítés: %s (Feldolgozatlan tételek: %s)"
+
+msgid "trac_log_info_link"
+msgstr "Frissítés"
+
+msgid "trac_long_system_load"
+msgstr "Hosszútávú visszatekintés"
+
+msgid "trac_lp_determination"
+msgstr "Tanulási haladást meghatározó elemek"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Azon elemek kiválasztás, amelyek meghatározzák a kurzus végső tanulási haladásának állapotát."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Ez a kiválasztott elem nem befolyásolja a tanulási haladás állapotát."
+
+msgid "trac_lp_determination_info_mob"
+msgstr "Válassza ki azokat az elemeket, melyek a médiasugárzás végső tanulási haladás állapotát határozzák meg."
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Azon elemek kiválasztás, amelyek meghatározzák a SCORM-tananyag végső tanulási haladásának állapotát."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Objektumok megjelenítése a tanulási haladásban"
+
+msgid "trac_lp_learner_access"
+msgstr "Saját tanulási haladás megtekintése"
+
+msgid "trac_lp_learner_access_info"
+msgstr "Ha aktív, a felhasználók hozzáférnek saját tanulási haladási állapotukhoz."
+
+msgid "trac_lp_list_gui"
+msgstr "Műszerfal, Tartalomtár, Keresés"
+
+msgid "trac_lp_list_gui_info"
+msgstr "A tanulási haladás állapota megjelenik az objektumok felsorolásánál."
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Szülő-tárolóobjektumok tanulási haladása"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "Tanulási haladási állapotát befolyásolja ‘%s’."
+
+msgid "trac_manual_display"
+msgstr "Jelenjen meg a tanulási haladásban"
+
+msgid "trac_manual_is_displayed"
+msgstr "Megjelenítve"
+
+msgid "trac_manual_no_display"
+msgstr "Ne jelenjen meg a tanulási haladásban"
+
+msgid "trac_mark"
+msgstr "Érdemjegy"
+
+msgid "trac_matrix"
+msgstr "Mátrixnézet"
+
+msgid "trac_measure"
+msgstr "Mutatószám"
+
+msgid "trac_members_short"
+msgstr "Tagok"
+
+msgid "trac_min_passed"
+msgstr "Teljesített anyagok minimális száma:"
+
+msgid "trac_mode"
+msgstr "Állapotváltás módja"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Sikeresen teljesítette, amikor ‘befejezte’ vagy ‘sikeresen teljesítette’ vagy ‘elégedett’ értéket küld. A ‘nem teljesítette’ küldése az ILIAS-állapot ‘nem teljesítette’ értékűre állítja."
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Sikeresen teljesítette, amikor ‘befejezte’ értéket küld. A ‘nem teljesítette’ küldése az ILIAS-állapot ‘nem teljesítette’ értékűre állítja."
+
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed"
+msgstr "Sikeresen teljesítette, amikor ‘befejezte’ értéket küld. A ‘nem teljesítette’ küldése az ILIAS-állapot ‘folyamatban’ értékűre állítja."
+
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Sikeresen teljesítette, amikor ‘befejezte’ vagy ‘sikeresen teljesítette’ vagy ‘elégedett’ értéket küld. A ‘nem teljesítette’ küldése az ILIAS-állapot ‘folyamatban’ értékűre állítja."
+
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed"
+msgstr "Sikeresen teljesítette, amikor ‘sikeresen teljesítette’ vagy ‘elégedett’ értéket küld. A ‘nem teljesítette’ küldése az ILIAS-állapot ‘folyamatban’ értékűre állítja."
+
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Sikeresen teljesítette, amikor ‘sikeresen teljesítette’ vagy ‘elégedett’ értéket küld. A ‘nem teljesítette’ küldése az ILIAS-állapot ‘nem teljesítette’ értékűre állítja."
+
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Az állapotot kiválasztott elemek határozzák meg"
+
+msgid "trac_mode_collection_info"
+msgstr "A felhasználó tanulási haladási állapotát a kiválasztott elemek tanulási haladási állapota határozza meg: amikor az összes kiválasztott elem tanulási haladási állapota ‘Teljesített’-re vált, akkor lesz az összesítő állapot értéke ‘Teljesített’.<br />A beállítás mentése után kibővül ez a lap, azaz a mentés után lehet kiválasztani az elemeket."
+
+msgid "trac_mode_collection_manual"
+msgstr "Felhasználók saját maguk fejezetenként vizsgálják és döntenek az állapotról"
+
+msgid "trac_mode_collection_manual_info"
+msgstr "A felhasználók maguk döntik el, mikor sajátították el a tananyag fejezetét. Amikor ezt megtették, állítsák be állapotukat ‘Teljesített’-re az ‘Információ’ lapon.<br />A beállítás mentése után határozhatja meg, mely fejezetek befolyásolják a tanulási haladást."
+
+msgid "trac_mode_collection_mobs"
+msgstr "Médiaobjektumok gyűjteménye"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "A tanulási haladás állapotát a kiválasztott médiaobjektumok megtekintési állapota határozza meg."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Fejezetenként minimálisan elvárt tanulási idő"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Az állapotot automatikusan a felhasználó fejezetenként eltöltött tanulási ideje alapján határozzuk meg. A felhasználó állapota akkor vált ‘Teljesített’-re, amikor valamennyi releváns fejezet esetén elérte a minimálisan elvárt tanulási időt.<br />A beállítások mentése után fejezetenként beállítható a szokásos tanulási idő."
+
+msgid "trac_mode_content_visited"
+msgstr "Megtekintés"
+
+msgid "trac_mode_content_visited_info"
+msgstr "A tanulási haladás állapota ‘Teljesített’ lesz, amikor az objektumot a felhasználó megtekinti."
+
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Hozzászólások"
+
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "A tanulási haladás állapotát a hozzászólások száma határozza meg."
+
+msgid "trac_mode_course_reference"
+msgstr "A kurzusből örökítve"
+
+msgid "trac_mode_course_reference_info"
+msgstr "A mód automatikusan öröklődik az erre a kurzusra mutató kurzusból."
+
+msgid "trac_mode_deactivated"
+msgstr "Tanulási haladás kikapcsolva"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumra."
+
+msgid "trac_mode_event"
+msgstr "Manuális jelenléti megerősítést igényel"
+
+msgid "trac_mode_event_info"
+msgstr "A felhasználó jelenlétét manuálisan kell megerősíteni a ‘Résztvevők’ lapon egy ‘Tagok kezelése’ jogosultsággal rendelkező személynek. Általában ez a személy az esemény felelőse."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Vezetők/Tutorok vizsgálják és döntenek a teljesítettségéről"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Vezetők/Tutorok döntik el, hogy a felhasználó teljesítette-e a feladatokat, manuálisan állítják a felhasználók összesített állapotát (például ‘Teljesített’-re vagy ‘Nem teljesített’-re)."
+
+msgid "trac_mode_individual_assessment"
+msgstr "Tutor vagy trainer manuálisan értékelte"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a személyes értékelést."
+
+msgid "trac_mode_lti_outcome"
+msgstr "A kötelező pontszámot el kell érni"
+
+msgid "trac_mode_lti_outcome_info"
+msgstr "A tanulási haladást az LTI-eredmény és a kötelező pontszám küszöbértéke határozza meg."
+
+msgid "trac_mode_manual"
+msgstr "Felhasználók saját maguk vizsgálják és döntenek a teljesítettségéről"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Vezetők/Tutorok vizsgálják és döntenek a teljesítettségről"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Vezetők/Tutorok döntik el, hogy a felhasználó teljesítette-e az objektum elvárásait, manuálisan állítják a felhasználók összesített állapotát (például ‘Teljesített’-re vagy ‘Nem teljesített’-re)."
+
+msgid "trac_mode_manual_info"
+msgstr "A felhasználók maguk döntik el, mikor sajátították el az objektumot. Amikor ezt megtették, állítsák be állapotukat ‘Teljesített’-re az ‘Információ’ lapon."
+
+msgid "trac_mode_objectives"
+msgstr "Tanulási célok határozzák meg az állapotot"
+
+msgid "trac_mode_objectives_info"
+msgstr "A tanulási haladást automatikusan értékeljük ki a teljesített tanulási objektumok száma alapján."
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+msgid "trac_mode_questions"
+msgstr "Összes kérdés helyes megválaszolása"
+
+msgid "trac_mode_questions_info"
+msgstr "Azon felhasználók, akik az összes kérdést hibátlanul megválaszolták, megkapják a ‘Teljesített’ állapotot. Csak akkor használja ezt az opciót, ha tényleg vannak kérdések a tananyagban."
+
+msgid "trac_mode_scorm"
+msgstr "Az állapotot a kiválasztott SCORM-elemek határozzák meg"
+
+msgid "trac_mode_scorm_info"
+msgstr "A tanulási haladást a kiválasztott SCO-k állapota alapján automatikusan határozzuk meg.<br />A felhasználók tanulási haladási állapotát a kiválasztott SCO-k tanulási haladási állapota automatikusan határozza meg: az SCO-kat a beállítás mentése után lehet kiválasztani."
+
+msgid "trac_mode_scorm_package"
+msgstr "Az állapotot a teljes SCORM-csomag határozza meg"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "A tanulási haladás állapotát a teljes SCORM-csomag állapota automatikusan határozza meg. Az összes SCO befolyásolja a tanulási haladást."
+
+msgid "trac_mode_study_programme"
+msgstr "Képzési program teljesítve"
+
+msgid "trac_mode_survey_finished"
+msgstr "Kérdőív befejezése"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "A kérdőívet a felhasználónak be kell fejeznie, hogy az állapota ‘Teljesített’ legyen."
+
+msgid "trac_mode_test_finished"
+msgstr "Teszt befejezése"
+
+msgid "trac_mode_test_finished_info"
+msgstr "A felhasználó tanulási haladási állapota akkor vált ‘Teljesített’-re, amikor a felhasználó a ‘Teszt befejezése’ gombra kattint, függetlenül attól, hogy sikeresen teljesített-e a tesztet vagy sem."
+
+msgid "trac_mode_test_passed"
+msgstr "Teszt sikeres teljesítése"
+
+msgid "trac_mode_test_passed_info"
+msgstr "A felhasználó tanulási haladási állapota a teszt sikeres teljesítésével vált ‘Teljesített’-re. A teszt teljesítésének küszöbértéke a ‘Beállítások’ lap ‘Értékelés’ részén állítható be."
+
+msgid "trac_mode_tlt"
+msgstr "Tananyaggal töltött minimálisan elvárt idő"
+
+msgid "trac_mode_tlt_info"
+msgstr "Az állapotot a felhasználó tananyaggal töltött ideje alapján automatikusan határozzuk meg. Amikor a felhasználó feldolgozási ideje elérte a minimálisan elvárt Szokásos Tanulási Időt, állapota ‘Teljesített’-re vált.<br />A Szokásos Tanulási Idő a ‘Metaadatok’ lapon módosítható."
+
+msgid "trac_mode_visited_pages"
+msgstr "Összes oldal meglátogatása"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "Az állapot akkor vált ‘Teljesített’-re, amikor a felhasználó meglátogatta a tananyag összes oldalát."
+
+msgid "trac_mode_visits"
+msgstr "Az állapotot a látogatások szám határozza meg"
+
+msgid "trac_mode_visits_info"
+msgstr "A felhasználó állapota automatikusan ‘Teljesített’-ra vált, amikor a felhasználó a megadott számán többször tekinti meg a tananyagot. A felhasználókat tájékoztatjuk a megtekintéseik számáról, és teljesítéshez szükséges állapot százalékáról."
+
+msgid "trac_name_of_installation"
+msgstr "Installáció neve"
+
+msgid "trac_no_attempted"
+msgstr "Nem próbálkozott"
+
+msgid "trac_not_accessed"
+msgstr "Nem érhető el"
+
+msgid "trac_not_assigned"
+msgstr "Nincs hozzárendelve"
+
+msgid "trac_not_attempted"
+msgstr "Nem próbálkozott"
+
+msgid "trac_not_completed"
+msgstr "Nem teljesítette"
+
+msgid "trac_not_participated"
+msgstr "Nem vett részt"
+
+msgid "trac_not_registered"
+msgstr "Nem regisztrált"
+
+msgid "trac_object_link"
+msgstr "Link az objektumhoz"
+
+msgid "trac_object_name"
+msgstr "Objektum neve"
+
+msgid "trac_object_owner"
+msgstr "Objektum tulajdonosa"
+
+msgid "trac_object_stat_access"
+msgstr "Hozzáférés gyakorisága"
+
+msgid "trac_object_stat_admin"
+msgstr "Adatkezelés"
+
+msgid "trac_object_stat_daily"
+msgstr "Óránkénti bontás"
+
+msgid "trac_object_stat_lp"
+msgstr "Kurzusok tanulási haladási statisztikái"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Objektumok száma"
+
+msgid "trac_object_statistics"
+msgstr "Objektumstatisztikák"
+
+msgid "trac_object_statistics_info"
+msgstr "A használati statisztika alapadatait összegyűjtjük és feldogozzuk."
+
+msgid "trac_objects"
+msgstr "Felhasználók"
+
+msgid "trac_others"
+msgstr "Továbbiak"
+
+msgid "trac_participants"
+msgstr "Résztvevők megjelenítése"
+
+msgid "trac_participated"
+msgstr "Részt vett"
+
+msgid "trac_paths"
+msgstr "Útvonalak"
+
+msgid "trac_percentage"
+msgstr "Százalék"
+
+msgid "trac_periodic_system_load"
+msgstr "Időszakra rendszerterhelés"
+
+msgid "trac_progress"
+msgstr "Személyes tanulási haladás"
+
+msgid "trac_progress_block_details"
+msgstr "Részletek megjelenítése"
+
+msgid "trac_progress_block_title"
+msgstr "Tanulási haladásom"
+
+msgid "trac_read_count"
+msgstr "Hozzáférésszám"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Felhasznált idő/elérés"
+
+msgid "trac_reference"
+msgstr "Linkek"
+
+msgid "trac_reference_ids_column"
+msgstr "Reference-Id-k"
+
+msgid "trac_registered"
+msgstr "Regisztrált"
+
+msgid "trac_release_materials"
+msgstr "Választható anyagok csoportosításának megszüntetése"
+
+msgid "trac_report_date"
+msgstr "Riport dátuma"
+
+msgid "trac_report_owner"
+msgstr "Riport tulajdonosa"
+
+msgid "trac_required_visits"
+msgstr "Elvárt látogatások száma"
+
+msgid "trac_sahs_relevant_items"
+msgstr "Tartalomelemek"
+
+msgid "trac_scale"
+msgstr "Skála"
+
+msgid "trac_select_area"
+msgstr "Terület kiválasztása"
+
+msgid "trac_session_active_avg"
+msgstr "Aktív munkamenetek átlaga"
+
+msgid "trac_session_active_max"
+msgstr "Aktív munkamenetek maximuma"
+
+msgid "trac_session_active_min"
+msgstr "Aktív munkamenetek minimuma"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Nap"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Utolsó 24 óra"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Utolsó 30 nap"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Utolsó 7 nap"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Hónap"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Ma"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Hét"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Év"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Nem találhatók adatok ehhez a statisztikához."
+
+msgid "trac_sessions_closed"
+msgstr "Munkamenetzárások száma"
+
+msgid "trac_sessions_opened"
+msgstr "Munkamenetnyitások száma"
+
+msgid "trac_settings"
+msgstr "Beállítások"
+
+msgid "trac_settings_saved"
+msgstr "A beállításokat sikeresen mentette."
+
+msgid "trac_short_system_load"
+msgstr "Rövidtávú visszatekintés"
+
+msgid "trac_show_graph"
+msgstr "Grafikon megjelenítése"
+
+msgid "trac_show_progress_block"
+msgstr "Személyes haladási grafikon megjelenítése a ‘Tartalom’ fülön"
+
+msgid "trac_show_repository_views"
+msgstr "Nyomkövetési információk megjelenítése"
+
+msgid "trac_show_repository_views_info"
+msgstr "Tartalomtárbeli objektumok nyomkövetési információinak megjelenítése azok információs lapján."
+
+msgid "trac_spent_seconds"
+msgstr "Eltöltött idő"
+
+msgid "trac_spent_time"
+msgstr "Eltöltött idő"
+
+msgid "trac_status"
+msgstr "Állapot"
+
+msgid "trac_status_changed"
+msgstr "Utolsó állapotmódosítás"
+
+msgid "trac_subitems"
+msgstr "Altételek megjelenítése"
+
+msgid "trac_sum"
+msgstr "Összesen"
+
+msgid "trac_summary"
+msgstr "Összefoglaló"
+
+msgid "trac_sure_delete_data"
+msgstr "Biztos, hogy törli az alábbi hónapok minden adatát? Evvel eltávolítja többek között a használati intenzitás, a napi használat, a tanulási haladás és az objektumok száma összes statisztikai adatát az adott időszakra."
+
+msgid "trac_sync_obj_stats"
+msgstr "Adatok frissítése"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Az adatokat sikeresen feltöltötte."
+
+msgid "trac_sync_session_stats"
+msgstr "Adatok aggregálása"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Az aggregálás sikeresen lezajlott."
+
+msgid "trac_time_passed"
+msgstr "Szerkesztési idő túllépve"
+
+msgid "trac_title"
+msgstr "Cím"
+
+msgid "trac_title_description"
+msgstr "Cím/Leírás"
+
+msgid "trac_total_online"
+msgstr "Teljes online eltöltött idő"
+
+msgid "trac_trash"
+msgstr "Lomtárba helyezve"
+
+msgid "trac_update_edit_user"
+msgstr "A beállításokat sikeresen mentette"
+
+msgid "trac_updated_status"
+msgstr "A tanulási haladás állapotát sikeresen mentette."
+
+msgid "trac_user_data"
+msgstr "Felhasználói adatok"
+
+msgid "trac_valid_request"
+msgstr "Kérések közötti maximális idő"
+
+msgid "trac_view_crs"
+msgstr "Vissza a kurzushoz"
+
+msgid "trac_view_list"
+msgstr "Vissza a listához"
+
+msgid "trac_view_mode"
+msgstr "Nézetmód"
+
+msgid "trac_view_mode_all"
+msgstr "Összes objektum"
+
+msgid "trac_view_mode_collection"
+msgstr "Csak azok az objektumok, amelyek az átfogó állapotot határozzák meg"
+
+msgid "trac_visits"
+msgstr "Elvárt látogatások száma"
+
+msgid "trac_visits_info"
+msgstr "Csak a %s másodpercen túli kattintás számít új látogatásnak."
+
+msgid "trac_visits_nr"
+msgstr "Látogatások száma"
+
+msgid "user_total"
+msgstr "Felhasználók összesen"
+
+msgid "view_mode"
+msgstr "Nézet"
+
+msgid "view_mode_all"
+msgstr "Összes"
+
+msgid "view_mode_current"
+msgstr "Jelenlegi"
+
+msgid "view_mode_future"
+msgstr "Jövőbeli"
+
+msgid "view_mode_past"
+msgstr "Múltbeli"
