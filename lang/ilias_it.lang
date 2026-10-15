@@ -12842,25 +12842,6 @@ user#:#usr_public_profile_disabled#:#Profilo Pubblico disabilitato
 user#:#usr_public_profile_disabled_info#:#Le tue informazioni sono visibile solo agli amministratori
 user#:#usr_public_profile_global#:#Visibilità Globale
 user#:#usr_public_profile_logged_in#:#Utenti connessi
-validation#:#datetime_required#:#Time/Date required###30 04 2024 new variable
-validation#:#no_array#:#Given value is not an array###31 03 2023 new variable
-validation#:#not_a_null#:#Value of type '%s' non è un null.
-validation#:#not_a_string#:#Value of type '%s' non è una stringa.
-validation#:#not_an_array#:#'%s' non è un array.
-validation#:#not_an_array_of#:#Gli elementi della matrice non vincolano i vincoli: %s
-validation#:#not_an_int#:#Il valore di tipo '%s' non è un numero intero.
-validation#:#not_generic#:#Non è il caso che:%s
-validation#:#not_greater_than#:#'%s' non è maggiore di '%s'.
-validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.###31 03 2023 new variable
-validation#:#not_less_than#:#'%s' non è inferiore a '%s'.
-validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.###31 03 2023 new variable
-validation#:#not_max_length#:#Il testo inserito ha una lunghezza superiore a '%s'.
-validation#:#not_min_length#:#L'input ha una lunghezza di %d e scende al di sotto della lunghezza minima %d.
-validation#:#not_numeric#:# '%s' non è numerico.
-validation#:#not_numeric_empty_string#:#Your input is not numeric.
-validation#:#numeric_only#:#Please insert a whole number.###30 04 2024 new variable
-validation#:#required#:#This input is required.###08 07 2025 new variable
-validation#:#tag_required#:#Please insert at least one tag.###30 04 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###31 03 2023 new variable
 webr#:#invalid_links_tbl#:#Collegamenti non validi
 webr#:#webr_active#:#Attiva
