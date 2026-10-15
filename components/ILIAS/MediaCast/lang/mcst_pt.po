@@ -1,0 +1,303 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "O tamanho predefinido é de 1370x100 pixéis."
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Lista de sufixos de ficheiros separados por vírgulas"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Extensões de ficheiro para formato de áudio"
+
+msgid "mcst_audioportable_title"
+msgstr "Ficheiro de áudio adicional para dispositivos portáteis"
+
+msgid "mcst_automatic_detection"
+msgstr "Deteção automática"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Apagar"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "O ficheiro foi convertido."
+
+msgid "mcst_copy"
+msgstr "Copiar Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "Mostra o valor atual deste formato."
+
+msgid "mcst_default_visibility"
+msgstr "Acesso predefinido"
+
+msgid "mcst_det_playtime"
+msgstr "Determinar tempo de reprodução"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "Descarregar áudio portátil"
+
+msgid "mcst_download_cnt"
+msgstr "Descarregado"
+
+msgid "mcst_download_standard"
+msgstr "Download"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+msgid "mcst_download_videoalternative"
+msgstr "Descarregar ficheiro alternativo"
+
+msgid "mcst_download_videoportable"
+msgstr "Descarregar vídeo portátil"
+
+msgid "mcst_downloadable"
+msgstr "Descarregar links"
+
+msgid "mcst_downloadable_info"
+msgstr "Definir como O meu perfil"
+
+msgid "mcst_duration"
+msgstr "Tem a certeza que quer apagar as seguintes páginas do portefólio e/ou do blog?"
+
+msgid "mcst_duration_info"
+msgstr "Se não estiver inserido nenhum valor, ILIAS tenta determinar o tempo de reprodução automaticamente."
+
+msgid "mcst_edit_item"
+msgstr "Editar item Mediacast"
+
+msgid "mcst_edit_settings"
+msgstr "Definições MediaCast"
+
+msgid "mcst_gallery"
+msgstr "Portefólios de outros utilizadores"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "Importar Mediacast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Acordo do utilizador aceite"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Nome"
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Especifique um ficheiro ou um URL. Se fornecer um ficheiro, esteja atento ao tamanho máximo para carregar um ficheiro."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "O tamanho mínimo da palavra-passe não pode ser inferior a %s se a palavra-passe tiver de incluir caracteres e números."
+
+msgid "mcst_list"
+msgstr "Lista"
+
+msgid "mcst_manage"
+msgstr "Gerir"
+
+msgid "mcst_media_cast"
+msgstr "O tamanho mínimo da palavra-passe não pode ser inferior a %s se a palavra-passe tiver de incluir caracteres, números e caracteres especiais."
+
+msgid "mcst_media_cast_not_online"
+msgstr "Mediacast não está online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "Mediacast não está online ou foi desativado"
+
+msgid "mcst_mimetype"
+msgstr "Tipo de mime"
+
+msgid "mcst_mimetype_info"
+msgstr "Selecione tipo de mime para controlar o plugin usado para reprodução.<br>Note que: Repare que nem todos os navegadores contêm o plugin que pretende usar."
+
+msgid "mcst_mimetypes"
+msgstr "Tipos de mime"
+
+msgid "mcst_mimetypes_info"
+msgstr "Lista de tipos de mime separados por vírgula"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Pode aceder a notícias públicas sem autenticação fora de ILIAS via RSS. Não inclua qualquer informação confidencial."
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Visibilidade dos dados do perfil de utilizador em cursos"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "Ordenar"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Tipos de dados do perfil pessoal"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Iniciar exportação de Excel"
+
+msgid "mcst_ordering_manual"
+msgstr "Manual"
+
+msgid "mcst_ordering_title"
+msgstr "Membros"
+
+msgid "mcst_play"
+msgstr "Reproduzir"
+
+msgid "mcst_play_cnt"
+msgstr "Reproduzido"
+
+msgid "mcst_play_time"
+msgstr " Define o número máximo de tentativas falhadas para fazer login. Depois de exceder o número máximo de tentativas falhadas, o respetivo utilizador é definido para 'inativo' e requer uma reativação na gestão de utilizadores. Deixe o campo vazio para desativar esta opção e ILIAS não conta os tentativas de login falhadas"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "Pré-visualizar fotografia"
+
+msgid "mcst_preview_picture_info"
+msgstr "Apenas suportado pelos seguintes tipos de media principais:"
+
+msgid "mcst_reference_info"
+msgstr "Fornece URL a apontar para recurso"
+
+msgid "mcst_save_order"
+msgstr "Guardar ordem"
+
+msgid "mcst_set_playtime"
+msgstr "O tempo de reprodução foi definido."
+
+msgid "mcst_settings"
+msgstr "Definições MediaCast"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "Lista de sufixos de ficheiros separados por vírgulas"
+
+msgid "mcst_standard_settings_title"
+msgstr "Extensões de ficheiro para formato padrão"
+
+msgid "mcst_standard_title"
+msgstr "Obrigar a caracteres e números"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Incapaz de determinar o tempo de reprodução. Defina-o manualmente clicando em Editar."
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "Ficheiro de vídeo alternativo (Usar no navegador)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Lista de sufixos de ficheiros separados por vírgulas"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Extensões de ficheiro para formato de vídeo"
+
+msgid "mcst_videoportable_title"
+msgstr "Ficheiro de vídeo adicional para dispositivos portáteis"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "Modo de apresentação"
+
+msgid "mcst_visibility_info"
+msgstr "Pode aceder aos itens públicos via RSS sem qualquer autenticação."
+
+msgid "mcst_visibility_public"
+msgstr "Público"
+
+msgid "mcst_visibility_users"
+msgstr "Registado em utilizadores"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+msgid "mcst_webfeed"
+msgstr "RSS Web Feed"

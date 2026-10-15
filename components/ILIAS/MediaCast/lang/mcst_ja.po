@@ -1,0 +1,279 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "新しいメディアキャストアイテムを追加"
+
+msgid "mcst_audio_files"
+msgstr "オーディオファイル"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "ファイルサフィックスのカンマ区切りリスト"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "オーディオ形式のファイル拡張子"
+
+msgid "mcst_audioportable_title"
+msgstr "携帯機器用の追加オーディオファイル"
+
+msgid "mcst_automatic_detection"
+msgstr "自動検出"
+
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+msgid "mcst_autoplay_info"
+msgstr "前の終了に達した時に次のビデオが自動的に開始します。この機能はYoutubeビデオではサポートされません。"
+
+msgid "mcst_clear_purpose_title"
+msgstr "削除"
+
+msgid "mcst_confirm_deletion"
+msgstr "削除を確認"
+
+msgid "mcst_converted_file"
+msgstr "ファイルは変換されました。"
+
+msgid "mcst_copy"
+msgstr "メディアキャストをコピー"
+
+msgid "mcst_current_value_info"
+msgstr "この形式の現在の値を表示します。"
+
+msgid "mcst_default_visibility"
+msgstr "アクセス初期設定"
+
+msgid "mcst_det_playtime"
+msgstr "再生時間を決定"
+
+msgid "mcst_download_all"
+msgstr "全てをダウンロード"
+
+msgid "mcst_download_audioportable"
+msgstr "ポータブルオーディオをダウンロードします"
+
+msgid "mcst_download_cnt"
+msgstr "ダウンロードしました"
+
+msgid "mcst_download_standard"
+msgstr "ダウンロード"
+
+msgid "mcst_download_started_bg"
+msgstr "ファイルのダウンロードを開始しました。画面トップ右コーナのバックグラウンドタスクをチェックして下さい。"
+
+msgid "mcst_download_videoalternative"
+msgstr "他のファイルをダウンロード"
+
+msgid "mcst_download_videoportable"
+msgstr "ポータブルビデオをダウンロードします"
+
+msgid "mcst_downloadable"
+msgstr "ダウンロードリンク"
+
+msgid "mcst_downloadable_info"
+msgstr "このオプションを有効にすると、ダウンロード用のリンクが用意されます。"
+
+msgid "mcst_duration"
+msgstr "再生時間"
+
+msgid "mcst_duration_info"
+msgstr "未入力の場合にILIASは自動的に再生時間を決定しようとします。"
+
+msgid "mcst_edit_item"
+msgstr "メディアキャストアイテムを編集します"
+
+msgid "mcst_edit_settings"
+msgstr "メディアキャスト設定"
+
+msgid "mcst_gallery"
+msgstr "ギャラリ-"
+
+msgid "mcst_img_gallery"
+msgstr "イメージギャラリー"
+
+msgid "mcst_import"
+msgstr "メディアキャストをインポート"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "フィード中のメディアファイルを含める"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "有効にするとメディアファイルはRSSフィードの添付として含まれます。それ以外の場合は購入者へ新しいアイテムに関するフィードのみ通知されます。"
+
+msgid "mcst_input_either_file_or_url"
+msgstr "ファイルまたはURLを指定してください。ファイルに設定する場合は最大許容アップッロードファイルサイズに注意してください。"
+
+msgid "mcst_items"
+msgstr "アイテム"
+
+msgid "mcst_last_submission"
+msgstr "最終提出"
+
+msgid "mcst_list"
+msgstr "リスト"
+
+msgid "mcst_manage"
+msgstr "管理"
+
+msgid "mcst_media_cast"
+msgstr "メディアキャスト"
+
+msgid "mcst_media_cast_not_online"
+msgstr "メディアキャストはオンラインです"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "メディアキャストはオンラインでないか無効になっています"
+
+msgid "mcst_mimetype"
+msgstr "MIMEタイプ"
+
+msgid "mcst_mimetype_info"
+msgstr "再生用に使用するプラグイン制御のMIMEタイプを選択します。<br>注意。　すべてのブラウザで使用するプラグインが含まれている事を注意願います。"
+
+msgid "mcst_mimetypes"
+msgstr "MIMEタイプ"
+
+msgid "mcst_mimetypes_info"
+msgstr "MIMEタイプのカンマ区切り一覧"
+
+msgid "mcst_new_items_det_lp"
+msgstr "学習進捗へ新しいアイテムを追加"
+
+msgid "mcst_new_items_det_lp_info"
+msgstr "新規アイテムは、学習進捗全般を確定するために自動的に追加されます。"
+
+msgid "mcst_news_item_visibility_info"
+msgstr "パブリックニュースはRSS経由でILLIASの外部から認証なしでアクセスできます。機密情報は含めないでください。"
+
+msgid "mcst_next_items"
+msgstr "次のアイテム"
+
+msgid "mcst_no_autoplay"
+msgstr "自動再生なし"
+
+msgid "mcst_nr_items"
+msgstr "アイテム数"
+
+msgid "mcst_nr_videos"
+msgstr "初期Videos数"
+
+msgid "mcst_ordering"
+msgstr "並び替え"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "作成日(昇順)"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "作成日(降順)"
+
+msgid "mcst_ordering_manual"
+msgstr "手動"
+
+msgid "mcst_ordering_title"
+msgstr "タイトル順"
+
+msgid "mcst_play"
+msgstr "再生"
+
+msgid "mcst_play_cnt"
+msgstr "再生"
+
+msgid "mcst_play_time"
+msgstr "再生時間"
+
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+msgid "mcst_prev_items"
+msgstr "前のアイテム"
+
+msgid "mcst_preview"
+msgstr "プレビュー"
+
+msgid "mcst_preview_picture"
+msgstr "ピクチャをプレビュー"
+
+msgid "mcst_preview_picture_info"
+msgstr "次の主要メディア形式をサポート："
+
+msgid "mcst_reference_info"
+msgstr "リソースを示すURLを提供"
+
+msgid "mcst_save_order"
+msgstr "順番を保存"
+
+msgid "mcst_set_playtime"
+msgstr "再生が設定されました。"
+
+msgid "mcst_settings"
+msgstr "メディアキャスト設定"
+
+msgid "mcst_show_description"
+msgstr "説明を表示"
+
+msgid "mcst_standard_settings_info"
+msgstr "ファイルサフィックスのカンマ区切りリスト"
+
+msgid "mcst_standard_settings_title"
+msgstr "標準形式のファイル拡張子"
+
+msgid "mcst_standard_title"
+msgstr "ノーマルメディア ファイル"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "再生時間を決定できません。編集をクリックして手動で設定してください。"
+
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+msgid "mcst_video_completion_threshold"
+msgstr "Video完了スレッショールド"
+
+msgid "mcst_video_completion_threshold_info"
+msgstr "完了ステータスをトリガーするビテオ数量。このポイントに達する前へスキップしてもよい事に注意願います。"
+
+msgid "mcst_videoalternative_title"
+msgstr "代替ビデオファイル(ブラウザ内で使用)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "ファイルサフィックスのカンマ区切りリスト"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "ビデオ形式のファイル拡張子"
+
+msgid "mcst_videoportable_title"
+msgstr "ポータブルデバイス用の追加ビデオファイル"
+
+msgid "mcst_view_abandoned"
+msgstr "現在のプレゼンテーションモードは破棄されました。設定を開いて別のモードへ変更してください。"
+
+msgid "mcst_viewmode"
+msgstr "プレゼンテーションモード"
+
+msgid "mcst_visibility_info"
+msgstr "パブリックアイテムは、認証なしにRSS経由でアクセスできます。"
+
+msgid "mcst_visibility_public"
+msgstr "パブリック"
+
+msgid "mcst_visibility_users"
+msgstr "ログイン済のユーザ"
+
+msgid "mcst_watched"
+msgstr "観察"
+
+msgid "mcst_webfeed"
+msgstr "RSS Webフィード"

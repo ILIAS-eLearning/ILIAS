@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Voeg Nieuw Media Cast Item toe"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Comma separated list of file suffixes"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "File Extensions for Audio Format"
+
+msgid "mcst_audioportable_title"
+msgstr "Additional Audio File for Portable Devices"
+
+msgid "mcst_automatic_detection"
+msgstr "Automatic Detection"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Delete"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "File has been converted."
+
+#, fuzzy
+msgid "mcst_copy"
+msgstr "Copy Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "Shows the current value of this format."
+
+msgid "mcst_default_visibility"
+msgstr "Default Access"
+
+msgid "mcst_det_playtime"
+msgstr "Bepaal Afspeeltijd"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "Download Audio Portable"
+
+msgid "mcst_download_cnt"
+msgstr "Gedownload"
+
+msgid "mcst_download_standard"
+msgstr "Download"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+msgid "mcst_download_videoalternative"
+msgstr "Download Alternatief Bestand"
+
+msgid "mcst_download_videoportable"
+msgstr "Download Video Portable"
+
+msgid "mcst_downloadable"
+msgstr "Download koppelingen"
+
+msgid "mcst_downloadable_info"
+msgstr "Als deze optie is ingeschakeld, zullen dowload links worden getoond."
+
+msgid "mcst_duration"
+msgstr "Afspeeltijd"
+
+msgid "mcst_duration_info"
+msgstr "Als er geen waarde is ingegeven, probeert ILIAS de afspeeltijd automatisch te bepalen."
+
+msgid "mcst_edit_item"
+msgstr "Wijzigen Mediacast Item"
+
+msgid "mcst_edit_settings"
+msgstr "MediaCast Settings"
+
+msgid "mcst_gallery"
+msgstr "Gallerij"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "Importeer Mediacast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Voeg Media bestanden toe in Feed"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Indien ingeschakeld, zijn media bestanden als bijlage toegevoegd in de RSS feed. Indien niet ingeschakeld, zal de feed een melding geven aan de abonnees over het nieuwe item."
+
+#, fuzzy
+msgid "mcst_input_either_file_or_url"
+msgstr "Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "Laatste inzending"
+
+msgid "mcst_list"
+msgstr "Lijst"
+
+msgid "mcst_manage"
+msgstr "Beheren"
+
+msgid "mcst_media_cast"
+msgstr "Media Cast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "Mediacast is not online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "Mediacast is not online or has been disabled"
+
+msgid "mcst_mimetype"
+msgstr "Mime Type"
+
+msgid "mcst_mimetype_info"
+msgstr "Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use."
+
+msgid "mcst_mimetypes"
+msgstr "Mime Types"
+
+msgid "mcst_mimetypes_info"
+msgstr "Comma separated list of mime types"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Publiek nieuws kan zonder authenticatie buiten ILIAS worden benaderd door middel van RSS. Wees voorzichtig met vertrouwelijke informatie."
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Aantal items"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "Sortering"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Aanmaakdatum (Oplopend)"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Aanmaakdatum (Aflopend)"
+
+msgid "mcst_ordering_manual"
+msgstr "Handmatig"
+
+msgid "mcst_ordering_title"
+msgstr "Titel"
+
+msgid "mcst_play"
+msgstr "Afspelen"
+
+msgid "mcst_play_cnt"
+msgstr "Afgespeeld"
+
+msgid "mcst_play_time"
+msgstr "Afspeeltijd"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "Preview Picture"
+
+msgid "mcst_preview_picture_info"
+msgstr "Only supported by the following main media types:"
+
+msgid "mcst_reference_info"
+msgstr "Vul URL naar hulpmiddel in"
+
+msgid "mcst_save_order"
+msgstr "Save Order"
+
+msgid "mcst_set_playtime"
+msgstr "Playtime has been set."
+
+msgid "mcst_settings"
+msgstr "MediaCast Instellingen"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "Comma separated list of file suffixes"
+
+msgid "mcst_standard_settings_title"
+msgstr "File Extensions for Standard Format"
+
+msgid "mcst_standard_title"
+msgstr "Normal Media File"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Unable to determine playtime. Please set it manually be clicking on Edit."
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternative Video File (Use in Browser)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Comma separated list of file suffixes"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "File Extensions for Video Format"
+
+msgid "mcst_videoportable_title"
+msgstr "Additional Video File for Portable Devices"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "Presentation Mode"
+
+msgid "mcst_visibility_info"
+msgstr "Publieke items kunnen benaderd worden via RSS zonder enige authenticatie."
+
+msgid "mcst_visibility_public"
+msgstr "Publiek"
+
+msgid "mcst_visibility_users"
+msgstr "Logged in Users"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+msgid "mcst_webfeed"
+msgstr "RSS Web Feed"

@@ -1,0 +1,279 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Neuen Mediacast-Beitrag hinzufügen"
+
+msgid "mcst_audio_files"
+msgstr "Audiodateien"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Kommagetrennte Liste von Dateiendungen"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Dateiendungen für das Audio-Format"
+
+msgid "mcst_audioportable_title"
+msgstr "Zusätzliche Audio-Datei für portable Geräte"
+
+msgid "mcst_automatic_detection"
+msgstr "Automatisch"
+
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Standard 'an')"
+
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Standard 'aus')"
+
+msgid "mcst_autoplay_info"
+msgstr "Startet beim Erreichen des Endes eines Videos automatisch das nächste Video. Youtube-Videos unterstützen dieses Verhalten nicht."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Löschen"
+
+msgid "mcst_confirm_deletion"
+msgstr "Löschbestätigung"
+
+msgid "mcst_converted_file"
+msgstr "Datei wurde umgewandelt."
+
+msgid "mcst_copy"
+msgstr "Mediacast kopieren"
+
+msgid "mcst_current_value_info"
+msgstr "Aktueller Wert des Formats"
+
+msgid "mcst_default_visibility"
+msgstr "Standardzugriff"
+
+msgid "mcst_det_playtime"
+msgstr "Laufzeit bestimmen"
+
+msgid "mcst_download_all"
+msgstr "Alle herunterladen"
+
+msgid "mcst_download_audioportable"
+msgstr "Audio-Datei herunterladen"
+
+msgid "mcst_download_cnt"
+msgstr "Heruntergeladen"
+
+msgid "mcst_download_standard"
+msgstr "Download"
+
+msgid "mcst_download_started_bg"
+msgstr "Das Download-Paket wird aktuell erstellt. Um den Fortschritt zu sehen, klicken Sie oben rechts in der Top-Bar auf das Glocken-Symbol."
+
+msgid "mcst_download_videoalternative"
+msgstr "Alternatives Format herunterladen"
+
+msgid "mcst_download_videoportable"
+msgstr "Video-Datei herunterladen"
+
+msgid "mcst_downloadable"
+msgstr "Download-Link"
+
+msgid "mcst_downloadable_info"
+msgstr "Benutzer können Beiträge direkt herunterladen."
+
+msgid "mcst_duration"
+msgstr "Laufzeit"
+
+msgid "mcst_duration_info"
+msgstr "Falls dieser Wert auf Null steht, konnte die Laufzeit nicht automatisch bestimmt werden. Bitte tragen Sie dann die Laufzeit manuell ein."
+
+msgid "mcst_edit_item"
+msgstr "Mediacast-Beitrag bearbeiten"
+
+msgid "mcst_edit_settings"
+msgstr "Einstellungen"
+
+msgid "mcst_gallery"
+msgstr "Kacheln"
+
+msgid "mcst_img_gallery"
+msgstr "Bildergalerie"
+
+msgid "mcst_import"
+msgstr "Mediacast importieren"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Dateianhänge"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt."
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Bitte geben Sie entweder eine Datei oder eine URL an. Achten Sie bei Angabe einer Datei bitte auf die maximal erlaubte Upload-Größe."
+
+msgid "mcst_items"
+msgstr "Einträge"
+
+msgid "mcst_last_submission"
+msgstr "Letzter Beitrag"
+
+msgid "mcst_list"
+msgstr "Liste"
+
+msgid "mcst_manage"
+msgstr "Verwalten"
+
+msgid "mcst_media_cast"
+msgstr "Mediacast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "Mediacast ist nicht online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "Der Mediacast ist nicht online oder wurde deaktiviert"
+
+msgid "mcst_mimetype"
+msgstr "MIME-Type"
+
+msgid "mcst_mimetype_info"
+msgstr "Wählen Sie einen MIME-Type aus, um das richtige Plugin zu definieren. <br />Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen."
+
+msgid "mcst_mimetypes"
+msgstr "MIME-Types"
+
+msgid "mcst_mimetypes_info"
+msgstr "Kommagetrennte Liste von MIME-Types"
+
+msgid "mcst_new_items_det_lp"
+msgstr "Neue Einträge dem Lernfortschritt zuordnen"
+
+msgid "mcst_new_items_det_lp_info"
+msgstr "Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten."
+
+msgid "mcst_next_items"
+msgstr "Weitere Videos anzeigen"
+
+msgid "mcst_no_autoplay"
+msgstr "Kein Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Zahl der Objekte"
+
+msgid "mcst_nr_videos"
+msgstr "Anzahl initial angezeigter Videos"
+
+msgid "mcst_ordering"
+msgstr "Sortierung"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Nach Erstellungsdatum, ältester Beitrag oben"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Nach Erstellungsdatum, neuester Beitrag oben"
+
+msgid "mcst_ordering_manual"
+msgstr "Manuell"
+
+msgid "mcst_ordering_title"
+msgstr "Alphabetisch nach Titel"
+
+msgid "mcst_play"
+msgstr "Abspielen"
+
+msgid "mcst_play_cnt"
+msgstr "Abgespielt"
+
+msgid "mcst_play_time"
+msgstr "Laufzeit"
+
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+msgid "mcst_prev_items"
+msgstr "Vorherige Videos anzeigen"
+
+msgid "mcst_preview"
+msgstr "Vorschau"
+
+msgid "mcst_preview_picture"
+msgstr "Vorschaubild"
+
+msgid "mcst_preview_picture_info"
+msgstr "Nur von folgenden Dateitypen unterstützt:"
+
+msgid "mcst_reference_info"
+msgstr "URL zur Ressource, z.B. HTTP-Adresse."
+
+msgid "mcst_save_order"
+msgstr "Sortierung speichern"
+
+msgid "mcst_set_playtime"
+msgstr "Die Laufzeit wurde gesetzt."
+
+msgid "mcst_settings"
+msgstr "Einstellungen des Mediacasts"
+
+msgid "mcst_show_description"
+msgstr "Beschreibung anzeigen"
+
+msgid "mcst_standard_settings_info"
+msgstr "Kommagetrennte Liste von Dateiendungen"
+
+msgid "mcst_standard_settings_title"
+msgstr "Dateiendungen für das Standard Format"
+
+msgid "mcst_standard_title"
+msgstr "Standard-Mediendatei"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter „Bearbeiten“ können Sie die Laufzeit manuell einstellen."
+
+msgid "mcst_video_cast"
+msgstr "Videoliste"
+
+msgid "mcst_video_completion_threshold"
+msgstr "\"Bearbeitet\"-Schwellenwert"
+
+msgid "mcst_video_completion_threshold_info"
+msgstr "Ab diesem Fortschritt wird ein Video als „angesehen“ gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternatives Videoformat zur Nutzung im Browser"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Kommagetrennte Liste von Dateiendungen"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Dateiendungen für das Video-Format"
+
+msgid "mcst_videoportable_title"
+msgstr "Zusätzliche Video-Datei für portable Geräte"
+
+msgid "mcst_view_abandoned"
+msgstr "Die aktuell gewählte Ansicht wird nicht mehr unterstützt. Bitte wählen Sie in den Einstellungen einen andere Ansicht aus."
+
+msgid "mcst_viewmode"
+msgstr "Ansicht"
+
+msgid "mcst_visibility_info"
+msgstr "Öffentliche Objekte sind über RSS ohne jegliche Authentifizierung zugänglich."
+
+msgid "mcst_visibility_public"
+msgstr "Angemeldete Benutzer"
+
+msgid "mcst_visibility_users"
+msgstr "Öffentlich"
+
+msgid "mcst_watched"
+msgstr "angesehen"
+
+msgid "mcst_webfeed"
+msgstr "RSS-Webfeed"
