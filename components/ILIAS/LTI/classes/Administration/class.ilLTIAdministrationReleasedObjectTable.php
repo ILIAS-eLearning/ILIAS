@@ -70,16 +70,25 @@ readonly class ilLTIAdministrationReleasedObjectTable implements DataRetrieval
         mixed $additional_parameters
     ): Generator {
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-        $order_columns = ["type" => "od.type", "title" => "od.title", "consumer" => "c.title"];
-        $order_by = ($order_columns[$order_field] ?? "od.title") . ($order_direction === Order::DESC ? " DESC" : " ASC");
+        // the table sorts by one column; the rows with the same value keep the order of the others
+        $order_columns = [
+            "type" => ["od.type", "od.title", "c.title"],
+            "title" => ["od.title", "c.title"],
+            "consumer" => ["c.title", "od.title"],
+        ];
+        $direction = $order_direction === Order::DESC ? " DESC" : " ASC";
+        $order_by = implode(", ", array_map(
+            static fn(string $column): string => $column . $direction,
+            $order_columns[$order_field] ?? $order_columns["title"]
+        ));
 
         $this->db->setLimit($range->getLength(), $range->getStart());
         $result = $this->db->query(
-            "SELECT l.consumer_pk, l.ref_id, od.type, od.title, c.title consumer" . $this->getFrom() . " ORDER BY " . $order_by
+            "SELECT l.ref_id, l.ext_consumer_id, od.type, od.title, c.title consumer" . $this->getFrom() . " ORDER BY " . $order_by
         );
         while ($row = $this->db->fetchAssoc($result)) {
             $link = (string) $this->static_url->builder()->build((string) $row["type"], new ReferenceId((int) $row["ref_id"]));
-            yield $row_builder->buildDataRow((string) $row["consumer_pk"], [
+            yield $row_builder->buildDataRow($row["ref_id"] . "_" . $row["ext_consumer_id"], [
                 "type" => $this->ui_factory->symbol()->icon()->standard((string) $row["type"], (string) $row["type"], Icon::SMALL),
                 "title" => $this->ui_factory->link()->standard((string) $row["title"], $link),
                 "consumer" => htmlspecialchars((string) $row["consumer"]),
@@ -97,12 +106,16 @@ readonly class ilLTIAdministrationReleasedObjectTable implements DataRetrieval
 
     private function getFrom(): string
     {
-        // releases of objects that no longer exist are listed too;
+        // releases of objects that no longer exist are listed too; an LTI 1.1 release that was withdrawn
+        // keeps its row with a disabled registration, and older registrations for one object may have no row;
         // ref_id 0 is the LTI Advantage registration of a platform, not a released object
-        return " FROM lti2_consumer l"
+        return " FROM (SELECT o.ref_id, o.ext_consumer_id FROM lti_int_provider_obj o"
+            . " WHERE NOT EXISTS (SELECT 1 FROM lti2_consumer d WHERE d.ref_id = o.ref_id"
+            . " AND d.ext_consumer_id = o.ext_consumer_id AND d.enabled = 0)"
+            . " UNION SELECT e.ref_id, e.ext_consumer_id FROM lti2_consumer e WHERE e.enabled = 1 AND e.ref_id > 0) l"
             . " JOIN lti_ext_consumer c ON c.id = l.ext_consumer_id"
             . " LEFT JOIN object_reference r ON r.ref_id = l.ref_id"
             . " LEFT JOIN object_data od ON od.obj_id = r.obj_id"
-            . " WHERE l.enabled = 1 AND l.ref_id > 0 AND (od.type IS NULL OR od.type <> 'rolf')";
+            . " WHERE l.ref_id > 0 AND (od.type IS NULL OR od.type <> 'rolf')";
     }
 }
