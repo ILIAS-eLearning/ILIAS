@@ -1,0 +1,258 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: badge\n"
+
+#, fuzzy
+msgid "awarded_by"
+msgstr "Awarded by"
+
+msgid "badge_activity_badges"
+msgstr "Attività di badge"
+
+msgid "badge_add_template"
+msgstr "Aggiungi modello"
+
+msgid "badge_add_to_profile"
+msgstr "Aggiungi al profilo"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "Sei sicuro di voler rimuovere le seguenti assegnazioni per \"%s\"?"
+
+msgid "badge_award_badge"
+msgstr "Assegnazione badge"
+
+#, fuzzy
+msgid "badge_award_revoke"
+msgstr "Award/Revoke Badge"
+
+msgid "badge_badge"
+msgstr "Badge"
+
+msgid "badge_course_lp"
+msgstr "Corso LP"
+
+msgid "badge_course_lp_invalid"
+msgstr "I seguenti oggetti hanno una modalità LP che non è supportata: %s."
+
+#, fuzzy
+msgid "badge_create"
+msgstr "Create Badge"
+
+#, fuzzy
+msgid "badge_create_image_processing_failed"
+msgstr "The badge could not be created, an error occurred while processing the image."
+
+msgid "badge_criteria"
+msgstr "Criteri"
+
+msgid "badge_crs_merit"
+msgstr "Merit"
+
+#, fuzzy
+msgid "badge_deletion"
+msgstr "Badge successfully deleted."
+
+msgid "badge_deletion_confirmation"
+msgstr "Sei sicuro di voler eliminare i seguenti badges e tutte le rispettive assegnazioni?"
+
+msgid "badge_image_from_template"
+msgstr "Utilizza modello"
+
+msgid "badge_image_from_upload"
+msgstr "Carica immagine"
+
+msgid "badge_image_template_form"
+msgstr "Modello di immagine"
+
+msgid "badge_image_templates"
+msgstr "Modelli di immagine"
+
+msgid "badge_in_profile"
+msgstr "Nel profilo"
+
+msgid "badge_issued_on"
+msgstr "Emesso il"
+
+msgid "badge_lhist_badge_completed"
+msgstr "Badge $3$ è stato premiato."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "Badge $3$ è stato premiato con $1$."
+
+msgid "badge_manual"
+msgstr "Assegnazione manuale"
+
+msgid "badge_new_badges"
+msgstr "Hai ottenuto %1 nuovo/i badge!"
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "Attualmente non ci sono tipi di badge attivi. Non puoi creare nuovi badge. Si prega di contattare il proprio amministratore."
+
+msgid "badge_notification_badges"
+msgstr "Nuovi badge"
+
+msgid "badge_notification_badges_goto"
+msgstr "Ai tuoi badge"
+
+msgid "badge_notification_body"
+msgstr "hai appena ricevuto nuovi badge."
+
+msgid "badge_notification_osd"
+msgstr "Hai appena ricevuto nuovi badge: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "Al repository"
+
+msgid "badge_notification_reason"
+msgstr "Hai ricevuto questo messaggio per poter aggiungere i badge al tuo profilo."
+
+msgid "badge_notification_subject"
+msgstr "Badge ricevuti"
+
+msgid "badge_object_badges"
+msgstr "Badge oggetto"
+
+msgid "badge_personal_badges"
+msgstr "I miei Badge"
+
+msgid "badge_profile_less"
+msgstr "Mostra meno"
+
+msgid "badge_profile_more"
+msgstr "Mostra tutto"
+
+msgid "badge_remove_badge"
+msgstr "Ritira badge"
+
+msgid "badge_remove_from_profile"
+msgstr "Rimuovi dal profilo"
+
+#, fuzzy
+msgid "badge_select_one"
+msgstr "You have to select at least one badge"
+
+msgid "badge_service_activate"
+msgstr "Attiva il servizio"
+
+msgid "badge_service_activate_info"
+msgstr "Attiva il servizio per rendere il badge disponibile"
+
+msgid "badge_settings"
+msgstr "Impostazioni badge"
+
+#, fuzzy
+msgid "badge_sort_active_badges_first"
+msgstr "Active Badges First"
+
+#, fuzzy
+msgid "badge_sort_active_badges_last"
+msgstr "Active Badges Last"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_first"
+msgstr "Activity Badges First"
+
+#, fuzzy
+msgid "badge_sort_activity_badges_last"
+msgstr "Activity Badges Last"
+
+#, fuzzy
+msgid "badge_sort_added_to_profile_last"
+msgstr "Added To Profile First"
+
+#, fuzzy
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "Excluded From Profile First"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_first"
+msgstr "Badges mit manueller Vergabe zuerst"
+
+#, fuzzy
+msgid "badge_sort_manual_awarding_last"
+msgstr "Badges mit manueller Vergabe zuletzt"
+
+msgid "badge_subtype_auto"
+msgstr "automatico"
+
+msgid "badge_subtype_manual"
+msgstr "manuale"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "Sei sicuro di voler eliminare i seguenti modelli di immagine?"
+
+msgid "badge_template_types"
+msgstr "Tipi validi"
+
+msgid "badge_template_types_all"
+msgstr "Tutti"
+
+msgid "badge_template_types_specific"
+msgstr "Specifico"
+
+msgid "badge_types"
+msgstr "Tipi"
+
+#, fuzzy
+msgid "badge_update_image_processing_failed"
+msgstr "The badge could not be updated, an error occurred while processing the image."
+
+#, fuzzy
+msgid "badge_uploaded_image_file_not_found"
+msgstr "No uploaded image for the badge could be found."
+
+msgid "badge_user_profile"
+msgstr "Profilo utente"
+
+msgid "badge_valid"
+msgstr "Valida fino a"
+
+#, fuzzy
+msgid "criteria"
+msgstr "Criteria"
+
+#, fuzzy
+msgid "endless"
+msgstr "Always"
+
+#, fuzzy
+msgid "issued_on"
+msgstr "Issued on"
+
+#, fuzzy
+msgid "position_updated"
+msgstr "Profil assignment updated."
+
+#, fuzzy
+msgid "sort_by_date_asc"
+msgstr "Sort by Date Ascending"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "Sort by Date Descending"
+
+#, fuzzy
+msgid "sort_by_title_asc"
+msgstr "Sort by Title Ascending"
+
+#, fuzzy
+msgid "sort_by_title_desc"
+msgstr "Sort by Title Descending"
+
+#, fuzzy
+msgid "table_view"
+msgstr "Table View"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+#, fuzzy
+msgid "valid_until"
+msgstr "Valid until"

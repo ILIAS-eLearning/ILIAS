@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: badge\n"
+
+msgid "awarded_by"
+msgstr "Awarded by"
+
+msgid "badge_activity_badges"
+msgstr "Activity Badges"
+
+msgid "badge_add_template"
+msgstr "Add Template"
+
+msgid "badge_add_to_profile"
+msgstr "Add to Profile"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "Are you sure you want to revoke the following badge assignments for \"%s\"?"
+
+msgid "badge_award_badge"
+msgstr "Award Badge"
+
+msgid "badge_award_revoke"
+msgstr "Award/Revoke Badge"
+
+msgid "badge_badge"
+msgstr "Badge"
+
+msgid "badge_course_lp"
+msgstr "Course LP"
+
+msgid "badge_course_lp_invalid"
+msgstr "The following objects have a LP mode which is not supported: %s."
+
+msgid "badge_create"
+msgstr "Create Badge"
+
+msgid "badge_create_image_processing_failed"
+msgstr "The badge could not be created, an error occurred while processing the image."
+
+msgid "badge_criteria"
+msgstr "Criteria"
+
+msgid "badge_crs_merit"
+msgstr "Merit"
+
+msgid "badge_deletion"
+msgstr "Badge successfully deleted."
+
+msgid "badge_deletion_confirmation"
+msgstr "Are you sure you want to delete the following badges and all their respective assignments?"
+
+msgid "badge_image_from_template"
+msgstr "Use Template"
+
+msgid "badge_image_from_upload"
+msgstr "Upload Image"
+
+msgid "badge_image_template_form"
+msgstr "Image Template"
+
+msgid "badge_image_templates"
+msgstr "Image Templates"
+
+msgid "badge_in_profile"
+msgstr "In Profile"
+
+msgid "badge_issued_on"
+msgstr "Issued On"
+
+msgid "badge_lhist_badge_completed"
+msgstr "Badge $3$ was awarded."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "Badge $3$ was awarded in $1$."
+
+msgid "badge_manual"
+msgstr "Manual Awarding"
+
+msgid "badge_new_badges"
+msgstr "You have %1 new badge(s)."
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "There are currently no active badge types. You cannot create new badges. Please contact your administrator."
+
+msgid "badge_notification_badges"
+msgstr "New Badges"
+
+msgid "badge_notification_badges_goto"
+msgstr "To your badges"
+
+msgid "badge_notification_body"
+msgstr "you just received new badges."
+
+msgid "badge_notification_osd"
+msgstr "You just received new badges: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "To repository"
+
+msgid "badge_notification_reason"
+msgstr "You are receiving this message to be able to add the badges to your profile."
+
+msgid "badge_notification_subject"
+msgstr "Badges received"
+
+msgid "badge_object_badges"
+msgstr "Object Badges"
+
+msgid "badge_personal_badges"
+msgstr "My Badges"
+
+msgid "badge_profile_less"
+msgstr "Show less"
+
+msgid "badge_profile_more"
+msgstr "Show all"
+
+msgid "badge_remove_badge"
+msgstr "Revoke Badge"
+
+msgid "badge_remove_from_profile"
+msgstr "Remove from Profile"
+
+msgid "badge_select_one"
+msgstr "You have to select at least one badge"
+
+msgid "badge_service_activate"
+msgstr "Activate Service"
+
+msgid "badge_service_activate_info"
+msgstr "Activate the service to make badges available."
+
+msgid "badge_settings"
+msgstr "Badge Settings"
+
+msgid "badge_sort_active_badges_first"
+msgstr "Active Badges First"
+
+msgid "badge_sort_active_badges_last"
+msgstr "Active Badges Last"
+
+msgid "badge_sort_activity_badges_first"
+msgstr "Activity Badges First"
+
+msgid "badge_sort_activity_badges_last"
+msgstr "Activity Badges Last"
+
+msgid "badge_sort_added_to_profile_last"
+msgstr "Added To Profile First"
+
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "Excluded From Profile First"
+
+msgid "badge_sort_manual_awarding_first"
+msgstr "Badges mit manueller Vergabe zuerst"
+
+msgid "badge_sort_manual_awarding_last"
+msgstr "Badges mit manueller Vergabe zuletzt"
+
+msgid "badge_subtype_auto"
+msgstr "automatic"
+
+msgid "badge_subtype_manual"
+msgstr "manual"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "Are you sure you want to delete the following image templates?"
+
+msgid "badge_template_types"
+msgstr "Valid Types"
+
+msgid "badge_template_types_all"
+msgstr "All"
+
+msgid "badge_template_types_specific"
+msgstr "Specific"
+
+msgid "badge_types"
+msgstr "Types"
+
+msgid "badge_update_image_processing_failed"
+msgstr "The badge could not be updated, an error occurred while processing the image."
+
+msgid "badge_uploaded_image_file_not_found"
+msgstr "No uploaded image for the badge could be found."
+
+msgid "badge_user_profile"
+msgstr "User Profil"
+
+msgid "badge_valid"
+msgstr "Valid until"
+
+msgid "criteria"
+msgstr "Criteria"
+
+msgid "endless"
+msgstr "Always"
+
+msgid "issued_on"
+msgstr "Issued on"
+
+msgid "position_updated"
+msgstr "Profil assignment updated."
+
+msgid "sort_by_date_asc"
+msgstr "Date Ascending"
+
+msgid "sort_by_date_desc"
+msgstr "Date Descending"
+
+msgid "sort_by_title_asc"
+msgstr "Title Ascending"
+
+msgid "sort_by_title_desc"
+msgstr "Title Descending"
+
+msgid "table_view"
+msgstr "Table View"
+
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "valid_until"
+msgstr "Valid until"
