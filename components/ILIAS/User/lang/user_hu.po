@@ -1,0 +1,492 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: user\n"
+
+msgid "account_not_flagged_for_deletion"
+msgstr "A fiók nincs megjelölve törlésre."
+
+msgid "activate_in_profile_fields"
+msgstr "A beállítás módosításához a felhasználónak először engedélyeznie kell a bejelentkezési nevének módosítását a Profil > Profilmezők menüpontban."
+
+msgid "administrative_settings"
+msgstr "Rendszerbeállítások"
+
+msgid "all_roles_has_starting_point"
+msgstr "Az összes szabálynak van kiindulási pontja"
+
+msgid "back_to_starting_points_list"
+msgstr "Vissza a kiindulási pontokhoz"
+
+msgid "change_email_email_confirmation_body"
+msgstr "%s e-mail címe megváltozott. Ennek megerősítéséhez kattintson a linkre: %s. A link %s percig érvényes."
+
+msgid "change_email_email_confirmation_subject"
+msgstr "E-mail cím megerősítése"
+
+msgid "change_email_email_information_body"
+msgstr "%s e-mail címének módosítása elkezdődött (%s). Egy megerősítő e-mail küldtünk az új címre. A link %s percig érvényes."
+
+msgid "change_email_email_information_subject"
+msgstr "Információ az e-mail cím módosításáról"
+
+msgid "change_email_email_sent"
+msgstr "E-mail címe módosítása érdekében egy megerősítő linket tartalmazó e-mail küldtünk az új címre. Kérem, ellenőrizze postaládáját, illetve azt, is, hogy az üzenet ne kerüljön a levélszemetek közé."
+
+msgid "change_email_info_message"
+msgstr "Jelenleg van egy függőben lévő kérelem a fiók e-mail-címének módosítására."
+
+msgid "clipboard_add_btn"
+msgstr "Hozzáadás a vágólaphoz"
+
+msgid "clipboard_add_from_btn"
+msgstr "Hozzáadás a vágólapról"
+
+msgid "clipboard_empty_btn"
+msgstr "Vágólap ürítése"
+
+msgid "clipboard_remove_btn"
+msgstr "Eltávolítás a vágólapról"
+
+msgid "clipboard_table_title"
+msgstr "Vágólap (ILIAS-fiókok)"
+
+msgid "clipboard_user_added"
+msgstr "Sikeresen hozzáadta a kiválasztott felhasználókat a vágólaphoz."
+
+msgid "confirm_delete_starting_point"
+msgstr "Biztos, hogy törli ezt a szabályt?"
+
+msgid "confirm_logout_for_email_change"
+msgstr "Az e-mail címet módosította. A módosítás véglegesítéséhez igazolni a kell önmagát. A rendszer kijelentkezteti, és 5 perce van az újbóli bejelentkezéshez. Minden egyéb módosítást a kijelentkezés előtt mentünk."
+
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Meg kell erősítenie, hogy Ön használja az új e-mail címet. Miután újra bejelentkezik, e-mailt küldünk Önnek. Kérjük, kattintson az e-mailben található linkre, hogy megerősítse az új e-mail címét. Az e-mail cím módosítása csak ezután lép életbe."
+
+msgid "create_starting_point"
+msgstr "Szabály létrehozása"
+
+msgid "criteria"
+msgstr "Feltétel"
+
+msgid "del_mail_body"
+msgstr "Tisztelt %1$s, %2$s régóta nem jelentkezett be (%3$s), ezért ‘%5$s’ fiókját hamarosan töröljük (%4$s nap). Amennyiben fiókját meg kívánja tartani, jelentkezzen be ennél korábban."
+
+msgid "del_mail_subject"
+msgstr "[ILIAS] – ILIAS-fiókját hamarosan töröljük"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Gyakoriság"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "A törlés és az e-mail küldés gyakorisága."
+
+msgid "edit_field"
+msgstr "MEző módosítása"
+
+msgid "edit_setting"
+msgstr "Beállítások módosítása"
+
+msgid "editing_this_role"
+msgstr "Szabályok"
+
+msgid "email_could_not_be_changed"
+msgstr "Az e-mail címét nem sikerült megváltoztatni."
+
+msgid "enable_local_user_administration"
+msgstr "Helyi ILIAS-fiókok kezelésének engedélyezése"
+
+msgid "enable_local_user_administration_info"
+msgstr "A ‘Helyi ILIAS-fiókok kezelése’ lap megjelenik a kategóriáknál és a szervezeti egységeknél."
+
+msgid "feedhash"
+msgstr "Hírcsatorna-hash"
+
+msgid "field_type_custom"
+msgstr "Egyéni"
+
+msgid "has_role"
+msgstr "Szabály"
+
+msgid "info_accessFree_sure"
+msgstr "Biztos, hogy eltávoltja az érvényesség korlátját az alábbi fiókokból?"
+
+msgid "inform_user_mail_info"
+msgstr "Email-t küldünk a felhasználónak. Az e-mail tartalma megadható itt: Rendszerbeállítások » ILIAS-fiókok » Beállítások » Új felhasználónak levél."
+
+msgid "interests"
+msgstr "Érdeklődési körök"
+
+msgid "interests_general"
+msgstr "Általános érdeklődési kör"
+
+msgid "interests_help_looking"
+msgstr "Segítséget várok ezekben"
+
+msgid "interests_help_offered"
+msgstr "Segíteni tudok ezekben"
+
+msgid "ldoc_accepted_content"
+msgstr "Efogadott tartalom"
+
+msgid "ldoc_not_accepted_yet"
+msgstr "Még nincs elfogadva"
+
+msgid "msg_spoint_not_modified"
+msgstr "A kiindulási pont nem változott"
+
+msgid "no_deactivate_yourself"
+msgstr "A saját fiókját nem inaktiválhatja."
+
+msgid "obj_ref_id_not_exist"
+msgstr "A megadott ref_id nem létezik"
+
+msgid "personalise_additional"
+msgstr "További beállítások személyre szabása"
+
+msgid "personalise_communication"
+msgstr "Kommunikációs beállítások személyre szabása"
+
+msgid "personalise_privacy"
+msgstr "Adatvédelmi beállítások személyre szabása"
+
+msgid "profile_fields"
+msgstr "Profilmezők"
+
+msgid "profile_section"
+msgstr "Szakasz"
+
+msgid "restrict_user_access"
+msgstr "Korlátozott keresés az ILIAS-fiókok között"
+
+msgid "restrict_user_access_info"
+msgstr "A keresésben az ILIAS-fiókok automatikus kiegészítéséhez az ‘Olvasási elérés az ILIAS-fiókhoz’ jogosultság szükséges."
+
+msgid "roles_without_starting_point"
+msgstr "Kiindulási pont nélküli szabályok:"
+
+msgid "save_order"
+msgstr "Rendezés mentése"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "A ‘Gyakoriság’ értéke túl nagy."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Figyelmeztető levél"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "Az ILIAS-fiók annak inaktivitása miatti törlése előtt figyelmeztető levelet küldünk a közelgő törlésről. Kérjük, ellenőrizze, hogy külső címre levél küldése lehetséges. Aktiválás utáni emlékeztető levelet küldő ütemezett feladatnál előfordulhat, hogy az emlékeztető levél és a törlés közötti időköz kisebb, mint a beállított időköz."
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "Kisebb kell, hogy legyen, mint az ‘Utolsó bejelentkezés óta eltelt napok száma’."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Csak pozitív egész szám lehet."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "nap a törlés előtti."
+
+msgid "show_own_online_status"
+msgstr "Online állapotom beállítása"
+
+msgid "starting_page"
+msgstr "Kiindulási pont"
+
+msgid "starting_point"
+msgstr "Kiindulási pont"
+
+msgid "starting_point_settings"
+msgstr "Kiindulási pont beállításai"
+
+msgid "starting_points"
+msgstr "Kiindulási pontok"
+
+msgid "udf_select_options"
+msgstr "Lehetőségek"
+
+msgid "user_access_limited"
+msgstr "Korlátozott"
+
+msgid "user_access_unlimited"
+msgstr "Korlátlan"
+
+msgid "user_account_code"
+msgstr "Kód"
+
+msgid "user_account_code_generated"
+msgstr "Generálás napja"
+
+msgid "user_account_code_generated_all"
+msgstr "Összes dátum"
+
+msgid "user_account_code_not_valid"
+msgstr "Az adott regisztrációs kód nem érvényes vagy már felhasználták."
+
+msgid "user_account_code_setting"
+msgstr "ILIAS-fiók újraaktiválásának engedélyezése kóddal"
+
+msgid "user_account_code_setting_info"
+msgstr "A lejárt ILIAS-fiókokat újra aktiválhatják a felhasználók egy előre megadott kódoddal. Ezek a kódok Rendszerbeállítások » ILIAS-fiókok kezelése » Hitelesítés és regisztráció » ILIAS hitelesítés / Regisztráció » Regisztrációs kódok alatt hozhatók létre."
+
+msgid "user_account_code_used"
+msgstr "Felhasználás dátuma"
+
+msgid "user_account_code_valid_until"
+msgstr "Érvényességi idő"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Napok száma"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Záró dátum"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Korlátlan"
+
+msgid "user_account_codes_add"
+msgstr "Kódok hozzáadása"
+
+msgid "user_account_codes_edit_header"
+msgstr "Kódok hozzáadása"
+
+msgid "user_account_codes_export"
+msgstr "Kódok exportja"
+
+msgid "user_account_codes_number"
+msgstr "Kódok száma"
+
+msgid "user_account_deleted_confirmation"
+msgstr "ILIAS-fiókját törölte. E-mailt küldtünk Önnek a törlés részletes információival."
+
+msgid "user_activate_public_profile"
+msgstr "Aktiválás"
+
+msgid "user_activate_public_profile_info"
+msgstr "Ha bekapcsolta, családi és utóneve mindig látható lesz a profiljában."
+
+msgid "user_activation"
+msgstr "Aktiválás"
+
+msgid "user_admin_options"
+msgstr "Lehetőségek"
+
+msgid "user_all"
+msgstr "Összes"
+
+msgid "user_allow_delete_own_account"
+msgstr "Felhasználók törölhetik saját fiókjukat"
+
+msgid "user_any"
+msgstr "Bármi"
+
+msgid "user_awrn_all_users"
+msgstr "Összes felhasználó"
+
+msgid "user_awrn_all_users_info"
+msgstr "A rendszer összes felhasználóját felsoroljuk. Az ‘Online és offline’ beállítás sok felhasználó esetén jelentősen lelassíthatja rendszert."
+
+msgid "user_check_profile_data"
+msgstr "A profiladatokat ellenőrzése"
+
+msgid "user_chooses_starting_page"
+msgstr "Felhasználók választják ki a kiindulási pontot"
+
+msgid "user_delete_own_account"
+msgstr "ILIAS-fiók törlése"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Törlés megszakítva, a fiókon nem történt változás."
+
+msgid "user_delete_own_account_email_body"
+msgstr "ezúton értesítjük, hogy ‘%s’ ILIAS-fiókját töröltük (%s, %s)."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "ILIAS-fiók törlése"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "Utolsó alkalom, hogy meggondolhatja magát! Erősítse meg ILIAS-fiókjának végleges eltávolítását az ILIAS-ból!"
+
+msgid "user_delete_own_account_info"
+msgstr "Itt törölheti jelenlegi ILIAS-fiókját. Ne felejtse el, hogy ez a törlés visszafordíthatatlan!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Hitelesítés menete"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Fiókját törölni készül. Kérjük, hogy hitelesítse magát a folyamat folytatásához."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Értesítő e-mail"
+
+msgid "user_field"
+msgstr "Mező"
+
+msgid "user_global_role"
+msgstr "Globális szerepkör"
+
+msgid "user_last_login_before"
+msgstr "Utolsó bejelentkezés ez előtt:"
+
+msgid "user_limited_access"
+msgstr "Korlátozott elérés"
+
+msgid "user_local_role"
+msgstr "Helyi szerepkör"
+
+msgid "user_lv_do_not_store"
+msgstr "Soha ne jegyezze meg az utolsó megtekintéseimet"
+
+msgid "user_lv_keep_entries"
+msgstr "Utolsó megtekintéseim megjegyzése"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Munkamenet végén törölje az utolsó megtekintéseimet"
+
+msgid "user_make_profile_public"
+msgstr "Profil közzététele"
+
+msgid "user_member_of_course_group"
+msgstr "Kurzus/csoport tagjai"
+
+msgid "user_no_courses"
+msgstr "Egy kurzushoz sincs hozzárendelve"
+
+msgid "user_no_groups"
+msgstr "Egy csoporthoz sincs hozzárendelve"
+
+msgid "user_order"
+msgstr "Sorrend"
+
+msgid "user_ownership"
+msgstr "Tartalomtárban lévő objektumai"
+
+msgid "user_please_select_course_group"
+msgstr "Válasszon egy kurzust vagy egy csoportot."
+
+msgid "user_portfolios"
+msgstr "Portfóliók"
+
+msgid "user_portfolios_desc"
+msgstr "A felhasználók létrehozhatnak portfóliókat, és profiljukként használhatják."
+
+msgid "user_privacy_checklist"
+msgstr "Adatvédelmi ellenőrzőlista"
+
+msgid "user_profile_data"
+msgstr "Profiladat"
+
+msgid "user_profile_data_checked"
+msgstr "A profiladatokat ellenőriztük"
+
+msgid "user_profile_info"
+msgstr "Felhasználói profilinformáció"
+
+msgid "user_profile_info_std"
+msgstr "Alapértelmezett Felhasználói Profil Információ"
+
+msgid "user_profile_info_text_info"
+msgstr "Ez a szöveg a személyes adatok megadására szolgáló űrlap tetején jelenik meg."
+
+msgid "user_profile_portfolio"
+msgstr "Ha egy portfóliót a személyes profiljaként szeretne használni, a portfóliórészben jelölje ki ‘Profilom’-nak."
+
+msgid "user_profile_portfolio_selected"
+msgstr "Jelenleg egy portfóliót használ profiljaként. Az aktiválás a ‘Megosztás’ lapon állítható be ott."
+
+msgid "user_profile_preview"
+msgstr "Profil előnézete"
+
+msgid "user_profile_prompt_text"
+msgstr "Prompt szöveg"
+
+msgid "user_profile_prompt_text_info"
+msgstr "Ez a szöveg jelenik meg az alapértelmezett információs szöveg helyett a felhasználó profiljának megjelenítésekor."
+
+msgid "user_prompt_incomplete"
+msgstr "Csak ha a profil nem teljes"
+
+msgid "user_prompt_incomplete_info"
+msgstr "A profil bejelentkezés után megjelenik, amennyiben a felhasználónak van ki nem töltött, kötelező mezője."
+
+msgid "user_prompt_once_after_login"
+msgstr "Egyszer, az első bejelentkezés után X nappal."
+
+msgid "user_prompt_once_after_login_info"
+msgstr "Ha a felhasználó nem publikálta még a profiját első bejelentkezése után ennyi nappal, egyetlen egyszer felkérjük erre."
+
+msgid "user_prompt_repeat"
+msgstr "Minden X-edik napon."
+
+msgid "user_prompt_repeat_info"
+msgstr "Amíg a felhasználó nem publikálja profiját, rendszeresen felkérjük erre."
+
+msgid "user_prompting_recurrence"
+msgstr "Felkérés ismétlődése"
+
+msgid "user_prompting_settings"
+msgstr "Felkérés beállításai"
+
+msgid "user_public_profile_info"
+msgstr "Válassza ki, mely személyes adatai legyenek láthatók profiljában, és hogy mely felhasználók lássák profilját."
+
+msgid "user_publish_options"
+msgstr "Profil közzététele"
+
+msgid "user_role_selection"
+msgstr "Szerepkör kiválasztása"
+
+msgid "user_role_starting_point"
+msgstr "Felhasználó - Kiindulási pont"
+
+msgid "user_save_continue"
+msgstr "Mentés és folytatás"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Sorrend és címek mentése"
+
+msgid "user_select_course_group"
+msgstr "Kurzus/csoport kiválasztása"
+
+msgid "user_set_publishing_options"
+msgstr "Közzététel beállítása"
+
+msgid "user_set_visibilty_options"
+msgstr "Láthatóság beállítása"
+
+msgid "user_settings"
+msgstr "Felhasználói beállítások"
+
+msgid "user_store_last_visited"
+msgstr "Utolsó megtekintéseim"
+
+msgid "user_visibility_settings"
+msgstr "Láthatóság"
+
+msgid "user_visible_in_profile"
+msgstr "Látható a ‘Felhasználói adatok és profil’ alatt"
+
+msgid "usr_id"
+msgstr "User_id"
+
+msgid "usr_letter_avatars"
+msgstr "Betűavatárok"
+
+msgid "usr_letter_avatars_info"
+msgstr "A név vagy a felhasználónév kezdete legyen a profilkép, ha nincs nyilvános kép."
+
+msgid "usr_public_profile_disabled"
+msgstr "Profil letiltva"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Az információit csak az adminisztratív személyzet láthatja."
+
+msgid "usr_public_profile_global"
+msgstr "WWW / Minden felhasználó elérheti az interneten"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Bejelentkezett felhasználók számára látható"

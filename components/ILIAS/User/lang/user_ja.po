@@ -1,0 +1,492 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: user\n"
+
+msgid "account_not_flagged_for_deletion"
+msgstr "アカウントは削除対象としてフラグが立っていません。"
+
+msgid "activate_in_profile_fields"
+msgstr "この設定を変更するには、ユーザーはまずプロファイル > プロファイルフィールドでログイン名を変更できるように許可されている必要があります。"
+
+msgid "administrative_settings"
+msgstr "管理設定"
+
+msgid "all_roles_has_starting_point"
+msgstr "全ての役割は開始位置があります。"
+
+msgid "back_to_starting_points_list"
+msgstr "開始位置へ戻る"
+
+msgid "change_email_email_confirmation_body"
+msgstr "アカウント %s のメールアドレスが変更されました。この変更を確認するには、こちらのリンク %s をクリックしてください。リンクの有効期限は %s 分です。"
+
+msgid "change_email_email_confirmation_subject"
+msgstr "メールアドレスを確認"
+
+msgid "change_email_email_information_body"
+msgstr "アカウント %s のメールアドレスを %s に変更する手続きが開始されました。変更を確認するためのリンクが記載されたメールが新しいアドレスに送信されました。リンクの有効期限は %s 分です。"
+
+msgid "change_email_email_information_subject"
+msgstr "マールアドレス変更に関するインフォメーション"
+
+msgid "change_email_email_sent"
+msgstr "変更を確認するリンクが記載されたメールが送信されました。受信箱を確認し、メールが数分以内に届かない場合は迷惑メールフォルダも確認してください。"
+
+msgid "change_email_info_message"
+msgstr "このアカウントのメールアドレスを変更する保留中のリクエストがあります。"
+
+msgid "clipboard_add_btn"
+msgstr "クリップボードへ追加"
+
+msgid "clipboard_add_from_btn"
+msgstr "クリップボードから追加"
+
+msgid "clipboard_empty_btn"
+msgstr "空のクリップボード"
+
+msgid "clipboard_remove_btn"
+msgstr "クリップボードから削除"
+
+msgid "clipboard_table_title"
+msgstr "クリップボード(ユーザアカウント)"
+
+msgid "clipboard_user_added"
+msgstr "クリップボードへ選択のユーザを追加しました"
+
+msgid "confirm_delete_starting_point"
+msgstr "このルールを本当に消去しますか？"
+
+msgid "confirm_logout_for_email_change"
+msgstr "emailが変更されています。変更完了するにはパスワードが必要になります。よって、システムからログアウトして5分以内に再度ログインする必要があります。すべの変更はログアウト前に保存されます。"
+
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "さらに、新しいメールアドレスをあなたが管理していることの確認が必要です。再度ログインした後、あなたにメールが送信されます。メール内のリンクをクリックして、アドレスを管理していることを確認してください。メールアドレスの変更は、この二番目のステップが完了して初めて有効になります。"
+
+msgid "create_starting_point"
+msgstr "ルールを作成"
+
+msgid "criteria"
+msgstr "判定基準"
+
+msgid "del_mail_body"
+msgstr "%1$sさん, %3$s時点で%2$sへあなたは長期間ログインしていません。そのためアカウントは%4$s日以内に削除されます。アカウント削除を回避するには再度ログインし直す必要があります。"
+
+msgid "del_mail_subject"
+msgstr "(ILIAS) アカウントは削除されます。"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "間隔"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "削除とメール配布間隔をテストします。"
+
+msgid "edit_field"
+msgstr "フィールドを編集"
+
+msgid "edit_setting"
+msgstr "設定を編集"
+
+msgid "editing_this_role"
+msgstr "役割"
+
+msgid "email_could_not_be_changed"
+msgstr "email変更要求は完了できませんでした。"
+
+msgid "enable_local_user_administration"
+msgstr "ローカルユーザ管理を使用"
+
+msgid "enable_local_user_administration_info"
+msgstr "有効にするとローカルユーザアカウントはカテゴリ内で管理できます。"
+
+msgid "feedhash"
+msgstr "ニュースフィードハッシュ"
+
+msgid "field_type_custom"
+msgstr "カスタム"
+
+msgid "has_role"
+msgstr "役割"
+
+msgid "info_accessFree_sure"
+msgstr "次のアカウントから有効日までを本当に削除しますか?"
+
+msgid "inform_user_mail_info"
+msgstr "有効にするとユーザへメール送信されます。その内容は管理>ユーザ管理> 設定 > 新規アカウントメールの中で定義できます。"
+
+msgid "interests"
+msgstr "興味"
+
+msgid "interests_general"
+msgstr "一般的な興味"
+
+msgid "interests_help_looking"
+msgstr "ヘルプを探す"
+
+msgid "interests_help_offered"
+msgstr "ヘルプを提案"
+
+msgid "ldoc_accepted_content"
+msgstr "コンテンツを承諾しました"
+
+msgid "ldoc_not_accepted_yet"
+msgstr "まだ未承諾"
+
+msgid "msg_spoint_not_modified"
+msgstr "開始点未修整"
+
+msgid "no_deactivate_yourself"
+msgstr "自身のアカウントの無効化はできません。"
+
+msgid "obj_ref_id_not_exist"
+msgstr "入力のReference-IDが存在しません"
+
+msgid "personalise_additional"
+msgstr "追加設定を個別化"
+
+msgid "personalise_communication"
+msgstr "通信設定を個別化"
+
+msgid "personalise_privacy"
+msgstr "プライバシー設定を個別化"
+
+msgid "profile_fields"
+msgstr "プロファイルフィールド"
+
+msgid "profile_section"
+msgstr "セクション"
+
+msgid "restrict_user_access"
+msgstr "ユーザアカウントへの限定アクセス"
+
+msgid "restrict_user_access_info"
+msgstr "有効にするとユーザアカウントへのアクセスが制限されます。アクセス権は\"ユーザアカウント\"と\"カテゴリ\"の\"ローカルユーザアカウントの読み込み”に依存します。"
+
+msgid "roles_without_starting_point"
+msgstr "開始位置の定義されていない役割"
+
+msgid "save_order"
+msgstr "順番を保存"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "この注意喚起値の間隔設定は大きすぎます。"
+
+msgid "send_mail_to_inactive_users"
+msgstr "警告メール"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "アカウント削除が迫っている事に関して注意喚起メールがユーザのe-mailアドレスへ送信されます。"
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "この値は'最終ログインから経過した日数'よりも小さくする必要があります。"
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "整数以外の正の数字のみ受付ます。"
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "削除前の日数"
+
+msgid "show_own_online_status"
+msgstr "自分のオンラインステータスを表示"
+
+msgid "starting_page"
+msgstr "開始位置"
+
+msgid "starting_point"
+msgstr "開始位置"
+
+msgid "starting_point_settings"
+msgstr "開始位置設定"
+
+msgid "starting_points"
+msgstr "開始位置"
+
+msgid "udf_select_options"
+msgstr "オプション"
+
+msgid "user_access_limited"
+msgstr "制限あり"
+
+msgid "user_access_unlimited"
+msgstr "制限なし"
+
+msgid "user_account_code"
+msgstr "コード"
+
+msgid "user_account_code_generated"
+msgstr "作成日"
+
+msgid "user_account_code_generated_all"
+msgstr "全日付"
+
+msgid "user_account_code_not_valid"
+msgstr "入力の登録コードは無効かあるいは既に使用されています。"
+
+msgid "user_account_code_setting"
+msgstr "コードによるアカウント再発行を有効にする"
+
+msgid "user_account_code_setting_info"
+msgstr "使用不可のアカウントは事前設定されたコードのユーザで再有効にできます。"
+
+msgid "user_account_code_used"
+msgstr "利用日"
+
+msgid "user_account_code_valid_until"
+msgstr "有効期限"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "日数"
+
+msgid "user_account_code_valid_until_static"
+msgstr "終了日"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "無期限"
+
+msgid "user_account_codes_add"
+msgstr "コードを追加"
+
+msgid "user_account_codes_edit_header"
+msgstr "コードを追加"
+
+msgid "user_account_codes_export"
+msgstr "コードをエクスポート"
+
+msgid "user_account_codes_number"
+msgstr "コード数"
+
+msgid "user_account_deleted_confirmation"
+msgstr "アカウントは削除されました。詳細情報を含むメールが送信されました。"
+
+msgid "user_activate_public_profile"
+msgstr "パブリックプロファイルのアクティベーション"
+
+msgid "user_activate_public_profile_info"
+msgstr "有効にすると姓と名は常時表示されます。"
+
+msgid "user_activation"
+msgstr "アクティベーション"
+
+msgid "user_admin_options"
+msgstr "オプション"
+
+msgid "user_all"
+msgstr "すべて"
+
+msgid "user_allow_delete_own_account"
+msgstr "自身のアカウント削除をユーザへ許可する"
+
+msgid "user_any"
+msgstr "いずれか"
+
+msgid "user_awrn_all_users"
+msgstr "全てのユーザ"
+
+msgid "user_awrn_all_users_info"
+msgstr "プラットフォームの全ユーザーが表示されます。"
+
+msgid "user_check_profile_data"
+msgstr "プロファイルデータを確認"
+
+msgid "user_chooses_starting_page"
+msgstr "ユーザは開始位置を選択"
+
+msgid "user_delete_own_account"
+msgstr "アカウント削除"
+
+msgid "user_delete_own_account_aborted"
+msgstr "削除を中止してアカウントは変更しませんでした。"
+
+msgid "user_delete_own_account_email_body"
+msgstr "ユーザアカウント\"%s\"は%の%sから削除されました。"
+
+msgid "user_delete_own_account_email_subject"
+msgstr "ユーザアカウントが削除されました"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "最後にILIASのユーザアカウントを削除する事を確認してください。"
+
+msgid "user_delete_own_account_info"
+msgstr "現在のユーザアカウントが削除できます。アカウント削除は元に戻すことができない事に注意願います。"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "認証へ進みました"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "アカウントには削除のフラッグが立っています。続けて進むには認証をしてください。"
+
+msgid "user_delete_own_account_notification_email"
+msgstr "eメール通知"
+
+msgid "user_field"
+msgstr "フィールド"
+
+msgid "user_global_role"
+msgstr "グローバル役割"
+
+msgid "user_last_login_before"
+msgstr "よりも前のログイン"
+
+msgid "user_limited_access"
+msgstr "限定アクセス"
+
+msgid "user_local_role"
+msgstr "ローカル役割"
+
+msgid "user_lv_do_not_store"
+msgstr "最終訪問を記録しない"
+
+msgid "user_lv_keep_entries"
+msgstr "最終訪問を記録"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "現在のセッションのみを記録"
+
+msgid "user_make_profile_public"
+msgstr "発行プロファイル"
+
+msgid "user_member_of_course_group"
+msgstr "コース/グループのメンバー"
+
+msgid "user_no_courses"
+msgstr "コース未割当て"
+
+msgid "user_no_groups"
+msgstr "グループ未割当て"
+
+msgid "user_order"
+msgstr "順序"
+
+msgid "user_ownership"
+msgstr "リポジトリオブジェクト"
+
+msgid "user_please_select_course_group"
+msgstr "コースまたはグループを選択してください。"
+
+msgid "user_portfolios"
+msgstr "ポートフォリオ"
+
+msgid "user_portfolios_desc"
+msgstr "ユーザはポートフォリオを作成しプロファイルとして使用できます。"
+
+msgid "user_privacy_checklist"
+msgstr "プライバシーチェックリスト"
+
+msgid "user_profile_data"
+msgstr "プロファイルデータ"
+
+msgid "user_profile_data_checked"
+msgstr "プロファイルデータを確認しました"
+
+msgid "user_profile_info"
+msgstr "ユーザプロファイルInfo"
+
+msgid "user_profile_info_std"
+msgstr "ユーザープロファイル初期値"
+
+msgid "user_profile_info_text_info"
+msgstr "このテキストはパーソナルデータ入力用のフォームのトップへ表示されます。"
+
+msgid "user_profile_portfolio"
+msgstr "ポートフォリオをプロファイルに使用したい場合は、プロファイルセクションへ行きそのポートフォリオの'マイプロファイル'を設定します。"
+
+msgid "user_profile_portfolio_selected"
+msgstr "自分のポートフォリオをポートフォリオとして現在使用しています。'共有'タブを使ってアクティベーションを設定できます。"
+
+msgid "user_profile_preview"
+msgstr "プレビュー"
+
+msgid "user_profile_prompt_text"
+msgstr "プロンプトテキスト"
+
+msgid "user_profile_prompt_text_info"
+msgstr "ユーザがプロファイルを更新した後でこのテキストはデフォルトの info テキストへ置き換えられます。"
+
+msgid "user_prompt_incomplete"
+msgstr "プロファイルが未完了の場合のみ"
+
+msgid "user_prompt_incomplete_info"
+msgstr "ユーザが必須フィールドへ入力するとプロファイルはログイン後に表示されます。"
+
+msgid "user_prompt_once_after_login"
+msgstr "初回ログイン後の一定日ごと"
+
+msgid "user_prompt_once_after_login_info"
+msgstr "ユーザがまだプロファイルを公開していない場合は、この期間後にユーザはプロファイルを更新します。"
+
+msgid "user_prompt_repeat"
+msgstr "数日間隔ごとに繰り返す"
+
+msgid "user_prompt_repeat_info"
+msgstr "ユーザがまだプロファイルを効果していない場合にユーザはプロファイルを定期的に更新します。"
+
+msgid "user_prompting_recurrence"
+msgstr "更新催促"
+
+msgid "user_prompting_settings"
+msgstr "更新設定"
+
+msgid "user_public_profile_info"
+msgstr "どのパーソナルデータをプロファイルへ表示してどのユーザがプロファイルへ訪問できるかを選択してください。"
+
+msgid "user_publish_options"
+msgstr "プロファイルを公開"
+
+msgid "user_role_selection"
+msgstr "役割選択"
+
+msgid "user_role_starting_point"
+msgstr "ユーザ - 開始点"
+
+msgid "user_save_continue"
+msgstr "保存して継続"
+
+msgid "user_save_ordering_and_titles"
+msgstr "順番とタイトルを保存"
+
+msgid "user_select_course_group"
+msgstr "コース/グループを選択"
+
+msgid "user_set_publishing_options"
+msgstr "公開オプションを設定"
+
+msgid "user_set_visibilty_options"
+msgstr "表示オプションを設定"
+
+msgid "user_settings"
+msgstr "ユーザ設定"
+
+msgid "user_store_last_visited"
+msgstr "最終訪問"
+
+msgid "user_visibility_settings"
+msgstr "表示"
+
+msgid "user_visible_in_profile"
+msgstr "個人情報を表示する"
+
+msgid "usr_id"
+msgstr "ユーザID"
+
+msgid "usr_letter_avatars"
+msgstr "Letter Avatar"
+
+msgid "usr_letter_avatars_info"
+msgstr "公開の写真が提供されていない場合はユーザ名またはログインを初期プロファイル写真として表示します。"
+
+msgid "usr_public_profile_disabled"
+msgstr "プロファイルを公開しない"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "情報は管理スタッフに限定して表示されます。"
+
+msgid "usr_public_profile_global"
+msgstr "グローバル表示"
+
+msgid "usr_public_profile_logged_in"
+msgstr "ログイン済みのユーザ"
