@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Për Kalendarin
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\n Për versionin e fundit shih: http://dynarch.com/misoo/calendar.epl\n Distribuuar nën GNU LGPL. Shih http://gnu.org/licenses/lgpl.html për detaje.\n\n Zgjedhja e datës:\n-Përdor butonat «, » për të zgjedhur vitin\n-Butonat < , > për të zgjedhur muajin\n- Mbaj shtypur butonin e mausit në ndonjërin prej butonave të lartpërmendur për zgjedhje më të shpejt.
-jscalendar#:#about_time#:#\n\nZgjedhja e orës:\n-Klik në ndonjërën prej fushave të orës për ta rritur atë.\n- ose Shift+klik për ta zvogluar.
-jscalendar#:#day_first#:#Paraqit %s së pari
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Tërheq për ta zhvendosur
-jscalendar#:#go_today#:#Sot
-jscalendar#:#l_01#:#Janar
-jscalendar#:#l_02#:#Shkurt
-jscalendar#:#l_03#:#Mars
-jscalendar#:#l_04#:#Prill
-jscalendar#:#l_05#:#Maj
-jscalendar#:#l_06#:#Qershor
-jscalendar#:#l_07#:#Korrik
-jscalendar#:#l_08#:#Gusht
-jscalendar#:#l_09#:#Shtator
-jscalendar#:#l_10#:#Tetor
-jscalendar#:#l_11#:#Nëntor
-jscalendar#:#l_12#:#Dhjetor
-jscalendar#:#l_fr#:#e Premte
-jscalendar#:#l_mo#:#e Hënë
-jscalendar#:#l_sa#:#e Shtunë
-jscalendar#:#l_su#:#e Diele
-jscalendar#:#l_th#:#e Enjte
-jscalendar#:#l_tu#:#e Martë
-jscalendar#:#l_we#:#e Mërkurë
-jscalendar#:#next_month#:#Muaji i ardhshëm (mbaj shtypur që të paraqitet menyja)
-jscalendar#:#next_year#:#Viti i ardhshëm (mbaj shtypur që të paraqitet menyja)
-jscalendar#:#open_calendar#:#Kliko këtu për ta hapur kalendarin për të zgjedhur datën (JavaScript është obligative!)
-jscalendar#:#part_today#:# (sot)
-jscalendar#:#prev_month#:#Muaji i kaluar (mbaj shtypur që të paraqitet menyja)
-jscalendar#:#prev_year#:#Viti i kaluar (mbaj shtypur që të paraqitet menyja)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Shk
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Pri
-jscalendar#:#s_05#:#Maj
-jscalendar#:#s_06#:#Qer
-jscalendar#:#s_07#:#Ko
-jscalendar#:#s_08#:#Gu
-jscalendar#:#s_09#:#Sht
-jscalendar#:#s_10#:#Tet
-jscalendar#:#s_11#:#Nën
-jscalendar#:#s_12#:#Dhj
-jscalendar#:#s_fr#:#P
-jscalendar#:#s_mo#:#H
-jscalendar#:#s_sa#:#Sh
-jscalendar#:#s_su#:#D
-jscalendar#:#s_th#:#E
-jscalendar#:#s_tu#:#M
-jscalendar#:#s_we#:#Mk
-jscalendar#:#select_date#:#Zgjedh datën
-jscalendar#:#time#:#Ora
-jscalendar#:#time_part#:#(Shift-)Klik ose tërheq me maus për të ndërruar vlerën
-jscalendar#:#today#:#Sot
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#wk
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

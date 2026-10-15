@@ -9394,63 +9394,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#关于这个日历
-jscalendar#:#about_calendar_long#:#DHTML 日期/时间选择器\n(c) dynarch.com 2002-2003\n 最新版本请访问：http://dynarch.com/mishoo/calendar.epl\n在GNU LGPL协议下发布。详情请看http://gnu.org/licenses/lgpl.html \n\n日期选择：\n- 使用 «、»按钮选择年份\n- 使用<、>按钮选择月份\n-在以上任意一个按钮上保持住鼠标按下状态来实现更快速的选择。
-jscalendar#:#about_time#:#\n\n时间选择：\n- 点击时间的任意部分递增\n- 或按住Shift键再点击递减\n- 或点击并拖动来更快速的选择。
-jscalendar#:#day_first#:#Display %s first
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Drag to move
-jscalendar#:#go_today#:#到今天
-jscalendar#:#l_01#:#一月
-jscalendar#:#l_02#:#二月
-jscalendar#:#l_03#:#三月
-jscalendar#:#l_04#:#四月
-jscalendar#:#l_05#:#五月
-jscalendar#:#l_06#:#六月
-jscalendar#:#l_07#:#七月
-jscalendar#:#l_08#:#八月
-jscalendar#:#l_09#:#九月
-jscalendar#:#l_10#:#十月
-jscalendar#:#l_11#:#十一月
-jscalendar#:#l_12#:#十二月
-jscalendar#:#l_fr#:#星期五
-jscalendar#:#l_mo#:#星期一
-jscalendar#:#l_sa#:#星期六
-jscalendar#:#l_su#:#星期天
-jscalendar#:#l_th#:#星期四
-jscalendar#:#l_tu#:#星期二
-jscalendar#:#l_we#:#星期三
-jscalendar#:#next_month#:#下一月 (按住菜单)
-jscalendar#:#next_year#:#下一年(按住菜单)
-jscalendar#:#open_calendar#:#点击这里为日期选择打开一个日历(要求JavaScript！)
-jscalendar#:#part_today#:# 今天
-jscalendar#:#prev_month#:#上一月 (按住菜单)
-jscalendar#:#prev_year#:#P上一年(按住菜单)
-jscalendar#:#s_01#:#1月
-jscalendar#:#s_02#:#2月
-jscalendar#:#s_03#:#3月
-jscalendar#:#s_04#:#4月
-jscalendar#:#s_05#:#5月
-jscalendar#:#s_06#:#6月
-jscalendar#:#s_07#:#7月
-jscalendar#:#s_08#:#8月
-jscalendar#:#s_09#:#9月
-jscalendar#:#s_10#:#10月
-jscalendar#:#s_11#:#11月
-jscalendar#:#s_12#:#12月
-jscalendar#:#s_fr#:#周五
-jscalendar#:#s_mo#:#周一
-jscalendar#:#s_sa#:#周六
-jscalendar#:#s_su#:#周日
-jscalendar#:#s_th#:#周四
-jscalendar#:#s_tu#:#周二
-jscalendar#:#s_we#:#周三
-jscalendar#:#select_date#:#选择日期
-jscalendar#:#time#:#时间
-jscalendar#:#time_part#:#点击(或同时按住Shift键)或手动去改变值
-jscalendar#:#today#:#今天；
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#周(wk)
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

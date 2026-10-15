@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sr\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "O Kalendaru"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\\n\\nDatum odabira:\\n- Koristite «, » dugmad kako biste odabrali godinu \\n- Koristite <, > kako biste odabrali mesec\\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije."
+
+msgid "about_time"
+msgstr "\\n\\n Odabir vremena\\n- kliknite na bilo koji deo vremena kako biste ga uvecali \\n- ili Shift-klik kako biste ga umanjili\\n- ili kliknite i izvucite radi brže selekcije."
+
+msgid "day_first"
+msgstr "Prikaži %s prvo"
+
+msgid "def_date_format"
+msgstr "5G-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Izvuci radi pomeranja"
+
+msgid "go_today"
+msgstr "Danas"
+
+msgid "l_01"
+msgstr "Januar"
+
+msgid "l_02"
+msgstr "Februar"
+
+msgid "l_03"
+msgstr "Mart"
+
+msgid "l_04"
+msgstr "April"
+
+msgid "l_05"
+msgstr "Maj"
+
+msgid "l_06"
+msgstr "Jun"
+
+msgid "l_07"
+msgstr "Jul"
+
+msgid "l_08"
+msgstr "Avgust"
+
+msgid "l_09"
+msgstr "Septembar"
+
+msgid "l_10"
+msgstr "Oktobar"
+
+msgid "l_11"
+msgstr "Novembar"
+
+msgid "l_12"
+msgstr "Decembar"
+
+msgid "l_fr"
+msgstr "Petak"
+
+msgid "l_mo"
+msgstr "Ponedeljak"
+
+msgid "l_sa"
+msgstr "Subota"
+
+msgid "l_su"
+msgstr "Nedelja"
+
+msgid "l_th"
+msgstr "Cetvrtak"
+
+msgid "l_tu"
+msgstr "Utorak"
+
+msgid "l_we"
+msgstr "Sreda"
+
+msgid "next_month"
+msgstr "Sledeci mesec (zadrži za meni)"
+
+msgid "next_year"
+msgstr "Sledca godina (zadrži za meni)"
+
+msgid "open_calendar"
+msgstr "Kliknite ovde da biste otvorili kalendar za odabir sastanka (JavaScript zahtevan!)"
+
+msgid "part_today"
+msgstr "(danas)"
+
+msgid "prev_month"
+msgstr "Prethodni mesec (zadrži za meni)"
+
+msgid "prev_year"
+msgstr "Prethodna godina (zadrži za meni)"
+
+msgid "s_01"
+msgstr "Jan"
+
+msgid "s_02"
+msgstr "Feb"
+
+msgid "s_03"
+msgstr "Mar"
+
+msgid "s_04"
+msgstr "Apr"
+
+msgid "s_05"
+msgstr "Maj"
+
+msgid "s_06"
+msgstr "jun"
+
+msgid "s_07"
+msgstr "Jul"
+
+msgid "s_08"
+msgstr "Avg"
+
+msgid "s_09"
+msgstr "Sep"
+
+msgid "s_10"
+msgstr "Okt"
+
+msgid "s_11"
+msgstr "Nov"
+
+msgid "s_12"
+msgstr "Dec"
+
+msgid "s_fr"
+msgstr "Pet"
+
+msgid "s_mo"
+msgstr "Pon"
+
+msgid "s_sa"
+msgstr "Sub"
+
+msgid "s_su"
+msgstr "Ned"
+
+msgid "s_th"
+msgstr "Cet"
+
+msgid "s_tu"
+msgstr "Uto"
+
+msgid "s_we"
+msgstr "Sre"
+
+msgid "select_date"
+msgstr "Odaberi datum"
+
+msgid "time"
+msgstr "Vreme"
+
+msgid "time_part"
+msgstr "(Shift-) Kliknite ili izvucite da biste promenili vrednost"
+
+msgid "today"
+msgstr "Danas"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "wk"

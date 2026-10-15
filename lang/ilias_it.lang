@@ -9397,63 +9397,6 @@ itgr#:#itgr_show_title#:#Mostra titolo
 itgr#:#itgr_show_title_info#:#Mostra il titolo del gruppo di articoli nella presentazione per l’allievo.
 itgr#:#itgr_tile#:#Tiles###31 03 2023 new variable
 itgr#:#itgr_tile_size#:#Tile Size###31 03 2023 new variable
-jscalendar#:#about_calendar#:#Informazioni sul calendario
-jscalendar#:#about_calendar_long#:#Selettore data / ora DHTML   (c) dynarch.com 2002-2003  Per l'ultima versione visitare: http://dynarch.com/mishoo/calendar.epl  Distribuito sotto GNU LGPL. Vedi http://gnu.org/licenses/lgpl.html per i dettagli.    Data selezione:  - Usa i pulsanti Â «, Â» per selezionare l'anno  - Usa i pulsanti <,> per selezionare il mese  - Tieni premuto il pulsante del mouse su uno dei pulsanti sopra per una selezione più rapida.
-jscalendar#:#about_time#:#   Tempo di tempo:  - Fai clic su una delle parti del tempo per aumentarlo  - o Maiusc + clic per ridurlo  - oppure fai clic e trascina per una selezione più rapida.
-jscalendar#:#day_first#:#Mostra prima %s
-jscalendar#:#def_date_format#:#%A-%m-%g
-jscalendar#:#drag_to_move#:#Trascina per spostare
-jscalendar#:#go_today#:#Vai a Oggi
-jscalendar#:#l_01#:#Gennaio
-jscalendar#:#l_02#:#Febbraio
-jscalendar#:#l_03#:#Marzo
-jscalendar#:#l_04#:#Aprile
-jscalendar#:#l_05#:#Maggio
-jscalendar#:#l_06#:#Giugno
-jscalendar#:#l_07#:#Luglio
-jscalendar#:#l_08#:#Agosto
-jscalendar#:#l_09#:#Settembre
-jscalendar#:#l_10#:#Ottobre
-jscalendar#:#l_11#:#Novembre
-jscalendar#:#l_12#:#Dicembre
-jscalendar#:#l_fr#:#Venerdi
-jscalendar#:#l_mo#:#Lunedi
-jscalendar#:#l_sa#:#Sabato
-jscalendar#:#l_su#:#Domenica
-jscalendar#:#l_th#:#Giovedi
-jscalendar#:#l_tu#:#Martedi
-jscalendar#:#l_we#:#Mercoledi
-jscalendar#:#next_month#:#Mese successivo (tieni premuto per il menu)
-jscalendar#:#next_year#:#Anno successivo (tieni premuto per il menu)
-jscalendar#:#open_calendar#:#Clicca qui se vuoi aprire il calendario e selezionare un giorno (devono essere abilitati i JavaScript!)
-jscalendar#:#part_today#:# (oggi)
-jscalendar#:#prev_month#:#Mese precedente (tieni premuto per il menu)
-jscalendar#:#prev_year#:#Anno precedente (tieni premuto per il menu)
-jscalendar#:#s_01#:#Gen
-jscalendar#:#s_02#:#Febbraio
-jscalendar#:#s_03#:#Marzo
-jscalendar#:#s_04#:#Aprile
-jscalendar#:#s_05#:#Mag
-jscalendar#:#s_06#:#Giu
-jscalendar#:#s_07#:#Lug
-jscalendar#:#s_08#:#Ago
-jscalendar#:#s_09#:#Set
-jscalendar#:#s_10#:#Ott
-jscalendar#:#s_11#:#Novembre
-jscalendar#:#s_12#:#Dic
-jscalendar#:#s_fr#:#Ve
-jscalendar#:#s_mo#:#Lu
-jscalendar#:#s_sa#:#Sa
-jscalendar#:#s_su#:#Do
-jscalendar#:#s_th#:#Gi
-jscalendar#:#s_tu#:#Ma
-jscalendar#:#s_we#:#Me
-jscalendar#:#select_date#:#Seleziona una data
-jscalendar#:#time#:#Ora
-jscalendar#:#time_part#:#(Cambiare-)Clicca o trascina per cambiare il valore
-jscalendar#:#today#:#Oggi
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#wk
 lm#:#lm_btn_lp_toggle_state_completed#:#Imposta come non completato
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Imposta come completato
 lm#:#lm_copy#:#Copia il modulo di apprendimento

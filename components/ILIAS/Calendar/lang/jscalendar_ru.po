@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "О календаре"
+
+msgid "about_calendar_long"
+msgstr "DHTML Дата/Время Селектор\\n(c) dynarch.com 2002-2003\\nЗа последней версией обратитесь на сайт: http://dynarch.com/mishoo/calendar.epl\\nDistributed под GNU LGPL.  Подробнее см. http://gnu.org/licenses/lgpl.html .\\n\\nВыбор даты:\\n- Используйте кнопку «, » для выбора года\\n- Используйте кнопку <, > для выбора месяца\\n- Держите кнопку мыши над какой-нибудь из клавиш для быстрого выбора."
+
+msgid "about_time"
+msgstr "\\n\\nВыбор времени:\\n- Для увеличения щелкните на любой части времени \\n- Для уменьшения выполните Shift+щелчок\\n- или щелкните и тащите для быстрого выбора."
+
+msgid "day_first"
+msgstr "Экран %s первый"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Выделить для перемещения"
+
+msgid "go_today"
+msgstr "Перейти на сегодня"
+
+msgid "l_01"
+msgstr "Январь"
+
+msgid "l_02"
+msgstr "Февраль"
+
+msgid "l_03"
+msgstr "Март"
+
+msgid "l_04"
+msgstr "Апрель"
+
+msgid "l_05"
+msgstr "Май"
+
+msgid "l_06"
+msgstr "Июнь"
+
+msgid "l_07"
+msgstr "Июль"
+
+msgid "l_08"
+msgstr "Август"
+
+msgid "l_09"
+msgstr "Сентябрь"
+
+msgid "l_10"
+msgstr "Октябрь"
+
+msgid "l_11"
+msgstr "Ноябрь"
+
+msgid "l_12"
+msgstr "Декабрь"
+
+msgid "l_fr"
+msgstr "Пятница"
+
+msgid "l_mo"
+msgstr "Понедельник"
+
+msgid "l_sa"
+msgstr "Суббота"
+
+msgid "l_su"
+msgstr "Воскресенье"
+
+msgid "l_th"
+msgstr "Четверг"
+
+msgid "l_tu"
+msgstr "Вторник"
+
+msgid "l_we"
+msgstr "Среда"
+
+msgid "next_month"
+msgstr "Следующий месяц (зафиксировать для меню)"
+
+msgid "next_year"
+msgstr "Следующий год (зафиксировать для меню)"
+
+msgid "open_calendar"
+msgstr "Нажмите здесь, для того чтобы открыть календарь и выбрать дату (требуется JavaScript!)"
+
+msgid "part_today"
+msgstr "(сегодня)"
+
+msgid "prev_month"
+msgstr "Предыдущий месяц (зафиксировать для меню)"
+
+msgid "prev_year"
+msgstr "Предыдущий год (зафиксировать для меню)"
+
+msgid "s_01"
+msgstr "Янв"
+
+msgid "s_02"
+msgstr "Фев"
+
+msgid "s_03"
+msgstr "Мар"
+
+msgid "s_04"
+msgstr "Апр"
+
+msgid "s_05"
+msgstr "Май"
+
+msgid "s_06"
+msgstr "Июн"
+
+msgid "s_07"
+msgstr "Июл"
+
+msgid "s_08"
+msgstr "Авг"
+
+msgid "s_09"
+msgstr "Сен"
+
+msgid "s_10"
+msgstr "Окт"
+
+msgid "s_11"
+msgstr "Ноя"
+
+msgid "s_12"
+msgstr "Дек"
+
+msgid "s_fr"
+msgstr "Пт"
+
+msgid "s_mo"
+msgstr "Пн"
+
+msgid "s_sa"
+msgstr "Сб"
+
+msgid "s_su"
+msgstr "Вс"
+
+msgid "s_th"
+msgstr "Чт"
+
+msgid "s_tu"
+msgstr "Вт"
+
+msgid "s_we"
+msgstr "Ср"
+
+msgid "select_date"
+msgstr "Выбрать дату"
+
+msgid "time"
+msgstr "Время"
+
+msgid "time_part"
+msgstr "(Shift-)Щелчок или перетащите для изменения значения"
+
+msgid "today"
+msgstr "Сегодня"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "вых"

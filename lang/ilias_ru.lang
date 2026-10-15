@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#О календаре
-jscalendar#:#about_calendar_long#:#DHTML Дата/Время Селектор\n(c) dynarch.com 2002-2003\nЗа последней версией обратитесь на сайт: http://dynarch.com/mishoo/calendar.epl\nDistributed под GNU LGPL.  Подробнее см. http://gnu.org/licenses/lgpl.html .\n\nВыбор даты:\n- Используйте кнопку «, » для выбора года\n- Используйте кнопку <, > для выбора месяца\n- Держите кнопку мыши над какой-нибудь из клавиш для быстрого выбора.
-jscalendar#:#about_time#:#\n\nВыбор времени:\n- Для увеличения щелкните на любой части времени \n- Для уменьшения выполните Shift+щелчок\n- или щелкните и тащите для быстрого выбора.
-jscalendar#:#day_first#:#Экран %s первый
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Выделить для перемещения
-jscalendar#:#go_today#:#Перейти на сегодня
-jscalendar#:#l_01#:#Январь
-jscalendar#:#l_02#:#Февраль
-jscalendar#:#l_03#:#Март
-jscalendar#:#l_04#:#Апрель
-jscalendar#:#l_05#:#Май
-jscalendar#:#l_06#:#Июнь
-jscalendar#:#l_07#:#Июль
-jscalendar#:#l_08#:#Август
-jscalendar#:#l_09#:#Сентябрь
-jscalendar#:#l_10#:#Октябрь
-jscalendar#:#l_11#:#Ноябрь
-jscalendar#:#l_12#:#Декабрь
-jscalendar#:#l_fr#:#Пятница
-jscalendar#:#l_mo#:#Понедельник
-jscalendar#:#l_sa#:#Суббота
-jscalendar#:#l_su#:#Воскресенье
-jscalendar#:#l_th#:#Четверг
-jscalendar#:#l_tu#:#Вторник
-jscalendar#:#l_we#:#Среда
-jscalendar#:#next_month#:#Следующий месяц (зафиксировать для меню)
-jscalendar#:#next_year#:#Следующий год (зафиксировать для меню)
-jscalendar#:#open_calendar#:#Нажмите здесь, для того чтобы открыть календарь и выбрать дату (требуется JavaScript!)
-jscalendar#:#part_today#:#(сегодня)
-jscalendar#:#prev_month#:#Предыдущий месяц (зафиксировать для меню)
-jscalendar#:#prev_year#:#Предыдущий год (зафиксировать для меню)
-jscalendar#:#s_01#:#Янв
-jscalendar#:#s_02#:#Фев
-jscalendar#:#s_03#:#Мар
-jscalendar#:#s_04#:#Апр
-jscalendar#:#s_05#:#Май
-jscalendar#:#s_06#:#Июн
-jscalendar#:#s_07#:#Июл
-jscalendar#:#s_08#:#Авг
-jscalendar#:#s_09#:#Сен
-jscalendar#:#s_10#:#Окт
-jscalendar#:#s_11#:#Ноя
-jscalendar#:#s_12#:#Дек
-jscalendar#:#s_fr#:#Пт
-jscalendar#:#s_mo#:#Пн
-jscalendar#:#s_sa#:#Сб
-jscalendar#:#s_su#:#Вс
-jscalendar#:#s_th#:#Чт
-jscalendar#:#s_tu#:#Вт
-jscalendar#:#s_we#:#Ср
-jscalendar#:#select_date#:#Выбрать дату
-jscalendar#:#time#:#Время
-jscalendar#:#time_part#:#(Shift-)Щелчок или перетащите для изменения значения
-jscalendar#:#today#:#Сегодня
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#вых
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

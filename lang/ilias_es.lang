@@ -9433,63 +9433,6 @@ itgr#:#itgr_show_title#:#Mostrar título
 itgr#:#itgr_show_title_info#:#Muestra el título del grupo de elementos en la presentación para el alumno.
 itgr#:#itgr_tile#:#Mosaicos
 itgr#:#itgr_tile_size#:#Tamaño del mosaico
-jscalendar#:#about_calendar#:#Acerca del calendario
-jscalendar#:#about_calendar_long#:#Selector de fecha/hora DHTML © dynarch.com 2002-2003 Para la versión más reciente visite: http://dynarch.com/mishoo/calendar.epl Distribuido bajo GNU LGPL. Consulte http://gnu.org/licenses/lgpl.html para más detalles. Selección de fecha: - Use los botones « y » para seleccionar el año - Use los botones < y > para seleccionar el mes - Mantenga presionado el botón del ratón en cualquiera de los botones anteriores para una selección más rápida.
-jscalendar#:#about_time#:#  Selección de hora: - Haga clic en cualquier parte de la hora para aumentarla - o Shift-clic para disminuirla - o haga clic y arrastre para una selección más rápida.
-jscalendar#:#day_first#:#Mostrar %s primero
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Arrastrar para mover
-jscalendar#:#go_today#:#Ir a hoy
-jscalendar#:#l_01#:#Enero
-jscalendar#:#l_02#:#Febrero
-jscalendar#:#l_03#:#Marzo
-jscalendar#:#l_04#:#Abril
-jscalendar#:#l_05#:#Mayo
-jscalendar#:#l_06#:#Junio
-jscalendar#:#l_07#:#Julio
-jscalendar#:#l_08#:#Agosto
-jscalendar#:#l_09#:#Septiembre
-jscalendar#:#l_10#:#Octubre
-jscalendar#:#l_11#:#Noviembre
-jscalendar#:#l_12#:#Diciembre
-jscalendar#:#l_fr#:#Viernes
-jscalendar#:#l_mo#:#Lunes
-jscalendar#:#l_sa#:#Sábado
-jscalendar#:#l_su#:#Domingo
-jscalendar#:#l_th#:#Jueves
-jscalendar#:#l_tu#:#Martes
-jscalendar#:#l_we#:#Miércoles
-jscalendar#:#next_month#:#Mes siguiente (mantener para menú)
-jscalendar#:#next_year#:#Año siguiente (mantener para menú)
-jscalendar#:#open_calendar#:#Haga clic aquí para abrir un calendario para la selección de fecha (¡requiere JavaScript!)
-jscalendar#:#part_today#:# (hoy)
-jscalendar#:#prev_month#:#Mes anterior (mantener para menú)
-jscalendar#:#prev_year#:#Año anterior (mantener para menú)
-jscalendar#:#s_01#:#Ene
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Abr
-jscalendar#:#s_05#:#May
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Ago
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Oct
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dic
-jscalendar#:#s_fr#:#Vi
-jscalendar#:#s_mo#:#Lu
-jscalendar#:#s_sa#:#Sá
-jscalendar#:#s_su#:#Do
-jscalendar#:#s_th#:#Ju
-jscalendar#:#s_tu#:#Ma
-jscalendar#:#s_we#:#Mi
-jscalendar#:#select_date#:#Seleccionar fecha
-jscalendar#:#time#:#Hora
-jscalendar#:#time_part#:#(Shift-)Click o arrastrar para cambiar el valor
-jscalendar#:#today#:#Hoy
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#sem
 lm#:#lm_btn_lp_toggle_state_completed#:#Establecer como No completado
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Establecer como Completado
 lm#:#lm_copy#:#Copiar módulo de aprendizaje

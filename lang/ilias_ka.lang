@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#კალენდარის შესახებ
-jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http
-jscalendar#:#about_time#:#
-jscalendar#:#day_first#:#ჩვენება %s პირველ რიგში
-jscalendar#:#def_date_format#:#%s წელი %s თვე %s დღე
-jscalendar#:#drag_to_move#:#დააკლიკეთ გადასაადგილებლად
-jscalendar#:#go_today#:#მიბრძანდით დღეს
-jscalendar#:#l_01#:#იანვარი
-jscalendar#:#l_02#:#თებერვალი
-jscalendar#:#l_03#:#მარტი
-jscalendar#:#l_04#:#აპრილი
-jscalendar#:#l_05#:#მაისი
-jscalendar#:#l_06#:#ივნისი
-jscalendar#:#l_07#:#ივლისი
-jscalendar#:#l_08#:#აგვისტო
-jscalendar#:#l_09#:#სექტემბერი
-jscalendar#:#l_10#:#ოცტომბერი
-jscalendar#:#l_11#:#ნოემბერი
-jscalendar#:#l_12#:#დეკემბერი
-jscalendar#:#l_fr#:#პარასკევი
-jscalendar#:#l_mo#:#ორშაბათი
-jscalendar#:#l_sa#:#შაბათი
-jscalendar#:#l_su#:#კვირა
-jscalendar#:#l_th#:#ხუთშაბათი
-jscalendar#:#l_tu#:#ხუთშაბათი
-jscalendar#:#l_we#:#ოთხშაბათი
-jscalendar#:#next_month#:#შემდეგი თვე ( მენიუსთვის აღება)
-jscalendar#:#next_year#:#შემდეგი წელი ( მენიუსთვის აღება)
-jscalendar#:#open_calendar#:#დაკლიკეთ აქ რომ გახსნათ კალენდარი თარიღის ასარჩევად ( ჯავა ხელნაწერის მოთხოვნა)
-jscalendar#:#part_today#:#( დღეს)
-jscalendar#:#prev_month#:#წინა თვე ( მენისთვის აღება)
-jscalendar#:#prev_year#:#წინა წელი ( მენიუსთვის აღება)
-jscalendar#:#s_01#:#იანვარი
-jscalendar#:#s_02#:#თებერვალი
-jscalendar#:#s_03#:#მარტი
-jscalendar#:#s_04#:#აპრილი
-jscalendar#:#s_05#:#მაისი
-jscalendar#:#s_06#:#ივნისი
-jscalendar#:#s_07#:#ივლისი
-jscalendar#:#s_08#:#აგვისტო
-jscalendar#:#s_09#:#სექტემბერი
-jscalendar#:#s_10#:#ოქტომბერი
-jscalendar#:#s_11#:#ნოემბერი
-jscalendar#:#s_12#:#დეკემბერი
-jscalendar#:#s_fr#:#პარასკევი
-jscalendar#:#s_mo#:#ორშაბათი
-jscalendar#:#s_sa#:#შაბატი
-jscalendar#:#s_su#:#კვირა
-jscalendar#:#s_th#:#ხუთშაბათი
-jscalendar#:#s_tu#:#ხუთშაბათი
-jscalendar#:#s_we#:#ოთხშაბათი
-jscalendar#:#select_date#:#თარიღის არჩევა
-jscalendar#:#time#:#დრო
-jscalendar#:#time_part#:#(Shift-) დააკლიკეთ და დადეთ ღირებულების შესაცვლელად
-jscalendar#:#today#:#დღეს
-jscalendar#:#tt_date_format#:#%sა, %sბ, %s
-jscalendar#:#wk#:#
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

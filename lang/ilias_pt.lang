@@ -9400,63 +9400,6 @@ itgr#:#itgr_list_presentation#:#Item Presentation###03 09 2026 new variable
 itgr#:#itgr_materials#:#Materiais
 itgr#:#itgr_tile#:#Tiles###03 09 2026 new variable
 itgr#:#itgr_tile_size#:#Tile Size###03 09 2026 new variable
-jscalendar#:#about_calendar#:#Suazilândia
-jscalendar#:#about_calendar_long#:#Ilhas Turcas e Caicos
-jscalendar#:#about_time#:#Terras Austrais e Antárticas Francesas
-jscalendar#:#day_first#:#Tajiquistão
-jscalendar#:#def_date_format#:#Toquelau
-jscalendar#:#drag_to_move#:#Turquemenistão
-jscalendar#:#go_today#:#Tunísia
-jscalendar#:#l_01#:#Turquia
-jscalendar#:#l_02#:#Trindade e Tobago
-jscalendar#:#l_03#:#Tanzânia
-jscalendar#:#l_04#:#Ucrânia
-jscalendar#:#l_05#:#Ilhas Menores Distantes dos Estados Unidos
-jscalendar#:#l_06#:#E.U.A
-jscalendar#:#l_07#:#Uruguai
-jscalendar#:#l_08#:#Uzbequistão
-jscalendar#:#l_09#:#Estado da Cidade do Vaticano
-jscalendar#:#l_10#:#São Vicente e Granadinas
-jscalendar#:#l_11#:#Ilhas Virgens (Britânicas)
-jscalendar#:#l_12#:#Ilhas Virgens (EUA)
-jscalendar#:#l_fr#:#Vietname
-jscalendar#:#l_mo#:#Ilhas Wallis e Futuna
-jscalendar#:#l_sa#:#Iémen
-jscalendar#:#l_su#:#Maiote
-jscalendar#:#l_th#:#África do Sul
-jscalendar#:#l_tu#:#Zâmbia
-jscalendar#:#l_we#:#Zimbabué
-jscalendar#:#next_month#:#Data
-jscalendar#:#next_year#:#Apagar
-jscalendar#:#open_calendar#:#Descrição
-jscalendar#:#part_today#:#Diagrama
-jscalendar#:#prev_month#:#Dificuldade
-jscalendar#:#prev_year#:#Esboço
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Fácil
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Nível Educacional
-jscalendar#:#s_05#:#Objetivo Educacional
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Entidade
-jscalendar#:#s_09#:#Entrada
-jscalendar#:#s_10#:#Exame
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Exercício
-jscalendar#:#s_fr#:#Experiência
-jscalendar#:#s_mo#:#Expositivo
-jscalendar#:#s_sa#:#Figura
-jscalendar#:#s_su#:#Formato
-jscalendar#:#s_th#:#Geral
-jscalendar#:#s_tu#:#Gráfico
-jscalendar#:#s_we#:#Tem formato
-jscalendar#:#select_date#:#Duração
-jscalendar#:#time#:#Tem parte
-jscalendar#:#time_part#:#Tem versão
-jscalendar#:#today#:#Hierárquico
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#Alto
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Copiar módulo de aprendizagem

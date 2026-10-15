@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "За календара"
+
+msgid "about_calendar_long"
+msgstr "DHTML селектор за дата/час\\n(c) dynarch.com 2002-2003\\nЗа най-новата версия посетете: http://dynarch.com/mishoo/calendar.epl\\nРазпространява се съгласно GNU LGPL.  Вижте http://gnu.org/licenses/lgpl.html за подробности.\\n\\nИзбор на дата:\\n- Използвайте «, » бутоните, за да изберете година\\n- Използвайте <, > бутоните, за да изберете месец\\n- Задръжте бутона на мишката над някой от горните бутони за по-бърз избор."
+
+msgid "about_time"
+msgstr "\\n\\nИзбор на час:\\n- Кликнете на някой от елементите за часа, за да го придвижите напред\\n- или Shift-кликване за придвижване назад\\n- или кликнете и влачете за по-бърз избор."
+
+msgid "day_first"
+msgstr "Показване най-напред на %s"
+
+msgid "def_date_format"
+msgstr "%Г-%м-%д"
+
+msgid "drag_to_move"
+msgstr "Влачете, за да го придвижите"
+
+msgid "go_today"
+msgstr "Към днешната дата"
+
+msgid "l_01"
+msgstr "Януари"
+
+msgid "l_02"
+msgstr "Февруари"
+
+msgid "l_03"
+msgstr "Март"
+
+msgid "l_04"
+msgstr "Април"
+
+msgid "l_05"
+msgstr "Май"
+
+msgid "l_06"
+msgstr "Юни"
+
+msgid "l_07"
+msgstr "Юли"
+
+msgid "l_08"
+msgstr "Август"
+
+msgid "l_09"
+msgstr "Септември"
+
+msgid "l_10"
+msgstr "Октомври"
+
+msgid "l_11"
+msgstr "Ноември"
+
+msgid "l_12"
+msgstr "Декември"
+
+msgid "l_fr"
+msgstr "Петък"
+
+msgid "l_mo"
+msgstr "Понеделник"
+
+msgid "l_sa"
+msgstr "Събота"
+
+msgid "l_su"
+msgstr "Неделя"
+
+msgid "l_th"
+msgstr "Четвъртък"
+
+msgid "l_tu"
+msgstr "Вторник"
+
+msgid "l_we"
+msgstr "Сряда"
+
+msgid "next_month"
+msgstr "Следващ месец (задръжте за меню)"
+
+msgid "next_year"
+msgstr "Следваща година (задръжте за меню)"
+
+msgid "open_calendar"
+msgstr "Кликнете тук, за да отворите календар за избор на дата (изисква се JavaScript!)"
+
+msgid "part_today"
+msgstr " (днес)"
+
+msgid "prev_month"
+msgstr "Пред. месец (задръжте за меню)"
+
+msgid "prev_year"
+msgstr "Пред. година (задръжте за меню)"
+
+msgid "s_01"
+msgstr "Ян"
+
+msgid "s_02"
+msgstr "Фев"
+
+msgid "s_03"
+msgstr "Март"
+
+msgid "s_04"
+msgstr "Апр"
+
+msgid "s_05"
+msgstr "Май"
+
+msgid "s_06"
+msgstr "Юни"
+
+msgid "s_07"
+msgstr "Юли"
+
+msgid "s_08"
+msgstr "Авг"
+
+msgid "s_09"
+msgstr "Сеп"
+
+msgid "s_10"
+msgstr "Окт"
+
+msgid "s_11"
+msgstr "Ноем"
+
+msgid "s_12"
+msgstr "Дек"
+
+msgid "s_fr"
+msgstr "Пет"
+
+msgid "s_mo"
+msgstr "Пон"
+
+msgid "s_sa"
+msgstr "Съб"
+
+msgid "s_su"
+msgstr "Нед"
+
+msgid "s_th"
+msgstr "Чет"
+
+msgid "s_tu"
+msgstr "Вт"
+
+msgid "s_we"
+msgstr "Ср"
+
+msgid "select_date"
+msgstr "Избор на датата"
+
+msgid "time"
+msgstr "Час"
+
+msgid "time_part"
+msgstr "(Shift-)Кликване или влачене за промяна на стойността"
+
+msgid "today"
+msgstr "Днес"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "седм"

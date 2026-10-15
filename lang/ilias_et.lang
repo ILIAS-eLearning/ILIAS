@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#Kalendrist
-jscalendar#:#about_calendar_long#:#DHTML Kuupäeva/aja valmisvahend\n(c) dynarch.com 2002-2003\nViimast versiooni vt: http://dynarch.com/mishoo/calendar.epl\nLevitatakse GNU LGPL litsensti all. Vaata rohkem http://gnu.org/licenses/lgpl.html.\n\nKuupäeva valik:\n- Kasuta aasta valimiseks nuppe <<, >> \n- Kasuta kuu valimiseks nuppe <, > \n- Hoides all hiire klahvi eelpool mainitud nuppudel, avaneb rippmenüü, kust saab teha rohkem valikuid. \n- Kiiremaks valikuks tehke hiireklõps vastaval kuupäeval.
-jscalendar#:#about_time#:#\n\nAja valik:\n- Kliki suurendamiseks ükskõik millisel osal \n- or Shift-klikk vähendamiseks\n- või lohista kiiremini valiku tegemiseks.
-jscalendar#:#day_first#:#Kuva %s esimesena
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Lohista
-jscalendar#:#go_today#:#Mine tänasesse
-jscalendar#:#l_01#:# jaanuar
-jscalendar#:#l_02#:# veebruar
-jscalendar#:#l_03#:# märts
-jscalendar#:#l_04#:# aprill
-jscalendar#:#l_05#:# mai
-jscalendar#:#l_06#:# juuni
-jscalendar#:#l_07#:# juuli
-jscalendar#:#l_08#:#august
-jscalendar#:#l_09#:#september
-jscalendar#:#l_10#:# oktoober
-jscalendar#:#l_11#:#november
-jscalendar#:#l_12#:#Detsember
-jscalendar#:#l_fr#:#Neljapäev
-jscalendar#:#l_mo#:#Esmaspäev
-jscalendar#:#l_sa#:#Laupäev
-jscalendar#:#l_su#:#Pühapäev
-jscalendar#:#l_th#:#Neljapäev
-jscalendar#:#l_tu#:#Teisipäev
-jscalendar#:#l_we#:#Kolmapäev
-jscalendar#:#next_month#:#Järgmine kuu (hoia menüü jaoks)
-jscalendar#:#next_year#:#Järgmine aasta (hoia menüü jaoks)
-jscalendar#:#open_calendar#:#Klikka siin, et avada kalender päeva valimiseks (vajalik JavaScript!)
-jscalendar#:#part_today#:# (täna)
-jscalendar#:#prev_month#:#Eelm. kuu (hoia menüü jaoks)
-jscalendar#:#prev_year#:#Eelm. aasta (hoia menüü jaoks)
-jscalendar#:#s_01#:#Jaan.
-jscalendar#:#s_02#:#Veeb.
-jscalendar#:#s_03#:#Märts
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#Mai
-jscalendar#:#s_06#:#Juuni
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Aug
-jscalendar#:#s_09#:#Sept.
-jscalendar#:#s_10#:#Okt.
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dets.
-jscalendar#:#s_fr#:#R
-jscalendar#:#s_mo#:#E
-jscalendar#:#s_sa#:#L
-jscalendar#:#s_su#:#P
-jscalendar#:#s_th#:#N
-jscalendar#:#s_tu#:#T
-jscalendar#:#s_we#:#K
-jscalendar#:#select_date#:#vali päev
-jscalendar#:#time#:#Kellaaeg
-jscalendar#:#time_part#:#(Shift-)väärtuse muutmiseks kliki või lohista
-jscalendar#:#today#:#Täna
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#ndl
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module

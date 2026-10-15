@@ -9411,63 +9411,6 @@ itgr#:#itgr_list_presentation#:#Elemmegjelenítés
 itgr#:#itgr_materials#:#Objektumok
 itgr#:#itgr_tile#:#Csempe
 itgr#:#itgr_tile_size#:#Csempe mérete
-jscalendar#:#about_calendar#:#Súgó
-jscalendar#:#about_calendar_long#:#Dátumválasztók: - Év léptetése: « » - Hónap léptetése: < > - Tartsa nyomva a gombot a gyorsabb kiválasztáshoz. DHTML dátum/időpont választó (c) dynarch.com 2002-2003 Legfrissebb verzió: http://dynarch.com/mishoo/calendar.epl Terjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért.
-jscalendar#:#about_time#:#Időválasztó: - Kattintson a megfelelő időrészen megnöveléséhez - vagy Shift-kattintással csökkentéséhez - vagy kattintás-húzás a gyorsabb kiválasztáshoz.
-jscalendar#:#day_first#:#%s megjelenítése először
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Fogd-és-vidd az áthelyezéshez
-jscalendar#:#go_today#:#Ugrás a mai naphoz
-jscalendar#:#l_01#:#január
-jscalendar#:#l_02#:#február
-jscalendar#:#l_03#:#március
-jscalendar#:#l_04#:#április
-jscalendar#:#l_05#:#május
-jscalendar#:#l_06#:#június
-jscalendar#:#l_07#:#július
-jscalendar#:#l_08#:#augusztus
-jscalendar#:#l_09#:#szeptember
-jscalendar#:#l_10#:#október
-jscalendar#:#l_11#:#november
-jscalendar#:#l_12#:#december
-jscalendar#:#l_fr#:#péntek
-jscalendar#:#l_mo#:#hétfő
-jscalendar#:#l_sa#:#szombat
-jscalendar#:#l_su#:#vasárnap
-jscalendar#:#l_th#:#csütörtök
-jscalendar#:#l_tu#:#kedd
-jscalendar#:#l_we#:#szerda
-jscalendar#:#next_month#:#Következő hónap (tipp: tartsa nyomva)
-jscalendar#:#next_year#:#Következő év (tipp: tartsa nyomva)
-jscalendar#:#open_calendar#:#Dátum kiválasztása naptárból
-jscalendar#:#part_today#:# (ma)
-jscalendar#:#prev_month#:#Előző hónap (tipp: tartsa nyomva)
-jscalendar#:#prev_year#:#Előző év (tipp: tartsa nyomva)
-jscalendar#:#s_01#:#jan
-jscalendar#:#s_02#:#febr
-jscalendar#:#s_03#:#márc
-jscalendar#:#s_04#:#ápr
-jscalendar#:#s_05#:#máj
-jscalendar#:#s_06#:#jún
-jscalendar#:#s_07#:#júl
-jscalendar#:#s_08#:#aug
-jscalendar#:#s_09#:#szept
-jscalendar#:#s_10#:#okt
-jscalendar#:#s_11#:#nov
-jscalendar#:#s_12#:#dec
-jscalendar#:#s_fr#:#P
-jscalendar#:#s_mo#:#H
-jscalendar#:#s_sa#:#Szo
-jscalendar#:#s_su#:#V
-jscalendar#:#s_th#:#Cs
-jscalendar#:#s_tu#:#K
-jscalendar#:#s_we#:#Sze
-jscalendar#:#select_date#:#Dátum kiválasztása
-jscalendar#:#time#:#Idő
-jscalendar#:#time_part#:#(Shift-) Kattintson vagy fogja az értékváltoztatáshoz
-jscalendar#:#today#:#Ma
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#hét
 lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
 lm#:#lm_copy#:#Tananyag másolása

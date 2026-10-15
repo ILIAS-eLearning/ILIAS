@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Pokaż tytuł
 itgr#:#itgr_show_title_info#:#Tytuł sekcji obiektu wyświetlany jest w prezentacji dla uczestników kursu.
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#O kalendarzu
-jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTMLn(c) dynarch.com 2002-2003\nDla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epln udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html, aby sprawdzić szczegóły licencji.\n\nWybór daty:\n- Użyj przycisków «, » do wyboru roku\n- Użyj przycisków <, > do wyboru miesiąca\n- Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
-jscalendar#:#about_time#:#n\n\Wybór czasu:n\- Kliknij na dowolny element czasu, aby go zwiększyć\n- lub z klawiszem Shift, aby go zmniejszyć\n- lub kliknij i przytrzymaj, aby przyspieszyć wybór.
-jscalendar#:#day_first#:#Wyświetl najpierw %s
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Przytrzymaj, aby przesunąć
-jscalendar#:#go_today#:#Dzisiaj
-jscalendar#:#l_01#:#Styczeń
-jscalendar#:#l_02#:#Luty
-jscalendar#:#l_03#:#Marzec
-jscalendar#:#l_04#:#Kwiecień
-jscalendar#:#l_05#:#Maj
-jscalendar#:#l_06#:#Czerwiec
-jscalendar#:#l_07#:#Lipiec
-jscalendar#:#l_08#:#Sierpień
-jscalendar#:#l_09#:#Wrzesień
-jscalendar#:#l_10#:#Październik
-jscalendar#:#l_11#:#Listopad
-jscalendar#:#l_12#:#Grudzień
-jscalendar#:#l_fr#:#Piątek
-jscalendar#:#l_mo#:#Poniedziałek
-jscalendar#:#l_sa#:#Sobota
-jscalendar#:#l_su#:#Niedziela
-jscalendar#:#l_th#:#Czwartek
-jscalendar#:#l_tu#:#Wtorek
-jscalendar#:#l_we#:#Środa
-jscalendar#:#next_month#:#Następny miesiąc (trzymaj dla menu)
-jscalendar#:#next_year#:#Następny rok (trzymaj dla menu)
-jscalendar#:#open_calendar#:#Kliknij tu, aby otworzyć kalendarz do wyboru daty (Wymagany JavaScript!)
-jscalendar#:#part_today#:# (dziś)
-jscalendar#:#prev_month#:#Poprz. miesiąc (trzymaj dla menu)
-jscalendar#:#prev_year#:#Poprz. rok (trzymaj dla menu)
-jscalendar#:#s_01#:#Sty
-jscalendar#:#s_02#:#Lut
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Kwi
-jscalendar#:#s_05#:#Maj
-jscalendar#:#s_06#:#Cze
-jscalendar#:#s_07#:#Lip
-jscalendar#:#s_08#:#Sie
-jscalendar#:#s_09#:#Wrz
-jscalendar#:#s_10#:#Paź
-jscalendar#:#s_11#:#Lis
-jscalendar#:#s_12#:#Gru
-jscalendar#:#s_fr#:#Pt
-jscalendar#:#s_mo#:#Pn
-jscalendar#:#s_sa#:#So
-jscalendar#:#s_su#:#Ni
-jscalendar#:#s_th#:#Cz
-jscalendar#:#s_tu#:#Wt
-jscalendar#:#s_we#:#Śr
-jscalendar#:#select_date#:#Wybierz datę
-jscalendar#:#time#:#Czas
-jscalendar#:#time_part#:#(Shift-)Kliknij lub przytrzymaj dla zmiany wartości
-jscalendar#:#today#:#Dziś
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#TD
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Kopiuj moduł nauczania ILIAS

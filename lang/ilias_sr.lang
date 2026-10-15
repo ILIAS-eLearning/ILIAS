@@ -9395,63 +9395,6 @@ itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
-jscalendar#:#about_calendar#:#O Kalendaru
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\n\nDatum odabira:\n- Koristite «, » dugmad kako biste odabrali godinu \n- Koristite <, > kako biste odabrali mesec\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije.
-jscalendar#:#about_time#:#\n\n Odabir vremena\n- kliknite na bilo koji deo vremena kako biste ga uvecali \n- ili Shift-klik kako biste ga umanjili\n- ili kliknite i izvucite radi brže selekcije.
-jscalendar#:#day_first#:#Prikaži %s prvo
-jscalendar#:#def_date_format#:#5G-%m-%d
-jscalendar#:#drag_to_move#:#Izvuci radi pomeranja
-jscalendar#:#go_today#:#Danas
-jscalendar#:#l_01#:#Januar
-jscalendar#:#l_02#:#Februar
-jscalendar#:#l_03#:#Mart
-jscalendar#:#l_04#:#April
-jscalendar#:#l_05#:#Maj
-jscalendar#:#l_06#:#Jun
-jscalendar#:#l_07#:#Jul
-jscalendar#:#l_08#:#Avgust
-jscalendar#:#l_09#:#Septembar
-jscalendar#:#l_10#:#Oktobar
-jscalendar#:#l_11#:#Novembar
-jscalendar#:#l_12#:#Decembar
-jscalendar#:#l_fr#:#Petak
-jscalendar#:#l_mo#:#Ponedeljak
-jscalendar#:#l_sa#:#Subota
-jscalendar#:#l_su#:#Nedelja
-jscalendar#:#l_th#:#Cetvrtak
-jscalendar#:#l_tu#:#Utorak
-jscalendar#:#l_we#:#Sreda
-jscalendar#:#next_month#:#Sledeci mesec (zadrži za meni)
-jscalendar#:#next_year#:#Sledca godina (zadrži za meni)
-jscalendar#:#open_calendar#:#Kliknite ovde da biste otvorili kalendar za odabir sastanka (JavaScript zahtevan!)
-jscalendar#:#part_today#:#(danas)
-jscalendar#:#prev_month#:#Prethodni mesec (zadrži za meni)
-jscalendar#:#prev_year#:#Prethodna godina (zadrži za meni)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#Maj
-jscalendar#:#s_06#:#jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Avg
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Okt
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dec
-jscalendar#:#s_fr#:#Pet
-jscalendar#:#s_mo#:#Pon
-jscalendar#:#s_sa#:#Sub
-jscalendar#:#s_su#:#Ned
-jscalendar#:#s_th#:#Cet
-jscalendar#:#s_tu#:#Uto
-jscalendar#:#s_we#:#Sre
-jscalendar#:#select_date#:#Odaberi datum
-jscalendar#:#time#:#Vreme
-jscalendar#:#time_part#:#(Shift-) Kliknite ili izvucite da biste promenili vrednost
-jscalendar#:#today#:#Danas
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#wk
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

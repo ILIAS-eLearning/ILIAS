@@ -9441,63 +9441,6 @@ itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
 itgr#:#itgr_unassign#:#Unassign
 itgr#:#itgr_unassigned_first#:#Unassigned First
-jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the buttons « and » to select year - Use the buttons < and > to select month - Hold mouse button on any of the above buttons for faster selection.
-jscalendar#:#about_time#:#  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection.
-jscalendar#:#day_first#:#Display %s first
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Drag to move
-jscalendar#:#go_today#:#Go Today
-jscalendar#:#l_01#:#January
-jscalendar#:#l_02#:#February
-jscalendar#:#l_03#:#March
-jscalendar#:#l_04#:#April
-jscalendar#:#l_05#:#May
-jscalendar#:#l_06#:#June
-jscalendar#:#l_07#:#July
-jscalendar#:#l_08#:#August
-jscalendar#:#l_09#:#September
-jscalendar#:#l_10#:#October
-jscalendar#:#l_11#:#November
-jscalendar#:#l_12#:#December
-jscalendar#:#l_fr#:#Friday
-jscalendar#:#l_mo#:#Monday
-jscalendar#:#l_sa#:#Saturday
-jscalendar#:#l_su#:#Sunday
-jscalendar#:#l_th#:#Thursday
-jscalendar#:#l_tu#:#Tuesday
-jscalendar#:#l_we#:#Wednesday
-jscalendar#:#next_month#:#Next month (hold for menu)
-jscalendar#:#next_year#:#Next year (hold for menu)
-jscalendar#:#open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)
-jscalendar#:#part_today#:# (today)
-jscalendar#:#prev_month#:#Prev. month (hold for menu)
-jscalendar#:#prev_year#:#Prev. year (hold for menu)
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#May
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Aug
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Oct
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dec
-jscalendar#:#s_fr#:#Fr
-jscalendar#:#s_mo#:#Mo
-jscalendar#:#s_sa#:#Sa
-jscalendar#:#s_su#:#Su
-jscalendar#:#s_th#:#Th
-jscalendar#:#s_tu#:#Tu
-jscalendar#:#s_we#:#We
-jscalendar#:#select_date#:#Select date
-jscalendar#:#time#:#Time
-jscalendar#:#time_part#:#(Shift-)Click or drag to change value
-jscalendar#:#today#:#Today
-jscalendar#:#tt_date_format#:#%a, %b %e
-jscalendar#:#wk#:#wk
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module

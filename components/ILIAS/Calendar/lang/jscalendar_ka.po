@@ -1,0 +1,182 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "კალენდარის შესახებ"
+
+msgid "about_calendar_long"
+msgstr "//dynarch.com/mishoo/calendar.epl\\nDistributed under GNU LGPL.  See http"
+
+#, fuzzy
+msgid "about_time"
+msgstr "  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection."
+
+msgid "day_first"
+msgstr "ჩვენება %s პირველ რიგში"
+
+msgid "def_date_format"
+msgstr "%s წელი %s თვე %s დღე"
+
+msgid "drag_to_move"
+msgstr "დააკლიკეთ გადასაადგილებლად"
+
+msgid "go_today"
+msgstr "მიბრძანდით დღეს"
+
+msgid "l_01"
+msgstr "იანვარი"
+
+msgid "l_02"
+msgstr "თებერვალი"
+
+msgid "l_03"
+msgstr "მარტი"
+
+msgid "l_04"
+msgstr "აპრილი"
+
+msgid "l_05"
+msgstr "მაისი"
+
+msgid "l_06"
+msgstr "ივნისი"
+
+msgid "l_07"
+msgstr "ივლისი"
+
+msgid "l_08"
+msgstr "აგვისტო"
+
+msgid "l_09"
+msgstr "სექტემბერი"
+
+msgid "l_10"
+msgstr "ოცტომბერი"
+
+msgid "l_11"
+msgstr "ნოემბერი"
+
+msgid "l_12"
+msgstr "დეკემბერი"
+
+msgid "l_fr"
+msgstr "პარასკევი"
+
+msgid "l_mo"
+msgstr "ორშაბათი"
+
+msgid "l_sa"
+msgstr "შაბათი"
+
+msgid "l_su"
+msgstr "კვირა"
+
+msgid "l_th"
+msgstr "ხუთშაბათი"
+
+msgid "l_tu"
+msgstr "ხუთშაბათი"
+
+msgid "l_we"
+msgstr "ოთხშაბათი"
+
+msgid "next_month"
+msgstr "შემდეგი თვე ( მენიუსთვის აღება)"
+
+msgid "next_year"
+msgstr "შემდეგი წელი ( მენიუსთვის აღება)"
+
+msgid "open_calendar"
+msgstr "დაკლიკეთ აქ რომ გახსნათ კალენდარი თარიღის ასარჩევად ( ჯავა ხელნაწერის მოთხოვნა)"
+
+msgid "part_today"
+msgstr "( დღეს)"
+
+msgid "prev_month"
+msgstr "წინა თვე ( მენისთვის აღება)"
+
+msgid "prev_year"
+msgstr "წინა წელი ( მენიუსთვის აღება)"
+
+msgid "s_01"
+msgstr "იანვარი"
+
+msgid "s_02"
+msgstr "თებერვალი"
+
+msgid "s_03"
+msgstr "მარტი"
+
+msgid "s_04"
+msgstr "აპრილი"
+
+msgid "s_05"
+msgstr "მაისი"
+
+msgid "s_06"
+msgstr "ივნისი"
+
+msgid "s_07"
+msgstr "ივლისი"
+
+msgid "s_08"
+msgstr "აგვისტო"
+
+msgid "s_09"
+msgstr "სექტემბერი"
+
+msgid "s_10"
+msgstr "ოქტომბერი"
+
+msgid "s_11"
+msgstr "ნოემბერი"
+
+msgid "s_12"
+msgstr "დეკემბერი"
+
+msgid "s_fr"
+msgstr "პარასკევი"
+
+msgid "s_mo"
+msgstr "ორშაბათი"
+
+msgid "s_sa"
+msgstr "შაბატი"
+
+msgid "s_su"
+msgstr "კვირა"
+
+msgid "s_th"
+msgstr "ხუთშაბათი"
+
+msgid "s_tu"
+msgstr "ხუთშაბათი"
+
+msgid "s_we"
+msgstr "ოთხშაბათი"
+
+msgid "select_date"
+msgstr "თარიღის არჩევა"
+
+msgid "time"
+msgstr "დრო"
+
+msgid "time_part"
+msgstr "(Shift-) დააკლიკეთ და დადეთ ღირებულების შესაცვლელად"
+
+msgid "today"
+msgstr "დღეს"
+
+msgid "tt_date_format"
+msgstr "%sა, %sბ, %s"
+
+#, fuzzy
+msgid "wk"
+msgstr "wk"
