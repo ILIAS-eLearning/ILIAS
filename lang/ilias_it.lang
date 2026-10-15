@@ -6870,60 +6870,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block###28 11 2025 new variable
 crs#:#tutorial_support_block_title#:#Contact Person###28 11 2025 new variable
 crs#:#user_fields#:#Campi utente
-dash#:#dash_activation#:#Attivazione
-dash#:#dash_added_to_favs#:#Il contenuto è stato aggiunto ai tuoi preferiti.
-dash#:#dash_avail_presentation#:#Presentazioni disponibili
-dash#:#dash_avail_sortation#:#Filtri disponibili
-dash#:#dash_click_here#:#Cliccare qui
-dash#:#dash_co_delete#:#Delete Dashboard style###28 11 2025 new variable
-dash#:#dash_co_lang#:#Dashboard style by languages###28 11 2025 new variable
-dash#:#dash_customization#:#Customize Dashboard Content###28 11 2025 new variable
-dash#:#dash_dashboard#:#Dashboard
-dash#:#dash_default_presentation#:#Presentazione predefinita
-dash#:#dash_default_sortation#:#Filtri predefiniti
-dash#:#dash_enable_cal#:#Calendario
-dash#:#dash_enable_favourites#:#Preferiti
-dash#:#dash_enable_learning_sequences#:#Learning Sequences###30 04 2024 new variable
-dash#:#dash_enable_mail#:#E-mail
-dash#:#dash_enable_memberships#:#I miei corsi e gruppi
-dash#:#dash_enable_news#:#Novità
-dash#:#dash_enable_recommended_content#:#Recommended Content###30 04 2024 new variable
-dash#:#dash_enable_study_programmes#:#Study Programmes###30 04 2024 new variable
-dash#:#dash_enable_task#:#Da fare
-dash#:#dash_favourites#:#Preferiti
-dash#:#dash_info_sure_remove_from_favs#:#Conferma di voler rimuovere i seguenti oggetti dai Suoi preferiti?
-dash#:#dash_item_removed#:#Il contenuto è stato rimosso dalla lista.
-dash#:#dash_learning_sequences#:#My Learning Sequences###30 04 2024 new variable
-dash#:#dash_list#:#Lista
-dash#:#dash_main_panel#:#Pannello principale
-dash#:#dash_make_favourite#:#Aggiungi ai preferiti
-dash#:#dash_manual_new_item_pos#:#Position of New Objects###28 11 2025 new variable
-dash#:#dash_manual_new_item_pos_bot#:#Bottom###28 11 2025 new variable
-dash#:#dash_manual_new_item_pos_top#:#Top###28 11 2025 new variable
-dash#:#dash_manual_sorting_title#:#Manual Sorting of Favorites###28 11 2025 new variable
-dash#:#dash_member_main_alt#:#La visione delle proprie iscrizioni può essere integrata direttamente nel menù principale.
-dash#:#dash_memberships#:#I miei corsi e gruppi
-dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 11 2025 new variable
-dash#:#dash_presentation#:#Presentazione
-dash#:#dash_recommended_content#:#Recommended Content###30 04 2024 new variable
-dash#:#dash_remove_from_list#:#Rimuovi dalla lista
-dash#:#dash_side_panel#:#Pannello laterale
-dash#:#dash_sort_by_alphabet#:#Sort by Alphabet###31 03 2023 new variable
-dash#:#dash_sort_by_location#:#Filtra per luogo
-dash#:#dash_sort_by_manually#:#Manually###28 11 2025 new variable
-dash#:#dash_sort_by_start_date#:#Filtra per data d'inizio
-dash#:#dash_sort_by_type#:#Filtra per tipo
-dash#:#dash_sort_option_bot#:#Bottom###28 11 2025 new variable
-dash#:#dash_sort_option_top#:#Top###28 11 2025 new variable
-dash#:#dash_sort_options#:#Postition of new Objects###28 11 2025 new variable
-dash#:#dash_sortation#:#Filtraggio
-dash#:#dash_study_programmes#:#My Study Programmes###30 04 2024 new variable
-dash#:#dash_tile#:#Piastrelle
-dash#:#dash_view_courses_groups#:#Blocco ‘I miei corsi e gruppi'
-dash#:#dash_view_favourites#:#Blocco 'Preferiti'
-dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
-dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
-dash#:#topitem_block#:#Block###30 04 2024 new variable
 dateplaner#:#Fr_long#:#Venerdì
 dateplaner#:#Fr_short#:#Ve
 dateplaner#:#Mo_long#:#Lunedì
