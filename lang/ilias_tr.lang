@@ -6869,8 +6869,6 @@ crs#:#tutorial_support_block_setting_desc#:#The 'Tutorial Support' block is disp
 crs#:#tutorial_support_block_setting_title#:#Tutorial Support Block###28 10 2024 new variable
 crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Kullanıcı Alanlar
-crsv#:#crsv_create#:#Create Course Certificate###30 12 2013 new variable
-crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it###30 12 2013 new variable
 dash#:#dash_activation#:#activation###07 02 2020 new variable
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.###07 02 2020 new variable
 dash#:#dash_avail_presentation#:#Available Presentations###07 02 2020 new variable
