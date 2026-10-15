@@ -11866,33 +11866,6 @@ survey#:#vertical#:#verticale
 survey#:#warning_question_not_complete#:#La domanda non è completa!
 survey#:#workingtime#:#Tempo di lavoro
 violation#:#not_a_string#:#Given value is not a String###31 03 2023 new variable
-webr#:#invalid_links_tbl#:#Collegamenti non validi
-webr#:#webr_active#:#Attiva
-webr#:#webr_container_info#:#Si prega di inserire un titolo e facoltativamente una descrizione per la presentazione di questo elenco di collegamenti web nel repository.
-webr#:#webr_copy#:#Copia collegamento web
-webr#:#webr_deactivate#:#Disattiva collegamento web
-webr#:#webr_edit_links#:#Modifica collegamento web
-webr#:#webr_edit_list#:#Modifica raccolta collegamenti web
-webr#:#webr_edit_settings#:#Modifica impostazioni
-webr#:#webr_import#:#Importa collegamento web
-webr#:#webr_inactive_success#:#Il collegamento web scelto è stato disattivato.
-webr#:#webr_link_added#:#È stato creato un nuovo collegamento web.
-webr#:#webr_link_target#:#Target collegamento web
-webr#:#webr_link_title#:#Nome collegamento web/ Nome raccolta collegamento web
-webr#:#webr_link_type_list#:#Elenco dei collegamenti web
-webr#:#webr_link_type_single#:#Collegamento web singolo
-webr#:#webr_list_added#:#È stato creato un nuovo elenco di collegamenti web.
-webr#:#webr_list_desc#:#Descrizione della raccolta di collegamenti web
-webr#:#webr_list_set#:#Il collegamento web è stato modificato in una raccolta di collegamenti web.
-webr#:#webr_list_title#:#Titolo dell'a raccolta di collegamenti web
-webr#:#webr_new#:#Create Weblink###28 11 2025 new variable
-webr#:#webr_new_link#:#Aggiungi Nuovo collegamento web
-webr#:#webr_new_list#:#Aggiungi nuova raccolta di collegamenti web
-webr#:#webr_new_list_info#:#Si prega di inserire un titolo e, facoltativamente, una descrizione per la presentazione di questa raccolta di collegamento web nel repository.
-webr#:#webr_set_to_list#:#Modificare in elenco di collegamenti web
-webr#:#webr_sort_manual#:#Ordina manualmente
-webr#:#webr_sort_title#:#Ordina alfabeticamente per titolo
-webr#:#webr_sorting#:#Ordinamento dei collegamenti web
 wiki#:#wiki_activate_extended_rating#:#Attiva categorie di valutazione
 wiki#:#wiki_activate_new_page_rating#:#Attiva valutazione per nuove pagine
 wiki#:#wiki_activate_page_rating#:#Attiva valutazione

@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: webr\n"
+
+msgid "invalid_links_tbl"
+msgstr "不正なリンク"
+
+msgid "webr_active"
+msgstr "アクティブ"
+
+msgid "webr_container_info"
+msgstr "レポジトリ内のこのWebリンクの説明用にタイトルとオプションとして説明を入力してください。"
+
+msgid "webr_copy"
+msgstr "Weblinkをコピー"
+
+msgid "webr_deactivate"
+msgstr "Webリンク　アクティブ不可"
+
+msgid "webr_edit_links"
+msgstr "Webリンクを編集"
+
+msgid "webr_edit_list"
+msgstr "Webリンクを編集"
+
+msgid "webr_edit_settings"
+msgstr "設定変更"
+
+msgid "webr_import"
+msgstr "Weblinkをインポート"
+
+msgid "webr_inactive_success"
+msgstr "選んだリンクはアクティブ不可にされます。"
+
+msgid "webr_link_added"
+msgstr "新しいリンクが作成されました。"
+
+msgid "webr_link_target"
+msgstr "Webリンクターゲット"
+
+msgid "webr_link_title"
+msgstr "Webリンク名"
+
+msgid "webr_link_type_list"
+msgstr "Weblink List"
+
+msgid "webr_link_type_single"
+msgstr "Single Weblink"
+
+msgid "webr_list_added"
+msgstr "新しいweblink listが作成されました。"
+
+msgid "webr_list_desc"
+msgstr "Webリンクリストの説明"
+
+msgid "webr_list_set"
+msgstr "weblinkが」weblink listへ設定されました。"
+
+msgid "webr_list_title"
+msgstr "Webリンクリストのタイトル"
+
+msgid "webr_new"
+msgstr "Webリンクを作成"
+
+msgid "webr_new_link"
+msgstr "新しいWebリンクのタイトル"
+
+msgid "webr_new_list"
+msgstr "新しいWeblink Listを追加"
+
+msgid "webr_new_list_info"
+msgstr "リポジトリ内のこのWeblink Listのプレゼンテーション用にタイトルとオプションの説明を入力してください。"
+
+msgid "webr_set_to_list"
+msgstr "Weblink Listを設定"
+
+msgid "webr_sort_manual"
+msgstr "手動で並び替え"
+
+msgid "webr_sort_title"
+msgstr "アルファベット順のタイトルで並び替え"
+
+msgid "webr_sorting"
+msgstr "Webリンクで並び替え"

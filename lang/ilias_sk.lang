@@ -11864,33 +11864,6 @@ survey#:#vertical#:#Svisle
 survey#:#warning_question_not_complete#:#Otázka není kompletní!
 survey#:#workingtime#:#Pracovní čas
 violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
-webr#:#invalid_links_tbl#:#Invalid Links###28 11 2012 new variable
-webr#:#webr_active#:#Aktivní
-webr#:#webr_container_info#:#Vložte prosím název a volitelně i popis pro prezentaci tohoto seznamu webových odkazů v úložišti.
-webr#:#webr_copy#:#Copy Weblink###28 08 2012 new variable
-webr#:#webr_deactivate#:#Deactivate Link
-webr#:#webr_edit_links#:#Edit Links
-webr#:#webr_edit_list#:#Edit Web Resource Lis
-webr#:#webr_edit_settings#:#Upravit nastavení
-webr#:#webr_import#:#Importovat webový odkaz
-webr#:#webr_inactive_success#:#Vybraný webový odkaz je deaktivován.
-webr#:#webr_link_added#:#Nový odkaz byl vytvořen.
-webr#:#webr_link_target#:#Link Target
-webr#:#webr_link_title#:#Link Name
-webr#:#webr_link_type_list#:#Weblink List###29 07 2022 new variable
-webr#:#webr_link_type_single#:#Single Weblink###29 07 2022 new variable
-webr#:#webr_list_added#:#A new weblink list has been created.###29 07 2022 new variable
-webr#:#webr_list_desc#:#Description of Web Resource List
-webr#:#webr_list_set#:#The weblink has been set to a weblink list.###29 07 2022 new variable
-webr#:#webr_list_title#:#Title of Web Resource List
-webr#:#webr_new#:#Create Weblink###29 10 2025 new variable
-webr#:#webr_new_link#:#Add New Link
-webr#:#webr_new_list#:#Add New Weblink List###29 07 2022 new variable
-webr#:#webr_new_list_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###29 07 2022 new variable
-webr#:#webr_set_to_list#:#Set to Weblink List###29 07 2022 new variable
-webr#:#webr_sort_manual#:#Řadit manuálně
-webr#:#webr_sort_title#:#Řadit dle názvu
-webr#:#webr_sorting#:#Link Sorting
 wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories###28 08 2012 new variable
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages###28 08 2012 new variable
 wiki#:#wiki_activate_page_rating#:#Activate Rating###28 08 2012 new variable

@@ -11890,33 +11890,6 @@ survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
 survey#:#workingtime#:#Tiempo de trabajo
 violation#:#not_a_string#:#El valor proporcionado no es una cadena de texto
-webr#:#invalid_links_tbl#:#Enlaces no válidos
-webr#:#webr_active#:#Activo
-webr#:#webr_container_info#:#Por favor, introduzca un título y opcionalmente una descripción para la presentación de esta lista de enlaces web en el repositorio.
-webr#:#webr_copy#:#Copiar enlace web
-webr#:#webr_deactivate#:#Desactivar enlace web
-webr#:#webr_edit_links#:#Editar enlaces web
-webr#:#webr_edit_list#:#Editar enlaces web
-webr#:#webr_edit_settings#:#Editar configuración
-webr#:#webr_import#:#Importar enlace web
-webr#:#webr_inactive_success#:#El enlace seleccionado ha sido desactivado.
-webr#:#webr_link_added#:#Se ha creado un nuevo enlace.
-webr#:#webr_link_target#:#Destino del enlace web
-webr#:#webr_link_title#:#Nombre del enlace web / Nombre de la lista de enlaces web
-webr#:#webr_link_type_list#:#Lista de enlaces web
-webr#:#webr_link_type_single#:#Enlace web individual
-webr#:#webr_list_added#:#Se ha creado una nueva lista de enlaces web.
-webr#:#webr_list_desc#:#Descripción de la lista de enlaces web
-webr#:#webr_list_set#:#El enlace web se ha asignado a una lista de enlaces web.
-webr#:#webr_list_title#:#Título de la lista de enlaces web
-webr#:#webr_new#:#Crear enlace web
-webr#:#webr_new_link#:#Agregar nuevo enlace web
-webr#:#webr_new_list#:#Agregar nueva lista de enlaces web
-webr#:#webr_new_list_info#:#Por favor, introduzca un título y opcionalmente una descripción para la presentación de esta lista de enlaces web en el repositorio.
-webr#:#webr_set_to_list#:#Asignar a lista de enlaces web
-webr#:#webr_sort_manual#:#Ordenar manualmente
-webr#:#webr_sort_title#:#Títulos en orden alfabético
-webr#:#webr_sorting#:#Ordenación de enlaces web
 wiki#:#wiki_activate_extended_rating#:#Activar categorías de calificación
 wiki#:#wiki_activate_new_page_rating#:#Activar calificación para nuevas páginas
 wiki#:#wiki_activate_page_rating#:#Activar calificación

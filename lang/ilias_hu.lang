@@ -11822,33 +11822,6 @@ survey#:#vertical#:#Függőleges
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#workingtime#:#Eltöltött idő
 violation#:#not_a_string#:#A megadott érték nem szöveg
-webr#:#invalid_links_tbl#:#Érvénytelen linkek
-webr#:#webr_active#:#Aktív
-webr#:#webr_container_info#:#Adjon meg címet és esetleg leírást ennek a Tartalomtárban levő weblink-gyűjteményének a bemutatásához.
-webr#:#webr_copy#:#Weblink másolása
-webr#:#webr_deactivate#:#Weblink kikapcsolása
-webr#:#webr_edit_links#:#Weblink módosítása
-webr#:#webr_edit_list#:#Weblinkek módosítása
-webr#:#webr_edit_settings#:#Beállítások módosítása
-webr#:#webr_import#:#Weblink importálása
-webr#:#webr_inactive_success#:#A kiválasztott linket sikeresen kikapcsolta.
-webr#:#webr_link_added#:#Új link jött létre.
-webr#:#webr_link_target#:#Weblink célja
-webr#:#webr_link_title#:#Weblink / weblink-gyűjtemény címe
-webr#:#webr_link_type_list#:#Weblink-gyűjtemény
-webr#:#webr_link_type_single#:#Weblink
-webr#:#webr_list_added#:#Az új weblink-gyűjtemányt sikeresen létrehozta.
-webr#:#webr_list_desc#:#Weblink-gyűjtemény leírása
-webr#:#webr_list_set#:#A weblinket sikeresen weblink-gyűjteménnyé alakította.
-webr#:#webr_list_title#:#Weblink-gyűjtemény címe
-webr#:#webr_new#:#Weblink létrehozása
-webr#:#webr_new_link#:#Új weblink létrehozása
-webr#:#webr_new_list#:#Új weblink-gyűjteménye létrehozása
-webr#:#webr_new_list_info#:#A weblink-gyűjtemény megjelenítéshez a Tartalomtárban, adjon meg címet és esetleg leírást.
-webr#:#webr_set_to_list#:#Weblink-gyűjteménnyé alakítás
-webr#:#webr_sort_manual#:#Kézi sorba rendezés
-webr#:#webr_sort_title#:#Cím szerinti rendezés
-webr#:#webr_sorting#:#Weblinkek sorba rendezése
 wiki#:#wiki_activate_extended_rating#:#Értékelési kategóriák bekapcsolása
 wiki#:#wiki_activate_new_page_rating#:#Értékelés bekapcsolása új lapokhoz
 wiki#:#wiki_activate_page_rating#:#Értékelés bekapcsolása

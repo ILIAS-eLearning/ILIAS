@@ -11926,33 +11926,6 @@ survey#:#vertical#:#Vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
-webr#:#invalid_links_tbl#:#Ungültige Links
-webr#:#webr_active#:#Aktiv
-webr#:#webr_container_info#:#Da diese Weblink-Sammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
-webr#:#webr_copy#:#Weblink kopieren
-webr#:#webr_deactivate#:#Weblink deaktivieren
-webr#:#webr_edit_links#:#Weblinks bearbeiten
-webr#:#webr_edit_list#:#Weblink-Sammlung bearbeiten
-webr#:#webr_edit_settings#:#Einstellungen bearbeiten
-webr#:#webr_import#:#Weblink importieren
-webr#:#webr_inactive_success#:#Der Weblink wurde deaktiviert.
-webr#:#webr_link_added#:#Ein neuer Weblink wurde angelegt.
-webr#:#webr_link_target#:#Ziel
-webr#:#webr_link_title#:#Titel des Weblinks / Titel der Weblink-Sammlung
-webr#:#webr_link_type_list#:#Weblink-Sammlung
-webr#:#webr_link_type_single#:#Einzelner Weblink
-webr#:#webr_list_added#:#Eine neue Weblink-Sammlung wurde angelegt.
-webr#:#webr_list_desc#:#Beschreibung der Weblink-Sammlung
-webr#:#webr_list_set#:#Der Weblink wurde in eine Weblink-Sammlung umgewandelt.
-webr#:#webr_list_title#:#Titel der Weblink-Sammlung
-webr#:#webr_new#:#Neuen Weblink anlegen
-webr#:#webr_new_link#:#Neuen Weblink anlegen
-webr#:#webr_new_list#:#Neue Weblink-Sammlung anlegen
-webr#:#webr_new_list_info#:#Bitte geben Sie einen Titel und optional eine Beschreibung für die Präsentation dieser Weblink-Sammlung im Magazin ein.
-webr#:#webr_set_to_list#:#In Weblink-Sammlung umwandeln
-webr#:#webr_sort_manual#:#Manuelle Sortierung
-webr#:#webr_sort_title#:#Alphabetisch nach Titel
-webr#:#webr_sorting#:#Sortierung der Weblinks
 wiki#:#wiki_activate_extended_rating#:#Bewertungs-Kategorien aktivieren
 wiki#:#wiki_activate_new_page_rating#:#Bewertung bei neuen Seiten aktivieren
 wiki#:#wiki_activate_page_rating#:#Bewertung erlauben

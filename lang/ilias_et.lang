@@ -11864,33 +11864,6 @@ survey#:#vertical#:#vertikaalne
 survey#:#warning_question_not_complete#:#Küsimus pole lõpetatud!
 survey#:#workingtime#:#Vastamiseks kulunud aeg
 violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
-webr#:#invalid_links_tbl#:#Invalid Links
-webr#:#webr_active#:#Aktiivne
-webr#:#webr_container_info#:#Palun sisesta pealkiri ja võimaluse korral ka kirjeldus, esitamaks seda veebilinkide nimestikku varamus.
-webr#:#webr_copy#:#Copy Weblink
-webr#:#webr_deactivate#:#Inaktiveeri link
-webr#:#webr_edit_links#:#Muuda linke
-webr#:#webr_edit_list#:#Muuda veebiressursside nimestikku
-webr#:#webr_edit_settings#:#Muuda seadeid
-webr#:#webr_import#:#Impordi veebilink
-webr#:#webr_inactive_success#:#Valitud link on muudetud inaktiivseks
-webr#:#webr_link_added#:#Uus link on loodud
-webr#:#webr_link_target#:#Aadress
-webr#:#webr_link_title#:#Lingi nimi
-webr#:#webr_link_type_list#:#Weblink List###29 07 2022 new variable
-webr#:#webr_link_type_single#:#Single Weblink###29 07 2022 new variable
-webr#:#webr_list_added#:#A new weblink list has been created.###29 07 2022 new variable
-webr#:#webr_list_desc#:#Veebiressursside nimestiku kirjeldus
-webr#:#webr_list_set#:#The weblink has been set to a weblink list.###29 07 2022 new variable
-webr#:#webr_list_title#:#Veebiressursside nimestiku pealkiri
-webr#:#webr_new#:#Create Weblink###29 10 2025 new variable
-webr#:#webr_new_link#:#Lisa uus link
-webr#:#webr_new_list#:#Add New Weblink List###29 07 2022 new variable
-webr#:#webr_new_list_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###29 07 2022 new variable
-webr#:#webr_set_to_list#:#Set to Weblink List###29 07 2022 new variable
-webr#:#webr_sort_manual#:#Sordi käsitsi
-webr#:#webr_sort_title#:#Sordi nime järgi
-webr#:#webr_sorting#:#Lingi sortimine
 wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages
 wiki#:#wiki_activate_page_rating#:#Activate Rating

@@ -11862,33 +11862,6 @@ survey#:#vertical#:#垂直
 survey#:#warning_question_not_complete#:#質問設定が不完全です!
 survey#:#workingtime#:#所要時間
 violation#:#not_a_string#:#入力の値がストリングではありません。
-webr#:#invalid_links_tbl#:#不正なリンク
-webr#:#webr_active#:#アクティブ
-webr#:#webr_container_info#:#レポジトリ内のこのWebリンクの説明用にタイトルとオプションとして説明を入力してください。
-webr#:#webr_copy#:#Weblinkをコピー
-webr#:#webr_deactivate#:#Webリンク　アクティブ不可
-webr#:#webr_edit_links#:#Webリンクを編集
-webr#:#webr_edit_list#:#Webリンクを編集
-webr#:#webr_edit_settings#:#設定変更
-webr#:#webr_import#:#Weblinkをインポート
-webr#:#webr_inactive_success#:#選んだリンクはアクティブ不可にされます。
-webr#:#webr_link_added#:#新しいリンクが作成されました。
-webr#:#webr_link_target#:#Webリンクターゲット
-webr#:#webr_link_title#:#Webリンク名
-webr#:#webr_link_type_list#:#Weblink List
-webr#:#webr_link_type_single#:#Single Weblink
-webr#:#webr_list_added#:#新しいweblink listが作成されました。
-webr#:#webr_list_desc#:#Webリンクリストの説明
-webr#:#webr_list_set#:#weblinkが」weblink listへ設定されました。
-webr#:#webr_list_title#:#Webリンクリストのタイトル
-webr#:#webr_new#:#Webリンクを作成
-webr#:#webr_new_link#:#新しいWebリンクのタイトル
-webr#:#webr_new_list#:#新しいWeblink Listを追加
-webr#:#webr_new_list_info#:#リポジトリ内のこのWeblink Listのプレゼンテーション用にタイトルとオプションの説明を入力してください。
-webr#:#webr_set_to_list#:#Weblink Listを設定
-webr#:#webr_sort_manual#:#手動で並び替え
-webr#:#webr_sort_title#:#アルファベット順のタイトルで並び替え
-webr#:#webr_sorting#:#Webリンクで並び替え
 wiki#:#wiki_activate_extended_rating#:#評価カテゴリを有効化
 wiki#:#wiki_activate_new_page_rating#:#新しいページの評価を有効化
 wiki#:#wiki_activate_page_rating#:#評価を有効
