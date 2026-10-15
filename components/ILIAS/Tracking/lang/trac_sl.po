@@ -1,0 +1,821 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when 'passed' or 'completed'"
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "Najpoznejša registracija"
+
+msgid "create_date_min"
+msgstr "Najzgodnejša registracija"
+
+msgid "info_valid_request"
+msgstr "Če se znotraj tega obdobja zgodita dve poizvedbi enega uporabnika, potem se ustrezno obdobje oceni kot 'aktivno'."
+
+msgid "meta_typical_learning_time"
+msgstr "Tipičen čas učenja"
+
+msgid "obj_types"
+msgstr "Tipi objektov"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Povprečni ogledi strani"
+
+msgid "registration_filter"
+msgstr "Datum registracije"
+
+msgid "search_area_info"
+msgstr "Izberite objekt."
+
+msgid "search_terms"
+msgstr "Iskalni pojem/pojmi"
+
+msgid "session_statistics"
+msgstr "Statistika seje"
+
+msgid "trac_aggregation"
+msgstr "Združevanje"
+
+msgid "trac_all"
+msgstr "Vsi"
+
+msgid "trac_anonymized"
+msgstr "Anonimizacija podatkov"
+
+msgid "trac_anonymized_info"
+msgstr "Če je aktivirano, ne bodo prikazani nobeni osebni podatki"
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonimizirano)"
+
+msgid "trac_assigned"
+msgstr "Izbrano"
+
+msgid "trac_average"
+msgstr "Povprečje"
+
+msgid "trac_begin_at"
+msgstr "Začetni datum"
+
+msgid "trac_closed_expire"
+msgstr "Čas je potekel"
+
+msgid "trac_closed_login"
+msgstr "Anonimna prijava"
+
+msgid "trac_closed_manual"
+msgstr "Odjava"
+
+msgid "trac_closed_misc"
+msgstr "Ostalo"
+
+msgid "trac_collection_assign"
+msgstr "Izberi za določanje učnega napredka"
+
+msgid "trac_collection_deassign"
+msgstr "Razveljavi izbiro"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Spremenjeno dne"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "Učni napredek za ta objekt je treba nastaviti ročno."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Aktivirajte vsa poglavja, ki ste jih zaključili."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "Učni napredek za ta objekt temelji na običajnem času učenja."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "Do sedaj ste zbrali %s od zahtevanih %s (%s%%)."
+
+msgid "trac_comment"
+msgstr "Komentar"
+
+msgid "trac_completed"
+msgstr "Urejeno"
+
+msgid "trac_cron_info"
+msgstr "Za zbiranje podatkov aktivirajte cron job \"Statistika objektov\"."
+
+msgid "trac_crs_objects"
+msgstr "Uporabnik"
+
+msgid "trac_current"
+msgstr "Trenutno"
+
+msgid "trac_current_system_load"
+msgstr "Aktualna obremenitev sistema"
+
+msgid "trac_data_deleted"
+msgstr "Podatki so bili izbrisani."
+
+msgid "trac_defaults"
+msgstr "Status urejanja"
+
+msgid "trac_defaults_inactive"
+msgstr "Neaktiven"
+
+msgid "trac_defaults_info"
+msgstr "Določi način za ugotavljanje statusa urejanja za podprte tipe objektov. Uporabljajo ga značke in certifikati."
+
+msgid "trac_delete_data"
+msgstr "Izbriši podatke"
+
+msgid "trac_determines_learning_progress"
+msgstr "Določa učni napredek"
+
+msgid "trac_edit_collection"
+msgstr "Zdaj izberite gradivo, na podlagi katerega bo določen učni napredek."
+
+msgid "trac_end_at"
+msgstr "Končni datum"
+
+msgid "trac_failed"
+msgstr "Ni opravljeno"
+
+msgid "trac_figure"
+msgstr "Indikator"
+
+msgid "trac_filter_area"
+msgstr "Področje"
+
+msgid "trac_filter_has_status"
+msgstr "Prikaži tudi objekte s statusom 'Še ni začel'"
+
+msgid "trac_filter_hidden"
+msgstr "skrito"
+
+msgid "trac_first_access"
+msgstr "Prvi dostop"
+
+msgid "trac_first_and_last_access"
+msgstr "Prvi in zadnji dostop"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Ustvari skupine z izbirnim gradivom"
+
+msgid "trac_group_materials_save"
+msgstr "Shrani število obveznega gradiva"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "Število obveznega gradiva mora biti večje od 0 in manjše od števila gradiva, ki je bilo dodeljeno tej skupini."
+
+msgid "trac_hide"
+msgstr "Skrij"
+
+msgid "trac_hide_selected"
+msgstr "Skrij izbrane vsebine"
+
+msgid "trac_in_progress"
+msgstr "V urejanju"
+
+msgid "trac_info_edited"
+msgstr "Če menite, da ste uredili vse vsebine, lahko tukaj spremenite status svojega učnega napredka."
+
+msgid "trac_last_access"
+msgstr "Zadnji dostop"
+
+msgid "trac_last_aggregation"
+msgstr "Stanje"
+
+msgid "trac_learning_progress"
+msgstr "Učni napredek"
+
+msgid "trac_learning_progress_of"
+msgstr "Učni napredek %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Aktiviraj napredne podatke"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ je bil zaključen."
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ je bil zaključen v $2$."
+
+msgid "trac_log_info"
+msgstr "Zadnje združevanje: %s (neobdelani podatkovni zapisi: %s)"
+
+msgid "trac_log_info_link"
+msgstr "Posodobi"
+
+msgid "trac_long_system_load"
+msgstr "Dolgoročna zgodovina"
+
+msgid "trac_lp_determination"
+msgstr "Ugotavljanje učnega napredka"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Izbor gradiva, s pomočjo katerega se ugotovi skupni status."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Izberite objekte, ki bodo vplivali na določanje učnega napredka."
+
+msgid "trac_lp_determination_info_mob"
+msgstr "Izberite medijske objekte, na podlagi katerih bo ugotovljen skupni status predvajanja medijskih vsebin."
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Izbor SCOx, s pomočjo katerih se ugotovi skupni status modula SCORM."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Izbor objektov, ki določajo učni napredek"
+
+msgid "trac_lp_learner_access"
+msgstr "Poglej lastni učni napredek"
+
+msgid "trac_lp_learner_access_info"
+msgstr "Če je aktivirano, imajo uporabniki vpogled v lastni učni napredek."
+
+msgid "trac_lp_list_gui"
+msgstr "Nadzorna plošča, magazin, iskanje"
+
+msgid "trac_lp_list_gui_info"
+msgstr "Če je aktivirano, je status učnega napredka prikazan v seznamih objektov."
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Učni napredek nadrejenih objektov"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "Na status učnega napredka objekta vpliva \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Prikaži v učnem napredku"
+
+msgid "trac_manual_is_displayed"
+msgstr "Določa učni napredek"
+
+msgid "trac_manual_no_display"
+msgstr "Ne prikaži v učnem napredku"
+
+msgid "trac_mark"
+msgstr "Ocena"
+
+msgid "trac_matrix"
+msgstr "Matrični pogled"
+
+msgid "trac_measure"
+msgstr "Indikator"
+
+msgid "trac_members_short"
+msgstr "Udeleženci"
+
+msgid "trac_min_passed"
+msgstr "Minimalno število pri obstoječem gradivu:"
+
+msgid "trac_mode"
+msgstr "Način učnega napredka"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Status se določi na podlagi izbire objektov"
+
+msgid "trac_mode_collection_info"
+msgstr "Status učnega napredka objekta se samodejno določi s statusom izbranih objektov. <br/>Po shranjevanju te nastavitve lahko na tej strani izberete želene objekte."
+
+msgid "trac_mode_collection_manual"
+msgstr "Uporabnik sam odloča o stanju učnega napredka v posameznem poglavju."
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Uporabniki sami odločijo, kdaj so uspešno predelali poglavje učnega modula. Takoj po zaključenem urejanju poglavja v zavihku 'Info' nastavijo status tega poglavja na 'Urejeno'.<br/>Po shranjevanju teh nastavitev lahko na tej strani izberete poglavja za učni napredek."
+
+msgid "trac_mode_collection_mobs"
+msgstr "Izbor medijskih objektov"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "Učni napredek se samodejno ugotovi iz števila opazovanih medijskih objektov."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Minimalno trajanje učenja na poglavje"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Status uporabnika se nastavi samodejno glede na čas, ki ga uporabnik porabi za urejanje poglavja. Status poglavja 'Urejeno' se dodeli, ko je presežen 'Tipičen čas učenja' vseh poglavij, ki so pomembna za učni napredek. <br/>Po shranjevanju teh nastavitev lahko na tej strani izberete poglavja in za njih določite 'Tipičen čas učenja'."
+
+msgid "trac_mode_content_visited"
+msgstr "Obisk"
+
+msgid "trac_mode_content_visited_info"
+msgstr "Učno stanje se določi preko dostavljanja vsebine."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "Učni napredek je onemogočen"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "Status učnega napredka se ne prikaže in ne vpliva na nadrejene objekte."
+
+msgid "trac_mode_event"
+msgstr "Mentorji evidentirajo udeležbo"
+
+msgid "trac_mode_event_info"
+msgstr "Mentorji preverijo, kateri udeleženci so se udeležili seje in udeležbo ročno evidentirajo v zavihku 'Upravljanje udeleženca seje'."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Mentor odloča o statusu"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Mentorji na podlagi oddaj odločijo, ali so udeleženci rešili vajo. Mentorji ročno nastavijo status na 'Urejeno' ali 'Ni opravljeno'."
+
+msgid "trac_mode_individual_assessment"
+msgstr "Individualna ocena s strani mentorja/trenerja"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "Na koncu mora biti udeleženec ocenjen, da se zanj lahko določi učni napredek."
+
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "Uporabnik sam odloča o statusu učnega napredka za celoten objekt."
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Mentor odloča o statusu učnega napredka"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Mentorji odločajo, ali so udeleženci uspešno uredili objekt. Mentorji ročno nastavijo status na 'Urejeno' ali 'Ni opravljeno'."
+
+msgid "trac_mode_manual_info"
+msgstr "Uporabniki sami odločijo, kdaj so objekt uspešno predelali. Takoj po zaključenem urejanju v zavihku 'Info' nastavijo status na 'Urejeno'."
+
+msgid "trac_mode_objectives"
+msgstr "Učni cilji"
+
+msgid "trac_mode_objectives_info"
+msgstr "Učni napredek se samodejno ugotovi iz števila izpolnjenih učnih ciljev."
+
+msgid "trac_mode_plugin"
+msgstr "Vtičnik"
+
+msgid "trac_mode_questions"
+msgstr "Vsa vprašanja so pravilno odgovorjena"
+
+msgid "trac_mode_questions_info"
+msgstr "Uporabniki, ki so pravilno odgovorili na vsa vprašanja, bodo samodejno prejeli status 'Urejeno'. To nastavitev uporabite le, če so v učnem modulu dejansko vprašanja."
+
+msgid "trac_mode_scorm"
+msgstr "Status se določi na podlagi izbora poglavij SCORM (po SCO)."
+
+msgid "trac_mode_scorm_info"
+msgstr "Status učnega napredka celotnega učnega modula bo samodejno določen s statusom izbranih poglavij (SCO-jev). <br/>Po shranjevanju teh nastavitev lahko na tej strani izberete želene SCO-je."
+
+msgid "trac_mode_scorm_package"
+msgstr "Status določi paket SCORM (celoten učni modul)"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "Status uporabnika bo samodejno nastavljen na ‘Urejeno', ko bo predelan celoten učni modul. Vsi SCO-ji, ki jih vsebuje paket, bodo upoštevani pri učnem napredku."
+
+msgid "trac_mode_study_programme"
+msgstr "Študijski program je zaključen"
+
+msgid "trac_mode_survey_finished"
+msgstr "Anketa je zaključena"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "Anketo je treba zaključiti."
+
+msgid "trac_mode_test_finished"
+msgstr "Uporabniki morajo zaključiti test"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Status uporabnika bo samodejno nastavljen na ‘Urejeno', ko uporabnik klikne na 'Zaključi test'.  Pri tem je vseeno, ali je uporabnik test opravil ali ne."
+
+msgid "trac_mode_test_passed"
+msgstr "Uporabniki morajo opraviti test"
+
+msgid "trac_mode_test_passed_info"
+msgstr "Status uporabnika bo samodejno nastavljen na 'Urejeno', ko uporabnik opravi test. V zavihku 'Nastavitve' se lahko v razdelku 'Shema ocenjevanja' določijo mejne vrednosti za opravljanje testa."
+
+msgid "trac_mode_tlt"
+msgstr "Minimalno trajanje učenja za celoten učni modul"
+
+msgid "trac_mode_tlt_info"
+msgstr "Status uporabnika bo samodejno nastavljen glede na čas, ki ga uporabnik porabi za urejanje učnega modula. Status 'Urejeno' se podeli, takoj ko je presežen 'Tipičen čas učenja'. <br/>'Tipičen čas učenja' za učni modul se določi v zavihku 'Metapodatki'."
+
+msgid "trac_mode_visited_pages"
+msgstr "Obiskane strani"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "Uporabniki, ki so obiskali vse strani učnega modula, samodejno prejmejo status 'Urejeno'."
+
+msgid "trac_mode_visits"
+msgstr "Status se določi s pomočjo števila obiskov strani"
+
+msgid "trac_mode_visits_info"
+msgstr "Status uporabnika bo samodejno nastavljen na 'Urejeno', ko bo ta uporabnik večkrat obiskal učni modul kot zahteva minimalno število obiskov strani. Uporabnikom se prikaže število obiskov strani in v kolikšnem odstotku izpolnjujejo minimalne zahteve."
+
+msgid "trac_name_of_installation"
+msgstr "Ime namestitve"
+
+msgid "trac_no_attempted"
+msgstr "Še ni urejeno"
+
+msgid "trac_not_accessed"
+msgstr "Ni še bilo dostopa"
+
+msgid "trac_not_assigned"
+msgstr "Ni izbrano"
+
+msgid "trac_not_attempted"
+msgstr "Se še ni začelo"
+
+msgid "trac_not_completed"
+msgstr "Ni urejeno"
+
+msgid "trac_not_participated"
+msgstr "Se ni udeležil"
+
+msgid "trac_not_registered"
+msgstr "Ni prijavljen"
+
+msgid "trac_object_link"
+msgstr "Povezava do objekta"
+
+msgid "trac_object_name"
+msgstr "Ime objekta"
+
+msgid "trac_object_owner"
+msgstr "Imetnik objekta"
+
+msgid "trac_object_stat_access"
+msgstr "Intenzivnost uporabe"
+
+msgid "trac_object_stat_admin"
+msgstr "Upravljanje podatkov"
+
+msgid "trac_object_stat_daily"
+msgstr "Potek dneva"
+
+msgid "trac_object_stat_lp"
+msgstr "Tečaj statistika učnega stanja"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Maks."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Število objektov"
+
+msgid "trac_object_statistics"
+msgstr "Statistika objekta"
+
+msgid "trac_object_statistics_info"
+msgstr "Če je aktivirano, se zbirajo podatki za statistiko dostopa."
+
+msgid "trac_objects"
+msgstr "Uporabnik"
+
+msgid "trac_others"
+msgstr "Ostalo"
+
+msgid "trac_participants"
+msgstr "Prikaži udeleženca"
+
+msgid "trac_participated"
+msgstr "Se je udeležil"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "Odstotek"
+
+msgid "trac_periodic_system_load"
+msgstr "Periodičen prikaz obremenitve"
+
+msgid "trac_progress"
+msgstr "Osebni učni napredek"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Dostopi"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Čas urejanja / dostopi"
+
+msgid "trac_reference"
+msgstr "Reference"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Prijavljen"
+
+msgid "trac_release_materials"
+msgstr "Razveljavi združevanje z izbirnim gradivom"
+
+msgid "trac_report_date"
+msgstr "Datum poročila"
+
+msgid "trac_report_owner"
+msgstr "Avtor poročila"
+
+msgid "trac_required_visits"
+msgstr "Število potrebnih obiskov"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCO-ji"
+
+msgid "trac_scale"
+msgstr "Scale"
+
+msgid "trac_select_area"
+msgstr "Spremeni področje"
+
+msgid "trac_session_active_avg"
+msgstr "Aktivne seje (povprečno)"
+
+msgid "trac_session_active_max"
+msgstr "Aktivne seje (maksimum)"
+
+msgid "trac_session_active_min"
+msgstr "Aktivne seje (minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Dan"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Zadnjih 24 ur"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Zadnjih 30 dni"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Zadnjih 7 dni"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Mesec"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Danes"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Teden"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Leto"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Za to statistiko ni nobenih podatkov."
+
+msgid "trac_sessions_closed"
+msgstr "Odhodi"
+
+msgid "trac_sessions_opened"
+msgstr "Prihodi"
+
+msgid "trac_settings"
+msgstr "Nastavitve"
+
+msgid "trac_settings_saved"
+msgstr "Nastavitve so bile shranjene."
+
+msgid "trac_short_system_load"
+msgstr "Kratkoročna zgodovina"
+
+msgid "trac_show_graph"
+msgstr "Prikaži kot diagram"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Prikaži število dostopov"
+
+msgid "trac_show_repository_views_info"
+msgstr "Če je vklopljeno, se na strani z informacijami prikaže število dostopov."
+
+msgid "trac_spent_seconds"
+msgstr "Čas"
+
+msgid "trac_spent_time"
+msgstr "Skupen čas urejanja"
+
+msgid "trac_status"
+msgstr "Status"
+
+msgid "trac_status_changed"
+msgstr "Zadnja sprememba statusa"
+
+msgid "trac_subitems"
+msgstr "Prikaži podobjekte"
+
+msgid "trac_sum"
+msgstr "Vsota"
+
+msgid "trac_summary"
+msgstr "Povzetek"
+
+msgid "trac_sure_delete_data"
+msgstr "Ali res želite izbrisati podatke za naslednje mesece? S tem boste odstranili naslednje statistike za to obdobje: Intenzivnost uporabe, dnevni potek, statistika učnega stanja in število objektov."
+
+msgid "trac_sync_obj_stats"
+msgstr "Posodobi podatke"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Podatki so bili posodobljeni."
+
+msgid "trac_sync_session_stats"
+msgstr "Združi podatke"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Podatki so bili uspešno združeni."
+
+msgid "trac_time_passed"
+msgstr "Čas urejanja je presežen"
+
+msgid "trac_title"
+msgstr "Naslov"
+
+msgid "trac_title_description"
+msgstr "Naslov / opis"
+
+msgid "trac_total_online"
+msgstr "Skupni čas na spletu"
+
+msgid "trac_trash"
+msgstr "od tega v košu"
+
+msgid "trac_update_edit_user"
+msgstr "Spremembe so bile prevzete"
+
+msgid "trac_updated_status"
+msgstr "Status je bil posodobljen."
+
+msgid "trac_user_data"
+msgstr "Uporabniški podatki"
+
+msgid "trac_valid_request"
+msgstr "Maksimalni čas med poizvedbami"
+
+msgid "trac_view_crs"
+msgstr "Na pregled tečajev"
+
+msgid "trac_view_list"
+msgstr "Na pregled"
+
+msgid "trac_view_mode"
+msgstr "Način prikaza"
+
+msgid "trac_view_mode_all"
+msgstr "Vsi objekti"
+
+msgid "trac_view_mode_collection"
+msgstr "Samo objekti, ki določajo skupen status"
+
+msgid "trac_visits"
+msgstr "Minimalno število obiskov"
+
+msgid "trac_visits_info"
+msgstr "Obisk se šteje kot nov obisk šele po %s sekundah."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "Število uporabnikov"
+
+msgid "view_mode"
+msgstr "Način prikaza"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"
