@@ -8126,26 +8126,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
-itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
-itgr#:#itgr_assigned_materials#:#Atanan Malzemeleri
-itgr#:#itgr_assignment#:#Atama
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-itgr#:#itgr_edit#:#Öğe Düzenleme Grupları
-itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
-itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
-itgr#:#itgr_item#:#Ürün
-itgr#:#itgr_list#:#List###29 07 2022 new variable
-itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
-itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
-itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
-itgr#:#itgr_materials#:#Malzemeler
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
-itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
-itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable

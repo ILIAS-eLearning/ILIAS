@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: itgr\n"
+
+msgid "itgr_always_open"
+msgstr "Immer offen"
+
+msgid "itgr_assign"
+msgstr "Zuordnen"
+
+msgid "itgr_assign_materials"
+msgstr "Objekte auswählen"
+
+msgid "itgr_assigned_first"
+msgstr "Zugewiesene zuerst"
+
+msgid "itgr_assigned_materials"
+msgstr "Objekte im Objekteblock"
+
+msgid "itgr_assignment"
+msgstr "Eingebunden in diesem Objekteblock"
+
+msgid "itgr_assignment_to_other_itgr"
+msgstr "Bereits einem anderen Objekteblock zugeordnet"
+
+msgid "itgr_behaviour"
+msgstr "Verhalten"
+
+msgid "itgr_behaviour_info"
+msgstr "Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout)."
+
+msgid "itgr_create_and_assign_object"
+msgstr "Objekt erstellen und zuweisen"
+
+msgid "itgr_desc_info"
+msgstr "Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben."
+
+msgid "itgr_display"
+msgstr "Anzeige"
+
+msgid "itgr_display_with_title"
+msgstr "Mit Titel"
+
+msgid "itgr_display_with_title_and_toggleable"
+msgstr "Mit Titel, Objekteblock ein- und ausklappbar"
+
+msgid "itgr_display_with_title_and_toggleable_initially"
+msgstr "Ausgangszustand"
+
+msgid "itgr_display_with_title_and_toggleable_initially_closed"
+msgstr "zunächst geschlossen"
+
+msgid "itgr_display_with_title_and_toggleable_initially_open"
+msgstr "zunächst geöffnet"
+
+msgid "itgr_display_without_title"
+msgstr "Ohne Titel"
+
+msgid "itgr_edit"
+msgstr "Einstellungen des Objekteblocks"
+
+msgid "itgr_expandable_closed"
+msgstr "Ausklappbar (zunächst geschlossen)"
+
+msgid "itgr_expandable_open"
+msgstr "Ausklappbar (zunächst geöffnet)"
+
+msgid "itgr_item"
+msgstr "Objekte, die eingebunden werden können"
+
+msgid "itgr_list"
+msgstr "Liste"
+
+msgid "itgr_list_default"
+msgstr "Standard"
+
+msgid "itgr_list_default_info"
+msgstr "Übernimmt die Einstellung des übergeordneten Containers."
+
+msgid "itgr_list_presentation"
+msgstr "Präsentationsansicht für Inhalte"
+
+msgid "itgr_materials"
+msgstr "Objekte"
+
+msgid "itgr_organise_objects"
+msgstr "Objekte verwalten"
+
+msgid "itgr_tile"
+msgstr "Kacheln"
+
+msgid "itgr_tile_size"
+msgstr "Kachelgröße"
+
+msgid "itgr_unassign"
+msgstr "Zuordnung aufheben"
+
+msgid "itgr_unassigned_first"
+msgstr "Nicht zugewiesene zuerst"

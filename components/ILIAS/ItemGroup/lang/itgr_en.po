@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: itgr\n"
+
+msgid "itgr_always_open"
+msgstr "Always Open"
+
+msgid "itgr_assign"
+msgstr "Assign"
+
+msgid "itgr_assign_materials"
+msgstr "Organize Objects"
+
+msgid "itgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "itgr_assigned_materials"
+msgstr "Assigned Objects"
+
+msgid "itgr_assignment"
+msgstr "Assigned to this Object Group"
+
+msgid "itgr_assignment_to_other_itgr"
+msgstr "Already assigned to another Object Group"
+
+msgid "itgr_behaviour"
+msgstr "Block Behaviour"
+
+msgid "itgr_behaviour_info"
+msgstr "The system will store the opened/closed state for the current user until logout."
+
+msgid "itgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "itgr_desc_info"
+msgstr "The description will not be a part of the item group's presentation in its container."
+
+msgid "itgr_display"
+msgstr "Display"
+
+msgid "itgr_display_with_title"
+msgstr "With Title"
+
+msgid "itgr_display_with_title_and_toggleable"
+msgstr "With Title, Item Group collapsible"
+
+msgid "itgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+msgid "itgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+msgid "itgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+msgid "itgr_display_without_title"
+msgstr "Without Title"
+
+msgid "itgr_edit"
+msgstr "Edit Object Groups"
+
+msgid "itgr_expandable_closed"
+msgstr "Expandable (initially closed)"
+
+msgid "itgr_expandable_open"
+msgstr "Expandable (initially opened)"
+
+msgid "itgr_item"
+msgstr "Item"
+
+msgid "itgr_list"
+msgstr "List"
+
+msgid "itgr_list_default"
+msgstr "Default"
+
+msgid "itgr_list_default_info"
+msgstr "Inherits value from upper container."
+
+msgid "itgr_list_presentation"
+msgstr "Item Presentation"
+
+msgid "itgr_materials"
+msgstr "Materials"
+
+msgid "itgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "itgr_tile"
+msgstr "Tiles"
+
+msgid "itgr_tile_size"
+msgstr "Tile Size"
+
+msgid "itgr_unassign"
+msgstr "Unassign"
+
+msgid "itgr_unassigned_first"
+msgstr "Unassigned First"

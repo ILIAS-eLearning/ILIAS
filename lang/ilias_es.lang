@@ -8147,26 +8147,6 @@ irss#:#title_manage_container#:#Gestionar archivos y carpetas
 irss#:#type#:#Tipo de archivo
 irss#:#upload_field_title#:#Archivos seleccionados
 irss#:#upload_modal_title#:#Añadir archivos
-itgr#:#itgr_always_open#:#Siempre abierto
-itgr#:#itgr_assign_materials#:#Asignar materiales
-itgr#:#itgr_assigned_materials#:#Materiales asignados
-itgr#:#itgr_assignment#:#Asignado
-itgr#:#itgr_behaviour#:#Comportamiento del bloque
-itgr#:#itgr_behaviour_info#:#El sistema almacenará el estado abierto/cerrado para el usuario actual hasta que cierre la sesión.
-itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de elementos en su contenedor.
-itgr#:#itgr_edit#:#Editar grupos de elementos
-itgr#:#itgr_expandable_closed#:#Expandible (inicialmente cerrado)
-itgr#:#itgr_expandable_open#:#Expandible (inicialmente abierto)
-itgr#:#itgr_item#:#Elemento
-itgr#:#itgr_list#:#Lista
-itgr#:#itgr_list_default#:#Predeterminado
-itgr#:#itgr_list_default_info#:#Hereda el valor del contenedor superior.
-itgr#:#itgr_list_presentation#:#Presentación de elementos
-itgr#:#itgr_materials#:#Materiales
-itgr#:#itgr_show_title#:#Mostrar título
-itgr#:#itgr_show_title_info#:#Muestra el título del grupo de elementos en la presentación para el alumno.
-itgr#:#itgr_tile#:#Mosaicos
-itgr#:#itgr_tile_size#:#Tamaño del mosaico
 lm#:#lm_btn_lp_toggle_state_completed#:#Establecer como No completado
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Establecer como Completado
 lm#:#lm_copy#:#Copiar módulo de aprendizaje

@@ -8126,26 +8126,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###21 11 2023 new variable
 irss#:#upload_field_title#:#Selected Files###21 11 2023 new variable
 irss#:#upload_modal_title#:#Add Files###21 11 2023 new variable
-itgr#:#itgr_always_open#:#Alltid öppen
-itgr#:#itgr_assign_materials#:#Välj objekt
-itgr#:#itgr_assigned_materials#:#Objekt i objektblocket
-itgr#:#itgr_assignment#:#Integrerad
-itgr#:#itgr_behaviour#:#Beteende
-itgr#:#itgr_behaviour_info#:#Systemet kommer ihåg status (öppen/stängd) för varje användare fram till utloggningen.
-itgr#:#itgr_desc_info#:#Beskrivningen visas inte när objektblocket visas.
-itgr#:#itgr_edit#:#Inställningar för objektblocket
-itgr#:#itgr_expandable_closed#:#Fold-out (ursprungligen stängd)
-itgr#:#itgr_expandable_open#:#Fold-out (inledningsvis öppen)
-itgr#:#itgr_item#:#Objekt som kan inkluderas
-itgr#:#itgr_list#:#Lista
-itgr#:#itgr_list_default#:#Standard
-itgr#:#itgr_list_default_info#:#Tar över inställningarna för den överordnade behållaren.
-itgr#:#itgr_list_presentation#:#Presentationsvy för innehåll
-itgr#:#itgr_materials#:#Objekt
-itgr#:#itgr_show_title#:#Visa titel
-itgr#:#itgr_show_title_info#:#Objektblockets titel visas.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-itgr#:#itgr_tile#:#Kakelplattor
-itgr#:#itgr_tile_size#:#Storlek på kakel
 lm#:#lm_btn_lp_toggle_state_completed#:#Set till "Ej redigerad
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set till "Redigerad
 lm#:#lm_copy#:#Kopiera ILIAS utbildningsmodul
