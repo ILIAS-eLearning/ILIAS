@@ -140,6 +140,18 @@ final class TranslationEntry
         $this->translation->getComments()->add(self::singleLine($comment));
     }
 
+    /** Translator comment (`# `) survives msgmerge, an extracted one (`#.`) is taken from the template. */
+    public function addTranslatorNote(string $note): void
+    {
+        $this->translation->getComments()->add(self::plainLine($note));
+    }
+
+    /** $comment as addTranslatorNote()/addExtractedComment() store it. */
+    public static function plainComment(string $comment): string
+    {
+        return self::plainLine($comment);
+    }
+
     public function removeTranslatorCommentsStartingWith(string $prefix): void
     {
         $comments = $this->translation->getComments();
@@ -212,10 +224,9 @@ final class TranslationEntry
     }
 
     /**
-     * singleLine() for an extracted comment (`#.`), which is shown to translators and may come from an
-     * administrator's remark (see ShippedPoMerger): also control characters, line/paragraph separators and
-     * bidirectional embedding/override/isolate characters (could make it read differently) become a space.
-     * Translator comments keep only singleLine(): they carry values that must stay byte-identical
+     * singleLine() for an extracted comment (`#.`) or a translator note, possibly an administrator's remark: also
+     * control characters, line/paragraph separators and bidirectional characters become a space.
+     * Other translator comments keep only singleLine(): they carry values that must stay byte-identical
      * (LocalChangeComments "original").
      */
     private static function plainLine(string $comment): string

@@ -1090,7 +1090,7 @@ final class MigratedLanguageFileSync
             // LanguageInstallationManager::resolveMigratedModule()
             if ($shipped_entry !== null && ($existing_entry === null || $refresh_original_from_shipped)) {
                 LocalChangeComments::setOriginal($entry, $shipped_entry->getTranslation());
-                $entry->setExtractedComments($shipped_entry->getExtractedComments());
+                $entry->setExtractedComments(self::shippedNotesOf($shipped_entry));
             }
 
             $entry->translate($value);
@@ -1352,7 +1352,7 @@ final class MigratedLanguageFileSync
             foreach ($shipped_forms as $form => $value) {
                 LocalChangeComments::setOriginal($entry, $value, $form);
             }
-            $entry->setExtractedComments($shipped_entry->getExtractedComments());
+            $entry->setExtractedComments(self::shippedNotesOf($shipped_entry));
         }
 
         $entry->setPlural(
@@ -1432,7 +1432,7 @@ final class MigratedLanguageFileSync
 
     /**
      * The entries of $module in the shipped `.po` $shipped_po (see findShippedModuleFiles(); a plural message
-     * as its forms, see the class docblock), with their extracted comments (`#.`, the counterpart of a `.lang`
+     * as its forms, see the class docblock), with their notes (see shippedNotesOf(), the counterpart of a `.lang`
      * file's "###" comment) joined into one line (`null` if none).
      *
      * @return array<string, array{value: string, comment: ?string}> identifier => entry
@@ -1444,7 +1444,7 @@ final class MigratedLanguageFileSync
         $catalog = self::readShippedPo($shipped_po);
         $plural_forms = self::pluralFormsOf($catalog);
         foreach (self::moduleEntries($catalog, $module) as $entry) {
-            $comment = trim(preg_replace('/\s*[\r\n]+\s*/', ' ', implode(' ', $entry->getExtractedComments())) ?? '');
+            $comment = trim(preg_replace('/\s*[\r\n]+\s*/', ' ', implode(' ', self::shippedNotesOf($entry))) ?? '');
             foreach (self::shippedValuesOf($entry, $plural_forms) as $identifier => $value) {
                 $entries[$identifier] = [
                     'value' => $value,
@@ -1457,20 +1457,30 @@ final class MigratedLanguageFileSync
     }
 
     /**
-     * The extracted comments (`#.`) of every entry of $module in the shipped `.po` $shipped_po, each trimmed on
+     * The notes (see shippedNotesOf()) of every entry of $module in the shipped `.po` $shipped_po, each trimmed on
      * its own, by identifier (a plural message under its identifier).
      *
      * @return array<string, list<string>>
      * @throws RuntimeException if the file cannot be read or parsed
      */
-    public static function loadShippedExtractedComments(string $shipped_po, string $module): array
+    public static function loadShippedNotes(string $shipped_po, string $module): array
     {
-        $comments = [];
+        $notes = [];
         foreach (self::moduleEntries(self::readShippedPo($shipped_po), $module) as $identifier => $entry) {
-            $comments[(string) $identifier] = array_values(array_map('trim', $entry->getExtractedComments()));
+            $notes[(string) $identifier] = array_values(array_map('trim', self::shippedNotesOf($entry)));
         }
 
-        return $comments;
+        return $notes;
+    }
+
+    /**
+     * The language's own note (translator comments), else the reference note (extracted comments).
+     *
+     * @return list<string>
+     */
+    public static function shippedNotesOf(TranslationEntry $entry): array
+    {
+        return $entry->getTranslatorComments() ?: $entry->getExtractedComments();
     }
 
     /**

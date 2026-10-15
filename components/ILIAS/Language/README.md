@@ -105,10 +105,12 @@ or updating a language.
   entry without context belongs to the module of its directory, an entry with
   the module as context is read as well, every other context (also
   `msgctxt ""`) is ignored. Only UTF-8 files are accepted.
-* An extracted comment (`#.`) is the counterpart of a `###` comment in a
-  `.lang` file. `#, fuzzy` marks an entry that is not translated yet (it holds
-  the English text); fuzzy entries are served like all others, empty
-  translations are not shipped (`-identifier-`, as before).
+* A `###` comment of a `.lang` file is a note: the reference language's note
+  is an extracted comment (`#.`, also in the `.pot`), a language's own note a
+  translator comment (`# `, kept by `msgmerge`), which wins. `#, fuzzy` marks
+  an entry that is not translated yet (it holds the English text); fuzzy
+  entries are served like all others, empty translations are not shipped
+  (`-identifier-`, as before).
 * The initial files are generated with
   [`tools/po-migration/convert_module_to_po.php`](tools/po-migration/README.md),
   later changes are made in the `.po`/`.pot` files directly. The module has no
@@ -275,7 +277,7 @@ Where the rules apply:
 ### Language Administration
 * The edit table compares with the shipped `.po`. A rejected save shows the
   table again with the input. The remark field of a module maintained in PO
-  files shows the `#.` note of the shipped entry as long as there is no local
+  files shows the note of the shipped entry as long as there is no local
   remark; saving it unchanged writes nothing. Fuzzy entries are marked
   "Not translated" (`lng_not_translated`) in the comment of the default value.
 * Remarks of migrated modules are stored in the overlay (and `lng_data`), one
@@ -296,7 +298,7 @@ Where the rules apply:
 * "merge" (translation mode only, checked on the server) writes the global
   `.lang` file for modules that are not migrated, and the local changes of
   migrated modules into their shipped `.po` (new keys also into the `.pot`;
-  remarks become an additional `#.` line). The previous files are copied to
+  remarks become an additional `# ` line). The previous files are copied to
   `lang/customizing/` (ignored by git), the written files belong to the web
   server user. Values with markup that is not allowed are not taken over. The
   overlay keeps serving the merged values until `php cli/setup.php build` and
@@ -336,7 +338,7 @@ Plugins cannot contribute a `LanguageFileDirectory` yet. A plugin may ship
 `lang/ilias_<lang>.po` instead of `lang/ilias_<lang>.lang` (the `.po` wins if
 both exist): `msgid` is the key without the plugin prefix, entries with a
 `msgctxt` are ignored and logged. The values go into the database as before
-(no build, no overlay), `#.` comments are not stored, plural messages are
+(no build, no overlay), comments are not stored, plural messages are
 stored with their default form (`$n` has no effect for plugins). Values
 of a plugin `.po` with markup that is not allowed are cleaned and logged;
 values of a plugin `.lang` are only logged and taken over unchanged.

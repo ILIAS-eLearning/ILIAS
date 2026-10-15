@@ -443,7 +443,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /**
-     * Remarks (lng_data and overlay) plus, for PO modules without a remark, the `#.` notes and "not translated yet"
+     * Remarks (lng_data and overlay) plus, for PO modules without a remark, the shipped notes and "not translated yet"
      * marker of the shipped .po (see ilObjLanguageExt::_getShippedMigratedComments()).
      *
      * @param list<string> $modules the displayed modules, all if empty

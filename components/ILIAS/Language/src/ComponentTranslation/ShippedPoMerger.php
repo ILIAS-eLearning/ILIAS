@@ -36,9 +36,9 @@ use RuntimeException;
  *   of a plural message is its default form (PluralForms). An entry the shipped `.po` lacks (added locally)
  *   is inserted in id order, also into the template (`.pot`) with an empty msgstr (plural: msgid_plural of
  *   the template or "<identifier>_plural"); the `.po` of other languages stay unchanged;
- * - a remark (LocalChangeComments::setRemark()) becomes an extracted comment (`#.`) of its entry, appended
- *   unless identical, also for an entry that only carries a remark. "original"/"local_change" never go into
- *   a shipped file;
+ * - a remark (LocalChangeComments::setRemark()) becomes a translator comment (`# `, kept by msgmerge) of its
+ *   entry, appended unless identical to one of its notes (MigratedLanguageFileSync::shippedNotesOf()), also
+ *   for an entry that only carries a remark. "original"/"local_change" never go into a shipped file;
  * - a value with disallowed markup (TranslationMarkupPolicy), a plural message that cannot be compiled (empty
  *   msgstr[0] next to other forms, or a plural overlay entry for a singular shipped one) and a new identifier
  *   shaped "<identifier> [<n>]" (it would read as a plural form, see PluralFormKey) are not taken over: they
@@ -56,7 +56,7 @@ use RuntimeException;
  *   build does not serve the written `.po` (see MigratedLanguageFileSync::sync()); a failed marking is
  *   reported and made up for by the next merge. `php cli/setup.php build` and then `update` clean them up
  *   (its three-way reconciliation drops overlay entries equal to the new shipped value and remarks equal to
- *   an extracted comment).
+ *   a comment of the shipped entry).
  *
  * lng_data/lng_modules are not written here (the database belongs to the legacy classes): the caller gets
  * the taken-over identifiers per module, see merge().
@@ -350,7 +350,11 @@ final class ShippedPoMerger
                     // the remark of an entry without value that is not shipped - nothing to put it on
                     continue;
                 }
-                $shipped_entry->addExtractedComment($remark);
+                // as stored: compare the cleaned remark
+                $notes = array_map('trim', MigratedLanguageFileSync::shippedNotesOf($shipped_entry));
+                if (!in_array(trim(TranslationEntry::plainComment($remark)), $notes, true)) {
+                    $shipped_entry->addTranslatorNote($remark);
+                }
                 $outcome['merged_remarks'][] = $identifier;
             }
         }
