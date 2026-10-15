@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Teilnahme an Sitzung"
+
+msgid "il_sess_status_open"
+msgstr "Offene Sitzung"
+
+# Label is now generalised for all components that support ‘mail to members‘
+msgid "mail_sess_roles"
+msgstr "alle Personen mit folgenden lokalen Rollen "
+
+msgid "notification"
+msgstr "Benachrichtigung"
+
+msgid "objs_crs_role"
+msgstr "Kursrollen"
+
+msgid "objs_grp_role"
+msgstr "Gruppenrollen"
+
+msgid "send_mail_participants"
+msgstr "Angemeldet oder teilgenommen"
+
+msgid "sess_accept_request"
+msgstr "Zu Sitzung zulassen"
+
+msgid "sess_assign"
+msgstr "Zuordnen"
+
+msgid "sess_bt_refuse"
+msgstr "Teilnahme absagen"
+
+msgid "sess_change_type"
+msgstr "Sitzungsart ändern"
+
+msgid "sess_contact"
+msgstr "Kontakt"
+
+msgid "sess_copy"
+msgstr "Sitzung kopieren"
+
+msgid "sess_filter_all_types"
+msgstr "Alle Objekttypen"
+
+msgid "sess_filter_not_assigned"
+msgstr "Nicht zugeordnet"
+
+msgid "sess_import"
+msgstr "Sitzung importieren"
+
+msgid "sess_info_new_sess_type"
+msgstr "Neue Sitzungsart"
+
+msgid "sess_is_assigned"
+msgstr "Zugeordnet"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Freie Plätze"
+
+msgid "sess_lp_preset"
+msgstr "Lernfortschritt aktivieren"
+
+msgid "sess_lp_preset_info"
+msgstr "Den Lernfortschritt für alle anzulegenden Sitzungstermine aktivieren."
+
+msgid "sess_mail_admins_only"
+msgstr "Nur für Administration"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Nur Personen mit dem Recht „Mitglieder verwalten“ können die Funktion „Mail an angemeldete Personen” nutzen."
+
+msgid "sess_mail_all"
+msgstr "Für alle"
+
+msgid "sess_mail_all_info"
+msgstr "Alle Personen, die sich angemeldet oder teilgenommen haben, können Mails an die anderen senden."
+
+msgid "sess_mail_context_participant_info"
+msgstr "Mails, die aus dem Reiter „Teilnahmen“ oder „Lernfortschritt“ einer Sitzung  versendet werden"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Sitzung: Mail an Personen, die angemeldet sind oder teilgenommen haben"
+
+msgid "sess_mail_permanent_link"
+msgstr "Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "Sie wurden für die Teilnahme am Sitzungstermin „%s“ zugelassen."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Teilnahme an Sitzung „%s“"
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "Ihr Antrag auf Teilnahme an der Sitzung „%s“ ist abgelehnt worden."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Ablehnung der Teilnahme an Sitzung „%s“"
+
+msgid "sess_mail_type"
+msgstr "Mail an angemeldete Personen"
+
+msgid "sess_material_assigned"
+msgstr "Zugeordnet"
+
+msgid "sess_material_not_assigned"
+msgstr "Nicht zugeordnet"
+
+msgid "sess_max_members_needed"
+msgstr "Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt."
+
+msgid "sess_mem_contacts"
+msgstr "Kontaktperson"
+
+msgid "sess_mem_send_mail"
+msgstr "Mail verschicken"
+
+msgid "sess_mem_tbl_header"
+msgstr "Mitglieder aus %s"
+
+msgid "sess_member_administration"
+msgstr "Verwalten"
+
+msgid "sess_members"
+msgstr "Teilnahmen"
+
+msgid "sess_members_gallery"
+msgstr "Galerie"
+
+msgid "sess_members_print_title"
+msgstr "Teilnahmeliste"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Person wurde für den Sitzungstermin angemeldet."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Antrag abgelehnt und aus der Liste entfernt."
+
+msgid "sess_new"
+msgstr "Neue Sitzung anlegen"
+
+msgid "sess_new_registrations"
+msgstr "Teilnahmeanträge"
+
+msgid "sess_notification_option"
+msgstr "Benachrichtigte Personen"
+
+msgid "sess_notification_option_inherit"
+msgstr "Wie in Kurs oder Gruppe"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "Es werden die gleichen Personen benachrichtigt wie im übergeordneten Objekt."
+
+msgid "sess_notification_option_manual"
+msgstr "Manuell setzen"
+
+msgid "sess_notification_option_manual_info"
+msgstr "Es muss manuell festgelegt werden, wer die Benachrichtigung empfangen soll."
+
+msgid "sess_open"
+msgstr "Sitzung öffnen"
+
+msgid "sess_part_filter_participated"
+msgstr "Nur Teilgenommene"
+
+msgid "sess_part_filter_registered"
+msgstr "Nur Angemeldete"
+
+msgid "sess_part_table_excused"
+msgstr "Abgesagt"
+
+msgid "sess_participation_refused_info"
+msgstr "Ihre Teilnahme an dieser Sitzung wurde abgesagt."
+
+msgid "sess_print_list"
+msgstr "Liste erstellen"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Sie sind in die Warteliste aufgenommen worden."
+
+msgid "sess_reg_cannot_participate"
+msgstr "Teilnahme absagen"
+
+msgid "sess_reg_cannot_participate_info"
+msgstr "Personen haben auf dem „Reiter „Info““ die Möglichkeit, ihre Teilnahme abzusagen."
+
+msgid "sess_reg_direct"
+msgstr "Direkte Anmeldung"
+
+msgid "sess_reg_direct_info"
+msgstr "Personen müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten."
+
+msgid "sess_reg_disabled"
+msgstr "Ohne Anmeldung"
+
+msgid "sess_reg_disabled_info"
+msgstr "Optionen für die Anmeldung zur Sitzung werden nicht angeboten."
+
+msgid "sess_reg_max_members"
+msgstr "Maximale Anzahl"
+
+msgid "sess_reg_max_members_info"
+msgstr "Eine selbständige Anmeldung über diese Anzahl hinaus ist nicht möglich. Personen mit dem Recht „Mitglieder verwalten“ können weiterhin Personen eintragen."
+
+msgid "sess_reg_max_members_short"
+msgstr "Anzahl der Selbstanmeldungen begrenzen"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Sie können sich nicht anmelden, da alle Plätze bereits belegt sind."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Alle Plätze sind belegt. Sie können sich jedoch in die Warteliste eintragen."
+
+msgid "sess_reg_request"
+msgstr "Teilnahme beantragen"
+
+msgid "sess_reg_request_info"
+msgstr "Eine Teilnahme an der Sitzung erfordert die Zustimmung durch eine Person mit dem Recht „Mitglieder verwalten“."
+
+msgid "sess_reg_tutor"
+msgstr "Keine Selbstanmeldung möglich"
+
+msgid "sess_reg_tutor_info"
+msgstr "Nur Personen mit dem Recht „Mitglieder verwalten“ können Personen zur Sitzung anmelden."
+
+msgid "sess_reg_type"
+msgstr "Anmeldeverfahren"
+
+msgid "sess_reg_waiting_list"
+msgstr "Warteliste"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "Mit automatischem Aufrücken"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "Personen auf der Warteliste rücken bei Stornierungen automatisch nach. Achtung: Diese Einstellung nicht in Verbindung mit dem Anmeldeverfahren „Teilnahme beantragen“ benutzen, da die Bestätigung sonst umgangen wird."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Ohne automatisches Aufrücken"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Ist die maximale Anzahl erreicht, landen weitere Personen auf einer Warteliste."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Keine"
+
+msgid "sess_registered_confirm"
+msgstr "Sie wurden für die Sitzung angemeldet. Ihre Anmeldung muss allerdings noch bestätigt werden. Sie werden benachrichtigt, sobald dies erfolgt ist."
+
+msgid "sess_registration_notification"
+msgstr "Benachrichtigung"
+
+msgid "sess_registration_notification_info"
+msgstr "Im Unterreiter „Verwalten“ können Anmeldekonten ausgewählt werden, die über An- oder Abmeldungen benachrichtigt werden."
+
+msgid "sess_section_reg"
+msgstr "Anmeldung durch Benutzer"
+
+msgid "sess_setting_header_presentation"
+msgstr "Darstellung"
+
+msgid "sess_show_participants_info"
+msgstr "Personen, die sich angemeldet oder an der Sitzung teilgenommen haben, sehen einander in der Galerie im Reiter „Teilnahmen“."
+
+msgid "sess_title"
+msgstr "Titel der Sitzung"
+
+msgid "sess_users_added"
+msgstr "Die Benutzer wurden für die Sitzung angemeldet."
+
+msgid "sess_users_already_assigned"
+msgstr "Die Benutzer sind bereits für die Sitzung angemeldet."
+
+msgid "sess_users_removed_from_list"
+msgstr "Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen."
+
+msgid "sess_warn_sess_type_changed"
+msgstr "Sind Sie sicher, dass Sie die Sitzungsart ändern möchten? Die Rechteeinstellungen dieser Sitzung werden überschrieben und an die neue Art der Sitzung angepasst."

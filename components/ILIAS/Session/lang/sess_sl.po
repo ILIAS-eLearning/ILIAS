@@ -1,0 +1,298 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Udeleženec seje"
+
+#, fuzzy
+msgid "il_sess_status_open"
+msgstr "Open Session"
+
+msgid "mail_sess_roles"
+msgstr "Pošlji e-pošto na naslednje vloge v seji"
+
+msgid "notification"
+msgstr "Notification"
+
+msgid "objs_crs_role"
+msgstr "Vloge v tečaju"
+
+msgid "objs_grp_role"
+msgstr "Vloge v skupini"
+
+msgid "send_mail_participants"
+msgstr "Vsi udeleženci seje"
+
+msgid "sess_accept_request"
+msgstr "Sprejmi v sejo"
+
+msgid "sess_assign"
+msgstr "Dodeli"
+
+msgid "sess_bt_refuse"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_change_type"
+msgstr "Change Session Type"
+
+msgid "sess_contact"
+msgstr "Contact"
+
+msgid "sess_copy"
+msgstr "Kopiraj sejo"
+
+msgid "sess_filter_all_types"
+msgstr "Vsi tipi objektov"
+
+msgid "sess_filter_not_assigned"
+msgstr "Ni dodeljen"
+
+msgid "sess_import"
+msgstr "Uvozi sejo"
+
+#, fuzzy
+msgid "sess_info_new_sess_type"
+msgstr "New Session Type"
+
+msgid "sess_is_assigned"
+msgstr "Dodeljen"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Prosta mesta"
+
+msgid "sess_lp_preset"
+msgstr "Aktiviraj učni napredek"
+
+msgid "sess_lp_preset_info"
+msgstr "Aktiviraj učni napredek za vse termine seje, ki jih je treba ustvariti."
+
+msgid "sess_mail_admins_only"
+msgstr "Samo za administratorje"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Samo administratorji lahko uporabljajo funkcijo \"Sporočilo za udeleženca\" v zavihku Udeleženec."
+
+msgid "sess_mail_all"
+msgstr "Za vse udeležence"
+
+msgid "sess_mail_all_info"
+msgstr "Vsi udeleženci lahko uporabljajo funkcijo \"Sporočilo za udeležence\" v zavihku Udeleženci."
+
+msgid "sess_mail_context_participant_info"
+msgstr "Za e-pošto udeležencev v pogledih članov in učnega napredka seje"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Seja: E-pošta udeležencu"
+
+msgid "sess_mail_permanent_link"
+msgstr "Izberite naslednjo povezavo za dostop do vsebine seje:"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "Click on the following link to edit the participants of the session"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "Dovoljena vam je bila udeležba na terminu seje \"%s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Udeležba na seji \"%s\""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "Vaša prošnja za udeležbo na seji \"%s\" je bila zavrnjena."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Zavrnitev udeležbe na seji \"%s\""
+
+msgid "sess_mail_type"
+msgstr "E-pošta udeležencu"
+
+msgid "sess_material_assigned"
+msgstr "Dodeljen"
+
+msgid "sess_material_not_assigned"
+msgstr "Ni dodeljen"
+
+msgid "sess_max_members_needed"
+msgstr "Za čakalni seznam je potrebno maksimalno število članov."
+
+msgid "sess_mem_contacts"
+msgstr "Podpora mentorja"
+
+#, fuzzy
+msgid "sess_mem_send_mail"
+msgstr "Send Mail"
+
+msgid "sess_mem_tbl_header"
+msgstr "Udeleženec seje"
+
+msgid "sess_member_administration"
+msgstr "Upravljanje udeleženca"
+
+msgid "sess_members"
+msgstr "Udeleženec"
+
+msgid "sess_members_gallery"
+msgstr "Galerija udeleženca"
+
+msgid "sess_members_print_title"
+msgstr "Udeleženec seje"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Uporabnik je bil prijavljen na termin seje."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Prošnja zavrnjena in odstranjena s seznama."
+
+#, fuzzy
+msgid "sess_new"
+msgstr "Create Session"
+
+msgid "sess_new_registrations"
+msgstr "Prošnje udeležencev"
+
+msgid "sess_notification_option"
+msgstr "Option"
+
+msgid "sess_notification_option_inherit"
+msgstr "Inherit from Parent"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "Use the parent notification settings (e.g. notification settings from course or group) for members of this session"
+
+msgid "sess_notification_option_manual"
+msgstr "Set manually"
+
+msgid "sess_notification_option_manual_info"
+msgstr "Notification setting for users has to be set manually in tab 'Participants'"
+
+msgid "sess_open"
+msgstr "Odpri sejo"
+
+msgid "sess_part_filter_participated"
+msgstr "Samo sodelujoči udeleženci"
+
+msgid "sess_part_filter_registered"
+msgstr "Samo prijavljeni"
+
+msgid "sess_part_table_excused"
+msgstr "Excused"
+
+msgid "sess_participation_refused_info"
+msgstr "Your participation for this event has been canceled."
+
+msgid "sess_print_list"
+msgstr "Ustvari seznam"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Dodani ste na čakalni seznam."
+
+#, fuzzy
+msgid "sess_reg_cannot_participate"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_reg_cannot_participate_info"
+msgstr "Users can indicate that they cannot participate in the session."
+
+msgid "sess_reg_direct"
+msgstr "Neposredna prijava"
+
+msgid "sess_reg_direct_info"
+msgstr "Uporabniki morajo klikniti na „Prijava“, če želijo sodelovati v tej seji."
+
+msgid "sess_reg_disabled"
+msgstr "Prijava ni potrebna"
+
+msgid "sess_reg_disabled_info"
+msgstr "Za ta termin seje ni potrebna prijava."
+
+msgid "sess_reg_max_members"
+msgstr "Maksimalno število"
+
+msgid "sess_reg_max_members_info"
+msgstr "Če je doseženo maksimalno število udeležencev, prijava ni več mogoča."
+
+msgid "sess_reg_max_members_short"
+msgstr "Omejeno število udeležencev"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Prijava ni mogoča, ker je bilo preseženo maksimalno število udeležencev za ta termin."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Preseženo je maksimalno število udeležencev za ta termin seje. Lahko pa se vpišete na čakalni seznam."
+
+msgid "sess_reg_request"
+msgstr "Zaprosi za udeležbo"
+
+msgid "sess_reg_request_info"
+msgstr "Za udeležbo na seji je potrebna odobritev administratorja."
+
+#, fuzzy
+msgid "sess_reg_tutor"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "sess_reg_tutor_info"
+msgstr "Users cannot register for this session on their own. Only administrators can register users."
+
+msgid "sess_reg_type"
+msgstr "Postopek prijave"
+
+msgid "sess_reg_waiting_list"
+msgstr "Čakalni seznam"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "S samodejnim pomikanjem navzgor"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "V primeru stornacije se udeleženci samodejno premaknejo na čakalnem seznamu. Tega se ne sme uporabiti v postopku prijave \"Zaprosi za udeležbo\", saj se tako izogne potrditvi."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Brez samodejnega pomikanja navzgor"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Če je doseženo maksimalno število udeležencev, se lahko nadaljnji uporabniki vpišejo na čakalni seznam."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Ne obstaja"
+
+msgid "sess_registered_confirm"
+msgstr "Prijavljeni ste na termin seje. Vašo prošnjo mora potrditi administrator. Takoj ko se bo to zgodilo, boste obveščeni."
+
+msgid "sess_registration_notification"
+msgstr "Notification"
+
+msgid "sess_registration_notification_info"
+msgstr "Shows column in tab 'Participants' to select users being notified about new or leaving participants"
+
+msgid "sess_section_reg"
+msgstr "Prijava s strani uporabnika"
+
+msgid "sess_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "sess_show_participants_info"
+msgstr "Vsi udeleženci imajo v zavihku »Udeleženec\" vpogled v galerijo udeleženca."
+
+msgid "sess_title"
+msgstr "Title of Session"
+
+msgid "sess_users_added"
+msgstr "Uporabniki so bili prijavljeni na sejo."
+
+msgid "sess_users_already_assigned"
+msgstr "Uporabniki so že prijavljeni za sejo."
+
+msgid "sess_users_removed_from_list"
+msgstr "Izbrani uporabniki so bili odstranjeni s čakalnega seznama."
+
+#, fuzzy
+msgid "sess_warn_sess_type_changed"
+msgstr "Do you really want to change the session type? All permission settings will be reset."

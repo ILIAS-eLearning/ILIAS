@@ -1,0 +1,290 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Session Participants"
+
+msgid "il_sess_status_open"
+msgstr "Open Session"
+
+msgid "mail_sess_roles"
+msgstr "Send Mail to Session Roles"
+
+msgid "notification"
+msgstr "Notification"
+
+msgid "objs_crs_role"
+msgstr "Rôles du cours"
+
+msgid "objs_grp_role"
+msgstr "Rôles du groupe"
+
+msgid "send_mail_participants"
+msgstr "All Participants of Session"
+
+msgid "sess_accept_request"
+msgstr "Accepter la participation"
+
+msgid "sess_assign"
+msgstr "Assign"
+
+msgid "sess_bt_refuse"
+msgstr "Cannot Participate"
+
+msgid "sess_change_type"
+msgstr "Change Session Type"
+
+msgid "sess_contact"
+msgstr "Contact"
+
+msgid "sess_copy"
+msgstr "Copier Session"
+
+msgid "sess_filter_all_types"
+msgstr "All types"
+
+msgid "sess_filter_not_assigned"
+msgstr "Not Assigned"
+
+msgid "sess_import"
+msgstr "Importer session"
+
+msgid "sess_info_new_sess_type"
+msgstr "New Session Type"
+
+msgid "sess_is_assigned"
+msgstr "is Assigned"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Emplacements libres"
+
+msgid "sess_lp_preset"
+msgstr "Activer la progression d’apprentissage"
+
+msgid "sess_lp_preset_info"
+msgstr "(De-)Actives the learning progress for all session events."
+
+msgid "sess_mail_admins_only"
+msgstr "For Administrators only"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Only administrators can use the feature ‘Mail to Participants’ in the ‘Participants’ tab."
+
+msgid "sess_mail_all"
+msgstr "For all Participants"
+
+msgid "sess_mail_all_info"
+msgstr "All participants can use the feature ‘Mail to Participants’ in the ‘Participants’ tab."
+
+msgid "sess_mail_context_participant_info"
+msgstr "For the participant e-mails on the participants and learning progress screens of a session"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Sitzung: Mail to Participants"
+
+msgid "sess_mail_permanent_link"
+msgstr "Cliquez sur le lien suivant pour trouver toutes les informations dont vous avez besoin au sujet de la session:"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "Click on the following link to edit the participants of the session:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "Vous avez été enregistré pour la session \"%s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Inscription à la session «%s»"
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "Nous sommes au regret de vous informer que votre inscription a été refusée pour la session «%s»."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Inscription refusée pour la session «%s»"
+
+msgid "sess_mail_type"
+msgstr "Mail to Participants"
+
+msgid "sess_material_assigned"
+msgstr "Assigned"
+
+msgid "sess_material_not_assigned"
+msgstr "Not Assigned"
+
+msgid "sess_max_members_needed"
+msgstr "Un nombre maximum de membres est nécessaire pour la fonction de liste d’attente."
+
+msgid "sess_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "sess_mem_send_mail"
+msgstr "Send Mail"
+
+msgid "sess_mem_tbl_header"
+msgstr "Participants à la session"
+
+msgid "sess_member_administration"
+msgstr "Edit Participants"
+
+msgid "sess_members"
+msgstr "Participants"
+
+msgid "sess_members_gallery"
+msgstr "Session Gallery"
+
+msgid "sess_members_print_title"
+msgstr "Participants à la session"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Postulant(s) inscrit(s) à la session."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Postulant(s) supprimé(s) de la liste."
+
+#, fuzzy
+msgid "sess_new"
+msgstr "Create Session"
+
+msgid "sess_new_registrations"
+msgstr "Demande conjointe"
+
+msgid "sess_notification_option"
+msgstr "Option"
+
+msgid "sess_notification_option_inherit"
+msgstr "Inherit from Parent"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "Use the parent notification settings (e.g. notification settings from course or group) for members of this session"
+
+msgid "sess_notification_option_manual"
+msgstr "Set manually"
+
+msgid "sess_notification_option_manual_info"
+msgstr "Notification setting for users has to be set manually in tab 'Participants'"
+
+msgid "sess_open"
+msgstr "Ouvrir session"
+
+msgid "sess_part_filter_participated"
+msgstr "Présents uniquement"
+
+msgid "sess_part_filter_registered"
+msgstr "Inscrits uniquement"
+
+msgid "sess_part_table_excused"
+msgstr "Excused"
+
+msgid "sess_participation_refused_info"
+msgstr "Your participation for this event has been canceled."
+
+msgid "sess_print_list"
+msgstr "Générer liste"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Vous avez été ajouté à  la liste d'attente."
+
+msgid "sess_reg_cannot_participate"
+msgstr "Cannot Participate"
+
+msgid "sess_reg_cannot_participate_info"
+msgstr "Users can indicate that they cannot participate in the session."
+
+msgid "sess_reg_direct"
+msgstr "Direct Registration"
+
+msgid "sess_reg_direct_info"
+msgstr "L'utilisateur doit cliquer sur «Joindre» pour participer à la session"
+
+msgid "sess_reg_disabled"
+msgstr "No Self-enrolment"
+
+msgid "sess_reg_disabled_info"
+msgstr "A registration is not required for this session appointment"
+
+msgid "sess_reg_max_members"
+msgstr "Nombre de membres limité"
+
+msgid "sess_reg_max_members_info"
+msgstr "Define the maximum number of users that can participate to this session."
+
+msgid "sess_reg_max_members_short"
+msgstr "Nombre de membres"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Impossible de s’inscrire car le nombre maximum d’utilisateurs est dépassé."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Le nombre maximum d'utilisateur pour cette session est dépassé."
+
+msgid "sess_reg_request"
+msgstr "Request Membership"
+
+msgid "sess_reg_request_info"
+msgstr "Interested users can send a request/message to administrators."
+
+msgid "sess_reg_tutor"
+msgstr "No Registration Possible"
+
+msgid "sess_reg_tutor_info"
+msgstr "Users cannot register for this session on their own. Only administrators can register users."
+
+msgid "sess_reg_type"
+msgstr " Procédure d’inscription"
+
+msgid "sess_reg_waiting_list"
+msgstr "Liste d’attente"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "Avec Liste d'Attente"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "Les participants sont recrutés automatiquement dans la liste d'attente si annulations."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Sans Liste d'Attente"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Si le nombre maximum d’utilisateurs est dépassé, des nouvelles inscriptions seront placées dans une liste d’attente."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Aucun"
+
+msgid "sess_registered_confirm"
+msgstr "The registration requires a confirmation of an administrator. You will be notified after the registration process is completed."
+
+msgid "sess_registration_notification"
+msgstr "Notification"
+
+msgid "sess_registration_notification_info"
+msgstr "Shows column in tab 'Participants' to select users being notified about new or leaving participants"
+
+msgid "sess_section_reg"
+msgstr "Paramètres d’inscription"
+
+msgid "sess_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "sess_show_participants_info"
+msgstr "If activated, session participants can access the participant gallery"
+
+msgid "sess_title"
+msgstr "Title of Session"
+
+msgid "sess_users_added"
+msgstr "Utilisateurs sélectionnés inscrits à la session."
+
+msgid "sess_users_already_assigned"
+msgstr "L’utilisateur est toujours inscrit à la session."
+
+msgid "sess_users_removed_from_list"
+msgstr "Les utilisateurs sélectionnés ont été supprimés de la liste d’attente."
+
+msgid "sess_warn_sess_type_changed"
+msgstr "Do you really want to change the session type? All permission settings will be reset."

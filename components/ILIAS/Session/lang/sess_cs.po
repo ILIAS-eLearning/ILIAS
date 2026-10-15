@@ -1,0 +1,312 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Účastníci relace"
+
+#, fuzzy
+msgid "il_sess_status_open"
+msgstr "Open Session"
+
+msgid "mail_sess_roles"
+msgstr "Odeslat poštu rolím relace"
+
+#, fuzzy
+msgid "notification"
+msgstr "Notification"
+
+msgid "objs_crs_role"
+msgstr "Role kurzů"
+
+msgid "objs_grp_role"
+msgstr "Role skupiny"
+
+msgid "send_mail_participants"
+msgstr "Všichni účastníci relace"
+
+msgid "sess_accept_request"
+msgstr "Přijmout účast"
+
+msgid "sess_assign"
+msgstr "Přiřadit"
+
+#, fuzzy
+msgid "sess_bt_refuse"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_change_type"
+msgstr "Change Session Type"
+
+msgid "sess_contact"
+msgstr "Kontaktovat"
+
+msgid "sess_copy"
+msgstr "Kopírování relaci"
+
+msgid "sess_filter_all_types"
+msgstr "Všechny typy"
+
+msgid "sess_filter_not_assigned"
+msgstr "Nepřiřazen"
+
+msgid "sess_import"
+msgstr "Importovat sezení"
+
+#, fuzzy
+msgid "sess_info_new_sess_type"
+msgstr "New Session Type"
+
+msgid "sess_is_assigned"
+msgstr "je přiřazen"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Volná místa"
+
+msgid "sess_lp_preset"
+msgstr "Aktivovat výukový postup"
+
+msgid "sess_lp_preset_info"
+msgstr "(De-)aktivovat výukový postu pro všechny události relace."
+
+msgid "sess_mail_admins_only"
+msgstr "Pouze pro správce"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Funkci „Pošta účastníkům“ na kartě „Účastníci“ mohou používat pouze správci."
+
+msgid "sess_mail_all"
+msgstr "Pro všechny účastníky"
+
+msgid "sess_mail_all_info"
+msgstr "Všichni účastníci mohou používat funkci 'Pošta účastníkům' na kartě „Účastníci“."
+
+msgid "sess_mail_context_participant_info"
+msgstr "Pro e-maily účastníků na obrazovkách postupu výuky relace"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Relace: Pošta účastníkům"
+
+msgid "sess_mail_permanent_link"
+msgstr "Klikněte na následující odkaz, kde najdete všechny potřebné informace týkající se relace:"
+
+#, fuzzy
+msgid "sess_mail_permanent_link_participants"
+msgstr "Click on the following link to edit the participants of the session:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "byli jste zaregistrováni pro relaci \"% s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Registrace pro relaci \"%s\""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "s politováním vám oznamujeme, že vaše registrace pro relaci \"%s\" byla odmítnuta."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Registrace pro relaci \"%s\" odmítnuta"
+
+msgid "sess_mail_type"
+msgstr "Pošta účastníkům"
+
+msgid "sess_material_assigned"
+msgstr "Je přiřazen"
+
+msgid "sess_material_not_assigned"
+msgstr "Není přiřazen"
+
+msgid "sess_max_members_needed"
+msgstr "Pro funkci pořadníku je zapotřebí maximální počet členů."
+
+msgid "sess_mem_contacts"
+msgstr "Podpora výuky"
+
+#, fuzzy
+msgid "sess_mem_send_mail"
+msgstr "Send Mail"
+
+msgid "sess_mem_tbl_header"
+msgstr "Účastníci relace"
+
+msgid "sess_member_administration"
+msgstr "Upravit účastníky"
+
+msgid "sess_members"
+msgstr "Účastníci"
+
+msgid "sess_members_gallery"
+msgstr "Galerie relací"
+
+msgid "sess_members_print_title"
+msgstr "Účastníci relace"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Žadatel(é) registrovaný(í) pro relaci."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Žadatel(é) odstraněný(í) ze seznamu."
+
+#, fuzzy
+msgid "sess_new"
+msgstr "Create Session"
+
+msgid "sess_new_registrations"
+msgstr "Připojit požadavek"
+
+#, fuzzy
+msgid "sess_notification_option"
+msgstr "Option"
+
+#, fuzzy
+msgid "sess_notification_option_inherit"
+msgstr "Inherit from Parent"
+
+#, fuzzy
+msgid "sess_notification_option_inherit_info"
+msgstr "Use the parent notification settings (e.g. notification settings from course or group) for members of this session"
+
+#, fuzzy
+msgid "sess_notification_option_manual"
+msgstr "Set manually"
+
+#, fuzzy
+msgid "sess_notification_option_manual_info"
+msgstr "Notification setting for users has to be set manually in tab 'Participants'"
+
+msgid "sess_open"
+msgstr "Otevřít relaci"
+
+msgid "sess_part_filter_participated"
+msgstr "Pouze navštívená"
+
+msgid "sess_part_filter_registered"
+msgstr "Pouze registrovaný"
+
+#, fuzzy
+msgid "sess_part_table_excused"
+msgstr "Excused"
+
+#, fuzzy
+msgid "sess_participation_refused_info"
+msgstr "Your participation for this event has been canceled."
+
+msgid "sess_print_list"
+msgstr "Vytvořit seznam"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Byl jste přidán do pořadníku."
+
+#, fuzzy
+msgid "sess_reg_cannot_participate"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_reg_cannot_participate_info"
+msgstr "Users can indicate that they cannot participate in the session."
+
+msgid "sess_reg_direct"
+msgstr "Přímá registrace"
+
+msgid "sess_reg_direct_info"
+msgstr "Uživatel musí kliknutím na tlačítko „Připojit“, pokud se chce zúčastnit relace"
+
+msgid "sess_reg_disabled"
+msgstr "Vlastní zápis není možný"
+
+msgid "sess_reg_disabled_info"
+msgstr "Pro jmenování na tuto relaci není registrace"
+
+msgid "sess_reg_max_members"
+msgstr "Omezený počet členů"
+
+msgid "sess_reg_max_members_info"
+msgstr "Definujte maximální počet uživatelů, kteří se mohou zúčastnit této relace."
+
+msgid "sess_reg_max_members_short"
+msgstr "Počet členů"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Registrace není možná, protože maximální počet uživatelů byl překročen."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Maximální počet uživatelů této jmenovaných pro tuto relaci je překročen."
+
+msgid "sess_reg_request"
+msgstr "Žádost o členství"
+
+msgid "sess_reg_request_info"
+msgstr "Zájemci mohou poslat požadavek / zprávu správcům."
+
+#, fuzzy
+msgid "sess_reg_tutor"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "sess_reg_tutor_info"
+msgstr "Users cannot register for this session on their own. Only administrators can register users."
+
+msgid "sess_reg_type"
+msgstr " Postup registrace"
+
+msgid "sess_reg_waiting_list"
+msgstr "Pořadník"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "S funkcí Auto-Fill"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "Účastníci jsou automaticky vybíráni z pořadníku při zrušení."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Bez funkce Auto-Fill"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Pokud je překročen maximální počet uživatelů, na pořadník budou umístěny nové registrace."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Žádný"
+
+msgid "sess_registered_confirm"
+msgstr "Registrace vyžaduje potvrzení správce. Po dokončení procesu registrace budete informováni."
+
+#, fuzzy
+msgid "sess_registration_notification"
+msgstr "Notification"
+
+#, fuzzy
+msgid "sess_registration_notification_info"
+msgstr "Shows column in tab 'Participants' to select users being notified about new or leaving participants"
+
+msgid "sess_section_reg"
+msgstr "Nastavení registrace"
+
+#, fuzzy
+msgid "sess_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "sess_show_participants_info"
+msgstr "Je-li tato funkce aktivována, účastníci relace mají přístup ke galerii účastníků"
+
+#, fuzzy
+msgid "sess_title"
+msgstr "Title of Session"
+
+msgid "sess_users_added"
+msgstr "Registrovaní vybraní uživatelé pro relaci."
+
+msgid "sess_users_already_assigned"
+msgstr "Uživatel je již registrován pro tuto relaci."
+
+msgid "sess_users_removed_from_list"
+msgstr "Vybraní uživatelé byli odstraněni z pořadníku."
+
+#, fuzzy
+msgid "sess_warn_sess_type_changed"
+msgstr "Do you really want to change the session type? All permission settings will be reset."
