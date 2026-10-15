@@ -28,6 +28,7 @@ use ILIAS\BackgroundTasks\Task\Job;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\DI\Container;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -113,9 +114,7 @@ class AsyncTaskManagerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider corruptContainerProvider
-     */
+    #[DataProvider('corruptContainerProvider')]
     public function testCorruptContainerDeletesBucketAndRunsNext(string $message): void
     {
         $this->schedule([1, 2], []);
