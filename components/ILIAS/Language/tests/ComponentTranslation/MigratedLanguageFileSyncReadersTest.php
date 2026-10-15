@@ -289,6 +289,25 @@ class MigratedLanguageFileSyncReadersTest extends MigratedLanguageFileSyncTestCa
         );
     }
 
+    /** The own note (translator comment) wins over the reference note ("#."); loadShippedNotes() agrees. */
+    public function testTheTranslatorCommentIsTheNoteAndBothKindsAreShippedComments(): void
+    {
+        $catalog = MigratedPoFixture::catalog(self::MODULE, ['greeting' => 'Hej', 'farewell' => 'Hejdå']);
+        $catalog->find(self::MODULE, 'greeting')->addExtractedComment('en note');
+        $catalog->find(self::MODULE, 'greeting')->addTranslatorNote('egen anteckning');
+        $catalog->find(self::MODULE, 'farewell')->addExtractedComment('en note');
+        MigratedPoFixture::writePo($this->shippedPo(), $catalog);
+
+        $entries = MigratedLanguageFileSync::loadShippedModuleEntries($this->shippedPo(), self::MODULE);
+
+        $this->assertSame('egen anteckning', $entries['greeting']['comment']);
+        $this->assertSame('en note', $entries['farewell']['comment']);
+        $this->assertSame(
+            ['greeting' => ['egen anteckning'], 'farewell' => ['en note']],
+            MigratedLanguageFileSync::loadShippedNotes($this->shippedPo(), self::MODULE)
+        );
+    }
+
     public function testLoadShippedModuleEntriesThrowsForACorruptPo(): void
     {
         file_put_contents($this->shippedPo(), "msgid \"kaputt\n");

@@ -132,8 +132,8 @@ class ilObjLanguageExt extends ilObjLanguage
     }
 
     /**
-     * The remark as the admin table shows it: the local remark, else the `#.` note of the shipped .po (plural
-     * notes are listed per form, see PluralFormKey). saveValues() compares against the same remarks.
+     * The remark as the admin table shows it: the local remark, else the note of the shipped .po (`# `, else `#.`;
+     * plural notes are listed per form, see PluralFormKey). saveValues() compares against the same remarks.
      *
      * @return array<string, string> module.separator.topic => remark, no empty ones
      */
@@ -338,7 +338,7 @@ class ilObjLanguageExt extends ilObjLanguage
     }
 
     /**
-     * Appends SHIPPED_FUZZY_MARKER_TOPIC to the `#.` note of every fuzzy entry.
+     * Appends SHIPPED_FUZZY_MARKER_TOPIC to the shipped note of every fuzzy entry.
      *
      * @param array<string, string> $comments
      * @param array{fuzzy: list<string>} $shipped see readShippedMigratedModules()
@@ -392,7 +392,7 @@ class ilObjLanguageExt extends ilObjLanguage
      *   files stay as read (see ilLanguageFile::keepOriginalLines());
      * - modules maintained in PO files with local changes go into their shipped .po (new entries into the .pot, see
      *   ShippedPoMerger), after a backup into the customizing directory. The lng_data rows of taken over entries lose
-     *   local_change, and their remarks where these became `#.` comments (see mergeIntoDatabase()).
+     *   local_change, and their remarks where these became comments of the .po (see mergeIntoDatabase()).
      * The overlay keeps serving the taken over values until "setup build" (the web server does not build) and
      * "setup update" ran.
      *
@@ -518,7 +518,7 @@ class ilObjLanguageExt extends ilObjLanguage
      * Database part of the merge into the shipped .po: the lng_data rows of $identifiers lose local_change - unlike
      * the global language file, since the next update compares local changes with the shipped value (see
      * LanguageInstallationManager::resolveMigratedModule()) and a remaining one would come back once the shipped value
-     * changes. The remarks of $remark_identifiers became `#.` comments and are removed. lng_modules is unchanged.
+     * changes. The remarks of $remark_identifiers became comments of the .po and are removed. lng_modules is unchanged.
      *
      * @param list<string> $identifiers
      * @param list<string> $remark_identifiers
@@ -1271,8 +1271,7 @@ class ilObjLanguageExt extends ilObjLanguage
                 $remark_changes[$module][$topic] = (string) $a_remarks[$key];
             }
 
-            // PO module: only compared with the stored remark; the `#.` note is not shown, so comparing with it would
-            // make every unchanged entry with a note a local change
+            // PO module: the shipped note is not shown, comparing with it would flag every entry with a note
             $are_comments_set = !$is_po_module && array_key_exists($key, $global_comments) && array_key_exists($key, $a_remarks);
             $is_comment_changed = $are_comments_set ? $global_comments[$key] != $a_remarks[$key] : $are_comments_set;
             $are_changes_made = (isset($global_values[$key]) ? $global_values[$key] != $value : true) || (isset($db_values[$key]) ? $db_values[$key] != $value : true);

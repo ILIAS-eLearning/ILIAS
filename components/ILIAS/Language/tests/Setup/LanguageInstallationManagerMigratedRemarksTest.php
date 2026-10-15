@@ -160,8 +160,29 @@ class LanguageInstallationManagerMigratedRemarksTest extends LanguageInstallatio
         $this->assertArrayNotHasKey('greeting', $remarks[self::MODULE] ?? []);
     }
 
+    /** A lng_data remark equal to the shipped translator note ("# ") is no remark. */
+    public function testMigratedModuleRemarksExcludesALngDataRemarkThatMatchesTheShippedTranslatorNote(): void
+    {
+        $catalog = new TranslationCatalog();
+        $entry = new \ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry(self::MODULE, 'greeting');
+        $entry->translate('Hallo');
+        $entry->addTranslatorNote('Eigene Notiz');
+        $catalog->add($entry);
+        MigratedPoFixture::writePo($this->root . '/components/pilot/lang/pilot_de.po', $catalog);
+        $this->collation_rows = [
+            ['module' => self::MODULE, 'identifier' => 'greeting', 'remarks' => 'Eigene Notiz'],
+        ];
+        $overlay = MigratedPoFixture::catalog(self::MODULE, ['greeting' => 'Hallo']);
+        LocalChangeComments::setRemark($overlay->find(self::MODULE, 'greeting'), ' Eigene Notiz ');
+        MigratedPoFixture::writePair($this->overlayBase(), $overlay);
+
+        $remarks = $this->callMigratedModuleRemarks([self::MODULE => ['greeting' => 'Hallo']]);
+
+        $this->assertArrayNotHasKey('greeting', $remarks[self::MODULE] ?? []);
+    }
+
     /**
-     * A remark taken over by "merge" is an extracted comment (`#.`) of the shipped entry now: an overlay remark equal
+     * A remark taken over by "merge" is a note of the shipped entry now: an overlay remark equal
      * to it (trimmed) is dropped, a differing one is kept.
      */
     public function testMigratedModuleRemarksDropsAnOverlayRemarkTheShippedPoHasAsNoteNow(): void
@@ -204,7 +225,7 @@ class LanguageInstallationManagerMigratedRemarksTest extends LanguageInstallatio
         $this->assertFileDoesNotExist($this->overlayBase() . '.po');
         $shipped = MigratedPoFixture::readPo($this->root . '/components/pilot/lang/pilot_de.po')->find(self::MODULE, 'greeting');
         $this->assertSame('Servus', $shipped?->getTranslation());
-        $this->assertContains('Merk', array_map('trim', $shipped->getExtractedComments()));
+        $this->assertSame(['Merk'], $shipped->getTranslatorComments());
         $this->assertSame('Servus', $this->lngModules()[self::MODULE]['greeting']);
         $this->assertSame('Servus', \ILIAS\Language\ComponentTranslation\MigratedTranslations::text(self::MODULE, 'de', 'greeting', $this->root . '/client-data'));
     }

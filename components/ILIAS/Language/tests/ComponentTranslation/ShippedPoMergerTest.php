@@ -241,11 +241,8 @@ class ShippedPoMergerTest extends TestCase
         $this->assertSame($shipped_after_first_merge, file_get_contents($this->shippedPo()));
     }
 
-    /**
-     * An admin remark becomes an extracted comment - added after an existing one, an identical one
-     * is not added twice.
-     */
-    public function testMergeAddsAnAdminRemarkAsExtractedCommentWithoutDuplicatingAnIdenticalOne(): void
+    /** An admin remark becomes a translator comment, unless identical to the note the entry shows. */
+    public function testMergeAddsAnAdminRemarkAsTranslatorCommentWithoutDuplicatingAnIdenticalOne(): void
     {
         $shipped = MigratedPoFixture::catalog(self::MODULE, ['farewell' => 'Tschüss']);
         $shipped->find(self::MODULE, 'farewell')->addExtractedComment('Old note');
@@ -258,7 +255,50 @@ class ShippedPoMergerTest extends TestCase
         // nothing new to take over: the shipped .po is not written at all
         $this->assertSame([], $result['written']);
         $this->assertSame(['Old note'], $this->readShippedPo()->find(self::MODULE, 'farewell')?->getExtractedComments());
+        $this->assertSame([], $this->readShippedPo()->find(self::MODULE, 'farewell')?->getTranslatorComments());
         $this->assertTrue(is_file($this->overlayBase() . '.po'), 'the overlay is left as it is');
+    }
+
+    /** A new remark becomes "# " next to a kept "#."; one equal to the shown note adds nothing. */
+    public function testMergeWithAChangedValueAddsOnlyADifferingRemarkAsTranslatorComment(): void
+    {
+        $shipped = MigratedPoFixture::catalog(self::MODULE, ['farewell' => 'Tschüss', 'greeting' => 'Hallo']);
+        $shipped->find(self::MODULE, 'farewell')->addExtractedComment('Old note');
+        $shipped->find(self::MODULE, 'greeting')->addTranslatorNote('Own note');
+        MigratedPoFixture::writePo($this->shippedPo(), $shipped);
+        $this->seedOverlay(
+            ['farewell' => 'Servus', 'greeting' => 'Moin'],
+            ['farewell' => 'New note', 'greeting' => 'Own note']
+        );
+
+        $this->merge();
+
+        $farewell = $this->readShippedPo()->find(self::MODULE, 'farewell');
+        $this->assertSame('Servus', $farewell?->getTranslation());
+        $this->assertSame(['Old note'], $farewell->getExtractedComments());
+        $this->assertSame(['New note'], $farewell->getTranslatorComments());
+        $greeting = $this->readShippedPo()->find(self::MODULE, 'greeting');
+        $this->assertSame('Moin', $greeting?->getTranslation());
+        $this->assertSame(['Own note'], $greeting->getTranslatorComments());
+    }
+
+    /** With an own note the reference note is hidden, so an equal remark is written; compared as stored. */
+    public function testARemarkEqualToAHiddenReferenceNoteIsWrittenAndOneEqualToTheStoredNoteIsNot(): void
+    {
+        $shipped = MigratedPoFixture::catalog(self::MODULE, ['farewell' => 'Tschüss', 'greeting' => 'Hallo']);
+        $shipped->find(self::MODULE, 'farewell')->addExtractedComment('en note');
+        $shipped->find(self::MODULE, 'farewell')->addTranslatorNote('eigene Notiz');
+        $shipped->find(self::MODULE, 'greeting')->addTranslatorNote('a b');
+        MigratedPoFixture::writePo($this->shippedPo(), $shipped);
+        $this->seedOverlay(['farewell' => 'Tschüss', 'greeting' => 'Hallo'], ['farewell' => 'en note', 'greeting' => "a\tb"]);
+
+        $result = $this->merge();
+
+        $this->assertArrayHasKey(self::MODULE, $result['written']);
+        $farewell = $this->readShippedPo()->find(self::MODULE, 'farewell');
+        $this->assertSame(['eigene Notiz', 'en note'], $farewell?->getTranslatorComments());
+        $this->assertSame(['en note'], $farewell->getExtractedComments());
+        $this->assertSame(['a b'], $this->readShippedPo()->find(self::MODULE, 'greeting')?->getTranslatorComments());
     }
 
     public function testMergeSkipsAValueWithDisallowedMarkupAndKeepsItInTheOverlay(): void

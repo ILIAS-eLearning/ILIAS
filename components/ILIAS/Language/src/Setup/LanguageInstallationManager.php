@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Setup;
 
+use ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\LegacyFuzzyMarker;
@@ -1007,8 +1008,8 @@ class LanguageInstallationManager
      * cannot be read is left out, so its sync() keeps the overlay's remarks.
      *
      * Before the migration lng_data.remarks held the shipped "###" comment of the `.lang` line: a lng_data
-     * remark is only taken over if it differs from that comment ($shipped_line_comments), from the `#.`
-     * note of the shipped `.po` and is no dated "new variable" marker, i.e. an administrator's remark.
+     * remark is only taken over if it differs from that comment ($shipped_line_comments), from the note of the
+     * shipped `.po` and is no dated "new variable" marker, i.e. an administrator's remark.
      *
      * @param array<string, array<string, string>> $shipped_migrated_modules
      * @param array<string, array<string, string>> $customized_remarks
@@ -1083,18 +1084,19 @@ class LanguageInstallationManager
                 // reported by loadOverlay() - the sync keeps what the overlay holds
                 continue;
             }
-            // a remark taken over by "merge" is a shipped extracted comment now (see ShippedPoMerger): it leaves the overlay
+            // a remark taken over by "merge" is a shipped note now (see ShippedPoMerger): it leaves the overlay
             try {
-                $extracted_comments = isset($shipped_files[$module])
-                    ? MigratedLanguageFileSync::loadShippedExtractedComments($shipped_files[$module], $module)
+                $po_notes_by_message = isset($shipped_files[$module])
+                    ? MigratedLanguageFileSync::loadShippedNotes($shipped_files[$module], $module)
                     : [];
             } catch (\Throwable) {
-                $extracted_comments = [];
+                $po_notes_by_message = [];
             }
             foreach ($overlay_remarks as $identifier => $remark) {
                 $identifier = (string) $identifier;
                 $message = MigratedLanguageFileSync::pluralMessageOf($identifier, $shipped_entries) ?? $identifier;
-                if (in_array(trim((string) $remark), $extracted_comments[$message] ?? [], true)) {
+                $stored_remark = trim(TranslationEntry::plainComment((string) $remark));
+                if (in_array($stored_remark, $po_notes_by_message[$message] ?? [], true)) {
                     unset($overlay_remarks[$identifier]);
                 }
             }
