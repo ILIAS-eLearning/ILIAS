@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: fold\n"
+
+msgid "fold_copy"
+msgstr "Copiar pasta"
+
+msgid "fold_import"
+msgstr "Predefinições de copyrights"
+
+msgid "fold_presentation"
+msgstr "O delimitador é usado no ecrã de edição rápida para a separação de palavras-chave e autores. O padrão é ‘,’."
+
+msgid "fold_settings"
+msgstr "Definições de pasta"

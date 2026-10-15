@@ -7614,10 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Izradi certifikat za vježbu
 excv#:#excv_create_info#:#Odaberi dovršenu vježbu kako biste generirali certifikat za nju.
-fold#:#fold_copy#:#Kopiraj mapu
-fold#:#fold_import#:#Uvezi mapu
-fold#:#fold_presentation#:#Prezentacija mape
-fold#:#fold_settings#:#Postavke mape
 form#:#email_not_match#:#Vaši unosi za adresu e-pošte se ne podudaraju! Ponovno unesite svoju adresu e-pošte.
 form#:#form_alphabet_all#:#Svi
 form#:#form_chars_remaining#:#Preostali znakovi:

@@ -7630,10 +7630,6 @@ dcl#:#table_not_found#:#¡Tabla no encontrada!
 dcl#:#tableview_not_found#:#¡Vista de tabla no encontrada!
 excv#:#excv_create#:#Crear certificado de ejercicio
 excv#:#excv_create_info#:#Seleccione un ejercicio finalizado para generar un certificado para el mismo.
-fold#:#fold_copy#:#Copiar carpeta
-fold#:#fold_import#:#Importar carpeta
-fold#:#fold_presentation#:#Presentación de la carpeta
-fold#:#fold_settings#:#Configuración de la carpeta
 form#:#email_not_match#:#¡Sus entradas para la dirección de correo electrónico no coinciden! Por favor, reintroduzca su dirección de correo electrónico.
 form#:#form_alphabet_all#:#Todos
 form#:#form_chars_remaining#:#Caracteres restantes:

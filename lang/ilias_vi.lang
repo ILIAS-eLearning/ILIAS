@@ -7616,10 +7616,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Create Exercise Verification###12 06 2011 new variable
 excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it###12 06 2011 new variable
-fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
-fold#:#fold_import#:#Import Folder###10 09 2010 new variable
-fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
-fold#:#fold_settings#:#Folder Settings###24 10 2013 new variable
 form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.###24 10 2013 new variable
 form#:#form_alphabet_all#:#All###16 07 2010 new variable
 form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable

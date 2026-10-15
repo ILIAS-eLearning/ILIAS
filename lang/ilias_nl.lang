@@ -7614,10 +7614,6 @@ dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new v
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it
-fold#:#fold_copy#:#Copy Folder
-fold#:#fold_import#:#Importeer Folder / Map
-fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
-fold#:#fold_settings#:#Map-instellingen
 form#:#email_not_match#:#Je ingaven voor het e-mail adres zijn niet gelijk! Voer je e-mail adres nogmaals in.
 form#:#form_alphabet_all#:#Alle
 form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable

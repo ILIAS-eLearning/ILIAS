@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: fold\n"
+
+msgid "fold_copy"
+msgstr "Copiar carpeta"
+
+msgid "fold_import"
+msgstr "Importar carpeta"
+
+msgid "fold_presentation"
+msgstr "Presentación de la carpeta"
+
+msgid "fold_settings"
+msgstr "Configuración de la carpeta"

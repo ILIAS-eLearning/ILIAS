@@ -7595,10 +7595,6 @@ dcl#:#table_not_found#:#A tábla nem található!
 dcl#:#tableview_not_found#:#A táblanézet nem található!
 excv#:#excv_create#:#Beadandó feladat tanúsítványának létrehozása
 excv#:#excv_create_info#:#Válasszon ki egy befejezett beadandó feladatot, hogy tanúsítványt generáljon hozzá.
-fold#:#fold_copy#:#Mappa másolása
-fold#:#fold_import#:#Mappa importálása
-fold#:#fold_presentation#:#Mappa megjelenítése
-fold#:#fold_settings#:#Mappabeállítások
 form#:#email_not_match#:#A beírt e-mail címek nem egyeznek! Írd be újra az e-mail címed.
 form#:#form_alphabet_all#:#Összes
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
