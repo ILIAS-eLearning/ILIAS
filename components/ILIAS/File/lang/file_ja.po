@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: file\n"
+
+msgid "add_icon"
+msgstr "アイコンを追加"
+
+msgid "amount_of_downloads"
+msgstr "ダウンロード"
+
+msgid "amount_of_downloads_since"
+msgstr " % 以降新 %d 回有効化"
+
+msgid "copyright_custom"
+msgstr "カスタム"
+
+msgid "copyright_custom_info"
+msgstr "このアーカイブの全未解凍へ適用されるカスタムcopyrightを選択"
+
+msgid "copyright_inherited"
+msgstr "継続済"
+
+msgid "copyright_inherited_info"
+msgstr "未解凍ファイルへzipアーカイブのcopyrightを適用する。 <br \\>zipアーカイブ: %s のCopyright"
+
+msgid "could_not_create_file_objs"
+msgstr "ファイルオブジェクト作成中にエラーが発生したらプラットフォームの管理者へコンタクトする。"
+
+msgid "de_activate_icon"
+msgstr "有効化 / 無効化"
+
+msgid "download_ascii_filename"
+msgstr "ダウンロードされるファイル名はASCII文字のみ許容。"
+
+msgid "download_ascii_filename_info"
+msgstr "ダウンロードしたファイル名にはASCII文字のみを使用してください。すべての文字を使用するには無効にします。"
+
+msgid "file_action_download"
+msgstr "ファイルをダウンロードまたはコンテンツを表示"
+
+msgid "file_action_download_info"
+msgstr "WOPI が有効化されており、'コンテンツ表示`の権限が付与されている場合、ファイルは'コンテンツ'タブに表示されます。付与されていない場合、ファイルは直接ダウンロードをオファーされます。"
+
+msgid "file_action_show"
+msgstr "ファイルの'Info’タブへユーザをリダイレスト"
+
+msgid "file_action_show_info"
+msgstr "'情報'タブは、ファイルが第二段階でダウンロードできる場所に表示されます。"
+
+msgid "file_btn_lp_toggle_state_completed"
+msgstr "未完了に設定"
+
+msgid "file_btn_lp_toggle_state_not_completed"
+msgstr "完了に設定"
+
+msgid "file_copy"
+msgstr "ファイルをコピー"
+
+#, fuzzy
+msgid "file_create_empty_document"
+msgstr "Create empty document"
+
+#, fuzzy
+msgid "file_creation_mode"
+msgstr "Creation mode"
+
+msgid "file_download"
+msgstr "ファイルをダウンロード"
+
+msgid "file_import"
+msgstr "ファイルをインポート"
+
+msgid "file_new_version"
+msgstr "新バージョンを作成"
+
+msgid "file_new_version_info"
+msgstr "新ファイルバージョンを作成します。旧バージョンは修正されません。"
+
+msgid "file_publish"
+msgstr "ドラフトを公開"
+
+msgid "file_rollback_rollback_first"
+msgstr "未公開のドラフトが存在するのでバージョンをリセットできませんでした。"
+
+msgid "file_rollback_same_version"
+msgstr "これはすでに公開されているバージョンです。"
+
+#, fuzzy
+msgid "file_type"
+msgstr "File type"
+
+msgid "file_unpublish"
+msgstr "ドラフトとしてマーク"
+
+msgid "file_upload_info_file_with_critical_extension"
+msgstr "uploadされたファイルはクリティカルまたは不明なファイル終端が含まれています。ファイル終端はダウンロード毎に.secへ変更されます。必要に応じて管理者へ連絡してください。"
+
+msgid "file_uploaded_by"
+msgstr "アップロード者"
+
+msgid "file_version_draft"
+msgstr "ドラフトバージョン"
+
+msgid "file_version_draft_info"
+msgstr "最新バージョンは \"Draft\" ステータスです。バージョンが公開されていない限り新しいバージョンは生成できません。ファイルが読込アクセス権の人は最終公開バージョンとなります。"
+
+msgid "form_icon_creation"
+msgstr "アイコンを生成"
+
+msgid "form_icon_updating"
+msgstr "アイコンを更新"
+
+msgid "general_upload_error_occured"
+msgstr "upload中に予期しないエラーが発生しました。"
+
+msgid "important_info"
+msgstr "重要情報"
+
+msgid "important_info_byline"
+msgstr "この情報は'info'タブへ表示されます。"
+
+msgid "input_active"
+msgstr "アクティブにする"
+
+msgid "input_desc_active"
+msgstr "このアイコンをアクティブ化"
+
+msgid "input_desc_icon"
+msgstr "イメージを特定の拡張子を持つファイルのアイコンとして使用する。"
+
+msgid "input_desc_suffixes"
+msgstr "コンマ区切りの拡張子リスト (full stopを先行しない文字と数字のみ)"
+
+msgid "input_icon"
+msgstr "アイコン"
+
+msgid "input_suffixes"
+msgstr "拡張子"
+
+msgid "migrated"
+msgstr "ステータス"
+
+msgid "mime_type"
+msgstr "MIME Type"
+
+msgid "msg_cant_unpublish"
+msgstr "アクションを実行できませんでした。"
+
+msgid "msg_confirm_entry_deletion"
+msgstr "次のエントリーを本当に削除しますか?"
+
+msgid "msg_error_active_suffixes_blacklisted"
+msgstr "選択のファイル拡張子のどれかがグローバルブラックリストにあるので現在使用できません。"
+
+msgid "msg_error_active_suffixes_conflict"
+msgstr "エラー: 同じ拡張子用にアクティブ化された複数のアイコンにできません。このアイコンか、このアイコンと重なるアクティブ化済の他の拡張子のアイコンをアクティブ解除してください。"
+
+msgid "msg_error_active_suffixes_not_whitelisted"
+msgstr "選択のファイル拡張子はグルーバルホワイトリストにありません。ダウンロードの際にファイル拡張子は ‘.sec’ へ変更されます。"
+
+msgid "msg_error_duplicate_suffix_entries"
+msgstr "エラー: 拡張子のコンマ区切りに重複エントリーがあります。"
+
+msgid "msg_error_icon_deletion"
+msgstr "エラー: アイコン削除に失敗しました"
+
+msgid "msg_error_suffixes_with_forbidden_characters"
+msgstr "エラー: 禁止文字。 大文字、数字、スペース、コンマのみ利用可能です。"
+
+msgid "msg_icon_missing_from_db"
+msgstr "データベースにアイコンがありません"
+
+msgid "msg_icon_missing_from_irss"
+msgstr "リソースストレージにアイコンがありません。"
+
+msgid "msg_success_icon_activated"
+msgstr "アイコンは正常にアクティブ化されました。"
+
+msgid "msg_success_icon_created"
+msgstr "アイコンは正常に作成されました。"
+
+msgid "msg_success_icon_deactivated"
+msgstr "アイコンは正常にアクティブ解除されました。"
+
+msgid "msg_success_icon_deletion"
+msgstr "アイコンは正常に削除されました。"
+
+msgid "msg_success_icon_updated"
+msgstr "アイコンは正常に更新されました。"
+
+msgid "msg_unzip_success"
+msgstr "アーカイブは正常にunzipされました。"
+
+msgid "on_click_action"
+msgstr "タイトルがクリック時の動作"
+
+msgid "preview_caption"
+msgstr "プレビュー %sof %s"
+
+msgid "preview_image_size_info"
+msgstr "イメージのプレビューバージョンは、適切に縮小または拡大されるので、最長サイド長(px内)わここに入力します。"
+
+msgid "preview_persisting"
+msgstr "永続的なプレビューイメージ"
+
+msgid "preview_persisting_info"
+msgstr "生成されたプレビューイメージはILIASに保管されて、ファイルのクリック毎に都度プレビューアイコンとして使用されます。"
+
+msgid "previews_for_tiles"
+msgstr "タイル"
+
+msgid "previews_for_tiles_info"
+msgstr "利用可能な位置のタイル用のプレビューを使用"
+
+msgid "publish_before_delete"
+msgstr "非公開のドラフトがあるためバージョンは削除できません。"
+
+msgid "replace_file_info"
+msgstr "全ての旧バージョンファイルは削除されます。"
+
+msgid "resource_id"
+msgstr "リソースID"
+
+msgid "service_settings"
+msgstr "追加機能"
+
+msgid "service_settings_saved"
+msgstr "保存しました"
+
+msgid "set_license_for_all_files"
+msgstr "全ファイルのライセンスを設定"
+
+msgid "show_amount_of_downloads"
+msgstr "ダウンロード数を表示"
+
+msgid "show_amount_of_downloads_info"
+msgstr "ファイルオブジェクトの表示回数は'Infoページ'上のダウンロードされたものです。"
+
+msgid "storage_id"
+msgstr "ストレージID"
+
+msgid "suffix_specific_icons"
+msgstr "拡張子指定アイコン"
+
+msgid "suffixes"
+msgstr "拡張子"
+
+msgid "upload_files"
+msgstr "ファイルをアップロード"
+
+msgid "upload_files_limit"
+msgstr "1ファイルの最大サイズ %s　です。"
+
+msgid "upload_files_title"
+msgstr "ファイルをアップロード"
+
+msgid "upload_info"
+msgstr "ファイルをアップロード"
+
+msgid "upload_info_desc"
+msgstr "アップロードと\"バージョン\"タブの版数を管理"
+
+msgid "version_uploaded"
+msgstr "バージョンがuploadされました"
+
+msgid "versionname"
+msgstr "タイトル"

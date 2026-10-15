@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: file\n"
+
+#, fuzzy
+msgid "add_icon"
+msgstr "Add Icon"
+
+#, fuzzy
+msgid "amount_of_downloads"
+msgstr "Downloads"
+
+#, fuzzy
+msgid "amount_of_downloads_since"
+msgstr "%d times since %s"
+
+#, fuzzy
+msgid "copyright_custom"
+msgstr "Custom"
+
+#, fuzzy
+msgid "copyright_custom_info"
+msgstr "Choose a custom copyright which will be applied to all unzipped files of this archive."
+
+#, fuzzy
+msgid "copyright_inherited"
+msgstr "Inherited"
+
+#, fuzzy
+msgid "copyright_inherited_info"
+msgstr "Apply the copyright of the zip archive to its unzipped files. <br \\>Copyright of zip archive: %s."
+
+#, fuzzy
+msgid "could_not_create_file_objs"
+msgstr "An error occurred while creating the file objects, contact the administrators of the platform."
+
+#, fuzzy
+msgid "de_activate_icon"
+msgstr "(De-)Activate"
+
+#, fuzzy
+msgid "download_ascii_filename"
+msgstr "Use ASCII-only characters for downloaded filenames"
+
+#, fuzzy
+msgid "download_ascii_filename_info"
+msgstr "Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters."
+
+#, fuzzy
+msgid "file_action_download"
+msgstr "Download file or view content"
+
+#, fuzzy
+msgid "file_action_download_info"
+msgstr "If WOPI is activated and the permission 'View Content' is given, the file is shown in tab 'Content'. If not, the file will be offered for direct download."
+
+#, fuzzy
+msgid "file_action_show"
+msgstr "Redirect user to the file’s ‘Info’ tab"
+
+#, fuzzy
+msgid "file_action_show_info"
+msgstr "The 'Info' tab is shown where the file could be downloaded in a second step."
+
+#, fuzzy
+msgid "file_btn_lp_toggle_state_completed"
+msgstr "Set Not Completed"
+
+#, fuzzy
+msgid "file_btn_lp_toggle_state_not_completed"
+msgstr "Set Completed"
+
+msgid "file_copy"
+msgstr "Copier Fichier"
+
+#, fuzzy
+msgid "file_create_empty_document"
+msgstr "Create empty document"
+
+#, fuzzy
+msgid "file_creation_mode"
+msgstr "Creation mode"
+
+msgid "file_download"
+msgstr "Télécharger Fichier"
+
+msgid "file_import"
+msgstr "Importer Fichier"
+
+msgid "file_new_version"
+msgstr "Créer nouvelle version"
+
+msgid "file_new_version_info"
+msgstr "Créer nouvelle version du fichier. Les versions précédentes ne seront pas modifiées."
+
+#, fuzzy
+msgid "file_publish"
+msgstr "Publish Draft"
+
+#, fuzzy
+msgid "file_rollback_rollback_first"
+msgstr "The version could not be reset because an unpublished draft exists."
+
+#, fuzzy
+msgid "file_rollback_same_version"
+msgstr "This is already the current version"
+
+#, fuzzy
+msgid "file_type"
+msgstr "File type"
+
+#, fuzzy
+msgid "file_unpublish"
+msgstr "Mark as Draft"
+
+msgid "file_upload_info_file_with_critical_extension"
+msgstr "The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download."
+
+msgid "file_uploaded_by"
+msgstr "Déposé par"
+
+#, fuzzy
+msgid "file_version_draft"
+msgstr "Draft Version"
+
+#, fuzzy
+msgid "file_version_draft_info"
+msgstr "The latest version is in \"Draft\" status. As long as the version has not been published, no new versions can be created. People with read permission on the file get the latest published version."
+
+#, fuzzy
+msgid "form_icon_creation"
+msgstr "Create Icon"
+
+#, fuzzy
+msgid "form_icon_updating"
+msgstr "Update Icon"
+
+msgid "general_upload_error_occured"
+msgstr "An unexpected error occured during upload."
+
+#, fuzzy
+msgid "important_info"
+msgstr "Important Information"
+
+#, fuzzy
+msgid "important_info_byline"
+msgstr "The information will be displayed in the ‘Info’ tab."
+
+#, fuzzy
+msgid "input_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "input_desc_active"
+msgstr "Activate this icon."
+
+#, fuzzy
+msgid "input_desc_icon"
+msgstr "Image which shall be shown as an icon for files with the specified suffixes."
+
+#, fuzzy
+msgid "input_desc_suffixes"
+msgstr "List of comma-separated suffixes (characters and numbers only without preceding period)."
+
+#, fuzzy
+msgid "input_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "input_suffixes"
+msgstr "Suffixes"
+
+msgid "migrated"
+msgstr "Status"
+
+#, fuzzy
+msgid "mime_type"
+msgstr "MIME Type"
+
+#, fuzzy
+msgid "msg_cant_unpublish"
+msgstr "Action could not be executed"
+
+#, fuzzy
+msgid "msg_confirm_entry_deletion"
+msgstr "Are you sure you want to delete the following entry?:"
+
+#, fuzzy
+msgid "msg_error_active_suffixes_blacklisted"
+msgstr "One of the selected file extensions is on the global blacklist and cannot be used at the moment."
+
+#, fuzzy
+msgid "msg_error_active_suffixes_conflict"
+msgstr "Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon."
+
+#, fuzzy
+msgid "msg_error_active_suffixes_not_whitelisted"
+msgstr "The selected file extension is not on the global whitelist, the files are renamed to .sec. during download."
+
+#, fuzzy
+msgid "msg_error_duplicate_suffix_entries"
+msgstr "Error: the comma separated list of suffixes contains duplicate entries."
+
+#, fuzzy
+msgid "msg_error_icon_deletion"
+msgstr "Error: icon deletion failed."
+
+#, fuzzy
+msgid "msg_error_suffixes_with_forbidden_characters"
+msgstr "Error: forbidden characters. Only alphabetic characters, numbers, whitespaces and commas are allowed."
+
+#, fuzzy
+msgid "msg_icon_missing_from_db"
+msgstr "Icon missing from database."
+
+#, fuzzy
+msgid "msg_icon_missing_from_irss"
+msgstr "Icon missing from resource storage."
+
+#, fuzzy
+msgid "msg_success_icon_activated"
+msgstr "Icon successfully activated."
+
+#, fuzzy
+msgid "msg_success_icon_created"
+msgstr "Icon successfully created."
+
+#, fuzzy
+msgid "msg_success_icon_deactivated"
+msgstr "Icon successfully deactivated."
+
+#, fuzzy
+msgid "msg_success_icon_deletion"
+msgstr "Icon successfully deleted."
+
+#, fuzzy
+msgid "msg_success_icon_updated"
+msgstr "Icon successfully updated."
+
+#, fuzzy
+msgid "msg_unzip_success"
+msgstr "Archive has been successfully unziped."
+
+#, fuzzy
+msgid "on_click_action"
+msgstr "Action on Click on Title"
+
+#, fuzzy
+msgid "preview_caption"
+msgstr "Preview %sof %s"
+
+#, fuzzy
+msgid "preview_image_size_info"
+msgstr "Maximum length of the preview images in px."
+
+#, fuzzy
+msgid "preview_persisting"
+msgstr "Persist Preview Images"
+
+#, fuzzy
+msgid "preview_persisting_info"
+msgstr "Generated previews will be stored, otherwise the previews will be generated on the fly"
+
+#, fuzzy
+msgid "previews_for_tiles"
+msgstr "Tiles"
+
+#, fuzzy
+msgid "previews_for_tiles_info"
+msgstr "Use Preview for Tiles where possible."
+
+#, fuzzy
+msgid "publish_before_delete"
+msgstr "Version(s) could not be deleted because an unpublished draft exists."
+
+msgid "replace_file_info"
+msgstr "Toutes les versions du fichier seront supprimées."
+
+msgid "resource_id"
+msgstr "Resource ID"
+
+#, fuzzy
+msgid "service_settings"
+msgstr "Additional Features"
+
+#, fuzzy
+msgid "service_settings_saved"
+msgstr "Changes saved."
+
+#, fuzzy
+msgid "set_license_for_all_files"
+msgstr "Set License for all Files"
+
+#, fuzzy
+msgid "show_amount_of_downloads"
+msgstr "Show number of downloads"
+
+#, fuzzy
+msgid "show_amount_of_downloads_info"
+msgstr "When active, the number of downloads will be visible on the info-page of a file object."
+
+msgid "storage_id"
+msgstr "Storage ID"
+
+#, fuzzy
+msgid "suffix_specific_icons"
+msgstr "Suffix-specific Icons"
+
+#, fuzzy
+msgid "suffixes"
+msgstr "Suffixes"
+
+#, fuzzy
+msgid "upload_files"
+msgstr "Upload files"
+
+#, fuzzy
+msgid "upload_files_limit"
+msgstr "The maximum size of a file is %s."
+
+#, fuzzy
+msgid "upload_files_title"
+msgstr "Upload files"
+
+msgid "upload_info"
+msgstr "File"
+
+msgid "upload_info_desc"
+msgstr "Manage Uploads and Versions in Tab \"Versions\""
+
+msgid "version_uploaded"
+msgstr "Version uploaded"
+
+msgid "versionname"
+msgstr "Title"

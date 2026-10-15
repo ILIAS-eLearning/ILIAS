@@ -1,0 +1,270 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: file\n"
+
+msgid "add_icon"
+msgstr "Add Icon"
+
+msgid "amount_of_downloads"
+msgstr "Downloads"
+
+msgid "amount_of_downloads_since"
+msgstr "%d times since %s"
+
+msgid "copyright_custom"
+msgstr "Custom"
+
+msgid "copyright_custom_info"
+msgstr "Choose a custom copyright which will be applied to all unzipped files of this archive."
+
+msgid "copyright_inherited"
+msgstr "Inherited"
+
+msgid "copyright_inherited_info"
+msgstr "Apply the copyright of the zip archive to its unzipped files. <br \\>Copyright of zip archive: %s."
+
+msgid "could_not_create_file_objs"
+msgstr "An error occurred while creating your file objects. Please contact this installation's technical support."
+
+msgid "de_activate_icon"
+msgstr "Activate / Deactivate"
+
+msgid "download_ascii_filename"
+msgstr "Allow Only ASCII Characters in Downloaded Filenames"
+
+msgid "download_ascii_filename_info"
+msgstr "Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters."
+
+msgid "file_action_download"
+msgstr "Download file or view content"
+
+msgid "file_action_download_info"
+msgstr "If WOPI is activated and the permission 'View Content' is given, the file is shown in tab 'Content'. If not, the file will be offered for direct download."
+
+msgid "file_action_show"
+msgstr "Redirect user to the file’s ‘Info’ tab"
+
+msgid "file_action_show_info"
+msgstr "The 'Info' tab is shown where the file could be downloaded in a second step."
+
+msgid "file_btn_lp_toggle_state_completed"
+msgstr "Set Not Completed"
+
+msgid "file_btn_lp_toggle_state_not_completed"
+msgstr "Set Completed"
+
+msgid "file_copy"
+msgstr "Copy File"
+
+msgid "file_create_empty_document"
+msgstr "Create empty document"
+
+msgid "file_creation_mode"
+msgstr "Creation mode"
+
+msgid "file_download"
+msgstr "Download File"
+
+msgid "file_import"
+msgstr "Import File"
+
+msgid "file_new_version"
+msgstr "Create New Version"
+
+msgid "file_new_version_info"
+msgstr "Create new file version. Previous versions will not be modified."
+
+msgid "file_publish"
+msgstr "Publish Draft"
+
+msgid "file_rollback_rollback_first"
+msgstr "The selected version could not be published because an unpublished draft exists."
+
+msgid "file_rollback_same_version"
+msgstr "This is already the published version!"
+
+msgid "file_type"
+msgstr "File type"
+
+msgid "file_unpublish"
+msgstr "Mark as Draft"
+
+msgid "file_upload_info_file_with_critical_extension"
+msgstr "At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s"
+
+msgid "file_uploaded_by"
+msgstr "Uploaded By"
+
+msgid "file_version_draft"
+msgstr "Draft Version"
+
+msgid "file_version_draft_info"
+msgstr "The latest version of this file has the status ‘Draft’. As long as this version has not been published, no new versions can be created. People with read permission for the file get the most recent previously published version."
+
+msgid "form_icon_creation"
+msgstr "Create Icon"
+
+msgid "form_icon_updating"
+msgstr "Update Icon"
+
+msgid "general_upload_error_occured"
+msgstr "An unexpected error occurred during upload."
+
+msgid "important_info"
+msgstr "Important Information"
+
+msgid "important_info_byline"
+msgstr "The information will be displayed in the ‘Info’ tab."
+
+msgid "input_active"
+msgstr "Active"
+
+msgid "input_desc_active"
+msgstr "Activate this icon."
+
+msgid "input_desc_icon"
+msgstr "Image to be used as the icon for files with the specified suffixes."
+
+msgid "input_desc_suffixes"
+msgstr "List of comma-separated suffixes (characters and numbers only, without preceding full stop)."
+
+msgid "input_icon"
+msgstr "Icon"
+
+msgid "input_suffixes"
+msgstr "Suffix(es)"
+
+msgid "migrated"
+msgstr "Status"
+
+msgid "mime_type"
+msgstr "MIME Type"
+
+msgid "msg_cant_unpublish"
+msgstr "File could not be unpublished."
+
+msgid "msg_confirm_entry_deletion"
+msgstr "Are you sure you want to delete the following entry?:"
+
+msgid "msg_error_active_suffixes_blacklisted"
+msgstr "One of the selected file extensions is on the global blacklist and cannot therefore be currently used."
+
+msgid "msg_error_active_suffixes_conflict"
+msgstr "Error: It is not possible to have multiple icons activated for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with those of this icon."
+
+msgid "msg_error_active_suffixes_not_whitelisted"
+msgstr "The selected file extension is not on the global whitelist. The file suffixes will be changed to ‘.sec’ when downloaded."
+
+msgid "msg_error_duplicate_suffix_entries"
+msgstr "Error: the comma separated list of suffixes contains duplicate entries."
+
+msgid "msg_error_icon_deletion"
+msgstr "Error: icon deletion failed."
+
+msgid "msg_error_suffixes_with_forbidden_characters"
+msgstr "Error: forbidden characters. Only letters, numbers, spaces and commas are allowed."
+
+msgid "msg_icon_missing_from_db"
+msgstr "Icon missing from database."
+
+msgid "msg_icon_missing_from_irss"
+msgstr "Icon missing from resource storage."
+
+msgid "msg_success_icon_activated"
+msgstr "Icon successfully activated."
+
+msgid "msg_success_icon_created"
+msgstr "Icon successfully created."
+
+msgid "msg_success_icon_deactivated"
+msgstr "Icon successfully deactivated."
+
+msgid "msg_success_icon_deletion"
+msgstr "Icon successfully deleted."
+
+msgid "msg_success_icon_updated"
+msgstr "Icon successfully updated."
+
+msgid "msg_unzip_success"
+msgstr "Archive successfully unzipped."
+
+msgid "on_click_action"
+msgstr "Action When Title Clicked"
+
+msgid "preview_caption"
+msgstr "Preview %sof %s"
+
+msgid "preview_image_size_info"
+msgstr "The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here."
+
+msgid "preview_persisting"
+msgstr "Persistent Preview Images"
+
+msgid "preview_persisting_info"
+msgstr "Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time."
+
+msgid "previews_for_tiles"
+msgstr "Tiles"
+
+msgid "previews_for_tiles_info"
+msgstr "Use Preview for Tiles where possible."
+
+msgid "publish_before_delete"
+msgstr "It was not possible to delete any of the existing versions because an unpublished draft exists."
+
+msgid "replace_file_info"
+msgstr "All previous file versions will be deleted."
+
+msgid "resource_id"
+msgstr "Resource ID"
+
+msgid "service_settings"
+msgstr "Additional Features"
+
+msgid "service_settings_saved"
+msgstr "Changes saved."
+
+msgid "set_license_for_all_files"
+msgstr "Set License for All Files"
+
+msgid "show_amount_of_downloads"
+msgstr "Show Number of Downloads"
+
+msgid "show_amount_of_downloads_info"
+msgstr "Display the number of times a file object has been downloaded on its 'Info' page."
+
+msgid "storage_id"
+msgstr "Storage ID"
+
+msgid "suffix_specific_icons"
+msgstr "Suffix-Specific Icons"
+
+msgid "suffixes"
+msgstr "Suffix(es)"
+
+msgid "upload_files"
+msgstr "Upload Files"
+
+msgid "upload_files_limit"
+msgstr "The maximum file size allowed is %s."
+
+msgid "upload_files_title"
+msgstr "Upload Files"
+
+msgid "upload_info"
+msgstr "File"
+
+msgid "upload_info_desc"
+msgstr "Uploads and versions can be managed in the ‘Versions’ tab."
+
+msgid "version_uploaded"
+msgstr "Version Uploaded"
+
+msgid "versionname"
+msgstr "Title"

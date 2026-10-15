@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: file\n"
+
+msgid "add_icon"
+msgstr ""
+
+msgid "amount_of_downloads"
+msgstr ""
+
+msgid "amount_of_downloads_since"
+msgstr ""
+
+msgid "copyright_custom"
+msgstr ""
+
+msgid "copyright_custom_info"
+msgstr ""
+
+msgid "copyright_inherited"
+msgstr ""
+
+msgid "copyright_inherited_info"
+msgstr ""
+
+msgid "could_not_create_file_objs"
+msgstr ""
+
+msgid "de_activate_icon"
+msgstr ""
+
+msgid "download_ascii_filename"
+msgstr ""
+
+msgid "download_ascii_filename_info"
+msgstr ""
+
+msgid "file_action_download"
+msgstr ""
+
+msgid "file_action_download_info"
+msgstr ""
+
+msgid "file_action_show"
+msgstr ""
+
+msgid "file_action_show_info"
+msgstr ""
+
+msgid "file_btn_lp_toggle_state_completed"
+msgstr ""
+
+msgid "file_btn_lp_toggle_state_not_completed"
+msgstr ""
+
+msgid "file_copy"
+msgstr ""
+
+msgid "file_create_empty_document"
+msgstr ""
+
+msgid "file_creation_mode"
+msgstr ""
+
+msgid "file_download"
+msgstr ""
+
+msgid "file_import"
+msgstr ""
+
+msgid "file_new_version"
+msgstr ""
+
+msgid "file_new_version_info"
+msgstr ""
+
+msgid "file_publish"
+msgstr ""
+
+msgid "file_rollback_rollback_first"
+msgstr ""
+
+msgid "file_rollback_same_version"
+msgstr ""
+
+msgid "file_type"
+msgstr ""
+
+msgid "file_unpublish"
+msgstr ""
+
+msgid "file_upload_info_file_with_critical_extension"
+msgstr ""
+
+msgid "file_uploaded_by"
+msgstr ""
+
+msgid "file_version_draft"
+msgstr ""
+
+msgid "file_version_draft_info"
+msgstr ""
+
+msgid "form_icon_creation"
+msgstr ""
+
+msgid "form_icon_updating"
+msgstr ""
+
+msgid "general_upload_error_occured"
+msgstr ""
+
+msgid "important_info"
+msgstr ""
+
+msgid "important_info_byline"
+msgstr ""
+
+msgid "input_active"
+msgstr ""
+
+msgid "input_desc_active"
+msgstr ""
+
+msgid "input_desc_icon"
+msgstr ""
+
+msgid "input_desc_suffixes"
+msgstr ""
+
+msgid "input_icon"
+msgstr ""
+
+msgid "input_suffixes"
+msgstr ""
+
+msgid "migrated"
+msgstr ""
+
+msgid "mime_type"
+msgstr ""
+
+msgid "msg_cant_unpublish"
+msgstr ""
+
+msgid "msg_confirm_entry_deletion"
+msgstr ""
+
+msgid "msg_error_active_suffixes_blacklisted"
+msgstr ""
+
+msgid "msg_error_active_suffixes_conflict"
+msgstr ""
+
+msgid "msg_error_active_suffixes_not_whitelisted"
+msgstr ""
+
+msgid "msg_error_duplicate_suffix_entries"
+msgstr ""
+
+msgid "msg_error_icon_deletion"
+msgstr ""
+
+msgid "msg_error_suffixes_with_forbidden_characters"
+msgstr ""
+
+msgid "msg_icon_missing_from_db"
+msgstr ""
+
+msgid "msg_icon_missing_from_irss"
+msgstr ""
+
+msgid "msg_success_icon_activated"
+msgstr ""
+
+msgid "msg_success_icon_created"
+msgstr ""
+
+msgid "msg_success_icon_deactivated"
+msgstr ""
+
+msgid "msg_success_icon_deletion"
+msgstr ""
+
+msgid "msg_success_icon_updated"
+msgstr ""
+
+msgid "msg_unzip_success"
+msgstr ""
+
+msgid "on_click_action"
+msgstr ""
+
+msgid "preview_caption"
+msgstr ""
+
+msgid "preview_image_size_info"
+msgstr ""
+
+msgid "preview_persisting"
+msgstr ""
+
+msgid "preview_persisting_info"
+msgstr ""
+
+msgid "previews_for_tiles"
+msgstr ""
+
+msgid "previews_for_tiles_info"
+msgstr ""
+
+msgid "publish_before_delete"
+msgstr ""
+
+msgid "replace_file_info"
+msgstr ""
+
+msgid "resource_id"
+msgstr ""
+
+msgid "service_settings"
+msgstr ""
+
+msgid "service_settings_saved"
+msgstr ""
+
+msgid "set_license_for_all_files"
+msgstr ""
+
+msgid "show_amount_of_downloads"
+msgstr ""
+
+msgid "show_amount_of_downloads_info"
+msgstr ""
+
+msgid "storage_id"
+msgstr ""
+
+msgid "suffix_specific_icons"
+msgstr ""
+
+msgid "suffixes"
+msgstr ""
+
+msgid "upload_files"
+msgstr ""
+
+msgid "upload_files_limit"
+msgstr ""
+
+msgid "upload_files_title"
+msgstr ""
+
+msgid "upload_info"
+msgstr ""
+
+msgid "upload_info_desc"
+msgstr ""
+
+msgid "version_uploaded"
+msgstr ""
+
+msgid "versionname"
+msgstr ""
