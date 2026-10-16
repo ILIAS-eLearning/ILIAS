@@ -615,4 +615,14 @@ class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
         $this->assertInstanceOf(\ILIAS\Setup\Condition\PHPExtensionLoadedCondition::class, $preconditions[0]);
         $this->assertStringContainsString('gettext', $preconditions[0]->getLabel());
     }
+
+    public function testAchieveMakesTheNewBuildVisibleToTheRuntimeOfTheSameProcess(): void
+    {
+        $this->assertNull(\ILIAS\Language\ComponentTranslation\MigratedTranslations::keysOf('itest', 'de', null), 'reads (and remembers) that there is no build');
+        $this->writeShippedPo('itest/', 'itest', 'de', ['greeting' => 'Hallo']);
+
+        $this->achieve($this->directoryManager(MigratedPoFixture::directory('itest', 'itest/')));
+
+        $this->assertSame(['greeting'], array_keys((array) \ILIAS\Language\ComponentTranslation\MigratedTranslations::keysOf('itest', 'de', null)));
+    }
 }
