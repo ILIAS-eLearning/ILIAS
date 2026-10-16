@@ -20,16 +20,27 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Config;
+use ILIAS\Setup\ObjectiveCollection;
 
 class ilTrackingSetupAgent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilTrackingUpdateSteps9());
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Tracking',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilTrackingUpdateSteps9()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilTrackingUpdateSteps10())
+        );
     }
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTrackingUpdateSteps9());
+        return new ObjectiveCollection(
+            'Database update status for component/ILIAS/Tracking',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTrackingUpdateSteps9()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTrackingUpdateSteps10())
+        );
     }
 }
