@@ -1,0 +1,195 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr ""
+
+msgid "cont_insert_into_chap"
+msgstr ""
+
+msgid "sahs_add"
+msgstr ""
+
+msgid "sahs_adopt_settings"
+msgstr ""
+
+msgid "sahs_adopt_settings_apply"
+msgstr ""
+
+msgid "sahs_adopt_settings_description"
+msgstr ""
+
+msgid "sahs_adopt_settings_invalid_source"
+msgstr ""
+
+msgid "sahs_adopt_settings_source"
+msgstr ""
+
+msgid "sahs_adopt_settings_source_info"
+msgstr ""
+
+msgid "sahs_adopt_settings_source_no_write"
+msgstr ""
+
+msgid "sahs_adopt_settings_source_required"
+msgstr ""
+
+msgid "sahs_adopt_settings_subtype_mismatch"
+msgstr ""
+
+msgid "sahs_adopt_settings_success"
+msgstr ""
+
+msgid "sahs_adopt_settings_title"
+msgstr ""
+
+msgid "sahs_authoring_mode"
+msgstr ""
+
+msgid "sahs_authoring_mode_info"
+msgstr ""
+
+msgid "sahs_chapter"
+msgstr ""
+
+msgid "sahs_choose_page_template"
+msgstr ""
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr ""
+
+msgid "sahs_choose_special_page"
+msgstr ""
+
+msgid "sahs_copy"
+msgstr ""
+
+msgid "sahs_desc_objectives"
+msgstr ""
+
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr ""
+
+msgid "sahs_file_imported_from_upload_dir"
+msgstr ""
+
+msgid "sahs_glo_info"
+msgstr ""
+
+msgid "sahs_hide_objectives_page"
+msgstr ""
+
+msgid "sahs_hide_objectives_page_info"
+msgstr ""
+
+msgid "sahs_import_from_upload_dir"
+msgstr ""
+
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr ""
+
+msgid "sahs_import_from_upload_dir_info"
+msgstr ""
+
+msgid "sahs_import_sequencing"
+msgstr ""
+
+msgid "sahs_import_sequencing_info"
+msgstr ""
+
+msgid "sahs_insert_ass"
+msgstr ""
+
+msgid "sahs_insert_ass_from_clip"
+msgstr ""
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr ""
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr ""
+
+msgid "sahs_insert_chapter"
+msgstr ""
+
+msgid "sahs_insert_page"
+msgstr ""
+
+msgid "sahs_insert_pagelayout"
+msgstr ""
+
+msgid "sahs_insert_sco"
+msgstr ""
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr ""
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr ""
+
+msgid "sahs_insert_special_page"
+msgstr ""
+
+msgid "sahs_learning_objectives"
+msgstr ""
+
+msgid "sahs_list_info"
+msgstr ""
+
+msgid "sahs_mail_context_lp"
+msgstr ""
+
+msgid "sahs_mail_context_lp_info"
+msgstr ""
+
+msgid "sahs_new_asset"
+msgstr ""
+
+msgid "sahs_new_chapter"
+msgstr ""
+
+msgid "sahs_new_page"
+msgstr ""
+
+msgid "sahs_new_sco"
+msgstr ""
+
+msgid "sahs_oa_no_scos"
+msgstr ""
+
+msgid "sahs_objectives"
+msgstr ""
+
+msgid "sahs_objectives_alignment"
+msgstr ""
+
+msgid "sahs_organization"
+msgstr ""
+
+msgid "sahs_page"
+msgstr ""
+
+msgid "sahs_questions"
+msgstr ""
+
+msgid "sahs_sco_objective"
+msgstr ""
+
+msgid "sahs_sequencing"
+msgstr ""
+
+msgid "sahs_std_sequencing"
+msgstr ""
+
+msgid "sahs_std_sequencing_info"
+msgstr ""
+
+msgid "sahs_unit"
+msgstr ""
+
+msgid "scorm_create_export_file_html_one"
+msgstr ""

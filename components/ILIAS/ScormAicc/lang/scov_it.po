@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: scov\n"
+
+msgid "crsv_create"
+msgstr "Crea certificato SCORM"
+
+msgid "crsv_create_info"
+msgstr "Seleziona un modulo di apprendimento terminato per generare un certificato per questo"
+
+msgid "scov_create"
+msgstr "Crea certificato SCORM"
+
+msgid "scov_create_info"
+msgstr "Seleziona un modulo SCORM terminato per generare un certificato per questo"

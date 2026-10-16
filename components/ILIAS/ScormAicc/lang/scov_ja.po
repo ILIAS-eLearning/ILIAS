@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: scov\n"
+
+msgid "crsv_create"
+msgstr "SCORM証明書を作成"
+
+msgid "crsv_create_info"
+msgstr "証明書を作成するには完了済み学習教材を選択"
+
+msgid "scov_create"
+msgstr "SCORM証明書を作成"
+
+msgid "scov_create_info"
+msgstr "証明書を作成するための完了済みSCORMモジュールを選択"

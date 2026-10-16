@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scov\n"
+
+msgid "crsv_create"
+msgstr "Aanmaken SCORM Certificaat"
+
+msgid "crsv_create_info"
+msgstr "Selecteer een beëindigde leermodule om een certificaat voor te genereren"
+
+#, fuzzy
+msgid "scov_create"
+msgstr "Create SCORM Certificate"
+
+#, fuzzy
+msgid "scov_create_info"
+msgstr "Select a completed SCORM module to generate a certificate for it"

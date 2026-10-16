@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr "Numer ID modułu nauczania"
+
+msgid "LearningModuleTitle"
+msgstr "Nazwa modułu nauczania"
+
+msgid "LearningModuleVersion"
+msgstr "Wersja modułu nauczania"
+
+msgid "Percentage"
+msgstr "Procent ukończonych SCO"
+
+msgid "Status"
+msgstr "Status łącznie"
+
+msgid "audio_captioning"
+msgstr "learner_preference.audio_captioning"
+
+msgid "audio_level"
+msgstr "learner_preference.audio_level"
+
+msgid "c_entry"
+msgstr "entry"
+
+msgid "c_exit"
+msgstr "exit"
+
+msgid "c_language"
+msgstr "learner_preference.language"
+
+msgid "c_location"
+msgstr "location"
+
+msgid "c_max"
+msgstr "score.max: maksymalna liczba punktów"
+
+msgid "c_min"
+msgstr "score.min: minimalna liczba punktów"
+
+msgid "c_mode"
+msgstr "mode"
+
+msgid "c_raw"
+msgstr "score.raw: osiągnięta liczba punktów"
+
+msgid "c_timestamp"
+msgstr "Ostatni dostęp"
+
+msgid "c_type"
+msgstr "type: typ zadania"
+
+msgid "completedSCOs"
+msgstr "Liczba ukończonych SCO"
+
+msgid "completion_status"
+msgstr "completion_status: zakres edycji"
+
+msgid "completion_threshold"
+msgstr "completion_threshold"
+
+msgid "counter"
+msgstr "Licznik"
+
+msgid "counter_all"
+msgstr "wszyscy użytkownicy"
+
+msgid "counter_correct"
+msgstr "prawidłowa odpowiedź (liczba TN)"
+
+msgid "counter_correct_percent"
+msgstr "Procent osób, które udzieliły prawidłowej odpowiedzi"
+
+msgid "counter_i_correct"
+msgstr "prawidłowe odpowiedzi"
+
+msgid "counter_i_correct_percent"
+msgstr "Procent prawidłowych odpowiedzi"
+
+msgid "counter_i_incorrect"
+msgstr "nieprawidłowe odpowiedzi"
+
+msgid "counter_i_incorrect_percent"
+msgstr "Procent nieprawidłowych odpowiedzi"
+
+msgid "counter_i_other"
+msgstr "ani prawidłowe ani nieprawidłowe odpowiedzi"
+
+msgid "counter_i_other_percent"
+msgstr "Procent ani prawidłowych ani nieprawidłowych odpowiedzi"
+
+msgid "counter_incorrect"
+msgstr "nieprawidłowa odpowiedź (liczba TN)"
+
+msgid "counter_incorrect_percent"
+msgstr "Procent osób, które udzieliły nieprawidłowej odpowiedzi"
+
+msgid "counter_other"
+msgstr "Osoby, które nie udzieliły ani prawidłowej ani nieprawidłowej odpowiedzi"
+
+msgid "counter_other_percent"
+msgstr "Procent osób, które nie udzieliły ani prawidłowej ani nieprawidłowej odpowiedzi"
+
+msgid "cp_node_id"
+msgstr "Numer ID rozdziału"
+
+msgid "credit"
+msgstr "credit"
+
+msgid "delivery_speed"
+msgstr "learner_preference.delivery_speed"
+
+msgid "existingSCOs"
+msgstr "Liczba istniejących SCO"
+
+msgid "exportobjglobaltosystem"
+msgstr "Raport dotyczący stanu edycji dla wszystkich rozdziałów"
+
+msgid "exportselectedcore"
+msgstr "Raport dot. rozdziałów (SCO)"
+
+msgid "exportselectedinteractions"
+msgstr "Raport dot. zadań w rozdziałach (interactions)"
+
+msgid "exportselectedobjectives"
+msgstr "Raport dotyczący celów dydaktycznych poszczególnych rozdziałów (objectives)"
+
+msgid "exportselectedraw"
+msgstr "Dane surowe"
+
+msgid "exportselectedsuccess"
+msgstr "Raport podstawowy dla modułu nauczania łącznie"
+
+msgid "identifierref"
+msgstr "Identyfikator SCO"
+
+msgid "interaction_description"
+msgstr "Opis zadania"
+
+msgid "interaction_id"
+msgstr "Numer ID zadania"
+
+msgid "interaction_value"
+msgstr "Wynik zadania %s:"
+
+msgid "latency"
+msgstr "latency: czas trwania"
+
+msgid "latency_seconds"
+msgstr "latency: czas trwania w sekundach"
+
+msgid "launch_data"
+msgstr "launch_data: dane przy uruchomieniu SCO"
+
+msgid "learner_response"
+msgstr "learner_response: odpowiedź"
+
+msgid "lesson_status"
+msgstr "lesson_status: status edycji"
+
+msgid "lm_id"
+msgstr "Numer ID modułu nauczania"
+
+msgid "lm_title"
+msgstr "Nazwa modułu nauczania"
+
+msgid "lvalue"
+msgstr "Key"
+
+msgid "measure"
+msgstr "Status: wymiar"
+
+msgid "ostatus"
+msgstr "Status celu dydaktycznego"
+
+msgid "passedSCOs"
+msgstr "Liczba z powodzeniem przetworzonych SCO"
+
+msgid "progress_measure"
+msgstr "progress_measure: postęp edycji"
+
+msgid "report"
+msgstr "Raport"
+
+msgid "result"
+msgstr "result: wynik"
+
+msgid "roundedTotal_timeSeconds"
+msgstr "Czas łączny w sekundach (w zaokrągleniu)"
+
+msgid "rvalue"
+msgstr "Value"
+
+msgid "satisfied"
+msgstr "Status: satisfied"
+
+msgid "scaled"
+msgstr "score.scaled: osiągnięta liczba punktów jako ułamek dziesiętny"
+
+msgid "scaled_passing_score"
+msgstr "scaled_passing_score: liczba punktów jako ułamek dziesiętny wymagana do zaliczenia zadania"
+
+msgid "sco_id"
+msgstr "Numer ID rozdziału"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "istotne dla stanu nauczenia"
+
+msgid "sco_title"
+msgstr "Tytuł rozdziału"
+
+msgid "scope"
+msgstr "Obsługa sprawozdawcza"
+
+msgid "session_time"
+msgstr "session_time: czas ostatniej sesji"
+
+msgid "session_time_seconds"
+msgstr "session_time: czas ostatniej sesji w sekundach"
+
+msgid "startedSCOs"
+msgstr "Liczba rozpoczętych SCO"
+
+msgid "student_response"
+msgstr "student_response: Odpowiedź"
+
+msgid "success_status"
+msgstr "success_status: powodzenie edycji"
+
+msgid "suspend_data"
+msgstr "suspend_data: zmienny schowek SCO"
+
+msgid "total_time"
+msgstr "total_time: czas łączny"
+
+msgid "total_time_seconds"
+msgstr "total_time: czas łączny w sekundach"
+
+msgid "tracinteractionitem"
+msgstr "Podsumowujący raport zadań w rozdziałach"
+
+msgid "tracinteractionuser"
+msgstr "Raport odnoszący się do uczestnika i dotyczący rozdziału wraz z oceną zadań"
+
+msgid "tracinteractionuseranswers"
+msgstr "Zadania w rozdziale na każdego użytkownika (tylko wyniki)"
+
+msgid "user_id"
+msgstr "Numer ID użytkownika"
+
+msgid "weighting"
+msgstr "weighting: ważenie"

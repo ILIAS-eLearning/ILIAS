@@ -1,0 +1,219 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "在章之后插入项目"
+
+msgid "cont_insert_into_chap"
+msgstr "在章里头插入项目"
+
+#, fuzzy
+msgid "sahs_add"
+msgstr "Create SCORM Learning Module"
+
+#, fuzzy
+msgid "sahs_adopt_settings"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_apply"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_description"
+msgstr "Select another SCORM object to adopt compatible SCORM settings."
+
+#, fuzzy
+msgid "sahs_adopt_settings_invalid_source"
+msgstr "Please select a different SCORM object as source."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source"
+msgstr "Source SCORM Object"
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_info"
+msgstr "Only SCORM objects of the same subtype are selectable."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_no_write"
+msgstr "You need Edit Settings permission on the selected source object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_required"
+msgstr "Please select a source SCORM object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_subtype_mismatch"
+msgstr "Settings can only be adopted between SCORM objects of the same subtype."
+
+#, fuzzy
+msgid "sahs_adopt_settings_success"
+msgstr "SCORM settings were adopted successfully."
+
+#, fuzzy
+msgid "sahs_adopt_settings_title"
+msgstr "Adopt Settings"
+
+msgid "sahs_authoring_mode"
+msgstr "创作模式"
+
+msgid "sahs_authoring_mode_info"
+msgstr "这个包必需用ILIAS SCORM编辑器创建，并且它必需导出为SCORM 1.2/2004的包。"
+
+msgid "sahs_chapter"
+msgstr "章节"
+
+msgid "sahs_choose_page_template"
+msgstr "选择页面模板"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "请只选择页面、SCOs或章。"
+
+msgid "sahs_choose_special_page"
+msgstr "选择指定页面"
+
+#, fuzzy
+msgid "sahs_copy"
+msgstr "Copy SCORM Learning Module"
+
+msgid "sahs_desc_objectives"
+msgstr "描述/目标"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_glo_info"
+msgstr "Please note that internal links in glossary terms are not supported."
+
+msgid "sahs_hide_objectives_page"
+msgstr "隐藏描述/目标页面"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "如果勾选，这个展示中将不包括SCO描述和目标页面。"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "导入测序"
+
+msgid "sahs_import_sequencing_info"
+msgstr "从包中导入序列信息(序列导出模式)。"
+
+msgid "sahs_insert_ass"
+msgstr "插入资产"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "从剪贴板粘贴Assets"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "从剪贴板中粘贴Assets(在章节中)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "插入Asset(在章节中)"
+
+msgid "sahs_insert_chapter"
+msgstr "插入章节"
+
+msgid "sahs_insert_page"
+msgstr "插入页面"
+
+msgid "sahs_insert_pagelayout"
+msgstr "插入模板页"
+
+msgid "sahs_insert_sco"
+msgstr "插入SCO"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "从剪贴板中粘贴SCOs(在章节中)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "插入SCO(在章节中)"
+
+msgid "sahs_insert_special_page"
+msgstr "插入指定页面"
+
+msgid "sahs_learning_objectives"
+msgstr "学习目标"
+
+msgid "sahs_list_info"
+msgstr "使用 * 打头的bullet列表或 # 打头的编号列表。"
+
+#, fuzzy
+msgid "sahs_mail_context_lp"
+msgstr "SCORM Learning Progress"
+
+#, fuzzy
+msgid "sahs_mail_context_lp_info"
+msgstr "For the participant emails on the learning progress screens of a scorm module"
+
+msgid "sahs_new_asset"
+msgstr "新资产"
+
+msgid "sahs_new_chapter"
+msgstr "新章节"
+
+msgid "sahs_new_page"
+msgstr "新页面"
+
+msgid "sahs_new_sco"
+msgstr "新的SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "本章尚不包含任何SCOs。"
+
+msgid "sahs_objectives"
+msgstr "学习目标"
+
+msgid "sahs_objectives_alignment"
+msgstr "学习目标校准"
+
+msgid "sahs_organization"
+msgstr "组织"
+
+msgid "sahs_page"
+msgstr "页"
+
+msgid "sahs_questions"
+msgstr "题目"
+
+msgid "sahs_sco_objective"
+msgstr "目标"
+
+msgid "sahs_sequencing"
+msgstr "测序"
+
+msgid "sahs_std_sequencing"
+msgstr "标准序列"
+
+msgid "sahs_std_sequencing_info"
+msgstr "使用ILIAS标准序列行为。"
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "创建导出文件(HTML, 一个页面, 审查模式)"

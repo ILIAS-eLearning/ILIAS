@@ -1,0 +1,209 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "Elemente nach einem Kapitel einfügen."
+
+msgid "cont_insert_into_chap"
+msgstr "Elemente innerhalb eines Kapitels einfügen."
+
+msgid "sahs_add"
+msgstr "SCORM-Lernmodul anlegen"
+
+#, fuzzy
+msgid "sahs_adopt_settings"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_apply"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_description"
+msgstr "Select another SCORM object to adopt compatible SCORM settings."
+
+#, fuzzy
+msgid "sahs_adopt_settings_invalid_source"
+msgstr "Please select a different SCORM object as source."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source"
+msgstr "Source SCORM Object"
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_info"
+msgstr "Only SCORM objects of the same subtype are selectable."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_no_write"
+msgstr "You need Edit Settings permission on the selected source object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_required"
+msgstr "Please select a source SCORM object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_subtype_mismatch"
+msgstr "Settings can only be adopted between SCORM objects of the same subtype."
+
+#, fuzzy
+msgid "sahs_adopt_settings_success"
+msgstr "SCORM settings were adopted successfully."
+
+#, fuzzy
+msgid "sahs_adopt_settings_title"
+msgstr "Adopt Settings"
+
+msgid "sahs_authoring_mode"
+msgstr "Autorenmodus"
+
+msgid "sahs_authoring_mode_info"
+msgstr "Die SCORM ZIP-Datei muß mit dem ILIAS-SCORM-Editor erstellt worden sein und als SCORM 1.2/2004 Package exportiert worden sein."
+
+msgid "sahs_chapter"
+msgstr "Kapitel"
+
+msgid "sahs_choose_page_template"
+msgstr "Seitenvorlage auswählen"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Bitte wählen Sie nur entweder Seiten, SCOs, Assets oder Kapitel aus."
+
+msgid "sahs_choose_special_page"
+msgstr "Spezialseite auswählen"
+
+msgid "sahs_copy"
+msgstr "SCORM-Lernmodul kopieren"
+
+msgid "sahs_desc_objectives"
+msgstr "Beschreibung/Ziele"
+
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "Datei aus Uploadverzeichnis nicht importiert"
+
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "Datei aus Uploadverzeichnis importiert"
+
+msgid "sahs_glo_info"
+msgstr "Bitte beachten Sie, dass interne Links in Glossarbegriffen nicht unterstützt werden."
+
+msgid "sahs_hide_objectives_page"
+msgstr "Beschreibungs-/Lernziel-Seite ausblenden"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "Wenn aktiviert werden SCO-Beschreibung und Lernziele nicht in der Präsentationsansicht angezeigt."
+
+msgid "sahs_import_from_upload_dir"
+msgstr "Import aus Uploadverzeichnis"
+
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Dateiname"
+
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Bitte Datei zur Übernahme auswählen"
+
+msgid "sahs_import_sequencing"
+msgstr "Sequencing-Informationen importieren"
+
+msgid "sahs_import_sequencing_info"
+msgstr "Es werden die Sequencing-Informationen des SCORM-Packages importiert (Sequencing-Expertenmodus)"
+
+msgid "sahs_insert_ass"
+msgstr "Asset einfügen"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "Assets aus Zwischenablage einfügen"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Assets aus Zwischenablage einfügen (innerhalb eines Kapitels)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Asset einfügen (innerhalb eines Kapitels)"
+
+msgid "sahs_insert_chapter"
+msgstr "Kapitel einfügen"
+
+msgid "sahs_insert_page"
+msgstr "Seite einfügen"
+
+msgid "sahs_insert_pagelayout"
+msgstr "Seitenvorlage einfügen"
+
+msgid "sahs_insert_sco"
+msgstr "SCO einfügen"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "SCOs aus Zwischenablage einfügen (innerhalb eines Kapitels)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "SCO einfügen (innerhalb eines Kapitels)"
+
+msgid "sahs_insert_special_page"
+msgstr "Spezialseite einfügen"
+
+msgid "sahs_learning_objectives"
+msgstr "Lernziele"
+
+msgid "sahs_list_info"
+msgstr "Verwenden Sie ein vorangestelltes * für unnummerierte oder ein # für nummerierte Listen"
+
+msgid "sahs_mail_context_lp"
+msgstr "Lernmodul SCORM: Lernfortschritt"
+
+msgid "sahs_mail_context_lp_info"
+msgstr "Mails, die aus dem Reiter „Lernfortschritt“ an Lernerinnen und Lerner eines SCORM-Moduls versendet werden"
+
+msgid "sahs_new_asset"
+msgstr "Neues Asset"
+
+msgid "sahs_new_chapter"
+msgstr "Neues Kapitel"
+
+msgid "sahs_new_page"
+msgstr "Neue Seite"
+
+msgid "sahs_new_sco"
+msgstr "Neues SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "Das Kapitel enthält noch keine SCOs."
+
+msgid "sahs_objectives"
+msgstr "Lernziele"
+
+msgid "sahs_objectives_alignment"
+msgstr "Zuordnung der Lernziele"
+
+msgid "sahs_organization"
+msgstr "Organisation"
+
+msgid "sahs_page"
+msgstr "Seite"
+
+msgid "sahs_questions"
+msgstr "Fragen"
+
+msgid "sahs_sco_objective"
+msgstr "SCOs und ihre Lernziele"
+
+msgid "sahs_sequencing"
+msgstr "Sequencing"
+
+msgid "sahs_std_sequencing"
+msgstr "Standard-Sequencing"
+
+msgid "sahs_std_sequencing_info"
+msgstr "ILIAS-Standard-Sequencing Verhalten benutzen (empfohlen)."
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "Exportdatei erzeugen (HTML, eine Seite, Review Mode)"
