@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-pd#:#block_show_chatviewer#:#Göster Chatviewer
-pd#:#block_show_pdbookm#:#göster imleri
-pd#:#block_show_pdcal#:#Göster Takvim
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###07 02 2020 new variable
-pd#:#block_show_pdmail#:#Posta Göster
-pd#:#block_show_pdnews#:#Göster Haberler
-pd#:#block_show_pdnotes#:#Notları Göster
-pd#:#block_show_pdportf#:#Show Portfolios###30 08 2015 new variable
-pd#:#block_show_pdtag#:#Etiketleri Göster
-pd#:#block_show_pdtasks#:#Show Tasks###07 02 2020 new variable
-pd#:#block_show_x#:#Göster% s
-pd#:#pd_achievements#:#Achievements###10 11 2018 new variable
-pd#:#pd_bookmarks#:#imleri
-pd#:#pd_download_last_export_file#:#İndir Son Verme Dosyası
-pd#:#pd_enable_comments#:#Yorumları Etkinleştir
-pd#:#pd_enable_prtf#:#Portföyleri Etkinleştir
-pd#:#pd_enable_user_publish#:#Kullanıcı İçerik Yayınına İzin Ver
-pd#:#pd_enable_user_publish_info#:#Etkinse, kullanıcılar kendi profillerini,çalışma alanı  öğelerini ve portfolyolarını Web de yayınlayabilir.
-pd#:#pd_ended#:#Ended###31 08 2017 new variable
-pd#:#pd_export_profile#:#Kişisel Bilgileri Dışa Aktar
-pd#:#pd_import_personal_data#:#Kişisel Bilgileri İçe Aktar
-pd#:#pd_my_memberships_sort_default#:#Default of Sort Option###31 08 2017 new variable
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#Ongoing###31 08 2017 new variable
-pd#:#pd_personal_items_default_view#:#Varsayılan Görünüm
-pd#:#pd_personal_items_default_view_info#:#Kişisel Öğeler tercih görünümü seçin.
-pd#:#pd_presentation_mode_list#:#Item List Presentation###07 02 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
-pd#:#pd_private_calendars#:#Özel Takvimler
-pd#:#pd_profile_data#:#Profili Veri
-pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
-pd#:#pd_remove_multiple#:#Remove Multiple Objects###24 10 2013 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
-pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
-pd#:#pd_view_select_at_least_one#:#En az bir görünümü seçmek zorunda, ya 'Seçili Öğeler' ve / veya 'Üyelikler'.
 sahs#:#cont_insert_after_chap#:#Bölümden sonra Insert ürün
 sahs#:#cont_insert_into_chap#:#Bölüm içinde Insert ürün
 sahs#:#sahs_activate_expert_mode#:#Uzman Modu Dizileme etkinleştirin

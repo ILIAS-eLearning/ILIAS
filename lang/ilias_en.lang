@@ -4604,39 +4604,6 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-pd#:#block_show_chatviewer#:#Show Chat Viewer
-pd#:#block_show_pdbookm#:#Show Bookmarks
-pd#:#block_show_pdcal#:#Show Calendar
-pd#:#block_show_pdfrmpostdraft#:#Show Posts Drafts
-pd#:#block_show_pdmail#:#Show Mail
-pd#:#block_show_pdnews#:#Show News
-pd#:#block_show_pdnotes#:#Show Notes
-pd#:#block_show_pdportf#:#Show Portfolios
-pd#:#block_show_pdtag#:#Show My Tags
-pd#:#block_show_pdtasks#:#Show Tasks
-pd#:#block_show_x#:#Show %s
-pd#:#pd_achievements#:#Achievements
-pd#:#pd_bookmarks#:#Bookmarks
-pd#:#pd_download_last_export_file#:#Download Last Export File
-pd#:#pd_enable_comments#:#Enable Comments
-pd#:#pd_enable_prtf#:#Enable Portfolios
-pd#:#pd_enable_user_publish#:#Enable User Content Publishing
-pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, personal resources and portfolios on the Web.
-pd#:#pd_ended#:#Ended
-pd#:#pd_export_profile#:#Export Personal Data
-pd#:#pd_import_personal_data#:#Import Personal Data
-pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
-pd#:#pd_not_dated#:#Not Dated
-pd#:#pd_ongoing#:#Ongoing
-pd#:#pd_personal_items_default_view#:#Default View
-pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
-pd#:#pd_presentation_mode_list#:#Item List Presentation
-pd#:#pd_presentation_mode_tile#:#Tile Presentation
-pd#:#pd_private_calendars#:#Private Calendars
-pd#:#pd_profile_data#:#Profile Data
-pd#:#pd_remove_multi_confirm#:#The objects were removed.
-pd#:#pd_upcoming#:#Upcoming
-pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 sahs#:#cont_insert_after_chap#:#Insert items after chapter
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter
 sahs#:#sahs_add#:#Create SCORM Learning Module

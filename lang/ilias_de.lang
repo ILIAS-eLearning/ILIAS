@@ -4604,39 +4604,6 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Sie haben Benachrichtigungen aktiviert.
 noti#:#noti_notification_deactivated#:#Sie haben Benachrichtigungen deaktiviert.
-pd#:#block_show_chatviewer#:#Chatviewer anzeigen
-pd#:#block_show_pdbookm#:#Bookmarks anzeigen
-pd#:#block_show_pdcal#:#Kalender anzeigen
-pd#:#block_show_pdfrmpostdraft#:#Beitragsentwürfe anzeigen
-pd#:#block_show_pdmail#:#Mail anzeigen
-pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
-pd#:#block_show_pdnotes#:#Notizen anzeigen
-pd#:#block_show_pdportf#:#Portfolios anzeigen
-pd#:#block_show_pdtag#:#Tags anzeigen
-pd#:#block_show_pdtasks#:#To-Do anzeigen
-pd#:#block_show_x#:#%s anzeigen
-pd#:#pd_achievements#:#Lernerfolge
-pd#:#pd_bookmarks#:#Bookmarks
-pd#:#pd_download_last_export_file#:#Aktuelle Exportdatei herunterladen
-pd#:#pd_enable_comments#:#Kommentare aktivieren
-pd#:#pd_enable_prtf#:#Portfolios aktivieren
-pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
-pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
-pd#:#pd_ended#:#Beendet
-pd#:#pd_export_profile#:#Persönliche Daten exportieren
-pd#:#pd_import_personal_data#:#Persönliche Daten importieren
-pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
-pd#:#pd_not_dated#:#Nicht datiert
-pd#:#pd_ongoing#:#Aktuell
-pd#:#pd_personal_items_default_view#:#Standard-Sicht
-pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.
-pd#:#pd_presentation_mode_list#:#Listenansicht
-pd#:#pd_presentation_mode_tile#:#Kachelansicht
-pd#:#pd_private_calendars#:#Private Kalender
-pd#:#pd_profile_data#:#Profildaten
-pd#:#pd_remove_multi_confirm#:#Die Objekte wurden entfernt.
-pd#:#pd_upcoming#:#Bevorstehend
-pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 sahs#:#cont_insert_after_chap#:#Elemente nach einem Kapitel einfügen.
 sahs#:#cont_insert_into_chap#:#Elemente innerhalb eines Kapitels einfügen.
 sahs#:#sahs_add#:#SCORM-Lernmodul anlegen

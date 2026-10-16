@@ -50,5 +50,9 @@ class Dashboard implements Component\Component
             $this,
             'dash'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'pd'
+        );
     }
 }

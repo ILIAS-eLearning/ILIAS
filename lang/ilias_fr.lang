@@ -4579,43 +4579,6 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-pd#:#block_show_chatviewer#:#Afficher le Lecteur de Chat
-pd#:#block_show_pdbookm#:#Afficher les Favoris
-pd#:#block_show_pdcal#:#Afficher l'Agenda
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
-pd#:#block_show_pdmail#:#Afficher la Messagerie
-pd#:#block_show_pdnews#:#Afficher les Actualités
-pd#:#block_show_pdnotes#:#Afficher les Notes
-pd#:#block_show_pdportf#:#Montrer portfolios
-pd#:#block_show_pdtag#:#Afficher mes Mots-Clés
-pd#:#block_show_pdtasks#:#Show Tasks
-pd#:#block_show_x#:#Afficher %s
-pd#:#pd_achievements#:#Achievements
-pd#:#pd_bookmarks#:#Favoris
-pd#:#pd_download_last_export_file#:#Télécharger le dernier fichier exporté
-pd#:#pd_enable_comments#:#Activer les Commentaires
-pd#:#pd_enable_prtf#:#Activer les Portfolios
-pd#:#pd_enable_user_publish#:#Autoriser la Publication des Contenus Utilisateurs
-pd#:#pd_enable_user_publish_info#:#Lorsque activé, les utilisateurs peuvent publier sur le Web leur profil, les objets de leur espace personnel ainsi que leurs portfolios.
-pd#:#pd_ended#:#Terminée
-pd#:#pd_export_profile#:#Exporter des données personnelles
-pd#:#pd_import_personal_data#:#Importer des données personnelles
-pd#:#pd_my_memberships_sort_default#:#Option de triage par défaut
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###31 10 2023 new variable
-pd#:#pd_ongoing#:#En cours
-pd#:#pd_personal_items_default_view#:#Vue par Défaut
-pd#:#pd_personal_items_default_view_info#:#Choisir la présentation par défaut de vos objets personnels
-pd#:#pd_presentation_mode_list#:#Item List Presentation
-pd#:#pd_presentation_mode_tile#:#Tile Presentation
-pd#:#pd_private_calendars#:#Calendriers privés
-pd#:#pd_profile_data#:#Données personnelles
-pd#:#pd_remove_multi_confirm#:#Les objets ont été retirés.
-pd#:#pd_remove_multiple#:#Retirer plusieurs objets
-pd#:#pd_unsubscribe_memberships#:#Se Désinscrire
-pd#:#pd_unsubscribe_multiple_memberships#:#Se désinscrire (plusieurs)
-pd#:#pd_upcoming#:#À venir
-pd#:#pd_view_select_at_least_one#:#Vous devez sélectionner au moins une vue : 'Items sélectionnés' et/ou 'Mes appartenances'
 sahs#:#cont_insert_after_chap#:#Ajouter des objets après le chapitre
 sahs#:#cont_insert_into_chap#:#Ajouter des objets dans le chapitre
 sahs#:#sahs_activate_expert_mode#:#Activer le Séquencement en Mode Expert

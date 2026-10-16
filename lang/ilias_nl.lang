@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-pd#:#block_show_chatviewer#:#Chatviewer anzeigen
-pd#:#block_show_pdbookm#:#Bookmarks anzeigen
-pd#:#block_show_pdcal#:#Kalender anzeigen
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###07 02 2020 new variable
-pd#:#block_show_pdmail#:#Mail anzeigen
-pd#:#block_show_pdnews#:#Nachrichten anzeigen
-pd#:#block_show_pdnotes#:#Notizen anzeigen
-pd#:#block_show_pdportf#:#Show Portfolios###30 08 2015 new variable
-pd#:#block_show_pdtag#:#Tags anzeigen
-pd#:#block_show_pdtasks#:#Show Tasks###07 02 2020 new variable
-pd#:#block_show_x#:#%s anzeigen
-pd#:#pd_achievements#:#Achievements###10 11 2018 new variable
-pd#:#pd_bookmarks#:#Bladwijzers
-pd#:#pd_download_last_export_file#:#Download laatste exportbestand
-pd#:#pd_enable_comments#:#Inschakelen Commentaar
-pd#:#pd_enable_prtf#:#Inschakelen Portfolio's
-pd#:#pd_enable_user_publish#:#Inschakelen  het publiceren van gebruikers
-pd#:#pd_enable_user_publish_info#:#Indien ingeschakeld, kunnen gebruikers hun eigen profielen, werkruimte objecten en portfolio's publiceren op het web.
-pd#:#pd_ended#:#Ended###31 08 2017 new variable
-pd#:#pd_export_profile#:#Exporteren persoonlijke gegevens
-pd#:#pd_import_personal_data#:#Importeren persoonlijke gegevens
-pd#:#pd_my_memberships_sort_default#:#Default of Sort Option###31 08 2017 new variable
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#Ongoing###31 08 2017 new variable
-pd#:#pd_personal_items_default_view#:#Standaard beeld
-pd#:#pd_personal_items_default_view_info#:#Selecteer het voorkeursbeeld voor persoonlijke items
-pd#:#pd_presentation_mode_list#:#Item List Presentation###07 02 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
-pd#:#pd_private_calendars#:#Privé agenda's
-pd#:#pd_profile_data#:#Profile Data
-pd#:#pd_remove_multi_confirm#:#De objecten zijn verwijderd.
-pd#:#pd_remove_multiple#:#Verwijder meervoudige objecten
-pd#:#pd_unsubscribe_memberships#:#Uitschrijven
-pd#:#pd_unsubscribe_multiple_memberships#:#Uitschrijven meervoudig
-pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
-pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.
 sahs#:#cont_insert_after_chap#:#Toevoegen artikelen na hoofdstuk
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter
 sahs#:#sahs_activate_expert_mode#:#Inschakelen Sequencing Expert Modus

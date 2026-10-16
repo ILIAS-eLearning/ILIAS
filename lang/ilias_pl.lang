@@ -4594,43 +4594,6 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-pd#:#block_show_chatviewer#:#Pokaż aplikację Chatviewer
-pd#:#block_show_pdbookm#:#Pokaż zakładki
-pd#:#block_show_pdcal#:#Pokaż kalendarz
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###07 02 2020 new variable
-pd#:#block_show_pdmail#:#Pokaż wiadomość mailową
-pd#:#block_show_pdnews#:#Pokaż nowości
-pd#:#block_show_pdnotes#:#Pokaż notatki
-pd#:#block_show_pdportf#:#Pokaż portfolio
-pd#:#block_show_pdtag#:#Pokaż tagi
-pd#:#block_show_pdtasks#:#Show Tasks###07 02 2020 new variable
-pd#:#block_show_x#:#Pokaż %s
-pd#:#pd_achievements#:#Achievements
-pd#:#pd_bookmarks#:#Zakładki
-pd#:#pd_download_last_export_file#:#Pobierz aktualny plik eksportowy
-pd#:#pd_enable_comments#:#Aktywuj komentarze
-pd#:#pd_enable_prtf#:#Aktywuj portfolia
-pd#:#pd_enable_user_publish#:#Aktywuj opublikowanie treści użytkowników
-pd#:#pd_enable_user_publish_info#:#Ta opcja umożliwia użytkownikom globalne udostępnienie swojego profilu, treści z przestrzeni pracy oraz portfolia (w Internecie).
-pd#:#pd_ended#:#Zakończone
-pd#:#pd_export_profile#:#Eksportuj dane osobowe
-pd#:#pd_import_personal_data#:#Importuj dane osobowe
-pd#:#pd_my_memberships_sort_default#:#Domyślna opcja sortowania
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
-pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
-pd#:#pd_ongoing#:#Aktualne
-pd#:#pd_personal_items_default_view#:#Domyślny widok
-pd#:#pd_personal_items_default_view_info#:#Tutaj wybierz standardowy widok dla wybranych ofert.
-pd#:#pd_presentation_mode_list#:#Item List Presentation###07 02 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
-pd#:#pd_private_calendars#:#Prywatny kalendarz
-pd#:#pd_profile_data#:#Dane profilu
-pd#:#pd_remove_multi_confirm#:#Obiekty zostały usunięte.
-pd#:#pd_remove_multiple#:#Usuń kilka obiektów
-pd#:#pd_unsubscribe_memberships#:#Zakończ członkostwa
-pd#:#pd_unsubscribe_multiple_memberships#:#Zakończ kilka członkostw
-pd#:#pd_upcoming#:#Planowane
-pd#:#pd_view_select_at_least_one#:#Musisz wybrać co najmniej jeden widok, albo 'Wybrane elementy' i/lub 'Moje członkostwo'.
 sahs#:#cont_insert_after_chap#:#Wstaw elementy wg rozdziału.
 sahs#:#cont_insert_into_chap#:#Wstaw elementy w rozdziale.
 sahs#:#sahs_activate_expert_mode#:#Aktywuj tryb ekspercki sekwencjonowania

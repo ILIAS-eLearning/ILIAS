@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "聊天查看器显示"
+
+msgid "block_show_pdbookm"
+msgstr "书签显示"
+
+msgid "block_show_pdcal"
+msgstr "日历显示"
+
+#, fuzzy
+msgid "block_show_pdfrmpostdraft"
+msgstr "Show Postings Drafts"
+
+msgid "block_show_pdmail"
+msgstr "邮件显示"
+
+msgid "block_show_pdnews"
+msgstr "新闻显示"
+
+msgid "block_show_pdnotes"
+msgstr "笔记显示"
+
+#, fuzzy
+msgid "block_show_pdportf"
+msgstr "Show Portfolios"
+
+msgid "block_show_pdtag"
+msgstr "标签显示"
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "%s 显示"
+
+#, fuzzy
+msgid "pd_achievements"
+msgstr "Achievements"
+
+msgid "pd_bookmarks"
+msgstr "书签"
+
+msgid "pd_download_last_export_file"
+msgstr "下载最后导出的文件"
+
+msgid "pd_enable_comments"
+msgstr "启用评论"
+
+msgid "pd_enable_prtf"
+msgstr "启用组合"
+
+msgid "pd_enable_user_publish"
+msgstr "启用用户内容发布"
+
+msgid "pd_enable_user_publish_info"
+msgstr "如果启用，用户能在网络上发布他们的资料(profiles)、工作空间对象和组合。"
+
+#, fuzzy
+msgid "pd_ended"
+msgstr "Ended"
+
+msgid "pd_export_profile"
+msgstr "导出个人数据"
+
+msgid "pd_import_personal_data"
+msgstr "导入个人数据"
+
+#, fuzzy
+msgid "pd_my_memberships_sort_default"
+msgstr "Default of Sort Option"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+#, fuzzy
+msgid "pd_ongoing"
+msgstr "Ongoing"
+
+msgid "pd_personal_items_default_view"
+msgstr "默认视图"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "选择个人项目的优先视图。"
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "私人日历"
+
+msgid "pd_profile_data"
+msgstr "资料(profile)数据"
+
+#, fuzzy
+msgid "pd_remove_multi_confirm"
+msgstr "The objects were removed."
+
+#, fuzzy
+msgid "pd_upcoming"
+msgstr "Upcoming"
+
+msgid "pd_view_select_at_least_one"
+msgstr "您必须至少选择一个视图，“已选项目”和/或“我的会员资格”。"
