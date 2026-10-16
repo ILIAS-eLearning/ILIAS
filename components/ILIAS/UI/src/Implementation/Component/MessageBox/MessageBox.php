@@ -24,7 +24,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
 
-class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
+class MessageBox implements C\MessageBox\MessageBox
 {
     use ComponentHelper;
 
@@ -107,22 +107,4 @@ class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
         $clone->links = $links;
         return $clone;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPromptButtons(): array
-    {
-        return $this->buttons;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPromptTitle(): string
-    {
-        return $this->type;
-    }
-
-
 }

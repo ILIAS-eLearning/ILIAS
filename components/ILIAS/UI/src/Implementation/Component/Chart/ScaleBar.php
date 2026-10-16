@@ -22,12 +22,13 @@ namespace ILIAS\UI\Implementation\Component\Chart;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 
 /**
  * Class ScaleBar
  * @package ILIAS\UI\Implementation\Component\Listing\Descriptive
  */
-class ScaleBar implements C\Chart\ScaleBar
+class ScaleBar implements C\Chart\ScaleBar, IsPromptContent
 {
     use ComponentHelper;
 
