@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Survey\Access;
 
@@ -117,6 +117,16 @@ class AccessManager
     public function canEditSettings(): bool
     {
         return $this->access->checkAccessOfUser($this->user_id, "write", "", $this->ref_id);
+    }
+
+    public function canReadAllResults(): bool
+    {
+        return $this->access->checkAccessOfUser(
+            $this->user_id,
+            "read_results",
+            "",
+            $this->ref_id
+        );
     }
 
     /**

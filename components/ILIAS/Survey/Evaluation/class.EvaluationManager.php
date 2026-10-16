@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Survey\Evaluation;
 
@@ -221,7 +221,9 @@ class EvaluationManager
             $filter = true;
             // see #36336
             if ($this->survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL &&
-            $this->survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
+                ($this->survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL ||
+                    $this->access->canEditSettings() ||
+                    $this->access->canReadAllResults())) {
                 $filter = false;
             }
             // see #36336, #36378
