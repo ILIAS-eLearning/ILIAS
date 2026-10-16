@@ -1803,7 +1803,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Mindestanzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Größe
 bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Größe erfolgt der Download asynchron.
-bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
 common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement_btn#:#Zustimmen
@@ -4403,7 +4402,6 @@ common#:#zip#:#PLZ
 common#:#zip_structure_error#:#Archiv enthält gleiche Dateinamen. Upload abgebrochen
 common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#zipcode#:#Postleitzahl
-cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 content#:#Pages#:#Seiten
 content#:#add_menu_entry#:#Menüeintrag hinzufügen →
 content#:#all_pages#:#für das gesamte Lernmodul
@@ -5617,11 +5615,6 @@ content#:#st#:#Kapitel
 content#:#start_lm#:#Lernmodul starten
 content#:#text_repr#:#Alternativtext
 content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann.
-cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
-cptch#:#cptch_wrong_input#:#Falsche Eingabe
-excv#:#excv_create#:#Übungszertifikat erstellen
-excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
-impr#:#impr_page_type_impr#:#Impressum
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Tool verwendet, um Statements zu identifizieren.
@@ -6004,7 +5997,6 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Sie haben Benachrichtigungen aktiviert.
 noti#:#noti_notification_deactivated#:#Sie haben Benachrichtigungen deaktiviert.
-notifications#:#push_notification#:#Push-Benachrichtigungen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_pdcal#:#Kalender anzeigen
@@ -6038,8 +6030,6 @@ pd#:#pd_profile_data#:#Profildaten
 pd#:#pd_remove_multi_confirm#:#Die Objekte wurden entfernt.
 pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
-pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
-pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 sahs#:#cont_insert_after_chap#:#Elemente nach einem Kapitel einfügen.
 sahs#:#cont_insert_into_chap#:#Elemente innerhalb eines Kapitels einfügen.
 sahs#:#sahs_add#:#SCORM-Lernmodul anlegen
@@ -6092,7 +6082,6 @@ sahs#:#sahs_std_sequencing#:#Standard-Sequencing
 sahs#:#sahs_std_sequencing_info#:#ILIAS-Standard-Sequencing Verhalten benutzen (empfohlen).
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Exportdatei erzeugen (HTML, eine Seite, Review Mode)
-sc13#:#sc13_page_type_sahs#:#SCORM-Editor-Seite
 scormdebug#:#API-call#:#API-Aufruf
 scormdebug#:#Commit#:#Daten speichern
 scormdebug#:#GetDiagnostic#:#dient der Lernplattform zum Abrufen zus&auuml;tzlicher Informationen
@@ -6337,4 +6326,3 @@ scov#:#crsv_create#:#SCORM-Zertifikat anlegen
 scov#:#crsv_create_info#:#Wählen Sie ein absolviertes Lernmodul aus, um dafür ein Zertifikat zu generieren.
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
-violation#:#not_a_string#:#Wert ist keine Zeichenkette

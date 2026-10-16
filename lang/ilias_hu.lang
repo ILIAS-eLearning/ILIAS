@@ -1802,7 +1802,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimális szám
 bgtask#:#bgtask_setting_threshold_count_info#:#Ha a fájlok száma meghaladja ezt az értéket, a letöltés aszinkron lesz.
 bgtask#:#bgtask_setting_threshold_size#:#Minimális méret
 bgtask#:#bgtask_setting_threshold_size_info#:#Ha a fájlméret meghaladja ezt az értéket, a letöltés aszinkron lesz.
-bkm#:#bkm_fold_created#:#Sikeresen létrehozott egy könyvjelzőmappát.
 common#:#HH#:#ÓÓ:PP
 common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement_btn#:#Elfogadás
@@ -4401,7 +4400,6 @@ common#:#zip#:#Irányítószám / Postafiók
 common#:#zip_structure_error#:#Az archívum fájl azonos nevű fájlokat tartalmaz. A feltöltés megszakadt.
 common#:#zip_test_failed#:#ZIP tesztelése sikertelen. Lépjen kapcsolatba egy rendszergazdával.
 common#:#zipcode#:#Irányítószám / Postafiók
-cond#:#cond_under_parent_control#:#Az előfeltételek a szülő objektumnál vannak beállítva.
 content#:#Pages#:#Lapok
 content#:#add_menu_entry#:#Menübejegyzés hozzáadása
 content#:#all_pages#:#a teljes tananyag
@@ -5613,11 +5611,6 @@ content#:#st#:#Fejezet
 content#:#start_lm#:#Tananyag indítása
 content#:#text_repr#:#Kép szöveges leírása
 content#:#text_repr_info#:#A kép ‘alt’ attribútumához használva.
-cptch#:#cptch_freetype_support_needed#:#Ennek a funkciónak a használatához a PHP freetype támogatását engedélyeznie kell.
-cptch#:#cptch_wrong_input#:#Hibás bemenet
-excv#:#excv_create#:#Beadandó feladat tanúsítványának létrehozása
-excv#:#excv_create_info#:#Válasszon ki egy befejezett beadandó feladatot, hogy tanúsítványt generáljon hozzá.
-impr#:#impr_page_type_impr#:#Impresszum
 lti#:#act_lti_for_obj_type#:#Objektumtípusra LTI aktiválása
 lti#:#activity_id#:#AktivításID
 lti#:#activity_id_info#:#Ezt az AktivításID-t használja az LTI Eszköz, hogy azonosítsa a Statement-eket.
@@ -6000,7 +5993,6 @@ noti#:#noti_activate_notification#:#Értesítés bekapcsolása
 noti#:#noti_deactivate_notification#:#Értesítés kikapcsolása
 noti#:#noti_notification_activated#:#Az értesítőt sikeresen bekapcsolta
 noti#:#noti_notification_deactivated#:#Az értesítőt sikeresen kikapcsolta
-notifications#:#push_notification#:#Push értesítések
 pd#:#block_show_chatviewer#:#Csevegésnéző megjelenítése
 pd#:#block_show_pdbookm#:#Könyvjelzők megjelenítése
 pd#:#block_show_pdcal#:#Naptár megjelenítése
@@ -6034,8 +6026,6 @@ pd#:#pd_profile_data#:#Profiladatok
 pd#:#pd_remove_multi_confirm#:#Az objektumokat eltávolítottuk.
 pd#:#pd_upcoming#:#Jövőbeli
 pd#:#pd_view_select_at_least_one#:#Legalább egy nézetet ki kell választania vagy a ‘Kigyűjtött objektumok’ és/vagy a ‘Tagságaim’ közül.
-pdesk#:#bookmark_moved_ok#:#A könyvjelző áthelyeződött.
-pdesk#:#bookmark_select_target#:#Válasszon célt
 sahs#:#cont_insert_after_chap#:#Elemek beszúrása a fejezet után
 sahs#:#cont_insert_into_chap#:#Elemek beszúrása a fejezetbe
 sahs#:#sahs_add#:#SCORM-tananyag létrehozása
@@ -6083,7 +6073,6 @@ sahs#:#sahs_std_sequencing#:#Standard sorrend
 sahs#:#sahs_std_sequencing_info#:#ILIAS standard sorrend viselkedés.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Exportfájl létrehozása (HTML, egy lap, áttekintőmód)
-sc13#:#sc13_page_type_sahs#:#SCORM-szerkesztő oldal
 scormdebug#:#API-call#:#API-hívás
 scormdebug#:#Commit#:#adat tárolása
 scormdebug#:#GetDiagnostic#:#lehetővé teszi az LMS (!) számára további diagnosztikai információk definiálását
@@ -6328,4 +6317,3 @@ scov#:#crsv_create#:#SCORM-tanúsítvány létrehozása
 scov#:#crsv_create_info#:#Válasszon egy tananyagot, hogy tanúsítványt generálhassunk hozzá
 scov#:#scov_create#:#SCORM-tanúsítvány létrehozása
 scov#:#scov_create_info#:#Válasszon egy teljes SCORM-tananyag, amelyikhez tanúsítványt hozzunk létre.
-violation#:#not_a_string#:#A megadott érték nem szöveg

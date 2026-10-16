@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimální počet
 bgtask#:#bgtask_setting_threshold_count_info#:#Pokud počet souborů překročí tuto hodnotu, stahování bude asynchronní.
 bgtask#:#bgtask_setting_threshold_size#:#Minimální velikost
 bgtask#:#bgtask_setting_threshold_size_info#:#Pokud velikost souborů překročí tuto hodnotu, stahování bude asynchronní.
-bkm#:#bkm_fold_created#:#Byla vytvořena složka záložek.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolutní cesta
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
@@ -4393,7 +4392,6 @@ common#:#zip#:#Poštovní kód
 common#:#zip_structure_error#:#Archív obsahuje stejné názvy souborů. Odeslání přerušeno.
 common#:#zip_test_failed#:#Zip-Test selhal. Kontaktujte prosím správce ILIAS
 common#:#zipcode#:#Poštovní směrovací číslo
-cond#:#cond_under_parent_control#:#Předpoklady jsou pod kontrolou nadřazeného objektu.
 content#:#Pages#:#Stránky
 content#:#add_menu_entry#:#Přidat položku menu >>
 content#:#all_pages#:#Celý výukový modul
@@ -5605,11 +5603,6 @@ content#:#st#:#Kapitola
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
-cptch#:#cptch_freetype_support_needed#:#K použití tohoto rysu musíte zapnout podporu volného typu ve Vašem PHP.
-cptch#:#cptch_wrong_input#:#Chybný vstup
-excv#:#excv_create#:#Vytvořit certifikát cvičení
-excv#:#excv_create_info#:#Vybrat ukončené cvičení ke generování certifikátu o jeho splnění.
-impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
 lti#:#act_lti_for_obj_type#:#Aktivovat LTI pro typ objektu
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:#Aktivovat oznámení
 noti#:#noti_deactivate_notification#:#Deaktivovat oznámení
 noti#:#noti_notification_activated#:#Oznámení aktivováno
 noti#:#noti_notification_deactivated#:#Oznámení deaktivováno
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Zobrazit Chatviewer
 pd#:#block_show_pdbookm#:#Zobrazit záložky
 pd#:#block_show_pdcal#:#Zobrazit kalendář
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Odhlásit z odběru
 pd#:#pd_unsubscribe_multiple_memberships#:#Odhlásit několik
 pd#:#pd_upcoming#:#Nadcházející
 pd#:#pd_view_select_at_least_one#:#Musíte vybrat alespoň jedno zobrazení, také 'Vybrané položky' a/nebo 'Má členství'.
-pdesk#:#bookmark_moved_ok#:#Záložka byla přesunuta.
-pdesk#:#bookmark_select_target#:#Vyberte prosím cíl.
 sahs#:#cont_insert_after_chap#:#Vložit položky za kapitolu
 sahs#:#cont_insert_into_chap#:#Vložit položky do kapitoly
 sahs#:#sahs_activate_expert_mode#:#Aktivovat sekvencování v expertním módu
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#Standardní sekvencování
 sahs#:#sahs_std_sequencing_info#:#Použít standardní chování sekvencování ILIAS.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Vytvořit exportní soubor (HTML, jedna stránka, Mód přehledu)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###29 07 2022 new variable
 scormdebug#:#API-call#:#API-volání
 scormdebug#:#Commit#:#Uložit data
 scormdebug#:#GetDiagnostic#:#umožňuje LMS (!) definovat další diagnostické informace
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Vytvořit certifikát SCORM
 scov#:#crsv_create_info#:#Vyberte dokončený výukový modul pro vygenerování certifikátu
 scov#:#scov_create#:#Vytvořit certifikát SCORM
 scov#:#scov_create_info#:#Vyberte dokončený výukový modul pro vygenerování certifikátu pro něj
-violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable

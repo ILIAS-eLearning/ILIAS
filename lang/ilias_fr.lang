@@ -1783,7 +1783,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Nombre minimum
 bgtask#:#bgtask_setting_threshold_count_info#:#Si le nombre de fichiers dépasse cette valeur, le téléchargement sera asynchrone.
 bgtask#:#bgtask_setting_threshold_size#:#Taille minimum
 bgtask#:#bgtask_setting_threshold_size_info#:#Si les tailles de fichiers dépassent cette valeur, le téléchargement sera asynchrone.
-bkm#:#bkm_fold_created#:#Un dossier de signets a été créé.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Chemin absolu
 common#:#accept_usr_agreement_btn#:#Accept
@@ -4378,7 +4377,6 @@ common#:#zip#:#Code Postal
 common#:#zip_structure_error#:#L'archive ZIP contient des noms de fichiers identiques. Le dépôt est abandonné.
 common#:#zip_test_failed#:#Le test ZIP a échoué. Veuillez contacter votre administrateur ILIAS.
 common#:#zipcode#:#Code postal
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Ajouter Entrée de Menu
 content#:#all_pages#:#le module entier
@@ -5590,11 +5588,6 @@ content#:#st#:#Chapitre
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Texte de Substitution
 content#:#text_repr_info#:#Attribut "alt" utilisé pour l'image.
-cptch#:#cptch_freetype_support_needed#:#Pour utiliser cette fonction, vous devez activer le support de FreeType dans PHP.
-cptch#:#cptch_wrong_input#:#Mauvaise Saisie
-excv#:#excv_create#:#Créer un Certificat d'Exercice
-excv#:#excv_create_info#:#Sélectionner un exercice terminé pour générer un certificat
-impr#:#impr_page_type_impr#:#Imprint
 lti#:#act_lti_for_obj_type#:#Activer la LTI pour le type d’objet
 lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.
@@ -5976,7 +5969,6 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Afficher le Lecteur de Chat
 pd#:#block_show_pdbookm#:#Afficher les Favoris
 pd#:#block_show_pdcal#:#Afficher l'Agenda
@@ -6014,8 +6006,6 @@ pd#:#pd_unsubscribe_memberships#:#Se Désinscrire
 pd#:#pd_unsubscribe_multiple_memberships#:#Se désinscrire (plusieurs)
 pd#:#pd_upcoming#:#À venir
 pd#:#pd_view_select_at_least_one#:#Vous devez sélectionner au moins une vue : 'Items sélectionnés' et/ou 'Mes appartenances'
-pdesk#:#bookmark_moved_ok#:#Le favori a été déplacé.
-pdesk#:#bookmark_select_target#:#Veuillez sélectionner une destination.
 sahs#:#cont_insert_after_chap#:#Ajouter des objets après le chapitre
 sahs#:#cont_insert_into_chap#:#Ajouter des objets dans le chapitre
 sahs#:#sahs_activate_expert_mode#:#Activer le Séquencement en Mode Expert
@@ -6065,7 +6055,6 @@ sahs#:#sahs_std_sequencing#:#Séquencement Standard
 sahs#:#sahs_std_sequencing_info#:#Utiliser le séquencement standard d'ILIAS.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Créer Fichier d'Export (HTML, 1 Page, Mode Révision)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
 scormdebug#:#API-call#:#Appel d’API
 scormdebug#:#Commit#:#Stocker données
 scormdebug#:#GetDiagnostic#:#Autorise le LMS (!) a définir des informations de diagnostic supplémentaires
@@ -6310,4 +6299,3 @@ scov#:#crsv_create#:#Créer Certificat SCORM
 scov#:#crsv_create_info#:#Choisir un module terminé pour générer un certificat
 scov#:#scov_create#:#Créer un certificat SCORM
 scov#:#scov_create_info#:#Sélectionner un module SCORM complété pour générer un certificat
-violation#:#not_a_string#:#Given value is not a String###31 10 2023 new variable

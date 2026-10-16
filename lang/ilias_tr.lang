@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimum Number###25 10 2016 new variab
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.###25 10 2016 new variable
-bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
 common#:#HH#:#SS: DD
 common#:#absolute_path#:#Mutlak Yolu
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
@@ -4393,7 +4392,6 @@ common#:#zip#:#Posta Kodu
 common#:#zip_structure_error#:#Arşivde aynı dosyadan var. Yükleme iptal edildi.
 common#:#zip_test_failed#:#Zip-Test başarısız. ILIAS yöneticinize başvurun.
 common#:#zipcode#:#Posta Kodu
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.###10 11 2018 new variable
 content#:#Pages#:#Sayfalar
 content#:#add_menu_entry#:#Menü Girdisi Ekle
 content#:#all_pages#:#tüm öğrenme modülü
@@ -5605,11 +5603,6 @@ content#:#st#:#Bölüm
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Metin Gösterimi
 content#:#text_repr_info#:#görüntü "alt" özniteliği için kullanılır.
-cptch#:#cptch_freetype_support_needed#:#Eğer PHP, freetype desteği etkinleştirmeniz gerekir Bu özelliği kullanmak için .
-cptch#:#cptch_wrong_input#:#Yanlış Girdi
-excv#:#excv_create#:#Egzersiz Sertifika Oluştur
-excv#:#excv_create_info#:#bunun için bir sertifika oluşturmak için tamamlanmış bir egzersiz seçin
-impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object###31 08 2017 new variable
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Göster Chatviewer
 pd#:#block_show_pdbookm#:#göster imleri
 pd#:#block_show_pdcal#:#Göster Takvim
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
 pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#En az bir görünümü seçmek zorunda, ya 'Seçili Öğeler' ve / veya 'Üyelikler'.
-pdesk#:#bookmark_moved_ok#:#Yer imi taşındı.
-pdesk#:#bookmark_select_target#:#Hedef seçiniz.
 sahs#:#cont_insert_after_chap#:#Bölümden sonra Insert ürün
 sahs#:#cont_insert_into_chap#:#Bölüm içinde Insert ürün
 sahs#:#sahs_activate_expert_mode#:#Uzman Modu Dizileme etkinleştirin
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#Standart Dizileme
 sahs#:#sahs_std_sequencing_info#:#kullanımlar ILIAS standart sıralama davranışı.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Dışa Aktarma Dosyası Oluştur(HTML, Tek Sayfa, İnceleme Modu)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###29 07 2022 new variable
 scormdebug#:#API-call#:#API çağrısı
 scormdebug#:#Commit#:#veri depolama
 scormdebug#:#GetDiagnostic#:#olanak LMS (!) ek tanı bilgileri tanımlamak için
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
 scov#:#scov_create#:#Create SCORM Certificate###23 12 2015 new variable
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it###23 12 2015 new variable
-violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable

@@ -1803,7 +1803,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimum Number
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.
-bkm#:#bkm_fold_created#:#Bookmark folder has been created.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement_btn#:#Accept
@@ -4403,7 +4402,6 @@ common#:#zip#:#Zip Code / Post Code
 common#:#zip_structure_error#:#Archive contains same file names. Upload aborted.
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
 common#:#zipcode#:#Zip Code / Post Code
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add Menu Entry
 content#:#all_pages#:#Entire Learning Module
@@ -5618,11 +5616,6 @@ content#:#st#:#Chapter
 content#:#start_lm#:#Launch Learning Module
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image ‘alt’ attribute.
-cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
-cptch#:#cptch_wrong_input#:#Wrong Input
-excv#:#excv_create#:#Create Exercise Certificate
-excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it.
-impr#:#impr_page_type_impr#:#Imprint
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.
@@ -6005,7 +5998,6 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notifications#:#push_notification#:#Push Notifications
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_show_pdcal#:#Show Calendar
@@ -6039,8 +6031,6 @@ pd#:#pd_profile_data#:#Profile Data
 pd#:#pd_remove_multi_confirm#:#The objects were removed.
 pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
-pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
-pdesk#:#bookmark_select_target#:#Please select target.
 sahs#:#cont_insert_after_chap#:#Insert items after chapter
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter
 sahs#:#sahs_add#:#Create SCORM Learning Module
@@ -6093,7 +6083,6 @@ sahs#:#sahs_std_sequencing#:#Standard Sequencing
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
 scormdebug#:#API-call#:#API-call
 scormdebug#:#Commit#:#store data
 scormdebug#:#GetDiagnostic#:#allows the LMS (!) to define additional diagnostic information
@@ -6338,4 +6327,3 @@ scov#:#crsv_create#:#Create SCORM Certificate
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it
 scov#:#scov_create#:#Create SCORM Certificate
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it
-violation#:#not_a_string#:#Given value is not a String

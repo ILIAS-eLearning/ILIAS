@@ -1798,7 +1798,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimum Number###25 10 2016 new variab
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size###25 10 2016 new variable
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.###25 10 2016 new variable
-bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absoluuttee
 common#:#accept_usr_agreement_btn#:#Accept###29 07 2022 new variable
@@ -4393,7 +4392,6 @@ common#:#zip#:#Postiindeks
 common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.
 common#:#zip_test_failed#:#Zip-test ebaõnnestus. Võtke ühendust ILIASe administraatoriga.
 common#:#zipcode#:#Postiindeks
-cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.###10 11 2018 new variable
 content#:#Pages#:#Lehed
 content#:#add_menu_entry#:#Lisa menüükirje>>
 content#:#all_pages#:#terve õppemoodul
@@ -5605,11 +5603,6 @@ content#:#st#:#Peatükk
 content#:#start_lm#:#Launch Learning Module###26 08 2024 new variable
 content#:#text_repr#:#Teksti esitus
 content#:#text_repr_info#:#Kasutatud pildi "alt" atribuudina.
-cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
-cptch#:#cptch_wrong_input#:#Wrong Input
-excv#:#excv_create#:#Create Exercise Verification
-excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it
-impr#:#impr_page_type_impr#:#Imprint###29 07 2022 new variable
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object###31 08 2017 new variable
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5991,7 +5984,6 @@ noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new varia
 noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
 noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
 noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
-notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_pdcal#:#Kalender anzeigen
@@ -6029,8 +6021,6 @@ pd#:#pd_unsubscribe_memberships#:#Unsubscribe
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#Vali üks vaadetest: kas 'Valitud objektid' või Minu liikmelisus'.
-pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
-pdesk#:#bookmark_select_target#:#Please select target.
 sahs#:#cont_insert_after_chap#:#Lisa üksused pärast peatükki
 sahs#:#cont_insert_into_chap#:#Sisesta objektid peatüki sisse
 sahs#:#sahs_activate_expert_mode#:#Aktiveeri järjestuse ekspertrežiim
@@ -6080,7 +6070,6 @@ sahs#:#sahs_std_sequencing#:#Tavaline järjestus
 sahs#:#sahs_std_sequencing_info#:#Kasuta ILIASe tavalist järjestust.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###29 07 2022 new variable
 scormdebug#:#API-call#:#API-call
 scormdebug#:#Commit#:#store data
 scormdebug#:#GetDiagnostic#:#allows the LMS (!) to define additional diagnostic information
@@ -6325,4 +6314,3 @@ scov#:#crsv_create#:#Create SCORM Certificate
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it
 scov#:#scov_create#:#Create SCORM Certificate###23 12 2015 new variable
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it###23 12 2015 new variable
-violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable

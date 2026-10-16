@@ -1804,7 +1804,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Número mínimo
 bgtask#:#bgtask_setting_threshold_count_info#:#Si el número de archivos supera este valor, la descarga será asíncrona.
 bgtask#:#bgtask_setting_threshold_size#:#Tamaño mínimo
 bgtask#:#bgtask_setting_threshold_size_info#:#Si el tamaño de los archivos supera este valor, la descarga será asíncrona.
-bkm#:#bkm_fold_created#:#La carpeta de marcadores ha sido creada.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Ruta absoluta
 common#:#accept_usr_agreement_btn#:#Aceptar
@@ -4403,7 +4402,6 @@ common#:#zip#:#Código Postal
 common#:#zip_structure_error#:#El archivo contiene nombres de archivo idénticos. Carga abortada.
 common#:#zip_test_failed#:#La prueba de Zip ha fallado. Por favor, contacte con su administrador de ILIAS.
 common#:#zipcode#:#Código Postal
-cond#:#cond_under_parent_control#:#Las condiciones previas están bajo el control del objeto superior.
 content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir entrada de menú
 content#:#all_pages#:#Módulo de aprendizaje completo
@@ -5617,11 +5615,6 @@ content#:#st#:#Capítulo
 content#:#start_lm#:#Iniciar Módulo de Aprendizaje
 content#:#text_repr#:#Representación de texto
 content#:#text_repr_info#:#Se utiliza para el atributo ‘alt’ de la imagen.
-cptch#:#cptch_freetype_support_needed#:#Para usar esta función, debe habilitar el soporte de freetype en su PHP.
-cptch#:#cptch_wrong_input#:#Entrada incorrecta
-excv#:#excv_create#:#Crear certificado de ejercicio
-excv#:#excv_create_info#:#Seleccione un ejercicio finalizado para generar un certificado para el mismo.
-impr#:#impr_page_type_impr#:#Pie de imprenta
 lti#:#act_lti_for_obj_type#:#Activar LTI para tipo de objeto
 lti#:#activity_id#:#ID de actividad
 lti#:#activity_id_info#:#Este ID de actividad es utilizado por la herramienta LTI para identificar declaraciones.
@@ -6004,7 +5997,6 @@ noti#:#noti_activate_notification#:#Activar notificación
 noti#:#noti_deactivate_notification#:#Desactivar notificación
 noti#:#noti_notification_activated#:#Notificación activada
 noti#:#noti_notification_deactivated#:#Notificación desactivada
-notifications#:#push_notification#:#Push Notifications
 pd#:#block_show_chatviewer#:#Mostrar Visor de Chat
 pd#:#block_show_pdbookm#:#Mostrar Marcadores
 pd#:#block_show_pdcal#:#Mostrar Calendario
@@ -6042,8 +6034,6 @@ pd#:#pd_unsubscribe_memberships#:#Dar de baja un miembro
 pd#:#pd_unsubscribe_multiple_memberships#:#Dar de baja varios miembros
 pd#:#pd_upcoming#:#Próximamente
 pd#:#pd_view_select_at_least_one#:#Debe seleccionar al menos una vista, ya sea 'Elementos seleccionados' y/o 'Mis membresías'.
-pdesk#:#bookmark_moved_ok#:#El marcador ha sido movido.
-pdesk#:#bookmark_select_target#:#Por favor, seleccione el destino.
 sahs#:#cont_insert_after_chap#:#Insertar elementos después del capítulo
 sahs#:#cont_insert_into_chap#:#Insertar elementos dentro del capítulo
 sahs#:#sahs_activate_expert_mode#:#Activar Modo Experto de Secuenciación
@@ -6093,7 +6083,6 @@ sahs#:#sahs_std_sequencing#:#Secuenciación estándar
 sahs#:#sahs_std_sequencing_info#:#Utilizar el comportamiento de secuenciación estándar de ILIAS.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Crear archivo de exportación (HTML, una página, modo revisión)
-sc13#:#sc13_page_type_sahs#:#Página del editor SCORM
 scormdebug#:#API-call#:#API-call
 scormdebug#:#Commit#:#almacenar datos
 scormdebug#:#GetDiagnostic#:#permite al LMS (!) definir información de diagnóstico adicional
@@ -6338,4 +6327,3 @@ scov#:#crsv_create#:#Crear Certificado SCORM
 scov#:#crsv_create_info#:#Seleccione un módulo de aprendizaje finalizado para generar un certificado para el mismo
 scov#:#scov_create#:#Crear certificado SCORM
 scov#:#scov_create_info#:#Seleccione un módulo SCORM completado para generar un certificado para el mismo
-violation#:#not_a_string#:#El valor proporcionado no es una cadena de texto

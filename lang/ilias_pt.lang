@@ -1787,7 +1787,6 @@ bgtask#:#bgtask_setting_threshold_count#:#Número mínimo
 bgtask#:#bgtask_setting_threshold_count_info#:#Se o número de ficheiros exceder este valor, o download será assincronamente.
 bgtask#:#bgtask_setting_threshold_size#:#Tamanho mínimo
 bgtask#:#bgtask_setting_threshold_size_info#:#Se os tamanhos dos ficheiros exceder este valor, o download será assincronamente.
-bkm#:#bkm_fold_created#:#Foi criada pasta de favoritos.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Caminho absoluto
 common#:#accept_usr_agreement_btn#:#Accept###30 04 2021 new variable
@@ -4388,7 +4387,6 @@ common#:#zip#:#Definições do módulo de aprendizagem
 common#:#zip_structure_error#:#Definições
 common#:#zip_test_failed#:#Teste Zip falhou. Entre em contacto com o seu administrador ILIAS.
 common#:#zipcode#:#Idioma usado para textos predefinidos, p. ex. "Anterior" e "Próximo".
-cond#:#cond_under_parent_control#:#Manifesto
 content#:#Pages#:#a sua adesão ao curso "%s" foi restaurada.
 content#:#add_menu_entry#:#Uso
 content#:#all_pages#:#Nova área do link
@@ -5600,11 +5598,6 @@ content#:#st#:#Modo de apresentação para definições de temporizações.
 content#:#start_lm#:#Launch Learning Module###03 09 2026 new variable
 content#:#text_repr#:#Representação de texto
 content#:#text_repr_info#:#Curso orientado por objetivos de aprendizagem
-cptch#:#cptch_freetype_support_needed#:#Para usar esta funcionalidade tem de ativar o suporte de tipo livre no seu PHP.
-cptch#:#cptch_wrong_input#:#Entrada errada
-excv#:#excv_create#:#Título e descrição
-excv#:#excv_create_info#:#Desconhecido
-impr#:#impr_page_type_impr#:#Imprint###30 04 2021 new variable
 lti#:#act_lti_for_obj_type#:#Ativar LTI para tipo de objeto
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
@@ -5987,7 +5980,6 @@ noti#:#noti_activate_notification#:#Se estiver ativado, a pesquisa do utilizador
 noti#:#noti_deactivate_notification#:#Mostrar utilizadores com acesso limitado
 noti#:#noti_notification_activated#:#Se estiver ativado, a pesquisa do utilizador mostra também utilizadores com acesso limitado fora desse período de tempo autorizado.
 noti#:#noti_notification_deactivated#:#Tipo
-notifications#:#push_notification#:#Push Notifications###03 09 2026 new variable
 pd#:#block_show_chatviewer#:#Lista de competências
 pd#:#block_show_pdbookm#:#Nova referência de modelo de competências
 pd#:#block_show_pdcal#:#Sem competências
@@ -6021,8 +6013,6 @@ pd#:#pd_profile_data#:#Dados de perfil
 pd#:#pd_remove_multi_confirm#:#Os objetos foram removidos.
 pd#:#pd_upcoming#:#Futuros
 pd#:#pd_view_select_at_least_one#:#Este módulo de aprendizagem já foi exportado. Abra-o com o computador onde instalou o Firefox com o addon do leitor offline SCORM.
-pdesk#:#bookmark_moved_ok#:#Os favoritos foram movidos.
-pdesk#:#bookmark_select_target#:#Selecione destino.
 sahs#:#cont_insert_after_chap#:#Inserir itens depois do capítulo
 sahs#:#cont_insert_into_chap#:#Inserir itens dentro do capítulo
 sahs#:#sahs_add#:#Criar módulo de aprendizagem SCORM
@@ -6070,7 +6060,6 @@ sahs#:#sahs_std_sequencing#:#Sequenciação padrão
 sahs#:#sahs_std_sequencing_info#:#Usar comportamento de sequenciação padrão ILIAS.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Criar ficheiro de exportação (HTML, One Page, Modo revisão)
-sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###30 04 2021 new variable
 scormdebug#:#API-call#:#Acesso API
 scormdebug#:#Commit#:#guardar dados
 scormdebug#:#GetDiagnostic#:#permite que oLMS (!) defina informação de diagnóstico adicional
@@ -6315,4 +6304,3 @@ scov#:#crsv_create#:#Criar certificado SCORM
 scov#:#crsv_create_info#:#Selecionar um módulo de aprendizagem concluído para criar um certificado para ele
 scov#:#scov_create#:#Criar certificado SCORM
 scov#:#scov_create_info#:#Selecionar um módulo SCORM concluído para criar um certificado para ele
-violation#:#not_a_string#:#Given value is not a String###03 09 2026 new variable
