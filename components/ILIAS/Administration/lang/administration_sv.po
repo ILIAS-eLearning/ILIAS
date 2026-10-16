@@ -1,0 +1,799 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: administration\n"
+
+msgid "adm_achievements"
+msgstr "lärande framgångar"
+
+msgid "adm_adm_role_protect"
+msgstr "Skydda administratörens roll"
+
+msgid "adm_adm_role_protect_info"
+msgstr "När detta är aktiverat får endast administratörer tilldela eller ta bort användare från administratörsrollen."
+
+msgid "adm_auth_login"
+msgstr "Autentisering Inloggning"
+
+msgid "adm_auth_reg"
+msgstr "Registrering av autentisering"
+
+msgid "adm_communication"
+msgstr "Kommunikation"
+
+msgid "adm_extending_ilias"
+msgstr "ILIAS expandera"
+
+msgid "adm_external_setting_edit"
+msgstr "Redigera inställningar"
+
+msgid "adm_hide"
+msgstr "Dölj i formuläret för inställningar"
+
+msgid "adm_hide_tabs"
+msgstr " Dölj flik"
+
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Imprint"
+
+msgid "adm_imprint_inactive"
+msgstr "Avtrycket är inte aktiverat och därför inte tillgängligt för användare."
+
+msgid "adm_layout_and_navigation"
+msgstr "Layout och navigering"
+
+#, fuzzy
+msgid "adm_legal_regulations"
+msgstr "Legal Regulations"
+
+msgid "adm_locale"
+msgstr "Locale"
+
+msgid "adm_locale_info"
+msgstr "Lokalinställningen påverkar den alfabetiska sorteringen i listor. Exempel är nl_NL eller de_DE. Flera värden kan anges (kommaseparerade). Det första giltiga värdet används."
+
+msgid "adm_maintenance"
+msgstr "Systeminställningar och underhåll"
+
+msgid "adm_missing_entries"
+msgstr "Saknade poster"
+
+msgid "adm_missing_entry_add"
+msgstr "Skapa ny post"
+
+msgid "adm_missing_entry_add_action"
+msgstr "Add"
+
+msgid "adm_nr_statements"
+msgstr "Antal visningar"
+
+msgid "adm_personal_workspace"
+msgstr "Personlig arbetsyta"
+
+msgid "adm_predefined_settings"
+msgstr "Fördefinierade inställningar"
+
+msgid "adm_pub_section_domain_filter"
+msgstr "Domänfilter"
+
+msgid "adm_pub_section_domain_filter_info"
+msgstr "Domänfilter för anonym åtkomst. Ange ett eller flera domännamn för vilka anonym åtkomst är aktiverad. Domäner som inte finns med i listan tillåter inte anonym åtkomst."
+
+msgid "adm_rep_shorten_description"
+msgstr "Maximal längd för beskrivningar"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "Om aktiverat visas alla beskrivningar i objektlistor endast upp till en definierad längd."
+
+msgid "adm_rep_shorten_description_length"
+msgstr "Maximalt antal tecken"
+
+msgid "adm_rep_tree_all_types"
+msgstr "Alla objekttyper"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "I trädvyn visas alla objekttyper."
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "Begränsning till kurser och grupper"
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "Endast i kurser och grupper visas alla objekttyper i trädvyn. Utanför visar trädvyn endast behållarobjekt."
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "Endast behållarobjekt"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "Trädvyn visar endast studieprogram, kategorier, kurser, grupper och inlärningssekvenser."
+
+msgid "adm_rep_tree_presentation"
+msgstr "Presentation av trädvyn"
+
+msgid "adm_repository_and_objects"
+msgstr "Magasin och föremål"
+
+msgid "adm_search_and_find"
+msgstr "Sök och hitta"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "Visa antal noteringar, kommentarer och taggar i objektlistor"
+
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Lista enskilda taggar istället för antal"
+
+msgid "adm_table"
+msgstr "Tabell"
+
+msgid "adm_user_administration"
+msgstr "Konton och roller"
+
+msgid "adm_user_starting_point"
+msgstr "Personlig hemsida"
+
+msgid "adm_user_starting_point_info"
+msgstr "Välj den sida eller det objekt som ska visas efter inloggning."
+
+msgid "adm_user_starting_point_inherit"
+msgstr "Tillämpa standardinställningar"
+
+msgid "adm_user_starting_point_inherit_info"
+msgstr "Inställningarna antas eftersom de aktiverades globalt av administratören för hela plattformen."
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr "Den här funktionen är för närvarande inte aktiverad."
+
+msgid "adm_user_starting_point_object"
+msgstr "Magasinobjekt"
+
+msgid "adm_user_starting_point_personal"
+msgstr "Personlig attityd"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "När den är aktiverad får användarna välja sin egen startsida."
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "Reference ID"
+
+msgid "adm_user_starting_point_ref_id_info"
+msgstr " Öppna det objekt som du vill ange som din personliga startsida. Kopiera numret bakom \"ref_id=\" från webbläsarraden och skriv in det i inmatningsfältet."
+
+msgid "adm_value"
+msgstr "Fördefinierat värde"
+
+msgid "allow_change_loginname"
+msgstr "Tillåt ändring av inloggningsnamn"
+
+msgid "analysis_options"
+msgstr "Analys av alternativ"
+
+msgid "analyze_data"
+msgstr "Analysera och reparera dataintegritet"
+
+msgid "analyzing_tree_structure"
+msgstr "Kontrollera trädstrukturen..."
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "Automatiskt autentiseringsförsök när du går in på inloggningssidan"
+
+msgid "apache_auth_domains"
+msgstr "Tillåtna domäner för omdirigering"
+
+msgid "apache_auth_domains_description"
+msgstr "Ange en tillåten domän per rad till vilken omdirigering är tillåten.<br/>Om ILIAS kan nås under en unik domän, behöver ingen separat post göras för detta. I annat fall anger du alla domäner. <br />Exempel"
+
+msgid "apache_auth_enable_override_login"
+msgstr "Överskriv standardinloggningssida"
+
+msgid "apache_auth_indicator_name"
+msgstr "Indikatorfält för lyckad Apache-autentisering"
+
+msgid "apache_auth_indicator_value"
+msgstr "Indikatorvärde för lyckad Apache-autentisering"
+
+msgid "apache_auth_security"
+msgstr "Säkerhetsinställningar"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "Mål-URL för inloggningssida"
+
+msgid "apache_auth_username_by_function"
+msgstr "Uppdrag med egen funktion"
+
+msgid "apache_auth_username_config"
+msgstr "Konfiguration för inloggningsnamn"
+
+msgid "apache_auth_username_config_type"
+msgstr "Typ"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "Direkt tilldelning"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "Uppgiftsfält"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "Utökat uppdrag"
+
+msgid "apache_autocreate"
+msgstr "Aktivera automatiskt skapande av konto"
+
+msgid "apache_default_role"
+msgstr "Förvald roll för nya användare"
+
+msgid "apache_enable_auth"
+msgstr "Aktivera Apache-autentisering"
+
+msgid "apache_enable_ldap"
+msgstr "Aktivera LDAP för Apache-autentisering"
+
+msgid "apache_enable_local"
+msgstr "Aktivera lokal användarmappning för Apache-autentisering"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAP måste konfigureras i administrationssystemet"
+
+msgid "apache_settings"
+msgstr "Konfigurera Apache-autentisering"
+
+msgid "apache_settings_changed_success"
+msgstr "Konfiguration sparad"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "Bestämning av autentiseringsmetod vid inloggning"
+
+msgid "auth_automatic"
+msgstr "Fast order"
+
+msgid "auth_by_user"
+msgstr "Av användaren"
+
+msgid "auth_kind_determination"
+msgstr "Typ av destination"
+
+#, fuzzy
+msgid "auth_mode_default_change_info"
+msgstr "Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed."
+
+msgid "auth_mode_determination_info"
+msgstr "Här kan du ange om autentiseringsmetoden måste väljas av användarna vid inloggning eller om autentiseringsdata ska kontrolleras med hjälp av en fördefinierad sekvens."
+
+msgid "clean"
+msgstr "Rensa upp"
+
+msgid "clean_desc"
+msgstr "Ta bort ogiltiga referenser och trädposter. Initiera luckor i trädstrukturen"
+
+msgid "cleaning"
+msgstr "Cleanup..."
+
+msgid "cleaning_final"
+msgstr "Finally clean up...."
+
+msgid "course_export"
+msgstr "Synlig i \"Medlemmar\" i kurser"
+
+msgid "done"
+msgstr "Gjort"
+
+msgid "dump_tree"
+msgstr "Lista träd"
+
+msgid "dump_tree_desc"
+msgstr "Analysera trädstrukturen och lista alla trädnoder tillsammans med analysdata."
+
+msgid "dumping_tree"
+msgstr "Listan kan göras lång..."
+
+msgid "found"
+msgstr "Hittad"
+
+msgid "found_none"
+msgstr "Hittades inte"
+
+msgid "git_hash_short"
+msgstr "Commit Hash (kort)"
+
+msgid "git_last_commit"
+msgstr "Sista åtagande"
+
+msgid "git_revision"
+msgstr "Nummer"
+
+msgid "group_export"
+msgstr "Visible i \"Medlemmar\" i grupper"
+
+msgid "history_loginname"
+msgstr "Historik över inloggningsnamn"
+
+msgid "initializing_gaps"
+msgstr "Initialisera luckor i trädstrukturen ..."
+
+msgid "language_all_modules"
+msgstr "Alla moduler"
+
+msgid "language_change_settings"
+msgstr "Ändra språkinställningar"
+
+msgid "language_clear_local_changes"
+msgstr "radera lokala ändringar i databasen"
+
+msgid "language_clear_local_changes_info"
+msgstr "Återställer posterna för detta språk i databasen till standardposterna i filen lang/ilias_%s.lang. Alla lokala ändringar eller tillägg tas bort."
+
+msgid "language_cleared_local"
+msgstr "De lokala ändringarna har tagits bort från databasen."
+
+msgid "language_compare"
+msgstr "Jämförelser med"
+
+msgid "language_default_entries"
+msgstr " (standardinmatningar)"
+
+msgid "language_delete_local_additions"
+msgstr "Radera lokala tillägg i databasen"
+
+msgid "language_delete_local_additions_info"
+msgstr "Raderar alla poster i databasen som har lagts till lokalt."
+
+msgid "language_error_clear_local"
+msgstr "De lokala ändringarna kunde inte raderas i databasen!"
+
+msgid "language_error_delete_local"
+msgstr "Den anpassade språkfilen kunde inte raderas!"
+
+msgid "language_error_local_missed"
+msgstr "Den anpassade språkfilen existerar inte!"
+
+msgid "language_error_read_local"
+msgstr "Den anpassade språkfilen finns inte eller kan inte läsas!"
+
+msgid "language_error_write_global"
+msgstr "Filen med standardspråk kan inte skrivas!"
+
+msgid "language_export_file"
+msgstr "Exportera språkfil"
+
+msgid "language_file_imported"
+msgstr " Språkfilen %s har importerats."
+
+msgid "language_file_scope"
+msgstr "Omfattning av språkfilen"
+
+msgid "language_former_file_description"
+msgstr "För att jämföra dina lokala ändringar med ändringarna i den senaste uppdateringen, kopiera den ursprungliga språkfilen för den tidigare installerade ILIAS-versionen till den katalog som anges ovan. Innan nästa uppdatering kan du göra detta med alternativ"
+
+msgid "language_former_file_equal"
+msgstr "Filen <b>%s</b> matchar den aktuella originalspråkfilen."
+
+msgid "language_former_file_missing"
+msgstr "Filen <b>%s</b> existerar inte."
+
+msgid "language_import_file"
+msgstr "Importera språkfil"
+
+msgid "language_load_local_changes"
+msgstr "Ladda in anpassad språkfil i databasen"
+
+msgid "language_load_local_changes_info"
+msgstr "Laddar in filen customising/global/lang/ilias_%s.lang.local i databasen. Nya poster från filen läggs till och befintliga poster i databasen skrivs över."
+
+msgid "language_loaded_local"
+msgstr "Den anpassade språkfilen har laddats in i databasen."
+
+msgid "language_local_file_deleted"
+msgstr "Den anpassade språkfilen har tagits bort."
+
+msgid "language_maintain"
+msgstr "Underhåll"
+
+msgid "language_maintain_local_changes"
+msgstr "Lokala förändringar väntar"
+
+msgid "language_maintenance"
+msgstr "Språkhantering"
+
+msgid "language_merge_local_changes"
+msgstr "Införa lokala ändringar i standardspråkfilen"
+
+msgid "language_merge_local_changes_info"
+msgstr "Mixar alla lokala ändringar eller tillägg till standardspråksfilen lang/ilias_%s.lang. Webbservern måste ha skrivrättigheter till denna fil."
+
+msgid "language_merged_global"
+msgstr "De lokala ändringarna har infogats i standardspråkfilen."
+
+msgid "language_mode_existing"
+msgstr "Befintliga poster"
+
+msgid "language_mode_existing_delete"
+msgstr "Radera befintliga poster"
+
+msgid "language_mode_existing_delete_info"
+msgstr " Raderar alla databasposter före import.<br /> VARNING"
+
+msgid "language_mode_existing_keepall"
+msgstr "Behåll befintliga poster"
+
+msgid "language_mode_existing_keepall_info"
+msgstr "Importerar endast nya poster som ännu inte finns i databasen."
+
+msgid "language_mode_existing_keepnew"
+msgstr "Bevara lokala förändringar"
+
+msgid "language_mode_existing_keepnew_info"
+msgstr "Importerar nya poster och skriver över alla som fortfarande har standardvärden. Poster som redan har ändrats i databasen behålls."
+
+msgid "language_mode_existing_replace"
+msgstr "Byt ut befintliga poster"
+
+msgid "language_mode_existing_replace_info"
+msgstr "Importerar nya poster och skriver över befintliga poster med de nya värdena från filen."
+
+msgid "language_note_translation"
+msgstr "Sidöversättning aktiveras separat för varje språk. Dessutom måste en användare ha rättigheterna \"Läs\" och \"Skriv\" i språkmappen."
+
+msgid "language_process_maintenance"
+msgstr "Utför underhåll"
+
+msgid "language_remove_local_file"
+msgstr "Ta bort anpassad språkfil"
+
+msgid "language_remove_local_file_info"
+msgstr "Tar bort filen customising/global/lang/ilias_%s.lang.local och ändrar språkets status från \"Installerat med lokal version\" till \"Installerat\". Posterna i databasen påverkas inte."
+
+msgid "language_save_dist"
+msgstr "Skapa säkerhetskopia av standardspråkfilen"
+
+msgid "language_save_dist_failed"
+msgstr "Säkerhetskopian av standardspråkfilen kunde inte skrivas."
+
+msgid "language_save_dist_info"
+msgstr "Skapar en säkerhetskopia av standardspråkfilen i den externa ILIAS-datakatalogen. Detta underlättar efter en ILIAS-uppdatering för att hitta konflikter mellan egna ändringar och uppdaterade språkvariabler."
+
+msgid "language_save_local_changes"
+msgstr "Spara alla ändringar i den anpassade språkfilen"
+
+msgid "language_save_local_changes_info"
+msgstr "Sparar alla lokala ändringar eller tillägg i filen customising/global/lang/ilias_%s.lang.local och sätter status för språket till \"Installerat med lokal version\". Webbservern måste ha skrivrättigheter i katalogen. Observera att denna fil är densamma för"
+
+msgid "language_saved_dist"
+msgstr "Säkerhetskopian av standardspråkfilen har skapats och lagrats i den externa ILIAS-datakatalogen."
+
+msgid "language_scope_added"
+msgstr "Endast lokala tillägg"
+
+msgid "language_scope_added_info"
+msgstr "exporterar alla poster som har lagts till i databasen lokalt. Detta kan användas för att spara ytterligare utvecklingsposter innan du återställer de lokala ändringarna på fliken \"Underhåll\"."
+
+msgid "language_scope_commented"
+msgstr " Visar endast poster med kommentarer i språkfilen"
+
+msgid "language_scope_conflicts"
+msgstr "Lokala och uppdaterade förändringar"
+
+msgid "language_scope_dbremarks"
+msgstr " Visar endast poster med kommentarer i databasen"
+
+msgid "language_scope_different"
+msgstr "Särskilt från språket för jämförelse"
+
+msgid "language_scope_equal"
+msgstr "Identiskt till språket för jämförelse"
+
+msgid "language_scope_global"
+msgstr "Alla poster"
+
+msgid "language_scope_global_info"
+msgstr "Exporterar alla databasposter. Detta kan användas för säkerhetskopiering."
+
+msgid "language_scope_local"
+msgstr "Endast lokala ändringar"
+
+msgid "language_scope_local_info"
+msgstr "exporterar alla poster som har lagts till eller ändrats lokalt i databasen."
+
+msgid "language_scope_merged"
+msgstr "Standardspråkfil med lokala ändringar"
+
+msgid "language_scope_merged_info"
+msgstr "exporterar standardspråkfilen för ILIAS, där alla lokala ändringar och tillägg blandas i alfabetisk ordning efter modul och språkvariabel. Detta kan användas för att uppdatera språkfilen på SVN-servern."
+
+msgid "language_scope_unchanged"
+msgstr "Oförändrade poster"
+
+msgid "language_scope_unchanged_info"
+msgstr "exporterar alla databasposter som inte har ändrats från standardvärdena. Detta är motsatsen till \"Endast lokala ändringar\". Båda filerna utgör tillsammans en total säkerhetskopia av språket i databasen."
+
+msgid "language_settings"
+msgstr "Språkinställningar"
+
+msgid "language_statistics"
+msgstr "Statistik"
+
+#, fuzzy
+msgid "language_translation"
+msgstr "Page translation"
+
+msgid "language_translation_enabled"
+msgstr "Sidöversättning aktiverad"
+
+msgid "language_variables_saved"
+msgstr "Ändringarna av språkvariablerna har sparats framgångsrikt."
+
+msgid "log_scan"
+msgstr "Registrera resultaten av undersökningen"
+
+msgid "log_scan_desc"
+msgstr "Spara undersökningsresultaten i filen 'scanlog.log' i kundens datakatalog"
+
+msgid "loginname_change_blocking_time"
+msgstr "Blockeringstid för ändring av inloggningsnamn"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "Ange den period i dagar efter vilken en person kan ändra sitt eget inloggningsnamn igen. Om du anger 0 kan det egna inloggningsnamnet ändras när som helst."
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "Var god ange ett numeriskt värde."
+
+msgid "loginname_history_info"
+msgstr "Tidigare inloggningsnamn kan visas i databastabellen \"loginname_history\"."
+
+msgid "nothing_to_purge"
+msgstr "Inget att eliminera..."
+
+msgid "nothing_to_remove"
+msgstr "Inget att ta bort..."
+
+msgid "nothing_to_restore"
+msgstr "Inget att återställa..."
+
+msgid "obj_blga"
+msgstr "Blogg"
+
+msgid "obj_blga_desc"
+msgstr "Globala blogginställningar"
+
+msgid "obj_chta_desc"
+msgstr "Administration av chattobjektet och chatt-servern"
+
+msgid "obj_excs"
+msgstr "Träning"
+
+msgid "obj_excs_desc"
+msgstr "Globala övningsinställningar"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_impr"
+msgstr "Legal Notice"
+
+#, fuzzy
+msgid "obj_impr_desc"
+msgstr "Deployment of Legal Notice"
+
+msgid "obj_mds"
+msgstr "Metadata"
+
+msgid "obj_mds_desc"
+msgstr "Inställningar för metadata"
+
+msgid "obj_otpl"
+msgstr "Didaktiska mallar"
+
+msgid "obj_otpl_desc"
+msgstr "Mallar för skapande av nya objekt med fördefinierade rättighetsinställningar"
+
+msgid "obj_prfa"
+msgstr "Portfölj"
+
+msgid "obj_prfa_desc"
+msgstr "Globala portföljinställningar"
+
+msgid "obj_taxs"
+msgstr "Taxonomi"
+
+msgid "obj_taxs_desc"
+msgstr "Globala inställningar för taxonomi"
+
+msgid "org_op_edit_user_accounts"
+msgstr "Redigera inloggningskonton"
+
+msgid "output_options"
+msgstr "Alternativ för utmatning"
+
+msgid "path_to_mkisofs"
+msgstr "Mkisofs väg"
+
+#, fuzzy
+msgid "prg_export"
+msgstr "Visible in Study Programmes"
+
+msgid "purge_age_limit"
+msgstr "Åldersgräns"
+
+msgid "purge_age_limit_desc"
+msgstr "Om det här fältet innehåller ett värde tas endast objekt som har tagits bort för mer än det angivna antalet dagar sedan bort från systemet."
+
+msgid "purge_count_limit"
+msgstr "Nummer gräns"
+
+msgid "purge_count_limit_desc"
+msgstr "Om detta fält innehåller ett värde, kommer högst det angivna antalet objekt att tas bort från systemet."
+
+msgid "purge_missing"
+msgstr "Ta bort saknade objekt"
+
+msgid "purge_missing_desc"
+msgstr "Ta bort alla saknade och otilldelade objekt från systemet"
+
+msgid "purge_trash"
+msgstr "Eliminera borttagna objekt"
+
+msgid "purge_trash_desc"
+msgstr "Ta bort alla objekt i papperskorgen från systemet"
+
+msgid "purge_type_limit"
+msgstr "Typ av gränsvärde"
+
+msgid "purge_type_limit_desc"
+msgstr "Om detta fält innehåller ett värde, tas endast objekt av den angivna typen bort från systemet."
+
+msgid "purging"
+msgstr "Eliminerad..."
+
+msgid "purging_missing_objs"
+msgstr "Eliminerar saknade objekt..."
+
+msgid "purging_trash"
+msgstr "Empty Trash..."
+
+msgid "purging_unbound_objs"
+msgstr "Eliminerar ej tilldelade objekt"
+
+msgid "removing_invalid_childs"
+msgstr "Raderar ogiltiga poster i trädstrukturen..."
+
+msgid "removing_invalid_refs"
+msgstr "Tar bort ogiltiga hänvisningar..."
+
+msgid "removing_invalid_rolfs"
+msgstr "Tar bort ogiltiga rollmappar..."
+
+msgid "repair_options"
+msgstr "Alternativ för reparation"
+
+msgid "restore_missing"
+msgstr "Återställ förlorade föremål..."
+
+msgid "restore_missing_desc"
+msgstr "Återställ borttappade och icke tilldelade föremål och placera dem i räddningsmappen."
+
+msgid "restore_trash"
+msgstr "Återställ raderade objekt"
+
+msgid "restore_trash_desc"
+msgstr "Återställ alla objekt i papperskorgen och flytta dem till räddningsmappen."
+
+msgid "restoring"
+msgstr "Restaurerad..."
+
+msgid "restoring_missing_objs"
+msgstr "Återskapa förlorade föremål"
+
+msgid "restoring_trash"
+msgstr "Återställer raderade objekt..."
+
+msgid "restoring_unbound_objs"
+msgstr "återställer ej tilldelade objekt och underobjekt..."
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "Återanvändning av inloggningsnamn"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "Login-namn som har använts av en person tidigare kan användas igen."
+
+msgid "scan"
+msgstr "Investigate"
+
+msgid "scan_desc"
+msgstr "Sök igenom systemet efter korrupta/invalida/förlorade/ej tilldelade objekt"
+
+msgid "scan_details"
+msgstr "Detaljer om undersökningen"
+
+msgid "scan_modes"
+msgstr "Använda examinationsmetoder"
+
+msgid "scanning_system"
+msgstr "Investigate system..."
+
+msgid "searching_deleted_objs"
+msgstr "Sökning efter borttagna objekt...."
+
+msgid "searching_invalid_childs"
+msgstr "Sök efter ogiltiga poster i trädstrukturen..."
+
+msgid "searching_invalid_refs"
+msgstr "Sökning efter ogiltiga referenser...."
+
+msgid "searching_invalid_rolfs"
+msgstr "Sökning efter ogiltiga rollmappar...."
+
+msgid "searching_missing_objs"
+msgstr "Söka efter förlorade föremål...."
+
+msgid "searching_unbound_objs"
+msgstr "Sök efter ej tilldelade objekt..."
+
+msgid "skipped"
+msgstr "utställd"
+
+msgid "start_scan"
+msgstr "Start!"
+
+msgid "svn_path"
+msgstr "Stig"
+
+msgid "svn_revision_current"
+msgstr "Aktuell revidering"
+
+msgid "svn_revision_last_change"
+msgstr "Senast ändrade revision"
+
+msgid "svn_root"
+msgstr "Root"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "system_check_no_owner"
+msgstr "Objects without indication of ownership"
+
+#, fuzzy
+msgid "system_folder_info"
+msgstr "Please choose an item from the administration main menu."
+
+msgid "systemcheck"
+msgstr "Systemkontroll"
+
+msgid "tree_corrupt"
+msgstr "Tree är skadad! Se skanningsloggen för detaljer"
+
+msgid "user_criteria"
+msgstr "Unik användarfunktion"
+
+msgid "user_criteria_desc"
+msgstr "Unik användaregenskap för import/export av testresultat. Egenskapen behövs för att identifiera en identisk användare i olika ILIAS-system."
+
+msgid "usr_loginname_history_info"
+msgstr "Personen ändrade senast inloggningsnamnet den %s. Det tidigare inloggningsnamnet var"
+
+msgid "vc_information"
+msgstr " Visa information om versionskontroll"
+
+msgid "vc_information_not_determined"
+msgstr "Ingen information om versionskontroll kunde fastställas."
+
+msgid "view_last_log"
+msgstr "Visa loggen för senaste skanning"
+
+msgid "view_log"
+msgstr "Visa detaljer"

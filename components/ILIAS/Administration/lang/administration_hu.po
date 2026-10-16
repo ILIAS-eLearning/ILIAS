@@ -1,0 +1,789 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: administration\n"
+
+msgid "adm_achievements"
+msgstr "Eredmények"
+
+msgid "adm_adm_role_protect"
+msgstr "Rendszergazdai szerepkör védelme"
+
+msgid "adm_adm_role_protect_info"
+msgstr "Csak a rendszergazda rendelhet hozzá felhasználókat a rendszergazda szerepkörhöz, illetve csak ő távolíthatja el onnan őket."
+
+msgid "adm_auth_login"
+msgstr "Hitelesítés bejelentkezés"
+
+msgid "adm_auth_reg"
+msgstr "Hitelesítés regisztráció"
+
+msgid "adm_communication"
+msgstr "Kommunikáció"
+
+msgid "adm_extending_ilias"
+msgstr "ILIAS kiterjesztése"
+
+msgid "adm_external_setting_edit"
+msgstr "Beállítások módosítása"
+
+msgid "adm_hide"
+msgstr "Beállítások elrejtése az űrlapon"
+
+msgid "adm_hide_tabs"
+msgstr "Lapok elrejtése"
+
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Impresszum"
+
+msgid "adm_imprint_inactive"
+msgstr "Az impresszum inaktív, a felhasználók nem érhetik el."
+
+msgid "adm_layout_and_navigation"
+msgstr "Kinézet és navigáció"
+
+msgid "adm_legal_regulations"
+msgstr "Jogi előírások"
+
+msgid "adm_locale"
+msgstr "Helyi"
+
+msgid "adm_locale_info"
+msgstr "A helyi beállítások befolyásolják például a listák sorba rendezését. Például hu_HU.UTF-8 vagy de_DE. A többszörös helyi beállítások vesszővel választhatók el. Az első érvényest használjuk."
+
+msgid "adm_maintenance"
+msgstr "Rendszerbeállítások és karbantartás"
+
+msgid "adm_missing_entries"
+msgstr "Hiányzó bejegyzések"
+
+msgid "adm_missing_entry_add"
+msgstr "Új bejegyzés hozzáadása"
+
+msgid "adm_missing_entry_add_action"
+msgstr "Hozzáadás"
+
+msgid "adm_nr_statements"
+msgstr "Állapotok száma"
+
+msgid "adm_personal_workspace"
+msgstr "Személyes munkaterület"
+
+msgid "adm_predefined_settings"
+msgstr "Előre definiált beállítások"
+
+msgid "adm_pub_section_domain_filter"
+msgstr "Domain szűrő"
+
+msgid "adm_pub_section_domain_filter_info"
+msgstr "A domain szűrők engedélyezik az anonymous hozzáférést. Adjon meg egy vagy több domaint, melyekről engedélyezett az anonymous hozzáférés."
+
+msgid "adm_rep_shorten_description"
+msgstr "Leírások hosszának korlátja"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "Az objektumok felsorolásánál a leírások maximum ennyi karakterben jelennek meg."
+
+msgid "adm_rep_shorten_description_length"
+msgstr "Karakterek maximális száma"
+
+msgid "adm_rep_tree_all_types"
+msgstr "Összes objektumtípus"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "Az összes objektumtípust felsoroljuk a fában."
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "Megjelenítés csak kurzusokban és csoportokban."
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "A fa nézet a kurzusok és a csoportok összes objektumát megjeleníti, azokon kívül pedig csak a tárolóobjektumokat."
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "Csak tárolók"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "Csak képzési programokat, kategóriákat, kurzusokat és csoportokat jelenítünk meg"
+
+msgid "adm_rep_tree_presentation"
+msgstr "Tartalomtár fa nézete"
+
+msgid "adm_repository_and_objects"
+msgstr "Tartalomtár és objektumok"
+
+msgid "adm_search_and_find"
+msgstr "Keresés és találat"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "Jegyzetek, megjegyzések és címkék számának megjelenítése az objektumlistákban"
+
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Címkék megjelenítése a számok helyett"
+
+msgid "adm_table"
+msgstr "Tábla"
+
+msgid "adm_user_administration"
+msgstr "ILIAS-fiókok kezelése"
+
+msgid "adm_user_starting_point"
+msgstr "Személyes kezdési pont"
+
+msgid "adm_user_starting_point_info"
+msgstr "Válassza ki a bejelentkezés után látható lapot vagy objektumot."
+
+msgid "adm_user_starting_point_inherit"
+msgstr "Általános beállítások használata"
+
+msgid "adm_user_starting_point_inherit_info"
+msgstr "A rendszergazda összes beállításának használata a rendszerre."
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr "Ez a funkció jelenleg nem aktív."
+
+msgid "adm_user_starting_point_object"
+msgstr "Tartalomtárbeli objektum"
+
+msgid "adm_user_starting_point_personal"
+msgstr "Személyes beállítás"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "A felhasználók kiválaszthatják kezdőlapjukat."
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "Referencia-ID"
+
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "Nyissa meg az objektumot, amit Személyes kezdőpontjának szeretne beállítani, majd másolja böngészője címsorában lévő ‘ref_id’ számértékét a szövegmezőbe."
+
+msgid "adm_value"
+msgstr "Előre definiált érték"
+
+msgid "allow_change_loginname"
+msgstr "Felhasználónevek módosításának engedélyezése a ‘Felhasználói adatok és profil’ » ‘Személyes adatok’ részében"
+
+msgid "analysis_options"
+msgstr "Elemzési beállítások"
+
+msgid "analyze_data"
+msgstr "Adatintegritás vizsgálata és javítása"
+
+msgid "analyzing_tree_structure"
+msgstr "Fastruktúra elemzése…"
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "Apache-azonosítás próbálása a bejelentkező lapra belépéskor."
+
+msgid "apache_auth_domains"
+msgstr "Engedélyezett átirányítási tartományok"
+
+msgid "apache_auth_domains_description"
+msgstr "Adjon meg soronként egy domaint az átirányítás engedélyezéséhez erre a címre.<br/>Ha az ILIAS-t több mint egy domain eléri, adja meg az összes engedélyezendő célt.<br/>Például: az example.com lehetővé teszi az átirányítást a http://example.com és a http://www.example.com címre, valamint minden lapra, amely azokon helyezkedik el."
+
+msgid "apache_auth_enable_override_login"
+msgstr "Alapértelmezett bejelentkező lap felülírása"
+
+msgid "apache_auth_indicator_name"
+msgstr "Jelzőmező sikeres bejelentkezéshez"
+
+msgid "apache_auth_indicator_value"
+msgstr "Jelzőérték sikeres bejelentkezéshez"
+
+msgid "apache_auth_security"
+msgstr "Biztonsági beállítások"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "Cél URL testre szabott bejelentkező laphoz"
+
+msgid "apache_auth_username_by_function"
+msgstr "Felhasználónevek testre szabott funkciókkal összerendelése"
+
+msgid "apache_auth_username_config"
+msgstr "Felhasználónév konfigurálása"
+
+msgid "apache_auth_username_config_type"
+msgstr "Típus"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "Egyenes összerendelés"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "Mező összerendeléshez"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "Kiterjesztett összerendelés"
+
+msgid "apache_autocreate"
+msgstr "ILIAS-fiók generálásának engedélyezése"
+
+msgid "apache_default_role"
+msgstr "Alapértelmezett felhasználói szerepkör"
+
+msgid "apache_enable_auth"
+msgstr "Apache azonosítási támogatás engedélyezése"
+
+msgid "apache_enable_ldap"
+msgstr "LDAP felhasználói hozzárendelés engedélyezése"
+
+msgid "apache_enable_local"
+msgstr "Helyi felhasználói hozzárendelés engedélyezése"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "Az LDAP-ot a rendszerbeállításokban kell konfigurálni"
+
+msgid "apache_settings"
+msgstr "LDAP azonosítás konfigurálása"
+
+msgid "apache_settings_changed_success"
+msgstr "A konfigurációt sikeresen mentette"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "Azonosítási mód meghatározása (bejelentkezéshez)"
+
+msgid "auth_automatic"
+msgstr "Rögzített sorrend"
+
+msgid "auth_by_user"
+msgstr "A felhasználó által"
+
+msgid "auth_kind_determination"
+msgstr "Meghatározásfajta"
+
+msgid "auth_mode_default_change_info"
+msgstr "Az alapértelmezett hitelesítési mód módosítása az alapértelmezett hitelesítési módot használó összes felhasználói fiókot érinti. Ha a kiválasztott alapértelmezett módot (pl. Shibboleth, SAML, SOAP) nem támogatja, vagy az nincs konfigurálva a helyi ILIAS-hitelesítésre való tartalék használatára, az érintett felhasználók a továbbiakban nem biztos, hogy bejelentkezhetnek. Ennek elkerülése érdekében győződjön meg arról, hogy a helyi tartalék hitelesítés aktiválva van a kiválasztott módszer konfigurációjában, vagy hogy az érintett felhasználói fiókokhoz tárolt hitelesítési módszert manuálisan módosítják."
+
+msgid "auth_mode_determination_info"
+msgstr "Jelölje be, ha a felhasználóknak ki kell választaniuk az azonosítási módot a bejelentkező képernyőn, vagy ha bejelentkezési módok rögzített sorrendjével kerül kezelésre."
+
+msgid "clean"
+msgstr "Rendbetétel"
+
+msgid "clean_desc"
+msgstr "Érvénytelen hivatkozások és faszerkezet-bejegyzések eltávolítása. Hézagok inicializálása a faszerkezetben."
+
+msgid "cleaning"
+msgstr "Tisztítás…"
+
+msgid "cleaning_final"
+msgstr "Végső tisztítás…"
+
+msgid "course_export"
+msgstr "Látható a kurzusokban"
+
+msgid "done"
+msgstr "Kész"
+
+msgid "dump_tree"
+msgstr "Faszerkezet kiírása"
+
+msgid "dump_tree_desc"
+msgstr "A faszerkezet átvizsgálása és a facsomópontok nyomtatása az elemzés adataival."
+
+msgid "dumping_tree"
+msgstr "Faszerkezet kiírása…"
+
+msgid "found"
+msgstr "találat."
+
+msgid "found_none"
+msgstr "nincs találat."
+
+msgid "git_hash_short"
+msgstr "Változtatás Hash (rövid): %s"
+
+msgid "git_last_commit"
+msgstr "Utolsó módosítás: %s"
+
+msgid "git_revision"
+msgstr "Szám: %s"
+
+msgid "group_export"
+msgstr "Látható a csoportokban"
+
+msgid "history_loginname"
+msgstr "Felhasználónév-előzmények"
+
+msgid "initializing_gaps"
+msgstr "Hézagok inicializálása a fában…"
+
+msgid "language_all_modules"
+msgstr "Összes modul"
+
+msgid "language_change_settings"
+msgstr "Nyelvi beállítások változtatása"
+
+msgid "language_clear_local_changes"
+msgstr "Helyi változatok törlése az adatbázisban"
+
+msgid "language_clear_local_changes_info"
+msgstr "A nyelv összes bejegyzését a lang/customizing/ilias_%s.lang fájlban megadott alapértelmezett értékre állítjuk. Minden egyéb változtatás törlünk."
+
+msgid "language_cleared_local"
+msgstr "A helyi változatok törlődtek az adatbázisból."
+
+msgid "language_compare"
+msgstr "Összehasonlítás"
+
+msgid "language_default_entries"
+msgstr "(alapértelmezett bejegyzések)"
+
+msgid "language_delete_local_additions"
+msgstr "Helyi kiegészítések törlése az adatbázisból"
+
+msgid "language_delete_local_additions_info"
+msgstr "Az összes helyileg hozzáadott változat törlése az adatbázisból."
+
+msgid "language_error_clear_local"
+msgstr "A helyi változatok nem törölhetők az adatbázisból!"
+
+msgid "language_error_delete_local"
+msgstr "Az egyéni nyelvi fájl nem törölhető!"
+
+msgid "language_error_local_missed"
+msgstr "Az egyéni nyelvi fájl nem létezik!"
+
+msgid "language_error_read_local"
+msgstr "Az egyéni nyelvi fájl nem létezik vagy nem olvasható!"
+
+msgid "language_error_write_global"
+msgstr "A standard nyelvi fájl nem írható!"
+
+msgid "language_export_file"
+msgstr "Nyelvi fájl exportja"
+
+msgid "language_file_imported"
+msgstr "A nyelvi fájlt (%s) sikeresen importálta."
+
+msgid "language_file_scope"
+msgstr "Nyelvi fájl hatóköre"
+
+msgid "language_former_file_description"
+msgstr "A helyi módosításainak a legutóbbi frissítés módosításaival való összehasonlításhoz másolja a korábban installált ILIAS-verzió nyelvi fájlját a fentebb említett mappába. A következő frissítés előtt ezt megteheti a Karbantartás lapon a ‘Standard nyelvi fájlok biztonsági mentése’ beállítással."
+
+msgid "language_former_file_equal"
+msgstr "<b>%s</b> fájl azonos a jelenlegi nyelvi fájllal."
+
+msgid "language_former_file_missing"
+msgstr "<b>%s</b> fájl hiányzik."
+
+msgid "language_import_file"
+msgstr "Nyelvi fájl importálása"
+
+msgid "language_load_local_changes"
+msgstr "Egyéni nyelvi fájl betöltése az adatbázisba"
+
+msgid "language_load_local_changes_info"
+msgstr "A lang/customizing/ilias_%s.lang.local fájl betöltése az adatbázisba. A már meglévő bejegyezések felülíródnak, az újak hozzáadódnak az adatbázishoz."
+
+msgid "language_loaded_local"
+msgstr "Az egyéni nyelvi fájlt sikeresen betöltötte az adatbázisba."
+
+msgid "language_local_file_deleted"
+msgstr "Az egyéni nyelvi fájlt sikeresen törölte."
+
+msgid "language_maintain"
+msgstr "Karbantartás"
+
+msgid "language_maintain_local_changes"
+msgstr "Helyi módosítások karbantartása"
+
+msgid "language_maintenance"
+msgstr "Nyelv karbantartása"
+
+msgid "language_merge_local_changes"
+msgstr "Helyi változatok összefésülése a standard nyelvi fájllal"
+
+msgid "language_merge_local_changes_info"
+msgstr "A összes helyi és egyéb változat összeolvasztása a lang/customizing/ilias_%s.lang standard nyelvi fájlba betűrendben. A webszerver futtatójának írási jog szükséges a fájlhoz."
+
+msgid "language_merged_global"
+msgstr "A helyi változatokat összefésülte a standard nyelvi fájllal"
+
+msgid "language_mode_existing"
+msgstr "Létező bejegyzések"
+
+msgid "language_mode_existing_delete"
+msgstr "Létező bejegyzések törlése"
+
+msgid "language_mode_existing_delete_info"
+msgstr "Importálás előtt az összes bejegyzés törlése az adatbázisból.<br /> FIGYELEM: Az importálandó nyelvi fájlnak teljesnek kell lennie, különben nem minden nyelvi változó jelenik meg hibátlanul. Amennyiben ez bekövetkezik, kapcsolja be a ‘Karbantartás’-t és válassza a ‘Helyi változatok törlése az adatbázisban’ opciók."
+
+msgid "language_mode_existing_keepall"
+msgstr "Az összes már létező bejegyzés megtartása"
+
+msgid "language_mode_existing_keepall_info"
+msgstr "Csak az új, adatbázisban még nem létező bejegyzések importálása."
+
+msgid "language_mode_existing_keepnew"
+msgstr "Az összes helyi változat megtartása"
+
+msgid "language_mode_existing_keepnew_info"
+msgstr "Új bejegyzések importálása és az alapértelmezett értékűek felülírása. A megváltozott, nem alapértelmezett értékűek változatlanok maradnak az adatbázisban."
+
+msgid "language_mode_existing_replace"
+msgstr "Létező bejegyzések cseréje"
+
+msgid "language_mode_existing_replace_info"
+msgstr "Új bejegyzések importálása és az összes adatbázisban lévő érték cseréje az importfájlban lévő értékre."
+
+msgid "language_note_translation"
+msgstr "Az oldalfordító az egyes nyelvekhez külön-külön kapcsolható be. A felhasználónak olvasási és írási jogosultsággal is rendelkeznie kell az egyes nyelvi fájlokhoz."
+
+msgid "language_process_maintenance"
+msgstr "Karbantartás futtatása"
+
+msgid "language_remove_local_file"
+msgstr "Egyéni nyelvi fájl törlése"
+
+msgid "language_remove_local_file_info"
+msgstr "A lang/customizing/ilias_%s.lang.local fájl törlése és a nyelv ‘Helyi nyelvi fájllal telepítve’ cseréje ‘Telepítve’ állapotra. Az adatbázisban nem történik változtatás."
+
+msgid "language_save_dist"
+msgstr "A standard nyelvi fájl biztonsági mentése"
+
+msgid "language_save_dist_failed"
+msgstr "A standard nyelvi fájl biztonsági mentése nem sikerült (írási hiba)."
+
+msgid "language_save_dist_info"
+msgstr "Az ILIAS adatmappájában lévő standard ILIAS nyelvi fájlról biztonsági másolat készül. Ez segítségére lehet ILIAS frissítés után a saját módosítások és a frissített nyelvi változók közötti ütközések keresésékor."
+
+msgid "language_save_local_changes"
+msgstr "Az összes változtatást egyéni nyelvi fájlba mentése"
+
+msgid "language_save_local_changes_info"
+msgstr "Az összes helyileg hozzáadott vagy adatbázisban megváltoztatott bejegyzés mentése a lang/customizing/ilias_%s.lang.local fájlban, és a nyelv átállítása ‘Helyi nyelvi fájllal telepítve’ állapotúra. A webszerver futtatójának írási jog szükséges a mappába. Figyeljen arra, hogy a telepítés összes kliense ezt a fájlt használja."
+
+msgid "language_saved_dist"
+msgstr "Sikeresen létrehozta a standard nyelvi fájl biztonsági mentését."
+
+msgid "language_scope_added"
+msgstr "Csak helyi felvétel"
+
+msgid "language_scope_added_info"
+msgstr "Az összes, az adatbázisba helyiként hozzáadott bejegyzés exportálása. A fejlesztés alatt lévő változatok biztonsági mentésére lehet felhasználni a ‘Karbantartás’ lapon történő helyi változatok törlése előtt."
+
+msgid "language_scope_commented"
+msgstr "Csak a nyelvi fájlban megjegyzésekkel ellátott bejegyzések megjelenítése"
+
+msgid "language_scope_conflicts"
+msgstr "Helyi és módosított változások"
+
+msgid "language_scope_dbremarks"
+msgstr "Csak az adatbázisban megjegyzésekkel ellátott bejegyzések megjelenítése"
+
+msgid "language_scope_different"
+msgstr "Különbözik az összehasonlított nyelvtől"
+
+msgid "language_scope_equal"
+msgstr "Egyenlő az összehasonlított nyelvvel"
+
+msgid "language_scope_global"
+msgstr "Összes bejegyzés"
+
+msgid "language_scope_global_info"
+msgstr "Ezen nyelv összes adatbázis bejegyzésének exportálása. Ez biztonsági mentésre használható."
+
+msgid "language_scope_local"
+msgstr "Csak a helyi változatok"
+
+msgid "language_scope_local_info"
+msgstr "Az összes helyiként hozzáadott vagy az adatbázisban megváltoztatott bejegyzés exportálása."
+
+msgid "language_scope_merged"
+msgstr "A helyi változatokat összefésülte a standard nyelvi fájllal"
+
+msgid "language_scope_merged_info"
+msgstr "Standard ILIAS nyelvi fájl exportálása az összes helyi változattal együtt, modulonként és azonosítónként rendezve. Ez az ILIAS ILIAS git repository-ban lévő standard nyelvi fájl frissítésére használható."
+
+msgid "language_scope_unchanged"
+msgstr "Csak a nem változtatott bejegyzések"
+
+msgid "language_scope_unchanged_info"
+msgstr "Az összes alapértelmezett, adatbázisban meg nem változtatott bejegyzés exportálása. Ez a ‘Csak a helyi változatok’ ellentéte. A kettő együtt az adatbázisban jelenleg lévő összes nyelvi bejegyzés biztonsági mentése."
+
+msgid "language_settings"
+msgstr "Nyelvi beállítások"
+
+msgid "language_statistics"
+msgstr "Statisztika"
+
+msgid "language_translation"
+msgstr "Oldalfordító"
+
+msgid "language_translation_enabled"
+msgstr "Oldalfordító"
+
+msgid "language_variables_saved"
+msgstr "A nyelvi változók módosítását sikeresen mentette."
+
+msgid "log_scan"
+msgstr "Vizsgálati eredmények naplózása"
+
+msgid "log_scan_desc"
+msgstr "Vizsgálati eredmények mentése a kliens adatmappa ‘scanlog.log’ fájljába."
+
+msgid "loginname_change_blocking_time"
+msgstr "Blokkolási idő a felhasználónevek cseréjéhez"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "Adjon meg a napok számát, ameddig a felhasználók nem változtathatják meg felhasználónevüket. Ha 0-t ad meg, a felhasználók bármikor megváltoztathatják felhasználónevüket."
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "Számértéket adjon meg!"
+
+msgid "loginname_history_info"
+msgstr "A felhasználónevek módosításait tároljuk az adatbázisban. Az előzmények a ‘loginname_history’ táblában érhetők el."
+
+msgid "nothing_to_purge"
+msgstr "Nincs mit tisztítani…"
+
+msgid "nothing_to_remove"
+msgstr "Nincs mit eltávolítani…"
+
+msgid "nothing_to_restore"
+msgstr "Nincs mit helyreállítani…"
+
+msgid "obj_blga"
+msgstr "Blog"
+
+msgid "obj_blga_desc"
+msgstr "Blog globális beállításai"
+
+msgid "obj_chta_desc"
+msgstr "Csevegés rendszerbeállításainak kezelése"
+
+msgid "obj_excs"
+msgstr "Beadandó feladat"
+
+msgid "obj_excs_desc"
+msgstr "Beadandó feladat globális beállításai"
+
+msgid "obj_gsfo"
+msgstr "Lábléc"
+
+msgid "obj_gsfo_desc"
+msgstr "Lábléc és tartalma rendszerbeállításai"
+
+msgid "obj_impr"
+msgstr "Jogi nyilatkozat"
+
+msgid "obj_impr_desc"
+msgstr "Jogi nyilatkozat kezelése"
+
+msgid "obj_mds"
+msgstr "Metaadatok"
+
+msgid "obj_mds_desc"
+msgstr "Metaadat és egyéni metaadat beállítások konfigurálása"
+
+msgid "obj_otpl"
+msgstr "Didaktikai sablonok"
+
+msgid "obj_otpl_desc"
+msgstr "Sablon új objektum létrehozásához"
+
+msgid "obj_prfa"
+msgstr "Portfólió"
+
+msgid "obj_prfa_desc"
+msgstr "Portfólió globális beállításai"
+
+msgid "obj_taxs"
+msgstr "Taxonómia"
+
+msgid "obj_taxs_desc"
+msgstr "Taxonómia globális beállításai"
+
+msgid "org_op_edit_user_accounts"
+msgstr "Felhasználói fiókok módosítása"
+
+msgid "output_options"
+msgstr "Kimeneti lehetőségek"
+
+msgid "path_to_mkisofs"
+msgstr "Elérési út a mkisofs-hoz"
+
+msgid "prg_export"
+msgstr "Látható a Képzési programokban"
+
+msgid "purge_age_limit"
+msgstr "Életkorlát"
+
+msgid "purge_age_limit_desc"
+msgstr "Ha ez a mező értéket tartalmaz, csak azok az objektumokat távolítjuk el véglegesen, amelyeket a megadott napok számánál régebben töröltek."
+
+msgid "purge_count_limit"
+msgstr "Számkorlát"
+
+msgid "purge_count_limit_desc"
+msgstr "Ha ez a mező értéket tartalmaz, csak megadott darabszámú objektum lesz végleg eltávolítva."
+
+msgid "purge_missing"
+msgstr "Elveszett objektumok végleges eltávolítása"
+
+msgid "purge_missing_desc"
+msgstr "Elveszett és kapcsolódás nélküli objektumok végleges eltávolítása a rendszerből."
+
+msgid "purge_trash"
+msgstr "A törölt objektumok végleges eltávolítása"
+
+msgid "purge_trash_desc"
+msgstr "Az összes objektum végleges eltávolítása a lomtárból."
+
+msgid "purge_type_limit"
+msgstr "Típuskorlát"
+
+msgid "purge_type_limit_desc"
+msgstr "Ha ez a mező értéket tartalmaz, csak a megadott objektumtípusok lesznek végleg eltávolítva."
+
+msgid "purging"
+msgstr "Végleges eltávolítás…"
+
+msgid "purging_missing_objs"
+msgstr "Elveszett objektumok végleges eltávolítása…"
+
+msgid "purging_trash"
+msgstr "Lomtár ürítése…"
+
+msgid "purging_unbound_objs"
+msgstr "Kapcsolódás nélküli objektumok végleges eltávolítása…"
+
+msgid "removing_invalid_childs"
+msgstr "Érvénytelen keresőfa-bejegyzések eltávolítása…"
+
+msgid "removing_invalid_refs"
+msgstr "Érvénytelen hivatkozások eltávolítása"
+
+msgid "removing_invalid_rolfs"
+msgstr "Érvénytelen szerepkörmappák eltávolítása…"
+
+msgid "repair_options"
+msgstr "Javítási beállítások"
+
+msgid "restore_missing"
+msgstr "Elveszett objektumok visszaállítása"
+
+msgid "restore_missing_desc"
+msgstr "Elveszett és kapcsolódás nélküli objektumok visszaállítása a helyreállító mappába."
+
+msgid "restore_trash"
+msgstr "Törölt objektumok visszaállítása"
+
+msgid "restore_trash_desc"
+msgstr "A lomtárban levő összes objektum visszaállítása a helyreállító mappába."
+
+msgid "restoring"
+msgstr "Helyreállítás…"
+
+msgid "restoring_missing_objs"
+msgstr "Elveszett objektumok visszaállítása…"
+
+msgid "restoring_trash"
+msgstr "Törölt objektumok visszaállítása…"
+
+msgid "restoring_unbound_objs"
+msgstr "Kapcsolódás nélküli objektumok és alobjektumok visszaállítása…"
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "Felhasználónevek újra felhasználhatók"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "A felhasználó újra használtatja a korábbi felhasználóneveket (még abban az esetben is, ha a felhasználónév törölt felhasználóhoz tartozik)."
+
+msgid "scan"
+msgstr "Vizsgálat"
+
+msgid "scan_desc"
+msgstr "Rendszer átvizsgálása korrupt/érvénytelen/elveszett/kapcsolódás nélküli objektumok után."
+
+msgid "scan_details"
+msgstr "Vizsgálat részletei"
+
+msgid "scan_modes"
+msgstr "Használt vizsgálati módok"
+
+msgid "scanning_system"
+msgstr "Rendszer átvizsgálása…"
+
+msgid "searching_deleted_objs"
+msgstr "Törölt objektumok keresése…"
+
+msgid "searching_invalid_childs"
+msgstr "Érvénytelen fabejegyzések keresése…"
+
+msgid "searching_invalid_refs"
+msgstr "Érvénytelen hivatkozások keresése…"
+
+msgid "searching_invalid_rolfs"
+msgstr "Érvénytelen szerepkörmappák keresése…"
+
+msgid "searching_missing_objs"
+msgstr "Elveszett objektumok keresése…"
+
+msgid "searching_unbound_objs"
+msgstr "Kapcsolódás nélküli objektumok keresése…"
+
+msgid "skipped"
+msgstr "kihagyva"
+
+msgid "start_scan"
+msgstr "Indítás!"
+
+msgid "svn_path"
+msgstr "Útvonal: %s"
+
+msgid "svn_revision_current"
+msgstr "Jelenlegi revízió: %s"
+
+msgid "svn_revision_last_change"
+msgstr "Utoljára módosított revízió: %s"
+
+msgid "svn_root"
+msgstr "Gyökér: %s"
+
+msgid "system_check_no_owner"
+msgstr "Tulajdonos nélküli objektumok"
+
+msgid "system_folder_info"
+msgstr "Válasszon egy elemet a Rendszerbeállítások  » Főmenü részben."
+
+msgid "systemcheck"
+msgstr "Rendszerellenőrzés"
+
+msgid "tree_corrupt"
+msgstr "A faszerkezet megsérült! A részletekért nézze meg a vizsgálati naplót."
+
+msgid "user_criteria"
+msgstr "Egyedi felhasználói kritérium"
+
+msgid "user_criteria_desc"
+msgstr "Egyedi felhasználói kritérium a teszteredmények importjához/exportjához. Erre a különböző ILIAS rendszerekben levő felhasználók egyedi azonosításához van szükség."
+
+msgid "usr_loginname_history_info"
+msgstr "A felhasználó legutóbb %s-kor cserélte le a felhasználónevét. Az előző bejelentkezése: %s."
+
+msgid "vc_information"
+msgstr "SVN verzió megjelenítése"
+
+msgid "vc_information_not_determined"
+msgstr "ILIAS nem tudja megállapítani az verzióinformációt."
+
+msgid "view_last_log"
+msgstr "Utolsó átvizsgálás napló megtekintése"
+
+msgid "view_log"
+msgstr "Részletek megtekintése"

@@ -1,0 +1,789 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: administration\n"
+
+msgid "adm_achievements"
+msgstr "実績"
+
+msgid "adm_adm_role_protect"
+msgstr "管理者役割を保護"
+
+msgid "adm_adm_role_protect_info"
+msgstr "有効にすると管理者だけしか管理者役割とユーザ間の割り当て・解除ができなくなります。"
+
+msgid "adm_auth_login"
+msgstr "認証Login"
+
+msgid "adm_auth_reg"
+msgstr "認証登録"
+
+msgid "adm_communication"
+msgstr "コミュニケーション"
+
+msgid "adm_extending_ilias"
+msgstr "ILIASを拡張"
+
+msgid "adm_external_setting_edit"
+msgstr "設定編集"
+
+msgid "adm_hide"
+msgstr "設定フォーム内を非表示"
+
+msgid "adm_hide_tabs"
+msgstr "タブを非表示"
+
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Legal Notice"
+
+msgid "adm_imprint_inactive"
+msgstr "Legal Noticeは無効なのでユーザはアクセスできません。"
+
+msgid "adm_layout_and_navigation"
+msgstr "レイアウトとナビゲーション"
+
+msgid "adm_legal_regulations"
+msgstr "法的規制"
+
+msgid "adm_locale"
+msgstr "ロケール"
+
+msgid "adm_locale_info"
+msgstr "リストの並べ替えのようなロケール設定に影響します。nl_NL やde_DEのマルチロケールはカンマで区切ることができます。最初に有効となるものが使用されます。"
+
+msgid "adm_maintenance"
+msgstr "メンテナンス"
+
+msgid "adm_missing_entries"
+msgstr "エントリーなし"
+
+msgid "adm_missing_entry_add"
+msgstr "新規エントリを追加"
+
+msgid "adm_missing_entry_add_action"
+msgstr "追加"
+
+msgid "adm_nr_statements"
+msgstr "ステートメント数"
+
+msgid "adm_personal_workspace"
+msgstr "Personal Workspace"
+
+msgid "adm_predefined_settings"
+msgstr "事前定義の設定"
+
+msgid "adm_pub_section_domain_filter"
+msgstr "ドメインフィルター"
+
+msgid "adm_pub_section_domain_filter_info"
+msgstr "匿名アクセス許可用のドメインフィルター。匿名アクセスを許可する分のドメインを入力。"
+
+msgid "adm_rep_shorten_description"
+msgstr "略省名"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "オブジェクト内の全ての記述を有効にするとリストは略称化されます。"
+
+msgid "adm_rep_shorten_description_length"
+msgstr "最大文字数"
+
+msgid "adm_rep_tree_all_types"
+msgstr "全てのリソ－スタイプ"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "全てのオブジェクトタイプがツリービュー(スレーブ)で表示されます。"
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "コースとグループ内に限定して表示"
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "ツリービューは、コースとグループ内に限り全オブジェクトを表示します。"
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "コンテナオブジェクトのみ"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "学習プログラムタイプのオブジェクト、カテゴリ、コース、グループ、ラーニングシーケンスのみがツリービューで表示されます。"
+
+msgid "adm_rep_tree_presentation"
+msgstr "リポジトリのツリービュー"
+
+msgid "adm_repository_and_objects"
+msgstr "リポジトリとオブジェクト"
+
+msgid "adm_search_and_find"
+msgstr "Search and Find"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "オブジェクトリスト内のメモ、コメント、タグ数を表示"
+
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "番号ではなくタグを表示"
+
+msgid "adm_table"
+msgstr "テーブル"
+
+msgid "adm_user_administration"
+msgstr "ユーザ管理"
+
+msgid "adm_user_starting_point"
+msgstr "パーソナル表示開始位置"
+
+msgid "adm_user_starting_point_info"
+msgstr "ログイン後に表示されるページまたはオブジェクトを選択"
+
+msgid "adm_user_starting_point_inherit"
+msgstr "ユーザ標準設定"
+
+msgid "adm_user_starting_point_inherit_info"
+msgstr "全体を使用するプラットフォームの管理者によって行われた設定"
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr "これは現時点では機能しません"
+
+msgid "adm_user_starting_point_object"
+msgstr "リポジトリオブジェクト"
+
+msgid "adm_user_starting_point_personal"
+msgstr "パーソナル設定"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "有効にするとユーザは開始ページを選択可能"
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "参照ID"
+
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "パーソナル開始点として使用したいオブジェクトを開きます。ブラウザバー内の次の\"ref_id=\"数値を直接テキスト入力欄へコピーしてください。"
+
+msgid "adm_value"
+msgstr "値"
+
+msgid "allow_change_loginname"
+msgstr "パーソナルデータ中の' ログイン名の変更'を許可"
+
+msgid "analysis_options"
+msgstr "分析オプション"
+
+msgid "analyze_data"
+msgstr "分析とデータ整合性の修復"
+
+msgid "analyzing_tree_structure"
+msgstr "ツリー構造を分析中…"
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "ログインページに入るにはApache認証します。"
+
+msgid "apache_auth_domains"
+msgstr "許可されたリダイレクトドメイン"
+
+msgid "apache_auth_domains_description"
+msgstr "このターゲットに対してリダイレクトを許可するドメインを1行ごとに入力します。<br/>ILIASが一つ以上のドメインにアクセス可能な場合は、許可する全てのターゲットを入力してください。<br />例： example.comはhttp://example.comやhttp://www.example.com並びにそのサイトのすべてのページへリダイレクトを許可されているような場合。"
+
+msgid "apache_auth_enable_override_login"
+msgstr "ログインページの初期設定を優先"
+
+msgid "apache_auth_indicator_name"
+msgstr "認証成功用のインジケーターフィールド"
+
+msgid "apache_auth_indicator_value"
+msgstr "認証成功用のインジケーター値"
+
+msgid "apache_auth_security"
+msgstr "セキュリティ設定"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "カスタムログインページ用のターゲットURL"
+
+msgid "apache_auth_username_by_function"
+msgstr "カスタム機能によるユーザ名を割当ます"
+
+msgid "apache_auth_username_config"
+msgstr "ユーザ名構成"
+
+msgid "apache_auth_username_config_type"
+msgstr "タイプ"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "ストレート割当"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "割当用のフィールド"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "拡張割当"
+
+msgid "apache_autocreate"
+msgstr "アカウント作成を有効化"
+
+msgid "apache_default_role"
+msgstr "ユーザ役割初期設定"
+
+msgid "apache_enable_auth"
+msgstr "Apache認証サポートを有効化"
+
+msgid "apache_enable_ldap"
+msgstr "LDAPユーザ割当を有効化"
+
+msgid "apache_enable_local"
+msgstr "ローカルユーザ割当を有効化"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAPは管理にて構成する必要があります"
+
+msgid "apache_settings"
+msgstr "LDAP認証を構成"
+
+msgid "apache_settings_changed_success"
+msgstr "構成を保存しました"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "認証方式決定(ログイン用)"
+
+msgid "auth_automatic"
+msgstr "固定シーケンス"
+
+msgid "auth_by_user"
+msgstr "ユーザの指定"
+
+msgid "auth_kind_determination"
+msgstr "確定方式"
+
+msgid "auth_mode_default_change_info"
+msgstr "デフォルト認証方式の変更は、デフォルト認証方式を利用するための全ユーザアカウント構成に影響します。選択のデフォルト方式(例, Shibboleth, SAML, SOAP, ...) がサポートしていない、又はローカルILIAS認証へのフォールバック構成を許可していない場合は、 影響のあるユーザは以降全くログインできなくなる可能性があります。これを回避するために、ローカルフォールバック認証が選択の認証方式の構成で機能するか、影響するユーザアカウント用に保存された認証方式が手動変更される事を確認してください。"
+
+msgid "auth_mode_determination_info"
+msgstr "ユーザがログイン画面で認証方式を選択するか、認証方式を固定化したシーケンスで管理するかいずれかを選びます。"
+
+msgid "clean"
+msgstr "クリーンアップ"
+
+msgid "clean_desc"
+msgstr "無効な参照やツリーエントリーを削除。ツリー構造のギャップを初期化する。"
+
+msgid "cleaning"
+msgstr "クリーニング中..."
+
+msgid "cleaning_final"
+msgstr "最終クリーニング…"
+
+msgid "course_export"
+msgstr "コースのエクスポート"
+
+msgid "done"
+msgstr "完了"
+
+msgid "dump_tree"
+msgstr "ツリーの掃出し"
+
+msgid "dump_tree_desc"
+msgstr "ツリーの分析を実行し分析データと共にすべてのツリーノードを印刷する。"
+
+msgid "dumping_tree"
+msgstr "ツリーを掃出し中..."
+
+msgid "found"
+msgstr "見つかりました。"
+
+msgid "found_none"
+msgstr "何も見つかりませんでした。"
+
+msgid "git_hash_short"
+msgstr "Commit Hash (short): %s"
+
+msgid "git_last_commit"
+msgstr "Last Commit: %s"
+
+msgid "git_revision"
+msgstr "番号: %s"
+
+msgid "group_export"
+msgstr "グループ内に表示"
+
+msgid "history_loginname"
+msgstr "ログイン名履歴"
+
+msgid "initializing_gaps"
+msgstr "ツリーの間隔を初期化中..."
+
+msgid "language_all_modules"
+msgstr "すべてのモジュール"
+
+msgid "language_change_settings"
+msgstr "言語設定の変更"
+
+msgid "language_clear_local_changes"
+msgstr "データベースのローカル変更を消去"
+
+msgid "language_clear_local_changes_info"
+msgstr "lang/ilias_%s.langに定義されている既定のエントリーのこの言語のデータベースエントリーをリセットします。全てのローカル変更または追加は削除されます。"
+
+msgid "language_cleared_local"
+msgstr "データベースのローカル変更が消去されました。"
+
+msgid "language_compare"
+msgstr "比較"
+
+msgid "language_default_entries"
+msgstr " (初期設定値)"
+
+msgid "language_delete_local_additions"
+msgstr "データベース中のローカル追加を削除"
+
+msgid "language_delete_local_additions_info"
+msgstr "データベースへローカルに追加されたエントリーを削除します。"
+
+msgid "language_error_clear_local"
+msgstr "データベースのローカル変更を消去する事ができませんでした!"
+
+msgid "language_error_delete_local"
+msgstr "ローカル言語ファイルを削除できません!"
+
+msgid "language_error_local_missed"
+msgstr "ローカル言語ファイルが見つかりません!"
+
+msgid "language_error_read_local"
+msgstr "ローカル言語ファイルが存在しないか、もしくは読み込みできません!"
+
+msgid "language_error_write_global"
+msgstr "グローバル言語ファイルへ書き込みできません!"
+
+msgid "language_export_file"
+msgstr "言語ファイルのエクスポート"
+
+msgid "language_file_imported"
+msgstr "言語ファイル%sはインポートされました。"
+
+msgid "language_file_scope"
+msgstr "言語ファイルの範囲"
+
+msgid "language_former_file_description"
+msgstr "最終更新の変更を伴うローカル変更を完了するには以前インストールされたILLIASバージョンの言語ファイルをローカル言語ファイルのフォルダへコピーしてください。現在の言語 ファイルは、”メンテナンス’タブのローカル言語ファイルを保存する時に自動的にコピーされます。"
+
+msgid "language_former_file_equal"
+msgstr "ファイル <b>%s</b>は現在の言語ファイルと一致します。"
+
+msgid "language_former_file_missing"
+msgstr "ファイル <b>%s</b>がありません。"
+
+msgid "language_import_file"
+msgstr "言語ファイルのインポート"
+
+msgid "language_load_local_changes"
+msgstr "ローカル言語ファイルをデータベースへ読込む"
+
+msgid "language_load_local_changes_info"
+msgstr "Customizing/global/lang/ilias_%s_lang.localファイルをデータベースへロードします。 このファイルの新しいエントリーはデータベースへ追加されて既存のエントリーは上書きされます。"
+
+msgid "language_loaded_local"
+msgstr "ローカル言語ファイルがデータベースへ読込まれました。"
+
+msgid "language_local_file_deleted"
+msgstr "ローカル言語ファイルが削除されました。"
+
+msgid "language_maintain"
+msgstr "メンテナンス"
+
+msgid "language_maintain_local_changes"
+msgstr "ローカル変更を維持"
+
+msgid "language_maintenance"
+msgstr "言語メンテナンス"
+
+msgid "language_merge_local_changes"
+msgstr "ローカル変更をグローバル言語ファイルへ統合"
+
+msgid "language_merge_local_changes_info"
+msgstr "全てのローカル変更と追加をlang/ilias_%s.langの標準言語ファイルへアルファベット順にマージします。Webサーバはこのファイルの書き込み権が必須です。"
+
+msgid "language_merged_global"
+msgstr "ローカル変更はグローバル言語ファイルへ統合されました。"
+
+msgid "language_mode_existing"
+msgstr "既存のエントリー"
+
+msgid "language_mode_existing_delete"
+msgstr "既存エントリーを削除"
+
+msgid "language_mode_existing_delete_info"
+msgstr "ファイルをインポートする前にデータベースのエントリーを削除します。<br /> WARNING: インポートされる言語ファイルは完了しそうでないものは未定義の言語変数になります。そのような場合は\"保守\"タブに切り替えて\"データベースのローカル変更をクリヤ\"を選択します。"
+
+msgid "language_mode_existing_keepall"
+msgstr "全ての既存エントリーを保持"
+
+msgid "language_mode_existing_keepall_info"
+msgstr "データベースにまだ存在しない新しいエントリーのみをインポートする。"
+
+msgid "language_mode_existing_keepnew"
+msgstr "全ての変更を保持"
+
+msgid "language_mode_existing_keepnew_info"
+msgstr "新しいエントリーをインポートしてまだ初期値のままの全てのエントリーを上書きします。データベース内のすでに変更済みエントリーはキープします。"
+
+msgid "language_mode_existing_replace"
+msgstr "既存エントリーを入れ替え"
+
+msgid "language_mode_existing_replace_info"
+msgstr "新しいエントリーをインポートして既存のエントリーをインポートファイルで定義された新しい値で置き換えます。"
+
+msgid "language_note_translation"
+msgstr "ページ送信モードは各言語毎に使用可能になります。なお、ユーザは言語フォルダへの読み書き権利が必要です。"
+
+msgid "language_process_maintenance"
+msgstr "プロセスメンテナンス"
+
+msgid "language_remove_local_file"
+msgstr "ローカル言語ファイルを削除します"
+
+msgid "language_remove_local_file_info"
+msgstr "Customizing/global/lang/ilias_%s_lang.localを削除して言語ステータスを\"ローカルをインストール済み\"から \"インストール済み\"へ変更します。データベース内の変更はされません。"
+
+msgid "language_save_dist"
+msgstr "標準言語ファイルをバックアップ"
+
+msgid "language_save_dist_failed"
+msgstr "標準ilias言語ファイルのバックアップを書き込みできませんでした。"
+
+msgid "language_save_dist_info"
+msgstr "iliasデータディレクトリ内に標準ilias言語ファイルのバックアップを作成。これはilias更新後に更新した言語変更自体のコンフリクトを発見する際に役立ちます。"
+
+msgid "language_save_local_changes"
+msgstr "全ての変更をローカル言語ファイルへ保存"
+
+msgid "language_save_local_changes_info"
+msgstr "Customizing/global/lang/ilias_%s_lang.localファイルへローカルに追加または変更されたデータベースエントリーを保存して言語ステータスを \"ローカルへインストール済み\"に設定します。Webサーバはこのフォルダの書き込み権が必要です。このファイルはこのシステムの全クライアント用として同じであることに注意願います。"
+
+msgid "language_saved_dist"
+msgstr "標準ILIAS言語ファイルのバックアップが作成されます。"
+
+msgid "language_scope_added"
+msgstr "ローカル追加のみ"
+
+msgid "language_scope_added_info"
+msgstr "データベースへローカルに追加された全てのエントリーをエクスポートします。ローカル変更が\"保守\"タブで削除される前に追加の開発エントリーのバックアップ用として利用できます。"
+
+msgid "language_scope_commented"
+msgstr "言語管理からのコメント付"
+
+msgid "language_scope_conflicts"
+msgstr "ローカルと更新変更"
+
+msgid "language_scope_dbremarks"
+msgstr "データベース中のコメント付きエントリーのみを表示"
+
+msgid "language_scope_different"
+msgstr "比較言語との違い"
+
+msgid "language_scope_equal"
+msgstr "比較言語と一致"
+
+msgid "language_scope_global"
+msgstr "全てのエントリー"
+
+msgid "language_scope_global_info"
+msgstr "この言語の全てのデータベースエントリーをエクスポートします。これはバックアップ目的で利用できます。"
+
+msgid "language_scope_local"
+msgstr "ローカル変更のみ"
+
+msgid "language_scope_local_info"
+msgstr "データベース内へ追加または変更された全てのエントリーをエクスポートします。これは\"保守\"タブの言語ファイルの保存と類似しています。"
+
+msgid "language_scope_merged"
+msgstr "ローカル変更をグローバル言語ファイルへ統合しました"
+
+msgid "language_scope_merged_info"
+msgstr "モジュールと識別子でアルファベット順にマージされた全てのローカル変更の標準ILIAS言語ファイルをエクスポートします。ILIAS SVNサーバのグローバル言語更新に使用することができます。"
+
+msgid "language_scope_unchanged"
+msgstr "未変更のエントリーのみ"
+
+msgid "language_scope_unchanged_info"
+msgstr "データベース内の変更されていない全ての既定の言語をエクスポートします。\"ローカル変更のみ\"と逆です。両者共にデータベース内の現在の言語の完全なバックアップです。"
+
+msgid "language_settings"
+msgstr "言語設定"
+
+msgid "language_statistics"
+msgstr "統計"
+
+msgid "language_translation"
+msgstr "ページ翻訳"
+
+msgid "language_translation_enabled"
+msgstr "ページ翻訳をする"
+
+msgid "language_variables_saved"
+msgstr "変更の言語は正しく保存されました。"
+
+msgid "log_scan"
+msgstr "Logスキャン結果"
+
+msgid "log_scan_desc"
+msgstr "スキャン結果を'scanlog.log'としてクライアントデータディレクトリへ書込む。"
+
+msgid "loginname_change_blocking_time"
+msgstr "ログイン名変更時のブロック時間"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "ユーザが、ログイン名を再度変更する際の待ち時間を秒で挿入します。この欄を0または空白にすると、ユーザはいつでもログイン名を変更できます。1時間は3600、1日は86400のように入力します。"
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "数字を挿入してください。"
+
+msgid "loginname_history_info"
+msgstr "アクティブにすると、ログイン名の変更はデータベースへ記録されます。この履歴はデータベーステーブルの 'loginname_history'からアクセスできます。"
+
+msgid "nothing_to_purge"
+msgstr "パージするものがありません..."
+
+msgid "nothing_to_remove"
+msgstr "削除するものがありません..."
+
+msgid "nothing_to_restore"
+msgstr "リストアするものがありません..."
+
+msgid "obj_blga"
+msgstr "ブログ"
+
+msgid "obj_blga_desc"
+msgstr "グローバルブログ設定"
+
+msgid "obj_chta_desc"
+msgstr "チャット管理"
+
+msgid "obj_excs"
+msgstr "演習"
+
+msgid "obj_excs_desc"
+msgstr "グローバル演習設定"
+
+msgid "obj_gsfo"
+msgstr "Footer"
+
+msgid "obj_gsfo_desc"
+msgstr "Footerレイアウトとコンテンツを管理"
+
+msgid "obj_impr"
+msgstr "法的規制"
+
+msgid "obj_impr_desc"
+msgstr "法的通知の展開"
+
+msgid "obj_mds"
+msgstr "メタデータ"
+
+msgid "obj_mds_desc"
+msgstr "メタデータと詳細メタデータ設定"
+
+msgid "obj_otpl"
+msgstr "オブジェクトテンプレート"
+
+msgid "obj_otpl_desc"
+msgstr "教則テンプレート"
+
+msgid "obj_prfa"
+msgstr "ポートフォリオ"
+
+msgid "obj_prfa_desc"
+msgstr "グローバルポートフォリオ設定"
+
+msgid "obj_taxs"
+msgstr "分類基準"
+
+msgid "obj_taxs_desc"
+msgstr "グローバル分類基準"
+
+msgid "org_op_edit_user_accounts"
+msgstr "ユーザアカウントを編集"
+
+msgid "output_options"
+msgstr "出力オプション"
+
+msgid "path_to_mkisofs"
+msgstr "mkisofsのpath"
+
+msgid "prg_export"
+msgstr "学修プログラム内の表示"
+
+msgid "purge_age_limit"
+msgstr "経過制限期間"
+
+msgid "purge_age_limit_desc"
+msgstr "このフィールドに値が含まれている場合は、指定された日数前に削除されたオブジェクトのみが削除されます。"
+
+msgid "purge_count_limit"
+msgstr "制限数"
+
+msgid "purge_count_limit_desc"
+msgstr "このフィールドに値が含まれている場合は、指定されたオブジェクトの数のみが削除されます。"
+
+msgid "purge_missing"
+msgstr "不明なオブジェクトを削除"
+
+msgid "purge_missing_desc"
+msgstr "システムにある不明や非連結の全てのオブジェクトを削除する。"
+
+msgid "purge_trash"
+msgstr "削除済のオブジェクトを削除"
+
+msgid "purge_trash_desc"
+msgstr "ごみ箱にある全てのオブジェクトをシステムから削除する。"
+
+msgid "purge_type_limit"
+msgstr "制限タイプ"
+
+msgid "purge_type_limit_desc"
+msgstr "このフィールドに値が含まれている場合は、指定されたオブジェクトのタイプのみが削除されます。"
+
+msgid "purging"
+msgstr "削除中..."
+
+msgid "purging_missing_objs"
+msgstr "不明なオブジェクトを削除中..."
+
+msgid "purging_trash"
+msgstr "ごみ箱を削除中..."
+
+msgid "purging_unbound_objs"
+msgstr "非連結オブジェクトの削除中…"
+
+msgid "removing_invalid_childs"
+msgstr "無効なツリーエントリーの削除中..."
+
+msgid "removing_invalid_refs"
+msgstr "無効なレファレンスの削除中..."
+
+msgid "removing_invalid_rolfs"
+msgstr "無効な役割フォルダの削除中..."
+
+msgid "repair_options"
+msgstr "修復オプション"
+
+msgid "restore_missing"
+msgstr "不明なオブジェクトのリストア"
+
+msgid "restore_missing_desc"
+msgstr "不明や非連結のオブジェクトを復元フォルダへリストアする。"
+
+msgid "restore_trash"
+msgstr "削除されたオブブジェクトをリストア"
+
+msgid "restore_trash_desc"
+msgstr "ごみ箱にある全てのオブジェクトを復元フォルダへリストアする。"
+
+msgid "restoring"
+msgstr "リストア中..."
+
+msgid "restoring_missing_objs"
+msgstr "不明なオブジェクトをリストア中..."
+
+msgid "restoring_trash"
+msgstr "ごみ箱をリストア中..."
+
+msgid "restoring_unbound_objs"
+msgstr "非連結オブジェクトとサブオブジェクトをリストア中..."
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "ログイン名再利用禁止"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "有効にすると既存の履歴に保存されているいずれかのログイン名(削除済ユーザを含む)の再利用が可能になります。"
+
+msgid "scan"
+msgstr "スキャン"
+
+msgid "scan_desc"
+msgstr "破損、無効、欠落、非連結のシステムオブジェクトをスキャンする。"
+
+msgid "scan_details"
+msgstr "スキャン詳細"
+
+msgid "scan_modes"
+msgstr "スキャンモードで使用"
+
+msgid "scanning_system"
+msgstr "システムをスキャン中…"
+
+msgid "searching_deleted_objs"
+msgstr "詳細オブジェクトを検索中..."
+
+msgid "searching_invalid_childs"
+msgstr "無効なツリーエントリーを検索中..."
+
+msgid "searching_invalid_refs"
+msgstr "無効なレファレンスを検索中..."
+
+msgid "searching_invalid_rolfs"
+msgstr "無効な役割フォルダを検索中..."
+
+msgid "searching_missing_objs"
+msgstr "欠落したオブジェクトを検索中..."
+
+msgid "searching_unbound_objs"
+msgstr "未束縛オブジェクトを検索中..."
+
+msgid "skipped"
+msgstr "スキップ"
+
+msgid "start_scan"
+msgstr "開始!"
+
+msgid "svn_path"
+msgstr "Path: %s"
+
+msgid "svn_revision_current"
+msgstr "現在のバージョン: %s"
+
+msgid "svn_revision_last_change"
+msgstr "最終更新バージョン: %s"
+
+msgid "svn_root"
+msgstr "Root: %s"
+
+msgid "system_check_no_owner"
+msgstr "オーナなしオブジェクト"
+
+msgid "system_folder_info"
+msgstr "管理メインメニューからアイテムを選択して下さい。"
+
+msgid "systemcheck"
+msgstr "システムチェック"
+
+msgid "tree_corrupt"
+msgstr "ツリーが破損しています!　詳細はスキャンロクを参照"
+
+msgid "user_criteria"
+msgstr "ユニークなユーザ判定"
+
+msgid "user_criteria_desc"
+msgstr "テスト結果インポート/エクスポートに使用するユニークなユーザ判定です。異なるILIASシステム上同一ユーザの識別に必要です。"
+
+msgid "usr_loginname_history_info"
+msgstr "ユーザは前回%sのログイン時に変更しました。 以前のログインは: %sです。"
+
+msgid "vc_information"
+msgstr "バージョン管理情報"
+
+msgid "vc_information_not_determined"
+msgstr "ILIASはバージョン管理情報を確定できませんでした。"
+
+msgid "view_last_log"
+msgstr "前回スキャンログを表示"
+
+msgid "view_log"
+msgstr "詳細を見る"
