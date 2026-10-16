@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class StudyProgramme implements Component\Component
 {
     public function init(
@@ -38,5 +41,9 @@ class StudyProgramme implements Component\Component
         );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "css/ilStudyProgramme.css");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'prg'
+        );
     }
 }

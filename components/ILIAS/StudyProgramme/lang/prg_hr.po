@@ -1,0 +1,1298 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: prg\n"
+
+#, fuzzy
+msgid "access_ctr_by_orgu_position"
+msgstr "Access control according to Organisational Unit Positions"
+
+#, fuzzy
+msgid "active_only"
+msgstr "active users only"
+
+#, fuzzy
+msgid "add_automembership_source"
+msgstr "Add Source"
+
+#, fuzzy
+msgid "add_category"
+msgstr "Add Category"
+
+#, fuzzy
+msgid "assignment_date"
+msgstr "Assignment Date"
+
+#, fuzzy
+msgid "assignments"
+msgstr "Assignments"
+
+#, fuzzy
+msgid "auto_add_success"
+msgstr "Add automatism successfully."
+
+#, fuzzy
+msgid "auto_membership_description"
+msgstr "Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time."
+
+#, fuzzy
+msgid "auto_membership_src_type"
+msgstr "Type"
+
+#, fuzzy
+msgid "auto_membership_title"
+msgstr "Sources for Membership Automation"
+
+#, fuzzy
+msgid "auto_memberships"
+msgstr "Membership Automation"
+
+#, fuzzy
+msgid "category"
+msgstr "Category"
+
+#, fuzzy
+msgid "cert_relevance"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "completion_date"
+msgstr "Completion Date"
+
+#, fuzzy
+msgid "confirm_to_remove_selected_assignments"
+msgstr "Do you really want to remove the user assignment(s)?"
+
+#, fuzzy
+msgid "cont_ed_insert_prgactionnote"
+msgstr "Insert Study Programme Action Note"
+
+#, fuzzy
+msgid "cont_ed_insert_prgstatusinfo"
+msgstr "Insert Study Programme Status Information"
+
+#, fuzzy
+msgid "content_automation"
+msgstr "Content Automation"
+
+#, fuzzy
+msgid "content_automation_title"
+msgstr "Automatically add and remove Courses from these categories"
+
+#, fuzzy
+msgid "could_not_add_users_no_permissons"
+msgstr "Could not assign %d Users due to lacking permissions."
+
+#, fuzzy
+msgid "crs_affiliation_to_prg"
+msgstr "Affiliation to study programmes"
+
+#, fuzzy
+msgid "deadline"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "deadline_information"
+msgstr "Information regarding processing period"
+
+#, fuzzy
+msgid "deadline_updated"
+msgstr "Updated deadline"
+
+#, fuzzy
+msgid "edit_participants"
+msgstr "Edit Members"
+
+#, fuzzy
+msgid "error_updating_deadline"
+msgstr "Error during updating deadline."
+
+#, fuzzy
+msgid "error_updating_expire_date"
+msgstr "Error during updating expire date."
+
+#, fuzzy
+msgid "export_memberships"
+msgstr "Export Assignments"
+
+#, fuzzy
+msgid "foreign_assignment"
+msgstr "not top node"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Pogrešna vrsta datoteke."
+
+#, fuzzy
+msgid "header_remove_certificate"
+msgstr "Do you really want to remove the certificate for the selected Users?"
+
+#, fuzzy
+msgid "header_update_certificate"
+msgstr "Do you really want to update the certificate?"
+
+#, fuzzy
+msgid "header_update_current_plan"
+msgstr "Do you really want to reset all individual settings for the selected assignments?"
+
+#, fuzzy
+msgid "inactive_only"
+msgstr "inactive users only"
+
+#, fuzzy
+msgid "info_to_re_assign_mail_body"
+msgstr "%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again."
+
+#, fuzzy
+msgid "info_to_re_assign_mail_subject"
+msgstr "Reminder of renewed participation in the study programm"
+
+#, fuzzy
+msgid "invalidated"
+msgstr "validity"
+
+#, fuzzy
+msgid "label_crs"
+msgstr "Course Name"
+
+#, fuzzy
+msgid "label_grp"
+msgstr "Group Name"
+
+#, fuzzy
+msgid "label_role"
+msgstr "Role Name"
+
+#, fuzzy
+msgid "last_edited"
+msgstr "Last edited"
+
+#, fuzzy
+msgid "last_edited_by"
+msgstr "Last Editor"
+
+#, fuzzy
+msgid "mail_assignments"
+msgstr "Mail to assigned Users"
+
+#, fuzzy
+msgid "mails_foreign_assignment_failed"
+msgstr "Selected assignments are not in current context. Mails should be sent from Study Programme's top node."
+
+#, fuzzy
+msgid "manage_assignments"
+msgstr "Manage Assignments"
+
+#, fuzzy
+msgid "membership_source_id"
+msgstr "Id"
+
+#, fuzzy
+msgid "membership_source_id_byline_objid"
+msgstr "Please use the <b>object-id</b>"
+
+#, fuzzy
+msgid "membership_source_id_byline_refid"
+msgstr "Please use the <b>reference-id</b>"
+
+#, fuzzy
+msgid "membership_source_type"
+msgstr "Source"
+
+#, fuzzy
+msgid "modal_automembership_title"
+msgstr "Automatismus hinzufügen"
+
+#, fuzzy
+msgid "modal_categories_title"
+msgstr "Category to be monitored"
+
+#, fuzzy
+msgid "modal_member_auto_select_title"
+msgstr "Select source for auto assignment"
+
+#, fuzzy
+msgid "msg_acknowledge_courses"
+msgstr "Completed Courses have been acknowledged."
+
+#, fuzzy
+msgid "msg_change_deadline_date"
+msgstr "Updated deadline for %s users."
+
+#, fuzzy
+msgid "msg_change_deadline_date_failed"
+msgstr "Deadline not updated for:"
+
+#, fuzzy
+msgid "msg_change_expire_date"
+msgstr "Updated expire date for %s users."
+
+#, fuzzy
+msgid "msg_change_expire_date_failed"
+msgstr "Expire date not updated for:"
+
+#, fuzzy
+msgid "msg_fill_required"
+msgstr "Please fill all required fields."
+
+#, fuzzy
+msgid "msg_impossible_target_status"
+msgstr "Impossible target status"
+
+#, fuzzy
+msgid "msg_mark_accredited"
+msgstr "%s users successfully marked accredited"
+
+#, fuzzy
+msgid "msg_mark_accredited_failed"
+msgstr "Not marked accredited:"
+
+#, fuzzy
+msgid "msg_mark_not_relevant"
+msgstr "%s users successfully unmarked relevant"
+
+#, fuzzy
+msgid "msg_mark_not_relevant_failed"
+msgstr "Not unmarked relevant:"
+
+#, fuzzy
+msgid "msg_mark_relevant"
+msgstr "%s users successfully marked relevant"
+
+#, fuzzy
+msgid "msg_mark_relevant_failed"
+msgstr "Not marked marked relevant:"
+
+#, fuzzy
+msgid "msg_points_must_be_positive"
+msgstr "Only positive numbers are allowed."
+
+#, fuzzy
+msgid "msg_unmark_accredited"
+msgstr "Unmarked %s users accredited."
+
+#, fuzzy
+msgid "msg_unmark_accredited_failed"
+msgstr "Unmarking accredited not successful for:"
+
+#, fuzzy
+msgid "msg_update_certificate"
+msgstr "%s Certificate(s) updated."
+
+#, fuzzy
+msgid "msg_update_certificate_failed"
+msgstr "Certificate(s) not updated:"
+
+#, fuzzy
+msgid "msg_update_from_settings"
+msgstr "Updated %s users from settings:"
+
+#, fuzzy
+msgid "msg_update_from_settings_failed"
+msgstr "Updated from settings failed:"
+
+#, fuzzy
+msgid "msg_update_individual_plan"
+msgstr "Individual plan: %s successfully updated."
+
+#, fuzzy
+msgid "msg_update_individual_plan_failed"
+msgstr "Update  of individual plan failed"
+
+#, fuzzy
+msgid "no_permission_to_update_certificate"
+msgstr "You have no permission to update certificates."
+
+#, fuzzy
+msgid "no_srctype_or_id"
+msgstr "Id and type may not be empty."
+
+#, fuzzy
+msgid "not_a_valid_cat_id"
+msgstr "%s is not a valid ref-id of a category."
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select a study programme --"
+
+#, fuzzy
+msgid "optgrp_label_restart"
+msgstr "Restart"
+
+#, fuzzy
+msgid "optgrp_label_validity"
+msgstr "Expiry"
+
+#, fuzzy
+msgid "orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "pc_prg_action_note_label"
+msgstr "Required Actions Study Programme"
+
+#, fuzzy
+msgid "pc_prg_statusinfo_label"
+msgstr "Statusinformation Study Programme"
+
+#, fuzzy
+msgid "pc_prgactionnote_complete_content"
+msgstr "You are assigned to the Study Programme, but have not completed its content. Please complete the content."
+
+#, fuzzy
+msgid "pc_prgactionnote_complete_content_with_deadline"
+msgstr "You are assigned to the Study Programme, but have not completed its content. Please complete the content until"
+
+#, fuzzy
+msgid "pc_prgactionnote_headline"
+msgstr "Required actions"
+
+#, fuzzy
+msgid "pc_prgactionnote_no_actions_required"
+msgstr "No actions required."
+
+#, fuzzy
+msgid "pc_prgstatus_edit_qualification"
+msgstr "Re-processing required from"
+
+#, fuzzy
+msgid "pc_prgstatus_expiration_date"
+msgstr "Expiry date"
+
+#, fuzzy
+msgid "pc_prgstatus_qualification_headline"
+msgstr "Status of your qualification"
+
+#, fuzzy
+msgid "pc_prgstatus_status_no_qualification"
+msgstr "No qualification"
+
+#, fuzzy
+msgid "pc_prgstatus_status_valid_qualification"
+msgstr "Valid"
+
+#, fuzzy
+msgid "pc_prgstatus_text_no_qualification"
+msgstr "Your qualification is not valid"
+
+#, fuzzy
+msgid "pc_prgstatus_unlimited_validation"
+msgstr "Unlimited validity"
+
+#, fuzzy
+msgid "percentage"
+msgstr "%"
+
+#, fuzzy
+msgid "prg_access_by_orgu"
+msgstr "Access Control by Organisation Unit Positions"
+
+#, fuzzy
+msgid "prg_access_by_orgu_byline"
+msgstr "If enabled, additional access control rules can be defined by positions in organisational units."
+
+#, fuzzy
+msgid "prg_acknowledge_all_completed_courses"
+msgstr "Acknowledge All Completed Courses"
+
+msgid "prg_acknowledge_completed_courses"
+msgstr "Priznaj završene tečajeve"
+
+msgid "prg_add"
+msgstr "Dodaj studijski program"
+
+msgid "prg_added_course_ref_successful"
+msgstr "Uspješno je dodana nova poveznica na tečaj"
+
+msgid "prg_added_member"
+msgstr "Novi je član uspješno dodan."
+
+msgid "prg_added_members"
+msgstr "Novi članovi uspješno su dodani."
+
+#, fuzzy
+msgid "prg_additional_settings"
+msgstr "Additional Features"
+
+msgid "prg_assessment"
+msgstr "Procjena studijskog programa"
+
+msgid "prg_assign_date"
+msgstr "Datum dodjele"
+
+msgid "prg_assigned_by"
+msgstr "Dodijelio"
+
+msgid "prg_async_create"
+msgstr "Dodaj novo dijete-stablo"
+
+msgid "prg_async_settings"
+msgstr "Postavke"
+
+#, fuzzy
+msgid "prg_auto_member_select_crs"
+msgstr "Courses"
+
+#, fuzzy
+msgid "prg_auto_member_select_grp"
+msgstr "Groups"
+
+#, fuzzy
+msgid "prg_auto_member_select_role"
+msgstr "Roles"
+
+#, fuzzy
+msgid "prg_autoassignment"
+msgstr "(auto)"
+
+#, fuzzy
+msgid "prg_availability_action_not_allowed"
+msgstr "Cannot set Availability Period on Study Programmes."
+
+msgid "prg_belongs_to"
+msgstr "Pripada"
+
+msgid "prg_can_not_manage_in_repo"
+msgstr "Ne možete upravljati ovim studijskim programom zbog korisničkih zadataka."
+
+#, fuzzy
+msgid "prg_cancel"
+msgstr "Cancel"
+
+#, fuzzy
+msgid "prg_cancel_acknowledge_completed_courses"
+msgstr "Don't acknowledge any Courses"
+
+msgid "prg_cancel_tree_order"
+msgstr "Odbaci redoslijed stabla"
+
+#, fuzzy
+msgid "prg_change_deadline"
+msgstr "Change deadline"
+
+#, fuzzy
+msgid "prg_change_expire_date"
+msgstr "Change expire date"
+
+msgid "prg_changed_by"
+msgstr "Promijenio"
+
+msgid "prg_completion_by"
+msgstr "Dovršio"
+
+#, fuzzy
+msgid "prg_completion_date"
+msgstr "Completion date"
+
+#, fuzzy
+msgid "prg_confirm_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Programme elements are to be copied, linked or omitted."
+
+msgid "prg_create_new_leaf"
+msgstr "Kreiraj novi list"
+
+msgid "prg_create_new_node"
+msgstr "Kreiraj novi čvor"
+
+#, fuzzy
+msgid "prg_cron_job_configuration"
+msgstr "Configuration automatic Mails"
+
+msgid "prg_custom_plan"
+msgstr "Prilagođeni plan"
+
+#, fuzzy
+msgid "prg_cut_action_not_allowed"
+msgstr "Cannot move Study Programmes"
+
+#, fuzzy
+msgid "prg_dash_label_finish_until"
+msgstr "Finish until"
+
+#, fuzzy
+msgid "prg_dash_label_gain"
+msgstr "Current Completion"
+
+#, fuzzy
+msgid "prg_dash_label_minimum"
+msgstr "Minimum Completion"
+
+#, fuzzy
+msgid "prg_dash_label_restart_from"
+msgstr "Restart from"
+
+#, fuzzy
+msgid "prg_dash_label_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "prg_dash_label_unreachable"
+msgstr "- cannot be achieved"
+
+#, fuzzy
+msgid "prg_dash_label_valid"
+msgstr "Valid"
+
+msgid "prg_deadline"
+msgstr "Rok"
+
+#, fuzzy
+msgid "prg_deadline_date"
+msgstr "Processing time expires at fixed date"
+
+#, fuzzy
+msgid "prg_deadline_date_desc"
+msgstr "The programme must be finished until a given date."
+
+#, fuzzy
+msgid "prg_deadline_date_label"
+msgstr "Process until"
+
+#, fuzzy
+msgid "prg_deadline_period"
+msgstr "Processing time is determined inividually"
+
+#, fuzzy
+msgid "prg_deadline_period_desc"
+msgstr "The programme must be finished within a given timespan."
+
+#, fuzzy
+msgid "prg_deadline_period_label"
+msgstr "Days after assignment"
+
+#, fuzzy
+msgid "prg_deadline_settings"
+msgstr "Processing Period"
+
+#, fuzzy
+msgid "prg_delete_confirmation"
+msgstr "Do you really want to delete the selected entries?"
+
+#, fuzzy
+msgid "prg_delete_failure"
+msgstr "Delete failed."
+
+#, fuzzy
+msgid "prg_delete_nothing_selected"
+msgstr "Please select at least one entry to delete."
+
+#, fuzzy
+msgid "prg_delete_single_confirmation"
+msgstr "Do you really want to delete the selected entry?"
+
+#, fuzzy
+msgid "prg_delete_single_success"
+msgstr "Successfuly delete entry."
+
+#, fuzzy
+msgid "prg_delete_success"
+msgstr "Successfuly delete entries."
+
+msgid "prg_deleted_safely"
+msgstr "Čvor je sigurno izbrisan"
+
+#, fuzzy
+msgid "prg_description"
+msgstr "Description"
+
+msgid "prg_edit"
+msgstr "Uredi studijski program"
+
+#, fuzzy
+msgid "prg_expiry_date"
+msgstr "Expiry date"
+
+#, fuzzy
+msgid "prg_formatted_period"
+msgstr "%d days"
+
+#, fuzzy
+msgid "prg_import_action_not_allowed"
+msgstr "Cannot import into Study Programmes."
+
+#, fuzzy
+msgid "prg_invalidate_expired_progresses_desc"
+msgstr "Marks expired progresses at Studyprogrammes as 'not passed'"
+
+#, fuzzy
+msgid "prg_invalidate_expired_progresses_title"
+msgstr "Limited validity of Studyprogramme progress"
+
+#, fuzzy
+msgid "prg_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "prg_mail_context_info"
+msgstr "For the participant e-mails on the member and learning progress screens of a study programme"
+
+#, fuzzy
+msgid "prg_mail_context_title"
+msgstr "Study Programme: Mail to Members"
+
+#, fuzzy
+msgid "prg_mail_permanent_link"
+msgstr "Click on the following link to find all of the information you need regarding the study programm:"
+
+msgid "prg_manage"
+msgstr "Upravljaj"
+
+#, fuzzy
+msgid "prg_manage_members"
+msgstr "Manage Enrolments of Study Programme"
+
+#, fuzzy
+msgid "prg_manage_members_short"
+msgstr "Manage Assignments"
+
+msgid "prg_manual_status"
+msgstr "Ručni status"
+
+msgid "prg_mark_accredited"
+msgstr "Označi kao akreditirano"
+
+msgid "prg_mark_accredited_multi_success"
+msgstr "Označi odabrane korisnike kao akreditirane"
+
+msgid "prg_mark_accredited_success"
+msgstr "Uspješno akreditirani programski čvor za korisnika."
+
+msgid "prg_mark_not_relevant_multi_success"
+msgstr "Poništi označavanje odabranih korisnika kao relevantnih"
+
+#, fuzzy
+msgid "prg_mark_relevant"
+msgstr "Mark Relevant"
+
+msgid "prg_mark_relevant_multi_success"
+msgstr "Označi odabrane korisnike kao relevantne"
+
+msgid "prg_more_objects_without_read_permission"
+msgstr "Studijski program sadrži više predmeta koje zbog nedovoljne razine dopuštenja ne možete vidjeti."
+
+#, fuzzy
+msgid "prg_multi_change_deadline"
+msgstr "Change deadline"
+
+#, fuzzy
+msgid "prg_multi_change_expire_date"
+msgstr "Change expire date"
+
+#, fuzzy
+msgid "prg_multi_mail_user"
+msgstr "Send Mail"
+
+msgid "prg_multi_mark_accredited"
+msgstr "Akreditiran"
+
+msgid "prg_multi_mark_relevant"
+msgstr "Označi kao relevantan"
+
+#, fuzzy
+msgid "prg_multi_remove_certificate"
+msgstr "Remove Certificates"
+
+msgid "prg_multi_remove_user"
+msgstr "Ukloni korisnika"
+
+msgid "prg_multi_unmark_accredited"
+msgstr "Poništi oznaku akreditiranog"
+
+msgid "prg_multi_unmark_relevant"
+msgstr "Poništi oznaku relevantno"
+
+#, fuzzy
+msgid "prg_multi_update_certificate"
+msgstr "Update Certificates"
+
+msgid "prg_multi_update_from_current_plan"
+msgstr "Ažuriranje iz trenutnog plana"
+
+msgid "prg_new"
+msgstr "Novi studijski program"
+
+#, fuzzy
+msgid "prg_no_deadline"
+msgstr "No fixed prozessing time"
+
+msgid "prg_no_members_not_active"
+msgstr "Nije moguće dodati članove jer ovaj program nije aktivan."
+
+#, fuzzy
+msgid "prg_no_permission_to_remove_certificate"
+msgstr "You do not have permission to remove certificates"
+
+#, fuzzy
+msgid "prg_no_restart"
+msgstr "No restart required"
+
+msgid "prg_no_user_selected"
+msgstr "Nije odabran nijedan korisnik"
+
+#, fuzzy
+msgid "prg_no_validity_qualification"
+msgstr "Long-Lasting qualification"
+
+msgid "prg_not_allowed_node_to_delete"
+msgstr "Nemate dozvolu za brisanje ovoga čvora"
+
+#, fuzzy
+msgid "prg_not_valid"
+msgstr "not valid"
+
+msgid "prg_open_node"
+msgstr "Prebacite se na ovaj čvor"
+
+#, fuzzy
+msgid "prg_orgus"
+msgstr "Organisational Units"
+
+msgid "prg_please_select_a_course_for_creating_a_leaf"
+msgstr "Odaberite tečaj za izradu lista poveznica za tečaj"
+
+msgid "prg_points"
+msgstr "Bodovi"
+
+#, fuzzy
+msgid "prg_points_byline"
+msgstr "Students get a certain amount of points when they succeed in this programme and need to get this many points in subsequent programmes."
+
+msgid "prg_points_current"
+msgstr "Trenutni bodovi"
+
+msgid "prg_points_reachable"
+msgstr "Bodovi koji se mogu dobiti"
+
+msgid "prg_points_required"
+msgstr "Potrebni bodovi"
+
+msgid "prg_possible"
+msgstr "Moguće"
+
+msgid "prg_prg_type"
+msgstr "Vrsta studijskog programa"
+
+#, fuzzy
+msgid "prg_processing_ends_no_success"
+msgstr "Reminder mail failing"
+
+#, fuzzy
+msgid "prg_processing_ends_no_success_info"
+msgstr "Reminds the user x days before the program expires that he is at risk of failing."
+
+#, fuzzy
+msgid "prg_profile_not_public"
+msgstr "Profile of the user is not public."
+
+msgid "prg_progress_info"
+msgstr "Imate %1$d bodova. Studijski program završava se s %2$d bodova."
+
+msgid "prg_progress_status"
+msgstr " %1$d od %2$d bodova"
+
+msgid "prg_progress_status_with_child_sp"
+msgstr " %1$d od mogućih %2$d bodova"
+
+#, fuzzy
+msgid "prg_quali_not_valid"
+msgstr "Qualification not valid"
+
+#, fuzzy
+msgid "prg_quali_still_valid"
+msgstr "Qualification still valid"
+
+#, fuzzy
+msgid "prg_remove_certificate"
+msgstr "Remove Certificate"
+
+msgid "prg_remove_user"
+msgstr "Ukloni korisnika"
+
+msgid "prg_remove_user_success"
+msgstr "Korisnik uspješno uklonjen."
+
+msgid "prg_remove_users_not_possible"
+msgstr "Uklanjanje odabranih korisnika nije moguće"
+
+#, fuzzy
+msgid "prg_remove_users_partial_success"
+msgstr "Assignments (partially) removed."
+
+msgid "prg_remove_users_success"
+msgstr "Ukloni odabrane korisnike"
+
+#, fuzzy
+msgid "prg_restart_assignments_temporal_progress_desc"
+msgstr "Restart Studyprogramme assignments with progresses about to expire"
+
+#, fuzzy
+msgid "prg_restart_assignments_temporal_progress_title"
+msgstr "Restart Studyprogramme assignments"
+
+msgid "prg_save_tree_order"
+msgstr "Spremi redoslijed stabla"
+
+msgid "prg_saved_order_successful"
+msgstr "Redoslijed uspješno spremljen"
+
+msgid "prg_show_individual_plan"
+msgstr "Prikaži individualni plan"
+
+msgid "prg_show_programmes"
+msgstr "Vidljivost"
+
+msgid "prg_show_programmes_on_pd_always"
+msgstr "Studijski su programi uvijek vidljivi na osobnoj radnoj površini."
+
+msgid "prg_show_programmes_on_pd_only_read"
+msgstr "Studijski programi vidljivi su samo na osobnoj radnoj površini s dopuštenjem za čitanje."
+
+#, fuzzy
+msgid "prg_some_users_may_not_be_accredited"
+msgstr "Partially marked users accredited."
+
+#, fuzzy
+msgid "prg_some_users_may_not_be_marked_not_relevant"
+msgstr "Partially unmarked relevant."
+
+#, fuzzy
+msgid "prg_some_users_may_not_be_marked_relevant"
+msgstr "Partially marked relevant."
+
+#, fuzzy
+msgid "prg_some_users_may_not_be_unmarked_accredited"
+msgstr "Partially unmarked users accredited."
+
+msgid "prg_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "prg_status_1"
+msgstr "In Progress"
+
+#, fuzzy
+msgid "prg_status_2"
+msgstr "Completed"
+
+#, fuzzy
+msgid "prg_status_3"
+msgstr "Accredited"
+
+#, fuzzy
+msgid "prg_status_4"
+msgstr "Not Relevant"
+
+#, fuzzy
+msgid "prg_status_5"
+msgstr "failed"
+
+msgid "prg_status_accredited"
+msgstr "Akreditiran"
+
+msgid "prg_status_active"
+msgstr "Aktivan"
+
+#, fuzzy
+msgid "prg_status_byline"
+msgstr "Use the status to control if this programme is assigned to students."
+
+msgid "prg_status_completed"
+msgstr "Dovršeno"
+
+msgid "prg_status_draft"
+msgstr "Nacrt"
+
+msgid "prg_status_failed"
+msgstr "nije položio"
+
+#, fuzzy
+msgid "prg_status_hide_irrelevant"
+msgstr "hide irrelevant"
+
+msgid "prg_status_in_progress"
+msgstr "U nastajanju"
+
+msgid "prg_status_not_relevant"
+msgstr "Nije bitno"
+
+msgid "prg_status_outdated"
+msgstr "Zastario"
+
+#, fuzzy
+msgid "prg_still_valid"
+msgstr "still valid"
+
+msgid "prg_subtype_add"
+msgstr "Dodaj novi podtip"
+
+msgid "prg_subtypes"
+msgstr "Podtipovi"
+
+#, fuzzy
+msgid "prg_successfully_removed_certificate"
+msgstr "Successfully removed certificate of selected Users"
+
+#, fuzzy
+msgid "prg_title"
+msgstr "Title"
+
+msgid "prg_type"
+msgstr "Tip studijskog programa"
+
+msgid "prg_type_add"
+msgstr "Tip studijskog programa"
+
+msgid "prg_type_assign_amd_sets"
+msgstr "Dodijeli napredne skupove metapodataka"
+
+msgid "prg_type_available_amd_sets"
+msgstr "Dostupni skupovi naprednih metapodataka"
+
+#, fuzzy
+msgid "prg_type_byline"
+msgstr "Set a type to use certain custom metadata sets or icons."
+
+msgid "prg_type_custom_icon"
+msgstr "Prilagođene ikone"
+
+msgid "prg_type_custom_icon_info"
+msgstr "Informacije o prilagođenim ikonama"
+
+msgid "prg_type_edit"
+msgstr "Uredi podtip"
+
+msgid "prg_type_msg_deleted"
+msgstr "Izbrisani podtip"
+
+msgid "prg_type_msg_error_custom_icon"
+msgstr "Pogreška prilikom spremanja ikone"
+
+msgid "prg_type_msg_missing_title"
+msgstr "Naslov ne može biti prazan."
+
+msgid "prg_type_msg_missing_title_default_language"
+msgstr "Mora biti postavljen zadani jezik i naslov za zadani jezik"
+
+msgid "prg_type_msg_unable_delete"
+msgstr "Nije moguće izbrisati tip jer je još uvijek dodijeljen sljedećim studijskim programima: %s"
+
+msgid "prg_unmark_accredited"
+msgstr "Poništi oznaku akreditirano"
+
+msgid "prg_unmark_accredited_multi_success"
+msgstr "Odznači odabrane korisnike kao akreditirane"
+
+msgid "prg_unmark_accredited_success"
+msgstr "Programski čvor za korisnika uspješno odznačen kao akreditiran."
+
+#, fuzzy
+msgid "prg_unmark_relevant"
+msgstr "Unmark Relevant"
+
+#, fuzzy
+msgid "prg_update_certificate"
+msgstr "Update Certificate"
+
+msgid "prg_update_from_current_plan"
+msgstr "Ažuriranje iz trenutačnog plana"
+
+msgid "prg_update_from_current_plan_not_possible"
+msgstr "Ažuriranje iz trenutnog plana nije moguće"
+
+msgid "prg_update_from_current_plan_partitial_success"
+msgstr "Djelomično ažuriranje iz trenutačnog plana"
+
+msgid "prg_update_from_current_plan_success"
+msgstr "Ažuriranje iz trenutačnog plana"
+
+msgid "prg_update_from_plan_successful"
+msgstr "Uspješno ažurirano iz trenutačnog plana!"
+
+#, fuzzy
+msgid "prg_update_progress_description"
+msgstr "Set Progress from 'In Progress' to 'failed' after crossing Deadline."
+
+#, fuzzy
+msgid "prg_update_progress_title"
+msgstr "Set Progress to Failed after Deadline"
+
+msgid "prg_update_successful"
+msgstr "Promjene su uspješno spremljene!"
+
+#, fuzzy
+msgid "prg_user_not_restarted_desc"
+msgstr "Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet."
+
+#, fuzzy
+msgid "prg_user_not_restarted_time_input"
+msgstr "Reminder mail restart"
+
+#, fuzzy
+msgid "prg_user_not_restarted_time_input_info"
+msgstr "Reminder Mail Reminds the user x days before the invalidation that he must restart the programm."
+
+#, fuzzy
+msgid "prg_user_not_restarted_title"
+msgstr "Send warning mail about restart"
+
+#, fuzzy
+msgid "prg_user_risky_to_fail_desc"
+msgstr "Sends users a warning mail if they are at the risk to fail a study programme due to a deadline."
+
+#, fuzzy
+msgid "prg_user_risky_to_fail_title"
+msgstr "Send warning mail about possible failure"
+
+#, fuzzy
+msgid "prg_validity"
+msgstr "Validity"
+
+#, fuzzy
+msgid "prg_validity_of_qualification"
+msgstr "Validity of Achieved Qualifications"
+
+#, fuzzy
+msgid "prg_validity_of_qualification_limit"
+msgstr "Qualification Expiry"
+
+#, fuzzy
+msgid "prg_validity_of_qualification_restart"
+msgstr "Restart"
+
+msgid "prg_view"
+msgstr "Prikaz"
+
+#, fuzzy
+msgid "prgr_may_not_create_circular_reference"
+msgstr "This Study Programme may not be linked here since the parent object is alredy linked within the target."
+
+#, fuzzy
+msgid "re_assigned_mail_body"
+msgstr "%s %s,<br/><br/>you were reassigned to study program '%s' as participants."
+
+#, fuzzy
+msgid "re_assigned_mail_subject"
+msgstr "Renewed participation in the study programm"
+
+#, fuzzy
+msgid "restart_information"
+msgstr "Information regarding automatic restart upon pending qualification expiration"
+
+#, fuzzy
+msgid "restart_period"
+msgstr "Restart obligatory"
+
+#, fuzzy
+msgid "restart_period_desc"
+msgstr "days before expiry"
+
+#, fuzzy
+msgid "restart_period_info"
+msgstr "Days before qualification expiration to restart qualification"
+
+#, fuzzy
+msgid "restart_period_label"
+msgstr "Days before expiry"
+
+#, fuzzy
+msgid "restart_recheck_desc"
+msgstr "For assignments made via an automatism, the system rechecks whether criteria for the assignment still exist."
+
+#, fuzzy
+msgid "restart_recheck_label"
+msgstr "Check prerequisites again"
+
+#, fuzzy
+msgid "restarted"
+msgstr "restarted"
+
+#, fuzzy
+msgid "risky_to_fail_mail_body"
+msgstr "%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached."
+
+#, fuzzy
+msgid "risky_to_fail_mail_subject"
+msgstr "Reminder, that the deadline for the study program will soon be reached"
+
+#, fuzzy
+msgid "rol"
+msgstr "Role"
+
+#, fuzzy
+msgid "select_crs"
+msgstr "Search for Courses"
+
+#, fuzzy
+msgid "select_grp"
+msgstr "Search for Groups"
+
+#, fuzzy
+msgid "select_org"
+msgstr "Search for Organisational Unit"
+
+#, fuzzy
+msgid "select_role"
+msgstr "Search for Roles"
+
+#, fuzzy
+msgid "send_info_to_re_assign_mail"
+msgstr "E-mail reminder restart"
+
+#, fuzzy
+msgid "send_info_to_re_assign_mail_info"
+msgstr "Send an e-mail to remind the user to restart the study program."
+
+#, fuzzy
+msgid "send_re_assigned_mail"
+msgstr "E-mail renewed participation"
+
+#, fuzzy
+msgid "send_re_assigned_mail_info"
+msgstr "Send an e-mail to automatically re-join the sudy program."
+
+#, fuzzy
+msgid "send_risky_to_fail_mail"
+msgstr "E-mail in case of failure"
+
+#, fuzzy
+msgid "send_risky_to_fail_mail_info"
+msgstr "Send an e-mail if the user is at risk of failure of the study program."
+
+#, fuzzy
+msgid "sp_certificate_completion_date"
+msgstr "Date of completion"
+
+#, fuzzy
+msgid "sp_certificate_description"
+msgstr "Description of the Study Programme"
+
+#, fuzzy
+msgid "sp_certificate_points"
+msgstr "Amount of points that have been acquired"
+
+#, fuzzy
+msgid "sp_certificate_progress_expires_at"
+msgstr "Date of expiry of qualification"
+
+#, fuzzy
+msgid "sp_certificate_title"
+msgstr "Title of the Study Programme"
+
+#, fuzzy
+msgid "sp_certificate_type"
+msgstr "Type of the Study Programme"
+
+#, fuzzy
+msgid "status_changed"
+msgstr "Updated status"
+
+#, fuzzy
+msgid "status_changed_due_to_deadline"
+msgstr "Status changed according to deadline."
+
+#, fuzzy
+msgid "status_transition_not_allowed"
+msgstr "Status change not allowed"
+
+#, fuzzy
+msgid "status_unchanged"
+msgstr "Status unchanged"
+
+#, fuzzy
+msgid "study_programme_icon"
+msgstr "Page Editor Study Programme Icon"
+
+#, fuzzy
+msgid "update_deadline"
+msgstr "Successfully update deadline."
+
+#, fuzzy
+msgid "update_expire_date"
+msgstr "Successfully update expire date."
+
+#, fuzzy
+msgid "updated_from_settings"
+msgstr "Updated from settings"
+
+#, fuzzy
+msgid "usr_active"
+msgstr "User"
+
+#, fuzzy
+msgid "validity_qualification_date"
+msgstr "Qualification expires at fixed date"
+
+#, fuzzy
+msgid "validity_qualification_date_desc"
+msgstr "expiry date"
+
+#, fuzzy
+msgid "validity_qualification_period"
+msgstr "Qualification expires individually"
+
+#, fuzzy
+msgid "validity_qualification_period_desc"
+msgstr "days after completion"
+
+#, fuzzy
+msgid "validity_updated"
+msgstr "Updated validity"
+
+#, fuzzy
+msgid "vq_date"
+msgstr "Expiration"
+
+#, fuzzy
+msgid "vq_date_info"
+msgstr "Qualification expires at fixed date"
+
+#, fuzzy
+msgid "vq_date_label"
+msgstr "Expiry date"
+
+#, fuzzy
+msgid "vq_information"
+msgstr "Information regarding validity of achived qualification"
+
+#, fuzzy
+msgid "vq_period_info"
+msgstr "Days until qualification will expire after achivement"
+
+#, fuzzy
+msgid "vq_period_label"
+msgstr "Days after completion"
+
+msgid "warning"
+msgstr "Upozorenje!"
+
+#, fuzzy
+msgid "will_not_modify_deadline_on_successful_progress"
+msgstr "No change because already completed or marked accredited"
+
+#, fuzzy
+msgid "will_not_modify_irrelevant_progress"
+msgstr "No change because not relevant"
+
+#, fuzzy
+msgid "will_not_modify_relevant_progress"
+msgstr "already relevant"
+
+#, fuzzy
+msgid "will_not_modify_validity_on_non_successful_progress"
+msgstr "Can change only when successful"
+
+#, fuzzy
+msgid "will_not_set_top_progress_to_irrelevant"
+msgstr "Cannot change top node to irrelevant."
+
+#, fuzzy
+msgid "will_not_update_cert_for_unsuccessful_progress"
+msgstr "No certificate for unsuccessful programme"
