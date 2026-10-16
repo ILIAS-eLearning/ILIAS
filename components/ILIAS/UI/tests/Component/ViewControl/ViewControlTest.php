@@ -180,24 +180,20 @@ class ViewControlTest extends ILIAS_UI_TestBase
 EOT;
     }
 
-    /**
-     * Test if dropdown is accepted as second parameter and rendered as part
-     * of the overall html
-     */
-    public function testViewControlSectionDropdownRender(): void
+    public function testViewControlSectionRendersDropdown(): void
     {
         $f = $this->getViewControlFactory();
 
         $back = new I\Component\Button\Standard("", "http://www.ilias.de");
         $next = new I\Component\Button\Standard("", "http://www.github.com");
-        $dropdown = new I\Component\Dropdown\Standard([
-            new I\Component\Button\Shy("", "http://www.github.com"),
-            new I\Component\Button\Shy("", "http://www.ilias.com"),
-        ]);
+        $dropdown = $this->createStub(C\Dropdown\Standard::class);
+        $dropdown->method('getCanonicalName')->willReturn('dropdown-rendering-stub');
         $r = $this->getDefaultRenderer(null, [$dropdown]);
+
         $section = $f->section($back, $dropdown, $next);
         $html = $this->normalizeHTML($r->render($section));
-        $this->assertStringContainsString($dropdown->getCanonicalName(), $html);
+
+        $this->assertStringContainsString('dropdown-rendering-stub', $html);
     }
 
 }
