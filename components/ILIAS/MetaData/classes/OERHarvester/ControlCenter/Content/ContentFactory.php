@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\OERHarvester\ControlCenter\Content;
 
 use ILIAS\MetaData\OERHarvester\ControlCenter\State\Status;
-use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\MetaData\OERHarvester\ControlCenter\State\StateInfoInterface;
 use ILIAS\MetaData\Presentation\UtilitiesInterface as PresentationUtilities;
@@ -31,6 +30,7 @@ use ILIAS\UI\Component\Button\Button;
 use ILIAS\MetaData\OERHarvester\ControlCenter\Http\LinkFactoryInterface;
 use ILIAS\MetaData\OERHarvester\ControlCenter\State\Action;
 use ILIAS\MetaData\Copyright\RepositoryInterface;
+use ILIAS\UI\Component\Prompt\State\State as PromptState;
 
 class ContentFactory implements ContentFactoryInterface
 {
@@ -42,20 +42,20 @@ class ContentFactory implements ContentFactoryInterface
     ) {
     }
 
-    public function getInfoContent(
+    public function getInfoShowState(
         int $ref_id,
         int $obj_id,
         string $type,
         StateInfoInterface $state_info
-    ): RoundTripModal {
+    ): PromptState {
         $message = $this->getStatusMessage($state_info);
         $scale = $this->getStatusOverview($state_info);
         $actions = $this->getActions($ref_id, $obj_id, $type, $state_info);
 
-        return $this->ui_factory->modal()->roundtrip(
-            $this->presentation_utilities->txt('md_publishing_center_title'),
-            [$message, $scale]
-        )->withActionButtons($actions);
+        return $this->ui_factory->prompt()->state()->show(
+            $message->withButtons($actions),
+            $scale
+        )->withTitle($this->presentation_utilities->txt('md_publishing_center_title'));
     }
 
     protected function getStatusOverview(StateInfoInterface $state_info): ScaleBar
@@ -136,21 +136,20 @@ class ContentFactory implements ContentFactoryInterface
         return $buttons;
     }
 
-    public function getConfirmationContent(
+    public function getConfirmationShowState(
         int $ref_id,
         int $obj_id,
         string $type,
         Action $action,
         bool $is_last_reference
-    ): RoundTripModal {
-        $modal_content = [];
+    ): PromptState {
         $message = match ($action) {
             Action::WITHDRAW => $this->presentation_utilities->txt('md_publishing_confirmation_info_withdraw'),
             Action::ACCEPT => $this->presentation_utilities->txt('md_publishing_confirmation_info_accept'),
             Action::REJECT => $this->presentation_utilities->txt('md_publishing_confirmation_info_reject'),
             default => ''
         };
-        $modal_content[] = $this->ui_factory->messageBox()->confirmation($message);
+        $primary_message_box = $this->ui_factory->messageBox()->confirmation($message);
         $title = match ($action) {
             Action::WITHDRAW => $this->presentation_utilities->txt('md_publishing_confirmation_withdraw'),
             Action::ACCEPT => $this->presentation_utilities->txt('md_publishing_confirmation_accept'),
@@ -158,11 +157,12 @@ class ContentFactory implements ContentFactoryInterface
             default => ''
         };
 
+        $secondary_message_boxes = [];
         if (
             ($action === Action::REJECT || $action === Action::WITHDRAW) &&
             $is_last_reference
         ) {
-            $modal_content[] = $this->ui_factory->messageBox()->info(
+            $secondary_message_boxes[] = $this->ui_factory->messageBox()->info(
                 $this->presentation_utilities->txt('md_publishing_last_reference_info')
             );
         }
@@ -180,7 +180,10 @@ class ContentFactory implements ContentFactoryInterface
                         il.UI.prompt.get(promptId).show('$action');
                     });"
         );
-        return $this->ui_factory->modal()->roundtrip($title, $modal_content)->withActionButtons([$button]);
+        return $this->ui_factory->prompt()->state()->show(
+            $primary_message_box->withButtons([$button]),
+            ...$secondary_message_boxes
+        )->withTitle($title);
     }
 
     public function getSuccessMessage(Action $action): string
