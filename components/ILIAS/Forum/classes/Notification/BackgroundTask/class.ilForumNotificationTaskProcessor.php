@@ -63,7 +63,7 @@ readonly class ilForumNotificationTaskProcessor
         ]);
 
         $bucket = new BasicBucket();
-        $bucket->setUserId($this->user->getId());
+        $bucket->setUserId(ANONYMOUS_USER_ID);
         $bucket->setTask($push_job);
         $this->lng->loadLanguageModule('forum');
         $bucket->setTitle($this->lng->txt('frm_notification_bg_task_title'));
