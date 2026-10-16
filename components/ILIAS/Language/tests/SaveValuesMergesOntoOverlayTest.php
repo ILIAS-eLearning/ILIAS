@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\MockObject\Stub;
@@ -105,7 +106,7 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
         );
     }
 
-    private function callCurrentModuleContent(string $lang_key, string $module): array
+    private function callCurrentModuleContent(string $lang_key, string $module): ?array
     {
         return (new ReflectionClass(ilObjLanguageExt::class))
             ->getMethod('currentModuleContent')
@@ -228,10 +229,10 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
         );
     }
 
-    /** A migrated module with neither readable overlay nor lng_modules row is rebuilt from lng_data, minus the deleted key. */
-    public function testDeleteValuesWithoutOverlayAndWithoutLngModulesRowFallsBackToLngDataExcludingDeletedKeys(): void
+    /** An unreadable overlay: the shipped content without the deleted key is kept, never the dual-written lng_data rows. */
+    public function testDeleteValuesWithAnUnreadableOverlayKeepsTheShippedContentAndNeverLngData(): void
     {
-        $directory = $this->seedShippedAndOverlay('ctest2', ['greeting' => 'Shipped'], ['greeting' => 'Lokal']);
+        $directory = $this->seedShippedAndOverlay('ctest2', ['greeting' => 'Shipped', 'farewell' => 'Tschüss'], ['greeting' => 'Lokal']);
         file_put_contents(
             rtrim(CLIENT_DATA_DIR, '/') . '/lang/ctest2/de/ctest2_de.po',
             "msgid \"kaputt\n"
@@ -244,7 +245,7 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
 
         $db = $this->mockDatabaseForWrites(null, [
             ['identifier' => 'greeting', 'value' => 'Aus lng_data'],
-            ['identifier' => 'farewell', 'value' => 'Tschüss aus lng_data'],
+            ['identifier' => 'extra', 'value' => 'Nur in lng_data'],
         ]);
 
         $captured = null;
@@ -259,8 +260,59 @@ class SaveValuesMergesOntoOverlayTest extends ilLanguageBaseTestCase
 
         ilObjLanguageExt::_deleteValues('de', ['ctest2' . $lng->separator . 'greeting' => 'irrelevant']);
 
-        // the shipped content without the deleted key, never lng_data
-        $this->assertSame([], $captured);
+        $this->assertSame(['farewell' => 'Tschüss'], $captured);
+    }
+
+    /**
+     * A shipped `.po` that cannot be read: the change is neither written to lng_modules nor to the overlay, the
+     * module is reported as unwritten. A non-shipped module (plugin) is written as before.
+     */
+    #[DataProvider('writingOperations')]
+    public function testAnUnreadableShippedPoBlocksLngModulesAndOverlayAndReportsTheModuleAsUnwritten(string $operation): void
+    {
+        $directory = $this->seedShippedAndOverlay('ctest4', ['greeting' => 'Shipped'], ['greeting' => 'Lokal']);
+        $overlay_po = rtrim(CLIENT_DATA_DIR, '/') . '/lang/ctest4/de/ctest4_de.po';
+        $overlay_before = (string) file_get_contents($overlay_po);
+        file_put_contents(
+            constant('ILIAS_ABSOLUTE_PATH') . '/components/ILIAS/Language/tests/' . $this->fixture_directory . '/ctest4_de.po',
+            "msgid \"kaputt\n"
+        );
+        $this->registerDirectoryManager($directory);
+        $lng = $this->stubLng();
+        $this->seedEmptyGlobalLanguageFile('de');
+        $db = $this->mockDatabaseForWrites(['greeting' => 'Aus lng_modules']);
+        $tables = [];
+        $db->method('insert')->willReturnCallback(static function (string $table) use (&$tables): int {
+            $tables[] = $table;
+            return 1;
+        });
+
+        $key = 'ctest4' . $lng->separator . 'greeting';
+        $warnings = [];
+        $logger = $this->createStub(ilLogger::class);
+        $logger->method('warning')->willReturnCallback(static function (string $message) use (&$warnings): void {
+            $warnings[] = $message;
+        });
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
+        $logger_factory->method('getComponentLogger')->willReturn($logger);
+        $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
+
+        $unwritten = $operation === 'save'
+            ? ilObjLanguageExt::_saveValues('de', [$key => 'Neu'])
+            : ilObjLanguageExt::_deleteValues('de', [$key => 'irrelevant']);
+
+        $this->assertSame(['ctest4'], $unwritten);
+        $this->assertMatchesRegularExpression('/module "ctest4" for "de" cannot be read, the changes are not saved/', implode("\n", $warnings));
+        $this->assertNotContains('lng_modules', $tables);
+        $this->assertSame($overlay_before, (string) file_get_contents($overlay_po));
+    }
+
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function writingOperations(): array
+    {
+        return ['save' => ['save'], 'delete' => ['delete']];
     }
 
     /**

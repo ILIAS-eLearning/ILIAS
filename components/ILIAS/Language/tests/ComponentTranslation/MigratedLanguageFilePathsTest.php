@@ -148,6 +148,18 @@ class MigratedLanguageFilePathsTest extends TestCase
         $this->assertSame('/from/the/constant', MigratedLanguageFilePaths::resolveClientDataDir());
     }
 
+    /** A defined CLIENT_ID (the client of this request) wins over `[clients] default`. */
+    #[RunInSeparateProcess]
+    public function testClientIdWinsOverTheIniDefaultClient(): void
+    {
+        mkdir($this->root . '/data/default', 0775, true);
+        mkdir($this->root . '/data/other', 0775, true);
+        $this->writeIni("datadir = \"{$this->root}/data\"\ndefault = \"default\"\n");
+        define('CLIENT_ID', 'other');
+
+        $this->assertSame($this->root . '/data/other', MigratedLanguageFilePaths::resolveClientDataDir($this->root));
+    }
+
     public function testFromDataDirAndClientIdComposesAnExistingDirectory(): void
     {
         mkdir($this->root . '/client', 0775);
@@ -520,5 +532,41 @@ class MigratedLanguageFilePathsTest extends TestCase
             $templates
         );
         $this->assertSame([], MigratedLanguageFilePaths::findShippedTemplates($this->root . '/nowhere'));
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: ?string, 2: string, 3: bool}> path of the directory, shipped pattern
+     *         (null: plain), template file written, found
+     */
+    public static function templateLocations(): array
+    {
+        return [
+            'lang/<prefix>.pot of a component' => ['components/Vendor/Comp/lang/', null, 'zzs.pot', true],
+            'no template' => ['components/Vendor/Comp/lang/', null, '', false],
+            'template in another directory' => ['components/Vendor/Comp/other/', null, 'zzs.pot', false],
+            'component directly below components/' => ['components/Comp/lang/', null, 'zzs.pot', false],
+            'template named like the pattern, not the module' => ['components/Vendor/Comp/lang/', 'ilias_%s', 'ilias.pot', false],
+        ];
+    }
+
+    #[DataProvider('templateLocations')]
+    public function testIsFoundWithoutGraphIsTrueOnlyIfFindShippedTemplatesWouldFindTheModule(
+        string $path,
+        ?string $pattern,
+        string $template,
+        bool $expected
+    ): void {
+        if ($template !== '') {
+            mkdir($this->root . '/' . $path, 0775, true);
+            file_put_contents($this->root . '/' . $path . $template, '');
+        }
+        $directory = $pattern === null
+            ? MigratedPoFixture::directory('zzs', $path)
+            : $this->directoryWithPattern('zzs', $path, $pattern);
+
+        $this->assertSame($expected, MigratedLanguageFilePaths::isFoundWithoutGraph($this->root, $directory));
+        if ($expected) {
+            $this->assertArrayHasKey('zzs', MigratedLanguageFilePaths::findShippedTemplates($this->root));
+        }
     }
 }

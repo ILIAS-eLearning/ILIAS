@@ -578,6 +578,54 @@ class MigratedTranslationsTest extends TestCase
         $this->assertFalse(MigratedTranslations::isShippedModule('some_plugin_module'));
     }
 
+    public function testWithABuildTheRecordedContributionsDecideEvenForAModuleWithoutAnyPo(): void
+    {
+        mkdir($this->root . '/mtq', 0775, true);
+        MigratedPoFixture::writePo($this->root . '/mtr/mtr_de.po', MigratedPoFixture::catalog('mtr', ['greeting' => 'Hallo']));
+        MigratedPoFixture::build(
+            new LanguageFileDirectoryManager(
+                new CustomizingLanguageFileDirectory(),
+                MigratedPoFixture::directory('mtr', 'mtr/'),
+                MigratedPoFixture::directory('mtq', 'mtq/')
+            ),
+            $this->root
+        );
+
+        $this->assertTrue(MigratedTranslations::isShippedModule('mtq'), 'contributed, no .po, no template');
+        $this->assertFalse(MigratedTranslations::isShippedModule('tos'), 'a template the build did not record');
+    }
+
+    /**
+     * @return array<string, array{0: bool}> whether the build has any .po
+     */
+    public static function listsNobodyCanRelyOn(): array
+    {
+        return ['a pointer without build' => [false], 'a pointer written before the list existed' => [true]];
+    }
+
+    #[DataProvider('listsNobodyCanRelyOn')]
+    public function testWithoutABuildOrAListOfContributionsTheShippedTemplatesDecide(bool $with_build): void
+    {
+        mkdir($this->root . '/mtr', 0775, true);
+        if ($with_build) {
+            $this->build();
+            $pointer_file = MigratedLanguageFilePaths::buildPointerFile(MigratedPoFixture::artifactDirectory());
+            $data = json_decode((string) file_get_contents($pointer_file), true, 512, JSON_THROW_ON_ERROR);
+            unset($data['shipped']);
+            file_put_contents($pointer_file, json_encode($data));
+        } else {
+            MigratedPoFixture::build(
+                new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), MigratedPoFixture::directory('mtr', 'mtr/')),
+                $this->root
+            );
+        }
+        MigratedTranslations::reset();
+
+        $this->assertTrue(MigratedTranslations::isShippedModule('tos'), 'template of the TermsOfService component');
+        $this->assertFalse(MigratedTranslations::isShippedModule('some_plugin_module'));
+        $this->assertSame($with_build, MigratedTranslations::isShippedModule('mtr'), 'built, but in no template');
+    }
+
     public function testShipsPoForNeedsATemplateADefaultNamedPoAndAValidLanguageKey(): void
     {
         $this->assertTrue(MigratedTranslations::shipsPoFor('tos', 'de'));

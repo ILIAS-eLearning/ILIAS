@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Language\ComponentTranslation;
 
 use MigratedPoFixture;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -421,6 +422,141 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->assertSame(['build', 'modules', 'previous', 'shipped'], $keys);
         sort($data['modules']['mpa']);
         $this->assertSame(['build' => $second, 'previous' => $first, 'modules' => ['mpa' => ['de', 'en']], 'shipped' => ['mpa']], $data);
+    }
+
+    /**
+     * @return array<string, array{0: array<string, mixed>, 1: list<string>|string|null}> the "shipped" entry written, what readPointer() gives
+     */
+    public static function writtenShippedLists(): array
+    {
+        return [
+            'written before the list existed' => [[], null],
+            'null' => [['shipped' => null], null],
+            'invalid and non-string entries are dropped' => [['shipped' => ['mpa', 'Bad Name', 5, '../x', 'mpb']], ['mpa', 'mpb']],
+            'not a list' => [['shipped' => ['a' => 'mpa']], 'invalid'],
+            'a string' => [['shipped' => 'mpa'], 'invalid'],
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $changes
+     * @param list<string>|string|null $expected "invalid": the whole pointer is rejected
+     */
+    #[DataProvider('writtenShippedLists')]
+    public function testReadPointerTakesOnlyValidModulesOfTheShippedList(array $changes, array|string|null $expected): void
+    {
+        $this->ship('mpa', 'de', ['greeting' => 'Hallo']);
+        $this->build(['mpa']);
+        $data = json_decode((string) file_get_contents($this->pointerFile()), true, 512, JSON_THROW_ON_ERROR);
+        unset($data['shipped']);
+        file_put_contents($this->pointerFile(), json_encode($changes + $data));
+
+        $pointer = ShippedTranslationsBuild::readPointer($this->artifacts);
+
+        if ($expected === 'invalid') {
+            $this->assertNull($pointer);
+        } else {
+            $this->assertNotNull($pointer);
+            $this->assertSame($expected, $pointer['shipped']);
+            $this->assertSame(['mpa' => ['de']], $pointer['modules'], 'the rest of an old file is still read');
+        }
+    }
+
+    public function testEveryContributedModuleIsRecordedAlsoWithoutAnyPoAndWithoutABuild(): void
+    {
+        $this->ship('mpa', 'de', ['greeting' => 'Hallo']);
+        mkdir($this->root . '/mpz', 0775, true);
+
+        $this->build(['mpz', 'mpa']);
+
+        $this->assertSame(['mpa', 'mpz'], ShippedTranslationsBuild::readPointer($this->artifacts)['shipped'] ?? null, 'sorted, "mpz" has no .po');
+
+        MigratedPoFixture::removeDirectory($this->root . '/mpa');
+        $result = $this->build(['mpz', 'mpa']);
+
+        $this->assertNull($result['build']);
+        $this->assertSame(
+            ['build' => null, 'previous' => null, 'modules' => [], 'shipped' => ['mpa', 'mpz']],
+            ShippedTranslationsBuild::readPointer($this->artifacts),
+            'without any .po no build, the contributions are still recorded'
+        );
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: ?string, 2: string, 3: bool}> directory, pattern of the .po files,
+     *         template to create, whether a warning is expected
+     */
+    public static function templateLayouts(): array
+    {
+        return [
+            'lang/<module>.pot of a component' => ['components/Vendor/Comp/lang/', null, 'mtp.pot', false],
+            'no template' => ['components/Vendor/Comp/lang/', null, '', true],
+            'template outside components/<Vendor>/<Component>/lang/' => ['mtp/', null, 'mtp.pot', true],
+            'template named by the pattern, not the module' => ['components/Vendor/Comp/lang/', 'ilias_%s', 'ilias.pot', true],
+        ];
+    }
+
+    #[DataProvider('templateLayouts')]
+    public function testAContributionWithoutItsTemplateInTheComponentsLangDirectoryIsWarnedAbout(
+        string $path,
+        ?string $pattern,
+        string $template,
+        bool $expect_warning
+    ): void {
+        MigratedPoFixture::writePo(
+            $this->root . '/' . $path . ($pattern === null ? 'mtp_de' : 'ilias_de') . '.po',
+            MigratedPoFixture::catalog('mtp', ['greeting' => 'Hallo'])
+        );
+        if ($template !== '') {
+            file_put_contents($this->root . '/' . $path . $template, '');
+        }
+        $directory = $pattern === null
+            ? MigratedPoFixture::directory('mtp', $path)
+            : new class ($path, $pattern) implements LanguageFileDirectory, NamesShippedLanguageFiles {
+                public function __construct(private string $path, private string $pattern)
+                {
+                }
+
+                public function getPrefix(): string
+                {
+                    return 'mtp';
+                }
+
+                public function getPath(): string
+                {
+                    return $this->path;
+                }
+
+                public function getSuffix(): string
+                {
+                    return '';
+                }
+
+                public function isLocal(): bool
+                {
+                    return false;
+                }
+
+                public function getShippedFileNamePattern(): string
+                {
+                    return $this->pattern;
+                }
+            };
+        $messages = [];
+
+        (new ShippedTranslationsBuild(
+            new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), $directory),
+            $this->root,
+            new ShippedTranslations()
+        ))->run(static function (string $message) use (&$messages): void {
+            $messages[] = $message;
+        });
+
+        $warnings = array_values(array_filter($messages, static fn(string $m): bool => str_contains($m, 'has no template')));
+        $this->assertSame(
+            $expect_warning ? ['WARNING: Module "mtp" has no template "components/<Vendor>/<Component>/lang/mtp.pot" - without a build Setup and CLI do not recognise it as shipped.'] : [],
+            $warnings
+        );
     }
 
     public function testReadPointerIgnoresFieldsAFormerVersionWroteIntoCurrentJson(): void

@@ -28,6 +28,16 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\SkippedWithMessageException;
 
+enum PoMigrationLoadLanguageModuleTestTosIdentifier: string implements \ILIAS\Language\LanguageIdentifier
+{
+    case AGREEMENT = 'tos_agreement';
+
+    public function module(): string
+    {
+        return 'tos';
+    }
+}
+
 /**
  * ilLanguage::loadLanguageModule() reads a module whose component contributes a LanguageFileDirectory from the build
  * instead of lng_modules; everything else falls through unchanged. Uses the real contributed 'tos' directory, so it
@@ -334,7 +344,6 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $db->method('fetchAssoc')->willReturn(['value' => 'from the database']);
         $this->setGlobalVariable('ilDB', $db);
 
-        // a shipped module is never read from lng_data
         $this->assertSame(
             '-sometopic-',
             ilLanguage::_lookupEntry($invalid_lang_key, 'tos', 'sometopic')
@@ -388,6 +397,64 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $language->loadLanguageModule('tos');
 
         $this->assertSame('Nutzungsvereinbarung', $language->txt('tos_agreement'));
+    }
+
+    /** The web path: cached_modules (all of lng_modules) must not serve a shipped module that has no build, nor is the database asked. */
+    public function testACachedModuleOfAShippedModuleWithoutABuildIsNeitherServedNorQueried(): void
+    {
+        $this->setGlobalVariable('ilDB', $this->databaseThatMustNotBeQueried());
+        $language = $this->buildLanguageWithoutRunningConstructor('de');
+        (new ReflectionObject($language))->getProperty('cached_modules')->setValue(
+            $language,
+            ['tos' => ['tos_agreement' => 'FROM THE lng_modules CACHE']]
+        );
+
+        $this->expectOutputRegex('/There is no build of the language files/');
+        $language->loadLanguageModule('tos');
+
+        $this->assertSame('-tos_agreement-', $language->txt('tos_agreement'));
+    }
+
+    /** Setup/CLI: no build, no component graph - a LanguageIdentifier of a shipped module has no value and never reaches lng_data/lng_modules. */
+    public function testAnIdentifierOfAShippedModuleWithoutBuildAndComponentGraphIsNeverReadFromTheDatabase(): void
+    {
+        $this->setGlobalVariable('ilDB', $this->databaseThatMustNotBeQueried());
+        $language = $this->buildLanguageWithoutRunningConstructor('de', 'en');
+
+        $this->expectOutputRegex('/There is no build of the language files/');
+        $this->assertSame('-tos_agreement-', $language->txt(PoMigrationLoadLanguageModuleTestTosIdentifier::AGREEMENT));
+    }
+
+    /** The prefix index is built per manager: another manager (e.g. a test or a re-initialised container) is never answered from the old one; the first directory of a prefix wins. */
+    public function testTheDirectoryIndexIsRebuiltWhenTheManagerChanges(): void
+    {
+        $first = MigratedPoFixture::directory('zza', 'components/Vendor/First/lang/');
+        $second = MigratedPoFixture::directory('zza', 'components/Vendor/Second/lang/');
+        $this->registerDirectoryManager($first, $second);
+        $this->assertSame($first, $this->indexedDirectory('zza'));
+        $this->assertNull($this->indexedDirectory('zzb'));
+
+        $this->registerDirectoryManager(MigratedPoFixture::directory('zzb', 'components/Vendor/Other/lang/'));
+        $this->assertNull($this->indexedDirectory('zza'), 'not answered from the former manager');
+        $found = $this->indexedDirectory('zzb');
+        $this->assertNotNull($found);
+        $this->assertSame('zzb', $found->getPrefix());
+    }
+
+    private function indexedDirectory(string $module): ?LanguageFileDirectory
+    {
+        return (new ReflectionMethod(ilLanguage::class, 'findLanguageFileDirectory'))->invoke(null, $module);
+    }
+
+    private function databaseThatMustNotBeQueried(): ilDBInterface
+    {
+        // a missing text is looked up for the debug log by txt()
+        defined('ILIAS_LOG_ENABLED') || define('ILIAS_LOG_ENABLED', false);
+        $db = $this->createMock(ilDBInterface::class);
+        $db->expects($this->never())->method('query');
+        $db->expects($this->never())->method('queryF');
+
+        return $db;
     }
 
     /** A non-migrated module is still served from cached_modules. */

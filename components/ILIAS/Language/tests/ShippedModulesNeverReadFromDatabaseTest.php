@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Language\ComponentTranslation\MigratedTranslations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
@@ -108,6 +109,74 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->assertSame('Overlay', ilLanguage::_lookupEntry('de', 'zzs', 'greeting'));
         $this->assertSame('Anders', ilLanguage::_lookupEntry('de', 'zzs', 'other'));
         $this->assertSame('-unknown-', ilLanguage::_lookupEntry('de', 'zzs', 'unknown'));
+    }
+
+    /** The Setup creates the client directory and the build in the same process: reset() makes both visible, a missing directory is never remembered. */
+    public function testTheOverlayOfIliasIniIsServedAfterTheSetupCreatedBuildAndClientDirectoryAndReset(): void
+    {
+        rmdir($this->client_data_dir);
+        $this->buildShippedModule(false);
+        $this->forbidDatabase();
+
+        $this->expectOutputRegex('/There is no build of the language files/');
+        $this->assertSame('-greeting-', ilLanguage::_lookupEntry('de', 'zzs', 'greeting'), 'fresh installation: no client directory, no build');
+
+        $this->buildShippedModule();
+        mkdir($this->client_data_dir, 0775, true);
+        MigratedPoFixture::writeOverlayRevision(
+            MigratedLanguageFilePaths::overlayDirectory($this->client_data_dir, 'zzs', 'de') . '/zzs_de',
+            MigratedPoFixture::catalog('zzs', ['greeting' => 'Overlay'])
+        );
+        MigratedTranslations::reset();
+
+        $this->assertSame('Overlay', ilLanguage::_lookupEntry('de', 'zzs', 'greeting'));
+    }
+
+    public function testTheClientDataDirectoryIsLookedForAgainWhileMissingAndKeptOnceFoundUntilReset(): void
+    {
+        rmdir($this->client_data_dir);
+        $this->assertNull(MigratedTranslations::clientDataDir());
+
+        mkdir($this->client_data_dir, 0775, true);
+        $this->assertSame($this->client_data_dir, MigratedTranslations::clientDataDir(), 'the missing directory was not remembered');
+
+        rmdir($this->client_data_dir);
+        $this->assertSame($this->client_data_dir, MigratedTranslations::clientDataDir(), 'a found one is kept');
+
+        MigratedTranslations::reset();
+        $this->assertNull(MigratedTranslations::clientDataDir());
+    }
+
+    public function testResetForgetsWhichModulesAreShipped(): void
+    {
+        $this->assertFalse(MigratedTranslations::isShippedModule('zzs'), 'no template yet');
+
+        $this->buildShippedModule(false);
+        $this->assertFalse(MigratedTranslations::isShippedModule('zzs'), 'remembered per module');
+
+        MigratedTranslations::reset();
+        $this->assertTrue(MigratedTranslations::isShippedModule('zzs'));
+    }
+
+    /** No client directory (fresh installation, Setup): the administration lists the shipped values, no overlay is looked for. */
+    public function testTheAdministrationListsTheShippedValuesWithoutAClientDataDirectory(): void
+    {
+        rmdir($this->client_data_dir);
+        $this->buildShippedModule(false);
+        $statement = $this->createStub(ilDBStatement::class);
+        $statement->method('fetchRow')->willReturn(false);
+        $db = $this->createStub(ilDBInterface::class);
+        $db->method('quote')->willReturnCallback(static fn(mixed $value): string => "'" . (string) $value . "'");
+        $db->method('in')->willReturn("module IN ('placeholder')");
+        $db->method('query')->willReturn($statement);
+        $this->setGlobalVariable('ilDB', $db);
+        $this->setGlobalVariable('lng', (new ReflectionClass(ilLanguage::class))->newInstanceWithoutConstructor());
+        $this->setGlobalVariable(
+            LanguageFileDirectoryManager::class,
+            new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), MigratedPoFixture::directory('zzs', self::LANG_DIRECTORY))
+        );
+
+        $this->assertSame(['zzs#:#greeting' => 'Hallo', 'zzs#:#other' => 'Anders'], ilObjLanguageExt::_getValues('de'));
     }
 
     public function testWithoutABuildAShippedModuleHasNoValuesAndTheMissingBuildIsReported(): void

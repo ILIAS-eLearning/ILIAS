@@ -44,6 +44,8 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
     private bool $created_client_data_dir_root = false;
     private array $like_calls = [];
     private array $sent_queries = [];
+    /** @var list<string> the modules of every `in("module", …, negate: true)`, which the query stub applies to its rows */
+    private array $excluded_modules = [];
 
     protected function setUp(): void
     {
@@ -171,7 +173,13 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
         $db->method('quote')->willReturnCallback(
             static fn(mixed $value, string $type = ''): string => "'" . (string) $value . "'"
         );
-        $db->method('in')->willReturn("module IN ('placeholder')");
+        $db->method('in')->willReturnCallback(function (string $field, array $values, bool $negate = false): string {
+            if ($negate && $field === 'module') {
+                $this->excluded_modules = [...$this->excluded_modules, ...array_map('strval', $values)];
+            }
+
+            return "module IN ('placeholder')";
+        });
         $db->method('like')->willReturnCallback(function (string $column, string $type, string $value = '?'): string {
             $this->like_calls[] = [$column, $value];
             return "value LIKE '%placeholder%'";
@@ -179,7 +187,10 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
         $db->method('query')->willReturnCallback(function (string $query) use ($db_rows): ilDBStatement {
             $this->sent_queries[] = $query;
             $statement = $this->createStub(ilDBStatement::class);
-            $calls = array_map(static fn(array $row): array => $row, $db_rows);
+            $calls = array_values(array_filter(
+                $db_rows,
+                fn(array $row): bool => !in_array($row['module'], $this->excluded_modules, true)
+            ));
             $calls[] = false;
             $statement->method('fetchRow')->willReturnOnConsecutiveCalls(...$calls);
 
@@ -451,7 +462,7 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
         $this->assertSame([], $this->like_calls);
     }
 
-    public function testAnUnreadableOverlayFallsBackToLngDataWithAWarning(): void
+    public function testAnUnreadableOverlayShowsTheShippedValuesNeverLngDataWithAWarning(): void
     {
         $directory = $this->seedFixtureModule('mtest', 'de', ['greeting' => ['value' => 'Aus dem Overlay']]);
         file_put_contents($this->overlayFile('mtest', 'de', 'po'), "msgid \"kaputt\n");
@@ -519,13 +530,36 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
         );
     }
 
-    public function testFallsBackToDbOnlyBehaviorWhenNoDirectoryManagerIsRegisteredAtAll(): void
+    /** Without the directories nothing says which `.po` to read: the rows of a shipped module are dropped (reported), others stay. */
+    public function testWithoutDirectoryManagerOnlyTheRowsOfModulesOfNoComponentAreShown(): void
     {
-        $this->stubDatabase([['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt']]);
+        $this->stubDatabase([
+            ['module' => 'poll', 'identifier' => 'hello', 'value' => 'Aus lng_data'],
+            ['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt'],
+        ]);
 
+        $this->expectOutputRegex('/Without the language file directories the values of module "poll" are not shown/');
         $values = ilObjLanguageExt::_getValues('de');
 
         $this->assertSame(['rep_robj_xtst#:#hello' => 'Welt'], $values);
+    }
+
+    /** A shipped `.po` that cannot be read: the module is missing (reported), its lng_data rows are not shown instead. */
+    public function testAnUnreadableShippedPoHidesTheModuleAndNeverShowsItsLngDataRows(): void
+    {
+        $directory = $this->seedFixtureModule('mtest', 'de', ['greeting' => ['value' => 'Hallo']]);
+        file_put_contents(
+            constant('ILIAS_ABSOLUTE_PATH') . '/components/ILIAS/Language/tests/' . $this->fixture_directory . '/mtest_de.po',
+            "msgid \"kaputt\n"
+        );
+        $this->registerDirectoryManager($directory);
+        $this->stubDatabase([
+            ['module' => 'mtest', 'identifier' => 'greeting', 'value' => 'Aus lng_data'],
+            ['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt'],
+        ]);
+
+        $this->expectOutputRegex('/The language file of module "mtest" for "de" cannot be read, its values are not shown/');
+        $this->assertSame(['rep_robj_xtst#:#hello' => 'Welt'], ilObjLanguageExt::_getValues('de'));
     }
 
     public function testGetModulesIncludesAMigratedModuleEvenWithoutAnyLngDataRow(): void
