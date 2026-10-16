@@ -314,26 +314,8 @@ class ilOpenIdConnectUserSync
                 continue;
             }
 
-            if (is_array($this->user_info->{$role_attribute})) {
-                $roles_claim = array_map(
-                    static function (mixed $value): string {
-                        return match (true) {
-                            is_string($value) => trim($value),
-                            $value instanceof stdClass && property_exists($value, 'id') => trim((string) $value->id),
-                            $value instanceof stdClass && property_exists($value, 'value') => trim((string) $value->value),
-                            default => throw new DomainException(sprintf(
-                                'Unexpected role value type, please check your provider configuration: %s',
-                                print_r($value, true)
-                            )),
-                        };
-                    },
-                    $this->user_info->{$role_attribute}
-                );
-                if (!in_array($role_value, $roles_claim, true)) {
-                    $this->logger->debug('User account has no ' . $role_value);
-                    continue;
-                }
-            } elseif (strcmp(trim((string) $this->user_info->{$role_attribute}), $role_value) !== 0) {
+            $roles_claim = $this->extractRoleClaimValues($this->user_info->{$role_attribute});
+            if (!in_array($role_value, $roles_claim, true)) {
                 $this->logger->debug('User account has no ' . $role_value);
                 continue;
             }
@@ -370,6 +352,60 @@ class ilOpenIdConnectUserSync
         }
 
         return $roles_assignable;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function extractRoleClaimValues(mixed $claim): array
+    {
+        if (is_string($claim)) {
+            return [trim($claim)];
+        }
+
+        if ($claim instanceof stdClass) {
+            if (property_exists($claim, 'id') && is_scalar($claim->id)) {
+                return [trim((string) $claim->id)];
+            }
+            if (property_exists($claim, 'value') && is_scalar($claim->value)) {
+                return [trim((string) $claim->value)];
+            }
+
+            $claim = get_object_vars($claim);
+        }
+
+        if (!is_array($claim)) {
+            throw new DomainException(sprintf(
+                'Unexpected role value type, please check your provider configuration: %s',
+                print_r($claim, true)
+            ));
+        }
+
+        if ($claim === []) {
+            return [];
+        }
+
+        if (!array_is_list($claim)) {
+            return array_map(
+                static fn(int|string $role): string => trim((string) $role),
+                array_keys($claim)
+            );
+        }
+
+        return array_map(
+            static function (mixed $value): string {
+                return match (true) {
+                    is_string($value) => trim($value),
+                    $value instanceof stdClass && property_exists($value, 'id') => trim((string) $value->id),
+                    $value instanceof stdClass && property_exists($value, 'value') => trim((string) $value->value),
+                    default => throw new DomainException(sprintf(
+                        'Unexpected role value type, please check your provider configuration: %s',
+                        print_r($value, true)
+                    )),
+                };
+            },
+            $claim
+        );
     }
 
     private function valueFrom(string $connect_name): string
