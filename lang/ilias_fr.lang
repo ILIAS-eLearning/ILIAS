@@ -1604,37 +1604,6 @@ assessment#:#worked_through#:#Avec Réponse
 assessment#:#working_time#:#Durée
 assessment#:#you_received_a_of_b_points#:#Vous avez obtenu %s points sur %s
 assessment#:#your_results#:#Your Results###28 10 2024 new variable
-background_tasks#:#abort#:#Annuler
-background_tasks#:#background_tasks#:#Tâches d’arrière-plan
-background_tasks#:#background_tasks_running#:#Tâches d’arrière-plan
-background_tasks#:#completed#:#Complétées
-background_tasks#:#proceed_job#:#Procéder
-background_tasks#:#scheduled#:#Prévues
-background_tasks#:#task_might_be_failed#:#Cette tâche n’a pas répondu pendant un certain temps. Vous pouvez la quitter si vous le souhaitez.
-background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.
-background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?
-background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?
-background_tasks#:#waiting#:#En attente
-bgtask#:#bgtask_blocked#:#Téléchargement concurrent
-bgtask#:#bgtask_blocked_cancel_new#:#Annuler le nouveau téléchargement
-bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download
-bgtask#:#bgtask_blocked_info#:#Il y a déjà un téléchargement traité pour vous.
-bgtask#:#bgtask_cron_gc_desc#:#Supprime les fichiers obsolètes qui ont été créés par les tâches en arrière-plan.
-bgtask#:#bgtask_cron_gc_title#:#Collecte de déchets de tâches en arrière-plan
-bgtask#:#bgtask_download_long#:#Le traitement du téléchargement avec %1$s fichiers (%2$s) peut prendre un certain temps.
-bgtask#:#bgtask_download_too_large#:#Le téléchargement dépasse la taille limite de %s.
-bgtask#:#bgtask_empty_folder#:#La sélection actuelle n’inclut pas de contenu téléchargeable.
-bgtask#:#bgtask_failure#:#Erreur
-bgtask#:#bgtask_processing#:#Création de téléchargement
-bgtask#:#bgtask_setting#:#«Téléchargement en arrière-plan» autorisé
-bgtask#:#bgtask_setting_info#:#La création de l’archive ZIP se fait de façon asynchrone et peut être annulée à tout moment.
-bgtask#:#bgtask_setting_limit#:#Limite globale
-bgtask#:#bgtask_setting_limit_info#:#Un téléchargement est possible uniquement si la somme des tailles des fichiers est inférieure à cette valeur.
-bgtask#:#bgtask_setting_threshold_count#:#Nombre minimum
-bgtask#:#bgtask_setting_threshold_count_info#:#Si le nombre de fichiers dépasse cette valeur, le téléchargement sera asynchrone.
-bgtask#:#bgtask_setting_threshold_size#:#Taille minimum
-bgtask#:#bgtask_setting_threshold_size_info#:#Si les tailles de fichiers dépassent cette valeur, le téléchargement sera asynchrone.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Chemin absolu
 common#:#accept_usr_agreement_btn#:#Accept

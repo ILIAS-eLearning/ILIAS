@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: background_tasks\n"
+
+msgid "abort"
+msgstr "Přerušit"
+
+msgid "background_tasks"
+msgstr "Úlohy na pozadí"
+
+msgid "background_tasks_running"
+msgstr "Spuštěné úlohy"
+
+msgid "completed"
+msgstr "Dokončeno"
+
+msgid "proceed_job"
+msgstr "Pokračovat"
+
+msgid "scheduled"
+msgstr "Naplánováno"
+
+msgid "task_might_be_failed"
+msgstr "Tato úloha na chvíli neodpovídá, v případě potřeby ji můžete ukončit."
+
+#, fuzzy
+msgid "ui_msg_files_violate_maxsize"
+msgstr "The total download size violates the global limit. The download will be aborted."
+
+#, fuzzy
+msgid "ui_msg_no_files_found"
+msgstr "No files have been found. The download will be aborted."
+
+#, fuzzy
+msgid "ui_msg_num_files"
+msgstr "%s file(-s) were detected for download, do you want to continue?"
+
+#, fuzzy
+msgid "ui_msg_sum_file_sizes"
+msgstr "The total download size before creating the zip-folder is %s. Do you want to continue?"
+
+msgid "waiting"
+msgstr "Čekání"

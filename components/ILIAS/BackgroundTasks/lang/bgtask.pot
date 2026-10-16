@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr ""
+
+msgid "bgtask_blocked_cancel_new"
+msgstr ""
+
+msgid "bgtask_blocked_cancel_old"
+msgstr ""
+
+msgid "bgtask_blocked_info"
+msgstr ""
+
+msgid "bgtask_cron_gc_desc"
+msgstr ""
+
+msgid "bgtask_cron_gc_title"
+msgstr ""
+
+msgid "bgtask_download_long"
+msgstr ""
+
+msgid "bgtask_download_too_large"
+msgstr ""
+
+msgid "bgtask_empty_folder"
+msgstr ""
+
+msgid "bgtask_failure"
+msgstr ""
+
+msgid "bgtask_processing"
+msgstr ""
+
+msgid "bgtask_setting"
+msgstr ""
+
+msgid "bgtask_setting_info"
+msgstr ""
+
+msgid "bgtask_setting_limit"
+msgstr ""
+
+msgid "bgtask_setting_limit_info"
+msgstr ""
+
+msgid "bgtask_setting_threshold_count"
+msgstr ""
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr ""
+
+msgid "bgtask_setting_threshold_size"
+msgstr ""
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr ""

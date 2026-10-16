@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Egyidejű letöltés"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Új letöltés megszakítása"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Meglévő letöltés megszakítása"
+
+msgid "bgtask_blocked_info"
+msgstr "Már folyamatban van egy letöltése."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Háttérfolyamatok által létrehozott elavult fájlok törlése."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Szemétgyűjtő háttérfolyamat"
+
+msgid "bgtask_download_long"
+msgstr "A letöltés %1$s darab fájllal (%2$s) egy ideig eltarthat."
+
+msgid "bgtask_download_too_large"
+msgstr "A letöltés átlépi a korlátot (%s)."
+
+msgid "bgtask_empty_folder"
+msgstr "A jelenlegi kiválasztása nem tartalmaz letölthető objektumokat."
+
+msgid "bgtask_failure"
+msgstr "Hiba"
+
+msgid "bgtask_processing"
+msgstr "Letöltés létrehozása"
+
+msgid "bgtask_setting"
+msgstr "‘Letöltés háttérben’ bekapcsolása"
+
+msgid "bgtask_setting_info"
+msgstr "A ZIP fájl létrehozása aszinkron módon történik, bármikor megszakítható."
+
+msgid "bgtask_setting_limit"
+msgstr "Globális korlát"
+
+msgid "bgtask_setting_limit_info"
+msgstr "Letöltés csak akkor lehetséges, ha a fájlok összmérete ezen érték alatt van MB-ban."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Minimális szám"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Ha a fájlok száma meghaladja ezt az értéket, a letöltés aszinkron lesz."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Minimális méret"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Ha a fájlméret meghaladja ezt az értéket, a letöltés aszinkron lesz."

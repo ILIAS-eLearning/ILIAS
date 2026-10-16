@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: background_tasks\n"
+
+msgid "abort"
+msgstr "Megállított"
+
+msgid "background_tasks"
+msgstr "Háttérfolyamatok"
+
+msgid "background_tasks_running"
+msgstr "Háttérfolyamatok"
+
+msgid "completed"
+msgstr "Befejeződött"
+
+msgid "proceed_job"
+msgstr "Folytatás"
+
+msgid "scheduled"
+msgstr "Időzített"
+
+msgid "task_might_be_failed"
+msgstr "Ez a folyamat egy ideje nem válaszol, ha szükséges, bezárhatja."
+
+msgid "ui_msg_files_violate_maxsize"
+msgstr "A letöltés mérete meghaladja az engedélyezett maximumot. A letöltést megszakadt."
+
+msgid "ui_msg_no_files_found"
+msgstr "Egy fájlt sem találtunk. A letöltést megszakadt."
+
+msgid "ui_msg_num_files"
+msgstr "%s fájlt találtunk a letöltéshez, biztos, hogy folytatja?"
+
+msgid "ui_msg_sum_file_sizes"
+msgstr "A letöltés mérete a zip készítése előtt %s. Biztos, hogy folytatja?"
+
+msgid "waiting"
+msgstr "Várakozó"

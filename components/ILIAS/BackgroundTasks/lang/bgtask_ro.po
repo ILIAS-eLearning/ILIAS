@@ -1,0 +1,85 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);\n"
+"X-Domain: bgtask\n"
+
+#, fuzzy
+msgid "bgtask_blocked"
+msgstr "Concurrent download"
+
+#, fuzzy
+msgid "bgtask_blocked_cancel_new"
+msgstr "Cancel new download"
+
+#, fuzzy
+msgid "bgtask_blocked_cancel_old"
+msgstr "Cancel existing download "
+
+#, fuzzy
+msgid "bgtask_blocked_info"
+msgstr "There is already a download processed for you."
+
+#, fuzzy
+msgid "bgtask_cron_gc_desc"
+msgstr "Deletes obsolete files which were created by background tasks."
+
+#, fuzzy
+msgid "bgtask_cron_gc_title"
+msgstr "Background Task Garbage Collection"
+
+#, fuzzy
+msgid "bgtask_download_long"
+msgstr "The processing of the download with %1$s files (%2$s) might take a while."
+
+#, fuzzy
+msgid "bgtask_download_too_large"
+msgstr "The download surpasses the size limit of %s."
+
+#, fuzzy
+msgid "bgtask_empty_folder"
+msgstr "The current selection does not include any downloadable content."
+
+#, fuzzy
+msgid "bgtask_failure"
+msgstr "Error"
+
+#, fuzzy
+msgid "bgtask_processing"
+msgstr "Creating download"
+
+#, fuzzy
+msgid "bgtask_setting"
+msgstr "«Background download» enabled"
+
+#, fuzzy
+msgid "bgtask_setting_info"
+msgstr "The creation of the ZIP archive is done asynchronously and can be cancelled anytime."
+
+#, fuzzy
+msgid "bgtask_setting_limit"
+msgstr "Global Limit"
+
+#, fuzzy
+msgid "bgtask_setting_limit_info"
+msgstr "A download is only possible if the sum of the file sizes is below this value."
+
+#, fuzzy
+msgid "bgtask_setting_threshold_count"
+msgstr "Minimum Number"
+
+#, fuzzy
+msgid "bgtask_setting_threshold_count_info"
+msgstr "If the number of files exceeds this value the download will be asynchronously."
+
+#, fuzzy
+msgid "bgtask_setting_threshold_size"
+msgstr "Minimum Size"
+
+#, fuzzy
+msgid "bgtask_setting_threshold_size_info"
+msgstr "If the file sizes exceed this value the download will be asynchronously."

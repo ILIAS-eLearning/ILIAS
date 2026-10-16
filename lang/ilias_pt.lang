@@ -1607,37 +1607,6 @@ assessment#:#worked_through#:#Escrito por
 assessment#:#working_time#:#Tempo de trabalho
 assessment#:#you_received_a_of_b_points#:#Recebeu %s de %s possíveis pontos
 assessment#:#your_results#:#My Results###03 09 2026 new variable
-background_tasks#:#abort#:#Abortar
-background_tasks#:#background_tasks#:#Tarefas secundárias
-background_tasks#:#background_tasks_running#:#Adicionar sala de chat
-background_tasks#:#completed#:#Completado
-background_tasks#:#proceed_job#:#Proceder
-background_tasks#:#scheduled#:#Marcado
-background_tasks#:#task_might_be_failed#:#Esta tarefa não reagiu por um tempo, pode fechar se quiser.
-background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.###07 02 2020 new variable
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?###07 02 2020 new variable
-background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?###07 02 2020 new variable
-background_tasks#:#waiting#:#Espera
-bgtask#:#bgtask_blocked#:#Download concorrente
-bgtask#:#bgtask_blocked_cancel_new#:#Cancelar novo download
-bgtask#:#bgtask_blocked_cancel_old#:#Cancelar download existente
-bgtask#:#bgtask_blocked_info#:#Já existe um download processado para si.
-bgtask#:#bgtask_cron_gc_desc#:#Apaga ficheiros obsoletos, que foram criados por tarefas secundárias.
-bgtask#:#bgtask_cron_gc_title#:#Coleção de lixo de tarefas secundárias
-bgtask#:#bgtask_download_long#:#O processamento do download com %1$s ficheiros (%2$s) pode demorar um pouco.
-bgtask#:#bgtask_download_too_large#:#O download ultrapassa o limite do tamanho de %s.
-bgtask#:#bgtask_empty_folder#:#A seleção atual não inclui qualquer conteúdo que possa ser descarregado.
-bgtask#:#bgtask_failure#:#Erro
-bgtask#:#bgtask_processing#:#Criar download
-bgtask#:#bgtask_setting#:#«Background download» ativado
-bgtask#:#bgtask_setting_info#:#A criação do arquivo ZIP é feita assincronamente e pode ser cancelada a qualquer momento.
-bgtask#:#bgtask_setting_limit#:#Limite global
-bgtask#:#bgtask_setting_limit_info#:#Um download só é possível se a soma dos tamanhos dos ficheiros estiver abaixo desse valor.
-bgtask#:#bgtask_setting_threshold_count#:#Número mínimo
-bgtask#:#bgtask_setting_threshold_count_info#:#Se o número de ficheiros exceder este valor, o download será assincronamente.
-bgtask#:#bgtask_setting_threshold_size#:#Tamanho mínimo
-bgtask#:#bgtask_setting_threshold_size_info#:#Se os tamanhos dos ficheiros exceder este valor, o download será assincronamente.
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Caminho absoluto
 common#:#accept_usr_agreement_btn#:#Accept###30 04 2021 new variable

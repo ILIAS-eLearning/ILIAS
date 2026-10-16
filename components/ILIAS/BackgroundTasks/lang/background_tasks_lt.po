@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: background_tasks\n"
+
+#, fuzzy
+msgid "abort"
+msgstr "Abort"
+
+#, fuzzy
+msgid "background_tasks"
+msgstr "Background Tasks"
+
+#, fuzzy
+msgid "background_tasks_running"
+msgstr "Running Tasks"
+
+#, fuzzy
+msgid "completed"
+msgstr "Completed"
+
+#, fuzzy
+msgid "proceed_job"
+msgstr "Proceed"
+
+#, fuzzy
+msgid "scheduled"
+msgstr "Scheduled"
+
+#, fuzzy
+msgid "task_might_be_failed"
+msgstr "This Task has not responded for a while, you can quit it if needed."
+
+#, fuzzy
+msgid "ui_msg_files_violate_maxsize"
+msgstr "The total download size violates the global limit. The download will be aborted."
+
+#, fuzzy
+msgid "ui_msg_no_files_found"
+msgstr "No files have been found. The download will be aborted."
+
+#, fuzzy
+msgid "ui_msg_num_files"
+msgstr "%s file(-s) were detected for download, do you want to continue?"
+
+#, fuzzy
+msgid "ui_msg_sum_file_sizes"
+msgstr "The total download size before creating the zip-folder is %s. Do you want to continue?"
+
+#, fuzzy
+msgid "waiting"
+msgstr "Waiting"

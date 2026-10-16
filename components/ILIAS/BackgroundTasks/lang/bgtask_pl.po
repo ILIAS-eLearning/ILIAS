@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Bieżące pobieranie"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Przerwij nowe pobieranie"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Przerwij bieżące pobieranie"
+
+msgid "bgtask_blocked_info"
+msgstr "Twój proces pobierania jest w toku."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Usuwa już niepotrzebne pliki, które zostały utworzone w ramach procesów realizowanych w tle."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Usuwanie zadań realizowanych w tle"
+
+msgid "bgtask_download_long"
+msgstr "Pobieranie %1$s plików (%2$s) trochę potrwa."
+
+msgid "bgtask_download_too_large"
+msgstr "Pobierane elementy przekraczają limit %s."
+
+msgid "bgtask_empty_folder"
+msgstr "Wybór nie zawiera żadnych obiektów, które można pobrać."
+
+msgid "bgtask_failure"
+msgstr "Błędy"
+
+msgid "bgtask_processing"
+msgstr "Rozpocznij pobieranie"
+
+msgid "bgtask_setting"
+msgstr "Aktywuj «Pobierz w tle»"
+
+msgid "bgtask_setting_info"
+msgstr "Plik ZIP generowany jest asynchronicznie. Ten proces można w każdej chwili przerwać."
+
+msgid "bgtask_setting_limit"
+msgstr "Globalny limit"
+
+msgid "bgtask_setting_limit_info"
+msgstr "Pobieranie możliwe jest tylko wtedy, jeśli maksymalny łączny rozmiar plików nie przekracza tej wartości."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Minimalna liczba"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Od tej wartości pobieranie odbywa się asynchronicznie."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Minimalny rozmiar"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Od tego rozmiaru pobieranie odbywa się asynchronicznie."
