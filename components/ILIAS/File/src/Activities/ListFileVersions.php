@@ -27,6 +27,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text\SimpleDocumentMarkdown;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\ResourceStorage\Activities\ResourceVersion;
 use ILIAS\ResourceStorage\Activities\ServiceProvider;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -36,15 +37,17 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 /**
  * List the versions of a file object.
  *
- * The storage keeps every revision of a file; this makes them visible. Guarded
- * by the read permission on the object, which is the same authority that
- * decides about the current content.
+ * The storage keeps every revision of a file; this makes them visible. The list
+ * names who uploaded each version, so it needs the write permission - the same
+ * the GUI asks for its versions tab (`Capabilities::MANAGE_VERSIONS`). Reading
+ * is not enough, a reader would learn who worked on the file and when.
  */
 class ListFileVersions extends Query
 {
     public function __construct(
         private readonly RepositoryProvider $repository,
         private readonly ServiceProvider $storage,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -53,7 +56,8 @@ class ListFileVersions extends Query
     {
         return $this->data->text()->markdown()->simpleDocument(
             "Lists all versions of a file object, oldest first.\n\n"
-            . "The user needs the permission to read the object. Use "
+            . "The user needs the permission to write the object, as for the versions in the user "
+            . "interface. Use "
             . "`ILIAS\\File\\Activities\\DeliverFileVersion` to get the content of one of them."
         );
     }
@@ -105,7 +109,7 @@ class ListFileVersions extends Query
             return false;
         }
 
-        return $this->repository->mayRead($usr_id, $ref_id, 'file');
+        return $this->repository->mayWrite($usr_id, $ref_id, 'file');
     }
 
     /**
@@ -137,7 +141,7 @@ class ListFileVersions extends Query
 
             if (!$this->isAllowedToPerform($usr_id, $parameters)) {
                 return $this->data->error(
-                    new \DomainException('You are not allowed to read this file.', 403)
+                    new \DomainException('You are not allowed to see the versions of this file.', 403)
                 );
             }
 
@@ -165,11 +169,7 @@ class ListFileVersions extends Query
      */
     private function toParameters(array $raw_parameters): array
     {
-        $ref_id = (int) ($raw_parameters['ref_id'] ?? 0);
-
-        if ($ref_id <= 0) {
-            throw new \InvalidArgumentException('A file object is required.', 400);
-        }
+        $ref_id = $this->parameter->id($raw_parameters, 'ref_id', 'A file object is required.');
 
         return ['ref_id' => $ref_id];
     }

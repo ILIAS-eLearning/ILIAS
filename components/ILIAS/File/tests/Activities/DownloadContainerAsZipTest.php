@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileDelivery\Activities\FilePayload;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use PHPUnit\Framework\MockObject\Stub;
@@ -42,6 +46,7 @@ class DownloadContainerAsZipTest extends TestCase
             $this->list_files,
             $this->deliver_file,
             new FilePayloadFactory(),
+            new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))),
         );
     }
 
@@ -87,6 +92,94 @@ class DownloadContainerAsZipTest extends TestCase
     }
 
     /**
+     * An archive is unpacked by programs that trust its names: a path in a name
+     * must not survive, whatever the storage holds.
+     */
+    public function testNoNameLeavesTheFolderItIsUnpackedInto(): void
+    {
+        $names = ['../../evil.txt', '..\\..\\win.txt', '.hidden', '/etc/passwd', '..'];
+        $this->list_files->method('perform')->willReturn(
+            array_map(fn(int $i): FileEntry => $this->entry(10 + $i, 'x'), array_keys($names))
+        );
+        $this->deliver_file->method('perform')->willReturnCallback(
+            static fn(array $parameters): FilePayload => new FilePayload(
+                $names[$parameters['ref_id'] - 10],
+                'text/plain',
+                1,
+                base64_encode('x')
+            )
+        );
+
+        $archive = $this->activity->perform(self::SOME_CONTAINER);
+
+        $this->assertSame(['evil.txt', 'win.txt', 'hidden', 'passwd', 'file'], array_keys($this->unpack($archive)));
+    }
+
+    public function testADuplicateDoesNotTakeTheNameOfAnotherFile(): void
+    {
+        $names = ['a.txt', 'a (2).txt', 'a.txt'];
+        $this->list_files->method('perform')->willReturn(
+            array_map(fn(int $i): FileEntry => $this->entry(10 + $i, 'x'), array_keys($names))
+        );
+        $this->deliver_file->method('perform')->willReturnCallback(
+            static fn(array $parameters): FilePayload => new FilePayload(
+                $names[$parameters['ref_id'] - 10],
+                'text/plain',
+                1,
+                base64_encode((string) $parameters['ref_id'])
+            )
+        );
+
+        $archive = $this->activity->perform(self::SOME_CONTAINER);
+
+        $this->assertSame(
+            ['a.txt' => '10', 'a (2).txt' => '11', 'a (3).txt' => '12'],
+            $this->unpack($archive)
+        );
+    }
+
+    /**
+     * Content that cannot be decoded is no empty file: it is left out and
+     * named, like a file whose content could not be read at all.
+     */
+    public function testContentThatCannotBeDecodedIsSkippedAndListed(): void
+    {
+        $this->list_files->method('perform')->willReturn([
+            $this->entry(10, 'fine.txt'),
+            $this->entry(11, 'garbled.txt'),
+        ]);
+        $this->deliver_file->method('perform')->willReturnCallback(
+            static fn(array $parameters): FilePayload => match ($parameters['ref_id']) {
+                10 => new FilePayload('fine.txt', 'text/plain', 4, base64_encode('fine')),
+                11 => new FilePayload('garbled.txt', 'text/plain', 4, '***not base64***'),
+            }
+        );
+
+        $archive = $this->activity->perform(self::SOME_CONTAINER);
+
+        $this->assertSame(['fine.txt' => 'fine'], $this->unpack($archive));
+        $this->assertCount(1, $archive->skipped);
+        $this->assertSame(11, $archive->skipped[0]->ref_id);
+    }
+
+    /**
+     * Only what really went in counts: an archive of nothing but skipped files
+     * is still a valid, empty one.
+     */
+    public function testAnArchiveOfUndecodableFilesIsEmptyButValid(): void
+    {
+        $this->list_files->method('perform')->willReturn([$this->entry(11, 'garbled.txt')]);
+        $this->deliver_file->method('perform')->willReturn(
+            new FilePayload('garbled.txt', 'text/plain', 4, '***not base64***')
+        );
+
+        $archive = $this->activity->perform(self::SOME_CONTAINER);
+
+        $this->assertSame([], $this->unpack($archive));
+        $this->assertCount(1, $archive->skipped);
+    }
+
+    /**
      * If nothing can be packed the answer is still a valid, empty archive.
      */
     public function testWhenNothingCanBeReadTheArchiveIsEmptyButValid(): void
@@ -109,7 +202,7 @@ class DownloadContainerAsZipTest extends TestCase
         $deliver_file = $this->createMock(DeliverFileObject::class);
         $deliver_file->expects($this->never())->method('perform');
 
-        $activity = new DownloadContainerAsZip($this->list_files, $deliver_file, new FilePayloadFactory());
+        $activity = new DownloadContainerAsZip($this->list_files, $deliver_file, new FilePayloadFactory(), new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))));
 
         $this->expectException(\DomainException::class);
         $this->expectExceptionCode(422);

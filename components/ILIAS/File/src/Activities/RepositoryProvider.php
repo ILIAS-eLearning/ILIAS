@@ -30,9 +30,9 @@ use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
  * The bits of the repository the file activities need: the tree to check where
  * a file may go and access and rbac to check whether a user may put it there.
  *
- * Access and rbac come from the AccessControl component. The repository tree
- * and the object definition are not offered by any component yet, so these two
- * are still resolved from the legacy container on first use - the same way
+ * Access and rbac come from the AccessControl component. The repository tree,
+ * the object definition and the settings are not offered by any component yet,
+ * so these are still resolved from the legacy container on first use - the same way
  * AccessControl itself gets at the tree. They move to the constructor as soon
  * as their components provide them.
  */
@@ -43,6 +43,8 @@ class RepositoryProvider
         private readonly RBAC $rbac,
         private ?\ilTree $tree = null,
         private ?\ilObjectDefinition $definition = null,
+        private ?\ilSetting $settings = null,
+        private ?int $acting_user_id = null,
     ) {
     }
 
@@ -166,14 +168,49 @@ class RepositoryProvider
     }
 
     /**
-     * Moves an object to the trash, exactly like the GUI does - nothing is
-     * destroyed, an administrator can still get it back.
+     * Deletes an object exactly like the GUI does: into the trash if the
+     * installation has one, for good if it has not.
+     *
+     * @return bool whether the object went to the trash and can still be restored
      */
-    public function moveToTrash(int $ref_id): void
+    public function delete(int $ref_id): bool
     {
-        $parent_ref_id = (int) $this->tree()->getParentId($ref_id);
+        $in_trash = $this->isTrashEnabled();
 
-        \ilRepUtil::deleteObjects($parent_ref_id, [$ref_id]);
+        // ilRepUtil::deleteObjects() is deprecated, but the deletion it hands on
+        // to belongs to the internals of the Repository component - this moves
+        // as soon as that offers a public deletion service. Its first argument,
+        // the parent, is ignored.
+        \ilRepUtil::deleteObjects(0, [$ref_id]);
+
+        return $in_trash;
+    }
+
+    /**
+     * Whether the legacy code would act as this user.
+     *
+     * Creating, copying, replacing and deleting go through ilObject, ilObjFile
+     * and the deletion of the repository, and all of them take the user of the
+     * session - as owner of an object, of a revision, as author of the news,
+     * for a check of their own. A command performed for somebody else would be
+     * checked for that user and done as another one. So commands are only
+     * performed as the user of the session; queries are free, they read
+     * through the access handler with the user they are given.
+     */
+    public function isActingUser(int $usr_id): bool
+    {
+        if ($this->acting_user_id === null) {
+            global $DIC;
+
+            $this->acting_user_id = $DIC->isDependencyAvailable('user') ? (int) $DIC->user()->getId() : 0;
+        }
+
+        return $usr_id > 0 && $usr_id === $this->acting_user_id;
+    }
+
+    public function isTrashEnabled(): bool
+    {
+        return (bool) $this->settings()->get('enable_trash');
     }
 
     /**
@@ -243,6 +280,17 @@ class RepositoryProvider
         return $this->definition;
     }
 
+    public function settings(): \ilSetting
+    {
+        if (!$this->settings instanceof \ilSetting) {
+            global $DIC;
+
+            $this->settings = $DIC->settings();
+        }
+
+        return $this->settings;
+    }
+
     public function tree(): \ilTree
     {
         if (!$this->tree instanceof \ilTree) {
@@ -281,7 +329,9 @@ class RepositoryProvider
         try {
             $this->storeContent($file, $content->stream(), $content->filename, $title, true);
         } catch (\Throwable $e) {
-            // no half created objects
+            // no half created objects - and ilObject::delete() removes the object
+            // and its reference, but not its node in the tree
+            $this->tree()->deleteTree($this->tree()->getNodeData($file->getRefId()));
             $file->delete();
 
             throw $e;

@@ -30,6 +30,7 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 
 /**
  * Deliver the files of a container as one zip archive.
@@ -57,6 +58,7 @@ class DownloadContainerAsZip extends Query
         private readonly ListFiles $list_files,
         private readonly DeliverFileObject $deliver_file,
         private readonly FilePayloadFactory $payloads,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -200,13 +202,28 @@ class DownloadContainerAsZip extends Query
 
         $names = [];
         $skipped = [];
+        $added = 0;
 
         foreach ($files as $file) {
+            $name = null;
+            $content = false;
+
             try {
                 // the listing has already dropped everything the user may not read,
                 // so the content may be taken through the internal door
                 $payload = $this->deliver_file->perform(['ref_id' => $file->ref_id]);
+                $name = $this->entryName($payload->filename);
+                $content = base64_decode($payload->content, true);
             } catch (\Throwable) {
+                // left out below, the reason stays inside
+            }
+
+            // a file that cannot be read, decoded or added is left out and named,
+            // it must not end up in the archive as an empty one
+            if ($name === null
+                || $content === false
+                || !$zip->addFromString($this->uniqueName($names, $name), $content)
+            ) {
                 $skipped[] = new SkippedFile(
                     $file->ref_id,
                     $file->title,
@@ -215,21 +232,35 @@ class DownloadContainerAsZip extends Query
                 continue;
             }
 
-            $zip->addFromString(
-                $this->uniqueName($names, $payload->filename),
-                (string) base64_decode($payload->content, true)
-            );
+            $added++;
         }
 
-        $zip->close();
+        // the entries are only written now, so this is where an archive breaks
+        if (!$zip->close()) {
+            throw new \RuntimeException('The archive could not be created.');
+        }
 
         // ZipArchive writes nothing for an archive without entries, which would
         // hand out an empty file; an empty zip is its end of central directory
-        if ($names === []) {
+        if ($added === 0) {
             file_put_contents($path, "PK\x05\x06" . str_repeat("\0", 18));
         }
 
         return $skipped;
+    }
+
+    /**
+     * A name for an entry that stays in the folder it is unpacked into: the
+     * storage names its resources after uploaded file names, which are cleaned
+     * on the way in - but an archive is opened elsewhere, by programs that trust
+     * what it says, so a path in a name must not survive.
+     */
+    private function entryName(string $filename): string
+    {
+        $parts = explode('/', str_replace('\\', '/', $filename));
+        $name = ltrim((string) end($parts), '.');
+
+        return trim($name) === '' ? 'file' : $name;
     }
 
     /**
@@ -245,7 +276,13 @@ class DownloadContainerAsZip extends Query
 
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $base = pathinfo($filename, PATHINFO_FILENAME);
-        $name = $base . ' (' . ++$names[$filename] . ')' . ($extension === '' ? '' : '.' . $extension);
+
+        // a file may already carry the name a duplicate would get
+        do {
+            $name = $base . ' (' . ++$names[$filename] . ')' . ($extension === '' ? '' : '.' . $extension);
+        } while (isset($names[$name]));
+
+        $names[$name] = 1;
 
         return $name;
     }
@@ -257,15 +294,11 @@ class DownloadContainerAsZip extends Query
      */
     private function toParameters(array $raw_parameters): array
     {
-        $parent_ref_id = (int) ($raw_parameters['parent_ref_id'] ?? 0);
-
-        if ($parent_ref_id <= 0) {
-            throw new \InvalidArgumentException('A container is required.', 400);
-        }
+        $parent_ref_id = $this->parameter->id($raw_parameters, 'parent_ref_id', 'A container is required.');
 
         return [
             'parent_ref_id' => $parent_ref_id,
-            'recursive' => filter_var($raw_parameters['recursive'] ?? false, FILTER_VALIDATE_BOOL),
+            'recursive' => $this->parameter->flag($raw_parameters, 'recursive', false),
         ];
     }
 }

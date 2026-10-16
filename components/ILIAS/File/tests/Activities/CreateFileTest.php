@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Component\Activities\ActivityType;
 use ILIAS\FileUpload\Activities\FileContent;
 use ILIAS\FileUpload\Activities\FileParameter;
@@ -37,18 +41,28 @@ class CreateFileTest extends TestCase
     private FileParameter&MockObject $file;
     private TempFileStore $files;
     private RepositoryProvider&MockObject $repository;
+    private bool $acting = true;
     private CreateFile $activity;
 
     protected function setUp(): void
     {
+        // the activities refuse every user as long as they cannot tell the
+        // anonymous one, see AccessCheck
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $this->file = $this->createMock(FileParameter::class);
         // only the tests watching the release of the content need a mock
         $this->files = $this->createStub(TempFileStore::class);
         $this->repository = $this->createMock(RepositoryProvider::class);
+        // over a webservice the user asked about is the user of the session
+        $this->repository->method('isActingUser')->willReturnCallback(fn(): bool => $this->acting);
 
         $this->activity = new CreateFile(
             $this->file,
             $this->repository,
+            new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))),
         );
     }
 
@@ -136,6 +150,19 @@ class CreateFileTest extends TestCase
 
         $this->assertTrue($result->isError());
         $this->assertStringContainsString('not allowed', (string) $result->error());
+    }
+
+    public function testNothingIsCreatedForSomebodyElseThanTheUserOfTheSession(): void
+    {
+        $this->acting = false;
+        $this->repository->method('isContainer')->willReturn(true);
+        $this->repository->method('mayCreate')->willReturn(true);
+        $this->expectNothingToHappen();
+
+        $result = $this->activity->maybePerformAs($this->inputFactory(), self::SOME_USER, $this->request());
+
+        $this->assertTrue($result->isError());
+        $this->assertSame(403, $result->error()->getCode());
     }
 
     public function testAnonymousRequestsCreateNothing(): void

@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileDelivery\Activities\FilePayload;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\Filesystem\Stream\Streams;
@@ -40,11 +44,18 @@ class DeliverResourceTest extends TestCase
 
     protected function setUp(): void
     {
+        // the activities refuse every user as long as they cannot tell the
+        // anonymous one, see AccessCheck
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $this->storage = $this->createMock(ServiceProvider::class);
 
         $this->activity = new DeliverResource(
             $this->storage,
             new FilePayloadFactory(),
+            new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))),
         );
     }
 

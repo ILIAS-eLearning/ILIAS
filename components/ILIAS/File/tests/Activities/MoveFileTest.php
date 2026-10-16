@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Activities;
 
+use ILIAS\FileUpload\Activities\Parameter;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -31,12 +35,21 @@ class MoveFileTest extends TestCase
     private const int SOME_TARGET = 7;
 
     private RepositoryProvider&MockObject $repository;
+    private bool $acting = true;
     private MoveFile $activity;
 
     protected function setUp(): void
     {
+        // the activities refuse every user as long as they cannot tell the
+        // anonymous one, see AccessCheck
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $this->repository = $this->createMock(RepositoryProvider::class);
-        $this->activity = new MoveFile($this->repository);
+        // over a webservice the user asked about is the user of the session
+        $this->repository->method('isActingUser')->willReturnCallback(fn(): bool => $this->acting);
+        $this->activity = new MoveFile($this->repository, new Parameter(new Refinery(new DataFactory(), $this->createStub(Language::class))));
     }
 
     public function testMovingNeedsBothPermissions(): void

@@ -31,12 +31,17 @@ namespace ILIAS\FileUpload\Activities;
  * Everything else is a defect, and its message may carry what a caller must not
  * see - a query, a path in the storage. It is replaced by a generic one and kept
  * as the previous throwable for whoever debugs it.
+ *
+ * The code has to be an int: a `PDOException` carries its SQLSTATE as a string,
+ * and `'42S22'` compares as being between 400 and 500.
  */
 final class Failure
 {
     public static function of(\Throwable $e): \Exception
     {
-        if ($e instanceof \Exception && $e->getCode() >= 400 && $e->getCode() < 500) {
+        $code = $e->getCode();
+
+        if ($e instanceof \Exception && is_int($code) && $code >= 400 && $code < 500) {
             return $e;
         }
 

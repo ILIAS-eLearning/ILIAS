@@ -29,6 +29,7 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 
 /**
  * List the files in a container of the repository.
@@ -47,6 +48,7 @@ class ListFiles extends Query
     public function __construct(
         private readonly RepositoryProvider $repository,
         private readonly ListContainerContent $list_content,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -158,17 +160,11 @@ class ListFiles extends Query
      */
     private function toParameters(array $raw_parameters): array
     {
-        $parent_ref_id = (int) ($raw_parameters['parent_ref_id'] ?? 0);
-
-        if ($parent_ref_id <= 0) {
-            throw new \InvalidArgumentException('A container is required.', 400);
-        }
-
-        $recursive = $raw_parameters['recursive'] ?? false;
+        $parent_ref_id = $this->parameter->id($raw_parameters, 'parent_ref_id', 'A container is required.');
 
         return [
             'parent_ref_id' => $parent_ref_id,
-            'recursive' => filter_var($recursive, FILTER_VALIDATE_BOOL),
+            'recursive' => $this->parameter->flag($raw_parameters, 'recursive', false),
         ];
     }
 }

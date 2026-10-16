@@ -27,6 +27,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text\SimpleDocumentMarkdown;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -56,6 +57,7 @@ class ListContainerContent extends Query
 
     public function __construct(
         private readonly RepositoryProvider $repository,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -187,20 +189,12 @@ class ListContainerContent extends Query
      */
     public function toParameters(array $raw_parameters): array
     {
-        $parent_ref_id = (int) ($raw_parameters['parent_ref_id'] ?? 0);
-
-        if ($parent_ref_id <= 0) {
-            throw new \InvalidArgumentException('A container is required.', 400);
-        }
-
-        $types = $raw_parameters['types'] ?? [];
-        $types = is_string($types) ? explode(',', $types) : (array) $types;
-        $types = array_values(array_filter(array_map(trim(...), $types)));
+        $parent_ref_id = $this->parameter->id($raw_parameters, 'parent_ref_id', 'A container is required.');
 
         return [
             'parent_ref_id' => $parent_ref_id,
-            'recursive' => filter_var($raw_parameters['recursive'] ?? false, FILTER_VALIDATE_BOOL),
-            'types' => $types,
+            'recursive' => $this->parameter->flag($raw_parameters, 'recursive', false),
+            'types' => $this->parameter->list($raw_parameters, 'types'),
         ];
     }
 }

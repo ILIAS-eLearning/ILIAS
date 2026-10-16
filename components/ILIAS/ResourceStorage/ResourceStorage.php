@@ -61,6 +61,7 @@ use ILIAS\ResourceStorage\Events\ObserverCollection;
 use ILIAS\Environment\Configuration\Installation\Directories;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\ResourceStorage\Activities\DeliverResource;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\ResourceStorage\Activities\ServiceProvider;
 
 class ResourceStorage implements Component
@@ -202,6 +203,7 @@ class ResourceStorage implements Component
         $internal[DeliverResource::class] = static fn() => new DeliverResource(
             $internal[ServiceProvider::class],
             $pull[FilePayloadFactory::class],
+            $pull[Parameter::class],
         );
 
         /**

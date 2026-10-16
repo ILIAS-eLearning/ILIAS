@@ -43,6 +43,7 @@ use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\ResourceStorage\Activities\DeliverResource;
 use ILIAS\ResourceStorage\Activities\ServiceProvider as StorageProvider;
 use ILIAS\FileUpload\Activities\FileParameter;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
 
@@ -82,11 +83,13 @@ class File implements Component
         $internal[CreateFile::class] = static fn() => new CreateFile(
             $pull[FileParameter::class],
             $internal[RepositoryProvider::class],
+            $pull[Parameter::class],
         );
 
         $internal[ReplaceFileContent::class] = static fn() => new ReplaceFileContent(
             $pull[FileParameter::class],
             $internal[RepositoryProvider::class],
+            $pull[Parameter::class],
         );
 
         /**
@@ -96,11 +99,13 @@ class File implements Component
          */
         $internal[ListContainerContent::class] = static fn() => new ListContainerContent(
             $internal[RepositoryProvider::class],
+            $pull[Parameter::class],
         );
 
         $internal[ListFiles::class] = static fn() => new ListFiles(
             $internal[RepositoryProvider::class],
             $internal[ListContainerContent::class],
+            $pull[Parameter::class],
         );
 
         /**
@@ -112,6 +117,7 @@ class File implements Component
             $internal[RepositoryProvider::class],
             $pull[DeliverResource::class],
             $pull[FilePayloadFactory::class],
+            $pull[Parameter::class],
         );
 
         /**
@@ -120,29 +126,35 @@ class File implements Component
          */
         $internal[UpdateFileMetadata::class] = static fn() => new UpdateFileMetadata(
             $internal[RepositoryProvider::class],
+            $pull[Parameter::class],
         );
 
         $internal[DeleteFile::class] = static fn() => new DeleteFile(
             $internal[RepositoryProvider::class],
+            $pull[Parameter::class],
         );
 
         $internal[MoveFile::class] = static fn() => new MoveFile(
             $internal[RepositoryProvider::class],
+            $pull[Parameter::class],
         );
 
         $internal[CopyFile::class] = static fn() => new CopyFile(
             $internal[RepositoryProvider::class],
+            $pull[Parameter::class],
         );
 
         $internal[ListFileVersions::class] = static fn() => new ListFileVersions(
             $internal[RepositoryProvider::class],
             $pull[StorageProvider::class],
+            $pull[Parameter::class],
         );
 
         $internal[DeliverFileVersion::class] = static fn() => new DeliverFileVersion(
             $internal[RepositoryProvider::class],
             $pull[StorageProvider::class],
             $pull[FilePayloadFactory::class],
+            $pull[Parameter::class],
         );
 
         /**
@@ -154,8 +166,15 @@ class File implements Component
                 $internal[ListFiles::class],
                 $internal[DeliverFileObject::class],
                 $pull[FilePayloadFactory::class],
+                $pull[Parameter::class],
             );
 
+        /**
+         * Whoever pulls one of these: `perform()` checks nothing, that is the
+         * contract of an Activity - it is the door for code that has checked
+         * already. With anything that comes from a request, use
+         * `maybePerformAs()`, or `isAllowedToPerform()` first.
+         */
         $provide[CreateFile::class] = static fn() => $internal[CreateFile::class];
         $provide[ReplaceFileContent::class] = static fn() =>
             $internal[ReplaceFileContent::class];

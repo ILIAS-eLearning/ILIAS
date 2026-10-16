@@ -27,6 +27,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text\SimpleDocumentMarkdown;
 use ILIAS\FileUpload\Activities\AccessCheck;
 use ILIAS\FileUpload\Activities\Failure;
+use ILIAS\FileUpload\Activities\Parameter;
 use ILIAS\FileDelivery\Activities\FilePayload;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\ResourceStorage\Activities\DeliverResource;
@@ -54,6 +55,7 @@ class DeliverFileObject extends Query
         private readonly RepositoryProvider $repository,
         private readonly DeliverResource $deliver_resource,
         private readonly FilePayloadFactory $payloads,
+        private readonly Parameter $parameter,
         private readonly DataFactory $data = new DataFactory(),
     ) {
     }
@@ -106,6 +108,11 @@ class DeliverFileObject extends Query
     }
 
     /**
+     * Delivers the content without asking anybody, as `perform()` does by
+     * contract: this is the door for code that has checked `read` already, like
+     * DownloadContainerAsZip. A ref_id from a request belongs into
+     * `maybePerformAs()` - here it would hand out any file of the repository.
+     *
      * @param array{ref_id: int} $parameters
      */
     public function perform(mixed $parameters): FilePayload
@@ -151,11 +158,7 @@ class DeliverFileObject extends Query
      */
     private function toParameters(array $raw_parameters): array
     {
-        $ref_id = (int) ($raw_parameters['ref_id'] ?? 0);
-
-        if ($ref_id <= 0) {
-            throw new \InvalidArgumentException('A file object is required.', 400);
-        }
+        $ref_id = $this->parameter->id($raw_parameters, 'ref_id', 'A file object is required.');
 
         return ['ref_id' => $ref_id];
     }
