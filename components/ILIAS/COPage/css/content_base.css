@@ -275,3 +275,13 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 .ilc_Mob .il-video-container iframe {
 	display: block;
 }
+
+/* Keep default list markers inside paragraphs, including the editor sizing copy. */
+.ilc_Paragraph > ul.ilc_list_u_BulletedList,
+.copg-input-ghost > ul.ilc_list_u_BulletedList {
+	padding-left: max(15px, 1.2em);
+}
+.ilc_Paragraph > ol.ilc_list_o_NumberedList,
+.copg-input-ghost > ol.ilc_list_o_NumberedList {
+	padding-left: max(15px, 2em);
+}

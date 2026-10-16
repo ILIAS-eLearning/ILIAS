@@ -11,3 +11,11 @@ p
 	margin: 0;
 	padding: 0;
 }
+
+/* Match the page and sizing copy without overriding custom list characteristics. */
+body#tinymce > ul.ilc_list_u_BulletedList {
+	padding-left: max(15px, 1.2em);
+}
+body#tinymce > ol.ilc_list_o_NumberedList {
+	padding-left: max(15px, 2em);
+}
