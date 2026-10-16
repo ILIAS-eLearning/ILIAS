@@ -1323,6 +1323,9 @@ class ilObject
             $this->app_event_handler->raise('components/ILIAS/ILIASObject', 'beforeDeletion', ['object' => $this]);
 
             $this->getObjectProperties()->deletePropertyTranslations();
+            $this->getObjectProperties()->storePropertyTileImage(
+                $this->getObjectProperties()->getPropertyTileImage()->withDeletedFlag()
+            );
 
             $sql =
                 "DELETE FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
