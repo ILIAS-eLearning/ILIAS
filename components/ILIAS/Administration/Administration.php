@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Administration implements Component\Component
 {
     public function init(
@@ -41,5 +44,9 @@ class Administration implements Component\Component
                 $pull[\ILIAS\Refinery\Factory::class]
             );
 
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'administration'
+        );
     }
 }

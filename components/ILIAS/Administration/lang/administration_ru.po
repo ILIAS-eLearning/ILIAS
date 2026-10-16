@@ -1,0 +1,847 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: administration\n"
+
+#, fuzzy
+msgid "adm_achievements"
+msgstr "Achievements"
+
+msgid "adm_adm_role_protect"
+msgstr "Protect Administrator Role"
+
+msgid "adm_adm_role_protect_info"
+msgstr "If enabled, only administrator are allowed to de/assign users from/to the administrator role."
+
+#, fuzzy
+msgid "adm_auth_login"
+msgstr "Authentication Login"
+
+#, fuzzy
+msgid "adm_auth_reg"
+msgstr "Authentication Registration"
+
+#, fuzzy
+msgid "adm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "adm_extending_ilias"
+msgstr "Extending ILIAS"
+
+msgid "adm_external_setting_edit"
+msgstr "Edit Settings"
+
+msgid "adm_hide"
+msgstr "Hide in Settings Form"
+
+msgid "adm_hide_tabs"
+msgstr "Скрыть вкладки"
+
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Imprint"
+
+msgid "adm_imprint_inactive"
+msgstr "The imprint is inactive and users are not able to access it."
+
+#, fuzzy
+msgid "adm_layout_and_navigation"
+msgstr "Layout and Navigation"
+
+#, fuzzy
+msgid "adm_legal_regulations"
+msgstr "Legal Regulations"
+
+msgid "adm_locale"
+msgstr "Локаль"
+
+msgid "adm_locale_info"
+msgstr "Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used."
+
+#, fuzzy
+msgid "adm_maintenance"
+msgstr "Maintenance"
+
+#, fuzzy
+msgid "adm_missing_entries"
+msgstr "Missing Entries"
+
+#, fuzzy
+msgid "adm_missing_entry_add"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "adm_missing_entry_add_action"
+msgstr "Add"
+
+msgid "adm_nr_statements"
+msgstr "Number of Statements"
+
+#, fuzzy
+msgid "adm_personal_workspace"
+msgstr "Personal Workspace"
+
+msgid "adm_predefined_settings"
+msgstr "Predefined Settings"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter"
+msgstr "Domain Filter"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter_info"
+msgstr "Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access. "
+
+msgid "adm_rep_shorten_description"
+msgstr "Shorten Descriptions"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "Если активировано, то всё описание в списках объектов будет укорочено."
+
+msgid "adm_rep_shorten_description_length"
+msgstr "Максимальное количество символов"
+
+msgid "adm_rep_tree_all_types"
+msgstr "Все типы ресурсов"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "Все типы ресурсов представленные в дереве"
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "Show limited context tree in courses and groups."
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "This relies on and automatically activates the 'Synchronize Tree Frame' feature."
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "Только контейнеры"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "Отображаются только категории, курсы и группы."
+
+msgid "adm_rep_tree_presentation"
+msgstr "Представление дерева репозитория"
+
+#, fuzzy
+msgid "adm_repository_and_objects"
+msgstr "Repository and Objects"
+
+#, fuzzy
+msgid "adm_search_and_find"
+msgstr "Search and Find"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "Show number of notes, comments and tags in object lists"
+
+#, fuzzy
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Display tags instead of number"
+
+msgid "adm_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "adm_user_administration"
+msgstr "User Administration"
+
+msgid "adm_user_starting_point"
+msgstr "Точка входа пользователя в систему"
+
+msgid "adm_user_starting_point_info"
+msgstr "Select the page or object which is shown after login."
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit"
+msgstr "Use Standard-Settings"
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit_info"
+msgstr "The settings that were made by the administrator of the platform as a whole will be used."
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr "This feature is currently not active."
+
+msgid "adm_user_starting_point_object"
+msgstr "Объект репозитория"
+
+msgid "adm_user_starting_point_personal"
+msgstr "Определяется настройками пользователя"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "Если активировано, то пользователи могут выбирать свою стартовую страницу."
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "Reference-Id"
+
+#, fuzzy
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "Open the object that you would like to use as Personal Starting Point. Please copy the number directly following \"ref_id=\" in the browser bar into the textinput field."
+
+msgid "adm_value"
+msgstr "Value"
+
+msgid "allow_change_loginname"
+msgstr "Разрешить смену имени пользователя в разделе 'Персональные данные'"
+
+msgid "analysis_options"
+msgstr "Analysis options"
+
+msgid "analyze_data"
+msgstr "Проверить и восстановить целостность данных"
+
+msgid "analyzing_tree_structure"
+msgstr "Проверка структуры дерева..."
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "Try apache authenticaton when entering the login page"
+
+msgid "apache_auth_domains"
+msgstr "Allowed Redirection Domains"
+
+msgid "apache_auth_domains_description"
+msgstr "Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there."
+
+msgid "apache_auth_enable_override_login"
+msgstr "Override default login page"
+
+msgid "apache_auth_indicator_name"
+msgstr "Indicator-field for successful authentication"
+
+msgid "apache_auth_indicator_value"
+msgstr "Indicator-value for successful authentication"
+
+msgid "apache_auth_security"
+msgstr "Security Settings"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "Target url for custom login page"
+
+msgid "apache_auth_username_by_function"
+msgstr "Присваивать имена пользователям собственной функцией"
+
+msgid "apache_auth_username_config"
+msgstr "Username configuration"
+
+msgid "apache_auth_username_config_type"
+msgstr "Type"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "Straight assignment"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "Field for assignment"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "Extended assignment"
+
+msgid "apache_autocreate"
+msgstr "Enable account generation"
+
+msgid "apache_default_role"
+msgstr "Роль пользователя по умолчанию"
+
+msgid "apache_enable_auth"
+msgstr "Enable Apache Authentication support"
+
+msgid "apache_enable_ldap"
+msgstr "Enable LDAP user assignment"
+
+msgid "apache_enable_local"
+msgstr "Enable local user assignment"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAP must be configured in administration"
+
+msgid "apache_settings"
+msgstr "Настроить LDAP аутентификацию"
+
+msgid "apache_settings_changed_success"
+msgstr "Конфигурация сохранена"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "Определение метода аутентификации (для входа в систему)"
+
+msgid "auth_automatic"
+msgstr "Fixed Sequence"
+
+msgid "auth_by_user"
+msgstr "By the User"
+
+msgid "auth_kind_determination"
+msgstr "Kind of Determination"
+
+#, fuzzy
+msgid "auth_mode_default_change_info"
+msgstr "Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed."
+
+msgid "auth_mode_determination_info"
+msgstr "Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods."
+
+msgid "clean"
+msgstr "Очистить"
+
+msgid "clean_desc"
+msgstr "Remove invalid references and tree entries. Initialize gaps in tree structure."
+
+msgid "cleaning"
+msgstr "Очистка..."
+
+msgid "cleaning_final"
+msgstr "Окончательная очистка..."
+
+msgid "course_export"
+msgstr "Отображать в курсах"
+
+msgid "done"
+msgstr "Готово"
+
+msgid "dump_tree"
+msgstr "Dump tree"
+
+msgid "dump_tree_desc"
+msgstr "Perform an analysis of the tree and print all tree nodes along with analysis data."
+
+msgid "dumping_tree"
+msgstr "Dumping tree..."
+
+msgid "found"
+msgstr "найдено."
+
+msgid "found_none"
+msgstr "не найдено."
+
+#, fuzzy
+msgid "git_hash_short"
+msgstr "Commit Hash (short): %s"
+
+#, fuzzy
+msgid "git_last_commit"
+msgstr "Last Commit: %s"
+
+#, fuzzy
+msgid "git_revision"
+msgstr "Number: %s"
+
+msgid "group_export"
+msgstr "Visible in Groups"
+
+msgid "history_loginname"
+msgstr "История имени аккаунта"
+
+msgid "initializing_gaps"
+msgstr "Initializing gaps in tree..."
+
+msgid "language_all_modules"
+msgstr "Все модули"
+
+msgid "language_change_settings"
+msgstr "Изменить настройки языка"
+
+msgid "language_clear_local_changes"
+msgstr "Удалить локальные изменения в БД"
+
+#, fuzzy
+msgid "language_clear_local_changes_info"
+msgstr "Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed."
+
+msgid "language_cleared_local"
+msgstr "Локальные изменения удалены из БД."
+
+msgid "language_compare"
+msgstr "Сравнить с языком:"
+
+msgid "language_default_entries"
+msgstr "(по умолчанию)"
+
+msgid "language_delete_local_additions"
+msgstr "Delete local additions in the database"
+
+#, fuzzy
+msgid "language_delete_local_additions_info"
+msgstr "Delete all entries that were locally added to the database."
+
+msgid "language_error_clear_local"
+msgstr "Локальные изменения не могут быть удалены из БД!"
+
+msgid "language_error_delete_local"
+msgstr "The local language file can't be deleted!"
+
+msgid "language_error_local_missed"
+msgstr "The local language file does not exist!"
+
+msgid "language_error_read_local"
+msgstr "Локальный языковой файл не существует или не может быть прочитан!"
+
+msgid "language_error_write_global"
+msgstr "The global language file can't be written!"
+
+msgid "language_export_file"
+msgstr "Экспортировать языковой файл"
+
+msgid "language_file_imported"
+msgstr "Языковой файл %s импортирован."
+
+msgid "language_file_scope"
+msgstr "Часть языкового файла"
+
+msgid "language_former_file_description"
+msgstr "Для того, чтобы сравнить ваши локальные изменения с изменениями последнего обновления, пожалуйста скопируйте файл языка ранее установленной версии ILIAS в каталог локальных языковых файлов. Текущий языковой файл автоматически копируется при сохранении локальных изменений на вкладке 'Обслуживание'."
+
+msgid "language_former_file_equal"
+msgstr "Файл <b>%s</b> в точности соответствует текущему языковому файлу."
+
+msgid "language_former_file_missing"
+msgstr "Файл <b>%s</b> отсутствует."
+
+msgid "language_import_file"
+msgstr "Импортировать языковой файл"
+
+msgid "language_load_local_changes"
+msgstr "Загрузить локальный языковой файл в БД"
+
+#, fuzzy
+msgid "language_load_local_changes_info"
+msgstr "Load the file lang/customizing/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten."
+
+msgid "language_loaded_local"
+msgstr "Локальный языковой файл загружен в БД."
+
+msgid "language_local_file_deleted"
+msgstr "The local language file was deleted."
+
+msgid "language_maintain"
+msgstr "Обслуживание"
+
+msgid "language_maintain_local_changes"
+msgstr "Работа с локальными изменениями"
+
+msgid "language_maintenance"
+msgstr "Обслуживание локализации"
+
+msgid "language_merge_local_changes"
+msgstr "Merge local changes into the global language file"
+
+#, fuzzy
+msgid "language_merge_local_changes_info"
+msgstr "Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file."
+
+msgid "language_merged_global"
+msgstr "The local changes were merged into the global language file."
+
+msgid "language_mode_existing"
+msgstr "Существующие записи"
+
+msgid "language_mode_existing_delete"
+msgstr "Удалить существующие записи"
+
+#, fuzzy
+msgid "language_mode_existing_delete_info"
+msgstr "Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab \"Maintain\" and choose \"Clear local changes in the database\"."
+
+msgid "language_mode_existing_keepall"
+msgstr "Сохранить все существующие записи"
+
+#, fuzzy
+msgid "language_mode_existing_keepall_info"
+msgstr "Import only new entries that do not yet exist in the database."
+
+msgid "language_mode_existing_keepnew"
+msgstr "Сохранить все локальные изменения"
+
+#, fuzzy
+msgid "language_mode_existing_keepnew_info"
+msgstr "Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database."
+
+msgid "language_mode_existing_replace"
+msgstr "Заменить существующие записи"
+
+#, fuzzy
+msgid "language_mode_existing_replace_info"
+msgstr "Import new entries and replace all existing entries with the new values defined in the import file."
+
+msgid "language_note_translation"
+msgstr "Режим перевода страниц активируется для каждого языка отдельно. Кроме этого, пользователям необходимо иметь права на запись и чтение языковой папки."
+
+msgid "language_process_maintenance"
+msgstr "Выполнить обслуживание"
+
+msgid "language_remove_local_file"
+msgstr "Удалить локальный языковой файл"
+
+#, fuzzy
+msgid "language_remove_local_file_info"
+msgstr "Remove the file lang/customizing/ilias_%s_lang.local and change the language status from \"Installed With Local\" to \"Installed\". The changes in the database are not touched."
+
+#, fuzzy
+msgid "language_save_dist"
+msgstr "Backup the standard language file"
+
+#, fuzzy
+msgid "language_save_dist_failed"
+msgstr "The backup of the standard ILIAS language file could not be written."
+
+#, fuzzy
+msgid "language_save_dist_info"
+msgstr "Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables."
+
+msgid "language_save_local_changes"
+msgstr "Сохранить все изменения в локальный языковой файл"
+
+#, fuzzy
+msgid "language_save_local_changes_info"
+msgstr "Save all locally added or changed database entries to the file lang/customizing/ilias_%s_lang.local and set the language status to \"Installed With Local\". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation."
+
+#, fuzzy
+msgid "language_saved_dist"
+msgstr "The backup of the standard ILIAS language file is created."
+
+msgid "language_scope_added"
+msgstr "Local additions only"
+
+#, fuzzy
+msgid "language_scope_added_info"
+msgstr "Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab \"Maintain\"."
+
+msgid "language_scope_commented"
+msgstr "Показать только записи с коментариями в языковом файле"
+
+msgid "language_scope_conflicts"
+msgstr "Local and update changes"
+
+msgid "language_scope_dbremarks"
+msgstr "Показать только записи с коментариями в базе данных"
+
+msgid "language_scope_different"
+msgstr "Отличные от языка сравнения"
+
+msgid "language_scope_equal"
+msgstr "Одинаковые с языком сравнения"
+
+msgid "language_scope_global"
+msgstr "Все поля"
+
+#, fuzzy
+msgid "language_scope_global_info"
+msgstr "Export all database entries of this language. This can be used for backup purposes."
+
+msgid "language_scope_local"
+msgstr "Только локальные изменения"
+
+#, fuzzy
+msgid "language_scope_local_info"
+msgstr "Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab \"Maintain\"."
+
+msgid "language_scope_merged"
+msgstr "Local changes merged into the global language file"
+
+#, fuzzy
+msgid "language_scope_merged_info"
+msgstr "Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server."
+
+msgid "language_scope_unchanged"
+msgstr "Только неизмененные поля"
+
+#, fuzzy
+msgid "language_scope_unchanged_info"
+msgstr "Export all default language entries that are not changed in the database. This is the opposite to \"Local changes only\". Both together are a complete backup of the current language in the database."
+
+msgid "language_settings"
+msgstr "Настройки языка"
+
+msgid "language_statistics"
+msgstr "Статистика"
+
+#, fuzzy
+msgid "language_translation"
+msgstr "Page translation"
+
+msgid "language_translation_enabled"
+msgstr "Перевод страниц включён"
+
+#, fuzzy
+msgid "language_variables_saved"
+msgstr "The changes to the language variables were saved successfully."
+
+msgid "log_scan"
+msgstr "Сохранить результаты сканирования"
+
+msgid "log_scan_desc"
+msgstr "Записать результаты сканирования в 'scanlog.log' в каталоге клиентских данных."
+
+msgid "loginname_change_blocking_time"
+msgstr "Blocking Time for Changing Login Names"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o."
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "Please insert a numeric value."
+
+msgid "loginname_history_info"
+msgstr "Если включено, то смена логина будет фиксироваться в базе данных. Данная история доступна в таблице 'loginname_history' базы данных."
+
+msgid "nothing_to_purge"
+msgstr "Очищать нечего..."
+
+msgid "nothing_to_remove"
+msgstr "Удалять нечего..."
+
+msgid "nothing_to_restore"
+msgstr "Восстанавливать нечего..."
+
+msgid "obj_blga"
+msgstr "Блоги"
+
+msgid "obj_blga_desc"
+msgstr "Global Blog Settings"
+
+msgid "obj_chta_desc"
+msgstr "Управление чатом"
+
+#, fuzzy
+msgid "obj_excs"
+msgstr "Exercise"
+
+#, fuzzy
+msgid "obj_excs_desc"
+msgstr "Global Exercise Settings"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_impr"
+msgstr "Legal Notice"
+
+#, fuzzy
+msgid "obj_impr_desc"
+msgstr "Deployment of Legal Notice"
+
+msgid "obj_mds"
+msgstr "Метаданные"
+
+msgid "obj_mds_desc"
+msgstr "Configure Metadata and Advanced Metadata Settings"
+
+msgid "obj_otpl"
+msgstr "Дидактические шаблоны"
+
+msgid "obj_otpl_desc"
+msgstr "Template for the creation of new objects"
+
+msgid "obj_prfa"
+msgstr "Портфолио"
+
+msgid "obj_prfa_desc"
+msgstr "Глобальные настройки портфолио"
+
+#, fuzzy
+msgid "obj_taxs"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "obj_taxs_desc"
+msgstr "Global Taxonomy Settings"
+
+#, fuzzy
+msgid "org_op_edit_user_accounts"
+msgstr "Edit User Accounts"
+
+msgid "output_options"
+msgstr "Настройки вывода"
+
+msgid "path_to_mkisofs"
+msgstr "Путь к mkisofs"
+
+#, fuzzy
+msgid "prg_export"
+msgstr "Visible in Study Programmes"
+
+msgid "purge_age_limit"
+msgstr "Ограничение по давности"
+
+msgid "purge_age_limit_desc"
+msgstr "If this field contains a value, only objects which were deleted before the specified number of days will be purged."
+
+msgid "purge_count_limit"
+msgstr "Ограничение по количеству"
+
+msgid "purge_count_limit_desc"
+msgstr "If this field contains a value, only the specified number of objects will be purged."
+
+msgid "purge_missing"
+msgstr "Очистить потерянные объекты"
+
+msgid "purge_missing_desc"
+msgstr "Удалить все потерянные объекты, найденные в системе."
+
+msgid "purge_trash"
+msgstr "Очистить удаленные объекты"
+
+msgid "purge_trash_desc"
+msgstr "Отправить все объекты из системы в мусорное ведро."
+
+msgid "purge_type_limit"
+msgstr "Ограничение по типу"
+
+msgid "purge_type_limit_desc"
+msgstr "If this field contains a value, only objects of the specified type will be purged."
+
+msgid "purging"
+msgstr "Очистка..."
+
+msgid "purging_missing_objs"
+msgstr "Очистка потерянных объектов..."
+
+msgid "purging_trash"
+msgstr "Очистка мусора..."
+
+msgid "purging_unbound_objs"
+msgstr "Очистка несвязанных объектов..."
+
+msgid "removing_invalid_childs"
+msgstr "Удаление неверных записей в дереве..."
+
+msgid "removing_invalid_refs"
+msgstr "Удаление неверных ссылок..."
+
+msgid "removing_invalid_rolfs"
+msgstr "Удаление неверных каталоов статусов..."
+
+msgid "repair_options"
+msgstr "Опции восстановления"
+
+msgid "restore_missing"
+msgstr "Восстановить потерянные объекты"
+
+msgid "restore_missing_desc"
+msgstr "Восстановить потерянные и несвязанные объекты в RecoveryFolder."
+
+msgid "restore_trash"
+msgstr "Восстановить удаленные объекты"
+
+msgid "restore_trash_desc"
+msgstr "Восстановить все объекты из мусорного ведра в RecoveryFolder."
+
+msgid "restoring"
+msgstr "Восстановление..."
+
+msgid "restoring_missing_objs"
+msgstr "Восстановление утерянных объектов..."
+
+msgid "restoring_trash"
+msgstr "Востановление из корзины..."
+
+msgid "restoring_unbound_objs"
+msgstr "Восстановление несвязанных объектов и подкаталогов..."
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "Запретить повторное использование имен пользователей"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "Если включено, то можно повторно использовать имя пользователя которое уже сохранено в истории (даже если оно принадлежит пользователю который был удалён)."
+
+msgid "scan"
+msgstr "Сканирование"
+
+msgid "scan_desc"
+msgstr "Поиск в системе поврежденных/неверных/отсутствующих/потеряных объектов."
+
+msgid "scan_details"
+msgstr "Подробности сканирования"
+
+msgid "scan_modes"
+msgstr "Используемые виды сканирования"
+
+msgid "scanning_system"
+msgstr "Сканирование системы..."
+
+msgid "searching_deleted_objs"
+msgstr "Поиск удаленных объектов..."
+
+msgid "searching_invalid_childs"
+msgstr "Поиск неверных записей в дереве..."
+
+msgid "searching_invalid_refs"
+msgstr "Поиск неверных ссылок..."
+
+msgid "searching_invalid_rolfs"
+msgstr "Поиск неверных каталогов статусов..."
+
+msgid "searching_missing_objs"
+msgstr "Поиск потерянных объектов..."
+
+msgid "searching_unbound_objs"
+msgstr "Поиск несвязанных объектов..."
+
+msgid "skipped"
+msgstr "пропущено"
+
+msgid "start_scan"
+msgstr "Начать"
+
+msgid "svn_path"
+msgstr "Path: %s"
+
+msgid "svn_revision_current"
+msgstr "Current Revision: %s"
+
+msgid "svn_revision_last_change"
+msgstr "Last Changed Revision: %s"
+
+msgid "svn_root"
+msgstr "Root: %s"
+
+msgid "system_check_no_owner"
+msgstr "Ownerless Objects"
+
+#, fuzzy
+msgid "system_folder_info"
+msgstr "Please choose an item from the administration main menu."
+
+msgid "systemcheck"
+msgstr "Проверка системы"
+
+msgid "tree_corrupt"
+msgstr "Дерево повреждено. Детали смотри в журнале сканирования."
+
+msgid "user_criteria"
+msgstr "Unique user criteria"
+
+msgid "user_criteria_desc"
+msgstr "Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems."
+
+msgid "usr_loginname_history_info"
+msgstr "Пользователь изменил свой логин в последний раз %s. Предыдущий логин %s."
+
+msgid "vc_information"
+msgstr "Version Control Information"
+
+#, fuzzy
+msgid "vc_information_not_determined"
+msgstr "ILIAS could not determine any version control information."
+
+msgid "view_last_log"
+msgstr "Смотреть журнал последнего сканирования"
+
+msgid "view_log"
+msgstr "Смотреть подробности"
