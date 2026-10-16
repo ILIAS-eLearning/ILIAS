@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "Om den är aktiverad visas länken till \"Tillgänglighetsinformation\" i sidfoten."
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Info Aktivera tillgänglighet"
+
+msgid "adm_accessibility_contacts"
+msgstr "Kontaktpunkt för tillgänglighet"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "Kontaktpersoner för att rapportera tillgänglighetsproblem i sidfoten. Kommaseparerad lista över ILIAS-konton."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Alla användare för teknisk support listas. Användare tilldelas teknisk support i administrationsområdet \"Systeminställningar och underhåll \" Allmänna inställningar\", fliken \"Kontaktinformation\"."
+
+msgid "adm_support_contacts"
+msgstr "Tekniskt stöd"
+
+msgid "adm_support_contacts_info"
+msgstr "Kommaseparerad lista med inloggningsnamn. De personer som anges här länkas i sidfoten som support. Om visningen \"Vem är online?\" används, visas personerna även där som teknisk support."

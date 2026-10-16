@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "If activated, the link for the Accessibility Control Concept shows up in the Footer."
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Enable Accessibility Control Concept"
+
+msgid "adm_accessibility_contacts"
+msgstr "Accessibility Point of Contact"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Tous les contacts de support technique sont répertoriés. Les utilisateurs sont définis comme des contacts de support technique dans la section « Paramètres Généraux → Informations de Contacts »."
+
+msgid "adm_support_contacts"
+msgstr "Support technique"
+
+msgid "adm_support_contacts_info"
+msgstr "Contacts de support technique utilisés dans le lien de bas de page, et si activé dans le 'Qui est en ligne ?', comme liste séparée de comptes de connexion."

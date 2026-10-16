@@ -48,5 +48,9 @@ class Administration implements Component\Component
             $this,
             'administration'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'adm'
+        );
     }
 }

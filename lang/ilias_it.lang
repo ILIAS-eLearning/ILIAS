@@ -28,13 +28,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#Se attivato, il collegamento per il concetto di controllo dell'accessibilità viene visualizzato nel piè di pagina.
-adm#:#adm_acc_ctrl_cpt_enable#:#Abilita il concetto di controllo dell'accessibilità
-adm#:#adm_accessibility_contacts#:#Punto di contatto Accessibilità
-adm#:#adm_accessibility_contacts_info#:#Contatti per segnalare problemi di accessibilità nel collegamento a piè di pagina. Elenco separato da virgole di accessi all'account.
-adm#:#adm_awrn_support_contacts_info#:#Sono elencati tutti i contatti supporto tecnico. Gli utenti sono definiti come contatti di supporto tecnico nella sezione "Impostazioni generali"> "Informazione di contatto".
-adm#:#adm_support_contacts#:#Supporto tecnico
-adm#:#adm_support_contacts_info#:#Contatti di supporto utilizzati nel collegamento a piè di pagina e (se attivato) nello strumento “Chi è online?”. Elenco di account di accesso separato da virgole.
 assessment#:#activate_logging#:#Activate Test and Assessment Logging###28 11 2025 new variable
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 11 2025 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 11 2025 new variable

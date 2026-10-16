@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr ""
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr ""
+
+msgid "adm_accessibility_contacts"
+msgstr ""
+
+msgid "adm_accessibility_contacts_info"
+msgstr ""
+
+msgid "adm_awrn_support_contacts_info"
+msgstr ""
+
+msgid "adm_support_contacts"
+msgstr ""
+
+msgid "adm_support_contacts_info"
+msgstr ""

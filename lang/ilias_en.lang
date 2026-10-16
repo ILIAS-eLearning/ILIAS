@@ -29,13 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#Display the link to your Accessibility document in the footer of your installation.
-adm#:#adm_acc_ctrl_cpt_enable#:#Accessibility Link in Footer
-adm#:#adm_accessibility_contacts#:#Contact Point for Accessibility Issues
-adm#:#adm_accessibility_contacts_info#:#Contacts for the ‘Report Accessibility Issue’ link in your installation’s footer. Comma-separated list of account usernames (logins).
-adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for technical support are listed. Users can be assigned to the list of technical support contacts in the administration section 'System Settings and Maintenance » General Settings', tab 'Contact Information'.
-adm#:#adm_support_contacts#:#Technical Support
-adm#:#adm_support_contacts_info#:#Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the "Contact technical support" link in the ILIAS footer. If the "Who is online?" display is active, these people will also be displayed there as technical support.
 assessment#:#activate_logging#:#Activate Test and Assessment Logging
 assessment#:#activate_manual_scoring#:#Enable Scoring
 assessment#:#activate_manual_scoring_desc#:#Enables Scoring for all question types.

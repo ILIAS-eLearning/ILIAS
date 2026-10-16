@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "Zeigt im Footer den Link zur „Info Barrierefreiheit“ an."
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Info Barrierefreiheit"
+
+msgid "adm_accessibility_contacts"
+msgstr "Anlaufstelle für Barrierefreiheit"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "Kontaktperson(en), um in der Fußzeile Probleme mit der Barrierefreiheit zu melden. Mehrere Anmeldenamen müssen mit Komma getrennt werden."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Alle Benutzer für die technische Betreuung werden aufgelistet. Der technischen Betreuung zugeordnet werden Benutzer im Administrationsbereich „Systemeinstellungen und Wartung » Allgemeine Einstellungen“, Reiter „Kontaktinformationen”."
+
+msgid "adm_support_contacts"
+msgstr "Technische Betreuung"
+
+msgid "adm_support_contacts_info"
+msgstr "Bitte tragen Sie hier komma-separiert die Anmeldenamen der Personen ein, die bei Fragen und technischen Problemen kontaktiert werden können. Die Kontaktaufnahme erfolgt per Mail über den Link „Technische Betreuung kontaktieren“ im Footer von ILIAS. Ist die „Wer ist online?“-Anzeige aktiv, werden diese Personen auch dort als technische Betreuung angezeigt."

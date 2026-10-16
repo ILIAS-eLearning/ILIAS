@@ -29,13 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#Om den är aktiverad visas länken till "Tillgänglighetsinformation" i sidfoten.
-adm#:#adm_acc_ctrl_cpt_enable#:#Info Aktivera tillgänglighet
-adm#:#adm_accessibility_contacts#:#Kontaktpunkt för tillgänglighet
-adm#:#adm_accessibility_contacts_info#:#Kontaktpersoner för att rapportera tillgänglighetsproblem i sidfoten. Kommaseparerad lista över ILIAS-konton.
-adm#:#adm_awrn_support_contacts_info#:#Alla användare för teknisk support listas. Användare tilldelas teknisk support i administrationsområdet "Systeminställningar och underhåll " Allmänna inställningar", fliken "Kontaktinformation".
-adm#:#adm_support_contacts#:#Tekniskt stöd
-adm#:#adm_support_contacts_info#:#Kommaseparerad lista med inloggningsnamn. De personer som anges här länkas i sidfoten som support. Om visningen "Vem är online?" används, visas personerna även där som teknisk support.
 assessment#:#activate_logging#:#Aktivera loggning av test och bedömning
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable

@@ -29,13 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-adm#:#adm_acc_ctrl_cpt_desc#:#A Hozzáférhetőségi Dokumentum linkje jelenik meg a láblécben.
-adm#:#adm_acc_ctrl_cpt_enable#:#A Hozzáférhetőségi Dokumentum linkje a láblécben
-adm#:#adm_accessibility_contacts#:#Elérthetőségek hozzáférési problémák esetén
-adm#:#adm_accessibility_contacts_info#:#Kapcsolatok a hozzáférési problémák jelentéséhez. Láblécben lévő link, felhasználónevek vesszővel elválasztott felsorolása.
-adm#:#adm_awrn_support_contacts_info#:#Az összes technikai segítségnyújtót felsoroljuk. Ezek az ‘Általános beállítások’ » ‘Elérhetőségek’ » ‘Technikai segítségnyújtók’ részben található felhasználók.
-adm#:#adm_support_contacts#:#Technikai segítségnyújtók
-adm#:#adm_support_contacts_info#:#A támogatói kapcsolatok - ami vesszővel elválasztott felhasználónevek felsorolása - a ‘Ki van online?’-eszköz láblécébe kerülnek (ha az be van kapcsolva).
 assessment#:#activate_logging#:#Teszt és értékelés naplózása
 assessment#:#activate_manual_scoring#:#Manuális pontozás bekapcsolása
 assessment#:#activate_manual_scoring_desc#:#Maunális pontozás bekapcsolása az összes kérdéstípushoz

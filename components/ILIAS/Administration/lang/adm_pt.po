@@ -1,0 +1,34 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adm\n"
+
+#, fuzzy
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "If activated, the link for the Accessibility Control Concept shows up in the Footer."
+
+#, fuzzy
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Enable Accessibility Control Concept"
+
+#, fuzzy
+msgid "adm_accessibility_contacts"
+msgstr "Accessibility Point of Contact"
+
+#, fuzzy
+msgid "adm_accessibility_contacts_info"
+msgstr "Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Todos os contactos de assistência técnica constam de uma lista. Os utilizadores estão definidos como contactos de assistência técnica na secção \"Definições gerais\" > \"Informação de contacto\"."
+
+msgid "adm_support_contacts"
+msgstr "Assistência Técnica"
+
+msgid "adm_support_contacts_info"
+msgstr "Suporta os contactos usados no link do rodapé e (se estiver ativado) na ferramenta ‘Who is online?’ (“Quem está online?”). Lista de logins de conta separados por vírgulas."
