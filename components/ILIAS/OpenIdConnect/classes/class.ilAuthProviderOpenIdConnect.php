@@ -95,7 +95,14 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             );
 
             $oidc->addScope($this->settings->getAllScopes());
-            if ($this->settings->getLoginPromptType() === ilOpenIdConnectSettings::LOGIN_ENFORCE) {
+
+            $credentials = $this->getCredentials();
+            if (
+                $credentials instanceof ilAuthFrontendCredentialsOpenIdConnect &&
+                $credentials->isRegistrationRequested()
+            ) {
+                $oidc->addAuthParam(['prompt' => 'create']);
+            } elseif ($this->settings->getLoginPromptType() === ilOpenIdConnectSettings::LOGIN_ENFORCE) {
                 $oidc->addAuthParam(['prompt' => 'login']);
             }
 
