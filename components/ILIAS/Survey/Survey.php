@@ -41,5 +41,9 @@ class Survey implements Component\Component
             $this,
             'svy'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'survey'
+        );
     }
 }

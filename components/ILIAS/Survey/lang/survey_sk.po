@@ -1,0 +1,1989 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Maticová otázka"
+
+msgid "SurveyMetricQuestion"
+msgstr "Metrická otázka"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Otázka s vícenásobným výběrem (více odpovědí)"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Otázka s vícenásobným výběrem (jedna odpověď)"
+
+msgid "SurveyTextQuestion"
+msgstr "Textová otázka"
+
+msgid "add_heading"
+msgstr "Přidat textový blok"
+
+msgid "already_completed_survey"
+msgstr "Toto anketu již máte provedenu! Do této ankety nemůžete vstoupit znovu."
+
+msgid "anonymization"
+msgstr "Anonymizace"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "Tato anketa anonymizuje všechna uživatelská data. K zajištění přístupu do této ankety, musíte vložit řetězec 32 znaků, který obdržíte od autora/obsluhy této ankety<br />Vložte jej prosím do textového pole dole."
+
+msgid "answer"
+msgstr "Odpověď"
+
+msgid "arithmetic_mean"
+msgstr "Aritmetický průměr"
+
+msgid "browse_for_questions"
+msgstr "Vyhledat otázky"
+
+msgid "cancel_survey"
+msgstr "Přerušit anketu"
+
+msgid "cannot_read_survey"
+msgstr "Nemáte odpovídající oprávnění číst data ankety!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "Status nelze změnit na &quot;online&quot;, neboť v tomto testu nejsou žádné otázky!"
+
+#, fuzzy
+msgid "cant_send_email_smtp_disabled"
+msgstr "Sending external mails is not available. This option is deactivated globally."
+
+msgid "category"
+msgstr "Odpověď"
+
+msgid "category_nr_selected"
+msgstr "Počet uživatelů, kteří zvolili tuto odpověď"
+
+msgid "chart"
+msgstr "Graf"
+
+msgid "codes"
+msgstr "Přístupové kódy"
+
+msgid "codes_created"
+msgstr "Kód(y) vytvořen(y)"
+
+msgid "codes_deleted"
+msgstr "Kód(y) smazán(y)"
+
+msgid "combobox"
+msgstr "Kombo pole"
+
+msgid "concatenation"
+msgstr "Spojení"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Skutečně chcete smazat všechna data uživatelů z této ankety?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "Skutečně chcete smazat všechna tato data ankety vybraných uživatelů?"
+
+msgid "confirm_remove_heading"
+msgstr "Skutečně chcete odstranit tento textový blok?"
+
+msgid "confirm_sync_questions"
+msgstr "Otázka, kterou měníte, je kopie vytvořená pro použití v aktivní anketě. Chcete změnit také i původní otázku?"
+
+msgid "conjunction_and"
+msgstr "když všechna omezení jsou splněna"
+
+msgid "conjunction_and_title"
+msgstr "Vyplnit každé z následujících omezení"
+
+msgid "conjunction_or"
+msgstr "když jedno z omezení je splněno"
+
+msgid "conjunction_or_title"
+msgstr "Vyplnit jedno z následujících omezení"
+
+msgid "constraint_add"
+msgstr "Přidat předpoklad"
+
+msgid "constraint_fulfilled"
+msgstr "Zobrazit stránku"
+
+msgid "constraints"
+msgstr "Předpoklady"
+
+msgid "constraints_first_question_description"
+msgstr "První záznam nemůže mít žádné předpoklady protože zde nejsou žádné předchozí otázky."
+
+msgid "constraints_introduction"
+msgstr "Pro každý záznam (jednoduchá otázka, nebo blok několika otázek) může být definován jeden nebo více předpokladů. Tyto předpoklady budou odvozeny z odpovědí účastníků ankety na otázky, které se vyskytly v tomto testu dříve."
+
+msgid "constraints_list_of_entities"
+msgstr "Dostupné elementy ankety pro předpoklady"
+
+msgid "constraints_no_nonessay_available"
+msgstr "Nejsou žádné předchozí otázky, nebo jen slohové otázky k dispozici pro výpočet předpokladů (slohové otázky nejsou platné pro výpočet předpokladů)"
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Vyberte prosím alespoň jednu otázku nebo blok otázek!"
+
+msgid "contains"
+msgstr "Obsahuje"
+
+msgid "continue"
+msgstr "Dále >>"
+
+msgid "create_new"
+msgstr "Vytvořit nový"
+
+msgid "dc_agree"
+msgstr "souhlasím"
+
+msgid "dc_always"
+msgstr "vždy"
+
+msgid "dc_definitelyfalse"
+msgstr "určitě nepravda"
+
+msgid "dc_definitelytrue"
+msgstr "určitě pravda"
+
+msgid "dc_desired"
+msgstr "žádoucí"
+
+msgid "dc_disagree"
+msgstr "nesouhlasím"
+
+msgid "dc_fair"
+msgstr "přiměřený"
+
+msgid "dc_false"
+msgstr "chybně"
+
+msgid "dc_good"
+msgstr "dobrý"
+
+msgid "dc_manytimes"
+msgstr "často"
+
+msgid "dc_morenegative"
+msgstr "více negativní"
+
+msgid "dc_morepositive"
+msgstr "více pozitivní"
+
+msgid "dc_mostcertainly"
+msgstr "úplně jistý"
+
+msgid "dc_mostcertainlynot"
+msgstr "úplně nejistý"
+
+msgid "dc_must"
+msgstr "musí"
+
+msgid "dc_mustnot"
+msgstr "nesmí"
+
+msgid "dc_neutral"
+msgstr "neutrální"
+
+msgid "dc_never"
+msgstr "nikdy"
+
+msgid "dc_no"
+msgstr "ne"
+
+msgid "dc_notacceptable"
+msgstr "nevyhovující"
+
+msgid "dc_poor"
+msgstr "slabý"
+
+msgid "dc_rarely"
+msgstr "zřídka"
+
+msgid "dc_should"
+msgstr "měl by"
+
+msgid "dc_shouldnot"
+msgstr "neměl by"
+
+msgid "dc_sometimes"
+msgstr "někdy"
+
+msgid "dc_stronglyagree"
+msgstr "naprosto souhlasím"
+
+msgid "dc_stronglydesired"
+msgstr "naprosto žádoucí"
+
+msgid "dc_stronglydisagree"
+msgstr "naprosto nesouhlasím"
+
+msgid "dc_stronglyundesired"
+msgstr "naprosto nežádoucí"
+
+msgid "dc_true"
+msgstr "pravda"
+
+msgid "dc_undecided"
+msgstr "nevím"
+
+msgid "dc_undesired"
+msgstr "nežádoucí"
+
+msgid "dc_varying"
+msgstr "střídavě"
+
+msgid "dc_verygood"
+msgstr "výborný"
+
+msgid "dc_yes"
+msgstr "ano"
+
+msgid "default_codes_mail_message"
+msgstr "Váš přístupový kód ankety je [code]. Můžete spustit anketu na Vašem Webovém prohlížeči použitím URL [url]"
+
+msgid "default_codes_mail_subject"
+msgstr "Váš přístupový kód pro %s"
+
+msgid "define_questionblock"
+msgstr "Definovat blok otázek"
+
+msgid "delete_saved_message"
+msgstr "Smazat text zprávy"
+
+msgid "display_all_available"
+msgstr "Zobrazení všem dostupné"
+
+msgid "duplicate"
+msgstr "Duplikovat"
+
+msgid "edit_heading"
+msgstr "Upravit textový blok"
+
+msgid "end_date"
+msgstr "Datum ukončení"
+
+msgid "end_date_reached"
+msgstr "Nelze spustit anketu. Byl dosažen datum ukončení!"
+
+msgid "enter_anonymous_id"
+msgstr "Přístupový kód ankety"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Vložte prosím platné číslo k vygenerování přístupového kódu ankety!"
+
+msgid "err_external_rcp_no_email"
+msgstr "Importovaná data musí obsahovat nejméně pole 'email'"
+
+#, fuzzy
+msgid "err_external_rcp_no_email_column"
+msgstr "The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows"
+
+msgid "err_maxvaluegeminvalue"
+msgstr "Maximální hodnota musí být větší než minimální hodnota a menší nebo rovna maximálnímu počtu odpovědí."
+
+msgid "err_minvalueganswers"
+msgstr "Minimum musí být menší nebo rovné maximálnímu počtu odpovědí."
+
+msgid "err_no_exact_answers"
+msgstr "Zaškrtněte prosím přesně %s odpovědí."
+
+msgid "err_no_max_answers"
+msgstr "Zaškrtněte prosím nejvíce %s odpovědí."
+
+msgid "err_no_min_answers"
+msgstr "Zaškrtněte prosím nejméně %s odpovědí."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Systém nemůže najít Vaše anketní údaje pro kód ankety &quot;%s&quot;. Zkontrolujte prosím Vámi vložený kód ankety!"
+
+#, fuzzy
+msgid "error_save_code"
+msgstr "Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "Statistiky"
+
+msgid "evaluation_access"
+msgstr "Přístup k vyhodnocení"
+
+msgid "evaluation_access_all"
+msgstr "Přístup k vyhodnocení pro všechny uživatele"
+
+msgid "evaluation_access_info"
+msgstr "Máte přístup k vyhodnocení ankety"
+
+msgid "evaluation_access_off"
+msgstr "Vypnuto"
+
+msgid "evaluation_access_participants"
+msgstr "Přístup k vyhodnocení pro účastníky ankety"
+
+msgid "existing_constraints"
+msgstr "Existující předpoklady"
+
+msgid "exp_type_csv"
+msgstr "Hodnoty oddělené čárkou (CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "Exportovat všechny přístupové kódy"
+
+msgid "export_label_only"
+msgstr "Exportovat jen označení"
+
+msgid "export_title_label"
+msgstr "Exportovat název a označení"
+
+msgid "export_title_only"
+msgstr "Exportovat jen název"
+
+msgid "external_recipients_imported"
+msgstr "Externí adresáti byli importováni."
+
+msgid "externalmails"
+msgstr "Importovat soubor"
+
+msgid "externalmails_info"
+msgstr "Importovaný soubor musí být CSV soubor, sloupce odděleny středníkem. První řádek obsahuje jména sloupců. Soubor musí obsahovat nejméně sloupec 'email' obsahující emaily příjemců."
+
+msgid "externaltext"
+msgstr "Importovat text"
+
+msgid "externaltext_info"
+msgstr "Importovaný text musí být uspořádán do řádků a sloupců, sloupce oddělené středníkem. Text musí obsahovat nejméně sloupec 'email' obsahující emaily příjemců."
+
+msgid "filter_all_question_types"
+msgstr "Všechny typy otázek"
+
+msgid "filter_all_questionpools"
+msgstr "Všechny zásobníky otázek"
+
+msgid "finished_mail_subject"
+msgstr "Anketa byla ukončena"
+
+#, fuzzy
+msgid "freetext_answers"
+msgstr "Open Answers"
+
+msgid "geometric_mean"
+msgstr "Geometrický střed"
+
+msgid "given_answers"
+msgstr "Odevzdávané odpovědi"
+
+msgid "glossary_term"
+msgstr "Výraz glosáře"
+
+msgid "harmonic_mean"
+msgstr "Statistický průměr"
+
+msgid "heading"
+msgstr "Textový blok"
+
+msgid "horizontal"
+msgstr "Horizontálně"
+
+msgid "import_error_closing_file"
+msgstr "Chyba uzavření importovaného souboru!"
+
+msgid "import_error_opening_file"
+msgstr "Chyba otevření importovaného souboru!"
+
+msgid "import_from_file"
+msgstr "Importovat ze souboru"
+
+msgid "import_from_text"
+msgstr "Importovat z textu"
+
+msgid "import_no_file_selected"
+msgstr "Nevybrán soubor!"
+
+msgid "import_question"
+msgstr "Importovat otázky"
+
+msgid "import_wrong_file_type"
+msgstr "Chybný typ souboru!"
+
+msgid "insert_after"
+msgstr "Vložit za"
+
+msgid "insert_before"
+msgstr "Vložit před"
+
+msgid "insert_missing_question"
+msgstr "Vyberte prosím alespoň jednu otázku ke vložení do ankety!"
+
+msgid "insert_missing_questionblock"
+msgstr "Vyberte prosím alespoň jeden blok otázek ke vložení do ankety!"
+
+msgid "insert_saved_message"
+msgstr "Vložit text zprávy"
+
+msgid "internal_link"
+msgstr "Interní odkaz"
+
+msgid "introduction"
+msgstr "Úvod"
+
+msgid "invited_users"
+msgstr "Pozvaní uživatelé"
+
+msgid "label"
+msgstr "Štítek"
+
+msgid "label_info"
+msgstr "Alternativní identifikátor pro další zpracování dat (např. v SPSS)"
+
+msgid "language_changed"
+msgstr "Jazyk změněn"
+
+msgid "layout"
+msgstr "Rozmístění"
+
+msgid "lower_limit"
+msgstr "Spodní hranice"
+
+#, fuzzy
+msgid "mail_import_example2"
+msgstr "sandraowen@domain.tld;Sandra;Owen"
+
+#, fuzzy
+msgid "mail_import_example3"
+msgstr "kennethbirt@domain.tld;Kenneth;Birt"
+
+msgid "mail_sent_short"
+msgstr "Odesláno"
+
+msgid "mail_survey_codes"
+msgstr "Mail nebo zpráva přístupových kódů"
+
+msgid "mailaddresses"
+msgstr "Adresy příjemců"
+
+msgid "mailaddresses_info"
+msgstr "Vložte čárkou oddělený seznam příjemců, kteří příjmou oznámení o ukončení ankety."
+
+msgid "mailnotification"
+msgstr "Oznámení emailem"
+
+msgid "mailparticipantdata"
+msgstr "Doplňkové údaje příjemců"
+
+msgid "mailparticipantdata_info"
+msgstr "Přidat úvod k oznamovacímu emailu. Můžete použít rezervované místo pro údaje vztažené k příjemci jako [matriculation], [email], [firstname]. Rezervované místo bude přepsáno reálnými uživatelskými údaji v personalizovaných anketách."
+
+#, fuzzy
+msgid "mailparticipantdata_placeholder"
+msgstr "The following placeholders will be replaced with real user data in personalized surveys:"
+
+msgid "maintenance"
+msgstr "Údržba"
+
+msgid "matrix_appearance"
+msgstr "Vzhled"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Bipolární adjektiva"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "Můžete použít pár bipolárních adjektiv v měřítku sloupce odpovídající slovům, krátkým frázím, nebo textu."
+
+msgid "matrix_column_separators"
+msgstr "Separátory sloupců"
+
+msgid "matrix_column_separators_description"
+msgstr "Vyberte toto zaškrtávací pole, pokud chcete mít separátory (tenké čáry) mezi sloupci na výstupu matice otázek."
+
+msgid "matrix_column_settings"
+msgstr "Nastavení sloupců matice"
+
+msgid "matrix_columns"
+msgstr "Sloupce matice"
+
+msgid "matrix_left_pole"
+msgstr "Levý zásobník"
+
+msgid "matrix_neutral_answer"
+msgstr "Text pro neutrální sloupec (\"Neurčeno\", \"Nevím\" apod.)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Separátor neutrálního sloupce"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Vyberte toto zaškrtávací pole, pokud chcete mít separátor (tenkou čáru) mezi neutrálním sloupcem a ostatními sloupci na výstupu matice otázek."
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Vyberte prosím alespoň jedno zaškrtávací pole na každém řádku!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Vyberte prosím tlačítko volby pro každý řádek!"
+
+msgid "matrix_right_pole"
+msgstr "Pravý sloupec"
+
+msgid "matrix_row_separators"
+msgstr "Separátory řádků"
+
+msgid "matrix_row_separators_description"
+msgstr "Vyberte prosím zaškrtávací pole, pokud chcete mít separátory (tenké čáry) mezi řádky na výstupu matice otázek."
+
+msgid "matrix_rows"
+msgstr "Řádky matice"
+
+msgid "matrix_standard_answers"
+msgstr "Sloupcový text"
+
+msgid "matrix_subtype_mr"
+msgstr "Zaškrtávací pole (Vícenásobná odpověď)"
+
+msgid "matrix_subtype_sr"
+msgstr "Tlačítka volby (Jedna odpověď)"
+
+msgid "maxchars"
+msgstr "Maximální počet znaků"
+
+msgid "maximum"
+msgstr "Maximální hodnota"
+
+msgid "median"
+msgstr "Střední hodnota"
+
+msgid "median_between"
+msgstr "mezi"
+
+msgid "menuback"
+msgstr "Zpět"
+
+msgid "menubacktosurvey"
+msgstr "Zpět do ankety"
+
+msgid "message_content_info"
+msgstr "Vložit zprávu emailem pro oznamovací email obsahující kódy ankety pro účastníky. Můžete použít rezervované místo [code] (přístupový kód), [url] (URL k této anketě), a udaje vztažené k účastníkům zavisející na Vámi importovaných polích: %s. Rezervovaná místa v emailu budou nahrazeny importovanými údaji uživatelů."
+
+msgid "metric_question_floating_point"
+msgstr "Hodnota Vámi vložená je typu plovoucí čárka. Hodnota s plovoucí čárkou pro tento typ otázky není povolena!"
+
+msgid "metric_question_not_a_value"
+msgstr "Hodnota Vámi vložená není numerická hodnota!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Hodnota Vámi vložená je mimo povolené rozmezí!"
+
+msgid "metric_subtype_description_interval"
+msgstr "Ekvivalentní intervaly mezi měřeními umožňují smysluplné porovnání mezi libovolnými dvojicemi měření. Hodnota nuly na stupnici je libovolná, takže mohou být použity i negativní hodnoty. Příkladem hodnoty intervalu může být rok v kalendáři, nebo teplota ve stupních Celsia."
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "Měření s absolutním poměrem používá přirozená čísla s nevolitelným nulovým bodem, jako například počet dětí v rodině nebo pravděpodobnost."
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "Navíc k tomuto měření intervalu jsou zde také smysluplné poměry mezi libovolnými páry čísel. Hodnota nuly na poměrné stupnici je nevolitelná. Většina fyzikálných jednotek, jako je délka v centimetrech nebo trvání v sekundách jsou měřeny v poměrných stupnicích."
+
+msgid "minimum"
+msgstr "Minimální hodnota"
+
+msgid "mode"
+msgstr "Nejčastěji vybraná hodnota"
+
+msgid "mode_nr_of_selections"
+msgstr "Číslo výběru"
+
+msgid "mode_text"
+msgstr "Nejčastěji vybraná hodnota (Text)"
+
+msgid "msg_duplicate_scale"
+msgstr "Vložte prosím unikátní hodnoty měřítka"
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Vložte prosím hodnotu k vytvoření platného předpokladu!"
+
+#, fuzzy
+msgid "msg_input_only_positive_numbers"
+msgstr "Please enter positive numbers in scale values."
+
+msgid "msg_max_nr_answers"
+msgstr "Zašrtněte prosím nejvíce %s odpovědí"
+
+msgid "msg_message_deleted"
+msgstr "Text zprávy smazán"
+
+msgid "msg_message_inserted"
+msgstr "Text zprávy vložen"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Zašrtněte prosím přesně %s odpovědí"
+
+msgid "msg_min_max_nr_answers"
+msgstr "Vyberte prosím nejméně %s a nejvíce %s odpovědí"
+
+msgid "msg_min_nr_answers"
+msgstr "Vyberte prosím nejméně %s odpověd"
+
+msgid "msg_no_message_deleted"
+msgstr "Vyberte prosím uložený text zprávy"
+
+msgid "msg_no_message_inserted"
+msgstr "Vyberte prosím text zprávy"
+
+msgid "new_survey_codes"
+msgstr "Nové přístupové kódy ankety"
+
+#, fuzzy
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Please select at least one question, which is not already linked to a question pool."
+
+msgid "no_question_selected_for_move"
+msgstr "Vyberte prosím alespoň jednu otázku k přesunutí!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Vyberte prosím alespoň jednu otázku nebo blok otázek k odstranění!"
+
+msgid "no_target_selected_for_move"
+msgstr "Musíte vybrat cílové umístění!"
+
+msgid "non_ratio"
+msgstr "Interval"
+
+msgid "not_sent_only"
+msgstr "Pouze novým příjemcům (kteří dosud nedostali email)"
+
+msgid "not_used"
+msgstr "nepoužito"
+
+msgid "nr_max_answers"
+msgstr "Maximum"
+
+msgid "nr_min_answers"
+msgstr "Minimum"
+
+msgid "obligatory"
+msgstr "povinné"
+
+msgid "off"
+msgstr "Vypnuto"
+
+msgid "on"
+msgstr "Zapnuto"
+
+msgid "or"
+msgstr "nebo"
+
+msgid "orientation"
+msgstr "Orientace"
+
+msgid "other_answer"
+msgstr "Jiné odpovědi"
+
+msgid "other_answer_label"
+msgstr "Označení jiné odpovědi (volitelné)"
+
+msgid "outro"
+msgstr "Závěrečná značka"
+
+#, fuzzy
+msgid "please_enter_mail_url"
+msgstr "Please enter the access url placeholder [url]"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Skutečně chcete smazat následující otázky?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Chcete-li definovat blok otázek, vyberte alespoň dvě otázky!"
+
+msgid "qpl_delete_select_none"
+msgstr "Vyberte prosím alespoň jednu otázku ke smazání!"
+
+msgid "qpl_export_select_none"
+msgstr "Vyberte prosím alespoň jednu otázku k exportování"
+
+msgid "qpl_questions_deleted"
+msgstr "Otázky smazány."
+
+msgid "qpl_unfold_select_none"
+msgstr "Chcete-li rozvinout bloky otázek, vyberte prosím alespoň jeden blok otázek!"
+
+#, fuzzy
+msgid "question_changed_in_survey_only"
+msgstr "Question was changed only in survey"
+
+msgid "question_mr_no_other_answer"
+msgstr "Vložte prosím text pro jinou odpověď"
+
+#, fuzzy
+msgid "question_mr_no_other_answer_checked"
+msgstr "You need to select the checkbox if you enter a text for an answer"
+
+msgid "question_mr_not_checked"
+msgstr "Zvolte prosím alespoň jednu z nabízených odpovědí!"
+
+msgid "question_not_checked"
+msgstr "Vyberte prosím jednu z nabízených odpovědí!"
+
+msgid "question_obligatory"
+msgstr "Tato otázka je povinná!"
+
+#, fuzzy
+msgid "question_sr_no_other_answer_checked"
+msgstr "You need to select the radio button if you enter a text for an answer"
+
+msgid "question_type"
+msgstr "Typ otázky"
+
+msgid "questionblock"
+msgstr "Blok otázek"
+
+msgid "questionblock_inserted"
+msgstr "Blok otázek vložen"
+
+msgid "questionblocks"
+msgstr "Bloky otázek"
+
+msgid "questionblocks_inserted"
+msgstr "Bloky otázek vloženy"
+
+msgid "questions"
+msgstr "Otázky"
+
+msgid "questions_inserted"
+msgstr "Otázky vloženy"
+
+msgid "questions_removed"
+msgstr "Otázky a/nebo bloky otázek odstraněny!"
+
+msgid "questiontype"
+msgstr "Typ otázky"
+
+msgid "ratio_absolute"
+msgstr "Absolutní měřítko"
+
+msgid "ratio_non_absolute"
+msgstr "Poměrové měřítko"
+
+msgid "recipients"
+msgstr "Příjemci"
+
+msgid "remove_question"
+msgstr "Odstranit"
+
+msgid "remove_questions"
+msgstr "Skutečně chcete odstranit následující otázky a/nebo bloky otázek z této ankety?"
+
+msgid "results"
+msgstr "Výsledky"
+
+msgid "resume_survey"
+msgstr "Pokračovat v anketě"
+
+msgid "row_text"
+msgstr "Řádek textu"
+
+msgid "save_obligatory_state"
+msgstr "Uložit závazné stavy"
+
+msgid "save_reuse_message"
+msgstr "Uložit text zprávy pro pozdější použití"
+
+msgid "save_reuse_title"
+msgstr "Název textové zprávy"
+
+msgid "saved_messages"
+msgstr "Dostupné zprávy"
+
+msgid "scale"
+msgstr "Meřítko"
+
+msgid "search_groups"
+msgstr "Skupiny"
+
+msgid "search_term"
+msgstr "Hledat termíny"
+
+msgid "select_option"
+msgstr "--- Vyberte prosím volbu ---"
+
+msgid "select_prior_question"
+msgstr "Vybrat předchozí otázku"
+
+msgid "select_relation"
+msgstr "Vybrat vztah"
+
+msgid "select_target_position_for_move_question"
+msgstr "Vyberte prosím cílové umístění pro přesun otázek a stiskněte jedno z tlačítek vkládání!"
+
+msgid "select_value"
+msgstr "Vybrat hodnotu"
+
+msgid "selection"
+msgstr "Výběr"
+
+msgid "send_to_all"
+msgstr "Všem příjemcům"
+
+msgid "send_to_answered"
+msgstr "Všem příjemcům kteří ukončili anketu"
+
+msgid "send_to_unanswered"
+msgstr "Všem příjemcům kteří neukončili anketu"
+
+msgid "show_questiontext"
+msgstr "Zobrazit text otázky"
+
+msgid "show_questiontext_description"
+msgstr "Je-li toto zaškrtávací pole vybráno, pro každou otázku v bloku otázek bude zobrazen text otázky. Není-li toto zaškrtávací pole vybráno, text otázky u každé otázky v bloku otázek bude skrytý."
+
+msgid "skipped"
+msgstr "přeskočeno"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "Vybrané otázky byly zkopírovány do schránky"
+
+msgid "spl_copy_select_none"
+msgstr "Vyberte prosím alespoň jednu otázku k jejímu zkopírování do schránky"
+
+msgid "spl_move_insert_clipboard"
+msgstr "Vybrané otázky byly označeny pro přesun"
+
+msgid "spl_move_same_pool"
+msgstr "Toto nemá vliv na přesun otázek z vnitřku stejného zásobníku otázek."
+
+msgid "spl_move_select_none"
+msgstr "Označte prosím alespoň jednu otázku pro výběr k přesunutí"
+
+msgid "spl_online_property"
+msgstr "Online"
+
+msgid "spl_paste_no_objects"
+msgstr "Ve schránce nejsou žádné otázky. Zkopírujte prosím nebo přesuňte otázku do schránky."
+
+msgid "spl_paste_success"
+msgstr "Otázky byly vloženy do zásobníku otázek"
+
+#, fuzzy
+msgid "spl_save_obligatory_state"
+msgstr "Save Obligatory States"
+
+msgid "start_date"
+msgstr "Datum spuštění"
+
+msgid "start_date_not_reached"
+msgstr "Nemůžete spustit anketu dokud není dosaženo datum spuštění!"
+
+msgid "start_survey"
+msgstr "Spustit anketu"
+
+msgid "subtype"
+msgstr "Podtyp"
+
+#, fuzzy
+msgid "survey_360_add_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "survey_360_add_self_appraisee"
+msgstr "Add yourself as appraisee to this survey"
+
+#, fuzzy
+msgid "survey_360_appraisee"
+msgstr "Appraisee"
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action"
+msgstr "Close Survey For Raters"
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_info"
+msgstr "This will give access to your statistics."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "This will give access to your statistics and update your competence levels."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Survey was closed on %s."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_success"
+msgstr "You have closed your 360° survey for your raters."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "The 360° surveys of the appraisees were closed for the raters."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_table"
+msgstr "Closed on"
+
+#, fuzzy
+msgid "survey_360_appraisee_is_closed"
+msgstr "The appraisee has closed his survey."
+
+#, fuzzy
+msgid "survey_360_appraisees"
+msgstr "Appraisees"
+
+#, fuzzy
+msgid "survey_360_edit_raters"
+msgstr "Manage Raters"
+
+#, fuzzy
+msgid "survey_360_mode"
+msgstr "360° Feedback"
+
+#, fuzzy
+msgid "survey_360_mode_info"
+msgstr "Use for peer-reviewing of persons"
+
+#, fuzzy
+msgid "survey_360_no_appraisees"
+msgstr "There are currently no appraisees for you to rate."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+#, fuzzy
+msgid "survey_360_rater_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "survey_360_rater_mail_sent"
+msgstr "Mail sent"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Message Content (Anonymous)"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Your survey access code is [code]. You can start the survey in your web browser using the URL [url]."
+
+#, fuzzy
+msgid "survey_360_rater_message_content_registered"
+msgstr "Message Content (Registered)"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "You can start the survey in your web browser using the URL [url]."
+
+#, fuzzy
+msgid "survey_360_rater_subject_default"
+msgstr "You have been invited as rater to a 360° survey."
+
+#, fuzzy
+msgid "survey_360_raters"
+msgstr "Raters"
+
+#, fuzzy
+msgid "survey_360_raters_finished"
+msgstr "Raters Finished"
+
+#, fuzzy
+msgid "survey_360_remove_appraisees"
+msgstr "Remove Appraisee(s)"
+
+#, fuzzy
+msgid "survey_360_results"
+msgstr "Access To Results For Appraisees"
+
+#, fuzzy
+msgid "survey_360_results_all"
+msgstr "To All Appraisees"
+
+#, fuzzy
+msgid "survey_360_results_all_info"
+msgstr "todo11"
+
+#, fuzzy
+msgid "survey_360_results_none"
+msgstr "None"
+
+#, fuzzy
+msgid "survey_360_results_none_info"
+msgstr "todo9"
+
+#, fuzzy
+msgid "survey_360_results_own"
+msgstr "To Own Raters"
+
+#, fuzzy
+msgid "survey_360_results_own_info"
+msgstr "todo10"
+
+#, fuzzy
+msgid "survey_360_select_appraisee"
+msgstr "Select"
+
+#, fuzzy
+msgid "survey_360_self_appraisee"
+msgstr "Users Can Add Themselves As Appraisees"
+
+#, fuzzy
+msgid "survey_360_self_appraisee_info"
+msgstr "todo8"
+
+#, fuzzy
+msgid "survey_360_self_evaluation"
+msgstr "Appraisees Can Rate Themselves"
+
+#, fuzzy
+msgid "survey_360_self_evaluation_info"
+msgstr "todo6"
+
+#, fuzzy
+msgid "survey_360_self_raters"
+msgstr "Appraisees Can Manage Their Raters"
+
+#, fuzzy
+msgid "survey_360_self_raters_info"
+msgstr "todo7"
+
+#, fuzzy
+msgid "survey_360_sure_appraisee_close"
+msgstr "Are you sure you want to close the survey for all of your raters?"
+
+#, fuzzy
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Are you sure you want to close the surveys for the following appraisees?"
+
+#, fuzzy
+msgid "survey_360_sure_delete_appraises"
+msgstr "Are you sure you want to remove the following appraisees?"
+
+#, fuzzy
+msgid "survey_360_sure_delete_raters"
+msgstr "Are you sure you want to remove the following raters for %s?"
+
+#, fuzzy
+msgid "survey_access_code"
+msgstr "Authentication by Access Codes"
+
+#, fuzzy
+msgid "survey_access_codes_info"
+msgstr "Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'."
+
+#, fuzzy
+msgid "survey_activate_skill_service"
+msgstr "Activate Competence Service"
+
+#, fuzzy
+msgid "survey_activate_skill_service_info"
+msgstr "todo12"
+
+#, fuzzy
+msgid "survey_add_new_question"
+msgstr "Add new Page"
+
+#, fuzzy
+msgid "survey_assign_competence"
+msgstr "Assign Competence"
+
+#, fuzzy
+msgid "survey_auto_block_title"
+msgstr "Page Header"
+
+#, fuzzy
+msgid "survey_available_question_pools"
+msgstr "Available Pools"
+
+#, fuzzy
+msgid "survey_calc_skills"
+msgstr "Determine Competence Levels"
+
+#, fuzzy
+msgid "survey_calculate_sum_score"
+msgstr "Calculate Sum Score"
+
+#, fuzzy
+msgid "survey_calculate_sum_score_info"
+msgstr "Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore."
+
+#, fuzzy
+msgid "survey_cancel_preview"
+msgstr "Cancel Preview"
+
+#, fuzzy
+msgid "survey_cannot_preview_survey"
+msgstr "Preview not available"
+
+msgid "survey_code"
+msgstr "Přístupový kód ankety"
+
+#, fuzzy
+msgid "survey_code_delete_sure"
+msgstr "Are you sure you want to delete the following access codes?"
+
+msgid "survey_code_url"
+msgstr "URL pro přímý přístup"
+
+msgid "survey_code_url_name"
+msgstr "URL (použijte pravé tlačítko myši ke zkopírování URL)"
+
+msgid "survey_code_used"
+msgstr "Kód byl použit"
+
+msgid "survey_codes_lang"
+msgstr "Jazyk ankety ILIAS pro přímý přístup URL"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Musíte vytvořit anonymní anketu s přístupovými kódy k vytvoření nových přístupových kódů!"
+
+#, fuzzy
+msgid "survey_competences"
+msgstr "Competences"
+
+#, fuzzy
+msgid "survey_constraint_deleted"
+msgstr "The routing rule has been deleted."
+
+#, fuzzy
+msgid "survey_copy_questions_to_pool"
+msgstr "Copy Questions To Pool"
+
+#, fuzzy
+msgid "survey_copy_select_questionpool"
+msgstr "Question pool to put the copies"
+
+#, fuzzy
+msgid "survey_copy_to_questionpool_success"
+msgstr "The questions were copied into the pool successfully."
+
+#, fuzzy
+msgid "survey_delete_heading"
+msgstr "Remove Heading"
+
+#, fuzzy
+msgid "survey_edit_heading"
+msgstr "Edit Heading"
+
+#, fuzzy
+msgid "survey_edit_settings"
+msgstr "Edit Settings"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "Pokusil(a) jste se do této ankety přidat nekompletní otázku! Otázka nebyla přidána."
+
+#, fuzzy
+msgid "survey_execution_exit"
+msgstr "Back to repository"
+
+#, fuzzy
+msgid "survey_execution_exit_360"
+msgstr "Back"
+
+#, fuzzy
+msgid "survey_execution_sure_finish"
+msgstr "Are you sure you want to finish the survey? You will not be able to edit your answers afterwards."
+
+msgid "survey_finish"
+msgstr "Ukončit anketu"
+
+msgid "survey_finished"
+msgstr "Tato anketa je ukončena. Děkujeme za Vaši účast!"
+
+msgid "survey_has_datasets_warning"
+msgstr "Tato anketa již obsahuje sadu údajů. Nemůžete upravovat otázky ankety dokud neodstraníte tuto sadu údajů v sekci údržby."
+
+#, fuzzy
+msgid "survey_has_datasets_warning_page_view"
+msgstr "The survey already contains datasets. You cannot edit the survey questions until you remove these datasets."
+
+#, fuzzy
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Edit Participants"
+
+#, fuzzy
+msgid "survey_introduction_info"
+msgstr "This message appears at the beginning of the survey."
+
+msgid "survey_is_offline"
+msgstr "Nemůžete spustit tuto anketu! Tato anketa je offline."
+
+msgid "survey_next"
+msgstr "Další >>>"
+
+#, fuzzy
+msgid "survey_not_available"
+msgstr "n/a"
+
+#, fuzzy
+msgid "survey_notification_finished_introduction"
+msgstr "The following participant has finished the survey."
+
+#, fuzzy
+msgid "survey_notification_finished_reason"
+msgstr "You are receiving this email because you activated notifications for the survey mentioned above."
+
+#, fuzzy
+msgid "survey_notification_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited"
+msgstr "All users who got the survey put on their Personal Desktop"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited_info"
+msgstr "Currently invited users: %s"
+
+#, fuzzy
+msgid "survey_notification_target_group_parent_course"
+msgstr "All members of parent course/group"
+
+#, fuzzy
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "No parent course/group given - no reminders will be sent!"
+
+#, fuzzy
+msgid "survey_notification_tutor_body"
+msgstr "The following survey has been finished by all participants"
+
+#, fuzzy
+msgid "survey_notification_tutor_link"
+msgstr "Link to Survey"
+
+#, fuzzy
+msgid "survey_notification_tutor_recipients"
+msgstr "Tutors (Login[s])"
+
+#, fuzzy
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Please state users with write permission."
+
+#, fuzzy
+msgid "survey_notification_tutor_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "survey_notification_tutor_setting"
+msgstr "Notify tutors when\tall participants have finished"
+
+#, fuzzy
+msgid "survey_notification_tutor_subject"
+msgstr "All participants have finished the survey \"%s\""
+
+#, fuzzy
+msgid "survey_order"
+msgstr "Sort Order"
+
+msgid "survey_previous"
+msgstr "<< Předchozí"
+
+msgid "survey_question_editor"
+msgstr "Seznam otázek"
+
+msgid "survey_question_obligatory"
+msgstr "Tato otázka je povinná. Musíte na tuto otázku odpovědět."
+
+#, fuzzy
+msgid "survey_question_pool"
+msgstr "Question Pool"
+
+#, fuzzy
+msgid "survey_question_pool_title"
+msgstr "Pool Title"
+
+#, fuzzy
+msgid "survey_question_title"
+msgstr "Question Title"
+
+msgid "survey_questions"
+msgstr "Otázky"
+
+#, fuzzy
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Question(s) were copied to the clipboard. Please select a target or empty the clipboard. "
+
+#, fuzzy
+msgid "survey_reached_level"
+msgstr "Reached Level"
+
+#, fuzzy
+msgid "survey_reminder_body"
+msgstr "the following survey has not been finished by you yet"
+
+#, fuzzy
+msgid "survey_reminder_cron"
+msgstr "Remind users to participate"
+
+#, fuzzy
+msgid "survey_reminder_cron_info"
+msgstr "If activated, users will be reminded to participate in surveys."
+
+#, fuzzy
+msgid "survey_reminder_end"
+msgstr "End"
+
+#, fuzzy
+msgid "survey_reminder_frequency"
+msgstr "Frequency"
+
+#, fuzzy
+msgid "survey_reminder_frequency_days"
+msgstr "Days"
+
+#, fuzzy
+msgid "survey_reminder_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "survey_reminder_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "survey_reminder_setting"
+msgstr "Remind Users to Participate"
+
+#, fuzzy
+msgid "survey_reminder_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "survey_reminder_subject"
+msgstr "Survey \"%s\" was not finished"
+
+#, fuzzy
+msgid "survey_remove_competence"
+msgstr "Remove Competence"
+
+#, fuzzy
+msgid "survey_results_anonymization"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "survey_results_anonymized"
+msgstr "Without Names"
+
+#, fuzzy
+msgid "survey_results_anonymized_info"
+msgstr "In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user \"iTXaF\" (example)."
+
+#, fuzzy
+msgid "survey_results_finished"
+msgstr "Survey finished"
+
+#, fuzzy
+msgid "survey_results_not_started"
+msgstr "Survey not started"
+
+#, fuzzy
+msgid "survey_results_personalized"
+msgstr "With Names"
+
+#, fuzzy
+msgid "survey_results_personalized_info"
+msgstr "In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer."
+
+#, fuzzy
+msgid "survey_results_started"
+msgstr "Survey started"
+
+#, fuzzy
+msgid "survey_show_blocktitle"
+msgstr "Show Block Title"
+
+#, fuzzy
+msgid "survey_show_blocktitle_description"
+msgstr "If activated the block title will be shown in the survey."
+
+#, fuzzy
+msgid "survey_skill"
+msgstr "Competence"
+
+#, fuzzy
+msgid "survey_skill_assign"
+msgstr "Question/Competence Assignment"
+
+#, fuzzy
+msgid "survey_skill_level"
+msgstr "Competence Level"
+
+#, fuzzy
+msgid "survey_skill_max_scale_points"
+msgstr "Max. Scale Points"
+
+#, fuzzy
+msgid "survey_skill_nr_q"
+msgstr "Number of Questions"
+
+#, fuzzy
+msgid "survey_skill_thresholds"
+msgstr "Competence Thresholds"
+
+msgid "survey_start"
+msgstr "Jít na úvodní stránku"
+
+#, fuzzy
+msgid "survey_sum_of_means"
+msgstr "Sum of Arithm. Means per Question"
+
+#, fuzzy
+msgid "survey_sure_delete_constraint"
+msgstr "Are you sure you want to delete the routing rule \"%1$s\" for the question \"%2$s\"?"
+
+#, fuzzy
+msgid "survey_sure_delete_questions"
+msgstr "Are you sure that you want to delete the following questions or headings?"
+
+#, fuzzy
+msgid "survey_sync_insufficient_permissions"
+msgstr "Insufficient Permissions"
+
+#, fuzzy
+msgid "survey_sync_question_copies"
+msgstr "Sync Question Copies"
+
+#, fuzzy
+msgid "survey_sync_question_copies_info"
+msgstr "The selected questions will be replaced with the current pool version."
+
+#, fuzzy
+msgid "survey_sync_success"
+msgstr "The selected questions were updated."
+
+#, fuzzy
+msgid "survey_up_to_x_points"
+msgstr "Up to x points"
+
+msgid "survey_use_start_button"
+msgstr "Musíte vložit anketu použitím startovacího tlačítka!"
+
+#, fuzzy
+msgid "svy_activation_limited_visibility_info"
+msgstr "If chosen, the survey is visible even outside of the given availability."
+
+#, fuzzy
+msgid "svy_activation_online_info"
+msgstr "Activate this setting to make the survey accessible to users."
+
+#, fuzzy
+msgid "svy_add_internal_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "svy_add_internal_user_info"
+msgstr "The rater has a registered user on this platform."
+
+#, fuzzy
+msgid "svy_add_rater"
+msgstr "Add Rater"
+
+#, fuzzy
+msgid "svy_all_raters"
+msgstr "All Raters"
+
+#, fuzzy
+msgid "svy_all_survey_competences"
+msgstr "All Survey Competences"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Všechna uživatelská data této ankety byly smazány!"
+
+#, fuzzy
+msgid "svy_analysis"
+msgstr "Analysis"
+
+#, fuzzy
+msgid "svy_anonymous_participants"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_info"
+msgstr "If activated a list of participants can be enabled in anonymous surveys."
+
+#, fuzzy
+msgid "svy_anonymous_participants_min"
+msgstr "Minimum Number of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_min_info"
+msgstr "The list will only be available if there are at least the minimum number of participants."
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy_info"
+msgstr "If activated a list of participants is available after the end date."
+
+#, fuzzy
+msgid "svy_answer_too_long"
+msgstr "Your current answer is too long (%s characters). Please shorten your answer."
+
+#, fuzzy
+msgid "svy_app_see_rater_info"
+msgstr "Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters."
+
+#, fuzzy
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "User cannot be added as rater. Use self evaluation option in the survey settings instead."
+
+#, fuzzy
+msgid "svy_back"
+msgstr "Back"
+
+msgid "svy_categories"
+msgstr "Odpovědi"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Dokud toto hodnocení ankety je dostupné pouze účastníkům ankety musíte vložit svůj přístupový kód pro otevření evaluace."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Požadována autentizace"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Vložil(a) jste chybný přístupový kód ankety nebo se nemáte zúčastnit této ankety. Váš přístup k hodnocení ankety je zamítnut."
+
+#, fuzzy
+msgid "svy_compress_view"
+msgstr "Compressed View"
+
+#, fuzzy
+msgid "svy_compress_view_info"
+msgstr "If activated, all single choice questions with similar scales will be presented matrix-like."
+
+#, fuzzy
+msgid "svy_copy"
+msgstr "Copy Survey"
+
+#, fuzzy
+msgid "svy_create_question"
+msgstr "Create Question"
+
+msgid "svy_delete_all_user_data"
+msgstr "Smazat všechna uživatelská data"
+
+#, fuzzy
+msgid "svy_dont_send"
+msgstr "Don't send a message"
+
+#, fuzzy
+msgid "svy_eval_captions"
+msgstr "Figures"
+
+#, fuzzy
+msgid "svy_eval_captions_abs"
+msgstr "Absolute"
+
+#, fuzzy
+msgid "svy_eval_captions_abs_perc"
+msgstr "Absolute and Percentage"
+
+#, fuzzy
+msgid "svy_eval_captions_perc"
+msgstr "Percentage"
+
+#, fuzzy
+msgid "svy_eval_competences"
+msgstr "Competence Results"
+
+msgid "svy_eval_cumulated"
+msgstr "Souhrnné výsledky"
+
+msgid "svy_eval_detail"
+msgstr "Podrobné souhrnné výsledky"
+
+#, fuzzy
+msgid "svy_eval_skipped_value"
+msgstr "Results: \"skipped\""
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom"
+msgstr "Use custom value"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Define any (or empty) value to use for skipped answers"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Value"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_lng"
+msgstr "Use language file entry"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Current value: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "Výsledky specifikované pro uživatele"
+
+#, fuzzy
+msgid "svy_eval_view"
+msgstr "View"
+
+#, fuzzy
+msgid "svy_eval_view_charts"
+msgstr "Chart"
+
+#, fuzzy
+msgid "svy_eval_view_tables"
+msgstr "Table"
+
+#, fuzzy
+msgid "svy_eval_view_tables_charts"
+msgstr "Table and chart"
+
+#, fuzzy
+msgid "svy_evaluation_access_all_info"
+msgstr "All registered users that can access the survey can also look at the results of this survey. "
+
+#, fuzzy
+msgid "svy_evaluation_access_off_info"
+msgstr "Only Users that can edit the survey (write permission) have access to the survey's results."
+
+#, fuzzy
+msgid "svy_evaluation_access_participants_info"
+msgstr "All users that participated in the survey may choose to look at the results after finishing it. "
+
+msgid "svy_export_files"
+msgstr "Export souborů"
+
+#, fuzzy
+msgid "svy_export_format"
+msgstr "Export survey data as"
+
+#, fuzzy
+msgid "svy_export_pdf"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "svy_ext_rater_firstname"
+msgstr "First name of external rater"
+
+#, fuzzy
+msgid "svy_ext_rater_lastname"
+msgstr "Last name of external rater"
+
+#, fuzzy
+msgid "svy_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "svy_external_rater_info"
+msgstr "The rater is not registered on this platform."
+
+#, fuzzy
+msgid "svy_fraction_of_selections"
+msgstr "Fraction of selections"
+
+#, fuzzy
+msgid "svy_gap_analysis"
+msgstr "Gap Analysis"
+
+msgid "svy_general_properties"
+msgstr "Obecné vlastnosti"
+
+#, fuzzy
+msgid "svy_import_codes"
+msgstr "Import Codes"
+
+#, fuzzy
+msgid "svy_import_codes_info"
+msgstr "This import requires a \"%s\" export file."
+
+#, fuzzy
+msgid "svy_ind_feedb_info"
+msgstr "Users get distinct evaluations by others."
+
+#, fuzzy
+msgid "svy_ind_feedb_mode"
+msgstr "Individual Feedback"
+
+#, fuzzy
+msgid "svy_mail_confirmation_subject"
+msgstr "Survey \"%s\" - Your participation confirmation"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Invite raters to participate in a survey."
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Survey: Rater Invitation"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_info"
+msgstr "Reminds users to participate in survey"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_title"
+msgstr "Survey Reminder"
+
+#, fuzzy
+msgid "svy_mail_own_results_body"
+msgstr "the following is a complete summary of your survey participation."
+
+#, fuzzy
+msgid "svy_mail_own_results_subject"
+msgstr "Survey \"%s\" - Your Answers"
+
+#, fuzzy
+msgid "svy_mail_send_confirmation"
+msgstr "Send Participation Confirmation"
+
+#, fuzzy
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "The column settings do not sum up to 100%."
+
+#, fuzzy
+msgid "svy_max_sum_score"
+msgstr "Maximum Sum Score"
+
+#, fuzzy
+msgid "svy_neutral_answer"
+msgstr "Text for a Neutral Answer (\"Not Specified\", \"I don't know\" etc.)"
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+#, fuzzy
+msgid "svy_notification_tutor_results"
+msgstr "One E-Mail including Survey Results"
+
+#, fuzzy
+msgid "svy_notification_tutor_results_alert"
+msgstr "This requires an end date."
+
+#, fuzzy
+msgid "svy_notification_tutor_results_info"
+msgstr "After reaching the end data a cron job will send an email with the detailed survey results attached to it."
+
+#, fuzzy
+msgid "svy_only_max_one_external_rater"
+msgstr "Please select only one external rater."
+
+msgid "svy_page_error"
+msgstr "Při odpovědi na otázku ankety se vyskytla chyba. Vyhledejte chybovou zprávu ke získání informací o tom, které otázky se chyba týká!"
+
+msgid "svy_page_errors"
+msgstr "Při odpovědích na otázky ankety se vyskytly chyby. Vyhledejte chybovou zprávu ke získání informací o tom, kterých otázek se chyby týkají!"
+
+#, fuzzy
+msgid "svy_participant"
+msgstr "Participant"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+#, fuzzy
+msgid "svy_participation"
+msgstr "Participation"
+
+#, fuzzy
+msgid "svy_please_select_unused_codes"
+msgstr "Please select at least one unused code."
+
+#, fuzzy
+msgid "svy_print_hide_labels"
+msgstr "Hide labels"
+
+#, fuzzy
+msgid "svy_print_show_labels"
+msgstr "Show labels"
+
+#, fuzzy
+msgid "svy_privacy_info"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "svy_rater"
+msgstr "Rater"
+
+#, fuzzy
+msgid "svy_rater_see_app_info"
+msgstr "The names of appraisees will be presented to raters to enable them evaluating the questions."
+
+#, fuzzy
+msgid "svy_reminder_mail_template"
+msgstr "Mail Template"
+
+#, fuzzy
+msgid "svy_reminder_mail_template_none"
+msgstr "Do not use mail template"
+
+#, fuzzy
+msgid "svy_result_mail_notification_info"
+msgstr "On finishing the survey the answers of each participant will be sent to the defined recipients."
+
+#, fuzzy
+msgid "svy_results"
+msgstr "Results"
+
+#, fuzzy
+msgid "svy_results_mail_confirm"
+msgstr "Participants can request participation confirmation"
+
+#, fuzzy
+msgid "svy_results_mail_confirm_info"
+msgstr "Participants can request a mail with a confirmation of participation at the end of the survey."
+
+#, fuzzy
+msgid "svy_results_mail_own"
+msgstr "Participant can mail own answers"
+
+#, fuzzy
+msgid "svy_results_mail_own_info"
+msgstr "todo5"
+
+#, fuzzy
+msgid "svy_save_and_continue"
+msgstr "Save and Continue"
+
+#, fuzzy
+msgid "svy_save_sync"
+msgstr "Save and Sync Question Copies"
+
+#, fuzzy
+msgid "svy_search_user"
+msgstr "Search User"
+
+#, fuzzy
+msgid "svy_search_user_info"
+msgstr "Search for users or roles and pick participants."
+
+msgid "svy_search_users"
+msgstr "Hledat příjemce"
+
+#, fuzzy
+msgid "svy_select_rater"
+msgstr "Select Rater"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "Údaje ankety vybraných uživatelů byly úspěšně smazány."
+
+#, fuzzy
+msgid "svy_self_ev_access_results_all"
+msgstr "Access to Self-Evaluations of All Participants"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_none"
+msgstr "No Access to Results"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_own"
+msgstr "Access to Own Self-Evaluations"
+
+#, fuzzy
+msgid "svy_self_ev_info"
+msgstr "Use for self evaluation."
+
+#, fuzzy
+msgid "svy_self_ev_mode"
+msgstr "Self-Evaluation Only"
+
+#, fuzzy
+msgid "svy_settings_section_access"
+msgstr "Administering the Survey: Access"
+
+#, fuzzy
+msgid "svy_settings_section_before_start"
+msgstr "Information before Start of Survey"
+
+#, fuzzy
+msgid "svy_settings_section_finishing"
+msgstr "Finishing the Survey"
+
+#, fuzzy
+msgid "svy_settings_section_question_behaviour"
+msgstr "Administering the Survey: Behaviour of the Question"
+
+#, fuzzy
+msgid "svy_settings_section_reminders"
+msgstr "Reminders"
+
+msgid "svy_show_questiontitles"
+msgstr "Zobrazit názvy otázek v anketě"
+
+#, fuzzy
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Competence assignment is not supported for this question type."
+
+#, fuzzy
+msgid "svy_sum_score"
+msgstr "Sum Score"
+
+#, fuzzy
+msgid "svy_type_of_rater"
+msgstr "Type of Rater"
+
+#, fuzzy
+msgid "svy_view_own_results"
+msgstr "View given answers"
+
+#, fuzzy
+msgid "svy_wrong_or_expired_code"
+msgstr "Sorry, you entered an invalid or expired code."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Nevkládejte prosím více než maximum %s znaků. Všechny další znaky budou odříznuty."
+
+msgid "text_question_not_filled_out"
+msgstr "Vyplňte prosím pole ankety!"
+
+msgid "unfold"
+msgstr "Rozpustit"
+
+msgid "upper_limit"
+msgstr "Horní hranice"
+
+msgid "use_anonymous_id"
+msgstr "Zobrazit kód ankety"
+
+msgid "use_anonymous_id_desc"
+msgstr "Je-li zaškrtnuto, uživatelské jméno v anonymizované anketě bude zobrazeno jako kód ankety, jinak bude zobrazen text \"Anonymní\"."
+
+msgid "use_browser_print_function"
+msgstr "Použijte prosím funkci tisku Vašeho webového prohlížeče."
+
+msgid "use_min_answers"
+msgstr "Výběry odpovědi"
+
+msgid "use_min_answers_option"
+msgstr "Nastavte počet vybraných odpovědí"
+
+msgid "use_other_answer"
+msgstr "Otevřít odpověď"
+
+msgid "used"
+msgstr "použito"
+
+msgid "users_answered"
+msgstr "Uživatelé, kteří odpověděli"
+
+msgid "users_invited"
+msgstr "%s uživatelů bylo pozváno"
+
+msgid "users_skipped"
+msgstr "Uživatelé, kteří přeskočili odpovědi"
+
+msgid "values"
+msgstr "Hodnoty"
+
+msgid "vertical"
+msgstr "Svisle"
+
+msgid "warning_question_not_complete"
+msgstr "Otázka není kompletní!"
+
+msgid "workingtime"
+msgstr "Pracovní čas"
