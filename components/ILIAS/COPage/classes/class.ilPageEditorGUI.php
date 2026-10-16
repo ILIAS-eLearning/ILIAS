@@ -182,30 +182,6 @@ class ilPageEditorGUI
 
         $this->log->debug("step BC: cmd:$cmd, cmdClass:$cmdClass, hier_id: $hier_id, pc_id: $pc_id");
 
-        // Step EC (exec_ command handling)
-        // handle special exec_ commands, modify pc, hier_id
-        if (substr($cmd, 0, 5) == "exec_") {
-            // check whether pc id is given
-            $pca = explode(":", $this->ctrl->getCmd());
-            $pc_id = $pca[1];
-            $cmd = explode("_", $pca[0]);
-            unset($cmd[0]);
-            $hier_id = implode("_", $cmd);
-            $cmd = $this->request->getString("command" . $hier_id);
-        }
-        $this->log->debug("step EC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
-
-        // Step CC (handle table container (and similar) commands
-        // ... strip "c" "r" of table ids from hierarchical id
-        $first_hier_character = substr($hier_id, 0, 1);
-        if ($first_hier_character == "c" ||
-            $first_hier_character == "r" ||
-            $first_hier_character == "g" ||
-            $first_hier_character == "i") {
-            $hier_id = substr($hier_id, 1);
-        }
-        $this->log->debug("step CC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
-
         // Step B (build dom, and ids in XML)
         $this->page->buildDom();
         $this->page->addHierIDs();
