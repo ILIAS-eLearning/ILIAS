@@ -343,7 +343,7 @@ class UninstallRemovesMigratedMoFilesTest extends ilLanguageBaseTestCase
         $this->callRemoveMigratedMoFiles('de');
 
         // a stale hit from before the removal must not leak through
-        $this->assertNull($this->callLoadFromMigratedLanguageFile('utest', 'de', false));
+        $this->assertSame([], $this->callLoadFromMigratedLanguageFile('utest', 'de', false));
     }
 
     /**

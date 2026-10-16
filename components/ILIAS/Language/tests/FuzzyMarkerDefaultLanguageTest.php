@@ -61,11 +61,12 @@ class FuzzyMarkerDefaultLanguageTest extends ilLanguageBaseTestCase
 
     public function testAMarkerMissingInTheUserLanguageComesFromTheDefaultLanguage(): void
     {
+        // "lng" is shipped: the default language comes from the build (none here), never from lng_data
+        $this->expectOutputRegex('/There is no build of the language files/');
         $comments = $this->markersWith('-lng_not_translated-', 'Not translated en');
 
-        $this->assertSame(['lng.#:#.a' => 'note - Not translated en', 'lng.#:#.b' => 'Not translated en'], $comments);
-        $this->assertCount(1, $this->queries);
-        $this->assertStringContainsString("module = 'lng' AND lang_key = 'en' AND identifier = 'lng_not_translated'", $this->queries[0]);
+        $this->assertSame(['lng.#:#.a' => 'note - -lng_not_translated-', 'lng.#:#.b' => '-lng_not_translated-'], $comments);
+        $this->assertSame([], $this->queries);
     }
 
     public function testAMarkerOfTheUserLanguageIsUsedWithoutFurtherQuery(): void
@@ -78,6 +79,7 @@ class FuzzyMarkerDefaultLanguageTest extends ilLanguageBaseTestCase
 
     public function testAMarkerMissingEverywhereStaysTheMissingKeyMarker(): void
     {
+        $this->expectOutputRegex('/There is no build of the language files/');
         $comments = $this->markersWith('-lng_not_translated-', null);
 
         $this->assertSame('-lng_not_translated-', $comments['lng.#:#.b']);

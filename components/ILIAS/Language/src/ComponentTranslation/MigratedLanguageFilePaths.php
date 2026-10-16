@@ -47,6 +47,7 @@ final class MigratedLanguageFilePaths
     private const string BUILD_POINTER_FILE = 'current.json';
     private const string BUILD_ID_FORMAT = '/^b-[0-9a-f]{16,64}\z/';
     private const string OVERLAY_REVISION_FORMAT = '/^r-[0-9a-f]{16,64}\z/';
+    private const string SHIPPED_TEMPLATES = 'components/*/*/lang/*.pot';
 
     private static ?string $artifact_directory_for_tests = null;
 
@@ -160,6 +161,25 @@ final class MigratedLanguageFilePaths
     {
         return self::shippedDirectoryPath($ilias_absolute_path, $directory)
             . self::templateFileName(self::shippedFileNamePattern($directory), $directory->getPrefix());
+    }
+
+    /**
+     * The modules with a template in the `lang/` directory of a component (`<module>.pot`, see templateFileName())
+     * => that directory; without the component graph, e.g. in the Setup.
+     *
+     * @return array<string, string>
+     */
+    public static function findShippedTemplates(string $ilias_absolute_path): array
+    {
+        $templates = [];
+        foreach (glob(rtrim($ilias_absolute_path, '/') . '/' . self::SHIPPED_TEMPLATES) ?: [] as $file) {
+            $module = basename($file, '.pot');
+            if (self::isValidModule($module) && is_file($file)) {
+                $templates[$module] ??= dirname($file);
+            }
+        }
+
+        return $templates;
     }
 
     /**

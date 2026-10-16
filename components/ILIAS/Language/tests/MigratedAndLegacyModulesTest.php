@@ -166,14 +166,14 @@ class MigratedAndLegacyModulesTest extends ilLanguageBaseTestCase
         MigratedPoFixture::writeShippedPo($this->relative_path, 'mig_a', 'it', MigratedPoFixture::catalog('mig_a', ['shared' => 'Mig A it']));
 
         $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'it'), 'shipped, not built: migrated without any identifier');
-        $this->assertNull($migrated_keys_of->invoke(null, 'mig_a', 'fr'), 'not shipped: not migrated');
+        $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'fr'), 'not shipped for fr: no identifiers, not reported, never the database');
         $this->assertCount(1, $this->warnings);
         $this->assertStringContainsString('ships a language file for "it" that is not built', $this->warnings[0]);
 
         MigratedPoFixture::writeShippedPo($this->relative_path, 'mig_a', 'fr', MigratedPoFixture::catalog('mig_a', ['shared' => 'Mig A fr']));
         unlink(ILIAS_ABSOLUTE_PATH . '/' . $this->relative_path . 'mig_a_it.po');
 
-        $this->assertNull($migrated_keys_of->invoke(null, 'mig_a', 'fr'), 'decided before the file appeared');
+        $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'fr'), 'decided before the file appeared');
         $this->assertSame([], $migrated_keys_of->invoke(null, 'mig_a', 'it'), 'decided before the file vanished');
         $this->assertCount(1, $this->warnings, 'reported once');
     }
