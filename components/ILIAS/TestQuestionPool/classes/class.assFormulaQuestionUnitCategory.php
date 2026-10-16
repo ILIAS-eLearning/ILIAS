@@ -18,12 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Envelopes\Id;
+
 /**
  * Formula Question Unit Category
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ingroup components\ILIASTestQuestionPool
  */
-class assFormulaQuestionUnitCategory
+class assFormulaQuestionUnitCategory implements ToNormalized, FromNormalized
 {
     private int $id = 0;
     private string $category = '';
@@ -85,5 +90,32 @@ class assFormulaQuestionUnitCategory
     private function sanitizeString(string $string): string
     {
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            'id' => $transformations->normalize(new Id($this->id, 'unit_category')),
+            'name' => $this->category,
+            'question_id' => $transformations->normalize(new Id($this->question_fi, 'question')),
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = clone $this;
+        $clone->id = $transformations->denormalize($normalized['id'], Id::class)->getId();
+        $clone->category = $transformations->string($normalized['name']);
+        $clone->question_fi = $transformations->denormalize($normalized['question_id'], Id::class)->getId();
+
+        return $clone;
     }
 }

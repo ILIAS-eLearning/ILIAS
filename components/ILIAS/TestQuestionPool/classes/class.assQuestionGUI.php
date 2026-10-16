@@ -1669,7 +1669,7 @@ abstract class assQuestionGUI
         }
 
         try {
-            $lifecycle = ilAssQuestionLifecycle::getInstance(
+            $lifecycle = new ilAssQuestionLifecycle(
                 $this->request_data_collector->string('lifecycle')
             );
             $this->object->setLifecycle($lifecycle);

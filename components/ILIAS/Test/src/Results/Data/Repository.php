@@ -150,14 +150,29 @@ class Repository
         return $result;
     }
 
-    public function getTestAttemptResult(int $active_id): ?AttemptResult
+    public function getTestAttemptResult(int $active_id, int $attempt): ?AttemptResult
     {
         $result = $this->db->queryF(
-            "SELECT * FROM tst_pass_result WHERE active_fi = %s",
+            'SELECT * FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
+            [$active_id, $attempt]
+        );
+        return $this->toTestAttemptResult($this->db->fetchAssoc($result));
+    }
+
+    public function getTestAttemptResults(int $active_id): array
+    {
+        $result = $this->db->queryF(
+            'SELECT * FROM tst_pass_result WHERE active_fi = %s',
             [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
-        return $this->toTestAttemptResult($this->db->fetchAssoc($result));
+
+        $results = [];
+        while ($row = $this->db->fetchAssoc($result)) {
+            $results[$row['pass']] = $this->toTestAttemptResult($row);
+        }
+        return $results;
     }
 
     public function updateTestAttemptResult(

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
+
 /**
  * Class for true/false or yes/no answers
  *
@@ -146,5 +148,28 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
     public function setFalse(): void
     {
         $this->correctness = "0";
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'correctness' => $this->correctness,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->setCorrectness($transformations->string($normalized['correctness']));
+        return $clone;
     }
 }

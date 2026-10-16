@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
@@ -35,7 +38,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
  *
  * @ingroup 	ModulesTestQuestionPool
  */
-class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionPartiallySaveable, QuestionLMExportable, QuestionAutosaveable
+class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionPartiallySaveable, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     /**
     * The gaps of the cloze question
@@ -169,9 +172,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setFeedbackMode($data['feedback_mode'] === null ? ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION : $data['feedback_mode']);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             $this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
@@ -1766,5 +1769,47 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 . implode(',', $correct_answers);
         }
         return $answers;
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'feedback_mode' => $this->feedbackMode,
+            'cloze_text' => $this->cloze_text,
+            'textgap_rating' => $this->textgap_rating,
+            'identical_scoring' => $this->identical_scoring,
+            'fixed_text_length' => $this->fixed_text_length,
+            'gaps' => $transformations->normalize($this->gaps),
+            'gap_combinations' => $this->gap_combinations,
+            'gap_combinations_exist' => $this->gap_combinations_exist,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->feedbackMode = $transformations->string($normalized['feedback_mode']);
+        $clone->cloze_text = $transformations->string($normalized['cloze_text']);
+        $clone->textgap_rating = $transformations->string($normalized['textgap_rating']);
+        $clone->identical_scoring = $transformations->bool($normalized['identical_scoring']);
+        $clone->fixed_text_length = $transformations->nullableInt($normalized['fixed_text_length']);
+        $clone->gap_combinations_exist = $transformations->bool($normalized['gap_combinations_exist']);
+        $clone->gap_combinations = $normalized['gap_combinations'];
+
+        foreach ($normalized['gaps'] as $gap) {
+            $type = $transformations->int($gap['type']);
+            $clone->gaps[] = $transformations->denormalize($gap, new assClozeGap($type));
+        }
+
+        return $clone;
     }
 }

@@ -19,10 +19,7 @@
 use ILIAS\Skill\Service\SkillUsageService;
 
 /**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/TestQuestionPool
+ * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter instead
  */
 class ilAssQuestionSkillAssignmentImporter
 {

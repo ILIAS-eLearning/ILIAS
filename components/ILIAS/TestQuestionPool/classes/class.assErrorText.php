@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\FromNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\ToNormalized;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalize\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -34,7 +37,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
+class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, ToNormalized, FromNormalized
 {
     protected const ERROR_TYPE_WORD = 1;
     protected const ERROR_TYPE_PASSAGE = 2;
@@ -172,9 +175,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setPointsWrong($data["points_wrong"]);
 
             try {
-                $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+                $this->setLifecycle(new ilAssQuestionLifecycle($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
-                $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+                $this->setLifecycle(new ilAssQuestionLifecycle());
             }
 
             try {
@@ -999,5 +1002,38 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
     {
         return $this->createErrorTextExport($this->getBestSelection());
+    }
+
+    #[\Override]
+    public function toNormalized(
+        Transformations $transformations,
+        array $context = []
+    ): array|float|bool|int|string|null
+    {
+        return [
+            ...$transformations->normalize(parent::toNormalized($transformations, $context)),
+            'errortext' => $this->errortext,
+            'errortext_parsed' => $this->parsed_errortext,
+            'errordata' => $transformations->normalize($this->errordata),
+            'points_wrong' => $this->points_wrong,
+        ];
+    }
+
+    #[\Override]
+    public function fromNormalized(
+        array $normalized,
+        Transformations $transformations
+    ): static
+    {
+        $clone = parent::fromNormalized($normalized, $transformations);
+        $clone->errortext = $transformations->string($normalized['errortext']);
+        $clone->parsed_errortext = $normalized['errortext_parsed'];
+        $clone->points_wrong = $transformations->nullableFloat($normalized['points_wrong']);
+        $clone->errordata = array_map(
+            fn(array $error) => $transformations->denormalize($error, new assAnswerErrorText()),
+            $normalized['errordata']
+        );
+
+        return $clone;
     }
 }

@@ -40,6 +40,8 @@ At the Administration node for Test and Assessment accounts having 'Edit Setting
 
 At Administration > Repository and Objects > Test and Assessment > Settings it is possible to select which 'Unique user criteria' is used in test imports/exports. The selected type of personal data will be included in export type 'XML incl. Participants Results' of a test for each account. Options are: usr_id, login, email, matriculation, ext_account. This personal data is required to match accounts results when importing an export file at the same or another platform.
 
+When importing such an export file, the accounts are looked up by the 'Unique user criteria' configured at the importing platform. Test attempts of accounts which cannot be matched are not discarded but assigned to the anonymous account. The personal data contained in the export file for those accounts is therefore imported without being linked to an account of the importing platform.
+
 At Administration > Repository and Objects > Test and Assessment > Log Data accounts with 'Edit Settings' permission can activate the History-tab via the checkbox 'Activate Test and Assessment Logging'. Additionally the setting 'Log IP' allows for logging the IP-adress of participants along with the interactions as well as specific settings of said test during the interaction.
 The purpose of both options is to store important events and information for configuring and performing tests. This gives the possibility to check those information in case of issues or concerns after performing tests.
 
@@ -230,9 +232,23 @@ There are three export files at the tab Test > Export which contain personal dat
 
 The ‘Archive file’ contains all personal data which is being stored and presented in the test (see above). Its purpose is to have this data easily accessible outside of ILIAS, e.g. for long-term archiving of the data.
 
-The 'XML' export contains the personal data 'Author' of the questions and of the test itself within the metadata (see above). Its purpose is to be imported into ILIAS again, although the contained personal data is easily accessible.
+The 'XML' export contains the personal data 'Author' of the questions and of the test itself within the metadata (see above). In addition it contains the 'User ID' of the owner of each question. Its purpose is to be imported into ILIAS again, although the contained personal data is easily accessible.
 
-The ‘XML export incl. Participant Results’ contains all personal data which is being stored and presented in the test (see above). The data in the ‘History’ tab is an exception; it is not included. Its purpose is to be imported into ILIAS again, although the contained personal data is easily accessible. This export file can be used to, e.g., provide the test results to the participants at another ILIAS installation.
+The ‘XML export incl. Participant Results’ contains all personal data which is being stored and presented in the test (see above). The data in the ‘History’ tab is an exception; it is not included. Its purpose is to be imported into ILIAS again, although the contained personal data is easily accessible. This export file can be used to, e.g., provide the test results to the participants at another ILIAS installation. In addition to the data of the 'XML' export, it contains the following personal data for each participant:
+
+- User ID (exported as the 'Unique user criteria' configured at Administration > Repository and Objects > Test and Assessment > Settings, see above)
+- Anonymous ID, if the test is set to anonymous
+- Name (first name and last name)
+- Login
+- Matriculation Number
+- Import name, if the account was imported
+- Client IP Range
+- Invitation date
+- Additional working time granted to the participant
+- Timestamp of the first and the last access
+- All test attempts with their timestamps, answers, scoring and status
+
+For questions which have been scored manually, the 'User ID' of the account which finalized the scoring is contained as well.
 
 ### Administration > Repository and Objects > Test and Assessment > Log Data > Log Data Output
 
