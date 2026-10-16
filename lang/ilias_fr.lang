@@ -12960,6 +12960,8 @@ news#:#news_period_x_months#:#%s derniers mois
 news#:#news_period_x_weeks#:#%s dernières semaines
 news#:#news_public_feed#:#Flux RSS Dédié
 news#:#news_public_feed_info#:#Si actif, une URL du flux d'actualités (RSS) distincte pour cet article est créée.
+news#:#news_public_feed_info_container#:#Rendez disponible un flux RSS pour les actualités de cet objet. L'URL du flux est accessible via le menu ▼ du bloc « Actualités internes ».
+news#:#news_public_feed_info_frm#:#Rendez disponible un flux RSS pour les derniers articles. L'URL du flux est accessible via le menu ▼ du bloc « Derniers Articles ».
 news#:#news_really_delete_news#:#Voulez-vous vraiment supprimer cet article de nouvelles?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#Ancienneté des Actualités
