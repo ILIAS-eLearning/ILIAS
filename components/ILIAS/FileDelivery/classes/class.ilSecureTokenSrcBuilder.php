@@ -41,8 +41,7 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
         Revision $revision,
         bool $signed = true,
         float $valid_for_at_least_minutes = 60.0,
-        ?string $filename = null,
-        bool $isolated = true
+        ?string $filename = null
     ): string {
         // get stream from revision
         $stream = $revision->maybeStreamResolver()?->getStream();
@@ -52,8 +51,24 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
             $filename ?? $revision->getTitle(),
             Disposition::INLINE,
             $GLOBALS['ilUser']->getId() ?? 0,
-            (int) (ceil($valid_for_at_least_minutes / 60)),
-            $isolated
+            (int) (ceil($valid_for_at_least_minutes / 60))
+        );
+    }
+
+    /**
+     * @deprecated see {@see SrcBuilder::getRevisionURLWithoutIsolation()}
+     */
+    public function getRevisionURLWithoutIsolation(
+        Revision $revision,
+        float $valid_for_at_least_minutes = 60.0,
+        ?string $filename = null
+    ): string {
+        return (string) $this->file_delivery->buildTokenURLWithoutIsolation(
+            $revision->maybeStreamResolver()?->getStream(),
+            $filename ?? $revision->getTitle(),
+            Disposition::INLINE,
+            $GLOBALS['ilUser']->getId() ?? 0,
+            (int) (ceil($valid_for_at_least_minutes / 60))
         );
     }
 

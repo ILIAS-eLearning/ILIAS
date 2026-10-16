@@ -268,20 +268,29 @@ only the host that the embed URLs point to differs.
 
 ## Delivering on the ILIAS domain
 
-Some content cannot run on another origin than ILIAS, e.g. SCORM packages, whose
-SCOs call the API of the player in the parent window synchronously. A component
-may therefore have single URLs delivered from the ILIAS domain:
+**Deprecated, removed with ILIAS 13.** We do not want content outside of the
+isolation. Some content cannot run on another origin than ILIAS yet, e.g. SCORM
+packages, whose SCOs call the API of the player in the parent window synchronously.
+Until they do, a component may have single URLs delivered from the ILIAS domain:
 
 ```php
-// IRSS container (e.g. an unzipped SCORM package)
-$uri = $irss->consume()
-            ->containerURI($rid, 'index.html')
-            ->withoutIsolation()
-            ->getURI();
+use ILIAS\Scripts\PHPStan\Attributes\AllowDeliveryWithoutIsolation;
 
-// or directly
-$uri = $file_delivery->buildTokenURL($stream, $filename, Disposition::INLINE, $user_id, 1, false);
+#[AllowDeliveryWithoutIsolation('SCORM must run without isolation in ILIAS 12 despite the IRSS; with ILIAS 13 SCORM implements a postMessage proxy', 12)]
+public function getPackageURL(): string
+{
+    // IRSS container (e.g. an unzipped SCORM package)
+    return (string) $this->irss->consume()
+                               ->containerURI($this->rid, 'index.html')
+                               ->withoutIsolation()
+                               ->getURI();
+}
 ```
+
+* Every call is reported by the code rule `ilias.deliveryWithoutIsolation`, which
+  fails the pull request. The caller has to be allowed explicitly with
+  `#[AllowDeliveryWithoutIsolation(reason, 12)]`, see `scripts/PHPStan/README.md`.
+  The allowance only holds for ILIAS 12.
 
 * The decision is part of the **signed** token (`ni` in the payload), it cannot
   be added to a token afterwards. A token signed for the content domain is still

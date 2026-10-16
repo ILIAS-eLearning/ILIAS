@@ -51,9 +51,15 @@ class ContainerURIConsumer implements ContainerConsumer
 
     /**
      * Delivers the container from the ILIAS domain even when User Content Isolation
-     * is active. Only for content that must run on the same origin as ILIAS (e.g.
-     * SCORM packages, which call the API of the player synchronously); such content
-     * does not profit from the isolation.
+     * is active, for content that must run on the same origin as ILIAS (e.g. SCORM
+     * packages, which call the API of the player synchronously). Such content does
+     * not profit from the isolation.
+     *
+     * @deprecated We do not want content outside of the User Content Isolation; this only exists
+     *             until the remaining consumers (e.g. SCORM) run on the content domain and
+     *             will be removed with ILIAS 13. Calls are reported by the code rule
+     *             `ilias.deliveryWithoutIsolation` and must be allowed explicitly, see
+     *             scripts/PHPStan/README.md.
      */
     public function withoutIsolation(): self
     {
@@ -72,12 +78,11 @@ class ContainerURIConsumer implements ContainerConsumer
         $startfile = urlencode($this->start_file); // e.g. for files with " " (spaces)
         $startfile = str_replace(urlencode("/"), "/", $startfile); // we must keep directory sepparators
 
-        $uri_string = $this->src_builder->getRevisionURL(
-            $this->stream_access->populateRevision($this->getRevision()),
-            true,
-            $this->valid_for_at_least_minutes,
-            $filename,
+        $revision = $this->stream_access->populateRevision($this->getRevision());
+        $uri_string = (
             $this->isolated
+            ? $this->src_builder->getRevisionURL($revision, true, $this->valid_for_at_least_minutes, $filename)
+            : $this->src_builder->getRevisionURLWithoutIsolation($revision, $this->valid_for_at_least_minutes, $filename)
         ) . StreamDelivery::SUBREQUEST_SEPARATOR . $startfile;
 
         try {

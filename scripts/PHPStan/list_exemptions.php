@@ -37,8 +37,14 @@ use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 require_once __DIR__ . '/../../vendor/composer/vendor/autoload.php';
 require_once __DIR__ . '/IliasVersion.php';
 
+/** Convenience attributes that grant an exemption, with the rule identifier they carry. */
+const CONVENIENCE_ATTRIBUTES = [
+    'AllowSuperglobalWrite' => 'ilias.superglobalWrite',
+    'AllowDeliveryWithoutIsolation' => 'ilias.deliveryWithoutIsolation',
+];
+
 /** Attribute short names that grant an exemption. */
-const EXEMPTION_ATTRIBUTES = ['AllowRuleViolation', 'AllowSuperglobalWrite'];
+const EXEMPTION_ATTRIBUTES = ['AllowRuleViolation', 'AllowSuperglobalWrite', 'AllowDeliveryWithoutIsolation'];
 
 $target = 'components/ILIAS';
 $against = IliasVersion::major();
@@ -135,7 +141,7 @@ final class ExemptionVisitor extends NodeVisitorAbstract
                 }
 
                 if ($rules === []) {
-                    $rules = [$short === 'AllowSuperglobalWrite' ? 'ilias.superglobalWrite' : '(unspecified)'];
+                    $rules = [CONVENIENCE_ATTRIBUTES[$short] ?? '(unspecified)'];
                 }
 
                 $this->found[] = [
@@ -196,7 +202,7 @@ foreach ($iterator as $file) {
     $code = (string) file_get_contents($path);
 
     // attribute-based exemptions
-    if (str_contains($code, 'AllowRuleViolation') || str_contains($code, 'AllowSuperglobalWrite')) {
+    if (array_filter(EXEMPTION_ATTRIBUTES, static fn(string $name): bool => str_contains($code, $name)) !== []) {
         try {
             $ast = $parser->parse($code);
         } catch (\Throwable $e) {
