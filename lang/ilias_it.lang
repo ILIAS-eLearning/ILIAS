@@ -5924,28 +5924,6 @@ irss#:#title_manage_container#:#Manage files and folders###28 11 2025 new variab
 irss#:#type#:#File Type###30 04 2024 new variable
 irss#:#upload_field_title#:#Selected Files###30 04 2024 new variable
 irss#:#upload_modal_title#:#Add Files###30 04 2024 new variable
-log#:#log_browser#:#Registro della console del browser
-log#:#log_browser_users#:#Nomi utente utilizzando il registro della console
-log#:#log_cache_#:#Caching
-log#:#log_cache_info#:#Solo se un messaggio raggiunge o supera il livello di memorizzazione nella cache, tutti i messaggi che hanno almeno il livello di registro verranno aggiunti al registro per la richiesta corrente.
-log#:#log_cache_level#:#Livello caching
-log#:#log_component_btn_reset#:#Ripristina impostazioni
-log#:#log_component_col_component#:#Componente
-log#:#log_component_col_level#:#Livello registro
-log#:#log_component_root_desc#:#Livello registro per messaggi che non sono assegnati ad alcun componente.
-log#:#log_components#:#Componenti
-log#:#log_general_settings#:#Impostazioni di registrazione
-log#:#log_level_alert#:#ALLARME
-log#:#log_level_critical#:#CRITICO
-log#:#log_level_debug#:#DEBUG
-log#:#log_level_emergency#:#EMERGENZA
-log#:#log_level_error#:#ERRORE
-log#:#log_level_info#:#INFO
-log#:#log_level_notice#:#AVVISO
-log#:#log_level_off#:#Disabilitato
-log#:#log_level_warning#:#ATTENZIONE
-log#:#log_log_level#:#Livello di registro
-log#:#log_memory#:#Utilizzo della memoria di registro
 lti#:#act_lti_for_obj_type#:#Attiva LTI per tipo di oggetto
 lti#:#activity_id#:#ID attività
 lti#:#activity_id_info#:#Questo ID attività viene utilizzato dallo strumento LTI per identificare gli statements.

@@ -5923,21 +5923,6 @@ irss#:#title_manage_container#:#Manage files and folders###03 09 2026 new variab
 irss#:#type#:#File Type###03 09 2026 new variable
 irss#:#upload_field_title#:#Selected Files###03 09 2026 new variable
 irss#:#upload_modal_title#:#Add Files###03 09 2026 new variable
-log#:#log_component_btn_reset#:#Repor definições
-log#:#log_component_col_component#:#Componente
-log#:#log_component_col_level#:#Nível log
-log#:#log_component_unknown#:#Unknown (%s)###03 09 2026 new variable
-log#:#log_components#:#Corso
-log#:#log_level_alert#:#ALERTA
-log#:#log_level_critical#:#CRÍTICO
-log#:#log_level_debug#:#DEBUG
-log#:#log_level_default#:#Default (%s)###03 09 2026 new variable
-log#:#log_level_emergency#:#EMERGÊNCIA
-log#:#log_level_error#:#ERRO
-log#:#log_level_info#:#INFORMAÇÃO
-log#:#log_level_notice#:#NOTA
-log#:#log_level_off#:#Desativado
-log#:#log_level_warning#:#AVISO
 lti#:#act_lti_for_obj_type#:#Ativar LTI para tipo de objeto
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable

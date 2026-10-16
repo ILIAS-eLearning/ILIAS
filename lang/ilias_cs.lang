@@ -5923,28 +5923,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-log#:#log_browser#:#Protokol konzoly prohlížeče
-log#:#log_browser_users#:#Protokol konzoly použití uživatelských jmen
-log#:#log_cache_#:#Ukládání do mezipaměti
-log#:#log_cache_info#:#Pouze pokud zpráva dosáhne nebo překročí úroveň ukládání do mezipaměti, budou do protokolu pro aktuální požadavek přidány všechny zprávy, které mají alespoň úroveň protokolu.
-log#:#log_cache_level#:#Úroveň ukládání do paměti
-log#:#log_component_btn_reset#:#Resetovat nastavení
-log#:#log_component_col_component#:#Komponenta
-log#:#log_component_col_level#:#Úroveň protokolu
-log#:#log_component_root_desc#:#Úroveň protokolu pro zprávu, která není přiřazena žádné komponentě.
-log#:#log_components#:#Komponenty
-log#:#log_general_settings#:#Nastavení protokolování
-log#:#log_level_alert#:#VÝSTRAHA
-log#:#log_level_critical#:#KRITICKÝ
-log#:#log_level_debug#:#LADIT
-log#:#log_level_emergency#:#NOUZOVÝ
-log#:#log_level_error#:#CHYBA
-log#:#log_level_info#:#INFORMACE
-log#:#log_level_notice#:#OZNÁMENÍ
-log#:#log_level_off#:#Vypnutý
-log#:#log_level_warning#:#UPOZORNĚNÍ
-log#:#log_log_level#:#Úroveň protokolu
-log#:#log_memory#:#Využití paměti protokolu
 lti#:#act_lti_for_obj_type#:#Aktivovat LTI pro typ objektu
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable

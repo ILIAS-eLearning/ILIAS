@@ -5923,28 +5923,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###26 08 2024 new variable
 irss#:#upload_field_title#:#Selected Files###26 08 2024 new variable
 irss#:#upload_modal_title#:#Add Files###26 08 2024 new variable
-log#:#log_browser#:#Log konsoli przeglądarki
-log#:#log_browser_users#:#Aktywni użytkownicy dla logu przeglądarki
-log#:#log_cache_#:#Pamięć podręczna
-log#:#log_cache_info#:#Dopiero gdy dana wiadomość osiągnie lub przekroczy ustawiony poziom w pamięci podręcznej, w ramach aktualnego zapytania serwera sporządzany jest protokół dotyczący wszystkich wiadomości, których poziom jest co najmniej zgodny z poziomem logu.
-log#:#log_cache_level#:#Poziom pamięci podręcznej
-log#:#log_component_btn_reset#:#Przywróć ustawienia
-log#:#log_component_col_component#:#Element
-log#:#log_component_col_level#:#Poziom logu
-log#:#log_component_root_desc#:#Poziom logu dla wiadomości, które nie są przydzielone do żadnych elementów.
-log#:#log_components#:#Elementy
-log#:#log_general_settings#:#Ustawienia dotyczące sporządzania protokołów
-log#:#log_level_alert#:#ALERT
-log#:#log_level_critical#:#KRYTYCZNY
-log#:#log_level_debug#:#DEBUG
-log#:#log_level_emergency#:#AWARIA
-log#:#log_level_error#:#BŁĄD
-log#:#log_level_info#:#INFO
-log#:#log_level_notice#:#UWAGA
-log#:#log_level_off#:#Wyłączony
-log#:#log_level_warning#:#OSTRZEŻENIE
-log#:#log_log_level#:#Poziom logu
-log#:#log_memory#:#Logowanie, potrzebne miejsce w pamięci
 lti#:#act_lti_for_obj_type#:#Aktywuj LTI dla tych typów obiektów
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable

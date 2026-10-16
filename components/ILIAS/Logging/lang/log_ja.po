@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "設定をリセット"
+
+msgid "log_component_col_component"
+msgstr "コンポーネント"
+
+msgid "log_component_col_level"
+msgstr "ログ-レベル"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "コンポーネント"
+
+msgid "log_level_alert"
+msgstr "ALERT"
+
+msgid "log_level_critical"
+msgstr "CRITICAL(重大)"
+
+msgid "log_level_debug"
+msgstr "DEBUG(デバグ)"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "EMERGENCY(緊急)"
+
+msgid "log_level_error"
+msgstr "ERROR(エラー)"
+
+msgid "log_level_info"
+msgstr "INFO"
+
+msgid "log_level_notice"
+msgstr "NOTICE(通知)"
+
+msgid "log_level_off"
+msgstr "無効"
+
+msgid "log_level_warning"
+msgstr "WARNING"

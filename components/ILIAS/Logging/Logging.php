@@ -86,5 +86,9 @@ class Logging implements Component\Component
             $this,
             'logging'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'log'
+        );
     }
 }

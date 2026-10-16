@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: log\n"
+
+#, fuzzy
+msgid "log_component_btn_reset"
+msgstr "Reset Settings"
+
+#, fuzzy
+msgid "log_component_col_component"
+msgstr "Component"
+
+#, fuzzy
+msgid "log_component_col_level"
+msgstr "Log-Level"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+#, fuzzy
+msgid "log_components"
+msgstr "Komponenten"
+
+#, fuzzy
+msgid "log_level_alert"
+msgstr "ALERT"
+
+#, fuzzy
+msgid "log_level_critical"
+msgstr "CRITICAL"
+
+#, fuzzy
+msgid "log_level_debug"
+msgstr "DEBUG"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+#, fuzzy
+msgid "log_level_emergency"
+msgstr "EMERGENCY"
+
+#, fuzzy
+msgid "log_level_error"
+msgstr "ERROR"
+
+#, fuzzy
+msgid "log_level_info"
+msgstr "INFO"
+
+#, fuzzy
+msgid "log_level_notice"
+msgstr "NOTICE"
+
+#, fuzzy
+msgid "log_level_off"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "log_level_warning"
+msgstr "WARNING"

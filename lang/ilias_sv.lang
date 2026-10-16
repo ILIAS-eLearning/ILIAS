@@ -5923,28 +5923,6 @@ irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variab
 irss#:#type#:#File Type###21 11 2023 new variable
 irss#:#upload_field_title#:#Selected Files###21 11 2023 new variable
 irss#:#upload_modal_title#:#Add Files###21 11 2023 new variable
-log#:#log_browser#:#Browser Konsol Logg
-log#:#log_browser_users#:#Aktiverade användare för webbläsarlogg
-log#:#log_cache_#:#Caching
-log#:#log_cache_info#:#När ett meddelande når eller överskrider den inställda cachningsnivån loggas alla meddelanden i den aktuella serverbegäran vars nivå minst motsvarar loggningsnivån.
-log#:#log_cache_level#:#Caching-nivå
-log#:#log_component_btn_reset#:#Återställ inställningar
-log#:#log_component_col_component#:#Komponent
-log#:#log_component_col_level#:#Loggnivå
-log#:#log_component_root_desc#:#Loggnivå för meddelanden som inte är tilldelade en komponent.
-log#:#log_components#:#Komponenter
-log#:#log_general_settings#:#Inställningar för loggning
-log#:#log_level_alert#:#LARM
-log#:#log_level_critical#:#KRITISK
-log#:#log_level_debug#:#DEBUG
-log#:#log_level_emergency#:#NÖDFALL
-log#:#log_level_error#:#ERROR
-log#:#log_level_info#:#INFO
-log#:#log_level_notice#:#NOTER
-log#:#log_level_off#:#Funktionshindrad
-log#:#log_level_warning#:#VARNING
-log#:#log_log_level#:#Loggnivå
-log#:#log_memory#:#Log minnesbehov
 lti#:#act_lti_for_obj_type#:#Aktivera LTI för dessa objekttyper
 lti#:#activity_id#:#Aktivitets-ID
 lti#:#activity_id_info#:#Detta aktivitets-ID används av LTI-verktyget för att identifiera uttalanden.
