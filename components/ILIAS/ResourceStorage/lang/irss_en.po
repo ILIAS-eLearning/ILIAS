@@ -1,0 +1,192 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: irss\n"
+
+msgid "action_download"
+msgstr "Download"
+
+msgid "action_goto"
+msgstr "Open Resource"
+
+msgid "action_remove_resource"
+msgstr "Delete Resource"
+
+msgid "action_remove_resource_msg"
+msgstr "Do you want to delete the following Resource(s)?"
+
+msgid "action_remove_zip_path"
+msgstr "Delete path"
+
+msgid "action_remove_zip_path_msg"
+msgstr "Would you like to delete the following paths?"
+
+msgid "action_show_revisions"
+msgstr "Show Revisions"
+
+msgid "by_creation_date_asc"
+msgstr "By Creation Date (Ascending)"
+
+msgid "by_creation_date_desc"
+msgstr "By Creation Date (Descending)"
+
+msgid "by_size_asc"
+msgstr "By File Size (Ascending)"
+
+msgid "by_size_desc"
+msgstr "By File Size (Descending)"
+
+msgid "by_title_asc"
+msgstr "By Title (Ascending)"
+
+msgid "by_title_desc"
+msgstr "By Title (Descending)"
+
+msgid "confidential"
+msgstr "Confidential"
+
+msgid "confidential_no_download"
+msgstr "This resource is confidential and can only be downloaded by its owner."
+
+msgid "confidential_redacted"
+msgstr "[Confidential]"
+
+msgid "create_directory"
+msgstr "Create Directory"
+
+msgid "creation_date"
+msgstr "Creation Date (This Revision)"
+
+msgid "directory_name"
+msgstr "Directory Name"
+
+msgid "directory_name_info"
+msgstr "Name of the directory to be inserted at the current location."
+
+msgid "download_zip"
+msgstr "Download all files as ZIP"
+
+msgid "entries_target_group"
+msgstr "Select target group"
+
+msgid "entry_deleted_failed"
+msgstr "Deletion not possible"
+
+msgid "file_size"
+msgstr "File Size (This Revision)"
+
+msgid "file_size_bigger_than"
+msgstr "File Size > MB"
+
+msgid "full_size"
+msgstr "Resource Size (All Revisions)"
+
+msgid "home_directory"
+msgstr "Root-Directory"
+
+msgid "item_moved"
+msgstr "Entry moved"
+
+msgid "max_revision"
+msgstr "Max. Revision"
+
+msgid "msg_error_adding_directory"
+msgstr "The directory could not be created."
+
+msgid "msg_paths_deleted"
+msgstr "Path(s) deleted"
+
+msgid "msg_success_adding_directory"
+msgstr "The directory was created successfully."
+
+msgid "msg_upload"
+msgstr "Drop Files to upload"
+
+msgid "no_parent_selected"
+msgstr "No target group selected"
+
+msgid "resource_id"
+msgstr "Resource ID"
+
+msgid "resource_no_stakeholder_uri"
+msgstr "No Stakeholder provides a valid Link to the usage of this Resource."
+
+msgid "resource_overview"
+msgstr "Resource Overview"
+
+msgid "revision"
+msgstr "Revision"
+
+msgid "revision_status"
+msgstr "Status"
+
+msgid "revision_status_10"
+msgstr "Published"
+
+msgid "revision_status_20"
+msgstr "Draft"
+
+msgid "revisions"
+msgstr "Available Revisions"
+
+msgid "rid_deleted"
+msgstr "File removed"
+
+msgid "rids_appended"
+msgstr "Resource(s) added"
+
+msgid "rids_appended_failed"
+msgstr "No Resource(s) added"
+
+msgid "rids_deleted"
+msgstr "Resource(s) deleted"
+
+msgid "rids_updated"
+msgstr "Ressource(n) updated"
+
+msgid "sorting"
+msgstr "Default Ordering"
+
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+msgid "sorting_3"
+msgstr "By File Size (Ascending)"
+
+msgid "sorting_4"
+msgstr "By File Size (Descending)"
+
+msgid "sorting_5"
+msgstr "By Creation Date (Ascending)"
+
+msgid "sorting_6"
+msgstr "By Creation Date (Descending)"
+
+msgid "stakeholders"
+msgstr "Origin"
+
+msgid "storage_id"
+msgstr "Storage ID"
+
+msgid "storage_info"
+msgstr "Storage Information"
+
+msgid "title_manage_container"
+msgstr "Manage files and folders"
+
+msgid "type"
+msgstr "File Type"
+
+msgid "upload_field_title"
+msgstr "Selected Files"
+
+msgid "upload_modal_title"
+msgstr "Add Files"

@@ -5876,64 +5876,6 @@ cptch#:#cptch_wrong_input#:#入力間違い
 excv#:#excv_create#:#演習問題証明書の作成
 excv#:#excv_create_info#:#証明書を作成するには完了した演習問題を選択します
 impr#:#impr_page_type_impr#:#Imprint
-irss#:#action_download#:#Download
-irss#:#action_goto#:#リソースを開く
-irss#:#action_remove_resource#:#リソースを削除
-irss#:#action_remove_resource_msg#:#次のリソースを本当に削除しますか?
-irss#:#action_remove_zip_path#:#pathを削除
-irss#:#action_remove_zip_path_msg#:#次ぎのPathを削除しますか?
-irss#:#action_show_revisions#:#改訂表示
-irss#:#by_creation_date_asc#:#作成日順(昇順)
-irss#:#by_creation_date_desc#:#作成日順 (降順)
-irss#:#by_size_asc#:#ファイルサイズ順 (昇順)
-irss#:#by_size_desc#:#ファイルサイズ順(降順)
-irss#:#by_title_asc#:#タイトル順(昇順)
-irss#:#by_title_desc#:#タイトル順(降順)
-irss#:#create_directory#:#ディレクトリを作成
-irss#:#creation_date#:#作成日(このバージョン)
-irss#:#directory_name#:#ディレクトリ名
-irss#:#directory_name_info#:#現在の場所に挿入するディレクトリの名前。
-irss#:#download_zip#:#ZIP化して全ファイルヲダウンロード
-irss#:#entries_target_group#:#ターゲットグループを選択
-irss#:#entry_deleted_failed#:#削除できません
-irss#:#file_size#:#ファイルサイズ (このバージョン)
-irss#:#file_size_bigger_than#:#ファイルサイズ > MB
-irss#:#full_size#:#リソースサイズ(全バージョン)
-irss#:#home_directory#:#ルートディレクトリ
-irss#:#item_moved#:#エントリーは移動されました
-irss#:#max_revision#:#Max. Revision
-irss#:#msg_error_adding_directory#:#ディレクトリを作成できませんでした
-irss#:#msg_paths_deleted#:#Path(s) deleted###21 04 2026 new variable
-irss#:#msg_success_adding_directory#:#ディレクトリは正しく作成されました。
-irss#:#msg_upload#:#アップロードするにはファイルをドロップ
-irss#:#no_parent_selected#:#ターゲットグループが選択されていません
-irss#:#resource_id#:#リソースID
-irss#:#resource_no_stakeholder_uri#:#このリソースに使用する有効なリンクを提供するステークホルダーがありません。
-irss#:#resource_overview#:#リソース概略
-irss#:#revision#:#版数
-irss#:#revision_status#:#ステータス
-irss#:#revision_status_10#:#公開済
-irss#:#revision_status_20#:#Draft
-irss#:#revisions#:#利用可能な版数
-irss#:#rid_deleted#:#ファイルを削除しました
-irss#:#rids_appended#:#リソースを追加しました
-irss#:#rids_appended_failed#:#リソースは追加されませんでした
-irss#:#rids_deleted#:#リソースを削除しました
-irss#:#rids_updated#:#リソースを更新しました
-irss#:#sorting#:#デフォルト順
-irss#:#sorting_1#:#タイトル順(昇順)
-irss#:#sorting_2#:#タイトル順(降順)
-irss#:#sorting_3#:#ファイルサイズ順(昇順)
-irss#:#sorting_4#:#ファイルサイズ順(降順)
-irss#:#sorting_5#:#作成日順 (昇順)
-irss#:#sorting_6#:#作成日順 (降順)
-irss#:#stakeholders#:#ステークホールダー
-irss#:#storage_id#:#ストレージ ID
-irss#:#storage_info#:#ストレージ情報
-irss#:#title_manage_container#:#ファイルとフォルダを管理
-irss#:#type#:#ファイルタイプ
-irss#:#upload_field_title#:#選択されたファイル
-irss#:#upload_modal_title#:#ファイルを追加
 lti#:#act_lti_for_obj_type#:#オブジェクトタイプ用のLTIをアクティブにする。
 lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIツールが使用します。

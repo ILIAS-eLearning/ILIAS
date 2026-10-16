@@ -1,0 +1,196 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: irss\n"
+
+msgid "action_download"
+msgstr "Download"
+
+msgid "action_goto"
+msgstr "リソースを開く"
+
+msgid "action_remove_resource"
+msgstr "リソースを削除"
+
+msgid "action_remove_resource_msg"
+msgstr "次のリソースを本当に削除しますか?"
+
+msgid "action_remove_zip_path"
+msgstr "pathを削除"
+
+msgid "action_remove_zip_path_msg"
+msgstr "次ぎのPathを削除しますか?"
+
+msgid "action_show_revisions"
+msgstr "改訂表示"
+
+msgid "by_creation_date_asc"
+msgstr "作成日順(昇順)"
+
+msgid "by_creation_date_desc"
+msgstr "作成日順 (降順)"
+
+msgid "by_size_asc"
+msgstr "ファイルサイズ順 (昇順)"
+
+msgid "by_size_desc"
+msgstr "ファイルサイズ順(降順)"
+
+msgid "by_title_asc"
+msgstr "タイトル順(昇順)"
+
+msgid "by_title_desc"
+msgstr "タイトル順(降順)"
+
+#, fuzzy
+msgid "confidential"
+msgstr "Confidential"
+
+#, fuzzy
+msgid "confidential_no_download"
+msgstr "This resource is confidential and can only be downloaded by its owner."
+
+#, fuzzy
+msgid "confidential_redacted"
+msgstr "[Confidential]"
+
+msgid "create_directory"
+msgstr "ディレクトリを作成"
+
+msgid "creation_date"
+msgstr "作成日(このバージョン)"
+
+msgid "directory_name"
+msgstr "ディレクトリ名"
+
+msgid "directory_name_info"
+msgstr "現在の場所に挿入するディレクトリの名前。"
+
+msgid "download_zip"
+msgstr "ZIP化して全ファイルヲダウンロード"
+
+msgid "entries_target_group"
+msgstr "ターゲットグループを選択"
+
+msgid "entry_deleted_failed"
+msgstr "削除できません"
+
+msgid "file_size"
+msgstr "ファイルサイズ (このバージョン)"
+
+msgid "file_size_bigger_than"
+msgstr "ファイルサイズ > MB"
+
+msgid "full_size"
+msgstr "リソースサイズ(全バージョン)"
+
+msgid "home_directory"
+msgstr "ルートディレクトリ"
+
+msgid "item_moved"
+msgstr "エントリーは移動されました"
+
+msgid "max_revision"
+msgstr "Max. Revision"
+
+msgid "msg_error_adding_directory"
+msgstr "ディレクトリを作成できませんでした"
+
+#, fuzzy
+msgid "msg_paths_deleted"
+msgstr "Path(s) deleted"
+
+msgid "msg_success_adding_directory"
+msgstr "ディレクトリは正しく作成されました。"
+
+msgid "msg_upload"
+msgstr "アップロードするにはファイルをドロップ"
+
+msgid "no_parent_selected"
+msgstr "ターゲットグループが選択されていません"
+
+msgid "resource_id"
+msgstr "リソースID"
+
+msgid "resource_no_stakeholder_uri"
+msgstr "このリソースに使用する有効なリンクを提供するステークホルダーがありません。"
+
+msgid "resource_overview"
+msgstr "リソース概略"
+
+msgid "revision"
+msgstr "版数"
+
+msgid "revision_status"
+msgstr "ステータス"
+
+msgid "revision_status_10"
+msgstr "公開済"
+
+msgid "revision_status_20"
+msgstr "Draft"
+
+msgid "revisions"
+msgstr "利用可能な版数"
+
+msgid "rid_deleted"
+msgstr "ファイルを削除しました"
+
+msgid "rids_appended"
+msgstr "リソースを追加しました"
+
+msgid "rids_appended_failed"
+msgstr "リソースは追加されませんでした"
+
+msgid "rids_deleted"
+msgstr "リソースを削除しました"
+
+msgid "rids_updated"
+msgstr "リソースを更新しました"
+
+msgid "sorting"
+msgstr "デフォルト順"
+
+msgid "sorting_1"
+msgstr "タイトル順(昇順)"
+
+msgid "sorting_2"
+msgstr "タイトル順(降順)"
+
+msgid "sorting_3"
+msgstr "ファイルサイズ順(昇順)"
+
+msgid "sorting_4"
+msgstr "ファイルサイズ順(降順)"
+
+msgid "sorting_5"
+msgstr "作成日順 (昇順)"
+
+msgid "sorting_6"
+msgstr "作成日順 (降順)"
+
+msgid "stakeholders"
+msgstr "ステークホールダー"
+
+msgid "storage_id"
+msgstr "ストレージ ID"
+
+msgid "storage_info"
+msgstr "ストレージ情報"
+
+msgid "title_manage_container"
+msgstr "ファイルとフォルダを管理"
+
+msgid "type"
+msgstr "ファイルタイプ"
+
+msgid "upload_field_title"
+msgstr "選択されたファイル"
+
+msgid "upload_modal_title"
+msgstr "ファイルを追加"

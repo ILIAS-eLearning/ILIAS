@@ -5879,64 +5879,6 @@ cptch#:#cptch_wrong_input#:#Hibás bemenet
 excv#:#excv_create#:#Beadandó feladat tanúsítványának létrehozása
 excv#:#excv_create_info#:#Válasszon ki egy befejezett beadandó feladatot, hogy tanúsítványt generáljon hozzá.
 impr#:#impr_page_type_impr#:#Impresszum
-irss#:#action_download#:#Letöltés
-irss#:#action_goto#:#Erőforrás megnyitása
-irss#:#action_remove_resource#:#Erőforrás törlése
-irss#:#action_remove_resource_msg#:#Biztos, hogy törli a következő erőforrásokat?
-irss#:#action_remove_zip_path#:#Útvonal törlése
-irss#:#action_remove_zip_path_msg#:#Biztos, hogy törli a következő útvonalat?
-irss#:#action_show_revisions#:#Felülvizsgálatok megjelenítése
-irss#:#by_creation_date_asc#:#Létrehozás dátum szerint ↑
-irss#:#by_creation_date_desc#:#Létrehozás dátum szerint ↓
-irss#:#by_size_asc#:#Fájl mérete szerint ↑
-irss#:#by_size_desc#:#Fájl mérete szerint ↓
-irss#:#by_title_asc#:#Cím szerint A→Z
-irss#:#by_title_desc#:#Cím szerint Z→A
-irss#:#create_directory#:#Mappa létrehozása
-irss#:#creation_date#:#Létrehozás dárum (Ez a felülvizsgálat)
-irss#:#directory_name#:#Mappa neve
-irss#:#directory_name_info#:#A jelenlegi helyre beillesztendő mappa neve.
-irss#:#download_zip#:#Az összes fájl letöltés ZIP-ben
-irss#:#entries_target_group#:#válasszon célcsoportot
-irss#:#entry_deleted_failed#:#A törlés nem lehetséges
-irss#:#file_size#:#Fájl mérete (Ez a felülvizsgálat)
-irss#:#file_size_bigger_than#:#Fájl mérete nagyobb, mint (MB)###Fájlméret > MB
-irss#:#full_size#:#Erőforrás mérete (Összes felülvizsgálat)
-irss#:#home_directory#:#Gyökérkönyvtár
-irss#:#item_moved#:#A bejegyzést sikeresen mozgatta
-irss#:#max_revision#:#Felülvizsgálatok maximális száma
-irss#:#msg_error_adding_directory#:#A mappát nem sikerült létrehozni.
-irss#:#msg_paths_deleted#:#Útvonal(ak)at sikeresen törölte
-irss#:#msg_success_adding_directory#:#A mappát sikeresen létrehozta.
-irss#:#msg_upload#:#Dobd ide a feltöltendő fájlokat
-irss#:#no_parent_selected#:#Nincs kiválasztva célcsoport
-irss#:#resource_id#:#Erőforrás ID
-irss#:#resource_no_stakeholder_uri#:#Ennek az erőforrásnak egy érvényes felhsználási linkje sincs.
-irss#:#resource_overview#:#Áttekintés
-irss#:#revision#:#Felülvizsgálat
-irss#:#revision_status#:#Állapot
-irss#:#revision_status_10#:#Közzétéve
-irss#:#revision_status_20#:#Piszkozat
-irss#:#revisions#:#Elérhető felülvizsgálatok
-irss#:#rid_deleted#:#A fájl eltávolították
-irss#:#rids_appended#:#Az erőforrás(oka)t sikeresen hozzáadta
-irss#:#rids_appended_failed#:#Egy erőforrást sem sikerült hozzáadni
-irss#:#rids_deleted#:#Az erőforrás(oka)t sikeresen törölte
-irss#:#rids_updated#:#Az erőforrás(oka)t sikeresen frissítette
-irss#:#sorting#:#Alapértelmezett rendezés
-irss#:#sorting_1#:#Cím szerint A→Z
-irss#:#sorting_2#:#Cím szerint Z→A
-irss#:#sorting_3#:#Fájl mérete szerint ↑
-irss#:#sorting_4#:#Fájl mérete szerint ↓
-irss#:#sorting_5#:#Létrehozás dátum szerint ↑
-irss#:#sorting_6#:#Létrehozás dátum szerint ↓
-irss#:#stakeholders#:#Eredet
-irss#:#storage_id#:#Tárolási ID
-irss#:#storage_info#:#Tárolási információ
-irss#:#title_manage_container#:#Fájlok és mappák kezelése
-irss#:#type#:#Fájl típusa
-irss#:#upload_field_title#:#Kiválasztott fájlok
-irss#:#upload_modal_title#:#Fájlok hozzáadása
 lti#:#act_lti_for_obj_type#:#Objektumtípusra LTI aktiválása
 lti#:#activity_id#:#AktivításID
 lti#:#activity_id_info#:#Ezt az AktivításID-t használja az LTI Eszköz, hogy azonosítsa a Statement-eket.

@@ -1,0 +1,196 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: irss\n"
+
+msgid "action_download"
+msgstr "Letöltés"
+
+msgid "action_goto"
+msgstr "Erőforrás megnyitása"
+
+msgid "action_remove_resource"
+msgstr "Erőforrás törlése"
+
+msgid "action_remove_resource_msg"
+msgstr "Biztos, hogy törli a következő erőforrásokat?"
+
+msgid "action_remove_zip_path"
+msgstr "Útvonal törlése"
+
+msgid "action_remove_zip_path_msg"
+msgstr "Biztos, hogy törli a következő útvonalat?"
+
+msgid "action_show_revisions"
+msgstr "Felülvizsgálatok megjelenítése"
+
+msgid "by_creation_date_asc"
+msgstr "Létrehozás dátum szerint ↑"
+
+msgid "by_creation_date_desc"
+msgstr "Létrehozás dátum szerint ↓"
+
+msgid "by_size_asc"
+msgstr "Fájl mérete szerint ↑"
+
+msgid "by_size_desc"
+msgstr "Fájl mérete szerint ↓"
+
+msgid "by_title_asc"
+msgstr "Cím szerint A→Z"
+
+msgid "by_title_desc"
+msgstr "Cím szerint Z→A"
+
+#, fuzzy
+msgid "confidential"
+msgstr "Confidential"
+
+#, fuzzy
+msgid "confidential_no_download"
+msgstr "This resource is confidential and can only be downloaded by its owner."
+
+#, fuzzy
+msgid "confidential_redacted"
+msgstr "[Confidential]"
+
+msgid "create_directory"
+msgstr "Mappa létrehozása"
+
+msgid "creation_date"
+msgstr "Létrehozás dárum (Ez a felülvizsgálat)"
+
+msgid "directory_name"
+msgstr "Mappa neve"
+
+msgid "directory_name_info"
+msgstr "A jelenlegi helyre beillesztendő mappa neve."
+
+msgid "download_zip"
+msgstr "Az összes fájl letöltés ZIP-ben"
+
+msgid "entries_target_group"
+msgstr "válasszon célcsoportot"
+
+msgid "entry_deleted_failed"
+msgstr "A törlés nem lehetséges"
+
+msgid "file_size"
+msgstr "Fájl mérete (Ez a felülvizsgálat)"
+
+# Fájlméret > MB
+msgid "file_size_bigger_than"
+msgstr "Fájl mérete nagyobb, mint (MB)"
+
+msgid "full_size"
+msgstr "Erőforrás mérete (Összes felülvizsgálat)"
+
+msgid "home_directory"
+msgstr "Gyökérkönyvtár"
+
+msgid "item_moved"
+msgstr "A bejegyzést sikeresen mozgatta"
+
+msgid "max_revision"
+msgstr "Felülvizsgálatok maximális száma"
+
+msgid "msg_error_adding_directory"
+msgstr "A mappát nem sikerült létrehozni."
+
+msgid "msg_paths_deleted"
+msgstr "Útvonal(ak)at sikeresen törölte"
+
+msgid "msg_success_adding_directory"
+msgstr "A mappát sikeresen létrehozta."
+
+msgid "msg_upload"
+msgstr "Dobd ide a feltöltendő fájlokat"
+
+msgid "no_parent_selected"
+msgstr "Nincs kiválasztva célcsoport"
+
+msgid "resource_id"
+msgstr "Erőforrás ID"
+
+msgid "resource_no_stakeholder_uri"
+msgstr "Ennek az erőforrásnak egy érvényes felhsználási linkje sincs."
+
+msgid "resource_overview"
+msgstr "Áttekintés"
+
+msgid "revision"
+msgstr "Felülvizsgálat"
+
+msgid "revision_status"
+msgstr "Állapot"
+
+msgid "revision_status_10"
+msgstr "Közzétéve"
+
+msgid "revision_status_20"
+msgstr "Piszkozat"
+
+msgid "revisions"
+msgstr "Elérhető felülvizsgálatok"
+
+msgid "rid_deleted"
+msgstr "A fájl eltávolították"
+
+msgid "rids_appended"
+msgstr "Az erőforrás(oka)t sikeresen hozzáadta"
+
+msgid "rids_appended_failed"
+msgstr "Egy erőforrást sem sikerült hozzáadni"
+
+msgid "rids_deleted"
+msgstr "Az erőforrás(oka)t sikeresen törölte"
+
+msgid "rids_updated"
+msgstr "Az erőforrás(oka)t sikeresen frissítette"
+
+msgid "sorting"
+msgstr "Alapértelmezett rendezés"
+
+msgid "sorting_1"
+msgstr "Cím szerint A→Z"
+
+msgid "sorting_2"
+msgstr "Cím szerint Z→A"
+
+msgid "sorting_3"
+msgstr "Fájl mérete szerint ↑"
+
+msgid "sorting_4"
+msgstr "Fájl mérete szerint ↓"
+
+msgid "sorting_5"
+msgstr "Létrehozás dátum szerint ↑"
+
+msgid "sorting_6"
+msgstr "Létrehozás dátum szerint ↓"
+
+msgid "stakeholders"
+msgstr "Eredet"
+
+msgid "storage_id"
+msgstr "Tárolási ID"
+
+msgid "storage_info"
+msgstr "Tárolási információ"
+
+msgid "title_manage_container"
+msgstr "Fájlok és mappák kezelése"
+
+msgid "type"
+msgstr "Fájl típusa"
+
+msgid "upload_field_title"
+msgstr "Kiválasztott fájlok"
+
+msgid "upload_modal_title"
+msgstr "Fájlok hozzáadása"

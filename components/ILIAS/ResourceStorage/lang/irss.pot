@@ -1,0 +1,189 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: irss\n"
+
+msgid "action_download"
+msgstr ""
+
+msgid "action_goto"
+msgstr ""
+
+msgid "action_remove_resource"
+msgstr ""
+
+msgid "action_remove_resource_msg"
+msgstr ""
+
+msgid "action_remove_zip_path"
+msgstr ""
+
+msgid "action_remove_zip_path_msg"
+msgstr ""
+
+msgid "action_show_revisions"
+msgstr ""
+
+msgid "by_creation_date_asc"
+msgstr ""
+
+msgid "by_creation_date_desc"
+msgstr ""
+
+msgid "by_size_asc"
+msgstr ""
+
+msgid "by_size_desc"
+msgstr ""
+
+msgid "by_title_asc"
+msgstr ""
+
+msgid "by_title_desc"
+msgstr ""
+
+msgid "confidential"
+msgstr ""
+
+msgid "confidential_no_download"
+msgstr ""
+
+msgid "confidential_redacted"
+msgstr ""
+
+msgid "create_directory"
+msgstr ""
+
+msgid "creation_date"
+msgstr ""
+
+msgid "directory_name"
+msgstr ""
+
+msgid "directory_name_info"
+msgstr ""
+
+msgid "download_zip"
+msgstr ""
+
+msgid "entries_target_group"
+msgstr ""
+
+msgid "entry_deleted_failed"
+msgstr ""
+
+msgid "file_size"
+msgstr ""
+
+msgid "file_size_bigger_than"
+msgstr ""
+
+msgid "full_size"
+msgstr ""
+
+msgid "home_directory"
+msgstr ""
+
+msgid "item_moved"
+msgstr ""
+
+msgid "max_revision"
+msgstr ""
+
+msgid "msg_error_adding_directory"
+msgstr ""
+
+msgid "msg_paths_deleted"
+msgstr ""
+
+msgid "msg_success_adding_directory"
+msgstr ""
+
+msgid "msg_upload"
+msgstr ""
+
+msgid "no_parent_selected"
+msgstr ""
+
+msgid "resource_id"
+msgstr ""
+
+msgid "resource_no_stakeholder_uri"
+msgstr ""
+
+msgid "resource_overview"
+msgstr ""
+
+msgid "revision"
+msgstr ""
+
+msgid "revision_status"
+msgstr ""
+
+msgid "revision_status_10"
+msgstr ""
+
+msgid "revision_status_20"
+msgstr ""
+
+msgid "revisions"
+msgstr ""
+
+msgid "rid_deleted"
+msgstr ""
+
+msgid "rids_appended"
+msgstr ""
+
+msgid "rids_appended_failed"
+msgstr ""
+
+msgid "rids_deleted"
+msgstr ""
+
+msgid "rids_updated"
+msgstr ""
+
+msgid "sorting"
+msgstr ""
+
+msgid "sorting_1"
+msgstr ""
+
+msgid "sorting_2"
+msgstr ""
+
+msgid "sorting_3"
+msgstr ""
+
+msgid "sorting_4"
+msgstr ""
+
+msgid "sorting_5"
+msgstr ""
+
+msgid "sorting_6"
+msgstr ""
+
+msgid "stakeholders"
+msgstr ""
+
+msgid "storage_id"
+msgstr ""
+
+msgid "storage_info"
+msgstr ""
+
+msgid "title_manage_container"
+msgstr ""
+
+msgid "type"
+msgstr ""
+
+msgid "upload_field_title"
+msgstr ""
+
+msgid "upload_modal_title"
+msgstr ""

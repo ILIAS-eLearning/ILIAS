@@ -5865,64 +5865,6 @@ cptch#:#cptch_wrong_input#:#Entrada errada
 excv#:#excv_create#:#Título e descrição
 excv#:#excv_create_info#:#Desconhecido
 impr#:#impr_page_type_impr#:#Imprint###30 04 2021 new variable
-irss#:#action_download#:#Download###03 09 2026 new variable
-irss#:#action_goto#:#Open Resource###03 09 2026 new variable
-irss#:#action_remove_resource#:#Delete Resource###03 09 2026 new variable
-irss#:#action_remove_resource_msg#:#Do you want to delete the following Resource(s)?###03 09 2026 new variable
-irss#:#action_remove_zip_path#:#Delete path###03 09 2026 new variable
-irss#:#action_remove_zip_path_msg#:#Would you like to delete the following paths?###03 09 2026 new variable
-irss#:#action_show_revisions#:#Show Revisions###03 09 2026 new variable
-irss#:#by_creation_date_asc#:#By Creation Date (Ascending)###03 09 2026 new variable
-irss#:#by_creation_date_desc#:#By Creation Date (Descending)###03 09 2026 new variable
-irss#:#by_size_asc#:#By File Size (Ascending)###03 09 2026 new variable
-irss#:#by_size_desc#:#By File Size (Descending)###03 09 2026 new variable
-irss#:#by_title_asc#:#By Title (Ascending)###03 09 2026 new variable
-irss#:#by_title_desc#:#By Title (Descending)###03 09 2026 new variable
-irss#:#create_directory#:#Create Directory###03 09 2026 new variable
-irss#:#creation_date#:#Creation Date (This Revision)###03 09 2026 new variable
-irss#:#directory_name#:#Directory Name###03 09 2026 new variable
-irss#:#directory_name_info#:#Name of the directory to be inserted at the current location.###03 09 2026 new variable
-irss#:#download_zip#:#Download all files as ZIP###03 09 2026 new variable
-irss#:#entries_target_group#:#Select target group###03 09 2026 new variable
-irss#:#entry_deleted_failed#:#Deletion not possible###03 09 2026 new variable
-irss#:#file_size#:#File Size (This Revision)###03 09 2026 new variable
-irss#:#file_size_bigger_than#:#File Size > MB###03 09 2026 new variable
-irss#:#full_size#:#Resource Size (All Revisions)###03 09 2026 new variable
-irss#:#home_directory#:#Root-Directory###03 09 2026 new variable
-irss#:#item_moved#:#Entry moved###03 09 2026 new variable
-irss#:#max_revision#:#Max. Revision###03 09 2026 new variable
-irss#:#msg_error_adding_directory#:#The directory could not be created.###03 09 2026 new variable
-irss#:#msg_paths_deleted#:#Path(s) deleted###03 09 2026 new variable
-irss#:#msg_success_adding_directory#:#The directory was created successfully.###03 09 2026 new variable
-irss#:#msg_upload#:#Drop Files to upload###03 09 2026 new variable
-irss#:#no_parent_selected#:#No target group selected###03 09 2026 new variable
-irss#:#resource_id#:#Resource ID###03 09 2026 new variable
-irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.###03 09 2026 new variable
-irss#:#resource_overview#:#Resource Overview###03 09 2026 new variable
-irss#:#revision#:#Revision###03 09 2026 new variable
-irss#:#revision_status#:#Status###03 09 2026 new variable
-irss#:#revision_status_10#:#Published###03 09 2026 new variable
-irss#:#revision_status_20#:#Draft###03 09 2026 new variable
-irss#:#revisions#:#Available Revisions###03 09 2026 new variable
-irss#:#rid_deleted#:#File removed###03 09 2026 new variable
-irss#:#rids_appended#:#Resource(s) added###03 09 2026 new variable
-irss#:#rids_appended_failed#:#No Resource(s) added###03 09 2026 new variable
-irss#:#rids_deleted#:#Resource(s) deleted###03 09 2026 new variable
-irss#:#rids_updated#:#Ressource(n) updated###03 09 2026 new variable
-irss#:#sorting#:#Default Ordering###03 09 2026 new variable
-irss#:#sorting_1#:#By Title (Ascending)###03 09 2026 new variable
-irss#:#sorting_2#:#By Title (Descending)###03 09 2026 new variable
-irss#:#sorting_3#:#By File Size (Ascending)###03 09 2026 new variable
-irss#:#sorting_4#:#By File Size (Descending)###03 09 2026 new variable
-irss#:#sorting_5#:#By Creation Date (Ascending)###03 09 2026 new variable
-irss#:#sorting_6#:#By Creation Date (Descending)###03 09 2026 new variable
-irss#:#stakeholders#:#Origin###03 09 2026 new variable
-irss#:#storage_id#:#Storage ID###03 09 2026 new variable
-irss#:#storage_info#:#Storage Information###03 09 2026 new variable
-irss#:#title_manage_container#:#Manage files and folders###03 09 2026 new variable
-irss#:#type#:#File Type###03 09 2026 new variable
-irss#:#upload_field_title#:#Selected Files###03 09 2026 new variable
-irss#:#upload_modal_title#:#Add Files###03 09 2026 new variable
 lti#:#act_lti_for_obj_type#:#Ativar LTI para tipo de objeto
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Tool to identify Statements.###07 02 2020 new variable
