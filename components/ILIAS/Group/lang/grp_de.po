@@ -1,0 +1,546 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Neue Mitgliedschaftsbeschränkung"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?"
+
+msgid "crs_grouping_deleted"
+msgstr "Die Mitgliedschaftsbeschränkung wurde gelöscht."
+
+msgid "crs_grouping_select_one"
+msgstr "Bitte treffen Sie eine Auswahl."
+
+msgid "crs_grp_added_grouping"
+msgstr "Eine neue Mitgliedschaftsbeschränkung wurde angelegt."
+
+msgid "crs_grp_assign_crs"
+msgstr "Gruppenzuordnung"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Es sind keine Gruppen zugeordnet."
+
+msgid "events"
+msgstr "Sitzungen"
+
+msgid "grouping_change_assignment"
+msgstr "Zuordnung ändern"
+
+msgid "grp_activate_notification"
+msgstr "Täglichen Neuigkeitenüberblick abonnieren"
+
+msgid "grp_activation_online_info"
+msgstr "Nur wenn die Gruppe online geschaltet ist, können Personen der Gruppe beitreten und Gruppenmitglieder auf die Gruppe zugreifen. Andernfalls ist die Gruppe nur für die Gruppenadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar."
+
+msgid "grp_add_to_group"
+msgstr "Zur Gruppe hinzufügen"
+
+msgid "grp_add_user"
+msgstr "Benutzer hinzufügen"
+
+msgid "grp_add_user_to_group"
+msgstr "Benutzer zur Gruppe hinzufügen"
+
+msgid "grp_added_to_list"
+msgstr "Sie sind in die Warteliste der Gruppe „%s“ aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste."
+
+msgid "grp_admins"
+msgstr "Gruppenadministration"
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Kein Beitritt möglich. Der Link ist nicht gültig."
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt."
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Kein Beitritt möglich. Die Anmeldung zur Gruppe liegt außerhalb des Beitrittszeitraumes."
+
+msgid "grp_admission_link_success_registration"
+msgstr "Erfolgreich der Gruppe „%s“ beigetreten."
+
+msgid "grp_agree"
+msgstr "Zustimmung"
+
+msgid "grp_agreement_header"
+msgstr "Nutzungsvereinbarung"
+
+msgid "grp_agreement_required"
+msgstr "Sie können nur auf die Gruppeninhalte zugreifen, wenn Sie der Nutzungsvereinbarung zustimmen."
+
+msgid "grp_already_assigned"
+msgstr "Sie haben bereits einen Aufnahmeantrag für diese Gruppe gestellt."
+
+msgid "grp_at_least_one_admin"
+msgstr "Dieser Gruppe muss mindestens eine Person mit der Rolle „Gruppenadministration“ zugeordnet bleiben."
+
+msgid "grp_auto_notification"
+msgstr "Begrüßungsmail für neue Mitglieder"
+
+msgid "grp_auto_notification_info"
+msgstr "Werden Mitglieder manuell in die Gruppe aufgenommen, erhalten sie eine Benachrichtigung per Mail."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Aufnahmeantrag zurückziehen"
+
+msgid "grp_cancellation_end"
+msgstr "Spätester Gruppenaustritt"
+
+msgid "grp_cancellation_end_info"
+msgstr "Mitglieder können nur bis zum gesetzten Datum selbstständig die Gruppenmitgliedschaft beenden."
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr "Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich."
+
+msgid "grp_cdf_edit_member"
+msgstr "Personenbezogene Angaben zu dieser Gruppe bearbeiten"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Aktualisiert (Gruppenspezifische Daten)"
+
+msgid "grp_change_type"
+msgstr "Gruppenart ändern"
+
+msgid "grp_contact"
+msgstr "Betreuung"
+
+msgid "grp_copy"
+msgstr "Gruppe kopieren"
+
+msgid "grp_create_and_add_user"
+msgstr "Erstellen und hinzufügen"
+
+msgid "grp_create_new"
+msgstr "Neue Gruppe anlegen"
+
+msgid "grp_create_new_grp_in"
+msgstr "Neue Gruppe in '%1' erstellen."
+
+msgid "grp_create_or_use_existing"
+msgstr "Wollen Sie den Benutzer zu einer bestehenden Gruppe hinzufügen oder eine neue Gruppe anlegen?"
+
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "Personenbezogene Angaben"
+
+msgid "grp_custom_user_fields_infobox"
+msgstr "Legen Sie weitere Datenfelder an, welche Gruppenmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter \"Mitglieder\" als zusätzliche Spalte einblenden."
+
+msgid "grp_custom_user_fields_table_title"
+msgstr "Personenbezogene Angaben zu dieser Gruppe"
+
+msgid "grp_deactivate_notification"
+msgstr "Täglichen Neuigkeitenüberblick kündigen"
+
+msgid "grp_enable_map"
+msgstr "Gruppenkarte aktivieren"
+
+msgid "grp_err_registration_limited"
+msgstr "Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein."
+
+msgid "grp_general_informations"
+msgstr "Allgemeine Informationen"
+
+msgid "grp_grp_info_reg"
+msgstr "Die folgenden Gruppen unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einer dieser Gruppen beitreten:"
+
+msgid "grp_grp_open"
+msgstr "Gruppe öffnen"
+
+msgid "grp_header_delete_members"
+msgstr "Sie möchten folgende Mitglieder aus der Gruppe austragen?"
+
+msgid "grp_header_waiting_list"
+msgstr "Warteliste"
+
+msgid "grp_icon_settings"
+msgstr "Icon"
+
+msgid "grp_import"
+msgstr "Gruppe importieren"
+
+msgid "grp_info_agree"
+msgstr "Ich bin damit einverstanden, dass die oben angegebenen Daten von der Gruppenadministration eingesehen werden können."
+
+msgid "grp_info_agreement"
+msgstr "Die folgenden Daten können von der Gruppenadministration eingesehen werden:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Neue Gruppenart"
+
+msgid "grp_info_settings"
+msgstr "Gruppeninfo"
+
+msgid "grp_information"
+msgstr "Wichtige Informationen"
+
+msgid "grp_information_info"
+msgstr "Die hier angegebenen Informationen werden auf dem Reiter „Info“ und bei der Gruppenanmeldung angezeigt."
+
+msgid "grp_join_request"
+msgstr "Abschicken"
+
+msgid "grp_lim_assigned"
+msgstr "Bereits Mitglied in Gruppe „%s“."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "Sie sind in Gruppe „%s“ aufgenommen worden."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Mitgliedschaft in Gruppe „%s“"
+
+msgid "grp_mail_all"
+msgstr "Für alle Mitglieder"
+
+msgid "grp_mail_all_info"
+msgstr "Alle aus der Gruppe können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "Ihre Mitgliedschaft in Gruppe „%s“ wurde beendet."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Mitgliedschaft in Gruppe „%s“ beendet"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s ist der Gruppe „%s“ beigetreten."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s hat einen Aufnahmeantrag für die Gruppe „%s“ gestellt."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "Um den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Aufnahmeantrag für Gruppe „%s“"
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Neue Mitgliedschaft in Gruppe „%s“"
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s ist aus der Gruppe „%s“ ausgetreten."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "Eventuell stehen Personen auf der Warteliste dieser Gruppe. Um die Liste anzuzeigen, rufen Sie bitte folgenden Link auf:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Austritt aus der Gruppe „%s“"
+
+msgid "grp_mail_permanent_link"
+msgstr "Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:"
+
+msgid "grp_mail_status_bod"
+msgstr "Ihr Status in Gruppe „%s“ wurde geändert."
+
+msgid "grp_mail_status_sub"
+msgstr "Status in Gruppe „%s“"
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "Sie sind in die Gruppe „%s“ aufgenommen worden."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Aufnahme in Gruppe „%s“"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "Ihr Aufnahmeantrag für die Gruppe „%s“ ist abgelehnt worden."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Ablehnung des Aufnahmeantrags für Gruppe „%s“"
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe „%s“ erfolgt ist."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Ihre Anmeldung für Gruppe „%s“"
+
+msgid "grp_mail_tutors_only"
+msgstr "Nur für die Gruppenadministration"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Nur die Gruppenadministration kann die Funktion „Mail an Mitglieder“ im Reiter „Mitglieder“ nutzen."
+
+msgid "grp_mail_type"
+msgstr "Mail an Mitglieder"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "wir bestätigen Ihre Abmeldung von der Gruppe „%s“."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "Ihre Abmeldung von der Gruppe „%s“"
+
+msgid "grp_mail_wl_bod"
+msgstr "Sie sind auf die Warteliste der Gruppe „%s“ gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde."
+
+msgid "grp_mail_wl_sub"
+msgstr "Ihre Anmeldung für Gruppe „%s“"
+
+msgid "grp_map_location"
+msgstr "Standort auf Gruppenkarte"
+
+msgid "grp_map_settings"
+msgstr "Einstellungen Karte"
+
+msgid "grp_max_and_min_members_invalid"
+msgstr "Die Mindestanzahl muss kleiner als die maximale Anzahl sein."
+
+msgid "grp_mem_contacts"
+msgstr "Kontaktperson"
+
+msgid "grp_mem_tbl_header"
+msgstr "Mitglieder"
+
+msgid "grp_member_administration"
+msgstr "Verwalten"
+
+msgid "grp_members"
+msgstr "Mitglieder"
+
+msgid "grp_members_deleted"
+msgstr "Die ausgewählten Mitglieder sind aus der Gruppe ausgetragen worden."
+
+msgid "grp_members_map"
+msgstr "Karte Gruppenmitglieder"
+
+msgid "grp_members_print_title"
+msgstr "Gruppenmitglieder"
+
+msgid "grp_min_one_admin"
+msgstr "Der Gruppe muss mindestens ein Konto mit der Rolle „Gruppenadministration“ zugeordnet sein."
+
+msgid "grp_missing_grp_type"
+msgstr "Bitte wählen Sie die Art der Gruppe aus."
+
+msgid "grp_missing_password"
+msgstr "Bitte geben Sie ein Gruppenpasswort ein."
+
+msgid "grp_new_status"
+msgstr "Ihr neuer Status:"
+
+msgid "grp_next"
+msgstr "Weiter"
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr "Sie müssen zunächst eine neue Gruppe erstellen. Bitte wählen Sie den Ort, an dem die neue Gruppe erstellt werden soll."
+
+msgid "grp_notification"
+msgstr "Benachrichtigung"
+
+msgid "grp_notification_activated"
+msgstr "Benachrichtigung aktiviert"
+
+msgid "grp_notification_deactivated"
+msgstr "Benachrichtigung deaktiviert"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Sie erhalten diese Mail, da für Sie als Gruppenbetreuung die Benachrichtigungen aktiviert sind."
+
+msgid "grp_notification_salutation"
+msgstr "Hallo,"
+
+msgid "grp_notify_off"
+msgstr "Benachrichtigungen über Neuanmeldungen deaktiviert"
+
+msgid "grp_notify_on"
+msgstr "Benachrichtigungen über Neuanmeldungen aktiviert"
+
+msgid "grp_pass_request"
+msgstr "Beitritt mit Gruppenpasswort"
+
+msgid "grp_period"
+msgstr "Veranstaltungszeitraum"
+
+msgid "grp_period_info"
+msgstr "Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll."
+
+msgid "grp_presentation_type"
+msgstr "Ansicht"
+
+msgid "grp_print_list"
+msgstr "Liste erstellen"
+
+msgid "grp_public"
+msgstr "Öffentliche Gruppe"
+
+msgid "grp_public_info"
+msgstr "Die Gruppe ist auch für Nicht-Mitglieder sichtbar. Es gelten jedoch besondere Regelungen, um die Mitgliedschaft zu erlangen."
+
+msgid "grp_reg_code"
+msgstr "Beitritt per Link"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Unabhängig vom ausgewählten Beitrittsverfahren und den Gruppenrechten ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links."
+
+msgid "grp_reg_code_link"
+msgstr "Link für direkten Beitritt"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Zur Zeit ist keine Aufnahme möglich."
+
+msgid "grp_reg_direct"
+msgstr "Direkter Beitritt"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Sie können dieser Gruppe direkt beitreten."
+
+msgid "grp_reg_disabled"
+msgstr "Zur Zeit ist kein Beitritt möglich."
+
+msgid "grp_reg_disabled_info"
+msgstr "Nur die Gruppenadministration kann Personen in die Gruppe aufnehmen."
+
+msgid "grp_reg_limited"
+msgstr "Zeitlich begrenzter Beitritt"
+
+msgid "grp_reg_max_members_info"
+msgstr "Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich."
+
+msgid "grp_reg_no_selfreg"
+msgstr "Kein selbstständiger Beitritt"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Sobald Sie das Gruppenpasswort von der Gruppenadministration erhalten haben, können Sie in dieser Gruppe beitreten."
+
+msgid "grp_reg_password_info"
+msgstr "Benutzer müssen dieses Passwort eingeben, um der Gruppe beitreten zu können."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Sie können die Aufnahme in diese Gruppe beantragen. Sobald die Gruppenadministration Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt."
+
+msgid "grp_reg_request"
+msgstr "Beitritt nach Bestätigung"
+
+msgid "grp_reg_request_info"
+msgstr "Der Beitritt erfolgt nur, wenn er durch die Gruppenadministration bestätigt wird."
+
+msgid "grp_reg_subject"
+msgstr "Nachricht"
+
+msgid "grp_registration_unlimited"
+msgstr "Zeitlich unbegrenzt"
+
+msgid "grp_role_status"
+msgstr "Rolle/Status"
+
+msgid "grp_search_users"
+msgstr "Benutzer suchen"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie werden dann von der Gruppenleitung benachrichtigt, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird."
+
+msgid "grp_setting_header_presentation"
+msgstr "Darstellung"
+
+msgid "grp_setting_header_registration"
+msgstr "Selbstständiger Beitritt durch Benutzer"
+
+msgid "grp_settings"
+msgstr "Gruppeneinstellungen"
+
+msgid "grp_show_members"
+msgstr "Galerie"
+
+msgid "grp_show_members_info"
+msgstr "Alle Mitglieder können im Reiter \"Mitglieder\" die Galerie einsehen."
+
+msgid "grp_subscription_min_members_info"
+msgstr "Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Personen der Gruppenadministration, für die im Reiter „Mitglieder“ die Option „Benachrichtigung“ aktiviert ist."
+
+msgid "grp_sure_add_user_to_group"
+msgstr "Wollen Sie den Benutzer wirklich der Gruppe hinzufügen?"
+
+msgid "grp_sure_create_group_add_user"
+msgstr "Wollen Sie die Gruppen wirklich erstellen und den Benutzer hinzufügen?"
+
+msgid "grp_typ"
+msgstr "Typ"
+
+msgid "grp_unsubscribe"
+msgstr "Gruppenmitgliedschaft beenden"
+
+msgid "grp_update_subscr_request"
+msgstr "Aufnahmeantrag aktualisieren"
+
+msgid "grp_use_existing"
+msgstr "Bestehende Gruppe nutzen"
+
+msgid "grp_user_agreement"
+msgstr "Angaben des Persönlichen Profils"
+
+msgid "grp_user_agreement_info"
+msgstr "Falls die folgenden Angaben in Ihrem persönliche Profil vorliegen, können sie von der Gruppenadministration eingesehen werden:"
+
+msgid "grp_user_already_in_group"
+msgstr "Der ausgewählte Benutzer ist bereits Mitglied der Gruppe."
+
+msgid "grp_user_been_added"
+msgstr "Der Benutzer wurde der Gruppe hinzugefügt."
+
+msgid "grp_users_already_assigned"
+msgstr "Ein Benutzer ist bereits Mitglied dieser Gruppe."
+
+msgid "grp_usr_agreement"
+msgstr "Benutzervereinbarung"
+
+msgid "grp_view_info_by_type"
+msgstr "Alle Objekte eines Typs werden in einer eigenen Liste dargestellt."
+
+msgid "grp_view_info_simple"
+msgstr "Alle Objekte werden in einer einzigen Liste dargestellt."
+
+msgid "grp_view_inherit"
+msgstr "Durch Kurs bestimmt"
+
+msgid "grp_view_inherit_info"
+msgstr "Wird die Ansicht des übergeordneten Kurses geändert, ändert sich auch die Gruppenansicht."
+
+msgid "grp_waiting_list"
+msgstr "Warteliste"
+
+msgid "grp_waiting_list_autofill"
+msgstr "Mit automatischem Aufrücken"
+
+msgid "grp_waiting_list_autofill_info"
+msgstr "Personen auf der Warteliste rücken bei Stornierungen automatisch nach. Achtung: Nicht in Verbindung mit dem Beitrittsverfahren „Beitritt nach Bestätigung“ benutzen, da die Bestätigung so umgangen wird."
+
+msgid "grp_waiting_list_info"
+msgstr "Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen."
+
+msgid "grp_waiting_list_no_autofill"
+msgstr "Ohne automatisches Aufrücken"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "Die maximale Anzahl an Mitgliedern ist erreicht. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen und werden dann per Mail benachrichtigt, wenn Sie nachrücken können."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Es sind bereits Benutzer in der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzenund werden dann per Mail benachrichtigt, wenn Sie nachrücken können."
+
+msgid "grp_wrong_max_members"
+msgstr "Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt."
+
+msgid "grp_wrong_min_max_members"
+msgstr "Setzen Sie eine minimale oder maximale Anzahl - oder beides."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum."
+
+msgid "reg_grp_max_members"
+msgstr "Maximale Anzahl"
+
+msgid "reg_grp_max_members_short"
+msgstr "Begrenzte Mitgliederanzahl"
+
+msgid "reg_grp_min_members"
+msgstr "Mindestanzahl"

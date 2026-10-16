@@ -1,0 +1,605 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Üyelik Sınırlaması Ekle"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Eğer bu üyelik sınırlama silmek istediğinizden emin misiniz?"
+
+msgid "crs_grouping_deleted"
+msgstr "üyelik sınırlaması Silindi."
+
+msgid "crs_grouping_select_one"
+msgstr "bir üyelik sınırlaması seçin."
+
+msgid "crs_grp_added_grouping"
+msgstr "Yeni üyelik sınırlaması eklendi."
+
+msgid "crs_grp_assign_crs"
+msgstr "Gruplarının Atama"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Atanmış Resim Gruplar"
+
+msgid "events"
+msgstr "Oturumlar"
+
+msgid "grouping_change_assignment"
+msgstr "Atananı Değiştir"
+
+msgid "grp_activate_notification"
+msgstr "Etkinleştir Bildirim"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+#, fuzzy
+msgid "grp_add_to_group"
+msgstr "Add to Group"
+
+#, fuzzy
+msgid "grp_add_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "grp_add_user_to_group"
+msgstr "Add user to group"
+
+msgid "grp_added_to_list"
+msgstr "Sen grubun bekleme listesi \"% s\" için tahsis edilmiştir. Sen bekleme listesindeki% s konumuna atanır."
+
+msgid "grp_admins"
+msgstr "Yöneticiler"
+
+#, fuzzy
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Group membership is limited."
+
+#, fuzzy
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Can't registrate: Group is out of registration period."
+
+#, fuzzy
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully registrated to group \"%s\"."
+
+msgid "grp_agree"
+msgstr "Kabul"
+
+msgid "grp_agreement_header"
+msgstr "Kullanıcı Sözleşmesi"
+
+msgid "grp_agreement_required"
+msgstr "Eğer grup içeriğe erişmek istiyorsanız Sen, kullanıcı anlaşmasını kabul etmeniz gerekir."
+
+msgid "grp_already_assigned"
+msgstr "Zaten bu grup için üyelik talep ettiler."
+
+#, fuzzy
+msgid "grp_at_least_one_admin"
+msgstr "There has to be at least one group administrator."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Sil Üyelik İsteği"
+
+#, fuzzy
+msgid "grp_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "grp_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "grp_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "grp_cdf_edit_member"
+msgstr "Edit Group Relevant User Data"
+
+#, fuzzy
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Last Update (Group-specific Data)"
+
+msgid "grp_change_type"
+msgstr "Değişim Grubu Türü"
+
+#, fuzzy
+msgid "grp_contact"
+msgstr "Contact"
+
+msgid "grp_copy"
+msgstr "Kopya Grubu"
+
+#, fuzzy
+msgid "grp_create_and_add_user"
+msgstr "Create and Add User"
+
+#, fuzzy
+msgid "grp_create_new"
+msgstr "Create New Group"
+
+#, fuzzy
+msgid "grp_create_new_grp_in"
+msgstr "Create new group in '%1'."
+
+#, fuzzy
+msgid "grp_create_or_use_existing"
+msgstr "Do you want to add the user to an existing group or create a new group?"
+
+#, fuzzy
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "Grup Ilgili Kullanıcı Verileri"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Bildirim Deactivate"
+
+msgid "grp_enable_map"
+msgstr "etkinleştir Grup Haritası"
+
+#, fuzzy
+msgid "grp_err_registration_limited"
+msgstr "please enter a valid start and end date for the registration"
+
+msgid "grp_general_informations"
+msgstr "Genel Bilgi"
+
+msgid "grp_grp_info_reg"
+msgstr "Sadece bu gruplardan birine kayıt olabilirsiniz:"
+
+#, fuzzy
+msgid "grp_grp_open"
+msgstr "Open Group"
+
+#, fuzzy
+msgid "grp_header_delete_members"
+msgstr "Would you like to remove the following members from this group?"
+
+msgid "grp_header_waiting_list"
+msgstr "Bekleme Listesi"
+
+msgid "grp_icon_settings"
+msgstr "Simge Ayarları"
+
+msgid "grp_import"
+msgstr "Grup İçe Aktar"
+
+msgid "grp_info_agree"
+msgstr "Ben yukarıda veri türleri grubu yöneticileri görebilir ki, kabul ediyorum."
+
+msgid "grp_info_agreement"
+msgstr "Aşağıdaki veri türleri grubu yöneticileri görebilir:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Yeni Grup Tipi"
+
+msgid "grp_info_settings"
+msgstr "Grup Bilgileri"
+
+msgid "grp_information"
+msgstr "Önemli Bilgiler"
+
+msgid "grp_information_info"
+msgstr "Bu bilgiler bilgi sayfası ve yeni kayıtlar için gösterisi olacak."
+
+msgid "grp_join_request"
+msgstr "Gönder"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "biz grubu \"% s\" için kaydınızı duyurmaktan mutluluk duyuyoruz."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Grubu \"% s\" için Kaydınız"
+
+#, fuzzy
+msgid "grp_mail_all"
+msgstr "For all Participants"
+
+#, fuzzy
+msgid "grp_mail_all_info"
+msgstr "Members and administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "grup üyeliği \"% s\" sonlandırıldı."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Üyelik grubu \"% s\" sonlandırıldı"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "% s grubu \"% s\" için tescil ettirmiştir."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "% s grubu \"% s\" için üyelik istedi."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "bu kaydı onaylamak için, şu adrese gidin:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "İstek grubu \"% s\" katılmak için"
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Kullanıcı grubu \"% s\" için tescil"
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "s grubu \"% s\" için onun / onun üyeliğini iptal etti."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "grup bir bekleme listesine diğer üyeleri olabilir \\ nŞimdi bekleme listesi kontrol etmelisiniz \\ nBir grup üyelerini görüntülemek için tıklayın..:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Kullanıcı sol grubu \"% s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "Grubu ile ilgili ihtiyacınız olan bilgileri, tüm bulmak için aşağıdaki linke tıklayınız :"
+
+msgid "grp_mail_status_bod"
+msgstr "grubunda Durumunuz \"% s\" değiştirildi."
+
+msgid "grp_mail_status_sub"
+msgstr "Grubunda Değiştirilen durumu \"% s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "Biz grubu \"% s\" için kaydınızı onaylamak için mutluyuz ."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "\"%S \" için doğruladı Kayıt"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "Biz sizin kayıt \"% s\" grubu için red edildiğini söylemek pişman."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Kayıt grubu \"% s\" için reddetti"
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "Biz grubu \"% s\" için kaydınızı onaylamak için mutluyuz ."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Grubu \"% s\" için Kaydınız"
+
+#, fuzzy
+msgid "grp_mail_tutors_only"
+msgstr "For Administrators only"
+
+#, fuzzy
+msgid "grp_mail_tutors_only_info"
+msgstr "Only administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_mail_type"
+msgstr "Mail to Members"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "biz grup% s üyeliğinizin iptal onaylamak. Başka bir gruba katılmak için bir fırsat bulduğunuz \\ nSizi umut."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "Grubu \"% s\" üyelik Sizin iptali"
+
+msgid "grp_mail_wl_bod"
+msgstr "Eğer grubu \"% s\" bekleme listesi atanmış. \\ NBu listedeki pozisyonu% s tahsis edilir. \\ N \\ İsteğiniz onay veya red edildiği zaman nBu bir grup yöneticisi bir mesaj alacaksınız."
+
+msgid "grp_mail_wl_sub"
+msgstr "Grubu \"% s\" için Kaydınız"
+
+msgid "grp_map_location"
+msgstr "Grubu Harita Konum"
+
+msgid "grp_map_settings"
+msgstr "Harita Ayarları"
+
+#, fuzzy
+msgid "grp_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "grp_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "grp_mem_tbl_header"
+msgstr "Group Participants"
+
+#, fuzzy
+msgid "grp_member_administration"
+msgstr "Edit Participants"
+
+msgid "grp_members"
+msgstr "Üyeler"
+
+#, fuzzy
+msgid "grp_members_deleted"
+msgstr "Deleted members"
+
+msgid "grp_members_map"
+msgstr "Grup Üyeleri Harita"
+
+msgid "grp_members_print_title"
+msgstr "Grubu Üyeleri"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Bir grup türü seçin."
+
+msgid "grp_missing_password"
+msgstr "Bir grup şifrenizi giriniz."
+
+msgid "grp_new_status"
+msgstr "Yeni durumu:"
+
+#, fuzzy
+msgid "grp_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "grp_no_perm_to_add_create_first"
+msgstr "You need to create a group first. Please select where to create a new group."
+
+msgid "grp_notification"
+msgstr "Bildirim"
+
+msgid "grp_notification_activated"
+msgstr "Bildirim Aktif"
+
+msgid "grp_notification_deactivated"
+msgstr "Etkisiz Bildirim"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Eğer bildirim etkinleştirilmiş olan grup yöneticisi, çünkü Sen ILIAS posta alacak."
+
+msgid "grp_notification_salutation"
+msgstr "Sevgili grup katılımcısı,"
+
+#, fuzzy
+msgid "grp_notify_off"
+msgstr "Notification about new registrations disabled"
+
+msgid "grp_notify_on"
+msgstr "Yeni kayıtlar hakkında Bildirim etkin"
+
+msgid "grp_pass_request"
+msgstr "Grup Parolası ile katılın"
+
+#, fuzzy
+msgid "grp_period"
+msgstr "Period of Event"
+
+#, fuzzy
+msgid "grp_period_info"
+msgstr "Information about the start and end date of the event, which is supported by the group"
+
+msgid "grp_presentation_type"
+msgstr "Sunum Türü"
+
+msgid "grp_print_list"
+msgstr "Liste Oluştur"
+
+msgid "grp_public"
+msgstr "Açık Grup"
+
+msgid "grp_public_info"
+msgstr "Grup üyesi olmayan görebilir ama katılmak için özel gereksinimleri vardır."
+
+msgid "grp_reg_code"
+msgstr "Kayıt Kodu"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Seçilen kayıt işlemi bu seçeneği yanı sıra Kullanıcılar şu kayıt bağlantısını kullanarak doğrudan kaydetmenizi sağlar."
+
+msgid "grp_reg_code_link"
+msgstr "Kayıt Linki"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Grup giriş kapalıdır."
+
+msgid "grp_reg_direct"
+msgstr "Doğrudan Kayıt"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "doğrudan bu gruba katılabilir."
+
+msgid "grp_reg_disabled"
+msgstr "Kayıt Kapalı"
+
+msgid "grp_reg_disabled_info"
+msgstr "sadece grup yöneticileri grubuna ekleyebilirsiniz."
+
+msgid "grp_reg_limited"
+msgstr "Kendi Başına Kayıt"
+
+msgid "grp_reg_max_members_info"
+msgstr "Bu gruba atanabilir maksimum kullanıcı sayısını tanımlayın."
+
+#, fuzzy
+msgid "grp_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Bir grup yöneticisi grup parolası verdiyse , bu gruba katılabilirsiniz."
+
+msgid "grp_reg_password_info"
+msgstr "Kullanıcıları grubuna katılmak için doğru parolayı yazmanız gerekir."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Bu grup için üyelik talebinde bulunabilirsiniz. İsteğinizi kabul veya reddedildi zaman bir grup yöneticisi bir mesaj alırsınız."
+
+msgid "grp_reg_request"
+msgstr "İstek Üyeliği"
+
+msgid "grp_reg_request_info"
+msgstr "İlgilenen kullanıcılar grup yöneticisi için bir istek / mesaj gönderebilirsiniz."
+
+msgid "grp_reg_subject"
+msgstr "Mesaj"
+
+msgid "grp_registration_unlimited"
+msgstr "Sınırsız"
+
+msgid "grp_role_status"
+msgstr "Rol / Durum"
+
+msgid "grp_search_users"
+msgstr "Kullanıcı Ara"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Sen bekleme listesine Katılma isteğinizi ekleyebilirsiniz. İsteğiniz onay veya red edildiğinde bir grup yöneticisi bir mesaj alacaksınız."
+
+msgid "grp_setting_header_presentation"
+msgstr "Grup Sunumu"
+
+msgid "grp_setting_header_registration"
+msgstr "Grup Kaydı"
+
+msgid "grp_settings"
+msgstr "Grup Ayarları"
+
+#, fuzzy
+msgid "grp_show_members"
+msgstr "Show Members"
+
+#, fuzzy
+msgid "grp_show_members_info"
+msgstr "If activated, group members can access the members gallery."
+
+#, fuzzy
+msgid "grp_subscription_min_members_info"
+msgstr "Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab."
+
+#, fuzzy
+msgid "grp_sure_add_user_to_group"
+msgstr "Do you really want to add this user to the group?"
+
+#, fuzzy
+msgid "grp_sure_create_group_add_user"
+msgstr "Do you really want to create the group and add the user?"
+
+msgid "grp_typ"
+msgstr "Grup Türü"
+
+msgid "grp_unsubscribe"
+msgstr "Ayrıl"
+
+msgid "grp_update_subscr_request"
+msgstr "Güncelleme Üyelik İsteği"
+
+#, fuzzy
+msgid "grp_use_existing"
+msgstr "Use Existing Group"
+
+msgid "grp_user_agreement"
+msgstr "Çıkış Veri Türleri"
+
+msgid "grp_user_agreement_info"
+msgstr "Grup Yöneticileri için Kişisel Bilgiler Görünür"
+
+#, fuzzy
+msgid "grp_user_already_in_group"
+msgstr "The selected user is already member of the group."
+
+#, fuzzy
+msgid "grp_user_been_added"
+msgstr "The user has been added to the group."
+
+msgid "grp_users_already_assigned"
+msgstr "Kullanıcı zaten bu gruba atanır."
+
+#, fuzzy
+msgid "grp_usr_agreement"
+msgstr "User Agreement"
+
+msgid "grp_view_info_by_type"
+msgstr "Bu içerik sunumu, tüm öğeleri kaynak türüne göre gruplar."
+
+msgid "grp_view_info_simple"
+msgstr "Bu içerik sunumu, tüm öğeleri tek blokta listeler."
+
+msgid "grp_view_inherit"
+msgstr "Standart"
+
+msgid "grp_view_inherit_info"
+msgstr "grup sunumu türü bir ebeveyn dersten benimsenmiştir."
+
+msgid "grp_waiting_list"
+msgstr "Bekleme Listesi"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+msgid "grp_waiting_list_info"
+msgstr "Etkin ve maksimum kullanıcı sayısı aşılırsa , yeni kayıtlar bekleme listesine alınacaktır."
+
+#, fuzzy
+msgid "grp_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "gerçekten grup türünü değiştirmek istiyor musunuz? Tüm izin ayarları sıfırlanacaktır."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "Grup üyelerinin maksimum sayısı aşıldı. Sen bekleme listesine Katılma isteğinizi ekleyebilirsiniz. İsteğiniz onay veya red edildiğinde bir grup yöneticisi bir mesaj alacaksınız."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Bazı kullanıcıların zaten bekleme listesi atanır. Sen bekleme listesine Katılma isteğinizi ekleyebilirsiniz. İsteğiniz onay veya red edildiğinde bir grup yöneticisi bir mesaj alacaksınız."
+
+msgid "grp_wrong_max_members"
+msgstr "en fazla kullanıcı sayısını kontrol edin."
+
+#, fuzzy
+msgid "grp_wrong_min_max_members"
+msgstr "Please check the minimum and maximum number of users."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "kayıt başlangıç ​​ve bitiş saatlerini kontrol edin."
+
+msgid "reg_grp_max_members"
+msgstr "Üye Sınırlı sayısı"
+
+msgid "reg_grp_max_members_short"
+msgstr "Üye sayısı"
+
+#, fuzzy
+msgid "reg_grp_min_members"
+msgstr "Minimum Number of Members"

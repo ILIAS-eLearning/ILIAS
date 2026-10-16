@@ -1,0 +1,604 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "添加会员限制"
+
+msgid "crs_grouping_delete_sure"
+msgstr "您确定要删除该会员的限制吗?"
+
+msgid "crs_grouping_deleted"
+msgstr "已删除会员限制。"
+
+msgid "crs_grouping_select_one"
+msgstr "请选择一个会员限制。"
+
+msgid "crs_grp_added_grouping"
+msgstr "已添加新会员限制"
+
+msgid "crs_grp_assign_crs"
+msgstr "组分配"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "没有组被分配"
+
+msgid "events"
+msgstr "会话"
+
+msgid "grouping_change_assignment"
+msgstr "更改分配"
+
+msgid "grp_activate_notification"
+msgstr "激活通知"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+#, fuzzy
+msgid "grp_add_to_group"
+msgstr "Add to Group"
+
+#, fuzzy
+msgid "grp_add_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "grp_add_user_to_group"
+msgstr "Add user to group"
+
+msgid "grp_added_to_list"
+msgstr "您已被分配到等待名单。您已被分配到等待名单的位置 %s"
+
+msgid "grp_admins"
+msgstr "管理员"
+
+#, fuzzy
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Group membership is limited."
+
+#, fuzzy
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Can't registrate: Group is out of registration period."
+
+#, fuzzy
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully registrated to group \"%s\"."
+
+msgid "grp_agree"
+msgstr "验收"
+
+msgid "grp_agreement_header"
+msgstr "用户协议"
+
+msgid "grp_agreement_required"
+msgstr "如果您想访问这个组内容，必需接受这个用户协议。"
+
+msgid "grp_already_assigned"
+msgstr "您已申请了成为这个组的成员。"
+
+#, fuzzy
+msgid "grp_at_least_one_admin"
+msgstr "There has to be at least one group administrator."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "删除成员请求"
+
+#, fuzzy
+msgid "grp_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "grp_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "grp_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "grp_cdf_edit_member"
+msgstr "Edit Group Relevant User Data"
+
+#, fuzzy
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Last Update (Group-specific Data)"
+
+msgid "grp_change_type"
+msgstr "更改组类型"
+
+#, fuzzy
+msgid "grp_contact"
+msgstr "Contact"
+
+msgid "grp_copy"
+msgstr "复制组"
+
+#, fuzzy
+msgid "grp_create_and_add_user"
+msgstr "Create and Add User"
+
+#, fuzzy
+msgid "grp_create_new"
+msgstr "Create New Group"
+
+#, fuzzy
+msgid "grp_create_new_grp_in"
+msgstr "Create new group in '%1'."
+
+#, fuzzy
+msgid "grp_create_or_use_existing"
+msgstr "Do you want to add the user to an existing group or create a new group?"
+
+#, fuzzy
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "组相关的用户数据"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "停用通知"
+
+msgid "grp_enable_map"
+msgstr "启用组地图"
+
+#, fuzzy
+msgid "grp_err_registration_limited"
+msgstr "please enter a valid start and end date for the registration"
+
+msgid "grp_general_informations"
+msgstr "一般信息"
+
+msgid "grp_grp_info_reg"
+msgstr "您只能注册到这些组之一："
+
+#, fuzzy
+msgid "grp_grp_open"
+msgstr "Open Group"
+
+#, fuzzy
+msgid "grp_header_delete_members"
+msgstr "Would you like to remove the following members from this group?"
+
+msgid "grp_header_waiting_list"
+msgstr "等候名单"
+
+msgid "grp_icon_settings"
+msgstr "组图标"
+
+msgid "grp_import"
+msgstr "导入组"
+
+msgid "grp_info_agree"
+msgstr "我接受，以上数据类型对组管理员可见。"
+
+msgid "grp_info_agreement"
+msgstr "以下数据类型对组管理员可见："
+
+msgid "grp_info_new_grp_type"
+msgstr "新的组类型"
+
+msgid "grp_info_settings"
+msgstr "组信息"
+
+msgid "grp_information"
+msgstr "n重要信息"
+
+msgid "grp_information_info"
+msgstr "这个信息将在信息页面和新注册时显示。"
+
+msgid "grp_join_request"
+msgstr "发送"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "我们很高兴的宣布，您注册到组 \"%s\"。"
+
+msgid "grp_mail_admission_new_sub"
+msgstr "您注册的组 \"%s\""
+
+#, fuzzy
+msgid "grp_mail_all"
+msgstr "For all Participants"
+
+#, fuzzy
+msgid "grp_mail_all_info"
+msgstr "Members and administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "您的组 \"%s\" 成员资格已被终止。"
+
+msgid "grp_mail_dismiss_sub"
+msgstr "组 \"%s\"成员资格被终止。"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s 已注册组 \"%s\"。"
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s 请求成为组 \"%s\"的成员。"
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "确认这个注册，请转到："
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "请求加入组 \"%s\"。"
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "用户已注册组 \"%s\"。"
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s 被取消了他/她的组 \"%s\" 的成员资格。"
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "可能有其他成员在您的组的等待名单上。\\n您需要现在检查这个等待名单。\\n查看您的组成员，请点击这里："
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "用户离开组 \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "点击以下链接去寻找所有您需要的有关组的信息："
+
+msgid "grp_mail_status_bod"
+msgstr "您在组 \"%s\" 中的状态已更改。"
+
+msgid "grp_mail_status_sub"
+msgstr "在组 \"%s\" 中的状态已更改"
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "我们很高兴的确认您已注册到组 \"%s\"。"
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "\"%s\" 的注册已被确认。"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "我们很遗憾的告诉您，您注册到组 \"%s\" 的请求已经被拒绝了。"
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "注册到组 \"%s\" 的请求被拒绝。"
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "我们很高兴确认您注册到组 \"%s\"。"
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "您注册的组 \"%s\"。"
+
+#, fuzzy
+msgid "grp_mail_tutors_only"
+msgstr "For Administrators only"
+
+#, fuzzy
+msgid "grp_mail_tutors_only_info"
+msgstr "Only administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_mail_type"
+msgstr "Mail to Members"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "我们确认您取消加入组 %s.\\n我们希望您有机会去参与其它组。"
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "您取消了加入组 \"%s\"我"
+
+msgid "grp_mail_wl_bod"
+msgstr "您被分配到组 \"%s\" 的等待名单上。\\n您在这个名单上所分配的位置 %s 。\\n\\n当您的请求被批准或被拒绝时，您将从组管理员那里接收到一条消息。"
+
+msgid "grp_mail_wl_sub"
+msgstr "您的组 \"%s\" 的注册。"
+
+msgid "grp_map_location"
+msgstr "组地图位置"
+
+msgid "grp_map_settings"
+msgstr "地图设置"
+
+#, fuzzy
+msgid "grp_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "grp_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "grp_mem_tbl_header"
+msgstr "Group Participants"
+
+#, fuzzy
+msgid "grp_member_administration"
+msgstr "Edit Participants"
+
+msgid "grp_members"
+msgstr "成员"
+
+#, fuzzy
+msgid "grp_members_deleted"
+msgstr "Deleted members"
+
+msgid "grp_members_map"
+msgstr "组成员地图"
+
+msgid "grp_members_print_title"
+msgstr "组成员"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "请选择一个组类型。"
+
+msgid "grp_missing_password"
+msgstr "请输入一个组密码。"
+
+msgid "grp_new_status"
+msgstr "您的新状态："
+
+#, fuzzy
+msgid "grp_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "grp_no_perm_to_add_create_first"
+msgstr "You need to create a group first. Please select where to create a new group."
+
+msgid "grp_notification"
+msgstr "通知"
+
+msgid "grp_notification_activated"
+msgstr "通知已激活"
+
+msgid "grp_notification_deactivated"
+msgstr "通知已停用"
+
+msgid "grp_notification_explanation_admin"
+msgstr "您接收到这封邮件是因为您是组管理员，且启用了通知。"
+
+msgid "grp_notification_salutation"
+msgstr "亲爱的组参与者,"
+
+msgid "grp_notify_off"
+msgstr "关于禁用新注册的通知"
+
+msgid "grp_notify_on"
+msgstr "关于启用新注册的通知"
+
+msgid "grp_pass_request"
+msgstr "Join With Group Password"
+
+#, fuzzy
+msgid "grp_period"
+msgstr "Period of Event"
+
+#, fuzzy
+msgid "grp_period_info"
+msgstr "Information about the start and end date of the event, which is supported by the group"
+
+msgid "grp_presentation_type"
+msgstr "展示类型"
+
+msgid "grp_print_list"
+msgstr "生成列表"
+
+msgid "grp_public"
+msgstr "公共组"
+
+msgid "grp_public_info"
+msgstr "组对非会员可见，但加入它有额外的要求。"
+
+msgid "grp_reg_code"
+msgstr "注册码"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "如果启用，使用一个特别的注册链接去自动注册是可能的。"
+
+msgid "grp_reg_code_link"
+msgstr "注册链接"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "组准入已关闭"
+
+msgid "grp_reg_direct"
+msgstr "直接注册"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "您可以直接加入这个组"
+
+msgid "grp_reg_disabled"
+msgstr "没有注册的可能"
+
+msgid "grp_reg_disabled_info"
+msgstr "只有组管理员能添加用户到这个组。"
+
+msgid "grp_reg_limited"
+msgstr "注册期限"
+
+msgid "grp_reg_max_members_info"
+msgstr "定义能分配给这个组的最大用户数。"
+
+#, fuzzy
+msgid "grp_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "如果组管理员已经给您组密码，您可以加入这个组。"
+
+msgid "grp_reg_password_info"
+msgstr "用户加入这个组需要输入正确的密码。"
+
+msgid "grp_reg_req_info_screen"
+msgstr "您可请求加入这个组。当您的请求被批准或被拒绝时，将从组管理员那里获得一个信息。"
+
+msgid "grp_reg_request"
+msgstr "请求会员"
+
+msgid "grp_reg_request_info"
+msgstr "感兴趣的用户能发送一个请求/信息给组管理员。"
+
+msgid "grp_reg_subject"
+msgstr "消息"
+
+msgid "grp_registration_unlimited"
+msgstr "不限注册期限"
+
+msgid "grp_role_status"
+msgstr "角色/状态"
+
+msgid "grp_search_users"
+msgstr "搜索用户"
+
+msgid "grp_set_on_waiting_list"
+msgstr "您能添加您的加入请求到等待清单。当您的请求被批准或被拒绝时，您将从组管理员那里接收一条信息。"
+
+msgid "grp_setting_header_presentation"
+msgstr "组展示"
+
+msgid "grp_setting_header_registration"
+msgstr "组注册"
+
+msgid "grp_settings"
+msgstr "组设置"
+
+#, fuzzy
+msgid "grp_show_members"
+msgstr "Show Members"
+
+#, fuzzy
+msgid "grp_show_members_info"
+msgstr "If activated, group members can access the members gallery."
+
+#, fuzzy
+msgid "grp_subscription_min_members_info"
+msgstr "Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab."
+
+#, fuzzy
+msgid "grp_sure_add_user_to_group"
+msgstr "Do you really want to add this user to the group?"
+
+#, fuzzy
+msgid "grp_sure_create_group_add_user"
+msgstr "Do you really want to create the group and add the user?"
+
+msgid "grp_typ"
+msgstr "组类型"
+
+msgid "grp_unsubscribe"
+msgstr "退订"
+
+msgid "grp_update_subscr_request"
+msgstr "更新成员请求"
+
+#, fuzzy
+msgid "grp_use_existing"
+msgstr "Use Existing Group"
+
+msgid "grp_user_agreement"
+msgstr "已发布的数据类型"
+
+msgid "grp_user_agreement_info"
+msgstr "组管理员可见个人数据"
+
+#, fuzzy
+msgid "grp_user_already_in_group"
+msgstr "The selected user is already member of the group."
+
+#, fuzzy
+msgid "grp_user_been_added"
+msgstr "The user has been added to the group."
+
+msgid "grp_users_already_assigned"
+msgstr "用户已经分配给这个组。"
+
+#, fuzzy
+msgid "grp_usr_agreement"
+msgstr "User Agreement"
+
+msgid "grp_view_info_by_type"
+msgstr "这个内容通过资源类型展示组的所有项目。"
+
+msgid "grp_view_info_simple"
+msgstr "这个内容展示列出了一个块中所有项目。"
+
+msgid "grp_view_inherit"
+msgstr "标准"
+
+msgid "grp_view_inherit_info"
+msgstr "组展示类型已经适用到一个父课程。"
+
+msgid "grp_waiting_list"
+msgstr "启用等待名单"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+msgid "grp_waiting_list_info"
+msgstr "如果启用，并且已经超过最大用户数，新的注册将被放置在一个等待名单中。"
+
+#, fuzzy
+msgid "grp_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "您真的想更改组类型？所有权限设置将被重置。"
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "已超过组成员的最大数。您能添加您的加入请求到这个等待名单中。当您的请求被批准或被拒绝时，您将从组管理员那里接收到一条消息。"
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "有些用户已分配到等待名单。您能添加您的加入请求到等待名单中。当您的请求被批准或被拒绝时，您将从组管理员那里接收到一条消息。"
+
+msgid "grp_wrong_max_members"
+msgstr "请检查用户最大数。"
+
+#, fuzzy
+msgid "grp_wrong_min_max_members"
+msgstr "Please check the minimum and maximum number of users."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "请检查注册开始和结束时间。"
+
+msgid "reg_grp_max_members"
+msgstr "最大用户数"
+
+msgid "reg_grp_max_members_short"
+msgstr "成员数"
+
+#, fuzzy
+msgid "reg_grp_min_members"
+msgstr "Minimum Number of Members"

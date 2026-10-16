@@ -1,0 +1,543 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr ""
+
+msgid "crs_grouping_delete_sure"
+msgstr ""
+
+msgid "crs_grouping_deleted"
+msgstr ""
+
+msgid "crs_grouping_select_one"
+msgstr ""
+
+msgid "crs_grp_added_grouping"
+msgstr ""
+
+msgid "crs_grp_assign_crs"
+msgstr ""
+
+msgid "crs_grp_no_courses_assigned"
+msgstr ""
+
+msgid "events"
+msgstr ""
+
+msgid "grouping_change_assignment"
+msgstr ""
+
+msgid "grp_activate_notification"
+msgstr ""
+
+msgid "grp_activation_online_info"
+msgstr ""
+
+msgid "grp_add_to_group"
+msgstr ""
+
+msgid "grp_add_user"
+msgstr ""
+
+msgid "grp_add_user_to_group"
+msgstr ""
+
+msgid "grp_added_to_list"
+msgstr ""
+
+msgid "grp_admins"
+msgstr ""
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr ""
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr ""
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr ""
+
+msgid "grp_admission_link_success_registration"
+msgstr ""
+
+msgid "grp_agree"
+msgstr ""
+
+msgid "grp_agreement_header"
+msgstr ""
+
+msgid "grp_agreement_required"
+msgstr ""
+
+msgid "grp_already_assigned"
+msgstr ""
+
+msgid "grp_at_least_one_admin"
+msgstr ""
+
+msgid "grp_auto_notification"
+msgstr ""
+
+msgid "grp_auto_notification_info"
+msgstr ""
+
+msgid "grp_cancel_subscr_request"
+msgstr ""
+
+msgid "grp_cancellation_end"
+msgstr ""
+
+msgid "grp_cancellation_end_info"
+msgstr ""
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr ""
+
+msgid "grp_cdf_edit_member"
+msgstr ""
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr ""
+
+msgid "grp_change_type"
+msgstr ""
+
+msgid "grp_contact"
+msgstr ""
+
+msgid "grp_copy"
+msgstr ""
+
+msgid "grp_create_and_add_user"
+msgstr ""
+
+msgid "grp_create_new"
+msgstr ""
+
+msgid "grp_create_new_grp_in"
+msgstr ""
+
+msgid "grp_create_or_use_existing"
+msgstr ""
+
+msgid "grp_created_and_user_been_added"
+msgstr ""
+
+msgid "grp_custom_user_fields"
+msgstr ""
+
+msgid "grp_custom_user_fields_infobox"
+msgstr ""
+
+msgid "grp_custom_user_fields_table_title"
+msgstr ""
+
+msgid "grp_deactivate_notification"
+msgstr ""
+
+msgid "grp_enable_map"
+msgstr ""
+
+msgid "grp_err_registration_limited"
+msgstr ""
+
+msgid "grp_general_informations"
+msgstr ""
+
+msgid "grp_grp_info_reg"
+msgstr ""
+
+msgid "grp_grp_open"
+msgstr ""
+
+msgid "grp_header_delete_members"
+msgstr ""
+
+msgid "grp_header_waiting_list"
+msgstr ""
+
+msgid "grp_icon_settings"
+msgstr ""
+
+msgid "grp_import"
+msgstr ""
+
+msgid "grp_info_agree"
+msgstr ""
+
+msgid "grp_info_agreement"
+msgstr ""
+
+msgid "grp_info_new_grp_type"
+msgstr ""
+
+msgid "grp_info_settings"
+msgstr ""
+
+msgid "grp_information"
+msgstr ""
+
+msgid "grp_information_info"
+msgstr ""
+
+msgid "grp_join_request"
+msgstr ""
+
+msgid "grp_lim_assigned"
+msgstr ""
+
+msgid "grp_mail_admission_new_bod"
+msgstr ""
+
+msgid "grp_mail_admission_new_sub"
+msgstr ""
+
+msgid "grp_mail_all"
+msgstr ""
+
+msgid "grp_mail_all_info"
+msgstr ""
+
+msgid "grp_mail_dismiss_bod"
+msgstr ""
+
+msgid "grp_mail_dismiss_sub"
+msgstr ""
+
+msgid "grp_mail_notification_reg_bod"
+msgstr ""
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr ""
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr ""
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr ""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr ""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr ""
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr ""
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr ""
+
+msgid "grp_mail_permanent_link"
+msgstr ""
+
+msgid "grp_mail_status_bod"
+msgstr ""
+
+msgid "grp_mail_status_sub"
+msgstr ""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr ""
+
+msgid "grp_mail_sub_acc_sub"
+msgstr ""
+
+msgid "grp_mail_sub_dec_bod"
+msgstr ""
+
+msgid "grp_mail_sub_dec_sub"
+msgstr ""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr ""
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr ""
+
+msgid "grp_mail_tutors_only"
+msgstr ""
+
+msgid "grp_mail_tutors_only_info"
+msgstr ""
+
+msgid "grp_mail_type"
+msgstr ""
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr ""
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr ""
+
+msgid "grp_mail_wl_bod"
+msgstr ""
+
+msgid "grp_mail_wl_sub"
+msgstr ""
+
+msgid "grp_map_location"
+msgstr ""
+
+msgid "grp_map_settings"
+msgstr ""
+
+msgid "grp_max_and_min_members_invalid"
+msgstr ""
+
+msgid "grp_mem_contacts"
+msgstr ""
+
+msgid "grp_mem_tbl_header"
+msgstr ""
+
+msgid "grp_member_administration"
+msgstr ""
+
+msgid "grp_members"
+msgstr ""
+
+msgid "grp_members_deleted"
+msgstr ""
+
+msgid "grp_members_map"
+msgstr ""
+
+msgid "grp_members_print_title"
+msgstr ""
+
+msgid "grp_min_one_admin"
+msgstr ""
+
+msgid "grp_missing_grp_type"
+msgstr ""
+
+msgid "grp_missing_password"
+msgstr ""
+
+msgid "grp_new_status"
+msgstr ""
+
+msgid "grp_next"
+msgstr ""
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr ""
+
+msgid "grp_notification"
+msgstr ""
+
+msgid "grp_notification_activated"
+msgstr ""
+
+msgid "grp_notification_deactivated"
+msgstr ""
+
+msgid "grp_notification_explanation_admin"
+msgstr ""
+
+msgid "grp_notification_salutation"
+msgstr ""
+
+msgid "grp_notify_off"
+msgstr ""
+
+msgid "grp_notify_on"
+msgstr ""
+
+msgid "grp_pass_request"
+msgstr ""
+
+msgid "grp_period"
+msgstr ""
+
+msgid "grp_period_info"
+msgstr ""
+
+msgid "grp_presentation_type"
+msgstr ""
+
+msgid "grp_print_list"
+msgstr ""
+
+msgid "grp_public"
+msgstr ""
+
+msgid "grp_public_info"
+msgstr ""
+
+msgid "grp_reg_code"
+msgstr ""
+
+msgid "grp_reg_code_enabled_info"
+msgstr ""
+
+msgid "grp_reg_code_link"
+msgstr ""
+
+msgid "grp_reg_deac_info_screen"
+msgstr ""
+
+msgid "grp_reg_direct"
+msgstr ""
+
+msgid "grp_reg_direct_info_screen"
+msgstr ""
+
+msgid "grp_reg_disabled"
+msgstr ""
+
+msgid "grp_reg_disabled_info"
+msgstr ""
+
+msgid "grp_reg_limited"
+msgstr ""
+
+msgid "grp_reg_max_members_info"
+msgstr ""
+
+msgid "grp_reg_no_selfreg"
+msgstr ""
+
+msgid "grp_reg_passwd_info_screen"
+msgstr ""
+
+msgid "grp_reg_password_info"
+msgstr ""
+
+msgid "grp_reg_req_info_screen"
+msgstr ""
+
+msgid "grp_reg_request"
+msgstr ""
+
+msgid "grp_reg_request_info"
+msgstr ""
+
+msgid "grp_reg_subject"
+msgstr ""
+
+msgid "grp_registration_unlimited"
+msgstr ""
+
+msgid "grp_role_status"
+msgstr ""
+
+msgid "grp_search_users"
+msgstr ""
+
+msgid "grp_set_on_waiting_list"
+msgstr ""
+
+msgid "grp_setting_header_presentation"
+msgstr ""
+
+msgid "grp_setting_header_registration"
+msgstr ""
+
+msgid "grp_settings"
+msgstr ""
+
+msgid "grp_show_members"
+msgstr ""
+
+msgid "grp_show_members_info"
+msgstr ""
+
+msgid "grp_subscription_min_members_info"
+msgstr ""
+
+msgid "grp_sure_add_user_to_group"
+msgstr ""
+
+msgid "grp_sure_create_group_add_user"
+msgstr ""
+
+msgid "grp_typ"
+msgstr ""
+
+msgid "grp_unsubscribe"
+msgstr ""
+
+msgid "grp_update_subscr_request"
+msgstr ""
+
+msgid "grp_use_existing"
+msgstr ""
+
+msgid "grp_user_agreement"
+msgstr ""
+
+msgid "grp_user_agreement_info"
+msgstr ""
+
+msgid "grp_user_already_in_group"
+msgstr ""
+
+msgid "grp_user_been_added"
+msgstr ""
+
+msgid "grp_users_already_assigned"
+msgstr ""
+
+msgid "grp_usr_agreement"
+msgstr ""
+
+msgid "grp_view_info_by_type"
+msgstr ""
+
+msgid "grp_view_info_simple"
+msgstr ""
+
+msgid "grp_view_inherit"
+msgstr ""
+
+msgid "grp_view_inherit_info"
+msgstr ""
+
+msgid "grp_waiting_list"
+msgstr ""
+
+msgid "grp_waiting_list_autofill"
+msgstr ""
+
+msgid "grp_waiting_list_autofill_info"
+msgstr ""
+
+msgid "grp_waiting_list_info"
+msgstr ""
+
+msgid "grp_waiting_list_no_autofill"
+msgstr ""
+
+msgid "grp_warn_grp_type_changed"
+msgstr ""
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr ""
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr ""
+
+msgid "grp_wrong_max_members"
+msgstr ""
+
+msgid "grp_wrong_min_max_members"
+msgstr ""
+
+msgid "grp_wrong_reg_time_limit"
+msgstr ""
+
+msgid "reg_grp_max_members"
+msgstr ""
+
+msgid "reg_grp_max_members_short"
+msgstr ""
+
+msgid "reg_grp_min_members"
+msgstr ""
