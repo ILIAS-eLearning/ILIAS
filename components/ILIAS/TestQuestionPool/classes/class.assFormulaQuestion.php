@@ -47,7 +47,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $this->variables = [];
         $this->results = [];
         $this->resultunits = [];
-        $this->unitrepository = new ilUnitConfigurationRepository(0);
+        $this->unitrepository = new ilUnitConfigurationRepository();
         $this->pass_presented_variables_repo = new PassPresentedVariablesRepo($this->db);
     }
 
@@ -1160,7 +1160,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     public function setId(int $id = -1): void
     {
         parent::setId($id);
-        $this->unitrepository->setConsumerId($this->getId());
+        $this->unitrepository->setConsumerId($id > 0 ? $id : null);
     }
 
     public function setUnitrepository(\ilUnitConfigurationRepository $unitrepository): void
