@@ -1176,6 +1176,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result['mobs'] = $mobs;
 
         $this->lng->loadLanguageModule('assessment');
+        $this->lng->loadLanguageModule('qsts');
         $result['reset_button_label'] = $this->lng->txt("reset_terms");
 
         return json_encode($result);
